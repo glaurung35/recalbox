@@ -1,0 +1,160 @@
+<template>
+  <div class="row systems">
+    <div class="col col-xs-12 col-sm-12 col-md-12 table-container">
+      <q-table
+        grid
+        card-container-class="card-container"
+        card-class="bg-secondary text-white card"
+        :data="systems"
+        :columns="columns"
+        row-key="name"
+        :filter="filter"
+        hide-header
+        square
+        flat
+        dense
+        :rows-per-page-options="[30, 60, 90, 0]"
+        :pagination.sync="pagination"
+      >
+        <template v-slot:top-right>
+          <q-input
+            :placeholder="$t('general.tables.searchLabel')"
+            debounce="300"
+            dense
+            standout="bg-primary text-white"
+            v-model="filter"
+            class="search"
+          >
+            <template v-slot:append>
+              <q-icon name="mdi-magnify"/>
+            </template>
+          </q-input>
+        </template>
+
+        <template v-slot:item="props">
+          <div
+            @click="() => $router.push({ name: 'systems-system', params: { system: props.row.name }})"
+            class="q-pa-xs col-xs-12 col-sm-6 col-md-2 col-lg-2 grid-style-transition"
+          >
+            <q-card class="no-box-shadow no-border-radius card">
+              <q-card-section>
+                <div class="background"></div>
+                <q-img
+                  :src="api + '/systems/' + props.row.name + '/resource/eu/svg/logo'"
+                  spinner-color="$light-blue"
+                  :ratio="16/9"
+                  contain
+                />
+                <div class="fullname">{{props.row.fullname}}</div>
+              </q-card-section>
+            </q-card>
+          </div>
+        </template>
+
+        <template v-slot:no-data="{ icon, message, filter }">
+          <div class="full-width row flex-center text-accent q-gutter-md q-ma-md">
+            <q-icon name="mdi-emoticon-sad-outline" size="2em"/>
+            <span>
+              {{$t('general.tables.noDataMessage') + ' ' + message }}
+            </span>
+            <q-icon :name="filter ? 'mdi-layers-search-outline' : icon" size="2em"/>
+          </div>
+        </template>
+      </q-table>
+    </div>
+  </div>
+</template>
+
+<script>
+  export default {
+    name: 'EmulationRomsTabSystems',
+    created() {
+      this.$store.dispatch('systems/get')
+    },
+    computed: {
+      systems: {
+        get: function () {
+          return this.$store.getters['systems/list'] ? Object.values(this.$store.getters['systems/list']) : []
+        },
+      },
+    },
+    data() {
+      return {
+        api: process.env.API_URL,
+        pagination: {
+          rowsPerPage: 30,
+        },
+        filter: '',
+        columns: [
+          {
+            name: 'desc',
+            required: true,
+            label: '',
+            align: 'left',
+            field: row => row.fullname,
+            format: val => `${val}`,
+            sortable: true,
+          },
+        ],
+      }
+    },
+  }
+</script>
+
+<style lang="sass">
+  .systems
+    .table-container
+      margin: 0 8px 74px
+      background: white
+      width: calc(100% - 16px)
+
+      .card-container
+        padding: 0 12px
+
+        .card
+          background: $rc-light-grey
+          color: $light-blue
+          text-align: center
+          text-transform: uppercase
+          cursor: pointer
+          overflow: hidden
+
+          .q-card__section
+            padding: .5em 2.5em
+
+            .q-img__image
+              transition: filter .2s ease
+              filter: saturate(0)
+
+            .fullname, .background
+              position: absolute
+              left: 0
+              right: 0
+              transition: height .2s ease, top .35s ease
+
+            .background
+              top: 0
+              height: 0
+              background: #34495e6b
+
+            .fullname
+              top: -100%
+              color: white
+              font-weight: 700
+
+          &:hover
+            .q-card__section
+              .q-img__image
+                filter: saturate(1)
+                opacity: 1
+
+              .background
+                height: 100%
+
+              .fullname
+                top: 0
+
+    @media(max-width: 700px)
+      .q-table__control, .search
+        width: 100%
+</style>

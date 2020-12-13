@@ -1,7 +1,7 @@
 <template>
   <q-page class="background monitoring">
     <div class="chart-cpu">
-      <apexchart :options="cpuOptions" :series="cpuSeries" height="250" type="area"></apexchart>
+      <apexchart :options="cpuOptions" :series="metrics.temperatures" height="250" type="area"></apexchart>
     </div>
     <div class="charts-container row">
       <div class="disks-usage col">
@@ -19,6 +19,7 @@
 
 <script>
   import VueApexCharts from 'vue-apexcharts'
+  import { date } from 'quasar'
 
   export default {
     name: 'Monitoring',
@@ -29,14 +30,8 @@
       metrics: {
         get: function () {
           return this.$store.getters['monitoring/metrics'] ? this.$store.getters['monitoring/metrics'] : []
-        },
-      },
-      cpuSeries: [
-        {
-          name: 'C°',
-          data: this.metrics !== undefined ? this.metrics.temperatures : [],
-        },
-      ]
+        }
+      }
     },
     methods: {
       generateDayWiseTimeSeries(baseval, count, yrange, cb) {
@@ -57,22 +52,29 @@
       return {
         cpuOptions: {
           chart: {
-            type: 'area',
+            type: 'line',
             height: 250,
-            stacked: true,
-            events: {
-              selection: function (chart, e) {
-                console.log(new Date(e.xaxis.min))
+            animations: {
+              enabled: false,
+              easing: 'linear',
+              dynamicAnimation: {
+                speed: 1000
               }
+            },
+            toolbar: {
+              show: false
+            },
+            zoom: {
+              enabled: false
             }
           },
-          colors: ['#34495e', '#85d6de', '#CED4DC'],
           dataLabels: {
-            enabled: false,
+            enabled: false
           },
+          colors: ['#34495e', '#85d6de', '#CED4DC'],
           stroke: {
-            show: true,
             curve: 'straight',
+            show: true,
             lineCap: 'butt',
             colors: undefined,
             width: 1,
@@ -89,9 +91,16 @@
             position: 'top',
             horizontalAlign: 'left',
           },
-          xaxis: {
-            type: 'datetime',
+          markers: {
+            size: 0
           },
+          xaxis: {
+            labels: {
+              formatter: function (value, timestamp) {
+                return date.formatDate(timestamp, 'HH:mm:ss')
+              },
+            }
+          }
         },
         usageSeries: [{
           name: 'Utilisé',

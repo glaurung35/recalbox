@@ -9,6 +9,6 @@ export const getStorageInfo = ({commit}) => {
     .catch(error => console.log(error))
 }
 
-export const updateMetrics = ({commit}, data) => {
-  commit('SET_MONITORING_METRICS', data)
+export const update = ({commit}, data) => {
+  commit('UPDATE_MONITORING', data)
 }

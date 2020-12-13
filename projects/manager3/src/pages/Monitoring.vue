@@ -1,7 +1,7 @@
 <template>
   <q-page class="background monitoring">
     <div class="chart-cpu">
-      <apexchart :options="temperatureOptions" :series="temperatures" height="250" type="area"></apexchart>
+      <apexchart :options="cpuOptions" :series="metrics.temperatures" height="250" type="area"></apexchart>
     </div>
     <div class="charts-container row">
       <div class="cores-usage col">
@@ -30,76 +30,89 @@
 </template>
 
 <script>
-import { date, colors } from 'quasar'
-import VueApexCharts from 'vue-apexcharts'
-import {mapGetters, mapState} from 'vuex'
+  import VueApexCharts from 'vue-apexcharts'
+  import { date } from 'quasar'
 
-export default {
-  name: 'Monitoring',
-  components: {
-    apexchart: VueApexCharts,
-  },
-  created() {
-    this.$store.dispatch('monitoring/getStorageInfo')
-  },
-  computed: {
-    ...mapGetters({
-      cores: 'monitoring/cores',
-      temperatures: 'monitoring/temperatures'
-    }),
-  },
-  data() {
-    return {
-      storages: {
-        boot: {
-          icon: 'mdi-micro-sd',
-          deviceModel: 'SL32G',
-          type: 'boot',
-          used: 0.34
-        },
-        overlay: {
-          icon: 'mdi-micro-sd',
-          deviceModel: 'SL32G',
-          type: 'overlay',
-          used: .56
-        },
-        share: {
-          icon: 'mdi-usb-flash-drive',
-          deviceModel: 'SanDisk Extreme Pro',
-          type: 'share',
-          used: .75
-        },
-        network: {
-          icon: 'mdi-server-network',
-          deviceModel: 'Test',
-          type: 'test',
-          used: .45
-        },
+  export default {
+    name: 'Monitoring',
+    components: {
+      apexchart: VueApexCharts,
+    },
+    computed: {
+      metrics: {
+        get: function () {
+          return this.$store.getters['monitoring/metrics'] ? this.$store.getters['monitoring/metrics'] : []
+        }
+      }
+    },
+    methods: {
+      generateDayWiseTimeSeries(baseval, count, yrange, cb) {
+        let i = 0;
+        let series = [];
+        while (i < count) {
+          let y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
+
+          series.push([baseval, y]);
+          baseval += 86400000;
+          i++;
+        }
+        if(cb) cb(series)
+        return series;
       },
-      temperatureOptions: {
-        chart: {
-          type: 'line',
-          height: 250,
-          animations: {enabled: false, easing: 'linear', dynamicAnimation: {speed: 1000}},
-          toolbar: {show: false},
-          zoom: {enabled: false},
-        },
-        dataLabels: {enabled: false, style: {colors: [colors.getBrand('primary')]}, offsetX: 30},
-        tooltip: {enabled: false},
-        colors: [colors.getBrand('accent')],
-        stroke: {curve: 'smooth', show: true, width: 1, colors: [colors.getBrand('primary')]},
-        fill: {type: 'gradient', gradient: {opacityFrom: 0.6, opacityTo: 0.8}},
-        markers: {size: 0},
-        yaxis: {
-          min: 0, max: 100, decimalsInFloat: 0, title: {text: 'CPU °C ( last 30s )', style: {color: colors.getBrand('primary')}},
-        },
-        xaxis: {
-          labels: {
-            formatter: function (value, timestamp) {
-              return date.formatDate(timestamp, 'mm:ss')
+    },
+    data() {
+      return {
+        cpuOptions: {
+          chart: {
+            type: 'line',
+            height: 250,
+            animations: {
+              enabled: false,
+              easing: 'linear',
+              dynamicAnimation: {
+                speed: 1000
+              }
+            },
+            toolbar: {
+              show: false
+            },
+            zoom: {
+              enabled: false
+            }
+          },
+          dataLabels: {
+            enabled: false
+          },
+          colors: ['#34495e', '#85d6de', '#CED4DC'],
+          stroke: {
+            curve: 'straight',
+            show: true,
+            lineCap: 'butt',
+            colors: undefined,
+            width: 1,
+            dashArray: 0,
+          },
+          fill: {
+            type: 'gradient',
+            gradient: {
+              opacityFrom: 0.6,
+              opacityTo: 0.8,
             },
           },
-          tooltip: {enabled: false},
+          legend: {
+            position: 'top',
+            horizontalAlign: 'left',
+          },
+          markers: {
+            size: 0
+          },
+          xaxis: {
+            labels: {
+              formatter: function (value, timestamp) {
+                return date.formatDate(timestamp, 'HH:mm:ss')
+              },
+            }
+          }
         },
         grid: {
           show: true,

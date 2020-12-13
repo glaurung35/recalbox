@@ -1,17 +1,17 @@
 <template>
   <q-page class="background monitoring">
     <div class="chart-cpu">
-      <apexchart :options="cpuOptions" :series="metrics.temperatures" height="250" type="area"></apexchart>
+      <apexchart :options="cpuTempOptions" :series="metrics.temperatures" height="250" type="area"></apexchart>
     </div>
     <div class="charts-container row">
       <div class="disks-usage col">
+        <apexchart type="bar" height="350" :options="cpusOptions" :series="metrics.cores"></apexchart>
+      </div>
+      <div class="disks-usage col">
+        <!--        <apexchart type="bar" height="350" :options="usageOptions" :series="usageSeries"></apexchart>-->
+      </div>
+      <div class="disks-usage col">
         <apexchart type="bar" height="350" :options="usageOptions" :series="usageSeries"></apexchart>
-      </div>
-      <div class="disks-usage col">
-<!--        <apexchart type="pie" height="350" :options="fakeOptions" :series="fakeSeries"></apexchart>-->
-      </div>
-      <div class="disks-usage col">
-<!--        <apexchart type="bar" height="350" :options="usageOptions" :series="usageSeries"></apexchart>-->
       </div>
     </div>
   </q-page>
@@ -29,114 +29,78 @@
     computed: {
       metrics: {
         get: function () {
-          return this.$store.getters['monitoring/metrics'] ? this.$store.getters['monitoring/metrics'] : []
+          return this.$store.getters['monitoring/metrics'] ? this.$store.getters['monitoring/metrics'] : {
+            cores: [
+              {name: 'Utilisé', data: [
+                {x: 'Core 1', y: 0}, {x: 'Core 2', y: 0}, {x: 'Core 3', y: 0}, {x: 'Core 4', y: 0}
+                ]},
+              {name: 'Libre', data: [
+                {x: 'Core 1', y: 100}, {x: 'Core 2', y: 100}, {x: 'Core 3', y: 100}, {x: 'Core 4', y: 100}
+                ]}
+            ]
+          }
         }
       }
     },
-    methods: {
-      generateDayWiseTimeSeries(baseval, count, yrange, cb) {
-        let i = 0;
-        let series = [];
-        while (i < count) {
-          let y = Math.floor(Math.random() * (yrange.max - yrange.min + 1)) + yrange.min;
-
-          series.push([baseval, y]);
-          baseval += 86400000;
-          i++;
-        }
-        if(cb) cb(series)
-        return series;
-      },
-    },
     data() {
       return {
-        cpuOptions: {
+        cpuTempOptions: {
           chart: {
             type: 'line',
             height: 250,
-            animations: {
-              enabled: false,
-              easing: 'linear',
-              dynamicAnimation: {
-                speed: 1000
-              }
-            },
-            toolbar: {
-              show: false
-            },
-            zoom: {
-              enabled: false
-            }
+            animations: { enabled: false, easing: 'linear', dynamicAnimation: { speed: 1000 } },
+            toolbar: { show: false },
+            zoom: { enabled: false }
           },
-          dataLabels: {
-            enabled: false
-          },
-          colors: ['#34495e', '#85d6de', '#CED4DC'],
-          stroke: {
-            curve: 'straight',
-            show: true,
-            lineCap: 'butt',
-            colors: undefined,
-            width: 1,
-            dashArray: 0,
-          },
-          fill: {
-            type: 'gradient',
-            gradient: {
-              opacityFrom: 0.6,
-              opacityTo: 0.8,
-            },
-          },
-          legend: {
-            position: 'top',
-            horizontalAlign: 'left',
-          },
-          markers: {
-            size: 0
+          dataLabels: { enabled: false, style: { colors: ['#333'] }, offsetX: 30 },
+          tooltip: { enabled: false },
+          colors: ['#85d6de'],
+          stroke: { curve: 'smooth', show: true, width: 1 },
+          fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.8 } },
+          markers: { size: 3 },
+          yaxis: { min: 0, max: 100, decimalsInFloat: 0, title: { text: 'CPU °C', style: { color: '#34495e' } }
           },
           xaxis: {
             labels: {
               formatter: function (value, timestamp) {
-                return date.formatDate(timestamp, 'HH:mm:ss')
-              },
-            }
+                return date.formatDate(timestamp, 'mm:ss')
+              }
+            },
+            tooltip: { enabled: false }
           }
         },
-        usageSeries: [{
-          name: 'Utilisé',
-          data: [84, 55, 41]
-        }, {
-          name: 'Libre',
-          data: [16, 45, 59]
-        }],
+        // cpusSeries: [
+        //   { name: 'Utilisé', data: [{ x: 'Core 1', y: 84 }, { x: 'Core 2', y: 55 }] },
+        //   { name: 'Libre', data: [{ x: 'Core 1', y: 16 }, { x: 'Core 2', y: 45 }] }
+        // ],
+        usageSeries: [
+          { name: 'Utilisé', data: [84, 55, 41] },
+          { name: 'Libre', data: [16, 45, 59] }
+        ],
         usageOptions: {
-          chart: {
-            type: 'bar',
-            height: 350,
-            stacked: true,
-            stackType: '100%'
-          },
+          chart: { type: 'bar', height: 350, stacked: true, stackType: '100%' },
           responsive: [{
             breakpoint: 480,
-            options: {
-              legend: {
-                position: 'bottom',
-                offsetX: -10,
-                offsetY: 0
-              }
-            }
+            options: { legend: { position: 'bottom', offsetX: -10, offsetY: 0 } }
           }],
-          xaxis: {
-            categories: ['/dev/sda1', '/dev/root', '/dev/mmcblk0p1'],
-          },
+          xaxis: { categories: ['/dev/sda1', '/dev/root', '/dev/mmcblk0p1'] },
+          yaxis: { title: { text: 'FREE SPACE', style: { color: '#34495e' } } },
           colors: ['#34495e','#85d6de'],
-          fill: {
-            opacity: 0.8,
-          },
-          legend: {
-            show: false
-          }
+          fill: { opacity: 0.8 },
+          legend: { show: false }
         },
+        cpusOptions: {
+          chart: { type: 'bar', height: 350, stacked: true, stackType: '100%' },
+          responsive: [{
+            breakpoint: 480,
+            options: { legend: { position: 'bottom', offsetX: -10, offsetY: 0 } }
+          }],
+          xaxis: { type: 'category' },
+          yaxis: { title: { text: 'CPU CORES USAGE', style: { color: '#34495e' } } },
+          colors: ['#34495e','#85d6de'],
+          fill: { opacity: 0.8 },
+          legend: { show: false }
+        }
       }
     }
   }

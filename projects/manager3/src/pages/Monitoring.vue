@@ -25,8 +25,21 @@
     components: {
       apexchart: VueApexCharts,
     },
+    computed: {
+      metrics: {
+        get: function () {
+          return this.$store.getters['monitoring/metrics'] ? this.$store.getters['monitoring/metrics'] : []
+        },
+      },
+      cpuSeries: [
+        {
+          name: 'C°',
+          data: this.metrics !== undefined ? this.metrics.temperatures : [],
+        },
+      ]
+    },
     methods: {
-      generateDayWiseTimeSeries(baseval, count, yrange) {
+      generateDayWiseTimeSeries(baseval, count, yrange, cb) {
         let i = 0;
         let series = [];
         while (i < count) {
@@ -36,34 +49,12 @@
           baseval += 86400000;
           i++;
         }
+        if(cb) cb(series)
         return series;
       },
     },
     data() {
       return {
-        cpuSeries: [
-          {
-            name: 'CPU',
-            data: this.generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 24, {
-              min: 10,
-              max: 60,
-            }),
-          },
-          {
-            name: 'C°',
-            data: this.generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 24, {
-              min: 10,
-              max: 20,
-            }),
-          },
-          {
-            name: 'RAM',
-            data: this.generateDayWiseTimeSeries(new Date('11 Feb 2017 GMT').getTime(), 24, {
-              min: 10,
-              max: 15,
-            }),
-          },
-        ],
         cpuOptions: {
           chart: {
             type: 'area',
@@ -72,8 +63,8 @@
             events: {
               selection: function (chart, e) {
                 console.log(new Date(e.xaxis.min))
-              },
-            },
+              }
+            }
           },
           colors: ['#34495e', '#85d6de', '#CED4DC'],
           dataLabels: {

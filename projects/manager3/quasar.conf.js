@@ -132,14 +132,25 @@ module.exports = function (ctx) {
       env: ctx.dev
         ? { // so on dev we'll have
           API_URL: JSON.stringify('http://192.168.1.42:20666/api'),
-          MQTT_URL: JSON.stringify('mqtt://192.168.1.42:1883'),
+
           FORUM_URL: JSON.stringify('https://forum.recalbox.com'),
           DISCORD_URL: JSON.stringify('https://discord.gg/NbQFbGM'),
           GITBOOK_URL: JSON.stringify('https://recalbox.gitbook.io/documentation'),
           GITLAB_URL: JSON.stringify('https://gitlab.com/recalbox/recalbox'),
+
+          MQTT_URL: JSON.stringify('mqtt://192.168.1.42:18833'),
+          MQTT_MONITORING_CHANNEL : JSON.stringify('Recalbox/WebAPI/SystemInfo'),
         }
         : { // and on build (production):
+          API_URL: JSON.stringify('http://recalbox:20666/api'),
 
+          FORUM_URL: JSON.stringify('https://forum.recalbox.com'),
+          DISCORD_URL: JSON.stringify('https://discord.gg/NbQFbGM'),
+          GITBOOK_URL: JSON.stringify('https://recalbox.gitbook.io/documentation'),
+          GITLAB_URL: JSON.stringify('https://gitlab.com/recalbox/recalbox'),
+
+          MQTT_URL: JSON.stringify('mqtt://recalbox:18833'),
+          MQTT_MONITORING_CHANNEL : JSON.stringify('Recalbox/WebAPI/SystemInfo'),
         },
 
       // rtl: false, // https://quasar.dev/options/rtl-support

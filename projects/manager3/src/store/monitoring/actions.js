@@ -8,3 +8,7 @@ export const getStorageInfo = ({commit}) => {
     })
     .catch(error => console.log(error))
 }
+
+export const update = ({commit}, data) => {
+  commit('UPDATE_MONITORING', data)
+}

@@ -5,10 +5,24 @@ export function GET_MONITORING_STORAGE_INFO(state, data) {
 }
 
 export function UPDATE_MONITORING(state, data) {
-  let temperature = state.metrics ? [
-    ...state.metrics.temperature,
-    data.temperature.temperatures[0]
-  ] : [data.temperature.temperatures[0]]
+  let temperatures = null
+
+  if(state.metrics) {
+    temperatures = state.metrics.temperatures[0].data
+    temperatures.push(
+      [
+        (new Date(data.timestamp)).getTime(),
+        data.temperature.temperatures[0]
+      ]
+    )
+  } else {
+    temperatures = [
+      [
+        (new Date(data.timestamp)).getTime(),
+        data.temperature.temperatures[0]
+      ]
+    ]
+  }
 
   data = {
     cpus: {
@@ -19,7 +33,10 @@ export function UPDATE_MONITORING(state, data) {
       free: data.memory.free[0],
       total: data.memory.total
     },
-    temperatures: temperature,
+    temperatures: [{
+      name: 'C°',
+      data: temperatures.slice(-60)
+    }],
     timestamp: data.timestamp
   }
   Vue.set(state, 'metrics', data)

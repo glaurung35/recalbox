@@ -4,7 +4,7 @@
       <apexchart :options="cpuTempOptions" :series="metrics.temperatures" height="250" type="area"></apexchart>
     </div>
     <div class="charts-container row">
-      <div class="disks-usage col">
+      <div class="cores-usage col">
         <apexchart type="bar" height="350" :options="cpusOptions" :series="metrics.cores"></apexchart>
       </div>
       <div class="disks-usage col">
@@ -99,7 +99,7 @@
           legend: { show: false },
         },
         cpusOptions: {
-          chart: { type: 'bar', height: 350 },
+          chart: { type: 'bar', height: 350, toolbar: { show: false } },
           responsive: [{ breakpoint: 480 }],
           xaxis: { type: 'category' },
           yaxis: {
@@ -142,4 +142,11 @@
       .col
         background: white
         margin: 0 8px 1em
+
+      .cores-usage
+        flex: 1
+
+      .disks-usage
+        flex: 2
+        padding: .5em
 </style>

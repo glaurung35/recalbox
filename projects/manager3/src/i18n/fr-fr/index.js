@@ -4,6 +4,12 @@ export default {
     returnButton: 'Retour',
   },
   general: {
+    virtualDevices: {
+      title: 'Périphériques virtuels',
+      keyboard: 'Clavier',
+      gamepad: 'Manette',
+      trackpad: 'Pavet tactile',
+    },
     confirmDialog: {
       cancel: 'Annuler',
       valid: 'Valider',

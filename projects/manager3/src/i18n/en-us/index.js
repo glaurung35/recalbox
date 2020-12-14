@@ -4,6 +4,12 @@ export default {
     returnButton: 'Go back',
   },
   general: {
+    virtualDevices: {
+      title: 'Virtual devices',
+      keyboard: 'Keyboard',
+      gamepad: 'Gamepad',
+      trackpad: 'Trackpad',
+    },
     confirmDialog: {
       cancel: 'Cancel',
       valid: 'Validate',

@@ -9,12 +9,14 @@
       <q-separator vertical/>
       <q-separator/>
 
+      <!-- PC version -->
       <Stat
         :key="stat.key"
         v-bind="stat"
         v-for="stat in stats"
       />
 
+      <!-- Mobile version -->
       <div class="col-12 linear-progress" style="padding: 16px">
         <div class="linear-progress-title text-accent">{{ $t('home.preview.systems') }}</div>
         <div class="linear-progress-bar">

@@ -50,6 +50,7 @@ module.exports = function (ctx) {
 
       components: [
         'QAvatar',
+        'QBadge',
         'QLayout',
         'QHeader',
         'QDrawer',

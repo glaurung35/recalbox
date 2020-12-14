@@ -17,6 +17,7 @@
       mini-to-overlay
       show-if-above
       v-model="leftDrawerOpen"
+      dark
     >
       <q-list padding>
         <MenuLink

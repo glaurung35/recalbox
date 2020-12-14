@@ -4,11 +4,11 @@ import {MONITORING} from 'src/store/api.routes'
 export const getStorageInfo = ({commit}) => {
   axiosClient.get(MONITORING.storageInfo)
     .then(response => {
-      commit('GET_MONITORING_STORAGE_INFO', response.data)
+      commit('SET_MONITORING_STORAGE_INFO', response.data)
     })
     .catch(error => console.log(error))
 }
 
-export const update = ({commit}, data) => {
-  commit('UPDATE_MONITORING', data)
+export const updateMetrics = ({commit}, data) => {
+  commit('SET_MONITORING_METRICS', data)
 }

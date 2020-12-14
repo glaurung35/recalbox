@@ -49,6 +49,15 @@ export default {
       adefinir: 'À définir !',
     },
   },
+  monitoring: {
+    temperature: {
+
+    },
+    cores: {
+      used: 'Used',
+      free: 'Available',
+    }
+  },
   settings: {
     menu: {
       system: 'system',

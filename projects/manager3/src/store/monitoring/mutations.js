@@ -1,3 +1,4 @@
+import {i18n} from 'boot/i18n'
 import Vue from 'vue'
 
 export function GET_MONITORING_STORAGE_INFO(state, data) {
@@ -6,16 +7,14 @@ export function GET_MONITORING_STORAGE_INFO(state, data) {
 
 export function UPDATE_MONITORING(state, data) {
   // Cores data definition
-  let cores = [{ name: 'Utilisé', data: [] }, { name: 'Libre', data: [] }]
+  let cores = [
+    { name: i18n.t('monitoring.cores.used'), data: [] },
+  ]
 
   if(data) {
     Object.keys(data.cpus).map(key => {
       cores[0].data.push(
         { x: 'Core ' + (parseInt(key) + 1), y: data.cpus[key].consumption[0].toFixed(0) }
-      )
-
-      cores[1].data.push(
-        { x: 'Core ' + (parseInt(key) + 1), y: 100 - data.cpus[key].consumption[0].toFixed(0) }
       )
     })
   }
@@ -40,7 +39,7 @@ export function UPDATE_MONITORING(state, data) {
 
   data = {
     temperatures: [{
-      data: temperatures.slice(-60)
+      data: temperatures.slice(-30)
     }],
     cores: cores,
     memory: {

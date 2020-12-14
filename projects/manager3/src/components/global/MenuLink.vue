@@ -45,8 +45,6 @@
 <style lang="sass">
   .menu
     aside
-      background: $primary
-
     .q-link
       color: $secondary
       overflow-x: hidden

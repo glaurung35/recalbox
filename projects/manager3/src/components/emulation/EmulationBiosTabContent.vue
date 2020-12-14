@@ -116,7 +116,7 @@
               </span>
 
               <span class="md5" v-else-if="col.name === 'currentMd5'">
-                {{ col.value !== '00000000000000000000000000000000' ? col.value : '-'}}
+                {{ col.value !== '00000000000000000000000000000000' ? col.value : '-' }}
               </span>
 
               <span v-else-if="col.name === 'md5'">
@@ -185,7 +185,7 @@
           <div class="full-width row flex-center text-accent q-gutter-md q-ma-md">
             <q-icon name="mdi-emoticon-sad-outline" size="2em"/>
             <span>
-              {{$t('general.tables.noDataMessage') + ' ' + message }}
+              {{ $t('general.tables.noDataMessage') + ' ' + message }}
             </span>
             <q-icon :name="filter ? 'mdi-layers-search-outline' : icon" size="2em"/>
           </div>
@@ -217,11 +217,15 @@
 
           <q-card-section class="q-pt-none">
             <div class="help-line row">
-              <div class="col-1"><q-icon name="mdi-checkbox-marked-circle-outline" color="positive" size="sm"/></div>
+              <div class="col-1">
+                <q-icon name="mdi-checkbox-marked-circle-outline" color="positive" size="sm"/>
+              </div>
               <div class="col">BIOS présent + MD5 valide</div>
             </div>
             <div class="help-line row">
-              <div class="col-1"><q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/></div>
+              <div class="col-1">
+                <q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/>
+              </div>
               <div class="col">
                 BIOS présent + MD5 invalide mais MD5 match non obligatoire<br>
                 <span>
@@ -230,7 +234,9 @@
               </div>
             </div>
             <div class="help-line row">
-              <div class="col-1"><q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/></div>
+              <div class="col-1">
+                <q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/>
+              </div>
               <div class="col">
                 BIOS absent mais optionnel<br>
                 <span>
@@ -240,7 +246,9 @@
               </div>
             </div>
             <div class="row">
-              <div class="col-1"><q-icon name="mdi-checkbox-marked-circle-outline" color="negative" size="sm"/></div>
+              <div class="col-1">
+                <q-icon name="mdi-checkbox-marked-circle-outline" color="negative" size="sm"/>
+              </div>
               <div class="col">BIOS absent</div>
             </div>
           </q-card-section>
@@ -252,147 +260,147 @@
 </template>
 
 <script>
-  import tools from '../../tools/index'
+import tools from '../../tools/index'
 
-  export default {
-    name: 'EmulationBiosTabContent',
-    methods: {
-      openUpload() {
-        this.$root.$emit('open-upload', 'bios')
-      },
-      copyToClipboard(content) {tools.copyToClipboard(content)},
-      openConfirm(slug) {
-        this.selectedSlug = slug
-        this.$root.$emit(
-          'confirm-open',
-          this.remove,
-          'mdi-alert-box-outline',
-          this.$t('emulation.bios.dialogs.remove.text'),
-        )
-      },
-      remove() {
-        this.$store.dispatch('bios/remove', this.selectedSlug)
-        this.selectedSlug = null
-      }
+export default {
+  name: 'EmulationBiosTabContent',
+  methods: {
+    openUpload() {
+      this.$root.$emit('open-upload', 'bios')
     },
-    created() {
-      this.$store.dispatch('bios/get')
+    copyToClipboard(content) {tools.copyToClipboard(content)},
+    openConfirm(slug) {
+      this.selectedSlug = slug
+      this.$root.$emit(
+        'confirm-open',
+        this.remove,
+        'mdi-alert-box-outline',
+        this.$t('emulation.bios.dialogs.remove.text'),
+      )
     },
-    computed: {
-      bios: {
-        get: function () {
-          return this.$store.getters['bios/list'] ? this.$store.getters['bios/list'] : []
+    remove() {
+      this.$store.dispatch('bios/remove', this.selectedSlug)
+      this.selectedSlug = null
+    },
+  },
+  created() {
+    this.$store.dispatch('bios/get')
+  },
+  computed: {
+    bios: {
+      get: function () {
+        return this.$store.getters['bios/list'] ? this.$store.getters['bios/list'] : []
+      },
+    },
+    filteredBiosList: function () {
+      let result = Object.values(this.bios)
+
+      if (!this.filterButtons.redFilter) result = result.filter(bios => bios.lightStatus !== 'Red')
+      if (!this.filterButtons.yellowFilter) result = result.filter(bios => bios.lightStatus !== 'Yellow')
+      if (!this.filterButtons.greenFilter) result = result.filter(bios => bios.lightStatus !== 'Green')
+
+      return result
+    },
+    columns: function () {
+      return [
+        {
+          name: 'system',
+          required: true,
+          label: this.$t('emulation.bios.tableHeader.system'),
+          align: 'left',
+          field: 'system',
+          sortable: true,
+        },
+        {
+          name: 'bios',
+          required: true,
+          label: this.$t('emulation.bios.tableHeader.bios'),
+          align: 'left',
+          field: 'displayFileName',
+          sortable: true,
+        },
+        {
+          name: 'currentMd5',
+          required: true,
+          label: this.$t('emulation.bios.tableHeader.currentMd5'),
+          align: 'left',
+          field: 'currentMd5',
+          sortable: true,
+        },
+        {
+          name: 'md5',
+          align: 'left',
+          label: this.$t('emulation.bios.tableHeader.md5'),
+          field: 'md5List',
+          sortable: true,
+        },
+        {
+          name: 'valid',
+          align: 'center',
+          label: this.$t('emulation.bios.tableHeader.valid'),
+          field: 'lightStatus',
+          sortable: true,
+        },
+        {
+          name: 'delete',
+          align: 'center',
+          label: '',
+          field: 'displayFileName',
+          sortable: false,
+        },
+      ]
+    },
+  },
+  data() {
+    return {
+      selectedSlug: null,
+      table: {
+        filter: '',
+        pagination: {
+          rowsPerPage: 10,
+          descending: false,
+          sortBy: 'system',
         },
       },
-      filteredBiosList: function () {
-        let result = Object.values(this.bios)
-
-        if (!this.filterButtons.redFilter) result = result.filter(bios => bios.lightStatus !== 'Red')
-        if (!this.filterButtons.yellowFilter) result = result.filter(bios => bios.lightStatus !== 'Yellow')
-        if (!this.filterButtons.greenFilter) result = result.filter(bios => bios.lightStatus !== 'Green')
-
-        return result
+      md5Open: false,
+      helpOpen: false,
+      selectedMd5: null,
+      filterButtons: {
+        redFilter: true,
+        yellowFilter: true,
+        greenFilter: true,
       },
-      columns: function () {
-        return [
-          {
-            name: 'system',
-            required: true,
-            label: this.$t('emulation.bios.tableHeader.system'),
-            align: 'left',
-            field: 'system',
-            sortable: true,
-          },
-          {
-            name: 'bios',
-            required: true,
-            label: this.$t('emulation.bios.tableHeader.bios'),
-            align: 'left',
-            field: 'displayFileName',
-            sortable: true,
-          },
-          {
-            name: 'currentMd5',
-            required: true,
-            label: this.$t('emulation.bios.tableHeader.currentMd5'),
-            align: 'left',
-            field: 'currentMd5',
-            sortable: true,
-          },
-          {
-            name: 'md5',
-            align: 'left',
-            label: this.$t('emulation.bios.tableHeader.md5'),
-            field: 'md5List',
-            sortable: true,
-          },
-          {
-            name: 'valid',
-            align: 'center',
-            label: this.$t('emulation.bios.tableHeader.valid'),
-            field: 'lightStatus',
-            sortable: true,
-          },
-          {
-            name: 'delete',
-            align: 'center',
-            label: '',
-            field: 'displayFileName',
-            sortable: false,
-          },
-        ]
-      },
-    },
-    data() {
-      return {
-        selectedSlug: null,
-        table: {
-          filter: '',
-          pagination: {
-            rowsPerPage: 10,
-            descending: false,
-            sortBy: 'system',
-          },
-        },
-        md5Open: false,
-        helpOpen: false,
-        selectedMd5: null,
-        filterButtons: {
-          redFilter: true,
-          yellowFilter: true,
-          greenFilter: true,
-        },
-      }
-    },
-  }
+    }
+  },
+}
 </script>
 
 <style lang="sass">
-  .copy-to-clipboard
-    font-weight: inherit
-    text-transform: inherit
+.copy-to-clipboard
+  font-weight: inherit
+  text-transform: inherit
 
-  .q-table__card
-    margin: 0 .5em 74px
+.q-table__card
+  margin: 0 .5em 74px
+
+  .addButton
+    margin-left: 16px
+
+  @media(max-width: 700px)
+    .search
+      flex: 5
 
     .addButton
-      margin-left: 16px
+      flex: 1
+      margin-left: 10px
 
-    @media(max-width: 700px)
-      .search
-        flex: 5
+  .md5
+    font-family: monospace
+    font-size: 13px !important
 
-      .addButton
-        flex: 1
-        margin-left: 10px
+.help-line
+  margin-bottom: 1em
 
-    .md5
-      font-family: monospace
-      font-size: 13px !important
-
-  .help-line
-    margin-bottom: 1em
-
-    span
-      color: $dark-blue
+  span
+    color: $dark-blue
 </style>

@@ -112,6 +112,7 @@ module.exports = function (ctx) {
         'Loading',
         'LocalStorage',
         'Dialog',
+        'BottomSheet',
       ],
 
       config: {

@@ -85,7 +85,6 @@ module.exports = function (ctx) {
         'QChip',
         'QSlider',
         'QInput',
-        'QSkeleton',
         'QSplitter',
         'QTable',
         'QTr',

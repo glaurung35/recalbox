@@ -39,7 +39,7 @@ export function OPTIONS_SYSTEM(state, data) {
   state._options = result
 }
 
-export function GET_SYSTEM(state, data) {
+export function SET_SYSTEM(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

@@ -12,7 +12,7 @@ export const options = ({commit}) => {
 export const get = ({commit}) => {
   axiosClient.get(SCRAPER)
     .then(response => {
-      commit('GET_SCRAPER', response.data)
+      commit('SET_SCRAPER', response.data)
     })
     .catch(error => console.log(error))
 }
@@ -20,7 +20,7 @@ export const get = ({commit}) => {
 export const post = ({commit}, data) => {
   axiosClient.post(SCRAPER, data)
     .then(response => {
-      commit('GET_SCRAPER', response.data)
+      commit('SET_SCRAPER', response.data)
     })
     .catch(error => console.log(error))
 }

@@ -12,7 +12,7 @@ export const options = ({commit}) => {
 export const get = ({commit}) => {
   axiosClient.get(GLOBAL)
     .then(response => {
-      commit('GET_GLOBAL', response.data)
+      commit('SET_GLOBAL', response.data)
     })
     .catch(error => console.log(error))
 }
@@ -20,7 +20,7 @@ export const get = ({commit}) => {
 export const post = ({commit}, data) => {
   axiosClient.post(GLOBAL, data)
     .then(response => {
-      commit('GET_GLOBAL', response.data)
+      commit('SET_GLOBAL', response.data)
     })
     .catch(error => console.log(error))
 }

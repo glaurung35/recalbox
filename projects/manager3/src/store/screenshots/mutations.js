@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export function GET_SCREENSHOTS(state, data) {
+export function SET_SCREENSHOTS(state, data) {
   // let screenshots = []
   //
   // Object.keys(data).map(systemKey => {

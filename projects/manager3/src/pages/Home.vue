@@ -59,23 +59,24 @@
     name: 'Home',
     components: {Stat},
     created() {
+      this.$store.dispatch('systems/get')
       this.$store.dispatch('monitoring/getStorageInfo')
     },
     computed: {
-      ...mapState(['monitoring']),
-      stats: state => {
-        if (!state.monitoring.storageInfo.recalbox) {
+      ...mapState(['systems', 'monitoring']),
+      stats () {
+        if (!this.monitoring.storageInfo.storages) {
           return []
         }
 
-        let used = state.monitoring.storageInfo.recalbox.core.data.used,
-          size = state.monitoring.storageInfo.recalbox.core.data.size
+        let systemsCount = Object.keys(this.systems).length,
+          share = this.findMount('share')
 
         return [
           {
             key: 1,
             title: 'home.preview.systems',
-            value: 84,
+            value: systemsCount,
             type: 'number',
           },
           {
@@ -87,7 +88,7 @@
           {
             key: 3,
             title: 'home.preview.sharePercent',
-            value: used && size ? Math.round((100 * used) / size) : 0,
+            value: share ? Math.round((100 * share.used) / share.size) : 0,
             type: 'percent',
           },
           {
@@ -98,6 +99,21 @@
           },
         ]
       },
+    },
+    methods: {
+      findMount(wanted) {
+        let storages = this.monitoring.storageInfo.storages,
+          result = {}
+
+        Object.keys(storages).map(key => {
+          let isWanted = Object.keys(storages[key]).some(k => {
+            return storages[key][k] === wanted
+          })
+          if(isWanted) result = storages[key]
+        })
+
+        return result
+      }
     },
     data() {
       return {}

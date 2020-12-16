@@ -4,7 +4,7 @@ export function OPTIONS_SCRAPER(state, data) {
   state._options = data
 }
 
-export function GET_SCRAPER(state, data) {
+export function SET_SCRAPER(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

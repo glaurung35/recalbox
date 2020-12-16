@@ -12,7 +12,7 @@ export const options = ({commit}) => {
 export const get = ({commit}) => {
   axiosClient.get(WIFI)
     .then(response => {
-      commit('GET_WIFI', response.data)
+      commit('SET_WIFI', response.data)
     })
     .catch(error => console.log(error))
 }
@@ -20,7 +20,7 @@ export const get = ({commit}) => {
 export const post = ({commit}, data) => {
   axiosClient.post(WIFI, data)
     .then(response => {
-      commit('GET_WIFI', response.data)
+      commit('SET_WIFI', response.data)
     })
     .catch(error => console.log(error))
 }

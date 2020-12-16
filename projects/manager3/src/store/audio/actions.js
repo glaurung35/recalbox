@@ -12,7 +12,7 @@ export const options = ({commit}) => {
 export const get = ({commit}) => {
   axiosClient.get(AUDIO)
     .then(response => {
-      commit('GET_AUDIO', response.data)
+      commit('SET_AUDIO', response.data)
     })
     .catch(error => console.log(error))
 }
@@ -20,7 +20,7 @@ export const get = ({commit}) => {
 export const post = ({commit}, data) => {
   axiosClient.post(AUDIO, data)
     .then(response => {
-      commit('GET_AUDIO', response.data)
+      commit('SET_AUDIO', response.data)
     })
     .catch(error => console.log(error))
 }

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export function GET_SYSTEMS(state, data) {
+export function SET_SYSTEMS(state, data) {
   let systems = []
 
   Object.keys(data.systemList).map(systemKey => {

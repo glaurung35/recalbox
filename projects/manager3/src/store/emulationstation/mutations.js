@@ -21,7 +21,7 @@ export function OPTIONS_EMUSTATION(state, data) {
   state._options = result
 }
 
-export function GET_EMUSTATION(state, data) {
+export function SET_EMUSTATION(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

@@ -1,3 +1,3 @@
-export function GET_VERSIONS(state, data) {
+export function SET_VERSIONS(state, data) {
   state.list = data
 }

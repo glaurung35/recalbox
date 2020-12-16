@@ -14,7 +14,7 @@ export function OPTIONS_AUDIO(state, data) {
   state._options = result
 }
 
-export function GET_AUDIO(state, data) {
+export function SET_AUDIO(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

@@ -1,6 +1,6 @@
 import Vue from 'vue'
 
-export function GET_BIOS(state, data) {
+export function SET_BIOS(state, data) {
   let bios = []
 
   Object.keys(data).map(systemKey => {

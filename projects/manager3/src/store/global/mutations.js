@@ -28,7 +28,7 @@ export function OPTIONS_GLOBAL(state, data) {
   state._options = result
 }
 
-export function GET_GLOBAL(state, data) {
+export function SET_GLOBAL(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

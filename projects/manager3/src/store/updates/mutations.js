@@ -14,7 +14,7 @@ export function OPTIONS_UPDATES(state, data) {
   state._options = result
 }
 
-export function GET_UPDATES(state, data) {
+export function SET_UPDATES(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

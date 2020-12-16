@@ -14,7 +14,7 @@ export function OPTIONS_CONTROLLERS(state, data) {
   state._options = result
 }
 
-export function GET_CONTROLLERS(state, data) {
+export function SET_CONTROLLERS(state, data) {
   Object.keys(data).map(key => {
     Vue.set(state, key, data[key])
   })

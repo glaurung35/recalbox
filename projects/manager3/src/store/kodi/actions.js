@@ -12,7 +12,7 @@ export const options = ({commit}) => {
 export const get = ({commit}) => {
   axiosClient.get(KODI)
     .then(response => {
-      commit('GET_KODI', response.data)
+      commit('SET_KODI', response.data)
     })
     .catch(error => console.log(error))
 }
@@ -20,7 +20,7 @@ export const get = ({commit}) => {
 export const post = ({commit}, data) => {
   axiosClient.post(KODI, data)
     .then(response => {
-      commit('GET_KODI', response.data)
+      commit('SET_KODI', response.data)
     })
     .catch(error => console.log(error))
 }

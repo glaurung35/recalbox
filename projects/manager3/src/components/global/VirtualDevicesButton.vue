@@ -9,43 +9,6 @@
       id="virtual-devices-button"
       @click="show(true)"
     />
-<!--    <q-fab-->
-<!--      color="primary"-->
-<!--      direction="up"-->
-<!--      flat-->
-<!--      icon="mdi-keyboard"-->
-<!--      id="virtual-devices-button"-->
-<!--      square-->
-<!--      vertical-actions-align="right"-->
-<!--    >-->
-<!--      <q-fab-action-->
-<!--        :href="routes.keyboard"-->
-<!--        color="secondary"-->
-<!--        icon="mdi-keyboard-outline"-->
-<!--        label="Clavier"-->
-<!--        label-position="left"-->
-<!--        square-->
-<!--        target="_blank"-->
-<!--      />-->
-<!--      <q-fab-action-->
-<!--        :href="routes.gamepad"-->
-<!--        color="secondary"-->
-<!--        icon="mdi-gamepad-variant-outline"-->
-<!--        label="Manette"-->
-<!--        label-position="left"-->
-<!--        square-->
-<!--        target="_blank"-->
-<!--      />-->
-<!--      <q-fab-action-->
-<!--        :href="routes.trackpad"-->
-<!--        color="secondary"-->
-<!--        icon="mdi-trackpad"-->
-<!--        label="Trackpad"-->
-<!--        label-position="left"-->
-<!--        square-->
-<!--        target="_blank"-->
-<!--      />-->
-<!--    </q-fab>-->
   </q-page-sticky>
 </template>
 
@@ -71,7 +34,7 @@ export default {
         actions: [
           {
             label: this.$t('general.virtualDevices.keyboard'),
-            icon: 'mdi-keyboard',
+            icon: 'mdi-keyboard-outline',
             id: 'keyboard',
             route: 'virtual-devices-keyboard',
           },

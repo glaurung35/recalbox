@@ -30,3 +30,7 @@ export function cores (state) {
 
   return cores
 }
+
+export function storages (state) {
+
+}

@@ -167,11 +167,40 @@ export default {
       },
     },
     kodi: {
-      options: {
-        title: 'Options',
+      status: {
+        title: 'Status',
         enableKodi: 'Enable Kodi',
         kodiAtStartup: 'Launch Kodi at startup',
         launchWithX: 'Key X starts Kodi',
+      },
+      video: {
+        title: 'Video',
+        select: {
+          options: {
+            label: 'Select mode'
+          }
+        }
+      },
+      network: {
+        title: 'Network',
+        waitMode: {
+          title: 'Wait mode',
+          paragraph_1: 'Available options :' +
+            '<ul><li><b>required</b> kodi does not launch before being able to reach the specified ip address,</li>' +
+            '<li><b>wish</b> uses a countdown timer before starting,</li>' +
+            '<li><b>nonce</b> no value.</li></ul>',
+          select: {
+            options: {
+              label: 'Select mode'
+            }
+          }
+        },
+        waitTime: {
+          title: 'Wait time',
+          paragraph_1: 'Waiting time (seconds) before kodi startup fails ' +
+            '("required") or continue ("wish")',
+        },
+        waitHost: 'IP Address',
       },
     },
   },

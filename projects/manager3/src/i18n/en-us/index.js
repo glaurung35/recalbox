@@ -203,6 +203,12 @@ export default {
         waitHost: 'IP Address',
       },
     },
+    hyperion: {
+      options: {
+        title: 'Options',
+        enableHyperion: 'Enable Hyperion',
+      },
+    },
   },
   emulation: {
     menu: {

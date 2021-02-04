@@ -55,6 +55,11 @@ const routes = [
             path: 'kodi',
             name: 'kodi',
             component: () => import('components/settings/SettingsKodiTabContent.vue')
+          },
+          {
+            path: 'hyperion',
+            name: 'hyperion',
+            component: () => import('components/settings/SettingsHyperionTabContent.vue')
           }
         ]
       }

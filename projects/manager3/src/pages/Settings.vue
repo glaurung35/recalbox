@@ -18,6 +18,7 @@
         <q-route-tab :to="{name: 'network'}" :label="$t('settings.menu.network')" icon="mdi-wifi" name="network"/>
         <q-route-tab :to="{name: 'emustation'}" icon="icon-emustation" label="EmulationStation" name="emustation" style="text-transform: none;"/>
         <q-route-tab :to="{name: 'kodi'}" icon="mdi-kodi" label="Kodi" name="kodi"/>
+        <q-route-tab :to="{name: 'hyperion'}" icon="mdi-lightbulb" label="Hyperion" name="hyperion"/>
       </q-tabs>
     </transition>
 
@@ -39,6 +40,10 @@
       </q-tab-panel>
 
       <q-tab-panel name="kodi">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="hyperion">
         <router-view/>
       </q-tab-panel>
 

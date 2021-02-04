@@ -54,6 +54,7 @@
       this.$store.dispatch('updates/options')
       this.$store.dispatch('audio/options')
       this.$store.dispatch('emulationstation/options')
+      this.$store.dispatch('kodi/options')
     },
     data() {
       return {

@@ -40,9 +40,9 @@
 </template>
 
 <script>
+  import FormFragmentContainer from 'components/global/FormFragmentContainer'
   import WrappedSelect from 'components/global/WrappedSelect'
   import WrappedToggle from 'components/global/WrappedToggle'
-  import FormFragmentContainer from '../global/FormFragmentContainer'
 
   export default {
     name: 'SettingsAudioTabContent',

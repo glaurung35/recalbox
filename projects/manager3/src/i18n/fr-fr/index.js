@@ -167,11 +167,40 @@ export default {
       },
     },
     kodi: {
-      options: {
-        title: 'Options',
+      status: {
+        title: 'Statut',
         enableKodi: 'Activer Kodi',
         kodiAtStartup: 'Lancer Kodi au démarrage',
         launchWithX: 'Lancer Kodi via la touche X',
+      },
+      video: {
+        title: 'Vidéo',
+        select: {
+          options: {
+            label: 'Sélectionner le mode de résolution'
+          }
+        }
+      },
+      network: {
+        title: 'Réseau',
+        waitMode: {
+          title: 'Mode d\'attente',
+          paragraph_1: 'Options disponibles :' +
+            '<ul><li><b>required</b> kodi ne se lance pas avant d\'avoir pu joindre l\'adresse ip indiquée,</li>' +
+            '<li><b>wish</b> utilise un compte à rebours avant de démarrer,</li>' +
+            '<li><b>nonce</b> aucune valeur.</li></ul>',
+          select: {
+            options: {
+              label: 'Sélectionner le mode'
+            }
+          }
+        },
+        waitTime: {
+          title: 'Temps d\'attente',
+          paragraph_1: 'Temps d\'attente (secondes) avant que le démarrage de kodi échoue ' +
+            '("required") ou continue ("wish")',
+        },
+        waitHost: 'Adresse IP',
       },
     },
   },

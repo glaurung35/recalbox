@@ -22,6 +22,9 @@ menu "Recalbox"
     menu "Librelec"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/librelec-libmali/Config.in"
     endmenu
+    menu "Vulkan"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/vulkan-loader/Config.in"
+    endmenu
   endmenu
   menu "Boot"
     comment "Boot specific options"

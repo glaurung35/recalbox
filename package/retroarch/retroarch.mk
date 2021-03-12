@@ -73,6 +73,12 @@ ifeq ($(BR2_PACKAGE_RECALBOX_HAS_KMS),y)
 RETROARCH_CONF_OPTS += --enable-kms
 endif
 
+# vulkan
+ifeq ($(BR2_PACKAGE_VULKAN_HEADERS),y)
+RETROARCH_CONF_OPTS += --enable-vulkan
+RETROARCH_DEPENDENCIES += vulkan-loader
+endif
+
 # x86 : SSE
 ifeq ($(BR2_X86_CPU_HAS_SSE),y)
 RETROARCH_CONF_OPTS += --enable-sse

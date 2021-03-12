@@ -1,0 +1,60 @@
+diff --git a/package/mesa3d/Config.in b/package/mesa3d/Config.in
+index e21bbbe3e4..cfe46c8558 100644
+--- a/package/mesa3d/Config.in
++++ b/package/mesa3d/Config.in
+@@ -316,6 +316,55 @@ comment "intel vulkan needs a glibc toolchain w/ headers >= 3.17"
+ 	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
+ 		!BR2_TOOLCHAIN_USES_GLIBC
+ 
++config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_BROADCOM
++	bool "Vulkan Broadcom driver"
++	depends on BR2_arm || BR2_aarch64
++	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
++	select BR2_PACKAGE_MESA3D_VULKAN_DRIVER
++	help
++	  Vulkan driver for Broadcom hardware from v3dv Raspberry PI 4.
++
++comment "broadcom vulkan needs a glibc toolchain w/ headers >= 3.17"
++	depends on BR2_arm || BR2_aarch64
++	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
++		!BR2_TOOLCHAIN_USES_GLIBC
++
++config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_HASWELL
++	bool "Vulkan Haswell driver"
++	depends on BR2_i386 || BR2_x86_64
++	depends on BR2_TOOLCHAIN_HAS_SYNC_4 || !BR2_PACKAGE_XORG7 # libxshmfence
++	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 # memfd.h
++	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
++	select BR2_PACKAGE_MESA3D_DRI3 if BR2_PACKAGE_XORG7
++	select BR2_PACKAGE_MESA3D_VULKAN_DRIVER
++	help
++	  Vulkan driver for older Intel Gen7/Gen8 GPU.
++
++comment "intel haswell vulkan needs a glibc toolchain w/ headers >= 3.17"
++	depends on BR2_i386 || BR2_x86_64
++	depends on BR2_TOOLCHAIN_HAS_SYNC_4 || !BR2_PACKAGE_XORG7
++	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
++		!BR2_TOOLCHAIN_USES_GLIBC
++
++config BR2_PACKAGE_MESA3D_VULKAN_DRIVER_AMD
++	bool "Vulkan AMD Radeon driver"
++	depends on BR2_i386 || BR2_x86_64
++	depends on BR2_TOOLCHAIN_HAS_SYNC_4 # libxshmfence
++	depends on BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 # memfd.h
++	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
++	depends on BR2_PACKAGE_XORG7 # xorgproto
++	select BR2_PACKAGE_MESA3D_VULKAN_DRIVER
++	select BR2_PACKAGE_XORGPROTO
++	select BR2_PACKAGE_XLIB_LIBXSHMFENCE
++	help
++	  Vulkan driver for AMD Radeon GPU.
++
++comment "radeon vulkan depends on X.org and needs a glibc toolchain w/ headers >= 3.17"
++	depends on BR2_i386 || BR2_x86_64
++	depends on BR2_TOOLCHAIN_HAS_SYNC_4
++	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
++		!BR2_TOOLCHAIN_USES_GLIBC || !BR2_PACKAGE_XORG7
++
+ comment "Off-screen Rendering"
+ 
+ config BR2_PACKAGE_MESA3D_OSMESA_GALLIUM

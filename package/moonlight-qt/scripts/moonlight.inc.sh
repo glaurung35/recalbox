@@ -179,3 +179,14 @@ function parseAppList {
   done < <( $xmlCmd "root/App/AppTitle" $xmlFile ; echo )
 }
 
+function parseGFEHostInfo {
+  xmlFile=$1
+  xmlCmd="xml sel -t -v"
+
+  [ ! -s $xmlFile ] && { echo "ERROR parseServerInfo() : couldn't find $xmlFile"  >&2 ; exit 1 ; }
+
+  gfeHost=$($xmlCmd "root/hostname" "$xmlFile")
+
+  echo "$gfeHost"
+}
+

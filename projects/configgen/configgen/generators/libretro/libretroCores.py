@@ -34,6 +34,11 @@ class LibretroCores:
         coreSettings.setString("parallel-n64-boot-device", '"Default"')
         coreSettings.setString("parallel-n64-64dd-hardware", '"disabled"')
         coreSettings.setString("parallel-n64-gfxplugin", '"auto"')
+        coreSettings.setString("parallel-n64-alt-map", '"disabled"')
+
+    @staticmethod
+    def configureMUPEN64(coreseetings: keyValueSettings):
+        coreSettings.setString("mupen64plus-alt-map", '"False"')
 
     @staticmethod
     # (pc98) force the "joymode" option to have automatic joystick support.
@@ -165,6 +170,8 @@ class LibretroCores:
         coreSettings.setString("parallel-n64-boot-device", '"64DD IPL"')
         coreSettings.setString("parallel-n64-64dd-hardware", '"enabled"')
         coreSettings.setString("parallel-n64-gfxplugin", '"gln64"')
+        coreSettings.setString("parallel-n64-alt-map", '"disabled"')
+        coreSettings.setString("mupen64plus-alt-map", '"False"')
 
     @staticmethod
     def configureSpectravideo(coreSettings: keyValueSettings):
@@ -234,6 +241,7 @@ class LibretroCores:
         {
             "bluemsx" : LibretroCores.configureBlueMSX,
             "mame2003_plus": LibretroCores.configureMAME2003plus,
+            "mupen64plus_nx" : LibretroCores.configureMUPEN64,
             "opera": LibretroCores.configureOpera,
             "parallel_n64": LibretroCores.configurePARALLELN64,
             "np2kai" : LibretroCores.configureNPKAI,

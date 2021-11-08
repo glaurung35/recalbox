@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-wasm4 for new system Wasm4
 - Add new searchs (other versions or with same licence)
 - Add launching a game from savestate slot
+- Add Nintendo Switch Online N64 & Genesis/Megadrive controllers support
 
 ### Bumps
 

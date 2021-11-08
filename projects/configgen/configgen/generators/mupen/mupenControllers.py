@@ -60,7 +60,7 @@ def defineControllerKeys(controller: Controller) -> Dict[str, str]:
             if mupenmapping[item.Name] not in config: config[mupenmapping[item.Name]] = value
             else:                                     config[mupenmapping[item.Name]] += ' ' + value
 
-    # Big dirty hack : handle when the pad has no analog sticks. Only Start A, B L and R survive from the previous configuration
+    # Big dirty hack : handle when the pad has no analog sticks. Only Start A, B, L and R survive from the previous configuration
     if "X Axis" not in config and "Y Axis" not in config:
         # remap Z Trig
         config['Z Trig'] = setControllerLine(mupenmapping, controller.X, "Z Trig")
@@ -82,6 +82,13 @@ def defineControllerKeys(controller: Controller) -> Dict[str, str]:
         elif controller.Left.IsButton:
             config['X Axis'] = "button({},{})".format(controller.Left.Id, controller.Right.Id)
             config['Y Axis'] = "button({},{})".format(controller.Up.Id, controller.Down.Id)
+
+    if controller.DeviceName == 'Nintendo Switch N64 Controller':
+        # Specific case for the official N64 controller for Nintendo Switch
+        config['C Button U'] = "button(3)";
+        config['C Button D'] = "button(8)";
+        config['C Button L'] = "button(2)";
+        config['C Button R'] = "button(9)";
     return config
 
 

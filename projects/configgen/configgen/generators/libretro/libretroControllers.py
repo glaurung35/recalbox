@@ -319,6 +319,12 @@ class LibretroControllers:
         for BTN in controller.AvailableInput:
             if BTN.IsButton:
                 button_mapping[BTN.Code] = BTN.Id
+        # Specific configuration for Nintendo Switch N64 Controller
+        if controller.DeviceName == 'Nintendo Switch N64 Controller':
+            settings.setString("input_player1_r_x_plus_btn", '"9"');
+            settings.setString("input_player1_r_x_minus_btn", '"2"');
+            settings.setString("input_player1_r_y_plus_btn", '"8"');
+            settings.setString("input_player1_r_y_minus_btn", '"3"');
 
         print(f"SDL2 button mapping summary for {controller.DeviceName} ({controller.DevicePath}):")
         for k in button_mapping:

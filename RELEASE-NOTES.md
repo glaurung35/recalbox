@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add 240p test suite support for all platforms
 - Add support for break key for pad2keyboard
 - Add new system Arduboy (libretro arduous)
+- Add Nintendo Switch Online N64 & Genesis/Megadrive controllers support
 
 ### Bumps
 

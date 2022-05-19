@@ -242,7 +242,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
-    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
+    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable" && GetUpdatesType() != "patron")
 
     /*
      * System

@@ -62,7 +62,7 @@
 ##
 ## V1.6.0 : To force mouse index to 0 for player 1 on PC X86_64 using Xorg, only 1 player possible on PC for the moment
 ## V1.6.1 : To force mouse index to 0 for player 1 on all platforms to avoid a bug of indexation when we have only one player.
-## V1.6.2 : To manage system directories better as for "Ports"/"amstradcpc" and add robustness/performance optimization.
+## V1.6.2 : To manage system directories better as for "Ports"/"amstradcpc" and add robustnees/performance optimization.
 ## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow)
 ## V1.6.4 : To change way to recalculate the indexation of mouse for retroarch (using udev database)
 ## V1.6.5 : Cleaning + deactivate log by default + to support some keyboards including mouse and identified differently by retroarch (now, we count only header values as js + input + event to anticipate indexation)

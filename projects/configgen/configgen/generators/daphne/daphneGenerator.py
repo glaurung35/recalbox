@@ -4,9 +4,14 @@ from configgen.Emulator import Emulator
 from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
-
+from pyudev.device._device import Properties
 
 class DaphneGenerator(Generator):
+
+    @staticmethod
+    def getOrDefault(props: Properties, key: str, default: str) -> str:
+        if key in props: return props[key];
+        return default
 
     # Main entry of the module
     # Configure daphne and return a command
@@ -32,11 +37,7 @@ class DaphneGenerator(Generator):
                 "-framefile", frameFile,
                 "-fullscreen",
                 "-script", singeFile,
-                "-blend_sprites",
                 "-retropath",
-                "-grabmouse", # Controller stick but really slow
-                "-manymouse", # Lightguns
-                "-opengl",
                 "-texturestream",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", homeDir]
@@ -44,13 +45,32 @@ class DaphneGenerator(Generator):
             # If a bezel exists, apply it and resize screen to 4:3
             if os.path.exists(bezelFile):
                 commandArray.extend(["-bezel", bezelFile, "-force_aspect_ratio"])
+
+            # Define argument if DolphinBars are found for a specific list of games only
+            lst = ['crimepatrol-hd', 'drugwars-hd', 'johnnyrock-hd', 'johnnyrocknoir', 'lbh-hd', 'maddog-hd', 'maddog2-hd', 'spacepirates-hd']
+            if romName in lst:
+                # Find if there some DolphinBars
+                print('[Configgen.LightGun] Seeking for Dolphinbars...')
+                import pyudev
+                player: int = 0
+                mouseIndex: int = 0
+                for device in pyudev.Context().list_devices(subsystem="input", ID_INPUT_MOUSE="1"):
+                    if device.sys_name.startswith("event"):
+                        if self.getOrDefault(device.properties, "ID_SERIAL", "") == "HJZ_Mayflash_Wiimote_PC_Adapter":
+                            player += 1
+                        print("[Configgen.LightGun] Found mouse #{} : {}".format(mouseIndex, self.getOrDefault(device.properties, "ID_SERIAL", "Unknown")));
+                        mouseIndex += 1
+                print("[Configgen.LightGun] Found {} DolphinBars among {} Mouses".format(player, mouseIndex))
+                if player > 0:
+                    commandArray.extend(["-manymouse"])
+                else:
+                    commandArray.extend(["-grabmouse"])
         else:
             # for a classical game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                 romName, "vldp",
                 "-framefile", frameFile,
                 "-fullscreen",
-                "-opengl",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", homeDir]
 
@@ -58,11 +78,11 @@ class DaphneGenerator(Generator):
             if os.path.exists(bezelFile):
                 commandArray.extend(["-bezel", bezelFile, "-force_aspect_ratio"])
 
-        #from configgen.utils.architecture import Architecture
-        #if Architecture().isX64:
-        #    commandArray.extend(["-vulkan"])
-        #else:
-        #    commandArray.extend(["-opengl"])
+        # Use Vulkan if available or use OpenGL
+        if os.path.isfile("/usr/lib/libvulkan.so"):
+            commandArray.extend(["-vulkan"])
+        else:
+            commandArray.extend(["-opengl"])
 
         from configgen.utils.resolutions import ResolutionParser
         resolution = ResolutionParser(system.VideoMode)

@@ -6,17 +6,17 @@
 ## V1: initial version
 ##
 ## V1.1: to manage several platform in same system: to regroup for example naomi/naomigd/atomiswave
-## example : 
+## example :
 ##    <system>
 ##        <platform>naomi</platform>
 ##        <platform>naomigd</platform>
 ##    </system>
 ##
 ## V1.2: to manage group of games with dedicated inputs/options/emulator/core - new tag <games> is mandatory but we could have several by system
-## example : 
+## example :
 ##    <games>
 ##      <emulator name="libretro">
-##          <core>flycast</core> 
+##          <core>flycast</core>
 ##      </emulator>
 ##      <inputs>
 ##      </inputs>
@@ -36,12 +36,12 @@
 ## <system>
 ##      <platform>mame</platform>
 ##      <emulator name="libretro">
-##          <core>mame</core> 
+##          <core>mame</core>
 ## </system>
 ## <system>
 ##      <platform>mame</platform>
 ##      <emulator name="libretro">
-##          <core>mame2003_plus</core> 
+##          <core>mame2003_plus</core>
 ##      </emulator>
 ## </system>
 ##
@@ -50,7 +50,7 @@
 ## b) if no dolphin bar found, no override done
 ## c) if no lightgun.cfg exists, no override done
 ## d) bug corrected: replace of re.search by IN command for search in nodes of gamelist.xml and using encoding to UTF-8
-## 
+##
 ## V1.5:
 ## Usage of keyword value from CGF file to be replace dynamically by index (event value) of mouse found.
 ## a) KEYWORDS list to replace dynamically:
@@ -63,7 +63,7 @@
 ## V1.6.0 : To force mouse index to 0 for player 1 on PC X86_64 using Xorg, only 1 player possible on PC for the moment
 ## V1.6.1 : To force mouse index to 0 for player 1 on all platforms to avoid a bug of indexation when we have only one player.
 ## V1.6.2 : To manage system directories better as for "Ports"/"amstradcpc" and add robustnees/performance optimization.
-## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow) 
+## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow)
 ## V1.6.4 : To change way to recalculate the indexation of mouse for retroarch (using udev database)
 ## V1.6.5 : Cleaning + deactivate log by default + to support some keyboards including mouse and identified differently by retroarch (now, we count only header values as js + input + event to anticipate indexation)
 ## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
@@ -288,7 +288,7 @@ class libretroLightGun:
         import xml.etree.ElementTree as ET
         tree = ET.parse(recalboxFiles.esLightGun)
         root = tree.getroot()
-        
+
         ## Rom name cleaning (alphanumeric lowercase only):
         requestedGameName: str = "".join([c for c in requestedGameName.lower() if c in 'abcdefghijklmnopqrstuvwxyz0123456789'])
 

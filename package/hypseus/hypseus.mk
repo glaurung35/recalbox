@@ -17,7 +17,6 @@ HYPSEUS_CONF_OPTS = ../src -DBUILD_SHARED_LIBS=OFF
 # Post-install: create link to configuration file
 define HYPSEUS_CONFIG_LINK
 	ln -fs /recalbox/share/system/configs/daphne/dapinput.ini $(TARGET_DIR)/usr/share/daphne/hypinput.ini
-	ln -fs /recalbox/share/roms/daphne/roms $(TARGET_DIR)/usr/share/daphne/singe
 endef
 
 HYPSEUS_POST_INSTALL_TARGET_HOOKS += HYPSEUS_CONFIG_LINK

@@ -8,7 +8,6 @@ from configgen.settings.keyValueSettings import keyValueSettings
 import configgen.controllers.controller as controllersConfig
 from tests.generators.FakeArguments import Arguments
 
-
 @pytest.fixture
 def emulator(fake_process):
     daphneGenerator.recalboxFiles.daphneInputIni = 'tests/tmp/dapinput.ini'
@@ -33,16 +32,13 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
                              '-script', 'path/to/test/test.singe',
-                             '-blend_sprites',
                              '-retropath',
-                             '-grabmouse',
-                             '-manymouse',
-                             '-opengl',
                              "-texturestream",
                              '-datadir', '/usr/share/daphne',
                              '-homedir', 'path/to/test',
                              '-bezel', 'path/to/test/../bezels/test.png',
-                             '-force_aspect_ratio'
+                             '-force_aspect_ratio',
+                             '-opengl',
                              ]
 
 
@@ -53,9 +49,9 @@ def test_simple_generate_other_rom(emulator, system, controller_configuration):
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
-                             '-opengl',
                              '-datadir', '/usr/share/daphne',
-                             '-homedir', 'path/to/test'
+                             '-homedir', 'path/to/test',
+                             '-opengl',
                              ]
 
 
@@ -66,9 +62,9 @@ def test_simple_generate_rpi_resolution(emulator, system_xy, mocker):
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
-                             '-opengl',
                              '-datadir', '/usr/share/daphne',
                              '-homedir', 'path/to/test',
+                             '-opengl',
                              '-x', '1920',
                              '-y', '1080'
                              ]

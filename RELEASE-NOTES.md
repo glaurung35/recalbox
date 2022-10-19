@@ -99,6 +99,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Hypseus-Singe to v2.10.4
 - Bump Netflix and Youtube plugins in Kodi
 - Bump libretro-parallel-n64
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 - Add wizard to disable smooth game when enabling shaders

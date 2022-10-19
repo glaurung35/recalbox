@@ -197,6 +197,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-mojozork as Z-Machine core
 - Add libretro-supafaust core for Snes
 - Add support for break key for pad2keyboard
+- Add guncon2 support for CRT tvs
 
 ### Bumps
 - Bump FBneo to aad581

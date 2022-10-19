@@ -258,6 +258,13 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   command.append(" -demoduration ").append(Strings::ToString(duration));
   command.append(" -demoinfoduration ").append(Strings::ToString(infoscreenduration));
 
+  // Forced resolution
+  Resolutions::SimpleResolution targetResolution { 0, 0 };
+  if (ResolutionAdapter().AdjustResolution(0, RecalboxConf::Instance().GetSystemVideoMode(game.System()), targetResolution))
+    command.append(" -resolution ").append(targetResolution.ToString());
+
+  if (debug)
+    command.append(" -verbose");
 
   int exitCode = -1;
   {

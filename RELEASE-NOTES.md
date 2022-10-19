@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Bumps
 - Bump libretro-mame to 0.256
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 

@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump EmuSCV
 - Bump libretro-parallel-n64
 - Bump Netflix and Youtube plugins in Kodi
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 

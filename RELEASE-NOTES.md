@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Arduboy (libretro arduous)
 - Add libretro-wasm4 for new system Wasm4
 - Add libretro-supafaust core for snes
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 

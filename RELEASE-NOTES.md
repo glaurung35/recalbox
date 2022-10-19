@@ -24,6 +24,13 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Arduboy (libretro arduous)
 - Add libretro-wasm4 for new system Wasm4
 - Add libretro-supafaust core for snes
+- Add libretro-pcsx_rearmed for OGA/OGS
+- Add new category 'Demoscene' in tic80 games downloader.
+- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
+- Fix rtype resolution for 31kHz
+- Add new theme for recalbox rgb dual with 240p optimisations
+- Add the possibility to sort games by release date.
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 

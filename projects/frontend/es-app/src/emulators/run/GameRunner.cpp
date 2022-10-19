@@ -259,6 +259,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   command.append(" -demoinfoduration ").append(Strings::ToString(infoscreenduration));
 
 
+
   int exitCode = -1;
   {
     Sdl2Runner sdl2Runner;

@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump FBneo to aad581
 - Bump EmuSCV
 - Bump libretro-parallel-n64
+- Add guncon2 support for CRT tvs
 
 ### Improvements
 

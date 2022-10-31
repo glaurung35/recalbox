@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add support for Super Game Boy games
+- Add support for Anbernic RG353m
 
 ### Improvements
 

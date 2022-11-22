@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-AMIBERRY_VERSION = v5.3
+AMIBERRY_VERSION = v5.4
 AMIBERRY_SITE = $(call gitlab,recalbox,packages/standalone/amiberry,$(AMIBERRY_VERSION))
 AMIBERRY_LICENSE = GPL-3.0
 AMIBERRY_LICENSE_FILES = COPYING
@@ -25,7 +25,7 @@ AMIBERRY_PLATFORM=rpi1-sdl2
 else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
 AMIBERRY_PLATFORM=xu4
 else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
-AMIBERRY_PLATFORM=go-advance
+AMIBERRY_PLATFORM=oga
 else ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RG353X),y)
 AMIBERRY_PLATFORM=a64
 endif

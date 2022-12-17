@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-# Version nightly-1661
+# Version nightly-1661
 CITRA_EMU_VERSION = 94013c8e00ccf1bde9d02c2d86630e0df900c8e3
 CITRA_EMU_SITE = https://github.com/citra-emu/citra.git
 CITRA_EMU_SITE_METHOD = git

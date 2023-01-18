@@ -3457,6 +3457,42 @@ msgstr ""
 msgid "TB"
 msgstr ""
 
+#
+msgid "SHOW REGION"
+msgstr ""
+
+#
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+#
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+#
+msgid "DISPLAY GAME BY"
+msgstr ""
+
+#
+msgid "ALIAS"
+msgstr ""
+
+#
+msgid "FAMILY"
+msgstr ""
+
+#
+msgid "licences"
+msgstr ""
+
+#
+msgid "Games"
+msgstr ""
+
+#
+msgid "Games of licence"
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "DISKO ERABILERA"
 

@@ -427,7 +427,7 @@ void ISimpleGameListView::jumpToLetter(unsigned int unicode)
   FileData::List files = getFileDataList();
   for(int c = (int)files.size(), i = 0; --c >= 0; ++i)
     if (files[i]->IsGame())
-      if (Strings::UpperChar(files[i]->Name()) == unicode)
+      if (Strings::UpperChar(files[i]->DisplayableName()) == unicode)
       {
         setCursor(files[i]);
         break;

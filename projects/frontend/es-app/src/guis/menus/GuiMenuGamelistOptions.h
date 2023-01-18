@@ -40,6 +40,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       MainMenu,
       Quit,
       Search,
+      SearchSiblings,
+      SearchFamily,
     };
 
     //! System reference
@@ -48,6 +50,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     SystemManager& mSystemManager;
     //! Gamelist UI reference
     IGameListView& mGamelist;
+
+    std::string mAlias;
 
     std::shared_ptr<OptionListComponent<unsigned int>> mJumpToLetterList;
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;

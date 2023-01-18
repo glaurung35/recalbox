@@ -163,7 +163,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FilterAdultGames, bool, Bool, sFilterAdultGames, true)
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
-    DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
+    DefineGetterSetter(DisplayGameRegions, bool, Bool, sDisplayGameRegions, true)
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
 
@@ -254,6 +254,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SuperGameBoy, std::string, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
+    DefineGetterSetterEnum(DisplayGameBy, FileData::DisplayGameBy, sDisplayGameBy, DisplayGameBy)
+
     /*
      * System
      */
@@ -317,6 +319,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
     static constexpr const char* sDisplayByFileName          = "displaybyfilename";
+    static constexpr const char* sDisplayGameRegions         = "displayGameRegions";
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
@@ -410,6 +413,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
     static constexpr const char* sKodiVideoMode              = "kodi.videomode";
     static constexpr const char* sESForce43                  = "system.es.force43";
+
+    static constexpr const char* sDisplayGameBy              = "global.displayGameBy";
 
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
@@ -511,4 +516,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const std::string& SystemSortingFromEnum(SystemSorting systemSorting);
     static ScraperType ScraperTypeFromString(const std::string& menu);
     static const std::string& ScraperTypeFromEnum(ScraperType type);
+    static FileData::DisplayGameBy DisplayGameByFromString(const std::string& displayGameBy);
+    static const std::string& DisplayGameByFromEnum(FileData::DisplayGameBy displayGameBy);
 };

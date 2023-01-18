@@ -1277,8 +1277,8 @@ msgid ""
 "Enable or disable the frontend music. You can add your own music as mp3, or "
 "ogg format in the 'musics' directory of your recalbox."
 msgstr ""
-"Öndeki müziği açık yada kapatabilirsin. Kendi müziğini eklemek için, "
-"\"musics\" klasörüne mp3 yada ogg formatlı ses dosyalarını ekleyin. "
+"Öndeki müziği açık yada kapatabilirsin. Kendi müziğini eklemek için, \"musics"
+"\" klasörüne mp3 yada ogg formatlı ses dosyalarını ekleyin. "
 
 msgid "Select your output device. Only HDMI and JACK are supported."
 msgstr "Ses çıkışı cihazını seç. Sadece HDMI ve JACK desteklenmektedir. "
@@ -3571,6 +3571,42 @@ msgid "GB"
 msgstr ""
 
 msgid "TB"
+msgstr ""
+
+#
+msgid "SHOW REGION"
+msgstr ""
+
+#
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+#
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+#
+msgid "DISPLAY GAME BY"
+msgstr ""
+
+#
+msgid "ALIAS"
+msgstr ""
+
+#
+msgid "FAMILY"
+msgstr ""
+
+#
+msgid "licences"
+msgstr ""
+
+#
+msgid "Games"
+msgstr ""
+
+#
+msgid "Games of licence"
 msgstr ""
 
 #~ msgid "DISK USAGE"

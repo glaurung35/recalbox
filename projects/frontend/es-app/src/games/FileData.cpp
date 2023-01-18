@@ -25,6 +25,37 @@ std::string FileData::DisplayName(const Path& romPath) const
   return adapter.DisplayName();
 }
 
+std::string FileData::DisplayableName() const
+{
+  RecalboxConf& recalboxConf = RecalboxConf::Instance();
+
+  std::string displayableName = Name();
+  DisplayGameBy  displayGameBy = recalboxConf.GetDisplayGameBy();
+
+  switch (displayGameBy)
+  {
+    case DisplayGameBy::Filename : displayableName = RomPath().Filename(); break;
+    case DisplayGameBy::Alias :
+      if (!Metadata().Alias().empty())
+        displayableName = Metadata().Alias();
+      break;
+    case DisplayGameBy::Name : break;
+  }
+
+  std::string diskNumber = ExtractGameSupportNumber(RomPath().Filename());
+
+  // add region tag or disk number only if we are not in filename case
+  if (DisplayGameBy::Filename != displayGameBy)
+  {
+    if (!diskNumber.empty())
+      displayableName.append(" (").append(diskNumber).append(")");
+
+    if (recalboxConf.GetDisplayGameRegions() && !Regions().empty())
+      displayableName.append(" [").append(Regions()).append("]");
+  }
+  return displayableName;
+}
+
 bool FileData::HasP2K() const
 {
   // Check game file
@@ -73,7 +104,7 @@ FileData& FileData::CalculateHash()
   return *this;
 }
 
-std::string FileData::Regions()
+std::string FileData::Regions() const
 {
   std::string fileName = mMetadata.RomFileOnly().ToString();
   Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);
@@ -115,4 +146,26 @@ bool FileData::IsDisplayable() const
     return false;
 
   return true;
+}
+
+std::string FileData::ExtractGameSupportNumber(const std::string& filename)
+{
+  for(int end = 0;;)
+  {
+    int begin = (int)filename.find('(', end);
+    if (begin == (int)std::string::npos) break;
+    end = (int)filename.find(')', begin);
+    if (end == (int)std::string::npos) break;
+
+    // begin + 5 = Disk[space]
+    std::string tag = Strings::ToLowerASCII(filename.substr(begin +1, end - begin - 1));
+    if (tag.empty())
+      break;
+
+    if (Strings::Contains(tag, "disk ") || Strings::Contains(tag, "disc "))
+      return tag;
+
+  }
+  return Strings::Empty;
+
 }

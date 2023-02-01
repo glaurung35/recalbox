@@ -74,6 +74,7 @@ index 14b979d..bacb739 100644
  
 -#include <mpeg2.h>
 -
- // NOTICE : these variables should only be used by the private thread
- // !!!!!!!!!!!!
- 
+ #ifdef VLDP_DEBUG
+ #define FRAMELOG "frame_report.txt"
+ #endif
+

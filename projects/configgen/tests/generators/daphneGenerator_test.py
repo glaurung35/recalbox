@@ -40,7 +40,9 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-opengl',
                              "-texturestream",
                              '-datadir', '/usr/share/daphne',
-                             '-homedir', '/recalbox/share/roms/daphne'
+                             '-homedir', 'path/to/test',
+                             '-bezel', 'path/to/test/../bezels/test.png',
+                             '-force_aspect_ratio'
                              ]
 
 
@@ -67,10 +69,9 @@ def test_simple_generate_other_rom(emulator, system, controller_configuration):
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
-                             '-useoverlaysb', '2',
                              '-opengl',
                              '-datadir', '/usr/share/daphne',
-                             '-homedir', '/recalbox/share/roms/daphne'
+                             '-homedir', 'path/to/test'
                              ]
 
 
@@ -81,10 +82,9 @@ def test_simple_generate_rpi_resolution(emulator, system_xy, mocker):
     assert command.array == ['/usr/bin/hypseus', 'test', 'vldp',
                              '-framefile', 'path/to/test/test.txt',
                              '-fullscreen',
-                             '-useoverlaysb', '2',
                              '-opengl',
                              '-datadir', '/usr/share/daphne',
-                             '-homedir', '/recalbox/share/roms/daphne',
+                             '-homedir', 'path/to/test',
                              '-x', '1920',
                              '-y', '1080'
                              ]

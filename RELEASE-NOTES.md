@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Bumps
 
 - Bump FBneo to aad581
+- Bump Hypseus-Singe to v2.10.4
 
 ### Improvements
 

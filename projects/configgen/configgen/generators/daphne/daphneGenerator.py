@@ -18,6 +18,7 @@ class DaphneGenerator(Generator):
 
         import os.path
         romName = os.path.splitext(os.path.basename(args.rom))[0]
+        bezelFile = args.rom + "/../bezels/" + romName + ".png"
         frameFile = args.rom + "/" + romName + ".txt"
         commandsFile = args.rom + "/" + romName + ".commands"
         singeFile = args.rom + "/" + romName + ".singe"
@@ -32,12 +33,15 @@ class DaphneGenerator(Generator):
                 "-script", singeFile,
                 "-blend_sprites",
                 "-retropath",
-                "-grabmouse",
-                "-manymouse",
+                "-grabmouse", # Controller stick but really slow
+                "-manymouse", # Lightguns
                 "-opengl",
                 "-texturestream",
                 "-datadir", recalboxFiles.daphneDatadir,
                 "-homedir", recalboxFiles.daphneHomedir]
+
+            if os.path.exists(bezelFile):
+                commandArray.extend(["-bezel", bezelFile])
         else:
             # for a classical game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],

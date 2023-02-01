@@ -40,7 +40,8 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-opengl',
                              "-texturestream",
                              '-datadir', '/usr/share/daphne',
-                             '-homedir', '/recalbox/share/roms/daphne'
+                             '-homedir', '/recalbox/share/roms/daphne',
+                             '-bezel', 'path/to/test/../bezels/test.png',
                              ]
 
 

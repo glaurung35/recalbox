@@ -1,6 +1,7 @@
 #include "GuiMenuGamelistOptions.h"
 #include "guis/SearchForceOptions.h"
 #include "GuiCheckMenu.h"
+#include "guis/GuiSaveStates.h"
 #include <guis/GuiSearch.h>
 #include <RecalboxConf.h>
 #include <MainRunner.h>
@@ -41,6 +42,9 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
         std::string text = _("DELETE GAME %s");
         Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
         AddSubMenu(text, (int) Components::Delete, _(MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG));
+
+        if (!GameFilesUtils::GetGameSaveStateFiles(*mGamelist.getCursor()).empty())
+          AddSubMenu("SAVE STATES", (int) Components::SaveStates, Strings::Empty);
       }
 
       if (mSystem.IsScreenshots())
@@ -276,6 +280,12 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         }, _("NO"), {}));
         break;
     }
+    case Components::SaveStates:
+    {
+      FileData* game = mGamelist.getCursor();
+      mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *game, nullptr, true));
+      break;
+    }
     case Components::Search:
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
@@ -344,6 +354,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::DeleteScreeshot:
     case Components::SearchSiblings:
     case Components::SearchFamily:
+    case Components::SaveStates:
     case Components::Quit: break;
   }
 

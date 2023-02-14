@@ -3480,6 +3480,39 @@ msgstr ""
 msgid "Games of licence"
 msgstr ""
 
+msgid "SAVE STATES"
+msgstr ""
+
+#
+msgid "SHOW SAVE STATES ON START"
+msgstr ""
+
+#
+msgid "You are about to delete this state, confirm ?"
+msgstr ""
+
+#
+msgid "DELETE STATE, CONFIRM?"
+msgstr ""
+
+#
+msgid "CHANGE ORDER"
+msgstr ""
+
+#
+msgid "LAUNCH GAME FROM STATE"
+msgstr ""
+
+#
+msgid "DELETE STATE SLOT"
+msgstr ""
+
+#
+msgid ""
+"Show savestates on start will display available save states before launch a "
+"game."
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "میزان حافظه استفاده شده"
 

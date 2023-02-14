@@ -10,6 +10,7 @@
 #include <emulators/run/CrtData.h>
 #include <emulators/run/PatchData.h>
 #include "SuperGameBoyData.h"
+#include <emulators/run/SaveStateData.h>
 
 class GameLinkedData
 {
@@ -58,15 +59,21 @@ class GameLinkedData
     //! Get writable Patch data
     PatchData& ConfigurablePatch() { return mPatchData; }
 
+    //! Get writable savestate data
+    SaveStateData& ConfigurableSaveState() { return mSaveSateData; }
+
     //! Get read only Patch data
     const PatchData& Patch() const { return mPatchData; }
-
 
     //! Get writable Supergameboy data
     SuperGameBoyData& ConfigurableSuperGameBoy() { return mSuperGameBoyData; }
 
     //! Get read only Supergameboy data
     const SuperGameBoyData& SuperGameBoy() const { return mSuperGameBoyData; }
+
+    //! Get read only savestate data
+    const SaveStateData& SaveState() const { return mSaveSateData; }
+
 
   private:
     //! Netplay data
@@ -79,4 +86,6 @@ class GameLinkedData
 
     //! SuperGameBoyData
     SuperGameBoyData mSuperGameBoyData;
+
+    SaveStateData mSaveSateData;
 };

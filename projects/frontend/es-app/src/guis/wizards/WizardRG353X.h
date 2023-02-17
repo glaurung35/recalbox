@@ -45,6 +45,3 @@ class WizardRG353X : public WizardLanguage
     //! Called when z key event is received
     Move OnKeyReceived(int page, const InputCompactEvent& event) override;
 };
-
-
-

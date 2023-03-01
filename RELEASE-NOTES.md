@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 - Fix crash when using run in background after the end of a scrap
+- Add support for GPiCase2W with RpiZero1
 
 ## Version 9.0.2-Pulstar
 

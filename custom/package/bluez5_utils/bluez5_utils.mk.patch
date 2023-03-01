@@ -1,5 +1,5 @@
 diff --git a/package/bluez5_utils/bluez5_utils.mk b/package/bluez5_utils/bluez5_utils.mk
-index 8e2c657899..63984d0273 100644
+index f6344ce2cd..65e49afdf7 100644
 --- a/package/bluez5_utils/bluez5_utils.mk
 +++ b/package/bluez5_utils/bluez5_utils.mk
 @@ -13,6 +13,7 @@ BLUEZ5_UTILS_LICENSE = GPL-2.0+, LGPL-2.1+
@@ -19,7 +19,7 @@ index 8e2c657899..63984d0273 100644
  
  ifeq ($(BR2_PACKAGE_BLUEZ5_UTILS_OBEX),y)
 @@ -188,4 +190,12 @@ define BLUEZ5_UTILS_INSTALL_INIT_SYSV
- 		$(TARGET_DIR)/etc/init.d/S40bluetooth
+ 		$(TARGET_DIR)/etc/init.d/S40bluetoothd
  endef
  
 +define BLUEZ5_UTILS_INSTALL_CONF_FILES

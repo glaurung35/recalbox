@@ -36,6 +36,12 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.0.2-Pulstar
 
 - Fix black screen on older PC with Intel graphic card
+## Version 9.0.2-Pulstar
+
+### Fixes
+
+- Allow manual installation of GPiCase2W with RpiZero1, see wiki.
+
 
 ## Version 9.0.1-Pulstar
 

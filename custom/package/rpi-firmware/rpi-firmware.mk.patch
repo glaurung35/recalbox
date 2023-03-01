@@ -1,5 +1,5 @@
 diff --git a/package/rpi-firmware/rpi-firmware.mk b/package/rpi-firmware/rpi-firmware.mk
-index d4d1d07b3f..e2d6172407 100644
+index 53d6d8ca06..fea3375dec 100644
 --- a/package/rpi-firmware/rpi-firmware.mk
 +++ b/package/rpi-firmware/rpi-firmware.mk
 @@ -4,7 +4,7 @@

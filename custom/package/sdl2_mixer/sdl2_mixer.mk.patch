@@ -1,8 +1,8 @@
 diff --git a/package/sdl2_mixer/sdl2_mixer.mk b/package/sdl2_mixer/sdl2_mixer.mk
-index f349b8ca80..50cc9c5992 100644
+index 074e282205..9afe7a615a 100644
 --- a/package/sdl2_mixer/sdl2_mixer.mk
 +++ b/package/sdl2_mixer/sdl2_mixer.mk
-@@ -12,7 +12,12 @@ SDL2_MIXER_LICENSE_FILES = COPYING.txt
+@@ -12,7 +12,12 @@ SDL2_MIXER_LICENSE_FILES = LICENSE.txt
  SDL2_MIXER_INSTALL_STAGING = YES
  SDL2_MIXER_DEPENDENCIES = sdl2 host-pkgconf
  

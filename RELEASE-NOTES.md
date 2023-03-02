@@ -25,6 +25,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.0.2-Pulstar
 
+- Added CRT Curved shaders support
+
 
 ## Version 9.0.1-Pulstar
 

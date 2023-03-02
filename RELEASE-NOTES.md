@@ -9,7 +9,8 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 
 - Add support for Anbernic RG353m
-- Added CRT Curved shaders support
+- Add CRT Curved shaders support
+- Add wizard to disable smooth when enabling shaders
 - Add support for Super Game Boy games
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)

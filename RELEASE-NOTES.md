@@ -8,10 +8,11 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
-- Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
-- Add new core for Philips CDI (libretro samecdi, for PC only)
-- Add support for Super Game Boy games
 - Add support for Anbernic RG353m
+- Added CRT Curved shaders support
+- Add support for Super Game Boy games
+- Add new core for Philips CDI (libretro samecdi, for PC only)
+- Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
 
 ### Improvements

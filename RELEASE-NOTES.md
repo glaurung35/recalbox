@@ -14,6 +14,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 
+- Add recommended info for scrap video menu
+
 ### Fixes
 
 

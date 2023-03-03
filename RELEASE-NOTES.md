@@ -23,6 +23,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.0.2-Pulstar
 
+## Next
+
+- Add recommended info for scrap video menu
 
 ## Version 9.0.1-Pulstar
 

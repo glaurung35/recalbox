@@ -17,6 +17,10 @@ as release notes for end user on a Recalbox upgrade.
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
 
+### Bumps
+
+- Bump FBneo to aad581
+
 ### Improvements
 
 - Add recommended info for scrap video selection in menu

@@ -3,7 +3,7 @@ from enum import Enum
 from typing import List, Union
 
 from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
-    CRTResolutionType, CRTScreenType
+    CRTResolutionType, CRTScreenType, CRTSuperRez
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
 
@@ -48,12 +48,17 @@ class ExtraArguments:
      crt_verticaloffset_p320x240: int = 0
      crt_horizontaloffset_p320x240: int = 0
      crt_viewportwidth_p320x240: int = 0
+     crt_verticaloffset_p320x224: int = 0
+     crt_horizontaloffset_p320x224: int = 0
+     crt_viewportwidth_p320x224: int = 0
      crt_verticaloffset_p384x288: int = 0
      crt_horizontaloffset_p384x288: int = 0
      crt_viewportwidth_p384x288: int = 0
      rotation: int = 0
      rotatecontrols: bool = False
      verticalgame: bool = False
+     crtsuperrez: str = "original"
+     crtv2: bool = False
 
 
 class Emulator:
@@ -108,9 +113,6 @@ class Emulator:
         self._rotatecontrols: bool = False
         self._verticalgame: bool = False
 
-
-
-
         # CRT arguments
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.AUTO
         self._crtregion: CRTRegion = CRTRegion.AUTO
@@ -118,6 +120,8 @@ class Emulator:
         self._crtscreentype: CRTScreenType = CRTScreenType.k15
         self._crtenabled: bool = False
         self._crtscanlines: bool = False
+        self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
+        self._crtv2: bool = False
         self._crt_config = {}
 
         # Computed vars
@@ -159,6 +163,7 @@ class Emulator:
         self._extraArgs: str         = self.__guessBestStringValue(recalboxOptions, "extra", self._extraArgs)
         self._configArgs: str        = self.__guessBestStringValue(recalboxOptions, "args", self._configArgs)
 
+
         # Vars straight from recalbox.conf
         self._specialKeys               = recalboxOptions.getString('system.emulators.specialkeys', self._specialKeys)
         self._netplayNick               = recalboxOptions.getString('global.netplay.nickname', self._netplayNick)
@@ -183,13 +188,14 @@ class Emulator:
         self._rotatecontrols: bool  = arguments.rotatecontrols
         self._verticalgame: bool  = arguments.verticalgame
 
-
         # CRT arguments
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.fromString(arguments.crtvideostandard)
         self._crtregion: CRTRegion = CRTRegion.fromString(arguments.crtregion)
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
+        self._crtsuperrez: CRTSuperRez = CRTSuperRez.fromString(arguments.crtsuperrez)
+        self._crtv2: bool = arguments.crtv2
         self._crt_config = {}
         for resolution in CRTResolution:
             self._crt_config[resolution] = {}
@@ -396,6 +402,14 @@ class Emulator:
 
     @property
     def CRTScanlines(self) -> bool: return self._crtscanlines
+
+    @property
+    def CRTSuperrez(self) -> CRTSuperRez: return self._crtsuperrez
+    @property
+    def CRTV2(self) -> bool: return self._crtv2
+
+    @property
+    def Rotation(self) -> Rotation: return self._rotation
 
     @property
     def RecalboxExperimental(self) -> bool:

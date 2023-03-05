@@ -103,7 +103,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param demo starting a demo
      * @return Option string
      */
-    static std::string BuildCRTOptions(const CrtData& data, const bool demo);
+    static std::string BuildCRTOptions(const CrtData& data, RotationType rotation, const bool demo);
 
     /*!
     * @brief Automatic Game running flag management

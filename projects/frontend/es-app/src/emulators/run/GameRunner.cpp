@@ -106,7 +106,7 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
-  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), demo));
+  Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), RotationManager::ShouldRotateGame(game), demo));
 
   if (debug) command.append(" -verbose");
 
@@ -238,10 +238,6 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
 
   std::string command = CreateCommandLine(game, emulator, emulator.Core(), GameLinkedData(), mapper, debug, true);
-
-  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
-  if(RotationManager::ShouldRotateGameControls(game))
-    command.append(" -rotatecontrols ");
 
   // Add demo stuff
   command.append(" -demo 1");
@@ -379,7 +375,7 @@ bool GameRunner::RunKodi()
   return exitCode == 0;
 }
 
-std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
+std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType rotation, const bool demo)
 {
   std::string result;
 
@@ -387,7 +383,12 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const bool demo)
   if (crtBoard.IsCrtAdapterAttached())
   {
     result.append(" -crtadaptor ").append("present");
-    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ? "15kHz" : "31kHz");
+    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ?
+                                             (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz") : "31kHz");
+    result.append(" -crtsuperrez ").append(CrtConf::Instance().GetSystemCRTSuperrez());
+    // CRTV2 will be forced by user, or for tate mode
+    if(CrtConf::Instance().GetSystemCRTUseV2() || rotation != RotationType::None)
+      result.append(" -crtv2");
     for(int i = (int)CrtResolution::_rCount; --i > 0;)
     {
       CrtResolution reso = (CrtResolution)i;

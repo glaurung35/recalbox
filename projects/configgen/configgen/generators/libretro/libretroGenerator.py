@@ -136,7 +136,7 @@ class LibretroGenerator(Generator):
         from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
         from configgen.crt.CRTConfigParser import CRTConfigParser
         from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
-        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter())
+        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), system.CRTV2)
         for option in libretro_crt_configurator.createConfigFor(system, rom).items():
             retroarchConfig.setString(option[0], option[1])
         # Core configuration
@@ -225,13 +225,6 @@ class LibretroGenerator(Generator):
         lightgunConfig = libretroLightGun(system, rom, demo, retroarchConfig, coreConfig)
         lightgunConfig.createLightGunConfiguration()
 
-        # crt config
-        if system.CRTEnabled:
-            LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
-                                                     retroarchOverrides)
-        # zerolag config
-        LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
-
         # tate mode config
         tateLRConfig, tateCoreConfig = LibretroGenerator.createTateModeConfiguration(system)
         for option in tateLRConfig.items():
@@ -241,6 +234,12 @@ class LibretroGenerator(Generator):
             coreConfig.setString(option[0], option[1])
         coreConfig.saveFile()
 
+        # crt config (should be after tate as it will change ratio but keep other tate config)
+        if system.CRTEnabled:
+            LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
+                                                     retroarchOverrides)
+        # zerolag config
+        LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \

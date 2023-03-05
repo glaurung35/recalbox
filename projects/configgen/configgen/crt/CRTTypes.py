@@ -8,6 +8,7 @@ class CRTResolution(str, Enum):
     p1920x240 = "p1920x240"
     p320x240 = "p320x240"
     p1920x224 = "p1920x224"
+    p320x224 = "p320x224"
     i640x480 = "i640x480"
     # 50Hz
     p1920x288 = "p1920x288"
@@ -17,11 +18,80 @@ class CRTResolution(str, Enum):
     p640x480 = "p640x480"
     p1920x240at120 = "p1920x240at120"
 
+    @staticmethod
+    def fromResolution(width: int, height: int, framerate: float, interlaced: bool) -> typing.Optional["CRTResolution"]:
+        if height <= 224:
+            if width < 480:
+                return CRTResolution.p320x224
+            else:
+                return CRTResolution.p1920x224
+        if height < 288:
+            # this is between 224 and 288p, we use the 240p offsets
+            if framerate > 100:
+                return CRTResolution.p1920x240at120
+            elif width <= 480:
+                return CRTResolution.p320x240
+            else:
+                return CRTResolution.p1920x240
+        if height == 288:
+            if width <= 384:
+                return CRTResolution.p384x288
+            else:
+                return CRTResolution.p1920x288
+        if height == 480:
+            if interlaced == 1:
+                return CRTResolution.i640x480
+            else:
+                return CRTResolution.p640x480
+        if height == 576:
+            return CRTResolution.i768x576
+        return None
+
+
+class CRTSuperRez(str, Enum):
+    original = "original"
+    x2 = "x2"
+    x6 = "x6"
+    x8 = "x8"
+
+    @staticmethod
+    def fromString(value: str) -> typing.Optional["CRTSuperRez"]:
+        if value == "original":
+            return CRTSuperRez.original
+        if value == "x2":
+            return CRTSuperRez.x2
+        if value == "x6":
+            return CRTSuperRez.x6
+        if value == "x8":
+            return CRTSuperRez.x8
+        return CRTSuperRez.original
+
+    def multiplier(self):
+        if self == "original":
+            return 1
+        if self == "x2":
+            return 2
+        if self == "x6":
+            return 6
+        if self == "x8":
+            return 8
+        return 1
+
 
 CRTConfigurationByResolution = dict[str, dict[str, int]]
 
 CRTSystemMode = typing.Tuple[str, str, str, str, str, int, int]
 CRTArcadeMode = typing.Tuple[str, str, int, int, int]
+
+
+@dataclass
+class CRTArcadeGameV2:
+    name: str
+    core: str
+    width: int
+    height: int
+    vfreq: float
+    vertical: bool
 
 
 class CRTVideoStandard(str, Enum):
@@ -58,12 +128,15 @@ class CRTRegion(str, Enum):
 
 class CRTScreenType(str, Enum):
     k15 = "15kHz"
+    k15Ext = "15kHzExt"
     k31 = "31kHz"
 
     @staticmethod
     def fromString(value: str):
         if value == "31kHz":
             return CRTScreenType.k31
+        if value == "15kHzExt":
+            return CRTScreenType.k15Ext
         return CRTScreenType.k15
 
 

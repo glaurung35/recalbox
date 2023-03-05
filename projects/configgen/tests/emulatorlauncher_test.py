@@ -24,6 +24,7 @@ class FakeArguments:
         self.emulator = "libretro"
         self.core = "stella"
         self.ratio = "auto"
+        self.rotation = 0
         self.demo = False
         self.netplay = self.netplay_vieweronly = False
         self.netplay_ip = ""
@@ -40,6 +41,8 @@ class FakeArguments:
         self.crtresolutiontype = ""
         self.crtscreentype = ""
         self.crtadaptor = ""
+        self.crtsuperrez = ""
+        self.crtv2 = False
         self.crt_config = {}
         self.crtscanlines = False
 

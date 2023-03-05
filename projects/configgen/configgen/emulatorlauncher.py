@@ -364,6 +364,7 @@ if __name__ == '__main__':
     parser.AddString(command="crtresolutiontype", chelp="progressive, interlaced, or auto", required=False)
     parser.AddString(command="crtscreentype", chelp="15kHz, 31kHz", required=False)
     parser.AddString(command="resolution", chelp="forced resolution", required=False)
+    parser.AddInt(command="rotation", chelp="rotate screen", required=False)
     parser.AddInt(command="crt_verticaloffset_p1920x240at120", chelp="", required=False)
     parser.AddInt(command="crt_horizontaloffset_p1920x240at120", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p1920x240at120", chelp="", required=False)
@@ -388,6 +389,9 @@ if __name__ == '__main__':
     parser.AddInt(command="crt_verticaloffset_p320x240", chelp="", required=False)
     parser.AddInt(command="crt_horizontaloffset_p320x240", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p320x240", chelp="", required=False)
+    parser.AddInt(command="crt_verticaloffset_p320x224", chelp="", required=False)
+    parser.AddInt(command="crt_horizontaloffset_p320x224", chelp="", required=False)
+    parser.AddInt(command="crt_viewportwidth_p320x224", chelp="", required=False)
     parser.AddInt(command="crt_verticaloffset_p384x288", chelp="", required=False)
     parser.AddInt(command="crt_horizontaloffset_p384x288", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p384x288", chelp="", required=False)
@@ -396,7 +400,8 @@ if __name__ == '__main__':
     parser.AddInt(command="rotation", chelp="rotate screen", required=False)
     parser.AddSimple(command="rotatecontrols", chelp="rotate controls", required=False)
     parser.AddSimple(command="verticalgame", chelp="the game is vertical", required=False)
-
+    parser.AddString(command="crtsuperrez", chelp="original, x2, x6 or x8", required=False)
+    parser.AddSimple(command="crtv2", chelp="original, x2, x6 or x8", required=False)
 
     args = parser.Parse()
 

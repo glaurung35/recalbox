@@ -6,6 +6,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.1-Pulstar
 
+### Fixes
+
+- Add missing netplay support for sameboy and mgba
+
 ### News
 
 - Add TATE mode support for HDMI and CRT

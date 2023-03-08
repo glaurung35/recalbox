@@ -62,6 +62,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: add superrez and auto scanlines for 240p games on 31kHz display
 - Add Picade support
 - Add new port SDLPop (port of Prince of Persia)
+- Add new core libretro-dirksimple
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

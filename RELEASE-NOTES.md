@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix crash when using run in background after the end of a scrap
 - New image for RPIZero (first one) and GPiCase2W
+- Add missing netplay support for sameboy and mgba
 
 ## Version 9.0.2-Pulstar
 

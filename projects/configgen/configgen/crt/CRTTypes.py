@@ -1,9 +1,9 @@
 import typing
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, StrEnum
 
 
-class CRTResolution(str, Enum):
+class CRTResolution(StrEnum):
     # 60Hz
     p1920x240 = "p1920x240"
     p320x240 = "p320x240"
@@ -94,7 +94,7 @@ class CRTArcadeGameV2:
     vertical: bool
 
 
-class CRTVideoStandard(str, Enum):
+class CRTVideoStandard(StrEnum):
     PAL = "pal"
     NTSC = "ntsc"
     AUTO = "auto"
@@ -109,7 +109,7 @@ class CRTVideoStandard(str, Enum):
         return CRTVideoStandard.AUTO
 
 
-class CRTRegion(str, Enum):
+class CRTRegion(StrEnum):
     AUTO = "auto"
     EU = "eu"
     US = "us"
@@ -126,7 +126,7 @@ class CRTRegion(str, Enum):
         return CRTRegion.AUTO
 
 
-class CRTScreenType(str, Enum):
+class CRTScreenType(StrEnum):
     k15 = "15kHz"
     k15Ext = "15kHzExt"
     k31 = "31kHz"
@@ -140,7 +140,7 @@ class CRTScreenType(str, Enum):
         return CRTScreenType.k15
 
 
-class CRTResolutionType(str, Enum):
+class CRTResolutionType(StrEnum):
     Progressive = "progressive"
     Interlaced = "interlaced"
     DoubleFreq = "doublefreq"

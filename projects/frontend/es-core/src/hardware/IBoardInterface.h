@@ -5,6 +5,7 @@
 
 #include <input/InputCompactEvent.h>
 #include <hardware/messaging/HardwareMessageSender.h>
+#include "Case.h"
 
 class Sdl2Runner;
 
@@ -146,6 +147,16 @@ class IBoardInterface
      * @brief Set EmulationStation CPU governor
      */
     virtual void SetFrontendCPUGovernor() = 0;
+
+    /*!
+    * @return the rotation capabilities for tate mode
+    */
+    static inline RotationCapability defaultCap = { .canRotate = true, .defaultRotationWhenTate = RotationType::None, .rotateControls = false};
+    static inline RotationCapability noCap = { .canRotate = false, .defaultRotationWhenTate = RotationType::None, .rotateControls = false};
+    virtual const RotationCapability GetRotationCapabilities() const {
+      return Case::CurrentCase().RotationSupported() ? defaultCap : noCap;
+    }
+
   protected:
     //! Hardware event Notification interface
     HardwareMessageSender& mSender;

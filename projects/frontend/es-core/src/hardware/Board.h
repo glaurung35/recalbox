@@ -181,6 +181,14 @@ class Board: public StaticLifeCycleControler<Board>
     void HeadphoneUnplugged() { mBoard.HeadphoneUnplugged(); }
 
     void SetFrontendCPUGovernor() { mBoard.SetFrontendCPUGovernor(); }
+    /*!
+    * @return the rotation capabilities for tate mode
+    */
+    const RotationCapability GetRotationCapabilities() const
+    {
+      return mBoard.GetRotationCapabilities();
+    }
+
   private:
     //! Board type
     BoardType mType;

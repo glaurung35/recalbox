@@ -174,6 +174,11 @@ class OdroidAdvanceGo2Board: public IBoardInterface
      * @brief Set the CPU governor for EmulationStation
      */
     void SetFrontendCPUGovernor() final;
+
+    /*!
+    * @return the rotation capabilities for tate mode
+    */
+    const RotationCapability GetRotationCapabilities() const override { return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true}; }
 };
 
 

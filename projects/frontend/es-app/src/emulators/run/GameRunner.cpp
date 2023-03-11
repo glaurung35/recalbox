@@ -19,6 +19,7 @@
 #include "GameRunner.h"
 #include "Resolutions.h"
 #include "ResolutionAdapter.h"
+#include "RotationManager.h"
 
 bool GameRunner::sGameIsRunning = false;
 
@@ -108,6 +109,10 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), demo));
 
   if (debug) command.append(" -verbose");
+
+  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
+  if(RotationManager::ShouldRotateGameControls(game))
+    command.append(" -rotatecontrols ");
 
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };
@@ -231,6 +236,10 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
 
   std::string command = CreateCommandLine(game, emulator, emulator.Core(), GameLinkedData(), mapper, debug, true);
+
+  command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
+  if(RotationManager::ShouldRotateGameControls(game))
+    command.append(" -rotatecontrols ");
 
   // Add demo stuff
   command.append(" -demo 1");

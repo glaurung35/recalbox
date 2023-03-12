@@ -8,6 +8,7 @@
 #include <systems/SystemDescriptor.h>
 #include <games/FileSorts.h>
 #include <themes/ThemeData.h>
+#include <systems/ArcadeDatabaseManager.h>
 
 class SystemManager;
 
@@ -45,6 +46,8 @@ class SystemData : private INoCopy
     Properties mProperties;
     //! Fixed sort
     FileSorts::Sorts mFixedSort;
+    //! Arcade database
+    ArcadeDatabaseManager mArcadeDatabase;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -113,6 +116,9 @@ class SystemData : private INoCopy
     RootFolderData& LookupOrCreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership, RootFolderData::Types type);
 
   public:
+    //! Load arcade databases
+    void LoadArcadeDatabase() { mArcadeDatabase.LoadDatabases(); }
+
     /*!
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists

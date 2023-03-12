@@ -13,11 +13,12 @@
 #include <utils/Zip.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, FileSorts::Sorts fixedSort)
-  : mSystemManager(systemManager),
-    mDescriptor(descriptor),
-    mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this),
-    mProperties(properties),
-    mFixedSort(fixedSort)
+  : mSystemManager(systemManager)
+  , mDescriptor(descriptor)
+  , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
+  , mProperties(properties)
+  , mFixedSort(fixedSort)
+  , mArcadeDatabase(*this)
 {
 }
 

@@ -143,4 +143,9 @@ bool Files::CopyFolder(const Path& from, const Path& to, bool recurse)
   return true;
 }
 
+String::List Files::LoadAllFileLines(const Path& path)
+{
+  return LoadFile(path).Remove('\r').Split('\n');
+}
+
 

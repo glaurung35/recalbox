@@ -87,11 +87,15 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         set(RECALBOX_PRODUCTION_BUILD "-D_RECALBOX_PRODUCTION_BUILD_=1")
     endif()
 
+    if(OPTION_RECALBOX_EASY_DEBUG)
+        set(OPTION_RECALBOX_EASY_DEBUG "-DFREEZE_MQTT=1 -DSLOW_LOADING=1")
+    endif()
+
     #set up compiler flags for GCC
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
         # -fsanitize=address -fsanitize-address-use-after-scope
-		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${LIBDRM_INCLUDE} -DDEBUG -Wno-unknown-pragmas -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${LIBDRM_INCLUDE} -std=c++20 -DDEBUG -Wno-unknown-pragmas -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
+		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${OPTION_RECALBOX_EASY_DEBUG} ${LIBDRM_INCLUDE} -DDEBUG -Wno-unknown-pragmas -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${OPTION_RECALBOX_EASY_DEBUG} ${LIBDRM_INCLUDE} -std=c++20 -DDEBUG -Wno-unknown-pragmas -Wno-attributes -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections") #support C++11 for std::, optimize
 		set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -DDEBUG -Wswitch-enum -Wswitch -O0 -g -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections")
 	else()
 		set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} ${RECALBOX_PRODUCTION_BUILD} ${LIBDRM_INCLUDE} -Wno-unknown-pragmas -Wno-attributes -O3 -Wall -Wextra -ffunction-sections -fdata-sections -Wl,--gc-sections -DPAHO_MQTT_STATIC=1 -DHIGH_PERFORMANCE=1")

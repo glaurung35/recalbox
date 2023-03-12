@@ -15,7 +15,6 @@
 #include <utils/Strings.h>
 #include <utils/os/fs/StringMapFile.h>
 #include <utils/Files.h>
-#include <algorithm>
 #include <utils/locale/LocaleHelper.h>
 #include <dirent.h>
 
@@ -276,6 +275,10 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     CheckFolderOverriding(*result);
     // Dynamic data
     BuildDynamicMetadata(*result);
+
+    // Arcade special processing?
+    if (systemDescriptor.Type() == SystemDescriptor::SystemType::Arcade)
+      result->LoadArcadeDatabase();
 
     // Load theme
     result->loadTheme();
@@ -778,7 +781,11 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   int count = threadPool.PendingJobs();
   if (mProgressInterface != nullptr)
     mProgressInterface->SetMaximum(count);
+  #ifdef SLOW_LOADING
+  threadPool.Run(1, false);
+  #else
   threadPool.Run(-2, false);
+  #endif
   // Push result
   { LOG(LogInfo) << "[System] Store visible systems"; }
   mVisibleSystemVector.resize(count, nullptr);

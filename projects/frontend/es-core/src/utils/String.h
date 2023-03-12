@@ -4250,7 +4250,7 @@ class String : public std::string
         start = comma + 1; if (multipleSplittersAsOne) start = (int)input.find_first_not_of(splitter, start);
         comma = input.Find(splitter, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!
@@ -4277,7 +4277,7 @@ class String : public std::string
             start = next + splitterLength, next = input.Find(splitter, start);
         comma = input.Find(splitter, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!
@@ -4304,7 +4304,7 @@ class String : public std::string
             start = next + splitterLength, next = input.Find(splitter, splitterLength, start);
         comma = input.Find(splitter, splitterLength, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!

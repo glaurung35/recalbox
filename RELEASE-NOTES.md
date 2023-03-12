@@ -8,7 +8,12 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add new core for Philips CDI (libretro samecdi, for PC only)
+
+### Improvements
+
+### Fixes
 
 
 ## Version 9.0.2-Pulstar

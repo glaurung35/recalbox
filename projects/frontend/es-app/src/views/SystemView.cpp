@@ -834,29 +834,35 @@ void SystemView::manageFavorite()
  * Unable to make it work as intendend
  * The apparation of tate system makes the gamelist bugged (entering in tate shows amiga 1200 gamelist
  */
-/*void SystemView::manageTate()
+void SystemView::manageTate(bool remove)
 {
-  // Get tate system
-  SystemData *tate = mSystemManager.SystemByName("tate");
-  if(tate == nullptr)
+  for (auto& system : mSystemManager.GetVisibleSystemList())
   {
-    if(mSystemManager.AddTateMetaSystem()){
-      tate = mSystemManager.SystemByName("tate");
-      addSystem(tate);
-      mSystemManager.UpdateAllSystems();
+    if(system->Name() != "tate")
+      continue;
+
+    else if (remove)
+    {
+      removeSystem(system);
+      break;
     }
-  } else {
-    bool hasTate = false;
+
+    bool hasGame = system->HasVisibleGame();
+    bool tateIsInEntries = false;
+
     for (auto& mEntrie : mEntries)
       if (mEntrie.object->Name() == "tate")
       {
-        hasTate = true;
+        tateIsInEntries = true;
         break;
       }
-    if (!hasTate && tate->HasGame()) addSystem(tate);
-    if (hasTate && !tate->HasGame()) removeSystem(tate);
+
+    if(!tateIsInEntries && hasGame)
+      addSystem(system);
+    else if (!hasGame)
+      removeSystem(system);
   }
-}*/
+}
 
 void SystemView::manageSystemsList()
 {

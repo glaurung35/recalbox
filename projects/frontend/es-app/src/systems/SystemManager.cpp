@@ -690,6 +690,12 @@ bool SystemManager::AddTateMetaSystem()
       return file.IsDisplayable() && (file.Metadata().Rotation() == RotationType::Left || file.Metadata().Rotation() == RotationType::Right);
     }
   } filter;
+
+  for (auto& systemVisible : mVisibleSystemVector)
+  {
+    if (sTateSystemShortName == systemVisible->Name())
+      return false;
+  }
   return AddManuallyFilteredMetasystem(&filter, nullptr, sTateSystemShortName, sTateSystemFullName,
                                        SystemData::Properties::None);
 }

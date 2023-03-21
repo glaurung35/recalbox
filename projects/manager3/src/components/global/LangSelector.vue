@@ -19,11 +19,11 @@
             <q-img
               :alt="$t(langOption.label)"
               :img-style="{ backgroundSize: 'inherit' }"
-              :src="langOption.flag"
+              :src="'images/flags/' + langOption.value + '.png'"
             />
           </q-item-section>
           <q-item-section>
-            <q-item-label v-html="$t(langOption.label)"></q-item-label>
+            <q-item-label>{{ $t(langOption.label) }}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -31,49 +31,40 @@
   </q-item>
 </template>
 
-<script>
-  import {LocalStorage} from 'quasar'
-  import enFlag from '../../assets/flags/en-us.png'
-  import frFlag from '../../assets/flags/fr-fr.png'
+<script lang="ts" setup>
+import { Quasar, LocalStorage, useQuasar } from 'quasar';
+import { useI18n } from 'vue-i18n';
 
-  export default {
-    name: 'LangSelector',
-    data() {
-      return {
-        lang: this.$i18n.locale,
-        langOptions: [
-          {value: 'en-us', label: 'i18nMenu.english', flag: enFlag},
-          {value: 'fr-fr', label: 'i18nMenu.french', flag: frFlag},
-        ],
-      }
-    },
-    methods: {
-      select(langValue) {
-        this.$i18n.locale = langValue
-        try {
-          const langIso = langValue === 'fr-fr' ? 'fr' : langValue
+const { locale } = useI18n({ useScope: 'global' });
+const lang = useQuasar().lang.getLocale();
+const langOptions = [
+  { value: 'en-US', label: 'i18nMenu.english' },
+  { value: 'fr', label: 'i18nMenu.french' },
+];
+function isSelected(value:string) {
+  return value === locale.value ? 'text-accent' : '';
+}
+function getTitle() {
+  return (langOptions.find(
+    (option) => option.value === locale.value,
+  ))?.label;
+}
+async function select(langValue: string) {
+  try {
+    const langIso = langValue === 'fr-fr' ? 'fr' : langValue;
 
-          LocalStorage.set('locale', langValue)
+    locale.value = langValue; // Update translation locale
+    LocalStorage.set('locale', langValue); // Persist locale on LocalStorage to apply on refresh
 
-          import(`quasar/lang/${langIso}`).then(language => {
-            this.$q.lang.set(language.default)
-          })
-        } catch (e) {
-          console.log(e)
-        }
-      },
-      isSelected(value) {
-        return value === this.$i18n.locale ? 'text-accent' : ''
-      },
-      getTitle() {
-        return (this.langOptions.find(option => {
-          return option.value === this.$i18n.locale
-        })).label
-      },
-    },
+    await import(
+      /* webpackInclude: /(fr|en-US)\.js$/ */
+      `quasar/lang/${langIso}`
+    ).then((language) => {
+      Quasar.lang.set(language.default); // Update Quasar components translation
+    });
+  } catch (e) {
+    // eslint-disable-next-line no-console
+    console.log(e);
   }
+}
 </script>
-
-<style lang="sass">
-
-</style>

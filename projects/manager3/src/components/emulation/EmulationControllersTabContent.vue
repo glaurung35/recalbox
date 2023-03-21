@@ -1,178 +1,138 @@
 <template>
   <div class="row">
-    <div class="col col-xs-12 col-sm-12 col-md-12">
+    <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.controllers.bluetooth.title">
+        <template v-slot:content>
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="emulation.controllers.bluetooth.enabled"
+              :getter="controllers['bluetooth.enabled']"
+              :setter="controllersStore.post"
+              apiKey="bluetooth.enabled"
+              v-if="controllers['bluetooth.enabled']"
+            />
+          </div>
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="emulation.controllers.bluetooth.ertm"
+              :getter="controllers['bluetooth.ertm']"
+              :setter="controllersStore.post"
+              apiKey="bluetooth.ertm"
+              v-if="controllers['bluetooth.ertm']"
+            />
+          </div>
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.db9.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.controllers.db9.activate"
-            getter="controllers/db9"
-            setter="controllers/post"
+            label="emulation.controllers.db9.enabled"
+            :getter="controllers['db9.enabled']"
+            :setter="controllersStore.post"
             apiKey="db9.enabled"
+            v-if="controllers['db9.enabled']"
           />
-
           <WrappedTextInput
             label="emulation.controllers.db9.settings"
-            getter="controllers/db9args"
-            setter="controllers/post"
+            :getter="controllers['db9.args']"
+            :setter="controllersStore.post"
             apiKey="db9.args"
+            v-if="controllers['db9.args']"
           />
-
         </template>
       </FormFragmentContainer>
-    </div>
-    <div class="col col-xs-12 col-sm-12 col-md-12">
       <FormFragmentContainer title="emulation.controllers.gamecon.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.controllers.gamecon.activate"
-            getter="controllers/gamecon"
-            setter="controllers/post"
+            label="emulation.controllers.gamecon.enabled"
+            :getter="controllers['gamecon.enabled']"
+            :setter="controllersStore.post"
             apiKey="gamecon.enabled"
+            v-if="controllers['gamecon.enabled']"
           />
-
           <WrappedTextInput
             label="emulation.controllers.gamecon.settings"
-            getter="controllers/gameconargs"
-            setter="controllers/post"
+            :getter="controllers['gamecon.args']"
+            :setter="controllersStore.post"
             apiKey="gamecon.args"
+            v-if="controllers['gamecon.args']"
           />
-
         </template>
       </FormFragmentContainer>
-    </div>
-    <div class="col col-xs-12 col-sm-12 col-md-12">
       <FormFragmentContainer title="emulation.controllers.gpio.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.controllers.gpio.activate"
-            getter="controllers/gpio"
-            setter="controllers/post"
+            label="emulation.controllers.gpio.enabled"
+            :getter="controllers['gpio.enabled']"
+            :setter="controllersStore.post"
             apiKey="gpio.enabled"
+            v-if="controllers['gpio.enabled']"
           />
-
           <WrappedTextInput
             label="emulation.controllers.gpio.settings"
-            getter="controllers/gpioargs"
-            setter="controllers/post"
+            :getter="controllers['gpio.args']"
+            :setter="controllersStore.post"
             apiKey="gpio.args"
+            v-if="controllers['gpio.args']"
           />
-
         </template>
       </FormFragmentContainer>
     </div>
-    <div class="col col-xs-12 col-sm-12 col-md-12">
+    <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.controllers.ps3.title">
         <template v-slot:content>
-          <q-toggle
-            :label="$t('emulation.controllers.ps3.activate')"
-            class="q-mb-md"
-            v-model="valuePs3"
+          <WrappedToggle
+            label="emulation.controllers.ps3.enabled"
+            :getter="controllers['ps3.enabled']"
+            :setter="controllersStore.post"
+            apiKey="ps3.enabled"
+            v-if="controllers['ps3.enabled']"
           />
           <WrappedSelect
             label="emulation.controllers.ps3.label"
             :options="ps3driverOptions"
-            getter="controllers/ps3driver"
-            setter="controllers/post"
+            :getter="controllers['ps3.driver']"
+            :setter="controllersStore.post"
             apiKey="ps3.driver"
+            v-if="controllers['ps3.driver']"
           />
-
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.steam.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.steam.enabled"
+            :getter="controllers['steam.enabled']"
+            :setter="controllersStore.post"
+            apiKey="steam.enabled"
+            v-if="controllers['steam.enabled']"
+          />
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.xarcade.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.xarcade.enabled"
+            :getter="controllers['xarcade.enabled']"
+            :setter="controllersStore.post"
+            apiKey="xarcade.enabled"
+            v-if="controllers['xarcade.enabled']"
+          />
         </template>
       </FormFragmentContainer>
     </div>
   </div>
 </template>
 
-<script>
-  import FormFragmentContainer from "components/global/FormFragmentContainer"
-  import WrappedSelect from 'components/global/WrappedSelect'
-  import WrappedTextInput from 'components/global/WrappedTextInput'
-  import WrappedToggle from 'components/global/WrappedToggle'
+<script lang="ts" setup>
+import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
+import WrappedSelect from 'components/global/WrappedSelect.vue';
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import { storeToRefs } from 'pinia';
+import { useControllersStore } from 'stores/controllers';
 
-  export default {
-    name: 'EmulationControllersTabContent',
-    components: {
-      FormFragmentContainer,
-      WrappedSelect,
-      WrappedToggle,
-      WrappedTextInput,
-    },
-    created() {
-      this.$store.dispatch('controllers/get')
-    },
-    computed: {
-      db9: {
-        get: function () {
-          return this.$store.getters['controllers/db9'] ? this.$store.getters['controllers/db9'] : 0
-        }
-      },
-      db9args: {
-        get: function () {
-          return this.$store.getters['controllers/db9args'] ? this.$store.getters['controllers/db9args'] : ''
-        }
-      },
-      gamecon: {
-        get: function () {
-          return this.$store.getters['controllers/gamecon'] ? this.$store.getters['controllers/gamecon'] : 0
-        }
-      },
-      gameconargs: {
-        get: function () {
-          return this.$store.getters['controllers/gameconargs'] ? this.$store.getters['controllers/gameconargs'] : ''
-        }
-      },
-      gpio: {
-        get: function () {
-          return this.$store.getters['controllers/gpio'] ? this.$store.getters['controllers/gpio'] : 0
-        }
-      },
-      gpioargs: {
-        get: function () {
-          return this.$store.getters['controllers/gpioargs'] ? this.$store.getters['controllers/gpioargs'] : ''
-        }
-      },
-      ps3: {
-        get: function () {
-          return this.$store.getters['controllers/ps3'] ? this.$store.getters['controllers/ps3'] : 0
-        }
-      },
-      ps3driver: {
-        get: function () {
-          return this.$store.getters['controllers/ps3driver'] ? this.$store.getters['controllers/ps3driver'] : ''
-        }
-      },
-      ps3driverOptions: {
-        get: function () {
-          return this.$store.getters['controllers/ps3driverOptions'] ? this.$store.getters['controllers/ps3driverOptions'] : []
-        }
-      },
-    },
-    data() {
-      return {
-        valuePs3: false,
-        ps3Driver: '',
-        menuPs3Options: [
-          {
-            label: '--',
-            value: 'none',
-          },
-          {
-            label: 'BlueZ 5',
-            value: 'bluez5',
-          },
-          {
-            label: 'Official',
-            value: 'official',
-          },
-          {
-            label: 'Shanwan',
-            value: 'shanwan',
-          },
-        ],
-      }
-    },
-  }
+const controllersStore = useControllersStore();
+controllersStore.fetch();
+const { ps3driverOptions, controllers } = storeToRefs(controllersStore);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

@@ -1,36 +1,33 @@
-import {i18n} from 'boot/i18n'
-import {Notify} from 'quasar'
+import { Notify } from 'quasar';
+import { i18n } from 'boot/i18n';
 
-const tools = {
-  copyToClipboard: (content) => {
-    navigator.clipboard.writeText(content)
-      .then(() => {
-        Notify.create({
-          message: i18n.t('general.copyToClipboard'),
-          color: 'primary',
-          icon: 'mdi-clipboard-check',
-        })
-      }, (error) => {
-        Notify.create({
-          message: error,
-          type: 'negative',
-          icon: 'mdi-alert-outline',
-        })
+export const copyToClipboard = (content) => {
+  navigator.clipboard.writeText(content)
+    .then(() => {
+      Notify.create({
+        message: i18n.global.t('general.copyToClipboard'),
+        color: 'primary',
+        icon: 'mdi-clipboard-check',
       });
-  },
-  compare: (a, b) => {
-    // Use toUpperCase() to ignore character casing
-    const labelA = a.label.toUpperCase();
-    const labelB = b.label.toUpperCase();
+    }, (error) => {
+      Notify.create({
+        message: error,
+        type: 'negative',
+        icon: 'mdi-alert-outline',
+      });
+    });
+};
 
-    let comparison = 0;
-    if (labelA > labelB) {
-      comparison = 1;
-    } else if (labelA < labelB) {
-      comparison = -1;
-    }
-    return comparison;
+export const compare = (a, b) => {
+  // Use toUpperCase() to ignore character casing
+  const labelA = a.label.toUpperCase();
+  const labelB = b.label.toUpperCase();
+
+  let comparison = 0;
+  if (labelA > labelB) {
+    comparison = 1;
+  } else if (labelA < labelB) {
+    comparison = -1;
   }
-}
-
-export default tools
+  return comparison;
+};

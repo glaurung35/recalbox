@@ -1,24 +1,7 @@
 <template>
-  <div id="q-app">
-    <router-view/>
-  </div>
+  <router-view />
 </template>
 
-<script>
-  const myIcons = {
-    // 'emustation': 'img:/statics/icons/emustation-icon.svg',
-    // exemple => prefer using icon fonts like in assets/fonts
-  }
+<script setup lang="ts">
 
-  export default {
-    name: 'App',
-    created() {
-      this.$q.iconMapFn = (iconName) => {
-        const icon = myIcons[iconName]
-        if (icon !== void 0) {
-          return {icon: icon}
-        }
-      }
-    },
-  }
 </script>

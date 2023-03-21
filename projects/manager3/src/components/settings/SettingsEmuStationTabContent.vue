@@ -3,84 +3,99 @@
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="settings.emustation.options.title">
         <template v-slot:content>
-          <p class="help" v-html="$t('settings.emustation.options.paragraph_1')"></p>
           <WrappedSelect
             label="settings.emustation.options.menuStyle.label"
             :options="menuOptions"
-            getter="emulationstation/menu"
-            setter="emulationstation/post"
+            :getter="emulationstation.menu"
+            :setter="emulationstationStore.post"
             apiKey="menu"
+            v-if="emulationstation.menu"
           />
+          <p class="help" v-html="$t('settings.emustation.options.help_1')"></p>
+
+          <q-separator/>
+
           <WrappedSelect
             label="settings.emustation.options.systemSelectedAsDefault.label"
             :options="selectedsystemOptions"
-            getter="emulationstation/selectedsystem"
-            setter="emulationstation/post"
+            :getter="emulationstation.selectedsystem"
+            :setter="emulationstationStore.post"
             apiKey="selectedsystem"
+            v-if="emulationstation.selectedsystem"
           />
+
+          <q-separator/>
+
+          <WrappedToggle
+            label="settings.emustation.options.startFromFirstSystem"
+            :getter="emulationstation.bootongamelist"
+            :setter="emulationstationStore.post"
+            apiKey="bootongamelist"
+            v-if="emulationstation.bootongamelist"
+          />
+          <p class="help" v-html="$t('settings.emustation.options.help_2')"></p>
+
+          <q-separator/>
+
+          <WrappedToggle
+            label="settings.emustation.options.disableSystemSelection"
+            :getter="emulationstation.hidesystemview"
+            :setter="emulationstationStore.post"
+            apiKey="hidesystemview"
+            v-if="emulationstation.hidesystemview"
+          />
+          <p class="help" v-html="$t('settings.emustation.options.help_3')"></p>
+
+          <q-separator/>
+
+          <WrappedToggle
+            label="settings.emustation.options.showOnlyScrapedGames"
+            :getter="emulationstation.gamelistonly"
+            :setter="emulationstationStore.post"
+            apiKey="gamelistonly"
+            v-if="emulationstation.gamelistonly"
+          />
+          <p class="help" v-html="$t('settings.emustation.options.help_4')"></p>
         </template>
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <div class="blank-container">
-        <p class="help" v-html="$t('settings.emustation.options.paragraph_2')"></p>
-        <WrappedToggle
-          label="settings.emustation.options.startFromFirstSystem"
-          getter="emulationstation/bootongamelist"
-          setter="emulationstation/post"
-          apiKey="bootongamelist"
-        />
+      <FormFragmentContainer title="settings.emustation.videoSnaps.title">
+        <template v-slot:content>
+          <WrappedTextInput
+            label="settings.emustation.videoSnaps.delay.title"
+            :getter="emulationstation['videosnaps.delay']"
+            :setter="emulationstationStore.post"
+            apiKey="videosnaps.delay"
+            v-if="emulationstation['videosnaps.delay']"
+          />
+          <p class="help" v-html="$t('settings.emustation.videoSnaps.delay.help')"></p>
 
-        <p class="help" v-html="$t('settings.emustation.options.paragraph_3')"></p>
-        <WrappedToggle
-          label="settings.emustation.options.disableSystemSelection"
-          getter="emulationstation/hidesystemview"
-          setter="emulationstation/post"
-          apiKey="hidesystemview"
-        />
+          <q-separator/>
 
-        <p class="help" v-html="$t('settings.emustation.options.paragraph_4')"></p>
-        <WrappedToggle
-          label="settings.emustation.options.showOnlyScrapedGames"
-          getter="emulationstation/gamelistonly"
-          setter="emulationstation/post"
-          apiKey="gamelistonly"
-        />
-      </div>
+          <WrappedTextInput
+            label="settings.emustation.videoSnaps.loop.title"
+            :getter="emulationstation['videosnaps.loop']"
+            :setter="emulationstationStore.post"
+            apiKey="videosnaps.loop"
+            v-if="emulationstation['videosnaps.loop']"
+          />
+          <p class="help" v-html="$t('settings.emustation.videoSnaps.loop.help')"></p>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
 
-<script>
-  import WrappedSelect from 'components/global/WrappedSelect'
-  import WrappedToggle from 'components/global/WrappedToggle'
-  import FormFragmentContainer from '../global/FormFragmentContainer'
+<script lang="ts" setup>
+import WrappedSelect from 'components/global/WrappedSelect.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import { useEmulationstationStore } from 'stores/emulationstation';
+import { storeToRefs } from 'pinia';
+import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
-  export default {
-    name: 'SettingsEmuStationTabContent',
-    components: {
-      WrappedSelect,
-      WrappedToggle,
-      FormFragmentContainer,
-    },
-    created() {
-      this.$store.dispatch('emulationstation/get')
-    },
-    computed: {
-      menuOptions: {
-        get: function() {
-          return this.$store.getters['emulationstation/menuOptions'] ? this.$store.getters['emulationstation/menuOptions'] : []
-        }
-      },
-      selectedsystemOptions: {
-        get: function() {
-          return this.$store.getters['emulationstation/selectedsystemOptions'] ? this.$store.getters['emulationstation/selectedsystemOptions'] : []
-        }
-      }
-    }
-  }
+const emulationstationStore = useEmulationstationStore();
+emulationstationStore.fetch();
+const { menuOptions, selectedsystemOptions, emulationstation } = storeToRefs(emulationstationStore);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

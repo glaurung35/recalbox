@@ -1,47 +1,53 @@
 {
-  "name": "recalbox-manager",
+  "name": "recalbox-manager-v3-webpack",
   "version": "0.0.1",
-  "description": "A Quasar Framework app",
-  "productName": "Recalbox - Manager",
-  "cordovaId": "org.cordova.quasar.app",
-  "capacitorId": "",
-  "author": "Nicolas TESSIER <contact@nicolastessier.fr>",
+  "description": "Recalbox API front-end version 3",
+  "productName": "Recalbox Manager v3",
+  "author": "Nicolas TESSIER aka Asthonishia <contact@nicolastessier.fr>",
   "private": true,
   "scripts": {
-    "lint": "eslint --ext .js,.vue src",
+    "lint": "eslint --ext .js,.ts,.vue ./",
     "test": "echo \"No test specified\" && exit 0"
   },
   "dependencies": {
-    "@quasar/extras": "^1.9.13",
-    "apexcharts": "^3.18.1",
-    "axios": "^0.18.1",
-    "mqtt": "^4.2.6",
-    "quasar": "^1.15.0",
-    "simple-keyboard": "^2.28.72",
-    "vue-apexcharts": "^1.5.3",
-    "vue-i18n": "^8.0.0"
+    "@quasar/extras": "^1.0.0",
+    "apexcharts": "^3.37.2",
+    "axios": "^1.2.1",
+    "core-js": "^3.6.5",
+    "mqtt": "^4.3.7",
+    "node-polyfill-webpack-plugin": "^2.0.1",
+    "pinia": "^2.0.11",
+    "quasar": "^2.6.0",
+    "url": "^0.11.0",
+    "vue": "^3.0.0",
+    "vue-i18n": "^9.2.2",
+    "vue-router": "^4.0.0",
+    "vue3-apexcharts": "^1.4.1"
   },
   "devDependencies": {
-    "@quasar/app": "^1.9.6",
-    "babel-eslint": "^10.0.1",
-    "devtron": "^1.4.0",
-    "electron": "^8.2.2",
-    "electron-debug": "^3.0.1",
-    "electron-devtools-installer": "^2.2.4",
-    "eslint": "^6.8.0",
-    "eslint-config-prettier": "^4.0.0",
-    "eslint-loader": "^3.0.3",
-    "eslint-plugin-vue": "^6.1.2"
-  },
-  "engines": {
-    "node": ">= 10.18.1",
-    "npm": ">= 6.13.4",
-    "yarn": ">= 1.21.1"
+    "@quasar/app-webpack": "^3.0.0",
+    "@types/node": "^12.20.21",
+    "@typescript-eslint/eslint-plugin": "^5.10.0",
+    "@typescript-eslint/parser": "^5.10.0",
+    "eslint": "^8.10.0",
+    "eslint-config-airbnb-base": "^15.0.0",
+    "eslint-plugin-import": "^2.20.1",
+    "eslint-plugin-vue": "^9.0.0"
   },
   "browserslist": [
-    "last 1 version, not dead, ie >= 11"
+    "last 10 Chrome versions",
+    "last 10 Firefox versions",
+    "last 4 Edge versions",
+    "last 7 Safari versions",
+    "last 8 Android versions",
+    "last 8 ChromeAndroid versions",
+    "last 8 FirefoxAndroid versions",
+    "last 10 iOS versions",
+    "last 5 Opera versions"
   ],
-  "resolutions": {
-    "@babel/parser": "7.12.7"
+  "engines": {
+    "node": ">= 12.22.1",
+    "npm": ">= 6.13.4",
+    "yarn": ">= 1.21.1"
   }
 }

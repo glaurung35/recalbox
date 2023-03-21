@@ -5,9 +5,10 @@
         <template v-slot:content>
           <WrappedTextInput
             label="settings.network.server.hostname"
-            getter="system/hostname"
-            setter="system/post"
+            :getter="system.hostname"
+            :setter="systemStore.post"
             apiKey="hostname"
+            v-if="system.hostname"
           />
         </template>
       </FormFragmentContainer>
@@ -15,16 +16,16 @@
         <template v-slot:content>
           <WrappedToggle
             label="settings.network.wifi.toggleButtonLabel"
-            getter="wifi/enabled"
-            setter="wifi/post"
+            :getter="wifi.enabled"
+            :setter="wifiStore.post"
             apiKey="enabled"
+            v-if="wifi.enabled"
           />
-          <p class="help">{{ $t('settings.network.wifi.paragraphe_1') }}</p>
+          <p class="help">{{ $t('settings.network.wifi.help') }}</p>
 
-          <q-splitter
-            v-model="splitterModel"
-          >
+          <q-separator/>
 
+          <q-splitter v-model="splitterModel">
             <template v-slot:before>
               <q-tabs
                 active-color="primary"
@@ -34,9 +35,20 @@
                 v-model="tab"
                 vertical
               >
-                <q-tab :label="$t('settings.network.wifi.wifi_1')" icon="mdi-numeric-1-circle" name="wifi_1"/>
-                <q-tab :label="$t('settings.network.wifi.wifi_2')" icon="mdi-numeric-2-circle" name="wifi_2"/>
-                <q-tab :label="$t('settings.network.wifi.wifi_3')" icon="mdi-numeric-3-circle" name="wifi_3"/>
+                <q-tab
+                  icon="mdi-numeric-1-circle"
+                  name="wifi_1"
+                />
+                <q-tab
+                  icon="mdi-numeric-2-circle"
+                  name="wifi_2"
+                  disable
+                />
+                <q-tab
+                  icon="mdi-numeric-3-circle"
+                  name="wifi_3"
+                  disable
+                />
               </q-tabs>
             </template>
 
@@ -52,15 +64,17 @@
                 <q-tab-panel name="wifi_1">
                   <WrappedTextInput
                     label="settings.network.wifi.ssid"
-                    getter="wifi/ssid"
-                    setter="wifi/post"
+                    :getter="wifi.ssid"
+                    :setter="wifiStore.post"
                     apiKey="ssid"
+                    v-if="wifi.ssid"
                   />
                   <WrappedTextInput
                     label="settings.network.wifi.key"
-                    getter="wifi/key"
-                    setter="wifi/post"
+                    :getter="wifi.key"
+                    :setter="wifiStore.post"
                     apiKey="key"
+                    v-if="wifi.key"
                     password
                   />
                 </q-tab-panel>
@@ -106,32 +120,24 @@
   </div>
 </template>
 
-<script>
-  import WrappedTextInput from 'components/global/WrappedTextInput'
-  import WrappedToggle from 'components/global/WrappedToggle'
-  import FormFragmentContainer from '../global/FormFragmentContainer'
+<script lang="ts" setup>
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import { useSystemStore } from 'stores/system';
+import { useWifiStore } from 'stores/wifi';
+import { ref } from 'vue';
+import { storeToRefs } from 'pinia';
+import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
-  export default {
-    name: 'SettingsNetworkTabContent',
-    components: {
-      WrappedTextInput,
-      FormFragmentContainer,
-      WrappedToggle,
-    },
-    created() {
-      this.$store.dispatch('system/get')
-      this.$store.dispatch('wifi/get')
-    },
-    data() {
-      return {
-        text: '',
-        tab: 'wifi_1',
-        splitterModel: 20,
-      }
-    },
-  }
+const systemStore = useSystemStore();
+systemStore.fetch();
+const { system } = storeToRefs(systemStore);
+
+const wifiStore = useWifiStore();
+wifiStore.fetch();
+const { wifi } = storeToRefs(wifiStore);
+
+const text = ref<string>('');
+const tab = ref<string>('wifi_1');
+const splitterModel = ref<number>(20);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

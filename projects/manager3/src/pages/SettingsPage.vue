@@ -1,0 +1,111 @@
+<template>
+  <q-page class="background settings">
+    <transition
+      appear
+      enter-active-class="animated slideInDown"
+    >
+      <q-tabs
+        active-color="primary"
+        align="justify"
+        class="text-grey"
+        dense
+        indicator-color="accent"
+        inline-label
+        narrow-indicator
+      >
+        <q-route-tab
+          :to="{name: 'system'}" :label="$t('settings.menu.system')" icon="mdi-server" name="system"
+        />
+        <q-route-tab
+          :to="{name: 'audio'}"
+          :label="$t('settings.menu.audio')" icon="mdi-volume-high" name="audio"
+        />
+        <q-route-tab
+          :to="{name: 'network'}"
+          :label="$t('settings.menu.network')" icon="mdi-wifi" name="network"
+        />
+        <q-route-tab
+          :to="{name: 'emustation'}"
+          icon="icon-emustation"
+          label="EmulationStation" name="emustation" style="text-transform: none;"
+        />
+        <q-route-tab
+          :to="{name: 'scraper'}"
+          icon="mdi-database"
+          label="Scraper"
+          name="scraper"
+        />
+        <q-route-tab
+          :to="{name: 'kodi'}" icon="mdi-kodi" label="Kodi" name="kodi"
+        />
+        <q-route-tab
+          :to="{name: 'hyperion'}" icon="mdi-lightbulb" label="Hyperion" name="hyperion"
+        />
+      </q-tabs>
+    </transition>
+
+    <q-tab-panels animated v-model="tab">
+      <q-tab-panel name="system">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="audio">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="network">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="emustation">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="screenscraper">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="kodi">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="hyperion">
+        <router-view/>
+      </q-tab-panel>
+
+    </q-tab-panels>
+  </q-page>
+</template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+import { useSystemStore } from 'stores/system';
+import { useUpdatesStore } from 'stores/updates';
+import { useVersionsStore } from 'stores/versions';
+import { useAudioStore } from 'stores/audio';
+import { useEmulationstationStore } from 'stores/emulationstation';
+import { useKodiStore } from 'stores/kodi';
+import { useScraperStore } from 'stores/scraper';
+
+useSystemStore().fetchOptions();
+useAudioStore().fetchOptions();
+useUpdatesStore().fetchOptions();
+useVersionsStore().fetchVersions();
+useEmulationstationStore().fetchOptions();
+useKodiStore().fetchOptions();
+useScraperStore().fetchOptions();
+
+const tab = ref<string>('system');
+</script>
+
+<style lang="sass">
+.settings
+  &:before
+    content: "\F0493"
+
+  .q-tabs
+    background: white
+
+  .q-tab-panels
+    background: transparent
+</style>

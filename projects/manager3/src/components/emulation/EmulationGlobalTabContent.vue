@@ -1,241 +1,156 @@
 <template>
   <div class="row">
-    <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.ratio.title">
-          <template v-slot:content>
-            <WrappedSelect
-              label="emulation.systems.ratio.label"
-              :options="ratioOptions"
-              getter="global/ratio"
-              setter="global/post"
-              apiKey="ratio"
-            />
-          </template>
-        </FormFragmentContainer>
-      </div>
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.rewind.title">
-          <template v-slot:content>
+    <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.global.ratio.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.global.ratio.label"
+            :options="ratioOptions"
+            :getter="global.ratio"
+            :setter="globalStore.post"
+            apiKey="ratio"
+            v-if="global.ratio"
+          />
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.rewind.title">
+        <template v-slot:content>
             <WrappedToggle
-              label="emulation.systems.rewind.label"
-              getter="global/rewind"
-              setter="global/post"
+              label="emulation.global.rewind.label"
+              :getter="global.rewind"
+              :setter="globalStore.post"
               apiKey="rewind"
+              v-if="global.rewind"
             />
-            <p class="help">
-              <q-icon class="text-red" name="mdi-alert" style="font-size: 2em"/>
-              {{$t('emulation.systems.rewind.warning')}}
-            </p>
-          </template>
-        </FormFragmentContainer>
-      </div>
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.autosave.title">
-          <template v-slot:content>
+          <p class="help">
+            <q-icon class="text-red" name="mdi-alert" style="font-size: 2em"/>
+            {{$t('emulation.global.rewind.warning')}}
+          </p>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.autosave.title">
+        <template v-slot:content>
             <WrappedToggle
-              label="emulation.systems.autosave.label"
-              getter="global/autosave"
-              setter="global/post"
+              label="emulation.global.autosave.label"
+              :getter="global.autosave"
+              :setter="globalStore.post"
               apiKey="autosave"
+              v-if="global.autosave"
             />
-            <p class="help" v-html="$t('emulation.systems.autosave.paragraph')"></p>
-          </template>
-        </FormFragmentContainer>
-      </div>
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.shaders.title">
-          <template v-slot:content>
-            <p class="help" v-html="$t('emulation.systems.shaders.paragraph')"></p>
+          <p class="help" v-html="$t('emulation.global.autosave.help')"></p>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.shaders.title">
+        <template v-slot:content>
+          <p class="help" v-html="$t('emulation.global.shaders.help')"></p>
             <WrappedSelect
-              label="emulation.systems.shaders.label"
+              label="emulation.global.shaders.label"
               :options="shadersetOptions"
-              getter="global/shaderset"
-              setter="global/post"
+              :getter="global.shaderset"
+              :setter="globalStore.post"
               apiKey="shaderset"
+              v-if="global.shaderset"
             />
             <WrappedSelect
-              label="emulation.systems.customshaders.label"
+              label="emulation.global.customshaders.label"
               :options="shadersetfileOptions"
-              getter="global/shadersetfile"
-              setter="global/post"
+              :getter="global['shaderset.file']"
+              :setter="globalStore.post"
               apiKey="shaderset.file"
-              :disable="shaderset.value !== 'custom'"
+              v-if="global['shaderset.file']"
+              :disable="global.shaderset.value !== 'custom'"
             />
-          </template>
-        </FormFragmentContainer>
-      </div>
+        </template>
+      </FormFragmentContainer>
     </div>
-    <div class="col col-xs-12 col-sm-12 col-md-12 col-lg-12 col-xl-6">
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.integerscale.title">
-          <template v-slot:content>
+    <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.global.integerscale.title">
+        <template v-slot:content>
             <WrappedToggle
-              label="emulation.systems.integerscale.label"
-              getter="global/integerscale"
-              setter="global/post"
+              label="emulation.global.integerscale.label"
+              :getter="global.integerscale"
+              :setter="globalStore.post"
               apiKey="integerscale"
+              v-if="global.integerscale"
             />
-          </template>
-        </FormFragmentContainer>
-      </div>
-      <div class="col col-xs-12">
-        <FormFragmentContainer title="emulation.systems.retroachievements.title">
-          <template v-slot:content>
-            <p v-html="$t('emulation.systems.retroachievements.paragraph_1')"></p>
-            <p v-html="$t('emulation.systems.retroachievements.paragraph_2')"></p>
-
+          <p class="help" v-html="$t('emulation.global.integerscale.help')"></p>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.smooth.title">
+        <template v-slot:content>
             <WrappedToggle
-              label="emulation.systems.retroachievements.activate"
-              getter="global/retroachievements"
-              setter="global/post"
-              apiKey="retroachievements"
+              label="emulation.global.smooth.label"
+              :getter="global.smooth"
+              :setter="globalStore.post"
+              apiKey="smooth"
+              v-if="global.smooth"
             />
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.retroachievements.title">
+        <template v-slot:content>
+          <p v-html="$t('emulation.global.retroachievements.help_1')"></p>
+          <p v-html="$t('emulation.global.retroachievements.help_2')"></p>
 
-            <WrappedTextInput
-              label="emulation.systems.retroachievements.username"
-              getter="global/username"
-              setter="global/post"
-              apiKey="retroachievements.username"
-            />
-            <WrappedTextInput
-              label="emulation.systems.retroachievements.password"
-              getter="global/password"
-              setter="global/post"
-              apiKey="retroachievements.password"
-              password
-            />
+          <WrappedToggle
+            label="emulation.global.retroachievements.activate"
+            :getter="global.retroachievements"
+            :setter="globalStore.post"
+            apiKey="retroachievements"
+            v-if="global.retroachievements"
+          />
 
-            <p class="help">
-              <q-icon class="text-red" name="mdi-alert" style="font-size: 2em"/>
-              {{$t('emulation.systems.retroachievements.paragraph_3')}}
-            </p>
+          <q-separator/>
 
-            <WrappedToggle
-              label="emulation.systems.retroachievements.hardcore"
-              getter="global/hardcore"
-              setter="global/post"
-              apiKey="retroachievements.hardcore"
-            />
-          </template>
-        </FormFragmentContainer>
-      </div>
+          <WrappedTextInput
+            label="emulation.global.retroachievements.username"
+            :getter="global['retroachievements.username']"
+            :setter="globalStore.post"
+            apiKey="retroachievements.username"
+            v-if="global['retroachievements.username']"
+          />
+          <WrappedTextInput
+            label="emulation.global.retroachievements.password"
+            :getter="global['retroachievements.password']"
+            :setter="globalStore.post"
+            apiKey="retroachievements.password"
+            v-if="global['retroachievements.password']"
+            password
+          />
+
+          <q-separator/>
+
+          <WrappedToggle
+            label="emulation.global.retroachievements.hardcore"
+            :getter="global['retroachievements.hardcore']"
+            :setter="globalStore.post"
+            apiKey="retroachievements.hardcore"
+            v-if="global['retroachievements.hardcore']"
+          />
+          <p class="help">
+            <q-icon class="text-red" name="mdi-alert" style="font-size: 2em"/>
+            {{$t('emulation.global.retroachievements.help_3')}}
+          </p>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
 
-<script>
-  import WrappedSelect from 'components/global/WrappedSelect'
-  import WrappedTextInput from 'components/global/WrappedTextInput'
-  import WrappedToggle from 'components/global/WrappedToggle'
-  import FormFragmentContainer from '../global/FormFragmentContainer'
+<script lang="ts" setup>
+import WrappedSelect from 'components/global/WrappedSelect.vue';
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import { useGlobalStore } from 'stores/global';
+import { storeToRefs } from 'pinia';
+import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
-  export default {
-    name: "EmulationGlobalTabContent",
-    components: {
-      FormFragmentContainer,
-      WrappedSelect,
-      WrappedTextInput,
-      WrappedToggle,
-    },
-    created() {
-      this.$store.dispatch('global/get')
-    },
-    computed: {
-      systems: {
-        get: function () {
-          return this.$store.getters['systems/list'] ? this.$store.getters['systems/list'] : []
-        },
-      },
-      ratioOptions: {
-        get: function () {
-          return this.$store.getters['global/ratioOptions'] ? this.$store.getters['global/ratioOptions'] : []
-        }
-      },
-      rewind: {
-        get: function () {
-          return this.$store.getters['global/rewind'] ? this.$store.getters['global/rewind'] : 0
-        }
-      },
-      autosave: {
-        get: function () {
-          return this.$store.getters['global/autosave'] ? this.$store.getters['global/autosave'] : 0
-        }
-      },
-      shaderset: {
-        get: function () {
-          return this.$store.getters['global/shaderset'] ? this.$store.getters['global/shaderset'] : []
-        }
-      },
-      shadersetOptions: {
-        get: function () {
-          return this.$store.getters['global/shadersetOptions'] ? this.$store.getters['global/shadersetOptions'] : []
-        }
-      },
-      shadersetfileOptions: {
-        get: function () {
-          return this.$store.getters['global/shadersetfileOptions'] ? this.$store.getters['global/shadersetfileOptions'] : []
-        }
-      },
-      integerscale: {
-        get: function () {
-          return this.$store.getters['global/integerscale'] ? this.$store.getters['global/integerscale'] : 0
-        }
-      },
-      retroachievements: {
-        get: function () {
-          return this.$store.getters['global/retroachievements'] ? this.$store.getters['global/retroachievements'] : 0
-        }
-      },
-      username: {
-        get: function () {
-          return this.$store.getters['global/username'] ? this.$store.getters['global/username'] : ''
-        }
-      },
-      password: {
-        get: function () {
-          return this.$store.getters['global/password'] ? this.$store.getters['global/password'] : ''
-        }
-      },
-      hardcore: {
-        get: function () {
-          return this.$store.getters['global/hardcore'] ? this.$store.getters['global/hardcore'] : 0
-        }
-      }
-    },
-    data() {
-      return {
-        modelRatio: null,
-        modelShaders: null,
-        valueAntialiasing: false,
-        valueRewind: false,
-        valueRetroachievements: false,
-        loginRetroachievements: '',
-        passwordRetroachievements: '',
-        hardcoreRetroachievements: false,
-        isPwd: true,
-        menuShadersOptions: [
-          {
-            label: '--',
-            value: 'null',
-          },
-          {
-            label: 'Retro',
-            value: 'retro',
-          },
-          {
-            label: 'Scanlines',
-            value: 'scanlines',
-          },
-        ],
-        startFromFirstSystem: true,
-        disableSystemSelection: true,
-        showOnlyScrapedGames: true,
-      }
-    },
-  }
+const globalStore = useGlobalStore();
+globalStore.fetch();
+const {
+  ratioOptions,
+  shadersetOptions,
+  shadersetfileOptions,
+  global,
+} = storeToRefs(globalStore);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

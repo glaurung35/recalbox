@@ -9,30 +9,27 @@
   </div>
 </template>
 
-<script>
-  export default {
-    name: 'FormFragmentContainer',
-    props: {
-      title: {
-        type: String,
-        required: true,
-        default: 'title',
-      },
-    },
-  }
+<script lang="ts" setup>
+import { toRefs } from 'vue';
+
+const props = defineProps({
+  title: { type: String, required: true, default: 'title' },
+});
+
+const { title } = toRefs(props);
 </script>
 
 <style lang="sass">
-  .line
-    margin: 0 8px 1em
-    background: white
+.line
+  margin: 0 8px 1em
+  background: white
 
-    .title
-      text-transform: uppercase
-      font-weight: 100
-      font-size: x-large
-      padding: .3em 1em
+  .title
+    text-transform: uppercase
+    font-weight: 100
+    font-size: x-large
+    padding: .3em 1em
 
-    .content
-      padding: 1em
+  .content
+    padding: 1em
 </style>

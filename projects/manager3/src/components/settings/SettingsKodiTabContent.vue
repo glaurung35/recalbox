@@ -6,25 +6,28 @@
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
               label="settings.kodi.status.enableKodi"
-              getter="kodi/enabled"
-              setter="kodi/post"
+              :getter="kodi.enabled"
+              :setter="kodiStore.post"
               apiKey="enabled"
+              v-if="kodi.enabled"
             />
           </div>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
               label="settings.kodi.status.kodiAtStartup"
-              getter="kodi/atStartup"
-              setter="kodi/post"
+              :getter="kodi.atstartup"
+              :setter="kodiStore.post"
               apiKey="atstartup"
+              v-if="kodi.atstartup"
             />
           </div>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
               label="settings.kodi.status.launchWithX"
-              getter="kodi/xButton"
-              setter="kodi/post"
+              :getter="kodi.xbutton"
+              :setter="kodiStore.post"
               apiKey="xbutton"
+              v-if="kodi.xbutton"
             />
           </div>
         </template>
@@ -35,9 +38,10 @@
             <WrappedSelect
               label="settings.kodi.video.select.options.label"
               :options="videoModeOptions"
-              getter="kodi/videoMode"
-              setter="kodi/post"
+              :getter="kodi.videomode"
+              :setter="kodiStore.post"
               apiKey="videomode"
+              v-if="kodi.videomode"
             />
           </div>
         </template>
@@ -47,27 +51,36 @@
       <FormFragmentContainer title="settings.kodi.network.title">
         <template v-slot:content>
           <div class="col col-xs-12 col-sm-12 col-md-12">
-            <p class="help" v-html="$t('settings.kodi.network.waitMode.paragraph_1')"></p>
             <WrappedSelect
               label="settings.kodi.network.waitMode.select.options.label"
               :options="waitModeOptions"
-              getter="kodi/waitMode"
-              setter="kodi/post"
+              :getter="kodi['network.waitmode']"
+              :setter="kodiStore.post"
               apiKey="network.waitmode"
+              v-if="kodi['network.waitmode']"
             />
+            <p class="help" v-html="$t('settings.kodi.network.waitMode.help')"></p>
+
+          <q-separator/>
+
             <WrappedTextInput
               label="settings.kodi.network.waitHost"
-              getter="kodi/waitHost"
-              setter="kodi/post"
+              :getter="kodi['network.waithost']"
+              :setter="kodiStore.post"
               apiKey="network.waithost"
+              v-if="kodi['network.waithost']"
             />
-            <p class="help">{{ $t('settings.kodi.network.waitTime.paragraph_1') }}</p>
+
+          <q-separator/>
+
             <WrappedTextInput
               label="settings.kodi.network.waitTime.title"
-              getter="kodi/waitTime"
-              setter="kodi/post"
+              :getter="kodi['network.waittime']"
+              :setter="kodiStore.post"
               apiKey="network.waittime"
+              v-if="kodi['network.waittime']"
             />
+            <p class="help">{{ $t('settings.kodi.network.waitTime.help') }}</p>
           </div>
         </template>
       </FormFragmentContainer>
@@ -75,45 +88,15 @@
   </div>
 </template>
 
-<script>
-  import FormFragmentContainer from 'components/global/FormFragmentContainer'
-  import WrappedSelect from 'components/global/WrappedSelect'
-  import WrappedTextInput from 'components/global/WrappedTextInput'
-  import WrappedToggle from 'components/global/WrappedToggle'
+<script lang="ts" setup>
+import { useKodiStore } from 'stores/kodi';
+import { storeToRefs } from 'pinia';
+import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
+import WrappedSelect from 'components/global/WrappedSelect.vue';
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
 
-  export default {
-    name: 'SettingsKodiTabContent',
-    components: {
-      FormFragmentContainer,
-      WrappedTextInput,
-      WrappedToggle,
-      WrappedSelect
-    },
-    created() {
-      this.$store.dispatch('kodi/get')
-    },
-    computed: {
-      videoModeOptions: {
-        get: function() {
-          return this.$store.getters['kodi/videoModeOptions'] ? this.$store.getters['kodi/videoModeOptions'] : []
-        }
-      },
-      waitModeOptions: {
-        get: function() {
-          return this.$store.getters['kodi/waitModeOptions'] ? this.$store.getters['kodi/waitModeOptions'] : []
-        }
-      },
-    },
-    data() {
-      return {
-        enableKodi: true,
-        kodiAtStartup: true,
-        launchWithX: true,
-      }
-    }
-  }
+const kodiStore = useKodiStore();
+kodiStore.fetch();
+const { videoModeOptions, waitModeOptions, kodi } = storeToRefs(kodiStore);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

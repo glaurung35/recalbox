@@ -8,7 +8,10 @@
       class="row version-line"
       v-for="(value, index) in data"
     >
-      <div class="col col-md-6 text-uppercase self-center" style="text-align: right; padding-right: 5%;">
+      <div
+        class="col col-md-6 text-uppercase self-center"
+        style="text-align: right; padding-right: 5%;"
+      >
         <div>{{index}}</div>
       </div>
       <div class="col col-md-6" style="padding-left: 5%;">
@@ -20,45 +23,39 @@
   </div>
 </template>
 
-<script>
-  import tools from 'src/tools'
+<script lang="ts" setup>
+import { copyToClipboard } from 'src/tools';
+import { toRefs } from 'vue';
 
-  export default {
-    name: 'LongDataList',
-    methods: {
-      copyToClipboard: (content) => tools.copyToClipboard(content),
-    },
-    props: {
-      height: {
-        type: String,
-      },
-      data: {
-        type: Object,
-        required: true,
-      },
-    },
-  }
+const props = defineProps({
+  height: { type: String },
+  data: { type: Object, required: true },
+});
+
+const {
+  height, data,
+} = toRefs(props);
 </script>
 
 <style lang="sass">
-  .container
-    overflow-y: scroll
-    overflow-x: hidden
-    padding: 1em
+.container
+  overflow-y: scroll
+  overflow-x: hidden
+  padding: 1em
 
-    .version-line
-      &:hover
-        background: $rc-input-grey
-        cursor: pointer
+  .version-line
+    &:hover
+      background: $rc-input-grey
+      cursor: pointer
 
-        .q-chip
-          background: $primary !important
-          color: $accent !important
+      .q-chip
+        background: $primary !important
+        color: $accent !important
 
-    @media(max-width: 700px)
-      .container
-        .version-line
-          .col-md-6
-            padding-right: 0 !important
-            padding-left: 0 !important
+  @media(max-width: 700px)
+    .container
+      .version-line
+        .col-md-6
+          padding-right: 0 !important
+          padding-left: 0 !important
 </style>

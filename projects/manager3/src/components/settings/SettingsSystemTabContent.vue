@@ -6,40 +6,53 @@
           <WrappedSelect
             label="settings.system.settings.langSelect.label"
             :options="languageOptions"
-            getter="system/language"
-            setter="system/post"
+            :getter="system.language"
+            :setter="systemStore.post"
             apiKey="language"
+            v-if="system.language"
           />
           <WrappedSelect
             label="settings.system.settings.keyboardSelect.label"
             :options="kblayoutOptions"
-            getter="system/kblayout"
-            setter="system/post"
+            :getter="system.kblayout"
+            :setter="systemStore.post"
             apiKey="kblayout"
+            v-if="system.kblayout"
           />
           <WrappedSelect
             label="settings.system.settings.timeZoneSelect.label"
             :options="timezoneOptions"
-            getter="system/timezone"
-            setter="system/post"
+            :getter="system.timezone"
+            :setter="systemStore.post"
             apiKey="timezone"
+            v-if="system.timezone"
+          />
+        </template>
+      </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.splashScreen.title">
+        <template v-slot:content>
+          <WrappedTextInput
+            label="settings.system.splashScreen.splashLength.label"
+            :getter="system['splash.length']"
+            :setter="systemStore.post"
+            apiKey="splash.length"
+            v-if="system['splash.length']"
           />
         </template>
       </FormFragmentContainer>
 
       <FormFragmentContainer title="settings.system.specialKey.title">
         <template v-slot:content>
-          <p>{{ $t('settings.system.specialKey.paragraph_1') }}</p>
-
-          <p class="help" v-html="$t('settings.system.specialKey.paragraph_2')"></p>
-
           <WrappedSelect
             label="settings.system.specialKey.behaviourSelect.label"
             :options="specialkeysOptions"
-            getter="system/specialkeys"
-            setter="system/post"
+            :getter="system['emulators.specialkeys']"
+            :setter="systemStore.post"
             apiKey="emulators.specialkeys"
+            v-if="system['emulators.specialkeys']"
           />
+          <p class="help" v-html="$t('settings.system.specialKey.help')"></p>
         </template>
       </FormFragmentContainer>
 
@@ -47,16 +60,18 @@
         <template v-slot:content>
           <WrappedToggle
             label="settings.system.updates.toggleButtonLabel"
-            getter="updates/enabled"
-            setter="updates/post"
+            :getter="updates.enabled"
+            :setter="updateStore.post"
             apiKey="enabled"
+            v-if="updates.enabled"
           />
           <WrappedSelect
             label="settings.system.updates.versionType.label"
-            :options="typeOptions"
-            getter="updates/type"
-            setter="updates/post"
+            :options="updatesTypeOptions"
+            :getter="updates.type"
+            :setter="updateStore.post"
             apiKey="type"
+            v-if="updates.type"
           />
         </template>
       </FormFragmentContainer>
@@ -70,44 +85,80 @@
         <div class="col-12" style="padding: 0 1em;">
           <div class="row">
             <div class="col col-xs-12 col-sm-12 col-md-6">
-              <div @click="copyToClipboard('Linux : ' + versions.linux)" class="row system-versions">
+              <div
+                @click="copyToClipboard('Linux : ' + versions.linux)"
+                class="row system-versions"
+              >
                 <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
                   Linux
                 </div>
                 <div class="col col-xs-9 col-md-8">
-                  <q-chip color="light-blue" dense icon="mdi-source-branch" square text-color="white">
+                  <q-chip
+                    color="light-blue"
+                    dense
+                    icon="mdi-source-branch"
+                    square
+                    text-color="white"
+                  >
                     {{versions.linux}}
                   </q-chip>
                 </div>
               </div>
-              <div @click="copyToClipboard('Recalbox : ' + versions.recalbox)" class="row system-versions">
+              <div
+                @click="copyToClipboard('Recalbox : ' + versions.recalbox)"
+                class="row system-versions"
+              >
                 <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
                   Recalbox
                 </div>
                 <div class="col col-xs-9 col-md-8">
-                  <q-chip color="light-blue" dense icon="mdi-source-branch" square text-color="white">
+                  <q-chip
+                    color="light-blue"
+                    dense
+                    icon="mdi-source-branch"
+                    square
+                    text-color="white"
+                  >
                     {{versions.recalbox}}
                   </q-chip>
                 </div>
               </div>
             </div>
-            <div @click="copyToClipboard('WebAPI : ' + versions.webapi)" class="col col-xs-12 col-sm-12 col-md-6">
+            <div
+              @click="copyToClipboard('WebAPI : ' + versions.webapi)"
+              class="col col-xs-12 col-sm-12 col-md-6"
+            >
               <div class="row system-versions">
                 <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
                   WebAPI
                 </div>
                 <div class="col col-xs-9 col-md-8">
-                  <q-chip color="light-blue" dense icon="mdi-source-branch" square text-color="white">
+                  <q-chip
+                    color="light-blue"
+                    dense
+                    icon="mdi-source-branch"
+                    square
+                    text-color="white"
+                  >
                     {{versions.webapi}}
                   </q-chip>
                 </div>
               </div>
-              <div @click="copyToClipboard('RetroArch : ' + versions.libretro.retroarch)" class="row system-versions">
+              <div
+                @click="copyToClipboard('RetroArch : ' + versions.libretro.retroarch)"
+                class="row system-versions"
+              >
                 <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
                   RetroArch
                 </div>
                 <div class="col col-xs-9 col-md-8">
-                  <q-chip color="light-blue" dense icon="mdi-source-branch" square text-color="white">
+                  <q-chip
+                    color="light-blue"
+                    dense
+                    icon="mdi-source-branch"
+                    square
+                    text-color="white"
+                  >
                     {{versions.libretro.retroarch}}
                   </q-chip>
                 </div>
@@ -119,7 +170,8 @@
 
         <LongDataList
           :data="versions.libretro.cores"
-          height="calc(551px + 2em - 87px - 50.38px)"
+          height="calc(599px + 2em - 87px - 50.38px)"
+          v-if="versions.libretro.cores"
         />
 
       </div>
@@ -127,85 +179,57 @@
   </div>
 </template>
 
-<script>
-  import WrappedSelect from 'components/global/WrappedSelect'
-  import WrappedToggle from 'components/global/WrappedToggle'
-  import tools from 'src/tools'
-  import FormFragmentContainer from '../global/FormFragmentContainer'
-  import LongDataList from '../global/LongDataList'
+<script lang="ts" setup>
+import WrappedSelect from 'components/global/WrappedSelect.vue';
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
+import LongDataList from 'components/global/LongDataList.vue';
+import { copyToClipboard } from 'src/tools';
+import { useSystemStore } from 'stores/system';
+import { useUpdatesStore } from 'stores/updates';
+import { useVersionsStore } from 'stores/versions';
+import { storeToRefs } from 'pinia';
+import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 
-  export default {
-    name: 'SettingsSystemTabContent',
-    components: {
-      WrappedSelect,
-      WrappedToggle,
-      FormFragmentContainer,
-      LongDataList,
-    },
-    methods: {
-      copyToClipboard: (content) => tools.copyToClipboard(content)
-    },
-    created() {
-      this.$store.dispatch('system/get')
-      this.$store.dispatch('updates/get')
-      this.$store.dispatch('versions/get')
-    },
-    computed: {
-      languageOptions: {
-        get: function() {
-          return this.$store.getters['system/languageOptions'] ? this.$store.getters['system/languageOptions'] : []
-        }
-      },
-      kblayoutOptions: {
-        get: function() {
-          return this.$store.getters['system/kblayoutOptions'] ? this.$store.getters['system/kblayoutOptions'] : []
-        }
-      },
-      timezoneOptions: {
-        get: function() {
-          return this.$store.getters['system/timezoneOptions'] ? this.$store.getters['system/timezoneOptions'] : []
-        }
-      },
-      specialkeysOptions: {
-        get: function() {
-          return this.$store.getters['system/specialkeysOptions'] ? this.$store.getters['system/specialkeysOptions'] : []
-        }
-      },
-      typeOptions: {
-        get: function() {
-          return this.$store.getters['updates/typeOptions'] ? this.$store.getters['updates/typeOptions'] : []
-        }
-      },
-      versions: {
-        get: function() {
-          return this.$store.getters['versions/list'] ? this.$store.getters['versions/list'] : {}
-        }
-      }
-    }
-  }
+const updateStore = useUpdatesStore();
+updateStore.fetch();
+const { updatesTypeOptions, updates } = storeToRefs(updateStore);
+
+const versionsStore = useVersionsStore();
+const { versions } = storeToRefs(versionsStore);
+
+const systemStore = useSystemStore();
+systemStore.fetch();
+const {
+  languageOptions,
+  kblayoutOptions,
+  timezoneOptions,
+  specialkeysOptions,
+  system,
+} = storeToRefs(systemStore);
 </script>
 
 <style lang="sass" scoped>
-  .settings
-    .q-tab-panels
-      .line
-        margin-bottom: 1em
-        background: white
+.settings
+  .q-tab-panels
+    .line
+      margin-bottom: 1em
+      background: white
 
-        .system-versions,
-        .version-line
-          &:hover
-            background: $rc-input-grey
-            cursor: pointer
+      .system-versions,
+      .version-line
+        &:hover
+          background: $rc-input-grey
+          cursor: pointer
 
-            .q-chip
-              background: $primary !important
-              color: $accent !important
+          .q-chip
+            background: $primary !important
+            color: $accent !important
 
-    @media(max-width: 700px)
-      .settings
-        .q-tab-panels
-          .line
-            .title
-              text-align: right
+  @media(max-width: 700px)
+    .settings
+      .q-tab-panels
+        .line
+          .title
+            text-align: right
 </style>

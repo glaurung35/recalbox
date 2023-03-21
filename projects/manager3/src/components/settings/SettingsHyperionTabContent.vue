@@ -1,14 +1,15 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-12">
-      <FormFragmentContainer title="settings.hyperion.options.title">
+      <FormFragmentContainer title="settings.hyperion.settings.title">
         <template v-slot:content>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
-              label="settings.hyperion.options.enableHyperion"
-              getter="hyperion/enabled"
-              setter="hyperion/post"
+              label="settings.hyperion.settings.enableHyperion"
+              :getter="hyperion.enabled"
+              :setter="hyperionStore.post"
               apiKey="enabled"
+              v-if="hyperion.enabled"
             />
           </div>
         </template>
@@ -17,27 +18,13 @@
   </div>
 </template>
 
-<script>
-import WrappedToggle from 'components/global/WrappedToggle'
-import FormFragmentContainer from '../global/FormFragmentContainer'
+<script lang="ts" setup>
+import WrappedToggle from 'components/global/WrappedToggle.vue';
+import { useHyperionStore } from 'stores/hyperion';
+import { storeToRefs } from 'pinia';
+import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
-export default {
-  name: 'SettingsHyperionTabContent',
-  components: {
-    WrappedToggle,
-    FormFragmentContainer,
-  },
-  created() {
-    this.$store.dispatch('hyperion/get')
-  },
-  data() {
-    return {
-      enableKodi: true,
-    }
-  }
-}
+const hyperionStore = useHyperionStore();
+hyperionStore.fetch();
+const { hyperion } = storeToRefs(hyperionStore);
 </script>
-
-<style lang="sass" scoped>
-
-</style>

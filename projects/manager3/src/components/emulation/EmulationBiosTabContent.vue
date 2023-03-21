@@ -3,9 +3,9 @@
     <div class="col col-xs-12 col-sm-12 col-md-12">
       <q-table
         :columns="columns"
-        :data="filteredBiosList"
+        :rows="filteredBiosList"
         :filter="table.filter"
-        :pagination.sync="table.pagination"
+        :pagination="table.pagination"
         binary-state-sort
         dense
         flat
@@ -21,7 +21,11 @@
             round
             size="md"
           >
-            <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+            <q-tooltip
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
               {{ $t('emulation.bios.tooltips.redFilter.label') }}
             </q-tooltip>
           </q-btn>
@@ -33,7 +37,11 @@
             round
             size="md"
           >
-            <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+            <q-tooltip
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
               {{ $t('emulation.bios.tooltips.orangeFilter.label') }}
             </q-tooltip>
           </q-btn>
@@ -45,7 +53,11 @@
             round
             size="md"
           >
-            <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+            <q-tooltip
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
               {{ $t('emulation.bios.tooltips.greenFilter.label') }}
             </q-tooltip>
           </q-btn>
@@ -57,7 +69,11 @@
             round
             size="md"
           >
-            <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+            <q-tooltip
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
               {{ $t('emulation.bios.help.tooltip') }}
             </q-tooltip>
           </q-btn>
@@ -73,11 +89,22 @@
             class="search"
           >
             <template v-slot:append>
-              <q-icon @click="table.filter = ''" class="cursor-pointer" name="mdi-close" v-if="table.filter !== ''"/>
+              <q-icon
+                @click="table.filter = ''"
+                class="cursor-pointer"
+                name="mdi-close"
+                v-if="table.filter !== ''"
+              />
               <q-icon name="mdi-magnify"/>
             </template>
           </q-input>
-          <q-btn class="addButton" color="accent" icon="mdi-plus-thick" outline @click="openUpload"/>
+<!--          <q-btn-->
+<!--            class="addButton"-->
+<!--            color="accent"-->
+<!--            icon="mdi-plus-thick"-->
+<!--            outline-->
+<!--            @click="openUpload"-->
+<!--          />-->
         </template>
 
         <template v-slot:header="props">
@@ -143,40 +170,56 @@
 
               <span v-else-if="col.name === 'valid' && col.value === 'Green'">
                 <q-icon color="positive" name="mdi-checkbox-marked-circle-outline" size="sm">
-                  <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+                  <q-tooltip
+                    :offset="[10, 10]"
+                    content-class="bg-primary"
+                    content-style="font-size: 16px"
+                  >
                     {{ $t('emulation.bios.tooltips.green') }}
                   </q-tooltip>
                 </q-icon>
               </span>
               <span v-else-if="col.name === 'valid' && col.value === 'Yellow'">
                 <q-icon color="orange-4" name="mdi-checkbox-marked-circle-outline" size="sm">
-                  <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+                  <q-tooltip
+                    :offset="[10, 10]"
+                    content-class="bg-primary"
+                    content-style="font-size: 16px"
+                  >
                     {{ $t('emulation.bios.tooltips.yellow') }}
                   </q-tooltip>
                 </q-icon>
               </span>
               <span v-else-if="col.name === 'valid' && col.value === 'Red'">
                 <q-icon color="negative" name="mdi-checkbox-marked-circle-outline" size="sm">
-                  <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
+                  <q-tooltip
+                    :offset="[10, 10]"
+                    content-class="bg-primary"
+                    content-style="font-size: 16px"
+                  >
                     {{ $t('emulation.bios.tooltips.red') }}
                   </q-tooltip>
                 </q-icon>
               </span>
-              <span v-else-if="col.name === 'delete'">
-                <q-btn
-                  color="accent"
-                  dense
-                  flat
-                  icon="mdi-delete"
-                  round
-                  size="md"
-                  @click="openConfirm(col.value)"
-                >
-                  <q-tooltip :offset="[10, 10]" content-class="bg-primary" content-style="font-size: 16px">
-                    {{ $t('emulation.bios.tooltips.delete') }}
-                  </q-tooltip>
-                </q-btn>
-              </span>
+<!--              <span v-else-if="col.name === 'delete'">-->
+<!--                <q-btn-->
+<!--                  color="accent"-->
+<!--                  dense-->
+<!--                  flat-->
+<!--                  icon="mdi-delete"-->
+<!--                  round-->
+<!--                  size="md"-->
+<!--                  @click="openConfirm(col.value)"-->
+<!--                >-->
+<!--                  <q-tooltip-->
+<!--                    :offset="[10, 10]"-->
+<!--                    content-class="bg-primary"-->
+<!--                    content-style="font-size: 16px"-->
+<!--                  >-->
+<!--                    {{ $t('emulation.bios.tooltips.delete') }}-->
+<!--                  </q-tooltip>-->
+<!--                </q-btn>-->
+<!--              </span>-->
             </q-td>
           </q-tr>
         </template>
@@ -197,8 +240,15 @@
         <q-card class="bg-primary text-white">
           <q-toolbar>
             <q-toolbar-title>MD5s</q-toolbar-title>
-            <q-btn @click="copyToClipboard(selectedMd5)" color="accent" dense flat icon="mdi-content-copy" round
-                   size="md"/>
+            <q-btn
+              @click="copyToClipboard(selectedMd5)"
+              color="accent"
+              dense
+              flat
+              icon="mdi-content-copy"
+              round
+              size="md"
+            />
           </q-toolbar>
 
           <q-card-section class="q-pt-none">
@@ -216,41 +266,7 @@
           </q-toolbar>
 
           <q-card-section class="q-pt-none">
-            <div class="help-line row">
-              <div class="col-1">
-                <q-icon name="mdi-checkbox-marked-circle-outline" color="positive" size="sm"/>
-              </div>
-              <div class="col">BIOS présent + MD5 valide</div>
-            </div>
-            <div class="help-line row">
-              <div class="col-1">
-                <q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/>
-              </div>
-              <div class="col">
-                BIOS présent + MD5 invalide mais MD5 match non obligatoire<br>
-                <span>
-                  Ça peut fonctionner, mais comme personne de chez nous ne l'a testé, on ne garantie rien
-                </span>
-              </div>
-            </div>
-            <div class="help-line row">
-              <div class="col-1">
-                <q-icon name="mdi-checkbox-marked-circle-outline" color="orange-4" size="sm"/>
-              </div>
-              <div class="col">
-                BIOS absent mais optionnel<br>
-                <span>
-                  Ça peut fonctionner, tant qu'on utilise pas un jeu ou
-                  une fonctionnalité qui requiert ce bios optionnel
-                </span>
-              </div>
-            </div>
-            <div class="row">
-              <div class="col-1">
-                <q-icon name="mdi-checkbox-marked-circle-outline" color="negative" size="sm"/>
-              </div>
-              <div class="col">BIOS absent</div>
-            </div>
+            <EmulationBiosTabHelpContent />
           </q-card-section>
         </q-card>
       </q-dialog>
@@ -259,120 +275,117 @@
   </div>
 </template>
 
-<script>
-import tools from '../../tools/index'
+<script lang="ts" setup>
+import { useBiosStore } from 'stores/bios';
+import { copyToClipboard } from 'src/tools';
+import { storeToRefs } from 'pinia';
+import {
+  computed,
+  ref,
+  reactive,
+} from 'vue';
+import { useI18n } from 'vue-i18n';
+import EmulationBiosTabHelpContent from 'components/emulation/EmulationBiosTabHelpContent.vue';
 
-export default {
-  name: 'EmulationBiosTabContent',
-  methods: {
-    openUpload() {
-      this.$root.$emit('open-upload', 'bios')
-    },
-    copyToClipboard(content) {tools.copyToClipboard(content)},
-    openConfirm(slug) {
-      this.selectedSlug = slug
-      this.$root.$emit(
-        'confirm-open',
-        this.remove,
-        'mdi-alert-box-outline',
-        this.$t('emulation.bios.dialogs.remove.text'),
-      )
-    },
-    remove() {
-      this.$store.dispatch('bios/remove', this.selectedSlug)
-      this.selectedSlug = null
-    },
-  },
-  created() {
-    this.$store.dispatch('bios/get')
-  },
-  computed: {
-    bios: {
-      get: function () {
-        return this.$store.getters['bios/list'] ? this.$store.getters['bios/list'] : []
-      },
-    },
-    filteredBiosList: function () {
-      let result = Object.values(this.bios)
+const { t } = useI18n({ useScope: 'global' });
 
-      if (!this.filterButtons.redFilter) result = result.filter(bios => bios.lightStatus !== 'Red')
-      if (!this.filterButtons.yellowFilter) result = result.filter(bios => bios.lightStatus !== 'Yellow')
-      if (!this.filterButtons.greenFilter) result = result.filter(bios => bios.lightStatus !== 'Green')
+const biosStore = useBiosStore();
+biosStore.fetch();
+const { biosList } = storeToRefs(biosStore);
 
-      return result
-    },
-    columns: function () {
-      return [
-        {
-          name: 'system',
-          required: true,
-          label: this.$t('emulation.bios.tableHeader.system'),
-          align: 'left',
-          field: 'system',
-          sortable: true,
-        },
-        {
-          name: 'bios',
-          required: true,
-          label: this.$t('emulation.bios.tableHeader.bios'),
-          align: 'left',
-          field: 'displayFileName',
-          sortable: true,
-        },
-        {
-          name: 'currentMd5',
-          required: true,
-          label: this.$t('emulation.bios.tableHeader.currentMd5'),
-          align: 'left',
-          field: 'currentMd5',
-          sortable: true,
-        },
-        {
-          name: 'md5',
-          align: 'left',
-          label: this.$t('emulation.bios.tableHeader.md5'),
-          field: 'md5List',
-          sortable: true,
-        },
-        {
-          name: 'valid',
-          align: 'center',
-          label: this.$t('emulation.bios.tableHeader.valid'),
-          field: 'lightStatus',
-          sortable: true,
-        },
-        {
-          name: 'delete',
-          align: 'center',
-          label: '',
-          field: 'displayFileName',
-          sortable: false,
-        },
-      ]
-    },
+const columns = computed<object[]>(() => [
+  {
+    name: 'system',
+    required: true,
+    label: t('emulation.bios.tableHeader.system'),
+    align: 'left',
+    field: 'system',
+    sortable: true,
   },
-  data() {
-    return {
-      selectedSlug: null,
-      table: {
-        filter: '',
-        pagination: {
-          rowsPerPage: 10,
-          descending: false,
-          sortBy: 'system',
-        },
-      },
-      md5Open: false,
-      helpOpen: false,
-      selectedMd5: null,
-      filterButtons: {
-        redFilter: true,
-        yellowFilter: true,
-        greenFilter: true,
-      },
-    }
+  {
+    name: 'bios',
+    required: true,
+    label: t('emulation.bios.tableHeader.bios'),
+    align: 'left',
+    field: 'displayFileName',
+    sortable: true,
   },
-}
+  {
+    name: 'currentMd5',
+    required: true,
+    label: t('emulation.bios.tableHeader.currentMd5'),
+    align: 'left',
+    field: 'currentMd5',
+    sortable: true,
+  },
+  {
+    name: 'md5',
+    align: 'left',
+    label: t('emulation.bios.tableHeader.md5'),
+    field: 'md5List',
+    sortable: true,
+  },
+  {
+    name: 'valid',
+    align: 'center',
+    label: t('emulation.bios.tableHeader.valid'),
+    field: 'lightStatus',
+    sortable: true,
+  },
+  {
+    name: 'delete',
+    align: 'center',
+    label: '',
+    field: 'displayFileName',
+    sortable: false,
+  },
+]);
+
+// const selectedSlug = ref<string>('');
+const md5Open = ref<boolean>(false);
+const helpOpen = ref<boolean>(false);
+const selectedMd5 = ref<string>('');
+const filterButtons = reactive<object>({
+  redFilter: true,
+  yellowFilter: true,
+  greenFilter: true,
+});
+const table = ref<object>({
+  filter: '',
+  pagination: {
+    rowsPerPage: 15,
+    descending: false,
+    sortBy: 'system',
+  },
+});
+
+const filteredBiosList = computed(() => {
+  let list = biosList.value;
+
+  if (!filterButtons.redFilter) list = list.filter((filteredBios) => filteredBios.lightStatus !== 'Red');
+  if (!filterButtons.yellowFilter) list = list.filter((filteredBios) => filteredBios.lightStatus !== 'Yellow');
+  if (!filterButtons.greenFilter) list = list.filter((filteredBios) => filteredBios.lightStatus !== 'Green');
+
+  return list;
+});
+//   methods: {
+//     openUpload() {
+//       this.$root.$emit('open-upload', 'bios');
+//     },
+//     openConfirm(slug) {
+//       this.selectedSlug = slug
+//       this.$root.$emit(
+//         'confirm-open',
+//         this.remove,
+//         'mdi-alert-box-outline',
+//         this.$t('emulation.bios.dialogs.remove.text'),
+//       )
+//     },
+//     remove() {
+//       this.$store.dispatch('bios/remove', this.selectedSlug)
+//       this.selectedSlug = ''
+//     },
+//   },
 </script>
 
 <style lang="sass">
@@ -397,10 +410,4 @@ export default {
   .md5
     font-family: monospace
     font-size: 13px !important
-
-.help-line
-  margin-bottom: 1em
-
-  span
-    color: $dark-blue
 </style>

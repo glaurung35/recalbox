@@ -18,68 +18,59 @@
   </q-item>
 </template>
 
-<script>
-  export default {
-    name: 'MenuLink',
-    props: {
-      title: {
-        type: String,
-        required: true,
-      },
-      route: {
-        type: String,
-        default: 'home',
-      },
-      exact: {
-        type: Boolean,
-        default: false,
-      },
-      icon: {
-        type: String,
-        default: '',
-      },
-    },
-  }
+<script lang="ts" setup>
+import { toRefs } from 'vue';
+
+const props = defineProps({
+  title: { type: String, default: '' },
+  route: { type: String, default: 'home' },
+  exact: { type: Boolean, default: false },
+  icon: { type: String, default: '' },
+});
+
+const {
+  title, route, exact, icon,
+} = toRefs(props);
 </script>
 
 <style lang="sass">
-  .menu
-    aside
-    .q-link
-      color: $secondary
-      overflow-x: hidden
+.menu
+  //aside
+  .q-link
+    color: $secondary
+    overflow-x: hidden
 
-      &:hover
-        color: $accent
-
-    .q-router-link--active
+    &:hover
       color: $accent
 
-      i
-        color: $accent
+  .q-router-link--active
+    color: $accent
 
-    .q-router-link--active:after
-      content: '\f35e'
-      display: block
-      font-family: 'Material Design Icons'
-      position: absolute
-      right: -10px
-      top: 7px
-      color: $rc-light-grey
-      font-size: x-large
+    i
+      color: $accent
 
-    .menu-logo
-      position: absolute
-      bottom: 0
-      left: 0
-      right: 0
-      text-align: center
+  .q-router-link--active:after
+    content: '\f35e'
+    display: block
+    font-family: 'Material Design Icons'
+    position: absolute
+    right: -10px
+    top: 7px
+    color: $rc-light-grey
+    font-size: x-large
 
-      img
-        width: 30px
-        margin-bottom: 1em
+  .menu-logo
+    position: absolute
+    bottom: 0
+    left: 0
+    right: 0
+    text-align: center
 
-    .q-separator--horizontal
-      height: 1px
-      background: $secondary
+    img
+      width: 30px
+      margin-bottom: 1em
+
+  .q-separator--horizontal
+    height: 1px
+    background: $secondary
 </style>

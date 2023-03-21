@@ -1,0 +1,12 @@
+image: node:18.15.0
+
+stages:
+  - validation
+
+eslint:
+  stage: validation
+  script:
+    # install eslint
+    - npm i eslint
+    # Run eslint
+    - node_modules/eslint/bin/eslint.js .

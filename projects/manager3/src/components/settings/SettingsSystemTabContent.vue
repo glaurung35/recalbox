@@ -77,7 +77,7 @@
       </FormFragmentContainer>
 
     </div>
-    <div class="col col-xs-12 col-sm-12 col-md-5">
+    <div class="col col-xs-12 col-sm-12 col-md-5 col">
       <div class="row items-stretch line">
         <div class="col-12 title vertical-middle self-center text-center">
           {{ $t('settings.system.versions.title') }}
@@ -170,7 +170,7 @@
 
         <LongDataList
           :data="versions.libretro.cores"
-          height="calc(599px + 2em - 87px - 50.38px)"
+          height="calc(660px + 2em - 87px - 50.38px)"
           v-if="versions.libretro.cores"
         />
 

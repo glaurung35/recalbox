@@ -24,7 +24,7 @@ declare module 'vue-i18n' {
 // Update translation locale based on LocalStorage
 if (!LocalStorage.getItem('locale')) {
   try {
-    LocalStorage.set('locale', 'fr-FR');
+    LocalStorage.set('locale', 'fr');
   } catch (e) {
     // eslint-disable-next-line no-console
     console.log(e);

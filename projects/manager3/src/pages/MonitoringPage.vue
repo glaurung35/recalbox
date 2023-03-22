@@ -21,12 +21,6 @@ const { metrics, storageInfo } = storeToRefs(monitoringStore);
 
 monitoringStore.fetch();
 
-// const temperatures = computed<object[]>(() => [{
-//   data: metrics.value.temperatures,
-// }]);
-// const memory = computed<object[]>(() => [{
-//   data: metrics.value.memory,
-// }]);
 const cores = computed<object[]>(() => [{
   data: metrics.value.cores,
 }]);

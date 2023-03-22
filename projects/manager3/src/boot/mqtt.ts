@@ -4,11 +4,11 @@ import { useMonitoringStore } from 'stores/monitoring';
 const options = {
   clientId: `mqttjs_${Math.random().toString(16).substr(2, 8)}`,
 };
-const client = mqtt.connect(process.env.MQTT_URL, options);
+const client = mqtt.connect(String(process.env.MQTT_URL), options);
 const monitoringStore = useMonitoringStore();
 
 // SystemInfo subcription and VueJS store injection
-client.subscribe(process.env.MQTT_MONITORING_CHANNEL);
+client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
 client.on('message', (topic, message) => {
   const newMessage = JSON.parse(new TextDecoder('utf-8').decode(message));
   const temperatures = [
@@ -25,7 +25,7 @@ client.on('message', (topic, message) => {
       (new Date(newMessage.timestamp)).getTime(),
       parseFloat(
         ((
-          newMessage.memory.available.shift() / newMessage.memory.total
+          (newMessage.memory.total - newMessage.memory.available.shift()) / newMessage.memory.total
         ) * 100).toFixed(0),
       ),
     ],
@@ -39,6 +39,8 @@ client.on('message', (topic, message) => {
   );
 
   monitoringStore.$patch({
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     metrics: {
       cores,
       temperatures: temperatures.slice(-30),

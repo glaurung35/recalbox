@@ -82,7 +82,7 @@ module.exports = configure((ctx) => ({
         GITBOOK_URL: 'https://recalbox.gitbook.io/documentation',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
 
-        MQTT_URL: 'mqtt://recalbox:1883',
+        MQTT_URL: 'mqtt://recalbox:18883',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       },
     // transpile: false,

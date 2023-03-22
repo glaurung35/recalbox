@@ -59,6 +59,16 @@ $icon-recalbox-buttons: "\e905"
   &:before
     content: $icon-recalbox-buttons
 
+// Animations
+@keyframes slidein
+  from
+    right: -38rem
+    bottom: -22rem
+
+  to
+    right: -6rem
+    bottom: 13rem
+
 // Backgrounds
 .home,
 .monitoring,
@@ -79,6 +89,8 @@ $icon-recalbox-buttons: "\e905"
     right: -6rem
     transform: rotate(15deg)
     color: $rc-mid-grey
+    animation-duration: .5s
+    animation-name: slidein
 
 // Custom Loader
 .custom-loader

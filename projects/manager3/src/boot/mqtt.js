@@ -15,11 +15,14 @@ client.on('message', (topic, message) => {
     ...monitoringStore.metrics.temperatures,
     [
       (new Date(newMessage.timestamp)).getTime(),
-      newMessage.temperature.temperatures.shift().toFixed(0),
+      parseFloat(newMessage.temperature.temperatures.shift().toFixed(0)),
     ],
   ];
   const cores = Object.keys(newMessage.cpus).map(
-    (core) => newMessage.cpus[core].consumption.shift().toFixed(0),
+    (core) => ({
+      x: `Core ${core}`,
+      y: parseFloat(newMessage.cpus[core].consumption.shift().toFixed(0)),
+    }),
   );
   monitoringStore.$patch({
     metrics: {

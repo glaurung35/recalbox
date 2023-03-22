@@ -25,9 +25,9 @@ declare module 'vue-i18n' {
 if (!LocalStorage.getItem('locale')) {
   try {
     LocalStorage.set('locale', 'fr');
-  } catch (e) {
+  } catch (error) {
     // eslint-disable-next-line no-console
-    console.log(e);
+    console.log(error);
   }
 }
 

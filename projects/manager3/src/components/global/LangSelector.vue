@@ -62,9 +62,9 @@ async function select(langValue: string) {
     ).then((language) => {
       Quasar.lang.set(language.default); // Update Quasar components translation
     });
-  } catch (e) {
+  } catch (error) {
     // eslint-disable-next-line no-console
-    console.log(e);
+    console.log(error);
   }
 }
 </script>

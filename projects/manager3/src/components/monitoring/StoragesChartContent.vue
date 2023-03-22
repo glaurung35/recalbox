@@ -13,7 +13,7 @@
         <q-icon :name="item.icon" color="secondary"/>
         <div class="progress-text">
           <span>
-            <b>{{ item.mount }}</b> | {{ (item.used * 100).toFixed(2) }}%
+            {{ item.mount }} <b>| {{ (item.used * 100).toFixed(2) }}%</b>
           </span>
         </div>
       </div>

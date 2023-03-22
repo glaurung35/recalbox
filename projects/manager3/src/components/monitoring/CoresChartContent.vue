@@ -38,7 +38,7 @@ const options = computed(() => ({
     title: {
       text: t('monitoring.cores.title'),
       style: {
-        color: getCssVar('primary'),
+        color: getCssVar('accent'),
       },
     },
     min: 0,

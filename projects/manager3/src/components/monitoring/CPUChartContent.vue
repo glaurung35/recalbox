@@ -3,7 +3,7 @@
     <apexchart
       :options="options"
       :series="data"
-      height="250"
+      height="300"
     >
     </apexchart>
   </div>
@@ -24,31 +24,36 @@ const { data } = toRefs(props);
 
 const options = computed(() => ({
   chart: {
-    type: 'area',
+    type: 'line',
     animations: { enabled: false, easing: 'linear', dynamicAnimation: { speed: 1000 } },
     toolbar: { show: false },
     zoom: { enabled: false },
   },
-  dataLabels: {
-    enabled: false,
-    style: { colors: [getCssVar('primary')] },
-    offsetX: 30,
-  },
+  dataLabels: { enabled: false },
   tooltip: { enabled: false },
-  colors: [getCssVar('accent')],
   stroke: {
-    curve: 'smooth', show: true, width: 1, colors: [getCssVar('primary')],
+    show: true, width: 2, colors: [getCssVar('accent'), getCssVar('positive')],
   },
-  fill: { type: 'gradient', gradient: { opacityFrom: 0.6, opacityTo: 0.8 } },
   markers: { size: 0 },
-  yaxis: {
-    min: 0,
-    max: 100,
-    decimalsInFloat: 0,
-    title: {
-      text: t('monitoring.cpu.temperature.title'), style: { color: getCssVar('primary') },
+  yaxis: [
+    {
+      min: 0,
+      max: 100,
+      decimalsInFloat: 0,
+      title: {
+        text: t('monitoring.cpuVsMemory.temperature.title'), style: { color: getCssVar('accent') },
+      },
     },
-  },
+    {
+      opposite: true,
+      min: 0,
+      max: 100,
+      decimalsInFloat: 0,
+      title: {
+        text: t('monitoring.cpuVsMemory.memory.title'), style: { color: getCssVar('positive') },
+      },
+    },
+  ],
   xaxis: {
     labels: {
       formatter(value:number, timestamp:number) {
@@ -66,11 +71,11 @@ const options = computed(() => ({
     row: { colors: ['#ffffff'], opacity: 0.5 },
     column: { colors: ['#ffffff'], opacity: 0.5 },
   },
+  legend: { show: false },
 }));
 </script>
 
 <style lang="sass">
 .chart-cpu
-  padding: 1em
   background: white
 </style>

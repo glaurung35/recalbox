@@ -1,6 +1,6 @@
 <template>
   <q-page class="background monitoring">
-    <CPUChartContent :data="temperatures"/>
+    <CPUChartContent :data="JSON.parse(JSON.stringify(areaChartData))"/>
     <div class="charts-container row">
       <CoresChartContent :data="cores"/>
       <StoragesChartContent :data="storages"/>
@@ -21,12 +21,19 @@ const { metrics, storageInfo } = storeToRefs(monitoringStore);
 
 monitoringStore.fetch();
 
-const temperatures = computed<object[]>(() => [{
-  data: metrics.value.temperatures,
-}]);
+// const temperatures = computed<object[]>(() => [{
+//   data: metrics.value.temperatures,
+// }]);
+// const memory = computed<object[]>(() => [{
+//   data: metrics.value.memory,
+// }]);
 const cores = computed<object[]>(() => [{
   data: metrics.value.cores,
 }]);
+const areaChartData = computed<object[]>(() => [
+  { data: metrics.value.temperatures },
+  { data: metrics.value.memory },
+]);
 const storages = computed(() => storageInfo.value.storages);
 </script>
 

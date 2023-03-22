@@ -18,16 +18,31 @@ client.on('message', (topic, message) => {
       parseFloat(newMessage.temperature.temperatures.shift().toFixed(0)),
     ],
   ];
+
+  const memory = [
+    ...monitoringStore.metrics.memory,
+    [
+      (new Date(newMessage.timestamp)).getTime(),
+      parseFloat(
+        ((
+          newMessage.memory.available.shift() / newMessage.memory.total
+        ) * 100).toFixed(0),
+      ),
+    ],
+  ];
+
   const cores = Object.keys(newMessage.cpus).map(
     (core) => ({
       x: `Core ${core}`,
       y: parseFloat(newMessage.cpus[core].consumption.shift().toFixed(0)),
     }),
   );
+
   monitoringStore.$patch({
     metrics: {
       cores,
       temperatures: temperatures.slice(-30),
+      memory: memory.slice(-30),
     },
   });
 });

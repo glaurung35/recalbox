@@ -10,6 +10,7 @@ export const useMonitoringStore = defineStore('monitoring', {
     },
     metrics: {
       temperatures: [],
+      memory: [],
       cores: [],
     },
   }),

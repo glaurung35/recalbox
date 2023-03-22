@@ -57,9 +57,12 @@ export default {
     },
   },
   monitoring: {
-    cpu: {
+    cpuVsMemory: {
       temperature: {
-        title: '°C CPU ( dernières 30s )',
+        title: 'CPU °C ( DERNIÈRES 30S )',
+      },
+      memory: {
+        title: 'MÉMOIRE UTILISÉE % ( DERNIÈRES 30S )',
       },
     },
     cores: {

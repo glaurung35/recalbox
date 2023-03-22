@@ -137,6 +137,7 @@ const coresOptions = computed(() => ({
     toolbar: {
       show: false,
     },
+    zoom: { enabled: false },
   },
   responsive: [{ breakpoint: 480 }],
   xaxis: {

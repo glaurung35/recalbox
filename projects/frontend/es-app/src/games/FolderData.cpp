@@ -973,6 +973,13 @@ void FolderData::BuildFastSearchSeriesAlias(FolderData::FastSearchItemSerie& int
     else if (game->IsDisplayable())  into.Set(game, game->Metadata().AliasIndex());
 }
 
+void FolderData::BuildFastSearchSeriesFamily(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesFamily(into);
+    else if (game->IsDisplayable())  into.Set(game, game->Metadata().FamiliesIndex());
+}
+
 void FolderData::BuildFastSearchSeriesDescription(FolderData::FastSearchItemSerie& into) const
 {
   for(const FileData* game : mChildren)

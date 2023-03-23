@@ -129,3 +129,12 @@ const RotationCapability OdroidAdvanceGo2Board::GetRotationCapabilities() const 
   // Odroid GO Advance cannot rotate.
   return {.canRotate = false, .defaultRotationWhenTate = RotationType::None, .rotateControls = false, .autoRotateGames = false};
 }
+void OdroidAdvanceGo2Board::HeadphonePlugged()
+{
+  system("amixer sset 'Playback Path' HP");
+}
+
+void OdroidAdvanceGo2Board::HeadphoneUnplugged()
+{
+  system("amixer sset 'Playback Path' SPK");
+}

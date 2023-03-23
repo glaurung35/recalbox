@@ -172,6 +172,8 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     * @return the rotation capabilities for tate mode
     */
     const RotationCapability GetRotationCapabilities() const override;
+    void HeadphonePlugged() final;
+    void HeadphoneUnplugged() final;
 };
 
 

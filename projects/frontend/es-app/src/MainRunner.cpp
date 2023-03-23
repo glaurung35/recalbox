@@ -670,89 +670,13 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
 void MainRunner::HeadphonePluggedIn(BoardType board)
 {
   { LOG(LogInfo) << "[Audio] Headphones plugged!"; }
-  switch(board)
-  {
-    case BoardType::OdroidAdvanceGo:
-    case BoardType::OdroidAdvanceGoSuper:
-    {
-      std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
-      { LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones plugged! " << currentAudio; }
-      if (currentAudio == IAudioController::sAutoSwitch)
-      {
-        // Switch to headphone
-        std::string Headphones = "alsa_output.platform-rk817-sound.multichannel-output:analog-output-headphones";
-        if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
-        AudioController::Instance().SetDefaultPlayback(Headphones);
-        if (IsApplicationRunning()) AudioManager::Instance().Reactivate();
-        //RecalboxConf::Instance().SetAudioOuput(Headphones);
-        // Create music popup
-        int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Headphone!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
-        if (popupDuration != 0 && mApplicationWindow != nullptr)
-          mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output to Headphones!"),
-                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
-      }
-      break;
-    }
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi02:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::Pi400:
-    case BoardType::UnknownPi:
-    case BoardType::PCx86:
-    case BoardType::PCx64:
-    default: break;
-  }
+  Board::Instance().HeadphonePlugged();
 }
 
 void MainRunner::HeadphoneUnplugged(BoardType board)
 {
   { LOG(LogInfo) << "[Audio] Headphones unplugged!"; }
-  switch(board)
-  {
-    case BoardType::OdroidAdvanceGo:
-    case BoardType::OdroidAdvanceGoSuper:
-    {
-      std::string currentAudio = RecalboxConf::Instance().GetAudioOuput();
-      { LOG(LogInfo) << "[OdroidAdvanceGo2] Headphones unplugged! " << currentAudio; }
-      if (currentAudio == IAudioController::sAutoSwitch)
-      {
-        // Switch back to speakers
-        std::string Speakers = "alsa_output.platform-rk817-sound.multichannel-output:multichannel-output";
-        if (IsApplicationRunning()) AudioManager::Instance().Deactivate();
-        AudioController::Instance().SetDefaultPlayback(Speakers);
-        if (IsApplicationRunning()) AudioManager::Instance().Reactivate();
-        //RecalboxConf::Instance().SetAudioOuput(Speakers);
-        // Create music popup
-        int popupDuration = RecalboxConf::Instance().GetPopupMusic();
-        { LOG(LogInfo) << "[OdroidAdvanceGo] Switch to Speaker!" << popupDuration << " " << (mApplicationWindow != nullptr ? "ok" : "nok"); }
-        if (popupDuration != 0 && mApplicationWindow != nullptr)
-          mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, _("Switch audio output back to Speakers!"),
-                                                            popupDuration, GuiInfoPopupBase::PopupType::Music));
-      }
-      break;
-    }
-    case BoardType::UndetectedYet:
-    case BoardType::Unknown:
-    case BoardType::Pi0:
-    case BoardType::Pi02:
-    case BoardType::Pi1:
-    case BoardType::Pi2:
-    case BoardType::Pi3:
-    case BoardType::Pi3plus:
-    case BoardType::Pi4:
-    case BoardType::Pi400:
-    case BoardType::UnknownPi:
-    case BoardType::PCx86:
-    case BoardType::PCx64:
-    default: break;
-  }
+  Board::Instance().HeadphoneUnplugged();
 }
 
 void MainRunner::ResetButtonPressed(BoardType board)

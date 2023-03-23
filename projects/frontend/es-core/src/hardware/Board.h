@@ -184,6 +184,8 @@ class Board: public StaticLifeCycleControler<Board>
     {
       return mBoard.GetRotationCapabilities();
     }
+    void HeadphonePlugged() { mBoard.HeadphonePlugged(); }
+    void HeadphoneUnplugged() { mBoard.HeadphoneUnplugged(); }
 
   private:
     //! Board type

@@ -149,7 +149,15 @@ class IBoardInterface
     virtual const RotationCapability GetRotationCapabilities() const {
       return Case::CurrentCase().RotationSupported() ? defaultCap : noCap;
     }
+    /*
+     * @brief Headphone plugged in
+     */
+    virtual void HeadphonePlugged() = 0;
 
+    /*!
+     * @brief Headphone unplugged
+     */
+    virtual void HeadphoneUnplugged() = 0;
   protected:
     //! Hardware event Notification interface
     HardwareMessageSender& mSender;

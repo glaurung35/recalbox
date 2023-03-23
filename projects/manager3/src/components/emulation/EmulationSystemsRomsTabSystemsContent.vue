@@ -121,6 +121,7 @@ const table = ref<object>({
           .q-img__image
             transition: filter .2s ease
             filter: saturate(0)
+            opacity: 0.3
 
           .fullname, .background
             position: absolute

@@ -19,7 +19,7 @@
             icon="mdi-chevron-left"
             size="md"
             flat
-            :to="{name: 'systems'}"
+            :to="{name: 'systems-parent'}"
           >
             {{$t('general.return')}}
           </q-btn>

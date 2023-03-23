@@ -6,6 +6,7 @@
 #include <WindowManager.h>
 
 #include "GuiCheckMenu.h"
+#include "components/ButtonComponent.h"
 
 GuiCheckMenu::GuiCheckMenu(WindowManager& window,
                            const std::string& title,
@@ -75,6 +76,22 @@ GuiCheckMenu::GuiCheckMenu(WindowManager& window,
           name3, help3, func3,
           name4, help4, func4,
           lastChoice, footer);
+}
+
+GuiCheckMenu::GuiCheckMenu(WindowManager& window, const std::string& title, const std::string& footer, int lastChoice,
+                           const std::list<ButtonComponent>& buttons)
+  : GuiMenuBase(window, title, nullptr)
+{
+  for (auto& button : buttons)
+  {
+    if (mMenu.getButtonsSize() == 4)
+      break;
+    mMenu.addButton(button);
+  }
+
+  mMenu.setCursorToButtons();
+  mMenu.SetDefaultButton(lastChoice);
+  GuiMenuBase::SetFooter(footer);
 }
 
 bool GuiCheckMenu::ProcessInput(const InputCompactEvent& event)

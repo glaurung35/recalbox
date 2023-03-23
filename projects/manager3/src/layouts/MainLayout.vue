@@ -49,7 +49,7 @@ import HelpButton from 'components/global/HelpButton.vue';
 import MenuLink from 'components/global/MenuLink.vue';
 import LangSelector from 'components/global/LangSelector.vue';
 import VirtualDevicesButton from 'components/global/VirtualDevicesButton.vue';
-import ScreenshotButton from "components/global/ScreenshotButton.vue";
+import ScreenshotButton from 'components/global/ScreenshotButton.vue';
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);

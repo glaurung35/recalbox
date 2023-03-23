@@ -14,28 +14,39 @@
         narrow-indicator
       >
         <q-route-tab
-          :to="{name: 'global'}"
-          :label="$t('emulation.menu.global')" icon="mdi-sony-playstation" name="global"/>
+          :to="{ name: 'global' }"
+          :label="$t('emulation.menu.global')"
+          icon="mdi-sony-playstation"
+          name="global"
+        />
         <q-route-tab
-          :to="{name: 'bios'}"
-          :label="$t('emulation.menu.bios')" icon="mdi-heart-pulse" name="bios"/>
+          :to="{ name: 'bios' }"
+          :label="$t('emulation.menu.bios')"
+          icon="mdi-heart-pulse"
+          name="bios"
+        />
         <q-route-tab
-          :to="{name: 'systems'}"
-          :label="$t('emulation.menu.systems')" icon="mdi-television-classic" name="systems"/>
+          :to="{ name: 'systems-parent' }"
+          :label="$t('emulation.menu.systems')"
+          icon="mdi-television-classic"
+          name="systems"
+        />
         <q-route-tab
-          :to="{name: 'controllers'}"
+          :to="{ name: 'controllers' }"
           :label="$t('emulation.menu.controllers')"
-          icon="mdi-gamepad-variant-outline" name="controllers"/>
+          icon="mdi-gamepad-variant-outline"
+          name="controllers"
+        />
         <q-route-tab
-          :to="{name: 'screenshots'}"
-          :label="$t('emulation.menu.screenshots')" icon="mdi-camera-iris" name="screenshots"/>
+          :to="{ name: 'screenshots' }"
+          :label="$t('emulation.menu.screenshots')"
+          icon="mdi-camera-iris"
+          name="screenshots"
+        />
       </q-tabs>
     </transition>
 
-    <q-tab-panels
-      v-model="tab"
-      animated
-    >
+    <q-tab-panels v-model="tab">
       <q-tab-panel name="global">
         <router-view/>
       </q-tab-panel>
@@ -44,7 +55,7 @@
         <router-view/>
       </q-tab-panel>
 
-      <q-tab-panel name="systems">
+      <q-tab-panel name="systems-parent">
         <router-view/>
       </q-tab-panel>
 

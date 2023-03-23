@@ -280,7 +280,7 @@ export default {
     menu: {
       global: 'global',
       bios: 'bios',
-      systems: 'systems',
+      systems: 'systems / roms',
       controllers: 'controllers',
       screenshots: 'screenshots',
     },

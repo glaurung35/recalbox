@@ -18,8 +18,9 @@ const EmulationGlobalTabContent = () => import('components/emulation/EmulationGl
 const EmulationBiosTabContent = () => import('components/emulation/EmulationBiosTabContent.vue');
 const EmulationControllersTabContent = () => import('components/emulation/EmulationControllersTabContent.vue');
 const EmulationScreenshotsTabContent = () => import('components/emulation/EmulationScreenshotsTabContent.vue');
-const EmulationSystemsTabContent = () => import('components/emulation/EmulationSystemsTabContent.vue');
-const EmulationSystemsTabSystemContent = () => import('components/emulation/EmulationSystemsTabSystemContent.vue');
+const EmulationSystemsContainer = () => import('components/emulation/EmulationSystemsRomsContainer.vue');
+const EmulationSystemsTabContent = () => import('components/emulation/EmulationSystemsRomsTabSystemsContent.vue');
+const EmulationSystemsTabSystemContent = () => import('components/emulation/EmulationSystemsRomsTabSystemContent.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -97,13 +98,22 @@ const routes: RouteRecordRaw[] = [
           },
           {
             path: 'systems',
-            name: 'systems',
-            component: EmulationSystemsTabContent,
-          },
-          {
-            path: 'systems/:system',
-            name: 'systems-system',
-            component: EmulationSystemsTabSystemContent,
+            name: 'systems-parent',
+            component: EmulationSystemsContainer,
+            redirect: { name: 'systems-systems' },
+            children: [
+              {
+                path: '',
+                name: 'systems-systems',
+                component: EmulationSystemsTabContent,
+              },
+              {
+                path: ':system',
+                name: 'systems-system',
+                component: EmulationSystemsTabSystemContent,
+                props: true,
+              },
+            ],
           },
           {
             path: 'controllers',

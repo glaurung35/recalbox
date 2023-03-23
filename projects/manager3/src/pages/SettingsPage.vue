@@ -14,32 +14,47 @@
         narrow-indicator
       >
         <q-route-tab
-          :to="{name: 'system'}" :label="$t('settings.menu.system')" icon="mdi-server" name="system"
+          :to="{ name: 'system' }"
+          :label="$t('settings.menu.system')"
+          icon="mdi-server"
+          name="system"
         />
         <q-route-tab
-          :to="{name: 'audio'}"
-          :label="$t('settings.menu.audio')" icon="mdi-volume-high" name="audio"
+          :to="{ name: 'audio' }"
+          :label="$t('settings.menu.audio')"
+          icon="mdi-volume-high"
+          name="audio"
         />
         <q-route-tab
-          :to="{name: 'network'}"
-          :label="$t('settings.menu.network')" icon="mdi-wifi" name="network"
+          :to="{ name: 'network' }"
+          :label="$t('settings.menu.network')"
+          icon="mdi-wifi"
+          name="network"
         />
         <q-route-tab
-          :to="{name: 'emustation'}"
+          :to="{ name: 'emustation' }"
           icon="icon-emustation"
-          label="EmulationStation" name="emustation" style="text-transform: none;"
+          label="EmulationStation"
+          name="emustation"
+          style="text-transform: none;"
         />
         <q-route-tab
-          :to="{name: 'scraper'}"
+          :to="{ name: 'scraper' }"
           icon="mdi-database"
           label="Scraper"
           name="scraper"
         />
         <q-route-tab
-          :to="{name: 'kodi'}" icon="mdi-kodi" label="Kodi" name="kodi"
+          :to="{ name: 'kodi' }"
+          icon="mdi-kodi"
+          label="Kodi"
+          name="kodi"
         />
         <q-route-tab
-          :to="{name: 'hyperion'}" icon="mdi-lightbulb" label="Hyperion" name="hyperion"
+          :to="{ name: 'hyperion' }"
+          icon="mdi-lightbulb"
+          label="Hyperion"
+          name="hyperion"
         />
       </q-tabs>
     </transition>

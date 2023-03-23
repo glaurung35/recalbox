@@ -12,6 +12,7 @@
 #include <games/classifications/Regions.h>
 #include <scraping/scrapers/screenscraper/IConfiguration.h>
 #include <scraping/scrapers/screenscraper/IEndPointProvider.h>
+#include <list>
 
 class ScreenScraperApis
 {
@@ -25,6 +26,10 @@ class ScreenScraperApis
       std::string mScreenScraperName;
       //! Game Name
       std::string mName;
+
+      //! Game Families
+      std::list<std::string> mFamilies;
+
       //! Developer
       std::string mDeveloper;
       //! Publisher

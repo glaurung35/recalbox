@@ -144,6 +144,7 @@ class FolderData : public FileData
         Path,
         Name,
         Alias,
+        Family,
         Description,
         Developer,
         Publisher,
@@ -541,6 +542,7 @@ class FolderData : public FileData
     void BuildFastSearchSeriesPath(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesName(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesAlias(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesFamily(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDescription(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDeveloper(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesPublisher(FastSearchItemSerie& into) const;

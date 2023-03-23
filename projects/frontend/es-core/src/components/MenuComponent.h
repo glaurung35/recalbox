@@ -100,6 +100,7 @@ class MenuComponent : public Component
     }
 
     void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
+    void addButton(const ButtonComponent& button);
 
     void setFooter(const std::string& label);
 

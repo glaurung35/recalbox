@@ -13,7 +13,11 @@
       id="virtual-devices-button"
       @click="show(true)"
       disable
-    />
+    >
+      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+        {{ $t('general.virtualDevices.tooltip') }}
+      </q-tooltip>
+    </q-btn>
   </q-page-sticky>
 </template>
 

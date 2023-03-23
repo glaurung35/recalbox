@@ -22,7 +22,8 @@ export const KODI = '/configuration/kodi';
 export const MEDIA = {
   root: '/media',
   all: '/media/user/getall',
-  get: '/api/media/get/',
+  get: '/media/user/get/',
+  delete: '/media/user/',
 };
 
 export const MONITORING = {

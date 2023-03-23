@@ -38,5 +38,14 @@ export const useMediaStore = defineStore('media', {
         console.log(error);
       }
     },
+    async delete(name: string) {
+      try {
+        const response = await api.delete(MEDIA.delete + name);
+        this.media = response.data;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
   },
 });

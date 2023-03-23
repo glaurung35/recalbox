@@ -129,4 +129,7 @@ private:
      * @return True if a side effect has been triggered
      */
     bool OnRebootOrShutdown() { return false; }
+
+    void HeadphonePlugged() final {};
+    void HeadphoneUnplugged() final {};
 };

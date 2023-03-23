@@ -48,5 +48,9 @@ class NullBoard: public IBoardInterface
     void Suspend() final {}
 
     bool OnRebootOrShutdown() { return false; }
+
+    void HeadphonePlugged() final {};
+
+    void HeadphoneUnplugged() final {};
 };
 

@@ -111,4 +111,7 @@ public:
    * @return True if a side effect has been triggered
    */
   bool OnRebootOrShutdown();
+
+  void HeadphonePlugged() final {};
+  void HeadphoneUnplugged() final {};
 };

@@ -55,6 +55,12 @@ class GuiCheckMenu : public GuiMenuBase
                  const std::string& help4,
                  const std::function<void()>& func4);
 
+    GuiCheckMenu(WindowManager& window,
+                 const std::string& title,
+                 const std::string& footer,
+                 int lastChoice,
+                 const std::list<ButtonComponent>& buttons);
+
 private:
 
     bool ProcessInput(const InputCompactEvent& event) override;

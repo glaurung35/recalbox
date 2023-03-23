@@ -143,7 +143,17 @@
               </span>
 
               <span class="md5" v-else-if="col.name === 'currentMd5'">
-                {{ col.value !== '00000000000000000000000000000000' ? col.value : '-' }}
+                <q-btn
+                  :label="col.value"
+                  @click="copyToClipboard(col.value)"
+                  class="copy-to-clipboard"
+                  color="primary"
+                  dense
+                  flat
+                  size="md"
+                  v-if="col.value !== '00000000000000000000000000000000'"
+                />
+                {{ col.value === '00000000000000000000000000000000' ? '-' : '' }}
               </span>
 
               <span v-else-if="col.name === 'md5'">

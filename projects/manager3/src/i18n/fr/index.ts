@@ -148,6 +148,19 @@ export default {
       },
       wifi: {
         title: 'Wi-Fi',
+        region: {
+          title: 'Indicatif pays du wifi',
+          help: 'La valeur par défaut est JP car ce pays est le plus permissif en ce qui concerne le wifi.',
+        },
+        ip: {
+          title: 'IP Recalbox',
+        },
+        netmask: {
+          title: 'Masque de sous réseau',
+        },
+        gateway: {
+          title: 'IP de la passerelle',
+        },
         toggleButtonLabel: 'Activer le Wi-Fi',
         help: 'Attention, si vous vous trompez dans vos informations vous risquez de ne plus pouvoir accéder à votre recalbox par le wifi.\n'
           + 'Les clés sont chiffrées et ne sont donc pas réaffichées dans les champs. Cela ne veut pas dire que la valeur n\'est pas renseignée ! Si vous renseignez une valeur, cela écrasera la précédente.',
@@ -157,7 +170,7 @@ export default {
     },
     emustation: {
       options: {
-        title: 'Options',
+        title: 'Réglages',
         help_1: 'Options disponibles :'
           + '<ul><li><b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops,</li>'
           + '<li><b>defaut</b> correspond au menu de base avec toutes les options,</li>'

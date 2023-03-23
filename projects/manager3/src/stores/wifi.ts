@@ -8,9 +8,16 @@ export const useWifiStore = defineStore('wifi', {
       device: {
         allowedStringList: [],
       },
+      region: {
+        allowedStringList: [],
+      },
     },
     wifi: {},
   }),
+
+  getters: {
+    regionOptions: (state) => state._wifiOptions.region.allowedStringList,
+  },
 
   actions: {
     async fetchOptions() {

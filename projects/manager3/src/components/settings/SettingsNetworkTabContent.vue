@@ -25,6 +25,44 @@
 
           <q-separator/>
 
+          <WrappedSelect
+            label="settings.network.wifi.region.title"
+            :options="regionOptions"
+            :getter="wifi.region"
+            :setter="wifiStore.post"
+            apiKey="region"
+            v-if="wifi.region"
+          />
+          <p class="help">{{ $t('settings.network.wifi.region.help') }}</p>
+
+          <q-separator/>
+
+          <WrappedTextInput
+            label="settings.network.wifi.ip.title"
+            :getter="wifi.ip"
+            :setter="wifiStore.post"
+            apiKey="ip"
+            v-if="wifi.ip"
+          />
+
+          <WrappedTextInput
+            label="settings.network.wifi.netmask.title"
+            :getter="wifi.netmask"
+            :setter="wifiStore.post"
+            apiKey="netmask"
+            v-if="wifi.netmask"
+          />
+
+          <WrappedTextInput
+            label="settings.network.wifi.gateway.title"
+            :getter="wifi.gateway"
+            :setter="wifiStore.post"
+            apiKey="gateway"
+            v-if="wifi.gateway"
+          />
+
+          <q-separator/>
+
           <q-splitter v-model="splitterModel">
             <template v-slot:before>
               <q-tabs
@@ -123,6 +161,7 @@
 <script lang="ts" setup>
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedSelect from 'components/global/WrappedSelect.vue';
 import { useSystemStore } from 'stores/system';
 import { useWifiStore } from 'stores/wifi';
 import { ref } from 'vue';
@@ -135,7 +174,7 @@ const { system } = storeToRefs(systemStore);
 
 const wifiStore = useWifiStore();
 wifiStore.fetch();
-const { wifi } = storeToRefs(wifiStore);
+const { wifi, regionOptions } = storeToRefs(wifiStore);
 
 const text = ref<string>('');
 const tab = ref<string>('wifi_1');

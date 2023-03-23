@@ -121,3 +121,12 @@ bool OdroidAdvanceGo2Board::IsBatteryCharging()
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
 
+void OdroidAdvanceGo2Board::HeadphonePlugged()
+{
+  system("amixer sset 'Playback Path' HP");
+}
+
+void OdroidAdvanceGo2Board::HeadphoneUnplugged()
+{
+  system("amixer sset 'Playback Path' SPK");
+}

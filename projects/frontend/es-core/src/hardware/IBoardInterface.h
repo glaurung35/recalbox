@@ -132,6 +132,15 @@ class IBoardInterface
      */
     virtual bool OnRebootOrShutdown() = 0;
 
+    /*!
+     * @brief Headphone plugged in
+     */
+    virtual void HeadphonePlugged() = 0;
+
+    /*!
+     * @brief Headphone unplugged
+     */
+    virtual void HeadphoneUnplugged() = 0;
   protected:
     //! Hardware event Notification interface
     HardwareMessageSender& mSender;

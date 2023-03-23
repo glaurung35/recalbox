@@ -177,6 +177,9 @@ class Board: public StaticLifeCycleControler<Board>
       return mBoard.OnRebootOrShutdown();
     }
 
+    void HeadphonePlugged() { mBoard.HeadphonePlugged(); }
+    void HeadphoneUnplugged() { mBoard.HeadphoneUnplugged(); }
+
   private:
     //! Board type
     BoardType mType;

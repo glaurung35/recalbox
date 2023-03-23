@@ -975,11 +975,16 @@ FileData::List SystemManager::SearchFullMatchInGames(FolderData::FastSearchConte
       if(game->IsGame())
       {
         std::string found;
+        std::string found2;
         switch (context)
         {
           case FolderData::FastSearchContext::Name: found = game->Metadata().Name();
             break;
           case FolderData::FastSearchContext::Alias: found = game->Metadata().Alias();
+            break;
+          case FolderData::FastSearchContext::Family:
+            found = game->Metadata().Family();
+            found2 = game->Metadata().Family2();
             break;
           case FolderData::FastSearchContext::Path:
           case FolderData::FastSearchContext::Description:
@@ -988,8 +993,7 @@ FileData::List SystemManager::SearchFullMatchInGames(FolderData::FastSearchConte
           case FolderData::FastSearchContext::All: break;
         }
 
-        if (Strings::ToLowerUTF8(found) == lowercaseText)
-
+        if (Strings::ToLowerUTF8(found) == lowercaseText || Strings::ToLowerUTF8(found2) == lowercaseText)
           resultsList.push_back(game);
       }
       if ((int)resultsList.size() >= maxglobal)
@@ -1013,9 +1017,11 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   {
     case FolderData::FastSearchContext::Name       :
       MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name);
-      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias);
+      break;
 
     case FolderData::FastSearchContext::Alias      : MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
+    case FolderData::FastSearchContext::Family     : MetadataDescriptor::SearchInFamily(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Family); break;
     case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
     case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
     case FolderData::FastSearchContext::Developer  : MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
@@ -1058,6 +1064,9 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   // Build Item series
   DateTime start;
   CreateFastSearchCache(resultIndexes, searchableSystems, context);
+  if (FolderData::FastSearchContext::Name == context)
+    CreateFastSearchCache(resultIndexes, searchableSystems, FolderData::FastSearchContext::Alias);
+
   { LOG(LogDebug) << "[Search] Fast lookup cache built in " << ((DateTime() - start).TotalMilliseconds()) << "ms"; }
 
   // Collect result
@@ -1131,6 +1140,7 @@ void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextL
           case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
           case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
           case FolderData::FastSearchContext::Alias: count = MetadataDescriptor::AliasIndexCount(); break;
+          case FolderData::FastSearchContext::Family: count = MetadataDescriptor::FamilyIndexCount(); break;
           case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
           case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
           case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;
@@ -1138,18 +1148,7 @@ void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextL
         }
         FolderData::FastSearchItemSerie serie(count);
         for(int s = searchableSystems.Count(); --s >= 0; )
-        {
           searchableSystems[s]->BuildFastSearchSeries(serie, (FolderData::FastSearchContext) resultIndexes[i].Context);
-
-          // for building Alias serie when search in Neme context
-          if ((FolderData::FastSearchContext)resultIndexes[i].Context == FolderData::FastSearchContext::Name)
-          {
-            FolderData::FastSearchItemSerie aliasSerie(MetadataDescriptor::AliasIndexCount());
-            searchableSystems[s]->BuildFastSearchSeries(aliasSerie,
-                                                        (FolderData::FastSearchContext) resultIndexes[i].Context);
-          }
-
-        }
         mFastSearchSeries[resultIndexes[i].Context] = std::move(serie);
       }
   }

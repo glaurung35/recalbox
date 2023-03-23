@@ -169,6 +169,13 @@ void MenuComponent::addButton(const std::string& name, const std::string& helpTe
     updateSize();
 }
 
+void MenuComponent::addButton(const ButtonComponent& button)
+{
+  mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, Strings::ToUpperUTF8(button.getText()), button.getValue(), button.getPressedFunc()));
+  updateGrid();
+  updateSize();
+}
+
 void MenuComponent::updateGrid()
 {
   Vector2i buttonGridCursor = Vector2i(0, 0);

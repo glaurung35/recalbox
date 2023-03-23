@@ -417,7 +417,7 @@ export default {
       },
     },
     screenshots: {
-      screenshotButton: 'take a screenshot',
+      tooltip: 'Take a screenshot',
       dialogs: {
         remove: {
           text: 'Are you sure you want to delete this screenshot ?',

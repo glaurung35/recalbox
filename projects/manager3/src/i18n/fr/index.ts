@@ -5,6 +5,7 @@ export default {
   },
   general: {
     virtualDevices: {
+      tooltip: 'Accéder aux périphériques virtuels',
       title: 'Périphériques virtuels',
       keyboard: 'Clavier',
       gamepad: 'Manette',
@@ -417,7 +418,7 @@ export default {
       },
     },
     screenshots: {
-      screenshotButton: 'faire une capture',
+      tooltip: 'Faire une capture',
       dialogs: {
         remove: {
           text: 'Êtes-vous certain de vouloir supprimer cette capture d\'écran ?',

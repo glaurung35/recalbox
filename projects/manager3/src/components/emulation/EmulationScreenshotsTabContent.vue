@@ -1,24 +1,14 @@
 <template>
-  <div class="row">
+  <div class="screenshots row">
     <q-dialog @click="modal.open = false" v-model="modal.open">
       <q-img :src="modal.imgUrl"/>
     </q-dialog>
-
-    <div class="col col-xs-12 col-sm-12 col-md-12 q-mb-md q-pl-sm q-pr-sm">
-      <q-btn
-        :label="$t('emulation.screenshots.screenshotButton')"
-        class="float-right"
-        color="accent"
-        icon-right="mdi-camera-enhance"
-        outline
-      />
-    </div>
     <div
       :key="screenshot.name"
       class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
       v-for="screenshot in screenshots"
     >
-      <q-card @click="open(screenshot.url)" class="screenshot" flat square>
+      <q-card @click="openScreenshot(screenshot.url)" class="screenshot" flat square>
         <q-card-section horizontal>
           <q-img :src="screenshot.url" class="col" loading="lazy">
             <div
@@ -30,13 +20,13 @@
                 style="font-size: 1.5em; margin-right: .25em;"
               />
               {{ screenshot.date }}</span>
-<!--              <q-btn-->
-<!--                class="float-right"-->
-<!--                color="negative"-->
-<!--                flat icon="mdi-delete"-->
-<!--                round-->
-<!--                @click.stop="openConfirm('slug')"-->
-<!--              />-->
+              <q-btn
+                class="float-right"
+                color="negative"
+                flat icon="mdi-delete"
+                round
+                @click.stop="openDeleteConfirm(screenshot.name)"
+              />
             </div>
           </q-img>
         </q-card-section>
@@ -49,71 +39,101 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useMediaStore } from 'stores/media';
-import { storeToRefs } from 'pinia';
+// import { storeToRefs } from 'pinia';
+import { useI18n } from 'vue-i18n';
+import { date, useQuasar } from 'quasar';
 
+const { t } = useI18n({ useScope: 'global' });
+
+const $q = useQuasar();
 const mediaStore = useMediaStore();
+
 mediaStore.fetch();
 
-const { screenshots } = storeToRefs(mediaStore);
+// const { screenshots } = storeToRefs(mediaStore);
 
-// const screenshots: Array<object> = [
-//   {
-//     name: '31497_9e4635d5d3ac855e02c3f0d546c20557.png',
-//     url: 'https://www.gamerz.be/data/attachment-files/2017/01/31497_9e4635d5d3ac855e02c3f0d546c20557.png',
-//     date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'RecalBox.png',
-//     url: 'https://wiki.labomedia.org/images/a/ae/RecalBox.png',
-//     date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: '1265.png',
-//     url: 'https://cdn.inpact-hardware.com/data-prod/image/bd/1265.png',
-//     date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: '1261.png',
-//     url: 'https://cdn.inpact-hardware.com/data-prod/image/bd/1261.png',
-//     date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: '1266.png',
-//     url: 'https://cdn.inpact-hardware.com/data-prod/image/bd/1266.png',
-//     date: date.formatDate(date.extractDate('2020-04-16', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-// ];
+const screenshots = [
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+  {
+    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+    url: 'https://api.lorem.space/image/album',
+    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+  },
+];
 
 const modal = ref<object>({
   open: false,
   imgUrl: '',
+  selectedName: null,
 });
 
-function open(url:string) {
+function openScreenshot(url:string) {
   modal.value.imgUrl = url;
   modal.value.open = true;
+}
+function openDeleteConfirm(name:string) {
+  modal.value.selectedName = name;
+  $q.dialog({
+    dark: true,
+    message: t('emulation.screenshots.dialogs.remove.text'),
+    cancel: true,
+    persistent: true,
+    transitionHide: 'flip-up',
+    transitionShow: 'flip-down',
+  }).onOk(() => {
+    mediaStore.delete(modal.value.selectedName);
+    modal.value.selectedName = null;
+  });
 }
 </script>
 
 <style lang="sass">
-.screenshot
-  cursor: pointer
+.screenshots
+  .screenshot
+    cursor: pointer
 
-  .q-img__image
-    transition: transform .2s
-    -webkit-transition: -webkit-transform .2s
-
-  &:hover
     .q-img__image
-      transform: scale(1.1)
-      -webkit-transform: scale(1.1)
+      transition: transform .2s
+      -webkit-transition: -webkit-transform .2s
 
-  .absolute-bottom
-    background: rgba(52, 73, 93, 0.47) !important
+    &:hover
+      .q-img__image
+        transform: scale(1.1)
+        -webkit-transform: scale(1.1)
 
-.q-dialog__inner
-  cursor: pointer
+    .absolute-bottom
+      background: rgba(52, 73, 93, 0.47) !important
 
-  > div
-    max-width: 150vh
+  .q-dialog__inner
+    cursor: pointer
+
+    > div
+      max-width: 150vh
+
+    button
+        color: white!important
 </style>

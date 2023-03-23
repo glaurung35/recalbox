@@ -147,6 +147,19 @@ export default {
       },
       wifi: {
         title: 'Wi-Fi',
+        region: {
+          title: 'Wifi country code',
+          help: 'The default value is JP because this country is the most permissive for wifi.',
+        },
+        ip: {
+          title: 'Recalbox IP',
+        },
+        netmask: {
+          title: 'Netmask',
+        },
+        gateway: {
+          title: 'Gateway IP',
+        },
         toggleButtonLabel: 'Enable Wi-Fi',
         help: 'Please note: any misconfiguration would lead to your recalbox being unavailable on the network.\n'
           + 'The passwords are encrypted and are not re-displayed. This does not mean that the fields are emtpy! If you enter a new value, it will overwrite the old one.',
@@ -156,7 +169,7 @@ export default {
     },
     emustation: {
       options: {
-        title: 'Options',
+        title: 'Settings',
         help_1: 'Available options :'
           + '<ul><li><b>bartop</b> has filtered options, suitable for bartops,</li>'
           + '<li><b>default</b> is the fully enabled menu,</li>'

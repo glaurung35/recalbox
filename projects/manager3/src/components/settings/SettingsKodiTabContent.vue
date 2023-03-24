@@ -53,13 +53,13 @@
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedSelect
               label="settings.kodi.network.waitMode.select.options.label"
+              :help="$t('settings.kodi.network.waitMode.help')"
               :options="waitModeOptions"
               :getter="kodi['network.waitmode']"
               :setter="kodiStore.post"
               apiKey="network.waitmode"
               v-if="kodi['network.waitmode']"
             />
-            <p class="help" v-html="$t('settings.kodi.network.waitMode.help')"></p>
 
           <q-separator/>
 
@@ -75,12 +75,12 @@
 
             <WrappedTextInput
               label="settings.kodi.network.waitTime.title"
+              :help="$t('settings.kodi.network.waitTime.help')"
               :getter="kodi['network.waittime']"
               :setter="kodiStore.post"
               apiKey="network.waittime"
               v-if="kodi['network.waittime']"
             />
-            <p class="help">{{ $t('settings.kodi.network.waitTime.help') }}</p>
           </div>
         </template>
       </FormFragmentContainer>

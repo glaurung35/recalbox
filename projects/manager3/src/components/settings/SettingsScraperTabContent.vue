@@ -6,13 +6,13 @@
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedSelect
               label="settings.scraper.settings.getNameFrom.title"
+              :help="$t('settings.scraper.settings.getNameFrom.help')"
               :options="getNameFromOptions"
               :getter="scraper.getnamefrom"
               :setter="scraperStore.post"
               apiKey="getnamefrom"
               v-if="scraper.getnamefrom"
             />
-            <p class="help" v-html="$t('settings.scraper.settings.getNameFrom.help')"></p>
           </div>
         </template>
       </FormFragmentContainer>

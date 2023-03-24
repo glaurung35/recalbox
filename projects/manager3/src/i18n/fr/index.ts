@@ -11,6 +11,9 @@ export default {
       gamepad: 'Manette',
       trackpad: 'Pavet tactile',
     },
+    helpButton: {
+      tooltip: 'Aide',
+    },
     confirmDialog: {
       cancel: 'Annuler',
       valid: 'Valider',
@@ -162,7 +165,7 @@ export default {
           title: 'IP de la passerelle',
         },
         toggleButtonLabel: 'Activer le Wi-Fi',
-        help: 'Attention, si vous vous trompez dans vos informations vous risquez de ne plus pouvoir accéder à votre recalbox par le wifi.\n'
+        help: 'Attention, si vous vous trompez dans vos informations vous risquez de ne plus pouvoir accéder à votre recalbox par le wifi.\n\n'
           + 'Les clés sont chiffrées et ne sont donc pas réaffichées dans les champs. Cela ne veut pas dire que la valeur n\'est pas renseignée ! Si vous renseignez une valeur, cela écrasera la précédente.',
         ssid: 'SSID',
         key: 'Clé',
@@ -171,12 +174,12 @@ export default {
     emustation: {
       options: {
         title: 'Réglages',
-        help_1: 'Options disponibles :'
+        menuStyle: {
+          label: 'Style de menu',
+          help: 'Options disponibles :'
           + '<ul><li><b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops,</li>'
           + '<li><b>defaut</b> correspond au menu de base avec toutes les options,</li>'
           + '<li><b>none</b> n\'offre aucun menu excepté celui de recherche de jeux.</li></ul>',
-        menuStyle: {
-          label: 'Style de menu',
         },
         systemSelectedAsDefault: {
           label: 'Système sélectionné par défaut',
@@ -317,27 +320,34 @@ export default {
         label: 'Activer le lissage des jeux',
       },
       rewind: {
-        title: 'Rembobinage des jeux',
+        title: 'Rembobinage',
         label: 'Active le rembobinage des jeux',
         warning: 'L\'option rembobinage vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l\'activez par défaut.',
       },
       autosave: {
-        title: 'Sauvegarde / Chargement automatique',
-        label: 'Active la sauvegarde automatique',
-        help: 'Cette option vous permet de créer une sauvegarde automatique de votre jeu quand vous le quittez, puis de la charger à nouveau quand vous le relancerez.\n'
+        title: 'Sauvegarde',
+        label: 'Active la sauvegarde / chargement automatique',
+        help: 'Cette option vous permet de créer une sauvegarde automatique de votre jeu quand vous le quittez, puis de la charger à nouveau quand vous le relancerez.\n\n'
           + 'Une fois le jeu lancé et la sauvegarde chargée, si vous souhaitez revenir à l\'écran titre du jeu, utilisez la commande spéciale de reset.',
       },
       retroachievements: {
         title: 'Retroachievements',
-        label: 'Retroachievements',
-        activate: 'Activer RetroAchievements',
-        hardcore: 'Activer le mode Hardcore',
-        username: 'Login',
-        password: 'Mot de passe',
-        help_1: 'RetroAchievements.org ( <a href="http://retroachievements.org/" target="_blank" title="RetroAchievements.org">http://retroachievements.org/</a> ) est un site communautaire qui permet de  gagner des hauts-faits sur mesure dans les jeux d\'arcade grâce à l\'émulation.',
-        help_2: 'Les haut-faits sont conçus par et pour la communauté.',
-        help_3: 'Le mode Hardcore désactive *toutes* les possibilités de sauvegarder dans l\'émulateur : vous ne pourrez ni sauvegarder ni recharger votre partie en cours de jeu.\n'
+        activate: {
+          label: 'Activer RetroAchievements',
+          help: 'RetroAchievements.org est un site communautaire qui permet de  gagner des hauts-faits sur mesure dans les jeux d\'arcade grâce à l\'émulation.\n\n'
+          + ' Les haut-faits sont conçus par et pour la communauté.',
+        },
+        hardcore: {
+          label: 'Activer le mode Hardcore',
+          help: 'Le mode Hardcore désactive *toutes* les possibilités de sauvegarder dans l\'émulateur : vous ne pourrez ni sauvegarder ni recharger votre partie en cours de jeu.\n\n'
           + 'Vous devrez compléter le jeu et obtenir les hauts-faits du premier coup, comme c\'était le cas sur la console originale !',
+        },
+        username: {
+          label: 'Login',
+        },
+        password: {
+          label: 'Mot de passe',
+        },
       },
     },
     bios: {

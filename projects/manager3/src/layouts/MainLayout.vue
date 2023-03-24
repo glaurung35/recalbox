@@ -45,7 +45,7 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import HelpButton from 'components/global/HelpButton.vue';
+import HelpButton from 'components/global/ShortcutsButton.vue';
 import MenuLink from 'components/global/MenuLink.vue';
 import LangSelector from 'components/global/LangSelector.vue';
 import VirtualDevicesButton from 'components/global/VirtualDevicesButton.vue';

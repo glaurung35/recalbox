@@ -10,6 +10,9 @@ export default {
       gamepad: 'Gamepad',
       trackpad: 'Trackpad',
     },
+    helpButton: {
+      tooltip: 'Help',
+    },
     confirmDialog: {
       cancel: 'Cancel',
       valid: 'Validate',
@@ -161,7 +164,7 @@ export default {
           title: 'Gateway IP',
         },
         toggleButtonLabel: 'Enable Wi-Fi',
-        help: 'Please note: any misconfiguration would lead to your recalbox being unavailable on the network.\n'
+        help: 'Please note: any misconfiguration would lead to your recalbox being unavailable on the network.\n\n'
           + 'The passwords are encrypted and are not re-displayed. This does not mean that the fields are emtpy! If you enter a new value, it will overwrite the old one.',
         ssid: 'SSID',
         key: 'Key',
@@ -170,12 +173,12 @@ export default {
     emustation: {
       options: {
         title: 'Settings',
-        help_1: 'Available options :'
+        menuStyle: {
+          label: 'Menu style',
+          help: 'Available options :'
           + '<ul><li><b>bartop</b> has filtered options, suitable for bartops,</li>'
           + '<li><b>default</b> is the fully enabled menu,</li>'
           + '<li><b>none</b> just lets you select games.</li></ul>',
-        menuStyle: {
-          label: 'Menu style',
         },
         systemSelectedAsDefault: {
           label: 'System selected as default',
@@ -321,22 +324,29 @@ export default {
         warning: 'The rewind option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it.',
       },
       autosave: {
-        title: 'Auto save / load',
-        label: 'Enables automatic backup',
-        help: 'This option allows you to create an automatic backup of your game when you exit it, then to load it again when you restart it.\n'
+        title: 'Auto save',
+        label: 'Enables automatic backup / load',
+        help: 'This option allows you to create an automatic backup of your game when you exit it, then to load it again when you restart it.\n\n'
           + 'Once the game is launched and the backup loaded, if you want to return to the title screen of the game, use the special reset command.',
       },
       retroachievements: {
         title: 'Retroachievements',
-        label: 'Retroachievements',
-        activate: 'Enable RetroAchievements',
-        hardcore: 'Enable Hardcore mode',
-        username: 'Login',
-        password: 'Password',
-        help_1: 'RetroAchievements.org ( <a href="http://retroachievements.org/" target="_blank" title="RetroAchievements.org">http://retroachievements.org/</a> ) is a community website that allows you to win custom-made achievements for retro games.',
-        help_2: 'Achievements are made by and for the community.',
-        help_3: 'The Hardcore mode deactivates all possibilities of saving in the emulator! You won\'t be able to save or reload your game whilst playing.\n'
+        activate: {
+          label: 'Enable RetroAchievements',
+          help: 'RetroAchievements.org is a community website that allows you to win custom-made achievements for retro games.\n\n'
+          + 'Achievements are made by and for the community.',
+        },
+        hardcore: {
+          label: 'Enable Hardcore mode',
+          help: 'The Hardcore mode deactivates all possibilities of saving in the emulator! You won\'t be able to save or reload your game whilst playing.\n\n'
           + 'You have to complete the game and get the achievements first time, just like it was on the original console.',
+        },
+        username: {
+          label: 'Login',
+        },
+        password: {
+          label: 'Password',
+        },
       },
     },
     bios: {

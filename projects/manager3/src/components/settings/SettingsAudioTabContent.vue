@@ -5,12 +5,13 @@
         <template v-slot:content>
           <WrappedToggle
             label="settings.audio.backgroundMusic.toggleButtonLabel"
+            :help="$t('settings.audio.backgroundMusic.help')"
+            warning
             :getter="audio.bgmusic"
             :setter="audioStore.post"
             apiKey="bgmusic"
             v-if="audio.bgmusic"
           />
-          <p class="help">{{ $t('settings.audio.backgroundMusic.help') }}</p>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.audio.audioOutput.title">

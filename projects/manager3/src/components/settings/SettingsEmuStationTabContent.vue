@@ -5,13 +5,13 @@
         <template v-slot:content>
           <WrappedSelect
             label="settings.emustation.options.menuStyle.label"
+            :help="$t('settings.emustation.options.menuStyle.help')"
             :options="menuOptions"
             :getter="emulationstation.menu"
             :setter="emulationstationStore.post"
             apiKey="menu"
             v-if="emulationstation.menu"
           />
-          <p class="help" v-html="$t('settings.emustation.options.help_1')"></p>
 
           <q-separator/>
 
@@ -26,36 +26,36 @@
 
           <q-separator/>
 
-          <WrappedToggle
-            label="settings.emustation.options.startFromFirstSystem"
-            :getter="emulationstation.bootongamelist"
-            :setter="emulationstationStore.post"
-            apiKey="bootongamelist"
-            v-if="emulationstation.bootongamelist"
-          />
-          <p class="help" v-html="$t('settings.emustation.options.help_2')"></p>
-
-          <q-separator/>
-
-          <WrappedToggle
-            label="settings.emustation.options.disableSystemSelection"
-            :getter="emulationstation.hidesystemview"
-            :setter="emulationstationStore.post"
-            apiKey="hidesystemview"
-            v-if="emulationstation.hidesystemview"
-          />
-          <p class="help" v-html="$t('settings.emustation.options.help_3')"></p>
-
-          <q-separator/>
-
-          <WrappedToggle
-            label="settings.emustation.options.showOnlyScrapedGames"
-            :getter="emulationstation.gamelistonly"
-            :setter="emulationstationStore.post"
-            apiKey="gamelistonly"
-            v-if="emulationstation.gamelistonly"
-          />
-          <p class="help" v-html="$t('settings.emustation.options.help_4')"></p>
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="settings.emustation.options.startFromFirstSystem"
+              :help="$t('settings.emustation.options.help_2')"
+              :getter="emulationstation.bootongamelist"
+              :setter="emulationstationStore.post"
+              apiKey="bootongamelist"
+              v-if="emulationstation.bootongamelist"
+            />
+          </div>
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="settings.emustation.options.disableSystemSelection"
+              :help="$t('settings.emustation.options.help_3')"
+              :getter="emulationstation.hidesystemview"
+              :setter="emulationstationStore.post"
+              apiKey="hidesystemview"
+              v-if="emulationstation.hidesystemview"
+            />
+          </div>
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="settings.emustation.options.showOnlyScrapedGames"
+              :help="$t('settings.emustation.options.help_4')"
+              :getter="emulationstation.gamelistonly"
+              :setter="emulationstationStore.post"
+              apiKey="gamelistonly"
+              v-if="emulationstation.gamelistonly"
+            />
+          </div>
         </template>
       </FormFragmentContainer>
     </div>
@@ -64,23 +64,23 @@
         <template v-slot:content>
           <WrappedTextInput
             label="settings.emustation.videoSnaps.delay.title"
+            :help="$t('settings.emustation.videoSnaps.delay.help')"
             :getter="emulationstation['videosnaps.delay']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.delay"
             v-if="emulationstation['videosnaps.delay']"
           />
-          <p class="help" v-html="$t('settings.emustation.videoSnaps.delay.help')"></p>
 
           <q-separator/>
 
           <WrappedTextInput
             label="settings.emustation.videoSnaps.loop.title"
+            :help="$t('settings.emustation.videoSnaps.loop.help')"
             :getter="emulationstation['videosnaps.loop']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.loop"
             v-if="emulationstation['videosnaps.loop']"
           />
-          <p class="help" v-html="$t('settings.emustation.videoSnaps.loop.help')"></p>
         </template>
       </FormFragmentContainer>
     </div>

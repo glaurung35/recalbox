@@ -16,15 +16,21 @@
           @click="isPwd = !isPwd"
         />
       </template>
+      <template v-slot:after>
+        <HelpButton :help="help" :warning="warning"/>
+      </template>
     </q-input>
   </q-form>
 </template>
 
 <script lang="ts" setup>
 import { toRefs, ref, computed } from 'vue';
+import HelpButton from 'components/global/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
+  help: { type: String },
+  warning: { type: Boolean },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
@@ -32,7 +38,7 @@ const props = defineProps({
 });
 
 const {
-  label, getter, setter, apiKey, password,
+  label, help, warning, getter, setter, apiKey, password,
 } = toRefs(props);
 
 const timeout = ref();

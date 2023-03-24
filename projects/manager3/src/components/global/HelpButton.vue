@@ -1,79 +1,79 @@
 <template>
-  <q-page-sticky :offset="[18, 18]" position="bottom-right">
-    <q-fab
-      color="primary"
-      direction="up"
-      flat
-      icon="mdi-help-circle-outline"
-      id="help-button"
-      square
-      vertical-actions-align="right"
+  <q-btn
+    :color="warning ? 'negative' : 'light-blue'"
+    @click="() => helpOpen = true"
+    flat
+    :icon="warning ? 'mdi-alert' : 'mdi-help-circle-outline'"
+    round
+    size="md"
+    v-if="help"
+    :class="toggle ? 'help-button' : ''"
+  >
+    <q-tooltip
+      :offset="[10, 10]"
+      content-class="bg-primary"
+      content-style="font-size: 16px"
     >
-      <q-fab-action
-        color="secondary"
-        icon="mdi-bash"
-        label="recalbox-support.sh"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.gitlab)"
-        color="secondary"
-        icon="mdi-gitlab"
-        label="Gitlab"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.forum)"
-        color="secondary"
-        icon="mdi-forum"
-        label="Forum"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.gitbook)"
-        class="gitbook"
-        color="secondary"
-        icon="icon-gitbook"
-        label="Documentation"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.discord)"
-        color="secondary"
-        icon="mdi-discord"
-        label="Discord"
-        label-position="left"
-        square
-      />
-    </q-fab>
-  </q-page-sticky>
+      {{ $t('general.helpButton.tooltip') }}
+    </q-tooltip>
+  </q-btn>
+  <q-dialog transition-hide="flip-up" transition-show="flip-down" v-model="helpOpen">
+    <q-card :class="className + ' background help-dialog'">
+      <!-- eslint-disable-next-line vue/no-v-text-v-html-on-component -->
+      <q-card-section class="text-justify" style="white-space: pre-line;" v-html="help"/>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script lang="ts" setup>
-import { openURL } from 'quasar';
+import { ref, toRefs } from 'vue';
 
-const urls: object = {
-  discord: process.env.DISCORD_URL,
-  gitbook: process.env.GITBOOK_URL,
-  forum: process.env.FORUM_URL,
-  gitlab: process.env.GITLAB_URL,
-};
+const helpOpen = ref<boolean>(false);
+
+const props = defineProps({
+  help: { type: String, required: true, default: '' },
+  warning: { type: Boolean },
+  toggle: { type: Boolean },
+});
+
+const { help, warning, toggle } = toRefs(props);
+
+const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-warning' : 'help-dialog-card'}`;
 </script>
 
 <style lang="sass">
-.q-page-container
-  #help-button
-    .q-btn--fab-mini:hover
-      .q-icon:before
-        color: $accent
+@keyframes helpDialogSlidein
+  from
+    right: -10rem
+    bottom: -10rem
 
-    .gitbook
-      i
-        font-size: 18px
-        margin-left: 3px
-        margin-right: 3px
+  to
+    right: -30px
+    bottom: 0
+
+.help-dialog
+  overflow: hidden!important
+  &:before
+    font-size: 14em
+    bottom: 0
+    right: -30px
+    color: $secondary
+    opacity: 0.3
+    animation-duration: .5s
+    animation-name: helpDialogSlidein
+
+.help-button
+  margin-bottom: 1em
+
+.help-dialog-card
+  border-left: 6px solid $accent
+
+  &:before
+    content: "\F0625"
+
+.help-dialog-card-warning
+  border-left: 6px solid $negative
+
+  &:before
+    content: "\F0026"
 </style>

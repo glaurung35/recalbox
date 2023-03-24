@@ -69,21 +69,18 @@ const stats = computed<object[]>(() => [
     title: 'home.preview.systems',
     value: getSystemsListCount(),
     percent: 100,
-    type: 'number',
   },
   {
     key: 2,
     title: 'home.preview.roms',
     value: 70543,
     percent: 100,
-    type: 'number',
   },
   {
     key: 3,
     title: 'home.preview.sharePercent',
     value: getSharePercent(),
     percent: getSharePercent(),
-    type: 'percent',
   },
 ]);
 </script>

@@ -15,7 +15,7 @@
         track-color="light-blue"
         v-model="percent"
       >
-        {{ value + (type === 'percent' ? '%' : '') }}
+        {{ value + (value <= 100 ? '%' : '') }}
       </q-knob>
       <div class="text-subtitle1 text-accent home-stat-title">
         {{ $t(title) }}
@@ -30,11 +30,10 @@ import { toRefs } from 'vue';
 const props = defineProps({
   title: { type: String },
   value: { type: Number, default: 0 },
-  type: { type: String },
   percent: { type: Number, default: 0 },
 });
 
 const {
-  title, value, type, percent,
+  title, value, percent,
 } = toRefs(props);
 </script>

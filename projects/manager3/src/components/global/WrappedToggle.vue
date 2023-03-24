@@ -5,6 +5,8 @@
     v-model="enabled"
     v-bind="$attrs"
     color="accent"
+    checked-icon="check"
+    unchecked-icon="clear"
   />
 </template>
 

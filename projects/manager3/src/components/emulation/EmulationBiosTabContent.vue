@@ -246,7 +246,7 @@
 
       </q-table>
 
-      <q-dialog transition-hide="flip-up" transition-show="flip-down" v-model="md5Open">
+      <q-dialog transition-hide="slide-down" transition-show="slide-up" v-model="md5Open">
         <q-card class="bg-primary text-white">
           <q-toolbar>
             <q-toolbar-title>MD5s</q-toolbar-title>
@@ -270,7 +270,7 @@
       </q-dialog>
 
       <q-dialog transition-hide="flip-up" transition-show="flip-down" v-model="helpOpen">
-        <q-card class="bg-primary text-white">
+        <q-card class="bg-primary text-white md5-dialog-card">
           <q-toolbar>
             <q-toolbar-title>{{ $t('emulation.bios.help.title') }}</q-toolbar-title>
           </q-toolbar>
@@ -420,4 +420,7 @@ const filteredBiosList = computed(() => {
   .md5
     font-family: monospace
     font-size: 13px !important
+
+.md5-dialog-card
+  border-left: 6px solid $accent
 </style>

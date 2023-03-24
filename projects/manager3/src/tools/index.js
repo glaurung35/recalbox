@@ -6,7 +6,7 @@ export const copyToClipboard = (content) => {
     .then(() => {
       Notify.create({
         message: i18n.global.t('general.copyToClipboard'),
-        color: 'primary',
+        color: 'positive',
         icon: 'mdi-clipboard-check',
       });
     }, (error) => {

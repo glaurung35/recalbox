@@ -17,7 +17,7 @@
       {{ $t('general.helpButton.tooltip') }}
     </q-tooltip>
   </q-btn>
-  <q-dialog transition-hide="flip-up" transition-show="flip-down" v-model="helpOpen">
+  <q-dialog transition-hide="slide-down" transition-show="slide-up" v-model="helpOpen">
     <q-card :class="className + ' background help-dialog'">
       <!-- eslint-disable-next-line vue/no-v-text-v-html-on-component -->
       <q-card-section class="text-justify" style="white-space: pre-line;" v-html="help"/>

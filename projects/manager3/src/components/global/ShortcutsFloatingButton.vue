@@ -1,21 +1,18 @@
 <template>
-  <q-page-sticky :offset="[18, 18]" position="bottom-right">
+  <q-page-sticky
+    :offset="[18, 18]"
+    position="bottom-right"
+    style="transform: translate(-74px, 0px);"
+  >
     <q-fab
       color="primary"
       direction="up"
       flat
-      icon="mdi-help-circle-outline"
+      icon="mdi-link"
       id="help-button"
       square
       vertical-actions-align="right"
     >
-      <q-fab-action
-        color="secondary"
-        icon="mdi-bash"
-        label="recalbox-support.sh"
-        label-position="left"
-        square
-      />
       <q-fab-action
         @click="() => openURL(urls.gitlab)"
         color="secondary"

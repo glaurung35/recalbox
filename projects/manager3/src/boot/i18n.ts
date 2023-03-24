@@ -34,6 +34,7 @@ if (!LocalStorage.getItem('locale')) {
 const i18n = createI18n({
   locale: LocalStorage.getItem('locale') as string,
   legacy: false,
+  warnHtmlMessage: false,
   messages,
 });
 

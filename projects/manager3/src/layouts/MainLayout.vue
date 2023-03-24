@@ -29,27 +29,29 @@
       </q-list>
       <div class="menu-logo">
         <a href="" title="Recalbox">
-          <img alt="Recalbox logo mini" src="../assets/logo-boutons.svg">
+          <img alt="Recalbox" src="../assets/logo-boutons.svg">
         </a>
       </div>
     </q-drawer>
 
     <q-page-container>
       <router-view />
-      <ScreenshotButton/>
-      <VirtualDevicesButton/>
-      <HelpButton/>
+      <ScreenshotFloatingButton/>
+      <VirtualDevicesFloatingButton/>
+      <ShortcutsFloatingButton/>
+      <HelpFloatingButton/>
     </q-page-container>
   </q-layout>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import HelpButton from 'components/global/ShortcutsButton.vue';
+import ShortcutsFloatingButton from 'components/global/ShortcutsFloatingButton.vue';
 import MenuLink from 'components/global/MenuLink.vue';
 import LangSelector from 'components/global/LangSelector.vue';
-import VirtualDevicesButton from 'components/global/VirtualDevicesButton.vue';
-import ScreenshotButton from 'components/global/ScreenshotButton.vue';
+import VirtualDevicesFloatingButton from 'components/global/VirtualDevicesFloatingButton.vue';
+import ScreenshotFloatingButton from 'components/global/ScreenshotFloatingButton.vue';
+import HelpFloatingButton from 'components/global/HelpFloatingButton.vue';
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);

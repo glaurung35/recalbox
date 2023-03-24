@@ -2,6 +2,19 @@
 body
   color: $primary
 
+// Custom Scrollbar
+::-webkit-scrollbar
+  width: 10px
+
+::-webkit-scrollbar-track
+  background: $primary
+
+::-webkit-scrollbar-thumb
+  background: $secondary
+
+::-webkit-scrollbar-thumb:hover
+  background: $accent
+
 // Custom font
 $recalbox-font-family: "recalbox-manager" !default
 $recalbox-font-path: "../assets/fonts" !default
@@ -75,7 +88,8 @@ $icon-recalbox-buttons: "\e905"
 .settings,
 .emulation,
 .kodi,
-.help-dialog
+.help-dialog,
+.versions-dialog
   overflow: hidden
 
 .background

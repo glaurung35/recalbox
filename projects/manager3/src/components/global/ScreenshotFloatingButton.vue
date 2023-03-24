@@ -2,7 +2,7 @@
   <q-page-sticky
     :offset="[18, 18]"
     position="bottom-right"
-    style="transform: translate(-148px, 0px);"
+    style="transform: translate(-222px, 0px);"
   >
     <q-btn
       padding="16px"

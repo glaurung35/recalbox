@@ -15,7 +15,7 @@
         <div>{{index}}</div>
       </div>
       <div class="col col-md-6" style="padding-left: 5%;">
-        <q-chip color="light-blue" dense icon="mdi-source-branch" square text-color="white">
+        <q-chip color="secondary" dense icon="mdi-source-branch" square text-color="white">
           {{value}}
         </q-chip>
       </div>
@@ -39,8 +39,6 @@ const {
 
 <style lang="sass">
 .container
-  overflow-y: scroll
-  overflow-x: hidden
   padding: 1em
 
   .version-line

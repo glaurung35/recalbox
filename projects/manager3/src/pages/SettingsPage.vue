@@ -96,7 +96,6 @@
 import { ref } from 'vue';
 import { useSystemStore } from 'stores/system';
 import { useUpdatesStore } from 'stores/updates';
-import { useVersionsStore } from 'stores/versions';
 import { useAudioStore } from 'stores/audio';
 import { useEmulationstationStore } from 'stores/emulationstation';
 import { useKodiStore } from 'stores/kodi';
@@ -106,7 +105,6 @@ import { useWifiStore } from 'stores/wifi';
 useSystemStore().fetchOptions();
 useAudioStore().fetchOptions();
 useUpdatesStore().fetchOptions();
-useVersionsStore().fetchVersions();
 useEmulationstationStore().fetchOptions();
 useKodiStore().fetchOptions();
 useScraperStore().fetchOptions();

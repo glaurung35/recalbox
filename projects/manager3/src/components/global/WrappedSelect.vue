@@ -8,14 +8,21 @@
     v-model="value"
     v-bind="$attrs"
     :map-options="true"
-  />
+  >
+    <template v-slot:after>
+      <HelpButton :help="help" :warning="warning"/>
+    </template>
+  </q-select>
 </template>
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import HelpButton from 'components/global/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
+  help: { type: String },
+  warning: { type: Boolean },
   options: { type: Object, required: true },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
@@ -23,7 +30,7 @@ const props = defineProps({
 });
 
 const {
-  label, options, getter, setter, apiKey,
+  label, help, warning, options, getter, setter, apiKey,
 } = toRefs(props);
 
 const value = computed({

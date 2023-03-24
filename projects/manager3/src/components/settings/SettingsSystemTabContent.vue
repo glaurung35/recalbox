@@ -46,13 +46,13 @@
         <template v-slot:content>
           <WrappedSelect
             label="settings.system.specialKey.behaviourSelect.label"
+            :help="$t('settings.system.specialKey.help')"
             :options="specialkeysOptions"
             :getter="system['emulators.specialkeys']"
             :setter="systemStore.post"
             apiKey="emulators.specialkeys"
             v-if="system['emulators.specialkeys']"
           />
-          <p class="help" v-html="$t('settings.system.specialKey.help')"></p>
         </template>
       </FormFragmentContainer>
 

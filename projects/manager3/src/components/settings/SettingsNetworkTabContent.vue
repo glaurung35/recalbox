@@ -16,24 +16,24 @@
         <template v-slot:content>
           <WrappedToggle
             label="settings.network.wifi.toggleButtonLabel"
+            :help="$t('settings.network.wifi.help')"
             :getter="wifi.enabled"
             :setter="wifiStore.post"
             apiKey="enabled"
             v-if="wifi.enabled"
           />
-          <p class="help">{{ $t('settings.network.wifi.help') }}</p>
 
           <q-separator/>
 
           <WrappedSelect
             label="settings.network.wifi.region.title"
+            :help="$t('settings.network.wifi.region.help')"
             :options="regionOptions"
             :getter="wifi.region"
             :setter="wifiStore.post"
             apiKey="region"
             v-if="wifi.region"
           />
-          <p class="help">{{ $t('settings.network.wifi.region.help') }}</p>
 
           <q-separator/>
 

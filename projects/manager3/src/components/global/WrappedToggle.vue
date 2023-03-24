@@ -8,20 +8,24 @@
     checked-icon="check"
     unchecked-icon="clear"
   />
+  <HelpButton :help="help" :warning="warning" toggle/>
 </template>
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
+import HelpButton from 'components/global/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
+  help: { type: String },
+  warning: { type: Boolean },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
 });
 
 const {
-  label, getter, setter, apiKey,
+  label, help, warning, getter, setter, apiKey,
 } = toRefs(props);
 
 const enabled = computed({
@@ -29,7 +33,3 @@ const enabled = computed({
   set: (selected) => setter.value({ [apiKey.value]: selected }),
 });
 </script>
-
-<style lang="sass">
-
-</style>

@@ -57,7 +57,6 @@ export default {
       systems: 'systèmes',
       roms: 'roms',
       sharePercent: 'share: % de la partition',
-      adefinir: 'À définir !',
     },
   },
   monitoring: {

@@ -4,8 +4,7 @@
       :options="options"
       :series="data"
       height="100%"
-    >
-    </apexchart>
+    />
   </div>
 </template>
 

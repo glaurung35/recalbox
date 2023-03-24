@@ -23,6 +23,7 @@
 
 <script lang="ts" setup>
 function screenshot() {
+  // eslint-disable-next-line no-console
   console.log('screenshot');
 }
 </script>

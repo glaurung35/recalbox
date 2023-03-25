@@ -82,8 +82,8 @@ export default {
       virtual_devices: 'Périphériques virtuels',
     },
     system: {
-      settings: {
-        title: 'réglages',
+      internationalization: {
+        title: 'Internationalisation',
         langSelect: {
           label: 'Langues du système',
         },

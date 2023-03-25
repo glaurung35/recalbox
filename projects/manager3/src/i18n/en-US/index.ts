@@ -81,8 +81,8 @@ export default {
       virtual_devices: 'Virtual devices',
     },
     system: {
-      settings: {
-        title: 'settings',
+      internationalization: {
+        title: 'Internationalization',
         langSelect: {
           label: 'System languages',
         },

@@ -22,6 +22,9 @@ Board::Board(IHardwareNotifications& notificationInterface)
   , mBoard(GetBoardInterface(mSender))
   , mCrtBoard(GetCrtBoard())
 {
+  if(mCrtBoard.GetCrtAdapter() != CrtAdapterType::None)
+    { LOG(LogInfo) << "[CRT] Detected CRT Adapter: " << mCrtBoard.Name(); }
+
 }
 
 IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)

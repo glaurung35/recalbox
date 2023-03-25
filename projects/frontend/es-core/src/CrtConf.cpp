@@ -28,10 +28,12 @@ CrtAdapterType CrtConf::CrtAdapterFromString(const String& adapter)
   {
     foundAdapter = RecalboxConf::Instance().AsString("system.crt");
   }
-  if (foundAdapter == "recalboxrgbdual") return CrtAdapterType::RGBDual;
-  if (foundAdapter == "pi2scart"       ) return CrtAdapterType::Pi2Scart;
-  if (foundAdapter == "rgbpi"          ) return CrtAdapterType::RGBPi;
-  if (foundAdapter == "vga666"         ) return CrtAdapterType::Vga666;
+  if (foundAdapter == "recalboxrgbdual"     ) return CrtAdapterType::RGBDual;
+  if (foundAdapter == "recalboxrgbjamma"    ) return CrtAdapterType::RGBJamma;
+  if (foundAdapter == "recalboxrgbjammapoll") return CrtAdapterType::RGBJammaPoll;
+  if (foundAdapter == "pi2scart"            ) return CrtAdapterType::Pi2Scart;
+  if (foundAdapter == "rgbpi"               ) return CrtAdapterType::RGBPi;
+  if (foundAdapter == "vga666"              ) return CrtAdapterType::Vga666;
   return CrtAdapterType::None;
 }
 
@@ -39,10 +41,12 @@ const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
 {
   switch(adapter)
   {
-    case CrtAdapterType::RGBDual:  { static String adapterString("recalboxrgbdual"); return adapterString; }
-    case CrtAdapterType::Pi2Scart: { static String adapterString("pi2scart"); return adapterString; }
-    case CrtAdapterType::RGBPi:    { static String adapterString("rgbpi"); return adapterString; }
-    case CrtAdapterType::Vga666:   { static String adapterString("vga666"); return adapterString; }
+    case CrtAdapterType::RGBDual:      { static std::string adapterString("recalboxrgbdual"); return adapterString; }
+    case CrtAdapterType::RGBJamma:     { static std::string adapterString("recalboxrgbjamma"); return adapterString; }
+    case CrtAdapterType::RGBJammaPoll: { static std::string adapterString("recalboxrgbjammapoll"); return adapterString; }
+    case CrtAdapterType::Pi2Scart:     { static std::string adapterString("pi2scart"); return adapterString; }
+    case CrtAdapterType::RGBPi:        { static std::string adapterString("rgbpi"); return adapterString; }
+    case CrtAdapterType::Vga666:       { static std::string adapterString("vga666"); return adapterString; }
     case CrtAdapterType::None:
     default: break;
   }

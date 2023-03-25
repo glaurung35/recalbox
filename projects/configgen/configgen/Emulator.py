@@ -53,6 +53,7 @@ class ExtraArguments:
      crt_viewportwidth_p384x288: int = 0
      rotation: int = 0
      rotatecontrols: bool = False
+     verticalgame: bool = False
 
 
 class Emulator:
@@ -105,6 +106,8 @@ class Emulator:
         self._netplayViewerOnly: bool = False
         self._rotation: Rotation = Rotation.none
         self._rotatecontrols: bool = False
+        self._verticalgame: bool = False
+
 
 
 
@@ -178,6 +181,7 @@ class Emulator:
         self._netplayViewerOnly     = arguments.netplay_vieweronly
         self._rotation: Rotation    = Rotation.fromInt(arguments.rotation)
         self._rotatecontrols: bool  = arguments.rotatecontrols
+        self._verticalgame: bool  = arguments.verticalgame
 
 
         # CRT arguments
@@ -399,5 +403,9 @@ class Emulator:
 
     @property
     def Rotation(self) -> Rotation: return self._rotation
+
     @property
     def RotateControls(self) -> bool: return self._rotatecontrols
+
+    @property
+    def VerticalGame(self) -> bool: return self._verticalgame

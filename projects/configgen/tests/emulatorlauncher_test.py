@@ -33,6 +33,7 @@ class FakeArguments:
         self.resolution = ""
         self.rotation = 0
         self.rotatecontrols = False
+        self.verticalgame = False
 
         self.crtvideostandard = ""
         self.crtregion = ""

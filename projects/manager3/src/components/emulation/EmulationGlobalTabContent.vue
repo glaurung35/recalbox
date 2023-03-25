@@ -1,6 +1,19 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.global.rewind.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.rewind.label"
+            :help="$t('emulation.global.rewind.help')"
+            warning
+            :getter="global.rewind"
+            :setter="globalStore.post"
+            apiKey="rewind"
+            v-if="global.rewind"
+          />
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.display.title">
         <template v-slot:content>
           <WrappedSelect
@@ -65,31 +78,6 @@
           />
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.rewind.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.rewind.label"
-            :help="$t('emulation.global.rewind.help')"
-            warning
-            :getter="global.rewind"
-            :setter="globalStore.post"
-            apiKey="rewind"
-            v-if="global.rewind"
-          />
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.autosave.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.autosave.label"
-            :help="$t('emulation.global.autosave.help')"
-            :getter="global.autosave"
-            :setter="globalStore.post"
-            apiKey="autosave"
-            v-if="global.autosave"
-          />
-        </template>
-      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.netplay.title">
         <template v-slot:content>
           <WrappedToggle
@@ -145,6 +133,18 @@
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.global.autosave.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.autosave.label"
+            :help="$t('emulation.global.autosave.help')"
+            :getter="global.autosave"
+            :setter="globalStore.post"
+            apiKey="autosave"
+            v-if="global.autosave"
+          />
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.retroachievements.title">
         <template v-slot:content>
           <WrappedToggle

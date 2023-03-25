@@ -17,6 +17,9 @@ export const useSystemStore = defineStore('system', {
       'emulators.specialkeys': {
         allowedStringList: [],
       },
+      'es.videomode': {
+        allowedStringList: [],
+      },
     },
     system: {},
   }),
@@ -26,6 +29,7 @@ export const useSystemStore = defineStore('system', {
     kblayoutOptions: (state) => state._systemOptions.kblayout.allowedStringList,
     timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList,
     specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
+    esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
   },
 
   actions: {

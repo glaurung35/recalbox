@@ -18,6 +18,8 @@ declare -A CONFIG_CONTENT=(
     ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
     ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19"
+    ["recalboxrgbjamma"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma"
+    ["recalboxrgbjammapoll"]="#device=recalboxrgbjammapoll\ndtoverlay=recalboxrgbjammapoll"
 )
 
 RGBDUAL_FORCE_HEADPHONE_CONTENT="dtoverlay=headphones"
@@ -228,7 +230,7 @@ function configure_case {
         echo -e "\ncase=rgbhat:1" >> /boot/recalbox-boot.conf
     fi
     # Calling manage.py "" 1 1 0 will uninstall the previous case if installed, and reboot
-    python /recalbox/system/hardware/case/manage.py "" 1 1 1
+    python "/recalbox/system/hardware/case/manage.py" "" 1 1 1
     mount -o remount,rw /boot
 }
 
@@ -377,18 +379,22 @@ if test "$1" == "start"; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "recalboxrgbjamma" || "${DAC}" == "recalboxrgbjammapoll" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
         runMigrations
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
             recallog -s "S13crt" -t "CRT" "Processing ${DAC} configuration."
             recallog -s "S13crt" -t "CRT" "Installing config in /boot/crt/"
             mount -o remount,rw /boot
-            echo -e "${CONFIG_CONTENT[$DAC]}" >${CRT_DAC_FILE}
+            echo -e "${CONFIG_CONTENT[$DAC]}" > ${CRT_DAC_FILE}
             mount -o remount,ro /boot
             genericInstall
             configure_case
-            reboot
+            if [ "${DAC}" != "recalboxrgbjamma" ] && [ "${DAC}" != "recalboxrgbjammapoll" ]; then
+                # recalbox rgb jamma will already have its dtbo loaded
+                recallog -s "S13crt" -t "CRT" "Rebooting"
+                reboot
+            fi
         fi
         # Jack have been set from ES
         if jackShouldBeForced && ! jackIsForced; then

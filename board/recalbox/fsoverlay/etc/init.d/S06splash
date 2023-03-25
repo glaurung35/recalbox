@@ -34,7 +34,7 @@ firstTimeVideo=introRecalboxElectron-1080-Normed-12dB.mp4
 
 # Low definiton devices
 if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
-   && ! isRecalboxRGBDual; then
+   && ! isCRTLoaded; then
   LOWDEF=1
 fi
 
@@ -168,11 +168,11 @@ playVideo() {
     findConnectedConnectors |while read -r conn; do
       playVideoOnOneScreen "$1" "--vo=drm $drmmode --drm-connector=$conn"
     done
-  elif isRecalboxRGBDual; then
+  elif currentVideoOnCRT; then
     # On recalbox RGB Dual we will try to get 640x480i for videos 
     playVideoOnOneScreen "$1" "$(getCrtMpvOptions)"
   elif [[ "$ARCH" == "rpi1" ]]; then
-    # on rpi1 2 and 3 we need to force output
+    # on rpi1 we need to force output
     playVideoOnOneScreen "$1" "--hwdec=auto -vo=rpi"
   else
     # on other simply play

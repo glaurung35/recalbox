@@ -76,6 +76,10 @@ findConnectedConnectors() {
   grep -l ^connected /sys/class/drm/card*/status | sed 's/.*card\([0-9]\+\)-\([^\/]\+\).*/\1.\2/'
 }
 
+# Return if a crt is connected
+currentVideoOnCRT() {
+    grep "connected" /sys/class/drm/card*-VGA*/status
+}
 
 # Check if we are on Recalbox RGB Dual
 isRecalboxRGBDual() {
@@ -101,7 +105,7 @@ rrgbdHDMIPriority() {
 
 # Get the best MPV Options
 getMpvOptions() {
-  if isRecalboxRGBDual; then
+  if currentVideoOnCRT; then
     getCrtMpvOptions
   else
     echo ""

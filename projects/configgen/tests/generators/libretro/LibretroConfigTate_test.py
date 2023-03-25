@@ -26,10 +26,10 @@ def system_wswanc():
                     core='mednafen_wswan')
 
 
-def configureForTate(system: Emulator, rotation=0, rotatecontrols=False):
+def configureForTate(system: Emulator, rotation=0, vertical_game=True, rotatecontrols=False):
     opts = keyValueSettings("")
     extraArgs = ExtraArguments('1920x1080', "", "", "", "", "", "", "", "", "", "", "", rotation=rotation,
-                               rotatecontrols=rotatecontrols)
+                               rotatecontrols=rotatecontrols, verticalgame=vertical_game)
     system.configure(opts, extraArgs)
 
 
@@ -49,13 +49,31 @@ def test_given_rotation_1_in_cli_then_rotate(mocker, system_fbneo):
     assert config["video_rotation"] == 1
 
 
-def test_given_rotated_then_set4_3_ratio(mocker, system_fbneo):
-    configureForTate(system_fbneo, rotation=1)
+def test_given_vertical_game_and_rotated_then_set4_3_ratio(mocker, system_fbneo):
+    configureForTate(system_fbneo, rotation=1, vertical_game=True)
     config, core = LibretroGenerator().createTateModeConfiguration(system_fbneo)
 
     assert config["video_allow_rotate"] == '"true"'
     assert config["aspect_ratio_index"] == 0
 
+def test_given_vertical_game_and_no_rotate_then_dont_set_ratio(mocker, system_fbneo):
+    configureForTate(system_fbneo, rotation=0, vertical_game=True)
+    config, core = LibretroGenerator().createTateModeConfiguration(system_fbneo)
+
+    assert "aspect_ratio_index" not in config
+
+def test_given_horizontal_game_and_no_rotate_then_dont_set_ratio(mocker, system_fbneo):
+    configureForTate(system_fbneo, rotation=0, vertical_game=False)
+    config, core = LibretroGenerator().createTateModeConfiguration(system_fbneo)
+
+    assert "aspect_ratio_index" not in config
+
+def test_given_horizontal_game_and_rotate_then_set_3_4_ratio(mocker, system_fbneo):
+    configureForTate(system_fbneo, rotation=1, vertical_game=False)
+    config = []
+    config, core = LibretroGenerator().createTateModeConfiguration(system_fbneo)
+
+    assert config["aspect_ratio_index"] == 8
 
 def test_given_rotated_then_disable_overlays(mocker, system_fbneo):
     configureForTate(system_fbneo, rotation=1)
@@ -127,7 +145,7 @@ def test_given_tate_mode_dreamcast_game_then_configure_retroarch_with_specific_r
     assert config["video_rotation"] == 2
     assert config["input_player1_analog_dpad_mode"] == 3
 
-def test_given_tate_mode_namoi_game_then_configure_retroarch(controller_configuration):
+def test_given_tate_mode_naomi_game_then_configure_retroarch(controller_configuration):
     dreamcast = Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro',
                     core='flycast')
     configureForTate(dreamcast, rotation=1)
@@ -136,3 +154,4 @@ def test_given_tate_mode_namoi_game_then_configure_retroarch(controller_configur
     assert config["video_allow_rotate"] == '"true"'
     assert config["video_rotation"] == 1
     assert config["input_player1_analog_dpad_mode"] == 3
+

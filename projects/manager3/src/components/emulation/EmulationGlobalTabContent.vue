@@ -14,6 +14,18 @@
           />
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.autosave.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.autosave.label"
+            :help="$t('emulation.global.autosave.help')"
+            :getter="global.autosave"
+            :setter="globalStore.post"
+            apiKey="autosave"
+            v-if="global.autosave"
+          />
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.display.title">
         <template v-slot:content>
           <WrappedSelect
@@ -114,14 +126,6 @@
             v-if="global['netplay.relay']"
           />
           <WrappedTextInput
-            label="emulation.global.netplay.systems.label"
-            :help="$t('emulation.global.netplay.systems.help')"
-            :getter="global['netplay.systems']"
-            :setter="globalStore.post"
-            apiKey="netplay.systems"
-            v-if="global['netplay.systems']"
-          />
-          <WrappedTextInput
             label="emulation.global.netplay.lobby.label"
             :help="$t('emulation.global.netplay.lobby.help')"
             :getter="global['netplay.lobby']"
@@ -133,18 +137,6 @@
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.autosave.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.autosave.label"
-            :help="$t('emulation.global.autosave.help')"
-            :getter="global.autosave"
-            :setter="globalStore.post"
-            apiKey="autosave"
-            v-if="global.autosave"
-          />
-        </template>
-      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.retroachievements.title">
         <template v-slot:content>
           <WrappedToggle

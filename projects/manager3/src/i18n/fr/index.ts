@@ -430,10 +430,6 @@ export default {
             + 'Cela permet d\'acheminer les deux côtés de la connexion via un serveur d\'intermédiaire.\n\n'
             + 'Cependant cela aura un impact sur la vitesse à laquelle les données se synchronisent et donc sur la réactivité du jeu.',
         },
-        systems: {
-          label: 'Systèmes',
-          help: '',
-        },
         lobby: {
           label: 'Lobby libretro',
           help: 'URL de la liste de lobby libretro à utiliser.\n\nL\'URL "http://lobby.libretro.com/list/" est configurée par défaut.',

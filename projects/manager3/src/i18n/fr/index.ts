@@ -288,46 +288,69 @@ export default {
       screenshots: 'screenshots',
     },
     global: {
-      ratio: {
-        title: 'Ratio de l\'écran',
-        label: 'Ratio',
-        options: {
-          automatic: 'Automatique',
-          custom: 'Personnalisé',
+      display: {
+        title: 'Affichage',
+        ratio: {
+          label: 'Ratio de l\'écran',
+          options: {
+            automatic: 'Automatique',
+            custom: 'Personnalisé',
+          },
         },
-      },
-      shaders: {
-        title: 'Set de shaders',
-        label: 'Set de shaders',
-        help: 'Shaders disponibles:'
-          + '<ul><li><b>custom</b> permet de choisir et d\'activer un shader custom,</li>'
-          + '<li><b>none</b> ne met aucun shader.</li>'
-          + '<li><b>retro</b> sélectionne le "meilleur" shader pour chaque système, choisi par la communauté.'
-          + ' Il vous apportera l\'expérience de jeu la plus proche de l\'expérience originale,</li>'
-          + '<li><b>scanlines</b> active les scanlines sur tous les emulateurs,</li></ul>',
-      },
-      customshaders: {
-        label: 'Shader custom',
-      },
-      integerscale: {
-        title: 'Ajuster l\'échelle',
-        label: 'Activer le pixel perfect',
-        help: 'Activez le mode de mise à l\'échelle de l\'image "Pixel Perfect" qui consiste à obtenir le rendu exact des jeux sur un écran moderne.',
-      },
-      smooth: {
-        title: 'Lissage des jeux',
-        label: 'Activer le lissage des jeux',
+        shaders: {
+          title: 'Set de shaders',
+          label: 'Set de shaders',
+          help: 'Shaders disponibles:'
+            + '<ul><li><b>custom</b> permet de choisir et d\'activer un shader custom,</li>'
+            + '<li><b>none</b> ne met aucun shader.</li>'
+            + '<li><b>retro</b> sélectionne le "meilleur" shader pour chaque système, choisi par la communauté.'
+            + ' Il vous apportera l\'expérience de jeu la plus proche de l\'expérience originale,</li>'
+            + '<li><b>scanlines</b> active les scanlines sur tous les emulateurs,</li></ul>',
+        },
+        customshaders: {
+          label: 'Shader custom',
+        },
+        integerscale: {
+          label: 'Activer le pixel perfect',
+          help: 'Activez le mode de mise à l\'échelle de l\'image "Pixel Perfect" qui consiste à obtenir le rendu exact des jeux sur un écran moderne.',
+        },
+        smooth: {
+          title: 'Lissage des jeux',
+          label: 'Activer le lissage des jeux',
+        },
       },
       rewind: {
         title: 'Rembobinage',
         label: 'Active le rembobinage des jeux',
-        warning: 'L\'option rembobinage vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l\'activez par défaut.',
+        help: 'L\'option rembobinage vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l\'activez par défaut.',
       },
       autosave: {
         title: 'Sauvegarde',
         label: 'Active la sauvegarde / chargement automatique',
         help: 'Cette option vous permet de créer une sauvegarde automatique de votre jeu quand vous le quittez, puis de la charger à nouveau quand vous le relancerez.\n\n'
           + 'Une fois le jeu lancé et la sauvegarde chargée, si vous souhaitez revenir à l\'écran titre du jeu, utilisez la commande spéciale de reset.',
+      },
+      translation: {
+        title: 'Traduction',
+        translate: {
+          label: 'Activer la traduction automatique Retroarch',
+        },
+        translateFrom: {
+          label: 'Langue source',
+          help: 'Définir la langue source peut accélérer et/ou donner de meilleurs résultats',
+        },
+        translateTo: {
+          label: 'Langue cible',
+          help: 'La valeur par défaut est extraite depuis la langue système, ou définie automatiquement (EN) si la langue système est non définie.',
+        },
+        translateApiKey: {
+          label: 'Clé API zTranslate',
+          help: 'Allez sur https://ztranslate.net et créez vous un compte.\n\nValider votre compte, identifiez-vous puis récupérez la clé API en bas de page.',
+        },
+        translateUrl: {
+          label: 'URL d\'un autre service de traduction',
+          help: 'Si vous souhaitez utiliser un autre service de traduction ou un appel API custom, spécifiez l\'URL à appeler.\n\nSi cette clé est renseignée, elle est utilisée à l aplace du service zTranslate.',
+        },
       },
       retroachievements: {
         title: 'Retroachievements',
@@ -346,6 +369,54 @@ export default {
         },
         password: {
           label: 'Mot de passe',
+        },
+      },
+      arcade: {
+        title: 'Arcade',
+        activate: {
+          label: 'Activer le meta système "Arcade"',
+          help: 'Activer le meta système "Arcade" permet de grouper tous les jeux piFBA, FBN (libretro), MAME et Neogeo de manière optionnelle, dans un système unique "Arcade".',
+        },
+        position: {
+          label: 'Position du système "Arcade"',
+          help: 'Vous pouvez avoir envie de modifier la position du système dans la liste des systèmes.\n\nLa valeur par défaut est 0, les valeurs négatives peuvent être utilisées pour partir de la fin.',
+        },
+        includeNeogeo: {
+          label: 'Inclure la Neogeo',
+          help: 'Inclus la Neogeo dans la liste du meta système "Arcade"',
+        },
+        hideOriginals: {
+          label: 'Masquer les systèmes originaux',
+          help: 'Masque les systèmes inclus dans le meta système "Arcade".',
+        },
+      },
+      netplay: {
+        title: 'Netplay',
+        activate: {
+          label: 'Activer le netplay',
+          help: 'Le Netplay est une fonctionnalité permettant le mode multijoueur en réseau avec certains émulateurs via la mise en réseau peer-to-peer (P2P).',
+        },
+        nickname: {
+          label: 'Surnom',
+          help: 'Configurez votre surnom, veillez à ne pas mettre d\'accent, cela empêche le fonctionnement du Netplay.',
+        },
+        port: {
+          label: 'Port',
+          help: '55435 (Correspond au serveur de RetroArch)',
+        },
+        relay: {
+          label: 'Netplay MITM Server relais',
+          help: 'L\'option Netplay MITM, Relay Server (Server relais) permet d’outrepasser l’ouverture des ports de votre modem.\n'
+            + 'Cela permet d\'acheminer les deux côtés de la connexion via un serveur d\'intermédiaire.\n\n'
+            + 'Cependant cela aura un impact sur la vitesse à laquelle les données se synchronisent et donc sur la réactivité du jeu.',
+        },
+        systems: {
+          label: 'Systèmes',
+          help: '',
+        },
+        lobby: {
+          label: 'Lobby libretro',
+          help: 'URL de la liste de lobby libretro à utiliser.\n\nL\'URL "http://lobby.libretro.com/list/" est configurée par défaut.',
         },
       },
     },

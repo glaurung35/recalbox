@@ -1,15 +1,51 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.ratio.title">
+      <FormFragmentContainer title="emulation.global.display.title">
         <template v-slot:content>
           <WrappedSelect
-            label="emulation.global.ratio.label"
+            label="emulation.global.display.ratio.label"
             :options="ratioOptions"
             :getter="global.ratio"
             :setter="globalStore.post"
             apiKey="ratio"
             v-if="global.ratio"
+          />
+          <q-separator/>
+          <WrappedSelect
+            label="emulation.global.display.shaders.label"
+            :help="$t('emulation.global.display.shaders.help')"
+            :options="shadersetOptions"
+            :getter="global.shaderset"
+            :setter="globalStore.post"
+            apiKey="shaderset"
+            v-if="global.shaderset"
+          />
+          <WrappedSelect
+            label="emulation.global.display.customshaders.label"
+            :options="shadersetfileOptions"
+            :getter="global['shaderset.file']"
+            :setter="globalStore.post"
+            apiKey="shaderset.file"
+            v-if="global['shaderset.file']"
+            :disable="global.shaderset.value !== 'custom'"
+          />
+          <q-separator/>
+          <WrappedToggle
+            label="emulation.global.display.integerscale.label"
+            :help="$t('emulation.global.display.integerscale.help')"
+            :getter="global.integerscale"
+            :setter="globalStore.post"
+            apiKey="integerscale"
+            v-if="global.integerscale"
+          />
+          <q-separator/>
+          <WrappedToggle
+            label="emulation.global.display.smooth.label"
+            :getter="global.smooth"
+            :setter="globalStore.post"
+            apiKey="smooth"
+            v-if="global.smooth"
           />
         </template>
       </FormFragmentContainer>
@@ -17,7 +53,7 @@
         <template v-slot:content>
           <WrappedToggle
             label="emulation.global.rewind.label"
-            :help="$t('emulation.global.rewind.warning')"
+            :help="$t('emulation.global.rewind.help')"
             warning
             :getter="global.rewind"
             :setter="globalStore.post"
@@ -38,53 +74,61 @@
           />
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.shaders.title">
+      <FormFragmentContainer title="emulation.global.netplay.title">
         <template v-slot:content>
-          <WrappedSelect
-            label="emulation.global.shaders.label"
-            :help="$t('emulation.global.shaders.help')"
-            :options="shadersetOptions"
-            :getter="global.shaderset"
+          <WrappedToggle
+            label="emulation.global.netplay.activate.label"
+            :help="$t('emulation.global.netplay.activate.help')"
+            :getter="global.netplay"
             :setter="globalStore.post"
-            apiKey="shaderset"
-            v-if="global.shaderset"
+            apiKey="netplay"
+            v-if="global.netplay"
           />
-          <WrappedSelect
-            label="emulation.global.customshaders.label"
-            :options="shadersetfileOptions"
-            :getter="global['shaderset.file']"
+          <WrappedTextInput
+            label="emulation.global.netplay.nickname.label"
+            :help="$t('emulation.global.netplay.nickname.help')"
+            warning
+            :getter="global['netplay.nickname']"
             :setter="globalStore.post"
-            apiKey="shaderset.file"
-            v-if="global['shaderset.file']"
-            :disable="global.shaderset.value !== 'custom'"
+            apiKey="netplay.nickname"
+            v-if="global['netplay.nickname']"
+          />
+          <WrappedTextInput
+            label="emulation.global.netplay.port.label"
+            :help="$t('emulation.global.netplay.port.help')"
+            :getter="global['netplay.port']"
+            :setter="globalStore.post"
+            apiKey="netplay.port"
+            v-if="global['netplay.port']"
+          />
+          <WrappedTextInput
+            label="emulation.global.netplay.relay.label"
+            :help="$t('emulation.global.netplay.relay.help')"
+            :getter="global['netplay.relay']"
+            :setter="globalStore.post"
+            apiKey="netplay.relay"
+            v-if="global['netplay.relay']"
+          />
+          <WrappedTextInput
+            label="emulation.global.netplay.systems.label"
+            :help="$t('emulation.global.netplay.systems.help')"
+            :getter="global['netplay.systems']"
+            :setter="globalStore.post"
+            apiKey="netplay.systems"
+            v-if="global['netplay.systems']"
+          />
+          <WrappedTextInput
+            label="emulation.global.netplay.lobby.label"
+            :help="$t('emulation.global.netplay.lobby.help')"
+            :getter="global['netplay.lobby']"
+            :setter="globalStore.post"
+            apiKey="netplay.lobby"
+            v-if="global['netplay.lobby']"
           />
         </template>
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.integerscale.title">
-        <template v-slot:content>
-            <WrappedToggle
-              label="emulation.global.integerscale.label"
-              :help="$t('emulation.global.integerscale.help')"
-              :getter="global.integerscale"
-              :setter="globalStore.post"
-              apiKey="integerscale"
-              v-if="global.integerscale"
-            />
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.smooth.title">
-        <template v-slot:content>
-            <WrappedToggle
-              label="emulation.global.smooth.label"
-              :getter="global.smooth"
-              :setter="globalStore.post"
-              apiKey="smooth"
-              v-if="global.smooth"
-            />
-        </template>
-      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.retroachievements.title">
         <template v-slot:content>
           <WrappedToggle
@@ -127,6 +171,93 @@
           />
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.arcade.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.arcade.activate.label"
+            :help="$t('emulation.global.arcade.activate.help')"
+            :getter="global.arcade"
+            :setter="globalStore.post"
+            apiKey="arcade"
+            v-if="global.arcade"
+          />
+          <WrappedTextInput
+            label="emulation.global.arcade.position.label"
+            :help="$t('emulation.global.arcade.position.help')"
+            :getter="global['arcade.position']"
+            :setter="globalStore.post"
+            apiKey="arcade.position"
+            v-if="global['arcade.position']"
+          />
+          <WrappedToggle
+            label="emulation.global.arcade.includeNeogeo.label"
+            :help="$t('emulation.global.arcade.includeNeogeo.help')"
+            :getter="global['arcade.includeneogeo']"
+            :setter="globalStore.post"
+            apiKey="arcade.includeneogeo"
+            v-if="global['arcade.includeneogeo']"
+          />
+          <div class="col col-xs-12 col-sm-12 col-md-12">
+            <WrappedToggle
+              label="emulation.global.arcade.hideOriginals.label"
+              :help="$t('emulation.global.arcade.hideOriginals.help')"
+              :getter="global['arcade.hideoriginals']"
+              :setter="globalStore.post"
+              apiKey="arcade.hideoriginals"
+              v-if="global['arcade.hideoriginals']"
+            />
+          </div>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.translation.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.translation.translate.label"
+            :getter="global.translate"
+            :setter="globalStore.post"
+            apiKey="translate"
+            v-if="global.translate"
+          />
+
+          <WrappedSelect
+            label="emulation.global.translation.translateFrom.label"
+            :help="$t('emulation.global.translation.translateFrom.help')"
+            :options="translateFromOptions"
+            :getter="global['translate.from']"
+            :setter="globalStore.post"
+            apiKey="translate.from"
+            v-if="global['translate.from']"
+          />
+
+          <WrappedSelect
+            label="emulation.global.translation.translateTo.label"
+            :help="$t('emulation.global.translation.translateTo.help')"
+            :options="translateToOptions"
+            :getter="global['translate.to']"
+            :setter="globalStore.post"
+            apiKey="translate.to"
+            v-if="global['translate.to']"
+          />
+
+          <WrappedTextInput
+            label="emulation.global.translation.translateApiKey.label"
+            :help="$t('emulation.global.translation.translateApiKey.help')"
+            :getter="global['translate.apikey']"
+            :setter="globalStore.post"
+            apiKey="translate.apikey"
+            v-if="global['translate.apikey']"
+          />
+
+          <WrappedTextInput
+            label="emulation.global.translation.translateUrl.label"
+            :help="$t('emulation.global.translation.translateUrl.help')"
+            :getter="global['translate.url']"
+            :setter="globalStore.post"
+            apiKey="translate.url"
+            v-if="global['translate.url']"
+          />
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -145,6 +276,8 @@ const {
   ratioOptions,
   shadersetOptions,
   shadersetfileOptions,
+  translateFromOptions,
+  translateToOptions,
   global,
 } = storeToRefs(globalStore);
 </script>

@@ -16,7 +16,7 @@ RPI_USERLAND_TOOLS_CONF_OPTS = \
 	-DBUILD_MMAL_APPS=OFF
 
 define RPI_USERLAND_TOOLS_LIBFDT_PATCH
-echo -e "include_directories(.)\nadd_library(fdt SHARED fdt.c fdt_empty_tree.c fdt_ro.c fdt_rw.c fdt_sw.c fdt_strerror.c fdt_wip.c)\nINSTALL(TARGETS fdt DESTINATION lib)" > $(@D)/opensrc/helpers/libfdt/CMakeLists.txt
+	echo -e "include_directories(.)\nadd_library(fdt SHARED fdt.c fdt_empty_tree.c fdt_ro.c fdt_rw.c fdt_sw.c fdt_strerror.c fdt_wip.c)\nINSTALL(TARGETS fdt DESTINATION lib)" > $(@D)/opensrc/helpers/libfdt/CMakeLists.txt
 endef
 
 RPI_USERLAND_TOOLS_PRE_PATCH_HOOKS += RPI_USERLAND_TOOLS_LIBFDT_PATCH

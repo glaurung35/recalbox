@@ -5,6 +5,7 @@
 #include <cstring>
 #include "nanosvg/nanosvg.h"
 #include "nanosvg/nanosvgrast.h"
+#include "hardware/Board.h"
 #include <vector>
 #include <cassert>
 #include <utils/math/Misc.h>
@@ -210,8 +211,8 @@ bool TextureData::uploadAndBind()
 
     glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, mWidth, mHeight, 0, GL_RGBA, GL_UNSIGNED_BYTE, mDataRGBA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, Board::Instance().CrtBoard().IsCrtAdapterAttached() ? GL_NEAREST : GL_LINEAR);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, Board::Instance().CrtBoard().IsCrtAdapterAttached() ? GL_NEAREST : GL_LINEAR);
 
     const GLint wrapMode = mTile ? GL_REPEAT : GL_CLAMP_TO_EDGE;
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, wrapMode);

@@ -108,14 +108,14 @@ void GameClipContainer::initComponents()
     mClippingContainer.setZIndex(50);
 
     mClippingImage.setImage(Path(":/press_start.svg"));
-    mClippingImage.setSize(mSize.x() * 0.12f, mSize.y() * 0.12f);
+    mClippingImage.setMaxSize(mSize.x() * 0.12f, mSize.y() * 0.12f);
     mClippingImage.setOrigin(0.5, 0.5);
   }
 
   mRecalboxLogo.setImage(Path(":/Recalbox_logo_White.svg"));
   mRecalboxLogo.setOrigin(1, 0);
   mRecalboxLogo.setPosition(mSize.x() - horizontalPadding, 0 + horizontalPadding);
-  mRecalboxLogo.setSize(mSize.x() * 0.09f, mSize.x() * 0.09f);
+  mRecalboxLogo.setMaxSize(mSize.x() * 0.09f, mSize.x() * 0.09f);
   mRecalboxLogo.setZIndex(50);
   mRecalboxLogo.setDefaultZIndex(50);
 

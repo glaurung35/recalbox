@@ -73,6 +73,18 @@ function runMigrations {
             migrationDone "${BOOT_TYPE}" "9.1-hdmi-hotplug"
         fi
     fi
+    if shouldMigrate "${SHARE_TYPE}" "9.1-model3-save"; then
+        # Model 3 have invalid save directory
+        source /recalbox/scripts/recalbox-utils.sh
+        if [[ "$(getArchName)" = "x86_64" ]];then
+            recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running 9.1-model3-save"
+            rm -rf "/recalbox/share/saves/model3/"
+            migrationDone "${SHARE_TYPE}" "9.1-model3-save"
+            return
+        else
+            migrationDone "${SHARE_TYPE}" "9.1-model3-save"
+        fi
+    fi
 }
 
 runMigrations

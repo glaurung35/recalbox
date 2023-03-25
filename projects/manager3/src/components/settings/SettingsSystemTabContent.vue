@@ -1,10 +1,10 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="settings.system.settings.title">
+      <FormFragmentContainer title="settings.system.internationalization.title">
         <template v-slot:content>
           <WrappedSelect
-            label="settings.system.settings.langSelect.label"
+            label="settings.system.internationalization.langSelect.label"
             :options="languageOptions"
             :getter="system.language"
             :setter="systemStore.post"
@@ -12,7 +12,7 @@
             v-if="system.language"
           />
           <WrappedSelect
-            label="settings.system.settings.keyboardSelect.label"
+            label="settings.system.internationalization.keyboardSelect.label"
             :options="kblayoutOptions"
             :getter="system.kblayout"
             :setter="systemStore.post"
@@ -20,7 +20,7 @@
             v-if="system.kblayout"
           />
           <WrappedSelect
-            label="settings.system.settings.timeZoneSelect.label"
+            label="settings.system.internationalization.timeZoneSelect.label"
             :options="timezoneOptions"
             :getter="system.timezone"
             :setter="systemStore.post"

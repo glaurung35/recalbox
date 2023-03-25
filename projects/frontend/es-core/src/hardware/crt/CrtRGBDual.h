@@ -28,12 +28,14 @@ class CrtRGBDual : public ICrtInterface
     //! Return select output frequency
     HorizontalFrequency GetHorizontalFrequency() const override { return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15; }
 
-    //! This adapter has no support of forced 50hz
+    //! This adapter has support of forced 50hz
     bool HasForced50hzSupport() const override { return true; }
 
     //! Get 50hz switch state
     bool MustForce50Hz() const override { return GetRGBDual50hzSwitchState(); }
 
+    //! The comment is here to tell you that the name will be returned bby this methode named Name()
+    std::string& Name() const override { static std::string adapterString("Recalbox RGB Dual"); return adapterString; }
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
     static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";

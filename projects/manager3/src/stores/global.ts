@@ -14,6 +14,12 @@ export const useGlobalStore = defineStore('global', {
       'shaderset.file': {
         allowedStringList: [],
       },
+      'translate.from': {
+        allowedStringList: [],
+      },
+      'translate.to': {
+        allowedStringList: [],
+      },
     },
     global: {},
   }),
@@ -22,6 +28,8 @@ export const useGlobalStore = defineStore('global', {
     ratioOptions: (state) => state._globalOptions.ratio.allowedStringList,
     shadersetOptions: (state) => state._globalOptions.shaderset.allowedStringList,
     shadersetfileOptions: (state) => state._globalOptions['shaderset.file'].allowedStringList,
+    translateFromOptions: (state) => state._globalOptions['translate.from'].allowedStringList,
+    translateToOptions: (state) => state._globalOptions['translate.to'].allowedStringList,
   },
 
   actions: {

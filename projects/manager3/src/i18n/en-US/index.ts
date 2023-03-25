@@ -287,46 +287,70 @@ export default {
       screenshots: 'screenshots',
     },
     global: {
-      ratio: {
-        title: 'Screen ratio',
-        label: 'Ratio',
-        options: {
-          automatic: 'Automatic',
-          custom: 'Custom',
+      display: {
+        title: 'Display',
+        ratio: {
+          label: 'Screen ratio',
+          options: {
+            automatic: 'Automatic',
+            custom: 'Custom',
+          },
         },
-      },
-      shaders: {
-        title: 'Shaders set',
-        label: 'Shaders set',
-        help: 'Available shaders:'
-          + '<ul><li><b>custom</b> allows you to choose and activate a custom shader,</li>'
-          + '<li><b>none</b> don\'t enable shaders,</li>'
-          + '<li><b>retro</b> set the "best" shader for each system, as chosen by '
-          + 'the community. This will give you the gaming experience closest to the original system,</li>'
-          + '<li><b>scanlines</b> enable scanlines for all emulators.</li></ul>',
-      },
-      customshaders: {
-        label: 'Custom shader',
-      },
-      integerscale: {
-        title: 'Integer scale',
-        label: 'Enables pixel perfect',
-        help: 'Activate the "Pixel Perfect" image scaling mode which is to get the exact rendering of the games on a modern screen.',
-      },
-      smooth: {
-        title: 'Smooth game',
-        label: 'Enables game smoothing',
+        shaders: {
+          title: 'Shaders set',
+          label: 'Shaders set',
+          help: 'Available shaders:'
+            + '<ul><li><b>custom</b> allows you to choose and activate a custom shader,</li>'
+            + '<li><b>none</b> don\'t enable shaders,</li>'
+            + '<li><b>retro</b> set the "best" shader for each system, as chosen by '
+            + 'the community. This will give you the gaming experience closest to the original system,</li>'
+            + '<li><b>scanlines</b> enable scanlines for all emulators.</li></ul>',
+        },
+        customshaders: {
+          label: 'Custom shader',
+        },
+        integerscale: {
+          title: 'Integer scale',
+          label: 'Enables pixel perfect',
+          help: 'Activate the "Pixel Perfect" image scaling mode which is to get the exact rendering of the games on a modern screen.',
+        },
+        smooth: {
+          title: 'Smooth game',
+          label: 'Enables game smoothing',
+        },
       },
       rewind: {
         title: 'Rewind',
         label: 'Enables rewind',
-        warning: 'The rewind option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it.',
+        help: 'The rewind option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it.',
       },
       autosave: {
         title: 'Auto save',
         label: 'Enables automatic backup / load',
         help: 'This option allows you to create an automatic backup of your game when you exit it, then to load it again when you restart it.\n\n'
           + 'Once the game is launched and the backup loaded, if you want to return to the title screen of the game, use the special reset command.',
+      },
+      translation: {
+        title: 'Translation',
+        translate: {
+          label: 'Enables automatic Retroarch translation',
+        },
+        translateFrom: {
+          label: 'Source language',
+          help: 'Setting the source language may speed up or give more accurate results.',
+        },
+        translateTo: {
+          label: 'Target language',
+          help: 'The default value is extracted from system language or, if system language is undefined, set to auto (EN).',
+        },
+        translateApiKey: {
+          label: 'zTranslate API Key',
+          help: 'Go to https://ztranslate.net and create an account.\n\nvalidate your account, then log in and go to the settings page and get the API Key at the bottom.',
+        },
+        translateUrl: {
+          label: 'Other translation service URL',
+          help: 'If you want to use another translation service or a custom API call, use this key to specify the url to call.\n\nIf the key is not empty, it is used instead of zTranslation\'s API Key.',
+        },
       },
       retroachievements: {
         title: 'Retroachievements',
@@ -345,6 +369,54 @@ export default {
         },
         password: {
           label: 'Password',
+        },
+      },
+      arcade: {
+        title: 'Arcade',
+        activate: {
+          label: 'Enables "Arcade" meta system',
+          help: 'Activate the Arcade metasystem to group all games from piFBA, FBN (libretro), MAME and optionally Neogeo into a single "Arcade" system.',
+        },
+        position: {
+          label: '"Arcade" system position',
+          help: 'You may want to specify its position in the system list. Default position is 0, negatives values may be used to start from the end.',
+        },
+        includeNeogeo: {
+          label: 'Include Neogeo',
+          help: 'Include NeoGeo or not in the meta system "Arcade".',
+        },
+        hideOriginals: {
+          label: 'Hide originals systems',
+          help: 'Hide included system or leave them in the system list.',
+        },
+      },
+      netplay: {
+        title: 'Netplay',
+        activate: {
+          label: 'Enables netplay',
+          help: 'Netplay is a feature allowing networked multiplayer mode with some emulators via peer-to-peer (P2P) networking.',
+        },
+        nickname: {
+          label: 'Nickname',
+          help: 'Configure your nickname, be careful not to put an accent, this prevents the operation of Netplay.',
+        },
+        port: {
+          label: 'Port',
+          help: '55435 (Corresponds to the RetroArch server)',
+        },
+        relay: {
+          label: 'Netplay MITM Server relay',
+          help: 'The Netplay MITM, Relay Server option allows you to override the opening of your modem ports.\n'
+            + 'This allows both sides of the connection to be routed through an intermediary server.\n\n'
+            + 'However this will have an impact on the speed at which the data synchronizes and therefore on the responsiveness of the game..',
+        },
+        systems: {
+          label: 'Systems',
+          help: '',
+        },
+        lobby: {
+          label: 'Libretro lobby',
+          help: 'URL of the libretro lobby list to use.\n\nThe URL "http://lobby.libretro.com/list/" is configured by default.',
         },
       },
     },

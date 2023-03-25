@@ -17,6 +17,8 @@ public:
   static bool ShouldRotateTateExit(RotationType& rotationType);
   static bool ShouldRotateFrontendControls();
   static bool ShouldRotateGameControls(const FileData& game);
+  static bool IsVerticalGame(const FileData& game);
+
   static RotationType ShouldRotateGame(const FileData& game);
   static RotationType GetSystemRotation();
 };

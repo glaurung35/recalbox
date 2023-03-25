@@ -63,7 +63,7 @@ getInstallUpgradeImagePath() {
 getCrtMpvOptions() {
   local connector="1.VGA-1"
   local arch="$(getArchName)"
-  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then 
+  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then
     echo ""
     return
   fi
@@ -80,10 +80,15 @@ findConnectedConnectors() {
 
 isLowDef() {
     if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
-       && ! isRecalboxRGBDual; then
+       && ! isCRTLoaded; then
       return 0
     fi
     return 1
+}
+
+# Return if a crt is connected
+currentVideoOnCRT() {
+    grep "connected" /sys/class/drm/card*-VGA*/status
 }
 
 # Check if we are on Recalbox RGB Dual
@@ -147,7 +152,7 @@ getMpvOptions() {
             rotationcli="--video-rotate=180"
         fi
     fi
-    if isRecalboxRGBDual; then
+    if currentVideoOnCRT; then
         echo "${rotationcli} $(getCrtMpvOptions)"
     else
         echo "${rotationcli}"
@@ -219,11 +224,11 @@ isOldIntelChipset() {
                       2562 3577 2572 3582 358e 3582 \
                       2582 258a 2592 2772 27a2 27ae 29d2 29b2 29c2 a001 a011 \
                      )
-  local chipset=$(echo "$1" | tr "[:upper:]" "[:lower:]") 
+  local chipset=$(echo "$1" | tr "[:upper:]" "[:lower:]")
   for old_chipset in "${OLD_CHIPSETS[@]}"; do
     if [ "$chipset" = "$old_chipset" ]; then
      return 0
-    fi 
+    fi
   done
   return 1
 }

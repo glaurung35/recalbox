@@ -433,7 +433,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     return i;
   } else {
     if (dip31kHz.gpio_state == 0) {
-      printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n", i);
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
       dpidac_apply_module_mode(connector, p640x480, true);
       dpidac_apply_module_mode(connector, p1920x240at120, false);
 
@@ -441,7 +441,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     } else {
       if (dip50Hz.gpio_state == 0) {
         // 50hz
-        printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n", i);
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n");
         dpidac_apply_module_mode(connector, p384x288, true);
         dpidac_apply_module_mode(connector, p1920x288, false);
         dpidac_apply_module_mode(connector, i768x576, false);
@@ -503,6 +503,8 @@ static int dpidac_attach(struct drm_bridge *bridge, enum drm_bridge_attach_flags
   printk(KERN_INFO "[RECALBOXRGBDUAL]: vc4-vga666 mode: %i\n", mode);
   if (mode == 6) {
     bus_format = MEDIA_BUS_FMT_RGB666_1X24_CPADHI;
+  } else if (mode == 8) {
+    bus_format = MEDIA_BUS_FMT_RGB888_1X24;
   }
 
   ret = drm_display_info_set_bus_formats(&vga->connector.display_info,

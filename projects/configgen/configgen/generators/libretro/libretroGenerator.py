@@ -166,7 +166,10 @@ class LibretroGenerator(Generator):
         }
         if system.Rotation:
             config["video_rotation"] = system.Rotation.value
-            config["aspect_ratio_index"] = 0
+            if system.VerticalGame:
+                config["aspect_ratio_index"] = 0
+            else:
+                config["aspect_ratio_index"] = 8
             config["video_scale_integer"] = '"false"'
             if system.Core == "mednafen_wswan":
                 config["video_rotation"] = (system.Rotation.value + 1) % 4

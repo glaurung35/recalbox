@@ -7,6 +7,7 @@
 #pragma once
 
 #include <hardware/crt/CrtAdapterType.h>
+#include <string>
 
 class ICrtInterface
 {
@@ -61,6 +62,12 @@ class ICrtInterface
      * @return True if the adapter force 50hz mode, otherwize automatic mode
      */
     virtual bool MustForce50Hz() const = 0;
+
+    /*!
+     * @brief Check if this board has been automatically detected
+     * @return the name of the adapter
+     */
+    virtual std::string& Name() const = 0;
 
     /*!
      * @brief Check if this board has been automatically detected

@@ -297,7 +297,9 @@ export default {
           },
         },
         shaders: {
-          title: 'Shaders set',
+          label: 'Activer les shaders',
+        },
+        shaderset: {
           label: 'Shaders set',
           help: 'Available shaders:'
             + '<ul><li><b>custom</b> allows you to choose and activate a custom shader,</li>'

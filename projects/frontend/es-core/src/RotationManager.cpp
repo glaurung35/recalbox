@@ -100,3 +100,7 @@ RotationType RotationManager::GetSystemRotation()
 {
   return BootConf::Instance().GetRotation();
 }
+
+bool RotationManager::IsVerticalGame(const FileData& game){
+  return game.Metadata().Rotation() == RotationType::Left || game.Metadata().Rotation() == RotationType::Right;
+}

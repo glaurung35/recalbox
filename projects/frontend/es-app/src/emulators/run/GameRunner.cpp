@@ -126,6 +126,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   command.append(" -rotation ").append(std::to_string((int)RotationManager::ShouldRotateGame(game)));
   if(RotationManager::ShouldRotateGameControls(game))
     command.append(" -rotatecontrols ");
+  if(RotationManager::IsVerticalGame(game))
+    command.append(" -verticalgame ");
 
   // Forced resolution
   Resolutions::SimpleResolution targetResolution { 0, 0 };

@@ -171,8 +171,15 @@ export default {
       },
     },
     emustation: {
-      options: {
-        title: 'Réglages',
+      display: {
+        title: 'Affichage',
+        videomode: {
+          label: 'Mode vidéo',
+          help: 'Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d\'écran native',
+        },
+      },
+      menus: {
+        title: 'Menus',
         menuStyle: {
           label: 'Style de menu',
           help: 'Options disponibles :'
@@ -183,12 +190,18 @@ export default {
         systemSelectedAsDefault: {
           label: 'Système sélectionné par défaut',
         },
-        help_2: 'ES se lancera et affichera directement la liste de jeux du premier système (ou celui sélectionné).',
-        startFromFirstSystem: 'Démarrer sur la liste de jeux du premier système (ou de celui sélectionné)',
-        help_3: 'ES se lancera et n\'affichera QUE le premier système (ou celui sélectionné).',
-        disableSystemSelection: 'Désactiver la sélection des systèmes',
-        help_4: 'ES n\'affichera que les jeux listés dans les fichiers gamelist.xml (accélère les temps d\'affichage).',
-        showOnlyScrapedGames: 'N\'afficher que les jeux parsés',
+        startFromFirstSystem: {
+          label: 'Démarrer sur la liste de jeux du premier système (ou de celui sélectionné)',
+          help: 'ES se lancera et affichera directement la liste de jeux du premier système (ou celui sélectionné).',
+        },
+        disableSystemSelection: {
+          label: 'Désactiver la sélection des systèmes',
+          help: 'ES se lancera et n\'affichera QUE le premier système (ou celui sélectionné).',
+        },
+        showOnlyScrapedGames: {
+          label: 'N\'afficher que les jeux parsés',
+          help: 'ES n\'affichera que les jeux listés dans les fichiers gamelist.xml (accélère les temps d\'affichage).',
+        },
       },
       videoSnaps: {
         title: 'Videosnaps',
@@ -296,6 +309,10 @@ export default {
             automatic: 'Automatique',
             custom: 'Personnalisé',
           },
+        },
+        videomode: {
+          label: 'Mode vidéo',
+          help: 'Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d\'écran native.',
         },
         shaders: {
           label: 'Activer les shaders',

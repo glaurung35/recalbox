@@ -11,6 +11,15 @@
             apiKey="ratio"
             v-if="global.ratio"
           />
+          <WrappedSelect
+            label="emulation.global.display.videomode.label"
+            :help="$t('emulation.global.display.videomode.help')"
+            :options="videomodeOptions"
+            :getter="global.videomode"
+            :setter="globalStore.post"
+            apiKey="videomode"
+            v-if="global.videomode"
+          />
           <q-separator/>
           <WrappedToggle
             label="emulation.global.display.shaders.label"
@@ -285,6 +294,7 @@ const {
   shadersetfileOptions,
   translateFromOptions,
   translateToOptions,
+  videomodeOptions,
   global,
 } = storeToRefs(globalStore);
 </script>

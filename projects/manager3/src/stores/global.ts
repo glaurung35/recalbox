@@ -20,6 +20,9 @@ export const useGlobalStore = defineStore('global', {
       'translate.to': {
         allowedStringList: [],
       },
+      videomode: {
+        allowedStringList: [],
+      },
     },
     global: {},
   }),
@@ -30,6 +33,7 @@ export const useGlobalStore = defineStore('global', {
     shadersetfileOptions: (state) => state._globalOptions['shaderset.file'].allowedStringList,
     translateFromOptions: (state) => state._globalOptions['translate.from'].allowedStringList,
     translateToOptions: (state) => state._globalOptions['translate.to'].allowedStringList,
+    videomodeOptions: (state) => state._globalOptions.videomode.allowedStringList,
   },
 
   actions: {

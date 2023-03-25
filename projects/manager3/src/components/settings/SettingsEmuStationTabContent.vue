@@ -1,11 +1,26 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="settings.emustation.options.title">
+    <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="settings.emustation.display.title">
         <template v-slot:content>
           <WrappedSelect
-            label="settings.emustation.options.menuStyle.label"
-            :help="$t('settings.emustation.options.menuStyle.help')"
+            label="settings.emustation.display.videomode.label"
+            :help="$t('settings.emustation.display.videomode.help')"
+            :options="esVideomodeOptions"
+            :getter="system['es.videomode']"
+            :setter="systemStore.post"
+            apiKey="es.videomode"
+            v-if="system['es.videomode']"
+          />
+        </template>
+      </FormFragmentContainer>
+    </div>
+      <FormFragmentContainer title="settings.emustation.menus.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="settings.emustation.menus.menuStyle.label"
+            :help="$t('settings.emustation.menus.menuStyle.help')"
             :options="menuOptions"
             :getter="emulationstation.menu"
             :setter="emulationstationStore.post"
@@ -16,7 +31,7 @@
           <q-separator/>
 
           <WrappedSelect
-            label="settings.emustation.options.systemSelectedAsDefault.label"
+            label="settings.emustation.menus.systemSelectedAsDefault.label"
             :options="selectedsystemOptions"
             :getter="emulationstation.selectedsystem"
             :setter="emulationstationStore.post"
@@ -28,8 +43,8 @@
 
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
-              label="settings.emustation.options.startFromFirstSystem"
-              :help="$t('settings.emustation.options.help_2')"
+              label="settings.emustation.menus.startFromFirstSystem.label"
+              :help="$t('settings.emustation.menus.startFromFirstSystem.help')"
               :getter="emulationstation.bootongamelist"
               :setter="emulationstationStore.post"
               apiKey="bootongamelist"
@@ -38,8 +53,8 @@
           </div>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
-              label="settings.emustation.options.disableSystemSelection"
-              :help="$t('settings.emustation.options.help_3')"
+              label="settings.emustation.menus.disableSystemSelection.label"
+              :help="$t('settings.emustation.menus.disableSystemSelection.help')"
               :getter="emulationstation.hidesystemview"
               :setter="emulationstationStore.post"
               apiKey="hidesystemview"
@@ -48,8 +63,8 @@
           </div>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedToggle
-              label="settings.emustation.options.showOnlyScrapedGames"
-              :help="$t('settings.emustation.options.help_4')"
+              label="settings.emustation.menus.showOnlyScrapedGames.label"
+              :help="$t('settings.emustation.menus.showOnlyScrapedGames.help')"
               :getter="emulationstation.gamelistonly"
               :setter="emulationstationStore.post"
               apiKey="gamelistonly"
@@ -93,9 +108,15 @@ import WrappedToggle from 'components/global/WrappedToggle.vue';
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import { useEmulationstationStore } from 'stores/emulationstation';
 import { storeToRefs } from 'pinia';
+import { useSystemStore } from 'stores/system';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
+
+const systemStore = useSystemStore();
+systemStore.fetch();
+
 const { menuOptions, selectedsystemOptions, emulationstation } = storeToRefs(emulationstationStore);
+const { esVideomodeOptions, system } = storeToRefs(systemStore);
 </script>

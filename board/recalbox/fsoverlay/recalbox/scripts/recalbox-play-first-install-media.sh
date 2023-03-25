@@ -81,7 +81,7 @@ playRRGBDInstallVideo() {
 
 # Start
 fbdevHeight=$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)
-if isRecalboxRGBDual; then
+if currentVideoOnCRT; then
   playRRGBDInstallVideo
 elif [ "${fbdevHeight}" -le 320 ];then
   playVideo

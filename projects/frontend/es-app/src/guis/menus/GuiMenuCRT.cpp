@@ -128,6 +128,8 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   Adapters[] =
   {
     { "Recalbox RGB Dual", CrtAdapterType::RGBDual },
+    { "Recalbox RGB Jamma", CrtAdapterType::RGBJamma },
+    { "Recalbox RGB Jamma Proto", CrtAdapterType::RGBJammaPoll },
     { "VGA666", CrtAdapterType::Vga666 },
     { "RGBPi", CrtAdapterType::RGBPi },
     { "Pi2SCART", CrtAdapterType::Pi2Scart },

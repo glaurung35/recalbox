@@ -298,7 +298,9 @@ export default {
           },
         },
         shaders: {
-          title: 'Set de shaders',
+          label: 'Activer les shaders',
+        },
+        shaderset: {
           label: 'Set de shaders',
           help: 'Shaders disponibles:'
             + '<ul><li><b>custom</b> permet de choisir et d\'activer un shader custom,</li>'
@@ -307,6 +309,7 @@ export default {
             + ' Il vous apportera l\'expérience de jeu la plus proche de l\'expérience originale,</li>'
             + '<li><b>scanlines</b> active les scanlines sur tous les emulateurs,</li></ul>',
         },
+
         customshaders: {
           label: 'Shader custom',
         },

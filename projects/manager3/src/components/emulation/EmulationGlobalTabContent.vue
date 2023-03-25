@@ -12,9 +12,16 @@
             v-if="global.ratio"
           />
           <q-separator/>
-          <WrappedSelect
+          <WrappedToggle
             label="emulation.global.display.shaders.label"
-            :help="$t('emulation.global.display.shaders.help')"
+            :getter="global.shaders"
+            :setter="globalStore.post"
+            apiKey="shaders"
+            v-if="global.shaders"
+          />
+          <WrappedSelect
+            label="emulation.global.display.shaderset.label"
+            :help="$t('emulation.global.display.shaderset.help')"
             :options="shadersetOptions"
             :getter="global.shaderset"
             :setter="globalStore.post"

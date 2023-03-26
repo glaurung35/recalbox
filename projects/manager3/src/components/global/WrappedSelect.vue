@@ -1,15 +1,13 @@
 <template>
   <q-select
     :label="$t(label)"
-    :options="filteredOptions"
+    :options="options"
     class="q-mb-md"
     dense
     standout="bg-primary text-white"
     v-model="value"
     v-bind="$attrs"
-    :map-options="true"
-    use-input
-    @filter="filterFn"
+    map-options
   >
     <template v-slot:no-option>
       <q-item>
@@ -25,7 +23,7 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, toRefs, ref } from 'vue';
+import { computed, toRefs } from 'vue';
 import HelpButton from 'components/global/HelpButton.vue';
 
 const props = defineProps({
@@ -46,21 +44,4 @@ const value = computed({
   get: () => getter?.value.value,
   set: (selected) => setter.value({ [apiKey?.value]: selected == null ? '' : selected }),
 });
-
-const filteredOptions = ref(options);
-
-function filterFn(val:string, update:any) {
-  if (val === '') {
-    update(() => {
-      filteredOptions.value = options;
-    });
-    return;
-  }
-  update(() => {
-    const needle = val.toLowerCase();
-    filteredOptions.value = options.value.filter(
-      (v:string) => v.toLowerCase().indexOf(needle) > -1,
-    );
-  });
-}
 </script>

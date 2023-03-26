@@ -88,14 +88,15 @@
             v-model="table.filter"
             class="search"
           >
-            <template v-slot:append>
+            <template v-slot:prepend>
+              <q-icon name="mdi-magnify"/>
+            </template>
+            <template v-slot:append v-if="table.filter !== ''">
               <q-icon
+                name="mdi-close"
                 @click="table.filter = ''"
                 class="cursor-pointer"
-                name="mdi-close"
-                v-if="table.filter !== ''"
               />
-              <q-icon name="mdi-magnify"/>
             </template>
           </q-input>
 <!--          <q-btn-->

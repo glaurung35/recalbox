@@ -33,8 +33,15 @@
             v-model="table.filter"
             class="search"
           >
-            <template v-slot:append>
+            <template v-slot:prepend>
               <q-icon name="mdi-magnify"/>
+            </template>
+            <template v-slot:append v-if="table.filter !== ''">
+              <q-icon
+                name="mdi-close"
+                @click="table.filter = ''"
+                class="cursor-pointer"
+              />
             </template>
           </q-input>
 <!--          <q-btn class="q-ml-md" color="accent" icon="mdi-plus-thick" outline/>-->

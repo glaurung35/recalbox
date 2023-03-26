@@ -24,8 +24,15 @@
             v-model="table.filter"
             class="search"
           >
-            <template v-slot:append>
+            <template v-slot:prepend>
               <q-icon name="mdi-magnify"/>
+            </template>
+            <template v-slot:append v-if="table.filter !== ''">
+              <q-icon
+                name="mdi-close"
+                @click="table.filter = ''"
+                class="cursor-pointer"
+              />
             </template>
           </q-input>
         </template>
@@ -83,8 +90,7 @@ const columns = computed<object[]>(() => [
     required: true,
     label: '',
     align: 'left',
-    field: (row: any) => row.fullname, // eslint-disable-line @typescript-eslint/no-explicit-any
-    format: (val: any) => `${val}`, // eslint-disable-line @typescript-eslint/no-explicit-any
+    field: (row: object) => row.fullname,
     sortable: true,
   },
 ]);

@@ -116,7 +116,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
   std::vector<std::shared_ptr<ButtonComponent>> buttons
   {
     mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this)),
-    std::make_shared<ButtonComponent>(mWindow, _("RUN IN BACKGROUND"), _("RUN IN BACKGROUND"), [this] { GuiScraperRun::Hide(mWindow); })
+    mRunInBgButton = std::make_shared<ButtonComponent>(mWindow, _("RUN IN BACKGROUND"), _("RUN IN BACKGROUND"), [this] { GuiScraperRun::Hide(mWindow); })
   };
 	mButtonGrid = makeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
@@ -291,6 +291,13 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
   // Update button?
   mButton->setText(_("CLOSE"), _("CLOSE"));
   mSearchComp->SetRunning(false);
+  mGrid.removeEntry(mButtonGrid);
+  mButtonGrid->removeEntry(mButton);
+  mButtonGrid = makeButtonGrid(mWindow,  std::vector<std::shared_ptr<ButtonComponent>>
+  {
+    mButton
+  });
+  mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
 
   // Scripts
   NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));

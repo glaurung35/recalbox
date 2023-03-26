@@ -73,4 +73,5 @@ const {
   .q-separator--horizontal
     height: 1px
     background: $secondary
+    margin-bottom: 0
 </style>

@@ -30,10 +30,6 @@
         <div class="linear-progress-bar">
           <q-linear-progress :value="0.54" color="secondary" size="15px"/>
         </div>
-        <div class="linear-progress-title text-accent">Stat X</div>
-        <div class="linear-progress-bar">
-          <q-linear-progress :value="0.4" color="secondary" size="15px"/>
-        </div>
       </div>
     </div>
 
@@ -42,7 +38,11 @@
         Nombre de jeux par machines
       </div>
       <div class="col col-md-4 machine">
-        Machine en cours ( si oui )
+        <div class="row">
+          <div class="col-4">
+            Système en cours ( si oui )
+          </div>
+        </div>
       </div>
       <div class="col col-md-4 game">
         Jeux en cours ( si oui )
@@ -146,6 +146,7 @@ const stats = computed<object[]>(() => [
     background: $rc-light-grey
     width: 2px
     min-width: 2px
+    margin-bottom: 0
 
   .q-separator--horizontal
     background: $rc-light-grey

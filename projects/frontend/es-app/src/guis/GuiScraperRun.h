@@ -100,6 +100,8 @@ class GuiScraperRun : public Gui
     std::shared_ptr<TextComponent> mTiming;
     std::shared_ptr<TextComponent> mDatabaseMessage;
     std::shared_ptr<ButtonComponent> mButton;
+    std::shared_ptr<ButtonComponent> mRunInBgButton;
+
     std::shared_ptr<ComponentGrid> mButtonGrid;
     std::shared_ptr<TextComponent> mFinalReport;
     std::shared_ptr<ComponentGrid> mProgressGrid;

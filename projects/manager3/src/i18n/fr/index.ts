@@ -3,6 +3,11 @@ export default {
     message: 'Désolé, rien ici...',
     returnButton: 'Retour',
   },
+  components: {
+    wrappedSelect: {
+      noResults: 'Aucune option',
+    },
+  },
   general: {
     virtualDevices: {
       tooltip: 'Accéder aux périphériques virtuels',

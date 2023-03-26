@@ -3,6 +3,11 @@ export default {
     message: 'Sorry, nothing here...',
     returnButton: 'Go back',
   },
+  components: {
+    wrappedSelect: {
+      noResults: 'No options',
+    },
+  },
   general: {
     virtualDevices: {
       title: 'Virtual devices',

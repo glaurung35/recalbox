@@ -159,6 +159,10 @@ class RG353XBoard: public IBoardInterface
      * @return True if a side effect has been triggered
      */
     bool OnRebootOrShutdown() { return false; }
+  /*!
+  * @return the rotation capabilities for tate mode
+  */
+    const RotationCapability GetRotationCapabilities() const override;
 };
 
 

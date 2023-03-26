@@ -98,7 +98,7 @@ const columns = computed<object[]>(() => [
 const table = ref<object>({
   filter: '',
   pagination: {
-    rowsPerPage: 30,
+    rowsPerPage: 24,
   },
 });
 </script>

@@ -174,6 +174,11 @@ class OdroidAdvanceGo2Board: public IBoardInterface
     const RotationCapability GetRotationCapabilities() const override;
     void HeadphonePlugged() final;
     void HeadphoneUnplugged() final;
+
+    /*!
+     * @brief Set the CPU governor for EmulationStation
+     */
+    void SetFrontendCPUGovernor() final;
 };
 
 

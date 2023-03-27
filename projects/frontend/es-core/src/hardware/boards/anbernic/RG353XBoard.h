@@ -163,7 +163,10 @@ class RG353XBoard: public IBoardInterface
     void HeadphonePlugged() final {};
     void HeadphoneUnplugged() final {};
     const RotationCapability GetRotationCapabilities() const override;
-
+    /*!
+     * @brief Set the CPU governor for EmulationStation
+     */
+    void SetFrontendCPUGovernor() final;
 };
 
 

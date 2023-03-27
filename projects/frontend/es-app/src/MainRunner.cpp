@@ -73,8 +73,8 @@ MainRunner::ExitState MainRunner::Run()
     // Hardware board
     Board board(*this);
 
-    // Save power for battery-powered devices
-    board.SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
+    // Set best performance/power CPU governor for battery-powered devices
+    board.SetFrontendCPUGovernor();
 
     // Audio controller
     AudioController audioController;

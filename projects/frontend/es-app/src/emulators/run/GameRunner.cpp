@@ -195,7 +195,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     exitCode = gameRunner.ExitCode();
     fputs("==============================================\n", stdout);
     Board::Instance().StopInGameBackgroundProcesses(sdl2Runner);
-    Board::Instance().SetCPUGovernance(IBoardInterface::CPUGovernance::PowerSave);
+    Board::Instance().SetFrontendCPUGovernor();
     NotificationManager::Instance().Notify(game, Notification::EndGame);
     padToKeyboard.StopMapping();
 

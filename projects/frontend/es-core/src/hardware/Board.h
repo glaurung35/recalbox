@@ -187,6 +187,7 @@ class Board: public StaticLifeCycleControler<Board>
     void HeadphonePlugged() { mBoard.HeadphonePlugged(); }
     void HeadphoneUnplugged() { mBoard.HeadphoneUnplugged(); }
 
+    void SetFrontendCPUGovernor() { mBoard.SetFrontendCPUGovernor(); }
   private:
     //! Board type
     BoardType mType;

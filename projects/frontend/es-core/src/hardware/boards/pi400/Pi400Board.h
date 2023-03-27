@@ -132,4 +132,9 @@ private:
 
     void HeadphonePlugged() final {};
     void HeadphoneUnplugged() final {};
+
+    /*!
+     * @brief Set the CPU governor for EmulationStation
+     */
+    void SetFrontendCPUGovernor() final {};
 };

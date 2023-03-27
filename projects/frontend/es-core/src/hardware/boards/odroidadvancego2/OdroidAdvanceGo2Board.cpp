@@ -130,3 +130,8 @@ void OdroidAdvanceGo2Board::HeadphoneUnplugged()
 {
   system("amixer sset 'Playback Path' SPK");
 }
+
+void OdroidAdvanceGo2Board::SetFrontendCPUGovernor()
+{
+  SetCPUGovernance(CPUGovernance::PowerSave);
+}

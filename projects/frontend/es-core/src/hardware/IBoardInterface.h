@@ -141,6 +141,11 @@ class IBoardInterface
      * @brief Headphone unplugged
      */
     virtual void HeadphoneUnplugged() = 0;
+
+    /*!
+     * @brief Set EmulationStation CPU governor
+     */
+    virtual void SetFrontendCPUGovernor() = 0;
   protected:
     //! Hardware event Notification interface
     HardwareMessageSender& mSender;

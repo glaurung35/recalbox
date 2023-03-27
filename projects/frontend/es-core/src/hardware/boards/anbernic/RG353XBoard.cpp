@@ -82,3 +82,7 @@ bool RG353XBoard::IsBatteryCharging()
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
 
+void RG353XBoard::SetFrontendCPUGovernor()
+{
+  SetCPUGovernance(CPUGovernance::OnDemand);
+}

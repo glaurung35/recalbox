@@ -53,3 +53,8 @@ bool PcComputers::IsBatteryCharging()
   static Path sBatteryStatus(Path(sBatteryStatusPath1).Exists() ? sBatteryStatusPath1 : sBatteryStatusPath2);
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
+
+void PcComputers::SetFrontendCPUGovernor()
+{
+  SetCPUGovernance(CPUGovernance::PowerSave);
+}

@@ -52,5 +52,7 @@ class NullBoard: public IBoardInterface
     void HeadphonePlugged() final {};
 
     void HeadphoneUnplugged() final {};
+
+    void SetFrontendCPUGovernor() final {};
 };
 

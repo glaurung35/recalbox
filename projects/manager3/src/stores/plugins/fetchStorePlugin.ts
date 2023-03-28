@@ -16,6 +16,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'bios',
     'global',
     'systems',
+    'monitoring',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

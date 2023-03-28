@@ -12,7 +12,7 @@
       color="primary"
       id="virtual-devices-button"
       @click="show(true)"
-      disable
+      :disable="!system['virtual-gamepads.enabled']?.value"
     >
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         {{ $t('general.virtualDevices.tooltip') }}
@@ -25,11 +25,18 @@
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useSystemStore } from 'stores/system';
+import { storeToRefs } from 'pinia';
 
 const $q = useQuasar();
 const router = useRouter();
 const { t } = useI18n({ useScope: 'global' });
 
+const systemStore = useSystemStore();
+systemStore.fetch();
+const { system } = storeToRefs(systemStore);
+
+console.log(system.value['virtual-gamepads.enabled']);
 function show(display:boolean) {
   $q.bottomSheet({
     message: t('general.virtualDevices.title'),

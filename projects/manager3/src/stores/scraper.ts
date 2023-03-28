@@ -1,31 +1,63 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { SCRAPER } from 'src/router/api.routes';
+import { ScraperConfig, ScraperConfigOptions } from 'stores/dtos/scraperConfig';
+
+export type ScraperStoreState = {
+  _baseUrl: string,
+  _scraperOptions: ScraperConfigOptions,
+  scraper: ScraperConfig,
+};
 
 export const useScraperStore = defineStore('scraper', {
   state: () => ({
+    _baseUrl: SCRAPER,
     _scraperOptions: {
+      'screenscraper.password': {
+        type: '',
+      },
       'screenscraper.media': {
-        allowedStringList: [],
+        type: '',
+        allowedStringList: [''],
+      },
+      extractregionfromfilename: {
+        type: '',
+      },
+      getnamefrom: {
+        type: '',
+        lowerValue: 0,
+        higherValue: 0,
       },
       'screenscraper.language': {
-        allowedStringList: [],
+        type: '',
+        allowedStringList: [''],
       },
       'screenscraper.region': {
-        allowedStringList: [],
+        type: '',
+        allowedStringList: [''],
       },
       'screenscraper.thumbnail': {
-        allowedStringList: [],
+        type: '',
+        allowedStringList: [''],
       },
       'screenscraper.video': {
-        allowedStringList: [],
+        type: '',
+        allowedStringList: [''],
+      },
+      'screenscraper.maps': {
+        type: '',
+      },
+      'screenscraper.manual': {
+        type: '',
+      },
+      'screenscraper.user': {
+        type: '',
       },
     },
     scraper: {
       getnamefrom: {},
       extractregionfromfilename: {},
     },
-  }),
+  } as ScraperStoreState),
 
   getters: {
     mediaOptions: (state) => state._scraperOptions['screenscraper.media'].allowedStringList,
@@ -34,35 +66,5 @@ export const useScraperStore = defineStore('scraper', {
     thumbnailOptions: (state) => state._scraperOptions['screenscraper.thumbnail'].allowedStringList,
     videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList,
     getNameFromOptions: () => [0, 1, 2],
-  },
-
-  actions: {
-    async fetchOptions() {
-      try {
-        const response = await api.options(SCRAPER);
-        this._scraperOptions = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async fetch() {
-      try {
-        const response = await api.get(SCRAPER);
-        this.scraper = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async post(data: Record<string, unknown>) {
-      try {
-        const response = await api.post(SCRAPER, data);
-        this.scraper = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
   },
 });

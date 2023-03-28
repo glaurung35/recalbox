@@ -1,28 +1,35 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { SYSTEM } from 'src/router/api.routes';
+import { SystemConfig, SystemConfigOptions } from 'stores/dtos/systemConfig';
+
+export type SystemStoreState = {
+  _baseUrl: string,
+  _systemOptions: SystemConfigOptions,
+  system: SystemConfig,
+};
 
 export const useSystemStore = defineStore('system', {
   state: () => ({
+    _baseUrl: SYSTEM,
     _systemOptions: {
       language: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       kblayout: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       timezone: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       'emulators.specialkeys': {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       'es.videomode': {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
     },
     system: {},
-  }),
+  } as SystemStoreState),
 
   getters: {
     languageOptions: (state) => state._systemOptions.language.allowedStringList,
@@ -30,35 +37,5 @@ export const useSystemStore = defineStore('system', {
     timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList,
     specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
     esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
-  },
-
-  actions: {
-    async fetchOptions() {
-      try {
-        const response = await api.options(SYSTEM);
-        this._systemOptions = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async fetch() {
-      try {
-        const response = await api.get(SYSTEM);
-        this.system = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async post(data: Record<string, unknown>) {
-      try {
-        const response = await api.post(SYSTEM, data);
-        this.system = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
   },
 });

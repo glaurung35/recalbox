@@ -30,7 +30,7 @@ const props = defineProps({
   label: { type: String, required: true },
   help: { type: String },
   warning: { type: Boolean },
-  options: { type: Object, required: true },
+  options: { type: Object, required: true, default() { return []; } },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
@@ -42,6 +42,6 @@ const {
 
 const value = computed({
   get: () => getter?.value.value,
-  set: (selected) => setter.value({ [apiKey?.value]: selected == null ? '' : selected }),
+  set: (selected) => setter.value({ [apiKey?.value]: selected === null ? '' : selected }),
 });
 </script>

@@ -3,33 +3,27 @@
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="settings.kodi.status.title">
         <template v-slot:content>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.kodi.status.enableKodi"
-              :getter="kodi.enabled"
-              :setter="kodiStore.post"
-              apiKey="enabled"
-              v-if="kodi.enabled"
-            />
-          </div>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.kodi.status.kodiAtStartup"
-              :getter="kodi.atstartup"
-              :setter="kodiStore.post"
-              apiKey="atstartup"
-              v-if="kodi.atstartup"
-            />
-          </div>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.kodi.status.launchWithX"
-              :getter="kodi.xbutton"
-              :setter="kodiStore.post"
-              apiKey="xbutton"
-              v-if="kodi.xbutton"
-            />
-          </div>
+          <WrappedToggle
+            label="settings.kodi.status.enableKodi"
+            :getter="kodi.enabled"
+            :setter="kodiStore.post"
+            apiKey="enabled"
+            v-if="kodi.enabled"
+          />
+          <WrappedToggle
+            label="settings.kodi.status.kodiAtStartup"
+            :getter="kodi.atstartup"
+            :setter="kodiStore.post"
+            apiKey="atstartup"
+            v-if="kodi.atstartup"
+          />
+          <WrappedToggle
+            label="settings.kodi.status.launchWithX"
+            :getter="kodi.xbutton"
+            :setter="kodiStore.post"
+            apiKey="xbutton"
+            v-if="kodi.xbutton"
+          />
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.kodi.video.title">

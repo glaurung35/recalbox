@@ -43,33 +43,27 @@
               apiKey="screenscraper.video"
               v-if="scraper['screenscraper.video']"
             />
-            <div class="col col-xs-12 col-sm-12 col-md-12">
-              <WrappedToggle
-                label="settings.scraper.screenscraper.medias.maps"
-                :getter="scraper['screenscraper.maps']"
-                :setter="scraperStore.post"
-                apiKey="screenscraper.maps"
-                v-if="scraper['screenscraper.maps']"
-              />
-            </div>
-            <div class="col col-xs-12 col-sm-12 col-md-12">
-              <WrappedToggle
-                label="settings.scraper.screenscraper.medias.manual"
-                :getter="scraper['screenscraper.manual']"
-                :setter="scraperStore.post"
-                apiKey="screenscraper.manual"
-                v-if="scraper['screenscraper.manual']"
-              />
-            </div>
-            <div class="col col-xs-12 col-sm-12 col-md-12">
-              <WrappedToggle
-                label="settings.scraper.screenscraper.p2k"
-                :getter="scraper['screenscraper.p2k']"
-                :setter="scraperStore.post"
-                apiKey="screenscraper.p2k"
-                v-if="scraper['screenscraper.p2k']"
-              />
-            </div>
+            <WrappedToggle
+              label="settings.scraper.screenscraper.medias.maps"
+              :getter="scraper['screenscraper.maps']"
+              :setter="scraperStore.post"
+              apiKey="screenscraper.maps"
+              v-if="scraper['screenscraper.maps']"
+            />
+            <WrappedToggle
+              label="settings.scraper.screenscraper.medias.manual"
+              :getter="scraper['screenscraper.manual']"
+              :setter="scraperStore.post"
+              apiKey="screenscraper.manual"
+              v-if="scraper['screenscraper.manual']"
+            />
+            <WrappedToggle
+              label="settings.scraper.screenscraper.p2k"
+              :getter="scraper['screenscraper.p2k']"
+              :setter="scraperStore.post"
+              apiKey="screenscraper.p2k"
+              v-if="scraper['screenscraper.p2k']"
+            />
           </div>
         </template>
       </FormFragmentContainer>

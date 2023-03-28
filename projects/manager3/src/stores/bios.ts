@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { BIOS } from 'src/router/api.routes';
 
 export const useBiosStore = defineStore('bios', {
   state: () => ({
+    _apiProvider: null,
     bios: {},
   }),
 
@@ -32,7 +32,9 @@ export const useBiosStore = defineStore('bios', {
   actions: {
     async fetch() {
       try {
-        const response = await api.get(BIOS.all);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(BIOS.all);
         this.bios = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

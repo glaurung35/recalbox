@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
-import { api } from 'src/boot/axios';
 import { toRaw } from 'vue';
 
 export const useMonitoringStore = defineStore('monitoring', {
   state: () => ({
+    _apiProvider: null,
     storageInfo: {
       storages: {},
     },
@@ -18,7 +18,9 @@ export const useMonitoringStore = defineStore('monitoring', {
   actions: {
     async fetch() {
       try {
-        const response = await api.get(MONITORING.storageInfo);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(MONITORING.storageInfo);
         this.storageInfo = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

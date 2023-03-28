@@ -48,7 +48,7 @@ import { ref } from 'vue';
 import VersionsList from 'components/global/VersionsList.vue';
 import { useVersionsStore } from 'stores/versions';
 
-useVersionsStore().fetchVersions();
+useVersionsStore().fetch();
 
 const open = ref<boolean>(false);
 </script>

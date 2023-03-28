@@ -1,13 +1,10 @@
 import { store } from 'quasar/wrappers';
 import { createPinia } from 'pinia';
 import { Router } from 'vue-router';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import FetchStorePlugin from './plugins/fetchStorePlugin';
-import FetchOptionsStorePlugin from './plugins/fetchOptionsStorePlugin';
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import PostStorePlugin from './plugins/postStorePlugin';
+import FetchStorePlugin from 'stores/plugins/fetchStorePlugin';
+import FetchOptionsStorePlugin from 'stores/plugins/fetchOptionsStorePlugin';
+import PostStorePlugin from 'stores/plugins/postStorePlugin';
+import ApiProviderStorePlugin from 'stores/plugins/apiProviderStorePlugin';
 
 /*
  * When adding new properties to stores, you should also
@@ -32,7 +29,9 @@ declare module 'pinia' {
 export default store((/* { ssrContext } */) => {
   const pinia = createPinia();
 
-  // You can add Pinia plugins here
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  pinia.use(ApiProviderStorePlugin);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pinia.use(FetchStorePlugin);

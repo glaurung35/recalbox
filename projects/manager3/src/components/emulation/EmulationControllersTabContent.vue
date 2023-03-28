@@ -3,24 +3,20 @@
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.controllers.bluetooth.title">
         <template v-slot:content>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="emulation.controllers.bluetooth.enabled"
-              :getter="controllers['bluetooth.enabled']"
-              :setter="controllersStore.post"
-              apiKey="bluetooth.enabled"
-              v-if="controllers['bluetooth.enabled']"
-            />
-          </div>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="emulation.controllers.bluetooth.ertm"
-              :getter="controllers['bluetooth.ertm']"
-              :setter="controllersStore.post"
-              apiKey="bluetooth.ertm"
-              v-if="controllers['bluetooth.ertm']"
-            />
-          </div>
+          <WrappedToggle
+            label="emulation.controllers.bluetooth.enabled"
+            :getter="controllers['bluetooth.enabled']"
+            :setter="controllersStore.post"
+            apiKey="bluetooth.enabled"
+            v-if="controllers['bluetooth.enabled']"
+          />
+          <WrappedToggle
+            label="emulation.controllers.bluetooth.ertm"
+            :getter="controllers['bluetooth.ertm']"
+            :setter="controllersStore.post"
+            apiKey="bluetooth.ertm"
+            v-if="controllers['bluetooth.ertm']"
+          />
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.db9.title">

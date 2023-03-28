@@ -41,36 +41,30 @@
 
           <q-separator/>
 
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.emustation.menus.startFromFirstSystem.label"
-              :help="$t('settings.emustation.menus.startFromFirstSystem.help')"
-              :getter="emulationstation.bootongamelist"
-              :setter="emulationstationStore.post"
-              apiKey="bootongamelist"
-              v-if="emulationstation.bootongamelist"
-            />
-          </div>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.emustation.menus.disableSystemSelection.label"
-              :help="$t('settings.emustation.menus.disableSystemSelection.help')"
-              :getter="emulationstation.hidesystemview"
-              :setter="emulationstationStore.post"
-              apiKey="hidesystemview"
-              v-if="emulationstation.hidesystemview"
-            />
-          </div>
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="settings.emustation.menus.showOnlyScrapedGames.label"
-              :help="$t('settings.emustation.menus.showOnlyScrapedGames.help')"
-              :getter="emulationstation.gamelistonly"
-              :setter="emulationstationStore.post"
-              apiKey="gamelistonly"
-              v-if="emulationstation.gamelistonly"
-            />
-          </div>
+          <WrappedToggle
+            label="settings.emustation.menus.startFromFirstSystem.label"
+            :help="$t('settings.emustation.menus.startFromFirstSystem.help')"
+            :getter="emulationstation.bootongamelist"
+            :setter="emulationstationStore.post"
+            apiKey="bootongamelist"
+            v-if="emulationstation.bootongamelist"
+          />
+          <WrappedToggle
+            label="settings.emustation.menus.disableSystemSelection.label"
+            :help="$t('settings.emustation.menus.disableSystemSelection.help')"
+            :getter="emulationstation.hidesystemview"
+            :setter="emulationstationStore.post"
+            apiKey="hidesystemview"
+            v-if="emulationstation.hidesystemview"
+          />
+          <WrappedToggle
+            label="settings.emustation.menus.showOnlyScrapedGames.label"
+            :help="$t('settings.emustation.menus.showOnlyScrapedGames.help')"
+            :getter="emulationstation.gamelistonly"
+            :setter="emulationstationStore.post"
+            apiKey="gamelistonly"
+            v-if="emulationstation.gamelistonly"
+          />
         </template>
       </FormFragmentContainer>
     </div>

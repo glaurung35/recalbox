@@ -126,8 +126,12 @@ export default {
           options: {},
         },
       },
-      versions: {
-        title: 'Versions',
+      services: {
+        title: 'Services',
+        managerEnabled: 'Activer le manager',
+        sambaEnabled: 'Activer Samba',
+        virtualGamepadsEnabled: 'Activer les périphériques virtuels',
+        sshEnabled: 'Activer le protocole SSH',
       },
     },
     audio: {

@@ -1,52 +1,27 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
+import { AudioConfig, AudioConfigOptions } from 'stores/dtos/audioConfig';
 import { AUDIO } from 'src/router/api.routes';
+
+export type AudioStoreState = {
+  _baseUrl: string,
+  _audioOptions: AudioConfigOptions,
+  audio: AudioConfig,
+};
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({
+    _baseUrl: AUDIO,
     _audioOptions: {
       device: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
     },
     audio: {
-      bgmusic: {},
       volume: {},
-      device: {},
     },
-  }),
+  } as AudioStoreState),
 
   getters: {
     deviceOptions: (state) => state._audioOptions.device.allowedStringList,
-  },
-
-  actions: {
-    async fetchOptions() {
-      try {
-        const response = await api.options(AUDIO);
-        this._audioOptions = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async fetch() {
-      try {
-        const response = await api.get(AUDIO);
-        this.audio = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async post(data: Record<string, unknown>) {
-      try {
-        const response = await api.post(AUDIO, data);
-        this.audio = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
   },
 });

@@ -10,6 +10,7 @@ export default {
   },
   general: {
     virtualDevices: {
+      tooltip: 'Access virtual devices',
       title: 'Virtual devices',
       keyboard: 'Keyboard',
       gamepad: 'Gamepad',
@@ -125,8 +126,12 @@ export default {
           options: {},
         },
       },
-      versions: {
-        title: 'Versions',
+      services: {
+        title: 'Services',
+        managerEnabled: 'Enables manager',
+        sambaEnabled: 'Enables Samba',
+        virtualGamepadsEnabled: 'Enables virtual devices',
+        sshEnabled: 'Enables SSH protocol',
       },
     },
     audio: {

@@ -1,14 +1,16 @@
 <template>
-  <q-toggle
-    :label="$t(label)"
-    class="q-mb-md"
-    v-model="enabled"
-    v-bind="$attrs"
-    color="accent"
-    checked-icon="check"
-    unchecked-icon="clear"
-  />
-  <HelpButton :help="help" :warning="warning" toggle/>
+  <div class="col col-xs-12 col-sm-12 col-md-12">
+    <q-toggle
+      :label="$t(label)"
+      class="q-mb-md"
+      v-model="enabled"
+      v-bind="$attrs"
+      color="accent"
+      checked-icon="check"
+      unchecked-icon="clear"
+    />
+    <HelpButton :help="help" :warning="warning" toggle/>
+  </div>
 </template>
 
 <script lang="ts" setup>

@@ -78,7 +78,38 @@
 
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6 col">
-
+      <FormFragmentContainer title="settings.system.services.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.services.managerEnabled"
+            :getter="system['manager.enabled']"
+            :setter="systemStore.post"
+            apiKey="manager.enabled"
+            v-if="system['manager.enabled']"
+          />
+          <WrappedToggle
+            label="settings.system.services.sambaEnabled"
+            :getter="system['samba.enabled']"
+            :setter="systemStore.post"
+            apiKey="samba.enabled"
+            v-if="system['samba.enabled']"
+          />
+          <WrappedToggle
+            label="settings.system.services.virtualGamepadsEnabled"
+            :getter="system['virtual-gamepads.enabled']"
+            :setter="systemStore.post"
+            apiKey="virtual-gamepads.enabled"
+            v-if="system['virtual-gamepads.enabled']"
+          />
+          <WrappedToggle
+            label="settings.system.services.sshEnabled"
+            :getter="system['ssh.enabled']"
+            :setter="systemStore.post"
+            apiKey="ssh.enabled"
+            v-if="system['ssh.enabled']"
+          />
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -97,7 +128,6 @@ updateStore.fetch();
 const { updatesTypeOptions, updates } = storeToRefs(updateStore);
 
 const systemStore = useSystemStore();
-systemStore.fetch();
 const {
   languageOptions,
   kblayoutOptions,

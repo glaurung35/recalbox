@@ -205,16 +205,14 @@
             apiKey="arcade.includeneogeo"
             v-if="global['arcade.includeneogeo']"
           />
-          <div class="col col-xs-12 col-sm-12 col-md-12">
-            <WrappedToggle
-              label="emulation.global.arcade.hideOriginals.label"
-              :help="$t('emulation.global.arcade.hideOriginals.help')"
-              :getter="global['arcade.hideoriginals']"
-              :setter="globalStore.post"
-              apiKey="arcade.hideoriginals"
-              v-if="global['arcade.hideoriginals']"
-            />
-          </div>
+          <WrappedToggle
+            label="emulation.global.arcade.hideOriginals.label"
+            :help="$t('emulation.global.arcade.hideOriginals.help')"
+            :getter="global['arcade.hideoriginals']"
+            :setter="globalStore.post"
+            apiKey="arcade.hideoriginals"
+            v-if="global['arcade.hideoriginals']"
+          />
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.translation.title">

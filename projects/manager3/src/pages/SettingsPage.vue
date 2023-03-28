@@ -103,6 +103,7 @@ import { useScraperStore } from 'stores/scraper';
 import { useWifiStore } from 'stores/wifi';
 
 useSystemStore().fetchOptions();
+
 useAudioStore().fetchOptions();
 useUpdatesStore().fetchOptions();
 useEmulationstationStore().fetchOptions();

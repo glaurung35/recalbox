@@ -36,7 +36,6 @@ const systemStore = useSystemStore();
 systemStore.fetch();
 const { system } = storeToRefs(systemStore);
 
-console.log(system.value['virtual-gamepads.enabled']);
 function show(display:boolean) {
   $q.bottomSheet({
     message: t('general.virtualDevices.title'),

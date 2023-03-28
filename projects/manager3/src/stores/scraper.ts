@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { SCRAPER } from 'src/router/api.routes';
-import { ScraperConfig, ScraperConfigOptions } from 'stores/dtos/scraperConfig';
+import { ScraperConfig, ScraperConfigOptions } from 'stores/types/scraperConfig';
 
 export type ScraperStoreState = {
   _baseUrl: string,

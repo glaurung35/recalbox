@@ -3,7 +3,16 @@ import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return
 const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
-  const allowedStores = ['audio', 'kodi', 'scraper', 'emulationstation', 'wifi', 'system', 'updates'];
+  const allowedStores = [
+    'audio',
+    'kodi',
+    'scraper',
+    'emulationstation',
+    'wifi',
+    'system',
+    'updates',
+    'controllers',
+  ];
 
   if (allowedStores.includes(context.store.$id)) {
     return {

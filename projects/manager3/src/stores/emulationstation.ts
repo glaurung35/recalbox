@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { EMUSTATION } from 'src/router/api.routes';
-import { EmulationStationConfig, EmulationStationConfigOptions } from 'stores/dtos/emulationstationConfig';
+import { EmulationStationConfig, EmulationStationConfigOptions } from 'stores/types/emulationstationConfig';
 
 export type EmulationStationStoreState = {
   _baseUrl: string,

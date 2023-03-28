@@ -3,7 +3,17 @@ import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return
 const PostStorePlugin = (context: PiniaPluginContext) => {
-  const allowedStores = ['audio', 'hyperion', 'kodi', 'scraper', 'emulationstation', 'wifi', 'system', 'updates'];
+  const allowedStores = [
+    'audio',
+    'hyperion',
+    'kodi',
+    'scraper',
+    'emulationstation',
+    'wifi',
+    'system',
+    'updates',
+    'controllers',
+  ];
 
   if (allowedStores.includes(context.store.$id)) {
     return {

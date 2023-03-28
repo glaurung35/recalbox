@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { WIFI } from 'src/router/api.routes';
-import { WifiConfig, WifiConfigOptions } from 'stores/dtos/wifiConfig';
+import { WifiConfig, WifiConfigOptions } from 'stores/types/wifiConfig';
 
 export type WifiStoreState = {
   _baseUrl: string,

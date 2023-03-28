@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { UPDATES } from 'src/router/api.routes';
-import { UpdatesConfig, UpdatesConfigOptions } from 'stores/dtos/updatesConfig';
+import { UpdatesConfig, UpdatesConfigOptions } from 'stores/types/updatesConfig';
 
 export type UpdatesStoreState = {
   _baseUrl: string,

@@ -1,5 +1,5 @@
 import { defineStore } from 'pinia';
-import { AudioConfig, AudioConfigOptions } from 'stores/dtos/audioConfig';
+import { AudioConfig, AudioConfigOptions } from 'stores/types/audioConfig';
 import { AUDIO } from 'src/router/api.routes';
 
 export type AudioStoreState = {

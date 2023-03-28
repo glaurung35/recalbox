@@ -237,7 +237,7 @@ class InputCompactEvent
 
     static const InputCompactEvent Rotate(const InputCompactEvent& toRotate);
     static void swap(uint& n, int p, int q);
-
+    std::string ToString() const;
 };
 
 DEFINE_BITFLAG_ENUM(InputCompactEvent::Entry, unsigned int)

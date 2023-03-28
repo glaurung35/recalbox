@@ -83,7 +83,9 @@ bool RG353XBoard::IsBatteryCharging()
 }
 
 const RotationCapability RG353XBoard::GetRotationCapabilities() const {
-    return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
+  return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
+
+}
 void RG353XBoard::SetFrontendCPUGovernor()
 {
   SetCPUGovernance(CPUGovernance::OnDemand);

@@ -841,6 +841,12 @@ void SystemView::manageTate(bool remove)
     if(system->Name() != "tate")
       continue;
 
+    else if (remove)
+    {
+      removeSystem(system);
+      break;
+    }
+
     bool hasGame = system->HasVisibleGame();
     bool tateIsInEntries = false;
 
@@ -853,7 +859,7 @@ void SystemView::manageTate(bool remove)
 
     if(!tateIsInEntries && hasGame)
       addSystem(system);
-    else if (remove || !hasGame)
+    else if (!hasGame)
       removeSystem(system);
   }
 }

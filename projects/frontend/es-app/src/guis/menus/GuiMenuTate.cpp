@@ -74,16 +74,21 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status) {
   switch ((Components) id) {
     case Components::TateEnabled:
       RecalboxConf::Instance().SetCollectionTate(status).Save();
-      if (status) {
+      if (status)
+      {
         mSystemManager.AddTateMetaSystem();
-        ViewController::Instance().getSystemListView().manageTate(!status);
+        ViewController::Instance().getSystemListView().manageTate(false);
         ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
-        break;
-
-        case Components::TateGamesRotation:
-        case Components::TateCompleteSystemRotation:
-          break;
       }
+      else {
+        ViewController::Instance().getSystemListView().manageTate(true);
+        ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
+      }
+      break;
+    case Components::TateGamesRotation:
+    case Components::TateCompleteSystemRotation:
+      break;
+
   }
 }
 

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { HYPERION } from 'src/router/api.routes';
-import { HyperionConfig } from 'stores/dtos/hyperionConfig';
+import { HyperionConfig } from 'stores/types/hyperionConfig';
 
 export type HyperionStoreState = {
   _baseUrl: string,

@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { KODI } from 'src/router/api.routes';
-import { KodiConfig, KodiConfigOptions } from './dtos/kodiConfig';
+import { KodiConfig, KodiConfigOptions } from 'stores/types/kodiConfig';
 
 export type KodiStoreState = {
   _baseUrl: string,

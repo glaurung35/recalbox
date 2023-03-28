@@ -1,6 +1,6 @@
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
-import { SystemConfig, SystemConfigOptions } from 'stores/dtos/systemConfig';
+import { SystemConfig, SystemConfigOptions } from 'stores/types/systemConfig';
 
 export type SystemStoreState = {
   _baseUrl: string,

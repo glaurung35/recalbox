@@ -17,7 +17,7 @@ import CoresChartContent from 'components/monitoring/CoresChartContent.vue';
 import StoragesChartContent from 'components/monitoring/StoragesChartContent.vue';
 
 const monitoringStore = useMonitoringStore();
-const { metrics, storageInfo } = storeToRefs(monitoringStore);
+const { metrics, monitoring } = storeToRefs(monitoringStore);
 
 monitoringStore.fetch();
 
@@ -28,7 +28,7 @@ const areaChartData = computed<object[]>(() => [
   { data: metrics.value.temperatures },
   { data: metrics.value.memory },
 ]);
-const storages = computed(() => storageInfo.value.storages);
+const storages = computed(() => monitoring.value.storages);
 </script>
 
 <style lang="sass">

@@ -1,11 +1,17 @@
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
 import { toRaw } from 'vue';
+import { StoragesList } from 'stores/types/storagesList';
+
+export type MonitoringStoreState = {
+  _baseUrl: string,
+  monitoring: StoragesList,
+};
 
 export const useMonitoringStore = defineStore('monitoring', {
   state: () => ({
-    _apiProvider: null,
-    storageInfo: {
+    _baseUrl: MONITORING.storageInfo,
+    monitoring: {
       storages: {},
     },
     metrics: {
@@ -13,24 +19,12 @@ export const useMonitoringStore = defineStore('monitoring', {
       memory: [],
       cores: [],
     },
-  }),
+  } as MonitoringStoreState),
 
   actions: {
-    async fetch() {
-      try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const response = await this._apiProvider.get(MONITORING.storageInfo);
-        this.storageInfo = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-
     getSharePercent():number {
-      if (Object.keys(this.storageInfo.storages).length > 0) {
-        const { storages } = this.storageInfo;
+      if (Object.keys(this.monitoring.storages).length > 0) {
+        const { storages } = this.monitoring;
         let result = { used: 0, size: 0 };
 
         Object.keys(storages).map((key) => {

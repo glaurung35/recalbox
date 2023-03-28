@@ -12,6 +12,8 @@ client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
 client.on('message', (topic, message) => {
   const newMessage = JSON.parse(new TextDecoder('utf-8').decode(message));
   const temperatures = [
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     ...monitoringStore.metrics.temperatures,
     [
       (new Date(newMessage.timestamp)).getTime(),
@@ -20,6 +22,8 @@ client.on('message', (topic, message) => {
   ];
 
   const memory = [
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     ...monitoringStore.metrics.memory,
     [
       (new Date(newMessage.timestamp)).getTime(),

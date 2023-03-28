@@ -304,6 +304,8 @@ export default {
   emulation: {
     menu: {
       global: 'global',
+      netplay: 'netplay',
+      retroachievements: 'retroachievements',
       bios: 'bios',
       systems: 'systems / roms',
       controllers: 'controllers',
@@ -360,7 +362,7 @@ export default {
           + 'Once the game is launched and the backup loaded, if you want to return to the title screen of the game, use the special reset command.',
       },
       translation: {
-        title: 'Translation',
+        title: 'Retroarch translation',
         translate: {
           label: 'Enables automatic Retroarch translation',
         },

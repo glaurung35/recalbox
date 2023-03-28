@@ -1,31 +1,6 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.rewind.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.rewind.label"
-            :help="$t('emulation.global.rewind.help')"
-            warning
-            :getter="global.rewind"
-            :setter="globalStore.post"
-            apiKey="rewind"
-            v-if="global.rewind"
-          />
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.autosave.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.autosave.label"
-            :help="$t('emulation.global.autosave.help')"
-            :getter="global.autosave"
-            :setter="globalStore.post"
-            apiKey="autosave"
-            v-if="global.autosave"
-          />
-        </template>
-      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.display.title">
         <template v-slot:content>
           <WrappedSelect
@@ -90,95 +65,33 @@
           />
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.netplay.title">
+      <FormFragmentContainer title="emulation.global.rewind.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.global.netplay.activate.label"
-            :help="$t('emulation.global.netplay.activate.help')"
-            :getter="global.netplay"
-            :setter="globalStore.post"
-            apiKey="netplay"
-            v-if="global.netplay"
-          />
-          <WrappedTextInput
-            label="emulation.global.netplay.nickname.label"
-            :help="$t('emulation.global.netplay.nickname.help')"
+            label="emulation.global.rewind.label"
+            :help="$t('emulation.global.rewind.help')"
             warning
-            :getter="global['netplay.nickname']"
+            :getter="global.rewind"
             :setter="globalStore.post"
-            apiKey="netplay.nickname"
-            v-if="global['netplay.nickname']"
+            apiKey="rewind"
+            v-if="global.rewind"
           />
-          <WrappedTextInput
-            label="emulation.global.netplay.port.label"
-            :help="$t('emulation.global.netplay.port.help')"
-            :getter="global['netplay.port']"
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.autosave.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.autosave.label"
+            :help="$t('emulation.global.autosave.help')"
+            :getter="global.autosave"
             :setter="globalStore.post"
-            apiKey="netplay.port"
-            v-if="global['netplay.port']"
-          />
-          <WrappedTextInput
-            label="emulation.global.netplay.relay.label"
-            :help="$t('emulation.global.netplay.relay.help')"
-            :getter="global['netplay.relay']"
-            :setter="globalStore.post"
-            apiKey="netplay.relay"
-            v-if="global['netplay.relay']"
-          />
-          <WrappedTextInput
-            label="emulation.global.netplay.lobby.label"
-            :help="$t('emulation.global.netplay.lobby.help')"
-            :getter="global['netplay.lobby']"
-            :setter="globalStore.post"
-            apiKey="netplay.lobby"
-            v-if="global['netplay.lobby']"
+            apiKey="autosave"
+            v-if="global.autosave"
           />
         </template>
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.retroachievements.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.global.retroachievements.activate.label"
-            :help="$t('emulation.global.retroachievements.activate.help')"
-            :getter="global.retroachievements"
-            :setter="globalStore.post"
-            apiKey="retroachievements"
-            v-if="global.retroachievements"
-          />
-
-          <q-separator/>
-
-          <WrappedTextInput
-            label="emulation.global.retroachievements.username.label"
-            :getter="global['retroachievements.username']"
-            :setter="globalStore.post"
-            apiKey="retroachievements.username"
-            v-if="global['retroachievements.username']"
-          />
-          <WrappedTextInput
-            label="emulation.global.retroachievements.password.label"
-            :getter="global['retroachievements.password']"
-            :setter="globalStore.post"
-            apiKey="retroachievements.password"
-            v-if="global['retroachievements.password']"
-            password
-          />
-
-          <q-separator/>
-
-          <WrappedToggle
-            label="emulation.global.retroachievements.hardcore.label"
-            :help="$t('emulation.global.retroachievements.hardcore.help')"
-            warning
-            :getter="global['retroachievements.hardcore']"
-            :setter="globalStore.post"
-            apiKey="retroachievements.hardcore"
-            v-if="global['retroachievements.hardcore']"
-          />
-        </template>
-      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.arcade.title">
         <template v-slot:content>
           <WrappedToggle

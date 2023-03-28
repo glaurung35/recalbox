@@ -15,6 +15,8 @@ const SettingsHyperionTabContent = () => import('components/settings/SettingsHyp
 
 const EmulationPage = () => import('pages/EmulationPage.vue');
 const EmulationGlobalTabContent = () => import('components/emulation/EmulationGlobalTabContent.vue');
+const EmulationNetplayTabContent = () => import('components/emulation/EmulationNetplayTabContent.vue');
+const EmulationRetroachievementsTabContent = () => import('components/emulation/EmulationRetroachievementsTabContent.vue');
 const EmulationBiosTabContent = () => import('components/emulation/EmulationBiosTabContent.vue');
 const EmulationControllersTabContent = () => import('components/emulation/EmulationControllersTabContent.vue');
 const EmulationScreenshotsTabContent = () => import('components/emulation/EmulationScreenshotsTabContent.vue');
@@ -90,6 +92,16 @@ const routes: RouteRecordRaw[] = [
             path: 'global',
             name: 'global',
             component: EmulationGlobalTabContent,
+          },
+          {
+            path: 'netplay',
+            name: 'netplay',
+            component: EmulationNetplayTabContent,
+          },
+          {
+            path: 'retroachievements',
+            name: 'retroachievements',
+            component: EmulationRetroachievementsTabContent,
           },
           {
             path: 'bios',

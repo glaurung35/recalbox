@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
 
 export const useMediaStore = defineStore('media', {
   state: () => ({
+    _apiProvider: null,
     media: {
       mediaList: {},
     },
@@ -31,7 +31,9 @@ export const useMediaStore = defineStore('media', {
   actions: {
     async fetch() {
       try {
-        const response = await api.get(MEDIA.all);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(MEDIA.all);
         this.media = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -40,7 +42,9 @@ export const useMediaStore = defineStore('media', {
     },
     async delete(name: string) {
       try {
-        const response = await api.delete(MEDIA.delete + name);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.delete(MEDIA.delete + name);
         this.media = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

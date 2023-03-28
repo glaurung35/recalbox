@@ -1,10 +1,10 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { SYSTEMS } from 'src/router/api.routes';
 import { toRaw } from 'vue';
 
 export const useSystemsStore = defineStore('systems', {
   state: () => ({
+    _apiProvider: null,
     systems: {
       romPath: '',
       systemList: {},
@@ -28,7 +28,9 @@ export const useSystemsStore = defineStore('systems', {
   actions: {
     async fetch() {
       try {
-        const response = await api.get(SYSTEMS.all);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(SYSTEMS.all);
         this.systems = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

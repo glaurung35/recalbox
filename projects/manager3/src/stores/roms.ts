@@ -1,16 +1,18 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { ROMS, SYSTEMS } from 'src/router/api.routes';
 
 export const useRomsStore = defineStore('roms', {
   state: () => ({
+    _apiProvider: null,
     roms: {},
   }),
 
   actions: {
     async fetch() {
       try {
-        const response = await api.get(ROMS.all);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(ROMS.all);
         this.roms = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -19,7 +21,9 @@ export const useRomsStore = defineStore('roms', {
     },
     async fetchBySystem(system:string) {
       try {
-        const response = await api.get(`${SYSTEMS.root}/${system}/roms`);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(`${SYSTEMS.root}/${system}/roms`);
         this.roms = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

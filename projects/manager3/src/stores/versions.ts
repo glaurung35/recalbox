@@ -1,9 +1,9 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { VERSIONS } from 'src/router/api.routes';
 
 export const useVersionsStore = defineStore('versions', {
   state: () => ({
+    _baseUrl: VERSIONS,
     versions: {
       linux: {},
       recalbox: {},
@@ -14,16 +14,4 @@ export const useVersionsStore = defineStore('versions', {
       },
     },
   }),
-
-  actions: {
-    async fetchVersions() {
-      try {
-        const response = await api.get(VERSIONS);
-        this.versions = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-  },
 });

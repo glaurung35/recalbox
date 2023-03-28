@@ -69,6 +69,10 @@ const {
     img
       width: 30px
       margin-bottom: 1em
+      transition: transform .7s ease-in-out
+
+      &:hover
+        transform: rotate(360deg)
 
   .q-separator--horizontal
     height: 1px

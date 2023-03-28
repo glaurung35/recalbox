@@ -1,15 +1,21 @@
 import { defineStore } from 'pinia';
 import { SYSTEMS } from 'src/router/api.routes';
 import { toRaw } from 'vue';
+import { SystemsList } from 'stores/types/systemsList';
+
+export type SystemsStoreState = {
+  _baseUrl: string,
+  systems: SystemsList,
+};
 
 export const useSystemsStore = defineStore('systems', {
   state: () => ({
-    _apiProvider: null,
+    _baseUrl: SYSTEMS.all,
     systems: {
       romPath: '',
       systemList: {},
     },
-  }),
+  } as SystemsStoreState),
 
   getters: {
     systemsList: (state) => {
@@ -24,17 +30,6 @@ export const useSystemsStore = defineStore('systems', {
   },
 
   actions: {
-    async fetch() {
-      try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const response = await this._apiProvider.get(SYSTEMS.all);
-        this.systems = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
     getSystemsListCount() {
       if (Object.keys(this.systems.systemList).length > 0) {
         return Object.keys(toRaw(this.systems.systemList)).length;

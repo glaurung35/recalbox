@@ -20,7 +20,7 @@
         @click="() => open = true"
         color="secondary"
         icon="mdi-source-branch"
-        label="Versions"
+        label="VersionsList"
         label-position="left"
         square
       />

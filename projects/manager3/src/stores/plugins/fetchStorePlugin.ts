@@ -13,6 +13,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'updates',
     'controllers',
     'versions',
+    'bios',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

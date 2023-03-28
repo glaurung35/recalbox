@@ -12,6 +12,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
     'system',
     'updates',
     'controllers',
+    'global',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

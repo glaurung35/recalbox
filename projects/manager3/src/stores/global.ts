@@ -1,31 +1,38 @@
 import { defineStore } from 'pinia';
-import { api } from 'boot/axios';
 import { GLOBAL } from 'src/router/api.routes';
+import { GlobalConfig, GlobalConfigOptions } from 'stores/types/globalConfig';
+
+export type GlobalStoreState = {
+  _baseUrl: string,
+  _globalOptions: GlobalConfigOptions,
+  global: GlobalConfig,
+};
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({
+    _baseUrl: GLOBAL,
     _globalOptions: {
       ratio: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       shaderset: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       'shaderset.file': {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       'translate.from': {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       'translate.to': {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
       videomode: {
-        allowedStringList: [],
+        allowedStringList: [''],
       },
     },
     global: {},
-  }),
+  } as GlobalStoreState),
 
   getters: {
     ratioOptions: (state) => state._globalOptions.ratio.allowedStringList,
@@ -34,35 +41,5 @@ export const useGlobalStore = defineStore('global', {
     translateFromOptions: (state) => state._globalOptions['translate.from'].allowedStringList,
     translateToOptions: (state) => state._globalOptions['translate.to'].allowedStringList,
     videomodeOptions: (state) => state._globalOptions.videomode.allowedStringList,
-  },
-
-  actions: {
-    async fetchOptions() {
-      try {
-        const response = await api.options(GLOBAL);
-        this._globalOptions = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async fetch() {
-      try {
-        const response = await api.get(GLOBAL);
-        this.global = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async post(data: Record<string, unknown>) {
-      try {
-        const response = await api.post(GLOBAL, data);
-        this.global = response.data;
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
   },
 });

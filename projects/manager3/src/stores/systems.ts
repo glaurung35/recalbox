@@ -16,9 +16,7 @@ export const useSystemsStore = defineStore('systems', {
       const list: object[] = [];
 
       Object.keys(state.systems.systemList).forEach((system) => {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        list.push(state.systems.systemList[system]);
+        list.push(state.systems.systemList[system as keyof typeof state.systems.systemList]);
       });
 
       return list;

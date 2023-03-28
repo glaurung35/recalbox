@@ -20,6 +20,18 @@
           name="global"
         />
         <q-route-tab
+          :to="{ name: 'netplay' }"
+          :label="$t('emulation.menu.netplay')"
+          icon="mdi-lan-connect"
+          name="netplay"
+        />
+        <q-route-tab
+          :to="{ name: 'retroachievements' }"
+          :label="$t('emulation.menu.retroachievements')"
+          icon="mdi-trophy"
+          name="retroachievements"
+        />
+        <q-route-tab
           :to="{ name: 'bios' }"
           :label="$t('emulation.menu.bios')"
           icon="mdi-heart-pulse"
@@ -48,6 +60,10 @@
 
     <q-tab-panels v-model="tab">
       <q-tab-panel name="global">
+        <router-view/>
+      </q-tab-panel>
+
+      <q-tab-panel name="netplay">
         <router-view/>
       </q-tab-panel>
 

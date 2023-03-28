@@ -17,6 +17,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'global',
     'systems',
     'monitoring',
+    'media',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

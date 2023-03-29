@@ -4,7 +4,7 @@
       <q-icon color="accent" :name="icon" />
     </q-item-section>
     <q-item-section>
-      <q-badge color="white" class="text-primary" v-if="label">
+      <q-badge color="white" class="text-primary" v-if="label" style="padding: 2px 0">
         {{ $t(label) }}
       </q-badge>
       <q-slider
@@ -16,7 +16,7 @@
         @change="selected => {value = selected}"
       />
     </q-item-section>
-    <q-item-section side v-if="help">
+    <q-item-section side v-if="help" style="padding-left: 6px">
       <HelpButton :help="help" :warning="warning"/>
     </q-item-section>
   </q-item>

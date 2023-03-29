@@ -105,6 +105,10 @@ export default {
         title: 'Splash screen',
         splashLength: {
           label: 'Splash screen duration',
+          help: 'Available options (in seconds) :'
+            + '<ul><li><b>0 :</b> Video will be stopped when emulationstation is ready to start,</li>'
+            + '<li><b>-1 :</b> All the video will be played before emulationstation start (default),</li>'
+            + '<li><b>> 0 :</b> Time the video will be played before emulationstation start.</li></ul>',
         },
       },
       specialKey: {

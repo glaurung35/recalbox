@@ -32,12 +32,16 @@
 
       <FormFragmentContainer title="settings.system.splashScreen.title">
         <template v-slot:content>
-          <WrappedTextInput
+          <WrappedSlider
             label="settings.system.splashScreen.splashLength.label"
+            :help="$t('settings.system.splashScreen.splashLength.help')"
             :getter="system['splash.length']"
             :setter="systemStore.post"
             apiKey="splash.length"
             v-if="system['splash.length']"
+            :min="splashLengthOptions.lowerValue"
+            :max="splashLengthOptions.higherValue"
+            icon="mdi-timer-outline"
           />
         </template>
       </FormFragmentContainer>
@@ -169,6 +173,7 @@ const {
   kblayoutOptions,
   timezoneOptions,
   specialkeysOptions,
+  splashLengthOptions,
   system,
 } = storeToRefs(systemStore);
 

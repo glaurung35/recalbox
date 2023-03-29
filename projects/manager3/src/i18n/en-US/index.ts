@@ -133,6 +133,22 @@ export default {
         virtualGamepadsEnabled: 'Enables virtual devices',
         sshEnabled: 'Enables SSH protocol',
       },
+      demo: {
+        title: 'Demo screensaver',
+        systemlist: {
+          label: 'Displayed systems list',
+          help: 'Set the system list from which ES will run random games.'
+            + ' Empty list or unexisting key means all available systems.',
+        },
+        duration: {
+          label: 'Demo duration ( 30 à 600 s )',
+          help: 'Default demo game sessions last 90s.\n\nChange this value if you want shorter or longer sessions.',
+        },
+        infoscreenduration: {
+          label: 'Info screen duration ( 15 à 30 s )',
+          help: 'Default game info screen duration lasts 6s.\n\nChange this value if you want shorter or longer info screens.',
+        },
+      },
     },
     audio: {
       backgroundMusic: {

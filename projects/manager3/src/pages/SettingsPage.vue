@@ -101,6 +101,7 @@ import { useEmulationstationStore } from 'stores/emulationstation';
 import { useKodiStore } from 'stores/kodi';
 import { useScraperStore } from 'stores/scraper';
 import { useWifiStore } from 'stores/wifi';
+import { useGlobalStore } from 'stores/global';
 
 useSystemStore().fetchOptions();
 
@@ -110,6 +111,7 @@ useEmulationstationStore().fetchOptions();
 useKodiStore().fetchOptions();
 useScraperStore().fetchOptions();
 useWifiStore().fetchOptions();
+useGlobalStore().fetchOptions();
 
 const tab = ref<string>('system');
 </script>

@@ -110,6 +110,40 @@
           />
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="settings.system.demo.title">
+        <template v-slot:content>
+          <WrappedTextInput
+            label="settings.system.demo.systemlist.label"
+            :help="$t('settings.system.demo.systemlist.help')"
+            :getter="global['demo.systemlist']"
+            :setter="globalStore.post"
+            apiKey="demo.systemlist"
+            v-if="global['demo.systemlist']"
+          />
+          <WrappedSlider
+            label="settings.system.demo.duration.label"
+            :help="$t('settings.system.demo.duration.help')"
+            :getter="global['demo.duration']"
+            :setter="globalStore.post"
+            apiKey="demo.duration"
+            v-if="global['demo.duration']"
+            :min="demoDurationOptions.lowerValue"
+            :max="demoDurationOptions.higherValue"
+            icon="mdi-timer-outline"
+          />
+          <WrappedSlider
+            label="settings.system.demo.infoscreenduration.label"
+            :help="$t('settings.system.demo.infoscreenduration.help')"
+            :getter="global['demo.infoscreenduration']"
+            :setter="globalStore.post"
+            apiKey="demo.infoscreenduration"
+            v-if="global['demo.infoscreenduration']"
+            :min="demoInfoscreendurationOptions.lowerValue"
+            :max="demoInfoscreendurationOptions.higherValue"
+            icon="mdi-timer-outline"
+          />
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -122,6 +156,8 @@ import { useSystemStore } from 'stores/system';
 import { useUpdatesStore } from 'stores/updates';
 import { storeToRefs } from 'pinia';
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import { useGlobalStore } from 'stores/global';
+import WrappedSlider from 'components/global/WrappedSlider.vue';
 
 const updateStore = useUpdatesStore();
 updateStore.fetch();
@@ -135,6 +171,14 @@ const {
   specialkeysOptions,
   system,
 } = storeToRefs(systemStore);
+
+const globalStore = useGlobalStore();
+globalStore.fetch();
+const {
+  demoInfoscreendurationOptions,
+  demoDurationOptions,
+  global,
+} = storeToRefs(globalStore);
 </script>
 
 <style lang="sass" scoped>

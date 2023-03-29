@@ -1,0 +1,54 @@
+<template>
+  <q-item>
+    <q-item-section side v-if="icon">
+      <q-icon color="accent" :name="icon" />
+    </q-item-section>
+    <q-item-section>
+      <q-badge color="white" class="text-primary" v-if="label">
+        {{ $t(label) }}
+      </q-badge>
+      <q-slider
+        :max="max"
+        :min="min"
+        color="accent"
+        label
+        :model-value="value"
+        @change="selected => {value = selected}"
+      />
+    </q-item-section>
+    <q-item-section side v-if="help">
+      <HelpButton :help="help" :warning="warning"/>
+    </q-item-section>
+  </q-item>
+</template>
+
+<script lang="ts" setup>
+import { computed, toRefs } from 'vue';
+import HelpButton from 'components/global/HelpButton.vue';
+
+const props = defineProps({
+  label: { type: String },
+  help: { type: String },
+  warning: { type: Boolean },
+  setter: { type: Function, required: true },
+  getter: { type: Object, required: true },
+  apiKey: { type: String, required: true },
+  min: { type: Number, default: 0 },
+  max: { type: Number, default: 100 },
+  icon: { type: String },
+});
+
+const {
+  label, help, warning, getter, setter, apiKey, min, max,
+} = toRefs(props);
+
+const value = computed({
+  get: () => getter?.value.value,
+  set: (selected) => setter.value({ [apiKey?.value]: selected === null ? 0 : selected }),
+});
+</script>
+
+<style lang="sass" scoped>
+.q-item
+  padding: 0
+</style>

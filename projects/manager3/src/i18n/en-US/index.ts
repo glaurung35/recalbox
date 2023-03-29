@@ -201,10 +201,10 @@ export default {
     },
     emustation: {
       display: {
-        title: 'Affichage',
+        title: 'Display',
         videomode: {
-          label: 'Mode vidéo',
-          help: 'Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d\'écran native',
+          label: 'Video mode',
+          help: 'There are two groups of video modes: CEA and DMT. Make sure the mode is compatible with your native screen resolution.',
         },
       },
       menus: {

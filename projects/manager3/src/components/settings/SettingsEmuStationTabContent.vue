@@ -71,24 +71,27 @@
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="settings.emustation.videoSnaps.title">
         <template v-slot:content>
-          <WrappedTextInput
+          <WrappedSlider
             label="settings.emustation.videoSnaps.delay.title"
             :help="$t('settings.emustation.videoSnaps.delay.help')"
             :getter="emulationstation['videosnaps.delay']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.delay"
             v-if="emulationstation['videosnaps.delay']"
+            :min="videosnapsDelayOptions.lowerValue"
+            :max="videosnapsDelayOptions.higherValue"
+            icon="mdi-clock-start"
           />
-
-          <q-separator/>
-
-          <WrappedTextInput
+          <WrappedSlider
             label="settings.emustation.videoSnaps.loop.title"
             :help="$t('settings.emustation.videoSnaps.loop.help')"
             :getter="emulationstation['videosnaps.loop']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.loop"
             v-if="emulationstation['videosnaps.loop']"
+            :min="videosnapsLoopOptions.lowerValue"
+            :max="videosnapsLoopOptions.higherValue"
+            icon="mdi-reload"
           />
         </template>
       </FormFragmentContainer>
@@ -103,6 +106,7 @@ import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import { useEmulationstationStore } from 'stores/emulationstation';
 import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/system';
+import WrappedSlider from 'components/global/WrappedSlider.vue';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 
 const emulationstationStore = useEmulationstationStore();
@@ -111,6 +115,12 @@ emulationstationStore.fetch();
 const systemStore = useSystemStore();
 systemStore.fetch();
 
-const { menuOptions, selectedsystemOptions, emulationstation } = storeToRefs(emulationstationStore);
+const {
+  menuOptions,
+  selectedsystemOptions,
+  videosnapsLoopOptions,
+  videosnapsDelayOptions,
+  emulationstation,
+} = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);
 </script>

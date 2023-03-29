@@ -133,6 +133,22 @@ export default {
         virtualGamepadsEnabled: 'Activer les périphériques virtuels',
         sshEnabled: 'Activer le protocole SSH',
       },
+      demo: {
+        title: 'Démo screensaver',
+        systemlist: {
+          label: 'Liste des systèmes présentés',
+          help: 'Configure la liste des systèmes parmis lesquels EmulationStation va puiser pour faire tourner les démo.'
+            + ' Si une valeur nulle ou inconnue est saisie, toute les systèmes seront présentés.',
+        },
+        duration: {
+          label: 'Durée de la démo de jeux ( 30 à 600 s )',
+          help: 'Valeur par défaut : 90s.\n\nChangez cette valeur si vous souhaitez une durée plus courte ou plus longue.',
+        },
+        infoscreenduration: {
+          label: 'Durée des écrans d\'information ( 15 à 30 s )',
+          help: 'Valeur par défaut : 6s.\n\nChangez cette valeur si vous souhaitez une durée plus courte ou plus longue.',
+        },
+      },
     },
     audio: {
       backgroundMusic: {

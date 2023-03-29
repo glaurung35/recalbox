@@ -27,6 +27,10 @@ export const useSystemStore = defineStore('system', {
       'es.videomode': {
         allowedStringList: [''],
       },
+      'splash.length': {
+        lowerValue: 0,
+        higherValue: 0,
+      },
     },
     system: {},
   } as SystemStoreState),
@@ -37,5 +41,6 @@ export const useSystemStore = defineStore('system', {
     timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList,
     specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
     esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
+    splashLengthOptions: (state) => state._systemOptions['splash.length'],
   },
 });

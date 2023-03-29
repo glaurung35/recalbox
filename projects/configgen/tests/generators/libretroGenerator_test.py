@@ -49,7 +49,7 @@ def system_gb_with_overlays():
     gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
     recalbox_conf = keyValueSettings("", True)
     recalbox_conf.setString("global.recalboxoverlays", "1")
-    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", "", 0, 0, 0, "auto"))
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", ""))
     return gb
 
 
@@ -216,7 +216,7 @@ def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_wi
 
     system_gb_with_overlays.configure(recalbox_conf,
                                       ExtraArguments("", "", "", "", "", "", "", "", "auto", "progressive", "15kHz",
-                                                     "recalboxrgbdual", 0, 0, 0, "auto"))
+                                                     "recalboxrgbdual"))
 
     givenThoseFiles(mocker, {
         "/recalbox/share/system/configs/crt/systems.txt": "gb,gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,gb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",

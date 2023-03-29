@@ -8,7 +8,6 @@
 snes,snes9x,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,239
 snes,snes9x,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,239
 snes,snes9x,all,31kHz,doublefreq,1920@31KHz-double:all:240@120,0,239
-snes,snes9x,ntsc,31kHz,progressive,1920@31KHz-double:all:240@120,0,239
 snes,snes9x2010,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,224
 snes,snes9x2010,pal,15kHz,progressive,snes:nes:pal:288@50.01,0,224
 snes,snes9x2005,ntsc,15kHz,progressive,snes:nes:ntsc:240@60.0988,0,224

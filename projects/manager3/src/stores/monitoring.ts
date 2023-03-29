@@ -28,8 +28,6 @@ export const useMonitoringStore = defineStore('monitoring', {
         let result = { used: 0, size: 0 };
 
         Object.keys(storages).map((key) => {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           if (storages[key as keyof typeof storages].recalbox === 'share') {
             result = toRaw(storages[key as keyof typeof storages]);
           }

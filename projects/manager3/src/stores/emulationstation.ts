@@ -11,7 +11,16 @@ export type EmulationStationStoreState = {
 export const useEmulationstationStore = defineStore('emulationstation', {
   state: () => ({
     _baseUrl: EMUSTATION,
-    _emulationstationOptions: {},
+    _emulationstationOptions: {
+      'videosnaps.loop': {
+        lowerValue: 0,
+        higherValue: 0,
+      },
+      'videosnaps.delay': {
+        lowerValue: 0,
+        higherValue: 0,
+      },
+    },
     emulationstation: {},
   } as EmulationStationStoreState),
 
@@ -19,5 +28,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList,
     selectedsystemOptions: (state) => state._emulationstationOptions
       .selectedsystem.allowedStringList,
+    videosnapsLoopOptions: (state) => state._emulationstationOptions['videosnaps.loop'],
+    videosnapsDelayOptions: (state) => state._emulationstationOptions['videosnaps.delay'],
   },
 });

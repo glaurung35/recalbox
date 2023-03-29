@@ -15,6 +15,7 @@ export const useAudioStore = defineStore('audio', {
       device: {
         allowedStringList: [''],
       },
+      volume: {},
     },
     audio: {
       volume: {},
@@ -23,5 +24,6 @@ export const useAudioStore = defineStore('audio', {
 
   getters: {
     deviceOptions: (state) => state._audioOptions.device.allowedStringList,
+    volumeOptions: (state) => state._audioOptions.volume,
   },
 });

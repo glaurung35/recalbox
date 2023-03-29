@@ -28,13 +28,14 @@
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.audio.volume.title">
         <template v-slot:content>
-          <q-slider
-            :max="100"
-            :min="0"
-            color="accent"
-            label
-            :model-value="volume"
-            @change="value => {volume = value}"
+          <WrappedSlider
+            :getter="audio.volume"
+            :setter="audioStore.post"
+            apiKey="volume"
+            v-if="audio.volume"
+            :min="volumeOptions.lowerValue"
+            :max="volumeOptions.higherValue"
+            icon="mdi-volume-high"
           />
         </template>
       </FormFragmentContainer>
@@ -48,14 +49,9 @@ import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
 import { useAudioStore } from 'stores/audio';
 import { storeToRefs } from 'pinia';
-import { computed } from 'vue';
+import WrappedSlider from 'components/global/WrappedSlider.vue';
 
 const audioStore = useAudioStore();
 audioStore.fetch();
-const { deviceOptions, audio } = storeToRefs(audioStore);
-
-const volume = computed({
-  get: () => audio.value.volume.value,
-  set: (value) => audioStore.post({ volume: value }),
-});
+const { deviceOptions, volumeOptions, audio } = storeToRefs(audioStore);
 </script>

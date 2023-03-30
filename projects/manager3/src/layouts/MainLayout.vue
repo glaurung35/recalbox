@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <q-layout container style="height: 100vh"  view="lHh Lpr lFf">
     <q-header class="mobile-only">

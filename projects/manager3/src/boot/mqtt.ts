@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import mqtt from 'mqtt';
 import { useMonitoringStore } from 'stores/monitoring';
 

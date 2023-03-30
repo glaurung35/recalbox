@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import enUS from './en-US';
 import frFR from './fr';
 

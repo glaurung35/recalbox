@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <q-item>
     <q-item-section side v-if="icon">

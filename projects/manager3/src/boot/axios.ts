@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { Loading, Notify } from 'quasar';

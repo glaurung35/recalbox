@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <FormFragmentContainer title="emulation.global.netplay.title">
     <template v-slot:content>

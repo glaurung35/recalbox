@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { BIOS } from 'src/router/api.routes';
 import { BiosList } from 'stores/types/biosList';

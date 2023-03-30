@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { boot } from 'quasar/wrappers';
 import VueApexCharts from 'vue3-apexcharts';
 

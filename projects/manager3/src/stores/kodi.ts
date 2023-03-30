@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { KODI } from 'src/router/api.routes';
 import { KodiConfig, KodiConfigOptions } from 'stores/types/kodiConfig';

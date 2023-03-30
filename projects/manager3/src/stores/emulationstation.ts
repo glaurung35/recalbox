@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { EMUSTATION } from 'src/router/api.routes';
 import { EmulationStationConfig, EmulationStationConfigOptions } from 'stores/types/emulationstationConfig';

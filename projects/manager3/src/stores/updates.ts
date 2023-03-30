@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { UPDATES } from 'src/router/api.routes';
 import { UpdatesConfig, UpdatesConfigOptions } from 'stores/types/updatesConfig';

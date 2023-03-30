@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
 import { SystemConfig, SystemConfigOptions } from 'stores/types/systemConfig';

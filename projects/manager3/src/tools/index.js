@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { Notify } from 'quasar';
 import { i18n } from 'boot/i18n';
 

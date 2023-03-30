@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <q-item clickable v-if="lang" v-ripple>
     <q-item-section avatar>

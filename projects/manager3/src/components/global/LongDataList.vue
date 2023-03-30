@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <div class="col-12 container"
        v-bind:style="{ maxHeight: height }"

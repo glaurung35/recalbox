@@ -3,7 +3,7 @@
   "version": "0.0.1",
   "description": "Recalbox API front-end version 3",
   "productName": "Recalbox Manager v3",
-  "author": "Nicolas TESSIER aka Asthonishia <contact@nicolastessier.fr>",
+  "author": "Nicolas TESSIER aka Asthonishia",
   "private": true,
   "scripts": {
     "lint": "eslint --ext .js,.ts,.vue ./",

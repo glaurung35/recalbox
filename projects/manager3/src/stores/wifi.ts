@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { WIFI } from 'src/router/api.routes';
 import { WifiConfig, WifiConfigOptions } from 'stores/types/wifiConfig';

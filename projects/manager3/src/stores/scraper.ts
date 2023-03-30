@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { SCRAPER } from 'src/router/api.routes';
 import { ScraperConfig, ScraperConfigOptions } from 'stores/types/scraperConfig';

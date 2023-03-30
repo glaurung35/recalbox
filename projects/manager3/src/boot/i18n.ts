@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { boot } from 'quasar/wrappers';
 import { createI18n } from 'vue-i18n';
 import { LocalStorage, Quasar } from 'quasar';

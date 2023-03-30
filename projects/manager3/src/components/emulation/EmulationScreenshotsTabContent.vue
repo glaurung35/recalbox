@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <div class="screenshots row">
     <q-dialog @click="modal.open = false" v-model="modal.open">

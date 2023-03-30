@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return

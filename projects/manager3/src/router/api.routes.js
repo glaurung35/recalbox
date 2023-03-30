@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 export const AUDIO = '/configuration/audio';
 
 export const BIOS = {

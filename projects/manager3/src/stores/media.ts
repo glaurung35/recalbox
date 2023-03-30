@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';

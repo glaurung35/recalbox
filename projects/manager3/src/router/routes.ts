@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { RouteRecordRaw } from 'vue-router';
 
 const HomePage = () => import('pages/HomePage.vue');

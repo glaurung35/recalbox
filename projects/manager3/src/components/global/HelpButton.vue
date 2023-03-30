@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <q-btn
     :color="warning ? 'negative' : 'light-blue'"

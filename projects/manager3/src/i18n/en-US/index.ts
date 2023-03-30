@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 export default {
   404: {
     message: 'Sorry, nothing here...',

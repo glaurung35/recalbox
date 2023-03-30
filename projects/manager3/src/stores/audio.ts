@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { AudioConfig, AudioConfigOptions } from 'stores/types/audioConfig';
 import { AUDIO } from 'src/router/api.routes';

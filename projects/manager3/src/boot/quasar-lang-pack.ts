@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { LocalStorage, Quasar } from 'quasar';
 
 export default async () => {

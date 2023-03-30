@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { z } from 'zod';
 
 export const EmulationStationConfigSchema = z.object({

@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { GLOBAL } from 'src/router/api.routes';
 import { GlobalConfig, GlobalConfigOptions } from 'stores/types/globalConfig';

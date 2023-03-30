@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <q-page class="background monitoring">
     <CPUChartContent :data="JSON.parse(JSON.stringify(areaChartData))"/>

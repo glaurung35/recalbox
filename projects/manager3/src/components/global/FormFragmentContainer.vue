@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <div class="row items-stretch line">
     <div class="col-12 col-md-4 title vertical-middle text-right">

@@ -1,3 +1,6 @@
+<!--
+@author Nicolas TESSIER aka Asthonishia
+-->
 <template>
   <div class="row versions">
     <div class="col-12" style="padding: 0 1em;">

@@ -1,3 +1,6 @@
+/**
+ * @author Nicolas TESSIER aka Asthonishia
+ */
 import { defineStore } from 'pinia';
 import { CONTROLLERS } from 'src/router/api.routes';
 import { ControllersConfig, ControllersConfigOptions } from 'stores/types/controllersConfig';

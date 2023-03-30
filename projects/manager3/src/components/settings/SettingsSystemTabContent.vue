@@ -116,9 +116,10 @@
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.system.demo.title">
         <template v-slot:content>
-          <WrappedTextInput
+          <WrappedMultipleSelect
             label="settings.system.demo.systemlist.label"
             :help="$t('settings.system.demo.systemlist.help')"
+            :options="demoSystemlistOptions"
             :getter="global['demo.systemlist']"
             :setter="globalStore.post"
             apiKey="demo.systemlist"
@@ -159,7 +160,7 @@ import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
 import { useSystemStore } from 'stores/system';
 import { useUpdatesStore } from 'stores/updates';
 import { storeToRefs } from 'pinia';
-import WrappedTextInput from 'components/global/WrappedTextInput.vue';
+import WrappedMultipleSelect from 'components/global/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/global';
 import WrappedSlider from 'components/global/WrappedSlider.vue';
 
@@ -182,6 +183,7 @@ globalStore.fetch();
 const {
   demoInfoscreendurationOptions,
   demoDurationOptions,
+  demoSystemlistOptions,
   global,
 } = storeToRefs(globalStore);
 </script>

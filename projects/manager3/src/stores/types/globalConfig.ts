@@ -95,7 +95,7 @@ export const GlobalConfigSchema = z.object({
   }),
   'demo.systemlist': z.object({
     exist: z.boolean(),
-    value: z.string(),
+    value: z.array(z.string()),
   }),
   'netplay.relay': z.object({
     exist: z.boolean(),

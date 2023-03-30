@@ -38,6 +38,9 @@ export const useGlobalStore = defineStore('global', {
         lowerValue: 0,
         higherValue: 0,
       },
+      'demo.systemlist': {
+        allowedStringList: [''],
+      },
     },
     global: {},
   } as GlobalStoreState),
@@ -51,5 +54,6 @@ export const useGlobalStore = defineStore('global', {
     videomodeOptions: (state) => state._globalOptions.videomode.allowedStringList,
     demoInfoscreendurationOptions: (state) => state._globalOptions['demo.infoscreenduration'],
     demoDurationOptions: (state) => state._globalOptions['demo.duration'],
+    demoSystemlistOptions: (state) => state._globalOptions['demo.systemlist'].allowedStringList,
   },
 });

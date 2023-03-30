@@ -7,7 +7,6 @@
     standout="bg-primary text-white"
     v-model="value"
     v-bind="$attrs"
-    map-options
     clearable
   >
     <template v-slot:no-option>

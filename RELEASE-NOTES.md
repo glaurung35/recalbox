@@ -12,16 +12,19 @@ as release notes for end user on a Recalbox upgrade.
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add support for Super Game Boy games
 - Add support for Anbernic RG353m
+- Add 240p test suite support for all platforms
 
 ### Improvements
 
-- Add recommended info for scrap video menu
+- Add recommended info for scrap video selection in menu
 
 ### Fixes
 
+- Fix crash when using run in background after the end of a scrap
 
 ## Version 9.0.2-Pulstar
 
+- Fix black screen on older PC with Intel graphic card
 
 ## Version 9.0.1-Pulstar
 

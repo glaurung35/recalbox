@@ -8,7 +8,7 @@
       color="primary"
       direction="up"
       flat
-      icon="mdi-link"
+      icon="mdi-web"
       id="help-button"
       square
       vertical-actions-align="right"

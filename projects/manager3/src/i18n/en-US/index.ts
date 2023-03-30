@@ -486,14 +486,14 @@ export default {
       },
       tooltips: {
         green: 'Verified BIOS',
-        yellow: 'BIOS optional or not verified',
-        red: 'BIOS not present or wrong MD5',
+        yellow: 'Optional BIOS not present or wrong MD5',
+        red: 'Mandatory BIOS not present or wrong MD5',
         delete: 'Delete BIOS',
         redFilter: {
-          label: 'Filter BIOS not present or wrong MD5',
+          label: 'Filter not present or wrong MD5 mandatory BIOS',
         },
         orangeFilter: {
-          label: 'Filter optional or non-validated BIOS',
+          label: 'Filter not present or wrong MD5 optional BIOS',
         },
         greenFilter: {
           label: 'Filter valid BIOS',
@@ -506,15 +506,15 @@ export default {
           title: 'BIOS present + valid MD5',
         },
         yellow_1: {
-          title: 'BIOS present + MD5 invalid but MD5 match not required',
+          title: 'Optionnal BIOS present + wrong MD5',
           text: 'It may work, but since no one from us has tested it, we can\'t guarantee anything.',
         },
         yellow_2: {
-          title: 'BIOS absent but optional',
+          title: 'Optionnal BIOS absent',
           text: 'It can work, as long as you don\'t use a game or a feature that requires this optional bios',
         },
         red: {
-          title: 'BIOS missing or MD5 invalid',
+          title: 'Mandatory BIOS missing or wrong MD5',
         },
       },
     },

@@ -1,11 +1,9 @@
 <template>
-  <div class="cores-usage col">
-    <apexchart
-      :options="options"
-      :series="data"
-      height="100%"
-    />
-  </div>
+  <apexchart
+    :options="options"
+    :series="data"
+    height="100%"
+  />
 </template>
 
 <script lang="ts" setup>
@@ -74,9 +72,3 @@ const options = computed(() => ({
   },
 }));
 </script>
-
-<style lang="sass">
-.cores-usage
-  flex: 1
-  min-height: 508px
-</style>

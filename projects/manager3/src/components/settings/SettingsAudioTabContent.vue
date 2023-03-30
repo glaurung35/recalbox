@@ -23,6 +23,7 @@
             :setter="audioStore.post"
             apiKey="device"
             v-if="audio.device"
+            clearable
           />
         </template>
       </FormFragmentContainer>

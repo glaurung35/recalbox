@@ -91,6 +91,7 @@
             :setter="controllersStore.post"
             apiKey="ps3.driver"
             v-if="controllers['ps3.driver']"
+            clearable
           />
         </template>
       </FormFragmentContainer>

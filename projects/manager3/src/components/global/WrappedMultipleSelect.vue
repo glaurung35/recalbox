@@ -3,11 +3,10 @@
     :label="$t(label)"
     :options="options"
     class="q-mb-md"
-    dense
     standout="bg-primary text-white"
     v-model="value"
     v-bind="$attrs"
-    clearable
+    :clearable="clearable"
     multiple
     use-chips
   >
@@ -47,6 +46,7 @@ const props = defineProps({
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
+  clearable: { type: Boolean },
 });
 
 const {

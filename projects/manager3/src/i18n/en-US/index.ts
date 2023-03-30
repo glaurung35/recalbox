@@ -90,7 +90,7 @@ export default {
       internationalization: {
         title: 'Internationalization',
         langSelect: {
-          label: 'System languages',
+          label: 'System language',
         },
         keyboardSelect: {
           label: 'Keyboard layout',

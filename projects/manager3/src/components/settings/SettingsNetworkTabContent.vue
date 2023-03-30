@@ -33,6 +33,7 @@
             :setter="wifiStore.post"
             apiKey="region"
             v-if="wifi.region"
+            clearable
           />
 
           <q-separator/>

@@ -58,6 +58,8 @@ const options = computed(() => ({
       dataLabels: {
         position: 'bottom',
       },
+      borderRadius: 5,
+      borderRadiusApplication: 'end',
     },
   },
   dataLabels: {
@@ -76,4 +78,5 @@ const options = computed(() => ({
 <style lang="sass">
 .cores-usage
   flex: 1
+  min-height: 508px
 </style>

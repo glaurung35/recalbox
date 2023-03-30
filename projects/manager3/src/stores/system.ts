@@ -32,7 +32,11 @@ export const useSystemStore = defineStore('system', {
         higherValue: 0,
       },
     },
-    system: {},
+    system: {
+      language: {
+        value: 'fr_FR',
+      },
+    },
   } as SystemStoreState),
 
   getters: {

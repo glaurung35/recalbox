@@ -102,7 +102,6 @@
 <script lang="ts" setup>
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
-import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import { useEmulationstationStore } from 'stores/emulationstation';
 import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/system';

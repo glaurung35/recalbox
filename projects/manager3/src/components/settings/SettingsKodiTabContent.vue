@@ -36,6 +36,7 @@
               :setter="kodiStore.post"
               apiKey="videomode"
               v-if="kodi.videomode"
+              clearable
             />
           </div>
         </template>
@@ -53,6 +54,7 @@
               :setter="kodiStore.post"
               apiKey="network.waitmode"
               v-if="kodi['network.waitmode']"
+              clearable
             />
 
           <q-separator/>

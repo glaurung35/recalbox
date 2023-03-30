@@ -12,6 +12,7 @@
             :setter="systemStore.post"
             apiKey="es.videomode"
             v-if="system['es.videomode']"
+            clearable
           />
         </template>
       </FormFragmentContainer>
@@ -26,6 +27,7 @@
             :setter="emulationstationStore.post"
             apiKey="menu"
             v-if="emulationstation.menu"
+            clearable
           />
 
           <q-separator/>
@@ -37,6 +39,7 @@
             :setter="emulationstationStore.post"
             apiKey="selectedsystem"
             v-if="emulationstation.selectedsystem"
+            clearable
           />
 
           <q-separator/>

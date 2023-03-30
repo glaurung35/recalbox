@@ -10,6 +10,7 @@
             :setter="systemStore.post"
             apiKey="language"
             v-if="system.language"
+            clearable
           />
           <WrappedSelect
             label="settings.system.internationalization.keyboardSelect.label"
@@ -18,6 +19,7 @@
             :setter="systemStore.post"
             apiKey="kblayout"
             v-if="system.kblayout"
+            clearable
           />
           <WrappedSelect
             label="settings.system.internationalization.timeZoneSelect.label"
@@ -26,6 +28,7 @@
             :setter="systemStore.post"
             apiKey="timezone"
             v-if="system.timezone"
+            clearable
           />
         </template>
       </FormFragmentContainer>
@@ -56,6 +59,7 @@
             :setter="systemStore.post"
             apiKey="emulators.specialkeys"
             v-if="system['emulators.specialkeys']"
+            clearable
           />
         </template>
       </FormFragmentContainer>
@@ -76,6 +80,7 @@
             :setter="updateStore.post"
             apiKey="type"
             v-if="updates.type"
+            clearable
           />
         </template>
       </FormFragmentContainer>

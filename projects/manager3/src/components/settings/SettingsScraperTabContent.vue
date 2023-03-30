@@ -26,6 +26,7 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.media"
               v-if="scraper['screenscraper.media']"
+              clearable
             />
             <WrappedSelect
               label="settings.scraper.screenscraper.medias.thumbnail"
@@ -34,6 +35,7 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.thumbnail"
               v-if="scraper['screenscraper.thumbnail']"
+              clearable
             />
             <WrappedSelect
               label="settings.scraper.screenscraper.medias.video"
@@ -42,6 +44,7 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.video"
               v-if="scraper['screenscraper.video']"
+              clearable
             />
             <WrappedToggle
               label="settings.scraper.screenscraper.medias.maps"
@@ -100,6 +103,7 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.language"
               v-if="scraper['screenscraper.language']"
+              clearable
             />
             <WrappedSelect
               label="settings.scraper.screenscraper.i18n.region"
@@ -108,6 +112,7 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.region"
               v-if="scraper['screenscraper.region']"
+              clearable
             />
           </div>
         </template>

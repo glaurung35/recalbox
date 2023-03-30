@@ -8,6 +8,7 @@
       class="q-mt-sm progress"
       :key="item.mount"
       track-color="white"
+      rounded
     >
       <div class="absolute-full flex items-center">
         <q-icon :name="item.icon" color="secondary"/>

@@ -40,7 +40,7 @@
         />
         <q-route-tab
           :to="{ name: 'scraper' }"
-          icon="mdi-database"
+          icon="mdi-folder-multiple-image"
           label="Scraper"
           name="scraper"
         />

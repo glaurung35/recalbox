@@ -82,6 +82,10 @@ isLowDef() {
       return 0
     fi
     return 1
+   }
+# Return if a crt is connected
+currentVideoOnCRT() {
+    grep "connected" /sys/class/drm/card*-VGA*/status
 }
 
 # Check if we are on Recalbox RGB Dual
@@ -145,7 +149,7 @@ getMpvOptions() {
             rotationcli="--video-rotate=180"
         fi
     fi
-    if isRecalboxRGBDual; then
+    if currentVideoOnCRT; then
         echo "${rotationcli} $(getCrtMpvOptions)"
     else
         echo "${rotationcli}"

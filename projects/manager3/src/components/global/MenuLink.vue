@@ -11,7 +11,6 @@
     >
       <q-icon :name="icon"/>
     </q-item-section>
-
     <q-item-section>
       {{ $t(title) }}
     </q-item-section>

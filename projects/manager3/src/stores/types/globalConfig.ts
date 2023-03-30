@@ -37,10 +37,6 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
-  configfile: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
   'shaderset.file': z.object({
     exist: z.boolean(),
     value: z.string(),
@@ -164,9 +160,6 @@ export const GlobalConfigOptionsSchema = z.object({
     type: z.string(),
   }),
   'translate.url': z.object({
-    type: z.string(),
-  }),
-  configfile: z.object({
     type: z.string(),
   }),
   'shaderset.file': z.object({

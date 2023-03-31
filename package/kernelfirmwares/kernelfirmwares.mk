@@ -12,10 +12,18 @@ KERNELFIRMWARES_NON_COMMERCIAL = y
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 define KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
-	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915
+	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915 \
+		$(@D)/iwlwifi-*
 endef
 KERNELFIRMWARES_PRE_INSTALL_TARGET_HOOKS += KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
 endif
+
+define KERNELFIRMWARES_REMOVE_USELESS_FOLDER_CMDS
+	$(RM) -rf $(@D)/mellanox $(@D)/bnx2x $(@D)/liquidio $(@D)/netronome \
+		$(@D)/qcom/sc8280xp $(@D)/qcom/sm8250 $(@D)/qcom/sdm845 $(@D)/qcom/apq8096 \
+		$(@D)/mrvl/prestera $(@D)/dpaa2
+endef
+KERNELFIRMWARES_PRE_INSTALL_TARGET_HOOKS += KERNELFIRMWARES_REMOVE_USELESS_FOLDER_CMDS
 
 define KERNELFIRMWARES_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/lib/firmware
@@ -28,9 +36,6 @@ define KERNELFIRMWARES_INSTALL_TARGET_CMDS
 			ln -sf $$d $$f || exit 1; \
 		fi ; \
 	done
-	rm -rf $(TARGET_DIR)/lib/firmware/bnx2x
-	rm -rf $(TARGET_DIR)/lib/firmware/liquidio
-	rm -rf $(TARGET_DIR)/lib/firmware/netronome
 endef
 
 $(eval $(generic-package))

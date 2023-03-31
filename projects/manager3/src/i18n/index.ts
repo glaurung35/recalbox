@@ -1,8 +1,8 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import enUS from './en-US';
-import frFR from './fr';
+import enUS from './en-US/index.json';
+import frFR from './fr/index.json';
 
 export default {
   'en-US': enUS,

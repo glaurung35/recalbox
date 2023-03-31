@@ -14,8 +14,7 @@
       icon="mdi-camera-plus"
       color="primary"
       id="virtual-devices-button"
-      @click="screenshot"
-      disable
+      @click="useMediaStore().takeScreenshot()"
     >
       <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
         {{ $t('emulation.screenshots.tooltip') }}
@@ -25,8 +24,5 @@
 </template>
 
 <script lang="ts" setup>
-function screenshot() {
-  // eslint-disable-next-line no-console
-  console.log('screenshot');
-}
+import { useMediaStore } from 'stores/media';
 </script>

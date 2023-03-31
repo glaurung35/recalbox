@@ -38,6 +38,17 @@ export const useMediaStore = defineStore('media', {
   },
 
   actions: {
+    async takeScreenshot() {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.post(MEDIA.takeScreenshot);
+        this.media = response.data;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
     async delete(name: string) {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -11,6 +11,7 @@
       v-bind="$attrs"
       class="q-mb-md"
       :type="isPwd && password ? 'password' : 'text'"
+      :mask="mask"
     >
       <template v-slot:append v-if="password">
         <q-icon
@@ -38,6 +39,7 @@ const props = defineProps({
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
   password: { type: Boolean },
+  mask: { type: String },
 });
 
 const {

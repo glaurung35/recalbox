@@ -32,6 +32,7 @@
     "copyToClipboard": "Copied to clipboard",
     "notify": {
       "updateSuccess": "Update completed",
+      "screenshotTaken": "Screenshot taken",
       "updateError": "Error during update :",
       "networkError": "Network error"
     },

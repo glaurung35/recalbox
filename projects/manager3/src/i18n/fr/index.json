@@ -32,6 +32,7 @@
     "copyToClipboard": "Copié dans le presse-papiers",
     "notify": {
       "updateSuccess": "Modification effectuée",
+      "screenshotTaken": "Capture d'écran effectuée",
       "updateError": "Erreur lors de la modification : ",
       "networkError": "Problème de connexion réseau"
     },

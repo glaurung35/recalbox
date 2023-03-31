@@ -4,7 +4,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { Loading, Notify } from 'quasar';
-import { BIOS } from 'src/router/api.routes';
+import { BIOS, MEDIA } from 'src/router/api.routes';
 import { i18n } from 'boot/i18n';
 
 declare module '@vue/runtime-core' {
@@ -59,13 +59,20 @@ api.interceptors.request.use((config) => {
 
 // Add Notify Toasters on current axios requests
 api.interceptors.response.use((response) => {
+  let message = i18n.global.t('general.notify.updateSuccess');
+  let icon = 'mdi-check-bold';
   Loading.hide();
+
+  if (response.config.url === MEDIA.takeScreenshot) {
+    message = i18n.global.t('general.notify.screenshotTaken');
+    icon = 'mdi-folder-multiple-image';
+  }
 
   if (response.config.method === 'post') {
     Notify.create({
-      message: i18n.global.t('general.notify.updateSuccess'),
+      message,
       type: 'positive',
-      icon: 'mdi-check-bold',
+      icon,
     });
   }
 

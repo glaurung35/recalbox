@@ -12,7 +12,8 @@ KERNELFIRMWARES_NON_COMMERCIAL = y
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 define KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
-	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915
+	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915 \
+		$(@D)/mellanox $(@D)/iwlwifi-*
 endef
 KERNELFIRMWARES_PRE_INSTALL_TARGET_HOOKS += KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
 endif

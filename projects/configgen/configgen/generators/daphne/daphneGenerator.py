@@ -18,8 +18,6 @@ class DaphneGenerator(Generator):
 
         import os.path
         romName = os.path.splitext(os.path.basename(args.rom))[0]
-        homeDir = args.rom.replace("/" + romName + ".daphne", "");
-        bezelFile = args.rom + "/../bezels/" + romName + ".png"
         frameFile = args.rom + "/" + romName + ".txt"
         commandsFile = args.rom + "/" + romName + ".commands"
         singeFile = args.rom + "/" + romName + ".singe"
@@ -34,29 +32,22 @@ class DaphneGenerator(Generator):
                 "-script", singeFile,
                 "-blend_sprites",
                 "-retropath",
-                "-grabmouse", # Controller stick but really slow
-                "-manymouse", # Lightguns
+                "-grabmouse",
+                "-manymouse",
                 "-opengl",
                 "-texturestream",
                 "-datadir", recalboxFiles.daphneDatadir,
-                "-homedir", homeDir]
-
-            # If a bezel exists, apply it and resize screen to 4:3
-            if os.path.exists(bezelFile):
-                commandArray.extend(["-bezel", bezelFile, "-force_aspect_ratio"])
+                "-homedir", recalboxFiles.daphneHomedir]
         else:
             # for a classical game
             commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                 romName, "vldp",
                 "-framefile", frameFile,
                 "-fullscreen",
+                "-useoverlaysb", "2",
                 "-opengl",
                 "-datadir", recalboxFiles.daphneDatadir,
-                "-homedir", homeDir]
-
-            # If a bezel exists, apply it and resize screen to 4:3
-            if os.path.exists(bezelFile):
-                commandArray.extend(["-bezel", bezelFile, "-force_aspect_ratio"])
+                "-homedir", recalboxFiles.daphneHomedir]
 
         #from configgen.utils.architecture import Architecture
         #if Architecture().isX64:

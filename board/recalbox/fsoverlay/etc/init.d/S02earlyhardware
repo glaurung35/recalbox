@@ -7,8 +7,8 @@
 do_start() {
   local STEP=$(getStepNumber)
 
-  # Cases - Don't try to detect if already done or if recalbox rgb dual is plugged
-  if [ "$STEP" != "1" ] && ! isRecalboxRGBDual; then
+  # Cases - Don't try to detect if already done or if recalbox rgb dual module is loaded
+  if [ "$STEP" != "1" ] && ! isCRTLoaded; then
     python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
     # let S05hardware do its job if no case found here
     mount -o remount,rw /boot

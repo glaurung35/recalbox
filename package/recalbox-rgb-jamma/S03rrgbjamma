@@ -31,7 +31,9 @@ if test "$1" == "start"; then
             echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter})!" >> /boot/hardware.log
             if ! grep "dtoverlay=${adapter}" "${CRT_DAC_FILE}"; then
                 echo "dtoverlay=${adapter}" > "${CRT_DAC_FILE}"
-                if ! sed -i "s/adapter.type = .+/adapter.type = ${adapter}/g" "${CONFIG}"; then
+                if grep -q "adapter.type = .\+" "${CONFIG}";then
+                    sed -i "s/adapter.type = .+/adapter.type = ${adapter}/g" "${CONFIG}"
+                else
                     echo -e "\nadapter.type = ${adapter}" >> "${CONFIG}"
                 fi
                 echo "S03rrgbdjamma CRT Reboot after install of ${adapter}" >> /boot/hardware.log

@@ -27,7 +27,7 @@ export const MEDIA = {
   all: '/user/media/getall',
   get: '/user/media/',
   delete: '/user/media/',
-  takeScreenshot: '/user/media/screenshots',
+  takeScreenshot: '/user/media/takescreenshot',
 };
 
 export const MONITORING = {

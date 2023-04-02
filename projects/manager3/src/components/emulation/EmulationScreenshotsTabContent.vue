@@ -42,9 +42,9 @@
 <script lang="ts" setup>
 import { ref } from 'vue';
 import { useMediaStore } from 'stores/media';
-// import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
-import { date, useQuasar } from 'quasar';
+import { useQuasar } from 'quasar';
 
 const { t } = useI18n({ useScope: 'global' });
 
@@ -53,40 +53,40 @@ const mediaStore = useMediaStore();
 
 mediaStore.fetch();
 
-// const { screenshots } = storeToRefs(mediaStore);
+const { screenshots } = storeToRefs(mediaStore);
 
-const screenshots = [
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-    url: 'https://api.lorem.space/image/album',
-    date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-];
+// const screenshots = [
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+//   {
+//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
+//     url: 'https://api.lorem.space/image/album',
+//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+//   },
+// ];
 
 const modal = ref<object>({
   open: false,

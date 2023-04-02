@@ -33,6 +33,7 @@
     "notify": {
       "updateSuccess": "Update completed",
       "screenshotTaken": "Screenshot taken",
+      "screenshotDeleted": "Screenshot deleted",
       "updateError": "Error during update :",
       "networkError": "Network error"
     },

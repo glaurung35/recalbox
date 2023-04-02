@@ -68,7 +68,14 @@ api.interceptors.response.use((response) => {
     icon = 'mdi-folder-multiple-image';
   }
 
-  if (response.config.method === 'post') {
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  if (response.config.method === 'delete' && response.config.url.includes(MEDIA.delete)) {
+    message = i18n.global.t('general.notify.screenshotDeleted');
+    icon = 'mdi-image-remove';
+  }
+
+  if (response.config.method === 'post' || response.config.method === 'delete') {
     Notify.create({
       message,
       type: 'positive',

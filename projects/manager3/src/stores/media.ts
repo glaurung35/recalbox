@@ -28,7 +28,8 @@ export const useMediaStore = defineStore('media', {
         if (name.includes('screenshot-')) {
           result.push({
             name,
-            url: MEDIA.get + name,
+            // url: MEDIA.get + name,
+            url: 'https://api.lorem.space/image/album',
             date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
           });
         }
@@ -49,11 +50,11 @@ export const useMediaStore = defineStore('media', {
         console.log(error);
       }
     },
-    async delete(name: string) {
+    async delete(screenshotName: string) {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const response = await this._apiProvider.delete(MEDIA.delete + name);
+        const response = await this._apiProvider.delete(MEDIA.delete + screenshotName);
         this.media = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

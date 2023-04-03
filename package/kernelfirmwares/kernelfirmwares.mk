@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-KERNELFIRMWARES_VERSION = 20230210
+KERNELFIRMWARES_VERSION = 20210716
 KERNELFIRMWARES_SOURCE = linux-firmware-$(KERNELFIRMWARES_VERSION).tar.gz
 KERNELFIRMWARES_SITE = https://git.kernel.org/pub/scm/linux/kernel/git/firmware/linux-firmware.git/snapshot
 KERNELFIRMWARES_LICENSE = MULTIPLE
@@ -13,7 +13,7 @@ KERNELFIRMWARES_NON_COMMERCIAL = y
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 define KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
 	$(RM) -rf $(@D)/brcm/ $(@D)/nvidia/ $(@D)/amd $(@D)/amdgpu $(@D)/radeon $(@D)/i915 \
-		$(@D)/mellanox $(@D)/iwlwifi-*
+		$(@D)/iwlwifi-*
 endef
 KERNELFIRMWARES_PRE_INSTALL_TARGET_HOOKS += KERNELFIRMWARES_REMOVE_BRCM_FOLDER_CMDS
 endif

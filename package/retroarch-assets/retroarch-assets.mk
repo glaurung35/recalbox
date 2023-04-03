@@ -14,7 +14,6 @@ define RETROARCH_ASSETS_INSTALL_TARGET_CMDS
 	cp -r $(@D)/ozone $(TARGET_DIR)/usr/share/retroarch/assets
 	cp -r $(@D)/rgui $(TARGET_DIR)/usr/share/retroarch/assets
 	cp -r $(@D)/glui $(TARGET_DIR)/usr/share/retroarch/assets
-	cp -r $(@D)/FlatUX $(TARGET_DIR)/usr/share/retroarch/assets
 	cp -r $(@D)/xmb/monochrome $(TARGET_DIR)/usr/share/retroarch/assets/xmb
 	cp -r $(@D)/menu_widgets $(TARGET_DIR)/usr/share/retroarch/assets
 endef

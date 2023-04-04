@@ -194,23 +194,37 @@ class RequestHandler : public IRouter
     void SystemConfigurationDelete(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle OPTIONS get media options
+     * @param request Request object
+     * @param response Response object
+     */
+    void UserMediaOptions(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET get media list
      * @param request Request object
      * @param response Response object
      */
-    void MediaUserGetList(const Rest::Request& request, Http::ResponseWriter response) override;
+    void UserMediaGetList(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle DELETE delete media
      * @param request Request object
      * @param response Response object
      */
-    void MediaUserDelete(const Rest::Request& request, Http::ResponseWriter response) override;
+    void UserMediaDelete(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle POST create screenshot
+     * @param request Request object
+     * @param response Response object
+     */
+    void UserMediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET to get game media
      * @param request Request object
      * @param response Response object
      */
-    void MediaGet(const Rest::Request& request, Http::ResponseWriter response) override;
+    void UserMediaGet(const Rest::Request& request, Http::ResponseWriter response) override;
 };

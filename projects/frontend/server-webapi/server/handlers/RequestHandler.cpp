@@ -6,6 +6,7 @@
 #include <utils/Log.h>
 #include <utils/json/JSONBuilder.h>
 #include <systems/SystemDeserializer.h>
+#include <utils/datetime/DateTime.h>
 #include "RequestHandler.h"
 #include "Mime.h"
 #include "RequestHandlerTools.h"
@@ -410,57 +411,46 @@ void RequestHandler::SystemConfigurationDelete(const Rest::Request& request, Htt
   RequestHandlerTools::DeleteKeyValues(subSystem, keys, request.body(), response);
 }
 
-void RequestHandler::MediaUserGetList(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::UserMediaOptions(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "MediaUserGetList");
-
-  Path mediaPath("/recalbox/share/screenshots");
-  Path::PathList list = mediaPath.GetDirectoryContent();
-
-  static std::string imagesExtentions(".jpg|.jpeg|.png|.gif");
-  static std::string videosExtentions(".mkv|.avi|.mp4");
-
-  JSONBuilder result;
-  result.Open()
-        .Field("mediaPath", mediaPath.ToString())
-        .OpenObject("mediaList");
-  for(const Path& path : list)
-  {
-    bool ok = false;
-    result.OpenObject(path.MakeRelative(mediaPath, ok).ToChars());
-    std::string ext = Strings::ToLowerASCII(path.Extension());
-    if (imagesExtentions.find(ext) != std::string::npos) result.Field("type", "image");
-    else if (videosExtentions.find(ext) != std::string::npos) result.Field("type", "video");
-    else result.Field("type", "unknown");
-    result.CloseObject();
-  }
-  result.CloseObject()
-        .Close();
-  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
-}
-
-void RequestHandler::MediaUserDelete(const Rest::Request& request, Http::ResponseWriter response)
-{
-  RequestHandlerTools::LogRoute(request, "MediaUserDelete");
-
-  Strings::Vector list;
-  if (RequestHandlerTools::ExtractArray(request, list))
-  {
-    Path mediaPath("/recalbox/share/screenshots");
-    for(const std::string& mediaFile : list)
-    {
-      Path media = mediaPath / mediaFile;
-      if (media.Exists()) media.Delete();
-      else RequestHandlerTools::Error404(response);
-    }
+    RequestHandlerTools::LogRoute(request, "UserMediaOptions");
     RequestHandlerTools::Send(response, Http::Code::Ok);
-  }
-  RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid json array!", Mime::PlainText);
 }
 
-void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::UserMediaGetList(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "MediaGameGet");
+  RequestHandlerTools::LogRoute(request, "UserMediaGetList");
+  RequestHandlerTools::GetJSONMediaList(response);
+}
+
+void RequestHandler::UserMediaDelete(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "UserMediaDelete");
+
+  std::string mediaName = request.splatAt(0).name();
+  Path mediaPath("/recalbox/share/screenshots");
+  Path media = mediaPath / mediaName;
+
+  if (media.Exists()) media.Delete();
+  else RequestHandlerTools::Error404(response);
+
+  RequestHandlerTools::GetJSONMediaList(response);
+}
+
+void RequestHandler::UserMediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "UserMediaTakeScreenshot");
+
+  DateTime timestamp;
+  std::string fileName = "screenshot-" + timestamp.ToISO8601() + ".png";
+
+  RequestHandlerTools::OutputOf("raspi2png -p /recalbox/share/screenshots/" + fileName);
+  RequestHandlerTools::GetJSONMediaList(response);
+}
+
+void RequestHandler::UserMediaGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "UserMediaGet");
 
   // Get path
   Path path(Strings::Decode64(request.splatAt(0).name()));

@@ -15,6 +15,33 @@
 
 using namespace Pistache;
 
+void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& response)
+{
+  Path mediaPath("/recalbox/share/screenshots");
+  Path::PathList list = mediaPath.GetDirectoryContent();
+
+  static std::string imagesExtentions(".jpg|.jpeg|.png|.gif");
+  static std::string videosExtentions(".mkv|.avi|.mp4");
+
+  JSONBuilder result;
+  result.Open()
+        .Field("mediaPath", mediaPath.ToString())
+        .OpenObject("mediaList");
+  for(const Path& path : list)
+  {
+    bool ok = false;
+    result.OpenObject(path.MakeRelative(mediaPath, ok).ToChars());
+    std::string ext = Strings::ToLowerASCII(path.Extension());
+    if (imagesExtentions.find(ext) != std::string::npos) result.Field("type", "image");
+    else if (videosExtentions.find(ext) != std::string::npos) result.Field("type", "video");
+    else result.Field("type", "unknown");
+    result.CloseObject();
+  }
+  result.CloseObject()
+        .Close();
+  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+}
+
 JSONBuilder RequestHandlerTools::BuildPartitionObject(const DeviceInfo& info, const std::string& recalboxtype)
 {
   JSONBuilder result;

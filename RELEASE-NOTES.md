@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add TATE mode support for HDMI and CRT
 - Add support for Anbernic RG353m
 - Add CRT Curved shaders support
 - Add wizard to disable smooth when enabling shaders

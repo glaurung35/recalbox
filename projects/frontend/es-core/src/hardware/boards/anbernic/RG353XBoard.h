@@ -167,6 +167,11 @@ class RG353XBoard: public IBoardInterface
      * @brief Set the CPU governor for EmulationStation
      */
     void SetFrontendCPUGovernor() final;
+
+    /*!
+     * @return the rotation capabilities for tate mode
+     */
+    const RotationCapability GetRotationCapabilities() const override;
 };
 
 

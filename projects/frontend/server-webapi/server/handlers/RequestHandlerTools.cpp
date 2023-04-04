@@ -280,7 +280,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       static HashMap<std::string, Validator> sList
       ({
          { "fbcp.enabled"            , Validator(true) },
-         { "splash.length"           , Validator(-1, INT32_MAX) },
+         { "splash.length"           , Validator(-1, 300) },
          { "manager.enabled"         , Validator(true) },
          { "security.enabled"        , Validator(true) },
          { "api.enabled"             , Validator(true) },
@@ -311,8 +311,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
          { "collection.allgames"    , Validator(true) },
          { "collection.multiplayers", Validator(true) },
          { "collection.lastplayed"  , Validator(true) },
-         { "videosnaps.delay"       , Validator(0, INT32_MAX) },
-         { "videosnaps.loop"        , Validator(0, INT32_MAX) },
+         { "videosnaps.delay"       , Validator(0, 300000) },
+         { "videosnaps.loop"        , Validator(0, 300) },
        });
 
       return sList;

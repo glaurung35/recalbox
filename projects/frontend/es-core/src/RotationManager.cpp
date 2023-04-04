@@ -51,21 +51,21 @@ RotationType RotationManager::ShouldRotateGame(const FileData& game)
   if(GetSystemRotation() != RotationType::None)
   {
     gameRotation = GetSystemRotation();
-    {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] System rotation is set, setting game rotation to " << RotationUtils::StringValue(gameRotation);}
+    {LOG(LogDebug) << "[RotationManager] System rotation is set, setting game rotation to " << RotationUtils::StringValue(gameRotation);}
   }
   else if(game.Metadata().Rotation() != RotationType::None)
   {
     const RotationCapability cap = Board::Instance().GetRotationCapabilities();
     // The board should be able to rotate, either the config has been set by user, either we use the automatic capability
-    if(cap.canRotate)
+    if(cap.rotationAvailable)
     {
       if(RecalboxConf::Instance().IsDefined(RecalboxConf::sTateGameRotation)) {
         // Forced rotation
         gameRotation = RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation());
-        {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from recalbox.conf";}
+        {LOG(LogDebug) << "[RotationManager] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from recalbox.conf";}
       } else if(cap.autoRotateGames){
         gameRotation = cap.defaultRotationWhenTate;
-        {LOG(LogDebug) << "[RotationManager.ShouldRotateGame] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from Board capabilities";}
+        {LOG(LogDebug) << "[RotationManager] Setting game rotation to " << RotationUtils::StringValue(gameRotation) << " from Board capabilities";}
       }
     }
   }
@@ -78,7 +78,7 @@ bool RotationManager::ShouldRotateFrontendControls()
   // - the board can rotate
   // - the board is rotated for tate or system-wide
   const RotationCapability cap = Board::Instance().GetRotationCapabilities();
-  bool rotate = cap.canRotate && cap.rotateControls && Renderer::Instance().IsRotatedSide();
+  bool rotate = cap.rotationAvailable && cap.rotateControls && Renderer::Instance().IsRotatedSide();
   if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate controls ON"; };
   return rotate;
 }

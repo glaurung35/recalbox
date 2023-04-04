@@ -138,8 +138,8 @@ void OdroidAdvanceGo2Board::SetFrontendCPUGovernor()
 
 const RotationCapability OdroidAdvanceGo2Board::GetRotationCapabilities() const {
   if(mModel == BoardType::OdroidAdvanceGoSuper){
-    return {.canRotate = true, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
+    return {.rotationAvailable = true, .systemRotationAvailable = false, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
   }
   // Odroid GO Advance cannot rotate.
-  return {.canRotate = false, .defaultRotationWhenTate = RotationType::None, .rotateControls = false, .autoRotateGames = false};
+  return {.rotationAvailable = false, .systemRotationAvailable = false, .defaultRotationWhenTate = RotationType::None, .rotateControls = false, .autoRotateGames = false};
 }

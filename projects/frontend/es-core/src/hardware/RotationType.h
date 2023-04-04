@@ -13,7 +13,8 @@ enum class RotationType : unsigned int
 
 //! Rotation capabilities of the board
 typedef struct {
-  bool canRotate;
+  bool rotationAvailable;
+  bool systemRotationAvailable;
   RotationType defaultRotationWhenTate;
   bool rotateControls;
   bool autoRotateGames;

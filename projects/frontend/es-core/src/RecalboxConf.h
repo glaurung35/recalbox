@@ -472,7 +472,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionLightGun         = "emulationstation.collection.lightgun";
     static constexpr const char* sCollectionPorts            = "emulationstation.collection.ports";
     static constexpr const char* sCollectionTate             = "emulationstation.collection.tate";
-    static constexpr const char* sTateGameRotation           = "emulationstation.collection.tate.gamerotation";
+    static constexpr const char* sTateGameRotation           = "tate.gamerotation";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";

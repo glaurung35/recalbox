@@ -4,6 +4,8 @@
 #
 ################################################################################
 
+RECALBOX_MANAGER3_LICENSE = MIT
+
 ifneq ($(GITLAB_TOKEN_WEBMANAGER3),)
 RECALBOX_MANAGER3_VERSION = 53a14a166c6261fec8134186fccf15c8fa7099a2
 RECALBOX_MANAGER3_SITE = https://gitlab-ci-token:$(GITLAB_TOKEN_WEBMANAGER3)@gitlab.com/recalbox/recalbox-manager-v3.git

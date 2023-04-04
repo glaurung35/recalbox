@@ -181,25 +181,39 @@ class IRouter
     virtual void SystemConfigurationDelete(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
+     * @brief Handle OPTIONS get media options
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void UserMediaOptions(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
      * @brief Handle GET get media list
      * @param request Request object
      * @param response Response object
      */
-    virtual void MediaUserGetList(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void UserMediaGetList(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
      * @brief Handle DELETE delete media
      * @param request Request object
      * @param response Response object
      */
-    virtual void MediaUserDelete(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void UserMediaDelete(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle POST create screenshot
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void UserMediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
      * @brief Handle GET to get game media
      * @param request Request object
      * @param response Response object
      */
-    virtual void MediaGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void UserMediaGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
   public:
     /*!
@@ -235,10 +249,12 @@ class IRouter
       Rest::Routes::Options(mRouter, "/api/configuration/system/*", Rest::Routes::bind(&IRouter::SystemConfigurationOptions, this));
       Rest::Routes::Delete(mRouter, "/api/configuration/system/*", Rest::Routes::bind(&IRouter::SystemConfigurationDelete, this));
       // Screenshots/Videos
-      Rest::Routes::Get(mRouter, "/api/media/user/getall", Rest::Routes::bind(&IRouter::MediaUserGetList, this));
-      Rest::Routes::Delete(mRouter, "/api/media/user", Rest::Routes::bind(&IRouter::MediaUserDelete, this));
+      Rest::Routes::Options(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaOptions, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/getall", Rest::Routes::bind(&IRouter::UserMediaGetList, this));
+      Rest::Routes::Delete(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaDelete, this));
+      Rest::Routes::Post(mRouter, "/api/user/media/takescreenshot", Rest::Routes::bind(&IRouter::UserMediaTakeScreenshot, this));
       // All media - Full path - .png .jpg .pdf .gif .mp4 .avi .mkv
-      Rest::Routes::Get(mRouter, "/api/media/get/*", Rest::Routes::bind(&IRouter::MediaGet, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaGet, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

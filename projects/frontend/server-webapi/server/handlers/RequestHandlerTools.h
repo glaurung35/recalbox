@@ -278,4 +278,10 @@ class RequestHandlerTools
      * @return True if the request body is a valid JSON array, false otherwise
      */
     static bool ExtractArray(const Pistache::Rest::Request& request, Strings::Vector& result);
+
+    /*!
+    * @brief Return media list JSON object
+    * @param response Response object
+    */
+    static void GetJSONMediaList(Pistache::Http::ResponseWriter& response);
 };

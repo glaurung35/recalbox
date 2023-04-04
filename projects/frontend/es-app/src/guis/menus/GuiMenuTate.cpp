@@ -22,21 +22,30 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   // Rotate games
   RotationCapability cap = Board::Instance().GetRotationCapabilities();
 
-  if(cap.canRotate)
+  if(cap.rotationAvailable)
   {
+    mOriginalGamesRotation = RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation());
     if(cap.defaultRotationWhenTate != RotationType::None)
     {
-      mOriginalGamesRotation = cap.defaultRotationWhenTate;
-      mGamesRotation = AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, std::vector<GuiMenuBase::ListEntry<RotationType>>(1, { "AUTO", mOriginalGamesRotation, true }));
+      // We have default rotation for this board, so we allow only changing rotation to none
+      bool isAuto = (! RecalboxConf::Instance().IsDefined(RecalboxConf::sTateGameRotation)) || mOriginalGamesRotation == cap.defaultRotationWhenTate;
+      if(isAuto)
+        mOriginalGamesRotation = cap.defaultRotationWhenTate;
+      mGamesRotation = AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this,
+                                             std::vector<GuiMenuBase::ListEntry<RotationType>>(
+                                                 {
+                                                   { "AUTO", cap.defaultRotationWhenTate, isAuto },
+                                                   { "NONE", RotationType::None, !isAuto }
+                                                 }));
     }
     else
     {
-      mOriginalGamesRotation = RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation());
       // Rotation
       mGamesRotation = AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, GetRotationEntries(mOriginalGamesRotation));
     }
     // Screen rotation
-    mSystemRotation = AddList<RotationType>(_("COMPLETE SYSTEM ROTATION"), (int)Components::TateCompleteSystemRotation, this, GetRotationEntries(mOriginalSystemRotation), _(MENUMESSAGE_TATE_SCREEN_ROTATION));
+    if(cap.systemRotationAvailable)
+      mSystemRotation = AddList<RotationType>(_("COMPLETE SYSTEM ROTATION"), (int)Components::TateCompleteSystemRotation, this, GetRotationEntries(mOriginalSystemRotation), _(MENUMESSAGE_TATE_SCREEN_ROTATION));
   }
 }
 

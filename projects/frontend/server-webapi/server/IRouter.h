@@ -215,6 +215,13 @@ class IRouter
      */
     virtual void UserMediaGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*!
+     * @brief Handle GET to get screenshot media
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -255,6 +262,7 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/user/media/takescreenshot", Rest::Routes::bind(&IRouter::UserMediaTakeScreenshot, this));
       // All media - Full path - .png .jpg .pdf .gif .mp4 .avi .mkv
       Rest::Routes::Get(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaGet, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/screenshot/*", Rest::Routes::bind(&IRouter::UserMediaGetScreenshot, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

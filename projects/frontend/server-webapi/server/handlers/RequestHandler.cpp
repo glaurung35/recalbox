@@ -453,8 +453,43 @@ void RequestHandler::UserMediaGet(const Rest::Request& request, Http::ResponseWr
 
   // Get path
   Path path(Strings::Decode64(request.splatAt(0).name()));
+  std::cout << " path = " << request.splatAt(0).name() << std::endl;
+
   // Check extension
   std::string ext = Strings::ToLowerASCII(path.Extension()).append(1, '.');
+  if (path.Exists())
+  {
+    if (path.IsFile())
+    {
+      // Image
+      if (ext == ".gif")      RequestHandlerTools::SendResource(path, response, Mime::ImageGif);
+      else if (ext == ".jpg") RequestHandlerTools::SendResource(path, response, Mime::ImageJpg);
+      else if (ext == ".png") RequestHandlerTools::SendResource(path, response, Mime::ImagePng);
+      else if (ext == ".svg") RequestHandlerTools::SendResource(path, response, Mime::ImageSvg);
+      // Video
+      else if (ext == ".mkv") RequestHandlerTools::SendResource(path, response, Mime::VideoMkv);
+      else if (ext == ".mp4") RequestHandlerTools::SendResource(path, response, Mime::VideoMp4);
+      else if (ext == ".avi") RequestHandlerTools::SendResource(path, response, Mime::VideoAvi);
+      // Video
+      else if (ext == ".pdf") RequestHandlerTools::SendResource(path, response, Mime::FilePdf);
+      // Unknown
+      else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
+    }
+    else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Target is a directory!", Mime::PlainText);
+  }
+  else RequestHandlerTools::Error404(response);
+}
+
+void RequestHandler::UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "UserMediaGetScreenshot");
+
+  std::string fileName = request.splatAt(0).name();
+  Path path = Path("/recalbox/share/screenshots/" + fileName);
+
+  // Check extension
+  std::string ext = Strings::ToLowerASCII(path.Extension());
+
   if (path.Exists())
   {
     if (path.IsFile())

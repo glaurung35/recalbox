@@ -227,4 +227,11 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void UserMediaGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get screenshot media
+     * @param request Request object
+     * @param response Response object
+     */
+    void UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 };

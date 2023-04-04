@@ -86,3 +86,7 @@ void RG353XBoard::SetFrontendCPUGovernor()
 {
   SetCPUGovernance(CPUGovernance::OnDemand);
 }
+
+const RotationCapability RG353XBoard::GetRotationCapabilities() const {
+  return {.rotationAvailable = true, .systemRotationAvailable = false, .defaultRotationWhenTate = RotationType::Left, .rotateControls = true, .autoRotateGames = true};
+}

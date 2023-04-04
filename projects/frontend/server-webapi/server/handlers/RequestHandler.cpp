@@ -441,10 +441,9 @@ void RequestHandler::UserMediaTakeScreenshot(const Rest::Request& request, Http:
 {
   RequestHandlerTools::LogRoute(request, "UserMediaTakeScreenshot");
 
-  DateTime timestamp;
-  std::string fileName = "screenshot-" + timestamp.ToISO8601() + ".png";
+  std::string date = DateTime().ToStringFormat("%YYYY-%MM-%ddT%HH-%mm-%ss-%fffZ");
 
-  RequestHandlerTools::OutputOf("raspi2png -p /recalbox/share/screenshots/" + fileName);
+  RequestHandlerTools::OutputOf("raspi2png -p /recalbox/share/screenshots/screenshot-" + date + ".png");
   RequestHandlerTools::GetJSONMediaList(response);
 }
 

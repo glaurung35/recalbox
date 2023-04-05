@@ -8,7 +8,7 @@
       class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
       v-for="screenshot in screenshots"
     >
-      <q-card @click="openScreenshot(screenshot.url)" class="screenshot" flat square>
+      <q-card @click="openScreenshot(screenshot.url)" class="screenshot" flat rounded>
         <q-card-section horizontal>
           <q-img :src="screenshot.url" class="col" loading="lazy">
             <div

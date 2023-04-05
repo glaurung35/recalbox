@@ -30,7 +30,6 @@ export const useMediaStore = defineStore('media', {
             date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss-sssZ'), // "2023-04-03T07-51-41-443Z"
             'DD/MM/YYYY - HH:mm:ss',
           );
-          console.log(date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss-sssZ'));
           result.push({
             name: key,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -240,7 +240,7 @@
         "title": "Réglages",
         "getNameFrom": {
           "title": "Obtenir les noms à partir de",
-          "help": "Options disponibles :<ul><li><b>0</b> à partir des résultats du scrap (défaut),</li><li><b>1</b> à partie du nom du fichier,</li><li><b>2</b> à partie du nom du fichier non décoré (i.e: (text) et [text] supprimés).</li></ul>"
+          "help": "Options disponibles :<ul><li><b>0</b> à partir des résultats du scrap (défaut),</li><li><b>1</b> à partir du nom du fichier,</li><li><b>2</b> à partir du nom du fichier non décoré (i.e: (text) et [text] supprimés).</li></ul>"
         }
       },
       "screenscraper": {

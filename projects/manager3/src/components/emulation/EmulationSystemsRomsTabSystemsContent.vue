@@ -51,7 +51,7 @@
               <q-card-section>
                 <div class="background"></div>
                 <q-img
-                  :src="api + '/systems/' + props.row.name + '/resource/eu/svg/logo'"
+                  :src="api + '/systems/' + props.row.themeFolder + '/resource/eu/svg/logo'"
                   spinner-color="$light-blue"
                   :ratio="16/9"
                   fit="contain"

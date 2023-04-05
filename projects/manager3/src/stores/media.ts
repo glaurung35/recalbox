@@ -24,13 +24,19 @@ export const useMediaStore = defineStore('media', {
       const result: Array<object> = [];
 
       Object.keys(state.media.mediaList).forEach((key) => {
-        const name:string = key;
-        if (name.includes('screenshot-')) {
+        if (key.includes('screenshot-')) {
+          const name:string = key.substring(11).substring(0, 24);
+          const formattedDate:string = date.formatDate(
+            date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss-sssZ'), // "2023-04-03T07-51-41-443Z"
+            'DD/MM/YYYY - HH:mm:ss',
+          );
+          console.log(date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss-sssZ'));
           result.push({
-            name,
-            // url: MEDIA.get + name,
-            url: 'https://api.lorem.space/image/album',
-            date: date.formatDate(date.extractDate('2020-03-28', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+            name: key,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            url: process.env.API_URL + MEDIA.get + key,
+            date: formattedDate,
           });
         }
       });

@@ -3,9 +3,6 @@
 -->
 <template>
   <div class="screenshots row">
-    <q-dialog @click="modal.open = false" v-model="modal.open">
-      <q-img :src="modal.imgUrl"/>
-    </q-dialog>
     <div
       :key="screenshot.name"
       class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
@@ -36,6 +33,13 @@
       </q-card>
 
     </div>
+    <q-dialog v-model="modal.open" full-height full-width>
+      <q-card>
+        <q-card-section horizontal>
+          <q-img :src="modal.imgUrl" @click="modal.open = false" class="opened"/>
+        </q-card-section>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -54,39 +58,6 @@ const mediaStore = useMediaStore();
 mediaStore.fetch();
 
 const { screenshots } = storeToRefs(mediaStore);
-
-// const screenshots = [
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-//   {
-//     name: 'screenshot-2023-03-17T15-33-05-328Z.png',
-//     url: 'https://api.lorem.space/image/album',
-//     date: date.formatDate(date.extractDate('2023-03-22', 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-//   },
-// ];
 
 const modal = ref<object>({
   open: false,
@@ -130,13 +101,4 @@ function openDeleteConfirm(name:string) {
 
     .absolute-bottom
       background: rgba(52, 73, 93, 0.47) !important
-
-  .q-dialog__inner
-    cursor: pointer
-
-    > div
-      max-width: 150vh
-
-    button
-        color: white!important
 </style>

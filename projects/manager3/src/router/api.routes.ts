@@ -25,7 +25,7 @@ export const KODI = '/configuration/kodi';
 export const MEDIA = {
   root: '/media',
   all: '/user/media/getall',
-  get: '/user/media/',
+  get: '/user/media/screenshot/',
   delete: '/user/media/',
   takeScreenshot: '/user/media/takescreenshot',
 };

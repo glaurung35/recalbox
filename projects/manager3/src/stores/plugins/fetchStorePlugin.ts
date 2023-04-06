@@ -5,7 +5,7 @@ import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return
 const FetchStorePlugin = (context: PiniaPluginContext) => {
-  const allowedStores = [
+  const allowedStores:string[] = [
     'audio',
     'hyperion',
     'kodi',

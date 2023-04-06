@@ -4,15 +4,15 @@
 import { Notify } from 'quasar';
 import { i18n } from 'boot/i18n';
 
-export const copyToClipboard = (content:string) => {
+export const copyToClipboard = (content:string):void => {
   navigator.clipboard.writeText(content)
-    .then(() => {
+    .then(():void => {
       Notify.create({
         message: i18n.global.t('general.copyToClipboard'),
         color: 'positive',
         icon: 'mdi-clipboard-check',
       });
-    }, (error) => {
+    }, (error):void => {
       Notify.create({
         message: error,
         type: 'negative',

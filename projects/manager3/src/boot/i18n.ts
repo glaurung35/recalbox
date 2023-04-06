@@ -45,11 +45,11 @@ const i18n = createI18n({
 import(
   /* webpackInclude: /(fr|en-US)\.js$/ */
   `quasar/lang/${LocalStorage.getItem('locale')}`
-).then((language) => {
+).then((language):void => {
   Quasar.lang.set(language.default);
 });
 
-export default boot(({ app }) => {
+export default boot(({ app }):void => {
   // Set i18n instance on app
   app.use(i18n);
 });

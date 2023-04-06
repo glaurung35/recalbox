@@ -19,9 +19,9 @@ declare module '@vue/runtime-core' {
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api = axios.create({ baseURL: process.env.API_URL });
+const api:AxiosInstance = axios.create({ baseURL: process.env.API_URL });
 
-export default boot(({ app }) => {
+export default boot(({ app }):void => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
@@ -59,7 +59,7 @@ api.interceptors.request.use((config) => {
 
 // Add Notify Toasters on current axios requests
 api.interceptors.response.use((response) => {
-  let message = i18n.global.t('general.notify.updateSuccess');
+  let message:string = i18n.global.t('general.notify.updateSuccess');
   let icon = 'mdi-check-bold';
   Loading.hide();
 

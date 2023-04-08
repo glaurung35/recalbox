@@ -1,27 +1,27 @@
 <!--
-@author Sesram
+@author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <div>
-    <div class="col col-xs-6 col-sm-12 col-md-12">
-      <q-select
-        standout="bg-primary text-white"
-        v-model="keyboardDisplay"
-        :options="keyboardOptions"
-        label="Layout"
-        dense
-      />
-    </div>
-    <div class="col col-xs-12 col-sm-12 col-md-12">
-      <div class="keyboardContainer">
-        <div class="simple-keyboard-main"></div>
+  <div class="background virtual-keyboard">
+    <div class="keyboard-container">
+      <div class="simple-keyboard-main"></div>
 
-        <div class="controlArrows">
-          <div class="simple-keyboard-control"></div>
-          <div class="simple-keyboard-arrows"></div>
-        </div>
+      <div class="control-arrows">
+        <div class="simple-keyboard-control"></div>
+        <q-img class="logo" src="../../assets/logos_v2_recalbox-all-transparent.svg"/>
+        <div class="simple-keyboard-arrows"></div>
+      </div>
 
-        <div class="numPad">
+      <div class="right-controls">
+        <q-select
+          standout="bg-primary text-white"
+          v-model="keyboardDisplay"
+          :options="keyboardOptions"
+          dense
+          class="lang-selector"
+          map-options
+        />
+        <div class="num-pad">
           <div class="simple-keyboard-numpad"></div>
           <div class="simple-keyboard-numpadEnd"></div>
         </div>
@@ -30,29 +30,12 @@
   </div>
 </template>
 
-<script>
+<script lang="ts">
 import Keyboard from 'simple-keyboard';
 import 'simple-keyboard/build/css/index.css';
 
 export default {
   name: 'VirtualKeyboard',
-  props: {
-    keyboardClass: {
-      default: 'simple-keyboard',
-      type: String,
-    },
-    input: {
-      type: String,
-    },
-    fullKeyboard: {
-      default: true,
-      type: Boolean,
-    },
-    layout: {
-      default: 'qwerty',
-      type: String,
-    },
-  },
   data: () => ({
     keyboard: null,
     keyboardControlPad: null,
@@ -70,14 +53,23 @@ export default {
   }),
   mounted() {
     const commonKeyboardOptions = {
-      onChange: (input) => this.onChange(input),
-      onKeyPress: (button) => this.onKeyPress(button),
-      onKeyReleased: (button) => this.onKeyReleased(button),
+      onChange: (input:string) => {
+        console.log('onChange', input);
+        this.onChange(input);
+      },
+      onKeyPress: (button:string) => {
+        console.log('onKeyPress', button);
+        this.onKeyPress(button);
+      },
+      onKeyReleased: (button:string) => {
+        console.log('onKeyReleased', button);
+        this.onKeyReleased(button);
+      },
       theme: 'simple-keyboard hg-theme-default hg-layout-default',
       physicalKeyboardHighlight: true,
       syncInstanceInputs: true,
       mergeDisplay: true,
-      debug: true,
+      debug: false,
     };
     this.keyboard = new Keyboard('.simple-keyboard-main', {
       ...commonKeyboardOptions,
@@ -212,7 +204,6 @@ export default {
         '{SKEY51}': '<',
         '{SKEY52}': '>',
         '{SKEY53}': '?',
-
       },
     });
     this.keyboardControlPad = new Keyboard('.simple-keyboard-control', {
@@ -247,13 +238,16 @@ export default {
       layout: {
         default: ['{numpadsubtract}', '{numpadadd}', '{numpadenter}'],
       },
+      display: {
+        '{numpadenter}': '↵',
+      },
     });
   },
   methods: {
-    onChange(input) {
+    onChange(input:string) {
       this.$emit('onChange', input);
     },
-    onKeyPress(button) {
+    onKeyPress(button:string) {
       this.$emit('onKeyPress', button);
 
       /**
@@ -266,7 +260,7 @@ export default {
         || button === '{capslock}'
       ) { this.handleShift(); }
     },
-    onKeyReleased(button) {
+    onKeyReleased(button:string) {
       this.$emit('onKeyReleased', button);
 
       /**
@@ -288,25 +282,75 @@ export default {
     },
   },
   watch: {
-    input(input) {
+    input(input:string) {
       this.keyboard.setInput(input);
     },
   },
 };
 </script>
 
-<!-- Add 'scoped' attribute to limit CSS to this component only -->
-<style scoped>
-  input {
-    width: 100%;
-    height: 100px;
-    padding: 20px;
-    font-size: 20px;
-    border: none;
-    box-sizing: border-box;
-  }
+<style lang="sass">
+.virtual-keyboard
+  height: 100vh
+  display: flex
+  align-items: center
+  padding: 1em
 
-  .simple-keyboard {
-    max-width: 700px;
-  }
+  &:before
+    content: "\F030C"
+
+  .hg-button
+    height: 6em
+
+  .keyboard-container
+    display: flex
+    background-color: rgba(0, 0, 0, 0.1)
+    width: 100vw
+    margin: 0 auto
+    border-radius: 5px
+    z-index: 1
+
+    .simple-keyboard-main.simple-keyboard
+      flex: 2.5
+      background-color: transparent
+
+    .simple-keyboard-arrows.simple-keyboard
+      align-self: flex-end
+      background-color: transparent
+
+    .control-arrows
+      flex: 0.5
+      display: flex
+      align-items: center
+      justify-content: space-between
+      flex-flow: column
+
+      .logo
+        height: 10em
+        width: 8em
+
+    .simple-keyboard-control.simple-keyboard
+      background-color: transparent
+
+    .right-controls
+      flex: 0.5
+      display: flex
+      justify-content: space-between
+      flex-flow: column
+
+      .lang-selector
+        padding: 5px 5px 0 5px
+
+      .num-pad
+        display: flex
+        align-items: flex-end
+
+        .simple-keyboard-numpad.simple-keyboard
+          background-color: transparent
+
+        .simple-keyboard-numpadEnd.simple-keyboard
+          width: 50px
+          background: transparent
+          margin: 0
+          padding: 5px 5px 5px 0
 </style>

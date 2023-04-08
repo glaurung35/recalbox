@@ -6376,6 +6376,11 @@ signal-exit@^3.0.2, signal-exit@^3.0.3:
   resolved "https://registry.npmjs.org/signal-exit/-/signal-exit-3.0.7.tgz"
   integrity sha512-wnD2ZE+l+SPC/uoS0vXeE9L1+0wuaMqKlfz9AMUo38JsyLSBWSFcHR1Rri62LZc12vLr1gb3jl7iwQhgwpAbGQ==
 
+simple-keyboard@^3.5.45:
+  version "3.5.45"
+  resolved "https://registry.yarnpkg.com/simple-keyboard/-/simple-keyboard-3.5.45.tgz#8789a69526199cf67fae349579cdee955436d70c"
+  integrity sha512-Gryd+oVLDtFhYcLNxj6vcaM5Egptl7iYv8JKjy0fTYNlvLFXl/2/qyrTNGOQlTFxGZL2UmTaetYpVlB8Qkw0yA==
+
 sirv@^1.0.7:
   version "1.0.19"
   resolved "https://registry.npmjs.org/sirv/-/sirv-1.0.19.tgz"

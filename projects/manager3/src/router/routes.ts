@@ -3,8 +3,9 @@
  */
 import { RouteRecordRaw } from 'vue-router';
 
-const HomePage = () => import('pages/HomePage.vue');
 const MainLayout = () => import('layouts/MainLayout.vue');
+
+const HomePage = () => import('pages/HomePage.vue');
 const MonitoringPage = () => import('pages/MonitoringPage.vue');
 
 const SettingsPage = () => import('pages/SettingsPage.vue');
@@ -26,6 +27,9 @@ const EmulationScreenshotsTabContent = () => import('components/emulation/Emulat
 const EmulationSystemsContainer = () => import('components/emulation/EmulationSystemsRomsContainer.vue');
 const EmulationSystemsTabContent = () => import('components/emulation/EmulationSystemsRomsTabSystemsContent.vue');
 const EmulationSystemsTabSystemContent = () => import('components/emulation/EmulationSystemsRomsTabSystemContent.vue');
+
+const VirtualDevicesLayout = () => import('layouts/VirtualDevicesLayout.vue');
+const VirtualKeyboard = () => import('components/virtualdevices/VirtualKeyboard.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -141,6 +145,19 @@ const routes: RouteRecordRaw[] = [
             component: EmulationScreenshotsTabContent,
           },
         ],
+      },
+    ],
+  },
+  {
+    path: '/virtual-devices',
+    name: 'virtual-devices',
+    redirect: { name: 'virtual-devices-keyboard' },
+    component: VirtualDevicesLayout,
+    children: [
+      {
+        path: 'keyboard',
+        name: 'virtual-devices-keyboard',
+        component: VirtualKeyboard,
       },
     ],
   },

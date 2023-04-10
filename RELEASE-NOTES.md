@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-mojozork as Z-Machine core
 - Add libretro-supafaust core for snes
 - Add support for break key for pad2keyboard
+- Add retrobit tribute64 controller configuration
 
 ### Bumps
 

@@ -8,8 +8,9 @@
 #include "components/MenuComponent.h"
 #include <utils/Files.h>
 #include <utils/locale/LocaleHelper.h>
-#include "utils/network/Http.h"
+#include "utils/network/HttpUnxzUntar.h"
 #include <MainRunner.h>
+#include <sys/stat.h>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -26,6 +27,7 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& i
   , mSender(*this)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
+  , mRequest(Path(sDownloadFolder))
 {
   mRebootIn = _("REBOOT IN %s");
   mError = _("Error downloading Recalbox %s... Please retry later!");
@@ -149,31 +151,21 @@ void GuiUpdateRecalbox::Run()
   std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
   if (arch == "xu4") arch = "odroidxu4";
 
-  // Get destination filename
-  std::string destinationFileName = "recalbox-%.img.xz";
-  Strings::ReplaceAllIn(destinationFileName, "%", arch);
-
-  // Download
-  Path destination = Path(sDownloadFolder) / destinationFileName;
-  Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.append(".sha1");
-  { LOG(LogDebug) << "[UpdateGui] Target path " << destination.ToString(); }
-  destination.Delete();
   mTimeReference = DateTime();
-  mRequest.Execute(mImageUrl, destination, this);
-
-  // Control & Reboot
-  if (mTotalSize != 0)
-    if (destination.Size() == mTotalSize)
-    {
-      // Download sha1
-      mRequest.Execute(mSha1Url.append(".sha1"), destinationSha1, this);
-      // Reboot
-      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
-      return;
+  if (mRequest.SimpleExecute(mImageUrl, this))
+  {
+    struct stat sb;
+    // execute pre-upgrade.sh
+    if (stat(PRE_UPGRADE_SCRIPT, &sb) == 0) {
+      std::string cmd = "bash " + std::string(PRE_UPGRADE_SCRIPT);
+      { LOG(LogInfo) << "Executing " << cmd << " script"; }
+      system(cmd.c_str());
     }
+    // Reboot
+    MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
+    return;
+  }
 
-  // Error
-  destination.Delete();
   mSender.Send(-1);
 }
 

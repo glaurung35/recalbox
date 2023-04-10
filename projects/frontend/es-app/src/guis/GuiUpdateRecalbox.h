@@ -12,7 +12,7 @@
 #include <themes/MenuThemeData.h>
 #include <utils/os/system/Thread.h>
 #include <utils/sync/SyncMessageSender.h>
-#include "utils/network/Http.h"
+#include "utils/network/HttpUnxzUntar.h"
 
 class GuiUpdateRecalbox: public Gui
                        , private Thread
@@ -55,10 +55,10 @@ class GuiUpdateRecalbox: public Gui
      * @param currentSize downloaded bytes
      * @param expectedSize total expected bytes
      */
-    void DownloadProgress(const Http& http, long long currentSize, long long expectedSize) override;
+    void DownloadProgress(const Http& http, long long currentSize, long long expectedSize);
 
     //! Http request object
-    Http mRequest;
+    HttpUnxzUntar mRequest;
 
     //! Image Url to download
     std::string mImageUrl;

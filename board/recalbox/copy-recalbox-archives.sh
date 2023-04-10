@@ -83,6 +83,12 @@ generate_boot_file_list() {
   popd >/dev/null
 }
 
+generate_recalbox_tar_xz() {
+  local source_dir="$1"
+  local dest_file="$2"
+	# recalbox.tar.xz (formerly boot.tar.xz)
+	tar -C "$source_dir" -cJf "$dest_file" . 
+}
 
 RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
@@ -96,7 +102,7 @@ mkdir -p "${RECALBOX_BINARIES_DIR}"
 # XU4, RPI1, RPI2 or RPI3
 RECALBOX_TARGET=$(grep -E "^BR2_PACKAGE_RECALBOX_TARGET_[A-Z_0-9]*=y$" "${BR2_CONFIG}" | sed -e s+'^BR2_PACKAGE_RECALBOX_TARGET_\([A-Z_0-9]*\)=y$'+'\1'+)
 
-RECALBOX_TARGET_LOWER=$(echo ${RECALBOX_TARGET} | tr '[:upper:]' '[:lower:]')
+RECALBOX_TARGET_LOWER=$(echo "${RECALBOX_TARGET}" | tr '[:upper:]' '[:lower:]')
 
 RECALBOX_IMG="${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.img"
 
@@ -120,11 +126,8 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
 		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
 
-	# recalbox.tar.xz (formerly boot.tar.xz)
-	tar -C "${BINARIES_DIR}/rpi-firmware" -cJf "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" . ||
-		{ echo "ERROR : unable to create recalbox.tar.xz" && exit 1 ; }
+	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/rpi-firmware/"
 
-	#recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
@@ -164,9 +167,7 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
 		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
-	# boot.tar.xz (unecessary)
-	#tar -C "${BINARIES_DIR}/odroidxu4-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-	#	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidxu4-firmware/"
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -175,8 +176,8 @@ case "${RECALBOX_TARGET}" in
 	echo "generating image"
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	xu4_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
 	sync || exit 1
 	;;
@@ -200,9 +201,7 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
-	# boot.tar.xz (unecessary)
-	# tar -C "${BINARIES_DIR}/odroidgo2-firmware" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-	# 	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidgo2-firmware/"
 
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
@@ -245,6 +244,8 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/rg353x-firmware/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
 
+	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/rg353x-firmware/"
+
 	# recalbox.img
 	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
 	rm -rf "${GENIMAGE_TMP}" || exit 1
@@ -276,9 +277,7 @@ case "${RECALBOX_TARGET}" in
 	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
 		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
 
-	# boot.tar.xz (unecessary)
-	#tar -C "${BINARIES_DIR}/pc-boot" -cJf "${RECALBOX_BINARIES_DIR}/boot.tar.xz" . ||
-	#	{ echo "ERROR : unable to create boot.tar.xz" && exit 1 ; }
+	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/pc-boot/"
 
 	# recalbox.img
 	cp "${TARGET_DIR}/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
@@ -289,8 +288,8 @@ case "${RECALBOX_TARGET}" in
 	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 
         rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-        rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-        rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
+        rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
+        rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
 	sync || exit 1
 	;;
 
@@ -299,6 +298,10 @@ case "${RECALBOX_TARGET}" in
         bash
         exit 1
 esac
+
+# recalbox.tar.xz (formerly boot.tar.xz)
+generate_recalbox_tar_xz "${RECALBOX_FIRMWARE_PATH}" "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" ||
+	{ echo "ERROR : unable to create recalbox.tar.xz" && exit 1 ; }
 
 # Compress the generated .img
 if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then

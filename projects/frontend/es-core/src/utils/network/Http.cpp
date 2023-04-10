@@ -92,6 +92,30 @@ bool Http::Execute(const std::string& url, const Path& output, Http::IDownload* 
   return Execute(url, output);
 }
 
+bool Http::SimpleExecute(const std::string& url, Http::IDownload* interface)
+{
+  mIDownload = interface;
+  if (mHandle != nullptr)
+  {
+    DateTime start;
+    mContentSize = 0;
+    mContentFlushed = 0;
+    mLastReturnCode = 0;
+    mResultFile = Path("/dev/null");
+    DataStart();
+    curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
+    CURLcode res = curl_easy_perform(mHandle);
+    WriteCallback(nullptr, 0, 0, this);
+    curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
+    StoreDownloadInfo(start, DateTime(), mContentSize);
+    bool ok = (res == CURLcode::CURLE_OK);
+    if (ok)
+      DataEnd();
+    return ok;
+  }
+  return false;
+}
+
 size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
 {
   Http& This = *((Http*)userdata);

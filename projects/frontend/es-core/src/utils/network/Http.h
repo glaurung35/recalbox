@@ -63,6 +63,7 @@ class Http
      */
     bool Execute(const std::string& url, const Path& output, IDownload* interface);
 
+    bool SimpleExecute(const std::string& url, IDownload* interface);
     /*!
      * @brief Asynchronously cancel a running request
      */

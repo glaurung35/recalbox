@@ -10,6 +10,7 @@ file(GLOB_RECURSE TESTED_PATH ../es-app/src/games/classifications/*.cpp ../es-co
 set(ALL_TESTED_SOURCES ${TESTED_PATH})
 
 find_package(SDL2 REQUIRED)
+find_package(LibLZMA REQUIRED)
 
 include_directories(
         ${SDL2_INCLUDE_DIR}
@@ -27,4 +28,4 @@ add_executable(
         ${ALL_TESTED_SOURCES}
 )
 
-target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv)
+target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv ${LIBLZMA_LIBRARIES})

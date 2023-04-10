@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 
 - Add recommended info for scrap video selection in menu
+- Improved upgrade method, faster to upgrade and no need to have free space in share anymore
 
 ### Fixes
 

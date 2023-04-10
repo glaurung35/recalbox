@@ -63,6 +63,7 @@ class Http
      */
     bool Execute(const std::string& url, const Path& output, IDownload* interface);
 
+    //bool SimpleExecute(const std::string& url, IDownload* interface);
     /*!
      * @brief Asynchronously cancel a running request
      */
@@ -110,7 +111,7 @@ class Http
      */
     static double GetAverageBandwidth();
 
-  private:
+  protected:
     //! Maximum data kept in memory before flushing to file
     static constexpr int sMaxDataKeptInRam = (2 << 20); // 20Mb
 

@@ -58,6 +58,7 @@ find_package(SDL2MIXER REQUIRED)
 find_package(SDL2 REQUIRED) 
 find_package(CURL REQUIRED)
 find_package(PulseAudio REQUIRED)
+find_package(LibLZMA REQUIRED)
 
 #-------------------------------------------------------------------------------
 #set up compiler flags and excutable names
@@ -147,6 +148,7 @@ set(COMMON_LIBRARIES
     ${CURL_LIBRARIES}
     ${PULSEAUDIO_LIBRARY}
     ${LIBDRM_LIBRARY}
+    ${LIBLZMA_LIBRARIES}
     pugixml
     nanosvg
     liboping

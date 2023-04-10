@@ -89,8 +89,8 @@ class Upgrade: private Thread
 
     //! Get remote version template URL
     static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";
-    //! Image template url
-    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz#EXT#?source=recalbox&uuid=#UUID#";
+    //! Data template url
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.tar.xz#EXT#?source=recalbox&uuid=#UUID#";
     //! Releasenote template url
     static constexpr const char* sReleasenotePatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.releasenotes";
 

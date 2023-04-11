@@ -1,6 +1,10 @@
 <?xml version="1.0"?>
 <inputList>
 	<inputConfig type="joystick" deviceName="Xbox 360 Controller" deviceGUID="030000005e0400008e02000014010000" deviceNbAxes="6" deviceNbHats="1" deviceNbButtons="11">
+		<input name="joystick2up" type="axis" id="4" value="-1" code="4" />
+		<input name="joystick2left" type="axis" id="3" value="-1" code="3" />
+		<input name="joystick1up" type="axis" id="1" value="-1" code="1" />
+		<input name="joystick1left" type="axis" id="0" value="-1" code="0" />
 		<input name="left" type="hat" id="0" value="8" code="16" />
 		<input name="down" type="hat" id="0" value="4" code="16" />
 		<input name="right" type="hat" id="0" value="2" code="16" />

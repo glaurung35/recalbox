@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 
 - Fix crash when using run in background after the end of a scrap
+- Add missing joystick support on GPi Cases
 
 ## Version 9.0.2-Pulstar
 

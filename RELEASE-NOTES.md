@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix crash when using run in background after the end of a scrap
 - Fix TIC80 downloader if any game have never get any update
+- Add missing joystick support on GPi Cases
 
 ## Version 9.0.2-Pulstar
 

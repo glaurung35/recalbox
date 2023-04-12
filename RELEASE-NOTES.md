@@ -4,14 +4,14 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.1-Pulstar
+## Version 9.1-patron
 
 ### Fixes
 
-- Add missing netplay support for sameboy and mgba
 
 ### News
 
+- Add TATE mode support
 - Add support for Anbernic RG353m
 - Add CRT Curved shaders support
 - Add wizard to disable smooth when enabling shaders
@@ -19,13 +19,9 @@ as release notes for end user on a Recalbox upgrade.
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
-- Add libretro-pcsx_rearmed for OGA/OGS
-- Add new category 'Demoscene' in tic80 games downloader.
-- Add neogeocd, picodrive and pcsx_rearmed cores for rrgbd
-- Fix rtype resolution for 31kHz
-- Add new theme for recalbox rgb dual with 240p optimisations
-- Add the possibility to sort games by release date.
+- Add the possibility to sort games by release date
 - Add guncon2 support for CRT tvs
+- New image for RPIZero (first one) and GPiCase2W
 
 ### Improvements
 
@@ -35,15 +31,15 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix crash when using run in background after the end of a scrap
 - Add missing joystick support on GPi Cases
+- Add missing netplay support for sameboy and mgba
 
 ## Version 9.0.2-Pulstar
 
 - Fix black screen on older PC with Intel graphic card
+
 ## Version 9.0.2-Pulstar
 
 ### Fixes
-
-- New image for RPIZero (first one) and GPiCase2W
 
 
 ## Version 9.0.1-Pulstar

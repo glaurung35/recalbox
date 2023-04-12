@@ -53,16 +53,22 @@ export default {
   }),
   mounted() {
     const commonKeyboardOptions = {
-      onChange: (input:string) => {
+      onChange: (input:any) => {
         console.log('onChange', input);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         this.onChange(input);
       },
       onKeyPress: (button:string) => {
         console.log('onKeyPress', button);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         this.onKeyPress(button);
       },
       onKeyReleased: (button:string) => {
         console.log('onKeyReleased', button);
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         this.onKeyReleased(button);
       },
       theme: 'simple-keyboard hg-theme-default hg-layout-default',
@@ -71,6 +77,8 @@ export default {
       mergeDisplay: true,
       debug: false,
     };
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.keyboard = new Keyboard('.simple-keyboard-main', {
       ...commonKeyboardOptions,
       /**
@@ -144,12 +152,12 @@ export default {
         '{KEY52}': '.',
         '{KEY53}': '/',
         '{escape}': 'esc ⎋',
-        '{tab}': 'tab ⇥',
-        '{backspace}': 'backspace ⌫',
+        '{tab}': '⇥',
+        '{backspace}': '⌫',
         '{enter}': 'enter ↵',
-        '{capslock}': 'caps lock ⇪',
-        '{shiftleft}': 'shift ⇧',
-        '{shiftright}': 'shift ⇧',
+        '{capslock}': '⇪',
+        '{shiftleft}': '⇧',
+        '{shiftright}': '⇧',
         '{ctrlleft}': 'ctrl ⌃',
         '{ctrlright}': 'ctrl ⌃',
         '{altleft}': 'alt ⌥',
@@ -206,6 +214,8 @@ export default {
         '{SKEY53}': '?',
       },
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.keyboardControlPad = new Keyboard('.simple-keyboard-control', {
       ...commonKeyboardOptions,
       layout: {
@@ -215,12 +225,16 @@ export default {
         ],
       },
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.keyboardArrows = new Keyboard('.simple-keyboard-arrows', {
       ...commonKeyboardOptions,
       layout: {
         default: ['{arrowup}', '{arrowleft} {arrowdown} {arrowright}'],
       },
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.keyboardNumPad = new Keyboard('.simple-keyboard-numpad', {
       ...commonKeyboardOptions,
       layout: {
@@ -233,6 +247,8 @@ export default {
         ],
       },
     });
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     this.keyboardNumPadEnd = new Keyboard('.simple-keyboard-numpadEnd', {
       ...commonKeyboardOptions,
       layout: {
@@ -244,10 +260,14 @@ export default {
     });
   },
   methods: {
-    onChange(input:string) {
+    onChange(input:any) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.$emit('onChange', input);
     },
-    onKeyPress(button:string) {
+    onKeyPress(button:any) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.$emit('onKeyPress', button);
 
       /**
@@ -260,7 +280,9 @@ export default {
         || button === '{capslock}'
       ) { this.handleShift(); }
     },
-    onKeyReleased(button:string) {
+    onKeyReleased(button:any) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.$emit('onKeyReleased', button);
 
       /**
@@ -273,16 +295,21 @@ export default {
       ) { this.handleShift(); }
     },
     handleShift() {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       const currentLayout = this.keyboard.options.layoutName;
       const shiftToggle = currentLayout === 'default' ? 'shift' : 'default';
-
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.keyboard.setOptions({
         layoutName: shiftToggle,
       });
     },
   },
   watch: {
-    input(input:string) {
+    input(input:any) {
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
       this.keyboard.setInput(input);
     },
   },
@@ -301,6 +328,9 @@ export default {
 
   .hg-button
     height: 6em
+
+    span
+      font-size: 20px
 
   .keyboard-container
     display: flex

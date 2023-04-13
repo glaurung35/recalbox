@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-parallel-n64
 - Add game downloader for WASM4 system
 - Add libretro-wasm4 for new system Wasm4
+- Add libretro-supafaust core for snes
 
 ### Improvements
 

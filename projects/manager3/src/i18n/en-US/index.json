@@ -340,7 +340,6 @@
           "label": "Custom shader"
         },
         "integerscale": {
-          "title": "Integer scale",
           "label": "Enables pixel perfect",
           "help": "Activate the \"Pixel Perfect\" image scaling mode which is to get the exact rendering of the games on a modern screen."
         },

@@ -22,7 +22,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'monitoring',
     'media',
   ];
-
+  console.log(context.store._apiProvider);
   if (allowedStores.includes(context.store.$id)) {
     return {
       async fetch() {

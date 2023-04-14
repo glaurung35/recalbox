@@ -103,5 +103,17 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     'vue/no-v-text-v-html-on-component': 'off',
-  }
+  },
+
+  // add jest config
+  overrides: [
+    {
+      "files": [
+        "**/*.spec.ts"
+      ],
+      "env": {
+        "jest": true
+      }
+    }
+  ]
 }

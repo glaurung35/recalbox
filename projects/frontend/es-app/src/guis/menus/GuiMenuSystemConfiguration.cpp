@@ -91,8 +91,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
   std::vector<ListEntry<std::string>> list;
 
   std::string currentShader = RecalboxConf::Instance().GetSystemShaderSet(mSystem);
-  if (currentShader.empty() || !Strings::Contains("|none|scanlines|retro|", std::string(1, '|').append(currentShader).append(1, '|'))) currentShader = "none";
+  if (currentShader.empty() || !Strings::Contains("|none|scanlines|retro|crtcurved|", std::string(1, '|').append(currentShader).append(1, '|'))) currentShader = "none";
   list.push_back({ _("NONE"), "none", currentShader == "none" });
+  list.push_back({ _("CRT CURVED"), "crtcurved", currentShader == "crtcurved" });
   list.push_back({ _("SCANLINES"), "scanlines", currentShader == "scanlines" });
   list.push_back({ _("RETRO"), "retro", currentShader == "retro" });
 

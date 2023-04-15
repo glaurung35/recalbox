@@ -2,13 +2,10 @@
 // Created by bkg2k on 13/11/2019.
 //
 #include <utils/locale/LocaleHelper.h>
-#include <utils/os/fs/Path.h>
 #include <utils/Log.h>
 #include <utils/Files.h>
-#include <utils/locale/Internationalizer.h>
 #include <audio/AudioManager.h>
 #include <views/ViewController.h>
-#include <systems/SystemManager.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <VideoEngine.h>
 #include <guis/GuiDetectDevice.h>
@@ -667,12 +664,14 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
 
 void MainRunner::HeadphonePluggedIn(BoardType board)
 {
+  (void)board;
   { LOG(LogInfo) << "[Audio] Headphones plugged!"; }
   Board::Instance().HeadphonePlugged();
 }
 
 void MainRunner::HeadphoneUnplugged(BoardType board)
 {
+  (void)board;
   { LOG(LogInfo) << "[Audio] Headphones unplugged!"; }
   Board::Instance().HeadphoneUnplugged();
 }
@@ -834,6 +833,7 @@ void MainRunner::VolumeIncrease(BoardType board, float percent)
 
 void MainRunner::BrightnessDecrease(BoardType board, float percent)
 {
+  (void)percent;
   (void)board;
   int value = RecalboxConf::Instance().GetBrightness() - 1;
   value = Math::clampi(value, 0, 8);
@@ -844,6 +844,7 @@ void MainRunner::BrightnessDecrease(BoardType board, float percent)
 
 void MainRunner::BrightnessIncrease(BoardType board, float percent)
 {
+  (void)percent;
   (void)board;
   int value = RecalboxConf::Instance().GetBrightness() + 1;
   value = Math::clampi(value, 0, 8);
@@ -948,7 +949,7 @@ bool MainRunner::Execute(GuiWaitLongExecution<USBInitialization, bool>& from, co
   switch(parameter.Action())
   {
     case USBInitializationAction::None: break;
-    case USBInitializationAction::OnlyRomFolders: return SystemManager::CreateRomFoldersIn(parameter.Device()); break;
+    case USBInitializationAction::OnlyRomFolders: return SystemManager::CreateRomFoldersIn(parameter.Device());
     case USBInitializationAction::CompleteShare:
     {
       struct

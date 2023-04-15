@@ -6,7 +6,6 @@
 
 #include "PulseAudioController.h"
 #include <pulse/pulseaudio.h>
-#include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 #include <utils/math/Misc.h>
 #include <RecalboxConf.h>
@@ -408,7 +407,8 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
 
 void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& list)
 {
-  switch(Board::Instance().GetBoardType())
+  (void)list;
+  /*switch(Board::Instance().GetBoardType())
   {
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
@@ -430,7 +430,7 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
     case BoardType::PCx86:
     case BoardType::PCx64:
     default: break;
-  }
+  }*/
 }
 
 IAudioController::DeviceList PulseAudioController::GetPlaybackList()
@@ -1136,6 +1136,7 @@ const PulseAudioController::Card* PulseAudioController::GetCardByIndex(int index
 
 std::string PulseAudioController::GetPortDescription(const pa_sink_port_info& info, AudioIcon& icon)
 {
+  (void)icon;
   std::string result = info.description;
   std::string low(Strings::ToLowerASCII(result));
 
@@ -1169,6 +1170,7 @@ std::string PulseAudioController::GetPortDescription(const pa_sink_port_info& in
 
 std::string PulseAudioController::GetPortDescription(const pa_card_port_info& info, AudioIcon& icon)
 {
+  (void)icon;
   std::string result = info.description;
   std::string low(Strings::ToLowerASCII(result));
 

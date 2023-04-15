@@ -286,22 +286,22 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Direct Implementations
      */
 
-    bool GetCollection(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name), false); }
+    [[nodiscard]] bool GetCollection(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name), false); }
     RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name), on); return *this; }
 
-    std::string GetCollectionTheme(const std::string& name) const { return AsString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), std::string("auto-").append(name)); }
+    [[nodiscard]] std::string GetCollectionTheme(const std::string& name) const { return AsString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), std::string("auto-").append(name)); }
     RecalboxConf& SetCollectionTheme(const std::string& name, const std::string& value) { SetString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), value); return *this; }
 
-    int GetCollectionLimit(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), 0); }
+    [[nodiscard]] int GetCollectionLimit(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), 0); }
     RecalboxConf& SetCollectionLimit(const std::string& name, int limit) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), limit); return *this; }
 
-    int GetCollectionPosition(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), 0); }
+    [[nodiscard]] int GetCollectionPosition(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), 0); }
     RecalboxConf& SetCollectionPosition(const std::string& name, int position) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), position); return *this; }
 
-    bool GetCollectionHide(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), false); }
+    [[nodiscard]] bool GetCollectionHide(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), false); }
     RecalboxConf& SetCollectionHide(const std::string& name, bool hide) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), hide); return *this; }
 
-    std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
+    [[nodiscard]] std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
     RecalboxConf& SetPad(int index, const std::string& padid) { SetString(std::string(sPadHeader).append(Strings::ToString(index)), padid); return *this; }
 
     /*
@@ -319,7 +319,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
     static constexpr const char* sDisplayByFileName          = "displaybyfilename";
-    static constexpr const char* sDisplayGameRegions         = "displayGameRegions";
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";
@@ -404,6 +403,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sShowHidden                 = "emulationstation.showhidden";
     static constexpr const char* sShowOnlyLatestVersion      = "emulationstation.showonlylatestversion";
     static constexpr const char* sHideNoGames                = "emulationstation.hidenogames";
+    static constexpr const char* sDisplayGameRegions         = "emulationstation.displaygameregions";
 
     static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
 

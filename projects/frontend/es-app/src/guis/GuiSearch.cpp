@@ -19,14 +19,14 @@
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
 GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, SearchForcedOptions* forcedOptions)
-		: Gui(window),
-		  mSystemManager(systemManager),
-		  mBackground(window, Path(":/frame.png")),
-		  mGrid(window, Vector2i(3, 3)),
-		  mList(nullptr),
-      mJustOpen(true),
-      mForcedOptions(false),
-      mFullMatch(false)
+  : Gui(window)
+  , mSystemManager(systemManager)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(3, 3))
+  , mList(nullptr)
+  , mFullMatch(false)
+  , mForcedOptions(false)
+  , mJustOpen(true)
 {
 
   if (forcedOptions != nullptr)
@@ -68,6 +68,12 @@ void GuiSearch::initGridsNStuff()
     {
       case FolderData::FastSearchContext::Alias:  title = _("Games") + ": " + mForcedSearch; break;
       case FolderData::FastSearchContext::Family:  title = _("Games of licence") + ": " + mForcedSearch; break;
+      case FolderData::FastSearchContext::Path:
+      case FolderData::FastSearchContext::Name:
+      case FolderData::FastSearchContext::Description:
+      case FolderData::FastSearchContext::Developer:
+      case FolderData::FastSearchContext::Publisher:
+      case FolderData::FastSearchContext::All:
       default: break;
     }
   }

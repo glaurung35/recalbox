@@ -23,7 +23,7 @@ export const useMediaStore = defineStore('media', {
     screenshots: (state) => {
       const result: Array<object> = [];
 
-      Object.keys(state.media.mediaList).forEach((key) => {
+      Object.keys(state.media.mediaList).forEach((key:string):void => {
         if (key.includes('screenshot-')) {
           const name:string = key.substring(11).substring(0, 24);
           const formattedDate:string = date.formatDate(
@@ -44,7 +44,7 @@ export const useMediaStore = defineStore('media', {
   },
 
   actions: {
-    async takeScreenshot() {
+    async takeScreenshot():Promise<void> {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -55,7 +55,7 @@ export const useMediaStore = defineStore('media', {
         console.log(error);
       }
     },
-    async delete(screenshotName: string) {
+    async delete(screenshotName: string):Promise<void> {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

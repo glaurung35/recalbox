@@ -20,7 +20,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
 
   if (allowedStores.includes(context.store.$id)) {
     return {
-      async post(data: Record<string, unknown>) {
+      async post(data: Record<string, unknown>):Promise<void> {
         try {
           const response = await context.store._apiProvider.post(context.store._baseUrl, data);
           context.store[context.store.$id] = response.data;

@@ -83,6 +83,13 @@
         </template>
 
         <template v-slot:top-right>
+          <q-btn
+            class="refreshButton"
+            color="accent"
+            icon="mdi-refresh"
+            outline
+            @click="refresh"
+          />
           <q-input
             :placeholder="$t('general.tables.searchLabel')"
             debounce="300"
@@ -382,6 +389,10 @@ const filteredBiosList = computed(() => {
 
   return list;
 });
+
+function refresh() {
+  biosStore.fetch();
+}
 //   methods: {
 //     openUpload() {
 //       this.$root.$emit('open-upload', 'bios');
@@ -412,6 +423,9 @@ const filteredBiosList = computed(() => {
 
   .addButton
     margin-left: 16px
+
+  .refreshButton
+    margin-right: 16px
 
   @media(max-width: 700px)
     .search

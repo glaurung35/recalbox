@@ -19,14 +19,14 @@
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
 GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager, SearchForcedOptions* forcedOptions)
-		: Gui(window),
-		  mSystemManager(systemManager),
-		  mBackground(window, Path(":/frame.png")),
-		  mGrid(window, Vector2i(3, 3)),
-		  mList(nullptr),
-      mJustOpen(true),
-      mForcedOptions(false),
-      mFullMatch(false)
+  : Gui(window)
+  , mSystemManager(systemManager)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(3, 3))
+  , mList(nullptr)
+  , mFullMatch(false)
+  , mForcedOptions(false)
+  , mJustOpen(true)
 {
 
   if (forcedOptions != nullptr)
@@ -68,6 +68,12 @@ void GuiSearch::initGridsNStuff()
     {
       case FolderData::FastSearchContext::Alias:  title = _("Games") + ": " + mForcedSearch; break;
       case FolderData::FastSearchContext::Family:  title = _("Games of licence") + ": " + mForcedSearch; break;
+      case FolderData::FastSearchContext::Path:
+      case FolderData::FastSearchContext::Name:
+      case FolderData::FastSearchContext::Description:
+      case FolderData::FastSearchContext::Developer:
+      case FolderData::FastSearchContext::Publisher:
+      case FolderData::FastSearchContext::All:
       default: break;
     }
   }
@@ -87,24 +93,14 @@ void GuiSearch::initGridsNStuff()
   //init search option selector
   mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"),
                                                                                          false);
-  FolderData::FastSearchContext currentSearch = FolderData::FastSearchContext::Name;
-
-  mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name,
-                      currentSearch == FolderData::FastSearchContext::Name);
-  mSearchChoices->add(_("Description"), FolderData::FastSearchContext::Description,
-                      currentSearch == FolderData::FastSearchContext::Description);
-  mSearchChoices->add(_("DEVELOPER"), FolderData::FastSearchContext::Developer,
-                      currentSearch == FolderData::FastSearchContext::Developer);
-  mSearchChoices->add(_("PUBLISHER"), FolderData::FastSearchContext::Publisher,
-                      currentSearch == FolderData::FastSearchContext::Publisher);
-  mSearchChoices->add(_("FILENAME"), FolderData::FastSearchContext::Path,
-                      currentSearch == FolderData::FastSearchContext::Path);
-  mSearchChoices->add(_("Alias"), FolderData::FastSearchContext::Alias,
-                      currentSearch == FolderData::FastSearchContext::Alias);
-  mSearchChoices->add(_("Family"), FolderData::FastSearchContext::Family,
-                      currentSearch == FolderData::FastSearchContext::Family);
-  mSearchChoices->add(_("ALL"), FolderData::FastSearchContext::All,
-                      currentSearch == FolderData::FastSearchContext::All);
+  mSearchChoices->add(_("Name"), FolderData::FastSearchContext::Name, true);
+  mSearchChoices->add(_("Description"), FolderData::FastSearchContext::Description, false);
+  mSearchChoices->add(_("DEVELOPER"), FolderData::FastSearchContext::Developer, false);
+  mSearchChoices->add(_("PUBLISHER"), FolderData::FastSearchContext::Publisher, false);
+  mSearchChoices->add(_("FILENAME"), FolderData::FastSearchContext::Path, false);
+  mSearchChoices->add(_("Alias"), FolderData::FastSearchContext::Alias, false);
+  mSearchChoices->add(_("Family"), FolderData::FastSearchContext::Family, false);
+  mSearchChoices->add(_("ALL"), FolderData::FastSearchContext::All, false);
 
   mSearchChoices->setChangedCallback([this]
                                      {

@@ -127,7 +127,7 @@ void BasicGameListView::populateList(const FolderData& folder)
 
   std::string wantedAlias = RecalboxConf::Instance().GetSystemSiblingsOnly(mSystem);
   for (FileData* fd : items)
-	{
+  {
     if (!wantedAlias.empty() && fd->Metadata().Alias() != wantedAlias)
       continue;
 
@@ -136,12 +136,12 @@ void BasicGameListView::populateList(const FolderData& folder)
   	if (activeRegionFiltering)
   	  if (!Regions::IsIn4Regions(fd->Metadata().Region().Pack, currentRegion))
   	    colorIndexOffset = 2;
-    // Store
+      // Store
 		mList.add(GetDisplayName(fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
 		// Attribute analysis
 		if (fd->IsGame() && fd->Metadata().GenreId() != GameGenres::None)
       mHasGenre = true;
-	}
+  }
 }
 
 FileData::List BasicGameListView::getFileDataList()

@@ -228,3 +228,36 @@ def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_wi
     commandLine: Command = emulator.generate(system_gb_with_overlays, controller_configuration, recalbox_conf,
                                              Arguments('path/to/rom'))
     assert "/recalbox/share_init/240poverlays/gb/gb.cfg" in commandLine.array[6]
+
+
+def test_sgb_enabled_configure_core_for_sgb(mocker, emulator, controller_configuration):
+    recalbox_conf = keyValueSettings("", True)
+
+    gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", "",sgb=True))
+
+    emulator.generate(gb, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    retroarchConf = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'aspect_ratio_index = "22"' in retroarchConf
+    assert 'mgba_gb_model = "Super Game Boy"' in coreConf
+    assert 'mgba_sgb_borders = "ON"' in coreConf
+    assert 'mesen-s_gbmodel = "Super Game Boy"' in coreConf
+
+def test_sgb_disabled_configure_core_for_sgb(mocker, emulator, controller_configuration):
+    recalbox_conf = keyValueSettings("", True)
+    recalbox_conf.setString("global.ratio", "auto")
+    gb = Emulator(name='gb', videoMode='1920x1080', ratio='auto', emulator='libretro', core='gb')
+    gb.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", "", sgb=False))
+
+    emulator.generate(gb, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    retroarchConf = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'aspect_ratio_index' not in retroarchConf
+    assert 'mgba_gb_model = "Autodetect"' in coreConf
+    assert 'mgba_sgb_borders = "OFF"' in coreConf
+    assert 'mesen-s_gbmodel = "Auto"' in coreConf

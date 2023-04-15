@@ -54,6 +54,8 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   // Shaders
   if(!isCrt)
     mShaders = AddList<std::string>(_("ADVANCED SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+  // Super GameBoy
+  mSuperGameBoy = AddList<std::string>(_("GAME BOY MODE"), (int)Components::SuperGameBoy, this, GetSuperGameBoyEntries(), _(MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG));
 
 
   // Retroachievements
@@ -88,6 +90,17 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaders
   for (const GuiMenuTools::Shader& shader : shaderList)
     list.push_back({ shader.Displayable, shader.ShaderPath.ToString(), currentShader == shader.ShaderPath.ToString() });
 
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSuperGameBoyEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+
+  std::string currentOption = RecalboxConf::Instance().GetSuperGameBoy();
+  list.push_back({ _("GAME BOY"), "gb", currentOption == "gb" });
+  list.push_back({ _("SUPER GAME BOY"), "sgb", currentOption == "sgb" });
+  list.push_back({ _("ASK AT LAUNCH"), "ask", currentOption == "ask" });
   return list;
 }
 
@@ -147,6 +160,10 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const st
                                     _("YES"), std::bind(&GuiMenuGameSettings::ChangeShadersOptions, this)));
     }
     RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
+  }
+  else if ((Components)id == Components::SuperGameBoy)
+  {
+    RecalboxConf::Instance().SetSuperGameBoy(value).Save();
   }
 }
 

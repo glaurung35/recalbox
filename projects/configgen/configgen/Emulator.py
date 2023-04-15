@@ -59,6 +59,7 @@ class ExtraArguments:
      verticalgame: bool = False
      crtsuperrez: str = "original"
      crtv2: bool = False
+     sgb: bool = False
 
 
 class Emulator:
@@ -126,6 +127,9 @@ class Emulator:
 
         # Computed vars
         self._netplay: bool = False
+
+        # Other Args
+        self._sgb: bool = False
 
     def __guessBestStringValue(self, recalboxConf: keyValueSettings, key: str, defaultValue: str) -> str:
         return recalboxConf.getString(self._name + '.' + key,
@@ -210,6 +214,9 @@ class Emulator:
 
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
+
+        # Other Args
+        self._sgb: bool = arguments.sgb
 
         # Video mode direct override
         from configgen.utils.architecture import Architecture
@@ -427,3 +434,6 @@ class Emulator:
 
     @property
     def VerticalGame(self) -> bool: return self._verticalgame
+
+    @property
+    def SuperGameBoy(self) -> bool: return self._sgb

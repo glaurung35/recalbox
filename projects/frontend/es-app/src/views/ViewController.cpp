@@ -530,23 +530,41 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
   else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "select"
           && !mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
   {
-    static int lastChoice = 0;
+    static int lastSoftPatchingChoice = 0;
     mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow,
                                                       *game,
                                                       patches,
-                                                      lastChoice,
+                                                      lastSoftPatchingChoice,
                                                       [this, game, &cameraTarget]
                                                       {
                                                         mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
                                                         LaunchCheck(game, cameraTarget, true);
-                                                        lastChoice = 0;
+                                                        lastSoftPatchingChoice = 0;
                                                       },
                                                       [this, game, &cameraTarget](const Path& path) -> void
                                                       {
                                                         mGameLinkedData.ConfigurablePatch().SetPatchPath(path);
                                                         LaunchCheck(game, cameraTarget, true);
-                                                        lastChoice = 1;
+                                                        lastSoftPatchingChoice = 1;
                                                       }));
+    return;
+  }
+
+  // SuperGameBoy choice
+  if(mGameLinkedData.SuperGameBoy().ShouldAskForSuperGameBoy(game->System()))
+  {
+    static int lastGBChoice = 0;
+    mWindow.pushGui(new GuiCheckMenu(mWindow,
+                                     _("GameBoy Mode"),
+                                     game->Name(),
+                                     lastGBChoice,
+                                     "GameBoy",
+                                     "Start the game standard Game Boy mode",
+                                     [this, game, &cameraTarget] { mGameLinkedData.ConfigurableSuperGameBoy().Enable(false); LaunchCheck(game, cameraTarget, true); lastGBChoice = 0; },
+                                     "SuperGameBoy",
+                                     "Start the game in Super Game Boy mode",
+                                     [this, game, &cameraTarget] { mGameLinkedData.ConfigurableSuperGameBoy().Enable(true); LaunchCheck(game, cameraTarget, true); lastGBChoice = 1; }
+    ));
     return;
   }
 

@@ -103,7 +103,6 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   Strings::ReplaceAllIn(command, "%BASENAME%", basename);
   Strings::ReplaceAllIn(command, "%ROM_RAW%", path.ToString());
   Strings::ReplaceAllIn(command, "%EMULATOR%", emulator.Emulator());
-  Strings::ReplaceAllIn(command, "%CORE%", core);
   Strings::ReplaceAllIn(command, "%RATIO%", game.Metadata().RatioAsString());
   Strings::ReplaceAllIn(command, "%NETPLAY%", NetplayOption(game, data.NetPlay()));
   Strings::ReplaceAllIn(command, "%CRT%", BuildCRTOptions(data.Crt(), RotationManager::ShouldRotateGame(game), demo));
@@ -144,6 +143,14 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
       command.append(" -ups ").append(patchPAthEscaped);
     }
   }
+  if(data.SuperGameBoy().Enabled())
+  {
+    command.append(" -sgb ");
+    Strings::ReplaceAllIn(command, "%CORE%", data.SuperGameBoy().Core());
+  }
+  else
+    Strings::ReplaceAllIn(command, "%CORE%", core);
+
   return command;
 }
 

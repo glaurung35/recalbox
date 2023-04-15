@@ -85,10 +85,7 @@ class GameLinkedData
 
     PatchData mPatchData;
 
-<<<<<<< HEAD
     //! SuperGameBoyData
     SuperGameBoyData mSuperGameBoyData;
-=======
     SaveStateData mSaveSateData;
->>>>>>> 1ee6ff7e06 (feat(frontend): allow to run a game directly from savestate slot)
 };

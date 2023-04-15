@@ -45,7 +45,8 @@ class LibretroGenerator(Generator):
     def processOverlays(system: Emulator, romName: str, configs: List[str], recalboxOptions: keyValueSettings):
         import os.path
         # tate mode do not support overlay
-        if system.Rotation:
+        # If we are on super game boy mode, we do not enable overlays
+        if system.Rotation or system.SuperGameBoy:
             return
         # If we are in crt mode, we only allow recalbox default 240p overlays
         if system.CRTEnabled:
@@ -209,6 +210,17 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
 
+    @staticmethod
+    def createSuperGameBoyConfiguration(system: Emulator, retroarchConfig: keyValueSettings, coreConfig: keyValueSettings):
+        coreConfig.setString("mgba_sgb_borders", '"OFF"')
+        coreConfig.setString("mgba_gb_model", '"Autodetect"')
+
+        if system.Name in ["gb", "gbc"] and system.SuperGameBoy:
+            retroarchConfig.setString("aspect_ratio_index", '"22"')
+            coreConfig.setString("mgba_sgb_borders", '"ON"')
+            coreConfig.setString("mgba_gb_model", '"Super Game Boy"')
+        retroarchConfig.saveFile()
+        coreConfig.saveFile()
     # Create configuration file
     @staticmethod
     def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool,
@@ -233,6 +245,9 @@ class LibretroGenerator(Generator):
         for option in tateCoreConfig.items():
             coreConfig.setString(option[0], option[1])
         coreConfig.saveFile()
+
+        # Supergameboy config, core is selected by ES. Overlays are processed after that so there is a specific rule in it
+        LibretroGenerator.createSuperGameBoyConfiguration(system, retroarchConfig, coreConfig)
 
         # crt config (should be after tate as it will change ratio but keep other tate config)
         if system.CRTEnabled:

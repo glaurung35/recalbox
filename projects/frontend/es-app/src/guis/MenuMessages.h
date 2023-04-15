@@ -38,6 +38,7 @@ class MenuMessages
     "AUTO: auto apply default patch\n\n" \
     "SELECT: choose manually which patch to apply. Default one or patchs in [ROM_NAME]-patches directory\n\n" \
     "DISABLED: never apply patch"
+    #define MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG "Set the Super GameBoy mode for GameBoy games."
 
     #define MENUMESSAGE_RA_ONOFF_HELP_MSG "Enable or disable RetroAchievements in games."
     #define MENUMESSAGE_RA_HARDCORE_HELP_MSG "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."

@@ -147,4 +147,11 @@ class EmulatorManager : public INoCopy
      * @return Core list
      */
     Strings::Vector GetCores(const SystemData& system, const std::string& emulator) const;
+
+    /*!
+     * @brief Check if the user had overloaded the emulator or core in any configuration
+     * @param game FileData to check against emulator/code
+     * @return True if any of emulator/core has been overloaded in any config file
+    */
+    bool ConfigOverloaded(const FileData& game) const;
 };

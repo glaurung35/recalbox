@@ -73,11 +73,12 @@
             >
               <span v-if="col.name === 'rating'">
                 <q-rating
-                  :value="col.value"
+                  v-model="col.value"
                   class=“no-shadow”
-                  color="primary"
+                  color="accent"
                   readonly
                   size="1em"
+                  icon="stars"
                 />
               </span>
               <span v-else>

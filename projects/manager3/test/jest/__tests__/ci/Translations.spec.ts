@@ -20,8 +20,6 @@ const getKeys = (list, folder) => R.reduce(
   (acc, file) => R.assoc(
     file,
     toKeysObject(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       jest.requireActual(`../../../../src/i18n/${folder}/${file}`),
     ),
     acc,
@@ -30,18 +28,12 @@ const getKeys = (list, folder) => R.reduce(
   list,
 );
 
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
 describe('Locales tests', ():void => {
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
   it('all locales should have same keys', async ():Promise<void> => {
     const folders:string[] = await readdir('src/i18n');
     const filteredFolders:string[] = folders.filter((value:string):boolean => value !== 'index.ts');
 
     // we expect to have at least several languages
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
     expect(filteredFolders.length).toBeGreaterThan(1);
 
     // testing that each translation folder have the same translation file
@@ -82,8 +74,6 @@ describe('Locales tests', ():void => {
       // @ts-ignore
       R.forEach(([file, keys]):void => {
         try {
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           expect(keys).toStrictEqual(
             translationKeys[lnCodeRef][file],
           );

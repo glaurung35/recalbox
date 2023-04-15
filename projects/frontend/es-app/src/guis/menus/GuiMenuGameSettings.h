@@ -42,6 +42,7 @@ class GuiMenuGameSettings : public GuiMenuBase
       ShaderSet,
       RetroAchivements,
       Netplay,
+      SuperGameBoy
     };
 
     //! System manager
@@ -67,6 +68,8 @@ class GuiMenuGameSettings : public GuiMenuBase
     std::shared_ptr<OptionListComponent<std::string>> mShaders;
     //! Shader Set
     std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
+    //! Super GameBoy options
+    std::shared_ptr<OptionListComponent<std::string>> mSuperGameBoy;
 
     //! Get Ratio List
     static std::vector<ListEntry<std::string>> GetRatioEntries();
@@ -76,6 +79,9 @@ class GuiMenuGameSettings : public GuiMenuBase
     static std::vector<ListEntry<std::string>> GetSoftpatchingEntries();
     //! Get shader sets List
     static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
+    //! Get shader sets List
+    static std::vector<ListEntry<std::string>> GetSuperGameBoyEntries();
+
 
     //! Change options when enabling shaders
     void ChangeShadersOptions();

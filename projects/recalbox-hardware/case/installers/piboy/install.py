@@ -1,6 +1,7 @@
 import os
 import logger
 import shutil
+import subprocess
 from filemanipulation import sed, stripline
 from installers.base.install import InstallBase
 from settings import keyValueSettings
@@ -24,6 +25,8 @@ class Install(InstallBase):
     def InstallHardware(self, case):
 
         logger.hardlog("Installing PiBoy DMG hardware")
+        # load module now, or piboy may shutdown
+        subprocess.run(['modprobe', 'xpi_gamecon'])
 
         try:
             os.system("mount -o remount,rw /boot")

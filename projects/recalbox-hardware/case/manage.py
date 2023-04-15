@@ -124,8 +124,6 @@ def DetectPiBoyCase():
         logger.hardlog(f"status = {status}")
         if status in (70, 198):
             case = cases.PIBOY
-            # load module now, or piboy may shutdown
-            subprocess.run(['modprobe', 'xpi_gamecon'])
     except:
         pass
     return case
@@ -154,10 +152,10 @@ def Identify(previousCase):
     if board in ("rpi4", "rpi4_64"):
         case = DetectNesPi4Case()
 
-    if board in ("rpi4", "rpi4_64") and case == cases.NONE:
+    if board in ("rpi4", "rpi4_64") and case in (cases.NONE, cases.GPI2):
         case = DetectGPiCase2()
 
-    if board in ("rpi3", "rpi4", "rpi4_64") and case == cases.NONE:
+    if board in ("rpi3", "rpi4", "rpi4_64") and case in (cases.NONE, cases.PIBOY):
         case = DetectPiBoyCase()
 
     return case

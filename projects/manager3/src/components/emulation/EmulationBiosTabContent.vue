@@ -25,6 +25,7 @@
             size="md"
           >
             <q-tooltip
+              class="bg-primary"
               :offset="[10, 10]"
               content-class="bg-primary"
               content-style="font-size: 16px"
@@ -41,6 +42,7 @@
             size="md"
           >
             <q-tooltip
+              class="bg-primary"
               :offset="[10, 10]"
               content-class="bg-primary"
               content-style="font-size: 16px"
@@ -57,6 +59,7 @@
             size="md"
           >
             <q-tooltip
+              class="bg-primary"
               :offset="[10, 10]"
               content-class="bg-primary"
               content-style="font-size: 16px"
@@ -73,6 +76,7 @@
             size="md"
           >
             <q-tooltip
+              class="bg-primary"
               :offset="[10, 10]"
               content-class="bg-primary"
               content-style="font-size: 16px"
@@ -89,7 +93,16 @@
             icon="mdi-refresh"
             outline
             @click="refresh"
-          />
+          >
+            <q-tooltip
+              class="bg-primary"
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
+              {{ $t('emulation.bios.tooltips.refresh.label') }}
+            </q-tooltip>
+          </q-btn>
           <q-input
             :placeholder="$t('general.tables.searchLabel')"
             debounce="300"
@@ -192,6 +205,7 @@
               <span v-else-if="col.name === 'valid' && col.value === 'Green'">
                 <q-icon color="positive" name="mdi-checkbox-marked-circle-outline" size="sm">
                   <q-tooltip
+                    class="bg-primary"
                     :offset="[10, 10]"
                     content-class="bg-primary"
                     content-style="font-size: 16px"
@@ -203,6 +217,7 @@
               <span v-else-if="col.name === 'valid' && col.value === 'Yellow'">
                 <q-icon color="orange-4" name="mdi-checkbox-marked-circle-outline" size="sm">
                   <q-tooltip
+                    class="bg-primary"
                     :offset="[10, 10]"
                     content-class="bg-primary"
                     content-style="font-size: 16px"
@@ -214,6 +229,7 @@
               <span v-else-if="col.name === 'valid' && col.value === 'Red'">
                 <q-icon color="negative" name="mdi-checkbox-marked-circle-outline" size="sm">
                   <q-tooltip
+                    class="bg-primary"
                     :offset="[10, 10]"
                     content-class="bg-primary"
                     content-style="font-size: 16px"
@@ -233,6 +249,7 @@
 <!--                  @click="openConfirm(col.value)"-->
 <!--                >-->
 <!--                  <q-tooltip-->
+<!--                    class="bg-primary"-->
 <!--                    :offset="[10, 10]"-->
 <!--                    content-class="bg-primary"-->
 <!--                    content-style="font-size: 16px"-->

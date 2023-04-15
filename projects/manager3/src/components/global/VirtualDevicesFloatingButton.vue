@@ -17,7 +17,7 @@
       @click="show(true)"
       :disable="!system['virtual-gamepads.enabled']?.value"
     >
-      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+      <q-tooltip class="bg-primary" anchor="top middle" self="bottom middle" :offset="[10, 10]">
         {{ $t('general.virtualDevices.tooltip') }}
       </q-tooltip>
     </q-btn>

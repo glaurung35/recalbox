@@ -467,6 +467,9 @@
         },
         "greenFilter": {
           "label": "Filter valid BIOS"
+        },
+        "refresh": {
+          "label": "Refresh list"
         }
       },
       "help": {

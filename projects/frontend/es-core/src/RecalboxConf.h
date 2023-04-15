@@ -251,6 +251,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
+    DefineGetterSetter(SuperGameBoy, std::string, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
     /*
@@ -487,6 +488,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sDebugLogs                  = "emulationstation.debuglogs";
 
     static constexpr const int sNetplayDefaultPort           = 55435;
+
+    static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
 
   private:
     /*

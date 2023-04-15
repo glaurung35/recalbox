@@ -259,6 +259,12 @@ class SystemData : private INoCopy
      * @return excludes Filter
      */
     [[nodiscard]] FileData::Filter Excludes() const;
+
+    /*!
+     * @brief Get excludes filter
+     * @return excludes Filter
+     */
+    bool IsGameBoy() const { return (Name() == "gb") || (Name() == "gbc"); }
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

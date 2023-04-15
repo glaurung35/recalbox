@@ -212,6 +212,14 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   }
 }
 
+bool EmulatorManager::ConfigOverloaded(const FileData& game) const
+{
+  std::string defaultEmulator, defaultCore, gameEmulator, gameCore;
+  GetSystemDefaultEmulator(game.System(), defaultEmulator, defaultCore);
+  GetGameEmulator(game, gameEmulator, gameCore);
+  return !(defaultEmulator == gameEmulator && defaultCore == gameCore);
+}
+
 bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const
 {
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));

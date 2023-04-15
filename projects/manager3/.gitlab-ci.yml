@@ -4,9 +4,8 @@
 image: node:18.15.0
 
 stages:
-  - Setup
+  - CI Setup
   - Validation
-  - Tests
 
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
@@ -22,11 +21,10 @@ variables:
       - .npm
     policy: pull
 
-setup:
-  stage: Setup
+caching:
+  stage: CI Setup
   script:
     - npm ci
-    - npm i ramda
   extends: .dependencies_cache
   cache:
     policy: pull-push
@@ -42,7 +40,7 @@ eslint:
     - node_modules/eslint/bin/eslint.js .
 
 translations:
-  stage: Tests
+  stage: Validation
   when: on_success
   script:
     - node_modules/jest/bin/jest.js .

@@ -9,6 +9,7 @@
 #include "games/classifications/Genres.h"
 #include "MetadataStringHolder.h"
 #include "hardware/RotationType.h"
+#include "utils/String.h"
 
 //#define _METADATA_STATS_
 
@@ -610,18 +611,7 @@ class MetadataDescriptor
     void SetRegionAsString(const std::string& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
     void SetRotationAsString(const std::string& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
 
-    void SetFamiliesFromList(const std::list<std::string>& families){
-      std::string value;
-      int i = 0;
-      for(auto& family : families)
-      {
-        if (i > 0)
-          value.append(",");
-        value.append(family);
-        i++;
-      }
-      SetFamilies(value);
-    }
+    void SetFamiliesFromList(const String::List& families)      { SetFamilies(String::Join(families, ',')); }
 
     /*
      * Defaults

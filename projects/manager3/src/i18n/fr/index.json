@@ -467,6 +467,9 @@
         },
         "greenFilter": {
           "label": "Filtrer les BIOS valides"
+        },
+        "refresh": {
+          "label": "Rafraîchir la liste"
         }
       },
       "help": {

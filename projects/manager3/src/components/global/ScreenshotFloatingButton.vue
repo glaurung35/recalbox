@@ -16,7 +16,7 @@
       id="virtual-devices-button"
       @click="useMediaStore().takeScreenshot()"
     >
-      <q-tooltip anchor="top middle" self="bottom middle" :offset="[10, 10]">
+      <q-tooltip class="bg-primary" anchor="top middle" self="bottom middle" :offset="[10, 10]">
         {{ $t('emulation.screenshots.tooltip') }}
       </q-tooltip>
     </q-btn>

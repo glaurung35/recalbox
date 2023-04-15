@@ -62,25 +62,23 @@ class MetadataFieldDescriptor
 
   public:
     // Public const accessors
-    const std::string&        Key()                  const { return _Key;                  } //!< Identifier
-    const std::string&        DefaultValue()         const { return _DefaultValue;         } //!< default value
-    const std::string&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
-    const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
-    //int                       Offset()               const { return _Offset;               } //!< Offset of the real field in the target Metadata structure
-    DataType                  Type()                 const { return _Type;                 } //!< Datatype
-    EditableType              EditType()             const { return _EditType;             } //!< Editable type
-    IsDefaultValueMethodType  IsDefaultValueMethod() const { return _IsDefaultValueMethod; } //!< Is Default value?
-    GetValueMethodType        GetValueMethod()       const { return _GetMethod;            } //!< String getter
-    SetValueMethodType        SetValueMethod()       const { return _SetMethod;            } //!< String setter
-    bool                      IsStatistic()          const { return _IsStatistic;          } //!< if true, ignore scraper values for this metadata
-    bool                      IsMain()               const { return _IsMain;               } //!< if true, display on main metadata editor GUI, else in secondary
+    [[nodiscard]] const std::string&        Key()                  const { return _Key;                  } //!< Identifier
+    [[nodiscard]] const std::string&        DefaultValue()         const { return _DefaultValue;         } //!< default value
+    [[nodiscard]] const std::string&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
+    [[nodiscard]] const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
+    [[nodiscard]] DataType                  Type()                 const { return _Type;                 } //!< Datatype
+    [[nodiscard]] EditableType              EditType()             const { return _EditType;             } //!< Editable type
+    [[nodiscard]] IsDefaultValueMethodType  IsDefaultValueMethod() const { return _IsDefaultValueMethod; } //!< Is Default value?
+    [[nodiscard]] GetValueMethodType        GetValueMethod()       const { return _GetMethod;            } //!< String getter
+    [[nodiscard]] SetValueMethodType        SetValueMethod()       const { return _SetMethod;            } //!< String setter
+    [[nodiscard]] bool                      IsStatistic()          const { return _IsStatistic;          } //!< if true, ignore scraper values for this metadata
+    [[nodiscard]] bool                      IsMain()               const { return _IsMain;               } //!< if true, display on main metadata editor GUI, else in secondary
 
     //! Constructor
     MetadataFieldDescriptor(const std::string&        key,
                             const std::string&        defaultValue,
                             const std::string&        displayName,
                             const std::string&        displayPrompt,
-                            //int                       offset,
                             DataType                  type,
                             EditableType              edittype,
                             IsDefaultValueMethodType  isDefaultValueMethod,

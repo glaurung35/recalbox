@@ -3,7 +3,6 @@
 #include <utils/os/fs/Path.h>
 #include <utils/Xml.h>
 #include <utils/datetime/DateTime.h>
-#include <utils/Strings.h>
 #include <games/classifications/Regions.h>
 #include "ItemType.h"
 #include "games/classifications/Genres.h"
@@ -23,16 +22,6 @@ class MetadataDescriptor
     static int LivingFolders;
     static int LivingGames;
     #endif
-
-    // Static default values
-    static const std::string DefaultValueRatio;
-    static const std::string DefaultValueEmpty;
-    static const std::string DefaultValueRating;
-    static const std::string DefaultValuePlayers;
-    static const std::string DefaultValuePlayCount;
-    static const std::string DefaultValueFavorite;
-    static const std::string DefaultValueHidden;
-    static const std::string DefaultValueRotation;
 
     //! Game node <game></game>
     static const std::string GameNodeIdentifier;
@@ -169,6 +158,11 @@ class MetadataDescriptor
      * Destructor
      */
     ~MetadataDescriptor() = default;
+
+    /*!
+     * @brief Force default metadata initialization
+     */
+    static void InitializeDefaultMetadata() { Default(); }
 
     /*!
      * @brief Cleanup temporary data
@@ -470,7 +464,7 @@ class MetadataDescriptor
     [[nodiscard]] std::string NameAsString()        const { return sNameHolder.GetString(mName);                 }
     [[nodiscard]] std::string EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     [[nodiscard]] std::string CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
-    [[nodiscard]] std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio, DefaultValueRatio); }
+    [[nodiscard]] std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio, "auto"); }
     [[nodiscard]] std::string DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
     [[nodiscard]] std::string ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
     [[nodiscard]] std::string ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }

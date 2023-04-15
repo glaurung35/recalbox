@@ -340,6 +340,7 @@ class SystemManager :
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {
+      MetadataDescriptor::InitializeDefaultMetadata();
     }
 
     //! Destructor

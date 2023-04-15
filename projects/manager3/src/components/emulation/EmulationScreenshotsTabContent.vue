@@ -72,6 +72,7 @@ function openScreenshot(url:string) {
 function openDeleteConfirm(name:string) {
   modal.value.selectedName = name;
   $q.dialog({
+    class: 'delete-dialog-card',
     dark: true,
     message: t('emulation.screenshots.dialogs.remove.text'),
     cancel: true,
@@ -101,4 +102,7 @@ function openDeleteConfirm(name:string) {
 
     .absolute-bottom
       background: rgba(52, 73, 93, 0.47) !important
+
+.delete-dialog-card
+  border-left: 6px solid $accent
 </style>

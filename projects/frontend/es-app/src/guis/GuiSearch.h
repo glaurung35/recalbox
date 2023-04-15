@@ -81,11 +81,11 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
     std::shared_ptr<TextComponent> mResultDesc;
     std::shared_ptr<OptionListComponent<FolderData::FastSearchContext>> mSearchChoices;
     FileData::List mSearchResults;
-    bool mForcedOptions;
     std::string  mForcedSearch;
-    bool mFullMatch;
     FolderData::FastSearchContext mForcedContext = FolderData::FastSearchContext::Name;
 
+    bool mFullMatch;
+    bool mForcedOptions;
     //! Just-open flag
     bool mJustOpen;
 

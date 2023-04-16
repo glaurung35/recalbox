@@ -4,20 +4,12 @@ import util from 'util';
 const R = require('ramda');
 
 const readdir = util.promisify(fs.readdir);
-
 const toKeysObject = (obj:object) => R.map(
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  ([key, value]) => (typeof value === 'object' ? [key, toKeysObject(value)] : key),
+  ([key, value]:[string, string]) => (typeof value === 'object' ? [key, toKeysObject(value)] : key),
   R.toPairs(obj),
 );
-
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-const getKeys = (list, folder) => R.reduce(
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-  (acc, file) => R.assoc(
+const getKeys = (list:string, folder:string) => R.reduce(
+  (acc:object, file:string) => R.assoc(
     file,
     toKeysObject(
       jest.requireActual(`../../../../src/i18n/${folder}/${file}`),
@@ -29,50 +21,50 @@ const getKeys = (list, folder) => R.reduce(
 );
 
 describe('Locales tests', ():void => {
-  it('all locales should have same keys', async ():Promise<void> => {
-    const folders:string[] = await readdir('src/i18n');
-    const filteredFolders:string[] = folders.filter((value:string):boolean => value !== 'index.ts');
+  let folders:string[] = [];
+  let filteredFolders:string[] = [];
+  let translations:object = {};
+  let lnCodeRef = '';
 
-    // we expect to have at least several languages
+  beforeEach(async ():Promise<void> => {
+    folders = await readdir('src/i18n');
+    filteredFolders = folders.filter((value: string): boolean => value !== 'index.ts');
+  });
+
+  it('I18n folder should contains at least 1 sub folder', async ():Promise<void> => {
     expect(filteredFolders.length).toBeGreaterThan(1);
+  });
 
-    // testing that each translation folder have the same translation file
-    const translationsFiles = await Promise.all(
+  it('Each translation folder should have the same translation file', async ():Promise<void> => {
+    const translationsFiles:object = await Promise.all(
       R.map(
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        (folder) => readdir(`src/i18n/${folder}`),
+        (folder:string) => readdir(`src/i18n/${folder}`),
         filteredFolders,
       ),
     );
-    const translations = R.zipObj(filteredFolders, translationsFiles);
-    const lnCodeRef:string = filteredFolders[1]; // fr-FR
+    translations = R.zipObj(filteredFolders, translationsFiles);
+    // eslint-disable-next-line prefer-destructuring
+    lnCodeRef = filteredFolders[1]; // fr-FR
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    R.forEach((files):void => {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      expect(files).toStrictEqual(translations[lnCodeRef]);
+    R.forEach((files:object):void => {
+      expect(files).toStrictEqual(translations[lnCodeRef as keyof typeof translations]);
     }, translationsFiles);
+  });
 
-    // testing that each translation has the same keys
+  it('All locales should have same keys', async ():Promise<void> => {
     const translationKeys = R.reduce(
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      (acc, [lnCode, paths]) => R.assoc(lnCode, getKeys(paths, lnCode), acc),
+      (
+        acc:object,
+        [lnCode, paths]:[string, string],
+      ) => R.assoc(lnCode, getKeys(paths, lnCode), acc),
       {},
       R.toPairs(translations),
     );
 
-    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-    // @ts-ignore
-    R.forEach((lnCode):void => {
+    R.forEach((lnCode:string):void => {
       const filesKeys = R.toPairs(translationKeys[lnCode]);
 
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
-      R.forEach(([file, keys]):void => {
+      R.forEach(([file, keys]:[string, object]):void => {
         try {
           expect(keys).toStrictEqual(
             translationKeys[lnCodeRef][file],

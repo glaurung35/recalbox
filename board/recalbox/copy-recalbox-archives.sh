@@ -165,7 +165,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidxu4-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
-		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/odroidxu4-firmware/boot.lst"
 
 	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidxu4-firmware/"
 
@@ -199,7 +199,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidgo2-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/odroidgo2-firmware/boot.lst"
 
 	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidgo2-firmware/"
 
@@ -242,7 +242,7 @@ case "${RECALBOX_TARGET}" in
     cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rg353x-firmware/pre-upgrade.sh"
 
 	generate_boot_file_list "${BINARIES_DIR}/rg353x-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot.lst"
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/rg353x-firmware/boot.lst"
 
 	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/rg353x-firmware/"
 

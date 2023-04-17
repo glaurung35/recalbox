@@ -91,6 +91,7 @@ class SystemBuilder:
             "theme": holder.ThemeFolder,
             "extensions": holder.Extensions,
             "icon": holder.IconUnicode,
+            "downloader": "1" if holder.HasDownloader else "0",
         }
         if not holder.IsDefaultCommand:
             descriptor["command"] = holder.Command

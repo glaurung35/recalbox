@@ -1,8 +1,5 @@
 #include <systems/SystemManager.h>
 #include "guis/menus/GuiMenuBase.h"
-#include "components/MenuComponent.h"
-#include "components/OptionListComponent.h"
-#include "games/FileSorts.h"
 #include "guis/GuiMetaDataEd.h"
 
 class IGameListView;
@@ -30,6 +27,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
   private:
     enum class Components
     {
+      Download,
       JumpToLetter,
       Sorts,
       Regions,
@@ -72,6 +70,11 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * @brief Refresh gamelist
      */
     static void ManageSystems();
+
+    //! Check if this system has a downloader available
+    bool HasDownloaderAvailable() { return mSystem.Name() == "tic80" || mSystem.Name() == "wasm4"; }
+
+    //static GuiDownloader* CreateDownloader();
 
     /*
      * GuiMetaDataEd::IMetaDataAction implementation

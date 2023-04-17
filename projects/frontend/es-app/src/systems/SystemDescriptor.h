@@ -88,7 +88,8 @@ class SystemDescriptor
                                                const std::string& command,
                                                const std::string& icon,
                                                bool port,
-                                               bool readonly)
+                                               bool readonly,
+                                               bool hasdownloader)
     {
       mPath = Path(path);
       mExtensions = extensions;
@@ -96,6 +97,7 @@ class SystemDescriptor
       mCommand = command;
       mPort = port;
       mReadOnly = readonly;
+      mHasDownloader = hasdownloader;
       if (!Strings::HexToInt(icon, 0, mIcon)) mIcon = 0;
 
       return *this;
@@ -172,7 +174,7 @@ class SystemDescriptor
     [[nodiscard]] const std::string& Extension() const { return mExtensions; }
     [[nodiscard]] const std::string& ThemeFolder() const { return mThemeFolder; }
     [[nodiscard]] const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
-    [[nodiscard]]     unsigned int Icon() const { return (unsigned int)mIcon; }
+    [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
     [[nodiscard]] std::string IconPrefix() const;
 
     [[nodiscard]] int ScreenScaperID() const { return mScreenScraperID; }
@@ -212,6 +214,7 @@ class SystemDescriptor
 
     [[nodiscard]] bool IsPort() const { return mPort; }
     [[nodiscard]] bool IsReadOnly() const { return mReadOnly; }
+    [[nodiscard]] bool HasDownloader() const { return mHasDownloader; }
 
     [[nodiscard]] const EmulatorList& EmulatorTree() const { return mEmulators; }
 
@@ -245,6 +248,7 @@ class SystemDescriptor
 
     bool                    mPort;            //!< This system is a port
     bool                    mReadOnly;        //!< This system is a port and is readonly
+    bool                    mHasDownloader;   //!< System has a downloder
     std::string             mIgnoredFiles;    //!< Ignored files list
 
     static SystemType ConvertSystemType(const std::string& systemtype)

@@ -4,7 +4,7 @@
 #include <pwd.h>
 #include <algorithm>
 
-static const std::string rootTest = "/tmp/googletests/";
+static const String rootTest = "/tmp/googletests/";
 
 class PathTest: public ::testing::Test
 {
@@ -13,18 +13,18 @@ class PathTest: public ::testing::Test
     {
       struct Folder1_
       {
-        std::string name = rootTest + "folder1";
-        std::string file1 = rootTest + "folder1/file1";
+        String name = rootTest + "folder1";
+        String file1 = rootTest + "folder1/file1";
         struct Folder2_
         {
-          std::string name = rootTest + "folder1/folder2";
-          std::string file2 = rootTest + "folder1/folder2/file2";
-          std::string sldir = rootTest + "folder1/folder2/folder4";
+          String name = rootTest + "folder1/folder2";
+          String file2 = rootTest + "folder1/folder2/file2";
+          String sldir = rootTest + "folder1/folder2/folder4";
           struct Folder3_
           {
-            std::string name = rootTest + "folder1/folder2/folder3";
-            std::string file3 = rootTest + "folder1/folder2/folder3/file3";
-            std::string slfile = rootTest + "folder1/folder2/folder3/file4";
+            String name = rootTest + "folder1/folder2/folder3";
+            String file3 = rootTest + "folder1/folder2/folder3/file3";
+            String slfile = rootTest + "folder1/folder2/folder3/file4";
           } Folder3;
         } Folder2;
       } Folder1;
@@ -57,8 +57,8 @@ class PathTest: public ::testing::Test
       ASSERT_EQ(system("rm -rf /tmp/googletests"), 0);
     }
 
-    std::string homeDirectory;
-    std::string currentDirectory;
+    String homeDirectory;
+    String currentDirectory;
 };
 
 TEST_F(PathTest, testNormalizePathStdStrings)
@@ -157,34 +157,34 @@ TEST_F(PathTest, testJoinComplexPathPath)
 TEST_F(PathTest, testOperatorEqual)
 {
   ASSERT_TRUE(Path("/path/to/file") == (const char*)"/path/to/file");
-  ASSERT_TRUE(Path("/path/to/file") == std::string("/path/to/file"));
+  ASSERT_TRUE(Path("/path/to/file") == String("/path/to/file"));
   ASSERT_TRUE(Path("/path/to/file") == Path("/path/to/file"));
 }
 
 TEST_F(PathTest, testOperatorNotEqual)
 {
   ASSERT_TRUE(Path("/path/to/file") != (const char*)"/path/to/fall");
-  ASSERT_TRUE(Path("/path/to/file") != std::string("/path/to/fall"));
+  ASSERT_TRUE(Path("/path/to/file") != String("/path/to/fall"));
   ASSERT_TRUE(Path("/path/to/file") != Path("/path/to/fall"));
 }
 
 TEST_F(PathTest, testOperatorLesserThan)
 {
   ASSERT_TRUE(Path("/path/to/file") < (const char*)"/path/to/file.ext");
-  ASSERT_TRUE(Path("/path/to/file") < std::string("/path/to/file.ext"));
+  ASSERT_TRUE(Path("/path/to/file") < String("/path/to/file.ext"));
   ASSERT_TRUE(Path("/path/to/file") < Path("/path/to/file.ext"));
   ASSERT_TRUE(Path("/path/to/file") < (const char*)"/path/to/fyle");
-  ASSERT_TRUE(Path("/path/to/file") < std::string("/path/to/fyle"));
+  ASSERT_TRUE(Path("/path/to/file") < String("/path/to/fyle"));
   ASSERT_TRUE(Path("/path/to/file") < Path("/path/to/fyle"));
 }
 
 TEST_F(PathTest, testOperatorGreaterThan)
 {
   ASSERT_FALSE(Path("/path/to/file") > (const char*)"/path/to/file.ext");
-  ASSERT_FALSE(Path("/path/to/file") > std::string("/path/to/file.ext"));
+  ASSERT_FALSE(Path("/path/to/file") > String("/path/to/file.ext"));
   ASSERT_FALSE(Path("/path/to/file") > Path("/path/to/file.ext"));
   ASSERT_FALSE(Path("/path/to/file") > (const char*)"/path/to/fyle");
-  ASSERT_FALSE(Path("/path/to/file") > std::string("/path/to/fyle"));
+  ASSERT_FALSE(Path("/path/to/file") > String("/path/to/fyle"));
   ASSERT_FALSE(Path("/path/to/file") > Path("/path/to/fyle"));
 }
 
@@ -192,7 +192,7 @@ TEST_F(PathTest, testEmptiness)
 {
   ASSERT_TRUE(Path().IsEmpty());
   ASSERT_TRUE(Path("").IsEmpty());
-  ASSERT_TRUE(Path(std::string()).IsEmpty());
+  ASSERT_TRUE(Path(String()).IsEmpty());
   ASSERT_TRUE(Path(".").IsEmpty());
   ASSERT_TRUE(Path("./").IsEmpty());
   ASSERT_FALSE(Path("/path/to/file").IsEmpty());
@@ -207,7 +207,7 @@ TEST_F(PathTest, testConstructor)
 {
   ASSERT_EQ(Path(), "");
   ASSERT_EQ(Path("/path/to/file"), "/path/to/file");
-  ASSERT_EQ(Path(std::string("/path/to/file")), "/path/to/file");
+  ASSERT_EQ(Path(String("/path/to/file")), "/path/to/file");
 }
 
 TEST_F(PathTest, testCopyConstructor)
@@ -225,7 +225,7 @@ TEST_F(PathTest, testMoveConstructor)
   ASSERT_EQ(destination, "/path/to/file");
   ASSERT_TRUE(source.IsEmpty()); // Safely ignore the tidy-clang warning
 
-  std::string source2("/path/to/file");
+  String source2("/path/to/file");
   Path destination2(std::move(source2));
   ASSERT_EQ(destination2, "/path/to/file");
   ASSERT_TRUE(source2.empty()); // Safely ignore the tidy-clang warning

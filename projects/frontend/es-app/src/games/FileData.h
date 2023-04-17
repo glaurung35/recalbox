@@ -83,7 +83,7 @@ class FileData
     inline Path RomPath() const { return mMetadata.Rom(); }
     inline FolderData* Parent() const { return mParent; }
     inline RootFolderData& TopAncestor() const { return mTopAncestor; }
-    SystemData& System() const;
+    [[nodiscard]] SystemData& System() const;
 
     /*
      * Booleans

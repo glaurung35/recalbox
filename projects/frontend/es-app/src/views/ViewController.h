@@ -36,8 +36,8 @@ public:
 	// the current gamelist view (as it may change to be detailed).
 	bool reloadGameListView(IGameListView* gamelist, bool reloadTheme = false);
 	inline bool reloadGameListView(SystemData* system, bool reloadTheme = false) { return reloadGameListView(getGameListView(system).get(), reloadTheme); }
-	void setInvalidGamesList(SystemData* system);
-	void setAllInvalidGamesList(SystemData* systemExclude);
+	void setInvalidGamesList(const SystemData* system);
+	void setAllInvalidGamesList(const SystemData* systemExclude);
 
 	// Navigation.
 	void goToNextGameList();

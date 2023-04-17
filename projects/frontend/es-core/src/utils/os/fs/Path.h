@@ -1,7 +1,7 @@
 #pragma once
 
-#include <string>
 #include <vector>
+#include "utils/String.h"
 
 class Path
 {
@@ -21,7 +21,7 @@ class Path
     static constexpr char sDotDirectory = '.';
 
     //! Path
-    std::string mPath;
+    String mPath;
 
     /*!
      * @brief Normalize the path string: Remove tailing separator and remove double separators
@@ -33,7 +33,7 @@ class Path
      * @param source path to resolve
      * @return resolved path
      */
-    static std::string ResolveSymbolicLink(const char* source);
+    static String ResolveSymbolicLink(const char* source);
 
   public:
     typedef std::vector<Path> PathList;
@@ -54,7 +54,7 @@ class Path
      * @brief Build a path from a string
      * @param path string path
      */
-    explicit Path(const std::string& path)
+    explicit Path(const String& path)
       : mPath(path)
     {
       Normalize();
@@ -85,7 +85,7 @@ class Path
      * @brief Move constructor from string
      * @param path source path
      */
-    explicit Path(std::string&& path)
+    explicit Path(String&& path)
       : mPath(std::move(path))
     {
       Normalize();
@@ -117,13 +117,13 @@ class Path
      * @brief Return current path string
      * @return path string
      */
-    const std::string& ToString() const { return mPath; }
+    [[nodiscard]] const String& ToString() const { return mPath; }
 
     /*!
      * @brief Return current path string
      * @return path string
      */
-    const char* ToChars() const { return mPath.c_str(); }
+    [[nodiscard]] const char* ToChars() const { return mPath.c_str(); }
 
     /*
      * Path manipulations
@@ -133,13 +133,13 @@ class Path
      * @brief Check whether the path is empty or not
      * @return True if the path is empty
      */
-    bool IsEmpty() const { return mPath.empty(); }
+    [[nodiscard]] bool IsEmpty() const { return mPath.empty(); }
 
     /*!
      * @brief Return the component count of the path
      * @return component count
      */
-    int ItemCount() const;
+    [[nodiscard]] int ItemCount() const;
 
     /*!
      * @brief Return the component at index n of the current path.
@@ -147,7 +147,7 @@ class Path
      * @param index index of the path component to extract
      * @return path component or empty string
      */
-    std::string Item(int index) const;
+    String Item(int index) const;
 
     /*!
      * @brief Return path from the first component up to the component at index n of the current path.
@@ -155,7 +155,7 @@ class Path
      * @param index index of the last path component to extract
      * @return path component or empty string
      */
-    std::string UptoItem(int index) const;
+    String UptoItem(int index) const;
 
     /*!
      * @brief Return path from the index component up to the last component of the current path.
@@ -163,7 +163,7 @@ class Path
      * @param index index of the last path component to extract
      * @return path component or empty string
      */
-    std::string FromItem(int index) const;
+    String FromItem(int index) const;
 
     /*!
      * @brief Return the directory part of the current path. /path/to/file => /path/to
@@ -176,26 +176,26 @@ class Path
      * @return filename
      */
 
-    std::string Filename() const;
+    String Filename() const;
 
     /*!
      * @brief Return the filename less the extension if any. /path/to/file.ext => file
      * @return Filename without extension
      */
-    std::string FilenameWithoutExtension() const;
+    String FilenameWithoutExtension() const;
 
     /*!
      * @brief Return the file extension if any. /path/to/file.ext => .ext
      * @return file extension inclusing the leading dot
      */
-    std::string Extension() const;
+    String Extension() const;
 
     /*!
      * @brief Replace or add current extension by the given one
      * @param newext New extension
      * @return New path
      */
-    Path ChangeExtension(const std::string& newext) const;
+    Path ChangeExtension(const String& newext) const;
 
     /*
      * Real filesystem
@@ -265,7 +265,7 @@ class Path
      * @param path path to add
      * @return new combined path
      */
-    Path operator / (const std::string& path) const;
+    Path operator / (const String& path) const;
 
     /*!
      * @brief Add a new component to the current path and return the rersulting path
@@ -286,7 +286,7 @@ class Path
      * @param to path to compare to
      * @return True if the current pass is lower than the 'to'
      */
-    bool operator < (const std::string& to) const { return mPath < to; }
+    bool operator < (const String& to) const { return mPath < to; }
 
     /*!
      * @brief Path comparison
@@ -307,7 +307,7 @@ class Path
      * @param to path to compare to
      * @return True if the current pass is higher than the 'to'
      */
-    bool operator > (const std::string& to) const { return mPath > to; }
+    bool operator > (const String& to) const { return mPath > to; }
 
     /*!
      * @brief Path comparison
@@ -328,7 +328,7 @@ class Path
      * @param to path to compare to
      * @return True if the current pass is higher than the 'to'
      */
-    bool operator == (const std::string& to) const { return mPath == to; }
+    bool operator == (const String& to) const { return mPath == to; }
 
     /*!
      * @brief Path comparison
@@ -349,7 +349,7 @@ class Path
      * @param to path to compare to
      * @return True if the current pass is higher than the 'to'
      */
-    bool operator != (const std::string& to) const { return mPath != to; }
+    bool operator != (const String& to) const { return mPath != to; }
 
     /*!
      * @brief Path comparison
@@ -384,7 +384,7 @@ class Path
      * @param src source path
      * @return destination path
      */
-    Path& operator = (const std::string& src) { mPath = src; Normalize(); return *this; };
+    Path& operator = (const String& src) { mPath = src; Normalize(); return *this; };
 
     /*
      * Path convertions
@@ -436,13 +436,13 @@ class Path
      * @param path path to check
      * @return True if the current path starts with the given path
      */
-    bool StartWidth(const std::string& path) const { return StartWidth(Path(path)); }
+    bool StartWidth(const String& path) const { return StartWidth(Path(path)); }
 
     /*!
      * @brief Get an escaped string representation of the current path
      * @return bach compatible escaped path
      */
-    std::string MakeEscaped() const;
+    String MakeEscaped() const;
 
     /*
      * Static helpers
@@ -503,3 +503,11 @@ class Path
     static bool Rename(const Path& from, const Path& to);
 };
 
+#include <hash_fun.h>
+/*!
+ * @brief Specialized template for hashing String objects
+ */
+template<> struct std::hash<Path>
+{
+  size_t operator()(const Path& __val) const noexcept { return __val.ToString().Hash(); }
+};

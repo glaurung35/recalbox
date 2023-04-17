@@ -9,6 +9,7 @@
 
 bool RotationManager::ShouldRotateTateEnter(RotationType& rotationType)
 {
+  (void)rotationType;
   // We will rotate the tate system only if:
   // - the board can rotate
   // - there is no Left or Right rotation yet
@@ -24,6 +25,7 @@ bool RotationManager::ShouldRotateTateEnter(RotationType& rotationType)
 
 bool RotationManager::ShouldRotateTateExit(RotationType& rotationType)
 {
+  (void)rotationType;
   // We will rotate back the tate system only if:
   // - the board can rotate
   // - there is Left or Right rotation
@@ -79,7 +81,7 @@ bool RotationManager::ShouldRotateFrontendControls()
   // - the board is rotated for tate or system-wide
   const RotationCapability cap = Board::Instance().GetRotationCapabilities();
   bool rotate = cap.rotationAvailable && cap.rotateControls && Renderer::Instance().IsRotatedSide();
-  if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate controls ON"; };
+  if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate controls ON"; }
   return rotate;
 }
 
@@ -92,7 +94,7 @@ bool RotationManager::ShouldRotateGameControls(const FileData& game)
   const RotationCapability cap = Board::Instance().GetRotationCapabilities();
   const RotationType gameRotation = ShouldRotateGame(game);
   bool rotate = (gameRotation == RotationType::Left || gameRotation == RotationType::Right) && cap.rotateControls;
-  if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate game controls ON"; };
+  if (rotate) { LOG(LogDebug) << "[RotationManager] Rotate game controls ON"; }
   return rotate;
 }
 

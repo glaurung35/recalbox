@@ -121,7 +121,8 @@ void DateTime::FillFromStartOfEra()
 
 bool DateTime::IsZero() const
 {
-  return ((mYear | mMillis | mHour | mMinute | mSecond) == 0) &&
+  return (mYear == 1970) &&
+         ((mMillis | mHour | mMinute | mSecond) == 0) &&
          (mMonth == 1) && (mDay == 1);
 }
 

@@ -29,11 +29,11 @@ void Path::Normalize()
         mPath.resize(mPath.size() - 1);
 
   // Remove double separator
-  if (mPath.find(sDoubleSeparatorString) != std::string::npos)
+  if (mPath.find(sDoubleSeparatorString) != String::npos)
     mPath = Strings::Replace(mPath, sDoubleSeparatorString, sSeparatorString);
 
   // Remove single colon
-  if (mPath.find(sSingleDotPath) != std::string::npos)
+  if (mPath.find(sSingleDotPath) != String::npos)
     mPath = Strings::Replace(mPath, sSingleDotPath, sSeparatorString);
   int size = (int)mPath.size();
   if (size == 1 && mPath[0] == '.')
@@ -43,7 +43,7 @@ void Path::Normalize()
       mPath.resize(size - 2);
 }
 
-std::string Path::Item(int index) const
+String Path::Item(int index) const
 {
   const char* p = mPath.c_str();    // Char pointer is faster
   if (*p == sSeparator) p++;        // Skip first separator if any
@@ -61,7 +61,7 @@ std::string Path::Item(int index) const
   return mPath.substr(start - mPath.c_str(), p - start);
 }
 
-std::string Path::UptoItem(int index) const
+String Path::UptoItem(int index) const
 {
   const char* p = mPath.c_str();    // Char pointer is faster
   if (*p == sSeparator) p++;        // Skip first separator if any
@@ -78,7 +78,7 @@ std::string Path::UptoItem(int index) const
   return mPath.substr(0, p - mPath.c_str());
 }
 
-std::string Path::FromItem(int index) const
+String Path::FromItem(int index) const
 {
   const char* p = mPath.c_str();    // Char pointer is faster
   if (*p == sSeparator) p++;        // Skip first separator if any
@@ -111,21 +111,21 @@ Path Path::operator/(const char* path) const
   if (path != nullptr)
   {
     if (path[0] != sSeparator && !mPath.empty())
-      result.mPath.append(1, sSeparator);
-    result.mPath.append(path);
+      result.mPath.Append(sSeparator);
+    result.mPath.Append(path);
     result.Normalize();
   }
   return result;
 }
 
-Path Path::operator/(const std::string& path) const
+Path Path::operator/(const String& path) const
 {
   Path result(*this);
   if (!path.empty())
   {
     if (path[0] != sSeparator && !mPath.empty())
-      result.mPath.append(1, sSeparator);
-    result.mPath.append(path);
+      result.mPath.Append(sSeparator);
+    result.mPath.Append(path);
     result.Normalize();
   }
   return result;
@@ -137,8 +137,8 @@ Path Path::operator/(const Path& path) const
   if (!path.IsEmpty())
   {
     if (path.mPath[0] != sSeparator && !mPath.empty())
-      result.mPath.append(1, sSeparator);
-    result.mPath.append(path.mPath);
+      result.mPath.Append(sSeparator);
+    result.mPath.Append(path.mPath);
     result.Normalize();
   }
   return result;
@@ -156,7 +156,7 @@ Path Path::Directory() const
   return Path::Empty;
 }
 
-std::string Path::Filename() const
+String Path::Filename() const
 {
   const char* p = mPath.c_str(); // Char pointer is faster
   for(int i = (int)mPath.size(); --i >= 0;)
@@ -165,7 +165,7 @@ std::string Path::Filename() const
   return mPath;
 }
 
-std::string Path::FilenameWithoutExtension() const
+String Path::FilenameWithoutExtension() const
 {
   int start = 0;
   int startExt = 0;
@@ -189,7 +189,7 @@ std::string Path::FilenameWithoutExtension() const
   return mPath.substr(start);
 }
 
-std::string Path::Extension() const
+String Path::Extension() const
 {
   int startExt = 0;
   // Extract filename
@@ -208,10 +208,10 @@ std::string Path::Extension() const
       return mPath.substr(i);
 
   // No extension
-  return std::string();
+  return String();
 }
 
-Path Path::ChangeExtension(const std::string& newext) const
+Path Path::ChangeExtension(const String& newext) const
 {
   int startExt = 0;
   // Extract filename
@@ -229,13 +229,13 @@ Path Path::ChangeExtension(const std::string& newext) const
     if (p[i] == sExtensionSeparator)
     {
       Path newPath(mPath.substr(0, i));
-      newPath.mPath.append(newext);
+      newPath.mPath.Append(newext);
       return newPath;
     }
 
   // No extension
   Path newPath(mPath);
-  newPath.mPath.append(newext);
+  newPath.mPath.Append(newext);
   return newPath;
 }
 
@@ -290,7 +290,7 @@ bool Path::IsHidden() const
   constexpr unsigned int dot    = (unsigned int)sDotDirectory;
   constexpr unsigned int dotdot = (unsigned int)sDotDirectory | ((unsigned int)sDotDirectory << 8);
 
-  std::string filename = Filename();
+  String filename = Filename();
   // Ignore "." and ".."
   unsigned int strint = *((unsigned int*)filename.c_str());
   if ((strint &   0xFFFF) == dot   ) return false;
@@ -333,9 +333,9 @@ Path Path::ToAbsolute() const
   char path[PATH_MAX];
   if (getcwd(path, sizeof(path)) != nullptr)
   {
-    std::string base(path);
-    base.append(1, '/');
-    base.append(mPath);
+    String base(path);
+    base.Append(sSeparator);
+    base.Append(mPath);
     return Path(base);
   }
 
@@ -343,18 +343,18 @@ Path Path::ToAbsolute() const
   return *this;
 }
 
-std::string Path::ResolveSymbolicLink(const char* source)
+String Path::ResolveSymbolicLink(const char* source)
 {
   struct stat info = {};
   if(lstat(source, &info) == 0)
   {
-    std::string resolved;
+    String resolved;
     resolved.resize(info.st_size);
     if (readlink(source, (char*)resolved.data(), resolved.size()) > 0)
       return resolved;
   }
   // Error, return the original path
-  return std::string(source);
+  return String(source);
 }
 
 Path Path::ToCanonical() const
@@ -377,10 +377,10 @@ Path Path::ToCanonical() const
       if (lstat(path, &info) == 0)
         if (S_ISLNK(info.st_mode))
         {
-          std::string resolved = ResolveSymbolicLink(path); // Resolve the path
+          String resolved = ResolveSymbolicLink(path); // Resolve the path
           int newIndex = (int)resolved.size();                   // Save the index right after the new resolved path
-          resolved.append(1, sSeparator);                // Add separator
-          resolved.append(path + i + 1);                 // Add remaining path
+          resolved.Append(sSeparator);                // Add separator
+          resolved.Append(path + i + 1);                 // Add remaining path
           i = newIndex;                                     // Start the scan in the resolved path
           strncpy(path, resolved.c_str(), PATH_MAX);        // Copy the new to our working buffer
           IsResolved = true;
@@ -433,8 +433,8 @@ Path::PathList Path::GetDirectoryContent() const
       if ((strint & 0xFFFFFF) == dotdot) continue;
 
       Path item(mPath);
-      item.mPath.append(1, sSeparator);
-      item.mPath.append(entry->d_name);
+      item.mPath.Append(sSeparator);
+      item.mPath.Append(entry->d_name);
       list.push_back(item);
     }
     closedir(dir);
@@ -474,11 +474,11 @@ bool Path::StartWidth(const Path& path) const
   return false;
 }
 
-std::string Path::MakeEscaped() const
+String Path::MakeEscaped() const
 {
-  std::string escaped = mPath;
+  String escaped = mPath;
 
-  static std::string invalidChars = " '\"\\!$^&*(){}[]?;<>";
+  static String invalidChars = " '\"\\!$^&*(){}[]?;<>";
   const char* invalids = invalidChars.c_str();
   for(int i = (int)escaped.size(); --i >= 0; )
   {
@@ -486,7 +486,7 @@ std::string Path::MakeEscaped() const
     for(int j = (int)invalidChars.size(); --j >= 0; )
       if (c == invalids[j])
       {
-        escaped.insert(i, "\\");
+        escaped.Insert(i, "\\");
         break;
       }
   }

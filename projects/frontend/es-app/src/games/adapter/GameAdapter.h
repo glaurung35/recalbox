@@ -21,13 +21,13 @@ class GameAdapter
     }
 
     //! Direct accessor
-    const class FileData& FileData() const { return mGame; }
+    [[nodiscard]] const class FileData& FileData() const { return mGame; }
 
     //! Get scraping name
-    std::string ScrapingName() const;
+    [[nodiscard]] std::string ScrapingName() const;
 
     //! Get displayable name if the game has no name
-    std::string DisplayName() const;
+    [[nodiscard]] std::string DisplayName() const;
 
     //! Get rom size
     long long RomSize();
@@ -42,11 +42,11 @@ class GameAdapter
 
   private:
     //! Easy RPG system name
-    static const std::string sEasyRPGSystemName;
+    static const String sEasyRPGSystemName;
     //! Easy RPG special name uppercase
-    static const std::string sEasyRPGGameNameUpper;
+    static const String sEasyRPGGameNameUpper;
     //! Easy RPG special name lowercase
-    static const std::string sEasyRPGGameNameLower;
+    static const String sEasyRPGGameNameLower;
 
     //! Underlying FileData structure
     const class FileData& mGame;

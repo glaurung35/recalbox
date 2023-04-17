@@ -1,13 +1,9 @@
 #include "GuiMenuGamelistOptions.h"
+#include "guis/GuiDownloader.h"
 #include <guis/GuiSearch.h>
-#include <RecalboxConf.h>
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
-#include <games/GameFilesUtils.h>
-#include <guis/GuiMetaDataEd.h>
-#include <views/ViewController.h>
 #include <components/SwitchComponent.h>
-#include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
 #include <guis/menus/GuiMenuQuit.h>
@@ -49,12 +45,16 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   RefreshGameMenuContext();
 
-    // Jump to letter
+  // Downloader available?
+  if (HasDownloaderAvailable())
+    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
+
+  // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
-  AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
+    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
 
   // Sorting
 	if (!system.IsSelfSorted())
@@ -232,6 +232,11 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
 {
   switch((Components)id)
   {
+    case Components::Download:
+    {
+      mWindow.pushGui(new GuiDownloader(mWindow, mSystem));
+      break;
+    }
     case Components::MetaData:
     {
       FileData* file = mGamelist.getCursor();
@@ -287,6 +292,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ManageSystems(); break;
+    case Components::Download:
     case Components::Regions:
     case Components::Sorts:
     case Components::JumpToLetter:

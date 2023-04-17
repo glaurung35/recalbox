@@ -10,30 +10,30 @@
 class GameFilesUtils
 {
   public:
-    static HashSet<std::string> GetGameSubFiles(FileData& game);
-    static HashSet<std::string> GetGameExtraFiles(FileData& fileData);
+    static HashSet<String> GetGameSubFiles(FileData& game);
+    static HashSet<String> GetGameExtraFiles(FileData& fileData);
     static bool HasAutoPatch(const FileData* fileData);
     static Path GetSubDirPriorityPatch(const FileData* fileData);
     static std::list<Path> GetSoftPatches(const FileData* fileData);
-    static HashSet<std::string> GetGameSaveFiles(FileData& game);
-    static HashSet<std::string> GetMediaFiles(FileData& fileData);
+    static HashSet<String> GetGameSaveFiles(FileData& game);
+    static HashSet<String> GetMediaFiles(FileData& fileData);
 
-    static bool ContainsMultiDiskFile(const std::string& extensions)
+    static bool ContainsMultiDiskFile(const String& extensions)
     {
       return Strings::Contains(extensions, ".m3u") || Strings::Contains(extensions, ".cue") ||
              Strings::Contains(extensions, ".ccd") || Strings::Contains(extensions, ".gdi");
     }
 
-    static void ExtractUselessFiles(const Path& path, HashSet<std::string>& list);
-    static void ExtractUselessFilesFromCue(const Path& path, HashSet<std::string>& list);
-    static void ExtractUselessFilesFromCcd(const Path& path, HashSet<std::string>& list);
-    static void ExtractUselessFilesFromM3u(const Path& path, HashSet<std::string>& list);
-    static void ExtractUselessFilesFromGdi(const Path& path, HashSet<std::string>& list);
-    static std::string ExtractFileNameFromLine(const std::string& line);
-    static void AddIfExist(const Path& path, HashSet<std::string>& list);
+    static void ExtractUselessFiles(const Path& path, HashSet<String>& list);
+    static void ExtractUselessFilesFromCue(const Path& path, HashSet<String>& list);
+    static void ExtractUselessFilesFromCcd(const Path& path, HashSet<String>& list);
+    static void ExtractUselessFilesFromM3u(const Path& path, HashSet<String>& list);
+    static void ExtractUselessFilesFromGdi(const Path& path, HashSet<String>& list);
+    static String ExtractFileNameFromLine(const String& line);
+    static void AddIfExist(const Path& path, HashSet<String>& list);
     static constexpr int sMaxGdiFileSize = (10 << 10); // 10 Kb
 
-    static void DeleteSelectedFiles(FileData& fileData, HashSet<std::string>&, HashSet<std::string>&);
+    static void DeleteSelectedFiles(FileData& fileData, HashSet<String>&, HashSet<String>&);
     static void DeleteAllFiles(FileData& fileData);
 
     static bool IsMediaShared(FileData& system, const Path& mediaPath);

@@ -105,8 +105,8 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
 
 void GuiMenuGamelistGameDeleteSelectionOptions::DeleteSelectedFiles()
 {
-  HashSet<std::string> list;
-  HashSet<std::string> mediaList;
+  HashSet<String> list;
+  HashSet<String> mediaList;
 
   bool mainGameDeleted = false;
 

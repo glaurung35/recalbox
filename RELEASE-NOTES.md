@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump FBneo to aad581
 - Bump libretro-parallel-n64
+- Add game downloader for WASM4 system
 
 ### Improvements
 

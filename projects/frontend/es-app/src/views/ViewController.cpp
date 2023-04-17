@@ -836,7 +836,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
   }
 }
 
-void ViewController::setInvalidGamesList(SystemData* system)
+void ViewController::setInvalidGamesList(const SystemData* system)
 {
 	for (auto& mGameListView : mGameListViews)
 	{
@@ -848,7 +848,7 @@ void ViewController::setInvalidGamesList(SystemData* system)
 	}
 }
 
-void ViewController::setAllInvalidGamesList(SystemData* systemExclude)
+void ViewController::setAllInvalidGamesList(const SystemData* systemExclude)
 {
 	for (auto& mGameListView : mGameListViews)
 	{

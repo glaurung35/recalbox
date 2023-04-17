@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump FBneo to aad581
 - Add game downloader for WASM4 system
+- Add libretro-wasm4 for new system Wasm4
 
 ### Improvements
 

@@ -100,7 +100,7 @@ class FolderData : public FileData
      * @param path Current tree path
      * @return First mathing game or nullptr
      */
-    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const;
+    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const;
 
     /*!
      * Highly optimized Quicksort, inpired from original Delphi 7 code
@@ -301,14 +301,14 @@ class FolderData : public FileData
      * @param attributes Compare item against hashes, filenames or filenames with extension
      * @return First matching game or nullptr
      */
-    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
+    [[nodiscard]] FileData* LookupGame(const String& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
 
     /*!
      * @brief Lookup a game by file path recusively
      * @param filepath Filepath to look for
      * @return FileData if a game is found, nullptr otherwise
      */
-    [[nodiscard]] FileData* LookupGameByFilePath(const std::string& filepath) const;
+    [[nodiscard]] FileData* LookupGameByFilePath(const String& filepath) const;
 
     /*!
      * Return true if contain at least one game

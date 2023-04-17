@@ -78,7 +78,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
   std::vector<ListEntry<std::string>> list;
 
   GuiMenuTools::ShaderList shaderList = GuiMenuTools::ListShaders();
-  std::string currentShader = RecalboxConf::Instance().GetSystemShaders(mSystem);
+  String currentShader = RecalboxConf::Instance().GetSystemShaders(mSystem);
   list.push_back({ _("NONE"), "", currentShader.empty() });
   for (const GuiMenuTools::Shader& shader : shaderList)
     list.push_back({ shader.Displayable, shader.ShaderPath.ToString(), currentShader == shader.ShaderPath.ToString() });

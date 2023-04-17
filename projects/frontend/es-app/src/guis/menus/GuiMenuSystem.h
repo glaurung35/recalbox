@@ -74,7 +74,7 @@ class GuiMenuSystem : public GuiMenuBase
     std::shared_ptr<OptionListComponent<std::string>> mKeyboard;
 
     //! Original storage
-    std::string mOriginalStorage;
+    String mOriginalStorage;
     //! Original culture
     std::string mOriginalCulture;
     //! Original keyboard

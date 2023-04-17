@@ -42,7 +42,8 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
                                             Xml::AttributeAsString(descriptor, "command", ""),
                                             Xml::AttributeAsString(descriptor, "icon", "$0"),
                                             Xml::AttributeAsBool(descriptor, "port", false),
-                                            Xml::AttributeAsBool(descriptor, "readonly", false));
+                                            Xml::AttributeAsBool(descriptor, "readonly", false),
+                                            Xml::AttributeAsBool(descriptor, "downloader", false));
   // Scraper information
   XmlNode scraper = systemNode.child("scraper");
   systemDescriptor.SetScraperInformation(Xml::AttributeAsInt(scraper, "screenscraper", 0));

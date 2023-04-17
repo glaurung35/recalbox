@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
+- Add game downloader for WASM4 system
 
 ### Improvements
 

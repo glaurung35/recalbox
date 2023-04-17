@@ -204,6 +204,7 @@ class SystemHolder:
         }
         self.__port: bool = False
         self.__readOnly: bool = False
+        self.__hasDownloader: bool = False
         self.__properties = SystemHolder.SystemProperties("virtual", "no", "no", "no", "no", "", "virtual", False, False, False, "")
         self.__coreLists: Dict[str, List[SystemHolder.Core]] = dict()
         self.__coreCount: int = 0
@@ -253,6 +254,9 @@ class SystemHolder:
     def IsPort(self) -> bool: return self.__port
 
     @property
+    def HasDownloader(self) -> bool: return self.__hasDownloader
+
+    @property
     def IsReadOnly(self) -> bool: return self.__readOnly
 
     @property
@@ -298,6 +302,7 @@ class SystemHolder:
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
         self.__port: bool = self.__get(desc, "system", "port", "0", False) == '1'
+        self.__hasDownloader: bool = self.__get(desc, "system", "downloader", "0", False) == '1'
         self.__readOnly: bool = self.__get(desc, "system", "readonly", "0", False) == '1'
 
         # Create Cores

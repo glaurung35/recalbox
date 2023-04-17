@@ -2,7 +2,6 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
-#include <views/gamelist/IGameListView.h>
 
 // Forward declaration
 class SystemManager;
@@ -29,10 +28,10 @@ class GuiMenuGamelistGameDeleteOptions : public GuiMenuBase
     //! Game reference
     FileData& mGame;
 
-    HashSet<std::string> mGameFiles;
-    HashSet<std::string> mExtraFiles;
-    HashSet<std::string> mMediaFiles;
-    HashSet<std::string> mSaveFiles;
+    HashSet<String> mGameFiles;
+    HashSet<String> mExtraFiles;
+    HashSet<String> mMediaFiles;
+    HashSet<String> mSaveFiles;
 
 //    std::shared_ptr<OptionListComponent<Path>> mGameFiles;
 //    std::shared_ptr<OptionListComponent<Path>> mMedias;

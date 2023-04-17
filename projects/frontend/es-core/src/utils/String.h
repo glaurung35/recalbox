@@ -11,7 +11,7 @@
 #pragma once
 
 //! Disable implicit construction from string (copy or move)
-#define NO_STD_STRING_AUTOBOXING
+//#define NO_STD_STRING_AUTOBOXING
 
 #include <string>
 #include <vector>
@@ -1061,7 +1061,7 @@ class String : public std::string
     {
       size_t stop = find_last_not_of(trim);
       if (stop == std::string::npos) stop = 0;
-      if (stop < size() - 1) erase(stop + 1);
+      if ((int)stop < (int)size() - 1) erase(stop + 1);
       return *this;
     }
     /*!
@@ -2961,7 +2961,7 @@ class String : public std::string
      * @param trim True to trim extracted strings, false to keep them as-is
      * @return True if the separator has been found and strings extracted, false otherwise
      */
-    [[nodiscard]] bool Extract(char separator, String& leftOutput, String& rightOutput, bool trim)
+    [[nodiscard]] bool Extract(char separator, String& leftOutput, String& rightOutput, bool trim) const
     {
       int position = Find(separator, 0);
       if (position < 0) return false;
@@ -2980,7 +2980,7 @@ class String : public std::string
      * @param trim True to trim extracted strings, false to keep them as-is
      * @return True if the separator has been found and strings extracted, false otherwise
      */
-    [[nodiscard]] bool Extract(const char* separator, String& leftOutput, String& rightOutput, bool trim) { return Extract(separator, (int)strlen(separator), leftOutput, rightOutput, trim); }
+    [[nodiscard]] bool Extract(const char* separator, String& leftOutput, String& rightOutput, bool trim) const { return Extract(separator, (int)strlen(separator), leftOutput, rightOutput, trim); }
     /*!
      * @brief Split the current string on the first encountered separator c-string and extract both left and right sides
      * Both extracted strings may be optionally trimmed
@@ -2991,7 +2991,7 @@ class String : public std::string
      * @param trim True to trim extracted strings, false to keep them as-is
      * @return True if the separator has been found and strings extracted, false otherwise
      */
-    [[nodiscard]] bool Extract(const char* separator, int separatorLength, String& leftOutput, String& rightOutput, bool trim)
+    [[nodiscard]] bool Extract(const char* separator, int separatorLength, String& leftOutput, String& rightOutput, bool trim) const
     {
       int position = Find(separator, separatorLength, 0, INT32_MAX);
       if (position < 0) return false;
@@ -3009,7 +3009,7 @@ class String : public std::string
      * @param trim True to trim extracted strings, false to keep them as-is
      * @return True if the separator has been found and strings extracted, false otherwise
      */
-    [[nodiscard]] bool Extract(const String& separator, String& leftOutput, String& rightOutput, bool trim)
+    [[nodiscard]] bool Extract(const String& separator, String& leftOutput, String& rightOutput, bool trim) const
     {
       int position = Find(separator);
       if (position < 0) return false;
@@ -3027,7 +3027,7 @@ class String : public std::string
      * @param trim True to trim the resulting string from ' \t\r\n' characters
      * @return True if start and end chars have been found and a string has been extracted into output, false otherwise
      */
-    [[nodiscard]] bool Extract(char start, char end, String& output, bool trim)
+    [[nodiscard]] bool Extract(char start, char end, String& output, bool trim) const
     {
       int startPos = Find(start);
       int endPos = Find(end, startPos + 1);
@@ -3044,7 +3044,7 @@ class String : public std::string
      * @param trim True to trim the resulting string from ' \t\r\n' characters
      * @return True if start and end c-strings have been found and a string has been extracted into output, false otherwise
      */
-    [[nodiscard]] bool Extract(const char* start, const char* end, String& output, bool trim) { return Extract(start, (int)strlen(start), end, (int)strlen(end), output, trim); }
+    [[nodiscard]] bool Extract(const char* start, const char* end, String& output, bool trim) const { return Extract(start, (int)strlen(start), end, (int)strlen(end), output, trim); }
     /*!
      * @brief Extract the string between start and end c-string, and optionally trim the result
      * @param start Start c-string
@@ -3055,7 +3055,7 @@ class String : public std::string
      * @param trim True to trim the resulting string from ' \t\r\n' characters
      * @return True if start and end c-strings have been found and a string has been extracted into output, false otherwise
      */
-    [[nodiscard]] bool Extract(const char* start, int startLength, const char* end, int endLength, String& output, bool trim)
+    [[nodiscard]] bool Extract(const char* start, int startLength, const char* end, int endLength, String& output, bool trim) const
     {
       int startPos = Find(start, startLength, 0, INT32_MAX);
       int endPos = Find(end, endLength, startPos + startLength, INT32_MAX);
@@ -3072,7 +3072,7 @@ class String : public std::string
      * @param trim True to trim the resulting string from ' \t\r\n' characters
      * @return True if start and end strings have been found and a string has been extracted into output, false otherwise
      */
-    [[nodiscard]] bool Extract(const String& start, const String& end, String& output, bool trim)
+    [[nodiscard]] bool Extract(const String& start, const String& end, String& output, bool trim) const
     {
       int startPos = Find(start);
       int endPos = Find(end, startPos + start.Count());

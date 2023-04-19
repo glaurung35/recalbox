@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add missing netplay support for sameboy and mgba
 - Fix naomi and atomiswave resolution in 240p for CRT
 - Fix Mortal Kombat resolution on CRT
+- Fix TIC80 downloader if any game have never get any update
 
 ## Version 9.0.2-Pulstar
 

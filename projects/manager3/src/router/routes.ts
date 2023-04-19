@@ -30,6 +30,7 @@ const EmulationSystemsTabSystemContent = () => import('components/emulation/Emul
 
 const VirtualDevicesLayout = () => import('layouts/VirtualDevicesLayout.vue');
 const VirtualKeyboard = () => import('components/virtualdevices/VirtualKeyboard.vue');
+const VirtualTrackpad = () => import('components/virtualdevices/VirtualTrackpad.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -158,6 +159,11 @@ const routes: RouteRecordRaw[] = [
         path: 'keyboard',
         name: 'virtual-devices-keyboard',
         component: VirtualKeyboard,
+      },
+      {
+        path: 'trackpad',
+        name: 'virtual-devices-trackpad',
+        component: VirtualTrackpad,
       },
     ],
   },

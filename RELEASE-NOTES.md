@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix naomi and atomiswave resolution in 240p for CRT
 - Fix Mortal Kombat resolution on CRT
 - Add missing joystick support on GPi Cases
+- Fix TIC80 downloader if any game have never get any update
 
 ## Version 9.0.2-Pulstar
 

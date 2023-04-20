@@ -122,6 +122,7 @@ RecalboxEndPoints::RecalboxEndPoints()
     case BoardType::OdroidAdvanceGoSuper: mBoard = "Odroid GO Super"; break;
     case BoardType::PCx86:                mBoard = "x86"; break;
     case BoardType::PCx64:                mBoard = "x64"; break;
+    case BoardType::RG351P:               mBoard = "RG351P/M"; break;
     case BoardType::RG353P:               mBoard = "RG353P"; break;
     case BoardType::RG353V:               mBoard = "RG353V"; break;
     case BoardType::RG353M:               mBoard = "RG353M"; break;

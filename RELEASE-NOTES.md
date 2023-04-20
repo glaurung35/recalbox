@@ -7,7 +7,8 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2-Pulstar
 
 ### Hardware
-- Add support for Anbernic RG351v
+- Add support for Anbernic RG351v (Thanks BelgaWill !)
+- Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
 
 ### News
 - Add Naomi 2 system on x86_64

@@ -440,6 +440,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
         return; // Let the RG Wizard reset the flag
       }
       case BoardType::RG351V: // todo
+      case BoardType::RG351P: // todo
       case BoardType::PCx86:
       case BoardType::PCx64:
       case BoardType::UndetectedYet:
@@ -519,6 +520,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper: portable = true; break;
     case BoardType::UndetectedYet:
@@ -1078,7 +1080,7 @@ bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
   const BoardType board = Board::Instance().GetBoardType();
   if (board == BoardType::OdroidAdvanceGo || board == BoardType::OdroidAdvanceGoSuper || board == BoardType::Pi400 ||
       board == BoardType::RG353P || board == BoardType::RG353V || board == BoardType::RG353M || board == BoardType::RG503 ||
-      board == BoardType::RG351V)
+      board == BoardType::RG351V || board == BoardType::RG351P)
     return false;
   const InputEvent& raw = event.RawEvent();
   if (raw.Type() == InputEvent::EventType::Key)

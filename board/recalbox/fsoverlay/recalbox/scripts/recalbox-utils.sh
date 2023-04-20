@@ -48,6 +48,7 @@ getInstallUpgradeImagePath() {
   if [ "$(getArchName)" = "odroidgo2" ]; then
     MODEL=$(tr '\0' '\n' </sys/firmware/devicetree/base/model)
     case $MODEL in
+      *RG351P) echo "/recalbox/system/resources/320x480" ;;
       *ODROID-GO2) echo "/recalbox/system/resources/320x480" ;;
       *ODROID-GO3) echo "/recalbox/system/resources/480x854" ;;
       *)           echo "/recalbox/system/resources" ;;

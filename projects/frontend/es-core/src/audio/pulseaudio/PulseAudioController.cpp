@@ -626,6 +626,7 @@ String PulseAudioController::GetActivePlaybackName()
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::RG353P:
     case BoardType::RG353V:
     case BoardType::RG353M:
@@ -680,6 +681,7 @@ String PulseAudioController::AdjustSpecialPlayback(const String& originalPlaybac
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
@@ -1107,6 +1109,7 @@ String PulseAudioController::GetCardDescription(const pa_card_info& info)
       break;
     }
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::RG353P:
@@ -1155,6 +1158,7 @@ String PulseAudioController::GetPortDescription(const pa_sink_port_info& info, A
     case BoardType::Pi400:
     case BoardType::UnknownPi:
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::RG353P:
@@ -1189,6 +1193,7 @@ String PulseAudioController::GetPortDescription(const pa_card_port_info& info, A
     case BoardType::Pi4:
     case BoardType::Pi400:
     case BoardType::UnknownPi:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::RG353P:

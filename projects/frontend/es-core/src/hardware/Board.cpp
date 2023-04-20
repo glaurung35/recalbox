@@ -47,6 +47,11 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super detected."; }
       return *(new OdroidAdvanceGo2Board(messageSender, model));
     }
+    case BoardType::RG351P:
+    {
+      { LOG(LogInfo) << "[Hardware] Anbernic RG351P/M detected."; }
+      return *(new OdroidAdvanceGo2Board(messageSender, model));
+    }
     case BoardType::RG353P:
     case BoardType::RG353V:
     case BoardType::RG353M:
@@ -195,6 +200,11 @@ BoardType Board::GetBoardType()
           { LOG(LogInfo) << "[Hardware] Anbernic RG351V" ; }
           mType = BoardType::RG351V;
         }
+        if (hardware == "Anbernic RG351P")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG351P" ; }
+          mType = BoardType::RG351P;
+        }
         if (hardware == "Anbernic RG353P")
         {
           { LOG(LogInfo) << "[Hardware] Anbernic RG353P" ; }
@@ -274,6 +284,7 @@ bool Board::CanHaveCRTBoard()
     case BoardType::Pi0:
     case BoardType::UnknownPi:
     case BoardType::RG351V:
+    case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::PCx86:

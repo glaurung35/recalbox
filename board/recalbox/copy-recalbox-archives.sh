@@ -122,6 +122,7 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo3-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+	cp "${BINARIES_DIR}/rk3326-rg351p-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1

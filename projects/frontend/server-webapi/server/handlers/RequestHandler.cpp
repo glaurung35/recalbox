@@ -241,6 +241,17 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
     }
   }
 
+  JSONBuilder portJson;
+
+  portJson.Open()
+          .Field("name", "ports")
+          .Field("fullname", "Ports")
+          .Field("romFolder", "/recalbox/share/roms/ports")
+          .Field("themeFolder", "ports")
+          .Close();
+
+  systems.Field(Strings::ToString(deserializer.Count()).c_str(), portJson);
+
   systems.CloseObject()
          .Close();
   RequestHandlerTools::Send(response, Http::Code::Ok, systems, Mime::Json);

@@ -1,6 +1,9 @@
 //
 // Created by bkg2k on 30/04/2020.
+<<<<<<< HEAD
 // Fixed by Maksthorr on 21/04/2023
+=======
+>>>>>>> web-manager-3.0
 //
 
 #include "Validator.h"
@@ -20,6 +23,7 @@ bool Validator::Validate(std::string& value) const
     }
     case Types::StringPicker:
     {
+<<<<<<< HEAD
         // FIX : Changing searching method.
         if (mList.starts_with('|') && mList.ends_with('|'))
         {
@@ -33,6 +37,14 @@ bool Validator::Validate(std::string& value) const
             return (pos != std::string::npos);
         }
 
+=======
+      size_t pos = mList.find(value);
+      if (pos != std::string::npos)
+        if ((pos == 0) || (mList[pos - 1] == '|'))
+          if ((pos + value.size() >= mList.size()) || (mList[pos + value.size()] == '|'))
+            return true;
+      return false;
+>>>>>>> web-manager-3.0
     }
     case Types::StringMultiPicker:
     {

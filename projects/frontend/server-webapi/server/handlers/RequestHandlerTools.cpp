@@ -1,6 +1,9 @@
 //
 // Created by bkg2k on 03/04/2020.
+<<<<<<< HEAD
 // Fixed by Maksthorr on 21/04/2023
+=======
+>>>>>>> web-manager-3.0
 //
 
 #include <pistache/include/pistache/router.h>
@@ -547,8 +550,13 @@ void RequestHandlerTools::GetKeyValues(const std::string& domain, const HashMap<
     {
       case Validator::Types::StringFree:
       case Validator::Types::StringConstrained:
+<<<<<<< HEAD
       case Validator::Types::StringPicker: value.Field("value", configuration.AsString(k)); break; // FIX 21/04/2023
       case Validator::Types::StringMultiPicker: value.Field("value", key.second.StringList()); break;
+=======
+      case Validator::Types::StringMultiPicker:
+      case Validator::Types::StringPicker: value.Field("value", configuration.AsString(k)); break;
+>>>>>>> web-manager-3.0
       case Validator::Types::IntRange: value.Field("value", configuration.AsInt(k, 0)); break;
       case Validator::Types::Bool: value.Field("value", configuration.AsBool(k, false)); break;
       default: LOG(LogError) << "Unknown type " << (int) key.second.Type() << " for " << key.first;
@@ -844,8 +852,11 @@ HashMap<std::string, std::string> RequestHandlerTools::GetAvailableLanguages()
      { "lb_LU", "Lëtzebuergesch"},
   });
 
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> web-manager-3.0
   return sLanguages;
 }
 

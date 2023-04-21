@@ -678,6 +678,7 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
 
   switch(Board::Instance().GetBoardType())
   {
+    case BoardType::RG353V:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     {
@@ -695,7 +696,6 @@ std::string PulseAudioController::AdjustSpecialPlayback(const std::string& origi
       break;
     }
     case BoardType::RG353P:
-    case BoardType::RG353V:
     case BoardType::RG353M:
     case BoardType::RG503:
     {

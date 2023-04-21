@@ -5,7 +5,7 @@ export const AUDIO = '/configuration/audio';
 
 export const BIOS = {
   root: '/bios',
-  all: '/bios/getall',
+  all: '/bios',
   export: '/bios/download',
   upload: '/bios/upload/',
 };
@@ -24,10 +24,10 @@ export const KODI = '/configuration/kodi';
 
 export const MEDIA = {
   root: '/media',
-  all: '/user/media/getall',
-  get: '/user/media/screenshot/',
-  delete: '/user/media/',
-  takeScreenshot: '/user/media/takescreenshot',
+  all: '/media',
+  get: '/media/screenshot/',
+  delete: '/media/',
+  takeScreenshot: '/media/takescreenshot',
 };
 
 export const MONITORING = {
@@ -41,7 +41,7 @@ export const NEOGEO = '/configuration/neogeo';
 
 export const ROMS = {
   root: '/roms',
-  all: '/roms/getall',
+  all: '/roms',
 };
 
 export const SCRAPER = '/configuration/scraper';
@@ -54,7 +54,7 @@ export const SYSTEM = '/configuration/system';
 
 export const SYSTEMS = {
   root: '/systems',
-  all: '/systems/getall',
+  all: '/systems',
 };
 
 export const UPDATES = '/configuration/updates';

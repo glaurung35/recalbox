@@ -1,3 +1,9 @@
+/*
+ * SPDX-FileCopyrightText: 2015 Mathieu Stefani
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ */
+
 /* listener.h
    Mathieu Stefani, 12 August 2015
 
@@ -9,6 +15,7 @@
 #include <pistache/async.h>
 #include <pistache/config.h>
 #include <pistache/flags.h>
+#include <pistache/log.h>
 #include <pistache/net.h>
 #include <pistache/os.h>
 #include <pistache/reactor.h>
@@ -25,82 +32,99 @@
 #include <openssl/ssl.h>
 #endif /* PISTACHE_USE_SSL */
 
-namespace Pistache {
-namespace Tcp {
+namespace Pistache::Tcp
+{
 
-class Peer;
-class Transport;
+    class Peer;
+    class Transport;
 
-void setSocketOptions(Fd fd, Flags<Options> options);
+    void setSocketOptions(Fd fd, Flags<Options> options);
 
-class Listener {
-public:
-  struct Load {
-    using TimePoint = std::chrono::system_clock::time_point;
-    double global;
-    std::vector<double> workers;
+    class Listener
+    {
+    public:
+        struct Load
+        {
+            using TimePoint = std::chrono::system_clock::time_point;
+            double global;
+            std::vector<double> workers;
 
-    std::vector<rusage> raw;
-    TimePoint tick;
-  };
+            std::vector<rusage> raw;
+            TimePoint tick;
+        };
 
-  Listener();
-  ~Listener();
+        using TransportFactory = std::function<std::shared_ptr<Transport>()>;
 
-  explicit Listener(const Address &address);
-  void init(size_t workers,
-            Flags<Options> options = Flags<Options>(Options::None),
-            const std::string &workersName = "",
-            int backlog = Const::MaxBacklog);
-  void setHandler(const std::shared_ptr<Handler> &handler);
+        Listener();
+        ~Listener();
 
-  void bind();
-  void bind(const Address &address);
+        explicit Listener(const Address& address);
+        void init(size_t workers,
+                  Flags<Options> options          = Flags<Options>(Options::None),
+                  const std::string& workersName  = "",
+                  int backlog                     = Const::MaxBacklog,
+                  PISTACHE_STRING_LOGGER_T logger = PISTACHE_NULL_STRING_LOGGER);
 
-  bool isBound() const;
-  Port getPort() const;
+        void setTransportFactory(TransportFactory factory);
+        void setHandler(const std::shared_ptr<Handler>& handler);
 
-  void run();
-  void runThreaded();
+        void bind();
+        void bind(const Address& address);
 
-  void shutdown();
+        bool isBound() const;
+        Port getPort() const;
 
-  Async::Promise<Load> requestLoad(const Load &old);
+        void run();
+        void runThreaded();
 
-  Options options() const;
-  Address address() const;
+        void shutdown();
 
-  void pinWorker(size_t worker, const CpuSet &set);
+        Async::Promise<Load> requestLoad(const Load& old);
 
-  void setupSSL(const std::string &cert_path, const std::string &key_path,
-                bool use_compression);
-  void setupSSLAuth(const std::string &ca_file, const std::string &ca_path,
-                    int (*cb)(int, void *));
+        Options options() const;
+        Address address() const;
 
-private:
-  Address addr_;
-  int listen_fd;
-  int backlog_;
-  NotifyFd shutdownFd;
-  Polling::Epoll poller;
+        void pinWorker(size_t worker, const CpuSet& set);
 
-  Flags<Options> options_;
-  std::thread acceptThread;
+        void setupSSL(const std::string& cert_path, const std::string& key_path,
+                      bool use_compression, int (*cb_password)(char*, int, int, void*),
+                      std::chrono::milliseconds sslHandshakeTimeout = Const::DefaultSSLHandshakeTimeout);
+        void setupSSLAuth(const std::string& ca_file, const std::string& ca_path,
+                          int (*cb)(int, void*));
+        std::vector<std::shared_ptr<Tcp::Peer>> getAllPeer();
 
-  size_t workers_;
-  std::string workersName_;
-  std::shared_ptr<Handler> handler_;
+    private:
+        Address addr_;
+        int listen_fd = -1;
+        int backlog_  = Const::MaxBacklog;
+        NotifyFd shutdownFd;
+        Polling::Epoll poller;
 
-  Aio::Reactor reactor_;
-  Aio::Reactor::Key transportKey;
+        Flags<Options> options_;
+        std::thread acceptThread;
 
-  void handleNewConnection();
-  int acceptConnection(struct sockaddr_in &peer_addr) const;
-  void dispatchPeer(const std::shared_ptr<Peer> &peer);
+        size_t workers_ = Const::DefaultWorkers;
+        std::string workersName_;
+        std::shared_ptr<Handler> handler_;
 
-  bool useSSL_ = false;
-  ssl::SSLCtxPtr ssl_ctx_ = nullptr;
-};
+        Aio::Reactor reactor_;
+        Aio::Reactor::Key transportKey;
 
-} // namespace Tcp
-} // namespace Pistache
+        TransportFactory transportFactory_;
+
+        TransportFactory defaultTransportFactory() const;
+
+        void handleNewConnection();
+        int acceptConnection(struct sockaddr_storage& peer_addr) const;
+        void dispatchPeer(const std::shared_ptr<Peer>& peer);
+
+        bool useSSL_            = false;
+        ssl::SSLCtxPtr ssl_ctx_ = nullptr;
+
+        PISTACHE_STRING_LOGGER_T logger_ = PISTACHE_NULL_STRING_LOGGER;
+
+        // This should be moved after "ssl_ctx_" in the next ABI change
+        std::chrono::milliseconds sslHandshakeTimeout_ = Const::DefaultSSLHandshakeTimeout;
+    };
+
+} // namespace Pistache::Tcp

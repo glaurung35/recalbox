@@ -234,4 +234,11 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to restart ES
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) override;
 };

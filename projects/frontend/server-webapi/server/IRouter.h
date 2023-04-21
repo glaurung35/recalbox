@@ -222,6 +222,13 @@ class IRouter
      */
     virtual void UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*!
+     * @brief Handle GET to restart ES
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -263,6 +270,8 @@ class IRouter
       // All media - Full path - .png .jpg .pdf .gif .mp4 .avi .mkv
       Rest::Routes::Get(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaGet, this));
       Rest::Routes::Get(mRouter, "/api/user/media/screenshot/*", Rest::Routes::bind(&IRouter::UserMediaGetScreenshot, this));
+      // System
+      Rest::Routes::Get(mRouter, "/api/system/es/restart", Rest::Routes::bind(&IRouter::SystemEsRestart, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

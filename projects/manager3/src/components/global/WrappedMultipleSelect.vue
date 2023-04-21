@@ -11,18 +11,21 @@
     v-bind="$attrs"
     :clearable="clearable"
     multiple
-    use-chips
   >
-    <template v-slot:selected>
-      <q-chip
-        square
-        color="accent"
-        text-color="white"
-        dense
-        removable
-      >
-        {{ value }}
-      </q-chip>
+    <template v-slot:selected-item />
+    <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
+      <q-item v-bind="itemProps">
+        <q-item-section>
+          <q-item-label v-html="opt" />
+        </q-item-section>
+        <q-item-section side>
+          <q-checkbox
+            :model-value="selected"
+            @update:model-value="toggleOption(opt)"
+            color="accent"
+          />
+        </q-item-section>
+      </q-item>
     </template>
     <template v-slot:no-option>
       <q-item>
@@ -49,7 +52,7 @@ const props = defineProps({
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
-  clearable: { type: Boolean },
+  clearable: { type: Boolean, default: false },
 });
 
 const {
@@ -57,7 +60,10 @@ const {
 } = toRefs(props);
 
 const value = computed({
-  get: () => getter?.value.value,
+  get: () => {
+    console.log(getter?.value.value);
+    return getter?.value.value;
+  },
   set: (selected) => setter.value({ [apiKey?.value]: selected === null ? null : selected }),
 });
 </script>

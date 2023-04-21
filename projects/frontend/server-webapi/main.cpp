@@ -62,8 +62,8 @@ int main(int argc, char* argv[])
   // Get parameters
   Parameters param(argc, argv);
 
-  Log::open("/recalbox/share/system/logs/webapi.log");
-  if (param.Debug()) Log::setReportingLevel(LogLevel::LogDebug);
+  ::Log::open("/recalbox/share/system/logs/webapi.log");
+  if (param.Debug()) ::Log::setReportingLevel(LogLevel::LogDebug);
 
   param.LogConfig();
 

@@ -526,6 +526,8 @@ void RequestHandler::UserMediaGetScreenshot(const Rest::Request& request, Http::
   }
   else RequestHandlerTools::Error404(response);
 }
+<<<<<<< HEAD
+=======
 
 void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response)
 {

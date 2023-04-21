@@ -241,11 +241,13 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/monitoring/systeminfo", Rest::Routes::bind(&IRouter::SystemInfo, this));
       Rest::Routes::Get(mRouter, "/api/monitoring/storageinfo", Rest::Routes::bind(&IRouter::StorageInfo, this));
       // Bios
+      Rest::Routes::Get(mRouter, "/api/bios/getall", Rest::Routes::bind(&IRouter::BiosGetAll, this));
       Rest::Routes::Get(mRouter, "/api/bios", Rest::Routes::bind(&IRouter::BiosGetAll, this));
       Rest::Routes::Get(mRouter, "/api/bios/get/*", Rest::Routes::bind(&IRouter::BiosGetSystem, this));
       Rest::Routes::Get(mRouter, "/api/bios/download", Rest::Routes::bind(&IRouter::BiosDownload, this));
       Rest::Routes::Post(mRouter, "/api/bios/upload/*", Rest::Routes::bind(&IRouter::BiosUpload, this));
       // Systems
+      Rest::Routes::Get(mRouter, "/api/systems/getall", Rest::Routes::bind(&IRouter::SystemsGetAll, this));
       Rest::Routes::Get(mRouter, "/api/systems", Rest::Routes::bind(&IRouter::SystemsGetAll, this));
       Rest::Routes::Get(mRouter, "/api/systems/getactives", Rest::Routes::bind(&IRouter::SystemsGetActives, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/console", Rest::Routes::bind(&IRouter::SystemsResourceGetConsole, this));
@@ -263,13 +265,13 @@ class IRouter
       Rest::Routes::Options(mRouter, "/api/configuration/system/*", Rest::Routes::bind(&IRouter::SystemConfigurationOptions, this));
       Rest::Routes::Delete(mRouter, "/api/configuration/system/*", Rest::Routes::bind(&IRouter::SystemConfigurationDelete, this));
       // Screenshots/Videos
-      Rest::Routes::Options(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::UserMediaOptions, this));
-      Rest::Routes::Get(mRouter, "/api/media", Rest::Routes::bind(&IRouter::UserMediaGetList, this));
-      Rest::Routes::Delete(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::UserMediaDelete, this));
-      Rest::Routes::Post(mRouter, "/api/media/takescreenshot", Rest::Routes::bind(&IRouter::UserMediaTakeScreenshot, this));
+      Rest::Routes::Options(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaOptions, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/getall", Rest::Routes::bind(&IRouter::UserMediaGetList, this));
+      Rest::Routes::Delete(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaDelete, this));
+      Rest::Routes::Post(mRouter, "/api/user/media/takescreenshot", Rest::Routes::bind(&IRouter::UserMediaTakeScreenshot, this));
       // All media - Full path - .png .jpg .pdf .gif .mp4 .avi .mkv
-      Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::UserMediaGet, this));
-      Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::UserMediaGetScreenshot, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/*", Rest::Routes::bind(&IRouter::UserMediaGet, this));
+      Rest::Routes::Get(mRouter, "/api/user/media/screenshot/*", Rest::Routes::bind(&IRouter::UserMediaGetScreenshot, this));
       // System
       Rest::Routes::Get(mRouter, "/api/system/es/restart", Rest::Routes::bind(&IRouter::SystemEsRestart, this));
 

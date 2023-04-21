@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-UBOOT_RG353X_VERSION = 4a075f59d3c5e0c7170a4e85fd6ce0901c8568f9
+UBOOT_RG353X_VERSION = 06ce0271ddf522f97b9150e369ebec10bf2c763b
 UBOOT_RG353X_SITE = https://gitlab.com/recalbox/packages/hardware/uboot-rg353x.git
 UBOOT_RG353X_SITE_METHOD = git
 UBOOT_RG353X_LICENSE = unknown
@@ -24,7 +24,7 @@ define UBOOT_RG353X_BUILD_CMDS
 	$(INSTALL) $(UBOOT_RG353X_PKGDIR)/assets/battery_5.bmp $(LINUX_DIR)/battery_5.bmp
 	$(INSTALL) $(UBOOT_RG353X_PKGDIR)/assets/battery_fail.bmp $(LINUX_DIR)/battery_fail.bmp
 	cd $(LINUX_DIR); \
-		./scripts/mkmultidtb.py rg353x
+		./scripts/mkmultidtb.py rk356x
 endef
 
 define UBOOT_RG353X_INSTALL_IMAGES_CMDS

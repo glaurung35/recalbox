@@ -229,10 +229,11 @@ case "${RECALBOX_TARGET}" in
 	# /boot
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/rg353x-firmware/boot/extlinux/extlinux.conf" || exit 1
-	cp "${BINARIES_DIR}/rk3566-anbernic-rg353p.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-anbernic-rg353v.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-anbernic-rg353m.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-anbernic-rg503.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353p-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353v-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353m-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg503-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rk2023-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rg353x-firmware/boot/initrd.gz" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/rg353x-firmware/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rg353x-firmware/boot/recalbox" || exit 1

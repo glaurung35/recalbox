@@ -1,5 +1,6 @@
 //
 // Created by bkg2k on 30/04/2020.
+// Fixed by Maksthorr on 21/04/2023
 //
 
 #include "Validator.h"
@@ -19,12 +20,19 @@ bool Validator::Validate(std::string& value) const
     }
     case Types::StringPicker:
     {
-      size_t pos = mList.find(value);
-      if (pos != std::string::npos)
-        if ((pos == 0) || (mList[pos - 1] == '|'))
-          if ((pos + value.size() >= mList.size()) || (mList[pos + value.size()] == '|'))
-            return true;
-      return false;
+        // FIX : Changing searching method.
+        if (mList.starts_with('|') && mList.ends_with('|'))
+        {
+            size_t pos = mList.find('|' + value + '|');
+            return (pos != std::string::npos);
+        }
+        else
+        {
+            auto list = '|' + mList + '|';
+            size_t pos = list.find('|' + value + '|');
+            return (pos != std::string::npos);
+        }
+
     }
     case Types::StringMultiPicker:
     {

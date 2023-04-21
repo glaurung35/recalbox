@@ -8,6 +8,7 @@
 #include "RG353XSpecialButtonsReader.h"
 #include "hardware/IBoardInterface.h"
 #include "RG353XVolumeReader.h"
+#include "RG353XJackEventReader.h"
 
 // Forward declaration
 class InputCompactEvent;
@@ -18,6 +19,7 @@ class RG353XBoard: public IBoardInterface
     explicit RG353XBoard(HardwareMessageSender& messageSender, BoardType model)
       : IBoardInterface(messageSender)
       , mPowerReader(messageSender)
+      , mHeadphoneReader(messageSender)
       , mButtonsReader(*this)
       , mVolumeReader(messageSender)
       , mModel(model)
@@ -31,6 +33,8 @@ class RG353XBoard: public IBoardInterface
     static constexpr const char* sBatteryCapacityPath = "/sys/class/power_supply/battery/capacity";
     static constexpr const char* sBatteryStatusPath   = "/sys/class/power_supply/battery/status";
 
+    //! Headphone jack event reader
+    RG353XJackEventReader mHeadphoneReader;
     //! Power button event reader
     RG353XPowerEventReader mPowerReader;
     //! Special button reader (volume/brightness)
@@ -48,6 +52,8 @@ class RG353XBoard: public IBoardInterface
     {
       mPowerReader.StartReader();
       mVolumeReader.StartReader();
+//      if (mModel == BoardType::RG353V)
+        mHeadphoneReader.StartReader();
     }
 
     /*!
@@ -58,6 +64,8 @@ class RG353XBoard: public IBoardInterface
     {
       mPowerReader.StopReader();
       mVolumeReader.StopReader();
+//      if (mModel == BoardType::RG353V)
+        mHeadphoneReader.StopReader();
     }
 
     /*!
@@ -160,8 +168,8 @@ class RG353XBoard: public IBoardInterface
      */
     bool OnRebootOrShutdown() { return false; }
 
-    void HeadphonePlugged() final {};
-    void HeadphoneUnplugged() final {};
+    void HeadphonePlugged() final;
+    void HeadphoneUnplugged() final;
 
     /*!
      * @brief Set the CPU governor for EmulationStation

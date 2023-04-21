@@ -526,3 +526,11 @@ void RequestHandler::UserMediaGetScreenshot(const Rest::Request& request, Http::
   }
   else RequestHandlerTools::Error404(response);
 }
+
+void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemEsRestart");
+
+  RequestHandlerTools::Send(response, Http::Code::Ok);
+  RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart");
+}

@@ -82,6 +82,16 @@ bool RG353XBoard::IsBatteryCharging()
   return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
 }
 
+void RG353XBoard::HeadphonePlugged()
+{
+  system("amixer sset 'Playback Path' HP");
+}
+
+void RG353XBoard::HeadphoneUnplugged()
+{
+  system("amixer sset 'Playback Path' SPK");
+}
+
 void RG353XBoard::SetFrontendCPUGovernor()
 {
   SetCPUGovernance(CPUGovernance::OnDemand);

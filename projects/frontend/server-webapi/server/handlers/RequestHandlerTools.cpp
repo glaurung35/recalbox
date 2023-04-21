@@ -1,5 +1,6 @@
 //
 // Created by bkg2k on 03/04/2020.
+// Fixed by Maksthorr on 21/04/2023
 //
 
 #include <pistache/include/pistache/router.h>
@@ -546,8 +547,8 @@ void RequestHandlerTools::GetKeyValues(const std::string& domain, const HashMap<
     {
       case Validator::Types::StringFree:
       case Validator::Types::StringConstrained:
-      case Validator::Types::StringMultiPicker:
-      case Validator::Types::StringPicker: value.Field("value", configuration.AsString(k)); break;
+      case Validator::Types::StringPicker: value.Field("value", configuration.AsString(k)); break; // FIX 21/04/2023
+      case Validator::Types::StringMultiPicker: value.Field("value", key.second.StringList()); break;
       case Validator::Types::IntRange: value.Field("value", configuration.AsInt(k, 0)); break;
       case Validator::Types::Bool: value.Field("value", configuration.AsBool(k, false)); break;
       default: LOG(LogError) << "Unknown type " << (int) key.second.Type() << " for " << key.first;
@@ -842,6 +843,8 @@ HashMap<std::string, std::string> RequestHandlerTools::GetAvailableLanguages()
      { "lv_LV", "latviešu"      },
      { "lb_LU", "Lëtzebuergesch"},
   });
+
+
 
   return sLanguages;
 }

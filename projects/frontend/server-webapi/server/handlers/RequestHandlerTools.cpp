@@ -208,6 +208,39 @@ const char* RequestHandlerTools::MethodToString(Pistache::Http::Method method)
     case Http::Method::Delete: return "DELETE";
     case Http::Method::Trace: return "TRACE";
     case Http::Method::Connect: return "CONNECT";
+
+    // Avoid enum Warning
+    case Http::Method::Acl:
+    case Http::Method::BaselineControl:
+    case Http::Method::Bind:
+    case Http::Method::Checkin:
+    case Http::Method::Checkout:
+    case Http::Method::Copy:
+    case Http::Method::Label:
+    case Http::Method::Link:
+    case Http::Method::Lock:
+    case Http::Method::Merge:
+    case Http::Method::Mkactivity:
+    case Http::Method::Mkcalendar:
+    case Http::Method::Mkcol:
+    case Http::Method::Mkredirectref:
+    case Http::Method::Mkworkspace:
+    case Http::Method::Move:
+    case Http::Method::Orderpatch:
+    case Http::Method::Pri:
+    case Http::Method::Propfind:
+    case Http::Method::Proppatch:
+    case Http::Method::Rebind:
+    case Http::Method::Report:
+    case Http::Method::Search:
+    case Http::Method::Unbind:
+    case Http::Method::Uncheckout:
+    case Http::Method::Unlink:
+    case Http::Method::Unlock:
+    case Http::Method::Update:
+    case Http::Method::Updateredirectref:
+    case Http::Method::VersionControl:
+    default: break;
   }
   return "UNKNOWN";
 }
@@ -606,15 +639,35 @@ void RequestHandlerTools::SetKeyValues(const std::string& domain, const HashMap<
         {
           case rapidjson::kFalseType: value = "0"; break;
           case rapidjson::kTrueType: value = "1"; break;
+          case rapidjson::kStringType: value = key.value.GetString(); break;
+          case rapidjson::kNumberType: value = Strings::ToString(key.value.GetInt()); break;
+
+          case rapidjson::kArrayType:
+          {
+              auto myArray = key.value.GetArray();
+              value = "";
+              for (unsigned int i = 0; i < myArray.Size(); i++)
+              {
+                  auto &val = myArray[i];
+                  if (val.IsString())
+                  {
+                      value +=  std::string(val.GetString()) + ',';
+                  }
+              }
+              if (!myArray.Empty())
+              {
+                  value.pop_back();
+              }
+
+              break;
+          }
+
           case rapidjson::kNullType:
           case rapidjson::kObjectType:
-          case rapidjson::kArrayType:
           {
             RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Key '" + shortKey + "' has un invalid value!", Mime::PlainText);
             return;
           }
-          case rapidjson::kStringType: value = key.value.GetString(); break;
-          case rapidjson::kNumberType: value = Strings::ToString(key.value.GetInt()); break;
         }
         Validator* validator = keys.try_get(shortKey);
         if (validator != nullptr)
@@ -818,8 +871,8 @@ HashMap<std::string, std::string> RequestHandlerTools::GetAvailableLanguages()
   static HashMap<std::string, std::string> sLanguages
   ({
      { "eu_ES", "EUSKARA"       },
-     { "zh_TW", "正體中文"          },
-     { "zh_CN", "简体中文"          },
+     { "zh_TW", "正體中文"        },
+     { "zh_CN", "简体中文"        },
      { "de_DE", "DEUTSCH"       },
      { "en_US", "ENGLISH"       },
      { "es_ES", "ESPAÑOL"       },
@@ -832,11 +885,11 @@ HashMap<std::string, std::string> RequestHandlerTools::GetAvailableLanguages()
      { "ar_YE", "اللغة العربية" },
      { "nl_NL", "NEDERLANDS"    },
      { "el_GR", "ελληνικά"      },
-     { "ko_KR", "한국어"           },
+     { "ko_KR", "한국어"         },
      { "nn_NO", "NORSK"         },
      { "nb_NO", "BOKMAL"        },
      { "pl_PL", "POLSKI"        },
-     { "ja_JP", "日本語"           },
+     { "ja_JP", "日本語"         },
      { "ru_RU", "Русский"       },
      { "hu_HU", "MAGYAR"        },
      { "cs_CZ", "čeština"       },

@@ -198,42 +198,42 @@ class RequestHandler : public IRouter
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaOptions(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaOptions(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET get media list
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaGetList(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaGetList(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle DELETE delete media
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaDelete(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaDelete(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle POST create screenshot
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET to get game media
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaGet(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaGet(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET to get screenshot media
      * @param request Request object
      * @param response Response object
      */
-    void UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
+    void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET to restart ES

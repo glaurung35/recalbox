@@ -20,29 +20,56 @@ bool Validator::Validate(std::string& value) const
     }
     case Types::StringPicker:
     {
-      // FIX : Changing searching method.
-      if (mList.starts_with('|') && mList.ends_with('|'))
-      {
-          size_t pos = mList.find('|' + value + '|');
-          return (pos != std::string::npos);
-      }
-      else
-      {
-          auto list = '|' + mList + '|';
-          size_t pos = list.find('|' + value + '|');
-          return (pos != std::string::npos);
-      }
+        // FIX : Changing searching method v2.
+        size_t pos = 0;
+        while ((pos = mList.find(value, pos)) != std::string::npos)
+        {
+            // Check if v not begin in the middle of a word
+            if (pos != 0 && mList[pos-1] != '|')
+            {
+                pos++;
+                continue;
+            }
+            // Check if v not end in the middle of a word
+            if (pos + value.length() != mList.length() && mList[pos+value.length()] != '|')
+            {
+                ++pos;
+                continue;
+            }
+            return true;
+        }
+        return false;
     }
     case Types::StringMultiPicker:
     {
       for(const std::string& v : Strings::Split(value, ','))
       {
-        size_t pos = mList.find(v);
-        if (pos == std::string::npos) return false;
-        if ((pos != 0) && (mList[pos - 1] != '|')) return false;
-        if ((pos + value.size() < mList.size()) && (mList[pos + value.size()] != '|')) return false;
+          // FIX : Changing searching method v2.
+          bool ok = false;
+          size_t pos = 0;
+          while ((pos = mList.find(v, pos)) != std::string::npos)
+          {
+              // Check if v not begin in the middle of a word
+              if (pos != 0 && mList[pos-1] != '|')
+              {
+                  pos++;
+                  continue;
+              }
+
+              // Check if v not end in the middle of a word
+              if (pos + v.length() != mList.length() && mList[pos+v.length()] != '|')
+              {
+                  ++pos;
+                  continue;
+              }
+              ok = true;
+              break;
+          }
+          if(!ok) return false;
+
       }
       return true;
+
     }
     case Types::IntRange:
     {

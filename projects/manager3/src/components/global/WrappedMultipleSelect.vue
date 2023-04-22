@@ -11,6 +11,7 @@
     v-bind="$attrs"
     :clearable="clearable"
     multiple
+    dense
   >
     <template v-slot:selected-item />
     <template v-slot:option="{ itemProps, opt, selected, toggleOption }">
@@ -60,10 +61,7 @@ const {
 } = toRefs(props);
 
 const value = computed({
-  get: () => {
-    console.log(getter?.value.value);
-    return getter?.value.value;
-  },
+  get: () => getter?.value.value,
   set: (selected) => setter.value({ [apiKey?.value]: selected === null ? null : selected }),
 });
 </script>

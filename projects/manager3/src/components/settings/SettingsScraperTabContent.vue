@@ -106,7 +106,6 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.language"
               v-if="scraper['screenscraper.language']"
-              clearable
             />
             <WrappedSelect
               label="settings.scraper.screenscraper.i18n.region"
@@ -115,7 +114,6 @@
               :setter="scraperStore.post"
               apiKey="screenscraper.region"
               v-if="scraper['screenscraper.region']"
-              clearable
             />
           </div>
         </template>

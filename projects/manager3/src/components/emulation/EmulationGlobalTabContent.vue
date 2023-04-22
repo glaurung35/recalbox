@@ -13,7 +13,6 @@
             :setter="globalStore.post"
             apiKey="ratio"
             v-if="global.ratio"
-            clearable
           />
           <WrappedSelect
             label="emulation.global.display.videomode.label"
@@ -23,7 +22,6 @@
             :setter="globalStore.post"
             apiKey="videomode"
             v-if="global.videomode"
-            clearable
           />
           <q-separator/>
           <WrappedToggle
@@ -41,7 +39,6 @@
             :setter="globalStore.post"
             apiKey="shaderset"
             v-if="global.shaderset"
-            clearable
           />
           <WrappedSelect
             label="emulation.global.display.customshaders.label"
@@ -51,7 +48,6 @@
             apiKey="shaderset.file"
             v-if="global['shaderset.file']"
             :disable="global.shaderset.value !== 'custom'"
-            clearable
           />
           <q-separator/>
           <WrappedToggle
@@ -153,7 +149,6 @@
             :setter="globalStore.post"
             apiKey="translate.from"
             v-if="global['translate.from']"
-            clearable
           />
 
           <WrappedSelect
@@ -164,7 +159,6 @@
             :setter="globalStore.post"
             apiKey="translate.to"
             v-if="global['translate.to']"
-            clearable
           />
 
           <WrappedTextInput

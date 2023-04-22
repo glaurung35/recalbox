@@ -425,21 +425,21 @@ void RequestHandler::SystemConfigurationDelete(const Rest::Request& request, Htt
   RequestHandlerTools::DeleteKeyValues(subSystem, keys, request.body(), response);
 }
 
-void RequestHandler::UserMediaOptions(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaOptions(const Rest::Request& request, Http::ResponseWriter response)
 {
-    RequestHandlerTools::LogRoute(request, "UserMediaOptions");
+    RequestHandlerTools::LogRoute(request, "MediaOptions");
     RequestHandlerTools::Send(response, Http::Code::Ok);
 }
 
-void RequestHandler::UserMediaGetList(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaGetList(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "UserMediaGetList");
+  RequestHandlerTools::LogRoute(request, "MediaGetList");
   RequestHandlerTools::GetJSONMediaList(response);
 }
 
-void RequestHandler::UserMediaDelete(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaDelete(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "UserMediaDelete");
+  RequestHandlerTools::LogRoute(request, "MediaDelete");
 
   std::string mediaName = request.splatAt(0).name();
   Path mediaPath("/recalbox/share/screenshots");
@@ -451,9 +451,9 @@ void RequestHandler::UserMediaDelete(const Rest::Request& request, Http::Respons
   RequestHandlerTools::GetJSONMediaList(response);
 }
 
-void RequestHandler::UserMediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaTakeScreenshot(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "UserMediaTakeScreenshot");
+  RequestHandlerTools::LogRoute(request, "MediaTakeScreenshot");
 
   std::string date = DateTime().ToStringFormat("%YYYY-%MM-%ddT%HH-%mm-%ss-%fffZ");
 
@@ -461,9 +461,9 @@ void RequestHandler::UserMediaTakeScreenshot(const Rest::Request& request, Http:
   RequestHandlerTools::GetJSONMediaList(response);
 }
 
-void RequestHandler::UserMediaGet(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "UserMediaGet");
+  RequestHandlerTools::LogRoute(request, "MediaGet");
 
   // Get path
   Path path(Strings::Decode64(request.splatAt(0).name()));
@@ -494,9 +494,9 @@ void RequestHandler::UserMediaGet(const Rest::Request& request, Http::ResponseWr
   else RequestHandlerTools::Error404(response);
 }
 
-void RequestHandler::UserMediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "UserMediaGetScreenshot");
+  RequestHandlerTools::LogRoute(request, "MediaGetScreenshot");
 
   std::string fileName = request.splatAt(0).name();
   Path path = Path("/recalbox/share/screenshots/" + fileName);

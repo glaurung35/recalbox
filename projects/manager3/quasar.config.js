@@ -73,6 +73,7 @@ module.exports = configure((ctx) => ({
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITBOOK_URL: 'https://recalbox.gitbook.io/documentation',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
+        PATREON_URL: 'https://www.patreon.com/recalbox',
 
         MQTT_URL: 'mqttx://192.168.1.30:18833',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
@@ -84,6 +85,7 @@ module.exports = configure((ctx) => ({
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITBOOK_URL: 'https://recalbox.gitbook.io/documentation',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
+        PATREON_URL: 'https://www.patreon.com/recalbox',
 
         MQTT_URL: 'mqtt://recalbox:18883',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',

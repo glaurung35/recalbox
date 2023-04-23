@@ -17,6 +17,14 @@
       vertical-actions-align="right"
     >
       <q-fab-action
+        @click="() => openURL(urls.patreon)"
+        color="secondary"
+        icon="mdi-patreon"
+        label="Patreon"
+        label-position="left"
+        square
+      />
+      <q-fab-action
         @click="() => openURL(urls.gitlab)"
         color="secondary"
         icon="mdi-gitlab"
@@ -61,6 +69,7 @@ const urls: object = {
   gitbook: process.env.GITBOOK_URL,
   forum: process.env.FORUM_URL,
   gitlab: process.env.GITLAB_URL,
+  patreon: process.env.PATREON_URL,
 };
 </script>
 

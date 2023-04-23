@@ -3,6 +3,11 @@
 -->
 <template>
   <q-page class="background home">
+    <div class="header">
+      <div class="background-container">
+        <img src="../assets/recalbox.svg" alt="Recalbox" />
+      </div>
+    </div>
     <div class="row home-stats">
       <div class="vertical-middle text-center preview-title self-center preview-title">
         {{ $t('home.preview.title') }}
@@ -40,15 +45,14 @@
       <div class="col col-md-4 machines-list">
         Nombre de jeux par machines
       </div>
-      <div class="col col-md-4 machine">
-        <div class="row">
-          <div class="col-4">
-            Système en cours ( si oui )
-          </div>
+      <div class="col col-md-4 system">
+        <div class="title">Système en cours</div>
+        <div class="informations">
+          <img src="http://192.168.1.30:20666/api/systems/psx/resource/eu/svg/logo" alt="Amstrad CPC">
         </div>
       </div>
       <div class="col col-md-4 game">
-        Jeux en cours ( si oui )
+        Jeux en cours
       </div>
     </div>
   </q-page>
@@ -89,11 +93,36 @@ const stats = computed<object[]>(() => [
 </script>
 
 <style lang="sass">
+@keyframes logoslidein
+  from
+    right: -38rem
+  to
+    right: 1em
+
 .home
   height: 100%
 
   &:before
     content: "\F056E"
+
+  .header
+    height: 5em
+    background-image: linear-gradient(to right, $dark, $accent)
+    -webkit-box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
+    box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
+
+    .background-container
+      height: 100%
+      background-image: url(../assets/controller-background.png)
+      position: relative
+
+      img
+        max-width: 310px
+        position: absolute
+        right: 1em
+        bottom: 0
+        animation-duration: .5s
+        animation-name: logoslidein
 
   .home-stats
     background: white
@@ -157,14 +186,16 @@ const stats = computed<object[]>(() => [
     height: 2px
 
   .home-emustation
-    height: calc(100vh - 212px)
+    height: calc(100vh - 212px - 5em)
 
     .machines-list,
-    .machine
+    .system
       border-right: 2px solid white
 
-    .machine
+    .system
       position: relative
+      display: flex
+      flex-direction: column
       background: $rc-light-grey
 
       &:after
@@ -179,6 +210,16 @@ const stats = computed<object[]>(() => [
         right: -8px
         background: $rc-light-grey
         margin-top: calc(50vh - 131px)
+
+      .informations
+        display: flex
+
+        img
+          width: 50%
+          margin-left: auto
+          margin-right: auto
+          filter: saturate(0)
+          opacity: 0.4
 
     .game
       position: relative

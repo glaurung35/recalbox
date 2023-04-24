@@ -19,7 +19,6 @@
       mini-to-overlay
       show-if-above
       v-model="leftDrawerOpen"
-      dark
     >
       <q-list padding>
         <MenuLink
@@ -31,9 +30,7 @@
         <LangSelector/>
       </q-list>
       <div class="menu-logo">
-        <a href="" title="Recalbox">
-          <img alt="Recalbox" src="../assets/logo-boutons.svg">
-        </a>
+        <img alt="Recalbox" src="../assets/logo-boutons.svg">
       </div>
     </q-drawer>
 
@@ -93,6 +90,8 @@ header
   background: $rc-light-grey
 
 .menu
+  background: $primary
+
   .menu-logo
     position: absolute
     bottom: 0

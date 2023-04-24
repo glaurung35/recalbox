@@ -43,7 +43,7 @@
         <template v-slot:item="props">
           <div
             @click="() => $router.push(
-              { name: 'systems-system', params: { system: props.row.name }}
+              { name: 'systems-system', params: { system: props.row.themeFolder }}
             )"
             class="q-pa-xs col-xs-12 col-sm-6 col-md-2 col-lg-2 grid-style-transition"
           >

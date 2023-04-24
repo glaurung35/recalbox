@@ -22,10 +22,16 @@
             icon="mdi-chevron-left"
             size="md"
             flat
-            :to="{name: 'systems-parent'}"
+            @click="() => router.go(-1)"
           >
             {{$t('general.return')}}
           </q-btn>
+          <q-img
+            class="logo"
+            :src="logoUrl"
+            spinner-color="white"
+            alt="Sammy Atomiswave"
+          />
         </template>
         <template v-slot:top-right>
           <q-input
@@ -119,6 +125,10 @@
 <script lang="ts" setup>
 import { date } from 'quasar';
 import { ref } from 'vue';
+import { useRouter, useRoute } from 'vue-router';
+
+const router = useRouter();
+const logoUrl = `${process.env.API_URL}/systems/${useRoute().params.system}/resource/eu/svg/logo`;
 
 const columns: Array<object> = [
   {
@@ -148,6 +158,14 @@ const columns: Array<object> = [
     name: 'rating', align: 'center', label: 'Note', field: 'rating', sortable: true,
   },
 ];
+const table = ref<object>({
+  filter: '',
+  pagination: {
+    rowsPerPage: 20,
+    descending: false,
+    sortBy: 'nom',
+  },
+});
 
 const roms: Array<object> = [
   {
@@ -241,15 +259,6 @@ const roms: Array<object> = [
     rating: 4,
   },
 ];
-
-const table = ref<object>({
-  filter: '',
-  pagination: {
-    rowsPerPage: 20,
-    descending: false,
-    sortBy: 'nom',
-  },
-});
 </script>
 
 <style lang="sass">
@@ -257,6 +266,10 @@ const table = ref<object>({
   .table-container
     margin: 0 8px 74px
     width: calc(100% - 16px)
+
+    .logo
+      width: 100px
+      max-height: 50px
 
     .addButton
       margin-left: 16px

@@ -46,13 +46,10 @@
         Nombre de jeux par machines
       </div>
       <div class="col col-md-4 system">
-        <div class="title">Système en cours</div>
-        <div class="informations">
-          <img src="http://192.168.1.30:20666/api/systems/psx/resource/eu/svg/logo" alt="Amstrad CPC">
-        </div>
+        <SystemView/>
       </div>
       <div class="col col-md-4 game">
-        Jeux en cours
+        <GameView/>
       </div>
     </div>
   </q-page>
@@ -63,6 +60,8 @@ import { useMonitoringStore } from 'src/stores/monitoring';
 import { computed } from 'vue';
 import SystemStat from 'components/home/SystemStat.vue';
 import { useSystemsStore } from 'stores/systems';
+import SystemView from 'components/home/SystemView.vue';
+import GameView from 'components/home/GameView.vue';
 
 const { getSystemsListCount } = useSystemsStore();
 useSystemsStore().fetch();
@@ -92,13 +91,7 @@ const stats = computed<object[]>(() => [
 ]);
 </script>
 
-<style lang="sass">
-@keyframes logoslidein
-  from
-    right: -38rem
-  to
-    right: 1em
-
+<style lang="sass" scoped>
 .home
   height: 100%
 
@@ -107,7 +100,7 @@ const stats = computed<object[]>(() => [
 
   .header
     height: 5em
-    background-image: linear-gradient(to right, $dark, $accent)
+    background-image: linear-gradient(to right, $primary, $accent)
     -webkit-box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
     box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
 
@@ -115,6 +108,12 @@ const stats = computed<object[]>(() => [
       height: 100%
       background-image: url(../assets/controller-background.png)
       position: relative
+
+      @keyframes logoslidein
+        from
+          right: -38rem
+        to
+          right: 1em
 
       img
         max-width: 310px
@@ -192,12 +191,18 @@ const stats = computed<object[]>(() => [
     .system
       border-right: 2px solid white
 
-    .system
+    .machines-list,
+    .system,
+    .game
       position: relative
       display: flex
       flex-direction: column
+
+    .machines-list,
+    .system
       background: $rc-light-grey
 
+    .system
       &:after
         display: block
         content: ''
@@ -210,17 +215,5 @@ const stats = computed<object[]>(() => [
         right: -8px
         background: $rc-light-grey
         margin-top: calc(50vh - 131px)
-
-      .informations
-        display: flex
-
-        img
-          width: 50%
-          margin-left: auto
-          margin-right: auto
-          filter: saturate(0)
-          opacity: 0.4
-
-    .game
-      position: relative
+        z-index: 1
 </style>

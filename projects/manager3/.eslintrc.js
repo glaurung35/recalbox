@@ -103,6 +103,7 @@ module.exports = {
     'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
 
     'vue/no-v-text-v-html-on-component': 'off',
+    'max-len': 'off',
   },
 
   // add jest config

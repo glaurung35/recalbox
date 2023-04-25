@@ -36,7 +36,7 @@
       </q-item>
     </template>
     <template v-slot:after>
-      <HelpButton :help="help" :warning="warning"/>
+      <HelpButton :text="help" :warning="warning"/>
     </template>
   </q-select>
 </template>

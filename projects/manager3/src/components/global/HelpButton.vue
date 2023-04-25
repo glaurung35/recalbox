@@ -9,7 +9,7 @@
     :icon="warning ? 'mdi-alert' : 'mdi-help-circle-outline'"
     round
     size="md"
-    v-if="help"
+    v-if="text"
     :class="toggle ? 'help-button' : ''"
   >
     <q-tooltip
@@ -23,7 +23,7 @@
   </q-btn>
   <q-dialog transition-hide="slide-down" transition-show="slide-up" v-model="helpOpen">
     <q-card :class="className + ' background help-dialog'">
-      <q-card-section class="text-justify" style="white-space: pre-line;" v-html="help"/>
+      <q-card-section class="text-justify" style="white-space: pre-line;" v-html="text"/>
     </q-card>
   </q-dialog>
 </template>
@@ -34,12 +34,12 @@ import { ref, toRefs } from 'vue';
 const helpOpen = ref<boolean>(false);
 
 const props = defineProps({
-  help: { type: String, required: true, default: '' },
+  text: { type: String, required: true },
   warning: { type: Boolean },
   toggle: { type: Boolean },
 });
 
-const { help, warning, toggle } = toRefs(props);
+const { text, warning, toggle } = toRefs(props);
 
 const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-warning' : 'help-dialog-card'}`;
 </script>

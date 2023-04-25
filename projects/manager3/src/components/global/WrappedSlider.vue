@@ -20,7 +20,7 @@
       />
     </q-item-section>
     <q-item-section side v-if="help" style="padding-left: 6px">
-      <HelpButton :help="help" :warning="warning"/>
+      <HelpButton :text="help" :warning="warning"/>
     </q-item-section>
   </q-item>
 </template>

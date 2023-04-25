@@ -25,6 +25,14 @@ export default {
   },
   moduleNameMapper: {
     "^stores/(.+)$": "<rootDir>/src/stores/$1",
-    "^boot/(.+)$": "<rootDir>/src/boot/$1"
+    "^boot/(.+)$": "<rootDir>/src/boot/$1",
+    "^components/(.+)$": "<rootDir>/src/components/$1",
+  },
+  globals: {
+    'vue-jest': {
+      compilerOptions: {
+        isCustomElement: (tag) => tag.startsWith('q-'),
+      },
+    },
   },
 };

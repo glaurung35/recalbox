@@ -17,6 +17,7 @@
         size="120px"
         track-color="light-blue"
         v-model="percent"
+        readonly
       >
         {{ value + (value <= 100 ? '%' : '') }}
       </q-knob>

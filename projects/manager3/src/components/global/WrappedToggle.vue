@@ -12,7 +12,7 @@
       checked-icon="check"
       unchecked-icon="clear"
     />
-    <HelpButton :help="help" :warning="warning" toggle/>
+    <HelpButton :text="help" :warning="warning" toggle/>
   </div>
 </template>
 

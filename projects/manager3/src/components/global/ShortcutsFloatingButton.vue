@@ -15,6 +15,8 @@
       id="help-button"
       square
       vertical-actions-align="right"
+      @update:model-value="update"
+      :model-value="model"
     >
       <q-fab-action
         @click="() => openURL(urls.patreon)"
@@ -63,6 +65,7 @@
 
 <script lang="ts" setup>
 import { openURL } from 'quasar';
+import { toRefs } from 'vue';
 
 const urls: object = {
   discord: process.env.DISCORD_URL,
@@ -71,6 +74,18 @@ const urls: object = {
   gitlab: process.env.GITLAB_URL,
   patreon: process.env.PATREON_URL,
 };
+const emit = defineEmits(['toggle']);
+
+const props = defineProps({
+  model: { type: Boolean, required: true },
+});
+
+const { model } = toRefs(props);
+
+function update(value:boolean) {
+  emit('toggle', { label: 'shortcutsButton', value });
+}
+
 </script>
 
 <style lang="sass">

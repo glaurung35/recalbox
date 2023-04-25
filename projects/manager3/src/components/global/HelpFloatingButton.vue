@@ -11,6 +11,8 @@
       id="help-button"
       square
       vertical-actions-align="right"
+      @update:model-value="update"
+      :model-value="model"
     >
       <q-fab-action
         color="secondary"
@@ -47,13 +49,24 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue';
+import { ref, toRefs } from 'vue';
 import VersionsList from 'components/global/VersionsList.vue';
 import { useVersionsStore } from 'stores/versions';
 
 useVersionsStore().fetch();
 
+const props = defineProps({
+  model: { type: Boolean, required: true },
+});
+
+const { model } = toRefs(props);
+
 const open = ref<boolean>(false);
+const emit = defineEmits(['toggle']);
+
+function update(value:boolean) {
+  emit('toggle', { label: 'helpButton', value });
+}
 </script>
 
 <style lang="sass">

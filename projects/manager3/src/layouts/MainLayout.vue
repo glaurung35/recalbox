@@ -38,8 +38,8 @@
       <router-view />
       <ScreenshotFloatingButton/>
       <VirtualDevicesFloatingButton/>
-      <ShortcutsFloatingButton/>
-      <HelpFloatingButton/>
+      <ShortcutsFloatingButton :model="shortcutsButtonOpeningStatus" @toggle="toggle"/>
+      <HelpFloatingButton :model="helpButtonOpeningStatus" @toggle="toggle"/>
     </q-page-container>
   </q-layout>
 </template>
@@ -78,6 +78,20 @@ const menuLinks: Array<object> = [
     route: 'emulation',
   },
 ];
+const shortcutsButtonOpeningStatus = ref(false);
+const helpButtonOpeningStatus = ref(false);
+
+function toggle(event:object) {
+  if (event.label === 'shortcutsButton') {
+    shortcutsButtonOpeningStatus.value = event.value;
+    helpButtonOpeningStatus.value = false;
+    return;
+  }
+  if (event.label === 'helpButton') {
+    helpButtonOpeningStatus.value = event.value;
+    shortcutsButtonOpeningStatus.value = false;
+  }
+}
 </script>
 
 <style lang="sass">

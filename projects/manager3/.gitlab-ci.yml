@@ -6,6 +6,7 @@ image: node:18.15.0
 stages:
   - CI Setup
   - Validation
+  - Tests
 
 variables:
   npm_config_cache: "$CI_PROJECT_DIR/.npm"
@@ -43,5 +44,10 @@ translations:
   stage: Validation
   when: on_success
   script:
-    - node_modules/jest/bin/jest.js ./test/jest/__tests__/ci/Translations.spec.ts
+    - node_modules/jest/bin/jest.js Translations.spec.ts
 
+snapshots:
+  stage: Tests
+  when: on_success
+  script:
+    - node_modules/jest/bin/jest.js ./__tests__/components

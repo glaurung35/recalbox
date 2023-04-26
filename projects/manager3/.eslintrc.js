@@ -110,7 +110,8 @@ module.exports = {
   overrides: [
     {
       "files": [
-        "**/*.spec.ts"
+        "**/*.spec.ts",
+        "**/*.snap.ts"
       ],
       "env": {
         "jest": true

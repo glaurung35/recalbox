@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { copyToClipboard } from 'src/tools';
+import { copyToClipboard } from 'src/utils/copyToClipboard';
 import { toRefs } from 'vue';
 
 const props = defineProps({

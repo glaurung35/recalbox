@@ -315,7 +315,7 @@
 
 <script lang="ts" setup>
 import { useBiosStore } from 'stores/bios';
-import { copyToClipboard } from 'src/tools';
+import { copyToClipboard } from 'src/utils/copyToClipboard';
 import { storeToRefs } from 'pinia';
 import {
   computed,

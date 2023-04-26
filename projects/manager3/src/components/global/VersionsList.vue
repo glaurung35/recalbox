@@ -99,7 +99,7 @@
 
 <script lang="ts" setup>
 import LongDataList from 'components/global/LongDataList.vue';
-import { copyToClipboard } from 'src/tools';
+import { copyToClipboard } from 'src/utils/copyToClipboard';
 import { useVersionsStore } from 'stores/versions';
 import { storeToRefs } from 'pinia';
 

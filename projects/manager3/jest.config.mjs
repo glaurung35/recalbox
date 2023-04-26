@@ -3,15 +3,6 @@ import { quasarEsModulesPackageNames } from '@quasar/quasar-app-extension-testin
 /** @type {import('jest').Config} */
 export default {
   preset: '@quasar/quasar-app-extension-testing-unit-jest',
-  // collectCoverage: true,
-  // coverageThreshold: {
-  //   global: {
-  //      branches: 50,
-  //      functions: 50,
-  //      lines: 50,
-  //      statements: 50
-  //   },
-  // },
   transform: {
     [`^(${quasarEsModulesPackageNames}).+\\.js$`]: 'babel-jest',
     '^.+\\.(ts|js|html)$': [
@@ -27,6 +18,7 @@ export default {
     "^stores/(.+)$": "<rootDir>/src/stores/$1",
     "^boot/(.+)$": "<rootDir>/src/boot/$1",
     "^components/(.+)$": "<rootDir>/src/components/$1",
+    "^src/utils/(.+)$": "<rootDir>/src/utils/$1",
   },
   globals: {
     'vue-jest': {

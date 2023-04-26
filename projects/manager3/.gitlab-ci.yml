@@ -43,5 +43,5 @@ translations:
   stage: Validation
   when: on_success
   script:
-    - node_modules/jest/bin/jest.js .
+    - node_modules/jest/bin/jest.js ./test/jest/__tests__/ci/Translations.spec.ts
 

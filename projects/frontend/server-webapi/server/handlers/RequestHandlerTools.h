@@ -109,7 +109,7 @@ class RequestHandlerTools
      * @param response Response object
      * @param code Http code
      */
-    static void Send(Pistache::Http::ResponseWriter& response, Pistache::Http::Code code);
+    static Pistache::Async::Promise<ssize_t> Send(Pistache::Http::ResponseWriter& response, Pistache::Http::Code code);
 
     /*!
      * @brief Serialize a partition object got from "df" line

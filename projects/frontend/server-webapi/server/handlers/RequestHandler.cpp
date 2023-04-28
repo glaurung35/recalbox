@@ -531,6 +531,17 @@ void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::Respons
 {
   RequestHandlerTools::LogRoute(request, "SystemEsRestart");
 
-  RequestHandlerTools::Send(response, Http::Code::Ok);
-  RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart");
+  auto res = RequestHandlerTools::Send(response, Http::Code::Ok);
+  res.then(
+          [](ssize_t _){
+              RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart");
+          },
+          Async::NoExcept
+    );
+
+/*
+    RequestHandlerTools::Send(response, Http::Code::Ok);
+
+    RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart");
+*/
 }

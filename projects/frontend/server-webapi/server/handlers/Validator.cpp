@@ -1,6 +1,6 @@
 //
 // Created by bkg2k on 30/04/2020.
-// Fixed by Maksthorr on 21/04/2023
+// Last modification by Maksthorr on 21/04/2023
 //
 
 #include "Validator.h"

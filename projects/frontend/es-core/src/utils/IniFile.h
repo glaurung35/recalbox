@@ -1,11 +1,13 @@
 //
 // Created by thierry.imbert on 18/02/2020.
+// Last modification by Maksthorr on 28/04/2023
 //
 #pragma once
 
 #include <utils/os/fs/Path.h>
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Set.h>
+#include "Strings.h"
 
 class IniFile
 {
@@ -90,6 +92,13 @@ class IniFile
      * @return Value or default value if the key does not exist
      */
     std::string AsString(const char* name, const char* defaultValue) const;
+
+    /*!
+     * @brief Get value from the given key in List format
+     * @param name Key
+     * @return Value
+     */
+    [[nodiscard]] Strings::Vector AsStringList(const std::string& name) const;
 
     /*!
      * @brief Get boolean value from the given key or return the default value

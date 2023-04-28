@@ -1,6 +1,6 @@
 //
 // Created by bkg2k on 03/04/2020.
-// Fixed by Maksthorr on 21/04/2023
+// Last modification by Maksthorr on 28/04/2023
 //
 
 #include <pistache/include/pistache/router.h>
@@ -21,8 +21,8 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
   Path mediaPath("/recalbox/share/screenshots");
   Path::PathList list = mediaPath.GetDirectoryContent();
 
-  static std::string imagesExtentions(".jpg|.jpeg|.png|.gif");
-  static std::string videosExtentions(".mkv|.avi|.mp4");
+  static std::string imagesExtensions(".jpg|.jpeg|.png|.gif");
+  static std::string videosExtensions(".mkv|.avi|.mp4");
 
   JSONBuilder result;
   result.Open()
@@ -33,8 +33,8 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
     bool ok = false;
     result.OpenObject(path.MakeRelative(mediaPath, ok).ToChars());
     std::string ext = Strings::ToLowerASCII(path.Extension());
-    if (imagesExtentions.find(ext) != std::string::npos) result.Field("type", "image");
-    else if (videosExtentions.find(ext) != std::string::npos) result.Field("type", "video");
+    if (imagesExtensions.find(ext) != std::string::npos) result.Field("type", "image");
+    else if (videosExtensions.find(ext) != std::string::npos) result.Field("type", "video");
     else result.Field("type", "unknown");
     result.CloseObject();
   }
@@ -581,7 +581,7 @@ void RequestHandlerTools::GetKeyValues(const std::string& domain, const HashMap<
       case Validator::Types::StringFree:
       case Validator::Types::StringConstrained:
       case Validator::Types::StringPicker: value.Field("value", configuration.AsString(k)); break; // FIX 21/04/2023
-      case Validator::Types::StringMultiPicker: value.Field("value", key.second.StringList()); break;
+      case Validator::Types::StringMultiPicker: value.Field("value", configuration.AsStringList(k)); break;
       case Validator::Types::IntRange: value.Field("value", configuration.AsInt(k, 0)); break;
       case Validator::Types::Bool: value.Field("value", configuration.AsBool(k, false)); break;
       default: LOG(LogError) << "Unknown type " << (int) key.second.Type() << " for " << key.first;

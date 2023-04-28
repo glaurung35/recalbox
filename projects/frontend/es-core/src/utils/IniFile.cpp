@@ -1,5 +1,6 @@
 //
 // Created by thierry.imbert on 18/02/2020.
+// Last modification by Maksthorr on 28/04/2023
 //
 
 #include "IniFile.h"
@@ -164,6 +165,12 @@ std::string IniFile::AsString(const char* name, const char* defaultValue) const
 {
   std::string* item = mConfiguration.try_get(name);
   return (item != nullptr) ? *item : defaultValue;
+}
+
+Strings::Vector IniFile::AsStringList(const std::string& name) const
+{
+    std::string* item = mConfiguration.try_get(name);
+    return (item != nullptr) ? Strings::Split(Strings::Trim(*item, ","), ',') : Strings::Vector();
 }
 
 bool IniFile::AsBool(const std::string& name, bool defaultValue) const

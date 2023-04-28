@@ -265,10 +265,10 @@ RequestHandlerTools::Send(Pistache::Http::ResponseWriter& response, Pistache::Ht
   response.send(code, body, mime);
 }
 
-void RequestHandlerTools::Send(Pistache::Http::ResponseWriter& response, Pistache::Http::Code code)
+Pistache::Async::Promise<ssize_t> RequestHandlerTools::Send(Pistache::Http::ResponseWriter& response, Pistache::Http::Code code)
 {
   SetHeaders(response);
-  response.send(code, nullptr, 0, Pistache::Http::Mime::MediaType());
+  return response.send(code, nullptr, 0, Pistache::Http::Mime::MediaType());
 }
 
 void RequestHandlerTools::SendResource(const Path& resourcepath, Http::ResponseWriter& response, const Pistache::Http::Mime::MediaType& mimeType)

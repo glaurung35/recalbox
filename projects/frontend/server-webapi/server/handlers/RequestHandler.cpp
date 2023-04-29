@@ -39,7 +39,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
     Strings::Vector coreItems = Strings::Split(coreLine, ';');
     if (coreItems.size() == 3) cores[coreItems[0]] = coreItems[2];
   }
-  std::string retroarchVersion = Strings::Extract(RequestHandlerTools::OutputOf("retroarch --version 2>&1"), "-- ", " --", 3, 3);
+  std::string retroarchVersion = Strings::Extract(RequestHandlerTools::OutputOf("retroarch --version 2>&1"), "-- ", "\n", 3, 1);
 
   // Get Recalbox & Linux version
   std::string recalboxVersion = Files::LoadFile(Path("/recalbox/recalbox.version"));
@@ -539,9 +539,4 @@ void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::Respons
           Async::NoExcept
     );
 
-/*
-    RequestHandlerTools::Send(response, Http::Code::Ok);
-
-    RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart");
-*/
 }

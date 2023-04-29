@@ -112,21 +112,33 @@ def DetectNesPi4Case():
 # --------- PiBoy
 
 
-def DetectPiBoyCase():
-    case = cases.NONE
+def DetectPiBoyCase(type):
     try:
-        logger.hardlog("trying piboy")
         if os.path.isfile('/sys/kernel/xpi_gamecon/status'):
             with open('/sys/kernel/xpi_gamecon/status', 'r') as f:
                 status = int(f.readline())
         else:
-            status = int(subprocess.run(['/usr/bin/piboy-tester'], stdout=subprocess.PIPE).stdout.decode('utf-8'))
+            status = int(subprocess.run(['/usr/bin/piboy-tester', type], stdout=subprocess.PIPE).stdout.decode('utf-8'))
         logger.hardlog(f"status = {status}")
-        if status in (70, 198):
-            case = cases.PIBOY
+        if status in (70, 198, 110, 238):
+            return True
+        return False
     except:
-        pass
-    return case
+        return False
+
+
+def DetectPiBoyDMGCase():
+    logger.hardlog("Trying PiBoy DMG")
+    if DetectPiBoyCase('dmg'):
+        return cases.PIBOY_DMG
+    return cases.NONE
+
+
+def DetectPiBoyXRSCase():
+    logger.hardlog("Trying PiBoy XRS")
+    if DetectPiBoyCase('xrs'):
+        return cases.PIBOY_XRS
+    return cases.NONE
 
 # --------- Main
 
@@ -155,8 +167,11 @@ def Identify(previousCase):
     if board in ("rpi4", "rpi4_64") and case in (cases.NONE, cases.GPI2):
         case = DetectGPiCase2()
 
-    if board in ("rpi3", "rpi4", "rpi4_64") and case in (cases.NONE, cases.PIBOY):
-        case = DetectPiBoyCase()
+    if board in ("rpi3", "rpi4", "rpi4_64") and case in (cases.NONE, cases.PIBOY_DMG):
+        case = DetectPiBoyDMGCase()
+
+    if board in ("rpi3", "rpi4", "rpi4_64") and case in (cases.NONE, cases.PIBOY_XRS):
+        case = DetectPiBoyXRSCase()
 
     return case
 

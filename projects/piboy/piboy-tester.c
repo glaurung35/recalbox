@@ -12,12 +12,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <string.h>
 #include <fcntl.h>
 #include <sys/mman.h>
 #include <unistd.h>
 
 #define BLOCK_SIZE (4*1024)
-#define GC_LENGTH 12
+#define GC_LENGTH_DMG 12
+#define GC_LENGTH_XRS 14
 #define BITRATE 7
 #define MAX_RETRIES 10
 #define EXIT_SUCCESS 0
@@ -25,6 +27,7 @@
 
 int  mem_fd;
 void *gpio_map;
+int GC_LENGTH;
 static const int gc_gpio_clk = 26;
 static const int gc_gpio_data = 27;
 static const int gc_clk_bit = 1<<26;
@@ -33,6 +36,11 @@ static const int gc_data_bit = 1<<27;
 // I/O access
 volatile unsigned *gpio;
 
+typedef enum {
+  CASE_DMG,
+  CASE_XRS,
+  CASE_UNKNOWN,
+} piboy_case;
 
 // GPIO setup macros. Always use INP_GPIO(x) before using OUT_GPIO(x) or SET_GPIO_ALT(x,y)
 #define INP_GPIO(g) *(gpio+((g)/10)) &= ~(7<<(((g)%10)*3))
@@ -60,11 +68,11 @@ void calc_crc16(uint8_t *data, uint8_t len)
   data[len+1] = crc&0xFF;
 }
 
-uint16_t check_crc16(uint8_t data[])
+uint16_t check_crc16(uint8_t data[], int data_length)
 {
-  int len = GC_LENGTH-2;
+  int len = data_length-2;
   uint16_t crc=0;
-  uint16_t ccrc = (data[GC_LENGTH-1]<<8) | data[GC_LENGTH-2];
+  uint16_t ccrc = (data[data_length-1]<<8) | data[data_length-2];
   int i,j;
 
   for(i = 0;i<len;i++){
@@ -86,14 +94,38 @@ void gpio_func(int pin, int state)
   else{*tgpio |= (0x1<<(pin%10)*3);}
 }
 
+// read cmd line arguments and return passed case type
+// admitted case types: piboy_case 
+piboy_case read_case_type(int argc, char **argv) {
+  // read args
+  if (argc != 2) {
+    printf("Missing argument\n%s < dmg | xrs >\n", argv[0]);
+    exit(1);
+  }
+
+  if (strcmp("dmg", argv[1]) == 0)
+    return CASE_DMG;
+  if (strcmp("xrs", argv[1]) == 0)
+    return CASE_XRS;
+
+  // sanity check
+  printf("Unknown case type %s\n%s < dmg | xrs >\n", argv[1], argv[0]);
+  exit(1);
+}
+
 int main(int argc, char **argv)
 {
   int byteindex;
-  int ret=0,retry;
+  int retry;
+  int STATUS_ID;
   long bitindex;
   unsigned char data[32];
+  piboy_case case_type = CASE_UNKNOWN;
   static uint8_t index;
 
+  case_type = read_case_type(argc, argv);
+  GC_LENGTH = case_type == CASE_DMG ? GC_LENGTH_DMG : GC_LENGTH_XRS;
+  STATUS_ID = case_type == CASE_DMG ? 5 : 7;
 
   // Set up gpi pointer for direct register access
   setup_io();
@@ -125,34 +157,35 @@ int main(int argc, char **argv)
     GPIO_CLR |= gc_clk_bit;
     usleep(BITRATE);
 
-    if(data[0] && !check_crc16(data)){
+    if(data[0] && !check_crc16(data, GC_LENGTH)){
       uint8_t len = 0;
-      if(data[0]==0xA5){
-        unsigned char val=0x80;
-        len = 2;
-        //version_val = 0x0100;
-        //val = values.fan_val | (values.flags_val&0x1 ? 0x00 : 0x80);
-        data[GC_LENGTH] = val;
-        data[GC_LENGTH+1] = ~val;
-        data[GC_LENGTH+2] = 0;
-        data[GC_LENGTH+3] = 0;
-      }
-      else
-      if(data[0]==0x5A){
-        len = 4;
-        //version_val = 0x0101;
-        data[GC_LENGTH+0] = 0xC0 | (index&0x3);
-        data[GC_LENGTH+1] = 0;
-        calc_crc16(&data[GC_LENGTH],2);
-        index++;
-      }
-      else{
-        len = 4;
-        //version_val = ((data[0]&0xC0)<<2) | (data[0]&0x3F);
-        data[GC_LENGTH+0] = 0xC0 | (index&0x3);
-        data[GC_LENGTH+1] = 0;
-        calc_crc16(&data[GC_LENGTH],2);
-        index++;
+      switch(data[0]) {
+        case 0xa5: {
+          unsigned char val=0x80;
+          len = 2;
+          //version_val = 0x0100;
+          //val = values.fan_val | (values.flags_val&0x1 ? 0x00 : 0x80);
+          data[GC_LENGTH] = val;
+          data[GC_LENGTH+1] = ~val;
+          data[GC_LENGTH+2] = 0;
+          data[GC_LENGTH+3] = 0;
+        }
+        case 0x5a: {
+          len = 4;
+          //version_val = 0x0101;
+          data[GC_LENGTH+0] = 0xC0 | (index&0x3);
+          data[GC_LENGTH+1] = 0;
+          calc_crc16(&data[GC_LENGTH],2);
+          index++;
+        }
+        default: {
+          len = 4;
+          //version_val = ((data[0]&0xC0)<<2) | (data[0]&0x3F);
+          data[GC_LENGTH+0] = 0xC0 | (index&0x3);
+          data[GC_LENGTH+1] = 0;
+          calc_crc16(&data[GC_LENGTH],2);
+          index++;
+        }
       }
 
       for(byteindex=GC_LENGTH;byteindex<GC_LENGTH+len;byteindex++){
@@ -170,7 +203,7 @@ int main(int argc, char **argv)
       }
       // read successful
       gpio_func(gc_gpio_clk,1);  //input
-      printf("%d\n", data[5]&0xc6);
+      printf("%d\n", data[STATUS_ID]&0xc6);
       return EXIT_SUCCESS;
     }else {
       fprintf(stderr, "try %d, CRC error\n", retry);

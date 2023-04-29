@@ -1,3 +1,4 @@
+from enum import Enum
 import os
 import logger
 import shutil
@@ -14,6 +15,11 @@ from settings import keyValueSettings
 #     \-VBus
 
 
+class PiBoy(Enum):
+    PiBoyDMG = 0
+    PiBoyXRS = 1
+
+
 class Install(InstallBase):
 
     BASE_SOURCE_FOLDER = InstallBase.BASE_SOURCE_FOLDER + "piboy/"
@@ -24,9 +30,9 @@ class Install(InstallBase):
 
     def InstallHardware(self, case):
 
-        logger.hardlog("Installing PiBoy DMG hardware")
+        logger.hardlog("Installing PiBoy DMG/XRS hardware")
         # load module now, or piboy may shutdown
-        subprocess.run(['modprobe', 'xpi_gamecon'])
+        subprocess.run(['modprobe', 'xpi_gamecon', f"xpicase={PiBoy[case].value}"])
 
         try:
             os.system("mount -o remount,rw /boot")
@@ -44,6 +50,10 @@ class Install(InstallBase):
             sed('noswap', 'noswap video=HDMI-A-1:d', '/boot/cmdline.txt')
             logger.hardlog("PiBoy: set video parameter in cmdline.txt")
 
+            with open("/etc/modprobe.d/xpi_gamecon.conf", "w") as modules_conf:
+                modules_conf.write(f"options xpi_gamecon xpicase={PiBoy[case].value}")  # modules accepts case parameter with either PiBoyDMG or PiBoyXRS values
+
+            logger.hardlog(f"PiBoy: set xpi_gamecon module xpicase value to {PiBoy[case].value}")
         except Exception as e:
             logger.hardlog("PiBoy: Exception = {}".format(e))
             return False
@@ -83,9 +93,9 @@ class Install(InstallBase):
 
     def InstallSoftware(self, case):
 
-        if case == "PiBoy":
+        if case in ("PiBoyDMG", "PiBoyXRS"):
 
-            logger.hardlog("Installing PiBoy DMG software")
+            logger.hardlog("Installing PiBoy DMG/XRS software")
 
             try:
                 os.system("mount -o remount,rw /")
@@ -144,7 +154,7 @@ class Install(InstallBase):
             finally:
                 os.system("mount -o remount,ro /")
 
-            logger.hardlog("PiBoy DMG software installed successfully!")
+            logger.hardlog("PiBoy DMG/XRS software installed successfully!")
             return case
 
         return ""

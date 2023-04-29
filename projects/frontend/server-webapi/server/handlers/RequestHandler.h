@@ -243,6 +243,13 @@ class RequestHandler : public IRouter
     void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle POST to shutdown the system
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemShutdown(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET to start ES
      * @param request Request object
      * @param response Response object

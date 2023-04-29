@@ -541,6 +541,20 @@ void RequestHandler::SystemReboot(const Rest::Request& request, Http::ResponseWr
 
 }
 
+void RequestHandler::SystemShutdown(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemShutdown");
+
+  auto res = RequestHandlerTools::Send(response, Http::Code::Ok);
+  res.then(
+          [](ssize_t _){
+              RequestHandlerTools::OutputOf("shutdown -h now");
+          },
+          Async::NoExcept
+    );
+
+}
+
 void RequestHandler::SystemEsStart(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemEsStart");

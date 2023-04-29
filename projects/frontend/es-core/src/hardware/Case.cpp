@@ -43,7 +43,8 @@ bool Case::Install() const
     case CaseModel::GPi2:
     case CaseModel::GPi2W:
     case CaseModel::Nuxii:
-    case CaseModel::PiBoy:
+    case CaseModel::PiBoyDMG:
+    case CaseModel::PiBoyXRS:
     case CaseModel::Nespi4Case:
     case CaseModel::RecalboxRGBDualOrRGBHat:
       break;
@@ -60,7 +61,8 @@ Case Case::FromShortName(const std::string& value)
   if (value == "GPi2") return Create(CaseModel::GPi2);
   if (value == "GPi2W") return Create(CaseModel::GPi2W);
   if (value == "Nuxii") return Create(CaseModel::Nuxii);
-  if (value == "PiBoy") return Create(CaseModel::PiBoy);
+  if (value == "PiBoyDMG") return Create(CaseModel::PiBoyDMG);
+  if (value == "PiBoyXRS") return Create(CaseModel::PiBoyXRS);
   if (value == "NESPi4") return Create(CaseModel::Nespi4Case);
   if (value == "SuperPi4Case") return Create(CaseModel::SuperPi4Case);
   if (value == "NESPi4Manual") return Create(CaseModel::Nespi4CaseManual);
@@ -94,8 +96,10 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::GPi2W, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "Gpi Case 2W", "GPi2W", "");
     case CaseModel::Nuxii:
       return Case(CaseModel::Nuxii, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nuxii", "Nuxii", "");
-    case CaseModel::PiBoy:
-      return Case(CaseModel::PiBoy, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "PiBoy DMG", "PiBoy", "");
+    case CaseModel::PiBoyDMG:
+      return Case(CaseModel::PiBoyDMG, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "PiBoy DMG", "PiBoyDMG", "");
+    case CaseModel::PiBoyXRS:
+      return Case(CaseModel::PiBoyXRS, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,!CASE_ROTATION_SUPPORTED, "PiBoy XRS", "PiBoyXRS", "");
     case CaseModel::Nespi4Case:
       return Case(CaseModel::Nespi4Case, CASE_DETECTION_AUTOMATIC, !MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Nespi4Case", "NESPi4", "");
     case CaseModel::Nespi4CaseManual:

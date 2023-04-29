@@ -5,7 +5,7 @@ import cases
 MODULES = {
     "installers.gpi.install": (cases.GPI_V1, cases.GPI_V2, cases.GPI_V3),
     "installers.nuxii.install": (cases.NUXII,),
-    "installers.piboy.install": (cases.PIBOY,),
+    "installers.piboy.install": (cases.PIBOY_DMG, cases.PIBOY_XRS),
     "installers.gpi2.install": (cases.GPI2,),
     "installers.gpi2w.install": (cases.GPI2W,),
     "installers.argonone.install": (cases.ARGONONE,),

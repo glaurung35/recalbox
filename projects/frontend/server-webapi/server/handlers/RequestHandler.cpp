@@ -527,6 +527,34 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   else RequestHandlerTools::Error404(response);
 }
 
+void RequestHandler::SystemEsStart(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemEsStart");
+
+  auto res = RequestHandlerTools::Send(response, Http::Code::Ok);
+  res.then(
+          [](ssize_t _){
+              RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation start");
+          },
+          Async::NoExcept
+    );
+
+}
+
+void RequestHandler::SystemEsStop(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemEsStop");
+
+  auto res = RequestHandlerTools::Send(response, Http::Code::Ok);
+  res.then(
+          [](ssize_t _){
+              RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation stop");
+          },
+          Async::NoExcept
+    );
+
+}
+
 void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemEsRestart");

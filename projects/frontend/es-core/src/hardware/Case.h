@@ -26,7 +26,8 @@ class Case
       GPi2,
       GPi2W,
       Nuxii,
-      PiBoy,
+      PiBoyDMG,
+      PiBoyXRS,
       // Retroflag auto
       Nespi4Case,
       // Retroflag Manual

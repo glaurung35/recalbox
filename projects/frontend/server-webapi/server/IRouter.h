@@ -230,6 +230,13 @@ class IRouter
     virtual void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
+     * @brief Handle POST to shutdown the system
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void SystemShutdown(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
      * @brief Handle POST to start ES
      * @param request Request object
      * @param response Response object
@@ -292,6 +299,7 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
       // System
       Rest::Routes::Post(mRouter, "/api/system/reboot", Rest::Routes::bind(&IRouter::SystemReboot, this));
+      Rest::Routes::Post(mRouter, "/api/system/shutdown", Rest::Routes::bind(&IRouter::SystemShutdown, this));
 
       Rest::Routes::Post(mRouter, "/api/system/es/start", Rest::Routes::bind(&IRouter::SystemEsStart, this));
       Rest::Routes::Post(mRouter, "/api/system/es/stop", Rest::Routes::bind(&IRouter::SystemEsStop, this));

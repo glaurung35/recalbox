@@ -1,6 +1,6 @@
 #!/bin/bash
 #
-# PiBoy DMG switch service
+# PiBoy DMG/XRS switch service
 # Take care of
 # * switching off LCD display if HDMI connected
 # * unset in-case pad when HDMI connected
@@ -20,7 +20,7 @@ start() {
     fi
 
     # remove piboy pad definition in ES
-    sed -i '/^emulationstation.pad.=.*:PiBoy DMG Controller/d' /recalbox/share/system/recalbox.conf
+    sed -i -E '/^emulationstation.pad.=.*:PiBoy (DMG|XRS) Controller/d' /recalbox/share/system/recalbox.conf
 
     # unset in-case audio output
     recalbox_settings -command save -key audio.device -value '' 

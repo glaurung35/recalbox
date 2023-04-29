@@ -1,17 +1,17 @@
-From f9c0dbf3348f6716a88606223cd8c065d8747e11 Mon Sep 17 00:00:00 2001
+From dd39d632bab486a6e018390f8aa478ac45243412 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Tue, 6 Apr 2021 22:22:53 +0200
 Subject: [PATCH 1/4] chore: remove osd stuff
 
 ---
- xpi_gamecon.c | 19 -------------------
- 1 file changed, 19 deletions(-)
+ xpi_gamecon.c | 21 +--------------------
+ 1 file changed, 1 insertion(+), 20 deletions(-)
 
 diff --git a/xpi_gamecon.c b/xpi_gamecon.c
-index 5cbdfc7..e156c45 100644
+index 2decd42..1a17288 100644
 --- a/xpi_gamecon.c
 +++ b/xpi_gamecon.c
-@@ -409,23 +409,6 @@ static u32 __init gc_bcm_peri_base_probe(void) {
+@@ -464,24 +464,7 @@ static u32 __init gc_bcm_peri_base_probe(void) {
  	return base_address == 1 ? 0x02000000 : base_address;
  }
  
@@ -32,10 +32,12 @@ index 5cbdfc7..e156c45 100644
 -	printk(KERN_INFO "Executing OSD: %i",result);
 -}
 -
- static int __init gc_init(void)
+-static int gc_init(void)
++static int __init gc_init(void)
  {
  	/* BCM board peripherals address base */
-@@ -436,8 +419,6 @@ static int __init gc_init(void)
+ 	static u32 gc_bcm2708_peri_base;
+@@ -491,8 +474,6 @@ static int gc_init(void)
  	values.red_val = 100;
  	values.green_val = 100;
  
@@ -45,5 +47,5 @@ index 5cbdfc7..e156c45 100644
  	gc_bcm2708_peri_base = gc_bcm_peri_base_probe();
  	if (!gc_bcm2708_peri_base) {
 -- 
-2.34.1
+2.40.1
 

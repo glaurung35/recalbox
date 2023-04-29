@@ -1,17 +1,17 @@
-From bc81e07fb70c767045b0e4fbb4bf6e8d5cd44549 Mon Sep 17 00:00:00 2001
+From c988866e5421a64027ffc685de48557868ce1cab Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Sun, 25 Jul 2021 21:56:04 +0200
-Subject: [PATCH 4/4] feat: add power button input device
+Subject: [PATCH 3/4] feat: add power button input device
 
 ---
  xpi_gamecon.c | 48 ++++++++++++++++++++++++++++++++++++++++++++++++
  1 file changed, 48 insertions(+)
 
 diff --git a/xpi_gamecon.c b/xpi_gamecon.c
-index bbafc3d..09461be 100644
+index c763636..c315e06 100644
 --- a/xpi_gamecon.c
 +++ b/xpi_gamecon.c
-@@ -69,6 +69,7 @@ int gc_btn_size = sizeof(gc_btn)/sizeof(gc_btn[0]);
+@@ -100,6 +100,7 @@ int gc_btn_size = sizeof(gc_btn);
  struct gc {
  	struct input_dev *dev;
  	struct input_dev *volume_dev;
@@ -19,7 +19,7 @@ index bbafc3d..09461be 100644
  	struct timer_list timer;
  	int used;
  	struct mutex mutex;
-@@ -166,6 +167,7 @@ static void gc_timer(struct timer_list *t)
+@@ -241,6 +242,7 @@ static void gc_timer(struct timer_list *t)
  	unsigned char data[32];
  	struct input_dev *dev = gc->dev;
  	struct input_dev *volume_dev = gc->volume_dev;
@@ -27,17 +27,17 @@ index bbafc3d..09461be 100644
  
  	int byteindex;
  	long bitindex;
-@@ -260,6 +262,9 @@ static void gc_timer(struct timer_list *t)
+@@ -322,6 +324,9 @@ static void gc_timer(struct timer_list *t)
  		input_report_abs(volume_dev, ABS_VOLUME, data[6]);		//Y Axis
  		input_sync(volume_dev);
  
-+		input_report_key(power_dev, KEY_POWER, !(data[5]&0x40));
++		input_report_key(power_dev, KEY_POWER, !(data[7]&0x40));
 +		input_sync(power_dev);
 +
- 		batt_val = (int)(data[7]*5)+2950;		//Battery Voltage
- 		cur_val = (int)((signed char)data[8])*50;	//Current
- 		percent_val = data[9];				//battery percentage
-@@ -375,6 +380,43 @@ err_free_dev:
+ 		stat_val = data[7];					//VBus,Shutdown
+ 		vol_val = data[8];					//Volume
+ 		batt_val = (int)(data[9]*5)+2950;			//Battery Voltage
+@@ -435,6 +440,43 @@ err_free_dev:
  	return err;
  }
  
@@ -81,7 +81,7 @@ index bbafc3d..09461be 100644
  static struct gc __init *gc_probe(void)
  {
  	struct gc *gc;
-@@ -395,10 +437,14 @@ static struct gc __init *gc_probe(void)
+@@ -455,10 +497,14 @@ static struct gc __init *gc_probe(void)
  	if (err) goto err_unreg_devs;
  	err = gc_setup_volume(gc);
  	if (err) goto err_unreg_devs;
@@ -96,7 +96,7 @@ index bbafc3d..09461be 100644
  	kfree(gc);
   err_out:
  	return ERR_PTR(err);
-@@ -410,6 +456,8 @@ static void gc_remove(struct gc *gc)
+@@ -470,6 +516,8 @@ static void gc_remove(struct gc *gc)
  		input_unregister_device(gc->dev);
  	if (gc->volume_dev)
  		input_unregister_device(gc->volume_dev);
@@ -106,5 +106,5 @@ index bbafc3d..09461be 100644
  }
  
 -- 
-2.34.1
+2.40.1
 

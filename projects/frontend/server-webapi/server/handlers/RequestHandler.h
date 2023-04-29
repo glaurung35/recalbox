@@ -236,6 +236,20 @@ class RequestHandler : public IRouter
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle GET to start ES
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemEsStart(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to stop ES
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemEsStop(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET to restart ES
      * @param request Request object
      * @param response Response object

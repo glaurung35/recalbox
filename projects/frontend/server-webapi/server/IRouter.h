@@ -223,21 +223,28 @@ class IRouter
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET to start ES
+     * @brief Handle POST to reboot the system
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle POST to start ES
      * @param request Request object
      * @param response Response object
      */
     virtual void SystemEsStart(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET to stop ES
+     * @brief Handle POST to stop ES
      * @param request Request object
      * @param response Response object
      */
     virtual void SystemEsStop(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET to restart ES
+     * @brief Handle POST to restart ES
      * @param request Request object
      * @param response Response object
      */
@@ -284,6 +291,8 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
       // System
+      Rest::Routes::Post(mRouter, "/api/system/reboot", Rest::Routes::bind(&IRouter::SystemReboot, this));
+
       Rest::Routes::Post(mRouter, "/api/system/es/start", Rest::Routes::bind(&IRouter::SystemEsStart, this));
       Rest::Routes::Post(mRouter, "/api/system/es/stop", Rest::Routes::bind(&IRouter::SystemEsStop, this));
       Rest::Routes::Post(mRouter, "/api/system/es/restart", Rest::Routes::bind(&IRouter::SystemEsRestart, this));

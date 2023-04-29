@@ -236,6 +236,13 @@ class RequestHandler : public IRouter
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle POST to reboot the system
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET to start ES
      * @param request Request object
      * @param response Response object

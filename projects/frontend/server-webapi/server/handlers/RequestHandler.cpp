@@ -527,6 +527,20 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   else RequestHandlerTools::Error404(response);
 }
 
+void RequestHandler::SystemReboot(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemReboot");
+
+  auto res = RequestHandlerTools::Send(response, Http::Code::Ok);
+  res.then(
+          [](ssize_t _){
+              RequestHandlerTools::OutputOf("reboot");
+          },
+          Async::NoExcept
+    );
+
+}
+
 void RequestHandler::SystemEsStart(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemEsStart");

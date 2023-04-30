@@ -29,6 +29,22 @@
         label-position="left"
         square
       />
+      <q-fab-action
+        @click="useServerStore().reboot()"
+        color="secondary"
+        icon="mdi-restart"
+        :label="$t('general.server.reboot.title')"
+        label-position="left"
+        square
+      />
+      <q-fab-action
+        @click="useServerStore().shutdown()"
+        color="secondary"
+        icon="mdi-stop"
+        :label="$t('general.server.shutdown.title')"
+        label-position="left"
+        square
+      />
     </q-fab>
   </q-page-sticky>
   <q-dialog
@@ -52,6 +68,7 @@
 import { ref, toRefs } from 'vue';
 import VersionsList from 'components/global/VersionsList.vue';
 import { useVersionsStore } from 'stores/versions';
+import { useServerStore } from 'stores/server';
 
 useVersionsStore().fetch();
 

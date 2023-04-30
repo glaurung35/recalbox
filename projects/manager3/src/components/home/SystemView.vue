@@ -15,7 +15,15 @@
           {{ $t('home.system.es.restart') }}
         </q-tooltip>
       </q-btn>
-      <q-btn flat rounded square icon="mdi-play" text-color="positive" @click="serverStore.esStart()">
+      <q-btn
+        flat
+        rounded
+        square
+        icon="mdi-play"
+        :text-color="!serverStore.available ? 'positive' : 'secondary'"
+        @click="serverStore.esStart()"
+        :disable="serverStore.available"
+      >
         <q-tooltip
           class="bg-primary"
           :offset="[10, 10]"
@@ -25,7 +33,15 @@
           {{ $t('home.system.es.start') }}
         </q-tooltip>
       </q-btn>
-      <q-btn flat rounded square icon="mdi-stop" text-color="negative" @click="serverStore.esStop()">
+      <q-btn
+        flat
+        rounded
+        square
+        icon="mdi-stop"
+        :text-color="serverStore.available ? 'negative' : 'secondary'"
+        @click="serverStore.esStop()"
+        :disable="!serverStore.available"
+      >
         <q-tooltip
           class="bg-primary"
           :offset="[10, 10]"
@@ -79,6 +95,8 @@
 import { useServerStore } from 'stores/server';
 
 const serverStore = useServerStore();
+
+serverStore.available = true;
 
 const fakeSystemMeta = [
   { label: 'Manufacturer', value: 'Sammy', icon: 'mdi-factory' },

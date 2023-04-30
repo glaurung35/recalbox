@@ -40,6 +40,7 @@ export const useServerStore = defineStore('server', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         await this._apiProvider.post(SYSTEM.es.start);
+        this.available = true;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -50,6 +51,7 @@ export const useServerStore = defineStore('server', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         await this._apiProvider.post(SYSTEM.es.stop);
+        this.available = false;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -60,6 +62,7 @@ export const useServerStore = defineStore('server', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         await this._apiProvider.post(SYSTEM.es.restart);
+        this.available = true;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

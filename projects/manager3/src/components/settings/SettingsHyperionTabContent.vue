@@ -20,10 +20,10 @@
 </template>
 
 <script lang="ts" setup>
-import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useHyperionStore } from 'stores/configuration/hyperion';
 import { storeToRefs } from 'pinia';
-import FormFragmentContainer from '../global/FormFragmentContainer.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 
 const hyperionStore = useHyperionStore();
 hyperionStore.fetch();

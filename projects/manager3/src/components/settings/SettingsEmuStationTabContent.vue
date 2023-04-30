@@ -103,13 +103,13 @@
 </template>
 
 <script lang="ts" setup>
-import WrappedSelect from 'components/global/WrappedSelect.vue';
-import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/configuration/system';
-import WrappedSlider from 'components/global/WrappedSlider.vue';
-import FormFragmentContainer from '../global/FormFragmentContainer.vue';
+import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();

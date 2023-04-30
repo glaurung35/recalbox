@@ -123,12 +123,12 @@
 </template>
 
 <script lang="ts" setup>
-import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useScraperStore } from 'stores/configuration/scraper';
 import { storeToRefs } from 'pinia';
-import WrappedSelect from 'components/global/WrappedSelect.vue';
-import WrappedTextInput from 'components/global/WrappedTextInput.vue';
-import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 
 const scraperStore = useScraperStore();
 scraperStore.fetch();

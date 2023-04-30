@@ -46,13 +46,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import ShortcutsFloatingButton from 'components/global/ShortcutsFloatingButton.vue';
-import MenuLink from 'components/global/MenuLink.vue';
-import LangSelector from 'components/global/LangSelector.vue';
-import VirtualDevicesFloatingButton from 'components/global/VirtualDevicesFloatingButton.vue';
-import ScreenshotFloatingButton from 'components/global/ScreenshotFloatingButton.vue';
-import HelpFloatingButton from 'components/global/HelpFloatingButton.vue';
-import RebootFloatingButton from "components/global/RebootFloatingButton.vue";
+import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
+import MenuLink from 'components/ui-kit/MenuLink.vue';
+import LangSelector from 'components/layout/LangSelector.vue';
+import VirtualDevicesFloatingButton from 'components/layout/VirtualDevicesFloatingButton.vue';
+import ScreenshotFloatingButton from 'components/layout/ScreenshotFloatingButton.vue';
+import HelpFloatingButton from 'components/layout/HelpFloatingButton.vue';
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);

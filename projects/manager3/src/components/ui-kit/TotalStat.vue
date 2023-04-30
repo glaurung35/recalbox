@@ -88,7 +88,7 @@ function click() {
     .hover
       &:hover
         cursor: pointer
-        background-image: radial-gradient(circle, $primary 0%, $primary 35%, $accent 100%)
+        background-color: $accent
 
         .value,
         .title

@@ -47,12 +47,12 @@
 </template>
 
 <script lang="ts" setup>
-import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
-import WrappedSelect from 'components/global/WrappedSelect.vue';
-import WrappedToggle from 'components/global/WrappedToggle.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useAudioStore } from 'stores/configuration/audio';
 import { storeToRefs } from 'pinia';
-import WrappedSlider from 'components/global/WrappedSlider.vue';
+import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 
 const audioStore = useAudioStore();
 audioStore.fetch();

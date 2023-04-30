@@ -157,15 +157,15 @@
 </template>
 
 <script lang="ts" setup>
-import WrappedSelect from 'components/global/WrappedSelect.vue';
-import WrappedToggle from 'components/global/WrappedToggle.vue';
-import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useUpdatesStore } from 'stores/configuration/updates';
 import { storeToRefs } from 'pinia';
-import WrappedMultipleSelect from 'components/global/WrappedMultipleSelect.vue';
+import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
-import WrappedSlider from 'components/global/WrappedSlider.vue';
+import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 
 const updateStore = useUpdatesStore();
 updateStore.fetch();

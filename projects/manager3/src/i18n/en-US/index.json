@@ -74,7 +74,7 @@
       "title": "Preview",
       "systems": "systems",
       "roms": "roms",
-      "sharePercent": "share: partition %"
+      "sharePercent": "Share partition %"
     },
     "system": {
       "title": "Current system",

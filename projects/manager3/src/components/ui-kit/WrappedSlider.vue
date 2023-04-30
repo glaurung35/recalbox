@@ -27,7 +27,7 @@
 
 <script lang="ts" setup>
 import { computed, toRefs } from 'vue';
-import HelpButton from 'components/global/HelpButton.vue';
+import HelpButton from 'components/ui-kit/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String },

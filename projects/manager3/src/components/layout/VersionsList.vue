@@ -98,7 +98,7 @@
 </template>
 
 <script lang="ts" setup>
-import LongDataList from 'components/global/LongDataList.vue';
+import LongDataList from 'components/ui-kit/LongDataList.vue';
 import { copyToClipboard } from 'src/utils/copyToClipboard';
 import { useVersionsStore } from 'stores/versions';
 import { storeToRefs } from 'pinia';

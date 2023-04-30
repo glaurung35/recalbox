@@ -66,7 +66,7 @@
 
 <script lang="ts" setup>
 import { ref, toRefs } from 'vue';
-import VersionsList from 'components/global/VersionsList.vue';
+import VersionsList from 'components/layout/VersionsList.vue';
 import { useVersionsStore } from 'stores/versions';
 import { useServerStore } from 'stores/server';
 
@@ -102,4 +102,9 @@ function update(value:boolean) {
         font-size: 18px
         margin-left: 3px
         margin-right: 3px
+
+  #help-button.q-fab--opened
+    .q-focus-helper
+      background: currentColor
+      opacity: 0.15
 </style>

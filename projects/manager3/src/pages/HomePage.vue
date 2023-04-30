@@ -63,8 +63,8 @@
 <script lang="ts" setup>
 import { useMonitoringStore } from 'src/stores/monitoring';
 import { computed } from 'vue';
-import SystemStat from 'components/home/PercentStat.vue';
-import TotalStat from 'components/home/TotalStat.vue';
+import SystemStat from 'components/ui-kit/PercentStat.vue';
+import TotalStat from 'components/ui-kit/TotalStat.vue';
 import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';

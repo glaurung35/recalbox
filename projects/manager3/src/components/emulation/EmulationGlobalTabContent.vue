@@ -185,12 +185,12 @@
 </template>
 
 <script lang="ts" setup>
-import WrappedSelect from 'components/global/WrappedSelect.vue';
-import WrappedTextInput from 'components/global/WrappedTextInput.vue';
-import WrappedToggle from 'components/global/WrappedToggle.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
+import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useGlobalStore } from 'stores/configuration/global';
 import { storeToRefs } from 'pinia';
-import FormFragmentContainer from '../global/FormFragmentContainer.vue';
+import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 
 const globalStore = useGlobalStore();
 globalStore.fetch();

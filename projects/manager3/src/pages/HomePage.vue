@@ -48,7 +48,7 @@
 
     <div class="row flex items-stretch home-emustation">
       <div class="col col-md-4 machines-list">
-        Nombre de jeux par machines
+        <TwitchView/>
       </div>
       <div class="col col-md-4 system">
         <SystemView/>
@@ -68,6 +68,7 @@ import TotalStat from 'components/ui-kit/TotalStat.vue';
 import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';
+import TwitchView from 'components/home/TwitchView.vue';
 
 const { getSystemsListCount } = useSystemsStore();
 useSystemsStore().fetch();

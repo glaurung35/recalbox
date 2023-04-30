@@ -85,7 +85,8 @@
       }
     },
     "game": {
-      "title": "Jeux en cours"
+      "title": "Jeux en cours",
+      "stop": "Arrêter le jeux"
     }
   },
   "monitoring": {

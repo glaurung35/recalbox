@@ -4,6 +4,25 @@
       <q-icon name="icon-emustation" size="md"/>
       {{ $t('home.game.title') }}
     </div>
+    <div class="controls">
+      <q-btn
+        flat
+        rounded
+        square
+        icon="mdi-stop"
+        text-color="negative"
+        disable
+      >
+        <q-tooltip
+          class="bg-primary"
+          :offset="[10, 10]"
+          content-class="bg-primary"
+          content-style="font-size: 16px"
+        >
+          {{ $t('home.game.stop') }}
+        </q-tooltip>
+      </q-btn>
+    </div>
   </div>
   <div class="informations">
     <div class="screen">
@@ -102,5 +121,5 @@
       border-bottom-right-radius: 100% 4%
       border-top-left-radius: 100% 4%
       border-top-right-radius: 100% 4%
-      opacity: 0.6
+      opacity: 0.8
 </style>

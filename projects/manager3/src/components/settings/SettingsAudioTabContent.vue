@@ -50,7 +50,7 @@
 import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
-import { useAudioStore } from 'stores/audio';
+import { useAudioStore } from 'stores/configuration/audio';
 import { storeToRefs } from 'pinia';
 import WrappedSlider from 'components/global/WrappedSlider.vue';
 

@@ -105,9 +105,9 @@
 <script lang="ts" setup>
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
-import { useEmulationstationStore } from 'stores/emulationstation';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { storeToRefs } from 'pinia';
-import { useSystemStore } from 'stores/system';
+import { useSystemStore } from 'stores/configuration/system';
 import WrappedSlider from 'components/global/WrappedSlider.vue';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 

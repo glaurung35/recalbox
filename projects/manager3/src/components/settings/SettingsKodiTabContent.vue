@@ -86,7 +86,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useKodiStore } from 'stores/kodi';
+import { useKodiStore } from 'stores/configuration/kodi';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
 import WrappedSelect from 'components/global/WrappedSelect.vue';

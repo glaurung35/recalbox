@@ -124,7 +124,7 @@
 
 <script lang="ts" setup>
 import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
-import { useScraperStore } from 'stores/scraper';
+import { useScraperStore } from 'stores/configuration/scraper';
 import { storeToRefs } from 'pinia';
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';

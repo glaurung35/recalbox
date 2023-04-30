@@ -91,9 +91,9 @@
 </template>
 
 <script lang="ts" setup>
-import { useGlobalStore } from 'stores/global';
+import { useGlobalStore } from 'stores/configuration/global';
 import { ref } from 'vue';
-import { useControllersStore } from 'stores/controllers';
+import { useControllersStore } from 'stores/configuration/controllers';
 
 useGlobalStore().fetchOptions();
 useControllersStore().fetchOptions();

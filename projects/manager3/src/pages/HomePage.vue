@@ -18,10 +18,15 @@
       <q-separator/>
 
       <!-- PC version -->
+      <TotalStat
+        :key="stat.key"
+        v-bind="stat"
+        v-for="stat in totals"
+      />
       <SystemStat
         :key="stat.key"
         v-bind="stat"
-        v-for="stat in stats"
+        v-for="stat in percents"
       />
 
       <!-- Mobile version -->
@@ -58,7 +63,8 @@
 <script lang="ts" setup>
 import { useMonitoringStore } from 'src/stores/monitoring';
 import { computed } from 'vue';
-import SystemStat from 'components/home/SystemStat.vue';
+import SystemStat from 'components/home/PercentStat.vue';
+import TotalStat from 'components/home/TotalStat.vue';
 import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';
@@ -69,19 +75,21 @@ useSystemsStore().fetch();
 const { getSharePercent } = useMonitoringStore();
 useMonitoringStore().fetch();
 
-const stats = computed<object[]>(() => [
+const totals = computed<object[]>(() => [
   {
     key: 1,
     title: 'home.preview.systems',
     value: getSystemsListCount(),
-    percent: 100,
+    route: 'systems-parent',
   },
   {
     key: 2,
     title: 'home.preview.roms',
     value: 70543,
-    percent: 100,
   },
+]);
+
+const percents = computed<object[]>(() => [
   {
     key: 3,
     title: 'home.preview.sharePercent',
@@ -136,9 +144,6 @@ const stats = computed<object[]>(() => [
 
     .stat
       width: calc((85% / 4) - (1px / 4))
-
-    .home-stat-title
-      text-transform: uppercase
 
     .col-2
       width: calc(16.6667% - (1px / 4))

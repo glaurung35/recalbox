@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { SCRAPER } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { ScraperConfig, ScraperConfigOptions } from 'stores/types/scraperConfig';
 
 export type ScraperStoreState = {
@@ -13,7 +13,7 @@ export type ScraperStoreState = {
 
 export const useScraperStore = defineStore('scraper', {
   state: () => ({
-    _baseUrl: SCRAPER,
+    _baseUrl: CONFIGURATION.scraper,
     _scraperOptions: {
       'screenscraper.password': {
         type: '',

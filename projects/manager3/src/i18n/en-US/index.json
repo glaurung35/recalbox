@@ -35,7 +35,10 @@
       "screenshotTaken": "Screenshot taken",
       "screenshotDeleted": "Screenshot deleted",
       "updateError": "Error during update :",
-      "networkError": "Network error"
+      "networkError": "Network error",
+      "esStart": "Start EmulationStation",
+      "esStop": "Stop EmulationStation",
+      "esRestart": "Restart EmulationStation"
     },
     "upload": {
       "clearAll": "Clear All",
@@ -64,6 +67,17 @@
       "systems": "systems",
       "roms": "roms",
       "sharePercent": "share: partition %"
+    },
+    "system": {
+      "title": "Current system",
+      "es": {
+        "start": "Start EmulationStation",
+        "stop": "Stop EmulationStation",
+        "restart": "Restart EmulationStation"
+      }
+    },
+    "game": {
+      "title": "Current game"
     }
   },
   "monitoring": {
@@ -451,8 +465,8 @@
         "system": "System",
         "bios": "BIOS",
         "currentMd5": "Current MD5",
-        "md5": "Expected MD5's",
-        "valid": "Valid"
+        "md5": "Expected MD5s",
+        "valid": "Validity"
       },
       "tooltips": {
         "green": "Verified BIOS",

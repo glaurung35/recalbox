@@ -23,6 +23,7 @@
             size="md"
             flat
             @click="() => router.go(-1)"
+            style="margin-right: 1em;"
           >
             {{$t('general.return')}}
           </q-btn>
@@ -94,16 +95,15 @@
 <!--            <q-td auto-width>-->
 <!--              <q-btn color="primary" dense flat icon="mdi-pencil" round size="md"/>-->
 <!--            </q-td>-->
-<!--            <q-td auto-width>-->
-<!--              <q-btn-->
-<!--                color="accent"-->
-<!--                dense-->
-<!--                flat-->
-<!--                icon="mdi-delete"-->
-<!--                round size="md"-->
-<!--                @click="openConfirm('slug')"-->
-<!--              />-->
-<!--            </q-td>-->
+            <q-td auto-width>
+              <q-btn
+                color="negative"
+                dense
+                flat
+                icon="mdi-delete"
+                round size="md"
+              />
+            </q-td>
           </q-tr>
         </template>
 
@@ -267,18 +267,14 @@ const roms: Array<object> = [
     margin: 0 8px 74px
     width: calc(100% - 16px)
 
+    .q-table__top
+      margin-bottom: 10px
+
     .logo
       width: 100px
       max-height: 50px
 
-    .addButton
-      margin-left: 16px
-
     @media(max-width: 700px)
       .search
         flex: 5
-
-      .addButton
-        flex: 1
-        margin-left: 10px
 </style>

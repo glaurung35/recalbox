@@ -35,7 +35,10 @@
       "screenshotTaken": "Capture d'écran effectuée",
       "screenshotDeleted": "Capture d'écran supprimée",
       "updateError": "Erreur lors de la modification : ",
-      "networkError": "Problème de connexion réseau"
+      "networkError": "Problème de connexion réseau",
+      "esStart": "Démarrage EmulationStation",
+      "esStop": "Arrêt EmulationStation",
+      "esRestart": "Redémarrage EmulationStation"
     },
     "upload": {
       "clearAll": "Effacer tout",
@@ -64,6 +67,17 @@
       "systems": "systèmes",
       "roms": "roms",
       "sharePercent": "share: % de la partition"
+    },
+    "system": {
+      "title": "Système en cours",
+      "es": {
+        "start": "Démarrer EmulationStation",
+        "stop": "Arrêter EmulationStation",
+        "restart": "Redémarrer EmulationStation"
+      }
+    },
+    "game": {
+      "title": "Jeux en cours"
     }
   },
   "monitoring": {
@@ -452,7 +466,7 @@
         "bios": "BIOS",
         "currentMd5": "MD5 courant",
         "md5": "MD5 attendus",
-        "valid": "Valide"
+        "valid": "Validité"
       },
       "tooltips": {
         "green": "BIOS valide",

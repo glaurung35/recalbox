@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { HYPERION } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { HyperionConfig } from 'stores/types/hyperionConfig';
 
 export type HyperionStoreState = {
@@ -12,7 +12,7 @@ export type HyperionStoreState = {
 
 export const useHyperionStore = defineStore('hyperion', {
   state: () => ({
-    _baseUrl: HYPERION,
+    _baseUrl: CONFIGURATION.hyperion,
     hyperion: {},
   } as HyperionStoreState),
 });

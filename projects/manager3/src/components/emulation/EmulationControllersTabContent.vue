@@ -129,7 +129,7 @@ import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
 import { storeToRefs } from 'pinia';
-import { useControllersStore } from 'stores/controllers';
+import { useControllersStore } from 'stores/configuration/controllers';
 
 const controllersStore = useControllersStore();
 controllersStore.fetch();

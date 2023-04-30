@@ -4,7 +4,7 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { Loading, Notify } from 'quasar';
-import { BIOS, MEDIA } from 'src/router/api.routes';
+import { BIOS, MEDIA, SYSTEM } from 'src/router/api.routes';
 import { i18n } from 'boot/i18n';
 
 declare module '@vue/runtime-core' {
@@ -66,6 +66,19 @@ api.interceptors.response.use((response) => {
   if (response.config.url === MEDIA.takeScreenshot) {
     message = i18n.global.t('general.notify.screenshotTaken');
     icon = 'mdi-folder-multiple-image';
+  }
+
+  if (response.config.url === SYSTEM.es.start) {
+    message = i18n.global.t('general.notify.esStart');
+    icon = 'mdi-play';
+  }
+  if (response.config.url === SYSTEM.es.stop) {
+    message = i18n.global.t('general.notify.esStop');
+    icon = 'mdi-stop';
+  }
+  if (response.config.url === SYSTEM.es.restart) {
+    message = i18n.global.t('general.notify.esRestart');
+    icon = 'mdi-restart';
   }
 
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment

@@ -1,6 +1,9 @@
 <template>
   <div class="header">
-    <div class="title">Jeux en cours</div>
+    <div class="title">
+      <q-icon name="icon-emustation" size="md"/>
+      {{ $t('home.game.title') }}
+    </div>
   </div>
   <div class="informations">
     <div class="screen">
@@ -26,10 +29,13 @@
     display: flex
     align-items: center
     text-transform: uppercase
-    font-weight: 300
+    font-weight: 400
     color: $accent
     min-height: 36px
     margin-left: 1em
+
+    .q-icon
+      margin-right: 0.2em
 
 .informations
   display: flex

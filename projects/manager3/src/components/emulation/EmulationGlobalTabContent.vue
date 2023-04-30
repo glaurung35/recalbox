@@ -188,7 +188,7 @@
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
-import { useGlobalStore } from 'stores/global';
+import { useGlobalStore } from 'stores/configuration/global';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 

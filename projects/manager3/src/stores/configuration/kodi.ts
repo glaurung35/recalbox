@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { KODI } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { KodiConfig, KodiConfigOptions } from 'stores/types/kodiConfig';
 
 export type KodiStoreState = {
@@ -13,7 +13,7 @@ export type KodiStoreState = {
 
 export const useKodiStore = defineStore('kodi', {
   state: () => ({
-    _baseUrl: KODI,
+    _baseUrl: CONFIGURATION.kodi,
     _kodiOptions: {},
     kodi: {},
   } as KodiStoreState),

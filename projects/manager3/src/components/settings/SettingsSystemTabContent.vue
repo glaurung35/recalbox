@@ -160,11 +160,11 @@
 import WrappedSelect from 'components/global/WrappedSelect.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
 import FormFragmentContainer from 'components/global/FormFragmentContainer.vue';
-import { useSystemStore } from 'stores/system';
-import { useUpdatesStore } from 'stores/updates';
+import { useSystemStore } from 'stores/configuration/system';
+import { useUpdatesStore } from 'stores/configuration/updates';
 import { storeToRefs } from 'pinia';
 import WrappedMultipleSelect from 'components/global/WrappedMultipleSelect.vue';
-import { useGlobalStore } from 'stores/global';
+import { useGlobalStore } from 'stores/configuration/global';
 import WrappedSlider from 'components/global/WrappedSlider.vue';
 
 const updateStore = useUpdatesStore();

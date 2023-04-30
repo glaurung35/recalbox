@@ -28,7 +28,7 @@
 import { useQuasar } from 'quasar';
 import { useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
-import { useSystemStore } from 'stores/system';
+import { useSystemStore } from 'stores/configuration/system';
 import { storeToRefs } from 'pinia';
 
 const $q = useQuasar();

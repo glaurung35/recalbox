@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { WIFI } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { WifiConfig, WifiConfigOptions } from 'stores/types/wifiConfig';
 
 export type WifiStoreState = {
@@ -13,7 +13,7 @@ export type WifiStoreState = {
 
 export const useWifiStore = defineStore('wifi', {
   state: () => ({
-    _baseUrl: WIFI,
+    _baseUrl: CONFIGURATION.wifi,
     _wifiOptions: {
       region: {
         allowedStringList: [''],

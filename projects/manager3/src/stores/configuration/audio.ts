@@ -3,7 +3,7 @@
  */
 import { defineStore } from 'pinia';
 import { AudioConfig, AudioConfigOptions } from 'stores/types/audioConfig';
-import { AUDIO } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 
 export type AudioStoreState = {
   _baseUrl: string,
@@ -13,7 +13,7 @@ export type AudioStoreState = {
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({
-    _baseUrl: AUDIO,
+    _baseUrl: CONFIGURATION.audio,
     _audioOptions: {
       device: {
         allowedStringList: [''],

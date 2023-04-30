@@ -1,25 +1,38 @@
 <template>
   <div class="header">
-    <div class="title">Système en cours</div>
+    <div class="title">
+      <q-icon name="icon-emustation" size="md"/>
+      {{ $t('home.system.title') }}
+    </div>
     <div class="controls">
-      <q-btn flat rounded square icon="mdi-restart" text-color="warning">
+      <q-btn flat rounded square icon="mdi-restart" text-color="warning" @click="serverStore.esRestart()">
         <q-tooltip
           class="bg-primary"
           :offset="[10, 10]"
           content-class="bg-primary"
           content-style="font-size: 16px"
         >
-          Restart ES
+          {{ $t('home.system.es.restart') }}
         </q-tooltip>
       </q-btn>
-      <q-btn flat rounded square icon="mdi-power" text-color="negative">
+      <q-btn flat rounded square icon="mdi-play" text-color="positive" @click="serverStore.esStart()">
         <q-tooltip
           class="bg-primary"
           :offset="[10, 10]"
           content-class="bg-primary"
           content-style="font-size: 16px"
         >
-          Shutdown ES
+          {{ $t('home.system.es.start') }}
+        </q-tooltip>
+      </q-btn>
+      <q-btn flat rounded square icon="mdi-stop" text-color="negative" @click="serverStore.esStop()">
+        <q-tooltip
+          class="bg-primary"
+          :offset="[10, 10]"
+          content-class="bg-primary"
+          content-style="font-size: 16px"
+        >
+          {{ $t('home.system.es.stop') }}
         </q-tooltip>
       </q-btn>
     </div>
@@ -34,30 +47,39 @@
         { name: 'systems-system', params: { system: 'atomiswave' }}
       )"
     />
-    <q-list class="meta-list">
-      <q-item
-        v-for="system in fakeSystemMeta"
-        v-bind="system"
-        :key="system.label"
-      >
-        <q-item-section top avatar>
-          <q-avatar
-            color="white"
-            square
-            rounded
-            :icon="system.icon"
-          />
-        </q-item-section>
-        <q-item-section>
-          <q-item-label>{{system.label}}</q-item-label>
-          <q-item-label caption>{{system.value}}</q-item-label>
-        </q-item-section>
-      </q-item>
-    </q-list>
+    <transition
+      appear
+      enter-active-class="animated flipInX"
+    >
+      <q-list class="meta-list">
+        <q-item
+          v-for="system in fakeSystemMeta"
+          v-bind="system"
+          :key="system.label"
+        >
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              :icon="system.icon"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{system.label}}</q-item-label>
+            <q-item-label caption>{{system.value}}</q-item-label>
+          </q-item-section>
+        </q-item>
+      </q-list>
+    </transition>
   </div>
 </template>
 
 <script lang="ts" setup>
+import { useServerStore } from 'stores/system';
+
+const serverStore = useServerStore();
+
 const fakeSystemMeta = [
   { label: 'Manufacturer', value: 'Sammy', icon: 'mdi-factory' },
   { label: 'Year of Release', value: '2003', icon: 'mdi-calendar-month-outline' },
@@ -81,9 +103,12 @@ const fakeSystemMeta = [
     display: flex
     align-items: center
     text-transform: uppercase
-    font-weight: 300
+    font-weight: 400
     color: $accent
     margin-left: 1em
+
+    .q-icon
+      margin-right: 0.2em
 
   .controls
     display: flex
@@ -105,6 +130,7 @@ const fakeSystemMeta = [
     margin: 0 auto 2em auto
     filter: saturate(0)
     opacity: 0.4
+    transition: opacity 0.3s
 
     &:hover
       filter: initial

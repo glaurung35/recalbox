@@ -165,8 +165,8 @@
 import WrappedTextInput from 'components/global/WrappedTextInput.vue';
 import WrappedToggle from 'components/global/WrappedToggle.vue';
 import WrappedSelect from 'components/global/WrappedSelect.vue';
-import { useSystemStore } from 'stores/system';
-import { useWifiStore } from 'stores/wifi';
+import { useSystemStore } from 'stores/configuration/system';
+import { useWifiStore } from 'stores/configuration/wifi';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';

@@ -21,7 +21,7 @@
 
 <script lang="ts" setup>
 import WrappedToggle from 'components/global/WrappedToggle.vue';
-import { useHyperionStore } from 'stores/hyperion';
+import { useHyperionStore } from 'stores/configuration/hyperion';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from '../global/FormFragmentContainer.vue';
 

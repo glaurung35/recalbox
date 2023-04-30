@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { EMUSTATION } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { EmulationStationConfig, EmulationStationConfigOptions } from 'stores/types/emulationstationConfig';
 
 export type EmulationStationStoreState = {
@@ -13,7 +13,7 @@ export type EmulationStationStoreState = {
 
 export const useEmulationstationStore = defineStore('emulationstation', {
   state: () => ({
-    _baseUrl: EMUSTATION,
+    _baseUrl: CONFIGURATION.emustation,
     _emulationstationOptions: {
       'videosnaps.loop': {
         lowerValue: 0,

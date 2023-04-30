@@ -155,15 +155,23 @@
               </span>
 
               <span v-else-if="col.name === 'bios'">
-                <q-btn
-                  :label="col.value"
-                  @click="copyToClipboard(col.value)"
-                  class="copy-to-clipboard"
-                  color="primary"
-                  dense
-                  flat
-                  size="md"
-                />
+                <q-breadcrumbs gutter="xs">
+                  <q-breadcrumbs-el
+                    :key="pathNode"
+                    v-for="pathNode in col.value.split('/')"
+                  >
+                    <q-btn
+                      :label="pathNode"
+                      @click="copyToClipboard(pathNode)"
+                      :class="getBiosClass(col, pathNode)"
+                      color="primary"
+                      dense
+                      flat
+                      size="md"
+                      :icon="getBreadCrumbIcon(col, pathNode)"
+                    />
+                  </q-breadcrumbs-el>
+                </q-breadcrumbs>
               </span>
 
               <span class="md5" v-else-if="col.name === 'currentMd5'">
@@ -410,6 +418,18 @@ const filteredBiosList = computed(() => {
 function refresh() {
   biosStore.fetch();
 }
+
+function isBios(column:object, pathNode:string) {
+  return column.value.split('/').slice(-1).pop() === pathNode;
+}
+
+function getBiosClass(column:object, pathNode:string) {
+  return isBios(column, pathNode) ? 'path bios copy-to-clipboard' : 'path copy-to-clipboard';
+}
+
+function getBreadCrumbIcon(column:object, pathNode:string) {
+  return isBios(column, pathNode) ? 'mdi-chip' : 'mdi-folder-open-outline';
+}
 //   methods: {
 //     openUpload() {
 //       this.$root.$emit('open-upload', 'bios');
@@ -434,6 +454,13 @@ function refresh() {
 .copy-to-clipboard
   font-weight: inherit
   text-transform: inherit
+
+.path
+  .q-icon
+    color: $light-blue
+  &.bios
+    .q-icon
+      color: $accent
 
 .q-table__card
   margin: 0 .5em 74px

@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { CONTROLLERS } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { ControllersConfig, ControllersConfigOptions } from 'stores/types/controllersConfig';
 
 export type ControllersStoreState = {
@@ -13,7 +13,7 @@ export type ControllersStoreState = {
 
 export const useControllersStore = defineStore('controllers', {
   state: () => ({
-    _baseUrl: CONTROLLERS,
+    _baseUrl: CONFIGURATION.controllers,
     _controllersOptions: {
       'ps3.driver': {
         allowedStringList: [''],

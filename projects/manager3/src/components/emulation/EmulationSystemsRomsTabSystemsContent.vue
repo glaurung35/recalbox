@@ -123,6 +123,7 @@ const table = ref<object>({
         text-transform: uppercase
         cursor: pointer
         overflow: hidden
+        border-radius: 5px!important
 
         .q-card__section
           padding: .5em 2.5em

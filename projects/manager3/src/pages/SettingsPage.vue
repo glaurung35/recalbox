@@ -97,14 +97,14 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
-import { useSystemStore } from 'stores/system';
-import { useUpdatesStore } from 'stores/updates';
-import { useAudioStore } from 'stores/audio';
-import { useEmulationstationStore } from 'stores/emulationstation';
-import { useKodiStore } from 'stores/kodi';
-import { useScraperStore } from 'stores/scraper';
-import { useWifiStore } from 'stores/wifi';
-import { useGlobalStore } from 'stores/global';
+import { useSystemStore } from 'stores/configuration/system';
+import { useUpdatesStore } from 'stores/configuration/updates';
+import { useAudioStore } from 'stores/configuration/audio';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { useKodiStore } from 'stores/configuration/kodi';
+import { useScraperStore } from 'stores/configuration/scraper';
+import { useWifiStore } from 'stores/configuration/wifi';
+import { useGlobalStore } from 'stores/configuration/global';
 
 useSystemStore().fetchOptions();
 

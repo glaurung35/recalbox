@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { GLOBAL } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { GlobalConfig, GlobalConfigOptions } from 'stores/types/globalConfig';
 
 export type GlobalStoreState = {
@@ -13,7 +13,7 @@ export type GlobalStoreState = {
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({
-    _baseUrl: GLOBAL,
+    _baseUrl: CONFIGURATION.global,
     _globalOptions: {
       ratio: {
         allowedStringList: [''],

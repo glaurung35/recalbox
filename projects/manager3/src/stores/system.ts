@@ -3,51 +3,67 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
-import { SystemConfig, SystemConfigOptions } from 'stores/types/systemConfig';
 
-export type SystemStoreState = {
-  _baseUrl: string,
-  _systemOptions: SystemConfigOptions,
-  system: SystemConfig,
+export type ServerStoreState = {
+  available: boolean,
 };
 
-export const useSystemStore = defineStore('system', {
+export const useServerStore = defineStore('server', {
   state: () => ({
-    _baseUrl: SYSTEM,
-    _systemOptions: {
-      language: {
-        allowedStringList: [''],
-      },
-      kblayout: {
-        allowedStringList: [''],
-      },
-      timezone: {
-        allowedStringList: [''],
-      },
-      'emulators.specialkeys': {
-        allowedStringList: [''],
-      },
-      'es.videomode': {
-        allowedStringList: [''],
-      },
-      'splash.length': {
-        lowerValue: 0,
-        higherValue: 0,
-      },
-    },
-    system: {
-      language: {
-        value: 'fr_FR',
-      },
-    },
-  } as SystemStoreState),
+    available: false,
+  } as ServerStoreState),
 
-  getters: {
-    languageOptions: (state) => state._systemOptions.language.allowedStringList,
-    kblayoutOptions: (state) => state._systemOptions.kblayout.allowedStringList,
-    timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList,
-    specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
-    esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
-    splashLengthOptions: (state) => state._systemOptions['splash.length'],
+  actions: {
+    async reboot(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await this._apiProvider.post(SYSTEM.reboot);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+    async shutdown(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await this._apiProvider.post(SYSTEM.shutdown);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+
+    async esStart(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await this._apiProvider.post(SYSTEM.es.start);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+    async esStop(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await this._apiProvider.post(SYSTEM.es.stop);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+    async esRestart(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        await this._apiProvider.post(SYSTEM.es.restart);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
   },
 });

@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { UPDATES } from 'src/router/api.routes';
+import { CONFIGURATION } from 'src/router/api.routes';
 import { UpdatesConfig, UpdatesConfigOptions } from 'stores/types/updatesConfig';
 
 export type UpdatesStoreState = {
@@ -13,7 +13,7 @@ export type UpdatesStoreState = {
 
 export const useUpdatesStore = defineStore('updates', {
   state: () => ({
-    _baseUrl: UPDATES,
+    _baseUrl: CONFIGURATION.updates,
     _updatesOptions: {
       type: {
         allowedStringList: [''],

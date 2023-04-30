@@ -9,6 +9,14 @@
     }
   },
   "general": {
+    "server": {
+      "reboot": {
+        "title": "Reboot Recalbox"
+      },
+      "shutdown": {
+        "title": "Shutdown Recalbox"
+      }
+    },
     "virtualDevices": {
       "tooltip": "Access virtual devices",
       "title": "Virtual devices",

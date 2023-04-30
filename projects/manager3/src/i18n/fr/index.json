@@ -9,6 +9,14 @@
     }
   },
   "general": {
+    "server": {
+      "reboot": {
+        "title": "Redémarrer Recalbox"
+      },
+      "shutdown": {
+        "title": "Éteindre Recalbox"
+      }
+    },
     "virtualDevices": {
       "tooltip": "Accéder aux périphériques virtuels",
       "title": "Périphériques virtuels",

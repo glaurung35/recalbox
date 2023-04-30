@@ -52,6 +52,7 @@ import LangSelector from 'components/global/LangSelector.vue';
 import VirtualDevicesFloatingButton from 'components/global/VirtualDevicesFloatingButton.vue';
 import ScreenshotFloatingButton from 'components/global/ScreenshotFloatingButton.vue';
 import HelpFloatingButton from 'components/global/HelpFloatingButton.vue';
+import RebootFloatingButton from "components/global/RebootFloatingButton.vue";
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);

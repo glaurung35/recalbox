@@ -76,7 +76,7 @@
 </template>
 
 <script lang="ts" setup>
-import { useServerStore } from 'stores/system';
+import { useServerStore } from 'stores/server';
 
 const serverStore = useServerStore();
 

@@ -85,7 +85,8 @@
       }
     },
     "game": {
-      "title": "Current game"
+      "title": "Current game",
+      "stop": "Stop the game"
     }
   },
   "monitoring": {

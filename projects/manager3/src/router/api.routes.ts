@@ -60,4 +60,9 @@ export const SYSTEMS = {
   all: '/systems',
 };
 
+export const TWITCH = {
+  auth: 'https://id.twitch.tv/oauth2/token',
+  schedule: 'https://api.twitch.tv/helix/schedule',
+};
+
 export const VERSIONS = '/versions';

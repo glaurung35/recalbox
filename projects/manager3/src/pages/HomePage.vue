@@ -30,17 +30,17 @@
       />
 
       <!-- Mobile version -->
-      <div class="col-12 linear-progress" style="padding: 16px">
-        <div class="linear-progress-title text-accent">{{ $t('home.preview.systems') }}</div>
-        <div class="linear-progress-bar">
+      <div class="col-12 linear-progress">
+        <div class="title text-accent">{{ $t('home.preview.systems') }}</div>
+        <div class="bar">
           <q-linear-progress :value="0.4" color="secondary" size="15px"/>
         </div>
-        <div class="linear-progress-title text-accent">{{ $t('home.preview.roms') }}</div>
-        <div class="linear-progress-bar">
+        <div class="title text-accent">{{ $t('home.preview.roms') }}</div>
+        <div class="bar">
           <q-linear-progress :value="0.4" color="secondary" size="15px"/>
         </div>
-        <div class="linear-progress-title text-accent">{{ $t('home.preview.sharePercent') }}</div>
-        <div class="linear-progress-bar">
+        <div class="title text-accent">{{ $t('home.preview.sharePercent') }}</div>
+        <div class="bar">
           <q-linear-progress :value="0.54" color="secondary" size="15px"/>
         </div>
       </div>
@@ -149,11 +149,14 @@ const percents = computed<object[]>(() => [
     .col-2
       width: calc(16.6667% - (1px / 4))
 
-    .linear-progress-title
-      text-transform: uppercase
+    .linear-progress
+      padding: 1em
 
-    .linear-progress-bar
-      margin-bottom: .5em
+      .title
+        text-transform: uppercase
+
+      .bar
+        margin-bottom: .5em
 
     @media(max-width: 1023px)
       .preview-title

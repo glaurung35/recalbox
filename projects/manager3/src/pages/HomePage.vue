@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="row home-stats">
-      <div class="vertical-middle text-center preview-title self-center preview-title">
+      <div class="vertical-middle text-center preview-title self-center">
         {{ $t('home.preview.title') }}
         <span class="arrow-right"><q-icon name="mdi-chevron-right"/></span>
         <span class="arrow-bottom"><q-icon name="mdi-chevron-down"/></span>
@@ -17,7 +17,6 @@
       <q-separator vertical/>
       <q-separator/>
 
-      <!-- PC version -->
       <TotalStat
         :key="stat.key"
         v-bind="stat"
@@ -28,32 +27,16 @@
         v-bind="stat"
         v-for="stat in percents"
       />
-
-      <!-- Mobile version -->
-      <div class="col-12 linear-progress">
-        <div class="title text-accent">{{ $t('home.preview.systems') }}</div>
-        <div class="bar">
-          <q-linear-progress :value="0.4" color="secondary" size="15px"/>
-        </div>
-        <div class="title text-accent">{{ $t('home.preview.roms') }}</div>
-        <div class="bar">
-          <q-linear-progress :value="0.4" color="secondary" size="15px"/>
-        </div>
-        <div class="title text-accent">{{ $t('home.preview.sharePercent') }}</div>
-        <div class="bar">
-          <q-linear-progress :value="0.54" color="secondary" size="15px"/>
-        </div>
-      </div>
     </div>
 
     <div class="row flex items-stretch home-emustation">
-      <div class="col col-md-3 social-medias">
+      <div class="col col-sm-3 social-medias">
         <TwitchView/>
       </div>
-      <div class="col col-md-4 system">
+      <div class="col col-xs-12 col-sm-6 col-md-4 system">
         <SystemView/>
       </div>
-      <div class="col col-md-5 game">
+      <div class="col col-xs-12 col-sm-6 col-md-5 game">
         <GameView/>
       </div>
     </div>
@@ -157,6 +140,10 @@ const percents = computed<object[]>(() => [
 
       .bar
         margin-bottom: .5em
+
+    @media(max-width: 1300px)
+      .social-medias
+        display: none
 
     @media(max-width: 1023px)
       .preview-title

@@ -48,6 +48,7 @@ class SysInfos : public Thread
       RaspberryPi,
       Odroid,
       PC,
+      Anbernic,
     };
 
   private:

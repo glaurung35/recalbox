@@ -20,6 +20,7 @@ declare module '@vue/runtime-core' {
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api:AxiosInstance = axios.create({ baseURL: process.env.API_URL });
+const httpClient:AxiosInstance = axios.create();
 
 export default boot(({ app }):void => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
@@ -116,4 +117,4 @@ api.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
-export { api };
+export { api, httpClient };

@@ -47,13 +47,13 @@
     </div>
 
     <div class="row flex items-stretch home-emustation">
-      <div class="col col-md-4 machines-list">
+      <div class="col col-md-3 social-medias">
         <TwitchView/>
       </div>
       <div class="col col-md-4 system">
         <SystemView/>
       </div>
-      <div class="col col-md-4 game">
+      <div class="col col-md-5 game">
         <GameView/>
       </div>
     </div>
@@ -193,20 +193,21 @@ const percents = computed<object[]>(() => [
   .home-emustation
     height: calc(100vh - 212px - 5em)
 
-    .machines-list,
     .system
       border-right: 2px solid white
 
-    .machines-list,
+    .social-medias,
     .system,
     .game
       position: relative
       display: flex
       flex-direction: column
 
-    .machines-list,
     .system
       background: $rc-light-grey
+
+    .social-medias
+      background: white
 
     .system
       &:after

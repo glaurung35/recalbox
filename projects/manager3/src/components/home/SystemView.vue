@@ -43,7 +43,6 @@
         :disable="!serverStore.available"
       >
         <q-tooltip
-          class="bg-primary"
           :offset="[10, 10]"
           content-class="bg-primary"
           content-style="font-size: 16px"

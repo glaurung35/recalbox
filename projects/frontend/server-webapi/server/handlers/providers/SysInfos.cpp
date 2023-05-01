@@ -124,6 +124,7 @@ void SysInfos::GetTemperature()
     case Platform::Unknown: break;
     case Platform::PC:
     case Platform::RaspberryPi:
+    case Platform::Anbernic:
     {
       std::string temp = Files::LoadFile(Path("/sys/class/thermal/thermal_zone0/temp"));
       int temperature = 0;
@@ -194,6 +195,7 @@ SysInfos::Platform SysInfos::GetPlatformFrom(const std::string& platformName)
 {
   if (Strings::StartsWith(platformName, "BCM2835")) return Platform::RaspberryPi;
   if (Strings::StartsWith(platformName, "ODROID")) return Platform::Odroid;
+  if (Strings::StartsWith(platformName, "Anbernic")) return Platform::Anbernic;
   return Platform::PC;
 }
 
@@ -205,6 +207,7 @@ const char* SysInfos::GetPlatformFrom(SysInfos::Platform platform)
     case Platform::RaspberryPi: return "Raspberry Pi";
     case Platform::Odroid: return "Odroid";
     case Platform::PC: return "Compatible PC";
+    case Platform::Anbernic: return "Anbernic";
   }
   return "Unknown";
 }

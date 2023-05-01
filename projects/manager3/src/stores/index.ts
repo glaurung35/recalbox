@@ -8,6 +8,7 @@ import FetchStorePlugin from 'stores/plugins/fetchStorePlugin';
 import FetchOptionsStorePlugin from 'stores/plugins/fetchOptionsStorePlugin';
 import PostStorePlugin from 'stores/plugins/postStorePlugin';
 import ApiProviderStorePlugin from 'stores/plugins/apiProviderStorePlugin';
+import HttpClientProviderStorePlugin from 'stores/plugins/httpClientProviderStorePlugin';
 
 /*
  * When adding new properties to stores, you should also
@@ -35,6 +36,9 @@ export default store((/* { ssrContext } */) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pinia.use(ApiProviderStorePlugin);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  pinia.use(HttpClientProviderStorePlugin);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pinia.use(FetchStorePlugin);

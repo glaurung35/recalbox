@@ -34,7 +34,7 @@ import { ref, toRefs } from 'vue';
 const helpOpen = ref<boolean>(false);
 
 const props = defineProps({
-  text: { type: String, required: true },
+  text: { type: String, default: '', required: true },
   warning: { type: Boolean },
   toggle: { type: Boolean },
 });

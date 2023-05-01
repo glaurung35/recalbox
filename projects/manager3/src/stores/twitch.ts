@@ -4,35 +4,51 @@
 import { defineStore } from 'pinia';
 import { TWITCH } from 'src/router/api.routes';
 import { runSequentialPromises } from 'quasar';
-import axios from 'axios';
+
+const perPage = 7;
+const broadcasterId = '115060112';
 
 export type TwitchStoreState = {
   schedule: object,
+  loadingSchedule: boolean,
 };
 
 export const useTwitchStore = defineStore('twitch', {
   state: () => ({
     schedule: {},
+    loadingSchedule: false,
   } as TwitchStoreState),
 
   actions: {
     getSchedule():void {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
+      this.loadingSchedule = true;
       runSequentialPromises({
-        auth: () => axios.post(TWITCH.auth, {
-          client_id: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
-          client_secret: 'dnjccue3una7cccq6hxqpcjtxif69c',
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        auth: () => this._httpClientProvider.post(TWITCH.auth, {
+          client_id: process.env.TWITCH_CLIENT_ID,
+          client_secret: process.env.TWITCH_CLIENT_SECRET,
           grant_type: 'client_credentials',
         }),
-        schedule: (resultAggregator) => axios.create({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        schedule: (resultAggregator) => this._httpClientProvider.create({
           headers: {
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             Authorization: `Bearer ${resultAggregator.auth.value.data.access_token}`,
-            'Client-Id': 'jgp2r9ixktfq9fugog7wjeutk0dt21',
+            'Client-Id': process.env.TWITCH_CLIENT_ID,
           },
-        }).get(TWITCH.schedule, { params: { broadcaster_id: '115060112' } }),
+        }).get(TWITCH.schedule, { params: { broadcaster_id: broadcasterId, first: perPage } }),
+      }).then((resultAggregator):void => {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.schedule = resultAggregator.schedule.value.data.data.segments;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        this.loadingSchedule = false;
       }).catch((errResult):void => {
         // eslint-disable-next-line no-console
         console.error(`Error encountered on job (${errResult.key}):`);

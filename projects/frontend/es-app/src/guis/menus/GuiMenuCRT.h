@@ -47,7 +47,7 @@ class GuiMenuCRT : public GuiMenuBase
       HorizontalPalOffset,
       VerticalPalOffset,
       ForceHDMI,
-      JammaPanel
+      Jamma6btns
     };
 
     //! Dac selection
@@ -63,7 +63,7 @@ class GuiMenuCRT : public GuiMenuBase
     bool mForceHDMI;
     bool mOriginalForceHDMI;
     bool mOriginalFrontendIn240pOn31kHz;
-    bool mOriginalJammaPanel;
+    bool mOriginalJamma6Btns;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);

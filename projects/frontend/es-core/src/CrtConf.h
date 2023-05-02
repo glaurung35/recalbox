@@ -49,7 +49,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma3btn, bool, Bool, sSystemCRTJamma3btn, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma6Btns, bool, Bool, sSystemCRTJamma6Btns, true)
 
     DefineCrtModeOffsetDeclaration(VerticalOffset, int, Int, sVerticalOffset)
     DefineCrtModeOffsetDeclaration(HorizontalOffset, int, Int, sHorizontalOffset)
@@ -71,7 +71,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTExtended15KhzRange     = "options.15khz.extendedrange";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
-    static constexpr const char* sSystemCRTJamma3btn              = "options.jamma.3btn";
+    static constexpr const char* sSystemCRTJamma6Btns              = "options.jamma.6btns";
 
     static constexpr const char* sViewportPrefix                  = "viewport";
     static constexpr const char* sModeOffsetPrefix                = "mode.offset";

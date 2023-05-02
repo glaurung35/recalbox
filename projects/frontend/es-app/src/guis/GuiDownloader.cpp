@@ -33,7 +33,7 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system)
   mGrid.setEntry(mBar, Vector2i(1, 2), false, true, Vector2i(1,1) );
 
   // ETA
-  mEta = std::make_shared<TextComponent>(mWindow, _("START DOWNLOADING..."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mEta = std::make_shared<TextComponent>(mWindow, _("Start downloading..."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mGrid.setEntry(mEta, Vector2i(1, 3), false, false, Vector2i(1,1) );
 
   // Background
@@ -75,7 +75,7 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system)
   mIsProcessing = true;
 
   // Start?
-  if (mDownloadManager.HasDownloader(system))
+  if (DownloaderManager::HasDownloader(system))
   {
     mDownloader = mDownloadManager.CreateOrGetDownloader(system, *this);
     if (mDownloader != nullptr) mDownloader->StartDownload();

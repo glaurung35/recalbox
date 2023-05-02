@@ -144,7 +144,10 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
       command.append(" -ups ").append(patchPAthEscaped);
     }
   }
-  if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma && !(emulator.Emulator() == "libretro" && emulator.Core() == "fbneo"))
+  if((Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ||
+      Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll) &&
+      CrtConf::Instance().GetSystemCRTJamma6Btns() &&
+      ! (emulator.Emulator() == "libretro" && emulator.Core() == "fbneo"))
       command.append(" -jamma6btn");
   return command;
 }

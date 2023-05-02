@@ -962,16 +962,18 @@ static struct i2c_driver pca953x_driver = {
 };
 
 /*
+ * A,B,X,Y are in SNES notation
+ *
  * Chip 0 : address = 0x21
  *                                    __________
- *   P1-B3  (P1-EAST)    IO0-0  <--- |0        8| ---> IO1-0  P1K-B5 (P1-L)
- *   P2-B3  (P2-EAST)    IO0-1  <--- |          | ---> IO1-1  P2K-B5 (P2-L)
- *   P2-B2  (P2-WEST)    IO0-2  <--- |          | ---> IO1-2  P1K-B4 (P1-NORTH)
- *   P1-B2  (P1-WEST)    IO0-3  <--- |          | ---> IO1-3  P2K-B4 (P2-NORTH)
- *   P2-B4  (P2-NORTH)   IO0-4  <--- |          | ---> IO1-4  P1-B6  (P1-R)
- *   P1-B4  (P1-NORTH)   IO0-5  <--- |          | ---> IO1-5  P2-B6  (P2-R)
- *   P1K-B6 (P1-R)       IO0-6  <--- |          | ---> IO1-6  P1-B5  (P1-L)
- *   P2K-B6 (P2-R)       IO0-7  <--- |7       15| ---> IO1-7  P2-B5  (P2-L)
+ *   P1-B2  (P1-A)       IO0-0  <--- |0        8| ---> IO1-0  P1K-B5 (P1-R)
+ *   P2-B2  (P2-A)       IO0-1  <--- |          | ---> IO1-1  P2K-B5 (P2-R)
+ *   P2-B3  (P2-Y)       IO0-2  <--- |          | ---> IO1-2  P1K-B4 (P1-X)
+ *   P1-B3  (P1-Y)       IO0-3  <--- |          | ---> IO1-3  P2K-B4 (P2-X)
+ *   P2-B4  (P2-X)       IO0-4  <--- |          | ---> IO1-4  P1-B6  (P1-L)
+ *   P1-B4  (P1-X)       IO0-5  <--- |          | ---> IO1-5  P2-B6  (P2-L)
+ *   P1K-B6 (P1-L)       IO0-6  <--- |          | ---> IO1-6  P1-B5  (P1-R)
+ *   P2K-B6 (P2-L)       IO0-7  <--- |7       15| ---> IO1-7  P2-B5  (P2-R)
  *                                    ‾‾‾‾‾‾‾‾‾‾
  * Chip 1 : address = 0x22
  *                                    __________
@@ -981,8 +983,8 @@ static struct i2c_driver pca953x_driver = {
  *   P2-UP    (P2-UP)    IO0-3  <--- |          | ---> IO1-3  P1-LEFT (P1-LEFT)
  *   P1-START (P1-START) IO0-4  <--- |          | ---> IO1-4  P2-RIGHT (P2-RIGHT)
  *   P2-START (P2-START) IO0-5  <--- |          | ---> IO1-5  P1-RIGHT (P1-RIGHT)
- *   SERVICE             IO0-6  <--- |          | ---> IO1-6  P2-B1 (P2-SOUTH)
- *   TEST                IO0-7  <--- |23      31| ---> IO1-7  P1-B1 (P1-SOUTH)
+ *   SERVICE             IO0-6  <--- |          | ---> IO1-6  P2-B1 (P2-B)
+ *   TEST                IO0-7  <--- |23      31| ---> IO1-7  P1-B1 (P1-B)
  *                                    ‾‾‾‾‾‾‾‾‾‾
  *
  */
@@ -992,8 +994,14 @@ struct input_dev *player_devs[2];
 
 // Standard buttons mapping
 #define BTN_PER_PLAYER 11
+// Keep in mind the vanilla mapping for Recalbox RGB Jamma is (SNES notation):
+// B A Y
+// X R L
+// We use this one to get B and A on first line, whatever the number of buttons
+// Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
+//
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    BTN_A, BTN_B, BTN_Y, BTN_X, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
+    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TR, BTN_TL, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
 };
 
 #define P1_UP 18
@@ -1023,10 +1031,10 @@ static const int player1_kick_btn_bits[BTN_PER_PLAYER] = {
 #define P2_LEFT 26
 #define P2_RIGHT 28
 static const int player2_6btn_bits[BTN_PER_PLAYER] = {
-    30, 2, 1, 4, 15, 13, 21, 24, -1, -1, -1,
+    30, 1, 2, 4, 15, 13, 21, 24, -1, -1, -1,
 };
 static const int player2_3btn_bits[BTN_PER_PLAYER] = {
-    30, 2, 1, -1, -1, -1, 21, 24, -1, -1, -1,
+    30, 1, 2, -1, -1, -1, 21, 24, -1, -1, -1,
 };
 
 static const int player2_kick_btn_bits[BTN_PER_PLAYER] = {

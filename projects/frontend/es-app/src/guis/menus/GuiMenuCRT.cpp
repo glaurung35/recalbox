@@ -19,6 +19,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
@@ -75,6 +76,16 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   mForceJack = mOriginalForceJack;
   if(isRGBDual)
     AddSwitch(_("FORCE SOUND ON JACK"), mOriginalForceJack, (int)Components::ForceJack, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG));
+
+
+  // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
+  mOriginalJammaPanel = CrtConf::Instance().GetSystemCRTJamma3btn();
+  if(isRGBJamma || true)
+    AddList<std::string>(_("JAMMA PANEL"), (int)Components::JammaPanel, this,
+                         std::vector<GuiMenuBase::ListEntry<std::string>>(
+                             {{ "1-3 buttons", "3", mOriginalJammaPanel },
+                              { "4-6 buttons", "6", !mOriginalJammaPanel }}),
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
 
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
@@ -213,9 +224,16 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
     }
   }
   else if ((Components)id == Components::SuperRez)
-    {
-      CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
-    }
+  {
+    CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
+  }
+  else if ((Components)id == Components::JammaPanel)
+  {
+    if (value == "3" && !mOriginalJammaPanel)
+      CrtConf::Instance().SetSystemCRTJamma3btn(true).Save();
+    else if (value == "6" && mOriginalJammaPanel)
+      CrtConf::Instance().SetSystemCRTJamma3btn(false).Save();
+  }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)

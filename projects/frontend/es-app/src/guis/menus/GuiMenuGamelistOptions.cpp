@@ -46,7 +46,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   RefreshGameMenuContext();
 
   // Downloader available?
-  if (HasDownloaderAvailable())
+  if (DownloaderManager().HasDownloader(mSystem))
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
 
   // Jump to letter

@@ -171,7 +171,7 @@ class SystemDescriptor
     [[nodiscard]] const std::string& FullName() const { return mFullName; }
 
     [[nodiscard]] const Path& RomPath() const { return mPath; }
-    [[nodiscard]] const std::string& Extension() const { return mExtensions; }
+    [[nodiscard]] const String& Extension() const { return mExtensions; }
     [[nodiscard]] const std::string& ThemeFolder() const { return mThemeFolder; }
     [[nodiscard]] const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
     [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
@@ -228,7 +228,7 @@ class SystemDescriptor
     // Descriptor
     Path                    mPath;            //!< Rom path
     std::string             mThemeFolder;     //!< Theme sub-folder
-    std::string             mExtensions;      //!< Supported extensions, space separated
+    String                  mExtensions;      //!< Supported extensions, space separated
     std::string             mCommand;         //!< Emulator command
     int                     mIcon;            //!< Icon unicode char
     // Scraper

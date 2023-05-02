@@ -1,7 +1,6 @@
 #include "MetadataDescriptor.h"
 #include "MetadataFieldDescriptor.h"
 #include "utils/locale/LocaleHelper.h"
-#include "utils/Log.h"
 
 // TODO: Use const char* instead
 const std::string MetadataDescriptor::GameNodeIdentifier("game");
@@ -361,14 +360,13 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
     // Get field descriptor
     const MetadataFieldDescriptor& field = fields[count];
 
-    // Default value?
-    if ((sourceMetadata.*field.IsDefaultValueMethod())()) continue;
-
-    // Get/Set
-    (this->*field.SetValueMethod())((this->*field.GetValueMethod())());
-
-    // A field has been copied. Set the dirty flag
-    mDirty = true;
+    // Get/Set if current field is the default value
+    if ((this->*field.IsDefaultValueMethod())())
+    {
+      (this->*field.SetValueMethod())((sourceMetadata.*field.GetValueMethod())());
+      // A field has been copied. Set the dirty flag
+      mDirty = true;
+    }
   }
 }
 

@@ -8,7 +8,7 @@
 #include <utils/sync/SyncMessageSender.h>
 #include "utils/os/system/Thread.h"
 
-enum class DownloadingGameState
+enum class Wasm4DownloadingGameState
 {
   // Actions
   Downloading,       //!< Downloading games
@@ -23,7 +23,7 @@ enum class DownloadingGameState
 
 class Wasm4Downloader : public BaseSystemDownloader
                       , private Thread
-                      , private ISyncMessageReceiver<DownloadingGameState>
+                      , private ISyncMessageReceiver<Wasm4DownloadingGameState>
                       , private Http::IDownload
 {
   public:
@@ -72,7 +72,7 @@ class Wasm4Downloader : public BaseSystemDownloader
     Http mRequest;
 
     //! Sync messager
-    SyncMessageSender<DownloadingGameState> mSender;
+    SyncMessageSender<Wasm4DownloadingGameState> mSender;
 
     //! Time reference
     DateTime mTimeReference;
@@ -91,7 +91,5 @@ class Wasm4Downloader : public BaseSystemDownloader
     /*!
      * @brief Receive synchronous code
      */
-    void ReceiveSyncMessage(const DownloadingGameState& code) override;
-
-
+    void ReceiveSyncMessage(const Wasm4DownloadingGameState& code) override;
 };

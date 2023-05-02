@@ -220,6 +220,10 @@ class LibretroControllers:
 
         # Get specials string or default
         specials = self.system.SpecialKeys
+        if controller.DeviceName.startswith("JammaController"):
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1029")
+        else:
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1")
 
         # config['input_device'] = '"%s"' % controller.RealName
         for btnkey in self.retroarchbtns:

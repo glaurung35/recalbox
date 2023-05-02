@@ -419,7 +419,21 @@ class Controller:
             newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, name, dev, nbaxes, nbhats, nbbuttons)
             if newController:
                 playerControllers[i] = newController
-
+                # Recalbox JAMMA specific case
+                if newController.DeviceName.startswith("JammaController") and kwargs.get("jamma6btn", False):
+                    print("[Configgen.Controller] Switching to jamma 6 btn layout for controller {}".format(newController.DeviceName))
+                    a = newController.A
+                    b = newController.B
+                    x = newController.X
+                    y = newController.Y
+                    l = newController.L1
+                    r = newController.R1
+                    newController.__inputs[newController.A.Item] = r
+                    newController.__inputs[newController.B.Item] = x
+                    newController.__inputs[newController.X.Item] = a
+                    newController.__inputs[newController.Y.Item] = b
+                    newController.__inputs[newController.L1.Item] = y
+                    newController.__inputs[newController.R1.Item] = l
         Controller.__StoreNaturalIndexes(playerControllers)
 
         return playerControllers

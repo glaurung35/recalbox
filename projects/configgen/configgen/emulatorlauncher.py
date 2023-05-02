@@ -404,6 +404,7 @@ if __name__ == '__main__':
     parser.AddSimple(command="verticalgame", chelp="the game is vertical", required=False)
     parser.AddString(command="crtsuperrez", chelp="original, x2, x6 or x8", required=False)
     parser.AddSimple(command="crtv2", chelp="original, x2, x6 or x8", required=False)
+    parser.AddSimple(command="jamma6btn", chelp="switch jamma 6btn pattern", required=False)
 
     args = parser.Parse()
 

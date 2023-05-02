@@ -158,6 +158,11 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   else
     Strings::ReplaceAllIn(command, "%CORE%", core);
 
+  if((Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ||
+      Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll) &&
+      CrtConf::Instance().GetSystemCRTJamma6Btns() &&
+      ! (emulator.Emulator() == "libretro" && emulator.Core() == "fbneo"))
+      command.append(" -jamma6btn");
   return command;
 }
 

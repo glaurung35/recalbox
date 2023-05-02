@@ -79,12 +79,12 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
 
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
-  mOriginalJammaPanel = CrtConf::Instance().GetSystemCRTJamma3btn();
-  if(isRGBJamma || true)
-    AddList<std::string>(_("JAMMA PANEL"), (int)Components::JammaPanel, this,
+  mOriginalJamma6Btns = CrtConf::Instance().GetSystemCRTJamma6Btns();
+  if(isRGBJamma)
+    AddList<std::string>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
                          std::vector<GuiMenuBase::ListEntry<std::string>>(
-                             {{ "1-3 buttons", "3", mOriginalJammaPanel },
-                              { "4-6 buttons", "6", !mOriginalJammaPanel }}),
+                             {{ "1-3 buttons", "3", !mOriginalJamma6Btns },
+                              { "4-6 buttons", "6", mOriginalJamma6Btns }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
 
   // Screen Adjustments
@@ -227,12 +227,12 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   {
     CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
   }
-  else if ((Components)id == Components::JammaPanel)
+  else if ((Components)id == Components::Jamma6btns)
   {
-    if (value == "3" && !mOriginalJammaPanel)
-      CrtConf::Instance().SetSystemCRTJamma3btn(true).Save();
-    else if (value == "6" && mOriginalJammaPanel)
-      CrtConf::Instance().SetSystemCRTJamma3btn(false).Save();
+    if (value == "3" && mOriginalJamma6Btns)
+      CrtConf::Instance().SetSystemCRTJamma6Btns(false).Save();
+    else if (value == "6" && !mOriginalJamma6Btns)
+      CrtConf::Instance().SetSystemCRTJamma6Btns(true).Save();
   }
 }
 

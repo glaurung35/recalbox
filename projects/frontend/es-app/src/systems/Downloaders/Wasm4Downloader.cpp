@@ -36,12 +36,12 @@ void Wasm4Downloader::Run()
   RootFolderData* targetRoot = nullptr;
   Path output;
   for(RootFolderData* root : roots.SubRoots())
-    if (!root->ReadOnly() && root->RomPath().StartWidth("/recalbox/share/"))
+    if (!root->ReadOnly() && root->RomPath().StartWidth("/recalbox/share/roms/"))
     {
       output = root->RomPath();
       targetRoot = root;
     }
-  if (output.IsEmpty()) { mSender.Send(DownloadingGameState::WriteOnlyShare); return; }
+  if (output.IsEmpty()) { mSender.Send(Wasm4DownloadingGameState::WriteOnlyShare); return; }
 
   // Get destination filename
   Path destination("/recalbox/share/system/download.tmp");
@@ -54,7 +54,7 @@ void Wasm4Downloader::Run()
   if (mStopAsap) return;
   destination.Delete();
   mTimeReference = DateTime();
-  if (!mRequest.Execute(source, destination, this)) { mSender.Send(DownloadingGameState::DownloadError); return; }
+  if (!mRequest.Execute(source, destination, this)) { mSender.Send(Wasm4DownloadingGameState::DownloadError); return; }
 
   // Extract
   { LOG(LogDebug) << "[Wasm4Downloader] Extracting games"; }
@@ -79,7 +79,7 @@ void Wasm4Downloader::Run()
     if (relativePath.Extension() == ".md"  ) wasms[destinationPath.ChangeExtension(".wasm")].md = i;
     if (relativePath.Extension() == ".png" ) wasms[destinationPath.ChangeExtension(".wasm")].png = i;
     mCurrentSize++;
-    mSender.Send(DownloadingGameState::Extracting);
+    mSender.Send(Wasm4DownloadingGameState::Extracting);
     usleep(20000); // Let display refreshing
   }
 
@@ -87,7 +87,7 @@ void Wasm4Downloader::Run()
   { LOG(LogDebug) << "[Wasm4Downloader] Populate gamelist"; }
   mTotalSize = wasms.size();
   mCurrentSize = 0;
-  mSender.Send(DownloadingGameState::UpdatingMetadata);
+  mSender.Send(Wasm4DownloadingGameState::UpdatingMetadata);
   FileData::StringMap doppleGanger;
   if (mStopAsap) return;
   targetRoot->BuildDoppelgangerMap(doppleGanger, true);
@@ -143,13 +143,13 @@ void Wasm4Downloader::Run()
     }
     else { LOG(LogError) << "[Wasm4Downloader] Game " << kv.first.ToString() << " not found in gamelist!"; }
     mCurrentSize++;
-    mSender.Send(DownloadingGameState::UpdatingMetadata);
+    mSender.Send(Wasm4DownloadingGameState::UpdatingMetadata);
     usleep(20000); // Let display refreshing
   }
 
   // Delete temp file
   destination.Delete();
-  mSender.Send(DownloadingGameState::Completed);
+  mSender.Send(Wasm4DownloadingGameState::Completed);
 }
 
 void Wasm4Downloader::DownloadProgress(const Http& http, long long int currentSize, long long int expectedSize)
@@ -158,20 +158,20 @@ void Wasm4Downloader::DownloadProgress(const Http& http, long long int currentSi
   // Store data and synchronize
   mTotalSize = expectedSize;
   mCurrentSize = currentSize;
-  mSender.Send(DownloadingGameState::Downloading);
+  mSender.Send(Wasm4DownloadingGameState::Downloading);
 }
 
-void Wasm4Downloader::ReceiveSyncMessage(const DownloadingGameState& code)
+void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
 {
   switch(code)
   {
-    case DownloadingGameState::Downloading:
+    case Wasm4DownloadingGameState::Downloading:
     {
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
       // Elapsed time
-      if (mCurrentSize != 0)
+      if (mCurrentSize != 0 && mCurrentSize < mTotalSize)
       {
         TimeSpan elapsed = DateTime() - mTimeReference;
         TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
@@ -182,7 +182,7 @@ void Wasm4Downloader::ReceiveSyncMessage(const DownloadingGameState& code)
       }
       break;
     }
-    case DownloadingGameState::Extracting:
+    case Wasm4DownloadingGameState::Extracting:
     {
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
@@ -192,7 +192,7 @@ void Wasm4Downloader::ReceiveSyncMessage(const DownloadingGameState& code)
       mUpdater.UpdateETAText(text);
       break;
     }
-    case DownloadingGameState::UpdatingMetadata:
+    case Wasm4DownloadingGameState::UpdatingMetadata:
     {
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
@@ -203,17 +203,17 @@ void Wasm4Downloader::ReceiveSyncMessage(const DownloadingGameState& code)
       mUpdater.UpdateETAText(text);
       break;
     }
-    case DownloadingGameState::Completed:
+    case Wasm4DownloadingGameState::Completed:
     {
       mUpdater.DownloadComplete(mSystem);
       break;
     }
-    case DownloadingGameState::WriteOnlyShare:
+    case Wasm4DownloadingGameState::WriteOnlyShare:
     {
       mUpdater.UpdateETAText("Can't write games to share!");
       break;
     }
-    case DownloadingGameState::DownloadError:
+    case Wasm4DownloadingGameState::DownloadError:
     {
       mUpdater.UpdateETAText("Error downloading games! Retry later.");
       break;

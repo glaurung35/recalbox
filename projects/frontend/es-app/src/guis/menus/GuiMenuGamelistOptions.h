@@ -71,11 +71,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      */
     static void ManageSystems();
 
-    //! Check if this system has a downloader available
-    bool HasDownloaderAvailable() { return mSystem.Name() == "tic80" || mSystem.Name() == "wasm4"; }
-
-    //static GuiDownloader* CreateDownloader();
-
     /*
      * GuiMetaDataEd::IMetaDataAction implementation
      */

@@ -191,6 +191,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_V2 "Use experimental CRT V2 implementation. Works only on selected systems."
     #define MENUMESSAGE_ADVANCED_CRT_EXTENDED "Uses a range at the edge of the CRT support to increase image quality."
     #define MENUMESSAGE_ADVANCED_CRT_SUPERREZ "Superrez can increase image quality depending on your CRT."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG "Number of button on your arcade cab panel."
 
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."

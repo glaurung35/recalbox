@@ -19,9 +19,9 @@
           v-model="percent"
           readonly
         />
-      </div>
-      <div class="title">
-        {{ $t(title) }}
+        <div class="title">
+          {{ $t(title) }}
+        </div>
       </div>
     </div>
   </transition>
@@ -45,25 +45,25 @@ const {
   display: flex
   justify-content: center
   align-items: center
-  position: relative
 
   .badge
     display: flex
     flex-direction: column
     justify-content: center
     align-items: center
+    position: relative
 
     .percent
       color: white
       text-shadow: -1px 0 $secondary, 0 1px $secondary, 1px 0 $secondary, 0 -1px $secondary
 
-  .title
-    text-align: center
-    text-transform: uppercase
-    color: white
-    text-shadow: -1px 0 $secondary, 0 1px $secondary, 1px 0 $secondary, 0 -1px $secondary
-    position: absolute
-    bottom: 5em
-    left: 0
-    right: 0
+    .title
+      text-align: center
+      text-transform: uppercase
+      color: white
+      text-shadow: -1px 0 $secondary, 0 1px $secondary, 1px 0 $secondary, 0 -1px $secondary
+      position: absolute
+      top: 5rem
+      left: 0
+      right: 0
 </style>

@@ -6,7 +6,7 @@
     appear
     enter-active-class="animated flipInX"
   >
-    <div class="col q-pa-md container">
+    <div class="col q-pa-md container total">
       <div class="badge">
         <div
           :class="'circle-container' + (route ? ' hover' : '')"

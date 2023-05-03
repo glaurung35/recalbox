@@ -6,7 +6,7 @@
     appear
     enter-active-class="animated flipInX"
   >
-    <div class="col container">
+    <div class="col container percent">
       <div class="badge">
         <q-knob
           :thickness="1"

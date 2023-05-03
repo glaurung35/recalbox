@@ -133,6 +133,9 @@ class LibretroControllers:
         self.nodefaultkeymap: bool = nodefaultkeymap
         self.retroarchspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
         self.retroarchspecials[InputItem.ItemB] = 'menu_toggle'
+        self.jammaspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
+        self.jammaspecials[InputItem.ItemA] = 'menu_toggle'
+
 
     # Fill controllers configuration
     def fillControllersConfiguration(self, rotateControls: bool = False) -> keyValueSettings:
@@ -218,9 +221,10 @@ class LibretroControllers:
     def buildController(self, controller: Controller, playerIndex: int, rotateControls: bool = False):
         settings = self.settings
 
+        is_jamma = controller.DeviceName.startswith("JammaController")
         # Get specials string or default
         specials = self.system.SpecialKeys
-        if controller.DeviceName.startswith("JammaController"):
+        if is_jamma:
             settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1029")
         else:
             settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1")
@@ -247,8 +251,14 @@ class LibretroControllers:
 
         if controller.PlayerIndex == 1:
             specialMap: Dict[int, str] = {}
-            if specials == "nomenu":  specialMap = self.retroarchspecialsnomenu
-            if specials == "default": specialMap = self.retroarchspecials
+            # No menu always pritority
+            if specials == "nomenu":
+                specialMap = self.retroarchspecialsnomenu
+            else:
+                if is_jamma:
+                    specialMap = self.jammaspecials
+                elif specials == "default":
+                    specialMap = self.retroarchspecials
             for item in specialMap:
                 if controller.HasInput(item):
                     value: str = specialMap[item]

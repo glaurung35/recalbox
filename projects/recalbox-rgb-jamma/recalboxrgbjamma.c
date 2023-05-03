@@ -57,7 +57,9 @@
 #define PCA_TYPE_MASK    GENMASK(15, 12)
 
 #define PCA_CHIP_TYPE(x)  ((x) & PCA_TYPE_MASK)
+
 #define DEBUG 0
+
 static const struct i2c_device_id pca953x_id[] = {
     {"recalboxrgbjamma", 16 | PCA953X_TYPE | PCA_INT,},
     {}
@@ -654,10 +656,12 @@ static struct config {
   struct task_struct *debounce_thread;
   struct mutex process_mutex;
   bool disable_hk_on_start;
+  bool disable_credit_on_hk_btn1;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
-  DEBUG && printk(KERN_INFO "recalboxrgbjamma: IRQ triggered\n");
+  DEBUG && printk(KERN_INFO
+  "recalboxrgbjamma: IRQ triggered\n");
   process_inputs(true);
   return IRQ_RETVAL(1);
 }
@@ -1004,11 +1008,6 @@ static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
     BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TR, BTN_TL, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
 };
 
-#define P1_UP 18
-#define P1_DOWN 16
-#define P1_LEFT 27
-#define P1_RIGHT 29
-#define P1_START 20
 
 // The value is the bit of the data containing the
 // information for the button at the same index in buttons_codes array
@@ -1026,10 +1025,13 @@ static const int player1_kick_btn_bits[BTN_PER_PLAYER] = {
     -1, -1, -1, 10, 8, 6, -1, -1, -1, -1, -1,
 };
 
-#define P2_UP 19
-#define P2_DOWN 17
-#define P2_LEFT 26
-#define P2_RIGHT 28
+#define P1_UP 18
+#define P1_DOWN 16
+#define P1_LEFT 27
+#define P1_RIGHT 29
+#define P1_START 20
+#define P1_BTN1 player1_3btn_bits[0]
+
 static const int player2_6btn_bits[BTN_PER_PLAYER] = {
     30, 1, 2, 4, 15, 13, 21, 24, -1, -1, -1,
 };
@@ -1040,6 +1042,11 @@ static const int player2_3btn_bits[BTN_PER_PLAYER] = {
 static const int player2_kick_btn_bits[BTN_PER_PLAYER] = {
     -1, -1, -1, 11, 9, 7, -1, -1, -1, -1, -1,
 };
+
+#define P2_UP 19
+#define P2_DOWN 17
+#define P2_LEFT 26
+#define P2_RIGHT 28
 
 // Logic is not the same for each buttons (coins and service/test are reversed)
 // TODO: add service and test for next version
@@ -1058,8 +1065,12 @@ static const unsigned short buttonsReleasedValues[32] = {
 #define HOTKEY_DELAY(now, start) ((now - start) / 1000000000UL >= 1)
 static volatile long long int last_start_press = 0;
 static volatile unsigned int start_state = 0;
+static volatile unsigned int start_special = 0;
 static volatile short can_exit = 0;
 static volatile short should_release_hk = 0;
+
+#define PRESS_AND_SYNC(player, button) input_report_key(player_devs[player], button, 1); input_sync(player_devs[player]); WAIT_SYNC();
+#define RELEASE_AND_SYNC(player, button) input_report_key(player_devs[player], button, 0); input_sync(player_devs[player]); WAIT_SYNC();
 
 /**
  *
@@ -1073,6 +1084,7 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
   if (!jamma_config.disable_hk_on_start) {
     // Special case for HOTKEY:
     // Simple press + release of START -> START event
+    // Simple press of START + BTN1 -> send SELECT (COIN)
     // Simple press of START + an other button -> send HOTKEY + BUTTON
     // Long press (3s) of START -> HOTKEY + START
 
@@ -1086,67 +1098,57 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
         last_start_press = *time_ns;
         start_state = *data_chips;
         can_exit = 1;
+        start_special = 0;
       } else {
-        if (start_state != *data_chips) {
-          // As another button has been pressed, we press hotkey before
-
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: other button press (hk+x)\n");
-          input_report_key(player_devs[0], BTN_MODE, 1);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          can_exit = 0;
-          should_release_hk = 1;
+        if (start_state != *data_chips && !start_special) {
+          // If we can use START + BTN1 for a credit
+          if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P1_BTN1)) {
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1)\n");
+            PRESS_AND_SYNC(0, BTN_SELECT);
+            RELEASE_AND_SYNC(0, BTN_SELECT);
+            start_special = 1;
+            can_exit = 0;
+          } else {
+            // As another button has been pressed, we press hotkey before
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: other button press (hk+x)\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            can_exit = 0;
+            should_release_hk = 1;
+          }
         }
       }
     } else {
       if (last_start_press != 0) {
         // Start released
-
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: start released\n");
-        if(should_release_hk){
-          should_release_hk = 0;
-          input_report_key(player_devs[0], BTN_MODE, 0);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-        } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
-          // Longest press, so we send both HK + START
-
+        if (!start_special) {
           DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: long press : sending HK + START\n");
-          input_report_key(player_devs[0], BTN_MODE, 1);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          input_report_key(player_devs[0], BTN_START, 1);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          input_report_key(player_devs[0], BTN_START, 0);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          input_report_key(player_devs[0], BTN_MODE, 0);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-        } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
-          // Long press, so we send HK
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: middle press : sending HK\n");
-          input_report_key(player_devs[0], BTN_MODE, 1);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          input_report_key(player_devs[0], BTN_MODE, 0);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-        } else {
-          // Simple start
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: quick press : sending START\n");
-          input_report_key(player_devs[0], BTN_START, 1);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
-          input_report_key(player_devs[0], BTN_START, 0);
-          input_sync(player_devs[0]);
-          WAIT_SYNC();
+          "recalboxrgbjamma: start released\n");
+          if (should_release_hk) {
+            should_release_hk = 0;
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
+            // Longest press, so we send both HK + START
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: long press : sending HK + START\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            PRESS_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
+            // Long press, so we send HK
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: middle press : sending HK\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else {
+            // Simple start
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: quick press : sending START\n");
+            PRESS_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_START);
+          }
         }
         last_start_press = 0;
       }
@@ -1387,6 +1389,13 @@ static int load_config(void) {
                   optionvalue ? "disable_hk_on_start" : "enable_hk_on_start");
               jamma_config.disable_hk_on_start = optionvalue;
             }
+          } else if (strcmp(optionname, "jamma.disable_credit_on_hk_btn1") == 0) {
+            if (jamma_config.disable_credit_on_hk_btn1 != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch to %s mode\n",
+                  optionvalue ? "disable_credit_on_hk_btn1" : "enable_credit_on_hk_btn1");
+              jamma_config.disable_credit_on_hk_btn1 = optionvalue;
+            }
           }
         }
       }
@@ -1426,6 +1435,7 @@ pca953x_init(void) {
   jamma_config.gpio_chip_0 = NULL;
   jamma_config.gpio_chip_1 = NULL;
   jamma_config.disable_hk_on_start = false;
+  jamma_config.disable_credit_on_hk_btn1 = false;
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
   printk(KERN_INFO

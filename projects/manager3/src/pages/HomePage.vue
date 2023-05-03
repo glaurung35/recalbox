@@ -8,7 +8,7 @@
         <img src="../assets/recalbox.svg" alt="Recalbox" />
       </div>
     </div>
-    <div class="row home-stats">
+    <div class="row stats">
       <div class="vertical-middle text-center preview self-center">
         {{ $t('home.preview.title') }}
         <span class="arrow-right"><q-icon name="mdi-chevron-right"/></span>
@@ -29,7 +29,7 @@
       />
     </div>
 
-    <div class="row flex items-stretch home-emustation">
+    <div class="row flex items-stretch emustation">
       <div class="col social-medias">
         <TwitchView/>
       </div>
@@ -115,7 +115,7 @@ const percents = computed<object[]>(() => [
         animation-duration: .5s
         animation-name: logoslidein
 
-  .home-stats
+  .stats
     background: white
     min-height: 212px
     position: relative
@@ -125,6 +125,22 @@ const percents = computed<object[]>(() => [
       font-weight: 100
       font-size: x-large
       color: $primary
+
+    @media(max-width: 1023px)
+      .preview
+        width: 100%
+
+      .arrow-right,
+      .q-separator--vertical
+        display: none
+
+    @media(min-width: 1024px)
+      .preview
+        width: 15%
+
+      .arrow-bottom,
+      .q-separator--horizontal
+        display: none
 
   .q-separator--vertical
     background: $rc-light-grey
@@ -137,7 +153,7 @@ const percents = computed<object[]>(() => [
     width: 100%
     height: 2px
 
-  .home-emustation
+  .emustation
     height: calc(100vh - 212px - 5em)
 
     .social-medias,
@@ -173,34 +189,15 @@ const percents = computed<object[]>(() => [
     .game
       flex-basis: 40%
 
-  .home-stats
-    @media(max-width: 1023px)
-      .preview
-        width: 100%
-
-      .arrow-right,
-      .q-separator--vertical
-        display: none
-
-    @media(min-width: 1024px)
-      .preview
-        width: 15%
-
-      .arrow-bottom,
-      .q-separator--horizontal
-        display: none
-
-@media(max-width: 1400px)
-  .home
-    .home-emustation
+    @media(max-width: 1400px)
       .social-medias
         display: none
 
 @media(max-width: 950px)
   .home
-    overflow-y: clip
+    overflow-y: auto
 
-    .home-emustation
+    .emustation
       .system,
       .game
         flex-basis: 100%
@@ -210,4 +207,28 @@ const percents = computed<object[]>(() => [
 
       .game
         border-top: 2px solid white
+        padding-bottom: 10em
+
+@media(max-width: 420px)
+  .home
+    .header
+      .background-container
+        img
+          max-width: 200px
+
+    .stats
+      min-height: auto
+
+      .q-separator--horizontal,
+      .total,
+      .percent
+        display: none
+
+    .emustation
+      .system
+        .header
+          flex-direction: column
+
+          .controls
+            justify-content: space-between
 </style>

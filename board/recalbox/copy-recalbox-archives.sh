@@ -229,6 +229,7 @@ case "${RECALBOX_TARGET}" in
 	# /boot
 	echo "generating boot"
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/rg353x-firmware/boot/extlinux/extlinux.conf" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/boot-640x480.ppm" "${BINARIES_DIR}/rg353x-firmware/boot.ppm" || exit 1
 	cp "${BINARIES_DIR}/rk3566-rg353p-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
 	cp "${BINARIES_DIR}/rk3566-rg353v-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
 	cp "${BINARIES_DIR}/rk3566-rg353m-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1

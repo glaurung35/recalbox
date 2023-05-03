@@ -118,7 +118,7 @@
     },
     "system": {
       "internationalization": {
-        "title": "Internationalization",
+        "title": "Language",
         "langSelect": {
           "label": "System language"
         },
@@ -273,7 +273,7 @@
       },
       "screenscraper": {
         "medias": {
-          "title": "ScreenScraper medias",
+          "title": "Medias",
           "media": "Picture type",
           "thumbnail": "Thumbnail type",
           "video": "Video type",
@@ -281,12 +281,12 @@
           "manual": "Manuals download"
         },
         "auth": {
-          "title": "ScreenScraper authentication",
+          "title": "Credentials",
           "user": "User",
           "password": "Password"
         },
         "i18n": {
-          "title": "ScreenScraper international",
+          "title": "Language",
           "language": "Favorite language",
           "region": "Favorite region"
         },

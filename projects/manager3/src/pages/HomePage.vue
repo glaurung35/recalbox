@@ -9,7 +9,7 @@
       </div>
     </div>
     <div class="row home-stats">
-      <div class="vertical-middle text-center preview-title self-center">
+      <div class="vertical-middle text-center preview self-center">
         {{ $t('home.preview.title') }}
         <span class="arrow-right"><q-icon name="mdi-chevron-right"/></span>
         <span class="arrow-bottom"><q-icon name="mdi-chevron-down"/></span>
@@ -30,13 +30,13 @@
     </div>
 
     <div class="row flex items-stretch home-emustation">
-      <div class="col col-sm-3 social-medias">
+      <div class="col social-medias">
         <TwitchView/>
       </div>
-      <div class="col col-xs-12 col-sm-6 col-md-4 system">
+      <div class="col system">
         <SystemView/>
       </div>
-      <div class="col col-xs-12 col-sm-6 col-md-5 game">
+      <div class="col game">
         <GameView/>
       </div>
     </div>
@@ -120,54 +120,11 @@ const percents = computed<object[]>(() => [
     min-height: 212px
     position: relative
 
-    .preview-title
+    .preview
       text-transform: uppercase
       font-weight: 100
       font-size: x-large
       color: $primary
-
-    .stat
-      width: calc((85% / 4) - (1px / 4))
-
-    .col-2
-      width: calc(16.6667% - (1px / 4))
-
-    .linear-progress
-      padding: 1em
-
-      .title
-        text-transform: uppercase
-
-      .bar
-        margin-bottom: .5em
-
-    @media(max-width: 1300px)
-      .social-medias
-        display: none
-
-    @media(max-width: 1023px)
-      .preview-title
-        width: 100%
-
-      .arrow-right,
-      .q-separator--vertical
-        display: none
-
-    @media(max-width: 900px)
-      .stat
-        display: none
-
-    @media(min-width: 901px)
-      .linear-progress
-        display: none
-
-    @media(min-width: 1024px)
-      .preview-title
-        width: 15%
-
-      .arrow-bottom,
-      .q-separator--horizontal
-        display: none
 
   .q-separator--vertical
     background: $rc-light-grey
@@ -183,9 +140,6 @@ const percents = computed<object[]>(() => [
   .home-emustation
     height: calc(100vh - 212px - 5em)
 
-    .system
-      border-right: 2px solid white
-
     .social-medias,
     .system,
     .game
@@ -195,11 +149,8 @@ const percents = computed<object[]>(() => [
 
     .system
       background: $rc-light-grey
+      border-right: 2px solid white
 
-    .social-medias
-      background: white
-
-    .system
       &:after
         display: block
         content: ''
@@ -213,4 +164,50 @@ const percents = computed<object[]>(() => [
         background: $rc-light-grey
         margin-top: calc(50vh - 131px)
         z-index: 1
+
+    .social-medias
+      flex-basis: 20%
+      background: white
+
+    .system,
+    .game
+      flex-basis: 40%
+
+  .home-stats
+    @media(max-width: 1023px)
+      .preview
+        width: 100%
+
+      .arrow-right,
+      .q-separator--vertical
+        display: none
+
+    @media(min-width: 1024px)
+      .preview
+        width: 15%
+
+      .arrow-bottom,
+      .q-separator--horizontal
+        display: none
+
+@media(max-width: 1400px)
+  .home
+    .home-emustation
+      .social-medias
+        display: none
+
+@media(max-width: 950px)
+  .home
+    overflow-y: clip
+
+    .home-emustation
+      .system,
+      .game
+        flex-basis: 100%
+
+      .system
+        padding-bottom: 2em
+
+      .game
+        border-top: 2px solid white
 </style>

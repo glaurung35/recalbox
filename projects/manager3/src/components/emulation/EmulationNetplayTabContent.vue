@@ -6,45 +6,65 @@
     <template v-slot:content>
       <WrappedToggle
         label="emulation.global.netplay.activate.label"
-        :help="$t('emulation.global.netplay.activate.help')"
         :getter="global.netplay"
         :setter="globalStore.post"
         apiKey="netplay"
         v-if="global.netplay"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.netplay.activate.help') }}
+        </template>
+      </WrappedToggle>
       <WrappedTextInput
         label="emulation.global.netplay.nickname.label"
-        :help="$t('emulation.global.netplay.nickname.help')"
         warning
         :getter="global['netplay.nickname']"
         :setter="globalStore.post"
         apiKey="netplay.nickname"
         v-if="global['netplay.nickname']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.netplay.nickname.help') }}
+        </template>
+      </WrappedTextInput>
       <WrappedTextInput
         label="emulation.global.netplay.port.label"
-        :help="$t('emulation.global.netplay.port.help')"
         :getter="global['netplay.port']"
         :setter="globalStore.post"
         apiKey="netplay.port"
         v-if="global['netplay.port']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.netplay.port.help') }}
+        </template>
+      </WrappedTextInput>
       <WrappedTextInput
         label="emulation.global.netplay.relay.label"
-        :help="$t('emulation.global.netplay.relay.help')"
         :getter="global['netplay.relay']"
         :setter="globalStore.post"
         apiKey="netplay.relay"
         v-if="global['netplay.relay']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.netplay.relay.help') }}
+        </template>
+      </WrappedTextInput>
       <WrappedTextInput
         label="emulation.global.netplay.lobby.label"
-        :help="$t('emulation.global.netplay.lobby.help')"
         :getter="global['netplay.lobby']"
         :setter="globalStore.post"
         apiKey="netplay.lobby"
         v-if="global['netplay.lobby']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.netplay.lobby.help') }}
+        </template>
+      </WrappedTextInput>
     </template>
   </FormFragmentContainer>
 </template>

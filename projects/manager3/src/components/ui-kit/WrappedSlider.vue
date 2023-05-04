@@ -20,7 +20,11 @@
       />
     </q-item-section>
     <q-item-section side v-if="help" style="padding-left: 6px">
-      <HelpButton :text="help" :warning="warning"/>
+      <HelpButton :warning="warning" v-if="help">
+        <template v-slot:help>
+          <slot name="help"></slot>
+        </template>
+      </HelpButton>
     </q-item-section>
   </q-item>
 </template>
@@ -31,7 +35,7 @@ import HelpButton from 'components/ui-kit/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String },
-  help: { type: String },
+  help: { type: Boolean, default: false },
   warning: { type: Boolean },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },

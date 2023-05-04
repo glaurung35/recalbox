@@ -9,13 +9,22 @@
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedSelect
               label="settings.scraper.settings.getNameFrom.title"
-              :help="$t('settings.scraper.settings.getNameFrom.help')"
               :options="getNameFromOptions"
               :getter="scraper.getnamefrom"
               :setter="scraperStore.post"
               apiKey="getnamefrom"
               v-if="scraper.getnamefrom"
-            />
+              help
+            >
+              <template v-slot:help>
+                {{ $t('settings.scraper.settings.getNameFrom.help.availableOptions') }}
+                <ul>
+                  <li v-html="$t('settings.scraper.settings.getNameFrom.help.0')"></li>
+                  <li v-html="$t('settings.scraper.settings.getNameFrom.help.1')"></li>
+                  <li v-html="$t('settings.scraper.settings.getNameFrom.help.2')"></li>
+                </ul>
+              </template>
+            </WrappedSelect>
           </div>
         </template>
       </FormFragmentContainer>

@@ -50,15 +50,24 @@
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedSelect
               label="settings.kodi.network.waitMode.select.options.label"
-              :help="$t('settings.kodi.network.waitMode.help')"
               :options="waitModeOptions"
               :getter="kodi['network.waitmode']"
               :setter="kodiStore.post"
               apiKey="network.waitmode"
               v-if="kodi['network.waitmode']"
-            />
+              help
+            >
+              <template v-slot:help>
+                {{ $t('settings.kodi.network.waitMode.help.availableOptions') }}
+                <ul>
+                  <li v-html="$t('settings.kodi.network.waitMode.help.required')"></li>
+                  <li v-html="$t('settings.kodi.network.waitMode.help.wish')"></li>
+                  <li v-html="$t('settings.kodi.network.waitMode.help.nonce')"></li>
+                </ul>
+              </template>
+            </WrappedSelect>
 
-          <q-separator/>
+            <q-separator/>
 
             <WrappedTextInput
               label="settings.kodi.network.waitHost"
@@ -68,7 +77,7 @@
               v-if="kodi['network.waithost']"
             />
 
-          <q-separator/>
+            <q-separator/>
 
             <WrappedTextInput
               label="settings.kodi.network.waitTime.title"

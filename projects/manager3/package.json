@@ -15,14 +15,14 @@
     "test:unit:watchAll": "jest --watchAll"
   },
   "dependencies": {
-    "@quasar/extras": "^1.0.0",
+    "@quasar/extras": "^1.16.3",
     "apexcharts": "^3.37.2",
     "axios": "^1.2.1",
     "core-js": "^3.6.5",
     "mqtt": "^4.3.7",
     "node-polyfill-webpack-plugin": "^2.0.1",
     "pinia": "^2.0.11",
-    "quasar": "^2.6.0",
+    "quasar": "^2.11.10",
     "simple-keyboard": "^3.5.45",
     "url": "^0.11.0",
     "vue": "^3.0.0",

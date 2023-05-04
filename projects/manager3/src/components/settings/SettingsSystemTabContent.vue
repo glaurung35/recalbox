@@ -37,7 +37,6 @@
         <template v-slot:content>
           <WrappedSlider
             label="settings.system.splashScreen.splashLength.label"
-            :help="$t('settings.system.splashScreen.splashLength.help')"
             :getter="system['splash.length']"
             :setter="systemStore.post"
             apiKey="splash.length"
@@ -45,7 +44,17 @@
             :min="splashLengthOptions.lowerValue"
             :max="splashLengthOptions.higherValue"
             icon="mdi-timer-outline"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.splashScreen.splashLength.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.splashScreen.splashLength.help.0')"></li>
+                <li v-html="$t('settings.system.splashScreen.splashLength.help.1')"></li>
+                <li v-html="$t('settings.system.splashScreen.splashLength.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSlider>
         </template>
       </FormFragmentContainer>
 
@@ -53,13 +62,22 @@
         <template v-slot:content>
           <WrappedSelect
             label="settings.system.specialKey.behaviourSelect.label"
-            :help="$t('settings.system.specialKey.help')"
             :options="specialkeysOptions"
             :getter="system['emulators.specialkeys']"
             :setter="systemStore.post"
             apiKey="emulators.specialkeys"
             v-if="system['emulators.specialkeys']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.specialKey.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.specialKey.help.default')"></li>
+                <li v-html="$t('settings.system.specialKey.help.nomenu')"></li>
+                <li v-html="$t('settings.system.specialKey.help.none')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
 
@@ -121,16 +139,19 @@
         <template v-slot:content>
           <WrappedMultipleSelect
             label="settings.system.demo.systemlist.label"
-            :help="$t('settings.system.demo.systemlist.help')"
             :options="demoSystemlistOptions"
             :getter="global['demo.systemlist']"
             :setter="globalStore.post"
             apiKey="demo.systemlist"
             v-if="global['demo.systemlist']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.demo.systemlist.help') }}
+            </template>
+          </WrappedMultipleSelect>
           <WrappedSlider
             label="settings.system.demo.duration.label"
-            :help="$t('settings.system.demo.duration.help')"
             :getter="global['demo.duration']"
             :setter="globalStore.post"
             apiKey="demo.duration"
@@ -138,10 +159,14 @@
             :min="demoDurationOptions.lowerValue"
             :max="demoDurationOptions.higherValue"
             icon="mdi-timer-outline"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.demo.duration.help') }}
+            </template>
+          </WrappedSlider>
           <WrappedSlider
             label="settings.system.demo.infoscreenduration.label"
-            :help="$t('settings.system.demo.infoscreenduration.help')"
             :getter="global['demo.infoscreenduration']"
             :setter="globalStore.post"
             apiKey="demo.infoscreenduration"
@@ -149,7 +174,12 @@
             :min="demoInfoscreendurationOptions.lowerValue"
             :max="demoInfoscreendurationOptions.higherValue"
             icon="mdi-timer-outline"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.demo.infoscreenduration.help') }}
+            </template>
+          </WrappedSlider>
         </template>
       </FormFragmentContainer>
     </div>

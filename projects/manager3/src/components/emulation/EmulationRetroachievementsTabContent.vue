@@ -6,12 +6,16 @@
     <template v-slot:content>
       <WrappedToggle
         label="emulation.global.retroachievements.activate.label"
-        :help="$t('emulation.global.retroachievements.activate.help')"
         :getter="global.retroachievements"
         :setter="globalStore.post"
         apiKey="retroachievements"
         v-if="global.retroachievements"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.retroachievements.activate.help') }}
+        </template>
+      </WrappedToggle>
 
       <q-separator/>
 
@@ -35,13 +39,17 @@
 
       <WrappedToggle
         label="emulation.global.retroachievements.hardcore.label"
-        :help="$t('emulation.global.retroachievements.hardcore.help')"
         warning
         :getter="global['retroachievements.hardcore']"
         :setter="globalStore.post"
         apiKey="retroachievements.hardcore"
         v-if="global['retroachievements.hardcore']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.retroachievements.hardcore.help') }}
+        </template>
+      </WrappedToggle>
     </template>
   </FormFragmentContainer>
 </template>

@@ -12,7 +12,11 @@
       checked-icon="check"
       unchecked-icon="clear"
     />
-    <HelpButton :text="help" :warning="warning" toggle/>
+    <HelpButton :warning="warning" toggle v-if="help">
+      <template v-slot:help>
+        <slot name="help"></slot>
+      </template>
+    </HelpButton>
   </div>
 </template>
 
@@ -22,7 +26,7 @@ import HelpButton from 'components/ui-kit/HelpButton.vue';
 
 const props = defineProps({
   label: { type: String, required: true },
-  help: { type: String },
+  help: { type: Boolean, default: false },
   warning: { type: Boolean },
   setter: { type: Function, required: true },
   getter: { type: Object, required: true },

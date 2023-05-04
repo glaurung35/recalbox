@@ -9,13 +9,17 @@
         <template v-slot:content>
           <WrappedSelect
             label="settings.emustation.display.videomode.label"
-            :help="$t('settings.emustation.display.videomode.help')"
             :options="esVideomodeOptions"
             :getter="system['es.videomode']"
             :setter="systemStore.post"
             apiKey="es.videomode"
             v-if="system['es.videomode']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.display.videomode.help') }}
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
     </div>
@@ -23,13 +27,22 @@
         <template v-slot:content>
           <WrappedSelect
             label="settings.emustation.menus.menuStyle.label"
-            :help="$t('settings.emustation.menus.menuStyle.help')"
             :options="menuOptions"
             :getter="emulationstation.menu"
             :setter="emulationstationStore.post"
             apiKey="menu"
             v-if="emulationstation.menu"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.menuStyle.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.menus.menuStyle.help.bartop')"></li>
+                <li v-html="$t('settings.emustation.menus.menuStyle.help.default')"></li>
+                <li v-html="$t('settings.emustation.menus.menuStyle.help.none')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
 
           <q-separator/>
 
@@ -46,28 +59,40 @@
 
           <WrappedToggle
             label="settings.emustation.menus.startFromFirstSystem.label"
-            :help="$t('settings.emustation.menus.startFromFirstSystem.help')"
             :getter="emulationstation.bootongamelist"
             :setter="emulationstationStore.post"
             apiKey="bootongamelist"
             v-if="emulationstation.bootongamelist"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.startFromFirstSystem.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
             label="settings.emustation.menus.disableSystemSelection.label"
-            :help="$t('settings.emustation.menus.disableSystemSelection.help')"
             :getter="emulationstation.hidesystemview"
             :setter="emulationstationStore.post"
             apiKey="hidesystemview"
             v-if="emulationstation.hidesystemview"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.disableSystemSelection.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
             label="settings.emustation.menus.showOnlyScrapedGames.label"
-            :help="$t('settings.emustation.menus.showOnlyScrapedGames.help')"
             :getter="emulationstation.gamelistonly"
             :setter="emulationstationStore.post"
             apiKey="gamelistonly"
             v-if="emulationstation.gamelistonly"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.showOnlyScrapedGames.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -76,7 +101,6 @@
         <template v-slot:content>
           <WrappedSlider
             label="settings.emustation.videoSnaps.delay.title"
-            :help="$t('settings.emustation.videoSnaps.delay.help')"
             :getter="emulationstation['videosnaps.delay']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.delay"
@@ -84,10 +108,14 @@
             :min="videosnapsDelayOptions.lowerValue"
             :max="videosnapsDelayOptions.higherValue"
             icon="mdi-clock-start"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.videoSnaps.delay.help') }}
+            </template>
+          </WrappedSlider>
           <WrappedSlider
             label="settings.emustation.videoSnaps.loop.title"
-            :help="$t('settings.emustation.videoSnaps.loop.help')"
             :getter="emulationstation['videosnaps.loop']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.loop"
@@ -95,7 +123,12 @@
             :min="videosnapsLoopOptions.lowerValue"
             :max="videosnapsLoopOptions.higherValue"
             icon="mdi-reload"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.videoSnaps.loop.help') }}
+            </template>
+          </WrappedSlider>
         </template>
       </FormFragmentContainer>
     </div>

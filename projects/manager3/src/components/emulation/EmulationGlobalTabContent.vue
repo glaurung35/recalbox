@@ -16,13 +16,17 @@
           />
           <WrappedSelect
             label="emulation.global.display.videomode.label"
-            :help="$t('emulation.global.display.videomode.help')"
             :options="videomodeOptions"
             :getter="global.videomode"
             :setter="globalStore.post"
             apiKey="videomode"
             v-if="global.videomode"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.videomode.help') }}
+            </template>
+          </WrappedSelect>
           <q-separator/>
           <WrappedToggle
             label="emulation.global.display.shaders.label"
@@ -33,13 +37,23 @@
           />
           <WrappedSelect
             label="emulation.global.display.shaderset.label"
-            :help="$t('emulation.global.display.shaderset.help')"
             :options="shadersetOptions"
             :getter="global.shaderset"
             :setter="globalStore.post"
             apiKey="shaderset"
             v-if="global.shaderset"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.shaderset.help.availableShaders') }}
+              <ul>
+                <li v-html="$t('emulation.global.display.shaderset.help.custom')"></li>
+                <li v-html="$t('emulation.global.display.shaderset.help.none')"></li>
+                <li v-html="$t('emulation.global.display.shaderset.help.retro')"></li>
+                <li v-html="$t('emulation.global.display.shaderset.help.scanlines')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
           <WrappedSelect
             label="emulation.global.display.customshaders.label"
             :options="shadersetfileOptions"
@@ -52,12 +66,16 @@
           <q-separator/>
           <WrappedToggle
             label="emulation.global.display.integerscale.label"
-            :help="$t('emulation.global.display.integerscale.help')"
             :getter="global.integerscale"
             :setter="globalStore.post"
             apiKey="integerscale"
             v-if="global.integerscale"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.integerscale.help') }}
+            </template>
+          </WrappedToggle>
           <q-separator/>
           <WrappedToggle
             label="emulation.global.display.smooth.label"
@@ -72,25 +90,33 @@
         <template v-slot:content>
           <WrappedToggle
             label="emulation.global.rewind.label"
-            :help="$t('emulation.global.rewind.help')"
             warning
             :getter="global.rewind"
             :setter="globalStore.post"
             apiKey="rewind"
             v-if="global.rewind"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.rewind.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.autosave.title">
         <template v-slot:content>
           <WrappedToggle
             label="emulation.global.autosave.label"
-            :help="$t('emulation.global.autosave.help')"
             :getter="global.autosave"
             :setter="globalStore.post"
             apiKey="autosave"
             v-if="global.autosave"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.autosave.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -99,36 +125,52 @@
         <template v-slot:content>
           <WrappedToggle
             label="emulation.global.arcade.activate.label"
-            :help="$t('emulation.global.arcade.activate.help')"
             :getter="global.arcade"
             :setter="globalStore.post"
             apiKey="arcade"
             v-if="global.arcade"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.activate.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedTextInput
             label="emulation.global.arcade.position.label"
-            :help="$t('emulation.global.arcade.position.help')"
             :getter="global['arcade.position']"
             :setter="globalStore.post"
             apiKey="arcade.position"
             v-if="global['arcade.position']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.position.help') }}
+            </template>
+          </WrappedTextInput>
           <WrappedToggle
             label="emulation.global.arcade.includeNeogeo.label"
-            :help="$t('emulation.global.arcade.includeNeogeo.help')"
             :getter="global['arcade.includeneogeo']"
             :setter="globalStore.post"
             apiKey="arcade.includeneogeo"
             v-if="global['arcade.includeneogeo']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.includeNeogeo.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
             label="emulation.global.arcade.hideOriginals.label"
-            :help="$t('emulation.global.arcade.hideOriginals.help')"
             :getter="global['arcade.hideoriginals']"
             :setter="globalStore.post"
             apiKey="arcade.hideoriginals"
             v-if="global['arcade.hideoriginals']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.hideOriginals.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.translation.title">
@@ -143,41 +185,57 @@
 
           <WrappedSelect
             label="emulation.global.translation.translateFrom.label"
-            :help="$t('emulation.global.translation.translateFrom.help')"
             :options="translateFromOptions"
             :getter="global['translate.from']"
             :setter="globalStore.post"
             apiKey="translate.from"
             v-if="global['translate.from']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.translation.translateFrom.help') }}
+            </template>
+          </WrappedSelect>
 
           <WrappedSelect
             label="emulation.global.translation.translateTo.label"
-            :help="$t('emulation.global.translation.translateTo.help')"
             :options="translateToOptions"
             :getter="global['translate.to']"
             :setter="globalStore.post"
             apiKey="translate.to"
             v-if="global['translate.to']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.translation.translateTo.help') }}
+            </template>
+          </WrappedSelect>
 
           <WrappedTextInput
             label="emulation.global.translation.translateApiKey.label"
-            :help="$t('emulation.global.translation.translateApiKey.help')"
             :getter="global['translate.apikey']"
             :setter="globalStore.post"
             apiKey="translate.apikey"
             v-if="global['translate.apikey']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.translation.translateApiKey.help') }}
+            </template>
+          </WrappedTextInput>
 
           <WrappedTextInput
             label="emulation.global.translation.translateUrl.label"
-            :help="$t('emulation.global.translation.translateUrl.help')"
             :getter="global['translate.url']"
             :setter="globalStore.post"
             apiKey="translate.url"
             v-if="global['translate.url']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.translation.translateUrl.help') }}
+            </template>
+          </WrappedTextInput>
         </template>
       </FormFragmentContainer>
     </div>

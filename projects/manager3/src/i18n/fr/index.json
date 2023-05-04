@@ -135,12 +135,22 @@
         "title": "Splash screen",
         "splashLength": {
           "label": "Durée du splash screen",
-          "help": "Options disponibles (en secondes) :<ul><li><b>0 :</b> La vidéo s'arrêtera lorsqu'EmulationStation sera prêt à démarrer,</li><li><b>-1 :</b> Toute la vidéo sera lue avant le démarrage d'EmulationStation (par défaut),</li><li><b>> 0 :</b> Temps de lecture de la vidéo avant le démarrage d'EmulationStation.</li></ul>"
+          "help": {
+            "availableOptions": "Options disponibles (en secondes) :",
+            "0": "<b>0 :</b> La vidéo s'arrêtera lorsqu'EmulationStation sera prêt à démarrer",
+            "1": "<b>-1 :</b> Toute la vidéo sera lue avant le démarrage d'EmulationStation (par défaut)",
+            "2": "<b>> 0 :</b> Temps de lecture de la vidéo avant le démarrage d'EmulationStation"
+          }
         }
       },
       "specialKey": {
         "title": "hot key",
-        "help": "Options disponibles :<ul><li><b>default</b> correspond au fonctionnement de base avec toutes les possibilités,</li><li><b>nomenu</b> désactive l'affichage du menu,</li><li><b>none</b> désactive la touche spéciale.</li></ul>",
+        "help": {
+          "availableOptions": "Options disponibles :",
+          "default": "<b>default</b> correspond au fonctionnement de base avec toutes les possibilités",
+          "nomenu": "<b>nomenu</b> désactive l'affichage du menu",
+          "none": "<b>none</b> désactive la touche spéciale"
+        },
         "behaviourSelect": {
           "label": "Comportement",
           "options": {}
@@ -233,7 +243,12 @@
         "title": "Menus",
         "menuStyle": {
           "label": "Style de menu",
-          "help": "Options disponibles :<ul><li><b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops,</li><li><b>defaut</b> correspond au menu de base avec toutes les options,</li><li><b>none</b> n'offre aucun menu excepté celui de recherche de jeux.</li></ul>"
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "bartop": "<b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops",
+            "default": "<b>default</b> correspond au menu de base avec toutes les options",
+            "none": "<b>none</b> n'offre aucun menu excepté celui de recherche de jeux"
+          }
         },
         "systemSelectedAsDefault": {
           "label": "Système sélectionné par défaut"
@@ -268,7 +283,12 @@
         "title": "Réglages",
         "getNameFrom": {
           "title": "Obtenir les noms à partir de",
-          "help": "Options disponibles :<ul><li><b>0</b> à partir des résultats du scrap (défaut),</li><li><b>1</b> à partir du nom du fichier,</li><li><b>2</b> à partir du nom du fichier non décoré (i.e: (text) et [text] supprimés).</li></ul>"
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "0": "<b>0</b> à partir des résultats du scrap (défaut)",
+            "1": "<b>1</b> à partir du nom du fichier",
+            "2": "<b>2</b> à partir du nom du fichier non décoré (i.e: (text) et [text] supprimés)"
+          }
         }
       },
       "screenscraper": {
@@ -312,7 +332,12 @@
         "title": "Réseau",
         "waitMode": {
           "title": "Mode d'attente",
-          "help": "Options disponibles :<ul><li><b>required</b> kodi ne se lance pas avant d'avoir pu joindre l'adresse ip indiquée,</li><li><b>wish</b> utilise un compte à rebours avant de démarrer,</li><li><b>nonce</b> aucune valeur.</li></ul>",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "required": "<b>required</b> kodi ne se lance pas avant d'avoir pu joindre l'adresse ip indiquée",
+            "wish": "<b>wish</b> utilise un compte à rebours avant de démarrer",
+            "nonce": "<b>nonce</b> aucune valeur"
+          },
           "select": {
             "options": {
               "label": "Sélectionner le mode"
@@ -362,7 +387,13 @@
         },
         "shaderset": {
           "label": "Set de shaders",
-          "help": "Shaders disponibles:<ul><li><b>custom</b> permet de choisir et d'activer un shader custom,</li><li><b>none</b> ne met aucun shader.</li><li><b>retro</b> sélectionne le \"meilleur\" shader pour chaque système, choisi par la communauté. Il vous apportera l'expérience de jeu la plus proche de l'expérience originale,</li><li><b>scanlines</b> active les scanlines sur tous les emulateurs,</li></ul>"
+          "help": {
+            "availableShaders": "Shaders disponibles :",
+            "custom": "<b>custom</b> permet de choisir et d'activer un shader custom",
+            "none": "<b>none</b> ne met aucun shader",
+            "retro": "<b>retro</b> sélectionne le \"meilleur\" shader pour chaque système, choisi par la communauté. Il vous apportera l'expérience de jeu la plus proche de l'expérience originale",
+            "scanlines": "<b>scanlines</b> active les scanlines sur tous les emulateurs"
+          }
         },
         "customshaders": {
           "label": "Shader custom"

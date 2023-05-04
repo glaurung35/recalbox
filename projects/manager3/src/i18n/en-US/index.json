@@ -135,12 +135,22 @@
         "title": "Splash screen",
         "splashLength": {
           "label": "Splash screen duration",
-          "help": "Available options (in seconds) :<ul><li><b>0 :</b> Video will be stopped when emulationstation is ready to start,</li><li><b>-1 :</b> All the video will be played before emulationstation start (default),</li><li><b>> 0 :</b> Time the video will be played before emulationstation start.</li></ul>"
+          "help": {
+            "availableOptions": "Available options (in seconds) :",
+            "0": "<b>0 :</b> Video will be stopped when emulationstation is ready to start",
+            "1": "<b>-1 :</b> All the video will be played before emulationstation start (default)",
+            "2": "<b>> 0 :</b> Time the video will be played before emulationstation start"
+          }
         }
       },
       "specialKey": {
         "title": "Hot key",
-        "help": "Available options :<ul><li><b>default</b> is the default behaviour with all options,</li><li><b>nomenu</b> disables the menu,</li><li><b>none</b> disables the hotkey.</li></ul>",
+        "help": {
+          "availableOptions": "Available options :",
+          "default": "<b>default</b> is the default behaviour with all options",
+          "nomenu": "<b>nomenu</b> disables the menu",
+          "none": "<b>none</b> disables the hotkey"
+        },
         "behaviourSelect": {
           "label": "Behaviour",
           "options": {}
@@ -233,7 +243,12 @@
         "title": "Settings",
         "menuStyle": {
           "label": "Menu style",
-          "help": "Available options :<ul><li><b>bartop</b> has filtered options, suitable for bartops,</li><li><b>default</b> is the fully enabled menu,</li><li><b>none</b> just lets you select games.</li></ul>"
+          "help": {
+            "availableOptions": "Available options :",
+            "bartop": "<b>bartop</b> has filtered options, suitable for bartops",
+            "default": "<b>default</b> is the fully enabled menu",
+            "none": "<b>none</b> just lets you select games"
+          }
         },
         "systemSelectedAsDefault": {
           "label": "System selected as default"
@@ -268,7 +283,12 @@
         "title": "Settings",
         "getNameFrom": {
           "title": "Get names from",
-          "help": "Available options :<ul><li><b>0</b> from scrapper result (default),</li><li><b>1</b> from filename,</li><li><b>2</b> from filename undecorated (i.e: (text) and [text] removed ).</li></ul>"
+          "help": {
+            "availableOptions": "Available options :",
+            "0": "<b>0</b> from scrapper result (default)",
+            "1": "<b>1</b> from filename",
+            "2": "<b>2</b> from filename undecorated (i.e: (text) and [text] removed )"
+          }
         }
       },
       "screenscraper": {
@@ -312,7 +332,12 @@
         "title": "Network",
         "waitMode": {
           "title": "Wait mode",
-          "help": "Available options :<ul><li><b>required</b> kodi does not launch before being able to reach the specified ip address,</li><li><b>wish</b> uses a countdown timer before starting,</li><li><b>nonce</b> no value.</li></ul>",
+          "help": {
+            "availableOptions": "Available options :",
+            "required": "<b>required</b> kodi does not launch before being able to reach the specified ip address",
+            "wish": "<b>wish</b> uses a countdown timer before starting",
+            "nonce": "<b>nonce</b> no value"
+          },
           "select": {
             "options": {
               "label": "Select mode"
@@ -362,7 +387,13 @@
         },
         "shaderset": {
           "label": "Shaders set",
-          "help": "Available shaders:<ul><li><b>custom</b> allows you to choose and activate a custom shader,</li><li><b>none</b> don't enable shaders,</li><li><b>retro</b> set the \"best\" shader for each system, as chosen by the community. This will give you the gaming experience closest to the original system,</li><li><b>scanlines</b> enable scanlines for all emulators.</li></ul>"
+          "help": {
+            "availableShaders": "Available shaders :",
+            "custom": "<b>custom</b> allows you to choose and activate a custom shader",
+            "none": "<b>none</b> don't enable shaders",
+            "retro": "<b>retro</b> set the \"best\" shader for each system, as chosen by the community. This will give you the gaming experience closest to the original system",
+            "scanlines": "<b>scanlines</b> enable scanlines for all emulators"
+          }
         },
         "customshaders": {
           "label": "Custom shader"

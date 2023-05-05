@@ -6,6 +6,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "utils/Files.h"
 #include "utils/Zip.h"
+#include "utils/hash/Crc32.h"
 
 GenericDownloader::GenericDownloader(SystemData& system, IGuiDownloaderUpdater& updater)
   : BaseSystemDownloader(updater)
@@ -56,7 +57,6 @@ void GenericDownloader::Run()
   mTimeReference = DateTime();
   if (!mRequest.Execute(source, destination, this)) { mSender.Send(GenericDownloadingGameState::DownloadError); return; }
 
-
   // Extract
   { LOG(LogDebug) << "[GenericDownloader] Copying games"; }
   Zip zip(destination);
@@ -74,8 +74,18 @@ void GenericDownloader::Run()
     else
     {
       destinationPath.Directory().CreatePath();
-      Files::SaveFile(destinationPath, zip.Content(i));
-      if (mSystem.Descriptor().Extension().Contains(relativePath.Extension().ToLowerCase())) mGames++;
+      if (!destinationPath.Exists())
+      {
+        String content = zip.Content(i);
+        int crc32 = (int)crc32_16bytes(content.data(), content.size(), 0);
+        if (targetRoot->LookupGameByCRC32(crc32) == nullptr)
+        {
+          Files::SaveFile(destinationPath, zip.Content(i));
+          if (mSystem.Descriptor().Extension().Contains(relativePath.Extension().ToLowerCase())) mGames++;
+        }
+        else
+        { LOG(LogDebug) << "[GenericDownloader] CRC Match"; }
+      }
     }
     mCurrentSize++;
     mSender.Send(GenericDownloadingGameState::Extracting);

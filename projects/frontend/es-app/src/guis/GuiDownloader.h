@@ -23,6 +23,12 @@ class GuiDownloader : public Gui
     GuiDownloader(WindowManager& window, SystemData& system);
 
     /*!
+     * @brief Destructor
+     * Update System view
+     */
+    ~GuiDownloader() override;
+
+    /*!
      * @brief Check cancel bouton
      * @param event Event to process
      * @return True/false

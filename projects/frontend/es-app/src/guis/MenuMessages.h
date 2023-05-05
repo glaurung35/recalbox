@@ -25,6 +25,7 @@ class MenuMessages
     #define MENUMESSAGE_UPDATE_CHANGELOG_HELP_MSG "Shows the current available update changelog."
 
     #define MENUMESSAGE_GAME_SETTINGS_HELP_MSG "Configure games display, ratio, filters (shaders), auto save and load and retroachievement account."
+    #define MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG "Download various free contents!"
     #define MENUMESSAGE_GAME_RATIO_HELP_MSG "The game ratio is the ratio between image width and image height. Use AUTO to let the emulator choose the original game ratio, that will give you the best retrogaming experience."
     #define MENUMESSAGE_GAME_SMOOTH_HELP_MSG "Smooth the game image. This option makes the image smoother, using bilinear filtering."
     #define MENUMESSAGE_GAME_REWIND_HELP_MSG "This option allows you to rewind the game if you get killed by a monster, or if you make any other mistake. Use the HOTKEY + LEFT command within the game to rewind."

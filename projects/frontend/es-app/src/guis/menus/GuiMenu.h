@@ -22,6 +22,7 @@ class GuiMenu : public GuiMenuBase
       Update,
       RecalboxRGBDual,
       Games,
+      ContentDoanwloader,
       Controllers,
       UISettings,
       Tate,

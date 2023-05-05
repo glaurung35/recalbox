@@ -715,6 +715,25 @@ FileData* FolderData::LookupGameByFilePath(const String& filepath) const
   return nullptr;
 }
 
+FileData* FolderData::LookupGameByCRC32(int crc32) const
+{
+  if (crc32 == 0) return nullptr;
+  // Recursively look for the game in subfolders too
+  for (FileData* fd : mChildren)
+    if (fd->IsFolder())
+    {
+      FolderData* folder = CastFolder(fd);
+      FileData* result = folder->LookupGameByCRC32(crc32);
+      if (result != nullptr)
+        return result;
+    }
+    else
+      if (crc32 == fd->Metadata().RomCrc32())
+        return fd;
+
+  return nullptr;
+}
+
 FileData* FolderData::GetNextFavoriteTo(FileData* reference)
 {
   // Look for position index. If not found, start from the begining

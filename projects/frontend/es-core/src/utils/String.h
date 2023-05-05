@@ -802,14 +802,14 @@ class String : public std::string
      * @param from Start position to get string from
      * @return new string
      */
-    String SubString(int from) const { return String(*this, from); }
+    [[nodiscard]] String SubString(int from) const { return String(*this, from); }
     /*!
      * @brief Get the substring starting at position "from" for "length" characters
      * @param from Start position to get string from
      * @param length Amount of character to get
      * @return new string
      */
-    String SubString(int from, int length) const { return String(*this, from, length); }
+    [[nodiscard]] String SubString(int from, int length) const { return String(*this, from, length); }
 
     // Replacers
 
@@ -1895,33 +1895,33 @@ class String : public std::string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, short value) { __AtCheck__;; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, short value) { __AtCheck__; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
     /*!
      * @brief Insert a converted unsigned short value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, unsigned short value) { __AtCheck__;; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, unsigned short value) { __AtCheck__; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
 
     /*!
      * @brief Insert a converted int value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, int value) { __AtCheck__;; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, int value) { __AtCheck__; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
     /*!
      * @brief Insert a converted unsigned int value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, unsigned int value) { __AtCheck__;; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, unsigned int value) { __AtCheck__; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
 
     /*!
      * @brief Insert a converted long long value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, long long value) { __AtCheck__;; Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, long long value) { __AtCheck__; Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Insert(at, &to[sizeof(to) - l], l); }
     /*!
      * @brief Insert a converted unsigned long long value into the current string
      * @param value Value to insert
@@ -3995,7 +3995,7 @@ class String : public std::string
         case 2: t = *(unsigned short*)data; break;
         case 1: t = data[0]; break;
         default: break;
-      };
+      }
 
       MurMurMix(h,t);
       MurMurMix(h,l);
@@ -4045,7 +4045,7 @@ class String : public std::string
         case 2: t = *((unsigned short*)data); h ^= t; h *= m; break;
         case 1: t = *((unsigned char*)data); h ^= t; h *= m; break;
         default: break;
-      };
+      }
 
       h ^= h >> r; h *= m; h ^= h >> r;
       return h;

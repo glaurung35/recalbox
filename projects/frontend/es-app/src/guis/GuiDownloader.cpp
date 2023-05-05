@@ -141,4 +141,10 @@ void GuiDownloader::UpdateTitleText(const String& text)
   mGrid.onSizeChanged();
 }
 
+GuiDownloader::~GuiDownloader()
+{
+  // Refresh system view
+  ViewController::Instance().getSystemListView().manageSystemsList();
+}
+
 

@@ -311,6 +311,13 @@ class FolderData : public FileData
     [[nodiscard]] FileData* LookupGameByFilePath(const String& filepath) const;
 
     /*!
+     * @brief Lookup a game by CRC32 recusively
+     * @param crc32 CRC32 to look for. If it's null, the method returns nullptr immediately
+     * @return FileData if a game is found, nullptr otherwise
+     */
+    [[nodiscard]] FileData* LookupGameByCRC32(int crc32) const;
+
+    /*!
      * Return true if contain at least one game
      */
     [[nodiscard]] bool HasGame() const;

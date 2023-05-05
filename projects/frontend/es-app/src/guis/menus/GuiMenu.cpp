@@ -2,8 +2,6 @@
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
 #include <animations/LambdaAnimation.h>
-#include <utils/locale/LocaleHelper.h>
-#include <WindowManager.h>
 
 #include <guis/menus/GuiMenuSystem.h>
 #include <guis/menus/GuiMenuUpdates.h>
@@ -19,7 +17,7 @@
 #include <emulators/run/GameRunner.h>
 #include "GuiMenuScraper.h"
 #include "GuiMenuTate.h"
-#include "RotationManager.h"
+#include "GuiMenuDownloadContents.h"
 #include <guis/GuiScraperRun.h>
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -47,6 +45,9 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
 
   // Games menu
   AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
+
+  // Games menu
+  AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.games, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
 
   // Controllers menu
   if (!bartop)
@@ -106,6 +107,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
     case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
+    case Components::ContentDoanwloader: mWindow.pushGui(new GuiMenuDownloadContents(mWindow, mSystemManager)); break;
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
     case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow, mSystemManager)); break;

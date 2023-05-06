@@ -1,5 +1,29 @@
+diff --git a/src/burner/libretro/Makefile b/src/burner/libretro/Makefile
+index 7d7002b3b..4e3cfd289 100644
+--- a/src/burner/libretro/Makefile
++++ b/src/burner/libretro/Makefile
+@@ -115,6 +115,19 @@ ifneq (,$(findstring unix,$(platform)))
+ 		endif
+ 	endif
+ 
++# odroid go advance
++else ifeq ($(platform), odroidgo2)
++	EXT ?= so
++	TARGET := $(TARGET_NAME)_libretro.$(EXT)
++	SHARED := -shared -Wl,-no-undefined -Wl,--version-script=$(VERSION_SCRIPT)
++	fpic = -fPIC
++	CFLAGS += -march=armv8-a+crc+simd -mtune=cortex-a35 -mcpu=cortex-a35 -O3 -pipe -fno-plt -fdata-sections -ffunction-sections -Wl,--gc-sections -fno-stack-protector -fno-ident -fomit-frame-pointer -fmerge-all-constants -fno-math-errno -Wl,--gc-sections -falign-functions=1 -falign-jumps=1 -falign-loops=1 -fno-unwind-tables -fno-asynchronous-unwind-tables -fno-unroll-loops -fmerge-all-constants -frename-registers -funsafe-math-optimizations -ftree-vectorize
++	CFLAGS += -flto=16 -fuse-linker-plugin
++	CXXFLAGS += $(CFLAGS) -fno-rtti
++	LDFLAGS += -flto=16 -fuse-linker-plugin
++	ARCH = arm64
++	ENDIANNESS_DEFINES := -DLSB_FIRST
++
+ # OS X
+ else ifeq ($(platform), osx)
+ 	TARGET := $(TARGET_NAME)_libretro.dylib
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index 4b6514688..b965b3e17 100644
+index 4b6514688..23a80c13a 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -1620,27 +1620,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
@@ -7,42 +31,58 @@ index 4b6514688..b965b3e17 100644
  	) {
  		if (strcmp("High Punch", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_B:  RETRO_DEVICE_ID_JOYPAD_Y), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (RB_JAMMA(nDeviceType[nPlayer]) ? RETRO_DEVICE_ID_JOYPAD_B:  RETRO_DEVICE_ID_JOYPAD_Y), description);
  		}
  		if (strcmp("Low Punch", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_X:  RETRO_DEVICE_ID_JOYPAD_B), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (RB_JAMMA(nDeviceType[nPlayer]) ? RETRO_DEVICE_ID_JOYPAD_X:  RETRO_DEVICE_ID_JOYPAD_B), description);
  		}
  		if (strcmp("High Kick", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_A:  RETRO_DEVICE_ID_JOYPAD_X), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (RB_JAMMA(nDeviceType[nPlayer]) ? RETRO_DEVICE_ID_JOYPAD_A:  RETRO_DEVICE_ID_JOYPAD_X), description);
  		}
  		if (strcmp("Low Kick", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_R:  RETRO_DEVICE_ID_JOYPAD_A), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (RB_JAMMA(nDeviceType[nPlayer])? RETRO_DEVICE_ID_JOYPAD_L:  RETRO_DEVICE_ID_JOYPAD_A), description);
  		}
  		if (strcmp("Block", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R : RETRO_DEVICE_ID_JOYPAD_L), description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R : (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_Y:  RETRO_DEVICE_ID_JOYPAD_L)), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R : (RB_JAMMA(nDeviceType[nPlayer])? RETRO_DEVICE_ID_JOYPAD_Y:  RETRO_DEVICE_ID_JOYPAD_L)), description);
  		}
  		// mk1 & mk2
  		if (strcmp("Block 2", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : RETRO_DEVICE_ID_JOYPAD_R), description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_L:  RETRO_DEVICE_ID_JOYPAD_R)), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : (RB_JAMMA(nDeviceType[nPlayer])? RETRO_DEVICE_ID_JOYPAD_R:  RETRO_DEVICE_ID_JOYPAD_R)), description);
  		}
  		// mk3
  		if (strcmp("Run", description) == 0) {
 -			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : RETRO_DEVICE_ID_JOYPAD_R), description);
-+			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : (nDeviceType[nPlayer] == RETRO_RB_JAMMA? RETRO_DEVICE_ID_JOYPAD_L:  RETRO_DEVICE_ID_JOYPAD_A)), description);
++			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : (RB_JAMMA(nDeviceType[nPlayer])? RETRO_DEVICE_ID_JOYPAD_R:  RETRO_DEVICE_ID_JOYPAD_A)), description);
  		}
  	}
  
-@@ -2064,9 +2064,24 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+@@ -1803,13 +1803,13 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+ 		}
+ 	}
+ 
+-	if (bStreetFighterLayout) {
++	if (!RB_JAMMA(nDeviceType[nPlayer]) && bStreetFighterLayout) {
+ 		if (strncmp("Buttons 3x Punch", description, 16) == 0)
+ 			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_L2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+ 		if (strncmp("Buttons 3x Kick", description, 15) == 0)
+ 			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+ 	}
+-	if (bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) {
++	if (!RB_JAMMA(nDeviceType[nPlayer]) && (bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD))) {
+ 		if (strncmp("Buttons ABC", description, 11) == 0)
+ 			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
+ 		if (strncmp("Buttons BCD", description, 11) == 0)
+@@ -2064,9 +2064,39 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
  					GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
  					break;
  			}
 -		} else {
-+		} else if ((bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA) {
++		} else if ((bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOLINE) {
 +      switch (nButton) {
 +        case 1:
 +          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
@@ -57,43 +97,76 @@ index 4b6514688..b965b3e17 100644
 +          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
 +          break;
 +      }
++    } else if ((bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOSQUARE) {
++      switch (nButton) {
++        case 1:
++          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, description);
++          break;
++        case 2:
++          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
++          break;
++        case 3:
++          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
++          break;
++        case 4:
++          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_L, description);
++          break;
++      }
 +    } else {
  			// Handle 6 buttons fighting games with 3xPunchs and 3xKicks
 -			if (bStreetFighterLayout) {
-+      if (bStreetFighterLayout && nDeviceType[nPlayer] != RETRO_RB_JAMMA) {
++      if (bStreetFighterLayout && !RB_JAMMA(nDeviceType[nPlayer])) {
  				switch (nButton) {
  					case 1:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
-@@ -2683,7 +2698,9 @@ void SetControllerInfo()
+@@ -2103,10 +2133,10 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+ 						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
+ 						break;
+ 					case 5:
+-						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R, description);
++						GameInpDigital2RetroInpKey(pgi, nPlayer, RB_JAMMA(nDeviceType[nPlayer]) ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_R, description);
+ 						break;
+ 					case 6:
+-						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : RETRO_DEVICE_ID_JOYPAD_L), description);
++						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_R2 : (RB_JAMMA(nDeviceType[nPlayer]) ? RETRO_DEVICE_ID_JOYPAD_R : RETRO_DEVICE_ID_JOYPAD_L)), description);
+ 						break;
+ 					case 7:
+ 						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_R2), description);
+@@ -2683,7 +2713,10 @@ void SetControllerInfo()
  			{ "Mouse (ball only)", RETROMOUSE_BALL },
  			{ "Mouse (full)", RETROMOUSE_FULL },
  			{ "Pointer", RETRO_DEVICE_POINTER },
 -			{ "Lightgun", RETRO_DEVICE_LIGHTGUN }
 +      { "Lightgun", RETRO_DEVICE_LIGHTGUN },
-+      { "Recalbox RGB Jamma", RETRO_RB_JAMMA }
++      { "Recalbox Jamma (NeoLine)", RETRO_RB_JAMMA_NEOLINE },
++      { "Recalbox Jamma (NeoSquare)", RETRO_RB_JAMMA_NEOSQUARE }
 +
  		};
  
  		// kludge for nes (some 1p game want to use p2 controls)
-@@ -3093,7 +3110,8 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
+@@ -3093,7 +3126,9 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
  				device != RETROMOUSE_BALL &&
  				device != RETROMOUSE_FULL &&
  				device != RETRO_DEVICE_POINTER &&
 -				device != RETRO_DEVICE_LIGHTGUN)
 +				device != RETRO_DEVICE_LIGHTGUN &&
-+        device != RETRO_RB_JAMMA)
++        device != RETRO_RB_JAMMA_NEOLINE &&
++        device != RETRO_RB_JAMMA_NEOSQUARE)
  			{
  				device = RETROPAD_CLASSIC;
  				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Unknown device type for port %d, forcing \"Classic\" instead\n", port);
 diff --git a/src/burner/libretro/retro_input.h b/src/burner/libretro/retro_input.h
-index 91865542f..43349ac4a 100644
+index 91865542f..33bffc372 100644
 --- a/src/burner/libretro/retro_input.h
 +++ b/src/burner/libretro/retro_input.h
-@@ -36,6 +36,7 @@ extern retro_input_state_t input_cb;
+@@ -36,6 +36,10 @@ extern retro_input_state_t input_cb;
  #define RETROPAD_MODERN		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 1)
  #define RETROMOUSE_BALL		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 2)
  #define RETROMOUSE_FULL		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_MOUSE, 1)
-+#define RETRO_RB_JAMMA		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 3)
++#define RETRO_RB_JAMMA_NEOLINE		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 3)
++#define RETRO_RB_JAMMA_NEOSQUARE		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 4)
++
++#define RB_JAMMA(a) ((a) == RETRO_RB_JAMMA_NEOLINE || (a) == RETRO_RB_JAMMA_NEOSQUARE)
  
  #define GIT_SPECIAL_SWITCH	(0x03)
  #define GIT_DIRECT_COORD	(0x11)

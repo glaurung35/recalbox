@@ -18,7 +18,6 @@ class GameFilesUtils
     static std::list<Path> GetSoftPatches(const FileData* fileData);
     static HashSet<String> GetGameSaveFiles(FileData& game);
     static HashSet<String> GetMediaFiles(FileData& fileData);
-    static HashSet<std::string> GetGameSaveFiles(FileData& game);
     static std::list<SaveState> GetGameSaveStateFiles(FileData& game);
 
     static bool ContainsMultiDiskFile(const String& extensions)

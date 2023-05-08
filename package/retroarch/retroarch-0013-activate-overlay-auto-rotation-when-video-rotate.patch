@@ -1,0 +1,102 @@
+diff --git a/input/input_driver.c b/input/input_driver.c
+index b81c1f4918..8488e00fe7 100644
+--- a/input/input_driver.c
++++ b/input/input_driver.c
+@@ -1797,6 +1797,7 @@ void input_overlay_free(input_overlay_t *ol)
+ void input_overlay_auto_rotate_(
+       unsigned video_driver_width,
+       unsigned video_driver_height,
++      unsigned video_driver_rotation,
+       bool input_overlay_enable,
+       input_overlay_t *ol)
+ {
+@@ -1810,7 +1811,9 @@ void input_overlay_auto_rotate_(
+       return;
+ 
+    /* Get current screen orientation */
+-   if (video_driver_width > video_driver_height)
++   if(video_driver_rotation == 3)
++     screen_orientation = OVERLAY_ORIENTATION_TATE;
++   else if (video_driver_rotation %2 == 0 && video_driver_width > video_driver_height)
+       screen_orientation = OVERLAY_ORIENTATION_LANDSCAPE;
+ 
+    /* Get orientation of active overlay */
+@@ -1820,6 +1823,8 @@ void input_overlay_auto_rotate_(
+          active_overlay_orientation = OVERLAY_ORIENTATION_LANDSCAPE;
+       else if (strstr(ol->active->name, "portrait"))
+          active_overlay_orientation = OVERLAY_ORIENTATION_PORTRAIT;
++      else if (strstr(ol->active->name, "tate"))
++         active_overlay_orientation = OVERLAY_ORIENTATION_TATE;
+    }
+ 
+    /* Sanity check */
+@@ -1843,10 +1848,12 @@ void input_overlay_auto_rotate_(
+       if (!string_is_empty(desc->next_index_name))
+       {
+          bool next_overlay_found = false;
+-         if (active_overlay_orientation == OVERLAY_ORIENTATION_LANDSCAPE)
+-            next_overlay_found = (strstr(desc->next_index_name, "portrait") != 0);
+-         else
++         if (screen_orientation == OVERLAY_ORIENTATION_LANDSCAPE)
+             next_overlay_found = (strstr(desc->next_index_name, "landscape") != 0);
++         else if (screen_orientation == OVERLAY_ORIENTATION_PORTRAIT)
++            next_overlay_found = (strstr(desc->next_index_name, "portrait") != 0);
++         else if (screen_orientation == OVERLAY_ORIENTATION_TATE)
++            next_overlay_found = (strstr(desc->next_index_name, "tate") != 0);
+ 
+          if (next_overlay_found)
+          {
+@@ -3371,6 +3378,7 @@ static void input_overlay_loaded(retro_task_t *task,
+       input_overlay_auto_rotate_(
+             video_st->width,
+             video_st->height,
++            settings->uints.video_rotation,
+             input_overlay_enable,
+             input_st->overlay_ptr);
+ 
+diff --git a/input/input_overlay.h b/input/input_overlay.h
+index 5a8868a5e4..1e36f35e53 100644
+--- a/input/input_overlay.h
++++ b/input/input_overlay.h
+@@ -105,7 +105,8 @@ enum overlay_orientation
+ {
+    OVERLAY_ORIENTATION_NONE = 0,
+    OVERLAY_ORIENTATION_LANDSCAPE,
+-   OVERLAY_ORIENTATION_PORTRAIT
++   OVERLAY_ORIENTATION_PORTRAIT,
++   OVERLAY_ORIENTATION_TATE
+ };
+ 
+ enum overlay_show_input_type
+@@ -322,6 +323,7 @@ bool input_overlay_add_inputs(input_overlay_t *ol,
+ void input_overlay_auto_rotate_(
+       unsigned video_driver_width,
+       unsigned video_driver_height,
++      unsigned video_driver_rotation,
+       bool input_overlay_enable,
+       input_overlay_t *ol);
+ 
+diff --git a/retroarch.c b/retroarch.c
+index 1e247efb5b..89d92fe21d 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -2143,6 +2143,7 @@ bool command_event(enum event_command cmd, void *data)
+                      input_overlay_auto_rotate_(
+                            video_st->width,
+                            video_st->height,
++                           settings->uints.video_rotation,
+                            settings->bools.input_overlay_enable,
+                            input_st->overlay_ptr);
+          }
+diff --git a/runloop.c b/runloop.c
+index 08f35ab9d5..d2bdb3a376 100644
+--- a/runloop.c
++++ b/runloop.c
+@@ -6396,6 +6396,7 @@ static enum runloop_state_enum runloop_check_state(
+             input_overlay_auto_rotate_(
+                   video_st->width,
+                   video_st->height,
++                  settings->uints.video_rotation,
+                   settings->bools.input_overlay_enable,
+                   input_st->overlay_ptr);
+ 

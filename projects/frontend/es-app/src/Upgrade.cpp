@@ -184,6 +184,15 @@ std::string Upgrade::GetRemoteVersion()
   return version;
 }
 
+std::string Upgrade::TarUrl()
+{
+  // Get url
+  std::string url = ReplaceMachineParameters(sTarDownloadPatternUrl, Strings::Empty);
+  { LOG(LogDebug) << "[Update] Tar file url: " << url; }
+
+  return url;
+}
+
 std::string Upgrade::ImageUrl()
 {
   // Get url

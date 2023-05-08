@@ -82,6 +82,7 @@ bool HttpUnxzUntar::SimpleExecute(const std::string& url, Http::IDownload* inter
     mResultFile = Path("/dev/null");
     DataStart();
     curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(mHandle, CURLOPT_FAILONERROR, 1L);
     CURLcode res = curl_easy_perform(mHandle);
     curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
     StoreDownloadInfo(start, DateTime(), mContentSize);

@@ -81,6 +81,7 @@ bool HttpUnxzUntar::SimpleExecute(const std::string& url, Http::IDownload* inter
     mResultFile = Path("/dev/null");
     DataStart();
     curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
+    curl_easy_setopt(mHandle, CURLOPT_FAILONERROR, 1L);
     CURLcode res = curl_easy_perform(mHandle);
     curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
     StoreDownloadInfo(start, DateTime(), mContentSize);
@@ -89,7 +90,7 @@ bool HttpUnxzUntar::SimpleExecute(const std::string& url, Http::IDownload* inter
     if (ok && !mCancel && (xz.Error() == LZMA_OK || xz.Error() == LZMA_STREAM_END) && tar.Error() == TAR_NO_ERROR)
       return true;
     { LOG(LogError) << "[HttpUnxzUntar] Error downloading upgrade from " << url; }
-    { LOG(LogError) << "[HttpUnxzUntar]  Curl return code: " << res; }
+    { LOG(LogError) << "[HttpUnxzUntar]  Curl return code: " << res << ", HTTP response code: " << mLastReturnCode; }
     { LOG(LogError) << "[HttpUnxzUntar]  Xz last error: " << xz.Error(); }
     { LOG(LogError) << "[HttpUnxzUntar]  tar last error: " << tar.Error(); }
   }

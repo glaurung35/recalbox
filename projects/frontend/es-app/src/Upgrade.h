@@ -57,6 +57,12 @@ class Upgrade: private Thread
     static std::string NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
 
     /*!
+     * @brief Return Tar url
+     * @return tar url
+     */
+    static std::string TarUrl();
+
+    /*!
      * @brief Return remote version.
      * @return Remote version
      */
@@ -90,7 +96,8 @@ class Upgrade: private Thread
     //! Get remote version template URL
     static constexpr const char* sVersionPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.version?source=recalbox&uuid=#UUID#";
     //! Data template url
-    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.tar.xz#EXT#?source=recalbox&uuid=#UUID#";
+    static constexpr const char* sDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.img.xz#EXT#?source=recalbox&uuid=#UUID#";
+    static constexpr const char* sTarDownloadPatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox-#ARCH#.tar.xz#EXT#?source=recalbox&uuid=#UUID#";
     //! Releasenote template url
     static constexpr const char* sReleasenotePatternUrl = "https://#DOMAIN#/latest/#ARCH#/recalbox.releasenotes";
 

@@ -159,6 +159,7 @@ class LibretroGenerator(Generator):
     def createTateModeConfiguration(system: Emulator) -> (Dict[str, Any], Dict[str, Any]):
         config = {
             "video_allow_rotate": '"true"',
+            "input_overlay_auto_rotate": "true",
             "video_rotation": 0,
         }
         coreConfig = {

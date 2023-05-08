@@ -17,8 +17,9 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion)
+GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& tarUrl, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion)
   : Gui(window)
+  , mTarUrl(tarUrl)
   , mImageUrl(imageUrl)
   , mSha1Url(sha1Url)
   , mNewVersion(newVersion)
@@ -27,7 +28,7 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& i
   , mSender(*this)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
-  , mRequest(Path(sDownloadFolder))
+  , mTarRequest(Path(sDownloadFolder))
 {
   mRebootIn = _("REBOOT IN %s");
   mError = _("Error downloading Recalbox %s... Please retry later!");
@@ -94,16 +95,6 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& i
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - width) / 2,
               (Renderer::Instance().DisplayHeightAsFloat() - height) / 2);
 
-  // Check free bytes on share partition
-  if (RecalboxSystem::isFreeSpaceLimit())
-  {
-    std::string message = _("You must have at least %dGB free on 'SHARE' partition!");
-    Strings::ReplaceAllIn(message, "%d", Strings::ToString(RecalboxSystem::GetMinimumFreeSpaceOnSharePartition() >> 30));
-    mWindow.displayMessage(message);
-    Close();
-    return;
-  }
-
   // Avoid sleeping!
   mIsProcessing = true;
 
@@ -120,7 +111,8 @@ bool GuiUpdateRecalbox::ProcessInput(const InputCompactEvent& event)
 {
   if (event.CancelPressed())
   {
-    mRequest.Cancel();
+    mTarRequest.Cancel();
+    mImgRequest.Cancel();
     Close();
   }
   return Component::ProcessInput(event);
@@ -152,7 +144,8 @@ void GuiUpdateRecalbox::Run()
   if (arch == "xu4") arch = "odroidxu4";
 
   mTimeReference = DateTime();
-  if (mRequest.SimpleExecute(mImageUrl, this))
+  // First try stream update
+  if (mTarRequest.SimpleExecute(mTarUrl, this))
   {
     struct stat sb;
     // execute pre-upgrade.sh
@@ -166,6 +159,56 @@ void GuiUpdateRecalbox::Run()
     return;
   }
 
+  // If stream update fails with any other error than 404,
+  // stop here. Let user start stream update again
+  if (mTarRequest.GetLastHttpResponseCode() != 404)
+  {
+    { LOG(LogError) << "[UpdateGui] Stream update failed with " << mTarRequest.GetLastHttpResponseCode(); }
+    mSender.Send(-1);
+    return;
+  }
+
+  // If stream update fails with a 404, then fallback to legacy
+  // image download.
+  // Check free bytes on share partition
+  if (RecalboxSystem::isFreeSpaceLimit())
+  {
+    std::string message = _("You must have at least %dGB free on 'SHARE' partition!");
+    Strings::ReplaceAllIn(message, "%d", Strings::ToString(RecalboxSystem::GetMinimumFreeSpaceOnSharePartition() >> 30));
+    mWindow.displayMessage(message);
+    Close();
+    mSender.Send(-1);
+    return;
+  }
+
+  // Get destination filename
+  std::string destinationFileName = "recalbox-%.img.xz";
+  Strings::ReplaceAllIn(destinationFileName, "%", arch);
+
+  // Download
+  Path destination = Path(sDownloadFolder) / destinationFileName;
+  Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.append(".sha1");
+  { LOG(LogDebug) << "[UpdateGui] Target path " << destination.ToString(); }
+
+  // Empty target folder
+  if (system(("rm -rf " + (Path(sDownloadFolder) / "*").ToString()).data()) != 0)
+  { LOG(LogError) << "[UpdateGui] Cannot empty " << sDownloadFolder; }
+
+  mTimeReference = DateTime();
+  mImgRequest.Execute(mImageUrl, destination, this);
+
+  // Control & Reboot
+  if (mTotalSize != 0)
+    if (destination.Size() == mTotalSize)
+    {
+      // Download sha1
+      mImgRequest.Execute(mSha1Url.append(".sha1"), destinationSha1, this);
+      // Reboot
+      MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
+      return;
+    }
+
+  destination.Delete();
   mSender.Send(-1);
 }
 

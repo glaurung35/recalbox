@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add game downloader for WASM4, Vectrex, UzeBox & TIC80 systems
 - Add libretro-mojozork as Z-Machine core
 - Add libretro-supafaust core for snes
+- Add support for break key for pad2keyboard
 
 ### Bumps
 

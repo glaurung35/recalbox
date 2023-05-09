@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add 240p test suite support for all platforms
 - Add libretro-mojozork as Z-Machine core
 - Add libretro-supafaust core for snes
+- Add support for break key for pad2keyboard
 
 ### Bumps
 

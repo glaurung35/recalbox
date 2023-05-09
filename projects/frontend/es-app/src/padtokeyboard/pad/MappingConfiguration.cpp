@@ -350,6 +350,7 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, Mapping::CodeA
     { __STRL("end")        , KEY_END       , Types::Keyboard },
     { __STRL("down")       , KEY_DOWN      , Types::Keyboard },
     { __STRL("pagedown")   , KEY_PAGEDOWN  , Types::Keyboard },
+    { __STRL("break")      , KEY_BREAK     , Types::Keyboard },
     { __STRL("insert")     , KEY_INSERT    , Types::Keyboard },
     { __STRL("delete")     , KEY_DELETE    , Types::Keyboard },
     { __STRL("s01")        , KEY_GRAVE     , Types::Keyboard },

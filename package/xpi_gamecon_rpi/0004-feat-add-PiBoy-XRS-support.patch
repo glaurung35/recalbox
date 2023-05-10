@@ -301,10 +301,10 @@ index c315e06..5e9675a 100644
 +			input_report_abs(dev, ABS_RY, (int16_t)data[4]);	//RY Axis
 +		}
  
-+		dpad_left  = data[pdd->hat_byte[0]]&pdd->hat_mask[0] ? pdd->hat_inverted : !pdd->had_inverted;
-+		dpad_right = data[pdd->hat_byte[1]]&pdd->hat_mask[1] ? pdd->hat_inverted : !pdd->had_inverted;
-+		dpad_up    = data[pdd->hat_byte[2]]&pdd->hat_mask[2] ? pdd->hat_inverted : !pdd->had_inverted;
-+		dpad_down  = data[pdd->hat_byte[3]]&pdd->hat_mask[3] ? pdd->hat_inverted : !pdd->had_inverted;
++		dpad_left  = data[pdd->hat_byte[0]]&pdd->hat_mask[0] ? pdd->hat_inverted : !pdd->hat_inverted;
++		dpad_right = data[pdd->hat_byte[1]]&pdd->hat_mask[1] ? pdd->hat_inverted : !pdd->hat_inverted;
++		dpad_up    = data[pdd->hat_byte[2]]&pdd->hat_mask[2] ? pdd->hat_inverted : !pdd->hat_inverted;
++		dpad_down  = data[pdd->hat_byte[3]]&pdd->hat_mask[3] ? pdd->hat_inverted : !pdd->hat_inverted;
 +		input_report_abs(dev, ABS_HAT0X, dpad_left - dpad_right);
 +		input_report_abs(dev, ABS_HAT0Y, dpad_up   - dpad_down);
 +

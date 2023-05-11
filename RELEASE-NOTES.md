@@ -56,6 +56,7 @@ as release notes for end user on a Recalbox upgrade.
   - Compatible with SG-1000 games
 - Bump libretro-bk
 - Bump libretro-emuscv
+- Bump libretro-parallel_n64
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
@@ -96,6 +97,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump FBneo to aad581
 - Bump Hypseus-Singe to v2.10.4
 - Bump Netflix and Youtube plugins in Kodi
+- Bump libretro-parallel-n64
 
 ### Improvements
 - Add wizard to disable smooth game when enabling shaders

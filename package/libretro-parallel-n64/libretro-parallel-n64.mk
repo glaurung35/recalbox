@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version: 2022-05-12
-LIBRETRO_PARALLEL_N64_VERSION = 1922f4a60bb1335b0df995dcc0c232d82a32bb2d
+# Version: 2022-08-23
+LIBRETRO_PARALLEL_N64_VERSION = a03fdcba6b2e9993f050b50112f597ce2f44fa2c
 LIBRETRO_PARALLEL_N64_SITE = $(call github,libretro,parallel-n64,$(LIBRETRO_PARALLEL_N64_VERSION))
 LIBRETRO_PARALLEL_N64_LICENSE = GPL-3.0
 

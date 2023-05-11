@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump FBneo to aad581
 - Bump Hypseus-Singe to v2.10.4
 - Bump EmuSCV
+- Bump libretro-parallel-n64
 
 ### Improvements
 

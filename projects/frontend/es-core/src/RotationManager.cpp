@@ -6,6 +6,7 @@
 #include "hardware/Board.h"
 #include "recalbox/BootConf.h"
 #include "Renderer.h"
+#include "systems/SystemData.h"
 
 bool RotationManager::ShouldRotateTateEnter(RotationType& rotationType)
 {
@@ -53,7 +54,7 @@ RotationType RotationManager::ShouldRotateGame(const FileData& game)
     gameRotation = GetSystemRotation();
     {LOG(LogDebug) << "[RotationManager] System rotation is set, setting game rotation to " << RotationUtils::StringValue(gameRotation);}
   }
-  else if(game.Metadata().Rotation() != RotationType::None)
+  else if(game.Metadata().Rotation() != RotationType::None || game.System().Name() == "vectrex")
   {
     const RotationCapability cap = Board::Instance().GetRotationCapabilities();
     // The board should be able to rotate, either the config has been set by user, either we use the automatic capability

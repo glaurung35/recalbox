@@ -17,12 +17,12 @@ ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 
 def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
-                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines=False):
+                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines=False, rotation=0, verticalgame=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype,
                                       crtscreentype,
                                       crtadaptor, crtregion,
-                                      crtscanlines))
+                                      crtscanlines, rotation=rotation,verticalgame=verticalgame))
     return emulator
 
 
@@ -36,6 +36,14 @@ def system_snes():
 def system_fbneo():
     return Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro',
                     core='fbneo')
+@pytest.fixture
+def system_vectrex():
+    return Emulator(name='vectrex', videoMode='1920x1080', ratio='auto', emulator='libretro',
+                    core='vecx')
+@pytest.fixture
+def system_wswan():
+    return Emulator(name='wswan', videoMode='1920x1080', ratio='auto', emulator='libretro',
+                    core='mednafen_wswan')
 
 
 @pytest.fixture
@@ -961,3 +969,126 @@ def test_given_core_in_systems_then_use_system(mocker):
 
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730001 1"'
     assert libretro_config["crt_switch_timings_pal"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
+
+
+# Tate mode
+def test_given_vertical_game_on_fbneo_and_rotate_then_return_a_rotated_config(mocker, system_fbneo):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "espgal,fbneo,arcade:224@59.170000,0,0,1",
+        MODES_TXT: "arcade:224@59.170000,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39137405 1,59.170000"
+    })
+
+    emulator = configureForCrt(system_fbneo, rotation=1)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "espgal.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"59.170000"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1920
+    assert config_lines["custom_viewport_height_ntsc"] == 224
+    assert config_lines["video_allow_rotate"] == '"true"'
+    # assert config_lines["video_rotation"] == 1 rotation is managed by tate config
+def test_given_vectrex_game_and_rotate_then_return_a_rotated_config(mocker, system_vectrex):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "vectrex,vecx,all,15kHz,progressive,standard:ntsc:240@60,1200,0\n",
+        MODES_TXT: "standard:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\n"
+    })
+
+    emulator = configureForCrt(system_vectrex, rotation=1)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "Game.vec")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1920
+    assert config_lines["custom_viewport_height_ntsc"] == 240
+    assert config_lines["video_allow_rotate"] == '"true"'
+    #assert config_lines["video_rotation"] == 1
+
+def test_given_vectrex_game_and_no_rotate_then_return_a_landscape_config(mocker, system_vectrex):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "vectrex,vecx,all,15kHz,progressive,standard:ntsc:240@60,1200,0\n",
+        MODES_TXT: "standard:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\n"
+    })
+
+    emulator = configureForCrt(system_vectrex, rotation=0, verticalgame=True)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                   "Game.vec")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1200
+    assert config_lines["custom_viewport_height_ntsc"] == 240
+
+def test_given_yoko_game_and_rotate_then_return_a_timber_config(mocker, system_snes):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:224@60p,0,0",
+        MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"})
+
+    emulator = configureForCrt(system_snes, rotation=1)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                   "Game.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["video_scale_integer"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1008
+    assert config_lines["custom_viewport_height_ntsc"] == 224
+    assert config_lines["custom_viewport_x_ntsc"] == 456
+    #assert config_lines["video_rotation"] == 1
+
+def test_given_wswan_game_and_rotate_then_return_a_rotated_config(mocker, system_wswan):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "wswan,mednafen_wswan,all,15kHz,progressive,standard:ntsc:224@60,1344,144\n",
+        MODES_TXT: "standard:ntsc:224@60,1920 1 80 184 312 224 1 10 3 24 0 0 0 60 0 39087360 1,60\n"
+    })
+
+    emulator = configureForCrt(system_wswan, rotation=1, verticalgame=True)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "Game.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1920
+    assert config_lines["custom_viewport_height_ntsc"] == 224
+    assert config_lines["video_allow_rotate"] == '"true"'
+    #assert config_lines["video_rotation"] == 1
+
+
+def test_given_tate_mode_arcade31khz_game_then_configure_retroarch(mocker, system_fbneo):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "espgal,fbneo,arcade:224@59.170000,0,0,1\n",
+        MODES_TXT: "arcade:224@59.170000,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39137405 1,59.170000\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+    })
+
+    emulator = configureForCrt(system_fbneo, rotation=1, verticalgame=True, crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                   "espgal.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["video_smooth"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 640
+    assert config_lines["custom_viewport_height_ntsc"] == 448
+
+def test_given_yoko_game_on31khz_and_rotate_then_return_a_timber_config(mocker, system_snes):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "snes,snes9x,ntsc,15kHz,progressive,snes:224@60p,0,0",
+        MODES_TXT: "snes:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"})
+
+    emulator = configureForCrt(system_snes, rotation=1, crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                   "Game.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["video_scale_integer"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 360
+    assert config_lines["custom_viewport_height_ntsc"] == 480
+    assert config_lines["custom_viewport_x_ntsc"] == 140
+    #assert config_lines["video_rotation"] == 1

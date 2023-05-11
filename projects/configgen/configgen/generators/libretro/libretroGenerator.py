@@ -7,6 +7,7 @@ from configgen.Emulator import Emulator
 from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.settings.keyValueSettings import keyValueSettings
+from configgen.utils.Rotation import Rotation
 
 
 class LibretroGenerator(Generator):

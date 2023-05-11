@@ -26,10 +26,10 @@ def system_wswanc():
                     core='mednafen_wswan')
 
 
-def configureForTate(system: Emulator, rotation=0, vertical_game=True, rotatecontrols=False):
+def configureForTate(system: Emulator, rotation=0, vertical_game=True, rotatecontrols=False, crtscreentype:str="15kHz"):
     opts = keyValueSettings("")
-    extraArgs = ExtraArguments('1920x1080', "", "", "", "", "", "", "", "", "", "", "", rotation=rotation,
-                               rotatecontrols=rotatecontrols, verticalgame=vertical_game)
+    extraArgs = ExtraArguments('1920x1080', "", "", "", "", "", "", "", "", "", crtscreentype, "", rotation=rotation,
+                               rotatecontrols=rotatecontrols, verticalgame=vertical_game, )
     system.configure(opts, extraArgs)
 
 
@@ -127,7 +127,7 @@ def test_given_rotated_input_then_return_right_joystick_as_left(system_fbneo, co
 
 
 def test_given_tate_mode_wonderswan_game_then_configure_core_and_retroarch(system_wswanc, controller_configuration):
-    configureForTate(system_wswanc, rotation=1)
+    configureForTate(system_wswanc, rotation=1, vertical_game=True)
     config, core = LibretroGenerator().createTateModeConfiguration(system_wswanc)
 
     assert config["video_allow_rotate"] == '"true"'
@@ -154,4 +154,3 @@ def test_given_tate_mode_naomi_game_then_configure_retroarch(controller_configur
     assert config["video_allow_rotate"] == '"true"'
     assert config["video_rotation"] == 1
     assert config["input_player1_analog_dpad_mode"] == 3
-

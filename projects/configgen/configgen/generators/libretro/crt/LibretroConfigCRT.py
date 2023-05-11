@@ -22,7 +22,7 @@ class LibretroConfigCRT:
 
     arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015"]
 
-    def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, rotation: int) -> \
+    def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, game_is_tate: int, system_rotation: Rotation, multiplier: int, k31:bool=False) -> \
             typing.Dict[
                 str, typing.Any]:
         config: typing.Dict[str, typing.Any] = {}
@@ -35,10 +35,11 @@ class LibretroConfigCRT:
             config["crt_switch_timings_" + region] = '"' + mode.timings() + '"'
             config["video_refresh_rate_" + region] = '"{}"'.format(mode.emulator_refresh)
 
+        #config["video_rotation"] = system_rotation.value
         config["aspect_ratio_index"] = '23'
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
 
-        if rotation == 1:
+        if (system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and game_is_tate:
             config["video_smooth"] = '"true"'
             if viewport_height + viewport_width == 0:
                 # Change the ratio to 1920 core only if no viewport info is given
@@ -46,22 +47,48 @@ class LibretroConfigCRT:
             if mode.width / mode.height < 1.5:
                 # Change the ratio to core as we are 4/3 like mode (not super res)
                 config["aspect_ratio_index"] = '22'
-        else:
-            for region in extension:
-                config["custom_viewport_width" + region] = viewport_width if viewport_width > 0 else mode.width
-                config[
-                    "custom_viewport_height" + region] = viewport_height if viewport_height > 0 else mode.height
-                config["custom_viewport_x" + region] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y" + region] = (
-                                                               mode.height - viewport_height) // 2 if viewport_height > 0 else 0
-                # For arcade, the viewport info by region seems not selected sometimes on retroarch so we set default values
-                config["custom_viewport_x"] = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
-                config["custom_viewport_y"] = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
 
+        # default viewport calculation
+        final_width = viewport_width if viewport_width > 0 else mode.width
+        final_height = viewport_height if viewport_height > 0 else mode.height
+        final_x = (mode.width - viewport_width) // 2 if viewport_width > 0 else 0
+        final_y = (mode.height - viewport_height) // 2 if viewport_height > 0 else 0
+
+        # Tate viewport calculation
+        if (system_rotation.value == Rotation.left or system_rotation.value == Rotation.right) and not k31:
+            if game_is_tate:
+                for region in extension:
+                    final_width = mode.width
+                    final_height = mode.height
+                    final_x = (mode.width - final_width) // 2
+                    final_y = 0
+            else:
+                for region in extension:
+                    final_width = mode.height * (3/4) * multiplier
+                    final_height = mode.height
+                    final_x = (mode.width - final_width) // 2
+                    final_y = 0
+                config["video_smooth"] = '"true"'
+                config["video_scale_integer"] = '"false"'
+
+        # Setting values
+        for region in extension:
+            config["custom_viewport_width" + region] = final_width
+            config[
+                "custom_viewport_height" + region] = final_height
+            config["custom_viewport_x" + region] = final_x
+            config["custom_viewport_y" + region] = final_y
+            # For arcade, the viewport info by region seems not selected sometimes on retroarch so we set default values
+            config["custom_viewport_x"] = final_x
+            config["custom_viewport_y"] = final_y
         return config
 
-    def select_width(self, system: Emulator, mode_viewport_width: int, mode: Mode, rotation: int = 0):
-        if rotation:
+    def select_width(self, system: Emulator, mode_viewport_width: int, mode: Mode, gameIsTate: int = 0):
+        # Vertical game plus tate mode
+        if gameIsTate and (system.Rotation == 1 or system.Rotation == 3):
+            return 0
+        # Vertical game but no tate mode
+        if gameIsTate:
             if mode_viewport_width > 0:
                 return mode_viewport_width
             else:
@@ -217,7 +244,6 @@ class LibretroConfigCRT:
                                          "audio_driver": '"pulse"',
                                          "video_smooth": '"false"',
                                          "video_allow_rotate": '"true"',
-                                         "video_rotation": "0"
                                          }
         core: str = system.Core
         default: bool = True
@@ -249,8 +275,8 @@ class LibretroConfigCRT:
                 return self.__configureArcadeGameV2(system, config_core, game_name, config)
             else:
                 game_config: CRTArcadeMode = self.crt_config_parser.findArcadeGame(game_name, config_core)
-                rotation = game_config[4] if game_config is not None else 0
-
+                gameIsTate = (game_config[4] if game_config is not None else 0) or system.VerticalGame
+                # Arcade 31khz
                 if system.CRTScreenType == CRTScreenType.k31:
                     defaultMode: str = self.get_default_mode_name_for_config(CRTScreenType.k31, system.CRTVideoStandard,
                                                                              system.CRTResolutionType)
@@ -264,7 +290,10 @@ class LibretroConfigCRT:
                                                          system),
                                                      width,
                                                      height,
-                                                     rotation)
+                                                     gameIsTate,
+                                                     system.Rotation,
+                                                     6 if defaultMode == "1920@31KHz-double:all:240@120" else 2,
+                                                     k31=True)
                         )
                     recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
                     default = False
@@ -272,19 +301,21 @@ class LibretroConfigCRT:
                     # Arcade 15kHz
                     if system.CRTVideoStandard == CRTVideoStandard.AUTO or system.CRTVideoStandard == CRTVideoStandard.NTSC:
                         if game_config is not None:
-                            rotation = game_config[4]
+                            gameIsTate = game_config[4] or system.VerticalGame
                             mode_id = game_config[1]
                             mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), system)
                             recallog(
-                                "Setting CRT mode for arcade game {} running with {} : {} {}".format(game_name, core,
-                                                                                                     mode_id,
-                                                                                                     "vertical" if rotation == 1 else ""),
+                                "Setting CRT mode for {} arcade game {} running with {} : {}".format("tate" if gameIsTate else "yoko",
+                                                                                                        game_name,
+                                                                                                        core,
+                                                                                                        mode_id),
                                 log_type="CRT")
 
                             config.update(
                                 self.createConfigForMode("all", mode,
-                                                         self.select_width(system, game_config[2], mode, rotation),
-                                                         game_config[3], rotation))
+                                                         self.select_width(system, game_config[2], mode, gameIsTate),
+                                                         game_config[3], gameIsTate, system.Rotation,
+                                                         6))
                             default = False
                         else:
                             recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
@@ -306,8 +337,9 @@ class LibretroConfigCRT:
                             log_type="CRT")
                         config.update(
                             self.createConfigForMode(region, mode,
-                                                     self.select_width(system, system_config.viewport_width, mode),
-                                                     system_config.viewport_height, 0))
+                                                     self.select_width(system, system_config.viewport_width, mode, system.VerticalGame),
+                                                     system_config.viewport_height, system.VerticalGame, system.Rotation,
+                                                     6))
                         default = False
                     else:
                         recallog(
@@ -330,8 +362,9 @@ class LibretroConfigCRT:
                             log_type="CRT")
                         config.update(
                             self.createConfigForMode(region, mode,
-                                                     self.select_width(system, system_config.viewport_width, mode),
-                                                     system_config.viewport_height, 0))
+                                                     self.select_width(system, system_config.viewport_width, mode, system.VerticalGame),
+                                                     system_config.viewport_height, system.VerticalGame, system.Rotation,
+                                                     6))
                     default = False
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
@@ -345,7 +378,8 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system),
-                                                 width, height, 0))
+                                                 width, height, system.VerticalGame, system.Rotation,
+                                                     6))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
 
             else:
@@ -358,7 +392,8 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system),
-                                                 width, height, 0))
+                                                 width, height, system.VerticalGame, system.Rotation,
+                                                     6))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
         if system.Name in ["wswan", "wswanc"]:
             config["video_vsync"] = '"false"'

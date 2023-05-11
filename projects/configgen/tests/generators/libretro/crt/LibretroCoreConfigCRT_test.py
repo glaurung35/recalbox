@@ -260,3 +260,4 @@ def test_given_atarist_should_set_the_overscan_options():
     config = LibretroCoreConfigCRT().createConfigFor(atarist)
     assert config["hatari_video_crop_overscan"] == '"true"'
     assert config["hatari_video_hires"] == '"false"'
+

@@ -394,7 +394,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
                                              (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz") : "31kHz");
     result.append(" -crtsuperrez ").append(CrtConf::Instance().GetSystemCRTSuperrez());
     // CRTV2 will be forced by user, or for tate mode
-    if(CrtConf::Instance().GetSystemCRTUseV2() || rotation != RotationType::None)
+    if(CrtConf::Instance().GetSystemCRTUseV2())
       result.append(" -crtv2");
     for(int i = (int)CrtResolution::_rCount; --i > 0;)
     {

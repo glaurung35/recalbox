@@ -57,7 +57,7 @@ class ExtraArguments:
      rotation: int = 0
      rotatecontrols: bool = False
      verticalgame: bool = False
-     crtsuperrez: str = "original"
+     crtsuperrez: str = "x6"
      crtv2: bool = False
      sgb: bool = False
 
@@ -420,9 +420,6 @@ class Emulator:
     def CRTV2(self) -> bool: return self._crtv2
 
     @property
-    def Rotation(self) -> Rotation: return self._rotation
-
-    @property
     def RecalboxExperimental(self) -> bool:
         return self._recalboxexperimental == "1" or (self._recalboxexperimental == "" and self._updatestype != "stable")
 
@@ -433,7 +430,7 @@ class Emulator:
     def RotateControls(self) -> bool: return self._rotatecontrols
 
     @property
-    def VerticalGame(self) -> bool: return self._verticalgame
+    def VerticalGame(self) -> bool: return self._verticalgame or self.Name == "vectrex"
 
     @property
     def SuperGameBoy(self) -> bool: return self._sgb

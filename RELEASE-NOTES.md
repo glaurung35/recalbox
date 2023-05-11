@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Bumps
 
 - Bump FBneo to aad581
+- Bump libretro-parallel-n64
 
 ### Improvements
 

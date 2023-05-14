@@ -32,16 +32,19 @@ check_safeboot() {
 
 check_update() {
     # All update files?
-    mkdir -p /boot_root/update/
-    if [ -f /boot_root/update/boot.lst ]; then
-      while read -r file; do
-        if [ ! -f "/boot_root/update/$file" ]; then
-          return 1
-        fi
-      done < /boot_root/update/boot.lst
-      return 0
+    RC=1
+    test -d /boot_root/update || mkdir -p /boot_root/update/
+    if [ -f /boot_root/update/boot.md5 ]; then
+      echo "MD5 list file found, checking files" >/boot_root/update.log
+      cd /boot_root/update
+      if md5sum -c boot.md5 >>/boot_root/update.log 2>&1; then
+        echo "MD5 check succeeded" >>/boot_root/update.log
+        RC=0
+      else
+        echo "MD5 check failed" >>/boot_root/update.log
+      fi
     fi
-    return 1
+    return $RC
 }
 
 do_clean_overlay() {
@@ -63,10 +66,12 @@ do_clean_safeboot() {
 do_update() {
     # UPDATE!
     if [ -f /boot_root/update/boot.lst ]; then
+      echo "boot.lst found, proceed to update" >>/boot_root/update.log
       # filelist mode
       while read -r file; do
         [ ! -d `dirname "/boot_root/$file"` ] && mkdir -p `dirname "/boot_root/$file"`
-        mv "/boot_root/update/$file" "/boot_root/$file" || return 1
+        mv "/boot_root/update/$file" "/boot_root/$file" 2>>/boot_root/update.log|| return 1
+        echo "$file done" >>/boot_root/update.log
       done < /boot_root/update/boot.lst
       rm /boot_root/update/boot.lst
     fi
@@ -76,7 +81,9 @@ do_update() {
 
     # remove useless files
     rm /boot_root/boot.lst
+    rm /boot_root/boot.md5
     rm /boot_root/pre-upgrade.sh
+    echo "update done" >>/boot_root/update.log
     return 0 # mask errors
 }
 

@@ -84,8 +84,12 @@ generate_boot_file_list() {
 }
 
 generate_recalbox_tar_xz() {
-  local source_dir="$1"
-  local dest_file="$2"
+	local source_dir="$1"
+	local dest_file="$2"
+	# create boot.md5
+	pushd "$source_dir" >/dev/null
+	find . ! -name boot.md5 -type f -exec md5sum {} \; >boot.md5
+	popd >/dev/null
 	# recalbox.tar.xz (formerly boot.tar.xz)
 	tar -C "$source_dir" -cJf "$dest_file" . 
 }

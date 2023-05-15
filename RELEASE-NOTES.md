@@ -4,6 +4,17 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.1-patron-3
+
+- Add supergameboy mode selection when starting a gameboy game
+- Priority to hdmi is now by default on recalbox rgb dual
+- Tate mode enhancement for Recalbox RGB DUAL (15kHz and 31Khz )
+- Add support for Anbernic RG353m V2 (new screen)
+- Add arduiboy and wasm system
+- Add game downloaders for Vectrex, Wasm, Solarus, TIC80
+- Add PiBoy XRS support (experimental)
+
+
 ## Version 9.1-Pulstar
 
 ### Fixes

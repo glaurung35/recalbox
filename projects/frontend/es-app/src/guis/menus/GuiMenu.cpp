@@ -18,6 +18,7 @@
 #include "GuiMenuScraper.h"
 #include "GuiMenuTate.h"
 #include "GuiMenuDownloadContents.h"
+#include "GuiMenuDownloadGamePacks.h"
 #include <guis/GuiScraperRun.h>
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -47,7 +48,8 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
 
   // Games menu
-  AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.games, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
+  if (!bartop)
+    AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.games, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
 
   // Controllers menu
   if (!bartop)
@@ -107,7 +109,14 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
     case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
-    case Components::ContentDoanwloader: mWindow.pushGui(new GuiMenuDownloadContents(mWindow, mSystemManager)); break;
+    case Components::ContentDoanwloader:
+    {
+      #if defined(BETA) || defined(DEBUG)
+        mWindow.pushGui(new GuiMenuDownloadContents(mWindow, mSystemManager)); break;
+      #else
+        mWindow.pushGui(new GuiMenuDownloadGamePacks(mWindow, mSystemManager)); break;
+      #endif
+    }
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
     case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow, mSystemManager)); break;

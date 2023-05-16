@@ -168,7 +168,9 @@ class LibretroGenerator(Generator):
             "wswan_rotate_display": '"manual"',
             "wswan_rotate_keymap": '"enabled"'
         }
-        if system.Rotation:
+
+        if system.Rotation.value > 0:
+            print("[Configgen.libretroGenerator] Rotation enabled: {}".format(system.Rotation.value))
             config["video_rotation"] = system.Rotation.value
             if system.VerticalGame:
                 config["aspect_ratio_index"] = 0

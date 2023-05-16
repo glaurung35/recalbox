@@ -143,11 +143,10 @@ String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& e
   else
     command.Replace("%CORE%", core);
 
-  if((Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ||
-      Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll) &&
-      CrtConf::Instance().GetSystemCRTJamma6Btns() &&
-      ! (emulator.Emulator() == "libretro" && emulator.Core() == "fbneo"))
-      command.append(" -jamma6btn");
+  if(data.Jamma().ShouldConfigureJammaConfiggen()){
+    command.append(" -jammalayout ").append(data.Jamma().JammaControlType(emulator));
+  }
+
   return command;
 }
 

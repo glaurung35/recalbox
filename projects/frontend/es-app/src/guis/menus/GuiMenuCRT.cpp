@@ -79,13 +79,24 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
 
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
-  mOriginalJamma6Btns = CrtConf::Instance().GetSystemCRTJamma6Btns();
-  if(isRGBJamma)
+  if(isRGBJamma || true)
+  {
+
     AddList<std::string>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
                          std::vector<GuiMenuBase::ListEntry<std::string>>(
-                             {{ "1-3 buttons", "3", !mOriginalJamma6Btns },
-                              { "4-6 buttons", "6", mOriginalJamma6Btns }}),
+                             {{ "1-3 buttons", "3", !CrtConf::Instance().GetSystemCRTJamma6Btns() },
+                              { "4-6 buttons", "6", CrtConf::Instance().GetSystemCRTJamma6Btns() }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+    bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
+    AddList<std::string>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
+                         std::vector<GuiMenuBase::ListEntry<std::string>>(
+                             {{ "Line", "line", neoline },
+                              { "Square", "square", !neoline }}),
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+    AddSwitch(_("HOTKEY PATTERNS"), CrtConf::Instance().GetSystemCRTJammaHotkeyPatterns(),
+              (int)Components::JammaHotkeyPatterns, this);
+
+  }
 
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
@@ -229,10 +240,14 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   }
   else if ((Components)id == Components::Jamma6btns)
   {
-    if (value == "3" && mOriginalJamma6Btns)
+    if (value == "3")
       CrtConf::Instance().SetSystemCRTJamma6Btns(false).Save();
-    else if (value == "6" && !mOriginalJamma6Btns)
+    else if (value == "6")
       CrtConf::Instance().SetSystemCRTJamma6Btns(true).Save();
+  }
+  else if ((Components)id == Components::JammaNeogeoLayout)
+  {
+    CrtConf::Instance().SetSystemCRTJammaNeogeoLayout(value).Save();
   }
 }
 
@@ -252,6 +267,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTUseV2(status).Save();
   if ((Components)id == Components::Extended15kHzRange)
     CrtConf::Instance().SetSystemCRTExtended15KhzRange(status).Save();
+  if ((Components)id == Components::JammaHotkeyPatterns)
+    CrtConf::Instance().SetSystemCRTJammaHotkeyPatterns(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

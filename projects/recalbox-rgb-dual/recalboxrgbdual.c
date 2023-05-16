@@ -52,7 +52,19 @@ struct dpidac {
 static struct gpiodesc {
   struct gpio_desc *gpio;
   int gpio_state;
-} dip50Hz, dip31kHz;
+};
+
+static enum HatReference {
+  RecalboxRGBDual = 0,
+  RecalboxRGBJAMMA,
+  OTHER,
+};
+
+static struct sconfig {
+  struct gpiodesc dip50Hz;
+  struct gpiodesc dip31kHz;
+  enum HatReference current_hat;
+} config;
 
 enum ModeIds {
   p320x240 = 0,
@@ -79,7 +91,12 @@ static const char* ModeNames[] = {
     "p640x480",
     "ModeCount",
 };
-static struct rrgbdualconfiguration modeconfigs[ModeCount] = {
+
+static struct mode_offsets {
+  int voffset;
+  int hoffset;
+};
+static struct mode_offsets modeconfigs[ModeCount] = {
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
@@ -104,7 +121,7 @@ static struct videomode modes[ModeCount] = {
         .vfront_porch = 4,
         .vsync_len = 5,
         .vback_porch = 14,
-        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW
     },
     // 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
     {
@@ -420,6 +437,10 @@ static void dpidac_apply_module_mode(struct drm_connector *connector, int modeId
   if (preferred)
     mode->type |= DRM_MODE_TYPE_PREFERRED;
 
+  if(config.current_hat == RecalboxRGBJAMMA){
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: setting DRM_MODE_FLAG_NCSYNC\n");
+    mode->flags |= (DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC);
+  }
   drm_mode_set_name(mode);
   drm_mode_probed_add(connector, mode);
 }
@@ -432,14 +453,14 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
     return i;
   } else {
-    if (dip31kHz.gpio_state == 0) {
+    if (config.dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
       dpidac_apply_module_mode(connector, p640x480, true);
       dpidac_apply_module_mode(connector, p1920x240at120, false);
 
       return 2;
     } else {
-      if (dip50Hz.gpio_state == 0) {
+      if (config.dip50Hz.gpio_state == 0) {
         // 50hz
         printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n");
         dpidac_apply_module_mode(connector, p384x288, true);
@@ -531,6 +552,7 @@ static const struct drm_bridge_funcs dpidac_bridge_funcs = {
 static int dpidac_probe(struct platform_device *pdev) {
   struct dpidac *vga;
   u32 rgbdual = 0;
+  u32 rgbjamma = 0;
 
   vga = devm_kzalloc(&pdev->dev, sizeof(*vga), GFP_KERNEL);
   if (!vga)
@@ -541,33 +563,39 @@ static int dpidac_probe(struct platform_device *pdev) {
   vga->bridge.of_node = pdev->dev.of_node;
 
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-dual", &rgbdual);
-
+  of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-jamma", &rgbjamma);
   if (rgbdual == 1) {
+    config.current_hat = RecalboxRGBDual;
     printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
 
     /* Switch 31kHz */
-    dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
-    if (IS_ERR(dip31kHz.gpio)) {
+    config.dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
+    if (IS_ERR(config.dip31kHz.gpio)) {
       pr_err("Error when assigning GPIO.\n");
     }
-    dip31kHz.gpio_state = gpiod_get_value(dip31kHz.gpio);
-    gpiod_export(dip31kHz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-31khz", dip31kHz.gpio);
+    config.dip31kHz.gpio_state = gpiod_get_value(config.dip31kHz.gpio);
+    gpiod_export(config.dip31kHz.gpio, false);
+    gpiod_export_link(&pdev->dev, "dipswitch-31khz", config.dip31kHz.gpio);
 
     /* Switch 50 HZ */
-    dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
-    if (IS_ERR(dip50Hz.gpio)) {
+    config.dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
+    if (IS_ERR(config.dip50Hz.gpio)) {
       pr_err("Error when assigning GPIO.\n");
     }
-    dip50Hz.gpio_state = gpiod_get_value(dip50Hz.gpio);
-    gpiod_export(dip50Hz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-50hz", dip50Hz.gpio);
+    config.dip50Hz.gpio_state = gpiod_get_value(config.dip50Hz.gpio);
+    gpiod_export(config.dip50Hz.gpio, false);
+    gpiod_export_link(&pdev->dev, "dipswitch-50hz", config.dip50Hz.gpio);
 
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", dip50Hz.gpio_state, dip31kHz.gpio_state);
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", config.dip50Hz.gpio_state, config.dip31kHz.gpio_state);
 
+  } else if(rgbjamma == 1) {
+    config.current_hat = RecalboxRGBJAMMA;
+    config.dip50Hz.gpio_state = 1;
+    config.dip31kHz.gpio_state = 1;
   } else {
-    dip50Hz.gpio_state = 1;
-    dip31kHz.gpio_state = 1;
+    config.current_hat = OTHER;
+    config.dip50Hz.gpio_state = 1;
+    config.dip31kHz.gpio_state = 1;
   }
 
   drm_bridge_add(&vga->bridge);

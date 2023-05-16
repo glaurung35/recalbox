@@ -420,20 +420,21 @@ class Controller:
             if newController:
                 playerControllers[i] = newController
                 # Recalbox JAMMA specific case
-                if newController.DeviceName.startswith("JammaController") and kwargs.get("jamma6btn", False):
+                if newController.DeviceName.startswith("JammaController") and kwargs.get("jammalayout", "") == "6btns":
                     print("[Configgen.Controller] Switching to jamma 6 btn layout for controller {}".format(newController.DeviceName))
-                    a = newController.A
+                    # We transform
+                    # B A Y   to   Y X L
+                    # X L R        B A R
                     b = newController.B
-                    x = newController.X
+                    a = newController.A
                     y = newController.Y
+                    x = newController.X
                     l = newController.L1
-                    r = newController.R1
-                    newController.__inputs[newController.A.Item] = r
+                    newController.__inputs[newController.A.Item] = l
                     newController.__inputs[newController.B.Item] = x
                     newController.__inputs[newController.X.Item] = a
                     newController.__inputs[newController.Y.Item] = b
                     newController.__inputs[newController.L1.Item] = y
-                    newController.__inputs[newController.R1.Item] = l
         Controller.__StoreNaturalIndexes(playerControllers)
 
         return playerControllers

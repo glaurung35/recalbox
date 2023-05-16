@@ -655,7 +655,7 @@ static struct config {
   struct task_struct *config_thread;
   struct task_struct *debounce_thread;
   struct mutex process_mutex;
-  bool disable_hk_on_start;
+  bool hotkey_patterns;
   bool disable_credit_on_hk_btn1;
 } jamma_config;
 
@@ -901,7 +901,7 @@ static int pca953x_probe(struct i2c_client *client,
   }
 
   dev_info(&client->dev, "created jamma pca at %d\n", client->addr);
-  if (client->addr == 0x21 || client->addr == 0x20) {
+  if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x24) {
     jamma_config.switch36_gpio_ref = gpiod_get((client->dev.parent), "switch36", GPIOD_IN);
     if (IS_ERR(jamma_config.switch36_gpio_ref)) {
       dev_err(&client->dev, "cannot get switch36 gpio reference, default to 6 buttons\n");
@@ -913,7 +913,7 @@ static int pca953x_probe(struct i2c_client *client,
               jamma_config.switch36_gpio_state ? "6 buttons" : "3 buttons");
     }
     jamma_config.gpio_chip_0 = &chip->gpio_chip;
-  } else if (client->addr == 0x22) {
+  } else if (client->addr == 0x22 || client->addr == 0x25) {
     jamma_config.gpio_chip_1 = &chip->gpio_chip;
   }
 
@@ -970,14 +970,14 @@ static struct i2c_driver pca953x_driver = {
  *
  * Chip 0 : address = 0x21
  *                                    __________
- *   P1-B2  (P1-A)       IO0-0  <--- |0        8| ---> IO1-0  P1K-B5 (P1-R)
- *   P2-B2  (P2-A)       IO0-1  <--- |          | ---> IO1-1  P2K-B5 (P2-R)
+ *   P1-B2  (P1-A)       IO0-0  <--- |0        8| ---> IO1-0  P1K-B5 (P1-L)
+ *   P2-B2  (P2-A)       IO0-1  <--- |          | ---> IO1-1  P2K-B5 (P2-L)
  *   P2-B3  (P2-Y)       IO0-2  <--- |          | ---> IO1-2  P1K-B4 (P1-X)
  *   P1-B3  (P1-Y)       IO0-3  <--- |          | ---> IO1-3  P2K-B4 (P2-X)
- *   P2-B4  (P2-X)       IO0-4  <--- |          | ---> IO1-4  P1-B6  (P1-L)
- *   P1-B4  (P1-X)       IO0-5  <--- |          | ---> IO1-5  P2-B6  (P2-L)
- *   P1K-B6 (P1-L)       IO0-6  <--- |          | ---> IO1-6  P1-B5  (P1-R)
- *   P2K-B6 (P2-L)       IO0-7  <--- |7       15| ---> IO1-7  P2-B5  (P2-R)
+ *   P2-B4  (P2-X)       IO0-4  <--- |          | ---> IO1-4  P1-B6  (P1-R)
+ *   P1-B4  (P1-X)       IO0-5  <--- |          | ---> IO1-5  P2-B6  (P2-R)
+ *   P1K-B6 (P1-R)       IO0-6  <--- |          | ---> IO1-6  P1-B5  (P1-L)
+ *   P2K-B6 (P2-R)       IO0-7  <--- |7       15| ---> IO1-7  P2-B5  (P2-L)
  *                                    ‾‾‾‾‾‾‾‾‾‾
  * Chip 1 : address = 0x22
  *                                    __________
@@ -1000,12 +1000,12 @@ struct input_dev *player_devs[2];
 #define BTN_PER_PLAYER 11
 // Keep in mind the vanilla mapping for Recalbox RGB Jamma is (SNES notation):
 // B A Y
-// X R L
-// We use this one to get B and A on first line, whatever the number of buttons
+// X L R
+// We use this mapping to get B and A on first line, whatever the number of buttons
 // Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
 //
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TR, BTN_TL, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
+    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
 };
 
 
@@ -1081,7 +1081,7 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
   int j;
   int gpio;
 
-  if (!jamma_config.disable_hk_on_start) {
+  if (jamma_config.hotkey_patterns) {
     // Special case for HOTKEY:
     // Simple press + release of START -> START event
     // Simple press of START + BTN1 -> send SELECT (COIN)
@@ -1382,14 +1382,14 @@ static int load_config(void) {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
-          if (strcmp(optionname, "jamma.disable_hk_on_start") == 0) {
-            if (jamma_config.disable_hk_on_start != optionvalue) {
+          if (strcmp(optionname, "options.jamma.hk_patterns") == 0) {
+            if (jamma_config.hotkey_patterns != optionvalue) {
               printk(KERN_INFO
               "recalboxrgbjamma: switch to %s mode\n",
-                  optionvalue ? "disable_hk_on_start" : "enable_hk_on_start");
-              jamma_config.disable_hk_on_start = optionvalue;
+                  optionvalue ? "hotkey_patterns" : "enable_hk_on_start");
+              jamma_config.hotkey_patterns = optionvalue;
             }
-          } else if (strcmp(optionname, "jamma.disable_credit_on_hk_btn1") == 0) {
+          } else if (strcmp(optionname, "options.jamma.disable_credit_on_hk_btn1") == 0) {
             if (jamma_config.disable_credit_on_hk_btn1 != optionvalue) {
               printk(KERN_INFO
               "recalboxrgbjamma: switch to %s mode\n",
@@ -1434,7 +1434,7 @@ pca953x_init(void) {
   jamma_config.switch36_gpio_state = 1;
   jamma_config.gpio_chip_0 = NULL;
   jamma_config.gpio_chip_1 = NULL;
-  jamma_config.disable_hk_on_start = false;
+  jamma_config.hotkey_patterns = true;
   jamma_config.disable_credit_on_hk_btn1 = false;
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");

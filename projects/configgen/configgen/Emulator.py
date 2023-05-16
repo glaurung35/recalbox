@@ -2,6 +2,7 @@ from dataclasses import dataclass
 from enum import Enum
 from typing import List, Union
 
+from configgen.controllers.JammaLayout import JammaLayout
 from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
     CRTResolutionType, CRTScreenType, CRTSuperRez
 from configgen.settings.keyValueSettings import keyValueSettings
@@ -59,6 +60,7 @@ class ExtraArguments:
      verticalgame: bool = False
      crtsuperrez: str = "original"
      crtv2: bool = False
+     jammalayout: str = ""
 
 
 class Emulator:
@@ -123,6 +125,7 @@ class Emulator:
         self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
         self._crtv2: bool = False
         self._crt_config = {}
+        self._jammalayout = ""
 
         # Computed vars
         self._netplay: bool = False
@@ -207,7 +210,7 @@ class Emulator:
                 self._crt_config[resolution]["viewportwidth"] = getattr(arguments, f'crt_viewportwidth_{resolution}')
 
         self._crtscanlines = arguments.crtscanlines
-
+        self._jammalayout = arguments.jammalayout
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
 
@@ -413,9 +416,6 @@ class Emulator:
     def CRTV2(self) -> bool: return self._crtv2
 
     @property
-    def Rotation(self) -> Rotation: return self._rotation
-
-    @property
     def RecalboxExperimental(self) -> bool:
         return self._recalboxexperimental == "1" or (self._recalboxexperimental == "" and self._updatestype != "stable")
 
@@ -427,3 +427,6 @@ class Emulator:
 
     @property
     def VerticalGame(self) -> bool: return self._verticalgame
+
+    @property
+    def JammaLayout(self) -> JammaLayout: return JammaLayout.fromString(self._jammalayout)

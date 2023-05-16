@@ -50,6 +50,9 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJamma6Btns, bool, Bool, sSystemCRTJamma6Btns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, std::string, String, sSystemCRTJammaNeogeoLayout, "line")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHotkeyPatterns, bool, Bool, sSystemCRTJammaHotkeyPatterns, true)
+
 
     DefineCrtModeOffsetDeclaration(VerticalOffset, int, Int, sVerticalOffset)
     DefineCrtModeOffsetDeclaration(HorizontalOffset, int, Int, sHorizontalOffset)
@@ -71,7 +74,10 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTExtended15KhzRange     = "options.15khz.extendedrange";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
-    static constexpr const char* sSystemCRTJamma6Btns              = "options.jamma.6btns";
+    static constexpr const char* sSystemCRTJamma6Btns             = "options.jamma.6btns";
+    static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.neogeolayout";
+    static constexpr const char* sSystemCRTJammaHotkeyPatterns    = "options.jamma.hk_patterns";
+
 
     static constexpr const char* sViewportPrefix                  = "viewport";
     static constexpr const char* sModeOffsetPrefix                = "mode.offset";

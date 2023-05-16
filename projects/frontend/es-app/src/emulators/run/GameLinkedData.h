@@ -9,6 +9,7 @@
 #include <emulators/run/NetPlayData.h>
 #include <emulators/run/CrtData.h>
 #include <emulators/run/PatchData.h>
+#include "JammaData.h"
 
 class GameLinkedData
 {
@@ -60,6 +61,9 @@ class GameLinkedData
     //! Get read only Patch data
     const PatchData& Patch() const { return mPatchData; }
 
+    //! Get read only Jamma data
+    const JammaData& Jamma() const { return mJammaData; }
+
   private:
     //! Netplay data
     NetPlayData mNetPlayData;
@@ -68,4 +72,6 @@ class GameLinkedData
     CrtData mCrtData;
 
     PatchData mPatchData;
+
+  JammaData mJammaData;
 };

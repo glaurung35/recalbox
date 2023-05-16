@@ -138,7 +138,7 @@ class LibretroControllers:
 
 
     # Fill controllers configuration
-    def fillControllersConfiguration(self, rotateControls: bool = False) -> keyValueSettings:
+    def fillControllersConfiguration(self, system:Emulator) -> keyValueSettings:
         inputDriver: str = self.recalboxOptions.getString("global.inputdriver", self.recalboxOptions.getString(self.system.Name + ".inputdriver", 'auto'))
 
         # Cleanup all
@@ -146,7 +146,7 @@ class LibretroControllers:
 
         # Build configurations
         for player in self.controllers:
-            self.buildController(self.controllers[player], player, rotateControls)
+            self.buildController(self.controllers[player], player, system)
 
         # Set Hotkey
         self.setHotKey()
@@ -218,20 +218,20 @@ class LibretroControllers:
 
 
     # Write a configuration for a specified controller
-    def buildController(self, controller: Controller, playerIndex: int, rotateControls: bool = False):
+    def buildController(self, controller: Controller, playerIndex: int, system:Emulator):
         settings = self.settings
 
         is_jamma = controller.DeviceName.startswith("JammaController")
         # Get specials string or default
         specials = self.system.SpecialKeys
         if is_jamma:
-            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1029")
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), system.JammaLayout.toRetroarchDeviceType())
         else:
             settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1")
 
         # config['input_device'] = '"%s"' % controller.RealName
         for btnkey in self.retroarchbtns:
-            btnvalue = self.retroarchbtns[btnkey] if not rotateControls else self.retroarchbtnsTate[btnkey]
+            btnvalue = self.retroarchbtns[btnkey] if not system.RotateControls else self.retroarchbtnsTate[btnkey]
             if controller.HasInput(btnkey):
                 inp: InputItem = controller.Input(btnkey)
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, btnvalue, self.typetoname[inp.Type]),
@@ -243,11 +243,11 @@ class LibretroControllers:
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, dirvalue, self.typetoname[inp.Type]),
                                    self.getConfigValue(inp))
         for jskey in self.retroarchjoysticks:
-            jsvalue = self.retroarchjoysticks[jskey] if not rotateControls else self.retroarchjoysticksTate[jskey]
+            jsvalue = self.retroarchjoysticks[jskey] if not system.RotateControls else self.retroarchjoysticksTate[jskey]
             if controller.HasInput(jskey):
                 inp = controller.Input(jskey)
-                settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), self.getJoystickSignRotated(rotateControls, '-', jskey) + str(inp.Id))
-                settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  self.getJoystickSignRotated(rotateControls, '+', jskey) + str(inp.Id))
+                settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), self.getJoystickSignRotated(system.RotateControls, '-', jskey) + str(inp.Id))
+                settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  self.getJoystickSignRotated(system.RotateControls, '+', jskey) + str(inp.Id))
 
         if controller.PlayerIndex == 1:
             specialMap: Dict[int, str] = {}

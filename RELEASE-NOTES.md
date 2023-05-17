@@ -31,6 +31,15 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 
+- Add TATE mode support for HDMI and CRT
+- Add support for Anbernic RG353m
+- Add CRT Curved shaders support
+- Add wizard to disable smooth when enabling shaders
+- Add support for Super Game Boy games
+- Add new core for Philips CDI (libretro samecdi, for PC only)
+- Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
+- Add 240p test suite support for all platforms
+- Add core libretro fake08 for Pico8
 
 ### Bumps
 - Bump libretro-mame to 0.256

@@ -15,9 +15,15 @@ class CrtRGBJamma : public ICrtInterface
     //! Constructor
     explicit CrtRGBJamma(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
 
-    //! An RGB Jamma is attached
-    bool IsCrtAdapterAttached() const override { return Files::LoadFile(Path(vgaCardConnectedPi4)) == "connected\n"
-                                                        || Files::LoadFile(Path(vgaCardConnectedPi3)) == "connected\n" ; }
+    //! A RGB Jamma is attached
+    bool IsCrtAdapterAttached() const override {
+      #ifdef DEBUG
+      return true;
+      #else
+      return Files::LoadFile(Path(vgaCardConnectedPi4)) == "connected\n"
+                                                        || Files::LoadFile(Path(vgaCardConnectedPi3)) == "connected\n" ;
+      #endif
+    }
 
     //! This adapter is an RGB Dual
     CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBJamma; }

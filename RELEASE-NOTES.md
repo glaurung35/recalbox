@@ -14,6 +14,18 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix gpu overclock when overclocking on RPi4
 
+### News
+
+
+### Bumps
+- Bump libretro-emuscv
+
+### Improvements
+
+
+### Fixes
+
+
 
 ## Version 9.1-Pulstar
 

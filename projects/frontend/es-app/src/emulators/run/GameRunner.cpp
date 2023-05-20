@@ -143,7 +143,7 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
       command.append(" -ups ").append(patchPAthEscaped);
     }
   }
-  if(data.SuperGameBoy().Enabled())
+  if(data.SuperGameBoy().ShouldEnable(game.System()))
   {
     command.append(" -sgb ");
     Strings::ReplaceAllIn(command, "%CORE%", data.SuperGameBoy().Core(game, core));

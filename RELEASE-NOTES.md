@@ -61,6 +61,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-atari800
 - Bump libretro-a5200
 - Bump libretro-mame to 0.258
+- Bump libretro-emuscv
 
 ### Improvements
 

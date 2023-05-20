@@ -901,7 +901,7 @@ static int pca953x_probe(struct i2c_client *client,
   }
 
   dev_info(&client->dev, "created jamma pca at %d\n", client->addr);
-  if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x24) {
+  if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x25) {
     jamma_config.switch36_gpio_ref = gpiod_get((client->dev.parent), "switch36", GPIOD_IN);
     if (IS_ERR(jamma_config.switch36_gpio_ref)) {
       dev_err(&client->dev, "cannot get switch36 gpio reference, default to 6 buttons\n");
@@ -913,7 +913,7 @@ static int pca953x_probe(struct i2c_client *client,
               jamma_config.switch36_gpio_state ? "6 buttons" : "3 buttons");
     }
     jamma_config.gpio_chip_0 = &chip->gpio_chip;
-  } else if (client->addr == 0x22 || client->addr == 0x25) {
+  } else if (client->addr == 0x22 || client->addr == 0x24) {
     jamma_config.gpio_chip_1 = &chip->gpio_chip;
   }
 
@@ -968,27 +968,27 @@ static struct i2c_driver pca953x_driver = {
 /*
  * A,B,X,Y are in SNES notation
  *
- * Chip 0 : address = 0x21
+ * Chip 0 : address = 0x25
  *                                    __________
- *   P1-B2  (P1-A)       IO0-0  <--- |0        8| ---> IO1-0  P1K-B5 (P1-L)
- *   P2-B2  (P2-A)       IO0-1  <--- |          | ---> IO1-1  P2K-B5 (P2-L)
- *   P2-B3  (P2-Y)       IO0-2  <--- |          | ---> IO1-2  P1K-B4 (P1-X)
- *   P1-B3  (P1-Y)       IO0-3  <--- |          | ---> IO1-3  P2K-B4 (P2-X)
- *   P2-B4  (P2-X)       IO0-4  <--- |          | ---> IO1-4  P1-B6  (P1-R)
- *   P1-B4  (P1-X)       IO0-5  <--- |          | ---> IO1-5  P2-B6  (P2-R)
- *   P1K-B6 (P1-R)       IO0-6  <--- |          | ---> IO1-6  P1-B5  (P1-L)
- *   P2K-B6 (P2-R)       IO0-7  <--- |7       15| ---> IO1-7  P2-B5  (P2-L)
+ *   P1-B5  (P1-L)       IO0-0  <--- |0        8| ---> IO1-0  P1-B6  (P1-R)
+ *   P2-B5  (P2-L)       IO0-1  <--- |1        9| ---> IO1-1  P2-B6  (P2-R)
+ *   P1-B4  (P1-X)       IO0-2  <--- |2       10| ---> IO1-2  P1K-B4 (P1-X)
+ *   P2-B4  (P2-X)       IO0-3  <--- |3       11| ---> IO1-3  P1K-B5 (P1-L)
+ *   P1-B2  (P1-A)       IO0-4  <--- |4       12| ---> IO1-4  P1K-B6 (P1-R)
+ *   P2-B2  (P2-A)       IO0-5  <--- |5       13| ---> IO1-5  P2K-B4 (P2-X)
+ *   P1-B3  (P1-Y)       IO0-6  <--- |6       14| ---> IO1-6  P2K-B5 (P2-L)
+ *   P2-B3  (P2-Y)       IO0-7  <--- |7       15| ---> IO1-7  P2K-B5 (P2-R)
  *                                    ‾‾‾‾‾‾‾‾‾‾
- * Chip 1 : address = 0x22
+ * Chip 1 : address = 0x24
  *                                    __________
- *   P1-DOWN  (P1-DOWN)  IO0-0  <--- |16      24| ---> IO1-0  P2-COIN (P2-COIN)
- *   P2-DOWN  (P2-DOWN)  IO0-1  <--- |          | ---> IO1-1  P1-COIN (P1-COIN)
- *   P1-UP    (P1-UP)    IO0-2  <--- |          | ---> IO1-2  P2-LEFT (P2-LEFT)
- *   P2-UP    (P2-UP)    IO0-3  <--- |          | ---> IO1-3  P1-LEFT (P1-LEFT)
- *   P1-START (P1-START) IO0-4  <--- |          | ---> IO1-4  P2-RIGHT (P2-RIGHT)
- *   P2-START (P2-START) IO0-5  <--- |          | ---> IO1-5  P1-RIGHT (P1-RIGHT)
- *   SERVICE             IO0-6  <--- |          | ---> IO1-6  P2-B1 (P2-B)
- *   TEST                IO0-7  <--- |23      31| ---> IO1-7  P1-B1 (P1-B)
+ *   SERVICE             IO0-0  <--- |16      24| ---> IO1-0  P2-B1 (P2-B)
+ *   TEST                IO0-1  <--- |17      25| ---> IO1-1  P1-B1 (P1-B)
+ *   P1-UP               IO0-2  <--- |18      26| ---> IO1-2  P2-RIGHT
+ *   P2-UP               IO0-3  <--- |19      27| ---> IO1-3  P1-RIGHT
+ *   P1-DOWN             IO0-4  <--- |20      28| ---> IO1-4  P2-START
+ *   P2-DOWN             IO0-5  <--- |21      29| ---> IO1-5  P1-START
+ *   P1-LEFT             IO0-6  <--- |22      30| ---> IO1-6  P1-COIN
+ *   P2-LEFT             IO0-7  <--- |23      31| ---> IO1-7  P2-COIN
  *                                    ‾‾‾‾‾‾‾‾‾‾
  *
  */
@@ -1005,6 +1005,7 @@ struct input_dev *player_devs[2];
 // Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
 //
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
+     //  B1        B2         B3         B4         B5          B6          START          COIN            SERVICE         TEST             HOTKEY
     BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
 };
 
@@ -1013,48 +1014,48 @@ static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
 // information for the button at the same index in buttons_codes array
 // Start is a special case
 static const int player1_6btn_bits[BTN_PER_PLAYER] = {
-    31, 0, 3, 5, 14, 12, -1, 25, 22, 23, -1,
+    25, 4, 6, 2, 0, 8, -1, 30, 16, 17, -1,
 };
 // 3btn mode bits
 static const int player1_3btn_bits[BTN_PER_PLAYER] = {
-    31, 0, 3, -1, -1, -1, -1, 25, 22, 23, -1,
+    25, 4, 6, -1, -1, -1, -1, 30, 16, 17, -1,
 };
 // Kick harness buttons mapping
 // Only use values where >= 0
 static const int player1_kick_btn_bits[BTN_PER_PLAYER] = {
-    -1, -1, -1, 10, 8, 6, -1, -1, -1, -1, -1,
+    -1, -1, -1, 10,11,12, -1, -1, -1, -1, -1,
 };
 
 #define P1_UP 18
-#define P1_DOWN 16
-#define P1_LEFT 27
-#define P1_RIGHT 29
-#define P1_START 20
+#define P1_DOWN 20
+#define P1_LEFT 22
+#define P1_RIGHT 27
+#define P1_START 29
 #define P1_BTN1 player1_3btn_bits[0]
 
 static const int player2_6btn_bits[BTN_PER_PLAYER] = {
-    30, 1, 2, 4, 15, 13, 21, 24, -1, -1, -1,
+    24, 5, 7, 3, 1, 9, 28, 31, -1, -1, -1,
 };
 static const int player2_3btn_bits[BTN_PER_PLAYER] = {
-    30, 1, 2, -1, -1, -1, 21, 24, -1, -1, -1,
+    24, 5, 7, -1, -1, -1, 28, 31, -1, -1, -1,
 };
 
 static const int player2_kick_btn_bits[BTN_PER_PLAYER] = {
-    -1, -1, -1, 11, 9, 7, -1, -1, -1, -1, -1,
+    -1, -1, -1, 13, 14, 15, -1, -1, -1, -1, -1,
 };
 
 #define P2_UP 19
-#define P2_DOWN 17
-#define P2_LEFT 26
-#define P2_RIGHT 28
+#define P2_DOWN 21
+#define P2_LEFT 23
+#define P2_RIGHT 26
 
 // Logic is not the same for each buttons (coins and service/test are reversed)
 // TODO: add service and test for next version
 static const unsigned short buttonsReleasedValues[32] = {
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    0, 0, 1, 1, 1, 1, 1, 1
+    0, 0, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 0, 0
 };
 
 #define PRESSED(data, btn) (((data >> (btn)) & 1)^buttonsReleasedValues[btn])

@@ -17,7 +17,10 @@ class SplashView : public Gui, public IProgressInterface
     int mSystemLoaded;
 
     //! RGB Dual identified?
-    bool mIsRGBDual;
+    bool mIsRecalboxRGBHat;
+
+    //! RGB JAMMA identified?
+    bool mIsRGBJamma;
 
   public:
     /*!

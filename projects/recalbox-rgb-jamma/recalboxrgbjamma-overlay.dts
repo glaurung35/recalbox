@@ -111,6 +111,7 @@
 		__overlay__ {
 			brcm,pins = < 18 19 >;
 			brcm,function = < 2 >; /* alt5 alt5 */
+			swap_lr;
 		};
 	};
 
@@ -118,6 +119,7 @@
 		target = <&audio>;
 		__overlay__  {
 			brcm,disable-headphones = <0>;
+
 		};
 	};
 

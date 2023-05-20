@@ -119,7 +119,8 @@ def controller_configuration():
 
 def test_given_rotated_input_then_return_right_joystick_as_left(system_fbneo, controller_configuration):
     lrControllers = LibretroControllers(system_fbneo, keyValueSettings(""), keyValueSettings(""), controller_configuration, False)
-    config = lrControllers.fillControllersConfiguration(True)
+    configureForTate(system_fbneo, rotation=1, rotatecontrols=True)
+    config = lrControllers.fillControllersConfiguration(system_fbneo)
     assert config.getString('input_player1_l_x_minus_axis', "") == "+3"
     assert config.getString('input_player1_l_x_plus_axis', "") == "-3"
     assert config.getString('input_player1_l_y_minus_axis', "") == "-2"

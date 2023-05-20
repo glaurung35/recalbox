@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit version of 2022-03-28
-LIBRETRO_EMUSCV_VERSION = 67c8f616a4e2bbe21d0af0d219ee37dbb62c1a15
+#Commit version of 2022-10-18
+LIBRETRO_EMUSCV_VERSION = dfce10df090ce3f5eb23bdbee289702ec1478246
 LIBRETRO_EMUSCV_SITE = $(call gitlab,recalbox,packages/libretro/libretro-emuscv,$(LIBRETRO_EMUSCV_VERSION))
 LIBRETRO_EMUSCV_LICENSE = GPL-3.0
 LIBRETRO_EMUSCV_LICENSE_FILES = licence.txt
@@ -21,6 +21,7 @@ endef
 define LIBRETRO_EMUSCV_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/emuscv_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/emuscv_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/scv
 endef
 
 $(eval $(generic-package))

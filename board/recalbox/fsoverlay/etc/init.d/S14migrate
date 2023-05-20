@@ -103,6 +103,7 @@ function runMigrations {
         mv "/recalbox/share/bios/bios_CD_E.bin" "/recalbox/share/bios/segacd"
         mv "/recalbox/share/bios/bios_CD_J.bin" "/recalbox/share/bios/segacd"
         mv "/recalbox/share/bios/bios_CD_U.bin" "/recalbox/share/bios/segacd"
+        mv "/recalbox/share/bios/upd7801g.s01" "/recalbox/share/bios/scv/upd7801g.s01"
         sed -i "s|ROM_400/800_CUSTOM=/recalbox/share/bios/ATARIOSB.ROM|ROM_400/800_CUSTOM=/recalbox/share/bios/atari800/ATARIOSB.ROM|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_5200=/recalbox/share/bios/5200.rom|ROM_5200=/recalbox/share/bios/atari5200/5200.rom|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_BASIC_C=/recalbox/share/bios/ATARIBAS.ROM|ROM_BASIC_C=/recalbox/share/bios/atari800/ATARIBAS.ROM|g" "/recalbox/share/system/.atari800.cfg"

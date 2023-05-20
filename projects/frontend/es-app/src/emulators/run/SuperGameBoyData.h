@@ -17,7 +17,7 @@ class SuperGameBoyData
         mConfigured(false)
     {};
 
-    bool Enabled() const { return mEnableSuperGameBoy; }
+    bool ShouldEnable(const SystemData& system) const { return system.IsGameBoy() && mEnableSuperGameBoy; }
     const std::string Core(const FileData& game, const std::string& defaultCore) const {
       // Change to mgba if user did not overload the core for gameboy
       if(!game.System().Manager().Emulators().ConfigOverloaded(game))

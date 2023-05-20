@@ -1,8 +1,8 @@
 diff --git a/src/osd/retro/libretro.c b/src/osd/retro/libretro.c
-index f50b5ff7d2..0358f9eae5 100755
+index f50b5ff7d2..2bf0f02d6e 100755
 --- a/src/osd/retro/libretro.c
 +++ b/src/osd/retro/libretro.c
-@@ -702,7 +702,38 @@ size_t retro_get_memory_size(unsigned type) { return 0; }
+@@ -702,7 +702,39 @@ size_t retro_get_memory_size(unsigned type) { return 0; }
  bool retro_load_game_special(unsigned game_type, const struct retro_game_info *info, size_t num_info) {return false; }
  void retro_cheat_reset(void) {}
  void retro_cheat_set(unsigned unused, bool unused1, const char* unused2) {}
@@ -18,7 +18,8 @@ index f50b5ff7d2..0358f9eae5 100755
 +
 +  static const struct retro_controller_description controller_description[] = {
 +      { "Classic", RETROPAD_CLASSIC },
-+      { "Recalbox RGB Jamma", RETRO_RB_JAMMA }
++      { "Recalbox Jamma (NeoLine)", RETRO_RB_JAMMA_NEOLINE },
++      { "Recalbox Jamma (NeoSquare)", RETRO_RB_JAMMA_NEOSQUARE }
 +  };
 +
 +

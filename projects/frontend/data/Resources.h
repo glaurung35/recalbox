@@ -68,6 +68,9 @@ extern const uint8_t frame_png_data[];
 extern const uint16_t press_start_svg_size;
 extern const uint8_t press_start_svg_data[];
 
+extern const uint16_t favoritefont_ttf_size;
+extern const uint8_t favoritefont_ttf_data[];
+
 extern const uint16_t button_png_size;
 extern const uint8_t button_png_data[];
 

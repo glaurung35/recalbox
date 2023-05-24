@@ -227,7 +227,7 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
   system.MasterRoot().ParseAllItems(dynamicMetadata);
 }
 
-SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad)
+SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad, bool ignoreGameCheck)
 {
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
@@ -266,7 +266,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     #endif
   } // Let the doppelgangerWatcher to free its memory ASAP
 
-  if (result->HasGame())
+  if (result->HasGame() || ignoreGameCheck)
   {
     // Hashing
     mHasher.Push(result);
@@ -828,6 +828,20 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   return true;
 }
 
+SystemData& SystemManager::GetOrCreateSystem(const SystemDescriptor& descriptor)
+{
+  // Seek for existing system
+  for(SystemData* system : mAllSystemVector)
+    if (system->Descriptor().GUID() == descriptor.GUID())
+      return *system;
+
+  // Add new system on the fly
+  SystemData* newSystem = CreateRegularSystem(descriptor, true, true);
+  mVisibleSystemVector.push_back(newSystem);
+  mAllSystemVector.push_back(newSystem);
+  return *newSystem;
+}
+
 void SystemManager::GenerateExampleConfigurationFile(const Path& path)
 {
   std::string text =
@@ -1245,3 +1259,4 @@ int SystemManager::GameCount()
     result += system->GameCount();
   return result;
 }
+

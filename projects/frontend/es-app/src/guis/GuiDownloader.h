@@ -26,7 +26,7 @@ class GuiDownloader : public Gui
      * @brief Destructor
      * Update System view
      */
-    ~GuiDownloader() override;
+    ~GuiDownloader() override {}
 
     /*!
      * @brief Check cancel bouton

@@ -131,7 +131,10 @@ void GuiDownloader::UpdateETAText(const String& text)
 
 void GuiDownloader::DownloadComplete(SystemData& system)
 {
-  ViewController::Instance().setInvalidGamesList(&system);
+  ViewController& vc = ViewController::Instance();
+  vc.setInvalidGamesList(&system);
+  vc.getSystemListView().manageSystemsList();
+  vc.getSystemListView().setSelectedName(system.Name());
   mWindow.CloseAll();
 }
 
@@ -139,12 +142,6 @@ void GuiDownloader::UpdateTitleText(const String& text)
 {
   mTitle->setText(text);
   mGrid.onSizeChanged();
-}
-
-GuiDownloader::~GuiDownloader()
-{
-  // Refresh system view
-  ViewController::Instance().getSystemListView().manageSystemsList();
 }
 
 

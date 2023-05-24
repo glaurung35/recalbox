@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for break key for pad2keyboard
 - Add game downloader for WASM4 system
 - Add new system Arduboy (libretro arduous)
+- Add libretro-wasm4 for new system Wasm4
 
 ### Bumps
 

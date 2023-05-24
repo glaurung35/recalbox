@@ -207,11 +207,12 @@ void ViewController::quitCrtView()
   updateHelpPrompts();
 }
 
-void ViewController::selectGamelistAndCursor(FileData *file) {
+void ViewController::selectGamelistAndCursor(FileData *file)
+{
   mState.viewing = ViewMode::GameList;
   SystemData& system = file->System();
   goToGameList(&system);
-  IGameListView* view = getGameListView(&system).get();
+  ISimpleGameListView* view = getGameListView(&system).get();
   view->setCursorStack(file);
   view->setCursor(file);
 }
@@ -305,7 +306,7 @@ void ViewController::goToGameList(SystemData* system)
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)
 {
-	IGameListView* view = getGameListView(system).get();
+    ISimpleGameListView* view = getGameListView(system).get();
 	if (RecalboxConf::Instance().GetFavoritesOnly())
 	{
 		view->populateList(system->MasterRoot());
@@ -628,7 +629,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
         auto it = mGameListViews.find(lastPlayedSystem);
         if (it != mGameListViews.end())
         {
-          IGameListView* lastPlayedGameListView = it->second.get();
+          ISimpleGameListView* lastPlayedGameListView = it->second.get();
           if (lastPlayedGameListView != nullptr)
             lastPlayedGameListView->onChanged(ISimpleGameListView::Change::Resort);
         }
@@ -658,7 +659,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 	}
 }
 
-std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* system)
+std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData* system)
 {
 	//if we already made one, return that one
 	auto exists = mGameListViews.find(system);
@@ -666,9 +667,9 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 		return exists->second;
 
 	//if we didn't, make it, remember it, and return it
-	std::shared_ptr<IGameListView> view;
+	std::shared_ptr<ISimpleGameListView> view;
 
-  view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+  view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
 	view->setTheme(system->Theme());
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
@@ -802,7 +803,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
+bool ViewController::reloadGameListView(ISimpleGameListView* view, bool reloadTheme)
 {
 	if (view->System().HasVisibleGame())
 	{
@@ -819,7 +820,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 				if (reloadTheme)
 					system->loadTheme();
 
-				std::shared_ptr<IGameListView> newView = getGameListView(system);
+				std::shared_ptr<ISimpleGameListView> newView = getGameListView(system);
 				if (hasGame)
 					newView->setCursor(cursor);
 				if (isCurrent)

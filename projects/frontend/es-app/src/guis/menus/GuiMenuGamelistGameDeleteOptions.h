@@ -2,6 +2,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
+#include <views/gamelist/ISimpleGameListView.h>
 
 // Forward declaration
 class SystemManager;
@@ -14,7 +15,7 @@ class GuiMenuGamelistGameDeleteOptions : public GuiMenuBase
 
 {
   public:
-    explicit GuiMenuGamelistGameDeleteOptions(WindowManager& window, IGameListView& view, FileData& game);
+    explicit GuiMenuGamelistGameDeleteOptions(WindowManager& window, ISimpleGameListView& view, FileData& game);
 
   private:
     enum class Components
@@ -24,7 +25,7 @@ class GuiMenuGamelistGameDeleteOptions : public GuiMenuBase
     };
 
     //! View reference
-    IGameListView& mView;
+    ISimpleGameListView& mView;
     //! Game reference
     FileData& mGame;
 

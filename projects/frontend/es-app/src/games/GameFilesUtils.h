@@ -5,7 +5,7 @@
 
 #include "FileData.h"
 #include <utils/storage/Set.h>
-#include <views/gamelist/IGameListView.h>
+#include <views/gamelist/ISimpleGameListView.h>
 
 class GameFilesUtils
 {

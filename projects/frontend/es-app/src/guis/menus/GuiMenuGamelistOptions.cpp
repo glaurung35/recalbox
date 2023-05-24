@@ -164,7 +164,7 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   return list;
 }
 
-void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
+void GuiMenuGamelistOptions::Delete(ISimpleGameListView* gamelistview, FileData& game)
 {
   game.RomPath().Delete();
   if (game.Parent() != nullptr)
@@ -173,7 +173,7 @@ void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
   gamelistview->onFileChanged(&game, FileChangeType::Removed); //tell the view
 }
 
-void GuiMenuGamelistOptions::Modified(IGameListView* gamelistview, FileData& game)
+void GuiMenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileData& game)
 {
   gamelistview->refreshList();
   gamelistview->setCursor(&game);

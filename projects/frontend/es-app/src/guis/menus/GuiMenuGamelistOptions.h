@@ -2,7 +2,7 @@
 #include "guis/menus/GuiMenuBase.h"
 #include "guis/GuiMetaDataEd.h"
 
-class IGameListView;
+class ISimpleGameListView;
 
 class GuiMenuGamelistOptions : public GuiMenuBase
                          , private GuiMetaDataEd::IMetaDataAction
@@ -47,7 +47,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     //! System manager reference
     SystemManager& mSystemManager;
     //! Gamelist UI reference
-    IGameListView& mGamelist;
+    ISimpleGameListView& mGamelist;
 
     std::shared_ptr<OptionListComponent<unsigned int>> mJumpToLetterList;
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;
@@ -75,8 +75,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * GuiMetaDataEd::IMetaDataAction implementation
      */
 
-    void Delete(IGameListView* gamelistview, FileData& game) override;
-    void Modified(IGameListView* gamelistview, FileData& game) override;
+    void Delete(ISimpleGameListView* gamelistview, FileData& game) override;
+    void Modified(ISimpleGameListView* gamelistview, FileData& game) override;
 
     /*
      * IOptionListComponent<unsigned int> implementation

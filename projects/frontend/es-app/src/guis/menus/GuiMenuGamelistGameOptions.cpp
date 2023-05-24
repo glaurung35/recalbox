@@ -15,7 +15,7 @@
 #include <views/ViewController.h>
 #include <LibretroRatio.h>
 
-GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
+GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, ISimpleGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
   : GuiMenuBase(window, _("GAME OPTIONS"), this)
   , mView(view)
   , mSystemManager(systemManager)

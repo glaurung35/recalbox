@@ -1,50 +1,91 @@
 #pragma once
 
-#include "views/gamelist/IGameListView.h"
-
-#include "components/TextComponent.h"
-#include "components/ImageComponent.h"
+#include <guis/Gui.h>
+#include <components/ImageComponent.h>
+#include <components/TextComponent.h>
 #include "themes/ThemeExtras.h"
+#include <systems/SystemData.h>
 
 class SystemManager;
 
-class ISimpleGameListView : public IGameListView
+enum class FileChangeType
 {
-public:
-	ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
+    Added,
+    Run,
+    MetadataChanged,
+    Removed,
+    Sorted,
+    DisplayUpdated,
+};
+
+class ISimpleGameListView : public Gui
+{
+  public:
+    enum class Change
+    {
+        Resort, //!< New sorting required
+        Update, //!< Update lists
+    };
+
+    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
 	~ISimpleGameListView() override = default;
 
 	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
-	void onFileChanged(FileData* file, FileChangeType change) override;
+	virtual void onFileChanged(FileData* file, FileChangeType change);
 
-  /*!
-   * @brief Called when a major change occurs on the system
-   * @param change Change type
-   */
-  void onChanged(Change change) override;
+    /*!
+     * @brief Called when a major change occurs on the system
+     * @param change Change type
+     */
+    virtual void onChanged(Change change);
 
 	// Called whenever the theme changes.
-	void onThemeChanged(const ThemeData& theme) override;
-
-	//FileData* getCursor() override = 0;
-	//virtual int getCursorIndex() = 0;
-	//virtual int getCursorIndexMax() = 0;
-	//void setCursor(FileData*) override = 0;
-	//virtual void setCursorIndex(int) = 0;
-  //virtual void removeEntry(FileData* fileData) = 0;
+	virtual void onThemeChanged(const ThemeData& theme);
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 
-	//inline void DoUpdateGameInformation() override {}
-
-	//inline void populateList(const FolderData& folder) override { (void)folder; }
-	//inline void refreshList() override {};
-
 	bool getHelpPrompts(Help& help) override;
-	std::vector<unsigned int> getAvailableLetters() override;
-	void jumpToLetter(unsigned int unicode) override;
+	virtual std::vector<unsigned int> getAvailableLetters();
+	virtual void jumpToLetter(unsigned int unicode);
 
 	void jumpToNextLetter(bool forward);
+
+    [[nodiscard]] const SystemData& System() const { return mSystem; }
+
+    void ApplyHelpStyle() override;
+
+    void updateInfoPanel();
+
+    void setTheme(const ThemeData& theme);
+
+    [[nodiscard]] virtual int Count() const = 0;
+    [[nodiscard]] virtual bool IsEmpty() const  = 0;
+    virtual FileData* getCursor() = 0;
+    virtual void setCursorStack(FileData*) = 0;
+    virtual void setCursor(FileData*) = 0;
+
+    virtual int getCursorIndex() = 0;
+    virtual int getCursorIndexMax() = 0;
+    virtual void setCursorIndex(int) = 0;
+
+    virtual void OnGameSelected() = 0;
+
+    virtual void removeEntry(FileData* fileData) = 0;
+
+    [[nodiscard]] virtual const char* getName() const = 0;
+
+    virtual void DoUpdateGameInformation(bool update) = 0;
+
+    virtual void populateList(const FolderData& folder) = 0;
+    virtual void refreshList() = 0;
+
+    virtual FileData::List getFileDataList() = 0;
+
+    /*!
+     * @brief Get available regions from the current game list
+     * @return Region list (may be empty)
+     */
+    virtual Regions::List AvailableRegionsInGames() = 0;
 
 protected:
 	virtual void launch(FileData* game) = 0;
@@ -52,7 +93,10 @@ protected:
 
 	virtual FileData* getEmptyListItem() = 0;
 
-  //! SystemManager instance
+    SystemData& mSystem;
+    const ThemeData* mTheme;
+
+    //! SystemManager instance
 	SystemManager& mSystemManager;
 
 	TextComponent mHeaderText;
@@ -64,7 +108,7 @@ protected:
 	std::stack<FolderData*> mCursorStack;
 
   private:
-  bool mVerticalMove;
 
-  bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
+    bool mVerticalMove;
+    bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
 };

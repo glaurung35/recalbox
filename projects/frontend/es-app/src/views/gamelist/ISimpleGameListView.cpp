@@ -9,9 +9,12 @@
 #include "views/ViewController.h"
 #include "utils/locale/LocaleHelper.h"
 #include "RotationManager.h"
+#include <usernotifications/NotificationManager.h>
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
-  : IGameListView(window, system)
+  : Gui(window)
+  , mSystem(system)
+  , mTheme(nullptr)
   , mSystemManager(systemManager)
   , mHeaderText(window)
   , mHeaderImage(window)
@@ -19,6 +22,8 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   , mThemeExtras(window)
   , mVerticalMove(false)
 {
+  setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
   mHeaderText.setPosition(0, 0);
@@ -35,6 +40,25 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
 
   addChild(&mHeaderText);
   addChild(&mBackground);
+}
+
+void ISimpleGameListView::setTheme(const ThemeData& theme)
+{
+    mTheme = &theme;
+    onThemeChanged(theme);
+}
+
+void ISimpleGameListView::updateInfoPanel()
+{
+    if (IsEmpty()) return;
+
+    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
+    OnGameSelected();
+}
+
+void ISimpleGameListView::ApplyHelpStyle()
+{
+    HelpItemStyle().FromTheme(*mTheme, getName());
 }
 
 void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
@@ -169,8 +193,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
       // remove current folder from stack
       mCursorStack.pop();
 
-      FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
-      populateList(cursor);
+      populateList(!mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot());
 
       setCursor(selected);
       //Sound::getFromTheme(getTheme(), getName(), "back")->play();
@@ -296,8 +319,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
       && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
     clean();
-    FileData* cursor = getCursor();
-    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
+    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
     return true;
   }
   else if (event.XPressed())
@@ -316,7 +338,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  bool result = IGameListView::ProcessInput(event);
+  bool result = Gui::ProcessInput(event);
 
   return result;
 }

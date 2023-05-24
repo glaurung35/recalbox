@@ -7,7 +7,7 @@
 #include "components/ButtonComponent.h"
 #include "utils/locale/LocaleHelper.h"
 
-GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOptions(WindowManager& window, IGameListView& view, FileData& game)
+GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOptions(WindowManager& window, ISimpleGameListView& view, FileData& game)
   : GuiMenuBase(window, _("SELECT FILES TO DELETE"), nullptr)
   , mView(view)
   , mGame(game)

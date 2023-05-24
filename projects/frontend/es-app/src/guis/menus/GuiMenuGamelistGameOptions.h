@@ -7,7 +7,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
-#include <views/gamelist/IGameListView.h>
+#include <views/gamelist/ISimpleGameListView.h>
 
 // Forward declaration
 class SystemManager;
@@ -25,7 +25,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
                                  , private GuiScraperSingleGameRun::IScrapingComplete
 {
   public:
-    GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game);
+    GuiMenuGamelistGameOptions(WindowManager& window, ISimpleGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game);
 
     ~GuiMenuGamelistGameOptions() override;
   private:
@@ -45,7 +45,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     };
 
     //! View reference
-    IGameListView& mView;
+    ISimpleGameListView& mView;
     //! System Manager reference
     SystemManager& mSystemManager;
     //! System reference

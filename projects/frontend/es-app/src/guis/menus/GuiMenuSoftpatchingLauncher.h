@@ -2,7 +2,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
-#include <views/gamelist/IGameListView.h>
+#include <views/gamelist/ISimpleGameListView.h>
 #include "emulators/run/GameLinkedData.h"
 
 class SystemManager;

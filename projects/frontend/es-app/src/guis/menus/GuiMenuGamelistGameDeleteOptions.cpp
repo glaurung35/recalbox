@@ -1,13 +1,11 @@
 #include <games/GameFilesUtils.h>
 #include "GuiMenuGamelistGameDeleteOptions.h"
 #include "GuiMenuTools.h"
-#include "games/FileData.h"
 #include <views/ViewController.h>
 #include "components/ButtonComponent.h"
 #include "GuiMenuGamelistGameDeleteSelectionOptions.h"
-#include "utils/locale/LocaleHelper.h"
 
-GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager& window, IGameListView& view, FileData& game)
+GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager& window, ISimpleGameListView& view, FileData& game)
   : GuiMenuBase(window, _("DELETE ALL FILES"), this)
   , mView(view)
   , mGame(game)

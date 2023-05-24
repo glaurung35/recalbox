@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-supafaust core for snes
 - Add support for break key for pad2keyboard
 - Add new system Arduboy (libretro arduous)
+- Add libretro-wasm4 for new system Wasm4
 
 ### Bumps
 

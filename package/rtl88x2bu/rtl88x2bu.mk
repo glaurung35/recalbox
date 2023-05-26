@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RTL88X2BU_VERSION = a543f246e3f6b023a98f7146cccec667600a23fe
+RTL88X2BU_VERSION = 51644ac50674a7322cf35c683fd5ac1d3f48b419
 RTL88X2BU_SITE = $(call github,RinCat,RTL88x2BU-Linux-Driver,$(RTL88X2BU_VERSION))
 RTL88X2BU_LICENSE = GPL-2.0
 RTL88X2BU_LICENSE_FILES = LICENSE

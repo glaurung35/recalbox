@@ -12,18 +12,26 @@
 
 class JammaData
 {
+  private:
+    bool systemIsDreamcastArcade(const std::string& systemName) const
+    {
+      return systemName == "atomiswave" || systemName == "naomigd" || systemName == "naomi";
+    }
   public:
     JammaData() {};
     bool ShouldConfigureJammaConfiggen() const {
       return  (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ||
                Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll);
     }
-    bool ShouldSwitchTo6ButtonLayout(const EmulatorData& emulator) const {
+
+    bool ShouldSwitchTo6ButtonLayout(const FileData& game, const EmulatorData& emulator) const {
       return  ShouldConfigureJammaConfiggen() && CrtConf::Instance().GetSystemCRTJamma6Btns() &&
-               !(emulator.Emulator() == "libretro" && (emulator.Core() == "fbneo" || emulator.Core() == "mame2015" ));
+               !(emulator.Emulator() == "libretro" &&
+               (emulator.Core() == "fbneo" || emulator.Core() == "mame2015" || systemIsDreamcastArcade(game.System().Name()))
+               );
     }
-    std::string JammaControlType(const EmulatorData& emulator) const {
-      if(ShouldSwitchTo6ButtonLayout(emulator)) {
+    std::string JammaControlType(const FileData& game, const EmulatorData& emulator) const {
+      if(ShouldSwitchTo6ButtonLayout(game, emulator)) {
         return "6btns";
       } else {
         return CrtConf::Instance().GetSystemCRTJammaNeogeoLayout();

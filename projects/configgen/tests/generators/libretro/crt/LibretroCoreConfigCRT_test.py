@@ -144,7 +144,7 @@ def test_given_sega480i_systems_should_create_config_with_resolution_and_VGA():
     ]
 
     for emulator in emulators:
-        assert core_configurator.createConfigFor(emulator) == {"reicast_internal_resolution": '"320x240"',
+        assert core_configurator.createConfigFor(emulator) == {"reicast_internal_resolution": '"640x480"',
                                                                "reicast_cable_type": '"TV (RGB)"'}
 
 
@@ -162,7 +162,7 @@ def test_given_dreamcast_should_select_core_resolution_240_from_mode_on15khz(moc
 
     dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="progressive", crtvideostandard="auto",
                                 crtscreentype="15kHz")
-    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
 
 
@@ -180,7 +180,7 @@ def test_given_dreamcast_should_select_core_resolution_from_mode_on31khz_doublef
 
     dreamcast = configureForCrt(system_dreamcast, crtresolutiontype="doublefreq", crtvideostandard="auto",
                                 crtscreentype="31kHz")
-    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"320x240"',
+    assert core_configurator.createConfigFor(dreamcast) == {"reicast_internal_resolution": '"640x480"',
                                                             "reicast_cable_type": '"TV (RGB)"'}
 
 

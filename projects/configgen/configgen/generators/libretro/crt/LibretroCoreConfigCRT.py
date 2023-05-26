@@ -98,17 +98,7 @@ class LibretroCoreConfigCRT:
         if system.Name == "gb":
             lines["gambatte_gb_colorization"] = '"internal"'
         if system.Name in ["dreamcast", "naomi", "naomigd", "atomiswave"]:
-            if system.CRTScreenType == CRTScreenType.k15 or system.CRTScreenType == CRTScreenType.k15Ext:
-                if system.CRTResolutionType == CRTResolutionType.Progressive:
-                    rez = "320x240"
-                else:
-                    rez = "640x480"
-            else:
-                if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
-                    rez = "320x240"
-                else:
-                    rez = "640x480"
-            lines["reicast_internal_resolution"] = '"{}"'.format(rez)
+            lines["reicast_internal_resolution"] = '"{}"'.format("640x480")
             lines["reicast_cable_type"] = '"TV (RGB)"'
 
         if system.Core in VideoStandardToRegionMap:

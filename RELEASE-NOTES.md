@@ -33,6 +33,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix crash when using run in background after the end of a scrap
 - New image for RPIZero (first one) and GPiCase2W
 - Add missing netplay support for sameboy and mgba
+- Fix naomi and atomiswave resolution in 240p for CRT
+- Fix Mortal Kombat resolution on CRT
 
 ## Version 9.0.2-Pulstar
 

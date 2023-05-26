@@ -657,6 +657,7 @@ static struct config {
   struct mutex process_mutex;
   bool hotkey_patterns;
   bool disable_credit_on_hk_btn1;
+  uint buttons_on_jamma;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -1058,7 +1059,7 @@ static const unsigned short buttonsReleasedValues[32] = {
     1, 1, 1, 1, 1, 1, 0, 0
 };
 
-#define PRESSED(data, btn) (((data >> (btn)) & 1)^buttonsReleasedValues[btn])
+#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^buttonsReleasedValues[btn]) : 0)
 #define WAIT_SYNC() usleep_range(20000,30000);
 //Exit delay (HK + START) set to 2 secondes
 #define EXIT_DELAY(now, start) ((now - start) / 1000000000UL >= 2)
@@ -1081,6 +1082,7 @@ static volatile short should_release_hk = 0;
 static void input_report(unsigned long *data_chips, long long int *time_ns) {
   int j;
   int gpio;
+  int buttonValue;
 
   if (jamma_config.hotkey_patterns) {
     // Special case for HOTKEY:
@@ -1168,11 +1170,19 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
     //       buttons_codes[j], PRESSED(data_chips, player1_btn_bits[j]));
 
     // Either 6btn mode code, or the 3btn, or the kick. No report if button is -1
-    gpio = jamma_config.switch36_gpio_state ? player1_6btn_bits[j] : (player1_3btn_bits[j] != -1 ? player1_3btn_bits[j]
-                                                                                                 : player1_kick_btn_bits[j]);
-    if (gpio != -1) {
-      input_report_key(player_devs[0], buttons_codes[j], PRESSED(*data_chips, gpio));
+    if(j <= 5 && j >= jamma_config.buttons_on_jamma){
+      // Only kick harness as the jamma does not have this button
+      buttonValue = PRESSED(*data_chips, player1_kick_btn_bits[j]);
+    }else {
+      if(jamma_config.switch36_gpio_state){
+        // 6 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player1_6btn_bits[j]) | PRESSED(*data_chips, player1_kick_btn_bits[j]);
+      } else {
+        // 3 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player1_3btn_bits[j]) | PRESSED(*data_chips, player1_kick_btn_bits[j]);
+      }
     }
+    input_report_key(player_devs[0], buttons_codes[j], buttonValue);
   }
   input_sync(player_devs[0]);
 
@@ -1180,13 +1190,20 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
   input_report_abs(player_devs[1], ABS_Y, PRESSED(*data_chips, P2_DOWN) - PRESSED(*data_chips, P2_UP));
   input_report_abs(player_devs[1], ABS_X, PRESSED(*data_chips, P2_RIGHT) - PRESSED(*data_chips, P2_LEFT));
   for (j = 0; j < BTN_PER_PLAYER; j++) {
-    //printk(KERN_INFO "recalboxrgbjamma: sending report P2 for key bit:%d, inputcode:%d, value : %d\n", player2_btn_bits[j],
-    //       buttons_codes[j], PRESSED(data_chips, player2_btn_bits[j]));
     // Either 6btn mode code, or the 3btn, or the kick. No report if button is -1
-    gpio = jamma_config.switch36_gpio_state ? player2_6btn_bits[j] : (player2_3btn_bits[j] != -1 ? player2_3btn_bits[j]
-                                                                                                 : player2_kick_btn_bits[j]);
-    if (gpio != -1)
-      input_report_key(player_devs[1], buttons_codes[j], PRESSED(*data_chips, gpio));
+    if(j <= 5 && j >= jamma_config.buttons_on_jamma){
+      // Only kick harness as the jamma does not have this button
+      buttonValue = PRESSED(*data_chips, player2_kick_btn_bits[j]);
+    }else {
+      if(jamma_config.switch36_gpio_state){
+        // 6 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player2_6btn_bits[j]) | PRESSED(*data_chips, player2_kick_btn_bits[j]);
+      } else {
+        // 3 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player2_3btn_bits[j]) | PRESSED(*data_chips, player2_kick_btn_bits[j]);
+      }
+    }
+    input_report_key(player_devs[1], buttons_codes[j], buttonValue);
   }
   input_sync(player_devs[1]);
 }
@@ -1397,6 +1414,13 @@ static int load_config(void) {
                   optionvalue ? "disable_credit_on_hk_btn1" : "enable_credit_on_hk_btn1");
               jamma_config.disable_credit_on_hk_btn1 = optionvalue;
             }
+          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
+            if (jamma_config.buttons_on_jamma != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch buttons_on_jamma to %d\n",
+                  optionvalue);
+              jamma_config.buttons_on_jamma = optionvalue;
+            }
           }
         }
       }
@@ -1437,6 +1461,7 @@ pca953x_init(void) {
   jamma_config.gpio_chip_1 = NULL;
   jamma_config.hotkey_patterns = true;
   jamma_config.disable_credit_on_hk_btn1 = false;
+  jamma_config.buttons_on_jamma = 6;
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
   printk(KERN_INFO

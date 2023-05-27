@@ -40,11 +40,16 @@ case "$1" in
 	fi
 	;;
   stop)
+    source /recalbox/scripts/recalbox-utils.sh
 	recallog -s "${INIT_SCRIPT}" -t "ES" "Stopping Emulationstation"
 	start-stop-daemon -K -q -p "${PIDFILE}"
 	clear > /dev/tty0
-	(echo;echo;echo;echo;echo) > /dev/tty0
-	scr_msg "Please DO NOT power off Recalbox, PLEASE WAIT !!!"
+	if isRecalboxRGBJamma; then
+	    displayFrameBufferImage
+	else
+        (echo;echo;echo;echo;echo) > /dev/tty0
+        scr_msg "Please DO NOT power off Recalbox, PLEASE WAIT !!!"
+    fi
 	;;
   restart|reload)
 	"$0" stop

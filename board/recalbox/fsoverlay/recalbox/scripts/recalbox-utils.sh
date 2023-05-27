@@ -106,6 +106,10 @@ isCRTLoaded() {
   lsmod | grep -q "^recalboxrgbdual"
 }
 
+isRecalboxRGBJamma() {
+    isCRTLoaded && lsmod | grep -q "^recalboxrgbjamma"
+}
+
 # Check if we have to disable HDMI
 # See S13crt
 rrgbdHDMIPriority() {
@@ -237,12 +241,14 @@ isOldIntelChipset() {
 #   displays our intro background via the framebuffer
 displayFrameBufferImage() {
     if isRotated; then
-        fbv2 -f -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
+        fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
     else
-        if isLowDef && ! isRecalboxRGBDual; then
-            fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
+        if isRecalboxRGBJamma; then
+            fbv2 -f -i /recalbox/system/resources/splash/recalbox-rgb-jamma.png
+        elif isLowDef && ! isRecalboxRGBDual; then
+            fbv2 -k -i /recalbox/system/resources/splash/240p/logo-version.png
         else
-            fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
+            fbv2 -k -i /recalbox/system/resources/splash/logo-version.png
         fi
     fi
 }

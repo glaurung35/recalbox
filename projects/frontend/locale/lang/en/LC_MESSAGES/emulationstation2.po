@@ -2519,7 +2519,7 @@ msgid "Shoot with Gun"
 msgstr "Shoot with Gun"
 
 msgid "Shoot'em Up"
-msgstr "Shoot 'em Up"
+msgstr "Shoot'em Up"
 
 msgid "Simulation (All)"
 msgstr "Simulation (All)"

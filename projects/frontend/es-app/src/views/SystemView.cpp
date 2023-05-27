@@ -85,16 +85,18 @@ void SystemView::addSystem(SystemData * it)
 	  else
     {
       ImageComponent* logo = new ImageComponent(mWindow, false, false);
-      logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
+      logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale );
       logo->setImage(Genres::GetResourcePath(genre));
+
       e.data.logo = std::shared_ptr<Component>(logo);
+      e.data.logo->setOpacity(30);
 
       TextComponent* text = new TextComponent(mWindow,
                                               (it)->FullName(),
-                                              Font::get(FONT_SIZE_MEDIUM),
-                                              0xE6E6E6FF,
+                                              Font::get(Font::lowResolutionMultipleSize(16), Path(":/favoritefont.ttf")),
+                                              0xFBAF5DFF,
                                               TextAlignment::Center);
-      text->setSize(mCarousel.logoSize * mCarousel.logoScale);
+      text->setSize(mCarousel.logoSize * mCarousel.logoScale * 1.2);
       e.data.logotext = std::shared_ptr<Component>(text);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
         text->setHorizontalAlignment(mCarousel.logoAlignment);
@@ -152,7 +154,6 @@ void SystemView::addSystem(SystemData * it)
 
 	// sort the extras by z-index
 	e.data.backgroundExtras->sortExtrasByZIndex();
-
 	this->add(e);
 }
 
@@ -640,7 +641,7 @@ void SystemView::renderCarousel(const Transform4x4f& trans)
 			comp->setRotationOrigin(mCarousel.logoRotationOrigin);
 		}
 		comp->setScale(scale);
-		comp->setOpacity(opacity);
+		//comp->setOpacity(opacity);
     comp->Render(logoTrans);
 
 		if (mEntries[index].data.logotext)

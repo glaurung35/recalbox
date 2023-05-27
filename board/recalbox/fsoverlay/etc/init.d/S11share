@@ -55,7 +55,7 @@ maxWaitFromConfig() {
 createMissingPartitions() {
   fixGPTAltHeader "$bootDevice"
   alignSize=$((1024 * 1024)) # Align partition on megabyte
-  overlayPartitionSize=$((1024 * 1024 * 1024)) # OVERLAY partition will be 1GB
+  overlayPartitionSize=$((10* 1024 * 1024 * 1024)) # OVERLAY partition will be 1GB (10GB-9GB freespace)
   defaultPartedOptions=("-m" "-s" "-a" "optimal" "${bootDevice}" "unit" "b")
   partitionType=$(/recalbox/scripts/recalbox-part.sh type "${bootPartition}")
 
@@ -81,7 +81,9 @@ createMissingPartitions() {
   sharePartitionStart=$(alignToUpperBlock "${freeSpaceStart}")
   overlayPartitionStart=$(alignToUpperBlock $(( freeSpaceEnd - overlayPartitionSize )))
   sharePartitionEnd=$(( overlayPartitionStart - alignSize )) # keep 1MB between partitions, since using `${overlayPartitionStart} - 1` can actually fail on some disks, despite being strictly correct
-  overlayPartitionEnd="100%"
+
+  # Keep 4 GB for empty space
+  overlayPartitionEnd="10%"
 
   # Create SHARE partition and filesystem
   parted "${defaultPartedOptions[@]}" mkpart "${partitionType}" ntfs "${sharePartitionStart}" "${sharePartitionEnd}" # ExFAT uses the same type code than NTFS (0x07) in MBR partition tables

@@ -18,13 +18,7 @@ GenericDownloader::GenericDownloader(SystemData& system, IGuiDownloaderUpdater& 
 {
 }
 
-void GenericDownloader::StartDownload()
-{
-  // start the thread if not aleady done
-  Thread::Start("generic-dl");
-}
-
-void GenericDownloader::Run()
+void GenericDownloader::DownloadAndInstall()
 {
   String title(_("DOWNLOADING GAMES FOR %s"));
   mUpdater.UpdateTitleText(title.Replace("%s", mSystem.FullName()));
@@ -142,7 +136,6 @@ void GenericDownloader::Run()
 
   // Delete temp file
   destination.Delete();
-  mSender.Send(GenericDownloadingGameState::Completed);
 }
 
 void GenericDownloader::DownloadProgress(const Http &http, long long int currentSize, long long int expectedSize)
@@ -196,11 +189,6 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       mUpdater.UpdateETAText(text);
       break;
     }
-    case GenericDownloadingGameState::Completed:
-    {
-      mUpdater.DownloadComplete(mSystem);
-      break;
-    }
     case GenericDownloadingGameState::WriteOnlyShare:
     {
       mUpdater.UpdateETAText("Can't write games to share!");
@@ -212,4 +200,9 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       break;
     }
   }
+}
+
+void GenericDownloader::Completed(bool stopped)
+{
+  mUpdater.DownloadComplete(mSystem, stopped);
 }

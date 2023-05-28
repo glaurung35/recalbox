@@ -4,10 +4,8 @@
 #pragma once
 
 #include "guis/IGuiDownloaderUpdater.h"
-#include "systems/SystemData.h"
 #include "systems/BaseSystemDownloader.h"
 #include "utils/network/Http.h"
-#include "utils/os/system/Thread.h"
 
 enum class GenericDownloadingGameState
 {
@@ -15,36 +13,17 @@ enum class GenericDownloadingGameState
     Downloading,       //!< Downloading games
     Extracting,        //!< Extracting
     UpdatingMetadata,  //!< Update metadata
-    // End
-    Completed,         //!< Completed
     // Errors
     WriteOnlyShare,    //!< Share is write only!
     DownloadError,     //!< Error downloading file(s)
 };
 
 class GenericDownloader : public BaseSystemDownloader
-                        , private Thread
                         , private ISyncMessageReceiver<GenericDownloadingGameState>
                         , private Http::IDownload
 {
   public:
     GenericDownloader(SystemData& system, IGuiDownloaderUpdater& updater);
-
-    /*
-     * ISystemDownloader implementation
-     */
-
-    //! Start downloading & installing games
-    void StartDownload() override;
-
-    /*
-     * Thread Implementation
-     */
-
-    /*!
-     * @brief Main thread routine
-     */
-    void Run() override;
 
     /*
      * Http::IDownload implementation
@@ -86,4 +65,19 @@ class GenericDownloader : public BaseSystemDownloader
      * @brief Receive synchronous code
      */
     void ReceiveSyncMessage(const GenericDownloadingGameState& code) override;
+
+    /*
+     * BaseSystemDownloader implementation
+     */
+
+    /*!
+     * @brief Actually download & install
+     */
+    void DownloadAndInstall() override;
+
+    /*!
+     * @brief Called once when the process is complete
+     * @param stopped true if the process has been stopped by calling MustExitAsap
+     */
+    void Completed(bool stopped) override;
 };

@@ -14,15 +14,12 @@ enum class Wasm4DownloadingGameState
   Downloading,       //!< Downloading games
   Extracting,        //!< Extracting
   UpdatingMetadata,  //!< Update metadata
-  // End
-  Completed,         //!< Completed
   // Errors
   WriteOnlyShare,    //!< Share is write only!
   DownloadError,     //!< Error downloading file(s)
 };
 
 class Wasm4Downloader : public BaseSystemDownloader
-                      , private Thread
                       , private ISyncMessageReceiver<Wasm4DownloadingGameState>
                       , private Http::IDownload
 {
@@ -32,25 +29,6 @@ class Wasm4Downloader : public BaseSystemDownloader
      * @param updater UI update interface
      */
     Wasm4Downloader(SystemData& wasm4, IGuiDownloaderUpdater& updater);
-
-    //! Destructor
-    ~Wasm4Downloader() override { Thread::Stop(); }
-
-    /*
-     * ISystemDownloader implementation
-     */
-
-    //! Start downloading & installing games
-    void StartDownload() override;
-
-    /*
-     * Thread Implementation
-     */
-
-    /*!
-     * @brief Main thread routine
-     */
-    void Run() override;
 
     /*
      * Http::IDownload implementation
@@ -92,4 +70,17 @@ class Wasm4Downloader : public BaseSystemDownloader
      * @brief Receive synchronous code
      */
     void ReceiveSyncMessage(const Wasm4DownloadingGameState& code) override;
+
+    /*
+     * ISystemDownloader implementation
+     */
+
+    //! Start downloading & installing games
+    void DownloadAndInstall() override;
+
+    /*!
+     * @brief Called once when the process is complete
+     * @param stopped true if the process has been stopped by calling MustExitAsap
+     */
+    void Completed(bool stopped) override;
 };

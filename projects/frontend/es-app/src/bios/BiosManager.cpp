@@ -61,6 +61,7 @@ void BiosManager::Run()
     BiosList& biosList = mSystemBiosList[l];
     for(int i = 0; i < biosList.BiosCount(); ++i)
     {
+      if (!IsRunning()) return;
       biosList.ScanAt(i);
       #ifndef PURE_BIOS_ONLY
         mSender.Send(BiosMessage::SingleBiosReport(mReporting, l, i));
@@ -77,7 +78,8 @@ void BiosManager::Run()
   mReporting = nullptr;
 
   // Generate report
-  GenerateReport();
+  if (!IsRunning()) return;
+    GenerateReport();
 }
 
 #ifndef PURE_BIOS_ONLY

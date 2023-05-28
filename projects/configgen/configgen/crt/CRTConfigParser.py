@@ -23,8 +23,18 @@ class CRTConfigParser:
             return self.__parseSystem(line)
 
     def findArcadeGame(self, game: str, emulator: str) -> CRTArcadeMode:
-        for line in self.__find_lines_begining_with_in_configs("{},{}".format(game, emulator), "arcade_games.txt"):
-            return self.__parseArcadeGame(line)
+        cores = ["fbneo", "mame2010"]
+
+        fixedname = game
+        while len(fixedname) > 0:
+            lines = self.__find_lines_begining_with_in_configs("{},{}".format(fixedname, emulator), "arcade_games.txt")
+            if len(lines) > 0:
+                return self.__parseArcadeGame(lines[0])
+            fixedname = fixedname.rstrip(fixedname[-1])
+
+        for core in cores:
+            for line in self.__find_lines_begining_with_in_configs("{},{}".format(game, core), "arcade_games.txt"):
+                return self.__parseArcadeGame(line)
 
     def findArcadeGameV2(self, game: str, emulator: str) -> CRTArcadeGameV2:
         for line in self.__find_lines_begining_with_in_configs("{},{}".format(game, emulator), "arcade_games_v2.txt"):

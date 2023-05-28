@@ -1092,3 +1092,35 @@ def test_given_yoko_game_on31khz_and_rotate_then_return_a_timber_config(mocker, 
     assert config_lines["custom_viewport_height_ntsc"] == 480
     assert config_lines["custom_viewport_x_ntsc"] == 140
     #assert config_lines["video_rotation"] == 1
+
+def test_given_mk_fbneo_not_found_then_use_mame2010_mode(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,mame2010,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mk.zip")
+
+    assert libretro_config["custom_viewport_height_ntsc"] == 256
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1"'
+
+def test_given_mk_clone_find_mk_mode(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["custom_viewport_height_ntsc"] == 256
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1"'

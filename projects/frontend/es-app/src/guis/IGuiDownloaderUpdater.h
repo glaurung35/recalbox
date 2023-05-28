@@ -42,6 +42,7 @@ class IGuiDownloaderUpdater
     /*!
      * @brief Notify the UI the download is complete
      * @param system System that needs to be refreshed
+     * @param aborted true if the download has been cancelled by the user
      */
-    virtual void DownloadComplete(SystemData& system) = 0;
+    virtual void DownloadComplete(SystemData& system, bool aborted) = 0;
 };

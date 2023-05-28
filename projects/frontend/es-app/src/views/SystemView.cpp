@@ -836,7 +836,7 @@ void SystemView::manageFavorite()
  */
 void SystemView::manageTate(bool remove)
 {
-  for (auto& system : mSystemManager.GetVisibleSystemList())
+  for (const auto& system : mSystemManager.GetVisibleSystemList())
   {
     if(system->Name() != "tate")
       continue;
@@ -866,7 +866,7 @@ void SystemView::manageTate(bool remove)
 
 void SystemView::manageSystemsList()
 {
-  for (auto& system : mSystemManager.GetAllSystemList())
+  for (const auto& system : mSystemManager.GetAllSystemList())
   {
     if(system->Descriptor().IsPort())
       continue;

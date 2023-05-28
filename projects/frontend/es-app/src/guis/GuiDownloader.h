@@ -26,7 +26,7 @@ class GuiDownloader : public Gui
      * @brief Destructor
      * Update System view
      */
-    ~GuiDownloader() override;
+    ~GuiDownloader() override {}
 
     /*!
      * @brief Check cancel bouton
@@ -73,8 +73,10 @@ class GuiDownloader : public Gui
 
     /*!
      * @brief Notify the UI the download is complete
+     * @param system System that needs to be refreshed
+     * @param aborted true if the download has been cancelled by the user
      */
-    void DownloadComplete(SystemData& system) override;
+    void DownloadComplete(SystemData& system, bool aborted) override;
 
   private:
     //! Download manager private instance

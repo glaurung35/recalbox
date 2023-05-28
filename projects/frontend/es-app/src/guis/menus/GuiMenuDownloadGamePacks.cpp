@@ -5,18 +5,27 @@
 #include "GuiMenuDownloadGamePacks.h"
 #include "systems/DownloaderManager.h"
 #include "guis/GuiDownloader.h"
+#include "systems/SystemDeserializer.h"
 #include <systems/SystemManager.h>
 
 GuiMenuDownloadGamePacks::GuiMenuDownloadGamePacks(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("DOWNLOAD CONTENTS"), this)
   , mSystemManager(systemManager)
 {
-  for(int i = 0; i < (int)systemManager.GetAllSystemList().size(); ++i)
-    if (systemManager.GetAllSystemList()[i]->Descriptor().HasDownloader())
-      AddSubMenu(systemManager.GetAllSystemList()[i]->FullName(), i);
+  SystemDeserializer deserializer;
+  bool loaded = deserializer.LoadSystems();
+
+  for (int index = 0; index < deserializer.Count(); ++index)
+    if (SystemDescriptor descriptor; deserializer.Deserialize(index, descriptor))
+      if (descriptor.HasDownloader())
+      {
+        AddSubMenu(descriptor.FullName(), (int)mDescriptors.size());
+        mDescriptors.push_back(descriptor);
+      }
 }
 
 void GuiMenuDownloadGamePacks::SubMenuSelected(int id)
 {
-  mWindow.pushGui(new GuiDownloader(mWindow, *mSystemManager.GetAllSystemList()[id]));
+  SystemData& target = mSystemManager.GetOrCreateSystem(mDescriptors[id]);
+  mWindow.pushGui(new GuiDownloader(mWindow, target));
 }

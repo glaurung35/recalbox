@@ -5,6 +5,7 @@
 
 #include <guis/menus/GuiMenuBase.h>
 #include <components/SwitchComponent.h>
+#include "systems/SystemDescriptor.h"
 
 // Forward declarations
 class SystemManager;
@@ -17,6 +18,10 @@ class GuiMenuDownloadGamePacks: public GuiMenuBase
     GuiMenuDownloadGamePacks(WindowManager& window, SystemManager& systemManager);
 
   private:
+    //! Descriptor local array
+    std::vector<SystemDescriptor> mDescriptors;
+
+    //! System manager reference
     SystemManager& mSystemManager;
 
     /*

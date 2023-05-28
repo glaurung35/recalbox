@@ -18,13 +18,7 @@ Wasm4Downloader::Wasm4Downloader(SystemData& wasm4, IGuiDownloaderUpdater& updat
 {
 }
 
-void Wasm4Downloader::StartDownload()
-{
-  // start the thread if not aleady done
-  Thread::Start("wasm4-dl");
-}
-
-void Wasm4Downloader::Run()
+void Wasm4Downloader::DownloadAndInstall()
 {
   String title(_("DOWNLOADING GAMES FOR %s"));
   mUpdater.UpdateTitleText(title.Replace("%s", "WASM4"));
@@ -149,7 +143,6 @@ void Wasm4Downloader::Run()
 
   // Delete temp file
   destination.Delete();
-  mSender.Send(Wasm4DownloadingGameState::Completed);
 }
 
 void Wasm4Downloader::DownloadProgress(const Http& http, long long int currentSize, long long int expectedSize)
@@ -203,11 +196,6 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
       mUpdater.UpdateETAText(text);
       break;
     }
-    case Wasm4DownloadingGameState::Completed:
-    {
-      mUpdater.DownloadComplete(mSystem);
-      break;
-    }
     case Wasm4DownloadingGameState::WriteOnlyShare:
     {
       mUpdater.UpdateETAText("Can't write games to share!");
@@ -219,5 +207,10 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
       break;
     }
   }
+}
+
+void Wasm4Downloader::Completed(bool stopped)
+{
+  mUpdater.DownloadComplete(mSystem, stopped);
 }
 

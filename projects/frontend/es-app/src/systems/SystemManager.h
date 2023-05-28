@@ -219,9 +219,10 @@ class SystemManager :
      * @brief Create regular system from a SystemDescriptor object
      * @param systemDescriptor SystemDescriptor object
      * @param forceLoad Force reloading list from disk and not only from gamelist.xml
+     * @param ignoreGameCheck Ignore checking game count and force all processing & theme loading
      * @return New system
      */
-    SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad);
+    SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad, bool ignoreGameCheck = false);
 
     /*!
      * @brief Create Favorite system using favorites available in systems from a list
@@ -528,4 +529,6 @@ class SystemManager :
      * @return Always true
      */
     bool AddTateMetaSystem();
+
+    SystemData& GetOrCreateSystem(const SystemDescriptor& descriptor);
 };

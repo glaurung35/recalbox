@@ -92,7 +92,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
     /*!
      * @brief Default destructor
      */
-    ~BiosManager() override = default;
+    ~BiosManager() override { Thread::Join(); }
 
     /*!
      * @brief Load all bios from bios.xml

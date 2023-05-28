@@ -78,7 +78,7 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system)
   if (DownloaderManager::HasDownloader(system))
   {
     mDownloader = mDownloadManager.CreateOrGetDownloader(system, *this);
-    if (mDownloader != nullptr) mDownloader->StartDownload();
+    if (mDownloader != nullptr) mDownloader->StartDownload(String("dl-").Append(system.Name()).c_str());
     else
     {
       LOG(LogError) << "[GuiDownloader] Cannot obtain downloader for System " << system.FullName();
@@ -97,7 +97,6 @@ bool GuiDownloader::ProcessInput(const InputCompactEvent& event)
   if (event.CancelPressed())
   {
     mDownloader->MustExitAsap();
-    Close();
     return true;
   }
   return Component::ProcessInput(event);
@@ -129,9 +128,15 @@ void GuiDownloader::UpdateETAText(const String& text)
   mGrid.onSizeChanged();
 }
 
-void GuiDownloader::DownloadComplete(SystemData& system)
+void GuiDownloader::DownloadComplete(SystemData& system, bool aborted)
 {
-  ViewController::Instance().setInvalidGamesList(&system);
+  if (!aborted)
+  {
+    ViewController& vc = ViewController::Instance();
+    vc.setInvalidGamesList(&system);
+    vc.getSystemListView().manageSystemsList();
+    vc.getSystemListView().setSelectedName(system.Name());
+  }
   mWindow.CloseAll();
 }
 
@@ -139,12 +144,6 @@ void GuiDownloader::UpdateTitleText(const String& text)
 {
   mTitle->setText(text);
   mGrid.onSizeChanged();
-}
-
-GuiDownloader::~GuiDownloader()
-{
-  // Refresh system view
-  ViewController::Instance().getSystemListView().manageSystemsList();
 }
 
 

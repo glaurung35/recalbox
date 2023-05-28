@@ -1,8 +1,16 @@
 diff --git a/src/osd/retro/libretro.c b/src/osd/retro/libretro.c
-index f50b5ff7d2..2bf0f02d6e 100755
+index f50b5ff7d2..a9bcbad250 100755
 --- a/src/osd/retro/libretro.c
 +++ b/src/osd/retro/libretro.c
-@@ -702,7 +702,39 @@ size_t retro_get_memory_size(unsigned type) { return 0; }
+@@ -642,6 +642,7 @@ bool retro_load_game(const struct retro_game_info *info)
+    extract_directory(g_rom_dir, info->path, sizeof(g_rom_dir));
+    strcpy(RPATH,info->path);
+ 
++   SetControllerInfo();
+    return true;
+ }
+ 
+@@ -702,7 +703,38 @@ size_t retro_get_memory_size(unsigned type) { return 0; }
  bool retro_load_game_special(unsigned game_type, const struct retro_game_info *info, size_t num_info) {return false; }
  void retro_cheat_reset(void) {}
  void retro_cheat_set(unsigned unused, bool unused1, const char* unused2) {}
@@ -12,10 +20,15 @@ index f50b5ff7d2..2bf0f02d6e 100755
 +#define MAX_PLAYERS 4
 +struct retro_controller_info controller_infos[MAX_PLAYERS+1];
 +
++
++void retro_set_controller_port_device(unsigned in_port, unsigned device) {
++  log_cb(RETRO_LOG_DEBUG, "RETRO_SET_CONTROLLER_PORT_DEVICE: port %d device %d\n", in_port, device);
++  if(in_port <=3)
++    retro_input_device_type[in_port] = device;
++}
++
 +void SetControllerInfo()
 +{
-+  log_cb(RETRO_LOG_INFO, "Setting controllers info\n");
-+
 +  static const struct retro_controller_description controller_description[] = {
 +      { "Classic", RETROPAD_CLASSIC },
 +      { "Recalbox Jamma (NeoLine)", RETRO_RB_JAMMA_NEOLINE },
@@ -32,13 +45,7 @@ index f50b5ff7d2..2bf0f02d6e 100755
 +  controller_infos[MAX_PLAYERS].types = NULL;
 +  controller_infos[MAX_PLAYERS].num_types = 0;
 +
-+  log_cb(RETRO_LOG_INFO, "Waiting for retro controllers infos\n");
 +  environ_cb(RETRO_ENVIRONMENT_SET_CONTROLLER_INFO, controller_infos);
-+}
-+void retro_set_controller_port_device(unsigned in_port, unsigned device) {
-+  	log_cb(RETRO_LOG_INFO, "RETRO_SET_CONTROLLER_PORT_DEVICE: port %d device %d\n", in_port, device);
-+    if(in_port <=3)
-+      retro_input_device_type[in_port] = device;
 +}
  
  void *retro_get_fb_ptr(void)
@@ -62,7 +69,7 @@ index c8fb1472a6..96915b8647 100755
  }
  #endif
 diff --git a/src/osd/retro/retromain.c b/src/osd/retro/retromain.c
-index 751ea4432a..27001a8fa7 100755
+index 751ea4432a..21f62a2092 100755
 --- a/src/osd/retro/retromain.c
 +++ b/src/osd/retro/retromain.c
 @@ -813,7 +813,7 @@ input_item_id PAD_DIR[4][4]=
@@ -74,24 +81,22 @@ index 751ea4432a..27001a8fa7 100755
  
  static INT32 retrokbd_get_state(void *device_internal, void *item_internal)
  {
-@@ -916,6 +916,9 @@ void process_mouse_state(void)
+@@ -916,6 +916,8 @@ void process_mouse_state(void)
     }
  }
  
 +unsigned int retro_input_device_type[4] = {0};
 +
-+
  static void initInput(running_machine &machine)
  {
     int i,j,button;
-@@ -958,11 +961,13 @@ static void initInput(running_machine &machine)
+@@ -957,12 +959,10 @@ static void initInput(running_machine &machine)
+    }while(ktable[i].retro_key_name!=-1);
  
     //JOY/PAD
- 
+-
 -   Input_Binding(machine);
-+   log_cb(RETRO_LOG_INFO, "Calling setControllerInfo\n");
-+   SetControllerInfo();
- 
+-
     for(i=0;i<4;i++)
     {
        sprintf(defname, "Joy%d", i);
@@ -99,7 +104,7 @@ index 751ea4432a..27001a8fa7 100755
        joy_device[i]=machine.input().device_class(DEVICE_CLASS_JOYSTICK).add_device(defname);
  
        // add the axes
-@@ -1015,7 +1020,7 @@ static void initInput(running_machine &machine)
+@@ -1015,7 +1015,7 @@ static void initInput(running_machine &machine)
     }
  }
  
@@ -108,7 +113,7 @@ index 751ea4432a..27001a8fa7 100755
  {
     fprintf(stderr, "SOURCE FILE: %s\n", machine.system().source_file);
     fprintf(stderr, "PARENT: %s\n", machine.system().parent);
-@@ -1024,12 +1029,21 @@ static void Input_Binding(running_machine &machine)
+@@ -1024,12 +1024,25 @@ static void Input_Binding(running_machine &machine)
     fprintf(stderr, "YEAR: %s\n", machine.system().year);
     fprintf(stderr, "MANUFACTURER: %s\n", machine.system().manufacturer);
  
@@ -118,9 +123,13 @@ index 751ea4432a..27001a8fa7 100755
 -   Buttons_mapping[3]=RETROPAD_Y;
 -   Buttons_mapping[4]=RETROPAD_L;
 -   Buttons_mapping[5]=RETROPAD_R;
++  log_cb(RETRO_LOG_DEBUG, "[INPUTS] device type for player %d = %d\n", player, retro_input_device_type[player]);
++
 +   if(RB_JAMMA(retro_input_device_type[player])){
-+     Buttons_mapping[0]=RETROPAD_A;
-+     Buttons_mapping[1]=RETROPAD_B;
++     log_cb(RETRO_LOG_DEBUG, "[INPUTS] Mapping RB_JAMMA device\n");
++     //    Default : A ->B1 | B ->B2 | X ->B3 | Y ->B4 | L ->B5 | R ->B6 | keyboard c ->B7 | keyboard v -> B8
++     Buttons_mapping[0]=RETROPAD_B;
++     Buttons_mapping[1]=RETROPAD_A;
 +     Buttons_mapping[2]=RETROPAD_Y;
 +     Buttons_mapping[3]=RETROPAD_X;
 +     Buttons_mapping[4]=RETROPAD_L;
@@ -136,7 +145,7 @@ index 751ea4432a..27001a8fa7 100755
  
     if (
           (core_stricmp(machine.system().name, "tekken") == 0) ||
-@@ -1124,7 +1138,7 @@ static void Input_Binding(running_machine &machine)
+@@ -1124,7 +1137,7 @@ static void Input_Binding(running_machine &machine)
        Buttons_mapping[5]=RETROPAD_A;
  
     }
@@ -145,7 +154,7 @@ index 751ea4432a..27001a8fa7 100755
                (core_stricmp(machine.system().name, "dstlk") == 0) ||
                (core_stricmp(machine.system().parent, "dstlk") == 0) ||
                (core_stricmp(machine.system().name, "hsf2") == 0) ||
-@@ -1181,7 +1195,7 @@ static void Input_Binding(running_machine &machine)
+@@ -1181,9 +1194,10 @@ static void Input_Binding(running_machine &machine)
                (core_stricmp(machine.system().parent, "xmcota") == 0) ||
                (core_stricmp(machine.system().name, "xmvsf") == 0) ||
                (core_stricmp(machine.system().parent, "xmvsf") == 0)
@@ -153,7 +162,10 @@ index 751ea4432a..27001a8fa7 100755
 +           ))
     {
        /* Capcom CPS-1 and CPS-2 6-button fighting games */
++     log_cb(RETRO_LOG_DEBUG, "[INPUTS] Switching to 6 buttons game\n");
  
+       Buttons_mapping[0]=RETROPAD_Y;
+       Buttons_mapping[1]=RETROPAD_X;
 @@ -1283,13 +1297,28 @@ static void Input_Binding(running_machine &machine)
             )
     {
@@ -170,8 +182,8 @@ index 751ea4432a..27001a8fa7 100755
 +        Buttons_mapping[1] = RETROPAD_B;
 +        Buttons_mapping[2] = RETROPAD_A;
 +        Buttons_mapping[3] = RETROPAD_Y;
-+        Buttons_mapping[4] = RETROPAD_R;
-+        Buttons_mapping[5] = RETROPAD_L;
++        Buttons_mapping[4] = RETROPAD_L;
++        Buttons_mapping[5] = RETROPAD_R;
 +      } else if (retro_input_device_type[player] == RETRO_RB_JAMMA_NEOSQUARE) {
 +        Buttons_mapping[0] = RETROPAD_B;
 +        Buttons_mapping[1] = RETROPAD_X;

@@ -4,9 +4,7 @@
 
 #include "PatronInfo.h"
 #include "utils/network/Http.h"
-#include "utils/Log.h"
 #include <rapidjson/document.h>
-#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
 
@@ -80,7 +78,7 @@ void PatronInfo::Initialize()
           {
             { LOG(LogError) << "[Patreon] Http error: " << http.GetLastHttpResponseCode(); }
             mResult = PatronAuthenticationResult::HttpError;
-            Thread::Sleep(10000); // Wait 10s & retry
+            if (Wait(10)) return; // Wait 10s & retry
           }
         }
       }
@@ -88,7 +86,7 @@ void PatronInfo::Initialize()
       {
         { LOG(LogError) << "[Patreon] Unknown Http error"; }
         mResult = PatronAuthenticationResult::HttpError;
-        Thread::Sleep(1000); // Wait 1s & retry
+        if (Wait(1)) return; // Wait 1s & retry
       }
     }
 
@@ -116,4 +114,15 @@ void PatronInfo::WaitForAuthentication(Thread& caller) const
 {
   while(!mDone && caller.IsRunning())
     Thread::Sleep(1000);
+}
+
+bool PatronInfo::Wait(int second) const
+{
+  static constexpr int sTimeSliceMs = 200;
+  for(second *= 1000 / sTimeSliceMs; --second >= 0; )
+    if (!IsRunning())
+      return true;
+    else
+      usleep(sTimeSliceMs * 1000);
+  return false;
 }

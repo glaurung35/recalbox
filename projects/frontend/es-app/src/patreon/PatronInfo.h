@@ -82,4 +82,11 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      * @brief Received synchronous events
      */
     void ReceiveSyncMessage() final;
+
+    /*!
+     * @brief Wait the given amount of seconds
+     * @param second Time to wait in second
+     * @return False if the wait is succesful, true if the thread lust exit immediately
+     */
+    bool Wait(int second) const;
 };

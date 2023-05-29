@@ -4,9 +4,7 @@
 
 #include "PatronInfo.h"
 #include "utils/network/Http.h"
-#include "utils/Log.h"
 #include <rapidjson/document.h>
-#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
 
@@ -29,14 +27,13 @@ void PatronInfo::Initialize()
     unsigned int start = SDL_GetTicks();
     while((SDL_GetTicks() - start) < sNetworkTimeout)
     {
-      Http http;
-      http.SetBearer(mToken);
+      mHttp.SetBearer(mToken);
       std::string url = sRootDomainName;
       std::string body;
       url.append("/userinfo");
-      if (http.Execute(url, body))
+      if (mHttp.Execute(url, body))
       {
-        bool success = http.GetLastHttpResponseCode() == 200;
+        bool success = mHttp.GetLastHttpResponseCode() == 200;
         { LOG(LogInfo) << "[Patreon] Request " << (success ? " successful" : "failed"); }
         if (success)
         {
@@ -70,7 +67,7 @@ void PatronInfo::Initialize()
         }
         else
         {
-          if (http.GetLastHttpResponseCode() == 401)
+          if (mHttp.GetLastHttpResponseCode() == 401)
           {
             { LOG(LogError) << "[Patreon] Invalid key!"; }
             mResult = PatronAuthenticationResult::Invalid;
@@ -78,9 +75,9 @@ void PatronInfo::Initialize()
           }
           else
           {
-            { LOG(LogError) << "[Patreon] Http error: " << http.GetLastHttpResponseCode(); }
+            { LOG(LogError) << "[Patreon] Http error: " << mHttp.GetLastHttpResponseCode(); }
             mResult = PatronAuthenticationResult::HttpError;
-            Thread::Sleep(10000); // Wait 10s & retry
+            if (Wait(10)) return; // Wait 10s & retry
           }
         }
       }
@@ -88,7 +85,7 @@ void PatronInfo::Initialize()
       {
         { LOG(LogError) << "[Patreon] Unknown Http error"; }
         mResult = PatronAuthenticationResult::HttpError;
-        Thread::Sleep(1000); // Wait 1s & retry
+        if (Wait(1)) return; // Wait 1s & retry
       }
     }
 
@@ -116,4 +113,15 @@ void PatronInfo::WaitForAuthentication(Thread& caller) const
 {
   while(!mDone && caller.IsRunning())
     Thread::Sleep(1000);
+}
+
+bool PatronInfo::Wait(int second) const
+{
+  static constexpr int sTimeSliceMs = 200;
+  for(second *= 1000 / sTimeSliceMs; --second >= 0; )
+    if (!IsRunning())
+      return true;
+    else
+      usleep(sTimeSliceMs * 1000);
+  return false;
 }

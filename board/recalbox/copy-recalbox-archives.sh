@@ -7,75 +7,6 @@
 # BINARIES_DIR = output/images
 # TARGET_DIR = output/target
 
-# XU4 SD/EMMC CARD
-#
-#       1      31      63          1503     2015    2047
-# +-----+-------+-------+-----------+--------+-------+--------+----------+--------------+
-# | MBR |  bl1  |  bl2  |   uboot   |  tzsw  | erase |  BOOT  |  ROOTFS  |     FREE     |
-# +-----+-------+-------+-----------+--------+-------+--------+----------+--------------+
-#      512     15K     31K         751K    1007K   1023K     64M        1.2G
-#
-# https://wiki.odroid.com/odroid-xu4/software/partition_table
-# https://github.com/hardkernel/u-boot/blob/odroidxu4-v2017.05/sd_fuse/sd_fusing.sh
-
-xu4_fusing() {
-    BINARIES_DIR=$1
-    RECALBOXIMG=$2
-
-    # fusing
-    signed_bl1_position=1
-    bl2_position=31
-    uboot_position=63
-    tzsw_position=1503
-    env_position=2015
-
-    echo "BL1 fusing"
-    dd if="${BINARIES_DIR}/bl1.bin.hardkernel"  of="${RECALBOXIMG}" seek=$signed_bl1_position conv=notrunc || return 1
-
-    echo "BL2 fusing"
-    dd if="${BINARIES_DIR}/bl2.bin.hardkernel.720k_uboot"    of="${RECALBOXIMG}" seek=$bl2_position        conv=notrunc || return 1
-
-    echo "u-boot fusing"
-    dd if="${BINARIES_DIR}/u-boot.bin.hardkernel" of="${RECALBOXIMG}" seek=$uboot_position      conv=notrunc || return 1
-
-    echo "TrustZone S/W fusing"
-    dd if="${BINARIES_DIR}/tzsw.bin.hardkernel"   of="${RECALBOXIMG}" seek=$tzsw_position       conv=notrunc || return 1
-
-    echo "u-boot env erase"
-    dd if=/dev/zero of="${RECALBOXIMG}" seek=$env_position count=32 bs=512 conv=notrunc || return 1
-}
-
-# GO2 SD CARD
-#
-# 0s    1           16384  24576    32768     262144
-# +-----+------------+-------+---------+--------+----------+-----------------+
-# | MBR | idbloadder | uboot |  trust  |  BOOT  |  ROOTFS  |     OVERLAY     |
-# +-----+------------+-------+---------+--------+----------+-----------------+
-# 0b 512    ~4M         4M       4M       112M
-#
-# https://wiki.odroid.com/odroid-xu4/software/partition_table
-# https://github.com/hardkernel/u-boot/blob/odroidxu4-v2017.05/sd_fuse/sd_fusing.sh
-#sudo dd if=$IDBLOADER of=$1 conv=fsync bs=512 seek=64
-#sudo dd if=$UBOOT of=$1 conv=fsync bs=512 seek=16384
-#sudo dd if=$TRUST of=$1 conv=fsync bs=512 seek=24576
-odroidgo2_fusing() {
-    BINARIES_DIR=$1
-    RECALBOXIMG=$2
-
-    # fusing
-    idbloader_position=64
-    uboot_position=16384
-    trust_position=24576
-
-    echo "IDBLOADER fusing"
-    dd if="${BINARIES_DIR}/idbloader.img" of="${RECALBOXIMG}" seek=$idbloader_position conv=notrunc bs=512 || return 1
-
-    echo "uboot fusing"
-    dd if="${BINARIES_DIR}/uboot.img"     of="${RECALBOXIMG}" seek=$uboot_position conv=notrunc bs=512 || return 1
-
-    echo "Trust fusing"
-    dd if="${BINARIES_DIR}/trust.img"     of="${RECALBOXIMG}" seek=$trust_position conv=notrunc bs=512 || return 1
-}
 # $1 boot directory
 generate_boot_file_list() {
   pushd "$1" >/dev/null
@@ -83,25 +14,50 @@ generate_boot_file_list() {
   popd >/dev/null
 }
 
+compute_md5() {
+	# create boot.md5
+	pushd "$1" >/dev/null || return 1
+	find . ! -name boot.md5 -type f -exec md5sum {} \; >boot.md5 || return 1
+	popd >/dev/null
+}
+
 generate_recalbox_tar_xz() {
 	local source_dir="$1"
 	local dest_file="$2"
-	# create boot.md5
-	pushd "$source_dir" >/dev/null
-	find . ! -name boot.md5 -type f -exec md5sum {} \; >boot.md5
-	popd >/dev/null
 	# recalbox.tar.xz (formerly boot.tar.xz)
 	tar -C "$source_dir" -cJf "$dest_file" . 
 }
 
+generate_recalbox_img() {
+	local root_path="$1"
+	local input_path="$2"
+	local output_path="$3"
+	local tmp_path="$4"
+	# clean temp dir
+	rm -rf "${tmp_path}" || return 1
+
+	genimage --rootpath="${root_path}" --inputpath="${input_path}" --outputpath="${output_path}" --config="${input_path}/genimage.cfg" --tmppath="${tmp_path}" || return 1
+	rm -f "${output_path}/boot.vfat" || return 1
+	rm -f "${input_path}/rootfs.tar" || return 1
+	rm -f "${input_path}/rootfs.squashfs" || return 1
+	sync
+}
+
+# prepare genimage.cfg, replace @files section with list of files
+# $1=genimage source file
+prepare_genimage_cfg() {
+	local genimage_cfg_source="$1"
+	FILES=$(find "${BINARIES_DIR}/boot-data" -type f | sed -e s+"^${BINARIES_DIR}/boot-data/\(.*\)$"+"file \1 \{ image = 'boot-data/\1' }"+ | tr '\n' '@')
+	sed -e s+'@files'+"${FILES}"+ "${genimage_cfg_source}" | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
+}
+
 RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
-RECALBOX_TARGET_DIR="${TARGET_DIR}/recalbox"
 
-if [ -d "${RECALBOX_BINARIES_DIR}" ]; then
-    rm -rf "${RECALBOX_BINARIES_DIR}"
-fi
-
+[[ -d "${RECALBOX_BINARIES_DIR}" ]] && rm -rf "${RECALBOX_BINARIES_DIR}"
 mkdir -p "${RECALBOX_BINARIES_DIR}"
+
+[[ -d "${BINARIES_DIR}/boot-data" ]] && rm -rf "${BINARIES_DIR}/boot-data"
+mkdir -p "${BINARIES_DIR}/boot-data"
 
 # XU4, RPI1, RPI2 or RPI3
 RECALBOX_TARGET=$(grep -E "^BR2_PACKAGE_RECALBOX_TARGET_[A-Z_0-9]*=y$" "${BR2_CONFIG}" | sed -e s+'^BR2_PACKAGE_RECALBOX_TARGET_\([A-Z_0-9]*\)=y$'+'\1'+)
@@ -116,206 +72,166 @@ case "${RECALBOX_TARGET}" in
     RPI1|RPI3|RPI4|RPI4_64|RPIZERO2LEGACY|RPIZERO2)
 	# /boot
 	echo "generating boot"
-	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/rpi-firmware"
-	cp -r "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/rpi-firmware/" || exit 1
-	rm -rf "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
+	cp -f "${BINARIES_DIR}/"*.dtb "${BINARIES_DIR}/boot-data"
+	cp -r "${BINARIES_DIR}/overlays" "${BINARIES_DIR}/boot-data/" || exit 1
+	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
   [ -f "${BINARIES_DIR}/zImage" ] && KERNEL=zImage || KERNEL=Image 
-	cp "${BINARIES_DIR}/${KERNEL}" "${BINARIES_DIR}/rpi-firmware/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rpi-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rpi-firmware/boot/recalbox" || exit 1
-  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rpi-firmware/pre-upgrade.sh"
+	cp "${BINARIES_DIR}/${KERNEL}" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
+	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
 
-	generate_boot_file_list "${BINARIES_DIR}/rpi-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$' >"${BINARIES_DIR}/rpi-firmware/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
+		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
-	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/rpi-firmware/"
-
-	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg" "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
-	FILES=$(find "${BINARIES_DIR}/rpi-firmware" -type f | sed -e s+"^${BINARIES_DIR}/rpi-firmware/\(.*\)$"+"file \1 \{ image = 'rpi-firmware/\1' }"+ | tr '\n' '@')
-	cat "${BINARIES_DIR}/genimage.cfg.tmp" | sed -e s+'@files'+"${FILES}"+ | tr '@' '\n' > "${BINARIES_DIR}/genimage.cfg" || exit 1
-	rm -f "${BINARIES_DIR}/genimage.cfg.tmp" || exit 1
-	echo "generating image"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-	sync || exit 1
+	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg"
 	;;
 
 	ODROIDXU4)
-	rm -rf "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
+	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
 
 	# /boot
 	echo "generating boot"
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/odroidxu4-firmware/config.ini" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/odroidxu4-firmware/boot.ini.sample" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/odroidxu4-firmware/config.ini.sample" || exit 1
-	mkdir -p "${BINARIES_DIR}/odroidxu4-firmware/overlays"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/boot-data/boot.ini" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/boot-data/config.ini" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/boot.ini" "${BINARIES_DIR}/boot-data/boot.ini.sample" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/config.ini" "${BINARIES_DIR}/boot-data/config.ini.sample" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/overlays"
 	for overlay in ads7846 hktft32 hktft35 hktft-cs-ogst \
-	             i2c0 i2c1 spi0 sx865x-i2c1 uart0; do
-		cp "${BINARIES_DIR}/${overlay}.dtb" "${BINARIES_DIR}/odroidxu4-firmware/overlays/${overlay}.dtbo" || exit 1
+	               i2c0 i2c1 spi0 sx865x-i2c1 uart0; do
+		cp "${BINARIES_DIR}/${overlay}.dtb" "${BINARIES_DIR}/boot-data/overlays/${overlay}.dtbo" || exit 1
 	done
-	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/odroidxu4-firmware/boot" || exit 1
-	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidxu4-firmware/boot/" || exit 1
-	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/odroidxu4-firmware/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidxu4-firmware/boot/recalbox" || exit 1
-  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidxu4-firmware/pre-upgrade.sh"
+	cp "${BINARIES_DIR}/exynos5422-odroidxu4.dtb" "${BINARIES_DIR}/boot-data/boot" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
+	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
+	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
 
-	generate_boot_file_list "${BINARIES_DIR}/odroidxu4-firmware/" | \
-		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/odroidxu4-firmware/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
+		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
-	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidxu4-firmware/"
-
-	# recalbox.img
-	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/genimage.cfg" "${BINARIES_DIR}" || exit 1
-	echo "generating image"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-	xu4_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
-	sync || exit 1
+	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/genimage.cfg"
 	;;
 
 	ODROIDGO2)
-	rm -rf "${BINARIES_DIR}/odroidgo2-firmware/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/odroidgo2-firmware/boot" || exit 1
+	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
 
 	# /boot
 	echo "generating boot"
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/boot.ini" "${BINARIES_DIR}/odroidgo2-firmware/boot.ini" || exit 1
-	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
-	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
-	cp "${BINARIES_DIR}/rk3326-odroidgo3-linux.dtb" "${BINARIES_DIR}/odroidgo2-firmware" || exit 1
-	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/odroidgo2-firmware/boot/" || exit 1
-	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/odroidgo2-firmware/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/odroidgo2-firmware/boot/recalbox" || exit 1
-  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/odroidgo2-firmware/pre-upgrade.sh"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/boot.ini" "${BINARIES_DIR}/boot-data/boot.ini" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux-v11.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+	cp "${BINARIES_DIR}/rk3326-odroidgo3-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
+	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
+	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
 
-	generate_boot_file_list "${BINARIES_DIR}/odroidgo2-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/odroidgo2-firmware/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
-	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/odroidgo2-firmware/"
-
-	# recalbox.img
-	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/genimage.cfg" "${BINARIES_DIR}" || exit 1
-	echo "generating image"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-	odroidgo2_fusing "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}/recalbox.img" || exit 1
-	sync || exit 1
+	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/genimage.cfg"
 	;;
 
 	RG353X)
-	rm -rf "${BINARIES_DIR}/rg353x-firmware/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/extlinux" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/dtb" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/64" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/16384" || exit 1
-	mkdir -p "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/24576" || exit 1
+	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/extlinux" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/dtb" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/64" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/16384" || exit 1
+	mkdir -p "${BINARIES_DIR}/boot-data/boot/bootloader/24576" || exit 1
 
 	# /boot
 	echo "generating boot"
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/rg353x-firmware/boot/extlinux/extlinux.conf" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/boot-640x480.ppm" "${BINARIES_DIR}/rg353x-firmware/boot.ppm" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353p-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353v-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg353m-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rg503-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/rk3566-rk2023-linux.dtb" "${BINARIES_DIR}/rg353x-firmware/boot/dtb/" || exit 1
-	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/rg353x-firmware/boot/initrd.gz" || exit 1
-	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/rg353x-firmware/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/rg353x-firmware/boot/recalbox" || exit 1
-	cp "${BINARIES_DIR}/idbloader.img" "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/64/" || exit 1
-	cp "${BINARIES_DIR}/uboot.img"     "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/16384/" || exit 1
-	cp "${BINARIES_DIR}/resource.img"  "${BINARIES_DIR}/rg353x-firmware/boot/bootloader/24576/" || exit 1
-  [[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-    cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/rg353x-firmware/pre-upgrade.sh"
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/extlinux.conf" "${BINARIES_DIR}/boot-data/boot/extlinux/extlinux.conf" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/boot-640x480.ppm" "${BINARIES_DIR}/boot-data/boot.ppm" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353p-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353v-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg353m-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rg503-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/rk3566-rk2023-linux.dtb" "${BINARIES_DIR}/boot-data/boot/dtb/" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot/initrd.gz" || exit 1
+	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
+	cp "${BINARIES_DIR}/idbloader.img" "${BINARIES_DIR}/boot-data/boot/bootloader/64/" || exit 1
+	cp "${BINARIES_DIR}/uboot.img"     "${BINARIES_DIR}/boot-data/boot/bootloader/16384/" || exit 1
+	cp "${BINARIES_DIR}/resource.img"  "${BINARIES_DIR}/boot-data/boot/bootloader/24576/" || exit 1
+	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
 
-	generate_boot_file_list "${BINARIES_DIR}/rg353x-firmware/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/rg353x-firmware/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
-	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/rg353x-firmware/"
-
-	# recalbox.img
-	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/genimage.cfg" "${BINARIES_DIR}" || exit 1
-	echo "generating image"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
-	rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-	rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-	sync || exit 1
+	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/genimage.cfg"
 	;;
 
 	X86_64)
 	# /boot
-	rm -rf ${BINARIES_DIR}/pc-boot/boot || exit 1
-	mkdir -p ${BINARIES_DIR}/pc-boot/boot/grub || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/pc-boot/boot/grub/grub.cfg || exit 1
-	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/pc-boot/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/pc-boot/boot" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/pc-boot/boot/recalbox" || exit 1
+	rm -rf ${BINARIES_DIR}/boot-data/boot || exit 1
+	mkdir -p ${BINARIES_DIR}/boot-data/boot/grub || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" ${BINARIES_DIR}/boot-data/boot/grub/grub.cfg || exit 1
+	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
+	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot" || exit 1
+	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
 	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/pc-boot/pre-upgrade.sh"
-	mkdir -p "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootia32.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootx64.efi" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/pc-boot/EFI/BOOT" || exit 1
-	genimg=genimage-x86-64.cfg
+		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
+	mkdir -p "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootia32.efi" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
+	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootx64.efi" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
+	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
 
-	generate_boot_file_list "${BINARIES_DIR}/pc-boot/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/pc-boot/boot.lst"
+	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
+		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
-	RECALBOX_FIRMWARE_PATH="${BINARIES_DIR}/pc-boot/"
-
-	# recalbox.img
+	# copy grub
 	cp "${TARGET_DIR}/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
-	GENIMAGE_TMP="${BUILD_DIR}/genimage.tmp"
-	rm -rf "${GENIMAGE_TMP}" || exit 1
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/${genimg}" "${BINARIES_DIR}/genimage.cfg" || exit 1
-	echo "generating image"
-	genimage --rootpath="${TARGET_DIR}" --inputpath="${BINARIES_DIR}" --outputpath="${RECALBOX_BINARIES_DIR}" --config="${BINARIES_DIR}/genimage.cfg" --tmppath="${GENIMAGE_TMP}" || exit 1
 
-        rm -f "${RECALBOX_BINARIES_DIR}/boot.vfat" || exit 1
-        rm -f "${BINARIES_DIR}/rootfs.tar" || exit 1
-        rm -f "${BINARIES_DIR}/rootfs.squashfs" || exit 1
-	sync || exit 1
+	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/x86/genimage.cfg"
 	;;
 
-    *)
-        echo "Outch. Unknown target ${RECALBOX_TARGET} (see copy-recalbox-archives.sh)" >&2
-        bash
-        exit 1
+	*)
+	echo "Outch. Unknown target ${RECALBOX_TARGET} (see copy-recalbox-archives.sh)" >&2
+	bash
+	exit 1
 esac
 
-# recalbox.tar.xz (formerly boot.tar.xz)
-generate_recalbox_tar_xz "${RECALBOX_FIRMWARE_PATH}" "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" ||
+# generate boot.md5
+echo "Generating boot.md5"
+compute_md5 "${BINARIES_DIR}/boot-data" ||
+	{ echo "ERROR: unable to compute md5" && exit 1; }
+
+# generate recalbox.tar.xz (formerly boot.tar.xz)
+echo "Generating tar"
+generate_recalbox_tar_xz "${BINARIES_DIR}/boot-data/" "${RECALBOX_BINARIES_DIR}/recalbox-${RECALBOX_TARGET_LOWER}.tar.xz" ||
 	{ echo "ERROR : unable to create recalbox.tar.xz" && exit 1 ; }
 
+# prepare genimage.cfg
+echo "Preparing genimage.cfg"
+[[ -z "${GENIMAGE_CFG}" ]] &&
+	{ echo "ERROR: GENIMAGE_CFG is empty, check board customization" && exit 1; }
+prepare_genimage_cfg "${GENIMAGE_CFG}" ||
+	{ echo "ERROR : unable to prepare genimage.cfg" && exit 1 ; }
+
+# generate recalbox.img
+echo "Generating image"
+generate_recalbox_img "${TARGET_DIR}" "${BINARIES_DIR}" "${RECALBOX_BINARIES_DIR}" "${BUILD_DIR}/genimage.tmp" ||
+	{ echo "ERROR : unable to create recalbox.img" && exit 1 ; }
+
 # Compress the generated .img
-if mv -f ${RECALBOX_BINARIES_DIR}/recalbox.img ${RECALBOX_IMG} ; then
-    echo "Compressing ${RECALBOX_IMG} ... "
-    xz -9 -e --threads=0 "${RECALBOX_IMG}" || exit 1
+echo "Compressing image"
+if mv -f "${RECALBOX_BINARIES_DIR}/recalbox.img" "${RECALBOX_IMG}" ; then
+	echo "Compressing ${RECALBOX_IMG} ... "
+	xz -9 -e --threads=0 "${RECALBOX_IMG}" || exit 1
 else
-    echo "Couldn't move recalbox.img or compress it"
-    exit 1
+	echo "ERROR: Couldn't move recalbox.img or compress it"
+	exit 1
 fi
 
 # Computing hash sums to make have an update that can be dropped on a running Recalbox

@@ -19,5 +19,7 @@ define UBOOT_XU4_INSTALL_IMAGES_CMDS
 		$(@D)/sd_fuse/bl2.bin.hardkernel.720k_uboot \
 		$(@D)/sd_fuse/tzsw.bin.hardkernel \
 		$(BINARIES_DIR)
+	dd if=/dev/zero of=$(BINARIES_DIR)/env-erase count=32 bs=512
+	truncate -s 15360 $(BINARIES_DIR)/bl1.bin.hardkernel
 endef
 $(eval $(generic-package))

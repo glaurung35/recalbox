@@ -13,7 +13,7 @@ RECALBOX_HARDWARE_DEPENDENCIES = recalbox-themes host-python3 linux
 
 define RECALBOX_HARDWARE_BUILD_PI
 	$(HOST_DIR)/bin/linux-dtc $(@D)/case/installers/retroflags/assets/overlays/retroflag-case.dts -o $(@D)/retroflag-case.dtbo
-	$(INSTALL) -D -m 0644 $(@D)/retroflag-case.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/retroflag-case.dtbo
+	$(INSTALL) -D -m 0644 $(@D)/retroflag-case.dtbo $(BINARIES_DIR)/boot-data/overlays/retroflag-case.dtbo
 endef
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4)$(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)

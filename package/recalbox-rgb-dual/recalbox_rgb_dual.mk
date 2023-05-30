@@ -17,9 +17,9 @@ define RECALBOX_RGB_DUAL_BUILD_CMDS
 endef
 
 define RECALBOX_RGB_DUAL_INSTALL_TARGET_CMDS
-	$(INSTALL) -D -m 0644 $(@D)/recalboxrgbdual.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/recalboxrgbdual.dtbo
-	$(INSTALL) -D -m 0644 $(@D)/recalboxrgbdual-thirdparty.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/recalboxrgbdual-thirdparty.dtbo
-	$(INSTALL) -D -m 0644 $(@D)/headphones.dtbo $(BINARIES_DIR)/rpi-firmware/overlays/headphones.dtbo
+	$(INSTALL) -D -m 0644 $(@D)/recalboxrgbdual.dtbo $(BINARIES_DIR)/boot-data/overlays/recalboxrgbdual.dtbo
+	$(INSTALL) -D -m 0644 $(@D)/recalboxrgbdual-thirdparty.dtbo $(BINARIES_DIR)/boot-data/overlays/recalboxrgbdual-thirdparty.dtbo
+	$(INSTALL) -D -m 0644 $(@D)/headphones.dtbo $(BINARIES_DIR)/boot-data/overlays/headphones.dtbo
 endef
 
 $(eval $(kernel-module))

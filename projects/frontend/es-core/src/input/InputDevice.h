@@ -1,11 +1,10 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <input/InputEvent.h>
 #include <input/InputCompactEvent.h>
 #include <SDL2/SDL_joystick.h>
 #include <pugixml/pugixml.hpp>
-#include "utils/String.h"
 
 /*!
  * @brief Hold input configurations for a given device
@@ -75,6 +74,11 @@ class InputDevice
     //! This special flags is managed by configuration UI to keep the
     //! "configure" flag in compact event while entries are configured
     bool mConfiguring;
+
+    //! Hotkey state
+    bool mHotkeyState;
+    //! Select has been used to send hotkey events, don't send select!
+    bool mKillSelect;
 
     /*!
      * @brief Convert Entry to Compact Entry.
@@ -153,6 +157,12 @@ class InputDevice
      */
     static int StopEntry(InputCompactEvent::Entry entry, InputCompactEvent::Entry& bits);
 
+    /*!
+     * @brief Check if Hotkey and select are assigned to the same key
+     * @return True if both Hotkey and Select are mapped to the same key
+     */
+    bool IsHotKeyAndSelectKeysTheSame() { return mInputEvents[(int)Entry::Hotkey].EqualsTo(mInputEvents[(int)Entry::Select]); }
+
   public:
     /*!
      * @brief Default constructor
@@ -172,6 +182,8 @@ class InputDevice
       , mPreviousAxisValues{ 0 }
       , mNeutralAxisValues{ 0 }
       , mConfiguring(false)
+      , mHotkeyState(false)
+      , mKillSelect(false)
     {
     }
 
@@ -236,9 +248,9 @@ class InputDevice
 
     /*!
      * @brief Check if the whole pad is in neutral position
-     * @return True if the pad is in neutral position, fals eotherwise
+     * @return True if the pad is in neutral position, false otherwise
      */
-    bool CheckNeutralPosition() const;
+    [[nodiscard]] bool CheckNeutralPosition() const;
 
     /*!
      * @brief Reset all InputEvent

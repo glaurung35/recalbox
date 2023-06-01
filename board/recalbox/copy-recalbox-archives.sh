@@ -10,7 +10,8 @@
 # $1 boot directory
 generate_boot_file_list() {
   pushd "$1" >/dev/null
-  find . -type f -printf '%P\n'
+  find . -type f -printf '%P\n' | \
+		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$'
   popd >/dev/null
 }
 
@@ -80,11 +81,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/${KERNEL}" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
-
-	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
-		grep -v -E '^(boot.lst|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/rpi/genimage.cfg"
 	;;
@@ -108,11 +104,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
-
-	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
-		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/genimage.cfg"
 	;;
@@ -130,11 +121,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
-
-	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/genimage.cfg"
 	;;
@@ -163,11 +149,6 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/idbloader.img" "${BINARIES_DIR}/boot-data/boot/bootloader/64/" || exit 1
 	cp "${BINARIES_DIR}/uboot.img"     "${BINARIES_DIR}/boot-data/boot/bootloader/16384/" || exit 1
 	cp "${BINARIES_DIR}/resource.img"  "${BINARIES_DIR}/boot-data/boot/bootloader/24576/" || exit 1
-	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
-
-	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg353x/genimage.cfg"
 	;;
@@ -180,15 +161,10 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/bzImage" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/initrd.gz" "${BINARIES_DIR}/boot-data/boot" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-	[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
-		cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
 	mkdir -p "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
 	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootia32.efi" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
 	cp "${BINARIES_DIR}/efi-part/EFI/BOOT/bootx64.efi" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
 	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/grub2/grub.cfg" "${BINARIES_DIR}/boot-data/EFI/BOOT" || exit 1
-
-	generate_boot_file_list "${BINARIES_DIR}/boot-data/" | \
-		grep -v -E '^(boot.lst|recalbox-boot.conf)$' >"${BINARIES_DIR}/boot-data/boot.lst"
 
 	# copy grub
 	cp "${TARGET_DIR}/lib/grub/i386-pc/boot.img" "${BINARIES_DIR}/" || exit 1
@@ -202,10 +178,22 @@ case "${RECALBOX_TARGET}" in
 	exit 1
 esac
 
+# copy pre-upgrade
+[[ -f ${BINARIES_DIR}/pre-upgrade.sh ]] && \
+	cp "${BINARIES_DIR}/pre-upgrade.sh" "${BINARIES_DIR}/boot-data/pre-upgrade.sh"
+
+#
+# AT THIS STAGE - NO NEW FILES MAY BE COPIED!
+#
+
 # generate boot.md5
 echo "Generating boot.md5"
 compute_md5 "${BINARIES_DIR}/boot-data" ||
 	{ echo "ERROR: unable to compute md5" && exit 1; }
+
+# generate boot.lst
+echo "Generating boot.lst"
+generate_boot_file_list "${BINARIES_DIR}/boot-data/" >"${BINARIES_DIR}/boot-data/boot.lst"
 
 # generate recalbox.tar.xz (formerly boot.tar.xz)
 echo "Generating tar"

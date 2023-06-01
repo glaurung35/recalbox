@@ -59,7 +59,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // Zero Lag
   AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
 
-
+#if defined(BETA) || defined(DEBUG)
   // ConfiggenV2
   AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
 
@@ -68,6 +68,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
   // Superrez multiplier
   AddList<std::string>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
+#endif
 
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();

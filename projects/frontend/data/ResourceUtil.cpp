@@ -2,7 +2,7 @@
 
 #include "Resources.h"
 
-const uint32_t res2hNrOfFiles = 188;
+const uint32_t res2hNrOfFiles = 189;
 const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/option_arrow.svg", option_arrow_svg_size, option_arrow_svg_data},
     {":/arrow.svg", arrow_svg_size, arrow_svg_data},
@@ -191,7 +191,8 @@ const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/bluetooth/bt_bottom.svg", bluetooth__bt_bottom_svg_size, bluetooth__bt_bottom_svg_data},
     {":/bluetooth/bt_controller.svg", bluetooth__bt_controller_svg_size, bluetooth__bt_controller_svg_data},
     {":/bluetooth/bt_middle.svg", bluetooth__bt_middle_svg_size, bluetooth__bt_middle_svg_data},
-    {":/bluetooth/bt_top.svg", bluetooth__bt_top_svg_size, bluetooth__bt_top_svg_data}
+    {":/bluetooth/bt_top.svg", bluetooth__bt_top_svg_size, bluetooth__bt_top_svg_data},
+    {":/wizard/didyouknow.png", wizard__didyouknow_png_size, wizard__didyouknow_png_data}
 };
 
 res2hMapType::value_type mapTemp[] = {
@@ -382,7 +383,8 @@ res2hMapType::value_type mapTemp[] = {
     std::make_pair(":/bluetooth/bt_bottom.svg", res2hFiles[184]),
     std::make_pair(":/bluetooth/bt_controller.svg", res2hFiles[185]),
     std::make_pair(":/bluetooth/bt_middle.svg", res2hFiles[186]),
-    std::make_pair(":/bluetooth/bt_top.svg", res2hFiles[187])
+    std::make_pair(":/bluetooth/bt_top.svg", res2hFiles[187]),
+    std::make_pair(":/wizard/didyouknow.png", res2hFiles[188])
 };
 
 res2hMapType res2hMap(mapTemp, mapTemp + sizeof mapTemp / sizeof mapTemp[0]);

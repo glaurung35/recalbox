@@ -569,6 +569,9 @@ extern const uint8_t bluetooth__bt_middle_svg_data[];
 extern const uint16_t bluetooth__bt_top_svg_size;
 extern const uint8_t bluetooth__bt_top_svg_data[];
 
+extern const uint32_t wizard__didyouknow_png_size;
+extern const uint8_t wizard__didyouknow_png_data[];
+
 struct Res2hEntry {
     const std::string relativeFileName;
     const uint32_t size;

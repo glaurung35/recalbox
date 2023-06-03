@@ -13,6 +13,7 @@
 #include <guis/GuiInfoPopup.h>
 #include <guis/GuiInfoPopupBase.h>
 #include <utils/locale/LocaleHelper.h>
+#include "MainRunner.h"
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
@@ -24,6 +25,7 @@ InputManager::InputManager()
   , mScancodeStates()
   , mScancodePreviousStates()
   , mJoystickChangePending(false)
+  , mCurrentCase(Case::CurrentCase().Model())
 {
   memset(mScancodeStates, 0, sizeof(mScancodeStates));
   memset(mScancodePreviousStates, 0, sizeof(mScancodePreviousStates));
@@ -295,6 +297,16 @@ InputCompactEvent InputManager::ManageAxisEvent(const SDL_JoyAxisEvent& axis)
 InputCompactEvent InputManager::ManageButtonEvent(const SDL_JoyButtonEvent& button)
 {
   InputDevice& device = GetDeviceConfigurationFromId(button.which);
+  { LOG(LogDebug) << "[InputManager] button pressed: " << button.button << " of device n°" << button.which; }
+  // TODO: implement proper handling of PiBoy XRS menu key to show the menu image
+  if ((mCurrentCase == Case::CaseModel::PiBoyXRS || mCurrentCase == Case::CaseModel::PiBoyDMG) && button.which == 0 && button.button == 10)
+  {
+    SDL_Event event;
+    SDL_memset(&event, 0, sizeof(event)); /* or SDL_zero(event) */
+    event.type = SDL_USER_HELPMENUEVENT;
+    event.user.code = button.state;
+    SDL_PushEvent(&event);    
+  }
   return device.ConvertToCompact(InputEvent(button.which, InputEvent::EventType::Button, button.button, button.state == SDL_PRESSED ? 1 : 0));
 }
 

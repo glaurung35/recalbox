@@ -14,6 +14,8 @@
 #include "bluetooth/BluetoothListener.h"
 #include "recalbox/BootConf.h"
 
+extern uint32_t SDL_USER_HELPMENUEVENT;
+
 class AudioManager;
 class SystemManager;
 

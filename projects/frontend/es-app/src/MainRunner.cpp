@@ -39,6 +39,8 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
+uint32_t SDL_USER_HELPMENUEVENT;
+
 MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug)
   : mRequestedWidth(width)
   , mRequestedHeight(height)
@@ -250,6 +252,9 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   // Allow joystick event
   SDL_JoystickEventState(SDL_ENABLE);
 
+  // Regiser Help events
+  SDL_USER_HELPMENUEVENT = SDL_RegisterEvents(1);
+
   // Demo mode (real game launching)
   DemoMode demoMode(window, systemManager);
 
@@ -303,6 +308,8 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         }
         default: break;
       }
+      if (event.type == SDL_USER_HELPMENUEVENT)
+        { LOG(LogDebug) << "[MainRunner] Help menu asked, code=" << event.user.code; }
     }
 
     if (window.isSleeping() && !GameClipView::IsGameClipEnabled())

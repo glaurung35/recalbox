@@ -11,6 +11,7 @@
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include "IInputChange.h"
+#include "hardware/Case.h"
 
 class WindowManager;
 class InputMapper;
@@ -171,6 +172,9 @@ class InputManager : public IFileSystemWatcherNotification
     FileNotifier mFileNotifier;
     //! Joystick change pendings
     bool mJoystickChangePending;
+
+    //! Case model
+    Case::CaseModel mCurrentCase;
 
     /*!
      * @brief Default constructor

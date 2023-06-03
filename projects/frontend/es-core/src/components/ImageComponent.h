@@ -24,19 +24,21 @@ public:
 
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
   void setImage(const Path& path, bool tile = false);
-  Path getImage() const { return mPath; };
+  [[nodiscard]] Path getImage() const { return mPath; };
 
     //Loads an image from memory.
 	void setImage(const char* image, size_t length, bool tile = false);
 	//Use an already existing texture.
 	void setImage(const std::shared_ptr<TextureResource>& texture);
 
-	Path getImagePath() const { return mPath; };
+	[[nodiscard]] Path getImagePath() const { return mPath; };
 
 	void onSizeChanged() override;
 	void setOpacity(unsigned char opacity) override;
 
-    Vector2f getTargetSize() const { return mTargetSize; }
+  [[nodiscard]] Vector2f getTargetSize() const { return mTargetSize; }
+
+  [[nodiscard]] Vector2i getSourceImageSize() const { return getTextureSize(); }
 
 	// Resize the image to fit this size. If one axis is zero, scale that axis to maintain aspect ratio.
 	// If both are non-zero, potentially break the aspect ratio.  If both are zero, no resizing.

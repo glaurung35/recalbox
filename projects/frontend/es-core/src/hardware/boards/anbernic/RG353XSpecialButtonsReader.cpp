@@ -51,7 +51,7 @@ void RG353XSpecialButtonsReader::Sdl2EventReceived(const SDL_Event& event)
       //InputManager::LogRawEvent(inputEvent);
       InputCompactEvent compactEvent = mDevice->ConvertToCompact(inputEvent);
       //InputManager::LogCompactEvent(compactEvent);
-      mBoardInterface.ProcessSpecialInputs(compactEvent);
+      mBoardInterface.ProcessSpecialInputs(compactEvent, nullptr);
       break;
     }
     case SDL_QUIT:

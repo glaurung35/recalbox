@@ -11,8 +11,10 @@
 #include <utils/Files.h>
 #include <audio/AudioController.h>
 
-bool RG353XBoard::ProcessSpecialInputs(InputCompactEvent& inputEvent)
+bool RG353XBoard::ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action)
 {
+  (void)action;
+
   // Trap hotkey event, as it is needed to handle volup/voldown or brightup/brightdown with HK
   if (inputEvent.HotkeyPressed())
     mVolumeReader.HotkeyPressed();

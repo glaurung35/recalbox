@@ -6,6 +6,7 @@
 #include <input/InputCompactEvent.h>
 #include <hardware/messaging/HardwareMessageSender.h>
 #include "Case.h"
+#include "ISpecialGlobalActions.h"
 
 class Sdl2Runner;
 
@@ -120,7 +121,7 @@ class IBoardInterface
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise
      */
-    virtual bool ProcessSpecialInputs(InputCompactEvent& inputEvent) = 0;
+    virtual bool ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action) = 0;
 
     /*!
      * @brief Suspend!

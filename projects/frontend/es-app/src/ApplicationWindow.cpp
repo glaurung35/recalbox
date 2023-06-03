@@ -3,7 +3,6 @@
 //
 
 #include "ApplicationWindow.h"
-#include "utils/Log.h"
 #include "RotationManager.h"
 
 bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
@@ -19,15 +18,15 @@ bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
   return mViewController.ProcessInput(rotated);
 }
 
-void ApplicationWindow::Rotate(RotationType rotation) {
-  {LOG(LogDebug) << "[ApplicationWindow] Starting rotation"; };
+void ApplicationWindow::Rotate(RotationType rotation)
+{
+  { LOG(LogDebug) << "[ApplicationWindow] Starting rotation"; }
   Renderer::Instance().Rotate(rotation);
-  {LOG(LogDebug) << "[ApplicationWindow] Finalizing windows"; };
-  this->Finalize();
-  {LOG(LogDebug) << "[ApplicationWindow] Init windows with renderer size"; };
-  this->Initialize(Renderer::Instance().RealDisplayWidthAsInt(),Renderer::Instance().RealDisplayHeightAsInt());
-};
-
+  { LOG(LogDebug) << "[ApplicationWindow] Finalizing windows"; }
+  Finalize();
+  { LOG(LogDebug) << "[ApplicationWindow] Init windows with renderer size"; }
+  Initialize(Renderer::Instance().RealDisplayWidthAsInt(),Renderer::Instance().RealDisplayHeightAsInt());
+}
 
 void ApplicationWindow::Update(int deltaTime)
 {
@@ -39,6 +38,9 @@ void ApplicationWindow::Render(Transform4x4f& transform)
 {
   mViewController.Render(transform);
   WindowManager::Render(transform);
+
+  if (mActiveOSD)
+    mOSD.Render(transform);
 }
 
 bool ApplicationWindow::UpdateHelpSystem()
@@ -46,4 +48,23 @@ bool ApplicationWindow::UpdateHelpSystem()
   if (!WindowManager::UpdateHelpSystem())
     mViewController.updateHelpPrompts();
   return true;
+}
+
+void ApplicationWindow::EnableOSDImage(const Path& imagePath, float x, float y, float width, float height, float alpha, bool autoCenter)
+{
+  mOSD.setImage(imagePath);
+  if (autoCenter)
+  {
+    mOSD.setOrigin(0.5f, 0.5f);
+    x = y = 0.5f;
+  }
+  mOSD.setPosition(x * Renderer::Instance().DisplayWidthAsFloat(), y * Renderer::Instance().DisplayHeightAsFloat());
+  mOSD.setMaxSize(width * Renderer::Instance().DisplayWidthAsFloat(), height * Renderer::Instance().DisplayHeightAsFloat());
+  mOSD.setOpacity((unsigned char)(alpha * 255));
+  mActiveOSD = true;
+}
+
+void ApplicationWindow::DisableOSDImage()
+{
+  mActiveOSD = false;
 }

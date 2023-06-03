@@ -123,7 +123,7 @@ class Board: public StaticLifeCycleControler<Board>
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise
      */
-    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) { return mBoard.ProcessSpecialInputs(inputEvent); }
+    bool ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action) { return mBoard.ProcessSpecialInputs(inputEvent, action); }
 
     /*!
      * @brief Start optional global background processes

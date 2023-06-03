@@ -127,7 +127,8 @@ Case Case::Create(CaseModel model)
 
 Case Case::CurrentCase()
 {
-  return Case::FromShortName(BootConf::Instance().GetCase());
+  static Case sCase = Case::FromShortName(BootConf::Instance().GetCase());
+  return sCase;
 }
 
 std::vector<Case> Case::SupportedManualCases()

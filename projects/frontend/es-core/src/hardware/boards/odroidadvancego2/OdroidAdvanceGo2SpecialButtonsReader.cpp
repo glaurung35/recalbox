@@ -50,7 +50,7 @@ void OdroidAdvanceGo2SpecialButtonsReader::Sdl2EventReceived(const SDL_Event& ev
       //InputManager::LogRawEvent(inputEvent);
       InputCompactEvent compactEvent = mDevice->ConvertToCompact(inputEvent);
       //InputManager::LogCompactEvent(compactEvent);
-      mBoardInterface.ProcessSpecialInputs(compactEvent);
+      mBoardInterface.ProcessSpecialInputs(compactEvent, nullptr);
       break;
     }
     case SDL_QUIT:

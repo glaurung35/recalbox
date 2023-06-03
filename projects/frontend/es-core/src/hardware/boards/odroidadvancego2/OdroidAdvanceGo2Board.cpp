@@ -9,8 +9,10 @@
 #include <utils/Files.h>
 #include <audio/AudioController.h>
 
-bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent)
+bool OdroidAdvanceGo2Board::ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action)
 {
+  (void)action;
+
   // When the wizard is on screen, do not consume special key events
   // so that the wizard can use it
   bool pressResult = !RecalboxConf::Instance().GetFirstTimeUse();

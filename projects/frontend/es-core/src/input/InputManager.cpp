@@ -45,6 +45,18 @@ InputManager& InputManager::Instance()
   return _instance;
 }
 
+String InputManager::GetDeviceNameFromId(SDL_JoystickID deviceId)
+{
+  // Already exists?
+  InputDevice* device = mIdToDevices.try_get(deviceId);
+  if (device != nullptr)
+    return device->Name();
+
+  { LOG(LogError) << "[Input] Unexisting device!"; }
+
+  return "Unknown";
+}
+
 InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
 {
   // Already exists?

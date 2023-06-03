@@ -144,6 +144,13 @@ class InputManager : public IFileSystemWatcherNotification
      */
     void WatchJoystickAddRemove(WindowManager* window);
 
+    /*!
+     * @brief Get device name by SDL Identifier
+     * @param deviceId Device identifier
+     * @return Device name
+     */
+    String GetDeviceNameFromId(SDL_JoystickID id);
+
   private:
     //! Device list
     typedef Array<InputDevice> InputDeviceList;

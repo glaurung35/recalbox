@@ -73,6 +73,7 @@ class MainRunner
   , private IPatreonNotification
   , private ILongExecution<USBInitialization, bool>
   , public ISdl2EventNotifier
+  , public ISpecialGlobalAction
 {
   public:
     //! Pending Exit
@@ -133,7 +134,7 @@ class MainRunner
     static bool sForceReloadFromDisk;
 
     //! Inter-thread messaging system
-    SyncMessageFactory syncMessageFactory;
+    SyncMessageFactory mSyncMessageFactory;
 
     //! Recalbox configuration
     RecalboxConf mConfiguration;
@@ -450,7 +451,6 @@ class MainRunner
      */
     void NoRomPathFound(const DeviceMount& deviceRoot) override;
 
-
     /*
      * ISdl2EventNotifier implementation
      */
@@ -460,4 +460,30 @@ class MainRunner
      * @param event SDL2 event
      */
     void Sdl2EventReceived(const SDL_Event& event) final;
+
+    /*
+     * ISpecialGlobalAction implementation
+     */
+
+    /*!
+     * @brief Disable OSD
+     * @param imagePath OSD image
+     * @param x X coordinate in the range of 0.0 (left) ... 1.0 (right)
+     * @param y Y coordinate in the range of 0.0 (up) ... 1.0 (bottom)
+     * @param width Width in the range of 0.0 (invisible) ... 1.0 (full screen width)
+     * @param height Height in the range of 0.0 (invisible) ... 1.0 (full screen height)
+     * @param autoCenter if true, x/y are ignored and the image is screen centered
+     */
+    void EnableOSDImage(const Path& imagePath, float x, float y, float width, float height, float alpha, bool autoCenter) final
+    {
+      if (mApplicationWindow != nullptr) mApplicationWindow->EnableOSDImage(imagePath, x, y, width, height, alpha, autoCenter);
+    }
+
+    /*!
+     * @brief Disable OSD
+     */
+    void DisableOSDImage() final
+    {
+      if (mApplicationWindow != nullptr) mApplicationWindow->DisableOSDImage();
+    }
 };

@@ -97,7 +97,7 @@ class PcComputers: public IBoardInterface
      * @param inputEvent Input to process
      * @return True if the input has been processed, false otherwise
      */
-    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) final { (void)inputEvent; return false; }
+    bool ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action) final { (void)inputEvent; (void)action; return false; }
 
     /*!
      * @brief Suspend!

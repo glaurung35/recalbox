@@ -176,7 +176,7 @@ MainRunner::ExitState MainRunner::Run()
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
 
       // Main SDL loop
-      exitState = MainLoop(window, systemManager, fileNotifier, syncMessageFactory);
+      exitState = MainLoop(window, systemManager, fileNotifier, mSyncMessageFactory);
 
       ResetExitState();
       fileNotifier.ResetEventNotifier();
@@ -291,11 +291,10 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
           // Convert event
           //{ LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
           InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
-          // Process
-          if (!compactEvent.Empty())
-            // TODO: invert those lines, special events should be managed by the board in priority
-            if (!ProcessSpecialInputs(compactEvent))
-              if (!Board::Instance().ProcessSpecialInputs(compactEvent))
+          // TODO: invert those lines, special events should be managed by the board in priority
+          if (!ProcessSpecialInputs(compactEvent))
+            if (!Board::Instance().ProcessSpecialInputs(compactEvent, this))
+              if (!compactEvent.Empty())
                 window.ProcessInput(compactEvent);
           // Quit?
           if (window.Closed()) RequestQuit(ExitState::Quit);

@@ -13,6 +13,12 @@ class ApplicationWindow: public WindowManager
     //! View controler
     ViewController mViewController;
 
+    //! OSD image
+    ImageComponent mOSD;
+
+    //! Active OSD?
+    bool mActiveOSD;
+
     //! True when the Application window is being closed ASAP
     bool mClosed;
 
@@ -30,6 +36,8 @@ class ApplicationWindow: public WindowManager
      */
     explicit ApplicationWindow(SystemManager& systemManager)
       : mViewController(*this, systemManager)
+      , mOSD(*this)
+      , mActiveOSD(false)
       , mClosed(false)
     {
     }
@@ -75,4 +83,20 @@ class ApplicationWindow: public WindowManager
     }
 
     void Rotate(RotationType rotation) override;
+
+    /*!
+     * @brief Disable OSD
+     * @param imagePath OSD image
+     * @param x X coordinate in the range of 0.0 (left) ... 1.0 (right)
+     * @param y Y coordinate in the range of 0.0 (up) ... 1.0 (bottom)
+     * @param width Width in the range of 0.0 (invisible) ... 1.0 (full screen width)
+     * @param height Height in the range of 0.0 (invisible) ... 1.0 (full screen height)
+     * @param autoCenter is true, x/y are ignored and the image is screen centered
+     */
+    void EnableOSDImage(const Path& imagePath, float x, float y, float width, float height, float alpha, bool autoCenter);
+
+    /*!
+     * @brief Disable OSD
+     */
+    void DisableOSDImage();
 };

@@ -43,7 +43,7 @@ class NullBoard: public IBoardInterface
 
     bool IsBatteryCharging() final { return false; }
 
-    bool ProcessSpecialInputs(InputCompactEvent& inputEvent) final { (void)inputEvent; return false; }
+    bool ProcessSpecialInputs(InputCompactEvent& inputEvent, ISpecialGlobalAction* action) final { (void)inputEvent; (void)action; return false; }
 
     void Suspend() final {}
 

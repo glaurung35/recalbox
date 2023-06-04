@@ -57,8 +57,7 @@ RECALBOX_BINARIES_DIR="${BINARIES_DIR}/recalbox"
 [[ -d "${RECALBOX_BINARIES_DIR}" ]] && rm -rf "${RECALBOX_BINARIES_DIR}"
 mkdir -p "${RECALBOX_BINARIES_DIR}"
 
-[[ -d "${BINARIES_DIR}/boot-data" ]] && rm -rf "${BINARIES_DIR}/boot-data"
-mkdir -p "${BINARIES_DIR}/boot-data"
+[[ -d "${BINARIES_DIR}/boot-data" ]] || mkdir -p "${BINARIES_DIR}/boot-data"
 
 # XU4, RPI1, RPI2 or RPI3
 RECALBOX_TARGET=$(grep -E "^BR2_PACKAGE_RECALBOX_TARGET_[A-Z_0-9]*=y$" "${BR2_CONFIG}" | sed -e s+'^BR2_PACKAGE_RECALBOX_TARGET_\([A-Z_0-9]*\)=y$'+'\1'+)

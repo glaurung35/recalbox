@@ -56,6 +56,8 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const std::string& c
             mEndPointProvider.GetGameInfoUrlByMD5(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, md5, size);
     else
       url = mEndPointProvider.GetGameInfoUrl(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, crc32, md5, size);
+    { LOG(LogDebug) << "[ScreenScraperApis] Calling URL: " << url ; }
+
     std::string output;
     if (mClient.Execute(url, output))
     {
@@ -105,16 +107,22 @@ const rapidjson::Value& ScreenScraperApis::LookupBestRomEntry(const rapidjson::V
 {
   if (!md5.empty())
     for(const auto& object : json.GetArray())
-      if (object.HasMember("rommd5"))
+      if (object.HasMember("rommd5") && object.HasMember("romfilename"))
         if (strcasecmp(object["rommd5"].GetString(), md5.c_str()) == 0)
           return object;
 
+  // Never true, object["romsize"].IsInt() always false
   for(const auto& object : json.GetArray())
     if (object.HasMember("romfilename") && object.HasMember("romsize"))
       if (strcasecmp(filename.c_str(), object["romfilename"].GetString()) == 0)
         if ((object["romsize"].IsInt() && object["romsize"].GetInt() == (int)size) ||
             (object["romsize"].IsInt() && object["romsize"].GetInt64() == size))
           return object;
+
+  for(const auto& object : json.GetArray())
+    if (object.HasMember("romfilename"))
+      if (strcasecmp(filename.c_str(), object["romfilename"].GetString()) == 0)
+        return object;
 
   static rapidjson::Value null;
   return null;
@@ -159,6 +167,19 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
             families.push_back(nom["text"].GetString());
 
       game.mFamilies = families;
+    }
+  }
+  if (rom.IsObject() && rom != json["roms"][0])
+  {
+    if (rom.HasMember("clonetypes") && rom["clonetypes"].HasMember("clonetypes_fr"))
+    {
+      game.mName = game.mName + " (" + rom["clonetypes"]["clonetypes_fr"][0].GetString() + ")";
+    }
+    else
+    {
+      if(rom.HasMember("romcloneof") && rom["romcloneof"] != "0" && rom.HasMember("romfilename") ){
+        game.mName = game.mName + " (" + rom["romfilename"].GetString() + ")";
+      }
     }
   }
   if (json.HasMember("synopsis"))

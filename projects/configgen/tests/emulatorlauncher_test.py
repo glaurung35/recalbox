@@ -46,6 +46,7 @@ class FakeArguments:
         self.crt_config = {}
         self.crtscanlines = False
         self.sgb = False
+        self.jammalayout = ""
 
 
 @pytest.mark.parametrize(

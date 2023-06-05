@@ -158,6 +158,10 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   else
     Strings::ReplaceAllIn(command, "%CORE%", core);
 
+  if(data.Jamma().ShouldConfigureJammaConfiggen()){
+    command.append(" -jammalayout ").append(data.Jamma().JammaControlType(game, emulator));
+  }
+
   return command;
 }
 

@@ -92,6 +92,12 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG "Hide all pre-installed games."
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
+    #define MENUMESSAGE_UI_ARCADE_MSG "Specific options or arcade system views."
+    #define MENUMESSAGE_UI_ARCADE_ENHANCED_MSG "Enabled new arcade view with parent/clones sorted hierarchically."
+    #define MENUMESSAGE_UI_ARCADE_HIDE_CLONES_MSG "Hide clones and orphaned games"
+    #define MENUMESSAGE_UI_ARCADE_HIDE_BIOS_MSG "Hide bios files"
+    #define MENUMESSAGE_UI_ARCADE_HIDE_NONWORKING_MSG "Hide unknown and non-working games"
+    #define MENUMESSAGE_UI_ARCADE_OFFICIAL_NAMES_MSG "Always use arcade names from official databases. Overwrite manual edition & scraper results."
 
     #define MENUMESSAGE_TATE_HELP_MSG "Manage screen and game rotation options"
     #define MENUMESSAGE_TATE_SCREEN_ROTATION "Proceed to a complete screen rotation, for frontend and games."

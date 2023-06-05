@@ -2,7 +2,6 @@
 #include "guis/GuiDownloader.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
-#include <views/gamelist/ISimpleGameListView.h>
 #include <components/SwitchComponent.h>
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
@@ -133,7 +132,10 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
   std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> list;
 
   // Get & check sort id
-  const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(mSystem.IsVirtual());
+  FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
+                            mSystem.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ? FileSorts::SortSets::Arcade :
+                            FileSorts::SortSets::SingleSystem;
+  const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
   FileSorts::Sorts currentSort = (FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem);
   if (std::find(availableSorts.begin(), availableSorts.end(), currentSort) == availableSorts.end())
     currentSort = FileSorts::Sorts::FileNameAscending;

@@ -18,7 +18,7 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
   , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
   , mProperties(properties)
   , mFixedSort(fixedSort)
-  , mArcadeDatabase(*this)
+  , mArcadeDatabases(*this)
 {
 }
 
@@ -637,4 +637,9 @@ void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, Fo
       case FolderData::FastSearchContext::All:
       default: break;
     }
+}
+
+void SystemData::RemoveArcadeReference(const FileData& game)
+{
+  mArcadeDatabases.RemoveGame(game);
 }

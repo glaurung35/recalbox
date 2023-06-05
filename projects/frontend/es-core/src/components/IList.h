@@ -142,7 +142,7 @@ protected:
 
   inline bool IsEmpty() const { return mEntries.size() == 0; }
 
-  inline UserData& getObjects(int atIndex)
+  inline UserData& getObjectAt(int atIndex)
 	{
    	return mEntries[atIndex].object;
 	}
@@ -152,16 +152,15 @@ protected:
 		return mEntries[mCursor].name;
 	}
 
+	inline const std::string& getNameAt(int index) {
+		assert(size() > 0);
+		return mEntries[index].name;
+	}
+
 	inline const UserData& getSelected() const {
 		assert(size() > 0);
 		return mEntries[mCursor].object;
 	}
-
-  inline const UserData& getSelectedAt(int index) const
-  {
-    assert(size() > 0);
-    return mEntries[index].object;
-  }
 
   inline EntryData& getSelectedEntry() const
   {

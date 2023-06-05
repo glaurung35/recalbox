@@ -47,7 +47,7 @@ class SystemData : private INoCopy
     //! Fixed sort
     FileSorts::Sorts mFixedSort;
     //! Arcade database
-    ArcadeDatabaseManager mArcadeDatabase;
+    ArcadeDatabaseManager mArcadeDatabases;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -117,7 +117,9 @@ class SystemData : private INoCopy
 
   public:
     //! Load arcade databases
-    void LoadArcadeDatabase() { mArcadeDatabase.LoadDatabases(); }
+    void LoadArcadeDatabase() { mArcadeDatabases.LoadDatabases(); }
+
+    const ArcadeDatabaseManager& ArcadeDatabases() const { return mArcadeDatabases; }
 
     /*!
      * @brief Check if we must include adult games or not
@@ -267,10 +269,16 @@ class SystemData : private INoCopy
     [[nodiscard]] FileData::Filter Excludes() const;
 
     /*!
-     * @brief Get excludes filter
-     * @return excludes Filter
+     * @brief Dirty code to quicky identify GB systems
+     * @return True if the system is GB et GBC, false otherwise
      */
-    bool IsGameBoy() const { return (Name() == "gb") || (Name() == "gbc"); }
+    [[nodiscard]] bool IsGameBoy() const { return (Name() == "gb") || (Name() == "gbc"); }
+
+    /*!
+     * @brief Remove all arcade references to the given game
+     * @param game Game to remove reference to
+     */
+    void RemoveArcadeReference(const FileData& game);
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

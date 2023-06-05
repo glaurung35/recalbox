@@ -28,10 +28,16 @@ class ISimpleGameListView : public Gui
     };
 
     ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
-	~ISimpleGameListView() override = default;
+  	~ISimpleGameListView() override = default;
 
-	// Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
-	virtual void onFileChanged(FileData* file, FileChangeType change);
+    /*!
+     * @brief Must be called right after the constructor
+     */
+    virtual void Initialize() = 0;
+
+
+	  // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
+	  virtual void onFileChanged(FileData* file, FileChangeType change);
 
     /*!
      * @brief Called when a major change occurs on the system
@@ -45,10 +51,10 @@ class ISimpleGameListView : public Gui
 	bool ProcessInput(const InputCompactEvent& event) override;
 
 	bool getHelpPrompts(Help& help) override;
+
 	virtual std::vector<unsigned int> getAvailableLetters();
 	virtual void jumpToLetter(unsigned int unicode);
-
-	void jumpToNextLetter(bool forward);
+	virtual void jumpToNextLetter(bool forward);
 
     [[nodiscard]] const SystemData& System() const { return mSystem; }
 
@@ -61,6 +67,9 @@ class ISimpleGameListView : public Gui
     [[nodiscard]] virtual int Count() const = 0;
     [[nodiscard]] virtual bool IsEmpty() const  = 0;
     virtual FileData* getCursor() = 0;
+    virtual FileData* getDataAt(int i) = 0;
+    virtual const std::string& getCursorText() = 0;
+    virtual const std::string& getCursorTextAt(int i) = 0;
     virtual void setCursorStack(FileData*) = 0;
     virtual void setCursor(FileData*) = 0;
 

@@ -5,12 +5,18 @@
 #include "ArcadeDatabaseManager.h"
 #include "emulators/EmulatorManager.h"
 #include <utils/Files.h>
-#include <systems/SystemData.h>
+#include <systems/SystemManager.h>
 
 ArcadeDatabaseManager::ArcadeDatabaseManager(SystemData& parentSystem)
   : mSystem(parentSystem)
   , mReady(false)
 {
+}
+
+ArcadeDatabaseManager::~ArcadeDatabaseManager()
+{
+  for(const auto& kv : mDatabases)
+    delete kv.second;
 }
 
 void ArcadeDatabaseManager::LoadDatabases()
@@ -28,7 +34,8 @@ void ArcadeDatabaseManager::LoadDatabases()
     for (int c = emulator.CoreCount(); --c >= 0;)
     {
       mDatabases[String(emulator.Name()).Append('|').Append(emulator.CoreNameAt(c))] =
-        LoadFlatDatabase(emulator.Name(), emulator.CoreNameAt(c), emulator.CoreSplitDrivers(c), emulator.CoreIgnoreDrivers(c), emulator.CoreDriverLimit(c));
+        LoadFlatDatabase(emulator.Name(), emulator.CoreNameAt(c), emulator.CoreFlatDatabase(c), emulator.CoreSplitDrivers(c),
+                         emulator.CoreIgnoreDrivers(c), emulator.CoreDriverLimit(c) + 1 /* driver 0 is "all-what's-remaining" */);
     }
   }
 
@@ -38,10 +45,10 @@ void ArcadeDatabaseManager::LoadDatabases()
   mReady = true;
 }
 
-GameDatabase ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, const String& core, const String& splitDriverString, const String& ignoredDriverString, int limit)
+ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, const String& core, const String& databaseFilename, const String& splitDriverString, const String& ignoredDriverString, int limit)
 {
   // Get database
-  Path database("/recalbox/system/arcade/flats/" + (emulator == "libretro" ? core : emulator) + ".lst");
+  Path database("/recalbox/system/arcade/flats/" + databaseFilename);
 
   // Build special sets
   HashSet<String> splitDrivers;
@@ -57,7 +64,7 @@ GameDatabase ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, con
   if (lines.empty())
   {
     LOG(LogError) << "[Arcade] Invalid database: " << database.ToString();
-    return GameDatabase();
+    return new ArcadeDatabase();
   }
 
   // Setup romname => FileData map for fast lookup
@@ -85,20 +92,25 @@ GameDatabase ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, con
 
   // Build game array
   Array<ArcadeGame> games((int)lines.size(), 1, false); // Allocate all
-  HashMap<const FileData*, ArcadeGame*> lookups;
   for(int i = (int)lines.size(); --i >= 0; )
     if (const String& line = lines[i]; !line.empty())
-      DeserializeTo(games, line, map, lookups, rawDrivers, splitDrivers, ignoredDrivers, nextIndex);
+      DeserializeTo(games, line, map, rawDrivers, splitDrivers, ignoredDrivers, nextIndex);
 
   // Build final drivers
   String::List finalDrivers = BuildAndRemapDrivers(rawDrivers, games, limit, nextIndex);
 
-  return GameDatabase(std::move(finalDrivers), std::move(games), std::move(lookups));
+  #if DEBUG
+  { printf("%s\n", (String("First most populated arcade systems for ") + emulator + "-" + core).c_str()); }
+  for(int i = 1; i < (int)finalDrivers.size(); ++i)
+  { printf("%s\n", (String("  #") + i + " - " + finalDrivers[i]).c_str()); }
+  #endif
+
+  return new ArcadeDatabase(std::move(finalDrivers), std::move(games));
 }
 
 void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String& line, const HashMap<String, FileData*>& map,
-                                          HashMap<const FileData*, ArcadeGame*>& lookups, HashMap<String, RawDriver>& drivers,
-                                          const HashSet<String>& splitDrivers, const HashSet<String>& ignoreDrivers, int& nextDriverIndex)
+                                          HashMap<String, RawDriver>& drivers, const HashSet<String>& splitDrivers,
+                                          const HashSet<String>& ignoreDrivers, int& nextDriverIndex)
 {
   // Field positions
   enum
@@ -108,6 +120,9 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
     fType,
     fDriver,
     fRotation,
+    fWidth,
+    fHeight,
+    fFrequency,
     fBios,
     fParent,
     fStatus,
@@ -116,7 +131,8 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
 
   // Get fields
   String::List fields = line.Split('|');
-  if (fields.size() != fFieldCount) { LOG(LogError) << "[Arcade] Invalid line: " << line; return; }
+  if (fields.size() != fFieldCount)
+  { LOG(LogError) << "[Arcade] Invalid line: " << line; return; }
 
   // Try to lookup game
   FileData** fileData = map.try_get(fields[fZip]);
@@ -147,7 +163,7 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
 
   games.Add(ArcadeGame(realGame, parent, fields[fName], 0, type, status, rotation));
-  lookups.insert(realGame, &games(games.Count() - 1));
+  //lookups.insert(realGame, &games(games.Count() - 1));
 }
 
 String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, RawDriver>& rawDrivers, Array<ArcadeGame>& games, int limit, int rawDriverCount)
@@ -162,7 +178,7 @@ String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, R
   // Also build a remap list where the index at pos X is remapped to X + 1
   String::List finalDrivers;
   Array<int> indexRemapper(rawDriverCount);
-  memset(indexRemapper.BufferReadWrite(), 0, indexRemapper.ByteSize());
+  indexRemapper.Insert(0, 0, rawDriverCount);
   finalDrivers.push_back(String::Empty); // Driver 0 = all others
   for(int i = 0; i < limit; ++i)
   {
@@ -191,6 +207,18 @@ String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, R
   for(int i = games.Count(); --i >= 0;)
     games(i).RemapDriverTo(indexRemapper[games[i].Driver()]);
 
+  // Count "all others". If noone in this driver, remove it and decrease all drivers
+  int zeroCount = 0;
+  for(int i = games.Count(); --i >= 0;)
+    if (games(i).Driver() == 0)
+      zeroCount++;
+  if (zeroCount == 0)
+  {
+    finalDrivers.erase(finalDrivers.begin());
+    for(int i = games.Count(); --i >= 0;)
+      games(i).RemapDriverTo(games(i).Driver() - 1);
+  }
+
   return finalDrivers;
 }
 
@@ -214,21 +242,29 @@ void ArcadeDatabaseManager::AssignNames()
             // Get emulator & core for this game, regarding all default and override configurations
             if (emulators.GetGameEmulator(game, emulator, core))
               // Lookup emulator hashmap
-              if (GameDatabase* gameDatabase = mDatabase.try_get(emulator.Append('|').Append(core)); gameDatabase != nullptr)
+              if (ArcadeDatabase** gameDatabase = mDatabase.try_get(emulator.Append('|').Append(core)); gameDatabase != nullptr)
                 // Has Game a matching ArcadeGame?
-                if (ArcadeGame* arcadeGame = gameDatabase->LookupGame(game); arcadeGame != nullptr)
+                if (const ArcadeGame* arcadeGame = (*gameDatabase)->LookupGame(game); arcadeGame != nullptr)
                   game.Metadata().SetName(arcadeGame->ArcadeName());
       }
   } Renamer(mDatabases);
   mSystem.MasterRoot().ParseAllItems(Renamer);
 }
 
-const GameDatabase* ArcadeDatabaseManager::LookupDatabase(SystemData& system)
+const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase() const
 {
-  EmulatorManager emulators;
   String emulator, core;
-  if (emulators.GetDefaultEmulator(system, emulator, core))
-    return mDatabases.try_get(emulator.Append('|').Append(core));
+  if (mSystem.Manager().Emulators().GetDefaultEmulator(mSystem, emulator, core))
+  {
+    ArcadeDatabase** database = mDatabases.try_get(emulator.Append('|').Append(core));
+    if (database != nullptr) return *database;
+  }
   return nullptr;
+}
+
+void ArcadeDatabaseManager::RemoveGame(const FileData& game)
+{
+  for(const auto& database : mDatabases)
+    database.second->Remove(game);
 }
 

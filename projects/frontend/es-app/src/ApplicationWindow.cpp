@@ -3,7 +3,6 @@
 //
 
 #include "ApplicationWindow.h"
-#include "utils/Log.h"
 #include "RotationManager.h"
 
 bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
@@ -20,14 +19,15 @@ bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
   return mViewController.ProcessInput(rotated);
 }
 
-void ApplicationWindow::Rotate(RotationType rotation) {
-  {LOG(LogDebug) << "[ApplicationWindow] Starting rotation"; };
+void ApplicationWindow::Rotate(RotationType rotation)
+{
+  {LOG(LogDebug) << "[ApplicationWindow] Starting rotation"; }
   Renderer::Instance().Rotate(rotation);
-  {LOG(LogDebug) << "[ApplicationWindow] Finalizing windows"; };
-  this->Finalize();
-  {LOG(LogDebug) << "[ApplicationWindow] Init windows with renderer size"; };
-  this->Initialize(Renderer::Instance().RealDisplayWidthAsInt(),Renderer::Instance().RealDisplayHeightAsInt());
-};
+  {LOG(LogDebug) << "[ApplicationWindow] Finalizing windows"; }
+  Finalize();
+  {LOG(LogDebug) << "[ApplicationWindow] Init windows with renderer size"; }
+  Initialize(Renderer::Instance().RealDisplayWidthAsInt(),Renderer::Instance().RealDisplayHeightAsInt());
+}
 
 
 void ApplicationWindow::Update(int deltaTime)

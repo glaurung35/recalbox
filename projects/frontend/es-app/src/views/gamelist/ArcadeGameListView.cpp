@@ -1,0 +1,403 @@
+//
+// Created by bkg2k on 31/05/23.
+//
+
+#include "ArcadeGameListView.h"
+
+ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
+  : DetailedGameListView(window, systemManager, system)
+  , mDatabase(*system.ArcadeDatabases().LookupDatabase())
+{
+}
+
+void ArcadeGameListView::populateList(const FolderData& folder)
+{
+  mPopulatedFolder = &folder;
+
+  // Default filter
+  FileData::Filter includesFilter = FileData::Filter::Normal | FileData::Filter::Favorite;
+  // Favorites only?
+  if (RecalboxConf::Instance().GetFavoritesOnly()) includesFilter = FileData::Filter::Favorite;
+
+  // Get items
+  bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().GetSystemFlatFolders(mSystem));
+  FileData::List items;
+  if (flatfolders) folder.GetItemsRecursivelyTo(items, includesFilter, mSystem.Excludes(), false);
+  else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
+
+  // Check emptyness
+  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+
+  // Sort
+  FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
+                            mSystem.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ? FileSorts::SortSets::Arcade :
+                            FileSorts::SortSets::SingleSystem;
+  FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
+  BuildAndSortArcadeGames(items, FileSorts::ComparerArcadeFromSort(sort), FileSorts::IsAscending(sort));
+  BuildList();
+}
+
+void ArcadeGameListView::BuildList()
+{
+  mList.clear();
+  mHeaderText.setText(mSystem.FullName());
+
+  // Region filtering?
+  Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
+  bool activeRegionFiltering = false;
+  if (currentRegion != Regions::GameRegions::Unknown)
+  {
+    Regions::List availableRegion = AvailableRegionsInGames(mGameList);
+    // Check if our region is in the available ones
+    for(Regions::GameRegions region : availableRegion)
+    {
+      activeRegionFiltering = (region == currentRegion);
+      if (activeRegionFiltering) break;
+    }
+  }
+
+  // Add to list
+  mHasGenre = false;
+  for (const ParentTupple& parent : mGameList)
+  {
+    // Region filtering?
+    int colorIndexOffset = 0;
+    if (activeRegionFiltering)
+      if (!Regions::IsIn4Regions(parent.mGame->Metadata().Region().Pack, currentRegion))
+        colorIndexOffset = 2;
+    // Store
+    mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
+    // Attribute analysis
+    if (parent.mGame->IsGame() && parent.mGame->Metadata().GenreId() != GameGenres::None)
+      mHasGenre = true;
+
+    // Children?
+    if (parent.mArcade != nullptr && parent.mCloneList != nullptr)
+      if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+        if (!parent.mFolded)
+        {
+          for (const ArcadeTupple& clone : *parent.mCloneList)
+          {
+            // Region filtering?
+            colorIndexOffset = 0;
+            if (activeRegionFiltering)
+              if (!Regions::IsIn4Regions(clone.mGame->Metadata().Region().Pack, currentRegion))
+                colorIndexOffset = 2;
+            // Store
+            mList.add(GetIconifiedDisplayName(clone), clone.mGame, colorIndexOffset, false);
+            // Attribute analysis
+            if (clone.mGame->IsGame() && clone.mGame->Metadata().GenreId() != GameGenres::None)
+              mHasGenre = true;
+          }
+        }
+  }
+}
+
+String ArcadeGameListView::getArcadeItemIcon(const ArcadeTupple& game)
+{
+  String result;
+
+  // Open folder for folders
+  if (game.mGame->IsFolder())
+  {
+    result.Append("\uF07C");
+
+    // Crossed out eye for hidden things
+    if (game.mGame->Metadata().Hidden()) result.Append("\uF070");
+  }
+  if (game.mGame->IsGame())
+  {
+    // Hierarchy
+    if (game.mArcade == nullptr) result.Append("\uF1C2");
+    else
+      switch(game.mArcade->Hierarchy()) // ◀ ▶ ▲ ▼
+      {
+        case ArcadeGame::Type::Parent:
+        {
+          const ParentTupple& parent = *((const ParentTupple*)&game);
+          result.Append("\uF1F0").Append(parent.mCloneList == nullptr ? "•" : (parent.mFolded ? "▶" : "▼")); break;
+        }
+        case ArcadeGame::Type::Clone: result.Append("    \uF1F1•"); break;
+        case ArcadeGame::Type::Orphaned: result.Append("\uF1F2•"); break;
+        case ArcadeGame::Type::Bios: result.Append("\uF1F3"); break;
+      }
+    // Crossed out eye for hidden things
+    if (game.mGame->Metadata().Hidden()) result.Append("\uF070");
+    // System icon, for Favorite games
+    if (mSystem.IsVirtual() || game.mGame->Metadata().Favorite()) result.Append(game.mGame->System().Descriptor().IconPrefix());
+  }
+
+  return result.Append(' ');
+}
+
+String ArcadeGameListView::GetDisplayName(const ArcadeTupple& game)
+{
+  if (RecalboxConf::Instance().GetArcadeUseDatabaseNames() && game.mArcade != nullptr)
+    return game.mArcade->ArcadeName();
+  return RecalboxConf::Instance().GetDisplayByFileName() ? game.mGame->Metadata().RomFileOnly().ToString() : game.mGame->Name(); // TODO: Use gugue new displayable name ASAP
+}
+
+String ArcadeGameListView::GetIconifiedDisplayName(const ArcadeTupple& game)
+{
+  return getArcadeItemIcon(game).Append(GetDisplayName(game));
+}
+
+void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSorts::ComparerArcade comparer, bool ascending)
+{
+  // Split lists
+  ParentTuppleList parents;
+  HashMap<const FileData*, ArcadeTuppleList*> clones;
+  ParentTuppleList orphaned;
+  ParentTuppleList bios;
+  ParentTuppleList notWorking;
+
+  bool folded = RecalboxConf::Instance().GetArcadeViewHideClones();
+
+  mGameList.clear();
+  for(FileData* item : items)
+  {
+    const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+    if (arcade == nullptr) notWorking.push_back(ParentTupple(nullptr, item, false));
+    else
+      switch(arcade->Hierarchy())
+      {
+        case ArcadeGame::Type::Parent: parents.push_back(ParentTupple(arcade, item, folded)); break;
+        case ArcadeGame::Type::Clone:
+        {
+          if (clones[arcade->Parent()] == nullptr) clones[arcade->Parent()] = new ArcadeTuppleList();
+          clones[arcade->Parent()]->push_back(ArcadeTupple(arcade, item)); break;
+        }
+        case ArcadeGame::Type::Orphaned: orphaned.push_back(ParentTupple(arcade, item, false)); break;
+        case ArcadeGame::Type::Bios: bios.push_back(ParentTupple(arcade, item, false)); break;
+      }
+  }
+
+  // Sorts parents / orphaned
+  AddSortedCategories({ &parents, &orphaned }, comparer, ascending);
+
+  // Insert clones as children
+  for(ParentTupple& parent : mGameList)
+  {
+    if (parent.mArcade->Hierarchy() != ArcadeGame::Type::Parent) continue;
+    ArcadeTuppleList** children = clones.try_get(parent.mGame);
+    if (children != nullptr)
+    {
+      ArcadeTupplePointerList sortedList;
+      for(ArcadeTupple& clone : **children) sortedList.push_back(&clone);
+      FileSorts::SortArcade(sortedList, comparer, ascending); // Sort clones for a single parent
+      ArcadeTuppleList* dynamicCloneList = new ArcadeTuppleList();
+      for(ArcadeTupple* item : sortedList) dynamicCloneList->push_back(*item);
+      parent.AddClones(dynamicCloneList);
+      delete *children;
+      clones.erase(parent.mGame);
+    }
+  }
+
+  // Sort & add bios & unknowns
+  AddSortedCategories({ &bios }, comparer, ascending);
+  AddSortedCategories({ &notWorking }, comparer, ascending);
+}
+
+void ArcadeGameListView::AddSortedCategories(const std::vector<ParentTuppleList*>& categoryLists, FileSorts::ComparerArcade comparer, bool ascending)
+{
+  ArcadeTupplePointerList sortedList;
+  for(ParentTuppleList* categoryList : categoryLists)
+    for(ParentTupple& item : *categoryList) sortedList.push_back(&item);
+  FileSorts::SortArcade(sortedList, comparer, ascending); // Sort bios
+  for(ArcadeTupple* item : sortedList) mGameList.push_back(*((ParentTupple*)item));
+}
+
+Regions::List ArcadeGameListView::AvailableRegionsInGames(ArcadeGameListView::ParentTuppleList& games)
+{
+  bool regionIndexes[256];
+  memset(regionIndexes, 0, sizeof(regionIndexes));
+  // Run through all games
+  for(const ParentTupple& tupple : games)
+  {
+    unsigned int fourRegions = tupple.mGame->Metadata().Region().Pack;
+    // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
+    regionIndexes[(fourRegions >>  0) & 0xFF] = true;
+    regionIndexes[(fourRegions >>  8) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 16) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 24) & 0xFF] = true;
+  }
+  // Rebuild final list
+  Regions::List list;
+  for(int i = 0; i < (int)sizeof(regionIndexes); ++i )
+    if (regionIndexes[i])
+      list.push_back((Regions::GameRegions)i);
+  // Only unknown region?
+  if (list.size() == 1 && regionIndexes[0])
+    list.clear();
+  return list;
+}
+
+bool ArcadeGameListView::ProcessInput(const InputCompactEvent& event)
+{
+  if (event.AnyHotkeyCombination())
+  {
+    if (event.HotkeyUpReleased())
+    {
+      FoldAll();
+      return true;
+    }
+    else if (event.HotkeyDownReleased())
+    {
+      UnfoldAll();
+      return true;
+    }
+    if (event.HotkeyLeftReleased())
+    {
+      Fold();
+      return true;
+    }
+    else if (event.HotkeyRightReleased())
+    {
+      Unfold();
+      return true;
+    }
+  }
+
+  return DetailedGameListView::ProcessInput(event);
+}
+
+void ArcadeGameListView::FoldAll()
+{
+  // Get cursor position - Get ancestor if its a clone
+  FileData* item = getCursor();
+  const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+  if (arcade != nullptr)
+    if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
+      item = (FileData*)arcade->Parent();
+
+  // Fold all
+  for(ParentTupple& parent : mGameList)
+    if (parent.mCloneList != nullptr)
+      if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+        parent.mFolded = true;
+
+  // Rebuild the UI list
+  BuildList();
+
+  // Set cursor
+  setCursor(item);
+}
+
+void ArcadeGameListView::UnfoldAll()
+{
+  // Get cursor position
+  FileData* item = getCursor();
+
+  // Fold all
+  for(ParentTupple& parent : mGameList)
+    if (parent.mCloneList != nullptr)
+      if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+        parent.mFolded = false;
+
+  // Rebuild the UI list
+  BuildList();
+
+  // Set cursor
+  setCursor(item);
+}
+
+void ArcadeGameListView::Fold()
+{
+  // Get cursor position - Get ancestor if its a clone
+  FileData* item = getCursor();
+  const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+  if (arcade != nullptr)
+    if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
+      item = (FileData*)arcade->Parent();
+
+  // Fold all
+  bool rebuild =false;
+  for(ParentTupple& parent : mGameList)
+    if (parent.mCloneList != nullptr)
+      if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+        if (parent.mGame == item)
+        {
+          parent.mFolded = true;
+          rebuild = true;
+        }
+
+  // Rebuild the UI list
+  if (rebuild) BuildList();
+
+  // Set cursor
+  setCursor(item);
+}
+
+void ArcadeGameListView::Unfold()
+{
+  // Get cursor position
+  FileData* item = getCursor();
+
+  // Fold all
+  bool rebuild =false;
+  for(ParentTupple& parent : mGameList)
+    if (parent.mGame == item)
+      if (parent.mCloneList != nullptr)
+        if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+        {
+          parent.mFolded = false;
+          rebuild = true;
+        }
+
+  // Rebuild the UI list
+  if (rebuild) BuildList();
+
+  // Set cursor
+  setCursor(item);
+}
+
+void ArcadeGameListView::jumpToLetter(unsigned int unicode)
+{
+  for(int c = 0; c < (int)getCursorIndexMax(); ++c)
+    if (getDataAt(c)->IsGame())
+      if (Strings::UpperChar(LookupDisplayName(*getDataAt(c))) == unicode)
+      {
+        setCursor(getDataAt(c));
+        break;
+      }
+}
+
+void ArcadeGameListView::jumpToNextLetter(bool forward)
+{
+  const ArcadeTupple& baseArcade = Lookup(*getCursor());
+  const FileData* baseGame = baseArcade.mArcade != nullptr && baseArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone ? baseArcade.mArcade->Parent() : getCursor();
+  UnicodeChar baseChar = Strings::UpperChar(LookupDisplayName(*baseGame));
+  int max = getCursorIndexMax() + 1;
+  int step = max + (forward ? 1 : -1);
+
+  int cursorIndex = getCursorIndex();
+  for(int i = cursorIndex; (i = (i + step) % max) != cursorIndex; )
+  {
+    const ArcadeTupple& currentArcade = Lookup(*getDataAt(i));
+    if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
+    if (Strings::UpperChar(LookupDisplayName(*getDataAt(i))) != baseChar)
+    {
+      setCursorIndex(i);
+      break;
+    }
+  }
+}
+
+const ArcadeTupple& ArcadeGameListView::Lookup(const FileData& item)
+{
+  for(const ParentTupple& parent : mGameList)
+    if (parent.mGame == &item) return parent;
+    else if (parent.mCloneList != nullptr)
+      for(const ArcadeTupple& clone : *parent.mCloneList)
+        if (clone.mGame == &item)
+          return clone;
+
+  { LOG(LogError) << "[ArcadeGameListView] Lookup FileData failed for game " << item.Name(); }
+  static ArcadeTupple __nullTupple(nullptr, nullptr);
+  return __nullTupple;
+}
+
+String ArcadeGameListView::LookupDisplayName(const FileData& item)
+{
+  return GetDisplayName(Lookup(item));
+}

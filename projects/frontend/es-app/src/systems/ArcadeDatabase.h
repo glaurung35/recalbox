@@ -9,7 +9,7 @@
 #include <utils/storage/Array.h>
 
 //! Game database for a given emulator/core
-class GameDatabase
+class ArcadeDatabase
 {
   public:
     /*!
@@ -18,31 +18,62 @@ class GameDatabase
      * @param games Arcade game spec list
      * @param lookup Lookup map
      */
-    GameDatabase(String::List&& drivers, Array<ArcadeGame>&& games, HashMap<const FileData*, ArcadeGame*>&& lookup)
+    ArcadeDatabase(String::List&& drivers, Array<ArcadeGame>&& games)
       : mDrivers(drivers)
       , mGames(games)
-      , mLookup(lookup)
-    {}
+      , mLookup()
+    {
+      // Build lookup
+      for(int i = games.Count(); --i >= 0;)
+        mLookup.insert(&games(i).Game(), i);
+    }
 
     /*!
      * Empty database constructor
      */
-    GameDatabase() = default;
+    ArcadeDatabase() = default;
 
     /*!
      * @brief Lookup an arcade game from the source game
      * @param game Source game
      * @return Arcade game or null
      */
-    ArcadeGame* LookupGame(const FileData& game)
+    [[nodiscard]] const ArcadeGame* LookupGame(const FileData& game) const
     {
-      ArcadeGame** arcadeGame = mLookup.try_get(&game);
-      if (arcadeGame == nullptr) return nullptr;
-      return *arcadeGame;
+      int* index = mLookup.try_get(&game);
+      if (index == nullptr) return nullptr;
+      return &mGames.ConstRef(*index);
     }
 
+    /*!
+     * @brief Remove any reference to the given game.
+     * Delete direct arcade gama associated, and all children orphans
+     * @param game FileData reference to remove reference to
+     */
+    void Remove(const FileData& game)
+    {
+      for(int i = mGames.Count(); --i >= 0; )
+      {
+        ArcadeGame& arcade = mGames(i);
+        if (&arcade.Game() == &game) mGames.Delete(i);
+        else if (arcade.Parent() == &game) arcade.MakeOrphan();
+      }
+    }
+
+    /*!
+     * @brief Check if this database is valid and contains games
+     * @return True if there is at least one game
+     */
+    [[nodiscard]] bool IsValid() const { return !mGames.Empty(); }
+
+    /*!
+     * @brief Check if games in this database can be filtered (more than one driver)
+     * @return True if there is more than one driver
+     */
+    [[nodiscard]] bool CanBeFiltered() const { return mDrivers.size() > 1; }
+
   private:
-    String::List mDrivers;                         //!< Final driver list
-    Array<ArcadeGame> mGames;                      //!< Game list
-    HashMap<const FileData*, ArcadeGame*> mLookup; //!< Reverse lookup FileData* => ArcadeGame
+    String::List mDrivers;                 //!< Final driver list
+    Array<ArcadeGame> mGames;              //!< Game list
+    HashMap<const FileData*, int> mLookup; //!< Reverse lookup FileData* => ArcadeGame
 };

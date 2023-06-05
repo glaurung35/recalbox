@@ -68,12 +68,30 @@ class ArcadeGame
      * Tools
      */
 
+    /*!
+     * @brief If the current game is a clone, dete its parent and make it orphaned
+     */
+    void MakeOrphan()
+    {
+      if (mType == Type::Clone && mParent != nullptr)
+      {
+        mParent = nullptr;
+        mType = Type::Orphaned;
+      }
+    }
+
+    /*!
+     * @brief Convert hierarchical type from string tp type
+     * @param type Stringized type
+     * @param hasParent True return clone type. False return orphaned
+     * @return Type
+     */
     static Type TypeFromString(const String& type, bool hasParent)
     {
-      if (type == "bios") return ArcadeGame::Type::Bios;
-      if (type == "parent") return ArcadeGame::Type::Parent;
-      if (type == "clone" && hasParent) return ArcadeGame::Type::Clone;
-      return ArcadeGame::Type::Orphaned;
+      if (type == "bios") return Type::Bios;
+      if (type == "parent") return Type::Parent;
+      if (type == "clone" && hasParent) return Type::Clone;
+      return Type::Orphaned;
     }
 
     /*!
@@ -83,10 +101,10 @@ class ArcadeGame
      */
     static Status StatusFromString(const String& status)
     {
-      if (status == "good") return ArcadeGame::Status::Good;
-      if (status == "imperfect") return ArcadeGame::Status::Imperfect;
-      if (status == "preliminary") return ArcadeGame::Status::Preliminary;
-      return ArcadeGame::Status::Unknown;
+      if (status == "good") return Status::Good;
+      if (status == "imperfect") return Status::Imperfect;
+      if (status == "preliminary") return Status::Preliminary;
+      return Status::Unknown;
     }
 
     /*!
@@ -98,12 +116,12 @@ class ArcadeGame
     {
       switch(rotation.AsInt())
       {
-        case 90: return ArcadeGame::Rotation::ThreeHours;
-        case 180: return ArcadeGame::Rotation::SixHours;
-        case 270: return ArcadeGame::Rotation::NineHours;
+        case 90: return Rotation::ThreeHours;
+        case 180: return Rotation::SixHours;
+        case 270: return Rotation::NineHours;
         default: break;
       }
-      return ArcadeGame::Rotation::Noon;
+      return Rotation::Noon;
     }
 
     //! Finalize the Name Holder once all database have been loaded

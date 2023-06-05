@@ -1,14 +1,9 @@
 #pragma once
 
-#include "components/IList.h"
 #include <components/ITextListComponentOverlay.h>
-#include "Renderer.h"
-#include "utils/Log.h"
-#include "themes/ThemeData.h"
 #include <string>
 #include <memory>
 #include <functional>
-#include <utils/Strings.h>
 #include <audio/AudioManager.h>
 
 enum class HorizontalAlignment : char
@@ -88,14 +83,15 @@ public:
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
-  inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
-  inline unsigned int Color(unsigned int id) const { return mColors[id]; }
+  [[nodiscard]] inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
+  [[nodiscard]] inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
 protected:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
 	virtual void onCursorChanged(const CursorState& state);
 
 private:
+  static constexpr int sBarFadeTime = 800;
 	static constexpr int MARQUEE_DELAY = 2000;
 	static constexpr int MARQUEE_SPEED = 8;
 	static constexpr int MARQUEE_RATE = 1;
@@ -119,36 +115,39 @@ private:
 	float mSelectorOffsetY;
 	unsigned int mSelectorColor;
 	unsigned int mSelectedColor;
+  int mBarTimer;
+  bool mShowBar;
   bool mUppercase;
 };
 
 template <typename T>
 TextListComponent<T>::TextListComponent(WindowManager& window)
-  :	IList<TextListData, T>(window),
-    mSelectorImage(window),
-    mColors{ 0x0000FFFF, 0x00FF00FF},
-    mFont(Font::get(FONT_SIZE_MEDIUM)),
-    mScrollSound(0),
-    mOverlay(nullptr),
-    mMarqueeOffset(0),
-    mMarqueeTime(-MARQUEE_DELAY),
-    mAlignment(HorizontalAlignment::Center),
-    mHorizontalMargin(0),
-    mLineSpacing(1.5f),
-    mSelectorOffsetY(0),
-    mSelectorColor(0x000000FF),
-    mSelectedColor(0),
-    mUppercase(false)
+  :	IList<TextListData, T>(window)
+  , mSelectorImage(window)
+  , mColors{ 0x0000FFFF, 0x00FF00FF}
+  , mFont(Font::get(FONT_SIZE_MEDIUM))
+  , mScrollSound(0)
+  , mOverlay(nullptr)
+  , mMarqueeOffset(0)
+  , mMarqueeTime(-MARQUEE_DELAY)
+  , mAlignment(HorizontalAlignment::Center)
+  , mHorizontalMargin(0)
+  , mLineSpacing(1.5f)
+  , mSelectorHeight(mFont->getSize() * 1.5f)
+  , mSelectorOffsetY(0)
+  , mSelectorColor(0x000000FF)
+  , mSelectedColor(0)
+  , mBarTimer(-1)
+  , mShowBar(false)
+  , mUppercase(false)
 {
-	mSelectorHeight = mFont->getSize() * 1.5f;
 }
 
 template <typename T>
 void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 {
 	Transform4x4f trans = parentTrans * getTransform();
-  //if(Renderer::Instance().Is240p())
-    trans.round();
+  trans.round();
 	std::shared_ptr<Font>& font = mFont;
 
 	if(size() == 0)
@@ -182,10 +181,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   // draw selector bar
 	if(startEntry < listCutoff)
 	{
-		if (mSelectorImage.hasImage()) {
+		if (mSelectorImage.hasImage())
+    {
 			mSelectorImage.setPosition(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, 0.f);
       mSelectorImage.Render(trans);
-		} else {
+		} else
+    {
 			Renderer::SetMatrix(trans);
 			Renderer::DrawRectangle(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
 		}
@@ -255,7 +256,29 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
     y += entrySize;
 	}
-	Renderer::Instance().PopClippingRect();
+
+  // Draw bar
+  if (mShowBar || mBarTimer >= 0)
+  {
+    int verticalSize = (int)dim.y() - 4;
+    int maxOffset = (int)mEntries.size() - screenCount;
+    if (maxOffset > 0)
+    {
+      int barHeight = (int) (((float) verticalSize * (float) screenCount) / (float) maxOffset);
+
+      if ((barHeight < Renderer::Instance().DisplayHeightAsInt() / 40) &&
+          (verticalSize >= Renderer::Instance().DisplayHeightAsInt() / 20))
+        barHeight = Renderer::Instance().DisplayHeightAsInt() / 40;
+      int yOffset = (int) (((float) startEntry * (float) (verticalSize - barHeight)) / (float)maxOffset);
+
+      int alpha = mShowBar ? 0xFF : (255 * mBarTimer) / sBarFadeTime;
+
+      Renderer::SetMatrix(trans);
+      Renderer::DrawRectangle((int) mSize.x() - 6, 2 + yOffset, 4, barHeight, (mSelectorColor & 0xFFFFFF00) | alpha);
+    }
+  }
+
+  Renderer::Instance().PopClippingRect();
 
   // Overlay?
   if (mOverlay != nullptr)
@@ -299,25 +322,31 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
     if (event.AnyDownPressed())
     {
       listInput(1);
+      mShowBar = true;
       return true;
     }
     else if (event.AnyUpPressed())
     {
       listInput(-1);
+      mShowBar = true;
       return true;
     }
     else if (event.R1Pressed())
     {
       listInput(10);
+      mShowBar = true;
       return true;
     }
     else if (event.L1Pressed())
     {
       listInput(-10);
+      mShowBar = true;
       return true;
     }
     else if (event.AnyDownReleased() || event.AnyUpReleased() || event.R1Released() || event.L1Released())
     {
+      mBarTimer = sBarFadeTime;
+      mShowBar = false;
       stopScrolling();
     }
 	}
@@ -328,6 +357,8 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
 template <typename T>
 void TextListComponent<T>::Update(int deltaTime)
 {
+  if (mBarTimer > 0) mBarTimer -= deltaTime;
+
 	listUpdate(deltaTime);
 	if(!isScrolling() && size() > 0)
 	{

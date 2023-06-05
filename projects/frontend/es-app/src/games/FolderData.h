@@ -103,7 +103,7 @@ class FolderData : public FileData
     [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const;
 
     /*!
-     * Highly optimized Quicksort, inpired from original Delphi 7 code
+     * Highly optimized Quicksort, inspired from original Delphi 7 code
      * @param low Lowest element
      * @param high Highest element
      * @param comparer Compare method
@@ -111,7 +111,7 @@ class FolderData : public FileData
     static void QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
     /*!
-     * Highly optimized Quicksort, inpired from original Delphi 7 code
+     * Highly optimized Quicksort, inspired from original Delphi 7 code
      * @param low Lowest element
      * @param high Highest element
      * @param comparer Compare method

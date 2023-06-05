@@ -25,7 +25,7 @@ class GuiMenuGameSettings : public GuiMenuBase
      */
     explicit GuiMenuGameSettings(WindowManager& window, SystemManager& systemManager);
 
-    ~GuiMenuGameSettings() override;
+    ~GuiMenuGameSettings() override = default;
 
   private:
     enum class Components
@@ -48,28 +48,8 @@ class GuiMenuGameSettings : public GuiMenuBase
     //! System manager
     SystemManager& mSystemManager;
 
-    //! Ratio
-    std::shared_ptr<OptionListComponent<std::string>> mRatio;
-    //! RecalboxOverlays
-    std::shared_ptr<SwitchComponent> mRecalboxOverlays;
     //! Smooth
     std::shared_ptr<SwitchComponent> mSmooth;
-    //! Rewind
-    std::shared_ptr<SwitchComponent> mRewind;
-    //! Shaders
-    std::shared_ptr<OptionListComponent<std::string>> mSoftpatching;
-    //! Auto-save
-    std::shared_ptr<SwitchComponent> mAutoSave;
-    //! Press twice to quit
-    std::shared_ptr<SwitchComponent> mQuitTwice;
-    //! Integer scale
-    std::shared_ptr<SwitchComponent> mIntegerScale;
-    //! Shaders
-    std::shared_ptr<OptionListComponent<std::string>> mShaders;
-    //! Shader Set
-    std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
-    //! Super GameBoy options
-    std::shared_ptr<OptionListComponent<std::string>> mSuperGameBoy;
 
     //! Get Ratio List
     static std::vector<ListEntry<std::string>> GetRatioEntries();
@@ -81,10 +61,6 @@ class GuiMenuGameSettings : public GuiMenuBase
     static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
     //! Get shader sets List
     static std::vector<ListEntry<std::string>> GetSuperGameBoyEntries();
-
-
-    //! Change options when enabling shaders
-    void ChangeShadersOptions();
 
     /*
      * IGuiMenuBase implementation

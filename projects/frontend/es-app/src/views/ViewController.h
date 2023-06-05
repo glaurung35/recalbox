@@ -160,5 +160,5 @@ class ViewController : public StaticLifeCycleControler<ViewController>, public G
     /*!
      * @brief Reset game filters
      */
-    void ResetFilters();
+    static void ResetFilters();
 };

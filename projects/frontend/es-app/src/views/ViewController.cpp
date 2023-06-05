@@ -1,29 +1,22 @@
 #include <RecalboxConf.h>
+#include "systems/SystemData.h"
 #include <recalbox/RecalboxSystem.h>
 #include "views/ViewController.h"
-#include "utils/Log.h"
-#include "systems/SystemData.h"
 
-#include "views/gamelist/BasicGameListView.h"
 #include "views/gamelist/DetailedGameListView.h"
+#include "views/gamelist/ArcadeGameListView.h"
 #include "guis/GuiDetectDevice.h"
 #include "animations/LaunchAnimation.h"
 #include "animations/MoveCameraAnimation.h"
 #include "animations/LambdaAnimation.h"
 
-#include "audio/AudioManager.h"
 #include "guis/menus/GuiMenuSoftpatchingLauncher.h"
 #include "RotationManager.h"
-#include <audio/AudioMode.h>
 
-#include <memory>
-#include <systems/SystemManager.h>
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <guis/menus/GuiCheckMenu.h>
-#include <utils/locale/LocaleHelper.h>
-#include <usernotifications/NotificationManager.h>
 
 #include <games/GameFilesUtils.h>
 
@@ -67,7 +60,7 @@ void ViewController::goToStart()
   if (selectedSystem == nullptr)
   {
 
-    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [this] { ResetFilters();}));
+    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [] { ResetFilters();}));
     return;
   }
 
@@ -118,6 +111,7 @@ void ViewController::goToQuitScreen()
 {
   mSplashView.Quit();
   mState.viewing = ViewMode::SplashScreen;
+  mState.gameClipRunning = false;
   mCamera.translation().Set(0,0,0);
 }
 
@@ -335,7 +329,7 @@ void ViewController::playViewTransition()
 		cancelAnimation(0);
 
 		auto fadeFunc = [this](float t) {
-			mFadeOpacity = lerp<float>(0, 1, t);
+			mFadeOpacity = lerp<float>(0.f, 1.f, t);
 		};
 
 		const static int FADE_DURATION = 240; // fade in/out time
@@ -669,7 +663,12 @@ std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData*
 	//if we didn't, make it, remember it, and return it
 	std::shared_ptr<ISimpleGameListView> view;
 
-  view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+  const ArcadeDatabase* database = system->ArcadeDatabases().LookupDatabase();
+  if (system->Descriptor().Type() == SystemDescriptor::SystemType::Arcade && database != nullptr && database->IsValid())
+    view = std::shared_ptr<ISimpleGameListView>(new ArcadeGameListView(mWindow, mSystemManager, *system));
+  else
+    view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+  view->Initialize();
 	view->setTheme(system->Theme());
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();

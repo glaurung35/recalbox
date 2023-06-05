@@ -20,18 +20,27 @@ class ArcadeDatabaseManager
      */
     explicit ArcadeDatabaseManager(SystemData& parentSystem);
 
+    // Destructor
+    ~ArcadeDatabaseManager();
+
     /*!
      * @brief Load all arcade database
      */
     void LoadDatabases();
 
     /*!
-     * @brief Lookup an arcade database for the given system
+     * @brief Lookup an arcade database for the current system
      * regarding only default system configuration to find out what emulator & core to use
      * @param system System to get database from
      * @return GameDatabase or null
      */
-    const GameDatabase* LookupDatabase(SystemData& system);
+    [[nodiscard]] const ArcadeDatabase* LookupDatabase() const;
+
+    /*!
+     * @brief Remove all reference to the given game, from all database
+     * @param game Game to remove
+     */
+    void RemoveGame(const FileData& game);
 
   private:
     //! Raw driver structure
@@ -46,7 +55,7 @@ class ArcadeDatabaseManager
     SystemData& mSystem;
 
     //! Arcade database typedef
-    typedef HashMap<String, GameDatabase> Databases;
+    typedef HashMap<String, ArcadeDatabase*> Databases;
     //! Database per core per emulator
     Databases mDatabases;
     //! Loaded?
@@ -60,7 +69,8 @@ class ArcadeDatabaseManager
      * @param ignoredDriverString raw ignored driver string list
      * @result GameDatabase
      */
-    GameDatabase LoadFlatDatabase(const String& emulator, const String& core, const String& splitDriverString, const String& ignoredDriverString, int limit);
+    ArcadeDatabase* LoadFlatDatabase(const String& emulator, const String& core, const String& databaseFilename,
+                                     const String& splitDriverString, const String& ignoredDriverString, int limit);
 
     /*!
      * @brief Deserializea line into an ArcadeGame structure
@@ -71,8 +81,8 @@ class ArcadeDatabaseManager
      * @param nextDriverIndex next driver index
      */
     static void DeserializeTo(Array<ArcadeGame>& games, const String& line, const HashMap<String, FileData*>& map,
-                              HashMap<const FileData*, ArcadeGame*>& lookups, HashMap<String, RawDriver>& drivers,
-                              const HashSet<String>& splitDrivers, const HashSet<String>& ignoreDrivers, int& nextDriverIndex);
+                              HashMap<String, RawDriver>& drivers, const HashSet<String>& splitDrivers,
+                              const HashSet<String>& ignoreDrivers, int& nextDriverIndex);
 
     /*!
      * @brief Build final driver list & remap drivers in existing games

@@ -241,6 +241,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, true)
     DefineGetterSetter(CollectionArcadePosition, int, Int, sCollectionArcadePosition, 0)
 
+    DefineGetterSetter(ArcadeUseDatabaseNames, bool, Bool, sArcadeUseDatabaseNames, true)
+    DefineGetterSetter(ArcadeViewEnhanced, bool, Bool, sArcadeViewEnhanced, true)
+    DefineGetterSetter(ArcadeViewHideBios, bool, Bool, sArcadeViewHideBios, false)
+    DefineGetterSetter(ArcadeViewHideClones, bool, Bool, sArcadeViewHideClones, false)
+    DefineGetterSetter(ArcadeViewHideNonWorking, bool, Bool, sArcadeViewHideNonWorking, false)
+
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
     DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
 
@@ -475,10 +481,16 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionTate             = "emulationstation.collection.tate";
     static constexpr const char* sTateGameRotation           = "tate.gamerotation";
 
-    static constexpr const char* sCollectionArcade           = "emulationstation.arcade";
-    static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.arcade.includeneogeo";
-    static constexpr const char* sCollectionArcadeHide       = "emulationstation.arcade.hideoriginals";
-    static constexpr const char* sCollectionArcadePosition   = "emulationstation.arcade.position";
+    static constexpr const char* sCollectionArcade           = "emulationstation.virtualarcade";
+    static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.virtualarcade.includeneogeo";
+    static constexpr const char* sCollectionArcadeHide       = "emulationstation.virtualarcade.hideoriginals";
+    static constexpr const char* sCollectionArcadePosition   = "emulationstation.virtualarcade.position";
+
+    static constexpr const char* sArcadeViewEnhanced         = "emulationstation.arcade.view.enhanced";
+    static constexpr const char* sArcadeViewHideClones       = "emulationstation.arcade.view.hideclones";
+    static constexpr const char* sArcadeViewHideBios         = "emulationstation.arcade.view.hidebios";
+    static constexpr const char* sArcadeViewHideNonWorking   = "emulationstation.arcade.view.hidenonworking";
+    static constexpr const char* sArcadeUseDatabaseNames     = "emulationstation.arcade.usedatabasenames";
 
     static constexpr const char* sUpdatesEnabled             = "updates.enabled";
     static constexpr const char* sUpdatesType                = "updates.type";

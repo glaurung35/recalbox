@@ -215,9 +215,6 @@ extern const uint8_t help__button_l3_svg_data[];
 extern const uint16_t help__volume_down_svg_size;
 extern const uint8_t help__volume_down_svg_data[];
 
-extern const uint16_t help__piboy-xrs-menu_png_size;
-extern const uint8_t help__piboy-xrs-menu_png_data[];
-
 extern const uint16_t help__dpad_up_svg_size;
 extern const uint8_t help__dpad_up_svg_data[];
 

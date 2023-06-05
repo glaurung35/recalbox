@@ -131,6 +131,7 @@
       pinctrl-0 = <&i2c1_pins>, <&switch36_gpio>;
       switch36-gpios = <&gpio 11 0>;
       clock-frequency = <400000>;
+      read-timeout-ms = <50>;
       jammactrl_0: jammactrl_0@25 {
         compatible = "raspberrypi,recalboxrgbjamma";
         reg = <0x25>;

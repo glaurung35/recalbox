@@ -5,6 +5,8 @@
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
+#include "guis/GuiSaveStates.h"
+#include <games/GameFilesUtils.h>
 #include <components/SwitchComponent.h>
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
@@ -46,6 +48,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
       if(!mGamelist.getCursor()->Metadata().Alias().empty())
         AddSubMenu(_("SEARCH OTHERS VERSIONS"), (int) Components::SearchSiblings, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_SIBLINGS_MSG));
+
+      if (!GameFilesUtils::GetGameSaveStateFiles(*mGamelist.getCursor()).empty())
+        AddSubMenu(_("SAVE STATES"), (int) Components::SaveStates, _(MENUMESSAGE_GAMELISTOPTION_SAVE_STATES_MSG));
+
     }
     if(!mGamelist.getCursor()->Metadata().Families().empty())
       AddSubMenu(_("SEARCH GAMES OF SAME LICENCE"), (int) Components::SearchFamily, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_LICENCE_MSG));
@@ -286,6 +292,12 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         }, _("NO"), {}));
         break;
     }
+    case Components::SaveStates:
+    {
+      FileData* game = mGamelist.getCursor();
+      mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *game, nullptr, true));
+      break;
+    }
     case Components::Search:
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
@@ -353,6 +365,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::DeleteScreeshot:
     case Components::SearchSiblings:
     case Components::SearchFamily:
+    case Components::SaveStates:
     case Components::Quit: break;
   }
 

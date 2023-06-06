@@ -113,7 +113,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   // Keep temporary object outside the loop to avoid construction/destruction and keep memory allocated AMAP
   Path::PathList items = folderPath.GetDirectoryContent();
 
-  HashSet<std::string> blacklist;
+  HashSet<String> blacklist;
   bool containsMultiDiskFile = GameFilesUtils::ContainsMultiDiskFile(filteredExtensions);
   if (containsMultiDiskFile)
     for(const auto& itemPath : items)
@@ -663,13 +663,13 @@ bool FolderData::HasDetailedData() const
   return false;
 }
 
-FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attributes, const std::string& path) const
+FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const
 {
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)
   {
     Path filePath(fd->RomPath());
-    std::string filename = path.empty() ? filePath.ToString() : path + '/' + filePath.Filename();
+    String filename = path.empty() ? filePath.ToString() : path + '/' + filePath.Filename();
 
     if (fd->IsFolder())
     {
@@ -697,7 +697,7 @@ FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attri
   return nullptr;
 }
 
-FileData* FolderData::LookupGameByFilePath(const std::string& filepath) const
+FileData* FolderData::LookupGameByFilePath(const String& filepath) const
 {
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)

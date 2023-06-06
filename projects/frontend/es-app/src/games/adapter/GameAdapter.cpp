@@ -9,13 +9,13 @@
 #include "GameNameMapManager.h"
 #include <systems/SystemData.h>
 
-const std::string GameAdapter::sEasyRPGSystemName(LEGACY_STRING("easyrpg"));
-const std::string GameAdapter::sEasyRPGGameNameUpper(LEGACY_STRING("RPG_RT.INI"));
-const std::string GameAdapter::sEasyRPGGameNameLower(LEGACY_STRING("RPG_RT.ini"));
+const String GameAdapter::sEasyRPGSystemName(LEGACY_STRING("easyrpg"));
+const String GameAdapter::sEasyRPGGameNameUpper(LEGACY_STRING("RPG_RT.INI"));
+const String GameAdapter::sEasyRPGGameNameLower(LEGACY_STRING("RPG_RT.ini"));
 
 std::string GameAdapter::ScrapingName() const
 {
-  if (mGame.System().Name() == sEasyRPGSystemName)
+  if (mGame.System().Name() == (std::string)sEasyRPGSystemName) // TODO: move to String & remove cast
   {
     if (mGame.RomPath().Filename() == sEasyRPGGameNameUpper ||
         mGame.RomPath().Filename() == sEasyRPGGameNameLower)
@@ -38,7 +38,7 @@ std::string GameAdapter::DisplayName() const
 
 std::string GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
 {
-  if (system.Name() == sEasyRPGSystemName)
+  if (system.Name() == (std::string)sEasyRPGSystemName) // TODO: move to String & remove cast
   {
     if (rompath.Filename() == sEasyRPGGameNameUpper ||
         rompath.Filename() == sEasyRPGGameNameLower)

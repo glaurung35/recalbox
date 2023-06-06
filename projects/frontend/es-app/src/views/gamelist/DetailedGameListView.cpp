@@ -710,7 +710,7 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
         // Draw
         int flagHeight = (int) ((float) flagWidth * (float) (*flag)->height() / (float) (*flag)->width());
         int y = Math::roundi((size.y() - (float) flagHeight) / 2.f) + (int)position.y();
-        int x = ((int)size.x() - (2 + flagWidth) * drawn) + (int)position.x();
+        int x = ((int)size.x() - (2 + Math::roundi(mList.getHorizontalMargin()) + flagWidth) * drawn) + (int)position.x();
         Renderer::DrawTexture(**flag, x, y, flagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
         drawn++;
       }
@@ -719,7 +719,7 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  return ((mList.EntryHeight() * 1.25f + 2.f) * (float)data->Metadata().Region().Count()) + 2.f;
+  return ((mList.EntryHeight() * 1.25f + 2.f) * (float)data->Metadata().Region().Count()) + 2.f + mList.getHorizontalMargin();
 }
 
 DetailedGameListView::~DetailedGameListView()

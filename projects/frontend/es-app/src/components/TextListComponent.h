@@ -75,8 +75,8 @@ public:
 
 	inline void setSelectorHeight(float selectorScale) { mSelectorHeight = selectorScale; }
 	inline void setSelectorOffsetY(float selectorOffsetY) { mSelectorOffsetY = selectorOffsetY; }
-	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; }
-	inline void setSelectedColor(unsigned int color) { mSelectedColor = color; }
+	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; updateBarColor(); }
+	inline void setSelectedColor(unsigned int color) { mSelectedColor = color; updateBarColor(); }
 	inline void setScrollSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
 	inline void setColor(unsigned int id, unsigned int color) { mColors[id] = color; }
 	inline void setSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
@@ -86,15 +86,42 @@ public:
   [[nodiscard]] inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
   [[nodiscard]] inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
-protected:
+  [[nodiscard]] inline float getHorizontalMargin() const { return mHorizontalMargin; }
+
+  protected:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
 	virtual void onCursorChanged(const CursorState& state);
 
 private:
-  static constexpr int sBarFadeTime = 800;
-	static constexpr int MARQUEE_DELAY = 2000;
-	static constexpr int MARQUEE_SPEED = 8;
-	static constexpr int MARQUEE_RATE = 1;
+  void updateBarColor()
+  {
+    unsigned char lr = mSelectorColor >> 24;
+    unsigned char lg = (mSelectorColor >> 16) & 0xFF;
+    unsigned char lb = (mSelectorColor >> 8) & 0xFF;
+    unsigned char la = mSelectedColor & 0xFF;
+    unsigned char rr = mSelectedColor >> 24;
+    unsigned char rg = (mSelectedColor >> 16) & 0xFF;
+    unsigned char rb = (mSelectedColor >> 8) & 0xFF;
+    unsigned char ra = mSelectedColor & 0xFF;
+    mBarColor = (((lr + rr) >> 1) << 24) |
+                (((lg + rg) >> 1) << 16) |
+                (((lb + rb) >> 1) << 8) |
+                ((la + ra) >> 1);
+  }
+
+  enum class MarqueeSteps
+  {
+    LeftPause,     //!< Start with a smart pause
+    ScrollToRight, //!< Scroll until th elast char is visible
+    RightPause,    //!< Smart pause again to let the user read the end
+    RollOver,      //!< Scroll until text #2 left part is on the start position and then restart
+  };
+
+  static constexpr int sBarFixedTime = 200;
+  static constexpr int sBarFadeTime = 600;
+  static constexpr int sMarqueeSpeed1 = 40; // In pixel per seconds
+  static constexpr int sMarqueeSpeed2 = 80; // In pixel per seconds
+  static constexpr int sMarqueePause = 1000; // In milliseconds
   static constexpr unsigned int COLOR_ID_COUNT = 8;
 
   ImageComponent mSelectorImage;
@@ -107,6 +134,7 @@ private:
 
   int mMarqueeOffset;
   int mMarqueeTime;
+  MarqueeSteps mMarqueeStep;
 	HorizontalAlignment mAlignment;
 
   float mHorizontalMargin;
@@ -115,6 +143,7 @@ private:
 	float mSelectorOffsetY;
 	unsigned int mSelectorColor;
 	unsigned int mSelectedColor;
+  unsigned int mBarColor;
   int mBarTimer;
   bool mShowBar;
   bool mUppercase;
@@ -129,7 +158,8 @@ TextListComponent<T>::TextListComponent(WindowManager& window)
   , mScrollSound(0)
   , mOverlay(nullptr)
   , mMarqueeOffset(0)
-  , mMarqueeTime(-MARQUEE_DELAY)
+  , mMarqueeTime(0)
+  , mMarqueeStep(MarqueeSteps::LeftPause)
   , mAlignment(HorizontalAlignment::Center)
   , mHorizontalMargin(0)
   , mLineSpacing(1.5f)
@@ -270,6 +300,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     y += entrySize;
 	}
 
+  Renderer::Instance().PopClippingRect();
+
   // Draw bar
   if (mShowBar || mBarTimer >= 0)
   {
@@ -277,21 +309,21 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     int maxOffset = (int)mEntries.size() - screenCount;
     if (maxOffset > 0)
     {
-      int barHeight = (int) (((float) verticalSize * (float) screenCount) / (float) maxOffset);
+      int barHeight = (int) (((float) verticalSize * (float) screenCount) / (float) mEntries.size());
 
       if ((barHeight < Renderer::Instance().DisplayHeightAsInt() / 40) &&
           (verticalSize >= Renderer::Instance().DisplayHeightAsInt() / 20))
         barHeight = Renderer::Instance().DisplayHeightAsInt() / 40;
       int yOffset = (int) (((float) startEntry * (float) (verticalSize - barHeight)) / (float)maxOffset);
 
-      int alpha = mShowBar ? 0xFF : (255 * mBarTimer) / sBarFadeTime;
+      int alpha = mShowBar || mBarTimer > sBarFadeTime ? 0xFF : (255 * mBarTimer) / sBarFadeTime;
 
+      int screenWidth = Renderer::Instance().DisplayWidthAsInt();
+      int barWidth = screenWidth > 1024 ? 6 : screenWidth > 480 ? 4 : 2;
       Renderer::SetMatrix(trans);
-      Renderer::DrawRectangle((int) mSize.x() - 6, 2 + yOffset, 4, barHeight, (mSelectorColor & 0xFFFFFF00) | alpha);
+      Renderer::DrawRectangle((int) mSize.x() - 2 - barWidth, 2 + yOffset, barWidth, barHeight, (mBarColor & 0xFFFFFF00) | alpha);
     }
   }
-
-  Renderer::Instance().PopClippingRect();
 
   // Overlay?
   if (mOverlay != nullptr)
@@ -358,7 +390,7 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
     }
     else if (event.AnyDownReleased() || event.AnyUpReleased() || event.R1Released() || event.L1Released())
     {
-      mBarTimer = sBarFadeTime;
+      mBarTimer = sBarFadeTime + sBarFixedTime;
       mShowBar = false;
       stopScrolling();
     }
@@ -379,20 +411,43 @@ void TextListComponent<T>::Update(int deltaTime)
 		const float textWidth = mEntries[mCursor].data.textCache->metrics.size.x();
 
 		//it's long enough to marquee
-    float width = mSize.x() - 12 - mHorizontalMargin * 2;
+    float width = mSize.x() - mHorizontalMargin - 2;
     if (mOverlay != nullptr) width -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
-		if(textWidth /*- mMarqueeOffset*/ > width)
-		{
-			mMarqueeTime += deltaTime;
-			while(mMarqueeTime > MARQUEE_SPEED)
-			{
-				mMarqueeOffset += MARQUEE_RATE;
-        if (mMarqueeOffset > textWidth + mSize.x() / 4)
-          mMarqueeOffset -= textWidth + mSize.x() / 4;
-				mMarqueeTime -= MARQUEE_SPEED;
-			}
-		}
+    else width -= mHorizontalMargin;
+    
+		if (textWidth > width)
+    {
+      switch (mMarqueeStep)
+      {
+        case MarqueeSteps::LeftPause:
+        {
+          mMarqueeOffset = 0;
+          if (mMarqueeTime > sMarqueePause) { mMarqueeTime = 0; mMarqueeStep = MarqueeSteps::ScrollToRight; }
+          break;
+        }
+        case MarqueeSteps::ScrollToRight:
+        {
+          mMarqueeOffset = (mMarqueeTime * sMarqueeSpeed1) / 1000;
+          if (mMarqueeOffset >= (int)(textWidth - width)) { mMarqueeTime = 0; mMarqueeOffset = (int)(textWidth - width); mMarqueeStep = MarqueeSteps::RightPause;}
+          break;
+        }
+        case MarqueeSteps::RightPause:
+        {
+          mMarqueeOffset = (int)(textWidth - width);
+          if (mMarqueeTime > sMarqueePause) { mMarqueeTime = 0; mMarqueeStep = MarqueeSteps::RollOver; }
+          break;
+        }
+        case MarqueeSteps::RollOver:
+        {
+          mMarqueeOffset = (int)(textWidth - width) + (mMarqueeTime * sMarqueeSpeed2) / 1000;
+          if (mMarqueeOffset >= textWidth + mSize.x() / 4) { mMarqueeTime = 0; mMarqueeOffset = 0; mMarqueeStep = MarqueeSteps::LeftPause;}
+          break;
+        }
+        default: break;
+      }
+      mMarqueeTime += deltaTime;
+    }
 	}
 
   Component::Update(deltaTime);
@@ -447,8 +502,9 @@ void TextListComponent<T>::changeBackgroundColorAt(int index, int colorIndex)
 template <typename T>
 void TextListComponent<T>::onCursorChanged(const CursorState& state)
 {
+  mMarqueeStep = MarqueeSteps::LeftPause;
 	mMarqueeOffset = 0;
-	mMarqueeTime = -MARQUEE_DELAY;
+	mMarqueeTime = 0;
 
 	if(mCursorChangedCallback)
 		mCursorChangedCallback(state);

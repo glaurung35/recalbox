@@ -61,9 +61,6 @@ class DetailedGameListView : public ISimpleGameListView
     //! Game list
     TextListComponent<FileData*> mList;
 
-    //! At least one game has a GenreID
-    bool mHasGenre;
-
     void launch(FileData* game) override;
     void clean() override { mVideo.setVideo(Path::Empty, 0, 0); }
 
@@ -140,6 +137,9 @@ class DetailedGameListView : public ISimpleGameListView
 
     RecalboxConf& mSettings;
 
+    //! region to flag texture
+    HashMap<Regions::GameRegions, std::shared_ptr<TextureResource>> mRegionToTextures;
+
     //! Fade between mImage & mNoImage
     int mFadeBetweenImage;
 
@@ -196,19 +196,19 @@ class DetailedGameListView : public ISimpleGameListView
      * @param size  Width/Height of the item rectangle
      * @param data Linked data
      */
-    void OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color) override;
+    void OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color) override;
 
     /*!
      * @brief Get the left offset (margin to the text) if any
      * @return left offset
      */
-    float OverlayGetLeftOffset() override { return 0.0f; }
+    float OverlayGetLeftOffset(FileData* const& data) override { (void)data; return 0.0f; }
 
     /*!
      * @brief Get the right offset (margin from text to right limit) if any
      * @return right offset
      */
-    float OverlayGetRightOffset() override;
+    float OverlayGetRightOffset(FileData* const& data) override;
 
     /*
      * IScrapeEngineStage implementation

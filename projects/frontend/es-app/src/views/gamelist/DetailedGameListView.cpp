@@ -12,7 +12,6 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mEmptyListItem(&system)
   , mPopulatedFolder(nullptr)
   , mList(window)
-  , mHasGenre(false)
   , mElapsedTimeOnGame(0)
   , mIsScraping(false)
   , mImage(window)
@@ -57,7 +56,7 @@ void DetailedGameListView::Initialize()
                                    (void) state;
                                    updateInfoPanel();
                                  });
-  //mList.SetOverlayInterface(this);
+  mList.SetOverlayInterface(this);
 
   const float padding = 0.01f;
 
@@ -687,33 +686,40 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
   mBusy.Render(trans);
 }
 
-
-void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color)
+void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
 {
-  (void)position;
-  (void)size;
-  (void)data;
   (void)color;
-
-  /*if (mHasGenre)
+  //int height = Math::roundi(size.y() - 2.0f);
+  int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
+  if (w != 0)
   {
-    float height = size.y() - 2.0f;
+    int drawn = 1;
+    int flagWidth = Math::roundi(mList.EntryHeight() * 1.25f);
 
-    GameGenres genre = data->Metadata().GenreId();
-    if (genre != GameGenres::None)
-    {
-      const Path& path = Genres::GetResourcePath(genre);
-      Renderer::drawRect(position.x() + size.x() - 2 - height, position.y() + 1, height, height, color);
-    }
-  }*/
+    for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+      if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+      {
+        std::shared_ptr<TextureResource>* flag = mRegionToTextures.try_get(region);
+        if (flag == nullptr)
+        {
+          // Load flag
+          std::shared_ptr<TextureResource> texture = TextureResource::get(Path(":/regions/" + Regions::GameRegionsFromEnum(region) + ".svg"), false, true, true);
+          mRegionToTextures.insert(region, texture);
+          flag = mRegionToTextures.try_get(region);
+        }
+        // Draw
+        int flagHeight = (int) ((float) flagWidth * (float) (*flag)->height() / (float) (*flag)->width());
+        int y = Math::roundi((size.y() - (float) flagHeight) / 2.f) + (int)position.y();
+        int x = ((int)size.x() - (2 + flagWidth) * drawn) + (int)position.x();
+        Renderer::DrawTexture(**flag, x, y, flagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
+        drawn++;
+      }
+  }
 }
 
-float DetailedGameListView::OverlayGetRightOffset()
+float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  if (mHasGenre)
-    return mList.EntryHeight() * 1.2f;
-
-  return 0.0f;
+  return ((mList.EntryHeight() * 1.25f + 2.f) * (float)data->Metadata().Region().Count()) + 2.f;
 }
 
 DetailedGameListView::~DetailedGameListView()
@@ -855,7 +861,6 @@ void DetailedGameListView::populateList(const FolderData& folder)
   }
 
   // Add to list
-  mHasGenre = false;
   //mList.reserve(items.size()); // TODO: Reserve memory once
   for (FileData* fd : items)
   {
@@ -866,9 +871,6 @@ void DetailedGameListView::populateList(const FolderData& folder)
         colorIndexOffset = 2;
     // Store
     mList.add(GetDisplayName(*fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
-    // Attribute analysis
-    if (fd->IsGame() && fd->Metadata().GenreId() != GameGenres::None)
-      mHasGenre = true;
   }
 }
 

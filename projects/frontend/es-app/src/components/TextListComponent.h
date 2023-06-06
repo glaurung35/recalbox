@@ -150,8 +150,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   trans.round();
 	std::shared_ptr<Font>& font = mFont;
 
-	if(size() == 0)
-		return;
+	if(size() == 0) return;
 
 	const float entrySize = font->getSize() * mLineSpacing;
 
@@ -163,10 +162,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 	if(size() >= screenCount)
 	{
 		startEntry = mCursor - screenCount/2;
-		if(startEntry < 0)
-			startEntry = 0;
-		if(startEntry >= size() - screenCount)
-			startEntry = size() - screenCount;
+		if(startEntry < 0) startEntry = 0;
+		if(startEntry >= size() - screenCount) startEntry = size() - screenCount;
 	}
 
 	int listCutoff = startEntry + screenCount;
@@ -192,18 +189,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		}
 	}
 
-	// overlay?
-	float leftMargin = mOverlay != nullptr ? mOverlay->OverlayGetLeftOffset() : 0;
-	float rightMargin = mOverlay != nullptr ? mOverlay->OverlayGetRightOffset() : 0;
-  if (leftMargin != 0.0f || rightMargin != 0.0f)
-  {
-     Renderer::Instance().PopClippingRect();
-     Renderer::Instance().PushClippingRect(Vector2i((int)(trans.translation().x() + leftMargin), (int)trans.translation().y()),
-                                           Vector2i((int)(dim.x() - (leftMargin + rightMargin)), (int)dim.y()));
-  }
-
 	// Draw text items
   float y = 0;
+  float leftMargin = 0.f;
+  float rightMargin = 0.f;
+  float previousLeftMargin = 0.f;
+  float previousRightMargin = 0.f;
   for (int i = startEntry; i <= listCutoff; i++)
 	{
     // Last line might be out of list due to display constraints
@@ -229,7 +220,22 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		Vector3f offset(leftMargin, y, 0);
 		Vector2f size(mSize.x() - (leftMargin + rightMargin), entrySize);
 
-		switch(entry.data.useHzAlignment ? entry.data.hzAlignement : mAlignment)
+    if (mOverlay != nullptr)
+    {
+      // overlay?
+      leftMargin = mOverlay->OverlayGetLeftOffset(entry.object);
+      rightMargin = mOverlay->OverlayGetRightOffset(entry.object);
+      if (leftMargin != previousLeftMargin || rightMargin != previousRightMargin)
+      {
+        Renderer::Instance().PopClippingRect();
+        Renderer::Instance().PushClippingRect(Vector2i((int)(trans.translation().x() + leftMargin), (int)trans.translation().y()),
+                                              Vector2i((int)(dim.x() - (leftMargin + rightMargin)), (int)dim.y()));
+      }
+      previousLeftMargin = leftMargin;
+      previousRightMargin = rightMargin;
+    }
+
+    switch(entry.data.useHzAlignment ? entry.data.hzAlignement : mAlignment)
 		{
       case HorizontalAlignment::Left:
         offset[0] = mHorizontalMargin;
@@ -245,14 +251,21 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		  default : break;
 		}
 
-    if(mCursor == i)
-			offset[0] -= mMarqueeOffset;
+    if(mCursor == i) offset[0] -= mMarqueeOffset;
 
 		Transform4x4f drawTrans = trans;
 		drawTrans.translate(offset);
 		Renderer::SetMatrix(drawTrans);
-
 		font->renderTextCache(entry.data.textCache.get());
+
+    if (mCursor == i && mMarqueeOffset > 0)
+    {
+      offset[0] += entry.data.textCache->metrics.size.x() + mSize.x() / 4;
+      drawTrans = trans;
+      drawTrans.translate(offset);
+      Renderer::SetMatrix(drawTrans);
+      font->renderTextCache(entry.data.textCache.get());
+    }
 
     y += entrySize;
 	}
@@ -360,20 +373,23 @@ void TextListComponent<T>::Update(int deltaTime)
   if (mBarTimer > 0) mBarTimer -= deltaTime;
 
 	listUpdate(deltaTime);
-	if(!isScrolling() && size() > 0)
+	if(!isScrolling() && size() > 0 && mEntries[mCursor].data.textCache)
 	{
 		//if we're not scrolling and this object's text goes outside our size, marquee it!
-		const std::string& text = mEntries[mCursor].name;
-
-		Vector2f textSize = mFont->sizeText(text);
+		const float textWidth = mEntries[mCursor].data.textCache->metrics.size.x();
 
 		//it's long enough to marquee
-		if(textSize.x() - mMarqueeOffset > mSize.x() - 12 - mHorizontalMargin * 2)
+    float width = mSize.x() - 12 - mHorizontalMargin * 2;
+    if (mOverlay != nullptr) width -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
+                                      mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
+		if(textWidth /*- mMarqueeOffset*/ > width)
 		{
 			mMarqueeTime += deltaTime;
 			while(mMarqueeTime > MARQUEE_SPEED)
 			{
 				mMarqueeOffset += MARQUEE_RATE;
+        if (mMarqueeOffset > textWidth + mSize.x() / 4)
+          mMarqueeOffset -= textWidth + mSize.x() / 4;
 				mMarqueeTime -= MARQUEE_SPEED;
 			}
 		}

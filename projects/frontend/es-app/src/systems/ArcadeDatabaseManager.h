@@ -31,10 +31,17 @@ class ArcadeDatabaseManager
     /*!
      * @brief Lookup an arcade database for the current system
      * regarding only default system configuration to find out what emulator & core to use
-     * @param system System to get database from
      * @return GameDatabase or null
      */
     [[nodiscard]] const ArcadeDatabase* LookupDatabase() const;
+
+    /*!
+     * @brief Lookup an arcade database for the current system in given current folder
+     * regarding all overridden configuration to find out what emulator & core to use
+     * @param folder folder to lookup emulator configuration in
+     * @return GameDatabase or null
+     */
+    [[nodiscard]] const ArcadeDatabase* LookupDatabase(const FolderData& folder) const;
 
     /*!
      * @brief Remove all reference to the given game, from all database

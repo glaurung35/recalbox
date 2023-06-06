@@ -49,8 +49,9 @@ class ArcadeGameListView : public DetailedGameListView
 
     //! List
     ParentTuppleList mGameList;
-    //! Database
-    const ArcadeDatabase& mDatabase;
+
+    //! Last database to use
+    const ArcadeDatabase* mDatabase;
 
     /*!
      * @brief Rebuild the gamelist - regenerate internal structure
@@ -79,6 +80,12 @@ class ArcadeGameListView : public DetailedGameListView
      */
     void BuildAndSortArcadeGames(FileData::List& items, FileSorts::ComparerArcade comparer, bool ascending);
 
+    /*!
+     * @brief Add a complete sorted lists of arcade tupple to the gamelist
+     * @param categoryLists One or more arcade tupple list to sort and add
+     * @param comparer Sort comparer
+     * @param ascending True = ascending sort
+     */
     void AddSortedCategories(const std::vector<ParentTuppleList*>& categoryLists, FileSorts::ComparerArcade comparer, bool ascending);
 
     /*!

@@ -6,13 +6,17 @@
 
 ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : DetailedGameListView(window, systemManager, system)
-  , mDatabase(*system.ArcadeDatabases().LookupDatabase())
+  , mDatabase(nullptr)
 {
 }
 
 void ArcadeGameListView::populateList(const FolderData& folder)
 {
   mPopulatedFolder = &folder;
+
+  mDatabase = mSystem.ArcadeDatabases().LookupDatabase(folder);
+  if (mDatabase == nullptr || !mDatabase->IsValid())
+    return DetailedGameListView::populateList(folder);
 
   // Default filter
   FileData::Filter includesFilter = FileData::Filter::Normal | FileData::Filter::Favorite;
@@ -57,7 +61,6 @@ void ArcadeGameListView::BuildList()
   }
 
   // Add to list
-  mHasGenre = false;
   for (const ParentTupple& parent : mGameList)
   {
     // Region filtering?
@@ -67,9 +70,6 @@ void ArcadeGameListView::BuildList()
         colorIndexOffset = 2;
     // Store
     mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
-    // Attribute analysis
-    if (parent.mGame->IsGame() && parent.mGame->Metadata().GenreId() != GameGenres::None)
-      mHasGenre = true;
 
     // Children?
     if (parent.mArcade != nullptr && parent.mCloneList != nullptr)
@@ -85,9 +85,6 @@ void ArcadeGameListView::BuildList()
                 colorIndexOffset = 2;
             // Store
             mList.add(GetIconifiedDisplayName(clone), clone.mGame, colorIndexOffset, false);
-            // Attribute analysis
-            if (clone.mGame->IsGame() && clone.mGame->Metadata().GenreId() != GameGenres::None)
-              mHasGenre = true;
           }
         }
   }
@@ -156,7 +153,7 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   mGameList.clear();
   for(FileData* item : items)
   {
-    const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+    const ArcadeGame* arcade = mDatabase->LookupGame(*item);
     if (arcade == nullptr) notWorking.push_back(ParentTupple(nullptr, item, false));
     else
       switch(arcade->Hierarchy())
@@ -234,7 +231,7 @@ Regions::List ArcadeGameListView::AvailableRegionsInGames(ArcadeGameListView::Pa
 
 bool ArcadeGameListView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.AnyHotkeyCombination())
+  if (event.AnyHotkeyCombination() && mDatabase != nullptr && mDatabase->IsValid())
   {
     if (event.HotkeyUpReleased())
     {
@@ -265,7 +262,7 @@ void ArcadeGameListView::FoldAll()
 {
   // Get cursor position - Get ancestor if its a clone
   FileData* item = getCursor();
-  const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+  const ArcadeGame* arcade = mDatabase->LookupGame(*item);
   if (arcade != nullptr)
     if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
       item = (FileData*)arcade->Parent();
@@ -305,7 +302,7 @@ void ArcadeGameListView::Fold()
 {
   // Get cursor position - Get ancestor if its a clone
   FileData* item = getCursor();
-  const ArcadeGame* arcade = mDatabase.LookupGame(*item);
+  const ArcadeGame* arcade = mDatabase->LookupGame(*item);
   if (arcade != nullptr)
     if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
       item = (FileData*)arcade->Parent();

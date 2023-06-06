@@ -80,7 +80,7 @@ std::string FileData::Regions()
   if (!regions.HasRegion())
     regions = Regions::ExtractRegionsFromTosecName(fileName);
   if (!regions.HasRegion())
-    regions = Regions::ExtractRegionsFromName(Strings::ToLowerASCII(Name()));
+    regions = Regions::ExtractRegionsFromName(Name());
   if (!regions.HasRegion())
     regions = Metadata().Region();
 

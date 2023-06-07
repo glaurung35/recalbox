@@ -3503,6 +3503,141 @@ msgstr ""
 msgid "Refreshing gamelist..."
 msgstr ""
 
+#
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+
+#
+msgid "60Hz & 50Hz"
+msgstr ""
+
+#
+msgid "ADVANCED SHADERS"
+msgstr ""
+
+#
+msgid "GAME BOY MODE"
+msgstr ""
+
+#
+msgid "GAME BOY"
+msgstr ""
+
+#
+msgid "SUPER GAME BOY"
+msgstr ""
+
+#
+msgid "ASK AT LAUNCH"
+msgstr ""
+
+#
+msgid "CRT CURVED"
+msgstr ""
+
+#
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+
+#
+msgid "Optimized video"
+msgstr ""
+
+#
+msgid "RECOMMENDED"
+msgstr ""
+
+#
+msgid "USE V2 (BETA)"
+msgstr ""
+
+#
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr ""
+
+#
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr ""
+
+#
+msgid "TATE SETTINGS"
+msgstr ""
+
+#
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr ""
+
+#
+msgid "GAMES ROTATION"
+msgstr ""
+
+#
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr ""
+
+#
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+
+#
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+
+#
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+
+#
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+
+#
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+
+#
+msgid "Missing bios list:"
+msgstr ""
+
+#
+msgid "GameBoy Mode"
+msgstr ""
+
+#
+msgid "Rotation"
+msgstr ""
+
+#
+msgid "Full Screen"
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "HARDISK BRUK"
 

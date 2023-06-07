@@ -20,36 +20,36 @@ GuiMenuSystemConfiguration::GuiMenuSystemConfiguration(WindowManager& window, Sy
 {
   // Default emulator/core
   if(options.emulator)
-    mEmulator = AddList(_("Emulator"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+    AddList(_("Emulator"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
   // Screen ratio choice
   if(options.ratio)
-    mRatio = AddList(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+    AddList(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // smoothing
   if(options.ratio)
-    mSmooth = AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetSystemSmooth(system), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
+    AddSwitch(_("SMOOTH GAMES"), RecalboxConf::Instance().GetSystemSmooth(system), (int)Components::Smooth, this, _(MENUMESSAGE_GAME_SMOOTH_HELP_MSG));
 
   // rewind
   if(options.rewind)
-    mRewind = AddSwitch(_("REWIND"), RecalboxConf::Instance().GetSystemRewind(system), (int)Components::Rewind, this, _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
+    AddSwitch(_("REWIND"), RecalboxConf::Instance().GetSystemRewind(system), (int)Components::Rewind, this, _(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // autosave
   if(options.autosave)
-    mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetSystemAutoSave(system), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+    AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetSystemAutoSave(system), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Shaders
   if(options.shaders)
-    mShaders = AddList(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+    AddList(_("SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Shaders preset
   if(options.shaderSet)
-    mShaderSet = AddList(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderSetEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+    AddList(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderSetEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetEmulatorEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetEmulatorEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
   std::string currentEmulator(RecalboxConf::Instance().GetSystemEmulator(mSystem));
   std::string currentCore    (RecalboxConf::Instance().GetSystemCore(mSystem));
@@ -62,20 +62,20 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetRatioEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetRatioEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
-  std::string currentRatio = RecalboxConf::Instance().GetSystemRatio(mSystem);
+  String currentRatio = RecalboxConf::Instance().GetSystemRatio(mSystem);
   for (const auto& ratio : LibretroRatio::GetRatio())
     list.push_back({ ratio.first, ratio.second, currentRatio == ratio.second });
 
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetShadersEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetShadersEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
   GuiMenuTools::ShaderList shaderList = GuiMenuTools::ListShaders();
   String currentShader = RecalboxConf::Instance().GetSystemShaders(mSystem);
@@ -86,9 +86,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::GetShaderSetEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetShaderSetEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
   std::string currentShader = RecalboxConf::Instance().GetSystemShaderSet(mSystem);
   if (currentShader.empty() || !Strings::Contains("|none|scanlines|retro|crtcurved|", std::string(1, '|').append(currentShader).append(1, '|'))) currentShader = "none";
@@ -100,7 +100,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystemConfiguration::Get
   return list;
 }
 
-void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)

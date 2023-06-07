@@ -4,10 +4,10 @@
 #pragma once
 
 #include <map>
-#include <string>
+#include <utils/String.h>
 
 class LibretroRatio
 {
   public :
-    static const std::map<std::string,std::string>& GetRatio();
+    static const std::map<String, String>& GetRatio();
 };

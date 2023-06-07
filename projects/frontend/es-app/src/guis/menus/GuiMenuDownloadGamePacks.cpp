@@ -15,13 +15,14 @@ GuiMenuDownloadGamePacks::GuiMenuDownloadGamePacks(WindowManager& window, System
   SystemDeserializer deserializer;
   bool loaded = deserializer.LoadSystems();
 
-  for (int index = 0; index < deserializer.Count(); ++index)
-    if (SystemDescriptor descriptor; deserializer.Deserialize(index, descriptor))
-      if (descriptor.HasDownloader())
-      {
-        AddSubMenu(descriptor.FullName(), (int)mDescriptors.size());
-        mDescriptors.push_back(descriptor);
-      }
+  if (loaded)
+    for (int index = 0; index < deserializer.Count(); ++index)
+      if (SystemDescriptor descriptor; deserializer.Deserialize(index, descriptor))
+        if (descriptor.HasDownloader())
+        {
+          AddSubMenu(descriptor.FullName(), (int)mDescriptors.size());
+          mDescriptors.push_back(descriptor);
+        }
 }
 
 void GuiMenuDownloadGamePacks::SubMenuSelected(int id)

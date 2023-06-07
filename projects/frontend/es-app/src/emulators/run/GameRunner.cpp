@@ -384,6 +384,7 @@ bool GameRunner::RunKodi()
 
 std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType rotation, const bool demo)
 {
+  (void)rotation;
   std::string result;
 
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();

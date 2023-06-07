@@ -16,7 +16,7 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuGamelistGameOptions : public GuiMenuBase
-                                 , private IOptionListComponent<std::string>
+                                 , private IOptionListComponent<String>
                                  , private IOptionListComponent<GameGenres>
                                  , private ISwitchComponent
                                  , private IEditableComponent
@@ -59,9 +59,9 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::string mDefaultCore;
 
     //! Emulator/Core
-    std::shared_ptr<OptionListComponent<std::string>> mEmulator;
+    std::shared_ptr<OptionListComponent<String>> mEmulator;
     //! Ratio
-    std::shared_ptr<OptionListComponent<std::string>> mRatio;
+    std::shared_ptr<OptionListComponent<String>> mRatio;
     //! Name
     std::shared_ptr<EditableComponent> mName;
     //! Rating
@@ -83,9 +83,9 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::shared_ptr<IOptionListComponent<std::string>> mEmulators;
 
     //! Get emulator list
-    std::vector<ListEntry<std::string>> GetEmulatorEntries();
+    std::vector<ListEntry<String>> GetEmulatorEntries();
     //! Get ratio list
-    std::vector<ListEntry<std::string>> GetRatioEntries();
+    std::vector<ListEntry<String>> GetRatioEntries();
     //! Get rating list
     std::vector<ListEntry<float>> GetRatingEntries();
     //! Get genre list
@@ -95,7 +95,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
      * IOptionListComponent<std::string> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * IOptionListComponent<GameGenres> implementation

@@ -77,7 +77,7 @@ class FileData
      * Getters
      */
 
-    inline std::string Name() const { return mMetadata.Name(); }
+    inline String Name() const { return mMetadata.Name(); }
     inline std::string Hash() const { return mMetadata.RomCrc32AsString(); }
     inline ItemType Type() const { return mType; }
     inline Path RomPath() const { return mMetadata.Rom(); }

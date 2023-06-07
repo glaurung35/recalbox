@@ -67,7 +67,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   {
     AddSubMenu(_("ARCADE OPTIONS"), (int)Components::ArcadeOptions);
 
-    AddMultiList(String(_("HIDE %s MANUFACTURERS")).Replace("%s", mArcade->GetCurrentCoreName()), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
+    AddMultiList((_F(_("HIDE %s MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
   }
 
   // Region filter
@@ -368,9 +368,9 @@ void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::
 
 String GuiMenuGamelistOptions::FormatManufacturer(const ArcadeDatabase::Driver& driver)
 {
-  String newName(driver.Name.empty() ? String(_("ALL OTHERS")): driver.Name);
+  String newName(driver.Name.empty() ? _("ALL OTHERS") : driver.Name);
   if (newName.Contains('/')) newName.Replace('/', " - ");
   int count = mArcade->GetGameCountForDriver(driver.Index);
-  newName.Append(" (").Append(count != 0 ? String(_N("%i GAME", "%i GAMES", count)).Replace("%i", String(count)) : "").Append(')');
+  newName.Append(" (").Append(count != 0 ? (_F(_N("{0} GAME", "{0} GAMES", count)) / count)() : "").Append(')');
   return newName;
 }

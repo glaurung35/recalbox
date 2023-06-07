@@ -94,7 +94,7 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOpti
 std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameDeleteSelectionOptions::GetSaveEntries()
 {
   std::vector<ListEntry<Path>> list;
-  std::vector<ListEntry<Path>> mediaList;
+  //std::vector<ListEntry<Path>> mediaList;
   for (const auto& patch : GameFilesUtils::GetGameSaveFiles(mGame))
   {
     Path path = Path(patch);
@@ -143,40 +143,40 @@ void GuiMenuGamelistGameDeleteSelectionOptions::DeleteSelectedFiles()
 
 std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
 {
-  std::string message = _("Game").append(": ").append(mGame.Name()).append("\n\n");
+  String message = _("Game").Append(": ").Append(mGame.Name()).Append("\n\n");
 
   if(!mGameFiles->getSelectedObjects().empty())
   {
-    message.append(_("GAME FILES (ROM | DISK IMAGE)").append("\n"));
+    message.Append(_("GAME FILES (ROM | DISK IMAGE)").Append('\n'));
     for (const Path& path: mGameFiles->getSelectedObjects())
     {
-      message.append(path.Filename()).append("\n");
+      message.Append(path.Filename()).Append('\n');
     }
   }
   if(!mExtras->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("CONFIGURATION AND PATCH FILES")).append("\n");
+    message.Append('\n').Append(_("CONFIGURATION AND PATCH FILES")).Append('\n');
     for (const Path& path: mExtras->getSelectedObjects())
     {
-      message.append(path.Filename()).append("\n");
+      message.Append(path.Filename()).Append('\n');
     }
   }
 
   if(!mSaves->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("SAVE FILES")).append("\n");
+    message.Append('\n').Append(_("SAVE FILES")).Append('\n');
     for (const Path& path: mSaves->getSelectedObjects())
     {
-      message.append(path.Filename()).append("\n");
+      message.Append(path.Filename()).Append('\n');
     }
   }
 
   if(!mMedias->getSelectedObjects().empty())
   {
-    message.append("\n").append(_("MEDIA FILES")).append("\n");
+    message.Append('\n').Append(_("MEDIA FILES")).Append('\n');
     for (const Path& path: mMedias->getSelectedObjects())
     {
-      message.append(path.Filename()).append("\n");
+      message.Append(path.Filename()).Append('\n');
     }
   }
 

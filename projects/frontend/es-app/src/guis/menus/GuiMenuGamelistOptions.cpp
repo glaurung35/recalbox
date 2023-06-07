@@ -1,8 +1,10 @@
 #include "GuiMenuGamelistOptions.h"
+#include "guis/GuiSaveStates.h"
 #include "guis/GuiDownloader.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
+#include <games/GameFilesUtils.h>
 #include <components/SwitchComponent.h>
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
@@ -40,6 +42,9 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       {
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
       }
+
+      if (!GameFilesUtils::GetGameSaveStateFiles(*mGamelist.getCursor()).empty())
+        AddSubMenu(_("SAVE STATES"), (int) Components::SaveStates, _(MENUMESSAGE_GAMELISTOPTION_SAVE_STATES_MSG));
     }
   }
 
@@ -273,6 +278,12 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         }, _("NO"), {}));
         break;
     }
+    case Components::SaveStates:
+    {
+      FileData* game = mGamelist.getCursor();
+      mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *game, nullptr, true));
+      break;
+    }
     case Components::Search:
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
@@ -302,6 +313,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::UpdateGamelist:
     case Components::Delete:
     case Components::DeleteScreeshot:
+    case Components::SaveStates:
     case Components::Quit: break;
   }
 

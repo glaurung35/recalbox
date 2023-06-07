@@ -1061,6 +1061,7 @@ static const int player2_kick_btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
 #define P2_DOWN 21
 #define P2_LEFT 23
 #define P2_RIGHT 26
+#define P2_BTN1 player2_3btn_bits[0]
 
 // Logic is not the same for each buttons (coins and service/test are reversed)
 // TODO: add service and test for next version
@@ -1136,6 +1137,13 @@ static void input_report(unsigned long *data_chips, long long int *time_ns) {
             "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
             PRESS_AND_SYNC(0, BTN_SELECT);
             RELEASE_AND_SYNC(0, BTN_SELECT);
+            start_credit = 1;
+            can_exit = 0;
+          } if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P2_BTN1)) {
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: credit (SELECT) triggered (hk+P2_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
+            PRESS_AND_SYNC(1, BTN_SELECT);
+            RELEASE_AND_SYNC(1, BTN_SELECT);
             start_credit = 1;
             can_exit = 0;
           } else if (!start_credit && !should_release_hk) {

@@ -41,7 +41,6 @@ HashSet<String> GameFilesUtils::GetGameSaveFiles(FileData& game)
   return list;
 }
 
-HashSet<String> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 std::list<SaveState> GameFilesUtils::GetGameSaveStateFiles(FileData& game)
 {
   std::list<SaveState> list;
@@ -66,7 +65,7 @@ std::list<SaveState> GameFilesUtils::GetGameSaveStateFiles(FileData& game)
   return list;
 }
 
-HashSet<std::string> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
+HashSet<String> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 {
   HashSet<String> list;
   const Path path = fileData.RomPath();

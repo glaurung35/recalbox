@@ -3577,6 +3577,30 @@ msgstr ""
 msgid "TB"
 msgstr ""
 
+#
+msgid "DOWNLOADING GAMES FOR %s"
+msgstr ""
+
+#
+msgid "Downloading WASM4 games from the official site. Please wait..."
+msgstr ""
+
+#
+msgid "Downloading... Estimated time: %s"
+msgstr ""
+
+#
+msgid "Extracting... found %s games"
+msgstr ""
+
+#
+msgid "Updating metadata..."
+msgstr ""
+
+#
+msgid "Refreshing gamelist..."
+msgstr ""
+
 #~ msgid "DISK USAGE"
 #~ msgstr "ÚS DEL DISC"
 

@@ -657,6 +657,7 @@ static struct config {
   struct mutex process_mutex;
   bool hotkey_patterns;
   bool disable_credit_on_hk_btn1;
+  bool reverse_credit_logic;
   uint buttons_on_jamma;
 } jamma_config;
 
@@ -1069,8 +1070,15 @@ static const unsigned short buttonsReleasedValues[32] = {
     0, 0, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 0, 0
 };
+// TODO: add service and test for next version
+static const unsigned short buttonsReleasedValuesReversed[32] = {
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1
+};
 
-#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^buttonsReleasedValues[btn]) : 0)
+#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^(jamma_config.reverse_credit_logic ? buttonsReleasedValuesReversed[btn]: buttonsReleasedValues[btn])) : 0)
 #define WAIT_SYNC() usleep_range(50000,80000);
 //Exit delay (HK + START) set to 2 secondes
 #define EXIT_DELAY(now, start) ((now - start) / 1000000000UL >= 2)
@@ -1470,6 +1478,20 @@ static int load_config(void) {
                   optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
             }
+          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
+            if (jamma_config.buttons_on_jamma != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch buttons_on_jamma to %d\n",
+                  optionvalue);
+              jamma_config.buttons_on_jamma = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.reverse_credit_logic") == 0) {
+            if (jamma_config.reverse_credit_logic != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch reverse_credit_logic to %d\n",
+                  optionvalue);
+              jamma_config.reverse_credit_logic = optionvalue;
+            }
           }
         }
       }
@@ -1510,6 +1532,7 @@ pca953x_init(void) {
   jamma_config.gpio_chip_1 = NULL;
   jamma_config.hotkey_patterns = true;
   jamma_config.disable_credit_on_hk_btn1 = false;
+  jamma_config.reverse_credit_logic = false;
   jamma_config.buttons_on_jamma = 6;
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");

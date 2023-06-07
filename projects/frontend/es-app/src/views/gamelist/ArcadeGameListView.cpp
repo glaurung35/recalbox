@@ -3,6 +3,7 @@
 //
 
 #include "ArcadeGameListView.h"
+#include "utils/locale/LocaleHelper.h"
 
 ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : DetailedGameListView(window, systemManager, system)
@@ -14,7 +15,7 @@ void ArcadeGameListView::populateList(const FolderData& folder)
 {
   mPopulatedFolder = &folder;
 
-  mDatabase = mSystem.ArcadeDatabases().LookupDatabase(folder);
+  mDatabase = mSystem.ArcadeDatabases().LookupDatabase(folder, mDefaultEmulator, mDefaultCore);
   if (mDatabase == nullptr || !mDatabase->IsValid())
     return DetailedGameListView::populateList(folder);
 
@@ -60,9 +61,21 @@ void ArcadeGameListView::BuildList()
     }
   }
 
+  // Prepare driver filtering
+  std::vector<ArcadeDatabase::Driver> driverList = GetDriverList();
+  HashSet<int> hiddenDrivers;
+  for(const ArcadeDatabase::Driver& driver : driverList)
+    if (RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mSystem, driver.Name))
+      hiddenDrivers.insert(driver.Index);
+
   // Add to list
+  bool filterOutBios = RecalboxConf::Instance().GetArcadeViewHideBios();
+  bool filterOutUnknown = RecalboxConf::Instance().GetArcadeViewHideNonWorking();
   for (const ParentTupple& parent : mGameList)
   {
+    if (parent.mArcade == nullptr && filterOutUnknown) continue;
+    if (parent.mArcade != nullptr && parent.mArcade->Hierarchy() == ArcadeGame::Type::Bios && filterOutBios) continue;
+    if (parent.mArcade != nullptr && hiddenDrivers.contains(parent.mArcade->Driver())) continue;
     // Region filtering?
     int colorIndexOffset = 0;
     if (activeRegionFiltering)
@@ -78,6 +91,7 @@ void ArcadeGameListView::BuildList()
         {
           for (const ArcadeTupple& clone : *parent.mCloneList)
           {
+            if (hiddenDrivers.contains(clone.mArcade->Driver())) continue;
             // Region filtering?
             colorIndexOffset = 0;
             if (activeRegionFiltering)
@@ -148,7 +162,7 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   ParentTuppleList bios;
   ParentTuppleList notWorking;
 
-  bool folded = RecalboxConf::Instance().GetArcadeViewHideClones();
+  bool folded = RecalboxConf::Instance().GetArcadeViewFoldClones();
 
   mGameList.clear();
   for(FileData* item : items)
@@ -397,4 +411,26 @@ const ArcadeTupple& ArcadeGameListView::Lookup(const FileData& item)
 String ArcadeGameListView::LookupDisplayName(const FileData& item)
 {
   return GetDisplayName(Lookup(item));
+}
+
+std::vector<ArcadeDatabase::Driver> ArcadeGameListView::GetDriverList() const
+{
+  if (mDatabase == nullptr) return std::vector<ArcadeDatabase::Driver>();
+  std::vector<ArcadeDatabase::Driver> result = mDatabase->GetDriverList();
+  // Replace empty driver string by "all others"
+  return result;
+}
+
+int ArcadeGameListView::GetGameCountForDriver(int driverIndex) const
+{
+  int count = 0;
+  for(const ParentTupple& parent : mGameList)
+  {
+    if (parent.mArcade == nullptr) continue;
+    if (parent.mArcade->Driver() == driverIndex) count++;
+    if (parent.mCloneList != nullptr)
+      for (const ArcadeTupple& clone: *parent.mCloneList)
+        if (clone.mArcade->Driver() == driverIndex) count++;
+  }
+  return count;
 }

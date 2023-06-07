@@ -415,7 +415,7 @@ void TextListComponent<T>::Update(int deltaTime)
     if (mOverlay != nullptr) width -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
     else width -= mHorizontalMargin;
-    
+
 		if (textWidth > width)
     {
       switch (mMarqueeStep)

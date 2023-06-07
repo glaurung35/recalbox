@@ -4,6 +4,7 @@
 #include <components/ImageComponent.h>
 #include <components/TextComponent.h>
 #include "themes/ThemeExtras.h"
+#include "IArcadeGamelistInterface.h"
 #include <systems/SystemData.h>
 
 class SystemManager;
@@ -35,6 +36,11 @@ class ISimpleGameListView : public Gui
      */
     virtual void Initialize() = 0;
 
+    /*!
+     * @brief Get Arcade interface
+     * @return Arcade interface or nullptr
+     */
+    virtual IArcadeGamelistInterface* getArcadeInterface() { return nullptr; }
 
 	  // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
 	  virtual void onFileChanged(FileData* file, FileChangeType change);
@@ -96,7 +102,7 @@ class ISimpleGameListView : public Gui
      */
     virtual Regions::List AvailableRegionsInGames() = 0;
 
-protected:
+  protected:
 	virtual void launch(FileData* game) = 0;
 	virtual void clean() = 0;
 

@@ -169,6 +169,7 @@ class MenuMessages
     #define MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG "Switch between seeing the folders structure and seeing all games in a flatten top level."
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."
     #define MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG "This option display a menu which allows to DELETE game data."
+    #define MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG "Enable filtering by manufacturers and/or famous systems."
 
     #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."

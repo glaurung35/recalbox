@@ -21,7 +21,7 @@ class GuiMenuArcadeOptions : public GuiMenuBase
     enum class Components
     {
       EnhancedView,
-      HideClones,
+      FoldClones,
       HideBios,
       HideNonWorking,
       UseDatabasesNames,

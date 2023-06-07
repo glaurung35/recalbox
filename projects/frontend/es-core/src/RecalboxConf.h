@@ -4,6 +4,7 @@
 #pragma once
 
 #include <utils/IniFile.h>
+#include <utils/String.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <games/FileSorts.h>
 #include <scraping/ScraperTools.h>
@@ -107,6 +108,18 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
       enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)(defaultValue)); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)value); return *this; }
+
+    #define DefineEmulationStationSystemListGetterSetterDeclaration(name, key) \
+      Strings::Vector Get##name(const SystemData& system) const; \
+      bool IsIn##name(const SystemData& system, const String& value) const; \
+      RecalboxConf& Set##name(const SystemData& system, const String::List& value);
+
+    #define DefineEmulationStationSystemListGetterSetterImplementation(name, key, defaultValue) \
+      Strings::Vector RecalboxConf::Get##name(const SystemData& system) const { return Strings::Split(AsString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), defaultValue), ','); } \
+      bool RecalboxConf::IsIn##name(const SystemData& system, const String& value) const { return isInList(String("emulationstation.").Append(system.Name()).Append('.').Append(key), value); } \
+      RecalboxConf& RecalboxConf::Set##name(const SystemData& system, const String::List& value) { SetString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), String::Join(value, ',')); return *this; }
+
+    DefineEmulationStationSystemListGetterSetterDeclaration(ArcadeSystemHiddenDrivers, sArcadeSystemHiddenDrivers)
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
     DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScraperGetNameFrom, ScraperTools::ScraperNameOptions)
@@ -244,7 +257,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ArcadeUseDatabaseNames, bool, Bool, sArcadeUseDatabaseNames, true)
     DefineGetterSetter(ArcadeViewEnhanced, bool, Bool, sArcadeViewEnhanced, true)
     DefineGetterSetter(ArcadeViewHideBios, bool, Bool, sArcadeViewHideBios, false)
-    DefineGetterSetter(ArcadeViewHideClones, bool, Bool, sArcadeViewHideClones, false)
+    DefineGetterSetter(ArcadeViewFoldClones, bool, Bool, sArcadeViewFoldClones, false)
     DefineGetterSetter(ArcadeViewHideNonWorking, bool, Bool, sArcadeViewHideNonWorking, false)
 
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
@@ -487,7 +500,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionArcadePosition   = "emulationstation.virtualarcade.position";
 
     static constexpr const char* sArcadeViewEnhanced         = "emulationstation.arcade.view.enhanced";
-    static constexpr const char* sArcadeViewHideClones       = "emulationstation.arcade.view.hideclones";
+    static constexpr const char* sArcadeViewFoldClones       = "emulationstation.arcade.view.hideclones";
     static constexpr const char* sArcadeViewHideBios         = "emulationstation.arcade.view.hidebios";
     static constexpr const char* sArcadeViewHideNonWorking   = "emulationstation.arcade.view.hidenonworking";
     static constexpr const char* sArcadeUseDatabaseNames     = "emulationstation.arcade.usedatabasenames";
@@ -502,6 +515,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const int sNetplayDefaultPort           = 55435;
 
     static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
+
+    static constexpr const char* sArcadeSystemHiddenDrivers  = "hiddendrivers";
 
   private:
     /*

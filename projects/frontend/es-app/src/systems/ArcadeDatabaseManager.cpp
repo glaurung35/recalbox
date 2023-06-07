@@ -162,7 +162,7 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   ArcadeGame::Type type = ArcadeGame::TypeFromString(fields[fType], parent != nullptr);
   ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
 
-  games.Add(ArcadeGame(realGame, parent, fields[fName], 0, type, status, rotation));
+  games.Add(ArcadeGame(realGame, parent, fields[fName], rawDriver->mIndex, type, status, rotation));
   //lookups.insert(realGame, &games(games.Count() - 1));
 }
 
@@ -175,7 +175,7 @@ String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, R
   std::sort(sortedDrivers.begin(), sortedDrivers.end(), [](const RawDriver& a, const RawDriver& b) { return a.mGameCount > b.mGameCount; });
 
   // Build final list by selecting the top most used drivers
-  // Also build a remap list where the index at pos X is remapped to X + 1
+  // Also build a remap list
   String::List finalDrivers;
   Array<int> indexRemapper(rawDriverCount);
   indexRemapper.Insert(0, 0, rawDriverCount);
@@ -183,15 +183,10 @@ String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, R
   for(int i = 0; i < limit; ++i)
   {
     if (i >= (int)sortedDrivers.size()) break;
-    RawDriver driver = sortedDrivers[i];
-    if (driver.mIndex == 0) // Driver 0 has already been added, remove it
-    {
-      sortedDrivers.erase(sortedDrivers.begin() + i);
-      if (i >= (int)sortedDrivers.size()) break;
-      driver = sortedDrivers[i];
-    }
+    const RawDriver& driver = sortedDrivers[i];
+    if (driver.mIndex == 0) { ++limit; continue; } // Driver 0 has already been added, ignore it
+    indexRemapper(driver.mIndex) = (int)finalDrivers.size();
     finalDrivers.push_back(driver.mName);
-    indexRemapper(driver.mIndex) = i;
   }
 
   // Log
@@ -262,12 +257,13 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase() const
   return nullptr;
 }
 
-const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& folder) const
+const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& folder, String& emulatorName, String& coreName) const
 {
-  String emulator, core;
-  if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulator, core))
+  emulatorName.clear();
+  coreName.clear();
+  if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulatorName, coreName))
   {
-    ArcadeDatabase** database = mDatabases.try_get(emulator.Append('|').Append(core));
+    ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
     if (database != nullptr) return *database;
   }
   return nullptr;

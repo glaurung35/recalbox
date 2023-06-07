@@ -11,7 +11,7 @@ GuiMenuArcadeOptions::GuiMenuArcadeOptions(WindowManager& window)
 {
   AddSwitch(_("ENABLE ENHANCED VIEW"), RecalboxConf::Instance().GetArcadeViewEnhanced(), (int)Components::EnhancedView, this, _(MENUMESSAGE_UI_ARCADE_ENHANCED_MSG));
 
-  AddSwitch(_("HIDE CLONES"), RecalboxConf::Instance().GetArcadeViewHideClones(), (int)Components::HideClones, this, _(MENUMESSAGE_UI_ARCADE_HIDE_CLONES_MSG));
+  AddSwitch(_("FOLD CLONES BY DEFAULT"), RecalboxConf::Instance().GetArcadeViewFoldClones(), (int)Components::FoldClones, this, _(MENUMESSAGE_UI_ARCADE_HIDE_CLONES_MSG));
 
   AddSwitch(_("HIDE BIOS"), RecalboxConf::Instance().GetArcadeViewHideBios(), (int)Components::HideBios, this, _(MENUMESSAGE_UI_ARCADE_HIDE_BIOS_MSG));
 
@@ -31,7 +31,7 @@ void GuiMenuArcadeOptions::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::EnhancedView: RecalboxConf::Instance().SetArcadeViewEnhanced(status).Save(); break;
-    case Components::HideClones: RecalboxConf::Instance().SetArcadeViewHideClones(status).Save(); break;
+    case Components::FoldClones: RecalboxConf::Instance().SetArcadeViewFoldClones(status).Save(); break;
     case Components::HideBios: RecalboxConf::Instance().SetArcadeViewHideBios(status).Save(); break;
     case Components::HideNonWorking: RecalboxConf::Instance().SetArcadeViewHideNonWorking(status).Save(); break;
     case Components::UseDatabasesNames: RecalboxConf::Instance().SetArcadeUseDatabaseNames(status).Save(); break;

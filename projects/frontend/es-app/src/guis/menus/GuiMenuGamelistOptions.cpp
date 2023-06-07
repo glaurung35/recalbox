@@ -1,5 +1,7 @@
 #include "GuiMenuGamelistOptions.h"
 #include "guis/GuiDownloader.h"
+#include "views/gamelist/ArcadeGameListView.h"
+#include "GuiMenuArcadeOptions.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <components/SwitchComponent.h>
@@ -11,11 +13,12 @@
 #include <guis/menus/GuiMenuGamelistGameDeleteOptions.h>
 #include <scraping/ScraperSeamless.h>
 
-GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
+GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
   :	GuiMenuBase(window, _("OPTIONS"), this)
   , mSystem(system)
   , mSystemManager(systemManager)
   , mGamelist(*ViewController::Instance().getGameListView(&system))
+  , mArcade(arcadeInterface)
 {
   // edit game metadata
   bool nomenu = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::None;
@@ -49,7 +52,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
 
   // Jump to letter
-	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
+	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
@@ -59,17 +62,24 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
+  // Driver filter on arcade view
+  if (mArcade != nullptr && mArcade->HasValidDatabase())
+  {
+    AddSubMenu(_("ARCADE OPTIONS"), (int)Components::ArcadeOptions);
+
+    AddMultiList(String(_("HIDE %s MANUFACTURERS")).Replace("%s", mArcade->GetCurrentCoreName()), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
+  }
 
   // Region filter
-  mListRegion = AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
+  AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
 
   // flat folders
   if (!system.IsFavorite())
     if (!system.IsAlwaysFlat())
-      mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
   // favorites only
-  mFavoritesOnly = AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
+  AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
 
   // update game list
   if (!system.IsFavorite())
@@ -164,6 +174,15 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   }
 
   return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<int>> GuiMenuGamelistOptions::GetManufacturerEntries()
+{
+  std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
+  std::vector<GuiMenuBase::ListEntry<int>> result;
+  for(const ArcadeDatabase::Driver& driver : driverList)
+    result.push_back({ FormatManufacturer(driver), driver.Index, RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mSystem, driver.Name) });
+  return result;
 }
 
 void GuiMenuGamelistOptions::Delete(ISimpleGameListView* gamelistview, FileData& game)
@@ -280,11 +299,18 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       break;
     }
+    case Components::ArcadeOptions:
+    {
+      mWindow.pushGui(new GuiMenuArcadeOptions(mWindow));
+      break;
+    }
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
     case Components::FavoritesOnly:
-    case Components::FlatFolders: break;
+    case Components::FlatFolders:
+    case Components::Manufacturers:
+      break;
   }
 }
 
@@ -304,7 +330,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::UpdateGamelist:
     case Components::Delete:
     case Components::DeleteScreeshot:
-    case Components::Quit: break;
+    case Components::Quit:
+    case Components::Manufacturers:
+    case Components::ArcadeOptions:
+      break;
   }
 
   FileData* game = mGamelist.getCursor();
@@ -323,4 +352,25 @@ void GuiMenuGamelistOptions::ManageSystems()
 
   // for updating game counts on system view
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
+}
+
+void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::vector<int>& value)
+{
+  if ((Components)id == Components::Manufacturers)
+  {
+    std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
+    String::List driverNameList;
+    for(int driverIndex : value)
+      driverNameList.push_back(driverList[driverIndex].Name);
+    RecalboxConf::Instance().SetArcadeSystemHiddenDrivers(mSystem, driverNameList);
+  }
+}
+
+String GuiMenuGamelistOptions::FormatManufacturer(const ArcadeDatabase::Driver& driver)
+{
+  String newName(driver.Name.empty() ? String(_("ALL OTHERS")): driver.Name);
+  if (newName.Contains('/')) newName.Replace('/', " - ");
+  int count = mArcade->GetGameCountForDriver(driver.Index);
+  newName.Append(" (").Append(count != 0 ? String(_N("%i GAME", "%i GAMES", count)).Replace("%i", String(count)) : "").Append(')');
+  return newName;
 }

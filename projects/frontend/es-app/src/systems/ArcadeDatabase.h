@@ -13,6 +13,16 @@ class ArcadeDatabase
 {
   public:
     /*!
+     * @brief Micro-structure that hold a driver name and an index
+     */
+    struct Driver
+    {
+      int Index;
+      String Name;
+      Driver(int index, const String& name) : Index(index), Name(name) {}
+    };
+
+    /*!
      * @brief Constructor
      * @param drivers Final drivers
      * @param games Arcade game spec list
@@ -32,6 +42,11 @@ class ArcadeDatabase
      * Empty database constructor
      */
     ArcadeDatabase() = default;
+
+    /*!
+     * @brief Default destructor
+     */
+    virtual ~ArcadeDatabase() = default;
 
     /*!
      * @brief Lookup an arcade game from the source game
@@ -71,6 +86,25 @@ class ArcadeDatabase
      * @return True if there is more than one driver
      */
     [[nodiscard]] bool CanBeFiltered() const { return mDrivers.size() > 1; }
+
+    /*!
+     * @brief Get driver name from its inbdex
+     * @param index
+     * @return
+     */
+    [[nodiscard]] const String& DriverNameFromIndex(int index) const { if ((unsigned int)index < mDrivers.size()) return mDrivers[index]; static String __nulldriver; return __nulldriver; }
+
+    /*!
+     * @brief Get driver list (arcade view only)
+     * @return Driver list
+     */
+    [[nodiscard]] virtual std::vector<Driver> GetDriverList() const
+    {
+      std::vector<Driver> result;
+      for(int i = 0; i < (int)mDrivers.size(); ++i)
+        result.push_back(Driver(i, mDrivers[i]));
+      return result;
+    }
 
   private:
     String::List mDrivers;                 //!< Final driver list

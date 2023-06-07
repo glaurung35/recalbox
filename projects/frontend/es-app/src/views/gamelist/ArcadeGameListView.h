@@ -5,8 +5,10 @@
 
 #include <views/gamelist/DetailedGameListView.h>
 #include "systems/ArcadeTupple.h"
+#include "IArcadeGamelistInterface.h"
 
 class ArcadeGameListView : public DetailedGameListView
+                         , public IArcadeGamelistInterface
 {
   public:
     /*!
@@ -52,6 +54,16 @@ class ArcadeGameListView : public DetailedGameListView
 
     //! Last database to use
     const ArcadeDatabase* mDatabase;
+    //! Default emulator for the current folder
+    String mDefaultEmulator;
+    //! Default core for the current folder
+    String mDefaultCore;
+
+    /*!
+     * @brief Get Arcade interface
+     * @return Arcade interface
+     */
+    IArcadeGamelistInterface* getArcadeInterface() override { return this; }
 
     /*!
      * @brief Rebuild the gamelist - regenerate internal structure
@@ -158,4 +170,39 @@ class ArcadeGameListView : public DetailedGameListView
      * @return true if the event has been processed, false otherwise
      */
     bool ProcessInput(const InputCompactEvent& event) override;
+
+    /*
+     * IArcadeGamelistInterface implementation
+     */
+
+    /*!
+     * @brief Check if the Arcade game list has a valid database for the current emulator/core
+     * @return
+     */
+    [[nodiscard]] bool HasValidDatabase() const override { return mDatabase != nullptr; }
+
+    /*!
+     * @brief Get driver list (arcade view only)
+     * @return Driver list
+     */
+    [[nodiscard]] std::vector<ArcadeDatabase::Driver> GetDriverList() const override;
+
+    /*!
+     * @brief Get the current emulator name for the current folder
+     * @return Emulator name
+     */
+    [[nodiscard]] String GetCurrentEmulatorName() const override { return mDefaultEmulator; }
+
+    /*!
+     * @brief Get the current core name for the current folder
+     * @return Core name
+     */
+    [[nodiscard]] String GetCurrentCoreName() const override { return mDefaultCore; }
+
+    /*!
+     * @brief Get the number of games attached to the given driver, in the current gamalist
+     * @param driverIndex Driver index
+     * @return Game count
+     */
+    [[nodiscard]] int GetGameCountForDriver(int driverIndex) const override;
 };

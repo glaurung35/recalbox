@@ -637,7 +637,7 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
 
   // Build final object
   InputCompactEvent result = { on, off, elapsed, *this, event };
-  { LOG(LogError) << "[CompactInputEvent] " << result.ToString(); }
+  //{ LOG(LogError) << "[CompactInputEvent] " << result.ToString(); }
   return result;
 }
 

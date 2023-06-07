@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Arduboy (libretro arduous)
 - Add libretro-wasm4 for new system Wasm4
 - Add new searchs (other versions or with same licence)
+- Add launching a game from savestate slot
 
 ### Bumps
 

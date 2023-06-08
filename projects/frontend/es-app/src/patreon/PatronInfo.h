@@ -11,13 +11,22 @@
 #include <utils/os/system/Thread.h>
 #include <patreon/IPatreonNotification.h>
 #include <utils/sync/SyncMessageSender.h>
+#include "utils/network/Http.h"
 
 class PatronInfo : public StaticLifeCycleControler<PatronInfo>
                  , public Thread
                  , public ISyncMessageReceiver<void>
 {
   public:
+    /*!
+     * @brief Constructor
+     * @param callback Notification callback
+     */
     explicit PatronInfo(IPatreonNotification* callback);
+
+    //! Destructor
+    ~PatronInfo() override { Thread::Stop(); }
+
     /*!
      * @brief Get the name of the patron
      * @returns the name of the patron, or empty string if not a patron
@@ -57,6 +66,11 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      */
     void Run() override { Initialize(); mDone = true; }
 
+    /*!
+     * @brief Non blocking initialization
+     */
+    void Break() override { mHttp.Cancel(); }
+
   private:
     //! Timeout in milliseconds
     static constexpr const int sNetworkTimeout = 240 * 1000;
@@ -64,6 +78,9 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
     static constexpr const char *sRootDomainName = "https://api-patreon.recalbox.com";
 
     SyncMessageSender<void> mEvent;     //!< Synchronous event to send/receive synchronized messages
+
+    //! Http object
+    Http mHttp;
 
     Mutex       mLocker;                //!< Prevent members from being accessed from different threads
     std::string mToken;                 //!< User toten from Patreon
@@ -88,5 +105,5 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      * @param second Time to wait in second
      * @return False if the wait is succesful, true if the thread lust exit immediately
      */
-    bool Wait(int second) const;
+    [[nodiscard]] bool Wait(int second) const;
 };

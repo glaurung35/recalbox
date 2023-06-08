@@ -396,7 +396,7 @@ std::string Strings::RemoveParenthesis(const std::string& str)
     int start = (int)s.rfind('(', end);
     if (start == (int)std::string::npos) break;
     while(s[++end] == ' '); // Trim right
-    while(s[--start] == ' '); // Trim left
+    while(start != 0 && s[--start] == ' '); // Trim left
     ++start;
     s.erase(start, end - start);
     end = (int)s.rfind(')', start - 1);
@@ -408,7 +408,7 @@ std::string Strings::RemoveParenthesis(const std::string& str)
     int start = (int)s.rfind('[', end);
     if (start == (int)std::string::npos) break;
     while(s[++end] == ' '); // Trim right
-    while(s[--start] == ' '); // Trim left
+    while(start != 0 && s[--start] == ' '); // Trim left
     ++start;
     s.erase(start, end - start);
     end = (int)s.rfind(']', start - 1);

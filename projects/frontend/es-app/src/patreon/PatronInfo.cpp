@@ -27,14 +27,13 @@ void PatronInfo::Initialize()
     unsigned int start = SDL_GetTicks();
     while((SDL_GetTicks() - start) < sNetworkTimeout)
     {
-      Http http;
-      http.SetBearer(mToken);
+      mHttp.SetBearer(mToken);
       std::string url = sRootDomainName;
       std::string body;
       url.append("/userinfo");
-      if (http.Execute(url, body))
+      if (mHttp.Execute(url, body))
       {
-        bool success = http.GetLastHttpResponseCode() == 200;
+        bool success = mHttp.GetLastHttpResponseCode() == 200;
         { LOG(LogInfo) << "[Patreon] Request " << (success ? " successful" : "failed"); }
         if (success)
         {
@@ -68,7 +67,7 @@ void PatronInfo::Initialize()
         }
         else
         {
-          if (http.GetLastHttpResponseCode() == 401)
+          if (mHttp.GetLastHttpResponseCode() == 401)
           {
             { LOG(LogError) << "[Patreon] Invalid key!"; }
             mResult = PatronAuthenticationResult::Invalid;
@@ -76,7 +75,7 @@ void PatronInfo::Initialize()
           }
           else
           {
-            { LOG(LogError) << "[Patreon] Http error: " << http.GetLastHttpResponseCode(); }
+            { LOG(LogError) << "[Patreon] Http error: " << mHttp.GetLastHttpResponseCode(); }
             mResult = PatronAuthenticationResult::HttpError;
             if (Wait(10)) return; // Wait 10s & retry
           }

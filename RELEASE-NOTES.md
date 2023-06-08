@@ -22,8 +22,18 @@ as release notes for end user on a Recalbox upgrade.
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
 - Add libretro-mojozork as Z-Machine core
-- Add libretro-supafaust core for Snes
+- Add libretro-supafaust core for snes
+<<<<<<< HEAD
 - Add support for break key for pad2keyboard
+<<<<<<< HEAD
+- Add new system Arduboy (libretro arduous)
+- Add libretro-wasm4 for new system Wasm4
+- Add launching a game from savestate slot
+=======
+=======
+- Add new searchs (other versions or with same licence)
+>>>>>>> 60f1730d34... feat(frontend): add other version or same licence search
+>>>>>>> 3c2b56d63f... feat(frontend): add other version or same licence search
 
 ### Bumps
 - Bump FBneo to aad581

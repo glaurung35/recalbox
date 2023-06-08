@@ -5,8 +5,6 @@
 #include <utils/Strings.h>
 #include <utils/os/system/Thread.h>
 #include "ScreenScraperApis.h"
-#include <utils/Log.h>
-#include <games/classifications/Regions.h>
 #include <scraping/ScraperFactory.h>
 #include <scraping/ScraperSeamless.h>
 
@@ -149,6 +147,19 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
   {
     game.mName = ExtractRegionalizedText(json["noms"], requiredRegion);
     game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(json["noms"], "ss"));
+  }
+  if (json.HasMember("familles"))
+  {
+    String::List families;
+    for(const auto& famille : json["familles"].GetArray())
+    {
+      if (famille.HasMember("noms"))
+        for (const auto& nom: famille["noms"].GetArray())
+          if (nom.HasMember("text"))
+            families.push_back(nom["text"].GetString());
+
+      game.mFamilies = families;
+    }
   }
   if (json.HasMember("synopsis"))
   {

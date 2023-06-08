@@ -326,7 +326,7 @@ class SystemManager :
      * @param resultIndexes Index to get context from
      * @param searchableSystems Searchable systems
      */
-    void CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems);
+    void CreateFastSearchCache(const MetadataStringHolder::FoundTextList& resultIndexes, const Array<const SystemData*>& searchableSystems, FolderData::FastSearchContext context);
 
     //! Remove all cache
     void DeleteFastSearchCache();
@@ -479,6 +479,9 @@ class SystemManager :
 
     //! Get emulator manager
     [[nodiscard]] const EmulatorManager& Emulators() const { return mEmulatorManager; }
+
+    FileData::List SearchFullMatchInGames(FolderData::FastSearchContext context, const std::string& text, int maxglobal, const SystemData* targetSystem);
+
 
     /*!
      * @brief Search games from text

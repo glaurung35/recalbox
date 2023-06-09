@@ -68,10 +68,6 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   // Jump to letter
 	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
-  // open search wheel for this system
-  if (!system.IsFavorite())
-    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
-
   // Sorting
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));

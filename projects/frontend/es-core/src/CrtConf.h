@@ -52,6 +52,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJamma6Btns, bool, Bool, sSystemCRTJamma6Btns, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, std::string, String, sSystemCRTJammaNeogeoLayout, "line")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHotkeyPatterns, bool, Bool, sSystemCRTJammaHotkeyPatterns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma31kHz, bool, Bool, sSystemCRTJamma31kHz, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMultiSync, bool, Bool, sSystemCRTJammaMultiSync, false)
 
 
     DefineCrtModeOffsetDeclaration(VerticalOffset, int, Int, sVerticalOffset)
@@ -77,6 +79,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJamma6Btns             = "options.jamma.6btns";
     static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.neogeolayout";
     static constexpr const char* sSystemCRTJammaHotkeyPatterns    = "options.jamma.hk_patterns";
+    static constexpr const char* sSystemCRTJamma31kHz             = "options.jamma.31kHz";
+    static constexpr const char* sSystemCRTJammaMultiSync         = "options.jamma.multisync";
 
 
     static constexpr const char* sViewportPrefix                  = "viewport";

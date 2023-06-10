@@ -28,11 +28,17 @@ class CrtRGBJamma : public ICrtInterface
     //! This adapter is an RGB Dual
     CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBJamma; }
 
-    //! RGB Jamma has no support for 31khz
-    bool Has31KhzSupport() const override { return false; }
+    //! RGB Jamma has support for 31khz
+    bool Has31KhzSupport() const override { return true; }
 
     //! Return select output frequency
-    HorizontalFrequency GetHorizontalFrequency() const override { return HorizontalFrequency::KHz15; }
+    HorizontalFrequency GetHorizontalFrequency() const override {
+      return MultiSyncEnabled()? ICrtInterface::HorizontalFrequency::KHzMulti :
+      (CrtConf::Instance().GetSystemCRTJamma31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15);
+    }
+
+    //! Return multisync enabled
+    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTJammaMultiSync(); }
 
     //! This adapter has no support of forced 50hz
     bool HasForced50hzSupport() const override { return false; }
@@ -41,6 +47,9 @@ class CrtRGBJamma : public ICrtInterface
     bool MustForce50Hz() const override { return false; }
 
     std::string& Name() const override { static std::string adapterString("Recalbox RGB JAMMA"); return adapterString; }
+
+    bool HasMultiSyncSupport() const override { return true; }
+
   private:
     static constexpr const char* vgaCardConnectedPi4 = "/sys/class/drm/card1-VGA-1/status";
     static constexpr const char* vgaCardConnectedPi3 = "/sys/class/drm/card0-VGA-1/status";

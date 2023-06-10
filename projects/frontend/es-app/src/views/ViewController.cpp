@@ -491,25 +491,30 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
         return;
     }
   }
-  if (mGameLinkedData.Crt().IsHighResolutionConfigured())
+  if (mGameLinkedData.Crt().IsResolutionSelectionConfigured())
   {
     const bool is31Khz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
-    if (is31Khz || mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
+    const bool supports120Hz = Board::Instance().CrtBoard().Has120HzSupport();
+
+    const bool isMultiSync = Board::Instance().CrtBoard().MultiSyncEnabled();
+    if (mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
     {
         static int lastChoice = 0;
         mWindow.pushGui(new GuiCheckMenu(mWindow,
                                          _("Game resolution"),
                                          game->Name(),
                                          lastChoice,
-                                         is31Khz ? _("240p@120") : _("240p"),
-                                         is31Khz ? _("240p@120") : _("240p"),
-                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                         is31Khz ? _("480p@60") : _("480i"),
-                                         is31Khz ? _("480p@60") : _("480i"),
-                                         [this, game, &cameraTarget] {mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
+                                         (is31Khz && supports120Hz) ? "240p@120" : "240p",
+                                         (is31Khz && supports120Hz) ? "240p@120" : "240p",
+                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false, game->System()); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
+                                         (is31Khz || isMultiSync) ? "480p" : "480i",
+                                         (is31Khz || isMultiSync) ? "480p" : "480i",
+                                         [this, game, &cameraTarget] {mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true, game->System()); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
                                          ));
       return;
     }
+  } else {
+    mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(game->System());
   }
   bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
   std::list<Path> patches = GameFilesUtils::GetSoftPatches(game);

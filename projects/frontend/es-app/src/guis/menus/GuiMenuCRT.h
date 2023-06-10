@@ -70,7 +70,7 @@ class GuiMenuCRT : public GuiMenuBase
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
     //! Get resolutions
-    static std::vector<ListEntry<String>> GetEsResolutionEntries(bool only31kHz);
+    static std::vector<ListEntry<String>> GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync);
     //! Get super resolutions
     static std::vector<ListEntry<String>> GetSuperRezEntries();
 

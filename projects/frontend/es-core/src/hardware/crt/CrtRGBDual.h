@@ -25,6 +25,9 @@ class CrtRGBDual : public ICrtInterface
     //! RGB Dual has support for 31khz
     bool Has31KhzSupport() const override { return true; }
 
+    //! RGB Dual has support for 120hz modes
+    bool Has120HzSupport() const override { return true; }
+
     //! Return select output frequency
     HorizontalFrequency GetHorizontalFrequency() const override { return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15; }
 

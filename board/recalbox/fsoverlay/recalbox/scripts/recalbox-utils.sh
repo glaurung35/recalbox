@@ -63,13 +63,17 @@ getInstallUpgradeImagePath() {
 getCrtMpvOptions() {
   local connector="1.VGA-1"
   local arch="$(getArchName)"
-  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then 
+  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then
     echo ""
     return
   fi
-  if mpv --drm-mode=help | grep -q "640x480"; then
-    echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+  local command="--vo=drm --drm-connector=${connector}"
+  if ! isRecalboxRGBJamma; then
+      if mpv --drm-mode=help | grep -q "640x480"; then
+        command="${command} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+      fi
   fi
+  echo "${command}"
 }
 
 # findConnectedConnectors

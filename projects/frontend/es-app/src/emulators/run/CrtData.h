@@ -32,9 +32,11 @@ class CrtData
     CrtData()
       : mCrt(&Board::Instance().CrtBoard())
       , mConf(&CrtConf::Instance())
+      , mRegionOrVideoStandardConfigured(false)
+      , mHighResolutionConfigured(false)
       , mVideoStandard(CrtVideoStandard::AUTO)
       , mRegion(CrtRegion::AUTO)
-      , mHighResoution(false)
+      , mHighResoution(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
     }
 
@@ -42,11 +44,12 @@ class CrtData
      * @brief Check if there is a CRT board and the user requested to choose individual 480 or 240 options
      * @return True if the class needs to be configured, false otherwise
      */
-    [[nodiscard]] bool IsHighResolutionConfigured() const
+    [[nodiscard]] bool IsResolutionSelectionConfigured() const
     {
-      if (mCrt->IsCrtAdapterAttached())
-        if (mConf->GetSystemCRTGameResolutionSelect())
-          return true;
+      if (!mHighResolutionConfigured)
+        if (mCrt->IsCrtAdapterAttached())
+          if (mConf->GetSystemCRTGameResolutionSelect())
+            return true;
       return false;
     }
 
@@ -56,9 +59,10 @@ class CrtData
      */
     [[nodiscard]] bool IsRegionOrStandardConfigured() const
     {
-      if (mCrt->IsCrtAdapterAttached())
-        if (mConf->GetSystemCRTGameRegionSelect())
-          return true;
+      if (!mRegionOrVideoStandardConfigured)
+        if (mCrt->IsCrtAdapterAttached())
+          if (mConf->GetSystemCRTGameRegionSelect())
+            return true;
       return false;
     }
 
@@ -68,12 +72,14 @@ class CrtData
      */
     void ConfigureVideoStandard(CrtVideoStandard standard)
     {
-      mVideoStandard = standard;
+        mVideoStandard = standard;
+        mRegionOrVideoStandardConfigured = true;
     }
 
     void ConfigureRegion(CrtRegion region)
     {
-      mRegion = region;
+        mRegion = region;
+        mRegionOrVideoStandardConfigured = true;
     }
 
     /*!
@@ -82,7 +88,20 @@ class CrtData
      */
     void ConfigureHighResolution(bool highRez)
     {
-      mHighResoution = highRez;
+      if (!mHighResolutionConfigured)
+      {
+        mHighResoution = highRez;
+        mHighResolutionConfigured = true;
+      }
+    }
+    /*!
+     * @brief Auto configure high resolution depending on the mode
+     * @param highRez True for 480, false for 240
+     */
+    void AutoConfigureHighResolution(SystemData& system)
+    {
+      if (!mHighResolutionConfigured)
+        ConfigureHighResolution(system.Descriptor().CrtHighResolution());
     }
 
     /*!
@@ -105,7 +124,12 @@ class CrtData
      */
     [[nodiscard]] bool MustChooseHighResolution(const SystemData& system) const
     {
-      return system.Descriptor().CrtHighResolution();
+      // If 15Khz, the system must support high rez
+      // If 31khz, the board must support 120Hz
+      // If multisync, return true
+      return (system.Descriptor().CrtHighResolution() && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
+      || (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
+      || (Board::Instance().CrtBoard().MultiSyncEnabled());
     }
 /*
   *//*!
@@ -115,7 +139,7 @@ class CrtData
   bool HighResolutionIsProgressive() const
   {
 
-    if (mCrt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
 
   }*/
 
@@ -124,11 +148,21 @@ class CrtData
      */
 
     [[nodiscard]] bool HighResolution() const { return mHighResoution; }
-
+    [[nodiscard]] bool Scanlines(const SystemData& system) const
+    {
+      return HighResolution() && !system.Descriptor().CrtHighResolution() &&
+                   (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
+                    Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti) &&
+                   CrtConf::Instance().GetSystemCRTScanlines31kHz();
+    }
     [[nodiscard]] CrtVideoStandard VideoStandard() const { return mVideoStandard; }
     [[nodiscard]] CrtRegion Region() const { return mRegion; }
 
   private:
+    //! NTSC configured
+    bool mRegionOrVideoStandardConfigured;
+    //! 480i configured
+    bool mHighResolutionConfigured;
     //! ICrtInterface reference
     ICrtInterface* mCrt;
     //! Configuration

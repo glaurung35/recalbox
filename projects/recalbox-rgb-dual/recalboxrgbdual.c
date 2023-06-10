@@ -64,6 +64,8 @@ static struct sconfig {
   struct gpiodesc dip50Hz;
   struct gpiodesc dip31kHz;
   enum HatReference current_hat;
+  bool multisync;
+  bool desktop480p;
 } config;
 
 enum ModeIds {
@@ -382,6 +384,18 @@ static int dpidac_load_config(const char *configfile) {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
+          if (strcmp(optionname, "options.jamma.31kHz") == 0 && config.current_hat == RecalboxRGBJAMMA) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting %s to %d\n", optionname, optionvalue);
+            config.dip31kHz.gpio_state = !optionvalue;
+          }
+          if (strcmp(optionname, "options.jamma.multisync") == 0 && config.current_hat == RecalboxRGBJAMMA) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting %s to %d\n", optionname, optionvalue);
+            config.multisync = optionvalue;
+          }
+          if (strcmp(optionname, "options.es.resolution") == 0 && config.current_hat == RecalboxRGBJAMMA) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting desktop480p to %d\n", optionvalue == 480);
+            config.desktop480p = optionvalue == 480;
+          }
           for(modeId = 0; modeId < ModeCount; modeId++){
             sprintf(optionbuffer, "mode.offset.%s.verticaloffset", ModeNames[modeId]);
             if (strcmp(optionname, optionbuffer) == 0) {
@@ -438,7 +452,6 @@ static void dpidac_apply_module_mode(struct drm_connector *connector, int modeId
     mode->type |= DRM_MODE_TYPE_PREFERRED;
 
   if(config.current_hat == RecalboxRGBJAMMA){
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: setting DRM_MODE_FLAG_NCSYNC\n");
     mode->flags |= (DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC);
   }
   drm_mode_set_name(mode);
@@ -453,11 +466,17 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
     return i;
   } else {
-    if (config.dip31kHz.gpio_state == 0) {
+    if(config.multisync) {
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: JAMMA 31kHz + 15kHz modes will be available\n");
+      dpidac_apply_module_mode(connector, p320x240, !config.desktop480p);
+      dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
+      dpidac_apply_module_mode(connector, p1920x240, false);
+      dpidac_apply_module_mode(connector, p1920x224, false);
+      return 4;
+    } else if (config.dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
       dpidac_apply_module_mode(connector, p640x480, true);
       dpidac_apply_module_mode(connector, p1920x240at120, false);
-
       return 2;
     } else {
       if (config.dip50Hz.gpio_state == 0) {
@@ -564,6 +583,8 @@ static int dpidac_probe(struct platform_device *pdev) {
 
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-dual", &rgbdual);
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-jamma", &rgbjamma);
+  config.multisync = 0;
+  config.desktop480p = 0;
   if (rgbdual == 1) {
     config.current_hat = RecalboxRGBDual;
     printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");

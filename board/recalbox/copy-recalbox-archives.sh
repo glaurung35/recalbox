@@ -7,18 +7,22 @@
 # BINARIES_DIR = output/images
 # TARGET_DIR = output/target
 
+# List of files not upgraded (typically user modified files)
+EXCLUDED_FILE_LIST=(boot.lst boot.ini config.ini recalbox-user-config.txt recalbox-boot.conf crt/recalbox-crt-config.txt crt/recalbox-crt-options.cfg)
+
 # $1 boot directory
 generate_boot_file_list() {
   pushd "$1" >/dev/null
   find . -type f -printf '%P\n' | \
-		grep -v -E '^(boot.lst|boot.ini|config.ini|recalbox-boot.conf|recalbox-user-config.txt|recalbox-boot.conf|crt/recalbox-crt-config.txt|crt/recalbox-crt-options.cfg)$'
+		grep -v -E "$(IFS="|";  echo "^(${EXCLUDED_FILE_LIST[*]})$")"
   popd >/dev/null
 }
 
 compute_md5() {
 	# create boot.md5
 	pushd "$1" >/dev/null || return 1
-	find . ! -name boot.md5 -type f -exec md5sum {} \; >boot.md5 || return 1
+	find . ! -name boot.md5 -type f -exec md5sum {} \; | \
+    grep -v -E "$(IFS="|"; echo "(${EXCLUDED_FILE_LIST[*]})")" || return 1
 	popd >/dev/null
 }
 
@@ -188,7 +192,7 @@ esac
 
 # generate boot.md5
 echo "Generating boot.md5"
-compute_md5 "${BINARIES_DIR}/boot-data" ||
+compute_md5 "${BINARIES_DIR}/boot-data" > "${BINARIES_DIR}/boot-data/boot.md5" ||
 	{ echo "ERROR: unable to compute md5" && exit 1; }
 
 # generate boot.lst

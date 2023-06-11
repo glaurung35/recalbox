@@ -6,8 +6,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
-"%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"n%10<=4 && (n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "ДОСТУПНО ОБНОВЛЕНИЕ ДЛЯ RECALBOX"
@@ -3852,6 +3852,90 @@ msgstr ""
 
 #
 msgid "Full Screen"
+msgstr ""
+
+#
+msgid "DOWNLOAD CONTENTS"
+msgstr ""
+
+#
+msgid "SHOW SAVE STATES ON START"
+msgstr ""
+
+#
+msgid "SHOW REGION"
+msgstr ""
+
+#
+msgid "DISPLAY NAME BY"
+msgstr ""
+
+#
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+#
+msgid "SAVE STATES"
+msgstr ""
+
+#
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+#
+msgid "licences"
+msgstr ""
+
+#
+msgid "Start downloading..."
+msgstr ""
+
+#
+msgid "You are about to delete this state, confirm ?"
+msgstr ""
+
+#
+msgid "DELETE STATE, CONFIRM?"
+msgstr ""
+
+#
+msgid "CHANGE ORDER"
+msgstr ""
+
+#
+msgid "LAUNCH GAME FROM STATE"
+msgstr ""
+
+#
+msgid "DELETE STATE SLOT"
+msgstr ""
+
+#
+msgid "none"
+msgstr ""
+
+#
+msgid "Games"
+msgstr ""
+
+#
+msgid "Games of licence"
+msgstr ""
+
+#
+msgid "ALIAS"
+msgstr ""
+
+#
+msgid "FAMILY"
+msgstr ""
+
+#
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr ""
+
+#
+msgid "Installing %s games"
 msgstr ""
 
 #~ msgid "DISK USAGE"

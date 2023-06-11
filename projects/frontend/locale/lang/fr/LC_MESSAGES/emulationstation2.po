@@ -3906,6 +3906,33 @@ msgstr "go"
 msgid "TB"
 msgstr "to"
 
+msgid "SAVE STATES"
+msgstr "SAVE STATES"
+
+msgid "SHOW SAVE STATES ON START"
+msgstr "AFFICHER LES SAVES STATES AU LANCEMENT DU JEU"
+
+msgid "You are about to delete this state, confirm ?"
+msgstr "Vous allez supprimer ce save state, continuer ?"
+
+msgid "DELETE STATE, CONFIRM?"
+msgstr "SUPPRIMER LE SAVE STATE, CONTINUER ?"
+
+msgid "CHANGE ORDER"
+msgstr "CHANGER L'ORDRE"
+
+msgid "LAUNCH GAME FROM STATE"
+msgstr "DEMARRER LE JEU DEPUIS LE SAVE STATE"
+
+msgid "DELETE STATE SLOT"
+msgstr "SUPPRIMER LE SLOT"
+
+#
+msgid ""
+"Show savestates on start will display available save states before launch a "
+"game."
+msgstr ""
+
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr "Téléchargement des jeux pour %s"
 
@@ -3924,6 +3951,34 @@ msgstr "Mise à jour des données"
 
 msgid "Refreshing gamelist..."
 msgstr "Rafraichissement de la liste des jeux..."
+
+msgid "SHOW REGION"
+msgstr "AFFICHER LES REGIONS"
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr "RECHERCHER LES AUTRES VERSION"
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "RECHERCHER LES JEUX DE LA MÊME LICENCE"
+
+#
+msgid "DISPLAY GAME BY"
+msgstr ""
+
+msgid "ALIAS"
+msgstr "ALIAS"
+
+msgid "FAMILY"
+msgstr "FAMILLE"
+
+msgid "licences"
+msgstr "licences"
+
+msgid "Games"
+msgstr "Jeux"
+
+msgid "Games of licence"
+msgstr "Jeux sous licence"
 
 msgid ""
 "Scrap running in background.\n"
@@ -4064,59 +4119,8 @@ msgstr "Plein Écran"
 msgid "DOWNLOAD CONTENTS"
 msgstr "TÉLÉCHARGEMENT DE CONTENUS"
 
-msgid "SHOW SAVE STATES ON START"
-msgstr "AFFICHER LES SAVES STATES AU LANCEMENT DU JEU"
-
-msgid "SHOW REGION"
-msgstr "AFFICHER LES REGIONS"
-
 msgid "DISPLAY NAME BY"
 msgstr "AFFICHER LES JEUX PAR"
-
-msgid "SEARCH OTHERS VERSIONS"
-msgstr "RECHERCHER LES AUTRES VERSION"
-
-msgid "SAVE STATES"
-msgstr "SAVE STATES"
-
-msgid "SEARCH GAMES OF SAME LICENCE"
-msgstr "RECHERCHER LES JEUX DE LA MÊME LICENCE"
-
-msgid "licences"
-msgstr "licences"
-
-msgid "Start downloading..."
-msgstr "Téléchargement en cours..."
-
-msgid "You are about to delete this state, confirm ?"
-msgstr "Vous allez supprimer ce save state, continuer ?"
-
-msgid "DELETE STATE, CONFIRM?"
-msgstr "SUPPRIMER LE SAVE STATE, CONTINUER ?"
-
-msgid "CHANGE ORDER"
-msgstr "CHANGER L'ORDRE"
-
-msgid "LAUNCH GAME FROM STATE"
-msgstr "DEMARRER LE JEU DEPUIS LE SAVE STATE"
-
-msgid "DELETE STATE SLOT"
-msgstr "SUPPRIMER LE SLOT"
-
-msgid "none"
-msgstr "aucun"
-
-msgid "Games"
-msgstr "Jeux"
-
-msgid "Games of licence"
-msgstr "Jeux sous licence"
-
-msgid "ALIAS"
-msgstr "ALIAS"
-
-msgid "FAMILY"
-msgstr "FAMILLE"
 
 msgid "Downloading free games from Recalbox repositories. Please wait..."
 msgstr ""
@@ -4125,6 +4129,12 @@ msgstr ""
 
 msgid "Installing %s games"
 msgstr "Installation de %s jeux"
+
+#~ msgid "Start downloading..."
+#~ msgstr "Téléchargement en cours..."
+
+#~ msgid "none"
+#~ msgstr "aucun"
 
 #~ msgid "DISK USAGE"
 #~ msgstr "ESPACE DISQUE"

@@ -3574,6 +3574,40 @@ msgid "TB"
 msgstr ""
 
 #
+msgid "SAVE STATES"
+msgstr ""
+
+#
+msgid "SHOW SAVE STATES ON START"
+msgstr ""
+
+#
+msgid "You are about to delete this state, confirm ?"
+msgstr ""
+
+#
+msgid "DELETE STATE, CONFIRM?"
+msgstr ""
+
+#
+msgid "CHANGE ORDER"
+msgstr ""
+
+#
+msgid "LAUNCH GAME FROM STATE"
+msgstr ""
+
+#
+msgid "DELETE STATE SLOT"
+msgstr ""
+
+#
+msgid ""
+"Show savestates on start will display available save states before launch a "
+"game."
+msgstr ""
+
+#
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr ""
 
@@ -3595,6 +3629,42 @@ msgstr ""
 
 #
 msgid "Refreshing gamelist..."
+msgstr ""
+
+#
+msgid "SHOW REGION"
+msgstr ""
+
+#
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+#
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+#
+msgid "DISPLAY GAME BY"
+msgstr ""
+
+#
+msgid "ALIAS"
+msgstr ""
+
+#
+msgid "FAMILY"
+msgstr ""
+
+#
+msgid "licences"
+msgstr ""
+
+#
+msgid "Games"
+msgstr ""
+
+#
+msgid "Games of licence"
 msgstr ""
 
 #
@@ -3737,75 +3807,7 @@ msgid "DOWNLOAD CONTENTS"
 msgstr ""
 
 #
-msgid "SHOW SAVE STATES ON START"
-msgstr ""
-
-#
-msgid "SHOW REGION"
-msgstr ""
-
-#
 msgid "DISPLAY NAME BY"
-msgstr ""
-
-#
-msgid "SEARCH OTHERS VERSIONS"
-msgstr ""
-
-#
-msgid "SAVE STATES"
-msgstr ""
-
-#
-msgid "SEARCH GAMES OF SAME LICENCE"
-msgstr ""
-
-#
-msgid "licences"
-msgstr ""
-
-#
-msgid "Start downloading..."
-msgstr ""
-
-#
-msgid "You are about to delete this state, confirm ?"
-msgstr ""
-
-#
-msgid "DELETE STATE, CONFIRM?"
-msgstr ""
-
-#
-msgid "CHANGE ORDER"
-msgstr ""
-
-#
-msgid "LAUNCH GAME FROM STATE"
-msgstr ""
-
-#
-msgid "DELETE STATE SLOT"
-msgstr ""
-
-#
-msgid "none"
-msgstr ""
-
-#
-msgid "Games"
-msgstr ""
-
-#
-msgid "Games of licence"
-msgstr ""
-
-#
-msgid "ALIAS"
-msgstr ""
-
-#
-msgid "FAMILY"
 msgstr ""
 
 #

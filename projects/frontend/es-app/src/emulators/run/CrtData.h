@@ -36,7 +36,7 @@ class CrtData
       , mHighResolutionConfigured(false)
       , mVideoStandard(CrtVideoStandard::AUTO)
       , mRegion(CrtRegion::AUTO)
-      , mHighResoution(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+      , mHighResolution(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
     }
 
@@ -90,7 +90,7 @@ class CrtData
     {
       if (!mHighResolutionConfigured)
       {
-        mHighResoution = highRez;
+        mHighResolution = highRez;
         mHighResolutionConfigured = true;
       }
     }
@@ -101,7 +101,7 @@ class CrtData
     void AutoConfigureHighResolution(SystemData& system)
     {
       if (!mHighResolutionConfigured)
-        ConfigureHighResolution(system.Descriptor().CrtHighResolution());
+        ConfigureHighResolution(system.Descriptor().CrtHighResolution() || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
     }
 
     /*!
@@ -147,13 +147,13 @@ class CrtData
      * Accesors
      */
 
-    [[nodiscard]] bool HighResolution() const { return mHighResoution; }
-    [[nodiscard]] bool Scanlines(const SystemData& system) const
+    [[nodiscard]] bool HighResolution() const { return mHighResolution; }
+    [[nodiscard]] CrtScanlines Scanlines(const SystemData& system) const
     {
-      return HighResolution() && !system.Descriptor().CrtHighResolution() &&
-                   (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
-                    Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti) &&
-                   CrtConf::Instance().GetSystemCRTScanlines31kHz();
+      return (HighResolution() && !system.Descriptor().CrtHighResolution() &&
+                    (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
+                     Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)) ?
+                   CrtConf::Instance().GetSystemCRTScanlines31kHz() : CrtScanlines::None;
     }
     [[nodiscard]] CrtVideoStandard VideoStandard() const { return mVideoStandard; }
     [[nodiscard]] CrtRegion Region() const { return mRegion; }
@@ -171,5 +171,5 @@ class CrtData
     CrtVideoStandard mVideoStandard;
     CrtRegion mRegion;
     //! 480? (default: 240p)
-    bool mHighResoution;
+    bool mHighResolution;
 };

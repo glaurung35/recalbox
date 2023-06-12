@@ -4,7 +4,7 @@ from typing import List, Union
 
 from configgen.controllers.JammaLayout import JammaLayout
 from configgen.crt.CRTTypes import CRTResolution, CRTConfigurationByResolution, CRTVideoStandard, CRTRegion, \
-    CRTResolutionType, CRTScreenType, CRTSuperRez
+    CRTResolutionType, CRTScreenType, CRTSuperRez, CRTAdapter, CRTScanlines
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
 
@@ -24,7 +24,7 @@ class ExtraArguments:
      crtscreentype:str
      crtadaptor:str
      crtregion:str = "auto"
-     crtscanlines:bool = False
+     crtscanlines:str = ""
      crt_verticaloffset_p1920x240at120: int = 0
      crt_horizontaloffset_p1920x240at120: int = 0
      crt_viewportwidth_p1920x240at120: int = 0
@@ -122,7 +122,8 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Progressive
         self._crtscreentype: CRTScreenType = CRTScreenType.k15
         self._crtenabled: bool = False
-        self._crtscanlines: bool = False
+        self._crtadapter: CRTAdapter = CRTAdapter.NONE
+        self._crtscanlines: CRTScanlines = CRTScanlines.NONE
         self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
         self._crtv2: bool = False
         self._crt_config = {}
@@ -213,7 +214,7 @@ class Emulator:
             if hasattr(arguments, f'crt_viewportwidth_{resolution}'):
                 self._crt_config[resolution]["viewportwidth"] = getattr(arguments, f'crt_viewportwidth_{resolution}')
 
-        self._crtscanlines = arguments.crtscanlines
+        self._crtscanlines = CRTScanlines.fromString(arguments.crtscanlines)
         self._jammalayout = arguments.jammalayout
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
@@ -396,6 +397,9 @@ class Emulator:
     @property
     def CRTEnabled(self) -> bool: return self._crtenabled
 
+    @property
+    def CRTAdapter(self) -> CRTAdapter: return self._crtadapter
+
 
     def CRTVerticalOffset(self, resolution: CRTResolution) -> int:
         if resolution in self._crt_config:
@@ -415,7 +419,7 @@ class Emulator:
         return 0
 
     @property
-    def CRTScanlines(self) -> bool: return self._crtscanlines
+    def CRTScanlines(self) -> CRTScanlines: return self._crtscanlines
 
     @property
     def CRTSuperrez(self) -> CRTSuperRez: return self._crtsuperrez

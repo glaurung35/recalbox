@@ -7,7 +7,7 @@ from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTVid
 from configgen.crt.CRTModeGenerator import CRTModeGenerator
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.crt.CRTMonitorRanges import CRTMonitorRanges
-from configgen.crt.CRTTypes import CRTArcadeGameV2, CRTResolution
+from configgen.crt.CRTTypes import CRTArcadeGameV2, CRTResolution, CRTScanlines
 from configgen.crt.Mode import Mode
 from configgen.utils.Rotation import Rotation
 from configgen.utils.recallog import recallog
@@ -253,10 +253,10 @@ class LibretroConfigCRT:
                 game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTVideoStandard),
             log_type="CRT")
 
-        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines and system.CRTResolutionType == CRTResolutionType.Progressive:
+        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines != CRTScanlines.NONE and system.CRTResolutionType == CRTResolutionType.Progressive:
             config.update({"video_shader_enable": '"true"'})
             config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
-            config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines.glslp'})
+            config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
         if system.Core == "swanstation":

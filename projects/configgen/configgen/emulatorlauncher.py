@@ -398,7 +398,7 @@ if __name__ == '__main__':
     parser.AddInt(command="crt_horizontaloffset_p384x288", chelp="", required=False)
     parser.AddInt(command="crt_viewportwidth_p384x288", chelp="", required=False)
 
-    parser.AddBool(command="crtscanlines", chelp="scanline on 31khz", required=False)
+    parser.AddString(command="crtscanlines", chelp="scanline on 31khz", required=False)
     parser.AddInt(command="rotation", chelp="rotate screen", required=False)
     parser.AddSimple(command="rotatecontrols", chelp="rotate controls", required=False)
     parser.AddSimple(command="verticalgame", chelp="the game is vertical", required=False)

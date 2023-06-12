@@ -25,7 +25,7 @@ class CrtRGBJamma : public ICrtInterface
       #endif
     }
 
-    //! This adapter is an RGB Dual
+    //! This adapter is an RGB JAMMA
     CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBJamma; }
 
     //! RGB Jamma has support for 31khz
@@ -34,11 +34,11 @@ class CrtRGBJamma : public ICrtInterface
     //! Return select output frequency
     HorizontalFrequency GetHorizontalFrequency() const override {
       return MultiSyncEnabled()? ICrtInterface::HorizontalFrequency::KHzMulti :
-      (CrtConf::Instance().GetSystemCRTJamma31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15);
+      (CrtConf::Instance().GetSystemCRTScreen31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15);
     }
 
     //! Return multisync enabled
-    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTJammaMultiSync(); }
+    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTScreenMultiSync(); }
 
     //! This adapter has no support of forced 50hz
     bool HasForced50hzSupport() const override { return false; }

@@ -384,16 +384,16 @@ static int dpidac_load_config(const char *configfile) {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
-          if (strcmp(optionname, "options.jamma.31kHz") == 0 && config.current_hat == RecalboxRGBJAMMA) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting %s to %d\n", optionname, optionvalue);
+          if (strcmp(optionname, "options.screen.31kHz") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting %s to %d\n", optionname, optionvalue);
             config.dip31kHz.gpio_state = !optionvalue;
           }
-          if (strcmp(optionname, "options.jamma.multisync") == 0 && config.current_hat == RecalboxRGBJAMMA) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting %s to %d\n", optionname, optionvalue);
+          if (strcmp(optionname, "options.screen.multisync") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting %s to %d\n", optionname, optionvalue);
             config.multisync = optionvalue;
           }
           if (strcmp(optionname, "options.es.resolution") == 0 && config.current_hat == RecalboxRGBJAMMA) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: jamma : setting desktop480p to %d\n", optionvalue == 480);
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting desktop480 to %d\n", optionvalue == 480);
             config.desktop480p = optionvalue == 480;
           }
           for(modeId = 0; modeId < ModeCount; modeId++){
@@ -467,7 +467,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     return i;
   } else {
     if(config.multisync) {
-      printk(KERN_INFO "[RECALBOXRGBDUAL]: JAMMA 31kHz + 15kHz modes will be available\n");
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: Multisync: 31kHz + 15kHz modes will be available\n");
       dpidac_apply_module_mode(connector, p320x240, !config.desktop480p);
       dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
       dpidac_apply_module_mode(connector, p1920x240, false);
@@ -475,8 +475,8 @@ static int dpidac_get_modes(struct drm_connector *connector) {
       return 4;
     } else if (config.dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
-      dpidac_apply_module_mode(connector, p640x480, true);
-      dpidac_apply_module_mode(connector, p1920x240at120, false);
+      dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
+      dpidac_apply_module_mode(connector, p1920x240at120, !config.desktop480p);
       return 2;
     } else {
       if (config.dip50Hz.gpio_state == 0) {

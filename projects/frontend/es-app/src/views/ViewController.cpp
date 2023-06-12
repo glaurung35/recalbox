@@ -474,7 +474,10 @@ void ViewController::LaunchCheck()
   EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch);
   if (!emulator.IsValid())
   {
-    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << mGameToLaunch->RomPath().ToString() << '!'; }
+    {
+      LOG(LogError) << "[ViewController] Empty emulator/core when running " << mGameToLaunch->RomPath().ToString()
+                    << '!';
+    }
     return;
   }
 
@@ -488,17 +491,25 @@ void ViewController::LaunchCheck()
     if (mCheckFlags |= LaunchCheckFlags::Frequency; mGameLinkedData.Crt().IsRegionOrStandardConfigured())
       if (mGameLinkedData.Crt().MustChoosePALorNTSC(mGameToLaunch->System()))
       {
-        if(mGameToLaunch->System().Name() == "megadrive")
-          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(), (int)FastMenuType::FrequenciesMulti60,
-                                              { { _("AUTO") }, { _("60Hz (US)") }, { _("60Hz (JP)") }, { _("50Hz (EU)") } }, mFrequencyLastChoiceMulti60));
+        if (mGameToLaunch->System().Name() == "megadrive")
+          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
+                                              (int) FastMenuType::FrequenciesMulti60,
+                                              {{_("AUTO")},
+                                               {_("60Hz (US)")},
+                                               {_("60Hz (JP)")},
+                                               {_("50Hz (EU)")}}, mFrequencyLastChoiceMulti60));
         else
-          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(), (int)FastMenuType::Frequencies,
-                                              { { _("AUTO") }, { _("60Hz") }, { _("50Hz") } }, mFrequencyLastChoice));
+          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(),
+                                              (int) FastMenuType::Frequencies,
+                                              {{_("AUTO")},
+                                               {_("60Hz")},
+                                               {_("50Hz")}}, mFrequencyLastChoice));
         return;
       }
 
   // CRT Resolution choice
   if ((mCheckFlags & LaunchCheckFlags::CrtResolution) == 0)
+  {
     if (mCheckFlags |= LaunchCheckFlags::CrtResolution; mGameLinkedData.Crt().IsResolutionSelectionConfigured())
     {
       const bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() ==
@@ -514,14 +525,15 @@ void ViewController::LaunchCheck()
         return;
       }
     }
+  }
   else
   {
     mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch->System());
   }
 
 
-  if ((mCheckFlags & LaunchCheckFlags::CrtResolution) == 0)
-    if (mCheckFlags |= LaunchCheckFlags::CrtResolution; CheckSoftPatching(emulator))
+  if ((mCheckFlags & LaunchCheckFlags::SoftPatching) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::SoftPatching; CheckSoftPatching(emulator))
       return;
 
   // SuperGameBoy choice

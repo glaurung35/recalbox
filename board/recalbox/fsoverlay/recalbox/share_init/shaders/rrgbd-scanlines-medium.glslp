@@ -1,6 +1,6 @@
 shaders = "1"
 feedback_pass = "0"
-shader0 = "lr/scanlines/shaders/scanline.glsl"
+shader0 = "lr/scanlines/shaders/scanline-medium.glsl"
 filter_linear0 = "false"
 wrap_mode0 = "clamp_to_border"
 mipmap_input0 = "false"

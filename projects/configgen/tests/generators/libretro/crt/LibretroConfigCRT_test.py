@@ -17,7 +17,7 @@ ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 
 def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
-                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines=False, rotation=0, verticalgame=False):
+                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines="", rotation=0, verticalgame=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype,
                                       crtscreentype,
@@ -738,20 +738,26 @@ def test_given_psx_game_when_starting_a_game_on_pcsx_then_use_pulse(
 def test_given_31kHz_and_scanlines_on_should_create_scanlines_config(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
-                                crtvideostandard="all", crtscanlines=True)
+                                crtvideostandard="all", crtscanlines="light")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
     assert libretro_config["video_shader_enable"] == '"true"'
     assert libretro_config["video_shader_dir"] == '"/recalbox/share/shaders/"'
-    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines.glslp'
+    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-light.glslp'
+
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
+                                crtvideostandard="all", crtscanlines="heavy")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "rom.zip")
+    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-heavy.glslp'
 
 
 def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_double_freq(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="doublefreq",
-                                crtvideostandard="all", crtscanlines=True)
+                                crtvideostandard="all", crtscanlines="light")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")

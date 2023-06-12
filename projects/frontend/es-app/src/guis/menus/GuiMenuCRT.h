@@ -7,6 +7,7 @@
 #pragma once
 
 #include <guis/menus/GuiMenuBase.h>
+#include "hardware/crt/CRTScanlines.h"
 
 // Forward declaration
 class SystemManager;
@@ -16,6 +17,7 @@ template<class T> class OptionListComponent;
 class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
                  , private IOptionListComponent<String>
+                 , private IOptionListComponent<CrtScanlines>
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -73,6 +75,8 @@ class GuiMenuCRT : public GuiMenuBase
     static std::vector<ListEntry<String>> GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync);
     //! Get super resolutions
     static std::vector<ListEntry<String>> GetSuperRezEntries();
+    //! Get scanlines
+    static std::vector<GuiMenuBase::ListEntry<CrtScanlines>> GetScanlinesEntries();
 
 
     /*!
@@ -88,18 +92,24 @@ class GuiMenuCRT : public GuiMenuBase
     static String Get50hz();
 
     /*
-     * IOptionListComponent<Overclocking> implementation
+     * IOptionListComponent<CrtAdapterType> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const CrtAdapterType& value) override;
 
     /*
-     * IOptionListComponent<Overclocking> implementation
+     * IOptionListComponent<std::string> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const String & value) override;
 
     /*
+     * IOptionListComponent<CrtScanlines> implementation
+     */
+    void OptionListComponentChanged(int id, int index, const CrtScanlines& value) override;
+
+
+  /*
      * ISwitchComponent implementation
      */
 

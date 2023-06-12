@@ -8,6 +8,7 @@
 
 #include <hardware/crt/ICrtInterface.h>
 #include <utils/Files.h>
+#include "CrtConf.h"
 
 class CrtRGBDual : public ICrtInterface
 {
@@ -29,7 +30,14 @@ class CrtRGBDual : public ICrtInterface
     bool Has120HzSupport() const override { return true; }
 
     //! Return select output frequency
-    HorizontalFrequency GetHorizontalFrequency() const override { return GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15; }
+    HorizontalFrequency GetHorizontalFrequency() const override {
+      return MultiSyncEnabled()? ICrtInterface::HorizontalFrequency::KHzMulti :
+             (GetRGBDual31khzSwitchState() ? HorizontalFrequency::KHz31 :
+             (CrtConf::Instance().GetSystemCRTScreen31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15));
+    }
+
+    //! Return multisync enabled
+    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTScreenMultiSync(); }
 
     //! This adapter has support of forced 50hz
     bool HasForced50hzSupport() const override { return true; }

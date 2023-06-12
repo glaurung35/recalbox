@@ -54,6 +54,34 @@ const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
   return sDefault;
 }
 
+CrtScanlines CrtConf::CrtScanlinesFromString(const String& scanlines)
+{
+  String foundScanlines = scanlines;
+  if(foundScanlines.empty())
+  {
+    foundScanlines = RecalboxConf::Instance().AsString(sSystemCRTScanlines31kHz);
+  }
+  if (foundScanlines == "none"    ) return CrtScanlines::None;
+  if (foundScanlines == "light"    ) return CrtScanlines::Light;
+  if (foundScanlines == "medium"  ) return CrtScanlines::Medium;
+  if (foundScanlines == "heavy"    ) return CrtScanlines::Heavy;
+  return CrtScanlines::None;
+}
+
+const String& CrtConf::CrtScanlinesFromEnum(CrtScanlines scanlines)
+{
+  switch(scanlines)
+  {
+    case CrtScanlines::None:     { static std::string scanlineString("none"); return scanlineString; }
+    case CrtScanlines::Light:     { static std::string scanlineString("light"); return scanlineString; }
+    case CrtScanlines::Medium:   { static std::string scanlineString("medium"); return scanlineString; }
+    case CrtScanlines::Heavy:     { static std::string scanlineString("heavy"); return scanlineString; }
+    default: break;
+  }
+  static String sScanlineDefault("none");
+  return sScanlineDefault;
+}
+
 CrtResolution CrtConf::CrtResolutionFromString(const String& menu)
 {
   if (menu == "p1920x224") return CrtResolution::r224p;

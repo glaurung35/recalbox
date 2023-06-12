@@ -35,7 +35,7 @@ class CrtData
       , mVideoStandard(CrtVideoStandard::AUTO)
       , mRegion(CrtRegion::AUTO)
       , mHighResoution(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
-      , mScanlines(false)
+      , mScanlines(CrtScanlines::None)
     {
     }
 
@@ -89,10 +89,10 @@ class CrtData
     {
       mHighResoution = highRez;
       mHighResolutionConfigured = true;
-      mScanlines = highRez && !system.Descriptor().CrtHighResolution() &&
+      mScanlines = (highRez && !system.Descriptor().CrtHighResolution() &&
           (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
-           Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti) &&
-          CrtConf::Instance().GetSystemCRTScanlines31kHz();
+           Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)) ?
+               CrtConf::Instance().GetSystemCRTScanlines31kHz() : CrtScanlines::None;
     }
     /*!
      * @brief Auto configure high resolution depending on the mode
@@ -148,7 +148,7 @@ class CrtData
      */
 
     bool HighResolution() const { return mHighResoution; }
-    bool Scanlines() const { return mScanlines; }
+    CrtScanlines Scanlines() const { return mScanlines; }
     CrtVideoStandard VideoStandard() const { return mVideoStandard; }
     CrtRegion Region() const { return mRegion; }
 
@@ -162,5 +162,5 @@ class CrtData
     CrtRegion mRegion;
     //! 480? (default: 240p)
     bool mHighResoution;
-    bool mScanlines;
+    CrtScanlines mScanlines;
 };

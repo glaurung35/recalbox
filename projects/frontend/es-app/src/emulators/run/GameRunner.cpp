@@ -420,8 +420,8 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
         result.append(" -crtresolutiontype ").append("progressive");
       result.append(" -crtvideostandard ntsc");
       // Scanlines
-      if(data.Scanlines())
-        result.append(" -crtscanlines 1");
+      if(data.Scanlines() != CrtScanlines::None)
+        result.append(" -crtscanlines ").append(CrtConf::CrtScanlinesFromEnum(data.Scanlines()));
     }
     else if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
     {

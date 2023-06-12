@@ -61,7 +61,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   if(multisync || is31kHz)
   {
     // Scanlines on 31kHz resolution
-    AddSwitch(_("SCANLINES FOR 240P GAMES IN 480P"), CrtConf::Instance().GetSystemCRTScanlines31kHz(), (int)Components::ScanlinesOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+    AddList<CrtScanlines>(_("SCANLINES FOR 240P GAMES IN 480"), (int)Components::ScanlinesOn31kHz, this, GetScanlinesEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG));
   }
 
   // Zero Lag
@@ -215,6 +215,18 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetSuperRezEntries(
   return list;
 }
 
+std::vector<GuiMenuBase::ListEntry<CrtScanlines>> GuiMenuCRT::GetScanlinesEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<CrtScanlines>> list;
+  CrtScanlines selected = CrtConf::Instance().GetSystemCRTScanlines31kHz();
+
+  list.push_back({ "NONE", CrtScanlines::None, selected == CrtScanlines::None });
+  list.push_back({ "THIN", CrtScanlines::Thin, selected == CrtScanlines::Thin });
+  list.push_back({ "MEDIUM", CrtScanlines::Medium, selected == CrtScanlines::Medium });
+  list.push_back({ "BOLD", CrtScanlines::Bold, selected == CrtScanlines::Bold });
+  return list;
+}
+
 
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
@@ -233,6 +245,15 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
       }
     }
     CrtConf::Instance().SetSystemCRT(value).Save();
+  }
+}
+
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanlines& value)
+{
+  (void)index;
+  if ((Components)id == Components::ScanlinesOn31kHz)
+  {
+    CrtConf::Instance().SetSystemCRTScanlines31kHz(value);
   }
 }
 
@@ -276,8 +297,6 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
   if ((Components)id == Components::DemoIn240pOn31kHz)
     CrtConf::Instance().SetSystemCRTRunDemoIn240pOn31kHz(status).Save();
-  if ((Components)id == Components::ScanlinesOn31kHz)
-    CrtConf::Instance().SetSystemCRTScanlines31kHz(status).Save();
   if ((Components)id == Components::ZeroLag)
     RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
   if ((Components)id == Components::UseV2)

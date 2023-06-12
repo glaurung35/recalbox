@@ -412,8 +412,8 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
         result.Append(" -crtresolutiontype ").Append("progressive");
       result.Append(" -crtvideostandard ntsc");
       // Scanlines
-      if(data.Scanlines(system))
-        result.Append(" -crtscanlines 1");
+      if(data.Scanlines(system) != CrtScanlines::None)
+        result.Append(" -crtscanlines ").Append(CrtConf::CrtScanlinesFromEnum(data.Scanlines(system)));
     }
     else if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
     {
@@ -426,8 +426,8 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
       {
         result.Append(" -crtscreentype ").Append("31kHz");
         // Scanlines
-        if(data.Scanlines(system))
-          result.Append(" -crtscanlines 1");
+        if(data.Scanlines(system) != CrtScanlines::None)
+          result.Append(" -crtscanlines ").Append(CrtConf::CrtScanlinesFromEnum(data.Scanlines(system)));
       }
       else
         result.Append(" -crtscreentype ").Append( (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz"));

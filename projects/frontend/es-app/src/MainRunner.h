@@ -106,8 +106,9 @@ class MainRunner
     //! Temporary file used to stop game demo loop
     static constexpr const char* sStopDemo = "/tmp/externalnotifications/emulationstation.stopdemo";
     //! Upgrade file flag. Only available once in /tmp after a successful update
-    static constexpr const char* sUpgradeFileFlag = "/tmp/upgraded";
-    static constexpr const char* sUpgradeFailedFlag = "/tmp/upgradefailed";
+    static constexpr const char* sUpgradeFileFlag = "/overlay/.upgrade_success";
+    static constexpr const char* sUpgradeFailedFlag = "/overlay/.upgrade_failed";
+    static constexpr const char* sUpgradeCorruptedFlag = "/overlay/.upgrade_corrupted";
 
   private:
     //! Power button: Threshold from short to long press, in milisecond
@@ -207,6 +208,12 @@ class MainRunner
      * @param window Main window
     */
     static void CheckUpdateFailed(WindowManager& window);
+
+    /*!
+     * @brief Check if Recalbox upgrade is corrupted push an error popup
+     * @param window Main window
+    */
+    static void CheckUpdateCorrupted(WindowManager& window);
 
     /*!
      * @brief Check if this is the first launch and run a wizard if required

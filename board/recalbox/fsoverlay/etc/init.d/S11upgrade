@@ -23,7 +23,7 @@ clean_boot_update() {
 
 failed_clean_exit() {
   clean_boot_update
-  touch /tmp/upgradefailed
+  touch /overlay/.upgrade_failed
   fbv2 -k -i "$IMAGE_PATH/offline-install-error.jpg"
   sleep 10
   exit 1
@@ -70,5 +70,5 @@ elif [[ -f "$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")" ]]; then
   rm -f "$SHAREUPDATEDIR/$(basename "$UPDATEFILE_UNCOMPRESSED")"
 
   # inform ES we upgraded
-  touch /tmp/upgraded
+  touch /overlay/.upgrade_success
 fi

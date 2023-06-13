@@ -6,6 +6,10 @@
 safeboot="/overlay_root/.safeboot"
 bootloaderlog="/boot_root/boot/bl-update.log"
 
+UPD_NO_ERROR=0
+UPD_CORRUPTED_FILE=1
+UPD_FAILED=2
+
 do_splash() {
     img="$1"
     for fbdev in /dev/fb[0-9]; do
@@ -32,19 +36,17 @@ check_safeboot() {
 
 check_update() {
     # All update files?
-    RC=1
-    test -d /boot_root/update || mkdir -p /boot_root/update/
-    if [ -f /boot_root/update/boot.md5 ]; then
-      echo "MD5 list file found, checking files" >/boot_root/update.log
-      cd /boot_root/update
-      if md5sum -c boot.md5 >>/boot_root/update.log 2>&1; then
-        echo "MD5 check succeeded" >>/boot_root/update.log
-        RC=0
-      else
-        echo "MD5 check failed" >>/boot_root/update.log
-      fi
+    cd /boot_root/update
+    if md5sum -c boot.md5 >>/boot_root/update.log 2>&1; then
+      return 0
+    else
+      return 1
     fi
-    return $RC
+}
+
+should_update() {
+    # if boot.md5 found, then should update 
+    [ -f /boot_root/update/boot.md5 ] && return 0 || return 1
 }
 
 do_clean_overlay() {
@@ -74,6 +76,9 @@ do_update() {
         echo "$file done" >>/boot_root/update.log
       done < /boot_root/update/boot.lst
       rm /boot_root/update/boot.lst
+    else
+      echo "boot.lst not found, update failed" >>/boot_root/update.log
+      return 1
     fi
     # delete content of /boot_root/update/
     rm -rf /boot_root/update/
@@ -83,7 +88,6 @@ do_update() {
     rm /boot_root/boot.lst
     rm /boot_root/boot.md5
     rm /boot_root/pre-upgrade.sh
-    echo "update done" >>/boot_root/update.log
     return 0 # mask errors
 }
 
@@ -171,11 +175,25 @@ do_root() {
     test -e /boot_root/boot.ppm && do_splash /boot_root/boot.ppm
 
     # update
+    test -d /boot_root/update || mkdir -p /boot_root/update/
     updated="0"
-    if check_update ; then
-        if ! do_update ; then return 1; fi
-        updated="1"
-        [ -d /boot_root/boot/bootloader ] && do_bootloader_update >>$bootloaderlog 2>&1
+    if should_update ; then
+      echo "MD5 list file found, checking files" >/boot_root/update.log
+      if check_update ; then
+        echo "MD5 check succeeded" >>/boot_root/update.log
+        if do_update ; then 
+          echo "update done" >>/boot_root/update.log
+          check_update_rc=$UPD_NO_ERROR
+        else
+          echo "update failed" >>/boot_root/update.log
+          check_update_rc=$UPD_FAILED
+        fi
+      else
+        echo "MD5 check failed" >>/boot_root/update.log
+        check_update_rc=$UPD_CORRUPTED_FILE
+      fi
+      [ -d /boot_root/boot/bootloader ] && do_bootloader_update >>$bootloaderlog 2>&1
+      updated="1"
     fi
 
     # Get overlay mount
@@ -190,13 +208,18 @@ do_root() {
         # Partition not available: Mount tmpfs partition
         mount -t tmpfs -o size=128M tmpfs /overlay_root || return 1
     fi
-    # Backup, clean up overlay, clean up case setting and reboot
+    # Backup, clean up overlay, clean up case setting, set ES flag and reboot
     if test "$updated" -eq "1" ; then
         do_clean_overlay
         do_clean_case
         do_clean_safeboot
-        umount /boot_root
+        case $check_update_rc in
+          $UPD_NO_ERROR)       echo "" > /overlay_root/.upgrade_success ;;
+          $UPD_CORRUPTED_FILE) echo "" > /overlay_root/.upgrade_corrupted ;;
+          $UPD_FAILED)         echo "" > /overlay_root/.upgrade_failed ;;
+        esac
         umount /overlay_root
+        mount -o remount,ro /boot_root
         sync
         reboot -f
     fi

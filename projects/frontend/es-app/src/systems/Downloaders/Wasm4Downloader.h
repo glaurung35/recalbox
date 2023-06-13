@@ -10,6 +10,7 @@
 
 enum class Wasm4DownloadingGameState
 {
+  Start,             //!< Init
   // Actions
   Downloading,       //!< Downloading games
   Extracting,        //!< Extracting

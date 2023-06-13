@@ -20,9 +20,8 @@ Wasm4Downloader::Wasm4Downloader(SystemData& wasm4, IGuiDownloaderUpdater& updat
 
 void Wasm4Downloader::DownloadAndInstall()
 {
-  String title(_("DOWNLOADING GAMES FOR %s"));
-  mUpdater.UpdateTitleText(title.Replace("%s", "WASM4"));
-  mUpdater.UpdateMainText(_("Downloading WASM4 games from the official site. Please wait..."));
+  mSender.Send(Wasm4DownloadingGameState::Start);
+  usleep(20000); // Let display refreshing
   { LOG(LogDebug) << "[Wasm4Downloader] Download files for " << mSystem.FullName(); }
 
   // Seek for the right folder
@@ -158,6 +157,13 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
 {
   switch(code)
   {
+    case Wasm4DownloadingGameState::Start:
+    {
+      String title(_("DOWNLOADING GAMES FOR %s"));
+      mUpdater.UpdateTitleText(title.Replace("%s", "WASM4"));
+      mUpdater.UpdateMainText(_("Downloading WASM4 games from the official site. Please wait..."));
+      break;
+    }
     case Wasm4DownloadingGameState::Downloading:
     {
       // Load size into progress bar component

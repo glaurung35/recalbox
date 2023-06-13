@@ -9,6 +9,7 @@
 
 enum class GenericDownloadingGameState
 {
+    Start,             // Init
     // Actions
     Downloading,       //!< Downloading games
     Extracting,        //!< Extracting

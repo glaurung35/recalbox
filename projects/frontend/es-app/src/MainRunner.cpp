@@ -156,6 +156,7 @@ MainRunner::ExitState MainRunner::Run()
       // Update?
       CheckUpdateMessage(window);
       CheckUpdateFailed(window);
+      CheckUpdateCorrupted(window);
       // Input ok?
       CheckAndInitializeInput(window);
       // Wizard
@@ -447,6 +448,7 @@ void MainRunner::CheckUpdateMessage(WindowManager& window)
     std::string changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
     std::string message = "Changes :\n" + changelog;
     window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
+    flag.Delete();
   }
 }
 
@@ -459,6 +461,20 @@ void MainRunner::CheckUpdateFailed(WindowManager& window)
     std::string version = Upgrade::CurrentVersion();
     std::string message = Strings::Format(_("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.").c_str(), version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE HAS FAILED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
+    flag.Delete();
+  }
+}
+
+void MainRunner::CheckUpdateCorrupted(WindowManager& window)
+{
+  // Push a message if Recalbox upgrade has failed
+  Path flag(sUpgradeCorruptedFlag);
+  if (flag.Exists())
+  {
+    std::string version = Upgrade::CurrentVersion();
+    std::string message = Strings::Format(_("One or more files are corrupted. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, check your Recalbox storage (SD Card, USB Key or hard drive).\nContact the team on https://forum.recalbox.com if the problem persists.").c_str(), version.c_str());
+    window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE IS CORRUPTED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
+    flag.Delete();
   }
 }
 

@@ -20,9 +20,8 @@ GenericDownloader::GenericDownloader(SystemData& system, IGuiDownloaderUpdater& 
 
 void GenericDownloader::DownloadAndInstall()
 {
-  String title(_("DOWNLOADING GAMES FOR %s"));
-  mUpdater.UpdateTitleText(title.Replace("%s", mSystem.FullName()));
-  mUpdater.UpdateMainText(_("Downloading free games from Recalbox repositories. Please wait..."));
+  mSender.Send(GenericDownloadingGameState::Start);
+  usleep(20000); // Let display refreshing
   { LOG(LogDebug) << "[GenericDownloader] Download files for " << mSystem.FullName(); }
 
   // Seek for the right folder
@@ -151,6 +150,13 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
 {
   switch(code)
   {
+    case GenericDownloadingGameState::Start:
+    {
+      String title(_("DOWNLOADING GAMES FOR %s"));
+      mUpdater.UpdateTitleText(title.Replace("%s", mSystem.FullName()));
+      mUpdater.UpdateMainText(_("Downloading free games from Recalbox repositories. Please wait..."));
+      break;
+    }
     case GenericDownloadingGameState::Downloading:
     {
       // Load size into progress bar component

@@ -264,7 +264,7 @@ class SystemData : private INoCopy
      * @brief Get excludes filter
      * @return excludes Filter
      */
-    bool IsGameBoy() const { return (Name() == "gb") || (Name() == "gbc"); }
+    bool IsGameBoy() const { return (Name() == "gb"); }
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

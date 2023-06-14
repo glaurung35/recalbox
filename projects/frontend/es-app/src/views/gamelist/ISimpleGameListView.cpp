@@ -248,13 +248,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // Check vertical move
-  if (event.AnyUpPressed() || event.AnyDownPressed()) mVerticalMove = true;
-  if (event.AnyUpReleased() || event.AnyDownReleased()) mVerticalMove = false;
+  if (event.AnyPrimaryUpPressed() || event.AnyPrimaryDownPressed()) mVerticalMove = true;
+  if (event.AnyPrimaryUpReleased() || event.AnyPrimaryDownReleased()) mVerticalMove = false;
 
   // MOVE to NEXT GAMELIST
-  if (event.AnyRightPressed())
+  if (event.AnyPrimaryRightPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove)
+    {
       clean();
       onFocusLost();
       ViewController::Instance().goToNextGameList();
@@ -263,16 +264,16 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // MOVE to PREVIOUS GAMELIST
-  if (event.AnyLeftPressed())
+  if (event.AnyPrimaryLeftPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove)
+    {
       clean();
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
     }
     return true;
   }
-
 
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())

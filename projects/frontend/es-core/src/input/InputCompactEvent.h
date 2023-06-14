@@ -308,6 +308,11 @@ class InputCompactEvent
     [[nodiscard]] bool AnyLeft()  const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left  | (EntryType)Entry::J2Left )) != 0; }
     [[nodiscard]] bool AnyRight() const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Right | (EntryType)Entry::J1Right | (EntryType)Entry::J2Right)) != 0; }
 
+    [[nodiscard]] bool AnyPrimaryUp()    const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up   )) != 0; }
+    [[nodiscard]] bool AnyPrimaryDown()  const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Down  | (EntryType)Entry::J1Down )) != 0; }
+    [[nodiscard]] bool AnyPrimaryLeft()  const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left )) != 0; }
+    [[nodiscard]] bool AnyPrimaryRight() const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::Right | (EntryType)Entry::J1Right)) != 0; }
+
     [[nodiscard]] bool AnyUpPressed()     const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up    | (EntryType)Entry::J2Up   )) != 0; }
     [[nodiscard]] bool AnyUpReleased()    const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up    | (EntryType)Entry::J2Up   )) != 0; }
     [[nodiscard]] bool AnyDownPressed()   const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Down  | (EntryType)Entry::J1Down  | (EntryType)Entry::J2Down )) != 0; }
@@ -316,6 +321,22 @@ class InputCompactEvent
     [[nodiscard]] bool AnyLeftReleased()  const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left  | (EntryType)Entry::J2Left )) != 0; }
     [[nodiscard]] bool AnyRightPressed()  const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Right | (EntryType)Entry::J1Right | (EntryType)Entry::J2Right)) != 0; }
     [[nodiscard]] bool AnyRightReleased() const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Right | (EntryType)Entry::J1Right | (EntryType)Entry::J2Right)) != 0; }
+
+    [[nodiscard]] bool AnyPrimaryUpPressed()     const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up   )) != 0; }
+    [[nodiscard]] bool AnyPrimaryUpReleased()    const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up   )) != 0; }
+    [[nodiscard]] bool AnyPrimaryDownPressed()   const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Down  | (EntryType)Entry::J1Down )) != 0; }
+    [[nodiscard]] bool AnyPrimaryDownReleased()  const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Down  | (EntryType)Entry::J1Down )) != 0; }
+    [[nodiscard]] bool AnyPrimaryLeftPressed()   const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left )) != 0; }
+    [[nodiscard]] bool AnyPrimaryLeftReleased()  const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left )) != 0; }
+    [[nodiscard]] bool AnyPrimaryRightPressed()  const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Right | (EntryType)Entry::J1Right)) != 0; }
+    [[nodiscard]] bool AnyPrimaryRightReleased() const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Right | (EntryType)Entry::J1Right)) != 0; }
+
+    [[nodiscard]] bool AnyJ1()            const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::J1Up | (EntryType)Entry::J1Down | (EntryType)Entry::J1Left | (EntryType)Entry::J1Right)) != 0; }
+    [[nodiscard]] bool AnyJ1Pressed()     const { return ((EntryType)mActivatedEntryFlags                                       & ((EntryType)Entry::J1Up | (EntryType)Entry::J1Down | (EntryType)Entry::J1Left | (EntryType)Entry::J1Right)) != 0; }
+    [[nodiscard]] bool AnyJ1Released()    const { return (                                   (EntryType)mDeactivatedEntryFlags  & ((EntryType)Entry::J1Up | (EntryType)Entry::J1Down | (EntryType)Entry::J1Left | (EntryType)Entry::J1Right)) != 0; }
+    [[nodiscard]] bool AnyJ2()            const { return (((EntryType)mActivatedEntryFlags | (EntryType)mDeactivatedEntryFlags) & ((EntryType)Entry::J2Up | (EntryType)Entry::J2Down | (EntryType)Entry::J2Left | (EntryType)Entry::J2Right)) != 0; }
+    [[nodiscard]] bool AnyJ2Pressed()     const { return ((EntryType)mActivatedEntryFlags                                       & ((EntryType)Entry::J2Up | (EntryType)Entry::J2Down | (EntryType)Entry::J2Left | (EntryType)Entry::J2Right)) != 0; }
+    [[nodiscard]] bool AnyJ2Released()    const { return (                                   (EntryType)mDeactivatedEntryFlags  & ((EntryType)Entry::J2Up | (EntryType)Entry::J2Down | (EntryType)Entry::J2Left | (EntryType)Entry::J2Right)) != 0; }
 
     [[nodiscard]] bool AnythingPressed()  const { return (EntryType)mActivatedEntryFlags   != 0; }
     [[nodiscard]] bool AnythingReleased() const { return (EntryType)mDeactivatedEntryFlags != 0; }

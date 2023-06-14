@@ -151,7 +151,6 @@ void DetailedGameListView::Initialize()
 
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
   mDescContainer.setSize(mSize.x() * (0.50f - 2 * padding), mSize.y() - mDescContainer.getPosition().y());
-  mDescContainer.setAutoScroll(true);
   mDescContainer.setDefaultZIndex(40);
   addChild(&mDescContainer);
 

@@ -1,12 +1,12 @@
 #pragma once
 
-#include "components/ScrollableContainer.h"
 #include "components/RatingComponent.h"
 #include "components/DateTimeComponent.h"
 #include "components/ImageComponent.h"
 #include "components/VideoComponent.h"
 #include "systems/SystemData.h"
 #include "components/BusyComponent.h"
+#include "components/VerticalScrollableContainer.h"
 #include <views/ViewController.h>
 #include <views/gamelist/ISimpleGameListView.h>
 #include <components/TextListComponent.h>
@@ -130,7 +130,7 @@ class DetailedGameListView : public ISimpleGameListView
     std::vector<TextComponent*> getMDLabels();
     std::vector<Component*> getMDValues();
 
-    ScrollableContainer mDescContainer;
+    VerticalScrollableContainer mDescContainer;
     TextComponent mDescription;
 
     BusyComponent mBusy;

@@ -366,13 +366,13 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
 {
 	if(size() > 0)
 	{
-    if (event.AnyDownPressed())
+    if (event.AnyPrimaryDownPressed())
     {
       listInput(1);
       mShowBar = true;
       return true;
     }
-    else if (event.AnyUpPressed())
+    else if (event.AnyPrimaryUpPressed())
     {
       listInput(-1);
       mShowBar = true;
@@ -390,7 +390,7 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
       mShowBar = true;
       return true;
     }
-    else if (event.AnyDownReleased() || event.AnyUpReleased() || event.R1Released() || event.L1Released())
+    else if (event.AnyPrimaryDownReleased() || event.AnyPrimaryUpReleased() || event.R1Released() || event.L1Released())
     {
       mBarTimer = sBarFadeTime + sBarFixedTime;
       mShowBar = false;

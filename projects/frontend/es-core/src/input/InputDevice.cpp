@@ -582,7 +582,8 @@ int InputDevice::ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entr
           }
         }
         // Axis has a binary on/off
-        else elapsed = SetEntry(targetEntry, value == config.Value(), on, off);
+        else if (value == config.Value() || mPreviousAxisValues[axis] == config.Value())
+          elapsed = SetEntry(targetEntry, value == config.Value(), on, off);
       }
 
   // Record previous value

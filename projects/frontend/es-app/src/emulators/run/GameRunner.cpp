@@ -385,7 +385,7 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
   if (crtBoard.IsCrtAdapterAttached())
   {
-    result.Append(" -crtadaptor ").Append("present");
+    result.Append(" -crtadaptor ").Append(crtBoard.ShortName());
     result.Append(" -crtsuperrez ").Append(CrtConf::Instance().GetSystemCRTSuperrez());
     // CRTV2 will be forced by user, or for tate mode
     if(CrtConf::Instance().GetSystemCRTUseV2())

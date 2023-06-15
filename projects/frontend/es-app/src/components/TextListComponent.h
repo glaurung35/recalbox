@@ -3,7 +3,6 @@
 #include <components/ITextListComponentOverlay.h>
 #include <string>
 #include <memory>
-#include <functional>
 #include <audio/AudioManager.h>
 
 enum class HorizontalAlignment : char
@@ -44,6 +43,8 @@ public:
 	explicit TextListComponent(WindowManager& window);
 
 	void SetOverlayInterface(ITextListComponentOverlay<T>* overlay) { mOverlay = overlay; }
+
+  [[nodiscard]] const std::shared_ptr<Font>& getFont() const { return mFont; }
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
@@ -119,8 +120,8 @@ private:
 
   static constexpr int sBarFixedTime = 200;
   static constexpr int sBarFadeTime = 600;
-  static constexpr int sMarqueeSpeed1 = 40; // In pixel per seconds
-  static constexpr int sMarqueeSpeed2 = 80; // In pixel per seconds
+  static constexpr int sMarqueeSpeed1 = 80; // In pixel per seconds
+  static constexpr int sMarqueeSpeed2 = 160; // In pixel per seconds
   static constexpr int sMarqueePause = 1000; // In milliseconds
   static constexpr unsigned int COLOR_ID_COUNT = 8;
 
@@ -167,6 +168,7 @@ TextListComponent<T>::TextListComponent(WindowManager& window)
   , mSelectorOffsetY(0)
   , mSelectorColor(0x000000FF)
   , mSelectedColor(0)
+  , mBarColor(0x00000080)
   , mBarTimer(-1)
   , mShowBar(false)
   , mUppercase(false)

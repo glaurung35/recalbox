@@ -3,6 +3,7 @@
 //
 
 #include "ArcadeGameListView.h"
+#include "systems/ArcadeVirtualSystems.h"
 #include "utils/locale/LocaleHelper.h"
 
 ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
@@ -14,10 +15,6 @@ ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& sys
 void ArcadeGameListView::populateList(const FolderData& folder)
 {
   mPopulatedFolder = &folder;
-
-  mDatabase = mSystem.ArcadeDatabases().LookupDatabase(folder, mDefaultEmulator, mDefaultCore);
-  if (mDatabase == nullptr || !mDatabase->IsValid())
-    return DetailedGameListView::populateList(folder);
 
   // Default filter
   FileData::Filter includesFilter = FileData::Filter::Normal | FileData::Filter::Favorite;
@@ -35,7 +32,7 @@ void ArcadeGameListView::populateList(const FolderData& folder)
 
   // Sort
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
-                            mSystem.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ? FileSorts::SortSets::Arcade :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
   FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
   BuildAndSortArcadeGames(items, FileSorts::ComparerArcadeFromSort(sort), FileSorts::IsAscending(sort));
@@ -65,7 +62,7 @@ void ArcadeGameListView::BuildList()
   std::vector<ArcadeDatabase::Driver> driverList = GetDriverList();
   HashSet<int> hiddenDrivers;
   for(const ArcadeDatabase::Driver& driver : driverList)
-    if (RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mSystem, driver.Name))
+    if (RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mSystem, driver.Name.empty() ? ArcadeVirtualSystems::sAllOtherDriver : driver.Name))
       hiddenDrivers.insert(driver.Index);
 
   // Add to list
@@ -75,7 +72,7 @@ void ArcadeGameListView::BuildList()
   {
     if (parent.mArcade == nullptr && filterOutUnknown) continue;
     if (parent.mArcade != nullptr && parent.mArcade->Hierarchy() == ArcadeGame::Type::Bios && filterOutBios) continue;
-    if (parent.mArcade != nullptr && hiddenDrivers.contains(parent.mArcade->Driver())) continue;
+    if (parent.mArcade != nullptr && hiddenDrivers.contains(parent.mArcade->LimitedDriver())) continue;
     // Region filtering?
     int colorIndexOffset = 0;
     if (activeRegionFiltering)
@@ -85,13 +82,13 @@ void ArcadeGameListView::BuildList()
     mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
 
     // Children?
-    if (parent.mArcade != nullptr && parent.mCloneList != nullptr)
-      if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)
+    if (/*parent.mArcade != nullptr && */parent.mCloneList != nullptr)
+      /*if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Parent)*/
         if (!parent.mFolded)
         {
           for (const ArcadeTupple& clone : *parent.mCloneList)
           {
-            if (hiddenDrivers.contains(clone.mArcade->Driver())) continue;
+            if (hiddenDrivers.contains(clone.mArcade->LimitedDriver())) continue;
             // Region filtering?
             colorIndexOffset = 0;
             if (activeRegionFiltering)
@@ -161,13 +158,48 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   ParentTuppleList orphaned;
   ParentTuppleList bios;
   ParentTuppleList notWorking;
+  // Virtual arcade only - Avoid too much lookups by keeping already found database localy
+  // and by comparing parent pointers so that database changes only when parent changes
+  HashMap<const FolderData*, const ArcadeDatabase*> mDatabaseLookup;
+  FolderData* previousParent = nullptr;
 
+  // Initialize database early for True arcade systems
+  if (mSystem.IsTrueArcade())
+  {
+    mDatabase = mSystem.ArcadeDatabases().LookupDatabase(*mPopulatedFolder, mDefaultEmulator, mDefaultCore);
+    if (mDatabase == nullptr || !mDatabase->IsValid())
+      return DetailedGameListView::populateList(*mPopulatedFolder);
+  }
+
+  // Get initial fold status
   bool folded = RecalboxConf::Instance().GetArcadeViewFoldClones();
 
   mGameList.clear();
   for(FileData* item : items)
   {
+    // Lookup database for virtual arcade systems
+    if (mSystem.IsVirtualArcade())
+      if (item->Parent() !=  previousParent)
+      {
+        previousParent = item->Parent();
+        const ArcadeDatabase** db = mDatabaseLookup.try_get(previousParent);
+        if (db != nullptr) mDatabase = *db;
+        else
+        {
+          mDatabase = previousParent->System().ArcadeDatabases().LookupDatabase(*previousParent);
+          mDatabaseLookup[previousParent] = mDatabase;
+        }
+      }
+    // Safety check
+    if (mDatabase == nullptr)
+    {
+      LOG(LogError) << "[ArcadeGameListView] No database for game " << item->RomPath().ToString() << " in system " << mSystem.FullName();
+      continue;
+    }
+    // Lookup game from the current database
     const ArcadeGame* arcade = mDatabase->LookupGame(*item);
+    // Distribute tuples in lists according to their type
+    // Clones are stored in parent's lists
     if (arcade == nullptr) notWorking.push_back(ParentTupple(nullptr, item, false));
     else
       switch(arcade->Hierarchy())
@@ -207,6 +239,9 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   // Sort & add bios & unknowns
   AddSortedCategories({ &bios }, comparer, ascending);
   AddSortedCategories({ &notWorking }, comparer, ascending);
+
+  // For virtual arcade systems, cleanup database
+  if (mSystem.IsVirtualArcade()) mDatabase = nullptr;
 }
 
 void ArcadeGameListView::AddSortedCategories(const std::vector<ParentTuppleList*>& categoryLists, FileSorts::ComparerArcade comparer, bool ascending)
@@ -245,28 +280,13 @@ Regions::List ArcadeGameListView::AvailableRegionsInGames(ArcadeGameListView::Pa
 
 bool ArcadeGameListView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.AnyHotkeyCombination() && mDatabase != nullptr && mDatabase->IsValid())
+  if (event.AnyHotkeyCombination())
   {
-    if (event.HotkeyUpReleased())
-    {
-      FoldAll();
-      return true;
-    }
-    else if (event.HotkeyDownReleased())
-    {
-      UnfoldAll();
-      return true;
-    }
-    if (event.HotkeyLeftReleased())
-    {
-      Fold();
-      return true;
-    }
-    else if (event.HotkeyRightReleased())
-    {
-      Unfold();
-      return true;
-    }
+    bool vertical = event.HotkeyDownReleased() || event.HotkeyUpReleased();
+    if      (event.HotkeyLeftReleased()  && !vertical) { Fold(); return true; }
+    else if (event.HotkeyRightReleased() && !vertical) { Unfold(); return true; }
+    else if (event.HotkeyUpReleased())                 { FoldAll(); return true; }
+    else if (event.HotkeyDownReleased())               { UnfoldAll(); return true; }
   }
 
   return DetailedGameListView::ProcessInput(event);
@@ -276,7 +296,10 @@ void ArcadeGameListView::FoldAll()
 {
   // Get cursor position - Get ancestor if its a clone
   FileData* item = getCursor();
-  const ArcadeGame* arcade = mDatabase->LookupGame(*item);
+  const ArcadeDatabase* database = item->System().ArcadeDatabases().LookupDatabase(*item->Parent());
+  if (database == nullptr) return;
+
+  const ArcadeGame* arcade = database->LookupGame(*item);
   if (arcade != nullptr)
     if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
       item = (FileData*)arcade->Parent();
@@ -316,7 +339,10 @@ void ArcadeGameListView::Fold()
 {
   // Get cursor position - Get ancestor if its a clone
   FileData* item = getCursor();
-  const ArcadeGame* arcade = mDatabase->LookupGame(*item);
+  const ArcadeDatabase* database = item->System().ArcadeDatabases().LookupDatabase(*item->Parent());
+  if (database == nullptr) return;
+
+  const ArcadeGame* arcade = database->LookupGame(*item);
   if (arcade != nullptr)
     if (arcade->Hierarchy() == ArcadeGame::Type::Clone)
       item = (FileData*)arcade->Parent();
@@ -416,8 +442,7 @@ String ArcadeGameListView::LookupDisplayName(const FileData& item)
 std::vector<ArcadeDatabase::Driver> ArcadeGameListView::GetDriverList() const
 {
   if (mDatabase == nullptr) return std::vector<ArcadeDatabase::Driver>();
-  std::vector<ArcadeDatabase::Driver> result = mDatabase->GetDriverList();
-  // Replace empty driver string by "all others"
+  std::vector<ArcadeDatabase::Driver> result = mDatabase->GetLimitedDriverList();
   return result;
 }
 
@@ -427,10 +452,22 @@ int ArcadeGameListView::GetGameCountForDriver(int driverIndex) const
   for(const ParentTupple& parent : mGameList)
   {
     if (parent.mArcade == nullptr) continue;
-    if (parent.mArcade->Driver() == driverIndex) count++;
+    if (parent.mArcade->LimitedDriver() == driverIndex) count++;
     if (parent.mCloneList != nullptr)
       for (const ArcadeTupple& clone: *parent.mCloneList)
-        if (clone.mArcade->Driver() == driverIndex) count++;
+        if (clone.mArcade->LimitedDriver() == driverIndex) count++;
   }
   return count;
+}
+
+String ArcadeGameListView::GetDisplayName(FileData& game)
+{
+  for(const ParentTupple& parent : mGameList)
+    if (parent.mGame == &game) return GetIconifiedDisplayName(parent);
+    else if (parent.mCloneList != nullptr)
+      for(const ArcadeTupple& clone : *parent.mCloneList)
+        if (clone.mGame == &game) return GetIconifiedDisplayName(clone);
+
+  // Fallback
+  return GetIconifiedDisplayName(ArcadeTupple(nullptr, &game));
 }

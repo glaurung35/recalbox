@@ -45,6 +45,13 @@ class ArcadeDatabaseManager
     [[nodiscard]] const ArcadeDatabase* LookupDatabase(const FolderData& folder, String& emulatorName, String& coreName) const;
 
     /*!
+     * @brief Lookup an arcade database for the current system in given current folder
+     * regarding all overridden configuration to find out what emulator & core to use
+     * @return GameDatabase or null
+     */
+    [[nodiscard]] const ArcadeDatabase* LookupDatabase(const FolderData& folder) const;
+
+    /*!
      * @brief Remove all reference to the given game, from all database
      * @param game Game to remove
      */
@@ -100,7 +107,7 @@ class ArcadeDatabaseManager
      * @param rawDriverCount raw driver count
      * @return Final driver list
      */
-    static String::List BuildAndRemapDrivers(const HashMap<String, RawDriver>& map, Array<ArcadeGame>& games, int limit, int rawDriverCount);
+    static ArcadeDatabase::DriverLists BuildAndRemapDrivers(const HashMap<String, RawDriver>& map, Array<ArcadeGame>& games, int limit, int rawDriverCount);
 
     /*!
      * @brief Try to assign best matching names to unamed games

@@ -119,7 +119,8 @@ class SystemData : private INoCopy
     //! Load arcade databases
     void LoadArcadeDatabase() { mArcadeDatabases.LoadDatabases(); }
 
-    const ArcadeDatabaseManager& ArcadeDatabases() const { return mArcadeDatabases; }
+    //! Get Arcade database manager
+    [[nodiscard]] const ArcadeDatabaseManager& ArcadeDatabases() const { return mArcadeDatabases; }
 
     /*!
      * @brief Check if we must include adult games or not
@@ -163,7 +164,7 @@ class SystemData : private INoCopy
     [[nodiscard]] FileData::List getFolders() const;
     [[nodiscard]] FileData::List getTopGamesAndFolders() const;
 
-    inline const ThemeData& Theme() const { return mTheme; }
+    [[nodiscard]] inline const ThemeData& Theme() const { return mTheme; }
 
     static Path getGamelistPath(const RootFolderData& root, bool forWrite);
 
@@ -214,6 +215,15 @@ class SystemData : private INoCopy
 
     //! Is this system always flat?
     [[nodiscard]] bool IsSearchable() const;
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsArcade() const { return mDescriptor.IsArcade(); };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsTrueArcade() const { return mDescriptor.IsTrueArcade(); };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsVirtualArcade() const { return mDescriptor.IsVirtualArcade(); };
 
     /*!
      * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM

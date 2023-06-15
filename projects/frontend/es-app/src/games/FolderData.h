@@ -254,7 +254,7 @@ class FolderData : public FileData
     /*!
      * Desctructor
      */
-    ~FolderData();
+    ~FolderData() override;
 
     /*!
      * Add a child item to the current folder

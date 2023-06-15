@@ -689,12 +689,11 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
 void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
 {
   (void)color;
-  //int height = Math::roundi(size.y() - 2.0f);
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
   if (w != 0)
   {
     int drawn = 1;
-    int flagWidth = Math::roundi(mList.EntryHeight() * 1.25f);
+    int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
 
     for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
       if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
@@ -708,7 +707,7 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
           flag = mRegionToTextures.try_get(region);
         }
         // Draw
-        int flagHeight = (int) ((float) flagWidth * (float) (*flag)->height() / (float) (*flag)->width());
+        int flagWidth = (int) ((float) flagHeight * (float) (*flag)->width() / (float) (*flag)->height());
         int y = Math::roundi((size.y() - (float) flagHeight) / 2.f) + (int)position.y();
         int x = ((int)size.x() - (2 + Math::roundi(mList.getHorizontalMargin()) + flagWidth) * drawn) + (int)position.x();
         Renderer::DrawTexture(**flag, x, y, flagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
@@ -719,7 +718,7 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  return ((mList.EntryHeight() * 1.25f + 2.f) * (float)data->Metadata().Region().Count()) + 2.f + mList.getHorizontalMargin();
+  return ((mList.getFont()->getHeight(1.f) * (71.f / 48.f) + 2.f) * (float)data->Metadata().Region().Count()) + 2.f + mList.getHorizontalMargin();
 }
 
 DetailedGameListView::~DetailedGameListView()
@@ -841,7 +840,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
 
   // Sort
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
-                            mSystem.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ? FileSorts::SortSets::Arcade :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
   FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
   FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));

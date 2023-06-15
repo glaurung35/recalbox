@@ -196,6 +196,12 @@ class SystemManager :
     bool AddGenresMetaSystem();
 
     /*!
+     * @brief Try to add any déclared genre virtual system, including all game of the required genre
+     * @return Always true
+     */
+    bool AddArcadeManufacturerMetaSystems();
+
+    /*!
      * @brief All all special collections
      * @param True if the current board is a portable system
      * @return Always true
@@ -264,6 +270,35 @@ class SystemManager :
                                  const std::string& themeFolder, const FileData::List& games,
                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
                                  FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+
+    /*!
+     * @brief Create Arcade meta-system aggregating games from multiple systems
+     * @param name Target system short name
+     * @param fullName Target system fullname
+     * @param themeFolder Theme folder name
+     * @param systems System to fetch games to aggregate into a single list
+     * @param properties System properties
+     * @param doppelganger Map to FileData
+     * @return New meta-system
+     */
+    SystemData* CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
+                                       const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                       SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    /*!
+     * @brief Create Arcade meta-system aggregating games from multiple systems
+     * @param name Target system short name
+     * @param fullName Target system fullname
+     * @param themeFolder Theme folder name
+     * @param games Games to add
+     * @param properties System properties
+     * @param doppelganger Map to FileData
+     * @return New meta-system
+     */
+    SystemData* CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
+                                       const std::string& themeFolder, const FileData::List& games,
+                                       SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Write exemple configuration file when no configuration file are available

@@ -73,6 +73,9 @@ class FileData
      */
     FileData(const Path& path, RootFolderData& ancestor);
 
+    //! Destructor
+    virtual ~FileData() = default;
+
     /*
      * Getters
      */

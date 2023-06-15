@@ -10,6 +10,7 @@ class SwitchComponent;
 
 class GuiMenuArcadeVirtualSystem : public GuiMenuBase
                                  , private IOptionListComponent<int>
+                                 , private IOptionListMultiComponent<String>
                                  , private ISwitchComponent
 {
   public:
@@ -22,6 +23,7 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
   private:
     enum class Components
     {
+      ArcadeManufacturerList,
       ArcadeOnOff,
       IncludeNeogeo,
       HideOriginals,
@@ -31,15 +33,8 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
     //! SystemManager instance
     SystemManager& mSystemManager;
 
-    //! Arcade ON/OFF
-    std::shared_ptr<SwitchComponent>          mArcadeOnOff;
-    //! Include neogeo in arcade
-    std::shared_ptr<SwitchComponent>          mIncludeNeoGeo;
-    //! Hide original systems
-    std::shared_ptr<SwitchComponent>          mHideOriginals;
-    //! Position of the arcade system
-    std::shared_ptr<OptionListComponent<int>> mPosition;
-
+    //! Original manufacturer list
+    String mOriginalManufacturerList;
     //! Original Arcade ON/OFF value
     bool mOriginalArcadeOnOff;
     //! Original Include neogeo value
@@ -52,16 +47,25 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
 
     //! Get position entries
     std::vector<GuiMenuBase::ListEntry<int>> GetPositionEntries();
+    //! Get manufacturer/system entries
+    static std::vector<GuiMenuBase::ListEntry<String>> GetManufacturersEntries();
 
     /*
-     * IOptionListComponent<Overclocking> implementation
+     * IOptionListComponent<int> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const int& value) override;
+
+    /*
+     * IOptionListComponent<String> implementation
+     */
+
+    void OptionListMultiComponentChanged(int id, const String::List& value) override;
 
     /*
      * ISwitchComponent implementation
      */
 
     void SwitchComponentChanged(int id, bool status) override;
+
 };

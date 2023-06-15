@@ -663,8 +663,7 @@ std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData*
 	//if we didn't, make it, remember it, and return it
 	std::shared_ptr<ISimpleGameListView> view;
 
-  const ArcadeDatabase* database = system->ArcadeDatabases().LookupDatabase();
-  if (system->Descriptor().Type() == SystemDescriptor::SystemType::Arcade && database != nullptr && database->IsValid())
+  if (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced())
     view = std::shared_ptr<ISimpleGameListView>(new ArcadeGameListView(mWindow, mSystemManager, *system));
   else
     view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));

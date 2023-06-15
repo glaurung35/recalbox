@@ -8,6 +8,7 @@
 #include "LightGunDatabase.h"
 #include "games/classifications/Versions.h"
 #include "utils/hash/Crc32.h"
+#include "ArcadeVirtualSystems.h"
 #include <systems/SystemSorting.h>
 #include <utils/Log.h>
 #include <RecalboxConf.h>
@@ -277,7 +278,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
     BuildDynamicMetadata(*result);
 
     // Arcade special processing?
-    if (systemDescriptor.Type() == SystemDescriptor::SystemType::Arcade)
+    if (systemDescriptor.IsTrueArcade())
       result->LoadArcadeDatabase();
 
     // Load theme
@@ -326,7 +327,7 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
 
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(fullName, name, fullName)
-            .SetPropertiesInformation("engine", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false, "")
+            .SetPropertiesInformation("virtual", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", themeFolder, "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
 
@@ -365,6 +366,64 @@ SystemData* SystemManager::CreateMetaSystem(const std::string& name, const std::
   {
     RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
     { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << fullName; }
+    for (auto* fd : games)
+      result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
+  }
+
+  result->loadTheme();
+
+  return result;
+}
+
+SystemData* SystemManager::CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
+                                                  const std::string& themeFolder, const std::vector<SystemData*>& systems,
+                                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                                  FileSorts::Sorts fixedSort)
+{
+  std::vector<PlatformIds::PlatformId> platformIds;
+  platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
+
+  SystemDescriptor descriptor;
+  descriptor.SetSystemInformation(fullName, name, fullName)
+            .SetPropertiesInformation("varcade", "mandatory", "optional", "no", "2020-01-01", "None", false, false, false, "")
+            .SetDescriptorInformation("", "", themeFolder, "", "", false, false, false);
+  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
+
+  RootFolderData& root = result->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
+  for(SystemData* source : systems)
+  {
+    FileData::List all = source->getTopGamesAndFolders();
+    if (!all.empty())
+    {
+      { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << fullName; }
+      for (auto* fd : all)
+        result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
+    }
+  }
+
+  result->loadTheme();
+
+  return result;
+}
+
+SystemData* SystemManager::CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
+                                                  const std::string& themeFolder, const FileData::List& games,
+                                                  SystemData::Properties properties, FileData::StringMap& doppelganger,
+                                                  FileSorts::Sorts fixedSort)
+{
+  std::vector<PlatformIds::PlatformId> platformIds;
+  platformIds.push_back(PlatformIds::PlatformId::PLATFORM_IGNORE);
+
+  SystemDescriptor descriptor;
+  descriptor.SetSystemInformation(fullName, name, fullName)
+            .SetPropertiesInformation("varcade", "mandatory", "no", "no", "2020-01-01", "None", false, false, false, "")
+            .SetDescriptorInformation("", "", themeFolder, "", "", false, false, false);
+  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | properties, fixedSort);
+
+  if (!games.empty())
+  {
+    RootFolderData& root = result->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
+    { LOG(LogWarning) << "[System] Add " << games.size() << " games into Arcade " << fullName; }
     for (auto* fd : games)
       result->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
   }
@@ -432,7 +491,7 @@ bool SystemManager::AddArcadeMetaSystem()
     // Lookup all non-empty arcade platforms
     for (SystemData* system: mVisibleSystemVector)
       if (system->HasGame())
-        if (system->Descriptor().Type() == SystemDescriptor::SystemType::Arcade ||
+        if (system->Descriptor().IsTrueArcade() ||
             (includeNeogeo && system->Descriptor().Name() == "neogeo"))
         {
           arcades.push_back(system);
@@ -456,7 +515,7 @@ bool SystemManager::AddArcadeMetaSystem()
       // Create meta-system
       SystemData::Properties properties = SystemData::Properties::Virtual;
       if (hideOriginals) properties |= SystemData::Properties::Searchable;
-      SystemData* arcade = CreateMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
+      SystemData* arcade = CreateArcadeMetaSystem("arcade", "Arcade", "arcade", arcades, properties, doppelganger);
       { LOG(LogInfo) << "[System] Creating Arcade meta-system"; }
       int position = RecalboxConf::Instance().GetCollectionArcadePosition() % (int)mVisibleSystemVector.size();
       auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
@@ -627,7 +686,7 @@ bool SystemManager::AddAllGamesMetaSystem()
   class Filter: public IFilter
   {
     public:
-      [[nodiscard]] bool ApplyFilter(const FileData& fileData) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& fileData) override
       {
         return fileData.IsDisplayable();
       }
@@ -641,7 +700,7 @@ bool SystemManager::AddMultiplayerMetaSystems()
   class Filter: public IFilter
   {
     public:
-      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) override
       {
         return file.IsDisplayable() && (file.Metadata().PlayerMin() > 1 || file.Metadata().PlayerMax() > 1);
       }
@@ -654,20 +713,55 @@ bool SystemManager::AddTateMetaSystem()
 {
   class Filter: public IFilter
   {
-  public:
-    [[nodiscard]] bool ApplyFilter(const FileData& file) const override
-    {
-      return file.IsDisplayable() && (file.Metadata().Rotation() == RotationType::Left || file.Metadata().Rotation() == RotationType::Right);
-    }
+    public:
+      [[nodiscard]] bool ApplyFilter(const FileData& file) override
+      {
+        return file.IsDisplayable() && (file.Metadata().Rotation() == RotationType::Left || file.Metadata().Rotation() == RotationType::Right);
+      }
   } filter;
 
+  // Already exists
   for (auto& systemVisible : mVisibleSystemVector)
-  {
     if (sTateSystemShortName == systemVisible->Name())
       return false;
+
+  FileData::List allGames;
+  FileData::StringMap doppelganger;
+
+  // Filter and insert items
+  for(const SystemData* system : mVisibleSystemVector)
+    if (system->Descriptor().IsTrueArcade())
+    {
+      for (const RootFolderData* root : system->MasterRoot().SubRoots())
+        if (!root->Virtual())
+        {
+          FileData::List list = root->GetFilteredItemsRecursively(&filter, true);
+          allGames.reserve(allGames.size() + list.size());
+          allGames.insert(allGames.end(), list.begin(), list.end());
+        }
+      // dopplegagner must be build using file only
+      // Let the virtual system re-create all intermediate folder
+      // ... and destroy them properly
+      system->BuildDoppelgangerMap(doppelganger, false);
+    }
+
+  // Not empty?
+  if (!allGames.empty())
+  {
+    // Create!
+    { LOG(LogInfo) << "[System] Creating Arcade '" << sTateSystemFullName << "' meta-system"; }
+    SystemData::Properties props = SystemData::Properties::Virtual |
+                                   SystemData::Properties::AlwaysFlat;
+    SystemData* allsystem = CreateArcadeMetaSystem(sTateSystemShortName, _S(String(sTateSystemFullName)), String("auto-").Append(sTateSystemShortName), allGames, props, doppelganger);
+
+    // And add the system
+    int position = RecalboxConf::Instance().GetCollectionArcadePosition() % (int) mVisibleSystemVector.size();
+    auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+    mVisibleSystemVector.insert(it, allsystem);
+    return true;
   }
-  return AddManuallyFilteredMetasystem(&filter, nullptr, sTateSystemShortName, sTateSystemFullName,
-                                       SystemData::Properties::None);
+
+  return false;
 }
 
 bool SystemManager::AddLastPlayedMetaSystem()
@@ -675,7 +769,7 @@ bool SystemManager::AddLastPlayedMetaSystem()
   class Filter: public IFilter
   {
     public:
-      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) override
       {
         return file.IsDisplayable() && file.Metadata().LastPlayedEpoc() != 0;
       }
@@ -700,7 +794,7 @@ bool SystemManager::AddGenresMetaSystem()
         , mSubGenre(Genres::IsSubGenre(genre))
       {
       }
-      [[nodiscard]] bool ApplyFilter(const FileData& file) const override
+      [[nodiscard]] bool ApplyFilter(const FileData& file) override
       {
         bool isDisplayable = file.IsDisplayable();
         if (mSubGenre) return isDisplayable && file.Metadata().GenreId() == mGenre;
@@ -715,6 +809,139 @@ bool SystemManager::AddGenresMetaSystem()
                                   SystemData::Properties::None);
   }
   return true;
+}
+
+bool SystemManager::AddArcadeManufacturerMetaSystems()
+{
+  class Filter : public IFilter
+  {
+    private:
+      const ArcadeDatabaseManager& mArcadeDatabaseManager;
+      const ArcadeDatabase* mDatabase;
+      const FolderData* mParent;
+      String mDummyCoreName;
+      String mDummyEmulatorName;
+      String mDriverName;
+      ArcadeDatabase::IndexList* mDriverIndexes;
+      HashMap<const ArcadeDatabase*, ArcadeDatabase::IndexList*> mDriverIndexesFastLookup;
+
+    public:
+      /*!
+       * @brief Constructor
+       * @param arcadeDatabaseManager Database manager from witch to retrieve arcade database
+       * @param driverName Driver name to lookup for games matching this driver
+       */
+      explicit Filter(const ArcadeDatabaseManager& arcadeDatabaseManager, const String& driverName)
+        : mArcadeDatabaseManager(arcadeDatabaseManager)
+        , mDatabase(nullptr)
+        , mParent(nullptr)
+        , mDriverName(driverName)
+        , mDriverIndexes(nullptr)
+      {
+      }
+
+      //! Destrutor - destroy index caches
+      ~Filter() override
+      {
+        for(const auto& kv : mDriverIndexesFastLookup)
+          delete kv.second;
+      }
+
+      /*!
+       * @brief Optimized driver lookup in index list
+       * @param driver raw driver index
+       * @return bool if driver is in the last driver list, false otherwise
+       */
+      bool LookupDriver(int driver)
+      {
+        int count = (int)mDriverIndexes->size();
+        for(int i = (count + 1) >> 1; --i >= 0; )
+        {
+          if ((*mDriverIndexes)[i] == driver) return true;
+          if ((*mDriverIndexes)[count - i] == driver) return true;
+        }
+        return false;
+      }
+
+      /*!
+       * @brief Main filter method
+       * @param file File to filter
+       * @return True of the file is accepter, false if it's rejected
+       */
+      [[nodiscard]] bool ApplyFilter(const FileData& file) override
+      {
+        // Update the database regarding the emulator configured for the current Folder
+        // After the database is updated, lookup the driver index regarding the driver name.
+        // If neither no database, nor driver index is found, ignore the current game
+        if (mDatabase == nullptr || mParent != file.Parent())
+          if (mDatabase = mArcadeDatabaseManager.LookupDatabase(*(mParent = file.Parent()), mDummyEmulatorName, mDummyCoreName); mDatabase != nullptr)
+          {
+            if (ArcadeDatabase::IndexList** cacheList = mDriverIndexesFastLookup.try_get(mDatabase); cacheList != nullptr)
+              mDriverIndexes = *cacheList;
+            else
+              mDriverIndexesFastLookup[mDatabase] = (mDriverIndexes = new ArcadeDatabase::IndexList(mDatabase->RawDriverIndexesFromFamilly(mDriverName)));
+          }
+        // Valid data?
+        if (mDatabase == nullptr) return false; // No database for the current folder
+        if (mDriverIndexes->empty()) return false; // No driver
+
+        // Lookup the current game in the arcade database
+        const ArcadeGame* arcade = mDatabase->LookupGame(file);
+        // No arcade data for that game, it's an unknown game, ignore it
+        if (arcade == nullptr) return false;
+        // Finally, compare the driver index. If it's the right index, we got a game!
+        return LookupDriver(arcade->RawDriver());
+      }
+  };
+
+  int manufacturersAdded = 0;
+  for(const String& driver : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+  {
+    String identifier = String(driver).Replace('/', '-');
+    if (!RecalboxConf::Instance().IsInCollectionArcadeManufacturers(identifier)) continue;
+    LOG(LogDebug) << "[SystemManager] manufacturer " << identifier << " system is active";
+
+    String fullName = ArcadeVirtualSystems::GetRealName(driver);
+    // Get theme name
+    std::string theme = String("auto-arcade-").Append(identifier);
+    FileData::List allGames;
+    FileData::StringMap doppelganger;
+
+    // Filter and insert items
+    for(const SystemData* system : mVisibleSystemVector)
+      if (system->Descriptor().IsTrueArcade())
+      {
+        Filter filter(system->ArcadeDatabases(), driver);
+        for (const RootFolderData* root : system->MasterRoot().SubRoots())
+          if (!root->Virtual())
+          {
+            FileData::List list = root->GetFilteredItemsRecursively(&filter, true);
+            allGames.reserve(allGames.size() + list.size());
+            allGames.insert(allGames.end(), list.begin(), list.end());
+          }
+        // dopplegagner must be build using file only
+        // Let the virtual system re-create all intermediate folder
+        // ... and destroy them properly
+        system->BuildDoppelgangerMap(doppelganger, false);
+      }
+
+    // Not empty?
+    if (!allGames.empty())
+    {
+      // Create!
+      { LOG(LogInfo) << "[System] Creating Arcade '" << fullName << "' meta-system"; }
+      SystemData::Properties props = SystemData::Properties::Virtual |
+                                     SystemData::Properties::AlwaysFlat;
+      SystemData* allsystem = CreateArcadeMetaSystem(identifier, _S(fullName), theme, allGames, props, doppelganger);
+
+      // And add the system
+      int position = (RecalboxConf::Instance().GetCollectionArcadePosition() + ++manufacturersAdded) % (int) mVisibleSystemVector.size();
+      auto it = position >= 0 ? mVisibleSystemVector.begin() + position : mVisibleSystemVector.end() + (position + 1);
+      mVisibleSystemVector.insert(it, allsystem);
+    }
+  }
+
+  return manufacturersAdded != 0;
 }
 
 bool SystemManager::AddSpecialCollectionsMetaSystems(bool portableSystem)
@@ -816,6 +1043,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   AddFavoriteSystem();
   AddPorts(); // Must be first after "normal systems"
   AddSpecialCollectionsMetaSystems(portableSystem);
+  AddArcadeManufacturerMetaSystems();
   AddArcadeMetaSystem(); // Must be latest
 
   // Sort systems based on conf option
@@ -1266,4 +1494,6 @@ int SystemManager::GameCount()
     result += system->GameCount();
   return result;
 }
+
+
 

@@ -109,6 +109,14 @@ class ArcadeGameListView : public DetailedGameListView
     static String GetDisplayName(const ArcadeTupple& game);
 
     /*!
+     * @brief Get display name of the given game
+     * @param database Arcade Database
+     * @param game Game
+     * @return Final display name
+     */
+    String GetDisplayName(FileData& game) override;
+
+    /*!
      * @brief Get display name of the given game w/icons
      * @param database Arcade Database
      * @param game Game
@@ -205,4 +213,10 @@ class ArcadeGameListView : public DetailedGameListView
      * @return Game count
      */
     [[nodiscard]] int GetGameCountForDriver(int driverIndex) const override;
+
+    /*!
+     * @brief Check if the current database can be filtered
+     * @return
+     */
+    [[nodiscard]] bool CanBeFiltered() const override { return mDatabase != nullptr && mDatabase->CanBeFiltered(); };
 };

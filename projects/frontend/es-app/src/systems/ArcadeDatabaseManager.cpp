@@ -4,6 +4,7 @@
 
 #include "ArcadeDatabaseManager.h"
 #include "emulators/EmulatorManager.h"
+#include "ArcadeVirtualSystems.h"
 #include <utils/Files.h>
 #include <systems/SystemManager.h>
 
@@ -24,7 +25,7 @@ void ArcadeDatabaseManager::LoadDatabases()
   if (mReady) return;
 
   // Valid arcade system?
-  if (mSystem.Descriptor().Type() != SystemDescriptor::SystemType::Arcade) return;
+  if (!mSystem.Descriptor().IsTrueArcade()) return;
   if (!mSystem.HasGame()) return;
 
   // Load all possible database
@@ -97,15 +98,15 @@ ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, 
       DeserializeTo(games, line, map, rawDrivers, splitDrivers, ignoredDrivers, nextIndex);
 
   // Build final drivers
-  String::List finalDrivers = BuildAndRemapDrivers(rawDrivers, games, limit, nextIndex);
+  ArcadeDatabase::DriverLists finalDrivers = BuildAndRemapDrivers(rawDrivers, games, limit, nextIndex);
 
   #if DEBUG
   { printf("%s\n", (String("First most populated arcade systems for ") + emulator + "-" + core).c_str()); }
-  for(int i = 1; i < (int)finalDrivers.size(); ++i)
-  { printf("%s\n", (String("  #") + i + " - " + finalDrivers[i]).c_str()); }
+  for(int i = 1; i < (int)finalDrivers.mLimited.size(); ++i)
+  { printf("%s\n", (String("  #") + i + " - " + finalDrivers.mLimited[i]).c_str()); }
   #endif
 
-  return new ArcadeDatabase(std::move(finalDrivers), std::move(games));
+  return new ArcadeDatabase(std::move(finalDrivers.mRaw), std::move(finalDrivers.mLimited), std::move(games));
 }
 
 void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String& line, const HashMap<String, FileData*>& map,
@@ -166,7 +167,7 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   //lookups.insert(realGame, &games(games.Count() - 1));
 }
 
-String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, RawDriver>& rawDrivers, Array<ArcadeGame>& games, int limit, int rawDriverCount)
+ArcadeDatabase::DriverLists ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, RawDriver>& rawDrivers, Array<ArcadeGame>& games, int limit, int rawDriverCount)
 {
   // Build and sort a list of all drivers
   std::vector<RawDriver> sortedDrivers;
@@ -176,45 +177,69 @@ String::List ArcadeDatabaseManager::BuildAndRemapDrivers(const HashMap<String, R
 
   // Build final list by selecting the top most used drivers
   // Also build a remap list
-  String::List finalDrivers;
+  String::List limitedDriverList;
   Array<int> indexRemapper(rawDriverCount);
   indexRemapper.Insert(0, 0, rawDriverCount);
-  finalDrivers.push_back(String::Empty); // Driver 0 = all others
+  limitedDriverList.push_back(String::Empty); // Driver 0 = all others
   for(int i = 0; i < limit; ++i)
   {
     if (i >= (int)sortedDrivers.size()) break;
     const RawDriver& driver = sortedDrivers[i];
     if (driver.mIndex == 0) { ++limit; continue; } // Driver 0 has already been added, ignore it
-    indexRemapper(driver.mIndex) = (int)finalDrivers.size();
-    finalDrivers.push_back(driver.mName);
+    indexRemapper(driver.mIndex) = (int)limitedDriverList.size();
+    limitedDriverList.push_back(driver.mName);
+  }
+  // Force drivers used in virtual system to appear, event if the limit is already reached
+  for(const RawDriver& driver : sortedDrivers)
+  {
+    if (indexRemapper[driver.mIndex] != 0) continue; // Already kept
+    bool found = false;
+    for(const String& virtualDriver : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+      if (virtualDriver == driver.mName) { found = true; break; }
+    if (found)
+    {
+      indexRemapper(driver.mIndex) = (int)limitedDriverList.size();
+      limitedDriverList.push_back(driver.mName);
+    }
   }
 
   // Log
   if (Log::getReportingLevel() == LogLevel::LogDebug)
   {
     String log("[Arcade] Most used drivers: ");
-    for (int i = 0; i < (int) finalDrivers.size(); ++i)
-      log.Append(i == 0 ? "" : ",").Append(finalDrivers[i]);
+    for (int i = 0; i < (int) limitedDriverList.size(); ++i)
+      log.Append(i == 0 ? "" : ",").Append(limitedDriverList[i]);
     LOG(LogDebug) << log;
   }
 
   // Remap indexes using the remapper
   for(int i = games.Count(); --i >= 0;)
-    games(i).RemapDriverTo(indexRemapper[games[i].Driver()]);
+    games(i).SetLimitedDriver(indexRemapper[games[i].RawDriver()]);
 
   // Count "all others". If noone in this driver, remove it and decrease all drivers
   int zeroCount = 0;
   for(int i = games.Count(); --i >= 0;)
-    if (games(i).Driver() == 0)
+    if (games(i).LimitedDriver() == 0)
       zeroCount++;
   if (zeroCount == 0)
   {
-    finalDrivers.erase(finalDrivers.begin());
+    limitedDriverList.erase(limitedDriverList.begin());
     for(int i = games.Count(); --i >= 0;)
-      games(i).RemapDriverTo(games(i).Driver() - 1);
+      games(i).SetLimitedDriver(games(i).LimitedDriver() - 1);
   }
 
-  return finalDrivers;
+  // Build raw list
+  sortedDrivers.clear();
+  for(const auto& kv : rawDrivers)
+    sortedDrivers.push_back(kv.second);
+  // resort raw driver using driver index
+  std::sort(sortedDrivers.begin(), sortedDrivers.end(), [](const RawDriver& a, const RawDriver& b) { return a.mIndex < b.mIndex; });
+  // build final list
+  String::List rawDriverList;
+  for(const RawDriver& driver : sortedDrivers)
+    rawDriverList.push_back(driver.mName);
+
+  return ArcadeDatabase::DriverLists(limitedDriverList, rawDriverList);
 }
 
 void ArcadeDatabaseManager::AssignNames()
@@ -261,6 +286,18 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
 {
   emulatorName.clear();
   coreName.clear();
+  if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulatorName, coreName))
+  {
+    ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
+    if (database != nullptr) return *database;
+  }
+  return nullptr;
+}
+
+const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& folder) const
+{
+  String emulatorName;
+  String coreName;
   if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulatorName, coreName))
   {
     ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));

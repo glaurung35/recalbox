@@ -35,11 +35,12 @@ class ArcadeGame
     };
 
     //! Constructor
-    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, int driver, Type type, Status status, Rotation rotation)
+    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, int rawdriver, Type type, Status status, Rotation rotation)
       : mGame(game)
       , mParent(parent)
       , mNameIndex(sNameHolder.AddString32(arcadeName))
-      , mDriver(driver)
+      , mRawDriver(rawdriver)
+      , mLimitedDriver(0)
       , mType(type)
       , mStatus(status)
       , mRotation(rotation)
@@ -50,7 +51,7 @@ class ArcadeGame
      * @brief Remap driver
      * @param destinationDriver new driver
      */
-    void RemapDriverTo(int destinationDriver) { mDriver = (unsigned char)destinationDriver; }
+    void SetLimitedDriver(int destinationDriver) { mLimitedDriver = (unsigned char)destinationDriver; }
 
     /*
      * Getters
@@ -59,7 +60,8 @@ class ArcadeGame
     [[nodiscard]] const FileData& Game() const { return *mGame; }
     [[nodiscard]] const FileData* Parent() const { return mParent; }
     [[nodiscard]] String ArcadeName() const { return sNameHolder.GetString(mNameIndex); }
-    [[nodiscard]] int Driver() const { return (int)mDriver; }
+    [[nodiscard]] int RawDriver() const { return (int)mRawDriver; }
+    [[nodiscard]] int LimitedDriver() const { return (int)mLimitedDriver; }
     [[nodiscard]] Type Hierarchy() const { return mType; }
     [[nodiscard]] Status EmulationStatus() const { return mStatus; }
     [[nodiscard]] Rotation ScreenRotation() const { return mRotation; }
@@ -128,13 +130,14 @@ class ArcadeGame
     static void Finalize() { sNameHolder.Finalize(); }
 
   private:
-    const FileData* mGame;      //!< Game reference - cannot be null
-    const FileData* mParent;    //!< Parent reference or null
-    int             mNameIndex; //!< Name index in name holder
-    unsigned char   mDriver;    //!< Driver index
-    Type            mType;      //!< Game type
-    Status          mStatus;    //!< Emulation status
-    Rotation        mRotation;  //!< Rotation
+    const FileData* mGame;          //!< Game reference - cannot be null
+    const FileData* mParent;        //!< Parent reference or null
+    int             mNameIndex;     //!< Name index in name holder
+    unsigned short  mRawDriver;     //!< Raw Driver index
+    unsigned short  mLimitedDriver; //!< Raw Driver index
+    Type            mType;          //!< Game type
+    Status          mStatus;        //!< Emulation status
+    Rotation        mRotation;      //!< Rotation
 
     //! Arcade name string holder
     static MetadataStringHolder sNameHolder;

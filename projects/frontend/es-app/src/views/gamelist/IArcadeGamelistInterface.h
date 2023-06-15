@@ -43,4 +43,10 @@ class IArcadeGamelistInterface
      * @return Game count
      */
     [[nodiscard]] virtual int GetGameCountForDriver(int driverIndex) const = 0;
+
+    /*!
+     * @brief Check if there is more than one driver so that they can be filtered by the user
+     * @return
+     */
+    [[nodiscard]] virtual bool CanBeFiltered() const = 0;
 };

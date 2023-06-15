@@ -66,9 +66,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)
 
     #define DefineListGetterSetter(name, key, defaultValue) \
-      Strings::Vector Get##name() const { return Strings::Split(AsString(key, defaultValue), ','); } \
+      String::List Get##name() const { return AsString(key, defaultValue).Split(','); } \
+      String GetRaw##name() const { return AsString(key, defaultValue); } \
       bool IsIn##name(const std::string& value) const { return isInList(key, value); } \
-      RecalboxConf& Set##name(const Strings::Vector& value) { SetString(key, Strings::Join(value, ',')); return *this; }
+      RecalboxConf& Set##name(const String::List& value) { SetString(key, String::Join(value, ',')); return *this; }
 
     #define DefineGetterSetterParameterized(name, type, type2, keybefore, keyafter, defaultValue) \
       type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
@@ -249,6 +250,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
     DefineGetterSetter(TateGameRotation, int, Int, sTateGameRotation, 0)
 
+    DefineListGetterSetter(CollectionArcadeManufacturers, sCollectionArcadeManufacturers, "")
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
     DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
     DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, true)
@@ -300,26 +302,46 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #undef DefineGetterSetterParameterized
 
     /*
-     * Direct Implementations
+     * Direct Implementations - Collections
      */
 
-    bool GetCollection(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name), false); }
-    RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name), on); return *this; }
+    [[nodiscard]] bool GetCollection(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name), false); }
+    RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(String(sCollectionHeader).Append('.').Append(name), on); return *this; }
 
-    std::string GetCollectionTheme(const std::string& name) const { return AsString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), std::string("auto-").append(name)); }
-    RecalboxConf& SetCollectionTheme(const std::string& name, const std::string& value) { SetString(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionTheme), value); return *this; }
+    [[nodiscard]] String GetCollectionTheme(const String& name) const { return AsString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-").Append(name)); }
+    RecalboxConf& SetCollectionTheme(const String& name, const String& value) { SetString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
 
-    int GetCollectionLimit(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), 0); }
-    RecalboxConf& SetCollectionLimit(const std::string& name, int limit) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionLimit), limit); return *this; }
+    [[nodiscard]] int GetCollectionLimit(const String& name) const { return AsInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), 0); }
+    RecalboxConf& SetCollectionLimit(const String& name, int limit) { SetInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), limit); return *this; }
 
-    int GetCollectionPosition(const std::string& name) const { return AsInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), 0); }
-    RecalboxConf& SetCollectionPosition(const std::string& name, int position) { SetInt(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionPosition), position); return *this; }
+    [[nodiscard]] int GetCollectionPosition(const String& name) const { return AsInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), 0); }
+    RecalboxConf& SetCollectionPosition(const String& name, int position) { SetInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), position); return *this; }
 
-    bool GetCollectionHide(const std::string& name) const { return AsBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), false); }
-    RecalboxConf& SetCollectionHide(const std::string& name, bool hide) { SetBool(std::string(sCollectionHeader).append(1, '.').append(name).append(1, '.').append(sCollectionHide), hide); return *this; }
+    [[nodiscard]] bool GetCollectionHide(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), false); }
+    RecalboxConf& SetCollectionHide(const String& name, bool hide) { SetBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), hide); return *this; }
 
-    std::string GetPad(int index) const { return AsString(std::string(sPadHeader).append(Strings::ToString(index)), ""); }
-    RecalboxConf& SetPad(int index, const std::string& padid) { SetString(std::string(sPadHeader).append(Strings::ToString(index)), padid); return *this; }
+    /*
+     * Direct Implementations - Arcade collections
+     */
+    /*
+    [[nodiscard]] bool GetArcadeCollection(const String& name) const { return AsBool(String(sArcadeCollectionHeader).Append('.').Append(name), false); }
+    RecalboxConf& SetArcadeCollection(const std::string& name, bool on) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name), on); return *this; }
+
+    [[nodiscard]] String GetArcadeCollectionTheme(const String& name) const { return AsString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-arcade-").Append(name)); }
+    RecalboxConf& SetArcadeCollectionTheme(const String& name, const String& value) { SetString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
+
+    [[nodiscard]] int GetArcadeCollectionPosition(const String& name) const { return AsInt(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), 0); }
+    RecalboxConf& SetArcadeCollectionPosition(const String& name, int position) { SetInt(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), position); return *this; }
+
+    [[nodiscard]] bool GetArcadeCollectionShow(const String& name) const { return AsBool(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionShow), false); }
+    RecalboxConf& SetArcadeCollectionShow(const String& name, bool Show) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionShow), Show); return *this; }
+    */
+    /*
+     * Direct Implementations - Pads
+     */
+
+    [[nodiscard]] String GetPad(int index) const { return AsString(String(sPadHeader).Append(Strings::ToString(index)), ""); }
+    RecalboxConf& SetPad(int index, const String& padid) { SetString(String(sPadHeader).Append(Strings::ToString(index)), padid); return *this; }
 
     /*
      * System keys
@@ -347,6 +369,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Collection Keys
      */
 
+    static constexpr const char* sCollectionShow             = "show";
     static constexpr const char* sCollectionHide             = "hide";
     static constexpr const char* sCollectionTheme            = "theme";
     static constexpr const char* sCollectionLimit            = "limit";
@@ -357,6 +380,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      */
 
     static constexpr const char* sCollectionHeader           = "emulationstation.collection";
+    static constexpr const char* sArcadeCollectionHeader     = "emulationstation.collection.arcade";
 
     /*
      * Keys
@@ -495,6 +519,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sTateGameRotation           = "tate.gamerotation";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.virtualarcade";
+    static constexpr const char* sCollectionArcadeManufacturers = "emulationstation.virtualarcade.manufacturers";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.virtualarcade.includeneogeo";
     static constexpr const char* sCollectionArcadeHide       = "emulationstation.virtualarcade.hideoriginals";
     static constexpr const char* sCollectionArcadePosition   = "emulationstation.virtualarcade.position";

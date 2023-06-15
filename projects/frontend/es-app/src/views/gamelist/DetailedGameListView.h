@@ -70,7 +70,7 @@ class DetailedGameListView : public ISimpleGameListView
      * @param game Game
      * @return Final display name
      */
-    String GetDisplayName(FileData& game);
+    virtual String GetDisplayName(FileData& game);
 
     FileData* getCursor() override { return mList.getSelected(); }
     int getCursorIndex() override { return mList.getCursorIndex(); }

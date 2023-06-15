@@ -42,7 +42,7 @@ class GameClipView : public Gui
     class Filter : public IFilter
     {
       public:
-        [[nodiscard]] bool ApplyFilter(const FileData& file) const override
+        [[nodiscard]] bool ApplyFilter(const FileData& file) override
         {
           return  !file.Metadata().VideoAsString().empty() && file.IsDisplayable();
         }

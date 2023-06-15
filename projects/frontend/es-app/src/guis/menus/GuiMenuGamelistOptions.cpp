@@ -2,6 +2,7 @@
 #include "guis/GuiDownloader.h"
 #include "views/gamelist/ArcadeGameListView.h"
 #include "GuiMenuArcadeOptions.h"
+#include "systems/ArcadeVirtualSystems.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <components/SwitchComponent.h>
@@ -48,7 +49,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   RefreshGameMenuContext();
 
   // Downloader available?
-  if (DownloaderManager().HasDownloader(mSystem))
+  if (DownloaderManager::HasDownloader(mSystem))
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
 
   // Jump to letter
@@ -62,13 +63,14 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
-  // Driver filter on arcade view
-  if (mArcade != nullptr && mArcade->HasValidDatabase())
-  {
+  // Global arcade option available on any arcade system, true or virtual
+  if (system.IsArcade())
     AddSubMenu(_("ARCADE OPTIONS"), (int)Components::ArcadeOptions);
 
-    AddMultiList((_F(_("HIDE %s MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
-  }
+  // Filtering available only on true arcade systems with a valid database
+  if (system.IsArcade() && mArcade != nullptr)
+    if (mArcade->HasValidDatabase())
+      AddMultiList((_F(_("HIDE {0} MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
 
   // Region filter
   AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
@@ -143,7 +145,7 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
 
   // Get & check sort id
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
-                            mSystem.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ? FileSorts::SortSets::Arcade :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
   const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
   FileSorts::Sorts currentSort = (FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem);
@@ -361,14 +363,15 @@ void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::
     std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
     String::List driverNameList;
     for(int driverIndex : value)
-      driverNameList.push_back(driverList[driverIndex].Name);
+      driverNameList.push_back(driverList[driverIndex].Name.empty() ? ArcadeVirtualSystems::sAllOtherDriver : driverList[driverIndex].Name);
     RecalboxConf::Instance().SetArcadeSystemHiddenDrivers(mSystem, driverNameList);
   }
 }
 
 String GuiMenuGamelistOptions::FormatManufacturer(const ArcadeDatabase::Driver& driver)
 {
-  String newName(driver.Name.empty() ? _("ALL OTHERS") : driver.Name);
+  String newName = ArcadeVirtualSystems::GetRealName(driver.Name);
+  if (driver.Name.empty()) newName = _("ALL OTHERS");
   if (newName.Contains('/')) newName.Replace('/', " - ");
   int count = mArcade->GetGameCountForDriver(driver.Index);
   newName.Append(" (").Append(count != 0 ? (_F(_N("{0} GAME", "{0} GAMES", count)) / count)() : "").Append(')');

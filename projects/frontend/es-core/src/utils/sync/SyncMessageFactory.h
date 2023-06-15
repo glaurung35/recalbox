@@ -69,12 +69,9 @@ class SyncMessageFactory : public StaticLifeCycleControler<SyncMessageFactory>
     void DispatchMessage()
     {
       // Copy pendings into a local list
-      Array<UntypedSyncMessage*> pending;
-      {
-        Mutex::AutoLock locker(mPendingLocker);
-        if (mPendingMessages.Empty()) return;
-        pending.MoveFrom(mPendingMessages);
-      }
+      mPendingLocker.Lock();
+      Array<UntypedSyncMessage*> pending(std::move(mPendingMessages));
+      mPendingLocker.UnLock();
 
       // Dispatch
       {

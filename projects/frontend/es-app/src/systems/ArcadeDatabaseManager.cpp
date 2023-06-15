@@ -45,7 +45,7 @@ void ArcadeDatabaseManager::LoadDatabases()
   mReady = true;
 }
 
-ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase(const String& emulator, const String& core, const String& databaseFilename, const String& splitDriverString, const String& ignoredDriverString, int limit)
+ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase([[maybe_unused]] const String& emulator, [[maybe_unused]] const String& core, const String& databaseFilename, const String& splitDriverString, const String& ignoredDriverString, int limit)
 {
   // Get database
   Path database("/recalbox/system/arcade/flats/" + databaseFilename);

@@ -819,8 +819,6 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
       const ArcadeDatabaseManager& mArcadeDatabaseManager;
       const ArcadeDatabase* mDatabase;
       const FolderData* mParent;
-      String mDummyCoreName;
-      String mDummyEmulatorName;
       String mDriverName;
       ArcadeDatabase::IndexList* mDriverIndexes;
       HashMap<const ArcadeDatabase*, ArcadeDatabase::IndexList*> mDriverIndexesFastLookup;
@@ -874,7 +872,7 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
         // After the database is updated, lookup the driver index regarding the driver name.
         // If neither no database, nor driver index is found, ignore the current game
         if (mDatabase == nullptr || mParent != file.Parent())
-          if (mDatabase = mArcadeDatabaseManager.LookupDatabase(*(mParent = file.Parent()), mDummyEmulatorName, mDummyCoreName); mDatabase != nullptr)
+          if (mDatabase = mArcadeDatabaseManager.LookupDatabase(*(mParent = file.Parent())); mDatabase != nullptr)
           {
             if (ArcadeDatabase::IndexList** cacheList = mDriverIndexesFastLookup.try_get(mDatabase); cacheList != nullptr)
               mDriverIndexes = *cacheList;
@@ -889,6 +887,16 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
         const ArcadeGame* arcade = mDatabase->LookupGame(file);
         // No arcade data for that game, it's an unknown game, ignore it
         if (arcade == nullptr) return false;
+        // Not a regular arcade game?
+        switch(arcade->Hierarchy())
+        {
+          case ArcadeGame::Type::Parent:
+          case ArcadeGame::Type::Clone:
+          case ArcadeGame::Type::Orphaned: break;
+          case ArcadeGame::Type::Bios:
+          default:
+            return false;
+        }
         // Finally, compare the driver index. If it's the right index, we got a game!
         return LookupDriver(arcade->RawDriver());
       }

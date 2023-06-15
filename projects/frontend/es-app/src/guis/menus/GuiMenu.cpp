@@ -11,6 +11,7 @@
 #include <guis/menus/GuiMenuSound.h>
 #include <guis/menus/GuiMenuNetwork.h>
 #include <guis/menus/GuiMenuAdvancedSettings.h>
+#include <guis/menus/GuiMenuDownloadGamePacks.h>
 #include <guis/menus/GuiMenuCRT.h>
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"

@@ -1,4 +1,5 @@
 from configgen.Emulator import Emulator
+from configgen.crt.CRTTypes import CRTAdapter
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import ControllerPerPlayer
 
@@ -213,6 +214,12 @@ class LibretroCores:
     @staticmethod
     def configureBsnesHd(coreSettings: keyValueSettings):
         coreSettings.setString("bsnes_mode7_wsMode", '"all"')
+    def configureFlycast(self, coreSettings: keyValueSettings):
+        if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+            coreSettings.setString("reicast_allow_service_buttons", '"enabled"')
+    def configureFBNeo(self, coreSettings: keyValueSettings):
+        if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+            coreSettings.setString("fbneo-diagnostic-input", '"L3"')
 
     # Fill cores configuration
     def fillCoresConfiguration(self):
@@ -230,6 +237,8 @@ class LibretroCores:
             "genesisplusgxwide": self.configureGenesisPlusGxWide,
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
             "bsneshd": LibretroCores.configureBsnesHd,
+            "flycast": self.configureFlycast,
+            "fbneo": self.configureFBNeo,
         }
 
         # Get handler and execute

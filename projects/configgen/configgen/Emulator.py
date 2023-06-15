@@ -202,6 +202,7 @@ class Emulator:
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.fromString(arguments.crtresolutiontype)
         self._crtscreentype: CRTScreenType = CRTScreenType.fromString(arguments.crtscreentype)
         self._crtenabled: bool = arguments.crtadaptor is not None and len(arguments.crtadaptor) > 0
+        self._crtadapter: str = CRTAdapter.fromString(arguments.crtadaptor)
         self._crtsuperrez: CRTSuperRez = CRTSuperRez.fromString(arguments.crtsuperrez)
         self._crtv2: bool = arguments.crtv2
         self._crt_config = {}
@@ -396,6 +397,8 @@ class Emulator:
 
     @property
     def CRTEnabled(self) -> bool: return self._crtenabled
+    @property
+    def CRTAdapter(self) -> CRTAdapter: return self._crtadapter
 
     @property
     def CRTAdapter(self) -> CRTAdapter: return self._crtadapter

@@ -266,7 +266,7 @@ class SystemDescriptor
     {
       SystemType result = SystemType::Unknown;
       if      (systemtype == "arcade"  ) result = SystemType::Arcade;
-      if      (systemtype == "varcade" ) result = SystemType::VArcade;
+      else if (systemtype == "varcade" ) result = SystemType::VArcade;
       else if (systemtype == "console" ) result = SystemType::Console;
       else if (systemtype == "handheld") result = SystemType::Handheld;
       else if (systemtype == "computer") result = SystemType::Computer;

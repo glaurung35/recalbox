@@ -33,6 +33,8 @@ define LIBRETRO_MAME2010_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010
 	cp $(@D)/metadata/mame2010.xml $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010/mame2010.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2010.fdt
 	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
 		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2010/mame2010.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2010.lst
 	$(INSTALL) -D $(@D)/mame2010_libretro.so \

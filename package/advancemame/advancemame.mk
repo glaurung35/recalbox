@@ -83,6 +83,8 @@ define ADVANCEMAME_BUILD_DATS
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/advancemame
 	cp '$(@D)/MAME 0.106.dat' $(TARGET_DIR)/recalbox/system/arcade/dats/advancemame/
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		'$(@D)/MAME 0.106.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/advancemame.fdt
 	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
 		'$(@D)/MAME 0.106.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/advancemame.lst
 endef

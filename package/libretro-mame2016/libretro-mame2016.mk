@@ -42,6 +42,8 @@ define LIBRETRO_MAME2016_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016
 	$(UNZIP) -o -d $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016 '$(@D)/metadata/MAME 0.174 Arcade XML DAT.zip'
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		'$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016/MAME 0.174 Arcade XML.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2016.fdt
 	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
 		'$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2016/MAME 0.174 Arcade XML.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2016.lst
 	$(INSTALL) -D $(@D)/mamearcade2016_libretro.so \

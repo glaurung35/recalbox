@@ -67,6 +67,8 @@ endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/flats/mame.fdt
 	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
 		$(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/flats/mame.lst
 	$(INSTALL) -D $(@D)/mamearcade_libretro.so \

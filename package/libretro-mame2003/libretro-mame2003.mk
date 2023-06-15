@@ -25,6 +25,8 @@ define LIBRETRO_MAME2003_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2003
 	cp $(@D)/metadata/mame2003.xml $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2003
 	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2003/mame2003.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2003.fdt
 	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
 		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2003/mame2003.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2003.lst
 	$(INSTALL) -D $(@D)/mame2003_libretro.so \

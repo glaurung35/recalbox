@@ -537,7 +537,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
   { LOG(LogDebug) << "[GamelistView] Set video " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->RomPath().ToString(); }
-  mDescription.setText(file->Metadata().Description());
+  mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
 
@@ -545,7 +545,7 @@ void DetailedGameListView::setScrapedFolderInfo(FileData* file)
 {
   SetImageFading(file, false);
   mVideo.setVideo(Path::Empty, 0, 0);
-  mDescription.setText(file->Metadata().Description());
+  mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
 

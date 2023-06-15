@@ -294,6 +294,18 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
   return nullptr;
 }
 
+const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FileData& game, String& emulatorName, String& coreName) const
+{
+  emulatorName.clear();
+  coreName.clear();
+  if (mSystem.Manager().Emulators().GetGameEmulator(game, emulatorName, coreName))
+  {
+    ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
+    if (database != nullptr) return *database;
+  }
+  return nullptr;
+}
+
 const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& folder) const
 {
   String emulatorName;
@@ -311,5 +323,6 @@ void ArcadeDatabaseManager::RemoveGame(const FileData& game)
   for(const auto& database : mDatabases)
     database.second->Remove(game);
 }
+
 
 

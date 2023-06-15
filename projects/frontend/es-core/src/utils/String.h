@@ -324,7 +324,7 @@ class String : public std::string
          * @brief Return the formatted string
          * @return Formatted string
          */
-        [[nodiscard]] const String& ToString() const { return *((String*)&mFormat); }
+        [[nodiscard]] String ToString() const { return *((String*)&mFormat); }
 
       private:
         //! Format & formatted string

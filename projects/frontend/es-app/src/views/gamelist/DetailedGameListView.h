@@ -66,11 +66,17 @@ class DetailedGameListView : public ISimpleGameListView
 
     /*!
      * @brief Get display name of the given game
-     * @param database Arcade Database
      * @param game Game
      * @return Final display name
      */
     virtual String GetDisplayName(FileData& game);
+
+    /*!
+     * @brief Get description of the given game
+     * @param game Game
+     * @return Description
+     */
+    virtual String GetDescription(FileData& game) { return game.Metadata().Description(); }
 
     FileData* getCursor() override { return mList.getSelected(); }
     int getCursorIndex() override { return mList.getCursorIndex(); }

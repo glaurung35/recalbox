@@ -471,3 +471,17 @@ String ArcadeGameListView::GetDisplayName(FileData& game)
   // Fallback
   return GetIconifiedDisplayName(ArcadeTupple(nullptr, &game));
 }
+
+String ArcadeGameListView::GetDescription(FileData& game)
+{
+  String emulator, core;
+  if (const ArcadeDatabase* database = game.System().ArcadeDatabases().LookupDatabase(game, emulator, core); database != nullptr)
+    if (const ArcadeGame* arcade = database->LookupGame(game); arcade != nullptr)
+    {
+      if (arcade->EmulationStatus() == ArcadeGame::Status::Imperfect)
+        return (_F(_("{0} reports the emulation status of this game is 'impecfect'.")) / core).ToString().Append(String::LF, 2).Append(game.Metadata().Description());
+      if (arcade->EmulationStatus() == ArcadeGame::Status::Preliminary)
+        return (_F(_("{0} reports the emulation status of this game is 'preliminary'. You should expect issues such as bugs or even crashes!")) / core).ToString().Append(String::LF, 2).Append(game.Metadata().Description());
+    }
+  return game.Metadata().Description();
+}

@@ -109,6 +109,13 @@ class ArcadeGameListView : public DetailedGameListView
     static String GetDisplayName(const ArcadeTupple& game);
 
     /*!
+     * @brief Get description of the given game
+     * @param game Game
+     * @return Description
+     */
+    String GetDescription(FileData& game) override;
+
+    /*!
      * @brief Get display name of the given game
      * @param database Arcade Database
      * @param game Game

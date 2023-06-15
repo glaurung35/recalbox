@@ -393,7 +393,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
   if (crtBoard.IsCrtAdapterAttached())
   {
-    result.append(" -crtadaptor ").append("present");
+    result.append(" -crtadaptor ").append(crtBoard.ShortName());
     result.append(" -crtsuperrez ").append(CrtConf::Instance().GetSystemCRTSuperrez());
     // CRTV2 will be forced by user, or for tate mode
     if(CrtConf::Instance().GetSystemCRTUseV2())

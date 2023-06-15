@@ -1,7 +1,48 @@
+diff --git a/src/burner/libretro/retro_common.cpp b/src/burner/libretro/retro_common.cpp
+index 125d653a0..a74f9f147 100644
+--- a/src/burner/libretro/retro_common.cpp
++++ b/src/burner/libretro/retro_common.cpp
+@@ -70,6 +70,7 @@ static UINT8 diag_input_start_l_r[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DE
+ static UINT8 diag_input_select[] =      {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+ static UINT8 diag_input_select_a_b[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+ static UINT8 diag_input_select_l_r[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
++static UINT8 diag_input_l3[] =          {RETRO_DEVICE_ID_JOYPAD_L3, RETRO_DEVICE_ID_JOYPAD_EMPTY };
+ 
+ // Global core options
+ static const struct retro_core_option_v2_definition var_empty = { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL };
+@@ -211,6 +212,7 @@ static const struct retro_core_option_v2_definition var_fbneo_diagnostic_input =
+ 		{ "Hold Select + A + B", NULL },
+ 		{ "Select + L + R", NULL },
+ 		{ "Hold Select + L + R", NULL },
++		{ "L3", NULL },
+ 		{ NULL, NULL },
+ 	},
+ 	"Hold Start"
+@@ -1399,6 +1401,11 @@ void check_variables(void)
+ 				diag_input = diag_input_select_l_r;
+ 				SetDiagInpHoldFrameDelay(60);
+ 			}
++      else if(strcmp(var.value, "L3") == 0)
++      {
++        diag_input = diag_input_l3;
++        SetDiagInpHoldFrameDelay(0);
++      }
+ 			else
+ 			{
+ 				diag_input = NULL;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index 4b6514688..7514603ec 100644
+index 4b6514688..d925486c5 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
+@@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
+ 			pgi++;
+ 		}
+ 		// supposedly, those are the 4 most useful neogeo macros
+-		if (bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) {
++		if (false && bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) {
+ 			pgi->nInput = GIT_MACRO_AUTO;
+ 			pgi->nType = BIT_DIGITAL;
+ 			pgi->Macro.nMode = 0;
 @@ -1620,27 +1620,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  		(drvname && strcmp(drvname, "umk3") == 0)
  	) {

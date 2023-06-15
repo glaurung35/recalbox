@@ -84,11 +84,16 @@ class ICrtInterface
     virtual bool MustForce50Hz() const = 0;
 
     /*!
-     * @brief Check if this board has been automatically detected
+     * @brief Returns the name of the adapter
      * @return the name of the adapter
      */
     virtual std::string& Name() const = 0;
 
+    /*!
+     * @brief Returns the short name of the adapter
+     * @return the short name of the adapter
+     */
+    virtual std::string& ShortName() const = 0;
     /*!
      * @brief Check if this board has been automatically detected
      * @return True of the board has been automatically detected, false otherwise

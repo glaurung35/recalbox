@@ -27,6 +27,8 @@ class CrtNull : public ICrtInterface
     bool MustForce50Hz() const override { return false; }
 
     std::string& Name() const override { static std::string adapterString("None"); return adapterString; }
+
+    std::string& ShortName() const override { static std::string adapterShortString(""); return adapterShortString; }
 };
 
 

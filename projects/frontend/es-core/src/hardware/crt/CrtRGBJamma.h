@@ -48,6 +48,8 @@ class CrtRGBJamma : public ICrtInterface
 
     std::string& Name() const override { static std::string adapterString("Recalbox RGB JAMMA"); return adapterString; }
 
+    std::string& ShortName() const override { static std::string adapterShortString("recalboxrgbjamma"); return adapterShortString; }
+
     bool HasMultiSyncSupport() const override { return true; }
 
   private:

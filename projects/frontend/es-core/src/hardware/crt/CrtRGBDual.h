@@ -47,6 +47,8 @@ class CrtRGBDual : public ICrtInterface
 
     //! The comment is here to tell you that the name will be returned bby this methode named Name()
     std::string& Name() const override { static std::string adapterString("Recalbox RGB Dual"); return adapterString; }
+
+    std::string& ShortName() const override { static std::string adapterShortString("recalboxrgbdual"); return adapterShortString; }
   private:
     static constexpr const char* sRGBDual31khzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value";
     static constexpr const char* sRGBDual50hzSwitch = "/sys/devices/platform/recalboxrgbdual/dipswitch-50hz/value";

@@ -41,7 +41,6 @@ void ArcadeDatabaseManager::LoadDatabases()
   }
 
   AssignNames();
-  ArcadeGame::Finalize();
 
   mReady = true;
 }

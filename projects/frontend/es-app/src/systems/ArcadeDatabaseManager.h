@@ -66,6 +66,11 @@ class ArcadeDatabaseManager
      */
     void RemoveGame(const FileData& game);
 
+    /*!
+     * @brief Call it once all database have been loaded to save memory
+     */
+    static void Finalize() { ArcadeGame::Finalize(); }
+
   private:
     //! Raw driver structure
     struct RawDriver

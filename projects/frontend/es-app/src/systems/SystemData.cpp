@@ -217,7 +217,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
     const Path relativeTo(root.RomPath());
     XmlNode games = gameList.child("gameList");
-    HashSet<String> blacklist{};
+    HashSet<String> blacklist;
 
     if (games != nullptr)
     {

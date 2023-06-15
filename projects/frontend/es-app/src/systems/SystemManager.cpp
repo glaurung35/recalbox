@@ -1068,6 +1068,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
       if (path.Exists())
         gamelistWatcher.WatchFile(path);
 
+  // Finalize arcade loading
+  ArcadeDatabaseManager::Finalize();
+
   return true;
 }
 

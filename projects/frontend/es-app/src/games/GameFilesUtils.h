@@ -20,8 +20,8 @@ class GameFilesUtils
 
     static bool ContainsMultiDiskFile(const String& extensions)
     {
-      return Strings::Contains(extensions, ".m3u") || Strings::Contains(extensions, ".cue") ||
-             Strings::Contains(extensions, ".ccd") || Strings::Contains(extensions, ".gdi");
+      return extensions.Contains(".m3u") || extensions.Contains(".cue") ||
+             extensions.Contains(".ccd") || extensions.Contains(".gdi");
     }
 
     static void ExtractUselessFiles(const Path& path, HashSet<String>& list);

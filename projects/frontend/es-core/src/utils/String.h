@@ -1017,7 +1017,6 @@ class String : public std::string
     String& TrimRight(char trim)
     {
       size_t stop = find_last_not_of(trim);
-      if (stop == std::string::npos) stop = 0;
       if (stop < size() - 1) erase(stop + 1);
       return *this;
     }

@@ -323,10 +323,21 @@ class FolderData : public FileData
     [[nodiscard]] bool HasGame() const;
 
     /*!
-     * Return true if contain at least one visible game
+     * Return true if contain at least one visible game, recursively
+     * @return True if the folder has at least one visible game, false otherwise
+     */
+    [[nodiscard]] bool HasTateVisibleGame() const;
+
+    /*!
+     * Return true if contain at least one visible game, recursively
+     * @return True if the folder has at least one visible game, false otherwise
      */
     [[nodiscard]] bool HasVisibleGame() const;
 
+    /*!
+     * @brief Check if the folkder has at least one scrapable game, recursively
+     * @return True if the folder has at least one scrapable game, false otherwise
+     */
     [[nodiscard]] bool HasSacrapableGame() const;
 
     /*!

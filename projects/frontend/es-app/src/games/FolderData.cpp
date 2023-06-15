@@ -498,6 +498,16 @@ bool FolderData::HasGame() const
   return false;
 }
 
+bool FolderData::HasTateVisibleGame() const
+{
+  for (FileData* fd : mChildren)
+  {
+    if ( (fd->IsGame() && fd->IsDisplayable() && fd->Metadata().Rotation() != RotationType::None) || (fd->IsFolder() && CastFolder(fd)->HasTateVisibleGame()))
+      return true;
+  }
+  return false;
+}
+
 bool FolderData::HasVisibleGame() const
 {
   for (FileData* fd : mChildren)

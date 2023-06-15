@@ -249,6 +249,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, false)
     DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
     DefineGetterSetter(TateGameRotation, int, Int, sTateGameRotation, 0)
+    DefineGetterSetter(TateOnly, bool, Bool, sTateOnly, false)
 
     DefineListGetterSetter(CollectionArcadeManufacturers, sCollectionArcadeManufacturers, "")
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
@@ -517,6 +518,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionPorts            = "emulationstation.collection.ports";
     static constexpr const char* sCollectionTate             = "emulationstation.collection.tate";
     static constexpr const char* sTateGameRotation           = "tate.gamerotation";
+    static constexpr const char* sTateOnly                   = "emulationstation.tateonly";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.virtualarcade";
     static constexpr const char* sCollectionArcadeManufacturers = "emulationstation.virtualarcade.manufacturers";

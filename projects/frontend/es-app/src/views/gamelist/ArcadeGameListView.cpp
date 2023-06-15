@@ -68,6 +68,7 @@ void ArcadeGameListView::BuildList()
   // Add to list
   bool filterOutBios = RecalboxConf::Instance().GetArcadeViewHideBios();
   bool filterOutUnknown = RecalboxConf::Instance().GetArcadeViewHideNonWorking();
+  bool onlyTate = RecalboxConf::Instance().GetTateOnly();
   for (const ParentTupple& parent : mGameList)
   {
     if (parent.mArcade == nullptr && filterOutUnknown) continue;
@@ -78,6 +79,8 @@ void ArcadeGameListView::BuildList()
     if (activeRegionFiltering)
       if (!Regions::IsIn4Regions(parent.mGame->Metadata().Region().Pack, currentRegion))
         colorIndexOffset = 2;
+    // Tate filtering only on parent - clones have presumably the same rotation :)
+    if (onlyTate && parent.mGame->Metadata().Rotation() == RotationType::None) continue;
     // Store
     mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
 

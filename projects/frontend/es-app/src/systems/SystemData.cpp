@@ -538,10 +538,16 @@ FileData::List SystemData::getAllGames() const
   return result;
 }
 
-bool SystemData::HasVisibleGame() const
+bool SystemData::HasVisibleGame(bool forceTateOnlyCheck) const
 {
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (root->HasVisibleGame()) return true;
+  if (forceTateOnlyCheck || RecalboxConf::Instance().GetTateOnly())
+  {
+    for (const RootFolderData* root: mRootOfRoot.SubRoots())
+      if (root->HasTateVisibleGame()) return true;
+  }
+  else
+    for(const RootFolderData* root : mRootOfRoot.SubRoots())
+      if (root->HasVisibleGame()) return true;
 
   return false;
 }

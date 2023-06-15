@@ -858,6 +858,9 @@ void DetailedGameListView::populateList(const FolderData& folder)
     }
   }
 
+  // Tate flag
+  bool onlyTate = RecalboxConf::Instance().GetTateOnly();
+
   // Add to list
   //mList.reserve(items.size()); // TODO: Reserve memory once
   for (FileData* fd : items)
@@ -867,6 +870,8 @@ void DetailedGameListView::populateList(const FolderData& folder)
     if (activeRegionFiltering)
       if (!Regions::IsIn4Regions(fd->Metadata().Region().Pack, currentRegion))
         colorIndexOffset = 2;
+    // Tate filtering
+    if (onlyTate && fd->Metadata().Rotation() == RotationType::None) continue;
     // Store
     mList.add(GetDisplayName(*fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
   }

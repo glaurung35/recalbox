@@ -866,6 +866,8 @@ void SystemView::manageTate(bool remove)
 
 void SystemView::manageSystemsList()
 {
+  std::vector<Entry> backupedEntries = mEntries;
+
   for (const auto& system : mSystemManager.GetAllSystemList())
   {
     if(system->Descriptor().IsPort())
@@ -885,5 +887,11 @@ void SystemView::manageSystemsList()
       addSystem(system);
     else if (systemIsAlreadyVisible && !hasGame)
       removeSystem(system);
+  }
+
+  if (mEntries.empty())
+  {
+    mEntries = backupedEntries;
+    mWindow.displayMessage(_("Last operation removed all systems!\n\nThey have been restored to allow normal operations, regardless of the current filters."));
   }
 }

@@ -11,7 +11,13 @@ class IArcadeGamelistInterface
 {
   public:
     //! Destructor
-    virtual ~IArcadeGamelistInterface() {}
+    virtual ~IArcadeGamelistInterface() = default;
+
+    /*!
+     * @brief Retrive the system the interface is attached to
+     * @return System
+     */
+    [[nodiscard]] virtual const SystemData& GetAttachedSystem() const = 0;
 
     /*!
      * @brief Check if the Arcade game list has a valid database for the current emulator/core

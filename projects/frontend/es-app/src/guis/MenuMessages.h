@@ -99,6 +99,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_ARCADE_HIDE_NONWORKING_MSG "Hide unknown and non-working games"
     #define MENUMESSAGE_UI_ARCADE_OFFICIAL_NAMES_MSG "Always use arcade names from official databases. Overwrite manual edition & scraper results."
 
+    #define MENUMESSAGE_ARCADE_HELP_MSG "Manage all arcade options."
     #define MENUMESSAGE_TATE_HELP_MSG "Manage screen and game rotation options"
     #define MENUMESSAGE_TATE_SCREEN_ROTATION "Proceed to a complete screen rotation, for frontend and games."
 

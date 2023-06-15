@@ -10,7 +10,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
                          , private IOptionListComponent<unsigned int>
                          , private IOptionListComponent<Regions::GameRegions>
                          , private IOptionListComponent<FileSorts::Sorts>
-                         , private IOptionListMultiComponent<int>
                          , private IGuiMenuBase
                          , private ISwitchComponent
 {
@@ -42,7 +41,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       MainMenu,
       Quit,
       Search,
-      Manufacturers,
       ArcadeOptions,
     };
 
@@ -74,13 +72,6 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * @brief Refresh gamelist
      */
     static void ManageSystems();
-
-    /*!
-     * @brief Format manufacturer/system short-names into something more user friendly
-     * @param driver Driver to format name from
-     * @return Formatted name
-     */
-    String FormatManufacturer(const ArcadeDatabase::Driver& driver);
 
     /*
      * GuiMetaDataEd::IMetaDataAction implementation
@@ -116,10 +107,4 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
-
-    /*
-     * IOptionListMultiComponent<int> implementation
-     */
-
-    void OptionListMultiComponentChanged(int id, const std::vector<int>& value) override;
 };

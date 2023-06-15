@@ -18,7 +18,7 @@
 #include "GuiMenuScraper.h"
 #include "GuiMenuTate.h"
 #include "GuiMenuDownloadContents.h"
-#include "GuiMenuDownloadGamePacks.h"
+#include "GuiMenuArcade.h"
 #include <guis/GuiScraperRun.h>
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -53,13 +53,17 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
 
   // Controllers menu
   if (!bartop)
-    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
+    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.updates, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
 
   // UI Settings menu
   if (!bartop)
     AddSubMenu(_("UI SETTINGS"), mTheme.menuIconSet.ui, (int)Components::UISettings, _(MENUMESSAGE_UI_HELP_MSG));
 
-  // UI Settings menu
+  // Atcade menu
+  if (!bartop)
+    AddSubMenu(_("ARCADE SETTINGS"), mTheme.menuIconSet.arcade.IsEmpty() ? Path(":/Arcade.png") : mTheme.menuIconSet.arcade, (int)Components::Arcade, _(MENUMESSAGE_ARCADE_HELP_MSG));
+
+  // TATE menu
   if (!bartop)
     AddSubMenu(_("TATE SETTINGS"), mTheme.menuIconSet.tate, (int)Components::Tate, _(MENUMESSAGE_TATE_HELP_MSG));
 
@@ -119,6 +123,7 @@ void GuiMenu::SubMenuSelected(int id)
     }
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
+    case Components::Arcade: mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, nullptr)); break;
     case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;

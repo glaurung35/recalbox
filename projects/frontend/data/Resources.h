@@ -8,6 +8,9 @@
 extern const uint16_t option_arrow_svg_size;
 extern const uint8_t option_arrow_svg_data[];
 
+extern const uint16_t Arcade_png_size;
+extern const uint8_t Arcade_png_data[];
+
 extern const uint16_t arrow_svg_size;
 extern const uint8_t arrow_svg_data[];
 
@@ -475,9 +478,6 @@ extern const uint8_t regions__it_svg_data[];
 
 extern const uint16_t regions__tr_svg_size;
 extern const uint8_t regions__tr_svg_data[];
-
-extern const uint32_t regions___Free_Flat_Flags_227_zip_size;
-extern const uint8_t regions___Free_Flat_Flags_227_zip_data[];
 
 extern const uint16_t regions__tw_svg_size;
 extern const uint8_t regions__tw_svg_data[];

@@ -685,7 +685,7 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 {
 	if (mLockInput) return true;
 
-	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
+	/* if we receive a button pressure for a non-configured joystick, suggest the joystick configuration */
 	if (event.AskForConfiguration())
 	{
 		mWindow.pushGui(new GuiDetectDevice(mWindow, false, nullptr));

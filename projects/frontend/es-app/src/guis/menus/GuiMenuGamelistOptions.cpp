@@ -3,6 +3,7 @@
 #include "views/gamelist/ArcadeGameListView.h"
 #include "GuiMenuArcadeOptions.h"
 #include "systems/ArcadeVirtualSystems.h"
+#include "GuiMenuArcade.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <components/SwitchComponent.h>
@@ -65,12 +66,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Global arcade option available on any arcade system, true or virtual
   if (system.IsArcade())
-    AddSubMenu(_("ARCADE OPTIONS"), (int)Components::ArcadeOptions);
-
-  // Filtering available only on true arcade systems with a valid database
-  if (system.IsArcade() && mArcade != nullptr)
-    if (mArcade->HasValidDatabase())
-      AddMultiList((_F(_("HIDE {0} MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::Manufacturers, this, GetManufacturerEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
+    AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions);
 
   // Region filter
   AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
@@ -176,15 +172,6 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   }
 
   return list;
-}
-
-std::vector<GuiMenuBase::ListEntry<int>> GuiMenuGamelistOptions::GetManufacturerEntries()
-{
-  std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
-  std::vector<GuiMenuBase::ListEntry<int>> result;
-  for(const ArcadeDatabase::Driver& driver : driverList)
-    result.push_back({ FormatManufacturer(driver), driver.Index, RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mSystem, driver.Name) });
-  return result;
 }
 
 void GuiMenuGamelistOptions::Delete(ISimpleGameListView* gamelistview, FileData& game)
@@ -303,7 +290,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::ArcadeOptions:
     {
-      mWindow.pushGui(new GuiMenuArcadeOptions(mWindow));
+      mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, mArcade));
       break;
     }
     case Components::JumpToLetter:
@@ -311,7 +298,6 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::Regions:
     case Components::FavoritesOnly:
     case Components::FlatFolders:
-    case Components::Manufacturers:
       break;
   }
 }
@@ -333,7 +319,6 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::Delete:
     case Components::DeleteScreeshot:
     case Components::Quit:
-    case Components::Manufacturers:
     case Components::ArcadeOptions:
       break;
   }
@@ -356,24 +341,3 @@ void GuiMenuGamelistOptions::ManageSystems()
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }
 
-void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::vector<int>& value)
-{
-  if ((Components)id == Components::Manufacturers)
-  {
-    std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
-    String::List driverNameList;
-    for(int driverIndex : value)
-      driverNameList.push_back(driverList[driverIndex].Name.empty() ? ArcadeVirtualSystems::sAllOtherDriver : driverList[driverIndex].Name);
-    RecalboxConf::Instance().SetArcadeSystemHiddenDrivers(mSystem, driverNameList);
-  }
-}
-
-String GuiMenuGamelistOptions::FormatManufacturer(const ArcadeDatabase::Driver& driver)
-{
-  String newName = ArcadeVirtualSystems::GetRealName(driver.Name);
-  if (driver.Name.empty()) newName = _("ALL OTHERS");
-  if (newName.Contains('/')) newName.Replace('/', " - ");
-  int count = mArcade->GetGameCountForDriver(driver.Index);
-  newName.Append(" (").Append(count != 0 ? (_F(_N("{0} GAME", "{0} GAMES", count)) / count)() : "").Append(')');
-  return newName;
-}

@@ -190,6 +190,8 @@ class ArcadeGameListView : public DetailedGameListView
      * IArcadeGamelistInterface implementation
      */
 
+    [[nodiscard]] const SystemData& GetAttachedSystem() const override { return mSystem; };
+
     /*!
      * @brief Check if the Arcade game list has a valid database for the current emulator/core
      * @return

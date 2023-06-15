@@ -2,22 +2,18 @@
 #include <utils/locale/LocaleHelper.h>
 #include <systems/SystemManager.h>
 #include <guis/GuiMsgBox.h>
-#include "GuiMenuArcadeVirtualSystem.h"
+#include "GuiMenuArcadeAllInOneSystem.h"
 #include "components/SwitchComponent.h"
 #include "systems/ArcadeVirtualSystems.h"
 
-GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager)
+GuiMenuArcadeAllInOneSystem::GuiMenuArcadeAllInOneSystem(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"), nullptr)
   , mSystemManager(systemManager)
-  , mOriginalManufacturerList(RecalboxConf::Instance().GetRawCollectionArcadeManufacturers())
   , mOriginalArcadeOnOff(RecalboxConf::Instance().GetCollectionArcade())
   , mOriginalIncludeNeogeo(RecalboxConf::Instance().GetCollectionArcadeNeogeo())
   , mOriginalHideOriginals(RecalboxConf::Instance().GetCollectionArcadeHide())
   , mOriginalPosition(RecalboxConf::Instance().GetCollectionArcadePosition())
 {
-  // Per manufacturer systems
-  AddMultiList<String>(_("MANUFACTURER VIRTUAL SYSTEMS"), (int)Components::ArcadeManufacturerList, this, GetManufacturersEntries());
-
   // Enable arcade
   AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), mOriginalArcadeOnOff, (int)Components::ArcadeOnOff, this);
 
@@ -31,18 +27,17 @@ GuiMenuArcadeVirtualSystem::GuiMenuArcadeVirtualSystem(WindowManager& window, Sy
   AddList<int>(_("POSITION"), (int)Components::Position, this, GetPositionEntries());
 }
 
-GuiMenuArcadeVirtualSystem::~GuiMenuArcadeVirtualSystem()
+GuiMenuArcadeAllInOneSystem::~GuiMenuArcadeAllInOneSystem()
 {
   const RecalboxConf& conf = RecalboxConf::Instance();
   if ((conf.GetCollectionArcade() != mOriginalArcadeOnOff) ||
       (conf.GetCollectionArcadeNeogeo() != mOriginalIncludeNeogeo) ||
       (conf.GetCollectionArcadeHide() != mOriginalHideOriginals) ||
-      (conf.GetCollectionArcadePosition() != mOriginalPosition) ||
-      (conf.GetRawCollectionArcadeManufacturers() != mOriginalManufacturerList))
+      (conf.GetCollectionArcadePosition() != mOriginalPosition))
     RequestRelaunch();
 }
 
-std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPositionEntries()
+std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeAllInOneSystem::GetPositionEntries()
 {
   std::vector<GuiMenuBase::ListEntry<int>> list;
 
@@ -60,20 +55,14 @@ std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcadeVirtualSystem::GetPosition
   return list;
 }
 
-void GuiMenuArcadeVirtualSystem::OptionListComponentChanged(int id, int index, const int& value)
+void GuiMenuArcadeAllInOneSystem::OptionListComponentChanged(int id, int index, const int& value)
 {
   (void)index;
   if ((Components)id == Components::Position)
     RecalboxConf::Instance().SetCollectionArcadePosition(value).Save();
 }
 
-void GuiMenuArcadeVirtualSystem::OptionListMultiComponentChanged(int id, const String::List& value)
-{
-  if ((Components)id == Components::ArcadeManufacturerList)
-    RecalboxConf::Instance().SetCollectionArcadeManufacturers(value).Save();
-}
-
-void GuiMenuArcadeVirtualSystem::SwitchComponentChanged(int id, bool status)
+void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
@@ -81,22 +70,7 @@ void GuiMenuArcadeVirtualSystem::SwitchComponentChanged(int id, bool status)
     case Components::IncludeNeogeo: RecalboxConf::Instance().SetCollectionArcadeNeogeo(status).Save(); break;
     case Components::HideOriginals: RecalboxConf::Instance().SetCollectionArcadeHide(status).Save(); break;
     case Components::Position:
-    case Components::ArcadeManufacturerList:
       break;
   }
-}
-
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuArcadeVirtualSystem::GetManufacturersEntries()
-{
-  std::vector<GuiMenuBase::ListEntry<String>> result;
-  const RecalboxConf& conf = RecalboxConf::Instance();
-
-  for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
-  {
-    String identifier(rawIdentifier);
-    identifier.Replace('/', '-');
-    result.push_back({ ArcadeVirtualSystems::GetRealName(rawIdentifier), identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
-  }
-  return result;
 }
 

@@ -19,6 +19,7 @@
 
 GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& tarUrl, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion)
   : Gui(window)
+  , mTarRequest(Path(sDownloadFolder))
   , mTarUrl(tarUrl)
   , mImageUrl(imageUrl)
   , mSha1Url(sha1Url)
@@ -28,7 +29,6 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& t
   , mSender(*this)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 4))
-  , mTarRequest(Path(sDownloadFolder))
 {
   mRebootIn = _("REBOOT IN %s");
   mError = _("Error downloading Recalbox %s... Please retry later!");

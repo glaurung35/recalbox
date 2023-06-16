@@ -17,9 +17,9 @@ class Xz
     lzma_ret InitDecoder();
     lzma_ret Error();
     std::string ErrorMessage();
-    void InjectBuffer(uint8_t *inbuf, size_t inbuf_size, lzma_action action);
+    void InjectBuffer(const uint8_t *inbuf, size_t inbuf_size, lzma_action action);
     size_t Decompress(uint8_t *outbuf, size_t outbuf_size);
-    bool IsStillDecompressing();
+    [[nodiscard]] bool IsStillDecompressing() const;
 
   private:
     std::string m_message;

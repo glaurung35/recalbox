@@ -49,30 +49,12 @@ class GuiMenuGameSettings : public GuiMenuBase
     //! System manager
     SystemManager& mSystemManager;
 
-    //! Ratio
-    std::shared_ptr<OptionListComponent<std::string>> mRatio;
-    //! RecalboxOverlays
-    std::shared_ptr<SwitchComponent> mRecalboxOverlays;
     //! Smooth
     std::shared_ptr<SwitchComponent> mSmooth;
-    //! Rewind
-    std::shared_ptr<SwitchComponent> mRewind;
-    //! Soft-patching
-    std::shared_ptr<OptionListComponent<std::string>> mSoftpatching;
     //! Show save states
     std::shared_ptr<SwitchComponent> mShowSaveStates;
     //! Auto-save
     std::shared_ptr<SwitchComponent> mAutoSave;
-    //! Press twice to quit
-    std::shared_ptr<SwitchComponent> mQuitTwice;
-    //! Integer scale
-    std::shared_ptr<SwitchComponent> mIntegerScale;
-    //! Shaders
-    std::shared_ptr<OptionListComponent<std::string>> mShaders;
-    //! Shader Set
-    std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
-    //! Super GameBoy options
-    std::shared_ptr<OptionListComponent<std::string>> mSuperGameBoy;
 
     //! Get Ratio List
     static std::vector<ListEntry<std::string>> GetRatioEntries();

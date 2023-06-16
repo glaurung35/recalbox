@@ -9,7 +9,6 @@
 #include "GuiSaveStates.h"
 #include <games/GameFilesUtils.h>
 
-
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
 GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager, FileData& game, const std::function<void(const std::string& slot)>& func, bool fromMenu)
@@ -36,7 +35,7 @@ GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager
 
   initGridsNStuff();
 
-  const float height = Renderer::Instance().DisplayHeightAsFloat() * 0.75f;
+  const float height = Renderer::Instance().DisplayHeightAsFloat() * 0.78f;
   const float width = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().Is240p() ? 0.95f : 0.85f);
   setSize(width, height);
 
@@ -60,9 +59,9 @@ void GuiSaveStates::onSizeChanged()
   mGrid.setRowHeightPerc(0, 0.02f);
   mGrid.setRowHeightPerc(1, TITLE_HEIGHT / mSize.y());
   mGrid.setRowHeightPerc(2, TITLE_HEIGHT / mSize.y());
-  mGrid.setRowHeightPerc(3, 0.02f);
+  mGrid.setRowHeightPerc(3, 0.04f);
   mGrid.setRowHeightPerc(4, 0.f); // Auto size
-  mGrid.setRowHeightPerc(5, 0.02f);
+  mGrid.setRowHeightPerc(5, 0.04f);
 
   mGrid.setSize(mSize);
 }

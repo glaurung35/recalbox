@@ -12,7 +12,7 @@
 #include <string.h>
 #include <sys/stat.h>
 
-#define min64(a, b) ((a) < (b) ? (a) : (b))
+#define min64(a, b) ((long long int)(a) < (long long int)(b) ? (a) : (b))
 #define ASCII_TO_NUMBER(num) ((num)-48)
 
 Tar::Tar() {
@@ -44,10 +44,11 @@ bool Tar::IsTarEnd() {
 size_t Tar::InjectBuffer(uint8_t *bufferin, int buffersize) {
   size_t dataunarchived = 0;
   offsetinbuffer = 0;
-  while (offsetinbuffer != buffersize) {
+  while (offsetinbuffer != (uint32_t )buffersize) {
     switch (currentstatus) {
     case BUFFER_START:
       offsetincurrentobject = 0;
+      [[fallthrough]];
     case BUFFER_END: {
       offsetinbuffer +=
           ProcessHeader(bufferin + offsetinbuffer, buffersize - offsetinbuffer);
@@ -69,6 +70,7 @@ size_t Tar::InjectBuffer(uint8_t *bufferin, int buffersize) {
     }
     case BEGIN_FILE:
       offsetincurrentobject = 0;
+      [[fallthrough]];
     case IN_FILE: {
       offsetinbuffer +=
           ProcessFile(bufferin + offsetinbuffer, buffersize - offsetinbuffer);
@@ -84,6 +86,7 @@ size_t Tar::InjectBuffer(uint8_t *bufferin, int buffersize) {
     case BEGIN_PADDING:
       //  advance in buffer, for padding, continu on new buffer
       offsetincurrentobject = 0;
+      [[fallthrough]];
     case END_PADDING: {
       offsetinbuffer += ProcessPadding(bufferin + offsetinbuffer,
                                        buffersize - offsetinbuffer);
@@ -152,6 +155,7 @@ bool Tar::ProcessDirectory() {
 }
 
 uint64_t Tar::ProcessPadding(uint8_t *buffer, int buffersize) {
+  (void)buffer;
   int padding = GetPaddingSize();
   uint64_t remainingbytesforpadding = padding - offsetincurrentobject;
   uint64_t bytesforpadding = min64(remainingbytesforpadding, buffersize);

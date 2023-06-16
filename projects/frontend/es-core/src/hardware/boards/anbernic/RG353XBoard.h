@@ -18,8 +18,8 @@ class RG353XBoard: public IBoardInterface
   public:
     explicit RG353XBoard(HardwareMessageSender& messageSender, BoardType model)
       : IBoardInterface(messageSender)
-      , mPowerReader(messageSender)
       , mHeadphoneReader(messageSender)
+      , mPowerReader(messageSender)
       , mButtonsReader(*this)
       , mVolumeReader(messageSender)
       , mModel(model)
@@ -166,7 +166,7 @@ class RG353XBoard: public IBoardInterface
      * @brief The reboot or shutdown is managed by MainRunner, but the board can have some features to manage
      * @return True if a side effect has been triggered
      */
-    bool OnRebootOrShutdown() { return false; }
+    bool OnRebootOrShutdown() final { return false; }
 
     void HeadphonePlugged() final;
     void HeadphoneUnplugged() final;

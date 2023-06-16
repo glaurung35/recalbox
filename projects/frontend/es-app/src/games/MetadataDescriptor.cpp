@@ -313,6 +313,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
 
 void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, const Path& relativeTo) const
 {
+  (void)filePath;
   int count = 0;
   bool dummy = false;
 

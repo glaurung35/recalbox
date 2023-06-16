@@ -4,18 +4,13 @@
 //        for Recalbox 
 //
 
-#include <stdbool.h>
-#include <stdlib.h>
-#include <stdio.h>
-#include <string.h>
-#include <errno.h>
 #include <lzma.h>
-#include <string.h>
-#include <cstring>
 #include "Xz.h"
 
-Xz::Xz() :
-  m_strm LZMA_STREAM_INIT
+Xz::Xz()
+  : m_action(LZMA_RUN)
+  , m_status(LZMA_OK)
+  , m_strm LZMA_STREAM_INIT
 {
 }
 
@@ -29,11 +24,11 @@ lzma_ret Xz::InitDecoder() {
   return ret;
 }
 
-bool Xz::IsStillDecompressing() {
-  return m_strm.avail_in ? true : false;
+bool Xz::IsStillDecompressing() const {
+  return m_strm.avail_in != 0;
 }
 
-void Xz::InjectBuffer(uint8_t *inbuf, size_t inbuf_size, lzma_action action) {
+void Xz::InjectBuffer(const uint8_t *inbuf, size_t inbuf_size, lzma_action action) {
   m_strm.next_in = inbuf;
   m_strm.avail_in = inbuf_size;
   m_action = action;
@@ -123,6 +118,13 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
           "otherwise corrupt");
         break;
 
+      case LZMA_NO_CHECK:
+      case LZMA_OK:
+      case LZMA_STREAM_END:
+      case LZMA_UNSUPPORTED_CHECK:
+      case LZMA_GET_CHECK:
+      case LZMA_MEMLIMIT_ERROR:
+      case LZMA_PROG_ERROR:
       default:
         // This is most likely LZMA_PROG_ERROR.
         m_message = std::string("Unknown error, possibly a bug");

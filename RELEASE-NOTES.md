@@ -6,44 +6,43 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.1-Pulstar
 
-### News
+### Hardware
+- Add support for Anbernic rg353m, rg353p, rg353v
+- Add support for PiBoy XRS
 
-- Add TATE mode support for HDMI and CRT
-- Add support for Anbernic RG353m
-- Add CRT Curved shaders support
-- Add wizard to disable smooth when enabling shaders
+### News
+- Add TATE mode support for HDMI, CRT and handhelds
+- Add Game Downloader for free games of WASM4, Vectrex, UzeBox & TIC80 systems
+- Add start a game from savestate menu
+- Add new system Arduboy (libretro arduous)
+- Add new system Wasm4 (libretro wasm4)
 - Add support for Super Game Boy games
+- Add CRT Curved shaders support
 - Add new core for Philips CDI (libretro samecdi, for PC only)
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
-- Add game downloader for WASM4, Vectrex, UzeBox & TIC80 systems
 - Add libretro-mojozork as Z-Machine core
-- Add libretro-supafaust core for snes
+- Add libretro-supafaust core for Snes
 - Add support for break key for pad2keyboard
-- Add new system Arduboy (libretro arduous)
-- Add libretro-wasm4 for new system Wasm4
-- Add launching a game from savestate slot
 
 ### Bumps
-
 - Bump FBneo to aad581
 - Bump Hypseus-Singe to v2.10.4
 - Bump Netflix and Youtube plugins in Kodi
 
 ### Improvements
-
+- Add wizard to disable smooth game when enabling shaders
 - Add recommended info for scrap video selection in menu
 - Improved upgrade method, faster to upgrade and no need to have free space in share anymore
 
 ### Fixes
-
 - Fix crash when using run in background after the end of a scrap
 - New image for RPIZero (first one) and GPiCase2W
 - Add missing netplay support for sameboy and mgba
 - Fix naomi and atomiswave resolution in 240p for CRT
 - Fix Mortal Kombat resolution on CRT
 - Add missing joystick support on GPi Cases
-- Fix TIC80 downloader if any game have never get any update
+
 
 ## Version 9.0.2-Pulstar
 

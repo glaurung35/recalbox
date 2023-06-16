@@ -121,6 +121,7 @@ class Font : public IReloadable
 
   public:
     static void initLibrary();
+    static unsigned int lowResolutionMultipleSize(unsigned int size);
 
     static std::shared_ptr<Font> get(int size, const Path& path = getDefaultPath());
 

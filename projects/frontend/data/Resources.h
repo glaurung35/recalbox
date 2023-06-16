@@ -71,6 +71,9 @@ extern const uint8_t frame_png_data[];
 extern const uint16_t press_start_svg_size;
 extern const uint8_t press_start_svg_data[];
 
+extern const uint16_t favoritefont_ttf_size;
+extern const uint8_t favoritefont_ttf_data[];
+
 extern const uint16_t button_png_size;
 extern const uint8_t button_png_data[];
 
@@ -148,6 +151,9 @@ extern const uint8_t crt__p640x480_png_data[];
 
 extern const uint16_t crt__i768x576_png_size;
 extern const uint8_t crt__i768x576_png_data[];
+
+extern const uint16_t crt__logojamma_svg_size;
+extern const uint8_t crt__logojamma_svg_data[];
 
 extern const uint16_t crt__p320x240_png_size;
 extern const uint8_t crt__p320x240_png_data[];

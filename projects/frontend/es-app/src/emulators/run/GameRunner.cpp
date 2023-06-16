@@ -158,6 +158,10 @@ std::string GameRunner::CreateCommandLine(const FileData& game, const EmulatorDa
   else
     Strings::ReplaceAllIn(command, "%CORE%", core);
 
+  if(data.Jamma().ShouldConfigureJammaConfiggen()){
+    command.append(" -jammalayout ").append(data.Jamma().JammaControlType(game, emulator));
+  }
+
   return command;
 }
 
@@ -397,9 +401,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
   if (crtBoard.IsCrtAdapterAttached())
   {
-    result.append(" -crtadaptor ").append("present");
-    result.append(" -crtscreentype ").append(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 ?
-                                             (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz") : "31kHz");
+    result.append(" -crtadaptor ").append(crtBoard.ShortName());
     result.append(" -crtsuperrez ").append(CrtConf::Instance().GetSystemCRTSuperrez());
     // CRTV2 will be forced by user, or for tate mode
     if(CrtConf::Instance().GetSystemCRTUseV2())
@@ -416,6 +418,7 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
     // Resolution type
     if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
+      result.append(" -crtscreentype ").append( "31kHz");
       // force 240p only if game resolution select is active and 240p is selected
       if(demo)
         result.append(" -crtresolutiontype ").append(CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz() ? "doublefreq" : "progressive");
@@ -425,8 +428,26 @@ std::string GameRunner::BuildCRTOptions(const CrtData& data, const RotationType 
         result.append(" -crtresolutiontype ").append("progressive");
       result.append(" -crtvideostandard ntsc");
       // Scanlines
-      if(CrtConf::Instance().GetSystemCRTScanlines31kHz())
-        result.append(" -crtscanlines 1");
+      if(data.Scanlines() != CrtScanlines::None)
+        result.append(" -crtscanlines ").append(CrtConf::CrtScanlinesFromEnum(data.Scanlines()));
+    }
+    else if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
+    {
+      // Always progressive in multisync
+      result.append(" -crtresolutiontype progressive");
+      // Always 60Hz
+      result.append(" -crtvideostandard ntsc");
+      // Choice have been made by the user or have been automatically done
+      if(data.HighResolution())
+      {
+        result.append(" -crtscreentype ").append("31kHz");
+        // Scanlines
+        if(data.Scanlines() != CrtScanlines::None)
+          result.append(" -crtscanlines ").append(CrtConf::CrtScanlinesFromEnum(data.Scanlines()));
+      }
+      else
+        result.append(" -crtscreentype ").append( (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz"));
+
     }
     else
     {

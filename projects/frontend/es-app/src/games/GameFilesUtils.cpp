@@ -41,9 +41,9 @@ HashSet<String> GameFilesUtils::GetGameSaveFiles(FileData& game)
   return list;
 }
 
-std::list<SaveState> GameFilesUtils::GetGameSaveStateFiles(FileData& game)
+std::vector<SaveState> GameFilesUtils::GetGameSaveStateFiles(FileData& game)
 {
-  std::list<SaveState> list;
+  std::vector<SaveState> list;
   Path directory = Path("/recalbox/share/saves") / game.System().Name();
 
   if (game.IsGame())
@@ -119,7 +119,7 @@ HashSet<String> GameFilesUtils::GetGameExtraFiles(FileData& fileData)
 
 bool GameFilesUtils::HasAutoPatch(const FileData* fileData)
 {
-  std::list<Path> patches;
+  std::vector<Path> patches;
   if (!fileData->IsGame()) return false;
 
   Path path = fileData->RomPath();
@@ -180,9 +180,9 @@ Path GameFilesUtils::GetSubDirPriorityPatch(const FileData* fileData)
 
 
 
-std::list<Path> GameFilesUtils::GetSoftPatches(const FileData* fileData)
+std::vector<Path> GameFilesUtils::GetSoftPatches(const FileData* fileData)
 {
-  std::list<Path> patches;
+  std::vector<Path> patches;
   if (!fileData->IsGame()) return patches;
 
   Path path = fileData->RomPath();

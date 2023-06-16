@@ -15,8 +15,8 @@ class GameFilesUtils
     static HashSet<String> GetGameExtraFiles(FileData& fileData);
     static bool HasAutoPatch(const FileData* fileData);
     static Path GetSubDirPriorityPatch(const FileData* fileData);
-    static std::list<Path> GetSoftPatches(const FileData* fileData);
-    static std::list<SaveState> GetGameSaveStateFiles(FileData& game);
+    static std::vector<Path> GetSoftPatches(const FileData* fileData);
+    static std::vector<SaveState> GetGameSaveStateFiles(FileData& game);
     static HashSet<String> GetGameSaveFiles(FileData& game);
     static HashSet<String> GetMediaFiles(FileData& fileData);
 

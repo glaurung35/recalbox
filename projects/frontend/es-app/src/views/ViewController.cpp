@@ -511,7 +511,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
     }
   }
   bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
-  std::list<Path> patches = GameFilesUtils::GetSoftPatches(game);
+  std::vector<Path> patches = GameFilesUtils::GetSoftPatches(game);
 
   if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "disable")
   {

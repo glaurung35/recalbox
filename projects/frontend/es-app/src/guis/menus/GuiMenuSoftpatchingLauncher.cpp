@@ -8,7 +8,7 @@
 
 GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
                                                          FileData& game,
-                                                         std::list<Path>& patches,
+                                                         std::vector<Path>& patches,
                                                          int lastChoice,
                                                          const std::function<void()>& func1,
                                                          const std::function<void(const Path&)>& func2)

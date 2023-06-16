@@ -13,9 +13,7 @@ SaveState::SaveState(const Path& path)
 {
   struct stat attr{};
   stat(path.ToChars(), &attr);
-  mTimer = &attr.st_mtime;
-  mModificationDate = ctime(&attr.st_mtime);
-
+  mDateTime = DateTime((long long)attr.st_mtime);
 
   std::string ext = mPath.Extension();
   if (!path.Exists())

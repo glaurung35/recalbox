@@ -14,16 +14,14 @@ class SaveState
 
     [[nodiscard]] Path GetPath() const { return mPath; }
     [[nodiscard]] Path GetThrumbnail() const { return mThumbnailPath; }
-    [[nodiscard]] std::string GetModificationDate() const { return mModificationDate; }
     [[nodiscard]] int GetSlotNumber() const { return mSlotNumber; }
     [[nodiscard]] bool GetIsAuto() const { return mIsAuto; }
-    [[nodiscard]] timer_t GetMtimer() const { return mTimer; }
+    [[nodiscard]] DateTime GetDateTime() const { return mDateTime; }
 
   private:
     Path mPath;
     Path mThumbnailPath;
-    std::string mModificationDate;
-    timer_t mTimer;
+    DateTime mDateTime;
     int mSlotNumber;
     bool mIsAuto;
 };

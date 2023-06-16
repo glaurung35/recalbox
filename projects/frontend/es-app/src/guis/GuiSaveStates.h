@@ -27,22 +27,18 @@ class GuiSaveStates : public Gui
 
     void PopulateGrid();
 
-    void updateInformations(int i);
+    void updateInformations();
 
-    void launch(const std::string slot);
+    void launch(const String& slot);
 
     void initGridsNStuff();
-
-    void clear();
-
-    SaveState GetStateAt(int index);
 
   private:
 
     enum class Sort
     {
-      SLOT_ASC,
-      SLOT_DESC
+      Ascending,
+      Descending,
     };
 
     SystemManager& mSystemManager;
@@ -50,15 +46,11 @@ class GuiSaveStates : public Gui
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
     std::shared_ptr<MenuTheme> mMenuTheme;
-    std::shared_ptr<ComponentGrid> mGridBody;
-    std::shared_ptr<ComponentGrid> mGridLogoAndMD;
     std::shared_ptr<TextComponent> mTitle;
     std::shared_ptr<TextComponent> mGameName;
     std::shared_ptr<ComponentList> mList;
     std::shared_ptr<ImageComponent> mThumbnail;
-    std::shared_ptr<TextComponent> mStateField;
-    std::shared_ptr<TextComponent> mModificationTimeField;
-    std::list<SaveState> mSaveStates;
+    std::vector<SaveState> mSaveStates;
     FileData& mGame;
     bool mIsLibretro;
     bool mFromMenu;
@@ -67,8 +59,6 @@ class GuiSaveStates : public Gui
     std::function<void(const std::string& slot)> mFunc;
 
     void Delete();
-
-    void GetSaveStates();
 
     static bool asc(const SaveState& first, const SaveState& second)
     {

@@ -23,6 +23,7 @@ struct Vertex
         Point& operator += (const Vector2f& v) { X += v.x(); Y += v.y(); return *this; }
         Point  operator  + (const Vector2f& v) const { return { X + v.x(), Y + v.y() }; }
         void Set(float x, float y) { X = x; Y= y; }
+        void Set(int x, int y) { X = (float)x; Y = (float)y; }
         void Round() { X = Math::round(X); Y = Math::round(Y); }
     };
 

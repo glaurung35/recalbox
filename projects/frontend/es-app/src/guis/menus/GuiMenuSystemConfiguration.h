@@ -15,7 +15,7 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuSystemConfiguration : public GuiMenuBase
-                                 , private IOptionListComponent<std::string>
+                                 , private IOptionListComponent<String>
                                  , private ISwitchComponent
 {
   public:
@@ -53,35 +53,20 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
     //! Default core
     std::string mDefaultCore;
 
-    //! Emulator
-    std::shared_ptr<OptionListComponent<std::string>> mEmulator;
-    //! Ratio
-    std::shared_ptr<OptionListComponent<std::string>> mRatio;
-    //! Smooth
-    std::shared_ptr<SwitchComponent> mSmooth;
-    //! Rewind
-    std::shared_ptr<SwitchComponent> mRewind;
-    //! Auto-save
-    std::shared_ptr<SwitchComponent> mAutoSave;
-    //! Shaders
-    std::shared_ptr<OptionListComponent<std::string>> mShaders;
-    //! Shader Set
-    std::shared_ptr<OptionListComponent<std::string>> mShaderSet;
-
     //! Get Emulator List
-    std::vector<ListEntry<std::string>> GetEmulatorEntries();
+    std::vector<ListEntry<String>> GetEmulatorEntries();
     //! Get Ratio List
-    std::vector<ListEntry<std::string>> GetRatioEntries();
+    std::vector<ListEntry<String>> GetRatioEntries();
     //! Get Shaders List
-    std::vector<ListEntry<std::string>> GetShadersEntries();
+    std::vector<ListEntry<String>> GetShadersEntries();
     //! Get ShaderSet List
-    std::vector<ListEntry<std::string>> GetShaderSetEntries();
+    std::vector<ListEntry<String>> GetShaderSetEntries();
 
     /*
      * IOptionListComponent<std::string> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * ISwitchComponent implementation

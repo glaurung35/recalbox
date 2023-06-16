@@ -5,6 +5,9 @@
 #include <string>
 #include <map>
 
+extern const uint16_t Arcade_png_size;
+extern const uint8_t Arcade_png_data[];
+
 extern const uint16_t star_filled_svg_size;
 extern const uint8_t star_filled_svg_data[];
 
@@ -296,6 +299,9 @@ extern const uint8_t help__button_x_svg_data[];
 extern const uint16_t help__dpad_all_svg_size;
 extern const uint8_t help__dpad_all_svg_data[];
 
+extern const uint32_t wizard__didyouknow_png_size;
+extern const uint8_t wizard__didyouknow_png_data[];
+
 extern const uint16_t genre__compilation_svg_size;
 extern const uint8_t genre__compilation_svg_data[];
 
@@ -541,9 +547,6 @@ extern const uint8_t regions__it_svg_data[];
 
 extern const uint16_t regions__us_svg_size;
 extern const uint8_t regions__us_svg_data[];
-
-extern const uint32_t regions___Free_Flat_Flags_227_zip_size;
-extern const uint8_t regions___Free_Flat_Flags_227_zip_data[];
 
 extern const uint16_t regions__no_svg_size;
 extern const uint8_t regions__no_svg_data[];

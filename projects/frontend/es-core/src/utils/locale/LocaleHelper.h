@@ -5,7 +5,7 @@
 #define STRING_AND_LENGTH(s) s, sizeof(s) - 1
 
 //! Use it with const char*
-#define _(String) Internationalizer::GetText(STRING_AND_LENGTH(String))
+#define _(s) Internationalizer::GetText(STRING_AND_LENGTH(s))
 //! Use it with std::string
 #define _S(String) Internationalizer::GetText(String.c_str(), (int)String.size())
 

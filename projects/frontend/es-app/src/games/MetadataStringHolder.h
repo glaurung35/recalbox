@@ -77,16 +77,16 @@ class MetadataStringHolder
      * @param index String index
      * @return String
      */
-    std::string GetString(Index32 index);
+    String GetString(Index32 index);
 
     /*!
      * @brief Get a string from its index
      * @param index String index
      * @return String
      */
-    std::string GetString(Index32 index, const std::string& defaultValue)
+    String GetString(Index32 index, const std::string& defaultValue)
     {
-      std::string result = GetString(index);
+      String result = GetString(index);
       if (result.empty()) return defaultValue;
       return result;
     }
@@ -99,13 +99,13 @@ class MetadataStringHolder
     Path GetPath(Index32 index);
 
     //! Get storage size
-    int StorageSize() const { return mMetaString.Capacity() + mIndexes.ByteSize(); }
+    [[nodiscard]] int StorageSize() const { return mMetaString.Capacity() + mIndexes.ByteSize(); }
 
     //! Get storage size
-    int ObjectCount() const { return mIndexes.Count(); }
+    [[nodiscard]] int ObjectCount() const { return mIndexes.Count(); }
 
     //! Is the given index valid?
-    bool IsValid(int index) const { return index < mIndexes.Count(); }
+    [[nodiscard]] bool IsValid(int index) const { return index < mIndexes.Count(); }
 
     /*!
      * @brief Search text and return a list of index (and distance for sorting)

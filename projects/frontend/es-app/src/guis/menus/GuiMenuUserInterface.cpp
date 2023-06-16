@@ -9,6 +9,7 @@
 #include "GuiMenuThemeConfiguration.h"
 #include "GuiMenuGameFilters.h"
 #include "GuiMenuBase.h"
+#include "GuiMenuArcadeOptions.h"
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
@@ -32,19 +33,19 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   AddSubMenu(_("THEME CONFIGURATION"), (int)Components::ThemeConfig, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
 
   // System sort
-  mSort = AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
+  AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
 
   // quick system select (left/right in game list view)
-  mQuickSelect = AddSwitch(_("QUICK SYSTEM SELECT"), RecalboxConf::Instance().GetQuickSystemSelect(), (int)Components::QuickSelect, this, _(MENUMESSAGE_UI_QUICK_HELP_MSG));
+  AddSwitch(_("QUICK SYSTEM SELECT"), RecalboxConf::Instance().GetQuickSystemSelect(), (int)Components::QuickSelect, this, _(MENUMESSAGE_UI_QUICK_HELP_MSG));
 
   // show help
-  mHelp = AddSwitch(_("ON-SCREEN HELP"), RecalboxConf::Instance().GetShowHelp(), (int)Components::Help, this, _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
+  AddSwitch(_("ON-SCREEN HELP"), RecalboxConf::Instance().GetShowHelp(), (int)Components::Help, this, _(MENUMESSAGE_UI_ONSCREENHELP_HELP_MSG));
 
   // Swap validate and cancel buttons
-  mSwapValidateAndCancel = AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG));
+  AddSwitch(_("SWAP VALIDATE/CANCEL BUTTONS"), RecalboxConf::Instance().GetSwapValidateAndCancel(), (int)Components::SwapValidateAndCancel, this, _(MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG));
 
   // display clock
-  mClock = AddSwitch(_("CLOCK IN MENU"), RecalboxConf::Instance().GetClock(), (int)Components::Clock, this, _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
+  AddSwitch(_("CLOCK IN MENU"), RecalboxConf::Instance().GetClock(), (int)Components::Clock, this, _(MENUMESSAGE_UI_CLOCK_HELP_MSG));
 
   // Popup settings
   AddSubMenu(_("POPUP SETTINGS"), (int)Components::Popups, _(MENUMESSAGE_UI_POPUP_HELP_MSG));
@@ -54,6 +55,9 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
 
   // Display filename
   AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
+
+  // Arcade options
+  AddSubMenu(_("ARCADE VIEW OPTIONS"), (int)Components::Arcade, _(MENUMESSAGE_UI_ARCADE_MSG));
 
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -88,9 +92,8 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); break;
     case Components::ThemeConfig: mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
     case Components::UpdateGamelist: ReloadGamelists(); break;
-    case Components::Filters:
-      mWindow.pushGui(new GuiMenuGameFilters(mWindow));
-      break;
+    case Components::Filters: mWindow.pushGui(new GuiMenuGameFilters(mWindow)); break;
+    case Components::Arcade: mWindow.pushGui(new GuiMenuArcadeOptions(mWindow)); break;
     case Components::Brightness:
     case Components::Clock:
     case Components::SwapValidateAndCancel:
@@ -138,7 +141,8 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
     case Components::ScreenSaver:
     case Components::SystemSort:
     case Components::Filters:
-    case Components::Brightness: break;
+    case Components::Brightness:
+    case Components::Arcade: break;
   }
 }
 

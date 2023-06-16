@@ -30,7 +30,7 @@ void MetadataStringHolder::Finalize()
   mStringToIndexes.clear();
 }
 
-std::string MetadataStringHolder::GetString(Index32 index)
+String MetadataStringHolder::GetString(Index32 index)
 {
   // Synchronize
   Mutex::AutoLock locker(mSyncher);

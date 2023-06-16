@@ -93,7 +93,14 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG "Hide all pre-installed games."
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
+    #define MENUMESSAGE_UI_ARCADE_MSG "Specific options or arcade system views."
+    #define MENUMESSAGE_UI_ARCADE_ENHANCED_MSG "Enabled new arcade view with parent/clones sorted hierarchically."
+    #define MENUMESSAGE_UI_ARCADE_HIDE_CLONES_MSG "Hide clones and orphaned games"
+    #define MENUMESSAGE_UI_ARCADE_HIDE_BIOS_MSG "Hide bios files"
+    #define MENUMESSAGE_UI_ARCADE_HIDE_NONWORKING_MSG "Hide unknown and non-working games"
+    #define MENUMESSAGE_UI_ARCADE_OFFICIAL_NAMES_MSG "Always use arcade names from official databases. Overwrite manual edition & scraper results."
 
+    #define MENUMESSAGE_ARCADE_HELP_MSG "Manage all arcade options."
     #define MENUMESSAGE_TATE_HELP_MSG "Manage screen and game rotation options"
     #define MENUMESSAGE_TATE_SCREEN_ROTATION "Proceed to a complete screen rotation, for frontend and games."
 
@@ -165,6 +172,7 @@ class MenuMessages
     #define MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG "This option display a menu which allows to change game data and many others options."
     #define MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG "This option display a menu which allows to DELETE game data"
     #define MENUMESSAGE_GAMELISTOPTION_SAVE_STATES_MSG "This option display a menu which allows to manage savestates for a game."
+    #define MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG "Enable filtering by manufacturers and/or famous systems."
 
     #define MENUMESSAGE_ADVANCED_CRT_HELP_MSG "RGB output for VGA666, PI2SCART, RGBPI."
     #define MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG "Enable RGB output for VGA666, PI2SCART, RGBPI."

@@ -20,7 +20,7 @@ bool LightGunDatabase::SetCurrentSystem(const SystemData& system)
   return mCurrentList != nullptr;
 }
 
-bool LightGunDatabase::ApplyFilter(const FileData& file) const
+bool LightGunDatabase::ApplyFilter(const FileData& file)
 {
   std::string name = GetSimplifiedName(file.Name().empty() ? file.RomPath().FilenameWithoutExtension() : file.Name());
   if (mCurrentList != nullptr)

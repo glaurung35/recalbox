@@ -30,7 +30,7 @@ class EmulatorManager : public INoCopy
      * @param core Core name to check
      * @return True if both emulator/core exist for the given system, false otherwise
      */
-    bool CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const;
+    [[nodiscard]] bool CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const;
 
     /*!
      * @brief Try to guess either the emulator or the core name for the given system, using the following algorithm:
@@ -131,14 +131,14 @@ class EmulatorManager : public INoCopy
      * @param game Game to get emulator/core for
      * @return Emulator/Core holder. May be invalid.
      */
-    EmulatorData GetGameEmulator(const FileData& game) const;
+    [[nodiscard]] EmulatorData GetGameEmulator(const FileData& game) const;
 
     /*!
      * @brief Get emulator list for the given system. The first item is the default emulator
      * @param system System to get emulator list from
      * @return Emulator list
      */
-    Strings::Vector GetEmulators(const SystemData& system) const;
+    [[nodiscard]] Strings::Vector GetEmulators(const SystemData& system) const;
 
     /*!
      * @brief Get core list for the given system and the given emulator
@@ -146,12 +146,12 @@ class EmulatorManager : public INoCopy
      * @param emulator Emulator ro get core list from
      * @return Core list
      */
-    Strings::Vector GetCores(const SystemData& system, const std::string& emulator) const;
+    [[nodiscard]] Strings::Vector GetCores(const SystemData& system, const std::string& emulator) const;
 
     /*!
      * @brief Check if the user had overloaded the emulator or core in any configuration
      * @param game FileData to check against emulator/code
      * @return True if any of emulator/core has been overloaded in any config file
     */
-    bool ConfigOverloaded(const FileData& game) const;
+    [[nodiscard]] bool ConfigOverloaded(const FileData& game) const;
 };

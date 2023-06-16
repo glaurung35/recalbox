@@ -22,6 +22,13 @@ define SUPERMODEL_BUILD_CMDS
 endef
 
 define SUPERMODEL_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/model3
+	xsltproc $(ARCADE_DATS_DIR)/model3.xslt $(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/dats/model3/model3.dat
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/model3/model3.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/model3.fdt
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/model3/model3.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/model3.lst
 	$(INSTALL) -D -m 0755 $(@D)/bin/supermodel \
 		$(TARGET_DIR)/usr/bin/supermodel
 	$(INSTALL) -D -m 0644 $(@D)/Config/Games.xml \

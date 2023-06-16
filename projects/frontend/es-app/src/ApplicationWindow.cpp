@@ -13,7 +13,8 @@ bool ApplicationWindow::ProcessInput(const InputCompactEvent& event)
     mClosed = true;
     return true;
   }
-  const InputCompactEvent& rotated = RotationManager::ShouldRotateFrontendControls() ? InputCompactEvent::Rotate(event) : event;
+  InputCompactEvent rotated(event);
+  if (RotationManager::ShouldRotateFrontendControls()) rotated.Rotate();
   if (WindowManager::ProcessInput(rotated)) return true;
   return mViewController.ProcessInput(rotated);
 }

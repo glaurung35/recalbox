@@ -124,6 +124,7 @@ TEST_F(StringTestTrimming, TestToTrimRight)
 TEST_F(StringTestTrimming, TestTrimConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().Trim(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.Trim(trimmed) == "Recal[)ox");
   ASSERT_TRUE(s == "Recal[)ox");
@@ -141,6 +142,7 @@ TEST_F(StringTestTrimming, TestTrimConstChar)
 TEST_F(StringTestTrimming, TestTrimLeftConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().TrimLeft(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.TrimLeft(trimmed) == "Recal[)ox]]");
   ASSERT_TRUE(s == "Recal[)ox]]");
@@ -158,6 +160,7 @@ TEST_F(StringTestTrimming, TestTrimLeftConstChar)
 TEST_F(StringTestTrimming, TestTrimRightConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().TrimRight(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.TrimRight(trimmed) == "[[Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox");
@@ -175,6 +178,7 @@ TEST_F(StringTestTrimming, TestTrimRightConstChar)
 TEST_F(StringTestTrimming, TestToTrimConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().ToTrim(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrim(trimmed) == "Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -192,6 +196,7 @@ TEST_F(StringTestTrimming, TestToTrimConstChar)
 TEST_F(StringTestTrimming, TestToTrimLeftConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().ToTrimLeft(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrimLeft(trimmed) == "Recal[)ox]]");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -209,6 +214,7 @@ TEST_F(StringTestTrimming, TestToTrimLeftConstChar)
 TEST_F(StringTestTrimming, TestToTrimRightConstChar)
 {
   const char* trimmed = "{[<()>]}";
+  ASSERT_TRUE(String().ToTrimRight(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrimRight(trimmed) == "[[Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -226,6 +232,7 @@ TEST_F(StringTestTrimming, TestToTrimRightConstChar)
 TEST_F(StringTestTrimming, TestTrimString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().Trim(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.Trim(trimmed) == "Recal[)ox");
   ASSERT_TRUE(s == "Recal[)ox");
@@ -243,6 +250,7 @@ TEST_F(StringTestTrimming, TestTrimString)
 TEST_F(StringTestTrimming, TestTrimLeftString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().TrimLeft(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.TrimLeft(trimmed) == "Recal[)ox]]");
   ASSERT_TRUE(s == "Recal[)ox]]");
@@ -260,6 +268,7 @@ TEST_F(StringTestTrimming, TestTrimLeftString)
 TEST_F(StringTestTrimming, TestTrimRightString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().TrimRight(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.TrimRight(trimmed) == "[[Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox");
@@ -277,6 +286,7 @@ TEST_F(StringTestTrimming, TestTrimRightString)
 TEST_F(StringTestTrimming, TestToTrimString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().ToTrim(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrim(trimmed) == "Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -294,6 +304,7 @@ TEST_F(StringTestTrimming, TestToTrimString)
 TEST_F(StringTestTrimming, TestToTrimLeftString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().ToTrimLeft(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrimLeft(trimmed) == "Recal[)ox]]");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -311,6 +322,7 @@ TEST_F(StringTestTrimming, TestToTrimLeftString)
 TEST_F(StringTestTrimming, TestToTrimRightString)
 {
   String trimmed("{[<()>]}");
+  ASSERT_TRUE(String().ToTrimRight(trimmed).empty());
   String s("[[Recal[)ox]]");
   ASSERT_TRUE(s.ToTrimRight(trimmed) == "[[Recal[)ox");
   ASSERT_TRUE(s == "[[Recal[)ox]]");
@@ -328,6 +340,7 @@ TEST_F(StringTestTrimming, TestToTrimRightString)
 TEST_F(StringTestTrimming, TestTrimChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().Trim(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.Trim(trimmed) == "Recal*Box");
   ASSERT_TRUE(s == "Recal*Box");
@@ -345,6 +358,7 @@ TEST_F(StringTestTrimming, TestTrimChar)
 TEST_F(StringTestTrimming, TestTrimLeftChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().TrimLeft(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.TrimLeft(trimmed) == "Recal*Box**");
   ASSERT_TRUE(s == "Recal*Box**");
@@ -362,6 +376,7 @@ TEST_F(StringTestTrimming, TestTrimLeftChar)
 TEST_F(StringTestTrimming, TestTrimRightChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().TrimRight(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.TrimRight(trimmed) == "**Recal*Box");
   ASSERT_TRUE(s == "**Recal*Box");
@@ -379,6 +394,7 @@ TEST_F(StringTestTrimming, TestTrimRightChar)
 TEST_F(StringTestTrimming, TestToTrimChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().ToTrim(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.ToTrim(trimmed) == "Recal*Box");
   ASSERT_TRUE(s == "**Recal*Box**");
@@ -396,6 +412,7 @@ TEST_F(StringTestTrimming, TestToTrimChar)
 TEST_F(StringTestTrimming, TestToTrimLeftChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().ToTrimLeft(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.ToTrimLeft(trimmed) == "Recal*Box**");
   ASSERT_TRUE(s == "**Recal*Box**");
@@ -413,6 +430,7 @@ TEST_F(StringTestTrimming, TestToTrimLeftChar)
 TEST_F(StringTestTrimming, TestToTrimRightChar)
 {
   char trimmed = '*';
+  ASSERT_TRUE(String().ToTrimRight(trimmed).empty());
   String s("**Recal*Box**");
   ASSERT_TRUE(s.ToTrimRight(trimmed) == "**Recal*Box");
   ASSERT_TRUE(s == "**Recal*Box**");

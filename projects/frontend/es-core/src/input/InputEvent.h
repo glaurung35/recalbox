@@ -111,6 +111,14 @@ class InputEvent
      */
     void StoreSDLCode(int deviceIndex);
 
+    [[nodiscard]] bool EqualsTo(const InputEvent& to) const
+    {
+      return mDeviceIdentifier == to.mDeviceIdentifier &&
+             mType == to.mType &&
+             mId == to.mId &&
+             mValue == to.mValue;
+    }
+
     /*
      * Helpers
      */

@@ -3690,31 +3690,24 @@ msgstr ""
 msgid "TB"
 msgstr ""
 
-#
 msgid "SAVE STATES"
 msgstr ""
 
-#
 msgid "SHOW SAVE STATES ON START"
 msgstr ""
 
-#
 msgid "You are about to delete this state, confirm ?"
 msgstr ""
 
-#
 msgid "DELETE STATE, CONFIRM?"
 msgstr ""
 
-#
 msgid "CHANGE ORDER"
 msgstr ""
 
-#
 msgid "LAUNCH GAME FROM STATE"
 msgstr ""
 
-#
 msgid "DELETE STATE SLOT"
 msgstr ""
 
@@ -3724,109 +3717,261 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr ""
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
 msgstr ""
 
-#
 msgid "Downloading... Estimated time: %s"
 msgstr ""
 
-#
 msgid "Extracting... found %s games"
 msgstr ""
 
-#
 msgid "Updating metadata..."
 msgstr ""
 
-#
 msgid "Refreshing gamelist..."
 msgstr ""
 
-#~ msgid "DISK USAGE"
-#~ msgstr "磁盘使用情况"
+msgid "DISK USAGE"
+msgstr "磁盘使用情况"
 
-#~ msgid "SECURITY"
-#~ msgstr "安全"
-
-#, fuzzy
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "加强安全"
+msgid "SECURITY"
+msgstr "安全"
 
 #, fuzzy
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "管理员密码"
+msgid "ENFORCE SECURITY"
+msgstr "加强安全"
 
 #, fuzzy
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "配对一个蓝牙控制器"
-
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr "设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK会将屏幕调黑。"
-
-#~ msgid "Manage your recalbox security."
-#~ msgstr "管理 Recalbox 的安全设置。"
+msgid "ROOT PASSWORD"
+msgstr "管理员密码"
 
 #, fuzzy
-#~ msgid "Change the SSH root password."
-#~ msgstr "更改 SSH 管理员密码。"
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "配对一个蓝牙控制器"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr "设置屏幕保护程序的效果。DIM 会调暗屏幕；BLACK会将屏幕调黑。"
+
+msgid "Manage your recalbox security."
+msgstr "管理 Recalbox 的安全设置。"
 
 #, fuzzy
-#~ msgid "Enforce recalbox security."
-#~ msgstr "加强 Recalbox 的安全性。"
+msgid "Change the SSH root password."
+msgstr "更改 SSH 管理员密码。"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "更新版本："
+msgid "UPDATE VERSION:"
+msgstr "更新版本："
 
-#~ msgid "Rom found"
-#~ msgstr "发现 ROM"
+msgid "Rom found"
+msgstr "发现 ROM"
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "将系统复制到另一设备上。\n"
-#~ "警告！这会擦除目标设备上的一切数据。"
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"将系统复制到另一设备上。\n"
+"警告！这会擦除目标设备上的一切数据。"
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "显示一个“所有游戏”系统，其中包含所有游戏系统中的所有游戏。"
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "显示一个“所有游戏”系统，其中包含所有游戏系统中的所有游戏。"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "实时策略"
+msgid "Real Time Stratégy"
+msgstr "实时策略"
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "如果按下 POWER/电源键超过2秒，主机将会关闭。如果您在游戏中这样做，"
-#~ "Recalbox 将在关闭电源前正常关闭当前的模拟器。\n"
-#~ "请注意，若您按住电源键超过5秒，主机将会硬关机。\n"
-#~ "\n"
-#~ "请按B键继续。"
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"如果按下 POWER/电源键超过2秒，主机将会关闭。如果您在游戏中这样做，Recalbox 将"
+"在关闭电源前正常关闭当前的模拟器。\n"
+"请注意，若您按住电源键超过5秒，主机将会硬关机。\n"
+"\n"
+"请按B键继续。"
 
-#~ msgid "added to favorites"
-#~ msgstr "已添加到收藏"
+msgid "added to favorites"
+msgstr "已添加到收藏"
 
-#~ msgid "removed from favorites"
-#~ msgstr "已从收藏中移除"
+msgid "removed from favorites"
+msgstr "已从收藏中移除"
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "无法播放游戏剪辑。\n"
-#~ "\n"
-#~ "没有可供您选择的视频。"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"无法播放游戏剪辑。\n"
+"\n"
+"没有可供您选择的视频。"
+
+msgid "Analog Output"
+msgstr ""
+
+msgid "HDMI / DisplayPort"
+msgstr ""
+
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+
+msgid "480i (recommended)"
+msgstr ""
+
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+
+msgid "60Hz & 50Hz"
+msgstr ""
+
+msgid "ADVANCED SHADERS"
+msgstr ""
+
+msgid "GAME BOY MODE"
+msgstr ""
+
+msgid "GAME BOY"
+msgstr ""
+
+msgid "SUPER GAME BOY"
+msgstr ""
+
+msgid "ASK AT LAUNCH"
+msgstr ""
+
+msgid "CRT CURVED"
+msgstr ""
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+
+msgid "Optimized video"
+msgstr ""
+
+msgid "RECOMMENDED"
+msgstr ""
+
+msgid "USE V2 (BETA)"
+msgstr ""
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr ""
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr ""
+
+msgid "TATE SETTINGS"
+msgstr ""
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr ""
+
+msgid "GAMES ROTATION"
+msgstr ""
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr ""
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+
+msgid "Missing bios list:"
+msgstr ""
+
+msgid "GameBoy Mode"
+msgstr ""
+
+msgid "Rotation"
+msgstr ""
+
+msgid "Full Screen"
+msgstr ""
+
+msgid "DOWNLOAD CONTENTS"
+msgstr ""
+
+msgid "SHOW REGION"
+msgstr ""
+
+msgid "DISPLAY NAME BY"
+msgstr ""
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+msgid "licences"
+msgstr ""
+
+msgid "Start downloading..."
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "Games"
+msgstr ""
+
+msgid "Games of licence"
+msgstr ""
+
+msgid "ALIAS"
+msgstr ""
+
+msgid "FAMILY"
+msgstr ""
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr ""
+
+msgid "Installing %s games"
+msgstr ""

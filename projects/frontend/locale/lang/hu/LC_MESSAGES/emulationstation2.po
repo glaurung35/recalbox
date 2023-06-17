@@ -3877,31 +3877,24 @@ msgstr "GB"
 msgid "TB"
 msgstr "TB"
 
-#
 msgid "SAVE STATES"
 msgstr ""
 
-#
 msgid "SHOW SAVE STATES ON START"
 msgstr ""
 
-#
 msgid "You are about to delete this state, confirm ?"
 msgstr ""
 
-#
 msgid "DELETE STATE, CONFIRM?"
 msgstr ""
 
-#
 msgid "CHANGE ORDER"
 msgstr ""
 
-#
 msgid "LAUNCH GAME FROM STATE"
 msgstr ""
 
-#
 msgid "DELETE STATE SLOT"
 msgstr ""
 
@@ -3911,124 +3904,265 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr ""
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
 msgstr ""
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "Letöltés... Becsült idő: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "Kitömörítés... %s játék található"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "Metaadat frissítés..."
 
-#
 msgid "Refreshing gamelist..."
+msgstr "Játéklista frissítés..."
+
+msgid "DISK USAGE"
+msgstr "LEMEZHASZNÁLAT"
+
+msgid "SECURITY"
+msgstr "BIZTONSÁG"
+
+msgid "ENFORCE SECURITY"
+msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
+
+msgid "ROOT PASSWORD"
+msgstr "ROOT JELSZÓ"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "BLUETOOTH KONTROLLER PÁROSÍTÁSA"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr ""
+"Képernyőkímélő viselkedése. DIM csökkenti a fényerőt, a BLACK lekapcsolja a "
+"kijelzőt."
+
+msgid "Manage your recalbox security."
+msgstr "Recalbox biztonság konfigurálása."
+
+msgid "Change the SSH root password."
+msgstr "SSH root jelszó megváltoztatása."
+
+msgid "UPDATE VERSION:"
+msgstr "FRISSÍTÉS VERZIÓ:"
+
+msgid "Rom found"
+msgstr "ROM megtalálva"
+
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Az aktuális rendszer másolása egy másik eszközre. Figyelem! Törölni fog "
+"minden adatot a céleszközön."
+
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr ""
+"Mutasson egy 'összes játékot' tartalmazó rendszert minden rendszer összes "
+"játékával."
+
+msgid "Real Time Stratégy"
+msgstr "Stratégia"
+
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"Ha 2 másodpercnél tovább nyomod a POWER gombot, a konzol kikapcsol. Ha ezt a "
+"játékban teszed meg, a Recalbox bezárja az aktuális emulátort, mielőtt "
+"kikapcsolna.\n"
+"Csak hogy tisztában legyél vele, a POWER gomb több mint 5 másodpercig "
+"történő nyomva tartása azonnali leállítást hajt végre.\n"
+"\n"
+"Nyomd meg a B gombot a folytatáshoz."
+
+msgid "added to favorites"
+msgstr "kedvencekhez adva"
+
+msgid "removed from favorites"
+msgstr "eltávolítva a kedvencekből"
+
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"A játék klipjeit nem lehet lejátszani.\n"
+"\n"
+"Nem állnak rendelkezésre videók a kiválasztotthoz."
+
+msgid "Analog Output"
+msgstr "Analóg kimenet"
+
+msgid "HDMI / DisplayPort"
+msgstr "HDMI / DisplayPort"
+
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+"A KEDVENCEK LISTÁJA ÜRES. AZ ÖSSZES JÁTÉK MEGJELENÍTÉSÉHEZ NYOMD MEG A "
+"KIVÁLASZTÁS GOMBOT."
+
+msgid "480i (recommended)"
+msgstr "480i (ajánlott)"
+
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
 msgstr ""
 
-#~ msgid "DISK USAGE"
-#~ msgstr "LEMEZHASZNÁLAT"
+msgid "60Hz & 50Hz"
+msgstr ""
 
-#~ msgid "SECURITY"
-#~ msgstr "BIZTONSÁG"
+msgid "ADVANCED SHADERS"
+msgstr ""
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "BIZTONSÁG ÉRVÉNYESÍTÉSE"
+msgid "GAME BOY MODE"
+msgstr ""
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT JELSZÓ"
+msgid "GAME BOY"
+msgstr ""
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "BLUETOOTH KONTROLLER PÁROSÍTÁSA"
+msgid "SUPER GAME BOY"
+msgstr ""
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Képernyőkímélő viselkedése. DIM csökkenti a fényerőt, a BLACK lekapcsolja "
-#~ "a kijelzőt."
+msgid "ASK AT LAUNCH"
+msgstr ""
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Recalbox biztonság konfigurálása."
+msgid "CRT CURVED"
+msgstr ""
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "SSH root jelszó megváltoztatása."
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Recalbox biztonság érvényesítése."
+msgid "Optimized video"
+msgstr "Optimalizált video"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "FRISSÍTÉS VERZIÓ:"
+msgid "RECOMMENDED"
+msgstr "AJÁNLOTT"
 
-#~ msgid "Rom found"
-#~ msgstr "ROM megtalálva"
+msgid "USE V2 (BETA)"
+msgstr ""
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Az aktuális rendszer másolása egy másik eszközre. Figyelem! Törölni fog "
-#~ "minden adatot a céleszközön."
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr ""
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr ""
-#~ "Mutasson egy 'összes játékot' tartalmazó rendszert minden rendszer összes "
-#~ "játékával."
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr ""
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Stratégia"
+msgid "TATE SETTINGS"
+msgstr ""
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "Ha 2 másodpercnél tovább nyomod a POWER gombot, a konzol kikapcsol. Ha "
-#~ "ezt a játékban teszed meg, a Recalbox bezárja az aktuális emulátort, "
-#~ "mielőtt kikapcsolna.\n"
-#~ "Csak hogy tisztában legyél vele, a POWER gomb több mint 5 másodpercig "
-#~ "történő nyomva tartása azonnali leállítást hajt végre.\n"
-#~ "\n"
-#~ "Nyomd meg a B gombot a folytatáshoz."
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr ""
 
-#~ msgid "added to favorites"
-#~ msgstr "kedvencekhez adva"
+msgid "GAMES ROTATION"
+msgstr ""
 
-#~ msgid "removed from favorites"
-#~ msgstr "eltávolítva a kedvencekből"
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr ""
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "A játék klipjeit nem lehet lejátszani.\n"
-#~ "\n"
-#~ "Nem állnak rendelkezésre videók a kiválasztotthoz."
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
 
-#~ msgid "Analog Output"
-#~ msgstr "Analóg kimenet"
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI / DisplayPort"
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
 
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr ""
-#~ "A KEDVENCEK LISTÁJA ÜRES. AZ ÖSSZES JÁTÉK MEGJELENÍTÉSÉHEZ NYOMD MEG A "
-#~ "KIVÁLASZTÁS GOMBOT."
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
 
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (ajánlott)"
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+
+msgid "Missing bios list:"
+msgstr "Hiányzó bios lista:"
+
+msgid "GameBoy Mode"
+msgstr ""
+
+msgid "Rotation"
+msgstr "Forgatás"
+
+msgid "Full Screen"
+msgstr "Teljes képernyő"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr ""
+
+msgid "SHOW REGION"
+msgstr ""
+
+msgid "DISPLAY NAME BY"
+msgstr ""
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+msgid "licences"
+msgstr "licenszek"
+
+msgid "Start downloading..."
+msgstr "Letöltés indítása..."
+
+msgid "none"
+msgstr ""
+
+msgid "Games"
+msgstr ""
+
+msgid "Games of licence"
+msgstr ""
+
+msgid "ALIAS"
+msgstr ""
+
+msgid "FAMILY"
+msgstr ""
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr ""
+
+msgid "Installing %s games"
+msgstr ""

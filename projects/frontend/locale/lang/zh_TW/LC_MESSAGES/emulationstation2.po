@@ -3444,7 +3444,7 @@ msgid "RECALBOX RGB DUAL"
 msgstr "RECALBOX RGB DUAL"
 
 msgid "DEBUG LOGS"
-msgstr "除錯LOGS"
+msgstr "除錯日誌"
 
 msgid "You are about to delete this files, confirm ?"
 msgstr "您確定要將刪除此檔案嗎?"
@@ -3468,7 +3468,7 @@ msgid "INSTANT"
 msgstr "瞬間"
 
 msgid "Are you sure the selected theme is compatible with CRT screens?"
-msgstr "您確定所選主題與 CRT螢幕是相容的嗎？"
+msgstr "您確定所選主題與映像管螢幕是相容的嗎？"
 
 msgid "You must have at least %dGB free on 'SHARE' partition!"
 msgstr "您的 'SHARE' 磁區中至少要有 %dGB 的可用空間！"
@@ -3691,33 +3691,26 @@ msgstr "GB"
 msgid "TB"
 msgstr "TB"
 
-#
 msgid "SAVE STATES"
-msgstr ""
+msgstr "保存狀態"
 
-#
 msgid "SHOW SAVE STATES ON START"
-msgstr ""
+msgstr "顯示啟動時的保存狀態"
 
-#
 msgid "You are about to delete this state, confirm ?"
-msgstr ""
+msgstr "將要刪除此狀態，您確定嗎？"
 
-#
 msgid "DELETE STATE, CONFIRM?"
-msgstr ""
+msgstr "刪除此狀態，您確定嗎？"
 
-#
 msgid "CHANGE ORDER"
-msgstr ""
+msgstr "改變順序"
 
-#
 msgid "LAUNCH GAME FROM STATE"
-msgstr ""
+msgstr "從狀態啟動遊戲"
 
-#
 msgid "DELETE STATE SLOT"
-msgstr ""
+msgstr "刪除狀態槽"
 
 #
 msgid ""
@@ -3725,113 +3718,276 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
-msgstr ""
+msgstr "正在下載遊戲 %s"
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
-msgstr ""
+msgstr "從官方網站下載WASM4遊戲。請等待..."
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "正在下載...預計時間: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "正在提取...找到 %s 個遊戲"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "正在更新元數據.."
 
-#
 msgid "Refreshing gamelist..."
+msgstr "正在刷新遊戲列表..."
+
+msgid "DISK USAGE"
+msgstr "磁碟使用情況"
+
+msgid "SECURITY"
+msgstr "安全防護"
+
+msgid "ENFORCE SECURITY"
+msgstr "啟用安全防護"
+
+msgid "ROOT PASSWORD"
+msgstr "ROOT 密碼"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "配對藍牙遊戲控制器"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr "設定螢幕保護效果。DIM 會讓畫面變暗，BLACK 會讓畫面全黑。"
+
+msgid "Manage your recalbox security."
+msgstr "管理你的保密設定"
+
+msgid "Change the SSH root password."
+msgstr "修改SSH連線的root密碼"
+
+msgid "UPDATE VERSION:"
+msgstr "更新的版本："
+
+msgid "Rom found"
+msgstr "已找到 ROM"
+
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
 msgstr ""
+"將系統複製到另一台設備上。\n"
+"警告！這會清除目標設備上的一切信息。"
 
-#~ msgid "DISK USAGE"
-#~ msgstr "磁碟使用情況"
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "展示一個“所有遊戲”系統，其中包含所有系統的所有主題。"
 
-#~ msgid "SECURITY"
-#~ msgstr "安全防護"
+msgid "Real Time Stratégy"
+msgstr "即時策略"
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "啟用安全防護"
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"如果按電源按鈕超過2秒鐘，這將關閉控制台電源。如果您在遊戲中這樣做，那麼"
+"Recalbox會在之前優雅地關閉當前模擬器。\n"
+"以防萬一，按住電源按鈕5秒鐘以上會執行硬體關機。\n"
+"\n"
+"請按 B 鍵繼續。"
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT 密碼"
+msgid "added to favorites"
+msgstr "新增至收藏夾"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "配對藍牙遊戲控制器"
+msgid "removed from favorites"
+msgstr "從收藏夾中刪除"
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr "設定螢幕保護效果。DIM 會讓畫面變暗，BLACK 會讓畫面全黑。"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr "無法播放遊戲剪輯。你的選擇沒有影片"
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "管理你的保密設定"
+msgid "Analog Output"
+msgstr "類比輸出"
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "修改SSH連線的root密碼"
+msgid "HDMI / DisplayPort"
+msgstr "HDMI / DisplayPort"
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "強制安全防護設定"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr "您的收藏列表是空的。按先選擇您想要顯示的遊戲。"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "更新的版本："
+msgid "480i (recommended)"
+msgstr "480i (推薦)"
 
-#~ msgid "Rom found"
-#~ msgstr "已找到 ROM"
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+"Scrap在背景運行。\n"
+"返回Scrap選單，獲取進度。"
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "將系統複製到另一台設備上。\n"
-#~ "警告！這會清除目標設備上的一切信息。"
+msgid "60Hz & 50Hz"
+msgstr "60Hz & 50Hz"
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "展示一個“所有遊戲”系統，其中包含所有系統的所有主題。"
+msgid "ADVANCED SHADERS"
+msgstr "進階著色器"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "即時策略"
+msgid "GAME BOY MODE"
+msgstr "GAME BOY 模式"
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "如果按電源按鈕超過2秒鐘，這將關閉控制台電源。如果您在遊戲中這樣做，那麼"
-#~ "Recalbox會在之前優雅地關閉當前模擬器。\n"
-#~ "以防萬一，按住電源按鈕5秒鐘以上會執行硬體關機。\n"
-#~ "\n"
-#~ "請按 B 鍵繼續。"
+msgid "GAME BOY"
+msgstr "GAME BOY"
 
-#~ msgid "added to favorites"
-#~ msgstr "新增至收藏夾"
+msgid "SUPER GAME BOY"
+msgstr "SUPER GAME BOY"
 
-#~ msgid "removed from favorites"
-#~ msgstr "從收藏夾中刪除"
+msgid "ASK AT LAUNCH"
+msgstr "啟動時詢問"
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr "無法播放遊戲剪輯。你的選擇沒有影片"
+msgid "CRT CURVED"
+msgstr "映像管曲面"
 
-#~ msgid "Analog Output"
-#~ msgstr "類比輸出"
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+"您剛剛啟用了所有系統的著色器。 為了獲得更好的渲染效果，建議禁用遊戲平滑。 您"
+"想自動更改此選項嗎？"
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI / DisplayPort"
+msgid "Optimized video"
+msgstr "最佳化影像"
 
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr "您的收藏列表是空的。按先選擇您想要顯示的遊戲。"
+msgid "RECOMMENDED"
+msgstr "建議"
 
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (推薦)"
+msgid "USE V2 (BETA)"
+msgstr "使用V2 (BETA)"
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr "V2 - 15KHZ 擴展範圍"
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr "V2 - SUPERREZ 倍增器"
+
+msgid "TATE SETTINGS"
+msgstr "TATE 設定"
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr "啟用 TATE 虛擬系統"
+
+msgid "GAMES ROTATION"
+msgstr "遊玩方向"
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr "旋轉整個系統遊玩方向"
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"歡迎來到RECALBOX for Anbernic RG!\n"
+"這個簡介將告訴你如何使用營幕周圍所有的特殊按鈕。\n"
+"\n"
+"按下任何一個按鈕就可以開始了!"
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+"在遊戲機的左側，有兩個標示'-'和 '+'的按鈕。\n"
+"使用它們可以在Recalbox界面或遊戲中的任何時候提高或降低音量。\n"
+"\n"
+"按B鍵繼續"
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+"在遊戲機的頂部，有一個標有 'F'的按鈕。\n"
+"這就是熱鍵按鈕\n"
+"要退出遊戲，請同時按F+START鍵\n"
+"按B鍵繼續"
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+"使用功能F按鈕和一個音量按鈕來調整亮度\n"
+"按B鍵繼續"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+"關於POWER按鈕\n"
+"短暫按一下(點擊)，你的遊戲機將進入睡眠模式。再按一下，你的遊戲機就會立即重新"
+"啟動！在Recalbox界面和遊戲中都可以使用!\n"
+"按B鍵可以繼續。"
+
+msgid "Missing bios list:"
+msgstr "遺失的bios清單:"
+
+msgid "GameBoy Mode"
+msgstr "GameBoy模式"
+
+msgid "Rotation"
+msgstr "旋轉"
+
+msgid "Full Screen"
+msgstr "全螢幕"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr "下載的內容"
+
+msgid "SHOW REGION"
+msgstr "顯示區域"
+
+msgid "DISPLAY NAME BY"
+msgstr "顯示名稱由"
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr "搜尋其他版本"
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "搜尋相同授權的遊戲"
+
+msgid "licences"
+msgstr "授權"
+
+msgid "Start downloading..."
+msgstr "開始下載中..."
+
+msgid "none"
+msgstr "none"
+
+msgid "Games"
+msgstr "遊戲"
+
+msgid "Games of licence"
+msgstr "授權的遊戲"
+
+msgid "ALIAS"
+msgstr "暱稱"
+
+msgid "FAMILY"
+msgstr "家庭"
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr "正在從 Recalbox 儲存庫中下載免費遊戲。 請稍等..."
+
+msgid "Installing %s games"
+msgstr "正在安裝 %s 遊戲"

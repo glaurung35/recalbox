@@ -3581,7 +3581,7 @@ msgid "480p"
 msgstr "480p"
 
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
 msgstr "MOVER TELA"
@@ -3719,10 +3719,10 @@ msgid "Select system, frontend and emulator resolutions."
 msgstr "Selecione as resoluções do sistema, frontend e emulador."
 
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B PARA DESATIVAR"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "PAREAR CONTROLES BLUETOOTH"
 
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
@@ -3733,86 +3733,96 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"O emparelhamento Bluetooth será iniciado e executado por vários minutos.\n"
+"Durante esse tempo, basta aplicar o procedimento de emparelhamento em "
+"qualquer controle Bluetooth que você deseja emparelhar.\n"
+"A próxima janela exibirá todos os dispositivos Bluetooth detectados e seus "
+"status apenas para fins informativos.\n"
+"Você pode fechá-la a qualquer momento, continuando a emparelhar seu controle "
+"Bluetooth enquanto o ícone Bluetooth estiver piscando no canto superior "
+"esquerdo."
 
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "BAIXO PARA PULAR"
 
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "INICIANDO DOWNLOAD..."
 
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Pareie um dispositivo de áudio bluetooth. Coloque seu dispositivo no modo de "
+"descoberta antes de começar."
 
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "PAREIE UM DISPOSITIVO DE ÁUDIO BLUETOOTH"
 
 msgid "Failed"
-msgstr ""
+msgstr "Falhou"
 
 msgid "Succeeded"
-msgstr ""
+msgstr "Sucesso"
 
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 CIMA"
 
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 BAIXO"
 
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 ESQUERDA"
 
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 DIREITA"
 
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 CIMA"
 
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 BAIXO"
 
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 ESQUERDA"
 
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 DIREITA"
 
 msgid "Alias: "
-msgstr ""
+msgstr "Codinome:␣"
 
 msgid "MAC: "
-msgstr ""
+msgstr "MAC:␣"
 
 msgid "Connected: "
-msgstr ""
+msgstr "Conectado:␣"
 
 msgid "Trusted: "
-msgstr ""
+msgstr "Confiabilidade:␣"
 
 msgid "Paired: "
-msgstr ""
+msgstr "Pareado:␣"
 
 msgid "Blocked: "
-msgstr ""
+msgstr "Bloqueio:␣"
 
 msgid "NO DEVICE"
-msgstr ""
+msgstr "SEM DISPOSITIVO"
 
 msgid "SEARCH BY"
-msgstr ""
+msgstr "PROCURAR POR"
 
 msgid "NO RESULTS"
-msgstr ""
+msgstr "SEM RESULTADOS"
 
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORIDADE PARA HDMI"
 
 msgid "ON"
-msgstr ""
+msgstr "LIGADO"
 
 msgid "OFF"
-msgstr ""
+msgstr "DESLIGADO"
 
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
@@ -3820,106 +3830,103 @@ msgid ""
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"Agora você irá calibrar diferentes resoluções para sua TV. Selecione a taxa "
+"de atualização de acordo com o que sua TV suporta.\n"
+"Durante a calibração, pressione B para aplicar o modo, START para validar e "
+"A para cancelar."
 
 msgid "60Hz Only"
-msgstr ""
+msgstr "60Hz Apenas"
 
 msgid "50Hz Only"
-msgstr ""
+msgstr "50Hz Apenas"
 
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "DESCOBRINDO DISPOSITIVOS DE ÁUDIO BLUETOOTH..."
 
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "NENHUM DISPOSITIVO DE ÁUDIO ENCONTRADO"
 
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "RESOLUÇÃO DO KODI"
 
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "DISPOSITIVO DE ÁUDIO PAREADO"
 
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "NÃO É POSSÍVEL PAREAR O DISPOSITIVO DE ÁUDIO"
 
 msgid "select a patch"
-msgstr ""
+msgstr "selecione um caminho"
 
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "BRILHO"
 
 msgid "NAME"
-msgstr ""
+msgstr "NOME"
 
 msgid "suspend"
-msgstr ""
+msgstr "suspender"
 
 msgid "NO GAME"
-msgstr ""
+msgstr "SEM JOGOS"
 
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "PRÓXIMA RESOLUÇÃO"
 
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Taxa de atualização do jogo"
 
 msgid "Game resolution"
-msgstr ""
+msgstr "Resolução do jogo"
 
 msgid "CHANGELOG"
-msgstr ""
+msgstr "REGISTRO DE ALTERAÇÕES"
 
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Copiando a pasta %s..."
 
 msgid "VOLUME -"
-msgstr ""
+msgstr "VOLUME -"
 
 msgid "VOLUME +"
-msgstr ""
+msgstr "VOLUME +"
 
 msgid "B"
-msgstr ""
+msgstr "B"
 
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
-#
 msgid "SAVE STATES"
-msgstr ""
+msgstr "SAVE STATES"
 
-#
 msgid "SHOW SAVE STATES ON START"
-msgstr ""
+msgstr "MOSTRAR SAVE STATES AO INICIAR"
 
-#
 msgid "You are about to delete this state, confirm ?"
-msgstr ""
+msgstr "Você está prestes a deletar este state, confirma?"
 
-#
 msgid "DELETE STATE, CONFIRM?"
-msgstr ""
+msgstr "EXCLUIR STATE, CONFIRMAR?"
 
-#
 msgid "CHANGE ORDER"
-msgstr ""
+msgstr "MUDAR ORDEM"
 
-#
 msgid "LAUNCH GAME FROM STATE"
-msgstr ""
+msgstr "INICIAR JOGO DO STATE"
 
-#
 msgid "DELETE STATE SLOT"
-msgstr ""
+msgstr "EXCLUIR ESPAÇO DE STATE"
 
 #
 msgid ""
@@ -3927,124 +3934,290 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
-msgstr ""
+msgstr "BAIXANDO JOGOS PARA %s"
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
-msgstr ""
+msgstr "Baixando jogos WASM4 do site oficial. Por favor, aguarde..."
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "Baixando… Tempo estimado: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "Extraindo… encontrou %s jogos"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "Atualizando metadados…"
 
-#
 msgid "Refreshing gamelist..."
+msgstr "Atualizando lista de jogos..."
+
+msgid "DISK USAGE"
+msgstr "ESPAÇO USADO"
+
+msgid "SECURITY"
+msgstr "SEGURANÇA"
+
+msgid "ENFORCE SECURITY"
+msgstr "REFORÇAR A SEGURANÇA"
+
+msgid "ROOT PASSWORD"
+msgstr "SENHA ROOT"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "PAREAR CONTROLE BLUETOOTH"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
 msgstr ""
+"Ajustar o comportamento da tela de proteção. ESCURECER reduz o brilho da "
+"tela e TELA PRETA deixa a tela preta."
 
-#~ msgid "DISK USAGE"
-#~ msgstr "ESPAÇO USADO"
+msgid "Manage your recalbox security."
+msgstr "Gerencie a segurança do seu recalbox."
 
-#~ msgid "SECURITY"
-#~ msgstr "SEGURANÇA"
+msgid "Change the SSH root password."
+msgstr "Altera a senha de root do SSH."
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "REFORÇAR A SEGURANÇA"
+msgid "UPDATE VERSION:"
+msgstr "VERSÃO DA ATUALIZAÇÃO:"
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "SENHA ROOT"
+msgid "Rom found"
+msgstr "Rom encontrada"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "PAREAR CONTROLE BLUETOOTH"
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Copiar sistema atual em outro dispositivo.\n"
+"Alerta ! Irá apagar os dados no dispositivo de destino."
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Ajustar o comportamento da tela de proteção. ESCURECER reduz o brilho da "
-#~ "tela e TELA PRETA deixa a tela preta."
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr ""
+"Mostra um sistema \"todos os jogos\" com todos os jogos de todos os sistemas"
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Gerencie a segurança do seu recalbox."
+msgid "Real Time Stratégy"
+msgstr "RTS - Estratégia em Tempo Real"
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "Altera a senha de root do SSH."
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"Se você apertar o botão POWER por mais de 2 segundos, seu console será "
+"desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente "
+"fechará o emulador atual antes.\n"
+"Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará um "
+"desligamento forçado.\n"
+"\n"
+"Pressione o botão B para continuar."
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Aprimora a segurança do recalbox."
+msgid "added to favorites"
+msgstr "adicionado aos favoritos"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "VERSÃO DA ATUALIZAÇÃO:"
+msgid "removed from favorites"
+msgstr "removido dos favoritos"
 
-#~ msgid "Rom found"
-#~ msgstr "Rom encontrada"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Gamesclips não podem ser reproduzidos.\n"
+"\n"
+"Não existem vídeos disponíveis para sua seleção."
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Copiar sistema atual em outro dispositivo.\n"
-#~ "Alerta ! Irá apagar os dados no dispositivo de destino."
+msgid "Analog Output"
+msgstr "Saída Analógica"
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr ""
-#~ "Mostra um sistema \"todos os jogos\" com todos os jogos de todos os "
-#~ "sistemas"
+msgid "HDMI / DisplayPort"
+msgstr "HDMI / DisplayPort"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "RTS - Estratégia em Tempo Real"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+"SUA LISTA DE FAVORITOS ESTÁ VAZIA. PRESSIONE SELECT PARA MOSTRAR TODOS OS "
+"JOGOS."
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "Se você apertar o botão POWER por mais de 2 segundos, seu console será "
-#~ "desligado. Se você fizer isso durante um jogo, o Recalbox graciosamente "
-#~ "fechará o emulador atual antes.\n"
-#~ "Por precaução, pressionar o botão POWER por mais de 5 segundos iniciará "
-#~ "um desligamento forçado.\n"
-#~ "\n"
-#~ "Pressione o botão B para continuar."
+msgid "480i (recommended)"
+msgstr "480i (recomendado)"
 
-#~ msgid "added to favorites"
-#~ msgstr "adicionado aos favoritos"
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+"Scrape rodando em segundo plano.\n"
+"Retorne ao menu de scrape para ver o progresso."
 
-#~ msgid "removed from favorites"
-#~ msgstr "removido dos favoritos"
+msgid "60Hz & 50Hz"
+msgstr "60Hz & 50Hz"
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Gamesclips não podem ser reproduzidos.\n"
-#~ "\n"
-#~ "Não existem vídeos disponíveis para sua seleção."
+msgid "ADVANCED SHADERS"
+msgstr "SHADERS AVANÇADOS"
 
-#~ msgid "Analog Output"
-#~ msgstr "Saída Analógica"
+msgid "GAME BOY MODE"
+msgstr "MODO GAME BOY"
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI / DisplayPort"
+msgid "GAME BOY"
+msgstr "GAME BOY"
 
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr ""
-#~ "SUA LISTA DE FAVORITOS ESTÁ VAZIA. PRESSIONE SELECT PARA MOSTRAR TODOS OS "
-#~ "JOGOS."
+msgid "SUPER GAME BOY"
+msgstr "SUPER GAME BOY"
 
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (recomendado)"
+msgid "ASK AT LAUNCH"
+msgstr "PERGUNTE NO INÍCIO"
+
+msgid "CRT CURVED"
+msgstr "CRT CURVO"
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+"VOCÊ ACABOU DE ATIVAR OS SHADERS PARA TODOS OS SISTEMAS. PARA UMA MELHOR "
+"RENDERIZAÇÃO, RECOMENDA-SE DESATIVAR A SUAVIZAÇÃO DOS JOGOS. DESEJA ALTERAR "
+"ESTA OPÇÃO AUTOMATICAMENTE?"
+
+msgid "Optimized video"
+msgstr "Vídeo otimizado"
+
+msgid "RECOMMENDED"
+msgstr "RECOMENDADO"
+
+msgid "USE V2 (BETA)"
+msgstr "USAR V2 (BETA)"
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr "V2 - 15KHZ ALCANCE ESTENDIDO"
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr "V2 - MULTIPLICADOR SUPERRES"
+
+msgid "TATE SETTINGS"
+msgstr "AJUSTES TATE"
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr "HABILITAR SISTEMA VIRTUAL TATE"
+
+msgid "GAMES ROTATION"
+msgstr "ROTAÇÃO DOS JOGOS"
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr "ROTAÇÃO COMPLETA DO SISTEMA"
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"Bem-vindo ao RECALBOX para Anbernic RG!\n"
+"Esta pequena apresentação mostrará como usar todos os botões especiais "
+"disponíveis em toda a tela.\n"
+"\n"
+"Pressione qualquer botão para começar!"
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+"No lado esquerdo do console, existem 2 botões marcados com um '-' e um '+'.\n"
+"Use-os para aumentar ou diminuir o volume a qualquer momento na interface do "
+"Recalbox ou no jogo.\n"
+"\n"
+"Pressione o botão B para continuar"
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+"Na parte superior do console, há um botão marcado com 'F'.\n"
+"Este é o botão HOTKEY.\n"
+"Para sair de um jogo pressione F + START.\n"
+"Pressione o botão B para continuar."
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+"Use o botão F (HOTKEY) e um botão de volume para ajustar o brilho.\n"
+"Pressione o botão B para continuar."
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+"Algumas dicas sobre o botão POWER.\n"
+"Pressione rapidamente, como o clique de um mouse, e seu console entrará no "
+"modo de suspensão. Pressione rapidamente novamente e seu console será "
+"reiniciado instantaneamente! Funciona na interface do Recalbox e nos jogos!\n"
+"Pressione o botão B para continuar."
+
+msgid "Missing bios list:"
+msgstr "Lista de bios faltantes:"
+
+msgid "GameBoy Mode"
+msgstr "Modo GameBoy"
+
+msgid "Rotation"
+msgstr "Rotação"
+
+msgid "Full Screen"
+msgstr "Tela Cheia"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr "BAIXANDO CONTEÚDOS"
+
+msgid "SHOW REGION"
+msgstr "MOSTRAR REGIÃO"
+
+msgid "DISPLAY NAME BY"
+msgstr "EXIBIR NOME POR"
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr "BUSCAR OUTRAS VERSÕES"
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "BUSCAR JOGOS DE MESMA LICENÇA"
+
+msgid "licences"
+msgstr "licenças"
+
+msgid "Start downloading..."
+msgstr "Começando a baixar..."
+
+msgid "none"
+msgstr "nenhum"
+
+msgid "Games"
+msgstr "Jogos"
+
+msgid "Games of licence"
+msgstr "Jogos de licença"
+
+msgid "ALIAS"
+msgstr "APELIDO"
+
+msgid "FAMILY"
+msgstr "FAMÍLIA"
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr "Baixando jogos grátis dos repositórios do Recalbox. Por favor, espere…"
+
+msgid "Installing %s games"
+msgstr "Instalando %s jogos"

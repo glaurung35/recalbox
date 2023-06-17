@@ -1360,7 +1360,7 @@ msgstr ""
 "is recommended, and scrapes game data in your language, if it's available."
 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr "Begin the scrape process with the configuration below."
+msgstr "Begin the scraping process with the configuration below."
 
 msgid "Scrape and display game ratings."
 msgstr "Scrape and display game ratings."
@@ -3481,7 +3481,7 @@ msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
-"If you PAL images are not centered, you can override the default horizontal "
+"If your PAL images are not centered, you can override the default horizontal "
 "offset here."
 
 msgid "PAL VERTICAL OFFSET"
@@ -3491,7 +3491,7 @@ msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
-"If you PAL images are not centered, you can override the default vertical "
+"If your PAL images are not centered, you can override the default vertical "
 "offset here."
 
 msgid "CRT SETTINGS"
@@ -3579,7 +3579,7 @@ msgid "DEBUG LOGS"
 msgstr "DEBUG LOGS"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr "You are about to delete this files, confirm?"
+msgstr "You are about to delete these files, confirm?"
 
 msgid "Preparing Games..."
 msgstr "Preparing Games..."
@@ -3657,13 +3657,13 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
-"The bluetooth pairing will start and run for several minutes.\n"
-"During this time, you just have to apply the pairing procedure on any "
-"bluetooth controller you want to pair.\n"
-"The next window will display all detected bluetooth devices and their status "
+"The Bluetooth pairing will start and run for several minutes.\n"
+"During this time, you just have to start the pairing procedure on any "
+"Bluetooth controller you want to pair.\n"
+"The next window will display all detected Bluetooth devices and their status "
 "for information purposes only.\n"
-"You can close it at any time, while continuing to pair your bluetooth "
-"devices for as long as the bluetooth icon is blinking on the top left."
+"You can close it at any time, while continuing to pair your Bluetooth "
+"devices for as long as the Bluetooth icon is blinking on the top left."
 
 msgid "DOWN TO SKIP"
 msgstr "DOWN TO SKIP"
@@ -3830,33 +3830,26 @@ msgstr "GB"
 msgid "TB"
 msgstr "TB"
 
-#
 msgid "SAVE STATES"
-msgstr ""
+msgstr "SAVE STATES"
 
-#
 msgid "SHOW SAVE STATES ON START"
-msgstr ""
+msgstr "SHOW SAVE STATES ON START"
 
-#
 msgid "You are about to delete this state, confirm ?"
-msgstr ""
+msgstr "You are about to delete this state, confirm?"
 
-#
 msgid "DELETE STATE, CONFIRM?"
-msgstr ""
+msgstr "DELETE STATE, CONFIRM?"
 
-#
 msgid "CHANGE ORDER"
-msgstr ""
+msgstr "CHANGE ORDER"
 
-#
 msgid "LAUNCH GAME FROM STATE"
-msgstr ""
+msgstr "LAUNCH GAME FROM STATE"
 
-#
 msgid "DELETE STATE SLOT"
-msgstr ""
+msgstr "DELETE STATE SLOT"
 
 #
 msgid ""
@@ -3864,120 +3857,288 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
-msgstr ""
+msgstr "DOWNLOADING GAMES FOR %s"
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
-msgstr ""
+msgstr "Downloading WASM4 games from the official site. Please wait..."
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "Downloading... Estimated time: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "Extracting... found %s games"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "Updating metadata..."
 
-#
 msgid "Refreshing gamelist..."
+msgstr "Refreshing gamelist..."
+
+msgid "DISK USAGE"
+msgstr "DISK USAGE"
+
+msgid "SECURITY"
+msgstr "SECURITY"
+
+msgid "ENFORCE SECURITY"
+msgstr "ENFORCE SECURITY"
+
+msgid "ROOT PASSWORD"
+msgstr "ROOT PASSWORD"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "PAIR A BLUETOOTH CONTROLLER"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
 msgstr ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
 
-#~ msgid "DISK USAGE"
-#~ msgstr "DISK USAGE"
+msgid "Manage your recalbox security."
+msgstr "Manage Recalbox security."
 
-#~ msgid "SECURITY"
-#~ msgstr "SECURITY"
+msgid "Change the SSH root password."
+msgstr "Change the SSH root password."
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ENFORCE SECURITY"
+msgid "UPDATE VERSION:"
+msgstr "UPDATE VERSION:"
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT PASSWORD"
+msgid "Rom found"
+msgstr "ROM found"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "PAIR A BLUETOOTH CONTROLLER"
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Copy current system to another device. Warning! You will erase all data on "
+"the target device."
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "Show an 'all-games' system with all games from every system."
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Manage Recalbox security."
+msgid "Real Time Stratégy"
+msgstr "Real Time Strategy"
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "Change the SSH root password."
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"If you push the POWER button in for more than 2 seconds, you will turn off "
+"your console. If you do so in-game, Recalbox will gracefully close the "
+"current emulator before powering off.\n"
+"Just so you're aware, holding the POWER button down for more than 5 seconds "
+"will perform a hard shutdown.\n"
+"\n"
+"Press the B button to continue."
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Enforce Recalbox security."
+msgid "added to favorites"
+msgstr "added to favorites"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "UPDATE VERSION:"
+msgid "removed from favorites"
+msgstr "removed from favorites"
 
-#~ msgid "Rom found"
-#~ msgstr "ROM found"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Game clips cannot be played.\n"
+"\n"
+"No videos available for your selection."
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Copy current system to another device. Warning! You will erase all data "
-#~ "on the target device."
+msgid "Analog Output"
+msgstr "Analog Output"
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "Show an 'all-games' system with all games from every system."
+msgid "HDMI / DisplayPort"
+msgstr "HDMI / DisplayPort"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Real Time Strategy"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "If you push the POWER button in for more than 2 seconds, you will turn "
-#~ "off your console. If you do so in-game, Recalbox will gracefully close "
-#~ "the current emulator before powering off.\n"
-#~ "Just so you're aware, holding the POWER button down for more than 5 "
-#~ "seconds will perform a hard shutdown.\n"
-#~ "\n"
-#~ "Press the B button to continue."
+msgid "480i (recommended)"
+msgstr "480i (recommended)"
 
-#~ msgid "added to favorites"
-#~ msgstr "added to favorites"
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
 
-#~ msgid "removed from favorites"
-#~ msgstr "removed from favorites"
+msgid "60Hz & 50Hz"
+msgstr "60Hz & 50Hz"
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Game clips cannot be played.\n"
-#~ "\n"
-#~ "No videos available for your selection."
+msgid "ADVANCED SHADERS"
+msgstr "ADVANCED SHADERS"
 
-#~ msgid "Analog Output"
-#~ msgstr "Analog Output"
+msgid "GAME BOY MODE"
+msgstr "GAME BOY MODE"
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI / DisplayPort"
+msgid "GAME BOY"
+msgstr "GAME BOY"
 
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgid "SUPER GAME BOY"
+msgstr "SUPER GAME BOY"
 
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (recommended)"
+msgid "ASK AT LAUNCH"
+msgstr "ASK AT LAUNCH"
+
+msgid "CRT CURVED"
+msgstr "CRT CURVED"
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+
+msgid "Optimized video"
+msgstr "Optimized video"
+
+msgid "RECOMMENDED"
+msgstr "RECOMMENDED"
+
+msgid "USE V2 (BETA)"
+msgstr "USE V2 (BETA)"
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr "V2 - 15KHZ EXTENDED RANGE"
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr "V2 - SUPERREZ MULTIPLIER"
+
+msgid "TATE SETTINGS"
+msgstr "TATE SETTINGS"
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr "ENABLE TATE VIRTUAL SYSTEM"
+
+msgid "GAMES ROTATION"
+msgstr "GAMES ROTATION"
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr "COMPLETE SYSTEM ROTATION"
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart "
+"instantly! Work in Recalbox interface and in-game!\n"
+"Press button B to continue."
+
+msgid "Missing bios list:"
+msgstr "Missing bios list:"
+
+msgid "GameBoy Mode"
+msgstr "GameBoy Mode"
+
+msgid "Rotation"
+msgstr "Rotation"
+
+msgid "Full Screen"
+msgstr "Full Screen"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr "DOWNLOAD CONTENTS"
+
+msgid "SHOW REGION"
+msgstr "SHOW REGION"
+
+msgid "DISPLAY NAME BY"
+msgstr "DISPLAY NAME BY"
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr "SEARCH OTHERS VERSIONS"
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "SEARCH GAMES OF SAME LICENSE"
+
+msgid "licences"
+msgstr "licenses"
+
+msgid "Start downloading..."
+msgstr "Start downloading..."
+
+msgid "none"
+msgstr "none"
+
+msgid "Games"
+msgstr "Games"
+
+msgid "Games of licence"
+msgstr "Games of license"
+
+msgid "ALIAS"
+msgstr "ALIAS"
+
+msgid "FAMILY"
+msgstr "FAMILY"
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr "Downloading free games from Recalbox repositories. Please wait..."
+
+msgid "Installing %s games"
+msgstr "Installing %s games"

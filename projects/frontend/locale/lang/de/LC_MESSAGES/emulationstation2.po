@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=2; plural=(n != 1);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "FÜR DEINE RECALBOX IST EIN UPDATE VERFÜGBAR"
+msgstr "UPDATE VERFÜGBAR"
 
 msgid "DOWNLOADED"
 msgstr "HERUNTERGELADEN"
@@ -276,7 +276,7 @@ msgid "ENABLE KODI"
 msgstr "KODI AKTIVIEREN"
 
 msgid "KODI AT START"
-msgstr "KODI BEIM START"
+msgstr "KODI BEIM START LADEN"
 
 msgid "START KODI WITH X"
 msgstr "KODI MIT X STARTEN"
@@ -471,13 +471,13 @@ msgid "QUIT"
 msgstr "BEENDEN"
 
 msgid "REALLY RESTART?"
-msgstr "WIRKLICH NEUSTARTEN?"
+msgstr "NEUSTARTEN?"
 
 msgid "RESTART SYSTEM"
 msgstr "SYSTEM NEUSTARTEN"
 
 msgid "REALLY SHUTDOWN?"
-msgstr "WIRKLICH HERUNTERFAHREN?"
+msgstr "HERUNTERFAHREN?"
 
 msgid "SHUTDOWN SYSTEM"
 msgstr "SYSTEM HERUNTERFAHREN"
@@ -591,7 +591,7 @@ msgid "NO GAMES FIT THAT CRITERIA."
 msgstr "KEIN SPIEL ERFÜLLT DIE KRITERIEN."
 
 msgid "REALLY UPDATE?"
-msgstr "WIRKLICH AKTUALISIEREN?"
+msgstr "SYSTEMUPDATE DURCHFÜHREN?"
 
 msgid "NETWORK CONNECTION NEEDED"
 msgstr "NETZWERKVERBINDUNG BENÖTIGT"
@@ -669,7 +669,7 @@ msgid "Favorite"
 msgstr "Favorit"
 
 msgid "enter favorite"
-msgstr "Als Favorit setzen?"
+msgstr "Als Favorit setzen"
 
 msgid "Region"
 msgstr "Region"
@@ -821,10 +821,10 @@ msgid "JOYSTICK 2 LEFT"
 msgstr "JOYSTICK 2 LINKS"
 
 msgid "PAGE UP"
-msgstr "L1 (SEITE HOCH)"
+msgstr "SEITE HOCH"
 
 msgid "PAGE DOWN"
-msgstr "R1 (SEITE RUNTER)"
+msgstr "SEITE RUNTER"
 
 msgid "HOTKEY"
 msgstr "HOTKEY"
@@ -899,7 +899,7 @@ msgid "PLEASE WAIT..."
 msgstr "BITTE WARTEN..."
 
 msgid "REALLY SHUTDOWN WITHOUT SAVING METADATAS?"
-msgstr "WIRKLICH OHNE SPEICHERN DER METADATEN HERUNTERFAHREN?"
+msgstr "OHNE SPEICHERN DER METADATEN HERUNTERFAHREN?"
 
 msgid "FAST SHUTDOWN SYSTEM"
 msgstr "SYSTEM SCHNELL HERUNTERFAHREN"
@@ -995,7 +995,7 @@ msgstr[0] "%i SPIEL VERSTECKT"
 msgstr[1] "%i SPIELE VERSTECKT"
 
 msgid "Start kodi media player."
-msgstr "Kodi Media Player starten"
+msgstr "Kodi Media Player starten."
 
 msgid ""
 "Select the language for your recalbox, select an external drive to store "
@@ -3909,33 +3909,26 @@ msgstr "GB"
 msgid "TB"
 msgstr "TB"
 
-#
 msgid "SAVE STATES"
-msgstr ""
+msgstr "SPEICHERSTÄNDE"
 
-#
 msgid "SHOW SAVE STATES ON START"
-msgstr ""
+msgstr "SPEICHERSTÄNDE BEIM START ANZEIGEN"
 
-#
 msgid "You are about to delete this state, confirm ?"
-msgstr ""
+msgstr "Du bist dabei diesen Stand zu löschen. Bestätigen?"
 
-#
 msgid "DELETE STATE, CONFIRM?"
-msgstr ""
+msgstr "STAND LÖSCHEN. BESTÄTIGEN?"
 
-#
 msgid "CHANGE ORDER"
 msgstr ""
 
-#
 msgid "LAUNCH GAME FROM STATE"
-msgstr ""
+msgstr "SPIEL VON SPEICHERSTAND STARTEN"
 
-#
 msgid "DELETE STATE SLOT"
-msgstr ""
+msgstr "SPEICHERPLATZ LÖSCHEN"
 
 #
 msgid ""
@@ -3943,121 +3936,295 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
-msgstr ""
+msgstr "SPIELE FÜR %s WERDEN HERUNTERGELADEN"
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
 msgstr ""
+"WASM4 Spiele werden von der offiziellen Website heruntergeladen. Bitte "
+"warten..."
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "Herunterladen... Geschätzte Zeit: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "Entpacken... %s Spiele gefunden"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "Metadaten werden aktualisiert..."
 
-#
 msgid "Refreshing gamelist..."
+msgstr "Spieleliste wird aktualisiert..."
+
+msgid "DISK USAGE"
+msgstr "SPEICHERNUTZUNG"
+
+msgid "SECURITY"
+msgstr "SICHERHEIT"
+
+msgid "ENFORCE SECURITY"
+msgstr "SICHERHEIT ERZWINGEN"
+
+msgid "ROOT PASSWORD"
+msgstr "ROOT PASSWORT"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "EINEN BLUETOOTH CONTROLLER VERBINDEN"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr ""
+"Verhalten des Bildschirmschoners einstellen. DIM reduziert die "
+"Bildschirmhelligkeit, und BLACK macht den Bildschirm schwarz."
+
+msgid "Manage your recalbox security."
+msgstr "Verwalte die Sicherheit von Recalbox."
+
+msgid "Change the SSH root password."
+msgstr "Ändere das SSH Root-Passwort."
+
+msgid "UPDATE VERSION:"
+msgstr "UPDATE VERSION:"
+
+msgid "Rom found"
+msgstr "ROM gefunden"
+
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Kopiert das aktuelle System auf ein anderes Gerät.\n"
+"Warnung! Es werden alle Daten auf dem Zielgerät gelöscht."
+
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "Fügt ein System hinzu, das alle Spiele aus allen Systemen enthält."
+
+msgid "Real Time Stratégy"
+msgstr "Echtzeit-Strategie"
+
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"Wenn du den POWER-Knopf länger als 2 Sekunden drückst, fährt deine Konsole "
+"herunter. Machst du das während dem Spielen machst, schliesst Recalbox "
+"zuerst den Emulator.\n"
+"Wenn du den POWER-Knopf länger als 5 Sekunden drückst, schaltet sich die "
+"Konsole unmittelbar aus.\n"
+"\n"
+"Drücke den B Button, um fortzufahren."
+
+msgid "added to favorites"
+msgstr "zu Favoriten hinzugefügt"
+
+msgid "removed from favorites"
+msgstr "von Favoriten entfernt"
+
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Spieleclips können nicht abgespielt werden\n"
+"\n"
+"Kein Video für deine Auswahl verfügbar"
+
+msgid "Analog Output"
+msgstr "Analoge Ausgabe"
+
+msgid "HDMI / DisplayPort"
+msgstr "HDMI/DisplayPort"
+
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+"DEINE FAVOURITENLISTE IST LEER. DRÜCKE SELECT, UM ALLE SPIELE ANZUZEIGEN."
+
+msgid "480i (recommended)"
+msgstr "480i (empfohlen)"
+
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+"Scrap läuft im Hintergrund.\n"
+"Der Fortschritt ist im Scrap-Menü ersichtlich."
+
+msgid "60Hz & 50Hz"
+msgstr "60Hz & 50Hz"
+
+msgid "ADVANCED SHADERS"
+msgstr "ERWEITERTE SHADER"
+
+msgid "GAME BOY MODE"
+msgstr "GAME BOY MODUS"
+
+msgid "GAME BOY"
+msgstr "GAME BOY"
+
+msgid "SUPER GAME BOY"
+msgstr "SUPER GAME BOY"
+
+msgid "ASK AT LAUNCH"
+msgstr "BEIM START FRAGEN"
+
+msgid "CRT CURVED"
+msgstr "CRT CURVED"
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+"DU HAST GERADE DIE SHADER FÜR ALLE SYSTEME AKTIVIERT. FÜR EIN BESSERES "
+"RENDERING IST ES RATSAM, DIE SPIELGLÄTTUNG ZU DEAKTIVIEREN. MÖCHTEST DU "
+"DIESE OPTION AUTOMATISCH ÄNDERN?"
+
+msgid "Optimized video"
+msgstr "Optimiertes Video"
+
+msgid "RECOMMENDED"
+msgstr "EMPFOHLEN"
+
+msgid "USE V2 (BETA)"
+msgstr "V2 (BETA) benutzen"
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr "V2 - 15KHZ ERWEITERTER BEREICH"
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr "V2 - SUPPERREZ MULTIPLIKATOR"
+
+msgid "TATE SETTINGS"
+msgstr "TATE EINSTELLUNGEN"
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr "VIRTUELLES TATE SYSTEM AKTIVIEREN"
+
+msgid "GAMES ROTATION"
+msgstr "SPIELE-ROTATION"
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr "KOMPLETTE SYSTEM-ROTATION"
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"Willkommen bei RECALBOX für Anbernic RG!\n"
+"Diese kleine Präsentation wird Dir zeigen, wie Du alle Spezialtasten auf dem "
+"Bildschirm verwenden kannst.\n"
+"\n"
+"Drücke eine beliebige Taste, um zu starten!"
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+"Auf der linken Seite der Konsole befinden sich 2 Tasten, die mit einem '-' "
+"und einem '+' gekennzeichnet sind.\n"
+"Mit ihnen kannst Du die Lautstärke in der Recalbox-Oberfläche oder im Spiel "
+"jederzeit erhöhen oder verringern.\n"
+"\n"
+"Drücke die Taste B, um fortzufahren"
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+"Auf der Oberseite der Konsole befindet sich eine Taste mit der Bezeichnung "
+"'F'.\n"
+"Dies ist die Hotkey-Taste\n"
+"Um ein Spiel zu beenden, drücke beide Tasten F + START\n"
+"Drücke die Taste B, um fortzufahren"
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+"Verwende die Funktionstaste F und eine Lautstärketaste, um die Helligkeit "
+"einzustellen.\n"
+"Drücke die Taste B, um fortzufahren"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+"Noch ein paar Worte zur POWER-Taste.\n"
+"Ein kurzer Druck, wie ein Mausklick, und die Konsole geht in den Ruhezustand "
+"über. Ein weiterer kurzer Druck und die Konsole startet sofort wieder! "
+"Funktioniert im Recalbox-Interface und im Spiel!\n"
+"Drücke die Taste B, um fortzufahren."
+
+msgid "Missing bios list:"
+msgstr "Liste fehlender BIOS:"
+
+msgid "GameBoy Mode"
+msgstr "GameBoy Modus"
+
+msgid "Rotation"
+msgstr "Rotation"
+
+msgid "Full Screen"
+msgstr "Vollbild"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr "INHALTE HERUNTERLADEN"
+
+msgid "SHOW REGION"
+msgstr "REGION ANZEIGEN"
+
+msgid "DISPLAY NAME BY"
+msgstr "NAME ANZEIGEN NACH"
+
+msgid "SEARCH OTHERS VERSIONS"
 msgstr ""
 
-#~ msgid "DISK USAGE"
-#~ msgstr "SPEICHERNUTZUNG"
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "SPIELE MIT GLEICHER LIZENZ SUCHEN"
 
-#~ msgid "SECURITY"
-#~ msgstr "SICHERHEIT"
+msgid "licences"
+msgstr "Lizenzen"
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "SICHERHEIT ERZWINGEN"
+msgid "Start downloading..."
+msgstr "Herunterladen wird gestartet..."
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "ROOT PASSWORT"
+msgid "none"
+msgstr "keine"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "EINEN BLUETOOTH CONTROLLER VERBINDEN"
+msgid "Games"
+msgstr "Spiele"
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Verhalten des Bildschirmschoners einstellen. DIM reduziert die "
-#~ "Bildschirmhelligkeit, und BLACK macht den Bildschirm schwarz."
+msgid "Games of licence"
+msgstr ""
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Verwalte die Sicherheit der Recalbox"
+msgid "ALIAS"
+msgstr "ALIAS"
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "Ändere das SSH Root-Passwort."
+msgid "FAMILY"
+msgstr "FAMILIE"
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Recalbox-Sicherheit erzwingen"
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr ""
+"Herunterladen von kostenlosen Spielen aus Recalbox-Repositories. Bitte "
+"warten..."
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "UPDATE VERSION:"
-
-#~ msgid "Rom found"
-#~ msgstr "ROM gefunden"
-
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Kopiert das aktuelle System auf ein anderes Gerät.\n"
-#~ "Warnung! Es werden alle Daten auf dem Zielgerät gelöscht."
-
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "Fügt ein System hinzu, das alle Spiele aus allen Systemen enthält."
-
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Echtzeit-Strategie"
-
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "Wenn du den POWER-Knopf länger als 2 Sekunden drückst, fährt deine "
-#~ "Konsole herunter. Machst du das während dem Spielen machst, schliesst "
-#~ "Recalbox zuerst den Emulator.\n"
-#~ "Wenn du den POWER-Knopf länger als 5 Sekunden drückst, schaltet sich die "
-#~ "Konsole unmittelbar aus.\n"
-#~ "\n"
-#~ "Drücke den B Button, um fortzufahren."
-
-#~ msgid "added to favorites"
-#~ msgstr "zu Favoriten hinzugefügt"
-
-#~ msgid "removed from favorites"
-#~ msgstr "von Favoriten entfernt"
-
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Spieleclips können nicht abgespielt werden\n"
-#~ "\n"
-#~ "Kein Video für deine Auswahl verfügbar"
-
-#~ msgid "Analog Output"
-#~ msgstr "Analoge Ausgabe"
-
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI/DisplayPort"
-
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr ""
-#~ "DEINE FAVOURITENLISTE IST LEER. DRÜCKE SELECT, UM ALLE SPIELE ANZUZEIGEN."
-
-#~ msgid "480i (recommended)"
-#~ msgstr "480i (empfohlen)"
+msgid "Installing %s games"
+msgstr "Installieren von %s Spielen"

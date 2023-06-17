@@ -9,7 +9,7 @@ msgstr ""
 "Plural-Forms: nplurals=3; plural=(n==1) ? 0 : (n>=2 && n<=4) ? 1 : 2;\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
-msgstr "PRO VÁŠ RECALBOX JE DOSTUPNÁ AKTUALIZACE"
+msgstr "JE DOSTUPNÁ AKTUALIZACE"
 
 msgid "DOWNLOADED"
 msgstr "STAŽENO"
@@ -219,13 +219,13 @@ msgid "KODI MEDIA CENTER"
 msgstr "MEDIÁLNÍ CENTRUM KODI"
 
 msgid "SYSTEM SETTINGS"
-msgstr "NASTAVENÍ SYSTÉMU"
+msgstr "SYSTÉMOVÁ NASTAVENÍ"
 
 msgid "VERSION"
 msgstr "VERZE"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr "VYUŽITÍ DISKU (VOLNO/CELKEM)"
+msgstr "VYUŽITÍ DISKU (VOLNÉ/CELKEM)"
 
 msgid "STORAGE DEVICE"
 msgstr "ÚLOŽIŠTĚ"
@@ -283,10 +283,10 @@ msgid "KODI AT START"
 msgstr "SPUSTIT KODI PŘI STARTU"
 
 msgid "START KODI WITH X"
-msgstr "START KODI TLAČÍTKEM X"
+msgstr "SPOUŠTĚT KODI TLAČÍTKEM X"
 
 msgid "THE SYSTEM WILL NOW REBOOT"
-msgstr "SYSTEM BUDE NYNÍ RESTARTOVÁN"
+msgstr "SYSTEM BUDE RESTARTOVÁN"
 
 msgid "GAMES SETTINGS"
 msgstr "NASTAVENÍ HER"
@@ -295,16 +295,16 @@ msgid "GAME RATIO"
 msgstr "POMĚR STRAN"
 
 msgid "SMOOTH GAMES"
-msgstr "VYHLAZOVÁNÍ HER"
+msgstr "VYHLAZOVÁNÍ OBRAZOVKY"
 
 msgid "REWIND"
 msgstr "PŘETÁČENÍ"
 
 msgid "AUTO SAVE/LOAD"
-msgstr "AUTOMATICKÉ ULOŽENÍ/NAHRÁNÍ"
+msgstr "AUTOMATICKÉ UKLÁDÁNÍ/NAHRÁVÁNÍ"
 
 msgid "PRESS TWICE TO QUIT GAME"
-msgstr "STISKNI DVAKRÁT PRO UKONČENÍ HRY"
+msgstr "UKONČIT HRU DVOJÍM STISKNUTÍM"
 
 msgid "SHADERS SET"
 msgstr "NASTAVENÍ SHADERŮ"
@@ -334,7 +334,7 @@ msgid "ADVANCED"
 msgstr "ROZŠÍŘENÉ"
 
 msgid "REALLY UPDATE GAMES LISTS ?"
-msgstr "OPRAVDU CHCETE AKTUALIZOVAT SEZNAM HER?"
+msgstr "OPRAVDU AKTUALIZOVAT SEZNAM HER?"
 
 msgid "UPDATE GAMES LISTS"
 msgstr "AKTUALIZOVAT SEZNAM HER"
@@ -352,10 +352,10 @@ msgid "SCREENSAVER AFTER"
 msgstr "SPOŘIČ OBRAZOVKY PO"
 
 msgid "CAROUSEL ANIMATION"
-msgstr "KRUHOVÁ ANIMACE"
+msgstr "KARUSELOVÁ ANIMACE"
 
 msgid "TRANSITION STYLE"
-msgstr "STYL PŘECHODU"
+msgstr "STYL PŘECHODŮ"
 
 msgid "SCREENSAVER BEHAVIOR"
 msgstr "CHOVÁNÍ SPOŘIČE OBRAZOVKY"
@@ -388,13 +388,13 @@ msgid "THEME MENU"
 msgstr "TÉMA MENU"
 
 msgid "THEME SYSTEMVIEW"
-msgstr "TÉMA POHLEDU SYSTÉMŮ"
+msgstr "TÉMA ZOBRAZENÍ SYSTÉMŮ"
 
 msgid "THEME GAMELISTVIEW"
 msgstr "TÉMA SEZNAMU HER"
 
 msgid "THEME GAMECLIPVIEW"
-msgstr "NÁHLED KLIPU TÉMATU"
+msgstr "TÉMA NÁHLEDU KLIPU"
 
 msgid "THEME REGION"
 msgstr "TÉMA REGIONU"
@@ -510,7 +510,7 @@ msgstr ""
 
 #. GUIMENU
 msgid "CONFIGURE A CONTROLLER"
-msgstr "NASTAVENÍ OVLADAČE"
+msgstr "KONFIGUROVAT OVLADAČ"
 
 #. Bluetooth
 msgid "CONTROLLER PAIRED"
@@ -538,7 +538,7 @@ msgid "CHOOSE"
 msgstr "VÝBĚR"
 
 msgid "SELECT"
-msgstr "VOLBY"
+msgstr "ZVOLIT"
 
 msgid "OPTIONS"
 msgstr "VOLBY"
@@ -547,7 +547,7 @@ msgid "JUMP TO LETTER"
 msgstr "SKOČIT NA PÍSMENO"
 
 msgid "SORT GAMES BY"
-msgstr "SETŘÍDIT PODLE HER"
+msgstr "SETŘÍDIT DLE"
 
 #. FAVORITES
 msgid "FAVORITES ONLY"
@@ -618,7 +618,7 @@ msgid "enter core"
 msgstr "zadejte jádro"
 
 msgid "Ratio"
-msgstr "Hodnocení"
+msgstr "POMĚR STRAN"
 
 msgid "enter ratio"
 msgstr "zadejte hodnocení"
@@ -948,7 +948,7 @@ msgid "STOP EDITING"
 msgstr "UKONČIT EDITACI"
 
 msgid "MOVE CURSOR"
-msgstr "POHYB KURZOREM"
+msgstr "POHYB KURZORU"
 
 msgid "EDIT"
 msgstr "EDITOVAT"
@@ -1551,7 +1551,7 @@ msgid "USE COMPOSED VISUALS"
 msgstr "POUŽÍT SKLÁDANOU GRAFIKU"
 
 msgid "CHECK UPDATES"
-msgstr "VYHLEDÁVAT AKTUALIZACE"
+msgstr "KONTROLA AKTUALIZACÍ"
 
 msgid "AVAILABLE UPDATE"
 msgstr "DOSTUPNÁ AKTUALIZACE"
@@ -1563,7 +1563,7 @@ msgid "UPDATE TYPE"
 msgstr "TYP AKTUALIZACÍ"
 
 msgid "INTEGER SCALE (PIXEL PERFECT)"
-msgstr "CELOČÍSELNÉ ŠKÁLOVÁNÍ (SYMETRICKÉ PIXELY)"
+msgstr "CELOČÍSELNÉ MĚŘÍTKO (SYMETRICKÉ PIXELY)"
 
 msgid "ADVANCED SETTINGS"
 msgstr "ROZŠÍŘENÁ NASTAVENÍ"
@@ -1606,13 +1606,13 @@ msgstr ""
 "Nastavení trvání pro vyskakovací okna s nápovědou. 0 znamená žádné okno."
 
 msgid "HELP POPUP DURATION"
-msgstr "TRVÁNÍ VYSKAKOVACÍHO OKNA NÁPOVĚDY"
+msgstr "DOBA ZOBRAZENÍ OKNA NÁPOVĚDY"
 
 msgid "Set duration of music popups, 0 means no popup."
 msgstr "Nastavení trvání pro hudební vyskakovací okna. 0 znamená žádné okno."
 
 msgid "MUSIC POPUP DURATION"
-msgstr "TRVÁNÍ VYSKAKOVACÍHO OKNA HUDBY"
+msgstr "DOBA ZOBRAZENÍ OKNA HUDBY"
 
 msgid "POPUP SETTINGS"
 msgstr "NASTAVENÍ VYSKAKOVACÍCH OKEN"
@@ -1803,7 +1803,7 @@ msgstr "Nenastavovat"
 
 #. Bios
 msgid "BIOS CHECKING"
-msgstr "KONTROLA BIOSU"
+msgstr "KONTROLA BIOSŮ"
 
 msgid ""
 "Scan and check all your BIOS files and report everything in a comprehensive "
@@ -1828,20 +1828,20 @@ msgid ""
 "%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE "
 "AVAILABLE!"
 msgstr ""
-"%s EMULÁTORŮ NEMŮŽE PRACOVAT SPRÁVNĚ, DOKUD NEJSOU DOSTUPNÉ VŠECHNY "
+"%i EMULÁTORŮ NEMŮŽE PRACOVAT SPRÁVNĚ, DOKUD NEJSOU DOSTUPNÉ VŠECHNY "
 "POŽADOVANÉ BIOSY!"
 
 msgid "CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!"
 msgstr "GRATULUJEME! VŠECHNY EMULÁTORY MOHOU SPRÁVNĚ PRACOVAT!"
 
 msgid "%i BIOS NOT FOUND"
-msgstr "%i NENALEZENÝCH BIOS"
+msgstr "%i BIOSŮ NENALEZENO"
 
 msgid "%i NON-MATCHING BIOS FOUND"
-msgstr "%i NALEZENÝCH NEODPOVÍDAJÍCÍCH BIOS"
+msgstr "NALEZENO %i NEODPOVÍDAJÍCÍCH BIOSŮ"
 
 msgid "%i GOOD BIOS FOUND!"
-msgstr "NALEZENO %i BIOSŮ V POŘÁDKU!"
+msgstr "NALEZENO %i OK BIOSŮ!"
 
 msgid "File Path"
 msgstr "Cesta k souboru"
@@ -1891,7 +1891,8 @@ msgstr ""
 
 msgid ""
 "Your bios file does match one of the known MD5. Everything will run fine!"
-msgstr "Váš BIOS soubor neodpovídá žádnému ze známých MD5. Vše poběží správně!"
+msgstr ""
+"Váš BIOS soubor odpovídá jednomu ze známých MD5, takže by vše mělo fungovat!"
 
 msgid "MD5 LIST"
 msgstr "MD5 LIST"
@@ -2141,16 +2142,16 @@ msgstr ""
 "Chcete i přesto spustit hru?"
 
 msgid "BACKSPACE"
-msgstr "BACKSPACE"
+msgstr "SMAZAT"
 
 msgid "FAST WHEEL"
-msgstr "RYCHLÉ KOLEČKO"
+msgstr "RYCHLÝ KRUH"
 
 msgid "CHANGE CHARSET"
 msgstr "ZMĚNIT ZNAKOVOU SADU"
 
 msgid "MOVE WHEEL"
-msgstr "POHYB KOLEČKEM"
+msgstr "POHYB KRUHU"
 
 msgid "FAST CURSOR"
 msgstr "RYCHLÝ KURZOR"
@@ -2190,7 +2191,7 @@ msgid " has been unplugged!"
 msgstr " byl odpojen!"
 
 msgid "Remove from favorite"
-msgstr "Odstranit z oblíbených"
+msgstr "Odebrat z oblíbených"
 
 msgid "Default output"
 msgstr "Výchozí výstup"
@@ -2217,7 +2218,7 @@ msgid "PREDEFINED PASSWORDS"
 msgstr "PŘEDNASTAVENÁ HESLA"
 
 msgid "VALIDATE"
-msgstr "VALIDACE"
+msgstr "POTVRDIT"
 
 msgid "PASSWORD #%i"
 msgstr "HESLO #%i"
@@ -2744,7 +2745,7 @@ msgid "EDIT FOLDER %s"
 msgstr "EDITOVAT SLOŽKU %s"
 
 msgid "RUN WITH"
-msgstr "SPUSTIT S"
+msgstr "SPUSTIT POMOCÍ"
 
 msgid "NON EDITABLE GAME"
 msgstr "NEEDITOVATELNÁ HRA"
@@ -2834,7 +2835,7 @@ msgstr ""
 "Stiskněte L3 nebo R3. "
 
 msgid "DRIVER"
-msgstr "OVLADAČ"
+msgstr "DRIVER"
 
 msgid ""
 "Change the driver if your pad is not working at all or not working properly "
@@ -2929,7 +2930,7 @@ msgstr ""
 "JSTE SI OPRAVDE JISTÍ, ŽE TO CHCETE UDĚLAT?"
 
 msgid "SWAP VALIDATE/CANCEL BUTTONS"
-msgstr "PROHODIT POTVRDIT/ZRUŠIT TLAČÍTKA"
+msgstr "PROHODIT TLAČÍTKA POTVRZENÍ/STORNO"
 
 msgid "AUDIO MODE"
 msgstr "AUDIO REŽIM"
@@ -2941,7 +2942,7 @@ msgid "Musics or videos sound"
 msgstr "Hudba nebo zvuk videa"
 
 msgid "Musics and videos sound"
-msgstr "Hudby a zvuk videa"
+msgstr "Hudba a zvuk videa"
 
 msgid "Musics only"
 msgstr "Pouze hudba"
@@ -2959,7 +2960,7 @@ msgid "BRIGHTNESS +"
 msgstr "JAS +"
 
 msgid "Adult"
-msgstr "Dospělí"
+msgstr "PRO DOSPĚLÉ"
 
 msgid "Waking up!"
 msgstr "Startuji..."
@@ -3013,7 +3014,7 @@ msgstr ""
 "https://forum.recalbox.com"
 
 msgid "RECALBOX OVERLAYS"
-msgstr "RECALBOX OVERLAYS"
+msgstr "RECALBOX PŘEKRYTÍ"
 
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
@@ -3191,7 +3192,7 @@ msgstr ""
 "zařízení připojit k počítači se systémem Windows a použít nástroj pro opravu."
 
 msgid "DISPLAY BY FILENAME"
-msgstr "ZOBRAZIT PODLE NÁZVU SOUBORU"
+msgstr "ZOBRAZIT DLE NÁZVU SOUBORU"
 
 msgid "Display games by file names."
 msgstr "Zobrazení her podle názvů souborů."
@@ -3207,16 +3208,16 @@ msgstr ""
 "Tato hra právě aktualizuje svá metadata. Zkuste to znovu za několik sekund."
 
 msgid "SHOW ONLY LATEST VERSION"
-msgstr "ZOBRAZIT POUZE POSLEDNÍ VERZI"
+msgstr "ZOBRAZOVAT POUZE POSLEDNÍ VERZI"
 
 msgid "SHOW ONLY FAVORITES"
-msgstr "ZOBRAZIT POUZE OBLÍBENÉ"
+msgstr "ZOBRAZOVAT POUZE OBLÍBENÉ"
 
 msgid "SHOW HIDDEN GAMES"
 msgstr "ZOBRAZIT SKRYTÉ HRY"
 
 msgid "HIDE NO GAMES"
-msgstr "SKÝT BEZ HER"
+msgstr "SKRÝT TO CO NEJSOU HRY"
 
 msgid "Hide non final versions of a same game."
 msgstr "Skrytí nefinálních verzí hry"
@@ -3345,60 +3346,69 @@ msgstr ""
 "již pracujeme na nápravě!"
 
 msgid "CASE MANAGEMENT"
-msgstr "SPRÁVA SKŘÍNÍ"
+msgstr "SPRÁVA KRABIČEK"
 
 msgid ""
 "If you installed a case on your Recalbox, you can install or uninstall it in "
 "this. Some cases are detected automatically and will also be reported here."
 msgstr ""
+"Pokud jste si do svého Recalboxu nainstalovali case, můžete jej v tomto okně "
+"nainstalovat nebo odinstalovat. Některé case jsou detekovány automaticky a "
+"budou zde také reportovány."
 
 msgid "Initializing roms folders..."
-msgstr ""
+msgstr "Inicializace rom složek..."
 
 msgid "Initializing share folders..."
-msgstr ""
+msgstr "Inicializace sdílených složek..."
 
 msgid ""
 "The USB device %NAME% with no rom folder and no share folder has been "
 "plugged in! Would you like to initialize this device?"
 msgstr ""
+"Bylo připojeno USB zařízení %NAME% bez rom složky a sdílené složky. Chcete "
+"toto zařízení inicializovat?"
 
 msgid "• Choose '%INIT%' to create only all the rom folders"
-msgstr ""
+msgstr "Zvolte '%INIT%' pro vytvoření všech rom složek."
 
 msgid ""
 "• Choose '%MOVE%' to copy all the current share to the new device, "
 "automatically switch to this device, and reboot"
 msgstr ""
+"Zvolte '%MOVE%' pro kopírování současné sdílené složky na nové zařízení, "
+"automatické přepnutí na toto zařízení a restart."
 
 msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
-msgstr ""
+msgstr "Nebo zvolte '%CANCEL%', pokud nechcete s tímto zařízením nic dělat."
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INICIALIZACE"
 
 msgid "MOVE SHARE"
-msgstr ""
+msgstr "PŘESUN SDÍLENÉ SLOŽKY"
 
 msgid "Setting up boot device..."
-msgstr ""
+msgstr "Nastavování bootovacího zařízení..."
 
 msgid ""
 "Your USB device has been initialized! Ready to reboot on your new share "
 "device!"
 msgstr ""
+"Vaše USB zařízení bylo inicializováno! Připraveno k restartu v novém "
+"sdíleném zařízení!"
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "AKTUALIZACE..."
 
 msgid "%i file"
-msgstr ""
+msgstr "%i soubor"
 
 msgid "%i files"
-msgstr ""
+msgstr "%i soubory"
 
 msgid "Video"
-msgstr ""
+msgstr "Video"
 
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
@@ -3410,237 +3420,250 @@ msgstr ""
 "polohy ON."
 
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "RGB VÝSTUP PRO VGA666, PI2SCART, RGBPI."
 
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "CRT ADAPTÉR"
 
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Povolit RGB výstup pro VGA666, PI2SCART, RGBPI"
 
 msgid "MENU RESOLUTION"
-msgstr ""
+msgstr "MENU ROZLIŠENÍ"
 
 msgid ""
 "Select emulationstation resolution. 480i is recommended for better details."
 msgstr ""
+"Vyberte rozlišení Emulationstation. Pro lepší detaily je doporučeno 480i."
 
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "TYP OBRAZOVKY"
 
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "VYNUTIT 50 HZ"
 
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "VÝBĚR OBNOVOVACÍ FREKVENCE HRY PŘI SPUŠTĚNÍ"
 
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
 msgstr ""
+"Pro kompatibilní systémy, můžete vybrat mezi 50 Hz a 60 Hz během spuštění."
 
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "VÝBĚR ROZLIŠENÍ HRY PŘI SPUŠTĚNÍ"
 
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
+"Pro kompatibilní systémy, můžete vybrat mezi 240p, 480i, nebo 480p během "
+"spuštění."
 
 msgid "RUN DEMOS IN 240P@120"
-msgstr ""
+msgstr "SPUSIT DEMA V 240P@120"
 
 msgid "Run the demos in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "Na vašem 31 kHz monitoru se spustí dema v rozlišení 240p."
 
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "OBRAZOVÉ ŘÁDKY V 480P"
 
 msgid "Add scanlines when running games in 480p on 31kHz screen."
-msgstr ""
+msgstr "Přidat obrazové řádky pro hry běžicí ve 480p na 31 kHz obrazovce."
 
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "NULOVÝ LAG (beta)"
 
 msgid "Configure emulators to approach a zero lag experience."
-msgstr ""
+msgstr "Konfigurace emulátoru k dosažení nulového lagu."
 
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "VYNUTIT ZVUK DO KONEKTORU JACK"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
+"Vynucení zvuku na konektoru JACK. Automaticky zapnuto při zapnutém přepínači "
+"31 kHz"
 
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "KALIBRACE OBRAZOVKY (BETA)"
 
 msgid "PAL HORIZONTAL OFFSET"
-msgstr ""
+msgstr "HORIZONTÁLNÍ POSUN PRO PAL"
 
 msgid ""
 "If you PAL images are not centered, you can override the default horizontal "
 "offset here."
 msgstr ""
+"Pokud nejsou PAL snímky vycentrované, můžete zde upravit výchozí "
+"horizontální posun."
 
 msgid "PAL VERTICAL OFFSET"
-msgstr ""
+msgstr "VERTIKÁLNÍ POSUN PRO PAL"
 
 msgid ""
 "If you PAL images are not centered, you can override the default vertical "
 "offset here."
 msgstr ""
+"Pokud nejsou PAL snímky vycentrované, můžete zde upravit výchozí vertikální "
+"posun."
 
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "CRT NASTAVENÍ"
 
 msgid "(Hardware managed)"
-msgstr ""
+msgstr "(hardwarově spravováno)"
 
 msgid "240p"
-msgstr ""
+msgstr "240p"
 
 msgid "480p"
-msgstr ""
+msgstr "480p"
 
 msgid "480i"
-msgstr ""
+msgstr "480i"
 
 msgid "MOVE SCREEN"
-msgstr ""
+msgstr "POSUNOUT OBRAZ"
 
 msgid "WIDER"
-msgstr ""
+msgstr "ŠIRŠÍ"
 
 msgid "NARROWER"
-msgstr ""
+msgstr "UŽŠÍ"
 
 msgid "VALIDATE CHANGES"
-msgstr ""
+msgstr "OVĚŘIT ZMĚNY"
 
 msgid "Image width:"
-msgstr ""
+msgstr "Šířka obrazu:"
 
 msgid "Horizontal offset:"
-msgstr ""
+msgstr "Horizontální posun:"
 
 msgid "Vertical offset:"
-msgstr ""
+msgstr "Vertikální posun:"
 
 msgid "YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."
-msgstr ""
+msgstr "VÁŠ LIST JE PRÁZDNÝ. STISKNĚTE START PRO ZMĚNU FILTRU HER."
 
 msgid "Select a region to filter out games not matching the selected region."
 msgstr ""
+"Vyberte region pro vyfiltrování her, které neodpovídají danému regionu."
 
 msgid "SOFTPATCHING"
-msgstr ""
+msgstr "SOFTPATCHING"
 
 msgid "SYSTEM RESOLUTIONS"
-msgstr ""
+msgstr "SYSTÉMOVÁ ROZLIŠENÍ"
 
 msgid "AUTOMATIC SCRAPING"
-msgstr ""
+msgstr "AUTOMATICKÉ PROHLEDÁVÁNÍ"
 
 msgid "RUN IN BACKGROUND"
-msgstr ""
+msgstr "BĚH NA POZADÍ"
 
 msgid "MONTREAL"
-msgstr ""
+msgstr "MONTREAL"
 
 msgid "SAOPAULO"
-msgstr ""
+msgstr "SAOPAULO"
 
 msgid "%i Known MD5"
-msgstr ""
+msgstr "%i známý MD5"
 
 msgid "Switch audio output to Headphones!"
-msgstr ""
+msgstr "Přepnout audio výstup do sluchátek!"
 
 msgid "Switch audio output back to Speakers!"
-msgstr ""
+msgstr "Přepnout audio výstup zpět do reproduktorů!"
 
 msgid "Restarting."
-msgstr ""
+msgstr "Restartování."
 
 msgid "Entering standby..."
-msgstr ""
+msgstr "Přechod do pohotovostního režimu..."
 
 msgid "PAD TO KEYBOARD CONTROLS"
-msgstr ""
+msgstr "PAD PRO OVLÁDÁNÍ KLÁVESNICE"
 
 msgid "RECALBOX RGB DUAL"
-msgstr ""
+msgstr "RECALBOX RGB DUAL"
 
 msgid "DEBUG LOGS"
-msgstr ""
+msgstr "LADICÍ LOGY"
 
 msgid "You are about to delete this files, confirm ?"
-msgstr ""
+msgstr "Chcete opravdu smazat soubory?"
 
 msgid "Preparing Games..."
-msgstr ""
+msgstr "Připravuji hry..."
 
 msgid "Some games are not netplay ready yet."
-msgstr ""
+msgstr "Některé hry ještě nejsou připraveny na hru po síti."
 
 msgid "Free"
-msgstr ""
+msgstr "Volně"
 
 msgid "FADE"
-msgstr ""
+msgstr "ZTMAVENÍ"
 
 msgid "SLIDE"
-msgstr ""
+msgstr "POSUV"
 
 msgid "INSTANT"
-msgstr ""
+msgstr "OKAMŽITÝ"
 
 msgid "Are you sure the selected theme is compatible with CRT screens?"
-msgstr ""
+msgstr "Jste si jisti, že je vybrané téma kompatibilní s CRT obrazovkou?"
 
 msgid "You must have at least %dGB free on 'SHARE' partition!"
-msgstr ""
+msgstr "Je vyžadováno nejméně %dGB prostoru 'SHARE' oddílu!"
 
 msgid "ADD STAR"
-msgstr ""
+msgstr "PŘIDAT HVĚZDU"
 
 msgid ""
 "Free space on device %NAME% has bone under %LIMIT%!\n"
 "You should try to free some space quickly!"
 msgstr ""
+"Na zařízení %NAME% je méně než %LIMIT% volného místa!\n"
+"Měli byste urychleně uvolnit nějaké místo!"
 
 msgid "60Hz (US)"
-msgstr ""
+msgstr "60 Hz (US)"
 
 msgid "60Hz (JP)"
-msgstr ""
+msgstr "60 Hz (JP)"
 
 msgid "50Hz (EU)"
-msgstr ""
+msgstr "50 Hz (EU)"
 
 msgid "60Hz"
-msgstr ""
+msgstr "60 Hz"
 
 msgid "50Hz"
-msgstr ""
+msgstr "50 Hz"
 
 msgid "240p@120"
-msgstr ""
+msgstr "240p@120"
 
 msgid "480p@60"
-msgstr ""
+msgstr "480p@60"
 
 msgid "Recalbox RGB Dual options and configuration."
-msgstr ""
+msgstr "Recalbox volby a konfigurace pro duální RGB."
 
 msgid "Select system, frontend and emulator resolutions."
-msgstr ""
+msgstr "Výběr rozlišení systému, frontendu a emulátoru."
 
 msgid "B TO UNSET"
-msgstr ""
+msgstr "B PRO ZRUŠENÍ NASTAVENÍ"
 
 msgid "PAIR BLUETOOTH CONTROLLERS"
-msgstr ""
+msgstr "SPÁROVAT BLUETOOTH OVLADAČE"
 
 msgid ""
 "The bluetooth pairing will start and run for several minutes.\n"
@@ -3651,86 +3674,95 @@ msgid ""
 "You can close it at any time, while continuing to pair your bluetooth "
 "devices for as long as the bluetooth icon is blinking on the top left."
 msgstr ""
+"Párování Bluetooth se spustí a bude probíhat několik minut.\n"
+"Během této doby stačí vyvolat proces párování na libovolném ovladači "
+"bluetooth, který chcete spárovat.\n"
+"V dalším okně se zobrazí všechna zjištěná zařízení bluetooth a jejich stav "
+"pouze pro informační účely.\n"
+"Můžete to kdykoli zavřít, přičemž můžete pokračovat v párování zařízení "
+"bluetooth po dobu, kdy bliká ikona bluetooth vlevo nahoře."
 
 msgid "DOWN TO SKIP"
-msgstr ""
+msgstr "DOLŮ PRO PŘESKOČENÍ"
 
 msgid "START DOWNLOADING..."
-msgstr ""
+msgstr "START STAHOVÁNÍ..."
 
 msgid ""
 "Pair a bluetooth audio device. Put your device in discovery mode before "
 "starting."
 msgstr ""
+"Párování bluetooth audio zařízení. Před startem uveďte vaše zařízení do "
+"režimu vyhledávání."
 
 msgid "PAIR A BLUETOOTH AUDIO DEVICE"
-msgstr ""
+msgstr "PÁROVAT BLUETOOTH AUDIO ZAŘÍZENÍ"
 
 msgid "Failed"
-msgstr ""
+msgstr "Selhalo"
 
 msgid "Succeeded"
-msgstr ""
+msgstr "Úspěšné"
 
 msgid "J1 UP"
-msgstr ""
+msgstr "J1 NAHORU"
 
 msgid "J1 DOWN"
-msgstr ""
+msgstr "J1 DOLU"
 
 msgid "J1 LEFT"
-msgstr ""
+msgstr "J1 DOLEVA"
 
 msgid "J1 RIGHT"
-msgstr ""
+msgstr "J1 DOPRAVA"
 
 msgid "J2 UP"
-msgstr ""
+msgstr "J2 NAHORU"
 
 msgid "J2 DOWN"
-msgstr ""
+msgstr "J2 DOLŮ"
 
 msgid "J2 LEFT"
-msgstr ""
+msgstr "J2 DOLEVA"
 
 msgid "J2 RIGHT"
-msgstr ""
+msgstr "J2 DOPRAVA"
 
 msgid "Alias: "
-msgstr ""
+msgstr "Alias:␣"
 
 msgid "MAC: "
-msgstr ""
+msgstr "MAC:␣"
 
 msgid "Connected: "
-msgstr ""
+msgstr "Připojeno:␣"
 
 msgid "Trusted: "
-msgstr ""
+msgstr "Důvěryhodné:␣"
 
 msgid "Paired: "
-msgstr ""
+msgstr "Spárováno:␣"
 
 msgid "Blocked: "
-msgstr ""
+msgstr "Zablokováno:␣"
 
 msgid "NO DEVICE"
-msgstr ""
+msgstr "ZAŘÍZENÍ NENALEZENO"
 
 msgid "SEARCH BY"
-msgstr ""
+msgstr "HLEDAT PODLE"
 
 msgid "NO RESULTS"
-msgstr ""
+msgstr "ŽÁDNÉ VÝSLEDKY"
 
 msgid "PRIORITY TO HDMI"
-msgstr ""
+msgstr "PRIORITNĚ HDMI"
 
 msgid "ON"
-msgstr ""
+msgstr "ZAP"
 
 msgid "OFF"
-msgstr ""
+msgstr "VYP"
 
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
@@ -3738,106 +3770,103 @@ msgid ""
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
+"Nyní budete kalibrovat různá rozlišení televizoru. Vyberte obnovovací "
+"frekvenci podle toho, co váš televizor podporuje.\n"
+"Během kalibrace stiskněte tlačítko B pro použití režimu, START pro ověření a "
+"A pro zrušení."
 
 msgid "60Hz Only"
-msgstr ""
+msgstr "Pouze 60 Hz"
 
 msgid "50Hz Only"
-msgstr ""
+msgstr "Pouze 50 Hz"
 
 msgid "DISCOVERING BLUETOOTH AUDIO DEVICES..."
-msgstr ""
+msgstr "VYHLEDÁVÁM BLUETOOTH AUDIO ZAŘÍZENÍ"
 
 msgid "NO AUDIO DEVICE FOUND"
-msgstr ""
+msgstr "AUDIO ZAŘÍZENÍ NENALEZENO"
 
 msgid "KODI RESOLUTION"
-msgstr ""
+msgstr "ROZLIŠENÍ KODI"
 
 msgid "AUDIO DEVICE PAIRED"
-msgstr ""
+msgstr "AUDIO ZAŘÍZENÍ BYLO SPÁROVÁNO"
 
 msgid "UNABLE TO PAIR AUDIO DEVICE"
-msgstr ""
+msgstr "NEPODAŘILO SE SPÁROVAT AUDIO ZAŘÍZENÍ"
 
 msgid "select a patch"
-msgstr ""
+msgstr "vyberte patch"
 
 msgid "BRIGHTNESS"
-msgstr ""
+msgstr "JAS"
 
 msgid "NAME"
-msgstr ""
+msgstr "JMÉNO"
 
 msgid "suspend"
-msgstr ""
+msgstr "pozastavit"
 
 msgid "NO GAME"
-msgstr ""
+msgstr "ŽÁDNÁ HRA"
 
 msgid "NEXT RESOLUTION"
-msgstr ""
+msgstr "DALŠÍ ROZLIŠENÍ"
 
 msgid "Game refresh rate"
-msgstr ""
+msgstr "Obnovovací frekvence hry"
 
 msgid "Game resolution"
-msgstr ""
+msgstr "Rozlišení hry"
 
 msgid "CHANGELOG"
-msgstr ""
+msgstr "ZÁZNAM ZMĚN"
 
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Kopírování složky %s ..."
 
 msgid "VOLUME -"
-msgstr ""
+msgstr "ZVUK -"
 
 msgid "VOLUME +"
-msgstr ""
+msgstr "ZVUK +"
 
 msgid "B"
-msgstr ""
+msgstr "B"
 
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
-#
 msgid "SAVE STATES"
-msgstr ""
+msgstr "ULOŽENÉ STAVY"
 
-#
 msgid "SHOW SAVE STATES ON START"
-msgstr ""
+msgstr "ZOBRAZIT STAVY ULOŽENÍ PŘI STARTU"
 
-#
 msgid "You are about to delete this state, confirm ?"
-msgstr ""
+msgstr "Chystáte se vymazat tento uložený stav, souhlasíte?"
 
-#
 msgid "DELETE STATE, CONFIRM?"
-msgstr ""
+msgstr "SMAZAT ULOŽENÝ STAV, POTVRDIT?"
 
-#
 msgid "CHANGE ORDER"
-msgstr ""
+msgstr "ZMĚNIT POŘADÍ"
 
-#
 msgid "LAUNCH GAME FROM STATE"
-msgstr ""
+msgstr "SPUSTIT HRU Z ULOŽENÉHO STAVU"
 
-#
 msgid "DELETE STATE SLOT"
-msgstr ""
+msgstr "SMAZAT STAVOVÝ SLOT"
 
 #
 msgid ""
@@ -3845,118 +3874,286 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
-msgstr ""
+msgstr "STAHUJI HRY PRO %S"
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
-msgstr ""
+msgstr "Stahování WASM4 HER z oficiálních stránek. Počkejte prosím..."
 
-#
 msgid "Downloading... Estimated time: %s"
-msgstr ""
+msgstr "Stahování... Odhadovaný čas: %s"
 
-#
 msgid "Extracting... found %s games"
-msgstr ""
+msgstr "Rozbaluji... nalezeno %s her"
 
-#
 msgid "Updating metadata..."
-msgstr ""
+msgstr "Aktualizuji metadata..."
 
-#
 msgid "Refreshing gamelist..."
+msgstr "Obnovuji seznam her..."
+
+msgid "DISK USAGE"
+msgstr "VYUŽITÍ DISKU"
+
+msgid "SECURITY"
+msgstr "ZABEZPEČENÍ"
+
+msgid "ENFORCE SECURITY"
+msgstr "VYNUCENÍ ZABEZPEČENÍ"
+
+msgid "ROOT PASSWORD"
+msgstr "HESLO ROOT"
+
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "PÁROVAT BLUETOOTH OVLADAČ"
+
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
 msgstr ""
+"Nastavení chování spořiče obrazovky. DIM redukuje jas obrazovky a BLACK ji "
+"zcela vypne."
 
-#~ msgid "DISK USAGE"
-#~ msgstr "VYUŽITÍ DISKU"
+msgid "Manage your recalbox security."
+msgstr "Spravovat zabezpečení recalboxu."
 
-#~ msgid "SECURITY"
-#~ msgstr "ZABEZPEČENÍ"
+msgid "Change the SSH root password."
+msgstr "Změnit heslo root pro SSH."
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ZVÝŠENÍ ZABEZPEČENÍ"
+msgid "UPDATE VERSION:"
+msgstr "UPDATE VERZE"
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "HESLO ROOT"
+msgid "Rom found"
+msgstr "Rom nalezena"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "PÁROVAT S BLUETOOTH OVLADAČEM"
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Zkopírovat stávající systém na jiné zařízení. Pozor, data na cílovém "
+"zařízení budou vymazána."
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Nastavení chování spořiče obrazovky. DIM redukuje jas obrazovky a BLACK "
-#~ "ji zcela vypne."
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "Zobrazí všechny hry pro všechny sytémy."
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Spravovat zabezpečení recalboxu."
+msgid "Real Time Stratégy"
+msgstr "Strategie v reálném čase"
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "Změnit heslo root pro SSH."
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"Pokud stisknete tlačítko NAPÁJENÍ na více než 2 sekund, dojde k vypnutí "
+"konzole. Pokud jste ve hře, Recalbox nejdříve korektně ukončí běžící "
+"emulátor.\n"
+"V případě, že tlačítko NAPÁJENÍ podržíte déle než 5 sekund, dojde tvrdému "
+"vypnutí.\n"
+"\n"
+"Stiskněte B pro pokračování."
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Vynutit zabezpečení recalboxu."
+msgid "added to favorites"
+msgstr "přidáno do oblíbených"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "UPDATE VERZE"
+msgid "removed from favorites"
+msgstr "odebráno z oblíbených"
 
-#~ msgid "Rom found"
-#~ msgstr "Rom nalezena"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Klip ze hry nemůže být přehrán.\n"
+"\n"
+"Pro váš výběr není dostupné video."
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Zkopírovat stávající systém na jiné zařízení. Pozor, data na cílovém "
-#~ "zařízení budou vymazána."
+msgid "Analog Output"
+msgstr "Analogový výstup"
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "Zobrazí všechny hry pro všechny sytémy."
+msgid "HDMI / DisplayPort"
+msgstr "HDMI/DisplayPort"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Strategie v reálném čase"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr "VÁŠ SEZNAM OBLÍBENÝCH JE PRÁZDNÝ. PROSÍM VYBERTE ZOBRAZENÍ VŠECH HER."
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "Pokud stisknete tlačítko NAPÁJENÍ na více než 2 sekund, dojde k vypnutí "
-#~ "konzole. Pokud jste ve hře, Recalbox nejdříve korektně ukončí běžící "
-#~ "emulátor.\n"
-#~ "V případě, že tlačítko NAPÁJENÍ podržíte déle než 5 sekund, dojde tvrdému "
-#~ "vypnutí.\n"
-#~ "\n"
-#~ "Stiskněte B pro pokračování."
+msgid "480i (recommended)"
+msgstr "480i (doporučeno)"
 
-#~ msgid "added to favorites"
-#~ msgstr "přidáno do oblíbených"
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+"Prohledávání beží na pozadí.\n"
+"Vraťte se do nabídky prohledávání a získejte informace o stavu."
 
-#~ msgid "removed from favorites"
-#~ msgstr "odebráno z oblíbených"
+msgid "60Hz & 50Hz"
+msgstr "60Hz & 50Hz"
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Klip ze hry nemůže být přehrán.\n"
-#~ "\n"
-#~ "Pro váš výběr není dostupné video."
+msgid "ADVANCED SHADERS"
+msgstr "POKROČILÉ SHADERY"
 
-#~ msgid "Analog Output"
-#~ msgstr "Analogový výstup"
+msgid "GAME BOY MODE"
+msgstr "GAME BOY REŽIM"
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI/DisplayPort"
+msgid "GAME BOY"
+msgstr "GAME BOY"
 
-#~ msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
-#~ msgstr ""
-#~ "VÁŠ SEZNAM OBLÍBENÝCH JE PRÁZDNÝ. PROSÍM VYBERTE ZOBRAZENÍ VŠECH HER."
+msgid "SUPER GAME BOY"
+msgstr "SUPER GAME BOY"
+
+msgid "ASK AT LAUNCH"
+msgstr "ZEPTAT SE PŘI SPUŠTĚNÍ"
+
+msgid "CRT CURVED"
+msgstr "CRT ZAKŘIVENÍ"
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+"PRÁVĚ JSTE AKTIVOVALI SHADERY PRO VŠECHNY SYSTÉMY. PRO LEPŠÍ VYKRESLOVÁNÍ SE "
+"DOPORUČUJE VYPNOUT VYHLAZOVÁNÍ HER. CHCETE TUTO MOŽNOST ZMĚNIT AUTOMATICKY?"
+
+msgid "Optimized video"
+msgstr "Optimalizované video"
+
+msgid "RECOMMENDED"
+msgstr "DOPORUČENÉ"
+
+msgid "USE V2 (BETA)"
+msgstr "POUŽÍT V2 (BETA)"
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr "V2 - 15KHZ ROZŠÍŘENÝ ROZSAH"
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr "V2 - SUPERREZ MULTIPLIKÁTOR"
+
+msgid "TATE SETTINGS"
+msgstr "NASTAVENÍ TATE"
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr "ZAPNOUT VIRTUÁLNÍ SYSTÉM TATE"
+
+msgid "GAMES ROTATION"
+msgstr "ROTACE HER"
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr "CELKOVÁ ROTACE SYSTÉMŮ"
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+"Vítejte v RECALBOXu pro Anbernic RG!\n"
+"Tato malá prezentace vám ukáže, jak používat všechna speciální tlačítka "
+"dostupná po celé obrazovce.\n"
+"\n"
+"Stisknutím libovolného tlačítka můžete začít!"
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+"Na levé straně konzole jsou 2 tlačítka označená symbolem \"-\" a \"+\".\n"
+"Pomocí nich můžete kdykoli zvýšit nebo snížit hlasitost v rozhraní Recalbox "
+"nebo ve hře.\n"
+"\n"
+"Stisknutím tlačítka B můžete pokračovat"
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+"Na horní straně konzole je tlačítko označené \"F\".\n"
+"Jedná se o Hotkey tlačítko\n"
+"Chcete-li ukončit hru, stiskněte obě klávesy F + START.\n"
+"Stisknutím tlačítka B můžete pokračovat"
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+"K nastavení jasu použijte funkční tlačítko F a tlačítko hlasitosti.\n"
+"Stisknutím tlačítka B můžete pokračovat"
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+"Jen pár slov o tlačítku POWER.\n"
+"Krátkým stisknutím, podobně jako kliknutím myší, přejde konzole do režimu "
+"spánku. Proveďte další krátké stisknutí a konzole se okamžitě restartuje! "
+"Funguje v rozhraní Recalbox i ve hře!\n"
+"Pro pokračování stiskněte tlačítko B."
+
+msgid "Missing bios list:"
+msgstr "Chybějící seznam biosů:"
+
+msgid "GameBoy Mode"
+msgstr "GameBoy režim"
+
+msgid "Rotation"
+msgstr "Rotace"
+
+msgid "Full Screen"
+msgstr "Celá obrazovka"
+
+msgid "DOWNLOAD CONTENTS"
+msgstr "STÁHNOUT OBSAH"
+
+msgid "SHOW REGION"
+msgstr "ZOBRAZIT REGION"
+
+msgid "DISPLAY NAME BY"
+msgstr "ZOBRAZIT JMÉNO DLE"
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr "HLEDAT DALŠÍ VERZE"
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr "HLEDAT HRY SE STEJNOU LICENCÍ"
+
+msgid "licences"
+msgstr "licence"
+
+msgid "Start downloading..."
+msgstr "Start stahování..."
+
+msgid "none"
+msgstr "nic"
+
+msgid "Games"
+msgstr "Hry"
+
+msgid "Games of licence"
+msgstr "Licencované hry"
+
+msgid "ALIAS"
+msgstr "ALIAS"
+
+msgid "FAMILY"
+msgstr "RODINA"
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr "Stahování her zdarma z Recalbox úložišť. Čekejte prosím..."
+
+msgid "Installing %s games"
+msgstr "Instalace %s her"

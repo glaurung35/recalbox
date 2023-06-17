@@ -226,7 +226,7 @@ msgid "VERSION"
 msgstr "WERSJA"
 
 msgid "DISK USAGE (FREE/TOTAL)"
-msgstr ""
+msgstr "WYKORZYSTANIE DYSKU (WOLNE/ŁĄCZNIE)"
 
 msgid "STORAGE DEVICE"
 msgstr "NOŚNIK DANYCH"
@@ -2017,7 +2017,7 @@ msgid "VIRTUAL SYSTEMS PER GENRE"
 msgstr "WIRTUALNE SYSTEMY NA GATUNEK"
 
 msgid "Show a 'all-games' system with all games from all systems."
-msgstr ""
+msgstr "Pokaż system 'wszystkie gry' ze wszystkimi grami z każdego systemu."
 
 msgid "Show multiplayer games (all games playable by two or more players)."
 msgstr "Wyświetla wszystkie gry, w które może grać dwóch lub więcej graczy."
@@ -2922,14 +2922,14 @@ msgid "SHOW LIGHTGUN SYSTEM"
 msgstr "POKAZ SYSTEM Z BRONIĄ ŚWIETLNĄ"
 
 msgid "SHOW PORTS SYSTEM"
-msgstr ""
+msgstr "POKAŻ SYSTEM PORTY"
 
 msgid "Show all available games playable with a lightgun."
 msgstr ""
 "Pokaż wszystkie dostępne gry, w które można grać przy użyciu broni świetlnej."
 
 msgid "Show a 'ports' system with all ports in the same place."
-msgstr ""
+msgstr "Pokaż system 'porty' ze wszystkimi portami w jednym miejscu."
 
 msgid ""
 "WARNING! This option erase all recalbox and emulator configurations! Use it "
@@ -3044,77 +3044,83 @@ msgid "box3d"
 msgstr "BOX3D"
 
 msgid "P2K CONTROLS"
-msgstr ""
+msgstr "STEROWANIE P2K"
 
 msgid "THE UPGRADE HAS FAILED"
-msgstr ""
+msgstr "AKTUALIZACJA NIEUDANA"
 
 msgid ""
 "The upgrade process has failed. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, and contact the team on https://forum."
 "recalbox.com if the problem persists."
 msgstr ""
+"Proces aktualizacji się nie powiódł. Powróciłeś do Recalbox %s.\n"
+"Spróbuj ponownie zaktualizować Recalbox i skontaktuj się z zespołem pod "
+"adresem https://forum.recalbox.com, jeśli problem będzie się powtarzał."
 
 msgid "RECALBOX OVERLAYS"
-msgstr ""
+msgstr "NAKŁADKI RECALBOX"
 
+#, fuzzy
 msgid ""
 "On wide screens, display system images that wrap around emulated screen."
 msgstr ""
+"Na ekranach panoramicznych wyświetlaj obrazy systemowe, zawijając je woków "
+"emulowanego ekranu."
 
 msgid "No comment available"
-msgstr ""
+msgstr "Brak komentarza"
 
 msgid "UNKNOWN"
-msgstr ""
+msgstr "NIEZNANY"
 
 msgid "GO TO GAME"
-msgstr ""
+msgstr "IDŹ DO GRY"
 
 msgid "DELETE GAME %s"
-msgstr ""
+msgstr "SKASUJ GRĘ %s"
 
 msgid "GAME FILES (ROM | DISK IMAGE)"
-msgstr ""
+msgstr "PLIKI GRY (ROM | OBRAZ DYSKU)"
 
 msgid "MEDIA FILES"
-msgstr ""
+msgstr "PLIKI MULTIMEDIALNE"
 
 msgid "CONFIGURATION AND PATCH FILES"
-msgstr ""
+msgstr "PLIKI KONFIGURACJI I ŁATEK"
 
 msgid "SAVE FILES"
-msgstr ""
+msgstr "PLIKI ZAPISÓW GRY"
 
 msgid "SELECT FILES TO DELETE"
-msgstr ""
+msgstr "WYBIERZ PLIKI DO USUNIĘCIA"
 
 msgid "DELETE SELECTED FILES, CONFIRM?"
-msgstr ""
+msgstr "USUWAM WYBRANE PLIKI, POTWIERDZASZ?"
 
 msgid "RELEASE DATE"
-msgstr ""
+msgstr "DATA WYDANIA"
 
 msgid "TYPE, THEN NAME"
-msgstr ""
+msgstr "TYP, PÓŹNIEJ NAZWA"
 
 msgid "TYPE, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYP, PÓŹNIEJ DATA WYDANIA"
 
 msgid "MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "WYDAWCA, PÓŹNIEJ NAZWA"
 
 msgid "MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "WYDAWCA, PÓŹNIEJ DATA WYDANIA"
 
 msgid "TYPE, THEN MANUFACTURER, THEN NAME"
-msgstr ""
+msgstr "TYP, PÓŹNIEJ WYDAWCA, PÓŹNIEJ NAZWA"
 
 msgid "TYPE, THEN MANUFACTURER, THEN RELEASE DATE"
-msgstr ""
+msgstr "TYP, PÓŹNIEJ WYDAWCA, PÓŹNIEJ DATA WYDANIA"
 
 msgid "SYSTEM SORTING"
-msgstr ""
+msgstr "SORTOWANIE WG SYSTEMU"
 
 msgid ""
 "Default: use original or custom systemlist.xml order\n"
@@ -3125,59 +3131,63 @@ msgid ""
 msgstr ""
 
 msgid "DELETE ALL FILES"
-msgstr ""
+msgstr "USUŃ WSZYSTKIE PLIKI"
 
 msgid "ADVANCED DELETE"
-msgstr ""
+msgstr "ZAAWANSOWANE USUWANIE"
 
 msgid "DELETE ALL FILES, CONFIRM?"
-msgstr ""
+msgstr "POTWIERDZIĆ USUNIĘCIE WSZYSTKICH PLIKÓW?"
 
 msgid "DELETE SCREENSHOT, CONFIRM?"
-msgstr ""
+msgstr "POTWIERDZIĆ USUNIĘCIE ZRZUTU EKRANU?"
 
 msgid "DELETE SCREENSHOT"
-msgstr ""
+msgstr "USUŃ ZRZUT EKRANU"
 
 msgid "This option display a menu which allows to DELETE game data."
-msgstr ""
+msgstr "Ta opcja wyświetla menu pozwalające USUNĄĆ dane gry."
 
 msgid ""
 "Global resolution is the resolution used by default when specific "
 "resolutions are undefined."
 msgstr ""
+"Rozdzielczość globalna jest używana domyślnie, kiedy nie określono innej "
+"rozdzielczości dla gry."
 
 msgid "Select the resolution EmulationStation will use."
-msgstr ""
+msgstr "Wybierz rozdzielczość używaną przez EmulationStation."
 
 msgid "Select the resolution used by specific systems."
-msgstr ""
+msgstr "Wybierz rozdzielczość używaną przez określone systemy."
 
 msgid "Select resolution to use with this system."
-msgstr ""
+msgstr "Wybierz rozdzielczość używaną przez ten system."
 
 msgid "RESOLUTIONS"
-msgstr ""
+msgstr "ROZDZIELCZOŚCI"
 
 msgid "GLOBAL RESOLUTION"
-msgstr ""
+msgstr "ROZDZIELCZOŚĆ GLOBALNA"
 
 msgid "EMULATIONSTATION RESOLUTION"
-msgstr ""
+msgstr "ROZDZIELCZOŚĆ EMULATIONSTATION"
 
 msgid "EMULATORS SPECIFIC RESOLUTIONS"
-msgstr ""
+msgstr "ROZDZIELCZOŚCI DLA EMULATORÓW"
 
 msgid "USE GLOBAL"
-msgstr ""
+msgstr "UŻYJ GLOBALNYCH"
 
 msgid "NATIVE"
-msgstr ""
+msgstr "NATYWNA"
 
 msgid ""
 "No file selected,\n"
 "you must at least choose one."
 msgstr ""
+"Nie wybrano pliku.\n"
+"Musisz wybrać przynajmniej jeden."
 
 msgid ""
 "The device %NAME% containing roms has been plugged in! EmulationStation must "
@@ -3211,46 +3221,48 @@ msgid ""
 msgstr ""
 
 msgid "DISPLAY BY FILENAME"
-msgstr ""
+msgstr "WYŚWIETL WG NAZWY"
 
 msgid "Display games by file names."
-msgstr ""
+msgstr "Wyświetl gry po nazwie pliku."
 
 msgid "SEARCH GAMES HERE"
-msgstr ""
+msgstr "WYSZUKAJ GRY TUTAJ"
 
 msgid "GAME FILTERS"
-msgstr ""
+msgstr "FILTR GIER"
 
 msgid "This game is currently updating its metadata. Retry in a few seconds."
 msgstr ""
+"Ta gra właśnie aktualizuje swoje metadane.\n"
+"Spróbuj ponownie za kilka sekund."
 
 msgid "SHOW ONLY LATEST VERSION"
-msgstr ""
+msgstr "POKAŻ TYLKO NAJNOWSZĄ WERSJĘ"
 
 msgid "SHOW ONLY FAVORITES"
-msgstr ""
+msgstr "POKAŻ TYLKO ULUBIONE"
 
 msgid "SHOW HIDDEN GAMES"
-msgstr ""
+msgstr "POKAŻ UKRYTE GRY"
 
 msgid "HIDE NO GAMES"
-msgstr ""
+msgstr "UKRYJ, GDY NIE MA GIER"
 
 msgid "Hide non final versions of a same game."
-msgstr ""
+msgstr "Ukryj niefinalne wersje gry."
 
 msgid "Hide all pre-installed games."
-msgstr ""
+msgstr "Ukryj preinstalowane gry."
 
 msgid "Hide no executable games. for example bios"
-msgstr ""
+msgstr "Ukryj pliki, które nie są grami, np. BIOS."
 
 msgid "Display game by file name instead of game name."
-msgstr ""
+msgstr "Wyświetl grę po nazwie pliku zamiast nazwy gry."
 
 msgid "Filtering games you want to show."
-msgstr ""
+msgstr "Filtrowanie gier, które chcesz wyświetlić."
 
 msgid ""
 "If a game patch (hack, trad) has same name as a rom, it will be be auto "
@@ -3259,7 +3271,7 @@ msgid ""
 msgstr ""
 
 msgid "DISABLE"
-msgstr ""
+msgstr "WYŁĄCZ"
 
 msgid "CONFIRM"
 msgstr ""
@@ -3363,7 +3375,7 @@ msgid "• Or just chose '%CANCEL%' to do nothing with this new device"
 msgstr ""
 
 msgid "INITIALIZE"
-msgstr ""
+msgstr "INICJUJ"
 
 msgid "MOVE SHARE"
 msgstr ""
@@ -3377,7 +3389,7 @@ msgid ""
 msgstr ""
 
 msgid "UPDATING..."
-msgstr ""
+msgstr "AKTUALIZOWANIE..."
 
 msgid "%i file"
 msgstr ""
@@ -3395,16 +3407,16 @@ msgid ""
 msgstr ""
 
 msgid "RECALBOX CRT"
-msgstr ""
+msgstr "RECALBOX CRT"
 
 msgid "RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Wyjście RGB dla VGA666, PI2SCART, RGBPI."
 
 msgid "CRT ADAPTER"
-msgstr ""
+msgstr "ADAPTER CRT"
 
 msgid "Enable RGB output for VGA666, PI2SCART, RGBPI."
-msgstr ""
+msgstr "Włącz wyjście RGB dla VGA666, PI2SCART, RGBPI"
 
 msgid "MENU RESOLUTION"
 msgstr ""
@@ -3414,23 +3426,27 @@ msgid ""
 msgstr ""
 
 msgid "SCREEN TYPE"
-msgstr ""
+msgstr "TYP EKRANU"
 
 msgid "FORCE 50HZ"
-msgstr ""
+msgstr "WYMUŚ 50Hz"
 
 msgid "SELECT GAME REFRESH RATE AT LAUNCH"
-msgstr ""
+msgstr "WYBIERZ CZĘSTOTLIWOŚĆ ODŚWIEŻANIA GRY PRZY STARCIE"
 
 msgid "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
 msgstr ""
+"Pozwala wybrać 50Hz lub 60Hz przy uruchamianiu gier z kompatybilnych "
+"systemów."
 
 msgid "SELECT GAME RESOLUTION AT LAUNCH"
-msgstr ""
+msgstr "WYBIERZ ROZDZIELCZOŚĆ GRY PRZY STARCIE"
 
 msgid ""
 "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
 msgstr ""
+"Pozwala wybrać 240p, 480i lub 480p przy uruchamianiu gier z kompatybilnych "
+"systemów."
 
 msgid "RUN DEMOS IN 240P@120"
 msgstr ""
@@ -3439,25 +3455,28 @@ msgid "Run the demos in 240p resolution on you 31kHz monitor."
 msgstr ""
 
 msgid "SCANLINES IN 480P"
-msgstr ""
+msgstr "LINIE SKANOWANIA W 480P"
 
 msgid "Add scanlines when running games in 480p on 31kHz screen."
 msgstr ""
 
 msgid "ZERO LAG (BETA)"
-msgstr ""
+msgstr "ZEROWY LAG (BETA)"
 
 msgid "Configure emulators to approach a zero lag experience."
 msgstr ""
+"Konfiguruj emulatory w sposób, aby uzyskać doświadczenie zerowego lagu."
 
 msgid "FORCE SOUND ON JACK"
-msgstr ""
+msgstr "WYMUŚ DZWIĘK PRZEZ ZŁĄCZE JACK"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
 msgstr ""
+"Wymusza dźwięk przez wyjście jack. Automatycznie włączone, kiedy włączono "
+"31kHz."
 
 msgid "SCREEN CALIBRATION (BETA)"
-msgstr ""
+msgstr "KALIBRACJA EKRANU (BETA)"
 
 msgid "PAL HORIZONTAL OFFSET"
 msgstr ""
@@ -3476,7 +3495,7 @@ msgid ""
 msgstr ""
 
 msgid "CRT SETTINGS"
-msgstr ""
+msgstr "USTAWIENIA CRT"
 
 msgid "(Hardware managed)"
 msgstr ""
@@ -3773,54 +3792,47 @@ msgid "CHANGELOG"
 msgstr ""
 
 msgid "Copying %s folder..."
-msgstr ""
+msgstr "Kopiowanie folderu %s..."
 
 msgid "VOLUME -"
-msgstr ""
+msgstr "GŁOŚNOŚĆ -"
 
 msgid "VOLUME +"
-msgstr ""
+msgstr "GŁOŚNOŚĆ +"
 
 msgid "B"
-msgstr ""
+msgstr "B"
 
 msgid "KB"
-msgstr ""
+msgstr "KB"
 
 msgid "MB"
-msgstr ""
+msgstr "MB"
 
 msgid "GB"
-msgstr ""
+msgstr "GB"
 
 msgid "TB"
-msgstr ""
+msgstr "TB"
 
-#
 msgid "SAVE STATES"
 msgstr ""
 
-#
 msgid "SHOW SAVE STATES ON START"
 msgstr ""
 
-#
 msgid "You are about to delete this state, confirm ?"
 msgstr ""
 
-#
 msgid "DELETE STATE, CONFIRM?"
 msgstr ""
 
-#
 msgid "CHANGE ORDER"
 msgstr ""
 
-#
 msgid "LAUNCH GAME FROM STATE"
 msgstr ""
 
-#
 msgid "DELETE STATE SLOT"
 msgstr ""
 
@@ -3830,115 +3842,264 @@ msgid ""
 "game."
 msgstr ""
 
-#
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr ""
 
-#
 msgid "Downloading WASM4 games from the official site. Please wait..."
 msgstr ""
 
-#
 msgid "Downloading... Estimated time: %s"
 msgstr ""
 
-#
 msgid "Extracting... found %s games"
 msgstr ""
 
-#
 msgid "Updating metadata..."
 msgstr ""
 
-#
 msgid "Refreshing gamelist..."
 msgstr ""
 
-#~ msgid "DISK USAGE"
-#~ msgstr "UŻYCIE DYSKU"
+msgid "DISK USAGE"
+msgstr "UŻYCIE DYSKU"
 
-#~ msgid "SECURITY"
-#~ msgstr "BEZPIECZEŃSTWO"
+msgid "SECURITY"
+msgstr "BEZPIECZEŃSTWO"
 
-#~ msgid "ENFORCE SECURITY"
-#~ msgstr "ZWIĘKSZ BEZPIECZEŃSTWO"
+msgid "ENFORCE SECURITY"
+msgstr "ZWIĘKSZ BEZPIECZEŃSTWO"
 
-#~ msgid "ROOT PASSWORD"
-#~ msgstr "HASŁO ADMINISTRATORA"
+msgid "ROOT PASSWORD"
+msgstr "HASŁO ADMINISTRATORA"
 
-#~ msgid "PAIR A BLUETOOTH CONTROLLER"
-#~ msgstr "PODŁĄCZ KONTROLER ZA POMOCĄ BLUETOOTH"
+msgid "PAIR A BLUETOOTH CONTROLLER"
+msgstr "PODŁĄCZ KONTROLER ZA POMOCĄ BLUETOOTH"
 
-#~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr ""
-#~ "Ustaw zachowanie wygaszacza ekranu. DIM zmniejsza podświetlenie ekranu, a "
-#~ "CZARNY aktywuje czarny ekran."
+msgid ""
+"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+"will turn the screen black."
+msgstr ""
+"Ustaw zachowanie wygaszacza ekranu. DIM zmniejsza podświetlenie ekranu, a "
+"CZARNY aktywuje czarny ekran."
 
-#~ msgid "Manage your recalbox security."
-#~ msgstr "Zarządzaj bezpieczeństwem swojego Recalboxa."
+msgid "Manage your recalbox security."
+msgstr "Zarządzaj bezpieczeństwem swojego Recalboxa."
 
-#~ msgid "Change the SSH root password."
-#~ msgstr "Zmień hasło roota SSH."
+msgid "Change the SSH root password."
+msgstr "Zmień hasło roota SSH."
 
-#~ msgid "Enforce recalbox security."
-#~ msgstr "Wzmocnij zabezpieczenia Recalboxa."
+msgid "UPDATE VERSION:"
+msgstr "WERSJA AKTUALIZACJI:"
 
-#~ msgid "UPDATE VERSION:"
-#~ msgstr "WERSJA AKTUALIZACJI:"
+msgid "Rom found"
+msgstr "ROM znaleziony"
 
-#~ msgid "Rom found"
-#~ msgstr "ROM znaleziony"
+msgid ""
+"Copy current system on another device.\n"
+"Warning ! It will erase all data on target device."
+msgstr ""
+"Kopiuj bieżący system na inne urządzenie.\n"
+"UWAGA! Wybranie tej funkcji usunie wszystkie dane na urządzeniu docelowym."
 
-#~ msgid ""
-#~ "Copy current system on another device.\n"
-#~ "Warning ! It will erase all data on target device."
-#~ msgstr ""
-#~ "Kopiuj bieżący system na inne urządzenie.\n"
-#~ "UWAGA! Wybranie tej funkcji usunie wszystkie dane na urządzeniu docelowym."
+msgid "Show a 'all-games' system with all ames from all systems."
+msgstr "Wyświetla wszystkie gry ze wszystkich systemów jako jeden system."
 
-#~ msgid "Show a 'all-games' system with all ames from all systems."
-#~ msgstr "Wyświetla wszystkie gry ze wszystkich systemów jako jeden system."
+msgid "Real Time Stratégy"
+msgstr "Strategia czasu rzeczywistego"
 
-#~ msgid "Real Time Stratégy"
-#~ msgstr "Strategia czasu rzeczywistego"
+msgid ""
+"If you push the POWER button more than 2 seconds, this will power-off your "
+"console. If you do so in-game, Recalbox will close the current emulator "
+"gracefully before.\n"
+"Just in case, holding the POWER button down more than 5ws perform an hard "
+"power-off.\n"
+"\n"
+"Press button B to continue."
+msgstr ""
+"Wciśnięcie przycisku ZASILANIA na dłużej niż 2 sekundy spowoduje wyłączenie "
+"konsoli. Jeśli zrobisz to w grze, Recalbox najpierw zamknie aktualny "
+"emulator przed wyłączeniem zasilania.\n"
+"Przytrzymanie przycisku ZASILANIA na dłużej niż 5 sekund spowoduje "
+"natychmiastowe wyłączenie emulatora.\n"
+"\n"
+"\n"
+"Wciśnij przycisk B, aby kontynuować."
 
-#~ msgid ""
-#~ "If you push the POWER button more than 2 seconds, this will power-off "
-#~ "your console. If you do so in-game, Recalbox will close the current "
-#~ "emulator gracefully before.\n"
-#~ "Just in case, holding the POWER button down more than 5ws perform an hard "
-#~ "power-off.\n"
-#~ "\n"
-#~ "Press button B to continue."
-#~ msgstr ""
-#~ "Wciśnięcie przycisku ZASILANIA na dłużej niż 2 sekundy spowoduje "
-#~ "wyłączenie konsoli. Jeśli zrobisz to w grze, Recalbox najpierw zamknie "
-#~ "aktualny emulator przed wyłączeniem zasilania.\n"
-#~ "Przytrzymanie przycisku ZASILANIA na dłużej niż 5 sekund spowoduje "
-#~ "natychmiastowe wyłączenie emulatora.\n"
-#~ "\n"
-#~ "\n"
-#~ "Wciśnij przycisk B, aby kontynuować."
+msgid "added to favorites"
+msgstr "dodano do ulubionych"
 
-#~ msgid "added to favorites"
-#~ msgstr "dodano do ulubionych"
+msgid "removed from favorites"
+msgstr "usunięto z ulubionych"
 
-#~ msgid "removed from favorites"
-#~ msgstr "usunięto z ulubionych"
+msgid ""
+"Gameclips cannot be played\n"
+"\n"
+"No video availabe for you selection"
+msgstr ""
+"Klipy z gry nie mogą być odtworzone.\n"
+"\n"
+"Nie ma dostępnych filmów dla Twojego zaznaczenia."
 
-#~ msgid ""
-#~ "Gameclips cannot be played\n"
-#~ "\n"
-#~ "No video availabe for you selection"
-#~ msgstr ""
-#~ "Klipy z gry nie mogą być odtworzone.\n"
-#~ "\n"
-#~ "Nie ma dostępnych filmów dla Twojego zaznaczenia."
+msgid "Analog Output"
+msgstr "Wyjście Analogowe"
 
-#~ msgid "Analog Output"
-#~ msgstr "Wyjście Analogowe"
+msgid "HDMI / DisplayPort"
+msgstr "HDMI / DisplayPort"
 
-#~ msgid "HDMI / DisplayPort"
-#~ msgstr "HDMI / DisplayPort"
+msgid "YOUR FAVORITES LIST IS EMPTY. PRESS SELECT TO SHOW ALL GAMES."
+msgstr ""
+"TWOJA LISTA ULUBIONYCH JEST PUSTA. NACIŚNIJ SELECT, ABY WYŚWIETLIĆ WSZYSTKIE "
+"GRY."
+
+msgid "480i (recommended)"
+msgstr ""
+
+msgid ""
+"Scrap running in background.\n"
+"Return to the scrap menu to get the progression."
+msgstr ""
+
+msgid "60Hz & 50Hz"
+msgstr ""
+
+msgid "ADVANCED SHADERS"
+msgstr ""
+
+msgid "GAME BOY MODE"
+msgstr ""
+
+msgid "GAME BOY"
+msgstr ""
+
+msgid "SUPER GAME BOY"
+msgstr ""
+
+msgid "ASK AT LAUNCH"
+msgstr ""
+
+msgid "CRT CURVED"
+msgstr ""
+
+msgid ""
+"YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT "
+"IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION "
+"AUTOMATICALLY?"
+msgstr ""
+
+msgid "Optimized video"
+msgstr ""
+
+msgid "RECOMMENDED"
+msgstr ""
+
+msgid "USE V2 (BETA)"
+msgstr ""
+
+msgid "V2 - 15KHZ EXTENDED RANGE"
+msgstr ""
+
+msgid "V2 - SUPERREZ MULTIPLIER"
+msgstr ""
+
+msgid "TATE SETTINGS"
+msgstr ""
+
+msgid "ENABLE TATE VIRTUAL SYSTEM"
+msgstr ""
+
+msgid "GAMES ROTATION"
+msgstr ""
+
+msgid "COMPLETE SYSTEM ROTATION"
+msgstr ""
+
+msgid ""
+"Welcome to RECALBOX for Anbernic RG!\n"
+"This little presentation will show you how to use all the special buttons "
+"available all around the screen.\n"
+"\n"
+"Press any button to start!"
+msgstr ""
+
+msgid ""
+"On the left side of the console, there are 2 buttons marked with a '-' and a "
+"'+'.\n"
+"Use them to raise or lower the volume at any time in the Recalbox interface "
+"or in-game.\n"
+"\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"On the top side of the console, there is a button marked 'F'.\n"
+"This is the Hotkey button\n"
+"To quit a game press both F + START\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"Use the function F button and a volume button to adjust brightness\n"
+"Press button B to continue"
+msgstr ""
+
+msgid ""
+"Just a few words about the POWER button.\n"
+"Make a short press, just like a mouse click, and your console will enter "
+"sleep mode. Make another short press and your console will restart instanly! "
+"Work in Recalbox interface and in-game!\n"
+"/nPress button B to continue."
+msgstr ""
+
+msgid "Missing bios list:"
+msgstr ""
+
+msgid "GameBoy Mode"
+msgstr ""
+
+msgid "Rotation"
+msgstr ""
+
+msgid "Full Screen"
+msgstr ""
+
+msgid "DOWNLOAD CONTENTS"
+msgstr ""
+
+msgid "SHOW REGION"
+msgstr ""
+
+msgid "DISPLAY NAME BY"
+msgstr ""
+
+msgid "SEARCH OTHERS VERSIONS"
+msgstr ""
+
+msgid "SEARCH GAMES OF SAME LICENCE"
+msgstr ""
+
+msgid "licences"
+msgstr ""
+
+msgid "Start downloading..."
+msgstr ""
+
+msgid "none"
+msgstr ""
+
+msgid "Games"
+msgstr ""
+
+msgid "Games of licence"
+msgstr ""
+
+msgid "ALIAS"
+msgstr ""
+
+msgid "FAMILY"
+msgstr ""
+
+msgid "Downloading free games from Recalbox repositories. Please wait..."
+msgstr ""
+
+msgid "Installing %s games"
+msgstr ""

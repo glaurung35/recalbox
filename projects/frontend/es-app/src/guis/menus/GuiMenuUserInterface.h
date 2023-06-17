@@ -44,7 +44,8 @@ class GuiMenuUserInterface : public GuiMenuBase
       SystemSort,
       UpdateGamelist,
       Filters,
-      DisplayByFileName
+      DisplayByFileName,
+      Arcade,
     };
 
     //! System Manager
@@ -52,18 +53,9 @@ class GuiMenuUserInterface : public GuiMenuBase
 
     //! Brightness
     std::shared_ptr<SliderComponent> mBrightness;
-    //! Show Clock
-    std::shared_ptr<SwitchComponent> mClock;
-    //! Swap validate cancel buttons
-    std::shared_ptr<SwitchComponent> mSwapValidateAndCancel;
-    //! Show Help
-    std::shared_ptr<SwitchComponent> mHelp;
-    //! Show Quick Help
-    std::shared_ptr<SwitchComponent> mQuickSelect;
     //! Original Sorting type
     SystemSorting mOriginalSort;
-    //! System Sort
-    std::shared_ptr<OptionListComponent<SystemSorting>> mSort;
+
     //! Get Sorting List
     std::vector<ListEntry<SystemSorting>> GetSortingEntries();
 

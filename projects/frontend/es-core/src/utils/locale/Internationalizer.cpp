@@ -8,10 +8,10 @@
 #include <cstring>
 
 // Instances
-std::string Internationalizer::sMoFlatFile;
+String Internationalizer::sMoFlatFile;
 std::vector<Internationalizer::StringPairLinks> Internationalizer::sStrings;
 Internationalizer::StringSet Internationalizer::sIndexes[sIndexCount];
-std::string Internationalizer::sActiveLocale = "NONE";
+String Internationalizer::sActiveLocale = "NONE";
 
 // https://www.gnu.org/software/gettext/manual/html_node/MO-Files.html
 
@@ -78,7 +78,7 @@ bool Internationalizer::HasPlural(const char* string, int length, int& newlength
     }
 
   newlength = length;
-  return true;
+  return false;
 }
 
 bool Internationalizer::BuildStringIndexes()
@@ -99,7 +99,7 @@ bool Internationalizer::BuildStringIndexes()
   int TranslatedTable = i32[4] / 4;
 
   // Read original table
-  sStrings.reserve(count * 2);
+  sStrings.reserve(count * 2UL);
   for(int i = count; --i >= 0; )
   {
     // Get original string
@@ -182,10 +182,10 @@ bool Internationalizer::BuildFastLookupIndexes()
   return true;
 }
 
-bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basepath, const std::string& applicationname)
+bool Internationalizer::LoadMoFile(const String& culture, const Path& basepath, const String& applicationname)
 {
   // Check full culture
-  std::string realCulture = culture;
+  String realCulture = culture;
   Path culturePath = basepath / realCulture / "LC_MESSAGES" / (applicationname + ".mo");
   if (!culturePath.Exists())
   {
@@ -210,7 +210,7 @@ bool Internationalizer::LoadMoFile(const std::string& culture, const Path& basep
   return BuildStringIndexes();
 }
 
-bool Internationalizer::InitializeLocale(const std::string& culture, const std::vector<Path>& basepath, const std::string& applicationname)
+bool Internationalizer::InitializeLocale(const String& culture, const std::vector<Path>& basepath, const String& applicationname)
 {
   CleanUp();
 
@@ -227,13 +227,13 @@ bool Internationalizer::InitializeLocale(const std::string& culture, const std::
   return false;
 }
 
-std::string Internationalizer::GetText(const char* key, int keyLength)
+String Internationalizer::GetText(const char* key, int keyLength)
 {
   // Null ?
-  if (key == nullptr) return std::string();
+  if (key == nullptr) return String();
 
   // No locale?
-  if (sMoFlatFile.empty()) return std::string(key, keyLength);
+  if (sMoFlatFile.empty()) return String(key, keyLength);
 
   // Get index
   const StringSet& set = sIndexes[(unsigned char)key[0]];
@@ -250,11 +250,11 @@ std::string Internationalizer::GetText(const char* key, int keyLength)
         if (Link.Hash1 == hash1)
           if (Link.Hash2 == hash2)
             //return "Yâkädansé!";
-            return std::string(Link.TranslatedString, Link.TranslatedLength);
+            return String(Link.TranslatedString, Link.TranslatedLength);
     }
   }
   { LOG(LogDebug) << "[Locale] " << sActiveLocale << " - Missing translation of '" << key << "'"; }
-  return std::string(key, keyLength);
+  return String(key, keyLength);
 }
 
 /*
@@ -278,7 +278,7 @@ void Internationalizer::Hash(const char* string, int length, int& hash1, int& ha
       unsigned long long v1 = value * 2170698181;
       v1 ^= v1 >> 32;
       h1 = ((h1 >> 13u) | (h1 << (32u - 13u))) ^ v1;
-      unsigned long long v2 = value * 73762243;
+      unsigned long long v2 = value * 73762243ULL;
       v2 ^= v2 >> 32;
       h2 = ((h2 >> 7u) | (h2 << (32u - 7u))) ^ v2;
     }
@@ -296,7 +296,7 @@ void Internationalizer::Hash(const char* string, int length, int& hash1, int& ha
       unsigned long long v1 = value * 2170698181;
       v1 ^= v1 >> 32;
       h1 = ((h1 >> 13u) | (h1 << (32u - 13u))) ^ v1;
-      unsigned long long v2 = value * 73762243;
+      unsigned long long v2 = value * 73762243ULL;
       v2 ^= v2 >> 32;
       h2 = ((h2 >> 7u) | (h2 << (32u - 7u))) ^ v2;
     }
@@ -307,10 +307,10 @@ void Internationalizer::Hash(const char* string, int length, int& hash1, int& ha
   unsigned int value = 0;
   for(int i = length & 3; --i >= 0; )
     value = ((value << 8) | i8[i]);
-  unsigned long long v1 = value * 2170698181;
+  unsigned long long v1 = value * 2170698181ULL;
   v1 ^= v1 >> 32;
   h1 = ((h1 >> 13u) | (h1 << (32u - 13u))) ^ v1;
-  unsigned long long v2 = value * 73762243;
+  unsigned long long v2 = value * 73762243ULL;
   v2 ^= v2 >> 32;
   h2 = ((h2 >> 7u) | (h2 << (32u - 7u))) ^ v2;
 

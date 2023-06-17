@@ -1,6 +1,10 @@
 #include "GuiMenuGamelistOptions.h"
 #include "guis/GuiSaveStates.h"
 #include "guis/GuiDownloader.h"
+#include "views/gamelist/ArcadeGameListView.h"
+#include "GuiMenuArcadeOptions.h"
+#include "systems/ArcadeVirtualSystems.h"
+#include "GuiMenuArcade.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
 #include <views/gamelist/ISimpleGameListView.h>
@@ -14,11 +18,12 @@
 #include <guis/menus/GuiMenuGamelistGameDeleteOptions.h>
 #include <scraping/ScraperSeamless.h>
 
-GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager)
+GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
   :	GuiMenuBase(window, _("OPTIONS"), this)
   , mSystem(system)
   , mSystemManager(systemManager)
   , mGamelist(*ViewController::Instance().getGameListView(&system))
+  , mArcade(arcadeInterface)
 {
   // edit game metadata
   bool nomenu = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::None;
@@ -51,11 +56,11 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   RefreshGameMenuContext();
 
   // Downloader available?
-  if (DownloaderManager().HasDownloader(mSystem))
+  if (DownloaderManager::HasDownloader(mSystem))
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
 
   // Jump to letter
-	mJumpToLetterList = AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
+	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
@@ -65,17 +70,20 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 	if (!system.IsSelfSorted())
 	  mListSort = AddList<FileSorts::Sorts>(_("SORT GAMES BY"), (int)Components::Sorts, this, GetSortEntries(), _(MENUMESSAGE_GAMELISTOPTION_SORT_GAMES_MSG));
 
+  // Global arcade option available on any arcade system, true or virtual
+  if (system.IsArcade())
+    AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions);
 
   // Region filter
-  mListRegion = AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
+  AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
 
   // flat folders
   if (!system.IsFavorite())
     if (!system.IsAlwaysFlat())
-      mFlatFolders = AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
   // favorites only
-  mFavoritesOnly = AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
+  AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
 
   // update game list
   if (!system.IsFavorite())
@@ -138,7 +146,10 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
   std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> list;
 
   // Get & check sort id
-  const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(mSystem.IsVirtual());
+  FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
+                            FileSorts::SortSets::SingleSystem;
+  const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
   FileSorts::Sorts currentSort = (FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem);
   if (std::find(availableSorts.begin(), availableSorts.end(), currentSort) == availableSorts.end())
     currentSort = FileSorts::Sorts::FileNameAscending;
@@ -169,7 +180,7 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   return list;
 }
 
-void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
+void GuiMenuGamelistOptions::Delete(ISimpleGameListView* gamelistview, FileData& game)
 {
   game.RomPath().Delete();
   if (game.Parent() != nullptr)
@@ -178,7 +189,7 @@ void GuiMenuGamelistOptions::Delete(IGameListView* gamelistview, FileData& game)
   gamelistview->onFileChanged(&game, FileChangeType::Removed); //tell the view
 }
 
-void GuiMenuGamelistOptions::Modified(IGameListView* gamelistview, FileData& game)
+void GuiMenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileData& game)
 {
   gamelistview->refreshList();
   gamelistview->setCursor(&game);
@@ -289,11 +300,17 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       break;
     }
+    case Components::ArcadeOptions:
+    {
+      mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, mArcade));
+      break;
+    }
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
     case Components::FavoritesOnly:
-    case Components::FlatFolders: break;
+    case Components::FlatFolders:
+      break;
   }
 }
 
@@ -314,7 +331,9 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
     case Components::Delete:
     case Components::DeleteScreeshot:
     case Components::SaveStates:
-    case Components::Quit: break;
+    case Components::Quit:
+    case Components::ArcadeOptions:
+      break;
   }
 
   FileData* game = mGamelist.getCursor();
@@ -334,3 +353,4 @@ void GuiMenuGamelistOptions::ManageSystems()
   // for updating game counts on system view
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }
+

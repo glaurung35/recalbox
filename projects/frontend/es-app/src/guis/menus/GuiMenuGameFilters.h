@@ -7,7 +7,7 @@
 #include "components/MenuComponent.h"
 #include "guis/GuiMetaDataEd.h"
 
-class IGameListView;
+class ISimpleGameListView;
 
 class GuiMenuGameFilters : public GuiMenuBase
                          , private ISwitchComponent

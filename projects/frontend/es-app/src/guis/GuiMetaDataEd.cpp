@@ -3,22 +3,18 @@
 #include <components/SwitchComponent.h>
 #include <LibretroRatio.h>
 
-#include "components/DateTimeComponent.h"
 #include "components/RatingComponent.h"
 #include "guis/GuiTextEditPopup.h"
 #include "guis/GuiTextEditPopupKeyboard.h"
-#include "themes/MenuThemeData.h"
 #include "components/OptionListComponent.h"
-#include "recalbox/RecalboxSystem.h"
 
-#include "games/MetadataDescriptor.h"
 #include "games/MetadataFieldDescriptor.h"
 #include "GuiScraperSingleGameRun.h"
 
 GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                              SystemManager& systemManager,
                              FileData& game,
-                             IGameListView* gamelistview,
+                             ISimpleGameListView* gamelistview,
                              IMetaDataAction* actions,
                              bool main)
   : Gui(window),
@@ -172,7 +168,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
           auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(ratio_choice, false);
-          const std::map<std::string, std::string>& ratioMap = LibretroRatio::GetRatio();
+          const std::map<String, String>& ratioMap = LibretroRatio::GetRatio();
           if (mMetaData.Ratio().empty())
           {
             mMetaData.SetRatio("auto");

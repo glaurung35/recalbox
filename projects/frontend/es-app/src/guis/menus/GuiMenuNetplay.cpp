@@ -25,16 +25,16 @@ GuiMenuNetplay::GuiMenuNetplay(WindowManager& window, SystemManager& systemManag
   , mOperation(nullptr)
 {
   // Netplay Enabled
-  mEnabled = AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
+  AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
 
   // netplay username
-  mLogin = AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
+  AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
 
   // netplay port
-  mPort = AddEditable(_("PORT"), Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
+  AddEditable(_("PORT"), Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
 
   //mitm
-  mMitm = AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
+  AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
 
   // Password edition
   AddSubMenu(_("PREDEFINED PASSWORDS"), (int)Components::Passwords);
@@ -160,7 +160,7 @@ FileData* GuiMenuNetplay::ThreadPoolRunJob(FileData*& feed)
       if (percent != mPreviousProgressPercent)
       {
         mPreviousProgressPercent = percent;
-        mOperation->SetText(_("Preparing Games...").append(Strings::ToString(percent)).append(1, '%'));
+        mOperation->SetText(_("Preparing Games...").Append(Strings::ToString(percent)).Append('%'));
       }
     }
   }

@@ -4,10 +4,7 @@
 #include <string>
 #include <input/InputDevice.h>
 #include <input/OrderedDevices.h>
-#include <utils/os/fs/Path.h>
 #include <utils/os/fs/watching/FileSystemWatcher.h>
-#include <utils/storage/HashMap.h>
-#include <utils/storage/Array.h>
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include "IInputChange.h"
@@ -21,7 +18,7 @@ class InputManager : public IFileSystemWatcherNotification
     /*!
      * @brief Default destructor
      */
-    virtual ~InputManager();
+    virtual ~InputManager() = default;
 
     /*!
      * @brief Instance
@@ -48,7 +45,7 @@ class InputManager : public IFileSystemWatcherNotification
     /*!
      * Get number of initialized devices
      */
-    int DeviceCount() const { return (int)mIdToDevices.size(); }
+    [[nodiscard]] int DeviceCount() const { return (int)mIdToDevices.size(); }
 
     /*!
      * @brief Parse an SDL event and generate an InputCompactEvent accordingly
@@ -132,7 +129,7 @@ class InputManager : public IFileSystemWatcherNotification
     /*!
      * @brief Initialize SDL's joysticks
      */
-    static void IntitializeSDL2JoystickSystem();
+    static void InitializeSDL2JoystickSystem();
 
     /*!
      * @brief Finalize SDL's joysticks
@@ -194,11 +191,11 @@ class InputManager : public IFileSystemWatcherNotification
      * @brief Get the initialization state
      * @return True if the manager is initialized
      */
-    bool IsInitialized() const { return !mIdToDevices.empty(); }
+    [[nodiscard]] bool IsInitialized() const { return !mIdToDevices.empty(); }
 
     /*!
      * @brief Get the GUID string of an SDL joystik
-     * @param joyystick SDL Joystick handle
+     * @param joystick SDL Joystick handle
      * @return GUID string
      */
     static std::string DeviceGUIDString(SDL_Joystick* joystick);

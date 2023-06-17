@@ -1,23 +1,22 @@
 #pragma once
 
+#include <systems/SystemManager.h>
 #include <guis/menus/GuiMenuBase.h>
-#include <systems/SystemData.h>
-#include <components/MenuComponent.h>
 
 template<typename T>
 class OptionListComponent;
 class SwitchComponent;
 
-class GuiMenuArcadeVirtualSystem : public GuiMenuBase
-                                 , private IOptionListComponent<int>
-                                 , private ISwitchComponent
+class GuiMenuArcadeAllInOneSystem : public GuiMenuBase
+                                  , private IOptionListComponent<int>
+                                  , private ISwitchComponent
 {
   public:
     //! Constructor
-    GuiMenuArcadeVirtualSystem(WindowManager& window, SystemManager& systemManager);
+    explicit GuiMenuArcadeAllInOneSystem(WindowManager& window, SystemManager& systemManager);
 
     //! Destructor
-    ~GuiMenuArcadeVirtualSystem() override;
+    ~GuiMenuArcadeAllInOneSystem() override;
 
   private:
     enum class Components
@@ -31,15 +30,8 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
     //! SystemManager instance
     SystemManager& mSystemManager;
 
-    //! Arcade ON/OFF
-    std::shared_ptr<SwitchComponent>          mArcadeOnOff;
-    //! Include neogeo in arcade
-    std::shared_ptr<SwitchComponent>          mIncludeNeoGeo;
-    //! Hide original systems
-    std::shared_ptr<SwitchComponent>          mHideOriginals;
-    //! Position of the arcade system
-    std::shared_ptr<OptionListComponent<int>> mPosition;
-
+    //! Original manufacturer list
+    String mOriginalManufacturerList;
     //! Original Arcade ON/OFF value
     bool mOriginalArcadeOnOff;
     //! Original Include neogeo value
@@ -54,7 +46,7 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
     std::vector<GuiMenuBase::ListEntry<int>> GetPositionEntries();
 
     /*
-     * IOptionListComponent<Overclocking> implementation
+     * IOptionListComponent<int> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const int& value) override;
@@ -64,4 +56,5 @@ class GuiMenuArcadeVirtualSystem : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool status) override;
+
 };

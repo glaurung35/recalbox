@@ -31,7 +31,7 @@ class Internationalizer
     };
 
     //! Contains the raw .mo file
-    static std::string sMoFlatFile;
+    static String sMoFlatFile;
 
     //! Key string links
     static std::vector<StringPairLinks> sStrings;
@@ -43,7 +43,7 @@ class Internationalizer
     static StringSet sIndexes[sIndexCount];
 
     //! Active locale
-    static std::string sActiveLocale;
+    static String sActiveLocale;
 
     /*!
      * @brief Double Hash the given string and return both hash value as an integer
@@ -61,7 +61,7 @@ class Internationalizer
      * @param applicationname Application name
      * @return True if a corresponding .mo has been loaded
      */
-    static bool LoadMoFile(const std::string& culture, const Path& basepath, const std::string& applicationname);
+    static bool LoadMoFile(const String& culture, const Path& basepath, const String& applicationname);
 
     /*!
      * @brief Build string indexes of all available strings and translations
@@ -97,7 +97,7 @@ class Internationalizer
      * @param applicationname Application name
      * @return True if a corresponding .mo has been loaded
      */
-    static bool InitializeLocale(const std::string& culture, const std::vector<Path>& basepath, const std::string& applicationname);
+    static bool InitializeLocale(const String& culture, const std::vector<Path>& basepath, const String& applicationname);
 
     /*!
      * @brief Get text from the key
@@ -105,7 +105,7 @@ class Internationalizer
      * @param keyLength Ley lencgth in bytes
      * @return String
      */
-    static std::string GetText(const char* key, int keyLength);
+    static String GetText(const char* key, int keyLength);
 
     /*!
      * @brief Get text from the singular or plural key, regarding the given count
@@ -114,7 +114,7 @@ class Internationalizer
      * @param keyplural Key to retrieve the string from when count > 1
      * @return String
      */
-    static std::string GetNText(int count, const char* keySingular, int keySingularLength, const char* keyPlural, int keyPluralLength)
+    static String GetNText(int count, const char* keySingular, int keySingularLength, const char* keyPlural, int keyPluralLength)
     {
       return count <= 1 ? GetText(keySingular, keySingularLength) : GetText(keyPlural, keyPluralLength);
     }

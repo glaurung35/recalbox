@@ -581,7 +581,8 @@ void MainRunner::SetDebugLogs(bool state)
 {
   if (state)
   {
-    Log::setReportingLevel(LogLevel::LogDebug);
+    if (Log::getReportingLevel() < LogLevel::LogDebug)
+      Log::setReportingLevel(LogLevel::LogDebug);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }

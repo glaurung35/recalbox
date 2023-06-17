@@ -103,7 +103,7 @@ class FolderData : public FileData
     [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const;
 
     /*!
-     * Highly optimized Quicksort, inpired from original Delphi 7 code
+     * Highly optimized Quicksort, inspired from original Delphi 7 code
      * @param low Lowest element
      * @param high Highest element
      * @param comparer Compare method
@@ -111,7 +111,7 @@ class FolderData : public FileData
     static void QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
     /*!
-     * Highly optimized Quicksort, inpired from original Delphi 7 code
+     * Highly optimized Quicksort, inspired from original Delphi 7 code
      * @param low Lowest element
      * @param high Highest element
      * @param comparer Compare method
@@ -254,7 +254,7 @@ class FolderData : public FileData
     /*!
      * Desctructor
      */
-    ~FolderData();
+    ~FolderData() override;
 
     /*!
      * Add a child item to the current folder
@@ -323,10 +323,21 @@ class FolderData : public FileData
     [[nodiscard]] bool HasGame() const;
 
     /*!
-     * Return true if contain at least one visible game
+     * Return true if contain at least one visible game, recursively
+     * @return True if the folder has at least one visible game, false otherwise
+     */
+    [[nodiscard]] bool HasTateVisibleGame() const;
+
+    /*!
+     * Return true if contain at least one visible game, recursively
+     * @return True if the folder has at least one visible game, false otherwise
      */
     [[nodiscard]] bool HasVisibleGame() const;
 
+    /*!
+     * @brief Check if the folkder has at least one scrapable game, recursively
+     * @return True if the folder has at least one scrapable game, false otherwise
+     */
     [[nodiscard]] bool HasSacrapableGame() const;
 
     /*!

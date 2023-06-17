@@ -62,6 +62,16 @@ TEST_F(StringTestSplitAndJoin, TestSplitCharMaxMerge)
   ASSERT_TRUE(l[1] == "Is||||The||||||||||Best!");
 }
 
+TEST_F(StringTestSplitAndJoin, TestSplitCharLastEmpty)
+{
+  String s("||");
+  String::List l = s.Split('|');
+  ASSERT_TRUE(l.size() == 3);
+  ASSERT_TRUE(l[0].empty());
+  ASSERT_TRUE(l[1].empty());
+  ASSERT_TRUE(l[2].empty());
+}
+
 TEST_F(StringTestSplitAndJoin, TestSplitCString)
 {
   String s("Recalbox{#}Is{#}The{#}Best!");
@@ -122,6 +132,16 @@ TEST_F(StringTestSplitAndJoin, TestSplitCStringLengthMaxMerge)
   ASSERT_TRUE(l[1] == "Is{#}{#}{#}{#}The{#}{#}{#}{#}{#}{#}{#}{#}{#}{#}Best!");
 }
 
+TEST_F(StringTestSplitAndJoin, TestSplitCStringLastEmpty)
+{
+  String s("{#}{#}");
+  String::List l = s.Split(LEGACY_STRING("{#}"));
+  ASSERT_TRUE(l.size() == 3);
+  ASSERT_TRUE(l[0].empty());
+  ASSERT_TRUE(l[1].empty());
+  ASSERT_TRUE(l[2].empty());
+}
+
 TEST_F(StringTestSplitAndJoin, TestSplitString)
 {
   String s("Recalbox{#}Is{#}The{#}Best!");
@@ -164,6 +184,17 @@ TEST_F(StringTestSplitAndJoin, TestSplitStringMaxMerge)
   ASSERT_TRUE(l.size() == 2);
   ASSERT_TRUE(l[0] == "Recalbox");
   ASSERT_TRUE(l[1] == "Is{#}{#}{#}{#}The{#}{#}{#}{#}{#}{#}{#}{#}{#}{#}Best!");
+}
+
+TEST_F(StringTestSplitAndJoin, TestSplitStringLastEmpty)
+{
+  String s("{#}{#}");
+  String p("{#}");
+  String::List l = s.Split(p);
+  ASSERT_TRUE(l.size() == 3);
+  ASSERT_TRUE(l[0].empty());
+  ASSERT_TRUE(l[1].empty());
+  ASSERT_TRUE(l[2].empty());
 }
 
 TEST_F(StringTestSplitAndJoin, TestSplitQuotedChar)

@@ -498,6 +498,16 @@ bool FolderData::HasGame() const
   return false;
 }
 
+bool FolderData::HasTateVisibleGame() const
+{
+  for (FileData* fd : mChildren)
+  {
+    if ( (fd->IsGame() && fd->IsDisplayable() && fd->Metadata().Rotation() != RotationType::None) || (fd->IsFolder() && CastFolder(fd)->HasTateVisibleGame()))
+      return true;
+  }
+  return false;
+}
+
 bool FolderData::HasVisibleGame() const
 {
   for (FileData* fd : mChildren)
@@ -633,8 +643,7 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
   if (fd->TopAncestor().PreInstalled())
     currentExcludes |= Filter::PreInstalled;
   if (!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
-
-  currentExcludes |= Filter::Adult;
+    currentExcludes |= Filter::Adult;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }

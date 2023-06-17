@@ -31,7 +31,7 @@ class MappingConfiguration
     };
 
     //! Hint type
-    typedef std::vector<std::pair<std::pair<int, PadItems>, const std::string*>> Hints;
+    typedef std::vector<std::pair<std::pair<int, PadItems>, const String*>> Hints;
 
     /*!
      * @brief Constructor
@@ -52,19 +52,19 @@ class MappingConfiguration
      * @brief Get comment per mapping list
      * @return Hashmap
      */
-    const Hints& HintList() const;
+    [[nodiscard]] const Hints& HintList() const;
 
     /*!
      * @brief Check if the mapping has been properly loaded & configured
      * @return True if the mapping is configured.
      */
-    bool Valid() const;
+    [[nodiscard]] bool Valid() const;
 
     /*!
      * @brief Return mapping count
      * @return Mapping count
      */
-    int Count() const;
+    [[nodiscard]] int Count() const;
 
   private:
     //! Pad2Keyboard configuration file extention
@@ -88,13 +88,13 @@ class MappingConfiguration
          * @brief Check if the mapping array contains at least one valid mapping
          * @return
          */
-        bool Valid() const;
+        [[nodiscard]] bool Valid() const;
 
         /*!
          * @brief Get number of mapped pad items
          * @return Mapped pad item count
          */
-        int Count() const;
+        [[nodiscard]] int Count() const;
 
         /*!
          * @brief Assign an item
@@ -114,15 +114,15 @@ class MappingConfiguration
         }
 
         //! Get item type
-        Types Type(PadItems item) const { return mType[(int)item]; }
+        [[nodiscard]] Types Type(PadItems item) const { return mType[(int)item]; }
         //! Get item delay
-        int Delay(PadItems item) const { return mDelay[(int)item]; }
+        [[nodiscard]] int Delay(PadItems item) const { return mDelay[(int)item]; }
         //! Get item code count
-        int Count(PadItems item) const { return mCount[(int)item]; }
+        [[nodiscard]] int Count(PadItems item) const { return mCount[(int)item]; }
         //! Get item codes
-        int Code(PadItems item, int index) const { return mCodes[(int)item][index % VirtualKeyboard::sMax]; }
+        [[nodiscard]] int Code(PadItems item, int index) const { return mCodes[(int)item][index % VirtualKeyboard::sMax]; }
         //! Get item comment
-        const std::string& Comment(PadItems item) const { return mComment[(int)item]; }
+        [[nodiscard]] const String& Comment(PadItems item) const { return mComment[(int)item]; }
 
       private:
         //! Mapping type
@@ -134,7 +134,7 @@ class MappingConfiguration
         //! Pad item to keycode
         CodeArray mCodes[(int)PadItems::__Count];
         //! Pad item to comment (mini-doc)
-        std::string mComment[(int)PadItems::__Count];
+        String mComment[(int)PadItems::__Count];
     };
 
     //! Mapping

@@ -5,12 +5,13 @@
 LogLevel Log::reportingLevel = LogLevel::LogInfo;
 FILE* Log::sFile = nullptr;
 
-static const char* StringLevel[] =
+const char* Log::sStringLevel[] =
 {
   "ERROR",
   "WARN!",
   "INFO ",
 	"DEBUG",
+  "TRACE",
 };
 
 Path Log::getLogPath(const char* filename)
@@ -27,9 +28,9 @@ void Log::open(const char* filename)
   if (logpath.Exists())
   {
     if (system(std::string("rm -f ").append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot remove old log!"); };
+    { printf("[Logs] Cannot remove old log!"); }
     if (system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot backup current log!"); };
+    { printf("[Logs] Cannot backup current log!"); }
   }
 
   // Open new log
@@ -41,7 +42,7 @@ Log& Log::get(LogLevel level)
 	mMessage.append(1, '[')
 	        .append(DateTime().ToPreciseTimeStamp())
 	        .append("] (")
-	        .append(StringLevel[(int)level])
+	        .append(sStringLevel[(int)level])
 	        .append(") : ");
 	messageLevel = level;
 

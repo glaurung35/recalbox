@@ -1,6 +1,7 @@
 #pragma once
 
 #include "platform_gl.h"
+#include "resources/TextureResource.h"
 #include <stack>
 #include <SDL.h>
 #include <utils/math/Vector2f.h>
@@ -301,6 +302,101 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param id GL Texture identifier
      */
     static void DestroyGLTexture(GLuint id);
+
+    /*
+     * High level GL
+     */
+
+    /*!
+     * @brief Draw a texture using full coordinates, width/height, keeping ratio yes/no
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param keepratio True to keep ratio, false to stretch
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio);
+
+    /*!
+     * @brief Draw a texture using full coordinates & texture width/height
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y) { DrawTexture(texture, x, y, (int)texture.width(), (int)texture.height(), false); }
+
+    /*!
+     * @brief Draw a texture using full coordinates & width/height
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h) { DrawTexture(texture, x, y, w, h, false); }
+
+    /*!
+     * @brief Draw a texture using full coordinates, width/height, keeping ratio yes/no and a given blending alpha
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param keepratio True to keep ratio, false to stretch
+     * @param color Blending alpha
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, unsigned char alpha);
+
+    /*!
+     * @brief Draw a texture using full coordinates, texture width/height and a given blending alpha
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param color Blending alpha
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, unsigned char alpha) { DrawTexture(texture, x, y, (int)texture.width(), (int)texture.height(), false, alpha); }
+
+    /*!
+     * @brief Draw a texture using full coordinates, width/height and a given blending alpha
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param color Blending alpha
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, unsigned char alpha) { DrawTexture(texture, x, y, w, h, false, alpha); }
+
+    /*!
+     * @brief Draw a texture using full coordinates, width/height, keeping ratio yes/no and a given blending color
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param keepratio True to keep ratio, false to stretch
+     * @param color Blending color
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, Colors::ColorARGB color);
+
+    /*!
+     * @brief Draw a texture using full coordinates, texture width/height and a given blending color
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param color Blending color
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, Colors::ColorARGB color) { DrawTexture(texture, x, y, (int)texture.width(), (int)texture.height(), false, color); }
+
+    /*!
+     * @brief Draw a texture using full coordinates, width/height and a given blending color
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param color Blending color
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, Colors::ColorARGB color)  { DrawTexture(texture, x, y, w, h, false, color); }
 
     /*
      * Accessors

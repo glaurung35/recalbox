@@ -15,6 +15,8 @@ enum class LogLevel
 	LogWarning = 1, //!< Warning messages
 	LogInfo    = 2, //!< Information message
 	LogDebug   = 3, //!< Debug message
+  LogTrace   = 4, //!< Reace message (Internal debug!)
+  _Count
 };
 
 class Log
@@ -43,10 +45,12 @@ class Log
     Log& operator << (const Strings::Vector& v) { for(const std::string& s : v) mMessage.append(s).append(1, ' '); return *this; }
 
   private:
+    static const char* sStringLevel[(int)LogLevel::_Count];
     static FILE* sFile;
     static LogLevel reportingLevel;
     std::string mMessage;
     LogLevel messageLevel;
+
 
     static Path getLogPath(const char* filename);
 

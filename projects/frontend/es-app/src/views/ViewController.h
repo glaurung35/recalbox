@@ -1,23 +1,21 @@
 #pragma once
 
 #include <utils/cplusplus/INoCopy.h>
-#include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <views/GameClipView.h>
-#include "views/gamelist/IGameListView.h"
+#include "views/gamelist/ISimpleGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
 #include "views/crt/CrtView.h"
 #include <emulators/run/GameLinkedData.h>
-//#include "systems/NetPlayData.h"
 
 class SystemData;
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
 class ViewController : public StaticLifeCycleControler<ViewController>, public Gui, private INoCopy
 {
-public:
+  public:
 	ViewController(WindowManager& window, SystemManager& systemManager);
-  ~ViewController() override = default;
+    ~ViewController() override = default;
 
     /*!
      * @brief Wake up the system if it is in a sleeping state
@@ -34,7 +32,7 @@ public:
 
 	// If a basic view detected a metadata change, it can request to recreate
 	// the current gamelist view (as it may change to be detailed).
-	bool reloadGameListView(IGameListView* gamelist, bool reloadTheme = false);
+	bool reloadGameListView(ISimpleGameListView* gamelist, bool reloadTheme = false);
 	inline bool reloadGameListView(SystemData* system, bool reloadTheme = false) { return reloadGameListView(getGameListView(system).get(), reloadTheme); }
 	void setInvalidGamesList(const SystemData* system);
 	void setAllInvalidGamesList(const SystemData* systemExclude);
@@ -73,7 +71,7 @@ public:
 	{
 		ViewMode viewing;
 
-		inline SystemData* getSystem() const { assert(viewing == ViewMode::GameList || viewing == ViewMode::SystemList); return system; }
+		[[nodiscard]] inline SystemData* getSystem() const { assert(viewing == ViewMode::GameList || viewing == ViewMode::SystemList); return system; }
 
 	private:
 		friend ViewController;
@@ -81,16 +79,16 @@ public:
 		bool gameClipRunning;
 	};
 
-	inline const State& getState() const { return mState; }
-	inline bool isViewing(ViewMode viewing) const { return mState.viewing == viewing; }
+	[[nodiscard]] inline const State& getState() const { return mState; }
+	[[nodiscard]] inline bool isViewing(ViewMode viewing) const { return mState.viewing == viewing; }
 
 	bool getHelpPrompts(Help& help) override;
 	void ApplyHelpStyle() override;
 
-	std::shared_ptr<IGameListView> getGameListView(SystemData* system);
+	std::shared_ptr<ISimpleGameListView> getGameListView(SystemData* system);
 	SystemView& getSystemListView() { return mSystemListView; }
 
-	Gui& CurrentUi() const { return *mCurrentView; }
+	[[nodiscard]] Gui& CurrentUi() const { return *mCurrentView; }
 
 	/*!
 	 * @brief Get the progress interface
@@ -123,7 +121,7 @@ public:
     SystemManager& mSystemManager;
 
     Gui* mCurrentView;
-    std::map< SystemData*, std::shared_ptr<IGameListView> > mGameListViews;
+    std::map< SystemData*, std::shared_ptr<ISimpleGameListView> > mGameListViews;
     SystemView mSystemListView;
     SplashView mSplashView;
     GameClipView* mGameClipView;
@@ -164,5 +162,5 @@ public:
     /*!
      * @brief Reset game filters
      */
-    void ResetFilters();
+    static void ResetFilters();
 };

@@ -5,7 +5,7 @@
 #include <utils/Log.h>
 #include "MainRunner.h"
 
-bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool& debug)
+bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool& debug, bool& trace)
 {
   for (int i = 1; i < argc; i++)
   {
@@ -30,6 +30,11 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     {
       Log::setReportingLevel(LogLevel::LogDebug);
       debug = true;
+    }
+    else if (strcmp(argv[i], "--trace") == 0)
+    {
+      Log::setReportingLevel(LogLevel::LogTrace);
+      trace = true;
     }
     else if (strcmp(argv[i], "--windowed") == 0)
     {
@@ -63,8 +68,8 @@ int main(int argc, char* argv[], char** env)
   // Get arguments
   unsigned int width = 0;
   unsigned int height = 0;
-  bool windowed = false, debug = false;
-  if (!parseArgs(argc, argv, width, height, windowed, debug))
+  bool windowed = false, debug = false, trace = false;
+  if (!parseArgs(argc, argv, width, height, windowed, debug, trace))
     return 0;
 
   for(int loopCount = 0;; ++loopCount)

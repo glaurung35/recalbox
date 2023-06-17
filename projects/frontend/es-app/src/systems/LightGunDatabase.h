@@ -39,7 +39,7 @@ class LightGunDatabase : public IFilter
      */
 
     //! Return true if the given FileGata math a game in the current database system
-    bool ApplyFilter(const FileData& file) const override;
+    bool ApplyFilter(const FileData& file) override;
 };
 
 

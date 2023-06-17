@@ -22,7 +22,7 @@ class GuiMenuVirtualSystems : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuVirtualSystems(WindowManager& window, SystemManager& systemManager);
+    explicit GuiMenuVirtualSystems(WindowManager& window);
 
     //! Destructor
     ~GuiMenuVirtualSystems() override;
@@ -34,13 +34,9 @@ class GuiMenuVirtualSystems : public GuiMenuBase
       Multiplayers,
       LastPlayed,
       VirtualPerGenre,
-      VirtualArcade,
       LightGun,
       Ports,
     };
-
-    //! System manager
-    SystemManager& mSystemManager;
 
     //! All game switch component
     std::shared_ptr<SwitchComponent> mAllGames;

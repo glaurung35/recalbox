@@ -1,30 +1,24 @@
 #include <RecalboxConf.h>
+#include "systems/SystemData.h"
 #include <recalbox/RecalboxSystem.h>
 #include "views/ViewController.h"
-#include "utils/Log.h"
-#include "systems/SystemData.h"
 
-#include "views/gamelist/BasicGameListView.h"
 #include "views/gamelist/DetailedGameListView.h"
+#include "views/gamelist/ArcadeGameListView.h"
 #include "guis/GuiDetectDevice.h"
 #include "animations/LaunchAnimation.h"
 #include "animations/MoveCameraAnimation.h"
 #include "animations/LambdaAnimation.h"
 
-#include "audio/AudioManager.h"
 #include "guis/menus/GuiMenuSoftpatchingLauncher.h"
 #include "RotationManager.h"
 #include "guis/GuiSaveStates.h"
 #include <audio/AudioMode.h>
 
-#include <memory>
-#include <systems/SystemManager.h>
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
 #include <guis/menus/GuiCheckMenu.h>
-#include <utils/locale/LocaleHelper.h>
-#include <usernotifications/NotificationManager.h>
 
 #include <games/GameFilesUtils.h>
 
@@ -68,7 +62,7 @@ void ViewController::goToStart()
   if (selectedSystem == nullptr)
   {
 
-    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [this] { ResetFilters();}));
+    mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [] { ResetFilters();}));
     return;
   }
 
@@ -119,6 +113,7 @@ void ViewController::goToQuitScreen()
 {
   mSplashView.Quit();
   mState.viewing = ViewMode::SplashScreen;
+  mState.gameClipRunning = false;
   mCamera.translation().Set(0,0,0);
 }
 
@@ -208,11 +203,12 @@ void ViewController::quitCrtView()
   updateHelpPrompts();
 }
 
-void ViewController::selectGamelistAndCursor(FileData *file) {
+void ViewController::selectGamelistAndCursor(FileData *file)
+{
   mState.viewing = ViewMode::GameList;
   SystemData& system = file->System();
   goToGameList(&system);
-  IGameListView* view = getGameListView(&system).get();
+  ISimpleGameListView* view = getGameListView(&system).get();
   view->setCursorStack(file);
   view->setCursor(file);
 }
@@ -306,7 +302,7 @@ void ViewController::goToGameList(SystemData* system)
 
 void ViewController::updateFavorite(SystemData* system, FileData* file)
 {
-	IGameListView* view = getGameListView(system).get();
+    ISimpleGameListView* view = getGameListView(system).get();
 	if (RecalboxConf::Instance().GetFavoritesOnly())
 	{
 		view->populateList(system->MasterRoot());
@@ -335,7 +331,7 @@ void ViewController::playViewTransition()
 		cancelAnimation(0);
 
 		auto fadeFunc = [this](float t) {
-			mFadeOpacity = lerp<float>(0, 1, t);
+			mFadeOpacity = lerp<float>(0.f, 1.f, t);
 		};
 
 		const static int FADE_DURATION = 240; // fade in/out time
@@ -640,7 +636,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
         auto it = mGameListViews.find(lastPlayedSystem);
         if (it != mGameListViews.end())
         {
-          IGameListView* lastPlayedGameListView = it->second.get();
+          ISimpleGameListView* lastPlayedGameListView = it->second.get();
           if (lastPlayedGameListView != nullptr)
             lastPlayedGameListView->onChanged(ISimpleGameListView::Change::Resort);
         }
@@ -670,7 +666,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 	}
 }
 
-std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* system)
+std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData* system)
 {
 	//if we already made one, return that one
 	auto exists = mGameListViews.find(system);
@@ -678,9 +674,13 @@ std::shared_ptr<IGameListView> ViewController::getGameListView(SystemData* syste
 		return exists->second;
 
 	//if we didn't, make it, remember it, and return it
-	std::shared_ptr<IGameListView> view;
+	std::shared_ptr<ISimpleGameListView> view;
 
-  view = std::shared_ptr<IGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+  if (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced())
+    view = std::shared_ptr<ISimpleGameListView>(new ArcadeGameListView(mWindow, mSystemManager, *system));
+  else
+    view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+  view->Initialize();
 	view->setTheme(system->Theme());
 
 	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
@@ -698,7 +698,7 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 {
 	if (mLockInput) return true;
 
-	/* if we receive a button pressure for a non configured joystick, suggest the joystick configuration */
+	/* if we receive a button pressure for a non-configured joystick, suggest the joystick configuration */
 	if (event.AskForConfiguration())
 	{
 		mWindow.pushGui(new GuiDetectDevice(mWindow, false, nullptr));
@@ -814,7 +814,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
+bool ViewController::reloadGameListView(ISimpleGameListView* view, bool reloadTheme)
 {
 	if (view->System().HasVisibleGame())
 	{
@@ -831,7 +831,7 @@ bool ViewController::reloadGameListView(IGameListView* view, bool reloadTheme)
 				if (reloadTheme)
 					system->loadTheme();
 
-				std::shared_ptr<IGameListView> newView = getGameListView(system);
+				std::shared_ptr<ISimpleGameListView> newView = getGameListView(system);
 				if (hasGame)
 					newView->setCursor(cursor);
 				if (isCurrent)

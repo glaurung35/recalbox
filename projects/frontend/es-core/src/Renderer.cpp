@@ -632,5 +632,178 @@ void Renderer::DrawTexturedTriangles(GLuint id, const Vertex vertices[], Colors:
   glDisable(GL_BLEND);
 }
 
+void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio)
+{
+  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  {
+    float sx = (float)w / (float)texture.width();
+    float sy = (float)h / (float)texture.height();
+
+    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
+    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+  }
+
+  if (texture.bind())
+  {
+    Vertex vertices[Vertex::sVertexPerRectangle];
+
+    vertices[0].Target.Set(x, y);
+    vertices[1].Target.Set(x, y + h);
+    vertices[2].Target.Set(x + w, y);
+
+    vertices[3].Target.Set(x + w, y);
+    vertices[4].Target.Set(x, y + h);
+    vertices[5].Target.Set(x + w, y + h);
+
+    vertices[0].Source.Set(0, 1);
+    vertices[1].Source.Set(0, 0);
+    vertices[2].Source.Set(1, 1);
+
+    vertices[3].Source.Set(1, 1);
+    vertices[4].Source.Set(0, 0);
+    vertices[5].Source.Set(1, 0);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+
+    glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+  }
+}
+
+void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, unsigned char alpha)
+{
+  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  {
+    float sx = (float)w / (float)texture.width();
+    float sy = (float)h / (float)texture.height();
+
+    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
+    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+  }
+
+  if (texture.bind())
+  {
+    Vertex vertices[Vertex::sVertexPerRectangle];
+
+    vertices[0].Target.Set(x, y);
+    vertices[1].Target.Set(x, y + h);
+    vertices[2].Target.Set(x + w, y);
+
+    vertices[3].Target.Set(x + w, y);
+    vertices[4].Target.Set(x, y + h);
+    vertices[5].Target.Set(x + w, y + h);
+
+    vertices[0].Source.Set(0, 1);
+    vertices[1].Source.Set(0, 0);
+    vertices[2].Source.Set(1, 1);
+
+    vertices[3].Source.Set(1, 1);
+    vertices[4].Source.Set(0, 0);
+    vertices[5].Source.Set(1, 0);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glColor4ub(0xFF, 0xFF, 0xFF, alpha);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+
+    glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+  }
+}
+
+void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, Colors::ColorARGB color)
+{
+  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  {
+    float sx = (float)w / (float)texture.width();
+    float sy = (float)h / (float)texture.height();
+
+    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
+    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+  }
+
+  if (texture.bind())
+  {
+    Vertex vertices[Vertex::sVertexPerRectangle];
+
+    vertices[0].Target.Set(x, y);
+    vertices[1].Target.Set(x, y + h);
+    vertices[2].Target.Set(x + w, y);
+
+    vertices[3].Target.Set(x + w, y);
+    vertices[4].Target.Set(x, y + h);
+    vertices[5].Target.Set(x + w, y + h);
+
+    vertices[0].Source.Set(0, 1);
+    vertices[1].Source.Set(0, 0);
+    vertices[2].Source.Set(1, 1);
+
+    vertices[3].Source.Set(1, 1);
+    vertices[4].Source.Set(0, 0);
+    vertices[5].Source.Set(1, 0);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glColor4ub((GLubyte)(color >> 24),
+               (GLubyte)(color >> 16),
+               (GLubyte)(color >> 8),
+               (GLubyte)(color >> 0));
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+
+    glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+
+    glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+  }
+}
+
 
 

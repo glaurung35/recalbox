@@ -36,7 +36,7 @@ class RootFolderData : public FolderData
      * Since this destructor is called before ~FileData
      * this is the opportuniy to clear child list before they are destroyed
      */
-    virtual ~RootFolderData()
+    ~RootFolderData() override
     {
       // Destroy any subroot first
       for(RootFolderData* root : SubRoots())

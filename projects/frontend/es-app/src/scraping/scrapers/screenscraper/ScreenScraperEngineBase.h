@@ -75,7 +75,7 @@ class ScreenScraperEngineBase
     SyncMessageSender<ScrapeEngineMessage> mSender;
 
     //! Database message
-    std::string mDatabaseMessage;
+    String mDatabaseMessage;
 
     //! Freeze interface
     IScraperEngineFreezer* mFreezeInterface;

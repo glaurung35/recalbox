@@ -572,6 +572,9 @@ extern const uint8_t regions__tw_svg_data[];
 extern const uint16_t regions__de_svg_size;
 extern const uint8_t regions__de_svg_data[];
 
+extern const uint32_t wizard__didyouknow_png_size;
+extern const uint8_t wizard__didyouknow_png_data[];
+
 struct Res2hEntry {
     const std::string relativeFileName;
     const uint32_t size;

@@ -266,8 +266,9 @@ class Regions
     // Packed regions
     union RegionPack
     {
-      int         Pack;                  //! Packed regions
-      GameRegions Regions[sizeof(Pack)]; //! Individual regions
+      int                  Pack;                  //! Packed regions
+      static constexpr int sMaxRegions = sizeof(Pack);
+      GameRegions          Regions[sMaxRegions]; //! Individual regions
 
       //! Initializer
       RegionPack() : Pack(0)
@@ -289,10 +290,10 @@ class Regions
       void Reset() { Pack = 0; }
 
       //! Has any regions?
-      bool HasRegion() const { return Pack != 0; }
+      [[nodiscard]] bool HasRegion() const { return Pack != 0; }
 
       //! Has a particular region?
-      bool HasRegion(GameRegions r) const
+      [[nodiscard]] bool HasRegion(GameRegions r) const
       {
         for(GameRegions region : Regions)
           if (region == r)
@@ -301,12 +302,21 @@ class Regions
       }
 
       //! Get first available region
-      GameRegions First() const
+      [[nodiscard]] GameRegions First() const
       {
         for(GameRegions region : Regions)
           if (region != GameRegions::Unknown)
             return region;
         return GameRegions::Unknown;
+      }
+
+      [[nodiscard]] int Count() const
+      {
+        int count = 0;
+        for(GameRegions region : Regions)
+          if (region != GameRegions::Unknown)
+            count++;
+        return count;
       }
     };
 

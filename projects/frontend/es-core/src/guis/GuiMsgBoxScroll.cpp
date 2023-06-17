@@ -1,11 +1,9 @@
 #include <guis/GuiMsgBoxScroll.h>
-#include <Renderer.h>
 #include <components/TextComponent.h>
 #include <components/ButtonComponent.h>
 #include <components/MenuComponent.h> // for makeButtonGrid
-#include <components/ScrollableContainer.h>
 
-#define HORIZONTAL_PADDING_PX 20
+//#define HORIZONTAL_PADDING_PX 20
 
 GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
                                  const std::string& title, const std::string& text,
@@ -13,10 +11,13 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
                                  const std::string& name2, const std::function<void()>& func2,
                                  const std::string& name3, const std::function<void()>& func3,
                                  TextAlignment align, float height)
-  : Gui(window),
-    mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 3))
+  : Gui(window)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(1, 3))
+  , mSpace(Renderer::Instance().DisplayHeightAsInt() / 40)
 {
+  if (mSpace > 20) mSpace = 20;
+  if (mSpace < 6) mSpace = 6;
 	(void)height;
 
 	float width = Renderer::Instance().DisplayWidthAsFloat() * 0.8f; // max width
@@ -34,11 +35,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 
 	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, align);
 
-	mMsgContainer = std::make_shared<ScrollableContainer>(mWindow);
-	mMsgContainer->setAutoScroll(true);
-	mMsgContainer->mAutoScrollSpeed = 20; // ms between scrolls
-	mMsgContainer->mAutoScrollDelay = 3000; // ms to wait before we start to scroll
-	mMsgContainer->mAutoScrollResetAccumulator = 5000; // ms to reset to top after we reach the bottom
+	mMsgContainer = std::make_shared<VerticalScrollableContainer>(mWindow);
 	mMsgContainer->addChild(mMsg.get());
 
 	mGrid.setEntry(mMsgContainer, Vector2i(0, 1), false, false);
@@ -80,7 +77,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	mMsg->setSize(width, 0);
 	const float msgHeight = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 0.5f, mMsg->getSize().y());
 	mMsgContainer->setSize(width, msgHeight);
-	setSize(width + HORIZONTAL_PADDING_PX*2, mButtonGrid->getSize().y() + msgHeight + mTitle->getSize().y());
+	setSize(width + mSpace*2, mButtonGrid->getSize().y() + msgHeight + mTitle->getSize().y());
 
 	// center for good measure
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
@@ -98,6 +95,8 @@ bool GuiMsgBoxScroll::ProcessInput(const InputCompactEvent& event)
 		mAcceleratorFunc();
 		return true;
 	}
+
+  if (mMsgContainer->ProcessInput(event)) return true;
 
 	return Component::ProcessInput(event);
 }

@@ -57,14 +57,14 @@ const char* GameNameMapManager::GetCleanFlashbackName(const std::string& from)
 
 bool GameNameMapManager::HasRenaming(const SystemData& system)
 {
-  return system.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ||
+  return system.Descriptor().IsTrueArcade() ||
          system.Descriptor().Name() == "neogeo" ||
          system.Descriptor().Name() == "flashback";
 }
 
 bool GameNameMapManager::HasFiltering(const SystemData& system)
 {
-  return system.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ||
+  return system.Descriptor().IsTrueArcade() ||
          system.Descriptor().Name() == "neogeo";
 }
 
@@ -81,7 +81,7 @@ std::string GameNameMapManager::Rename(const SystemData& system, const std::stri
 {
   if (HasRenaming(system))
   {
-    if (system.Descriptor().Type() == SystemDescriptor::SystemType::Arcade ||
+    if (system.Descriptor().IsTrueArcade() ||
         system.Descriptor().Name() == "neogeo")
     {
       const char* newName = GetCleanMameName(filenameWoExt);

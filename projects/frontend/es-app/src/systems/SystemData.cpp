@@ -13,11 +13,12 @@
 #include <utils/Zip.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, FileSorts::Sorts fixedSort)
-  : mSystemManager(systemManager),
-    mDescriptor(descriptor),
-    mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this),
-    mProperties(properties),
-    mFixedSort(fixedSort)
+  : mSystemManager(systemManager)
+  , mDescriptor(descriptor)
+  , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
+  , mProperties(properties)
+  , mFixedSort(fixedSort)
+  , mArcadeDatabases(*this)
 {
 }
 
@@ -216,7 +217,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
     const Path relativeTo(root.RomPath());
     XmlNode games = gameList.child("gameList");
-    HashSet<String> blacklist{};
+    HashSet<String> blacklist;
 
     if (games != nullptr)
     {
@@ -537,10 +538,16 @@ FileData::List SystemData::getAllGames() const
   return result;
 }
 
-bool SystemData::HasVisibleGame() const
+bool SystemData::HasVisibleGame(bool forceTateOnlyCheck) const
 {
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (root->HasVisibleGame()) return true;
+  if (forceTateOnlyCheck || RecalboxConf::Instance().GetTateOnly())
+  {
+    for (const RootFolderData* root: mRootOfRoot.SubRoots())
+      if (root->HasTateVisibleGame()) return true;
+  }
+  else
+    for(const RootFolderData* root : mRootOfRoot.SubRoots())
+      if (root->HasVisibleGame()) return true;
 
   return false;
 }
@@ -636,4 +643,9 @@ void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, Fo
       case FolderData::FastSearchContext::All:
       default: break;
     }
+}
+
+void SystemData::RemoveArcadeReference(const FileData& game)
+{
+  mArcadeDatabases.RemoveGame(game);
 }

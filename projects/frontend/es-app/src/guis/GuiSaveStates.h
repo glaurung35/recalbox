@@ -31,8 +31,6 @@ class GuiSaveStates : public Gui
 
     void launch(const String& slot);
 
-    void initGridsNStuff();
-
   private:
 
     enum class Sort
@@ -45,13 +43,11 @@ class GuiSaveStates : public Gui
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
-    std::shared_ptr<MenuTheme> mMenuTheme;
-    std::shared_ptr<TextComponent> mTitle;
-    std::shared_ptr<TextComponent> mGameName;
-    std::shared_ptr<ComponentList> mList;
+    std::shared_ptr<TextListComponent<SaveState*>> mList;
     std::shared_ptr<ImageComponent> mThumbnail;
     std::vector<SaveState> mSaveStates;
     FileData& mGame;
+    float mTitleHeight;
     bool mIsLibretro;
     bool mFromMenu;
     SaveState mCurrentState;
@@ -60,26 +56,9 @@ class GuiSaveStates : public Gui
 
     void Delete();
 
-    static bool asc(const SaveState& first, const SaveState& second)
-    {
-      if(first.GetIsAuto())
-        return true;
-      if(second.GetIsAuto())
-        return false;
+    static bool AscendingComparer(const SaveState& first, const SaveState& second);
 
-      return first.GetSlotNumber() < second.GetSlotNumber();
-    }
-
-    static bool desc(const SaveState& first, const SaveState& second)
-    {
-      if(first.GetIsAuto())
-        return true;
-
-      if(second.GetIsAuto())
-        return false;
-
-      return first.GetSlotNumber() > second.GetSlotNumber();
-    }
+    static bool DescendingComparer(const SaveState& first, const SaveState& second);
 
     std::function<void()> func;
 

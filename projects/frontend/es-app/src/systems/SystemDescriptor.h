@@ -175,7 +175,7 @@ class SystemDescriptor
     [[nodiscard]] const std::string& ThemeFolder() const { return mThemeFolder; }
     [[nodiscard]] const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
     [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
-    [[nodiscard]] std::string IconPrefix() const;
+    [[nodiscard]] String IconPrefix() const;
 
     [[nodiscard]] int ScreenScaperID() const { return mScreenScraperID; }
 

@@ -2,7 +2,7 @@
 
 #include <vector>
 #include "games/FileData.h"
-#include <systems/ArcadeTupple.h>
+#include <systems/arcade/ArcadeTupple.h>
 
 class FileSorts
 {

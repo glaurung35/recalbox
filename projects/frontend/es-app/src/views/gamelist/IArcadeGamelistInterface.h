@@ -5,7 +5,7 @@
 
 #include <vector>
 #include <utils/String.h>
-#include <systems/ArcadeDatabase.h>
+#include <systems/arcade/ArcadeDatabase.h>
 
 class IArcadeGamelistInterface
 {

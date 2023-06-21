@@ -3,7 +3,7 @@
 #include "guis/GuiDownloader.h"
 #include "views/gamelist/ArcadeGameListView.h"
 #include "GuiMenuArcadeOptions.h"
-#include "systems/ArcadeVirtualSystems.h"
+#include <systems/arcade/ArcadeVirtualSystems.h>
 #include "GuiMenuArcade.h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>

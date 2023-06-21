@@ -8,7 +8,7 @@
 #include <systems/SystemDescriptor.h>
 #include <games/FileSorts.h>
 #include <themes/ThemeData.h>
-#include <systems/ArcadeDatabaseManager.h>
+#include <systems/arcade/ArcadeDatabaseManager.h>
 
 class SystemManager;
 

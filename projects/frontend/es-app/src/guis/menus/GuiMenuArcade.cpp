@@ -6,7 +6,7 @@
 #include "GuiMenuArcadeAllInOneSystem.h"
 #include <views/ViewController.h>
 #include <guis/MenuMessages.h>
-#include <systems/ArcadeVirtualSystems.h>
+#include <systems/arcade/ArcadeVirtualSystems.h>
 
 GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
   :	GuiMenuBase(window, _("ARCADE VIEW OPTIONS"), this)

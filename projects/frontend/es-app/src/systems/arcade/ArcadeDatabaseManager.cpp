@@ -323,5 +323,12 @@ void ArcadeDatabaseManager::RemoveGame(const FileData& game)
     database.second->Remove(game);
 }
 
+const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabaseFor(const String& emulatorName, const String& coreName) const
+{
+  ArcadeDatabase** database = mDatabases.try_get(String(emulatorName).Append('|').Append(coreName));
+  if (database != nullptr) return *database;
+  return nullptr;
+}
+
 
 

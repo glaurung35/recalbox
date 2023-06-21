@@ -47,12 +47,13 @@ rb_wifi_configure() {
   settings_gateway=$("$system_setting" -command load -key "wifi${X}.gateway" -source "$config_file")
   settings_netmask=$("$system_setting" -command load -key "wifi${X}.netmask" -source "$config_file")
   settings_nameservers=$("$system_setting" -command load -key "wifi${X}.nameservers" -source "$config_file")
+  settings_priority=$("$system_setting" -command load -key "wifi${X}.priority" -source "$config_file" -default "$((6-$1))")
 
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
 
     recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
-    network=$(wpa_cli -i "$interface" add_network >/dev/null)
+    network=$(wpa_cli -i "$interface" add_network)
     wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" >/dev/null || exit 1
     if [ -n "$settings_key" ]; then
         # Connect to protected wifi
@@ -64,6 +65,7 @@ rb_wifi_configure() {
         # Connect to open ssid
         wpa_cli -i "$interface" set_network "$network" key_mgmt NONE >/dev/null || exit 1
     fi
+    [ -n "$settings_priority" ] && wpa_cli -i "$interface" set_network "$network" priority "$settings_priority" >/dev/null
     wpa_cli -i "$interface" set_network "$network" scan_ssid 1 >/dev/null || exit 1
     wpa_cli -i "$interface" enable_network "$network" >/dev/null || exit 1
 

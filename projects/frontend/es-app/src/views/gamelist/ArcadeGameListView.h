@@ -4,7 +4,7 @@
 #pragma once
 
 #include <views/gamelist/DetailedGameListView.h>
-#include "systems/ArcadeTupple.h"
+#include <systems/arcade/ArcadeTupple.h>
 #include "IArcadeGamelistInterface.h"
 
 class ArcadeGameListView : public DetailedGameListView

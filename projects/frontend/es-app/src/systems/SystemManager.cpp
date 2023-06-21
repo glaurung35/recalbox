@@ -8,12 +8,9 @@
 #include "LightGunDatabase.h"
 #include "games/classifications/Versions.h"
 #include "utils/hash/Crc32.h"
-#include "ArcadeVirtualSystems.h"
-#include <systems/SystemSorting.h>
-#include <utils/Log.h>
-#include <RecalboxConf.h>
+#include "systems/arcade/ArcadeDatabaseManager.h"
+#include <systems/arcade/ArcadeVirtualSystems.h>
 #include <utils/os/system/ThreadPool.h>
-#include <utils/Strings.h>
 #include <utils/os/fs/StringMapFile.h>
 #include <utils/Files.h>
 #include <utils/locale/LocaleHelper.h>
@@ -852,7 +849,7 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
        */
       bool LookupDriver(int driver)
       {
-        int count = (int)mDriverIndexes->size();
+        int count = (int)mDriverIndexes->Count();
         for(int i = (count-- + 1) >> 1; --i >= 0; )
         {
           if ((*mDriverIndexes)[i] == driver) return true;
@@ -864,7 +861,7 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
       /*!
        * @brief Main filter method
        * @param file File to filter
-       * @return True of the file is accepter, false if it's rejected
+       * @return True of the file is accepted, false if it's rejected
        */
       [[nodiscard]] bool ApplyFilter(const FileData& file) override
       {
@@ -881,7 +878,7 @@ bool SystemManager::AddArcadeManufacturerMetaSystems()
           }
         // Valid data?
         if (mDatabase == nullptr) return false; // No database for the current folder
-        if (mDriverIndexes->empty()) return false; // No driver
+        if (mDriverIndexes->Empty()) return false; // No driver
 
         // Lookup the current game in the arcade database
         const ArcadeGame* arcade = mDatabase->LookupGame(file);

@@ -4,7 +4,7 @@
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuArcadeAllInOneSystem.h"
 #include "components/SwitchComponent.h"
-#include "systems/ArcadeVirtualSystems.h"
+#include "systems/arcade/ArcadeVirtualSystems.h"
 
 GuiMenuArcadeAllInOneSystem::GuiMenuArcadeAllInOneSystem(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"), nullptr)

@@ -39,7 +39,8 @@ class ArcadeDatabaseManager
      * @brief Lookup an arcade database for the current game
      * regarding all overridden configuration to find out what emulator & core to use
      * @param game Game from which lookup emulator configuration
-     * @param coreName Filled with the default core name for the given folder
+     * @param emulatorName Filled with the default emulator name
+     * @param coreName Filled with the default core name
      * @return GameDatabase or null
      */
     [[nodiscard]] const ArcadeDatabase* LookupDatabase(const FileData& game, String& emulatorName, String& coreName) const;
@@ -48,6 +49,7 @@ class ArcadeDatabaseManager
      * @brief Lookup an arcade database for the current system in given current folder
      * regarding all overridden configuration to find out what emulator & core to use
      * @param folder folder to lookup emulator configuration in
+     * @param emulatorName Filled with the default emulator name for the given folder
      * @param coreName Filled with the default core name for the given folder
      * @return GameDatabase or null
      */
@@ -59,6 +61,14 @@ class ArcadeDatabaseManager
      * @return GameDatabase or null
      */
     [[nodiscard]] const ArcadeDatabase* LookupDatabase(const FolderData& folder) const;
+
+    /*!
+     * @brief Lookup an arcade database for a particulat emulator and a particular core
+     * @param emulatorName Filled with the default emulator name for the given game
+     * @param coreName Filled with the default core name for the given game
+     * @return GameDatabase or null
+     */
+    [[nodiscard]] const ArcadeDatabase* LookupDatabaseFor(const String& emulatorName, const String& coreName) const;
 
     /*!
      * @brief Remove all reference to the given game, from all database

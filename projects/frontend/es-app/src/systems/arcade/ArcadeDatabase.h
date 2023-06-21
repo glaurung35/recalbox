@@ -3,19 +3,17 @@
 //
 #pragma once
 
-#include <games/FileData.h>
-#include <systems/ArcadeGame.h>
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Array.h>
-
-#include <utility>
+#include <games/FileData.h>
+#include <systems/arcade/ArcadeGame.h>
 
 //! Game database for a given emulator/core
 class ArcadeDatabase
 {
   public:
     //! Driver index list
-    typedef std::vector<int> IndexList;
+    typedef Array<int> IndexList;
 
     //! Dual driver list
     struct DriverLists
@@ -139,11 +137,11 @@ class ArcadeDatabase
       for(int i = (int)mDrivers.mRaw.size(); --i >= 0;)
       {
         const String& rawDriver = mDrivers.mRaw[i];
-        if (rawDriver == name) result.push_back(i);
+        if (rawDriver == name) result.Add(i);
         else if (rawDriver.Count() > name.Count())
           if (rawDriver[name.Count()] == '/')
             if (rawDriver.StartsWith(name))
-              result.push_back(i);
+              result.Add(i);
       }
       return result;
     }

@@ -46,19 +46,22 @@
       <xsl:value-of select="'|'"/>
       <!--parent du jeu-->
       <xsl:value-of select="$pere" /> 
-      <!--roms et md4 -->
+      <!--roms et md5-->
       <xsl:for-each select="rom">
          <xsl:value-of select="'|'"/>
          <xsl:value-of select="@name"/>
          <xsl:value-of select="'|'"/>
          <xsl:value-of select="@crc"/>
+         <xsl:value-of select="'|'"/>
+         <xsl:value-of select="@size"/>
       </xsl:for-each>
-      <!--chd -->
+      <!--chd et sha1-->
       <xsl:for-each select="disk">
          <xsl:value-of select="'|'"/>
          <xsl:value-of select="@name"/>
          <xsl:value-of select="'.chd|'"/>
          <xsl:value-of select="@sha1"/>
+         <xsl:value-of select="'|'"/>
       </xsl:for-each>
       <xsl:value-of select="'&#10;'"/>
 

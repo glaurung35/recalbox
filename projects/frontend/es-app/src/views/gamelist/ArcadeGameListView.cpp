@@ -3,7 +3,7 @@
 //
 
 #include "ArcadeGameListView.h"
-#include "systems/ArcadeVirtualSystems.h"
+#include <systems/arcade/ArcadeVirtualSystems.h>
 #include "utils/locale/LocaleHelper.h"
 
 ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)

@@ -45,12 +45,12 @@ Building
 
 EmulationStation uses some C++11 code, which means you'll need to use at least g++-4.7 on Linux, or VS2010 on Windows, to compile.
 
-EmulationStation has a few dependencies. For building, you'll need CMake, SDL2, Boost (System, Filesystem, DateTime, Locale), FreeImage, FreeType, Eigen3, and cURL.  You also should probably install the `fonts-droid` package which contains fallback fonts for Chinese/Japanese/Korean characters, but ES will still work fine without it (this package is only used at run-time).
+EmulationStation has a few dependencies. For building, you'll need CMake, SDL2, Boost (System, Filesystem, DateTime, Locale), FreeImage, FreeType, Eigen3, cURL and Liblzma.  You also should probably install the `fonts-droid` package which contains fallback fonts for Chinese/Japanese/Korean characters, but ES will still work fine without it (this package is only used at run-time).
 
 **On Debian/Ubuntu:**
 All of this be easily installed with apt-get:
 ```bash
-sudo apt-get install libavfilter-dev libavdevice-dev libprocps-dev libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev libzip-dev build-essential cmake fonts-droid
+sudo apt-get install libavfilter-dev libavdevice-dev libprocps-dev libsdl2-dev libsdl2-mixer-dev libfreeimage-dev libfreetype6-dev libcurl4-openssl-dev libasound2-dev libgl1-mesa-dev libzip-dev build-essential cmake fonts-droid liblzma-dev
 ```
 
 Then, generate and build the Makefile with CMake:

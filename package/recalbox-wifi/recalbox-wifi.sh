@@ -47,6 +47,7 @@ rb_wifi_configure() {
   settings_gateway=$("$system_setting" -command load -key "wifi${X}.gateway" -source "$config_file")
   settings_netmask=$("$system_setting" -command load -key "wifi${X}.netmask" -source "$config_file")
   settings_nameservers=$("$system_setting" -command load -key "wifi${X}.nameservers" -source "$config_file")
+  settings_priority=$("$system_setting" -command load -key "wifi${X}.priority" -source "$config_file" -default "$((6-$1))")
 
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
@@ -71,6 +72,7 @@ rb_wifi_configure() {
         echo -n "Setting network key_mgmt:"
         wpa_cli -i "$interface" set_network "$network" key_mgmt NONE || exit 1
     fi
+    [ -n "$settings_priority" ] && wpa_cli -i "$interface" set_network "$network" priority "$settings_priority"
     echo -n "Setting network scan_ssid:"
     wpa_cli -i "$interface" set_network "$network" scan_ssid 1 || exit 1
     echo -n "Enabling network:"

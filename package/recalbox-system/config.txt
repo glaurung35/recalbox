@@ -28,13 +28,6 @@ hdmi_force_hotplug=0
 # total amount of GPU memory
 gpu_mem=128
 
-# your settings can be set in /boot/recalbox-user-config.txt
-include recalbox-user-config.txt
-
-# overclocking settings are automatically managed in this file
-# do not remove this line, nor edit the file
-include recalbox-oc-config.txt
-
 # Raise the first security limit up to 70° instead of 60° for pi3 and pi4
 [pi3]
 temp_soft_limit=70
@@ -55,3 +48,10 @@ include crt/recalbox-crt-config.txt
 
 # custom config
 [all]
+# overclocking settings are automatically managed in this file
+# do not remove this line, nor edit the file
+include recalbox-oc-config.txt
+
+# your settings can be set in /boot/recalbox-user-config.txt
+# will override everything else
+include recalbox-user-config.txt

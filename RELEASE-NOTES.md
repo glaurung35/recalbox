@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix argonone case power management
+- Fix gpu overclock when overclocking on RPi4
 
 
 ## Version 9.1-Pulstar

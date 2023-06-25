@@ -6,3 +6,5 @@
 over_voltage=6
 arm_freq=2000
 gpu_freq=750
+core_freq=750
+v3d_freq=750

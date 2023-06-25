@@ -8,6 +8,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Hardware
 
+## Version NEXT
+
+### Fixes
+
+- Fix gpu overclock when overclocking on RPi4
+
+
+## Version 9.1-Pulstar
 
 ### News
 

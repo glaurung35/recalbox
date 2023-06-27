@@ -65,7 +65,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   }
 
   // Zero Lag
-  AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
+  AddSwitch(_("REDUCED LATENCY (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalReduceLatency(), (int)Components::ReduceLatency, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
+  AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
 #if defined(BETA) || defined(DEBUG)
   // ConfiggenV2
@@ -297,8 +298,10 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
   if ((Components)id == Components::DemoIn240pOn31kHz)
     CrtConf::Instance().SetSystemCRTRunDemoIn240pOn31kHz(status).Save();
-  if ((Components)id == Components::ZeroLag)
-    RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
+  if ((Components)id == Components::ReduceLatency)
+    RecalboxConf::Instance().SetGlobalReduceLatency(status).Save();
+  if ((Components)id == Components::RunAhead)
+    RecalboxConf::Instance().SetGlobalRunAhead(status).Save();
   if ((Components)id == Components::UseV2)
     CrtConf::Instance().SetSystemCRTUseV2(status).Save();
   if ((Components)id == Components::Extended15kHzRange)

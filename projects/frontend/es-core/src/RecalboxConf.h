@@ -260,7 +260,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalInputDriver, String, String, sGlobalInputDriver, "auto")
     DefineGetterSetter(GlobalDemoDuration, int, Int, sGlobalDemoDuration, 90)
     DefineGetterSetter(GlobalDemoInfoScreen, int, Int, sGlobalDemoInfoScreen, 6)
-    DefineGetterSetter(GlobalZeroLag, bool, Bool, sGlobalZeroLag, false)
+    DefineGetterSetter(GlobalReduceLatency, bool, Bool, sGlobalReduceLatency, false)
+    DefineGetterSetter(GlobalRunAhead, bool, Bool, sGlobalRunAhead, false)
     DefineGetterSetter(GlobalShowSaveStateBeforeRun, bool, Bool, sGlobalShowSaveStateBeforeRun, false)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
@@ -388,7 +389,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalShowFPS              = "global.showfps";
     static constexpr const char* sGlobalDemoDuration         = "global.demo.duration";
     static constexpr const char* sGlobalDemoInfoScreen       = "global.demo.infoscreenduration";
-    static constexpr const char* sGlobalZeroLag              = "global.zerolag";
+    static constexpr const char* sGlobalReduceLatency        = "global.reducelatency";
+    static constexpr const char* sGlobalRunAhead             = "global.runahead";
     static constexpr const char* sGlobalShowSaveStateBeforeRun = "global.show.savestate.before.run";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";

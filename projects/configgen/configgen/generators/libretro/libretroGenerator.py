@@ -188,29 +188,40 @@ class LibretroGenerator(Generator):
         return config, coreConfig
 
 
-    # Create zerolag configuration
+    # Create run ahead configuration
     @staticmethod
-    def createZeroLagConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
+    def createRunAheadConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
         defaults = {
-            "video_max_swapchain_images": "3",
-            "video_hard_sync": "false",
-            "video_hard_sync_frames": "0",
-            "video_frame_delay_auto": "false",
             "run_ahead_secondary_instance": "false",
             "run_ahead_enabled": "false",
             "run_ahead_frames": "1"
         }
         activated = {
-            "video_max_swapchain_images": "1",
-            "video_hard_sync": "true",
-            "video_hard_sync_frames": "1",
-            "video_frame_delay_auto": "true",
             "run_ahead_secondary_instance": "false",
             "run_ahead_enabled": "true",
             "run_ahead_frames": "1"
         }
-        ZeroLagSupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
-        configToSet = activated if system.ZeroLag and system.Name in ZeroLagSupportedSystems else defaults
+        RunAheadSupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
+        RunAheadSupportedCores = ["fbneo"]
+        configToSet = activated if system.RunAhead and (system.Name in RunAheadSupportedSystems or system.Core in RunAheadSupportedCores) else defaults
+        for option in configToSet.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+
+    # Create zerolag configuration
+    @staticmethod
+    def createReduceLatencyConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
+        defaults = {
+            "video_max_swapchain_images": "3",
+            "video_frame_delay_auto": "false",
+        }
+        activated = {
+            "video_max_swapchain_images": "2",
+            "video_frame_delay_auto": "true",
+        }
+        ReduceLatencyupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
+        ReduceLatencyupportedCores = ["fbneo"]
+        configToSet = activated if system.ReduceLatency and (system.Name in ReduceLatencyupportedSystems or system.Core in ReduceLatencyupportedCores) else defaults
         for option in configToSet.items():
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
@@ -277,8 +288,12 @@ class LibretroGenerator(Generator):
         if system.CRTEnabled:
             LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
                                                      retroarchOverrides)
-        # zerolag config
-        LibretroGenerator.createZeroLagConfiguration(system, retroarchConfig)
+        # Latency config
+        LibretroGenerator.createReduceLatencyConfiguration(system, retroarchConfig)
+        # Run Ahead config
+        LibretroGenerator.createRunAheadConfiguration(system, retroarchConfig)
+
+
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \

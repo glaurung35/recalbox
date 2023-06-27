@@ -37,7 +37,10 @@ performMount() {
   case "${filesystemType}" in
     "vfat") mount "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
     "ntfs") mount.ntfs-3g "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
-    "exfat") mount.exfat "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
+    "exfat")
+      mount -t exfat "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" || \
+      mount.exfat "${mountDevice}" "${mountPoint}" -o "$(mountOptions)"
+    ;;
     *) mount "${mountDevice}" "${mountPoint}" -o "$(mountOptions)" ;;
   esac || exit 1
 }

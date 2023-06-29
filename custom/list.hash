@@ -16,6 +16,7 @@ c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 76f02a748149f1aa945aa418ea65b2bc  package/initscripts/init.d/rcS
 be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 7ecd8faf8aee2a75412583ccbca01ef0  package/libfreeimage/libfreeimage.mk
+dfe35e9f39b004b3977968223107bd51  package/libgtk3/0001-disable-atk-bridge.patch
 84caeaa857a89462b8a4e4c775a60ea4  package/lirc-tools/lirc-tools.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
 f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk

@@ -42,13 +42,7 @@ define PIFBA_INSTALL_STAGING_CMDS
 endef
 
 define PIFBA_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/fba
-	cp $(PIFBA_PKGDIR)/fba_rb.dat $(TARGET_DIR)/recalbox/system/arcade/dats/fba
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
-	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
-		'$(TARGET_DIR)/recalbox/system/arcade/dats/fba/fba_rb.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fba.fdt
-	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
-		'$(TARGET_DIR)/recalbox/system/arcade/dats/fba/fba_rb.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fba.lst
+	$(call InstallArcadeFiles,pifba,pifba,$(PIFBA_VERSION))
 	$(INSTALL) -D -m 0755 $(@D)/fba2x $(TARGET_DIR)/usr/bin/fba2x
 endef
 

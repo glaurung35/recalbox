@@ -40,13 +40,7 @@ define LIBRETRO_MAME2015_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME2015_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015
-	$(UNZIP) -o -d $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015 $(@D)/metadata/mame2015-xml.zip
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
-	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
-		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015/mame2014.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2015.fdt
-	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
-		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2015/mame2014.xml > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2015.lst
+	$(call InstallArcadeFiles,libretro,mame2015,$(LIBRETRO_MAME2015_VERSION))
 	$(INSTALL) -D $(@D)/mame2015_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2015_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/samples

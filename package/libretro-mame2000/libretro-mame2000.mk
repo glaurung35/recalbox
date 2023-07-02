@@ -21,13 +21,7 @@ define LIBRETRO_MAME2000_BUILD_CMDS
 endef
 
 define LIBRETRO_MAME2000_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2000
-	cp '$(@D)/metadata/MAME 0.37b5 XML.dat' $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2000
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
-	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
-		'$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2000/MAME 0.37b5 XML.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2000.fdt
-	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
-		'$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-mame2000/MAME 0.37b5 XML.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/mame2000.lst
+	$(call InstallArcadeFiles,libretro,mame2000,$(LIBRETRO_MAME2000_VERSION))
 	$(INSTALL) -D $(@D)/mame2000_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame2000_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2000/samples

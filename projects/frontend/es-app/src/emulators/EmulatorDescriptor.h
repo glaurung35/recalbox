@@ -4,6 +4,7 @@
 #pragma once
 
 #include <utils/Log.h>
+#include <utils/String.h>
 
 class EmulatorDescriptor
 {
@@ -50,20 +51,20 @@ class EmulatorDescriptor
     }
 
     //! Get emulator name
-    const std::string& Name() const { return mEmulator; }
+    [[nodiscard]] const std::string& Name() const { return mEmulator; }
 
     //! Get core count
-    int CoreCount() const { return mCoreCount; }
+    [[nodiscard]] int CoreCount() const { return mCoreCount; }
 
     //! Has at least one core?
-    bool HasAny() const { return mCoreCount != 0; }
+    [[nodiscard]] bool HasAny() const { return mCoreCount != 0; }
 
     /*!
      * @brief Check if the emulator has a core matching the given name
      * @param name Core name
      * @return True of the emulator has this core, fals eotherwise
      */
-    bool HasCore(const std::string& name) const
+    [[nodiscard]] bool HasCore(const std::string& name) const
     {
       for(int i=mCoreCount; --i>=0; )
         if (name == mCores[i].mName)
@@ -72,21 +73,29 @@ class EmulatorDescriptor
     }
 
     //! Get core name
-    const std::string& CoreNameAt(int index) const { return CoreAt(index).mName; }
+    [[nodiscard]] const std::string& CoreNameAt(int index) const { return CoreAt(index).mName; }
     //! Get core priority
-    unsigned char CorePriorityAt(int index) const { return CoreAt(index).mPriority; }
+    [[nodiscard]] unsigned char CorePriorityAt(int index) const { return CoreAt(index).mPriority; }
     //! Get core Extensions
-    const std::string& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
-    //! Get core Netplay
-    bool CoreNetplay(int index) const { return CoreAt(index).mNetplay; }
-    //! Get core Softpatching
-    bool CoreSoftpatching(int index) const { return CoreAt(index).mSoftpatching; }
+    [[nodiscard]] const std::string& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
+    //! Get core Netplay support
+    [[nodiscard]] bool CoreNetplay(int index) const { return CoreAt(index).mNetplay; }
+    //! Get core Softpatching availability
+    [[nodiscard]] bool CoreSoftpatching(int index) const { return CoreAt(index).mSoftpatching; }
     //! Get core Speed
-    Speed CoreSpeed(int index) const { return CoreAt(index).mSpeed; }
+    [[nodiscard]] Speed CoreSpeed(int index) const { return CoreAt(index).mSpeed; }
     //! Get core Compatibility
-    Compatibility CoreCompatibility(int index) const { return CoreAt(index).mCompatibility; }
+    [[nodiscard]] Compatibility CoreCompatibility(int index) const { return CoreAt(index).mCompatibility; }
     //! Get core available on CRT
-    bool CoreCrtAvailable(int index) const { return CoreAt(index).mCRTAvailable; }
+    [[nodiscard]] bool CoreCrtAvailable(int index) const { return CoreAt(index).mCRTAvailable; }
+    //! Get core Flat base file
+    [[nodiscard]] String CoreFlatDatabase(int index) const { return CoreAt(index).mFlatBaseName; }
+    //! Get core Ignored drivers (in arcade database)
+    [[nodiscard]] String CoreIgnoreDrivers(int index) const { return CoreAt(index).mIgnoreDrivers; }
+    //! Get core Split drivers (in arcade database)
+    [[nodiscard]] String CoreSplitDrivers(int index) const { return CoreAt(index).mSplitDrivers; }
+    //! Get core driver limit
+    [[nodiscard]] int CoreDriverLimit(int index) const { return CoreAt(index).mLimit; }
 
     /*!
      * @brief Add core
@@ -104,7 +113,11 @@ class EmulatorDescriptor
                  const std::string& compatibility,
                  const std::string& speed,
                  bool softpatching,
-                 bool crtAvailable)
+                 bool crtAvailable,
+                 const String& flatBaseFile,
+                 const String& ignoreDrivers,
+                 const String& splitDrivers,
+                 int limit)
     {
       if (mCoreCount < sMaximumCores)
       {
@@ -117,6 +130,10 @@ class EmulatorDescriptor
         core.mNetplay = netplay;
         core.mSoftpatching = softpatching;
         core.mCRTAvailable = crtAvailable;
+        core.mFlatBaseName = flatBaseFile;
+        core.mIgnoreDrivers = ignoreDrivers;
+        core.mSplitDrivers = splitDrivers;
+        core.mLimit = limit;
       }
       else { LOG(LogError) << "[Emulator] Core " << name << " cannot be added to emulator " << mEmulator; }
     }
@@ -125,6 +142,7 @@ class EmulatorDescriptor
     //! Core structure
     struct Core
     {
+      // Core properties
       std::string mName;            //!< Core name (file name)
       std::string mExtensions;      //!< Supported extensions
       int mPriority;                //!< Core priority
@@ -133,6 +151,11 @@ class EmulatorDescriptor
       bool mNetplay;                //!< Netplay compatible?
       bool mSoftpatching;           //!< Softpathing compatible?
       bool mCRTAvailable;           //!< Available on CRT?
+      // Arcade properties
+      String mFlatBaseName;         //!< Flat file base name
+      String mIgnoreDrivers;        //!< Flat file base name
+      String mSplitDrivers;         //!< Flat file base name
+      int mLimit;                   //!< Manufacturer/driver limit
 
       //! Constructor
       Core()
@@ -142,6 +165,7 @@ class EmulatorDescriptor
         , mNetplay(false)
         , mSoftpatching(false)
         , mCRTAvailable(false)
+        , mLimit(0)
       {
       }
 
@@ -156,6 +180,10 @@ class EmulatorDescriptor
         mNetplay = false;
         mSoftpatching = false;
         mCRTAvailable = false;
+        mFlatBaseName.clear();
+        mIgnoreDrivers.clear();
+        mSplitDrivers.clear();
+        mLimit = 0;
       }
     };
 
@@ -170,7 +198,7 @@ class EmulatorDescriptor
     friend class RequestHandlerTools;
 
     //! Get core at index
-    const Core& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
+    [[nodiscard]] const Core& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
 
     /*!
      * @brief Convert compatibility string to compatibility enum

@@ -1,5 +1,5 @@
 //
-// Created by thierry.imbert on 18/02/2020.
+// Created by Bkg2k on 18/02/2020.
 // Last modification by Maksthorr on 28/04/2023
 //
 #pragma once
@@ -51,14 +51,14 @@ class IniFile
      * @brief Delete (comment) key
      * @param name Key name
      */
-    void Delete(const std::string &name);
+    void Delete(const String &name);
 
     /*!
      * @brief Check if a key is defined in this configuration
      * @param name key to check
      * @return True if the key is defined
      */
-    [[nodiscard]] bool IsDefined(const std::string& name) const
+    [[nodiscard]] bool IsDefined(const String& name) const
     {
       return !mPendingDelete.contains(name) && (mConfiguration.contains(name) || mPendingWrites.contains(name));
     }
@@ -68,7 +68,7 @@ class IniFile
      * @param name Key
      * @return Value or empty string if the key does not exist
      */
-    [[nodiscard]] std::string AsString(const std::string& name) const;
+    [[nodiscard]] String AsString(const String& name) const;
 
     /*!
      * @brief Get string value from the given key or return the default value
@@ -76,14 +76,14 @@ class IniFile
      * @param defaultValue Default value
      * @return Value or default value if the key does not exist
      */
-    [[nodiscard]] std::string AsString(const std::string &name, const std::string &defaultValue) const;
+    [[nodiscard]] String AsString(const String &name, const String &defaultValue) const;
 
     /*!
      * @brief Get string value from the given key
      * @param name Key
      * @return Value or empty string if the key does not exist
      */
-    std::string AsString(const char* name) const;
+    String AsString(const char* name) const;
 
     /*!
      * @brief Get string value from the given key or return the default value
@@ -91,14 +91,14 @@ class IniFile
      * @param defaultValue Default value
      * @return Value or default value if the key does not exist
      */
-    std::string AsString(const char* name, const char* defaultValue) const;
+    String AsString(const char* name, const char* defaultValue) const;
 
     /*!
      * @brief Get value from the given key in List format
      * @param name Key
      * @return Value
      */
-    [[nodiscard]] Strings::Vector AsStringList(const std::string& name) const;
+    [[nodiscard]] Strings::Vector AsStringList(const String& name) const;
 
     /*!
      * @brief Get boolean value from the given key or return the default value
@@ -106,7 +106,7 @@ class IniFile
      * @param defaultValue Default value (optional, false by default)
      * @return Value or default value if the key does not exist
      */
-    [[nodiscard]] bool AsBool(const std::string& name, bool defaultValue = false) const;
+    [[nodiscard]] bool AsBool(const String& name, bool defaultValue = false) const;
 
     /*!
      * @brief Get boolean value from the given key or return the default value
@@ -122,7 +122,7 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    [[nodiscard]] unsigned int AsUInt(const std::string& name, unsigned int defaultValue = 0) const;
+    [[nodiscard]] unsigned int AsUInt(const String& name, unsigned int defaultValue = 0) const;
 
     /*!
      * @brief Get value as signed int from the given key or return the default value
@@ -130,7 +130,7 @@ class IniFile
      * @param defaultValue Default value (optional, 0 by default)
      * @return Value or default value if the key does not exist
      */
-    [[nodiscard]] int AsInt(const std::string& name, int defaultValue = 0) const;
+    [[nodiscard]] int AsInt(const String& name, int defaultValue = 0) const;
 
     /*!
      * @brief Get value as signed int from the given key or return the default value
@@ -145,42 +145,42 @@ class IniFile
      * @param name Key
      * @param value Value to set
      */
-    void SetString(const std::string &name, const std::string &value);
+    void SetString(const String &name, const String &value);
 
     /*!
      * @brief Set the value as boolean of the given key
      * @param name Key
      * @param value Value to set
      */
-    void SetBool(const std::string &name, bool value);
+    void SetBool(const String &name, bool value);
 
     /*!
      * @brief Set the value as an unsigned int of the given key
      * @param name Key
      * @param value Value to set
      */
-    void SetUInt(const std::string &name, unsigned int value);
+    void SetUInt(const String &name, unsigned int value);
 
     /*!
      * @brief Set the value as a signed int of the given key
      * @param name Key
      * @param value Value to set
      */
-    void SetInt(const std::string &name, int value);
+    void SetInt(const String &name, int value);
 
     /*!
      * @brief Set the value as a string list, comma separated, of the given key
      * @param name Key
      * @param values string list
      */
-    void SetList(const std::string &name, const std::vector<std::string> &values);
+    void SetList(const String &name, const std::vector<String> &values);
 
     /*!
      * @brief Check if the given key exists in the configuration file
      * @param name Key to check
      * @return True if the key exists, false otherwise
      */
-    [[nodiscard]] bool Exists(const std::string& name) const { return mConfiguration.contains(name); }
+    [[nodiscard]] bool Exists(const String& name) const { return mConfiguration.contains(name); }
 
     /*!
      * @brief Check if a value is in the given named list
@@ -188,28 +188,28 @@ class IniFile
      * @param value Value to seek for in the list
      * @return True if the list exists and the value is found. False otherwise
      */
-    [[nodiscard]] bool isInList(const std::string &name, const std::string &value) const;
+    [[nodiscard]] bool isInList(const String &name, const String &value) const;
 
     /*!
      * @brief Check if there is at least one key starting with the given string
      * @param startWidth String
      * @return True if at least one key starts with the given string
      */
-    [[nodiscard]] bool HasKeyStartingWith(const std::string& startWidth) const;
+    [[nodiscard]] bool HasKeyStartingWith(const String& startWidth) const;
 
     /*!
      * @brief Check if the given key exists
      * @param key Key name
      * @return True if the jey exists
      */
-    [[nodiscard]] bool HasKey(const std::string& key) const;
+    [[nodiscard]] bool HasKey(const String& key) const;
 
     /*!
      * @brief Get all keys ending with the given string
      * @param startWidth String
      * @return Key list
      */
-    std::vector<std::string> GetKeyEndingWith(const std::string& startWidth);
+    std::vector<String> GetKeyEndingWith(const String& startWidth);
 
     /*!
      * @brief Check if the given line is a valide 'key=value'
@@ -219,7 +219,7 @@ class IniFile
      * @param isCommented Set tu true if the key/value is commented using ';', false otherwise
      * @return true if a valid key=value has been found
      */
-    static bool IsValidKeyValue(const std::string& line, std::string& key, std::string& value, bool& isCommented);
+    static bool IsValidKeyValue(const String& line, String& key, String& value, bool& isCommented);
 
     /*!
      * @brief Check if this instance has loaded a file and has keys and values
@@ -239,11 +239,11 @@ class IniFile
 
   private:
     //! Configuration map: key, value - Read from file
-    HashMap<std::string, std::string> mConfiguration;
+    HashMap<String, String> mConfiguration;
     //! Configuration map: key, value - Pending writes
-    HashMap<std::string, std::string> mPendingWrites;
+    HashMap<String, String> mPendingWrites;
     //! Configuration set: key - Pending deleted (commented)
-    HashSet<std::string> mPendingDelete;
+    HashSet<String> mPendingDelete;
     //! File path
     Path mFilePath;
     //! Fallback File path
@@ -264,6 +264,6 @@ class IniFile
      * @param key Key
      * @return Value or empty string if the key does not exists
      */
-    [[nodiscard]] const std::string& ExtractValue(const std::string& key) const;
+    [[nodiscard]] const String& ExtractValue(const String& key) const;
 };
 

@@ -28,6 +28,13 @@ class Files
     static String LoadFile(const Path& path, long long from, long long size);
 
     /*!
+     * @brief Load the whole content of a file into a string
+     * @param path File to load
+     * @return File content
+     */
+    static String::List LoadAllFileLines(const Path& path);
+
+    /*!
      * @brief Save the given string into a file
      * @param path File path
      * @param data Data buffer to save

@@ -620,7 +620,7 @@ void GuiBiosScan::ScanProgress(const Bios& bios)
 {
   // Refresh only the bios under the cursor. The whole list is refreshed when the scan ends
   for(int i = (int)mList->size(); --i >= 0; )
-    if (mList->getObjects(i).mBios == &bios)
+    if (mList->getObjectAt(i).mBios == &bios)
       mList->changeTextAt(i, Strings::ToUpperASCII(bios.Filename()) + sSuffixes[bios.LightStatus()]);
 }
 

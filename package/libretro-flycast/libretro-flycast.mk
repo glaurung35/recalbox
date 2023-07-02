@@ -9,6 +9,8 @@ LIBRETRO_FLYCAST_VERSION = 8e4fa54e26232d6d54d3b0adca163ae7e617b9bd
 LIBRETRO_FLYCAST_SITE = $(call github,libretro,flycast,$(LIBRETRO_FLYCAST_VERSION))
 LIBRETRO_FLYCAST_LICENSE = GPL-2.0
 
+LIBRETRO_FLYCAST_DEPENDENCIES = arcade-dats
+
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDXU4),y)
 LIBRETRO_FLYCAST_PLATFORM = odroid
 LIBRETRO_FLYCAST_SUPP_OPT += BOARD=ODROID-XU4 CC_AS="$(TARGET_CC)"
@@ -54,6 +56,23 @@ define LIBRETRO_FLYCAST_BUILD_CMDS
 endef
 
 define LIBRETRO_FLYCAST_INSTALL_TARGET_CMDS
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast
+	xsltproc $(ARCADE_DATS_DIR)/atomiswave.xslt $(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/atomiswave.dat
+	xsltproc $(ARCADE_DATS_DIR)/naomi.xslt $(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomi.dat
+	xsltproc $(ARCADE_DATS_DIR)/naomigd.xslt $(ARCADE_DATS_FULLARCADE_ARCADEDAT) > $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomigd.dat
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/atomiswave.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/atomiswave.fdt
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomi.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/naomi.fdt
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomigd.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/naomigd.fdt
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/atomiswave.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/atomiswave.lst
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomi.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/naomi.lst
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		$(TARGET_DIR)/recalbox/system/arcade/dats/libretro-flycast/naomigd.dat > $(TARGET_DIR)/recalbox/system/arcade/flats/naomigd.lst
 	$(INSTALL) -D $(@D)/flycast_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/flycast_libretro.so
 endef

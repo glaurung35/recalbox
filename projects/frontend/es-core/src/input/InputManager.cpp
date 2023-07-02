@@ -1,17 +1,12 @@
 #include "pugixml/pugixml.hpp"
 #include "SDL2/SDL.h"
 #include "SDL2/SDL_joystick.h"
-#include <algorithm>
 #include <input/InputManager.h>
-#include <input/InputDevice.h>
-#include <utils/Log.h>
 #include <RootFolders.h>
-#include <input/Input.h>
 #include <WindowManager.h>
 #include <input/InputMapper.h>
 #include <input/AutoMapper.h>
 #include <guis/GuiInfoPopup.h>
-#include <guis/GuiInfoPopupBase.h>
 #include <utils/locale/LocaleHelper.h>
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
@@ -32,11 +27,6 @@ InputManager::InputManager()
   // Watcher
   mFileNotifier.SetEventNotifier(EventType::Remove | EventType::Create, this);
   mFileNotifier.WatchFile(Path("/dev/input"));
-}
-
-InputManager::~InputManager()
-{
-  //Finalize(); // TODO: move to LifeCycleController
 }
 
 InputManager& InputManager::Instance()
@@ -69,7 +59,7 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
   return sEmptyDevice;
 }
 
-void InputManager::IntitializeSDL2JoystickSystem()
+void InputManager::InitializeSDL2JoystickSystem()
 {
   SDL_SetHint(SDL_HINT_JOYSTICK_ALLOW_BACKGROUND_EVENTS, "1");
   /*if (SDL_InitSubSystem(SDL_INIT_JOYSTICK) < 0)
@@ -98,13 +88,13 @@ void InputManager::Finalize()
 void InputManager::Initialize()
 {
   ClearAllConfigurations();
-  IntitializeSDL2JoystickSystem();
+  InitializeSDL2JoystickSystem();
   LoadAllJoysticksConfiguration(std::vector<InputDevice>(), nullptr, false);
 }
 
 void InputManager::Refresh(WindowManager* window, bool padplugged)
 {
-  IntitializeSDL2JoystickSystem();
+  InitializeSDL2JoystickSystem();
   std::vector<InputDevice> previousList = BuildCurrentDeviceList();
   ClearAllConfigurations();
   LoadAllJoysticksConfiguration(previousList, window, padplugged);

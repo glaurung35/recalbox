@@ -39,18 +39,18 @@ class StringStatics
     static constexpr int sLargestTypeSize = sizeof(LargestType);
     static constexpr int sLargestTypeMask = sLargestTypeSize - 1;
 
-    //! Max int digits (10) + sign
-    static constexpr int sMaxInt32Digits = 11;
-    //! Max long long digits (20) + sign
-    static constexpr int sMaxInt64Digits = 21;
+    //! Max int digits (10) + sign + TZ
+    static constexpr int sMaxInt32Digits = 12;
+    //! Max long long digits (20) + sign + TZ
+    static constexpr int sMaxInt64Digits = 22;
     //! Max float digits (64) + sign
     static constexpr int sMaxFloatDigits = 64;
     //! Max double digits (128) + sign
     static constexpr int sMaxDoubleDigits = 128;
-    //! Max hexadecimal int digits (8) + sign + max prefix size (2)
-    static constexpr int sMaxInt32HexaDigits = 11;
-    //! Max hexadecimal long long digits (8) + sign + max prefix size (2)
-    static constexpr int sMaxInt64HexaDigits = 19;
+    //! Max hexadecimal int digits (8) + sign + max prefix size (2) + TZ
+    static constexpr int sMaxInt32HexaDigits = 12;
+    //! Max hexadecimal long long digits (16) + sign + max prefix size (2) + TZ
+    static constexpr int sMaxInt64HexaDigits = 20;
     //! Default precision (fractional part max length) for floating point type conversion
     static constexpr int sDefaultFractionalPrecision = 2;
     //! Maximum char required for unicode encoding
@@ -324,7 +324,7 @@ class String : public std::string
          * @brief Return the formatted string
          * @return Formatted string
          */
-        [[nodiscard]] const String& ToString() const { return *((String*)&mFormat); }
+        [[nodiscard]] String ToString() const { return *((String*)&mFormat); }
 
       private:
         //! Format & formatted string
@@ -1017,7 +1017,6 @@ class String : public std::string
     String& TrimRight(char trim)
     {
       size_t stop = find_last_not_of(trim);
-      if (stop == std::string::npos) stop = 0;
       if (stop < size() - 1) erase(stop + 1);
       return *this;
     }
@@ -3479,10 +3478,10 @@ class String : public std::string
       int Index = sizeof(to);
       int Sign = value >> (8 * sizeof(T) - 1); // shift sign by max bit-1
 
-      if (Sign < 0) { value = -value; do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index > 1); }
-      else do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index != 0);
+      if (Sign < 0) { value = -value; do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index > 3); }
+      else do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index > 3);
       size -= sizeof(to) - Index;
-      while(--size >= 0 && Index > 0) to[--Index] = '0';
+      while(--size >= 0 && Index > 3) to[--Index] = '0';
       switch(prefix)
       {
         case Hexa::C: to[--Index] = 'x'; to[--Index] = '0'; break;
@@ -3512,9 +3511,9 @@ class String : public std::string
       to[sizeof(to) - 1] = 0;
       int Index = sizeof(to);
 
-      do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index != 0);
+      do { to[--Index] = hexa[value & 0xF]; value >>= 4; } while (value != 0 && Index > 2);
       size -= sizeof(to) - Index;
-      while(--size >= 0 && Index > 0) to[--Index] = '0';
+      while(--size >= 0 && Index > 2) to[--Index] = '0';
       switch(prefix)
       {
         case Hexa::C: to[--Index] = 'x'; to[--Index] = '0'; break;
@@ -4250,7 +4249,7 @@ class String : public std::string
         start = comma + 1; if (multipleSplittersAsOne) start = (int)input.find_first_not_of(splitter, start);
         comma = input.Find(splitter, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!
@@ -4277,7 +4276,7 @@ class String : public std::string
             start = next + splitterLength, next = input.Find(splitter, start);
         comma = input.Find(splitter, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!
@@ -4304,7 +4303,7 @@ class String : public std::string
             start = next + splitterLength, next = input.Find(splitter, splitterLength, start);
         comma = input.Find(splitter, splitterLength, start);
       }
-      if (start >= 0 && start < input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
+      if (start >= 0 && start <= input.Count()) output.push_back(String(input.data() + start, input.Count() - start));
     }
 
     /*!

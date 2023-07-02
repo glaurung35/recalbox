@@ -12,6 +12,8 @@ ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPL-2.0 MAME
 ADVANCEMAME_NON_COMMERCIAL = y
 
+ADVANCEMAME_DEPENDENCIES = arcade-dats
+
 ADVANCEMAME_AUTORECONF = YES
 
 define ADVANCEMAME_RUN_AUTOGEN
@@ -76,5 +78,19 @@ ADVANCEMAME_CONF_OPTS += --enable-vc \
 	--with-vc-prefix=$(STAGING_DIR)/usr
 ADVANCEMAME_POST_CONFIGURE_HOOKS += ADVANCEMAME_ADD_PI_LINK
 endif
+
+define ADVANCEMAME_BUILD_DATS
+	wget https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_106.7z -O $(@D)/dats.7z -q
+	7z -y e -o$(@D)/ $(@D)/dats.7z
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/advancemame
+	cp '$(@D)/MAME 0.106.dat' $(TARGET_DIR)/recalbox/system/arcade/dats/advancemame/
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
+	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
+		'$(@D)/MAME 0.106.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/advancemame.fdt
+	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
+		'$(@D)/MAME 0.106.dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/advancemame.lst
+endef
+
+ADVANCEMAME_POST_INSTALL_TARGET_HOOKS += ADVANCEMAME_BUILD_DATS
 
 $(eval $(autotools-package))

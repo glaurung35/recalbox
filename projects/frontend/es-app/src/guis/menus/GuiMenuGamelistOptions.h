@@ -1,8 +1,9 @@
 #include <systems/SystemManager.h>
 #include "guis/menus/GuiMenuBase.h"
 #include "guis/GuiMetaDataEd.h"
+#include "views/gamelist/IArcadeGamelistInterface.h"
 
-class IGameListView;
+class ISimpleGameListView;
 
 class GuiMenuGamelistOptions : public GuiMenuBase
                          , private GuiMetaDataEd::IMetaDataAction
@@ -19,7 +20,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * @param system Target system
      * @param systemManager System manager
      */
-    GuiMenuGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager);
+    GuiMenuGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface);
 
     //! Destructor
     ~GuiMenuGamelistOptions() override;
@@ -41,6 +42,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       MainMenu,
       Quit,
       Search,
+      ArcadeOptions,
     };
 
     //! System reference
@@ -48,13 +50,11 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     //! System manager reference
     SystemManager& mSystemManager;
     //! Gamelist UI reference
-    IGameListView& mGamelist;
+    ISimpleGameListView& mGamelist;
+    //! Arcade interface
+    IArcadeGamelistInterface* mArcade;
 
-    std::shared_ptr<OptionListComponent<unsigned int>> mJumpToLetterList;
     std::shared_ptr<OptionListComponent<FileSorts::Sorts>> mListSort;
-    std::shared_ptr<OptionListComponent<Regions::GameRegions>> mListRegion;
-    std::shared_ptr<SwitchComponent> mFlatFolders;
-    std::shared_ptr<SwitchComponent> mFavoritesOnly;
     std::shared_ptr<TextComponent> mGame;
 
     //! Refresh first menu entry
@@ -66,6 +66,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::vector<ListEntry<FileSorts::Sorts>> GetSortEntries();
     //! Get available region List
     std::vector<ListEntry<Regions::GameRegions>> GetRegionEntries();
+    //! Get available manufacturers
+    std::vector<ListEntry<int>> GetManufacturerEntries();
 
     /*!
      * @brief Refresh gamelist
@@ -76,8 +78,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * GuiMetaDataEd::IMetaDataAction implementation
      */
 
-    void Delete(IGameListView* gamelistview, FileData& game) override;
-    void Modified(IGameListView* gamelistview, FileData& game) override;
+    void Delete(ISimpleGameListView* gamelistview, FileData& game) override;
+    void Modified(ISimpleGameListView* gamelistview, FileData& game) override;
 
     /*
      * IOptionListComponent<unsigned int> implementation

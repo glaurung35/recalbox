@@ -22,6 +22,7 @@ class SystemDescriptor
       Engine  , //!< Game Engine
       Port    , //!< Port
       Virtual , //!< Internal virtual system
+      VArcade , //!< Internal virtual Arcade system
     };
 
     //! Device requirement
@@ -51,6 +52,7 @@ class SystemDescriptor
       , mCrtMultiRegion(false)
       , mPort(false)
       , mReadOnly(false)
+      , mHasDownloader(false)
       , mIgnoredFiles()
     {
     }
@@ -218,6 +220,15 @@ class SystemDescriptor
 
     [[nodiscard]] const EmulatorList& EmulatorTree() const { return mEmulators; }
 
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsArcade() const { return mType == SystemType::Arcade || mType == SystemType::VArcade; };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsTrueArcade() const { return mType == SystemType::Arcade; };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsVirtualArcade() const { return mType == SystemType::VArcade; };
+
   private:
     static std::string      mDefaultCommand;  //!< Default command
 
@@ -255,6 +266,7 @@ class SystemDescriptor
     {
       SystemType result = SystemType::Unknown;
       if      (systemtype == "arcade"  ) result = SystemType::Arcade;
+      else if (systemtype == "varcade" ) result = SystemType::VArcade;
       else if (systemtype == "console" ) result = SystemType::Console;
       else if (systemtype == "handheld") result = SystemType::Handheld;
       else if (systemtype == "computer") result = SystemType::Computer;

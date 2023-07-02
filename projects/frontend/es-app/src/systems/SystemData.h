@@ -8,6 +8,7 @@
 #include <systems/SystemDescriptor.h>
 #include <games/FileSorts.h>
 #include <themes/ThemeData.h>
+#include <systems/arcade/ArcadeDatabaseManager.h>
 
 class SystemManager;
 
@@ -45,6 +46,8 @@ class SystemData : private INoCopy
     Properties mProperties;
     //! Fixed sort
     FileSorts::Sorts mFixedSort;
+    //! Arcade database
+    ArcadeDatabaseManager mArcadeDatabases;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -113,6 +116,12 @@ class SystemData : private INoCopy
     RootFolderData& LookupOrCreateRootFolder(const Path& startpath, RootFolderData::Ownership childownership, RootFolderData::Types type);
 
   public:
+    //! Load arcade databases
+    void LoadArcadeDatabase() { mArcadeDatabases.LoadDatabases(); }
+
+    //! Get Arcade database manager
+    [[nodiscard]] const ArcadeDatabaseManager& ArcadeDatabases() const { return mArcadeDatabases; }
+
     /*!
      * @brief Check if we must include adult games or not
      * @return True to include adult games in game lists
@@ -155,7 +164,7 @@ class SystemData : private INoCopy
     [[nodiscard]] FileData::List getFolders() const;
     [[nodiscard]] FileData::List getTopGamesAndFolders() const;
 
-    inline const ThemeData& Theme() const { return mTheme; }
+    [[nodiscard]] inline const ThemeData& Theme() const { return mTheme; }
 
     static Path getGamelistPath(const RootFolderData& root, bool forWrite);
 
@@ -167,7 +176,7 @@ class SystemData : private INoCopy
     [[nodiscard]] Path getThemePath() const;
 
     [[nodiscard]] bool HasGame() const;
-    [[nodiscard]] bool HasVisibleGame() const;
+    [[nodiscard]] bool HasVisibleGame(bool forceTateOnly = false) const;
 
     /*!
     * @brief Check if system has no only RO games
@@ -206,6 +215,15 @@ class SystemData : private INoCopy
 
     //! Is this system always flat?
     [[nodiscard]] bool IsSearchable() const;
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsArcade() const { return mDescriptor.IsArcade(); };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsTrueArcade() const { return mDescriptor.IsTrueArcade(); };
+
+    //! Is this system an arcade system?
+    [[nodiscard]] bool IsVirtualArcade() const { return mDescriptor.IsVirtualArcade(); };
 
     /*!
      * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
@@ -261,10 +279,16 @@ class SystemData : private INoCopy
     [[nodiscard]] FileData::Filter Excludes() const;
 
     /*!
-     * @brief Get excludes filter
-     * @return excludes Filter
+     * @brief Dirty code to quicky identify GB systems
+     * @return True if the system is GB et GBC, false otherwise
      */
-    bool IsGameBoy() const { return (Name() == "gb"); }
+    [[nodiscard]] bool IsGameBoy() const { return (Name() == "gb"); }
+
+    /*!
+     * @brief Remove all arcade references to the given game
+     * @param game Game to remove reference to
+     */
+    void RemoveArcadeReference(const FileData& game);
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

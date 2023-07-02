@@ -24,7 +24,8 @@ class GuiMenuTate : public GuiMenuBase
     {
       TateEnabled,
       TateGamesRotation,
-      TateCompleteSystemRotation
+      TateCompleteSystemRotation,
+      TateOnly,
     };
 
     SystemManager& mSystemManager;
@@ -33,8 +34,6 @@ class GuiMenuTate : public GuiMenuBase
     std::shared_ptr<SwitchComponent>                    mTateEnabled;
     //! Rotate System view ON/OFF
     std::shared_ptr<SwitchComponent>                    mRotateSystemView;
-    //! Games Rotation
-    std::shared_ptr<OptionListComponent<RotationType>>           mGamesRotation;
     //! System Rotation
     std::shared_ptr<OptionListComponent<RotationType>>           mSystemRotation;
 
@@ -44,10 +43,12 @@ class GuiMenuTate : public GuiMenuBase
     RotationType mOriginalGamesRotation;
     //! Original Games Rotation value
     RotationType mOriginalSystemRotation;
+    //! Original tate only valeu
+    bool mOriginalTateOnly;
 
 
     //! Get rotations entries
-    std::vector<GuiMenuBase::ListEntry<RotationType>> GetRotationEntries(RotationType currentRotation);
+    static std::vector<GuiMenuBase::ListEntry<RotationType>> GetRotationEntries(RotationType currentRotation);
 
     /*
      * IOptionListComponent<std::string> implementation

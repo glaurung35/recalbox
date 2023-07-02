@@ -73,9 +73,9 @@ static const char* IconPathMap(PadItems padItems)
   return sIconPathMap.get_or_return_default(padItems);
 }
 
-static std::string IconTextMap(PadItems padItems, int pad)
+static String IconTextMap(PadItems padItems, int pad)
 {
-  static const HashMap<PadItems, std::string> sIconTextMap =
+  static const HashMap<PadItems, String> sIconTextMap =
     {
       { PadItems::Up,                _("UP") },
       { PadItems::Down,              _("DOWN") },
@@ -102,34 +102,33 @@ static std::string IconTextMap(PadItems padItems, int pad)
       { PadItems::J2Down,            _("J2 DOWN") },
       { PadItems::J2Left,            _("J2 LEFT") },
       { PadItems::J2Right,           _("J2 RIGHT") },
-      { PadItems::HotKeyUp,          _("HOTKEY").append(1, '+').append(_("UP")) },
-      { PadItems::HotKeyRight,       _("HOTKEY").append(1, '+').append(_("DOWN")) },
-      { PadItems::HotKeyDown,        _("HOTKEY").append(1, '+').append(_("LEFT")) },
-      { PadItems::HotKeyLeft,        _("HOTKEY").append(1, '+').append(_("RIGHT")) },
-      { PadItems::HotKeyA,           _("HOTKEY").append(1, '+').append("A") },
-      { PadItems::HotKeyB,           _("HOTKEY").append(1, '+').append("B") },
-      { PadItems::HotKeyX,           _("HOTKEY").append(1, '+').append("X") },
-      { PadItems::HotKeyY,           _("HOTKEY").append(1, '+').append("Y") },
-      { PadItems::HotKeyL1,          _("HOTKEY").append(1, '+').append("L1") },
-      { PadItems::HotKeyR1,          _("HOTKEY").append(1, '+').append("R1") },
-      { PadItems::HotKeyL2,          _("HOTKEY").append(1, '+').append("L2") },
-      { PadItems::HotKeyR2,          _("HOTKEY").append(1, '+').append("R2") },
-      { PadItems::HotKeyL3,          _("HOTKEY").append(1, '+').append("L3") },
-      { PadItems::HotKeyR3,          _("HOTKEY").append(1, '+').append("R3") },
-      { PadItems::HotKeyStart,       _("HOTKEY").append(1, '+').append("START") },
-      { PadItems::HotKeyJ1Up,        _("HOTKEY").append(1, '+').append(_("J1 UP")) },
-      { PadItems::HotKeyJ1Right,     _("HOTKEY").append(1, '+').append(_("J1 DOWN")) },
-      { PadItems::HotKeyJ1Down,      _("HOTKEY").append(1, '+').append(_("J1 LEFT")) },
-      { PadItems::HotKeyJ1Left,      _("HOTKEY").append(1, '+').append(_("J1 RIGHT")) },
-      { PadItems::HotKeyJ2Up,        _("HOTKEY").append(1, '+').append(_("J2 UP")) },
-      { PadItems::HotKeyJ2Right,     _("HOTKEY").append(1, '+').append(_("J2 DOWN")) },
-      { PadItems::HotKeyJ2Down,      _("HOTKEY").append(1, '+').append(_("J2 LEFT")) },
-      { PadItems::HotKeyJ2Left,      _("HOTKEY").append(1, '+').append(_("J2 RIGHT")) },
+      { PadItems::HotKeyUp,          _("HOTKEY").Append('+').Append(_("UP")) },
+      { PadItems::HotKeyRight,       _("HOTKEY").Append('+').Append(_("DOWN")) },
+      { PadItems::HotKeyDown,        _("HOTKEY").Append('+').Append(_("LEFT")) },
+      { PadItems::HotKeyLeft,        _("HOTKEY").Append('+').Append(_("RIGHT")) },
+      { PadItems::HotKeyA,           _("HOTKEY").Append('+').Append("A") },
+      { PadItems::HotKeyB,           _("HOTKEY").Append('+').Append("B") },
+      { PadItems::HotKeyX,           _("HOTKEY").Append('+').Append("X") },
+      { PadItems::HotKeyY,           _("HOTKEY").Append('+').Append("Y") },
+      { PadItems::HotKeyL1,          _("HOTKEY").Append('+').Append("L1") },
+      { PadItems::HotKeyR1,          _("HOTKEY").Append('+').Append("R1") },
+      { PadItems::HotKeyL2,          _("HOTKEY").Append('+').Append("L2") },
+      { PadItems::HotKeyR2,          _("HOTKEY").Append('+').Append("R2") },
+      { PadItems::HotKeyL3,          _("HOTKEY").Append('+').Append("L3") },
+      { PadItems::HotKeyR3,          _("HOTKEY").Append('+').Append("R3") },
+      { PadItems::HotKeyStart,       _("HOTKEY").Append('+').Append("START") },
+      { PadItems::HotKeyJ1Up,        _("HOTKEY").Append('+').Append(_("J1 UP")) },
+      { PadItems::HotKeyJ1Right,     _("HOTKEY").Append('+').Append(_("J1 DOWN")) },
+      { PadItems::HotKeyJ1Down,      _("HOTKEY").Append('+').Append(_("J1 LEFT")) },
+      { PadItems::HotKeyJ1Left,      _("HOTKEY").Append('+').Append(_("J1 RIGHT")) },
+      { PadItems::HotKeyJ2Up,        _("HOTKEY").Append('+').Append(_("J2 UP")) },
+      { PadItems::HotKeyJ2Right,     _("HOTKEY").Append('+').Append(_("J2 DOWN")) },
+      { PadItems::HotKeyJ2Down,      _("HOTKEY").Append('+').Append(_("J2 LEFT")) },
+      { PadItems::HotKeyJ2Left,      _("HOTKEY").Append('+').Append(_("J2 RIGHT")) },
     };
 
-  std::string result(sIconTextMap.get_or_return_default(padItems));
-  result.append(" #", 2)
-        .append(Strings::ToString(pad));
+  String result(sIconTextMap.get_or_return_default(padItems));
+  result.Append(" #", 2).Append(pad);
   return result;
 }
 
@@ -184,12 +183,12 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   // Fill in the grid
   int currentRow = 0;
   int currentCol = 0;
-  std::string defaultComment = _("No comment available");
+  String defaultComment = _("No comment available");
   for(const auto& hint : mapping.HintList())
   {
     int padNumber = hint.first.first;
     PadItems item = hint.first.second;
-    const std::string* comment = hint.second;
+    const String* comment = hint.second;
     if (comment == nullptr || comment->empty())
       comment = &defaultComment;
 

@@ -10,11 +10,9 @@
 #include "GuiMenuNetplay.h"
 #include "GuiMenuRetroAchievements.h"
 #include "guis/GuiMsgBox.h"
-#include <components/OptionListComponent.h>
 #include <systems/SystemManager.h>
 #include <guis/MenuMessages.h>
 #include <LibretroRatio.h>
-#include <algorithm>
 
 GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("GAMES SETTINGS"), this)
@@ -23,7 +21,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   // Screen ratio choice
   bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
   if (! isCrt && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
-    AddList<std::string>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+    AddList<String>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // RecalboxOverlays
   AddSwitch(_("RECALBOX OVERLAYS"), RecalboxConf::Instance().GetGlobalRecalboxOverlays(), (int)Components::RecalboxOverlays, this, _(MENUMESSAGE_GAME_OVERLAYS_HELP_MSG));
@@ -35,13 +33,13 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   AddSwitch(_("REWIND"), RecalboxConf::Instance().GetGlobalRewind(), (int)Components::Rewind, this,_(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // Softpatching
-  AddList<std::string>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
+  AddList<String>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
 
   // show savestates
   mShowSaveStates = AddSwitch(_("SHOW SAVE STATES ON START"), RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun(), (int)Components::ShowSaveStates, this, _(MENUMESSAGE_GAME_SHOW_SAVESTATES_HELP_MSG));
 
   // autosave
-  mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+  AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Press twice to quit
   AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::QuitTwice, this, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
@@ -52,14 +50,14 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
 
   // Shaders preset
   if(!isCrt)
-    AddList<std::string>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
+    AddList<String>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 
   // Shaders
   if(!isCrt)
-    AddList<std::string>(_("ADVANCED SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
+    AddList<String>(_("ADVANCED SHADERS"), (int)Components::Shaders, this, GetShadersEntries(), _(MENUMESSAGE_GAME_SHADERS_HELP_MSG));
 
   // Super GameBoy
-  AddList<std::string>(_("GAME BOY MODE"), (int)Components::SuperGameBoy, this, GetSuperGameBoyEntries(), _(MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG));
+  AddList<String>(_("GAME BOY MODE"), (int)Components::SuperGameBoy, this, GetSuperGameBoyEntries(), _(MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG));
 
   // Retroachievements
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
@@ -69,22 +67,20 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   }
 }
 
-GuiMenuGameSettings::~GuiMenuGameSettings() = default;
-
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetRatioEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetRatioEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
-  std::string currentRatio = RecalboxConf::Instance().GetGlobalRatio();
+  String currentRatio = RecalboxConf::Instance().GetGlobalRatio();
   for (const auto& ratio : LibretroRatio::GetRatio())
     list.push_back({ ratio.first, ratio.second, currentRatio == ratio.second });
 
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShadersEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetShadersEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
   GuiMenuTools::ShaderList shaderList = GuiMenuTools::ListShaders();
   String currentShader = RecalboxConf::Instance().GetGlobalShaders();
@@ -95,9 +91,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaders
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSuperGameBoyEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetSuperGameBoyEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
   std::string currentOption = RecalboxConf::Instance().GetSuperGameBoy();
   list.push_back({ _("GAME BOY"), "gb", currentOption == "gb" });
@@ -106,9 +102,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSuperGa
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSoftpatchingEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetSoftpatchingEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
   std::string currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
 
@@ -122,9 +118,9 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetSoftpat
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGameSettings::GetShaderPresetsEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetShaderPresetsEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
   std::string currentPreset = RecalboxConf::Instance().GetGlobalShaderSet();
   if (currentPreset != "scanlines" && currentPreset != "retro" && currentPreset != "crtcurved") currentPreset = "none";
@@ -142,11 +138,7 @@ void GuiMenuGameSettings::SubMenuSelected(int id)
   else if ((Components)id == Components::Netplay) mWindow.pushGui(new GuiMenuNetplay(mWindow, mSystemManager));
 }
 
-void GuiMenuGameSettings::ChangeShadersOptions(){
-  mSmooth->setState(false);
-}
-
-void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Ratio) RecalboxConf::Instance().SetGlobalRatio(value).Save();
@@ -159,7 +151,7 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const st
     {
       mWindow.pushGui(new GuiMsgBox(mWindow, _("YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION AUTOMATICALLY?"),
                                     _("LATER"), nullptr,
-                                    _("YES"), std::bind(&GuiMenuGameSettings::ChangeShadersOptions, this)));
+                                    _("YES"), [this] { mSmooth->setState(false); }));
     }
     RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
   }

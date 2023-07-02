@@ -25,22 +25,22 @@ IniFile::IniFile(const Path& path, bool extraSpace)
 {
 }
 
-bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::string& value, bool& isCommented)
+bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bool& isCommented)
 {
-  static std::string _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
+  static String _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
   if (!line.empty()) // Ignore empty line
   {
     bool comment = (line[0] == '#');
     if (!comment)
     {
-      size_t separatorPos = line.find('=');
-      if (separatorPos != std::string::npos) // Expect a key=value line
+      int separatorPos = line.Find('=');
+      if (separatorPos >= 0) // Expect a key=value line
       {
-        key = Strings::Trim(line.substr(0, separatorPos));
+        key = line.SubString(0, separatorPos).Trim();
         isCommented = (!key.empty() && key[0] == ';');
         if (isCommented) key.erase(0, 1);
-        value = Strings::Trim(line.substr(separatorPos + 1));
-        if (key.find_first_not_of(_allowedCharacters) == std::string::npos) return true;
+        value = line.SubString(separatorPos + 1).Trim();
+        if (key.find_first_not_of(_allowedCharacters) == String::npos) return true;
         { LOG(LogWarning) << "[IniFile] Invalid key: `" << key << '`'; }
       }
       else { LOG(LogError) << "[IniFile] Invalid line: `" << line << '`'; }
@@ -52,20 +52,20 @@ bool IniFile::IsValidKeyValue(const std::string& line, std::string& key, std::st
 bool IniFile::Load()
 {
   // Load file
-  std::string content;
+  String content;
   if (!mFilePath.IsEmpty() && mFilePath.Exists()) content = Files::LoadFile(mFilePath);
   else if (!mFallbackFilePath.IsEmpty() && mFallbackFilePath.Exists()) content = Files::LoadFile(mFallbackFilePath);
   else return false;
 
   // Split lines
-  content = Strings::Replace(content, "\r", "");
-  Strings::Vector lines = Strings::Split(content, '\n');
+  content.Replace("\r", "");
+  String::List lines = content.Split('\n');
 
   // Get key/value
-  std::string key, value;
+  String key, value;
   bool comment = false;
-  for (std::string& line : lines)
-    if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), key, value, comment))
+  for (String& line : lines)
+    if (IsValidKeyValue(line.Trim(" \t\r\n"), key, value, comment))
       if (!comment)
         mConfiguration[key] = value;
 
@@ -89,33 +89,33 @@ bool IniFile::Save()
   if (mPendingWrites.empty() && mPendingDelete.empty()) return true;
 
   // Load file
-  std::string content = Files::LoadFile(mFilePath);
+  String content = Files::LoadFile(mFilePath);
 
   // Split lines
-  content = Strings::Replace(content, "\r", "");
-  Strings::Vector lines = Strings::Split(content, '\n');
+  content.Replace("\r", "");
+  String::List lines = content.Split('\n');
 
   // Save new value if exists
-  std::string lineKey;
-  std::string lineVal;
-  std::string equal(mExtraSpace ? " = " : "=");
+  String lineKey;
+  String lineVal;
+  String equal(mExtraSpace ? " = " : "=");
   for (auto& it : mPendingWrites)
   {
     // Write new kay/value
-    std::string key = it.first;
-    std::string val = it.second;
+    String key = it.first;
+    String val = it.second;
     bool lineFound = false;
     bool commented = false;
     for (auto& line : lines)
-      if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), lineKey, lineVal, commented))
+      if (IsValidKeyValue(line.Trim(), lineKey, lineVal, commented))
         if (lineKey == key)
         {
-          line = key.append(equal).append(val);
+          line = key.Append(equal).Append(val);
           lineFound = true;
           break;
         }
     if (!lineFound)
-      lines.push_back(key.append(equal).append(val));
+      lines.push_back(key.Append(equal).Append(val));
 
     // Move from Pendings to regular Configuration
     mConfiguration[key] = val;
@@ -127,84 +127,84 @@ bool IniFile::Save()
   {
     bool commented = false;
     for (auto& line : lines)
-      if (IsValidKeyValue(Strings::Trim(line, " \t\r\n"), lineKey, lineVal, commented))
+      if (IsValidKeyValue(line.Trim(" \t\r\n"), lineKey, lineVal, commented))
         if (lineKey == deletedKey)
           if (!commented)
-            line = std::string(1, ';').append(deletedKey).append(equal).append(lineVal);
+            line = String(';').Append(deletedKey).Append(equal).Append(lineVal);
   }
   mPendingDelete.clear();
 
   // Save new
   bool boot = mFilePath.StartWidth("/boot/");
   if (boot && MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
-  Files::SaveFile(mFilePath, Strings::Join(lines, '\n').append(1, '\n'));
+  Files::SaveFile(mFilePath, String::Join(lines, '\n').Append('\n'));
   if (boot && MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 
   OnSave();
   return true;
 }
 
-std::string IniFile::AsString(const std::string& name) const
+String IniFile::AsString(const String& name) const
 {
   return ExtractValue(name);
 }
 
-std::string IniFile::AsString(const std::string& name, const std::string& defaultValue) const
+String IniFile::AsString(const String& name, const String& defaultValue) const
 {
-  std::string item = ExtractValue(name);
+  String item = ExtractValue(name);
   return (!item.empty()) ? item : defaultValue;
 }
 
-std::string IniFile::AsString(const char* name) const
+String IniFile::AsString(const char* name) const
 {
-  std::string* item = mConfiguration.try_get(name);
-  return (item != nullptr) ? *item : std::string();
+  String* item = mConfiguration.try_get(name);
+  return (item != nullptr) ? *item : String();
 }
 
-std::string IniFile::AsString(const char* name, const char* defaultValue) const
+String IniFile::AsString(const char* name, const char* defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
+  String* item = mConfiguration.try_get(name);
   return (item != nullptr) ? *item : defaultValue;
 }
 
-Strings::Vector IniFile::AsStringList(const std::string& name) const
+Strings::Vector IniFile::AsStringList(const String& name) const
 {
-    std::string* item = mConfiguration.try_get(name);
+    String* item = mConfiguration.try_get(name);
     return (item != nullptr) ? Strings::Split(Strings::Trim(*item, ","), ',') : Strings::Vector();
 }
 
-bool IniFile::AsBool(const std::string& name, bool defaultValue) const
+bool IniFile::AsBool(const String& name, bool defaultValue) const
 {
-  std::string item = ExtractValue(name);
+  String item = ExtractValue(name);
   return (!item.empty()) ? (item.size() == 1 && item[0] == '1') : defaultValue;
 }
 
 bool IniFile::AsBool(const char* name, bool defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
+  String* item = mConfiguration.try_get(name);
   return (item != nullptr) ? (item->size() == 1 && (*item)[0] == '1') : defaultValue;
 }
 
-unsigned int IniFile::AsUInt(const std::string& name, unsigned int defaultValue) const
+unsigned int IniFile::AsUInt(const String& name, unsigned int defaultValue) const
 {
-  std::string item = ExtractValue(name);
+  String item = ExtractValue(name);
   if (!item.empty())
   {
     long long int value = 0;
-    if (Strings::ToLong(item, value))
+    if (item.TryAsInt64(value))
       return (unsigned int)value;
   }
 
   return defaultValue;
 }
 
-int IniFile::AsInt(const std::string& name, int defaultValue) const
+int IniFile::AsInt(const String& name, int defaultValue) const
 {
-  std::string item = ExtractValue(name);
+  String item = ExtractValue(name);
   if (!item.empty())
   {
     int value = 0;
-    if (Strings::ToInt(item, value))
+    if (item.TryAsInt(value))
       return value;
   }
 
@@ -213,7 +213,7 @@ int IniFile::AsInt(const std::string& name, int defaultValue) const
 
 int IniFile::AsInt(const char* name, int defaultValue) const
 {
-  std::string* item = mConfiguration.try_get(name);
+  String* item = mConfiguration.try_get(name);
   if (item != nullptr)
   {
     int value = 0;
@@ -224,85 +224,76 @@ int IniFile::AsInt(const char* name, int defaultValue) const
   return defaultValue;
 }
 
-void IniFile::Delete(const std::string& name)
+void IniFile::Delete(const String& name)
 {
   mPendingDelete.insert(name);
 }
 
-void IniFile::SetString(const std::string& name, const std::string& value)
+void IniFile::SetString(const String& name, const String& value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = value;
 }
 
-void IniFile::SetBool(const std::string& name, bool value)
+void IniFile::SetBool(const String& name, bool value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = value ? "1" : "0";
 }
 
-void IniFile::SetUInt(const std::string& name, unsigned int value)
+void IniFile::SetUInt(const String& name, unsigned int value)
 {
   mPendingDelete.erase(name);
-  mPendingWrites[name] = Strings::ToString((long long)value);
+  mPendingWrites[name] = String((long long)value);
 }
 
-void IniFile::SetInt(const std::string& name, int value)
+void IniFile::SetInt(const String& name, int value)
 {
   mPendingDelete.erase(name);
-  mPendingWrites[name] = Strings::ToString(value);
+  mPendingWrites[name] = String(value);
 }
 
-void IniFile::SetList(const std::string& name, const std::vector<std::string>& values)
+void IniFile::SetList(const String& name, const std::vector<String>& values)
 {
   mPendingDelete.erase(name);
-  mPendingWrites[name] = Strings::Join(values, ',');
+  mPendingWrites[name] = String::Join(values, ',');
 }
 
-bool IniFile::isInList(const std::string& name, const std::string& value) const
+bool IniFile::isInList(const String& name, const String& value) const
 {
-  bool result = false;
-  if (mConfiguration.contains(name))
-  {
-    std::string s = AsString(name);
-    std::string delimiter = ",";
-
-    size_t pos = 0;
-    std::string token;
-    while (((pos = s.find(delimiter)) != std::string::npos))
+  if (!value.empty())
+    if (mConfiguration.contains(name))
     {
-      token = s.substr(0, pos);
-      if (token == value)
-        result = true;
-      s.erase(0, pos + delimiter.length());
+      String s = AsString(name);
+      for (int p = s.Find(value); p >= 0; p = s.Find(value, p + value.Count()))
+        if (p == 0 || s[p - 1] == ',')
+          if (p + value.Count() >= s.Count() || s[p + value.Count()] ==  ',')
+            return true;
     }
-    if (s == value)
-      result = true;
-  }
-  return result;
+  return false;
 }
 
-const std::string& IniFile::ExtractValue(const std::string& key) const
+const String& IniFile::ExtractValue(const String& key) const
 {
-  std::string* item = mPendingWrites.try_get(key);
+  String* item = mPendingWrites.try_get(key);
   if (item == nullptr) item = mConfiguration.try_get(key);
-  return (item != nullptr) ? *item : Strings::Empty;
+  return (item != nullptr) ? *item : String::Empty;
 }
 
-bool IniFile::HasKeyStartingWith(const std::string& startWidth) const
+bool IniFile::HasKeyStartingWith(const String& startWidth) const
 {
   for (const auto& it : mPendingWrites)
-    if (Strings::StartsWith(it.first, startWidth))
+    if (it.first.StartsWith(startWidth))
       return true;
 
   for (const auto& it : mConfiguration)
-    if (Strings::StartsWith(it.first, startWidth))
+    if (it.first.StartsWith(startWidth))
       return true;
 
   return false;
 }
 
-bool IniFile::HasKey(const std::string& key) const
+bool IniFile::HasKey(const String& key) const
 {
   for (const auto& it : mPendingWrites)
     if (it.first == key)
@@ -315,15 +306,15 @@ bool IniFile::HasKey(const std::string& key) const
   return false;
 }
 
-Strings::Vector IniFile::GetKeyEndingWith(const std::string& endWidth)
+String::List IniFile::GetKeyEndingWith(const String& endWidth)
 {
-  Strings::Vector result;
+  String::List result;
   for (auto& it : mPendingWrites)
-    if (Strings::EndsWith(it.first, endWidth))
+    if (it.first.EndsWith(endWidth))
       result.push_back(it.first);
 
   for (auto& it : mConfiguration)
-    if (Strings::EndsWith(it.first, endWidth))
+    if (it.first.EndsWith(endWidth))
       result.push_back(it.first);
 
   return result;

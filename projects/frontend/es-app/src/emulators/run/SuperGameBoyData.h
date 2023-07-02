@@ -12,22 +12,32 @@
 class SuperGameBoyData
 {
   public:
-  SuperGameBoyData()
-      : mEnableSuperGameBoy(RecalboxConf::Instance().GetSuperGameBoy() == "sgb"),
-        mConfigured(false)
+    SuperGameBoyData()
+      : mEnableSuperGameBoy(RecalboxConf::Instance().GetSuperGameBoy() == "sgb")
+      , mConfigured(false)
     {};
 
-    bool ShouldEnable(const SystemData& system) const { return system.IsGameBoy() && mEnableSuperGameBoy; }
-    const std::string Core(const FileData& game, const std::string& defaultCore) const {
+    [[nodiscard]] bool ShouldEnable(const SystemData& system) const { return system.IsGameBoy() && mEnableSuperGameBoy; }
+
+    [[nodiscard]] std::string Core(const FileData& game, const std::string& defaultCore) const
+    {
       // Change to mgba if user did not overload the core for gameboy
-      if(!game.System().Manager().Emulators().ConfigOverloaded(game))
+      if (!game.System().Manager().Emulators().ConfigOverloaded(game))
         return "mgba";
       else
         return defaultCore;
     }
-    void Enable(bool enabled) { mEnableSuperGameBoy = enabled; mConfigured = true; }
-    bool ShouldAskForSuperGameBoy(const SystemData& system) const {
-      return system.IsGameBoy() && (!mEnableSuperGameBoy && !mConfigured && RecalboxConf::Instance().GetSuperGameBoy() == "ask");
+
+    void Enable(bool enabled)
+    {
+      mEnableSuperGameBoy = enabled;
+      mConfigured = true;
+    }
+
+    [[nodiscard]] bool ShouldAskForSuperGameBoy(const SystemData& system) const
+    {
+      return system.IsGameBoy() &&
+             (!mEnableSuperGameBoy && !mConfigured && RecalboxConf::Instance().GetSuperGameBoy() == "ask");
     }
 
   private:

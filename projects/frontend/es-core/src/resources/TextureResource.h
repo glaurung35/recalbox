@@ -21,6 +21,8 @@ public:
 	// For scalable source images in textures we want to set the resolution to rasterize at
 	void rasterizeAt(size_t width, size_t height);
   Vector2f getSourceImageSize() const { return mSourceSize; }
+  float width() { return mSourceSize.x(); }
+  float height() { return mSourceSize.y(); }
 
 	virtual ~TextureResource();
 	

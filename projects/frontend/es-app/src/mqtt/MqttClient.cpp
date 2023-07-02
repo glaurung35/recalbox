@@ -11,6 +11,10 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   , mMqtt("tcp://127.0.0.1:1883", clientId, 0, nullptr)
   , mCallbackInterface(callback)
 {
+  #ifdef FREEZE_MQTT
+  return;
+  #endif
+
   // Set options
   mqtt::connect_options connectOptions;
   connectOptions.set_automatic_reconnect(true);  // Auto-reconnect
@@ -37,6 +41,10 @@ MqttClient::~MqttClient()
 
 bool MqttClient::Send(const std::string& topic, const std::string& message)
 {
+  #ifdef FREEZE_MQTT
+  return true;
+  #endif
+
   try
   {
     mMqtt.publish(topic, message.data(), message.size(), 0, false, nullptr, *this);
@@ -110,6 +118,10 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
 
 void MqttClient::Subscribe(const char* topic)
 {
+  #ifdef FREEZE_MQTT
+  return;
+  #endif
+
   if (!mMqtt.is_connected())
   {
     if (std::find(mPendingSubs.begin(), mPendingSubs.end(), String(topic)) == mPendingSubs.end())

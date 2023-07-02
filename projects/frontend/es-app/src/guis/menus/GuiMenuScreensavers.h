@@ -10,8 +10,8 @@
 
 class GuiMenuScreensavers : public GuiMenuBase
                           , private ISliderComponent
-                          , private IOptionListComponent<std::string>
-                          , private IOptionListMultiComponent<std::string>
+                          , private IOptionListComponent<String>
+                          , private IOptionListMultiComponent<String>
 {
   public:
     /*!
@@ -34,15 +34,15 @@ class GuiMenuScreensavers : public GuiMenuBase
     //! Time before screensaver starts
     std::shared_ptr<SliderComponent> mTime;
     //! Screensaver type
-    std::shared_ptr<OptionListComponent<std::string>> mType;
+    std::shared_ptr<OptionListComponent<String>> mType;
     //! System list for demo mode
-    std::shared_ptr<OptionListComponent<std::string>> mSystemList;
+    std::shared_ptr<OptionListComponent<String>> mSystemList;
 
     //! Get Screensaver type List
-    static std::vector<ListEntry<std::string>> GetTypeEntries();
+    static std::vector<ListEntry<String>> GetTypeEntries();
 
     //! Get System List
-    std::vector<ListEntry<std::string>> GetSystemEntries();
+    std::vector<ListEntry<String>> GetSystemEntries();
 
     /*
      * ISliderComponent implementation
@@ -51,15 +51,15 @@ class GuiMenuScreensavers : public GuiMenuBase
     void SliderMoved(int id, float value) override;
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
-     * IOptionListMultiComponent<std::string> implementation
+     * IOptionListMultiComponent<String> implementation
      */
 
-    void OptionListMultiComponentChanged(int id, const std::vector<std::string>& value) override;
+    void OptionListMultiComponentChanged(int id, const std::vector<String>& value) override;
 };
 

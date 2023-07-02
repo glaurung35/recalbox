@@ -5,9 +5,9 @@
 #include "LibretroRatio.h"
 #include <utils/locale/LocaleHelper.h>
 
-const std::map<std::string, std::string>& LibretroRatio::GetRatio()
+const std::map<String, String>& LibretroRatio::GetRatio()
 {
-  static std::map<std::string, std::string> _ratioMap =
+  static std::map<String, String> _ratioMap =
   {
     { _("Auto"),             "auto"         },
     { "4/3",                 "4/3"          },

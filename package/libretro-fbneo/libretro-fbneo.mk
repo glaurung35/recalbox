@@ -41,19 +41,13 @@ define LIBRETRO_FBNEO_BUILD_CMDS
 endef
 
 define LIBRETRO_FBNEO_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
-	cp $(@D)/dats/FinalBurn*.dat $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/flats
-	xsltproc $(ARCADE_DATS_DIR)/arcade-flat.xslt \
-		'$(@D)/dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fbneo.fdt
-	xsltproc --stringparam lastmamexml $(ARCADE_DATS_FULLARCADE_DAT) $(ARCADE_DATS_DIR)/arcade.xslt \
-		'$(@D)/dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat' > $(TARGET_DIR)/recalbox/system/arcade/flats/fbneo.lst
+	$(call InstallArcadeFiles,libretro,fbneo,$(LIBRETRO_FBNEO_VERSION))
 	$(INSTALL) -D $(@D)/src/burner/libretro/fbneo_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fbneo_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fbneo/samples
-	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
-	cp -R $(@D)/dats/* $(TARGET_DIR)/recalbox/system/arcade/dats/libretro-fbneo
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/fbneo
+	mkdir -p $(TARGET_DIR)/recalbox/system/arcade/dats/libretro/fbneo-non-arcade
+	cp -R $(@D)/dats/* $(TARGET_DIR)/recalbox/system/arcade/dats/libretro/fbneo-non-arcade
 endef
 
 $(eval $(generic-package))

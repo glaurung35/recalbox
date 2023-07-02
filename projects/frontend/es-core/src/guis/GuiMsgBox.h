@@ -52,4 +52,6 @@ class GuiMsgBox : public Gui
     std::vector< std::shared_ptr<ButtonComponent> > mButtons;
     std::shared_ptr<ComponentGrid> mButtonGrid;
     std::function<void()> mAcceleratorFunc;
+
+    int mSpace;
 };

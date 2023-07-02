@@ -5,7 +5,7 @@
 #include "GuiScraperSingleGameRun.h"
 
 #include <systems/SystemData.h>
-#include <views/gamelist/IGameListView.h>
+#include <views/gamelist/ISimpleGameListView.h>
 
 class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingComplete
 {
@@ -13,12 +13,12 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingCompl
     class IMetaDataAction
     {
       public:
-        virtual void Delete(IGameListView* gamelistview, FileData& game) = 0;
-        virtual void Modified(IGameListView* gamelistview, FileData& game) = 0;
+        virtual void Delete(ISimpleGameListView* gamelistview, FileData& game) = 0;
+        virtual void Modified(ISimpleGameListView* gamelistview, FileData& game) = 0;
     };
 
     GuiMetaDataEd(WindowManager&window, SystemManager& systemManager, FileData& game,
-                  IGameListView* gamelistview, IMetaDataAction* actions , bool main);
+                  ISimpleGameListView* gamelistview, IMetaDataAction* actions , bool main);
 
     bool ProcessInput(const InputCompactEvent& event) override;
     void onSizeChanged() override;
@@ -45,7 +45,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingCompl
     std::vector< const MetadataFieldDescriptor* > mMetaDataEditable;
 
     MetadataDescriptor& mMetaData;
-    IGameListView* mGameListView;
+    ISimpleGameListView* mGameListView;
     IMetaDataAction* mActions;
 
     /*

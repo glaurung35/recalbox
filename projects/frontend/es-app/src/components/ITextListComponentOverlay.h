@@ -15,17 +15,19 @@ template<typename T> class ITextListComponentOverlay
      * @param size  Width/Height of the item rectangle
      * @param data Linked data
      */
-    virtual void OverlayApply(const Vector2f& position, const Vector2f& size, T& data, unsigned int& color) = 0;
+    virtual void OverlayApply(const Vector2f& position, const Vector2f& size, const T& data, unsigned int& color) = 0;
 
     /*!
      * @brief Get the left offset (margin to the text) if any
+     * @param data Linked data
      * @return left offset
      */
-    virtual float OverlayGetLeftOffset() = 0;
+    virtual float OverlayGetLeftOffset(const T& data) = 0;
 
     /*!
      * @brief Get the right offset (margin from text to right limit) if any
+     * @param data Linked data
      * @return right offset
      */
-    virtual float OverlayGetRightOffset() = 0;
+    virtual float OverlayGetRightOffset(const T& data) = 0;
 };

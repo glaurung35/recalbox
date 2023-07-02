@@ -56,15 +56,6 @@ class GuiMenuNetplay : public GuiMenuBase
     //! System manager
     SystemManager& mSystemManager;
 
-    //! Enabled
-    std::shared_ptr<SwitchComponent> mEnabled;
-    //! Login
-    std::shared_ptr<EditableComponent> mLogin;
-    //! Port
-    std::shared_ptr<EditableComponent> mPort;
-    //! Mitm
-    std::shared_ptr<OptionListComponent<RecalboxConf::Relay>> mMitm;
-
     //! Total games
     int mTotalGames;
     //! Remaining games

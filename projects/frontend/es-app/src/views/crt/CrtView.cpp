@@ -35,6 +35,7 @@ CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
     case kHz15_60Hz:
       mSequence = sNTSCOnly; break;
     case kHz15_60plus50Hz:
+    default:
       mSequence = sPALNTSC; break;
   }
 
@@ -61,7 +62,7 @@ void CrtView::Initialize()
   mPattern.setOrigin(.5f, .5f);
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
-  auto font = Font::get(7*Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 288), Path(FONT_PATH_CRT));
+  auto font = Font::get(7 * (int)Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 288.f), Path(FONT_PATH_CRT));
   mHorizontalOffsetText = std::make_shared<TextComponent>(mWindow, "H OFFSET", font, 0xFFFFFFFF);
   mVerticalOffsetText = std::make_shared<TextComponent>(mWindow, "V OFFSET", font, 0xFFFFFFFF);
   mViewportText = std::make_shared<TextComponent>(mWindow, "WIDTH", font, 0xFFFFFFFF);
@@ -202,11 +203,11 @@ void CrtView::UpdateViewport()
   mPattern.setSize((float) (reference + CrtConf::Instance().GetCrtViewportWidth(reso)), mPattern.getSize().y());
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
-  mViewportText->setText(_("Image width:") + " " + Strings::ToString(CrtConf::Instance().GetCrtViewportWidth(reso)));
+  mViewportText->setText(_("Image width:").Append(' ').Append(CrtConf::Instance().GetCrtViewportWidth(reso)));
   mHorizontalOffsetText->setText(
-      _("Horizontal offset:") + " " + Strings::ToString(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
+      _("Horizontal offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
   mVerticalOffsetText->setText(
-      _("Vertical offset:") + " " + Strings::ToString(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
+      _("Vertical offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
 
   if (mOriginalHOffset != CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)) {
     mHorizontalOffsetText->setColor(0xAAAAFFFF);

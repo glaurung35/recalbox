@@ -15,9 +15,21 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   , mOriginalTateEnabled(RecalboxConf::Instance().GetCollectionTate())
   , mOriginalGamesRotation(RotationType::None)
   , mOriginalSystemRotation(BootConf::Instance().GetRotation())
+  , mOriginalTateOnly(RecalboxConf::Instance().GetTateOnly())
 {
   // Enable virtual system
-  mTateEnabled = AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this);
+  AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this);
+
+  // Enable virtual system
+  bool hasTateGames = false;
+  for(const SystemData* system : systemManager.GetVisibleSystemList())
+    if (system->HasVisibleGame(true))
+    {
+      hasTateGames = true;
+      break;
+    }
+  if (hasTateGames)
+    AddSwitch(_("DISPLAY ONLY TATE GAMES IN GAMELISTS"), mOriginalTateOnly, (int)Components::TateOnly, this);
 
   // Rotate games
   RotationCapability cap = Board::Instance().GetRotationCapabilities();
@@ -31,17 +43,17 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
       bool isAuto = (! RecalboxConf::Instance().IsDefined(RecalboxConf::sTateGameRotation)) || mOriginalGamesRotation == cap.defaultRotationWhenTate;
       if(isAuto)
         mOriginalGamesRotation = cap.defaultRotationWhenTate;
-      mGamesRotation = AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this,
-                                             std::vector<GuiMenuBase::ListEntry<RotationType>>(
-                                                 {
-                                                   { "AUTO", cap.defaultRotationWhenTate, isAuto },
-                                                   { "NONE", RotationType::None, !isAuto }
-                                                 }));
+      AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this,
+                             std::vector<GuiMenuBase::ListEntry<RotationType>>(
+                                 {
+                                   { "AUTO", cap.defaultRotationWhenTate, isAuto },
+                                   { "NONE", RotationType::None, !isAuto }
+                                 }));
     }
     else
     {
       // Rotation
-      mGamesRotation = AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, GetRotationEntries(mOriginalGamesRotation));
+      AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, GetRotationEntries(mOriginalGamesRotation));
     }
     // Screen rotation
     if(cap.systemRotationAvailable)
@@ -71,7 +83,7 @@ void GuiMenuTate::OptionListComponentChanged(int id, int index, const RotationTy
   (void)index;
   if ((Components)id == Components::TateGamesRotation)
   {
-    RecalboxConf::Instance().SetTateGameRotation((uint)value).Save();
+    RecalboxConf::Instance().SetTateGameRotation((int)value).Save();
   }
   else if ((Components)id == Components::TateCompleteSystemRotation)
   {
@@ -96,6 +108,13 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
         ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
       }
       break;
+    case Components::TateOnly:
+    {
+      RecalboxConf::Instance().SetTateOnly(status).Save();
+      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      ViewController::Instance().getSystemListView().manageSystemsList();
+      break;
+    }
     case Components::TateGamesRotation:
     case Components::TateCompleteSystemRotation:
       break;

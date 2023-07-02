@@ -5,9 +5,15 @@
 #include "animations/LambdaAnimation.h"
 #include "utils/locale/LocaleHelper.h"
 #include "scraping/ScraperSeamless.h"
+#include "recalbox/RecalboxStorageWatcher.h"
 
 DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system)
-  : BasicGameListView(window, systemManager, system)
+  : ISimpleGameListView(window, systemManager, system)
+  , mEmptyListItem(&system)
+  , mPopulatedFolder(nullptr)
+  , mList(window)
+  , mElapsedTimeOnGame(0)
+  , mIsScraping(false)
   , mImage(window)
   , mNoImage(window)
   , mVideo(window)
@@ -36,23 +42,33 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mSettings(RecalboxConf::Instance())
   , mFadeBetweenImage(-1)
 {
-  //mList.SetOverlayInterface(this);
+}
 
-  const float padding = 0.01f;
+void DetailedGameListView::Initialize()
+{
+  addChild(&mList);
 
-  mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
-  mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
-  mList.setAlignment(HorizontalAlignment::Left);
-  /*mList.setCursorChangedCallback([&](const CursorState& state)
+  mEmptyListItem.Metadata().SetName(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."));
+  populateList(mSystem.MasterRoot());
+
+  mList.setCursorChangedCallback([this](const CursorState& state)
                                  {
                                    (void) state;
                                    updateInfoPanel();
-                                 });*/
+                                 });
+  mList.SetOverlayInterface(this);
+
+  const float padding = 0.01f;
+
+  mList.setDefaultZIndex(20);
+  mList.setPosition(mSize.x() * (0.50f + padding), mList.getPosition().y());
+  mList.setSize(mSize.x() * (0.50f - padding), mList.getSize().y());
+  mList.setAlignment(HorizontalAlignment::Left);
 
   // folder components
   for (int i = 3 * 3; --i >= 0; )
   {
-    auto* img = new ImageComponent(window);
+    auto* img = new ImageComponent(mWindow);
     addChild(img); // normalised functions required to be added first
     img->setOrigin(0.5f, 0.5f);
     img->setNormalisedMaxSize(0.4f, 0.4f);
@@ -126,7 +142,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
 
   for (int i = 4; --i >= 0; )
   {
-    auto* img = new ImageComponent(window);
+    auto* img = new ImageComponent(mWindow);
     addChild(img); // normalised functions required to be added first
     img->setDefaultZIndex(40);
     img->setThemeDisabled(true);
@@ -135,7 +151,6 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
 
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
   mDescContainer.setSize(mSize.x() * (0.50f - 2 * padding), mSize.y() - mDescContainer.getPosition().y());
-  mDescContainer.setAutoScroll(true);
   mDescContainer.setDefaultZIndex(40);
   addChild(&mDescContainer);
 
@@ -150,15 +165,16 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
 
 void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
-  BasicGameListView::onThemeChanged(theme);
+  ISimpleGameListView::onThemeChanged(theme);
+  mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
+  // Set color 2/3 50% transparent of color 0/1
+  mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
+  mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
+  sortChildren();
 
   for (int i = 0; i < (int) mRegions.size(); i++)
-  {
-    char strbuf[256];
-    snprintf(strbuf, 256, "md_region%d", i + 1);
-    mRegions[i]->applyTheme(theme, getName(), strbuf,
+    mRegions[i]->applyTheme(theme, getName(), String("md_region").Append(i + 1).c_str(),
                                   ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Path);
-  }
 
   mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
   mNoImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
@@ -224,12 +240,11 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 
   if (theme.isFolderHandled())
   {
-    char strbuf[256];
     mFolderName.applyTheme(theme, getName(), "md_folder_name", ThemeProperties::All);
     for (int i = 0; i < (int) mFolderContent.size(); i++)
     {
-      snprintf(strbuf, 256, "md_folder_image_%d", i);
-      mFolderContent[i]->applyTheme(theme, getName(), strbuf,
+      String folderImage("md_folder_image_"); folderImage.Append(i);
+      mFolderContent[i]->applyTheme(theme, getName(), folderImage,
                                     ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
     }
   }
@@ -433,11 +448,10 @@ std::vector<Component*> DetailedGameListView::getScrapedFolderComponents()
 
 void DetailedGameListView::setFolderInfo(FolderData* folder)
 {
-  char strbuf[256];
-
   FileData::List games = folder->GetAllDisplayableItemsRecursively(false, folder->System().Excludes());
-  snprintf(strbuf, 256, _N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int) games.size()).c_str(), games.size());
-  mFolderName.setText(folder->Name() + " - " + strbuf);
+  String gameCount(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int)games.size()));
+  gameCount.Replace("%i", String((int)games.size()));
+  mFolderName.setText(folder->Name() + " - " + gameCount);
 
   unsigned char idx = 0;
 
@@ -523,7 +537,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
     mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
   { LOG(LogDebug) << "[GamelistView] Set video " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->RomPath().ToString(); }
-  mDescription.setText(file->Metadata().Description());
+  mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
 
@@ -531,7 +545,7 @@ void DetailedGameListView::setScrapedFolderInfo(FileData* file)
 {
   SetImageFading(file, false);
   mVideo.setVideo(Path::Empty, 0, 0);
-  mDescription.setText(file->Metadata().Description());
+  mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
 
@@ -552,6 +566,18 @@ void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fa
       };
       comp->setAnimation(new LambdaAnimation(func, 150), 0, nullptr, fadingOut);
     }
+  }
+}
+
+void DetailedGameListView::onFileChanged(FileData* file, FileChangeType change)
+{
+  ISimpleGameListView::onFileChanged(file, change);
+
+  if(change == FileChangeType::MetadataChanged)
+  {
+    // might switch to a detailed view
+    ViewController::Instance().reloadGameListView(this);
+    return;
   }
 }
 
@@ -607,7 +633,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
 
 void DetailedGameListView::Update(int deltatime)
 {
-  BasicGameListView::Update(deltatime);
+  ISimpleGameListView::Update(deltatime);
 
   mBusy.Enable(mIsScraping);
   mBusy.Update(deltatime);
@@ -623,6 +649,29 @@ void DetailedGameListView::Update(int deltatime)
   // Cancel video
   if (mList.isScrolling())
     mVideo.setVideo(Path::Empty, 0, 0);
+
+  if (!mSystem.IsScreenshots())
+  {
+    // Need busy animation?
+    ScraperSeamless& scraper = ScraperSeamless::Instance();
+    FileData* game = getCursor();
+    mIsScraping = false;
+    if (game != nullptr)
+      if (game->IsGame())
+      {
+        // Currently scraping?
+        mIsScraping = (scraper.HowLong(game) > sMaxScrapingTimeBeforeBusyAnim);
+        // Or start scraping?
+        if (mElapsedTimeOnGame >= 0) // Valid timer?
+          if (mElapsedTimeOnGame += deltatime; mElapsedTimeOnGame > sMaxHoveringTimeBeforeScraping) // Enough time on game?
+          {
+            // Shutdown timer for the current game
+            mElapsedTimeOnGame = -1;
+            // Push game into the seamless scraper
+            scraper.Push(game, this);
+          }
+      }
+  }
 }
 
 void DetailedGameListView::Render(const Transform4x4f& parentTrans)
@@ -636,33 +685,39 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
   mBusy.Render(trans);
 }
 
-
-void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData*& data, unsigned int& color)
+void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
 {
-  (void)position;
-  (void)size;
-  (void)data;
   (void)color;
-
-  /*if (mHasGenre)
+  int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
+  if (w != 0)
   {
-    float height = size.y() - 2.0f;
+    int drawn = 1;
+    int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
 
-    GameGenres genre = data->Metadata().GenreId();
-    if (genre != GameGenres::None)
-    {
-      const Path& path = Genres::GetResourcePath(genre);
-      Renderer::drawRect(position.x() + size.x() - 2 - height, position.y() + 1, height, height, color);
-    }
-  }*/
+    for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+      if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+      {
+        std::shared_ptr<TextureResource>* flag = mRegionToTextures.try_get(region);
+        if (flag == nullptr)
+        {
+          // Load flag
+          std::shared_ptr<TextureResource> texture = TextureResource::get(Path(":/regions/" + Regions::GameRegionsFromEnum(region) + ".svg"), false, true, true);
+          mRegionToTextures.insert(region, texture);
+          flag = mRegionToTextures.try_get(region);
+        }
+        // Draw
+        int flagWidth = (int) ((float) flagHeight * (float) (*flag)->width() / (float) (*flag)->height());
+        int y = Math::roundi((size.y() - (float) flagHeight) / 2.f) + (int)position.y();
+        int x = ((int)size.x() - (2 + Math::roundi(mList.getHorizontalMargin()) + flagWidth) * drawn) + (int)position.x();
+        Renderer::DrawTexture(**flag, x, y, flagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
+        drawn++;
+      }
+  }
 }
 
-float DetailedGameListView::OverlayGetRightOffset()
+float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  if (mHasGenre)
-    return mList.EntryHeight() * 1.2f;
-
-  return 0.0f;
+  return ((mList.getFont()->getHeight(1.f) * (71.f / 48.f) + 2.f) * (float)data->Metadata().Region().Count()) + 2.f + mList.getHorizontalMargin();
 }
 
 DetailedGameListView::~DetailedGameListView()
@@ -702,5 +757,256 @@ void DetailedGameListView::setRegions(FileData* file)
   }
 }
 
+void DetailedGameListView::StageCompleted(FileData* game, IScraperEngineStage::Stage stage)
+{
+  // Got result, from the seamless scraper, update game data!
+  if (game == getCursor())
+    switch(stage)
+    {
+      case Stage::Text:
+      {
+        DoUpdateGameInformation(false);
+        // Game name
+        mList.changeTextAt(mList.getCursorIndex(), GetDisplayName(*game));
+        break;
+      }
+      case Stage::Images: DoUpdateGameInformation(true); break;
+      case Stage::Video: DoUpdateGameInformation(false); break;
+      case Stage::Completed: RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), game->RomPath()); break;
+      default: break;
+    }
+  else
+    if (stage == Stage::Text)
+      for(int i = mList.Count(); -- i>= 0; )
+        if (mList.getObjectAt(i) == game)
+          mList.changeTextAt(i, GetDisplayName(*game));
 
+  { LOG(LogDebug) << "[Scraper] Scraper stage: " << (int)stage; }
+}
 
+// Called when a game is selected in the list whatever how
+void DetailedGameListView::OnGameSelected()
+{
+  // Reset seamless scraping timer
+  FileData* game = getCursor();
+  if (game != nullptr && game->IsGame()) mElapsedTimeOnGame = 0;
+
+  // Update current game information
+  DoUpdateGameInformation(false);
+}
+
+String DetailedGameListView::getItemIcon(const FileData& item)
+{
+  // Crossed out eye for hidden things
+  if (item.Metadata().Hidden()) return "\uF070 ";
+  // System icon, for Favorite games
+  if ((item.IsGame()) && (mSystem.IsVirtual() || item.Metadata().Favorite()))
+    return item.System().Descriptor().IconPrefix();
+  // Open folder for folders
+  if (item.IsFolder()) return "\uF07C ";
+
+  return String();
+}
+
+String DetailedGameListView::GetDisplayName(FileData& game)
+{
+  // Select Icon
+  std::string result = getItemIcon(game);
+  // Get name
+  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game.Metadata().RomFileOnly().ToString() : game.Name());
+  return result;
+}
+
+void DetailedGameListView::populateList(const FolderData& folder)
+{
+  mPopulatedFolder = &folder;
+  mList.clear();
+  mHeaderText.setText(mSystem.FullName());
+
+  // Default filter
+  FileData::Filter includesFilter = FileData::Filter::Normal | FileData::Filter::Favorite;
+  // Favorites only?
+  if (RecalboxConf::Instance().GetFavoritesOnly()) includesFilter = FileData::Filter::Favorite;
+
+  // Get items
+  bool flatfolders = mSystem.IsAlwaysFlat() || (RecalboxConf::Instance().GetSystemFlatFolders(mSystem));
+  FileData::List items;
+  if (flatfolders) folder.GetItemsRecursivelyTo(items, includesFilter, mSystem.Excludes(), false);
+  else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
+
+  // Check emptyness
+  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+
+  // Sort
+  FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
+                            FileSorts::SortSets::SingleSystem;
+  FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
+  FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
+
+  // Region filtering?
+  Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
+  bool activeRegionFiltering = false;
+  if (currentRegion != Regions::GameRegions::Unknown)
+  {
+    Regions::List availableRegion = AvailableRegionsInGames(items);
+    // Check if our region is in the available ones
+    for(Regions::GameRegions region : availableRegion)
+    {
+      activeRegionFiltering = (region == currentRegion);
+      if (activeRegionFiltering) break;
+    }
+  }
+
+  // Tate flag
+  bool onlyTate = RecalboxConf::Instance().GetTateOnly();
+
+  // Add to list
+  //mList.reserve(items.size()); // TODO: Reserve memory once
+  for (FileData* fd : items)
+  {
+    // Region filtering?
+    int colorIndexOffset = 0;
+    if (activeRegionFiltering)
+      if (!Regions::IsIn4Regions(fd->Metadata().Region().Pack, currentRegion))
+        colorIndexOffset = 2;
+    // Tate filtering
+    if (onlyTate && fd->Metadata().Rotation() == RotationType::None) continue;
+    // Store
+    mList.add(GetDisplayName(*fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
+  }
+}
+
+void DetailedGameListView::setCursorIndex(int index)
+{
+  if (index >= mList.size()) index = mList.size() - 1;
+  if (index < 0) index = 0;
+
+  mList.setCursorIndex(index);
+}
+void DetailedGameListView::setCursorStack(FileData* cursor)
+{
+  std::stack<FolderData*> reverseCursorStack;
+
+  Path systemTopFolderPath = cursor->TopAncestor().RomPath();
+  FolderData* parent = cursor->Parent();
+
+  if (systemTopFolderPath == parent->RomPath())
+    return;
+
+  while(systemTopFolderPath != parent->RomPath())
+  {
+    reverseCursorStack.push(parent);
+    parent = parent->Parent();
+  }
+
+  while(!reverseCursorStack.empty())
+  {
+    mCursorStack.push(reverseCursorStack.top());
+    reverseCursorStack.pop();
+
+    FolderData& tmp = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
+    populateList(tmp);
+  }
+}
+
+void DetailedGameListView::setCursor(FileData* cursor)
+{
+  if(!mList.setCursor(cursor, 0))
+  {
+    populateList(mSystem.MasterRoot());
+    mList.setCursor(cursor);
+
+    // update our cursor stack in case our cursor just got set to some folder we weren't in before
+    if(mCursorStack.empty() || mCursorStack.top() != cursor->Parent())
+    {
+      std::stack<FolderData*> tmp;
+      FolderData* ptr = cursor->Parent();
+      while((ptr != nullptr) && !ptr->IsRoot())
+      {
+        tmp.push(ptr);
+        ptr = ptr->Parent();
+      }
+
+      // flip the stack and put it in mCursorStack
+      mCursorStack = std::stack<FolderData*>();
+      while(!tmp.empty())
+      {
+        mCursorStack.push(tmp.top());
+        tmp.pop();
+      }
+    }
+  }
+}
+
+void DetailedGameListView::removeEntry(FileData* fileData)
+{
+  if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame())
+  {
+    // remove current folder from stack
+    mCursorStack.pop();
+
+    FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
+    populateList(cursor);
+  }
+
+  int cursorIndex = getCursorIndex();
+  onFileChanged(fileData, FileChangeType::Removed);
+  refreshList();
+
+  if(cursorIndex > 0)
+  {
+    setCursorIndex(cursorIndex - 1);
+  }
+}
+
+Regions::List DetailedGameListView::AvailableRegionsInGames()
+{
+  bool regionIndexes[256];
+  memset(regionIndexes, 0, sizeof(regionIndexes));
+  // Run through all games
+  for(int i = (int)mList.size(); --i >= 0; )
+  {
+    const FileData& fd = *mList.getObjectAt(i);
+    unsigned int fourRegions = fd.Metadata().Region().Pack;
+    // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
+    regionIndexes[(fourRegions >>  0) & 0xFF] = true;
+    regionIndexes[(fourRegions >>  8) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 16) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 24) & 0xFF] = true;
+  }
+  // Rebuild final list
+  Regions::List list;
+  for(int i = 0; i < (int)sizeof(regionIndexes); ++i )
+    if (regionIndexes[i])
+      list.push_back((Regions::GameRegions)i);
+  // Only unknown region?
+  if (list.size() == 1 && regionIndexes[0])
+    list.clear();
+  return list;
+}
+
+Regions::List DetailedGameListView::AvailableRegionsInGames(FileData::List& fdList)
+{
+  bool regionIndexes[256];
+  memset(regionIndexes, 0, sizeof(regionIndexes));
+  // Run through all games
+  for(const FileData* fd : fdList)
+  {
+    unsigned int fourRegions = fd->Metadata().Region().Pack;
+    // Set the 4 indexes corresponding to all 4 regions (Unknown regions will all point to index 0)
+    regionIndexes[(fourRegions >>  0) & 0xFF] = true;
+    regionIndexes[(fourRegions >>  8) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 16) & 0xFF] = true;
+    regionIndexes[(fourRegions >> 24) & 0xFF] = true;
+  }
+  // Rebuild final list
+  Regions::List list;
+  for(int i = (int)sizeof(regionIndexes); --i >= 0; )
+    if (regionIndexes[i])
+      list.push_back((Regions::GameRegions)i);
+  // Only unknown region?
+  if (list.size() == 1 && regionIndexes[0])
+    list.clear();
+  return list;
+}

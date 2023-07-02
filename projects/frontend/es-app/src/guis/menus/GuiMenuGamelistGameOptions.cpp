@@ -15,7 +15,7 @@
 #include <views/ViewController.h>
 #include <LibretroRatio.h>
 
-GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
+GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, ISimpleGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
   : GuiMenuBase(window, _("GAME OPTIONS"), this)
   , mView(view)
   , mSystemManager(systemManager)
@@ -35,11 +35,11 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IG
 
   // Run width
   if (mGame.IsGame())
-    mEmulator = AddList<std::string>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
+    mEmulator = AddList<String>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
   // Ratio
   if (mGame.IsGame())
-    mRatio = AddList<std::string>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
+    mRatio = AddList<String>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // Game name
   mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, false);
@@ -80,11 +80,11 @@ GuiMenuGamelistGameOptions::~GuiMenuGamelistGameOptions()
     mSystem.UpdateGamelistXml();
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::GetRatioEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGamelistGameOptions::GetRatioEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
-  std::string currentRatio = mGame.Metadata().Ratio();
+  String currentRatio = mGame.Metadata().Ratio();
   for (const auto& ratio : LibretroRatio::GetRatio())
     list.push_back({ ratio.first, ratio.second, currentRatio == ratio.second });
 
@@ -101,9 +101,9 @@ std::vector<GuiMenuBase::ListEntry<GameGenres>> GuiMenuGamelistGameOptions::GetG
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::GetEmulatorEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGamelistGameOptions::GetEmulatorEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
   std::string currentEmulator(mGame.Metadata().Emulator());
   std::string currentCore    (mGame.Metadata().Core());
@@ -116,7 +116,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuGamelistGameOptions::Get
   return list;
 }
 
-void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Emulator)

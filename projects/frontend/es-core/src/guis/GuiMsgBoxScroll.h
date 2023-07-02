@@ -4,6 +4,7 @@
 #include <components/NinePatchComponent.h>
 #include <components/ComponentGrid.h>
 #include <resources/Font.h>
+#include <components/VerticalScrollableContainer.h>
 
 class TextComponent;
 class ButtonComponent;
@@ -50,6 +51,7 @@ public:
 	std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 	std::shared_ptr<ComponentGrid> mButtonGrid;
 	std::function<void()> mAcceleratorFunc;
-	std::shared_ptr<ScrollableContainer> mMsgContainer;
+	std::shared_ptr<VerticalScrollableContainer> mMsgContainer;
 
+  int mSpace;
 };

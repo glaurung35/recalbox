@@ -25,6 +25,7 @@ class GuiMenu : public GuiMenuBase
       ContentDoanwloader,
       Controllers,
       UISettings,
+      Arcade,
       Tate,
       Sound,
       Network,

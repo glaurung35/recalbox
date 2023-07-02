@@ -1,18 +1,16 @@
 #include <guis/GuiMsgBox.h>
-#include <Renderer.h>
 #include <components/TextComponent.h>
 #include <components/ButtonComponent.h>
 #include <components/MenuComponent.h> // for makeButtonGrid
-#include <utils/Log.h>
-#include <themes/MenuThemeData.h>
-
-#define HORIZONTAL_PADDING_PX 20
 
 GuiMsgBox::GuiMsgBox(WindowManager& window)
-  : Gui(window),
-    mBackground(window, Path(":/frame.png")),
-    mGrid(window, Vector2i(1, 2))
+  : Gui(window)
+  , mBackground(window, Path(":/frame.png"))
+  , mGrid(window, Vector2i(1, 2))
+  , mSpace(Renderer::Instance().DisplayHeightAsInt() / 40)
 {
+  if (mSpace > 20) mSpace = 20;
+  if (mSpace < 6) mSpace = 6;
 }
 
 GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
@@ -114,7 +112,7 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	// now that we know width, we can find height
 	mMsg->setSize(width, 0); // mMsg->getSize.y() now returns the proper length
 	const float msgHeight = Math::max(Font::get(FONT_SIZE_LARGE)->getHeight(), mMsg->getSize().y() * 1.225f);
-	setSize(width + HORIZONTAL_PADDING_PX*2, msgHeight + mButtonGrid->getSize().y());
+	setSize(width + (float)mSpace*2, msgHeight + mButtonGrid->getSize().y());
 
 	// center for good measure
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2.0f, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2.0f);
@@ -141,7 +139,7 @@ void GuiMsgBox::onSizeChanged()
 	mGrid.setRowHeightPerc(1, mButtonGrid->getSize().y() / mSize.y());
 	
 	// update messagebox size
-	mMsg->setSize(mSize.x() - HORIZONTAL_PADDING_PX*2, mGrid.getRowHeight(0));
+	mMsg->setSize(mSize.x() - (float)mSpace*2, mGrid.getRowHeight(0));
 	mGrid.onSizeChanged();
 
 	mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));

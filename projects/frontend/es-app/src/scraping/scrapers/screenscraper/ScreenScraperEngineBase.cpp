@@ -85,7 +85,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, FileData& singleGame,
   mDiskMinimumFree = diskMinimumFree;
 
   // Get screenscraper's thread
-  mDatabaseMessage = (_("PLEASE VISIT")).append(1, ' ').append(Strings::ToUpperASCII(mEndPoint.GetProviderWebURL()));
+  mDatabaseMessage = (_("PLEASE VISIT")).Append(' ').Append(Strings::ToUpperASCII(mEndPoint.GetProviderWebURL()));
   // Feed threadpool
   mRunner.PushFeed(&singleGame);
   mTotal = mRunner.PendingJobs();

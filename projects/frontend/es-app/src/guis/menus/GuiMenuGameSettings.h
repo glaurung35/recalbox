@@ -14,7 +14,7 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuGameSettings : public GuiMenuBase
-                          , private IOptionListComponent<std::string>
+                          , private IOptionListComponent<String>
                           , private ISwitchComponent
                           , private IGuiMenuBase
 {
@@ -25,7 +25,7 @@ class GuiMenuGameSettings : public GuiMenuBase
      */
     explicit GuiMenuGameSettings(WindowManager& window, SystemManager& systemManager);
 
-    ~GuiMenuGameSettings() override;
+    ~GuiMenuGameSettings() override = default;
 
   private:
     enum class Components
@@ -57,19 +57,15 @@ class GuiMenuGameSettings : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mAutoSave;
 
     //! Get Ratio List
-    static std::vector<ListEntry<std::string>> GetRatioEntries();
+    static std::vector<ListEntry<String>> GetRatioEntries();
     //! Get Shaders List
-    static std::vector<ListEntry<std::string>> GetShadersEntries();
+    static std::vector<ListEntry<String>> GetShadersEntries();
     //! Get Softpatching List
-    static std::vector<ListEntry<std::string>> GetSoftpatchingEntries();
+    static std::vector<ListEntry<String>> GetSoftpatchingEntries();
     //! Get shader sets List
-    static std::vector<ListEntry<std::string>> GetShaderPresetsEntries();
+    static std::vector<ListEntry<String>> GetShaderPresetsEntries();
     //! Get shader sets List
-    static std::vector<ListEntry<std::string>> GetSuperGameBoyEntries();
-
-
-    //! Change options when enabling shaders
-    void ChangeShadersOptions();
+    static std::vector<ListEntry<String>> GetSuperGameBoyEntries();
 
     /*
      * IGuiMenuBase implementation
@@ -81,7 +77,7 @@ class GuiMenuGameSettings : public GuiMenuBase
      * IOptionListComponent<std::string> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * ISwitchComponent implementation

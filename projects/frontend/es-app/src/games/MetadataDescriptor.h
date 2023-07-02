@@ -416,17 +416,17 @@ class MetadataDescriptor
 
     [[nodiscard]] Path         Rom()         const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
     [[nodiscard]] Path         RomFileOnly() const { return sFileHolder.GetPath(mRomFile);        }
-    [[nodiscard]] std::string  Name()        const { return sNameHolder.GetString(mName);                 }
-    [[nodiscard]] std::string  Description() const { return sDescriptionHolder.GetString(mDescription);   }
+    [[nodiscard]] String       Name()        const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] String       Description() const { return sDescriptionHolder.GetString(mDescription);   }
     [[nodiscard]] Path         Image()       const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
     [[nodiscard]] Path         Thumbnail()   const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
     [[nodiscard]] Path         Video()       const { return sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile); }
-    [[nodiscard]] std::string  Developer()   const { return sDeveloperHolder.GetString(mDeveloper);       }
-    [[nodiscard]] std::string  Publisher()   const { return sPublisherHolder.GetString(mPublisher);       }
-    [[nodiscard]] std::string  Genre()       const { return sGenreHolder.GetString(mGenre);               }
-    [[nodiscard]] std::string  Emulator()    const { return sEmulatorHolder.GetString(mEmulator);         }
-    [[nodiscard]] std::string  Core()        const { return sCoreHolder.GetString(mCore);                 }
-    [[nodiscard]] std::string  Ratio()       const { return sRatioHolder.GetString(mRatio);               }
+    [[nodiscard]] String       Developer()   const { return sDeveloperHolder.GetString(mDeveloper);       }
+    [[nodiscard]] String       Publisher()   const { return sPublisherHolder.GetString(mPublisher);       }
+    [[nodiscard]] String       Genre()       const { return sGenreHolder.GetString(mGenre);               }
+    [[nodiscard]] String       Emulator()    const { return sEmulatorHolder.GetString(mEmulator);         }
+    [[nodiscard]] String       Core()        const { return sCoreHolder.GetString(mCore);                 }
+    [[nodiscard]] String       Ratio()       const { return sRatioHolder.GetString(mRatio);               }
     [[nodiscard]] Path         LastPatch()   const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
 
     [[nodiscard]] float              Rating()          const { return mRating;                           }

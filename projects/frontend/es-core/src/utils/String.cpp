@@ -9,8 +9,8 @@
 #include "Unicode.h"
 
 const String StringStatics::Empty;
-const char CR = '\r';
-const char LF = '\n';
+const char StringStatics::CR = '\r';
+const char StringStatics::LF = '\n';
 const String StringStatics::CRLF(LEGACY_STRING("\r\n"));
 const String StringStatics::sDefaultTrimmedChar(LEGACY_STRING(" \t\r\n"));
 

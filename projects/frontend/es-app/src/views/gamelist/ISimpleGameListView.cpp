@@ -1,17 +1,16 @@
-#include <RecalboxConf.h>
+#include "views/gamelist/ISimpleGameListView.h"
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
 #include <guis/GuiNetPlayHostPasswords.h>
 #include "guis/menus/GuiMenuGamelistOptions.h"
-#include "views/gamelist/ISimpleGameListView.h"
-#include "systems/SystemData.h"
-#include "WindowManager.h"
 #include "views/ViewController.h"
-#include "utils/locale/LocaleHelper.h"
 #include "RotationManager.h"
+#include <usernotifications/NotificationManager.h>
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
-  : IGameListView(window, system)
+  : Gui(window)
+  , mSystem(system)
+  , mTheme(nullptr)
   , mSystemManager(systemManager)
   , mHeaderText(window)
   , mHeaderImage(window)
@@ -19,6 +18,8 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   , mThemeExtras(window)
   , mVerticalMove(false)
 {
+  setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+
   mHeaderText.setText("Logo Text");
   mHeaderText.setSize(mSize.x(), 0);
   mHeaderText.setPosition(0, 0);
@@ -35,6 +36,25 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
 
   addChild(&mHeaderText);
   addChild(&mBackground);
+}
+
+void ISimpleGameListView::setTheme(const ThemeData& theme)
+{
+    mTheme = &theme;
+    onThemeChanged(theme);
+}
+
+void ISimpleGameListView::updateInfoPanel()
+{
+    if (IsEmpty()) return;
+
+    NotificationManager::Instance().Notify(*getCursor(), Notification::GamelistBrowsing);
+    OnGameSelected();
+}
+
+void ISimpleGameListView::ApplyHelpStyle()
+{
+    HelpItemStyle().FromTheme(*mTheme, getName());
 }
 
 void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
@@ -115,6 +135,7 @@ void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
   if (change == FileChangeType::Removed)
   {
     bool favorite = file->Metadata().Favorite();
+    file->System().RemoveArcadeReference(*file);
     delete file;
     if (favorite)
     {
@@ -169,8 +190,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
       // remove current folder from stack
       mCursorStack.pop();
 
-      FolderData& cursor = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
-      populateList(cursor);
+      populateList(!mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot());
 
       setCursor(selected);
       //Sound::getFromTheme(getTheme(), getName(), "back")->play();
@@ -228,13 +248,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // Check vertical move
-  if (event.AnyUpPressed() || event.AnyDownPressed()) mVerticalMove = true;
-  if (event.AnyUpReleased() || event.AnyDownReleased()) mVerticalMove = false;
+  if (event.AnyPrimaryUpPressed() || event.AnyPrimaryDownPressed()) mVerticalMove = true;
+  if (event.AnyPrimaryUpReleased() || event.AnyPrimaryDownReleased()) mVerticalMove = false;
 
   // MOVE to NEXT GAMELIST
-  if (event.AnyRightPressed())
+  if (event.AnyPrimaryRightPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove)
+    {
       clean();
       onFocusLost();
       ViewController::Instance().goToNextGameList();
@@ -243,16 +264,16 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // MOVE to PREVIOUS GAMELIST
-  if (event.AnyLeftPressed())
+  if (event.AnyPrimaryLeftPressed())
   {
-    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove) {
+    if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView && !mVerticalMove)
+    {
       clean();
       onFocusLost();
       ViewController::Instance().goToPrevGameList();
     }
     return true;
   }
-
 
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
@@ -296,8 +317,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
       && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
     clean();
-    FileData* cursor = getCursor();
-    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
+    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
     return true;
   }
   else if (event.XPressed())
@@ -312,11 +332,11 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.StartPressed())
   {
     clean();
-    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager));
+    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface()));
     return true;
   }
 
-  bool result = IGameListView::ProcessInput(event);
+  bool result = Gui::ProcessInput(event);
 
   return result;
 }
@@ -388,48 +408,26 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
 
 void ISimpleGameListView::jumpToNextLetter(bool forward)
 {
-  // Get current unicode
-  unsigned int currentUnicode = getCursor()->IsGame() ?(unsigned int)Strings::UpperChar(getCursor()->Name()) : 0;
+  int cursorIndex = getCursorIndex();
+  UnicodeChar baseChar = Strings::UpperChar(getCursor()->Name()); // Change to dynamic naming ASAP
+  int max = getCursorIndexMax() + 1;
+  int step = max + (forward ? 1 : -1);
 
-  // Get available unicodes
-  std::vector<unsigned int> availableUnicodes = getAvailableLetters();
-  if (availableUnicodes.empty()) return;
-
-  // Lookup current unicode
-  int position = 0;
-  if (currentUnicode == 0) // Folder
-    position = forward ? -1 : 0;
-  else
-    for(int i = (int)availableUnicodes.size(); --i >= 0;)
-      if (availableUnicodes[i] == currentUnicode)
-      {
-        position = i;
-        break;
-      }
-
-  int size = (int)availableUnicodes.size();
-  unsigned int nextUnicode = availableUnicodes[(size + position + (forward ? 1 : -1)) % size];
-  jumpToLetter(nextUnicode);
+  for(int i = cursorIndex; (i = (i + step) % max) != cursorIndex; )
+    if (Strings::UpperChar(getDataAt(i)->Name()) != baseChar) // Change to dynamic naming ASAP
+    {
+      setCursorIndex(i);
+      break;
+    }
 }
 
 void ISimpleGameListView::jumpToLetter(unsigned int unicode)
 {
-  // Jump to letter requires an alpha sort
-  FileSorts::Sorts sort = RecalboxConf::Instance().GetSystemSort(mSystem);
-  if (sort != FileSorts::Sorts::FileNameAscending && sort != FileSorts::Sorts::FileNameDescending)
-  {
-    // apply sort
-    RecalboxConf::Instance().SetSystemSort(mSystem, FileSorts::Sorts::FileNameAscending);
-    // notify that the root folder has to be sorted
-    onChanged(Change::Resort);
-  }
-
-  FileData::List files = getFileDataList();
-  for(int c = (int)files.size(), i = 0; --c >= 0; ++i)
-    if (files[i]->IsGame())
-      if (Strings::UpperChar(files[i]->Name()) == unicode)
+  for(int c = 0; c < (int)getCursorIndexMax(); ++c)
+    if (getDataAt(c)->IsGame())
+      if (Strings::UpperChar(getDataAt(c)->Name()) == unicode) // Change to dynamic naming ASAP
       {
-        setCursor(files[i]);
+        setCursor(getDataAt(c));
         break;
       }
 }

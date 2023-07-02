@@ -1,8 +1,6 @@
 #include "InputDevice.h"
+#include "InputEvent.h"
 #include <string>
-#include <utils/Log.h>
-#include <utils/Strings.h>
-#include <utils/storage/HashMap.h>
 #include <SDL2/SDL.h>
 
 unsigned int InputDevice::mReferenceTimes[32];
@@ -97,6 +95,8 @@ InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int devi
   , mPreviousAxisValues { 0 }
   , mNeutralAxisValues { 0 }
   , mConfiguring(false)
+  , mHotkeyState(false)
+  , mKillSelect(false)
 {
   memset(mPreviousAxisValues, 0, sizeof(mPreviousAxisValues));
   memset(mPreviousHatsValues, 0, sizeof(mPreviousHatsValues));
@@ -582,7 +582,8 @@ int InputDevice::ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entr
           }
         }
         // Axis has a binary on/off
-        else elapsed = SetEntry(targetEntry, value == config.Value(), on, off);
+        else if (value == config.Value() || mPreviousAxisValues[axis] == config.Value())
+          elapsed = SetEntry(targetEntry, value == config.Value(), on, off);
       }
 
   // Record previous value
@@ -599,7 +600,8 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
   int elapsed = 0;
 
   // Need configuration?
-  if (!IsConfigured()) off = (on |= InputCompactEvent::Entry::NeedConfiguration);
+  if (!IsConfigured())
+    off = (on |= InputCompactEvent::Entry::NeedConfiguration);
 
   switch(event.Type())
   {
@@ -611,6 +613,30 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
     default: { LOG(LogError) << "[InputDevice] Abnormal InputEvent::EventType: " << (int)event.Type(); break; }
   }
 
+  // Process extended
+  if ((on & InputCompactEvent::Entry::Hotkey) != 0)
+  {
+    mHotkeyState = true;
+    if (IsHotKeyAndSelectKeysTheSame() && (on & InputCompactEvent::Entry::Select) != 0)
+      on &= ~InputCompactEvent::Entry::Select;
+  }
+  if (mHotkeyState)
+  {
+    // Keep special keys in the low dword
+    on  = ( on & InputCompactEvent::Entry::AllSpecials) | (( on << 32) & ~InputCompactEvent::Entry::HotkeyAllSpecials);
+    off = (off & InputCompactEvent::Entry::AllSpecials) | ((off << 32) & ~InputCompactEvent::Entry::HotkeyAllSpecials);
+  }
+  if ((off & InputCompactEvent::Entry::Hotkey) != 0)
+  {
+    mHotkeyState = false;
+    if (IsHotKeyAndSelectKeysTheSame() && (off & InputCompactEvent::Entry::Select) != 0)
+    {
+      if (mKillSelect) off &= ~InputCompactEvent::Entry::Select; // Kill select from the off events
+      else on |= InputCompactEvent::Entry::Select;  // Add select to the on event to make on/off in the same event
+    }
+  }
+
+  // Build final object
   InputCompactEvent result = { on, off, elapsed, *this, event };
   //{ LOG(LogError) << "[CompactInputEvent] " << result.ToString(); }
   return result;
@@ -683,4 +709,3 @@ bool InputDevice::CheckNeutralPosition() const
   }
   return true;
 }
-

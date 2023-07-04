@@ -228,16 +228,18 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
     JSONBuilder systemJson;
 
     if (!descriptor.IsPort()) {
-      systemJson.Open()
-                .Field("name", descriptor.Name())
-                .Field("fullname", descriptor.FullName())
-                .Field("romFolder", descriptor.RomPath().Filename())
-                .Field("themeFolder", descriptor.ThemeFolder())
-                .Field("extensions", Strings::Split(descriptor.Extension(), ' ', true))
-                .Field("command", descriptor.Command())
-                .Field("emulators", emulators)
-                .Close();
-      systems.Field(Strings::ToString(i).c_str(), systemJson);
+      if (descriptor.Name() != "imageviewer") {
+          systemJson.Open()
+                  .Field("name", descriptor.Name())
+                  .Field("fullname", descriptor.FullName())
+                  .Field("romFolder", descriptor.RomPath().Filename())
+                  .Field("themeFolder", descriptor.ThemeFolder())
+                  .Field("extensions", Strings::Split(descriptor.Extension(), ' ', true))
+                  .Field("command", descriptor.Command())
+                  .Field("emulators", emulators)
+                  .Close();
+          systems.Field(Strings::ToString(i).c_str(), systemJson);
+      }
     }
   }
 

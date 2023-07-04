@@ -39,11 +39,15 @@ class RequestHandlerTools
 
     static void GetAvailableShadersIn(const Path& path, Strings::Vector& results);
 
+    static void GetAvailableThemesIn(const Path& path, Strings::Vector& results);
+
     static void GetEmbeddedBios(const Path& base, HashMap<std::string, bool>& results);
 
     static void GetAvailableBios(const Path& path, Path::PathList& results, const HashMap<std::string, bool>& embedded);
 
     static Strings::Vector GetAvailableShaders();
+
+    static Strings::Vector GetAvailableThemes();
 
     static void SetHeaders(Pistache::Http::ResponseWriter& response);
 

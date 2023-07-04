@@ -314,6 +314,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     Updates,
     Global,   //<! All emulators settings
     Specific, //<! Specific emulators settings
+    Patron,
+    Music,
   };
 
   static HashMap<std::string, Namespace> sConverter
@@ -329,6 +331,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
      { "updates", Namespace::Updates },
      { "global", Namespace::Global },
      { "specific", Namespace::Global },
+     { "patron", Namespace::Patron },
+     { "music", Namespace::Music },
   });
 
   Namespace* pns = sConverter.try_get(_namespace);
@@ -340,20 +344,20 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-         { "fbcp.enabled"            , Validator(true) },
-         { "splash.length"           , Validator(-1, 300) },
-         { "manager.enabled"         , Validator(true) },
-         { "security.enabled"        , Validator(true) },
-         { "api.enabled"             , Validator(true) },
-         { "es.videomode"            , Validator(GetAvailableResolutions(), false) },
-         { "emulators.specialkeys"   , Validator(false, { "default", "nomenu", "none" }) },
-         { "hostname"                , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
-         { "samba.enabled"           , Validator(true) },
-         { "virtual-gamepads.enabled", Validator(true) },
-         { "ssh.enabled"             , Validator(true) },
-         { "language"                , Validator(GetAvailableLanguages(), false) },
-         { "kblayout"                , Validator(GetAvailableKeyboardLayout(), false) },
-         { "timezone"                , Validator(GetAvailableTimeZone(), false) },
+         { "fbcp.enabled"               , Validator(true) },
+         { "splash.length"              , Validator(-1, 300) },
+         { "manager.enabled"            , Validator(true) },
+         { "security.enabled"           , Validator(true) },
+         { "api.enabled"                , Validator(true) },
+         { "es.videomode"               , Validator(GetAvailableResolutions(), false) },
+         { "emulators.specialkeys"      , Validator(false, { "default", "nomenu", "none" }) },
+         { "hostname"                   , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+         { "samba.enabled"              , Validator(true) },
+         { "virtual-gamepads.enabled"   , Validator(true) },
+         { "ssh.enabled"                , Validator(true) },
+         { "language"                   , Validator(GetAvailableLanguages(), false) },
+         { "kblayout"                   , Validator(GetAvailableKeyboardLayout(), false) },
+         { "timezone"                   , Validator(GetAvailableTimeZone(), false) },
        });
 
       return sList;
@@ -362,18 +366,26 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-         { "menu"                   , Validator(false, { "default", "bartop", "none" }) },
-         { "selectedsystem"         , Validator(GetSupportedSystemList(), false) },
-         { "bootongamelist"         , Validator(true) },
-         { "hidesystemview"         , Validator(true) },
-         { "gamelistonly"           , Validator(true) },
-         { "forcebasicgamelistview" , Validator(true) },
-         { "filteradultgames"       , Validator(true) },
-         { "collection.allgames"    , Validator(true) },
-         { "collection.multiplayers", Validator(true) },
-         { "collection.lastplayed"  , Validator(true) },
-         { "videosnaps.delay"       , Validator(0, 300000) },
-         { "videosnaps.loop"        , Validator(0, 300) },
+         { "menu"                    , Validator(false, { "default", "bartop", "none" }) },
+         { "selectedsystem"          , Validator(GetSupportedSystemList(), false) },
+         { "bootongamelist"          , Validator(true) },
+         { "hidesystemview"          , Validator(true) },
+         { "gamelistonly"            , Validator(true) },
+         { "forcebasicgamelistview"  , Validator(true) },
+         { "filteradultgames"        , Validator(true) },
+         { "clock"                   , Validator(true) },
+         { "favoritesonly"           , Validator(true) },
+         { "screensaver.time"        , Validator(0, 30) },
+         { "screensaver.type"        , Validator(false, { "dim", "black", "demo", "gameclip" }) },
+         { "showgameclipclippingitem", Validator(true) },
+         { "showgamecliphelpitems"   , Validator(true) },
+         { "theme.folder"            , Validator(GetAvailableThemes(), false) },
+         { "collection.allgames"     , Validator(true) },
+         { "collection.multiplayer"  , Validator(true) },
+         { "collection.lastplayed"   , Validator(true) },
+         { "collection.tate"         , Validator(true) },
+         { "videosnaps.delay"        , Validator(0, 300000) },
+         { "videosnaps.loop"         , Validator(0, 300) },
        });
 
       return sList;
@@ -384,13 +396,15 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       ({
         { "extractregionfromfilename", Validator(true) },
         { "getnamefrom"              , Validator(0, 2) },
+        { "source"                   , Validator(false, { "ScreenScraper", "Recalbox" }) },
         { "screenscraper.region"     , Validator(false, { "eu", "us", "jp", "wor" }) },
         { "screenscraper.language"   , Validator(false, { "en", "es", "pt", "fr", "de", "it", "nl", "ja", "zh", "ko", "ru", "da", "fi", "sv", "hu", "no", "pl", "cz", "sk", "tr" }) },
         { "screenscraper.media"      , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
         { "screenscraper.thumbnail"  , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
-        { "screenscraper.video"      , Validator(false, { "none", "original", "normalized" }) },
+        { "screenscraper.video"      , Validator(false, { "none", "OriginalVideo", "NormalizedVideo" }) },
         { "screenscraper.manual"     , Validator(true) },
         { "screenscraper.maps"       , Validator(true) },
+        { "screenscraper.p2k"        , Validator(true) },
         { "screenscraper.user"       , Validator() },
         { "screenscraper.password"   , Validator() },
       });
@@ -443,6 +457,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
         { "device" , Validator(GetAvailableSoundDevices(), false) },
         { "volume" , Validator(0, 100) },
         { "bgmusic", Validator(true) },
+        { "mode"   , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
       });
 
       return sList;
@@ -483,7 +498,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       static HashMap<std::string, Validator> sList
       ({
         { "videomode"                 , Validator(GetAvailableResolutions(), false) },
-        { "shaderset"                 , Validator({ "none", "scanlines", "retro", "custom" }, false) },
+        { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
         { "shaderset.file"            , Validator(GetAvailableShaders(), false) },
         { "integerscale"              , Validator(true) },
         { "shaders"                   , Validator(true) },
@@ -515,6 +530,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
         { "netplay.relay"             , Validator() },
         { "netplay.systems"           , Validator() },
         { "netplay.lobby"             , Validator() },
+        { "recalboxoverlays"          , Validator(true) },
+        { "softpatching"              , Validator(false, { "auto", "select", "disable" }) },
       });
 
       return sList;
@@ -543,7 +560,26 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
            { "translate.to"              , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
            { "translate.apikey"          , Validator() },
            { "translate.url"             , Validator() },
+           { "supergameboy"              , Validator(false, { "gb", "sgb", "ask" }) },
          });
+
+      return sList;
+    }
+    case Namespace::Patron:
+    {
+      static HashMap<std::string, Validator> sList
+        ({
+          { "privatekey", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-") },
+        });
+
+      return sList;
+    }
+    case Namespace::Music:
+    {
+      static HashMap<std::string, Validator> sList
+        ({
+          { "remoteplaylist.enable", Validator(true) },
+        });
 
       return sList;
     }
@@ -945,6 +981,31 @@ Strings::Vector RequestHandlerTools::GetAvailableShaders()
     path.erase(0, commonPartLength);
 
   return result;
+}
+
+void RequestHandlerTools::GetAvailableThemesIn(const Path& rootPath, Strings::Vector& results)
+{
+    Path::PathList pathList = rootPath.GetDirectoryContent();
+    for(const Path& path : pathList)
+      if (path.IsDirectory())
+        results.push_back(path.ToString());
+
+    results.push_back("recalbox-240p");
+    results.push_back("recalbox-goa2");
+    results.push_back("recalbox-next");
+}
+
+Strings::Vector RequestHandlerTools::GetAvailableThemes()
+{
+    Strings::Vector result;
+    static Path themesPath("/recalbox/share/themes");
+
+    GetAvailableThemesIn(themesPath, result);
+    int commonPartLength = (int)themesPath.ToString().length() + 1;
+    for(std::string& path : result)
+      path.erase(0, commonPartLength);
+
+    return result;
 }
 
 void RequestHandlerTools::GetEmbeddedBios(const Path& base, HashMap<std::string, bool>& results)

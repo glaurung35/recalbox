@@ -344,20 +344,33 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-         { "fbcp.enabled"               , Validator(true) },
-         { "splash.length"              , Validator(-1, 300) },
-         { "manager.enabled"            , Validator(true) },
-         { "security.enabled"           , Validator(true) },
-         { "api.enabled"                , Validator(true) },
-         { "es.videomode"               , Validator(GetAvailableResolutions(), false) },
-         { "emulators.specialkeys"      , Validator(false, { "default", "nomenu", "none" }) },
-         { "hostname"                   , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
-         { "samba.enabled"              , Validator(true) },
-         { "virtual-gamepads.enabled"   , Validator(true) },
-         { "ssh.enabled"                , Validator(true) },
-         { "language"                   , Validator(GetAvailableLanguages(), false) },
-         { "kblayout"                   , Validator(GetAvailableKeyboardLayout(), false) },
-         { "timezone"                   , Validator(GetAvailableTimeZone(), false) },
+         { "power.switch"                          , Validator(false, { "ATX_RASPI_R2_6", "MAUSBERRY", "REMOTEPIBOARD_2003", "REMOTEPIBOARD_2005", "WITTYPI", "PIN56ONOFF", "PIN56PUSH", "PIN356ONOFFRESET", "PIN356PUSHRESET" }) },
+         { "fbcp.enabled"                          , Validator(true) },
+         { "splash.length"                         , Validator(-1, 300) },
+         { "splash.select"                         , Validator(false, { "all", "recalbox", "custom" }) },
+         { "manager.enabled"                       , Validator(true) },
+         { "api.enabled"                           , Validator(true) },
+         { "es.videomode"                          , Validator(GetAvailableResolutions(), false) },
+         { "emulators.specialkeys"                 , Validator(false, { "default", "nomenu", "none" }) },
+         { "hostname"                              , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+         { "samba.enabled"                         , Validator(true) },
+         { "virtual-gamepads.enabled"              , Validator(true) },
+         { "ssh.enabled"                           , Validator(true) },
+         { "language"                              , Validator(GetAvailableLanguages(), false) },
+         { "kblayout"                              , Validator(GetAvailableKeyboardLayout(), false) },
+         { "timezone"                              , Validator(GetAvailableTimeZone(), false) },
+         { "secondminitft.enabled"                 , Validator(true) },
+         { "secondminitft.type"                    , Validator(false, { "overlay", "default" }) },
+         { "secondminitft.resolution"              , Validator(false, { "240p", "320p" }) },
+         { "secondminitft.imagestretchenabled"     , Validator(true) },
+         { "secondminitft.imageenlargeenabled"     , Validator(true) },
+         { "secondminitft.imagealphaenabled"       , Validator(true) },
+         { "secondminitft.imageignoreaspectenabled", Validator(true) },
+         { "secondminitft.disablevideoines"        , Validator(true) },
+         { "secondminitft.backlightcontrol"        , Validator(0, 100) },
+         { "secondminitft.usemarquee"              , Validator(true) },
+         { "secondminitft.sleepenabled"            , Validator(true) },
+         { "overscan"                              , Validator(true) },
        });
 
       return sList;
@@ -386,6 +399,24 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
          { "collection.tate"         , Validator(true) },
          { "videosnaps.delay"        , Validator(0, 300000) },
          { "videosnaps.loop"         , Validator(0, 300) },
+         { "arcade"                  , Validator(true) },
+         { "arcade.position"         , Validator(-200, 200) },
+         { "arcade.includeneogeo"    , Validator(true) },
+         { "arcade.hideoriginals"    , Validator(true) },
+         { "collection.ports.hide"   , Validator(true) },
+         { "collection.lightgun.hide", Validator(true) },
+         { "quicksystemselect"       , Validator(true) },
+         { "showhelp"                , Validator(true) },
+         { "popup.help"              , Validator(0, 10) }, //<! Default 10
+         { "popup.music"             , Validator(0, 10) }, //<! Default 5
+         { "popup.netplay"           , Validator(0, 10) }, //<! Default 8
+         { "systemsorting"           , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
+         { "theme.carousel"          , Validator(true) },
+         { "theme.transition"        , Validator(false, { "slide", "instant", "fade" }) },
+         { "brightness"              , Validator(0, 8) }, //<! RG353, OGA only
+         { "showhidden"              , Validator(true) },
+         { "showonlylatestversion"   , Validator(true) },
+         { "hidenogames"             , Validator(true) },
        });
 
       return sList;
@@ -394,19 +425,21 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-        { "extractregionfromfilename", Validator(true) },
-        { "getnamefrom"              , Validator(0, 2) },
-        { "source"                   , Validator(false, { "ScreenScraper", "Recalbox" }) },
-        { "screenscraper.region"     , Validator(false, { "eu", "us", "jp", "wor" }) },
-        { "screenscraper.language"   , Validator(false, { "en", "es", "pt", "fr", "de", "it", "nl", "ja", "zh", "ko", "ru", "da", "fi", "sv", "hu", "no", "pl", "cz", "sk", "tr" }) },
-        { "screenscraper.media"      , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
-        { "screenscraper.thumbnail"  , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
-        { "screenscraper.video"      , Validator(false, { "none", "OriginalVideo", "NormalizedVideo" }) },
-        { "screenscraper.manual"     , Validator(true) },
-        { "screenscraper.maps"       , Validator(true) },
-        { "screenscraper.p2k"        , Validator(true) },
-        { "screenscraper.user"       , Validator() },
-        { "screenscraper.password"   , Validator() },
+        { "extractregionfromfilename"   , Validator(true) },
+        { "getnamefrom"                 , Validator(0, 2) },
+        { "source"                      , Validator(false, { "ScreenScraper", "Recalbox" }) },
+        { "auto"                        , Validator(true) },
+        { "screenscraper.region"        , Validator(false, { "eu", "us", "jp", "wor" }) },
+        { "screenscraper.language"      , Validator(false, { "en", "es", "pt", "fr", "de", "it", "nl", "ja", "zh", "ko", "ru", "da", "fi", "sv", "hu", "no", "pl", "cz", "sk", "tr" }) },
+        { "screenscraper.media"         , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
+        { "screenscraper.thumbnail"     , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
+        { "screenscraper.video"         , Validator(false, { "none", "OriginalVideo", "NormalizedVideo" }) },
+        { "screenscraper.manual"        , Validator(true) },
+        { "screenscraper.maps"          , Validator(true) },
+        { "screenscraper.p2k"           , Validator(true) },
+        { "screenscraper.user"          , Validator() },
+        { "screenscraper.password"      , Validator() },
+        { "screenscraper.regionPriority", Validator(false, { "DetectedRegion", "favoriteRegion" }) },
       });
 
       return sList;
@@ -439,13 +472,14 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-        { "enabled", Validator(true) },
-        { "region" , Validator(false, { "US", "CA", "JP", "DE", "NL", "IT", "PT", "LU", "NO", "FI", "DK", "CH", "CZ", "ES", "GB", "KR", "CN", "FR", "HK", "SG", "TW", "BR", "IL", "SA", "LB", "AE", "ZA", "AR", "AU", "AT", "BO", "CL", "GR", "IS", "IN", "IE", "KW", "LI", "LT", "MX", "MA", "NZ", "PL", "PR", "SK", "SI", "TH", "UY", "PA", "RU", "KW", "LI", "LT", "MX", "MA", "NZ", "PL", "PR", "SK", "SI", "TH", "UY", "PA", "RU", "EG", "TT", "TR", "CR", "EC", "HN", "KE", "UA", "VN", "BG", "CY", "EE", "MU", "RO", "CS", "ID", "PE", "VE", "JM", "BH", "OM", "JO", "BM", "CO", "DO", "GT", "PH", "LK", "SV", "TN", "PK", "QA", "DZ" }) },
-        { "ssid"   , Validator() },
-        { "key"    , Validator() },
-        { "ip"     , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
-        { "gateway", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
-        { "netmask", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+        { "enabled"    , Validator(true) },
+        { "region"     , Validator(false, { "US", "CA", "JP", "DE", "NL", "IT", "PT", "LU", "NO", "FI", "DK", "CH", "CZ", "ES", "GB", "KR", "CN", "FR", "HK", "SG", "TW", "BR", "IL", "SA", "LB", "AE", "ZA", "AR", "AU", "AT", "BO", "CL", "GR", "IS", "IN", "IE", "KW", "LI", "LT", "MX", "MA", "NZ", "PL", "PR", "SK", "SI", "TH", "UY", "PA", "RU", "KW", "LI", "LT", "MX", "MA", "NZ", "PL", "PR", "SK", "SI", "TH", "UY", "PA", "RU", "EG", "TT", "TR", "CR", "EC", "HN", "KE", "UA", "VN", "BG", "CY", "EE", "MU", "RO", "CS", "ID", "PE", "VE", "JM", "BH", "OM", "JO", "BM", "CO", "DO", "GT", "PH", "LK", "SV", "TN", "PK", "QA", "DZ" }) },
+        { "ssid"       , Validator() },
+        { "key"        , Validator() },
+        { "ip"         , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+        { "gateway"    , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+        { "netmask"    , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+        { "nameservers", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
       });
 
       return sList;
@@ -466,18 +500,20 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
       ({
-        { "bluetooth.enabled", Validator(true) },
-        { "bluetooth.ertm"   , Validator(true) },
-        { "ps3.enabled"      , Validator(true) },
-        { "ps3.driver"       , Validator(false, { "bluez", "official", "shanwan" }) },
-        { "gpio.enabled"     , Validator(true) },
-        { "gpio.args"        , Validator() },
-        { "steam.enabled"    , Validator(true) },
-        { "db9.enabled"      , Validator(true) },
-        { "db9.args"         , Validator() },
-        { "gamecon.enabled"  , Validator(true) },
-        { "gamecon.args"     , Validator() },
-        { "xarcade.enabled"  , Validator(true) },
+        { "bluetooth.enabled"    , Validator(true) },
+        { "bluetooth.ertm"       , Validator(true) },
+        { "ps3.enabled"          , Validator(true) },
+        { "ps3.driver"           , Validator(false, { "bluez", "official", "shanwan" }) },
+        { "gpio.enabled"         , Validator(true) },
+        { "gpio.args"            , Validator() },
+        { "steam.enabled"        , Validator(true) },
+        { "db9.enabled"          , Validator(true) },
+        { "db9.args"             , Validator() },
+        { "gamecon.enabled"      , Validator(true) },
+        { "gamecon.args"         , Validator() },
+        { "xarcade.enabled"      , Validator(true) },
+        { "joycond.enabled"      , Validator(true) },
+        { "swapvalidateandcancel", Validator(true) },
       });
 
       return sList;
@@ -520,18 +556,19 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
         { "translate.to"              , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
         { "translate.apikey"          , Validator() },
         { "translate.url"             , Validator() },
-        { "arcade"                    , Validator(true) },
-        { "arcade.position"           , Validator(-200, 200) },
-        { "arcade.includeneogeo"      , Validator(true) },
-        { "arcade.hideoriginals"      , Validator(true) },
         { "netplay"                   , Validator(true) },
-        { "netplay.nickname"          , Validator() },
+        { "netplay.active"            , Validator(true) },
+        { "netplay.nickname"          , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'_-") },
         { "netplay.port"              , Validator(1, 65535) },
-        { "netplay.relay"             , Validator() },
+        { "netplay.relay"             , Validator(false, { "none", "nyc", "madrid", "montreal", "saopaulo" }) },
         { "netplay.systems"           , Validator() },
         { "netplay.lobby"             , Validator() },
         { "recalboxoverlays"          , Validator(true) },
         { "softpatching"              , Validator(false, { "auto", "select", "disable" }) },
+        { "showfps"                   , Validator(true) },
+        { "hidepreinstalledgames"     , Validator(true) },
+        { "show.savestate.before.run" , Validator(true) },
+        { "quitpresstwice"            , Validator(true) },
       });
 
       return sList;
@@ -541,7 +578,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       static HashMap<std::string, Validator> sList
         ({
            { "videomode"                 , Validator(GetAvailableResolutions(), false) },
-           { "shaderset"                 , Validator({ "none", "scanlines", "retro", "custom" }, false) },
+           { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
            { "shaderset.file"            , Validator(GetAvailableShaders(), false) },
            { "integerscale"              , Validator(true) },
            { "shaders"                   , Validator(true) },
@@ -1103,7 +1140,7 @@ RequestHandlerTools::GetUploadedFile(const Rest::Request& request, std::string& 
             size_t fileNameStop = request.body().find('"', fileNameStart);
             if (fileNameStop != std::string::npos && fileNameStop < headerStop)
             {
-              // Extact filename
+              // Extract filename
               filename = request.body().substr(fileNameStart, fileNameStop - fileNameStart);
               // Store indexes
               startOffset = (int)(headerStop + sizeof(GUF_DOUBLE_EOF) - 1);

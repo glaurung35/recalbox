@@ -489,7 +489,7 @@
         },
         "hardcore": {
           "label": "Activer le mode Hardcore",
-          "help": "Le mode Hardcore désactive *toutes* les possibilités de sauvegarder dans l'émulateur : vous ne pourrez ni sauvegarder ni recharger votre partie en cours de jeu.\n\nVous devrez compléter le jeu et obtenir les hauts-faits du premier coup, comme c'était le cas sur la console originale !"
+          "help": "Le mode Hardcore désactive <b>toutes</b> les possibilités de sauvegarder dans l'émulateur : vous ne pourrez ni sauvegarder ni recharger votre partie en cours de jeu.\n\nVous devrez compléter le jeu et obtenir les hauts-faits du premier coup, comme c'était le cas sur la console originale !"
         },
         "username": {
           "label": "Login"

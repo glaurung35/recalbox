@@ -44,6 +44,9 @@ export const useGlobalStore = defineStore('global', {
       'demo.systemlist': {
         allowedStringList: [''],
       },
+      'netplay.relay': {
+        allowedStringList: [''],
+      },
     },
     global: {},
   } as GlobalStoreState),
@@ -58,5 +61,6 @@ export const useGlobalStore = defineStore('global', {
     demoInfoscreendurationOptions: (state) => state._globalOptions['demo.infoscreenduration'],
     demoDurationOptions: (state) => state._globalOptions['demo.duration'],
     demoSystemlistOptions: (state) => state._globalOptions['demo.systemlist'].allowedStringList,
+    netplayRelayOptions: (state) => state._globalOptions['netplay.relay'].allowedStringList,
   },
 });

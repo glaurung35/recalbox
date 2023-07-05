@@ -41,8 +41,9 @@
           {{ $t('emulation.global.netplay.port.help') }}
         </template>
       </WrappedTextInput>
-      <WrappedTextInput
+      <WrappedSelect
         label="emulation.global.netplay.relay.label"
+        :options="netplayRelayOptions"
         :getter="global['netplay.relay']"
         :setter="globalStore.post"
         apiKey="netplay.relay"
@@ -52,7 +53,7 @@
         <template v-slot:help>
           {{ $t('emulation.global.netplay.relay.help') }}
         </template>
-      </WrappedTextInput>
+      </WrappedSelect>
       <WrappedTextInput
         label="emulation.global.netplay.lobby.label"
         :getter="global['netplay.lobby']"
@@ -72,13 +73,17 @@
 <script lang="ts" setup>
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
+import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 
 const globalStore = useGlobalStore();
 globalStore.fetch();
-const { global } = storeToRefs(globalStore);
+const {
+  netplayRelayOptions,
+  global,
+} = storeToRefs(globalStore);
 </script>
 
 <style lang="sass">

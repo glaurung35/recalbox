@@ -15,6 +15,8 @@ export const CONFIGURATION = {
   global: '/configuration/global',
   hyperion: '/configuration/hyperion',
   kodi: '/configuration/kodi',
+  music: '/configuration/music',
+  patron: 'configuration/patron',
   scraper: '/configuration/scraper',
   screenshots: '/configuration/screenshots',
   system: '/configuration/system',

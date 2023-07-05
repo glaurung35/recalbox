@@ -23,6 +23,10 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         lowerValue: 0,
         higherValue: 0,
       },
+      'screensaver.time': {
+        lowerValue: 0,
+        higherValue: 0,
+      },
     },
     emulationstation: {},
   } as EmulationStationStoreState),
@@ -33,5 +37,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       .selectedsystem.allowedStringList,
     videosnapsLoopOptions: (state) => state._emulationstationOptions['videosnaps.loop'],
     videosnapsDelayOptions: (state) => state._emulationstationOptions['videosnaps.delay'],
+    screensaverTimeOptions: (state) => state._emulationstationOptions['screensaver.time'],
+    screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList,
   },
 });

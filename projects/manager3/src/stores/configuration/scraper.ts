@@ -55,6 +55,10 @@ export const useScraperStore = defineStore('scraper', {
       'screenscraper.user': {
         type: '',
       },
+      source: {
+        type: '',
+        allowedStringList: [''],
+      },
     },
     scraper: {
       getnamefrom: {},
@@ -69,5 +73,6 @@ export const useScraperStore = defineStore('scraper', {
     thumbnailOptions: (state) => state._scraperOptions['screenscraper.thumbnail'].allowedStringList,
     videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList,
     getNameFromOptions: () => [0, 1, 2],
+    sourceOptions: (state) => state._scraperOptions.source.allowedStringList,
   },
 });

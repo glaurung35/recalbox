@@ -15,6 +15,8 @@ const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
     'updates',
     'controllers',
     'global',
+    'patron',
+    'music',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

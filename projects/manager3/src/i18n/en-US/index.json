@@ -264,6 +264,10 @@
         "showOnlyScrapedGames": {
           "label": "Show only scraped games",
           "help": "ES will only display the games included in the gamelist.xml files (accelerates display times)."
+        },
+        "clock": {
+          "title": "Display clock",
+          "help": "Displays a clock in menus"
         }
       },
       "videoSnaps": {
@@ -276,6 +280,23 @@
           "title": "Video loop times",
           "help": "0 = no video. 1 or more = the video loops x times before fading out"
         }
+      },
+      "screensaver": {
+        "title": "Screensaver",
+        "time": {
+          "title": "Delay",
+          "help": "Delay before screensaver start, in seconds. Default: 5 minutes"
+        },
+        "type": {
+          "title": "Type",
+          "help": {
+            "availableOptions": "Available options:",
+            "dim": "<b>dim</b> reduces the screen light",
+            "black": "<b>black</b> turns to a black screen",
+            "demo": "<b>demo</b> launches a random game as demo",
+            "gameclip": "<b>gameclip</b> shows a random game clip video from scrap"
+          }
+        }
       }
     },
     "scraper": {
@@ -284,11 +305,15 @@
         "getNameFrom": {
           "title": "Get names from",
           "help": {
-            "availableOptions": "Available options :",
+            "availableOptions": "Available options:",
             "0": "<b>0</b> from scrapper result (default)",
             "1": "<b>1</b> from filename",
             "2": "<b>2</b> from filename undecorated (i.e: (text) and [text] removed )"
           }
+        },
+        "source": {
+          "title": "Scrap source",
+          "help": "If you are boss level 2 or 3, you can choose the source of your scraps"
         }
       },
       "screenscraper": {
@@ -355,6 +380,23 @@
       "settings": {
         "title": "Settings",
         "enableHyperion": "Enable Hyperion"
+      }
+    },
+    "patreon": {
+      "title": "Patreon",
+      "patron": {
+        "privatekey": {
+          "title": "Key",
+          "help": "Patreon key provided on www.recalbox.com"
+        }
+      }
+    },
+    "music": {
+      "remoteplaylist": {
+        "enable": {
+          "title": "Enable patrons playlist",
+          "help": "Allows to disable music playlist"
+        }
       }
     }
   },

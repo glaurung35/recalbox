@@ -598,3 +598,19 @@ void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::Respons
     );
 
 }
+
+void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemSupportArchive");
+
+  std::string archivePath = RequestHandlerTools::OutputOf("bash /recalbox/scripts/recalbox-support.sh");
+
+  archivePath.erase(archive.size() - 1);
+
+  JSONBuilder json;
+  json.Open()
+          .Field("archivePath", archivePath)
+          .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);
+}

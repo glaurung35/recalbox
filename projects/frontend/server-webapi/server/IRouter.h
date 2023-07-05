@@ -257,6 +257,13 @@ class IRouter
      */
     virtual void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*!
+     * @brief Handle GET to generate support archive
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -304,6 +311,8 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/system/es/start", Rest::Routes::bind(&IRouter::SystemEsStart, this));
       Rest::Routes::Post(mRouter, "/api/system/es/stop", Rest::Routes::bind(&IRouter::SystemEsStop, this));
       Rest::Routes::Post(mRouter, "/api/system/es/restart", Rest::Routes::bind(&IRouter::SystemEsRestart, this));
+
+      Rest::Routes::Get(mRouter, "/api/system/supportarchive", Rest::Routes::bind(&IRouter::SystemSupportArchive, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

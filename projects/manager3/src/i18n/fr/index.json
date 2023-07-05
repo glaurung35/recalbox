@@ -264,6 +264,10 @@
         "showOnlyScrapedGames": {
           "label": "N'afficher que les jeux parsés",
           "help": "ES n'affichera que les jeux listés dans les fichiers gamelist.xml (accélère les temps d'affichage)."
+        },
+        "clock": {
+          "title": "Afficher l'horloge",
+          "help": "Affiche une horloge dans les menus"
         }
       },
       "videoSnaps": {
@@ -275,6 +279,23 @@
         "loop": {
           "title": "Nombre de boucles vidéo",
           "help": "0 = pas de vidéo. 1 ou plus = la vidéo boucle x fois avant de disparaître"
+        }
+      },
+      "screensaver": {
+        "title": "Écrans de veille",
+        "time": {
+          "title": "Délai",
+          "help": "Délai avant le démarrage de l'écran de veille, en secondes. Par défaut : 5 minutes"
+        },
+        "type": {
+          "title": "Type",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "dim": "<b>dim</b> affiche un écran en demi-teinte",
+            "black": "<b>black</b> affiche un écran entièrement noir",
+            "demo": "<b>demo</b> affiche une démo d'un jeu sélectionné au hasard",
+            "gameclip": "<b>gameclip</b> affiche une vidéo issu d'un scrap d'un jeu sélectionné au hasard"
+          }
         }
       }
     },
@@ -289,6 +310,10 @@
             "1": "<b>1</b> à partir du nom du fichier",
             "2": "<b>2</b> à partir du nom du fichier non décoré (i.e: (text) et [text] supprimés)"
           }
+        },
+        "source": {
+          "title": "Source du scrap",
+          "help": "Si vous êtes boss level 2 ou 3, vous pouvez choisir la source de vos scraps"
         }
       },
       "screenscraper": {
@@ -355,6 +380,23 @@
       "settings": {
         "title": "Réglages",
         "enableHyperion": "Activer Hyperion"
+      }
+    },
+    "patreon": {
+      "title": "Patreon",
+      "patron": {
+        "privatekey": {
+          "title": "Clé",
+          "help": "Clé Patreon fourni sur www.recalbox.com"
+        }
+      }
+    },
+    "music": {
+      "remoteplaylist": {
+        "enable": {
+          "title": "Activer la playlist patrons",
+          "help": "Permet de désactiver la playlist des musiques"
+        }
       }
     }
   },

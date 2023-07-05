@@ -48,6 +48,10 @@ export const ScraperConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  source: z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type ScraperConfig = z.infer<typeof ScraperConfigSchema>
@@ -92,6 +96,10 @@ export const ScraperConfigOptionsSchema = z.object({
   }),
   'screenscraper.user': z.object({
     type: z.string(),
+  }),
+  source: z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
 });
 

@@ -93,6 +93,18 @@
               {{ $t('settings.emustation.menus.showOnlyScrapedGames.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.menus.clock.title"
+            :getter="emulationstation.clock"
+            :setter="emulationstationStore.post"
+            apiKey="clock"
+            v-if="emulationstation.clock"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.clock.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -131,6 +143,85 @@
           </WrappedSlider>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="settings.patreon.title">
+        <template v-slot:content>
+          <WrappedTextInput
+            label="settings.patreon.patron.privatekey.title"
+            :getter="patron.privatekey"
+            :setter="patronStore.post"
+            apiKey="privatekey"
+            v-if="patron.privatekey"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.patreon.patron.privatekey.help') }}
+            </template>
+          </WrappedTextInput>
+          <WrappedToggle
+            label="settings.music.remoteplaylist.enable.title"
+            :getter="music['remoteplaylist.enable']"
+            :setter="musicStore.post"
+            apiKey="remoteplaylist.enable"
+            v-if="music['remoteplaylist.enable']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.music.remoteplaylist.enable.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSelect
+            label="settings.scraper.settings.source.title"
+            :options="sourceOptions"
+            :getter="scraper.source"
+            :setter="scraperStore.post"
+            apiKey="source"
+            v-if="scraper.source"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.scraper.settings.source.help') }}
+            </template>
+        </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="settings.emustation.screensaver.title">
+        <template v-slot:content>
+          <WrappedSlider
+            label="settings.emustation.screensaver.time.title"
+            :getter="emulationstation['screensaver.time']"
+            :setter="emulationstationStore.post"
+            apiKey="screensaver.time"
+            v-if="emulationstation['screensaver.time']"
+            :mix="screensaverTimeOptions.lowerValue"
+            :max="screensaverTimeOptions.higherValue"
+            icon="mdi-clock-start"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.screensaver.time.help') }}
+            </template>
+          </WrappedSlider>
+          <WrappedSelect
+            label="settings.emustation.screensaver.type.title"
+            :options="screensaverTypeOptions"
+            :getter="emulationstation['screensaver.type']"
+            :setter="emulationstationStore.post"
+            apiKey="screensaver.type"
+            v-if="emulationstation['screensaver.type']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.screensaver.type.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.screensaver.type.help.dim')"></li>
+                <li v-html="$t('settings.emustation.screensaver.type.help.black')"></li>
+                <li v-html="$t('settings.emustation.screensaver.type.help.demo')"></li>
+                <li v-html="$t('settings.emustation.screensaver.type.help.gameclip')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -143,6 +234,10 @@ import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/configuration/system';
 import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
+import { usePatronStore } from 'stores/configuration/patron';
+import { useMusicStore } from 'stores/configuration/music';
+import { useScraperStore } from 'stores/configuration/scraper';
+import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
@@ -155,7 +250,28 @@ const {
   selectedsystemOptions,
   videosnapsLoopOptions,
   videosnapsDelayOptions,
+  screensaverTimeOptions,
+  screensaverTypeOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);
+
+const patronStore = usePatronStore();
+patronStore.fetch();
+const {
+  patron,
+} = storeToRefs(patronStore);
+
+const musicStore = useMusicStore();
+musicStore.fetch();
+const {
+  music,
+} = storeToRefs(musicStore);
+
+const scraperStore = useScraperStore();
+scraperStore.fetch();
+const {
+  sourceOptions,
+  scraper,
+} = storeToRefs(scraperStore);
 </script>

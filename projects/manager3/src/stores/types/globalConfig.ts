@@ -102,7 +102,7 @@ export const GlobalConfigSchema = z.object({
   }),
   'netplay.relay': z.object({
     exist: z.boolean(),
-    value: z.string(),
+    value: z.array(z.string()),
   }),
   rewind: z.object({
     exist: z.boolean(),
@@ -220,6 +220,7 @@ export const GlobalConfigOptionsSchema = z.object({
   }),
   'netplay.relay': z.object({
     type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
   rewind: z.object({
     type: z.string(),

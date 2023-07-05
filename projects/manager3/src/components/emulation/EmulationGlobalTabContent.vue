@@ -125,10 +125,10 @@
         <template v-slot:content>
           <WrappedToggle
             label="emulation.global.arcade.activate.label"
-            :getter="global.arcade"
-            :setter="globalStore.post"
+            :getter="emulationstation.arcade"
+            :setter="emulationstationStore.post"
             apiKey="arcade"
-            v-if="global.arcade"
+            v-if="emulationstation.arcade"
             help
           >
             <template v-slot:help>
@@ -137,10 +137,10 @@
           </WrappedToggle>
           <WrappedTextInput
             label="emulation.global.arcade.position.label"
-            :getter="global['arcade.position']"
-            :setter="globalStore.post"
+            :getter="emulationstation['arcade.position']"
+            :setter="emulationstationStore.post"
             apiKey="arcade.position"
-            v-if="global['arcade.position']"
+            v-if="emulationstation['arcade.position']"
             help
           >
             <template v-slot:help>
@@ -149,10 +149,10 @@
           </WrappedTextInput>
           <WrappedToggle
             label="emulation.global.arcade.includeNeogeo.label"
-            :getter="global['arcade.includeneogeo']"
-            :setter="globalStore.post"
+            :getter="emulationstation['arcade.includeneogeo']"
+            :setter="emulationstationStore.post"
             apiKey="arcade.includeneogeo"
-            v-if="global['arcade.includeneogeo']"
+            v-if="emulationstation['arcade.includeneogeo']"
             help
           >
             <template v-slot:help>
@@ -161,10 +161,10 @@
           </WrappedToggle>
           <WrappedToggle
             label="emulation.global.arcade.hideOriginals.label"
-            :getter="global['arcade.hideoriginals']"
-            :setter="globalStore.post"
+            :getter="emulationstation['arcade.hideoriginals']"
+            :setter="emulationstationStore.post"
             apiKey="arcade.hideoriginals"
-            v-if="global['arcade.hideoriginals']"
+            v-if="emulationstation['arcade.hideoriginals']"
             help
           >
             <template v-slot:help>
@@ -247,6 +247,7 @@ import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useGlobalStore } from 'stores/configuration/global';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 
@@ -261,4 +262,10 @@ const {
   videomodeOptions,
   global,
 } = storeToRefs(globalStore);
+
+const emulationstationStore = useEmulationstationStore();
+emulationstationStore.fetch();
+const {
+  emulationstation,
+} = storeToRefs(emulationstationStore);
 </script>

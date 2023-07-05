@@ -47,7 +47,7 @@
         help
       >
         <template v-slot:help>
-          {{ $t('emulation.global.retroachievements.hardcore.help') }}
+          <div v-html="$t('emulation.global.retroachievements.hardcore.help')"></div>
         </template>
       </WrappedToggle>
     </template>

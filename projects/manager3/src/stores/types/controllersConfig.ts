@@ -52,6 +52,14 @@ export const ControllersConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  'joycond.enabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  swapvalidateandcancel: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
 });
 
 export type ControllersConfig = z.infer<typeof ControllersConfigSchema>
@@ -92,6 +100,12 @@ export const ControllersConfigOptionsSchema = z.object({
     type: z.string(),
   }),
   'db9.enabled': z.object({
+    type: z.string(),
+  }),
+  'joycond.enable': z.object({
+    type: z.string(),
+  }),
+  swapvalidateandcancel: z.object({
     type: z.string(),
   }),
 });

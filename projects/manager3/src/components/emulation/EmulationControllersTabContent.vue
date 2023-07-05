@@ -119,6 +119,28 @@
           />
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.joycond.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.joycond.enabled"
+            :getter="controllers['joycond.enabled']"
+            :setter="controllersStore.post"
+            apiKey="joycond.enabled"
+            v-if="controllers['joycond.enabled']"
+          />
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.swapvalidateandcancel.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.swapvalidateandcancel.enabled"
+            :getter="controllers['swapvalidateandcancel']"
+            :setter="controllersStore.post"
+            apiKey="swapvalidateandcancel"
+            v-if="controllers['swapvalidateandcancel']"
+          />
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>

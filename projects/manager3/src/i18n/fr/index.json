@@ -632,6 +632,14 @@
       "xarcade": {
         "title": "XArcade",
         "enabled": "Support des contrôleurs XArcade Tankstik et contrôleurs compatibles"
+      },
+      "joycond": {
+        "title": "Joycon",
+        "enabled": "Support des contrôleurs Joycons"
+      },
+      "swapvalidateandcancel": {
+        "title": "Boutons",
+        "enabled": "Inverser les boutons valider et annuler"
       }
     },
     "screenshots": {

@@ -269,4 +269,11 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to generate support archive
+     * @param request  Request object
+     * @param response Response object
+     */
+    void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) override;
 };

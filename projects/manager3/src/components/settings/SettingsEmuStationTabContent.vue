@@ -184,44 +184,6 @@
         </WrappedSelect>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="settings.emustation.screensaver.title">
-        <template v-slot:content>
-          <WrappedSlider
-            label="settings.emustation.screensaver.time.title"
-            :getter="emulationstation['screensaver.time']"
-            :setter="emulationstationStore.post"
-            apiKey="screensaver.time"
-            v-if="emulationstation['screensaver.time']"
-            :mix="screensaverTimeOptions.lowerValue"
-            :max="screensaverTimeOptions.higherValue"
-            icon="mdi-clock-start"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.screensaver.time.help') }}
-            </template>
-          </WrappedSlider>
-          <WrappedSelect
-            label="settings.emustation.screensaver.type.title"
-            :options="screensaverTypeOptions"
-            :getter="emulationstation['screensaver.type']"
-            :setter="emulationstationStore.post"
-            apiKey="screensaver.type"
-            v-if="emulationstation['screensaver.type']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.screensaver.type.help.availableOptions') }}
-              <ul>
-                <li v-html="$t('settings.emustation.screensaver.type.help.dim')"></li>
-                <li v-html="$t('settings.emustation.screensaver.type.help.black')"></li>
-                <li v-html="$t('settings.emustation.screensaver.type.help.demo')"></li>
-                <li v-html="$t('settings.emustation.screensaver.type.help.gameclip')"></li>
-              </ul>
-            </template>
-          </WrappedSelect>
-        </template>
-      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -250,8 +212,6 @@ const {
   selectedsystemOptions,
   videosnapsLoopOptions,
   videosnapsDelayOptions,
-  screensaverTimeOptions,
-  screensaverTypeOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);

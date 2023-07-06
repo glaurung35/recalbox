@@ -171,10 +171,27 @@
         "virtualGamepadsEnabled": "Enables virtual devices",
         "sshEnabled": "Enables SSH protocol"
       },
+      "screensaver": {
+        "title": "Screensaver",
+        "time": {
+          "title": "Delay",
+          "help": "Delay before screensaver start, in seconds. Default: 5 minutes"
+        },
+        "type": {
+          "title": "Type",
+          "help": {
+            "availableOptions": "Available options:",
+            "dim": "<b>dim</b> reduces the screen light",
+            "black": "<b>black</b> turns to a black screen",
+            "demo": "<b>demo</b> launches a random game as demo",
+            "gameclip": "<b>gameclip</b> shows a random game clip video from scrap"
+          }
+        }
+      },
       "demo": {
         "title": "Demo screensaver",
         "systemlist": {
-          "label": "Displayed systems list",
+          "label": "Displayed systems list (demo / gameclip)",
           "help": "Set the system list from which ES will run random games. Empty list or unexisting key means all available systems."
         },
         "duration": {
@@ -279,23 +296,6 @@
         "loop": {
           "title": "Video loop times",
           "help": "0 = no video. 1 or more = the video loops x times before fading out"
-        }
-      },
-      "screensaver": {
-        "title": "Screensaver",
-        "time": {
-          "title": "Delay",
-          "help": "Delay before screensaver start, in seconds. Default: 5 minutes"
-        },
-        "type": {
-          "title": "Type",
-          "help": {
-            "availableOptions": "Available options:",
-            "dim": "<b>dim</b> reduces the screen light",
-            "black": "<b>black</b> turns to a black screen",
-            "demo": "<b>demo</b> launches a random game as demo",
-            "gameclip": "<b>gameclip</b> shows a random game clip video from scrap"
-          }
         }
       }
     },

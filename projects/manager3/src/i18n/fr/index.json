@@ -171,10 +171,26 @@
         "virtualGamepadsEnabled": "Activer les périphériques virtuels",
         "sshEnabled": "Activer le protocole SSH"
       },
+      "screensaver": {
+        "title": "Écrans de veille",
+        "time": {
+          "title": "Délai",
+          "help": "Délai avant le démarrage de l'écran de veille, en secondes. Par défaut : 5 minutes"
+        },
+        "type": {
+          "title": "Type",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "dim": "<b>dim</b> affiche un écran en demi-teinte",
+            "black": "<b>black</b> affiche un écran entièrement noir",
+            "demo": "<b>demo</b> affiche une démo d'un jeu sélectionné au hasard",
+            "gameclip": "<b>gameclip</b> affiche une vidéo issu d'un scrap d'un jeu sélectionné au hasard"
+          }
+        }
+      },
       "demo": {
-        "title": "Démo screensaver",
         "systemlist": {
-          "label": "Liste des systèmes présentés",
+          "label": "Liste des systèmes présentés (demo / gameclip)",
           "help": "Configure la liste des systèmes parmis lesquels EmulationStation va puiser pour faire tourner les démo. Si une valeur nulle ou inconnue est saisie, toute les systèmes seront présentés."
         },
         "duration": {
@@ -279,23 +295,6 @@
         "loop": {
           "title": "Nombre de boucles vidéo",
           "help": "0 = pas de vidéo. 1 ou plus = la vidéo boucle x fois avant de disparaître"
-        }
-      },
-      "screensaver": {
-        "title": "Écrans de veille",
-        "time": {
-          "title": "Délai",
-          "help": "Délai avant le démarrage de l'écran de veille, en secondes. Par défaut : 5 minutes"
-        },
-        "type": {
-          "title": "Type",
-          "help": {
-            "availableOptions": "Options disponibles :",
-            "dim": "<b>dim</b> affiche un écran en demi-teinte",
-            "black": "<b>black</b> affiche un écran entièrement noir",
-            "demo": "<b>demo</b> affiche une démo d'un jeu sélectionné au hasard",
-            "gameclip": "<b>gameclip</b> affiche une vidéo issu d'un scrap d'un jeu sélectionné au hasard"
-          }
         }
       }
     },

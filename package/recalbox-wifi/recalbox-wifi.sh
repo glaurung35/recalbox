@@ -51,21 +51,30 @@ rb_wifi_configure() {
   # setup wpa_supplicant network
   if [[ "$settings_ssid" != "" ]] ;then
 
-    recallog -s "${INIT_SCRIPT}" -t "WIFI" "Configuring wifi for SSID: $settings_ssid"
-    network=$(wpa_cli -i "$interface" add_network >/dev/null)
-    wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" >/dev/null || exit 1
+    echo "Configuring wifi for SSID: $settings_ssid"
+    network=$(wpa_cli -i "$interface" add_network)
+    echo "new wifi network: $network"
+    echo -n "Setting network ssid:"
+    wpa_cli -i "$interface" set_network "$network" ssid "\"$settings_ssid\"" || exit 1
     if [ -n "$settings_key" ]; then
         # Connect to protected wifi
-        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" >/dev/null || exit 1
-        wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE >/dev/null || exit 1
-        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" >/dev/null || exit 1
-        wpa_cli -i "$interface" set_network "$network" ieee80211w 1 >/dev/null || exit 1
+        echo -n "Setting network psk:"
+        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
+        echo -n "setting network key_mgmt:"
+        wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
+        echo -n "Setting network sae_password:"
+        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" || exit 1
+        echo -n "Setting network ieee80211w:"
+        wpa_cli -i "$interface" set_network "$network" ieee80211w 1 || exit 1
     else
         # Connect to open ssid
-        wpa_cli -i "$interface" set_network "$network" key_mgmt NONE >/dev/null || exit 1
+        echo -n "Setting network key_mgmt:"
+        wpa_cli -i "$interface" set_network "$network" key_mgmt NONE || exit 1
     fi
-    wpa_cli -i "$interface" set_network "$network" scan_ssid 1 >/dev/null || exit 1
-    wpa_cli -i "$interface" enable_network "$network" >/dev/null || exit 1
+    echo -n "Setting network scan_ssid:"
+    wpa_cli -i "$interface" set_network "$network" scan_ssid 1 || exit 1
+    echo -n "Enabling network:"
+    wpa_cli -i "$interface" enable_network "$network" || exit 1
 
     # static ip configuration in dhcpcd.conf
     mount -o remount,rw /
@@ -74,11 +83,11 @@ rb_wifi_configure() {
       [[ "$settings_gateway" != "" ]] && \
       [[ "$settings_netmask" != "" ]] && \
       [[ "$settings_nameservers" != "" ]]; then
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip configuration"
+      echo "Static ip configuration"
       settings_netmask=$(mask2cidr "$settings_netmask")
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static ip_address=$settings_ip/$settings_netmask"
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static routers=$settings_gateway"
-      recallog -s "${INIT_SCRIPT}" -t "WIFI" "static domain_name_servers=$settings_nameservers"
+      echo "Static ip_address=$settings_ip/$settings_netmask"
+      echo "Static routers=$settings_gateway"
+      echo "Static domain_name_servers=$settings_nameservers"
       {
         echo "interface $interface"
         echo "static ip_address=$settings_ip/$settings_netmask"
@@ -107,16 +116,19 @@ cleanup_interface() {
     fi
 
     # remove network id
-    wpa_cli -i "$interface" remove_network "$netid" >/dev/null
+    echo -n "Removing network:"
+    wpa_cli -i "$interface" remove_network "$netid"
   done
 }
 
 configure_interface() {
   local interface="$1"
-  wpa_cli -i "$interface" set update_config 1 >/dev/null
+  echo -n "Enabling update_config:"
+  wpa_cli -i "$interface" set update_config 1
 
   settings_region=$("$system_setting" -command load -key "wifi.region" -source "$config_file")
-  wpa_cli -i "$interface" set country "$settings_region" >/dev/null
+  echo -n "Set country:"
+  wpa_cli -i "$interface" set country "$settings_region"
 
   cleanup_interface "$interface"
   # iterate through all network ...
@@ -125,7 +137,8 @@ configure_interface() {
   done
 
   # write wpa_supplicant configuration
-  wpa_cli -i "$interface" save_config >/dev/null
+  echo -n "Saving wifi configuration:"
+  wpa_cli -i "$interface" save_config
 }
 
 # start wpa_supplicant

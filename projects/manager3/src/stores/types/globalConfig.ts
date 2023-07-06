@@ -132,6 +132,10 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  softpatching: z.object({
+    exist: z.boolean(),
+    value: z.array(z.string()),
+  }),
 });
 
 export type GlobalConfig = z.infer<typeof GlobalConfigSchema>
@@ -250,6 +254,10 @@ export const GlobalConfigOptionsSchema = z.object({
   }),
   'show.savestate.before.run': z.object({
     type: z.string(),
+  }),
+  softpatching: z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
 });
 

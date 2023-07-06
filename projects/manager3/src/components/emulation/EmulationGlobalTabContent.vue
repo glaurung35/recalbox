@@ -250,6 +250,28 @@
           </WrappedTextInput>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.softpatching.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.global.softpatching.select.label"
+            :options="softpatchingOptions"
+            :getter="global.softpatching"
+            :setter="globalStore.post"
+            apiKey="softpatching"
+            v-if="global.softpatching"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.softpatching.select.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('emulation.global.softpatching.select.help.0')"></li>
+                <li v-html="$t('emulation.global.softpatching.select.help.1')"></li>
+                <li v-html="$t('emulation.global.softpatching.select.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -272,6 +294,7 @@ const {
   translateFromOptions,
   translateToOptions,
   videomodeOptions,
+  softpatchingOptions,
   global,
 } = storeToRefs(globalStore);
 

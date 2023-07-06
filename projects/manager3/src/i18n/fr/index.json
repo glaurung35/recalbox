@@ -491,6 +491,18 @@
           "help": "Si vous souhaitez utiliser un autre service de traduction ou un appel API custom, spécifiez l'URL à appeler.\n\nSi cette clé est renseignée, elle est utilisée à l aplace du service zTranslate."
         }
       },
+      "softpatching": {
+        "title": "Softpatching",
+        "select": {
+          "label": "Patcher les jeux au lancement",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "0": "<b>auto</b> appliquera un seul patch automatiquement tout le temps",
+            "1": "<b>select</b> vous demandera de choisir un ou plusieurs patchs à appliquer si vous le souhaitez",
+            "2": "<b>disable</b> ignorera complètement les patchs si il en existe"
+          }
+        }
+      },
       "retroachievements": {
         "title": "Retroachievements",
         "activate": {

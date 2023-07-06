@@ -492,6 +492,18 @@
           "help": "If you want to use another translation service or a custom API call, use this key to specify the url to call.\n\nIf the key is not empty, it is used instead of zTranslation's API Key."
         }
       },
+      "softpatching": {
+        "title": "Softpatching",
+        "select": {
+          "label": "Softpatching games on game start",
+          "help": {
+            "availableOptions": "Available options:",
+            "0": "<b>auto</b> will apply only 1 patch everytime automatically",
+            "1": "<b>select</b> will ask you to choose one or more patche(s) to apply if you would like",
+            "2": "<b>disable</b> will ignore completely patches if it exist"
+          }
+        }
+      },
       "retroachievements": {
         "title": "Retroachievements",
         "activate": {

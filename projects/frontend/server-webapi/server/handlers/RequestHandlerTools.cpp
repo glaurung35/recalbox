@@ -310,6 +310,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     Hyperion,
     Audio,
     Wifi,
+    Wifi2,
+    Wifi3,
     Controllers,
     Updates,
     Global,   //<! All emulators settings
@@ -327,6 +329,8 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
      { "hyperion", Namespace::Hyperion },
      { "audio", Namespace::Audio },
      { "wifi", Namespace::Wifi },
+     { "wifi2", Namespace::Wifi2 },
+     { "wifi3", Namespace::Wifi3 },
      { "controllers", Namespace::Controllers },
      { "updates", Namespace::Updates },
      { "global", Namespace::Global },
@@ -484,6 +488,26 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
 
       return sList;
     }
+    case Namespace::Wifi2:
+    {
+      static HashMap<std::string, Validator> sList
+      ({
+        { "ssid"       , Validator() },
+        { "key"        , Validator() },
+      });
+
+      return sList;
+    }
+    case Namespace::Wifi3:
+    {
+      static HashMap<std::string, Validator> sList
+      ({
+        { "ssid"       , Validator() },
+        { "key"        , Validator() },
+      });
+
+      return sList;
+    }
     case Namespace::Audio:
     {
       static HashMap<std::string, Validator> sList
@@ -523,8 +547,6 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       static HashMap<std::string, Validator> sList
       ({
         { "enabled"   , Validator(true) },
-        { "type"      , Validator(false, std::vector<const char*>({ "stable", "review" })) },
-        { "review.key", Validator() },
       });
 
       return sList;

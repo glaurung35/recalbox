@@ -206,6 +206,16 @@
           "label": "Durée des écrans d'information ( 15 à 30 s )",
           "help": "Valeur par défaut : 6s.\n\nChangez cette valeur si vous souhaitez une durée plus courte ou plus longue."
         }
+      },
+      "gameclip": {
+        "showhelpitems": {
+          "label": "Afficher les boutons en bas des clips des jeux",
+          "help": "Cette option permet de cacher les boutons d'actions visibles en bas de l'écran dans les clips de jeux."
+        },
+        "showclippingitem": {
+          "label": "Afficher le \"Press Start\" sur les clips de jeux",
+          "help": "Cette option permet d'afficher le \"Press Start\" affichée au milieu de l'écran."
+        }
       }
     },
     "audio": {

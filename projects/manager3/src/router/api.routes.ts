@@ -22,6 +22,8 @@ export const CONFIGURATION = {
   system: '/configuration/system',
   updates: '/configuration/updates',
   wifi: '/configuration/wifi',
+  wifi2: '/configuration/wifi2',
+  wifi3: '/configuration/wifi3',
 };
 
 export const SYSTEM = {

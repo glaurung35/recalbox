@@ -91,12 +91,10 @@
                 <q-tab
                   icon="mdi-numeric-2-circle"
                   name="wifi_2"
-                  disable
                 />
                 <q-tab
                   icon="mdi-numeric-3-circle"
                   name="wifi_3"
-                  disable
                 />
               </q-tabs>
             </template>
@@ -129,34 +127,34 @@
                 </q-tab-panel>
 
                 <q-tab-panel name="wifi_2">
-                  <q-input
-                    :label="$t('settings.network.wifi.ssid')"
-                    class="q-mb-md"
-                    dense
-                    standout="bg-primary text-white"
-                    v-model="text"
+                  <WrappedTextInput
+                    label="settings.network.wifi.ssid"
+                    :getter="wifi2.ssid"
+                    :setter="wifi2Store.post"
+                    v-if="wifi2.ssid"
                   />
-                  <q-input
-                    :label="$t('settings.network.wifi.key')"
-                    dense
-                    standout="bg-primary text-white"
-                    v-model="text"
+                  <WrappedTextInput
+                    label="settings.network.wifi.key"
+                    :getter="wifi2.key"
+                    :setter="wifi2Store.post"
+                    v-if="wifi2.key"
+                    password
                   />
                 </q-tab-panel>
 
                 <q-tab-panel name="wifi_3">
-                  <q-input
-                    :label="$t('settings.network.wifi.ssid')"
-                    class="q-mb-md"
-                    dense
-                    standout="bg-primary text-white"
-                    v-model="text"
+                  <WrappedTextInput
+                    label="settings.network.wifi.ssid"
+                    :getter="wifi3.ssid"
+                    :setter="wifi3Store.post"
+                    v-if="wifi3.ssid"
                   />
-                  <q-input
-                    :label="$t('settings.network.wifi.key')"
-                    dense
-                    standout="bg-primary text-white"
-                    v-model="text"
+                  <WrappedTextInput
+                    label="settings.network.wifi.key"
+                    :getter="wifi3.key"
+                    :setter="wifi3Store.post"
+                    v-if="wifi3.key"
+                    password
                   />
                 </q-tab-panel>
               </q-tab-panels>
@@ -175,6 +173,8 @@ import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useWifiStore } from 'stores/configuration/wifi';
+import { useWifi2Store } from 'stores/configuration/wifi2';
+import { useWifi3Store } from 'stores/configuration/wifi3';
 import { ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
@@ -186,6 +186,14 @@ const { system } = storeToRefs(systemStore);
 const wifiStore = useWifiStore();
 wifiStore.fetch();
 const { wifi, regionOptions } = storeToRefs(wifiStore);
+
+const wifi2Store = useWifi2Store();
+wifi2Store.fetch();
+const { wifi2 } = storeToRefs(wifi2Store);
+
+const wifi3Store = useWifi3Store();
+wifi3Store.fetch();
+const { wifi3 } = storeToRefs(wifi3Store);
 
 const text = ref<string>('');
 const tab = ref<string>('wifi_1');

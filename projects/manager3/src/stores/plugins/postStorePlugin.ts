@@ -12,6 +12,8 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
     'scraper',
     'emulationstation',
     'wifi',
+    'wifi2',
+    'wifi3',
     'system',
     'updates',
     'controllers',

@@ -50,6 +50,9 @@ export const useGlobalStore = defineStore('global', {
       softpatching: {
         allowedStringList: [''],
       },
+      inputdriver: {
+        allowedStringList: [''],
+      },
     },
     global: {},
   } as GlobalStoreState),
@@ -66,5 +69,6 @@ export const useGlobalStore = defineStore('global', {
     demoSystemlistOptions: (state) => state._globalOptions['demo.systemlist'].allowedStringList,
     netplayRelayOptions: (state) => state._globalOptions['netplay.relay'].allowedStringList,
     softpatchingOptions: (state) => state._globalOptions.softpatching.allowedStringList,
+    inputdriverOptions: (state) => state._globalOptions.inputdriver.allowedStringList,
   },
 });

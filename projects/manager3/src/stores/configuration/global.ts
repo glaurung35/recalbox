@@ -47,6 +47,9 @@ export const useGlobalStore = defineStore('global', {
       'netplay.relay': {
         allowedStringList: [''],
       },
+      softpatching: {
+        allowedStringList: [''],
+      },
     },
     global: {},
   } as GlobalStoreState),
@@ -62,5 +65,6 @@ export const useGlobalStore = defineStore('global', {
     demoDurationOptions: (state) => state._globalOptions['demo.duration'],
     demoSystemlistOptions: (state) => state._globalOptions['demo.systemlist'].allowedStringList,
     netplayRelayOptions: (state) => state._globalOptions['netplay.relay'].allowedStringList,
+    softpatchingOptions: (state) => state._globalOptions.softpatching.allowedStringList,
   },
 });

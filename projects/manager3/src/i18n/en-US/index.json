@@ -459,10 +459,16 @@
         "label": "Enables rewind",
         "help": "The rewind option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it."
       },
-      "autosave": {
-        "title": "Auto save",
-        "label": "Enables automatic backup / load",
-        "help": "This option allows you to create an automatic backup of your game when you exit it, then to load it again when you restart it.\n\nOnce the game is launched and the backup loaded, if you want to return to the title screen of the game, use the special reset command."
+      "saves": {
+        "title": "Saves",
+        "autosave": {
+          "label": "Enables automatic backup / load",
+          "help": "This option allows you to create an automatic backup of your game when you exit it, then to load it again when you restart it.\n\nOnce the game is launched and the backup loaded, if you want to return to the title screen of the game, use the special reset command."
+        },
+        "showsavestatebeforerun": {
+          "label": "Show save states on start",
+          "help": "This option will show available save states before a game is launched."
+        }
       },
       "translation": {
         "title": "Retroarch translation",

@@ -458,10 +458,16 @@
         "label": "Active le rembobinage des jeux",
         "help": "L'option rembobinage vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l'activez par défaut."
       },
-      "autosave": {
-        "title": "Sauvegarde",
-        "label": "Active la sauvegarde / chargement automatique",
-        "help": "Cette option vous permet de créer une sauvegarde automatique de votre jeu quand vous le quittez, puis de la charger à nouveau quand vous le relancerez.\n\nUne fois le jeu lancé et la sauvegarde chargée, si vous souhaitez revenir à l'écran titre du jeu, utilisez la commande spéciale de reset."
+      "saves": {
+        "title": "Sauvegardes",
+        "autosave": {
+          "label": "Active la sauvegarde / chargement automatique",
+          "help": "Cette option vous permet de créer une sauvegarde automatique de votre jeu quand vous le quittez, puis de la charger à nouveau quand vous le relancerez.\n\nUne fois le jeu lancé et la sauvegarde chargée, si vous souhaitez revenir à l'écran titre du jeu, utilisez la commande spéciale de reset."
+        },
+        "showsavestatebeforerun": {
+          "label": "Afficher les sauvegardes instantanées au lancement des jeux",
+          "help": "Cette option permet d'afficher un écran au lancement des jeux permettant de reprendre une partie à partir d'une sauvegarde instantanée"
+        }
       },
       "translation": {
         "title": "Traduction Retroarch",

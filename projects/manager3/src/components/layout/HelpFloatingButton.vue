@@ -15,6 +15,7 @@
       :model-value="model"
     >
       <q-fab-action
+        @click="useServerStore().supportArchive()"
         color="secondary"
         icon="mdi-bash"
         label="recalbox-support.sh"

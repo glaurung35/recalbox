@@ -662,6 +662,16 @@
       "swapvalidateandcancel": {
         "title": "Boutons",
         "enabled": "Inverser les boutons valider et annuler"
+      },
+      "inputdriver": {
+        "title": "Pilote",
+        "label": "Pilote de manette",
+        "help": {
+          "availableOptions": "Options disponibles :",
+          "0": "<b>auto</b> choisira le pilote automatiquement",
+          "1": "<b>udev</b> pour utiliser le pilote système",
+          "2": "<b>sdl2</b> pour utiliser le pilote logiciel"
+        }
       }
     },
     "screenshots": {

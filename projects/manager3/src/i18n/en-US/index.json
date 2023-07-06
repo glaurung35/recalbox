@@ -663,6 +663,16 @@
       "swapvalidateandcancel": {
         "title": "Buttons",
         "enabled": "Invert validate and cancel buttons"
+      },
+      "inputdriver": {
+        "title": "Driver",
+        "label": "Controller driver",
+        "help": {
+          "availableOptions": "Available options:",
+          "0": "<b>auto</b> will choose the driver automatically",
+          "1": "<b>udev</b> to use the system driver",
+          "2": "<b>sdl2</b> to use the software driver"
+        }
       }
     },
     "screenshots": {

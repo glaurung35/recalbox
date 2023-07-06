@@ -141,6 +141,28 @@
           />
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.inputdriver.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.controllers.inputdriver.label"
+            :options="inputdriverOptions"
+            :getter="global.inputdriver"
+            :setter="globalStore.post"
+            apiKey="inputdriver"
+            v-if="global.inputdriver"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.inputdriver.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('emulation.controllers.inputdriver.help.0')"></li>
+                <li v-html="$t('emulation.controllers.inputdriver.help.1')"></li>
+                <li v-html="$t('emulation.controllers.inputdriver.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -152,8 +174,13 @@ import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { storeToRefs } from 'pinia';
 import { useControllersStore } from 'stores/configuration/controllers';
+import { useGlobalStore } from 'stores/configuration/global';
 
 const controllersStore = useControllersStore();
 controllersStore.fetch();
 const { ps3driverOptions, controllers } = storeToRefs(controllersStore);
+
+const globalStore = useGlobalStore();
+globalStore.fetch();
+const { inputdriverOptions, global } = storeToRefs(globalStore);
 </script>

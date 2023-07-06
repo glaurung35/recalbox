@@ -15,14 +15,9 @@ export const useUpdatesStore = defineStore('updates', {
   state: () => ({
     _baseUrl: CONFIGURATION.updates,
     _updatesOptions: {
-      type: {
-        allowedStringList: [''],
-      },
     },
     updates: {},
   } as UpdatesStoreState),
 
-  getters: {
-    updatesTypeOptions: (state) => state._updatesOptions.type.allowedStringList,
-  },
+  getters: {},
 });

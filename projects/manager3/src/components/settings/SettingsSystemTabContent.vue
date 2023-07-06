@@ -90,14 +90,6 @@
             apiKey="enabled"
             v-if="updates.enabled"
           />
-          <WrappedSelect
-            label="settings.system.updates.versionType.label"
-            :options="updatesTypeOptions"
-            :getter="updates.type"
-            :setter="updateStore.post"
-            apiKey="type"
-            v-if="updates.type"
-          />
         </template>
       </FormFragmentContainer>
 
@@ -234,7 +226,7 @@ import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 
 const updateStore = useUpdatesStore();
 updateStore.fetch();
-const { updatesTypeOptions, updates } = storeToRefs(updateStore);
+const { updates } = storeToRefs(updateStore);
 
 const systemStore = useSystemStore();
 const {

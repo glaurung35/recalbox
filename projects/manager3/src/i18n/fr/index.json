@@ -158,11 +158,7 @@
       },
       "updates": {
         "title": "mises à jour",
-        "toggleButtonLabel": "Vérifier les mises à jours au démarrage du système",
-        "versionType": {
-          "label": "Type de version",
-          "options": {}
-        }
+        "toggleButtonLabel": "Vérifier les mises à jours au démarrage du système"
       },
       "services": {
         "title": "Services",

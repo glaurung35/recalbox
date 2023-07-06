@@ -158,11 +158,7 @@
       },
       "updates": {
         "title": "updates",
-        "toggleButtonLabel": "Check for updates at startup",
-        "versionType": {
-          "label": "Branch",
-          "options": {}
-        }
+        "toggleButtonLabel": "Check for updates at startup"
       },
       "services": {
         "title": "Services",

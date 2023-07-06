@@ -605,7 +605,7 @@ void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::Re
 
   std::string archivePath = RequestHandlerTools::OutputOf("bash /recalbox/scripts/recalbox-support.sh");
 
-  archivePath.erase(archive.size() - 1);
+  archivePath.erase(archivePath.size() - 1);
 
   JSONBuilder json;
   json.Open()

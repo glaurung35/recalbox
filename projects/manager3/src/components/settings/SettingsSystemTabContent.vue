@@ -224,6 +224,30 @@
               {{ $t('settings.system.demo.infoscreenduration.help') }}
             </template>
           </WrappedSlider>
+          <WrappedToggle
+            label="settings.system.gameclip.showhelpitems.label"
+            :getter="emulationstation.showgamecliphelpitems"
+            :setter="emulationstationStore.post"
+            apiKey="showgamecliphelpitems"
+            v-if="emulationstation.showgamecliphelpitems"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.gameclip.showhelpitems.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.gameclip.showclippingitem.label"
+            :getter="emulationstation.showgameclipclippingitem"
+            :setter="emulationstationStore.post"
+            apiKey="showgameclipclippingitem"
+            v-if="emulationstation.showgameclipclippingitem"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.gameclip.showclippingitem.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>

@@ -136,17 +136,26 @@
         "splashLength": {
           "label": "Splash screen duration",
           "help": {
-            "availableOptions": "Available options (in seconds) :",
+            "availableOptions": "Available options (in seconds):",
             "0": "<b>0 :</b> Video will be stopped when emulationstation is ready to start",
             "1": "<b>-1 :</b> All the video will be played before emulationstation start (default)",
             "2": "<b>> 0 :</b> Time the video will be played before emulationstation start"
+          }
+        },
+        "splashSelect": {
+          "label": "Splash screen selection",
+          "help": {
+            "availableOptions": "Available options:",
+            "0": "<b>all</b> selects across all splash screens",
+            "1": "<b>recalbox</b> selects only recalbox splash screens",
+            "2": "<b>custom</b> selects only custom splash screens"
           }
         }
       },
       "specialKey": {
         "title": "Hot key",
         "help": {
-          "availableOptions": "Available options :",
+          "availableOptions": "Available options:",
           "default": "<b>default</b> is the default behaviour with all options",
           "nomenu": "<b>nomenu</b> disables the menu",
           "none": "<b>none</b> disables the hotkey"
@@ -257,7 +266,7 @@
         "menuStyle": {
           "label": "Menu style",
           "help": {
-            "availableOptions": "Available options :",
+            "availableOptions": "Available options:",
             "bartop": "<b>bartop</b> has filtered options, suitable for bartops",
             "default": "<b>default</b> is the fully enabled menu",
             "none": "<b>none</b> just lets you select games"
@@ -304,7 +313,7 @@
             "availableOptions": "Available options:",
             "0": "<b>0</b> from scrapper result (default)",
             "1": "<b>1</b> from filename",
-            "2": "<b>2</b> from filename undecorated (i.e: (text) and [text] removed )"
+            "2": "<b>2</b> from filename undecorated (i.e: (text) and [text] removed)"
           }
         },
         "source": {
@@ -354,7 +363,7 @@
         "waitMode": {
           "title": "Wait mode",
           "help": {
-            "availableOptions": "Available options :",
+            "availableOptions": "Available options:",
             "required": "<b>required</b> kodi does not launch before being able to reach the specified ip address",
             "wish": "<b>wish</b> uses a countdown timer before starting",
             "nonce": "<b>nonce</b> no value"
@@ -426,7 +435,7 @@
         "shaderset": {
           "label": "Shaders set",
           "help": {
-            "availableShaders": "Available shaders :",
+            "availableShaders": "Available shaders:",
             "custom": "<b>custom</b> allows you to choose and activate a custom shader",
             "none": "<b>none</b> don't enable shaders",
             "retro": "<b>retro</b> set the \"best\" shader for each system, as chosen by the community. This will give you the gaming experience closest to the original system",
@@ -529,7 +538,7 @@
         },
         "relay": {
           "label": "Netplay MITM Server relay",
-          "help": "The Netplay MITM, Relay Server option allows you to override the opening of your modem ports.\nThis allows both sides of the connection to be routed through an intermediary server.\n\nHowever this will have an impact on the speed at which the data synchronizes and therefore on the responsiveness of the game.."
+          "help": "The Netplay MITM, Relay Server option allows you to override the opening of your modem ports.\nThis allows both sides of the connection to be routed through an intermediary server.\n\nHowever this will have an impact on the speed at which the data synchronizes and therefore on the responsiveness of the game."
         },
         "lobby": {
           "label": "Libretro lobby",
@@ -541,7 +550,7 @@
       "loader": "Checking BIOS on server...",
       "dialogs": {
         "remove": {
-          "text": "Are you sure you want to delete this BIOS ?"
+          "text": "Are you sure you want to delete this BIOS?"
         }
       },
       "tableHeader": {
@@ -573,25 +582,25 @@
         "tooltip": "All about color codes",
         "title": "BIOS Status",
         "green": {
-          "title": "BIOS present + valid MD5"
+          "title": "Present BIOS + valid MD5"
         },
         "yellow_1": {
-          "title": "Optionnal BIOS present + wrong MD5",
+          "title": "Optional present BIOS + wrong MD5",
           "text": "It may work, but since no one from us has tested it, we can't guarantee anything."
         },
         "yellow_2": {
-          "title": "Optionnal BIOS absent",
+          "title": "Optionnal missing BIOS",
           "text": "It can work, as long as you don't use a game or a feature that requires this optional bios"
         },
         "red": {
-          "title": "Mandatory BIOS missing or wrong MD5"
+          "title": "Mandatory missing BIOS or wrong MD5"
         }
       }
     },
     "roms": {
       "dialogs": {
         "remove": {
-          "text": "Are you sure you want to delete this ROM ?"
+          "text": "Are you sure you want to delete this ROM?"
         }
       }
     },
@@ -642,7 +651,7 @@
       "tooltip": "Take a screenshot",
       "dialogs": {
         "remove": {
-          "text": "Are you sure you want to delete this screenshot ?"
+          "text": "Are you sure you want to delete this screenshot?"
         }
       }
     }

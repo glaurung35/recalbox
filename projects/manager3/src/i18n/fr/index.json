@@ -141,6 +141,15 @@
             "1": "<b>-1 :</b> Toute la vidéo sera lue avant le démarrage d'EmulationStation (par défaut)",
             "2": "<b>> 0 :</b> Temps de lecture de la vidéo avant le démarrage d'EmulationStation"
           }
+        },
+        "splashSelect": {
+          "label": "Sélection du splash screen",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "0": "<b>all</b> correspond à tout type de vidéo splash screen",
+            "1": "<b>recalbox</b> correspond uniquement aux splash screens de recalbox",
+            "2": "<b>custom</b> correspond uniquement aux splash screens personnalisés"
+          }
         }
       },
       "specialKey": {

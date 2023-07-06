@@ -34,6 +34,9 @@ export const useSystemStore = defineStore('system', {
         lowerValue: 0,
         higherValue: 0,
       },
+      'splash.select': {
+        allowedStringList: [''],
+      },
     },
     system: {
       language: {
@@ -49,5 +52,6 @@ export const useSystemStore = defineStore('system', {
     specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
     esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
     splashLengthOptions: (state) => state._systemOptions['splash.length'],
+    splashSelectOptions: (state) => state._systemOptions['splash.select'].allowedStringList,
   },
 });

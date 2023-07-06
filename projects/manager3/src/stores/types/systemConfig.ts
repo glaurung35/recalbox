@@ -12,9 +12,9 @@ export const SystemConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
-  'security.enabled': z.object({
+  'splash.select': z.object({
     exist: z.boolean(),
-    value: z.boolean(),
+    value: z.string(),
   }),
   hostname: z.object({
     exist: z.boolean(),
@@ -66,8 +66,9 @@ export const SystemConfigOptionsSchema = z.object({
     lowerValue: z.number(),
     higherValue: z.number(),
   }),
-  'security.enabled': z.object({
+  'splash.select': z.object({
     type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
   hostname: z.object({
     type: z.string(),

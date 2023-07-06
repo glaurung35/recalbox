@@ -55,6 +55,24 @@
               </ul>
             </template>
           </WrappedSlider>
+          <WrappedSelect
+            label="settings.system.splashScreen.splashSelect.label"
+            :options="splashSelectOptions"
+            :getter="system['splash.select']"
+            :setter="systemStore.post"
+            apiKey="splash.select"
+            v-if="system['splash.select']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.splashScreen.splashSelect.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.splashScreen.splashSelect.help.0')"></li>
+                <li v-html="$t('settings.system.splashScreen.splashSelect.help.1')"></li>
+                <li v-html="$t('settings.system.splashScreen.splashSelect.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
 
@@ -235,6 +253,7 @@ const {
   timezoneOptions,
   specialkeysOptions,
   splashLengthOptions,
+  splashSelectOptions,
   system,
 } = storeToRefs(systemStore);
 

@@ -103,10 +103,10 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.autosave.title">
+      <FormFragmentContainer title="emulation.global.saves.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.global.autosave.label"
+            label="emulation.global.saves.autosave.label"
             :getter="global.autosave"
             :setter="globalStore.post"
             apiKey="autosave"
@@ -114,7 +114,19 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.autosave.help') }}
+              {{ $t('emulation.global.saves.autosave.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.saves.showsavestatebeforerun.label"
+            :getter="global['show.savestate.before.run']"
+            :setter="globalStore.post"
+            apiKey="show.savestate.before.run"
+            v-if="global['show.savestate.before.run']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.saves.showsavestatebeforerun.help') }}
             </template>
           </WrappedToggle>
         </template>

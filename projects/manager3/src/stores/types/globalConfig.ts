@@ -128,6 +128,10 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
+  'show.savestate.before.run': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
 });
 
 export type GlobalConfig = z.infer<typeof GlobalConfigSchema>
@@ -243,6 +247,9 @@ export const GlobalConfigOptionsSchema = z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),
+  }),
+  'show.savestate.before.run': z.object({
+    type: z.string(),
   }),
 });
 

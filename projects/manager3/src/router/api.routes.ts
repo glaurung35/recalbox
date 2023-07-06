@@ -32,6 +32,7 @@ export const SYSTEM = {
   },
   reboot: '/system/reboot',
   shutdown: '/system/shutdown',
+  supportArchive: '/system/supportarchive',
 };
 
 export const DREAMCAST = '/configuration/dreamcast';

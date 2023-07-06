@@ -68,5 +68,15 @@ export const useServerStore = defineStore('server', {
         console.log(error);
       }
     },
+    async supportArchive(): Promise<void> {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(SYSTEM.supportArchive);
+        this.available = true;
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 });

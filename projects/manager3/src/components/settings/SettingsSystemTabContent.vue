@@ -135,8 +135,42 @@
           />
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="settings.system.demo.title">
+      <FormFragmentContainer title="settings.system.screensaver.title">
         <template v-slot:content>
+          <WrappedSlider
+            label="settings.system.screensaver.time.title"
+            :getter="emulationstation['screensaver.time']"
+            :setter="emulationstationStore.post"
+            apiKey="screensaver.time"
+            v-if="emulationstation['screensaver.time']"
+            :mix="screensaverTimeOptions.lowerValue"
+            :max="screensaverTimeOptions.higherValue"
+            icon="mdi-clock-start"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.screensaver.time.help') }}
+            </template>
+          </WrappedSlider>
+          <WrappedSelect
+            label="settings.system.screensaver.type.title"
+            :options="screensaverTypeOptions"
+            :getter="emulationstation['screensaver.type']"
+            :setter="emulationstationStore.post"
+            apiKey="screensaver.type"
+            v-if="emulationstation['screensaver.type']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.screensaver.type.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.screensaver.type.help.dim')"></li>
+                <li v-html="$t('settings.system.screensaver.type.help.black')"></li>
+                <li v-html="$t('settings.system.screensaver.type.help.demo')"></li>
+                <li v-html="$t('settings.system.screensaver.type.help.gameclip')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
           <WrappedMultipleSelect
             label="settings.system.demo.systemlist.label"
             :options="demoSystemlistOptions"
@@ -192,6 +226,7 @@ import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useUpdatesStore } from 'stores/configuration/updates';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { storeToRefs } from 'pinia';
 import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
@@ -219,6 +254,14 @@ const {
   demoSystemlistOptions,
   global,
 } = storeToRefs(globalStore);
+
+const emulationstationStore = useEmulationstationStore();
+emulationstationStore.fetch();
+const {
+  screensaverTimeOptions,
+  screensaverTypeOptions,
+  emulationstation,
+} = storeToRefs(emulationstationStore);
 </script>
 
 <style lang="sass" scoped>

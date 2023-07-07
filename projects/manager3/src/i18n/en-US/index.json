@@ -257,6 +257,10 @@
         "gateway": {
           "title": "Gateway IP"
         },
+        "priority": {
+          "title": "Priority",
+          "help": "This option allows you to edit the priority of your wifi connection."
+        },
         "toggleButtonLabel": "Enable Wi-Fi",
         "help": "Please note: any misconfiguration would lead to your recalbox being unavailable on the network.\n\nThe passwords are encrypted and are not re-displayed. This does not mean that the fields are emtpy! If you enter a new value, it will overwrite the old one.",
         "ssid": "SSID",

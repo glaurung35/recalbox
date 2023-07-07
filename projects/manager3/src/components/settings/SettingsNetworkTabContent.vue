@@ -30,6 +30,22 @@
             </template>
           </WrappedToggle>
 
+          <WrappedSlider
+            label="settings.network.wifi.priority.title"
+            :getter="wifi.priority"
+            :setter="wifiStore.post"
+            apiKey="priority"
+            v-if="wifi.priority"
+            :min="priorityOptions.lowerValue"
+            :max="priorityOptions.higherValue"
+            icon="mdi-priority-high"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.wifi.priority.help') }}
+            </template>
+          </WrappedSlider>
+
           <q-separator/>
 
           <WrappedSelect
@@ -171,6 +187,7 @@
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useWifiStore } from 'stores/configuration/wifi';
 import { useWifi2Store } from 'stores/configuration/wifi2';
@@ -185,7 +202,7 @@ const { system } = storeToRefs(systemStore);
 
 const wifiStore = useWifiStore();
 wifiStore.fetch();
-const { wifi, regionOptions } = storeToRefs(wifiStore);
+const { wifi, regionOptions, priorityOptions } = storeToRefs(wifiStore);
 
 const wifi2Store = useWifi2Store();
 wifi2Store.fetch();

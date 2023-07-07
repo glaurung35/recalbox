@@ -32,6 +32,10 @@ export const WifiConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  priority: z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
 });
 
 export type WifiConfig = z.infer<typeof WifiConfigSchema>
@@ -61,6 +65,11 @@ export const WifiConfigOptionsSchema = z.object({
   region: z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+  }),
+  priority: z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
   }),
 });
 

@@ -256,6 +256,10 @@
         "gateway": {
           "title": "IP de la passerelle"
         },
+        "priority": {
+          "title": "Priorité",
+          "help": "Cette option vous permet de modifier la priorité de votre connexion wifi."
+        },
         "toggleButtonLabel": "Activer le Wi-Fi",
         "help": "Attention, si vous vous trompez dans vos informations vous risquez de ne plus pouvoir accéder à votre recalbox par le wifi.\n\nLes clés sont chiffrées et ne sont donc pas réaffichées dans les champs. Cela ne veut pas dire que la valeur n'est pas renseignée ! Si vous renseignez une valeur, cela écrasera la précédente.",
         "ssid": "SSID",

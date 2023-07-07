@@ -16,10 +16,6 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'arcade.position': z.object({
-    exist: z.boolean(),
-    value: z.number(),
-  }),
   'netplay.nickname': z.object({
     exist: z.boolean(),
     value: z.string(),
@@ -43,10 +39,6 @@ export const GlobalConfigSchema = z.object({
   'shaderset.file': z.object({
     exist: z.boolean(),
     value: z.string(),
-  }),
-  'arcade.includeneogeo': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
   }),
   'translate.apikey': z.object({
     exist: z.boolean(),
@@ -92,17 +84,13 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'arcade.hideoriginals': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
   'demo.systemlist': z.object({
     exist: z.boolean(),
     value: z.array(z.string()),
   }),
   'netplay.relay': z.object({
     exist: z.boolean(),
-    value: z.array(z.string()),
+    value: z.string(),
   }),
   rewind: z.object({
     exist: z.boolean(),
@@ -120,10 +108,6 @@ export const GlobalConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
-  arcade: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
   'netplay.port': z.object({
     exist: z.boolean(),
     value: z.number(),
@@ -135,6 +119,30 @@ export const GlobalConfigSchema = z.object({
   softpatching: z.object({
     exist: z.boolean(),
     value: z.array(z.string()),
+  }),
+  configfile: z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'netplay.active': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  recalboxoverlays: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  showfps: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  hidepreinstalledgames: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  quitpresstwice: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
   }),
 });
 
@@ -149,11 +157,6 @@ export const GlobalConfigOptionsSchema = z.object({
   }),
   netplay: z.object({
     type: z.string(),
-  }),
-  'arcade.position': z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
   }),
   'netplay.nickname': z.object({
     type: z.string(),
@@ -176,9 +179,6 @@ export const GlobalConfigOptionsSchema = z.object({
   'shaderset.file': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
-  }),
-  'arcade.includeneogeo': z.object({
-    type: z.string(),
   }),
   'translate.apikey': z.object({
     type: z.string(),
@@ -219,9 +219,6 @@ export const GlobalConfigOptionsSchema = z.object({
   smooth: z.object({
     type: z.string(),
   }),
-  'arcade.hideoriginals': z.object({
-    type: z.string(),
-  }),
   'demo.systemlist': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
@@ -244,9 +241,6 @@ export const GlobalConfigOptionsSchema = z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),
-  arcade: z.object({
-    type: z.string(),
-  }),
   'netplay.port': z.object({
     type: z.string(),
     lowerValue: z.number(),
@@ -258,6 +252,24 @@ export const GlobalConfigOptionsSchema = z.object({
   softpatching: z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+  }),
+  configfile: z.object({
+    type: z.string(),
+  }),
+  'netplay.active': z.object({
+    type: z.string(),
+  }),
+  recalboxoverlays: z.object({
+    type: z.string(),
+  }),
+  showfps: z.object({
+    type: z.string(),
+  }),
+  hidepreinstalledgames: z.object({
+    type: z.string(),
+  }),
+  quitpresstwice: z.object({
+    type: z.string(),
   }),
 });
 

@@ -59,6 +59,10 @@ export const useScraperStore = defineStore('scraper', {
         type: '',
         allowedStringList: [''],
       },
+      'screenscraper.regionPriority': {
+        type: '',
+        allowedStringList: [''],
+      },
     },
     scraper: {
       getnamefrom: {},
@@ -74,5 +78,6 @@ export const useScraperStore = defineStore('scraper', {
     videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList,
     getNameFromOptions: () => [0, 1, 2],
     sourceOptions: (state) => state._scraperOptions.source.allowedStringList,
+    regionPriorityOptions: (state) => state._scraperOptions['screenscraper.regionPriority'].allowedStringList,
   },
 });

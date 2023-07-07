@@ -52,6 +52,66 @@ export const SystemConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  'power.switch': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'fbcp.enabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'api.enabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  overscan: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.enabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.type': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'secondminitft.resolution': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'secondminitft.imagestretchenabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.imageenlargeenabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.imagealphaenabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.imageignoreaspectenabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.disablevideoines': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.backlightcontrol': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'secondminitft.usemarquee': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'secondminitft.sleepenabled': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
 });
 
 export type SystemConfig = z.infer<typeof SystemConfigSchema>
@@ -103,6 +163,56 @@ export const SystemConfigOptionsSchema = z.object({
   'es.videomode': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+  }),
+  'power.switch': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  'fbcp.enabled': z.object({
+    type: z.string(),
+  }),
+  'api.enabled': z.object({
+    type: z.string(),
+  }),
+  overscan: z.object({
+    type: z.string(),
+  }),
+  'secondminitft.enabled': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.type': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  'secondminitft.resolution': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  'secondminitft.imagestretchenabled': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.imageenlargeenabled': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.imagealphaenabled': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.imageignoreaspectenabled': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.disablevideoines': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.backlightcontrol': z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  'secondminitft.usemarquee': z.object({
+    type: z.string(),
+  }),
+  'secondminitft.sleepenabled': z.object({
+    type: z.string(),
   }),
 });
 

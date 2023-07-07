@@ -76,6 +76,86 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  'themes.folder': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'collection.tate': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  arcade: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.position': z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
+  'arcade.includeneogeo': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.hideoriginals': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'collection.ports.hide': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'collection.lightgun.hide': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  quicksystemselect: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  showhelp: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'popup.help': z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
+  'popup.music': z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
+  'popup.netplay': z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
+  systemsorting: z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'theme.carousel': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'theme.transition': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  brightness: z.object({
+    exist: z.boolean(),
+    value: z.number(),
+  }),
+  showhidden: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  showonlylatestversion: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  hidenogames: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
 });
 
 export type EmulationStationConfig = z.infer<typeof EmulationStationConfigSchema>
@@ -154,6 +234,91 @@ export const EmulationStationConfigOptionsSchema = z.object({
   'screensaver.type': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+  }),
+  'themes.folder': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  'collection.tate': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  arcade: z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.position': z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  'arcade.includeneogeo': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.hideoriginals': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'collection.ports.hide': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'collection.lightgun.hide': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  quickselectsystem: z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  showhelp: z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'popup.help': z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  'popup.music': z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  'popup.netplay': z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  systemsorting: z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  'theme.carousel': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'theme.transition': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  brightness: z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  showhidden: z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  showonlylatestversion: z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  hidenogames: z.object({
+    type: z.string(),
+    value: z.boolean(),
   }),
 });
 

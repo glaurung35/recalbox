@@ -27,17 +27,29 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         lowerValue: 0,
         higherValue: 0,
       },
+      'arcade.position': {
+        lowerValue: -200,
+        higherValue: 200,
+      },
+      brightness: {
+        lowerValue: 0,
+        higherValue: 8,
+      },
     },
     emulationstation: {},
   } as EmulationStationStoreState),
 
   getters: {
     menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList,
-    selectedsystemOptions: (state) => state._emulationstationOptions
-      .selectedsystem.allowedStringList,
+    selectedsystemOptions: (state) => state._emulationstationOptions.selectedsystem.allowedStringList,
     videosnapsLoopOptions: (state) => state._emulationstationOptions['videosnaps.loop'],
     videosnapsDelayOptions: (state) => state._emulationstationOptions['videosnaps.delay'],
     screensaverTimeOptions: (state) => state._emulationstationOptions['screensaver.time'],
     screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList,
+    themesFolderOptions: (state) => state._emulationstationOptions['themes.folder'].allowedStringList,
+    arcadePositionOptions: (state) => state._emulationstationOptions['arcade.position'],
+    systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
+    themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList,
+    brightnessOptions: (state) => state._emulationstationOptions.brightness,
   },
 });

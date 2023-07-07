@@ -484,6 +484,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
         { "gateway"    , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
         { "netmask"    , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
         { "nameservers", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
+        { "priority"   , Validator(0, 20) },
       });
 
       return sList;

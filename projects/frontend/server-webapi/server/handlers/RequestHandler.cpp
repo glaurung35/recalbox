@@ -607,9 +607,14 @@ void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::Re
 
   archivePath.erase(archivePath.size() - 1);
 
+  const auto pos = archivePath.find_last_of('/');
+  const std::string fileName = archivePath.substr(pos);
+
+  std::string linkResponse = RequestHandlerTools::OutputOf("wget --method PUT --body-file=" + archivePath + " https://transfer.sh" + fileName + " -O - -nv");
+
   JSONBuilder json;
   json.Open()
-          .Field("archivePath", archivePath)
+          .Field("linkResponse", linkResponse)
           .Close();
 
   RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);

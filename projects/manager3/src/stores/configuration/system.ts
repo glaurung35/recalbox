@@ -37,6 +37,15 @@ export const useSystemStore = defineStore('system', {
       'splash.select': {
         allowedStringList: [''],
       },
+      'power.switch': {
+        allowedStringList: [''],
+      },
+      'secondminitft.type': {
+        allowedStringList: [''],
+      },
+      'secondminitft.resolution': {
+        allowedStringList: [''],
+      },
     },
     system: {
       language: {
@@ -53,5 +62,8 @@ export const useSystemStore = defineStore('system', {
     esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
     splashLengthOptions: (state) => state._systemOptions['splash.length'],
     splashSelectOptions: (state) => state._systemOptions['splash.select'].allowedStringList,
+    powerSwitchOptions: (state) => state._systemOptions['power.switch'].allowedStringList,
+    secondminitftTypeOptions: (state) => state._systemOptions['secondminitft.type'].allowedStringList,
+    secondminitftResolutionOptions: (state) => state._systemOptions['secondminitft.resolution'].allowedStringList,
   },
 });

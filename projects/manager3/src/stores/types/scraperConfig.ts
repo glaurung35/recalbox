@@ -52,6 +52,18 @@ export const ScraperConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  auto: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'screenscraper.p2k': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'screenscraper.regionPriority': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type ScraperConfig = z.infer<typeof ScraperConfigSchema>
@@ -98,6 +110,16 @@ export const ScraperConfigOptionsSchema = z.object({
     type: z.string(),
   }),
   source: z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  auto: z.object({
+    type: z.string(),
+  }),
+  'screenscraper.p2k': z.object({
+    type: z.string(),
+  }),
+  'screenscraper.regionPriority': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),

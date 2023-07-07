@@ -1,5 +1,5 @@
 /**
- * @author Nicolas TESSIER aka Asthonishia
+ * @author Pit64
  */
 import { z } from 'zod';
 

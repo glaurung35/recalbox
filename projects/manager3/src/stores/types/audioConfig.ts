@@ -16,6 +16,10 @@ export const AudioConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
+  mode: z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type AudioConfig = z.infer<typeof AudioConfigSchema>
@@ -30,6 +34,10 @@ export const AudioConfigOptionsSchema = z.object({
     higherValue: z.number(),
   }),
   device: z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
+  }),
+  mode: z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),

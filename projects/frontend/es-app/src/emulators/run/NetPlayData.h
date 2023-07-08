@@ -17,13 +17,13 @@ struct NetPlayData
 
   private:
     //! Shared netplay core
-    std::string mCoreName;
+    String mCoreName;
     //! Target IP in client mode
-    std::string mIP;
+    String mIP;
     //! Player password
-    std::string mPlayerPassword;
+    String mPlayerPassword;
     //! Viewer password
-    std::string mViewerPassword;
+    String mViewerPassword;
     //! Target port in client mode or local port in server mode
     int mPort;
     //! True = server, false = client
@@ -38,7 +38,7 @@ struct NetPlayData
      * @param ip Target ip
      * @param port Target port
      */
-    NetPlayData(const std::string& coreName, const std::string& ip, int port, const std::string& playerPassword, const std::string& viewerPassword, bool asViewer)
+    NetPlayData(const String& coreName, const String& ip, int port, const String& playerPassword, const String& viewerPassword, bool asViewer)
       : mCoreName(coreName),
         mIP(ip),
         mPlayerPassword(playerPassword),
@@ -52,7 +52,7 @@ struct NetPlayData
     /*!
      * @brief Build a host netplay client
      */
-    explicit NetPlayData(int port, const std::string& playerPassword, const std::string& viewerPassword)
+    explicit NetPlayData(int port, const String& playerPassword, const String& viewerPassword)
       : mCoreName(),
         mIP(),
         mPlayerPassword(playerPassword),
@@ -82,16 +82,16 @@ struct NetPlayData
      */
 
     //! Get core
-    const std::string& CoreName() const { return mCoreName; }
+    const String& CoreName() const { return mCoreName; }
 
     //! Get IP
-    const std::string& Ip() const { return mIP; }
+    const String& Ip() const { return mIP; }
 
     //! Player password
-    const std::string& PlayerPassword() const { return mPlayerPassword; }
+    const String& PlayerPassword() const { return mPlayerPassword; }
 
     //! Viewer password
-    const std::string& ViewerPassword() const { return mViewerPassword; }
+    const String& ViewerPassword() const { return mViewerPassword; }
 
     //! Get target/local port
     int Port() const { return mPort; }

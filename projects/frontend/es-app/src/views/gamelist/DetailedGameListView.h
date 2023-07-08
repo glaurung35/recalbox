@@ -151,9 +151,6 @@ class DetailedGameListView : public ISimpleGameListView
 
     FileData* getEmptyListItem() override { return &mEmptyListItem; }
 
-    //! Called when a FileData* is added, has its metadata changed, or is removed
-    void onFileChanged(FileData* file, FileChangeType change) override;
-
     bool switchDisplay(bool isGame);
     bool switchToFolderScrapedDisplay();
     std::vector<Component*> getFolderComponents();
@@ -165,6 +162,11 @@ class DetailedGameListView : public ISimpleGameListView
     void setScrapedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
     static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);
+
+    /*!
+     * @brief Refresh name & properties of the given item
+     */
+    void RefreshItem(FileData* game) override;
 
     /*!
      * @brief Get generic game icons
@@ -224,6 +226,7 @@ class DetailedGameListView : public ISimpleGameListView
      * @brief Report scraping stage completion
      * @param game Target game
      * @param stage Last stage completed
+     * @param changes Metadata that have been actually changed
      */
-    void StageCompleted(FileData* game, Stage stage) override;
+    void ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes) override;
 };

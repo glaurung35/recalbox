@@ -3,8 +3,9 @@
 #include "components/base/Component.h"
 #include "components/TextComponent.h"
 #include "components/IList.h"
-#include "resources/TextureResource.h"
 #include "themes/ThemeExtras.h"
+#include "IProgressInterface.h"
+#include "utils/os/system/Thread.h"
 
 class SystemManager;
 class SystemData;
@@ -40,78 +41,138 @@ struct SystemViewCarousel
 	float zIndex;
 };
 
-class SystemView : public IList<SystemViewData, SystemData*>
+struct SystemGameCount
 {
-public:
-	SystemView(WindowManager& window, SystemManager& systemManager);
+  int VisibleGames;
+  int Favorites;
+  int Hidden;
+};
 
-	void onShow() override {	mShowing = true; }
-	void onHide() override {	mShowing = false; }
+class SystemView : public IList<SystemViewData, SystemData*>
+                 , public Thread
+                 , public ISyncMessageReceiver<SystemGameCount>
+{
+  public:
+    SystemView(WindowManager& window, SystemManager& systemManager);
+
+    //! Destructor
+    ~SystemView() override { Thread::Stop(); }
+
+    void onShow() override {	mShowing = true; }
+    void onHide() override {	mShowing = false; }
 
     void goToSystem(SystemData* system, bool animate);
 
-	bool ProcessInput(const InputCompactEvent& event) override;
-	void Update(int deltaTime) override;
-	void Render(const Transform4x4f& parentTrans) override;
-	
-	void onThemeChanged(const ThemeData& theme);
+    bool ProcessInput(const InputCompactEvent& event) override;
+    void Update(int deltaTime) override;
+    void Render(const Transform4x4f& parentTrans) override;
 
-	bool getHelpPrompts(Help& help) override;
-	void ApplyHelpStyle() override;
-	void populate();
-	void removeFavoriteSystem();
-	void manageFavorite();
+    void onThemeChanged(const ThemeData& theme);
 
-  /*!
-   * @brief update view with only visible games systems
-   */
-	void manageSystemsList();
+    bool getHelpPrompts(Help& help) override;
+    void ApplyHelpStyle() override;
+    void populate();
 
-  /*!
-  * @brief Add a system to system view
-  * @param System data
-  */
-  void addSystem(SystemData * it);
+    /*!
+     * @brief Set progress interface used ot notify first system loading
+     * @param interface Progress interface
+     */
+    void SetProgressInterface(IProgressInterface* interface) { mProgressInterface = interface; }
 
-  /*!
-   * @brief remove a system from system view
-   * @param System data
-   */
-  void removeSystem(SystemData * it);
-  
-  SystemData& CurrentSystem() const { return *mCurrentSystem; }
+    /*!
+     * @brief update view with only visible games systems
+     */
+    void manageSystemsList();
 
-  SystemData* Prev();
-  void RemoveCurrentSystem();
-  void Sort();
-  void onCursorChanged(const CursorState& state) override;
+    /*!
+    * @brief Add a system to system view
+    * @param System data
+    */
+    void addSystem(SystemData* system);
+
+    /*!
+     * @brief remove a system from system view
+     * @param System data
+     */
+    void removeSystem(SystemData* system);
+
+    /*!
+     * @brief Lookup a system by name in the system list
+     * @param name System name to look for
+     * @return True if the system exists in the systemlist, false otherwise
+     */
+    SystemData* LookupSystemByName(const String& name);
+
+    [[nodiscard]] SystemData& CurrentSystem() const { return *mCurrentSystem; }
+
+    SystemData* Prev();
+    void RemoveCurrentSystem();
+    void Sort();
+    void onCursorChanged(const CursorState& state) override;
 
     void manageTate(bool remove = false);
 
-  protected:
+  private:
+    //! SystemManager instance
+    SystemManager& mSystemManager;
 
-private:
-	void getViewElements(const ThemeData& theme);
-	void getDefaultElements();
-	void getCarouselFromTheme(const ThemeElement* elem);
-  
-	void renderCarousel(const Transform4x4f& parentTrans);
-	void renderExtras(const Transform4x4f& parentTrans, float lower, float upper);
-	void renderInfoBar(const Transform4x4f& trans);
-	void renderFade(const Transform4x4f& trans);
+    SystemViewCarousel mCarousel;
+    TextComponent mSystemInfo;
 
-  //! SystemManager instance
-	SystemManager& mSystemManager;
+    //! IProgressInterface to notify loading screen we're loading systems (and it takes time...)
+    IProgressInterface* mProgressInterface;
 
-	SystemViewCarousel mCarousel;
-	TextComponent mSystemInfo;
+    //! System information synchronizer
+    SyncMessageSender<SystemGameCount> mSender;
+    //! System from witch to extract data (game count, favorites, hidden)
+    const SystemData* mSystemFromWitchToExtractData;
+    //! System locker
+    Mutex mSystemLocker;
+    //! Fetch info thread signal
+    Signal mSystemSignal;
 
-	// unit is list index
-	float mCamOffset;
-	float mExtrasCamOffset;
-	float mExtrasFadeOpacity;
-	SystemData* mCurrentSystem;
-	bool mViewNeedsReload;
-	bool mShowing;
-	bool launchKodi;
+    // unit is list index
+    SystemData* mCurrentSystem;
+    float mCamOffset;
+    float mExtrasCamOffset;
+    float mExtrasFadeOpacity;
+    bool mViewNeedsReload;
+    bool mShowing;
+    bool mLaunchKodi;
+
+    /*!
+     * @brief Set next system from witch to extract game information
+     * @param system
+     */
+    void SetNextSystem(const SystemData* system);
+
+    /*
+     * Thread implementation
+     */
+
+    //! Break the system info fetching thread
+    void Break() override { mSystemSignal.Fire(); }
+
+    //! Implementation of system fetching info
+    void Run() override;
+
+    /*
+     * ISyncMessageReceiver<SystemGameCount> implementation
+     */
+
+    //! Receive enf-of-fetch info for the very last system the user is on
+    void ReceiveSyncMessage(const SystemGameCount& data) override;
+
+    /*
+     * Legacy
+     */
+
+    void getViewElements(const ThemeData& theme);
+    void getDefaultElements();
+    void getCarouselFromTheme(const ThemeElement* elem);
+
+    void renderCarousel(const Transform4x4f& parentTrans);
+    void renderExtras(const Transform4x4f& parentTrans, float lower, float upper);
+    void renderInfoBar(const Transform4x4f& trans);
+    void renderFade(const Transform4x4f& trans);
 };

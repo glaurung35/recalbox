@@ -249,11 +249,10 @@ void AudioManager::PlayRandomMusic()
       std::string text(_("Now playing"));
       text.append(":\n").append(remoteTrack->Name()).append(1, '\n')
           .append("(").append(remoteTrack->MixTaper()).append(")");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, text, popupDuration, GuiInfoPopupBase::PopupType::Music));
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, text, popupDuration, PopupType::Music));
     }
     else
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, _("Now playing") + ":\n" + mCurrentMusicTitle, popupDuration,
-                                                GuiInfoPopupBase::PopupType::Music));
+      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, _("Now playing").Append(":\n") + mCurrentMusicTitle, popupDuration, PopupType::Music));
   }
 }
 

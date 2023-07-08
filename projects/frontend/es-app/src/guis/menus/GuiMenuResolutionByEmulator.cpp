@@ -15,11 +15,10 @@ GuiMenuResolutionByEmulator::GuiMenuResolutionByEmulator(WindowManager& window, 
   , mSystemManager(systemManager)
 {
   // For each activated system
-  const std::vector<SystemData*> systems = systemManager.GetAllSystemList();
-  for(int i = 0; i < (int)systems.size(); ++i)
+  const SystemManager::List& systems = systemManager.AllSystems();
+  for(int i = 0; i < (int)systems.Count(); ++i)
     if (!systems[i]->IsVirtual())
       AddList<std::string>(systems[i]->FullName(), i, this, GetResolutionEntries(*systems[i]), _(MENUMESSAGE_ADVANCED_RESOLUTION_SYSTEM_HELP_MSG));
-
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionByEmulator::GetResolutionEntries(SystemData& system)
@@ -39,6 +38,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionByEmulator::Ge
 void GuiMenuResolutionByEmulator::OptionListComponentChanged(int id, int index, const std::string& value)
 {
   (void)index;
-  if (value.empty()) RecalboxConf::Instance().DeleteSystemVideoMode(*mSystemManager.GetAllSystemList()[id]).Save();
-  else RecalboxConf::Instance().SetSystemVideoMode(*mSystemManager.GetAllSystemList()[id], value).Save();
+  const SystemManager::List& systems = mSystemManager.AllSystems();
+  if (value.empty()) RecalboxConf::Instance().DeleteSystemVideoMode(*systems[id]).Save();
+  else RecalboxConf::Instance().SetSystemVideoMode(*systems[id], value).Save();
 }

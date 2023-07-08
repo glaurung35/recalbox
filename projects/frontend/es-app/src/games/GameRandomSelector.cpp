@@ -26,7 +26,7 @@ void GameRandomSelector::InitializeSystems()
   // A system with 50 games will appear 4 times in the list
   // A system with 5000 games will appear 9 times in the list
   mSystemArray.Clear();
-  for(const SystemData* system : mSystemManager.GetVisibleSystemList())
+  for(const SystemData* system : mSystemManager.VisibleSystemList())
   {
     // Demo system?
     if (!RecalboxConf::Instance().isInList("global.demo.systemlist", system->Name()) &&
@@ -37,7 +37,7 @@ void GameRandomSelector::InitializeSystems()
 
     // Get system weight
     int weightedGameCount = (int)ceil(log((double)gameCount)) + 1;
-    { LOG(LogDebug) << "[GameRandomizer] System " << system->FullName() << " added with a weight of " << weightedGameCount << " for " << gameCount << " games."; }
+    { LOG(LogTrace) << "[GameRandomizer] System " << system->FullName() << " added with a weight of " << weightedGameCount << " for " << gameCount << " games."; }
     // ... and copy the system as many times as it's weighted
     for(; --weightedGameCount >= 0; ) mSystemArray.Add(system);
   }

@@ -6,7 +6,6 @@
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiMsgBox.h>
 #include <systems/SystemManager.h>
-#include <utils/hash/Crc32File.h>
 #include <utils/Zip.h>
 #include "GuiHashStart.h"
 #include "components/OptionListComponent.h"
@@ -32,7 +31,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
 
   // add systems (all with a platformid specified selected)
   mSystems = std::make_shared<OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
-  for (auto* it : mSystemManager.GetVisibleSystemList())
+  for (auto* it : mSystemManager.VisibleSystemList())
   {
     if (it->Descriptor().HasNetPlayCores())
       mSystems->add(it->FullName(), it, true);

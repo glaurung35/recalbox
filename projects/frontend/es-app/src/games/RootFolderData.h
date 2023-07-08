@@ -52,9 +52,28 @@ class RootFolderData : public FolderData
         case Ownership::None: ClearChildList(); break;
         // Clear only game, keep the folder structure and let them being destroyed
         case Ownership::FolderOnly: ClearSubChildList(); break;
-        // Let everything be detroyed
-        case Ownership::All: break;
+        // Let everything be detroyed & destroy deleted games
+        case Ownership::All:
+        {
+          for(auto* FileData : mDeletedChildren)
+            delete FileData;
+          break;
+        }
       }
+    }
+
+    /*!
+     * @brief Delete virtual su tree
+     */
+    void DeleteVirtualSubTree()
+    {
+      for(FileData* child : mChildren)
+        if (child->IsRoot())
+          if (((RootFolderData*)child)->Virtual())
+          {
+            RemoveChild(child);
+            delete child;
+          }
     }
 
     //! System
@@ -100,7 +119,31 @@ class RootFolderData : public FolderData
      */
     void AddSubRoot(RootFolderData* subroot) { AddChild(subroot, true); }
 
+    /*!
+     * @brief Get deleted children
+     * @return Deleted children
+     */
+    [[nodiscard]] const HashSet<FileData*>& GetDeletedChildren() const { return mDeletedChildren; }
+
+    /*!
+     * @brief Check if this root has deleted children
+     * @return True if it has deleted children, false otherwise
+     */
+    [[nodiscard]] bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
+
+    /*!
+     * @brief Delete child or grand-child
+     * @param file File to be inserted
+     */
+    static void DeleteChild(FileData* file)
+    {
+      file->TopAncestor().mDeletedChildren.insert(file);
+      file->Parent()->RemoveChild(file);
+    }
+
   private:
+    //! Deleted children list
+    HashSet<FileData*> mDeletedChildren;
     //! Parent system
     SystemData& mSystem;
     //! Type of child ownership

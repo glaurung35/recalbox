@@ -226,8 +226,8 @@ void NotificationManager::BuildStateGame(std::string& output, const FileData* ga
 
   if (action != Notification::ScrapGame)
   {
-    std::string emulator;
-    std::string core;
+    String emulator;
+    String core;
     if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
       output.append("Emulator=").append(emulator).append(eol).append("Core=").append(core).append(eol);
   }
@@ -239,8 +239,8 @@ void NotificationManager::BuildStateSystem(std::string& output, const SystemData
 
   if (!system->IsVirtual() && action != Notification::ScrapGame)
   {
-    std::string emulator;
-    std::string core;
+    String emulator;
+    String core;
     if (system->Manager().Emulators().GetDefaultEmulator(*system, emulator, core))
       output.append("DefaultEmulator=").append(emulator).append(eol).append("DefaultCore=").append(core).append(eol);
   }

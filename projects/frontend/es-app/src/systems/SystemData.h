@@ -6,13 +6,16 @@
 #include <games/RootFolderData.h>
 #include <WindowManager.h>
 #include <systems/SystemDescriptor.h>
-#include <games/FileSorts.h>
 #include <themes/ThemeData.h>
 #include <systems/arcade/ArcadeDatabaseManager.h>
+#include "games/MetadataType.h"
+#include "VirtualSystemType.h"
+#include <systems/SystemDataBase.h>
 
 class SystemManager;
 
 class SystemData : private INoCopy
+                 , public SystemDataBase
 {
   public:
     //! System properties
@@ -48,6 +51,10 @@ class SystemData : private INoCopy
     FileSorts::Sorts mFixedSort;
     //! Arcade database
     ArcadeDatabaseManager mArcadeDatabases;
+    //! Metadata sensitivity
+    MetadataType mSensitivity;
+    //! Virtual type
+    VirtualSystemType mVirtualType;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -58,12 +65,25 @@ class SystemData : private INoCopy
     void populateFolder(RootFolderData& folder, FileData::StringMap& doppelgangerWatcher);
 
     /*!
-     * @brief Private constructor, called from SystemManager
-     * @param System descriptor
-     * @param childOwnership Type of children management
+     * @brief Private constructor, called from SystemManager - Regular systems only
+     * @param systemManager System manager reference
+     * @param systemDescriptor system descriptor
      * @param properties System properties
+     * @param sensitivity Virtual systems must refresh when these metadata changes in any games
+     * @param fixedSort Fixed sort for system that have a forced fixed sort in properties
      */
-    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties);
+
+    /*!
+     * @brief Private constructor, called from SystemManager - Virtual systems  only
+     * @param systemManager System manager reference
+     * @param systemDescriptor system descriptor
+     * @param properties System properties
+     * @param sensitivity Virtual systems must refresh when these metadata changes in any games
+     * @param virtualType Virtual type
+     * @param fixedSort Fixed sort for system that have a forced fixed sort in properties
+     */
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Lookup an existing game entry (or create it) in the current system.
@@ -152,7 +172,7 @@ class SystemData : private INoCopy
     //! Theme folder
     [[nodiscard]] const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     //! Get system rotation option in system view (tate mode)
-    [[nodiscard]] bool Rotatable() const { return mDescriptor.Name() == "tate"; }
+    [[nodiscard]] bool Rotatable() const;
 
     //! Has favorite in theme?
     // TODO: Please kill me asap!
@@ -183,10 +203,18 @@ class SystemData : private INoCopy
     * @return if has no only RO games
     */
     [[nodiscard]] bool HasScrapableGame() const;
-    [[nodiscard]] int GameCount() const;
-    [[nodiscard]] int GameAndFolderCount() const;
-    [[nodiscard]] int FavoritesCount() const;
-    [[nodiscard]] int HiddenCount() const;
+    /*!
+     * @brief Count all folder & games recursively w/o any filter
+     * @return Complete game & folder count
+     */
+    [[nodiscard]] int CountAll() const { return mRootOfRoot.CountAll(); }
+    /*!
+     * @brief Count all visible games, favorites & hidden
+     * @param favorites Output favorites count
+     * @param hidden Output hidden count
+     * @return
+     */
+    [[nodiscard]] int GameCount([[out]] int& favorites, [[out]] int& hidden) const;
 
     // Load or re-load theme.
     void loadTheme();
@@ -225,13 +253,19 @@ class SystemData : private INoCopy
     //! Is this system an arcade system?
     [[nodiscard]] bool IsVirtualArcade() const { return mDescriptor.IsVirtualArcade(); };
 
+    //! Get virtual type
+    [[nodiscard]] VirtualSystemType VirtualType() const { return mVirtualType; }
+
     /*!
      * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
      * @return Virtual root
      */
     FolderData& GetFavoriteRoot();
 
+    //! Get fixed sort
     [[nodiscard]] FileSorts::Sorts FixedSort() const { return mFixedSort; }
+
+    [[nodiscard]] MetadataType MetadataSensitivity() const { return mSensitivity; }
 
     /*!
      * @brief Write modified games back to the gamelist xml file

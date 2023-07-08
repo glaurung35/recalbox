@@ -569,18 +569,6 @@ void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fa
   }
 }
 
-void DetailedGameListView::onFileChanged(FileData* file, FileChangeType change)
-{
-  ISimpleGameListView::onFileChanged(file, change);
-
-  if(change == FileChangeType::MetadataChanged)
-  {
-    // might switch to a detailed view
-    ViewController::Instance().reloadGameListView(this);
-    return;
-  }
-}
-
 void DetailedGameListView::launch(FileData* game)
 {
   VideoEngine::Instance().StopVideo(true);
@@ -757,7 +745,7 @@ void DetailedGameListView::setRegions(FileData* file)
   }
 }
 
-void DetailedGameListView::StageCompleted(FileData* game, IScraperEngineStage::Stage stage)
+void DetailedGameListView::ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes)
 {
   // Got result, from the seamless scraper, update game data!
   if (game == getCursor())
@@ -767,19 +755,32 @@ void DetailedGameListView::StageCompleted(FileData* game, IScraperEngineStage::S
       {
         DoUpdateGameInformation(false);
         // Game name
-        mList.changeTextAt(mList.getCursorIndex(), GetDisplayName(*game));
+        if ((changes & MetadataType::Name) != 0)
+          mList.changeTextAt(mList.getCursorIndex(), GetDisplayName(*game));
         break;
       }
-      case Stage::Images: DoUpdateGameInformation(true); break;
-      case Stage::Video: DoUpdateGameInformation(false); break;
+      case Stage::Images:
+      {
+        if ((changes & (MetadataType::Image | MetadataType::Thumbnail)) != 0)
+          DoUpdateGameInformation(true);
+        break;
+      }
+      case Stage::Video:
+      {
+        if ((changes & MetadataType::Video) != 0)
+          DoUpdateGameInformation(false);
+        break;
+      }
+      case Stage::Extra: break; // Nothing to do with extra data for now
       case Stage::Completed: RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), game->RomPath()); break;
       default: break;
     }
   else
     if (stage == Stage::Text)
-      for(int i = mList.Count(); -- i>= 0; )
-        if (mList.getObjectAt(i) == game)
-          mList.changeTextAt(i, GetDisplayName(*game));
+      if ((changes & MetadataType::Name) != 0)
+        for(int i = mList.Count(); -- i>= 0; )
+          if (mList.getObjectAt(i) == game)
+            mList.changeTextAt(i, GetDisplayName(*game));
 
   { LOG(LogDebug) << "[Scraper] Scraper stage: " << (int)stage; }
 }
@@ -941,7 +942,8 @@ void DetailedGameListView::setCursor(FileData* cursor)
 
 void DetailedGameListView::removeEntry(FileData* fileData)
 {
-  if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame())
+  FileData::TopLevelFilter filter = FileData::BuildTopLevelFilter();
+  if (!mCursorStack.empty() && !fileData->Parent()->HasVisibleGame(filter))
   {
     // remove current folder from stack
     mCursorStack.pop();
@@ -951,13 +953,8 @@ void DetailedGameListView::removeEntry(FileData* fileData)
   }
 
   int cursorIndex = getCursorIndex();
-  onFileChanged(fileData, FileChangeType::Removed);
   refreshList();
-
-  if(cursorIndex > 0)
-  {
-    setCursorIndex(cursorIndex - 1);
-  }
+  if(cursorIndex > 0) setCursorIndex(cursorIndex - 1);
 }
 
 Regions::List DetailedGameListView::AvailableRegionsInGames()
@@ -1009,4 +1006,13 @@ Regions::List DetailedGameListView::AvailableRegionsInGames(FileData::List& fdLi
   if (list.size() == 1 && regionIndexes[0])
     list.clear();
   return list;
+}
+
+void DetailedGameListView::RefreshItem(FileData* game)
+{
+  if (game == nullptr || !game->IsFolder()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
+
+  int index = mList.Lookup(game);
+  if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
+  mList.changeTextAt(index, GetDisplayName(*game));
 }

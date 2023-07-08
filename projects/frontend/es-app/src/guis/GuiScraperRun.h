@@ -24,7 +24,7 @@ class GuiScraperRun : public Gui
      * @param method Scrapping method
      * @param freezer Freeze interface
      */
-    static void CreateOrShow(WindowManager&window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
+    static void CreateOrShow(WindowManager&window, SystemManager& systemManager, const SystemManager::List& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
 
     /*!
      * @brief Show a existing instance
@@ -65,7 +65,7 @@ class GuiScraperRun : public Gui
      * @param method Scrapping method
      * @param freezer Freeze interface
      */
-    GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
+    GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::List& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
 
     void finish();
 
@@ -85,7 +85,7 @@ class GuiScraperRun : public Gui
     ScrapeResult mResult;
 
 
-    SystemManager::SystemList mSearchQueue;
+    SystemManager::List mSearchQueue;
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
@@ -130,10 +130,10 @@ class GuiScraperRun : public Gui
      * @param total Total game to scrape
      * @param result Result object
      */
-    void GameResult(int index, int total, FileData* result) override;
+    void GameResult(int index, int total, FileData* result, MetadataType changedMetadata) override;
 
     /*!
      * @brief Scraper site quota reached. Scraping is being aborted immediately.
      */
-    void ScrapingComplete(ScrapeResult reason) override;
+    void ScrapingComplete(ScrapeResult reason, MetadataType changedMetadata) override;
 };

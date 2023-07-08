@@ -10,8 +10,7 @@ GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
                                                          FileData& game,
                                                          std::vector<Path>& patches,
                                                          int lastChoice,
-                                                         const std::function<void()>& func1,
-                                                         const std::function<void(const Path&)>& func2)
+                                                         ISoftPatchingNotifier* notifier)
   : GuiMenuBase(window, _("SOFTPATCHING"), nullptr)
   , mGame(game)
   , mPatches(patches)
@@ -24,14 +23,8 @@ GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
     // select
     mPaths = AddList<Path>(_("select a patch"),(int) Components::Patch, this,GetPatchesEntries(), "");
 
-    mMenu.addButton(_("original"), "",
-                    [this, func1] { Close(); func1();}
-                    );
-
-    mMenu.addButton(_("patched"),
-                    "",
-                    [this, func2] { Close(); func2(mPaths->getSelected()); }
-                    );
+    mMenu.addButton(_("original"), "", [this, notifier] { Close(); if (notifier != nullptr) notifier->SoftPathingDisabled(); });
+    mMenu.addButton(_("patched"),  "", [this, notifier] { Close(); if (notifier != nullptr) notifier->SoftPatchingSelected(mPaths->getSelected()); });
 
     mMenu.setCursorToButtons();
     mMenu.SetDefaultButton(lastChoice);

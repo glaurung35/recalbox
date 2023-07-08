@@ -116,7 +116,7 @@ void GuiMenuUserInterface::SliderMoved(int id, float value)
 
 void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
 {
-  SystemData* systemData = ViewController::Instance().getState().getSystem();
+  SystemData* systemData = ViewController::Instance().CurrentSystem();
 
   switch((Components)id)
   {
@@ -131,8 +131,8 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
     }
     case Components::DisplayByFileName:
       RecalboxConf::Instance().SetDisplayByFileName(status).Save();
-      ViewController::Instance().getGameListView(systemData)->refreshList();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
       break;
     case Components::Popups:
     case Components::Theme:

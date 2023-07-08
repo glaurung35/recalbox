@@ -81,3 +81,14 @@ void SplashView::Quit()
   mLoading.setText(_("PLEASE WAIT..."));
 }
 
+void SplashView::SystemLoadingPhase(ISystemLoadingPhase::Phase phase)
+{
+  switch(phase)
+  {
+    case Phase::RegularSystems: mLoading.setText(_("LOADING SYSTEMS...")); break;
+    case Phase::VirtualSystems: mLoading.setText(_("LOADING VIRTUAL SYSTEMS...")); break;
+    case Phase::Completed: mLoading.setText(_("INITIALIZING...")); break;
+    default: break;
+  }
+}
+

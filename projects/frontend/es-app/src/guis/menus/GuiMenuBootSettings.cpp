@@ -6,7 +6,6 @@
 //
 
 #include "GuiMenuBootSettings.h"
-#include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
@@ -18,19 +17,19 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
 {
   // Kodi at startup
   if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
-    mKodiAtStartup = AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::KodiAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
+    AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::KodiAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
 
   // Gamelists only
-  mGamelistOnly = AddSwitch(_("GAMELIST ONLY"), RecalboxConf::Instance().GetStartupGamelistOnly(), (int)Components::GamelistOnly, this, _(MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG));
+  AddSwitch(_("GAMELIST ONLY"), RecalboxConf::Instance().GetStartupGamelistOnly(), (int)Components::GamelistOnly, this, _(MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG));
 
   // Selected System
-  mSelectedSystem = AddList<std::string>(_("BOOT ON SYSTEM"), (int)Components::SelectedSystem, this, GetSystemEntries(), _(MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG));
+  AddList<std::string>(_("BOOT ON SYSTEM"), (int)Components::SelectedSystem, this, GetSystemEntries(), _(MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG));
 
   // Boot on gamelist
-  mStartOnGamelist = AddSwitch(_("BOOT ON GAMELIST"), RecalboxConf::Instance().GetStartupStartOnGamelist(), (int)Components::StartOnGamelist, this, _(MENUMESSAGE_ADVANCED_BOOTGAMELIST_HELP_MSG));
+  AddSwitch(_("BOOT ON GAMELIST"), RecalboxConf::Instance().GetStartupStartOnGamelist(), (int)Components::StartOnGamelist, this, _(MENUMESSAGE_ADVANCED_BOOTGAMELIST_HELP_MSG));
 
   // Hide system view
-  mHideSystemView = AddSwitch(_("HIDE SYSTEM VIEW"), RecalboxConf::Instance().GetStartupHideSystemView(), (int)Components::HideSystemView, this, _(MENUMESSAGE_ADVANCED_HIDESYSTEMVIEW_HELP_MSG));
+  AddSwitch(_("HIDE SYSTEM VIEW"), RecalboxConf::Instance().GetStartupHideSystemView(), (int)Components::HideSystemView, this, _(MENUMESSAGE_ADVANCED_HIDESYSTEMVIEW_HELP_MSG));
 }
 
 std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemEntries()
@@ -41,7 +40,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemE
   if (selectedsystem.empty()) selectedsystem = SystemManager::sFavoriteSystemShortName;
   // For each activated system
   bool found = false;
-  for (SystemData* system : mSystemManager.GetVisibleSystemList())
+  for (SystemData* system : mSystemManager.VisibleSystemList())
     if(system->Name() != SystemManager::sFavoriteSystemShortName)
     {
       bool match = (selectedsystem == system->Name());

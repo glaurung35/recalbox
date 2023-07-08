@@ -8,74 +8,67 @@
 #include <systems/SystemSorting.h>
 #include <systems/SystemData.h>
 
-bool SortingName::operator()(const SystemData* a, const SystemData* b) const
+int SortingName(SystemData* const& a, SystemData* const& b)
 {
-  return (a->Descriptor().FullName() < b->Descriptor().FullName());
+  return strcmp(a->FullName().data(), b->FullName().data());
 }
 
-bool SortingReleaseDate::operator()(const SystemData* a, const SystemData* b) const
+int SortingReleaseDate(SystemData* const& a, SystemData* const& b)
 {
-  return (a->Descriptor().ReleaseDate() < b->Descriptor().ReleaseDate());
+  return (a->Descriptor().ReleaseDate() - b->Descriptor().ReleaseDate());
 }
 
-bool Sorting1Type2Name::operator()(const SystemData* a, const SystemData* b) const
-{
-  if (a->Descriptor().Type() == b->Descriptor().Type())
-  {
-      return a->Descriptor().FullName() < b->Descriptor().FullName();
-  }
-  return (a->Descriptor().Type() < b->Descriptor().Type());
-}
-
-bool Sorting1Type2ReleaseDate::operator()(const SystemData* a, const SystemData* b) const
+int Sorting1Type2Name(SystemData* const& a, SystemData* const& b)
 {
   if (a->Descriptor().Type() == b->Descriptor().Type())
-  {
-      return a->Descriptor().ReleaseDate() < b->Descriptor().ReleaseDate();
-  }
-  return (a->Descriptor().Type() < b->Descriptor().Type());
+    return strcmp(a->FullName().data(), b->FullName().data());
+
+  return ((int)a->Descriptor().Type() - (int)b->Descriptor().Type());
 }
 
-bool Sorting1Manufacturer2Name::operator()(const SystemData* a, const SystemData* b) const
+int Sorting1Type2ReleaseDate(SystemData* const& a, SystemData* const& b)
+{
+  if (a->Descriptor().Type() == b->Descriptor().Type())
+    return a->Descriptor().ReleaseDate() - b->Descriptor().ReleaseDate();
+
+  return ((int)a->Descriptor().Type() - (int)b->Descriptor().Type());
+}
+
+int Sorting1Manufacturer2Name(SystemData* const& a, SystemData* const& b)
+{
+  if (a->Descriptor().Manufacturer() == b->Descriptor().Manufacturer())
+    return strcmp(a->FullName().data(), b->FullName().data());
+
+  return strcmp(a->Descriptor().Manufacturer().data(), b->Descriptor().Manufacturer().data());
+}
+
+int Sorting1Manufacturer2ReleaseDate(SystemData* const& a, SystemData* const& b)
 {
   if (a->Descriptor().Manufacturer() == b->Descriptor().Manufacturer())
   {
-      return a->Descriptor().FullName() < b->Descriptor().FullName();
+    return a->Descriptor().ReleaseDate() - b->Descriptor().ReleaseDate();
   }
-  return (a->Descriptor().Manufacturer() < b->Descriptor().Manufacturer());
+  return strcmp(a->Descriptor().Manufacturer().data(), b->Descriptor().Manufacturer().data());
 }
 
-bool Sorting1Manufacturer2ReleaseDate::operator()(const SystemData* a, const SystemData* b) const
-{
-  if (a->Descriptor().Manufacturer() == b->Descriptor().Manufacturer())
-  {
-      return a->Descriptor().ReleaseDate() < b->Descriptor().ReleaseDate();
-  }
-  return (a->Descriptor().Manufacturer() < b->Descriptor().Manufacturer());
-}
-
-bool Sorting1Type2Manufacturer3Name::operator()(const SystemData* a, const SystemData* b) const
+int Sorting1Type2Manufacturer3Name(SystemData* const& a, SystemData* const& b)
 {
   if (a->Descriptor().Type() == b->Descriptor().Type())
   {
     if (a->Descriptor().Manufacturer() == a->Descriptor().Manufacturer())
-    {
-        return (a->Descriptor().FullName() < b->Descriptor().FullName());
-    }
-    return (a->Descriptor().Manufacturer() < b->Descriptor().Manufacturer());
+      return strcmp(a->FullName().data(), b->FullName().data());
+    return strcmp(a->Descriptor().Manufacturer().data(), b->Descriptor().Manufacturer().data());
   }
-  return (a->Descriptor().Type() < b->Descriptor().Type());
+  return ((int)a->Descriptor().Type() - (int)b->Descriptor().Type());
 }
 
-bool Sorting1Type2Manufacturer3ReleaseDate::operator()(const SystemData* a, const SystemData* b) const
+int Sorting1Type2Manufacturer3ReleaseDate(SystemData* const& a, SystemData* const& b)
 {
   if (a->Descriptor().Type() == b->Descriptor().Type())
   {
     if (a->Descriptor().Manufacturer() == b->Descriptor().Manufacturer())
-    {
-        return (a->Descriptor().ReleaseDate() < b->Descriptor().ReleaseDate());
-    }
-    return (a->Descriptor().Manufacturer() < b->Descriptor().Manufacturer());
+      return a->Descriptor().ReleaseDate() - b->Descriptor().ReleaseDate();
+    return strcmp(a->Descriptor().Manufacturer().data(), b->Descriptor().Manufacturer().data());
   }
-  return (a->Descriptor().Type() < b->Descriptor().Type());
+  return ((int)a->Descriptor().Type() - (int)b->Descriptor().Type());
 }

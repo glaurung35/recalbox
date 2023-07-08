@@ -9,24 +9,16 @@
 class SaveStateData
 {
   public:
-    SaveStateData()
-      : mSlotConfigured(false)
-    {};
+    SaveStateData() = default;
 
-    std::string SlotNumber() const { return mSlotNumber; }
+    [[nodiscard]] const String& SlotNumber() const { return mSlotNumber; }
 
-    void SetSlotNumber(std::string slotNumber)
+    void SetSlotNumber(int slotNumber)
     {
-      mSlotNumber = slotNumber;
-      mSlotConfigured = true;
-    }
-
-    bool IsConfigured()
-    {
-      return mSlotConfigured;
+      if (slotNumber < 0) mSlotNumber = String::Empty;
+      mSlotNumber = String(slotNumber);
     }
 
   private:
-    bool mSlotConfigured;
-    std::string mSlotNumber;
+    String mSlotNumber;
 };

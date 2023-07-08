@@ -5,7 +5,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include "EmulatorManager.h"
 
-bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& emulator, std::string& core) const
+bool EmulatorManager::GetDefaultEmulator(const SystemData& system, String& emulator, String& core) const
 {
   { LOG(LogTrace) << "[Emulator] Get system's emulator for " << system.FullName(); }
   bool Ok = GetSystemDefaultEmulator(system, emulator, core);
@@ -13,7 +13,7 @@ bool EmulatorManager::GetDefaultEmulator(const SystemData& system, std::string& 
   return Ok;
 }
 
-bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulator, std::string& core) const
+bool EmulatorManager::GetGameEmulator(const FileData& game, String& emulator, String& core) const
 {
   { LOG(LogTrace) << "[Emulator] Get game's emulator for " << game.RomPath().ToString(); }
 
@@ -39,8 +39,8 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, std::string& emulato
 
 EmulatorData EmulatorManager::GetGameEmulator(const FileData& game) const
 {
-  std::string emulator;
-  std::string core;
+  String emulator;
+  String core;
 
   if (GetGameEmulator(game, emulator, core))
     return EmulatorData(emulator, core);
@@ -48,8 +48,8 @@ EmulatorData EmulatorManager::GetGameEmulator(const FileData& game) const
   return EmulatorData("", "");
 }
 
-bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::string& emulator,
-                                                     std::string& core) const
+bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, String& emulator,
+                                                     String& core) const
 {
   emulator.clear();
   core.clear();
@@ -85,10 +85,10 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, std::st
   return false;
 }
 
-void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::string& emulator, std::string& core) const
+void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, String& emulator, String& core) const
 {
-  std::string rawemulator = RecalboxConf::Instance().AsString(system.Name() + ".emulator");
-  std::string rawcore = RecalboxConf::Instance().AsString(system.Name() + ".core");
+  String rawemulator = RecalboxConf::Instance().AsString(system.Name() + ".emulator");
+  String rawcore = RecalboxConf::Instance().AsString(system.Name() + ".core");
   PatchNames(rawemulator, rawcore);
 
   // At least one not empty?
@@ -112,13 +112,13 @@ void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, std::s
   }
 }
 
-void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string& emulator, std::string& core) const
+void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, String& emulator, String& core) const
 {
   // Get configured emulator/core iif they are both not empty
   if (!game.Metadata().Core().empty() && !game.Metadata().Emulator().empty())
   {
-    std::string rawemulator = game.Metadata().Emulator();
-    std::string rawcore = game.Metadata().Core();
+    String rawemulator = game.Metadata().Emulator();
+    String rawcore = game.Metadata().Core();
     PatchNames(rawemulator, rawcore);
 
     if (CheckEmulatorAndCore(game.System(), rawemulator, rawcore))
@@ -139,15 +139,15 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, std::string&
   }
 }
 
-void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string& emulator, std::string& core) const
+void EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emulator, String& core) const
 {
-  std::string rawGlobalEmulator;
-  std::string rawSystemEmulator;
-  std::string rawGlobalCore;
-  std::string rawSystemCore;
+  String rawGlobalEmulator;
+  String rawSystemEmulator;
+  String rawGlobalCore;
+  String rawSystemCore;
 
-  std::string keyEmulator = game.System().Name() + ".emulator";
-  std::string keyCore = game.System().Name() + ".core";
+  String keyEmulator = game.System().Name() + ".emulator";
+  String keyCore = game.System().Name() + ".core";
 
   // Get game directory
   Path romPath(game.RomPath());
@@ -160,10 +160,10 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
     if (configuration.IsValid())
     {
       // Get values
-      std::string globalEmulator = configuration.AsString("global.emulator");
-      std::string systemEmulator = configuration.AsString(keyEmulator);
-      std::string globalCore = configuration.AsString("global.core");
-      std::string systemCore = configuration.AsString(keyCore);
+      String globalEmulator = configuration.AsString("global.emulator");
+      String systemEmulator = configuration.AsString(keyEmulator);
+      String globalCore = configuration.AsString("global.core");
+      String systemCore = configuration.AsString(keyCore);
 
       // Record non empty values
       if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
@@ -178,10 +178,10 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   if (configuration.IsValid())
   {
     // Get values
-    std::string globalEmulator = configuration.AsString("global.emulator");
-    std::string systemEmulator = configuration.AsString(keyEmulator);
-    std::string globalCore = configuration.AsString("global.core");
-    std::string systemCore = configuration.AsString(keyCore);
+    String globalEmulator = configuration.AsString("global.emulator");
+    String systemEmulator = configuration.AsString(keyEmulator);
+    String globalCore = configuration.AsString("global.core");
+    String systemCore = configuration.AsString(keyCore);
 
     // Record non empty values
     if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
@@ -191,8 +191,8 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
   }
 
   // Get final tupple
-  std::string finalEmulator = rawSystemEmulator.empty() ? rawGlobalEmulator : rawSystemEmulator;
-  std::string finalCore     = rawSystemCore.empty()     ? rawGlobalCore     : rawSystemCore;
+  String finalEmulator = rawSystemEmulator.empty() ? rawGlobalEmulator : rawSystemEmulator;
+  String finalCore     = rawSystemCore.empty()     ? rawGlobalCore     : rawSystemCore;
   PatchNames(finalEmulator, finalCore);
 
   if (!finalEmulator.empty() || !finalCore.empty())
@@ -214,13 +214,13 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, std::string&
 
 bool EmulatorManager::ConfigOverloaded(const FileData& game) const
 {
-  std::string defaultEmulator, defaultCore, gameEmulator, gameCore;
+  String defaultEmulator, defaultCore, gameEmulator, gameCore;
   GetSystemDefaultEmulator(game.System(), defaultEmulator, defaultCore);
   GetGameEmulator(game, gameEmulator, gameCore);
   return !(defaultEmulator == gameEmulator && defaultCore == gameCore);
 }
 
-bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::string& emulator, const std::string& core) const
+bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const String& emulator, const String& core) const
 {
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList != nullptr)
@@ -233,7 +233,7 @@ bool EmulatorManager::CheckEmulatorAndCore(const SystemData& system, const std::
   return false;
 }
 
-bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string& emulator, std::string& core) const
+bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, String& emulator, String& core) const
 {
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   if (tryList == nullptr) return false;
@@ -262,7 +262,7 @@ bool EmulatorManager::GuessEmulatorAndCore(const SystemData& system, std::string
   return false;
 }
 
-Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
+String::List EmulatorManager::GetEmulators(const SystemData& system) const
 {
 
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
@@ -294,7 +294,7 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
           emulatorPriorities[i] = effectiveList.EmulatorAt(i).CorePriorityAt(j);
 
     // Build a sorted output list
-    Strings::Vector result;
+    String::List result;
     for(int round = effectiveList.Count(); --round >= 0; )
     {
       int lowestPriority = emulatorPriorities[0];
@@ -312,10 +312,10 @@ Strings::Vector EmulatorManager::GetEmulators(const SystemData& system) const
     return result;
   }
 
-  return Strings::Vector();
+  return String::List();
 }
 
-Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::string& emulator) const
+String::List EmulatorManager::GetCores(const SystemData& system, const String& emulator) const
 {
   const EmulatorList** tryList = mSystemEmulators.try_get(KeyFrom(system));
   const bool isCRT = Board::Instance().CrtBoard().IsCrtAdapterAttached();
@@ -326,12 +326,11 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
     {
       const EmulatorDescriptor& descriptor = list.Named(emulator);
       // Get priorities
-      unsigned char corePriorities[EmulatorDescriptor::sMaximumCores];
-      for(int i = EmulatorDescriptor::sMaximumCores; --i >= 0; ) corePriorities[i] = 255;
-      for(int i = descriptor.CoreCount(); --i >= 0; ) corePriorities[i] = descriptor.CorePriorityAt(i);
+      Array<unsigned char> corePriorities(descriptor.CoreCount());
+      for(int i = descriptor.CoreCount(); --i >= 0; ) corePriorities(i) = descriptor.CorePriorityAt(i);
 
       // Build a sorted output list
-      Strings::Vector result;
+      String::List result;
       for(int round = descriptor.CoreCount(); --round >= 0; )
       {
         int lowestPriority = corePriorities[0];
@@ -342,7 +341,7 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
             lowestPriority = corePriorities[i];
             index = i;
           }
-        corePriorities[index] = 255;
+        corePriorities(index) = 255;
         if(isCRT && !descriptor.CoreCrtAvailable(index))
           continue;
         result.push_back(descriptor.CoreNameAt(index));
@@ -352,15 +351,15 @@ Strings::Vector EmulatorManager::GetCores(const SystemData& system, const std::s
     }
   }
 
-  return Strings::Vector();
+  return String::List();
 }
 
-std::string EmulatorManager::KeyFrom(const SystemData& system)
+String EmulatorManager::KeyFrom(const SystemData& system)
 {
   return system.Descriptor().GUID();
 }
 
-void EmulatorManager::PatchNames(std::string& emulator, std::string& core)
+void EmulatorManager::PatchNames(String& emulator, String& core)
 {
   if (emulator == "libretro")
     if (core == "duckstation") core = "swanstation";

@@ -48,13 +48,13 @@ class GameLinkedData
      */
 
     //! Get Netplay object
-    const NetPlayData& NetPlay()const { return mNetPlayData; }
+    [[nodiscard]] const NetPlayData& NetPlay()const { return mNetPlayData; }
 
     //! Get writable Crt object
     CrtData& ConfigurableCrt() { return mCrtData; }
 
     //! Get read only Crt object
-    const CrtData& Crt() const { return mCrtData; }
+    [[nodiscard]] const CrtData& Crt() const { return mCrtData; }
 
     //! Get writable Patch data
     PatchData& ConfigurablePatch() { return mPatchData; }
@@ -63,17 +63,17 @@ class GameLinkedData
     SaveStateData& ConfigurableSaveState() { return mSaveSateData; }
 
     //! Get read only Patch data
-    const PatchData& Patch() const { return mPatchData; }
+    [[nodiscard]] const PatchData& Patch() const { return mPatchData; }
 
 
     //! Get writable Supergameboy data
     SuperGameBoyData& ConfigurableSuperGameBoy() { return mSuperGameBoyData; }
 
     //! Get read only Supergameboy data
-    const SuperGameBoyData& SuperGameBoy() const { return mSuperGameBoyData; }
+    [[nodiscard]] const SuperGameBoyData& SuperGameBoy() const { return mSuperGameBoyData; }
 
     //! Get read only savestate data
-    const SaveStateData& SaveState() const { return mSaveSateData; }
+    [[nodiscard]] const SaveStateData& SaveState() const { return mSaveSateData; }
 
 
   private:

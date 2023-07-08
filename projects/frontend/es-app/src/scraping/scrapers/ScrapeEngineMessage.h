@@ -6,6 +6,8 @@
 //
 #pragma once
 
+#include <games/MetadataType.h>
+
 class FileData;
 
 /*!
@@ -16,6 +18,8 @@ struct ScrapeEngineMessage
 {
   //! Game reference
   FileData* mGame;
+  //! Metadata changed
+  MetadataType mMetadata;
   //! Scraping result
   ScrapeResult mResult;
 };

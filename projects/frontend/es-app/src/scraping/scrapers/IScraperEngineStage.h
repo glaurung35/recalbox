@@ -6,25 +6,31 @@
 //
 #pragma once
 
+#include <games/MetadataType.h>
+
 // Forward declaration
 class FileData;
 
 class IScraperEngineStage
 {
   public:
+    //! Virtual destructor
+    virtual ~IScraperEngineStage() = default;
+
     //! Stages
     enum class Stage
     {
       Text,      //!< All text info have been downloaded
       Images,    //!< All images have been downloaded
       Video,     //!< All video have been downloaded
+      Extra,     //!< All extra media have been downloaded
       Completed, //!< Everything downloaded
     };
 
     /*!
-     * @brief Rezport scraping stage completion
+     * @brief Report scraping stage completion
      * @param game Target game
      * @param stage Last stage completed
      */
-    virtual void StageCompleted(FileData* game, Stage stage) = 0;
+    virtual void ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes) = 0;
 };

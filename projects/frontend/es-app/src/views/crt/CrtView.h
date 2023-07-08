@@ -23,10 +23,10 @@ class CrtView : public Gui
      * @brief Constructor
      * @param window Main Window instance
      */
-    explicit CrtView(WindowManager& window, CalibrationType calibrationType);
+    explicit CrtView(WindowManager& window);
 
-    //! Destructor
-    ~CrtView() override;
+    //! Initialize
+    void Initialize(CalibrationType calibrationType);
 
     /*
      * Gui implementation

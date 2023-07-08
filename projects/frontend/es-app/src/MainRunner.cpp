@@ -25,6 +25,7 @@
 #include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
 #include "RotationManager.h"
+#include "RootFolders.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -372,7 +373,7 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
   if (memory != 0 && memory <= 512)
   {
     int realSystemCount = 0;
-    for(const SystemData* system : systemManager.GetVisibleSystemList())
+    for(const SystemData* system : systemManager.AllSystems())
       if (system->HasVisibleGame())
         realSystemCount++;
     if (realSystemCount > maxSystem)
@@ -526,7 +527,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
     return false;
   }
 
-  if (systemManager.GetVisibleSystemList().empty())
+  if (systemManager.VisibleSystemList().Empty())
   {
     { LOG(LogError) << "[MainRunner] No systems found! Does at least one system have a game present? (check that extensions match!)\n(Also, make sure you've updated your es_systems.cfg for XML!)"; }
     { LOG(LogError) << "[MainRunner]  WE CAN'T FIND ANY SYSTEMS!\n"
@@ -633,7 +634,6 @@ void MainRunner::SetLocale(const std::string& executablePath)
 
 void MainRunner::RequestQuit(MainRunner::ExitState requestedState, bool forceReloadFromDisk)
 {
-  ViewController::Instance().quitGameClipView();
   sQuitRequested = true;
   sRequestedExitState = requestedState;
   sForceReloadFromDisk = forceReloadFromDisk;
@@ -958,7 +958,7 @@ void MainRunner::PatreonState(PatronAuthenticationResult result, int level, cons
   }
 
   if (!message.empty())
-    mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, GuiInfoPopupBase::PopupType::Help));
+    mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, PopupType::Help));
 }
 
 bool MainRunner::Execute(GuiWaitLongExecution<USBInitialization, bool>& from, const USBInitialization& parameter)

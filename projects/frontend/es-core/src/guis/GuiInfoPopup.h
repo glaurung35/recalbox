@@ -16,7 +16,7 @@ class TextComponent;
 class GuiInfoPopup : public GuiInfoPopupBase
 {
   public:
-    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, GuiInfoPopupBase::PopupType icon);
+    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon);
 
   protected:
     float AddComponents(WindowManager& window, ComponentGrid& grid, float maxWidth, float maxHeight, int paddingX, int paddingY) override;
@@ -25,7 +25,7 @@ class GuiInfoPopup : public GuiInfoPopupBase
     //! Text message
     std::string mMessage;
     //! Icon
-    GuiInfoPopupBase::PopupType mIcon;
+    PopupType mIcon;
 
     //! MEssage component
     std::shared_ptr<TextComponent> mMsgText;

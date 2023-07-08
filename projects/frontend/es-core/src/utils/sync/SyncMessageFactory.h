@@ -125,7 +125,7 @@ class SyncMessageFactory : public StaticLifeCycleControler<SyncMessageFactory>
 
       #ifdef DEBUG
       static int messageCounter = 0;
-      { LOG(LogDebug) << "[MessageFactory] Created message #" << ++messageCounter; }
+      { LOG(LogTrace) << "[MessageFactory] Created message #" << ++messageCounter; }
       #endif
 
       return new UntypedSyncMessage();

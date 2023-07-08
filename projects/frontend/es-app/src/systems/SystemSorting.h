@@ -22,50 +22,26 @@ enum class SystemSorting
 };
 
 //! Sort by name only
-struct SortingName
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int SortingName(SystemData* const& a, SystemData* const& b);
 
 //! Sort by release date only
-struct SortingReleaseDate
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int SortingReleaseDate(SystemData* const& a, SystemData* const& b);
 
 //! Sort by type then by name
-struct Sorting1Type2Name
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Type2Name(SystemData* const& a, SystemData* const& b);
 
 //! Sort by type then by release date
-struct Sorting1Type2ReleaseDate
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Type2ReleaseDate(SystemData* const& a, SystemData* const& b);
 
 //! Sort by manufacturer then by name
-struct Sorting1Manufacturer2Name
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Manufacturer2Name(SystemData* const& a, SystemData* const& b);
 
 //! Sort by manufacturer then by release date
-struct Sorting1Manufacturer2ReleaseDate
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Manufacturer2ReleaseDate(SystemData* const& a, SystemData* const& b);
 
 //! Sort by type then by manufacturer then by name
-struct Sorting1Type2Manufacturer3Name
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Type2Manufacturer3Name(SystemData* const& a, SystemData* const& b);
 
 //! Sort by type then by manufacturer then by release date
-struct Sorting1Type2Manufacturer3ReleaseDate
-{
-  bool operator()(const SystemData* a, const SystemData* b) const;
-};
+int Sorting1Type2Manufacturer3ReleaseDate(SystemData* const& a, SystemData* const& b);
 

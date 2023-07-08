@@ -81,6 +81,12 @@ class ArcadeDatabaseManager
      */
     static void Finalize() { ArcadeGame::Finalize(); }
 
+    /*!
+     * @brief Check if the current database manager contains at least one database
+     * @return True if the manager contains no database, false otherwise
+     */
+    [[nodiscard]] bool IsEmpty() const { return mDatabases.empty(); }
+
   private:
     //! Raw driver structure
     struct RawDriver

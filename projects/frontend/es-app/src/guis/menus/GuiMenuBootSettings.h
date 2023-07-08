@@ -37,17 +37,6 @@ class GuiMenuBootSettings : public GuiMenuBase
     //! System manager
     SystemManager& mSystemManager;
 
-    //! Run kodi at startup
-    std::shared_ptr<SwitchComponent> mKodiAtStartup;
-    //! Gamelist only
-    std::shared_ptr<SwitchComponent> mGamelistOnly;
-    //! Selected system
-    std::shared_ptr<OptionListComponent<std::string>> mSelectedSystem;
-    //! Start on gamelist
-    std::shared_ptr<SwitchComponent> mStartOnGamelist;
-    //! Hide system view
-    std::shared_ptr<SwitchComponent> mHideSystemView;
-
     //! Get system list
     std::vector<ListEntry<std::string>> GetSystemEntries();
 

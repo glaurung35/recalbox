@@ -12,6 +12,7 @@
 #include <games/FileData.h>
 #include <games/MetadataFieldDescriptor.h>
 #include <scraping/scrapers/IScraperEngineStage.h>
+#include <games/MetadataType.h>
 
 //! Persistant engine class accross requests
 class ScreenScraperSingleEngine
@@ -99,18 +100,20 @@ class ScreenScraperSingleEngine
      * @brief Store scraped data into destination game's metadata, regarding the scraping method
      * @param method Scraping method
      * @param sourceData Source data
-     * @param game DFestination game
+     * @param game Destination game
+     * @return Bitflag of actually stored data
      */
-    void StoreTextData(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
+    MetadataType StoreTextData(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game);
 
     /*!
      * @brief Download an store media one after one
      * @param method Scraping method
      * @param sourceData Source data
-     * @param game DFestination game
+     * @param game Destination game
+     * @param updatedMetadata Updated metadata bitflag
      * @return True if the quota is reached and the scraping must stop ASAP. False in any other case
      */
-    ScrapeResult DownloadAndStoreMedia(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game, ProtectedSet& md5Set);
+    ScrapeResult DownloadAndStoreMedia(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game, MetadataType& updatedMetadata, ProtectedSet& md5Set);
 
     /*!
      * @brief Download a single media
@@ -123,9 +126,10 @@ class ScreenScraperSingleEngine
      * @param pathSetter Method to set media path in game object
      * @param mediaSource Media source
      * @param md5Set MD5 protected set
+     * @param pathHasBeenSet Output: true if the media path has been set
      * @return ScrapeResult
      */
-    ScrapeResult DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const std::string& subPath, const std::string& name, MediaType mediaType, SetPathMethodType pathSetter, const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set);
+    ScrapeResult DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const std::string& subPath, const std::string& name, MediaType mediaType, SetPathMethodType pathSetter, const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,bool &pathHasBeenSet);
 
     /*!
      * @brief Check if the result code is fatal or not
@@ -142,9 +146,10 @@ class ScreenScraperSingleEngine
      * @param mediaFolder Base media folder (roms/<system>/media/<mediatype>)
      * @param media Media being downloaded
      * @param format Media format (file extension)
+     * @param pathHasBeenSet Output: true if the media path has been set
      * @return Scrape result
      */
-    ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game, const std::string& media, SetPathMethodType pathSetter, ProtectedSet& md5Set, MediaType mediaType);
+    ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game, const std::string& media, SetPathMethodType pathSetter, ProtectedSet& md5Set, MediaType mediaType, bool& pathHasBeenSet);
 
   public:
     explicit ScreenScraperSingleEngine(IConfiguration* configuration, IEndPointProvider* endPointProvider, IScraperEngineStage* stageInterface)
@@ -173,7 +178,7 @@ class ScreenScraperSingleEngine
      * @param game game to scrape
      * @return True if the whole process must stop for whatever reason
      */
-    ScrapeResult Scrape(ScrapingMethod method, FileData& game, ProtectedSet& md5Set);
+    ScrapeResult Scrape(ScrapingMethod method, FileData& game, MetadataType& updatedMetadata, ProtectedSet& md5Set);
 
     /*!
      * @brief Abort the current engine. The engine is required to quit its current scraping ASAP

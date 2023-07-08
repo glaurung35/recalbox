@@ -288,13 +288,13 @@ template<class FeedObject, class ResultObject> class ThreadPool
      * @brief Get the worker count
      * @return Worker count
      */
-    int WorkerCount() const { return mThreads.size(); }
+    [[nodiscard]] int WorkerCount() const { return mThreads.size(); }
 
     /*!
      * @brief Tell if the threadpool is parmanent or not
      * @return True if it is permanent, false otherwise
      */
-    bool IsPermanent() const { return mPermanent; }
+    [[nodiscard]] bool IsPermanent() const { return mPermanent; }
 };
 
 template<class FeedObject, class ResultObject>
@@ -320,9 +320,8 @@ void ThreadPool<FeedObject, ResultObject>::Run(int threadCount, bool async, int 
   for(int i = threadCount; --i >= 0; )
   {
     WorkerThread* worker = new WorkerThread(*this, priority);
-    std::string name = mThreadPoolName;
-    name += '#';
-    name += std::to_string(i);
+    String name(mThreadPoolName);
+    name.Append('#').Append(i);
     mThreads.push_back(worker);
     worker->Start(name);
   }

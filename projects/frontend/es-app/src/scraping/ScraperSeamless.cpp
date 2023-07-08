@@ -38,7 +38,7 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
   int engineIndex = AllocateEngine();
   if (engineIndex < 0)
   {
-    { LOG(LogDebug) << "[SeamlessScraping] SError allocating engine! Scrape aborted!"; }
+    { LOG(LogDebug) << "[SeamlessScraping] Error allocating engine! Scrape aborted!"; }
     return feed;
   }
 
@@ -47,7 +47,8 @@ FileData* ScraperSeamless::ThreadPoolRunJob(FileData*& feed)
   // Get engine
   ScreenScraperSingleEngine& engine = mEngines[engineIndex];
   // Scrape!
-  engine.Scrape(ScrapingMethod::CompleteAndKeepExisting, *feed, mProtectedSet);
+  MetadataType dummy = MetadataType::None;
+  engine.Scrape(ScrapingMethod::CompleteAndKeepExisting, *feed, dummy, mProtectedSet);
   // Free engine so that another scrape can start now
   FreeEngine(engineIndex);
 
@@ -61,14 +62,15 @@ void ScraperSeamless::ReceiveSyncMessage(const ScrapeSeamlessMessage& message)
   FileData* game = message.mGame;
   IScraperEngineStage::Stage stage = message.mStage;
   IScraperEngineStage* interface = Pop(game, stage == IScraperEngineStage::Stage::Completed);
+  MetadataType changes = message.mChanges;
   if (game != nullptr && interface != nullptr)
-    interface->StageCompleted(game, stage);
+    interface->ScrapingStageCompleted(game, stage, changes);
 }
 
-void ScraperSeamless::StageCompleted(FileData* game, IScraperEngineStage::Stage stage)
+void ScraperSeamless::ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes)
 {
   // Send result to main thread
-  mSender.Send({ game, stage });
+  mSender.Send({ game, stage, changes });
 }
 
 void ScraperSeamless::Push(FileData* game, IScraperEngineStage* interface)

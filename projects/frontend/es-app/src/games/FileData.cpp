@@ -8,10 +8,19 @@
 
 FileData::FileData(ItemType type, const Path& path, RootFolderData& ancestor)
 	: mTopAncestor(ancestor)
-    , mParent(nullptr)
-    , mType(type)
-    , mMetadata(path, type != ItemType::Root ? GameAdapter::RawDisplayName(ancestor.System(), path) : path.FilenameWithoutExtension(), type)
+  , mParent(nullptr)
+  , mType(type)
+  , mProperties(BuildProperties(path))
+  , mMetadata(path, type != ItemType::Root ? GameAdapter::RawDisplayName(ancestor.System(), path) : path.FilenameWithoutExtension(), type)
 {
+}
+
+FileData::InternalProperties FileData::BuildProperties(const Path& path)
+{
+  InternalProperties props = InternalProperties::None;
+  if (path.ToString().StartsWith(LEGACY_STRING("ZZZ")) || path.ToString().Contains(LEGACY_STRING("[BIOS]"))) props |= InternalProperties::NotAGame;
+  if (path.ToString().Contains(LEGACY_STRING("share_init"))) props |= InternalProperties::Preinstalled;
+  return props;
 }
 
 FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemType::Game, path, ancestor)
@@ -94,25 +103,35 @@ bool FileData::UpdateMetadataFrom(FileData& from)
   return true;
 }
 
-bool FileData::IsDisplayable() const
+bool FileData::IsDisplayable(TopLevelFilter topfilter) const
 {
-  RecalboxConf& conf = RecalboxConf::Instance();
+  // A folder is not displayable if there is no game inside
+  if (IsFolder()) return false;
 
-  if(IsFolder())
-    return false;
-  if(conf.GetShowOnlyLatestVersion() && !Metadata().LatestVersion())
-    return false;
-  if(conf.GetFavoritesOnly() && !Metadata().Favorite())
-    return false;
-
-  if(!conf.GetShowHidden() && Metadata().Hidden())
-    return false;
-  if(conf.GetHideNoGames() && Metadata().NoGame())
-    return false;
-  if(conf.GetFilterAdultGames() && Metadata().Adult())
-    return false;
-  if(conf.GetGlobalHidePreinstalled() && TopAncestor().PreInstalled())
-    return false;
+  if ((topfilter & TopLevelFilter::Favorites    ) != 0 && !mMetadata.Favorite()                     ) return false;
+  if ((topfilter & TopLevelFilter::Hidden       ) != 0 && mMetadata.Hidden()                        ) return false;
+  if ((topfilter & TopLevelFilter::Adult        ) != 0 && mMetadata.Adult()                         ) return false;
+  if ((topfilter & TopLevelFilter::Preinstalled ) != 0 && TopAncestor().PreInstalled()              ) return false;
+  if ((topfilter & TopLevelFilter::Tate         ) != 0 && mMetadata.Rotation() == RotationType::None) return false;
+  if ((topfilter & TopLevelFilter::LatestVersion) != 0 && !mMetadata.LatestVersion()                ) return false;
+  if ((topfilter & TopLevelFilter::NotAGame     ) != 0 && mMetadata.NoGame()                        ) return false;
 
   return true;
 }
+
+FileData::TopLevelFilter FileData::BuildTopLevelFilter()
+{
+  RecalboxConf& conf = RecalboxConf::Instance();
+  TopLevelFilter result = TopLevelFilter::None;
+
+  if (conf.GetFavoritesOnly()         ) result |= TopLevelFilter::Favorites;
+  if (!conf.GetShowHidden()           ) result |= TopLevelFilter::Hidden;
+  if (conf.GetFilterAdultGames()      ) result |= TopLevelFilter::Adult;
+  if (conf.GetGlobalHidePreinstalled()) result |= TopLevelFilter::Preinstalled;
+  if (conf.GetTateOnly()              ) result |= TopLevelFilter::Tate;
+  if (conf.GetShowOnlyLatestVersion() ) result |= TopLevelFilter::LatestVersion;
+  if (conf.GetHideNoGames()           ) result |= TopLevelFilter::NotAGame;
+
+  return result;
+}
+

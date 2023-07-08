@@ -213,7 +213,7 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
      * @param game Target game
      * @param stage Last stage completed
      */
-    void StageCompleted(FileData* game, Stage stage) override;
+    void ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes) override;
 };
 
 

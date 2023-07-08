@@ -9,7 +9,7 @@ void TheGameDBEngine::Initialize()
 
 }
 
-bool TheGameDBEngine::RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList,
+bool TheGameDBEngine::RunOn(ScrapingMethod method, const SystemManager::List& systemList,
                             INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
   (void)method;

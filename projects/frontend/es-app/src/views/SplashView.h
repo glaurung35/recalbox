@@ -4,10 +4,13 @@
 #include <WindowManager.h>
 #include <components/TextComponent.h>
 #include "IProgressInterface.h"
+#include <systems/ISystemLoadingPhase.h>
 
 #pragma once
 
-class SplashView : public Gui, public IProgressInterface
+class SplashView : public Gui
+                 , public IProgressInterface
+                 , public ISystemLoadingPhase
 {
   private:
     ImageComponent mLogo;
@@ -35,6 +38,16 @@ class SplashView : public Gui, public IProgressInterface
      * @param parentTrans Transformation
      */
     void Render(const Transform4x4f& parentTrans) override;
+
+    /*
+     * ISystemLoadingPhase implementation
+     */
+
+    /*!
+     * @brief System loading phase callback
+     * @param phase Phase
+     */
+    void SystemLoadingPhase(Phase phase) override;
 
     /*
      * IProgressInterface implementation

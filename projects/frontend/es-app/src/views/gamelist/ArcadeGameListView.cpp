@@ -482,9 +482,18 @@ String ArcadeGameListView::GetDescription(FileData& game)
     if (const ArcadeGame* arcade = database->LookupGame(game); arcade != nullptr)
     {
       if (arcade->EmulationStatus() == ArcadeGame::Status::Imperfect)
-        return (_F(_("{0} reports the emulation status of this game is 'impecfect'.")) / core).ToString().Append(String::LF, 2).Append(game.Metadata().Description());
+        return (_F(_("{0} reports the emulation status of this game is 'imperfect'.")) / core).ToString().Append(String::LF, 2).Append(game.Metadata().Description());
       if (arcade->EmulationStatus() == ArcadeGame::Status::Preliminary)
         return (_F(_("{0} reports the emulation status of this game is 'preliminary'. You should expect issues such as bugs or even crashes!")) / core).ToString().Append(String::LF, 2).Append(game.Metadata().Description());
     }
   return game.Metadata().Description();
+}
+
+void ArcadeGameListView::RefreshItem(FileData* game)
+{
+  if (game == nullptr || !game->IsFolder()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
+
+  int index = mList.Lookup(game);
+  if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
+  mList.changeTextAt(index, GetDisplayName(*game));
 }

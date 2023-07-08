@@ -39,6 +39,7 @@ void Thread::Start(const std::string& name)
 
 void Thread::Stop()
 {
+  { LOG(LogTrace) << "[Thread] Entering stop thread " << mName; }
   mIsRunning = false;
   if (mHandle != 0 && SelfId() != mId)
   {
@@ -48,10 +49,12 @@ void Thread::Stop()
     mHandle = 0;
   }
   mIsDone = true;
+  { LOG(LogTrace) << "[Thread] Exiting stop thread " << mName; }
 }
 
 void Thread::Join()
 {
+  { LOG(LogTrace) << "[Thread] Entering join thread " << mName; }
   if (mHandle != 0 && SelfId() != mId)
   {
     void* dummy = nullptr;
@@ -60,6 +63,7 @@ void Thread::Join()
   }
   mIsRunning = false;
   mIsDone = true;
+  { LOG(LogTrace) << "[Thread] Exiting join thread " << mName; }
 }
 
 void* Thread::StartThread(void* thread_)

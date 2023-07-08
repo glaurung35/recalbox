@@ -3235,6 +3235,9 @@ class String : public std::string
     bool operator <=(const char* value) const { return *((std::string*)this) <= value; }
     bool operator >=(const String& value) const { return *((std::string*)this) >= *((std::string*)&value); }
     bool operator >=(const char* value) const { return *((std::string*)this) >= value; }
+    #ifndef NO_STD_STRING_AUTOBOXING
+    bool operator ==(const std::string& value) const { return *((std::string*)this) == value; }
+    #endif
 
     //! Convert & compare current string to boolean value
     bool operator ==(bool value) const { return (ConvertToBool(0, 0, false) == value); }

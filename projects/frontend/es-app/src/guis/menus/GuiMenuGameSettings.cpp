@@ -33,7 +33,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   AddSwitch(_("REWIND"), RecalboxConf::Instance().GetGlobalRewind(), (int)Components::Rewind, this,_(MENUMESSAGE_GAME_REWIND_HELP_MSG));
 
   // Softpatching
-  AddList<String>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
+  AddList<RecalboxConf::SoftPatching>(_("SOFTPATCHING"), (int)Components::Softpatching, this, GetSoftpatchingEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING));
 
   // show savestates
   mShowSaveStates = AddSwitch(_("SHOW SAVE STATES ON START"), RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun(), (int)Components::ShowSaveStates, this, _(MENUMESSAGE_GAME_SHOW_SAVESTATES_HELP_MSG));
@@ -102,18 +102,15 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetSuperGameBoy
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetSoftpatchingEntries()
+std::vector<GuiMenuBase::ListEntry<RecalboxConf::SoftPatching>> GuiMenuGameSettings::GetSoftpatchingEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<String>> list;
+  std::vector<GuiMenuBase::ListEntry<RecalboxConf::SoftPatching>> list;
 
-  std::string currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
+  RecalboxConf::SoftPatching currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
 
-  if(currentOption != "auto" && currentOption != "select" && currentOption != "disable")
-    currentOption = "auto";
-
-  list.emplace_back( _("AUTO"), "auto", currentOption == "auto" );
-  list.emplace_back( _("SELECT"), "select", currentOption == "select" );
-  list.emplace_back( _("DISABLE"), "disable", currentOption == "disable");
+  list.emplace_back( _("AUTO"), RecalboxConf::SoftPatching::Auto, currentOption == RecalboxConf::SoftPatching::Auto );
+  list.emplace_back( _("SELECT"), RecalboxConf::SoftPatching::Select, currentOption == RecalboxConf::SoftPatching::Select );
+  list.emplace_back( _("DISABLE"), RecalboxConf::SoftPatching::Disable, currentOption == RecalboxConf::SoftPatching::Disable);
 
   return list;
 }
@@ -138,26 +135,43 @@ void GuiMenuGameSettings::SubMenuSelected(int id)
   else if ((Components)id == Components::Netplay) mWindow.pushGui(new GuiMenuNetplay(mWindow, mSystemManager));
 }
 
+
+void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const RecalboxConf::SoftPatching& value)
+{
+  (void)index;
+  if ((Components)id == Components::Softpatching)
+    RecalboxConf::Instance().SetGlobalSoftpatching(value).Save();
+}
+
 void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
-  if ((Components)id == Components::Ratio) RecalboxConf::Instance().SetGlobalRatio(value).Save();
-  else if ((Components)id == Components::Softpatching)
-    RecalboxConf::Instance().SetGlobalSoftpatching(value).Save();
-  else if ((Components)id == Components::Shaders) RecalboxConf::Instance().SetGlobalShaders(value).Save();
-  else if ((Components)id == Components::ShaderSet)
+  switch((Components)id)
   {
-    if(value != "none" && (RecalboxConf::Instance().GetGlobalSmooth()))
+    case Components::Ratio: RecalboxConf::Instance().SetGlobalRatio(value).Save(); break;
+    case Components::Shaders:  RecalboxConf::Instance().SetGlobalShaders(value).Save(); break;
+    case Components::ShaderSet:
     {
-      mWindow.pushGui(new GuiMsgBox(mWindow, _("YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION AUTOMATICALLY?"),
-                                    _("LATER"), nullptr,
-                                    _("YES"), [this] { mSmooth->setState(false); }));
+      if (value != "none" && (RecalboxConf::Instance().GetGlobalSmooth()))
+        mWindow.pushGui(new GuiMsgBox(mWindow,
+                                      _("YOU JUST ACTIVATED THE SHADERS FOR ALL SYSTEMS. FOR A BETTER RENDERING, IT IS ADVISED TO DISABLE GAME SMOOTHING. DO YOU WANT TO CHANGE THIS OPTION AUTOMATICALLY?"),
+                                      _("LATER"), nullptr, _("YES"), [this]
+                                      { mSmooth->setState(false); }));
+      RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
+      break;
     }
-    RecalboxConf::Instance().SetGlobalShaderSet(value).Save();
-  }
-  else if ((Components)id == Components::SuperGameBoy)
-  {
-    RecalboxConf::Instance().SetSuperGameBoy(value).Save();
+    case Components::SuperGameBoy: RecalboxConf::Instance().SetSuperGameBoy(value).Save(); break;
+    case Components::RecalboxOverlays:
+    case Components::Smooth:
+    case Components::Rewind:
+    case Components::AutoSave:
+    case Components::ShowSaveStates:
+    case Components::QuitTwice:
+    case Components::IntegerScale:
+    case Components::Softpatching:
+    case Components::RetroAchivements:
+    case Components::Netplay:
+    default: break;
   }
 }
 

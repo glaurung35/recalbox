@@ -42,14 +42,16 @@ class ISimpleGameListView : public Gui
      */
     virtual IArcadeGamelistInterface* getArcadeInterface() { return nullptr; }
 
-	  // Called when a new file is added, a file is removed, a file's metadata changes, or when file sort changed
-	  virtual void onFileChanged(FileData* file, FileChangeType change);
-
     /*!
      * @brief Called when a major change occurs on the system
      * @param change Change type
      */
     virtual void onChanged(Change change);
+
+    /*!
+     * @brief Refresh name & properties of the given item
+     */
+    virtual void RefreshItem(FileData* game) = 0;
 
 	// Called whenever the theme changes.
 	virtual void onThemeChanged(const ThemeData& theme);

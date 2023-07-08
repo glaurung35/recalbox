@@ -15,6 +15,7 @@
 GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, SystemManager& systemManager, FileData& game, IScrapingComplete* notifier)
   : Gui(window)
   , mSystemManager(systemManager)
+  , mScraper(ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource(), nullptr))
   , mGame(game)
   , mNotifier(notifier)
   , mGrid(window, Vector2i(1, 7))
@@ -55,10 +56,8 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, SystemMan
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.747f);
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
-  // Create scraper and run!
-  // Don't use the notification interface since the use can close this gui at any time.
-  mScraper = ScraperFactory::Instance().GetScraper(RecalboxConf::Instance().GetScraperSource(), nullptr);
-  mScraper->RunOn(ScrapingMethod::All, game, nullptr, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
+  // Run!
+  mScraper->RunOn(ScrapingMethod::All, game, this, (long long)RecalboxSystem::GetMinimumFreeSpaceOnSharePartition());
 }
 
 void GuiScraperSingleGameRun::onSizeChanged()
@@ -78,27 +77,12 @@ bool GuiScraperSingleGameRun::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.CancelPressed())
 	{
-		Close();
+    mScraper->StopNotifications();
+    Close();
 		return true;
 	}
 
 	return Component::ProcessInput(event);
-}
-
-void GuiScraperSingleGameRun::Update(int deltaTime)
-{
-  if (mScraper != nullptr)
-    if (!mScraper->IsRunning())
-    {
-      mSearch->SetRunning(false);
-      mSearch->UpdateInfoPane(&mGame);
-      mButton->setText(_("CLOSE"), _("CLOSE"));
-      mScraper = nullptr;
-      if (mNotifier != nullptr)
-        mNotifier->ScrapingComplete(mGame);
-    }
-
-  Component::Update(deltaTime);
 }
 
 bool GuiScraperSingleGameRun::getHelpPrompts(Help& help)
@@ -107,11 +91,12 @@ bool GuiScraperSingleGameRun::getHelpPrompts(Help& help)
 }
 
 
-void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
+void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result, MetadataType changedMetadata)
 {
   (void)index;
   (void)total;
 
+  // #TODO: move into scraper!
   switch(RecalboxConf::Instance().GetScraperNameOptions())
   {
     case ScraperNameOptions::GetFromScraper: break;
@@ -131,13 +116,19 @@ void GuiScraperSingleGameRun::GameResult(int index, int total, FileData* result)
   RecalboxStorageWatcher::CheckStorageFreeSpace(mWindow, mSystemManager.GetMountMonitor(), result->RomPath());
 
   // Update game data
-  mSearch->UpdateInfoPane(result);
+  mSearch->SetRunning(false);
+  mSearch->UpdateInfoPane(&mGame);
+  if (mNotifier != nullptr) mNotifier->ScrapingComplete(mGame, changedMetadata);
+  mSystemManager.UpdateSystemsOnGameChange(result, changedMetadata, false);
 
   // Scripts
   NotificationManager::Instance().Notify(*result, Notification::ScrapGame);
 }
 
-void GuiScraperSingleGameRun::ScrapingComplete(ScrapeResult reason)
+void GuiScraperSingleGameRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMetadata)
 {
   (void)reason;
+  (void)changedMetadata;
+  // Update UI
+  mButton->setText(_("CLOSE"), _("CLOSE"));
 }

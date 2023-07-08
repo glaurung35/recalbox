@@ -15,6 +15,7 @@ class SwitchComponent;
 
 class GuiMenuGameSettings : public GuiMenuBase
                           , private IOptionListComponent<String>
+                          , private IOptionListComponent<RecalboxConf::SoftPatching>
                           , private ISwitchComponent
                           , private IGuiMenuBase
 {
@@ -61,7 +62,7 @@ class GuiMenuGameSettings : public GuiMenuBase
     //! Get Shaders List
     static std::vector<ListEntry<String>> GetShadersEntries();
     //! Get Softpatching List
-    static std::vector<ListEntry<String>> GetSoftpatchingEntries();
+    static std::vector<ListEntry<RecalboxConf::SoftPatching>> GetSoftpatchingEntries();
     //! Get shader sets List
     static std::vector<ListEntry<String>> GetShaderPresetsEntries();
     //! Get shader sets List
@@ -78,6 +79,12 @@ class GuiMenuGameSettings : public GuiMenuBase
      */
 
     void OptionListComponentChanged(int id, int index, const String& value) override;
+
+    /*
+     * IOptionListComponent<std::string> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::SoftPatching& value) override;
 
     /*
      * ISwitchComponent implementation

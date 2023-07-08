@@ -1,3 +1,4 @@
+
 //
 // Created by bkg2k on 15/06/23.
 //
@@ -18,7 +19,7 @@ class GuiMenuArcade : public GuiMenuBase
     /*!
      * @brief Constructor
      */
-    explicit GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface);
+    explicit GuiMenuArcade(WindowManager& window, IArcadeGamelistInterface* arcadeInterface);
 
     //! Destructor
     ~GuiMenuArcade() override;
@@ -35,9 +36,6 @@ class GuiMenuArcade : public GuiMenuBase
       ManufacturersFilter,
       GlobalArcadeSystem,
     };
-
-    //! System manager reference
-    SystemManager& mSystemManager;
 
     // IArcadeGamelistInterface for gamelist options
     IArcadeGamelistInterface* mArcade;

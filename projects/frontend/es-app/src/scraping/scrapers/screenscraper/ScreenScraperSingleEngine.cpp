@@ -33,7 +33,7 @@ void ScreenScraperSingleEngine::Initialize(bool noabort)
   mMediaSize = 0;
 }
 
-ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& game, ProtectedSet& md5Set)
+ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& game, MetadataType& updatedMetadata, ProtectedSet& md5Set)
 {
   // Start
   mRunning = true;
@@ -90,20 +90,22 @@ ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& 
       if (gameResult.mResult == ScrapeResult::Ok)
       {
         // Store text data
-        StoreTextData(method, gameResult, game);
+        MetadataType changes = StoreTextData(method, gameResult, game);
+        updatedMetadata |= changes;
         if (mStageInterface != nullptr)
-          mStageInterface->StageCompleted(&game, IScraperEngineStage::Stage::Text);
+          mStageInterface->ScrapingStageCompleted(&game, IScraperEngineStage::Stage::Text, changes);
         if (mAbortRequest) break;
 
         // Request and store media
-        switch (DownloadAndStoreMedia(method, gameResult, game, md5Set))
+        changes = MetadataType::None;
+        switch (DownloadAndStoreMedia(method, gameResult, game, changes, md5Set))
         {
           case ScrapeResult::QuotaReached:
           case ScrapeResult::DiskFull:
           case ScrapeResult::FatalError: mAbortRequest = true; break; // General abort
           case ScrapeResult::NotFound:
           case ScrapeResult::NotScraped:
-          case ScrapeResult::Ok: break;
+          case ScrapeResult::Ok: updatedMetadata |= changes; break;
         }
         if (mAbortRequest) break;
       }
@@ -113,7 +115,7 @@ ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& 
 
   // EOS
   if (mStageInterface != nullptr)
-    mStageInterface->StageCompleted(&game, IScraperEngineStage::Stage::Completed);
+    mStageInterface->ScrapingStageCompleted(&game, IScraperEngineStage::Stage::Completed, MetadataType::None);
 
   // Stop
   game.Metadata().SetTimeStamp();
@@ -130,7 +132,7 @@ std::string ScreenScraperSingleEngine::ComputeMD5(const Path& path)
     char buffer[1 << 20]; // 1Mb buffer
     for(int read = 0; (read = (int)fread(buffer, 1, sizeof(buffer), f)) > 0; )
       md5.update(buffer, read);
-    fclose(f);
+    (void)fclose(f);
     md5.finalize();
     return md5.hexdigest();
   }
@@ -297,15 +299,16 @@ bool ScreenScraperSingleEngine::NeedScraping(ScrapingMethod method, FileData& ga
   return false;
 }
 
-void
-ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game)
+MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScraperApis::Game& sourceData, FileData& game)
 {
+  MetadataType result = MetadataType::None;
   bool noKeep = method != ScrapingMethod::CompleteAndKeepExisting;
   // Name always scraped
   if (!sourceData.mName.empty())
   {
     game.Metadata().SetName(sourceData.mName);
     mTextInfo++;
+    result |= MetadataType::Name;
   }
   // Store data only if they are not empty and not scraped if method is IncompleteKeep
   if (!sourceData.mSynopsis.empty())
@@ -313,42 +316,49 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
     {
       game.Metadata().SetDescription(sourceData.mSynopsis);
       mTextInfo++;
+      result |= MetadataType::Synopsis;
     }
   if (!sourceData.mPublisher.empty())
     if (game.Metadata().Publisher().empty() || noKeep)
     {
       game.Metadata().SetPublisher(sourceData.mPublisher);
       mTextInfo++;
+      result |= MetadataType::Publisher;
     }
   if (!sourceData.mDeveloper.empty())
     if (game.Metadata().Developer().empty() || noKeep)
     {
       game.Metadata().SetDeveloper(sourceData.mDeveloper);
       mTextInfo++;
+      result |= MetadataType::Developer;
     }
   if (!sourceData.mPlayers.empty())
     if (game.Metadata().PlayerRange() == 0 || noKeep)
     {
       game.Metadata().SetPlayersAsString(sourceData.mPlayers);
       mTextInfo++;
+      result |= MetadataType::Players;
     }
   if (sourceData.mReleaseDate.ToEpochTime() != 0)
     if (game.Metadata().ReleaseDateEpoc() == 0 || noKeep)
     {
       game.Metadata().SetReleaseDate(sourceData.mReleaseDate);
       mTextInfo++;
+      result |= MetadataType::ReleaseDate;
     }
   if (sourceData.mRating != 0.0f)
     if (game.Metadata().Rating() == 0.0f || noKeep)
     {
       game.Metadata().SetRating(sourceData.mRating);
       mTextInfo++;
+      result |= MetadataType::Rating;
     }
   if (!sourceData.mGenre.empty())
     if (game.Metadata().Genre().empty() || noKeep)
     {
       game.Metadata().SetGenre(sourceData.mGenre);
       mTextInfo++;
+      result |= MetadataType::Genre;
     }
   if (sourceData.mGenreId !=  GameGenres::None)
     if (game.Metadata().GenreId() == GameGenres::None || noKeep)
@@ -356,17 +366,20 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
       game.Metadata().SetGenreId(sourceData.mGenreId);
       game.Metadata().SetAdult(sourceData.mAdult);
       mTextInfo++;
+      result |= MetadataType::GenreId;
     }
   if (!sourceData.mRegion.empty())
     if (!game.Metadata().Region().HasRegion() || noKeep)
     {
       game.Metadata().SetRegionAsString(sourceData.mRegion);
       mTextInfo++;
+      result |= MetadataType::Region;
     }
   if (!sourceData.mCrc.empty()) // Always set CRC if not empty
   {
     game.Metadata().SetRomCrc32AsString(sourceData.mCrc);
     mTextInfo++;
+    result |= MetadataType::Crc32;
   }
 
   // Store P2k file
@@ -377,6 +390,7 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
     {
       Files::SaveFile(p2kPath, sourceData.mP2k);
       mTextInfo++;
+      result |= MetadataType::P2K;
     }
   }
   // Store Rotation information
@@ -384,17 +398,24 @@ ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, const ScreenScra
   {
     game.Metadata().SetRotation(RotationUtils::FromAngle(sourceData.mRotation));
     mTextInfo++;
+    result |= MetadataType::Rotation;
   }
+
+  return result;
 }
 
 ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
-                                                      const std::string& media, SetPathMethodType pathSetter, ProtectedSet& md5Set, MediaType mediaType)
+                                                      const std::string& media, SetPathMethodType pathSetter,
+                                                      ProtectedSet& md5Set, MediaType mediaType, bool& pathHasBeenSet)
 {
   bool mediaIsPresent = md5Set.Exists(AbsoluteImagePath.ToString());
   if (mediaIsPresent)
   {
     if (pathSetter != nullptr)
+    {
       (game.Metadata().*pathSetter)(AbsoluteImagePath);
+      pathHasBeenSet = true;
+    }
     return ScrapeResult::Ok;
   }
   if (!media.empty())
@@ -406,7 +427,10 @@ ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImageP
       case ScrapeResult::Ok:
       {
         if (pathSetter != nullptr && size != 0) // Ensure the media has a valid size before setting the path
+        {
           (game.Metadata().*pathSetter)(AbsoluteImagePath);
+          pathHasBeenSet = true;
+        }
         if(mediaType == MediaType::Image) mImages++;
         if(mediaType == MediaType::Video) mVideos++;
         mMediaSize += size;
@@ -416,7 +440,7 @@ ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImageP
       case ScrapeResult::NotFound: { LOG(LogError) << "[ScreenScraper] Missing media!"; break; }
       case ScrapeResult::DiskFull: return ScrapeResult::DiskFull;
       case ScrapeResult::QuotaReached: return ScrapeResult::QuotaReached;
-      case ScrapeResult::FatalError: break;
+      case ScrapeResult::FatalError:  { LOG(LogError) << "[ScreenScraper] Fatal error getting media!"; break; }
     }
   }
   return ScrapeResult::Ok;
@@ -425,15 +449,20 @@ ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImageP
 ScrapeResult
 ScreenScraperSingleEngine::DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const std::string& subPath,
                                                  const std::string& name, MediaType mediaType, SetPathMethodType pathSetter,
-                                                 const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set)
+                                                 const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,
+                                                 bool& pathHasBeenSet)
 {
+  pathHasBeenSet = false;
   Path path = target / subPath / std::string(name).append(1, ' ').append(mediaSource.mMd5).append(1, '.').append(mediaSource.mFormat);
   bool exists = path.Exists();
   if (!exists || noKeep)
-    return DownloadMedia(path, game, mediaSource.mUrl, pathSetter, md5Set, mediaType);
+    return DownloadMedia(path, game, mediaSource.mUrl, pathSetter, md5Set, mediaType, pathHasBeenSet);
 
   if (pathSetter != nullptr)
+  {
     (game.Metadata().*pathSetter)(path);
+    pathHasBeenSet = true;
+  }
   return ScrapeResult::Ok;
 }
 
@@ -454,7 +483,7 @@ bool ScreenScraperSingleEngine::IsFatal(ScrapeResult result) const
 
 ScrapeResult
 ScreenScraperSingleEngine::DownloadAndStoreMedia(ScrapingMethod method, const ScreenScraperApis::Game& sourceData,
-                                                 FileData& game, ProtectedSet& md5Set)
+                                                 FileData& game, MetadataType& updatedMetadata, ProtectedSet& md5Set)
 {
   bool ok = false;
   const Path rootFolder(game.TopAncestor().RomPath());
@@ -465,38 +494,62 @@ ScreenScraperSingleEngine::DownloadAndStoreMedia(ScrapingMethod method, const Sc
   bool noKeep = method != ScrapingMethod::CompleteAndKeepExisting;
 
   // Main image
-  ScrapeResult result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sImageSubFolder, sourceData.mScreenScraperName, MediaType::Image, &MetadataDescriptor::SetImagePath, sourceData.MediaSources.mImage, md5Set);
+  updatedMetadata = MetadataType::None;
+  MetadataType whatHaveBeenSet = MetadataType::None;
+  bool pathHasBeenSet = false;
+  ScrapeResult result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sImageSubFolder, sourceData.mScreenScraperName, MediaType::Image, &MetadataDescriptor::SetImagePath, sourceData.MediaSources.mImage, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Image;
   if (IsFatal(result)) return result;
 
   // Thumbnail image
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sThumbnailSubFolder, sourceData.mScreenScraperName, MediaType::Image, &MetadataDescriptor::SetThumbnailPath, sourceData.MediaSources.mThumbnail, md5Set);
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sThumbnailSubFolder, sourceData.mScreenScraperName, MediaType::Image, &MetadataDescriptor::SetThumbnailPath, sourceData.MediaSources.mThumbnail, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Image;
   if (IsFatal(result)) return result;
 
   // Notify main images
-  if (mStageInterface != nullptr) mStageInterface->StageCompleted(&game, IScraperEngineStage::Stage::Images);
+  updatedMetadata |= whatHaveBeenSet;
+  if (mStageInterface != nullptr) mStageInterface->ScrapingStageCompleted(&game, IScraperEngineStage::Stage::Images, whatHaveBeenSet);
 
   // Video
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sVideoSubFolder, sourceData.mScreenScraperName, MediaType::Video, &MetadataDescriptor::SetVideoPath, sourceData.MediaSources.mVideo, md5Set);
+  whatHaveBeenSet = MetadataType::None;
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sVideoSubFolder, sourceData.mScreenScraperName, MediaType::Video, &MetadataDescriptor::SetVideoPath, sourceData.MediaSources.mVideo, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Video;
   if (IsFatal(result)) return result;
 
   // Notify video
-  if (mStageInterface != nullptr) mStageInterface->StageCompleted(&game, IScraperEngineStage::Stage::Video);
+  updatedMetadata |= whatHaveBeenSet;
+  if (mStageInterface != nullptr) mStageInterface->ScrapingStageCompleted(&game, IScraperEngineStage::Stage::Video, whatHaveBeenSet);
 
   // Marquee
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sMarqueeSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mMarquee, md5Set);
+  whatHaveBeenSet = MetadataType::None;
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sMarqueeSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mMarquee, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Marquee;
   if (IsFatal(result)) return result;
 
   // Wheels
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sWheelSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mWheel, md5Set);
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sWheelSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mWheel, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Wheels;
   if (IsFatal(result)) return result;
 
   // Manual
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sManualSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mManual, md5Set);
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sManualSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mManual, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Manual;
   if (IsFatal(result)) return result;
 
   // Maps
-  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sMapSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mMaps, md5Set);
+  pathHasBeenSet = false;
+  result = DownloadAndStoreMedia(game, noKeep, mediaFolder, sMapSubFolder, sourceData.mScreenScraperName, MediaType::Image, nullptr, sourceData.MediaSources.mMaps, md5Set, pathHasBeenSet);
+  if (pathHasBeenSet) whatHaveBeenSet |= MetadataType::Maps;
   if (IsFatal(result)) return result;
+
+  // Notify extra media
+  updatedMetadata |= whatHaveBeenSet;
+  if (mStageInterface != nullptr) mStageInterface->ScrapingStageCompleted(&game, IScraperEngineStage::Stage::Extra, whatHaveBeenSet);
 
   // TODO: Add more image download & save here
   return ScrapeResult::Ok;

@@ -27,7 +27,7 @@ bool LightGunDatabase::ApplyFilter(const FileData& file)
     for(const std::string& gamename : *mCurrentList)
       if (Strings::Contains(name, gamename))
       {
-        { LOG(LogDebug) << "[LightGun] Game " << file.Name() << " match database name " << gamename; }
+        { LOG(LogTrace) << "[LightGun] Game " << file.Name() << " match database name " << gamename; }
         return true;
       }
   return false;

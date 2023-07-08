@@ -12,13 +12,27 @@
 #include <themes/ThemeException.h>
 #include <utils/Zip.h>
 
-SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, FileSorts::Sorts fixedSort)
+SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties)
+  : mSystemManager(systemManager)
+  , mDescriptor(descriptor)
+  , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
+  , mProperties(properties)
+  , mFixedSort(FileSorts::Sorts::FileNameAscending)
+  , mArcadeDatabases(*this)
+  , mSensitivity(MetadataType::None)
+  , mVirtualType(VirtualSystemType::None)
+{
+}
+
+SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager)
   , mDescriptor(descriptor)
   , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
   , mProperties(properties)
   , mFixedSort(fixedSort)
   , mArcadeDatabases(*this)
+  , mSensitivity(sensitivity)
+  , mVirtualType(virtualType)
 {
 }
 
@@ -114,7 +128,8 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
     std::string key = path.UptoItem(itemIndex);
-    FileData* item = (doppelgangerWatcher.find(key) != doppelgangerWatcher.end()) ? doppelgangerWatcher[key] : nullptr;
+    FileData** itemFound = doppelgangerWatcher.try_get(key);
+    FileData* item = itemFound != nullptr ? *itemFound : nullptr;
 
     // Some ScummVM folder/games may create inconsistent folders
     if (!treeNode->IsFolder()) return nullptr;
@@ -232,11 +247,10 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
       for (const XmlNode fileNode: games.children())
       {
-        ItemType type = ItemType::Empty;
+        ItemType type = ItemType::Game;
         std::string name = fileNode.name();
-        if (name == "game") type = ItemType::Game;
-        else if (name == "folder") type = ItemType::Folder;
-        else continue; // Unknown node
+        if (name == "folder") type = ItemType::Folder;
+        else if (name != "game") continue; // Unknown node
 
         Path path = relativeTo / Xml::AsString(fileNode, "path", "");
         if (forceCheckFile)
@@ -275,10 +289,10 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
 void SystemData::UpdateGamelistXml()
 {
-  //We do this by reading the XML again, adding changes and then writing it back,
-  //because there might be information missing in our systemdata which would then miss in the new XML.
-  //We have the complete information for every game though, so we can simply remove a game
-  //we already have in the system from the XML, and then add it back from its GameData information...
+  // We do this by reading the XML again, adding changes and then writing it back,
+  // because there might be information missing in our systemdata which would then miss in the new XML.
+  // We have the complete information for every game though, so we can simply remove a game
+  // we already have in the system from the XML, and then add it back from its GameData information...
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (!root->ReadOnly() && root->IsDirty())
       try
@@ -308,7 +322,7 @@ void SystemData::UpdateGamelistXml()
         for (FileData* file : fileList)
         {
           Path path(file->RomPath());
-          if (root->GetDeletedChildren().contains(path.ToString()))
+          if (root->GetDeletedChildren().contains(file))
             continue;
           file->Metadata().Serialize(gameList, path, rootPath);
           file->Metadata().UnsetDirty();
@@ -474,38 +488,13 @@ bool SystemData::HasGame() const
   return false;
 }
 
-int SystemData::GameCount() const
+int SystemData::GameCount(int& favorites, int& hidden) const
 {
   int result = 0;
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAll(false, FileData::Filter::None);
-  return result;
-}
-
-int SystemData::GameAndFolderCount() const
-{
-  int result = 0;
+  favorites = hidden = 0;
   FileData::Filter excludes = Excludes();
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAll(true, excludes);
-  return result;
-}
-
-int SystemData::FavoritesCount() const
-{
-  int result = 0;
-  FileData::Filter excludes = Excludes();
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAllFavorites(false, excludes);
-  return result;
-}
-
-int SystemData::HiddenCount() const
-{
-  int result = 0;
-  FileData::Filter excludes = Excludes();
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    result += root->CountAllHidden(false, excludes);
+    result += root->CountAllGamesAndFavoritesAndHidden(excludes, favorites, hidden);
   return result;
 }
 
@@ -513,17 +502,6 @@ FileData::List SystemData::getFavorites() const
 {
   FileData::Filter filter = FileData::Filter::Favorite;
   FileData::Filter excludes = Excludes();
-  FileData::List result;
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetItemsRecursivelyTo(result, filter, excludes, false);
-  return result;
-}
-
-FileData::List SystemData::getGames() const
-{
-  FileData::Filter filter = FileData::Filter::Normal | FileData::Filter::Favorite;
-  FileData::Filter excludes = Excludes();
-
   FileData::List result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     root->GetItemsRecursivelyTo(result, filter, excludes, false);
@@ -540,15 +518,10 @@ FileData::List SystemData::getAllGames() const
 
 bool SystemData::HasVisibleGame(bool forceTateOnlyCheck) const
 {
-  if (forceTateOnlyCheck || RecalboxConf::Instance().GetTateOnly())
-  {
-    for (const RootFolderData* root: mRootOfRoot.SubRoots())
-      if (root->HasTateVisibleGame()) return true;
-  }
-  else
-    for(const RootFolderData* root : mRootOfRoot.SubRoots())
-      if (root->HasVisibleGame()) return true;
-
+  FileData::TopLevelFilter filter = FileData::BuildTopLevelFilter();
+  if (forceTateOnlyCheck) filter |= FileData::TopLevelFilter::Tate;
+  for(const RootFolderData* root : mRootOfRoot.SubRoots())
+    if (root->HasVisibleGame(filter)) return true;
   return false;
 }
 
@@ -566,14 +539,6 @@ Path::PathList SystemData::WritableGamelists()
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (root->Normal())
       result.push_back(getGamelistPath(*root, true));
-  return result;
-}
-
-FileData::List SystemData::getFolders() const
-{
-  FileData::List result;
-  for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    root->GetFoldersRecursivelyTo(result);
   return result;
 }
 
@@ -648,4 +613,9 @@ void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, Fo
 void SystemData::RemoveArcadeReference(const FileData& game)
 {
   mArcadeDatabases.RemoveGame(game);
+}
+
+bool SystemData::Rotatable() const
+{
+  return mDescriptor.Name() == SystemManager::sTateSystemShortName;
 }

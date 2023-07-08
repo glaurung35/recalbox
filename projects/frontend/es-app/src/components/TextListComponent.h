@@ -55,6 +55,7 @@ public:
   void add(const std::string& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
   void changeTextAt(int index, const std::string& name);
   void changeBackgroundColorAt(int index, int colorIndex);
+  int Lookup(T object);
 
   inline void setSelectedAt(int index, const T& object) { mEntries[index].object = object; }
 	inline void setAlignment(HorizontalAlignment align) { mAlignment = align; }
@@ -149,6 +150,15 @@ private:
   bool mShowBar;
   bool mUppercase;
 };
+
+template<typename T>
+int TextListComponent<T>::Lookup(const T object)
+{
+  for(int i = mEntries.size(); --i >= 0; )
+    if (mEntries[i].object == object)
+      return i;
+  return -1;
+}
 
 template <typename T>
 TextListComponent<T>::TextListComponent(WindowManager& window)

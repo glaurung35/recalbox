@@ -100,7 +100,7 @@ void GuiMenuNetplay::SwitchComponentChanged(int id, bool status)
   if ((Components)id == Components::Enabled && status)
   {
     bool needHashRefresh = false;
-    for(SystemData* system : mSystemManager.GetAllSystemList())
+    for(SystemData* system : mSystemManager.AllSystems())
       if (system->Descriptor().HasNetPlayCores())
         if (system->MasterRoot().HasMissingHashRecursively())
         {
@@ -127,7 +127,7 @@ bool GuiMenuNetplay::Execute(GuiWaitLongExecution<bool, bool>& from, const bool&
 
   // Collect non-hashed roms...
   FileData::List list;
-  for(SystemData* system : mSystemManager.GetAllSystemList())
+  for(SystemData* system : mSystemManager.AllSystems())
     if (system->Descriptor().HasNetPlayCores())
       system->MasterRoot().getMissingHashRecursively(list);
   // Inject into thread pool

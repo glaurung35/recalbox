@@ -7,6 +7,7 @@
 #include <themes/MenuThemeData.h>
 #include <views/ViewController.h>
 #include <usernotifications/NotificationManager.h>
+#include "guis/GuiInfoPopup.h"
 
 WindowManager::WindowManager()
   : mHelp(*this)
@@ -334,22 +335,22 @@ void WindowManager::exitScreenSaver()
 
 void WindowManager::renderScreenSaver()
 {
-  if (Board::Instance().HasSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == "suspend")
+  if (Board::Instance().HasSuspendResume() && RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Suspend)
   {
     Board::Instance().Suspend();
     DoWake(); // Exit screensaver immediately on resume
   }
   else if (Board::Instance().HasBrightnessSupport())
   {
-    std::string screenSaver = RecalboxConf::Instance().GetScreenSaverType();
-    if (screenSaver == "black") Board::Instance().SetLowestBrightness();
-    else if (screenSaver == "dim")
+    RecalboxConf::Screensaver screenSaver = RecalboxConf::Instance().GetScreenSaverType();
+    if (screenSaver == RecalboxConf::Screensaver::Black) Board::Instance().SetLowestBrightness();
+    else if (screenSaver == RecalboxConf::Screensaver::Dim)
     {
       int brightness = RecalboxConf::Instance().GetBrightness();
       Board::Instance().SetBrightness(brightness >> 1);
     }
   }
-  else if (RecalboxConf::Instance().GetScreenSaverType() == "gameclip")
+  else if (RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Gameclip)
   {
     if (mGuiStack.Empty())
       ViewController::Instance().goToGameClipView();
@@ -357,7 +358,7 @@ void WindowManager::renderScreenSaver()
   else
   {
     Renderer::SetMatrix(Transform4x4f::Identity());
-    unsigned char opacity = RecalboxConf::Instance().GetScreenSaverType() == "dim" ? 0xA0 : 0xFF;
+    unsigned char opacity = RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Dim ? 0xA0 : 0xFF;
     Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x00000000 | opacity);
   }
 }
@@ -456,7 +457,7 @@ void WindowManager::DoWake()
 
 void WindowManager::DoSleep()
 {
-  if( RecalboxConf::Instance().GetScreenSaverType() == "gameclip" && !mGuiStack.Empty())
+  if( RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Gameclip && !mGuiStack.Empty())
     return;
   
   if (!mSleeping)
@@ -494,6 +495,16 @@ void WindowManager::InfoPopupRetarget()
 
 void WindowManager::InfoPopupAdd(GuiInfoPopupBase* infoPopup, bool first)
 {
+  infoPopup->Initialize();
+  if (first) mInfoPopups.Insert(infoPopup, 0);
+  else mInfoPopups.Add(infoPopup);
+  InfoPopupsShrink();
+  InfoPopupRetarget();
+}
+
+void WindowManager::InfoPopupAddRegular(const std::string& message, int duration, PopupType icon, bool first)
+{
+  GuiInfoPopupBase* infoPopup = new GuiInfoPopup(*this, message, duration, icon);
   infoPopup->Initialize();
   if (first) mInfoPopups.Insert(infoPopup, 0);
   else mInfoPopups.Add(infoPopup);

@@ -78,7 +78,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * GuiMetaDataEd::IMetaDataAction implementation
      */
 
-    void Delete(ISimpleGameListView* gamelistview, FileData& game) override;
+    void Delete(FileData& game) override;
     void Modified(ISimpleGameListView* gamelistview, FileData& game) override;
 
     /*

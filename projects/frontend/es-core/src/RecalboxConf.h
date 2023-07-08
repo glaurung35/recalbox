@@ -42,13 +42,29 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
         None,    //!< No menu except exit
     };
 
+    enum class Screensaver
+    {
+      Black,    //!< Black screen
+      Dim,      //!< 50% luminosity
+      Demo,     //!< Real game demos
+      Gameclip, //!< Game clips
+      Suspend,  //!< Hardware suspend
+    };
+
     enum class Relay
     {
         None,     //!< No relay
-        NewYork,  //!< Newyork relay
+        NewYork,  //!< New-york relay
         Madrid,   //!< Madrid relay
         Montreal, //!< Montreal relay
         Saopaulo, //!< SaoPaulo relay
+    };
+
+    enum class SoftPatching
+    {
+      Disable, //!< No soft patching
+      Auto,    //!< Automatic patch selection
+      Select,  //!< Manual patch selection
     };
 
     /*
@@ -149,7 +165,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(MusicRemoteEnable, bool, Bool, sMusicDisableRemote, true)
 
     DefineGetterSetter(ScreenSaverTime, int, Int, sScreenSaverTime, 5)
-    DefineGetterSetter(ScreenSaverType, std::string, String, sScreenSaverType, "dim")
+    DefineGetterSetterEnum(ScreenSaverType, Screensaver, sScreenSaverType, Screensaver)
     DefineListGetterSetter(ScreenSaverSystemList, sScreenSaverSystemList, "")
 
     DefineGetterSetter(PopupHelp, int, Int, sPopupHelp, 10)
@@ -183,8 +199,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
-    DefineGetterSetter(SystemLanguage, std::string, String, sSystemLanguage, "en_US")
-    DefineGetterSetter(SystemKbLayout, std::string, String, sSystemKbLayout, "us")
+    DefineGetterSetter(SystemLanguage, String, String, sSystemLanguage, "en_US")
+    DefineGetterSetter(SystemKbLayout, String, String, sSystemKbLayout, "us")
     DefineGetterSetter(SystemManagerEnabled, bool, Bool, sSystemManagerEnabled, true)
 
     DefineGetterSetter(Overclocking, std::string, String, sOverclocking, "none")
@@ -233,7 +249,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalQuitTwice, bool, Bool, sGlobalQuitTwice, false)
     DefineGetterSetter(GlobalHidePreinstalled, bool, Bool, sGlobalHidePreinstalled, false)
     DefineGetterSetter(GlobalIntegerScale, bool, Bool, sGlobalIntegerScale, false)
-    DefineGetterSetter(GlobalSoftpatching, std::string, String, sGlobalSoftpatching, "auto")
+    DefineGetterSetterEnum(GlobalSoftpatching, SoftPatching, sGlobalSoftpatching, SoftPatching)
     DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
     DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
@@ -247,7 +263,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
     DefineGetterSetter(CollectionAllGames, bool, Bool, sCollectionAllGames, false)
     DefineGetterSetter(CollectionLightGun, bool, Bool, sCollectionLightGun, false)
-    DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, false)
+    DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, true)
     DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
     DefineGetterSetter(TateGameRotation, int, Int, sTateGameRotation, 0)
     DefineGetterSetter(TateOnly, bool, Bool, sTateOnly, false)
@@ -255,7 +271,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineListGetterSetter(CollectionArcadeManufacturers, sCollectionArcadeManufacturers, "")
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
     DefineGetterSetter(CollectionArcadeNeogeo, bool, Bool, sCollectionArcadeNeogeo, true)
-    DefineGetterSetter(CollectionArcadeHide, bool, Bool, sCollectionArcadeHide, true)
+    DefineGetterSetter(CollectionArcadeHideOriginals, bool, Bool, sCollectionArcadeHideOriginals, true)
     DefineGetterSetter(CollectionArcadePosition, int, Int, sCollectionArcadePosition, 0)
 
     DefineGetterSetter(ArcadeUseDatabaseNames, bool, Bool, sArcadeUseDatabaseNames, true)
@@ -316,9 +332,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     [[nodiscard]] int GetCollectionLimit(const String& name) const { return AsInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), 0); }
     RecalboxConf& SetCollectionLimit(const String& name, int limit) { SetInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), limit); return *this; }
 
-    [[nodiscard]] int GetCollectionPosition(const String& name) const { return AsInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), 0); }
-    RecalboxConf& SetCollectionPosition(const String& name, int position) { SetInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), position); return *this; }
-
     [[nodiscard]] bool GetCollectionHide(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), false); }
     RecalboxConf& SetCollectionHide(const String& name, bool hide) { SetBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), hide); return *this; }
 
@@ -371,11 +384,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Collection Keys
      */
 
-    static constexpr const char* sCollectionShow             = "show";
     static constexpr const char* sCollectionHide             = "hide";
     static constexpr const char* sCollectionTheme            = "theme";
     static constexpr const char* sCollectionLimit            = "limit";
-    static constexpr const char* sCollectionPosition         = "position";
 
     /*
      * Key headers
@@ -525,7 +536,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionArcade           = "emulationstation.virtualarcade";
     static constexpr const char* sCollectionArcadeManufacturers = "emulationstation.virtualarcade.manufacturers";
     static constexpr const char* sCollectionArcadeNeogeo     = "emulationstation.virtualarcade.includeneogeo";
-    static constexpr const char* sCollectionArcadeHide       = "emulationstation.virtualarcade.hideoriginals";
+    static constexpr const char* sCollectionArcadeHideOriginals = "emulationstation.virtualarcade.hideoriginals";
     static constexpr const char* sCollectionArcadePosition   = "emulationstation.virtualarcade.position";
 
     static constexpr const char* sArcadeViewEnhanced         = "emulationstation.arcade.view.enhanced";
@@ -559,6 +570,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Enumeration getter/setter
      */
 
+    static SoftPatching SoftPatchingFromString(const std::string& menu);
+    static const std::string& SoftPatchingFromEnum(SoftPatching screensaver);
+    static Screensaver ScreensaverFromString(const std::string& menu);
+    static const std::string& ScreensaverFromEnum(Screensaver screensaver);
     static Menu MenuFromString(const std::string& menu);
     static const std::string& MenuFromEnum(Menu menu);
     static Relay RelayFromString(const std::string& relay);

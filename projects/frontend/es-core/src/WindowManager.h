@@ -7,7 +7,9 @@
 #include <resources/Font.h>
 #include <input/InputManager.h>
 #include "bluetooth/BluetoothOverlayGUI.h"
+#include "guis/PopupType.h"
 
+// Forward declaration
 class GuiInfoPopupBase;
 
 class WindowManager
@@ -61,6 +63,15 @@ class WindowManager
     void DoSleep();
 
     void DoWake();
+
+    /*!
+     * @brief Add new regular info popup
+     * @param message Message in popup
+     * @param duration Duration in seconds
+     * @param icon Icon type
+     * @param first True to make this popup the first visible
+     */
+    void InfoPopupAddRegular(const std::string& message, int duration, PopupType icon, bool first);
 
     /*!
      * @brief Add new popup to dysplay list

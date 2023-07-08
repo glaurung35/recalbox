@@ -20,7 +20,7 @@ class GuiMenuTools
     struct Shader
     {
       Path ShaderPath;
-      std::string Displayable;
+      String Displayable;
     };
 
     //! Shader structure list
@@ -29,8 +29,8 @@ class GuiMenuTools
     //! Structure used to display Emulator & Core in menus
     struct EmulatorAndCore
     {
-      std::string Identifier;  //!< Identifier
-      std::string Displayable; //!< Displayable emulator or emulator/core
+      String Identifier;  //!< Identifier
+      String Displayable; //!< Displayable emulator or emulator/core
       bool Selected;           //!< True if this is the selected item
     };
 
@@ -48,8 +48,8 @@ class GuiMenuTools
      * @return Emulator & core list
      */
     static EmulatorAndCoreList ListEmulatorAndCore(SystemManager& systemManager, SystemData& system,
-                                                   std::string& outDefaultEmulator, std::string& outDefaultCore,
-                                                   const std::string& currentEmulator, const std::string& currentCore);
+                                                   String& outDefaultEmulator, String& outDefaultCore,
+                                                   const String& currentEmulator, const String& currentCore);
 
     /*!
      * @brief List shaders available in the user shader path

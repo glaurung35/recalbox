@@ -8,12 +8,11 @@
 class FolderData : public FileData
 {
   private:
-    //! Blacklist
-    typedef HashSet<std::string> FileSet;
-
+    //! Make hash calculation private
     using FileData::CalculateHash;
 
-    HashSet<std::string> mDeletedChildren;
+    //! Blacklist
+    typedef HashSet<std::string> FileSet;
 
   protected:
     //! Current folder child list
@@ -63,13 +62,26 @@ class FolderData : public FileData
      * @return Total amount of items (not including folders!)
      */
     int getItemsRecursively(FileData::List& to, IFilter* filter, bool includefolders) const;
+
+    /*!
+     * @brief Count all item recursively w/o any filter applied
+     * @return Game & folder count
+     */
+    [[nodiscard]] int countAllRecursively() const;
     /*!
      * Count all items recursively
      * @param includes Count only items matching these filters
      * @return Total amount of items (not including folders!)
      */
     [[nodiscard]] int countItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
-    [[nodiscard]] int countExcludesItemsRecursively(Filter includes, Filter excludes, bool includefolders) const;
+    /*!
+     * @brief Count all visible items, invisible items & favorites item to provide a all-in-one method for all level display
+     * @param excludes Precalculated exclude filter
+     * @param favorites Output favorite count
+     * @param hidden Output hidden count
+     * @return
+     */
+    [[nodiscard]] int countAllGamesAndFavoritesAndHidden(Filter excludes, [[out]] int& favorites, [[out]] int& hidden) const;
 
     /*!
      * Count all items recursively
@@ -262,13 +274,19 @@ class FolderData : public FileData
      * @param lukeImYourFather Set the current folder as the item's parent
      */
     void AddChild(FileData* file, bool lukeImYourFather);
+
     /*!
      * Try to remove a child item from the current folder
      * @param file Item to remove
      */
-    void RemoveChild(FileData* file);
+    void RemoveChild(const FileData* file);
 
-    void deleteChild(FileData* file);
+    /*!
+     * Try to remove a child item recursively, starting from the current folder
+     * @param file Item to remove
+     * @return True if at least one item has beend eleted
+     */
+    bool RemoveChildRecursively(const FileData* file);
 
     /*!
      * Return true if this FileData is a folder and has at lease one child
@@ -276,8 +294,12 @@ class FolderData : public FileData
      */
     [[nodiscard]] bool HasChildren() const { return !mChildren.empty(); }
 
-    [[nodiscard]] const HashSet<std::string>& GetDeletedChildren() const { return mDeletedChildren; }
-    [[nodiscard]] bool HasDeletedChildren() const { return !mDeletedChildren.empty(); }
+    /*!
+     * Lookup for a given game in the current tree
+     * @param game game to look for
+     * @return True of the file is found, false otherwise
+     */
+    [[nodiscard]] bool LookupGame(const FileData* game) const;
 
     /*!
      * Run through filesystem's folders, seeking for games, and when found, add them into the current tree
@@ -324,15 +346,10 @@ class FolderData : public FileData
 
     /*!
      * Return true if contain at least one visible game, recursively
+     * @param topfilter Top filter
      * @return True if the folder has at least one visible game, false otherwise
      */
-    [[nodiscard]] bool HasTateVisibleGame() const;
-
-    /*!
-     * Return true if contain at least one visible game, recursively
-     * @return True if the folder has at least one visible game, false otherwise
-     */
-    [[nodiscard]] bool HasVisibleGame() const;
+    [[nodiscard]] bool HasVisibleGame(FileData::TopLevelFilter topfilter) const;
 
     /*!
      * @brief Check if the folkder has at least one scrapable game, recursively
@@ -342,8 +359,9 @@ class FolderData : public FileData
 
     /*!
      * Return true if contain at least one visible game with a video md
+     * @param topfilter Top filter
      */
-    [[nodiscard]] bool HasVisibleGameWithVideo() const;
+    [[nodiscard]] bool HasVisibleGameWithVideo(TopLevelFilter filter) const;
 
     /*!
      * @brief Check if there are one or more missing hash recursively
@@ -363,6 +381,11 @@ class FolderData : public FileData
     int getMissingHashRecursively(FileData::List& to) const;
 
     /*!
+     * @brief Count all item recursively w/o any filter applied
+     * @return Game & folder count
+     */
+    [[nodiscard]] int CountAll() const { return countAllRecursively(); }
+    /*!
      * Get total games in all folders, including hidden
      * @param includefolders True to include subfolders in the result
      * @return Game count
@@ -370,18 +393,11 @@ class FolderData : public FileData
     [[nodiscard]] int CountAll(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::All, excludes, includefolders); }
 
     /*!
-     * Get favorite games in all folders
+     * Get total games in all folders, including hidden
      * @param includefolders True to include subfolders in the result
-     * @return Favorite game count
+     * @return Game count
      */
-    [[nodiscard]] int CountAllFavorites(bool includefolders, Filter excludes) const { return countItemsRecursively(Filter::Favorite, excludes, includefolders); }
-
-    /*!
-     * Get hidden games in all folders
-     * @param includefolders True to include subfolders in the result
-     * @return Hidden game count
-     */
-    [[nodiscard]] int CountAllHidden(bool includefolders, Filter excludes) const { return countExcludesItemsRecursively(FileData::Filter::All, excludes, includefolders); }
+    [[nodiscard]] int CountAllGamesAndFavoritesAndHidden(Filter excludes, int& favorites, int& hidden) const { return countAllGamesAndFavoritesAndHidden(excludes, favorites, hidden); }
 
     /*!
      * Return true if at least one game in the three has more metadata than just path & names
@@ -545,7 +561,7 @@ class FolderData : public FileData
      * @brief Check if game filtered
      * @return file data filtered state
      */
-    bool IsFiltered(FileData* fd, Filter includes, Filter excludes) const;
+    static bool IsFiltered(FileData* fd, Filter includes, Filter excludes) ;
     
     /*!
      * @brief Lookup games whose path index matches one of the given indexes

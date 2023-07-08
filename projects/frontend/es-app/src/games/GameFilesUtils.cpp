@@ -419,10 +419,8 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<String>& pa
   // remmove fileData
   if (mainFileDeleted)
   {
-    FolderData* folder = fileData.Parent();
-    folder->deleteChild(&fileData);
-    DeleteFoldersRecIfEmpty(folder);
-
+    RootFolderData::DeleteChild(&fileData);
+    DeleteFoldersRecIfEmpty(fileData.Parent());
   }
   else if (mediaIsDirty)
   {

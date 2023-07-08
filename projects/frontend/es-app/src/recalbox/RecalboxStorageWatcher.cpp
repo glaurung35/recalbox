@@ -24,7 +24,7 @@ void RecalboxStorageWatcher::CheckStorageFreeSpace(WindowManager& window, MountM
         std::string text = _("Free space on device %NAME% has bone under %LIMIT%!\nYou should try to free some space quickly!");
         Strings::ReplaceAllIn(text, "%NAME%", device->DisplayableDeviceName());
         Strings::ReplaceAllIn(text, "%LIMIT%", Strings::ToHumanSize(limit));
-        window.InfoPopupAdd(new GuiInfoPopup(window, text, 30, GuiInfoPopupBase::PopupType::Warning));
+        window.InfoPopupAdd(new GuiInfoPopup(window, text, 30, PopupType::Warning));
       }
     }
 }

@@ -108,7 +108,7 @@ void Upgrade::Run()
 void Upgrade::ReceiveSyncMessage()
 {
   // Volatile popup
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, PatronInfo::Instance().IsPatron() ? 10 : 30, GuiInfoPopupBase::PopupType::Recalbox));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, PatronInfo::Instance().IsPatron() ? 10 : 30, PopupType::Recalbox));
 
   // Messagebox
   if (!mMessageBoxMessage.empty())

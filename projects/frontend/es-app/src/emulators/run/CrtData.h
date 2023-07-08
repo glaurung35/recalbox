@@ -30,8 +30,8 @@ class CrtData
 
     //! Default constructor
     CrtData()
-      : mRegionOrVideoStandardConfigured(false)
-      , mHighResolutionConfigured(false)
+      : mCrt(&Board::Instance().CrtBoard())
+      , mConf(&CrtConf::Instance())
       , mVideoStandard(CrtVideoStandard::AUTO)
       , mRegion(CrtRegion::AUTO)
       , mHighResoution(false)
@@ -42,12 +42,11 @@ class CrtData
      * @brief Check if there is a CRT board and the user requested to choose individual 480 or 240 options
      * @return True if the class needs to be configured, false otherwise
      */
-    bool IsHighResolutionConfigured() const
+    [[nodiscard]] bool IsHighResolutionConfigured() const
     {
-      if (!mHighResolutionConfigured)
-        if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
-          if (CrtConf::Instance().GetSystemCRTGameResolutionSelect())
-            return true;
+      if (mCrt->IsCrtAdapterAttached())
+        if (mConf->GetSystemCRTGameResolutionSelect())
+          return true;
       return false;
     }
 
@@ -55,12 +54,11 @@ class CrtData
      * @brief Check if there is a CRT board and the user requested to choose individual NTSC options
      * @return True if the class needs to be configured, false otherwise
      */
-    bool IsRegionOrStandardConfigured() const
+    [[nodiscard]] bool IsRegionOrStandardConfigured() const
     {
-      if (!mRegionOrVideoStandardConfigured)
-        if (Board::Instance().CrtBoard().IsCrtAdapterAttached())
-          if (CrtConf::Instance().GetSystemCRTGameRegionSelect())
-            return true;
+      if (mCrt->IsCrtAdapterAttached())
+        if (mConf->GetSystemCRTGameRegionSelect())
+          return true;
       return false;
     }
 
@@ -70,14 +68,12 @@ class CrtData
      */
     void ConfigureVideoStandard(CrtVideoStandard standard)
     {
-        mVideoStandard = standard;
-        mRegionOrVideoStandardConfigured = true;
+      mVideoStandard = standard;
     }
 
     void ConfigureRegion(CrtRegion region)
     {
-        mRegion = region;
-        mRegionOrVideoStandardConfigured = true;
+      mRegion = region;
     }
 
     /*!
@@ -87,7 +83,6 @@ class CrtData
     void ConfigureHighResolution(bool highRez)
     {
       mHighResoution = highRez;
-      mHighResolutionConfigured = true;
     }
 
     /*!
@@ -95,12 +90,12 @@ class CrtData
      * @param system target system
      * @return True if the choice is required, false otherwise
      */
-    bool MustChoosePALorNTSC(const SystemData& system) const
+    [[nodiscard]] bool MustChoosePALorNTSC(const SystemData& system) const
     {
       return system.Descriptor().CrtMultiRegion() &&        // System must support multi-region
-             Board::Instance().CrtBoard().IsCrtAdapterAttached() &&
-             !Board::Instance().CrtBoard().MustForce50Hz() && // & hardware must not force 50hz
-             Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
+             mCrt->IsCrtAdapterAttached() &&
+             !mCrt->MustForce50Hz() && // & hardware must not force 50hz
+             mCrt->GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
     }
 
     /*!
@@ -108,7 +103,7 @@ class CrtData
      * @param system target system
      * @return True if the choice is required, false otherwise
      */
-    bool MustChooseHighResolution(const SystemData& system) const
+    [[nodiscard]] bool MustChooseHighResolution(const SystemData& system) const
     {
       return system.Descriptor().CrtHighResolution();
     }
@@ -120,7 +115,7 @@ class CrtData
   bool HighResolutionIsProgressive() const
   {
 
-    if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    if (mCrt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
 
   }*/
 
@@ -128,16 +123,16 @@ class CrtData
      * Accesors
      */
 
-    bool HighResolution() const { return mHighResoution; }
+    [[nodiscard]] bool HighResolution() const { return mHighResoution; }
 
-    CrtVideoStandard VideoStandard() const { return mVideoStandard; }
-    CrtRegion Region() const { return mRegion; }
+    [[nodiscard]] CrtVideoStandard VideoStandard() const { return mVideoStandard; }
+    [[nodiscard]] CrtRegion Region() const { return mRegion; }
 
   private:
-    //! NTSC configured
-    bool mRegionOrVideoStandardConfigured;
-    //! 480i configured
-    bool mHighResolutionConfigured;
+    //! ICrtInterface reference
+    ICrtInterface* mCrt;
+    //! Configuration
+    CrtConf* mConf;
     //! Video system (default: auto
     CrtVideoStandard mVideoStandard;
     CrtRegion mRegion;

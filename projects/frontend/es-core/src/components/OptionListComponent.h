@@ -270,8 +270,19 @@ public:
 		return ret;
 	}
 
-        
-	T getSelected()
+  Array<T> getSelectedObjectsAsArray()
+  {
+    Array<T> ret;
+    for (auto& comp : mEntries)
+    {
+      if(comp.selected)
+        ret.Add(comp.object);
+    }
+
+    return ret;
+  }
+
+  T getSelected()
 	{
 		assert(!mMultiSelect);
 		auto selected = getSelectedObjects();

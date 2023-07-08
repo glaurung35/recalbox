@@ -8,6 +8,7 @@
 #include "components/ComponentGrid.h"
 #include "WindowManager.h"
 #include "utils/math/Vectors.h"
+#include "PopupType.h"
 
 class GuiInfoPopupBase : public Gui
 {
@@ -20,28 +21,14 @@ class GuiInfoPopupBase : public Gui
       BottomLeft,
     };
 
-    enum class PopupType
-    {
-      None,      //!< No icon
-      Warning,   //!< Warning icon!
-      Music,     //!< Music icon
-      Help,      //!< Help icon
-      Netplay,   //!< Netplay logo
-      Recalbox,  //!< Recalbox logo
-      Pads,      //!< Joystick logo
-      Reboot,    //!< Pending reboot
-      Scraper,   //!< Background scraping
-      Bluetooth, //!< Bluetooth icon
-    };
-
     //! Default destructor
     ~GuiInfoPopupBase() override = default;
 
     //! Popup must be closed?
-    bool TimeOut() const { return !mRunning; }
+    [[nodiscard]] bool TimeOut() const { return !mRunning; }
 
     //! Popup type
-    PopupType Type() const { return mType; }
+    [[nodiscard]] PopupType Type() const { return mType; }
 
     /*!
      * @brief Set initial target offset, relative to the selected corner

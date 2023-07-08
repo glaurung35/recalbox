@@ -10,6 +10,8 @@
 
 #include "games/MetadataFieldDescriptor.h"
 #include "GuiScraperSingleGameRun.h"
+#include "utils/cplusplus/StaticLifeCycleControler.h"
+#include <views/ViewController.h>
 
 GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                              SystemManager& systemManager,
@@ -51,7 +53,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   mList = std::make_shared<ComponentList>(mWindow);
   mGrid.setEntry(mList, Vector2i(0, 1), true, true);
 
-  auto emu_choice = std::make_shared<OptionListComponent<std::string>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
+  auto emu_choice = std::make_shared<OptionListComponent<String>>(mWindow, _("Emulator"), false, FONT_SIZE_MEDIUM);
 
   // Get list
   int fieldCount = 0;
@@ -131,10 +133,10 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
       case MetadataFieldDescriptor::EditableType::List:
         if (field.Key() == "emulator")
         {
-          std::string currentEmulator = mMetaData.Emulator();
-          std::string currentCore = mMetaData.Core();
-          std::string defaultEmulator;
-          std::string defaultCore;
+          String currentEmulator = mMetaData.Emulator();
+          String currentCore = mMetaData.Core();
+          String defaultEmulator;
+          String defaultCore;
           if (!mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore))
             continue;
           if (currentEmulator.empty()) currentEmulator = defaultEmulator;
@@ -142,17 +144,17 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
           row.addElement(emu_choice, false);
 
-          for (const std::string& emulatorName : mSystemManager.Emulators().GetEmulators(mGame.System()))
+          for (const String& emulatorName : mSystemManager.Emulators().GetEmulators(mGame.System()))
           {
-            for (const std::string& coreName : mSystemManager.Emulators().GetCores(mGame.System(), emulatorName))
+            for (const String& coreName : mSystemManager.Emulators().GetCores(mGame.System(), emulatorName))
             {
-              std::string displayName = emulatorName;
-              if (displayName != coreName) displayName.append(1, ' ').append(coreName);
+              String displayName = emulatorName;
+              if (displayName != coreName) displayName.Append(' ').Append(coreName);
               if (defaultCore == coreName && defaultEmulator == emulatorName)
-                displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+                displayName.Append(" (").Append(_("DEFAULT")).Append(')');
 
-              std::string emulatorAndCore = emulatorName;
-              emulatorAndCore.append(1, ':').append(coreName);
+              String emulatorAndCore = emulatorName;
+              emulatorAndCore.Append(':').Append(coreName);
               emu_choice->add(displayName, emulatorAndCore, emulatorName == currentEmulator && coreName == currentCore, emulatorAndCore);
             }
           }
@@ -165,7 +167,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         }
         else if (field.Key() == "ratio")
         {
-          auto ratio_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "ratio", false,
+          auto ratio_choice = std::make_shared<OptionListComponent<String> >(mWindow, "ratio", false,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(ratio_choice, false);
           const std::map<String, String>& ratioMap = LibretroRatio::GetRatio();
@@ -181,14 +183,14 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         }
         else if (field.Key() == "genreid")
         {
-          auto genre_choice = std::make_shared<OptionListComponent<std::string> >(mWindow, "genre", false,
+          auto genre_choice = std::make_shared<OptionListComponent<String> >(mWindow, "genre", false,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(genre_choice, false);
           Genres::GenreMap map = Genres::GetShortNameMap();
           for(const auto& genre : Genres::GetOrderedList())
           {
-            std::string genreString = Strings::ToString((int)genre);
-            genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetName(genre),genreString, mMetaData.GenreId() == genre, genreString);
+            String genreString = Strings::ToString((int)genre);
+            genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetFullName(genre),genreString, mMetaData.GenreId() == genre, genreString);
           }
           ed = genre_choice;
         }
@@ -211,8 +213,8 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
         row.addElement(bracket, false);
 
         bool multiLine = field.Type() == MetadataFieldDescriptor::DataType::Text;
-        const std::string& title = field.DisplayPrompt();
-        auto updateVal = [ed](const std::string &newVal)
+        const String& title = field.DisplayPrompt();
+        auto updateVal = [ed](const String &newVal)
         {
           ed->setValue(newVal);
         }; // ok callback (apply new value to ed)
@@ -285,7 +287,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   {
     auto deleteFileAndSelf = [this]
     {
-      mActions->Delete(mGameListView, mGame);
+      mActions->Delete(mGame);
       Close();
     };
     auto deleteBtnFunc = [this, deleteFileAndSelf]
@@ -342,25 +344,30 @@ void GuiMetaDataEd::onSizeChanged()
 
 void GuiMetaDataEd::save()
 {
+  MetadataType typesSaved = MetadataType::None;
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
     if (mMetaDataEditable[i]->Type() != MetadataFieldDescriptor::DataType::List)
     {
-      (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
+      if ((mMetaData.*(mMetaDataEditable[i]->GetValueMethod()))() != mEditors[i]->getValue())
+      {
+        (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(mEditors[i]->getValue());
+        typesSaved |= mMetaDataEditable[i]->MetaType();
+      }
     }
     else
     {
       std::shared_ptr<Component> ed = mEditors[i];
-      std::shared_ptr<OptionListComponent<std::string>> list = std::static_pointer_cast<OptionListComponent<std::string>>(ed);
+      std::shared_ptr<OptionListComponent<String>> list = std::static_pointer_cast<OptionListComponent<String>>(ed);
 
       if (mMetaDataEditable[i]->Key() == "emulator")
       {
         // Split emulator & core
-        Strings::Vector split = Strings::Split(list->getSelected(), ':');
+        String::List split = list->getSelected().Split(':');
         if (split.size() == 2)
         {
-          std::string defaultEmulator;
-          std::string defaultCore;
+          String defaultEmulator;
+          String defaultCore;
           mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore);
           if (split[0] == defaultEmulator && split[1] == defaultCore)
           {
@@ -372,13 +379,20 @@ void GuiMetaDataEd::save()
             mMetaData.SetEmulator(split[0]);
             mMetaData.SetCore(split[1]);
           }
+          typesSaved |= MetadataType::Emulator;
+          typesSaved |= MetadataType::Core;
         }
         else { LOG(LogError) << "[MetadataEditor] Error splitting emulator and core!"; }
       }
-      else (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
+      else if ((mMetaData.*(mMetaDataEditable[i]->GetValueMethod()))() != list->getSelected())
+      {
+        (mMetaData.*(mMetaDataEditable[i]->SetValueMethod()))(list->getSelected());
+        typesSaved |= mMetaDataEditable[i]->MetaType();
+      }
     }
   }
 
+  mSystemManager.UpdateSystemsOnGameChange(&mGame, typesSaved, false);
   if (mActions != nullptr)
     mActions->Modified(mGameListView, mGame);
 }
@@ -389,13 +403,15 @@ void GuiMetaDataEd::fetch()
   mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mSystemManager, mGame, this));
 }
 
-void GuiMetaDataEd::ScrapingComplete(FileData& /*game*/)
+void GuiMetaDataEd::ScrapingComplete(FileData& game, MetadataType changedMetadata)
 {
+  (void)game;
   for (int i = 0; i < (int)mEditors.size(); i++)
   {
     GetValueMethodType method = mMetaDataEditable[i]->GetValueMethod();
     mEditors[i]->setValue((mMetaData.*method)());
   }
+  mSystemManager.UpdateSystemsOnGameChange(&mGame, changedMetadata, false);
 }
 
 void GuiMetaDataEd::close(bool closeAllWindows)
@@ -406,18 +422,18 @@ void GuiMetaDataEd::close(bool closeAllWindows)
   {
       // because mMetada do not contains default system emulator & core
       if(mMetaDataEditable[i]->Key() == "emulator"){
-          std::string editorEmulatorCore = mEditors[i]->getValue();
+          String editorEmulatorCore = mEditors[i]->getValue();
 
-          std::string metaEmulator = mMetaData.Emulator();
-          std::string metaCore = mMetaData.Core();
-          std::string metaEmulatorCore = metaEmulator;
-          metaEmulatorCore.append(1,':').append(metaCore);
+          String metaEmulator = mMetaData.Emulator();
+          String metaCore = mMetaData.Core();
+          String metaEmulatorCore = metaEmulator;
+          metaEmulatorCore.Append(':').Append(metaCore);
 
-          std::string defaultEmulator;
-          std::string defaultCore;
+          String defaultEmulator;
+          String defaultCore;
           mSystemManager.Emulators().GetDefaultEmulator(mGame.System(), defaultEmulator, defaultCore);
-          std::string defaulEmulatorAndCore = defaultEmulator;
-          defaulEmulatorAndCore.append(1, ':').append(defaultCore);
+          String defaulEmulatorAndCore = defaultEmulator;
+          defaulEmulatorAndCore.Append(':').Append(defaultCore);
 
           if(editorEmulatorCore != metaEmulatorCore && editorEmulatorCore != defaulEmulatorAndCore)
           {

@@ -1,19 +1,16 @@
 #include <RecalboxConf.h>
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuTate.h"
-#include "components/OptionListComponent.h"
 #include "components/SwitchComponent.h"
-#include "utils/locale/LocaleHelper.h"
 #include "guis/MenuMessages.h"
 #include "recalbox/BootConf.h"
 #include <views/ViewController.h>
-
 
 GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("TATE SETTINGS"), nullptr)
   , mSystemManager(systemManager)
   , mOriginalTateEnabled(RecalboxConf::Instance().GetCollectionTate())
-  , mOriginalGamesRotation(RotationType::None)
+  , mOriginalGamesRotation(RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation()))
   , mOriginalSystemRotation(BootConf::Instance().GetRotation())
   , mOriginalTateOnly(RecalboxConf::Instance().GetTateOnly())
 {
@@ -22,7 +19,7 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
 
   // Enable virtual system
   bool hasTateGames = false;
-  for(const SystemData* system : systemManager.GetVisibleSystemList())
+  for(const SystemData* system : systemManager.VisibleSystemList())
     if (system->HasVisibleGame(true))
     {
       hasTateGames = true;
@@ -36,7 +33,6 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
 
   if(cap.rotationAvailable)
   {
-    mOriginalGamesRotation = RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation());
     if(cap.defaultRotationWhenTate != RotationType::None)
     {
       // We have default rotation for this board, so we allow only changing rotation to none
@@ -99,7 +95,6 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
       RecalboxConf::Instance().SetCollectionTate(status).Save();
       if (status)
       {
-        mSystemManager.AddTateMetaSystem();
         ViewController::Instance().getSystemListView().manageTate(false);
         ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
       }
@@ -111,7 +106,7 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
     case Components::TateOnly:
     {
       RecalboxConf::Instance().SetTateOnly(status).Save();
-      ViewController::Instance().setAllInvalidGamesList(nullptr);
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
       ViewController::Instance().getSystemListView().manageSystemsList();
       break;
     }

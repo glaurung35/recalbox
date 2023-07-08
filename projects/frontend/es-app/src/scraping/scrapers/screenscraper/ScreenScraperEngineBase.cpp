@@ -96,7 +96,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, FileData& singleGame,
 }
 
 
-bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList,
+bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::List& systemList,
                                     INotifyScrapeResult* notifyTarget, long long diskMinimumFree)
 {
   { LOG(LogInfo) << "[ScreenScraper] Starting new multi-system scraping session..."; }
@@ -144,7 +144,8 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
     if (!engine.IsAborted())
     {
       engine.Initialize(true);
-      ScrapeResult result = engine.Scrape(mMethod, *feed, mMd5Set);
+      MetadataType updatedMetadata = MetadataType::None;
+      ScrapeResult result = engine.Scrape(mMethod, *feed, updatedMetadata, mMd5Set);
       switch(result)
       {
         case ScrapeResult::Ok:
@@ -158,12 +159,12 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
         }
         case ScrapeResult::NotScraped: break;
         case ScrapeResult::NotFound: mStatNotFound++; break;
-        case ScrapeResult::FatalError: mSender.Send({ nullptr, ScrapeResult::FatalError }); mStatErrors++; break;
-        case ScrapeResult::QuotaReached: mSender.Send({ nullptr, ScrapeResult::QuotaReached }); break;
-        case ScrapeResult::DiskFull: mSender.Send({ nullptr, ScrapeResult::DiskFull }); break;
+        case ScrapeResult::FatalError: mSender.Send({ nullptr, MetadataType::None, ScrapeResult::FatalError }); mStatErrors++; break;
+        case ScrapeResult::QuotaReached: mSender.Send({ nullptr, MetadataType::None, ScrapeResult::QuotaReached }); break;
+        case ScrapeResult::DiskFull: mSender.Send({ nullptr, MetadataType::None, ScrapeResult::DiskFull }); break;
       }
       // Then, signal the main thread with the engine number.
-      mSender.Send({ feed, result });
+      mSender.Send({ feed, updatedMetadata, result });
     }
     // Take a deep breath
     Thread::Sleep(1);
@@ -183,13 +184,14 @@ void ScreenScraperEngineBase::ReceiveSyncMessage(const ScrapeEngineMessage& mess
   {
     // Processed
     mCount++;
+    mUpdatedMetadata |= message.mMetadata;
     // Call completed game notification
     if (mNotifier != nullptr)
-      mNotifier->GameResult(mCount, mTotal, game);
+      mNotifier->GameResult(mCount, mTotal, game, message.mMetadata);
     // End of scraping?
     if (mCount == mTotal)
       if (mNotifier != nullptr)
-        mNotifier->ScrapingComplete(ScrapeResult::Ok);
+        mNotifier->ScrapingComplete(ScrapeResult::Ok, mUpdatedMetadata);
   }
   else
   {
@@ -204,7 +206,7 @@ void ScreenScraperEngineBase::ReceiveSyncMessage(const ScrapeEngineMessage& mess
       case ScrapeResult::FatalError:
       {
         if (mNotifier != nullptr)
-          mNotifier->ScrapingComplete(error);
+          mNotifier->ScrapingComplete(error, mUpdatedMetadata);
         Abort(false);
         break;
       }

@@ -24,7 +24,7 @@ class IScraperEngine : private INoCopy
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    virtual bool RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList,
+    virtual bool RunOn(ScrapingMethod method, const SystemManager::List& systemList,
                        INotifyScrapeResult* notifyTarget, long long diskMinimumFree) = 0;
 
     /*!
@@ -48,43 +48,48 @@ class IScraperEngine : private INoCopy
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
      * @return True if the engine is running
      */
-    virtual bool IsRunning() const = 0;
+    [[nodiscard]] virtual bool IsRunning() const = 0;
 
     //! Get total to scrape
-    virtual int ScrapesTotal() const = 0;
+    [[nodiscard]] virtual int ScrapesTotal() const = 0;
 
     //! Get processed items
-    virtual int ScrapesProcessed() const = 0;
+    [[nodiscard]] virtual int ScrapesProcessed() const = 0;
 
     //! Get pending items (still not scraped)
-    virtual int ScrapesStillPending() const = 0;
+    [[nodiscard]] virtual int ScrapesStillPending() const = 0;
 
     //! Get successfully scraped games
-    virtual int ScrapesSuccessful() const = 0;
+    [[nodiscard]] virtual int ScrapesSuccessful() const = 0;
 
     //! Get unsuccessfully scraped games
-    virtual int ScrapesNotFound() const = 0;
+    [[nodiscard]] virtual int ScrapesNotFound() const = 0;
 
     //! Get failed scrapes
-    virtual int ScrapesErrors() const = 0;
+    [[nodiscard]] virtual int ScrapesErrors() const = 0;
 
     //! Stats Text infos
-    virtual int StatsTextInfo() const = 0;
+    [[nodiscard]] virtual int StatsTextInfo() const = 0;
 
     //! Stats images downloaded
-    virtual int StatsImages() const = 0;
+    [[nodiscard]] virtual int StatsImages() const = 0;
 
     //! Stats videos downloaded
-    virtual int StatsVideos() const = 0;
+    [[nodiscard]] virtual int StatsVideos() const = 0;
 
     //! Stats videos downloaded
-    virtual long long StatsMediaSize() const = 0;
+    [[nodiscard]] virtual long long StatsMediaSize() const = 0;
 
     //! Get Scraper message
-    virtual std::string ScraperDatabaseMessage() = 0;
+    virtual String ScraperDatabaseMessage() = 0;
 
     /*!
      * @brief Virtual destructor
      */
     virtual ~IScraperEngine() = default;
+
+    /*!
+     * @brief Stop notifications (Nullify INotifyScrapeResult)
+     */
+    virtual void StopNotifications() = 0;
 };

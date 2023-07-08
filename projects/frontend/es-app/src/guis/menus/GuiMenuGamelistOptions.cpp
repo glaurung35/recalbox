@@ -2,7 +2,6 @@
 #include "guis/GuiSaveStates.h"
 #include "guis/GuiDownloader.h"
 #include "views/gamelist/ArcadeGameListView.h"
-#include "GuiMenuArcadeOptions.h"
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include "GuiMenuArcade.h"
 #include <guis/GuiSearch.h>
@@ -22,7 +21,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   :	GuiMenuBase(window, _("OPTIONS"), this)
   , mSystem(system)
   , mSystemManager(systemManager)
-  , mGamelist(*ViewController::Instance().getGameListView(&system))
+  , mGamelist(*ViewController::Instance().GetOrCreateGamelistView(&system))
   , mArcade(arcadeInterface)
 {
   // edit game metadata
@@ -180,13 +179,16 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   return list;
 }
 
-void GuiMenuGamelistOptions::Delete(ISimpleGameListView* gamelistview, FileData& game)
+void GuiMenuGamelistOptions::Delete(FileData& game)
 {
   game.RomPath().Delete();
   if (game.Parent() != nullptr)
-    game.Parent()->RemoveChild(&game); //unlink it so list repopulations triggered from onFileChanged won't see it
+  {
+    game.Parent()->RemoveChild(&game);
+    game.System().RemoveArcadeReference(game);
+  }
 
-  gamelistview->onFileChanged(&game, FileChangeType::Removed); //tell the view
+  mSystemManager.UpdateSystemsOnGameChange(&game, MetadataType::None, true);
 }
 
 void GuiMenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileData& game)
@@ -278,16 +280,14 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::DeleteScreeshot:
     {
-        mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
-        {
-            mGamelist.getCursor()->RomPath().Delete();
-            FolderData* folder = mGamelist.getCursor()->Parent();
-            folder->deleteChild(mGamelist.getCursor());
-            mGamelist.onFileChanged(mGamelist.getCursor(), FileChangeType::Removed);
-            mGamelist.refreshList();
-            mWindow.deleteAllGui();
-        }, _("NO"), {}));
-        break;
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("DELETE SCREENSHOT, CONFIRM?"), _("YES"), [this]
+      {
+        mGamelist.getCursor()->RomPath().Delete();
+        RootFolderData::DeleteChild(mGamelist.getCursor());
+        mSystemManager.UpdateSystemsOnGameChange(mGamelist.getCursor(), MetadataType::None, true);
+        mWindow.deleteAllGui();
+      }, _("NO"), {}));
+      break;
     }
     case Components::SaveStates:
     {
@@ -302,7 +302,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::ArcadeOptions:
     {
-      mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, mArcade));
+      mWindow.pushGui(new GuiMenuArcade(mWindow, mArcade));
       break;
     }
     case Components::JumpToLetter:
@@ -344,10 +344,10 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
 
 void GuiMenuGamelistOptions::ManageSystems()
 {
-  SystemData* systemData = ViewController::Instance().getState().getSystem();
-  ViewController::Instance().getGameListView(systemData)->refreshList();
+  SystemData* systemData = ViewController::Instance().CurrentSystem();
+  ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
 
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
   ViewController::Instance().getSystemListView().manageSystemsList();
 
   // for updating game counts on system view

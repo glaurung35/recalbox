@@ -33,11 +33,10 @@ void ArcadeDatabaseManager::LoadDatabases()
   {
     const EmulatorDescriptor& emulator = mSystem.Descriptor().EmulatorTree().EmulatorAt(e);
     for (int c = emulator.CoreCount(); --c >= 0;)
-    {
-      mDatabases[String(emulator.Name()).Append('|').Append(emulator.CoreNameAt(c))] =
-        LoadFlatDatabase(emulator.Name(), emulator.CoreNameAt(c), emulator.CoreFlatDatabase(c), emulator.CoreSplitDrivers(c),
-                         emulator.CoreIgnoreDrivers(c), emulator.CoreDriverLimit(c) + 1 /* driver 0 is "all-what's-remaining" */);
-    }
+      if (!emulator.CoreFlatDatabase(c).empty())
+        mDatabases[String(emulator.Name()).Append('|').Append(emulator.CoreNameAt(c))] =
+          LoadFlatDatabase(emulator.Name(), emulator.CoreNameAt(c), emulator.CoreFlatDatabase(c), emulator.CoreSplitDrivers(c),
+                           emulator.CoreIgnoreDrivers(c), emulator.CoreDriverLimit(c) + 1 /* driver 0 is "all-what's-remaining" */);
   }
 
   AssignNames();

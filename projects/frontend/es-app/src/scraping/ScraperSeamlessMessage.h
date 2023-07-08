@@ -20,4 +20,6 @@ struct ScrapeSeamlessMessage
   FileData* mGame;
   //! Scraping stage
   IScraperEngineStage::Stage mStage;
+  //! Changes
+  MetadataType mChanges;
 };

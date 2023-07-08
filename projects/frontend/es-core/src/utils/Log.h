@@ -15,7 +15,7 @@ enum class LogLevel
 	LogWarning = 1, //!< Warning messages
 	LogInfo    = 2, //!< Information message
 	LogDebug   = 3, //!< Debug message
-  LogTrace   = 4, //!< Reace message (Internal debug!)
+  LogTrace   = 4, //!< Trace message (Internal debug!)
   _Count
 };
 

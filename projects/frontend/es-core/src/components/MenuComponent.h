@@ -37,7 +37,7 @@ class MenuComponent : public Component
       return [this, label, help] () {
         int dur = RecalboxConf::Instance().GetPopupHelp();
         if (dur != 0)
-          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, GuiInfoPopupBase::PopupType::Help));
+          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, PopupType::Help));
         return true;
       };
     }
@@ -106,6 +106,7 @@ class MenuComponent : public Component
     void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
 
     inline void setCursorToList() { mGrid.setCursorTo(mList); }
+    inline void setCursorToList(int index) { mGrid.setCursorTo(mList); mList->setCursorIndex(index % mList->Count()); }
     inline int getButtonsSize() { return mButtons.size(); }
     inline void setCursorToButtons() { assert(mButtonGrid); mGrid.setCursorTo(mButtonGrid); }
     inline void setCursorToButton(int index) {

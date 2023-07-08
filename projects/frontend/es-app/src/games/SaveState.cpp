@@ -15,18 +15,9 @@ SaveState::SaveState(const Path& path)
   stat(path.ToChars(), &attr);
   mDateTime = DateTime((long long)attr.st_mtime);
 
-  std::string ext = mPath.Extension();
-  if (!path.Exists())
-    mSlotNumber = -2;
-
-  else if ( ext == ".state")
-    mSlotNumber = 0;
-
-  else if ( ext == ".auto")
-    mIsAuto = true;
-
-  else
-  {
-    mSlotNumber = stoi(Strings::Replace(ext, ".state", Strings::Empty));
-  }
+  String ext = mPath.Extension();
+  if (!path.Exists()) mSlotNumber = -1;
+  else if ( ext == ".state") mSlotNumber = 0;
+  else if ( ext == ".auto") mIsAuto = true;
+  else mSlotNumber = ext.Replace(".state", Strings::Empty).AsInt();
 }

@@ -11,7 +11,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 
-GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager, FileData& game, const std::function<void(const std::string& slot)>& func, bool fromMenu)
+GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager, FileData& game, ISaveStateSlotNotifier* notifier, bool fromMenu)
   : Gui(window)
   , mSystemManager(systemManager)
   , mBackground(window, Path(":/frame.png"))
@@ -21,7 +21,7 @@ GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager
   , mFromMenu(fromMenu)
   , mCurrentState(Path(""))
   , mSort(Sort::Descending)
-  , mFunc(func)
+  , mInterface(notifier)
 {
   mIsLibretro = mSystemManager.Emulators().GetGameEmulator(mGame).IsLibretro();
   addChild(&mBackground);
@@ -96,19 +96,18 @@ bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
   }
   else if (event.YPressed())
   {
-    launch(Strings::Empty);
+    launch(-1);
     return true;
   }
   else if (event.ValidPressed() && mIsLibretro && mCurrentState.GetPath().Extension() != ".auto" && mList->size() != 0)
   {
-    if (mCurrentState.GetSlotNumber() == -2)
+    if (mCurrentState.GetSlotNumber() < 0)
     {
-      launch(Strings::Empty);
+      launch(-1);
       return true;
     }
 
-    std::string slot = Strings::ToString(mCurrentState.GetSlotNumber());
-    launch(slot);
+    launch(mCurrentState.GetSlotNumber());
 
     return true;
   }
@@ -232,7 +231,7 @@ void GuiSaveStates::updateInformations()
   updateHelpPrompts();
 }
 
-void GuiSaveStates::launch(const String& slot)
+void GuiSaveStates::launch(int slot)
 {
   if (mFromMenu)
   {
@@ -244,7 +243,8 @@ void GuiSaveStates::launch(const String& slot)
   }
   else
   {
-    mFunc(slot);
+    if (mInterface != nullptr)
+      mInterface->SaveStateSlotSelected(slot);
     Close();
   }
 }

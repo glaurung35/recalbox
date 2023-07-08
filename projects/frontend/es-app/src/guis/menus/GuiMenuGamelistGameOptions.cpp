@@ -96,7 +96,7 @@ std::vector<GuiMenuBase::ListEntry<GameGenres>> GuiMenuGamelistGameOptions::GetG
   std::vector<ListEntry<GameGenres>> list;
 
   for(GameGenres genre : Genres::GetOrderedList())
-    list.push_back({ Genres::GetName(genre), genre, genre == mGame.Metadata().GenreId() });
+    list.push_back({ Genres::GetFullName(genre), genre, genre == mGame.Metadata().GenreId() });
 
   return list;
 }
@@ -105,8 +105,8 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGamelistGameOptions::GetEmula
 {
   std::vector<ListEntry<String>> list;
 
-  std::string currentEmulator(mGame.Metadata().Emulator());
-  std::string currentCore    (mGame.Metadata().Core());
+  String currentEmulator(mGame.Metadata().Emulator());
+  String currentCore    (mGame.Metadata().Core());
   GuiMenuTools::EmulatorAndCoreList eList =
     GuiMenuTools::ListEmulatorAndCore(mSystemManager, mGame.System(), mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
   if (!eList.empty())
@@ -153,48 +153,33 @@ void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const std:
 
 void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
 {
+  MetadataType updatedMetadata = MetadataType::None;
   switch((Components)id)
   {
     case Components::Favorite:
     {
-      mGame.Metadata().SetFavorite(status);
-      SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
-      if (favoriteSystem != nullptr)
-      {
-        if (mGame.Metadata().Favorite())
-        {
-          favoriteSystem->GetFavoriteRoot().AddChild(&mGame, false);
-        }
-        else
-        {
-          favoriteSystem->GetFavoriteRoot().RemoveChild(&mGame);
-        }
-        ViewController::Instance().setInvalidGamesList(&mGame.System());
-        ViewController::Instance().setInvalidGamesList(favoriteSystem);
-      }
-      ViewController::Instance().getSystemListView().manageFavorite();
+      ViewController::Instance().ToggleFavorite(&mGame, true, status);
+      updatedMetadata = MetadataType::Favorite;
       break;
     }
     case Components::Rotation:
     {
       mGame.Metadata().SetRotation(status ? RotationType::Left : RotationType::None);
-      SystemData* tateSystem = mSystemManager.SystemByName("tate");
-
-      if (tateSystem != nullptr && RecalboxConf::Instance().GetCollectionTate())
-      {
-        if (mGame.Metadata().Rotation() != RotationType::None)
-          tateSystem->GetFavoriteRoot().AddChild(&mGame, false);
-        else
-          tateSystem->GetFavoriteRoot().RemoveChild(&mGame);
-
-        ViewController::Instance().getGameListView(tateSystem)->refreshList();
-        ViewController::Instance().setInvalidGamesList(mSystemManager.SystemByName("tate"));
-        ViewController::Instance().getSystemListView().manageTate(!tateSystem->HasGame());
-      }
+      updatedMetadata = MetadataType::Rotation;
       break;
     }
-    case Components::Hidden: mGame.Metadata().SetHidden(status); break;
-    case Components::Adult: mGame.Metadata().SetAdult(status); break;
+    case Components::Hidden:
+    {
+      mGame.Metadata().SetHidden(status);
+      updatedMetadata = MetadataType::Hidden;
+      break;
+    }
+    case Components::Adult:
+    {
+      mGame.Metadata().SetAdult(status);
+      updatedMetadata = MetadataType::Adult;
+      break;
+    }
     case Components::Name:
     case Components::Description:
     case Components::Rating:
@@ -203,6 +188,8 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
     case Components::Ratio:
     case Components::Emulator: break;
   }
+  if (updatedMetadata != MetadataType::None)
+    mSystemManager.UpdateSystemsOnGameChange(&mGame, updatedMetadata, false);
 }
 
 void GuiMenuGamelistGameOptions::RatingChanged(int id, float value)
@@ -217,8 +204,11 @@ void GuiMenuGamelistGameOptions::SubMenuSelected(int id)
     mWindow.pushGui(new GuiScraperSingleGameRun(mWindow, mSystemManager, mGame, this));
 }
 
-void GuiMenuGamelistGameOptions::ScrapingComplete(FileData& game)
+void GuiMenuGamelistGameOptions::ScrapingComplete(FileData& game, MetadataType changedMetadata)
 {
+  (void)changedMetadata;
+
+  // Refresh menu
   mName->setText(game.Metadata().Name());
   mRating->setValue(game.Metadata().Rating());
   mGenre->select(game.Metadata().GenreId());

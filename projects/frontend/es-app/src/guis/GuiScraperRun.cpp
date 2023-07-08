@@ -20,7 +20,7 @@
 
 GuiScraperRun* GuiScraperRun::sInstance = nullptr;
 
-void GuiScraperRun::CreateOrShow(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
+void GuiScraperRun::CreateOrShow(WindowManager& window, SystemManager& systemManager, const SystemManager::List& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
 {
   if (IsRunning())
     Show(window);
@@ -43,7 +43,7 @@ void GuiScraperRun::Hide(WindowManager& window)
   {
     window.RemoveGui(sInstance);
     if(sInstance->mLowResolution)
-      window.InfoPopupAdd(new GuiInfoPopup(window, _("Scrap running in background.\nReturn to the scrap menu to get the progression."), 8, GuiInfoPopupBase::PopupType::Scraper));
+      window.InfoPopupAdd(new GuiInfoPopup(window, _("Scrap running in background.\nReturn to the scrap menu to get the progression."), 8, PopupType::Scraper));
     else
         window.InfoPopupAdd(&sInstance->mPopup, true);
     window.CloseAll();
@@ -57,7 +57,7 @@ void GuiScraperRun::Terminate()
   sInstance = nullptr;
 }
 
-GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::SystemList& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
+GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::List& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution)
   :	Gui(window)
   , mSystemManager(systemManager)
   , mResult(ScrapeResult::NotScraped)
@@ -73,7 +73,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	mBackground.setCenterColor(menuTheme->menuBackground.color);
 	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 	
-	assert(!mSearchQueue.empty());
+	assert(!mSearchQueue.Empty());
 
 	addChild(&mBackground);
 	addChild(&mGrid);
@@ -169,8 +169,9 @@ void GuiScraperRun::finish()
 	mIsProcessing = false;
 }
 
-void GuiScraperRun::GameResult(int index, int total, FileData* result)
+void GuiScraperRun::GameResult(int index, int total, FileData* result, MetadataType changedMetadata)
 {
+  (void)changedMetadata; // #TODO: see later if it's worth the try to refresh systems game per game
   switch(RecalboxConf::Instance().GetScraperNameOptions())
   {
     case ScraperNameOptions::GetFromScraper: break;
@@ -238,7 +239,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result)
   NotificationManager::Instance().Notify(*result, Notification::ScrapGame);
 }
 
-void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
+void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMetadata)
 {
   mGrid.removeEntry(mSearchComp);
   std::string finalReport;
@@ -287,6 +288,23 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason)
 
   // Update popup
   mPopup.ScrapingComplete(reason);
+
+  // Refresh systems
+  switch(reason)
+  {
+    case ScrapeResult::Ok:
+    case ScrapeResult::NotScraped:
+    case ScrapeResult::NotFound:
+    {
+      mSystemManager.UpdateSystemsOnGameChange(nullptr, changedMetadata, false);
+      break;
+    }
+    case ScrapeResult::QuotaReached:
+    case ScrapeResult::DiskFull:
+    case ScrapeResult::FatalError:
+    default: break;
+  }
+
 
   // Update button?
   mButton->setText(_("CLOSE"), _("CLOSE"));

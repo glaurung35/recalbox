@@ -255,7 +255,7 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
 
     //! Signal used to unlock the thread and actually run the video decoding
     Signal mSignal;
-    //! Signal used to instruct other thread a video has been stoped
+    //! Signal used to instruct other thread a video has been stopped
     Signal mWaitForStop;
     //! Video filename
     Path mFileName;

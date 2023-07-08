@@ -143,9 +143,19 @@ const Genres::GenreMap& Genres::GetLongNameMap()
   return sNames;
 }
 
-std::string Genres::GetName(GameGenres genre)
+String Genres::GetFullName(GameGenres genre)
 {
   const char** found = GetLongNameMap().try_get(genre);
+  if (found != nullptr)
+    return *found;
+
+  { LOG(LogError) << "[Genres] Unknown GameGenre " << (int)genre; }
+  return "Uknown";
+}
+
+String Genres::GetShortName(GameGenres genre)
+{
+  const char** found = GetShortNameMap().try_get(genre);
   if (found != nullptr)
     return *found;
 
@@ -283,7 +293,7 @@ const Genres::GenreList& Genres::GetOrderedList()
   return sNames;
 }
 
-GameGenres Genres::LookupFromName(const std::string& name)
+GameGenres Genres::LookupFromName(const String& name)
 {
   for(const auto& item : GetShortNameMap())
     if (strcmp(name.data(), item.second) == 0)

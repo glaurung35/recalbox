@@ -246,7 +246,7 @@ void GuiMenuBase::RebootPending(WindowManager* window)
   static bool pending = false;
   if (!pending)
   {
-    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, GuiInfoPopupBase::PopupType::Reboot));
+    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, PopupType::Reboot));
     pending = true;
   }
 }

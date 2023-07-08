@@ -17,7 +17,7 @@ DemoMode::DemoMode(WindowManager& window, SystemManager& systemManager)
 
 bool DemoMode::hasDemoMode()
 {
-  return (RecalboxConf::Instance().GetScreenSaverType() == "demo");
+  return (RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Demo);
 }
 
 void DemoMode::runDemo()

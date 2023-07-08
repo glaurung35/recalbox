@@ -51,8 +51,8 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetEmula
 {
   std::vector<ListEntry<String>> list;
 
-  std::string currentEmulator(RecalboxConf::Instance().GetSystemEmulator(mSystem));
-  std::string currentCore    (RecalboxConf::Instance().GetSystemCore(mSystem));
+  String currentEmulator(RecalboxConf::Instance().GetSystemEmulator(mSystem));
+  String currentCore    (RecalboxConf::Instance().GetSystemCore(mSystem));
   GuiMenuTools::EmulatorAndCoreList eList =
     GuiMenuTools::ListEmulatorAndCore(mSystemManager, mSystem, mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
   if (!eList.empty())

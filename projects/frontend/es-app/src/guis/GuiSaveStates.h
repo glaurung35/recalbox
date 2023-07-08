@@ -9,29 +9,12 @@
 #include <themes/MenuThemeData.h>
 #include "systems/SystemManager.h"
 #include "games/SaveState.h"
+#include <views/ISaveStateSlotNotifier.h>
 
 class GuiSaveStates : public Gui
 {
   public:
-    GuiSaveStates(WindowManager& window, SystemManager& systemManager, FileData& game, const std::function<void(const std::string& slot)>& func, bool fromMenu);
-
-    bool ProcessInput(const InputCompactEvent& event) override;
-
-    bool getHelpPrompts(Help& help) override;
-
-    void onSizeChanged() override;
-
-    void Update(int deltaTime) override;
-
-    void Render(const Transform4x4f& parentTrans) override;
-
-    void PopulateGrid();
-
-    void updateInformations();
-
-    void launch(const String& slot);
-
-    void initGridsNStuff();
+    GuiSaveStates(WindowManager& window, SystemManager& systemManager, FileData& game, ISaveStateSlotNotifier* notifier, bool fromMenu);
 
   private:
 
@@ -56,7 +39,25 @@ class GuiSaveStates : public Gui
     bool mFromMenu;
     SaveState mCurrentState;
     Sort mSort;
-    std::function<void(const std::string& slot)> mFunc;
+    ISaveStateSlotNotifier* mInterface;
+
+    bool ProcessInput(const InputCompactEvent& event) override;
+
+    bool getHelpPrompts(Help& help) override;
+
+    void onSizeChanged() override;
+
+    void Update(int deltaTime) override;
+
+    void Render(const Transform4x4f& parentTrans) override;
+
+    void PopulateGrid();
+
+    void updateInformations();
+
+    void launch(int slot);
+
+    void initGridsNStuff();
 
     void Delete();
 

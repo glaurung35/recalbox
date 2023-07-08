@@ -4,6 +4,7 @@
 #include <guis/menus/GuiMenuBase.h>
 #include <views/gamelist/ISimpleGameListView.h>
 #include "emulators/run/GameLinkedData.h"
+#include "views/ISoftPatchingNotifier.h"
 
 class SystemManager;
 class SystemData;
@@ -18,8 +19,7 @@ class GuiMenuSoftpatchingLauncher : public GuiMenuBase
                                          FileData& game,
                                          std::vector<Path>& patches,
                                          int lastChoice,
-                                         const std::function<void()>& func1,
-                                         const std::function<void(const Path&)>& func2);
+                                         ISoftPatchingNotifier* notifier);
 
   private:
     enum class Components
@@ -30,9 +30,7 @@ class GuiMenuSoftpatchingLauncher : public GuiMenuBase
     //! Game reference
     FileData& mGame;
     std::vector<Path>& mPatches;
-
     std::shared_ptr<OptionListComponent<Path>> mPaths;
-
 
     std::vector<ListEntry<Path>> GetPatchesEntries();
 

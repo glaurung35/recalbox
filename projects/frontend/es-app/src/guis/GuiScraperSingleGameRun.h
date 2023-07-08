@@ -13,7 +13,15 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     class IScrapingComplete
     {
       public:
-        virtual void ScrapingComplete(FileData& game) = 0;
+        //! Default destructor
+        virtual ~IScrapingComplete() = default;
+
+        /*!
+         * @brief Notifification of a game scraping end
+         * @param game Scrapped games
+         * @param changedMetadata Changed metadata
+         */
+        virtual void ScrapingComplete(FileData& game, MetadataType changedMetadata) = 0;
     };
 
   private:
@@ -48,7 +56,6 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     void onSizeChanged() override;
 
     bool ProcessInput(const InputCompactEvent& event) override;
-    void Update(int deltaTime) override;
     bool getHelpPrompts(Help& help) override;
 
     /*
@@ -61,10 +68,10 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
      * @param total Total game to scrape
      * @param result Result object
      */
-    void GameResult(int index, int total, FileData* result) override;
+    void GameResult(int index, int total, FileData* result, MetadataType changedMetadata) override;
 
     /*!
      * @brief Scraper site quota reached. Scraping is being aborted immediately.
      */
-    void ScrapingComplete(ScrapeResult reason) override;
+    void ScrapingComplete(ScrapeResult reason, MetadataType changedMetadata) override;
 };

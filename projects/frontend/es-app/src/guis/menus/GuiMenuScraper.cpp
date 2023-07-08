@@ -67,7 +67,7 @@ std::vector<GuiMenuBase::ListEntry<ScrapingMethod>> GuiMenuScraper::GetScrapingM
 std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntries()
 {
   std::vector<ListEntry<SystemData*>> list;
-  for(SystemData* system : mSystemManager.GetVisibleSystemList())
+  for(SystemData* system : mSystemManager.VisibleSystemList())
   {
     if (!system->IsVirtual() || system->IsFavorite() || system->IsPorts()) // Allow scraping favorites, but not virtual systems
       if (system->HasScrapableGame())
@@ -111,7 +111,7 @@ void GuiMenuScraper::start()
     mWindow.pushGui(msgBox);
   }
   else
-    GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjects(), mScrapingMethod->getSelected(), &GameRunner::Instance(), Renderer::Instance().DisplayHeightAsInt() <=576);
+    GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjectsAsArray(), mScrapingMethod->getSelected(), &GameRunner::Instance(), Renderer::Instance().DisplayHeightAsInt() <=576);
 }
 
 void GuiMenuScraper::SwitchComponentChanged(int id, bool status)

@@ -105,53 +105,6 @@ void ISimpleGameListView::onChanged(Change change)
   updateInfoPanel();
 }
 
-void ISimpleGameListView::onFileChanged(FileData* file, FileChangeType change)
-{
-  if (change == FileChangeType::Run)
-  {
-    updateInfoPanel();
-    return ;
-  }
-
-  if ((change == FileChangeType::Removed) && (file == getEmptyListItem()))
-    return;
-
-  if (file->IsGame())
-  {
-    SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
-    bool isInFavorite = favoriteSystem->GetFavoriteRoot().Contains(file, true);
-    bool isFavorite = file->Metadata().Favorite();
-
-    if (isInFavorite != isFavorite)
-    {
-      if (isInFavorite) favoriteSystem->GetFavoriteRoot().RemoveChild(file);
-      else favoriteSystem->GetFavoriteRoot().AddChild(file, false);
-      ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
-      ViewController::Instance().getSystemListView().manageFavorite();
-      updateHelpPrompts();
-    }
-  }
-
-  if (change == FileChangeType::Removed)
-  {
-    bool favorite = file->Metadata().Favorite();
-    file->System().RemoveArcadeReference(*file);
-    delete file;
-    if (favorite)
-    {
-      ViewController::Instance().setInvalidGamesList(mSystemManager.FavoriteSystem());
-      ViewController::Instance().getSystemListView().manageFavorite();
-    }
-  }
-
-  int cursor = getCursorIndex();
-  if (RecalboxConf::Instance().GetSystemFlatFolders(mSystem)) populateList(mSystem.MasterRoot());
-  else refreshList();
-
-  setCursorIndex(cursor);
-  updateInfoPanel();
-}
-
 bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
 {
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
@@ -217,31 +170,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
 
     if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
     {
-      MetadataDescriptor& md = cursor->Metadata();
-      SystemData *favoriteSystem = mSystemManager.FavoriteSystem();
-
-      md.SetFavorite(!md.Favorite());
-
-      if (favoriteSystem != nullptr)
-      {
-        if (md.Favorite()) favoriteSystem->GetFavoriteRoot().AddChild(cursor, false);
-        else favoriteSystem->GetFavoriteRoot().RemoveChild(cursor);
-
-        ViewController::Instance().setInvalidGamesList(&cursor->System());
-        ViewController::Instance().setInvalidGamesList(favoriteSystem);
-      }
-      ViewController::Instance().getSystemListView().manageFavorite();
-
-      int popupDuration = RecalboxConf::Instance().GetPopupHelp();
-      std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + cursor->Name(), popupDuration,
-                                            GuiInfoPopupBase::PopupType::None));
-
-      // Reload to refresh the favorite icon
-      int cursorPlace = getCursorIndex();
-      refreshList();
-      setCursorIndex(cursorPlace);
-
+      ViewController::Instance().ToggleFavorite(cursor);
       updateHelpPrompts();
     }
     return true;

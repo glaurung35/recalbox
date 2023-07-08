@@ -9,6 +9,7 @@
 #include "components/ButtonComponent.h"
 #include "components/MenuComponent.h"
 #include "GuiNetPlayClientPasswords.h"
+#include "RootFolders.h"
 #include <netplay/NetPlayThread.h>
 #include <systems/SystemManager.h>
 #include <GameNameMapManager.h>
@@ -376,13 +377,12 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
 
 FileData* GuiNetPlay::FindGame(const std::string& game)
 {
-  for (auto* tmp : mSystemManager.GetAllSystemList())
-    if (tmp->Descriptor().HasNetPlayCores())
-    {
-      FileData* result = tmp->MasterRoot().LookupGame(game, FileData::SearchAttributes::ByName |
-                                                            FileData::SearchAttributes::ByHash);
-      if (result != nullptr) return result;
-    }
+  FileData::SearchAttributes search = FileData::SearchAttributes::ByName | FileData::SearchAttributes::ByHash;
+  // Search game ihn all available systems
+  for (const auto* system : mSystemManager.AllSystems())
+    if (!system->IsVirtual())
+      if (system->Descriptor().HasNetPlayCores())
+        if (FileData* result = system->MasterRoot().LookupGame(game, search); result != nullptr) return result;
   return nullptr;
 }
 

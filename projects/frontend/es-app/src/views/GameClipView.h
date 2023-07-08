@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <games/FileData.h>
 #include <systems/PlatformId.h>
 #include <systems/SystemManager.h>
 #include <utils/datetime/HighResolutionTimer.h>
@@ -12,19 +11,15 @@
 #include <components/ScrollableContainer.h>
 #include <components/GameClipContainer.h>
 #include <components/GameClipNoVideoContainer.h>
-#include "RecalboxConf.h"
 #include "games/GameRandomSelector.h"
-#include <utils/sync/SyncMessageSender.h>
 
 class GameClipView : public Gui
-                   , public ISyncMessageReceiver<void>
 {
     enum class State
     {
         NoGameSelected,
         EmptyPlayList,
         InitPlaying,
-        SetInHistory,
         Playing,
         LaunchGame,
         GoToSystem,
@@ -41,15 +36,15 @@ class GameClipView : public Gui
   private:
     class Filter : public IFilter
     {
+      private:
+        FileData::TopLevelFilter mFilter;
       public:
+        Filter() : mFilter(FileData::BuildTopLevelFilter()) {}
         [[nodiscard]] bool ApplyFilter(const FileData& file) override
         {
-          return  !file.Metadata().VideoAsString().empty() && file.IsDisplayable();
+          return  !file.Metadata().VideoAsString().empty() && file.IsDisplayable(mFilter);
         }
     } mFilter;
-
-    //! Synchronous event
-    SyncMessageSender<void> mEvent;
 
     //! Window
     WindowManager& mWindow;
@@ -58,7 +53,8 @@ class GameClipView : public Gui
 
     GameRandomSelector mGameRandomSelector;
 
-    static constexpr int MAX_HISTORY = 10;
+    static constexpr int sMaxHistory = 10;
+
     int mHistoryPosition;
     std::vector<FileData*> mHistory;
     Direction mDirection;
@@ -67,13 +63,13 @@ class GameClipView : public Gui
 
     HighResolutionTimer mTimer;
 
-    State mState = State::NoGameSelected;
+    State mState;
 
     GameClipContainer mGameClipContainer;
 
     GameClipNoVideoContainer mNoVideoContainer;
 
-    int systemIndex;
+    int mSystemIndex;
 
     int mVideoDuration;
 
@@ -92,31 +88,28 @@ class GameClipView : public Gui
     void ChangeGameClip(Direction direction);
 
     /*
-     * Synchronous event
+     * GUI
      */
 
-    /*!
-     * @brief Receive SDL event from the main thread
-     * @param event SDL event
-     */
-    void ReceiveSyncMessage() override;
-
-  public:
-
-    static const char* getName()
-    { return "gameclip"; }
-
-    static bool IsGameClipEnabled()
-    { return RecalboxConf::Instance().GetScreenSaverType() == "gameclip"; }
-
-    //! Default constructor
-    explicit GameClipView(WindowManager& window, SystemManager& systemManager);
-
-    ~GameClipView() override;
+    void Update(int elapsed) override;
 
     void Render(const Transform4x4f& parentTrans) override;
 
     bool ProcessInput(const InputCompactEvent& event) override;
 
     bool getHelpPrompts(Help& help) override;
+
+  public:
+
+    static const char* getName() { return "gameclip"; }
+
+    static bool IsGameClipEnabled() { return RecalboxConf::Instance().GetScreenSaverType() == RecalboxConf::Screensaver::Gameclip; }
+
+    //! Default constructor
+    explicit GameClipView(WindowManager& window, SystemManager& systemManager);
+
+    ~GameClipView() override;
+
+    //! Reinit the view
+    void Reset();
 };

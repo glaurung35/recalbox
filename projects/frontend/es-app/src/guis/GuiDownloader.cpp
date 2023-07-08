@@ -133,7 +133,7 @@ void GuiDownloader::DownloadComplete(SystemData& system, bool aborted)
   if (!aborted)
   {
     ViewController& vc = ViewController::Instance();
-    vc.setInvalidGamesList(&system);
+    vc.InvalidateGamelist(&system);
     vc.getSystemListView().manageSystemsList();
     vc.getSystemListView().setSelectedName(system.Name());
   }

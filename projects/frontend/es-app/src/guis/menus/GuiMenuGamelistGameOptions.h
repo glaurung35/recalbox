@@ -54,9 +54,9 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     FileData& mGame;
 
     //! Default emulator
-    std::string mDefaultEmulator;
+    String mDefaultEmulator;
     //! Default core
-    std::string mDefaultCore;
+    String mDefaultCore;
 
     //! Emulator/Core
     std::shared_ptr<OptionListComponent<String>> mEmulator;
@@ -131,7 +131,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
      * GuiScraperSingleGameRun::IScrapingComplete implementation
      */
 
-    void ScrapingComplete(FileData& game) override;
+    void ScrapingComplete(FileData& game, MetadataType changedMetadata) override;
 };
 
 

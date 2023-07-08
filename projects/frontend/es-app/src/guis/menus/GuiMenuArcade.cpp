@@ -8,9 +8,8 @@
 #include <guis/MenuMessages.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 
-GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
+GuiMenuArcade::GuiMenuArcade(WindowManager& window, IArcadeGamelistInterface* arcadeInterface)
   :	GuiMenuBase(window, _("ARCADE VIEW OPTIONS"), this)
-  , mSystemManager(systemManager)
   , mArcade(arcadeInterface)
 {
   AddSwitch(_("ENABLE ENHANCED VIEW"), RecalboxConf::Instance().GetArcadeViewEnhanced(), (int)Components::EnhancedView, this, _(MENUMESSAGE_UI_ARCADE_ENHANCED_MSG));
@@ -42,7 +41,7 @@ GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager
 GuiMenuArcade::~GuiMenuArcade()
 {
   // Force refreshing all gamelists
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
 }
 
 void GuiMenuArcade::SwitchComponentChanged(int id, bool status)
@@ -115,5 +114,5 @@ String GuiMenuArcade::FormatManufacturer(const ArcadeDatabase::Driver& driver)
 void GuiMenuArcade::SubMenuSelected(int id)
 {
   if ((Components)id == Components::GlobalArcadeSystem)
-    mWindow.pushGui(new GuiMenuArcadeAllInOneSystem(mWindow, mSystemManager));
+    mWindow.pushGui(new GuiMenuArcadeAllInOneSystem(mWindow));
 }

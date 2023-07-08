@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <games/MetadataType.h>
 
 //! Method pointer to default value getters
 typedef bool (MetadataDescriptor::*IsDefaultValueMethodType)() const;
@@ -51,8 +52,8 @@ class MetadataFieldDescriptor
     std::string               _DefaultValue;         //!< default value
     std::string               _DisplayName;          //!< displayed as this in editors
     std::string               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
-    //int                       _Offset;               //!< Offset of the real field in the target Metadata structure
-    DataType                  _Type;                 //!< Datatype
+    MetadataType              _MetadataType;         //!< Named metadata type
+    DataType                  _DataType;             //!< Datatype
     EditableType              _EditType;             //!< Editable type
     IsDefaultValueMethodType  _IsDefaultValueMethod; //!< Is Default value?
     GetValueMethodType        _GetMethod;            //!< String getter
@@ -66,7 +67,8 @@ class MetadataFieldDescriptor
     [[nodiscard]] const std::string&        DefaultValue()         const { return _DefaultValue;         } //!< default value
     [[nodiscard]] const std::string&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
     [[nodiscard]] const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
-    [[nodiscard]] DataType                  Type()                 const { return _Type;                 } //!< Datatype
+    [[nodiscard]] MetadataType              MetaType()             const { return _MetadataType;         } //!< Named metadata type
+    [[nodiscard]] DataType                  Type()                 const { return _DataType;             } //!< Datatype
     [[nodiscard]] EditableType              EditType()             const { return _EditType;             } //!< Editable type
     [[nodiscard]] IsDefaultValueMethodType  IsDefaultValueMethod() const { return _IsDefaultValueMethod; } //!< Is Default value?
     [[nodiscard]] GetValueMethodType        GetValueMethod()       const { return _GetMethod;            } //!< String getter
@@ -79,6 +81,7 @@ class MetadataFieldDescriptor
                             const std::string&        defaultValue,
                             const std::string&        displayName,
                             const std::string&        displayPrompt,
+                            MetadataType              metadataType,
                             DataType                  type,
                             EditableType              edittype,
                             IsDefaultValueMethodType  isDefaultValueMethod,
@@ -86,18 +89,18 @@ class MetadataFieldDescriptor
                             SetValueMethodType        setMethod,
                             bool                      isStatistic,
                             bool                      isMain)
-      : _Key(key),
-        _DefaultValue(defaultValue),
-        _DisplayName(displayName),
-        _DisplayPrompt(displayPrompt),
-        //_Offset(offset),
-        _Type(type),
-        _EditType(edittype),
-        _IsDefaultValueMethod(isDefaultValueMethod),
-        _GetMethod(getMethod),
-        _SetMethod(setMethod),
-        _IsStatistic(isStatistic),
-        _IsMain(isMain)
+      : _Key(key)
+      , _DefaultValue(defaultValue)
+      , _DisplayName(displayName)
+      , _DisplayPrompt(displayPrompt)
+      , _MetadataType(metadataType)
+      , _DataType(type)
+      , _EditType(edittype)
+      , _IsDefaultValueMethod(isDefaultValueMethod)
+      , _GetMethod(getMethod)
+      , _SetMethod(setMethod)
+      , _IsStatistic(isStatistic)
+      , _IsMain(isMain)
     {
     }
 };

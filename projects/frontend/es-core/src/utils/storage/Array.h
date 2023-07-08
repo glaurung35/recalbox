@@ -80,8 +80,9 @@ template<typename T> class Array : private Allocator
 
     typedef int (Comparer)(const T&, const T&);
     typedef bool (Equaler)(const T&, const T&);
-  public:
+    typedef bool  (Seeker)(const T&);
 
+  public:
     Array() : Allocator(__OBJSZ, __InitialCapacity, __InitialGranularity, true), fCount(0) { }
     explicit Array(int capacity) : Allocator(__OBJSZ, capacity, __InitialGranularity, false), fCount(0) { }
     explicit Array(bool candecrease) : Allocator(__OBJSZ, __InitialCapacity, __InitialGranularity, candecrease), fCount(0) { }
@@ -97,10 +98,32 @@ template<typename T> class Array : private Allocator
 
     // Assign operator
     Array& operator =(const Array& source) { if (&source != this) { Clear(); CopyFrom(source); } return *this; }
-
 #ifdef __cplusplus11
     Array& operator =(std::initializer_list<T> l) { Clear(); FillFromStd(l); return *this; }
 #endif
+
+    // Iterator - minimal implementation allowing straight for(:) loops
+    class Iterator
+    {
+      public:
+        using iterator_category = std::random_access_iterator_tag;
+        using value_type = T;
+        using reference = T&;
+
+        explicit Iterator(T* d): mData(d) {}
+
+        reference operator*() { return *mData; }
+        Iterator& operator++() { ++mData; return *this; }
+        Iterator& operator--() { --mData; return *this; }
+        friend bool operator==(Iterator it1, Iterator it2) { return it1.mData == it2.mData; }
+        friend bool operator!=(Iterator it1, Iterator it2) { return it1.mData != it2.mData; }
+      private:
+        T* mData;
+    };
+
+    Iterator begin() const { return Iterator(&__GET(0)); }
+
+    Iterator end() const { return Iterator(&__GET(fCount)); }
 
     /*!
      * Main Quicksort
@@ -183,13 +206,13 @@ template<typename T> class Array : private Allocator
      * Get array memory buffer as const char pointer (thus, read-only)
      * @return const char pointer
      */
-    const unsigned char* ByteBufferReadOnly() const { return (const unsigned char*)Memory(); }
+    [[nodiscard]] const unsigned char* ByteBufferReadOnly() const { return (const unsigned char*)Memory(); }
 
     /*!
      * Get array memory buffer as non-const char pointer (thus, read-write)
      * @return char pointer
      */
-    unsigned char* ByteBufferReadWrite() const { return (unsigned char*)Memory(); }
+    [[nodiscard]] unsigned char* ByteBufferReadWrite() const { return (unsigned char*)Memory(); }
 
     /*!
      * By reference, non-const item accessor. May be used as a write operator, or to access large object by reference
@@ -237,8 +260,20 @@ template<typename T> class Array : private Allocator
      * Clear the array and reset its size to zero
      */
     void Clear() { Resize(0); fCount = 0; }
+
+    /*!
+     * Delete item at the given index
+     */
     void Delete(int index) { Contract(index, 1); }
+    /*!
+     * @brief Delete items starting at the given index
+     * @param index Startingindex
+     * @param count Numbner of item to remove
+     */
     void Delete(int index, int count) { Contract(index, count); }
+    /*!
+     * @brief Delete last item
+     */
     void DeleteLast() { if (--fCount < 0) fCount = 0; }
 
     /*!
@@ -272,7 +307,7 @@ template<typename T> class Array : private Allocator
       return false;
     }
 
-    bool Contains(const T& item)
+    bool Contains(const T& item) const
     {
       for(int i = fCount; --i >= 0; )
         if (__GET(i) == item)
@@ -280,7 +315,15 @@ template<typename T> class Array : private Allocator
       return false;
     }
 
-    int IndexOf(const T* item)
+    int IndexOf(Seeker seeker) const
+    {
+      for(int i = fCount; --i >= 0; )
+        if ((*seeker)(*__GET(i)))
+          return i;
+      return -1;
+    }
+
+    int IndexOf(const T* item) const
     {
       for(int i = fCount; --i >= 0; )
         if (__GET(i) == *item)
@@ -288,12 +331,26 @@ template<typename T> class Array : private Allocator
       return -1;
     }
 
-    int IndexOf(const T& item)
+    int IndexOf(const T& item) const
     {
       for(int i = fCount; --i >= 0; )
         if (__GET(i) == item)
           return i;
       return -1;
+    }
+
+    void Remove(const T* item)
+    {
+      for(int i = fCount; --i >= 0; )
+        if (__GET(i) == *item)
+          Delete(i);
+    }
+
+    void Remove(const T& item)
+    {
+      for(int i = fCount; --i >= 0; )
+        if (__GET(i) == item)
+          Delete(i);
     }
 
     void Swap(int left, int right)

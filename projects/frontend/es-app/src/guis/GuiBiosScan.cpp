@@ -11,10 +11,8 @@
 #include <bios/BiosManager.h>
 #include "GuiBiosScan.h"
 #include "GuiBiosMd5.h"
-#include <algorithm>
-#include <systems/SystemManager.h>
 
-static std::map<Bios::ReportStatus, const char*> sSuffixes(
+HashMap<Bios::ReportStatus, const char*> GuiBiosScan::sSuffixes(
 {
   { Bios::ReportStatus::Unknown, " - \uF1C1" },
   { Bios::ReportStatus::Green  , " - \uF1C0" },
@@ -377,8 +375,6 @@ void GuiBiosScan::UpdateBiosList()
   }
 
   // Statistics
-  int fullWorkingSystem = 0;
-  int workingSystem = 0;
   int nonWorkingSystem = 0;
   std::string lastNonWorkingSystemName;
   int totalBiosNotFound = 0;
@@ -393,7 +389,7 @@ void GuiBiosScan::UpdateBiosList()
 
     // Filtered?
     if (!mShowAllSystems)
-      if (!IsSystemShown(biosList.Name()))
+      if (!IsSystemAvailable(biosList.Name()))
         continue;
 
     // Header
@@ -421,13 +417,11 @@ void GuiBiosScan::UpdateBiosList()
     {
       case Bios::ReportStatus::Green:
       {
-        fullWorkingSystem++;
         mList->changeBackgroundColorAt(headerIndex, sColorIndexGreen);
         break;
       }
       case Bios::ReportStatus::Yellow:
       {
-        workingSystem++;
         mList->changeBackgroundColorAt(headerIndex, sColorIndexYellow);
         break;
       }
@@ -654,24 +648,26 @@ std::string GuiBiosScan::GetUniqueCoreList(const BiosList& biosList)
   return Strings::Join(list, ", ");
 }
 
-bool GuiBiosScan::IsSystemShown(const std::string& systemNames)
+bool GuiBiosScan::IsSystemAvailable(const String& systemNames)
 {
-  Strings::Vector list = Strings::Split(systemNames, ',');
+  String::List list = systemNames.Split(',');
 
   #ifdef DEBUG
   // Check
   bool check = false;
-  for(const std::string& systemName : mSystemManager.GetDeclaredSystemShortNames())
-    for(const std::string& s : list)
-      if (systemName == s)
+  for(const SystemData* system : mSystemManager.AllSystems())
+    for(const String& s : list)
+      if (system->Name() == s)
         check = true;
   if (!check) { LOG(LogError) << "[BiosGui] CHECK BIOS Systems: " << systemNames << " not found!"; }
   #endif
 
-  for(const SystemData* systemData : mSystemManager.GetAllSystemList())
-    for(const std::string& s : list)
-      if (systemData->Name() == s)
-        return true;
+  // Try to find system in all system available on this board
+  for(const SystemData* system : mSystemManager.AllSystems())
+    if (!system->IsVirtual())
+      for(const String& s : list)
+        if (system->Name() == s)
+          return true;
 
   return false;
 }

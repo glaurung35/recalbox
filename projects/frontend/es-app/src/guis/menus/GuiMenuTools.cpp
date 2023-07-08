@@ -13,32 +13,32 @@
 const Path GuiMenuTools::sShadersPath("/recalbox/share/shaders");
 
 GuiMenuTools::EmulatorAndCoreList
-GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& system, std::string& outDefaultEmulator,
-                                  std::string& outDefaultCore, const std::string& currentEmulator,
-                                  const std::string& currentCore)
+GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& system, String& outDefaultEmulator,
+                                  String& outDefaultCore, const String& currentEmulator,
+                                  const String& currentCore)
 {
   EmulatorAndCoreList result;
-  std::string emulator = currentEmulator;
-  std::string core = currentCore;
+  String emulator = currentEmulator;
+  String core = currentCore;
 
   if (systemManager.Emulators().GetDefaultEmulator(system, outDefaultEmulator, outDefaultCore))
   {
     bool selected = false;
     if (emulator.empty()) emulator = outDefaultEmulator;
     if (core.empty()) core = outDefaultCore;
-    for (const std::string& emulatorName : systemManager.Emulators().GetEmulators(system))
-      for (const std::string& coreName : systemManager.Emulators().GetCores(system, emulatorName))
+    for (const String& emulatorName : systemManager.Emulators().GetEmulators(system))
+      for (const String& coreName : systemManager.Emulators().GetCores(system, emulatorName))
       {
         // Get display name, composed of "emulator core" or just "emulator" of both are the same (standalone)
         // Add "(default)" if this is the default emulator/core
-        std::string displayName(emulatorName);
-        if (displayName != coreName) displayName.append(1, ' ').append(coreName);
+        String displayName(emulatorName);
+        if (displayName != coreName) displayName.Append(' ').Append(coreName);
         if (outDefaultCore == coreName && outDefaultEmulator == emulatorName)
-          displayName.append(" (").append(_("DEFAULT")).append(1, ')');
+          displayName.Append(" (").Append(_("DEFAULT")).Append(')');
 
         // Build a key "emulator:core"
-        std::string emulatorAndCore(emulatorName);
-        emulatorAndCore.append(1, ':').append(coreName);
+        String emulatorAndCore(emulatorName);
+        emulatorAndCore.Append(':').Append(coreName);
         bool match = emulatorName == emulator && coreName == core;
         if (match) { LOG(LogDebug) << "[GUI] Selected emulator/core: " << emulatorAndCore; }
         selected |= match;
@@ -79,7 +79,7 @@ GuiMenuTools::ShaderList GuiMenuTools::ListShaders()
   for (const Path& path : GetShaderList())
   {
     bool ok = false;
-    std::string shaderName = path.MakeRelative(sShadersPath, ok).ToString();
+    String shaderName = path.MakeRelative(sShadersPath, ok).ToString();
     Strings::ReplaceAllIn(shaderName, '/', " - ", 3);
     Strings::ReplaceAllIn(shaderName, '_', " ", 1);
     result.push_back({ path, shaderName });

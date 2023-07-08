@@ -11,7 +11,6 @@
 #include <guis/menus/GuiMenuSound.h>
 #include <guis/menus/GuiMenuNetwork.h>
 #include <guis/menus/GuiMenuAdvancedSettings.h>
-#include <guis/menus/GuiMenuDownloadGamePacks.h>
 #include <guis/menus/GuiMenuCRT.h>
 #include "guis/GuiBiosScan.h"
 #include "guis/menus/GuiMenuQuit.h"
@@ -125,14 +124,14 @@ void GuiMenu::SubMenuSelected(int id)
     }
     case Components::Controllers: mWindow.pushGui(new GuiMenuPads(mWindow)); break;
     case Components::UISettings: mWindow.pushGui(new GuiMenuUserInterface(mWindow, mSystemManager)); break;
-    case Components::Arcade: mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, nullptr)); break;
+    case Components::Arcade: mWindow.pushGui(new GuiMenuArcade(mWindow, nullptr)); break;
     case Components::Tate: mWindow.pushGui(new GuiMenuTate(mWindow, mSystemManager)); break;
     case Components::Sound: mWindow.pushGui(new GuiMenuSound(mWindow)); break;
     case Components::Network: mWindow.pushGui(new GuiMenuNetwork(mWindow)); break;
     case Components::Scraper:
     {
       if (GuiScraperRun::IsRunning())
-        GuiScraperRun::CreateOrShow(mWindow, mSystemManager, SystemManager::SystemList(), ScrapingMethod::All, &GameRunner::Instance(),Renderer::Instance().DisplayHeightAsFloat() <=576);
+        GuiScraperRun::CreateOrShow(mWindow, mSystemManager, SystemManager::List(), ScrapingMethod::All, &GameRunner::Instance(), Renderer::Instance().DisplayHeightAsFloat() <= 576);
       else
         mWindow.pushGui(new GuiMenuScraper(mWindow, mSystemManager));
       break;

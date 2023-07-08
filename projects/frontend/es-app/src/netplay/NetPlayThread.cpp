@@ -98,7 +98,7 @@ void NetPlayThread::Run()
 void NetPlayThread::ReceiveSyncMessage()
 {
   int popupDuration = RecalboxConf::Instance().GetPopupNetplay();
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, GuiInfoPopupBase::PopupType::Netplay));
+  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mLastPopupText, popupDuration, PopupType::Netplay));
 }
 
 bool NetPlayThread::Sleep(bool& enabled)

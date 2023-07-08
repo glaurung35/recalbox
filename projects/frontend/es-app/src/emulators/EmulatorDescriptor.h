@@ -10,7 +10,7 @@ class EmulatorDescriptor
 {
   public:
     //! Compatibility information
-    enum class Compatibility
+    enum class Compatibility : char
     {
       Unknown, //!< Unknown
       High   , //!< Perfect or near perfect
@@ -20,7 +20,7 @@ class EmulatorDescriptor
     };
 
     //! Speed information
-    enum class Speed
+    enum class Speed : char
     {
       Unknown, //!< Unknown
       High   , //!< Perfect or near perfect
@@ -28,9 +28,6 @@ class EmulatorDescriptor
       Average, //!< Expect around half of the games running at a decent framerate
       Low    , //!< Only a few games are playable
     };
-
-    //! Maximum core per emulator
-    static constexpr int sMaximumCores = 18;
 
     //! Default constructor
     EmulatorDescriptor()
@@ -44,20 +41,17 @@ class EmulatorDescriptor
      */
     explicit EmulatorDescriptor(const std::string& emulator)
       : mEmulator(emulator)
-      , mCoreCount(0)
     {
-      for(int i = sMaximumCores; --i >= 0; )
-        mCores[i].Reset();
     }
 
     //! Get emulator name
     [[nodiscard]] const std::string& Name() const { return mEmulator; }
 
     //! Get core count
-    [[nodiscard]] int CoreCount() const { return mCoreCount; }
+    [[nodiscard]] int CoreCount() const { return (int)mCores.size(); }
 
     //! Has at least one core?
-    [[nodiscard]] bool HasAny() const { return mCoreCount != 0; }
+    [[nodiscard]] bool HasAny() const { return !mCores.empty(); }
 
     /*!
      * @brief Check if the emulator has a core matching the given name
@@ -66,8 +60,8 @@ class EmulatorDescriptor
      */
     [[nodiscard]] bool HasCore(const std::string& name) const
     {
-      for(int i=mCoreCount; --i>=0; )
-        if (name == mCores[i].mName)
+      for(const Core& core : mCores)
+        if (name == core.mName)
           return true;
       return false;
     }
@@ -119,53 +113,50 @@ class EmulatorDescriptor
                  const String& splitDrivers,
                  int limit)
     {
-      if (mCoreCount < sMaximumCores)
-      {
-        Core& core = mCores[mCoreCount++];
-        core.mName = name;
-        core.mExtensions = extensions;
-        core.mPriority = priority;
-        core.mCompatibility = ConvertCompatibility(compatibility);
-        core.mSpeed = ConvertSpeed(speed);
-        core.mNetplay = netplay;
-        core.mSoftpatching = softpatching;
-        core.mCRTAvailable = crtAvailable;
-        core.mFlatBaseName = flatBaseFile;
-        core.mIgnoreDrivers = ignoreDrivers;
-        core.mSplitDrivers = splitDrivers;
-        core.mLimit = limit;
-      }
-      else { LOG(LogError) << "[Emulator] Core " << name << " cannot be added to emulator " << mEmulator; }
+      mCores.push_back(Core());
+      Core& core = mCores.back();
+      core.mName = name;
+      core.mExtensions = extensions;
+      core.mPriority = priority;
+      core.mCompatibility = ConvertCompatibility(compatibility);
+      core.mSpeed = ConvertSpeed(speed);
+      core.mNetplay = netplay;
+      core.mSoftpatching = softpatching;
+      core.mCRTAvailable = crtAvailable;
+      core.mFlatBaseName = flatBaseFile;
+      core.mIgnoreDrivers = ignoreDrivers;
+      core.mSplitDrivers = splitDrivers;
+      core.mLimit = limit;
     }
 
   private:
     //! Core structure
     struct Core
     {
+      // Arcade properties
+      String mFlatBaseName;         //!< Flat file base name
+      String mIgnoreDrivers;        //!< Flat file base name
+      String mSplitDrivers;         //!< Flat file base name
       // Core properties
-      std::string mName;            //!< Core name (file name)
-      std::string mExtensions;      //!< Supported extensions
+      String mName;                 //!< Core name (file name)
+      String mExtensions;           //!< Supported extensions
       int mPriority;                //!< Core priority
+      int mLimit;                   //!< Manufacturer/driver limit
       Compatibility mCompatibility; //!< Compatibility rate
       Speed mSpeed;                 //!< Average speed
       bool mNetplay;                //!< Netplay compatible?
       bool mSoftpatching;           //!< Softpathing compatible?
       bool mCRTAvailable;           //!< Available on CRT?
-      // Arcade properties
-      String mFlatBaseName;         //!< Flat file base name
-      String mIgnoreDrivers;        //!< Flat file base name
-      String mSplitDrivers;         //!< Flat file base name
-      int mLimit;                   //!< Manufacturer/driver limit
 
       //! Constructor
       Core()
         : mPriority(0)
+        , mLimit(0)
         , mCompatibility(Compatibility::Unknown)
         , mSpeed(Speed::Unknown)
         , mNetplay(false)
         , mSoftpatching(false)
         , mCRTAvailable(false)
-        , mLimit(0)
       {
       }
 
@@ -190,9 +181,7 @@ class EmulatorDescriptor
     //! Emulator name
     std::string mEmulator;
     //! Core specifications
-    Core mCores[sMaximumCores];
-    //! Core count
-    int mCoreCount;
+    std::vector<Core> mCores;
 
     //! Give access to private part from the webmanager process class
     friend class RequestHandlerTools;

@@ -4,9 +4,7 @@
 
 #include <VideoEngine.h>
 #include <recalbox/RecalboxSystem.h>
-#include "RecalboxConf.h"
 #include "GameClipView.h"
-#include "utils/Log.h"
 #include <views/ViewController.h>
 #include "utils/locale/LocaleHelper.h"
 #include <guis/GuiInfoPopup.h>
@@ -14,21 +12,33 @@
 
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
   : Gui(window)
-  , mEvent(*this)
   , mWindow(window)
   , mSystemManager(systemManager)
   , mGameRandomSelector(systemManager, &mFilter)
   , mHistoryPosition(0)
   , mDirection(Direction::Next)
   , mGame(nullptr)
+  , mState(State::NoGameSelected)
   , mGameClipContainer(window)
   , mNoVideoContainer(window)
-  , systemIndex(-1)
+  , mSystemIndex(-1)
   , mVideoDuration(0)
 {
+}
 
+void GameClipView::Reset()
+{
   if (VideoEngine::IsInstantiated())
     VideoEngine::Instance().StopVideo(true);
+
+  mGameRandomSelector.Initialize();
+
+  mHistoryPosition = 0;
+  mDirection = Direction::Next;
+  mGame = nullptr;
+  mState = State::NoGameSelected;
+  mSystemIndex = -1;
+  mVideoDuration = 0;
 }
 
 GameClipView::~GameClipView()
@@ -39,142 +49,119 @@ GameClipView::~GameClipView()
 void GameClipView::InsertIntoHistory(FileData* game)
 {
   mHistory.insert(mHistory.begin(), game);
-  if (mHistory.size() == MAX_HISTORY + 1)
-  {
-    mHistory.erase(mHistory.begin() + MAX_HISTORY);
-  }
+  if (mHistory.size() == sMaxHistory + 1)
+    mHistory.erase(mHistory.begin() + sMaxHistory);
 }
 
 void GameClipView::GetGame()
 {
   if (Direction::Next == mDirection)
-  {
     GetNextGame();
-  }
   else
-  {
     GetPreviousGame();
-  }
 }
 
 void GameClipView::GetNextGame()
 {
   if (mHistoryPosition == 0)
-  {
     mGame = mGameRandomSelector.NextGame();
-
-  } else
+  else
   {
-    mHistoryPosition--;
     // security
-    if (mHistoryPosition < 0)
-    {
-      mHistoryPosition = 0;
-    }
-    mGame = mHistory.at(mHistoryPosition);
+    if (--mHistoryPosition < 0) mHistoryPosition = 0;
+    mGame = mHistory[mHistoryPosition];
   }
 }
 
 void GameClipView::GetPreviousGame()
 {
-  mHistoryPosition++;
   //security
-  if (mHistoryPosition > (int) mHistory.size())
+  if (++mHistoryPosition >= (int) mHistory.size())
+    mHistoryPosition = (int) mHistory.size() - 1;
+  mGame = mHistory[mHistoryPosition];
+}
+
+void GameClipView::Update(int elapsed)
+{
+  (void)elapsed;
+
+  switch(mState)
   {
-    mHistoryPosition = (int) mHistory.size();
+    case State::NoGameSelected:
+    {
+      if (!mGameRandomSelector.HasValidSystems())
+      {
+        mState = State::EmptyPlayList;
+        updateHelpPrompts();
+        mTimer.Initialize(0);
+        return;
+      }
+      StartGameClip();
+      mTimer.Initialize(0);
+      mState = State::InitPlaying;
+      updateHelpPrompts();
+      break;
+    }
+    case State::EmptyPlayList:
+    {
+      if(mTimer.GetMilliSeconds() > 60000)
+        mState = State::Quit;
+      break;
+    }
+    case State::InitPlaying:
+    {
+      // when videoEngine cannot play video file
+      if (!mGame->Metadata().Video().Exists() ||  mTimer.GetMilliSeconds() > 3000)
+      {
+        { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
+        VideoEngine::Instance().StopVideo(false);
+        mState = State::NoGameSelected;
+        return;
+      }
+      if (VideoEngine::Instance().IsPlaying())
+      {
+        NotificationManager::Instance().Notify(*mGame, Notification::StartGameClip);
+        mVideoDuration = VideoEngine::Instance().GetVideoDurationMs();
+        if (Direction::Next == mDirection && mHistoryPosition == 0)
+          InsertIntoHistory(mGame);
+        mState = State::Playing;
+      }
+      break;
+    }
+    case State::Playing:
+    {
+      if (mTimer.GetMilliSeconds() > mVideoDuration || mTimer.GetMilliSeconds() > 35000)
+        ChangeGameClip(Direction::Next);
+      break;
+    }
+    case State::LaunchGame:
+    {
+      ViewController::Instance().Launch(mGame, GameLinkedData(), Vector3f());
+      mState = State::GoToSystem;
+      break;
+    }
+    case State::GoToSystem:
+    {
+      ViewController::Instance().selectGamelistAndCursor(mGame);
+      mState = State::Quit;
+      break;
+    }
+    case State::Quit:
+    {
+      ViewController::Instance().BackToPreviousView();
+      mState = State::Terminated;
+      break;
+    }
+    case State::Terminated: return;
   }
-  mGame = mHistory.at(mHistoryPosition);
 }
 
 void GameClipView::Render(const Transform4x4f& parentTrans)
 {
-  if (mState == State::LaunchGame)
-  {
-    ViewController::Instance().Launch(mGame, GameLinkedData(), Vector3f());
-    mState = State::GoToSystem;
-  }
-
-  if (mState == State::GoToSystem)
-  {
-    ViewController::Instance().selectGamelistAndCursor(mGame);
-    mState = State::Quit;
-  }
-
-  if (mState == State::Quit)
-  {
-    mEvent.Send(); // Asynchronous delete!
-    mState = State::Terminated;
-  }
-
-  // waiting to be destroy
-  if (mState == State::Terminated)
-  {
-    return;
-  }
-
-  if (mState == State::NoGameSelected && !mGameRandomSelector.HasValidSystems())
-  {
-    mState = State::EmptyPlayList;
-    updateHelpPrompts();
-    mTimer.Initialize(0);
-    return;
-  }
-
   if (mState == State::EmptyPlayList)
-  {
     mNoVideoContainer.Render(parentTrans);
-    if(mTimer.GetMilliSeconds() > 60000)
-      mState = State::Quit;
-  }
-
-  if (mState == State::NoGameSelected)
-  {
-    StartGameClip();
-    mTimer.Initialize(0);
-    mState = State::InitPlaying;
-    updateHelpPrompts();
-  }
-
-  else if (mState == State::InitPlaying)
-  {
-    // when videoEngine cannot play video file
-    if (!mGame->Metadata().Video().Exists() ||  mTimer.GetMilliSeconds() > 3000)
-    {
-      { LOG(LogDebug) << "[GameClip] Video do not start for game: " << mGame->Metadata().VideoAsString(); }
-      VideoEngine::Instance().StopVideo(false);
-      mState = State::NoGameSelected;
-      return;
-    }
-    if (VideoEngine::Instance().IsPlaying())
-    {
-      NotificationManager::Instance().Notify(*mGame, Notification::StartGameClip);
-      mVideoDuration = VideoEngine::Instance().GetVideoDurationMs();
-      if (Direction::Next == mDirection && mHistoryPosition == 0)
-      {
-        mState = State::SetInHistory;
-      }
-      else
-      {
-        mState = State::Playing;
-      }
-    }
-  }
-
-  else if (mState == State::SetInHistory)
-  {
-    InsertIntoHistory(mGame);
-    mState = State::Playing;
-  }
-
-  else if (mState == State::Playing)
-  {
-    if (mTimer.GetMilliSeconds() > mVideoDuration || mTimer.GetMilliSeconds() > 35000)
-    {
-      ChangeGameClip(Direction::Next);
-      return;
-    }
-  }
-  mGameClipContainer.Render(parentTrans);
+  else
+    mGameClipContainer.Render(parentTrans);
 }
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
@@ -221,32 +208,8 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   {
     if (mGame->IsGame() && mGame->System().HasFavoritesInTheme())
     {
-      MetadataDescriptor& md = mGame->Metadata();
-      SystemData* favoriteSystem = mSystemManager.FavoriteSystem();
-      md.SetFavorite(!md.Favorite());
-
-      if (favoriteSystem != nullptr)
-      {
-        if (md.Favorite())
-        {
-          favoriteSystem->GetFavoriteRoot().AddChild(mGame, false);
-        }
-        else
-        {
-          favoriteSystem->GetFavoriteRoot().RemoveChild(mGame);
-        }
-
-        ViewController::Instance().setInvalidGamesList(&mGame->System());
-        ViewController::Instance().setInvalidGamesList(favoriteSystem);
-      }
-      ViewController::Instance().getSystemListView().manageFavorite();
-
-      int popupDuration = RecalboxConf::Instance().GetPopupHelp();
-      std::string message = md.Favorite() ? _("Added to favorites") : _("Removed from favorites");
-      mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, message + ":\n" + mGame->Name(), popupDuration,
-                                            GuiInfoPopupBase::PopupType::None));
-
-        updateHelpPrompts();
+      ViewController::Instance().ToggleFavorite(mGame);
+      updateHelpPrompts();
     }
     return true;
   }
@@ -288,14 +251,7 @@ bool GameClipView::getHelpPrompts(Help& help)
     case State::Quit : break;
     case State::EmptyPlayList: return mNoVideoContainer.getHelpPrompts(help);
     case State::InitPlaying:
-    case State::Playing:
-    case State::SetInHistory: return mGameClipContainer.getHelpPrompts(help);
+    case State::Playing: return mGameClipContainer.getHelpPrompts(help);
   }
   return true;
 }
-
-void GameClipView::ReceiveSyncMessage()
-{
-  ViewController::Instance().quitGameClipView();
-}
-

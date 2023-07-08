@@ -25,6 +25,8 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     //! Transparent Green
     static constexpr signed char sColorIndexGreen = 4;
 
+    static HashMap<Bios::ReportStatus, const char*> sSuffixes;
+
     //! Small structure holding the context of every item
     struct ListContext
     {
@@ -159,7 +161,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
      * @param systemNames systemNames, comma separated
      * @return True if at least one system is a shown system
      */
-    bool IsSystemShown(const std::string& systemNames);
+    bool IsSystemAvailable(const String& systemNames);
 
     /*!
      * @brief Update bios details of currently selected bios

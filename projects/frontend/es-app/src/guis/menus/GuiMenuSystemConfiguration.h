@@ -49,9 +49,9 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
     //! Target system
     SystemData& mSystem;
     //! Default emulator
-    std::string mDefaultEmulator;
+    String mDefaultEmulator;
     //! Default core
-    std::string mDefaultCore;
+    String mDefaultCore;
 
     //! Get Emulator List
     std::vector<ListEntry<String>> GetEmulatorEntries();

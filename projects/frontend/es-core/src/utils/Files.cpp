@@ -11,7 +11,7 @@ String Files::LoadFile(const Path& path)
 {
   String result;
 
-  if (path.Exists())
+  if (path.Exists() && path.IsFile())
   {
     int fd = open(path.ToChars(), O_RDONLY);
     if (fd >= 0)

@@ -66,6 +66,11 @@ class ArcadeGameListView : public DetailedGameListView
     IArcadeGamelistInterface* getArcadeInterface() override { return this; }
 
     /*!
+     * @brief Refresh name & properties of the given item
+     */
+    void RefreshItem(FileData* game);
+
+    /*!
      * @brief Rebuild the gamelist - regenerate internal structure
      * @param folder
      */

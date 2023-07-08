@@ -13,6 +13,7 @@
 #include "guis/menus/GuiMenuSoftpatchingLauncher.h"
 #include "RotationManager.h"
 #include "guis/GuiSaveStates.h"
+#include "guis/menus/GuiFastMenuList.h"
 #include <audio/AudioMode.h>
 
 #include <MainRunner.h>
@@ -25,27 +26,45 @@
 ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController")
 	, Gui(window)
+  , mGameToLaunch(nullptr)
+  , mLaunchCameraTarget()
+  , mCheckFlags(LaunchCheckFlags::None)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
 	, mSystemListView(window, systemManager)
 	, mSplashView(window)
-	, mGameClipView(nullptr)
-  , mCrtView(nullptr)
+	, mGameClipView(window, systemManager)
+  , mCrtView(window)
+  , mCurrentMode(ViewType::None)
+  , mPreviousMode(ViewType::None)
+  , mCurrentSystem(nullptr)
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
-  , mState()
+  , mFrequencyLastChoiceMulti60(0)
+  , mFrequencyLastChoice(0)
+  , mResolutionLastChoice(0)
+  , mSuperGameboyLastChoice(0)
+  , mSoftPatchingLastChoice(0)
 {
-  // Progress interface
+  // Set interfaces
   systemManager.SetProgressInterface(&mSplashView);
+  systemManager.SetLoadingPhaseInterface(&mSplashView);
+  systemManager.SetChangeNotifierInterface(this);
 
   // default view mode
-	mState.viewing = ViewMode::SplashScreen;
+  ChangeView(ViewType::SplashScreen, nullptr);
 
 	// System View
   mSystemListView.setPosition(0, Renderer::Instance().DisplayHeightAsFloat());
   // Splash
   mSplashView.setPosition(0,0);
+}
+
+ViewController::~ViewController()
+{
+  for(const auto& view : mGameListViews)
+    delete view.second;
 }
 
 void ViewController::goToStart()
@@ -54,14 +73,13 @@ void ViewController::goToStart()
 
   std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
-  SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.GetVisibleSystemList()[index];
+  SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.VisibleSystemList()[index];
 
   if ((selectedSystem == nullptr) || !selectedSystem->HasVisibleGame())
     selectedSystem = mSystemManager.FirstNonEmptySystem();
 
   if (selectedSystem == nullptr)
   {
-
     mWindow.pushGui(new GuiMsgBox(mWindow, "Your filters preferences hide all your games !\nThe filters will be reseted and recalbox will be reloaded.", _("OK"), [] { ResetFilters();}));
     return;
   }
@@ -73,7 +91,11 @@ void ViewController::goToStart()
     if (RecalboxConf::Instance().GetStartupStartOnGamelist())
       goToGameList(selectedSystem);
     else
+    {
+      mSystemListView.SetProgressInterface(&mSplashView);
       goToSystemView(selectedSystem);
+      mSystemListView.SetProgressInterface(nullptr);
+    }
   }
 }
 
@@ -105,15 +127,13 @@ void ViewController::ResetFilters()
 
 int ViewController::getSystemId(SystemData* system)
 {
-	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
-	return (int)(std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin());
+	return mSystemManager.VisibleSystemList().IndexOf(system);
 }
 
 void ViewController::goToQuitScreen()
 {
   mSplashView.Quit();
-  mState.viewing = ViewMode::SplashScreen;
-  mState.gameClipRunning = false;
+  ChangeView(ViewType::SplashScreen, nullptr);
   mCamera.translation().Set(0,0,0);
 }
 
@@ -126,12 +146,7 @@ void ViewController::goToSystemView(SystemData* system)
     system = mSystemManager.FirstNonEmptySystem();
   }
 
-	mState.viewing = ViewMode::SystemList;
-	mState.system = system;
-
-  mSystemListView.goToSystem(system, false);
-	mCurrentView = &mSystemListView;
-	mCurrentView->onShow();
+  ChangeView(ViewType::SystemList, system);
 
 	playViewTransition();
 
@@ -140,83 +155,32 @@ void ViewController::goToSystemView(SystemData* system)
 
 void ViewController::goToGameClipView()
 {
-    if(GameClipView::IsGameClipEnabled() && !mState.gameClipRunning) {
+  if (mCurrentMode == ViewType::GameClip) return; // #TODO: avoid ths method being called in loop
 
-      if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
-      {
-        AudioManager::Instance().StopAll();
-      }
-        mGameClipView = new GameClipView(mWindow, mSystemManager);
-        NotificationManager::Instance().Notify(Notification::StartGameClip);
-        mState.gameClipRunning = true;
-    }
-}
-
-void ViewController::quitGameClipView()
-{
-  if(!mState.gameClipRunning) return;
-
-  WakeUp();
-  delete mGameClipView;
-  mGameClipView = nullptr;
-  if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
-  {
-    AudioManager::Instance().StartPlaying(mState.system->Theme());
-  }
-  switch (mState.viewing)
-  {
-    case ViewMode::SystemList:
-      goToSystemView(mSystemListView.getSelected());
-      break;
-    case ViewMode::GameList:
-      if(mState.getSystem()->HasVisibleGame())
-        goToGameList(mState.getSystem());
-      else goToStart();
-      break;
-    case ViewMode::None:
-    case ViewMode::SplashScreen:
-      break;
-  }
-
-  mState.gameClipRunning = false;
-  updateHelpPrompts();
+  ChangeView(ViewType::GameClip, nullptr);
+  NotificationManager::Instance().Notify(Notification::StartGameClip);
+  mGameClipView.Reset();
 }
 
 void ViewController::goToCrtView(CrtView::CalibrationType screenType)
 {
-  mCrtView = new CrtView(mWindow, screenType);
-  mCrtView->onShow();
-}
-
-void ViewController::quitCrtView()
-{
-  delete mCrtView;
-  mCrtView = nullptr;
-  switch (mState.viewing)
-  {
-    case ViewMode::SystemList: goToSystemView(mSystemListView.getSelected()); break;
-    case ViewMode::GameList:   goToGameList(mState.getSystem()); break;
-    case ViewMode::None:
-    case ViewMode::SplashScreen:
-    default: break;
-  }
-  updateHelpPrompts();
+  ChangeView(ViewType::CrtCalibration, nullptr);
+  mCrtView.Initialize(screenType);
 }
 
 void ViewController::selectGamelistAndCursor(FileData *file)
 {
-  mState.viewing = ViewMode::GameList;
   SystemData& system = file->System();
   goToGameList(&system);
-  ISimpleGameListView* view = getGameListView(&system).get();
+  ISimpleGameListView* view = GetOrCreateGamelistView(&system);
   view->setCursorStack(file);
   view->setCursor(file);
 }
 
 void ViewController::goToNextGameList()
 {
-	assert(mState.viewing == ViewMode::GameList);
-	SystemData* system = getState().getSystem();
+	assert(mCurrentMode == ViewType::GameList);
+	SystemData* system = mCurrentSystem;
 	assert(system);
 
   CheckFilters();
@@ -233,8 +197,8 @@ void ViewController::goToNextGameList()
 
 void ViewController::goToPrevGameList()
 {
-	assert(mState.viewing == ViewMode::GameList);
-	SystemData* system = getState().getSystem();
+	assert(mCurrentMode == ViewType::GameList);
+	SystemData* system = mCurrentSystem;
 	assert(system);
 
   CheckFilters();
@@ -247,15 +211,6 @@ void ViewController::goToPrevGameList()
 	goToGameList(prev);
 }
 
-bool ViewController::goToGameList(std::string& systemName) {
-	SystemData* system = mSystemManager.SystemByName(systemName);
-	if (system != nullptr) {
-		goToGameList(system);
-		return true;
-	}
-	return false;
-}
-
 void ViewController::goToGameList(SystemData* system)
 {
 	RotationType rotation = RotationType::None;
@@ -263,7 +218,7 @@ void ViewController::goToGameList(SystemData* system)
 	{
 		mWindow.Rotate(rotation);
 	}
-	if (mState.viewing == ViewMode::SystemList)
+	if (mCurrentMode == ViewType::SystemList)
 	{
 		// move system list
 		float offX = mSystemListView.getPosition().x();
@@ -276,33 +231,26 @@ void ViewController::goToGameList(SystemData* system)
 	if (mInvalidGameList[system])
 	{
 		mInvalidGameList[system] = false;
-    if (!reloadGameListView(system))
+    if (!GetOrReCreateGamelistView(system))
     {
       // if listview has been reload due to last game has been deleted,
       // we have to stop the previous goToGameList process because current
       // system will no longer exists in the available list
       return;
     }
-		if (!system->IsFavorite())
-		{
-			updateFavorite(system, getGameListView(system)->getCursor());
-		}
 	}
 
-	mState.viewing = ViewMode::GameList;
-	mState.system = system;
-
-	mCurrentView = getGameListView(system).get();
+  ChangeView(ViewType::GameList, system);
 	playViewTransition();
 
-  NotificationManager::Instance().Notify(*getGameListView(system)->getCursor(), Notification::GamelistBrowsing);
+  NotificationManager::Instance().Notify(*GetOrCreateGamelistView(system)->getCursor(), Notification::GamelistBrowsing);
   // for reload cursor video path if present
-  getGameListView(system)->DoUpdateGameInformation(false);
+  GetOrCreateGamelistView(system)->DoUpdateGameInformation(false);
 }
 
-void ViewController::updateFavorite(SystemData* system, FileData* file)
+/*void ViewController::updateFavorite(SystemData* system, FileData* file)
 {
-    ISimpleGameListView* view = getGameListView(system).get();
+  ISimpleGameListView* view = GetOrCreateGamelistView(system);
 	if (RecalboxConf::Instance().GetFavoritesOnly())
 	{
 		view->populateList(system->MasterRoot());
@@ -311,12 +259,11 @@ void ViewController::updateFavorite(SystemData* system, FileData* file)
 	}
 
 	view->updateInfoPanel();
-}
+}*/
 
 void ViewController::playViewTransition()
 {
-	Vector3f target(Vector3f::Zero());
-  target = mCurrentView->getPosition();
+	Vector3f target = mCurrentView->getPosition();
 
 	// no need to animate, we're not going anywhere (probably goToNextGamelist() or goToPrevGamelist() when there's only 1 system)
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
@@ -368,221 +315,230 @@ void ViewController::playViewTransition()
 	}
 }
 
-void ViewController::onFileChanged(FileData* file, FileChangeType change)
+void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget)
 {
-	auto it = mGameListViews.find(&file->System());
-	if (it != mGameListViews.end()) {
-		it->second->onFileChanged(file, change);
-	}
-	if (file->Metadata().Favorite()) {
-		for (auto& mGameListView : mGameListViews)
-		{
-			if (mGameListView.first->Name() == "favorites") {
-				mGameListView.second->onFileChanged(file, change);
-				break;
-			}
-		}
-	}
-}
+  if (!mGameToLaunch->IsGame())
+  {
+    { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
+    return;
+  }
 
-void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceLaunch)
-{
   mGameLinkedData = data;
-  mShowSaveStateBeforeStart = true;
-  LaunchCheck(game, cameraTarget, forceLaunch);
+  mGameToLaunch = game;
+  mLaunchCameraTarget = cameraTarget;
+  mCheckFlags = LaunchCheckFlags::None;
+  LaunchCheck();
 }
 
-void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, bool forceLaunch)
+bool ViewController::CheckBiosBeforeLaunch()
 {
-  EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
+  const BiosList& biosList = BiosManager::Instance().SystemBios(mGameToLaunch->System().Name());
+  if (biosList.TotalBiosKo() != 0)
+  {
+    // Build emulator name
+    EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch);
+    String emulatorString = emulator.Emulator();
+    if (emulator.Emulator() != emulator.Core()) emulatorString.Append('/').Append(emulator.Core());
+    // Build text
+    String text = _("At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?")
+                  .Replace("%emulator%", emulatorString)
+                  .Replace("%game%", mGameToLaunch->Name());
+    // Show the dialog box
+    Gui* gui = new GuiMsgBox(mWindow, text, _("YES"), [this] { LaunchCheck(); }, _("NO"), nullptr);
+    mWindow.pushGui(gui);
+    return false;
+  }
+  return true;
+}
+
+void ViewController::FastMenuLineSelected(int menuIndex, int itemIndex)
+{
+  switch((FastMenuType)menuIndex)
+  {
+    case FastMenuType::Frequencies:
+    {
+      static CrtData::CrtVideoStandard videoStandards[] =
+      {
+        CrtData::CrtVideoStandard::AUTO,
+        CrtData::CrtVideoStandard::NTSC,
+        CrtData::CrtVideoStandard::NTSC,
+        CrtData::CrtVideoStandard::PAL,
+      };
+      mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
+      if ((unsigned int)itemIndex < sizeof(videoStandards))
+        mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(videoStandards[itemIndex]);
+      else { LOG(LogError) << "[ViewController] Unprocessed fast menu item!"; return; }
+      LaunchCheck();
+      mFrequencyLastChoice = itemIndex;
+      break;
+    }
+    case FastMenuType::FrequenciesMulti60:
+    {
+      static CrtData::CrtRegion regions[] =
+      {
+        CrtData::CrtRegion::AUTO,
+        CrtData::CrtRegion::US,
+        CrtData::CrtRegion::JP,
+        CrtData::CrtRegion::EU,
+      };
+      static CrtData::CrtVideoStandard videoStandards[sizeof(regions)] =
+      {
+        CrtData::CrtVideoStandard::AUTO,
+        CrtData::CrtVideoStandard::NTSC,
+        CrtData::CrtVideoStandard::NTSC,
+        CrtData::CrtVideoStandard::PAL,
+      };
+      if ((unsigned int)itemIndex < sizeof(regions))
+      {
+        mGameLinkedData.ConfigurableCrt().ConfigureRegion(regions[itemIndex]);
+        mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(videoStandards[itemIndex]);
+      }
+      else { LOG(LogError) << "[ViewController] Unprocessed fast menu item!"; return; }
+      LaunchCheck();
+      mFrequencyLastChoiceMulti60 = itemIndex;
+      break;
+    }
+    case FastMenuType::CrtResolution:
+    {
+      mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(itemIndex != 0);
+      LaunchCheck();
+      mResolutionLastChoice = itemIndex;
+      break;
+    }
+    case FastMenuType::SuperGameboy:
+    {
+      mGameLinkedData.ConfigurableSuperGameBoy().Enable(itemIndex != 0);
+      LaunchCheck();
+      mSuperGameboyLastChoice = itemIndex;
+    }
+  }
+}
+
+void ViewController::SaveStateSlotSelected(int slot)
+{
+  mGameLinkedData.ConfigurableSaveState().SetSlotNumber(slot);
+  LaunchCheck();
+}
+
+void ViewController::SoftPathingDisabled()
+{
+  mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
+  mSoftPatchingLastChoice = 0;
+  LaunchCheck();
+}
+
+void ViewController::SoftPatchingSelected(const Path& path)
+{
+  mGameLinkedData.ConfigurablePatch().SetPatchPath(path);
+  mSoftPatchingLastChoice = 1;
+  LaunchCheck();
+}
+
+bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
+{
+  if (bool coreIsSoftpatching = mGameToLaunch->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core()); coreIsSoftpatching)
+    switch(RecalboxConf::Instance().GetGlobalSoftpatching())
+    {
+      case RecalboxConf::SoftPatching::Auto:
+      {
+        if (!GameFilesUtils::HasAutoPatch(mGameToLaunch))
+        {
+          Path priorityPath = GameFilesUtils::GetSubDirPriorityPatch(mGameToLaunch);
+          if (!priorityPath.IsEmpty() && priorityPath.Exists())
+            mGameLinkedData.ConfigurablePatch().SetPatchPath(priorityPath);
+        }
+        break;
+      }
+      case RecalboxConf::SoftPatching::Select:
+      {
+        std::vector<Path> patches = GameFilesUtils::GetSoftPatches(mGameToLaunch);
+        if (!mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
+        {
+          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, patches, mSoftPatchingLastChoice, this));
+          return true;
+        }
+        break;
+      }
+      case RecalboxConf::SoftPatching::Disable:
+      default:
+      {
+        mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
+        break;
+      }
+    }
+
+  // No soft patching
+  return false;
+}
+
+void ViewController::LaunchCheck()
+{
+  EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch);
   if (!emulator.IsValid())
   {
-    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << game->RomPath().ToString() << '!'; }
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << mGameToLaunch->RomPath().ToString() << '!'; }
     return;
   }
 
-  if (!forceLaunch)
-  {
-    BiosList biosList = BiosManager::Instance().SystemBios(game->System().Name());
-    if (biosList.TotalBiosKo() != 0)
-    {
-      // Build emulator name
-      std::string emulatorString = emulator.Emulator();
-      if (emulator.Emulator() != emulator.Core()) emulatorString.append(1, '/').append(emulator.Core());
-      // Build text
-      std::string text = _(
-        "At least one mandatory BIOS is missing for %emulator%!\nYour game '%game%' will very likely not run at all until required BIOS are put in the expected folder.\n\nDo you want to launch the game anyway?");
-      text = Strings::Replace(text, "%emulator%", emulatorString);
-      text = Strings::Replace(text, "%game%", game->Name());
-      // Add bios names
-      /*text.append("\n\n")
-          .append(_("Missing bios list:"))
-          .append(1, ' ')
-          .append(Strings::Join(biosList.GetMissingBiosFileList(), '\n'));*/
-      // Show the dialog box
-      Gui* gui = new GuiMsgBox(mWindow, text, _("YES"), [this, game, &cameraTarget]
-      { LaunchCheck(game, cameraTarget, true); }, _("NO"), nullptr);
-      mWindow.pushGui(gui);
+  // Check bios
+  if ((mCheckFlags & LaunchCheckFlags::Bios) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::Bios; !CheckBiosBeforeLaunch())
       return;
-    }
-  }
 
-  if (mGameLinkedData.Crt().IsRegionOrStandardConfigured())
-  {
-    if (mGameLinkedData.Crt().MustChoosePALorNTSC(game->System()))
-    {
-        if(game->System().Name() == "megadrive")
-        {
-            static int lastChoiceMulti60 = 0;
-            mWindow.pushGui(new GuiCheckMenu(mWindow,
-                                             _("Game refresh rate"),
-                                             game->Name(),
-                                             lastChoiceMulti60,
-                                             _("AUTO"),
-                                             _("AUTO"),
-                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::AUTO);
-                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 0;},
-                                             _("60Hz (US)"),
-                                             _("60Hz (US)"),
-                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::US);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
-                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 1;},
-                                             _("60Hz (JP)"),
-                                             _("60Hz (JP)"),
-                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::JP);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
-                LaunchCheck(game, cameraTarget, true);lastChoiceMulti60 = 2;},
-                                             _("50Hz (EU)"),
-                                             _("50Hz (EU)"),
-                                             [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::EU);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::PAL);
-                LaunchCheck(game, cameraTarget, true); lastChoiceMulti60 = 3;}
-                ));
-        } else
-        {
-            static int lastChoice = 0;
-            mWindow.pushGui(new GuiCheckMenu(mWindow,
-                                         _("Game refresh rate"),
-                                         game->Name(),
-                                         lastChoice,
-                                         _("AUTO"),
-                                         _("AUTO"),
-                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::AUTO);
-                LaunchCheck(game, cameraTarget, true); lastChoice = 0;},
-                                         _("60Hz"),
-                                         _("60Hz"),
-                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::NTSC);
-                LaunchCheck(game, cameraTarget, true); lastChoice = 1;},
-                                         _("50Hz"),
-                                         _("50Hz"),
-                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);
-                mGameLinkedData.ConfigurableCrt().ConfigureVideoStandard(CrtData::CrtVideoStandard::PAL);
-                LaunchCheck(game, cameraTarget, true);lastChoice = 2;}
-                ));
-        }
+  // Refresh rate choice
+  if ((mCheckFlags & LaunchCheckFlags::Frequency) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::Frequency; mGameLinkedData.Crt().IsRegionOrStandardConfigured())
+      if (mGameLinkedData.Crt().MustChoosePALorNTSC(mGameToLaunch->System()))
+      {
+        if(mGameToLaunch->System().Name() == "megadrive")
+          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(), (int)FastMenuType::FrequenciesMulti60,
+                                              { { _("AUTO") }, { _("60Hz (US)") }, { _("60Hz (JP)") }, { _("50Hz (EU)") } }, mFrequencyLastChoiceMulti60));
+        else
+          mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game refresh rate"), mGameToLaunch->Name(), (int)FastMenuType::Frequencies,
+                                              { { _("AUTO") }, { _("60Hz") }, { _("50Hz") } }, mFrequencyLastChoice));
         return;
-    }
-  }
-  if (mGameLinkedData.Crt().IsHighResolutionConfigured())
-  {
-    const bool is31Khz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
-    if (is31Khz || mGameLinkedData.Crt().MustChooseHighResolution(game->System()))
-    {
-        static int lastChoice = 0;
-        mWindow.pushGui(new GuiCheckMenu(mWindow,
-                                         _("Game resolution"),
-                                         game->Name(),
-                                         lastChoice,
-                                         is31Khz ? _("240p@120") : _("240p"),
-                                         is31Khz ? _("240p@120") : _("240p"),
-                                         [this, game, &cameraTarget] { mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(false); LaunchCheck(game, cameraTarget, true); lastChoice = 0; },
-                                         is31Khz ? _("480p@60") : _("480i"),
-                                         is31Khz ? _("480p@60") : _("480i"),
-                                         [this, game, &cameraTarget] {mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(true); LaunchCheck(game, cameraTarget, true); lastChoice = 1; }
-                                         ));
-      return;
-    }
-  }
-  bool coreIsSoftpatching = game->System().Descriptor().IsSoftpatching(emulator.Emulator(), emulator.Core());
-  std::vector<Path> patches = GameFilesUtils::GetSoftPatches(game);
+      }
 
-  if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "disable")
-  {
-    mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
-  }
-  else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "auto")
-  {
-    if(!GameFilesUtils::HasAutoPatch(game))
-    {
-      Path priorityPath = GameFilesUtils::GetSubDirPriorityPatch(game);
-      if(!priorityPath.IsEmpty() && priorityPath.Exists())
-        mGameLinkedData.ConfigurablePatch().SetPatchPath(priorityPath);
-    }
-  }
-  else if(coreIsSoftpatching && RecalboxConf::Instance().GetGlobalSoftpatching() == "select"
-          && !mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
-  {
-    static int lastSoftPatchingChoice = 0;
-    mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow,
-                                                      *game,
-                                                      patches,
-                                                      lastSoftPatchingChoice,
-                                                      [this, game, &cameraTarget]
-                                                      {
-                                                        mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
-                                                        LaunchCheck(game, cameraTarget, true);
-                                                        lastSoftPatchingChoice = 0;
-                                                      },
-                                                      [this, game, &cameraTarget](const Path& path) -> void
-                                                      {
-                                                        mGameLinkedData.ConfigurablePatch().SetPatchPath(path);
-                                                        LaunchCheck(game, cameraTarget, true);
-                                                        lastSoftPatchingChoice = 1;
-                                                      }));
-    return;
-  }
+  // CRT Resolution choice
+  if ((mCheckFlags & LaunchCheckFlags::CrtResolution) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::CrtResolution; mGameLinkedData.Crt().IsHighResolutionConfigured())
+      if (const bool is31Khz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
+          is31Khz || mGameLinkedData.Crt().MustChooseHighResolution(mGameToLaunch->System()))
+      {
+        mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(), (int)FastMenuType::CrtResolution,
+                                            { { is31Khz ? _("240p@120") : _("240p") }, { is31Khz ? _("480p@60") : _("480i") } }, mResolutionLastChoice));
+        return;
+      }
+
+  if ((mCheckFlags & LaunchCheckFlags::CrtResolution) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::CrtResolution; CheckSoftPatching(emulator))
+      return;
 
   // SuperGameBoy choice
-  if(mGameLinkedData.SuperGameBoy().ShouldAskForSuperGameBoy(game->System()))
-  {
-    static int lastGBChoice = 0;
-    mWindow.pushGui(new GuiCheckMenu(mWindow,
-                                     _("GameBoy Mode"),
-                                     game->Name(),
-                                     lastGBChoice,
-                                     "GameBoy",
-                                     "Start the game standard Game Boy mode",
-                                     [this, game, &cameraTarget] { mGameLinkedData.ConfigurableSuperGameBoy().Enable(false); LaunchCheck(game, cameraTarget, true); lastGBChoice = 0; },
-                                     "SuperGameBoy",
-                                     "Start the game in Super Game Boy mode",
-                                     [this, game, &cameraTarget] { mGameLinkedData.ConfigurableSuperGameBoy().Enable(true); LaunchCheck(game, cameraTarget, true); lastGBChoice = 1; }
-    ));
-    return;
-  }
-
-
-  if (mSystemManager.Emulators().GetGameEmulator(*game).IsLibretro() && RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun()
-  && !GameFilesUtils::GetGameSaveStateFiles(*game).empty() && !mGameLinkedData.ConfigurableSaveState().IsConfigured() )
-  {
-    mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *game,
-                                      [this, game, &cameraTarget](const std::string & slotNumber) {
-      mGameLinkedData.ConfigurableSaveState().SetSlotNumber(slotNumber);
-      LaunchCheck(game, cameraTarget, true);
+  if ((mCheckFlags & LaunchCheckFlags::SuperGameboy) == 0)
+    if(mCheckFlags |= LaunchCheckFlags::SuperGameboy; mGameLinkedData.SuperGameBoy().ShouldAskForSuperGameBoy(mGameToLaunch->System()))
+    {
+      mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("GameBoy Mode"), mGameToLaunch->Name(), (int)FastMenuType::SuperGameboy,
+                                          { { "GameBoy", _("Start the game standard Game Boy mode") }, { "SuperGameBoy", _("Start the game in Super Game Boy mode") } }, mSuperGameboyLastChoice));
+      return;
     }
-    , false));
-    return;
-  }
 
-  LaunchAnimated(game, emulator, cameraTarget);
+  // Save state slot
+  if ((mCheckFlags & LaunchCheckFlags::SaveState) == 0)
+    if (mCheckFlags |= LaunchCheckFlags::SaveState; mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch).IsLibretro() && RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun())
+      if (!GameFilesUtils::GetGameSaveStateFiles(*mGameToLaunch).empty())
+      {
+        mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *mGameToLaunch, this, false));
+        return;
+      }
+
+  LaunchAnimated(emulator);
 }
 
-void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator)
+void ViewController::LaunchActually(const EmulatorData& emulator)
 {
   DateTime start;
-  GameRunner::Instance().RunGame(*game, emulator, mGameLinkedData);
+  GameRunner::Instance().RunGame(*mGameToLaunch, emulator, mGameLinkedData);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
@@ -590,24 +546,15 @@ void ViewController::LaunchActually(FileData* game, const EmulatorData& emulator
     // Build text
     std::string text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
     // Show the dialog box
-    Gui* gui = new GuiMsgBox(mWindow,
-                             text,
-                             _("OK"),
-                             TextAlignment::Left);
+    Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
     return;
   }
 }
 
-void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator, const Vector3f& cameraTarget)
+void ViewController::LaunchAnimated(const EmulatorData& emulator)
 {
-  Vector3f center = cameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : cameraTarget;
-
-	if(!game->IsGame())
-	{
-    { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
-		return;
-	}
+  Vector3f center = mLaunchCameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : mLaunchCameraTarget;
 
 	Transform4x4f origCamera = mCamera;
 	origCamera.translation() = -mCurrentView->getPosition();
@@ -619,28 +566,19 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
   std::string transitionTheme = ThemeData::getCurrent().getTransition();
   if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
-	auto launchFactory = [this, game, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
+	auto launchFactory = [this, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
 	{
-		return [this, game, origCamera, backAnimation, emulator]
+		return [this, origCamera, backAnimation, emulator]
 		{
-		  LaunchActually(game, emulator);
+		  LaunchActually(emulator);
 
       mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
-			this->onFileChanged(game, FileChangeType::Run);
+      if (mCurrentMode == ViewType::GameList)
+        ((ISimpleGameListView*)mCurrentView)->DoUpdateGameInformation(true);
 
 			// Re-sort last played system if it exists
-      SystemData* lastPlayedSystem = mSystemManager.LastPlayedSystem();
-      if (lastPlayedSystem != nullptr)
-      {
-        auto it = mGameListViews.find(lastPlayedSystem);
-        if (it != mGameListViews.end())
-        {
-          ISimpleGameListView* lastPlayedGameListView = it->second.get();
-          if (lastPlayedGameListView != nullptr)
-            lastPlayedGameListView->onChanged(ISimpleGameListView::Change::Resort);
-        }
-      }
+      mSystemManager.UpdateSystemsOnGameChange(mGameToLaunch, MetadataType::LastPlayed, false);
 		};
 	};
 
@@ -666,7 +604,7 @@ void ViewController::LaunchAnimated(FileData* game, const EmulatorData& emulator
 	}
 }
 
-std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData* system)
+ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 {
 	//if we already made one, return that one
 	auto exists = mGameListViews.find(system);
@@ -674,20 +612,17 @@ std::shared_ptr<ISimpleGameListView> ViewController::getGameListView(SystemData*
 		return exists->second;
 
 	//if we didn't, make it, remember it, and return it
-	std::shared_ptr<ISimpleGameListView> view;
-
-  if (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced())
-    view = std::shared_ptr<ISimpleGameListView>(new ArcadeGameListView(mWindow, mSystemManager, *system));
-  else
-    view = std::shared_ptr<ISimpleGameListView>(new DetailedGameListView(mWindow, mSystemManager, *system));
+	ISimpleGameListView* view =
+    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !system->ArcadeDatabases().IsEmpty()) ?
+    new ArcadeGameListView(mWindow, mSystemManager, *system) :
+    new DetailedGameListView(mWindow, mSystemManager, *system);
   view->Initialize();
 	view->setTheme(system->Theme());
 
-	const std::vector<SystemData*>& sysVec = mSystemManager.GetVisibleSystemList();
-	int id = (int)(std::find(sysVec.begin(), sysVec.end(), system) - sysVec.begin());
+  int id = mSystemManager.VisibleSystemList().IndexOf(system);
 	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);
 
-	addChild(view.get());
+	addChild(view);
 
 	mGameListViews[system] = view;
 	mInvalidGameList[system] = false;
@@ -705,15 +640,7 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 
-  // Normal processing
-  if(mState.gameClipRunning)
-    mGameClipView->ProcessInput(event);
-  else if (mCrtView != nullptr)
-    mCrtView->ProcessInput(event);
-  else
-    mCurrentView->ProcessInput(event);
-
-	return false;
+  return mCurrentView->ProcessInput(event);
 }
 
 void ViewController::Update(int deltaTime)
@@ -724,84 +651,87 @@ void ViewController::Update(int deltaTime)
 
 void ViewController::Render(const Transform4x4f& parentTrans)
 {
-  if (mState.gameClipRunning)
+  switch(mCurrentMode)
   {
-    mGameClipView->Render(parentTrans);
-    return;
+    case ViewType::GameClip:
+    case ViewType::CrtCalibration: mCurrentView->Render(parentTrans); break;
+      // All the following view have been drawn before as they are part of the "global" visible area
+    case ViewType::SystemList:
+    case ViewType::GameList:
+    case ViewType::SplashScreen:
+    case ViewType::None:
+    default:
+    {
+      Transform4x4f trans = mCamera * parentTrans;
+      Transform4x4f transInverse(Transform4x4f::Identity());
+      transInverse.invert(trans);
+
+      // camera position, position + size
+      Vector3f viewStart = transInverse.translation();
+      Vector3f viewEnd = transInverse * Vector3f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0);
+
+      int vpl = (int)viewStart.x();
+      int vpu = (int)viewStart.y();
+      int vpr = (int)viewEnd.x() - 1;
+      int vpb = (int)viewEnd.y() - 1;
+
+      // Draw splash
+      for(;;)
+      {
+        // clipping - only y
+        const Vector3f& position = mSplashView.getPosition();
+        const Vector2f& size = mSplashView.getSize();
+
+        int gu = (int)position.y();
+        int gb = (int)position.y() + (int)size.y() - 1;
+
+        if (gb < vpu) break;
+        if (gu > vpb) break;
+
+        mSplashView.Render(trans);
+        break;
+      }
+
+      // Draw systemview
+      for(;;)
+      {
+        // clipping - only y
+        const Vector3f& position = mSystemListView.getPosition();
+        const Vector2f& size = mSystemListView.getSize();
+
+        int gu = (int)position.y();
+        int gb = (int)position.y() + (int)size.y() - 1;
+
+        if (gb < vpu) break;
+        if (gu > vpb) break;
+
+        mSystemListView.Render(trans);
+        break;
+      }
+
+      // Draw gamelists
+      for (auto& mGameListView : mGameListViews)
+      {
+        // clipping
+        const Vector3f& position = mGameListView.second->getPosition();
+        const Vector2f& size = mGameListView.second->getSize();
+
+        int gl = (int)position.x();
+        int gu = (int)position.y();
+        int gr = (int)position.x() + (int)size.x() - 1;
+        int gb = (int)position.y() + (int)size.y() - 1;
+
+        if (gr < vpl) continue;
+        if (gl > vpr) continue;
+        if (gb < vpu) continue;
+        if (gu > vpb) continue;
+
+        mGameListView.second->Render(trans);
+      }
+
+      break;
+    }
   }
-
-  if (mCrtView != nullptr)
-  {
-    mCrtView->Render(parentTrans);
-    return;
-  }
-
-  Transform4x4f trans = mCamera * parentTrans;
-  Transform4x4f transInverse(Transform4x4f::Identity());
-  transInverse.invert(trans);
-
-	// camera position, position + size
-	Vector3f viewStart = transInverse.translation();
-	Vector3f viewEnd = transInverse * Vector3f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0);
-
-	int vpl = (int)viewStart.x();
-  int vpu = (int)viewStart.y();
-  int vpr = (int)viewEnd.x() - 1;
-  int vpb = (int)viewEnd.y() - 1;
-
-  // Draw splash
-  for(;;)
-  {
-    // clipping - only y
-    const Vector3f& position = mSplashView.getPosition();
-    const Vector2f& size = mSplashView.getSize();
-
-    int gu = (int)position.y();
-    int gb = (int)position.y() + (int)size.y() - 1;
-
-    if (gb < vpu) break;
-    if (gu > vpb) break;
-
-    mSplashView.Render(trans);
-    break;
-  }
-
-	// Draw systemview
-  for(;;)
-  {
-    // clipping - only y
-    const Vector3f& position = mSystemListView.getPosition();
-    const Vector2f& size = mSystemListView.getSize();
-
-    int gu = (int)position.y();
-    int gb = (int)position.y() + (int)size.y() - 1;
-
-    if (gb < vpu) break;
-    if (gu > vpb) break;
-
-    mSystemListView.Render(trans);
-    break;
-  }
-
-	// Draw gamelists
-	for (auto& mGameListView : mGameListViews)
-	{
-    // clipping
-    const Vector3f& position = mGameListView.second->getPosition();
-    const Vector2f& size = mGameListView.second->getSize();
-
-    int gl = (int)position.x();
-    int gu = (int)position.y();
-    int gr = (int)position.x() + (int)size.x() - 1;
-    int gb = (int)position.y() + (int)size.y() - 1;
-
-    if (gr < vpl) continue;
-    if (gl > vpr) continue;
-    if (gb < vpu) continue;
-    if (gu > vpb) continue;
-
-    mGameListView.second->Render(trans);
-	}
 
 	if(mWindow.peekGui() == nullptr) // TODO:: dafuk?!
 		mWindow.renderHelpPromptsEarly();
@@ -814,71 +744,148 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-bool ViewController::reloadGameListView(ISimpleGameListView* view, bool reloadTheme)
+bool ViewController::GetOrReCreateGamelistView(SystemData* system, bool reloadTheme)
 {
-	if (view->System().HasVisibleGame())
-	{
-		for (auto it = mGameListViews.begin(); it != mGameListViews.end(); it++)
-		{
-			if (it->second.get() == view)
-			{
-				bool isCurrent = (mCurrentView == it->second.get());
-				SystemData *system = it->first;
-				bool hasGame = system->HasGame();
-				FileData *cursor = hasGame ? view->getCursor() : nullptr;
-				mGameListViews.erase(it);
+  for (auto& it : mGameListViews)
+    if (it.first == system)
+    {
+      ISimpleGameListView* view = it.second;
+      bool isCurrent = (mCurrentView == view);
+      FileData *cursor = view->Count() != 0 ? view->getCursor() : nullptr;
+      mGameListViews.erase(system);
 
-				if (reloadTheme)
-					system->loadTheme();
+      if (reloadTheme) system->loadTheme();
 
-				std::shared_ptr<ISimpleGameListView> newView = getGameListView(system);
-				if (hasGame)
-					newView->setCursor(cursor);
-				if (isCurrent)
-					mCurrentView = newView.get();
-				break;
-			}
-		}
-		return true;
-	}
-	else
-	{
-    MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, false);
-    return false;
-  }
+      if (system->HasVisibleGame())
+      {
+        ISimpleGameListView* newView = GetOrCreateGamelistView(system);
+        newView->setCursor(cursor);
+        if (isCurrent) mCurrentView = newView;
+        mGameListViews[system] = newView;
+        return true;
+      }
+    }
+  return false;
 }
 
-void ViewController::setInvalidGamesList(const SystemData* system)
+void ViewController::InvalidateGamelist(const SystemData* system)
 {
 	for (auto& mGameListView : mGameListViews)
-	{
 		if (system == (mGameListView.first))
 		{
 			mInvalidGameList[mGameListView.first] = true;
 			break;
 		}
-	}
 }
 
-void ViewController::setAllInvalidGamesList(const SystemData* systemExclude)
+void ViewController::InvalidateAllGamelistsExcept(const SystemData* systemExclude)
 {
 	for (auto& mGameListView : mGameListViews)
-	{
 		if (systemExclude != (mGameListView.first))
-		{
 			mInvalidGameList[mGameListView.first] = true;
-		}
-	}
 }
 
 bool ViewController::getHelpPrompts(Help& help)
 {
-  if (mCrtView != nullptr) return mCrtView->getHelpPrompts(help);
-	return mCurrentView->getHelpPrompts(help);
+	return mCurrentView != nullptr && mCurrentView->getHelpPrompts(help);
 }
 
 void ViewController::ApplyHelpStyle()
 {
-	return mCurrentView->ApplyHelpStyle();
+	if (mCurrentView != nullptr)
+    mCurrentView->ApplyHelpStyle();
 }
 
+void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData* targetSystem)
+{
+  // Save previous mode & deinit
+  mPreviousMode = mCurrentMode;
+  mCurrentView->onHide();
+  switch(mCurrentMode)
+  {
+    case ViewType::None:
+    case ViewType::SplashScreen:
+    case ViewType::SystemList:
+    case ViewType::GameList:
+    case ViewType::GameClip: break;
+    case ViewType::CrtCalibration:
+    {
+      WakeUp();
+      if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+        AudioManager::Instance().StartPlaying(mCurrentSystem->Theme());
+      break;
+    }
+  }
+
+  // Process new mode
+  mCurrentMode = newViewMode;
+  switch(mCurrentMode)
+  {
+    case ViewType::None: return; // lol
+    case ViewType::SplashScreen: { mCurrentView = &mSplashView; break; }
+    case ViewType::SystemList:
+    {
+      mCurrentView = &mSystemListView;
+      mSystemListView.goToSystem(targetSystem, false);
+      mCurrentSystem = targetSystem;
+      break;
+    }
+    case ViewType::GameList:
+    {
+      mCurrentView = GetOrCreateGamelistView(targetSystem);
+      mCurrentSystem = targetSystem;
+      break;
+    }
+    case ViewType::GameClip:
+    {
+      if (AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+        AudioManager::Instance().StopAll();
+      mCurrentView = &mGameClipView;
+      break;
+    }
+    case ViewType::CrtCalibration: { mCurrentView = &mCrtView; break; }
+  }
+  mCurrentView->onShow();
+  updateHelpPrompts();
+}
+
+void ViewController::BackToPreviousView()
+{
+  if (mPreviousMode == ViewType::None) return; // Previous mode not initialized
+  ChangeView(mPreviousMode, mCurrentSystem);
+  mPreviousMode = ViewType::None; // Reset previous mode so that you cannot go back until next forward move
+}
+
+void ViewController::ShowSystem(SystemData* system)
+{
+  GetOrCreateGamelistView(system);
+  mSystemListView.addSystem(system);
+}
+
+void ViewController::HideSystem(SystemData* system)
+{
+  GetOrReCreateGamelistView(system);
+  mSystemListView.removeSystem(system);
+}
+
+void ViewController::UpdateSystem(SystemData* system)
+{
+  InvalidateGamelist(system);
+}
+
+void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool forcedStatus)
+{
+  // Toggle favorite
+  game->Metadata().SetFavorite(forceStatus ? forcedStatus : !game->Metadata().Favorite());
+
+  // Fire dynamic system refresh
+  mSystemManager.UpdateSystemsOnGameChange(game, MetadataType::Favorite, false);
+
+  // Refresh game in its regular view
+  ISimpleGameListView** view = mGameListViews.try_get(&game->System());
+  if (view != nullptr) (*view)->RefreshItem(game);
+
+  // Info popup
+  String message = _(game->Metadata().Favorite() ? "Added to favorites" : "Removed from favorites");
+  mWindow.InfoPopupAddRegular(message.Append(":\n").Append(game->Name()), RecalboxConf::Instance().GetPopupHelp(), PopupType::None, false);
+}

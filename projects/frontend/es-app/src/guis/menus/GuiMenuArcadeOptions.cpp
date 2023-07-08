@@ -23,7 +23,7 @@ GuiMenuArcadeOptions::GuiMenuArcadeOptions(WindowManager& window)
 GuiMenuArcadeOptions::~GuiMenuArcadeOptions()
 {
   // Force refreshing all gamelists
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
 }
 
 void GuiMenuArcadeOptions::SwitchComponentChanged(int id, bool status)

@@ -9,7 +9,7 @@
 #include <themes/MenuThemeData.h>
 #include <components/TextComponent.h>
 
-GuiInfoPopup::GuiInfoPopup(WindowManager& window, const std::string& message, int duration, GuiInfoPopupBase::PopupType icon)
+GuiInfoPopup::GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon)
   : GuiInfoPopupBase(window, false, duration, icon, 2, 1, 1.f)
   , mMessage(message)
   , mIcon(icon)

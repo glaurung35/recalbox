@@ -10,7 +10,7 @@
 
 class GuiMenuScreensavers : public GuiMenuBase
                           , private ISliderComponent
-                          , private IOptionListComponent<String>
+                          , private IOptionListComponent<RecalboxConf::Screensaver>
                           , private IOptionListMultiComponent<String>
 {
   public:
@@ -31,15 +31,8 @@ class GuiMenuScreensavers : public GuiMenuBase
     //! System Manager reference
     SystemManager& mSystemManager;
 
-    //! Time before screensaver starts
-    std::shared_ptr<SliderComponent> mTime;
-    //! Screensaver type
-    std::shared_ptr<OptionListComponent<String>> mType;
-    //! System list for demo mode
-    std::shared_ptr<OptionListComponent<String>> mSystemList;
-
     //! Get Screensaver type List
-    static std::vector<ListEntry<String>> GetTypeEntries();
+    static std::vector<ListEntry<RecalboxConf::Screensaver>> GetTypeEntries();
 
     //! Get System List
     std::vector<ListEntry<String>> GetSystemEntries();
@@ -54,7 +47,7 @@ class GuiMenuScreensavers : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::Screensaver& value) override;
 
     /*
      * IOptionListMultiComponent<String> implementation

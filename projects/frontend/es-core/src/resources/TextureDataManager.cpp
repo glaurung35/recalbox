@@ -163,7 +163,7 @@ void TextureLoader::threadProc()
 			}
 		}
 		// Queue has been released here but we might have a texture to process
-		while (textureData)
+		while (textureData && !mExit)
 		{
 			textureData->load();
 

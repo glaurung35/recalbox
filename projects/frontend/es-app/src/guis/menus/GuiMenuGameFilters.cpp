@@ -69,10 +69,10 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)
 
 void GuiMenuGameFilters::ManageSystems()
 {
-  SystemData* systemData = ViewController::Instance().getState().getSystem();
-  ViewController::Instance().getGameListView(systemData)->refreshList();
+  SystemData* systemData = ViewController::Instance().CurrentSystem();
+  ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
 
-  ViewController::Instance().setAllInvalidGamesList(nullptr);
+  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
   ViewController::Instance().getSystemListView().manageSystemsList();
 
   // for updating game counts on system view

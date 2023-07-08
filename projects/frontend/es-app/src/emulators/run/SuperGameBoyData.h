@@ -14,7 +14,6 @@ class SuperGameBoyData
   public:
     SuperGameBoyData()
       : mEnableSuperGameBoy(RecalboxConf::Instance().GetSuperGameBoy() == "sgb")
-      , mConfigured(false)
     {};
 
     [[nodiscard]] bool ShouldEnable(const SystemData& system) const { return system.IsGameBoy() && mEnableSuperGameBoy; }
@@ -31,16 +30,14 @@ class SuperGameBoyData
     void Enable(bool enabled)
     {
       mEnableSuperGameBoy = enabled;
-      mConfigured = true;
     }
 
     [[nodiscard]] bool ShouldAskForSuperGameBoy(const SystemData& system) const
     {
       return system.IsGameBoy() &&
-             (!mEnableSuperGameBoy && !mConfigured && RecalboxConf::Instance().GetSuperGameBoy() == "ask");
+             (!mEnableSuperGameBoy && RecalboxConf::Instance().GetSuperGameBoy() == "ask");
     }
 
   private:
     bool mEnableSuperGameBoy;
-    bool mConfigured;
 };

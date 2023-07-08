@@ -69,6 +69,10 @@ class ScreenScraperEngineBase
     //! Free engine signal
     Signal mEngineSignal;
 
+    //! Global updated metadata bitflag
+    MetadataType mUpdatedMetadata;
+
+    //! ?
     ProtectedSet mMd5Set;
 
     //! Main thread synchronizer
@@ -123,7 +127,7 @@ class ScreenScraperEngineBase
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    bool RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
+    bool RunOn(ScrapingMethod method, const SystemManager::List& systemList, INotifyScrapeResult* notifyTarget,
                long long diskMinimumFree) override;
 
     /*!
@@ -173,7 +177,7 @@ class ScreenScraperEngineBase
 
 
     //! Get Scraper message
-    std::string ScraperDatabaseMessage() override { return mDatabaseMessage; };
+    String ScraperDatabaseMessage() override { return mDatabaseMessage; };
 
     /*!
      * @brief Abort the current engine
@@ -231,6 +235,11 @@ class ScreenScraperEngineBase
      * @param event SDL event with .user populated by the sender
      */
     void ReceiveSyncMessage(const ScrapeEngineMessage& event) final;
+
+    /*!
+     * @brief Stop notifications (Nullify INotifyScrapeResult)
+     */
+    void StopNotifications() override { mNotifier = nullptr; }
 
   public:
     /*!

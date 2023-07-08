@@ -4,7 +4,6 @@
 
 static Path recalboxConfFile("/recalbox/share/system/recalbox.conf");
 static Path recalboxConfFileInit("/recalbox/share_init/system/recalbox.conf");
-constexpr const int RecalboxConf::sNetplayDefaultPort;
 
 RecalboxConf::RecalboxConf()
   : IniFile(recalboxConfFile, recalboxConfFileInit, false),
@@ -27,6 +26,52 @@ std::string RecalboxConf::GetCountry()
 {
   std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
   return (locale.length() == 5) ? locale.substr(3, 2) : "us";
+}
+
+RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const std::string& softpatching)
+{
+  if (softpatching == "auto") return SoftPatching::Auto;
+  if (softpatching == "select") return SoftPatching::Select;
+
+  return SoftPatching::Disable;
+}
+
+const std::string& RecalboxConf::SoftPatchingFromEnum(SoftPatching softpatching)
+{
+  switch(softpatching)
+  {
+    case SoftPatching::Auto: { static std::string s("auto"); return s; }
+    case SoftPatching::Select: { static std::string s("select"); return s; }
+    case SoftPatching::Disable:
+    default: break;
+  }
+  static std::string s("disable");
+  return s;
+}
+
+RecalboxConf::Screensaver RecalboxConf::ScreensaverFromString(const std::string& screensaver)
+{
+  if (screensaver == "dim") return Screensaver::Dim;
+  if (screensaver == "demo") return Screensaver::Demo;
+  if (screensaver == "gameclip") return Screensaver::Gameclip;
+  if (screensaver == "suspend") return Screensaver::Suspend;
+
+  return Screensaver::Black;
+}
+
+const std::string& RecalboxConf::ScreensaverFromEnum(RecalboxConf::Screensaver screensaver)
+{
+  switch(screensaver)
+  {
+    case Screensaver::Dim: { static std::string s("dim"); return s; }
+    case Screensaver::Demo: { static std::string s("demo"); return s; }
+    case Screensaver::Gameclip: { static std::string s("gameclip"); return s; }
+    case Screensaver::Suspend: { static std::string s("suspend"); return s; }
+    case Screensaver::Black:
+    default: break;
+  }
+  static std::string s("black");
+  return s;
 }
 
 RecalboxConf::Menu RecalboxConf::MenuFromString(const std::string& menu)
@@ -143,3 +188,4 @@ DefineEmulationStationSystemGetterSetterNumericEnumImplementation(Sort, FileSort
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(RegionFilter, Regions::GameRegions, sSystemRegionFilter, Regions::GameRegions::Unknown)
 
 DefineEmulationStationSystemListGetterSetterImplementation(ArcadeSystemHiddenDrivers, sArcadeSystemHiddenDrivers, "")
+

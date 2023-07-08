@@ -26,7 +26,7 @@ class TheGameDBEngine : public IScraperEngine
      * @param notifyTarget Interface for reporting scraping progression
      * @return True if everything has been successful. False if cancelled, quota reached or fatal error occurred
      */
-    bool RunOn(ScrapingMethod method, const SystemManager::SystemList& systemList, INotifyScrapeResult* notifyTarget,
+    bool RunOn(ScrapingMethod method, const SystemManager::List& systemList, INotifyScrapeResult* notifyTarget,
                long long diskMinimumFree) override;
 
     /*!
@@ -40,37 +40,37 @@ class TheGameDBEngine : public IScraperEngine
                INotifyScrapeResult* notifyTarget, long long diskMinimumFree) override;
 
     //! Get total to scrape (pendings + processed)
-    int ScrapesTotal() const override { return 0; }
+    [[nodiscard]] int ScrapesTotal() const override { return 0; }
 
     //! Get processed items
-    int ScrapesProcessed() const override { return 0; }
+    [[nodiscard]] int ScrapesProcessed() const override { return 0; }
 
     //! Get pending items (still not scraped)
-    int ScrapesStillPending() const override { return 0; }
+    [[nodiscard]] int ScrapesStillPending() const override { return 0; }
 
     //! Get successfully scraped games
-    int ScrapesSuccessful() const override { return 0; }
+    [[nodiscard]] int ScrapesSuccessful() const override { return 0; }
 
     //! Get unsuccessfully scraped games
-    int ScrapesNotFound() const override { return 0; }
+    [[nodiscard]] int ScrapesNotFound() const override { return 0; }
 
     //! Get failes scrapes
-    int ScrapesErrors() const override { return 0; }
+    [[nodiscard]] int ScrapesErrors() const override { return 0; }
 
     //! Stats Text infos
-    int StatsTextInfo() const override { return 0; }
+    [[nodiscard]] int StatsTextInfo() const override { return 0; }
 
     //! Stats images downloaded
-    int StatsImages() const override { return 0; }
+    [[nodiscard]] int StatsImages() const override { return 0; }
 
     //! Stats videos downloaded
-    int StatsVideos() const override { return 0; }
+    [[nodiscard]] int StatsVideos() const override { return 0; }
 
     //! Stats videos downloaded
-    long long StatsMediaSize() const override { return 0; }
+    [[nodiscard]] long long StatsMediaSize() const override { return 0; }
 
     //! Get Scraper message
-    std::string ScraperDatabaseMessage() override { return std::string(); };
+    String ScraperDatabaseMessage() override { return String(); };
 
     /*!
      * @brief Abort the current engine
@@ -83,7 +83,12 @@ class TheGameDBEngine : public IScraperEngine
      * @brief Check if the engine is running, allowing UI to know when the engine actually stops after an abort request
      * @return True if the engine is running
      */
-    bool IsRunning() const override;
+    [[nodiscard]] bool IsRunning() const override;
+
+    /*!
+     * @brief Stop notifications (Nullify INotifyScrapeResult)
+     */
+    void StopNotifications() override {}
 
   public:
     explicit TheGameDBEngine(IScraperEngineFreezer* freezer) { (void)freezer; };

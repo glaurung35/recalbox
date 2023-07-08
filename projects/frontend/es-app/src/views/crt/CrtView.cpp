@@ -6,15 +6,15 @@
 #include <utils/locale/LocaleHelper.h>
 #include "CrtView.h"
 #include "views/ViewController.h"
-#include "utils/Files.h"
+//#include "utils/Files.h"
 #include "sdl2/Sdl2Init.h"
-#include "themes/MenuThemeData.h"
+//#include "themes/MenuThemeData.h"
 #include "recalbox/RecalboxSystem.h"
-#include "guis/GuiMsgBox.h"
+//#include "guis/GuiMsgBox.h"
 
-#define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
+//#define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
-CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
+CrtView::CrtView(WindowManager& window)
   : Gui(window)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
@@ -26,6 +26,10 @@ CrtView::CrtView(WindowManager& window, CalibrationType calibrationType)
   , mOriginalViewportWidth(0)
   , mOriginalWidth(Renderer::Instance().RealDisplayWidthAsInt())
   , mOriginalHeight(Renderer::Instance().RealDisplayHeightAsInt())
+{
+}
+
+void CrtView::Initialize(CalibrationType calibrationType)
 {
   switch(calibrationType){
     case kHz31:
@@ -70,11 +74,6 @@ void CrtView::Initialize()
   mGrid.setEntry(mHorizontalOffsetText, { 0, 0 }, false);
   mGrid.setEntry(mVerticalOffsetText, { 0, 1 }, false);
   mGrid.setEntry(mViewportText, { 0, 2 }, false);
-}
-
-CrtView::~CrtView()
-{
-  SetResolution(CrtResolution::rNone);
 }
 
 void CrtView::Render(const Transform4x4f& parentTrans)
@@ -190,7 +189,8 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
 
 void CrtView::ReceiveSyncMessage()
 {
-  ViewController::Instance().quitCrtView();
+  SetResolution(CrtResolution::rNone);
+  ViewController::Instance().BackToPreviousView();
 }
 
 void CrtView::UpdateViewport()

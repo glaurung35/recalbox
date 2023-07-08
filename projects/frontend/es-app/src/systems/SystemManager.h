@@ -1,28 +1,27 @@
 #pragma once
 
+#include <utils/cplusplus/INoCopy.h>
 #include <systems/SystemData.h>
-#include <systems/SystemDescriptor.h>
 #include <emulators/EmulatorManager.h>
 #include "hardware/devices/mount/MountMonitor.h"
 #include <utils/os/system/IThreadPoolWorkerInterface.h>
-#include <RootFolders.h>
-#include <utils/cplusplus/INoCopy.h>
 #include <views/IProgressInterface.h>
-#include <utils/os/fs/watching/FileNotifier.h>
-#include <utils/os/system/Mutex.h>
 #include "IRomFolderChangeNotification.h"
 #include "SystemHasher.h"
-#include <utils/storage/Set.h>
+#include "VirtualSystemDescriptor.h"
+#include "VirtualSystemResult.h"
+#include "ISystemLoadingPhase.h"
+#include "ISystemChangeNotifier.h"
 
-class SystemManager :
-  private INoCopy, // No copy allowed
-  public IThreadPoolWorkerInterface<SystemDescriptor, SystemData*>, // Multi-threaded system loading
-  public IThreadPoolWorkerInterface<SystemData*, bool>, // Multi-threaded system unloading
-  public IMountMonitorNotifications
+class SystemManager : private INoCopy // No copy allowed
+                    , public IThreadPoolWorkerInterface<SystemDescriptor, SystemData*> // Multi-threaded system loading
+                    , public IThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
+                    , public IThreadPoolWorkerInterface<VirtualSystemDescriptor, VirtualSystemResult> // Multi-threaded system unloading
+                    , public IMountMonitorNotifications
 {
   public:
     //! Convenient alias for System list
-    typedef std::vector<SystemData*> SystemList;
+    typedef Array<SystemData*> List;
 
     //! Favorite system internal name
     static constexpr const char* sFavoriteSystemShortName = "favorites";
@@ -34,14 +33,27 @@ class SystemManager :
     static constexpr const char* sAllGamesSystemShortName = "allgames";
     //! Tate games system internal name
     static constexpr const char* sTateSystemShortName = "tate";
-    //! Multiplayer system internal name
+    //! Ports system internal name
+    static constexpr const char* sPortsSystemShortName = "ports";
+    //! Ports system internal name
+    static constexpr const char* sLightgunSystemShortName = "lightgun";
+    //! Ports system internal name
+    static constexpr const char* sArcadeSystemShortName = "arcade";
+
+    //! Multiplayer system user-friendly name
     static constexpr const char* sMultiplayerSystemFullName = "Multi Players";
-    //! Last Played system internal name
+    //! Last Played system user-friendly name
     static constexpr const char* sLastPlayedSystemFullName = "Last Played";
-    //! All games system internal name
+    //! All games system user-friendly name
     static constexpr const char* sAllGamesSystemFullName = "All Games";
-    //! Tate games system internal name
+    //! Tate games system user-friendly name
     static constexpr const char* sTateSystemFullName = "Tate";
+    //! Ports system user-friendly name
+    static constexpr const char* sPortsSystemFullName = "Ports";
+    //! Ports system user-friendly name
+    static constexpr const char* sLightgunSystemFullName = "LightGun Games";
+    //! Ports system internal name
+    static constexpr const char* sArcadeSystemFullName = "Arcade";
 
   private:
     //! Rom source folder to read/write (false) / read-only (true) state
@@ -88,20 +100,11 @@ class SystemManager :
     SystemHasher mHasher;
 
     //! Visible system, including virtual system (Arcade)
-    std::vector<SystemData*> mVisibleSystemVector;
-    //! Original of Visible system (copy)
-    std::vector<SystemData*> mOriginalVisibleSystemVector;
-    //! Hidden system, just here to hold their own children
-    std::vector<SystemData*> mHiddenSystemVector;
+    List mVisibleSystems;
     //! ALL systems, visible and hidden
-    std::vector<SystemData*> mAllSystemVector;
-
-    //! All declared system names
-    std::vector<std::string> mAllDeclaredSystemShortNames;
-    //! All declared system rom path
-    Path::PathList mAllDeclaredSystemRomPathes;
-    //! All declared system rom path
-    HashSet<std::string> mAllDeclaredSystemExtensionSet;
+    List mAllSystems;
+    //! Original of all system (copy)
+    List mOriginalOrderedSystems;
 
     //! Fast search cache
     std::vector<FolderData::FastSearchItemSerie> mFastSearchSeries;
@@ -110,8 +113,12 @@ class SystemManager :
 
     //! Progress interface called when loading/unloading
     IProgressInterface* mProgressInterface;
+    //! System loading phase interface
+    ISystemLoadingPhase* mLoadingPhaseInterface;
     //! Rom path change notifications interface
     IRomFolderChangeNotification& mRomFolderChangeNotificationInterface;
+    //! Interface for system changes
+    ISystemChangeNotifier* mSystemChangeNotifier;
 
     HashSet<std::string>& mWatcherIgnoredFiles;
 
@@ -124,7 +131,7 @@ class SystemManager :
      * @param extensionSet Extension list to check files against
      * @return True if a file with a matchng extension has been found, false otherwise
      */
-    static bool HasFileWithExt(const Path& path, HashSet<std::string>& extensionSet);
+    static bool HasFileWithExt(const Path& path, HashSet<String>& extensionSet);
 
     /*!
      * @brief Check if the root folder contains at least a valid rom path and return it
@@ -140,81 +147,6 @@ class SystemManager :
     void InitializeMountPoints();
 
     /*!
-     * @brief Create and add the favorite meta-system
-     * @param systemList All system from which to fetch favorite games
-     * @return True if the favorite system has been added
-     */
-    bool AddFavoriteSystem();
-
-    /*!
-     * @brief Add Arcade meta-system
-     * @return True if the arcade system has been added
-     */
-    bool AddArcadeMetaSystem();
-
-    /*!
-     * @brief Add ports meta-system
-     * @return True if the ports system has been added
-     */
-    bool AddPorts();
-
-    /*!
-     * @brief Add manually filtered meta system. Get item from Visible system vector and filter
-     * games using the provided filter
-     * @param filter Filter to apply
-     * @param comparer Comparer to sort items. If null, no sorting is applied
-     * @param identifier System identifier (short name)
-     * @param fullname System full name
-     * @return True if the system has been added
-     */
-    bool AddManuallyFilteredMetasystem(IFilter* filter, FileData::Comparer comparer, const std::string& identifier,
-                                       const std::string& fullname, SystemData::Properties properties,
-                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
-
-    /*!
-     * @brief Add All-games meta system (all games from all visible systems)
-     * @return Alays true
-     */
-    bool AddAllGamesMetaSystem();
-
-    /*!
-     * @brief Add all games with min or max players > 1 (from all visible systems)
-     * @return Always true
-     */
-    bool AddMultiplayerMetaSystems();
-
-    /*!
-     * @brief Add last-played games from all systems (from all visible systems)
-     * @return Always true
-     */
-    bool AddLastPlayedMetaSystem();
-
-    /*!
-     * @brief Try to add any déclared genre virtual system, including all game of the required genre
-     * @return Always true
-     */
-    bool AddGenresMetaSystem();
-
-    /*!
-     * @brief Try to add any déclared genre virtual system, including all game of the required genre
-     * @return Always true
-     */
-    bool AddArcadeManufacturerMetaSystems();
-
-    /*!
-     * @brief All all special collections
-     * @param True if the current board is a portable system
-     * @return Always true
-     */
-    bool AddSpecialCollectionsMetaSystems(bool portable);
-
-    /*!
-     * @brief All lightgun system
-     * @return Always true
-     */
-    bool AddLightGunMetaSystem();
-
-    /*!
      * @brief Get valid rom source for the given system descriptor
      * @param systemDescriptor System descriptor
      * @return Rom source folders and associated RW/RO states
@@ -224,90 +156,198 @@ class SystemManager :
     /*!
      * @brief Create regular system from a SystemDescriptor object
      * @param systemDescriptor SystemDescriptor object
-     * @param forceLoad Force reloading list from disk and not only from gamelist.xml
-     * @param ignoreGameCheck Ignore checking game count and force all processing & theme loading
      * @return New system
      */
-    SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor, bool forceLoad, bool ignoreGameCheck = false);
+    SystemData* CreateRegularSystem(const SystemDescriptor& systemDescriptor);
 
     /*!
-     * @brief Create Favorite system using favorites available in systems from a list
-     * @param name Target system short name
-     * @param fullName Target system full name
-     * @param themeFolder Theme folder name
-     * @param systems System list from which to fetch favorite games
-     * @return New favorite games
+     * @brief Create Favorite system
+     * @return New Favorite system
      */
-    SystemData* CreateFavoriteSystem(const std::string& name, const std::string& fullName,
-                                     const std::string& themeFolder, const std::vector<SystemData*>& systems);
+    SystemData* CreateFavoriteSystem();
 
     /*!
-     * @brief Create meta-system aggregating games from multiple systems
-     * @param name Target system short name
-     * @param fullName Target system fullname
-     * @param themeFolder Theme folder name
-     * @param systems System to fetch games to aggregate into a single list
-     * @param properties System properties
-     * @param doppelganger Map to FileData
-     * @param includeSubfolders True to include subfolders, false to restrict to top games only
-     * @param fixedSort Fixed sort
-     * @return New meta-system
+     * @brief Create Ports system
+     * @return New Ports system
      */
-    SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                 const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                 SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                 bool includeSubfolders = true,
-                                 FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData* CreatePortsSystem();
 
     /*!
-     * @brief Create meta-system aggregating games from multiple systems
-     * @param name Target system short name
-     * @param fullName Target system fullname
-     * @param themeFolder Theme folder name
-     * @param games Games to add
-     * @param properties System properties
-     * @param doppelganger Map to FileData
-     * @return New meta-system
+     * @brief Create Last played system
+     * @return New Last played system
      */
-    SystemData* CreateMetaSystem(const std::string& name, const std::string& fullName,
-                                 const std::string& themeFolder, const FileData::List& games,
-                                 SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                 FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData* CreateLastPlayedSystem();
 
     /*!
-     * @brief Create Arcade meta-system aggregating games from multiple systems
-     * @param name Target system short name
-     * @param fullName Target system fullname
-     * @param themeFolder Theme folder name
-     * @param systems System to fetch games to aggregate into a single list
-     * @param properties System properties
-     * @param doppelganger Map to FileData
-     * @return New meta-system
+     * @brief Create Multi-player system
+     * @return New Multi-player system
      */
-    SystemData* CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
-                                       const std::string& themeFolder, const std::vector<SystemData*>& systems,
-                                       SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
-    /*!
-     * @brief Create Arcade meta-system aggregating games from multiple systems
-     * @param name Target system short name
-     * @param fullName Target system fullname
-     * @param themeFolder Theme folder name
-     * @param games Games to add
-     * @param properties System properties
-     * @param doppelganger Map to FileData
-     * @return New meta-system
-     */
-    SystemData* CreateArcadeMetaSystem(const std::string& name, const std::string& fullName,
-                                       const std::string& themeFolder, const FileData::List& games,
-                                       SystemData::Properties properties, FileData::StringMap& doppelganger,
-                                       FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData* CreateMultiPlayerSystem();
 
     /*!
-     * @brief Write exemple configuration file when no configuration file are available
-     * @param path Configuration file path
+     * @brief Create All-games system
+     * @return New All-games system
      */
-    static void GenerateExampleConfigurationFile(const Path& path);
+    SystemData* CreateAllGamesSystem();
+
+    /*!
+     * @brief Create Light-gun system
+     * @return New Light-gun system
+     */
+    SystemData* CreateLightgunSystem();
+
+    /*!
+     * @brief Create Tate system
+     * @return New Tate system
+     */
+    SystemData* CreateTateSystem();
+
+    /*!
+     * @brief Create Tate system
+     * @return New Tate system
+     */
+    SystemData* CreateArcadeSystem();
+
+    /*!
+     * @brief Create Genre system
+     * @return New Genre system
+     */
+    SystemData* CreateGenreSystem(GameGenres genre);
+
+    /*!
+     * @brief Create Arcade Manufacturers system
+     * @return New Arcade Manufacturers system
+     */
+    SystemData* CreateArcadeManufacturersSystem(const String& manufacturer);
+
+    /*!
+     * @brief Manager hiden/shown arcade system, regarding arcade virtual system configuration
+     */
+    void ManageArcadeVirtualSystem();
+
+    /*!
+     * @brief Manager hiden ports' sub-systems
+     */
+    void ManagePortsVirtualSystem();
+
+    /*!
+     * @brief Initialize system - Populate, then call either InitializeVirtualSystem or InitializeRegularSystem
+     * Calling this method multiple times has no effect
+     * @param system System to initialize
+     */
+    void InitializeSystem(SystemData* system);
+
+    /*!
+     * @brief Top level virtual system populate - load theme, then set initialized
+     * Calling this method multiple times has no effect
+     * @param system System to initialize
+     */
+    void PopulateVirtualSystem(SystemData* system);
+
+    /*!
+     * @brief Initialize system - load theme, call other modifier/initializers, then set initialized
+     * Calling this method multiple times has no effect
+     * @param system System to initialize
+     */
+    void PopulateRegularSystem(SystemData* system);
+
+    /*!
+     * @brief Populate favorite system
+     * @param systemFavorite Favorite system
+     */
+    void PopulateFavoriteSystem(SystemData* systemFavorite);
+
+    /*!
+     * @brief Populate ports system
+     * @param systemPorts Ports system
+     */
+    void PopulatePortsSystem(SystemData* systemPorts);
+
+    /*!
+     * @brief Populate last played system
+     * @param systemPorts last played system
+     */
+    void PopulateLastPlayedSystem(SystemData* systemLastPlayed);
+
+    /*!
+     * @brief Populate Multi-player system
+     * @param systemPorts Multi-player system
+     */
+    void PopulateMultiPlayerSystem(SystemData* systemMultiPlayer);
+
+    /*!
+     * @brief Populate All games system
+     * @param systemPorts All games system
+     */
+    void PopulateAllGamesSystem(SystemData* systemAllGames);
+
+    /*!
+     * @brief Populate Light-gun system
+     * @param systemPorts Light-gun system
+     */
+    void PopulateLightgunSystem(SystemData* systemLightGun);
+
+    /*!
+     * @brief Populate Tate system
+     * @param systemPorts Tate system
+     */
+    void PopulateTateSystem(SystemData* systemTate);
+
+    /*!
+     * @brief Populate Tate system
+     * @param systemPorts Tate system
+     */
+    void PopulateArcadeSystem(SystemData* systemArcade);
+
+    /*!
+     * @brief Populate Genre system
+     * @param systemPorts Genre system
+     */
+    void PopulateGenreSystem(SystemData* systemArcade);
+
+    /*!
+     * @brief Populate Arcade Manufacturers system
+     * @param systemPorts Arcade Manufacturers system
+     */
+    void PopulateArcadeManufacturersSystem(SystemData* systemArcade);
+
+    /*!
+     * @brief Generic method to pupulate a virtual system using contents from a list of regular systems
+     * @param target system to populate
+     * @param systems System list to populate the target system with
+     * @param doppelganger Pre-build doppelganger
+     * @param includesubfolder True to include subfolder, false to include only top level
+     */
+    static void PopulateVirtualSystemWithSystem(SystemData* system, const List & systems, FileData::StringMap& doppelganger, bool includesubfolder);
+
+    /*!
+     * @brief Generic method to pupulate a virtual system using contents from a list of games
+     * @param target system to populate
+     * @param games Game list to populate the target system with
+     * @param doppelganger Pre-build doppelganger
+     */
+    static void PopulateVirtualSystemWithGames(SystemData* system, const FileData::List& games, FileData::StringMap& doppelganger);
+
+    /*!
+     * @brief Populate meta system with a filtered game list (from all regular systems)
+     * @param system System to fill with filter results
+     * @param filter Filter interface
+     * @param comparer Optional comparer - if not null, filter results are sorted using this filter
+     * @param arcadeOnly if True, only true arcade systems are filtered
+     */
+    void PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileData::Comparer comparer);
+
+    /*!
+     * @brief Ensure the given system is in the visible list (== initialized with games)
+     * @param system System to make visible
+     */
+    void MakeSystemVisible(SystemData* system);
+
+    /*!
+     * @brief Make the given system invisible
+     * @param system System to invisibilise
+     */
+    void MakeSystemInvisible(SystemData* system);
 
     /*
      * ThreadPoolWorkingInterface implementation
@@ -327,14 +367,19 @@ class SystemManager :
      */
     bool ThreadPoolRunJob(SystemData*& feed) override;
 
-    void ThreadPoolTick(int completed, int total) override;
+    /*!
+     * @brief Create virtual systems
+     * @param feed Virtual system descriptor
+     * @return Always true
+     */
+    VirtualSystemResult ThreadPoolRunJob(VirtualSystemDescriptor& virtualDescriptor) override;
 
-	/*!
-	 * @brief Sort systems based on conf option
-	 * @param systems Systemlist to be sorted
-	 * @param originalSystems original Systemlist
-	 */
-    static void SystemSorting(std::vector<SystemData*>& systems, const std::vector<SystemData *>& originalSystems);
+    /*!
+     * @brief Thread pool tick to give the oportunity to display progression
+     * @param completed Completed pending jobs
+     * @param total Total jobs
+     */
+    void ThreadPoolTick(int completed, int total) override;
 
     /*
      * IMountMonitorNotifications implementation
@@ -366,6 +411,64 @@ class SystemManager :
     //! Remove all cache
     void DeleteFastSearchCache();
 
+    /*!
+     * @brief Called when a game has been deleted
+     * This method update internal systems and provide the caller with a liste of added or removed systems
+     * @param target Game whose metadata have been modified or game deleted. May be nullptr is more than one game changed
+     * @param removedSystems Output: Removed systems. May be empty
+     * @param modifiedSystems Output: Modified systems. May be empty
+     * @return True if there has been any change, false otherwise
+     */
+    bool UpdateSystemsOnGameDeletion(FileData* target, List& removedSystems, List& modifiedSystems);
+
+    /*!
+     * @brief Called when a game has been deleted
+     * This method update internal systems and provide the caller with a liste of added or removed systems
+     * @param changes Metadata changes
+     * @param addedSystems Output: Added systems. May be empty
+     * @param removedSystems Output: Removed systems. May be empty
+     * @param modifiedSystems Output: Modified systems. May be empty
+     * @return True if there has been any change, false otherwise
+     */
+    bool UpdateSystemsOnMultipleGameChanges(MetadataType changes, List& addedSystems, List& removedSystems, List& modifiedSystems);
+
+    /*!
+     * @brief Called when a game has been deleted
+     * This method update internal systems and provide the caller with a liste of added or removed systems
+     * @param target Game whose metadata have been modified or game deleted. May be nullptr is more than one game changed
+     * @param changes Metadata changes
+     * @param addedSystems Output: Added systems. May be empty
+     * @param removedSystems Output: Removed systems. May be empty
+     * @param modifiedSystems Output: Modified systems. May be empty
+     * @return True if there has been any change, false otherwise
+     */
+    bool UpdateSystemsOnSingleGameChanges(FileData* target, MetadataType changes, List& addedSystems, List& removedSystems, List& modifiedSystems);
+
+    /*!
+     * @brief Check if the given game should belong to the given virtual system, regarding its metadata
+     * @param game Game to check
+     * @param system Target virtual system
+     * @return True of the game has metadata that make it belonging to the target virtual system. False otherwise
+     */
+    static bool ShouldGameBelongToThisVirtualSystem(const FileData* game, const SystemData* system);
+
+    /*!
+     * @brief Notify system changes via the ISystemChangeNotifier interface
+     * @param addedSystems Added systems or nullptr
+     * @param removedSystems Removed system or nullptr
+     * @param modifiedSystems Modified system or nullptr
+     */
+    void NotifySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
+
+    /*
+     * Log facilities
+     */
+
+    static void LogSystemAdded(SystemData* system) { LOG(LogInfo) << "[SystemManager] System " << system->FullName() << " becomes visible."; }
+    static void LogSystemRemoved(SystemData* system) { LOG(LogInfo) << "[SystemManager] System " << system->FullName() << " becomes INvisible."; }
+    static void LogSystemGameAdded(SystemData* system, FileData* game) { LOG(LogWarning) << "[SystemManager] Metadata changed. Add " << game->Name() << " into " << system->FullName(); }
+    static void LogSystemGameRemoved(SystemData* system, FileData* game) { LOG(LogWarning) << "[SystemManager] Metadata changed. Remove " << game->Name() << " from " << system->FullName(); }
+
   public:
     /*!
      * @brief constructor
@@ -375,7 +478,9 @@ class SystemManager :
       , mFastSearchSeries()
       , mFastSearchCacheHash(0)
       , mProgressInterface(nullptr)
+      , mLoadingPhaseInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
+      , mSystemChangeNotifier(nullptr)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {
@@ -386,13 +491,31 @@ class SystemManager :
     ~SystemManager() override = default;
 
     //! Access Mount monitor
-    MountMonitor& GetMountMonitor() { return  mMountPointMonitoring; }
+    MountMonitor& GetMountMonitor() { return mMountPointMonitoring; }
 
     /*!
      * @brief Set the progress interface
-     * @param interface
+     * @param interface interface referenceinterface reference
      */
     void SetProgressInterface(IProgressInterface* interface) { mProgressInterface = interface; }
+
+    /*!
+     * @brief Set the progress interface
+     * @param interface interface reference
+     */
+    void SetLoadingPhaseInterface(ISystemLoadingPhase* interface) { mLoadingPhaseInterface = interface; }
+
+    /*!
+     * @brief Set System change interface
+     * @param interface interface reference
+     */
+    void SetChangeNotifierInterface(ISystemChangeNotifier* interface) { mSystemChangeNotifier = interface; }
+
+    /*!
+     * @brief Notify loading phase to the interface, if ona has been set
+     * @param phase Loading phase
+     */
+    void NotifyLoadingPhase(ISystemLoadingPhase::Phase phase) const { if (mLoadingPhaseInterface !=  nullptr) mLoadingPhaseInterface->SystemLoadingPhase(phase); }
 
     /*!
      * @brief Get favorite system
@@ -440,32 +563,40 @@ class SystemManager :
     bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload, bool portableSystem);
 
     /*!
+     * @brief Build all virtual systems
+     * @param portableSystem true if the current board is a portable system and does not need lightgun
+     */
+    void LoadVirtualSystemConfigurations(bool portableSystem);
+
+    /*!
+     * @brief Set file watching on all gamelist so that the frontend may know if they have been modified from elsewhere
+     * @param gamelistWatcher file notifier instance
+     */
+    void WatchGameList(FileNotifier& gamelistWatcher);
+
+    /*!
      * @brief Get total games
      * @return Total games
      */
-    int GameCount();
+    [[nodiscard]] int GameCount() const;
 
     /*!
-     * @brief Get All system list, visibles + hidden
-     * @return System list
+     * @brief Get regular (non-virtual) system count from visible list
+     * @return regular system count
      */
-    const SystemList& GetAllSystemList() { return mAllSystemVector; }
+    [[nodiscard]] int GetVisibleRegularSystemCount() const;
+
+    /*!
+     * @brief Get all system, including EMPTY systems
+     * @return all system list
+     */
+    [[nodiscard]] const List& AllSystems() const { return mAllSystems; }
+
     /*!
      * @brief Get visible-only system list
      * @return System list
      */
-    const SystemList& GetVisibleSystemList() { return mVisibleSystemVector; }
-    /*!
-     * @brief Get Hidden-only system list
-     * @return System list
-     */
-    const SystemList& GetHiddenSystemList() { return mHiddenSystemVector; }
-
-    /*!
-     * @brief Get all system (from es_systems.cfg) short names
-     * @return system name list
-     */
-    const Strings::Vector& GetDeclaredSystemShortNames() { return mAllDeclaredSystemShortNames; }
+    [[nodiscard]] const List& VisibleSystemList() const { return mVisibleSystems; }
 
     /*!
      * @brief Update last-played system with the given game
@@ -481,7 +612,7 @@ class SystemManager :
     {
       int index = getVisibleSystemIndex(sLastPlayedSystemShortName);
       if (index < 0) return nullptr;
-      return mVisibleSystemVector[index];
+      return mVisibleSystems[index];
     }
 
     /*!
@@ -491,11 +622,9 @@ class SystemManager :
      */
     SystemData* NextVisible(SystemData* to) const
     {
-      int size = (int)mVisibleSystemVector.size();
-      for(int i = size; --i>=0; )
-        if (mVisibleSystemVector[i] == to)
-          return mVisibleSystemVector[(++i) % size];
-      return nullptr;
+      int index = mVisibleSystems.IndexOf(to);
+      if (index < 0) return mVisibleSystems[0];
+      return mVisibleSystems[(++index) % mVisibleSystems.Count()];
     }
 
     /*!
@@ -505,11 +634,9 @@ class SystemManager :
      */
     SystemData* PreviousVisible(SystemData* to) const
     {
-      int size = (int)mVisibleSystemVector.size();
-      for(int i = size; --i>=0; )
-        if (mVisibleSystemVector[i] == to)
-          return mVisibleSystemVector[(--i + size) % size];
-      return nullptr;
+      int index = mVisibleSystems.IndexOf(to);
+      if (index < 0) return mVisibleSystems[0];
+      return mVisibleSystems[(--index + mVisibleSystems.Count()) % mVisibleSystems.Count()];
     }
 
     //! Get emulator manager
@@ -558,15 +685,23 @@ class SystemManager :
      */
     static bool CreateRomFoldersIn(const DeviceMount& device);
 
-    void AddWatcherIgnoredFiles(const std::string& path) {
-      mWatcherIgnoredFiles.insert(path);
-    }
+    void AddWatcherIgnoredFiles(const std::string& path) { mWatcherIgnoredFiles.insert(path); }
 
     /*!
-     * @brief Add tate games from all systems (from all visible systems)
-     * @return Always true
+     * @brief Get an existing system or create it if it does not exists!
+     * Do work only on "normal" systems.
+     * If the system is created, it's also added to the visible list at position zero
+     * @param descriptor System descriptor
+     * @return existting system or newly created system
      */
-    bool AddTateMetaSystem();
-
     SystemData& GetOrCreateSystem(const SystemDescriptor& descriptor);
+
+    /*!
+     * @brief Called when something moved, either in games metadata or in gamelist (game removed)
+     * This method update internal systems and provide the caller with a liste of added or removed systems
+     * @param target Game whose metadata have been modified or game deleted. May be nullptr is more than one game changed
+     * @param changes Metadata changes
+     * @param deleted True if the game has been deleted
+     */
+    void UpdateSystemsOnGameChange(FileData* target, MetadataType changes, bool deleted);
 };

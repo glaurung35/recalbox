@@ -13,7 +13,7 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingCompl
     class IMetaDataAction
     {
       public:
-        virtual void Delete(ISimpleGameListView* gamelistview, FileData& game) = 0;
+        virtual void Delete(FileData& game) = 0;
         virtual void Modified(ISimpleGameListView* gamelistview, FileData& game) = 0;
     };
 
@@ -41,8 +41,8 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingCompl
     std::shared_ptr<ComponentList> mList;
     std::shared_ptr<ComponentGrid> mButtons;
 
-    std::vector< std::shared_ptr<Component> > mEditors;
-    std::vector< const MetadataFieldDescriptor* > mMetaDataEditable;
+    std::vector<std::shared_ptr<Component>> mEditors;
+    std::vector<const MetadataFieldDescriptor*> mMetaDataEditable;
 
     MetadataDescriptor& mMetaData;
     ISimpleGameListView* mGameListView;
@@ -51,5 +51,5 @@ class GuiMetaDataEd : public Gui, public GuiScraperSingleGameRun::IScrapingCompl
     /*
      * GuiScraperSingleGameRun::IScrapingCommplete
      */
-    void ScrapingComplete(FileData& game) override;
+    void ScrapingComplete(FileData& game, MetadataType changedMetadata) override;
 };

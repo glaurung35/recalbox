@@ -27,7 +27,7 @@ export const useMediaStore = defineStore('media', {
         if (key.includes('screenshot-')) {
           const name:string = key.substring(11).substring(0, 24);
           const formattedDate:string = date.formatDate(
-            date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss-sssZ'), // "2023-04-03T07-51-41-443Z"
+            date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss'), // "2023-04-03T07-51-41-443Z"
             'DD/MM/YYYY - HH:mm:ss',
           );
           result.push({

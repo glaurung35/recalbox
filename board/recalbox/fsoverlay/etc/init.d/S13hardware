@@ -7,7 +7,7 @@ if test "$1" == "start" ; then
 
   if ! grep -q "^\s*case=.*:1\s*$" /boot/recalbox-boot.conf && ! isCRTLoaded;then
     recallog -s "${INIT_SCRIPT}" -t HARDWARE "Starting hardware detection"
-    python /recalbox/system/hardware/case/manage.pyc "" 1 1 1
+    python /recalbox/system/hardware/case/manage.py "" 1 1 1
   fi
 
 

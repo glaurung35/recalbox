@@ -16,7 +16,7 @@ python -m compilall .
 
 How to start:
 ```
-python case/manage.pyc "<casename>" <install> <machine> <phase>
+python case/manage.py "<casename>" <install> <machine> <phase>
 with:
 - casename : Case to install/uninstall. Empty to autodetect.
 - install  : 1 = install, 0 = uninstall

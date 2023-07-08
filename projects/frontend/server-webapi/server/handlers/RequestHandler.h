@@ -110,11 +110,11 @@ class RequestHandler : public IRouter
     void SystemsResourceGetConsole(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
-     * @brief Handle GET get system controler svg for the given system and region
+     * @brief Handle GET get system controller svg for the given system and region
      * @param request Request object
      * @param response Response object
      */
-    void SystemsResourceGetControler(const Rest::Request& request, Http::ResponseWriter response) override;
+    void SystemsResourceGetController(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET get system controls svg for the given system and region

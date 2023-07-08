@@ -13,6 +13,7 @@ export const CONFIGURATION = {
   controllers: '/configuration/controllers',
   emustation: '/configuration/emulationstation',
   global: '/configuration/global',
+  hat: '/configuration/hat',
   hyperion: '/configuration/hyperion',
   kodi: '/configuration/kodi',
   music: '/configuration/music',

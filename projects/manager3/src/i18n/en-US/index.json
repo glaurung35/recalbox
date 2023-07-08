@@ -417,6 +417,26 @@
           "help": "Allows to disable music playlist"
         }
       }
+    },
+    "hat": {
+      "wpaf": {
+        "title": "Fan",
+        "enabled": {
+          "title": "Enable fan",
+          "help": "This option allows you to enable fan on your board folling specific hat."
+        },
+        "board": {
+          "title": "Hat selection",
+          "help": {
+            "availableOptions": "Available options:",
+            "0": "<b>wspoehatb</b> corresponds to Waveshare PoE board.",
+            "1": "<b>argonforty</b> corresponds to the board in Argon One cases.",
+            "2": "<b>piboy</b> corresponds to Experimental Pi PiBoy boards.",
+            "3": "<b>rpipoeplus</b> corresponds to Raspberry Pi PoE+ board.",
+            "4": "<b>fanshim</b> corresponds to Pimoroni fan SHIM board."
+          }
+        }
+      }
     }
   },
   "emulation": {

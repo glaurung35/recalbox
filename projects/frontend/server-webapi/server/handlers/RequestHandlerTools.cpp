@@ -1033,7 +1033,7 @@ void RequestHandlerTools::GetAvailableShadersIn(const Path& rootPath, Strings::V
 Strings::Vector RequestHandlerTools::GetAvailableShaders()
 {
   Strings::Vector result;
-  static Path shaderPath("/recalbox/share_init/shaders");
+  static Path shaderPath("/recalbox/share/shaders");
 
   GetAvailableShadersIn(shaderPath, result);
   int commonPartLength = (int)shaderPath.ToString().length() + 1;

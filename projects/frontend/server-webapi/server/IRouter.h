@@ -83,7 +83,7 @@ class IRouter
     virtual void SystemsGetAll(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET get all active  systems
+     * @brief Handle GET get all active systems
      * @param request Request object
      * @param response Response object
      */
@@ -97,11 +97,11 @@ class IRouter
     virtual void SystemsResourceGetConsole(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET get system controler svg for the given system and region
+     * @brief Handle GET get system controller svg for the given system and region
      * @param request Request object
      * @param response Response object
      */
-    virtual void SystemsResourceGetControler(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void SystemsResourceGetController(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
      * @brief Handle GET get system controls svg for the given system and region
@@ -284,7 +284,7 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/systems", Rest::Routes::bind(&IRouter::SystemsGetAll, this));
       Rest::Routes::Get(mRouter, "/api/systems/getactives", Rest::Routes::bind(&IRouter::SystemsGetActives, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/console", Rest::Routes::bind(&IRouter::SystemsResourceGetConsole, this));
-      Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/controler", Rest::Routes::bind(&IRouter::SystemsResourceGetControler, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/controller", Rest::Routes::bind(&IRouter::SystemsResourceGetController, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/controls", Rest::Routes::bind(&IRouter::SystemsResourceGetControls, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/game", Rest::Routes::bind(&IRouter::SystemsResourceGetGame, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/resource/*/svg/logo", Rest::Routes::bind(&IRouter::SystemsResourceGetLogo, this));

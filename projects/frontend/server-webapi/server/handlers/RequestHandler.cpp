@@ -275,12 +275,12 @@ void RequestHandler::SystemsResourceGetConsole(const Rest::Request& request, Htt
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
-void RequestHandler::SystemsResourceGetControler(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::SystemsResourceGetController(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "SystemsResourceGetControler");
+  RequestHandlerTools::LogRoute(request, "SystemsResourceGetController");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "controler.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "controller.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 

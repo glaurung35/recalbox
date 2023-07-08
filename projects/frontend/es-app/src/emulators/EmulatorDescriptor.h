@@ -187,7 +187,7 @@ class EmulatorDescriptor
     friend class RequestHandlerTools;
 
     //! Get core at index
-    [[nodiscard]] const Core& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCoreCount ? mCores[index] : mCores[0]; }
+    [[nodiscard]] const Core& CoreAt(int index) const { return (unsigned int)index < (unsigned int)mCores.size() ? mCores[index] : mCores[0]; }
 
     /*!
      * @brief Convert compatibility string to compatibility enum

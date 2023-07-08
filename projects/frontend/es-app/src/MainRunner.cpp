@@ -26,6 +26,7 @@
 #include "DemoMode.h"
 #include "RotationManager.h"
 #include "web/RestApiServer.h"
+#include "RootFolders.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>

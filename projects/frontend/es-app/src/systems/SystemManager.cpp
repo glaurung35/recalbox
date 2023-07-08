@@ -838,6 +838,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Create automatic thread-pool
   ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Load", false, 20);
   // Push system to process
+  mSystemNameToSystemRootPath.clear();
   for (int index = 0; index < deserializer.Count(); ++index)
   {
     // Create system descriptor
@@ -846,6 +847,8 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     {
       if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
       {
+        // Store root path
+        mSystemNameToSystemRootPath[descriptor.RomPath().ToString()] = descriptor.Extension();
         // Get weight
         int weight = weights.GetInt(descriptor.FullName(), 0);
         // Push weighted system
@@ -1320,10 +1323,15 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
   // Check known inner path
   for(const Path& romPath : pathes)
     if (Path main = root.MountPoint() / romPath; main.Exists())
-      for(const SystemData* system : mAllSystems) // Then check system path
-        if (!system->IsVirtual())
-          if (Path rawPath(system->Descriptor().RomPath()); Strings::Contains(rawPath.ToString(), sRootTag)) // Ignore absolute path
-            if (Path systemPath(Strings::Replace(rawPath.ToString(), sRootTag, main.ToString())); systemPath.Exists())
+      for(const auto& iterator : mSystemNameToSystemRootPath) // Then check system path
+        if (String rawPath(iterator.first); rawPath.Contains(sRootTag)) // Ignore absolute path
+          if (Path systemPath(rawPath.Replace(sRootTag, main.ToString())); systemPath.Exists())
+          {
+            LOG(LogTrace) << "[SystemManager] " << systemPath.ToString() << " found.";
+            result = RomStructure::Empty;
+            HashSet<String> extensions;
+            for(const String& ext : iterator.second.Split(' ')) extensions.insert(ext.ToTrim());
+            if (HasFileWithExt(systemPath, extensions))
             {
               LOG(LogTrace) << "[SystemManager] " << systemPath.ToString() << " found.";
               result = RomStructure::Empty;
@@ -1337,6 +1345,8 @@ SystemManager::RomStructure SystemManager::CheckMountPoint(const DeviceMount& ro
               }
               { LOG(LogInfo) << "[SystemManager] " << systemPath.ToString() << " is a valid but empty rom folder"; }
             }
+            { LOG(LogInfo) << "[SystemManager] " << systemPath.ToString() << " is a valid but empty rom folder"; }
+          }
 
   return result;
 }

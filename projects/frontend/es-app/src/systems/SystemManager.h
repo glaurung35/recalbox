@@ -57,7 +57,9 @@ class SystemManager : private INoCopy // No copy allowed
 
   private:
     //! Rom source folder to read/write (false) / read-only (true) state
-    typedef HashMap<std::string, bool> RomSources;
+    typedef HashMap<String, bool> RomSources;
+    //! System's raw rom path to extension list
+    typedef HashMap<String, String> SystemRootPathToExtensions;
 
     //! File path to system weight file for fast loading/saving
     static constexpr const char* sWeightFilePath = "/recalbox/share/system/.emulationstation/.weights";
@@ -105,6 +107,9 @@ class SystemManager : private INoCopy // No copy allowed
     List mAllSystems;
     //! Original of all system (copy)
     List mOriginalOrderedSystems;
+
+    //! System's raw root rom path to extensions
+    SystemRootPathToExtensions mSystemNameToSystemRootPath;
 
     //! Fast search cache
     std::vector<FolderData::FastSearchItemSerie> mFastSearchSeries;

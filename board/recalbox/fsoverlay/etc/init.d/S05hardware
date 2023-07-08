@@ -68,7 +68,7 @@ do_start() {
   if [ "$STEP" != "1" ] && ! isCRTLoaded; then
     sleep 1
     udevadm settle --timeout=30
-    python /recalbox/system/hardware/case/manage.pyc "" 1 1 0
+    python /recalbox/system/hardware/case/manage.py "" 1 1 0
   fi
 
   # Force enable DRM connectors

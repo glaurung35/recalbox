@@ -416,6 +416,26 @@
           "help": "Permet de désactiver la playlist des musiques"
         }
       }
+    },
+    "hat": {
+      "wpaf": {
+        "title": "Ventilation",
+        "enabled": {
+          "title": "Activer la ventilation",
+          "help": "Cette option vous permet d'activer la ventilation sur botre board en fonction du hat."
+        },
+        "board": {
+          "title": "Choix du hat",
+          "help": {
+            "availableOptions": "Options disponibles :",
+            "0": "<b>wspoehatb</b> correspond à la carte Waveshare PoE.",
+            "1": "<b>argonforty</b> correspond à la carte dans les boitiers Argon One.",
+            "2": "<b>piboy</b> correspond aux boitiers PiBoy d'Experimental Pi.",
+            "3": "<b>rpipoeplus</b> correspond à la carte Raspberry Pi PoE+.",
+            "4": "<b>fanshim</b> correspond à la carte Pimoroni fan SHIM."
+          }
+        }
+      }
     }
   },
   "emulation": {

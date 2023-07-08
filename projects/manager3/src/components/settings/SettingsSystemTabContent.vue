@@ -111,6 +111,42 @@
         </template>
       </FormFragmentContainer>
 
+      <FormFragmentContainer title="settings.hat.wpaf.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.hat.wpaf.enabled.title"
+            :getter="hat['wpaf.enabled']"
+            :setter="hatStore.post"
+            apiKey="wpaf.enabled"
+            v-if="hat['wpaf.enabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.hat.wpaf.enabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSelect
+            label="settings.hat.wpaf.board.title"
+            :options="wpafBoardOptions"
+            :getter="hat['wpaf.board']"
+            :setter="hatStore.post"
+            apiKey="wpaf.board"
+            v-if="hat['wpaf.board']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.hat.wpaf.board.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.hat.wpaf.board.help.0')"></li>
+                <li v-html="$t('settings.hat.wpaf.board.help.1')"></li>
+                <li v-html="$t('settings.hat.wpaf.board.help.2')"></li>
+                <li v-html="$t('settings.hat.wpaf.board.help.3')"></li>
+                <li v-html="$t('settings.hat.wpaf.board.help.4')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6 col">
       <FormFragmentContainer title="settings.system.services.title">
@@ -261,6 +297,7 @@ import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useUpdatesStore } from 'stores/configuration/updates';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { useHatStore } from 'stores/configuration/hat';
 import { storeToRefs } from 'pinia';
 import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
@@ -271,6 +308,7 @@ updateStore.fetch();
 const { updates } = storeToRefs(updateStore);
 
 const systemStore = useSystemStore();
+systemStore.fetch();
 const {
   languageOptions,
   kblayoutOptions,
@@ -297,6 +335,13 @@ const {
   screensaverTypeOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
+
+const hatStore = useHatStore();
+hatStore.fetch();
+const {
+  wpafBoardOptions,
+  hat,
+} = storeToRefs(hatStore);
 </script>
 
 <style lang="sass" scoped>

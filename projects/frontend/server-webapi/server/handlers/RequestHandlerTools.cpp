@@ -318,6 +318,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     Specific, //<! Specific emulators settings
     Patron,
     Music,
+    Hat,
   };
 
   static HashMap<std::string, Namespace> sConverter
@@ -337,6 +338,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
      { "specific", Namespace::Global },
      { "patron", Namespace::Patron },
      { "music", Namespace::Music },
+     { "hat", Namespace::Hat },
   });
 
   Namespace* pns = sConverter.try_get(_namespace);
@@ -639,6 +641,16 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
       static HashMap<std::string, Validator> sList
         ({
           { "remoteplaylist.enable", Validator(true) },
+        });
+
+      return sList;
+    }
+    case Namespace::Hat:
+    {
+      static HashMap<std::string, Validator> sList
+        ({
+          { "wpaf.enabled", Validator(true) },
+          { "wpaf.board"  , Validator(false, { "wspoehatb", "argonforty", "piboy", "rpipoeplus", "fanshim" }) }
         });
 
       return sList;

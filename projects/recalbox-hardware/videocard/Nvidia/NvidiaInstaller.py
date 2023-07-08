@@ -209,6 +209,11 @@ class NvidiaInstaller:
                     [self.driver_version],
                 ),
                 (
+                    extra_search_path + "/libnvidia-glvkspirv.so",
+                    LIBRARY_DIR + "/libnvidia-glvkspirv.so",
+                    [self.driver_version],
+                ),
+                (
                     extra_search_path + "/libnvidia-tls.so",
                     LIBRARY_DIR + "/libnvidia-tls.so",
                     [self.driver_version],

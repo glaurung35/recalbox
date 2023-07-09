@@ -21,7 +21,7 @@ class TestControllersConfig(unittest.TestCase):
         controllers = controllersConfig.Controller.LoadControllerConfigurationFromFile()
         for x in controllers:
             print('x:{}\n'.format(x))
-        controller = controllers['PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)-060000004c0500006802000000010000-6:1:20']
+        controller = controllers['060000004c0500006802000000010000-6:1:20']
         self.assertEqual(InputItem.TypeButton, controller.A.Type)
         self.assertEqual(InputItem.TypeAxis, controller.Joy1Up.Type)
         self.assertEqual(1, controller.A.Value)

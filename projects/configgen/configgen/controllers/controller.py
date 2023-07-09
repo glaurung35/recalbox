@@ -282,17 +282,17 @@ class Controller:
         return int(self.__axesCount) + 2 * int(self.__hatsCount)
 
     @staticmethod
-    def __CompositeIdentifierFrom(configName: str, guid: str, axeCount: int, hatCount: int, buttonCount: int) -> str:
-        return "{}-{}-{}:{}:{}".format(configName, guid,
+    def __CompositeIdentifierFrom(guid: str, axeCount: int, hatCount: int, buttonCount: int) -> str:
+        return "{}-{}:{}:{}".format(guid,
                                        str(axeCount) if axeCount >= 0 else '*',
                                        str(hatCount) if hatCount >= 0 else '*',
                                        str(buttonCount) if buttonCount >= 0 else '*')
 
     def __CompositeIdentifier(self) -> str:
-        return "{}-{}-{}:{}:{}".format(self.__deviceName, self.__guid, self.__axesCount, self.__hatsCount, self.__buttonsCount)
+        return "{}-{}:{}:{}".format(self.__guid, self.__axesCount, self.__hatsCount, self.__buttonsCount)
 
     def __CompositeAbstractIdentifier(self) -> str:
-        return "{}-{}-*:*:*".format(self.__deviceName, self.__guid)
+        return "{}-*:*:*".format(self.__guid)
 
     @staticmethod
     def __HasOpposite(item: InputItem) -> bool:
@@ -427,7 +427,7 @@ class Controller:
     @staticmethod
     def __FindBestControllerConfig(controllers: ControllerCollection, playerIndex: int, guid: str, sdlIndex, deviceName: str,
                                    devicePath: str, axesCount: int, hatsCount: int, buttonsCount: int) -> Optional[Controller]:
-        compositeId = Controller.__CompositeIdentifierFrom(deviceName, guid, axesCount, hatsCount, buttonsCount)
+        compositeId = Controller.__CompositeIdentifierFrom(guid, axesCount, hatsCount, buttonsCount)
         if compositeId in controllers:
             controller = controllers[compositeId]
             return Controller(deviceName=deviceName, typeName=controller.Type, guid=guid,

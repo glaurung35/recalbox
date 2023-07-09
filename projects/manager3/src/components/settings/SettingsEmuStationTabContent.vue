@@ -255,6 +255,83 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.emustation.virtualsystems.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.allgames.label"
+            :getter="emulationstation['collection.allgames']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.allgames"
+            v-if="emulationstation['collection.allgames']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.allgames.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.multiplayer.label"
+            :getter="emulationstation['collection.multiplayer']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.multiplayer"
+            v-if="emulationstation['collection.multiplayer']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.multiplayer.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.lastplayed.label"
+            :getter="emulationstation['collection.lastplayed']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.lastplayed"
+            v-if="emulationstation['collection.lastplayed']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.lastplayed.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.lightgun.label"
+            :getter="emulationstation['collection.lightgun.hide']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.lightgun.hide"
+            v-if="emulationstation['collection.lightgun.hide']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.lightgun.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.ports.label"
+            :getter="emulationstation['collection.ports.hide']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.ports.hide"
+            v-if="emulationstation['collection.ports.hide']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.ports.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.virtualsystems.tate.label"
+            :getter="emulationstation['collection.tate']"
+            :setter="emulationstationStore.post"
+            apiKey="collection.tate"
+            v-if="emulationstation['collection.tate']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.virtualsystems.tate.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>

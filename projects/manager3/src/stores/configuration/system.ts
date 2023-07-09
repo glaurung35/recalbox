@@ -46,6 +46,10 @@ export const useSystemStore = defineStore('system', {
       'secondminitft.resolution': {
         allowedStringList: [''],
       },
+      'secondminitft.backlightcontrol': {
+        lowerValue: 0,
+        higherValue: 0,
+      },
     },
     system: {
       language: {
@@ -65,5 +69,6 @@ export const useSystemStore = defineStore('system', {
     powerSwitchOptions: (state) => state._systemOptions['power.switch'].allowedStringList,
     secondminitftTypeOptions: (state) => state._systemOptions['secondminitft.type'].allowedStringList,
     secondminitftResolutionOptions: (state) => state._systemOptions['secondminitft.resolution'].allowedStringList,
+    secondminitftBacklightDurationOptions: (state) => state._systemOptions['secondminitft.backlightcontrol'],
   },
 });

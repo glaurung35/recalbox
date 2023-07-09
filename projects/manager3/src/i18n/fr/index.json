@@ -175,6 +175,34 @@
           "help": "Cette option vous permet de demander à votre Recalbox de rechercher si une mise à jour existe lors de son démarrage."
         }
       },
+      "brightness": {
+        "title": "Luminosité",
+        "label": "Puissance de la luminosité",
+        "help": "Cette option vous permet de régler la lumonisité de l'écran. Option utilisable uniquement sur Anbernic RG353 et Odroid Go Advance."
+      },
+      "minitft": {
+        "title": "Mini écran TFT",
+        "label": "Activer le fbcp",
+        "help": "Cette option vous permet d'activer ou de désactiver le Framebuffer Copy Program (fbcp)."
+      },
+      "power": {
+        "switch": {
+          "title": "Boutons d'allumage",
+          "label": "Sélectionner votre bouton d'allumage",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir le type de bouton d'allumage. Options disponibles :",
+            "0": "<b>ATX_RASPI_R2_6</b> correspond aux boutons ATXRaspi.",
+            "1": "<b>MAUSBERRY</b> correspond aux boutons Mausberry.",
+            "2": "<b>REMOTEPIBOARD_2003</b> correspond aux boutons RemotePi Board.",
+            "3": "<b>REMOTEPIBOARD_2005</b> correspond aux boutons RemotePi Board.",
+            "4": "<b>WITTYPI</b> correpond aux boutons Witty Pi.",
+            "5": "<b>PIN56ONOFF</b> correspond à un bouton on/off branché entre le GPIO3 et la masse.",
+            "6": "<b>PIN56PUSH</b> correspond à un bouton poussoir branché entre le GPIO3 et la masse.",
+            "7": "<b>PIN356ONOFFRESET</b> correspond à un bouton on/off branché entre le GPIO2 et la masse pour l'allumage.",
+            "8": "<b>PIN356PUSHRESET</b> correspond à un bouton on/off branché entre le GPIO3 et la masse pour le redémarrage."
+          }
+        }
+      },
       "services": {
         "title": "Services",
         "managerEnabled": {
@@ -255,10 +283,60 @@
           }
         }
       },
-      "brightness": {
-        "title": "Luminosité",
-        "label": "Puissance de la luminosité",
-        "help": "Cette option vous permet de régler la lumonisité de l'écran. Option utilisable uniquement sur Anbernic RG353 et Odroid Go Advance."
+      "secondminitft": {
+        "title": "Second mini écran TFT",
+        "enabled": {
+          "label": "Activer le second mini écran TFT",
+          "help": "Cette option vous permet d'activer un second mini écran TFT."
+        },
+        "type": {
+          "label": "Sélection du type",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir le type de mini écran. Options disponibles :",
+            "0": "<b>overlay</b> correspond à une configuration via /boot/config.txt ou /boot/config.ini en fonction de la board.",
+            "1": "<b>default</b> correspond à tous les autres cas."
+          }
+        },
+        "resolution": {
+          "label": "Sélection de la résolution",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir la résolution du mini écran. Options disponibles :",
+            "0": "<b>240p</b> correspond à une résolution de 320x240.",
+            "1": "<b>320p</b> correspond à une résolution de 480x320."
+          }
+        },
+        "imagestretchenabled": {
+          "label": "Activer l'étirage de l'image",
+          "help": "Cette option vous permet d'activer ou de désactiver l'étirage de l'image."
+        },
+        "imageenlargeenabled": {
+          "label": "Activer l'élargissement de l'image",
+          "help": "Cette option vous permet d'activer ou de désactiver l'élargissement de l'image afin de remplir tout l'écran."
+        },
+        "imagealphaenabled": {
+          "label": "Activer l'usage du canal alpha de l'image",
+          "help": "Cette option vous permet d'activer ou de désactiver l'utilisation du canal alpha (si c'est possible)."
+        },
+        "imageignoreaspectenabled": {
+          "label": "Activer l'ignorance de l'aspect de l'image",
+          "help": "Cette option vous permet d'activer ou de désactiver l'ignorance de l'aspect de l'image lors de son redimensionnement."
+        },
+        "disablevideoines": {
+          "label": "Désactiver les vidéos des scraps",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité le lire les vidéos des scraps sur le mini écran TFT."
+        },
+        "backlightcontrol": {
+          "label": "Contrôle de la luminosité",
+          "help": "Cette option vous permet de contrôler la luminosité du mini écran TFT. Pour pouvoir l'utiliser, votre écran doit être géré par un PWM."
+        },
+        "usemarquee": {
+          "label": "Activer les marquees",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage des marquees au lieu ses vidéos des scraps."
+        },
+        "sleepenabled": {
+          "label": "Activer le mode veille",
+          "help": "Cette option vous permet d'activer ou de désactiver le mode veille."
+        }
       }
     },
     "audio": {
@@ -447,6 +525,33 @@
               "help": "Cette option vous permet de désactiver la playlist des musiques."
             }
           }
+        }
+      },
+      "virtualsystems": {
+        "title": "Systèmes virtuels",
+        "allgames": {
+          "label": "Activer le système Tous les jeux",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel listant tous les jeux."
+        },
+        "multiplayer": {
+          "label": "Activer le système des jeux multijoueurs",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel listant tous les jeux multijoueurs."
+        },
+        "lastplayed": {
+          "label": "Activer le système des derniers jeux joués",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel listant les derniers jeux joués."
+        },
+        "lightgun": {
+          "label": "Désactiver le système Lightgun",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel Lightgun."
+        },
+        "ports": {
+          "label": "Cacher le système Ports",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel listant les Ports."
+        },
+        "tate": {
+          "label": "Activer le système Tate",
+          "help": "Cette option vous permet d'activer ou de désactiver le système virtuel Tate."
         }
       }
     },

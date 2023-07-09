@@ -8,6 +8,8 @@
 #include <input/AutoMapper.h>
 #include <guis/GuiInfoPopup.h>
 #include <utils/locale/LocaleHelper.h>
+#include <utils/hash/Crc16.h>
+#include <utils/String.h>
 
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
@@ -222,6 +224,7 @@ std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
 
 void InputManager::LoadJoystickConfiguration(int index)
 {
+  bool autoConfigured = true;
   { LOG(LogInfo) << "[InputManager] Lond configuration for Joystick #: " << index; }
 
   // Open joystick & add to our list
@@ -245,30 +248,31 @@ void InputManager::LoadJoystickConfiguration(int index)
   if (!LookupDeviceXmlConfiguration(device))
   {
     std::string autoMapping = AutoMapper(index).GetSDLMapping();
-    bool autoConfigured = !autoMapping.empty();
+    autoConfigured = !autoMapping.empty();
     if (autoConfigured)
     {
       autoConfigured = device.LoadAutoConfiguration(autoMapping);
-      WriteDeviceXmlConfiguration(device);
     }
+  }
 
-    if (!autoConfigured)
+  mIdToDevices[identifier] = device;
+  if (!autoConfigured)
     { LOG(LogWarning) << "[Input] Unknown joystick " << SDL_JoystickName(joy)
                       << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
                       << ", Device Index: " << index
                       << ", Axis: " << SDL_JoystickNumAxes(joy)
                       << ", Hats: " << SDL_JoystickNumHats(joy)
                       << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")"; }
+  else {
+    // Store
+    { LOG(LogInfo) << "[Input] Added joystick " << SDL_JoystickName(joy)
+                      << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
+                      << ", Device Index: " << index
+                      << ", Axis: " << SDL_JoystickNumAxes(joy)
+                      << ", Hats: " << SDL_JoystickNumHats(joy)
+                      << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")"; }
+    WriteDeviceXmlConfiguration(device);
   }
-
-  // Store
-  mIdToDevices[identifier] = device;
-  { LOG(LogInfo) << "[Input] Added joystick " << SDL_JoystickName(joy)
-                    << " (GUID: " << DeviceGUIDString(joy) << ", Instance ID: " << identifier
-                    << ", Device Index: " << index
-                    << ", Axis: " << SDL_JoystickNumAxes(joy)
-                    << ", Hats: " << SDL_JoystickNumHats(joy)
-                    << ", Buttons: " << SDL_JoystickNumButtons(joy) << ")"; }
 
 }
 
@@ -385,17 +389,28 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
     for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
     {
       // check the guid
-      bool guid    = (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0) || device.IsKeyboard();
-      bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
+      bool guid;
+      if (strlen(item.attribute("deviceName").value()) == 0) {
+        // sdl 2.26+
+        guid = (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0) || device.IsKeyboard();
+      }else {
+        // sdl 2.0
+        String CRC = String::ToHexa(gen_crc16((uint8_t*)item.attribute("deviceName").value(), strlen(item.attribute("deviceName").value()), true), 4, String::Hexa::None);
+        String tempGUID = "";
+        if (strlen(item.attribute("deviceGUID").value()) > 8)
+          tempGUID = String(item.attribute("deviceGUID").value()).replace(4, 4, CRC);
+        guid = (device.GUID().ToLowerCase() == tempGUID.ToLowerCase()) || device.IsKeyboard();
+      }
+      //bool name    = strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0;
       bool axes    = (device.AxeCount() == item.attribute("deviceNbAxes").as_int()) || device.IsKeyboard();
       bool hats    = (device.HatCount() == item.attribute("deviceNbHats").as_int()) || device.IsKeyboard();
       bool buttons = (device.ButtonCount() == item.attribute("deviceNbButtons").as_int()) || device.IsKeyboard();
-      if (guid && name && axes && hats && buttons)
+      if (guid && axes && hats && buttons)
       {
         int loaded = device.LoadFromXml(item);
-        { LOG(LogDebug) << "[Input] Loaded " << item.attribute("deviceGUID").value()
-                        << " (UUID: " << item.attribute("deviceName").value()
-                        << ") - Axis: " << item.attribute("deviceNbAxes").as_int()
+        { LOG(LogDebug) << "[Input] Loaded"
+                        << " UUID: " << item.attribute("deviceGUID").value()
+                        << " - Axis: " << item.attribute("deviceNbAxes").as_int()
                         << " - Hats: " << item.attribute("deviceNbHats").as_int()
                         << " - Buttons: " << item.attribute("deviceNbButtons").as_int()
                         << " : " << loaded << " config. entries."; }
@@ -419,15 +434,34 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
       pugi::xml_node root = doc.child("inputList");
       if (root != nullptr)
         for (pugi::xml_node item = root.child("inputConfig"); item != nullptr; item = item.next_sibling("inputConfig"))
-          if (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0 &&
-              strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0 &&
-              device.AxeCount() == item.attribute("deviceNbAxes").as_int() &&
-              device.HatCount() == item.attribute("deviceNbHats").as_int() &&
-              device.ButtonCount() == item.attribute("deviceNbButtons").as_int())
-          {
-            root.remove_child(item);
-            break;
+        {
+          if (strlen(item.attribute("deviceName").value()) == 0) {
+            // new kind for nameless entry (sdl2.26+)
+            if (strcmp(device.GUID().c_str(), item.attribute("deviceGUID").value()) == 0 &&
+                device.AxeCount() == item.attribute("deviceNbAxes").as_int() &&
+                device.HatCount() == item.attribute("deviceNbHats").as_int() &&
+                device.ButtonCount() == item.attribute("deviceNbButtons").as_int())
+            {
+              root.remove_child(item);
+              break;
+            }
+          }else {
+             // old kind for nameful entry (sdl2.0)
+            String CRC = String::ToHexa(gen_crc16((uint8_t*)item.attribute("deviceName").value(), strlen(item.attribute("deviceName").value()), true), 4, String::Hexa::None);
+            String tempGUID = "";
+            if (strlen(item.attribute("deviceGUID").value()) > 8)
+              tempGUID = String(item.attribute("deviceGUID").value()).replace(4, 4, CRC);
+            if (tempGUID.ToLowerCase() == device.GUID().ToLowerCase() &&
+                strcmp(device.Name().c_str(), item.attribute("deviceName").value()) == 0 &&
+                device.AxeCount() == item.attribute("deviceNbAxes").as_int() &&
+                device.HatCount() == item.attribute("deviceNbHats").as_int() &&
+                device.ButtonCount() == item.attribute("deviceNbButtons").as_int())
+            {
+              root.remove_child(item);
+              break;
+            }
           }
+        }
     }
   }
 

@@ -16,7 +16,7 @@ class TestAdvancemameController(unittest.TestCase):
 
     def test_generateCombo(self):
         # fbaConf = fba2xConfig.createFBAConfig(fba2xNormal)
-        controller = self.controllers['PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)-060000004c0500006802000000010000-6:1:20']
+        controller = self.controllers['060000004c0500006802000000010000-6:1:20']
         controllerConfig = advMameControllers.getControllerConfig(controller)
         print("controllerConfig: {}".format(controllerConfig))
         self.assertEqual(controllerConfig,{

@@ -102,7 +102,7 @@ export const SystemConfigSchema = z.object({
   }),
   'secondminitft.backlightcontrol': z.object({
     exist: z.boolean(),
-    value: z.string(),
+    value: z.number(),
   }),
   'secondminitft.usemarquee': z.object({
     exist: z.boolean(),

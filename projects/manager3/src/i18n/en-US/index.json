@@ -175,6 +175,34 @@
           "help": "This option allows you to ask to your Recalbox to verify if an update exists at startup."
         }
       },
+      "brightness": {
+        "title": "Brightness",
+        "label": "Power of the brightness",
+        "help": "This option allows you to define the brightness of the screen. Only usable an Anbernic RG353 and Odroid Go Advance."
+      },
+      "minitft": {
+        "title": "Mini TFT screen",
+        "label": "Enable fbcp",
+        "help": "This option allows you to enable or disable the Framebuffer Copy Program (fbcp)."
+      },
+      "power": {
+        "switch": {
+          "title": "Power switch",
+          "label": "Select your button switch",
+          "help": {
+            "availableOptions": "This option allows you to choose power switch. Available options:",
+            "0": "<b>ATX_RASPI_R2_6</b> corresponds to ATXRaspi buttons.",
+            "1": "<b>MAUSBERRY</b> corresponds to Mausberry buttons.",
+            "2": "<b>REMOTEPIBOARD_2003</b> corresponds to RemotePi Board buttons.",
+            "3": "<b>REMOTEPIBOARD_2005</b> corresponds to RemotePi Board buttons.",
+            "4": "<b>WITTYPI</b> correponds to Witty Pi buttons.",
+            "5": "<b>PIN56ONOFF</b> corresponds to an on-off button between GPIO3 and ground.",
+            "6": "<b>PIN56PUSH</b> corresponds to a pression button between GPIO3 and ground.",
+            "7": "<b>PIN356ONOFFRESET</b> corresponds to an on-off button between GPIO2 and ground.",
+            "8": "<b>PIN356PUSHRESET</b> corresponds to a pression button between GPIO3 and ground."
+          }
+        }
+      },
       "services": {
         "title": "Services",
         "managerEnabled": {
@@ -255,10 +283,60 @@
           }
         }
       },
-      "brightness": {
-        "title": "Brightness",
-        "label": "Power of the brightness",
-        "help": "This option allows you to define the brightness of the screen. Only usable an Anbernic RG353 and Odroid Go Advance."
+      "secondminitft": {
+        "title": "Second mini TFT screen",
+        "enabled": {
+          "label": "Enable second mini TFT screen",
+          "help": "This option allows you to enable or disable a secod mini TFT screen."
+        },
+        "type": {
+          "label": "Selection of the type",
+          "help": {
+            "availableOptions": "This option allows you tochoose the type of mini TFT screen. Available options:",
+            "0": "<b>overlay</b> corresponds to a configuration via /boot/config.txt or /boot/config.ini following board.",
+            "1": "<b>default</b> corresponds to any other case."
+          }
+        },
+        "resolution": {
+          "label": "Selection of the resolution",
+          "help": {
+            "availableOptions": "This option allows you to choose resolution of the mini TFT screen. Available options:",
+            "0": "<b>240p</b> corresponds to a resolution of 320x240.",
+            "1": "<b>320p</b> corresponds to a resolution of 480x320."
+          }
+        },
+        "imagestretchenabled": {
+          "label": "Enable image stretch",
+          "help": "This option allows you to enable or disable image stretch."
+        },
+        "imageenlargeenabled": {
+          "label": "Enable image enlarge",
+          "help": "This option allows you to enable or disable to enlarge image to fill the whole screen."
+        },
+        "imagealphaenabled": {
+          "label": "Enable alpha channel",
+          "help": "This option allows you to enable or disable the usage of alpha channel if appropriate."
+        },
+        "imageignoreaspectenabled": {
+          "label": "Enable ignore image aspect",
+          "help": "This option allows you to enable or disable the possibility to ignore image aspect."
+        },
+        "disablevideoines": {
+          "label": "Disable video scraps",
+          "help": "This option allows you to enable or disable the possibility to play scrap videos on the second mini TFT screen."
+        },
+        "backlightcontrol": {
+          "label": "Contrôle de la luminosité",
+          "help": "Cette option vous permet de contrôler la luminosité du mini écran TFT. Pour pouvoir l'utiliser, votre écran doit être géré par un PWM."
+        },
+        "usemarquee": {
+          "label": "Use marquees",
+          "help": "This option allows you to enable or disable usage of marquees."
+        },
+        "sleepenabled": {
+          "label": "Enable sleep mode",
+          "help": "This option allows you to enable or disable sleep mode."
+        }
       }
     },
     "audio": {
@@ -447,6 +525,33 @@
               "help": "This option allows you to disable music playlist."
             }
           }
+        }
+      },
+      "virtualsystems": {
+        "title": "Virtual systems",
+        "allgames": {
+          "label": "Enable All games",
+          "help": "This option allows you to enable or disable All games virtual system."
+        },
+        "multiplayer": {
+          "label": "Enable Multiplayer",
+          "help": "This option allows you to enable or disable Multiplayers virtual system."
+        },
+        "lastplayed": {
+          "label": "Enable Last played",
+          "help": "This option allows you to enable or disable Last played virtual system."
+        },
+        "lightgun": {
+          "label": "Disable Lightgun",
+          "help": "This option allows you to enable or disable Lightgun virtual system."
+        },
+        "ports": {
+          "label": "Hide Ports",
+          "help": "This option allows you to enable or disable Ports virtual system."
+        },
+        "tate": {
+          "label": "Enable Tate",
+          "help": "This option allows you to enable or disable Tate virtual system."
         }
       }
     },

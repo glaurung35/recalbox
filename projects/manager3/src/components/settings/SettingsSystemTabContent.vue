@@ -188,6 +188,51 @@
           </WrappedSlider>
         </template>
       </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.minitft.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.minitft.label"
+            :getter="system['fbcp.enabled']"
+            :setter="systemStore.post"
+            apiKey="fbcp.enabled"
+            v-if="system['fbcp.enabled']"
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.minitft.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.power.switch.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="settings.system.power.switch.label"
+            :options="powerSwitchOptions"
+            :getter="system['power.switch']"
+            :setter="systemStore.post"
+            apiKey="power.switch"
+            v-if="system['power.switch']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.power.switch.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.power.switch.help.0')"></li>
+                <li v-html="$t('settings.system.power.switch.help.1')"></li>
+                <li v-html="$t('settings.system.power.switch.help.2')"></li>
+                <li v-html="$t('settings.system.power.switch.help.3')"></li>
+                <li v-html="$t('settings.system.power.switch.help.4')"></li>
+                <li v-html="$t('settings.system.power.switch.help.5')"></li>
+                <li v-html="$t('settings.system.power.switch.help.6')"></li>
+                <li v-html="$t('settings.system.power.switch.help.7')"></li>
+                <li v-html="$t('settings.system.power.switch.help.8')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6 col">
       <FormFragmentContainer title="settings.system.services.title">
@@ -347,6 +392,156 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.secondminitft.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.secondminitft.enabled.label"
+            :getter="system['secondminitft.enabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.enabled"
+            v-if="system['secondminitft.enabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.enabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSelect
+            label="settings.system.secondminitft.type.label"
+            :options="secondminitftTypeOptions"
+            :getter="system['secondminitft.type']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.type"
+            v-if="system['secondminitft.type']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.type.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.secondminitft.type.help.0')"></li>
+                <li v-html="$t('settings.system.secondminitft.type.help.1')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+          <WrappedSelect
+          label="settings.system.secondminitft.resolution.label"
+            :options="secondminitftResolutionOptions"
+            :getter="system['secondminitft.resolution']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.resolution"
+            v-if="system['secondminitft.resolution']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.resolution.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.system.secondminitft.resolution.help.0')"></li>
+                <li v-html="$t('settings.system.secondminitft.resolution.help.1')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+          <WrappedToggle
+            label="settings.system.secondminitft.imagestretchenabled.label"
+            :getter="system['secondminitft.imagestretchenabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.imagestretchenabled"
+            v-if="system['secondminitft.imagestretchenabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.imageenlargeenabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.secondminitft.imageenlargeenabled.label"
+            :getter="system['secondminitft.imageenlargeenabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.imageenlargeenabled"
+            v-if="system['secondminitft.imageenlargeenabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.imagealphaenabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.secondminitft.imagealphaenabled.label"
+            :getter="system['secondminitft.imagealphaenabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.imagealphaenabled"
+            v-if="system['secondminitft.imagealphaenabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.imagestretchenabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.secondminitft.imageignoreaspectenabled.label"
+            :getter="system['secondminitft.imageignoreaspectenabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.imageignoreaspectenabled"
+            v-if="system['secondminitft.imageignoreaspectenabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.imageignoreaspectenabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.secondminitft.disablevideoines.label"
+            :getter="system['secondminitft.disablevideoines']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.disablevideoines"
+            v-if="system['secondminitft.disablevideoines']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.disablevideoines.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSlider
+            label="settings.system.secondminitft.backlightcontrol.label"
+            :getter="system['secondminitft.backlightcontrol']"
+            :setter="systemStore.post"
+            apiKey="secondminitft."
+            v-if="system['secondminitft.backlightcontrol']"
+            :min="secondminitftBacklightDurationOptions.lowerValue"
+            :max="secondminitftBacklightDurationOptions.higherValue"
+            icon="mdi-timer-outline"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.screensaver.demo.duration.help') }}
+            </template>
+          </WrappedSlider>
+          <WrappedToggle
+            label="settings.system.secondminitft.usemarquee.label"
+            :getter="system['secondminitft.usemarquee']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.usemarquee"
+            v-if="system['secondminitft.usemarquee']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.usemarquee.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.system.secondminitft.sleepenabled.label"
+            :getter="system['secondminitft.sleepenabled']"
+            :setter="systemStore.post"
+            apiKey="secondminitft.sleepenabled"
+            v-if="system['secondminitft.sleepenabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.secondminitft.sleepenabled.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -377,6 +572,10 @@ const {
   specialkeysOptions,
   splashLengthOptions,
   splashSelectOptions,
+  powerSwitchOptions,
+  secondminitftTypeOptions,
+  secondminitftResolutionOptions,
+  secondminitftBacklightDurationOptions,
   system,
 } = storeToRefs(systemStore);
 

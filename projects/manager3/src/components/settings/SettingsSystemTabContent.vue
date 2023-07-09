@@ -13,7 +13,12 @@
             :setter="systemStore.post"
             apiKey="language"
             v-if="system.language"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.internationalization.langSelect.help') }}
+            </template>
+          </WrappedSelect>
           <WrappedSelect
             label="settings.system.internationalization.keyboardSelect.label"
             :options="kblayoutOptions"
@@ -21,7 +26,12 @@
             :setter="systemStore.post"
             apiKey="kblayout"
             v-if="system.kblayout"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.internationalization.keyboardSelect.help') }}
+            </template>
+          </WrappedSelect>
           <WrappedSelect
             label="settings.system.internationalization.timeZoneSelect.label"
             :options="timezoneOptions"
@@ -29,7 +39,12 @@
             :setter="systemStore.post"
             apiKey="timezone"
             v-if="system.timezone"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.internationalization.timeZoneSelect.help') }}
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
 
@@ -102,19 +117,24 @@
       <FormFragmentContainer title="settings.system.updates.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.system.updates.toggleButtonLabel"
+            label="settings.system.updates.enabled.label"
             :getter="updates.enabled"
             :setter="updateStore.post"
             apiKey="enabled"
             v-if="updates.enabled"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.updates.enabled.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.hat.wpaf.title">
+      <FormFragmentContainer title="settings.system.hat.wpaf.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.hat.wpaf.enabled.title"
+            label="settings.system.hat.wpaf.enabled.label"
             :getter="hat['wpaf.enabled']"
             :setter="hatStore.post"
             apiKey="wpaf.enabled"
@@ -122,11 +142,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.hat.wpaf.enabled.help') }}
+              {{ $t('settings.system.hat.wpaf.enabled.help') }}
             </template>
           </WrappedToggle>
           <WrappedSelect
-            label="settings.hat.wpaf.board.title"
+            label="settings.system.hat.wpaf.board.label"
             :options="wpafBoardOptions"
             :getter="hat['wpaf.board']"
             :setter="hatStore.post"
@@ -135,16 +155,37 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.hat.wpaf.board.help.availableOptions') }}
+              {{ $t('settings.system.hat.wpaf.board.help.availableOptions') }}
               <ul>
-                <li v-html="$t('settings.hat.wpaf.board.help.0')"></li>
-                <li v-html="$t('settings.hat.wpaf.board.help.1')"></li>
-                <li v-html="$t('settings.hat.wpaf.board.help.2')"></li>
-                <li v-html="$t('settings.hat.wpaf.board.help.3')"></li>
-                <li v-html="$t('settings.hat.wpaf.board.help.4')"></li>
+                <li v-html="$t('settings.system.hat.wpaf.board.help.0')"></li>
+                <li v-html="$t('settings.system.hat.wpaf.board.help.1')"></li>
+                <li v-html="$t('settings.system.hat.wpaf.board.help.2')"></li>
+                <li v-html="$t('settings.system.hat.wpaf.board.help.3')"></li>
+                <li v-html="$t('settings.system.hat.wpaf.board.help.4')"></li>
               </ul>
             </template>
           </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.brightness.title">
+        <template v-slot:content>
+          <WrappedSlider
+            label="settings.system.brightness.label"
+            :options="brightnessOptions"
+            :getter="emulationstation.brightness"
+            :setter="emulationstationStore.post"
+            apiKey="brightness"
+            v-if="emulationstation.brightness"
+            :mix="brightnessOptions.lowerValue"
+            :max="brightnessOptions.higherValue"
+            icon="mdi-brightness-6"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.brightness.help') }}
+            </template>
+          </WrappedSlider>
         </template>
       </FormFragmentContainer>
     </div>
@@ -152,39 +193,59 @@
       <FormFragmentContainer title="settings.system.services.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.system.services.managerEnabled"
+            label="settings.system.services.managerEnabled.label"
             :getter="system['manager.enabled']"
             :setter="systemStore.post"
             apiKey="manager.enabled"
             v-if="system['manager.enabled']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.services.managerEnabled.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
-            label="settings.system.services.sambaEnabled"
+            label="settings.system.services.sambaEnabled.label"
             :getter="system['samba.enabled']"
             :setter="systemStore.post"
             apiKey="samba.enabled"
             v-if="system['samba.enabled']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.services.sambaEnabled.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
-            label="settings.system.services.virtualGamepadsEnabled"
+            label="settings.system.services.virtualGamepadsEnabled.label"
             :getter="system['virtual-gamepads.enabled']"
             :setter="systemStore.post"
             apiKey="virtual-gamepads.enabled"
             v-if="system['virtual-gamepads.enabled']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.services.virtualGamepadsEnabled.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
-            label="settings.system.services.sshEnabled"
+            label="settings.system.services.sshEnabled.label"
             :getter="system['ssh.enabled']"
             :setter="systemStore.post"
             apiKey="ssh.enabled"
             v-if="system['ssh.enabled']"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.services.sshEnabled.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.system.screensaver.title">
         <template v-slot:content>
           <WrappedSlider
-            label="settings.system.screensaver.time.title"
+            label="settings.system.screensaver.time.label"
             :getter="emulationstation['screensaver.time']"
             :setter="emulationstationStore.post"
             apiKey="screensaver.time"
@@ -199,7 +260,7 @@
             </template>
           </WrappedSlider>
           <WrappedSelect
-            label="settings.system.screensaver.type.title"
+            label="settings.system.screensaver.type.label"
             :options="screensaverTypeOptions"
             :getter="emulationstation['screensaver.type']"
             :setter="emulationstationStore.post"
@@ -218,7 +279,7 @@
             </template>
           </WrappedSelect>
           <WrappedMultipleSelect
-            label="settings.system.demo.systemlist.label"
+            label="settings.system.screensaver.demo.systemlist.label"
             :options="demoSystemlistOptions"
             :getter="global['demo.systemlist']"
             :setter="globalStore.post"
@@ -227,11 +288,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.system.demo.systemlist.help') }}
+              {{ $t('settings.system.screensaver.demo.systemlist.help') }}
             </template>
           </WrappedMultipleSelect>
           <WrappedSlider
-            label="settings.system.demo.duration.label"
+            label="settings.system.screensaver.demo.duration.label"
             :getter="global['demo.duration']"
             :setter="globalStore.post"
             apiKey="demo.duration"
@@ -242,11 +303,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.system.demo.duration.help') }}
+              {{ $t('settings.system.screensaver.demo.duration.help') }}
             </template>
           </WrappedSlider>
           <WrappedSlider
-            label="settings.system.demo.infoscreenduration.label"
+            label="settings.system.screensaver.demo.infoscreenduration.label"
             :getter="global['demo.infoscreenduration']"
             :setter="globalStore.post"
             apiKey="demo.infoscreenduration"
@@ -257,11 +318,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.system.demo.infoscreenduration.help') }}
+              {{ $t('settings.system.screensaver.demo.infoscreenduration.help') }}
             </template>
           </WrappedSlider>
           <WrappedToggle
-            label="settings.system.gameclip.showhelpitems.label"
+            label="settings.system.screensaver.gameclip.showhelpitems.label"
             :getter="emulationstation.showgamecliphelpitems"
             :setter="emulationstationStore.post"
             apiKey="showgamecliphelpitems"
@@ -269,11 +330,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.system.gameclip.showhelpitems.help') }}
+              {{ $t('settings.system.screensaver.gameclip.showhelpitems.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
-            label="settings.system.gameclip.showclippingitem.label"
+            label="settings.system.screensaver.gameclip.showclippingitem.label"
             :getter="emulationstation.showgameclipclippingitem"
             :setter="emulationstationStore.post"
             apiKey="showgameclipclippingitem"
@@ -281,7 +342,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.system.gameclip.showclippingitem.help') }}
+              {{ $t('settings.system.screensaver.gameclip.showclippingitem.help') }}
             </template>
           </WrappedToggle>
         </template>
@@ -333,6 +394,7 @@ emulationstationStore.fetch();
 const {
   screensaverTimeOptions,
   screensaverTypeOptions,
+  brightnessOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 

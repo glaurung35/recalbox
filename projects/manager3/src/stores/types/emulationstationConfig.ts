@@ -76,7 +76,7 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
-  'themes.folder': z.object({
+  'theme.folder': z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
@@ -235,7 +235,7 @@ export const EmulationStationConfigOptionsSchema = z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),
-  'themes.folder': z.object({
+  'theme.folder': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),

@@ -7,12 +7,17 @@
       <FormFragmentContainer title="settings.hyperion.settings.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.hyperion.settings.enableHyperion"
+            label="settings.hyperion.settings.enableHyperion.label"
             :getter="hyperion.enabled"
             :setter="hyperionStore.post"
             apiKey="enabled"
             v-if="hyperion.enabled"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.hyperion.settings.enableHyperion.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>

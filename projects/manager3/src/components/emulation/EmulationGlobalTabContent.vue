@@ -13,7 +13,12 @@
             :setter="globalStore.post"
             apiKey="ratio"
             v-if="global.ratio"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.ratio.help') }}
+            </template>
+          </WrappedSelect>
           <WrappedSelect
             label="emulation.global.display.videomode.label"
             :options="videomodeOptions"
@@ -34,7 +39,12 @@
             :setter="globalStore.post"
             apiKey="shaders"
             v-if="global.shaders"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.shaders.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedSelect
             label="emulation.global.display.shaderset.label"
             :options="shadersetOptions"
@@ -62,7 +72,12 @@
             apiKey="shaderset.file"
             v-if="global['shaderset.file']"
             :disable="global.shaderset.value !== 'custom'"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.customshaders.help') }}
+            </template>
+          </WrappedSelect>
           <q-separator/>
           <WrappedToggle
             label="emulation.global.display.integerscale.label"
@@ -83,7 +98,12 @@
             :setter="globalStore.post"
             apiKey="smooth"
             v-if="global.smooth"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.smooth.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.rewind.title">
@@ -193,7 +213,12 @@
             :setter="globalStore.post"
             apiKey="translate"
             v-if="global.translate"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.translation.translate.help') }}
+            </template>
+          </WrappedToggle>
 
           <WrappedSelect
             label="emulation.global.translation.translateFrom.label"

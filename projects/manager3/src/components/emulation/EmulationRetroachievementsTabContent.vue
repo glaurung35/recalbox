@@ -25,7 +25,12 @@
         :setter="globalStore.post"
         apiKey="retroachievements.username"
         v-if="global['retroachievements.username']"
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.retroachievements.username.help') }}
+        </template>
+      </WrappedTextInput>
       <WrappedTextInput
         label="emulation.global.retroachievements.password.label"
         :getter="global['retroachievements.password']"
@@ -33,7 +38,12 @@
         apiKey="retroachievements.password"
         v-if="global['retroachievements.password']"
         password
-      />
+        help
+      >
+        <template v-slot:help>
+          {{ $t('emulation.global.retroachievements.password.help') }}
+        </template>
+      </WrappedTextInput>
 
       <q-separator/>
 

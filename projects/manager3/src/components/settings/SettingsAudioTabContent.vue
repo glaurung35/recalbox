@@ -30,7 +30,12 @@
             :setter="audioStore.post"
             apiKey="device"
             v-if="audio.device"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.audio.audioOutput.help') }}
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.audio.volume.title">
@@ -43,7 +48,36 @@
             :min="volumeOptions.lowerValue"
             :max="volumeOptions.higherValue"
             icon="mdi-volume-high"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.audio.volume.help') }}
+            </template>
+          </WrappedSlider>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="settings.audio.mode.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="settings.audio.mode.select.options.label"
+            :options="modeOptions"
+            :getter="audio.mode"
+            :setter="audioStore.post"
+            apiKey="mode"
+            v-if="audio.mode"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.audio.mode.help.title') }}
+              <ul>
+                <li v-html="$t('settings.audio.mode.help.0')"></li>
+                <li v-html="$t('settings.audio.mode.help.1')"></li>
+                <li v-html="$t('settings.audio.mode.help.2')"></li>
+                <li v-html="$t('settings.audio.mode.help.3')"></li>
+                <li v-html="$t('settings.audio.mode.help.4')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
     </div>
@@ -60,5 +94,10 @@ import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 
 const audioStore = useAudioStore();
 audioStore.fetch();
-const { deviceOptions, volumeOptions, audio } = storeToRefs(audioStore);
+const {
+  deviceOptions,
+  volumeOptions,
+  modeOptions,
+  audio,
+} = storeToRefs(audioStore);
 </script>

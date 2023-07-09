@@ -120,45 +120,48 @@
       "internationalization": {
         "title": "Langue",
         "langSelect": {
-          "label": "Langue du système"
+          "label": "Langue du système",
+          "help": "Cette option vous permet de choisir la langue de votre Recalbox."
         },
         "keyboardSelect": {
           "label": "Disposition du clavier",
+          "help": "Cette option vous permet de choisir la disposition du clavier.",
           "options": {}
         },
         "timeZoneSelect": {
-          "label": "Timezone",
+          "label": "Fuseau horaire",
+          "help": "Cette option vous permet de choisir le fuseau horaire.",
           "options": {}
         }
       },
       "splashScreen": {
-        "title": "Splash screen",
+        "title": "Vidéos de démarrage",
         "splashLength": {
-          "label": "Durée du splash screen",
+          "label": "Durée des vidéos de démarrage",
           "help": {
-            "availableOptions": "Options disponibles (en secondes) :",
-            "0": "<b>0 :</b> La vidéo s'arrêtera lorsqu'EmulationStation sera prêt à démarrer",
-            "1": "<b>-1 :</b> Toute la vidéo sera lue avant le démarrage d'EmulationStation (par défaut)",
-            "2": "<b>> 0 :</b> Temps de lecture de la vidéo avant le démarrage d'EmulationStation"
+            "availableOptions": "Cette option vous permet de choisir la durée de lecture des vidéos de démarrage. Options disponibles (en secondes) :",
+            "0": "<b>0 :</b> La vidéo s'arrêtera lorsqu'EmulationStation sera prêt à démarrer.",
+            "1": "<b>-1 :</b> Toute la vidéo sera lue avant le démarrage d'EmulationStation (par défaut).",
+            "2": "<b>> 0 :</b> Temps de lecture de la vidéo avant le démarrage d'EmulationStation."
           }
         },
         "splashSelect": {
-          "label": "Sélection du splash screen",
+          "label": "Sélection des vidéos de démarrage",
           "help": {
-            "availableOptions": "Options disponibles :",
-            "0": "<b>all</b> correspond à tout type de vidéo splash screen",
-            "1": "<b>recalbox</b> correspond uniquement aux splash screens de recalbox",
-            "2": "<b>custom</b> correspond uniquement aux splash screens personnalisés"
+            "availableOptions": "Cette option vous permet de choisir quelles vidéos de démarrage utiliser. Options disponibles :",
+            "0": "<b>all</b> correspond à tout type de vidéo splash screen.",
+            "1": "<b>recalbox</b> correspond uniquement aux splash screens de recalbox.",
+            "2": "<b>custom</b> correspond uniquement aux splash screens personnalisés."
           }
         }
       },
       "specialKey": {
         "title": "hot key",
         "help": {
-          "availableOptions": "Options disponibles :",
-          "default": "<b>default</b> correspond au fonctionnement de base avec toutes les possibilités",
-          "nomenu": "<b>nomenu</b> désactive l'affichage du menu",
-          "none": "<b>none</b> désactive la touche spéciale"
+          "availableOptions": "Cette option vous permet de bloquer l'accès au menus des émulateurs avec Hotkey + B. Options disponibles :",
+          "default": "<b>default</b> correspond au fonctionnement de base avec toutes les possibilités.",
+          "nomenu": "<b>nomenu</b> désactive l'affichage du menu.",
+          "none": "<b>none</b> désactive la touche spéciale."
         },
         "behaviourSelect": {
           "label": "Comportement",
@@ -167,71 +170,129 @@
       },
       "updates": {
         "title": "mises à jour",
-        "toggleButtonLabel": "Vérifier les mises à jours au démarrage du système"
+        "enabled": {
+          "label": "Vérifier les mises à jours au démarrage du système",
+          "help": "Cette option vous permet de demander à votre Recalbox de rechercher si une mise à jour existe lors de son démarrage."
+        }
       },
       "services": {
         "title": "Services",
-        "managerEnabled": "Activer le manager",
-        "sambaEnabled": "Activer Samba",
-        "virtualGamepadsEnabled": "Activer les périphériques virtuels",
-        "sshEnabled": "Activer le protocole SSH"
+        "managerEnabled": {
+          "label": "Activer le gestionnaire web",
+          "help": "Cette option vous permet d'activer ou de désactiver ce gestionnaire web."
+        },
+        "sambaEnabled": {
+          "label": "Activer Samba",
+          "help": "Cette option vous permet d'activer ou de désactiver le protocole Samba."
+        },
+        "virtualGamepadsEnabled": {
+          "label": "Activer les périphériques virtuels",
+          "help": "Cette option vous permet d'activer ou de désactiver les périphériques virtuels (manette / clavier / touchpad)."
+        },
+        "sshEnabled": {
+          "label": "Activer le protocole SSH",
+          "help": "Cette option vous permet d'activer ou de désactiver le protocole SSH."
+        }
       },
       "screensaver": {
         "title": "Écrans de veille",
         "time": {
-          "title": "Délai",
-          "help": "Délai avant le démarrage de l'écran de veille, en secondes. Par défaut : 5 minutes"
+          "label": "Délai",
+          "help": "Cette option vous permet de choisir le délai avant le démarrage de l'écran de veille, en secondes. Par défaut : 5 minutes."
         },
         "type": {
-          "title": "Type",
+          "label": "Type",
           "help": {
-            "availableOptions": "Options disponibles :",
-            "dim": "<b>dim</b> affiche un écran en demi-teinte",
-            "black": "<b>black</b> affiche un écran entièrement noir",
-            "demo": "<b>demo</b> affiche une démo d'un jeu sélectionné au hasard",
-            "gameclip": "<b>gameclip</b> affiche une vidéo issu d'un scrap d'un jeu sélectionné au hasard"
+            "availableOptions": "Cette option vous permet de choisir le type d'écran de veille. Options disponibles :",
+            "dim": "<b>dim</b> affiche un écran en demi-teinte.",
+            "black": "<b>black</b> affiche un écran entièrement noir.",
+            "demo": "<b>demo</b> affiche une démo d'un jeu sélectionné au hasard.",
+            "gameclip": "<b>gameclip</b> affiche une vidéo issu d'un scrap d'un jeu sélectionné au hasard."
+          }
+        },
+        "demo": {
+          "systemlist": {
+            "label": "Liste des systèmes présentés (demo / gameclip)",
+            "help": "Cette option vous permet de configurer la liste des systèmes parmis lesquels EmulationStation va puiser pour faire tourner les démo. Si une valeur nulle ou inconnue est saisie, tous les systèmes seront présentés."
+          },
+          "duration": {
+            "label": "Durée de la démo de jeux ( 30 à 600 s )",
+            "help": "Cette option vous permet de définir la durée d'exécution des démos de jeux. Valeur par défaut : 90s."
+          },
+          "infoscreenduration": {
+            "label": "Durée des écrans d'information ( 15 à 30 s )",
+            "help": "Cette option vous permet de définir la durée d'affichage des écrans d'informations entre les démos de jeux. Valeur par défaut : 6s."
+          }
+        },
+        "gameclip": {
+          "showhelpitems": {
+            "label": "Afficher les boutons en bas des clips des jeux",
+            "help": "Cette option permet de cacher les boutons d'actions visibles en bas de l'écran dans les clips de jeux."
+          },
+          "showclippingitem": {
+            "label": "Afficher le \"Press Start\" sur les clips de jeux",
+            "help": "Cette option permet d'afficher le \"Press Start\" affichée au milieu de l'écran."
           }
         }
       },
-      "demo": {
-        "systemlist": {
-          "label": "Liste des systèmes présentés (demo / gameclip)",
-          "help": "Configure la liste des systèmes parmis lesquels EmulationStation va puiser pour faire tourner les démo. Si une valeur nulle ou inconnue est saisie, toute les systèmes seront présentés."
-        },
-        "duration": {
-          "label": "Durée de la démo de jeux ( 30 à 600 s )",
-          "help": "Valeur par défaut : 90s.\n\nChangez cette valeur si vous souhaitez une durée plus courte ou plus longue."
-        },
-        "infoscreenduration": {
-          "label": "Durée des écrans d'information ( 15 à 30 s )",
-          "help": "Valeur par défaut : 6s.\n\nChangez cette valeur si vous souhaitez une durée plus courte ou plus longue."
+      "hat": {
+        "wpaf": {
+          "title": "Ventilation",
+          "enabled": {
+            "label": "Activer la ventilation",
+            "help": "Cette option vous permet d'activer la ventilation sur botre board en fonction du hat."
+          },
+          "board": {
+            "label": "Choix du hat",
+            "help": {
+              "availableOptions": "Cette option vous permet de choisir le hat à utiliser. Options disponibles :",
+              "0": "<b>wspoehatb</b> correspond à la carte Waveshare PoE.",
+              "1": "<b>argonforty</b> correspond à la carte dans les boitiers Argon One.",
+              "2": "<b>piboy</b> correspond aux boitiers PiBoy d'Experimental Pi.",
+              "3": "<b>rpipoeplus</b> correspond à la carte Raspberry Pi PoE+.",
+              "4": "<b>fanshim</b> correspond à la carte Pimoroni fan SHIM."
+            }
+          }
         }
       },
-      "gameclip": {
-        "showhelpitems": {
-          "label": "Afficher les boutons en bas des clips des jeux",
-          "help": "Cette option permet de cacher les boutons d'actions visibles en bas de l'écran dans les clips de jeux."
-        },
-        "showclippingitem": {
-          "label": "Afficher le \"Press Start\" sur les clips de jeux",
-          "help": "Cette option permet d'afficher le \"Press Start\" affichée au milieu de l'écran."
-        }
+      "brightness": {
+        "title": "Luminosité",
+        "label": "Puissance de la luminosité",
+        "help": "Cette option vous permet de régler la lumonisité de l'écran. Option utilisable uniquement sur Anbernic RG353 et Odroid Go Advance."
       }
     },
     "audio": {
       "backgroundMusic": {
         "title": "Musique de fond",
-        "help": "Cette modification nécessite de redémarrer EmulationStation pour être prise en compte",
+        "help": "Cette option vous permet d'activer ou de désactiver les musiques de fond.\n\nCette modification nécessite de redémarrer EmulationStation pour être prise en compte.",
         "toggleButtonLabel": "Activer les musiques de fond"
       },
       "volume": {
-        "title": "Volume"
+        "title": "Volume",
+        "help": "Cette option vous permet de définir le volume sonore."
       },
       "audioOutput": {
         "title": "Sortie audio",
+        "help": "Cette option vous permet de choisir la sortie audio.",
         "select": {
           "options": {
             "label": "Sélectionner la sortie audio"
+          }
+        }
+      },
+      "mode": {
+        "title": "Mode audio",
+        "help": {
+          "title": "Cette option vous permet de sélectionner le son à jouer dans les menus. Options disponibles :",
+          "0": "<b>musicxorvideosound</b> lira les musiques ou le son des vidéos.",
+          "1": "<b>musicandvideosound</b> lira les musiques et le son des vidéos.",
+          "2": "<b>musiconly</b> lira les musiques uniquement.",
+          "3": "<b>videosoundonly</b> lira le son des vidéos uniquement.",
+          "4": "<b>none</b> ne lira aucune musique ou son de vidéo."
+        },
+        "select": {
+          "options": {
+            "label": "Sélectionnez le mode audio"
           }
         }
       }
@@ -239,7 +300,10 @@
     "network": {
       "server": {
         "title": "Serveur",
-        "hostname": "Nom d'hôte"
+        "hostname": {
+          "label": "Nom d'hôte",
+          "help": "Cette option vous permet de modifier nom de votre Recalbox sur votre réseau local."
+        }
       },
       "wifi": {
         "title": "Wi-Fi",
@@ -248,13 +312,20 @@
           "help": "La valeur par défaut est JP car ce pays est le plus permissif en ce qui concerne le wifi."
         },
         "ip": {
-          "title": "IP Recalbox"
+          "title": "Adresse IP Recalbox",
+          "help": "Cette option vous permet de spécifier une adresse IP statique pour votre Recalbox."
         },
         "netmask": {
-          "title": "Masque de sous réseau"
+          "title": "Masque de sous réseau",
+          "help": "Cette option vous permet de spécifier un masque de sous-réseau statique pour votre Recalbox."
         },
         "gateway": {
-          "title": "IP de la passerelle"
+          "title": "Adresse IP de la passerelle",
+          "help": "Cette option vous permet de spécifier une adresse IP de la passerelle statique pour votre Recalbox."
+        },
+        "nameservers": {
+          "title": "Serveur(s) de noms de domaines",
+          "help": "Cette option vous permet de spécifier une ou plusieurs adresses IP de serveurs de noms de domaines. Chaque adresse doit être séparé par un espace."
         },
         "priority": {
           "title": "Priorité",
@@ -262,8 +333,14 @@
         },
         "toggleButtonLabel": "Activer le Wi-Fi",
         "help": "Attention, si vous vous trompez dans vos informations vous risquez de ne plus pouvoir accéder à votre recalbox par le wifi.\n\nLes clés sont chiffrées et ne sont donc pas réaffichées dans les champs. Cela ne veut pas dire que la valeur n'est pas renseignée ! Si vous renseignez une valeur, cela écrasera la précédente.",
-        "ssid": "SSID",
-        "key": "Clé"
+        "ssid": {
+          "title": "SSID",
+          "help": "Cette option vous permet de renseigner le nom de votre connexion wifi."
+        },
+        "key": {
+          "title": "Clé",
+          "help": "Cette option vous permet de renseigner le mot de passe associée à votre connexion wifi."
+        }
       }
     },
     "emustation": {
@@ -271,7 +348,7 @@
         "title": "Affichage",
         "videomode": {
           "label": "Mode vidéo",
-          "help": "Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d'écran native"
+          "help": "Cette option vous permet de choisir une résolution pour tout Recalbox. Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d'écran native"
         }
       },
       "menus": {
@@ -279,41 +356,97 @@
         "menuStyle": {
           "label": "Style de menu",
           "help": {
-            "availableOptions": "Options disponibles :",
-            "bartop": "<b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops",
-            "default": "<b>default</b> correspond au menu de base avec toutes les options",
-            "none": "<b>none</b> n'offre aucun menu excepté celui de recherche de jeux"
+            "availableOptions": "Cette option vous permet de choisir les accès aux menus à accorder aux joueurs. Options disponibles :",
+            "bartop": "<b>bartop</b> comporte peu de menu, seulement ceux nécessaires pour les bartops.",
+            "default": "<b>default</b> correspond au menu de base avec toutes les options.",
+            "none": "<b>none</b> n'offre aucun menu excepté celui de recherche de jeux. Avec cette option, vous n'avez plus l'option d'éteindre !"
           }
         },
         "systemSelectedAsDefault": {
-          "label": "Système sélectionné par défaut"
+          "label": "Système sélectionné par défaut",
+          "help": "Cette option vous permet de choisir quel système sera sélectionné au démarrage."
         },
         "startFromFirstSystem": {
           "label": "Démarrer sur la liste de jeux du premier système (ou de celui sélectionné)",
-          "help": "ES se lancera et affichera directement la liste de jeux du premier système (ou celui sélectionné)."
+          "help": "Cette option vous permet de choisir si vous souhaitez démarrer directement sur la liste de jeux du premier système (ou celui sélectionné)."
         },
         "disableSystemSelection": {
           "label": "Désactiver la sélection des systèmes",
-          "help": "ES se lancera et n'affichera QUE le premier système (ou celui sélectionné)."
+          "help": "Cette option vous permet de choisir si vous souhaitez démarrer et d'afficher que le premier système (ou celui sélectionné)."
         },
         "showOnlyScrapedGames": {
           "label": "N'afficher que les jeux parsés",
-          "help": "ES n'affichera que les jeux listés dans les fichiers gamelist.xml (accélère les temps d'affichage)."
+          "help": "Cette option vous permet d'afficher que les jeux listés dans les fichiers gamelist.xml (accélère les temps d'affichage)."
         },
         "clock": {
-          "title": "Afficher l'horloge",
-          "help": "Affiche une horloge dans les menus"
+          "label": "Afficher l'horloge",
+          "help": "Cette option vous permet d'afficher une horloge dans les menus."
+        }
+      },
+      "theme": {
+        "title": "Thèmes",
+        "folder": {
+          "label": "Sélection du thème",
+          "help": "Cette option vous permet de choisir quel thème utiliser."
+        },
+        "transition": {
+          "label": "Style de transition au lancement des jeux",
+          "help": {
+            "availableOptions": "Cette option vous permet de définir le style de transition au lancement des jeux. Options disponibles :",
+            "0": "<b>fade</b> fait un fondu vers un écran noir.",
+            "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
+            "2": "<b>instant</b> lancera le jeu sans aucune animation."
+          }
+        },
+        "carousel": {
+          "label": "Animation du bandeau",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir la façon dont s'effectue l'animation pendant le déplacement entre systèmes. Options disponibles :",
+            "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
+            "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
+          }
         }
       },
       "videoSnaps": {
-        "title": "Videosnaps",
+        "title": "Vidéo des scraps",
         "delay": {
-          "title": "Délai",
-          "help": "Délai avant le démarrage des Videosnaps, en millisecondes. Par défaut : 2s ( 2000 )"
+          "label": "Délai",
+          "help": "Cette option vous permet de définir le délai avant le démarrage des vidéos des scraps, en millisecondes. Par défaut : 2s ( 2000 )."
         },
         "loop": {
-          "title": "Nombre de boucles vidéo",
-          "help": "0 = pas de vidéo. 1 ou plus = la vidéo boucle x fois avant de disparaître"
+          "label": "Nombre de boucles vidéo",
+          "help": {
+            "availableOptions": "Cette option vous permet de définir le nombre de fois où les vidéos des scraps passent en boucle (par défaut : 1). Options disponibles :",
+            "0": "Si vous définissez ceci à 0, vous n'aurez pas de vidéo.",
+            "1": "Si vous définissez ceci à 1 ou plus, la vidéo se répètera le nombre de fois indiqué avant de disparaître."
+          }
+        }
+      },
+      "patreon": {
+        "title": "Patreon",
+        "patron": {
+          "privatekey": {
+            "label": "Clé",
+            "help": "Cette option vous permet de renseigner votre clé Patreon fourni sur www.recalbox.com."
+          }
+        },
+        "scraper": {
+          "source": {
+            "label": "Source du scrap",
+            "help": "Si vous êtes boss level 2 ou 3, cette option vous permet de choisir la source de vos scraps."
+          },
+          "auto": {
+            "label": "Activer l'auto-scrap",
+            "help": "Cette option vous permet d'activer ou de désactiver l'auto-scrap."
+          }
+        },
+        "music": {
+          "remoteplaylist": {
+            "enable": {
+              "label": "Activer la playlist patrons",
+              "help": "Cette option vous permet de désactiver la playlist des musiques."
+            }
+          }
         }
       }
     },
@@ -323,117 +456,125 @@
         "getNameFrom": {
           "title": "Obtenir les noms à partir de",
           "help": {
-            "availableOptions": "Options disponibles :",
+            "availableOptions": "Cette option vos permet de choisir comment vous souhaitez obtenir les noms des jeux. Options disponibles :",
             "0": "<b>0</b> à partir des résultats du scrap (défaut)",
             "1": "<b>1</b> à partir du nom du fichier",
             "2": "<b>2</b> à partir du nom du fichier non décoré (i.e: (text) et [text] supprimés)"
           }
-        },
-        "source": {
-          "title": "Source du scrap",
-          "help": "Si vous êtes boss level 2 ou 3, vous pouvez choisir la source de vos scraps"
         }
       },
       "screenscraper": {
         "medias": {
           "title": "Médias",
-          "media": "Type d'image",
-          "thumbnail": "Type de vignette",
-          "video": "Type de vidéo",
-          "maps": "Téléchargement des cartes",
-          "manual": "Téléchargement des manuels"
+          "media": {
+            "title": "Type d'image",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge un type d'image."
+          },
+          "thumbnail": {
+            "title": "Type de vignette",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge un type de vignette."
+          },
+          "video": {
+            "title": "Type de vidéo",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge un type de vidéo."
+          },
+          "maps": {
+            "title": "Téléchargement des cartes",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge les cartes."
+          },
+          "manual": {
+            "title": "Téléchargement des manuels",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge les manuels."
+          },
+          "p2k": {
+            "title": "Téléchargement des configurations PAD vers clavier",
+            "help": "Cette option vous permet de choisir si vous souhaitez que le scrap télécharge les configuration pad2keyboard."
+          }
         },
         "auth": {
           "title": "Identifiants",
-          "user": "Utilisateur",
-          "password": "Mot de passe"
+          "user": {
+            "title": "Utilisateur",
+            "help": "Cette option vous permet de renseigner l'identifiant de votre compte ScreenScraper."
+          },
+          "password": {
+            "title": "Mot de passe",
+            "help": "Cette option vous permet de renseigner le mot de passe associé à votre compte ScreenScraper."
+          }
         },
         "i18n": {
           "title": "langue",
-          "language": "Langue préférée",
-          "region": "Région préférée"
-        },
-        "p2k": "Téléchargement des configurations PAD vers clavier"
+          "language": {
+            "title": "Langue préférée",
+            "help": "Cette option vous permet de choisir la langue à utiliser pour vos scraps."
+          },
+          "region": {
+            "title": "Région préférée",
+            "help": "Cette option vous permet de choisir la région préférée."
+          },
+          "regionPriority": {
+            "title": "Sélection de la région des jeux",
+            "help": {
+              "title": "Cette option vous permet de choisir la région à utiliser. Options disponibles :",
+              "0": "<b>DetectedRegion</b> choisira la région détectée.",
+              "1": "<b>favoriteRegion</b> choisira la région préférée."
+            }
+          }
+        }
       }
     },
     "kodi": {
       "status": {
         "title": "Statut",
-        "enableKodi": "Activer Kodi",
-        "kodiAtStartup": "Lancer Kodi au démarrage",
-        "launchWithX": "Lancer Kodi via la touche X"
+        "enableKodi": {
+          "label": "Activer Kodi",
+          "help": "Cette option vous permet d'activer ou de désactiver Kodi."
+        },
+        "kodiAtStartup": {
+          "label": "Lancer Kodi au démarrage",
+          "help": "Cette option vous permet d'activer ou de désactiver le lancement automatique de Kodi au démarrage de votre Recalbox."
+        },
+        "launchWithX": {
+          "label": "Lancer Kodi via la touche X",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'accéder à Kodi via le bouton X d'une manette type SNES."
+        }
       },
       "video": {
         "title": "Vidéo",
         "select": {
           "options": {
-            "label": "Sélectionner le mode de résolution"
+            "label": "Sélectionner le mode de résolution",
+            "help": "Cette option vous permet de choisir une résolution pour Kodi."
           }
         }
       },
       "network": {
         "title": "Réseau",
         "waitMode": {
-          "title": "Mode d'attente",
+          "label": "Sélectionner le mode d'attente",
           "help": {
-            "availableOptions": "Options disponibles :",
-            "required": "<b>required</b> kodi ne se lance pas avant d'avoir pu joindre l'adresse ip indiquée",
-            "wish": "<b>wish</b> utilise un compte à rebours avant de démarrer",
-            "nonce": "<b>nonce</b> aucune valeur"
-          },
-          "select": {
-            "options": {
-              "label": "Sélectionner le mode"
-            }
+            "availableOptions": "Cette option vous permet de modifier de mode d'attente au lancement de Kodi. Options disponibles :",
+            "required": "<b>required</b> Kodi ne se lance pas avant d'avoir pu joindre l'adresse IP indiquée.",
+            "wish": "<b>wish</b> utilise un compte à rebours avant de démarrer.",
+            "nonce": "<b>nonce</b> aucune valeur."
           }
         },
         "waitTime": {
-          "title": "Temps d'attente",
-          "help": "Temps d'attente (secondes) avant que le démarrage de kodi échoue (\"required\") ou continue (\"wish\")"
+          "label": "Temps d'attente",
+          "help": "Cette option vous permet de définir le temps d'attente (secondes) avant que le démarrage de Kodi échoue (\"required\") ou continue (\"wish\")."
         },
-        "waitHost": "Adresse IP"
+        "waitHost": {
+          "label": "Adresse IP",
+          "help": "Cette option vous permet de définir l'adresse IP du serveur qui doit être atteignable afin de valider sa disponibilité."
+        }
       }
     },
     "hyperion": {
       "settings": {
         "title": "Réglages",
-        "enableHyperion": "Activer Hyperion"
-      }
-    },
-    "patreon": {
-      "title": "Patreon",
-      "patron": {
-        "privatekey": {
-          "title": "Clé",
-          "help": "Clé Patreon fourni sur www.recalbox.com"
-        }
-      }
-    },
-    "music": {
-      "remoteplaylist": {
-        "enable": {
-          "title": "Activer la playlist patrons",
-          "help": "Permet de désactiver la playlist des musiques"
-        }
-      }
-    },
-    "hat": {
-      "wpaf": {
-        "title": "Ventilation",
-        "enabled": {
-          "title": "Activer la ventilation",
-          "help": "Cette option vous permet d'activer la ventilation sur botre board en fonction du hat."
-        },
-        "board": {
-          "title": "Choix du hat",
-          "help": {
-            "availableOptions": "Options disponibles :",
-            "0": "<b>wspoehatb</b> correspond à la carte Waveshare PoE.",
-            "1": "<b>argonforty</b> correspond à la carte dans les boitiers Argon One.",
-            "2": "<b>piboy</b> correspond aux boitiers PiBoy d'Experimental Pi.",
-            "3": "<b>rpipoeplus</b> correspond à la carte Raspberry Pi PoE+.",
-            "4": "<b>fanshim</b> correspond à la carte Pimoroni fan SHIM."
-          }
+        "enableHyperion": {
+          "label": "Activer Hyperion",
+          "help": "Cette option vous permet d'activer ou de désactiver Hyperion.\n\nCette fonction n'est, pour l'instant, plus présente dans Recalbox, elle reviendra dès que possible."
         }
       }
     }
@@ -453,6 +594,7 @@
         "title": "Affichage",
         "ratio": {
           "label": "Ratio de l'écran",
+          "help": "Cette option vous permet de choisir le ratio de l'image adapté à votre écran. Par défaut : \"auto\".",
           "options": {
             "automatic": "Automatique",
             "custom": "Personnalisé"
@@ -460,37 +602,41 @@
         },
         "videomode": {
           "label": "Mode vidéo",
-          "help": "Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d'écran native."
+          "help": "Cette option vous permet d'appliquer une résolution d'écran spécifique. Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d'écran native."
         },
         "shaders": {
-          "label": "Activer les shaders"
+          "label": "Activer les shaders",
+          "help": "Cette option vous permet d'activer ou de désactiver l'usage des shaders."
         },
         "shaderset": {
           "label": "Set de shaders",
           "help": {
-            "availableShaders": "Shaders disponibles :",
-            "custom": "<b>custom</b> permet de choisir et d'activer un shader custom",
-            "none": "<b>none</b> ne met aucun shader",
-            "retro": "<b>retro</b> sélectionne le \"meilleur\" shader pour chaque système, choisi par la communauté. Il vous apportera l'expérience de jeu la plus proche de l'expérience originale",
-            "scanlines": "<b>scanlines</b> active les scanlines sur tous les emulateurs"
+            "availableShaders": "Cette option vous permet de choisir si vous souhaitez utiliser un jeu de shaders définis ou un shader personnalisé. Options disponibles :",
+            "none": "<b>none</b> ne met aucun shader.",
+            "retro": "<b>retro</b> sélectionne le \"meilleur\" shader pour chaque système, choisi par la communauté. Il vous apportera l'expérience de jeu la plus proche de l'expérience originale.",
+            "crtcurved": "<b>crtcurved</b> utilise des shaders avec un léger arrondi pour recréer les écrans CRT.",
+            "scanlines": "<b>scanlines</b> active les scanlines sur tous les emulateurs.",
+            "custom": "<b>custom</b> permet de choisir et d'activer un shader personnalisé."
           }
         },
         "customshaders": {
-          "label": "Shader custom"
+          "label": "Shader custom",
+          "help": "Cette option vous permet, si vous avez choisi d'utiliser un shader personnalisé, de choisir un shader à utiliser."
         },
         "integerscale": {
           "label": "Activer le pixel perfect",
-          "help": "Activez le mode de mise à l'échelle de l'image \"Pixel Perfect\" qui consiste à obtenir le rendu exact des jeux sur un écran moderne."
+          "help": "Cette option vous permet d'activer ou de désactiver la mise à l'échelle de vos jeux. Ce mode de mise à l'échelle de l'image \"Pixel Perfect\" consiste à obtenir le rendu exact des jeux sur un écran moderne."
         },
         "smooth": {
           "title": "Lissage des jeux",
-          "label": "Activer le lissage des jeux"
+          "label": "Activer le lissage des jeux",
+          "help": "Cette option vous permet de lisser le rendu vidéo de vos jeux."
         }
       },
       "rewind": {
         "title": "Rembobinage",
         "label": "Active le rembobinage des jeux",
-        "help": "L'option rembobinage vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l'activez par défaut."
+        "help": "Cette option vous permet d'activer ou de désactiver le rembobinage. Ceci vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l'activez par défaut et ne fonctionne pas avec tous les émulateurs."
       },
       "saves": {
         "title": "Sauvegardes",
@@ -506,23 +652,24 @@
       "translation": {
         "title": "Traduction Retroarch",
         "translate": {
-          "label": "Activer la traduction automatique Retroarch"
+          "label": "Activer la traduction automatique RetroArch",
+          "help": "Cette option vous permet d'activer la traduction automatique. Vous devez avoir un compte sur https://ztranslate.net/ pour pouvoir vous en servir."
         },
         "translateFrom": {
           "label": "Langue source",
-          "help": "Définir la langue source peut accélérer et/ou donner de meilleurs résultats"
+          "help": "Cette option vous permet de définir la langue source afin d'accélérer et/ou donner de meilleurs résultats"
         },
         "translateTo": {
           "label": "Langue cible",
-          "help": "La valeur par défaut est extraite depuis la langue système, ou définie automatiquement (EN) si la langue système est non définie."
+          "help": "Cette option vous permet de choisir la langue d'origine des textes à traduire. La valeur par défaut est extraite depuis la langue système, ou définie automatiquement (EN) si la langue système est non définie."
         },
         "translateApiKey": {
           "label": "Clé API zTranslate",
-          "help": "Allez sur https://ztranslate.net et créez vous un compte.\n\nValider votre compte, identifiez-vous puis récupérez la clé API en bas de page."
+          "help": "Cette option vous permet d'ajouter votre clé API de traduction. Vous devez aller la récupérer en allant sur https://ztranslate.net et créez vous un compte si vous n'en avez pas encore un.\n\nValidez votre compte, identifiez-vous puis récupérez la clé API en bas de page."
         },
         "translateUrl": {
           "label": "URL d'un autre service de traduction",
-          "help": "Si vous souhaitez utiliser un autre service de traduction ou un appel API custom, spécifiez l'URL à appeler.\n\nSi cette clé est renseignée, elle est utilisée à l aplace du service zTranslate."
+          "help": "Cette option vous permet d'indiquer si vous souhaitez utiliser un autre système de traduction. Si vous souhaitez utiliser un autre service de traduction ou un appel API custom, spécifiez l'URL à appeler.\n\nSi cette clé est renseignée, elle est utilisée à la place du service zTranslate."
         }
       },
       "softpatching": {
@@ -530,10 +677,10 @@
         "select": {
           "label": "Patcher les jeux au lancement",
           "help": {
-            "availableOptions": "Options disponibles :",
-            "0": "<b>auto</b> appliquera un seul patch automatiquement tout le temps",
-            "1": "<b>select</b> vous demandera de choisir un ou plusieurs patchs à appliquer si vous le souhaitez",
-            "2": "<b>disable</b> ignorera complètement les patchs si il en existe"
+            "availableOptions": "Cette option vous permet de patcher un jeu à la volée, sans modifier vos roms. Options disponibles :",
+            "0": "<b>auto</b> appliquera un seul patch automatiquement tout le temps.",
+            "1": "<b>select</b> vous demandera de choisir un ou plusieurs patchs à appliquer si vous le souhaitez.",
+            "2": "<b>disable</b> ignorera complètement les patchs si il en existe."
           }
         }
       },
@@ -541,17 +688,19 @@
         "title": "Retroachievements",
         "activate": {
           "label": "Activer RetroAchievements",
-          "help": "RetroAchievements.org est un site communautaire qui permet de  gagner des hauts-faits sur mesure dans les jeux d'arcade grâce à l'émulation.\n\n Les haut-faits sont conçus par et pour la communauté."
+          "help": "Cette option vous permet d'activer ou de désactiver l'utilisation des RétroAchievements. RetroAchievements.org est un site communautaire qui permet de  gagner des hauts-faits sur mesure dans les jeux d'arcade grâce à l'émulation.\n\n Les haut-faits sont conçus par et pour la communauté."
         },
         "hardcore": {
           "label": "Activer le mode Hardcore",
-          "help": "Le mode Hardcore désactive <b>toutes</b> les possibilités de sauvegarder dans l'émulateur : vous ne pourrez ni sauvegarder ni recharger votre partie en cours de jeu.\n\nVous devrez compléter le jeu et obtenir les hauts-faits du premier coup, comme c'était le cas sur la console originale !"
+          "help": "Cette option vous permet d'activer ou de désactiver le mode hardcore. Une fois activé, le mode Hardcore désactive <b>toutes</b> les possibilités de sauvegarder dans l'émulateur : vous ne pourrez ni sauvegarder, ni recharger votre partie en cours de jeu.\n\nVous devrez compléter le jeu et obtenir les hauts-faits du premier coup, comme c'était le cas sur la console originale !"
         },
         "username": {
-          "label": "Login"
+          "label": "Login",
+          "help": "Cette option vous permet de renseigner votre identifiant de votre compte RétroAchievements"
         },
         "password": {
-          "label": "Mot de passe"
+          "label": "Mot de passe",
+          "help": "Cette option vous permet de renseigner votre mot de passe associé à votre compte RétroAchievements"
         }
       },
       "arcade": {
@@ -577,23 +726,23 @@
         "title": "Netplay",
         "activate": {
           "label": "Activer le netplay",
-          "help": "Le Netplay est une fonctionnalité permettant le mode multijoueur en réseau avec certains émulateurs via la mise en réseau peer-to-peer (P2P)."
+          "help": "Cette option vous permet d'activer ou de désactiver le Netplay.\n\nLe Netplay est une fonctionnalité permettant le mode multijoueur en réseau avec certains émulateurs via la mise en réseau peer-to-peer (P2P)."
         },
         "nickname": {
           "label": "Surnom",
-          "help": "Configurez votre surnom, veillez à ne pas mettre d'accent, cela empêche le fonctionnement du Netplay."
+          "help": "Cette option vous permet de configurer votre surnom.\n\nVeillez à ne pas mettre de caractères accentués ou spéciaux, cela empêche le fonctionnement du Netplay."
         },
         "port": {
           "label": "Port",
-          "help": "55435 (Correspond au serveur de RetroArch)"
+          "help": "Cette option vous permet de définir un autre port pour se connecter au Netplay. Par défaut : 55435 (Correspond au serveur de RetroArch)"
         },
         "relay": {
           "label": "Netplay MITM Server relais",
-          "help": "L'option Netplay MITM, Relay Server (Server relais) permet d’outrepasser l’ouverture des ports de votre modem.\nCela permet d'acheminer les deux côtés de la connexion via un serveur d'intermédiaire.\n\nCependant cela aura un impact sur la vitesse à laquelle les données se synchronisent et donc sur la réactivité du jeu."
+          "help": "Cette option vous permet de pouvoir choisir un serveur relais pour vous connecter au Netplay.\n\nL'option Netplay MITM, Relay Server (Server relais) permet d’outrepasser l’ouverture des ports de votre modem.\nCela permet d'acheminer les deux côtés de la connexion via un serveur intermédiaire.\n\nCependant, cela aura un impact sur la vitesse à laquelle les données se synchronisent et donc sur la réactivité du jeu."
         },
         "lobby": {
           "label": "Lobby libretro",
-          "help": "URL de la liste de lobby libretro à utiliser.\n\nL'URL \"http://lobby.libretro.com/list/\" est configurée par défaut."
+          "help": "Cette opiotn vous permet de définir une autre adresse pour le lobby Netplay.\n\nL'URL http://lobby.libretro.com/list/ est configurée par défaut."
         }
       }
     },
@@ -658,53 +807,98 @@
     "controllers": {
       "bluetooth": {
         "title": "Bluetooth",
-        "enabled": "Support des contrôleurs Bluetooth",
-        "ertm": "Activation du protocole ERTM"
+        "enabled": {
+          "label": "Support des contrôleurs Bluetooth",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs Bluetooth."
+        },
+        "ertm": {
+          "label": "Activation du protocole ERTM",
+          "help": "Cette option vous permet d'activer ou de désactiver le protocole ERTM."
+        }
       },
       "db9": {
         "title": "DB9",
-        "enabled": "Support des contrôleurs DB9",
-        "settings": "Paramètres"
+        "enabled": {
+          "label": "Support des contrôleurs DB9",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs DB9."
+        },
+        "settings": {
+          "label": "Paramètres",
+          "help": "Cette option vous permet de définir des paramètres pour les contrôleurs DB9."
+        }
       },
       "gamecon": {
         "title": "Gamecon",
-        "enabled": "Support des contrôleurs Gamecon",
-        "settings": "Paramètres"
+        "enabled": {
+          "label": "Support des contrôleurs Gamecon",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs Gamecon."
+        },
+        "settings": {
+          "label": "Paramètres",
+          "help": "Cette option vous permet de définir des paramètres pour les contrôleurs Gamecon."
+        }
       },
       "gpio": {
-        "title": "Gpio",
-        "enabled": "Support des contrôleurs Gpio",
-        "settings": "Paramètres"
+        "title": "GPIO",
+        "enabled": {
+          "label": "Support des contrôleurs GPIO",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs GPIO."
+        },
+        "settings": {
+          "label": "Paramètres",
+          "help": "Cette option vous permet de définir des paramètres pour les contrôleurs GPIO."
+        }
       },
       "ps3": {
         "title": "PS3",
-        "enabled": "Support des contrôleurs PS3",
-        "label": "Driver à utiliser"
+        "enabled": {
+          "label": "Support des contrôleurs PS3",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs PS3."
+        },
+        "driver": {
+          "label": "Driver à utiliser",
+          "help": "Cette option vous permet de choisir un des pilotes dans la liste selon votre contrôleur PS3. Options disponibles :",
+          "0": "<b>bluez</b> correspond aux clones bluez.",
+          "1": "<b>official</b> correspond aux contrôleurs officiels.",
+          "2": "<b>shanwan</b> correspond aux clones shanwan."
+        }
       },
       "steam": {
         "title": "Steam",
-        "enabled": "Support des contrôleurs Steam"
+        "enabled": {
+          "label": "Support des contrôleurs Steam",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs Steam."
+        }
       },
       "xarcade": {
         "title": "XArcade",
-        "enabled": "Support des contrôleurs XArcade Tankstik et contrôleurs compatibles"
+        "enabled": {
+          "label": "Support des contrôleurs XArcade Tankstik et contrôleurs compatibles",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs XArcade Tankstick et compatibles."
+        }
       },
       "joycond": {
         "title": "Joycon",
-        "enabled": "Support des contrôleurs Joycons"
+        "enabled": {
+          "label": "Support des contrôleurs Joycons",
+          "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs Joycons."
+        }
       },
       "swapvalidateandcancel": {
         "title": "Boutons",
-        "enabled": "Inverser les boutons valider et annuler"
+        "enabled": {
+          "label": "Inverser les boutons valider et annuler",
+          "help": "Cette option vous permet d'inverser les actions de validation et d'annulation."
+        }
       },
       "inputdriver": {
         "title": "Pilote",
         "label": "Pilote de manette",
         "help": {
           "availableOptions": "Options disponibles :",
-          "0": "<b>auto</b> choisira le pilote automatiquement",
-          "1": "<b>udev</b> pour utiliser le pilote système",
-          "2": "<b>sdl2</b> pour utiliser le pilote logiciel"
+          "0": "<b>auto</b> choisira le pilote automatiquement.",
+          "1": "<b>udev</b> pour utiliser le pilote système.",
+          "2": "<b>sdl2</b> pour utiliser le pilote logiciel."
         }
       }
     },

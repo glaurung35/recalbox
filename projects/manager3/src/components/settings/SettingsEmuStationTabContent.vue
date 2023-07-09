@@ -4,7 +4,6 @@
 <template>
   <div class="row">
     <div class="col col-xs-12 col-sm-12 col-md-6">
-    <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="settings.emustation.display.title">
         <template v-slot:content>
           <WrappedSelect
@@ -22,7 +21,6 @@
           </WrappedSelect>
         </template>
       </FormFragmentContainer>
-    </div>
       <FormFragmentContainer title="settings.emustation.menus.title">
         <template v-slot:content>
           <WrappedSelect
@@ -53,7 +51,12 @@
             :setter="emulationstationStore.post"
             apiKey="selectedsystem"
             v-if="emulationstation.selectedsystem"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.systemSelectedAsDefault.help') }}
+            </template>
+          </WrappedSelect>
 
           <q-separator/>
 
@@ -94,7 +97,7 @@
             </template>
           </WrappedToggle>
           <WrappedToggle
-            label="settings.emustation.menus.clock.title"
+            label="settings.emustation.menus.clock.label"
             :getter="emulationstation.clock"
             :setter="emulationstationStore.post"
             apiKey="clock"
@@ -107,12 +110,64 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.emustation.theme.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="settings.emustation.theme.folder.label"
+            :options="themeFolderOptions"
+            :getter="emulationstation['theme.folder']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.folder"
+            v-if="emulationstation['theme.folder']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.folder.help') }}
+            </template>
+          </WrappedSelect>
+          <WrappedSelect
+            label="settings.emustation.theme.transition.label"
+            :options="themeTransitionOptions"
+            :getter="emulationstation['theme.transition']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.transition"
+            v-if="emulationstation['theme.transition']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.transition.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.theme.transition.help.0')"></li>
+                <li v-html="$t('settings.emustation.theme.transition.help.1')"></li>
+                <li v-html="$t('settings.emustation.theme.transition.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+          <WrappedToggle
+            label="settings.emustation.theme.carousel.label"
+            :getter="emulationstation['theme.carousel']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.carousel"
+            v-if="emulationstation['theme.carousel']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.carousel.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.theme.carousel.help.0')"></li>
+                <li v-html="$t('settings.emustation.theme.carousel.help.1')"></li>
+              </ul>
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="settings.emustation.videoSnaps.title">
         <template v-slot:content>
           <WrappedSlider
-            label="settings.emustation.videoSnaps.delay.title"
+            label="settings.emustation.videoSnaps.delay.label"
             :getter="emulationstation['videosnaps.delay']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.delay"
@@ -127,7 +182,7 @@
             </template>
           </WrappedSlider>
           <WrappedSlider
-            label="settings.emustation.videoSnaps.loop.title"
+            label="settings.emustation.videoSnaps.loop.label"
             :getter="emulationstation['videosnaps.loop']"
             :setter="emulationstationStore.post"
             apiKey="videosnaps.loop"
@@ -138,15 +193,19 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.videoSnaps.loop.help') }}
+              {{ $t('settings.emustation.videoSnaps.loop.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.videoSnaps.loop.help.0')"></li>
+                <li v-html="$t('settings.emustation.videoSnaps.loop.help.1')"></li>
+              </ul>
             </template>
           </WrappedSlider>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="settings.patreon.title">
+      <FormFragmentContainer title="settings.emustation.patreon.title">
         <template v-slot:content>
           <WrappedTextInput
-            label="settings.patreon.patron.privatekey.title"
+            label="settings.emustation.patreon.patron.privatekey.label"
             :getter="patron.privatekey"
             :setter="patronStore.post"
             apiKey="privatekey"
@@ -154,23 +213,11 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.patreon.patron.privatekey.help') }}
+              {{ $t('settings.emustation.patreon.patron.privatekey.help') }}
             </template>
           </WrappedTextInput>
-          <WrappedToggle
-            label="settings.music.remoteplaylist.enable.title"
-            :getter="music['remoteplaylist.enable']"
-            :setter="musicStore.post"
-            apiKey="remoteplaylist.enable"
-            v-if="music['remoteplaylist.enable']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.music.remoteplaylist.enable.help') }}
-            </template>
-          </WrappedToggle>
           <WrappedSelect
-            label="settings.scraper.settings.source.title"
+            label="settings.emustation.patreon.scraper.source.label"
             :options="sourceOptions"
             :getter="scraper.source"
             :setter="scraperStore.post"
@@ -179,9 +226,33 @@
             help
           >
             <template v-slot:help>
-              {{ $t('settings.scraper.settings.source.help') }}
+              {{ $t('settings.emustation.patreon.scraper.source.help') }}
             </template>
-        </WrappedSelect>
+          </WrappedSelect>
+          <WrappedToggle
+            label="settings.emustation.patreon.scraper.auto.label"
+            :getter="scraper.auto"
+            :setter="scraperStore.post"
+            apiKey="auto"
+            v-if="scraper.auto"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.patreon.scraper.auto.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.patreon.music.remoteplaylist.enable.label"
+            :getter="music['remoteplaylist.enable']"
+            :setter="musicStore.post"
+            apiKey="remoteplaylist.enable"
+            v-if="music['remoteplaylist.enable']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.patreon.music.remoteplaylist.enable.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -212,6 +283,8 @@ const {
   selectedsystemOptions,
   videosnapsLoopOptions,
   videosnapsDelayOptions,
+  themeFolderOptions,
+  themeTransitionOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);

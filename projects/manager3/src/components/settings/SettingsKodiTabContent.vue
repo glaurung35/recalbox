@@ -7,26 +7,41 @@
       <FormFragmentContainer title="settings.kodi.status.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.kodi.status.enableKodi"
+            label="settings.kodi.status.enableKodi.label"
             :getter="kodi.enabled"
             :setter="kodiStore.post"
             apiKey="enabled"
             v-if="kodi.enabled"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.kodi.status.enableKodi.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
-            label="settings.kodi.status.kodiAtStartup"
+            label="settings.kodi.status.kodiAtStartup.label"
             :getter="kodi.atstartup"
             :setter="kodiStore.post"
             apiKey="atstartup"
             v-if="kodi.atstartup"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.kodi.status.kodiAtStartup.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedToggle
-            label="settings.kodi.status.launchWithX"
+            label="settings.kodi.status.launchWithX.label"
             :getter="kodi.xbutton"
             :setter="kodiStore.post"
             apiKey="xbutton"
             v-if="kodi.xbutton"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.kodi.status.launchWithX.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.kodi.video.title">
@@ -39,7 +54,12 @@
               :setter="kodiStore.post"
               apiKey="videomode"
               v-if="kodi.videomode"
-            />
+              help
+            >
+              <template v-slot:help>
+                {{ $t('settings.kodi.video.select.options.help') }}
+              </template>
+            </WrappedSelect>
           </div>
         </template>
       </FormFragmentContainer>
@@ -49,12 +69,13 @@
         <template v-slot:content>
           <div class="col col-xs-12 col-sm-12 col-md-12">
             <WrappedSelect
-              label="settings.kodi.network.waitMode.select.options.label"
+              label="settings.kodi.network.waitMode.label"
               :options="waitModeOptions"
               :getter="kodi['network.waitmode']"
               :setter="kodiStore.post"
               apiKey="network.waitmode"
               v-if="kodi['network.waitmode']"
+              clearable
               help
             >
               <template v-slot:help>
@@ -70,23 +91,33 @@
             <q-separator/>
 
             <WrappedTextInput
-              label="settings.kodi.network.waitHost"
+              label="settings.kodi.network.waitHost.label"
               :getter="kodi['network.waithost']"
               :setter="kodiStore.post"
               apiKey="network.waithost"
               v-if="kodi['network.waithost']"
-            />
+              clearable
+              help
+            >
+            <template v-slot:help>
+              {{ $t('settings.kodi.network.waitHost.help') }}
+            </template>
+            </WrappedTextInput>
 
             <q-separator/>
 
             <WrappedTextInput
-              label="settings.kodi.network.waitTime.title"
-              :help="$t('settings.kodi.network.waitTime.help')"
+              label="settings.kodi.network.waitTime.label"
               :getter="kodi['network.waittime']"
               :setter="kodiStore.post"
               apiKey="network.waittime"
               v-if="kodi['network.waittime']"
-            />
+              help
+            >
+              <template v-slot:help>
+                {{ $t('settings.kodi.network.waitTime.help') }}
+              </template>
+            </WrappedTextInput>
           </div>
         </template>
       </FormFragmentContainer>

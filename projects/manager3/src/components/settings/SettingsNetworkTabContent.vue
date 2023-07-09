@@ -7,12 +7,17 @@
       <FormFragmentContainer title="settings.network.server.title">
         <template v-slot:content>
           <WrappedTextInput
-            label="settings.network.server.hostname"
+            label="settings.network.server.hostname.label"
             :getter="system.hostname"
             :setter="systemStore.post"
             apiKey="hostname"
             v-if="system.hostname"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.server.hostname.help') }}
+            </template>
+          </WrappedTextInput>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.network.wifi.title">
@@ -70,7 +75,12 @@
             :setter="wifiStore.post"
             apiKey="ip"
             v-if="wifi.ip"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.wifi.ip.help') }}
+            </template>
+          </WrappedTextInput>
 
           <WrappedTextInput
             label="settings.network.wifi.netmask.title"
@@ -78,7 +88,12 @@
             :setter="wifiStore.post"
             apiKey="netmask"
             v-if="wifi.netmask"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.wifi.netmask.help') }}
+            </template>
+          </WrappedTextInput>
 
           <WrappedTextInput
             label="settings.network.wifi.gateway.title"
@@ -86,7 +101,25 @@
             :setter="wifiStore.post"
             apiKey="gateway"
             v-if="wifi.gateway"
-          />
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.wifi.gateway.help') }}
+            </template>
+          </WrappedTextInput>
+
+          <WrappedTextInput
+            label="settings.network.wifi.nameservers.title"
+            :getter="wifi.nameservers"
+            :setter="wifiStore.post"
+            apiKey="nameservers"
+            v-if="wifi.nameservers"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.network.wifi.nameservers.help') }}
+            </template>
+          </WrappedTextInput>
 
           <q-separator/>
 
@@ -126,52 +159,82 @@
               >
                 <q-tab-panel name="wifi_1">
                   <WrappedTextInput
-                    label="settings.network.wifi.ssid"
+                    label="settings.network.wifi.ssid.title"
                     :getter="wifi.ssid"
                     :setter="wifiStore.post"
                     apiKey="ssid"
                     v-if="wifi.ssid"
-                  />
+                    help
+                  >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.ssid.help') }}
+                    </template>
+                  </WrappedTextInput>
                   <WrappedTextInput
-                    label="settings.network.wifi.key"
+                    label="settings.network.wifi.key.title"
                     :getter="wifi.key"
                     :setter="wifiStore.post"
                     apiKey="key"
                     v-if="wifi.key"
                     password
-                  />
+                    help
+                    >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.key.help') }}
+                    </template>
+                  </WrappedTextInput>
                 </q-tab-panel>
 
                 <q-tab-panel name="wifi_2">
                   <WrappedTextInput
-                    label="settings.network.wifi.ssid"
+                    label="settings.network.wifi.ssid.title"
                     :getter="wifi2.ssid"
                     :setter="wifi2Store.post"
                     v-if="wifi2.ssid"
-                  />
+                    help
+                  >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.ssid.help') }}
+                    </template>
+                  </WrappedTextInput>
                   <WrappedTextInput
-                    label="settings.network.wifi.key"
+                    label="settings.network.wifi.key.title"
                     :getter="wifi2.key"
                     :setter="wifi2Store.post"
                     v-if="wifi2.key"
                     password
-                  />
+                    help
+                  >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.key.help') }}
+                    </template>
+                  </WrappedTextInput>
                 </q-tab-panel>
 
                 <q-tab-panel name="wifi_3">
                   <WrappedTextInput
-                    label="settings.network.wifi.ssid"
+                    label="settings.network.wifi.ssid.title"
                     :getter="wifi3.ssid"
                     :setter="wifi3Store.post"
                     v-if="wifi3.ssid"
-                  />
+                    help
+                  >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.ssid.help') }}
+                    </template>
+                  </WrappedTextInput>
                   <WrappedTextInput
-                    label="settings.network.wifi.key"
+                    label="settings.network.wifi.key.title"
                     :getter="wifi3.key"
                     :setter="wifi3Store.post"
                     v-if="wifi3.key"
                     password
-                  />
+                    help
+                  >
+                    <template v-slot:help>
+                      {{ $t('settings.network.wifi.key.help') }}
+                    </template>
+                  </WrappedTextInput>
                 </q-tab-panel>
               </q-tab-panels>
             </template>

@@ -423,6 +423,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
 
     int id = input.attribute("id").as_int();
     int value = input.attribute("value").as_int();
+    int code = input.attribute("code").as_int();
 
     if(value == 0)
     { LOG(LogWarning) << "[InputDevice] WARNING: InputConfig value is 0 for " << type << " " << id << "!\n"; }
@@ -433,7 +434,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
     Entry entry = StringToEntry(name);
     if (entry != Entry::None)
     {
-      Set(entry, InputEvent(mDeviceId, typeEnum, id, value));
+      Set(entry, InputEvent(mDeviceId, typeEnum, id, value, code));
       loaded++;
     }
     else { LOG(LogError) << "[InputDevice] Unknown Joystick configuration entry: " << name << " of type " << type << "!\n"; }
@@ -448,10 +449,8 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
   if(mDeviceId == InputEvent::sKeyboardDevice)
   {
     cfg.append_attribute("type") = "keyboard";
-    cfg.append_attribute("deviceName") = "Keyboard";
   }else{
     cfg.append_attribute("type") = "joystick";
-    cfg.append_attribute("deviceName") = mDeviceName.data();
   }
 
   cfg.append_attribute("deviceGUID") = GUID().c_str();

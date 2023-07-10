@@ -48,7 +48,7 @@ export const useSystemStore = defineStore('system', {
       },
       'secondminitft.backlightcontrol': {
         lowerValue: 0,
-        higherValue: 20,
+        higherValue: 100,
       },
     },
     system: {

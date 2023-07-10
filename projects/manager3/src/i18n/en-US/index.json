@@ -803,12 +803,15 @@
           "title": "Smooth game",
           "abell": "Enables game smoothing",
           "help": "This option allows you to make your games more smooth."
+        },
+        "recalboxoverlays": {
+          "label": "Recalbox Overlays",
+          "help": "This option allows you to enable or disable default overlays."
+        },
+        "showfps": {
+          "label": "Display frequency",
+          "help": "This option allows you to display frequency in menus and in game."
         }
-      },
-      "rewind": {
-        "title": "Rewind",
-        "label": "Enables rewind",
-        "help": "This option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it and doesn't work with all emulators."
       },
       "saves": {
         "title": "Saves",
@@ -819,6 +822,32 @@
         "showsavestatebeforerun": {
           "label": "Show save states on start",
           "help": "This option will show available save states before a game is launched."
+        }
+      },
+      "security": {
+        "title": "Security",
+        "quitpresstwice": {
+          "label": "Press twice to quit game",
+          "help": "This option allows you to enable or disable the possibility to press twice Hotkey + Start to quit a game."
+        }
+      },
+      "arcade": {
+        "title": "Arcade",
+        "activate": {
+          "label": "Enables \"Arcade\" meta system",
+          "help": "Activate the Arcade metasystem to group all games from piFBA, FBN (libretro), MAME and optionally Neogeo into a single \"Arcade\" system."
+        },
+        "position": {
+          "label": "\"Arcade\" system position",
+          "help": "You may want to specify its position in the system list. Default position is 0, negatives values may be used to start from the end."
+        },
+        "includeNeogeo": {
+          "label": "Include Neogeo",
+          "help": "Include NeoGeo or not in the meta system \"Arcade\"."
+        },
+        "hideOriginals": {
+          "label": "Hide originals systems",
+          "help": "Hide included system or leave them in the system list."
         }
       },
       "translation": {
@@ -843,6 +872,11 @@
           "label": "Other translation service URL",
           "help": "This option allows you to indicate if you would like to use another translation system. If you want to use another translation service or a custom API call, use this key to specify the url to call.\n\nIf the key is not empty, it is used instead of zTranslation's API Key."
         }
+      },
+      "rewind": {
+        "title": "Rewind",
+        "label": "Enables rewind",
+        "help": "This option allows you to rewind the game whilst playing. This can slowdown some emulators (snes, psx) if you enable it and doesn't work with all emulators."
       },
       "softpatching": {
         "title": "Softpatching",
@@ -873,25 +907,6 @@
         "password": {
           "label": "Password",
           "help": "This option allows you to fill your associated password to your Retroachievements account."
-        }
-      },
-      "arcade": {
-        "title": "Arcade",
-        "activate": {
-          "label": "Enables \"Arcade\" meta system",
-          "help": "Activate the Arcade metasystem to group all games from piFBA, FBN (libretro), MAME and optionally Neogeo into a single \"Arcade\" system."
-        },
-        "position": {
-          "label": "\"Arcade\" system position",
-          "help": "You may want to specify its position in the system list. Default position is 0, negatives values may be used to start from the end."
-        },
-        "includeNeogeo": {
-          "label": "Include Neogeo",
-          "help": "Include NeoGeo or not in the meta system \"Arcade\"."
-        },
-        "hideOriginals": {
-          "label": "Hide originals systems",
-          "help": "Hide included system or leave them in the system list."
         }
       },
       "netplay": {

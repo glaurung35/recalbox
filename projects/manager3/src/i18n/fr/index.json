@@ -22,7 +22,7 @@
       "title": "Périphériques virtuels",
       "keyboard": "Clavier",
       "gamepad": "Manette",
-      "trackpad": "Pavet tactile"
+      "trackpad": "Pavé tactile"
     },
     "helpButton": {
       "tooltip": "Aide"
@@ -803,12 +803,15 @@
           "title": "Lissage des jeux",
           "label": "Activer le lissage des jeux",
           "help": "Cette option vous permet de lisser le rendu vidéo de vos jeux."
+        },
+        "recalboxoverlays": {
+          "label": "Overlays Recalbox",
+          "help": "Cette option vous permet d'activer ou de désactiver les overlays fournis par défaut."
+        },
+        "showfps": {
+          "label": "Afficher la fréquence",
+          "help": "Cette option vous permet d'afficher le taux de rafraichissement dans les menus et dans les jeux."
         }
-      },
-      "rewind": {
-        "title": "Rembobinage",
-        "label": "Active le rembobinage des jeux",
-        "help": "Cette option vous permet d'activer ou de désactiver le rembobinage. Ceci vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l'activez par défaut et ne fonctionne pas avec tous les émulateurs."
       },
       "saves": {
         "title": "Sauvegardes",
@@ -819,6 +822,32 @@
         "showsavestatebeforerun": {
           "label": "Afficher les sauvegardes instantanées au lancement des jeux",
           "help": "Cette option permet d'afficher un écran au lancement des jeux permettant de reprendre une partie à partir d'une sauvegarde instantanée"
+        }
+      },
+      "security": {
+        "title": "Sécurité",
+        "quitpresstwice": {
+          "label": "Appuyez deux fois pour quitter",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité de faire 2 fois la combinaison de touches Hotkey + Start pour quitter le jeu en cours."
+        }
+      },
+      "arcade": {
+        "title": "Arcade",
+        "activate": {
+          "label": "Activer le meta système \"Arcade\"",
+          "help": "Activer le meta système \"Arcade\" permet de grouper tous les jeux piFBA, FBN (libretro), MAME et Neogeo de manière optionnelle, dans un système unique \"Arcade\"."
+        },
+        "position": {
+          "label": "Position du système \"Arcade\"",
+          "help": "Vous pouvez avoir envie de modifier la position du système dans la liste des systèmes.\n\nLa valeur par défaut est 0, les valeurs négatives peuvent être utilisées pour partir de la fin."
+        },
+        "includeNeogeo": {
+          "label": "Inclure la Neogeo",
+          "help": "Inclus la Neogeo dans la liste du meta système \"Arcade\""
+        },
+        "hideOriginals": {
+          "label": "Masquer les systèmes originaux",
+          "help": "Masque les systèmes inclus dans le meta système \"Arcade\"."
         }
       },
       "translation": {
@@ -843,6 +872,11 @@
           "label": "URL d'un autre service de traduction",
           "help": "Cette option vous permet d'indiquer si vous souhaitez utiliser un autre système de traduction. Si vous souhaitez utiliser un autre service de traduction ou un appel API custom, spécifiez l'URL à appeler.\n\nSi cette clé est renseignée, elle est utilisée à la place du service zTranslate."
         }
+      },
+      "rewind": {
+        "title": "Rembobinage",
+        "label": "Active le rembobinage des jeux",
+        "help": "Cette option vous permet d'activer ou de désactiver le rembobinage. Ceci vous autorise à effectuer des retours dans le temps lors de votre partie. Cela peut ralentir certains émulateurs (snes, psx) si vous l'activez par défaut et ne fonctionne pas avec tous les émulateurs."
       },
       "softpatching": {
         "title": "Softpatching",
@@ -873,25 +907,6 @@
         "password": {
           "label": "Mot de passe",
           "help": "Cette option vous permet de renseigner votre mot de passe associé à votre compte RétroAchievements"
-        }
-      },
-      "arcade": {
-        "title": "Arcade",
-        "activate": {
-          "label": "Activer le meta système \"Arcade\"",
-          "help": "Activer le meta système \"Arcade\" permet de grouper tous les jeux piFBA, FBN (libretro), MAME et Neogeo de manière optionnelle, dans un système unique \"Arcade\"."
-        },
-        "position": {
-          "label": "Position du système \"Arcade\"",
-          "help": "Vous pouvez avoir envie de modifier la position du système dans la liste des systèmes.\n\nLa valeur par défaut est 0, les valeurs négatives peuvent être utilisées pour partir de la fin."
-        },
-        "includeNeogeo": {
-          "label": "Inclure la Neogeo",
-          "help": "Inclus la Neogeo dans la liste du meta système \"Arcade\""
-        },
-        "hideOriginals": {
-          "label": "Masquer les systèmes originaux",
-          "help": "Masque les systèmes inclus dans le meta système \"Arcade\"."
         }
       },
       "netplay": {

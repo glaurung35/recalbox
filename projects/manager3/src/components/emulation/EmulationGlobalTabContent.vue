@@ -91,7 +91,6 @@
               {{ $t('emulation.global.display.integerscale.help') }}
             </template>
           </WrappedToggle>
-          <q-separator/>
           <WrappedToggle
             label="emulation.global.display.smooth.label"
             :getter="global.smooth"
@@ -104,23 +103,31 @@
               {{ $t('emulation.global.display.smooth.help') }}
             </template>
           </WrappedToggle>
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.global.rewind.title">
-        <template v-slot:content>
           <WrappedToggle
-            label="emulation.global.rewind.label"
-            warning
-            :getter="global.rewind"
+            label="emulation.global.display.recalboxoverlays.label"
+            :getter="global.recalboxoverlays"
             :setter="globalStore.post"
-            apiKey="rewind"
-            v-if="global.rewind"
+            apiKey="showfps"
+            v-if="global.recalboxoverlays"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.rewind.help') }}
+              {{ $t('emulation.global.display.recalboxoverlays.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.display.showfps.label"
+            :getter="global.showfps"
+            :setter="globalStore.post"
+            apiKey="showfps"
+            v-if="global.showfps"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.showfps.help') }}
+            </template>
+          </WrappedToggle>
+
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.saves.title">
@@ -147,6 +154,22 @@
           >
             <template v-slot:help>
               {{ $t('emulation.global.saves.showsavestatebeforerun.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.security.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.security.quitpresstwice.label"
+            :getter="global.quitpresstwice"
+            :setter="globalStore.post"
+            apiKey="quitpresstwice"
+            v-if="global.quitpresstwice"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.security.quitpresstwice.help') }}
             </template>
           </WrappedToggle>
         </template>
@@ -273,6 +296,23 @@
               {{ $t('emulation.global.translation.translateUrl.help') }}
             </template>
           </WrappedTextInput>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.rewind.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.rewind.label"
+            warning
+            :getter="global.rewind"
+            :setter="globalStore.post"
+            apiKey="rewind"
+            v-if="global.rewind"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.rewind.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.softpatching.title">

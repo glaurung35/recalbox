@@ -36,7 +36,7 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.string(),
   }),
-  'collection.multiplayers': z.object({
+  'collection.multiplayer': z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
@@ -193,7 +193,7 @@ export const EmulationStationConfigOptionsSchema = z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
   }),
-  'collection.multiplayers': z.object({
+  'collection.multiplayer': z.object({
     type: z.string(),
     value: z.boolean(),
   }),

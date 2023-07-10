@@ -116,15 +116,15 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'popup.help': z.object({
+  'popoup.help': z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
-  'popup.music': z.object({
+  'popoup.music': z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
-  'popup.netplay': z.object({
+  'popoup.netplay': z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
@@ -276,17 +276,17 @@ export const EmulationStationConfigOptionsSchema = z.object({
     type: z.string(),
     value: z.boolean(),
   }),
-  'popup.help': z.object({
+  'popoup.help': z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),
   }),
-  'popup.music': z.object({
+  'popoup.music': z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),
   }),
-  'popup.netplay': z.object({
+  'popoup.netplay': z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),

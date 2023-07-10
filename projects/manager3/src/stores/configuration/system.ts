@@ -31,8 +31,8 @@ export const useSystemStore = defineStore('system', {
         allowedStringList: [''],
       },
       'splash.length': {
-        lowerValue: 0,
-        higherValue: 0,
+        lowerValue: -1,
+        higherValue: 300,
       },
       'splash.select': {
         allowedStringList: [''],
@@ -48,7 +48,7 @@ export const useSystemStore = defineStore('system', {
       },
       'secondminitft.backlightcontrol': {
         lowerValue: 0,
-        higherValue: 0,
+        higherValue: 20,
       },
     },
     system: {

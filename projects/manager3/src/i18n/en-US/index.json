@@ -452,6 +452,10 @@
           "label": "Disable the system selection",
           "help": "This option allows you to choose if you would liek to start and display ONLY the first system (or the one selected)."
         },
+        "quickSystemSelect": {
+          "label": "Enable quick system selection",
+          "help": "This option allows you to enable or disable quick system selection."
+        },
         "showOnlyScrapedGames": {
           "label": "Show only scraped games",
           "help": "This option allows you to display only games included in the gamelist.xml files (accelerates display times)."
@@ -552,6 +556,27 @@
         "tate": {
           "label": "Enable Tate",
           "help": "This option allows you to enable or disable Tate virtual system."
+        }
+      },
+      "popups": {
+        "title": "Popups",
+        "showhelp": {
+          "label": "Display help",
+          "help": "This option allows you to enable or disable help popups."
+        },
+        "popup": {
+          "help": {
+            "label": "Durée d'affichage de la popup d'aide",
+            "help": "This option allows you to change the help popup display time period."
+          },
+          "music": {
+            "label": "Durée d'affichage de la popup de musique",
+            "help": "This option allows you to change the music popup display time period."
+          },
+          "netplay": {
+            "label": "Durée d'affichage de la popup de netplay",
+            "help": "This option allows you to change the netplay popup display time period."
+          }
         }
       }
     },

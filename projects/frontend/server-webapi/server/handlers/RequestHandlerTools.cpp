@@ -403,7 +403,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
          { "collection.multiplayer"  , Validator(true) },
          { "collection.lastplayed"   , Validator(true) },
          { "collection.tate"         , Validator(true) },
-         { "videosnaps.delay"        , Validator(0, 300000) },
+         { "videosnaps.delay"        , Validator(0, 15000) },
          { "videosnaps.loop"         , Validator(0, 300) },
          { "arcade"                  , Validator(true) },
          { "arcade.position"         , Validator(-200, 200) },

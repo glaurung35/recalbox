@@ -586,7 +586,6 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
         { "netplay.nickname"          , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'_-") },
         { "netplay.port"              , Validator(1, 65535) },
         { "netplay.relay"             , Validator(false, { "none", "nyc", "madrid", "montreal", "saopaulo" }) },
-        { "netplay.systems"           , Validator() },
         { "netplay.lobby"             , Validator() },
         { "recalboxoverlays"          , Validator(true) },
         { "softpatching"              , Validator(false, { "auto", "select", "disable" }) },

@@ -1,14 +1,14 @@
 #!/usr/bin/python
-import smbus
+from smbus2 import SMBus
 import RPi.GPIO as GPIO
 import os
 import time
 from threading import Thread
 rev = GPIO.RPI_REVISION
 if rev == 2 or rev == 3:
-    bus = smbus.SMBus(1)
+    bus = SMBus(1)
 else:
-    bus = smbus.SMBus(0)
+    bus = SMBus(0)
 
 GPIO.setwarnings(False)
 GPIO.setmode(GPIO.BCM)

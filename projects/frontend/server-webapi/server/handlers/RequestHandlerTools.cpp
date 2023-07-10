@@ -413,13 +413,13 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
          { "collection.lightgun.hide", Validator(true) },
          { "quicksystemselect"       , Validator(true) },
          { "showhelp"                , Validator(true) },
-         { "popup.help"              , Validator(0, 10) }, //<! Default 10
-         { "popup.music"             , Validator(0, 10) }, //<! Default 5
-         { "popup.netplay"           , Validator(0, 10) }, //<! Default 8
+         { "popoup.help"             , Validator(0, 10) },
+         { "popoup.music"            , Validator(0, 10) },
+         { "popoup.netplay"          , Validator(0, 10) },
          { "systemsorting"           , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
          { "theme.carousel"          , Validator(true) },
          { "theme.transition"        , Validator(false, { "slide", "instant", "fade" }) },
-         { "brightness"              , Validator(0, 8) }, //<! RG353, OGA only
+         { "brightness"              , Validator(0, 8) },
          { "showhidden"              , Validator(true) },
          { "showonlylatestversion"   , Validator(true) },
          { "hidenogames"             , Validator(true) },
@@ -631,7 +631,7 @@ const HashMap<std::string, Validator>& RequestHandlerTools::SelectConfigurationK
     {
       static HashMap<std::string, Validator> sList
         ({
-          { "privatekey", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-") },
+          { "privatekey", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-") },
         });
 
       return sList;

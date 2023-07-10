@@ -11,8 +11,9 @@
         {{ $t(label) }}
       </q-badge>
       <q-slider
-        :max="max"
         :min="min"
+        :step="step"
+        :max="max"
         color="accent"
         label
         :model-value="value"
@@ -41,12 +42,13 @@ const props = defineProps({
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
   min: { type: Number, default: 0 },
+  step: { type: Number, default: 1 },
   max: { type: Number, default: 100 },
   icon: { type: String },
 });
 
 const {
-  label, help, warning, getter, setter, apiKey, min, max,
+  label, help, warning, getter, setter, apiKey, min, step, max,
 } = toRefs(props);
 
 const value = computed({

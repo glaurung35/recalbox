@@ -285,6 +285,7 @@
             apiKey="videosnaps.delay"
             v-if="emulationstation['videosnaps.delay']"
             :min="videosnapsDelayOptions.lowerValue"
+            :step="500"
             :max="videosnapsDelayOptions.higherValue"
             icon="mdi-clock-start"
             help

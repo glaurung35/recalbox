@@ -17,15 +17,15 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     _emulationstationOptions: {
       'videosnaps.loop': {
         lowerValue: 0,
-        higherValue: 0,
+        higherValue: 300,
       },
       'videosnaps.delay': {
         lowerValue: 0,
-        higherValue: 0,
+        higherValue: 300000,
       },
       'screensaver.time': {
         lowerValue: 0,
-        higherValue: 0,
+        higherValue: 30,
       },
       'arcade.position': {
         lowerValue: -200,
@@ -34,6 +34,18 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       brightness: {
         lowerValue: 0,
         higherValue: 8,
+      },
+      'popoup.help': {
+        lowerValue: 0,
+        higherValue: 10,
+      },
+      'popoup.music': {
+        lowerValue: 0,
+        higherValue: 10,
+      },
+      'popoup.netplay': {
+        lowerValue: 0,
+        higherValue: 10,
       },
     },
     emulationstation: {},
@@ -51,5 +63,8 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
     themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList,
     brightnessOptions: (state) => state._emulationstationOptions.brightness,
+    popupHelpOptions: (state) => state._emulationstationOptions['popoup.help'],
+    popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
+    popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
   },
 });

@@ -34,12 +34,12 @@ export const useGlobalStore = defineStore('global', {
         allowedStringList: [''],
       },
       'demo.infoscreenduration': {
-        lowerValue: 0,
-        higherValue: 0,
+        lowerValue: 5,
+        higherValue: 30,
       },
       'demo.duration': {
-        lowerValue: 0,
-        higherValue: 0,
+        lowerValue: 30,
+        higherValue: 600,
       },
       'demo.systemlist': {
         allowedStringList: [''],

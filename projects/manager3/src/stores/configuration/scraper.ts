@@ -28,7 +28,7 @@ export const useScraperStore = defineStore('scraper', {
       getnamefrom: {
         type: '',
         lowerValue: 0,
-        higherValue: 0,
+        higherValue: 2,
       },
       'screenscraper.language': {
         type: '',

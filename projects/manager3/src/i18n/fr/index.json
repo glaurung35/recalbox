@@ -452,6 +452,10 @@
           "label": "Désactiver la sélection des systèmes",
           "help": "Cette option vous permet de choisir si vous souhaitez démarrer et d'afficher que le premier système (ou celui sélectionné)."
         },
+        "quickSystemSelect": {
+          "label": "Activer la sélection rapide des systèmes",
+          "help": "Cette option vous permet d'activer ou non la sélection rapide des systèmes."
+        },
         "showOnlyScrapedGames": {
           "label": "N'afficher que les jeux parsés",
           "help": "Cette option vous permet d'afficher que les jeux listés dans les fichiers gamelist.xml (accélère les temps d'affichage)."
@@ -552,6 +556,27 @@
         "tate": {
           "label": "Activer le système Tate",
           "help": "Cette option vous permet d'activer ou de désactiver le système virtuel Tate."
+        }
+      },
+      "popups": {
+        "title": "Popups",
+        "showhelp": {
+          "label": "Afficher l'aide",
+          "help": "Cette option vous permet d'activer ou de désactiver les popups aides."
+        },
+        "popup": {
+          "help": {
+            "label": "Durée d'affichage de la popup d'aide",
+            "help": "Cette option vous permet de choisir en secondes le temps d'affichage de la popup d'aide."
+          },
+          "music": {
+            "label": "Durée d'affichage de la popup de musique",
+            "help": "Cette option vous permet de choisir en secondes le temps d'affichage de la popup de musique."
+          },
+          "netplay": {
+            "label": "Durée d'affichage de la popup de netplay",
+            "help": "Cette option vous permet de choisir en secondes le temps d'affichage de la popup de netplay."
+          }
         }
       }
     },

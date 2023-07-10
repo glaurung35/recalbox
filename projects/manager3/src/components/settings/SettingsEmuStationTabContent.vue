@@ -85,6 +85,18 @@
             </template>
           </WrappedToggle>
           <WrappedToggle
+            label="settings.emustation.menus.quickSystemSelect.label"
+            :getter="emulationstation.quicksystemselect"
+            :setter="emulationstationStore.post"
+            apiKey="quicksystemselect"
+            v-if="emulationstation.quicksystemselect"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.quickSystemSelect.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
             label="settings.emustation.menus.showOnlyScrapedGames.label"
             :getter="emulationstation.gamelistonly"
             :setter="emulationstationStore.post"
@@ -332,6 +344,67 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="settings.emustation.popups.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.emustation.popups.showhelp.label"
+            :getter="emulationstation.showhelp"
+            :setter="emulationstationStore.post"
+            apiKey="showhelp"
+            v-if="emulationstation.showhelp"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.popups.showhelp.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSlider
+            label="settings.emustation.popups.popup.help.label"
+            :getter="emulationstation['popoup.help']"
+            :setter="emulationstationStore.post"
+            apiKey="popoup.help"
+            v-if="emulationstation['popoup.help']"
+            :min="popupHelpOptions.lowerValue"
+            :max="popupHelpOptions.higherValue"
+            icon="mdi-comment-processing-outline"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.popups.popup.help.help') }}
+            </template>
+          </WrappedSlider>
+          <WrappedSlider
+            label="settings.emustation.popups.popup.music.label"
+            :getter="emulationstation['popoup.music']"
+            :setter="emulationstationStore.post"
+            apiKey="popoup.music"
+            v-if="emulationstation['popoup.music']"
+            :min="popupMusicOptions.lowerValue"
+            :max="popupMusicOptions.higherValue"
+            icon="mdi-comment-processing-outline"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.popups.popup.music.help') }}
+            </template>
+          </WrappedSlider>
+          <WrappedSlider
+            label="settings.emustation.popups.popup.netplay.label"
+            :getter="emulationstation['popoup.netplay']"
+            :setter="emulationstationStore.post"
+            apiKey="popoup.netplay"
+            v-if="emulationstation['popoup.netplay']"
+            :min="popupNetplayOptions.lowerValue"
+            :max="popupNetplayOptions.higherValue"
+            icon="mdi-comment-processing-outline"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.popups.popup.netplay.help') }}
+            </template>
+          </WrappedSlider>
+        </template>
+      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -362,6 +435,9 @@ const {
   videosnapsDelayOptions,
   themeFolderOptions,
   themeTransitionOptions,
+  popupHelpOptions,
+  popupMusicOptions,
+  popupNetplayOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);

@@ -47,6 +47,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         lowerValue: 0,
         higherValue: 10,
       },
+      systemsorting: {
+        allowedStringList: [''],
+      },
     },
     emulationstation: {},
   } as EmulationStationStoreState),
@@ -66,5 +69,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     popupHelpOptions: (state) => state._emulationstationOptions['popoup.help'],
     popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
+    systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
   },
 });

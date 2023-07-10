@@ -456,6 +456,21 @@
           "label": "Enable quick system selection",
           "help": "This option allows you to enable or disable quick system selection."
         },
+        "systemsorting": {
+          "label": "Systems sorting",
+          "help": {
+            "availableOptions": "This option allows you to sort systems. Available options:",
+            "0": "<b>default</b> corresponds to the default sort.",
+            "1": "<b>name</b> sorts by name only.",
+            "2": "<b>releasedate</b> sorts by release date ony.",
+            "3": "<b>1type2name</b> sorts by type then by name.",
+            "4": "<b>1type2releasedate</b> sorts by type then release date.",
+            "5": "<b>1manufacturer2name</b> sorts by manufacturer then by name.",
+            "6": "<b>1manufacturer2releasedate</b> sorts by manufacturer then by release date.",
+            "7": "<b>1type2manufacturer3name</b> sorts by type, then by manufacturer and by name.",
+            "8": "<b>1type2manufacturer3releasedate</b> sorts by type, then by manufacturer and by release date."
+          }
+        },
         "showOnlyScrapedGames": {
           "label": "Show only scraped games",
           "help": "This option allows you to display only games included in the gamelist.xml files (accelerates display times)."
@@ -487,6 +502,33 @@
             "0": "If enabled, transition between systems will be smooth.",
             "1": "If disabled, transition between systems will be instant."
           }
+        }
+      },
+      "filters": {
+        "title": "Filters",
+        "showonlylatestversion": {
+          "label": "Only show latest version (bêta)",
+          "help": "This option allows you to enable or disable showing more recent version of a game."
+        },
+        "favoritesonly": {
+          "label": "Show only favorites",
+          "help": "This option allows you to enable or disable showing only favorites in each system."
+        },
+        "showhidden": {
+          "label": "Show hidden games",
+          "help": "This option allows you to enable or disable showing hidden games in each system."
+        },
+        "filteradultgames": {
+          "label": "Hide adult games",
+          "help": "This option allows you to enable or disable showing games recognized as adult games in each system."
+        },
+        "hidepreinstalledgames": {
+          "label": "Hide preinstalled games",
+          "help": "This option allows you to enable or disable showing preinstalled games."
+        },
+        "hidenogames": {
+          "label": "Hide no games",
+          "help": "This option allows you to enable or disable showing elements which are not recognized as games (bios, etc.)."
         }
       },
       "videoSnaps": {

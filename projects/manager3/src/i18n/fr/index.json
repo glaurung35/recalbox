@@ -456,6 +456,21 @@
           "label": "Activer la sélection rapide des systèmes",
           "help": "Cette option vous permet d'activer ou non la sélection rapide des systèmes."
         },
+        "systemsorting": {
+          "label": "Tri des systèmes",
+          "help": {
+            "availableOptions": "Cette option vous permet de trier l'ordre d'affichage des systèmes. Options disponibles :",
+            "0": "<b>default</b> correspond au tri par défaut.",
+            "1": "<b>name</b> trie par nom uniquement.",
+            "2": "<b>releasedate</b> trie par date de sortie.",
+            "3": "<b>1type2name</b> trie par type puis par nom.",
+            "4": "<b>1type2releasedate</b> trie par type puis par date de sortie.",
+            "5": "<b>1manufacturer2name</b> trie par fabricant puis par nom.",
+            "6": "<b>1manufacturer2releasedate</b> trie par fabricant puis par date de sortie.",
+            "7": "<b>1type2manufacturer3name</b> trie par type, puis par fabricant et par nom.",
+            "8": "<b>1type2manufacturer3releasedate</b> trie par type, puis par fabricant et par date de sortie."
+          }
+        },
         "showOnlyScrapedGames": {
           "label": "N'afficher que les jeux parsés",
           "help": "Cette option vous permet d'afficher que les jeux listés dans les fichiers gamelist.xml (accélère les temps d'affichage)."
@@ -487,6 +502,33 @@
             "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
             "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
           }
+        }
+      },
+      "filters": {
+        "title": "Filtres",
+        "showonlylatestversion": {
+          "label": "Afficher uniquement la dernière version (bêta)",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage de la version la plus récente d'un jeu."
+        },
+        "favoritesonly": {
+          "label": "Afficher que les jeux favoris",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage uniquement des favoris dans chaque système."
+        },
+        "showhidden": {
+          "label": "Afficher les jeux cachés",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage des jeux cachés dans chaque système."
+        },
+        "filteradultgames": {
+          "label": "Cacher les jeux pour adultes",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage des jeux reconnus comme étant pour adultes dans chaque système."
+        },
+        "hidepreinstalledgames": {
+          "label": "Cacher les jeux pré-installés",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage des jeux pré-installés."
+        },
+        "hidenogames": {
+          "label": "Cacher les non-jeux",
+          "help": "Cette option vous permet d'activer ou de désactiver l'affichage des éléments n'étant pas reconnus comme des jeux (bios, etc.)."
         }
       },
       "videoSnaps": {

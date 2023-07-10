@@ -21,7 +21,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
       'videosnaps.delay': {
         lowerValue: 0,
-        higherValue: 300000,
+        higherValue: 15000,
       },
       'screensaver.time': {
         lowerValue: 0,

@@ -96,6 +96,30 @@
               {{ $t('settings.emustation.menus.quickSystemSelect.help') }}
             </template>
           </WrappedToggle>
+          <WrappedSelect
+            label="settings.emustation.menus.systemsorting.label"
+            :options="systemsortingOptions"
+            :getter="emulationstation.systemsorting"
+            :setter="emulationstationStore.post"
+            apiKey="systemsorting"
+            v-if="emulationstation.systemsorting"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.menus.systemsorting.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.0')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.1')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.2')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.3')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.4')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.5')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.6')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.7')"></li>
+                <li v-html="$t('settings.emustation.menus.systemsorting.help.8')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
           <WrappedToggle
             label="settings.emustation.menus.showOnlyScrapedGames.label"
             :getter="emulationstation.gamelistonly"
@@ -170,6 +194,82 @@
                 <li v-html="$t('settings.emustation.theme.carousel.help.0')"></li>
                 <li v-html="$t('settings.emustation.theme.carousel.help.1')"></li>
               </ul>
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="settings.emustation.filters.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.emustation.filters.showonlylatestversion.label"
+            :getter="emulationstation.showonlylatestversion"
+            :setter="emulationstationStore.post"
+            apiKey="showonlylatestversion"
+            v-if="emulationstation.showonlylatestversion"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.showonlylatestversion.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.favoritesonly.label"
+            :getter="emulationstation.favoritesonly"
+            :setter="emulationstationStore.post"
+            apiKey="favoritesonly"
+            v-if="emulationstation.favoritesonly"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.favoritesonly.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.showhidden.label"
+            :getter="emulationstation.showhidden"
+            :setter="emulationstationStore.post"
+            apiKey="showhidden"
+            v-if="emulationstation.showhidden"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.showhidden.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.filteradultgames.label"
+            :getter="emulationstation.filteradultgames"
+            :setter="emulationstationStore.post"
+            apiKey="filteradultgames"
+            v-if="emulationstation.filteradultgames"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.filteradultgames.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.hidepreinstalledgames.label"
+            :getter="global.hidepreinstalledgames"
+            :setter="globalStore.post"
+            apiKey="hidepreinstalledgames"
+            v-if="global.hidepreinstalledgames"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.hidepreinstalledgames.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.hidenogames.label"
+            :getter="emulationstation.hidenogames"
+            :setter="emulationstationStore.post"
+            apiKey="hidenogames"
+            v-if="emulationstation.hidenogames"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.hidenogames.help') }}
             </template>
           </WrappedToggle>
         </template>
@@ -420,6 +520,7 @@ import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { usePatronStore } from 'stores/configuration/patron';
 import { useMusicStore } from 'stores/configuration/music';
 import { useScraperStore } from 'stores/configuration/scraper';
+import { useGlobalStore } from 'stores/configuration/global';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 
 const emulationstationStore = useEmulationstationStore();
@@ -438,6 +539,7 @@ const {
   popupHelpOptions,
   popupMusicOptions,
   popupNetplayOptions,
+  systemsortingOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);
@@ -460,4 +562,10 @@ const {
   sourceOptions,
   scraper,
 } = storeToRefs(scraperStore);
+
+const globalStore = useGlobalStore();
+globalStore.fetch();
+const {
+  global,
+} = storeToRefs(globalStore);
 </script>

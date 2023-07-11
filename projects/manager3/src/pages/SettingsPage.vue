@@ -105,6 +105,7 @@ import { useKodiStore } from 'stores/configuration/kodi';
 import { useScraperStore } from 'stores/configuration/scraper';
 import { useWifiStore } from 'stores/configuration/wifi';
 import { useGlobalStore } from 'stores/configuration/global';
+import { useHatStore } from 'stores/configuration/hat';
 
 useSystemStore().fetchOptions();
 
@@ -115,6 +116,7 @@ useKodiStore().fetchOptions();
 useScraperStore().fetchOptions();
 useWifiStore().fetchOptions();
 useGlobalStore().fetchOptions();
+useHatStore().fetchOptions();
 
 const tab = ref<string>('system');
 </script>

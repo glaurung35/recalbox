@@ -147,7 +147,7 @@
           </WrappedToggle>
           <WrappedSelect
             label="settings.system.hat.wpaf.board.label"
-            :options="wpafBoardOptions"
+            :options="boardOptions"
             :getter="hat['wpaf.board']"
             :setter="hatStore.post"
             apiKey="wpaf.board"
@@ -509,7 +509,7 @@
             v-if="system['secondminitft.backlightcontrol']"
             :min="secondminitftBacklightDurationOptions.lowerValue"
             :max="secondminitftBacklightDurationOptions.higherValue"
-            icon="mdi-timer-outline"
+            icon="mdi-brightness-6"
             help
           >
             <template v-slot:help>
@@ -600,7 +600,7 @@ const {
 const hatStore = useHatStore();
 hatStore.fetch();
 const {
-  wpafBoardOptions,
+  boardOptions,
   hat,
 } = storeToRefs(hatStore);
 </script>

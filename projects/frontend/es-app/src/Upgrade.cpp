@@ -8,7 +8,7 @@
 #include <guis/GuiInfoPopupBase.h>
 #include <arpa/nameser.h>
 #include <resolv.h>
-#include "utils/network/Http.h"
+#include "utils/network/HttpClient.h"
 #include <utils/Files.h>
 #include "Upgrade.h"
 #include "RecalboxConf.h"
@@ -156,7 +156,7 @@ std::string Upgrade::GetRemoteVersion()
   std::string url = ReplaceMachineParameters(sVersionPatternUrl, Strings::Empty);
 
   std::string version;
-  Http request;
+  HttpClient request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, version))
     {
@@ -251,7 +251,7 @@ std::string Upgrade::GetRemoteReleaseVersion()
   std::string url = ReplaceMachineParameters(sReleasenotePatternUrl, Strings::Empty);
 
   std::string releaseNote;
-  Http request;
+  HttpClient request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, releaseNote))
     {

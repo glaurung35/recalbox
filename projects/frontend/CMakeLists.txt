@@ -116,6 +116,7 @@ set(COMMON_INCLUDE_DIRS
     # OSX seems to have a conflicting platform.h somewhere and fails to find
     # getHomePath, so let use our includes paths first.
     ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/pistache/include
     ${CMAKE_CURRENT_SOURCE_DIR}/es-app/src
     ${CMAKE_CURRENT_SOURCE_DIR}/es-core/src
     ${FREETYPE_INCLUDE_DIRS}
@@ -152,6 +153,7 @@ set(COMMON_LIBRARIES
     pugixml
     nanosvg
     liboping
+    pistache
 )
 
 if(MSVC)
@@ -199,9 +201,6 @@ add_subdirectory(tests)
 
 # md5zip
 add_subdirectory(tool-md5zip)
-
-# WebServer
-add_subdirectory(server-webapi)
 
 message(
         "=========================================================================================================\n"

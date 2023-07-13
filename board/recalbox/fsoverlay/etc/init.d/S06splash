@@ -48,6 +48,9 @@ else
   videoLength="$timeout"
 fi
 
+# get volume config
+volume="$($systemsetting -command load -key audio.volume -source /boot/recalbox-backup.conf -default 50)"
+
 ## Functions ##
 
 # selectVideo
@@ -133,6 +136,7 @@ playVideoOnOneScreen() {
   fi
   options+=(--really-quiet)
   options+=(--input-conf=/etc/mpv-input.conf --input-gamepad)
+  options+=(--volume="$volume")
   options+=("$1")
   runInBackground "$timeout" "${options[@]}" >/dev/null 2>&1 &
 }

@@ -168,6 +168,9 @@ MainRunner::ExitState MainRunner::Run()
       // Alert
       CheckAlert(window, systemManager);
 
+      // Enable joystick autopairing
+      EnableAutopair();
+
       // Bios
       BiosManager biosManager;
       biosManager.LoadFromFile();
@@ -401,6 +404,13 @@ void MainRunner::CheckRecalboxLite(WindowManager& window)
   if (RecalboxSystem::IsLiteVersion())
     window.pushGui(new WizardLite(window));
 }
+void MainRunner::EnableAutopair()
+{
+  // start autopair process
+  MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
+  mqtt.Wait();
+  mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})");
+}
 
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
@@ -460,6 +470,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
     MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
     mqtt.Wait();
     mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})", 2);
+    RecalboxConf::Instance().SetFirstTimeUse(false);
   }
 }
 

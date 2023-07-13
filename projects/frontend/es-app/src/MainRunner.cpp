@@ -49,6 +49,7 @@ MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigne
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
   , mBluetooth()
+  , mBTAutopairManager()
 {
   Intro(debug, trace);
   SetLocale(executablePath);
@@ -165,6 +166,9 @@ MainRunner::ExitState MainRunner::Run()
       CheckFirstTimeWizard(window);
       // Alert
       CheckAlert(window, systemManager);
+
+      // Enable joystick autopairing
+      mBTAutopairManager.StartDiscovery();
 
       // Bios
       BiosManager biosManager;
@@ -443,10 +447,6 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::UnknownPi:
       default: break;
     }
-    // start autopair process
-    MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
-    mqtt.Wait();
-    mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})");
     RecalboxConf::Instance().SetFirstTimeUse(false);
   }
 }

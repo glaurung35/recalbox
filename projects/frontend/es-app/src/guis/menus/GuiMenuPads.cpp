@@ -112,23 +112,9 @@ void GuiMenuPads::Completed(const bool& parameter, const String::List& result)
                   : (Gui*)new GuiMenuPadsPair(mWindow, result));
 }
 
-const char* GuiMenuPads::ActionToString(Command action)
-{
-  switch(action)
-  {
-    case Command::StartDiscovery:  return R"({"command": "start_discovery"})";
-    case Command::StopDiscovery:   return R"({"command": "stop_discovery"})";
-    default: break;
-  }
-  return "error";
-}
-
-
 void GuiMenuPads::StartScanningDevices()
 {
-  MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
-  mqtt.Wait();
-  mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})");
+  BTAutopairManager::Instance().StartDiscovery();
   mWindow.pushGui(new GuiBluetoothDevices(mWindow));
 }
 

@@ -159,6 +159,11 @@ void MqttClient::Wait()
   #endif
 }
 
+void MqttClient::WaitFor(int t)
+{
+  mOriginalTocken->wait_for(t);
+}
+
 void MqttClient::Disconnect()
 {
   mMqtt.disconnect();

@@ -135,6 +135,7 @@ as release notes for end user on a Recalbox upgrade.
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
 - Removed unplugged pads from the pad list
 - Unplugged/plugged-in pads keep their positions
+- Bluetooth auto-pairing is started at each boot now
 
 ### Fixes
 - Fix argonone case power management

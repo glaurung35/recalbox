@@ -13,6 +13,7 @@
 #include <patreon/IPatreonNotification.h>
 #include "bluetooth/BluetoothListener.h"
 #include "recalbox/BootConf.h"
+#include <btautopair/BTAutopairManager.h>
 
 class AudioManager;
 class SystemManager;
@@ -163,6 +164,9 @@ class MainRunner
     //! Ignored files
     HashSet<String> mIgnoredFiles;
 
+    //! Bluetooth Autopair Manager
+    BTAutopairManager mBTAutopairManager;
+
     /*!
      * @brief Reset last exit state
      */
@@ -240,6 +244,11 @@ class MainRunner
      * @param systemManager System Manager
      */
     static void CheckAlert(WindowManager& window, SystemManager& systemManager);
+
+    /*!
+     * @brief Send mqtt message to enable joystick auopairing
+     */
+    static void EnableAutopair();
 
     /*!
      * @brief Main SDL event loop w/ UI update/refresh

@@ -50,6 +50,7 @@ MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigne
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
   , mBluetooth()
+  , mBTAutopairManager()
 {
   Intro(debug, trace);
   SetLocale(executablePath);
@@ -167,6 +168,9 @@ MainRunner::ExitState MainRunner::Run()
       CheckFirstTimeWizard(window);
       // Alert
       CheckAlert(window, systemManager);
+
+      // Enable joystick autopairing
+      mBTAutopairManager.StartDiscovery();
 
       // Bios
       BiosManager biosManager;

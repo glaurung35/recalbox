@@ -83,7 +83,7 @@ module.exports = configure((ctx) => ({
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       }
       : { // and on build (production):
-        API_URL: 'http://recalbox:20666/api',
+        API_URL: '/api',
 
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',

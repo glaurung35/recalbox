@@ -25,6 +25,7 @@
 #include <netplay/NetPlayThread.h>
 #include "DemoMode.h"
 #include "RotationManager.h"
+#include "web/RestApiServer.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -126,6 +127,10 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState = ExitState::Quit;
     try
     {
+      // Start webserver
+      { LOG(LogDebug) << "[MainRunner] Launching Webserver"; }
+      RestApiServer webManager;
+
       // Patron Information
       PatronInfo patronInfo(this);
       // Remote music
@@ -553,7 +558,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
 
 void onExit()
 {
-  Log::close();
+  ::Log::close();
 }
 
 void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
@@ -592,13 +597,13 @@ void MainRunner::SetDebugLogs(bool state)
 {
   if (state)
   {
-    Log::setReportingLevel(LogLevel::LogDebug);
+    ::Log::setReportingLevel(LogLevel::LogDebug);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }
   else
   {
-    Log::setReportingLevel(LogLevel::LogInfo);
+    ::Log::setReportingLevel(LogLevel::LogInfo);
     SDL_LogSetOutputFunction(nullptr, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_ERROR);
   }

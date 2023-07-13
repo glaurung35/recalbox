@@ -6,15 +6,15 @@
 //
 #pragma once
 
-#include <utils/network/Http.h>
+#include <utils/network/HttpClient.h>
 #include "utils/tar/Tar.h"
 #include "utils/xz/Xz.h"
 
-class HttpUnxzUntar : public Http
+class HttpUnxzUntar : public HttpClient
 {
   public:
     HttpUnxzUntar(Path);
-    bool SimpleExecute(const std::string& url, Http::IDownload* interface);
+    bool SimpleExecute(const std::string& url, HttpClient::IDownload* interface);
 //    bool Execute(const std::string& url, const Path& output, IDownload* interface);
 
   private:

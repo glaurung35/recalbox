@@ -2,16 +2,16 @@
 // Created by bkg2k on 05/12/2019.
 //
 
-#include "Http.h"
+#include "HttpClient.h"
 #include "utils/Files.h"
 #include "utils/Log.h"
 
-Http::DownloadInfo Http::sDownloadStorage[sMaxBandwidthInfo];
-int Http::sDownloadCount = 0;
-int Http::sDownloadIndex = 0;
-Mutex Http::sDownloadLocker;
+HttpClient::DownloadInfo HttpClient::sDownloadStorage[sMaxBandwidthInfo];
+int HttpClient::sDownloadCount = 0;
+int HttpClient::sDownloadIndex = 0;
+Mutex HttpClient::sDownloadLocker;
 
-Http::Http() noexcept
+HttpClient::HttpClient() noexcept
   : mHandle(curl_easy_init())
   , mIDownload(nullptr)
   , mContentSize(0)
@@ -31,13 +31,13 @@ Http::Http() noexcept
   }
 }
 
-Http::~Http()
+HttpClient::~HttpClient()
 {
   if (mHandle != nullptr)
     curl_easy_cleanup(mHandle);
 }
 
-bool Http::Execute(const std::string& url, std::string& output)
+bool HttpClient::Execute(const std::string& url, std::string& output)
 {
   if (mHandle != nullptr)
   {
@@ -59,7 +59,7 @@ bool Http::Execute(const std::string& url, std::string& output)
   return false;
 }
 
-bool Http::Execute(const std::string& url, const Path& output)
+bool HttpClient::Execute(const std::string& url, const Path& output)
 {
   if (mHandle != nullptr)
   {
@@ -86,20 +86,20 @@ bool Http::Execute(const std::string& url, const Path& output)
   return false;
 }
 
-bool Http::Execute(const std::string& url, const Path& output, Http::IDownload* interface)
+bool HttpClient::Execute(const std::string& url, const Path& output, HttpClient::IDownload* interface)
 {
   mIDownload = interface;
   return Execute(url, output);
 }
 
-size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
+size_t HttpClient::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
 {
-  Http& This = *((Http*)userdata);
+  HttpClient& This = *((HttpClient*)userdata);
 
   return This.DoDataReceived(ptr, (int)(size * nmemb));
 }
 
-size_t Http::DoDataReceived(const char* data, int length)
+size_t HttpClient::DoDataReceived(const char* data, int length)
 {
   // Always store into the string
   mResultHolder.append(data, length);
@@ -135,14 +135,14 @@ size_t Http::DoDataReceived(const char* data, int length)
   return mCancel ? 0 : length;
 }
 
-void Http::Cancel()
+void HttpClient::Cancel()
 {
   if (mHandle != nullptr)
     curl_easy_reset(mHandle);
   mCancel = true;
 }
 
-void Http::SetBasicAuth(const std::string& login, const std::string& password)
+void HttpClient::SetBasicAuth(const std::string& login, const std::string& password)
 {
   if (mHandle != nullptr)
   {
@@ -156,7 +156,7 @@ void Http::SetBasicAuth(const std::string& login, const std::string& password)
   }
 }
 
-void Http::SetBearer(const std::string& bearer)
+void HttpClient::SetBearer(const std::string& bearer)
 {
   if (mHandle != nullptr)
   {
@@ -171,7 +171,7 @@ void Http::SetBearer(const std::string& bearer)
   }
 }
 
-void Http::CancelBasicAuth()
+void HttpClient::CancelBasicAuth()
 {
   if (mHandle != nullptr)
   {
@@ -185,7 +185,7 @@ void Http::CancelBasicAuth()
   }
 }
 
-void Http::StoreDownloadInfo(const DateTime& start, const DateTime& stop, long long size)
+void HttpClient::StoreDownloadInfo(const DateTime& start, const DateTime& stop, long long size)
 {
   long long elapsed = (stop - start).TotalMilliseconds();
   Mutex::AutoLock locker(sDownloadLocker);
@@ -198,7 +198,7 @@ void Http::StoreDownloadInfo(const DateTime& start, const DateTime& stop, long l
   { LOG(LogDebug) << "[Http] Average Bandwidth: " << (float)GetAverageBandwidth() << " bytes/s."; }
 }
 
-double Http::GetAverageBandwidth()
+double HttpClient::GetAverageBandwidth()
 {
   if (sDownloadCount < 16) return -1; // Not enough data
   Mutex::AutoLock locker(sDownloadLocker);

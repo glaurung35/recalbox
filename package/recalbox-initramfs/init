@@ -65,6 +65,12 @@ do_clean_safeboot() {
     echo "0" > "${safeboot}"
 }
 
+do_clean_update() {
+    # delete content of /boot_root/update/
+    rm -rf /boot_root/update/
+    mkdir /boot_root/update/
+}
+
 do_update() {
     # UPDATE!
     if [ -f /boot_root/update/boot.lst ]; then
@@ -80,9 +86,6 @@ do_update() {
       echo "boot.lst not found, update failed" >>/boot_root/update.log
       return 1
     fi
-    # delete content of /boot_root/update/
-    rm -rf /boot_root/update/
-    mkdir /boot_root/update/
 
     # remove useless files
     rm /boot_root/boot.lst
@@ -213,6 +216,7 @@ do_root() {
         do_clean_overlay
         do_clean_case
         do_clean_safeboot
+        do_clean_update
         case $check_update_rc in
           $UPD_NO_ERROR)       echo "" > /overlay_root/.upgrade_success ;;
           $UPD_CORRUPTED_FILE) echo "" > /overlay_root/.upgrade_corrupted ;;

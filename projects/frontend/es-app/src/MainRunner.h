@@ -237,6 +237,11 @@ class MainRunner
     static void CheckAlert(WindowManager& window, SystemManager& systemManager);
 
     /*!
+     * @brief Send mqtt message to enable joystick auopairing
+     */
+    static void EnableAutopair();
+
+    /*!
      * @brief Main SDL event loop w/ UI update/refresh
      * @param window Main window
      * @param systemManager System Manager

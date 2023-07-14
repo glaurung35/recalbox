@@ -154,6 +154,11 @@ set(COMMON_LIBRARIES
     nanosvg
     liboping
     pistache
+    resolv
+    blkid
+    lzma
+    ssl
+    crypto
 )
 
 if(MSVC)

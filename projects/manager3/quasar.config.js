@@ -79,7 +79,7 @@ module.exports = configure((ctx) => ({
         PATREON_URL: 'https://www.patreon.com/recalbox',
         TWITCH_URL: 'https://www.twitch.tv/recalbox',
 
-        MQTT_URL: 'mqttx://192.168.1.30:18833',
+        MQTT_URL: 'mqttx://192.168.1.30:1883',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       }
       : { // and on build (production):
@@ -95,7 +95,7 @@ module.exports = configure((ctx) => ({
         PATREON_URL: 'https://www.patreon.com/recalbox',
         TWITCH_URL: 'https://www.twitch.tv/recalbox',
 
-        MQTT_URL: 'mqtt://recalbox:18883',
+        MQTT_URL: 'mqtt://recalbox:1883',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       },
     // transpile: false,

@@ -13,7 +13,7 @@ class RequestHandler : public IRouter
 {
   private:
     //! Bios Manager
-    BiosManager mBiosManager;
+    BiosManager& mBiosManager;
     //! System information provider
     SysInfos mSysInfos;
     //! Event watcher
@@ -27,10 +27,14 @@ class RequestHandler : public IRouter
 
   public:
     RequestHandler(const std::string& wwwRoot, const std::string& defaultFile)
-      : mWWWRoot(wwwRoot),
-        mDefaultFile(defaultFile)
+      : mBiosManager(BiosManager::Instance())
+      , mWWWRoot(wwwRoot)
+      , mDefaultFile(defaultFile)
     {
     }
+
+    //! default virtual destructor
+    virtual ~RequestHandler() = default;
 
     /*!
      * @brief Handle files

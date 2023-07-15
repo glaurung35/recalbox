@@ -407,7 +407,7 @@ void ViewController::LaunchCheck(FileData* game, const Vector3f& cameraTarget, b
 
   if (!forceLaunch)
   {
-    const BiosList& biosList = BiosManager::Instance().SystemBios(game->System().Name());
+    BiosList biosList = BiosManager::Instance().SystemBios(game->System().Name());
     if (biosList.TotalBiosKo() != 0)
     {
       // Build emulator name

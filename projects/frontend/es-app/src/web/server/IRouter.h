@@ -320,6 +320,9 @@ class IRouter
       LOG(LogInfo) << "Router initialized";
     }
 
+    //! Virtual destructor
+    virtual ~IRouter() = default;
+
     /*!
      * @brief Get route handler
      * @return Route handler

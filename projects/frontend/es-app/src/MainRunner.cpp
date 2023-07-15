@@ -127,6 +127,11 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState = ExitState::Quit;
     try
     {
+      // Bios (must be created before the webmanager starts)
+      BiosManager biosManager;
+      biosManager.LoadFromFile();
+      biosManager.Scan(nullptr);
+
       // Start webserver
       { LOG(LogDebug) << "[MainRunner] Launching Webserver"; }
       RestApiServer webManager;
@@ -168,11 +173,6 @@ MainRunner::ExitState MainRunner::Run()
       CheckFirstTimeWizard(window);
       // Alert
       CheckAlert(window, systemManager);
-
-      // Bios
-      BiosManager biosManager;
-      biosManager.LoadFromFile();
-      biosManager.Scan(nullptr);
 
       // Main Loop!
       CreateReadyFlagFile();

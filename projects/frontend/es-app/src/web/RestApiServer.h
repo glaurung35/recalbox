@@ -14,7 +14,7 @@ class RestApiServer : public Thread
     RestApiServer();
 
     //! Destructor
-    ~RestApiServer() { Stop(); }
+    ~RestApiServer() override { Stop(); }
 
   private:
     Parameters mParam;

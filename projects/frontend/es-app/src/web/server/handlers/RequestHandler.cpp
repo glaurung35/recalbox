@@ -181,7 +181,7 @@ void RequestHandler::BiosGetAll(const Rest::Request& request, Http::ResponseWrit
   // Loop through systems
   for(int sysIndex = 0; sysIndex < mBiosManager.SystemCount(); sysIndex++)
   {
-    const BiosList& list = mBiosManager.SystemBios(sysIndex);
+    BiosList list = mBiosManager.SystemBios(sysIndex);
     output.Field(list.Name().c_str(), RequestHandlerTools::SerializeBiosListToJSON(list));
   }
   output.Close();
@@ -199,7 +199,7 @@ void RequestHandler::BiosGetSystem(const Rest::Request& request, Http::ResponseW
   mBiosManager.Scan(nullptr, true);
 
   std::string systemName = request.splatAt(0).name();
-  const BiosList& list = mBiosManager.SystemBios(systemName);
+  BiosList list = mBiosManager.SystemBios(systemName);
   // Empty system does not have a name => not found
   if (list.Name() == systemName)
     RequestHandlerTools::Send(response, Http::Code::Ok, RequestHandlerTools::SerializeBiosListToJSON(list), Mime::Json);

@@ -34,7 +34,7 @@ class RequestHandler : public IRouter
     }
 
     //! default virtual destructor
-    virtual ~RequestHandler() = default;
+    ~RequestHandler() override = default;
 
     /*!
      * @brief Handle files

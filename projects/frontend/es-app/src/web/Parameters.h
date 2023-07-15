@@ -29,7 +29,11 @@ class Parameters
       : mWWWRoot("/recalbox/web/manager-v3"),
         mDefaultFile("/index.html"),
         mIP("0.0.0.0"),
-        mPort(20666),
+        #ifdef DEBUG
+        mPort(8080),
+        #else
+        mPort(80),
+        #endif
         mThreads(5),
         mDebug(false)
     {

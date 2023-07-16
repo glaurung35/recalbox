@@ -6,11 +6,11 @@
 //
 #pragma once
 
-#include <utils/network/Http.h>
+#include <utils/network/HttpClient.h>
 #include "utils/tar/Tar.h"
 #include "utils/xz/Xz.h"
 
-class HttpUnxzUntar : public Http
+class HttpUnxzUntar : public HttpClient
 {
   public:
     HttpUnxzUntar(Path);

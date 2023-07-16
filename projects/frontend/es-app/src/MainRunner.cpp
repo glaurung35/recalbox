@@ -26,6 +26,7 @@
 #include "DemoMode.h"
 #include "RotationManager.h"
 #include "RootFolders.h"
+#include "web/RestApiServer.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -127,6 +128,15 @@ MainRunner::ExitState MainRunner::Run()
     ExitState exitState = ExitState::Quit;
     try
     {
+      // Bios (must be created before the webmanager starts)
+      BiosManager biosManager;
+      biosManager.LoadFromFile();
+      biosManager.Scan(nullptr);
+
+      // Start webserver
+      { LOG(LogDebug) << "[MainRunner] Launching Webserver"; }
+      RestApiServer webManager;
+
       // Patron Information
       PatronInfo patronInfo(this);
       // Remote music
@@ -207,23 +217,27 @@ MainRunner::ExitState MainRunner::Run()
     switch(exitState)
     {
       case ExitState::Quit:
-      case ExitState::FatalError: NotificationManager::Instance().Notify(Notification::Quit, exitState == ExitState::FatalError ? "fatalerror" : "quitrequested"); break;
+      case ExitState::FatalError: mNotificationManager.Notify(Notification::Quit, exitState == ExitState::FatalError ? "fatalerror" : "quitrequested"); break;
       case ExitState::Relaunch:
-      case ExitState::RelaunchNoUpdate: NotificationManager::Instance().Notify(Notification::Relaunch); break;
+      case ExitState::RelaunchNoUpdate: mNotificationManager.Notify(Notification::Relaunch); break;
       case ExitState::NormalReboot:
       case ExitState::FastReboot:
       {
-        NotificationManager::Instance().Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal");
+        mNotificationManager.Notify(Notification::Reboot, exitState == ExitState::FastReboot ? "fast" : "normal");
         board.OnRebootOrShutdown();
         break;
       }
       case ExitState::Shutdown:
       case ExitState::FastShutdown: {
-        NotificationManager::Instance().Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal");
+        mNotificationManager.Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal");
         board.OnRebootOrShutdown();
         break;
       }
     }
+
+    // Wait for all notifications to be processed before
+    // main objects are destroyed
+    mNotificationManager.WaitCompletion();
 
     return exitState;
   }

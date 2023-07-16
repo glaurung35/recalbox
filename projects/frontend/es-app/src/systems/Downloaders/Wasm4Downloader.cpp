@@ -144,7 +144,7 @@ void Wasm4Downloader::DownloadAndInstall()
   destination.Delete();
 }
 
-void Wasm4Downloader::DownloadProgress(const Http& http, long long int currentSize, long long int expectedSize)
+void Wasm4Downloader::DownloadProgress(const HttpClient& http, long long int currentSize, long long int expectedSize)
 {
   (void)http;
   // Store data and synchronize

@@ -127,6 +127,7 @@ set(COMMON_INCLUDE_DIRS
     # OSX seems to have a conflicting platform.h somewhere and fails to find
     # getHomePath, so let use our includes paths first.
     ${CMAKE_CURRENT_SOURCE_DIR}/external
+    ${CMAKE_CURRENT_SOURCE_DIR}/external/pistache/include
     ${CMAKE_CURRENT_SOURCE_DIR}/es-app/src
     ${CMAKE_CURRENT_SOURCE_DIR}/es-core/src
     ${FREETYPE_INCLUDE_DIRS}
@@ -165,6 +166,12 @@ set(COMMON_LIBRARIES
     pugixml
     nanosvg
     liboping
+    pistache
+    resolv
+    blkid
+    lzma
+    ssl
+    crypto
 )
 
 if(MSVC)
@@ -206,9 +213,6 @@ if(MSGFMT_EXECUTABLE AND MSGMERGE_EXECUTABLE AND XGETTEXT_EXECUTABLE)
 	message (STATUS "Native language support enabled.")
 	add_subdirectory (locale)
 endif()
-
-# pad to keyb
-#add_subdirectory(tool-pad2keyb)
 
 # Tests
 add_subdirectory(tests)

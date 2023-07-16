@@ -7,7 +7,7 @@
 
 #include <arpa/nameser.h>
 #include <resolv.h>
-#include "utils/network/Http.h"
+#include "utils/network/HttpClient.h"
 #include <utils/Files.h>
 #include "Upgrade.h"
 #include "RecalboxConf.h"
@@ -156,7 +156,7 @@ String Upgrade::GetRemoteVersion()
   String url = ReplaceMachineParameters(sVersionPatternUrl, String::Empty);
 
   String version;
-  Http request;
+  HttpClient request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, version))
     {
@@ -251,7 +251,7 @@ String Upgrade::GetRemoteReleaseVersion()
   String url = ReplaceMachineParameters(sReleasenotePatternUrl, String::Empty);
 
   String releaseNote;
-  Http request;
+  HttpClient request;
   for(int i = 3; --i >= 0; )
     if (request.Execute(url, releaseNote))
     {

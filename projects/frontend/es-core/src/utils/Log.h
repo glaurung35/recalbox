@@ -2,7 +2,7 @@
 #define _LOG_H_
 
 #define LOG(level) \
-if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
+if (::LogLevel::level <= ::Log::getReportingLevel()) ::Log().get(LogLevel::level)
 
 #include <utils/String.h>
 #include <utils/os/fs/Path.h>

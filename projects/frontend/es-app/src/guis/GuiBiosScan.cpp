@@ -368,7 +368,7 @@ void GuiBiosScan::UpdateBiosList()
   mList->clear();
 
   // Check
-  const BiosManager& biosManager = BiosManager::Instance();
+  BiosManager& biosManager = BiosManager::Instance();
   if (biosManager.SystemCount() == 0)
   {
     mList->add(_("EMPTY LIST").UpperCaseUTF8(), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Center);
@@ -386,7 +386,7 @@ void GuiBiosScan::UpdateBiosList()
   for(int i = 0; i < biosManager.SystemCount(); ++i)
   {
     // Fill bios list
-    const BiosList& biosList = biosManager.SystemBios(i);
+    BiosList biosList = biosManager.SystemBios(i);
 
     // Filtered?
     if (!mShowAllSystems)

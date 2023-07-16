@@ -114,9 +114,6 @@ void GuiMenuPads::Completed(const bool& parameter, const String::List& result)
 
 void GuiMenuPads::StartScanningDevices()
 {
-  MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
-  mqtt.Wait();
-  mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})", 2);
   BTAutopairManager::Instance().StartDiscovery();
   mWindow.pushGui(new GuiBluetoothDevices(mWindow));
 }

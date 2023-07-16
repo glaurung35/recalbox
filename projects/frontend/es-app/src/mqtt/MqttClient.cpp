@@ -24,7 +24,7 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   try
   {
     if (mOriginalTocken = mMqtt.connect(connectOptions, nullptr, *this); mOriginalTocken != nullptr)
-      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
+      { mMqtt.start_consuming(); LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
     else
       { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (init) !"; }
   }

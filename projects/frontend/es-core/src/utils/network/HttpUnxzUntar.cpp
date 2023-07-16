@@ -70,7 +70,7 @@ void HttpUnxzUntar::DataEnd()
 {
 }
 
-bool HttpUnxzUntar::SimpleExecute(const std::string& url, Http::IDownload* interface)
+bool HttpUnxzUntar::SimpleExecute(const std::string& url, HttpClient::IDownload* interface)
 {
   mIDownload = interface;
   if (mHandle != nullptr)

@@ -84,6 +84,7 @@ class MD5
   public:
     MD5();
     explicit MD5(const std::string& text);
+    MD5(const char* text, size_type length);
     void reset() { init(); }
     void update(const unsigned char *buf, size_type length);
     void update(const char *buf, size_type length);
@@ -95,5 +96,6 @@ class MD5
 };
 
 std::string md5(const std::string& str);
+std::string md5(const char* text, unsigned int length);
 
 #endif

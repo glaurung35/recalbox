@@ -9,7 +9,7 @@
 #include <utils/Zip.h>
 #include "Bios.h"
 
-Bios::Md5Hash::Md5Hash(const std::string& source)
+Bios::Md5Hash::Md5Hash(const String& source)
   : Md5Hash()
 {
   if (source.length() != sizeof(mBytes) * 2)
@@ -32,7 +32,7 @@ Bios::Md5Hash::Md5Hash(const std::string& source)
   mValid = true;
 }
 
-std::string Bios::Md5Hash::ToString() const
+String Bios::Md5Hash::ToString() const
 {
   char hashStr[sizeof(mBytes) * 2];
 
@@ -43,7 +43,7 @@ std::string Bios::Md5Hash::ToString() const
     hashStr[i * 2 + 1] = "0123456789ABCDEF"[mBytes[i] & 15];
   }
 
-  return std::string(hashStr, sizeof(hashStr));
+  return String(hashStr, sizeof(hashStr));
 }
 
 Bios::Bios()
@@ -64,13 +64,13 @@ void Bios::Scan()
     if (Strings::ToLowerASCII(mPath[i].Extension()) == ".zip")
     {
       // Get composite hash from the zip file
-      std::string md5string = Zip(mPath[i]).Md5Composite();
+      String md5string = Zip(mPath[i]).Md5Composite();
       mRealFileHash = Md5Hash(md5string);
     }
     else
     {
       // Load bios
-      std::string biosContent = Files::LoadFile(mPath[i]);
+      String biosContent = Files::LoadFile(mPath[i]);
 
       // Compute md5
       MD5 md5;
@@ -108,11 +108,11 @@ void Bios::Scan()
   }
 }
 
-bool Bios::IsForCore(const std::string& core) const
+bool Bios::IsForCore(const String& core) const
 {
   // Contains?
   unsigned long long pos = mCores.find(core);
-  if (pos == std::string::npos) return false;
+  if (pos == String::npos) return false;
 
   // Start?
   if (pos != 0)
@@ -140,7 +140,7 @@ Bios::Bios(const XmlNode& biosNode)
   if (!cores) { LOG(LogError) << "[Bios] Bios file's bios node is missing cores!"; return; }
 
   // Set mandatory fields
-  Strings::Vector list = Strings::Split(path.value(), '|');
+  String::List list = String(path.value()).Split('|');
   for(int i = sMaxBiosPath; --i >= 0; )
     if ((int)list.size() > i)
     {
@@ -150,8 +150,8 @@ Bios::Bios(const XmlNode& biosNode)
     }
 
   mCores = cores.value();
-  Strings::Vector md5list = Strings::Split(hashes.value(), ',');
-  for(std::string& md5string : md5list)
+  String::List md5list = String(hashes.value()).Split(',');
+  for(String& md5string : md5list)
   {
     Md5Hash md5(Strings::Trim(md5string));
     if (md5.IsValid())
@@ -164,34 +164,45 @@ Bios::Bios(const XmlNode& biosNode)
   mNotes = biosNode.attribute("note").value();
 }
 
-std::vector<std::string> Bios::MD5List() const
+String::List Bios::MD5List() const
 {
-  std::vector<std::string> result;
+  String::List result;
   for(const Md5Hash& hash : mHashes)
     if (hash.IsValid())
       result.push_back(hash.ToString());
   return result;
 }
 
-std::string Bios::Filename(bool shorten) const
+String Bios::Filename(bool shorten) const
 {
   bool ok = false;
 
   // Try to make relative to the bios folder
   Path rootPath(RootFolders::DataRootFolder);
-  std::string result = mPath[0].MakeRelative(rootPath, ok).ToString();
+  String result = mPath[0].MakeRelative(rootPath, ok).ToString();
   // Too long?
   if (shorten)
     if (Strings::CountChar(result, '/') > 2)
-      result = std::string(".../").append(mPath[0].Filename());
+      result = String(".../").Append(mPath[0].Filename());
 
   return result;
 }
 
-std::string Bios::GenerateReport() const
+bool Bios::IsMD5Known(const String& newmd5) const
 {
-  std::string report;
+  Md5Hash md5(newmd5);
+  if (md5.IsValid())
+    for(const Md5Hash& hash : mHashes)
+      if (hash.IsValid())
+        if (hash.IsMatching(md5))
+          return true;
 
+  return false;
+}
+
+String Bios::GenerateReport() const
+{
+  String report;
   switch(mStatus)
   {
     case Status::FileNotFound:
@@ -201,24 +212,24 @@ std::string Bios::GenerateReport() const
       if (mStatus == Status::HashNotMatching && !mHashMatchMandatory) break;
 
       // BIOS
-      report.append("  ").append(mStatus == Status::FileNotFound ? "MISSING " : "INCORRECT ")
-            .append(mMandatory ? "REQUIRED " : "OPTIONAL ")
-            .append("BIOS: ").append(mPath[0].Filename()).append("\r\n");
+      report.Append("  ").Append(mStatus == Status::FileNotFound ? "MISSING " : "INCORRECT ")
+            .Append(mMandatory ? "REQUIRED " : "OPTIONAL ")
+            .Append("BIOS: ").Append(mPath[0].Filename()).Append("\r\n");
 
       // Information
-      report.append("    Path: ").append(mPath[0].ToString());
+      report.Append("    Path: ").Append(mPath[0].ToString());
       for(int i = sMaxBiosPath; --i >= 1; )
-        if (!mPath[i].IsEmpty()) report.append(" or ").append(mPath[i].ToString());
-      report.append("\r\n");
-      if (!mNotes.empty()) report.append("    Notes: ").append(mNotes).append("\r\n");
-      if (!mCores.empty()) report.append("    For: ").append(mCores).append("\r\n");
+        if (!mPath[i].IsEmpty()) report.Append(" or ").Append(mPath[i].ToString());
+      report.Append("\r\n");
+      if (!mNotes.empty()) report.Append("    Notes: ").Append(mNotes).Append("\r\n");
+      if (!mCores.empty()) report.Append("    For: ").Append(mCores).Append("\r\n");
 
       // MD5
       if (mStatus == Status::HashNotMatching)
-        report.append("    Current MD5: ").append(mRealFileHash.ToString()).append("\r\n");
-      report.append("    Possible MD5 List:\r\n");
+        report.Append("    Current MD5: ").Append(mRealFileHash.ToString()).Append("\r\n");
+      report.Append("    Possible MD5 List:\r\n");
       for(const Md5Hash& hash : mHashes)
-        report.append("      ").append(hash.ToString()).append("\r\n");
+        report.Append("      ").Append(hash.ToString()).Append("\r\n");
       break;
     }
     case Status::Unknown:

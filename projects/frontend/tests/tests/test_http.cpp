@@ -1,5 +1,5 @@
 #include <gtest/gtest.h>
-#include "utils/network/Http.h"
+#include "utils/network/HttpClient.h"
 #include <algorithm>
 #include <utils/Files.h>
 
@@ -22,7 +22,7 @@ class HttpTest: public ::testing::Test
 
 /*TEST_F(HttpTest, TestGetString)
 {
-  Http http;
+  HttpClient http;
   String output;
 
   ASSERT_TRUE(http.Execute("http://www.perdu.com", output));
@@ -31,7 +31,7 @@ class HttpTest: public ::testing::Test
 
 TEST_F(HttpTest, TestGetFile)
 {
-  Http http;
+  HttpClient http;
 
   Path path = Path(rootTest) / "test.txt";
   ASSERT_TRUE(http.Execute("http://www.perdu.com", path));

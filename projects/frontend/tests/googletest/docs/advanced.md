@@ -1863,7 +1863,7 @@ void RegisterMyTests(const std::vector<int>& values) {
         std::to_string(v).c_str(),
         __FILE__, __LINE__,
         // Important to use the fixture type as the return type here.
-        [=]() -> MyFixture* { return new MyTest(v); });
+        [this]() -> MyFixture* { return new MyTest(v); });
   }
 }
 ...

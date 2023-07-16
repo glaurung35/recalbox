@@ -137,7 +137,7 @@ void GenericDownloader::DownloadAndInstall()
   destination.Delete();
 }
 
-void GenericDownloader::DownloadProgress(const Http &http, long long int currentSize, long long int expectedSize)
+void GenericDownloader::DownloadProgress(const HttpClient &http, long long int currentSize, long long int expectedSize)
 {
   (void)http;
   // Store data and synchronize

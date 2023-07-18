@@ -1,0 +1,1 @@
+load-module module-switch-on-connect blacklist="Sony_Interactive_Entertainment_Wireless_Controller"

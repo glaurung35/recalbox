@@ -231,6 +231,8 @@ class InputCompactEvent
 
     [[nodiscard]] int ElapsedMs() const { return mElapsedTime; }
 
+    bool IsNotPressedAndReleased() const { return !mActivatedEntryFlags && !mDeactivatedEntryFlags; }
+
     /*
      * Debug
      */

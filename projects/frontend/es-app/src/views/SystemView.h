@@ -114,4 +114,5 @@ private:
 	bool mViewNeedsReload;
 	bool mShowing;
 	bool launchKodi;
+  bool mHotKeyAlreadyPressed = false;
 };

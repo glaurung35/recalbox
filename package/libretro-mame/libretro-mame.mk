@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Romset 0.239
-LIBRETRO_MAME_VERSION = ec47e94c7eed598e87a6da898821b5c8024c21a5
+# Romset 0.258 - don't forget to sync package arcade-dats
+LIBRETRO_MAME_VERSION = dc1a96537089d6d4ecd01d9886b21061471c70c0
 LIBRETRO_MAME_SITE = $(call github,libretro,mame,$(LIBRETRO_MAME_VERSION))
 LIBRETRO_MAME_LICENSE = MAME
 LIBRETRO_MAME_NON_COMMERCIAL = y
@@ -62,7 +62,7 @@ LIBRETRO_MAME_OPTS += RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)"
 define LIBRETRO_MAME_BUILD_CMDS
 	mkdir -p $(@D)/build/gmake/libretro/obj/x64/libretro/src/osd/retro
 	mkdir -p $(@D)/3rdparty/genie/build/gmake.linux/obj/Release/src/host
-	$(MAKE) -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
+	$(MAKE) -j1 -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
 endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS

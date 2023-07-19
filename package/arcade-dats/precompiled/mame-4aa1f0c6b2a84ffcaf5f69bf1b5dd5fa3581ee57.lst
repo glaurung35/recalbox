@@ -1143,7 +1143,7 @@ arac6k27|Super Six Plus II English Mark Darts (v2.7)|clone|misc/arachnid.cpp|0|2
 arac6k28sp|Super Six Plus II English Mark Darts (v2.8, Spanish)|clone|misc/arachnid.cpp|0|280|216|59.922738||arac6k33|preliminary|Arachnid
 arac6k33|Super Six Plus II English Mark Darts (v3.3)|parent|misc/arachnid.cpp|0|280|216|59.922738|||preliminary|Arachnid
 aracnis|Aracnis (bootleg of Scorpion on Moon Cresta hardware)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||scorpion|imperfect|bootleg
-arbalest|Arbalester|parent|seta/downtown.cpp|270|384|224|57.444853|||good|Jordan I.S. / Seta
+arbalest|Arbalester|parent|seta/downtown.cpp|270|384|224|60.000000|||good|Jordan I.S. / Seta
 arcadecl|Arcade Classics (prototype)|parent|atari/arcadecl.cpp|0|336|240|59.922743|||good|Atari Games
 arcadian|Arcadia (NMK)|parent|nmk/nmk16.cpp|270|384|224|56.180000|||good|NMK
 archrivl|Arch Rivals (rev 4.0 6/29/89)|parent|midway/mcr68.cpp|0|512|480|30.000000|||good|Bally Midway
@@ -1509,7 +1509,7 @@ at_keybc|PC/AT Keyboard Controller|device|devices/machine/at_keybc.cpp||||||||
 at_mb|PC/AT Motherboard|device|devices/machine/at.cpp||||||||
 ata_interface|ATA Interface|device|devices/bus/ata/ataintf.cpp||||||||
 ata_slot|ATA Connector|device|devices/bus/ata/atadev.cpp||||||||
-atacf|ATA CompactFlash Card|device|devices/bus/ata/idehd.cpp||||||||
+atacf|ATA CompactFlash Card|device|devices/bus/ata/hdd.cpp||||||||
 ataflash|ATA Flash PC Card|device|devices/machine/ataflash.cpp||||||||
 atamanot|Computer Quiz Atama no Taisou (Japan)|parent|misc/ssingles.cpp|90|256|256|61.035156|||preliminary|Yachiyo Denki / Uni Enterprize
 ataqandr|Ataque Androide - Moon Cresta (FAR S.A. Spanish bootleg)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||mooncrst|good|bootleg (FAR S.A.)
@@ -2268,8 +2268,8 @@ blstroid2|Blasteroids (rev 2)|clone|atari/blstroid.cpp|0|640|240|59.922748||blst
 blstroid3|Blasteroids (rev 3)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
 blstroidg|Blasteroids (German, rev 2)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
 blstroidh|Blasteroids (with heads)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
-blswhstl|Bells & Whistles (World, version L)|parent|konami/tmnt.cpp|90|320|224|60.000000|||good|Konami
-blswhstla|Bells & Whistles (Asia, version M)|clone|konami/tmnt.cpp|90|320|224|60.000000||blswhstl|good|Konami
+blswhstl|Bells & Whistles (World, version L)|parent|konami/tmnt2.cpp|90|320|224|60.000000|||good|Konami
+blswhstla|Bells & Whistles (Asia, version M)|clone|konami/tmnt2.cpp|90|320|224|60.000000||blswhstl|good|Konami
 bluechip|Amtech Blue Chip Disk Drive|device|devices/bus/cbmiec/c1541.cpp||||||||
 bluehawk|Blue Hawk|parent|dooyong/dooyong.cpp|270|384|240|60.000000|||good|Dooyong
 bluehawkn|Blue Hawk (Japan, NTC license)|clone|dooyong/dooyong.cpp|270|384|240|60.000000||bluehawk|good|Dooyong (NTC license)
@@ -3142,7 +3142,7 @@ chamrx1|Chameleon RX-1|parent|misc/chameleonrx1.cpp|||||||preliminary|Digital Su
 chanbara|Chanbara|parent|dataeast/chanbara.cpp|270|256|224|57.444853|||good|Data East
 chance|Chance|parent|pinball/play_1.cpp|||||||preliminary|Playmatic
 chance32|Chance Thirty Two|parent|misc/chance32.cpp|0|560|232|52.786000|||good|PAL System Co, Ltd.
-changela|Change Lanes|parent|taito/changela.cpp|180|256|224|60.000000|||good|Taito Corporation
+changela|Change Lanes|parent|taito/changela.cpp|180|248|224|60.012483|||good|Taito Corporation
 changes|Changes|parent|orca/marineb.cpp|0|256|224|60.000000|||good|Orca
 changesa|Changes (EME license)|clone|orca/marineb.cpp|0|256|224|60.000000||changes|good|Orca (Eastern Micro Electronics, Inc. license)
 changyu|unknown Chang Yu Electronic gambling game 1|parent|misc/changyu.cpp|0|512|256|60.000000|||preliminary|Chang Yu Electronic
@@ -3313,10 +3313,10 @@ cleoftp|Cleopatra Fortune Plus (GDL-0012)|parent|sega/naomi.cpp|0|640|480|61.702
 cleopatr|Cleopatra Fortune (Ver 2.1J 1996/09/05)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||imperfect|Taito Corporation
 cleopatro|Cleopatra Fortune (Ver 2.1O 1996/09/05, bootleg)|clone|taito/taito_f3.cpp|0|320|224|58.970000||cleopatr|imperfect|bootleg
 cleoptra|Cleopatra|parent|pinball/gts1.cpp|||||gts1||preliminary|Gottlieb
-clgd5428|Cirrus Logic GD5428|device|devices/video/clgd542x.cpp||||||||
+clgd5428|Cirrus Logic GD5428|device|devices/video/pc_vga_cirrus.cpp||||||||
 clgd542x|Generic Cirrus Logic CD542 Graphics Card (BIOS v1.20)|device|devices/bus/isa/svga_cirrus.cpp|0|640|480|60.054866||||
-clgd5430|Cirrus Logic GD5430|device|devices/video/clgd542x.cpp||||||||
-clgd5446|Cirrus Logic GD5446|device|devices/video/clgd542x.cpp||||||||
+clgd5430|Cirrus Logic GD5430|device|devices/video/pc_vga_cirrus.cpp||||||||
+clgd5446|Cirrus Logic GD5446|device|devices/video/pc_vga_cirrus.cpp||||||||
 cliffhgr|Cliff Hanger (set 1)|parent|stern/cliffhgr.cpp|0|704|480|59.940057|||good|Stern Electronics
 cliffhgra|Cliff Hanger (set 2)|clone|stern/cliffhgr.cpp|0|704|480|59.940057||cliffhgr|good|Stern Electronics
 cliffhgra2|Cliff Hanger (set 3)|clone|stern/cliffhgr.cpp|0|704|480|59.940057||cliffhgr|preliminary|Stern Electronics
@@ -4548,7 +4548,7 @@ destroyr|Destroyer (version O2)|parent|atari/destroyr.cpp|0|256|240|59.885932|||
 destroyr1|Destroyer (version O1)|clone|atari/destroyr.cpp|0|256|240|59.885932||destroyr|good|Atari
 destryer|Destroyer (Cidelsa) (set 1)|parent|efo/cidelsa.cpp|90|294|294|50.875178|||imperfect|Cidelsa
 destryera|Destroyer (Cidelsa) (set 2)|clone|efo/cidelsa.cpp|90|294|294|50.875178||destryer|imperfect|Cidelsa
-detatwin|Detana!! Twin Bee (Japan, version J)|clone|konami/tmnt.cpp|90|320|224|60.000000||blswhstl|good|Konami
+detatwin|Detana!! Twin Bee (Japan, version J)|clone|konami/tmnt2.cpp|90|320|224|60.000000||blswhstl|good|Konami
 detest|Data East Test Chip|parent|pinball/de_3.cpp|||||||preliminary|Data East
 deucesw2|Deuces Wild 2 - American Heritage (Ver. 2.02F)|parent|misc/blitz68k.cpp|0|512|256|60.000000|||preliminary|<unknown>
 devilfsh|Devil Fish (Scramble hardware)|parent|galaxian/scramble.cpp|90|256|224|60.606061|||good|Artic
@@ -4803,7 +4803,7 @@ dodgecty|Dodge City (9131-02)|parent|merit/meritm.cpp|0|543|465|59.922749|||impe
 dodgectya|Dodge City (2131-82, U5-0D)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
 dodgectyb|Dodge City (2131-82, U5-50)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
 dodgectyc|Dodge City (2131-82, U5-0 GT)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
-dodgem|Dodgem|parent|zaccaria/zac2650.cpp|0|720|768|55.000000|||imperfect|Zaccaria
+dodgem|Dodgem|parent|zaccaria/zac1b1120.cpp|0|720|256|50.541416|||imperfect|Zaccaria
 dodgeman|Dodge Man|parent|omori/battlex.cpp|180|256|224|60.000000|||imperfect|Omori Electric Co., Ltd.
 dodghero|Minna Atsumare! Dodge Hero|parent|sigma/sigmab98.cpp|0|320|240|60.000000|||good|Sigma
 dogfgt|Acrobatic Dog-Fight|parent|technos/dogfgt.cpp|0|256|240|60.000000|||good|Technos Japan
@@ -8156,9 +8156,9 @@ gldneye|Goldeneye (CPU 4.04, display A4.00)|parent|pinball/whitestar.cpp|0|128|3
 gldneye_402|Goldeneye (CPU 4.02, display A4.00)|clone|pinball/whitestar.cpp|0|128|32|60.000000||gldneye|preliminary|Sega
 gldnflc|The Golden Fleece (10158311, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 gldnpkr|Golden Poker (8VXEC037, New Zealand)|parent|aristocrat/aristmk4.cpp|0|304|216|60.000000|||good|Ainsworth Nominees P.L.
-glfgreat|Golfing Greats (World, version L)|parent|konami/tmnt.cpp|0|288|224|60.000000|||preliminary|Konami
-glfgreatj|Golfing Greats (Japan, version J)|clone|konami/tmnt.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
-glfgreatu|Golfing Greats (US, version K)|clone|konami/tmnt.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
+glfgreat|Golfing Greats (World, version L)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||preliminary|Konami
+glfgreatj|Golfing Greats (Japan, version J)|clone|konami/tmnt2.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
+glfgreatu|Golfing Greats (US, version K)|clone|konami/tmnt2.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
 glizrdce|Green Lizard - Cash Express (AHG1623, US)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5||preliminary|Aristocrat
 gloc|G-LOC Air Battle (World)|parent|sega/segaybd.cpp|0|320|224|60.000000|||good|Sega
 glocr360|G-LOC R360 (World)|clone|sega/segaybd.cpp|0|320|224|60.000000||gloc|good|Sega
@@ -9637,7 +9637,7 @@ ide_pci|PCI IDE interface|device|devices/machine/pci-ide.cpp||||||||
 idectrl|IDE Controller (16-bit)|device|devices/machine/idectrl.cpp||||||||
 idectrl32|IDE Controller (32-bit)|device|devices/machine/idectrl.cpp||||||||
 idectrl32bm|Bus Master IDE Controller|device|devices/machine/idectrl.cpp||||||||
-idehd|IDE Hard Disk|device|devices/bus/ata/idehd.cpp||||||||
+idehd|IDE Hard Disk|device|devices/bus/ata/hdd.cpp||||||||
 idhimitu|Idol no Himitsu [BET] (Japan 890304)|parent|nichibutsu/nbmj8688.cpp|0|512|224|60.000000|||good|Digital Soft
 idolmj|Idol-Mahjong Housoukyoku (Japan)|parent|vsystem/fromance.cpp|0|352|240|60.000000|||good|System Service
 idsoccer|Indoor Soccer (set 1)|parent|universal/docastle.cpp|0|240|192|59.659091|||good|Universal
@@ -9861,7 +9861,7 @@ invmultis1a|Space Invaders Multigame (S0.81A)|clone|midw8080/8080bw.cpp|270|260|
 invmultis2a|Space Invaders Multigame (S0.82A)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
 invmultis3a|Space Invaders Multigame (S0.83A)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
 invmultit3d|Space Invaders Multigame (T8.03D)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
-invqix|Space Invaders / Qix Silver Anniversary Edition (Ver. 2.03)|parent|taito/invqix.cpp|270|257|241|60.000000|||good|Taito / Namco
+invqix|Space Invaders / Qix Silver Anniversary Edition (Ver. 2.03)|parent|taito/invqix.cpp|270|256|240|60.000000|||good|Taito / Namco
 invrvnge|Invader's Revenge (set 1)|parent|midw8080/8080bw.cpp|270|260|224|59.541985|||good|Zenitone-Microsec Ltd.
 invrvngea|Invader's Revenge (set 2)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invrvnge|good|Zenitone-Microsec Ltd.
 invrvngeb|Invader's Revenge (set 3)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invrvnge|good|Zenitone-Microsec Ltd.
@@ -11391,9 +11391,9 @@ jackler|Jackler (Jungler bootleg)|clone|namco/rallyx.cpp|90|288|224|60.606061||j
 jackpool|Jackpot Cards / Jackpot Pool (Italy)|parent|misc/jackpool.cpp|0|512|256|60.000000|||preliminary|Electronic Projects
 jackpot|Jackpot (Ver 16.16L)|parent|misc/jackpot.cpp|0|256|256|60.000000|||preliminary|Electronic Projects
 jackpota|Jackpot (Ver 1.16L)|clone|misc/jackpot.cpp|0|256|256|60.000000||jackpot|preliminary|Electronic Projects
-jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000|||imperfect|Zaccaria
-jackrabt2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt|imperfect|Zaccaria
-jackrabts|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt|imperfect|Zaccaria
+jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061|||imperfect|Zaccaria
+jackrabt2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt|imperfect|Zaccaria
+jackrabts|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt|imperfect|Zaccaria
 jag_blitter|Atari Jaguar Blitter|device|mame/atari/jag_blitter.cpp||||||||
 jaguardsp|Motorola Atari Jaguar DSP "Jerry"|device|devices/cpu/jaguar/jaguar.cpp||||||||
 jaguargpu|Motorola Atari Jaguar GPU "Tom"|device|devices/cpu/jaguar/jaguar.cpp||||||||
@@ -12431,9 +12431,9 @@ lghostu|Laser Ghost (US) (FD1094 317-0165)|clone|sega/segas18.cpp|0|320|224|57.2
 lghostud|Laser Ghost (US) (bootleg of FD1094 317-0165 set)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|bootleg
 lgp|Laser Grand Prix|parent|taito/lgp.cpp|0|704|480|59.940057|||preliminary|Taito
 lgpalt|Laser Grand Prix (alternate)|clone|taito/lgp.cpp|0|704|480|59.940057||lgp|preliminary|Taito
-lgtnfght|Lightning Fighters (World)|parent|konami/tmnt.cpp|90|320|224|60.000000|||good|Konami
-lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
-lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+lgtnfght|Lightning Fighters (World)|parent|konami/tmnt2.cpp|90|320|224|60.000000|||good|Konami
+lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
 lh5045|Sharp LH5045 RTC|device|devices/machine/rp5c01.cpp||||||||
 lhaunt|Lucky Haunter (030707 World)|clone|misc/multfish.cpp|0|640|480|60.000000||lhaunt_6|good|Igrosoft
 lhaunt_10|Lucky Haunter (090712 Entertainment)|clone|misc/multfish.cpp|0|640|480|60.000000||lhaunt_6|good|Igrosoft
@@ -20815,7 +20815,7 @@ merlinmm|Merlins Money Maze|parent|konami/pingpong.cpp|90|256|224|60.000000|||go
 mermaid|Mermaid|parent|sanritsu/mermaid.cpp|0|256|224|60.000000|||imperfect|Sanritsu / Rock-Ola
 merryjn|Merry Joiner|parent|misc/belatra.cpp|||||||preliminary|Belatra
 metabee|Metabee Shot|parent|metro/metro.cpp|0|320|224|58.232800|||preliminary|Natsume / Banpresto
-metafox|Meta Fox|parent|seta/downtown.cpp|270|384|224|57.444853|||good|Jordan I.S. / Seta
+metafox|Meta Fox|parent|seta/downtown.cpp|270|384|224|60.000000|||good|Jordan I.S. / Seta
 metalb|Metal Black (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito Corporation Japan
 metalbj|Metal Black (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||metalb|good|Taito Corporation
 metalman|Metal Man|parent|pinball/spinb.cpp|||||||preliminary|Inder
@@ -21290,8 +21290,8 @@ monsterza|Monster Zero (set 2)|clone|galaxian/galaxian.cpp|0|648|224|60.606061||
 montana|Montana Bingo Stake 6/10 (Bingo)|parent|pinball/bingo.cpp|||||||preliminary|Splin
 montecar|Monte Carlo|parent|atari/firetrk.cpp|270|320|240|60.114504|||good|Atari
 montree|Money Tree (0201397V, New Zealand)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5||imperfect|Aristocrat
-monymony|Money Money (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000|||imperfect|Zaccaria
-monymony2|Money Money (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||monymony|imperfect|Zaccaria
+monymony|Money Money (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061|||imperfect|Zaccaria
+monymony2|Money Money (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||monymony|imperfect|Zaccaria
 monzagp|Monza GP|parent|olympia/monzagp.cpp|270|560|229|50.000000|||preliminary|Olympia
 monzagpb|Monza GP (bootleg)|clone|olympia/monzagp.cpp|270|560|229|50.000000||monzagp|preliminary|bootleg
 moomesa|Wild West C.O.W.-Boys of Moo Mesa (ver EAB)|parent|konami/moo.cpp|0|384|224|60.000000|||imperfect|Konami
@@ -24538,8 +24538,8 @@ primrage20|Primal Rage (version 2.0)|clone|atari/atarigt.cpp|0|336|240|59.922743
 primrageo|Primal Rage (version 2.3, older build)|clone|atari/atarigt.cpp|0|336|240|59.922743||primrage|preliminary|Atari Games
 princess|Cosmic Princess|parent|pinball/st_mp100.cpp|||||||preliminary|Stern
 printer_image|Printer|device|devices/imagedev/printer.cpp||||||||
-prmrsocr|Premier Soccer (ver EAB)|parent|konami/tmnt.cpp|0|288|224|60.000000|||imperfect|Konami
-prmrsocrj|Premier Soccer (ver JAB)|clone|konami/tmnt.cpp|0|288|224|60.000000||prmrsocr|imperfect|Konami
+prmrsocr|Premier Soccer (ver EAB)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||imperfect|Konami
+prmrsocrj|Premier Soccer (ver JAB)|clone|konami/tmnt2.cpp|0|288|224|60.000000||prmrsocr|imperfect|Konami
 prmtmfgt|Prime Time Fighter (Ver 2.1A 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|58.970000||trstar|imperfect|Taito America Corporation
 prmtmfgto|Prime Time Fighter (Ver 2.1A 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|58.970000||trstar|imperfect|Taito America Corporation
 probowl2|Pro Bowl 2|clone|toaplan/toaplan2.cpp|0|320|240|59.637405||nprobowl|preliminary|Zuck / Able Corp
@@ -24680,10 +24680,10 @@ punisherh|The Punisher (Hispanic 930422)|clone|capcom/cps1.cpp|0|384|224|59.6374
 punisherj|The Punisher (Japan 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom
 punisheru|The Punisher (USA 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom
 punk|Punk!|parent|pinball/gts80a.cpp|||||||preliminary|Gottlieb
-punkshot|Punk Shot (US 4 Players)|parent|konami/tmnt.cpp|0|288|224|60.000000|||good|Konami
-punkshot2|Punk Shot (US 2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot|good|Konami
-punkshot2e|Punk Shot (World 2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot|good|Konami
-punkshotj|Punk Shot (Japan 2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot|good|Konami
+punkshot|Punk Shot (US 4 Players)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||good|Konami
+punkshot2|Punk Shot (US 2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot|good|Konami
+punkshot2e|Punk Shot (World 2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot|good|Konami
+punkshotj|Punk Shot (Japan 2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot|good|Konami
 punkywil|Punky Willy|parent|pinball/joctronic.cpp|||||||preliminary|Joctronic
 pururun|Pururun|parent|metro/metro.cpp|0|320|224|58.232800|||good|Metro / Banpresto
 pushman|Pushman (Korea, set 1)|parent|capcom/tigeroad.cpp|0|256|224|59.637405|||good|Comad
@@ -24787,7 +24787,7 @@ qdrmfgp|Quiz Do Re Mi Fa Grand Prix (Japan)|parent|konami/qdrmfgp.cpp|0|384|224|
 qdrmfgp2|Quiz Do Re Mi Fa Grand Prix 2 - Shin-Kyoku Nyuukadayo (Japan)|parent|konami/qdrmfgp.cpp|0|384|224|60.000000|||imperfect|Konami
 qed5271be|MIPS QED5271 (big)|device|devices/cpu/mips/mips3.cpp||||||||
 qed5271le|MIPS QED5271 (little)|device|devices/cpu/mips/mips3.cpp||||||||
-qgakumon|Quiz Gakumon no Susume (Japan ver. JA1 Type H)|parent|konami/tmnt.cpp|0|304|224|60.000000|||good|Konami
+qgakumon|Quiz Gakumon no Susume (Japan ver. JA1 Type H)|parent|konami/tmnt2.cpp|0|304|224|60.000000|||good|Konami
 qgh|Quiz Ghost Hunter (Japan, ROM Based)|parent|sega/segas24.cpp|0|496|384|57.524160|||good|Sega
 qgundam|Quiz Mobile Suit Gundam: Monsenshi (QG1 Ver. A)|parent|namco/namcops2.cpp|0|640|480|60.000000|sys246||preliminary|Namco
 qix|Qix (Rev 2)|parent|taito/qix.cpp|270|256|256|55.838470|||good|Taito America Corporation
@@ -32421,7 +32421,7 @@ shuriboy|Shuriken Boy|parent|konami/konmedal.cpp|0|288|224|60.000000|||good|Kona
 shuttlei|Shuttle Invader|parent|midw8080/8080bw.cpp|270|256|192|60.000000|||imperfect|Omori Electric Co., Ltd.
 shuuz|Shuuz (version 8.0)|parent|atari/shuuz.cpp|0|336|240|59.922743|||good|Atari Games
 shuuz2|Shuuz (version 7.1)|clone|atari/shuuz.cpp|0|336|240|59.922743||shuuz|good|Atari Games
-sia2650|Super Invader Attack (bootleg of The Invaders)|clone|zaccaria/zac2650.cpp|270|720|768|55.000000||tinv2650|imperfect|bootleg (Sidam)
+sia2650|Super Invader Attack (bootleg of The Invaders)|clone|zaccaria/zac1b1120.cpp|270|720|256|55.154326||tinv2650|imperfect|bootleg (Sidam)
 sianniv|Space Invaders Anniversary (V2.02J)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||preliminary|Taito
 sichuan2|Sichuan II (hack, set 1)|clone|irem/shisen.cpp|0|512|256|55.017606||matchit|good|hack
 sichuan2a|Sichuan II (hack, set 2)|clone|irem/shisen.cpp|0|512|256|55.017606||matchit|good|hack
@@ -32515,7 +32515,7 @@ sis5513_ide|SiS 5513 IDE Controller|device|devices/machine/sis5513_ide.cpp||||||
 sis630_bridge|SiS 630 Virtual PCI-to-PCI bridge|device|devices/machine/sis630_gui.cpp||||||||
 sis630_gui|SiS 630 GUI|device|devices/machine/sis630_gui.cpp|0|640|480|53.178707||||
 sis630_host|SiS 630 Host-to-PCI Bridge|device|devices/machine/sis630_host.cpp||||||||
-sis630_svga|SiS 630 SVGA|device|devices/machine/sis630_gui.cpp||||||||
+sis630_svga|SiS 630 SVGA|device|devices/video/pc_vga_sis.cpp||||||||
 sis7001_usb|SiS 7001 USB Host Controller|device|devices/machine/sis7001_usb.cpp||||||||
 sis7018_audio|SiS 7018 Audio AC97|device|devices/machine/sis7018_audio.cpp||||||||
 sis900_eth|SiS 900 Fast Ethernet Adapter|device|devices/machine/sis900_eth.cpp||||||||
@@ -33961,21 +33961,21 @@ ssprintf|Super Sprint (French)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssp
 ssprintg|Super Sprint (German, rev 2)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
 ssprintg1|Super Sprint (German, rev 1)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
 ssprints|Super Sprint (Spanish)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
-ssriders|Sunset Riders (4 Players ver EAC)|parent|konami/tmnt.cpp|0|288|224|60.000000|||imperfect|Konami
-ssriders2|Sunset Riders 2 (bootleg 4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
-ssridersabd|Sunset Riders (2 Players ver ABD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersadd|Sunset Riders (4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersb|Sunset Riders (bootleg 4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
-ssriderseaa|Sunset Riders (4 Players ver EAA)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersebc|Sunset Riders (2 Players ver EBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersebd|Sunset Riders (2 Players ver EBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersjac|Sunset Riders (4 Players ver JAC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersjad|Sunset Riders (4 Players ver JAD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersjbd|Sunset Riders (2 Players ver JBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuab|Sunset Riders (4 Players ver UAB)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuac|Sunset Riders (4 Players ver UAC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersubc|Sunset Riders (2 Players ver UBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuda|Sunset Riders (4 Players ver UDA)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssriders|Sunset Riders (4 Players ver EAC)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||imperfect|Konami
+ssriders2|Sunset Riders 2 (bootleg 4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
+ssridersabd|Sunset Riders (2 Players ver ABD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersadd|Sunset Riders (4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersb|Sunset Riders (bootleg 4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
+ssriderseaa|Sunset Riders (4 Players ver EAA)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersebc|Sunset Riders (2 Players ver EBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersebd|Sunset Riders (2 Players ver EBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersjac|Sunset Riders (4 Players ver JAC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersjad|Sunset Riders (4 Players ver JAD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersjbd|Sunset Riders (2 Players ver JBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuab|Sunset Riders (4 Players ver UAB)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuac|Sunset Riders (4 Players ver UAC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersubc|Sunset Riders (2 Players ver UBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuda|Sunset Riders (4 Players ver UDA)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
 ssrj|Super Speed Race Junior (Japan)|parent|taito/ssrj.cpp|90|272|240|60.000000|||preliminary|Taito Corporation
 sss|Steep Slope Sliders (JUET 981110 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Capcom / Cave / Victor Interactive Software
 sst|Supersonic|parent|pinball/by35.cpp|||||||preliminary|Bally
@@ -34958,9 +34958,9 @@ thndrbld1|Thunder Blade (deluxe/standing) (unprotected)|clone|sega/segaxbd.cpp|0
 thndrbldd|Thunder Blade (upright) (bootleg of FD1094 317-0056 set)|clone|sega/segaxbd.cpp|0|320|224|59.637405||thndrbld|good|bootleg
 thndrhrt|Thunder Heart (10173811, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 thndrman|Thunder Man|parent|pinball/zac_2.cpp|||||||preliminary|Apple Time
-thndrx2|Thunder Cross II (World)|parent|konami/tmnt.cpp|0|288|224|60.000000|||good|Konami
-thndrx2a|Thunder Cross II (Asia)|clone|konami/tmnt.cpp|0|288|224|60.000000||thndrx2|good|Konami
-thndrx2j|Thunder Cross II (Japan)|clone|konami/tmnt.cpp|0|288|224|60.000000||thndrx2|good|Konami
+thndrx2|Thunder Cross II (World)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||good|Konami
+thndrx2a|Thunder Cross II (Asia)|clone|konami/tmnt2.cpp|0|288|224|60.000000||thndrx2|good|Konami
+thndrx2j|Thunder Cross II (Japan)|clone|konami/tmnt2.cpp|0|288|224|60.000000||thndrx2|good|Konami
 thndzone|Thunder Zone (World, Rev 1)|parent|dataeast/dassault.cpp|0|320|240|57.799650|||imperfect|Data East Corporation
 thndzone4|Thunder Zone (World 4 Players)|clone|dataeast/dassault.cpp|0|320|240|57.799650||thndzone|imperfect|Data East Corporation
 thndzonea|Thunder Zone (World)|clone|dataeast/dassault.cpp|0|320|240|57.799650||thndzone|imperfect|Data East Corporation
@@ -35096,7 +35096,7 @@ tinkerbl|Tinker Bell|parent|sega/segasm1.cpp|0|496|384|57.524160|||preliminary|S
 tinklpit|Tinkle Pit (Japan)|parent|namco/namcona1.cpp|0|304|224|60.000000|||good|Namco
 tinstar|The Tin Star (A10, 4 PCB version)|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
 tinstara|The Tin Star (TS, 5 PCB version)|clone|taito/taitosj.cpp|0|256|224|60.000000||tinstar|good|Taito Corporation
-tinv2650|The Invaders|parent|zaccaria/zac2650.cpp|270|720|768|55.000000|||imperfect|Zaccaria / Zelco
+tinv2650|The Invaders|parent|zaccaria/zac1b1120.cpp|270|720|256|55.154326|||imperfect|Zaccaria / Zelco
 tiptop|Tip Top (3 board stack)|clone|sega/zaxxon.cpp|90|256|224|59.999408||congo|imperfect|Sega
 tisland|Treasure Island|parent|dataeast/btime.cpp|270|240|240|57.444853|||preliminary|Data East Corporation
 tisub|Treasure Island (Subsino, set 1)|parent|subsino/subsino.cpp|0|512|224|60.000000|||good|Subsino
@@ -35166,18 +35166,18 @@ tmek45|T-MEK (v4.5)|clone|atari/atarigt.cpp|0|336|240|59.922743||tmek|preliminar
 tmek51p|T-MEK (v5.1, prototype)|clone|atari/atarigt.cpp|0|336|240|59.922743||tmek|preliminary|Atari Games
 tmfnt_l5|Time Fantasy (L-5)|parent|pinball/s7.cpp|||||||preliminary|Williams
 tmht|Teenage Mutant Hero Turtles (UK 4 Players, version F)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
-tmht22pe|Teenage Mutant Hero Turtles - Turtles in Time (2 Players ver EBA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
-tmht24pe|Teenage Mutant Hero Turtles - Turtles in Time (4 Players ver EAA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmht22pe|Teenage Mutant Hero Turtles - Turtles in Time (2 Players ver EBA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmht24pe|Teenage Mutant Hero Turtles - Turtles in Time (4 Players ver EAA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
 tmht2p|Teenage Mutant Hero Turtles (UK 2 Players, version U)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmht2pa|Teenage Mutant Hero Turtles (UK 2 Players, version ?)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmhta|Teenage Mutant Hero Turtles (UK 4 Players, version S)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmhtb|Teenage Mutant Hero Turtles (UK 4 Players, version ?)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmmjprd|Tokimeki Mahjong Paradise - Dear My Love|parent|metro/tmmjprd.cpp|0|320|224|60.000000|||imperfect|Media / Sonnet
 tmnt|Teenage Mutant Ninja Turtles (World 4 Players, version X)|parent|konami/tmnt.cpp|0|320|224|60.000000|||good|Konami
-tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UAA)|parent|konami/tmnt.cpp|0|304|224|60.000000|||good|Konami
-tmnt22pu|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players ver UDA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
-tmnt24pu|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UEA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
-tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver ADA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UAA)|parent|konami/tmnt2.cpp|0|304|224|60.000000|||good|Konami
+tmnt22pu|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players ver UDA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmnt24pu|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UEA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver ADA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
 tmnt2pj|Teenage Mutant Ninja Turtles (Japan 2 Players, version 1)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmnt2po|Teenage Mutant Ninja Turtles (Oceania 2 Players, version ?)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmnt_101|Teenage Mutant Ninja Turtles (1.01)|clone|pinball/de_3.cpp|0|128|16|50.000000||tmnt_104|preliminary|Data East
@@ -35444,8 +35444,8 @@ toureiff|Torre Eiffel|parent|misc/videosaa.cpp|0|256|256|50.080128|||preliminary
 tourpgum|unknown Paradise Automatique / TourVisión bowling themed poker game with gum prizes (France)|parent|misc/4enraya.cpp|0|256|224|60.000000|||good|Paradise Automatique / TourVisión
 toursol|Tournament Solitaire (V1.06, 08/03/95)|parent|pc/pcat_dyn.cpp|0|640|480|53.178707|||preliminary|Dynamo
 toursol1|Tournament Solitaire (V1.04, 06/22/95)|clone|pc/pcat_dyn.cpp|0|640|480|53.178707||toursol|preliminary|Dynamo
-tourtab2|Tournament Table (set 2)|clone|atari/tourtabl.cpp|0|160|200|59.922743||tourtabl|good|Atari
-tourtabl|Tournament Table (set 1)|parent|atari/tourtabl.cpp|0|160|200|59.922743|||good|Atari
+tourtab2|Tournament Table (set 2)|clone|atari/tourtabl.cpp|0|160|200|59.923246||tourtabl|good|Atari
+tourtabl|Tournament Table (set 1)|parent|atari/tourtabl.cpp|0|160|200|59.923246|||good|Atari
 tourvis|TourVisión (PC Engine bootleg)|bios|pce/tourvis.cpp|0|1088|242|59.826098||||bootleg (TourVisión)
 touryuu|Touryuumon (V1.1)?|parent|eolith/ghosteo.cpp|0|320|256|60.000000|||imperfect|Yuki Enterprise
 toutango|Toucan Tango (0100782V, NSW/ACT)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5||preliminary|Aristocrat
@@ -35511,7 +35511,7 @@ trident|Trident|parent|pinball/st_mp100.cpp|||||||preliminary|Stern
 trident_vga|Trident TGUI9860|device|devices/video/pc_vga_trident.cpp||||||||
 tridento|Trident (Older set)|clone|pinball/st_mp100.cpp||||||trident|preliminary|Stern
 triforce|Triforce BIOS|bios|sega/triforce.cpp|0|640|480|60.000000||||Sega
-trigon|Trigon (Japan)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+trigon|Trigon (Japan)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
 trikitri|Triki Triki (Lover Boy bootleg)|clone|cinematronics/jack.cpp|90|256|224|59.185606||loverboy|good|bootleg (DDT Enterprise Inc)
 triothep|Trio The Punch - Never Forget Me... (World)|parent|dataeast/actfancr.cpp|0|256|240|60.000000|||imperfect|Data East Corporation
 triothepj|Trio The Punch - Never Forget Me... (Japan)|clone|dataeast/actfancr.cpp|0|256|240|60.000000||triothep|imperfect|Data East Corporation
@@ -36622,10 +36622,10 @@ viprp1ua|Viper Phase 1 (New Version, US set 2)|clone|seibu/seibuspi.cpp|270|320|
 viprsega|Viper Night Drivin' (CPU 2.01, display A2.01)|parent|pinball/whitestar.cpp|0|128|32|60.000000|||preliminary|Sega
 viprsega_102|Viper Night Drivin' (CPU 1.02, display A1.00)|clone|pinball/whitestar.cpp|0|128|32|60.000000||viprsega|preliminary|Sega
 virge_pci|S3 86C325 ViRGE PCI|device|devices/video/virge_pci.cpp|0|640|480|53.178707||||
-virge_vga|S3 86C325|device|devices/bus/isa/s3virge.cpp||||||||
+virge_vga|S3 86C325|device|devices/video/s3virge.cpp||||||||
 virgedx_pci|S3 86C375 ViRGE/DX PCI|device|devices/video/virge_pci.cpp|0|640|480|53.178707||||
-virgedx_vga|S3 86C375|device|devices/bus/isa/s3virge.cpp||||||||
-virgedx_vga_r1|S3 86C375 (rev 1)|device|devices/bus/isa/s3virge.cpp||||||||
+virgedx_vga|S3 86C375|device|devices/video/s3virge.cpp||||||||
+virgedx_vga_r1|S3 86C375 (rev 1)|device|devices/video/s3virge.cpp||||||||
 virnba|Virtua NBA (USA)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 virnbao|Virtua NBA|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
 virnbap|Virtua NBA (prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega

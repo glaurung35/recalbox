@@ -4,6 +4,24 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-Pulstar
+
+### Hardware
+
+
+### News
+
+
+### Bumps
+- Bump libretro-mame to 0.256
+
+### Improvements
+
+
+### Fixes
+
+
+
 ## Version 9.1-Pulstar
 
 ### Hardware

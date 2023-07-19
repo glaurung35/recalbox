@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Romset 0.239
-LIBRETRO_MAME_VERSION = ec47e94c7eed598e87a6da898821b5c8024c21a5
+# Romset 0.257 - don't forget to sync package arcade-dats
+LIBRETRO_MAME_VERSION = 4aa1f0c6b2a84ffcaf5f69bf1b5dd5fa3581ee57
 LIBRETRO_MAME_SITE = $(call github,libretro,mame,$(LIBRETRO_MAME_VERSION))
 LIBRETRO_MAME_LICENSE = MAME
 LIBRETRO_MAME_NON_COMMERCIAL = y

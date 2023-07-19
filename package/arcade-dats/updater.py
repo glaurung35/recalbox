@@ -130,7 +130,8 @@ class Updater:
                 if not os.path.exists(destination):
                     os.system("rm ./precompiled/{}-*.dat 2>/dev/null".format(subsystem))
                     if subsystem == "mame":
-                        systemVersion = systemVersion[2:]
+                        #systemVersion = systemVersion[2:]
+                        systemVersion: str = self.extractVersion(os.path.join(self.__package, "arcade-dats"))
                     url: str = descriptor.UrlTemplate.format(systemVersion)
                     print("  Downloading package of {} at {}".format(descriptor.Name, url))
                     urllib.request.urlretrieve(url, self.sSystemZip)

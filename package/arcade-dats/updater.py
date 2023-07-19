@@ -91,6 +91,11 @@ class Updater:
         mameXml = self.sMameXmlTemplate.format(pureMameVersion)
         if not os.path.exists(mameXml) or not os.path.exists(mameDat):
             print("  Downloading reference mame dat {}".format(mameVersion))
+            try:
+                urllib.request.urlretrieve(self.sMameUrl.format(pureMameVersion), self.sMameZip)
+            except:
+                print("  WARNING: Reference mame {} doesn't exist".format(mameVersion))
+                sys.exit(0)
             urllib.request.urlretrieve(self.sMameUrl.format(pureMameVersion), self.sMameZip)
             try:
                 with urllib.request.urlopen(self.sMameUrl.format(str(int(pureMameVersion)+1))):
@@ -130,7 +135,8 @@ class Updater:
                 if not os.path.exists(destination):
                     os.system("rm ./precompiled/{}-*.dat 2>/dev/null".format(subsystem))
                     if subsystem == "mame":
-                        systemVersion = systemVersion[2:]
+                        #systemVersion = systemVersion[2:]
+                        systemVersion: str = self.extractVersion(os.path.join(self.__package, "arcade-dats"))
                     url: str = descriptor.UrlTemplate.format(systemVersion)
                     print("  Downloading package of {} at {}".format(descriptor.Name, url))
                     urllib.request.urlretrieve(url, self.sSystemZip)

@@ -159,7 +159,8 @@ void MqttClient::ReceiveSyncMessage()
 
 void MqttClient::Wait()
 {
-  mOriginalTocken->wait();
+  if (mOriginalTocken)
+    mOriginalTocken->wait();
 }
 
 void MqttClient::Disconnect()

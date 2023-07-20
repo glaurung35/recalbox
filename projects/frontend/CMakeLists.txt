@@ -164,8 +164,6 @@ set(COMMON_LIBRARIES
     resolv
     blkid
     lzma
-    ssl
-    crypto
 )
 
 if(MSVC)

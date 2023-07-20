@@ -155,7 +155,8 @@ void MqttClient::ReceiveSyncMessage()
 void MqttClient::Wait()
 {
   #ifndef FREEZE_MQTT
-  mOriginalTocken->wait();
+  if (mOriginalTocken)
+    mOriginalTocken->wait();
   #endif
 }
 

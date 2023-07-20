@@ -349,23 +349,26 @@ void NotificationManager::Break()
 
 void NotificationManager::Run()
 {
-  mSignal.WaitSignal();
-  if (IsRunning())
+  NotificationRequest* request = nullptr;
+  while(IsRunning())
   {
-    // Get request
-    mSyncer.Lock();
-    mProcessing = true;
-    NotificationRequest* request = !mRequestQueue.Empty() ? mRequestQueue.Pop() : nullptr;
-    mSyncer.UnLock();
-
-    // Process
-    if (request != nullptr)
+    mSignal.WaitSignal();
+    while(IsRunning())
     {
+      // Get request
+      { Mutex::AutoLock locker(mSyncer); request = !mRequestQueue.Empty() ? mRequestQueue.Pop() : nullptr; }
+      if (request == nullptr) break;
+
+      { Mutex::AutoLock locker(mSyncer); mProcessing = true; }
+
+      // Process
       if (*request != mPreviousRequest)
       {
         // Build all
-        std::string output("Version=2.0"); output.append(eol);
-        BuildStateCommons(output, request->mSystemData, request->mFileData, request->mAction, request->mActionParameters);
+        std::string output("Version=2.0");
+        output.append(eol);
+        BuildStateCommons(output, request->mSystemData, request->mFileData, request->mAction,
+                          request->mActionParameters);
         BuildStateGame(output, request->mFileData, request->mAction);
         BuildStateSystem(output, request->mSystemData, request->mAction);
         BuildStateCompatibility(output, request->mAction);
@@ -380,8 +383,10 @@ void NotificationManager::Run()
         mMQTTClient.Send(sEventJsonTopic, json);
 
         // Run scripts
-        const std::string& notificationParameter = (request->mFileData != nullptr) ? request->mFileData->RomPath().ToString() :
-                                                   ((request->mSystemData != nullptr) ? request->mSystemData->Name() : request->mActionParameters);
+        const std::string& notificationParameter = (request->mFileData != nullptr)
+                                                   ? request->mFileData->RomPath().ToString()
+                                                   : ((request->mSystemData != nullptr) ? request->mSystemData->Name()
+                                                                                        : request->mActionParameters);
         RunScripts(request->mAction, notificationParameter);
 
         mPreviousRequest = *request;
@@ -390,11 +395,8 @@ void NotificationManager::Run()
       // Recycle
       mRequestProvider.Recycle(request);
     }
-
-    // En processing
-    mSyncer.Lock();
-    mProcessing = true;
-    mSyncer.UnLock();
+    // End processing
+    { Mutex::AutoLock locker(mSyncer); mProcessing = false; }
   }
 }
 

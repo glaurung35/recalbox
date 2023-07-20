@@ -162,7 +162,8 @@ void MqttClient::Wait()
   #ifdef FREEZE_MQTT
   return;
   #endif
-  mOriginalTocken->wait();
+  if (mOriginalTocken)
+    mOriginalTocken->wait();
 }
 
 void MqttClient::Disconnect()

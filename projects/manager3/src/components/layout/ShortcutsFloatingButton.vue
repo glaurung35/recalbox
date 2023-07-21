@@ -43,8 +43,8 @@
         square
       />
       <q-fab-action
-        @click="() => openURL(urls.gitbook)"
-        class="gitbook"
+        @click="() => openURL(urls.wiki)"
+        class="wiki"
         color="secondary"
         icon="icon-gitbook"
         label="Documentation"
@@ -69,7 +69,7 @@ import { toRefs } from 'vue';
 
 const urls: object = {
   discord: process.env.DISCORD_URL,
-  gitbook: process.env.GITBOOK_URL,
+  wiki: process.env.WIKI_URL,
   forum: process.env.FORUM_URL,
   gitlab: process.env.GITLAB_URL,
   patreon: process.env.PATREON_URL,
@@ -95,7 +95,7 @@ function update(value:boolean) {
       .q-icon:before
         color: $accent
 
-    .gitbook
+    .wiki
       i
         font-size: 18px
         margin-left: 3px

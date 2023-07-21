@@ -201,7 +201,8 @@ void SystemManager::MakeSystemVisible(SystemData* system)
   int index = 0;
   for(int i = 0; index < mAllSystems.Count() && mAllSystems[index] != system; ++i)
     if (mAllSystems[i] == mVisibleSystems[index])
-      ++index;
+      if (++index >= mVisibleSystems.Count())
+        break;
   mVisibleSystems.Insert(system, index);
 }
 
@@ -1500,9 +1501,9 @@ bool SystemManager::UpdateSystemsOnSingleGameChanges(FileData* target, MetadataT
       if (isAlreadyIn && !shouldBeIn) // Must remove
       {
         // Get unique virtual root of virtual systems
-        RootFolderData* root = system->GetRootFolder(RootFolderData::Types::Virtual);
+        RootFolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
         // Remove entry
-        root->RemoveChildRecursively(target);
+        root.RemoveChildRecursively(target);
         LogSystemGameRemoved(system, target);
         // In what list must we add the system?
         if (system->HasGame()) modifiedSystems.Add(system);
@@ -1515,9 +1516,9 @@ bool SystemManager::UpdateSystemsOnSingleGameChanges(FileData* target, MetadataT
         // Create a one-file reverse doppleganger
         FileData::StringMap doppelganger; doppelganger[target->RomPath().ToString()] = target;
         // Get unique virtual root of virtual systems
-        RootFolderData* root = system->GetRootFolder(RootFolderData::Types::Virtual);
+        RootFolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
         // Add games
-        system->LookupOrCreateGame(*root, target->TopAncestor().RomPath(), target->RomPath(), target->Type(), doppelganger);
+        system->LookupOrCreateGame(root, target->TopAncestor().RomPath(), target->RomPath(), target->Type(), doppelganger);
         LogSystemGameAdded(system, target);
         // In what list must we add the system?
         if (hasGame) modifiedSystems.Add(system);
@@ -1563,7 +1564,14 @@ SystemManager::NotifySystemChanges(SystemManager::List* addedSystems,
   // Added virtual systems?
   if (addedSystems != nullptr)
     for(SystemData* system : *addedSystems)
+    {
+      if (!system->IsInitialized())
+      {
+        system->loadTheme();
+        system->SetInitialized();
+      }
       mSystemChangeNotifier->ShowSystem(system);
+    }
   // Removed virtual systems?
   if (removedSystems != nullptr)
     for(SystemData* system : *removedSystems)

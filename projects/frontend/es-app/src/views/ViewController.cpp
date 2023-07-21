@@ -317,7 +317,7 @@ void ViewController::playViewTransition()
 
 void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget)
 {
-  if (!mGameToLaunch->IsGame())
+  if (!game->IsGame())
   {
     { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
     return;

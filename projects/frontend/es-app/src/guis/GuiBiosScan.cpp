@@ -386,7 +386,7 @@ void GuiBiosScan::UpdateBiosList()
   for(int i = 0; i < biosManager.SystemCount(); ++i)
   {
     // Fill bios list
-    BiosList biosList = biosManager.SystemBios(i);
+    const BiosList& biosList = biosManager.SystemBios(i);
 
     // Filtered?
     if (!mShowAllSystems)

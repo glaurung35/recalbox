@@ -88,7 +88,7 @@ namespace Pistache::Http
             if (entry.getTag() == Polling::Tag(timerFd))
             {
                 uint64_t wakeups;
-                ::read(timerFd, &wakeups, sizeof wakeups);
+                (void)::read(timerFd, &wakeups, sizeof wakeups);
                 checkIdlePeers();
                 break;
             }

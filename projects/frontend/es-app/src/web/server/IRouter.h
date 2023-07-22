@@ -222,48 +222,6 @@ class IRouter
      */
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
-    /*!
-     * @brief Handle POST to reboot the system
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
-     * @brief Handle POST to shutdown the system
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemShutdown(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
-     * @brief Handle POST to start ES
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemEsStart(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
-     * @brief Handle POST to stop ES
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemEsStop(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
-     * @brief Handle POST to restart ES
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
-     * @brief Handle GET to generate support archive
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -304,15 +262,6 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/media/takescreenshot", Rest::Routes::bind(&IRouter::MediaTakeScreenshot, this));
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
-      // System
-      Rest::Routes::Post(mRouter, "/api/system/reboot", Rest::Routes::bind(&IRouter::SystemReboot, this));
-      Rest::Routes::Post(mRouter, "/api/system/shutdown", Rest::Routes::bind(&IRouter::SystemShutdown, this));
-
-      Rest::Routes::Post(mRouter, "/api/system/es/start", Rest::Routes::bind(&IRouter::SystemEsStart, this));
-      Rest::Routes::Post(mRouter, "/api/system/es/stop", Rest::Routes::bind(&IRouter::SystemEsStop, this));
-      Rest::Routes::Post(mRouter, "/api/system/es/restart", Rest::Routes::bind(&IRouter::SystemEsRestart, this));
-
-      Rest::Routes::Get(mRouter, "/api/system/supportarchive", Rest::Routes::bind(&IRouter::SystemSupportArchive, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

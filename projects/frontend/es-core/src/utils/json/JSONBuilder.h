@@ -7,7 +7,6 @@
 #pragma once
 
 #include <map>
-#include <utils/Strings.h>
 
 /*!
  * A very simple JSON string builder that *exactly* suits our needs.
@@ -51,13 +50,13 @@ class JSONBuilder : public String
     {
       #define __LENGTHY_STRING(x) x, (int)sizeof(x) - 1
       String result = source;
-      Strings::ReplaceAllIn(result, '\\', __LENGTHY_STRING("\\\\"));
-      Strings::ReplaceAllIn(result, '\b', __LENGTHY_STRING("\\b"));
-      Strings::ReplaceAllIn(result, '\f', __LENGTHY_STRING("\\f"));
-      Strings::ReplaceAllIn(result, '\n', __LENGTHY_STRING("\\n"));
-      Strings::ReplaceAllIn(result, '\r', __LENGTHY_STRING("\\r"));
-      Strings::ReplaceAllIn(result, '\t', __LENGTHY_STRING("\\t"));
-      Strings::ReplaceAllIn(result, '\"', __LENGTHY_STRING("\\\""));
+      result.Replace('\\', __LENGTHY_STRING("\\\\"))
+            .Replace('\b', __LENGTHY_STRING("\\b"))
+            .Replace('\f', __LENGTHY_STRING("\\f"))
+            .Replace('\n', __LENGTHY_STRING("\\n"))
+            .Replace('\r', __LENGTHY_STRING("\\r"))
+            .Replace('\t', __LENGTHY_STRING("\\t"))
+            .Replace('\"', __LENGTHY_STRING("\\\""));
       return result;
       #undef __LENGTHY_STRING
     }
@@ -352,7 +351,7 @@ class JSONBuilder : public String
         OpenArray(name);
         for(int i = 0; --count >= 0; i++)
         {
-          Append('\"').Append(Strings::ToHexa(value[i])).Append('\"');
+          Append('\"').AppendHexa(value[i]).Append('\"');
           if (count != 0) Append(',');
         }
         CloseArray();

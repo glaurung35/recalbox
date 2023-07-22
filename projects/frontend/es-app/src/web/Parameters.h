@@ -30,9 +30,9 @@ class Parameters
         mDefaultFile("/index.html"),
         mIP("0.0.0.0"),
         #ifdef DEBUG
-        mPort(8080),
+        mPort(8081),
         #else
-        mPort(80),
+        mPort(81),
         #endif
         mThreads(5),
         mDebug(false)

@@ -80,6 +80,15 @@ namespace Pistache::Http
             return std::chrono::seconds(data.maxStale);
         case MinFresh:
             return std::chrono::seconds(data.minFresh);
+        case NoCache:
+        case NoStore:
+        case NoTransform:
+        case OnlyIfCached:
+        case Public:
+        case Private:
+        case MustRevalidate:
+        case ProxyRevalidate:
+        case Ext:
         default:
             throw std::domain_error("Invalid operation on cache directive");
         }
@@ -102,6 +111,15 @@ namespace Pistache::Http
         case MinFresh:
             data.minFresh = delta.count();
             break;
+        case NoCache:
+        case NoStore:
+        case NoTransform:
+        case OnlyIfCached:
+        case Public:
+        case Private:
+        case MustRevalidate:
+        case ProxyRevalidate:
+        case Ext:
         default:
             break;
         }

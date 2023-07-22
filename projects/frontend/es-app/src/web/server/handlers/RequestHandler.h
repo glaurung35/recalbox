@@ -238,46 +238,4 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle POST to reboot the system
-     * @param request Request object
-     * @param response Response object
-     */
-    void SystemReboot(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle POST to shutdown the system
-     * @param request Request object
-     * @param response Response object
-     */
-    void SystemShutdown(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle GET to start ES
-     * @param request Request object
-     * @param response Response object
-     */
-    void SystemEsStart(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle GET to stop ES
-     * @param request Request object
-     * @param response Response object
-     */
-    void SystemEsStop(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle GET to restart ES
-     * @param request Request object
-     * @param response Response object
-     */
-    void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
-     * @brief Handle GET to generate support archive
-     * @param request  Request object
-     * @param response Response object
-     */
-    void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) override;
 };

@@ -112,7 +112,7 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @param index System index
      * @return BiosList object
      */
-    [[nodiscard]] BiosList SystemBios(int index) const
+    [[nodiscard]] const BiosList& SystemBios(int index) const
     {
       Mutex::AutoLock locker(mLocker);
       return mSystemBiosList[index];

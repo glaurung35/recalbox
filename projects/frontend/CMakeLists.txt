@@ -216,6 +216,9 @@ add_subdirectory(tests)
 # md5zip
 add_subdirectory(tool-md5zip)
 
+# Web micro-server
+add_subdirectory(web-server)
+
 message(
         "=========================================================================================================\n"
         "\n"

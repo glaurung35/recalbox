@@ -125,12 +125,14 @@ bool OdroidAdvanceGo2Board::IsBatteryCharging()
 
 void OdroidAdvanceGo2Board::HeadphonePlugged()
 {
-  system("amixer sset 'Playback Path' HP");
+  if (system("amixer sset 'Playback Path' HP") != 0)
+  { LOG(LogError) << "[OdroidAdvanceGo2Board] Error setting up headphone output"; }
 }
 
 void OdroidAdvanceGo2Board::HeadphoneUnplugged()
 {
-  system("amixer sset 'Playback Path' SPK");
+  if (system("amixer sset 'Playback Path' SPK") != 0)
+  { LOG(LogError) << "[OdroidAdvanceGo2Board] Error resetting headphone output"; }
 }
 
 void OdroidAdvanceGo2Board::SetFrontendCPUGovernor()

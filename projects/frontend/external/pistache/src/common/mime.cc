@@ -386,6 +386,7 @@ namespace Pistache::Http::Mime
         return str;
                 MIME_TYPES
 #undef TYPE
+            case Mime::Type::None:
             default:
                 return "";
             }
@@ -399,6 +400,9 @@ namespace Pistache::Http::Mime
         return str;
                 MIME_SUBTYPES
 #undef TYPE
+            case Mime::Subtype::Vendor:
+            case Mime::Subtype::Ext:
+            case Mime::Subtype::None:
             default:
                 return "";
             }
@@ -412,6 +416,8 @@ namespace Pistache::Http::Mime
         return "+" str;
                 MIME_SUFFIXES
 #undef SUFFIX
+            case Mime::Suffix::None:
+            case Mime::Suffix::Ext:
             default:
                 return "";
             }

@@ -241,6 +241,15 @@ namespace Pistache::Http::Header
             case CacheDirective::MinFresh:
             case CacheDirective::SMaxAge:
                 return true;
+            case CacheDirective::NoCache:
+            case CacheDirective::NoStore:
+            case CacheDirective::NoTransform:
+            case CacheDirective::OnlyIfCached:
+            case CacheDirective::Public:
+            case CacheDirective::Private:
+            case CacheDirective::MustRevalidate:
+            case CacheDirective::ProxyRevalidate:
+            case CacheDirective::Ext:
             default:
                 return false;
             }

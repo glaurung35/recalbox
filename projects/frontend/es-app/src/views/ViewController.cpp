@@ -613,7 +613,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 
 	//if we didn't, make it, remember it, and return it
 	ISimpleGameListView* view =
-    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !system->ArcadeDatabases().IsEmpty()) ?
+    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
     new ArcadeGameListView(mWindow, mSystemManager, *system) :
     new DetailedGameListView(mWindow, mSystemManager, *system);
   view->Initialize();

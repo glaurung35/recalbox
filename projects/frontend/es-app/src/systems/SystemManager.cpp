@@ -443,9 +443,11 @@ void SystemManager::PopulateGenreSystem(SystemData* systemGenre)
   GameGenres genre = Genres::LookupFromName(systemGenre->Name());
   if (genre == GameGenres::None) { LOG(LogError) << "[SystemManager] Unable to lookup system genre!"; abort(); }
 
-  Filter filter(genre);
-  if (RecalboxConf::Instance().GetCollectionTate())
+  if (RecalboxConf::Instance().GetCollection(Genres::GetShortName(genre)))
+  {
+    Filter filter(genre);
     PopulateMetaSystemWithFilter(systemGenre, &filter, nullptr);
+  }
 }
 
 void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)

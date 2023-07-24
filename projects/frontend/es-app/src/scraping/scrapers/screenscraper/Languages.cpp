@@ -152,7 +152,7 @@ Languages LanguagesTools::GetScrapingLanguage()
     return confLanguage;
 
   const String languagesStd = RecalboxConf::Instance().GetSystemLanguage();
-  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.substr(0, 2));
+  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.SubString(0, 2));
   if(Languages::Unknown != systemLanguage)
   {
     return systemLanguage;

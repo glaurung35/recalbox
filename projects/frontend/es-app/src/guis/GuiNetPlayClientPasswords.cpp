@@ -28,13 +28,13 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
   mPasswords->add(_("NONE"), -1, passwordIndex < 0);
   for(int i = 0; i < DefaultPasswords::sPasswordCount; i++)
   {
-    std::string password = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(i), DefaultPasswords::sDefaultPassword[i]);
+    String password = RecalboxConf::Instance().AsString("netplay.password." + String(i), DefaultPasswords::sDefaultPassword[i]);
     auto passwordComp = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
     mPasswords->add(password, i, passwordIndex == i);
   }
   mMenu.addWithLabel(mPasswords, _("CHOOSE PASSWORD"), "");
 
-	mMenu.addButton(_("START"), "", [&]
+	mMenu.addButton(_("START"), "", [this]
 	{
 	  // Save
     RecalboxConf::Instance().SetInt("netplay.password.client", mPasswords->getSelected());
@@ -43,17 +43,17 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
     // Run game
     if(mLobbyGame.mGame->IsGame())
     {
-      std::string playerPassword, viewerPassword;
+      String playerPassword, viewerPassword;
       if (mPasswords->getSelected() >= 0)
       {
         if (mJoinAs->getSelected() == PasswordType::Player)
-          playerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
+          playerPassword = RecalboxConf::Instance().AsString("netplay.password." + String(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
         else if (mJoinAs->getSelected() == PasswordType::Viewer)
-          viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
+          viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + String(mPasswords->getSelected()), DefaultPasswords::sDefaultPassword[mPasswords->getSelected()]);
       }
 
       bool mitm = mLobbyGame.mHostMethod == 3;
-      std::string& ip = mitm ? mLobbyGame.mMitmIp : mLobbyGame.mIp;
+      String& ip = mitm ? mLobbyGame.mMitmIp : mLobbyGame.mIp;
       int port = mitm ? mLobbyGame.mMitmPort : mLobbyGame.mPort;
 
       GameLinkedData data(mLobbyGame.mCoreShortName, ip, port, playerPassword, viewerPassword, mJoinAs->getSelected() == PasswordType::Viewer);

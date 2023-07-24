@@ -729,12 +729,12 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const String& med
 void ScreenScraperApis::DecodeString(String& raw)
 {
   // XML
-  raw = Strings::Replace(raw, "&quot;", "\"");
-  raw = Strings::Replace(raw, "&amp;", "&");
-  raw = Strings::Replace(raw, "&apos;", "'");
-  raw = Strings::Replace(raw, "&lt;", "<");
-  raw = Strings::Replace(raw, "&gt;", ">");
-  raw = Strings::Replace(raw, "&nbsp;", "\u0160");
+  raw.Replace("&quot;", "\"")
+     .Replace("&amp;", "&")
+     .Replace("&apos;", "'")
+     .Replace("&lt;", "<")
+     .Replace("&gt;", ">")
+     .Replace("&nbsp;", "\u0160");
 }
 
 String ScreenScraperApis::CleanGameName(const String& gameName)

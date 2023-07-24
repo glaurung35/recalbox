@@ -35,37 +35,37 @@ class Sizes
      * @brief Convert size to Bytes string
      * @return Byte representation as a string
      */
-    String ToBytes() const { return String(mSize).Append(_("B")); }
+    [[nodiscard]] String ToBytes() const { return String(mSize).Append(_("B")); }
 
     /*!
      * @brief Convert size to KiloBytes string
      * @return KiloByte representation as a string
      */
-    String ToKiloBytes() const { return String((double)(mSize >> 00) * sDivider, 2).Append(_("KB")); }
+    [[nodiscard]] String ToKiloBytes() const { return String((double)(mSize >> 00) * sDivider, 2).Append(_("KB")); }
 
     /*!
      * @brief Convert size to MegaBytes string
      * @return MegaByte representation as a string
      */
-    String ToMegaBytes() const { return String((double)(mSize >> 10) * sDivider, 2).Append(_("MB")); }
+    [[nodiscard]] String ToMegaBytes() const { return String((double)(mSize >> 10) * sDivider, 2).Append(_("MB")); }
 
     /*!
      * @brief Convert size to GigaBytes string
      * @return GigaByte representation as a string
      */
-    String ToGigaBytes() const { return String((double)(mSize >> 20) * sDivider, 2).Append(_("GB")); }
+    [[nodiscard]] String ToGigaBytes() const { return String((double)(mSize >> 20) * sDivider, 2).Append(_("GB")); }
 
     /*!
      * @brief Convert size to TeraBytes string
      * @return TeraByte representation as a string
      */
-    String ToTeraBytes() const { return String((double)(mSize >> 30) * sDivider, 2).Append(_("TB")); }
+    [[nodiscard]] String ToTeraBytes() const { return String((double)(mSize >> 30) * sDivider, 2).Append(_("TB")); }
 
     /*!
      * @brief Convert size to the most human readable value, either in B, KB, MG, GB or TB
      * @return Human readable size
      */
-    String ToHumanSize() const
+    [[nodiscard]] String ToHumanSize() const
     {
       long long size = mSize;
       if (size < (1 << 10)) return String((int)size).Append(_("B"));

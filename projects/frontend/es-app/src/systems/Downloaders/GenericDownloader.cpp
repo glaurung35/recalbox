@@ -101,7 +101,7 @@ void GenericDownloader::DownloadAndInstall()
     if (mStopAsap) return;
     String ignoreList(',');
     ignoreList.Append(mSystem.Descriptor().IgnoredFiles()).Append(',');
-    targetRoot->PopulateRecursiveFolder(*targetRoot, Strings::ToLowerASCII(mSystem.Descriptor().Extension()), ignoreList, doppleGanger);
+    targetRoot->PopulateRecursiveFolder(*targetRoot, mSystem.Descriptor().Extension().ToLowerCase(), ignoreList, doppleGanger);
 
     for (const XmlNode fileNode: games.children())
     {
@@ -168,8 +168,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
           TimeSpan elapsed = DateTime() - mTimeReference;
           TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
 
-          String text = _("Downloading... Estimated time: %s");
-          Strings::ReplaceAllIn(text, "%s", eta.ToTimeString());
+          String text = _("Downloading... Estimated time: %s").Replace("%s", eta.ToTimeString());
           mUpdater.UpdateETAText(text);
       }
       break;
@@ -179,8 +178,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      String text = _("Installing %s games");
-      Strings::ReplaceAllIn(text, "%s", String(mGames));
+      String text = _("Installing %s games").Replace("%s", String(mGames));
       mUpdater.UpdateETAText(text);
       break;
     }
@@ -189,8 +187,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      String text = _("Updating metadata...");
-      Strings::ReplaceAllIn(text, "%s", String(mCurrentSize));
+      String text = _("Updating metadata...").Replace("%s", String(mCurrentSize));
       if (mCurrentSize == 0) text = _("Refreshing gamelist...");
       mUpdater.UpdateETAText(text);
       break;

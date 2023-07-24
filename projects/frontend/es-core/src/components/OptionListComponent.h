@@ -461,7 +461,7 @@ private:
 	inline void setOriginColor(unsigned int color){mOriginColor = color;};
 	inline unsigned int getOriginColor() override{return mOriginColor;};
 
-    std::string getValue() const override {
+    [[nodiscard]] String getValue() const override {
         assert(!mMultiSelect);
         for (auto& entry : mEntries)
         {
@@ -469,7 +469,7 @@ private:
                 return entry.value;
             }
         }
-        return "";
+        return String::Empty;
     }
 
 	std::string mName;

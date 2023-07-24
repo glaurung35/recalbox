@@ -70,7 +70,7 @@ public:
 
 	void Render(const Transform4x4f& parentTrans) override;
 
-	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
   bool getHelpPrompts(Help& help) override;
 

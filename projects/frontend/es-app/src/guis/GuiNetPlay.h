@@ -23,18 +23,18 @@ class LobbyGame
 {
   public:
     FileData*   mGame;
-    std::string mFormattedName;
-    std::string mGameName;
-    std::string mGameCRC;
-    std::string mCoreLongName;
-    std::string mCoreShortName;
-    std::string mCoreVersion;
-    std::string mUserName;
-    std::string mFrontEnd;
-    std::string mRetroarchVersion;
-    std::string mCountry;
-    std::string mIp;
-    std::string mMitmIp;
+    String mFormattedName;
+    String mGameName;
+    String mGameCRC;
+    String mCoreLongName;
+    String mCoreShortName;
+    String mCoreVersion;
+    String mUserName;
+    String mFrontEnd;
+    String mRetroarchVersion;
+    String mCountry;
+    String mIp;
+    String mMitmIp;
     int         mPort;
     int         mMitmPort;
     int         mHostMethod;
@@ -103,14 +103,14 @@ class GuiNetPlay: public Gui
     {
       private:
         //! Long name (i.e. "MAME 2003-Plus")
-        std::string mLongName;
+        String mLongName;
         //! Short name (i.e. "mame2003+")
-        std::string mShortName;
+        String mShortName;
         //! Version
-        std::string mVersion;
+        String mVersion;
 
       public:
-        CoreInfo(const std::string& longName, const std::string& shortName, const std::string& version)
+        CoreInfo(const String& longName, const String& shortName, const String& version)
           : mLongName(longName)
           , mShortName(shortName)
           , mVersion(version)
@@ -120,11 +120,11 @@ class GuiNetPlay: public Gui
         CoreInfo() = default;
 
         //! Long name
-        [[nodiscard]] const std::string& LongName() const { return mLongName; }
+        [[nodiscard]] const String& LongName() const { return mLongName; }
         //! Short name
-        [[nodiscard]] const std::string& ShortName() const { return mShortName; }
+        [[nodiscard]] const String& ShortName() const { return mShortName; }
         //! Version
-        [[nodiscard]] const std::string& Version() const { return mVersion; }
+        [[nodiscard]] const String& Version() const { return mVersion; }
         //! Empty?
         [[nodiscard]] bool Empty() const { return mLongName.empty(); }
     };
@@ -153,7 +153,7 @@ class GuiNetPlay: public Gui
      * @param game game or hash
      * @return FileData of the game is found, otherwise nullptr
      */
-    FileData* FindGame(const std::string& game);
+    FileData* FindGame(const String& game);
 
     /*!
      * @brief Get the playable games from the lobby and fill the list
@@ -171,14 +171,14 @@ class GuiNetPlay: public Gui
      * @param game Gamer to get data from
      * @return Formatted game name
      */
-    std::string GetFormattedName(const LobbyGame& game);
+    String GetFormattedName(const LobbyGame& game);
 
     /*!
      * @brief Get core information
      * @param name Long name to lookup
      * @return Core information
      */
-    const CoreInfo& GetCoreInfo(const std::string& name);
+    const CoreInfo& GetCoreInfo(const String& name);
 
     //! SystemManager instance
     SystemManager& mSystemManager;

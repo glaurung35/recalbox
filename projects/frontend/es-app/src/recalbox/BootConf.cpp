@@ -10,16 +10,16 @@ BootConf::BootConf()
 {
 }
 
-std::string BootConf::GetCase()
+String BootConf::GetCase()
 {
-  std::string currentCase = AsString("case");
-  Strings::Vector splitted = Strings::Split(currentCase, ':');
+  String currentCase = AsString("case");
+  String::List splitted = currentCase.Split(':');
   if (!splitted.empty())
     return splitted[0];
   return "none";
 }
 
-BootConf& BootConf::SetCase(std::string caze)
+BootConf& BootConf::SetCase(const String& caze)
 {
   SetString("case", caze);
   return *this;
@@ -32,6 +32,6 @@ RotationType BootConf::GetRotation()
 
 BootConf& BootConf::SetRotation(RotationType rotation)
 {
-  SetInt("screen.rotation", (uint)rotation);
+  SetInt("screen.rotation", (int)rotation);
   return *this;
 }

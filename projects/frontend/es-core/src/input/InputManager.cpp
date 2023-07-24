@@ -182,12 +182,12 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         index++;
 
       // Build the text
-      std::string text = current[index].Name();
-      text.append(1, ' ');
-      text.append(_(" has been plugged!"));
-      text.append("\n\n");
-      if (current[index].IsConfigured()) text.append(_("Ready to play!"));
-      else text.append(_("Not configured yet! Press a button to enter the configuration window."));
+      String text = current[index].Name();
+      text.Append(' ')
+          .Append(_(" has been plugged!"))
+          .Append("\n\n");
+      if (current[index].IsConfigured()) text.Append(_("Ready to play!"));
+      else text.Append(_("Not configured yet! Press a button to enter the configuration window."));
       current.erase(current.begin() + index);
 
       GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
@@ -204,9 +204,9 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
         index++;
 
       // Build the text
-      std::string text = previous[index].Name();
-      text.append(1, ' ');
-      text.append(_(" has been unplugged!"));
+      String text = previous[index].Name();
+      text.Append(' ')
+          .Append(_(" has been unplugged!"));
       previous.erase(previous.begin() + index);
 
       GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
@@ -215,7 +215,7 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
   }
 }
 
-std::string InputManager::DeviceGUIDString(SDL_Joystick* joystick)
+String InputManager::DeviceGUIDString(SDL_Joystick* joystick)
 {
   char guid[128];
   SDL_JoystickGetGUIDString(SDL_JoystickGetGUID(joystick), guid, sizeof(guid));
@@ -247,8 +247,8 @@ void InputManager::LoadJoystickConfiguration(int index)
   // Try to load from configuration file
   if (!LookupDeviceXmlConfiguration(device))
   {
-    std::string autoMapping = AutoMapper(index).GetSDLMapping();
-    autoConfigured = !autoMapping.empty();
+    String autoMapping = AutoMapper(index).GetSDLMapping();
+    bool autoConfigured = !autoMapping.empty();
     if (autoConfigured)
     {
       autoConfigured = device.LoadAutoConfiguration(autoMapping);
@@ -485,24 +485,24 @@ OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
   return devices;
 }
 
-std::string InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
+String InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
 {
-  std::string command;
+  String command;
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
     const InputMapper::Pad& pad = mapper.PadAt(player);
     if (pad.IsConnected())
     {
       const InputDevice& device = mIdToDevices[pad.Identifier];
-      std::string p(" -p"); p.append(Strings::ToString(player + 1));
-      command.append(p).append("index ").append(Strings::ToString(device.Index()))
-             .append(p).append("guid ").append(device.GUID())
-             .append(p).append("name \"").append(device.Name() + "\"")
-             .append(p).append("nbaxes ").append(Strings::ToString(device.AxeCount()))
-             .append(p).append("nbhats ").append(Strings::ToString(device.HatCount()))
-             .append(p).append("nbbuttons ").append(Strings::ToString(device.ButtonCount()))
+      String p(" -p"); p.Append(player + 1);
+      command.Append(p).Append("index ").Append(device.Index())
+             .Append(p).Append("guid ").Append(device.GUID())
+             .Append(p).Append("name \"").Append(device.Name()).Append('"')
+             .Append(p).Append("nbaxes ").Append(device.AxeCount())
+             .Append(p).Append("nbhats ").Append(device.HatCount())
+             .Append(p).Append("nbbuttons ").Append(device.ButtonCount())
              #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-               .append(p).append("devicepath ").append(SDL_JoystickDevicePathById(device.Index()))
+               .Append(p).Append("devicepath ").Append(SDL_JoystickDevicePathById(device.Index()))
              #else
                #ifdef _RECALBOX_PRODUCTION_BUILD_
                  #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"

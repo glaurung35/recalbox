@@ -192,7 +192,7 @@ void NinePatchComponent::setCenterColor(unsigned int centerColor)
 	updateColors();
 }
 
-void NinePatchComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void NinePatchComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	Component::applyTheme(theme, view, element, properties);
 

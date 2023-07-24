@@ -34,7 +34,7 @@ public:
 	bool getState() const  { return mState; }
 
   void setState(bool state);
-	std::string getValue() const override;
+	String getValue() const override;
 	bool changed() const;
 
 	bool getHelpPrompts(Help& help) override;

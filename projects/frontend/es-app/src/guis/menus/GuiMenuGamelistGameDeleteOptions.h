@@ -45,7 +45,7 @@ class GuiMenuGamelistGameDeleteOptions : public GuiMenuBase
 
     void SubMenuSelected(int id) override;
 
-    std::string ComputeMessage();
+    String ComputeMessage();
 };
 
 

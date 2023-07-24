@@ -8,7 +8,7 @@
 
 #include <functional>
 #include <vector>
-#include <string>
+#include <utils/String.h>
 
 class WindowManager;
 class Animation;
@@ -130,8 +130,8 @@ class Component: public IComponent
 
     const Transform4x4f& getTransform();
 
-    virtual std::string getValue() const { return ""; }
-    virtual void setValue(const std::string& ) { }
+    virtual String getValue() const { return String::Empty; }
+    virtual void setValue(const String& ) { }
     virtual void setColor(unsigned int ) { }
     virtual unsigned int getOriginColor() {	return 0; }
 
@@ -144,7 +144,7 @@ class Component: public IComponent
 
     // Default implementation just handles <pos> and <size> tags as normalized float pairs.
     // You probably want to keep this behavior for any derived classes as well as add your own.
-    virtual void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties);
+    virtual void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties);
 
     /*!
      * @brief Fill help list
@@ -178,10 +178,10 @@ class Component: public IComponent
 
     void renderChildren(const Transform4x4f& transform) const;
     void updateSelf(int deltaTime); // updates animations
-    void updateChildren(int deltaTime); // updates animations
+    void updateChildren(int deltaTime) const; // updates animations
 
     Vector2f denormalise(float x, float y);
-    Vector2f denormalise(const Vector2f& value);
+    Vector2f denormalise(const Vector2f& value) const;
 
     WindowManager& mWindow;
     Component* mParent;

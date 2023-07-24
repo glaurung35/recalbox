@@ -47,7 +47,7 @@ MenuComponent::MenuComponent(WindowManager&window, const std::string& title, con
     mBattery->setFont(menuTheme->menuText.font);
     if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
     else                     mBattery->setColor(menuTheme->menuText.color);
-    mBattery->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
+    mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
     mBattery->setHorizontalAlignment(TextAlignment::Left);
     headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
   }
@@ -86,7 +86,7 @@ void MenuComponent::Update(int deltaTime)
       auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
       if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
       else mBattery->setColor(menuTheme->menuText.color);
-      mBattery->setText(' ' + Strings::unicode2Chars(batteryIcon) + ' ' + Strings::ToString(batteryCharge) + '%');
+      mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
     }
     mTimeAccumulator -= 2000;
   }

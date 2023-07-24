@@ -19,8 +19,8 @@ class SwitchComponent;
 //! O/C file & description
 struct Overclocking
 {
-  std::string File;
-  std::string Description;
+  String File;
+  String Description;
   bool Hazardous;
   int Frequency;
 
@@ -31,7 +31,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
                               , private IOptionListComponent<Overclocking>
                               , private ISwitchComponent
                               , private IGuiMenuBase
-                              , private IOptionListComponent<std::string>
+                              , private IOptionListComponent<String>
 {
   public:
     /*!
@@ -77,7 +77,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     //! Default overclock value
     Overclocking mDefaultOverclock;
     //! Original overclock value
-    std::string mOriginalOverclock;
+    String mOriginalOverclock;
     //! Last overclock hazardous?
     bool mLastHazardous;
     //! Is there at least a valid O/C?
@@ -96,7 +96,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     void ResetOverclock();
 
     //! Get supported cases List
-    static std::vector<GuiMenuBase::ListEntry<std::string>> GetCasesEntries();
+    static std::vector<GuiMenuBase::ListEntry<String>> GetCasesEntries();
 
     //! Reset Factory requested Level 1
     void ResetFactory();
@@ -114,7 +114,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const Overclocking& value) override;
 
     //! Case component management
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * ISwitchComponent implementation

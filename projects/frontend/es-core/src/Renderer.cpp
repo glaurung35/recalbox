@@ -231,7 +231,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     {
       ResolutionAdapter adapter;
       Resolutions::SimpleResolution output { 0, 0 };
-      std::string resolution = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationVideoMode()));
+      String resolution = RecalboxConf::Instance().GetEmulationstationVideoMode().LowerCase().Trim();
       { LOG(LogInfo) << "[Renderer] Get resolution from recalbox.conf: " << w << 'x' << h; }
 
       if (!adapter.AdjustResolution(0, resolution, output))

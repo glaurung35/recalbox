@@ -191,10 +191,10 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result, MetadataT
   mPopup.SetScrapedGame(*result, index, total);
 
   // update title
-  mSystem->setText(Strings::ToUpperASCII(result->System().FullName()));
+  mSystem->setText(result->System().FullName().ToUpperCaseUTF8());
 
   // update subtitle
-  mSubtitle->setText(Strings::ToUpperASCII(result->RomPath().Filename()));
+  mSubtitle->setText(result->RomPath().Filename().ToUpperCase());
 
   mBar->setMaxValue(total);
   mBar->setCurrentValue(index);
@@ -205,25 +205,23 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result, MetadataT
   // Update timings
   TimeSpan elapsed = DateTime() - mStart;
 
-  std::string status = Strings::Format(_("GAME %i OF %i").c_str(), index, total).append(" - ");
+  String status = (_F(_("GAME {0} OF {1}")) / index / total).ToString().Append(" - ");
   if(!mLowResolution)
-  {
-    status.append(_("ELAPSED TIME: "))
-    .append(elapsed.ToStringFormat("%H:%mm:%ss"))
-    .append(" - ");
-  }
-  status.append(_("ESTIMATED TIME: "));
+    status.Append(_("ELAPSED TIME: "))
+          .Append(elapsed.ToStringFormat("%H:%mm:%ss"))
+          .Append(" - ");
+  status.Append(_("ESTIMATED TIME: "));
 
   if ((mScraper->ScrapesProcessed() > 10 || mScraper->ScrapesTotal() <= 10) && elapsed.TotalSeconds() > 10)
   {
     long long millisecondPerGame = elapsed.TotalMilliseconds() / mScraper->ScrapesProcessed();
     TimeSpan estimated(millisecondPerGame * mScraper->ScrapesStillPending());
     if (mScraper->ScrapesProcessed() < mScraper->ScrapesTotal())
-      status.append(estimated.ToStringFormat("%H:%mm:%ss"));
+      status.Append(estimated.ToStringFormat("%H:%mm:%ss"));
     else
-      status.append(_("COMPLETE!"));
+      status.Append(_("COMPLETE!"));
   }
-  else status.append("---");
+  else status.Append("---");
 
   if (mScraper->ScrapesProcessed() >= mScraper->ScrapesTotal() && mLowResolution)
     status = "";
@@ -242,7 +240,7 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result, MetadataT
 void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMetadata)
 {
   mGrid.removeEntry(mSearchComp);
-  std::string finalReport;
+  String finalReport;
   switch(mResult = reason)
   {
     case ScrapeResult::Ok:
@@ -250,21 +248,20 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
     case ScrapeResult::NotFound:
     {
       finalReport = _(MENUMESSAGE_SCRAPER_FINAL_POPUP);
-      finalReport = Strings::Replace(finalReport, "{PROCESSED}", Strings::ToString(mScraper->ScrapesTotal()));
-      finalReport = Strings::Replace(finalReport, "{SUCCESS}", Strings::ToString(mScraper->ScrapesSuccessful()));
-      finalReport = Strings::Replace(finalReport, "{NOTFOUND}", Strings::ToString(mScraper->ScrapesNotFound()));
-      finalReport = Strings::Replace(finalReport, "{ERRORS}", Strings::ToString(mScraper->ScrapesErrors()));
-      finalReport = Strings::Replace(finalReport, "{TEXTINFO}", Strings::ToString(mScraper->StatsTextInfo()));
-      finalReport = Strings::Replace(finalReport, "{IMAGES}", Strings::ToString(mScraper->StatsImages()));
-      finalReport = Strings::Replace(finalReport, "{VIDEOS}", Strings::ToString(mScraper->StatsVideos()));
+      finalReport.Replace("{PROCESSED}", String(mScraper->ScrapesTotal()))
+                 .Replace("{SUCCESS}", String(mScraper->ScrapesSuccessful()))
+                 .Replace("{NOTFOUND}", String(mScraper->ScrapesNotFound()))
+                 .Replace("{ERRORS}", String(mScraper->ScrapesErrors()))
+                 .Replace("{TEXTINFO}", String(mScraper->StatsTextInfo()))
+                 .Replace("{IMAGES}", String(mScraper->StatsImages()))
+                 .Replace("{VIDEOS}", String(mScraper->StatsVideos()));
       long long size = mScraper->StatsMediaSize();
-      std::string sizeText;
-      if      (size >= (1 << 30)) sizeText = Strings::ToString((float)(size >> 20) / 1024.0f, 2).append("GB");
-      else if (size >= (1 << 20)) sizeText = Strings::ToString((float)(size >> 10) / 1024.0f, 2).append("MB");
-      else if (size >= (1 << 10)) sizeText = Strings::ToString((float)size / 1024.0f, 2).append("KB");
-      else                        sizeText = Strings::ToString((int)size).append("B");
-      finalReport = Strings::Replace(finalReport, "{MEDIASIZE}", sizeText);
-      finalReport = Strings::ToUpperUTF8(finalReport);
+      String sizeText;
+      if      (size >= (1 << 30)) sizeText = String((float)(size >> 20) / 1024.0f, 2).Append("GB");
+      else if (size >= (1 << 20)) sizeText = String((float)(size >> 10) / 1024.0f, 2).Append("MB");
+      else if (size >= (1 << 10)) sizeText = String((float)size / 1024.0f, 2).Append("KB");
+      else                        sizeText = String((int)size).Append("B");
+      finalReport = finalReport.Replace("{MEDIASIZE}", sizeText).ToUpperCaseUTF8();
       break;
     }
     case ScrapeResult::FatalError:
@@ -318,12 +315,12 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
   mGrid.setEntry(mButtonGrid, Vector2i(0, 7), true, false);
 
   // Scripts
-  NotificationManager::Instance().Notify(Notification::ScrapStop, Strings::ToString(mScraper->ScrapesSuccessful()));
+  NotificationManager::Instance().Notify(Notification::ScrapStop, String(mScraper->ScrapesSuccessful()));
 
   // Hiden?
   if (mWindow.InfoPopupIsShown(&mPopup) || mLowResolution)
   {
-    std::string text = _("Your scraping session completed. Press OK to show the results.");
+    String text = _("Your scraping session completed. Press OK to show the results.");
     GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { Show(mWindow); mButtonGrid->resetCursor(); });
     mWindow.pushGui(msgBox);
   }

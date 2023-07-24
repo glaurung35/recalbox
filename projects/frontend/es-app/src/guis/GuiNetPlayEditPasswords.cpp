@@ -16,14 +16,13 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
 
   for(int i = 0; i < DefaultPasswords::sPasswordCount; i++)
   {
-    std::string password = RecalboxConf::Instance().AsString("netplay.password." + Strings::ToString(i), DefaultPasswords::sDefaultPassword[i]);
+    String password = RecalboxConf::Instance().AsString("netplay.password." + String(i), DefaultPasswords::sDefaultPassword[i]);
     mPasswords[i] = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
-    mMenu.addWithLabel(mPasswords[i], Strings::Replace(_("PASSWORD #%i"), "%i", Strings::ToString(i)),
+    mMenu.addWithLabel(mPasswords[i], _("PASSWORD #%i").Replace("%i", String(i)),
                        "", false, true, [this, i]
                        {
                          mCurrentPasswordIndex = i;
-                         Gui* vk = new GuiArcadeVirtualKeyboard(mWindow, Strings::Replace(_("PASSWORD #%i"), "%i",
-                                                                Strings::ToString(i)), mPasswords[i]->getValue(), this);
+                         Gui* vk = new GuiArcadeVirtualKeyboard(mWindow, _("PASSWORD #%i").Replace("%i", String(i)), mPasswords[i]->getValue(), this);
                          mWindow.pushGui(vk);
                        });
   }
@@ -31,7 +30,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
 	mMenu.addButton(_("OK"), "OK", [this]
 	{
     for(int i = DefaultPasswords::sPasswordCount; --i >= 0; )
-      RecalboxConf::Instance().SetString("netplay.password." + Strings::ToString(i), mPasswords[i]->getValue());
+      RecalboxConf::Instance().SetString("netplay.password." + String(i), mPasswords[i]->getValue());
     RecalboxConf::Instance().Save();
     Close();
 	});
@@ -58,11 +57,11 @@ bool GuiNetPlayEditPasswords::getHelpPrompts(Help& help)
 	return true;
 }
 
-void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const std::string&)
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const String&)
 {
 }
 
-void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard&, const std::string& text)
+void GuiNetPlayEditPasswords::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard&, const String& text)
 {
   mPasswords[mCurrentPasswordIndex]->setText(text);
   mMenu.onSizeChanged();

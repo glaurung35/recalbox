@@ -24,7 +24,7 @@ class GuiMenuPadsPair : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList);
+    explicit GuiMenuPadsPair(WindowManager& window, const String::List& deviceList);
 
   private:
     enum class Components
@@ -33,7 +33,7 @@ class GuiMenuPadsPair : public GuiMenuBase
     };
 
     //! Device list
-    Strings::Vector mDevices;
+    String::List mDevices;
 
     /*
      * ILongExecution implementation

@@ -18,14 +18,14 @@ void RecalboxConf::OnSave() const
 
 String RecalboxConf::GetLanguage()
 {
-  String locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-  return (locale.length() == 5) ? locale.substr(0, 2) : "en";
+  String locale = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+  return (locale.length() == 5) ? locale.SubString(0, 2) : "en";
 }
 
 String RecalboxConf::GetCountry()
 {
-  String locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-  return (locale.length() == 5) ? locale.substr(3, 2) : "us";
+  String locale = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+  return (locale.length() == 5) ? locale.SubString(3, 2) : "us";
 }
 
 RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& softpatching)

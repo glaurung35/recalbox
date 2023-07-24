@@ -43,7 +43,7 @@ class Log
     Log& operator << (unsigned long v) { mMessage.Append((unsigned long long)v); return *this; }
     Log& operator << (bool v) { mMessage.Append(v); return *this; }
     Log& operator << (float v) { mMessage.Append(v, 4); return *this; }
-    Log& operator << (const Strings::Vector& v) { for(const std::string& s : v) mMessage.Append(s).Append(' '); return *this; }
+    Log& operator << (const String::List& v) { for(const std::string& s : v) mMessage.Append(s).Append(' '); return *this; }
 
   private:
     static const char* sStringLevel[(int)LogLevel::_Count];

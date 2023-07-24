@@ -100,9 +100,9 @@ void RecalboxEndPoints::AddQueryParametersToMediaRequest(const FileData* game, l
 }
 
 RecalboxEndPoints::RecalboxEndPoints()
-  : mUUID(Strings::Trim(Files::LoadFile(Path(Upgrade::sLocalUUID)), " \t\r\n"))
+  : mUUID(Files::LoadFile(Path(Upgrade::sLocalUUID)).Trim())
   , mBoard()
-  , mVersion(Strings::Trim(Files::LoadFile(Path(Upgrade::sLocalVersionFile)), " \t\r\n"))
+  , mVersion(Files::LoadFile(Path(Upgrade::sLocalVersionFile)).Trim())
   , mServerIndex(0)
   , mErrors(0)
 {
@@ -132,7 +132,7 @@ RecalboxEndPoints::RecalboxEndPoints()
   String servers = mDns.GetTxtRecord(sRootDomainName);
   if (!servers.empty())
   {
-    mServers = Strings::Split(servers, '|', false);
+    mServers = servers.Split('|', false);
     srand(time(nullptr));
     mServerIndex = rand() % mServers.size();
     { LOG(LogDebug) << "[RecalboxEndpoints] Selecting server " << mServerIndex+1 << "/" << mServers.size() << " : " << mServers[mServerIndex]; }

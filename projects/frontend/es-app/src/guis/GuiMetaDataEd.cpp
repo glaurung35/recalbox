@@ -41,7 +41,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
   mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
                                            TextAlignment::Center);
-  mSubtitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperASCII(game.RomPath().Filename()),
+  mSubtitle = std::make_shared<TextComponent>(mWindow, game.RomPath().Filename().UpperCase(),
                                               menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
@@ -83,7 +83,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
     // create ed and add it (and any related components) to mMenu
     // ed's value will be set below
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(field.DisplayName()), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, field.DisplayName().ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color);
 
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();
@@ -189,7 +189,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
           Genres::GenreMap map = Genres::GetShortNameMap();
           for(const auto& genre : Genres::GetOrderedList())
           {
-            String genreString = Strings::ToString((int)genre);
+            String genreString((int)genre);
             genre_choice->add((Genres::IsSubGenre(genre) ? "    " : "") + Genres::GetFullName(genre),genreString, mMetaData.GenreId() == genre, genreString);
           }
           ed = genre_choice;

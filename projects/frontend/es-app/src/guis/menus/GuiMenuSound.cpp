@@ -137,15 +137,15 @@ void GuiMenuSound::SubMenuSelected(int id)
 
 void GuiMenuSound::StartScanningDevices()
 {
-  mWindow.pushGui((new GuiWaitLongExecution<bool, Strings::Vector>(mWindow, *this))->Execute(false, _("DISCOVERING BLUETOOTH AUDIO DEVICES...")));
+  mWindow.pushGui((new GuiWaitLongExecution<bool, String::List>(mWindow, *this))->Execute(false, _("DISCOVERING BLUETOOTH AUDIO DEVICES...")));
 }
 
-Strings::Vector GuiMenuSound::Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&)
+String::List GuiMenuSound::Execute(GuiWaitLongExecution<bool, String::List>&, const bool&)
 {
   return RecalboxSystem::scanBluetooth();
 }
 
-void GuiMenuSound::Completed(const bool&, const Strings::Vector& result)
+void GuiMenuSound::Completed(const bool&, const String::List& result)
 {
   mWindow.pushGui(result.empty()
                   ? (Gui*)new GuiMsgBox(mWindow, _("NO AUDIO DEVICE FOUND"), _("OK"))

@@ -57,7 +57,7 @@ void RemotePlaylist::Run()
   else { LOG(LogError) << "[RemotePlaylist] Not a patron"; }
 }
 
-bool RemotePlaylist::DeserializePlaylist(const std::string& jsonString)
+bool RemotePlaylist::DeserializePlaylist(const String& jsonString)
 {
   // Deserialize
   rapidjson::Document json;
@@ -91,7 +91,7 @@ bool RemotePlaylist::DeserializePlaylist(const std::string& jsonString)
 
 bool RemotePlaylist::UpdatePlayList()
 {
-  std::string jsonString;
+  String jsonString;
 
   // Remote
   mRequest.SetBearer(RecalboxConf::Instance().GetRecalboxPrivateKey());
@@ -116,7 +116,7 @@ void RemotePlaylist::InitializeIndex()
 
   // Try loading index
   Path indexPath(sStorageIndex);
-  std::string md5Index = Files::LoadFile(indexPath);
+  String md5Index = Files::LoadFile(indexPath);
   mNextIndex = LookupTrackIndex(md5Index);
   if (mNextIndex < 0) mNextIndex = 0;
 }
@@ -128,7 +128,7 @@ void RemotePlaylist::UpdateIndex()
   Files::SaveFile(indexPath, mPlaylist[mNextIndex].Md5());
 }
 
-int RemotePlaylist::LookupTrackIndex(const std::string& md5)
+int RemotePlaylist::LookupTrackIndex(const String& md5)
 {
   for(int i = (int)mPlaylist.size(); --i >= 0; )
     if (md5 == mPlaylist[i].Md5())
@@ -201,7 +201,7 @@ void RemotePlaylist::DownloadFiles()
           Thread::Sleep(5000);
           continue;
         }
-        if (Strings::ToLowerASCII(mRequest.Md5()) != Strings::ToLowerASCII(track.Md5()))
+        if (mRequest.Md5().ToLowerCase() != track.Md5().ToLowerCase())
         {
           { LOG(LogError) << "[RemotePlaylist] Failed to download " << track.Url() << ". MD5 mismatch. Retry."; }
           continue;

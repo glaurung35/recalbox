@@ -38,10 +38,10 @@ String LightGunDatabase::GetSimplifiedName(const String& name)
   String result(name);
 
   // Kill decorations
-  size_t pos1 = result.find('(');
-  size_t pos2 = result.find('[');
-  if ((pos2 != String::npos) && (pos2 < pos1)) pos1 = pos2;
-  if (pos1 != String::npos) result = result.substr(0, pos1);
+  int pos1 = result.Find('(');
+  int pos2 = result.Find('[');
+  if ((pos2 >= 0) && (pos2 < pos1)) pos1 = pos2;
+  if (pos1 >= 0) result = result.SubString(0, pos1);
 
   // Crunch non a-z,0-9,! characters
   int writeIndex = 0;

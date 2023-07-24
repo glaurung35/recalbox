@@ -68,7 +68,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Cases
   if(!Case::SupportedManualCases().empty())
-    AddList<std::string>(_("CASE MANAGEMENT"),  (int)Components::Cases, this, GetCasesEntries(), _(MENUMESSAGE_ADVANCED_CASES_HELP_MSG));
+    AddList<String>(_("CASE MANAGEMENT"),  (int)Components::Cases, this, GetCasesEntries(), _(MENUMESSAGE_ADVANCED_CASES_HELP_MSG));
 
   // overscan
   if(!isCrt)
@@ -110,7 +110,7 @@ std::vector<GuiMenuBase::ListEntry<Overclocking>> GuiMenuAdvancedSettings::GetOv
   {
     bool found = mOriginalOverclock == overclock.File;
     ocFound |= found;
-    std::string label = std::string(overclock.Description).append(" (", 2).append(Strings::ToString(overclock.Frequency)).append(" Mhz)", 5).append(overclock.Hazardous ? " \u26a0" : "");
+    String label = String(overclock.Description).Append(" (", 2).Append(overclock.Frequency).Append(" Mhz)", 5).Append(overclock.Hazardous ? " \u26a0" : "");
     list.push_back({ label, overclock, found });
   }
   std::sort(list.begin(), list.end(), [](const ListEntry<Overclocking>& a, const ListEntry<Overclocking>& b) { return a.mValue.Frequency < b.mValue.Frequency; });
@@ -130,7 +130,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
 
   // Build final path to fetch overclocking configs from
   Path basePath(sOverclockBaseFolder);
-  std::string boardFolder;
+  String boardFolder;
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::Pi0: boardFolder = "rpi0"; break;
@@ -164,22 +164,22 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
   // Load and get description
   for(const Path& path : list)
   {
-    std::string trash;
-    std::string desc;
+    String trash;
+    String desc;
     bool hazard = false;
     int freq = 0;
     // Extract lines - doesn't matter if the file does not load, it returns an empty string
-    for(const std::string& line : Strings::Split(Files::LoadFile(path), '\n'))
+    for(const String& line : Files::LoadFile(path).Split('\n'))
     {
-      if (Strings::StartsWith(line, LEGACY_STRING("# Description: ")))
-        Strings::SplitAt(line, ':', trash, desc, true);
-      else if (Strings::StartsWith(line, LEGACY_STRING("# Warning")))
+      if (line.StartsWith(LEGACY_STRING("# Description: ")))
+        (void)line.Extract(':', trash, desc, true);
+      else if (line.StartsWith(LEGACY_STRING("# Warning")))
         hazard = true;
-      else if (Strings::StartsWith(line, LEGACY_STRING("# Frequency: ")))
+      else if (line.StartsWith(LEGACY_STRING("# Frequency: ")))
       {
-        std::string freqStr;
-        Strings::SplitAt(line, ':', trash,freqStr, true);
-        Strings::ToInt(freqStr, freq);
+        String freqStr;
+        (void)line.Extract(':', trash,freqStr, true);
+        (void)freqStr.TryAsInt(freq);
       }
     }
     // Record?
@@ -280,9 +280,9 @@ void GuiMenuAdvancedSettings::ResetFactory()
 
 void GuiMenuAdvancedSettings::ResetFactoryReally(WindowManager* window)
 {
-  std::string text("\u26a0 %TITLE% \u26a0\n\n%TEXT%");
-  Strings::ReplaceAllIn(text, "%TITLE%", _("WARNING!"));
-  Strings::ReplaceAllIn(text, "%TEXT%", _("YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n\nARE YOU REALLY SURE YOU WANT TO DO THIS?"));
+  String text("\u26a0 %TITLE% \u26a0\n\n%TEXT%");
+  text.Replace("%TITLE%", _("WARNING!"))
+      .Replace("%TEXT%", _("YOU'RE ONE CLICK AWAY FROM RESETTING YOUR RECALBOX TO FACTORY SETTINGS!\n\nARE YOU REALLY SURE YOU WANT TO DO THIS?"));
   window->pushGui(new GuiMsgBox(*window, text,
                               _("NO"), nullptr,
                               _("YES"), DoResetFactory));
@@ -290,7 +290,7 @@ void GuiMenuAdvancedSettings::ResetFactoryReally(WindowManager* window)
 
 void GuiMenuAdvancedSettings::DoResetFactory()
 {
-  std::vector<std::string> deleteMe
+  String::List deleteMe
   ({
     "/recalbox/share/system",             // Recalbox & emulator configurations
     "/overlay/upper/*",                   // System overlay
@@ -306,8 +306,8 @@ void GuiMenuAdvancedSettings::DoResetFactory()
   { LOG(LogError) << "[ResetFactory] Error making boot r/w"; }
 
   // Delete all required folder/files
-  for(const std::string& path : deleteMe)
-    if (system(std::string("rm -rf ").append(path).data()) != 0)
+  for(const String& path : deleteMe)
+    if (system(String("rm -rf ").Append(path).data()) != 0)
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
 
   IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
@@ -326,9 +326,9 @@ void GuiMenuAdvancedSettings::DoResetFactory()
   { LOG(LogError) << "[ResetFactory] Error rebooting system"; }
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuAdvancedSettings::GetCasesEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuAdvancedSettings::GetCasesEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
   Case currentCase = Case::CurrentCase();
   if(currentCase.Automatic())
   {
@@ -342,7 +342,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuAdvancedSettings::GetCas
   return list;
 }
 
-void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Cases)
@@ -356,7 +356,7 @@ void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, cons
     };
     if(selectedCase.Model() != currentCase.Model())
     {
-      const std::string installMessage = selectedCase.GetInstallMessage();
+      const String installMessage = selectedCase.GetInstallMessage();
       if (installMessage != "")
         mWindow.pushGui(new GuiMsgBox(mWindow, installMessage, _("OK"), install));
       else

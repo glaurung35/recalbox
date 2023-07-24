@@ -8,6 +8,7 @@
 
 #include <utils/String.h>
 #include <vector>
+#include "utils/Sizes.h"
 
 class StorageDevices
 {
@@ -77,9 +78,9 @@ class StorageDevices
         }
       }
 
-      [[nodiscard]] String HumanSize() const { return Strings::ToHumanSize(Size); }
+      [[nodiscard]] String HumanSize() const { return Sizes(Size).ToHumanSize(); }
 
-      [[nodiscard]] String HumanFree() const { return Strings::ToHumanSize(Free); };
+      [[nodiscard]] String HumanFree() const { return Sizes(Free).ToHumanSize(); };
 
       [[nodiscard]] String PercentFree() const { return String((int)(((double)Free / (double)Size) * 100.0)); }
     };

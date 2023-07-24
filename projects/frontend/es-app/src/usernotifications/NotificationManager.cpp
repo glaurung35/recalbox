@@ -14,9 +14,9 @@
 /*
  * Members
  */
-const std::string eol("\r\n");
+const String eol("\r\n");
 const Path NotificationManager::sStatusFilePath("/tmp/es_state.inf");
-HashMap<std::string, pid_t> NotificationManager::sPermanentScriptsPID;
+HashMap<String, pid_t> NotificationManager::sPermanentScriptsPID;
 
 NotificationManager::NotificationManager(char** environment)
   : StaticLifeCycleControler<NotificationManager>("NotificationManager"),
@@ -64,9 +64,9 @@ const char* NotificationManager::ActionToString(Notification action)
   return "error";
 }
 
-Notification NotificationManager::ActionFromString(const std::string& action)
+Notification NotificationManager::ActionFromString(const String& action)
 {
-  static HashMap<std::string, Notification> sStringToAction
+  static HashMap<String, Notification> sStringToAction
   ({
     { "start"               , Notification::Start                },
     { "stop"                , Notification::Stop                 },
@@ -99,30 +99,30 @@ Notification NotificationManager::ActionFromString(const std::string& action)
 
 bool NotificationManager::ExtractSyncFlagFromPath(const Path& path)
 {
-  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
-  return (scriptName.find("(sync)") != std::string::npos);
+  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
+  return (scriptName.find("(sync)") != String::npos);
 }
 
 bool NotificationManager::ExtractPermanentFlagFromPath(const Path& path)
 {
-  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
-  return (scriptName.find("(permanent)") != std::string::npos);
+  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
+  return (scriptName.find("(permanent)") != String::npos);
 }
 
 Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
 {
   // Extract events between [ and ] in filename
-  const std::string& scriptName = Strings::ToLowerASCII(path.FilenameWithoutExtension());
+  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
   unsigned long start = scriptName.find('[');
   unsigned long stop = scriptName.find(']');
 
-  if (((start | stop) == std::string::npos) || (stop - start <= 1)) return (Notification)-1;
+  if (((start | stop) == String::npos) || (stop - start <= 1)) return (Notification)-1;
 
   Notification result = Notification::None;
   // Split events
-  Strings::Vector events = Strings::Split(scriptName.substr(start + 1, stop - start - 1), ',');
+  String::List events = scriptName.SubString(start + 1, stop - start - 1).Split(',');
   // Extract notifications
-  for(const std::string& event : events)
+  for(const String& event : events)
     result |= ActionFromString(event);
   return result;
 }
@@ -162,13 +162,13 @@ NotificationManager::RefScriptList NotificationManager::FilteredScriptList(Notif
   return result;
 }
 
-void NotificationManager::RunScripts(Notification action, const std::string& param)
+void NotificationManager::RunScripts(Notification action, const String& param)
 {
   RefScriptList scripts = FilteredScriptList(action);
   if (scripts.empty()) return; // Nothing to launch
 
   // Build parameter
-  Strings::Vector args;
+  String::List args;
   args.push_back("-action");
   args.push_back(ActionToString(action));
   args.push_back("-statefile");
@@ -243,61 +243,61 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
   return builder;
 }
 
-void NotificationManager::BuildStateCommons(std::string& output, const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
+void NotificationManager::BuildStateCommons(String& output, const SystemData* system, const FileData* game, Notification action, const String& actionParameters)
 {
   // Build status file
-  output.append("Action=").append(ActionToString(action)).append(eol)
-        .append("ActionData=").append(actionParameters).append(eol);
+  output.Append("Action=").Append(ActionToString(action)).Append(eol)
+        .Append("ActionData=").Append(actionParameters).Append(eol);
 
   // System
   if (system != nullptr)
-    output.append("System=").append(system->FullName()).append(eol)
-          .append("SystemId=").append(system->Name()).append(eol);
+    output.Append("System=").Append(system->FullName()).Append(eol)
+          .Append("SystemId=").Append(system->Name()).Append(eol);
   else if (action == Notification::RunKodi)
-    output.append("System=kodi").append(eol)
-          .append("SystemId=kodi").append(eol);
+    output.Append("System=kodi").Append(eol)
+          .Append("SystemId=kodi").Append(eol);
   else
-    output.append("System=").append(eol)
-          .append("SystemId=").append(eol);
+    output.Append("System=").Append(eol)
+          .Append("SystemId=").Append(eol);
 
   // Permanent game infos
   if (game != nullptr)
-    output.append("Game=").append(game->Name()).append(eol)
-          .append("GamePath=").append(game->RomPath().ToString()).append(eol)
-          .append("ImagePath=").append(game->Metadata().Image().ToString()).append(eol);
+    output.Append("Game=").Append(game->Name()).Append(eol)
+          .Append("GamePath=").Append(game->RomPath().ToString()).Append(eol)
+          .Append("ImagePath=").Append(game->Metadata().Image().ToString()).Append(eol);
   else
-    output.append("Game=").append(eol)
-          .append("GamePath=").append(eol)
-          .append("ImagePath=").append(eol);
+    output.Append("Game=").Append(eol)
+          .Append("GamePath=").Append(eol)
+          .Append("ImagePath=").Append(eol);
 }
 
-void NotificationManager::BuildStateGame(std::string& output, const FileData* game, Notification action)
+void NotificationManager::BuildStateGame(String& output, const FileData* game, Notification action)
 {
   if (game == nullptr) return;
 
-  output.append("IsFolder=").append(game->IsFolder() ? "1" : "0").append(eol)
-        .append("ThumbnailPath=").append(game->Metadata().Thumbnail().ToString()).append(eol)
-        .append("VideoPath=").append(game->Metadata().Video().ToString()).append(eol)
-        .append("Developer=").append(game->Metadata().Developer()).append(eol)
-        .append("Publisher=").append(game->Metadata().Publisher()).append(eol)
-        .append("Players=").append(game->Metadata().PlayersAsString()).append(eol)
-        .append("Region=").append(game->Metadata().RegionAsString()).append(eol)
-        .append("Genre=").append(game->Metadata().Genre()).append(eol)
-        .append("GenreId=").append(game->Metadata().GenreIdAsString()).append(eol)
-        .append("Favorite=").append(game->Metadata().Favorite() ? "1" : "0").append(eol)
-        .append("Hidden=").append(game->Metadata().Hidden() ? "1" : "0").append(eol)
-        .append("Adult=").append(game->Metadata().Adult() ? "1" : "0").append(eol);
+  output.Append("IsFolder=").Append(game->IsFolder() ? "1" : "0").Append(eol)
+        .Append("ThumbnailPath=").Append(game->Metadata().Thumbnail().ToString()).Append(eol)
+        .Append("VideoPath=").Append(game->Metadata().Video().ToString()).Append(eol)
+        .Append("Developer=").Append(game->Metadata().Developer()).Append(eol)
+        .Append("Publisher=").Append(game->Metadata().Publisher()).Append(eol)
+        .Append("Players=").Append(game->Metadata().PlayersAsString()).Append(eol)
+        .Append("Region=").Append(game->Metadata().RegionAsString()).Append(eol)
+        .Append("Genre=").Append(game->Metadata().Genre()).Append(eol)
+        .Append("GenreId=").Append(game->Metadata().GenreIdAsString()).Append(eol)
+        .Append("Favorite=").Append(game->Metadata().Favorite() ? "1" : "0").Append(eol)
+        .Append("Hidden=").Append(game->Metadata().Hidden() ? "1" : "0").Append(eol)
+        .Append("Adult=").Append(game->Metadata().Adult() ? "1" : "0").Append(eol);
 
   if (action != Notification::ScrapGame)
   {
     String emulator;
     String core;
     if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
-      output.append("Emulator=").append(emulator).append(eol).append("Core=").append(core).append(eol);
+      output.Append("Emulator=").Append(emulator).Append(eol).Append("Core=").Append(core).Append(eol);
   }
 }
 
-void NotificationManager::BuildStateSystem(std::string& output, const SystemData* system, Notification action)
+void NotificationManager::BuildStateSystem(String& output, const SystemData* system, Notification action)
 {
   if (system == nullptr) return;
 
@@ -306,19 +306,19 @@ void NotificationManager::BuildStateSystem(std::string& output, const SystemData
     String emulator;
     String core;
     if (system->Manager().Emulators().GetDefaultEmulator(*system, emulator, core))
-      output.append("DefaultEmulator=").append(emulator).append(eol).append("DefaultCore=").append(core).append(eol);
+      output.Append("DefaultEmulator=").Append(emulator).Append(eol).Append("DefaultCore=").Append(core).Append(eol);
   }
 }
 
-void NotificationManager::BuildStateCompatibility(std::string& output, Notification action)
+void NotificationManager::BuildStateCompatibility(String& output, Notification action)
 {
   // Mimic old behavior of "State"
-  output.append("State=");
+  output.Append("State=");
   switch(action)
   {
     case Notification::RunKodi:
-    case Notification::RunGame: output.append("playing"); break;
-    case Notification::RunDemo: output.append("demo"); break;
+    case Notification::RunGame: output.Append("playing"); break;
+    case Notification::RunDemo: output.Append("demo"); break;
     case Notification::None:
     case Notification::Start:
     case Notification::Stop:
@@ -338,7 +338,7 @@ void NotificationManager::BuildStateCompatibility(std::string& output, Notificat
     case Notification::ConfigurationChanged:
     case Notification::StartGameClip:
     case Notification::StopGameClip:
-    default: output.append("selected"); break;
+    default: output.Append("selected"); break;
   }
 }
 
@@ -419,10 +419,10 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   // final argument array
   std::vector<const char*> args;
 
-  std::string command;
+  String command;
 
   // Extract extension
-  std::string ext = Strings::ToLowerASCII(target.Extension());
+  String ext = Strings::ToLowerASCII(target.Extension());
   if      (ext == ".sh")  { command = "/bin/sh";          args.push_back(command.data()); }
   else if (ext == ".ash") { command = "/bin/ash";         args.push_back(command.data()); }
   else if (ext == ".py")  { command = "/usr/bin/python";  args.push_back(command.data()); }
@@ -431,7 +431,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
   else { command = target.ToString(); }
 
   args.push_back(target.ToChars());
-  for (const std::string& argument : arguments) args.push_back(argument.c_str());
+  for (const String& argument : arguments) args.push_back(argument.c_str());
 
   { LOG(LogDebug) << "[Script] Run UserScript: " << Strings::Join(args, ' '); }
 
@@ -473,7 +473,7 @@ void NotificationManager::RunProcess(const Path& target, const Strings::Vector& 
 
 bool NotificationManager::HasValidExtension(const Path& path)
 {
-  std::string ext = Strings::ToLowerASCII(path.Extension());
+  String ext = path.Extension().LowerCase();
   return (ext.empty()) ||
          (ext == ".sh" ) ||
          (ext == ".ash") ||

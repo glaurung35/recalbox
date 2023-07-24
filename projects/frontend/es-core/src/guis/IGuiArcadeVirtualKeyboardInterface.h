@@ -1,6 +1,8 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
+
+// Forward declaration
 class GuiArcadeVirtualKeyboard;
 
 class IGuiArcadeVirtualKeyboardInterface
@@ -17,13 +19,13 @@ class IGuiArcadeVirtualKeyboardInterface
      * @brief Called when the edited text change.
      * Current text is available from the Text() method.
      */
-    virtual void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) = 0;
+    virtual void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) = 0;
 
     /*!
      * @brief Called when the edited text is validated (Enter or Start)
      * Current text is available from the Text() method.
      */
-    virtual void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) = 0;
+    virtual void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) = 0;
 
     /*!
      * @brief Called when the edited text is cancelled.

@@ -14,16 +14,15 @@ void StringMapFile::Load()
     char buffer[2048];
     while (fgets(buffer, sizeof(buffer), f) != nullptr)
     {
-      std::string keyvalue = buffer;
-      unsigned long pos = 0;
-      if ((pos = keyvalue.find('=')) != std::string::npos)
+      String keyvalue = buffer;
+      if (int pos = keyvalue.Find('='); pos >= 0)
       {
-        std::string key = Strings::Trim(keyvalue.substr(0, pos), " \t\n\r");
-        std::string value = Strings::Trim(keyvalue.substr(pos + 1), " \t\n\r");
+        String key = keyvalue.SubString(0, pos).Trim();
+        String value = keyvalue.SubString(pos + 1).Trim();
         mMap[key] = value;
       }
     }
-    fclose(f);
+    (void)fclose(f);
   }
 }
 
@@ -34,53 +33,50 @@ void StringMapFile::Save()
   {
     for(auto& holder : mMap)
     {
-      std::string keyvalue = holder.first;
+      String keyvalue = holder.first;
       keyvalue += '=';
       keyvalue += holder.second;
       keyvalue += '\n';
-      fputs(keyvalue.c_str(), f);
+      (void)fputs(keyvalue.c_str(), f);
     }
-    fclose(f);
+    (void)fclose(f);
   }
 }
 
-std::string StringMapFile::GetString(const std::string& key, const std::string& defaultvalue)
+String StringMapFile::GetString(const String& key, const String& defaultvalue)
 {
-  std::map<std::string, std::string>::iterator it = mMap.find(key);
-  if (it != mMap.end()) return it->second;
+  if (String* found = mMap.try_get(key); found != nullptr)
+    return *found;
   return defaultvalue;
 }
 
-int StringMapFile::GetInt(const std::string& key, int defaultvalue)
+int StringMapFile::GetInt(const String& key, int defaultvalue)
 {
-  std::map<std::string, std::string>::iterator it = mMap.find(key);
-  if (it != mMap.end())
-  {
-    int value;
-    if (Strings::ToInt(it->second, value))
+  if (String* found = mMap.try_get(key); found != nullptr)
+    if (int value = defaultvalue; found->TryAsInt(value))
       return value;
-  }
   return defaultvalue;
 }
 
-bool StringMapFile::GetBool(const std::string& key, bool defaultvalue)
+bool StringMapFile::GetBool(const String& key, bool defaultvalue)
 {
-  std::map<std::string, std::string>::iterator it = mMap.find(key);
-  if (it != mMap.end()) return (it->second == "1" || it->second == "true");
+  if (String* found = mMap.try_get(key); found != nullptr)
+    if (bool value = defaultvalue; found->TryAsBool(value))
+      return value;
   return defaultvalue;
 }
 
-void StringMapFile::SetString(const std::string& key, const std::string& value)
+void StringMapFile::SetString(const String& key, const String& value)
 {
   mMap[key] = value;
 }
 
-void StringMapFile::SetInt(const std::string& key, int value)
+void StringMapFile::SetInt(const String& key, int value)
 {
-  mMap[key] = std::to_string(value);
+  mMap[key] = String(value);
 }
 
-void StringMapFile::SetBool(const std::string& key, bool value)
+void StringMapFile::SetBool(const String& key, bool value)
 {
   mMap[key] = value ? "1" : "0";
 }

@@ -230,15 +230,15 @@ void WindowManager::Update(int deltaTime)
 
     if (RecalboxConf::Instance().GetGlobalShowFPS())
     {
-      std::string ss = Strings::ToString(1000.0f * (float) mFrameCountElapsed / (float) mFrameTimeElapsed, 1) +
-                       "fps, " + Strings::ToString((float) mFrameTimeElapsed / (float) mFrameCountElapsed, 2) + "ms";
+      String ss = String(1000.0f * (float) mFrameCountElapsed / (float) mFrameTimeElapsed, 1) +
+                  "fps, " + String((float) mFrameTimeElapsed / (float) mFrameCountElapsed, 2) + "ms";
 
       // vram
       float textureVramUsageMb = (float)TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
       float textureTotalUsageMb = (float)TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
       float fontVramUsageMb = (float)Font::getTotalMemUsage() / (1024.0f * 1024.0f);
-      ss += "\nFont VRAM: " + Strings::ToString(fontVramUsageMb, 2) + " Tex VRAM: " +
-            Strings::ToString(textureVramUsageMb, 2) + " Tex Max: " + Strings::ToString(textureTotalUsageMb, 2);
+      ss += "\nFont VRAM: " + String(fontVramUsageMb, 2) + " Tex VRAM: " +
+            String(textureVramUsageMb, 2) + " Tex Max: " + String(textureTotalUsageMb, 2);
 
       mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts[1]->buildTextCache(ss, 50.f, 50.f, 0xFF00FFFF));
     }
@@ -451,7 +451,7 @@ void WindowManager::DoWake()
   {
     mSleeping = false;
     exitScreenSaver();
-    NotificationManager::Instance().Notify(Notification::WakeUp, Strings::ToString(mTimeSinceLastInput));
+    NotificationManager::Instance().Notify(Notification::WakeUp, String(mTimeSinceLastInput));
   }
 }
 
@@ -463,7 +463,7 @@ void WindowManager::DoSleep()
   if (!mSleeping)
   {
     mSleeping = true;
-    NotificationManager::Instance().Notify(Notification::Sleep, Strings::ToString(mTimeSinceLastInput));
+    NotificationManager::Instance().Notify(Notification::Sleep, String(mTimeSinceLastInput));
   }
 }
 

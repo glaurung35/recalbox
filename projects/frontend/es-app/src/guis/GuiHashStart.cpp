@@ -148,11 +148,11 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   {
     feed->CalculateHash();
 
-    std::string busyText(feed->System().FullName());
-    busyText.append(1, ' ')
-            .append(Strings::ToString(mTotalGames - mRemaininglGames))
-            .append(1, '/')
-            .append(Strings::ToString(mTotalGames));
+    String busyText(feed->System().FullName());
+    busyText.Append(' ')
+            .Append(mTotalGames - mRemaininglGames)
+            .Append('/')
+            .Append(mTotalGames);
 
     // Write summary text
     mMutex.Lock();
@@ -171,8 +171,8 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
 
 void GuiHashStart::Quit()
 {
-  std::string message = (mTotalGames == 0) ? _("No missing hash found!") : _("%i missing hashes have been calculated!");
-  message = Strings::Replace(message, "%i", Strings::ToString(mTotalGames));
+  String message = (mTotalGames == 0) ? _("No missing hash found!") : _("%i missing hashes have been calculated!");
+  message.Replace("%i", String(mTotalGames));
   mWindow.displayMessage(message);
   Close();
 }

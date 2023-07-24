@@ -26,8 +26,8 @@ void AlsaController::Initialize()
 
     // Open this card's (cardNum's) control interface. We specify only the card number -- not any device nor sub-device
     snd_ctl_t* cardHandle = nullptr;
-    std::string param("hw:");
-    param.append(Strings::ToString(cardNum));
+    String param("hw:");
+    param.Append(cardNum);
     if ((err = snd_ctl_open(&cardHandle, param.data(), 0)) < 0)	//Now cardHandle becomes your sound card.
     {
       { LOG(LogError) << "[Alsa] Can't open card " << cardNum << ": " << snd_strerror(err); }
@@ -143,9 +143,9 @@ void AlsaController::Initialize()
   snd_config_update_free_global();
 }
 
-HashMap<int, std::string> AlsaController::GetPlaybackList()
+HashMap<int, String> AlsaController::GetPlaybackList()
 {
-  HashMap<int, std::string> result;
+  HashMap<int, String> result;
   result[-1] = sDefaultOutput;
   for(const AlsaCard& playback : mPlaybacks)
   {
@@ -176,9 +176,9 @@ HashMap<int, std::string> AlsaController::GetPlaybackList()
   return result;
 }
 
-std::string AlsaController::SetDefaultPlayback(const std::string& playbackName)
+String AlsaController::SetDefaultPlayback(const String& playbackName)
 {
-  HashMap<int, std::string> playbacks = GetPlaybackList();
+  HashMap<int, String> playbacks = GetPlaybackList();
   for(auto& playback : playbacks)
   {
     if (playbackName == playback.second)
@@ -287,13 +287,13 @@ void AlsaController::SetDefaultPlayback(int identifier)
     int cardIdentifier = mPlaybacks[cardIndex].Identifier();
     int deviceIdentifier = deviceIndex >= 0 ? mPlaybacks[cardIndex].DeviceAt(deviceIndex).Identifier() : -1;
     // Build & save ~/.asoundrc
-    std::string asoundrcContent(deviceIndex < 0 ? asoundrcPatternCardOnly : asoundrcPatternCardAndDevice);
-    Strings::ReplaceAllIn(asoundrcContent, "{@CARD@}", Strings::ToString(cardIdentifier));
+    String asoundrcContent(deviceIndex < 0 ? asoundrcPatternCardOnly : asoundrcPatternCardAndDevice);
+    asoundrcContent.Replace("{@CARD@}", String(cardIdentifier));
     if (deviceIndex >= 0)
-      Strings::ReplaceAllIn(asoundrcContent, "{@DEVICE@}", Strings::ToString(deviceIdentifier));
+      asoundrcContent.Replace("{@DEVICE@}", String(deviceIdentifier));
     Files::SaveFile(asoundrcPath, asoundrcContent);
     // Set env
-    setenv("AUDIODEV", ("hw:" + Strings::ToString(cardIdentifier) + ',' + Strings::ToString(deviceIdentifier)).data(), 1);
+    setenv("AUDIODEV", ("hw:" + String(cardIdentifier) + ',' + String(deviceIdentifier)).data(), 1);
     // Activate
     mPlaybacks[cardIndex].SwitchOn();
     // Final lof

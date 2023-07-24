@@ -370,13 +370,13 @@ void GuiBiosScan::UpdateBiosList()
   BiosManager& biosManager = BiosManager::Instance();
   if (biosManager.SystemCount() == 0)
   {
-    mList->add(Strings::ToUpperUTF8(_("EMPTY LIST")), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Center);
+    mList->add(_("EMPTY LIST").UpperCaseUTF8(), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Center);
     return;
   }
 
   // Statistics
   int nonWorkingSystem = 0;
-  std::string lastNonWorkingSystemName;
+  String lastNonWorkingSystemName;
   int totalBiosNotFound = 0;
   int totalBiosMatching = 0;
   int totalBiosNonMatching = 0;
@@ -394,7 +394,7 @@ void GuiBiosScan::UpdateBiosList()
 
     // Header
     SystemData* system = mSystemManager.SystemByName(biosList.Name());
-    std::string prefix;
+    String prefix;
     if (system != nullptr) prefix = system->Descriptor().IconPrefix();
     int headerIndex = (int)mList->size();
     mList->add((!prefix.empty() ? prefix : "\uF200 ") + biosList.FullName().ToUpperCase(), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
@@ -437,24 +437,21 @@ void GuiBiosScan::UpdateBiosList()
   }
 
   // Update header
-  std::string headerText;
+  String headerText;
   if (nonWorkingSystem != 0)
   {
     headerText = nonWorkingSystem == 1 ?
-                 Strings::Replace(_("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"), "%s", lastNonWorkingSystemName) :
-      Strings::Replace(_("%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!"), "%i", Strings::ToString(nonWorkingSystem));
+                 _("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%s", lastNonWorkingSystemName) :
+                 _("%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%i", String(nonWorkingSystem));
   }
   else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!");
   mHeader->setValue(headerText);
 
   // Update footer
-  std::string footerText;
-  if (totalBiosNotFound != 0)
-    footerText = Strings::Replace(_("%i BIOS NOT FOUND"), "%i", Strings::ToString(totalBiosNotFound));
-  if (totalBiosNonMatching != 0)
-    footerText.append((footerText.empty() ? "" : " - ") + Strings::Replace(_("%i NON-MATCHING BIOS FOUND"), "%i", Strings::ToString(totalBiosNonMatching)));
-  if (totalBiosMatching != 0)
-    footerText.append((footerText.empty() ? "" : " - ") + Strings::Replace(_("%i GOOD BIOS FOUND!"), "%i", Strings::ToString(totalBiosMatching)));
+  String footerText;
+  if (totalBiosNotFound != 0) footerText = _("%i BIOS NOT FOUND").Replace("%i", String(totalBiosNotFound));
+  if (totalBiosNonMatching != 0) footerText.Append(footerText.empty() ? "" : " - ").Append(_("%i NON-MATCHING BIOS FOUND").Replace("%i", String(totalBiosNonMatching)));
+  if (totalBiosMatching != 0) footerText.Append(footerText.empty() ? "" : " - ").Append(_("%i GOOD BIOS FOUND!").Replace("%i", String(totalBiosMatching)));
   mFooter->setValue(footerText);
 
   // Update bios details
@@ -493,7 +490,7 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailHashIsMatchingLabel->setValue(_("Matching MD5 ?") + " :");
     mDetailHashIsMatchingValue->setValue(context.mBios->BiosStatus() == Bios::Status::HashMatching ? _("YES") : _("NO"));
     mDetailText1Label->setValue("");
-    std::string explain;
+    String explain;
     switch(context.mBios->BiosStatus())
     {
       case Bios::Status::Unknown: break;
@@ -583,20 +580,20 @@ void GuiBiosScan::UpdateBiosDetail()
     }
     mDetailStatusImage->setImage(Path(imagePath));
     mDetailBiosOkLabel->setValue(_("BIOS OK"));
-    mDetailBiosOkValue->setValue(Strings::ToString(context.mBiosList->TotalBiosOk()));
+    mDetailBiosOkValue->setValue(String(context.mBiosList->TotalBiosOk()));
     mDetailBiosUnsafeLabel->setValue(_("BIOS UNSAFE"));
-    mDetailBiosUnsafeValue->setValue(Strings::ToString(context.mBiosList->TotalBiosUnsafe()));
+    mDetailBiosUnsafeValue->setValue(String(context.mBiosList->TotalBiosUnsafe()));
     mDetailBiosKOLabel->setValue(_("BIOS KO"));
-    mDetailBiosKOValue->setValue(Strings::ToString(context.mBiosList->TotalBiosKo()));
+    mDetailBiosKOValue->setValue(String(context.mBiosList->TotalBiosKo()));
     mDetailBiosNotFoundLabel->setValue(_("BIOS NOT FOUND"));
-    mDetailBiosNotFoundValue->setValue(Strings::ToString(context.mBiosList->TotalFileNotFound()));
+    mDetailBiosNotFoundValue->setValue(String(context.mBiosList->TotalFileNotFound()));
     mDetailBiosMatchingLabel->setValue(_("MD5 OK"));
-    mDetailBiosMatchingValue->setValue(Strings::ToString(context.mBiosList->TotalHashMatching()));
+    mDetailBiosMatchingValue->setValue(String(context.mBiosList->TotalHashMatching()));
     mDetailBiosNotMatchingLabel->setValue(_("MD5 NOT OK"));
-    mDetailBiosNotMatchingValue->setValue(Strings::ToString(context.mBiosList->TotalHashNotMatching()));
-    mDetailText1Value->setValue(_S(std::string(text)));
+    mDetailBiosNotMatchingValue->setValue(String(context.mBiosList->TotalHashNotMatching()));
+    mDetailText1Value->setValue(_S(String(text)));
     mDetailText2Label->setValue(_("Core") + " :");
-    std::string cores = GetUniqueCoreList(*context.mBiosList);
+    String cores = GetUniqueCoreList(*context.mBiosList);
     mDetailText2Value->setValue(cores);
   }
 }
@@ -615,7 +612,7 @@ void GuiBiosScan::ScanProgress(const Bios& bios)
   // Refresh only the bios under the cursor. The whole list is refreshed when the scan ends
   for(int i = (int)mList->size(); --i >= 0; )
     if (mList->getObjectAt(i).mBios == &bios)
-      mList->changeTextAt(i, Strings::ToUpperASCII(bios.Filename()) + sSuffixes[bios.LightStatus()]);
+      mList->changeTextAt(i, bios.Filename().UpperCase().Append(sSuffixes[bios.LightStatus()]));
 }
 
 void GuiBiosScan::ScanComplete()
@@ -635,17 +632,17 @@ bool GuiBiosScan::getHelpPrompts(Help& help)
   return true;
 }
 
-std::string GuiBiosScan::GetUniqueCoreList(const BiosList& biosList)
+String GuiBiosScan::GetUniqueCoreList(const BiosList& biosList)
 {
-  std::vector<std::string> list;
+  String::List list;
   for(int i = biosList.BiosCount(); --i >= 0; )
   {
-    std::vector<std::string> subList = Strings::Split(biosList.BiosAt(i).Cores(), ',');
-    for(const std::string& s : subList)
+    String::List subList = biosList.BiosAt(i).Cores().Split(',');
+    for(const String& s : subList)
       if (std::find(list.begin(), list.end(), s) == list.end())
         list.push_back(s);
   }
-  return Strings::Join(list, ", ");
+  return String::Join(list, ", ");
 }
 
 bool GuiBiosScan::IsSystemAvailable(const String& systemNames)

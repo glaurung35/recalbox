@@ -152,7 +152,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-void DateTimeComponent::setValue(const std::string& val)
+void DateTimeComponent::setValue(const String& val)
 {
   DateTime dt(false);
   if (DateTime::FromCompactISO6801(val, dt))
@@ -168,7 +168,7 @@ void DateTimeComponent::setValue(const DateTime& dt)
   updateTextCache();
 }
 
-std::string DateTimeComponent::getValue() const
+String DateTimeComponent::getValue() const
 {
 	return mTime.ToCompactISO8601();
 }
@@ -187,7 +187,7 @@ DateTimeComponent::Display DateTimeComponent::getCurrentDisplayMode() const
 	return mDisplayMode;
 }
 
-std::string DateTimeComponent::getDisplayString(Display mode) const
+String DateTimeComponent::getDisplayString(Display mode) const
 {
 	char strbuf[256];
 
@@ -229,7 +229,7 @@ void DateTimeComponent::updateTextCache()
 {
 	mFlag = !mFlag;
 	Display mode = getCurrentDisplayMode();
-	const std::string dispString = mUppercase ? Strings::ToUpperASCII(getDisplayString(mode)) : getDisplayString(mode);
+	const String dispString = mUppercase ? Strings::ToUpperASCII(getDisplayString(mode)) : getDisplayString(mode);
 	std::shared_ptr<Font> font = getFont();
 	mTextCache = std::unique_ptr<TextCache>(font->buildTextCache(dispString, Vector2f(0, 0), mColor, mSize.x(), mHorizontalAlignment));
 
@@ -250,19 +250,19 @@ void DateTimeComponent::updateTextCache()
 
 	//month
 	Vector2f start(0, 0);
-	Vector2f end = font->sizeText(dispString.substr(0, 2));
+	Vector2f end = font->sizeText(dispString.SubString(0, 2));
 	Vector2f diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
 	//day
-	start[0] = font->sizeText(dispString.substr(0, 3)).x();
-	end = font->sizeText(dispString.substr(0, 5));
+	start[0] = font->sizeText(dispString.SubString(0, 3)).x();
+	end = font->sizeText(dispString.SubString(0, 5));
 	diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
 	//year
-	start[0] = font->sizeText(dispString.substr(0, 6)).x();
-	end = font->sizeText(dispString.substr(0, 10));
+	start[0] = font->sizeText(dispString.SubString(0, 6)).x();
+	end = font->sizeText(dispString.SubString(0, 10));
 	diff = end - start;
 	mCursorBoxes.push_back(Vector4f(start[0], start[1], diff[0], diff[1]));
 
@@ -300,7 +300,7 @@ void DateTimeComponent::setUppercase(bool uppercase)
 	updateTextCache();
 }
 
-void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void DateTimeComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	const ThemeElement* elem = theme.getElement(view, element, "datetime");
 	if(elem == nullptr)
@@ -319,7 +319,7 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 
 	if (hasFlag(properties, ThemeProperties::Display) && elem->HasProperty("display"))
 	{
-        std::string str = elem->AsString("display");
+        String str = elem->AsString("display");
         if(str == "date")
         setDisplayMode(Display::Date);
         if(str == "dateTime")
@@ -338,7 +338,7 @@ void DateTimeComponent::applyTheme(const ThemeData& theme, const std::string& vi
 
 	if (hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{
-		std::string str = elem->AsString("alignment");
+		String str = elem->AsString("alignment");
 		if(str == "left")
 			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")

@@ -358,8 +358,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Direct Implementations - Pads
      */
 
-    [[nodiscard]] String GetPad(int index) const { return AsString(String(sPadHeader).Append(Strings::ToString(index)), ""); }
-    RecalboxConf& SetPad(int index, const String& padid) { SetString(String(sPadHeader).Append(Strings::ToString(index)), padid); return *this; }
+    [[nodiscard]] String GetPad(int index) const { return AsString(String(sPadHeader).Append(index), ""); }
+    RecalboxConf& SetPad(int index, const String& padid) { SetString(String(sPadHeader).Append(index), padid); return *this; }
 
     /*
      * System keys

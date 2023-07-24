@@ -95,8 +95,8 @@ class ThemeData
 
   private:
     static HashMap<String, HashMap<String, ElementProperty>>& ElementMap();
-    static std::vector<String>& SupportedFeatures();
-    static std::vector<String>& SupportedViews();
+    static String::List& SupportedFeatures();
+    static String::List& SupportedViews();
 
 	std::deque<Path> mPaths;
 	float mVersion;
@@ -133,8 +133,8 @@ class ThemeData
         size_t pos = lccc.find('_');
         if (pos >=2 && pos < lccc.size() - 1)
         {
-          lc = lccc.substr(0, pos);
-          cc = lccc.substr(pos + 1);
+          lc = lccc.SubString(0, pos);
+          cc = lccc.SubString(pos + 1);
         }
       }
 

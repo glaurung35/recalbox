@@ -138,7 +138,7 @@ class RecalboxEndPoints : public IEndPointProvider
     Mutex mErrorLocker;
 
     //! Target servers
-    Strings::Vector mServers;
+    String::List mServers;
     //! Server index
     int mServerIndex;
 

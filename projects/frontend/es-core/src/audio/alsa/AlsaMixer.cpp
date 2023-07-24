@@ -16,8 +16,8 @@ snd_mixer_elem_t* AlsaMixer::OpenMixer()
   snd_mixer_selem_id_set_name(mixerSelemId, mMixerName.data());
 
   // Build card identifier
-  std::string card("hw:");
-  card.append(Strings::ToString(mCardReference));
+  String card("hw:");
+  card.Append(mCardReference);
 
   //open mixer
   int err = snd_mixer_open(&mMixerHandle, 0);
@@ -43,8 +43,8 @@ void AlsaMixer::CloseMixer()
   if (mMixerHandle != nullptr)
   {
     // Build card identifier
-    std::string card("hw:");
-    card.append(Strings::ToString(mCardReference));
+    String card("hw:");
+    card.Append(mCardReference);
 
     snd_mixer_detach(mMixerHandle, card.data());
     snd_mixer_free(mMixerHandle);

@@ -23,8 +23,8 @@ public:
 
 	void onSizeChanged() override;
 
-	void setValue(const std::string& val) override;
-	std::string getValue() const override { return mText; }
+	void setValue(const String& val) override;
+	String getValue() const override { return mText; }
 
 	inline bool isEditing() const { return mEditing; };
 	inline const std::shared_ptr<Font>& getFont() const { return mFont; }
@@ -55,7 +55,7 @@ private:
 	static Vector2f getTextAreaPos()  { static Vector2f result( TEXT_PADDING_HORIZ / 2.0f, TEXT_PADDING_VERT / 2.0f ); return result; }
 	Vector2f getTextAreaSize() const;
 
-	std::string mText;
+	String mText;
 	bool mFocused;
 	bool mEditing;
 	int mCursor; // cursor position in characters
@@ -81,13 +81,13 @@ private:
    * @brief Called when the edited text change.
    * Current text is available from the Text() method.
    */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) override;
 
     /*!
      * @brief Called when the edited text is validated (Enter or Start)
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) override;
 
     /*!
      * @brief Called when the edited text is cancelled.

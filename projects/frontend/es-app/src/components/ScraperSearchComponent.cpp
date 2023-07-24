@@ -72,17 +72,17 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowRe
   mResultDesc->setSize(mDescContainer->getSize().x(), 0); // make desc text wrap at edge of container
 
   // Labels
-  mLabelDeveloper = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Developer") + ":"), font, mdLblColor, TextAlignment::Right);
+  mLabelDeveloper = std::make_shared<TextComponent>(mWindow, _("Developer").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
+  mLabelPublisher = std::make_shared<TextComponent>(mWindow, _("Publisher").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
+  mLabelGenre = std::make_shared<TextComponent>(mWindow, _("Genre").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
+  mLabelRating = std::make_shared<TextComponent>(mWindow, _("Rating").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
+  mLabelReleaseDate = std::make_shared<TextComponent>(mWindow, _("Released").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
+  mLabelPlayers = std::make_shared<TextComponent>(mWindow, _("Players").UpperCaseUTF8().Append(':'), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelDeveloper, Vector2i(2, 1), false, false, Vector2i(1, 1));
-  mLabelPublisher = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Publisher") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelPublisher, Vector2i(2, 2), false, false, Vector2i(1, 1));
-  mLabelGenre = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Genre") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelGenre, Vector2i(2, 3), false, false, Vector2i(1, 1));
-  mLabelRating = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Rating") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelRating, Vector2i(4, 1), false, false, Vector2i(1, 1));
-  mLabelReleaseDate = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Released") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelReleaseDate, Vector2i(4, 2), false, false, Vector2i(1, 1));
-  mLabelPlayers = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(_("Players") + ":"), font, mdLblColor, TextAlignment::Right);
   mGrid.setEntry(mLabelPlayers, Vector2i(4, 3), false, false, Vector2i(1, 1));
 
   // Value
@@ -177,8 +177,8 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
 {
 	if (game != nullptr)
 	{
-		mResultName->setText(Strings::ToUpperUTF8(game->Name()));
-		mResultDesc->setText(Strings::ToUpperUTF8(game->Metadata().Description()));
+		mResultName->setText(game->Name().ToUpperCaseUTF8());
+		mResultDesc->setText(game->Metadata().Description().ToUpperCaseUTF8());
 		mDescContainer->reset();
 
 		// Image
@@ -187,11 +187,11 @@ void ScraperSearchComponent::UpdateInfoPane(const FileData* game)
 
     // metadata
 		mValueRating->setValue(game->Metadata().Rating());
-		mValueReleaseDate->setValue(Strings::ToUpperASCII(game->Metadata().ReleaseDateAsString()));
-		mValueDeveloper->setText(Strings::ToUpperUTF8(game->Metadata().Developer()));
-		mValuePublisher->setText(Strings::ToUpperUTF8(game->Metadata().Publisher()));
-		mValueGenre->setText(Strings::ToUpperUTF8(game->Metadata().Genre()));
-		mValuePlayers->setText(Strings::ToUpperASCII(game->Metadata().PlayersAsString()));
+		mValueReleaseDate->setValue(game->Metadata().ReleaseDateAsString().ToUpperCase());
+		mValueDeveloper->setText(game->Metadata().Developer().ToUpperCaseUTF8());
+		mValuePublisher->setText(game->Metadata().Publisher().ToUpperCaseUTF8());
+		mValueGenre->setText(game->Metadata().Genre().ToUpperCaseUTF8());
+		mValuePlayers->setText(game->Metadata().PlayersAsString().ToUpperCase());
 		mGrid.onSizeChanged();
 	}
 	else

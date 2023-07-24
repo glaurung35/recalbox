@@ -22,7 +22,7 @@ enum class NetworkOperation
 class GuiMenuNetwork : public GuiMenuBase
                      , private ILongExecution<NetworkOperation, bool>
                      , private IGuiArcadeVirtualKeyboardInterface
-                     , private IOptionListComponent<std::string>
+                     , private IOptionListComponent<String>
                      , private IEditableComponent
                      , private ISwitchComponent
 {
@@ -43,7 +43,7 @@ class GuiMenuNetwork : public GuiMenuBase
     };
 
     //! SSID list
-    std::shared_ptr<OptionListComponent<std::string>> mSSIDList;
+    std::shared_ptr<OptionListComponent<String>> mSSIDList;
     //! Hostname
     std::shared_ptr<EditableComponent> mHostname;
     //! WIFI On/Off
@@ -56,15 +56,15 @@ class GuiMenuNetwork : public GuiMenuBase
     std::shared_ptr<TextComponent> mIP;
 
     //! Edited text Backup
-    std::string mBackupedText;
+    String mBackupedText;
 
     //! Captured WPS SSID
-    std::string mWpsSSID;
+    String mWpsSSID;
     //! Captured WPS PSK
-    std::string mWpsPSK;
+    String mWpsPSK;
 
     //! Last SSID Scan
-    Strings::Vector mScannedSSIDList;
+    String::List mScannedSSIDList;
 
     //! Anti-renentry flag
     bool mFillingList;
@@ -86,7 +86,7 @@ class GuiMenuNetwork : public GuiMenuBase
      * @param ssid new wifi ssid
      * @param save True to save configuration immediately
      */
-    static void SetWifiSSID(const std::string& ssid, bool save)
+    static void SetWifiSSID(const String& ssid, bool save)
     {
       RecalboxConf::Instance().SetWifiSSID(ssid);
       if (save) RecalboxConf::Instance().Save();
@@ -114,7 +114,7 @@ class GuiMenuNetwork : public GuiMenuBase
      * IOptionListComponent implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * IEditableComponent implementation
@@ -132,9 +132,9 @@ class GuiMenuNetwork : public GuiMenuBase
      * IGuiArcadeVirtualKeyboardInterface implementation
      */
 
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const std::string&) override {}
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard&, const String&) override {}
 
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) override;
 
     void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard&) override {}
 };

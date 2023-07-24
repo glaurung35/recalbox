@@ -44,14 +44,14 @@ int PcComputers::BatteryChargePercent()
 {
   static Path sBatteryCharge(Path(sBatteryCapacityPath1).Exists() ? sBatteryCapacityPath1 : sBatteryCapacityPath2);
   int charge = -1;
-  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
+  (void)Files::LoadFile(sBatteryCharge).Trim('\n').TryAsInt(charge);
   return charge;
 }
 
 bool PcComputers::IsBatteryCharging()
 {
   static Path sBatteryStatus(Path(sBatteryStatusPath1).Exists() ? sBatteryStatusPath1 : sBatteryStatusPath2);
-  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
+  return Files::LoadFile(sBatteryStatus).Trim('\n') == "Charging";
 }
 
 void PcComputers::SetFrontendCPUGovernor()

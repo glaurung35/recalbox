@@ -12,7 +12,7 @@
 #include <audio/IAudioNotification.h>
 
 class GuiMenuSound : public GuiMenuBase
-                   , public ILongExecution<bool, Strings::Vector>
+                   , public ILongExecution<bool, String::List>
                    , public IGuiMenuBase
                    , public IAudioNotification
                    , private ISliderComponent
@@ -77,14 +77,14 @@ class GuiMenuSound : public GuiMenuBase
 
     void StartScanningDevices();
 
-    Strings::Vector Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&) override;
+    String::List Execute(GuiWaitLongExecution<bool, String::List>&, const bool&) override;
 
     /*!
      * @brief Called when the device scan is complete
      * @param parameter Useless "in" parameter
      * @param result List of available devices
      */
-    void Completed(const bool& parameter, const Strings::Vector& result) override;
+    void Completed(const bool& parameter, const String::List& result) override;
 
     /*!
      * @brief Called from PulseAudioController whenever a sink is added or removed

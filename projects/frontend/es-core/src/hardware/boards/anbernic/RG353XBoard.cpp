@@ -31,11 +31,11 @@ void RG353XBoard::SetLowestBrightness()
 
 void RG353XBoard::SetBrightness(int step)
 {
-  std::string maxValue = Files::LoadFile(Path("/sys/class/backlight/backlight/max_brightness"));
+  String maxValue = Files::LoadFile(Path("/sys/class/backlight/backlight/max_brightness"));
   int max = 255; // Max RG value
-  Strings::ToInt(Strings::Trim(maxValue, "\r\n"), max);
+  (void)maxValue.Trim("\r\n").TryAsInt(max);
   int value = 1 << step; if (value > max) value = max;
-  Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
+  Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), String(value));
 }
 
 void RG353XBoard::SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance)
@@ -74,14 +74,14 @@ int RG353XBoard::BatteryChargePercent()
 {
   static Path sBatteryCharge(sBatteryCapacityPath);
   int charge = -1;
-  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
+  (void)Files::LoadFile(sBatteryCharge).Trim('\n').TryAsInt(charge);
   return charge;
 }
 
 bool RG353XBoard::IsBatteryCharging()
 {
   static Path sBatteryStatus(sBatteryStatusPath);
-  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
+  return Files::LoadFile(sBatteryStatus).Trim('\n') == "Charging";
 }
 
 void RG353XBoard::HeadphonePlugged()

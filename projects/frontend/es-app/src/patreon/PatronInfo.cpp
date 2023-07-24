@@ -11,7 +11,7 @@
 PatronInfo::PatronInfo(IPatreonNotification* callback)
   : StaticLifeCycleControler<PatronInfo>("PatronInfo")
   , mEvent(*this)
-  , mToken(Strings::Trim(RecalboxConf::Instance().GetRecalboxPrivateKey(), " \t"))
+  , mToken(RecalboxConf::Instance().GetRecalboxPrivateKey().Trim(" \t"))
   , mCallback(callback)
   , mResult(PatronAuthenticationResult::Unknown)
   , mLevel(0)

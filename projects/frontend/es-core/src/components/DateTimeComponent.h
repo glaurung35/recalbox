@@ -24,9 +24,9 @@ public:
   {
   }
 
-	void setValue(const std::string& val) override;
+	void setValue(const String& val) override;
 	void setValue(const DateTime& dt);
-	std::string getValue() const override;
+	String getValue() const override;
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
@@ -48,12 +48,12 @@ public:
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
 	void setHorizontalAlignment(TextAlignment align);
 
-	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
 private:
 	std::shared_ptr<Font> getFont() const;
 
-	std::string getDisplayString(Display mode) const;
+	String getDisplayString(Display mode) const;
 	Display getCurrentDisplayMode() const;
 	
 	void updateTextCache();

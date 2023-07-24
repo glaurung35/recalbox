@@ -10,7 +10,7 @@
 #include <guis/GuiMsgBox.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList)
+GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const String::List& deviceList)
   : GuiMenuBase(window, _("PAIR BLUETOOTH CONTROLLERS"), this)
   , mDevices(deviceList)
 {
@@ -34,8 +34,7 @@ void GuiMenuPadsPair::Completed(const std::string& parameter, const bool& result
 void GuiMenuPadsPair::SubMenuSelected(int id)
 {
   std::string device = mDevices[id];
-  std::string text = _("PAIRING %s ...");
-  Strings::ReplaceAllIn(text, "%s", device);
+  std::string text = _("PAIRING %s ...").Replace("%s", device);
   mWindow.pushGui((new GuiWaitLongExecution<std::string, bool>(mWindow, *this))->Execute(device, text));
 }
 

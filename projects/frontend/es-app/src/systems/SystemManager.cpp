@@ -22,18 +22,18 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
   {
     String rootTag(sRootTag);
     // Share_init roms
-    Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareInitRomRoot));
+    Path root = Path(String(systemDescriptor.RomPath().ToString()).Replace(rootTag, sShareInitRomRoot));
     if (root.Exists() && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
 
     if (port != PortTypes::ShareInitOnly)
     {
       // Share roms
-      root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareRomRoot));
+      root = Path(String(systemDescriptor.RomPath().ToString()).Replace(rootTag, sShareRomRoot));
       if (root.Exists()) roots[root.ToString()] = false;
       // External mount points
       for(const Path& externalRoms : mMountPoints)
       {
-        root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, externalRoms.ToString()));
+        root = Path(String(systemDescriptor.RomPath().ToString()).Replace(rootTag, externalRoms.ToString()));
         if (root.Exists())
         {
           const DeviceMount* mount = mMountPointMonitoring.SizeOf(root);
@@ -62,7 +62,7 @@ void SystemManager::CheckAutoScraping(SystemData& system)
         static String png(LEGACY_STRING(".png"));
         if (game.IsGame())
           if (game.Metadata().Image().IsEmpty())
-            if (Strings::ToLowerASCII(game.RomPath().Extension()) == png)
+            if (game.RomPath().Extension().LowerCase() == png)
               game.Metadata().SetImagePath(game.RomPath());
       }
   } autoScraper;
@@ -187,8 +187,7 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
           }
 
           // Not a game?
-          game.Metadata().SetNoGame(Strings::StartsWith(game.Name(),LEGACY_STRING("ZZZ")) ||
-                                    Strings::StartsWith(fileName, LEGACY_STRING("[BIOS]")));
+          game.Metadata().SetNoGame(game.Name().StartsWith(LEGACY_STRING("ZZZ")) || fileName.Contains(LEGACY_STRING("[BIOS]")));
         }
       }
   } dynamicMetadata;
@@ -1116,7 +1115,7 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
 FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem)
 {
   // Everything to lowercase cause search is not case sensitive
-  String lowercaseText = Strings::ToLowerUTF8(originaltext);
+  String lowercaseText = originaltext.ToLowerCaseUTF8();
 
   // Fast search into metadata, collecting index and distances
   { LOG(LogDebug) << "[Search] Start searching for '" << lowercaseText << '\''; }
@@ -1300,7 +1299,7 @@ bool SystemManager::HasFileWithExt(const Path& path, HashSet<String>& extensionS
     {
       // File and extension in list?
       if (entry->d_type == DT_REG)
-        found = (extensionSet.contains(Strings::ToLowerASCII(Path(entry->d_name).Extension())));
+        found = (extensionSet.contains(Path(entry->d_name).Extension().LowerCase()));
       else if (entry->d_type == DT_DIR)
         if (entry->d_name[0] != '.')
           found = HasFileWithExt(path / entry->d_name, extensionSet);
@@ -1376,7 +1375,7 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
         Path::PathList templates = romFolder.GetDirectoryContent();
         for(const Path& file : templates)
           if (file.Extension() == ".txt")
-            if (Strings::StartsWith(file.Filename(),LEGACY_STRING("_")))
+            if (file.Filename().StartsWith('_'))
               Files::SaveFile(destination / file.Filename(), Files::LoadFile(file));
       }
 

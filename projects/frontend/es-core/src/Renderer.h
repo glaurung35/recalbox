@@ -89,7 +89,7 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param h Output height
      * @return True is a resolution has been converted, false otherwise
      */
-    static bool GetResolutionFromString(const std::string& resolution, int& w, int& h);
+    static bool GetResolutionFromString(const String& resolution, int& w, int& h);
 
   public:
     //! Error status

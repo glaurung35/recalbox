@@ -17,7 +17,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& tarUrl, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion)
+GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const String& tarUrl, const String& imageUrl, const String& sha1Url, const String& newVersion)
   : Gui(window)
   , mTarRequest(Path(sDownloadFolder))
   , mTarUrl(tarUrl)
@@ -31,8 +31,7 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& t
   , mGrid(window, Vector2i(3, 4))
 {
   mRebootIn = _("REBOOT IN %s");
-  mError = _("Error downloading Recalbox %s... Please retry later!");
-  Strings::ReplaceAllIn(mError, "%s", mNewVersion);
+  mError = _("Error downloading Recalbox %s... Please retry later!").Replace("%s", mNewVersion);
 
   addChild(&mBackground);
   addChild(&mGrid);
@@ -47,8 +46,8 @@ GuiUpdateRecalbox::GuiUpdateRecalbox(WindowManager& window, const std::string& t
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, false, Vector2i(1,1) );
 
   // Text
-  std::string text = _("We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete.");
-  Strings::ReplaceAllIn(text, "%s", newVersion);
+  String text = _("We're downloading Recalbox version %s!\n\nOnce the download is complete, Recalbox will reboot and start installing the new version.\nTypical installations take about 5-10mn. DO NOT reboot or power off Recalbox until the installation is complete.")
+                     .Replace("%s", newVersion);
   mText = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mGrid.setEntry(mText, Vector2i(1, 1), false, false, Vector2i(1,1) );
 
@@ -140,7 +139,7 @@ void GuiUpdateRecalbox::Run()
   { LOG(LogError) << "[UpdateGui] Cannot empty " << sDownloadFolder; }
 
   // Get arch
-  std::string arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
+  String arch = Files::LoadFile(Path("/recalbox/recalbox.arch"));
   if (arch == "xu4") arch = "odroidxu4";
 
   mTimeReference = DateTime();
@@ -150,7 +149,7 @@ void GuiUpdateRecalbox::Run()
     struct stat sb;
     // execute pre-upgrade.sh
     if (stat(PRE_UPGRADE_SCRIPT, &sb) == 0) {
-      std::string cmd = "bash " + std::string(PRE_UPGRADE_SCRIPT);
+      String cmd = "bash " + String(PRE_UPGRADE_SCRIPT);
       { LOG(LogInfo) << "Executing " << cmd << " script"; }
       system(cmd.c_str());
     }
@@ -173,8 +172,7 @@ void GuiUpdateRecalbox::Run()
   // Check free bytes on share partition
   if (RecalboxSystem::isFreeSpaceLimit())
   {
-    std::string message = _("You must have at least %dGB free on 'SHARE' partition!");
-    Strings::ReplaceAllIn(message, "%d", Strings::ToString(RecalboxSystem::GetMinimumFreeSpaceOnSharePartition() >> 30));
+    String message = _("You must have at least %dGB free on 'SHARE' partition!").Replace("%d", String(RecalboxSystem::GetMinimumFreeSpaceOnSharePartition() >> 30));
     mWindow.displayMessage(message);
     Close();
     mSender.Send(-1);
@@ -182,12 +180,12 @@ void GuiUpdateRecalbox::Run()
   }
 
   // Get destination filename
-  std::string destinationFileName = "recalbox-%.img.xz";
-  Strings::ReplaceAllIn(destinationFileName, "%", arch);
+  String destinationFileName = "recalbox-%.img.xz";
+  destinationFileName.Replace("%", arch);
 
   // Download
   Path destination = Path(sDownloadFolder) / destinationFileName;
-  Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.append(".sha1");
+  Path destinationSha1 = Path(sDownloadFolder) / destinationFileName.Append(".sha1");
   { LOG(LogDebug) << "[UpdateGui] Target path " << destination.ToString(); }
 
   // Empty target folder
@@ -202,7 +200,7 @@ void GuiUpdateRecalbox::Run()
     if (destination.Size() == mTotalSize)
     {
       // Download sha1
-      mImgRequest.Execute(mSha1Url.append(".sha1"), destinationSha1, this);
+      mImgRequest.Execute(mSha1Url.Append(".sha1"), destinationSha1, this);
       // Reboot
       MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot, false);
       return;
@@ -234,8 +232,8 @@ void GuiUpdateRecalbox::ReceiveSyncMessage(int code)
       TimeSpan elapsed = DateTime() - mTimeReference;
       TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
 
-      std::string text = mRebootIn;
-      Strings::ReplaceAllIn(text, "%s", eta.ToTimeString());
+      String text = mRebootIn;
+      text.Replace("%s", eta.ToTimeString());
       mEta->setText(text);
     }
   }

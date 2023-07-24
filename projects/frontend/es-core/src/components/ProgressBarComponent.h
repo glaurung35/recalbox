@@ -42,5 +42,5 @@ class ProgressBarComponent : public Component
 
 	  long long getCurrentValue() const { return mCurrentValue; }
 
-	  std::string getText() const { return Strings::ToString((float)mCurrentValue * 100.0f / (float)mMaxValue, 2).append(1, '%'); }
+	  String getText() const { return String((float)mCurrentValue * 100.0f / (float)mMaxValue, 2).Append('%'); }
 };

@@ -58,7 +58,7 @@ String Path::Item(int index) const
       }
   if (*p == 0) start = p;
   else while(*p != sSeparator && *p != 0) ++p;
-  return mPath.substr(start - mPath.c_str(), p - start);
+  return mPath.SubString(start - mPath.c_str(), p - start);
 }
 
 String Path::UptoItem(int index) const
@@ -75,7 +75,7 @@ String Path::UptoItem(int index) const
           break;
         }
   while(*p != sSeparator && *p != 0) ++p;
-  return mPath.substr(0, p - mPath.c_str());
+  return mPath.SubString(0, p - mPath.c_str());
 }
 
 String Path::FromItem(int index) const
@@ -91,7 +91,7 @@ String Path::FromItem(int index) const
           ++p;                      // Skip separator
           break;
         }
-  return mPath.substr(p - mPath.c_str());
+  return mPath.SubString(p - mPath.c_str());
 }
 
 int Path::ItemCount() const
@@ -151,8 +151,8 @@ Path Path::Directory() const
     if (p[i] == sSeparator)
       if (i != 0)
         return (strcmp(p + i + 1, "..") == 0) ?
-               Path(mPath.substr(0, i)).Directory() :
-               Path(mPath.substr(0, i));
+               Path(mPath.SubString(0, i)).Directory() :
+               Path(mPath.SubString(0, i));
   return Path::Empty;
 }
 
@@ -161,7 +161,7 @@ String Path::Filename() const
   const char* p = mPath.c_str(); // Char pointer is faster
   for(int i = (int)mPath.size(); --i >= 0;)
     if (p[i] == sSeparator)
-        return mPath.substr(i + 1);
+        return mPath.SubString(i + 1);
   return mPath;
 }
 
@@ -183,10 +183,10 @@ String Path::FilenameWithoutExtension() const
   while(p[++startExt] == '.');
   for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
-      return mPath.substr(start, i - start);
+      return mPath.SubString(start, i - start);
 
   // No extension
-  return mPath.substr(start);
+  return mPath.SubString(start);
 }
 
 String Path::Extension() const
@@ -205,7 +205,7 @@ String Path::Extension() const
   while(p[++startExt] == '.');
   for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
-      return mPath.substr(i);
+      return mPath.SubString(i);
 
   // No extension
   return String();
@@ -228,7 +228,7 @@ Path Path::ChangeExtension(const String& newext) const
   for(int i = (int)mPath.size(); --i >= startExt;)
     if (p[i] == sExtensionSeparator)
     {
-      Path newPath(mPath.substr(0, i));
+      Path newPath(mPath.SubString(0, i));
       newPath.mPath.Append(newext);
       return newPath;
     }

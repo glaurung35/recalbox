@@ -227,7 +227,7 @@ class InputDevice
     [[nodiscard]] int HatCount()     const { return mDeviceNbHats; };
     [[nodiscard]] int ButtonCount()  const { return mDeviceNbButtons; };
     [[nodiscard]] String PowerLevel() const;
-    //std::string getSysPowerLevel();
+    //String getSysPowerLevel();
 
     [[nodiscard]] bool IsKeyboard() const { return mDeviceId == InputEvent::sKeyboardDevice; }
     [[nodiscard]] bool IsPad()      const { return mDeviceId != InputEvent::sKeyboardDevice; }
@@ -295,7 +295,7 @@ class InputDevice
      * @brief Load from SDL configuration string
      * @param configuration Configuration string
      */
-    bool LoadAutoConfiguration(const std::string& configuration);
+    bool LoadAutoConfiguration(const String& configuration);
 
     /*!
      * @brief Load the configuration from the given XML
@@ -366,7 +366,7 @@ class InputDevice
      * @param entry entry to convert
      * @return converted string
      */
-    static std::string EntryToString(Entry entry);
+    static String EntryToString(Entry entry);
 
     /*!
      * @brief Convert a string entry representation to the matching entry
@@ -374,7 +374,7 @@ class InputDevice
      * @param entry String entry
      * @return converted entry
      */
-    static Entry StringToEntry(const std::string& entry);
+    static Entry StringToEntry(const String& entry);
 
     /*!
      * @brief Compare the current device to the given one

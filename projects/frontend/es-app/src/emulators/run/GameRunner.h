@@ -48,7 +48,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param demo is it for a demo ?
      * @return The command line
      */
-    std::string CreateCommandLine(const FileData& game, const EmulatorData& emulator, const std::string& core, const GameLinkedData& data,const InputMapper& mapper, bool debug, bool demo);
+    String CreateCommandLine(const FileData& game, const EmulatorData& emulator, const String& core, const GameLinkedData& data,const InputMapper& mapper, bool debug, bool demo);
 
     /*!
      * @brief Initialize demo launching
@@ -103,7 +103,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param demo starting a demo
      * @return Option string
      */
-    static std::string BuildCRTOptions(const CrtData& data, RotationType rotation, const bool demo);
+    static String BuildCRTOptions(const CrtData& data, RotationType rotation, const bool demo);
 
     /*!
     * @brief Automatic Game running flag management
@@ -126,7 +126,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
          * @param command Command to execute
          * @param debug Debug flag
          */
-        ThreadRunner(Sdl2Runner& runner, const std::string& command, bool debug)
+        ThreadRunner(Sdl2Runner& runner, const String& command, bool debug)
           : mRunner(runner)
           , mCommand(command)
           , mDebug(debug)
@@ -142,7 +142,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
         //! Runner to stop when the game is over
         Sdl2Runner& mRunner;
         //! Command to execute
-        std::string mCommand;
+        String mCommand;
         //! Debug flag
         bool        mDebug;
         //! Exit code
@@ -166,21 +166,21 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
      * @param debug log output?
      * @return Return code
      */
-    static int Run(const std::string& cmd_utf8, bool debug);
+    static int Run(const String& cmd_utf8, bool debug);
 
     /*!
      * @brief Get energy governance for a particular core/emulator
      * @param core Core/Emulateur
      * @return Governance
      */
-    static IBoardInterface::CPUGovernance GetGovernance(const std::string& core);
+    static IBoardInterface::CPUGovernance GetGovernance(const String& core);
 
     /*!
      * @brief Get netplay option regarding the given netplay object
      * @param netplay Netplay object
      * @return Netplay option string
      */
-    static std::string NetplayOption(const FileData& game, const NetPlayData& netplay);
+    static String NetplayOption(const FileData& game, const NetPlayData& netplay);
 
     /*
      * IScraperEngineFreezer implementation

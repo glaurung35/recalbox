@@ -42,13 +42,13 @@ class PulseAudioController: public IAudioController
      * @param playbackName device name
      * @return Actual selected device name
      */
-    std::string SetDefaultPlayback(const std::string& playbackName) override;
+    String SetDefaultPlayback(const String& playbackName) override;
 
     /*!
      * @brief Get current running playback name
      * @return Actual playback name in the form of card:profile:port
      */
-    std::string GetActivePlaybackName();
+    String GetActivePlaybackName();
 
     /*!
      * @brief Get volume level, from 0 to 100
@@ -83,8 +83,8 @@ class PulseAudioController: public IAudioController
 
     struct Profile
     {
-      std::string Name;        //!< Device name
-      std::string Description; //!< Description
+      String Name;        //!< Device name
+      String Description; //!< Description
       int Priority;            //!< Profile priority
       bool Available;          //!< Profile available
     };
@@ -92,8 +92,8 @@ class PulseAudioController: public IAudioController
     struct Port
     {
       std::vector<Profile> Profiles; //!< Available profile list for this port
-      std::string Name;              //!< Device name
-      std::string Description;       //!< Description
+      String Name;              //!< Device name
+      String Description;       //!< Description
       int InternalIndex;             //!< Internal index (not PA index)
       int Priority;                  //!< Priority
       AudioIcon Icon;                //!< Icon
@@ -102,30 +102,30 @@ class PulseAudioController: public IAudioController
 
     struct Sink
     {
-      std::string Name;                   //!< Device name
-      std::string Description;            //!< Device description
+      String Name;                   //!< Device name
+      String Description;            //!< Device description
       std::vector<Port> Ports;            //!< Available port list
       int Channels;                       //!< Channel count
       int Index;                          //!< Device index in pulseaudio context
       int CardIndex;                      //!< Card ID this sink is linked to
       int State;                          //!< Current sink state (RUNNING, SUSPENDED, ...)
-      std::string ActivePort;             //!< Selected port
+      String ActivePort;             //!< Selected port
     };
 
     struct Card
     {
       std::vector<Port> Ports;       //!< Available port list
       std::vector<Profile> Profiles; //!< Available profile list
-      std::string Name;              //!< Card name
-      std::string Description;       //!< Card Description
+      String Name;              //!< Card name
+      String Description;       //!< Card Description
       int Index;                     //!< Device index in pulseaudio context
       bool HasActiveProfile;         //!< Has an active profile already set?
-      std::string ActiveProfile;     //!< Name of active profile
+      String ActiveProfile;     //!< Name of active profile
     };
 
     typedef struct ServerInfo
     {
-      std::string DefaultSinkName; //!< Name of the current selected and running sink
+      String DefaultSinkName; //!< Name of the current selected and running sink
     } ServerInfo;
 
     //! Pulseaudio connection state
@@ -193,25 +193,25 @@ class PulseAudioController: public IAudioController
 
     static const Port* FirstPort(const Card& card);
 
-    const Card* LookupCard(const std::string& name);
+    const Card* LookupCard(const String& name);
 
-    static const Port* LookupPort(const Card& card, const std::string& name);
+    static const Port* LookupPort(const Card& card, const String& name);
 
     static bool HasPort(const Sink& sink, const Port& port);
 
-    const Sink* LookupSink(const std::string& name);
+    const Sink* LookupSink(const String& name);
 
     const Sink* GetSinkFromCardPort(const Card* card, const Port* port);
 
-    const Sink * GetSinkFromName(const std::string& name);
+    const Sink * GetSinkFromName(const String& name);
 
-    static const Profile* LookupProfile(const Card& card, const std::string& name);
+    static const Profile* LookupProfile(const Card& card, const String& name);
 
     void UpdateDefaultSink();
 
     static void AddSpecialPlaybacks(IAudioController::DeviceList& list);
 
-    bool IsPortAvailable(const std::string& portName);
+    bool IsPortAvailable(const String& portName);
 
     /*!
      * @brief Give the oportunity to process special playback regarding the current hardware
@@ -221,7 +221,7 @@ class PulseAudioController: public IAudioController
      * @param allprocessed if set to true, the playback processing will stop right after this method call
      * @return modified or unmodified playback name
      */
-    std::string AdjustSpecialPlayback(const std::string& originalPlaybackName, bool& allprocessed);
+    String AdjustSpecialPlayback(const String& originalPlaybackName, bool& allprocessed);
 
     /*
      * Pulse Audio callback
@@ -362,7 +362,7 @@ class PulseAudioController: public IAudioController
      * @param info Card info structure
      * @return Card name
      */
-    static std::string GetCardDescription(const pa_card_info& info);
+    static String GetCardDescription(const pa_card_info& info);
 
     /*!
      * @brief Get card by card index
@@ -376,8 +376,8 @@ class PulseAudioController: public IAudioController
      * @param info Port info structure
      * @return Port name
      */
-    static std::string GetPortDescription(const pa_card_port_info& info, AudioIcon& icon);
-    static std::string GetPortDescription(const pa_sink_port_info& info, AudioIcon& icon);
+    static String GetPortDescription(const pa_card_port_info& info, AudioIcon& icon);
+    static String GetPortDescription(const pa_sink_port_info& info, AudioIcon& icon);
 
     /*!
      * @brief Get icon from port information

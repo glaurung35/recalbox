@@ -18,7 +18,7 @@ GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
     // Footer
     std::string gameName(game.Name());
     gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    SetFooter(_("GAME %s").Replace("%s", Strings::ToUpperUTF8(gameName)));
 
     // select
     mPaths = AddList<Path>(_("select a patch"),(int) Components::Patch, this,GetPatchesEntries(), "");

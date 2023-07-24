@@ -17,7 +17,7 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
     // Footer
     std::string gameName(game.Name());
     gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    SetFooter(_("GAME %s").Replace("%s", Strings::ToUpperUTF8(gameName)));
 
     // Delete
     mGameFiles = AddMultiList<Path>(_("GAME FILES (ROM | DISK IMAGE)"), (int) Components::Delete, nullptr, GetGameFileEntries());

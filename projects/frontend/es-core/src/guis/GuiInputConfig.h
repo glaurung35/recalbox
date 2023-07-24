@@ -26,12 +26,12 @@ class GuiInputConfig : public Gui
     class FormInput
     {
       public:
-        const std::string name;
-        const std::string label;
+        const String name;
+        const String label;
         const Path icon;
         const bool skippable;
         const InputEvent::EventType preferredType;
-        FormInput(const std::string& inName, const std::string& inLabel, const Path& inIcon, bool inSkippable, InputEvent::EventType inPreferredType)
+        FormInput(const String& inName, const String& inLabel, const Path& inIcon, bool inSkippable, InputEvent::EventType inPreferredType)
           : name(inName),
             label(inLabel),
             icon(inIcon),
@@ -44,15 +44,15 @@ class GuiInputConfig : public Gui
     inline void setMapped() { setText(_("ALREADY TAKEN"), mMainColor); }
     inline void setSkipped() { setText(_("(skipped)"), mMainColor); }
     inline void setNotDefined() { setText("", mMainColor); }
-    inline void setAssignedTo(InputEvent input) { setText(Strings::ToUpperASCII(input.ToString()), mMainColor); }
+    inline void setAssignedTo(InputEvent input) { setText(input.ToString().UpperCase(), mMainColor); }
 
     void initFormInputs();
-    void addFormInput(const char* name, const std::string& label, const char* icon, bool skippable, InputEvent::EventType preferredType);
+    void addFormInput(const char* name, const String& label, const char* icon, bool skippable, InputEvent::EventType preferredType);
 
     void setHelpMessage();
     void setPress();
-    void setText(const std::string& msg, unsigned int color);
-    void setText(const std::string& msg, unsigned int color, int inputId);
+    void setText(const String& msg, unsigned int color);
+    void setText(const String& msg, unsigned int color, int inputId);
 
     bool assign(InputEvent input);
     void unAssign();

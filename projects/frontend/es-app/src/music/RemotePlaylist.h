@@ -32,30 +32,30 @@ class RemotePlaylist : public StaticLifeCycleControler<RemotePlaylist>
          */
 
         //! Get name
-        const std::string& Name() const { return mName; }
+        const String& Name() const { return mName; }
         //! Get duration
         int Duration() const { return mDuration; }
         //! Get file size
         int Size() const { return mSize; }
         //! Get url
-        const std::string& Url() const { return mUrl; }
+        const String& Url() const { return mUrl; }
         //! Get md5
-        const std::string& Md5() const { return mMd5; }
+        const String& Md5() const { return mMd5; }
         //! Get album
-        const std::string& Album() const { return mAlbum; }
+        const String& Album() const { return mAlbum; }
         //! Get mix tape
-        const std::string& MixTaper() const { return mMixTape; }
+        const String& MixTaper() const { return mMixTape; }
         //! Get local path
         const Path& LocalPath() const { return mPath; }
 
       private:
-        std::string mName;     //!< Track ,name
+        String mName;     //!< Track ,name
         int         mDuration; //!< Duration in second
         int         mSize;     //!< File size
-        std::string mUrl;      //!< Track url
-        std::string mMd5;      //!< File md5
-        std::string mAlbum;    //!< File md5
-        std::string mMixTape;  //!< File md5
+        String mUrl;      //!< Track url
+        String mMd5;      //!< File md5
+        String mAlbum;    //!< File md5
+        String mMixTape;  //!< File md5
         Path        mPath;     //! Local file path
 
         /*!
@@ -68,13 +68,13 @@ class RemotePlaylist : public StaticLifeCycleControler<RemotePlaylist>
          * @param album Album name
          * @param mixTape Mix tape name
          */
-        TrackInfo(const std::string& name,
+        TrackInfo(const String& name,
                   int duration,
                   int size,
-                  const std::string& url,
-                  const std::string& md5,
-                  const std::string& album,
-                  const std::string& mixTape)
+                  const String& url,
+                  const String& md5,
+                  const String& album,
+                  const String& mixTape)
           : mName(name)
           , mDuration(duration)
           , mSize(size)
@@ -145,7 +145,7 @@ class RemotePlaylist : public StaticLifeCycleControler<RemotePlaylist>
      * @param jsonString JSON Playlist
      * @return True on success, false otherwise
      */
-    bool DeserializePlaylist(const std::string& jsonString);
+    bool DeserializePlaylist(const String& jsonString);
 
     /*!
      * @brief Check files on disk, delete older/bad files and load current index
@@ -162,7 +162,7 @@ class RemotePlaylist : public StaticLifeCycleControler<RemotePlaylist>
      * @param md5 md5 to lookup
      * @return Index in database or -1 if no track is found
      */
-    int LookupTrackIndex(const std::string& md5);
+    int LookupTrackIndex(const String& md5);
 
     /*!
      * @brief Check old files and delete them all

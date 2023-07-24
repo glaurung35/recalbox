@@ -77,7 +77,8 @@ bool SwitchComponent::getHelpPrompts(Help& help)
 	return true;
 }
 
-std::string SwitchComponent::getValue() const {
+String SwitchComponent::getValue() const
+{
   return mState ? "true" : "false";
 }
 

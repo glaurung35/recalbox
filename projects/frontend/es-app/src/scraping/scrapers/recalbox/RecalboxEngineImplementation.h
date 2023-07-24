@@ -67,7 +67,7 @@ class RecalboxEngineImplementation : public ScreenScraperEngineBase
     {
       RecalboxConf& conf = RecalboxConf::Instance();
       // Credentials
-      mBearer          = Strings::Trim(conf.GetRecalboxPrivateKey());
+      mBearer          = conf.GetRecalboxPrivateKey().Trim();
 
       // Language & region
       mRegion         = conf.GetScreenScraperRegion();

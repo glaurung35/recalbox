@@ -318,7 +318,7 @@ String GameFilesUtils::ExtractFileNameFromLine(const String& line)
   const size_t strBegin = line.find_first_of('"') + 1;
   const size_t strEnd = line.find_last_of('"');
 
-  String string = line.substr(strBegin, strEnd - strBegin);
+  String string = line.SubString(strBegin, strEnd - strBegin);
   if (string.Contains('.'))
   {
     return string;

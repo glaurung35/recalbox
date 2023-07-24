@@ -37,8 +37,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
           !mSystem.IsScreenshots())
       {
-        std::string text = _("DELETE GAME %s");
-        Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
+        String text = _("DELETE GAME %s").Replace("%s", mGamelist.getCursor()->Name().ToUpperCaseUTF8());
         AddSubMenu(text, (int) Components::Delete, _(MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG));
       }
 
@@ -114,13 +113,13 @@ void GuiMenuGamelistOptions::RefreshGameMenuContext()
     mGame->setText(_("NON EDITABLE GAME"));
   else if (file->IsGame())
   {
-    std::string text = _("EDIT GAME %s");
+    String text = _("EDIT GAME %s");
     Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
     mGame->setText(text);
   }
   else if (file->IsFolder())
   {
-    std::string text = _("EDIT FOLDER %s");
+    String text = _("EDIT FOLDER %s");
     Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
     mGame->setText(text);
   }
@@ -133,7 +132,7 @@ std::vector<GuiMenuBase::ListEntry<Regions::GameRegions>> GuiMenuGamelistOptions
   Regions::GameRegions currentRegion = Regions::Clamp(RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
   for(auto region : mGamelist.AvailableRegionsInGames())
   {
-    std::string regionName = (region == Regions::GameRegions::Unknown) ? _("NONE") : Regions::RegionFullName(region);
+    String regionName = (region == Regions::GameRegions::Unknown) ? _("NONE") : Regions::RegionFullName(region);
     list.push_back({ regionName, region, region == currentRegion });
   }
 

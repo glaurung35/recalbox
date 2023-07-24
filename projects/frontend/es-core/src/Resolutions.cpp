@@ -171,9 +171,9 @@ const HashMap<int, Resolutions::SimpleResolution>& Resolutions::GetDmtMap()
   return sDmtMap;
 }
 
-const HashMap<std::string, Resolutions::SimpleResolution>& Resolutions::GetNamedMap()
+const HashMap<String, Resolutions::SimpleResolution>& Resolutions::GetNamedMap()
 {
-  static const HashMap<std::string, SimpleResolution> sNamedMap =
+  static const HashMap<String, SimpleResolution> sNamedMap =
     {
       { "nhd", {640, 360} },
       { "qhd", {960, 540} },
@@ -219,9 +219,9 @@ const HashMap<std::string, Resolutions::SimpleResolution>& Resolutions::GetNamed
   return sNamedMap;
 }
 
-Resolutions::SimpleResolution Resolutions::ConvertSimpleResolution(const std::string& resolution)
+Resolutions::SimpleResolution Resolutions::ConvertSimpleResolution(const String& resolution)
 {
-  std::string r = Strings::Trim(Strings::ToLowerASCII(resolution), " \t");
+  String r = resolution.ToLowerCase().Trim(" \t");
   // CEA ?
   if (Strings::StartsWith(r, "cea", 3))
   {
@@ -249,12 +249,12 @@ Resolutions::SimpleResolution Resolutions::ConvertSimpleResolution(const std::st
     if (sr != nullptr) return *sr;
 
     // WxH?
-    std::string sw, sh;
+    String sw, sh;
     if (Strings::SplitAt(r, 'x', sw, sh, false))
     {
-      int w, h;
-      if (Strings::ToInt(sw, w))
-        if (Strings::ToInt(sh, h))
+      int w = 0, h = 0;
+      if (sw.TryAsInt(w))
+        if (sh.TryAsInt(h))
           return { w, h };
     }
   }

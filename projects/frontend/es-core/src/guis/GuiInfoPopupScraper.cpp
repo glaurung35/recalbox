@@ -69,11 +69,11 @@ void GuiInfoPopupScraper::SetScrapedGame(const FileData& game, int value, int to
   {
     mProgressBar->setMaxValue(total);
     mProgressBar->setCurrentValue(value);
-    std::string msg(mTextTemplate);
-    Strings::ReplaceAllIn(msg, "%VALUE%", Strings::ToString(value));
-    Strings::ReplaceAllIn(msg, "%TOTAL%", Strings::ToString(total));
-    Strings::ReplaceAllIn(msg, "%NAME%", game.Metadata().Name());
-    Strings::ReplaceAllIn(msg, "%SYSTEM%", game.System().FullName());
+    String msg(mTextTemplate);
+    msg.Replace("%VALUE%", String(value))
+       .Replace("%TOTAL%", String(total))
+       .Replace("%NAME%", game.Metadata().Name())
+       .Replace("%SYSTEM%", game.System().FullName());
     mText->setVerticalAlignment(TextAlignment::Top);
     mText->setSize(Grid().getColWidth(1), Grid().getRowHeight(0));
     mText->setText(msg);

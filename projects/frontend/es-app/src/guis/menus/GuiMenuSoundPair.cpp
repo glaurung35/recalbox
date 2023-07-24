@@ -10,7 +10,7 @@
 #include <guis/GuiMsgBox.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiMenuSoundPair::GuiMenuSoundPair(WindowManager& window, const Strings::Vector& deviceList)
+GuiMenuSoundPair::GuiMenuSoundPair(WindowManager& window, const String::List& deviceList)
   : GuiMenuBase(window, _("PAIR A BLUETOOTH AUDIO DEVICE"), this)
   , mDevices(deviceList)
 {

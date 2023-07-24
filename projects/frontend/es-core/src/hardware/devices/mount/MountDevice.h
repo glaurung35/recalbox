@@ -6,9 +6,9 @@
 //
 #pragma once
 
-#include <string>
 #include "utils/os/fs/Path.h"
-#include "utils/Strings.h"
+#include "utils/String.h"
+#include "utils/Sizes.h"
 #include <sys/statvfs.h>
 
 //! Device mount info
@@ -21,7 +21,7 @@ class DeviceMount
      * @param mountpoint Mount point
      * @param name Volume Name
      */
-    DeviceMount(const Path& device, const Path& mountpoint, const std::string& name, const std::string& type, const std::string& options)
+    DeviceMount(const Path& device, const Path& mountpoint, const String& name, const String& type, const String& options)
       : mDevice(device)
       , mMountPoint(mountpoint)
       , mName(name)
@@ -30,7 +30,7 @@ class DeviceMount
       , mFreeSize(0)
       , mReadOnly(false)
     {
-      for(const std::string& option : Strings::Split(options, ','))
+      for(const String& option : options.Split(','))
         if (option == "ro")
         {
           mReadOnly = true;
@@ -42,22 +42,22 @@ class DeviceMount
      * Tool
      */
 
-    std::string DisplayableDeviceName() const
+    [[nodiscard]] String DisplayableDeviceName() const
     {
-      return std::string(mName)
-             .append(" (", 2)
-             .append(mDevice.ToString())
-             .append(1, ')');
+      return String(mName)
+             .Append(" (", 2)
+             .Append(mDevice.ToString())
+             .Append(')');
     }
 
-    std::string DisplayableFreeSpace() const
+    [[nodiscard]] String DisplayableFreeSpace() const
     {
-      return Strings::ToHumanSize(mFreeSize)
-             .append(1, '/')
-             .append(Strings::ToHumanSize(mTotalSize))
-             .append(" (", 2)
-             .append(mTotalSize == 0 ? std::string("Unknown") : Strings::ToString((mFreeSize * 100) / mTotalSize))
-             .append("%)", 2);
+      return Sizes(mFreeSize).ToHumanSize()
+             .Append('/')
+             .Append(Sizes(mTotalSize).ToHumanSize())
+             .Append(" (", 2)
+             .Append(mTotalSize == 0 ? String("Unknown") : String((mFreeSize * 100) / mTotalSize))
+             .Append("%)", 2);
     }
 
     /*!
@@ -80,19 +80,19 @@ class DeviceMount
      */
 
     //! Get device path
-    const Path& Device() const { return mDevice; }
+    [[nodiscard]] const Path& Device() const { return mDevice; }
     //! Get mount point
-    const Path& MountPoint() const { return mMountPoint; }
+    [[nodiscard]] const Path& MountPoint() const { return mMountPoint; }
     //! Get volume name
-    const std::string& Name() const { return mName; }
+    [[nodiscard]] const String& Name() const { return mName; }
     //! Get file system type
-    const std::string& Type() const { return mType; }
+    [[nodiscard]] const String& Type() const { return mType; }
     //! Total size
-    long long TotalSize() const { return mTotalSize; }
+    [[nodiscard]] long long TotalSize() const { return mTotalSize; }
     //! Free size
-    long long FreeSize() const { return mFreeSize; }
+    [[nodiscard]] long long FreeSize() const { return mFreeSize; }
     //! Get file system read-only status
-    bool ReadOnly() const { return mReadOnly; }
+    [[nodiscard]] bool ReadOnly() const { return mReadOnly; }
 
     /*
      * Operators
@@ -106,8 +106,8 @@ class DeviceMount
   private:
     Path        mDevice;     //!< Device (/dev/...)
     Path        mMountPoint; //!< Mount point (/recalbox/share/externals/...)
-    std::string mName;       //!< Volume name
-    std::string mType;       //!< FS type (ntfs, ext, ...)
+    String mName;       //!< Volume name
+    String mType;       //!< FS type (ntfs, ext, ...)
     long long   mTotalSize;  //!< Total size in byte
     long long   mFreeSize;   //!< Free size in byte
     bool        mReadOnly;   //!< Read only?

@@ -4,7 +4,7 @@
 #pragma once
 
 #include <pugixml/pugixml.hpp>
-#include <utils/Strings.h>
+#include <utils/String.h>
 
 typedef pugi::xml_document     XmlDocument;
 typedef pugi::xml_node         XmlNode;
@@ -65,7 +65,7 @@ class Xml
       XmlAttribute attribute = root.attribute(attributename);
       int value = defaultvalue;
       if (attribute != nullptr)
-        if (!Strings::ToInt(attribute.value(), value))
+        if (!String(attribute.value()).TryAsInt(value))
           value = defaultvalue;
       return value;
     }
@@ -82,7 +82,7 @@ class Xml
       XmlAttribute attribute = root.attribute(attributename);
       bool value = defaultvalue;
       if (attribute != nullptr)
-        if (!Strings::ToBool(attribute.value(), value))
+        if (!String(attribute.value()).TryAsBool(value))
           value = defaultvalue;
       return value;
     }
@@ -182,7 +182,7 @@ class Xml
      */
     static void AddAsString(XmlNode parent, const std::string& childname, int value)
     {
-      parent.append_child(childname.c_str()).text().set(Strings::ToString(value).c_str());
+      parent.append_child(childname.c_str()).text().set(String(value).c_str());
     }
 
     /*!
@@ -193,6 +193,6 @@ class Xml
      */
     static void AddAsString(XmlNode parent, const std::string& childname, float value)
     {
-      parent.append_child(childname.c_str()).text().set(Strings::ToString(value, 5).c_str());
+      parent.append_child(childname.c_str()).text().set(String(value, 5).c_str());
     }
 };

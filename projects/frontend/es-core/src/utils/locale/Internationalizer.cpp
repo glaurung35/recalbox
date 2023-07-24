@@ -193,7 +193,7 @@ bool Internationalizer::LoadMoFile(const String& culture, const Path& basepath, 
     { LOG(LogWarning) << "[Locale] " << culturePath.ToString() << " not found."; }
     // Try to compose language only
     if (realCulture.size() > 2)
-      culturePath = basepath / (realCulture = realCulture.substr(0, 2)) / "LC_MESSAGES" / (applicationname + ".mo");
+      culturePath = basepath / (realCulture = realCulture.SubString(0, 2)) / "LC_MESSAGES" / (applicationname + ".mo");
 
     // Final check
     if (!culturePath.Exists())

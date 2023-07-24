@@ -18,14 +18,14 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
 {
   public:
     explicit EditableComponent(WindowManager&window);
-    EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, int id, IEditableComponent* interface, bool masked);
-    EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, const std::function<void(const std::string&)>& callback);
-    EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align, const std::function<void(const std::string&)>& callback);
+    EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, int id, IEditableComponent* interface, bool masked);
+    EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, const std::function<void(const String&)>& callback);
+    EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align, const std::function<void(const String&)>& callback);
 
     void setFont(const std::shared_ptr<Font>& font);
     void setUppercase(bool uppercase);
     void onSizeChanged() override;
-    void setText(const std::string& text);
+    void setText(const String& text);
     void setColor(unsigned int color) override;
     inline void setOriginColor(unsigned int color) { mOriginColor = color; }
     unsigned int getOriginColor() override { return mOriginColor; }
@@ -37,8 +37,8 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    std::string getValue() const override { return mText; }
-    void setValue(const std::string& value) override { setText(value); }
+    String getValue() const override { return mText; }
+    void setValue(const String& value) override { setText(value); }
 
     unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
 
@@ -46,7 +46,7 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
 
     inline std::shared_ptr<Font> getFont() const { return mFont; }
 
-    void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+    void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
     //! Start the Virtual Keyboard to edit this component text
     void StartEditing();
@@ -60,10 +60,10 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
     NinePatchComponent mBackground;
     std::shared_ptr<Font> mFont;
     std::shared_ptr<TextCache> mTextCache;
-    std::string mText;
-    std::string mTextBackup;
-    std::string mEditTitle;
-    std::function<void(const std::string&)> mTextChanged;
+    String mText;
+    String mTextBackup;
+    String mEditTitle;
+    std::function<void(const String&)> mTextChanged;
     IEditableComponent* mInterface;
     int mIndentifier;
     unsigned int mColor;
@@ -86,13 +86,13 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
      * @brief Called when the edited text change.
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) final;
 
     /*!
      * @brief Called when the edited text is validated (Enter or Start)
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) final;
 
     /*!
      * @brief Called when the edited text is cancelled.

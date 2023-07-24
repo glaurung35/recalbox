@@ -361,7 +361,7 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
   Component::renderChildren(trans);
 }
 
-void VideoComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element,
+void VideoComponent::applyTheme(const ThemeData& theme, const String& view, const String& element,
                                 ThemeProperties properties)
 {
   const ThemeElement* elem = theme.getElement(view, element, "video");

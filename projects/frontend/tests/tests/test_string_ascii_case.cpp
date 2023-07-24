@@ -27,14 +27,14 @@ TEST_F(StringTestAsciiCase, TestASCIILower)
   String sBaseLower(" *<{[(recalbox)]}>*\n\t- the best retrogaming system! try it, you won't be disappointed! hahaha!");
   for(int i = sBase.Count(); --i >= 0; )
   {
-    String sub(sBase.substr(0, i).data());
+    String sub(sBase.SubString(0, i).data());
     String compareTo(sBaseLower, 0, i);
     ASSERT_TRUE(sub.LowerCase() == compareTo);
     ASSERT_TRUE(sub == compareTo);
   }
   for(int i = sBase.Count(); --i >= 0; )
   {
-    String sub(sBase.substr(0, i).data());
+    String sub(sBase.SubString(0, i).data());
     String subUnmodified(sub);
     String compareTo(sBaseLower, 0, i);
     ASSERT_TRUE(sub.ToLowerCase() == compareTo);
@@ -83,14 +83,14 @@ TEST_F(StringTestAsciiCase, TestASCIIUpper)
   String sBaseUpper(" *<{[(RECALBOX)]}>*\n\t- THE BEST RETROGAMING SYSTEM! TRY IT, YOU WON'T BE DISAPPOINTED! HAHAHA!");
   for(int i = sBase.Count(); --i >= 0; )
   {
-    String sub(sBase.substr(0, i).data());
+    String sub(sBase.SubString(0, i).data());
     String compareTo(sBaseUpper, 0, i);
     ASSERT_TRUE(sub.UpperCase() == compareTo);
     ASSERT_TRUE(sub == compareTo);
   }
   for(int i = sBase.Count(); --i >= 0; )
   {
-    String sub(sBase.substr(0, i).data());
+    String sub(sBase.SubString(0, i).data());
     String subUnmodified(sub);
     String compareTo(sBaseUpper, 0, i);
     ASSERT_TRUE(sub.ToUpperCase() == compareTo);

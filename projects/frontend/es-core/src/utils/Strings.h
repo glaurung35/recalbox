@@ -46,8 +46,6 @@ class Strings
 
     static std::string unicode2Chars(unsigned int _unicode);
 
-    /**/ static std::string ToLowerUTF8(const std::string& _string);
-
     /**/ static std::string ToUpperUTF8(const std::string& _string);
 
     /**/ static std::string ToLowerASCII(const std::string& _string);
@@ -114,42 +112,17 @@ class Strings
 
     /**/ static bool ToFloat(const std::string& source, float& out) { return ToFloat(source, 0, 0, out); }
 
-    /**/ static bool ToBool(const std::string& source, int index, char stop, bool& out);
-
-    /**/ static bool ToBool(const std::string& source, bool& out) { return ToBool(source, 0, 0, out); }
-
     /**/ static bool HexToInt(const std::string& from, int index, char stop, int& out);
 
     /**/ static bool HexToInt(const std::string& from, int index, int& out) { return HexToInt(from, index, 0, out); }
 
     /**/ static bool HexToInt(const std::string& from, int& out) { return HexToInt(from, 0, 0, out); }
 
-    /**/ static std::string ToString(bool value);
-
-    /**/ static std::string ToString(int value);
-
-    /**/ static std::string ToString(unsigned int value);
-
-    /**/ static std::string ToString(long long value);
-
-    /**/ static std::string ToString(unsigned long long value);
-
-    /**/ static std::string ToString(float value, int precision);
-
     /**/ static std::string ToHexa(int hex, int length);
 
     /**/ static std::string UnicodeToUtf8(const std::vector<unsigned int>& unicodes);
 
     /**/ static std::vector<unsigned int> Utf8ToUnicode(const std::string& utf8);
-
-    /*!
-     * @brief Transform the given size in its best human-readable string representation
-     * example: 13KB, 25.6MB, 859.41GB, ...
-     * @param size Source size in byte
-     * @return String representation
-     */
-    /**/ static std::string ToHumanSize(long long size);
-
     static std::string Decode64(const std::string& base64);
 };
 

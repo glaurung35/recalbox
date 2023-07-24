@@ -90,7 +90,7 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	else
 	{
 		for (auto& button : mButtons)
-			if(Strings::ToUpperASCII(button->getText()) == "OK" || Strings::ToUpperASCII(button->getText()) == "NO")
+			if (String buttonUC(button->getText().ToUpperCase()); buttonUC == "OK" || buttonUC == "NO")
 			{
 				mAcceleratorFunc = button->getPressedFunc();
 				break;

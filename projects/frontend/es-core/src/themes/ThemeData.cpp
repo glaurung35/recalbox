@@ -18,9 +18,9 @@ bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
 
-std::vector<String>& ThemeData::SupportedViews()
+String::List& ThemeData::SupportedViews()
 {
-  static std::vector<String> sSupportedViews =
+  static String::List sSupportedViews =
   {
     { "system"  },
     { "basic"   },
@@ -31,9 +31,9 @@ std::vector<String>& ThemeData::SupportedViews()
   return sSupportedViews;
 }
 
-std::vector<String>& ThemeData::SupportedFeatures()
+String::List& ThemeData::SupportedFeatures()
 {
-  static std::vector<String> sSupportedFeatures =
+  static String::List sSupportedFeatures =
   {
     {"carousel" },
     {"z-index"  },
@@ -362,10 +362,10 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 	// parse version
 	mVersion = root.child("formatVersion").text().as_float(-404);
 	if(mVersion == -404)
-		throw ThemeException("<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + Strings::ToString(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag.", mPaths);
+		throw ThemeException("<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag.", mPaths);
 
 	if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-		throw ThemeException("Theme uses format version " + Strings::ToString(mVersion, 2) + ". Minimum supported version is " + Strings::ToString(MINIMUM_THEME_FORMAT_VERSION) + '.', mPaths);
+		throw ThemeException("Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.', mPaths);
 	
 	parseIncludes(root);
 	parseViews(root);
@@ -485,7 +485,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 		String viewKey;
 		while(off != String::npos || prevOff != String::npos)
 		{
-			viewKey = nameAttr.substr(prevOff, off - prevOff);
+			viewKey = nameAttr.SubString(prevOff, off - prevOff);
 			if (viewKey == "menu")
 				SetThemeHasMenuView(true);
 			prevOff = nameAttr.find_first_not_of(delim, off);
@@ -524,7 +524,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 			size_t off =  nameAttr.find_first_of(delim, prevOff);
 			while(off != String::npos || prevOff != String::npos)
 			{
-				String elemKey = nameAttr.substr(prevOff, off - prevOff);
+				String elemKey = nameAttr.SubString(prevOff, off - prevOff);
 				prevOff = nameAttr.find_first_not_of(delim, off);
 				off = nameAttr.find_first_of(delim, prevOff);
 
@@ -551,7 +551,7 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
 		size_t off =  nameAttr.find_first_of(delim, prevOff);
 		while(off != String::npos || prevOff != String::npos)
 		{
-			String elemKey = nameAttr.substr(prevOff, off - prevOff);
+			String elemKey = nameAttr.SubString(prevOff, off - prevOff);
 			prevOff = nameAttr.find_first_not_of(delim, off);
 			off = nameAttr.find_first_of(delim, prevOff);
 			if (elemKey == mRegion)
@@ -577,7 +577,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 		if(typeIt == typeMap.end())
 			throw ThemeException("Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ").", mPaths);
 		
-    String str = Strings::Trim(resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath));
+    String str = resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
 
 		switch(typeIt->second)
 		{

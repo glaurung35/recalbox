@@ -31,7 +31,7 @@ GuiMenuNetplay::GuiMenuNetplay(WindowManager& window, SystemManager& systemManag
   AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
 
   // netplay port
-  AddEditable(_("PORT"), Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
+  AddEditable(_("PORT"), String(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
 
   //mitm
   AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
@@ -160,7 +160,7 @@ FileData* GuiMenuNetplay::ThreadPoolRunJob(FileData*& feed)
       if (percent != mPreviousProgressPercent)
       {
         mPreviousProgressPercent = percent;
-        mOperation->SetText(_("Preparing Games...").Append(Strings::ToString(percent)).Append('%'));
+        mOperation->SetText(_("Preparing Games...").Append(percent).Append('%'));
       }
     }
   }

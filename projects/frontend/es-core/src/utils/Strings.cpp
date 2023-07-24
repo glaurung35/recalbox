@@ -33,52 +33,6 @@ bool Strings::sInitialize()
   return true;
 }
 
-std::string Strings::ToLowerUTF8(const std::string& _string)
-{
-  std::string result = _string; // Allocate memory once
-  int l = (int)_string.length();
-
-  for(int cursor = 0; cursor < l; )
-  {
-    unsigned char c = result[cursor];
-    if((c & 0x80) == 0) // 0xxxxxxx, one byte character
-    {
-      // Simple ASCII7 uppercase
-      if (c - 0x41u < 26u) result[cursor] = (char)(c | 0x20);
-      cursor++;
-    }
-    else if((c & 0xE0) == 0xC0) // 110xxxxx, two byte character
-    {
-      // Unicode lowercase
-      unsigned short u = sCapitalToSmall[(unsigned short)((c & 0x1F) << 6) | ((result[cursor + 1] & 0x3F))];
-      if (u != 0)
-      {
-        result[cursor + 0] = (char)(((u >>  6) & 0xFF) | 0xC0);
-        result[cursor + 1] = (char)(((u      ) & 0x3F) | 0x80);
-      }
-      cursor += 2;
-    }
-    else if((c & 0xF0) == 0xE0) // 1110xxxx, three byte character
-    {
-      // 1110xxxx 10xxxxxx 10xxxxxx
-      unsigned short u = sCapitalToSmall[(unsigned short)((result[cursor + 0] & 0x0F) << 12) |
-                                         ((result[cursor + 1] & 0x3F) <<  6) |
-                                         ((result[cursor + 2] & 0x3F))];
-      if (u != 0)
-      {
-        result[cursor + 0] = (char)(((u >> 12) & 0xFF) | 0xE0);
-        result[cursor + 1] = (char)(((u >>  6) & 0x3F) | 0x80);
-        result[cursor + 2] = (char)(((u      ) & 0x3F) | 0x80);
-      }
-      cursor += 3;
-    }
-    else if((c & 0xF8) == 0xF0) cursor += 4; // 11110xxx, four byte character, ignore!
-    else ++cursor; // error, invalid unicode
-  }
-
-  return result;
-}
-
 std::string Strings::ToUpperUTF8(const std::string& _string)
 {
   std::string result = _string; // Allocate memory once
@@ -577,120 +531,6 @@ bool Strings::ToFloat(const std::string& source, int index, char stop, float& ou
   return true;
 }
 
-bool Strings::ToBool(const std::string& source, int index, char stop, bool& out)
-{
-  if (index >= (int)source.size()) return false;
-  const char* src = source.c_str() + index;
-
-  // Try numeric
-  if ((src[0] == '1') && (src[1] == stop)) { out = true; return true; }
-  if ((src[0] == '0') && (src[1] == stop)) { out = false; return true; }
-
-  // Try textual
-  const int Mask = 0xDF;
-  if (((src[0] & Mask) == 'T') && ((src[1] & Mask) == 'R') && ((src[2] & Mask) == 'U') && ((src[3] & Mask) == 'E') && (src[4] == stop)) { out = true; return true; }
-  if (((src[0] & Mask) == 'F') && ((src[1] & Mask) == 'A') && ((src[2] & Mask) == 'L') && ((src[3] & Mask) == 'S') && ((src[4] & Mask) == 'E') && (src[5] == stop)) { out = false; return true; }
-
-  return false;
-}
-
-std::string Strings::ToString(int integer)
-{
-  char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
-  int Index = INT32BUFFERLEN - 1;
-  bool Sign = (integer < 0);
-  if (Sign) integer = -integer;
-  if (integer < 0) return ToString((long long)integer);
-
-  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
-  if (Sign) Buffer[--Index] = '-';
-
-  return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
-}
-
-std::string Strings::ToString(unsigned int integer)
-{
-  char Buffer[INT32BUFFERLEN]; Buffer[INT32BUFFERLEN - 1] = 0;
-  int Index = INT32BUFFERLEN - 1;
-
-  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
-
-  return std::string(Buffer + Index, (INT32BUFFERLEN - 1) - Index);
-}
-
-std::string Strings::ToString(long long integer)
-{
-  char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
-  int Index = INT64BUFFERLEN - 1;
-  bool Sign = (integer < 0);
-  if (Sign) integer = -integer;
-
-  if (integer >= 0) do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
-  else do { Buffer[--Index] = (char)(0x30 + -(integer % 10)); integer /= 10; } while (integer != 0);
-  if (Sign) Buffer[--Index] = '-';
-
-  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
-}
-
-std::string Strings::ToString(unsigned long long integer)
-{
-  char Buffer[INT64BUFFERLEN]; Buffer[INT64BUFFERLEN - 1] = 0;
-  int Index = INT64BUFFERLEN - 1;
-
-  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
-
-  return std::string(Buffer + Index, (INT64BUFFERLEN - 1) - Index);
-}
-
-static float Pow10[] =
-{
-  1.0f,
-  10.0f,
-  100.0f,
-  1000.0f,
-  10000.0f,
-  100000.0f,
-  1000000.0f,
-  10000000.0f,
-  100000000.0f,
-  1000000000.0f,
-  10000000000.0f,
-};
-
-std::string Strings::ToString(float value, int precision)
-{
-  // Sign
-  bool sign = value < 0.0f;
-  if (sign) value = -value;
-
-  // Extract integer part
-  int integer = (int)value;
-  // Extract floating part
-  float fpart = value - (float)integer;
-
-  char Buffer[FLOATBUFFERLEN * 2]; Buffer[FLOATBUFFERLEN - 1] = 0;
-  int Index = FLOATBUFFERLEN - 1;
-
-  do { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; } while (integer != 0);
-  if (sign) Buffer[--Index] = '-';
-
-  // check for display option after point
-  if (precision > 0)
-  {
-    int Start = Index;
-    Buffer[FLOATBUFFERLEN - 1] = '.';
-    if (precision > 10) precision = 10;
-
-    Index = FLOATBUFFERLEN + precision; Buffer[Index] = 0;
-    fpart *= Pow10[precision]; integer = (int)fpart;
-    while(Index > FLOATBUFFERLEN) { Buffer[--Index] = (char)(0x30 + (integer % 10)); integer /= 10; }
-
-    return std::string(Buffer + Start, (FLOATBUFFERLEN - Start) + precision);
-  }
-
-  return std::string(Buffer + Index, (FLOATBUFFERLEN - 1) - Index);
-}
-
 bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
 {
   if (index >= (int)from.size()) return false;
@@ -719,11 +559,6 @@ bool Strings::HexToInt(const std::string& from, int index, char stop, int& out)
 
   out = Result;
   return true;
-}
-
-std::string Strings::ToString(bool value)
-{
-  return value ? "1" : "0";
 }
 
 static const char* HexaChars = "0123456789ABCDEF";
@@ -799,23 +634,6 @@ Strings::Vector Strings::SplitQuoted(const std::string& _string, char splitter, 
   output.push_back(std::string(Last, (int)(End - Last)));
 
   return output;
-}
-
-std::string Strings::ToHumanSize(long long int size)
-{
-  // Bytes
-  if (size < (1 << 10)) return ToString((int)size).append(1, 'B');
-  // KB
-  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("KB", 2);
-  // MB
-  size >>= 10;
-  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("MB", 2);
-  // GB
-  size >>= 10;
-  if (size < (1 << 20)) return ToString((float)size / 1024.f, 2).append("GB", 2);
-  // TB
-  size >>= 10;
-  return ToString((float)size / 1024.f, 2).append("TB", 2);
 }
 
 static const char Base64Values[] =

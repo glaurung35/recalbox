@@ -47,7 +47,7 @@ void TextEditComponent::onSizeChanged()
 	onTextChanged(); // wrap point probably changed
 }
 
-void TextEditComponent::setValue(const std::string& val)
+void TextEditComponent::setValue(const String& val)
 {
   mText = val;
 	onTextChanged();
@@ -69,7 +69,7 @@ void TextEditComponent::textInput(const char* text)
   }
   else
   {
-    mText.insert(mCursor, text);
+    mText.Insert(mCursor, text);
     mCursor += strlen(text);
   }
 
@@ -96,13 +96,13 @@ void TextEditComponent::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& 
   (void)vk;
 }
 
-void TextEditComponent::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void TextEditComponent::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text)
 {
   (void)vk;
   (void)text;
 }
 
-void TextEditComponent::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void TextEditComponent::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text)
 {
   (void)vk;
   setValue(text);
@@ -189,7 +189,7 @@ void TextEditComponent::moveCursor(int amt)
 
 void TextEditComponent::setCursor(size_t pos)
 {
-	if(pos == std::string::npos)
+	if(pos == String::npos)
 		mCursor = mText.length();
 	else
 		mCursor = (int)pos;
@@ -199,7 +199,7 @@ void TextEditComponent::setCursor(size_t pos)
 
 void TextEditComponent::onTextChanged()
 {
-	std::string wrappedText = (isMultiline() ? mFont->wrapText(mText, getTextAreaSize().x()) : mText);
+	String wrappedText = (isMultiline() ? mFont->wrapText(mText, getTextAreaSize().x()) : mText);
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(wrappedText, 0, 0, 0x77777700 | getOpacity()));
 
 	if(mCursor > (int)mText.length())
@@ -223,7 +223,7 @@ void TextEditComponent::onCursorChanged()
 			mScrollOffset[1] = textSize.y();
 		}
 	}else{
-		Vector2f cursorPos = mFont->sizeText(mText.substr(0, mCursor));
+		Vector2f cursorPos = mFont->sizeText(mText.SubString(0, mCursor));
 
 		if(mScrollOffset.x() + getTextAreaSize().x() < cursorPos.x())
 		{
@@ -270,7 +270,7 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 		{
 			cursorPos = mFont->getWrappedTextCursorOffset(mText, getTextAreaSize().x(), mCursor);
 		}else{
-			cursorPos = mFont->sizeText(mText.substr(0, mCursor));
+			cursorPos = mFont->sizeText(mText.SubString(0, mCursor));
 			cursorPos[1] = 0;
 		}
 

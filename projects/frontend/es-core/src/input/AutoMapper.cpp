@@ -388,16 +388,16 @@ String AutoMapper::BuildMapping(const String& sdlMapping) const
         case BTN_C:
         case BTN_NORTH:
         case BTN_WEST:
-        case BTN_Z: if (buttonIndex < 4) result.Append(buttonNames[buttonIndex]).Append(":b").Append(Strings::ToString(buttonIndex)).Append(','); mainButtons = true; break;
-        case BTN_TL: result.Append("leftshoulder:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_TR: result.Append("rightshoulder:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_TL2: result.Append("lefttrigger:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_TR2: result.Append("righttrigger:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_SELECT: result.Append("back:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_START: result.Append("start:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_MODE: if (hasGuide) result.Append("guide:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_THUMBL: result.Append("leftstick:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
-        case BTN_THUMBR: result.Append("rightstick:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_Z: if (buttonIndex < 4) result.Append(buttonNames[buttonIndex]).Append(":b").Append(buttonIndex).Append(','); mainButtons = true; break;
+        case BTN_TL: result.Append("leftshoulder:b").Append(buttonIndex).Append(','); break;
+        case BTN_TR: result.Append("rightshoulder:b").Append(buttonIndex).Append(','); break;
+        case BTN_TL2: result.Append("lefttrigger:b").Append(buttonIndex).Append(','); break;
+        case BTN_TR2: result.Append("righttrigger:b").Append(buttonIndex).Append(','); break;
+        case BTN_SELECT: result.Append("back:b").Append(buttonIndex).Append(','); break;
+        case BTN_START: result.Append("start:b").Append(buttonIndex).Append(','); break;
+        case BTN_MODE: if (hasGuide) result.Append("guide:b").Append(buttonIndex).Append(','); break;
+        case BTN_THUMBL: result.Append("leftstick:b").Append(buttonIndex).Append(','); break;
+        case BTN_THUMBR: result.Append("rightstick:b").Append(buttonIndex).Append(','); break;
         default: break;
       }
       buttonIndex++;

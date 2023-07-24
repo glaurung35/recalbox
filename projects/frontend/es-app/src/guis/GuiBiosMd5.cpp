@@ -36,7 +36,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
       mList->add(md5, true, isMatching ? sColorIndexNormal : sColorIndexHalf, isMatching ? sColorIndexGreen : -1, HorizontalAlignment::Right);
     }
   }
-  mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString((int)list.size())));
+  mHeader->setValue(_("%i Known MD5").Replace("%i", String((int)list.size())));
 }
 
 GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
@@ -57,7 +57,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
     for (const String& md5 : list)
       mList->add(md5, true, sColorIndexNormal, -1, HorizontalAlignment::Right);
   }
-  mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString(count)));
+  mHeader->setValue(_("%i Known MD5").Replace("%i", String(count)));
 }
 
 void GuiBiosMd5::BuildUI()

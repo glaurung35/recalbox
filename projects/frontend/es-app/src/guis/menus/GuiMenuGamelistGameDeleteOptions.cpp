@@ -13,35 +13,34 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
   if (mGame.IsGame())
   {
     // Footer
-    std::string gameName(game.Name());
-    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    String gameName(game.Name());
+    gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
+    SetFooter(_("GAME %s").Replace("%s", gameName.ToUpperCaseUTF8()));
 
     // Delete
     mGameFiles = GameFilesUtils::GetGameSubFiles(mGame);
-    std::string fileCount = Strings::Replace(_N("%i file", "%i files", (int) mGameFiles.size() + 1), "%i",
-                                   Strings::ToString((int) mGameFiles.size() + 1));
+    String fileCount = _N("%i file", "%i files", (int) mGameFiles.size() + 1).Replace("%i", String((int) mGameFiles.size() + 1));
     AddText(_("GAME FILES (ROM | DISK IMAGE)"), fileCount);
 
     mMediaFiles = GameFilesUtils::GetMediaFiles(mGame);
-    if(!mMediaFiles.empty()) {
-        fileCount = Strings::Replace(_N("%i file", "%i files", (int) mMediaFiles.size()), "%i",
-                                     Strings::ToString((int) mMediaFiles.size()));
-        AddText(_("MEDIA FILES"), fileCount);
+    if(!mMediaFiles.empty())
+    {
+      fileCount = _N("%i file", "%i files", (int) mMediaFiles.size()).Replace("%i",String((int) mMediaFiles.size()));
+      AddText(_("MEDIA FILES"), fileCount);
     }
 
     mExtraFiles = GameFilesUtils::GetGameExtraFiles(mGame);
-    if(!mExtraFiles.empty()) {
-        fileCount = Strings::Replace(_N("%i file", "%i files", (int) GameFilesUtils::GetGameExtraFiles(mGame).size()), "%i",
-                                     Strings::ToString((int) GameFilesUtils::GetGameExtraFiles(mGame).size()));
-        AddText(_("CONFIGURATION AND PATCH FILES"), fileCount);
+    if(!mExtraFiles.empty())
+    {
+      fileCount = _N("%i file", "%i files", (int) GameFilesUtils::GetGameExtraFiles(mGame).size()).Replace("%i", String((int) GameFilesUtils::GetGameExtraFiles(mGame).size()));
+      AddText(_("CONFIGURATION AND PATCH FILES"), fileCount);
     }
 
     mSaveFiles = GameFilesUtils::GetGameSaveFiles(mGame);
-    if(!mSaveFiles.empty()) {
-        fileCount = Strings::Replace(_N("%i file", "%i files", (int) mSaveFiles.size()), "%i",
-                                     Strings::ToString((int) mSaveFiles.size()));
-        AddText(_("SAVE FILES"), fileCount);
+    if(!mSaveFiles.empty())
+    {
+      fileCount = _N("%i file", "%i files", (int) mSaveFiles.size()).Replace("%i", String((int) mSaveFiles.size()));
+      AddText(_("SAVE FILES"), fileCount);
     }
 
     AddSubMenu(_("ADVANCED DELETE"),  (int)Components::Advanced, "");
@@ -84,7 +83,7 @@ void GuiMenuGamelistGameDeleteOptions::SubMenuSelected(int id)
   }
 }
 
-std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
+String GuiMenuGamelistGameDeleteOptions::ComputeMessage()
 {
   String message = _("Game").Append(": ").Append(mGame.Name()).Append('\n');
   message.Append(_("You are about to delete this files, confirm ?"));

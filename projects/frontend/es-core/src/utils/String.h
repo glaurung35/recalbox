@@ -3408,6 +3408,7 @@ class String : public std::string
     using std::string::append;
     using std::string::assign;
     using std::string::insert;
+    using std::string::substr;
 
     /*
      * Counters

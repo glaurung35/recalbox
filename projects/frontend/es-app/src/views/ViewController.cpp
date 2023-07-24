@@ -454,7 +454,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
         std::vector<Path> patches = GameFilesUtils::GetSoftPatches(mGameToLaunch);
         if (!mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
         {
-          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, patches, mSoftPatchingLastChoice, this));
+          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, std::move(patches), mSoftPatchingLastChoice, this));
           return true;
         }
         break;

@@ -8,7 +8,7 @@
 
 GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
                                                          FileData& game,
-                                                         std::vector<Path>& patches,
+                                                         std::vector<Path>&& patches,
                                                          int lastChoice,
                                                          ISoftPatchingNotifier* notifier)
   : GuiMenuBase(window, _("SOFTPATCHING"), nullptr)

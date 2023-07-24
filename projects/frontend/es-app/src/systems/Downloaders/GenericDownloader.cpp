@@ -168,7 +168,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
           TimeSpan elapsed = DateTime() - mTimeReference;
           TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
 
-          std::string text = _("Downloading... Estimated time: %s");
+          String text = _("Downloading... Estimated time: %s");
           Strings::ReplaceAllIn(text, "%s", eta.ToTimeString());
           mUpdater.UpdateETAText(text);
       }
@@ -179,7 +179,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      std::string text = _("Installing %s games");
+      String text = _("Installing %s games");
       Strings::ReplaceAllIn(text, "%s", String(mGames));
       mUpdater.UpdateETAText(text);
       break;
@@ -189,7 +189,7 @@ void GenericDownloader::ReceiveSyncMessage(const GenericDownloadingGameState &co
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      std::string text = _("Updating metadata...");
+      String text = _("Updating metadata...");
       Strings::ReplaceAllIn(text, "%s", String(mCurrentSize));
       if (mCurrentSize == 0) text = _("Refreshing gamelist...");
       mUpdater.UpdateETAText(text);

@@ -154,14 +154,14 @@ class MainRunner
     BluetoothListener mBluetooth;
 
     //! Known added devices
-    HashSet<std::string> mAddedDevices;
+    HashSet<String> mAddedDevices;
     //! Known empty added devices
-    HashSet<std::string> mAddedEmptyDevices;
+    HashSet<String> mAddedEmptyDevices;
     //! Known removed devices
-    HashSet<std::string> mRemovedDevices;
+    HashSet<String> mRemovedDevices;
 
     //! Ignored files
-    HashSet<std::string> mIgnoredFiles;
+    HashSet<String> mIgnoredFiles;
 
     /*!
      * @brief Reset last exit state
@@ -367,9 +367,9 @@ class MainRunner
      * @param level Patron level
      * @param patreonName Patreon name
      */
-    void PatreonState(PatronAuthenticationResult result, int level, const std::string& patreonName) final;
+    void PatreonState(PatronAuthenticationResult result, int level, const String& patreonName) final;
 
-    bool IsFileIgnored(const std::string& path)
+    bool IsFileIgnored(const String& path)
     {
       bool isIgnored = mIgnoredFiles.contains(path);
       if(isIgnored) {
@@ -407,7 +407,7 @@ class MainRunner
      * @param windowed No fullscreen
      * @param runCount Number of time the MainRunner has been run
      */
-    MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug);
+    MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug);
 
     //! Destructor
     ~MainRunner() override;
@@ -428,7 +428,7 @@ class MainRunner
      * @brief Set the system locale
      * @param executablePath Path to current executable
      */
-    static void SetLocale(const std::string& executablePath);
+    static void SetLocale(const String& executablePath);
 
     /*!
      * @brief Set debug log state

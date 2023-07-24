@@ -24,8 +24,8 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
 {
   if (mGame.IsGame())
   {
-    std::string gameName(game.Name());
-    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
+    String gameName(game.Name());
+    gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
     SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
   }
   else if (mGame.IsFolder())
@@ -121,10 +121,10 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
   (void)index;
   if ((Components)id == Components::Emulator)
   {
-    mGame.Metadata().SetEmulator(Strings::Empty);
-    mGame.Metadata().SetCore(Strings::Empty);
+    mGame.Metadata().SetEmulator(String::Empty);
+    mGame.Metadata().SetCore(String::Empty);
     // Split emulator & core
-    std::string emulator, core;
+    String emulator, core;
     if (Strings::SplitAt(value, ':', emulator, core, false))
       if (emulator != mDefaultEmulator || core != mDefaultCore)
       {
@@ -143,7 +143,7 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
     mGame.Metadata().SetGenreId(value);
 }
 
-void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::Name)
     mGame.Metadata().SetName(text);

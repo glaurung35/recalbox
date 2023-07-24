@@ -7,61 +7,61 @@
 
 #include "ScreenScraperEndPoints.h"
 #include "EmulationStation.h"
-#include "utils/Strings.h"
 #include "systems/SystemData.h"
+#include "utils/network/Url.h"
 #include <games/adapter/GameAdapter.h>
 
-std::string ScreenScraperEndPoints::BuildUrlCommon(ScreenScraperEndPoints::Api api, const std::string& login, const std::string& password)
+String ScreenScraperEndPoints::BuildUrlCommon(ScreenScraperEndPoints::Api api, const String& login, const String& password)
 {
   // Url
-  std::string result("https://www.screenscraper.fr/api2/");
+  String result("https://www.screenscraper.fr/api2/");
   // Api
   switch(api)
   {
-    case Api::UserInfo: result.append("ssuserInfos.php?"); break;
-    case Api::GameInfo: result.append("jeuInfos.php?"); break;
+    case Api::UserInfo: result.Append("ssuserInfos.php?"); break;
+    case Api::GameInfo: result.Append("jeuInfos.php?"); break;
   }
   // Format
-  result.append("output=json");
+  result.Append("output=json");
   // Dev
-  result.append("&devid=").append(XOrTheSpaceSheriff(API_DEV_U, API_DEV_K));
-  result.append("&devpassword=").append(XOrTheSpaceSheriff(API_DEV_P, API_DEV_K));
+  result.Append("&devid=").Append(XOrTheSpaceSheriff(API_DEV_U, API_DEV_K));
+  result.Append("&devpassword=").Append(XOrTheSpaceSheriff(API_DEV_P, API_DEV_K));
   // Software
-  result.append("&softname=").append(Strings::URLEncode("Emulationstation-Recalbox-" + Strings::Trim(PROGRAM_VERSION_STRING)));
+  result.Append("&softname=").Append(Url::URLEncode("Emulationstation-Recalbox-" + String(PROGRAM_VERSION_STRING).Trim()));
   // Credentials
-  result.append("&ssid=").append(login);
-  result.append("&sspassword=").append(password);
+  result.Append("&ssid=").Append(login);
+  result.Append("&sspassword=").Append(password);
 
   return result;
 }
 
-std::string ScreenScraperEndPoints::GetUserInfoUrl(const std::string& login, const std::string& password)
+String ScreenScraperEndPoints::GetUserInfoUrl(const String& login, const String& password)
 {
   return BuildUrlCommon(Api::UserInfo, login, password);
 }
 
-std::string ScreenScraperEndPoints::GetGameInfoUrl(const std::string& login, const std::string& password, const FileData& game,
-                                                   const std::string& crc32, const std::string& md5, long long int size)
+String ScreenScraperEndPoints::GetGameInfoUrl(const String& login, const String& password, const FileData& game,
+                                                   const String& crc32, const String& md5, long long int size)
 {
   // Build the common part
-  std::string result(BuildUrlCommon(Api::GameInfo, login, password));
+  String result(BuildUrlCommon(Api::GameInfo, login, password));
 
   // Add gameinfo properties
-  result.append("&romtype=rom");
-  result.append("&systemeid=").append(Strings::ToString(game.System().Descriptor().ScreenScaperID()));
-  result.append("&romnom=").append(Strings::URLEncode(GameAdapter(game).ScrapingName()));
-  result.append("&romtaille=").append(Strings::ToString(size));
+  result.Append("&romtype=rom");
+  result.Append("&systemeid=").Append(game.System().Descriptor().ScreenScaperID());
+  result.Append("&romnom=").Append(Url::URLEncode(GameAdapter(game).ScrapingName()));
+  result.Append("&romtaille=").Append(size);
   if (!crc32.empty())
-    result.append("&crc=").append(crc32);
+    result.Append("&crc=").Append(crc32);
   if (!md5.empty())
-    result.append("&md5=").append(md5);
+    result.Append("&md5=").Append(md5);
 
   return result;
 }
 
-std::string ScreenScraperEndPoints::XOrTheSpaceSheriff(const std::string& _input, const std::string& key)
+String ScreenScraperEndPoints::XOrTheSpaceSheriff(const String& _input, const String& key)
 {
-  std::string buffer = _input;
+  String buffer = _input;
   for (int i = (int) _input.size(); --i >= 0;)
     buffer[i] = (char) ((unsigned char)_input[i] ^ (unsigned char)(key[i % key.size()] + (i * 17)));
   return buffer;

@@ -5,19 +5,19 @@
 #include <scraping/ScraperTools.h>
 #include "ScreenScraperEnums.h"
 
-ScreenScraperEnums::ScreenScraperRegionPriority ScreenScraperEnums::ScreenScraperRegionPriorityFromString(const std::string& regionPriority)
+ScreenScraperEnums::ScreenScraperRegionPriority ScreenScraperEnums::ScreenScraperRegionPriorityFromString(const String& regionPriority)
 {
   if (regionPriority == "favoriteRegion") return ScreenScraperEnums::ScreenScraperRegionPriority::FavoriteRegion;
   return ScreenScraperEnums::ScreenScraperRegionPriority::DetectedRegion;
 }
 
-const std::string& ScreenScraperEnums::ScreenScraperRegionPriorityFromEnum(ScreenScraperRegionPriority regionPriority)
+const String& ScreenScraperEnums::ScreenScraperRegionPriorityFromEnum(ScreenScraperRegionPriority regionPriority)
 {
   switch (regionPriority)
   {
     case ScreenScraperEnums::ScreenScraperRegionPriority::FavoriteRegion:
     {
-      static std::string sScraper = "favoriteRegion";
+      static String sScraper = "favoriteRegion";
       return sScraper;
     }
     case ScreenScraperEnums::ScreenScraperRegionPriority::DetectedRegion:
@@ -25,11 +25,11 @@ const std::string& ScreenScraperEnums::ScreenScraperRegionPriorityFromEnum(Scree
       break;
     }
   }
-  static std::string sScraper = "DetectedRegion";
+  static String sScraper = "DetectedRegion";
   return sScraper;
 }
 
-ScreenScraperEnums::ScreenScraperImageType ScreenScraperEnums::ScreenScraperImageTypeFromString(const std::string& imageType)
+ScreenScraperEnums::ScreenScraperImageType ScreenScraperEnums::ScreenScraperImageTypeFromString(const String& imageType)
 {
   if (imageType == "None") return ScreenScraperImageType::None;
   if (imageType == "InGameScreenShot") return ScreenScraperImageType::ScreenshotIngame;
@@ -43,53 +43,53 @@ ScreenScraperEnums::ScreenScraperImageType ScreenScraperEnums::ScreenScraperImag
   return ScreenScraperImageType::Unknown;
 }
 
-const std::string& ScreenScraperEnums::ScreenScraperImageTypeFromEnum(ScreenScraperImageType imageType)
+const String& ScreenScraperEnums::ScreenScraperImageTypeFromEnum(ScreenScraperImageType imageType)
 {
   switch (imageType)
   {
     case ScreenScraperImageType::None:
     {
-      static std::string sImageType = "None";
+      static String sImageType = "None";
       return sImageType;
     }
     case ScreenScraperImageType::ScreenshotIngame:
     {
-      static std::string sImageType = "InGameScreenShot";
+      static String sImageType = "InGameScreenShot";
       return sImageType;
     }
     case ScreenScraperImageType::ScreenshotTitle:
     {
-      static std::string sImageType = "TitleScreenshot";
+      static String sImageType = "TitleScreenshot";
       return sImageType;
     }
     case ScreenScraperImageType::Wheel:
     {
-      static std::string sImageType = "ClearLogo";
+      static String sImageType = "ClearLogo";
       return sImageType;
     }
     case ScreenScraperImageType::Marquee:
     {
-      static std::string sImageType = "Marquee";
+      static String sImageType = "Marquee";
       return sImageType;
     }
     case ScreenScraperImageType::Box2d:
     {
-      static std::string sImageType = "Box2D";
+      static String sImageType = "Box2D";
       return sImageType;
     }
     case ScreenScraperImageType::Box3d:
     {
-      static std::string sImageType = "Box3D";
+      static String sImageType = "Box3D";
       return sImageType;
     }
     case ScreenScraperImageType::MixV1:
     {
-      static std::string sImageType = "MixV1";
+      static String sImageType = "MixV1";
       return sImageType;
     }
     case ScreenScraperImageType::MixV2:
     {
-      static std::string sImageType = "MixV2";
+      static String sImageType = "MixV2";
       return sImageType;
     }
     case ScreenScraperImageType::Unknown:
@@ -97,29 +97,29 @@ const std::string& ScreenScraperEnums::ScreenScraperImageTypeFromEnum(ScreenScra
       break;
     }
   }
-  static std::string sImageType = "Unknown";
+  static String sImageType = "Unknown";
   return sImageType;
 }
 
-ScreenScraperEnums::ScreenScraperVideoType ScreenScraperEnums::ScreenScraperVideoTypeFromString(const std::string& videoType)
+ScreenScraperEnums::ScreenScraperVideoType ScreenScraperEnums::ScreenScraperVideoTypeFromString(const String& videoType)
 {
   if (videoType == "NormalizedVideo") return ScreenScraperVideoType::Optimized;
   if (videoType == "OriginalVideo") return ScreenScraperVideoType::Raw;
   return ScreenScraperVideoType::None;
 }
 
-const std::string& ScreenScraperEnums::ScreenScraperVideoTypeFromEnum(ScreenScraperVideoType videoType)
+const String& ScreenScraperEnums::ScreenScraperVideoTypeFromEnum(ScreenScraperVideoType videoType)
 {
   switch (videoType)
   {
     case ScreenScraperVideoType::None:
     {
-      static std::string sScraper = "None";
+      static String sScraper = "None";
       return sScraper;
     }
     case ScreenScraperVideoType::Raw:
     {
-      static std::string sFileName = "OriginalVideo";
+      static String sFileName = "OriginalVideo";
       return sFileName;
     }
     case ScreenScraperVideoType::Optimized:
@@ -127,6 +127,6 @@ const std::string& ScreenScraperEnums::ScreenScraperVideoTypeFromEnum(ScreenScra
       break;
     }
   }
-  static std::string sFileName = "NormalizedVideo";
+  static String sFileName = "NormalizedVideo";
   return sFileName;
 }

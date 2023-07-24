@@ -26,7 +26,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @brief Get base url for relative media
      * @return Base url
      */
-    std::string GetUrlBase() override;
+    String GetUrlBase() override;
 
     /*!
      * @brief Scraper call this when an unexpected error occured in HTTP requests (timeount, 500, ...)
@@ -39,7 +39,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @param password Password
      * @return User info Url
      */
-    std::string GetUserInfoUrl(const std::string& login, const std::string& password) override;
+    String GetUserInfoUrl(const String& login, const String& password) override;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -52,8 +52,8 @@ class RecalboxEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrl(const std::string& login, const std::string& password, const FileData& game,
-                               const std::string& crc32, const std::string& md5, long long int size) override
+    String GetGameInfoUrl(const String& login, const String& password, const FileData& game,
+                               const String& crc32, const String& md5, long long int size) override
     {
       (void)login;
       (void)password;
@@ -61,7 +61,7 @@ class RecalboxEndPoints : public IEndPointProvider
       (void)crc32;
       (void)md5;
       (void)size;
-      return std::string();
+      return String();
     }
 
     /*!
@@ -76,7 +76,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrlByMD5(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) override;
+    String GetGameInfoUrlByMD5(const String& login, const String& password, const FileData& game, const String& md5, long long size) override;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -88,13 +88,13 @@ class RecalboxEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrlByName(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) override;
+    String GetGameInfoUrlByName(const String& login, const String& password, const FileData& game, const String& md5, long long size) override;
 
     /*!
      * @brief Add (or not) query parameters to media request
      * @param url Url to decorate
      */
-    void AddQueryParametersToMediaRequest(const FileData* game, long long size, std::string& url) override;
+    void AddQueryParametersToMediaRequest(const FileData* game, long long size, String& url) override;
 
     /*!
      * @brief Recalbox do not use Basic Auth
@@ -118,7 +118,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @brief Provide screenscraper Web URL
      * @return Screenscraper Web url
      */
-    std::string GetProviderWebURL() override { return "https://www.recalbox.com"; };
+    String GetProviderWebURL() override { return "https://www.recalbox.com"; };
 
   private:
     //! Root domain name
@@ -126,11 +126,11 @@ class RecalboxEndPoints : public IEndPointProvider
     static constexpr const char* sRootDomainName = "scrapers.recalbox.com";
 
     //! UUID
-    std::string mUUID;
+    String mUUID;
     //! Board
-    std::string mBoard;
+    String mBoard;
     //! Version
-    std::string mVersion;
+    String mVersion;
 
     //! Dns client
     DnsClient mDns;
@@ -150,7 +150,7 @@ class RecalboxEndPoints : public IEndPointProvider
      * @param game Game to fetch data from
      * @return Query string
      */
-    std::string BuildQueryString(const FileData* game, long long size);
+    String BuildQueryString(const FileData* game, long long size);
 };
 
 

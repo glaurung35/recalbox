@@ -22,27 +22,27 @@ class ScreenScraperApis
       //! Result
       ScrapeResult mResult = ScrapeResult::NotFound;
       //! ScreenScraper Game Name
-      std::string mScreenScraperName;
+      String mScreenScraperName;
       //! Game Name
-      std::string mName;
+      String mName;
       //! Developer
-      std::string mDeveloper;
+      String mDeveloper;
       //! Publisher
-      std::string mPublisher;
+      String mPublisher;
       //! Synopsis
-      std::string mSynopsis;
+      String mSynopsis;
       //! Players
-      std::string mPlayers;
+      String mPlayers;
       //! Genre
-      std::string mGenre;
+      String mGenre;
       //! Rom region
-      std::string mRegion;
+      String mRegion;
       //! Rom region
-      std::string mCrc;
+      String mCrc;
       //! Pad2Keyboard
-      std::string mP2k;
+      String mP2k;
       //! Rotation
-      std::string mRotation;
+      String mRotation;
       //! Editor
       DateTime mReleaseDate;
       //! Rating
@@ -58,11 +58,11 @@ class ScreenScraperApis
         struct Media
         {
           //! source Url
-          std::string mUrl;
+          String mUrl;
           //! file format
-          std::string mFormat;
+          String mFormat;
           //! md5
-          std::string mMd5;
+          String mMd5;
           //! size
           long long mSize;
         };
@@ -105,7 +105,7 @@ class ScreenScraperApis
      * @param md5 file md5
      * @param size file size in byte
      */
-    void DeserializeGameInformationInner(const rapidjson::Value& json, Game& game, const Path& path, const std::string& md5, long long size);
+    void DeserializeGameInformationInner(const rapidjson::Value& json, Game& game, const Path& path, const String& md5, long long size);
 
     /*!
      * @brief Deserialize a gameinfo request JSON result into a Game object
@@ -115,7 +115,7 @@ class ScreenScraperApis
      * @param md5 file md5
      * @param size file size in byte
      */
-    void DeserializeGameInformationOuter(const std::string& json, Game& game, const Path& path, const std::string& md5, long long size);
+    void DeserializeGameInformationOuter(const String& json, Game& game, const Path& path, const String& md5, long long size);
 
     /*!
      * @brief Lookup best matching rom entry in the 'roms' array, according to md5, then filename & size
@@ -125,7 +125,7 @@ class ScreenScraperApis
      * @param size rom size in byte
      * @return Found node or empty node
      */
-    static const rapidjson::Value& LookupBestRomEntry(const rapidjson::Value& json, const std::string& filename, const std::string& md5, long long size);
+    static const rapidjson::Value& LookupBestRomEntry(const rapidjson::Value& json, const String& filename, const String& md5, long long size);
 
     /*!
      * @brief Select best region regarding configuration & availability
@@ -134,7 +134,7 @@ class ScreenScraperApis
      * @param favoriteRegion User favorite regios
      * @return Serialized best region
      */
-    static std::string GetRequiredRegion(Regions::RegionPack regions, const Path& path, Regions::GameRegions favoriteRegion);
+    static String GetRequiredRegion(Regions::RegionPack regions, const Path& path, Regions::GameRegions favoriteRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of regionalized texts, regarding the given preferred region
@@ -142,7 +142,7 @@ class ScreenScraperApis
      * @param requiredRegion Required region
      * @return Best-matching text
      */
-    static std::string ExtractRegionalizedText(const rapidjson::Value& array, const std::string& requiredRegion);
+    static String ExtractRegionalizedText(const rapidjson::Value& array, const String& requiredRegion);
 
     /*!
      * @brief Extract the best-matching text from an array of localized texts, regarding the given preferred language
@@ -150,7 +150,7 @@ class ScreenScraperApis
      * @param preferedlanguage Preferred language
      * @return Best-matching text
      */
-    static std::string ExtractLocalizedText(const rapidjson::Value& array, const std::string& preferedlanguage);
+    static String ExtractLocalizedText(const rapidjson::Value& array, const String& preferedlanguage);
 
     /*!
      * @brief Extract the best-matching media URL, given the type, parent type and prefered region.
@@ -160,7 +160,7 @@ class ScreenScraperApis
      * @param format If an url is found, this string contains the media format (jpg, png, mp4, ...)
      * @return Best-matching url
      */
-    static std::string ExtractMedia(const rapidjson::Value& medias, const char* type, const std::string& region, std::string& format, long long& size, std::string&  md5);
+    static String ExtractMedia(const rapidjson::Value& medias, const char* type, const String& region, String& format, long long& size, String&  md5);
 
     /*!
      * @brief Extract best matching genre texts, comma-separated.
@@ -168,7 +168,7 @@ class ScreenScraperApis
      * @param preferedlanguage Prefered language
      * @return Genre strings, comma-separated
      */
-    static std::string ExtractLocalizedGenre(const rapidjson::Value& array, const std::string& preferedlanguage);
+    static String ExtractLocalizedGenre(const rapidjson::Value& array, const String& preferedlanguage);
 
     /*!
      * @brief Extract a normalized game genre
@@ -189,14 +189,14 @@ class ScreenScraperApis
      * &quot; \u0260 and \r\n
      * @param raw Raw string, decoded in place
      */
-    static void DecodeString(std::string& raw);
+    static void DecodeString(String& raw);
 
     /*!
      * @brief Return a clean game name, removing all non file authorized chars
      * @param source Original game
      * @return Clean name
      */
-    static std::string CleanGameName(const std::string& source);
+    static String CleanGameName(const String& source);
 
     /*!
      * @brief Check if the http client is initialized & initialize if required
@@ -235,7 +235,7 @@ class ScreenScraperApis
      * @param md5 optionnal MD5
      * @return Game structure with the result code in the mResult field
      */
-    Game GetGameInformation(const FileData& file, const std::string& crc32, const std::string& md5, long long size);
+    Game GetGameInformation(const FileData& file, const String& crc32, const String& md5, long long size);
 
     /*!
      * @brief Download a media into a target file
@@ -243,6 +243,6 @@ class ScreenScraperApis
      * @param to Filepath
      * @return ScrapeResult Request status
      */
-    ScrapeResult GetMedia(const FileData& game, const std::string& mediaurl, const Path& to, long long& size);
+    ScrapeResult GetMedia(const FileData& game, const String& mediaurl, const Path& to, long long& size);
 };
 

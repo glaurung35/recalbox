@@ -24,7 +24,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
 {
   public:
     //! Constructor
-    explicit GuiMenuBase(WindowManager& window, const std::string& title, IGuiMenuBase* interface);
+    GuiMenuBase(WindowManager& window, const String& title, IGuiMenuBase* interface);
 
     /*!
      * @brief Proces input
@@ -35,7 +35,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.
-     * Call your base::Update() to ensure animation and childrens are updated properly
+     * Call your base::Update() to ensure animation and children are updated properly
      * @param deltaTime Elapsed time from the previous frame, in millisecond
      */
     void Update(int deltaTime) override;
@@ -47,7 +47,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      */
     bool getHelpPrompts(Help& help) override;
 
-    void SetFooter(const std::string& footer)
+    void SetFooter(const String& footer)
     {
       mFooter = footer;
       mMenuInitialized = false;
@@ -71,14 +71,14 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param func Method to call back when selected
      * @param help Help string
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, int id, const std::string& help);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, int id, const String& help);
 
     /*!
      * @brief Add Submenu
      * @param label Label
      * @param func Method to call back when selected
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, int id);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, int id);
 
     /*!
      * @brief Add Submenu with Icon
@@ -87,7 +87,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param func Method to call back when selected
      * @param help Help string
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, const Path& icon, int id, const std::string& help);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, const Path& icon, int id, const String& help);
 
     /*!
      * @brief Add Submenu with Icon
@@ -95,7 +95,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param icon Icon image path
      * @param func Method to call back when selected
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const std::string& label, const Path& icon, int id);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, const Path& icon, int id);
 
     /*!
      * @brief Add a switch menu entry
@@ -105,7 +105,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help);
+    std::shared_ptr<SwitchComponent> AddSwitch(const String& text, bool value, int id, ISwitchComponent* interface, const String& help);
 
     /*!
      * @brief Add a switch menu entry
@@ -114,7 +114,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param callback Callback when entry changes
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const std::string& text, bool value, int id, ISwitchComponent* interface);
+    std::shared_ptr<SwitchComponent> AddSwitch(const String& text, bool value, int id, ISwitchComponent* interface);
 
     /*!
      * @brief Add a switch menu entry
@@ -124,7 +124,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return Switch component
      */
-    std::shared_ptr<RatingComponent> AddRating(const std::string& text, float value, int id, IRatingComponent* interface, const std::string& help);
+    std::shared_ptr<RatingComponent> AddRating(const String& text, float value, int id, IRatingComponent* interface, const String& help);
 
     /*!
      * @brief Add a switch menu entry
@@ -133,7 +133,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param callback Callback when entry changes
      * @return Switch component
      */
-    std::shared_ptr<RatingComponent> AddRating(const std::string& text, float value, int id, IRatingComponent* interface);
+    std::shared_ptr<RatingComponent> AddRating(const String& text, float value, int id, IRatingComponent* interface);
 
     /*!
      * @brief Add a switch menu entry
@@ -144,7 +144,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface, const std::string& help);
+    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const String& text, bool value, int id, ISwitchComponent* interface, const String& help);
 
     /*!
      * @brief Add a switch menu entry
@@ -153,7 +153,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param callback Callback when entry changes
      * @return Switch component
      */
-    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const std::string& text, bool value, int id, ISwitchComponent* interface);
+    std::shared_ptr<SwitchComponent> AddSwitch(const Path& icon, const String& text, bool value, int id, ISwitchComponent* interface);
 
     /*!
      * @brief Add non editable text
@@ -162,7 +162,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return TextComponent
      */
-    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, const std::string& help);
+    std::shared_ptr<TextComponent> AddText(const String& text, const String& value, const String& help);
 
     /*!
      * @brief Add non editable text
@@ -170,26 +170,26 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param value Text value
      * @return TextComponent
      */
-    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value);
-
-    /*!
-     * @brief Add non editable text
-     * @param text Caption text
-     * @param value Text value
-     * @param color Text color
-     * @param help Help text
-     * @return TextComponent
-     */
-    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, unsigned int color, const std::string& help);
+    std::shared_ptr<TextComponent> AddText(const String& text, const String& value);
 
     /*!
      * @brief Add non editable text
      * @param text Caption text
      * @param value Text value
      * @param color Text color
+     * @param help Help text
      * @return TextComponent
      */
-    std::shared_ptr<TextComponent> AddText(const std::string& text, const std::string& value, unsigned int color);
+    std::shared_ptr<TextComponent> AddText(const String& text, const String& value, unsigned int color, const String& help);
+
+    /*!
+     * @brief Add non editable text
+     * @param text Caption text
+     * @param value Text value
+     * @param color Text color
+     * @return TextComponent
+     */
+    std::shared_ptr<TextComponent> AddText(const String& text, const String& value, unsigned int color);
 
     /*!
      * @brief Add editable text
@@ -199,7 +199,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return TextComponent
      */
-    std::shared_ptr<EditableComponent> AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, const std::string& help, bool masked);
+    std::shared_ptr<EditableComponent> AddEditable(const String& edittitle, const String& text, const String& value, int id, IEditableComponent* interface, const String& help, bool masked);
 
     /*!
      * @brief Add editable text
@@ -208,7 +208,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param callback Callback when entry changes
      * @return TextComponent
      */
-    std::shared_ptr<EditableComponent> AddEditable(const std::string& edittitle, const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked);
+    std::shared_ptr<EditableComponent> AddEditable(const String& edittitle, const String& text, const String& value, int id, IEditableComponent* interface, bool masked);
 
     /*!
      * @brief Add editable text
@@ -218,7 +218,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return TextComponent
      */
-    std::shared_ptr<EditableComponent> AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface, const std::string& help, bool masked);
+    std::shared_ptr<EditableComponent> AddEditable(const String& text, const String& value, int id, IEditableComponent* interface, const String& help, bool masked);
 
     /*!
      * @brief Add editable text
@@ -227,7 +227,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param callback Callback when entry changes
      * @return TextComponent
      */
-    std::shared_ptr<EditableComponent> AddEditable(const std::string& text, const std::string& value, int id, IEditableComponent* interface, bool masked);
+    std::shared_ptr<EditableComponent> AddEditable(const String& text, const String& value, int id, IEditableComponent* interface, bool masked);
 
     /*!
      * @brief Add a Slider menu entry
@@ -240,7 +240,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help text
      * @return Slider component
      */
-    std::shared_ptr<SliderComponent> AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface, const std::string& help);
+    std::shared_ptr<SliderComponent> AddSlider(const String& text, float min, float max, float inc, float value, const String& suffix, int id, ISliderComponent* interface, const String& help);
 
     /*!
      * @brief Add a Slider menu entry
@@ -252,17 +252,17 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param interface Callback interface
      * @return Slider component
      */
-    std::shared_ptr<SliderComponent> AddSlider(const std::string& text, float min, float max, float inc, float value, const std::string& suffix, int id, ISliderComponent* interface);
+    std::shared_ptr<SliderComponent> AddSlider(const String& text, float min, float max, float inc, float value, const String& suffix, int id, ISliderComponent* interface);
 
     //! Normalized entry structure for List components
     template<typename T> struct ListEntry
     {
-      std::string mText; //!< Displayed text
+      String mText; //!< Displayed text
       T mValue;          //!< Linked Values
       bool mSelected;    //!< Whether the entry is selected or not
 
       //! Constructor
-      ListEntry(const std::string& t, const T& v, bool s)
+      ListEntry(const String& t, const T& v, bool s)
         : mText(t)
         , mValue(v)
         , mSelected(s)
@@ -280,7 +280,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const std::string& help)
+    std::shared_ptr<OptionListComponent<T>> AddList(const String& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const String& help)
     {
       auto result = std::make_shared<OptionListComponent<T>>(mWindow, text);
       if (!entries.empty())
@@ -302,9 +302,9 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
+    std::shared_ptr<OptionListComponent<T>> AddList(const String& text, int id, IOptionListComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
     {
-      return AddList(text, id, interface, entries, Strings::Empty);
+      return AddList(text, id, interface, entries, String::Empty);
     }
 
     /*!
@@ -316,7 +316,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface, const std::string& help)
+    std::shared_ptr<OptionListComponent<T>> AddList(const String& text, int id, IOptionListComponent<T>* interface, const String& help)
     {
       auto result = std::make_shared<OptionListComponent<T>>(mWindow, text);
       mMenu.addWithLabel(result, text, help);
@@ -332,9 +332,9 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddList(const std::string& text, int id, IOptionListComponent<T>* interface)
+    std::shared_ptr<OptionListComponent<T>> AddList(const String& text, int id, IOptionListComponent<T>* interface)
     {
-      return AddList(text, id, interface, Strings::Empty);
+      return AddList(text, id, interface, String::Empty);
     }
 
     /*!
@@ -348,7 +348,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const std::string& help)
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const String& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries, const String& help)
     {
       auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, true);
       if (!entries.empty())
@@ -370,9 +370,9 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const String& text, int id, IOptionListMultiComponent<T>* interface, const std::vector<ListEntry<T>>& entries)
     {
-      return AddMultiList(text, id, interface, entries, Strings::Empty);
+      return AddMultiList(text, id, interface, entries, String::Empty);
     }
 
     /*!
@@ -384,7 +384,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface, const std::string& help)
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const String& text, int id, IOptionListMultiComponent<T>* interface, const String& help)
     {
       auto result = std::make_shared<OptionListComponent<T>>(mWindow, text, true);
       mMenu.addWithLabel(result, text, help);
@@ -400,16 +400,16 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @return OptionListComponent
      */
     template<typename T>
-    std::shared_ptr<OptionListComponent<T>> AddMultiList(const std::string& text, int id, IOptionListMultiComponent<T>* interface)
+    std::shared_ptr<OptionListComponent<T>> AddMultiList(const String& text, int id, IOptionListMultiComponent<T>* interface)
     {
-      return AddMultiList(text, id, interface, Strings::Empty);
+      return AddMultiList(text, id, interface, String::Empty);
     }
 
   private:
     //! callback Interface
     IGuiMenuBase* mInterface;
     //! Footer
-    std::string mFooter;
+    String mFooter;
     //! Menu initialized flag
     bool mMenuInitialized;
 

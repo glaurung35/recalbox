@@ -3,7 +3,6 @@
 //
 #pragma once
 
-#include <systems/PlatformId.h>
 #include <utils/os/fs/Path.h>
 #include <emulators/EmulatorList.h>
 
@@ -65,9 +64,9 @@ class SystemDescriptor
      * @param readonly Read only system
      * @return This
      */
-    SystemDescriptor& SetSystemInformation(const std::string& guid,
-                                           const std::string& name,
-                                           const std::string& fullname)
+    SystemDescriptor& SetSystemInformation(const String& guid,
+                                           const String& name,
+                                           const String& fullname)
     {
       mGUID = guid;
       mName = name;
@@ -84,11 +83,11 @@ class SystemDescriptor
      * @param command Command (may be empty to take the default global command)
      * @return This
      */
-    SystemDescriptor& SetDescriptorInformation(const std::string& path,
-                                               const std::string& extensions,
-                                               const std::string& themefolder,
-                                               const std::string& command,
-                                               const std::string& icon,
+    SystemDescriptor& SetDescriptorInformation(const String& path,
+                                               const String& extensions,
+                                               const String& themefolder,
+                                               const String& command,
+                                               const String& icon,
                                                bool port,
                                                bool readonly,
                                                bool hasdownloader)
@@ -116,16 +115,16 @@ class SystemDescriptor
       return *this;
     }
 
-    SystemDescriptor& SetPropertiesInformation(const std::string& systemtype,
-                                               const std::string& pad,
-                                               const std::string& keyboard,
-                                               const std::string& mouse,
-                                               const std::string& releasedate,
-                                               const std::string& manufacturer,
+    SystemDescriptor& SetPropertiesInformation(const String& systemtype,
+                                               const String& pad,
+                                               const String& keyboard,
+                                               const String& mouse,
+                                               const String& releasedate,
+                                               const String& manufacturer,
                                                bool lightgun,
                                                bool multiresolution,
                                                bool multiregion,
-                                               const std::string& ignoredfiles)
+                                               const String& ignoredfiles)
     {
       mType = ConvertSystemType(systemtype);
       mPad = ConvertDeviceRequirement(pad);
@@ -153,7 +152,7 @@ class SystemDescriptor
       mEmulators = emulatorList;
     }
 
-    static void SetDefaultCommand(const std::string& command) { mDefaultCommand = command; }
+    static void SetDefaultCommand(const String& command) { mDefaultCommand = command; }
 
     /*!
      * @brief Check of the current descriptor is valid and contains all required informations
@@ -168,21 +167,21 @@ class SystemDescriptor
      * Accessors
      */
 
-    [[nodiscard]] const std::string& GUID() const { return mGUID; }
-    [[nodiscard]] const std::string& Name() const { return mName; }
-    [[nodiscard]] const std::string& FullName() const { return mFullName; }
+    [[nodiscard]] const String& GUID() const { return mGUID; }
+    [[nodiscard]] const String& Name() const { return mName; }
+    [[nodiscard]] const String& FullName() const { return mFullName; }
 
     [[nodiscard]] const Path& RomPath() const { return mPath; }
     [[nodiscard]] const String& Extension() const { return mExtensions; }
-    [[nodiscard]] const std::string& ThemeFolder() const { return mThemeFolder; }
-    [[nodiscard]] const std::string& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
+    [[nodiscard]] const String& ThemeFolder() const { return mThemeFolder; }
+    [[nodiscard]] const String& Command() const { return mCommand.empty() ? mDefaultCommand : mCommand; }
     [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
-    [[nodiscard]] std::string IconPrefix() const;
+    [[nodiscard]] String IconPrefix() const;
 
     [[nodiscard]] int ScreenScaperID() const { return mScreenScraperID; }
 
     [[nodiscard]] int ReleaseDate() const { return mReleaseDate; }
-    [[nodiscard]] const std::string& Manufacturer() const { return mManufacturer; }
+    [[nodiscard]] const String& Manufacturer() const { return mManufacturer; }
 
     [[nodiscard]] SystemType Type() const { return mType; }
     [[nodiscard]] DeviceRequirement PadRequirement() const { return mPad; }
@@ -191,7 +190,7 @@ class SystemDescriptor
     [[nodiscard]] bool LightGun() const { return mLightgun; }
     [[nodiscard]] bool CrtHighResolution() const { return mCrtInterlaced; }
     [[nodiscard]] bool CrtMultiRegion() const { return mCrtMultiRegion; }
-    [[nodiscard]] const std::string& IgnoredFiles() const { return mIgnoredFiles; }
+    [[nodiscard]] const String& IgnoredFiles() const { return mIgnoredFiles; }
 
     [[nodiscard]] bool HasNetPlayCores() const
     {
@@ -202,7 +201,7 @@ class SystemDescriptor
       return false;
     }
 
-    [[nodiscard]] bool IsSoftpatching(const std::string& emulatorName, const std::string& coreName) const
+    [[nodiscard]] bool IsSoftpatching(const String& emulatorName, const String& coreName) const
     {
       for(int i = mEmulators.Count(); --i >= 0; )
       {
@@ -230,23 +229,23 @@ class SystemDescriptor
     [[nodiscard]] bool IsVirtualArcade() const { return mType == SystemType::VArcade; };
 
   private:
-    static std::string      mDefaultCommand;  //!< Default command
+    static String      mDefaultCommand;  //!< Default command
 
     // System
-    std::string             mGUID;            //!< System GUID
-    std::string             mName;            //!< Short name ("snes")
-    std::string             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
+    String             mGUID;            //!< System GUID
+    String             mName;            //!< Short name ("snes")
+    String             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
     // Descriptor
     Path                    mPath;            //!< Rom path
-    std::string             mThemeFolder;     //!< Theme sub-folder
+    String             mThemeFolder;     //!< Theme sub-folder
     String                  mExtensions;      //!< Supported extensions, space separated
-    std::string             mCommand;         //!< Emulator command
+    String             mCommand;         //!< Emulator command
     int                     mIcon;            //!< Icon unicode char
     // Scraper
     int                     mScreenScraperID; //!< ScreenScraper ID
     // Properties
     int                     mReleaseDate;     //!< Release date in numeric format yyyymm
-    std::string             mManufacturer;    //!< Manufacturer ("Nintendo")
+    String             mManufacturer;    //!< Manufacturer ("Nintendo")
     SystemType              mType;            //!< System type
     DeviceRequirement       mPad;             //!< Pad state
     DeviceRequirement       mKeyboard;        //!< Pad state
@@ -260,9 +259,9 @@ class SystemDescriptor
     bool                    mPort;            //!< This system is a port
     bool                    mReadOnly;        //!< This system is a port and is readonly
     bool                    mHasDownloader;   //!< System has a downloder
-    std::string             mIgnoredFiles;    //!< Ignored files list
+    String             mIgnoredFiles;    //!< Ignored files list
 
-    static SystemType ConvertSystemType(const std::string& systemtype)
+    static SystemType ConvertSystemType(const String& systemtype)
     {
       SystemType result = SystemType::Unknown;
       if      (systemtype == "arcade"  ) result = SystemType::Arcade;
@@ -278,7 +277,7 @@ class SystemDescriptor
       return result;
     }
 
-    static DeviceRequirement ConvertDeviceRequirement(const std::string& requirement)
+    static DeviceRequirement ConvertDeviceRequirement(const String& requirement)
     {
       DeviceRequirement result = DeviceRequirement::Unknown;
       if      (requirement == "no"         ) result = DeviceRequirement::None;

@@ -328,42 +328,42 @@ class Regions
      * @param region Region to get full name from
      * @return Full name
      */
-    static const std::string& RegionFullName(GameRegions region);
+    static const String& RegionFullName(GameRegions region);
 
     /*!
      * @brief Get region from its full name
      * @param region Region fullname
      * @return GameRegions or Unknown
      */
-    static GameRegions FullNameToRegions(const std::string& region);
+    static GameRegions FullNameToRegions(const String& region);
 
     /*!
      * @brief Serialize a single region to its string representation
      * @param region Region to serialize
      * @return String
      */
-    static const std::string& SerializeRegion(GameRegions region);
+    static const String& SerializeRegion(GameRegions region);
 
     /*!
      * @brief Deserialize a string representation of a region
      * @param region String representation
      * @return Region (Unknown if not reconized)
      */
-    static GameRegions DeserializeRegion(const std::string& region);
+    static GameRegions DeserializeRegion(const String& region);
 
     /*!
      * @brief Deserialize up to 4 regions from a comma separated string
      * @param regions Regions, comma separated
      * @return Region pack (up to 4)
      */
-    static Regions::RegionPack Deserialize4Regions(const std::string& regions);
+    static Regions::RegionPack Deserialize4Regions(const String& regions);
 
     /*!
      * @brief Serialize up to 4 regions into their string representation, comma separated
      * @param regions Compact regions (1 per byte)
      * @return String representation, comma separated
      */
-    static std::string Serialize4Regions(Regions::RegionPack regions);
+    static String Serialize4Regions(Regions::RegionPack regions);
 
     /*!
      * @brief Extract one region from file name
@@ -397,12 +397,12 @@ class Regions
      */
     static bool IsIn4Regions(unsigned int regions, GameRegions region);
 
-    static GameRegions GameRegionsFromString(const std::string& gameRegions);
-    static const std::string& GameRegionsFromEnum(GameRegions gameRegions);
+    static GameRegions GameRegionsFromString(const String& gameRegions);
+    static const String& GameRegionsFromEnum(GameRegions gameRegions);
 
-    static Regions::RegionPack ExtractRegionsFromNoIntroName(const std::string& fileName);
-    static Regions::RegionPack ExtractRegionsFromTosecName(const std::string& fileName);
+    static Regions::RegionPack ExtractRegionsFromNoIntroName(const String& fileName);
+    static Regions::RegionPack ExtractRegionsFromTosecName(const String& fileName);
 
-    static Regions::RegionPack ExtractRegionsFromName(const std::string& string);
+    static Regions::RegionPack ExtractRegionsFromName(const String& string);
 };
 

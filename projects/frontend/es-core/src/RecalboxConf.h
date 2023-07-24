@@ -26,6 +26,9 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      */
     RecalboxConf();
 
+    //! Virtual destructor
+    ~RecalboxConf() override = default;
+
     /*!
      * @brief Called when file has been saved
      */
@@ -84,22 +87,22 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #define DefineListGetterSetter(name, key, defaultValue) \
       String::List Get##name() const { return AsString(key, defaultValue).Split(','); } \
       String GetRaw##name() const { return AsString(key, defaultValue); } \
-      bool IsIn##name(const std::string& value) const { return isInList(key, value); } \
+      bool IsIn##name(const String& value) const { return isInList(key, value); } \
       RecalboxConf& Set##name(const String::List& value) { SetString(key, String::Join(value, ',')); return *this; }
 
     #define DefineGetterSetterParameterized(name, type, type2, keybefore, keyafter, defaultValue) \
-      type Get##name(const std::string& subkey) const { return As##type2(std::string(keybefore).append(subkey).append(keyafter), defaultValue); } \
-      RecalboxConf& Set##name(const std::string& subkey, const type& value) { Set##type2(std::string(keybefore).append(subkey).append(keyafter), value); return *this; }
+      type Get##name(const String& subkey) const { return As##type2(String(keybefore).Append(subkey).Append(keyafter), defaultValue); } \
+      RecalboxConf& Set##name(const String& subkey, const type& value) { Set##type2(String(keybefore).Append(subkey).Append(keyafter), value); return *this; }
 
     #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
-      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string(system.Name()).append(1, '.').append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string(system.Name()).append(1, '.').append(key), value); return *this; } \
-      RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(std::string(system.Name()).append(1, '.').append(key)); return *this; } \
-      bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(std::string(system.Name()).append(1, '.').append(key)); }
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(String(system.Name()).Append('.').Append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); return *this; } \
+      RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(String(system.Name()).Append('.').Append(key)); return *this; } \
+      bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(String(system.Name()).Append('.').Append(key)); }
 
     #define DefineEmulationStationSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
-      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), value); return *this; }
+      type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(String("emulationstation.").Append(system.Name()).Append('.').Append(key), defaultValue); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String("emulationstation.").Append(system.Name()).Append('.').Append(key), value); return *this; }
 
     #define DefineSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \
@@ -123,8 +126,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
 
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
-      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)(defaultValue)); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(std::string("emulationstation.").append(system.Name()).append(1, '.').append(key), (int)value); return *this; }
+      enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)(defaultValue)); } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)value); return *this; }
 
     #define DefineEmulationStationSystemListGetterSetterDeclaration(name, key) \
       Strings::Vector Get##name(const SystemData& system) const; \
@@ -151,16 +154,16 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(DebugLogs, bool, Bool, sDebugLogs, false)
 
-    DefineGetterSetter(Hostname, std::string, String, sHostname, "RECALBOX")
+    DefineGetterSetter(Hostname, String, String, sHostname, "RECALBOX")
 
     DefineGetterSetter(WifiEnabled, bool, Bool, sWifiEnabled, false)
-    DefineGetterSetter(WifiSSID, std::string, String, sWifiSSID, "")
-    DefineGetterSetter(WifiKey, std::string, String, sWifiKey, "")
+    DefineGetterSetter(WifiSSID, String, String, sWifiSSID, "")
+    DefineGetterSetter(WifiKey, String, String, sWifiKey, "")
 
     DefineGetterSetter(SwapValidateAndCancel, bool, Bool, sSwapValidateAndCancel, false)
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
-    DefineGetterSetter(AudioOuput, std::string, String, sAudioOuput, "")
+    DefineGetterSetter(AudioOuput, String, String, sAudioOuput, "")
 
     DefineGetterSetter(MusicRemoteEnable, bool, Bool, sMusicDisableRemote, true)
 
@@ -173,16 +176,16 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(PopupNetplay, int, Int, sPopupNetplay, 8)
 
     DefineGetterSetter(ThemeCarousel, bool, Bool, sThemeCarousel, 1)
-    DefineGetterSetter(ThemeTransition, std::string, String, sThemeTransition, "slide")
-    DefineGetterSetter(ThemeFolder, std::string, String, sThemeFolder, "recalbox-next")
+    DefineGetterSetter(ThemeTransition, String, String, sThemeTransition, "slide")
+    DefineGetterSetter(ThemeFolder, String, String, sThemeFolder, "recalbox-next")
 
-    DefineGetterSetterParameterized(ThemeColorSet    , std::string, String, sThemeGeneric, ".colorset", "")
-    DefineGetterSetterParameterized(ThemeIconSet     , std::string, String, sThemeGeneric, ".iconset", "")
-    DefineGetterSetterParameterized(ThemeMenuSet     , std::string, String, sThemeGeneric, ".menuset", "")
-    DefineGetterSetterParameterized(ThemeSystemView  , std::string, String, sThemeGeneric, ".systemview", "")
-    DefineGetterSetterParameterized(ThemeGamelistView, std::string, String, sThemeGeneric, ".gamelistview", "")
-    DefineGetterSetterParameterized(ThemeGameClipView, std::string, String, sThemeGeneric, ".gameclipview", "")
-    DefineGetterSetterParameterized(ThemeRegion      , std::string, String, sThemeGeneric, ".region", "")
+    DefineGetterSetterParameterized(ThemeColorSet    , String, String, sThemeGeneric, ".colorset", "")
+    DefineGetterSetterParameterized(ThemeIconSet     , String, String, sThemeGeneric, ".iconset", "")
+    DefineGetterSetterParameterized(ThemeMenuSet     , String, String, sThemeGeneric, ".menuset", "")
+    DefineGetterSetterParameterized(ThemeSystemView  , String, String, sThemeGeneric, ".systemview", "")
+    DefineGetterSetterParameterized(ThemeGamelistView, String, String, sThemeGeneric, ".gamelistview", "")
+    DefineGetterSetterParameterized(ThemeGameClipView, String, String, sThemeGeneric, ".gameclipview", "")
+    DefineGetterSetterParameterized(ThemeRegion      , String, String, sThemeGeneric, ".region", "")
 
     DefineGetterSetter(Brightness, int, Int, sBrightness, 7)
     DefineGetterSetter(Clock, bool, Bool, sClock, false)
@@ -203,7 +206,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SystemKbLayout, String, String, sSystemKbLayout, "us")
     DefineGetterSetter(SystemManagerEnabled, bool, Bool, sSystemManagerEnabled, true)
 
-    DefineGetterSetter(Overclocking, std::string, String, sOverclocking, "none")
+    DefineGetterSetter(Overclocking, String, String, sOverclocking, "none")
     DefineGetterSetter(Overscan, bool, Bool, sOverscan, false)
 
     DefineGetterSetter(KodiEnabled, bool, Bool, sKodiEnabled, true)
@@ -213,10 +216,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScraperSource, ScraperType, sScraperSource, ScraperType)
     DefineGetterSetter(ScraperAuto, bool, Bool, sScraperAuto, true)
 
-    DefineGetterSetter(RecalboxPrivateKey, std::string, String, sRecalboxPrivateKey, "")
+    DefineGetterSetter(RecalboxPrivateKey, String, String, sRecalboxPrivateKey, "")
 
-    DefineGetterSetter(ScreenScraperLogin, std::string, String, sScreenScraperLogin, "")
-    DefineGetterSetter(ScreenScraperPassword, std::string, String, sScreenScraperPassword, "")
+    DefineGetterSetter(ScreenScraperLogin, String, String, sScreenScraperLogin, "")
+    DefineGetterSetter(ScreenScraperPassword, String, String, sScreenScraperPassword, "")
     DefineGetterSetter(ScreenScraperWantMarquee, bool, Bool, sScreenScraperWantMarquee, false)
     DefineGetterSetter(ScreenScraperWantWheel, bool, Bool, sScreenScraperWantWheel, false)
     DefineGetterSetter(ScreenScraperWantManual, bool, Bool, sScreenScraperWantManual, false)
@@ -224,24 +227,24 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ScreenScraperWantP2K, bool, Bool, sScreenScraperWantP2K, false)
 
     DefineGetterSetter(NetplayEnabled, bool, Bool, sNetplayEnabled, false)
-    DefineGetterSetter(NetplayLogin, std::string, String, sNetplayLogin, "")
-    DefineGetterSetter(NetplayLobby, std::string, String, sNetplayLobby, "http://lobby.libretro.com/list/")
+    DefineGetterSetter(NetplayLogin, String, String, sNetplayLogin, "")
+    DefineGetterSetter(NetplayLobby, String, String, sNetplayLobby, "http://lobby.libretro.com/list/")
     DefineGetterSetter(NetplayPort, int, Int, sNetplayPort, sNetplayDefaultPort)
     DefineGetterSetterEnum(NetplayRelay, Relay, sNetplayRelay, Relay)
 
     DefineGetterSetter(RetroAchievementOnOff, bool, Bool, sRetroAchievementOnOff, false)
     DefineGetterSetter(RetroAchievementHardcore, bool, Bool, sRetroAchievementHardcore, false)
-    DefineGetterSetter(RetroAchievementLogin, std::string, String, sRetroAchievementLogin, "")
-    DefineGetterSetter(RetroAchievementPassword, std::string, String, sRetroAchievementPassword, "")
+    DefineGetterSetter(RetroAchievementLogin, String, String, sRetroAchievementLogin, "")
+    DefineGetterSetter(RetroAchievementPassword, String, String, sRetroAchievementPassword, "")
 
     DefineGetterSetter(StartupGamelistOnly, bool, Bool, sStartupGamelistOnly, false)
-    DefineGetterSetter(StartupSelectedSystem, std::string, String, sStartupSelectedSystem, "")
+    DefineGetterSetter(StartupSelectedSystem, String, String, sStartupSelectedSystem, "")
     DefineGetterSetter(StartupStartOnGamelist, bool, Bool, sStartupStartOnGamelist, false)
     DefineGetterSetter(StartupHideSystemView, bool, Bool, sStartupHideSystemView, false)
 
-    DefineGetterSetter(PowerSwitch, std::string, String, sPowerSwitch, "")
+    DefineGetterSetter(PowerSwitch, String, String, sPowerSwitch, "")
 
-    DefineGetterSetter(GlobalRatio, std::string, String, sGlobalRatio, "auto")
+    DefineGetterSetter(GlobalRatio, String, String, sGlobalRatio, "auto")
     DefineGetterSetter(GlobalSmooth, bool, Bool, sGlobalSmooth, true)
     DefineGetterSetter(GlobalRecalboxOverlays, bool, Bool, sGlobalRecalboxOverlays, true)
     DefineGetterSetter(GlobalRewind, bool, Bool, sGlobalRewind, true)
@@ -250,10 +253,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalHidePreinstalled, bool, Bool, sGlobalHidePreinstalled, false)
     DefineGetterSetter(GlobalIntegerScale, bool, Bool, sGlobalIntegerScale, false)
     DefineGetterSetterEnum(GlobalSoftpatching, SoftPatching, sGlobalSoftpatching, SoftPatching)
-    DefineGetterSetter(GlobalShaders, std::string, String, sGlobalShaders, "")
-    DefineGetterSetter(GlobalShaderSet, std::string, String, sGlobalShaderSet, "none")
+    DefineGetterSetter(GlobalShaders, String, String, sGlobalShaders, "")
+    DefineGetterSetter(GlobalShaderSet, String, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
-    DefineGetterSetter(GlobalInputDriver, std::string, String, sGlobalInputDriver, "auto")
+    DefineGetterSetter(GlobalInputDriver, String, String, sGlobalInputDriver, "auto")
     DefineGetterSetter(GlobalDemoDuration, int, Int, sGlobalDemoDuration, 90)
     DefineGetterSetter(GlobalDemoInfoScreen, int, Int, sGlobalDemoInfoScreen, 6)
     DefineGetterSetter(GlobalZeroLag, bool, Bool, sGlobalZeroLag, false)
@@ -281,34 +284,34 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ArcadeViewHideNonWorking, bool, Bool, sArcadeViewHideNonWorking, false)
 
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
-    DefineGetterSetter(UpdatesType, std::string, String, sUpdatesType, "stable")
+    DefineGetterSetter(UpdatesType, String, String, sUpdatesType, "stable")
 
-    DefineGetterSetter(EmulationstationVideoMode, std::string, String, sEsVideoMode, "")
-    DefineGetterSetter(GlobalVideoMode, std::string, String, sGlobalVideoMode, "")
-    DefineGetterSetter(KodiVideoMode, std::string, String, sKodiVideoMode, "")
+    DefineGetterSetter(EmulationstationVideoMode, String, String, sEsVideoMode, "")
+    DefineGetterSetter(GlobalVideoMode, String, String, sGlobalVideoMode, "")
+    DefineGetterSetter(KodiVideoMode, String, String, sKodiVideoMode, "")
     DefineGetterSetter(ESForce43, bool, Bool, sESForce43, false)
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
 
-    DefineGetterSetter(SuperGameBoy, std::string, String, sSuperGameBoyOption, "gb")
+    DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
     /*
      * System
      */
 
-    DefineSystemGetterSetterDeclaration(Emulator, std::string, String, sSystemEmulator)
-    DefineSystemGetterSetterDeclaration(Core, std::string, String, sSystemCore)
-    DefineSystemGetterSetterDeclaration(Ratio, std::string, String, sSystemRatio)
+    DefineSystemGetterSetterDeclaration(Emulator, String, String, sSystemEmulator)
+    DefineSystemGetterSetterDeclaration(Core, String, String, sSystemCore)
+    DefineSystemGetterSetterDeclaration(Ratio, String, String, sSystemRatio)
     DefineSystemGetterSetterDeclaration(Smooth, bool, Bool, sSystemSmooth)
     DefineSystemGetterSetterDeclaration(Rewind, bool, Bool, sSystemRewind)
     DefineSystemGetterSetterDeclaration(AutoSave, bool, Bool, sSystemAutoSave)
-    DefineSystemGetterSetterDeclaration(Shaders, std::string, String, sSystemShaders)
-    DefineSystemGetterSetterDeclaration(ShaderSet, std::string, String, sSystemShaderSet)
+    DefineSystemGetterSetterDeclaration(Shaders, String, String, sSystemShaders)
+    DefineSystemGetterSetterDeclaration(ShaderSet, String, String, sSystemShaderSet)
     DefineSystemGetterSetterDeclaration(Ignore, bool, Bool, sSystemIgnore)
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
-    DefineSystemGetterSetterDeclaration(VideoMode, std::string, String, sSystemVideoMode)
+    DefineSystemGetterSetterDeclaration(VideoMode, String, String, sSystemVideoMode)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -324,7 +327,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      */
 
     [[nodiscard]] bool GetCollection(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name), false); }
-    RecalboxConf& SetCollection(const std::string& name, bool on) { SetBool(String(sCollectionHeader).Append('.').Append(name), on); return *this; }
+    RecalboxConf& SetCollection(const String& name, bool on) { SetBool(String(sCollectionHeader).Append('.').Append(name), on); return *this; }
 
     [[nodiscard]] String GetCollectionTheme(const String& name) const { return AsString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-").Append(name)); }
     RecalboxConf& SetCollectionTheme(const String& name, const String& value) { SetString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
@@ -340,7 +343,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      */
     /*
     [[nodiscard]] bool GetArcadeCollection(const String& name) const { return AsBool(String(sArcadeCollectionHeader).Append('.').Append(name), false); }
-    RecalboxConf& SetArcadeCollection(const std::string& name, bool on) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name), on); return *this; }
+    RecalboxConf& SetArcadeCollection(const String& name, bool on) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name), on); return *this; }
 
     [[nodiscard]] String GetArcadeCollectionTheme(const String& name) const { return AsString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-arcade-").Append(name)); }
     RecalboxConf& SetArcadeCollectionTheme(const String& name, const String& value) { SetString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
@@ -563,23 +566,23 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Culture
      */
 
-    static std::string GetLanguage();
-    static std::string GetCountry();
+    static String GetLanguage();
+    static String GetCountry();
 
     /*
      * Enumeration getter/setter
      */
 
-    static SoftPatching SoftPatchingFromString(const std::string& menu);
-    static const std::string& SoftPatchingFromEnum(SoftPatching screensaver);
-    static Screensaver ScreensaverFromString(const std::string& menu);
-    static const std::string& ScreensaverFromEnum(Screensaver screensaver);
-    static Menu MenuFromString(const std::string& menu);
-    static const std::string& MenuFromEnum(Menu menu);
-    static Relay RelayFromString(const std::string& relay);
-    static const std::string& RelayFromEnum(Relay relay);
-    static SystemSorting SystemSortingFromString(const std::string& systemSorting);
-    static const std::string& SystemSortingFromEnum(SystemSorting systemSorting);
-    static ScraperType ScraperTypeFromString(const std::string& menu);
-    static const std::string& ScraperTypeFromEnum(ScraperType type);
+    static SoftPatching SoftPatchingFromString(const String& menu);
+    static const String& SoftPatchingFromEnum(SoftPatching screensaver);
+    static Screensaver ScreensaverFromString(const String& menu);
+    static const String& ScreensaverFromEnum(Screensaver screensaver);
+    static Menu MenuFromString(const String& menu);
+    static const String& MenuFromEnum(Menu menu);
+    static Relay RelayFromString(const String& relay);
+    static const String& RelayFromEnum(Relay relay);
+    static SystemSorting SystemSortingFromString(const String& systemSorting);
+    static const String& SystemSortingFromEnum(SystemSorting systemSorting);
+    static ScraperType ScraperTypeFromString(const String& menu);
+    static const String& ScraperTypeFromEnum(ScraperType type);
 };

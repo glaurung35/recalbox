@@ -18,9 +18,9 @@
 SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& systemDescriptor, PortTypes port)
 {
   RomSources roots;
-  if (Strings::Contains(systemDescriptor.RomPath().ToString(), sRootTag))
+  if (systemDescriptor.RomPath().ToString().Contains(sRootTag))
   {
-    std::string rootTag(sRootTag);
+    String rootTag(sRootTag);
     // Share_init roms
     Path root = Path(Strings::Replace(systemDescriptor.RomPath().ToString(), rootTag, sShareInitRomRoot));
     if (root.Exists() && port != PortTypes::ShareOnly) roots[root.ToString()] = true;
@@ -59,7 +59,7 @@ void SystemManager::CheckAutoScraping(SystemData& system)
     public:
       void Parse(FileData& game) override
       {
-        static std::string png(LEGACY_STRING(".png"));
+        static String png(LEGACY_STRING(".png"));
         if (game.IsGame())
           if (game.Metadata().Image().IsEmpty())
             if (Strings::ToLowerASCII(game.RomPath().Extension()) == png)
@@ -132,7 +132,7 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
 
         game.Metadata().SetVolatileImagePath(fullPath);
         fullPath = romPath / ".folder.description.txt";
-        std::string text = Files::LoadFile(fullPath);
+        String text = Files::LoadFile(fullPath);
         if (text.empty()) return;
 
         text = LocalizedText(text);
@@ -160,7 +160,7 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
         {}
       };
       //! Keep the highest versioned FileData instance for a given key (game+regions)
-      HashMap<std::string, VersionedGame> mHighestVersions;
+      HashMap<String, VersionedGame> mHighestVersions;
 
     public:
       void Parse(FileData& game) override
@@ -169,9 +169,9 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
         {
           // Highest version
           Path romPath = game.RomPath();
-          std::string fileName = romPath.Filename();
+          String fileName = romPath.Filename();
           Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(fileName);
-          std::string gameNameWithRegion = Strings::RemoveParenthesis(fileName).append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
+          String gameNameWithRegion = Strings::RemoveParenthesis(fileName).append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
 
           VersionedGame* previous = mHighestVersions.try_get(gameNameWithRegion);
           if (previous == nullptr)
@@ -1068,7 +1068,7 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
   mAllSystems.Clear();
 }
 
-SystemData *SystemManager::SystemByName(const std::string &name)
+SystemData *SystemManager::SystemByName(const String &name)
 {
   for(SystemData* system : mVisibleSystems)
     if (system->Name() == name)
@@ -1084,7 +1084,7 @@ SystemData *SystemManager::FavoriteSystem()
   return nullptr;
 }
 
-int SystemManager::getVisibleSystemIndex(const std::string &name)
+int SystemManager::getVisibleSystemIndex(const String &name)
 {
   for(int i = mVisibleSystems.Count(); --i >= 0; )
     if (mVisibleSystems[i]->Name() == name)
@@ -1111,10 +1111,10 @@ void SystemManager::UpdateLastPlayedSystem(FileData& game)
   system.UpdateLastPlayedGame(game);
 }
 
-FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const std::string& originaltext, int maxglobal, const SystemData* targetSystem)
+FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem)
 {
   // Everything to lowercase cause search is not case sensitive
-  std::string lowercaseText = Strings::ToLowerUTF8(originaltext);
+  String lowercaseText = Strings::ToLowerUTF8(originaltext);
 
   // Fast search into metadata, collecting index and distances
   { LOG(LogDebug) << "[Search] Start searching for '" << lowercaseText << '\''; }
@@ -1381,7 +1381,7 @@ bool SystemManager::CreateRomFoldersIn(const DeviceMount& device)
   return !error;
 }
 
-FileData* SystemManager::LookupGameByFilePath(const std::string& filePath)
+FileData* SystemManager::LookupGameByFilePath(const String& filePath)
 {
   for(const SystemData* system : mAllSystems)
   {

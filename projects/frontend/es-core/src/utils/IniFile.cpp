@@ -215,7 +215,7 @@ void IniFile::SetInt(const String& name, int value)
   mPendingWrites[name] = String(value);
 }
 
-void IniFile::SetList(const String& name, const std::vector<String>& values)
+void IniFile::SetList(const String& name, const String::List& values)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = String::Join(values, ',');

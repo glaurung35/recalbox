@@ -36,7 +36,7 @@ bool FileSorts::Initialize()
   return sInitialized;
 }
 
-int FileSorts::unicodeCompareUppercase(const std::string& a, const std::string& b)
+int FileSorts::unicodeCompareUppercase(const String& a, const String& b)
 {
   for (int apos = 0, bpos = 0;; )
   {
@@ -255,7 +255,7 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(SortSets set)
   return sSingle;
 }
 
-const std::string& FileSorts::Name(FileSorts::Sorts sort)
+const String& FileSorts::Name(FileSorts::Sorts sort)
 {
   // Lazy initialization
   Initialize();
@@ -264,7 +264,7 @@ const std::string& FileSorts::Name(FileSorts::Sorts sort)
     if (sortType.mSort == sort)
       return sortType.mDescription;
 
-  static std::string unknown("Unknown sort");
+  static String unknown("Unknown sort");
   return unknown;
 }
 

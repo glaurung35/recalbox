@@ -30,11 +30,11 @@ void Path::Normalize()
 
   // Remove double separator
   if (mPath.find(sDoubleSeparatorString) != String::npos)
-    mPath = Strings::Replace(mPath, sDoubleSeparatorString, sSeparatorString);
+    mPath = mPath.Replace(sDoubleSeparatorString, sSeparatorString);
 
   // Remove single colon
   if (mPath.find(sSingleDotPath) != String::npos)
-    mPath = Strings::Replace(mPath, sSingleDotPath, sSeparatorString);
+    mPath = mPath.Replace(sSingleDotPath, sSeparatorString);
   int size = (int)mPath.size();
   if (size == 1 && mPath[0] == '.')
     mPath.clear();

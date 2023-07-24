@@ -30462,7 +30462,7 @@ const char* GameNameMapManager::mMameNameToRealName[GameNameMapManager::sMameLis
 
 int GameNameMapManager::mMameNameHashes[GameNameMapManager::sMameListSize];
 
-HashMap<std::string, bool> GameNameMapManager::mMameBios =
+HashMap<String, bool> GameNameMapManager::mMameBios =
 {
   { "galgbios", false },
   { "sys573", false },
@@ -30536,7 +30536,7 @@ HashMap<std::string, bool> GameNameMapManager::mMameBios =
   { "aleck64", false }
 };
 
-HashMap<std::string, bool> GameNameMapManager::mMameDevices =
+HashMap<String, bool> GameNameMapManager::mMameDevices =
 {
   { "cbm8000_hsg_a", false },
   { "comx_eb", false },

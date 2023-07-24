@@ -61,7 +61,7 @@ void Bios::Scan()
   for(int i = sMaxBiosPath; --i >= 0;)
   {
     if (!mPath[i].Exists()) continue;
-    if (Strings::ToLowerASCII(mPath[i].Extension()) == ".zip")
+    if (mPath[i].Extension().LowerCase() == ".zip")
     {
       // Get composite hash from the zip file
       String md5string = Zip(mPath[i]).Md5Composite();
@@ -92,7 +92,7 @@ void Bios::Scan()
   // Matching?
   bool matching = false;
   for(Md5Hash& m : mHashes)
-    if ((matching = mRealFileHash.IsMatching(m)))
+    if (matching = mRealFileHash.IsMatching(m); matching)
       break;
 
   // Get result
@@ -153,7 +153,7 @@ Bios::Bios(const XmlNode& biosNode)
   String::List md5list = String(hashes.value()).Split(',');
   for(String& md5string : md5list)
   {
-    Md5Hash md5(Strings::Trim(md5string));
+    Md5Hash md5(md5string.Trim());
     if (md5.IsValid())
       mHashes.push_back(md5);
   }
@@ -182,7 +182,7 @@ String Bios::Filename(bool shorten) const
   String result = mPath[0].MakeRelative(rootPath, ok).ToString();
   // Too long?
   if (shorten)
-    if (Strings::CountChar(result, '/') > 2)
+    if (result.Count('/') > 2)
       result = String(".../").Append(mPath[0].Filename());
 
   return result;
@@ -203,6 +203,13 @@ bool Bios::IsMD5Known(const String& newmd5) const
 String Bios::GenerateReport() const
 {
   String report;
+
+  return false;
+}
+
+String Bios::GenerateReport() const
+{
+  String report;
   switch(mStatus)
   {
     case Status::FileNotFound:
@@ -214,22 +221,22 @@ String Bios::GenerateReport() const
       // BIOS
       report.Append("  ").Append(mStatus == Status::FileNotFound ? "MISSING " : "INCORRECT ")
             .Append(mMandatory ? "REQUIRED " : "OPTIONAL ")
-            .Append("BIOS: ").Append(mPath[0].Filename()).Append("\r\n");
+            .Append("BIOS: ").Append(mPath[0].Filename()).Append(String::CRLF);
 
       // Information
       report.Append("    Path: ").Append(mPath[0].ToString());
       for(int i = sMaxBiosPath; --i >= 1; )
         if (!mPath[i].IsEmpty()) report.Append(" or ").Append(mPath[i].ToString());
-      report.Append("\r\n");
-      if (!mNotes.empty()) report.Append("    Notes: ").Append(mNotes).Append("\r\n");
-      if (!mCores.empty()) report.Append("    For: ").Append(mCores).Append("\r\n");
+      report.Append(String::CRLF);
+      if (!mNotes.empty()) report.Append("    Notes: ").Append(mNotes).Append(String::CRLF);
+      if (!mCores.empty()) report.Append("    For: ").Append(mCores).Append(String::CRLF);
 
       // MD5
       if (mStatus == Status::HashNotMatching)
-        report.Append("    Current MD5: ").Append(mRealFileHash.ToString()).Append("\r\n");
+        report.Append("    Current MD5: ").Append(mRealFileHash.ToString()).Append(String::CRLF);
       report.Append("    Possible MD5 List:\r\n");
       for(const Md5Hash& hash : mHashes)
-        report.Append("      ").Append(hash.ToString()).Append("\r\n");
+        report.Append("      ").Append(hash.ToString()).Append(String::CRLF);
       break;
     }
     case Status::Unknown:

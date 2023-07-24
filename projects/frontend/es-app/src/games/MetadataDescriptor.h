@@ -24,9 +24,9 @@ class MetadataDescriptor
     #endif
 
     //! Game node <game></game>
-    static const std::string GameNodeIdentifier;
+    static const String GameNodeIdentifier;
     //! Folder node <folder></folder>
-    static const std::string FolderNodeIdentifier;
+    static const String FolderNodeIdentifier;
 
     //! Game name string holder
     static MetadataStringHolder sNameHolder;
@@ -107,28 +107,28 @@ class MetadataDescriptor
      * @param range Integer range: Highest into MSB, Lowest into LSB
      * @return Converted string
      */
-    static std::string IntToRange(int range);
+    static String IntToRange(int range);
     /*!
      * Convert a range X-Y to an int: Highest into MSB, Lowest into LSB (allow sorting by highest value)
      * @param range Range string
      * @param to destination int
      * @return True if the operation is successful. False otherwise.
      */
-    static bool RangeToInt(const std::string& range, int& to);
+    static bool RangeToInt(const String& range, int& to);
     /*!
      * Convert int32 to Hexadecimal string
      * @param from Int32 value to convert to string
      * @param to Hexadecimal result string
      * @return True if the operation is successful. False otherwise.
      */
-    static bool IntToHex(int from, std::string& to);
+    static bool IntToHex(int from, String& to);
     /*!
      * Convert Hexa string into int32
      * @param from Hexadecimal string
      * @param to Target int32
      * @return True if the operation is successful. False otherwise.
      */
-    static bool HexToInt(const std::string& from, int& to);
+    static bool HexToInt(const String& from, int& to);
     /*!
      * Fast string to int conversion
      * @param from source string
@@ -137,21 +137,21 @@ class MetadataDescriptor
      * @param stop Stop char
      * @return True if the operation is successful. False otherwise.
      */
-    static bool StringToInt(const std::string& from, int& to, int offset, char stop);
+    static bool StringToInt(const String& from, int& to, int offset, char stop);
     /*!
      * Fast string to int conversion
      * @param from source string
      * @param to destination int
      * @return True if the operation is successful. False otherwise.
      */
-    static bool StringToInt(const std::string& from, int& to);
+    static bool StringToInt(const String& from, int& to);
     /*!
      * Fast string to float conversion
      * @param from source string
      * @param to destination float
      * @return True if the operation is successful. False otherwise.
      */
-    static bool StringToFloat(const std::string& from, float& to);
+    static bool StringToFloat(const String& from, float& to);
 
   public:
     /*!
@@ -173,7 +173,7 @@ class MetadataDescriptor
     /*!
      * Default constructor
      */
-    explicit MetadataDescriptor(const Path& path, const std::string& defaultName, ItemType type)
+    explicit MetadataDescriptor(const Path& path, const String& defaultName, ItemType type)
       : mTimeStamp(0)
       , mRomFile(0)
       , mName(0)
@@ -460,32 +460,32 @@ class MetadataDescriptor
      * String accessors
      */
 
-    [[nodiscard]] std::string RomAsString()         const { return (sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile)).ToString(); }
-    [[nodiscard]] std::string NameAsString()        const { return sNameHolder.GetString(mName);                 }
-    [[nodiscard]] std::string EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
-    [[nodiscard]] std::string CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
-    [[nodiscard]] std::string RatioAsString()       const { return sRatioHolder.GetString(mRatio, "auto"); }
-    [[nodiscard]] std::string DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
-    [[nodiscard]] std::string ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
-    [[nodiscard]] std::string ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
-    [[nodiscard]] std::string VideoAsString()       const { return (sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile)).ToString(); }
-    [[nodiscard]] std::string DeveloperAsString()   const { return sDeveloperHolder.GetString(mDeveloper);       }
-    [[nodiscard]] std::string PublisherAsString()   const { return sPublisherHolder.GetString(mPublisher);       }
-    [[nodiscard]] std::string GenreAsString()       const { return sGenreHolder.GetString(mGenre);               }
-    [[nodiscard]] std::string RegionAsString()      const { return Regions::Serialize4Regions(mRegion);          }
+    [[nodiscard]] String RomAsString()         const { return (sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile)).ToString(); }
+    [[nodiscard]] String NameAsString()        const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] String EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
+    [[nodiscard]] String CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
+    [[nodiscard]] String RatioAsString()       const { return sRatioHolder.GetString(mRatio, "auto"); }
+    [[nodiscard]] String DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
+    [[nodiscard]] String ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
+    [[nodiscard]] String ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
+    [[nodiscard]] String VideoAsString()       const { return (sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile)).ToString(); }
+    [[nodiscard]] String DeveloperAsString()   const { return sDeveloperHolder.GetString(mDeveloper);       }
+    [[nodiscard]] String PublisherAsString()   const { return sPublisherHolder.GetString(mPublisher);       }
+    [[nodiscard]] String GenreAsString()       const { return sGenreHolder.GetString(mGenre);               }
+    [[nodiscard]] String RegionAsString()      const { return Regions::Serialize4Regions(mRegion);          }
 
-    [[nodiscard]] std::string RatingAsString()      const { return Strings::ToString(mRating, 2);                        }
-    [[nodiscard]] std::string PlayersAsString()     const { return IntToRange(mPlayers);                                 }
-    [[nodiscard]] std::string ReleaseDateAsString() const { return mReleaseDate != 0 ? DateTime((long long)mReleaseDate).ToCompactISO8601() : ""; }
-    [[nodiscard]] std::string PlayCountAsString()   const { return Strings::ToString(mPlayCount);                           }
-    [[nodiscard]] std::string LastPlayedAsString()  const { return mLastPlayed != 0 ? DateTime((long long)mLastPlayed).ToCompactISO8601() : ""; }
-    [[nodiscard]] std::string FavoriteAsString()    const { return mFavorite ? "true" : "false";                         }
-    [[nodiscard]] std::string RomCrc32AsString()    const { std::string r; IntToHex(mRomCrc32, r); return r;             }
-    [[nodiscard]] std::string HiddenAsString()      const { return mHidden ? "true" : "false";                           }
-    [[nodiscard]] std::string AdultAsString()       const { return mAdult ? "true" : "false";                            }
-    [[nodiscard]] std::string GenreIdAsString()     const { return Strings::ToString((int)mGenreId);                           }
-    [[nodiscard]] std::string LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
-    [[nodiscard]] std::string RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
+    [[nodiscard]] String RatingAsString()      const { return String(mRating, 2);                        }
+    [[nodiscard]] String PlayersAsString()     const { return IntToRange(mPlayers);                                 }
+    [[nodiscard]] String ReleaseDateAsString() const { return mReleaseDate != 0 ? DateTime((long long)mReleaseDate).ToCompactISO8601() : ""; }
+    [[nodiscard]] String PlayCountAsString()   const { return String(mPlayCount);                           }
+    [[nodiscard]] String LastPlayedAsString()  const { return mLastPlayed != 0 ? DateTime((long long)mLastPlayed).ToCompactISO8601() : ""; }
+    [[nodiscard]] String FavoriteAsString()    const { return mFavorite ? "true" : "false";                         }
+    [[nodiscard]] String RomCrc32AsString()    const { String r; IntToHex(mRomCrc32, r); return r;             }
+    [[nodiscard]] String HiddenAsString()      const { return mHidden ? "true" : "false";                           }
+    [[nodiscard]] String AdultAsString()       const { return mAdult ? "true" : "false";                            }
+    [[nodiscard]] String GenreIdAsString()     const { return String((int)mGenreId);                           }
+    [[nodiscard]] String LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
+    [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
 
 
     /*
@@ -522,15 +522,15 @@ class MetadataDescriptor
       mLastPatchFile = sLastPatchFileHolder.AddString16(patch.Filename());
       mDirty = true;
     }
-    void SetEmulator(const std::string& emulator)       { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
-    void SetCore(const std::string& core)               { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
-    void SetRatio(const std::string& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
-    void SetGenre(const std::string& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
-    void SetName(const std::string& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
-    void SetDescription(const std::string& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
+    void SetEmulator(const String& emulator)       { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
+    void SetCore(const String& core)               { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
+    void SetRatio(const String& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
+    void SetGenre(const String& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
+    void SetName(const String& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
+    void SetDescription(const String& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
     void SetReleaseDate(const DateTime& releasedate)    { mReleaseDate  = (int)releasedate.ToEpochTime();              mDirty = true; }
-    void SetDeveloper(const std::string& developer)     { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
-    void SetPublisher(const std::string& publisher)     { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
+    void SetDeveloper(const String& developer)     { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
+    void SetPublisher(const String& publisher)     { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
     void SetRating(float rating)                        { mRating       = rating;                                      mDirty = true; }
     void SetPlayers(int min, int max)                   { mPlayers      = (max << 16) + min;                           mDirty = true; }
     void SetRegion(Regions::RegionPack regions)         { mRegion       = regions;                                     mDirty = true; }
@@ -553,40 +553,40 @@ class MetadataDescriptor
      * Volatile setters - do not set the Dirty flag for auto-saving
      */
 
-    void SetVolatileDescription(const std::string& description) { bool dirty = mDirty; SetDescription(description); mDirty = dirty; }
+    void SetVolatileDescription(const String& description) { bool dirty = mDirty; SetDescription(description); mDirty = dirty; }
     void SetVolatileImagePath(const Path& image) { bool dirty = mDirty; SetImagePath(image); mDirty = dirty; }
 
     /*
      * String setters
      */
 
-    void SetRomPathAsString(const std::string& image)           { SetRomPath(Path(image));           }
-    void SetLastPatchAsString(const std::string& patch)         { SetLastPatch(Path(patch)); }
-    void SetImagePathAsString(const std::string& image)         { SetImagePath(Path(image));         }
-    void SetThumbnailPathAsString(const std::string& thumbnail) { SetThumbnailPath(Path(thumbnail)); }
-    void SetVideoPathAsString(const std::string& video)         { SetVideoPath(Path(video));         }
-    void SetReleaseDateAsString(const std::string& releasedate)
+    void SetRomPathAsString(const String& image)           { SetRomPath(Path(image));           }
+    void SetLastPatchAsString(const String& patch)         { SetLastPatch(Path(patch)); }
+    void SetImagePathAsString(const String& image)         { SetImagePath(Path(image));         }
+    void SetThumbnailPathAsString(const String& thumbnail) { SetThumbnailPath(Path(thumbnail)); }
+    void SetVideoPathAsString(const String& video)         { SetVideoPath(Path(video));         }
+    void SetReleaseDateAsString(const String& releasedate)
     {
       DateTime st;
       mReleaseDate = DateTime::FromCompactISO6801(releasedate, st) ? (int)st.ToEpochTime() : 0;
       mDirty = true;
     }
-    void SetLastPlayedAsString(const std::string& lastplayed)
+    void SetLastPlayedAsString(const String& lastplayed)
     {
       DateTime st;
       mLastPlayed = DateTime::FromCompactISO6801(lastplayed, st) ? (int)st.ToEpochTime() : 0;
       mDirty = true;
     }
-    void SetRatingAsString(const std::string& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) SetRating(f);              }
-    void SetPlayersAsString(const std::string& players)         { if (!RangeToInt(players, mPlayers)) SetPlayers(1, 1);                    }
-    void SetFavoriteAsString(const std::string& favorite)       { SetFavorite(favorite == "true");                                         }
-    void SetHiddenAsString(const std::string& hidden)           { SetHidden(hidden == "true");                                             }
-    void SetAdultAsString(const std::string& adult)             { SetAdult(adult == "true");                                             }
-    void SetRomCrc32AsString(const std::string& romcrc32)       { int c = 0; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
-    void SetPlayCountAsString(const std::string& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlayCount = (short)p; mDirty = true; } }
-    void SetGenreIdAsString(const std::string& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
-    void SetRegionAsString(const std::string& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
-    void SetRotationAsString(const std::string& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
+    void SetRatingAsString(const String& rating)           { float f = 0.0f; if (StringToFloat(rating, f)) SetRating(f);              }
+    void SetPlayersAsString(const String& players)         { if (!RangeToInt(players, mPlayers)) SetPlayers(1, 1);                    }
+    void SetFavoriteAsString(const String& favorite)       { SetFavorite(favorite == "true");                                         }
+    void SetHiddenAsString(const String& hidden)           { SetHidden(hidden == "true");                                             }
+    void SetAdultAsString(const String& adult)             { SetAdult(adult == "true");                                             }
+    void SetRomCrc32AsString(const String& romcrc32)       { int c = 0; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
+    void SetPlayCountAsString(const String& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlayCount = (short)p; mDirty = true; } }
+    void SetGenreIdAsString(const String& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
+    void SetRegionAsString(const String& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
+    void SetRotationAsString(const String& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
     /*
      * Defaults
      */
@@ -674,35 +674,35 @@ class MetadataDescriptor
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInNames(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sNameHolder.FindText(originaltext, output, context); }
+    static void SearchInNames(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sNameHolder.FindText(originaltext, output, context); }
 
     /*!
      * @brief Search text in descriptions
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInDescription(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDescriptionHolder.FindText(originaltext, output, context); }
+    static void SearchInDescription(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDescriptionHolder.FindText(originaltext, output, context); }
 
     /*!
      * @brief Search text in developer names
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInDeveloper(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDeveloperHolder.FindText(originaltext, output, context); }
+    static void SearchInDeveloper(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sDeveloperHolder.FindText(originaltext, output, context); }
 
     /*!
      * @brief Search text in publisher names
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInPublisher(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sPublisherHolder.FindText(originaltext, output, context); }
+    static void SearchInPublisher(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sPublisherHolder.FindText(originaltext, output, context); }
 
     /*!
      * @brief Search text in file names
      * @param originaltext Text to search for
      * @param output Result container
      */
-    static void SearchInPath(const std::string& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sFileHolder.FindText(originaltext, output, context); }
+    static void SearchInPath(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sFileHolder.FindText(originaltext, output, context); }
 
     /*
      * Part comparers

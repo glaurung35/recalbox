@@ -12,9 +12,9 @@ class BiosList
 {
   private:
     //! System full name
-    std::string mSystemFullName;
+    String mSystemFullName;
     //! System short name
-    std::string mSystemName;
+    String mSystemName;
 
     //! Bios list
     std::vector<Bios> mBiosList;
@@ -69,22 +69,22 @@ class BiosList
      * @brief Get missing bios file list
      * @return File list
      */
-    std::vector<std::string> GetMissingBiosFileList() const;
+    [[nodiscard]] String::List GetMissingBiosFileList() const;
 
     /*!
      * @brief Generate missing bios report
      * @return Text Report
      */
-    std::string GenerateReport() const;
+    [[nodiscard]] String GenerateReport() const;
 
     /*
      * Accessors
      */
 
     //! Get system long name
-    const std::string& FullName() const { return mSystemFullName; }
+    const String& FullName() const { return mSystemFullName; }
     //! Get system short name
-    const std::string& Name() const { return mSystemName; }
+    const String& Name() const { return mSystemName; }
 
     /*!
      * @brief Get summary status of this bios list

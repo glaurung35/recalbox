@@ -21,9 +21,9 @@ class GameNameMapManager
     static int         mMameNameHashes[sMameListSize];
 
     //! Mame device files - TODO: use et set
-    static HashMap<std::string, bool> mMameDevices;
+    static HashMap<String, bool> mMameDevices;
     //! Mame bios files - TODO: use et set
-    static HashMap<std::string, bool> mMameBios;
+    static HashMap<String, bool> mMameBios;
 
     //! Mame names
     static const char* mFlashbackNameToRealName[sFlashbackListSize * 2];
@@ -45,14 +45,14 @@ class GameNameMapManager
      * @param from Filename
      * @return Game name or nullptr
      */
-    static const char* GetCleanMameName(const std::string& from);
+    static const char* GetCleanMameName(const String& from);
 
     /*!
      * @brief Get a Flashback game name, given the file name
      * @param from Filename
      * @return Game name or nullptr
      */
-    static const char* GetCleanFlashbackName(const std::string& from);
+    static const char* GetCleanFlashbackName(const String& from);
 
   public:
 
@@ -76,7 +76,7 @@ class GameNameMapManager
      * @param filenameWoExt Game filename w/o extension
      * @return True if the game has to be filtered out
      */
-    static bool IsFiltered(const SystemData& system, const std::string& filenameWoExt);
+    static bool IsFiltered(const SystemData& system, const String& filenameWoExt);
 
     /*!
      * @brief Rename game if required
@@ -84,5 +84,5 @@ class GameNameMapManager
      * @param filenameWoExt Game filename w/o extension
      * @return Original or new game name
      */
-    static std::string Rename(const SystemData& system, const std::string& filenameWoExt);
+    static String Rename(const SystemData& system, const String& filenameWoExt);
 };

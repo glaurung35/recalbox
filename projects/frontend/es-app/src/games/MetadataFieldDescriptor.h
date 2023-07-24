@@ -6,9 +6,9 @@
 //! Method pointer to default value getters
 typedef bool (MetadataDescriptor::*IsDefaultValueMethodType)() const;
 //! Method pointer to string getters
-typedef std::string (MetadataDescriptor::*GetValueMethodType)() const;
+typedef String (MetadataDescriptor::*GetValueMethodType)() const;
 //! Method pointer to string setters
-typedef void (MetadataDescriptor::*SetValueMethodType)(const std::string& value);
+typedef void (MetadataDescriptor::*SetValueMethodType)(const String& value);
 //! Method pointer to string setters
 typedef void (MetadataDescriptor::*SetPathMethodType)(const Path& value);
 
@@ -31,16 +31,16 @@ class MetadataFieldDescriptor
     enum class DataType
     {
         // Simple types
-        String,  //!< std::string
+        String,  //!< String
         Int,     //!< int
         Short,   //!< short
         Bool,    //!< bool
         Float,   //!< float
 
         // Derived types
-        Text,    //!< Multiline text (std::string)
+        Text,    //!< Multiline text (String)
         List,    //!< Simple text from a fixed list
-        Path,    //!< File path (std::string)
+        Path,    //!< File path (String)
         Rating,  //!< Floating point value between 0.0 and 1.0 (float)
         Date,    //!< Epoc (int)
         Range,   //!< Integer range: LSW:from MSW:to
@@ -48,10 +48,10 @@ class MetadataFieldDescriptor
     };
 
   private:
-    std::string               _Key;                  //!< Identifier
-    std::string               _DefaultValue;         //!< default value
-    std::string               _DisplayName;          //!< displayed as this in editors
-    std::string               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
+    String               _Key;                  //!< Identifier
+    String               _DefaultValue;         //!< default value
+    String               _DisplayName;          //!< displayed as this in editors
+    String               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     MetadataType              _MetadataType;         //!< Named metadata type
     DataType                  _DataType;             //!< Datatype
     EditableType              _EditType;             //!< Editable type
@@ -63,10 +63,10 @@ class MetadataFieldDescriptor
 
   public:
     // Public const accessors
-    [[nodiscard]] const std::string&        Key()                  const { return _Key;                  } //!< Identifier
-    [[nodiscard]] const std::string&        DefaultValue()         const { return _DefaultValue;         } //!< default value
-    [[nodiscard]] const std::string&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
-    [[nodiscard]] const std::string&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
+    [[nodiscard]] const String&        Key()                  const { return _Key;                  } //!< Identifier
+    [[nodiscard]] const String&        DefaultValue()         const { return _DefaultValue;         } //!< default value
+    [[nodiscard]] const String&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
+    [[nodiscard]] const String&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     [[nodiscard]] MetadataType              MetaType()             const { return _MetadataType;         } //!< Named metadata type
     [[nodiscard]] DataType                  Type()                 const { return _DataType;             } //!< Datatype
     [[nodiscard]] EditableType              EditType()             const { return _EditType;             } //!< Editable type
@@ -77,10 +77,10 @@ class MetadataFieldDescriptor
     [[nodiscard]] bool                      IsMain()               const { return _IsMain;               } //!< if true, display on main metadata editor GUI, else in secondary
 
     //! Constructor
-    MetadataFieldDescriptor(const std::string&        key,
-                            const std::string&        defaultValue,
-                            const std::string&        displayName,
-                            const std::string&        displayPrompt,
+    MetadataFieldDescriptor(const String&        key,
+                            const String&        defaultValue,
+                            const String&        displayName,
+                            const String&        displayPrompt,
                             MetadataType              metadataType,
                             DataType                  type,
                             EditableType              edittype,

@@ -90,37 +90,28 @@ std::string GuiMenuGamelistGameDeleteOptions::ComputeMessage()
   message.Append(_("You are about to delete this files, confirm ?"));
   message.Append("\n\n");
   message.Append(mGame.RomPath().Filename()).Append('\n');
+
   for(const auto& path : mGameFiles)
-  {
     message.Append(Path(path).Filename()).Append('\n');
-  }
+
   if(!mExtraFiles.empty())
-  {
     for (const auto& path: mExtraFiles)
-    {
       message.Append(Path(path).Filename()).Append('\n');
-    }
-  }
 
   if(!mSaveFiles.empty())
-  {
     for (const auto& path: mSaveFiles)
-    {
       message.Append(Path(path).Filename()).Append('\n');
-    }
-  }
 
   if(!mMediaFiles.empty())
-  {
     for (const auto& path: mMediaFiles)
     {
-      if(Strings::Contains(path, "/media/images/"))
+      if (path.Contains("/media/images/"))
         message.Append(_("Image")).Append('\n');
-      if(Strings::Contains(path, "/media/thumbnails/"))
+      if (path.Contains("/media/thumbnails/"))
         message.Append(_("Thumbnail")).Append('\n');
-      if(Strings::Contains(path, "/media/videos/"))
+      if (path.Contains("/media/videos/"))
         message.Append(_("Video")).Append('\n');
     }
-  }
+
   return message;
 }

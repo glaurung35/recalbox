@@ -14,7 +14,7 @@ class SystemDeserializer
 {
   public:
     //! Convenient alias for system collision map
-    typedef std::map<std::string, int> XmlNodeCollisionMap;
+    typedef std::map<String, int> XmlNodeCollisionMap;
     //! Convenient alias for XML node list
     typedef std::vector<XmlNode> XmlNodeList;
 

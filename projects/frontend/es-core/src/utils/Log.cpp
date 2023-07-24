@@ -27,9 +27,9 @@ void Log::open(const char* filename)
   // Backup?
   if (logpath.Exists())
   {
-    if (system(std::string("rm -f ").append(logpath.ToString()+".backup").data()) != 0)
+    if (system(String("rm -f ").Append(logpath.ToString()+".backup").data()) != 0)
     { printf("[Logs] Cannot remove old log!"); }
-    if (system(std::string("mv ").append(logpath.ToString()).append(1, ' ').append(logpath.ToString()+".backup").data()) != 0)
+    if (system(String("mv ").Append(logpath.ToString()).Append(' ').Append(logpath.ToString()+".backup").data()) != 0)
     { printf("[Logs] Cannot backup current log!"); }
   }
 
@@ -39,11 +39,11 @@ void Log::open(const char* filename)
 
 Log& Log::get(LogLevel level)
 {
-	mMessage.append(1, '[')
-	        .append(DateTime().ToPreciseTimeStamp())
-	        .append("] (")
-	        .append(sStringLevel[(int)level])
-	        .append(") : ");
+	mMessage.Append('[')
+	        .Append(DateTime().ToPreciseTimeStamp())
+	        .Append("] (")
+	        .Append(sStringLevel[(int)level])
+	        .Append(") : ");
 	messageLevel = level;
 
 	return *this;
@@ -51,7 +51,7 @@ Log& Log::get(LogLevel level)
 
 void Log::flush()
 {
-	fflush(sFile);
+  (void)fflush(sFile);
 }
 
 void Log::close()
@@ -68,7 +68,7 @@ void Log::close()
 void Log::doClose()
 {
   if (sFile != nullptr)
-    fclose(sFile);
+    (void)fclose(sFile);
   sFile = nullptr;
 }
 
@@ -83,12 +83,12 @@ Log::~Log()
   }
 
   mMessage += '\n';
-	fputs(mMessage.c_str(), sFile);
+  (void)fputs(mMessage.c_str(), sFile);
 	if (!loggerClosed) flush();
 	else doClose();
 
   // if it's an error, also print to console
   // print all messages if using --debug
   if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
-    fputs(mMessage.c_str(), stdout);
+    (void)fputs(mMessage.c_str(), stdout);
 }

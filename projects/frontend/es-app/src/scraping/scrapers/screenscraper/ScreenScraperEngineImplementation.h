@@ -12,7 +12,7 @@
 class ScreenScraperEngineImplementation : public ScreenScraperEngineBase
 {
   public:
-    ScreenScraperEngineImplementation(IScraperEngineFreezer* freezer)
+    explicit ScreenScraperEngineImplementation(IScraperEngineFreezer* freezer)
       : ScreenScraperEngineBase(Endpoint(), freezer)
       , mLanguage(Languages::Unknown)
       , mRegion(Regions::GameRegions::Unknown)
@@ -29,9 +29,9 @@ class ScreenScraperEngineImplementation : public ScreenScraperEngineBase
 
   private:
     //! Screenscraper credentials: Login
-    std::string mLogin;
+    String mLogin;
     //! Screenscraper credentials: Password
-    std::string mPassword;
+    String mPassword;
     //! Favorite language
     Languages mLanguage;
     //! Favorite region
@@ -69,8 +69,8 @@ class ScreenScraperEngineImplementation : public ScreenScraperEngineBase
     {
       RecalboxConf& conf = RecalboxConf::Instance();
       // Credentials
-      mLogin          = Strings::Trim(conf.GetScreenScraperLogin());
-      mPassword       = Strings::Trim(conf.GetScreenScraperPassword());
+      mLogin          = conf.GetScreenScraperLogin().Trim();
+      mPassword       = conf.GetScreenScraperPassword().Trim();
 
       // Language & region
       mRegion         = conf.GetScreenScraperRegion();
@@ -88,43 +88,43 @@ class ScreenScraperEngineImplementation : public ScreenScraperEngineBase
     }
 
     //! Get screenscraper login
-    std::string GetLogin() const override { return mLogin; }
+    [[nodiscard]] String GetLogin() const override { return mLogin; }
 
     //! Get screenscraper password
-    std::string GetPassword() const override { return mPassword; }
+    [[nodiscard]] String GetPassword() const override { return mPassword; }
 
     //! TODO: Change that we should create a bearer vs basic auth interface
-    std::string GetBearer() const override { return Strings::Empty; }
+    [[nodiscard]] String GetBearer() const override { return String::Empty; }
 
     //! Get favorite language
-    Languages GetFavoriteLanguage() const override { return mLanguage; };
+    [[nodiscard]] Languages GetFavoriteLanguage() const override { return mLanguage; };
 
     //! Get favorite region
-    Regions::GameRegions GetFavoriteRegion() const override { return mRegion; }
+    [[nodiscard]] Regions::GameRegions GetFavoriteRegion() const override { return mRegion; }
 
     //! Get main image type
-    ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mMainImage; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mMainImage; }
 
     //! Get thumbnail image typ
-    ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mThumbnailImage; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mThumbnailImage; }
 
     //! Check if video are required
-    ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override { return mVideo; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override { return mVideo; }
 
     //! Check if marquee are required
-    bool GetWantMarquee() const override { return mWantMarquee; }
+    [[nodiscard]] bool GetWantMarquee() const override { return mWantMarquee; }
 
     //! Check if wheel are required
-    bool GetWantWheel() const override { return mWantWheel; }
+    [[nodiscard]] bool GetWantWheel() const override { return mWantWheel; }
 
     //! Check if manual are required
-    bool GetWantManual() const override { return mWantManual; }
+    [[nodiscard]] bool GetWantManual() const override { return mWantManual; }
 
     //! Check if maps are required
-    bool GetWantMaps() const override { return mWantMaps; }
+    [[nodiscard]] bool GetWantMaps() const override { return mWantMaps; }
 
     //! Check if p2k are required
-    bool GetWantP2K() const override { return mWantP2K; }
+    [[nodiscard]] bool GetWantP2K() const override { return mWantP2K; }
 };
 
 

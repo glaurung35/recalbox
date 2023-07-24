@@ -26,7 +26,7 @@ GuiMenuRetroAchievements::GuiMenuRetroAchievements(WindowManager& window)
   mPassword = AddEditable(_("PASSWORD"), RecalboxConf::Instance().GetRetroAchievementPassword(), (int)Components::Password, this, true);
 }
 
-void GuiMenuRetroAchievements::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuRetroAchievements::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::Login) RecalboxConf::Instance().SetRetroAchievementLogin(text).Save();
   else if ((Components)id == Components::Password) RecalboxConf::Instance().SetRetroAchievementPassword(text).Save();

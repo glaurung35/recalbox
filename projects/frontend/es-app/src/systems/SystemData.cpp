@@ -42,8 +42,8 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
 
   try
   {
-    std::string ignoreList(1, ','); ignoreList.append(mDescriptor.IgnoredFiles()).append(1, ',');
-    root.PopulateRecursiveFolder(root, Strings::ToLowerASCII(mDescriptor.Extension()), ignoreList, doppelgangerWatcher);
+    String ignoreList(','); ignoreList.Append(mDescriptor.IgnoredFiles()).Append(',');
+    root.PopulateRecursiveFolder(root, mDescriptor.Extension().ToLowerCase(), ignoreList, doppelgangerWatcher);
   }
   catch (std::exception& ex)
   {
@@ -127,7 +127,7 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
   for (int itemIndex = itemStart; itemIndex <= itemLast; ++itemIndex)
   {
     // Get the key for duplicate detection. MUST MATCH KEYS USED IN populateRecursiveFolder.populateRecursiveFolder - Always fullpath
-    std::string key = path.UptoItem(itemIndex);
+    String key = path.UptoItem(itemIndex);
     FileData** itemFound = doppelgangerWatcher.try_get(key);
     FileData* item = itemFound != nullptr ? *itemFound : nullptr;
 
@@ -196,7 +196,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
     if (!xmlpath.Exists()) return;
 
     XmlDocument gameList;
-    if (Strings::ToLowerASCII(xmlpath.Extension()) == ".zip")
+    if (xmlpath.Extension().LowerCase() == ".zip")
     {
       Zip zip(xmlpath);
       if (zip.Count() != 1)
@@ -210,7 +210,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         { LOG(LogError) << "[Gamelist] Invalid zipped gamelist: No gamelist.xml found!"; }
         return;
       }
-      std::string content = zip.Content(0);
+      String content = zip.Content(0);
       XmlResult result = gameList.load_string(content.data());
       if (!result)
       {
@@ -228,7 +228,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       }
     }
 
-    std::string ignoreList(1, ','); ignoreList.append(mDescriptor.IgnoredFiles()).append(1, ',');
+    String ignoreList(','); ignoreList.Append(mDescriptor.IgnoredFiles()).Append(',');
 
     const Path relativeTo(root.RomPath());
     XmlNode games = gameList.child("gameList");
@@ -237,7 +237,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
     if (games != nullptr)
     {
       // build game subfiles blacklist
-      std::string extensions = mDescriptor.Extension();
+      String extensions = mDescriptor.Extension();
       if (GameFilesUtils::ContainsMultiDiskFile(extensions))
         for (const XmlNode fileNode: games.children())
         {
@@ -248,7 +248,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
       for (const XmlNode fileNode: games.children())
       {
         ItemType type = ItemType::Game;
-        std::string name = fileNode.name();
+        String name = fileNode.name();
         if (name == "folder") type = ItemType::Folder;
         else if (name != "game") continue; // Unknown node
 
@@ -258,9 +258,9 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
             continue;
 
         // Force to hide ignored files
-        const std::string fileName = path.Filename();
+        const String fileName = path.Filename();
         int p = (int)ignoreList.find(fileName);
-        if (p != (int)std::string::npos)
+        if (p != (int)String::npos)
           if (p > 0 && ignoreList[p-1] == ',')
             if (ignoreList[p + fileName.length()] == ',')
               continue;
@@ -333,8 +333,8 @@ void SystemData::UpdateGamelistXml()
          */
         struct XmlWriter : public pugi::xml_writer
         {
-          std::string mOutput;
-          void write(const void* data, size_t size) override { mOutput.append((const char*)data, size); }
+          String mOutput;
+          void write(const void* data, size_t size) override { mOutput.Append((const char*)data, (int)size); }
         }
         Writer;
 
@@ -348,7 +348,7 @@ void SystemData::UpdateGamelistXml()
         document.save(Writer);
 
         // Save
-        if (Strings::ToLowerASCII(xmlWritePath.Extension()) == ".zip")
+        if (xmlWritePath.Extension().LowerCase() == ".zip")
         {
           Zip zip(xmlWritePath, true);
           Path xmlTruePath = xmlWritePath.ChangeExtension(".xml");
@@ -472,12 +472,6 @@ RootFolderData& SystemData::LookupOrCreateRootFolder(const Path& startpath, Root
   if (lookup != nullptr) return *lookup;
 
   return CreateRootFolder(startpath, childownership, type);
-}
-
-FolderData& SystemData::GetFavoriteRoot()
-{
-  if (!IsFavorite()) { LOG(LogError) << "[System] Virtual Root requested on NON-FAVORITE SYSTEM!"; }
-  return LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
 }
 
 bool SystemData::HasGame() const

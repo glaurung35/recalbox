@@ -17,7 +17,7 @@ class RootFolderData;
 class FileData
 {
   public:
-    typedef HashMap<std::string, FileData*> StringMap;
+    typedef HashMap<String, FileData*> StringMap;
     typedef std::vector<FileData*> List;
     typedef std::vector<const FileData*> ConstList;
     typedef int (*Comparer)(const FileData& a, const FileData& b);
@@ -105,7 +105,7 @@ class FileData
      */
 
     [[nodiscard]] inline String Name() const { return mMetadata.Name(); }
-    [[nodiscard]] inline std::string Hash() const { return mMetadata.RomCrc32AsString(); }
+    [[nodiscard]] inline String Hash() const { return mMetadata.RomCrc32AsString(); }
     [[nodiscard]] inline ItemType Type() const { return mType; }
     [[nodiscard]] inline Path RomPath() const { return mMetadata.Rom(); }
     [[nodiscard]] inline FolderData* Parent() const { return mParent; }
@@ -153,13 +153,6 @@ class FileData
     MetadataDescriptor& Metadata() { return mMetadata; }
 
     /*!
-     * Get smart default name, when available, depending of the file/folder name
-     * Mainly used to get smart naming from arcade zipped roms
-     * @return Smart name of the current item, or file/folder name
-     */
-    [[nodiscard]] std::string DisplayName(const Path& romPath) const;
-
-    /*!
      * @brief Get Pad2Keyboard configuration file path
      * @return Pad2Keyboard configuration file path
      */
@@ -187,33 +180,13 @@ class FileData
      * @brief Get region string
      * @return
      */
-    std::string Regions();
+    String Regions();
 
     /*!
      * @brief Check if file data can be displayable
      * @return displayable state
      */
     [[nodiscard]] bool IsDisplayable(TopLevelFilter topfilter) const;
-
-    /*!
-     * @brief Check if file data is not a game
-     * @return no game state
-     */
-    [[nodiscard]] bool IsNoGame() const { return ((int)mProperties & (int)InternalProperties::NotAGame) != 0; }
-
-    /*!
-     * @brief Check if file data is preinstalled game
-     * @return is preinstalled state
-     */
-    [[nodiscard]] bool IsPreinstalled() const { return ((int)mProperties & (int)InternalProperties::Preinstalled) != 0; }
-
-    /*!
-     * @brief Update metadata from the given FileData.
-     * This method update only if both rom path are equals!
-     * @param from Source data
-     * @return True if metadata have been updated, false otherwise
-     */
-    bool UpdateMetadataFrom(FileData& from);
 
     /*!
      * @brief Check if rom path equals the rom path of the given filedata

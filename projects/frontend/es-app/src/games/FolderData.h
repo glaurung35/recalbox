@@ -12,7 +12,7 @@ class FolderData : public FileData
     using FileData::CalculateHash;
 
     //! Blacklist
-    typedef HashSet<std::string> FileSet;
+    typedef HashSet<String> FileSet;
 
   protected:
     //! Current folder child list
@@ -112,7 +112,7 @@ class FolderData : public FileData
      * @param path Current tree path
      * @return First mathing game or nullptr
      */
-    [[nodiscard]] FileData* LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const;
+    [[nodiscard]] FileData* LookupGame(const String& item, SearchAttributes attributes, const String& path) const;
 
     /*!
      * Highly optimized Quicksort, inspired from original Delphi 7 code
@@ -130,10 +130,10 @@ class FolderData : public FileData
      */
     static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
 
-    static bool ContainsMultiDiskFile(const std::string& extensions)
+    static bool ContainsMultiDiskFile(const String& extensions)
     {
-      return Strings::Contains(extensions, ".m3u") || Strings::Contains(extensions, ".cue") ||
-      Strings::Contains(extensions, ".ccd") || Strings::Contains(extensions, ".gdi");
+      return extensions.Contains(".m3u") || extensions.Contains(".cue") ||
+             extensions.Contains(".ccd") || extensions.Contains(".gdi");
     }
 
     static void ExtractUselessFiles(const Path::PathList& items, FileSet& blacklist);
@@ -142,7 +142,7 @@ class FolderData : public FileData
     static void ExtractUselessFilesFromCcd(const Path& path, FileSet& list);
     static void ExtractUselessFilesFromM3u(const Path& path, FileSet& list);
     static void ExtractUselessFilesFromGdi(const Path& path, FileSet& list);
-    static void ExtractFileNameFromLine(const std::string& line, FileSet& list);
+    static void ExtractFileNameFromLine(const String& line, FileSet& list);
 
     static constexpr int sMaxGdiFileSize = (10 << 10); // 10 Kb
 
@@ -307,7 +307,7 @@ class FolderData : public FileData
      * @param systemData System to attach to
      * @param doppelgangerWatcher Map used to check duplicate games
      */
-    void PopulateRecursiveFolder(RootFolderData& root, const std::string& filteredExtensions, const std::string& ignoreList, FileData::StringMap& doppelgangerWatcher);
+    void PopulateRecursiveFolder(RootFolderData& root, const String& filteredExtensions, const String& ignoreList, FileData::StringMap& doppelgangerWatcher);
 
     /*!
      * Get next favorite game, starting from the reference entry
@@ -323,7 +323,7 @@ class FolderData : public FileData
      * @param attributes Compare item against hashes, filenames or filenames with extension
      * @return First matching game or nullptr
      */
-    [[nodiscard]] FileData* LookupGame(const String& item, SearchAttributes attributes) const { return LookupGame(item, attributes, std::string()); }
+    [[nodiscard]] FileData* LookupGame(const String& item, SearchAttributes attributes) const { return LookupGame(item, attributes, String()); }
 
     /*!
      * @brief Lookup a game by file path recusively

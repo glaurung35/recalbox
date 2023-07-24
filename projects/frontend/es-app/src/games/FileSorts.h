@@ -57,13 +57,13 @@ class FileSorts
     //! Sort record
     struct SortType
     {
-      std::string mDescription;
+      String mDescription;
       FileData::Comparer mComparer;
       ComparerArcade mComparerArcade;
       Sorts mSort;
       bool mAscending;
 
-      SortType(Sorts sort, FileData::Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const std::string & sortDescription)
+      SortType(Sorts sort, FileData::Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const String & sortDescription)
         : mDescription(sortDescription),
           mComparer(sortFunction),
           mComparerArcade(sortFunctionArcade),
@@ -82,7 +82,7 @@ class FileSorts
      * @param b Right string
      * @return Quicksort compare value: negative, 0 or positive
      */
-    static int unicodeCompareUppercase(const std::string& a, const std::string& b);
+    static int unicodeCompareUppercase(const String& a, const String& b);
 
     /*!
      * @brief Compare top level type Folder/game
@@ -148,7 +148,7 @@ class FileSorts
      * @param sort Sort to get name from
      * @return Sort name
      */
-    static const std::string& Name(Sorts sort);
+    static const String& Name(Sorts sort);
 
     /*!
      * @brief Return whether the given sort is an ascending sort or not

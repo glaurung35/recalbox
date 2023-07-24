@@ -397,7 +397,7 @@ void GuiBiosScan::UpdateBiosList()
     std::string prefix;
     if (system != nullptr) prefix = system->Descriptor().IconPrefix();
     int headerIndex = (int)mList->size();
-    mList->add((!prefix.empty() ? prefix : "\uF200 ") + Strings::ToUpperUTF8(biosList.FullName()), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
+    mList->add((!prefix.empty() ? prefix : "\uF200 ") + biosList.FullName().ToUpperCase(), ListContext(), sColorIndexNormal, -1, HorizontalAlignment::Left);
     ListContext headerContext = ListContext(&biosList, nullptr);
 
     totalBiosNotFound    += biosList.TotalFileNotFound();
@@ -408,7 +408,7 @@ void GuiBiosScan::UpdateBiosList()
     for(int j = 0; j < biosList.BiosCount(); ++j)
     {
       const Bios& bios = biosList.BiosAt(j);
-      mList->add(Strings::ToUpperASCII(bios.Filename()) + sSuffixes[bios.LightStatus()], ListContext(&biosList, &bios), bios.BiosStatus() == Bios::Status::FileNotFound ? sColorIndexHalf : sColorIndexNormal, -1, HorizontalAlignment::Right);
+      mList->add(bios.Filename().ToUpperCase() + sSuffixes[bios.LightStatus()], ListContext(&biosList, &bios), bios.BiosStatus() == Bios::Status::FileNotFound ? sColorIndexHalf : sColorIndexNormal, -1, HorizontalAlignment::Right);
     }
     mList->setSelectedAt(headerIndex, headerContext);
 

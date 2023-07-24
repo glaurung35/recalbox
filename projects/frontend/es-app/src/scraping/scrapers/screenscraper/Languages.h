@@ -4,7 +4,7 @@
 
 #pragma once
 
-#include <vector>
+#include <utils/String.h>
 
 enum class Languages
 {
@@ -35,19 +35,19 @@ class LanguagesTools
 {
   public:
 
-    static const std::string& LanguagesFullName(Languages language);
+    static const String& LanguagesFullName(Languages language);
 
     typedef std::vector<Languages> List;
     static const List& AvailableLanguages();
 
 
-    static Languages DeserializeLanguage(const std::string& language);
-    static const std::string& SerializeLanguage(Languages language);
+    static Languages DeserializeLanguage(const String& language);
+    static const String& SerializeLanguage(Languages language);
 
 
-    static Languages LanguageFromString(const std::string& languages);
+    static Languages LanguageFromString(const String& languages);
 
-    static const std::string& LanguageFromEnum(Languages languages);
+    static const String& LanguageFromEnum(Languages languages);
 
     static Languages GetScrapingLanguage();
 };

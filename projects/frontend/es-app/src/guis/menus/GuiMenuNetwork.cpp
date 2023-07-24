@@ -17,10 +17,10 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   , mFillingList(false)
 {
   // Network status
-  mStatus = AddText(_("STATUS"), Strings::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
+  mStatus = AddText(_("STATUS"), String::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
 
   // IP
-  mIP = AddText(_("IP ADDRESS"), Strings::Empty, _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
+  mIP = AddText(_("IP ADDRESS"), String::Empty, _(MENUMESSAGE_NETWORK_IP_HELP_MSG));
 
   // WIFI ON/OFF
   mWifiOnOff = AddSwitch(_("ENABLE WIFI"), RecalboxConf::Instance().GetWifiEnabled(), (int)Components::WifiKey, this, _(MENUMESSAGE_NETWORK_WIFI_HELP_MSG));
@@ -203,7 +203,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
   mMenu.onSizeChanged();
 }
 
-void GuiMenuNetwork::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuNetwork::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::WifiKey)
   {

@@ -1,8 +1,7 @@
 #pragma once
 
-#include <string>
 #include <vector>
-#include <cstring>
+#include <string>
 
 #define LEGACY_STRING(x) x, (int)sizeof(x)-1
 
@@ -37,43 +36,15 @@ class Strings
       return unicode;
     }
 
-    /* static unsigned int LowerChar(const std::string& utf8string)
-    {
-      int dummy = 0;
-      unsigned int unicode = chars2Unicode(utf8string, dummy);
-      if (unicode < sUnicodeSize) return sCapitalToSmall[unicode] == 0 ? unicode : sCapitalToSmall[unicode];
-      return unicode;
-    } */
-
     static unsigned int UpperChar(unsigned int unicode)
     {
       if (unicode < sUnicodeSize) return sSmallToCapital[unicode] == 0 ? unicode : sSmallToCapital[unicode];
       return unicode;
     }
 
-    /* static unsigned int LowerChar(unsigned int unicode)
-    {
-      if (unicode < sUnicodeSize) return sCapitalToSmall[unicode] == 0 ? unicode : sCapitalToSmall[unicode];
-      return unicode;
-    } */
-
     static unsigned int chars2Unicode(const std::string& _string, int& _cursor);
 
     static std::string unicode2Chars(unsigned int _unicode);
-
-    //static size_t nextCursor(const std::string& _string, size_t _cursor);
-
-    //static size_t prevCursor(const std::string& _string, size_t _cursor);
-
-    //static size_t moveCursor(const std::string& _string, size_t _cursor, int _amount);
-
-    /**/ static int CountChar(const std::string& source, char c);
-
-    /**/ static bool Contains(const std::string& source, const char* what);
-
-    /**/ static bool Contains(const std::string& source, const std::string& what);
-
-    /**/ static bool Contains(const char* source, const char* what);
 
     /**/ static std::string ToLowerUTF8(const std::string& _string);
 
@@ -105,8 +76,6 @@ class Strings
 
     /**/ static bool StartsWith(const std::string& _string, const char* _start, int length);
 
-    /**/ static bool EndsWith(const std::string& _string, const std::string& _end);
-
     static std::string RemoveParenthesis(const std::string& _string);
 
     /**/static Vector Split(const std::string& _string, char splitter, bool multipleSplittersAsOne = false);
@@ -129,8 +98,6 @@ class Strings
 
     /**/ static std::string Format(const char* _string, ...);
 
-    /* static std::string ScrambleSymetric(const std::string& _input, const std::string& key); */
-
     static std::string ScrambleSymetric2(const std::string& _input, const std::string& key);
 
     /**/ static bool ToInt(const std::string& source, int index, char stop, int& out);
@@ -141,19 +108,13 @@ class Strings
 
     /**/ static bool ToLong(const std::string& source, int index, char stop, long long int& out);
 
-    /* static bool ToLong(const std::string& source, int index, long long int& out) { return ToLong(source, index, 0, out); } */
-
     /**/ static bool ToLong(const std::string& source, long long int& out) { return ToLong(source, 0, 0, out); }
 
     /**/ static bool ToFloat(const std::string& source, int index, char stop, float& out);
 
-    /* static bool ToFloat(const std::string& source, int index, float& out) { return ToFloat(source, index, 0, out); } */
-
     /**/ static bool ToFloat(const std::string& source, float& out) { return ToFloat(source, 0, 0, out); }
 
     /**/ static bool ToBool(const std::string& source, int index, char stop, bool& out);
-
-    /* static bool ToBool(const std::string& source, int index, bool& out) { return ToBool(source, index, 0, out); } */
 
     /**/ static bool ToBool(const std::string& source, bool& out) { return ToBool(source, 0, 0, out); }
 
@@ -175,23 +136,7 @@ class Strings
 
     /**/ static std::string ToString(float value, int precision);
 
-    /**/ static int ToHash(const std::string& string);
-
-    /**/ static int ToHash(const char* string);
-
-    /**/ static unsigned long long ToHash64(const std::string& string);
-
-    /* static unsigned long long ToHash64(const char* string); */
-
-    /**/ static std::string ToHexa(int hex);
-
-    /* static std::string ToHexa(long long hex); */
-
     /**/ static std::string ToHexa(int hex, int length);
-
-    /* static std::string ToHexa(long long hex, int length); */
-
-    static std::string URLEncode(const std::string& source);
 
     /**/ static std::string UnicodeToUtf8(const std::vector<unsigned int>& unicodes);
 

@@ -269,10 +269,10 @@ static const struct xpad_device {
   { 0x0000, 0x0000, "Generic X-Box pad", 0, XTYPE_UNKNOWN }
 };
 
-std::string AutoMapper::GetSDLMapping()
+String AutoMapper::GetSDLMapping()
 {
   char* sdlMapping = SDL_GameControllerMappingForDeviceIndex(mSDLJoystickIndex);
-  std::string conf(sdlMapping != nullptr ? sdlMapping : "");
+  String conf(sdlMapping != nullptr ? sdlMapping : "");
   SDL_free(sdlMapping);
 
   // If this is an XBox pas or if the SDL2 did not provide us with a mapping, try to fetch
@@ -302,7 +302,7 @@ std::string AutoMapper::GetSDLMapping()
 #define LONG(x) ((x) / BITS_PER_LONG)
 #define test_bit(bit, array) (((array)[LONG(bit)] >> OFF(bit)) & 1)
 
-std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
+String AutoMapper::BuildMapping(const String& sdlMapping) const
 {
   #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
   const char* devicePath = SDL_JoystickDevicePathById(mSDLJoystickIndex);
@@ -317,7 +317,7 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
   if (fd < 0)
   {
     { LOG(LogError) << "[AutoMapper] Can't open device " << devicePath; }
-    return std::string();
+    return String();
   }
 
   unsigned short id[4] = {};
@@ -336,8 +336,8 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
   // Mapping string
   char guid[128];
   SDL_JoystickGetGUIDString(SDL_JoystickGetDeviceGUID(mSDLJoystickIndex), guid, sizeof(guid));
-  std::string result = guid;
-  result.append(1, ',').append(name).append(1, ',');
+  String result = guid;
+  result.Append(',').Append(name).Append(',');
 
   // First, we need to map the dpad.
   // Try in this order: DPAD buttons -> Hat 0 -> Axis 0/1
@@ -347,32 +347,32 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
     int button = 0;
     for(int i = 0; i < BTN_DPAD_UP; i++)
       button += (int)(test_bit(i, bit[EV_KEY]));
-    result.append("dpup:b").append(Strings::ToString(button))
-          .append(",dpright:b").append(Strings::ToString(button + 3))
-          .append(",dpdown:b").append(Strings::ToString(button + 1))
-          .append(",dpleft:b").append(Strings::ToString(button + 2))
-          .append(1, ',');
+    result.Append("dpup:b").Append(button)
+          .Append(",dpright:b").Append(button + 3)
+          .Append(",dpdown:b").Append(button + 1)
+          .Append(",dpleft:b").Append(button + 2)
+          .Append(',');
     { LOG(LogDebug) << "[AutoMapper] DPAD mapped to buttons"; }
   }
   else if ((test_bit(ABS_HAT0X, bit[EV_ABS])) != 0)
   {
-    result.append("dpup:h0.1,dpright:h0.2,dpdown:h0.4,dpleft:h0.8,");
+    result.Append("dpup:h0.1,dpright:h0.2,dpdown:h0.4,dpleft:h0.8,");
     { LOG(LogDebug) << "[AutoMapper] DPAD mapped to Hat0"; }
   }
   else if ((test_bit(ABS_X, bit[EV_ABS])) != 0)
   {
-    result.append("dpup:-a1,dpright:+a0,dpdown:+a1,dpleft:-a0,");
+    result.Append("dpup:-a1,dpright:+a0,dpdown:+a1,dpleft:-a0,");
     firstAxisConsumed = true;
     { LOG(LogDebug) << "[AutoMapper] DPAD mapped to Axis0/1"; }
   }
   else
   {
     { LOG(LogError) << "[AutoMapper] Cannot extract DPAD mapping. Automapping aborted."; }
-    return std::string();
+    return String();
   }
 
   // Has SDL2 Mapping a guide button?
-  bool hasGuide = Strings::Contains(sdlMapping, ",guide:");
+  bool hasGuide = sdlMapping.Contains(",guide:");
 
   // Then, maps buttons, since we need to take L2/R2 from button first
   int buttonIndex = 0;
@@ -388,34 +388,34 @@ std::string AutoMapper::BuildMapping(const std::string& sdlMapping) const
         case BTN_C:
         case BTN_NORTH:
         case BTN_WEST:
-        case BTN_Z: if (buttonIndex < 4) result.append(1, buttonNames[buttonIndex]).append(":b").append(Strings::ToString(buttonIndex)).append(1, ','); mainButtons = true; break;
-        case BTN_TL: result.append("leftshoulder:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_TR: result.append("rightshoulder:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_TL2: result.append("lefttrigger:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_TR2: result.append("righttrigger:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_SELECT: result.append("back:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_START: result.append("start:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_MODE: if (hasGuide) result.append("guide:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_THUMBL: result.append("leftstick:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
-        case BTN_THUMBR: result.append("rightstick:b").append(Strings::ToString(buttonIndex)).append(1, ','); break;
+        case BTN_Z: if (buttonIndex < 4) result.Append(buttonNames[buttonIndex]).Append(":b").Append(Strings::ToString(buttonIndex)).Append(','); mainButtons = true; break;
+        case BTN_TL: result.Append("leftshoulder:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_TR: result.Append("rightshoulder:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_TL2: result.Append("lefttrigger:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_TR2: result.Append("righttrigger:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_SELECT: result.Append("back:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_START: result.Append("start:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_MODE: if (hasGuide) result.Append("guide:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_THUMBL: result.Append("leftstick:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
+        case BTN_THUMBR: result.Append("rightstick:b").Append(Strings::ToString(buttonIndex)).Append(','); break;
         default: break;
       }
       buttonIndex++;
     }
   // No standard buttons = no mapping at all!
-  if (!mainButtons) return std::string();
+  if (!mainButtons) return String();
 
   // Finally axis
   if (firstAxisConsumed)
   {
     if ((test_bit(ABS_RX, bit[EV_ABS])) != 0)
-      result.append(((test_bit(ABS_Z, bit[EV_ABS])) != 0) ? "leftx:a3,lefty:a4," : "leftx:a2,lefty:a3,");
+      result.Append(((test_bit(ABS_Z, bit[EV_ABS])) != 0) ? "leftx:a3,lefty:a4," : "leftx:a2,lefty:a3,");
   }
   else
   {
-    if ((test_bit(ABS_X, bit[EV_ABS])) != 0) result.append("leftx:a0,lefty:a1,");
+    if ((test_bit(ABS_X, bit[EV_ABS])) != 0) result.Append("leftx:a0,lefty:a1,");
     if ((test_bit(ABS_RX, bit[EV_ABS])) != 0)
-      result.append(((test_bit(ABS_Z, bit[EV_ABS])) != 0) ? "rightx:a3,righty:a4," : "rightx:a2,righty:a3,");
+      result.Append(((test_bit(ABS_Z, bit[EV_ABS])) != 0) ? "rightx:a3,righty:a4," : "rightx:a2,righty:a3,");
   }
 
   { LOG(LogDebug) << "[AutoMapper] Resulting SDL2 mapping: " << result; }

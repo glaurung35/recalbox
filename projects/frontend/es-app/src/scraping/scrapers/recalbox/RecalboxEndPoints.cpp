@@ -11,77 +11,78 @@
 #include "hardware/Board.h"
 #include "utils/Strings.h"
 #include "systems/SystemData.h"
+#include "utils/network/Url.h"
 #include <games/adapter/GameAdapter.h>
 
-std::string RecalboxEndPoints::GetUserInfoUrl(const std::string& login, const std::string& password)
+String RecalboxEndPoints::GetUserInfoUrl(const String& login, const String& password)
 {
   (void)login;
   (void)password;
 
-  std::string url = GetUrlBase();
-  url.append("/api/authenticated")
-     .append(BuildQueryString(nullptr, 0));
+  String url = GetUrlBase();
+  url.Append("/api/authenticated")
+     .Append(BuildQueryString(nullptr, 0));
 
   return url;
 }
 
-std::string
-RecalboxEndPoints::GetGameInfoUrlByMD5(const std::string& login, const std::string& password, const FileData& game,
-                                       const std::string& md5, long long int size)
+String
+RecalboxEndPoints::GetGameInfoUrlByMD5(const String& login, const String& password, const FileData& game,
+                                       const String& md5, long long int size)
 {
   (void)login;
   (void)password;
   (void)size;
   (void)game;
 
-  std::string url = GetUrlBase();
-  url.append("/api/game/bymd5/")
-     .append(md5)
-     .append(BuildQueryString(&game, size));
+  String url = GetUrlBase();
+  url.Append("/api/game/bymd5/")
+     .Append(md5)
+     .Append(BuildQueryString(&game, size));
 
   return url;
 }
 
-std::string
-RecalboxEndPoints::GetGameInfoUrlByName(const std::string& login, const std::string& password, const FileData& game,
-                                        const std::string& md5, long long int size)
+String
+RecalboxEndPoints::GetGameInfoUrlByName(const String& login, const String& password, const FileData& game,
+                                        const String& md5, long long int size)
 {
   (void)login;
   (void)password;
 
-  std::string url = GetUrlBase();
+  String url = GetUrlBase();
 
-  url.append("/api/game/bysystem/")
-     .append(Strings::ToString(game.System().Descriptor().ScreenScaperID()))
-     .append("/andname/")
-     .append(Strings::URLEncode(GameAdapter(game).ScrapingName()))
-     .append("/andsize/")
-     .append(Strings::ToString(size))
-     .append(BuildQueryString(&game, size));
+  url.Append("/api/game/bysystem/")
+     .Append(game.System().Descriptor().ScreenScaperID())
+     .Append("/andname/")
+     .Append(Url::URLEncode(GameAdapter(game).ScrapingName()))
+     .Append("/andsize/")
+     .Append(size)
+     .Append(BuildQueryString(&game, size));
   if (!md5.empty())
-    url.append("&md5=")
-       .append(md5);
+    url.Append("&md5=")
+       .Append(md5);
 
   return url;
 }
 
-std::string RecalboxEndPoints::BuildQueryString(const FileData* game, long long size)
+String RecalboxEndPoints::BuildQueryString(const FileData* game, long long size)
 {
-  std::string result("?board=");
-  result.append(Strings::URLEncode(mBoard))
-        .append(LEGACY_STRING("&uuid="))
-        .append(Strings::URLEncode(mUUID))
-        .append(LEGACY_STRING("&version="))
-        .append(Strings::URLEncode(mVersion));
+  String result("?board=");
+  result.Append(Url::URLEncode(mBoard))
+        .Append(LEGACY_STRING("&uuid="))
+        .Append(Url::URLEncode(mUUID))
+        .Append(LEGACY_STRING("&version="))
+        .Append(Url::URLEncode(mVersion));
   if (game != nullptr)
-    result.append(LEGACY_STRING("&system="))
-          .append(Strings::ToString(game->System().Descriptor().ScreenScaperID()))
-          .append(LEGACY_STRING("&systemname="))
-          .append(Strings::URLEncode(game->System().Name()))
-          .append(LEGACY_STRING("&gamename="))
-          .append(Strings::URLEncode(GameAdapter(*game).ScrapingName()))
-          .append(LEGACY_STRING("&size="))
-          .append(Strings::ToString(size));
+    result.Append(LEGACY_STRING("&system="))
+          .Append(game->System().Descriptor().ScreenScaperID())
+          .Append(LEGACY_STRING("&systemname="))
+          .Append(Url::URLEncode(game->System().Name()))
+          .Append(LEGACY_STRING("&gamename="))
+          .Append(Url::URLEncode(GameAdapter(*game).ScrapingName()))
+          .Append(LEGACY_STRING("&size="))
+          .Append(size);
 
   return result;
 }
@@ -93,9 +94,9 @@ const ScreenScraperUser* RecalboxEndPoints::GetDirectUserObject() const
   return &sUser;
 }
 
-void RecalboxEndPoints::AddQueryParametersToMediaRequest(const FileData* game, long long size, std::string& url)
+void RecalboxEndPoints::AddQueryParametersToMediaRequest(const FileData* game, long long size, String& url)
 {
-  url.append(BuildQueryString(game, size));
+  url.Append(BuildQueryString(game, size));
 }
 
 RecalboxEndPoints::RecalboxEndPoints()
@@ -128,17 +129,17 @@ RecalboxEndPoints::RecalboxEndPoints()
     case BoardType::RG503:                mBoard = "RG503"; break;
   }
 
-  std::string servers = mDns.GetTxtRecord(sRootDomainName);
+  String servers = mDns.GetTxtRecord(sRootDomainName);
   if (!servers.empty())
   {
     mServers = Strings::Split(servers, '|', false);
-    srand(time(NULL));
+    srand(time(nullptr));
     mServerIndex = rand() % mServers.size();
     { LOG(LogDebug) << "[RecalboxEndpoints] Selecting server " << mServerIndex+1 << "/" << mServers.size() << " : " << mServers[mServerIndex]; }
   }
 }
 
-std::string RecalboxEndPoints::GetUrlBase()
+String RecalboxEndPoints::GetUrlBase()
 {
   if (mServers.empty()) return sRootDomainName;
   return mServers[mServerIndex];

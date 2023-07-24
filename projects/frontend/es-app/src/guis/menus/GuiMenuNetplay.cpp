@@ -57,7 +57,7 @@ std::vector<GuiMenuBase::ListEntry<RecalboxConf::Relay>> GuiMenuNetplay::GetMitm
   return list;
 }
 
-void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuNetplay::EditableComponentTextChanged(int id, const String& text)
 {
   switch((Components)id)
   {

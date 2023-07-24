@@ -26,7 +26,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
   // Display regular list
   mList->add(_("Known MD5 List"), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
   String::List list = bios.MD5List();
-  for(const std::string& md5 : list)
+  for(const String& md5 : list)
   {
     if (!match)
       mList->add(md5, true, sColorIndexNormal, -1, HorizontalAlignment::Right);
@@ -54,7 +54,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
     // Display regular list
     mList->add(bios.Filename().Append(" (").Append(bios.Cores()).Append(')'), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
     String::List list = bios.MD5List();
-    for (const std::string& md5 : list)
+    for (const String& md5 : list)
       mList->add(md5, true, sColorIndexNormal, -1, HorizontalAlignment::Right);
   }
   mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString(count)));

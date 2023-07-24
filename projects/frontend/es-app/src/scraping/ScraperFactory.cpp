@@ -4,7 +4,6 @@
 
 #include <scraping/scrapers/thegamedb/TheGameDBEngine.h>
 #include "ScraperFactory.h"
-#include "utils/cplusplus/StaticLifeCycleControler.h"
 #include <scraping/scrapers/screenscraper/ScreenScraperEngineImplementation.h>
 #include <scraping/scrapers/recalbox/RecalboxEngineImplementation.h>
 #include <scraping/scrapers/IScraperEngineFreezer.h>
@@ -55,9 +54,9 @@ IScraperEngine* ScraperFactory::GetScraper(ScraperType scraper, IScraperEngineFr
   return engine;
 }
 
-const HashMap<ScraperType, std::string>& ScraperFactory::GetScraperList()
+const HashMap<ScraperType, String>& ScraperFactory::GetScraperList()
 {
-  static HashMap<ScraperType, std::string> _List =
+  static HashMap<ScraperType, String> _List =
   {
     { ScraperType::ScreenScraper, "ScreenScraper" },
     //{ ScraperType::TheGameDB, "TheGamesDB" },
@@ -78,31 +77,25 @@ const HashMap<ScraperType, std::string>& ScraperFactory::GetScraperList()
 
 void ScraperFactory::ExtractFileNameUndecorated(FileData& game)
 {
-  std::string name = game.RomPath().FilenameWithoutExtension();
+  String name = game.RomPath().FilenameWithoutExtension();
 
   // Remove (text)
-  bool found = false;
-  for(unsigned long pos = 0; (pos = name.find('(', pos)) != std::string::npos; )
+  for(unsigned long pos = 0; (pos = name.find('(', pos)) != String::npos; )
   {
     unsigned long end = name.find(')', pos);
-    if (end == std::string::npos) end = name.size() - 1;
+    if (end == String::npos) end = name.size() - 1;
     name.erase(pos, end - pos + 1);
-    found = true;
   }
 
   // Remove [text]
-  for(unsigned long pos = 0; (pos = name.find('(', pos)) != std::string::npos; )
+  for(unsigned long pos = 0; (pos = name.find('(', pos)) != String::npos; )
   {
     unsigned long end = name.find(')', pos);
-    if (end == std::string::npos) end = name.size() - 1;
+    if (end == String::npos) end = name.size() - 1;
     name.erase(pos, end - pos + 1);
-    found = true;
   }
 
-  if (found)
-    name = Strings::Trim(name);
-
-  game.Metadata().SetName(Strings::Trim(name));
+  game.Metadata().SetName(name.Trim());
 }
 
 void ScraperFactory::ExtractRegionFromFilename(FileData& game)

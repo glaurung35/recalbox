@@ -27,13 +27,6 @@ FileData::FileData(const Path& path, RootFolderData& ancestor) : FileData(ItemTy
 {
 }
 
-std::string FileData::DisplayName(const Path& romPath) const
-{
-  (void)romPath;
-  GameAdapter adapter(*this);
-  return adapter.DisplayName();
-}
-
 bool FileData::HasP2K() const
 {
   // Check game file
@@ -61,7 +54,7 @@ FileData& FileData::CalculateHash()
   if (path.Size() > (20 << 20)) return *this; // Ignore file larger than 20Mb
 
   bool done = false;
-  if (Strings::ToLowerASCII(path.Extension()) == ".zip")
+  if (path.Extension().LowerCase() == ".zip")
   {
     Zip zip(path);
     if (zip.Count() == 1)
@@ -82,9 +75,9 @@ FileData& FileData::CalculateHash()
   return *this;
 }
 
-std::string FileData::Regions()
+String FileData::Regions()
 {
-  std::string fileName = mMetadata.RomFileOnly().ToString();
+  String fileName = mMetadata.RomFileOnly().ToString();
   Regions::RegionPack regions = Regions::ExtractRegionsFromNoIntroName(fileName);
   if (!regions.HasRegion())
     regions = Regions::ExtractRegionsFromTosecName(fileName);
@@ -94,13 +87,6 @@ std::string FileData::Regions()
     regions = Metadata().Region();
 
   return Regions::Serialize4Regions(regions);
-}
-
-bool FileData::UpdateMetadataFrom(FileData& from)
-{
-  if (from.RomPath() != RomPath()) return false;
-  mMetadata = std::move(from.mMetadata);
-  return true;
 }
 
 bool FileData::IsDisplayable(TopLevelFilter topfilter) const

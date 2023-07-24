@@ -22,7 +22,7 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @brief Get base url for relative media
      * @return Base url
      */
-    std::string GetUrlBase() override { return std::string(); }
+    String GetUrlBase() override { return String(); }
 
     /*!
      * @brief Scraper call this when an unexpected error occured in HTTP requests (timeount, 500, ...)
@@ -35,7 +35,7 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @param password Password
      * @return User info Url
      */
-    std::string GetUserInfoUrl(const std::string& login, const std::string& password) override;
+    String GetUserInfoUrl(const String& login, const String& password) override;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -48,7 +48,7 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrl(const std::string& login, const std::string& password, const FileData& game, const std::string& crc32, const std::string& md5, long long size) override;
+    String GetGameInfoUrl(const String& login, const String& password, const FileData& game, const String& crc32, const String& md5, long long size) override;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -60,14 +60,14 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrlByMD5(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) override
+    String GetGameInfoUrlByMD5(const String& login, const String& password, const FileData& game, const String& md5, long long size) override
     {
       (void)login;
       (void)password;
       (void)game;
       (void)md5;
       (void)size;
-      return std::string();
+      return String();
     }
 
     /*!
@@ -80,21 +80,21 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    std::string GetGameInfoUrlByName(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) override
+    String GetGameInfoUrlByName(const String& login, const String& password, const FileData& game, const String& md5, long long size) override
     {
       (void)login;
       (void)password;
       (void)game;
       (void)md5;
       (void)size;
-      return std::string();
+      return String();
     }
 
     /*!
      * @brief Add (or not) query parameters to media request
      * @param url Url to decorate
      */
-    void AddQueryParametersToMediaRequest(const FileData* game, long long size, std::string& url) override
+    void AddQueryParametersToMediaRequest(const FileData* game, long long size, String& url) override
     {
       (void)game;
       (void)size;
@@ -123,7 +123,7 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @brief Provide screenscraper Web URL
      * @return Screenscraper Web url
      */
-    std::string GetProviderWebURL() override { return "https://www.screenscraper.fr"; };
+    String GetProviderWebURL() override { return "https://www.screenscraper.fr"; };
 
   private:
     static constexpr const char* API_DEV_U = "\xF1\x5A\xA8\x46\x25\xDE\x48\x2A";
@@ -142,10 +142,10 @@ class ScreenScraperEndPoints : public IEndPointProvider
      * @param api Api type
      * @return Url
      */
-    static std::string BuildUrlCommon(Api api, const std::string& login, const std::string& password);
+    static String BuildUrlCommon(Api api, const String& login, const String& password);
 
     //! X-Or the Space Sheriff
-    static std::string XOrTheSpaceSheriff(const std::string& _input, const std::string& key);
+    static String XOrTheSpaceSheriff(const String& _input, const String& key);
 };
 
 

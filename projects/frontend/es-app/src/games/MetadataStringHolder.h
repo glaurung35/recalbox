@@ -55,21 +55,21 @@ class MetadataStringHolder
      * @param newString String to add
      * @return String index
      */
-    Index32 AddString32(const std::string& newString);
+    Index32 AddString32(const String& newString);
 
     /*!
      * @brief Add a string and return its index in 32bit format
      * @param newString String to add
      * @return String index
      */
-    Index16 AddString16(const std::string& newString) { Index32 index = AddString32(newString); assert((index >> 16) == 0); return (Index16)index; }
+    Index16 AddString16(const String& newString) { Index32 index = AddString32(newString); assert((index >> 16) == 0); return (Index16)index; }
 
     /*!
      * @brief Add a string and return its index in 32bit format
      * @param newString String to add
      * @return String index
      */
-    Index8 AddString8(const std::string& newString) { Index32 index = AddString32(newString); assert((index >> 8) == 0); return (Index8)index; }
+    Index8 AddString8(const String& newString) { Index32 index = AddString32(newString); assert((index >> 8) == 0); return (Index8)index; }
 
 
     /*!
@@ -84,7 +84,7 @@ class MetadataStringHolder
      * @param index String index
      * @return String
      */
-    String GetString(Index32 index, const std::string& defaultValue)
+    String GetString(Index32 index, const String& defaultValue)
     {
       String result = GetString(index);
       if (result.empty()) return defaultValue;
@@ -112,7 +112,7 @@ class MetadataStringHolder
      * @param text Text to search for
      * @param output Output list to fill with found results
      */
-    void FindText(const std::string& text, FoundTextList& output, int context);
+    void FindText(const String& text, FoundTextList& output, int context);
 
   private:
     //! Synchronizer
@@ -122,7 +122,7 @@ class MetadataStringHolder
     //! Substring indexes to char indexes
     Array<Index32> mIndexes;
     //! Temporary dictionnary string => indexes
-    HashMap<std::string, Index32> mStringToIndexes;
+    HashMap<String, Index32> mStringToIndexes;
 
     /*!
      * @brief Get the index of the sub-string at the given char position from metastring

@@ -29,7 +29,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
   if (!nomenu && !bartop)
   {
-    mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+    mGame = AddSubMenu(String::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
     RefreshGameMenuContext();
 
     if(!mGamelist.getCursor()->IsEmpty())
@@ -56,14 +56,14 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Downloader available?
   if (DownloaderManager::HasDownloader(mSystem))
-    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
+    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, String::Empty);
 
   // Jump to letter
 	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
-    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
+    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, String::Empty);
 
   // Sorting
 	if (!system.IsSelfSorted())

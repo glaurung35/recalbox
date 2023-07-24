@@ -13,13 +13,13 @@
 #include <utils/Log.h>
 #include <systems/SystemData.h>
 
-std::string ScreenScraperSingleEngine::sImageSubFolder("images");
-std::string ScreenScraperSingleEngine::sThumbnailSubFolder("thumbnails");
-std::string ScreenScraperSingleEngine::sVideoSubFolder("videos");
-std::string ScreenScraperSingleEngine::sWheelSubFolder("wheels");
-std::string ScreenScraperSingleEngine::sMarqueeSubFolder("marquees");
-std::string ScreenScraperSingleEngine::sManualSubFolder("manuals");
-std::string ScreenScraperSingleEngine::sMapSubFolder("maps");
+String ScreenScraperSingleEngine::sImageSubFolder("images");
+String ScreenScraperSingleEngine::sThumbnailSubFolder("thumbnails");
+String ScreenScraperSingleEngine::sVideoSubFolder("videos");
+String ScreenScraperSingleEngine::sWheelSubFolder("wheels");
+String ScreenScraperSingleEngine::sMarqueeSubFolder("marquees");
+String ScreenScraperSingleEngine::sManualSubFolder("manuals");
+String ScreenScraperSingleEngine::sMapSubFolder("maps");
 
 void ScreenScraperSingleEngine::Initialize(bool noabort)
 {
@@ -123,7 +123,7 @@ ScrapeResult ScreenScraperSingleEngine::Scrape(ScrapingMethod method, FileData& 
   return result;
 }
 
-std::string ScreenScraperSingleEngine::ComputeMD5(const Path& path)
+String ScreenScraperSingleEngine::ComputeMD5(const Path& path)
 {
   FILE* f = fopen(path.ToChars(), "rb");
   if (f != nullptr)
@@ -136,18 +136,18 @@ std::string ScreenScraperSingleEngine::ComputeMD5(const Path& path)
     md5.finalize();
     return md5.hexdigest();
   }
-  return std::string();
+  return String();
 }
 
 ScrapeResult ScreenScraperSingleEngine::RequestGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
   // Get MD5
   const Path romPath(game.RomPath());
-  std::string md5 = romPath.IsFile() ? ((size < sMaxMd5Calculation) ? ComputeMD5(romPath) : Strings::Empty) : Strings::Empty;
+  String md5 = romPath.IsFile() ? ((size < sMaxMd5Calculation) ? ComputeMD5(romPath) : String::Empty) : String::Empty;
   { LOG(LogDebug) << "[ScreenScraper] MD5 of " << romPath.ToString() << " : " << md5; }
 
   // Get crc32
-  std::string crc32;
+  String crc32;
   if (game.Metadata().RomCrc32() != 0) crc32 = game.Metadata().RomCrc32AsString();
 
   // Call!
@@ -159,7 +159,7 @@ ScrapeResult ScreenScraperSingleEngine::RequestGameInfo(ScreenScraperApis::Game&
 
 ScrapeResult ScreenScraperSingleEngine::RequestZipGameInfo(ScreenScraperApis::Game& result, const FileData& game, long long size)
 {
-  if (Strings::ToLowerASCII(game.RomPath().Extension()) == ".zip")
+  if (game.RomPath().Extension().ToLowerCase() == ".zip")
   {
     Zip zip(game.RomPath());
     if (zip.Count() == 1) // Ignore multi-file archives
@@ -168,12 +168,12 @@ ScrapeResult ScreenScraperSingleEngine::RequestZipGameInfo(ScreenScraperApis::Ga
       Path filePath = zip.FileName(0);
 
       // Get MD5
-      std::string md5 = zip.Md5(0);
+      String md5 = zip.Md5(0);
       { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.RomPath().ToString() << "] : " << md5; }
 
       // Get crc32
       int crc32i = zip.Crc32(0);
-      std::string crc32 = Strings::ToHexa(crc32i, 8);
+      String crc32 = Strings::ToHexa(crc32i, 8);
 
       // Call!
       if (!mAbortRequest)
@@ -187,7 +187,7 @@ ScrapeResult ScreenScraperSingleEngine::RequestZipGameInfo(ScreenScraperApis::Ga
 bool ScreenScraperSingleEngine::NeedScraping(ScrapingMethod method, FileData& game)
 {
   const Path rootMediaPath = game.TopAncestor().RomPath() / "media";
-  const std::string gameFile = game.RomPath().FilenameWithoutExtension();
+  const String gameFile = game.RomPath().FilenameWithoutExtension();
   switch(method)
   {
     case ScrapingMethod::All: return true;
@@ -405,7 +405,7 @@ MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, con
 }
 
 ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImagePath, FileData& game,
-                                                      const std::string& media, SetPathMethodType pathSetter,
+                                                      const String& media, SetPathMethodType pathSetter,
                                                       ProtectedSet& md5Set, MediaType mediaType, bool& pathHasBeenSet)
 {
   bool mediaIsPresent = md5Set.Exists(AbsoluteImagePath.ToString());
@@ -447,13 +447,13 @@ ScrapeResult ScreenScraperSingleEngine::DownloadMedia(const Path& AbsoluteImageP
 }
 
 ScrapeResult
-ScreenScraperSingleEngine::DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const std::string& subPath,
-                                                 const std::string& name, MediaType mediaType, SetPathMethodType pathSetter,
+ScreenScraperSingleEngine::DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const String& subPath,
+                                                 const String& name, MediaType mediaType, SetPathMethodType pathSetter,
                                                  const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,
                                                  bool& pathHasBeenSet)
 {
   pathHasBeenSet = false;
-  Path path = target / subPath / std::string(name).append(1, ' ').append(mediaSource.mMd5).append(1, '.').append(mediaSource.mFormat);
+  Path path = target / subPath / String(name).Append(' ').Append(mediaSource.mMd5).Append('.').Append(mediaSource.mFormat);
   bool exists = path.Exists();
   if (!exists || noKeep)
     return DownloadMedia(path, game, mediaSource.mUrl, pathSetter, md5Set, mediaType, pathHasBeenSet);
@@ -488,7 +488,7 @@ ScreenScraperSingleEngine::DownloadAndStoreMedia(ScrapingMethod method, const Sc
   bool ok = false;
   const Path rootFolder(game.TopAncestor().RomPath());
   const Path relativePath = game.RomPath().MakeRelative(rootFolder, ok);
-  const std::string gameName = ok ? (relativePath.Directory() / game.RomPath().FilenameWithoutExtension()).ToString()
+  const String gameName = ok ? (relativePath.Directory() / game.RomPath().FilenameWithoutExtension()).ToString()
                                   : game.RomPath().FilenameWithoutExtension();
   const Path mediaFolder = rootFolder / "media";
   bool noKeep = method != ScrapingMethod::CompleteAndKeepExisting;

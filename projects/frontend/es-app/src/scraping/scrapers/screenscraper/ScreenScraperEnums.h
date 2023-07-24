@@ -36,12 +36,12 @@ class ScreenScraperEnums
         Optimized, //!< Optimized video
     };
 
-    static ScreenScraperRegionPriority ScreenScraperRegionPriorityFromString(const std::string& scraperRegionOptions);
-    static const std::string& ScreenScraperRegionPriorityFromEnum(ScreenScraperRegionPriority scraperRegionOptions);
+    static ScreenScraperRegionPriority ScreenScraperRegionPriorityFromString(const String& scraperRegionOptions);
+    static const String& ScreenScraperRegionPriorityFromEnum(ScreenScraperRegionPriority scraperRegionOptions);
 
-    static ScreenScraperImageType ScreenScraperImageTypeFromString(const std::string& imageType);
-    static const std::string& ScreenScraperImageTypeFromEnum(ScreenScraperImageType imageType);
+    static ScreenScraperImageType ScreenScraperImageTypeFromString(const String& imageType);
+    static const String& ScreenScraperImageTypeFromEnum(ScreenScraperImageType imageType);
 
-    static ScreenScraperVideoType ScreenScraperVideoTypeFromString(const std::string& videoType);
-    static const std::string& ScreenScraperVideoTypeFromEnum(ScreenScraperVideoType videoType);
+    static ScreenScraperVideoType ScreenScraperVideoTypeFromString(const String& videoType);
+    static const String& ScreenScraperVideoTypeFromEnum(ScreenScraperVideoType videoType);
 };

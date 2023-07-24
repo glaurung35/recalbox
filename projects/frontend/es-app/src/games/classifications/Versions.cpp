@@ -6,9 +6,9 @@
 #include <utils/storage/HashMap.h>
 #include <utils/Strings.h>
 
-std::string& Versions::Serialize(Versions::GameVersions versions)
+String& Versions::Serialize(Versions::GameVersions versions)
 {
-  static HashMap<GameVersions, std::string> sVesionTagToVersion
+  static HashMap<GameVersions, String> sVesionTagToVersion
     ({
 
        {GameVersions::Sample, "sample"},
@@ -62,17 +62,17 @@ std::string& Versions::Serialize(Versions::GameVersions versions)
        {GameVersions::VirtualConsole, "virtual console"}
        });
 
-  std::string* found = sVesionTagToVersion.try_get(versions);
+  String* found = sVesionTagToVersion.try_get(versions);
   if (found != nullptr)
     return *found;
 
-  static std::string sEmpty("");
+  static String sEmpty("");
   return sEmpty;
 }
 
-Versions::GameVersions Versions::Deserialize(const std::string& tag)
+Versions::GameVersions Versions::Deserialize(const String& tag)
 {
-  static HashMap<std::string, GameVersions> sVesionTagToVersion
+  static HashMap<String, GameVersions> sVesionTagToVersion
     ({
 
       {"sample", GameVersions::Sample},
@@ -122,7 +122,6 @@ Versions::GameVersions Versions::Deserialize(const std::string& tag)
       {"v2.7",  GameVersions::V1_6},
       {"v2.8",  GameVersions::V1_8},
       {"v2.9",  GameVersions::V1_9}
-
     });
 
 
@@ -130,24 +129,22 @@ Versions::GameVersions Versions::Deserialize(const std::string& tag)
   if (found != nullptr)
     return *found;
 
-  if (Strings::Contains(tag, "virtual console") ||
-      Strings::Contains(tag, "switch online") ||
-      Strings::Contains(tag, "classic mini"))
+  if (tag.Contains("virtual console") || tag.Contains("switch online") || tag.Contains("classic mini"))
     return GameVersions::VirtualConsole;
 
   return GameVersions::Unknown;
 }
 
-Versions::GameVersions Versions::ExtractGameVersionNoIntro(const std::string& filename)
+Versions::GameVersions Versions::ExtractGameVersionNoIntro(const String& filename)
 {
   for(int end = 0;;)
   {
     int begin = (int)filename.find('(', end);
-    if (begin == (int)std::string::npos) break;
+    if (begin == (int)String::npos) break;
     end = (int)filename.find(')', begin);
-    if (end == (int)std::string::npos) break;
+    if (end == (int)String::npos) break;
 
-    std::string tag = Strings::ToLowerASCII(filename.substr(begin +1, end - begin - 1));
+    String tag = filename.SubString(begin +1, end - begin - 1).LowerCase();
     if (tag.empty()) break;
 
     GameVersions gameVersions = Deserialize(tag);

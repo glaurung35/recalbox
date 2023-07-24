@@ -14,9 +14,9 @@
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   : mEvent(*this)
-  , mShareMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
-  , mShareRomsMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
-  , mPendingMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
+  , mShareMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
+  , mShareRomsMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
+  , mPendingMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
   , mInterface(interface)
 {
   // Initialize mount points

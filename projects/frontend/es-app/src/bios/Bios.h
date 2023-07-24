@@ -246,7 +246,7 @@ class Bios
     String CurrentMD5() const { return mRealFileHash.ToString(); }
 
     //! All MD5 list
-    std::vector<String> MD5List() const;
+    String::List MD5List() const;
 
     //! MD5 Count
     int MD5Count() const { return (int)mHashes.size(); }

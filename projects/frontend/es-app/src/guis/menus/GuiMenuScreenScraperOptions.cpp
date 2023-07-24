@@ -113,7 +113,7 @@ std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetL
   return list;
 }
 
-void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::Login) SetLogin(text);
   else if ((Components)id == Components::Password) SetPassword(text);

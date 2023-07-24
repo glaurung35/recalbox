@@ -86,7 +86,7 @@ void AudioManager::Reactivate()
 AudioManager::AudioHandle AudioManager::LoadSound(const Path& path)
 {
   // Get handle
-  AudioHandle handle = Strings::ToHash64(path.ToString()) | 1;
+  AudioHandle handle = path.ToString().Hash64() | 1;
 
   // Already exists
   if (mSoundMap.find(handle) != mSoundMap.end())
@@ -103,7 +103,7 @@ AudioManager::AudioHandle AudioManager::LoadSound(const Path& path)
 AudioManager::AudioHandle AudioManager::LoadMusic(const Path& path)
 {
   // Get handle
-  AudioHandle handle = Strings::ToHash64(path.ToString()) | 1;
+  AudioHandle handle = path.ToString().Hash64() | 1;
 
   // Already exists
   if (mMusicMap.find(handle) != mMusicMap.end())

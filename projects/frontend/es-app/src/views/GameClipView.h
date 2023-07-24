@@ -4,7 +4,6 @@
 #pragma once
 
 #include <vector>
-#include <systems/PlatformId.h>
 #include <systems/SystemManager.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include <components/VideoComponent.h>

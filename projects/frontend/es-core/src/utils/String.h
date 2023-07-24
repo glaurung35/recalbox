@@ -946,7 +946,7 @@ class String : public std::string
     String& Replace(const char* what, int whatLength, const char* with, int withLength)
     {
       if ((whatLength | withLength) > 0)
-        for(int pos = 0; (pos = (int)find(what, pos, whatLength)) != (int)std::string::npos; pos += withLength)
+        for(int pos = 0; (pos = (int)find(what, pos, whatLength)) != (int)std::string::npos; pos += 0/*withLength*/)
           replace(pos, whatLength, with, withLength);
       return *this;
     }

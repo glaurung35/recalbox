@@ -380,12 +380,6 @@ bool Strings::StartsWith(const std::string& _string, const char* _start, int len
   return (strncmp(_string.c_str(), _start, length) == 0);
 }
 
-bool Strings::EndsWith(const std::string& _string, const std::string& _end)
-{
-  if (_string.size() < _end.size()) return false;
-	return (strncmp(_string.data() + _string.size() - _end.size(), _end.data(), _end.size()) == 0);
-}
-
 std::string Strings::RemoveParenthesis(const std::string& str)
 {
 	std::string s = str;
@@ -506,19 +500,6 @@ std::string Strings::Format(const char* _string, ...)
 
 	return result;
 } // format
-
-// Simple XOR scrambling of a string, with an accompanying key
-/*std::string Strings::ScrambleSymetric(const std::string& _input, const std::string& key)
-{
-	std::string buffer = _input;
-
-	for (size_t i = 0; i < _input.size(); ++i)
-	{
-		buffer[i] = (char)(_input[i] ^ (key[i] + (i*17)));
-	}
-
-	return buffer;
-}*/ // scramble
 
 std::string Strings::ScrambleSymetric2(const std::string& _input, const std::string& key)
 {
@@ -745,60 +726,8 @@ std::string Strings::ToString(bool value)
   return value ? "1" : "0";
 }
 
-int Strings::ToHash(const std::string& string)
-{
-  int count = (int)string.size();
-  unsigned int Hash = (unsigned int)count;
-  const unsigned char* p = (unsigned char*)string.c_str();
-  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
-  return (int)Hash;
-}
-
-int Strings::ToHash(const char* string)
-{
-  int count = (int)strlen(string);
-  unsigned int Hash = (unsigned int)count;
-  const unsigned char* p = (unsigned char*)string;
-  while(--count >= 0) { Hash = ((Hash >> 27) | (Hash << 5)) ^ p[0]; p++; }
-  return (int)Hash;
-}
-
-unsigned long long Strings::ToHash64(const std::string& string)
-{
-  int count = (int)string.size();
-  unsigned long long Hash = (unsigned long long)count;
-  const unsigned char* p = (unsigned char*)string.c_str();
-  while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
-  return Hash;
-}
-
-/*unsigned long long Strings::ToHash64(const char* string)
-{
-  int count = (int)strlen(string);
-  unsigned long long Hash = (unsigned long long)count;
-  const unsigned char* p = (unsigned char*)string;
-  while(--count >= 0) { Hash = ((Hash >> 59) | (Hash << 5)) ^ p[0]; p++; }
-  return Hash;
-}*/
-
 static const char* HexaChars = "0123456789ABCDEF";
 
-std::string Strings::ToHexa(int hex)
-{
-  char Buffer[10];
-  int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (int)((unsigned int)hex >> 4); } while(hex != 0);
-  return std::string(Buffer + Index, sizeof(Buffer) - Index);
-}
-/*
-std::string Strings::ToHexa(long long hex)
-{
-  char Buffer[18];
-  int Index = sizeof(Buffer);
-  do { Buffer[--Index] = HexaChars[hex & 0xF]; hex = (long long)((unsigned long long)hex >> 4); } while(hex != 0);
-  return std::string(Buffer + Index, sizeof(Buffer) - Index);
-}
-*/
 std::string Strings::ToHexa(int hex, int length)
 {
   char Buffer[10];
@@ -812,54 +741,6 @@ std::string Strings::ToHexa(int hex, int length)
   }
   return std::string(Buffer + Index, sizeof(Buffer) - Index);
 }
-/*
-std::string Strings::ToHexa(long long hex, int length)
-{
-  char Buffer[18];
-  if ((unsigned int)length > 16) length = 16;
-  int Index = sizeof(Buffer);
-  for(;;)
-  {
-    Buffer[--Index] = HexaChars[hex & 0xF];
-    hex = (long long)((unsigned long long)hex >> 4);
-    if (--length <= 0 && hex == 0) break;
-  }
-  return std::string(Buffer + Index, sizeof(Buffer) - Index);
-}
-*/
-std::string Strings::URLEncode(const std::string& source)
-{
-  std::string result;
-  const char* p = source.c_str();
-
-  for (int i = (int)source.length(); --i >= 0;)
-  {
-    unsigned char C = (unsigned char)*p++;
-    if (((C >= 'a') && (C <= 'z')) ||
-        ((C >= 'A') && (C <= 'Z')) ||
-        ((C >= '0') && (C <= '9')) ||
-        (C == '_') ||
-        (C == '*') ||
-        (C == '.') ||
-        (C == '-')) result.append(1, (char)C);
-    else
-    {
-      char buffer[3] = { '%', HexaChars[C >> 4], HexaChars[C & 0xF] };
-      result.append(buffer, 3);
-    }
-  }
-
-  return result;
-}
-
-int Strings::CountChar(const std::string& source, char c)
-{
-  int count = 0;
-  const char* p = source.c_str();
-  for (int i = (int)source.length(); --i >= 0;)
-    if (p[i] == c) count++;
-  return count;
-}
 
 std::string Strings::Extract(const std::string& source, const char* starttag, const char* endtag, int starttagl, int endtagl)
 {
@@ -871,21 +752,6 @@ std::string Strings::Extract(const std::string& source, const char* starttag, co
       return source.substr(start + starttagl, stop - (start + starttagl));
   }
   return std::string();
-}
-
-bool Strings::Contains(const std::string& source, const char* what)
-{
-  return (source.find(what) != std::string::npos);
-}
-
-bool Strings::Contains(const std::string& source, const std::string& what)
-{
-  return (source.find(what) != std::string::npos);
-}
-
-bool Strings::Contains(const char* source, const char* what)
-{
-  return (strstr(source, what) != nullptr);
 }
 
 bool Strings::SplitAt(const std::string& _string, char splitter, std::string& left, std::string& right, bool trim)

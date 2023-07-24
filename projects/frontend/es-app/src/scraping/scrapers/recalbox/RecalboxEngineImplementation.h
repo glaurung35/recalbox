@@ -29,7 +29,7 @@ class RecalboxEngineImplementation : public ScreenScraperEngineBase
 
   private:
     //! Recalbox credentials: token
-    std::string mBearer;
+    String mBearer;
     //! Favorite language
     Languages mLanguage;
     //! Favorite region
@@ -85,43 +85,43 @@ class RecalboxEngineImplementation : public ScreenScraperEngineBase
     }
 
     //! Never used
-    std::string GetLogin() const override { return Strings::Empty; }
+    [[nodiscard]] String GetLogin() const override { return String::Empty; }
 
     //! Never used
-    std::string GetPassword() const override { return Strings::Empty; }
+    [[nodiscard]] String GetPassword() const override { return String::Empty; }
 
     //! Get recalbox bearer
-    std::string GetBearer() const override { return mBearer; }
+    [[nodiscard]] String GetBearer() const override { return mBearer; }
 
     //! Get favorite language
-    Languages GetFavoriteLanguage() const override { return mLanguage; };
+    [[nodiscard]] Languages GetFavoriteLanguage() const override { return mLanguage; };
 
     //! Get favorite region
-    Regions::GameRegions GetFavoriteRegion() const override { return mRegion; }
+    [[nodiscard]] Regions::GameRegions GetFavoriteRegion() const override { return mRegion; }
 
     //! Get main image type
-    ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mMainImage; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetImageType() const override { return mMainImage; }
 
     //! Get thumbnail image typ
-    ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mThumbnailImage; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperImageType GetThumbnailType() const override { return mThumbnailImage; }
 
     //! Check if video are required
-    ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override { return mVideo; }
+    [[nodiscard]] ScreenScraperEnums::ScreenScraperVideoType GetVideo() const override { return mVideo; }
 
     //! Check if marquee are required
-    bool GetWantMarquee() const override { return mWantMarquee; }
+    [[nodiscard]] bool GetWantMarquee() const override { return mWantMarquee; }
 
     //! Check if wheel are required
-    bool GetWantWheel() const override { return mWantWheel; }
+    [[nodiscard]] bool GetWantWheel() const override { return mWantWheel; }
 
     //! Check if manual are required
-    bool GetWantManual() const override { return mWantManual; }
+    [[nodiscard]] bool GetWantManual() const override { return mWantManual; }
 
     //! Check if maps are required
-    bool GetWantMaps() const override { return mWantMaps; }
+    [[nodiscard]] bool GetWantMaps() const override { return mWantMaps; }
 
     //! Check if p2k are required
-    bool GetWantP2K() const override { return mWantP2K; }
+    [[nodiscard]] bool GetWantP2K() const override { return mWantP2K; }
 };
 
 

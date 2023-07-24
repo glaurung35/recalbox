@@ -7,8 +7,8 @@
 
 #include <systems/SystemDescriptor.h>
 
-std::string SystemDescriptor::mDefaultCommand;  //!< Default command
-std::string SystemDescriptor::IconPrefix() const
+String SystemDescriptor::mDefaultCommand;  //!< Default command
+String SystemDescriptor::IconPrefix() const
 {
   return Strings::unicode2Chars((unsigned int)mIcon).append(1, ' ');
 }

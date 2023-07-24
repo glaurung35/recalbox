@@ -102,7 +102,7 @@ void BiosManager::ReceiveSyncMessage(const BiosMessage& message)
   }
 }
 
-const BiosList& BiosManager::SystemBios(const String& name)
+const BiosList& BiosManager::SystemBios(const String& name) const
 {
   Mutex::AutoLock locker(mLocker);
   for(const BiosList& biosList : mSystemBiosList)

@@ -7,7 +7,6 @@
 #include "utils/json/JSONBuilder.h"
 #include "Validator.h"
 #include <utils/os/fs/Path.h>
-#include <utils/Strings.h>
 #include <utils/IniFile.h>
 #include <emulators/EmulatorList.h>
 #include <pistache/include/pistache/http.h>
@@ -77,11 +76,9 @@ class RequestHandlerTools
         : Mount(mount)
         , FileSystem(filesystem)
         , FileSystemType(filesystemtype)
-        , Size(0)
-        , Used(0)
+        , Size(size.AsInt64(0, 0LL))
+        , Used(used.AsInt64(0, 0LL))
       {
-        Strings::ToLong(size, Size);
-        Strings::ToLong(used, Used);
       }
     };
 

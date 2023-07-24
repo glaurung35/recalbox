@@ -32,7 +32,7 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
   {
     bool ok = false;
     result.OpenObject(path.MakeRelative(mediaPath, ok).ToChars());
-    String ext = Strings::ToLowerASCII(path.Extension());
+    String ext = path.Extension().LowerCase();
     if (imagesExtensions.find(ext) != String::npos) result.Field("type", "image");
     else if (videosExtensions.find(ext) != String::npos) result.Field("type", "video");
     else result.Field("type", "unknown");
@@ -82,25 +82,25 @@ void RequestHandlerTools::GetDevicePropertiesOf(DeviceInfo& info)
       info.FileSystemType = string.SubString(pos + 1);
   }
   // Try to get missing info
-  if (Strings::StartsWith(info.Mount, "/dev/mmcblk"))
+  if (info.Mount.StartsWith("/dev/mmcblk"))
   {
     info.Bus = "sdio";
     info.Type = "sd";
   }
-  Strings::ReplaceAllIn(info.Model, '_', " ", 1);
+  info.Model.Replace('_', ' ');
 }
 
 void RequestHandlerTools::GetSystemResourcePath(Path& regionPath, Path& basePath, const String& system, const String& region, const char* resourceFileName)
 {
   String regionString(sSystemResourceRegionPath);
-  Strings::ReplaceAllIn(regionString, "%SYSTEM%", system);
-  Strings::ReplaceAllIn(regionString, "%REGION%", region);
-  Strings::ReplaceAllIn(regionString, "%FILE%", resourceFileName);
+  regionString.Replace("%SYSTEM%", system)
+              .Replace("%REGION%", region)
+              .Replace("%FILE%", resourceFileName);
   regionPath = regionString;
 
   String baseString(sSystemResourceBasePath);
-  Strings::ReplaceAllIn(baseString, "%SYSTEM%", system);
-  Strings::ReplaceAllIn(baseString, "%FILE%", resourceFileName);
+  baseString.Replace("%SYSTEM%", system)
+            .Replace("%FILE%", resourceFileName);
   basePath = baseString;
 }
 
@@ -898,7 +898,7 @@ HashMap<String, String> RequestHandlerTools::GetAvailableResolutions()
     String arch = GetArchitecture();
 
     sResolutions.insert_unique("default", "Default resolution");
-    if (Strings::StartsWith(arch, "rpi", 3))
+    if (arch.StartsWith("rpi", 3))
     {
       rapidjson::Document json;
       json.Parse(GetCommandOutput("tvservice -j -m CEA").c_str());

@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include <utils/Strings.h>
 #include <utils/storage/HashMap.h>
 #include "utils/String.h"
 
@@ -57,13 +56,24 @@ class Validator
     {
     }
 
+    static String JoinConstChar(const std::vector<const char*>&  list)
+    {
+      String result;
+      for(const char* s : list)
+      {
+        if (!result.empty()) result.Append('|');
+        result.Append(s);
+      }
+      return result;
+    }
+
     /*!
      * @brief String list constructor
      * @param list string list
      */
     explicit Validator(bool multi, const std::vector<const char*>&  list)
       : mType(multi ? Types::StringMultiPicker : Types::StringPicker),
-        mList('|' + Strings::Join(list, "|")),
+        mList('|' + JoinConstChar(list)),
         mLower(0),
         mHigher(0)
     {

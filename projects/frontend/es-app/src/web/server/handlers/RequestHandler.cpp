@@ -32,7 +32,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::LogRoute(request, "Versions");
 
   // Get libretro cores
-  std::map<String, String> cores;
+  HashMap<String, String> cores;
   String::List coreLines = Files::LoadFile(Path("/recalbox/share/system/configs/retroarch.corenames")).Split('\n');
   for(const String& coreLine : coreLines)
   {
@@ -45,7 +45,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   // Get Recalbox & Linux version
   String recalboxVersion = Files::LoadFile(Path("/recalbox/recalbox.version"));
   String linuxVersion = Files::LoadFile(Path("/proc/version"));
-  int p = linuxVersion.Find('('); if (p >= 0) linuxVersion = Strings::Trim(linuxVersion.SubString(0, p));
+  int p = linuxVersion.Find('('); if (p >= 0) linuxVersion = linuxVersion.SubString(0, p).Trim();
 
   // Build final version object
   JSONBuilder json;
@@ -98,8 +98,8 @@ void RequestHandler::StorageInfo(const Rest::Request& request, Http::ResponseWri
       else if (info.Mount == "/boot") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "boot"));
       else if (info.Mount == "/recalbox/share") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
       else if (info.Mount == "/recalbox/share/bootvideos") ; // Filtered out
-      else if (Strings::StartsWith(info.Mount, "/recalbox/share") &&
-               Strings::StartsWith(info.FileSystem, "//")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+      else if (info.Mount.StartsWith("/recalbox/share") &&
+               info.FileSystem.StartsWith("//")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
       else result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "unknown"));
     }
     else LOG(LogError) << "df -T unknown result : " << lines[i];
@@ -469,11 +469,11 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::LogRoute(request, "MediaGet");
 
   // Get path
-  Path path(Strings::Decode64(request.splatAt(0).name()));
+  Path path(Decode64(request.splatAt(0).name()));
   std::cout << " path = " << request.splatAt(0).name() << std::endl;
 
   // Check extension
-  String ext = Strings::ToLowerASCII(path.Extension()).append(1, '.');
+  String ext = path.Extension().LowerCase().Append('.');
   if (path.Exists())
   {
     if (path.IsFile())
@@ -505,7 +505,7 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   Path path = Path("/recalbox/share/screenshots/" + fileName);
 
   // Check extension
-  String ext = Strings::ToLowerASCII(path.Extension());
+  String ext = path.Extension().LowerCase();
 
   if (path.Exists())
   {
@@ -619,4 +619,53 @@ void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::Re
           .Close();
 
   RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);
+}
+
+static const char Base64Values[] =
+  {
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,
+    00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 62, 00, 00, 00, 63,
+    52, 53, 54, 55, 56, 57, 58, 59, 60, 61, 00, 00, 00, 00, 00, 00,
+    00, 00, 01, 02, 03, 04, 05, 06, 07,  8,  9, 10, 11, 12, 13, 14,
+    15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 00, 00, 00, 00, 00,
+    00, 26, 27, 28, 29, 30, 31, 32, 33, 34, 35, 36, 37, 38, 39, 40,
+    41, 42, 43, 44, 45, 46, 47, 48, 49, 50, 51
+  };
+
+String RequestHandler::Decode64(const String& base64)
+{
+  String result;
+
+  // Align on 3 char
+  int len = (int)base64.size() & -4;
+  int off7 = 0;
+
+  // Padding?
+  bool padded = (base64[off7 + len - 1] == '=');
+  if (padded) len -= 4;
+
+  // 3 char loop
+  for (int L = len >> 2; --L >= 0; off7 += 4)
+  {
+    int V = (Base64Values[(unsigned int)(unsigned char)base64[off7]] << 18) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 1]] << 12) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 2]] << 6) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 3]]);
+    result.Append((char)(V >> 16))
+          .Append((char)(V >> 8))
+          .Append((char)V);
+  }
+  // remaining
+  if (padded)
+  {
+    int V = (Base64Values[(unsigned int)(unsigned char)base64[off7]] << 10) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 1]] << 4) +
+            (Base64Values[(unsigned int)(unsigned char)base64[off7 + 2]] >> 2);
+    result.Append((char)(V >> 8));
+    if (base64[off7 + 2] != '=')
+      result.Append((char)V);
+  }
+
+  return result;
 }

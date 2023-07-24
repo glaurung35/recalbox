@@ -96,7 +96,7 @@ bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
     // started holding
     mHoldingConfig = &event.Device();
     mHoldTime = HOLD_TIME;
-    mDeviceHeld->setText(Strings::ToUpperASCII(event.Device().Name()));
+    mDeviceHeld->setText(event.Device().Name().UpperCase());
   }
   else if (event.RawEvent().AnyButtonReleased() && mHoldingConfig == &event.Device())
   {

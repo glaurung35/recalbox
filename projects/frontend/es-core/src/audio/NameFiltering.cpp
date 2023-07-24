@@ -3,7 +3,6 @@
 //
 
 #include "NameFiltering.h"
-#include <utils/Strings.h>
 
 String NameFiltering::Filter(const String& sourceString, Source from)
 {

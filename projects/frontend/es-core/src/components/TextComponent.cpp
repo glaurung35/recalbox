@@ -1,4 +1,3 @@
-#include <utils/Strings.h>
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -213,7 +212,7 @@ void TextComponent::onTextChanged()
 		return;
 	}
 
-	String text = mUppercase ? Strings::ToUpperUTF8(mText) : mText;
+	String text = mUppercase ? mText.ToUpperCaseUTF8() : mText;
 
 	std::shared_ptr<Font> f = mFont;
 	const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);

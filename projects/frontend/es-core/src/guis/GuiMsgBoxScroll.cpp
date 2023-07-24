@@ -51,15 +51,14 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	if(mButtons.size() == 1)
 	{
 		mAcceleratorFunc = mButtons.front()->getPressedFunc();
-	}else{
+	}else
+  {
 		for (auto& mButton : mButtons)
-		{
-			if(Strings::ToUpperASCII(mButton->getText()) == "OK" || Strings::ToUpperASCII(mButton->getText()) == "NO")
+			if (String buttonUC = mButton->getText().ToUpperCase(); buttonUC == "OK" || buttonUC == "NO") // #TODO Do not rely on button texts
 			{
 				mAcceleratorFunc = mButton->getPressedFunc();
 				break;
 			}
-		}
 	}
 
 	// put the buttons into a ComponentGrid

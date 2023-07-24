@@ -1,6 +1,5 @@
 #include <utils/locale/LocaleHelper.h>
 #include <WindowManager.h>
-#include <Renderer.h>
 #include <guis/GuiInfoPopupBase.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <guis/GuiMsgBox.h>
@@ -56,14 +55,14 @@ void WindowManager::RemoveGui(Gui* gui)
       mGuiStack.PopAt(i);
 }
 
-void WindowManager::displayMessage(const std::string& message, bool urgent)
+void WindowManager::displayMessage(const String& message, bool urgent)
 {
   if (!urgent && !mMessages.empty()) return;
 
   mMessages.push_back(message);
 }
 
-void WindowManager::displayScrollMessage(const std::string& title, const std::string& message, bool urgent)
+void WindowManager::displayScrollMessage(const String& title, const String& message, bool urgent)
 {
   if (!urgent && !mScrollMessages.empty()) return;
 
@@ -132,10 +131,10 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
     }
   }
 
-  std::string glExts = (const char*) glGetString(GL_EXTENSIONS);
+  String glExts = (const char*) glGetString(GL_EXTENSIONS);
   { LOG(LogInfo) << "[WindowManager] Checking available OpenGL extensions..."; }
   { LOG(LogInfo) << "[WindowManager] ARB_texture_non_power_of_two: "
-                 << (glExts.find("ARB_texture_non_power_of_two") != std::string::npos ? "OK" : "MISSING"); }
+                 << (glExts.find("ARB_texture_non_power_of_two") != String::npos ? "OK" : "MISSING"); }
 
   //InputManager::Instance().Initialize(this);
   ResourceManager::getInstance()->reloadAll();
@@ -200,14 +199,14 @@ void WindowManager::Update(int deltaTime)
   {
     if (!mMessages.empty())
     {
-      std::string message = mMessages.back();
+      String message = mMessages.back();
       mMessages.pop_back();
       pushGui(new GuiMsgBox(*this, message));
     }
     else if (!mScrollMessages.empty())
     {
-      std::string message = mScrollMessages.back();
-      std::string title = mScrollTitle.back();
+      String message = mScrollMessages.back();
+      String title = mScrollTitle.back();
       mScrollMessages.pop_back();
       mScrollTitle.pop_back();
       pushGui(new GuiMsgBoxScroll(*this, title, message, _("OK"), []
@@ -502,7 +501,7 @@ void WindowManager::InfoPopupAdd(GuiInfoPopupBase* infoPopup, bool first)
   InfoPopupRetarget();
 }
 
-void WindowManager::InfoPopupAddRegular(const std::string& message, int duration, PopupType icon, bool first)
+void WindowManager::InfoPopupAddRegular(const String& message, int duration, PopupType icon, bool first)
 {
   GuiInfoPopupBase* infoPopup = new GuiInfoPopup(*this, message, duration, icon);
   infoPopup->Initialize();

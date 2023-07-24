@@ -297,7 +297,7 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
       {
         case 'a':
         {
-          if (Strings::ToInt(value, parserIndex + 1, id))
+          if (value.TryAsInt(parserIndex + 1, id))
           {
             typeEnum = InputEvent::EventType::Axis;
             if (sign == 0) val = -1; // non-signed axes are affected to joysticks: always left or up
@@ -316,7 +316,7 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
         }
         case 'b':
         {
-          if (Strings::ToInt(value, parserIndex + 1, id))
+          if (value.TryAsInt(parserIndex + 1, id))
           {
             typeEnum = InputEvent::EventType::Button;
             val = 1;
@@ -334,8 +334,8 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
         }
         case 'h':
         {
-          if (Strings::ToInt(value, parserIndex + 1, '.', id))
-            if (Strings::ToInt(value, parserIndex + 3, val))
+          if (value.TryAsInt(parserIndex + 1, '.', id))
+            if (value.TryAsInt(parserIndex + 3, val))
             {
               typeEnum = InputEvent::EventType::Hat;
               #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX

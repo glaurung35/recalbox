@@ -2,7 +2,6 @@
 // Created by bkg2k on 07/12/2019.
 //
 
-#include <utils/Strings.h>
 #include <utils/os/system/Thread.h>
 #include "ScreenScraperApis.h"
 #include <utils/Log.h>
@@ -32,10 +31,10 @@ ScreenScraperUser ScreenScraperApis::GetUserInformation()
         user.mRequestDone = 0;
         user.mMaxRatePerMin = 0;
         user.mMaxRatePerDay = 0;
-        if (ssuser.HasMember("maxthreads")) Strings::ToInt(ssuser["maxthreads"].GetString(), user.mThreads);
-        if (ssuser.HasMember("requeststoday")) Strings::ToInt(ssuser["requeststoday"].GetString(), user.mRequestDone);
-        if (ssuser.HasMember("maxrequestspermin")) Strings::ToInt(ssuser["maxrequestspermin"].GetString(), user.mMaxRatePerMin);
-        if (ssuser.HasMember("maxrequestsperday")) Strings::ToInt(ssuser["maxrequestsperday"].GetString(), user.mMaxRatePerDay);
+        if (ssuser.HasMember("maxthreads")) (void)String(ssuser["maxthreads"].GetString()).TryAsInt(user.mThreads);
+        if (ssuser.HasMember("requeststoday")) (void)String(ssuser["requeststoday"].GetString()).TryAsInt(user.mRequestDone);
+        if (ssuser.HasMember("maxrequestspermin")) (void)String(ssuser["maxrequestspermin"].GetString()).TryAsInt(user.mMaxRatePerMin);
+        if (ssuser.HasMember("maxrequestsperday")) (void)String(ssuser["maxrequestsperday"].GetString()).TryAsInt(user.mMaxRatePerDay);
         if (ssuser.HasMember("favregion")) ssuser["favregion"].GetString();
       }
     }
@@ -183,7 +182,7 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
   if (json.HasMember("note"))
   {
     int rating = 0;
-    game.mRating = (float) (Strings::ToInt(json["note"]["text"].GetString(), rating) ? rating : 0) / 20.0f;
+    game.mRating = (float) (String(json["note"]["text"].GetString()).TryAsInt(rating) ? rating : 0) / 20.0f;
   }
 
   // Deserialize media url
@@ -549,7 +548,7 @@ GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& arr
   // Lookup Sub-genre first
   int id = 0;
   for(const auto& object : array.GetArray())
-    if (Strings::ToInt(object["id"].GetString(), id))
+    if (String(object["id"].GetString()).TryAsInt(id))
     {
       GameGenres* found = sScreenScraperSubGenresToGameGenres.try_get(id);
       if (found != nullptr)
@@ -558,7 +557,7 @@ GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& arr
 
   // Lookup genre except "Action"
   for(const auto& object : array.GetArray())
-    if (Strings::ToInt(object["id"].GetString(), id))
+    if (String(object["id"].GetString()).TryAsInt(id))
       if (id != 10 && id != 413) // Action / Adult
       {
         GameGenres* found = sScreenScraperGenresToGameGenres.try_get(id);
@@ -568,7 +567,7 @@ GameGenres ScreenScraperApis::ExtractNormalizedGenre(const rapidjson::Value& arr
 
   // Lookup what's available
   for(const auto& object : array.GetArray())
-    if (Strings::ToInt(object["id"].GetString(), id))
+    if (String(object["id"].GetString()).TryAsInt(id))
       if (id != 413) // Adult
       {
         GameGenres* found = sScreenScraperGenresToGameGenres.try_get(id);
@@ -584,7 +583,7 @@ bool ScreenScraperApis::ExtractAdultState(const rapidjson::Value& array)
   // Lookup Sub-genre first
   int id = 0;
   for(const auto& object : array.GetArray())
-    if (Strings::ToInt(object["id"].GetString(), id))
+    if (String(object["id"].GetString()).TryAsInt(id))
       if (id == 413)
         return true;
   return false;
@@ -605,7 +604,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), region.c_str()) == 0)
           {
-            Strings::ToLong(object["size"].GetString(), size);
+            size = String(object["size"].GetString()).AsInt64(0, 0LL);
             format = object["format"].GetString();
             md5 = object["md5"].GetString();
             return object["url"].GetString();
@@ -617,7 +616,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "wor") == 0)
           {
-            Strings::ToLong(object["size"].GetString(), size);
+            size = String(object["size"].GetString()).AsInt64(0, 0LL);
             format = object["format"].GetString();
             md5 = object["md5"].GetString();
             return object["url"].GetString();
@@ -629,7 +628,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "us") == 0)
           {
-            Strings::ToLong(object["size"].GetString(), size);
+            size = String(object["size"].GetString()).AsInt64(0, 0LL);
             format = object["format"].GetString();
             md5 = object["md5"].GetString();
             return object["url"].GetString();
@@ -641,7 +640,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "jp") == 0)
           {
-            Strings::ToLong(object["size"].GetString(), size);
+            size = String(object["size"].GetString()).AsInt64(0, 0LL);
             format = object["format"].GetString();
             md5 = object["md5"].GetString();
             return object["url"].GetString();
@@ -653,7 +652,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
         if (strcmp(object["parent"].GetString(), parent) == 0)
           if (strcmp(object["region"].GetString(), "ss") == 0)
           {
-            Strings::ToLong(object["size"].GetString(), size);
+            size = String(object["size"].GetString()).AsInt64(0, 0LL);
             format = object["format"].GetString();
             md5 = object["md5"].GetString();
             return object["url"].GetString();
@@ -665,7 +664,7 @@ String ScreenScraperApis::ExtractMedia(const rapidjson::Value& medias, const cha
     if (strcmp(object["type"].GetString(), type) == 0)
       if (strcmp(object["parent"].GetString(), parent) == 0)
       {
-        Strings::ToLong(object["size"].GetString(), size);
+        size = String(object["size"].GetString()).AsInt64(0, 0LL);
         format = object["format"].GetString();
         md5 = object["md5"].GetString();
         return object["url"].GetString();
@@ -680,7 +679,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const String& med
 {
   ScrapeResult result = ScrapeResult::FatalError;
   size = 0;
-  String url = Strings::StartsWith(mediaurl,LEGACY_STRING("http")) ? mediaurl : mEndPointProvider.GetUrlBase() + mediaurl;
+  String url = mediaurl.StartsWith(LEGACY_STRING("http")) ? mediaurl : mEndPointProvider.GetUrlBase() + mediaurl;
   { LOG(LogDebug) << "[ScreenScraperApis] Requesting : " << url; }
   InitializeClient();
   mEndPointProvider.AddQueryParametersToMediaRequest(&game, size, url);

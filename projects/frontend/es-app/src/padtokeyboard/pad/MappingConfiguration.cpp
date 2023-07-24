@@ -5,7 +5,6 @@
 #include <linux/input.h>
 #include <utils/os/fs/Path.h>
 #include <utils/Files.h>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include <cstring>
 #include <padtokeyboard/mouse/VirtualMouse.h>

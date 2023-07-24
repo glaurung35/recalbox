@@ -236,7 +236,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
 
       if (!adapter.AdjustResolution(0, resolution, output))
       {
-        resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
+        resolution = RecalboxConf::Instance().GetGlobalVideoMode().LowerCase();
         adapter.AdjustResolution(0, resolution, output);
       }
       if (output.IsValid())

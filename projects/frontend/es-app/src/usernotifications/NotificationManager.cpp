@@ -422,7 +422,7 @@ void NotificationManager::RunProcess(const Path& target, const String::List& arg
   String command;
 
   // Extract extension
-  String ext = Strings::ToLowerASCII(target.Extension());
+  String ext = target.Extension().LowerCase();
   if      (ext == ".sh")  { command = "/bin/sh";          args.push_back(command.data()); }
   else if (ext == ".ash") { command = "/bin/ash";         args.push_back(command.data()); }
   else if (ext == ".py")  { command = "/usr/bin/python";  args.push_back(command.data()); }
@@ -433,7 +433,7 @@ void NotificationManager::RunProcess(const Path& target, const String::List& arg
   args.push_back(target.ToChars());
   for (const String& argument : arguments) args.push_back(argument.c_str());
 
-  { LOG(LogDebug) << "[Script] Run UserScript: " << Strings::Join(args, ' '); }
+  { LOG(LogDebug) << "[Script] Run UserScript: " << args; }
 
   // Push final null
   args.push_back(nullptr);

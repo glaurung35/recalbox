@@ -3,7 +3,6 @@
 //
 
 #include <utils/storage/HashMap.h>
-#include <utils/Strings.h>
 #include "Regions.h"
 
 Regions::GameRegions Regions::FullNameToRegions(const String& region)

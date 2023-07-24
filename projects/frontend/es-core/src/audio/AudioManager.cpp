@@ -3,11 +3,8 @@
 
 #include <SDL.h>
 #include <views/SystemView.h>
-#include <RecalboxConf.h>
-#include <RootFolders.h>
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiInfoPopup.h>
-#include <utils/Strings.h>
 
 AudioManager::AudioManager(WindowManager& window)
   : StaticLifeCycleControler<AudioManager>("AudioManager")
@@ -246,9 +243,9 @@ void AudioManager::PlayRandomMusic()
     // Create music popup
     if (source == MusicSource::RemoteTrack)
     {
-      std::string text(_("Now playing"));
-      text.append(":\n").append(remoteTrack->Name()).append(1, '\n')
-          .append("(").append(remoteTrack->MixTaper()).append(")");
+      String text(_("Now playing"));
+      text.Append(":\n").Append(remoteTrack->Name()).Append('\n')
+          .Append("(").Append(remoteTrack->MixTaper()).Append(')');
       mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, text, popupDuration, PopupType::Music));
     }
     else
@@ -269,9 +266,9 @@ std::vector<Path> AudioManager::ListMusicInFolder(const Path& path)
     if (!musicPath.IsFile()) continue;
 
     // Skip if no match
-    std::string ext = Strings::ToLowerASCII(musicPath.Extension());
-    static std::string supportedExtensions = "|.wav|.mp3|.ogg|.flac|.midi|.mid|.mod|.s3m|.xm|.it|.669|.apun|.dsm|.far|.amf|.gdm|.imf|.med|.mtm|.okt|.stm|.stx|.ult|.uni|.opus|";
-    if (supportedExtensions.find(ext) == std::string::npos) continue;
+    String ext = musicPath.Extension().LowerCase().Append('|');
+    static String supportedExtensions = "|.wav|.mp3|.ogg|.flac|.midi|.mid|.mod|.s3m|.xm|.it|.669|.apun|.dsm|.far|.amf|.gdm|.imf|.med|.mtm|.okt|.stm|.stx|.ult|.uni|.opus|";
+    if (supportedExtensions.Find(ext) < 0) continue;
 
     // File matches, store it
     musics.push_back(musicPath);

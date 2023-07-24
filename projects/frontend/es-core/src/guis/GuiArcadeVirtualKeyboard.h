@@ -3,7 +3,6 @@
 #include <guis/Gui.h>
 #include <resources/Font.h>
 #include <resources/TextureResource.h>
-#include <utils/Strings.h>
 #include <utils/datetime/DateTime.h>
 #include <guis/IGuiArcadeVirtualKeyboardInterface.h>
 #include <Renderer.h>
@@ -107,7 +106,7 @@ class GuiArcadeVirtualKeyboard : public Gui
     double mSavedAngles[sWheelCount];
 
     //! Title
-    std::string mTitle;
+    String mTitle;
     //! Current text
     std::vector<unsigned int> mText;
 
@@ -413,7 +412,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      * @param initValue Initial value
      * @param okCallback Callback interface
      */
-    GuiArcadeVirtualKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
+    GuiArcadeVirtualKeyboard(WindowManager& window, const String& title, const String& initValue,
                              IGuiArcadeVirtualKeyboardInterface* okCallback);
 
     /*!
@@ -427,5 +426,5 @@ class GuiArcadeVirtualKeyboard : public Gui
     /*!
      * Get the current text text
      */
-    std::string Text() const { return Strings::UnicodeToUtf8(mText); }
+    [[nodiscard]] String Text() const { return String::JoinUnicodes(mText); }
 };

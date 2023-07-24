@@ -1,6 +1,5 @@
 #pragma once
 
-#include <utils/Strings.h>
 #include <guis/Gui.h>
 #include <components/NinePatchComponent.h>
 #include <components/ComponentGrid.h>

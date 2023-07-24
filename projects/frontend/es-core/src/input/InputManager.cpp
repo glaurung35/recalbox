@@ -542,7 +542,7 @@ void InputManager::FileSystemWatcherNotification(EventType event, const Path& pa
 {
   (void)time;
   { LOG(LogWarning) << "[/dev/input] Event " << (int)event << " : " << path.ToString(); }
-  if (Strings::StartsWith(path.Filename(), "event"))
+  if (path.Filename().StartsWith("event"))
     mJoystickChangePending = true;
 }
 

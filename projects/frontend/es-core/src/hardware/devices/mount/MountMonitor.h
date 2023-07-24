@@ -87,7 +87,7 @@ class MountMonitor : private Thread
      * @param devicePath Device path
      * @return Partition name
      */
-    static std::string GetPartitionLabel(const Path& devicePath);
+    static String GetPartitionLabel(const Path& devicePath);
 
     /*
      * Thread implementation

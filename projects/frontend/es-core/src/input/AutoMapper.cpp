@@ -324,7 +324,7 @@ String AutoMapper::BuildMapping(const String& sdlMapping) const
   ioctl(fd, EVIOCGID, id);
   char name[256] = {};
   ioctl(fd, EVIOCGNAME(sizeof(name)), name);
-  { LOG(LogDebug) << "[AutoMapper] Analysing input device: \"" << name << "\" " << Strings::ToHexa(id[ID_VENDOR], 4) << ':' << Strings::ToHexa(id[ID_PRODUCT], 4); }
+  { LOG(LogDebug) << "[AutoMapper] Analysing input device: \"" << name << "\" " << String(id[ID_VENDOR], 4, String::Hexa::None) << ':' << String(id[ID_PRODUCT], 4, String::Hexa::None); }
 
   unsigned long bit[EV_MAX][NBITS(KEY_MAX)];
   memset(bit, 0, sizeof(bit));

@@ -68,8 +68,7 @@ void GuiMenuNetplay::EditableComponentTextChanged(int id, const String& text)
     }
     case Components::Port:
     {
-      int p = RecalboxConf::sNetplayDefaultPort;
-      Strings::ToInt(text, p);
+      int p = text.AsInt(0, RecalboxConf::sNetplayDefaultPort);
       if ((unsigned int)p > 65535) p = 65535;
       RecalboxConf::Instance().SetNetplayPort(p).Save();
       break;

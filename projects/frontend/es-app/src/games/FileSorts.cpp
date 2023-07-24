@@ -40,8 +40,8 @@ int FileSorts::unicodeCompareUppercase(const String& a, const String& b)
 {
   for (int apos = 0, bpos = 0;; )
   {
-    int c1 = (int)Strings::UpperChar(Strings::chars2Unicode(a, apos));
-    int c2 = (int)Strings::UpperChar(Strings::chars2Unicode(b, bpos));
+    int c1 = (int)String::UpperUnicode(a.ReadUTF8(apos));
+    int c2 = (int)String::UpperUnicode(b.ReadUTF8(bpos));
     if ((c1 | c2) == 0) { return 0; }
     int c = c1 - c2;
     if (c != 0) { return c; }

@@ -10,5 +10,5 @@
 String SystemDescriptor::mDefaultCommand;  //!< Default command
 String SystemDescriptor::IconPrefix() const
 {
-  return Strings::unicode2Chars((unsigned int)mIcon).append(1, ' ');
+  return String().AssignUTF8(mIcon).Append(' ');
 }

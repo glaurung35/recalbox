@@ -29,8 +29,8 @@ class OptionListComponent : public Component
 private:
 	struct OptionListData
 	{
-		std::string name;
-		std::string value;
+		String name;
+		String value;
 		T object;
 		bool selected = false;
 	};
@@ -42,7 +42,7 @@ private:
 		OptionListComponent<T>* mParent;
 
 	public:
-		OptionListPopup(WindowManager& window, OptionListComponent<T>* parent, const std::string& title)
+		OptionListPopup(WindowManager& window, OptionListComponent<T>* parent, const String& title)
 		  : Gui(window),
 			  mMenu(window, title),
 			  mParent(parent)
@@ -60,7 +60,7 @@ private:
       for (auto& e : mParent->mEntries)
 			{
 				row.elements.clear();
-				row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(e.name), font, color), true);
+				row.addElement(std::make_shared<TextComponent>(mWindow, e.name.ToUpperCaseUTF8(), font, color), true);
 
 				if(mParent->mMultiSelect)
 				{
@@ -148,7 +148,7 @@ private:
 	};
 
 public:
-	OptionListComponent(WindowManager& window, const std::string& name, bool multiSelect, unsigned int font_size)
+	OptionListComponent(WindowManager& window, const String& name, bool multiSelect, unsigned int font_size)
 	  : Component(window)
     , mName(name)
     , mText(window)
@@ -193,12 +193,12 @@ public:
 		setSize(mLeftArrow.getSize().x() + mRightArrow.getSize().x(), font->getHeight());
 	}
 
-  OptionListComponent(WindowManager&window, const std::string& name, bool multiSelect)
+  OptionListComponent(WindowManager&window, const String& name, bool multiSelect)
     : OptionListComponent(window, name, multiSelect, FONT_SIZE_MEDIUM)
   {
   }
 
-  OptionListComponent(WindowManager&window, const std::string& name)
+  OptionListComponent(WindowManager&window, const String& name)
     : OptionListComponent(window, name, false, FONT_SIZE_MEDIUM)
   {
   }
@@ -290,7 +290,7 @@ public:
     return T();
 	}
         
-	std::string getSelectedName()
+	String getSelectedName()
 	{
     assert(!mMultiSelect);
 		for (auto& entry : mEntries)
@@ -321,7 +321,7 @@ public:
 		mEntries.clear();
 	}
 
-    void add(const std::string& name, const T& obj, bool selected, const std::string& value = "")
+    void add(const String& name, const T& obj, bool selected, const String& value = "")
         {
 		OptionListData e;
 		e.name = name;
@@ -415,7 +415,7 @@ private:
 			{
 				if(entry.selected)
 				{
-					mText.setText(Strings::ToUpperUTF8(entry.name));
+					mText.setText(entry.name.ToUpperCaseUTF8());
 					mText.setSize(0, mText.getSize().y());
 					setSize(mText.getSize().x() + mLeftArrow.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());
 					if(mParent) // hack since theres no "on child size changed" callback atm...
@@ -472,7 +472,7 @@ private:
         return String::Empty;
     }
 
-	std::string mName;
+	String mName;
 	T firstSelected;
 	TextComponent mText;
 	ImageComponent mLeftArrow;

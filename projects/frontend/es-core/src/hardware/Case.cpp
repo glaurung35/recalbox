@@ -6,8 +6,9 @@
 #include "Board.h"
 #include "recalbox/BootConf.h"
 #include <utils/locale/LocaleHelper.h>
+#include <utils/IniFile.h>
 
-bool Case::SetCaseInBoot(const std::string& theCase)
+bool Case::SetCaseInBoot(const String& theCase)
 {
   IniFile bootConf(Path("/boot/recalbox-boot.conf"), false);
   bootConf.SetString("case", theCase);
@@ -53,7 +54,7 @@ bool Case::Install() const
 }
 
 //! Get case from string
-Case Case::FromShortName(const std::string& value)
+Case Case::FromShortName(const String& value)
 {
   if (value == "GPiV1") return Create(CaseModel::GPiV1);
   if (value == "GPiV2") return Create(CaseModel::GPiV2);

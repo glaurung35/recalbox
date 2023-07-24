@@ -2,7 +2,6 @@
 #include <systems/SystemData.h>
 #include <games/adapter/GameAdapter.h>
 
-#include <utils/Strings.h>
 #include <utils/Zip.h>
 #include <utils/hash/Crc32File.h>
 

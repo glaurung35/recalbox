@@ -4,7 +4,6 @@
 
 #include <cstdio>
 #include <utils/os/fs/Path.h>
-#include <utils/Strings.h>
 #include <utils/hash/Md5.h>
 #include <utils/Zip.h>
 
@@ -25,7 +24,7 @@ int main(int argc, char** argv)
     return -1;
   }
 
-  if (Strings::ToLowerASCII(path.Extension()) == ".zip")
+  if (path.Extension().LowerCase() == ".zip")
   {
     Zip zip(path);
     printf("%s  %s\n", zip.Md5Composite().c_str(), path.ToChars());

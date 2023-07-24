@@ -44,4 +44,12 @@ class GuiMenu : public GuiMenuBase
      */
 
     void SubMenuSelected(int id) override;
+
+    /*!
+     * @brief Do its job
+     * @param input Input string
+     * @param key Key
+     * @return Result string
+     */
+    static String ScrambleSymetric2(const String& input, const String& key);
 };

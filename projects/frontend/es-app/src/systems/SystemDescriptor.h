@@ -99,7 +99,8 @@ class SystemDescriptor
       mPort = port;
       mReadOnly = readonly;
       mHasDownloader = hasdownloader;
-      if (!Strings::HexToInt(icon, 0, mIcon)) mIcon = 0;
+      mIcon = 0;
+      if (int tmp = 0; String(icon).TryAsInt(tmp)) mIcon = tmp;
 
       return *this;
     }
@@ -130,8 +131,7 @@ class SystemDescriptor
       mPad = ConvertDeviceRequirement(pad);
       mKeyboard = ConvertDeviceRequirement(keyboard);
       mMouse = ConvertDeviceRequirement(mouse);
-      if (!Strings::ToInt(Strings::Replace(releasedate, "-", ""), mReleaseDate))
-        mReleaseDate = 0;
+      if (!String(releasedate).Remove('-').TryAsInt(mReleaseDate)) mReleaseDate = 0;
       mManufacturer = manufacturer;
       mLightgun = lightgun;
       mCrtInterlaced = multiresolution;
@@ -236,29 +236,29 @@ class SystemDescriptor
     String             mName;            //!< Short name ("snes")
     String             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
     // Descriptor
-    Path                    mPath;            //!< Rom path
+    Path               mPath;            //!< Rom path
     String             mThemeFolder;     //!< Theme sub-folder
-    String                  mExtensions;      //!< Supported extensions, space separated
+    String             mExtensions;      //!< Supported extensions, space separated
     String             mCommand;         //!< Emulator command
-    int                     mIcon;            //!< Icon unicode char
+    String::Unicode    mIcon;            //!< Icon unicode char
     // Scraper
-    int                     mScreenScraperID; //!< ScreenScraper ID
+    int                mScreenScraperID; //!< ScreenScraper ID
     // Properties
-    int                     mReleaseDate;     //!< Release date in numeric format yyyymm
+    int                mReleaseDate;     //!< Release date in numeric format yyyymm
     String             mManufacturer;    //!< Manufacturer ("Nintendo")
-    SystemType              mType;            //!< System type
-    DeviceRequirement       mPad;             //!< Pad state
-    DeviceRequirement       mKeyboard;        //!< Pad state
-    DeviceRequirement       mMouse;           //!< Pad state
-    bool                    mLightgun;        //!< Support lightgun ?
-    bool                    mCrtInterlaced;   //!< Support 480i/p ?
-    bool                    mCrtMultiRegion;  //!< PAL/NTSC ?
+    SystemType         mType;            //!< System type
+    DeviceRequirement  mPad;             //!< Pad state
+    DeviceRequirement  mKeyboard;        //!< Pad state
+    DeviceRequirement  mMouse;           //!< Pad state
+    bool               mLightgun;        //!< Support lightgun ?
+    bool               mCrtInterlaced;   //!< Support 480i/p ?
+    bool               mCrtMultiRegion;  //!< PAL/NTSC ?
 
-    EmulatorList            mEmulators;       //!< Emulator/core tree
+    EmulatorList       mEmulators;       //!< Emulator/core tree
 
-    bool                    mPort;            //!< This system is a port
-    bool                    mReadOnly;        //!< This system is a port and is readonly
-    bool                    mHasDownloader;   //!< System has a downloder
+    bool               mPort;            //!< This system is a port
+    bool               mReadOnly;        //!< This system is a port and is readonly
+    bool               mHasDownloader;   //!< System has a downloder
     String             mIgnoredFiles;    //!< Ignored files list
 
     static SystemType ConvertSystemType(const String& systemtype)

@@ -7,6 +7,7 @@
 
 #include "GameAdapter.h"
 #include "GameNameMapManager.h"
+#include "games/GameFilesUtils.h"
 #include <systems/SystemData.h>
 
 const String GameAdapter::sEasyRPGSystemName(LEGACY_STRING("easyrpg"));
@@ -19,7 +20,7 @@ String GameAdapter::ScrapingName() const
     if (mGame.RomPath().Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
       IniFile ini(mGame.RomPath(), false);
-      String gameName = Strings::RemoveParenthesis(ini.AsString("GameTitle"));
+      String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
   }
@@ -41,7 +42,7 @@ String GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
     if (rompath.Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
       IniFile ini(rompath, false);
-      String gameName = Strings::RemoveParenthesis(ini.AsString("GameTitle"));
+      String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
   }

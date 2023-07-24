@@ -106,21 +106,19 @@ void GuiMenuGamelistOptions::RefreshGameMenuContext()
 {
   if (!mGame) return;
 
-  FileData* file = mGamelist.getCursor();
+  const FileData* file = mGamelist.getCursor();
   if ((file == nullptr) || file->IsEmpty())
     mGame->setText(_("NO GAME"));
   else if (file->TopAncestor().ReadOnly())
     mGame->setText(_("NON EDITABLE GAME"));
   else if (file->IsGame())
   {
-    String text = _("EDIT GAME %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
+    String text = _("EDIT GAME %s").Replace("%s", file->Name().ToUpperCaseUTF8());
     mGame->setText(text);
   }
   else if (file->IsFolder())
   {
-    String text = _("EDIT FOLDER %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
+    String text = _("EDIT FOLDER %s").Replace("%s", file->Name().ToUpperCaseUTF8());
     mGame->setText(text);
   }
 }
@@ -169,10 +167,10 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   if (!letters.empty())
   {
     // Get current unicode char
-    unsigned int currentUnicode = Strings::UpperChar(mGamelist.getCursor()->Name());
+    String::Unicode currentUnicode = String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8());
     // Build list
     for (unsigned int unicode : letters)
-      list.push_back({ Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode });
+      list.push_back({ String(unicode, 1), unicode, unicode == currentUnicode });
   }
 
   return list;

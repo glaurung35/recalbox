@@ -26,11 +26,11 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
   {
     String gameName(game.Name());
     gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    SetFooter(_("GAME %s").Replace("%s", gameName.UpperCaseUTF8()));
   }
   else if (mGame.IsFolder())
   {
-    SetFooter(Strings::Replace(_("FOLDER %s"), "%s", Strings::ToUpperUTF8(mGame.Name())));
+    SetFooter(_("FOLDER %s").Replace("%s", mGame.Name().ToUpperCaseUTF8()));
   }
 
   // Run width
@@ -125,7 +125,7 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
     mGame.Metadata().SetCore(String::Empty);
     // Split emulator & core
     String emulator, core;
-    if (Strings::SplitAt(value, ':', emulator, core, false))
+    if (value.Extract(':', emulator, core, false))
       if (emulator != mDefaultEmulator || core != mDefaultCore)
       {
         mGame.Metadata().SetEmulator(emulator);

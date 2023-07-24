@@ -125,13 +125,13 @@ class ThemeData
     static bool CheckThemeOption(String& selected, const HashMap<String, String>& subsets, const String& subset);
     static String resolveSystemVariable(const String& systemThemeFolder, const String& path, String& randomPath)
     {
-      String lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
+      String lccc = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
       String lc = "en";
       String cc = "us";
       if (lccc.size() >= 5)
       {
-        size_t pos = lccc.find('_');
-        if (pos >=2 && pos < lccc.size() - 1)
+        int pos = lccc.Find('_');
+        if (pos >=2 && pos < (int)lccc.size() - 1)
         {
           lc = lccc.SubString(0, pos);
           cc = lccc.SubString(pos + 1);
@@ -139,33 +139,31 @@ class ThemeData
       }
 
       String result = path;
-      Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
-      Strings::ReplaceAllIn(result, "$language", lc);
-      Strings::ReplaceAllIn(result, "$country", cc);
-
+      result.Replace("$system", systemThemeFolder)
+            .Replace("$language", lc)
+            .Replace("$country", cc);
 
       return PickRandomPath(result, randomPath);;
     }
 
     static String PickRandomPath(const String& value, String& randomPath)
     {
-
-      if(!value.Contains(sRandomMethod))
+      if (!value.Contains(sRandomMethod))
         return value;
 
-      String args = Strings::Extract(value, sRandomMethod, ")", 8, 1);
+      String args;
+      if (value.Extract( sRandomMethod, ")", args, true))
+        if (randomPath.empty())
+        {
+          String::List paths = args.Split(',');
+          std::random_device rd;
+          std::default_random_engine engine(rd());
+          const int max = (int)paths.size();
+          std::uniform_int_distribution<int> distrib{0, max-1};
+          randomPath = paths[distrib(engine)];
+        }
 
-      if(randomPath.empty())
-      {
-        String::List paths = args.Split(',');
-        std::random_device rd;
-        std::default_random_engine engine(rd());
-        const int max = (int)paths.size();
-        std::uniform_int_distribution<int> distrib{0, max-1};
-        randomPath = paths[distrib(engine)];
-      }
-
-      return Strings::Replace(value, sRandomMethod + args + ")", randomPath);
+      return String(value).Replace(sRandomMethod + args + ")", randomPath);
     }
 
     HashMap<String, ThemeView> mViews;

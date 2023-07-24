@@ -4,9 +4,8 @@
 #define LOG(level) \
 if (::LogLevel::level <= ::Log::getReportingLevel()) ::Log().get(LogLevel::level)
 
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
-#include "Strings.h"
 
 //! Log level
 enum class LogLevel
@@ -35,6 +34,7 @@ class Log
     Log& operator << (const char* v) { mMessage.Append(v); return *this; }
     Log& operator << (const std::string& v) { mMessage.Append(v); return *this; }
     Log& operator << (const String& v) { mMessage.Append(v); return *this; }
+    Log& operator << (const Path& v) { mMessage.Append(v.ToString()); return *this; }
     Log& operator << (int v) { mMessage.Append(v); return *this; }
     Log& operator << (unsigned int v) { mMessage.Append(v); return *this; }
     Log& operator << (long long v) { mMessage.Append(v); return *this; }
@@ -44,6 +44,7 @@ class Log
     Log& operator << (bool v) { mMessage.Append(v); return *this; }
     Log& operator << (float v) { mMessage.Append(v, 4); return *this; }
     Log& operator << (const String::List& v) { for(const std::string& s : v) mMessage.Append(s).Append(' '); return *this; }
+    Log& operator << (const std::vector<const char*>& v) { for(const char* s : v) mMessage.Append(s).Append(' '); return *this; }
 
   private:
     static const char* sStringLevel[(int)LogLevel::_Count];

@@ -1,8 +1,6 @@
 #include "CommandThread.h"
-#include "utils/Log.h"
 #include "views/ViewController.h"
 #include "systems/SystemManager.h"
-#include <utils/Strings.h>
 #include <netinet/in.h>
 
 CommandThread::CommandThread(SystemManager& systemManager)

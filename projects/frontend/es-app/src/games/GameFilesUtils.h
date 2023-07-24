@@ -41,6 +41,13 @@ class GameFilesUtils
     static bool IsMediaShared(FileData& system, const Path& mediaPath);
 
     static void DeleteFoldersRecIfEmpty(FolderData* folderData);
+
+    /*!
+     * @brief Remove any character block between () or [], including enclosing characters
+     * @param str String to process
+     * @return Result string
+     */
+    static String RemoveParenthesis(const String& str);
 };
 
 

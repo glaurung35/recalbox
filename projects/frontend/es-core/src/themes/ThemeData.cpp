@@ -1,14 +1,8 @@
 #include "ThemeData.h"
-#include "audio/Sound.h"
 #include "resources/TextureResource.h"
-#include "utils/Log.h"
 #include "pugixml/pugixml.hpp"
 #include <components/VideoComponent.h>
-#include <utils/Strings.h>
-#include <algorithm>
 #include <MainRunner.h>
-#include "components/ImageComponent.h"
-#include "components/TextComponent.h"
 #include "RootFolders.h"
 #include "ThemeException.h"
 #include "MenuThemeData.h"
@@ -281,15 +275,15 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
 // helper
 unsigned int getHexColor(const char* str)
 {
-	if(str == nullptr)
-		throw ThemeException("Empty color");
+	if(str == nullptr) throw ThemeException("Empty color");
 
-	size_t len = strlen(str);
+  String string('$');
+  string.Append(str);
 	int val = 0;
-	if ((len != 6 && len != 8) || !Strings::HexToInt(str, val))
+	if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
     throw ThemeException("Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)");
 
-	if(len == 6) val = (val << 8) | 0xFF;
+	if (string.Count() == 7) val = (val << 8) | 0xFF;
 	return (unsigned int)val;
 }
 
@@ -584,11 +578,11 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 		case ElementProperty::NormalizedPair:
 		{
       float x = 0, y = 0;
-      if (Strings::ToFloat(str, 0, ' ', x))
+      if (str.TryAsFloat(0, ' ', x))
       {
         size_t pos = str.find(' ');
         if (pos != String::npos)
-          if (Strings::ToFloat(str, (int) pos + 1, 0, y))
+          if (str.TryAsFloat((int) pos + 1, 0, y))
           {
             element.AddVectorProperty(node.name(), x, y);
             break;
@@ -629,7 +623,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 		case ElementProperty::Float:
 		{
 			float floatVal = 0;
-			if (!Strings::ToFloat(str, floatVal))
+			if (!str.TryAsFloat(floatVal))
         throw ThemeException("invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")", mPaths);
 		  element.AddFloatProperty(node.name(), floatVal);
   		break;

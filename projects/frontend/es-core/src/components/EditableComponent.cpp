@@ -7,7 +7,6 @@
 
 #include <components/EditableComponent.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include <themes/ThemeData.h>
 #include <Renderer.h>

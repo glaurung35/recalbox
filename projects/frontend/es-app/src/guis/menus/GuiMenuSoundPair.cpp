@@ -34,8 +34,7 @@ void GuiMenuSoundPair::Completed(const std::string& parameter, const bool& resul
 void GuiMenuSoundPair::SubMenuSelected(int id)
 {
   std::string device = mDevices[id];
-  std::string text = _("PAIRING %s ...");
-  Strings::ReplaceAllIn(text, "%s", device);
+  std::string text = _("PAIRING %s ...").Replace("%s", device);
   mWindow.pushGui((new GuiWaitLongExecution<std::string, bool>(mWindow, *this))->Execute(device, text));
 }
 

@@ -9,7 +9,6 @@
 #include "scraping/ScraperSeamless.h"
 #include "Upgrade.h"
 #include "hardware/Board.h"
-#include "utils/Strings.h"
 #include "systems/SystemData.h"
 #include "utils/network/Url.h"
 #include <games/adapter/GameAdapter.h>

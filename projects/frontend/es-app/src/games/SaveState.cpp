@@ -4,7 +4,6 @@
 
 #include <sys/stat.h>
 #include "SaveState.h"
-#include "utils/Strings.h"
 
 SaveState::SaveState(const Path& path)
   : mPath(path),

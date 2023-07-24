@@ -71,7 +71,7 @@ void ViewController::goToStart()
 {
   CheckFilters();
 
-  std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
+  String systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.VisibleSystemList()[index];
 
@@ -269,7 +269,7 @@ void ViewController::playViewTransition()
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
 		return;
 
-	std::string transitionTheme = ThemeData::getCurrent().getTransition();
+	String transitionTheme = ThemeData::getCurrent().getTransition();
 	if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 	if(transitionTheme == "fade")
 	{
@@ -544,7 +544,7 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
   {
     // Build text
-    std::string text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
+    String text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
     // Show the dialog box
     Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
@@ -563,7 +563,7 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
-  std::string transitionTheme = ThemeData::getCurrent().getTransition();
+  String transitionTheme = ThemeData::getCurrent().getTransition();
   if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
 	auto launchFactory = [this, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)

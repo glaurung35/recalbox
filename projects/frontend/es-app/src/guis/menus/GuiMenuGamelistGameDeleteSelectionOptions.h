@@ -38,7 +38,7 @@ class GuiMenuGamelistGameDeleteSelectionOptions : public GuiMenuBase
 
     void DeleteSelectedFiles();
 
-    std::string ComputeMessage();
+    String ComputeMessage();
 };
 
 

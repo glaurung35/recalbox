@@ -142,10 +142,21 @@ void GuiMenu::SubMenuSelected(int id)
     {
       mWindow.pushGui(
         new GuiMsgBoxScroll(mWindow, "RECALBOX",
-                            Strings::ScrambleSymetric2(std::string(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR),
+                            ScrambleSymetric2(String(MenuMessages::LICENCE_MSG, MenuMessages::LICENCE_MSG_SIZE), __MESSAGE_DECORATOR),
                             _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
       break;
     }
     case Components::Quit: mWindow.pushGui(new GuiMenuQuit(mWindow)); break;
   }
+}
+
+String GuiMenu::ScrambleSymetric2(const String& input, const String& key)
+{
+  String buffer = input;
+  int l = (int)key.size();
+
+  for (size_t i = 0; i < input.size(); ++i)
+    buffer[i] = (char)(input[i] ^ (key[i % l] + (i*17)));
+
+  return buffer;
 }

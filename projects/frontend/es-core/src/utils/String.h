@@ -650,6 +650,14 @@ class String : public std::string
      * @param[in,out] position Position to read unicode character from. Position is updated to the next character position.
      * @return Unicode character
      */
+    [[nodiscard]] Unicode ReadFirstUTF8() const { int pos = 0; return ReadUTF8(pos); }
+
+    /*!
+     * @brief Read unicode character at the given position
+     * Subsequent calls update the position until it reaches the end of the string
+     * @param[in,out] position Position to read unicode character from. Position is updated to the next character position.
+     * @return Unicode character
+     */
     Unicode ReadUTF8(int& position) const { return position < Count() ? DecodeUTF8Char(position) : 0; }
 
     /*!

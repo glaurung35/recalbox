@@ -9,7 +9,7 @@
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-MenuComponent::MenuComponent(WindowManager&window, const std::string& title, const std::shared_ptr<Font>& titleFont)
+MenuComponent::MenuComponent(WindowManager&window, const String& title, const std::shared_ptr<Font>& titleFont)
   : Component(window)
   , mBackground(window)
   , mGrid(window, Vector2i(1, 4))
@@ -114,9 +114,9 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
 }
 
 
-void MenuComponent::setTitle(const std::string& title, const std::shared_ptr<Font>& font)
+void MenuComponent::setTitle(const String& title, const std::shared_ptr<Font>& font)
 {
-    mTitle->setText(Strings::ToUpperUTF8(title));
+    mTitle->setText(title.ToUpperCaseUTF8());
     mTitle->setFont(font);
 }
 
@@ -162,9 +162,9 @@ void MenuComponent::onSizeChanged()
     mGrid.setSize(mSize);
 }
 
-void MenuComponent::addButton(const std::string& name, const std::string& helpText, const std::function<void()>& callback)
+void MenuComponent::addButton(const String& name, const String& helpText, const std::function<void()>& callback)
 {
-    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, Strings::ToUpperUTF8(name), helpText, callback));
+    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name.ToUpperCaseUTF8(), helpText, callback));
     updateGrid();
     updateSize();
 }
@@ -195,7 +195,7 @@ bool MenuComponent::getHelpPrompts(Help& help)
   return mGrid.getHelpPrompts(help);
 }
 
-void MenuComponent::setFooter(const std::string& label)
+void MenuComponent::setFooter(const String& label)
 {
   if (mFooter) mGrid.removeEntry(mFooter);
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();

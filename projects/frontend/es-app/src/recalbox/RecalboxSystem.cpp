@@ -7,18 +7,13 @@
 
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
-#include "utils/Log.h"
 #include "audio/AudioManager.h"
 
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <utils/Strings.h>
-#include <utils/Files.h>
 #include <MainRunner.h>
 #include <Upgrade.h>
-#include <utils/locale/LocaleHelper.h>
-#include <utils/IniFile.h>
 #include <input/InputMapper.h>
 
 String RecalboxSystem::BuildSettingsCommand(const String& arguments)
@@ -180,8 +175,8 @@ bool RecalboxSystem::backupRecalboxConf()
 
 bool RecalboxSystem::enableWifi(String ssid, String key)
 {
-  ssid = Strings::Replace(ssid, "\"", "\\\"");
-  key = Strings::Replace(key, "\"", "\\\"");
+  ssid.Replace('"', "\\\"");
+  key.Replace('"', "\\\"");
   String cmd(sConfigScript);
   cmd += " wifi enable \"" + ssid + "\" \"" + key + "\"";
   { LOG(LogInfo) << "[System] Launching " << cmd; }
@@ -219,7 +214,7 @@ bool RecalboxSystem::getWifiWps()
   bool result = false;
   String::List lines = ExecuteSettingsCommand("wifi wps");
   for(const String& line : lines)
-    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+    if (line.StartsWith(LEGACY_STRING("OK")))
     {
       result = true;
       break;
@@ -232,7 +227,7 @@ bool RecalboxSystem::saveWifiWps()
   bool result = false;
   String::List lines = ExecuteSettingsCommand("wifi save");
   for(const String& line : lines)
-    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+    if (line.StartsWith(STRING_AND_LENGTH("OK")))
     {
       result = true;
       break;

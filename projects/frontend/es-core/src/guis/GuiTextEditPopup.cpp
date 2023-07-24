@@ -4,9 +4,9 @@
 #include <utils/locale/LocaleHelper.h>
 #include <themes/MenuThemeData.h>
 
-GuiTextEditPopup::GuiTextEditPopup(WindowManager& window, const std::string& title, const std::string& initValue,
-                                   const std::function<void(const std::string&)>& okCallback, bool multiLine,
-                                   const std::string& acceptBtnText)
+GuiTextEditPopup::GuiTextEditPopup(WindowManager& window, const String& title, const String& initValue,
+                                   const std::function<void(const String&)>& okCallback, bool multiLine,
+                                   const String& acceptBtnText)
 	: Gui(window),
 	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 3)),
@@ -22,7 +22,7 @@ GuiTextEditPopup::GuiTextEditPopup(WindowManager& window, const std::string& tit
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, title.ToUpperCaseUTF8(), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);

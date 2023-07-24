@@ -7,11 +7,11 @@
 class GuiTextEditPopup : public Gui
 {
 public:
-	GuiTextEditPopup(WindowManager&window, const std::string& title, const std::string& initValue,
-                   const std::function<void(const std::string&)>& okCallback, bool multiLine,
-                   const std::string& acceptBtnText);
-  GuiTextEditPopup(WindowManager&window, const std::string& title, const std::string& initValue,
-                   const std::function<void(const std::string&)>& okCallback, bool multiLine)
+	GuiTextEditPopup(WindowManager&window, const String& title, const String& initValue,
+                   const std::function<void(const String&)>& okCallback, bool multiLine,
+                   const String& acceptBtnText);
+  GuiTextEditPopup(WindowManager&window, const String& title, const String& initValue,
+                   const std::function<void(const String&)>& okCallback, bool multiLine)
     : GuiTextEditPopup(window, title, initValue, okCallback, multiLine, "OK")
   {
   }

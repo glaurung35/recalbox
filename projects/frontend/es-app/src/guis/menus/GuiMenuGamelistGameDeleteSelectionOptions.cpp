@@ -15,9 +15,9 @@ GuiMenuGamelistGameDeleteSelectionOptions::GuiMenuGamelistGameDeleteSelectionOpt
   if (mGame.IsGame())
   {
     // Footer
-    std::string gameName(game.Name());
-    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(_("GAME %s").Replace("%s", Strings::ToUpperUTF8(gameName)));
+    String gameName(game.Name());
+    gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
+    SetFooter(_("GAME %s").Replace("%s", gameName.UpperCaseUTF8()));
 
     // Delete
     mGameFiles = AddMultiList<Path>(_("GAME FILES (ROM | DISK IMAGE)"), (int) Components::Delete, nullptr, GetGameFileEntries());
@@ -141,7 +141,7 @@ void GuiMenuGamelistGameDeleteSelectionOptions::DeleteSelectedFiles()
   mWindow.deleteAllGui();
 }
 
-std::string GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
+String GuiMenuGamelistGameDeleteSelectionOptions::ComputeMessage()
 {
   String message = _("Game").Append(": ").Append(mGame.Name()).Append("\n\n");
 

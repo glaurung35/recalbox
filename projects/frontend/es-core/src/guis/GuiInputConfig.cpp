@@ -50,7 +50,7 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
   if (mTargetDevice->Identifier() != InputEvent::sKeyboardDevice)
     deviceName = _("GAMEPAD %i").Replace("%i", String(mTargetDevice->Index() + 1));
 
-  mSubtitle1 = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(deviceName), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mSubtitle1 = std::make_shared<TextComponent>(mWindow, deviceName.UpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
   mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
@@ -223,7 +223,7 @@ void GuiInputConfig::setText(const String& msg, unsigned int color) {
 
 void GuiInputConfig::setText(const String& msg, unsigned int color, const int inputId) {
   std::shared_ptr<TextComponent>& text = mMappings[inputId];
-  text->setText(Strings::ToUpperUTF8(msg));
+  text->setText(msg.ToUpperCaseUTF8());
   text->setColor(color);
 }
 

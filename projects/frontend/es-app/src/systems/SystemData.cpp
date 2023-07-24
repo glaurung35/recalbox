@@ -1,13 +1,9 @@
 #include "SystemData.h"
 #include <systems/SystemManager.h>
 #include "audio/AudioManager.h"
-#include "utils/Log.h"
 #include "games/GameFilesUtils.h"
 #include <emulators/run/NetPlayData.h>
-#include <RecalboxConf.h>
-#include <RootFolders.h>
 #include <usernotifications/NotificationManager.h>
-#include <utils/Strings.h>
 #include <utils/Files.h>
 #include <themes/ThemeException.h>
 #include <utils/Zip.h>

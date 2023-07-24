@@ -7,7 +7,6 @@
 
 #include <fcntl.h>
 #include "MountMonitor.h"
-#include "utils/Log.h"
 #include <sys/poll.h>
 #include "utils/Files.h"
 #include <blkid/blkid.h>
@@ -61,16 +60,16 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
   DeviceMountList result;
 
   // Get all valid mount point
-  for(const std::string& line : Strings::Split(Files::LoadFile(Path(sMountPointFile)), '\n')) // For every entry
+  for(const String& line : Files::LoadFile(Path(sMountPointFile)).Split('\n')) // For every entry
   {
-    Strings::Vector items = Strings::Split(line, ' ');
+    String::List items = line.Split(' ');
     const Path device(items[sDeviceIndex]);
     const Path mountPoint(items[sMountPointIndex]);
-    const std::string& type = items[sTypeIndex];
-    const std::string& options = items[sOptionsIndex];
+    const String& type = items[sTypeIndex];
+    const String& options = items[sOptionsIndex];
 
     // Physical USB devices
-    if (device.StartWidth(std::string(LEGACY_STRING("/dev/")))) // starting with /dev/
+    if (device.StartWidth(String(LEGACY_STRING("/dev/")))) // starting with /dev/
     {
       #ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
@@ -79,7 +78,7 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
       { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
     }
     // Network?
-    if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
+    if (type == "cifs" || type.StartsWith(LEGACY_STRING("nfs")))
       //#ifndef DEBUG
       if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
       //#endif
@@ -113,7 +112,7 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
   return result;
 }
 
-std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
+String MountMonitor::GetPartitionLabel(const Path& devicePath)
 {
   blkid_probe pr = blkid_new_probe_from_filename(devicePath.ToChars());
   if (pr == nullptr)
@@ -134,7 +133,7 @@ std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
       string = "UNKNOWN";
     }
   }
-  std::string result(string); // Store result before destroying blkid structures!
+  String result(string); // Store result before destroying blkid structures!
   blkid_free_probe(pr);
   { LOG(LogDebug) << "[MountMonitor] " << devicePath.ToString() << " name is: " << result; }
   return result;

@@ -60,7 +60,7 @@ class Music
   	 * @brief Return music name
   	 * @return Music name
   	 */
-  	std::string Name() const { return mPath.FilenameWithoutExtension(); }
+  	String Name() const { return mPath.FilenameWithoutExtension(); }
 
     /*!
      * @brief Return music path

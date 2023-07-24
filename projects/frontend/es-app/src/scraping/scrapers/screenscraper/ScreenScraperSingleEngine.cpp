@@ -173,7 +173,7 @@ ScrapeResult ScreenScraperSingleEngine::RequestZipGameInfo(ScreenScraperApis::Ga
 
       // Get crc32
       int crc32i = zip.Crc32(0);
-      String crc32 = Strings::ToHexa(crc32i, 8);
+      String crc32(crc32i, 8, String::Hexa::None);
 
       // Call!
       if (!mAbortRequest)

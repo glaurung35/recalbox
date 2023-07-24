@@ -29,7 +29,7 @@ void Music::Initialize()
   if (mPath.IsEmpty()) return;
 
   // Check midi file
-  std::string ext = Strings::ToLowerASCII(mPath.Extension());
+  String ext = mPath.Extension().LowerCase();
   if (ext == ".mid" || ext == ".midi")
   {
     Path soundfontPath = mPath.Directory() / "soundfont.sf2";

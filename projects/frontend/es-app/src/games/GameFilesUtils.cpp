@@ -450,3 +450,33 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   DeleteFoldersRecIfEmpty(parent);
 }
 
+String GameFilesUtils::RemoveParenthesis(const String& str)
+{
+  String s = str;
+
+  // Remove () starting from the end to minimize char moves
+  for(int end = s.FindLast(')'); end >= 0; )
+  {
+    int start = s.FindLast('(', end);
+    if (start < 0) break;
+    while(s[++end] == ' '); // Trim right
+    while(start != 0 && s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = s.FindLast(')', start - 1);
+  }
+
+  // Remove [] starting from the end to minimize char moves
+  for(int end = s.FindLast(']'); end >= 0; )
+  {
+    int start = s.FindLast('[', end);
+    if (start < 0) break;
+    while(s[++end] == ' '); // Trim right
+    while(start != 0 && s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = s.FindLast(']', start - 1);
+  }
+
+  return s;
+}

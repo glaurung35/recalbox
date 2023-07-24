@@ -130,12 +130,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)value); return *this; }
 
     #define DefineEmulationStationSystemListGetterSetterDeclaration(name, key) \
-      Strings::Vector Get##name(const SystemData& system) const; \
+      String::List Get##name(const SystemData& system) const; \
       bool IsIn##name(const SystemData& system, const String& value) const; \
       RecalboxConf& Set##name(const SystemData& system, const String::List& value);
 
     #define DefineEmulationStationSystemListGetterSetterImplementation(name, key, defaultValue) \
-      Strings::Vector RecalboxConf::Get##name(const SystemData& system) const { return Strings::Split(AsString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), defaultValue), ','); } \
+      String::List RecalboxConf::Get##name(const SystemData& system) const { return AsString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), defaultValue).Split(','); } \
       bool RecalboxConf::IsIn##name(const SystemData& system, const String& value) const { return isInList(String("emulationstation.").Append(system.Name()).Append('.').Append(key), value); } \
       RecalboxConf& RecalboxConf::Set##name(const SystemData& system, const String::List& value) { SetString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), String::Join(value, ',')); return *this; }
 

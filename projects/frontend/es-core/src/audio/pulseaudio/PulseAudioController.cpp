@@ -743,7 +743,7 @@ String PulseAudioController::SetDefaultPlayback(const String& originalPlaybackNa
 
     String deviceName;
     String portName;
-    if (!Strings::SplitAt(playbackName, ':', deviceName, portName, true))
+    if (!playbackName.Extract(':', deviceName, portName, true))
     { LOG(LogError) << "[PulseAudio] Invalid playbackname: " << playbackName; }
 
     sink = LookupSink(deviceName); // lookup existing sink in case of filter
@@ -763,7 +763,7 @@ String PulseAudioController::SetDefaultPlayback(const String& originalPlaybackNa
     {
       String portName2;
       String profileName;
-      if (!Strings::SplitAt(portName, ':', portName2, profileName, true))
+      if (!portName.Extract(':', portName2, profileName, true))
         portName2 = portName; // no profile given
       port = LookupPort(*card, portName2);
       profile = LookupProfile(*card, profileName);
@@ -1100,8 +1100,7 @@ String PulseAudioController::GetCardDescription(const pa_card_info& info)
     case BoardType::UnknownPi:
     {
       result = cardName;
-      Strings::ReplaceAllIn(result, "bcm2835", "");
-      Strings::ReplaceAllIn(result, "vc4-hdmi", "HDMI");
+      result.Remove("bcm2835").Replace("vc4-hdmi", "HDMI");
       break;
     }
     case BoardType::OdroidAdvanceGo:
@@ -1138,7 +1137,6 @@ String PulseAudioController::GetPortDescription(const pa_sink_port_info& info, A
 {
   (void)icon;
   String result = info.description;
-  String low(Strings::ToLowerASCII(result));
 
   // Change
   switch(Board::Instance().GetBoardType())
@@ -1172,7 +1170,7 @@ String PulseAudioController::GetPortDescription(const pa_card_port_info& info, A
 {
   (void)icon;
   String result = info.description;
-  String low(Strings::ToLowerASCII(result));
+  //String low = result.LowerCase();
 
   // Change
   switch(Board::Instance().GetBoardType())

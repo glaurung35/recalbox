@@ -8,6 +8,7 @@
 #include "LightGunDatabase.h"
 #include "games/classifications/Versions.h"
 #include "utils/hash/Crc32.h"
+#include "games/GameFilesUtils.h"
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <utils/os/system/ThreadPool.h>
 #include <utils/os/fs/StringMapFile.h>
@@ -171,7 +172,7 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
           Path romPath = game.RomPath();
           String fileName = romPath.Filename();
           Versions::GameVersions version = Versions::ExtractGameVersionNoIntro(fileName);
-          String gameNameWithRegion = Strings::RemoveParenthesis(fileName).append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
+          String gameNameWithRegion = GameFilesUtils::RemoveParenthesis(fileName).Append(Regions::Serialize4Regions(Regions::ExtractRegionsFromNoIntroName(fileName)));
 
           VersionedGame* previous = mHighestVersions.try_get(gameNameWithRegion);
           if (previous == nullptr)

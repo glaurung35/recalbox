@@ -2,7 +2,6 @@
 
 #include <components/base/Component.h>
 #include <resources/TextureResource.h>
-#include <utils/Strings.h>
 #include "IRatingComponent.h"
 
 #define NUM_RATING_STARS 5

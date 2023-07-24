@@ -3,7 +3,6 @@
 //
 
 #include "Resolutions.h"
-#include <utils/Strings.h>
 
 const HashMap<int, Resolutions::SimpleResolution>& Resolutions::GetCeaMap()
 {
@@ -223,24 +222,18 @@ Resolutions::SimpleResolution Resolutions::ConvertSimpleResolution(const String&
 {
   String r = resolution.ToLowerCase().Trim(" \t");
   // CEA ?
-  if (Strings::StartsWith(r, "cea", 3))
+  if (r.StartsWith("cea", 3))
   {
-    int index = 0;
-    if (Strings::ToInt(r.erase(0, 4), index))
-    {
-      SimpleResolution* sr = GetCeaMap().try_get(index);
-      if (sr != nullptr) return *sr;
-    }
+    if (int index = 0; r.Delete(0, 4).TryAsInt(index))
+      if (SimpleResolution* sr = GetCeaMap().try_get(index); sr != nullptr)
+        return *sr;
   }
   // DMT ?
-  else if (Strings::StartsWith(r, "dmt", 3))
+  else if (r.StartsWith("dmt", 3))
   {
-    int index = 0;
-    if (Strings::ToInt(r.erase(0, 4), index))
-    {
-      SimpleResolution* sr = GetDmtMap().try_get(index);
-      if (sr != nullptr) return *sr;
-    }
+    if (int index = 0; r.Delete(0, 4).TryAsInt(index))
+      if (SimpleResolution* sr = GetDmtMap().try_get(index); sr != nullptr)
+        return *sr;
   }
   else
   {
@@ -249,8 +242,7 @@ Resolutions::SimpleResolution Resolutions::ConvertSimpleResolution(const String&
     if (sr != nullptr) return *sr;
 
     // WxH?
-    String sw, sh;
-    if (Strings::SplitAt(r, 'x', sw, sh, false))
+    if (String sw, sh; r.Extract('x', sw, sh, false))
     {
       int w = 0, h = 0;
       if (sw.TryAsInt(w))

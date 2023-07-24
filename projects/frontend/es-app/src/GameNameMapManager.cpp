@@ -2,8 +2,7 @@
 // Created by bkg2k on 03/04/2020.
 //
 
-#include <utils/Strings.h>
-#include <cstring>
+#include <utils/String.h>
 #include "GameNameMapManager.h"
 
 void GameNameMapManager::GenerateMameNameHashes()

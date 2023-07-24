@@ -1070,11 +1070,12 @@ Regions::RegionPack Regions::Deserialize4Regions(const String& regions)
   {
     int pos = regions.Find(',', start + 1);
     if (pos < 0) pos = (int)regions.size();
-    String subRegion = regions.SubString(start, pos - start).TrimRight(',');
+    String subRegion = regions.SubString(start, pos - start);
     start = pos;
     GameRegions region = FullNameToRegions(subRegion);
     if (region == GameRegions::Unknown) region = DeserializeRegion(subRegion);
     if (region != GameRegions::Unknown) result.Push(region);
+    start = pos + 1;
   }
   return result;
 }
@@ -1224,6 +1225,6 @@ Regions::RegionPack Regions::ExtractRegionsFromName(const String& string)
 {
   String regions;
   if (string.Extract('[', ']', regions, true))
-    return Deserialize4Regions(regions.Remove(' '));
+    return Deserialize4Regions(regions.LowerCase().Remove(' '));
   return RegionPack();
 }

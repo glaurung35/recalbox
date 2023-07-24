@@ -25,28 +25,28 @@ class RemotePlaylist : public StaticLifeCycleControler<RemotePlaylist>
          * Tools
          */
 
-        bool HasValidFile() const { return mPath.Size() == mSize; }
+        [[nodiscard]] bool HasValidFile() const { return mPath.Size() == mSize; }
 
         /*
          * Accesors
          */
 
         //! Get name
-        const String& Name() const { return mName; }
+        [[nodiscard]] const String& Name() const { return mName; }
         //! Get duration
-        int Duration() const { return mDuration; }
+        [[nodiscard]] int Duration() const { return mDuration; }
         //! Get file size
-        int Size() const { return mSize; }
+        [[nodiscard]] int Size() const { return mSize; }
         //! Get url
-        const String& Url() const { return mUrl; }
+        [[nodiscard]] const String& Url() const { return mUrl; }
         //! Get md5
-        const String& Md5() const { return mMd5; }
+        [[nodiscard]] const String& Md5() const { return mMd5; }
         //! Get album
-        const String& Album() const { return mAlbum; }
+        [[nodiscard]] const String& Album() const { return mAlbum; }
         //! Get mix tape
-        const String& MixTaper() const { return mMixTape; }
+        [[nodiscard]] const String& MixTaper() const { return mMixTape; }
         //! Get local path
-        const Path& LocalPath() const { return mPath; }
+        [[nodiscard]] const Path& LocalPath() const { return mPath; }
 
       private:
         String mName;     //!< Track ,name

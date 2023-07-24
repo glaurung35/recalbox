@@ -5,6 +5,7 @@
 
 safeboot="/overlay_root/.safeboot"
 bootloaderlog="/boot_root/boot/bl-update.log"
+rotate=go
 
 UPD_NO_ERROR=0
 UPD_CORRUPTED_FILE=1
@@ -16,6 +17,27 @@ do_splash() {
         [ -e "$fbdev" ] || break
         fbsplash -s "${img}" -d "$fbdev"
     done
+}
+
+do_logo() {
+  echo
+  cat << EOF
+[38;2;242;119;22m [39m[38;2;243;114;25m_[39m[38;2;245;110;27m_[39m[38;2;247;106;30m_[39m[38;2;248;102;33m_[39m[38;2;249;98;35m [39m[38;2;250;94;38m [39m[38;2;251;90;41m_[39m[38;2;252;86;45m_[39m[38;2;253;82;48m_[39m[38;2;254;78;51m_[39m[38;2;254;74;55m [39m[38;2;254;70;58m [39m[38;2;254;66;62m_[39m[38;2;254;63;65m_[39m[38;2;254;59;69m_[39m[38;2;254;55;73m [39m[38;2;254;52;77m [39m[38;2;253;49;81m [39m[38;2;252;45;85m_[39m[38;2;252;42;89m_[39m[38;2;251;39;93m [39m[38;2;250;36;97m [39m[38;2;248;33;101m [39m[38;2;247;30;105m_[39m[38;2;245;28;109m_[39m[38;2;244;25;113m [39m[38;2;242;23;118m [39m[38;2;240;20;122m [39m[38;2;238;18;126m [39m[38;2;236;16;130m_[39m[38;2;234;14;135m_[39m[38;2;231;12;139m_[39m[38;2;229;11;143m_[39m[38;2;226;9;147m [39m[38;2;224;8;151m [39m[38;2;221;6;156m [39m[38;2;218;5;160m_[39m[38;2;215;4;164m_[39m[38;2;212;3;168m [39m[38;2;208;2;172m [39m[38;2;205;2;176m_[39m[38;2;202;1;180m [39m[38;2;198;1;183m [39m[38;2;195;1;187m_[39m[38;2;191;1;191m [39m[38;2;187;1;195m[39m
+[38;2;247;106;30m([39m[38;2;248;102;33m [39m[38;2;249;98;35m [39m[38;2;250;94;38m_[39m[38;2;251;90;41m [39m[38;2;252;86;45m\[39m[38;2;253;82;48m([39m[38;2;254;78;51m [39m[38;2;254;74;55m [39m[38;2;254;70;58m_[39m[38;2;254;66;62m_[39m[38;2;254;63;65m)[39m[38;2;254;59;69m/[39m[38;2;254;55;73m [39m[38;2;254;52;77m_[39m[38;2;253;49;81m_[39m[38;2;252;45;85m)[39m[38;2;252;42;89m [39m[38;2;251;39;93m/[39m[38;2;250;36;97m [39m[38;2;248;33;101m_[39m[38;2;247;30;105m\[39m[38;2;245;28;109m [39m[38;2;244;25;113m([39m[38;2;242;23;118m [39m[38;2;240;20;122m [39m[38;2;238;18;126m)[39m[38;2;236;16;130m [39m[38;2;234;14;135m [39m[38;2;231;12;139m([39m[38;2;229;11;143m [39m[38;2;226;9;147m [39m[38;2;224;8;151m_[39m[38;2;221;6;156m [39m[38;2;218;5;160m\[39m[38;2;215;4;164m [39m[38;2;212;3;168m/[39m[38;2;208;2;172m [39m[38;2;205;2;176m [39m[38;2;202;1;180m\[39m[38;2;198;1;183m([39m[38;2;195;1;187m [39m[38;2;191;1;191m\[39m[38;2;187;1;195m/[39m[38;2;184;1;198m [39m[38;2;180;1;202m)[39m[38;2;176;2;205m[39m
+[38;2;250;94;38m [39m[38;2;251;90;41m)[39m[38;2;252;86;45m [39m[38;2;253;82;48m [39m[38;2;254;78;51m [39m[38;2;254;74;55m/[39m[38;2;254;70;58m [39m[38;2;254;66;62m)[39m[38;2;254;63;65m [39m[38;2;254;59;69m_[39m[38;2;254;55;73m)[39m[38;2;254;52;77m([39m[38;2;253;49;81m [39m[38;2;252;45;85m([39m[38;2;252;42;89m_[39m[38;2;251;39;93m_[39m[38;2;250;36;97m [39m[38;2;248;33;101m/[39m[38;2;247;30;105m [39m[38;2;245;28;109m [39m[38;2;244;25;113m [39m[38;2;242;23;118m [39m[38;2;240;20;122m\[39m[38;2;238;18;126m/[39m[38;2;236;16;130m [39m[38;2;234;14;135m([39m[38;2;231;12;139m_[39m[38;2;229;11;143m/[39m[38;2;226;9;147m\[39m[38;2;224;8;151m [39m[38;2;221;6;156m)[39m[38;2;218;5;160m [39m[38;2;215;4;164m_[39m[38;2;212;3;168m [39m[38;2;208;2;172m([39m[38;2;205;2;176m([39m[38;2;202;1;180m [39m[38;2;198;1;183m [39m[38;2;195;1;187mO[39m[38;2;191;1;191m [39m[38;2;187;1;195m)[39m[38;2;184;1;198m)[39m[38;2;180;1;202m [39m[38;2;176;2;205m [39m[38;2;172;2;208m([39m[38;2;168;3;211m [39m[38;2;164;4;215m[39m
+[38;2;253;82;48m([39m[38;2;254;78;51m_[39m[38;2;254;74;55m_[39m[38;2;254;70;58m\[39m[38;2;254;66;62m_[39m[38;2;254;63;65m)[39m[38;2;254;59;69m([39m[38;2;254;55;73m_[39m[38;2;254;52;77m_[39m[38;2;253;49;81m_[39m[38;2;252;45;85m_[39m[38;2;252;42;89m)[39m[38;2;251;39;93m\[39m[38;2;250;36;97m_[39m[38;2;248;33;101m_[39m[38;2;247;30;105m_[39m[38;2;245;28;109m)[39m[38;2;244;25;113m\[39m[38;2;242;23;118m_[39m[38;2;240;20;122m/[39m[38;2;238;18;126m\[39m[38;2;236;16;130m_[39m[38;2;234;14;135m/[39m[38;2;231;12;139m\[39m[38;2;229;11;143m_[39m[38;2;226;9;147m_[39m[38;2;224;8;151m_[39m[38;2;221;6;156m_[39m[38;2;218;5;160m/[39m[38;2;215;4;164m([39m[38;2;212;3;168m_[39m[38;2;208;2;172m_[39m[38;2;205;2;176m_[39m[38;2;202;1;180m_[39m[38;2;198;1;183m/[39m[38;2;195;1;187m [39m[38;2;191;1;191m\[39m[38;2;187;1;195m_[39m[38;2;184;1;198m_[39m[38;2;180;1;202m/[39m[38;2;176;2;205m([39m[38;2;172;2;208m_[39m[38;2;168;3;211m/[39m[38;2;164;4;215m\[39m[38;2;160;5;218m_[39m[38;2;156;6;221m)[39m[38;2;152;7;223m[39m
+EOF
+  echo
+}
+
+do_rotate_cursor() {
+  while [ "$rotate" != stop ]; do
+    for C in '|' '/' '-' '\\'; do
+      echo -n -e "$C"
+      echo -n -e "\033[1D"
+      sleep 0.05
+    done
+  done
 }
 
 check_safeboot() {
@@ -45,7 +67,7 @@ check_update() {
 }
 
 should_update() {
-    # if boot.md5 found, then should update 
+    # if boot.md5 found, then should update
     [ -f /boot_root/update/boot.md5 ] && return 0 || return 1
 }
 
@@ -181,21 +203,32 @@ do_root() {
     test -d /boot_root/update || mkdir -p /boot_root/update/
     updated="0"
     if should_update ; then
+      do_logo >/dev/tty1
+      echo "Update found, please wait... " >/dev/tty1
+      echo -n "Checking files ......... " >/dev/tty1
+      do_rotate_cursor >/dev/tty1 2>&1 &
+      CURSOR_PID=$!
       echo "MD5 list file found, checking files" >/boot_root/update.log
       if check_update ; then
+        echo -e -n "\033[0;32mOK\033[1;97m\n" >/dev/tty1
+        echo -e -n "Processing to update ... " >/dev/tty1
         echo "MD5 check succeeded" >>/boot_root/update.log
-        if do_update ; then 
+        if do_update ; then
+          echo -e -n "\033[0;32mOK\033[1:97m\nUpdate is successful ... " >/dev/tty1
           echo "update done" >>/boot_root/update.log
           check_update_rc=$UPD_NO_ERROR
         else
+          echo -e -n "\033[0;31mFAIL\033[1;97m\nUpdate has FAILED! ..... " >/dev/tty1
           echo "update failed" >>/boot_root/update.log
           check_update_rc=$UPD_FAILED
         fi
       else
+        echo -e -n "\033[0;31mFAIL\033[1;97m\nVerification has FAILED! " >/dev/tty1
         echo "MD5 check failed" >>/boot_root/update.log
         check_update_rc=$UPD_CORRUPTED_FILE
       fi
       [ -d /boot_root/boot/bootloader ] && do_bootloader_update >>$bootloaderlog 2>&1
+      kill "$CURSOR_PID"
       updated="1"
     fi
 
@@ -213,14 +246,15 @@ do_root() {
     fi
     # Backup, clean up overlay, clean up case setting, set ES flag and reboot
     if test "$updated" -eq "1" ; then
+        echo -e -n "\n\nRestarting, please wait... " >/dev/tty1
         do_clean_overlay
         do_clean_case
         do_clean_safeboot
         do_clean_update
         case $check_update_rc in
-          $UPD_NO_ERROR)       echo "" > /overlay_root/.upgrade_success ;;
-          $UPD_CORRUPTED_FILE) echo "" > /overlay_root/.upgrade_corrupted ;;
-          $UPD_FAILED)         echo "" > /overlay_root/.upgrade_failed ;;
+          $UPD_NO_ERROR)       echo "" > /overlay_root/.upgrade_success ; sleep 3 ;;
+          $UPD_CORRUPTED_FILE) echo "" > /overlay_root/.upgrade_corrupted; sleep 10 ;;
+          $UPD_FAILED)         echo "" > /overlay_root/.upgrade_failed; sleep 10 ;;
         esac
         umount /overlay_root
         mount -o remount,ro /boot_root
@@ -264,6 +298,6 @@ do_root() {
 
 if ! do_root
 then
-    echo "Recalbox cannot boot at initramfs stage. Please contact support!"
-    /bin/ash
+    echo "Recalbox cannot boot at initramfs stage. Please contact support!" >/dev/tty1
+    exec /bin/ash
 fi

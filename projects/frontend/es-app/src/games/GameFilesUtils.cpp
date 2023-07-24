@@ -315,21 +315,15 @@ void GameFilesUtils::ExtractUselessFilesFromGdi(const Path& path, HashSet<String
 String GameFilesUtils::ExtractFileNameFromLine(const String& line)
 {
   // 1 check file name between double quotes
-  const size_t strBegin = line.find_first_of('"') + 1;
-  const size_t strEnd = line.find_last_of('"');
-
-  String string = line.SubString(strBegin, strEnd - strBegin);
-  if (string.Contains('.'))
-  {
-    return string;
-  }
+  if (String string; line.Extract('"', '"', string, true))
+    if (string.Contains('.'))
+      return string;
 
   // 2 check every words separated by space that contains dot
   for (const String& word: line.Split(' ', true))
-  {
     if (word.Contains('.'))
       return word;
-  }
+
   return "";
 }
 

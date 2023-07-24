@@ -759,9 +759,6 @@ void SystemManager::ManageArcadeVirtualSystem()
   bool arcadeVirtual = RecalboxConf::Instance().GetCollectionArcade();
   if (!arcadeVirtual) return;
 
-  SystemData* system = SystemByName(sArcadeSystemShortName);
-  if (!system->HasVisibleGame()) return;
-
   bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
   bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
   for (int i = mVisibleSystems.Count(); --i>= 0; )
@@ -1069,9 +1066,17 @@ void SystemManager::DeleteAllSystems(bool updateGamelists)
   mAllSystems.Clear();
 }
 
+SystemData* SystemManager::VirtualSystemByType(VirtualSystemType type)
+{
+  for(SystemData* system : mAllSystems)
+    if (system->VirtualType() == type)
+      return system;
+  return nullptr;
+}
+
 SystemData *SystemManager::SystemByName(const String &name)
 {
-  for(SystemData* system : mVisibleSystems)
+  for(SystemData* system : mAllSystems)
     if (system->Name() == name)
       return system;
   return nullptr;
@@ -1409,7 +1414,7 @@ void SystemManager::UpdateSystemsOnGameChange(FileData* target, MetadataType cha
     List removedSystems;
     List modifiedSystems;
     if (UpdateSystemsOnGameDeletion(target, removedSystems, modifiedSystems))
-      NotifySystemChanges(nullptr, &removedSystems, &modifiedSystems);
+      ApplySystemChanges(nullptr, &removedSystems, &modifiedSystems);
     return;
   }
   if (changes != MetadataType::None)
@@ -1421,12 +1426,12 @@ void SystemManager::UpdateSystemsOnGameChange(FileData* target, MetadataType cha
     if (target != nullptr)
     {
       if (UpdateSystemsOnSingleGameChanges(target, changes, addedSystems, removedSystems, modifiedSystems))
-        NotifySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
+        ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
       return;
     }
     // Multiple game move
     if (UpdateSystemsOnMultipleGameChanges(changes, addedSystems, removedSystems, modifiedSystems))
-      NotifySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
+      ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
     return;
   }
   { LOG(LogError) << "[SystemManager] UpdateSystem called w/o any changes!"; }
@@ -1558,28 +1563,27 @@ bool SystemManager::ShouldGameBelongToThisVirtualSystem(const FileData* game, co
 }
 
 void
-SystemManager::NotifySystemChanges(SystemManager::List* addedSystems,
-                                   SystemManager::List* removedSystems, SystemManager::List* modifiedSystems)
+SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
+                                  SystemManager::List* removedSystems, SystemManager::List* modifiedSystems)
 {
-  if (mSystemChangeNotifier == nullptr) return;
   // Added virtual systems?
   if (addedSystems != nullptr)
     for(SystemData* system : *addedSystems)
     {
-      if (!system->IsInitialized())
-      {
-        system->loadTheme();
-        system->SetInitialized();
-      }
-      mSystemChangeNotifier->ShowSystem(system);
+      // Populate & initialize if required
+      InitializeSystem(system);
+      if (mSystemChangeNotifier != nullptr)
+        mSystemChangeNotifier->ShowSystem(system);
     }
   // Removed virtual systems?
   if (removedSystems != nullptr)
     for(SystemData* system : *removedSystems)
-      mSystemChangeNotifier->HideSystem(system);
+      if (mSystemChangeNotifier != nullptr)
+        mSystemChangeNotifier->HideSystem(system);
   // Modified virtual systems?
   if (modifiedSystems != nullptr)
     for (SystemData* system: *modifiedSystems)
-      mSystemChangeNotifier->UpdateSystem(system);
+      if (mSystemChangeNotifier != nullptr)
+        mSystemChangeNotifier->UpdateSystem(system);
 }
 

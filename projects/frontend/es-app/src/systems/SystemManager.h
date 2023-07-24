@@ -463,7 +463,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param removedSystems Removed system or nullptr
      * @param modifiedSystems Modified system or nullptr
      */
-    void NotifySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
+    void ApplySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
 
     /*
      * Log facilities
@@ -534,6 +534,13 @@ class SystemManager : private INoCopy // No copy allowed
      * @return System instance of nullptr if not found
      */
     SystemData* SystemByName(const String& name);
+
+    /*!
+     * @brief Lookup virtual system by type
+     * @param type Virtual system type
+     * @return System reference - never null
+     */
+    SystemData* VirtualSystemByType(VirtualSystemType type);
 
     /*!
      * @brief Get the first non-empty system

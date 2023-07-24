@@ -1110,7 +1110,7 @@ Regions::RegionPack Regions::ExtractRegionsFromFileName(const Path& path)
         GameRegions region = FullNameToRegions(regionString);
         if (region == GameRegions::Unknown) region = DeserializeRegion(regionString);
         if (region != GameRegions::Unknown) result.Push(region);
-        fileString.Delete(0, fileString.Find(')'));
+        fileString.Delete(0, fileString.Find(')') + 1);
       }
       else break;
     }
@@ -1215,7 +1215,7 @@ Regions::RegionPack Regions::ExtractRegionsFromTosecName(const String& fileNameO
 
       start = pos + 1;
     }
-    fileName.Delete(0, fileName.Find(')'));
+    fileName.Delete(0, fileName.Find(')') + 1);
   }
   return result;
 }

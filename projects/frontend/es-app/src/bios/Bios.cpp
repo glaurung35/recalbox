@@ -203,13 +203,6 @@ bool Bios::IsMD5Known(const String& newmd5) const
 String Bios::GenerateReport() const
 {
   String report;
-
-  return false;
-}
-
-String Bios::GenerateReport() const
-{
-  String report;
   switch(mStatus)
   {
     case Status::FileNotFound:

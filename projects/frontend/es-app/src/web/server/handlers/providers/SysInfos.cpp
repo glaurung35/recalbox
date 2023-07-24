@@ -233,7 +233,7 @@ JSONBuilder SysInfos::BuildCpuObject(bool all)
   for(int i = mData.CpuCount; --i >= 0;)
   {
     CpuConsumption(i, cpusData);
-    cpus.OpenObject(Strings::ToString(i).c_str())
+    cpus.OpenObject(String(i).data())
         .Field(all ? "model" : nullptr, mCpuNames[i])
         .Field("consumption", cpusData + SysInfos::MeasureCount() - length, length)
         .CloseObject();

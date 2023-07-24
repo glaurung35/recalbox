@@ -66,20 +66,20 @@ void RequestHandlerTools::GetDevicePropertiesOf(DeviceInfo& info)
   String::List strings = RequestHandlerTools::OutputLinesOf(String("/sbin/udevadm info --query=property --name=").Append(info.FileSystem));
   for(const String& string : strings)
   {
-    size_t pos = string.find('=');
-    if (pos == String::npos) continue;
-    if (Strings::StartsWith(string, LEGACY_STRING("ID_BUS=")))
-      info.Bus = string.substr(pos + 1);
-    else if (Strings::StartsWith(string, LEGACY_STRING("ID_VENDOR=")))
-      info.Model.Insert(0, string.substr(pos + 1) + ' ');
-    else if (Strings::StartsWith(string, LEGACY_STRING("ID_MODEL=")))
-      info.Model.Append(string.substr(pos + 1));
-    else if (Strings::StartsWith(string, LEGACY_STRING("ID_TYPE=")))
-      info.Type = string.substr(pos + 1);
-    else if (Strings::StartsWith(string, LEGACY_STRING("ID_NAME=")))
-      info.Model = string.substr(pos + 1);
-    else if (Strings::StartsWith(string, LEGACY_STRING("ID_FS_TYPE=")))
-      info.FileSystemType = string.substr(pos + 1);
+    int pos = string.Find('=');
+    if (pos < 0) continue;
+    if (string.StartsWith(LEGACY_STRING("ID_BUS=")))
+      info.Bus = string.SubString(pos + 1);
+    else if (string.StartsWith(LEGACY_STRING("ID_VENDOR=")))
+      info.Model.Insert(0, string.SubString(pos + 1) + ' ');
+    else if (string.StartsWith(LEGACY_STRING("ID_MODEL=")))
+      info.Model.Append(string.SubString(pos + 1));
+    else if (string.StartsWith(LEGACY_STRING("ID_TYPE=")))
+      info.Type = string.SubString(pos + 1);
+    else if (string.StartsWith(LEGACY_STRING("ID_NAME=")))
+      info.Model = string.SubString(pos + 1);
+    else if (string.StartsWith(LEGACY_STRING("ID_FS_TYPE=")))
+      info.FileSystemType = string.SubString(pos + 1);
   }
   // Try to get missing info
   if (Strings::StartsWith(info.Mount, "/dev/mmcblk"))
@@ -182,7 +182,7 @@ JSONBuilder RequestHandlerTools::SerializeEmulatorsAndCoreToJson(const EmulatorL
     JSONBuilder CoreJson;
     CoreJson.Open();
     for(int c = emulator.CoreCount(); --c >= 0; )
-      CoreJson.Field(Strings::ToString((int)emulator.CorePriorityAt(c)).c_str(), emulator.CoreAt(c).mName);
+      CoreJson.Field(String((int)emulator.CorePriorityAt(c)).c_str(), emulator.CoreAt(c).mName);
     CoreJson.Close();
     emulators.Field(emulator.Name().c_str(), CoreJson);
   }
@@ -747,15 +747,14 @@ void RequestHandlerTools::SetKeyValues(const String& domain, const HashMap<Strin
           case rapidjson::kFalseType: value = "0"; break;
           case rapidjson::kTrueType: value = "1"; break;
           case rapidjson::kStringType: value = key.value.GetString(); break;
-          case rapidjson::kNumberType: value = Strings::ToString(key.value.GetInt()); break;
-
+          case rapidjson::kNumberType: value = String(key.value.GetInt()); break;
           case rapidjson::kArrayType:
           {
               auto myArray = key.value.GetArray();
               value = "";
               for (unsigned int i = 0; i < myArray.Size(); i++)
               {
-                  auto &val = myArray[i];
+                  const auto &val = myArray[i];
                   if (val.IsString())
                   {
                       value +=  String(val.GetString()) + ',';
@@ -909,7 +908,7 @@ HashMap<String, String> RequestHandlerTools::GetAvailableResolutions()
           String name("CEA ");
           name.Append(String(item["code"].GetInt()));
           String display(String(item["width"].GetInt()));
-          display.Append('x').Append(Strings::ToString(item["height"].GetInt()))
+          display.Append('x').Append(String(item["height"].GetInt()))
                  .Append(' ')
                  .Append(String(item["rate"].GetInt()))
                  .Append("Hz ", 3)
@@ -924,8 +923,8 @@ HashMap<String, String> RequestHandlerTools::GetAvailableResolutions()
         for(const auto& item : json.GetArray())
         {
           String name("DMT ");
-          name.Append(Strings::ToString(item["code"].GetInt()));
-          String display(Strings::ToString(item["width"].GetInt()));
+          name.Append(String(item["code"].GetInt()));
+          String display(String(item["width"].GetInt()));
           display.Append('x').Append(String(item["height"].GetInt()))
                  .Append(' ')
                  .Append(String(item["rate"].GetInt()))
@@ -964,7 +963,7 @@ const String::List& RequestHandlerTools::GetAvailableTimeZone()
         start = (int)line.find('\t', start + 1);
         if (start == (int)String::npos) continue;
         int stop = (int)line.find('\t', ++start);
-        String tz = line.substr(start, stop - start);
+        String tz = line.SubString(start, stop - start);
         output.push_back(tz);
       }
   }
@@ -1018,9 +1017,9 @@ HashMap<String, String> RequestHandlerTools::GetAvailableKeyboardLayout()
       for(const Path& filePath : (layouts / sub).GetDirectoryContent())
       {
         String fileName = filePath.Filename();
-        if (Strings::EndsWith(fileName, ext))
+        if (fileName.EndsWith(ext))
         {
-          fileName = fileName.substr(0, fileName.size() - ext.size());
+          fileName = fileName.SubString(0, fileName.size() - ext.size());
           kbLayouts.insert_unique(String(fileName), String(sub) + ":" + fileName);
         }
       }

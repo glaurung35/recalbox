@@ -45,7 +45,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   // Get Recalbox & Linux version
   String recalboxVersion = Files::LoadFile(Path("/recalbox/recalbox.version"));
   String linuxVersion = Files::LoadFile(Path("/proc/version"));
-  int p = linuxVersion.Find('('); if (p >= 0) linuxVersion = Strings::Trim(linuxVersion.substr(0, p));
+  int p = linuxVersion.Find('('); if (p >= 0) linuxVersion = Strings::Trim(linuxVersion.SubString(0, p));
 
   // Build final version object
   JSONBuilder json;
@@ -94,13 +94,13 @@ void RequestHandler::StorageInfo(const Rest::Request& request, Http::ResponseWri
     {
       RequestHandlerTools::DeviceInfo info(parts[6], parts[0], parts[1], parts[2], parts[3]);
       RequestHandlerTools::GetDevicePropertiesOf(info);
-      if (info.Mount == "/") result.Field(Strings::ToString(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "system"));
-      else if (info.Mount == "/boot") result.Field(Strings::ToString(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "boot"));
-      else if (info.Mount == "/recalbox/share") result.Field(Strings::ToString(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
+      if (info.Mount == "/") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "system"));
+      else if (info.Mount == "/boot") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "boot"));
+      else if (info.Mount == "/recalbox/share") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
       else if (info.Mount == "/recalbox/share/bootvideos") ; // Filtered out
       else if (Strings::StartsWith(info.Mount, "/recalbox/share") &&
-               Strings::StartsWith(info.FileSystem, "//")) result.Field(Strings::ToString(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
-      else result.Field(Strings::ToString(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "unknown"));
+               Strings::StartsWith(info.FileSystem, "//")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+      else result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "unknown"));
     }
     else LOG(LogError) << "df -T unknown result : " << lines[i];
   }
@@ -239,7 +239,7 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
                   .Field("command", descriptor.Command())
                   .Field("emulators", emulators)
                   .Close();
-          systems.Field(Strings::ToString(i).c_str(), systemJson);
+          systems.Field(String(i).c_str(), systemJson);
       }
     }
   }
@@ -253,7 +253,7 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
           .Field("themeFolder", "ports")
           .Close();
 
-  systems.Field(Strings::ToString(deserializer.Count()).c_str(), portJson);
+  systems.Field(String(deserializer.Count()).c_str(), portJson);
 
   systems.CloseObject()
          .Close();
@@ -608,8 +608,8 @@ void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::Re
 
   archivePath.erase(archivePath.size() - 1);
 
-  const auto pos = archivePath.find_last_of('/');
-  const String fileName = archivePath.substr(pos);
+  const size_t pos = archivePath.find_last_of('/');
+  const String fileName = archivePath.SubString((int)pos);
 
   String linkResponse = RequestHandlerTools::OutputOf("wget --method PUT --body-file=" + archivePath + " https://transfer.sh" + fileName + " -O - -nv");
 

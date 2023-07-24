@@ -85,18 +85,18 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
       }
 
       /*!
-       * @brief Sata data
+       * @brief Set data
        * @param systemData System
        * @param fileData Game
        * @param action Action
        * @param actionParameters Optional action parameters
        */
-      ParamBag(const SystemData* systemData, const FileData* fileData, Notification action, const String& actionParameters)
-        : mActionParameters(actionParameters),
-          mSystemData(systemData),
-          mFileData(fileData),
-          mAction(action)
+      void Set(const SystemData* systemData, const FileData* fileData, Notification action, const String& actionParameters)
       {
+        mActionParameters = actionParameters;
+        mSystemData = systemData;
+        mFileData = fileData;
+        mAction = action;
       }
 
       NotificationRequest& operator =(const NotificationRequest& source)

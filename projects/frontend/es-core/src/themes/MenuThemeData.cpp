@@ -171,5 +171,8 @@ MenuThemeData::MenuThemeData()
 
     if (elem->HasProperty("iconTate"))
       mCurrent->menuIconSet.tate = elem->AsString("iconTate");
+
+    if (elem->HasProperty("iconArcade"))
+      mCurrent->menuIconSet.tate = elem->AsString("iconArcade");
 	}
 }

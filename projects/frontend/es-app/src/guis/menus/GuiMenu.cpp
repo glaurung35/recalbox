@@ -62,7 +62,7 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
 
   // Atcade menu
   if (!bartop)
-    AddSubMenu(_("ARCADE SETTINGS"), mTheme.menuIconSet.arcade.IsEmpty() ? Path(":/Arcade.png") : mTheme.menuIconSet.arcade, (int)Components::Arcade, _(MENUMESSAGE_ARCADE_HELP_MSG));
+    AddSubMenu(_("ARCADE SETTINGS"), mTheme.menuIconSet.arcade, (int)Components::Arcade, _(MENUMESSAGE_ARCADE_HELP_MSG));
 
   // TATE menu
   if (!bartop)

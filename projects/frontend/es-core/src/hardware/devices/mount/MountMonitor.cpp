@@ -61,47 +61,48 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
 
   // Get all valid mount point
   for(const String& line : Files::LoadFile(Path(sMountPointFile)).Split('\n')) // For every entry
-  {
-    String::List items = line.Split(' ');
-    const Path device(items[sDeviceIndex]);
-    const Path mountPoint(items[sMountPointIndex]);
-    const String& type = items[sTypeIndex];
-    const String& options = items[sOptionsIndex];
-
-    // Physical USB devices
-    if (device.StartWidth(String(LEGACY_STRING("/dev/")))) // starting with /dev/
+    if (!line.empty())
     {
-      #ifndef DEBUG
-      if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
-      #endif
-      result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
-      { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
-    }
-    // Network?
-    if (type == "cifs" || type.StartsWith(LEGACY_STRING("nfs")))
-      //#ifndef DEBUG
-      if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
-      //#endif
+      String::List items = line.Split(' ');
+      const Path device(items[sDeviceIndex]);
+      const Path mountPoint(items[sMountPointIndex]);
+      const String& type = items[sTypeIndex];
+      const String& options = items[sOptionsIndex];
+
+      // Physical USB devices
+      if (device.StartWidth(String(LEGACY_STRING("/dev/")))) // starting with /dev/
       {
-        result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+        #ifndef DEBUG
+        if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
+        #endif
+        result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
+      // Network?
+      if (type == "cifs" || type.StartsWith(LEGACY_STRING("nfs")))
+        //#ifndef DEBUG
+        if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
+        //#endif
+        {
+          result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+          { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+        }
 
-    // Initialize special mount points
-    if (initializeSpecialMountPoints)
-    {
-      if (mountPoint == sSharePath)
+      // Initialize special mount points
+      if (initializeSpecialMountPoints)
       {
-        mShareMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
-        { LOG(LogDebug) << "[MountMonitor] Share mount point found on device: " << mShareMountPoint.Device().ToString(); }
-      }
-      else if (mountPoint == sShareRomsPath)
-      {
-        mShareRomsMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
-        { LOG(LogDebug) << "[MountMonitor] Roms mount point found on device: " << mShareRomsMountPoint.Device().ToString(); }
+        if (mountPoint == sSharePath)
+        {
+          mShareMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+          { LOG(LogDebug) << "[MountMonitor] Share mount point found on device: " << mShareMountPoint.Device().ToString(); }
+        }
+        else if (mountPoint == sShareRomsPath)
+        {
+          mShareRomsMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+          { LOG(LogDebug) << "[MountMonitor] Roms mount point found on device: " << mShareRomsMountPoint.Device().ToString(); }
+        }
       }
     }
-  }
 
   // Seek & destroy any Mount device that match the share device
   for(int i = (int)result.size(); --i >= 0;)

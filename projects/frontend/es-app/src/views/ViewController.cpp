@@ -886,6 +886,6 @@ void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool force
   if (view != nullptr) (*view)->RefreshItem(game);
 
   // Info popup
-  String message = _(game->Metadata().Favorite() ? "Added to favorites" : "Removed from favorites");
+  String message = game->Metadata().Favorite() ? _("Added to favorites") : _("Removed from favorites");
   mWindow.InfoPopupAddRegular(message.Append(":\n").Append(game->Name()), RecalboxConf::Instance().GetPopupHelp(), PopupType::None, false);
 }

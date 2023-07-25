@@ -1010,9 +1010,10 @@ Regions::List DetailedGameListView::AvailableRegionsInGames(FileData::List& fdLi
 
 void DetailedGameListView::RefreshItem(FileData* game)
 {
-  if (game == nullptr || !game->IsFolder()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
+  if (game == nullptr || !game->IsGame()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
 
   int index = mList.Lookup(game);
   if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
   mList.changeTextAt(index, GetDisplayName(*game));
+  if (mList.getCursorIndex() == index) DoUpdateGameInformation(true);
 }

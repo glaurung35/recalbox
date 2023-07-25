@@ -299,10 +299,10 @@ void SystemManager::PopulateFavoriteSystem(SystemData* system)
   FolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
   for(const SystemData* regular : mAllSystems)
     if (!regular->IsVirtual())
-      if (FileData::List favs = system->getFavorites(); !favs.empty())
+      if (FileData::List favs = regular->getFavorites(); !favs.empty())
       {
         for (auto* favorite : favs) root.AddChild(favorite, false);
-        { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << system->Name() << "!"; }
+        { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << regular->Name() << "!"; }
       }
 }
 

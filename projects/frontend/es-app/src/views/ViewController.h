@@ -72,7 +72,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void InvalidateAllGamelistsExcept(const SystemData* systemExclude);
 
     // Navigation.
-    void goToNextGameList();
+    SystemData* goToNextGameList();
     void goToPrevGameList();
     void goToGameList(SystemData* system);
     void goToSystemView(SystemData* system);

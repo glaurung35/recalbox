@@ -732,7 +732,12 @@ void SystemView::getCarouselFromTheme(const ThemeElement* elem)
 
 void SystemView::removeSystem(SystemData * system)
 {
-  (void)std::remove_if(mEntries.begin(), mEntries.end(), [&](const auto& item) -> bool { return item.object->Name() == system->Name(); });
+  for(auto it = mEntries.begin(); it != mEntries.end(); ++it)
+    if (it->object == system)
+    {
+      mEntries.erase(it);
+      break;
+    }
 }
 
 /**

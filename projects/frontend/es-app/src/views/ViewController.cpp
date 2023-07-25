@@ -177,7 +177,7 @@ void ViewController::selectGamelistAndCursor(FileData *file)
   view->setCursor(file);
 }
 
-void ViewController::goToNextGameList()
+SystemData* ViewController::goToNextGameList()
 {
 	assert(mCurrentMode == ViewType::GameList);
 	SystemData* system = mCurrentSystem;
@@ -185,14 +185,13 @@ void ViewController::goToNextGameList()
 
   CheckFilters();
   SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->HasVisibleGame()) {
-		next = mSystemManager.NextVisible(next);
-
-	}
+	while(!next->HasVisibleGame())
+    next = mSystemManager.NextVisible(next);
 
   AudioManager::Instance().StartPlaying(next->Theme());
 
 	goToGameList(next);
+  return next;
 }
 
 void ViewController::goToPrevGameList()
@@ -864,8 +863,18 @@ void ViewController::ShowSystem(SystemData* system)
 
 void ViewController::HideSystem(SystemData* system)
 {
-  GetOrReCreateGamelistView(system);
+  // Remove system in system view
   mSystemListView.removeSystem(system);
+  //mSystemListView.goToSystem(system, false);
+
+  // Are we on the gamelist that just need to be removed?
+  if (isViewing(ViewType::GameList))
+    if (&((ISimpleGameListView*)mCurrentView)->System() == system)
+    {
+      //goToSystemView(&mSystemListView.CurrentSystem());
+      SystemData* nextSystem = goToNextGameList();
+      mSystemListView.goToSystem(nextSystem, false);
+    }
 }
 
 void ViewController::UpdateSystem(SystemData* system)

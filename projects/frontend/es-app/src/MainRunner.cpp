@@ -164,12 +164,13 @@ MainRunner::ExitState MainRunner::Run()
       // Seamless scraper
       ScraperSeamless seamlessScraper;
 
+      // Input ok?
+      InitializeUserInterface(window);
+
       // Update?
       CheckUpdateMessage(window);
       CheckUpdateFailed(window);
       CheckUpdateCorrupted(window);
-      // Input ok?
-      CheckAndInitializeInput(window);
       // Wizard
       CheckFirstTimeWizard(window);
       // Alert
@@ -367,7 +368,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   }
 }
 
-void MainRunner::CheckAndInitializeInput(WindowManager& window)
+void MainRunner::InitializeUserInterface(WindowManager& window)
 {
   // Choose which GUI to open depending on if an input configuration already exists
   { LOG(LogDebug) << "[MainRunner] Preparing GUI"; }

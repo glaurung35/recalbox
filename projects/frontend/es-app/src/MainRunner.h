@@ -225,7 +225,7 @@ class MainRunner
      * @brief Initialize input configurations
      * @param window Main window
      */
-    static void CheckAndInitializeInput(WindowManager& window);
+    static void InitializeUserInterface(WindowManager& window);
 
     /*!
      * @brief Check if something must retain user's attention

@@ -124,10 +124,12 @@ class HttpClient
     //! Request result, or temporary buffer waiting for disk flush
     std::string mResultHolder;
     //! Store request result into this file if it's not empty
-    Path        mResultFile;
+    Path mResultFile;
 
     //! CURL Handle for all requests. Allocated once
     CURL* mHandle;
+    //! CURL string list
+    struct curl_slist* mStringList;
     //! Download intarface
     IDownload* mIDownload;
     //! Real content size

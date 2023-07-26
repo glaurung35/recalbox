@@ -13,6 +13,7 @@ Mutex HttpClient::sDownloadLocker;
 
 HttpClient::HttpClient() noexcept
   : mHandle(curl_easy_init())
+  , mStringList(nullptr)
   , mIDownload(nullptr)
   , mContentSize(0)
   , mContentLength(0)
@@ -33,6 +34,8 @@ HttpClient::HttpClient() noexcept
 
 HttpClient::~HttpClient()
 {
+  if (mStringList != nullptr)
+    curl_slist_free_all(mStringList);
   if (mHandle != nullptr)
     curl_easy_cleanup(mHandle);
 }
@@ -163,11 +166,11 @@ void HttpClient::SetBearer(const std::string& bearer)
     // Hold strings
     mBearer = bearer;
     // Set bearer auth
-    struct curl_slist *list = nullptr;
-    const std::string header = std::string("Authorization: Bearer ")+bearer;
-    list = curl_slist_append(list, header.c_str());
-
-    curl_easy_setopt(mHandle, CURLOPT_HTTPHEADER, list);
+    if (mStringList != nullptr) curl_slist_free_all(mStringList);
+    mStringList = nullptr;
+    const String header = String("Authorization: Bearer ").Append(bearer);
+    mStringList = curl_slist_append(mStringList, header.c_str());
+    curl_easy_setopt(mHandle, CURLOPT_HTTPHEADER, mStringList);
   }
 }
 

@@ -13,13 +13,19 @@ declare module '@vue/runtime-core' {
   }
 }
 
+let clientApiUrl = process.env.API_URL;
+
+if (process.env.API_URL === '/api') {
+  clientApiUrl = `${window.location.protocol}//${window.location.host}:81${process.env.API_URL}`;
+}
+
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
 // If any client changes this (global) instance, it might be a
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api:AxiosInstance = axios.create({ baseURL: process.env.API_URL });
+const api:AxiosInstance = axios.create({ baseURL: clientApiUrl });
 const httpClient:AxiosInstance = axios.create();
 
 export default boot(({ app }):void => {

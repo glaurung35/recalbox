@@ -652,7 +652,7 @@ bool GuiBiosScan::IsSystemAvailable(const String& systemNames)
   #ifdef DEBUG
   // Check
   bool check = false;
-  for(const SystemData* system : mSystemManager.AllSystems())
+  for(const SystemData* system : mSystemManager.VisibleSystemList())
     for(const String& s : list)
       if (system->Name() == s)
         check = true;
@@ -660,7 +660,7 @@ bool GuiBiosScan::IsSystemAvailable(const String& systemNames)
   #endif
 
   // Try to find system in all system available on this board
-  for(const SystemData* system : mSystemManager.AllSystems())
+  for(const SystemData* system : mSystemManager.VisibleSystemList())
     if (!system->IsVirtual())
       for(const String& s : list)
         if (system->Name() == s)

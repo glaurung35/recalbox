@@ -76,6 +76,7 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
   std::vector<ListEntry<String>> list;
   for (const auto& it : items)
     list.push_back({ it.first, it.first, it.first == selectedColorSet->first });
+  std::sort(list.begin(), list.end(), [] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return a.mText < b.mText; });
 
   if (!items.empty())
   {

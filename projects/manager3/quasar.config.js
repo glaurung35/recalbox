@@ -67,7 +67,7 @@ module.exports = configure((ctx) => ({
     vueRouterMode: 'hash', // available values: 'hash', 'history'
     env: ctx.dev
       ? { // so on dev we'll have
-        API_URL: 'http://192.168.1.30/api',
+        API_URL: 'http://192.168.1.30:81/api',
 
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
@@ -79,7 +79,7 @@ module.exports = configure((ctx) => ({
         TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
-        MQTT_URL: 'mqttx://192.168.1.30:1883',
+        MQTT_URL: 'mqtt://192.168.1.30:1883',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       }
       : { // and on build (production):

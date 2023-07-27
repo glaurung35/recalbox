@@ -3,15 +3,15 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 struct EmulatorData
 {
   private:
     //! Emulator
-    std::string mEmulator;
+    String mEmulator;
     //! Core
-    std::string mCore;
+    String mCore;
 
   public:
     /*!
@@ -19,7 +19,7 @@ struct EmulatorData
      * @param emulator Emulator name
      * @param core Core name
      */
-    EmulatorData(const std::string& emulator, const std::string& core)
+    EmulatorData(const String& emulator, const String& core)
       : mEmulator(emulator),
         mCore(core)
     {
@@ -30,10 +30,10 @@ struct EmulatorData
      */
 
     //! Get emulator
-    [[nodiscard]] const std::string& Emulator() const { return mEmulator; }
+    [[nodiscard]] const String& Emulator() const { return mEmulator; }
 
     //! Get emulator
-    [[nodiscard]] const std::string& Core() const { return mCore; }
+    [[nodiscard]] const String& Core() const { return mCore; }
 
     //! Valid?
     [[nodiscard]] bool IsValid() const { return !mEmulator.empty() && !mCore.empty(); }

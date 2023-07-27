@@ -3,8 +3,7 @@
 //
 #pragma once
 
-#include <utils/IniFile.h>
-#include <utils/Strings.h>
+#include <utils/String.h>
 
 #define CASE_DETECTION_AUTOMATIC true
 #define CASE_ROTATION_SUPPORTED true
@@ -47,36 +46,36 @@ class Case
      * @brief Return the current model enum of this case
      * @return the current model enum of this case
      */
-    CaseModel Model() const { return mModel; }
+    [[nodiscard]] CaseModel Model() const { return mModel; }
 
     /*!
      * @brief Some cases are automatically detected by the system
      * @return true if the case is automatically detexted by the system
      */
-    bool Automatic() const { return mAutomatic; }
+    [[nodiscard]] bool Automatic() const { return mAutomatic; }
 
     /*!
      * @brief Some cases have an on/off button with a state
      * @return true if the case allows shutting down recalbox from the menu
      */
-    bool CanShutdownFromMenu() const { return mMenuShutdownEnabled; }
+    [[nodiscard]] bool CanShutdownFromMenu() const { return mMenuShutdownEnabled; }
 
     /*!
      * @brief Case name should be human readable
      * @return a nice and hamun readable name
      */
-    const std::string& DisplayName() const { return mDisplayName; }
+    [[nodiscard]] const String& DisplayName() const { return mDisplayName; }
 
     /*!
      * @brief The case name in Recalbox system (used in config files and so)
      * @return the short name of the case
      */
-    const std::string& ShortName() const { return mShortName; }
+    [[nodiscard]] const String& ShortName() const { return mShortName; }
 
     /*!
      * @brief Install the case on the system. If the case is None, it will uninstall cases.
      */
-    bool Install() const;
+    [[nodiscard]] bool Install() const;
 
     /*!
      * @brief Uninstall the case
@@ -87,21 +86,21 @@ class Case
      * @brief Returns the install message
      * @return the installe message
      */
-    std::string GetInstallMessage() const { return mInstallMessage; }
+    [[nodiscard]] String GetInstallMessage() const { return mInstallMessage; }
 
 
     /*!
      * @brief A case can support rotation or not
      * @return true if supports rotation
      */
-    bool RotationSupported() const { return mRotationSupported; }
+    [[nodiscard]] bool RotationSupported() const { return mRotationSupported; }
 
     /*!
      * @brief Get the case from short name
      * @param the short name of the case
      * @return the case or a None case if not found
      */
-    static Case FromShortName(const std::string& value);
+    static Case FromShortName(const String& value);
 
     /*!
      * @brief Factory constructor by model
@@ -131,7 +130,7 @@ class Case
      * @param displayName Displayable name
      * @param shortName Internal name
      */
-    Case(CaseModel model, bool automatic, bool menuShutdownEnabled, bool rotationSupported, const std::string& displayName, const std::string& shortName, const std::string& installMessage)
+    Case(CaseModel model, bool automatic, bool menuShutdownEnabled, bool rotationSupported, const String& displayName, const String& shortName, const String& installMessage)
       : mDisplayName(displayName)
       , mShortName(shortName)
       , mInstallMessage(installMessage)
@@ -141,10 +140,10 @@ class Case
       , mRotationSupported(rotationSupported)
      {}
 
-    static bool SetCaseInBoot(const std::string& theCase);
-    const std::string mDisplayName;
-    const std::string mShortName;
-    const std::string mInstallMessage;
+    static bool SetCaseInBoot(const String& theCase);
+    const String mDisplayName;
+    const String mShortName;
+    const String mInstallMessage;
     const enum CaseModel mModel;
     const bool mAutomatic;
     const bool mMenuShutdownEnabled;

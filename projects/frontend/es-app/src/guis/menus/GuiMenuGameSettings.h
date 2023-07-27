@@ -75,13 +75,13 @@ class GuiMenuGameSettings : public GuiMenuBase
     void SubMenuSelected(int id) override;
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const RecalboxConf::SoftPatching& value) override;

@@ -32,7 +32,7 @@ void WizardLanguage::ChangeLanguage(bool increment)
 
   // Seek current
   int current = 0;
-  std::string currentLanguage = RecalboxConf::Instance().GetSystemLanguage();
+  String currentLanguage = RecalboxConf::Instance().GetSystemLanguage();
   for(int i = sLanguageCount; --i >= 0; )
     if (currentLanguage == sAvailableLanguages[i])
     {

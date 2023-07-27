@@ -9,7 +9,7 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
   emulatorList.Clear();
   for (const XmlNode& emulator : emulators.children("emulator"))
   {
-    const std::string& emulatorName = Xml::AttributeAsString(emulator, "name", "");
+    const String& emulatorName = Xml::AttributeAsString(emulator, "name", "");
     EmulatorDescriptor emulatorDescriptor(emulatorName);
     for (const auto& coreNode : emulator.children("core"))
     {
@@ -110,7 +110,7 @@ bool SystemDeserializer::LoadSystemXMLNodes(const XmlDocument& document)
       result = true;
 
       // Composite key: fullname + platform
-      std::string key = Xml::AttributeAsString(system, "uuid", "");
+      String key = Xml::AttributeAsString(system, "uuid", "");
 
       // Already exist in the store ?
       int index = (mSystemMap.find(key) != mSystemMap.end()) ? mSystemMap[key] : -1;

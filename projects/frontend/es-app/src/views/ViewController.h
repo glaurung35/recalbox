@@ -72,7 +72,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void InvalidateAllGamelistsExcept(const SystemData* systemExclude);
 
     // Navigation.
-    void goToNextGameList();
+    SystemData* goToNextGameList();
     void goToPrevGameList();
     void goToGameList(SystemData* system);
     void goToSystemView(SystemData* system);
@@ -87,7 +87,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void BackToPreviousView();
 
-    [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentMode == viewing; }
+    [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentViewType == viewing; }
 
     bool getHelpPrompts(Help& help) override;
     void ApplyHelpStyle() override;
@@ -107,10 +107,10 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     bool CheckFilters();
 
-    [[nodiscard]] ViewType CurrentView() const { return mCurrentMode; }
+    [[nodiscard]] ViewType CurrentView() const { return mCurrentViewType; }
 
     //! Get current system
-    [[nodiscard]] SystemData* CurrentSystem() const { assert(mCurrentMode == ViewType::GameList || mCurrentMode == ViewType::SystemList); return mCurrentSystem; }
+    [[nodiscard]] SystemData* CurrentSystem() const { assert(mCurrentViewType == ViewType::GameList || mCurrentViewType == ViewType::SystemList); return mCurrentSystem; }
 
     /*
      * Gui implementation
@@ -118,7 +118,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     [[nodiscard]] bool DoNotDisturb() const override
     {
-      switch(mCurrentMode)
+      switch(mCurrentViewType)
       {
         case ViewType::SplashScreen: return true;
         case ViewType::SystemList: return mSystemListView.DoNotDisturb();
@@ -174,18 +174,21 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! SystemManager instance
     SystemManager& mSystemManager;
 
+    //! Current view reference
     Gui* mCurrentView;
+    // Current system for views dealing with systems (System list/Game list)
+    SystemData* mCurrentSystem;
+
     HashMap<SystemData*, ISimpleGameListView*> mGameListViews;
     SystemView mSystemListView;
     SplashView mSplashView;
     GameClipView mGameClipView;
     CrtView mCrtView;
-    std::map<SystemData*, bool> mInvalidGameList;
+    HashMap<SystemData*, bool> mInvalidGameList;
 
-    ViewType mCurrentMode;  //!< Current view mode
-    ViewType mPreviousMode; //!< Previous view mode
+    ViewType mCurrentViewType;  //!< Current view type
+    ViewType mPreviousViewType; //!< Previous view type
 
-    SystemData* mCurrentSystem;
 
     Transform4x4f mCamera;
     float mFadeOpacity;

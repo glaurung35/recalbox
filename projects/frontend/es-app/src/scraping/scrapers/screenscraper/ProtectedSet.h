@@ -12,7 +12,7 @@
 class ProtectedSet
 {
   public:
-    bool Exists(const std::string& string)
+    bool Exists(const String& string)
     {
       mMutex.Lock();
       bool result = mSet.contains(string);
@@ -23,7 +23,7 @@ class ProtectedSet
 
   private:
     //! String set
-    HashSet<std::string> mSet;
+    HashSet<String> mSet;
 
     //! Set protector
     Mutex mMutex;

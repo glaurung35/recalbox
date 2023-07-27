@@ -53,6 +53,6 @@ class GuiMenuScreensavers : public GuiMenuBase
      * IOptionListMultiComponent<String> implementation
      */
 
-    void OptionListMultiComponentChanged(int id, const std::vector<String>& value) override;
+    void OptionListMultiComponentChanged(int id, const String::List& value) override;
 };
 

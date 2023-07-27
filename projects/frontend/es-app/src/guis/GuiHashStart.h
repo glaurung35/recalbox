@@ -33,7 +33,7 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
     //! Selected systems
     std::shared_ptr< OptionListComponent<SystemData*> > mSystems;
     //! Filters
-    std::shared_ptr< OptionListComponent<std::string> > mFilter;
+    std::shared_ptr< OptionListComponent<String> > mFilter;
     //! Menu
     MenuComponent mMenu;
     //! GUI Global state
@@ -47,7 +47,7 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
     //! Remaining games
     int mRemaininglGames;
     //! Output text
-    std::string mSummaryText;
+    String mSummaryText;
 
     /*!
      * @brief Prepare files and start Crc computations

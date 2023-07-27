@@ -40,7 +40,7 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const std::string& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug)
+MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug)
   : mRequestedWidth(width)
   , mRequestedHeight(height)
   , mRequestWindowed(windowed)
@@ -77,13 +77,13 @@ MainRunner::ExitState MainRunner::Run()
     // Audio controller
     AudioController audioController;
     audioController.SetVolume(audioController.GetVolume());
-    std::string originalAudioDevice = RecalboxConf::Instance().GetAudioOuput();
-    std::string fixedAudioDevice = audioController.SetDefaultPlayback(originalAudioDevice);
+    String originalAudioDevice = RecalboxConf::Instance().GetAudioOuput();
+    String fixedAudioDevice = audioController.SetDefaultPlayback(originalAudioDevice);
     if (fixedAudioDevice != originalAudioDevice)
       RecalboxConf::Instance().SetAudioOuput(fixedAudioDevice).Save();
 
     // Notification Manager
-    mNotificationManager.Notify(Notification::Start, Strings::ToString(mRunCount));
+    mNotificationManager.Notify(Notification::Start, String(mRunCount));
 
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
@@ -154,12 +154,13 @@ MainRunner::ExitState MainRunner::Run()
       // Seamless scraper
       ScraperSeamless seamlessScraper;
 
+      // Input ok?
+      InitializeUserInterface(window);
+
       // Update?
       CheckUpdateMessage(window);
       CheckUpdateFailed(window);
       CheckUpdateCorrupted(window);
-      // Input ok?
-      CheckAndInitializeInput(window);
       // Wizard
       CheckFirstTimeWizard(window);
       // Alert
@@ -193,7 +194,7 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Exit
-    mNotificationManager.Notify(Notification::Stop, Strings::ToString(mRunCount));
+    mNotificationManager.Notify(Notification::Stop, String(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));
     WindowManager::Finalize();
@@ -340,7 +341,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
       case PendingExit::GamelistChanged:
       case PendingExit::ThemeChanged:
       {
-        std::string text = (mPendingExit == PendingExit::GamelistChanged) ?
+        String text = (mPendingExit == PendingExit::GamelistChanged) ?
           _("EmulationStation has detected external changes on a gamelist file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files.") :
           _("EmulationStation has detected external changes on a theme file.\nTo avoid loss of data, EmulationStation is about to relaunch and reload all files.");
         GuiMsgBox* msgBox = new GuiMsgBox(window, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); });
@@ -355,7 +356,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
   }
 }
 
-void MainRunner::CheckAndInitializeInput(WindowManager& window)
+void MainRunner::InitializeUserInterface(WindowManager& window)
 {
   // Choose which GUI to open depending on if an input configuration already exists
   { LOG(LogDebug) << "[MainRunner] Preparing GUI"; }
@@ -378,16 +379,16 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
         realSystemCount++;
     if (realSystemCount > maxSystem)
     {
-      std::string text = _("Your system has not enough memory to handle %SYSTEMS% systems. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!\n\nYou can hide preinstalled games in UI SETTINGS menu to decrease active systems");
-      Strings::ReplaceAllIn(text, "%SYSTEMS%", Strings::ToString(realSystemCount));
-      Strings::ReplaceAllIn(text, "%MAXSYSTEMS%", Strings::ToString(maxSystem));
+      String text = _("Your system has not enough memory to handle %SYSTEMS% systems. You should not exceed %MAXSYSTEMS% consoles/computers or you may face stability issues!\n\nYou can hide preinstalled games in UI SETTINGS menu to decrease active systems")
+                    .Replace("%SYSTEMS%", String(realSystemCount))
+                    .Replace("%MAXSYSTEMS%", String(maxSystem));
       window.pushGui(new GuiMsgBoxScroll(window, _("WARNING! SYSTEM OVERLOAD!"), text, _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
     }
     else if (systemManager.GameCount() > maxGames)
     {
-      std::string text = _("Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!");
-      Strings::ReplaceAllIn(text, "%GAMES%", Strings::ToString((int)systemManager.GameCount()));
-      Strings::ReplaceAllIn(text, "%MAXGAMES%", Strings::ToString(maxGames));
+      String text = _("Your system has not enough memory to handle %GAMES% games. You should not exceed %MAXGAMES% or you may face stability issues!")
+                         .Replace("%GAMES%", String((int)systemManager.GameCount()))
+                         .Replace("%MAXGAMES%", String(maxGames));
       window.pushGui(new GuiMsgBoxScroll(window, _("WARNING! SYSTEM OVERLOAD!"), text, _("OK"), nullptr, "", nullptr, "", nullptr, TextAlignment::Left));
     }
   }
@@ -446,8 +447,8 @@ void MainRunner::CheckUpdateMessage(WindowManager& window)
   Path flag(sUpgradeFileFlag);
   if (flag.Exists())
   {
-    std::string changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
-    std::string message = "Changes :\n" + changelog;
+    String changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
+    String message = "Changes :\n" + changelog;
     window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
     flag.Delete();
   }
@@ -459,8 +460,9 @@ void MainRunner::CheckUpdateFailed(WindowManager& window)
   Path flag(sUpgradeFailedFlag);
   if (flag.Exists())
   {
-    std::string version = Upgrade::CurrentVersion();
-    std::string message = Strings::Format(_("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.").c_str(), version.c_str());
+    String version = Upgrade::CurrentVersion();
+    String message = _("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.")
+                     .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE HAS FAILED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
     flag.Delete();
   }
@@ -472,8 +474,9 @@ void MainRunner::CheckUpdateCorrupted(WindowManager& window)
   Path flag(sUpgradeCorruptedFlag);
   if (flag.Exists())
   {
-    std::string version = Upgrade::CurrentVersion();
-    std::string message = Strings::Format(_("One or more files are corrupted. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, check your Recalbox storage (SD Card, USB Key or hard drive).\nContact the team on https://forum.recalbox.com if the problem persists.").c_str(), version.c_str());
+    String version = Upgrade::CurrentVersion();
+    String message = _("One or more files are corrupted. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, check your Recalbox storage (SD Card, USB Key or hard drive).\nContact the team on https://forum.recalbox.com if the problem persists.")
+                     .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE IS CORRUPTED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
     flag.Delete();
   }
@@ -481,7 +484,7 @@ void MainRunner::CheckUpdateCorrupted(WindowManager& window)
 
 void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 {
-  std::string selectedTheme = RecalboxConf::Instance().GetThemeFolder();
+  String selectedTheme = RecalboxConf::Instance().GetThemeFolder();
   Path loadingMusic = RootFolders::DataRootFolder / "system/.emulationstation/themes" / selectedTheme / "fx/loading.ogg";
   if (!loadingMusic.Exists())
     loadingMusic = RootFolders::DataRootFolder / "themes" / selectedTheme / "fx/loading.ogg";
@@ -618,14 +621,14 @@ void MainRunner::CheckHomeFolder()
   }
 }
 
-void MainRunner::SetLocale(const std::string& executablePath)
+void MainRunner::SetLocale(const String& executablePath)
 {
   Path path(executablePath);
   path = path.Directory(); // Get executable folder
   if (path.IsEmpty() || !path.Exists()) { LOG(LogError) << "[Locale] Error getting executable path (received: " << executablePath << ')'; }
 
   // Get locale from configuration
-  std::string localeName = RecalboxConf::Instance().GetSystemLanguage();
+  String localeName = RecalboxConf::Instance().GetSystemLanguage();
 
   // Set locale
   if (!Internationalizer::InitializeLocale(localeName, { path / "locale/lang", Path("/usr/share/locale") }, "emulationstation2"))
@@ -671,10 +674,10 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
       if(IsFileIgnored(path.ToString()))
         return;
 
-      std::string name = path.Filename();
+      String name = path.Filename();
       if (name == "gamelist.xml" || name == "gamelist.zip")
         mPendingExit = PendingExit::GamelistChanged;
-      else if (path.ToString().find("themes") != std::string::npos)
+      else if (path.ToString().find("themes") != String::npos)
         mPendingExit = PendingExit::ThemeChanged;
     }
   }
@@ -706,7 +709,7 @@ void MainRunner::ResetButtonPressed(BoardType board)
                                       ->Execute(HardwareTriggeredSpecialOperations::Reset, _("Restarting.")));
   } else {
     // Something is running (game, demo, kodi)
-    Files::SaveFile(Path(sStopDemo), std::string());
+    Files::SaveFile(Path(sStopDemo), String());
     { LOG(LogDebug) << "[MainRunner] Reset Button Pressed in game : exiting subprocesses"; }
     ProcessTree::TerminateAll(1000);
   }
@@ -747,8 +750,8 @@ void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
   else
   {
     { LOG(LogDebug) << "[MainRunner] Power Button Pressed while running game: shutting down"; }
-    Files::SaveFile(Path(sQuitNow), std::string());
-    Files::SaveFile(Path(sStopDemo), std::string());
+    Files::SaveFile(Path(sQuitNow), String());
+    Files::SaveFile(Path(sStopDemo), String());
     // Gracefuly qui emulators and all the call chain
     ProcessTree::TerminateAll(1000);
     // Quit
@@ -815,7 +818,7 @@ void MainRunner::Completed(const HardwareTriggeredSpecialOperations& parameter, 
     case HardwareTriggeredSpecialOperations::Resume:
     {
       // Set audio output since headphone may have been plugged/unplugged
-      std::string output = RecalboxConf::Instance().GetAudioOuput();
+      String output = RecalboxConf::Instance().GetAudioOuput();
       AudioManager::Instance().Deactivate();
       AudioController::Instance().Refresh();
       AudioController::Instance().SetDefaultPlayback(output);
@@ -873,10 +876,10 @@ void MainRunner::BrightnessIncrease(BoardType board, float percent)
 
 void MainRunner::RomPathAdded(const DeviceMount& device)
 {
-  std::string text = _("The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games.");
-  Strings::ReplaceAllIn(text, "%NAME%", device.Name());
+  String text = _("The device %NAME% containing roms has been plugged in! EmulationStation must relaunch to load new games.")
+                     .Replace("%NAME%", device.Name());
   if (device.ReadOnly())
-    text.append(_("\nWARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."));
+    text.Append(_("\nWARNING: You device may not have been properly unplugged and has consistency errors. As a result, it's been mounted as read-only. You should plug your device in a Window PC and use the repair tool."));
   GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); }, _("LATER"), []{});
   mApplicationWindow->pushGui(msgBox);
 }
@@ -884,7 +887,7 @@ void MainRunner::RomPathAdded(const DeviceMount& device)
 void MainRunner::RomPathRemoved(const DeviceMount& device)
 {
   (void)device;
-  std::string text = _("A device containing roms has been unplugged! EmulationStation must relaunch to remove unavailable games.");
+  String text = _("A device containing roms has been unplugged! EmulationStation must relaunch to remove unavailable games.");
   GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("OK"), [] { RequestQuit(ExitState::Relaunch, true); }, _("LATER"), []{});
   mApplicationWindow->pushGui(msgBox);
 }
@@ -903,37 +906,37 @@ void MainRunner::NoRomPathFound(const DeviceMount& device)
     mApplicationWindow->pushGui((new GuiWaitLongExecution<USBInitialization, bool>(*mApplicationWindow, *this))->Execute(init, _("Initializing share folders...")));
   };
 
-  std::string text = _("The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?");
-              text.append(1, '\n');
-              text.append(_("• Choose '%INIT%' to create only all the rom folders")).append(1, '\n')
-                  .append(_("• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot")).append(1, '\n')
-                  .append(_("• Or just chose '%CANCEL%' to do nothing with this new device"));
-  Strings::ReplaceAllIn(text, "%NAME%", device.Name());
-  Strings::ReplaceAllIn(text, "%INIT%", _("INITIALIZE"));
-  Strings::ReplaceAllIn(text, "%MOVE%", _("MOVE SHARE"));
-  Strings::ReplaceAllIn(text, "%CANCEL%", _("CANCEL"));
+  String text = _("The USB device %NAME% with no rom folder and no share folder has been plugged in! Would you like to initialize this device?");
+  text.Append('\n')
+      .Append(_("• Choose '%INIT%' to create only all the rom folders")).Append('\n')
+      .Append(_("• Choose '%MOVE%' to copy all the current share to the new device, automatically switch to this device, and reboot")).Append('\n')
+      .Append(_("• Or just chose '%CANCEL%' to do nothing with this new device"))
+      .Replace("%NAME%", device.Name())
+      .Replace("%INIT%", _("INITIALIZE"))
+      .Replace("%MOVE%", _("MOVE SHARE"))
+      .Replace("%CANCEL%", _("CANCEL"));
   GuiMsgBox* msgBox = new GuiMsgBox(*mApplicationWindow, text, _("INITIALIZE"), initializeRoms,
                                                                _("MOVE SHARE"), moveShareFolder,
                                                                _("CANCEL"), nullptr, TextAlignment::Left);
   mApplicationWindow->pushGui(msgBox);
 }
 
-void MainRunner::PatreonState(PatronAuthenticationResult result, int level, const std::string& name)
+void MainRunner::PatreonState(PatronAuthenticationResult result, int level, const String& name)
 {
-  std::string message;
+  String message;
   switch(result)
   {
     case PatronAuthenticationResult::Patron:
     {
-      message = _("Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!");
-      Strings::ReplaceAllIn(message, "%NAME%", name);
-      Strings::ReplaceAllIn(message, "%LEVEL%", Strings::ToString(level));
+      message = _("Welcome back %NAME%!\nPatron level %LEVEL%\nYou are now connected to your recalbox patron account, and all exclusives features are available!")
+                .Replace("%NAME%", name)
+                .Replace("%LEVEL%", String(level));
       break;
     }
     case PatronAuthenticationResult::FormerPatron:
     {
-      message = _("Hello %NAME%, your private key is linked to a Patreon account which is no longer a Recalbox Patron.\nWe still hope to see you back soon as a Recalbox Patron!\nDelete your private key to suppress this message.");
-      Strings::ReplaceAllIn(message, "%NAME%", name);
+      message = _("Hello %NAME%, your private key is linked to a Patreon account which is no longer a Recalbox Patron.\nWe still hope to see you back soon as a Recalbox Patron!\nDelete your private key to suppress this message.")
+                .Replace("%NAME%", name);
       break;
     }
     case PatronAuthenticationResult::Invalid:
@@ -995,7 +998,7 @@ bool MainRunner::Execute(GuiWaitLongExecution<USBInitialization, bool>& from, co
       for(const auto& ft : pathFromTo)
       {
         { LOG(LogInfo) << "[MainRunner] USB Initialization: Copying " << ft.From.Filename(); }
-        from.SetText(Strings::Replace(_("Copying %s folder..."), "%s", ft.From.Filename()));
+        from.SetText(_("Copying %s folder...").Replace("%s", ft.From.Filename()));
         if (!Files::CopyFolder(ft.From, ft.To, true)) return false;
       }
 

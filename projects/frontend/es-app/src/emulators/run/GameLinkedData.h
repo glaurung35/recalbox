@@ -24,7 +24,7 @@ class GameLinkedData
      * @param viewerPassword Password for viewers
      * @param asViewer True to oin as viewer, false to join as player
      */
-    GameLinkedData(const std::string& coreName, const std::string& ip, int port, const std::string& playerPassword, const std::string& viewerPassword, bool asViewer)
+    GameLinkedData(const String& coreName, const String& ip, int port, const String& playerPassword, const String& viewerPassword, bool asViewer)
       : mNetPlayData(coreName, ip, port, playerPassword, viewerPassword, asViewer)
     {
     }
@@ -35,7 +35,7 @@ class GameLinkedData
      * @param playerPassword Password for players
      * @param viewerPassword Password for viewers
      */
-    GameLinkedData(int port, const std::string& playerPassword, const std::string& viewerPassword)
+    GameLinkedData(int port, const String& playerPassword, const String& viewerPassword)
       : mNetPlayData(port, playerPassword, viewerPassword)
     {
     }

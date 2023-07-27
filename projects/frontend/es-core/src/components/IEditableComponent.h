@@ -14,5 +14,5 @@ class IEditableComponent
      * @param id Component id
      * @param text New text
      */
-    virtual void EditableComponentTextChanged(int id, const std::string& text) = 0;
+    virtual void EditableComponentTextChanged(int id, const String& text) = 0;
 };

@@ -36,7 +36,7 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    void PopulateGrid(const std::string& search);
+    void PopulateGrid(const String& search);
 
     void populateGridMeta(int i);
 
@@ -89,13 +89,13 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
      * @brief Called when the edited text change.
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) final;
 
     /*!
      * @brief Called when the edited text is validated (Enter or Start)
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) final;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) final;
 
     /*!
      * @brief Called when the edited text is cancelled.

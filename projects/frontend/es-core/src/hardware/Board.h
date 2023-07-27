@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "BoardType.h"
 #include "hardware/messaging/IHardwareNotifications.h"
 #include "IBoardInterface.h"

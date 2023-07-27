@@ -39,13 +39,13 @@ class EmulatorDescriptor
      * @brief Constructor
      * @param emulator Emulator name
      */
-    explicit EmulatorDescriptor(const std::string& emulator)
+    explicit EmulatorDescriptor(const String& emulator)
       : mEmulator(emulator)
     {
     }
 
     //! Get emulator name
-    [[nodiscard]] const std::string& Name() const { return mEmulator; }
+    [[nodiscard]] const String& Name() const { return mEmulator; }
 
     //! Get core count
     [[nodiscard]] int CoreCount() const { return (int)mCores.size(); }
@@ -58,7 +58,7 @@ class EmulatorDescriptor
      * @param name Core name
      * @return True of the emulator has this core, fals eotherwise
      */
-    [[nodiscard]] bool HasCore(const std::string& name) const
+    [[nodiscard]] bool HasCore(const String& name) const
     {
       for(const Core& core : mCores)
         if (name == core.mName)
@@ -67,11 +67,11 @@ class EmulatorDescriptor
     }
 
     //! Get core name
-    [[nodiscard]] const std::string& CoreNameAt(int index) const { return CoreAt(index).mName; }
+    [[nodiscard]] const String& CoreNameAt(int index) const { return CoreAt(index).mName; }
     //! Get core priority
     [[nodiscard]] unsigned char CorePriorityAt(int index) const { return CoreAt(index).mPriority; }
     //! Get core Extensions
-    [[nodiscard]] const std::string& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
+    [[nodiscard]] const String& CoreExtensions(int index) const { return CoreAt(index).mExtensions; }
     //! Get core Netplay support
     [[nodiscard]] bool CoreNetplay(int index) const { return CoreAt(index).mNetplay; }
     //! Get core Softpatching availability
@@ -100,12 +100,12 @@ class EmulatorDescriptor
      * @param compatibility Compatibility evaluation
      * @param speed Speed evaluation
      */
-    void AddCore(const std::string& name,
+    void AddCore(const String& name,
                  int priority,
-                 const std::string& extensions,
+                 const String& extensions,
                  bool netplay,
-                 const std::string& compatibility,
-                 const std::string& speed,
+                 const String& compatibility,
+                 const String& speed,
                  bool softpatching,
                  bool crtAvailable,
                  const String& flatBaseFile,
@@ -179,7 +179,7 @@ class EmulatorDescriptor
     };
 
     //! Emulator name
-    std::string mEmulator;
+    String mEmulator;
     //! Core specifications
     std::vector<Core> mCores;
 
@@ -190,7 +190,7 @@ class EmulatorDescriptor
      * @param compatibility compatibility string
      * @return compatibility enum
      */
-    static Compatibility ConvertCompatibility(const std::string& compatibility)
+    static Compatibility ConvertCompatibility(const String& compatibility)
     {
       Compatibility result = Compatibility::Unknown;
       if      (compatibility == "unknown"  ) result = Compatibility::Unknown;
@@ -207,7 +207,7 @@ class EmulatorDescriptor
      * @param speed speed string
      * @return speed enum
      */
-    static Speed ConvertSpeed(const std::string& speed)
+    static Speed ConvertSpeed(const String& speed)
     {
       Speed result = Speed::Unknown;
       if      (speed == "unknown"  ) result = Speed::Unknown;

@@ -64,7 +64,7 @@ String Files::LoadFile(const Path& path, long long from, long long size)
 }
 
 // TODO: convert to open/write/close
-bool Files::SaveFile(const Path& path, const std::string& content)
+bool Files::SaveFile(const Path& path, const String& content)
 {
   FILE* f = fopen(path.ToChars(), "wb");
   if (f != nullptr)

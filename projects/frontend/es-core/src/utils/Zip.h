@@ -4,7 +4,7 @@
 #pragma once
 
 #include <zip.h>
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
 
 class Zip
@@ -44,7 +44,7 @@ class Zip
      * @param index Entry index from 0 to Count()-1
      * @return Content
      */
-    std::string Content(int index) const;
+    String Content(int index) const;
 
     /*!
      * @brief Get crc32 of the entry at the given index
@@ -58,13 +58,13 @@ class Zip
      * @param index Entry index from 0 to Count()-1
      * @return Md5
      */
-    std::string Md5(int index) const;
+    String Md5(int index) const;
 
     /*!
      * @brief Get Md5 of all entry in the zip original ordering
      * @return Md5
      */
-    std::string Md5Composite() const;
+    String Md5Composite() const;
 
     /*!
      * @brief Get compressed size of the entry at the given index
@@ -94,6 +94,6 @@ class Zip
      * @param path entity path
      * @return True if the content has been added successfully
      */
-    bool Add(const std::string& content, const std::string path);
+    bool Add(const String& content, const String path);
 };
 

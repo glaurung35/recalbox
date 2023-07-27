@@ -152,22 +152,22 @@ BoardType Board::GetBoardType()
   utsname uName {};
   memset(&uName, 0, sizeof(uName));
   uname(&uName);
-  std::string machine(uName.machine);
+  String machine(uName.machine);
   { LOG(LogDebug) << "[Hardware] Machine identifier: '" << machine << '\''; }
   if (machine == "i386") return mType = BoardType::PCx86;
   if (machine == "i686") return mType = BoardType::PCx86;
   if (machine == "x86_64") return mType = BoardType::PCx64;
 
   // Then try CPU info
-  std::string hardware;
-  std::string revision;
+  String hardware;
+  String revision;
   mType = BoardType::Unknown;
 
   FILE* f = fopen(CPU_INFO_FILE, "r");
   if (f != nullptr)
   {
     char line[1024];
-    std::string str; // Declared before loop to keep memory allocated
+    String str; // Declared before loop to keep memory allocated
     while (fgets(line, sizeof(line) - 1, f) != nullptr)
     {
       // Raspberry pi or Anbernic

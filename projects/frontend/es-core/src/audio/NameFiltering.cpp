@@ -3,11 +3,10 @@
 //
 
 #include "NameFiltering.h"
-#include <utils/Strings.h>
 
-std::string NameFiltering::Filter(const std::string& sourceString, Source from)
+String NameFiltering::Filter(const String& sourceString, Source from)
 {
-  std::string result = sourceString;
+  String result = sourceString;
 
   // Pi3 replacement
   if (result == "bcm2835 ALSA")
@@ -17,11 +16,9 @@ std::string NameFiltering::Filter(const std::string& sourceString, Source from)
   }
   if (result == "bcm2835 IEC958/HDMI") return "HDMI";
 
-  // Pi4 filtering
-  Strings::ReplaceAllIn(result, "bcm2835", "");
 
-  // Generic HDMI
-  Strings::ReplaceAllIn(result, "IEC958", "Digital/HDMI");
+  result.Replace("bcm2835", "") // Pi4 filtering
+        .Replace("IEC958", "Digital/HDMI"); // Generic HDMI
 
-  return Strings::Trim(result);
+  return result.Trim();
 }

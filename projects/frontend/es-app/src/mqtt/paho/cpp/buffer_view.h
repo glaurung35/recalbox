@@ -33,7 +33,7 @@ namespace mqtt {
 /**
  * A reference to a contiguous sequence of items, with no ownership.
  * This simply contains a pointer to a const array of items, and a size.
- * This is a similar, but simplified version of the std::string_view
+ * This is a similar, but simplified version of the String_view
  * class(es) in the C++17 standard.
  */
 template <typename T>

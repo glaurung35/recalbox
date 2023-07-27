@@ -13,23 +13,23 @@ class ScrollableContainer;
 class GuiMsgBoxScroll : public Gui
 {
 public:
-	GuiMsgBoxScroll(WindowManager& window, const std::string& title, const std::string& text,
-                  const std::string& name1, const std::function<void()>& func1,
-                  const std::string& name2, const std::function<void()>& func2,
-                  const std::string& name3, const std::function<void()>& func3,
+	GuiMsgBoxScroll(WindowManager& window, const String& title, const String& text,
+                  const String& name1, const std::function<void()>& func1,
+                  const String& name2, const std::function<void()>& func2,
+                  const String& name3, const std::function<void()>& func3,
                   TextAlignment align, float size);
-  GuiMsgBoxScroll(WindowManager& window, const std::string& title, const std::string& text,
-                  const std::string& name1, const std::function<void()>& func1,
-                  const std::string& name2, const std::function<void()>& func2,
-                  const std::string& name3, const std::function<void()>& func3,
+  GuiMsgBoxScroll(WindowManager& window, const String& title, const String& text,
+                  const String& name1, const std::function<void()>& func1,
+                  const String& name2, const std::function<void()>& func2,
+                  const String& name3, const std::function<void()>& func3,
                   TextAlignment align)
     : GuiMsgBoxScroll(window, title, text, name1, func1, name2, func2, name3, func3, align, 0)
   {
   }
-  GuiMsgBoxScroll(WindowManager& window, const std::string& title, const std::string& text,
-                  const std::string& name1, const std::function<void()>& func1,
-                  const std::string& name2, const std::function<void()>& func2,
-                  const std::string& name3, const std::function<void()>& func3)
+  GuiMsgBoxScroll(WindowManager& window, const String& title, const String& text,
+                  const String& name1, const std::function<void()>& func1,
+                  const String& name2, const std::function<void()>& func2,
+                  const String& name3, const std::function<void()>& func3)
     : GuiMsgBoxScroll(window, title, text, name1, func1, name2, func2, name3, func3, TextAlignment::Center, 0.0f)
   {
   }

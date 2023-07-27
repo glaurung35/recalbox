@@ -3,22 +3,17 @@
 //
 #pragma once
 
-#include <audio/IAudioController.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <audio/IAudioController.h>
 #include <audio/pulseaudio/PulseAudioController.h>
 
 class AudioController: public StaticLifeCycleControler<AudioController>
 {
   private:
-    static IAudioController& GetAudioController()
-    {
-      //static AlsaController sAlsaController;
-      //return sAlsaController;
-      static PulseAudioController sPulseausioController;
-      return sPulseausioController;
-    }
-
     // Underlaying audio controler
+    PulseAudioController mRealController;
+
+    // Public interface
     IAudioController& mController;
 
     // Has special ausio settings?
@@ -33,7 +28,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
   public:
     AudioController()
       : StaticLifeCycleControler("AudioController")
-      , mController(GetAudioController())
+      , mController(mRealController)
       , mHasSpecialAudio(GetSpecialAudio())
     {
     }
@@ -42,20 +37,20 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Get playback list
      * @return Map identifier : playback name
      */
-    IAudioController::DeviceList GetPlaybackList() const { return mController.GetPlaybackList(); }
+    [[nodiscard]] IAudioController::DeviceList GetPlaybackList() const { return mController.GetPlaybackList(); }
 
     /*!
      * @brief Set the default card/device
      * @param playbackName playback name from GetPlaybackList()
      * @return playbackName or default value if playbackName is invalid
      */
-    std::string SetDefaultPlayback(const std::string& playbackName);
+    String SetDefaultPlayback(const String& playbackName);
 
     /*!
      * @brief Get volume from the given playback
      * @return Volume percent
      */
-    int GetVolume() const { return mController.GetVolume(); }
+    [[nodiscard]] int GetVolume() const { return mController.GetVolume(); }
 
     /*!
      * @brief Set volume to the given playback
@@ -67,7 +62,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Check if there is a special audio configuration
      * @return True if there is a special audio configuration
      */
-    bool HasSpecialAudio() const { return mHasSpecialAudio; }
+    [[nodiscard]] bool HasSpecialAudio() const { return mHasSpecialAudio; }
 
 
     /*!
@@ -78,7 +73,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
     /*!
      * @brief Return the current active audio output name
      */
-    std::string GetActivePlaybackName() const { return mController.GetActivePlaybackName(); }
+    [[nodiscard]] String GetActivePlaybackName() const { return mController.GetActivePlaybackName(); }
 
     /*!
      * @brief Set the callback to call whenever a sink is added or removed

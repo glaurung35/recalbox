@@ -22,10 +22,10 @@ bool LightGunDatabase::SetCurrentSystem(const SystemData& system)
 
 bool LightGunDatabase::ApplyFilter(const FileData& file)
 {
-  std::string name = GetSimplifiedName(file.Name().empty() ? file.RomPath().FilenameWithoutExtension() : file.Name());
+  String name = GetSimplifiedName(file.Name().empty() ? file.RomPath().FilenameWithoutExtension() : file.Name());
   if (mCurrentList != nullptr)
-    for(const std::string& gamename : *mCurrentList)
-      if (Strings::Contains(name, gamename))
+    for(const String& gamename : *mCurrentList)
+      if (name.Contains(gamename))
       {
         { LOG(LogTrace) << "[LightGun] Game " << file.Name() << " match database name " << gamename; }
         return true;
@@ -33,15 +33,15 @@ bool LightGunDatabase::ApplyFilter(const FileData& file)
   return false;
 }
 
-std::string LightGunDatabase::GetSimplifiedName(const std::string& name)
+String LightGunDatabase::GetSimplifiedName(const String& name)
 {
-  std::string result(name);
+  String result(name);
 
   // Kill decorations
-  size_t pos1 = result.find('(');
-  size_t pos2 = result.find('[');
-  if ((pos2 != std::string::npos) && (pos2 < pos1)) pos1 = pos2;
-  if (pos1 != std::string::npos) result = result.substr(0, pos1);
+  int pos1 = result.Find('(');
+  int pos2 = result.Find('[');
+  if ((pos2 >= 0) && (pos2 < pos1)) pos1 = pos2;
+  if (pos1 >= 0) result = result.SubString(0, pos1);
 
   // Crunch non a-z,0-9,! characters
   int writeIndex = 0;
@@ -72,16 +72,16 @@ void LightGunDatabase::LoadDatabase()
   if (root != nullptr)
     for (const XmlNode& system : root.children("system"))
     {
-      std::string systemNames = Xml::AttributeAsString(system, "name", "<missing name>");
-      for(const std::string& systemName : Strings::Split(systemNames, '|', true))
+      String systemNames = Xml::AttributeAsString(system, "name", "<missing name>");
+      for(const String& systemName : systemNames.Split('|', true))
       {
         { LOG(LogDebug) << "[LightGun] Load system: " << systemName; }
 
         // Create system list
-        Strings::Vector& gameList = mSystemLists[systemName];
+        String::List& gameList = mSystemLists[systemName];
 
         // Run through games
-        std::string gameName;
+        String gameName;
         for (const XmlNode& games: system.children("gameList"))
           for (const XmlNode& game: games.children("game"))
           {

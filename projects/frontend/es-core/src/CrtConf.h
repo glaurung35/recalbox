@@ -21,16 +21,16 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
       CrtConf& SetCrtModeOffset##name(CrtResolution reso, const type& value);
 
     #define DefineCrtModeOffsetImplementation(name, type, type2, key, defaultValue) \
-      type CrtConf::GetCrtModeOffset##name(CrtResolution reso) const { return As##type2(std::string(sModeOffsetPrefix).append(1, '.').append(CrtResolutionFromEnum(reso)).append(1, '.').append(key), defaultValue); } \
-      CrtConf& CrtConf::SetCrtModeOffset##name(CrtResolution reso, const type& value) { Set##type2(std::string(sModeOffsetPrefix).append(1, '.').append(CrtResolutionFromEnum(reso)).append(1, '.').append(key), value); return *this; }
+      type CrtConf::GetCrtModeOffset##name(CrtResolution reso) const { return As##type2(String(sModeOffsetPrefix).Append('.').Append(CrtResolutionFromEnum(reso)).Append('.').Append(key), defaultValue); } \
+      CrtConf& CrtConf::SetCrtModeOffset##name(CrtResolution reso, const type& value) { Set##type2(String(sModeOffsetPrefix).Append('.').Append(CrtResolutionFromEnum(reso)).Append('.').Append(key), value); return *this; }
 
     #define DefineCrtViewportDeclaration(name, type, type2, key) \
       type GetCrtViewport##name(CrtResolution reso) const; \
       CrtConf& SetCrtViewport##name(CrtResolution reso, const type& value);
 
     #define DefineCrtViewportImplementation(name, type, type2, key, defaultValue) \
-      type CrtConf::GetCrtViewport##name(CrtResolution reso) const { return As##type2(std::string(sViewportPrefix).append(1, '.').append(CrtResolutionFromEnum(reso)).append(1, '.').append(key), defaultValue); } \
-      CrtConf& CrtConf::SetCrtViewport##name(CrtResolution reso, const type& value) { Set##type2(std::string(sViewportPrefix).append(1, '.').append(CrtResolutionFromEnum(reso)).append(1, '.').append(key), value); return *this; }
+      type CrtConf::GetCrtViewport##name(CrtResolution reso) const { return As##type2(String(sViewportPrefix).Append('.').Append(CrtResolutionFromEnum(reso)).Append('.').Append(key), defaultValue); } \
+      CrtConf& CrtConf::SetCrtViewport##name(CrtResolution reso, const type& value) { Set##type2(String(sViewportPrefix).Append('.').Append(CrtResolutionFromEnum(reso)).Append('.').Append(key), value); return *this; }
 
     /*!
      * @brief Called when file has been saved
@@ -38,14 +38,14 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     void OnSave() override;
 
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRT, CrtAdapterType, sSystemCRT, CrtAdapter)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, std::string, String, sSystemCRTResolution, "240")
-    DefineGetterSetterGeneric(CrtConf, SystemCRT31kHzResolution, std::string, String, sSystemCRT31kHzResolution, "480")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTResolution, String, String, sSystemCRTResolution, "240")
+    DefineGetterSetterGeneric(CrtConf, SystemCRT31kHzResolution, String, String, sSystemCRT31kHzResolution, "480")
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScanlines31kHz, bool, Bool, sSystemCRTScanlines31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTExtended15KhzRange, bool, Bool, sSystemCRTExtended15KhzRange, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, std::string, String, sSystemCRTSuperrez, "x6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "x6")
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
@@ -54,8 +54,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineCrtModeOffsetDeclaration(HorizontalOffset, int, Int, sHorizontalOffset)
     DefineCrtViewportDeclaration(Width, int, Int, sWidth)
 
-    static CrtResolution CrtResolutionFromString(const std::string& menu);
-    static const std::string& CrtResolutionFromEnum(CrtResolution type);
+    static CrtResolution CrtResolutionFromString(const String& menu);
+    static const String& CrtResolutionFromEnum(CrtResolution type);
 
   private:
     static constexpr const char* sSystemCRT                       = "adapter.type";
@@ -77,8 +77,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sHorizontalOffset                = "horizontaloffset";
     static constexpr const char* sWidth                           = "width";
 
-    static CrtAdapterType CrtAdapterFromString(const std::string& adapter);
-    static const std::string& CrtAdapterFromEnum(CrtAdapterType adapter);
+    static CrtAdapterType CrtAdapterFromString(const String& adapter);
+    static const String& CrtAdapterFromEnum(CrtAdapterType adapter);
 };
 
 

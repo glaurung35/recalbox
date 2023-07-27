@@ -29,7 +29,7 @@ class Wizard : public Gui
      * @param title Wizard title
      * @param pageCount Total page count
      */
-    Wizard(WindowManager& window, const std::string& title, int pageCount);
+    Wizard(WindowManager& window, const String& title, int pageCount);
 
     /*!
      * @brief Called when a new page is displayed
@@ -43,7 +43,7 @@ class Wizard : public Gui
      * @param page Page to display
      * @return Text to display
      */
-    virtual std::string OnTextRequired(int page) = 0;
+    virtual String OnTextRequired(int page) = 0;
 
     /*!
      * @brief Called when the help bar is being to be refreshed

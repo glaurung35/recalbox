@@ -10,7 +10,7 @@
 #include <guis/GuiMsgBox.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList)
+GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const String::List& deviceList)
   : GuiMenuBase(window, _("PAIR BLUETOOTH CONTROLLERS"), this)
   , mDevices(deviceList)
 {
@@ -19,13 +19,13 @@ GuiMenuPadsPair::GuiMenuPadsPair(WindowManager& window, const Strings::Vector& d
     AddSubMenu(controllerString, ++index);
 }
 
-bool GuiMenuPadsPair::Execute(GuiWaitLongExecution<std::string, bool>& from, const std::string& parameter)
+bool GuiMenuPadsPair::Execute(GuiWaitLongExecution<String, bool>& from, const String& parameter)
 {
   (void)from;
   return RecalboxSystem::pairBluetooth(parameter);
 }
 
-void GuiMenuPadsPair::Completed(const std::string& parameter, const bool& result)
+void GuiMenuPadsPair::Completed(const String& parameter, const bool& result)
 {
   (void)parameter;
   mWindow.pushGui(new GuiMsgBox(mWindow, result ? _("CONTROLLER PAIRED") : _("UNABLE TO PAIR CONTROLLER"), _("OK")));
@@ -33,9 +33,8 @@ void GuiMenuPadsPair::Completed(const std::string& parameter, const bool& result
 
 void GuiMenuPadsPair::SubMenuSelected(int id)
 {
-  std::string device = mDevices[id];
-  std::string text = _("PAIRING %s ...");
-  Strings::ReplaceAllIn(text, "%s", device);
-  mWindow.pushGui((new GuiWaitLongExecution<std::string, bool>(mWindow, *this))->Execute(device, text));
+  String device = mDevices[id];
+  String text = _("PAIRING %s ...").Replace("%s", device);
+  mWindow.pushGui((new GuiWaitLongExecution<String, bool>(mWindow, *this))->Execute(device, text));
 }
 

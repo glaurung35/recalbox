@@ -8,38 +8,38 @@
 #include "GuiCheckMenu.h"
 
 GuiCheckMenu::GuiCheckMenu(WindowManager& window,
-                           const std::string& title,
-                           const std::string& footer,
+                           const String& title,
+                           const String& footer,
                            int lastChoice,
-                           const std::string& name1,
-                           const std::string& help1,
+                           const String& name1,
+                           const String& help1,
                            const std::function<void()>& func1,
-                           const std::string& name2,
-                           const std::string& help2,
+                           const String& name2,
+                           const String& help2,
                            const std::function<void()>& func2)
 
                            : GuiMenuBase(window, title, nullptr)
 {
     build(name1, help1, func1,
           name2, help2, func2,
-          std::string(), std::string(), nullptr,
-          std::string(), std::string(), nullptr,
+          String(), String(), nullptr,
+          String(), String(), nullptr,
           lastChoice, footer);
 
 }
 
 GuiCheckMenu::GuiCheckMenu(WindowManager& window,
-                           const std::string& title,
-                           const std::string& footer,
+                           const String& title,
+                           const String& footer,
                            int lastChoice,
-                           const std::string& name1,
-                           const std::string& help1,
+                           const String& name1,
+                           const String& help1,
                            const std::function<void()>& func1,
-                           const std::string& name2,
-                           const std::string& help2,
+                           const String& name2,
+                           const String& help2,
                            const std::function<void()>& func2,
-                           const std::string& name3,
-                           const std::string& help3,
+                           const String& name3,
+                           const String& help3,
                            const std::function<void()>& func3)
 
                            : GuiMenuBase(window, title, nullptr)
@@ -47,25 +47,25 @@ GuiCheckMenu::GuiCheckMenu(WindowManager& window,
     build(name1, help1, func1,
           name2, help2, func2,
           name3, help3, func3,
-          std::string(), std::string(), nullptr,
+          String(), String(), nullptr,
           lastChoice, footer);
 }
 
 GuiCheckMenu::GuiCheckMenu(WindowManager& window,
-                           const std::string& title,
-                           const std::string& footer,
+                           const String& title,
+                           const String& footer,
                            int lastChoice,
-                           const std::string& name1,
-                           const std::string& help1,
+                           const String& name1,
+                           const String& help1,
                            const std::function<void()>& func1,
-                           const std::string& name2,
-                           const std::string& help2,
+                           const String& name2,
+                           const String& help2,
                            const std::function<void()>& func2,
-                           const std::string& name3,
-                           const std::string& help3,
+                           const String& name3,
+                           const String& help3,
                            const std::function<void()>& func3,
-                           const std::string& name4,
-                           const std::string& help4,
+                           const String& name4,
+                           const String& help4,
                            const std::function<void()>& func4)
 
                            : GuiMenuBase(window, title, nullptr)
@@ -99,11 +99,11 @@ void GuiCheckMenu::CloseAndCall(const std::function<void()>& func)
     if (func) func();
 }
 
-void GuiCheckMenu::build(const std::string &name1, const std::string &help1, const std::function<void()> &func1,
-                         const std::string &name2, const std::string &help2, const std::function<void()> &func2,
-                         const std::string &name3, const std::string &help3, const std::function<void()> &func3,
-                         const std::string &name4, const std::string &help4, const std::function<void()> &func4,
-                         int lastChoice, const std::string& footer) {
+void GuiCheckMenu::build(const String &name1, const String &help1, const std::function<void()> &func1,
+                         const String &name2, const String &help2, const std::function<void()> &func2,
+                         const String &name3, const String &help3, const std::function<void()> &func3,
+                         const String &name4, const String &help4, const std::function<void()> &func4,
+                         int lastChoice, const String& footer) {
 
     mMenu.addButton(name1, help1, std::bind(&GuiCheckMenu::CloseAndCall, this, func1));
     mMenu.addButton(name2, help2, std::bind(&GuiCheckMenu::CloseAndCall, this, func2));

@@ -6,8 +6,9 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <SDL_joystick.h>
+#include "utils/String.h"
 
 class AutoMapper
 {
@@ -25,7 +26,7 @@ class AutoMapper
      * @brief Get mapping of the given joystick
      * @return SDL Mapping string
      */
-    std::string GetSDLMapping();
+    String GetSDLMapping();
 
   private:
     //! Joystick handle
@@ -41,7 +42,7 @@ class AutoMapper
      * @brief Build mapping from udev properties
      * @return SDL2 compatible mapping
      */
-    [[nodiscard]] std::string BuildMapping(const std::string& sdlMapping) const;
+    [[nodiscard]] String BuildMapping(const String& sdlMapping) const;
 };
 
 

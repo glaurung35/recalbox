@@ -62,7 +62,7 @@ std::vector<unsigned char> ImageIO::loadFromMemoryRGBA32(const unsigned char * d
       }
       else
       {
-        { LOG(LogError) << "[Image] Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << "!"; }
+        { LOG(LogError) << "[Image] Error - File type " << (format == FIF_UNKNOWN ? "unknown" : "unsupported") << '!'; }
         width = height = 1;
         rawData.resize(4, 0);
       }

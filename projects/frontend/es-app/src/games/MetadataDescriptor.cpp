@@ -3,8 +3,8 @@
 #include "utils/locale/LocaleHelper.h"
 
 // TODO: Use const char* instead
-const std::string MetadataDescriptor::GameNodeIdentifier("game");
-const std::string MetadataDescriptor::FolderNodeIdentifier("folder");
+const String MetadataDescriptor::GameNodeIdentifier("game");
+const String MetadataDescriptor::FolderNodeIdentifier("folder");
 
 MetadataStringHolder MetadataDescriptor::sNameHolder(1 << 20, 128 << 10);
 MetadataStringHolder MetadataDescriptor::sDescriptionHolder(1 << 20, 128 << 10);
@@ -96,32 +96,30 @@ const MetadataDescriptor& MetadataDescriptor::Default()
     int count = 0;
     const MetadataFieldDescriptor* fields = GetMetadataFieldDescriptors(ItemType::Game, count);
 
-    if (fields != nullptr)
-      for (; --count >= 0;)
-      {
-        // Get field descriptor
-        const MetadataFieldDescriptor& field = fields[count];
+    for (; --count >= 0;)
+    {
+      // Get field descriptor
+      const MetadataFieldDescriptor& field = fields[count];
 
-        // Set default value
-        std::string value = field.DefaultValue();
-        (defaultData.*field.SetValueMethod())(value);
-      }
-    else LOG(LogError) << "[MetadataDescriptor] Error building static object";
+      // Set default value
+      String value = field.DefaultValue();
+      (defaultData.*field.SetValueMethod())(value);
+    }
     initialized = true;
   }
 
   return defaultData;
 }
 
-std::string MetadataDescriptor::IntToRange(int range)
+String MetadataDescriptor::IntToRange(int range)
 {
   int max = range >> 16;
   int min = range & 0xFFFF;
 
   // min = max, only one number
-  if (min == max) return Strings::ToString(max);
+  if (min == max) return String(max);
 
-  std::string value = Strings::ToString(max);
+  String value = String(max);
 
   // min or more range
   if (min == 0xFFFF)
@@ -131,16 +129,16 @@ std::string MetadataDescriptor::IntToRange(int range)
   else
   {
     // Full range
-    value = Strings::ToString(min) + '-' + value;
+    value = String(min).Append('-').Append(value);
   }
   return value;
 }
 
-bool MetadataDescriptor::RangeToInt(const std::string& range, int& to)
+bool MetadataDescriptor::RangeToInt(const String& range, int& to)
 {
   // max+ (min+)
   int p = (int)range.find('+');
-  if (p != (int)std::string::npos)
+  if (p != (int)String::npos)
   {
     if (!StringToInt(range, p, 0, '+')) return false;
     to = (p << 16) + 0xFFFF;
@@ -149,7 +147,7 @@ bool MetadataDescriptor::RangeToInt(const std::string& range, int& to)
 
   // max-max
   p = (int)range.find('-');
-  if (p == (int)std::string::npos)
+  if (p == (int)String::npos)
   {
     if (!StringToInt(range, p)) return false;
     to = (p << 16) + p;
@@ -164,7 +162,7 @@ bool MetadataDescriptor::RangeToInt(const std::string& range, int& to)
   return true;
 }
 
-bool MetadataDescriptor::IntToHex(int from, std::string& to)
+bool MetadataDescriptor::IntToHex(int from, String& to)
 {
   static const char* hexa = "0123456789ABCDEF";
   char result[9];
@@ -177,7 +175,7 @@ bool MetadataDescriptor::IntToHex(int from, std::string& to)
   return true;
 }
 
-bool MetadataDescriptor::HexToInt(const std::string& from, int& to)
+bool MetadataDescriptor::HexToInt(const String& from, int& to)
 {
   if (from.empty()) return false;
   const char* src = from.c_str();
@@ -200,7 +198,7 @@ bool MetadataDescriptor::HexToInt(const std::string& from, int& to)
   return true;
 }
 
-bool MetadataDescriptor::StringToInt(const std::string& from, int& to, int offset, char stop)
+bool MetadataDescriptor::StringToInt(const String& from, int& to, int offset, char stop)
 {
   const char* src = from.c_str() + offset;
 
@@ -215,7 +213,7 @@ bool MetadataDescriptor::StringToInt(const std::string& from, int& to, int offse
   return true;
 }
 
-bool MetadataDescriptor::StringToInt(const std::string& from, int& to)
+bool MetadataDescriptor::StringToInt(const String& from, int& to)
 {
   const char* src = from.c_str();
 
@@ -230,7 +228,7 @@ bool MetadataDescriptor::StringToInt(const std::string& from, int& to)
   return true;
 }
 
-bool MetadataDescriptor::StringToFloat(const std::string& from, float& to)
+bool MetadataDescriptor::StringToFloat(const String& from, float& to)
 {
   const char* src = from.c_str();
 
@@ -263,7 +261,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
     if (_Type == ItemType::Folder) LivingFolders--;
   #endif
 
-  std::string name = from.name();
+  String name = from.name();
   if (name == GameNodeIdentifier) mType = ItemType::Game;
   else if (name == FolderNodeIdentifier) mType = ItemType::Folder;
   else return false; // Unidentified node
@@ -285,8 +283,8 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
     const MetadataFieldDescriptor& field = fields[count];
 
     // Get field data as string
-    const std::string& defaultStringValue = field.DefaultValue();
-    std::string value = Xml::AsString(from, field.Key(), defaultStringValue);
+    const String& defaultStringValue = field.DefaultValue();
+    String value = Xml::AsString(from, field.Key(), defaultStringValue);
     // Ignore default values
     if (value == defaultStringValue) continue;
 
@@ -302,7 +300,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   if (mName < 0)
   {
     // Extract default name
-    std::string defaultName = sFileHolder.GetString(mRomFile);
+    String defaultName = sFileHolder.GetString(mRomFile);
     mName = sNameHolder.AddString32(defaultName);
     mDirty = true;
   }
@@ -326,7 +324,7 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
   Xml::AddAttribute(node, "timestamp", mTimeStamp);
 
   // Metadata
-  std::string value;
+  String value;
   for (; --count >= 0; )
   {
     // Get field descriptor

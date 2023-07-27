@@ -16,19 +16,19 @@ void RecalboxConf::OnSave()
   NotificationManager::Instance().Notify(Notification::ConfigurationChanged, recalboxConfFile.ToString());
 }
 
-std::string RecalboxConf::GetLanguage()
+String RecalboxConf::GetLanguage()
 {
-  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-  return (locale.length() == 5) ? locale.substr(0, 2) : "en";
+  String locale = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+  return (locale.length() == 5) ? locale.SubString(0, 2) : "en";
 }
 
-std::string RecalboxConf::GetCountry()
+String RecalboxConf::GetCountry()
 {
-  std::string locale = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-  return (locale.length() == 5) ? locale.substr(3, 2) : "us";
+  String locale = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+  return (locale.length() == 5) ? locale.SubString(3, 2) : "us";
 }
 
-RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const std::string& softpatching)
+RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& softpatching)
 {
   if (softpatching == "auto") return SoftPatching::Auto;
   if (softpatching == "select") return SoftPatching::Select;
@@ -36,20 +36,20 @@ RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const std::strin
   return SoftPatching::Disable;
 }
 
-const std::string& RecalboxConf::SoftPatchingFromEnum(SoftPatching softpatching)
+const String& RecalboxConf::SoftPatchingFromEnum(SoftPatching softpatching)
 {
   switch(softpatching)
   {
-    case SoftPatching::Auto: { static std::string s("auto"); return s; }
-    case SoftPatching::Select: { static std::string s("select"); return s; }
+    case SoftPatching::Auto: { static String s("auto"); return s; }
+    case SoftPatching::Select: { static String s("select"); return s; }
     case SoftPatching::Disable:
     default: break;
   }
-  static std::string s("disable");
+  static String s("disable");
   return s;
 }
 
-RecalboxConf::Screensaver RecalboxConf::ScreensaverFromString(const std::string& screensaver)
+RecalboxConf::Screensaver RecalboxConf::ScreensaverFromString(const String& screensaver)
 {
   if (screensaver == "dim") return Screensaver::Dim;
   if (screensaver == "demo") return Screensaver::Demo;
@@ -59,41 +59,41 @@ RecalboxConf::Screensaver RecalboxConf::ScreensaverFromString(const std::string&
   return Screensaver::Black;
 }
 
-const std::string& RecalboxConf::ScreensaverFromEnum(RecalboxConf::Screensaver screensaver)
+const String& RecalboxConf::ScreensaverFromEnum(RecalboxConf::Screensaver screensaver)
 {
   switch(screensaver)
   {
-    case Screensaver::Dim: { static std::string s("dim"); return s; }
-    case Screensaver::Demo: { static std::string s("demo"); return s; }
-    case Screensaver::Gameclip: { static std::string s("gameclip"); return s; }
-    case Screensaver::Suspend: { static std::string s("suspend"); return s; }
+    case Screensaver::Dim: { static String s("dim"); return s; }
+    case Screensaver::Demo: { static String s("demo"); return s; }
+    case Screensaver::Gameclip: { static String s("gameclip"); return s; }
+    case Screensaver::Suspend: { static String s("suspend"); return s; }
     case Screensaver::Black:
     default: break;
   }
-  static std::string s("black");
+  static String s("black");
   return s;
 }
 
-RecalboxConf::Menu RecalboxConf::MenuFromString(const std::string& menu)
+RecalboxConf::Menu RecalboxConf::MenuFromString(const String& menu)
 {
   if (menu == "bartop") return Menu::Bartop;
   if (menu == "none") return Menu::None;
   return Menu::Default;
 }
 
-const std::string& RecalboxConf::MenuFromEnum(RecalboxConf::Menu menu)
+const String& RecalboxConf::MenuFromEnum(RecalboxConf::Menu menu)
 {
   switch (menu)
   {
-    case Menu::Bartop: { static std::string sBartop = "bartop"; return sBartop; }
-    case Menu::None:   { static std::string sNone = "none"; return sNone; }
+    case Menu::Bartop: { static String sBartop = "bartop"; return sBartop; }
+    case Menu::None:   { static String sNone = "none"; return sNone; }
     case Menu::Default: default: break;
   }
-  static std::string sDefault = "default";
+  static String sDefault = "default";
   return sDefault;
 }
 
-RecalboxConf::Relay RecalboxConf::RelayFromString(const std::string& relay)
+RecalboxConf::Relay RecalboxConf::RelayFromString(const String& relay)
 {
   if (relay == "nyc") return Relay::NewYork;
   if (relay == "madrid") return Relay::Madrid;
@@ -102,21 +102,21 @@ RecalboxConf::Relay RecalboxConf::RelayFromString(const std::string& relay)
   return Relay::None;
 }
 
-const std::string& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
+const String& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
 {
   switch (relay)
   {
-    case Relay::NewYork:  { static std::string sNewYork = "nyc"; return sNewYork; }
-    case Relay::Madrid:   { static std::string sMadrid = "madrid"; return sMadrid; }
-    case Relay::Montreal: { static std::string sMontreal = "montreal"; return sMontreal; }
-    case Relay::Saopaulo: { static std::string sSauPaulo = "saopaulo"; return sSauPaulo; }
+    case Relay::NewYork:  { static String sNewYork = "nyc"; return sNewYork; }
+    case Relay::Madrid:   { static String sMadrid = "madrid"; return sMadrid; }
+    case Relay::Montreal: { static String sMontreal = "montreal"; return sMontreal; }
+    case Relay::Saopaulo: { static String sSauPaulo = "saopaulo"; return sSauPaulo; }
     case Relay::None: default: break;
   }
-  static std::string sDefault = "none";
+  static String sDefault = "none";
   return sDefault;
 }
 
-SystemSorting RecalboxConf::SystemSortingFromString(const std::string& systemSorting)
+SystemSorting RecalboxConf::SystemSortingFromString(const String& systemSorting)
 {
   if (systemSorting == "default")                        return SystemSorting::Default;
   if (systemSorting == "name")                           return SystemSorting::Name;
@@ -130,25 +130,25 @@ SystemSorting RecalboxConf::SystemSortingFromString(const std::string& systemSor
   return SystemSorting::Default;
 }
 
-const std::string& RecalboxConf::SystemSortingFromEnum(SystemSorting systemSorting)
+const String& RecalboxConf::SystemSortingFromEnum(SystemSorting systemSorting)
 {
   switch (systemSorting)
   {
-    case SystemSorting::Default:                                    { static std::string string("default"); return string; }
-    case SystemSorting::Name:                                       { static std::string string("name"); return string; }
-    case SystemSorting::ReleaseDate:                                { static std::string string("releasedate"); return string; }
-    case SystemSorting::SystemTypeThenName:                         { static std::string string("1type2name"); return string; }
-    case SystemSorting::SystemTypeThenReleaseDate:                  { static std::string string("1type2releasedate"); return string; }
-    case SystemSorting::ManufacturerThenName:                       { static std::string string("1manufacturer2name"); return string; }
-    case SystemSorting::ManufacturerThenReleaseData:                { static std::string string("1manufacturer2releasedate"); return string; }
-    case SystemSorting::SystemTypeThenManufacturerThenName:         { static std::string string("1type2manufacturer3name"); return string; }
-    case SystemSorting::SystemTypeThenManufacturerThenReleasdeDate: { static std::string string("1type2manufacturer3releasedate"); return string; }
+    case SystemSorting::Default:                                    { static String string("default"); return string; }
+    case SystemSorting::Name:                                       { static String string("name"); return string; }
+    case SystemSorting::ReleaseDate:                                { static String string("releasedate"); return string; }
+    case SystemSorting::SystemTypeThenName:                         { static String string("1type2name"); return string; }
+    case SystemSorting::SystemTypeThenReleaseDate:                  { static String string("1type2releasedate"); return string; }
+    case SystemSorting::ManufacturerThenName:                       { static String string("1manufacturer2name"); return string; }
+    case SystemSorting::ManufacturerThenReleaseData:                { static String string("1manufacturer2releasedate"); return string; }
+    case SystemSorting::SystemTypeThenManufacturerThenName:         { static String string("1type2manufacturer3name"); return string; }
+    case SystemSorting::SystemTypeThenManufacturerThenReleasdeDate: { static String string("1type2manufacturer3releasedate"); return string; }
   }
-  static std::string sDefault = "none";
+  static String sDefault = "none";
   return sDefault;
 }
 
-ScraperType RecalboxConf::ScraperTypeFromString(const std::string& menu)
+ScraperType RecalboxConf::ScraperTypeFromString(const String& menu)
 {
   if (menu == "ScreenScraper") return ScraperType::ScreenScraper;
   if (menu == "Recalbox")      return ScraperType::Recalbox;
@@ -156,31 +156,31 @@ ScraperType RecalboxConf::ScraperTypeFromString(const std::string& menu)
   return ScraperType::ScreenScraper;
 }
 
-const std::string& RecalboxConf::ScraperTypeFromEnum(ScraperType type)
+const String& RecalboxConf::ScraperTypeFromEnum(ScraperType type)
 {
-  static std::string defaultString("ScreenScraper");
+  static String defaultString("ScreenScraper");
   switch(type)
   {
     case ScraperType::ScreenScraper: { return defaultString; }
-    case ScraperType::Recalbox: { static std::string string("Recalbox"); return string; }
-    case ScraperType::TheGameDB: { static std::string string("TheGameDB"); return string; }
+    case ScraperType::Recalbox: { static String string("Recalbox"); return string; }
+    case ScraperType::TheGameDB: { static String string("TheGameDB"); return string; }
     default: break;
   }
   return defaultString;
 }
 
-DefineSystemGetterSetterImplementation(Emulator, std::string, String, sSystemEmulator, "")
-DefineSystemGetterSetterImplementation(Core, std::string, String, sSystemCore, "")
-DefineSystemGetterSetterImplementation(Ratio, std::string, String, sSystemRatio, GetGlobalRatio())
+DefineSystemGetterSetterImplementation(Emulator, String, String, sSystemEmulator, "")
+DefineSystemGetterSetterImplementation(Core, String, String, sSystemCore, "")
+DefineSystemGetterSetterImplementation(Ratio, String, String, sSystemRatio, GetGlobalRatio())
 DefineSystemGetterSetterImplementation(Smooth, bool, Bool, sSystemSmooth, GetGlobalSmooth())
 DefineSystemGetterSetterImplementation(Rewind, bool, Bool, sSystemRewind, GetGlobalRewind())
 DefineSystemGetterSetterImplementation(AutoSave, bool, Bool, sSystemAutoSave, GetGlobalAutoSave())
-DefineSystemGetterSetterImplementation(Shaders, std::string, String, sSystemShaders, GetGlobalShaders())
-DefineSystemGetterSetterImplementation(ShaderSet, std::string, String, sSystemShaderSet, GetGlobalShaderSet())
+DefineSystemGetterSetterImplementation(Shaders, String, String, sSystemShaders, GetGlobalShaders())
+DefineSystemGetterSetterImplementation(ShaderSet, String, String, sSystemShaderSet, GetGlobalShaderSet())
 DefineSystemGetterSetterImplementation(Ignore, bool, Bool, sSystemIgnore, false)
 DefineSystemGetterSetterImplementation(DemoInclude, bool, Bool, sSystemDemoInclude, false)
 DefineSystemGetterSetterImplementation(DemoDuration, int, Int, sSystemDemoDuration, GetGlobalDemoDuration())
-DefineSystemGetterSetterImplementation(VideoMode, std::string, String, sSystemVideoMode, GetGlobalVideoMode())
+DefineSystemGetterSetterImplementation(VideoMode, String, String, sSystemVideoMode, GetGlobalVideoMode())
 
 DefineEmulationStationSystemGetterSetterImplementation(FilterAdult, bool, Bool, sSystemFilterAdult, GetFilterAdultGames())
 DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, sSystemFlatFolders, false)

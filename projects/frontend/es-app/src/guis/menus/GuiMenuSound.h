@@ -12,11 +12,11 @@
 #include <audio/IAudioNotification.h>
 
 class GuiMenuSound : public GuiMenuBase
-                   , public ILongExecution<bool, Strings::Vector>
+                   , public ILongExecution<bool, String::List>
                    , public IGuiMenuBase
                    , public IAudioNotification
                    , private ISliderComponent
-                   , private IOptionListComponent<std::string>
+                   , private IOptionListComponent<String>
                    , private IOptionListComponent<AudioMode>
 {
   public:
@@ -53,14 +53,14 @@ class GuiMenuSound : public GuiMenuBase
     //! Audio
     std::shared_ptr<OptionListComponent<AudioMode>> mAudioMode;
     //! Outputs
-    std::shared_ptr<OptionListComponent<std::string>> mOutputList;
+    std::shared_ptr<OptionListComponent<String>> mOutputList;
 
     //! Get Output List
-    static std::vector<ListEntry<std::string>> GetOutputEntries();
+    static std::vector<ListEntry<String>> GetOutputEntries();
 
     static std::vector<ListEntry<AudioMode>> GetAudioModeEntries();
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
     void OptionListComponentChanged(int id, int index, const AudioMode& value) override;
 
     /*
@@ -77,14 +77,14 @@ class GuiMenuSound : public GuiMenuBase
 
     void StartScanningDevices();
 
-    Strings::Vector Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&) override;
+    String::List Execute(GuiWaitLongExecution<bool, String::List>&, const bool&) override;
 
     /*!
      * @brief Called when the device scan is complete
      * @param parameter Useless "in" parameter
      * @param result List of available devices
      */
-    void Completed(const bool& parameter, const Strings::Vector& result) override;
+    void Completed(const bool& parameter, const String::List& result) override;
 
     /*!
      * @brief Called from PulseAudioController whenever a sink is added or removed

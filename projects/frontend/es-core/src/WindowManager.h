@@ -29,9 +29,9 @@ class WindowManager
 
     void RemoveGui(Gui* gui);
 
-    void displayMessage(const std::string& message, bool urgent = true);
+    void displayMessage(const String& message, bool urgent = true);
 
-    void displayScrollMessage(const std::string& title, const std::string& message, bool urgent = true);
+    void displayScrollMessage(const String& title, const String& message, bool urgent = true);
 
     Gui* peekGui();
 
@@ -71,7 +71,7 @@ class WindowManager
      * @param icon Icon type
      * @param first True to make this popup the first visible
      */
-    void InfoPopupAddRegular(const std::string& message, int duration, PopupType icon, bool first);
+    void InfoPopupAddRegular(const String& message, int duration, PopupType icon, bool first);
 
     /*!
      * @brief Add new popup to dysplay list
@@ -169,9 +169,9 @@ class WindowManager
     Array<GuiInfoPopupBase*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;
-    Strings::Vector mMessages;
-    Strings::Vector mScrollMessages;
-    Strings::Vector mScrollTitle;
+    String::List mMessages;
+    String::List mScrollMessages;
+    String::List mScrollTitle;
 
     std::vector<std::shared_ptr<Font> > mDefaultFonts;
     std::unique_ptr<TextCache> mFrameDataText;

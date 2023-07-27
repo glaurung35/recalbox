@@ -3,12 +3,9 @@
 //
 
 #include <Renderer.h>
-#include <utils/Strings.h>
-#include <input/InputCompactEvent.h>
 #include <help/Help.h>
 #include <utils/locale/LocaleHelper.h>
 #include "GuiArcadeVirtualKeyboard.h"
-#include "utils/Log.h"
 
 const wchar_t* const GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
 {
@@ -20,7 +17,7 @@ const wchar_t* const GuiArcadeVirtualKeyboard::sWheels[sWheelCount] =
   GuiArcadeVirtualKeyboard::sWheelDiacriticCaps ,
 };
 
-GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
+GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const String& title, const String& initValue,
                                                    IGuiArcadeVirtualKeyboardInterface* okCallback)
   : Gui(window),
     mSavedAngles(),
@@ -71,8 +68,8 @@ GuiArcadeVirtualKeyboard::GuiArcadeVirtualKeyboard(WindowManager& window, const 
   mOuterEditor.h = mInnerEditor.h + (fontHeight / 2.0f);
 
   // Set cursor
-  mText = Strings::Utf8ToUnicode(initValue);
-  mCursor = mText.size();
+  mText = initValue.SplitUnicodes();
+  mCursor = (int)mText.size();
   AdjustCursor();
 
   // Prepare title text
@@ -127,7 +124,7 @@ void GuiArcadeVirtualKeyboard::BuildWheel(Wheel& wheel, int index)
   wheel.mIndex = index;
 
   // Build new array
-  wheel.mWheelCharCount = wcslen(sWheels[index]);
+  wheel.mWheelCharCount = (int)wcslen(sWheels[index]);
   double charCountDouble = (double)wheel.mWheelCharCount;
 
   // Get current character and adjust current angle
@@ -160,9 +157,8 @@ int GuiArcadeVirtualKeyboard::GetCurrentCharIndex(const Wheel& wheel)
 
 void GuiArcadeVirtualKeyboard::textInput(const char* text)
 {
-  //{ LOG(LogDebug) << "[ArcacdeVirtualKeyboard] TextInput: " << text << " (" << strlen(text) << ")"; }
-  std::vector<unsigned int> unicodes = Strings::Utf8ToUnicode(text);
-  for(unsigned int unicode : unicodes)
+  //{ LOG(LogDebug) << "[ArcacdeVirtualKeyboard] TextInput: " << text << " (" << strlen(text) << ')'; }
+  for(unsigned int unicode : String(text).SplitUnicodes())
     AddCharacter(unicode);
   AdjustCursor();
 }
@@ -240,7 +236,7 @@ void GuiArcadeVirtualKeyboard::AddCharacter(unsigned int unicode)
   ResetCursorBlink();
 
   if (mValidateCallback != nullptr)
-    mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, Strings::UnicodeToUtf8(mText));
+    mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, String::JoinUnicodes(mText));
 }
 
 void GuiArcadeVirtualKeyboard::CancelEditor()
@@ -257,7 +253,7 @@ void GuiArcadeVirtualKeyboard::CancelEditor()
 void GuiArcadeVirtualKeyboard::ValidateEditor()
 {
   if (mValidateCallback != nullptr)
-    mValidateCallback->ArcadeVirtualKeyboardValidated(*this, Strings::UnicodeToUtf8(mText));
+    mValidateCallback->ArcadeVirtualKeyboardValidated(*this, String::JoinUnicodes(mText));
 
   Close();
 
@@ -274,7 +270,7 @@ void GuiArcadeVirtualKeyboard::Delete()
     ResetCursorBlink();
 
     if (mValidateCallback != nullptr)
-      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, Strings::UnicodeToUtf8(mText));
+      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, String::JoinUnicodes(mText));
   }
 }
 
@@ -288,7 +284,7 @@ void GuiArcadeVirtualKeyboard::Backspace()
     ResetCursorBlink();
 
     if (mValidateCallback != nullptr)
-      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, Strings::UnicodeToUtf8(mText));
+      mValidateCallback->ArcadeVirtualKeyboardTextChange(*this, String::JoinUnicodes(mText));
   }
 }
 
@@ -334,7 +330,7 @@ void GuiArcadeVirtualKeyboard::Update(int deltaTime)
   while(mCurrentWheel.mAngle < 0.0) mCurrentWheel.mAngle += (2.0 * Pi);
 
   // Run Wheel animation
-  if ((mWheelChangeAnimation -= deltaTime) < 0)
+  if (mWheelChangeAnimation -= deltaTime; mWheelChangeAnimation < 0)
     mWheelChangeAnimation = 0;
 
   // Cursor
@@ -342,10 +338,10 @@ void GuiArcadeVirtualKeyboard::Update(int deltaTime)
 
   // Wheel dimming
   if (mWheelDimmingColor < sWheelDimmingTransparency && mWheelDimming)
-    if ((mWheelDimmingColor += deltaTime) > sWheelDimmingTransparency)
+    if (mWheelDimmingColor += deltaTime; mWheelDimmingColor > sWheelDimmingTransparency)
       mWheelDimmingColor = sWheelDimmingTransparency;
   if (mWheelDimmingColor > 0 && !mWheelDimming)
-    if ((mWheelDimmingColor -= deltaTime) < 0)
+    if (mWheelDimmingColor -= deltaTime; mWheelDimmingColor < 0)
       mWheelDimmingColor = 0;
 }
 
@@ -415,7 +411,7 @@ void GuiArcadeVirtualKeyboard::MoveEditCursor(int deltatime)
   if (deltatime != 0)
   {
     // Check timer
-    if ((mCursorTimerMs -= deltatime) > 0) return;
+    if (mCursorTimerMs -= deltatime; mCursorTimerMs > 0) return;
     // Reset timer
     mCursorTimerMs = mCursorFast ? sMoveCursorAnimationFastTimeMs : sMoveCursorAnimationSlowTimeMs;
   }
@@ -423,7 +419,7 @@ void GuiArcadeVirtualKeyboard::MoveEditCursor(int deltatime)
   // Adjust cursor
   mCursor += mCursorDirection == Direction::Left ? -1 : 1;
   if (mCursor < 0) mCursor = 0;
-  if (mCursor > (int)mText.size()) mCursor = mText.size();
+  if (mCursor > (int)mText.size()) mCursor = (int)mText.size();
   AdjustCursor();
   ResetCursorBlink();
 }

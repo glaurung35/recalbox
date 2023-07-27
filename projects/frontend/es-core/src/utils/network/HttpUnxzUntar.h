@@ -14,8 +14,8 @@ class HttpUnxzUntar : public Http
 {
   public:
     HttpUnxzUntar(Path);
-    bool SimpleExecute(const std::string& url, Http::IDownload* interface);
-//    bool Execute(const std::string& url, const Path& output, IDownload* interface);
+    bool SimpleExecute(const String& url, Http::IDownload* interface);
+//    bool Execute(const String& url, const Path& output, IDownload* interface);
 
   private:
     //! Xz decompression facility

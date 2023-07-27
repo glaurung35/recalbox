@@ -2,14 +2,14 @@
 // Created by gugue_u on 20/02/2021.
 //
 
-#include <string>
+#include <utils/String.h>
 #include <utils/storage/HashMap.h>
 #include "Languages.h"
 #include "RecalboxConf.h"
 
-const std::string& LanguagesTools::LanguagesFullName(Languages language)
+const String& LanguagesTools::LanguagesFullName(Languages language)
 {
-  static HashMap<Languages, const std::string> sLanguagesToFullName({
+  static HashMap<Languages, const String> sLanguagesToFullName({
     {Languages::EN, "English"},
     {Languages::FR, "Français"},
     {Languages::ES, "Español"},
@@ -32,11 +32,11 @@ const std::string& LanguagesTools::LanguagesFullName(Languages language)
     {Languages::SV, "Svenska"},
   });
 
-  const std::string* found = sLanguagesToFullName.try_get(language);
+  const String* found = sLanguagesToFullName.try_get(language);
   if (found != nullptr)
     return *found;
 
-  static std::string sUnknown("Unknown Language");
+  static String sUnknown("Unknown Language");
   return sUnknown;
 }
 
@@ -68,9 +68,9 @@ const LanguagesTools::List& LanguagesTools::AvailableLanguages()
   return sLanguages;
 }
 
-Languages LanguagesTools::DeserializeLanguage(const std::string& language)
+Languages LanguagesTools::DeserializeLanguage(const String& language)
 {
-  static HashMap<std::string, Languages> sLanguageNameToLanguage
+  static HashMap<String, Languages> sLanguageNameToLanguage
   ({
       {"en", Languages::EN},
       {"es", Languages::ES},
@@ -101,9 +101,9 @@ Languages LanguagesTools::DeserializeLanguage(const std::string& language)
   return Languages::Unknown;
 }
 
-const std::string& LanguagesTools::SerializeLanguage(Languages language)
+const String& LanguagesTools::SerializeLanguage(Languages language)
 {
-  static HashMap<Languages, std::string> sLanguageToLanguageName
+  static HashMap<Languages, String> sLanguageToLanguageName
     ({
        {Languages::EN, "en"},
        {Languages::ES, "es"},
@@ -127,20 +127,20 @@ const std::string& LanguagesTools::SerializeLanguage(Languages language)
        {Languages::TR, "tr"},
      });
 
-  std::string* found = sLanguageToLanguageName.try_get(language);
+  String* found = sLanguageToLanguageName.try_get(language);
   if (found != nullptr)
     return *found;
 
-  static std::string sWorld("Unknown");
+  static String sWorld("Unknown");
   return sWorld;
 }
 
-Languages LanguagesTools::LanguageFromString(const std::string& language)
+Languages LanguagesTools::LanguageFromString(const String& language)
 {
   return DeserializeLanguage(language);
 }
 
-const std::string& LanguagesTools::LanguageFromEnum(Languages language)
+const String& LanguagesTools::LanguageFromEnum(Languages language)
 {
   return SerializeLanguage(language);
 }
@@ -151,8 +151,8 @@ Languages LanguagesTools::GetScrapingLanguage()
   if(Languages::Unknown != confLanguage)
     return confLanguage;
 
-  const std::string languagesStd = RecalboxConf::Instance().GetSystemLanguage();
-  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.substr(0, 2));
+  const String languagesStd = RecalboxConf::Instance().GetSystemLanguage();
+  Languages systemLanguage =  LanguagesTools::DeserializeLanguage(languagesStd.SubString(0, 2));
   if(Languages::Unknown != systemLanguage)
   {
     return systemLanguage;

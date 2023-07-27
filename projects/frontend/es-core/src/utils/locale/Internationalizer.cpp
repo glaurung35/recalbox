@@ -193,7 +193,7 @@ bool Internationalizer::LoadMoFile(const String& culture, const Path& basepath, 
     { LOG(LogWarning) << "[Locale] " << culturePath.ToString() << " not found."; }
     // Try to compose language only
     if (realCulture.size() > 2)
-      culturePath = basepath / (realCulture = realCulture.substr(0, 2)) / "LC_MESSAGES" / (applicationname + ".mo");
+      culturePath = basepath / (realCulture = realCulture.SubString(0, 2)) / "LC_MESSAGES" / (applicationname + ".mo");
 
     // Final check
     if (!culturePath.Exists())
@@ -253,7 +253,7 @@ String Internationalizer::GetText(const char* key, int keyLength)
             return String(Link.TranslatedString, Link.TranslatedLength);
     }
   }
-  { LOG(LogDebug) << "[Locale] " << sActiveLocale << " - Missing translation of '" << key << "'"; }
+  { LOG(LogDebug) << "[Locale] " << sActiveLocale << " - Missing translation of '" << key << '\''; }
   return String(key, keyLength);
 }
 

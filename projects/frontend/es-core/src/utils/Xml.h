@@ -4,7 +4,7 @@
 #pragma once
 
 #include <pugixml/pugixml.hpp>
-#include <utils/Strings.h>
+#include <utils/String.h>
 
 typedef pugi::xml_document     XmlDocument;
 typedef pugi::xml_node         XmlNode;
@@ -21,7 +21,7 @@ class Xml
      * @param defaultvalue Default value
      * @return Fetch value or default value
      */
-    static std::string AsString(XmlNode root, const char* childname, const char* defaultvalue)
+    static String AsString(XmlNode root, const char* childname, const char* defaultvalue)
     {
       XmlNode child = root.child(childname);
       return child != nullptr ? child.child_value() : defaultvalue;
@@ -34,7 +34,7 @@ class Xml
      * @param defaultvalue Default value
      * @return Fetch value or default value
      */
-    static std::string AsString(XmlNode root, const std::string& childname, const std::string& defaultvalue)
+    static String AsString(XmlNode root, const String& childname, const String& defaultvalue)
     {
       XmlNode child = root.child(childname.c_str());
       return child != nullptr ? child.child_value() : defaultvalue;
@@ -47,7 +47,7 @@ class Xml
      * @param defaultvalue Default value
      * @return Fetch value or default value
      */
-    static std::string AttributeAsString(XmlNode root, const char* attributename, const char* defaultvalue)
+    static String AttributeAsString(XmlNode root, const char* attributename, const char* defaultvalue)
     {
       XmlAttribute attribute = root.attribute(attributename);
       return attribute != nullptr ? attribute.value() : defaultvalue;
@@ -65,7 +65,7 @@ class Xml
       XmlAttribute attribute = root.attribute(attributename);
       int value = defaultvalue;
       if (attribute != nullptr)
-        if (!Strings::ToInt(attribute.value(), value))
+        if (!String(attribute.value()).TryAsInt(value))
           value = defaultvalue;
       return value;
     }
@@ -82,7 +82,7 @@ class Xml
       XmlAttribute attribute = root.attribute(attributename);
       bool value = defaultvalue;
       if (attribute != nullptr)
-        if (!Strings::ToBool(attribute.value(), value))
+        if (!String(attribute.value()).TryAsBool(value))
           value = defaultvalue;
       return value;
     }
@@ -106,7 +106,7 @@ class Xml
      * @param attributename Attribute name
      * @param value Attribute value
      */
-    static void AddAttribute(XmlNode root, const char* attributename, const std::string& value)
+    static void AddAttribute(XmlNode root, const char* attributename, const String& value)
     {
       XmlAttribute attribute = root.append_attribute(attributename);
       if (attribute != nullptr)
@@ -169,7 +169,7 @@ class Xml
      * @param childname Child node name
      * @param value Value of the child node
      */
-    static void AddAsString(XmlNode parent, const std::string& childname, const std::string& value)
+    static void AddAsString(XmlNode parent, const String& childname, const String& value)
     {
       parent.append_child(childname.c_str()).text().set(value.c_str());
     }
@@ -180,9 +180,9 @@ class Xml
      * @param childname Child node name
      * @param value Value of the child node
      */
-    static void AddAsString(XmlNode parent, const std::string& childname, int value)
+    static void AddAsString(XmlNode parent, const String& childname, int value)
     {
-      parent.append_child(childname.c_str()).text().set(Strings::ToString(value).c_str());
+      parent.append_child(childname.c_str()).text().set(String(value).c_str());
     }
 
     /*!
@@ -191,8 +191,8 @@ class Xml
      * @param childname Child node name
      * @param value Value of the child node
      */
-    static void AddAsString(XmlNode parent, const std::string& childname, float value)
+    static void AddAsString(XmlNode parent, const String& childname, float value)
     {
-      parent.append_child(childname.c_str()).text().set(Strings::ToString(value, 5).c_str());
+      parent.append_child(childname.c_str()).text().set(String(value, 5).c_str());
     }
 };

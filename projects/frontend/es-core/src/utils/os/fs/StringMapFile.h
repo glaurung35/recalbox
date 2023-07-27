@@ -1,22 +1,22 @@
 #pragma once
 
-#include <string>
-#include <map>
+#include <utils/String.h>
+#include <utils/storage/HashMap.h>
 
 class StringMapFile
 {
   private:
     //! Path of map file
-    std::string mPath;
+    String mPath;
     //! Map of simple key/values
-    std::map<std::string, std::string> mMap;
+    HashMap<String, String> mMap;
 
   public:
     /*!
      * @brief Constructor
      * @param path target file path
      */
-    explicit StringMapFile(const std::string& path)
+    explicit StringMapFile(const String& path)
       : mPath(path),
         mMap()
     {
@@ -38,7 +38,7 @@ class StringMapFile
      * @param defaultvalue default value if the key does not exist in the map
      * @return Value associated to the key, or default value if the key does not exists
      */
-    std::string GetString(const std::string& key, const std::string& defaultvalue);
+    String GetString(const String& key, const String& defaultvalue);
 
     /*!
      * @brief Lookup a key into ou map and return the appropriate value
@@ -46,7 +46,7 @@ class StringMapFile
      * @param defaultvalue default value if the key does not exist in the map
      * @return Value associated to the key, or default value if the key does not exists
      */
-    int GetInt(const std::string& key, int defaultvalue);
+    int GetInt(const String& key, int defaultvalue);
 
     /*!
      * @brief Lookup a key into ou map and return the appropriate value
@@ -54,27 +54,27 @@ class StringMapFile
      * @param defaultvalue default value if the key does not exist in the map
      * @return Value associated to the key, or default value if the key does not exists
      */
-    bool GetBool(const std::string& key, bool defaultvalue);
+    bool GetBool(const String& key, bool defaultvalue);
 
     /*!
      * @brief Set the value for the given key
      * @param key Key
      * @param value Value to set
      */
-    void SetString(const std::string& key, const std::string& value);
+    void SetString(const String& key, const String& value);
 
     /*!
      * @brief Set the value for the given key
      * @param key Key
      * @param value Value to set
      */
-    void SetInt(const std::string& key, int value);
+    void SetInt(const String& key, int value);
 
     /*!
      * @brief Set the value for the given key
      * @param key Key
      * @param value Value to set
      */
-    void SetBool(const std::string& key, bool value);
+    void SetBool(const String& key, bool value);
 };
 

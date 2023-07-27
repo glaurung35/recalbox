@@ -133,7 +133,7 @@ class IniFile
      * @param name Key
      * @param values string list
      */
-    void SetList(const String &name, const std::vector<String> &values);
+    void SetList(const String &name, const String::List &values);
 
     /*!
      * @brief Check if a value is in the given named list
@@ -162,7 +162,7 @@ class IniFile
      * @param startWidth String
      * @return Key list
      */
-    std::vector<String> GetKeyEndingWith(const String& startWidth);
+    String::List GetKeyEndingWith(const String& startWidth);
 
     /*!
      * @brief Check if the given line is a valide 'key=value'

@@ -17,7 +17,7 @@ class GuiMenuSoftpatchingLauncher : public GuiMenuBase
   public:
     explicit GuiMenuSoftpatchingLauncher(WindowManager& window,
                                          FileData& game,
-                                         std::vector<Path>& patches,
+                                         std::vector<Path>&& patches,
                                          int lastChoice,
                                          ISoftPatchingNotifier* notifier);
 
@@ -29,7 +29,7 @@ class GuiMenuSoftpatchingLauncher : public GuiMenuBase
 
     //! Game reference
     FileData& mGame;
-    std::vector<Path>& mPatches;
+    std::vector<Path> mPatches;
     std::shared_ptr<OptionListComponent<Path>> mPaths;
 
     std::vector<ListEntry<Path>> GetPatchesEntries();

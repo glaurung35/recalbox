@@ -15,7 +15,7 @@ class SwitchComponent;
 template<class T> class OptionListComponent;
 
 class GuiMenuKodiSettings : public GuiMenuBase
-                          , private IOptionListComponent<std::string>
+                          , private IOptionListComponent<String>
                           , private ISwitchComponent
 {
   public:
@@ -47,8 +47,8 @@ class GuiMenuKodiSettings : public GuiMenuBase
      * ISwitchComponent implementation
      */
     void SwitchComponentChanged(int id, bool status) override;
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
-    std::vector<ListEntry<std::string>> GetKodiResolutionsEntries();
+    void OptionListComponentChanged(int id, int index, const String& value) override;
+    std::vector<ListEntry<String>> GetKodiResolutionsEntries();
 
 };
 

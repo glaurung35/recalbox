@@ -24,13 +24,13 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
 {
   if (mGame.IsGame())
   {
-    std::string gameName(game.Name());
-    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    String gameName(game.Name());
+    gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
+    SetFooter(_("GAME %s").Replace("%s", gameName.UpperCaseUTF8()));
   }
   else if (mGame.IsFolder())
   {
-    SetFooter(Strings::Replace(_("FOLDER %s"), "%s", Strings::ToUpperUTF8(mGame.Name())));
+    SetFooter(_("FOLDER %s").Replace("%s", mGame.Name().ToUpperCaseUTF8()));
   }
 
   // Run width
@@ -121,11 +121,11 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
   (void)index;
   if ((Components)id == Components::Emulator)
   {
-    mGame.Metadata().SetEmulator(Strings::Empty);
-    mGame.Metadata().SetCore(Strings::Empty);
+    mGame.Metadata().SetEmulator(String::Empty);
+    mGame.Metadata().SetCore(String::Empty);
     // Split emulator & core
-    std::string emulator, core;
-    if (Strings::SplitAt(value, ':', emulator, core, false))
+    String emulator, core;
+    if (value.Extract(':', emulator, core, false))
       if (emulator != mDefaultEmulator || core != mDefaultCore)
       {
         mGame.Metadata().SetEmulator(emulator);
@@ -143,7 +143,7 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
     mGame.Metadata().SetGenreId(value);
 }
 
-void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::Name)
     mGame.Metadata().SetName(text);
@@ -209,12 +209,10 @@ void GuiMenuGamelistGameOptions::ScrapingComplete(FileData& game, MetadataType c
   (void)changedMetadata;
 
   // Refresh menu
-  mName->setText(game.Metadata().Name());
-  mRating->setValue(game.Metadata().Rating());
-  mGenre->select(game.Metadata().GenreId());
-  mDescription->setText(game.Metadata().Description());
-  mFavorite->setState(game.Metadata().Favorite());
-  mHidden->setState(game.Metadata().Hidden());
-  mAdult->setState(game.Metadata().Adult());
+  if ((changedMetadata & MetadataType::Name) != 0) mName->setText(game.Metadata().Name());
+  if ((changedMetadata & MetadataType::Rating) != 0) mRating->setValue(game.Metadata().Rating());
+  if ((changedMetadata & MetadataType::GenreId) != 0) mGenre->select(game.Metadata().GenreId());
+  if ((changedMetadata & MetadataType::Synopsis) != 0) mDescription->setText(game.Metadata().Description());
+  if ((changedMetadata & MetadataType::Adult) != 0) mAdult->setState(game.Metadata().Adult());
   mMenu.onSizeChanged();
 }

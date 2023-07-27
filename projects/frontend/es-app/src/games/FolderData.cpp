@@ -57,17 +57,17 @@ bool FolderData::RemoveChildRecursively(const FileData* file)
   return result;
 }
 
-static bool IsMatching(const std::string& fileWoExt, const std::string& extension, const std::string& extensionList)
+static bool IsMatching(const String& fileWoExt, const String& extension, const String& extensionList)
 {
   #define sFilesPrefix "files:"
-  if (!Strings::StartsWith(extensionList, LEGACY_STRING(sFilesPrefix)))
+  if (!extensionList.StartsWith(LEGACY_STRING(sFilesPrefix)))
   {
     // Seek in regular extensions
     int start = 0;
     while(start < (int)extensionList.size())
     {
-      size_t extensionPos = extensionList.find(extension, start);
-      if (extensionPos == std::string::npos) return false;
+      int extensionPos = extensionList.Find(extension, start);
+      if (extensionPos < 0) return false;
       const char* p = extensionList.data();
       char endChar = p[extensionPos + extension.size()];
       if (endChar == ' ' || endChar == 0) return true;
@@ -78,15 +78,15 @@ static bool IsMatching(const std::string& fileWoExt, const std::string& extensio
 
   // Seek complete files
   constexpr int sFilesPrefixLength = sizeof(sFilesPrefix) - 1;
-  std::string file(fileWoExt); file.append(extension); file = Strings::ToLowerASCII(file);
+  String file(fileWoExt); file.Append(extension).LowerCase();
   size_t filePos = extensionList.find(file);
-  if (filePos == std::string::npos) return false;
+  if (filePos == String::npos) return false;
   const char* p = extensionList.data();
   return ((filePos == sFilesPrefixLength) || (p[filePos - 1] == ' ')) &&
          ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
 }
 
-void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string& originalFilteredExtensions, const std::string& ignoreList, FileData::StringMap& doppelgangerWatcher)
+void FolderData::PopulateRecursiveFolder(RootFolderData& root, const String& originalFilteredExtensions, const String& ignoreList, FileData::StringMap& doppelgangerWatcher)
 {
   const Path folderPath(RomPath());
   if (!folderPath.IsDirectory())
@@ -109,7 +109,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   }
 
   // Subsystem override
-  std::string filteredExtensions = originalFilteredExtensions;
+  String filteredExtensions = originalFilteredExtensions;
   if ((folderPath / ".system.cfg").Exists())
   {
     IniFile subSystem(folderPath / ".system.cfg", false);
@@ -133,15 +133,15 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
   for (Path& filePath : items)
   {
     // Get file
-    std::string stem = filePath.FilenameWithoutExtension();
+    String stem = filePath.FilenameWithoutExtension();
     if (stem == "gamelist") continue; // Ignore gamelist.zip/xml
     if (stem.empty()) continue;
 
     // Force to hide ignored files
     // Force to hide ignored files
-    const std::string fileName = filePath.Filename();
+    const String fileName = filePath.Filename();
     int p = (int)ignoreList.find(fileName);
-    if (p != (int)std::string::npos)
+    if (p != (int)String::npos)
       if (p > 0 && ignoreList[p-1] == ',')
         if (ignoreList[p + fileName.length()] == ',')
           continue;
@@ -149,7 +149,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
     if (containsMultiDiskFile && blacklist.contains(filePath.ToString())) continue;
 
     // and Extension
-    std::string extension = Strings::ToLowerASCII(filePath.Extension());
+    String extension = filePath.Extension().LowerCase();
 
     //fyi, folders *can* also match the extension and be added as games - this is mostly just to support higan
     //see issue #75: https://github.com/Aloshi/EmulationStation/issues/75
@@ -184,7 +184,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const std::string
         //ignore folders that do not contain games
         if (newFolder->HasChildren())
         {
-          const std::string key = newFolder->RomPath().ToString();
+          const String key = newFolder->RomPath().ToString();
           if (doppelgangerWatcher.find(key) == doppelgangerWatcher.end())
           {
             AddChild(newFolder, true);
@@ -202,7 +202,7 @@ void FolderData::ExtractUselessFiles(const Path::PathList& items, FileSet& black
 {
   for (const Path& filePath : items)
   {
-    const std::string extension = filePath.Extension();
+    const String extension = filePath.Extension();
     if(extension == ".cue")
     {
       ExtractUselessFilesFromCue(filePath, blacklist);
@@ -228,17 +228,15 @@ void FolderData::ExtractUselessFiles(const Path::PathList& items, FileSet& black
 
 void FolderData::ExtractUselessFilesFromCue(const Path& path, FileSet& list)
 {
-  std::string file = Files::LoadFile(path);
-  for(const std::string& line : Strings::Split(file, '\n'))
-    if (Strings::Contains(line, "FILE") && Strings::Contains(line, "BINARY"))
-    {
+  String file = Files::LoadFile(path);
+  for(const String& line : file.Split('\n'))
+    if (line.Contains("FILE") && line.Contains("BINARY"))
       ExtractFileNameFromLine(line, list);
-    }
 }
 
 void FolderData::ExtractUselessFilesFromCcd(const Path& path, FileSet& list)
 {
-  std::string file = path.FilenameWithoutExtension();
+  String file = path.FilenameWithoutExtension();
   list.insert(file + ".cue");
   list.insert(file + ".bin");
   list.insert(file + ".sub");
@@ -247,41 +245,33 @@ void FolderData::ExtractUselessFilesFromCcd(const Path& path, FileSet& list)
 
 void FolderData::ExtractUselessFilesFromM3u(const Path& path, FileSet& list)
 {
-  std::string file = Files::LoadFile(path);
-  for(std::string line : Strings::Split(file, '\n'))
-  {
-    line = Strings::Trim(line, "\r");
-    list.insert(line);
-  }
+  String file = Files::LoadFile(path);
+  for(String line : file.Split('\n'))
+    list.insert(line.Trim('\r'));
 }
 
 void FolderData::ExtractUselessFilesFromGdi(const Path& path, FileSet& list)
 {
-  std::string file = Files::LoadFile(path);
-  for(const std::string& line : Strings::Split(file, '\n'))
-  {
+  String file = Files::LoadFile(path);
+  for(const String& line : file.Split('\n'))
     ExtractFileNameFromLine(line, list);
-  }
 }
 
-void FolderData::ExtractFileNameFromLine(const std::string& line, FileSet& list)
+void FolderData::ExtractFileNameFromLine(const String& line, FileSet& list)
 {
   // 1 check file name between double quotes
-  const size_t strBegin = line.find_first_of('\"') + 1;const size_t strEnd   = line.find_last_of('\"');
-
-  std::string string = line.substr(strBegin , strEnd - strBegin);
-  if(Strings::Contains(string, "."))
-  {
-    list.insert(string);
-    return;
-  }
+  String string;
+  if (line.Extract('"', '"', string, true))
+    if (string.Contains('.'))
+    {
+      list.insert(string);
+      return;
+    }
   
   // 2 check every words separated by space that contains dot
-  for(const std::string& word : Strings::Split(line, ' ', true))
-  {
-    if (Strings::Contains(word, "."))
+  for(const String& word : line.Split(' ', true))
+    if (word.Contains("."))
       list.insert(word);
-  }
 }
 
 int FolderData::getAllFoldersRecursively(FileData::List& to) const
@@ -686,7 +676,7 @@ bool FolderData::LookupGame(const FileData* game) const
   return false;
 }
 
-FileData* FolderData::LookupGame(const std::string& item, SearchAttributes attributes, const String& path) const
+FileData* FolderData::LookupGame(const String& item, SearchAttributes attributes, const String& path) const
 {
   // Recursively look for the game in subfolders too
   for (FileData* fd : mChildren)

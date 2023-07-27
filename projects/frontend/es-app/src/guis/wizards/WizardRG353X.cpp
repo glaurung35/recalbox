@@ -25,7 +25,7 @@ Path WizardRG353X::OnImageRequired(int page)
   return Path();
 }
 
-std::string WizardRG353X::OnTextRequired(int page)
+String WizardRG353X::OnTextRequired(int page)
 {
   switch((Pages)page)
   {
@@ -39,7 +39,7 @@ std::string WizardRG353X::OnTextRequired(int page)
     case Pages::Count: break;
   }
 
-  return std::string();
+  return String();
 }
 
 Wizard::Move WizardRG353X::OnKeyReceived(int page, const InputCompactEvent& event)

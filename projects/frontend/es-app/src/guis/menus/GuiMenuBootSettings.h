@@ -14,7 +14,7 @@ class SwitchComponent;
 template<class T> class OptionListComponent;
 
 class GuiMenuBootSettings : public GuiMenuBase
-                          , private IOptionListComponent<std::string>
+                          , private IOptionListComponent<String>
                           , private ISwitchComponent
 {
   public:
@@ -38,13 +38,13 @@ class GuiMenuBootSettings : public GuiMenuBase
     SystemManager& mSystemManager;
 
     //! Get system list
-    std::vector<ListEntry<std::string>> GetSystemEntries();
+    std::vector<ListEntry<String>> GetSystemEntries();
 
     /*
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * ISwitchComponent implementation

@@ -16,7 +16,7 @@ class SwitchComponent;
 class GuiMenuUpdates : public GuiMenuBase
                      , private ISwitchComponent
                      , private IGuiMenuBase
-                     , private IOptionListComponent<std::string>
+                     , private IOptionListComponent<String>
 {
   public:
     /*!
@@ -40,10 +40,10 @@ class GuiMenuUpdates : public GuiMenuBase
     //! Enable updates
     std::shared_ptr<TextComponent> mAvailable;
     //! Update type
-    std::shared_ptr<OptionListComponent<std::string>> mType;
+    std::shared_ptr<OptionListComponent<String>> mType;
 
     //! Get Update type List
-    static std::vector<ListEntry<std::string>> GetUpdateTypeEntries();
+    static std::vector<ListEntry<String>> GetUpdateTypeEntries();
 
     /*
      * ISwitchComponent implementation
@@ -58,10 +58,10 @@ class GuiMenuUpdates : public GuiMenuBase
     void SubMenuSelected(int id) override;
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 };
 
 

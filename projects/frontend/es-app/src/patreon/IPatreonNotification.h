@@ -7,6 +7,7 @@
 #pragma once
 
 #include "PatronAuthenticationResult.h"
+#include <utils/String.h>
 
 class IPatreonNotification
 {
@@ -20,5 +21,5 @@ class IPatreonNotification
      * @param level Patron level
      * @param patreonName Patreon name
      */
-    virtual void PatreonState(PatronAuthenticationResult result, int level, const std::string& patreonName) = 0;
+    virtual void PatreonState(PatronAuthenticationResult result, int level, const String& patreonName) = 0;
 };

@@ -56,7 +56,7 @@ template<typename inType, typename outType> class GuiWaitLongExecution
      * @param text initial text
      * @return This
      */
-    GuiWaitLongExecution* Execute(const inType& parameter, const std::string& text)
+    GuiWaitLongExecution* Execute(const inType& parameter, const String& text)
     {
       // Do not restart if it's already started
       Join();
@@ -76,7 +76,7 @@ template<typename inType, typename outType> class GuiWaitLongExecution
      * @brief Set animation text
      * @param text text to set
      */
-    void SetText(const std::string& text) { mBusyAnim.setText(text); }
+    void SetText(const String& text) { mBusyAnim.setText(text); }
 
     /*!
      * @brief Update components

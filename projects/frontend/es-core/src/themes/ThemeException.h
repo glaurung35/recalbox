@@ -10,18 +10,18 @@
 class ThemeException : public std::exception
 {
   private:
-    std::string msg;
+    String msg;
 
   public:
     const char* what() const noexcept override { return msg.c_str(); }
 
     ThemeException() = default;
-    explicit ThemeException(const std::string& s) { msg = s; }
-    ThemeException(const std::string& s, const std::deque<Path>& p) { msg = AddFiles(p) + s; }
+    explicit ThemeException(const String& s) { msg = s; }
+    ThemeException(const String& s, const std::deque<Path>& p) { msg = AddFiles(p) + s; }
 
-    static std::string AddFiles(const std::deque<Path>& deque)
+    static String AddFiles(const std::deque<Path>& deque)
     {
-      std::string result;
+      String result;
       result = "from theme \"" + deque.front().ToString() + "\"\n";
       for (auto it = deque.begin() + 1; it != deque.end(); it++)
         result += "  (from included file \"" + (*it).ToString() + "\")\n";

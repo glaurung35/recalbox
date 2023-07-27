@@ -90,8 +90,8 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetShade
 {
   std::vector<ListEntry<String>> list;
 
-  std::string currentShader = RecalboxConf::Instance().GetSystemShaderSet(mSystem);
-  if (currentShader.empty() || !Strings::Contains("|none|scanlines|retro|crtcurved|", std::string(1, '|').append(currentShader).append(1, '|'))) currentShader = "none";
+  String currentShader = RecalboxConf::Instance().GetSystemShaderSet(mSystem);
+  if (currentShader.empty() || !String("|none|scanlines|retro|crtcurved|").Contains(String('|').Append(currentShader).Append('|'))) currentShader = "none";
   list.push_back({ _("NONE"), "none", currentShader == "none" });
   list.push_back({ _("CRT CURVED"), "crtcurved", currentShader == "crtcurved" });
   list.push_back({ _("SCANLINES"), "scanlines", currentShader == "scanlines" });
@@ -108,8 +108,8 @@ void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, c
     case Components::Emulator:
     {
       // Split emulator & core
-      std::string emulator, core;
-      if (Strings::SplitAt(value, ':', emulator, core, false))
+      String emulator, core;
+      if (value.Extract(':', emulator, core, false))
       {
         if (emulator == mDefaultEmulator && core == mDefaultCore)
           RecalboxConf::Instance().SetSystemEmulator(mSystem, "")

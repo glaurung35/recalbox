@@ -31,7 +31,7 @@ GuiMenuNetplay::GuiMenuNetplay(WindowManager& window, SystemManager& systemManag
   AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
 
   // netplay port
-  AddEditable(_("PORT"), Strings::ToString(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
+  AddEditable(_("PORT"), String(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
 
   //mitm
   AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
@@ -57,7 +57,7 @@ std::vector<GuiMenuBase::ListEntry<RecalboxConf::Relay>> GuiMenuNetplay::GetMitm
   return list;
 }
 
-void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuNetplay::EditableComponentTextChanged(int id, const String& text)
 {
   switch((Components)id)
   {
@@ -68,8 +68,7 @@ void GuiMenuNetplay::EditableComponentTextChanged(int id, const std::string& tex
     }
     case Components::Port:
     {
-      int p = RecalboxConf::sNetplayDefaultPort;
-      Strings::ToInt(text, p);
+      int p = text.AsInt(0, RecalboxConf::sNetplayDefaultPort);
       if ((unsigned int)p > 65535) p = 65535;
       RecalboxConf::Instance().SetNetplayPort(p).Save();
       break;
@@ -160,7 +159,7 @@ FileData* GuiMenuNetplay::ThreadPoolRunJob(FileData*& feed)
       if (percent != mPreviousProgressPercent)
       {
         mPreviousProgressPercent = percent;
-        mOperation->SetText(_("Preparing Games...").Append(Strings::ToString(percent)).Append('%'));
+        mOperation->SetText(_("Preparing Games...").Append(percent).Append('%'));
       }
     }
   }

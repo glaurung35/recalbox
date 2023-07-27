@@ -21,8 +21,8 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
   , mSystemManager(systemManager)
 {
   // Version
-  std::string version = Upgrade::CurrentVersion();
-  std::string arch = "unknown";
+  String version = Upgrade::CurrentVersion();
+  String arch = "unknown";
   switch(Board::Instance().GetBoardType())
   {
     case BoardType::UndetectedYet:        arch = "undetected"; break;
@@ -45,8 +45,8 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
     case BoardType::RG353M:               arch = "RG353M"; break;
     case BoardType::RG503:                arch = "RG503"; break;
   }
-  arch.append(1, ' ').append(sizeof(void*) == 4 ? "32bits" : "64bits");
-  AddText(_("VERSION"), version.append(" (").append(arch).append(1,')'), _(MENUMESSAGE_VERSION_HELP_MSG));
+  arch.Append(' ').Append(sizeof(void*) == 4 ? "32bits" : "64bits");
+  AddText(_("VERSION"), version.Append(" (").Append(arch).Append(')'), _(MENUMESSAGE_VERSION_HELP_MSG));
 
   // Share space
   MountMonitor::DeviceMountReferences mounts = systemManager.GetMountMonitor().AllMountPoints();
@@ -62,10 +62,10 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
   mStorages = AddList<StorageDevices::Device>(_("STORAGE DEVICE"), (int)Components::Storage, this, GetStorageEntries(), _(MENUMESSAGE_STORAGE_DEVICE_HELP_MSG));
 
   // language choice
-  mCulture = AddList<std::string>(_("LANGUAGE"), (int)Components::Culture, this, GetCultureEntries(), _(MENUMESSAGE_LANGUAGE_HELP_MSG));
+  mCulture = AddList<String>(_("LANGUAGE"), (int)Components::Culture, this, GetCultureEntries(), _(MENUMESSAGE_LANGUAGE_HELP_MSG));
 
   // Keyboard
-  mKeyboard = AddList<std::string>(_("KEYBOARD"), (int)Components::Keyboard, this, GetKeyboardEntries(), _(MENUMESSAGE_KEYBOARD_HELP_MSG));
+  mKeyboard = AddList<String>(_("KEYBOARD"), (int)Components::Keyboard, this, GetKeyboardEntries(), _(MENUMESSAGE_KEYBOARD_HELP_MSG));
 }
 
 GuiMenuSystem::~GuiMenuSystem()
@@ -88,25 +88,25 @@ std::vector<GuiMenuBase::ListEntry<StorageDevices::Device>> GuiMenuSystem::GetSt
   mOriginalStorage = mStorageDevices.GetStorageDevice();
   for(const StorageDevices::Device& device : mStorageDevices.GetStorageDevices())
   {
-    std::string display = device.DisplayName;
+    String display = device.DisplayName;
     if (device.Size != 0)
-      display.append(" (")
-             .append(_("Free"))
-             .append(" ")
-             .append(device.HumanFree())
-             .append(1, '/')
-             .append(device.HumanSize())
-             .append(1, ')');
+      display.Append(" (")
+             .Append(_("Free"))
+             .Append(" ")
+             .Append(device.HumanFree())
+             .Append('/')
+             .Append(device.HumanSize())
+             .Append(')');
     list.push_back({ display, device, device.Current });
   }
 
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetCultureEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystem::GetCultureEntries()
 {
   mOriginalCulture = RecalboxConf::Instance().GetSystemLanguage();
-  return std::vector<ListEntry<std::string>>
+  return std::vector<ListEntry<String>>
   ({
 
     { "اللغة العربية" , "ar_YE" , mOriginalCulture == "ar_YE" },
@@ -143,10 +143,10 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetCultureEntrie
   });
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetKeyboardEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystem::GetKeyboardEntries()
 {
   mOriginalKeyboard = RecalboxConf::Instance().GetSystemKbLayout();
-  return std::vector<ListEntry<std::string>>
+  return std::vector<ListEntry<String>>
   ({
     { "DE (German QWERTZ)"  , "de" , mOriginalKeyboard == "de" },
     { "DK (Denmark QWERTY)" , "dk" , mOriginalKeyboard == "dk" },
@@ -157,7 +157,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSystem::GetKeyboardEntri
   });
 }
 
-void GuiMenuSystem::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuSystem::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)

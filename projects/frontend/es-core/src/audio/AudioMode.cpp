@@ -39,7 +39,7 @@ bool AudioModeTools::CanDecodeVideoSound()
   return false;
 }
 
-AudioMode AudioModeTools::AudioModeFromString(const std::string& audioMode)
+AudioMode AudioModeTools::AudioModeFromString(const String& audioMode)
 {
   if (audioMode == "musiconly") return AudioMode::MusicsOnly;
   if (audioMode == "videosoundonly") return AudioMode::VideosSoundOnly;
@@ -48,32 +48,32 @@ AudioMode AudioModeTools::AudioModeFromString(const std::string& audioMode)
   return AudioMode::MusicsXorVideosSound;
 }
 
-const std::string& AudioModeTools::AudioModeFromEnum(AudioMode audioMode)
+const String& AudioModeTools::AudioModeFromEnum(AudioMode audioMode)
 {
   switch (audioMode)
   {
     case AudioMode::MusicsXorVideosSound: break;
     case AudioMode::MusicsOnly:
     {
-      static std::string sScraper = "musiconly";
+      static String sScraper = "musiconly";
       return sScraper;
     }
     case AudioMode::VideosSoundOnly:
     {
-      static std::string sFileName = "videosoundonly";
+      static String sFileName = "videosoundonly";
       return sFileName;
     }
     case AudioMode::MusicsAndVideosSound:
     {
-      static std::string sFileName = "musicandvideosound";
+      static String sFileName = "musicandvideosound";
       return sFileName;
     }
     case AudioMode::None:
     {
-      static std::string sFileName = "none";
+      static String sFileName = "none";
       return sFileName;
     }
   }
-  static std::string sFileName = "musicxorvideosound";
+  static String sFileName = "musicxorvideosound";
   return sFileName;
 }

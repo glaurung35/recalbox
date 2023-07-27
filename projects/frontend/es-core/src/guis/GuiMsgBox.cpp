@@ -13,55 +13,55 @@ GuiMsgBox::GuiMsgBox(WindowManager& window)
   if (mSpace < 6) mSpace = 6;
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
-                     const std::string& name1, const std::function<void()>& func1,
-                     const std::string& name2, const std::function<void()>& func2,
-                     const std::string& name3, const std::function<void()>& func3,
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text,
+                     const String& name1, const std::function<void()>& func1,
+                     const String& name2, const std::function<void()>& func2,
+                     const String& name3, const std::function<void()>& func3,
                      TextAlignment align)
   : GuiMsgBox(window)
 {
   build(text, align, name1, func1, name2, func2, name3, func3);
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
-                     const std::string& name1, const std::function<void()>& func1,
-                     const std::string& name2, const std::function<void()>& func2)
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text,
+                     const String& name1, const std::function<void()>& func1,
+                     const String& name2, const std::function<void()>& func2)
   : GuiMsgBox(window)
 {
-  build(text, TextAlignment::Center, name1, func1, name2, func2, std::string(), nullptr);
+  build(text, TextAlignment::Center, name1, func1, name2, func2, String(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
-                     const std::string& name1, const std::function<void()>& func1)
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text,
+                     const String& name1, const std::function<void()>& func1)
   : GuiMsgBox(window)
 {
-  build(text, TextAlignment::Center, name1, func1, std::string(), nullptr, std::string(), nullptr);
+  build(text, TextAlignment::Center, name1, func1, String(), nullptr, String(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
-                     const std::string& name1, TextAlignment align)
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text,
+                     const String& name1, TextAlignment align)
   : GuiMsgBox(window)
 {
-  build(text, align, name1, nullptr, std::string(), nullptr, std::string(), nullptr);
+  build(text, align, name1, nullptr, String(), nullptr, String(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text,
-                     const std::string& name1)
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text,
+                     const String& name1)
   : GuiMsgBox(window)
 {
-  build(text, TextAlignment::Center, name1, nullptr, std::string(), nullptr, std::string(), nullptr);
+  build(text, TextAlignment::Center, name1, nullptr, String(), nullptr, String(), nullptr);
 }
 
-GuiMsgBox::GuiMsgBox(WindowManager& window, const std::string& text)
+GuiMsgBox::GuiMsgBox(WindowManager& window, const String& text)
   : GuiMsgBox(window)
 {
-  build(text, TextAlignment::Center, "OK", nullptr, std::string(), nullptr, std::string(), nullptr);
+  build(text, TextAlignment::Center, "OK", nullptr, String(), nullptr, String(), nullptr);
 }
 
-void GuiMsgBox::build(const std::string& text, TextAlignment align,
-                 const std::string& name1, const std::function<void()>& func1,
-                 const std::string& name2, const std::function<void()>& func2,
-                 const std::string& name3, const std::function<void()>& func3)
+void GuiMsgBox::build(const String& text, TextAlignment align,
+                 const String& name1, const std::function<void()>& func1,
+                 const String& name2, const std::function<void()>& func2,
+                 const String& name3, const std::function<void()>& func3)
 {
 	float width = Renderer::Instance().DisplayWidthAsFloat() * 0.7f; // max width
 	float minWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.4f; // minimum width
@@ -90,7 +90,7 @@ void GuiMsgBox::build(const std::string& text, TextAlignment align,
 	else
 	{
 		for (auto& button : mButtons)
-			if(Strings::ToUpperASCII(button->getText()) == "OK" || Strings::ToUpperASCII(button->getText()) == "NO")
+			if (String buttonUC(button->getText().ToUpperCase()); buttonUC == "OK" || buttonUC == "NO")
 			{
 				mAcceleratorFunc = button->getPressedFunc();
 				break;

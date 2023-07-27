@@ -223,9 +223,9 @@ void GuiNetPlay::populateGridMeta(int i)
   bool coreVerMatch = CoreInfo.Version() == game.mCoreVersion;
   bool coreMatch = !CoreInfo.Empty();
 
-  std::string username = game.mUserName.empty() ? "N/A" : game.mUserName;
-  std::string frontend = game.mFrontEnd;
-  if (game.mIsRecalbox) frontend.append(" \uF200");
+  String username = game.mUserName.empty() ? "N/A" : game.mUserName;
+  String frontend = game.mFrontEnd;
+  if (game.mIsRecalbox) frontend.Append(" \uF200");
 
   mMetaTextUsername->setText(username);
   mMetaTextCountry->setText(game.mCountry.empty() ? "N/A" : game.mCountry);
@@ -239,8 +239,8 @@ void GuiNetPlay::populateGridMeta(int i)
   if (coreMatch) mMetaTextCore->setText("\uf1c0 " + game.mCoreLongName);
   else           mMetaTextCore->setText("\uf1c2 " + game.mCoreLongName);
 
-  if (coreVerMatch) mMetaTextCoreVer->setText("\uf1c0 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
-  else              mMetaTextCoreVer->setText("\uf1c2 " + (game.mCoreVersion.empty() ? std::string("N/A") : game.mCoreVersion));
+  if (coreVerMatch) mMetaTextCoreVer->setText("\uf1c0 " + (game.mCoreVersion.empty() ? String("N/A") : game.mCoreVersion));
+  else              mMetaTextCoreVer->setText("\uf1c2 " + (game.mCoreVersion.empty() ? String("N/A") : game.mCoreVersion));
 
   if (game.mPingTimeInMs < 0)         mMetaTextLatency->setText("\uF1c9 " + _("unknown"));
   else if (game.mPingTimeInMs < 80)   mMetaTextLatency->setText("\uF1c8 " + _("good") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
@@ -286,16 +286,16 @@ void GuiNetPlay::launch()
 
 void GuiNetPlay::LoadCoreMap()
 {
-  std::string content = Files::LoadFile(RootFolders::DataRootFolder / "system/configs/retroarch.corenames");
-  for(std::string& line : Strings::Split(content, '\n'))
+  String content = Files::LoadFile(RootFolders::DataRootFolder / "system/configs/retroarch.corenames");
+  for(String& line : content.Split('\n'))
   {
-    Strings::Vector parts = Strings::Split(line, ';');
+    String::List parts = line.Split(';');
     if (parts.size() == 3)
       mCoreList.push_back({ parts[0], parts[1], parts[2] });
   }
 }
 
-const GuiNetPlay::CoreInfo& GuiNetPlay::GetCoreInfo(const std::string& name)
+const GuiNetPlay::CoreInfo& GuiNetPlay::GetCoreInfo(const String& name)
 {
   for(const CoreInfo& info : mCoreList)
     if (info.LongName() == name)
@@ -375,7 +375,7 @@ void GuiNetPlay::Render(const Transform4x4f& parentTrans)
     mBusyAnim.Render(trans);
 }
 
-FileData* GuiNetPlay::FindGame(const std::string& game)
+FileData* GuiNetPlay::FindGame(const String& game)
 {
   FileData::SearchAttributes search = FileData::SearchAttributes::ByName | FileData::SearchAttributes::ByHash;
   // Search game ihn all available systems
@@ -430,8 +430,7 @@ void GuiNetPlay::ParseLobby()
         game.mNeedPlayerPassword = fields["has_password"].GetBool();
         game.mNeedViewerPassword = fields["has_spectate_password"].GetBool();
         game.mIsRecalbox = (strstr(game.mFrontEnd.data(), "@RECALBOX") != nullptr);
-        if (game.mIsRecalbox)
-          Strings::ReplaceAllIn(game.mFrontEnd, "@RECALBOX", "");
+        if (game.mIsRecalbox) game.mFrontEnd.Remove("@RECALBOX");
         game.mFormattedName = GetFormattedName(game);
 
         const CoreInfo& coreInfo = GetCoreInfo(game.mCoreLongName);
@@ -478,7 +477,7 @@ void GuiNetPlay::Run()
       char host[NI_MAXHOST];
       size_t hostlen = sizeof(host);
       ping_iterator_get_info(iter, PING_INFO_HOSTNAME, host, &hostlen);
-      { LOG(LogWarning) << "[Ping] Host: " << std::string(host); }
+      { LOG(LogWarning) << "[Ping] Host: " << String(host); }
       // Get latency
       double latency = -1;
       size_t latencylen = sizeof(latency);
@@ -486,7 +485,7 @@ void GuiNetPlay::Run()
       { LOG(LogWarning) << "[Ping] Ms: " << (latency < 0 ? 1000 : (int)latency); }
       // Lookup and store
       for (auto& game : mLobbyList)
-        if (game.mIp == std::string(host))
+        if (game.mIp == String(host))
           game.mPingTimeInMs = latency < 0 ? 1000 : (int)latency;
     }
   // Destroy pinger
@@ -514,32 +513,32 @@ void GuiNetPlay::ReceiveSyncMessage(const GuiNetPlayMessageType& message)
   }
 }
 
-std::string GuiNetPlay::GetFormattedName(const LobbyGame& game)
+String GuiNetPlay::GetFormattedName(const LobbyGame& game)
 {
   // Get game name
-  std::string gameName = game.mGameName;
-  static std::string arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
-  if (arcadesCores.find(gameName) != std::string::npos && game.mGame != nullptr)
+  String gameName = game.mGameName;
+  static String arcadesCores("FinalBurn Neo,MAME 2000,MAME 2003,MAME 2003-Plus,MAME 2010,MAME 2015,MAME 2016");
+  if (arcadesCores.find(gameName) != String::npos && game.mGame != nullptr)
     gameName = GameNameMapManager::Rename(game.mGame->System(), game.mGameName);
 
   // Add decorations
   if (game.mNeedPlayerPassword)
   {
-    gameName.insert(0, "\uf070 ");
+    gameName.Insert(0, "\uf070 ");
     if (game.mNeedViewerPassword)
-      gameName.insert(0, "\uf070");
+      gameName.Insert(0, "\uf070");
   }
   if (game.mIsRecalbox)
-    gameName.insert(0, " \uf200");
+    gameName.Insert(0, " \uf200");
 
   // Matching status
   if (game.mGame != nullptr)
   {
-    if (game.mGame->Hash() == game.mGameCRC)        gameName.insert(0, "\uf1c0 ");
-    else if (!GetCoreInfo(game.mCoreLongName).Empty()) gameName.insert(0, "\uf1c1 ");
-    else gameName.insert(0, "\uf1c2 ");
+    if (game.mGame->Hash() == game.mGameCRC) gameName.Insert(0, "\uf1c0 ");
+    else if (!GetCoreInfo(game.mCoreLongName).Empty()) gameName.Insert(0, "\uf1c1 ");
+    else gameName.Insert(0, "\uf1c2 ");
   }
-  else gameName.insert(0, "\uf1c2 ");
+  else gameName.Insert(0, "\uf1c2 ");
 
   return gameName;
 }

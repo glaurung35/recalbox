@@ -2,7 +2,7 @@
 #include "utils/Log.h"
 #include "IFileSystemWatcherNotification.h"
 
-#include <string>
+#include <utils/String.h>
 #include <sys/epoll.h>
 #include <zconf.h>
 #include <cstring>
@@ -133,7 +133,7 @@ void FileSystemWatcher::readEventsFromBuffer(int length, std::vector<FileSystemE
       continue;
     }
 
-    Path path = wdToPath(event->wd) / std::string(event->len != 0 ? event->name : "");
+    Path path = wdToPath(event->wd) / String(event->len != 0 ? event->name : "");
     if (!path.IsEmpty())
     {
       if (path.IsDirectory())

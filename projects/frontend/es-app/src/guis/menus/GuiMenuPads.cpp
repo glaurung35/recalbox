@@ -30,15 +30,14 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), (int)Components::Unpair, _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
 
   // Driver
-  AddList<std::string>(_("DRIVER"), (int)Components::Driver, this, GetModes(), _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
+  AddList<String>(_("DRIVER"), (int)Components::Driver, this, GetModes(), _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
 
   // Pad list
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
   {
     static const char* balls[10] ={ "\u2776", "\u2777", "\u2778", "\u2779", "\u277a", "\u277b", "\u277c", "\u277d", "\u277e", "\u277f" };
-    std::string name(balls[i]);
-    name.append(1, ' ').append(_("INPUT P%i"));
-    Strings::ReplaceAllIn(name, "%i", Strings::ToString(i + 1));
+    String name(balls[i]);
+    name.Append(' ').Append(_("INPUT P%i")).Replace("%i", String(i + 1));
     mDevices[i] = AddList<int>(name, (int)Components::Pads + i, this);
   }
 
@@ -46,11 +45,11 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   RefreshDevices();
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuPads::GetModes()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPads::GetModes()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
-  std::string mode = RecalboxConf::Instance().GetGlobalInputDriver();
+  String mode = RecalboxConf::Instance().GetGlobalInputDriver();
   if ((mode != "udev") && (mode != "sdl2")) mode = "auto";
 
   list.push_back({ _("AUTOMATIC"), "auto", mode == "auto" });
@@ -81,12 +80,12 @@ void GuiMenuPads::RunDeviceDetection(GuiMenuPads* thiz)
   thiz->mWindow.pushGui(new GuiDetectDevice(thiz->mWindow, false, [thiz] { thiz->RefreshDevices(); }));
 }
 
-Strings::Vector GuiMenuPads::Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&)
+String::List GuiMenuPads::Execute(GuiWaitLongExecution<bool, String::List>&, const bool&)
 {
   return RecalboxSystem::scanBluetooth();
 }
 
-void GuiMenuPads::Completed(const bool&, const Strings::Vector& result)
+void GuiMenuPads::Completed(const bool&, const String::List& result)
 {
   mWindow.pushGui(result.empty()
                   ? (Gui*)new GuiMsgBox(mWindow, _("NO CONTROLLERS FOUND"), _("OK"))
@@ -97,8 +96,8 @@ const char* GuiMenuPads::ActionToString(Command action)
 {
   switch(action)
   {
-    case Command::StartDiscovery:  return "{\"command\": \"start_discovery\"}";
-    case Command::StopDiscovery:   return "{\"command\": \"stop_discovery\"}";
+    case Command::StartDiscovery:  return R"({"command": "start_discovery"})";
+    case Command::StopDiscovery:   return R"({"command": "stop_discovery"})";
     default: break;
   }
   return "error";
@@ -176,7 +175,7 @@ void GuiMenuPads::OptionListComponentChanged(int id, int, const int&)
   RefreshDevices();
 }
 
-void GuiMenuPads::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Driver)

@@ -80,7 +80,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::shared_ptr<SwitchComponent> mRotation;
 
     //! Emulator/Core list
-    std::shared_ptr<IOptionListComponent<std::string>> mEmulators;
+    std::shared_ptr<IOptionListComponent<String>> mEmulators;
 
     //! Get emulator list
     std::vector<ListEntry<String>> GetEmulatorEntries();
@@ -92,7 +92,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::vector<ListEntry<GameGenres>> GetGenreEntries();
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const String& value) override;
@@ -107,7 +107,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
      * ISwitchComponent implementation
      */
 
-    void EditableComponentTextChanged(int id, const std::string& text) override;
+    void EditableComponentTextChanged(int id, const String& text) override;
 
     /*
      * IEditableComponent implementation

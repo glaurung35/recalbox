@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 struct NetPlayData
 {

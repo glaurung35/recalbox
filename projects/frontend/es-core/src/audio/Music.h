@@ -1,7 +1,7 @@
 #ifndef _MUSIC_H_
 #define _MUSIC_H_
 
-#include <string>
+#include <utils/String.h>
 #include <map>
 #include <memory>
 #include <utils/os/fs/Path.h>
@@ -60,7 +60,7 @@ class Music
   	 * @brief Return music name
   	 * @return Music name
   	 */
-  	std::string Name() const { return mPath.FilenameWithoutExtension(); }
+  	String Name() const { return mPath.FilenameWithoutExtension(); }
 
     /*!
      * @brief Return music path

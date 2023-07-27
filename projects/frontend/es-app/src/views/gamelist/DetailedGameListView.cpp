@@ -183,7 +183,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();
-  std::vector<std::string> names({
+  std::vector<String> names({
                                    "md_lbl_rating",
                                    "md_lbl_releasedate",
                                    "md_lbl_developer",
@@ -721,7 +721,7 @@ DetailedGameListView::~DetailedGameListView()
 
 void DetailedGameListView::setRegions(FileData* file)
 {
-  Strings::Vector regionList = Strings::SplitQuoted(file->Regions(), ',');
+  String::List regionList = file->Regions().SplitQuoted(',');
 
   // reinit non used region flags
   for(unsigned long idx = 0; idx < mRegions.size(); idx++)
@@ -812,9 +812,9 @@ String DetailedGameListView::getItemIcon(const FileData& item)
 String DetailedGameListView::GetDisplayName(FileData& game)
 {
   // Select Icon
-  std::string result = getItemIcon(game);
+  String result = getItemIcon(game);
   // Get name
-  result.append(RecalboxConf::Instance().GetDisplayByFileName() ? game.Metadata().RomFileOnly().ToString() : game.Name());
+  result.Append(RecalboxConf::Instance().GetDisplayByFileName() ? game.Metadata().RomFileOnly().ToString() : game.Name());
   return result;
 }
 
@@ -1010,9 +1010,10 @@ Regions::List DetailedGameListView::AvailableRegionsInGames(FileData::List& fdLi
 
 void DetailedGameListView::RefreshItem(FileData* game)
 {
-  if (game == nullptr || !game->IsFolder()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
+  if (game == nullptr || !game->IsGame()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
 
   int index = mList.Lookup(game);
   if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
   mList.changeTextAt(index, GetDisplayName(*game));
+  if (mList.getCursorIndex() == index) DoUpdateGameInformation(true);
 }

@@ -32,9 +32,9 @@ GuiMenuThemeOptions::~GuiMenuThemeOptions()
   }
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetTransitionEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
   mOriginalTransition = RecalboxConf::Instance().GetThemeTransition();
   list.push_back({ _("FADE"), "fade", mOriginalTransition == "fade" });
@@ -44,13 +44,13 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetTransit
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetThemeEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries()
 {
   auto themeSets = ThemeData::getThemeSets();
   auto selectedSet = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
   if (selectedSet == themeSets.end()) selectedSet = themeSets.begin();
   mOriginalTheme = selectedSet->first;
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
   for (const auto& it : themeSets)
   {
     if (it.first == "recalbox-next") mRecalboxThemeIndex = (int)list.size();
@@ -60,7 +60,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuThemeOptions::GetThemeEn
   return list;
 }
 
-void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();

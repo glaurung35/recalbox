@@ -23,13 +23,13 @@ class LightGunDatabase : public IFilter
     static constexpr const char* sXmlPath = "/recalbox/share_init/system/.emulationstation/lightgun.cfg";
 
     //! All game list
-    HashMap<std::string, Strings::Vector> mSystemLists;
+    HashMap<String, String::List> mSystemLists;
 
     //! Game list available in the current system
-    Strings::Vector* mCurrentList;
+    String::List* mCurrentList;
 
     //! Get simplified game name
-    static std::string GetSimplifiedName(const std::string& name);
+    static String GetSimplifiedName(const String& name);
 
     //! Load the whole database
     void LoadDatabase();

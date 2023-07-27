@@ -29,7 +29,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
   if (!nomenu && !bartop)
   {
-    mGame = AddSubMenu(Strings::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+    mGame = AddSubMenu(String::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
     RefreshGameMenuContext();
 
     if(!mGamelist.getCursor()->IsEmpty())
@@ -37,8 +37,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
           !mSystem.IsScreenshots())
       {
-        std::string text = _("DELETE GAME %s");
-        Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(mGamelist.getCursor()->Name()));
+        String text = _("DELETE GAME %s").Replace("%s", mGamelist.getCursor()->Name().ToUpperCaseUTF8());
         AddSubMenu(text, (int) Components::Delete, _(MENUMESSAGE_GAMELISTOPTION_DELETE_GAME_MSG));
       }
 
@@ -56,14 +55,14 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Downloader available?
   if (DownloaderManager::HasDownloader(mSystem))
-    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, Strings::Empty);
+    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, String::Empty);
 
   // Jump to letter
 	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
 
   // open search wheel for this system
   if (!system.IsFavorite())
-    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, Strings::Empty);
+    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, String::Empty);
 
   // Sorting
 	if (!system.IsSelfSorted())
@@ -107,21 +106,19 @@ void GuiMenuGamelistOptions::RefreshGameMenuContext()
 {
   if (!mGame) return;
 
-  FileData* file = mGamelist.getCursor();
+  const FileData* file = mGamelist.getCursor();
   if ((file == nullptr) || file->IsEmpty())
     mGame->setText(_("NO GAME"));
   else if (file->TopAncestor().ReadOnly())
     mGame->setText(_("NON EDITABLE GAME"));
   else if (file->IsGame())
   {
-    std::string text = _("EDIT GAME %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
+    String text = _("EDIT GAME %s").Replace("%s", file->Name().ToUpperCaseUTF8());
     mGame->setText(text);
   }
   else if (file->IsFolder())
   {
-    std::string text = _("EDIT FOLDER %s");
-    Strings::ReplaceAllIn(text, "%s", Strings::ToUpperUTF8(file->Name()));
+    String text = _("EDIT FOLDER %s").Replace("%s", file->Name().ToUpperCaseUTF8());
     mGame->setText(text);
   }
 }
@@ -133,7 +130,7 @@ std::vector<GuiMenuBase::ListEntry<Regions::GameRegions>> GuiMenuGamelistOptions
   Regions::GameRegions currentRegion = Regions::Clamp(RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
   for(auto region : mGamelist.AvailableRegionsInGames())
   {
-    std::string regionName = (region == Regions::GameRegions::Unknown) ? _("NONE") : Regions::RegionFullName(region);
+    String regionName = (region == Regions::GameRegions::Unknown) ? _("NONE") : Regions::RegionFullName(region);
     list.push_back({ regionName, region, region == currentRegion });
   }
 
@@ -170,10 +167,10 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   if (!letters.empty())
   {
     // Get current unicode char
-    unsigned int currentUnicode = Strings::UpperChar(mGamelist.getCursor()->Name());
+    String::Unicode currentUnicode = String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8());
     // Build list
     for (unsigned int unicode : letters)
-      list.push_back({ Strings::unicode2Chars(unicode), unicode, unicode == currentUnicode });
+      list.push_back({ String(unicode, 1), unicode, unicode == currentUnicode });
   }
 
   return list;

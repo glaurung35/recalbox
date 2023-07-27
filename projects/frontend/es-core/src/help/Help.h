@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "RecalboxConf.h"
 
 //! Help types
@@ -35,7 +35,7 @@ class Help
 {
   private:;
     //! All type's texts
-    std::string mTexts[(int)HelpType::__Count + 1];
+    String mTexts[(int)HelpType::__Count + 1];
     //! Active help types (bitmask of (1 << HelpTypes))
     int mMask;
 
@@ -63,7 +63,7 @@ class Help
      * @param text Text to assign
      * @return This Help
      */
-    Help& Set(HelpType type, const std::string& text)
+    Help& Set(HelpType type, const String& text)
     {
       mTexts[(int)type] = text;
       mMask |= 1 << (int)type;
@@ -74,19 +74,19 @@ class Help
      * @brief Check if the no help type is set
      * @return True if no type has been set
      */
-    bool Empty() const { return mMask == 0; }
+    [[nodiscard]] bool Empty() const { return mMask == 0; }
 
     /*!
      * @brief Check if a type has been set or not
      * @param type Help type to check
      * @return True if the help type has been set
      */
-    bool IsSet(HelpType type) const
+    [[nodiscard]] bool IsSet(HelpType type) const
     {
       return (mMask & (1 << (int)type)) != 0;
     }
 
-    const std::string& Text(HelpType type) const
+    [[nodiscard]] const String& Text(HelpType type) const
     {
       if ((unsigned int)type >= (unsigned int)HelpType::__Count) return mTexts[(int)HelpType::__Count];
       return mTexts[(int)type];

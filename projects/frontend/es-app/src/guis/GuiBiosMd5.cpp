@@ -17,7 +17,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
 
   bool match = (bios.BiosStatus() == Bios::Status::HashMatching);
   // Display our MD5 only if the file exists
-  std::string theMd5 = bios.CurrentMD5();
+  String theMd5 = bios.CurrentMD5();
   if (bios.BiosStatus() != Bios::Status::FileNotFound)
   {
     mList->add(_("Your bios' MD5"), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
@@ -25,8 +25,8 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
   }
   // Display regular list
   mList->add(_("Known MD5 List"), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
-  Strings::Vector list = bios.MD5List();
-  for(const std::string& md5 : list)
+  String::List list = bios.MD5List();
+  for(const String& md5 : list)
   {
     if (!match)
       mList->add(md5, true, sColorIndexNormal, -1, HorizontalAlignment::Right);
@@ -36,7 +36,7 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const Bios& bios)
       mList->add(md5, true, isMatching ? sColorIndexNormal : sColorIndexHalf, isMatching ? sColorIndexGreen : -1, HorizontalAlignment::Right);
     }
   }
-  mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString((int)list.size())));
+  mHeader->setValue(_("%i Known MD5").Replace("%i", String((int)list.size())));
 }
 
 GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
@@ -52,12 +52,12 @@ GuiBiosMd5::GuiBiosMd5(WindowManager& window, const BiosList& biosList)
     const Bios& bios = biosList.BiosAt(i);
     count += bios.MD5Count();
     // Display regular list
-    mList->add(bios.Filename().append(" (").append(bios.Cores()).append(1, ')'), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
-    Strings::Vector list = bios.MD5List();
-    for (const std::string& md5 : list)
+    mList->add(bios.Filename().Append(" (").Append(bios.Cores()).Append(')'), true, sColorIndexNormal, sColorIndexGray, HorizontalAlignment::Left);
+    String::List list = bios.MD5List();
+    for (const String& md5 : list)
       mList->add(md5, true, sColorIndexNormal, -1, HorizontalAlignment::Right);
   }
-  mHeader->setValue(Strings::Replace(_("%i Known MD5"), "%i", Strings::ToString(count)));
+  mHeader->setValue(_("%i Known MD5").Replace("%i", String(count)));
 }
 
 void GuiBiosMd5::BuildUI()
@@ -104,7 +104,7 @@ void GuiBiosMd5::BuildUI()
   mGrid.setEntry(mButtonGrid, Vector2i(1, 3), true, false, Vector2i(1,1));
 
   // Set Window position/size
-  float width = Math::max(menuTheme->menuTextSmall.font->sizeText(std::string(16, '0')).x() * 2.5f, Renderer::Instance().DisplayWidthAsFloat() * 0.33f);
+  float width = Math::max(menuTheme->menuTextSmall.font->sizeText(String('0', 16)).x() * 2.5f, Renderer::Instance().DisplayWidthAsFloat() * 0.33f);
   setSize(width, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 

@@ -6,7 +6,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 //! User object (reduced to Recalbox needs)
 struct ScreenScraperUser
@@ -15,7 +15,7 @@ struct ScreenScraperUser
   int mRequestDone = 0;    //! requeststoday
   int mMaxRatePerMin = 0;  //! maxrequestspermin
   int mMaxRatePerDay = 0;  //! maxrequestsperday
-  std::string mRegion;     //! favregion
+  String mRegion;     //! favregion
 
   ScreenScraperUser()
     : mThreads(1)

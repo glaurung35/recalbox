@@ -40,7 +40,7 @@ BusyComponent::BusyComponent(WindowManager&window)
 	addChild(&mGrid);
 }
 
-void BusyComponent::setText(std::string txt)
+void BusyComponent::setText(String txt)
 {
 	if (mMutex.Lock())
 	{

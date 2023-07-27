@@ -23,7 +23,7 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
   AddSwitch(_("GAMELIST ONLY"), RecalboxConf::Instance().GetStartupGamelistOnly(), (int)Components::GamelistOnly, this, _(MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG));
 
   // Selected System
-  AddList<std::string>(_("BOOT ON SYSTEM"), (int)Components::SelectedSystem, this, GetSystemEntries(), _(MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG));
+  AddList<String>(_("BOOT ON SYSTEM"), (int)Components::SelectedSystem, this, GetSystemEntries(), _(MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG));
 
   // Boot on gamelist
   AddSwitch(_("BOOT ON GAMELIST"), RecalboxConf::Instance().GetStartupStartOnGamelist(), (int)Components::StartOnGamelist, this, _(MENUMESSAGE_ADVANCED_BOOTGAMELIST_HELP_MSG));
@@ -32,11 +32,11 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
   AddSwitch(_("HIDE SYSTEM VIEW"), RecalboxConf::Instance().GetStartupHideSystemView(), (int)Components::HideSystemView, this, _(MENUMESSAGE_ADVANCED_HIDESYSTEMVIEW_HELP_MSG));
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuBootSettings::GetSystemEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
-  std::string selectedsystem = RecalboxConf::Instance().GetStartupSelectedSystem();
+  String selectedsystem = RecalboxConf::Instance().GetStartupSelectedSystem();
   if (selectedsystem.empty()) selectedsystem = SystemManager::sFavoriteSystemShortName;
   // For each activated system
   bool found = false;
@@ -52,7 +52,7 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuBootSettings::GetSystemE
   return list;
 }
 
-void GuiMenuBootSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuBootSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::SelectedSystem)

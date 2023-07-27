@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "AlsaMixer.h"
 
 class OdroidAdvanceGo2Alsa : public AlsaMixer
@@ -23,7 +23,7 @@ class OdroidAdvanceGo2Alsa : public AlsaMixer
     };
 
     //! Default constructor
-    OdroidAdvanceGo2Alsa(int id, const std::string& name, int cardReference)
+    OdroidAdvanceGo2Alsa(int id, const String& name, int cardReference)
       : AlsaMixer(id, name, cardReference, MixerType::OdroidAdvanceGo2Path)
     {
     }

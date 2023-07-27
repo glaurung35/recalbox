@@ -28,19 +28,19 @@ class ScreenScraperSingleEngine
     static constexpr int sMaxMd5Calculation = (20 << 20); // 20 Mb
 
     //! Sub folder image
-    static std::string sImageSubFolder;
+    static String sImageSubFolder;
     //! Sub folder thumbnail
-    static std::string sThumbnailSubFolder;
+    static String sThumbnailSubFolder;
     //! Sub folder video
-    static std::string sVideoSubFolder;
+    static String sVideoSubFolder;
     //! Sub folder wheel
-    static std::string sWheelSubFolder;
+    static String sWheelSubFolder;
     //! Sub folder marquee
-    static std::string sMarqueeSubFolder;
+    static String sMarqueeSubFolder;
     //! Sub folder manual
-    static std::string sManualSubFolder;
+    static String sManualSubFolder;
     //! Sub folder map
-    static std::string sMapSubFolder;
+    static String sMapSubFolder;
 
     //! Tell if the engine is running
     volatile bool mRunning;
@@ -68,7 +68,7 @@ class ScreenScraperSingleEngine
      * @param path Filepath
      * @return Hash hexa string
      */
-    static std::string ComputeMD5(const Path& path);
+    static String ComputeMD5(const Path& path);
 
     /*!
      * @brief Send a game info request
@@ -129,7 +129,7 @@ class ScreenScraperSingleEngine
      * @param pathHasBeenSet Output: true if the media path has been set
      * @return ScrapeResult
      */
-    ScrapeResult DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const std::string& subPath, const std::string& name, MediaType mediaType, SetPathMethodType pathSetter, const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,bool &pathHasBeenSet);
+    ScrapeResult DownloadAndStoreMedia(FileData& game, bool noKeep, const Path& target, const String& subPath, const String& name, MediaType mediaType, SetPathMethodType pathSetter, const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,bool &pathHasBeenSet);
 
     /*!
      * @brief Check if the result code is fatal or not
@@ -149,7 +149,7 @@ class ScreenScraperSingleEngine
      * @param pathHasBeenSet Output: true if the media path has been set
      * @return Scrape result
      */
-    ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game, const std::string& media, SetPathMethodType pathSetter, ProtectedSet& md5Set, MediaType mediaType, bool& pathHasBeenSet);
+    ScrapeResult DownloadMedia(const Path& AbsoluteImagePath, FileData& game, const String& media, SetPathMethodType pathSetter, ProtectedSet& md5Set, MediaType mediaType, bool& pathHasBeenSet);
 
   public:
     explicit ScreenScraperSingleEngine(IConfiguration* configuration, IEndPointProvider* endPointProvider, IScraperEngineStage* stageInterface)

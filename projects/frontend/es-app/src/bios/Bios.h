@@ -95,7 +95,7 @@ class Bios
          * @brief Deserialization constructor
          * @param source Source stringized hash
          */
-        explicit Md5Hash(const std::string& source);
+        explicit Md5Hash(const String& source);
 
         /*!
          * @brief Compare to another MD5
@@ -117,15 +117,15 @@ class Bios
          * @brief String representation of the MD5
          * @return string
          */
-        std::string ToString() const;
+        String ToString() const;
     };
 
     //! Bios path (absolute)
     Path mPath[sMaxBiosPath];
     //! Core list
-    std::string mCores;
+    String mCores;
     //! Optional notes
-    std::string mNotes;
+    String mNotes;
     //! hashes for bios with multiple possible hashes
     std::vector<Md5Hash> mHashes;
     //! Mandatory bios
@@ -168,13 +168,13 @@ class Bios
      * @param core Core to seek for
      * @return True of the current bios is for the given core
      */
-    bool IsForCore(const std::string& core) const;
+    bool IsForCore(const String& core) const;
 
     /*!
      * @brief Generate missing bios report
      * @return Text Report
      */
-    std::string GenerateReport() const;
+    String GenerateReport() const;
 
     /*
      * Accessors
@@ -223,22 +223,22 @@ class Bios
      * @param shorten Get a short name instead of the long path
      * @return bios name
      */
-    std::string Filename(bool shorten = true) const;
+    String Filename(bool shorten = true) const;
 
     //! Bios file path
     const Path& Filepath() const { return mPath[0]; }
 
     //! Core list
-    const std::string& Cores() const { return mCores; }
+    const String& Cores() const { return mCores; }
 
     //! Note
-    const std::string& Notes() const { return mNotes; }
+    const String& Notes() const { return mNotes; }
 
     //! Current bios MD5
-    std::string CurrentMD5() const { return mRealFileHash.ToString(); }
+    String CurrentMD5() const { return mRealFileHash.ToString(); }
 
     //! All MD5 list
-    std::vector<std::string> MD5List() const;
+    String::List MD5List() const;
 
     //! MD5 Count
     int MD5Count() const { return (int)mHashes.size(); }

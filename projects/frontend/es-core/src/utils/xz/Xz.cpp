@@ -77,12 +77,12 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
     // or adding flags to the decoder initialization.
     switch (m_status) {
       case LZMA_MEM_ERROR:
-        m_message = std::string("Memory allocation failed");
+        m_message = String("Memory allocation failed");
         break;
 
       case LZMA_FORMAT_ERROR:
         // .xz magic bytes weren't found.
-        m_message = std::string("The input is not in the .xz format");
+        m_message = String("The input is not in the .xz format");
         break;
 
       case LZMA_OPTIONS_ERROR:
@@ -100,11 +100,11 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
         // always verified with a CRC32, so
         // unintentionally corrupt files can be
         // distinguished from unsupported files.
-        m_message = std::string("Unsupported compression options");
+        m_message = String("Unsupported compression options");
         break;
 
       case LZMA_DATA_ERROR:
-        m_message = std::string("Compressed file is corrupt");
+        m_message = String("Compressed file is corrupt");
         break;
 
       case LZMA_BUF_ERROR:
@@ -114,7 +114,7 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
         // the decoder think the file is truncated.
         // If you prefer, you can use the same error
         // message for this as for LZMA_DATA_ERROR.
-        m_message = std::string("Compressed file is truncated or "
+        m_message = String("Compressed file is truncated or "
           "otherwise corrupt");
         break;
 
@@ -127,7 +127,7 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
       case LZMA_PROG_ERROR:
       default:
         // This is most likely LZMA_PROG_ERROR.
-        m_message = std::string("Unknown error, possibly a bug");
+        m_message = String("Unknown error, possibly a bug");
         break;
     }
 
@@ -139,6 +139,6 @@ size_t Xz::Decompress(uint8_t *outbuf, size_t outbuf_size)
 lzma_ret Xz::Error() {
   return m_status;
 }
-std::string Xz::ErrorMessage() {
+String Xz::ErrorMessage() {
   return m_message;
 }

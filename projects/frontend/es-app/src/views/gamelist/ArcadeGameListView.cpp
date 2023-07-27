@@ -395,7 +395,7 @@ void ArcadeGameListView::jumpToLetter(unsigned int unicode)
 {
   for(int c = 0; c < (int)getCursorIndexMax(); ++c)
     if (getDataAt(c)->IsGame())
-      if (Strings::UpperChar(LookupDisplayName(*getDataAt(c))) == unicode)
+      if (String::UpperUnicode(LookupDisplayName(*getDataAt(c)).ReadFirstUTF8()) == unicode)
       {
         setCursor(getDataAt(c));
         break;
@@ -406,7 +406,7 @@ void ArcadeGameListView::jumpToNextLetter(bool forward)
 {
   const ArcadeTupple& baseArcade = Lookup(*getCursor());
   const FileData* baseGame = baseArcade.mArcade != nullptr && baseArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone ? baseArcade.mArcade->Parent() : getCursor();
-  UnicodeChar baseChar = Strings::UpperChar(LookupDisplayName(*baseGame));
+  UnicodeChar baseChar = String::UpperUnicode(LookupDisplayName(*baseGame).ReadFirstUTF8());
   int max = getCursorIndexMax() + 1;
   int step = max + (forward ? 1 : -1);
 
@@ -415,7 +415,7 @@ void ArcadeGameListView::jumpToNextLetter(bool forward)
   {
     const ArcadeTupple& currentArcade = Lookup(*getDataAt(i));
     if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
-    if (Strings::UpperChar(LookupDisplayName(*getDataAt(i))) != baseChar)
+    if (String::UpperUnicode(LookupDisplayName(*getDataAt(i)).ReadFirstUTF8()) != baseChar)
     {
       setCursorIndex(i);
       break;

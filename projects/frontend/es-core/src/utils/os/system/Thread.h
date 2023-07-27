@@ -1,7 +1,7 @@
 #pragma once
 
 #include <unistd.h>
-#include <string>
+#include <utils/String.h>
 #include "pthread.h"
 typedef pthread_t ThreadHandle;
 
@@ -27,11 +27,10 @@ class Thread
      * Starts the thread
      * @param name Thread's name
      */
-    void Start(const std::string& name);
+    void Start(const String& name);
 
     /*!
      * Stops the thread
-     * @param donotjoin Don't call join to wait for the effective end
      */
     void Stop();
 
@@ -44,13 +43,13 @@ class Thread
      * Returns the running status of the thread
      * @return True if the thread is still running
      */
-    bool IsRunning() const { return mIsRunning; }
+    [[nodiscard]] bool IsRunning() const { return mIsRunning; }
 
     /*!
      * Returns the completion status of the thread
      * @return True if the thread has completed execution.
      */
-    bool IsDone() const { return mIsDone; }
+    [[nodiscard]] bool IsDone() const { return mIsDone; }
 
     /*!
      * @brief Get the current thread id

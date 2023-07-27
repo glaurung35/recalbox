@@ -25,7 +25,7 @@ Tar::~Tar() {
   { LOG(LogDebug) << "[Tar] Tar terminated"; }
 }
 
-void Tar::Untar(std::string path) {
+void Tar::Untar(String path) {
   struct stat sb;
   m_outputpath = path;
   if (stat(path.c_str(), &sb) != 0) {
@@ -99,7 +99,7 @@ size_t Tar::InjectBuffer(uint8_t *bufferin, int buffersize) {
     }
     case BEGIN_DIRECTORY: {
       {
-        LOG(LogDebug) << "[Tar] " << currentheader.filename << "/";
+        LOG(LogDebug) << "[Tar] " << currentheader.filename << '/';
       }
       ProcessDirectory();
       SetState(BUFFER_START);
@@ -125,16 +125,16 @@ uint64_t Tar::ProcessHeader(uint8_t *buffer, int buffersize) {
 
 uint64_t Tar::ProcessFile(uint8_t *buffer, int buffersize) {
   uint64_t remainingbytestowrite = CurrentFileSize() - offsetincurrentobject;
-  m_currentfile = (std::string)currentheader.filename;
+  m_currentfile = (String)currentheader.filename;
   int bytestowrite = min64(remainingbytestowrite, buffersize);
-  currentfile = fopen((m_outputpath + "/" + m_currentfile).c_str(),
+  currentfile = fopen((m_outputpath + '/' + m_currentfile).c_str(),
                       currentstatus == BEGIN_FILE ? "w" : "a");
   if (currentfile) {
     fwrite(buffer, 1, bytestowrite, currentfile);
     fclose(currentfile);
     m_currenterror = TAR_NO_ERROR;
   } else {
-    { LOG(LogError) << "Can't write to " << m_outputpath + "/" + m_currentfile << ": "
+    { LOG(LogError) << "Can't write to " << m_outputpath + '/' + m_currentfile << ": "
               << strerror(errno) << "\n"; }
     m_currenterror = TAR_CANT_WRITE;
   }
@@ -144,8 +144,8 @@ uint64_t Tar::ProcessFile(uint8_t *buffer, int buffersize) {
 }
 
 bool Tar::ProcessDirectory() {
-  std::string dirpath =
-      m_outputpath + "/" + std::string(currentheader.filename);
+  String dirpath =
+      m_outputpath + '/' + String(currentheader.filename);
   bool status = mkdir(dirpath.c_str(), 0755);
   m_currenterror = TAR_NO_ERROR;
   if (!status) {
@@ -201,19 +201,19 @@ tar_error Tar::Error() {
   return m_currenterror;
 }
 
-std::string Tar::ErrorMessage() {
+String Tar::ErrorMessage() {
   switch (m_currenterror) {
     case TAR_NO_ERROR:
-      return std::string("no error");
+      return String("no error");
       break;
     case TAR_CANT_WRITE:
-      return std::string("can't write file");
+      return String("can't write file");
       break;
     case TAR_CANT_MKDIR:
-      return std::string("can't create directory");
+      return String("can't create directory");
       break;
     default:
-      return std::string("unknown error");
+      return String("unknown error");
       break;
   }
 }

@@ -72,7 +72,7 @@ class GuiMenuNetplay : public GuiMenuBase
      * IEditableComponent implementation
      */
 
-    void EditableComponentTextChanged(int id, const std::string& text) override;
+    void EditableComponentTextChanged(int id, const String& text) override;
 
     /*
      * IGuiMenuBase implementation

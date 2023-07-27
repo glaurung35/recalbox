@@ -2,7 +2,6 @@
 
 #include <components/base/Component.h>
 #include <resources/TextureResource.h>
-#include <utils/Strings.h>
 #include "IRatingComponent.h"
 
 #define NUM_RATING_STARS 5
@@ -18,8 +17,8 @@ public:
 	explicit RatingComponent(WindowManager&window, float value);
   explicit RatingComponent(WindowManager&window, unsigned int color, float value);
 
-	std::string getValue() const override { return Strings::ToString(mValue, 2); }
-	void setValue(const std::string& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
+	String getValue() const override { return String(mValue, 2); }
+	void setValue(const String& value) override; // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
   void setValue(float value); // Should be a normalized float (in the range [0..1]) - if it's not, it will be clamped.
 
 	bool ProcessInput(const InputCompactEvent& event) override;
@@ -32,7 +31,7 @@ public:
 
 	void onSizeChanged() override;
 
-	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
 	bool getHelpPrompts(Help& help) override;
 

@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
 
 class Internationalizer

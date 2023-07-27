@@ -15,7 +15,7 @@ template<class T> class OptionListComponent;
 
 class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
-                 , private IOptionListComponent<std::string>
+                 , private IOptionListComponent<String>
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -53,8 +53,8 @@ class GuiMenuCRT : public GuiMenuBase
     std::shared_ptr<OptionListComponent<CrtAdapterType>> mDac;
     CrtAdapterType mOriginalDac;
     //! Es resolution
-    std::shared_ptr<OptionListComponent<std::string>> mEsResolution;
-    std::string mOriginalEsResolution;
+    std::shared_ptr<OptionListComponent<String>> mEsResolution;
+    String mOriginalEsResolution;
     //! Force jack audio
     bool mForceJack;
     bool mOriginalForceJack;
@@ -66,22 +66,22 @@ class GuiMenuCRT : public GuiMenuBase
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
     //! Get resolutions
-    static std::vector<ListEntry<std::string>> GetEsResolutionEntries(bool only31kHz);
+    static std::vector<ListEntry<String>> GetEsResolutionEntries(bool only31kHz);
     //! Get super resolutions
-    static std::vector<ListEntry<std::string>> GetSuperRezEntries();
+    static std::vector<ListEntry<String>> GetSuperRezEntries();
 
 
     /*!
      * @brief Get Horizontal frequency display test
      * @return Text
      */
-    static std::string GetHorizontalFrequency();
+    static String GetHorizontalFrequency();
 
     /*!
      * @brief Get 50hz display test
      * @return Texg
      */
-    static std::string Get50hz();
+    static String Get50hz();
 
     /*
      * IOptionListComponent<Overclocking> implementation
@@ -93,7 +93,7 @@ class GuiMenuCRT : public GuiMenuBase
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string & value) override;
+    void OptionListComponentChanged(int id, int index, const String & value) override;
 
     /*
      * ISwitchComponent implementation

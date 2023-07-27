@@ -85,7 +85,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, FileData& singleGame,
   mDiskMinimumFree = diskMinimumFree;
 
   // Get screenscraper's thread
-  mDatabaseMessage = (_("PLEASE VISIT")).Append(' ').Append(Strings::ToUpperASCII(mEndPoint.GetProviderWebURL()));
+  mDatabaseMessage = (_("PLEASE VISIT")).Append(' ').Append(mEndPoint.GetProviderWebURL().ToUpperCase());
   // Feed threadpool
   mRunner.PushFeed(&singleGame);
   mTotal = mRunner.PendingJobs();
@@ -108,11 +108,11 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
   // Get screenscraper's thread
   const ScreenScraperUser* user = mEndPoint.GetDirectUserObject();
   int threadCount = user != nullptr ? user->mThreads : ScreenScraperApis(this, &mEndPoint).GetUserInformation().mThreads;
-  mDatabaseMessage = Strings::Replace(_N("ONLY 1 SCRAPPING ENGINE", "%i SCRAPPING ENGINES", threadCount), "%i", Strings::ToString(threadCount))
-                     .append(" - ")
-                     .append(_("PLEASE VISIT"))
-                     .append(1, ' ')
-                     .append(Strings::ToUpperASCII(mEndPoint.GetProviderWebURL()));
+  mDatabaseMessage = _N("ONLY 1 SCRAPPING ENGINE", "%i SCRAPPING ENGINES", threadCount).Replace("%i", String(threadCount))
+                     .Append(" - ")
+                     .Append(_("PLEASE VISIT"))
+                     .Append( ' ')
+                     .Append(mEndPoint.GetProviderWebURL().UpperCase());
   // Get all games to scrape
   std::vector<FileData*> allGames;
   for(SystemData* system : systemList)

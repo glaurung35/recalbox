@@ -27,7 +27,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
   // Resolution
   mOriginalEsResolution = is31kHz ? CrtConf::Instance().GetSystemCRT31kHzResolution() : CrtConf::Instance().GetSystemCRTResolution();
-  mEsResolution = AddList<std::string>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
   if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
@@ -67,7 +67,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   AddSwitch(_("V2 - 15KHZ EXTENDED RANGE"), CrtConf::Instance().GetSystemCRTExtended15KhzRange(), (int)Components::Extended15kHzRange, this,  _(MENUMESSAGE_ADVANCED_CRT_EXTENDED));
 
   // Superrez multiplier
-  AddList<std::string>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
+  AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
 #endif
 
   // Force Jack
@@ -88,16 +88,16 @@ GuiMenuCRT::~GuiMenuCRT()
     RequestReboot();
 }
 
-std::string GuiMenuCRT::Get50hz()
+String GuiMenuCRT::Get50hz()
 {
-  std::string result = Board::Instance().CrtBoard().MustForce50Hz() ? _("ON") : _("OFF");
-  result.append(1, ' ').append(_("(Hardware managed)"));
+  String result = Board::Instance().CrtBoard().MustForce50Hz() ? _("ON") : _("OFF");
+  result.Append(' ').Append(_("(Hardware managed)"));
   return result;
 }
 
-std::string GuiMenuCRT::GetHorizontalFrequency()
+String GuiMenuCRT::GetHorizontalFrequency()
 {
-  std::string result = "15khz";
+  String result = "15khz";
   switch(Board::Instance().CrtBoard().GetHorizontalFrequency())
   {
     case ICrtInterface::HorizontalFrequency::KHz31: result = "31khz";
@@ -105,7 +105,7 @@ std::string GuiMenuCRT::GetHorizontalFrequency()
     default: break;
   }
   if (Board::Instance().CrtBoard().Has31KhzSupport())
-    result.append(1, ' ').append(_("(Hardware managed)"));
+    result.Append(' ').Append(_("(Hardware managed)"));
 
   return result;
 }
@@ -146,9 +146,9 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
+  std::vector<GuiMenuBase::ListEntry<String>> list;
 
   if(only31kHz)
   {
@@ -165,10 +165,10 @@ std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntr
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetSuperRezEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetSuperRezEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> list;
-  std::string selected = CrtConf::Instance().GetSystemCRTSuperrez();
+  std::vector<GuiMenuBase::ListEntry<String>> list;
+  String selected = CrtConf::Instance().GetSystemCRTSuperrez();
 
   list.push_back({ "X6 (DEFAULT)", "x6", selected == "x6" });
   list.push_back({ "ORIGINAL", "original", selected == "original" });
@@ -198,7 +198,7 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
   }
 }
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::EsResolution)

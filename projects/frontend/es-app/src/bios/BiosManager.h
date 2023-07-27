@@ -107,14 +107,17 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @param index System index
      * @return BiosList object
      */
-    [[nodiscard]] const BiosList& SystemBios(int index) const { return mSystemBiosList[index]; }
+    [[nodiscard]] const BiosList& SystemBios(int index) const
+    {
+      return mSystemBiosList[index];
+    }
 
     /*!
      * @brief Lookup bios list for the given system
      * @param name Syste name
      * @return Bios list or nullptr if not found
      */
-    const BiosList& SystemBios(const std::string& name);
+    [[nodiscard]] const BiosList& SystemBios(const String& name) const;
 
     /*!
      * @brief Start scanning all bios and report result using the given interface

@@ -314,7 +314,7 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
     if (file->IsGame())
     {
       // Tag every first characters from every game name
-      unsigned int wc = Strings::UpperChar(file->Name());
+      String::Unicode wc = String::UpperUnicode(file->Name().ReadFirstUTF8());
       if (wc < UnicodeSize) // Ignore extended unicodes
         unicode[wc >> 5] |= 1 << (wc & 0x1F);
     }
@@ -338,12 +338,12 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
 void ISimpleGameListView::jumpToNextLetter(bool forward)
 {
   int cursorIndex = getCursorIndex();
-  UnicodeChar baseChar = Strings::UpperChar(getCursor()->Name()); // Change to dynamic naming ASAP
+  UnicodeChar baseChar = String::UpperUnicode(getCursor()->Name().ReadFirstUTF8()); // Change to dynamic naming ASAP
   int max = getCursorIndexMax() + 1;
   int step = max + (forward ? 1 : -1);
 
   for(int i = cursorIndex; (i = (i + step) % max) != cursorIndex; )
-    if (Strings::UpperChar(getDataAt(i)->Name()) != baseChar) // Change to dynamic naming ASAP
+    if (String::UpperUnicode(getDataAt(i)->Name().ReadFirstUTF8()) != baseChar) // Change to dynamic naming ASAP
     {
       setCursorIndex(i);
       break;
@@ -354,7 +354,7 @@ void ISimpleGameListView::jumpToLetter(unsigned int unicode)
 {
   for(int c = 0; c < (int)getCursorIndexMax(); ++c)
     if (getDataAt(c)->IsGame())
-      if (Strings::UpperChar(getDataAt(c)->Name()) == unicode) // Change to dynamic naming ASAP
+      if (String::UpperUnicode(getDataAt(c)->Name().ReadFirstUTF8()) == unicode) // Change to dynamic naming ASAP
       {
         setCursor(getDataAt(c));
         break;

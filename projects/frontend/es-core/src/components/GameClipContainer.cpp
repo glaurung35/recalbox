@@ -262,7 +262,7 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
                               ThemeProperties::Path | ThemeProperties::Size);
 
     std::vector<TextComponent*> labels = getMDLabels();
-    std::vector<std::string> names({
+    std::vector<String> names({
                                      "md_lbl_gameName",
                                      "md_lbl_systemName",
                                      "md_lbl_rating",

@@ -119,10 +119,10 @@ bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
   }
   else if (event.XPressed())
   {
-    std::string message = _("Game").Append(": ").Append(mGame.Name()).Append("\n");
-    message.append(_("You are about to delete this state, confirm ?"));
-    message.append("\n\n");
-    message.append(mCurrentState.GetPath().Filename());
+    String message = _("Game").Append(": ").Append(mGame.Name()).Append("\n");
+    message.Append(_("You are about to delete this state, confirm ?"))
+           .Append("\n\n")
+           .Append(mCurrentState.GetPath().Filename());
 
     auto* msg = new GuiMsgBoxScroll(mWindow, _("DELETE STATE, CONFIRM?"), message,
                                    _("YES"), [this]
@@ -144,7 +144,7 @@ bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
 bool GuiSaveStates::getHelpPrompts(Help& help)
 {
   help.Clear();
-  std::string sort = mSort == Sort::Descending ? "ASC" : "DESC";
+  String sort = mSort == Sort::Descending ? "ASC" : "DESC";
 
   help.Set(HelpType::UpDown, _("CHOOSE"))
       .Set(Help::Cancel(), _("BACK"))

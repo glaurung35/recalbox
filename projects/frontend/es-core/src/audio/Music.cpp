@@ -29,7 +29,7 @@ void Music::Initialize()
   if (mPath.IsEmpty()) return;
 
   // Check midi file
-  std::string ext = Strings::ToLowerASCII(mPath.Extension());
+  String ext = mPath.Extension().LowerCase();
   if (ext == ".mid" || ext == ".midi")
   {
     Path soundfontPath = mPath.Directory() / "soundfont.sf2";
@@ -41,7 +41,7 @@ void Music::Initialize()
   gMusic = Mix_LoadMUS(mPath.ToChars());
   if (gMusic == nullptr)
   {
-    { LOG(LogError) << "[Music] Error loading music \"" << mPath.ToString() << "\"!\n" << "	" << SDL_GetError(); }
+    { LOG(LogError) << "[Music] Error loading music \"" << mPath.ToString() << "\"!\n" << '	' << SDL_GetError(); }
     return;
   }
   mMusic = gMusic;

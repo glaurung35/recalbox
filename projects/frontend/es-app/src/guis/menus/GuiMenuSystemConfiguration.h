@@ -63,7 +63,7 @@ class GuiMenuSystemConfiguration : public GuiMenuBase
     std::vector<ListEntry<String>> GetShaderSetEntries();
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
     void OptionListComponentChanged(int id, int index, const String& value) override;

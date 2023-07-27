@@ -103,7 +103,7 @@ class MappingConfiguration
          * @param code Target code
          * @param comment Comment (doc)
          */
-        void Assign(PadItems padItem, Types type, const CodeArray codes, int count, int delay, const std::string& comment)
+        void Assign(PadItems padItem, Types type, const CodeArray codes, int count, int delay, const String& comment)
         {
           int index = (int)padItem;
           mCount[index] = count;
@@ -152,7 +152,7 @@ class MappingConfiguration
      * @param value Key code
      * @param comment Comment/doc
      */
-    void AssignMapping(const std::string& key, const std::string& value, const std::string& comment);
+    void AssignMapping(const String& key, const String& value, const String& comment);
 
     /*!
      * @brief Parse keycode name and translate to KEY_XXXXX constants
@@ -163,7 +163,7 @@ class MappingConfiguration
      * @param delay Delay between key press/release
      * @return True if the keyname has been converted successfully.
      */
-    static bool ParseKeyCode(const std::string& keyname, Mapping::CodeArray codes, Types& type, int& count, int& delay);
+    static bool ParseKeyCode(const String& keyname, Mapping::CodeArray codes, Types& type, int& count, int& delay);
 
     /*!
      * @brief Parse pad item number & name and translate it to a PadItems enum value
@@ -172,5 +172,5 @@ class MappingConfiguration
      * @param items Output PadItems value
      * @return True if the parsing has been successful
      */
-    static bool ParsePadItems(const std::string& padItemName, int& num, PadItems& items);
+    static bool ParsePadItems(const String& padItemName, int& num, PadItems& items);
 };

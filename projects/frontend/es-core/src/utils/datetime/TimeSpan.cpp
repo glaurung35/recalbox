@@ -1,4 +1,3 @@
-#include <utils/Strings.h>
 #include "DateTime.h"
 #include "TimeSpan.h"
 
@@ -18,9 +17,9 @@ TimeSpan::TimeSpan(const DateTime& start, const DateTime& stop)
   Build(epochStop - epochStart);
 }
 
-std::string TimeSpan::ToStringFormat(const char* format) const
+String TimeSpan::ToStringFormat(const char* format) const
 {
-  std::string result;
+  String result;
   bool Escaped = false;
 
   for (int index = 0; format[index] != 0;)
@@ -59,45 +58,45 @@ std::string TimeSpan::ToStringFormat(const char* format) const
     {
       case 'd':
       {
-        if (repeat == 0) result += Strings::ToString(Units._Hours / 24);
+        if (repeat == 0) result.Append(Units._Hours / 24);
         break;
       }
       case 'H':
       {
-        if (repeat == 0) result += Strings::ToString(Units._Hours);
+        if (repeat == 0) result.Append(Units._Hours);
         else if (repeat == 1) { result += ((char) ('0' + (((Units._Hours % 24) / 10) % 10))); result += ((char) ('0' + ((Units._Hours % 24) % 10))); }
         break;
       }
       case 'm':
       {
-        if (repeat == 0) result += Strings::ToString(Units._Minutes);
+        if (repeat == 0) result.Append(Units._Minutes);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Minutes / 10) % 10))); result += ((char) ('0' + (Units._Minutes % 10))); }
-        else if (repeat == 3) result+= Strings::ToString(TotalMinutes());
+        else if (repeat == 3) result.Append(TotalMinutes());
         break;
       }
       case 's':
       {
-        if (repeat == 0) result += Strings::ToString(Units._Seconds);
+        if (repeat == 0) result.Append(Units._Seconds);
         else if (repeat == 1) { result += ((char) ('0' + ((Units._Seconds / 10) % 10))); result += ((char) ('0' + (Units._Seconds % 10))); }
-        else if (repeat == 3) result += Strings::ToString(TotalSeconds());
+        else if (repeat == 3) result.Append(TotalSeconds());
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += Strings::ToString(Units._Millis);
+        if (repeat == 0) result.Append(Units._Millis);
         else if (repeat == 2) { result += ((char) ('0' + ((Units._Millis / 100) % 10))); result += ((char) ('0' + ((Units._Millis / 10) % 10))); result += ((char) ('0' + (Units._Millis % 10))); }
-        else if (repeat == 3) result += Strings::ToString(TotalMilliseconds());
+        else if (repeat == 3) result.Append(TotalMilliseconds());
         break;
       }
       case '%':
       {
-        result.append(repeat, '%');
+        result.Append('%', repeat);
         break;
       }
       default:
       {
         result += ("<Unk:");
-        result.append(repeat + 1, c);
+        result.Append(c, repeat + 1);
         result += ('>');
         break;
       }

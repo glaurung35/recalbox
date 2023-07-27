@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "utils/String.h"
 
 class InputEvent
@@ -124,6 +124,6 @@ class InputEvent
      */
 
     static String TypeToString(InputEvent::EventType type);
-    static EventType StringToType(const std::string& type);
+    static EventType StringToType(const String& type);
     static String HatDir(int val);
 };

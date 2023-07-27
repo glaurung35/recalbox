@@ -104,7 +104,7 @@ void BiosManager::ReceiveSyncMessage(const BiosMessage& message)
 }
 #endif
 
-const BiosList& BiosManager::SystemBios(const std::string& name)
+const BiosList& BiosManager::SystemBios(const String& name) const
 {
   for(const BiosList& biosList : mSystemBiosList)
     if (biosList.Name() == name)
@@ -116,19 +116,19 @@ const BiosList& BiosManager::SystemBios(const std::string& name)
 
 void BiosManager::GenerateReport() const
 {
-  std::string report = "==============================================================\r\n"
+  String report = "==============================================================\r\n"
                        "MISSING BIOS REPORT\r\n"
                        "Platform: #ARCH#\r\n"
                        "Generated on #DATE#\r\n"
                        "==============================================================\r\n\r\n";
-  Strings::ReplaceAllIn(report, "#ARCH#", Files::LoadFile(Path("/recalbox/recalbox.arch")));
-  Strings::ReplaceAllIn(report, "#DATE#", DateTime().ToLongFormat());
+  report.Replace("#ARCH#", Files::LoadFile(Path("/recalbox/recalbox.arch")))
+        .Replace("#DATE#", DateTime().ToLongFormat());
 
   for(const BiosList& biosList : mSystemBiosList)
   {
-    std::string subReport = biosList.GenerateReport();
+    String subReport = biosList.GenerateReport();
     if (!subReport.empty())
-      report.append(subReport);
+      report.Append(subReport);
   }
 
   Files::SaveFile(RootFolders::DataRootFolder / sReportPath, report);

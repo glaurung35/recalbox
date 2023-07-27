@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 #ifndef __PACKED__
 #  if  defined(__GNUC__) ||  defined (__clang__)
@@ -73,24 +73,24 @@ public:
   TimeSpan(const DateTime& start, const DateTime& stop);
 
   //! Get the current TimeSpan in Milliseconds
-  long long TotalMilliseconds() const { return (long long)Units._Hours * 3600000LL + (long long)Units._Minutes * 60000LL + (long long)Units._Seconds * 1000LL + Units._Millis; }
+  [[nodiscard]] long long TotalMilliseconds() const { return (long long)Units._Hours * 3600000LL + (long long)Units._Minutes * 60000LL + (long long)Units._Seconds * 1000LL + Units._Millis; }
   //! Get the current TimeSpan in Seconds
-  long long TotalSeconds() const { return (long long)Units._Hours * 3600LL + (long long)Units._Minutes * 60LL + (long long)Units._Seconds; }
+  [[nodiscard]] long long TotalSeconds() const { return (long long)Units._Hours * 3600LL + (long long)Units._Minutes * 60LL + (long long)Units._Seconds; }
   //! Get the current TimeSpan in Minutes
-  long long TotalMinutes() const { return (long long)Units._Hours * 60LL + (long long)Units._Minutes; }
+  [[nodiscard]] long long TotalMinutes() const { return (long long)Units._Hours * 60LL + (long long)Units._Minutes; }
   //! Get the current TimeSpan in Hours
-  long long TotalHours() const { return (long long)Units._Hours; }
+  [[nodiscard]] long long TotalHours() const { return (long long)Units._Hours; }
   //! Get the current TimeSpan in Days
-  long long TotalDays() const { return (long long)Units._Hours / 24LL; }
+  [[nodiscard]] long long TotalDays() const { return (long long)Units._Hours / 24LL; }
 
   //! Return the Hour part of the current TimeSpan
-  int Hours() const { return Units._Hours; }
+  [[nodiscard]] int Hours() const { return Units._Hours; }
   //! Return the Hour part of the current TimeSpan
-  int Minutes() const { return Units._Minutes; }
+  [[nodiscard]] int Minutes() const { return Units._Minutes; }
   //! Return the Hour part of the current TimeSpan
-  int Seconds() const { return Units._Seconds; }
+  [[nodiscard]] int Seconds() const { return Units._Seconds; }
   //! Return the Hour part of the current TimeSpan
-  int Milliseconds() const { return Units._Millis; }
+  [[nodiscard]] int Milliseconds() const { return Units._Millis; }
 
   /*!
    * Add a TimeSpan to the current TimeSpan
@@ -153,7 +153,7 @@ public:
    * @param source TimeSpan to assign to the current TimeSpan
    * @return Curent TipeSpan
    */
-  TimeSpan& operator = (const TimeSpan& source) { All = source.All; return *this; }
+  TimeSpan& operator = (const TimeSpan& source) { if (this != &source) All = source.All; return *this; }
 
   /*!
    * Equality operator
@@ -197,29 +197,29 @@ public:
    * @param to TimeSpan to compare to
    * @return -1 current < to. +1 if current > to. 0 if they are strictly equal.
    */
-  int Compare(const TimeSpan& to) const { long long c1 = TotalMilliseconds(), c2 = to.TotalMilliseconds(); return ((c1 < c2) ? -1 : ((c1 > c2) ? 1 : 0)); }
+  [[nodiscard]] int Compare(const TimeSpan& to) const { long long c1 = TotalMilliseconds(), c2 = to.TotalMilliseconds(); return ((c1 < c2) ? -1 : ((c1 > c2) ? 1 : 0)); }
 
   /*!
    * Check if the current TimeSpan is negative
    * @return True if the current TimeSpan is strictly negative. False otherwise
    */
-  bool IsNegative() const { return TotalMilliseconds() < 0; }
+  [[nodiscard]] bool IsNegative() const { return TotalMilliseconds() < 0; }
   /*!
    * Check if the current TimeSpan is positive
    * @return True if the current TimeSpan is positive or null. False otherwise
    */
-  bool IsPositive() const { return TotalMilliseconds() >= 0; }
+  [[nodiscard]] bool IsPositive() const { return TotalMilliseconds() >= 0; }
   /*!
    * Check if the current TimeSpan is null (0'ed)
    * @return True if the current TimeSpan is null. False otherwise
    */
-  bool IsNull() const { return TotalMilliseconds() == 0; }
+  [[nodiscard]] bool IsNull() const { return TotalMilliseconds() == 0; }
 
   /*!
    * Return an absolute value copy of this TaimeSpan
    * @return Positive timespan
    */
-  TimeSpan AbsoluteValue() const { return TotalMilliseconds() >= 0 ? *this : !*this; }
+  [[nodiscard]] TimeSpan AbsoluteValue() const { return TotalMilliseconds() >= 0 ? *this : !*this; }
 
   /*!
    * Return a string representation of the current object, using the following tags:
@@ -239,43 +239,43 @@ public:
    * @param format String format
    * @return String representation of the current
    */
-  std::string ToStringFormat(const char* format) const;
+  String ToStringFormat(const char* format) const;
 
   /*!
    * Format current TimeStamp to a comprehensive string.
    * @param millisecond If true, milliseconds are added as second fractions.
    * @return Formatted string
    */
-  std::string ToString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%d:%HH:%mm:%ss.%fff" : "%d:%HH:%mm:%ss"); };
+  [[nodiscard]] String ToString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%d:%HH:%mm:%ss.%fff" : "%d:%HH:%mm:%ss"); };
 
   /*!
    * Format current TimeStamp to a comprehensive string using Time unit only (no days).
    * @param millisecond If true, milliseconds are added as second fractions.
    * @return Formatted string
    */
-  std::string ToTimeString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%H:%mm:%ss.%fff" : "%H:%mm:%ss"); };
+  [[nodiscard]] String ToTimeString(bool millisecond = false) const { return ToStringFormat(millisecond ? "%H:%mm:%ss.%fff" : "%H:%mm:%ss"); };
 
   /*!
    * Format current timestamp into a string representation of the total hours
    * @return Formatted string
    */
-  std::string ToHoursString() const { return ToStringFormat("%H"); };
+  [[nodiscard]] String ToHoursString() const { return ToStringFormat("%H"); };
 
   /*!
    * Format current timestamp into a string representation of the total minutes
    * @return Formatted string
    */
-  std::string ToMinutesString() const { return ToStringFormat("%mmmm"); };
+  [[nodiscard]] String ToMinutesString() const { return ToStringFormat("%mmmm"); };
 
   /*!
    * Format current timestamp into a string representation of the total seconds
    * @return Formatted string
    */
-  std::string ToSecondsString() const { return ToStringFormat("%ssss"); };
+  [[nodiscard]] String ToSecondsString() const { return ToStringFormat("%ssss"); };
 
   /*!
    * Format current timestamp into a string representation of the total milliseconds
    * @return Formatted string
    */
-  std::string ToMillisecondsString() const { return ToStringFormat("%ffff"); };
+  [[nodiscard]] String ToMillisecondsString() const { return ToStringFormat("%ffff"); };
 };

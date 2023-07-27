@@ -13,7 +13,7 @@ HelpStyle::HelpStyle()
 {
 }
 
-void HelpStyle::FromTheme(const ThemeData& theme, const std::string& view)
+void HelpStyle::FromTheme(const ThemeData& theme, const String& view)
 {
 	const auto *elem = theme.getElement(view, "help", "helpsystem");
 	if(elem == nullptr)

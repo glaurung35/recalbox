@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 //! Rotation type
 enum class RotationType : unsigned int
@@ -23,14 +23,14 @@ typedef struct {
 class RotationUtils {
 public:
 
-  static RotationType FromString(const std::string& value){
+  static RotationType FromString(const String& value){
     if(value == "Left") return RotationType::Left;
     if(value == "Right") return RotationType::Right;
     if(value == "Upsidedown") return RotationType::Upsidedown;
     return RotationType::None;
   }
 
-  static std::string StringValue(RotationType value){
+  static String StringValue(RotationType value){
     switch(value){
       case(RotationType::Left): return "Left";
       case(RotationType::Right): return "Right";
@@ -40,7 +40,7 @@ public:
     return "None";
   }
 
-  static RotationType FromAngle(const std::string& angle){
+  static RotationType FromAngle(const String& angle){
     if(angle == "90") return RotationType::Left;
     if(angle == "270") return RotationType::Right;
     if(angle == "180") return RotationType::Upsidedown;

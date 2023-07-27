@@ -18,7 +18,7 @@ void Raspberry::SetRoute(Raspberry::Output output)
   snd_ctl_elem_value_alloca(&control);
 
   // Convert output to string
-  std::string value = Strings::ToString((int)output);
+  String value = String((int)output);
 
   // Open
   if (snd_ctl_ascii_elem_id_parse(id, "numid=3") != 0) { LOG(LogError) << "[Alsa] Cannot get ID 3"; return; }

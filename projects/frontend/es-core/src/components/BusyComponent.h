@@ -15,7 +15,7 @@ public:
 	~BusyComponent() override = default;
 
 	void onSizeChanged() override;
-	void setText(std::string txt);
+	void setText(String txt);
 
 	void Render(const Transform4x4f& parentTrans) override;
 
@@ -39,6 +39,6 @@ private:
 
 	Mutex mMutex;
 	bool mThreadMessagechanged;
-	std::string threadMessage;
+	String threadMessage;
   bool mEnabled;
 };

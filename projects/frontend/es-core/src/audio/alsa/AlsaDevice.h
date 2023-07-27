@@ -3,20 +3,20 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "audio/NameFiltering.h"
 
 class AlsaDevice
 {
   private:
     // Internal references
-    std::string mDeviceName; //!< Device name
+    String mDeviceName; //!< Device name
     int mDeviceId;           //!< Device ID
     int mSubDeviceCount;     //!< Sub device copunt
 
   public:
     //! Default constructor
-    AlsaDevice(int id, const std::string& name, int subdevices)
+    AlsaDevice(int id, const String& name, int subdevices)
     {
       mDeviceId = id;
       mDeviceName = NameFiltering::Filter(name, NameFiltering::Source::Device);
@@ -26,5 +26,5 @@ class AlsaDevice
     //! Get mixer identifier
     int Identifier() const { return mDeviceId; }
     //! Get mixer name
-    const std::string& Name() const { return mDeviceName; }
+    const String& Name() const { return mDeviceName; }
 };

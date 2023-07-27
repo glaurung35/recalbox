@@ -70,11 +70,11 @@ void OdroidAdvanceGo2Board::SetLowestBrightness()
 
 void OdroidAdvanceGo2Board::SetBrightness(int step)
 {
-  std::string maxValue = Files::LoadFile(Path("/sys/class/backlight/backlight/max_brightness"));
+  String maxValue = Files::LoadFile(Path("/sys/class/backlight/backlight/max_brightness"));
   int max = 160; // Max GoS value
-  Strings::ToInt(Strings::Trim(maxValue, "\r\n"), max);
+  (void)maxValue.Trim("\r\n").TryAsInt(max);
   int value = 1 << step; if (value > max) value = max;
-  Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), Strings::ToString(value));
+  Files::SaveFile(Path("/sys/class/backlight/backlight/brightness"), String(value));
 }
 
 void OdroidAdvanceGo2Board::SetCPUGovernance(IBoardInterface::CPUGovernance cpuGovernance)
@@ -113,14 +113,14 @@ int OdroidAdvanceGo2Board::BatteryChargePercent()
 {
   static Path sBatteryCharge(sBatteryCapacityPath);
   int charge = -1;
-  Strings::ToInt(Strings::Trim(Files::LoadFile(sBatteryCharge), "\n"), charge);
+  (void)Files::LoadFile(sBatteryCharge).Trim('\n').TryAsInt(charge);
   return charge;
 }
 
 bool OdroidAdvanceGo2Board::IsBatteryCharging()
 {
   static Path sBatteryStatus(sBatteryStatusPath);
-  return Strings::Trim(Files::LoadFile(sBatteryStatus), "\n") == "Charging";
+  return Files::LoadFile(sBatteryStatus).Trim('\n') == "Charging";
 }
 
 void OdroidAdvanceGo2Board::HeadphonePlugged()

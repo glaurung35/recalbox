@@ -35,7 +35,7 @@ void InputMapper::Build()
   // Also add non-connected pads to the phantom list
   for(Pad& device : mPads)
     if (device.IsValid())
-      if ((device.Identifier = LookupAndPopDevice(activePads, device)) < 0)
+      if (device.Identifier = LookupAndPopDevice(activePads, device); device.Identifier < 0)
       {
         mUnconnected.push_back(device);
         { LOG(LogDebug) << "[PadMapping] Move to unconnected: " << device.AsString(); }
@@ -69,9 +69,9 @@ void InputMapper::Build()
 void InputMapper::LoadConfiguration()
 {
   // Fill from configuration
-  std::string uuid, name;
+  String uuid, name;
   for(int i = Input::sMaxInputDevices; --i >= 0; )
-    if (Strings::SplitAt(RecalboxConf::Instance().GetPad(i), ':', uuid, name, true))
+    if (RecalboxConf::Instance().GetPad(i).Extract(':', uuid, name, true))
     {
       mPads[i].Set(name, uuid, -1);
       { LOG(LogDebug) << "[PadMapping] Load pad @" << i << " = " << mPads[i].AsString(); }
@@ -83,7 +83,7 @@ void InputMapper::SaveConfiguration()
   for(int i = Input::sMaxInputDevices; --i >= 0;)
     if (mPads[i].IsValid())
     {
-      RecalboxConf::Instance().SetPad(i, std::string(mPads[i].UUID).append(1, ':').append(mPads[i].Name));
+      RecalboxConf::Instance().SetPad(i, String(mPads[i].UUID).Append(':').Append(mPads[i].Name));
       { LOG(LogDebug) << "[PadMapping] Save pad @" << i << " = " << mPads[i].AsString(); }
     }
   RecalboxConf::Instance().Save();
@@ -95,7 +95,7 @@ InputMapper::PadList InputMapper::AvailablePads()
   for(int i = 0; i < InputManager::Instance().DeviceCount(); ++i)
   {
     const InputDevice& device = InputManager::Instance().GetDeviceConfigurationFromIndex(i);
-    result.push_back(Pad(Strings::Trim(device.Name(), " \t\r\n"), device.GUID(), device.Identifier()));
+    result.push_back(Pad(device.Name().Trim(), device.GUID(), device.Identifier()));
     { LOG(LogDebug) << "[PadMapping] Available pad @" << i << " = " << result.back().AsString(); }
   }
   return result;
@@ -150,7 +150,7 @@ int InputMapper::LookupAndPopDevice(PadList& list, const Pad& pad)
   return -1;
 }
 
-std::string InputMapper::GetDecoratedName(int index)
+String InputMapper::GetDecoratedName(int index)
 {
   int count = 0;
   const Pad& pad = mPads[index];
@@ -160,10 +160,10 @@ std::string InputMapper::GetDecoratedName(int index)
         if (current.Identifier < pad.Identifier)
           count++;
 
-  std::string result(pad.Name);
-  if (count > 0) result.append(LEGACY_STRING(" #")).append(Strings::ToString(count + 1));
-  result.insert(0, pad.Identifier < 0 ? "\u26aa" : "\u26ab")
-        .append(pad.Identifier < 0 ? "\u26aa" : "\u26ab");
+  String result(pad.Name);
+  if (count > 0) result.Append(LEGACY_STRING(" #")).Append(count + 1);
+  result.Insert(0, pad.Identifier < 0 ? "\u26aa" : "\u26ab")
+        .Append(pad.Identifier < 0 ? "\u26aa" : "\u26ab");
   return result;
 }
 

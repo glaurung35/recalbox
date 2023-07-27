@@ -112,9 +112,9 @@ void PadConfiguration::Load()
                   if (strcmp(type, "button") == 0) item.Type = InputEvent::EventType::Button;
                   else if (strcmp(type, "hat") == 0) item.Type = InputEvent::EventType::Hat;
                   else if (strcmp(type, "axis") == 0) item.Type = InputEvent::EventType::Axis;
-                  Strings::ToInt(id, item.Id);
-                  Strings::ToInt(value, item.Value);
-                  Strings::ToInt(code, item.Code);
+                  (void)String(id).TryAsInt(item.Id);
+                  (void)String(value).TryAsInt(item.Value);
+                  (void)String(code).TryAsInt(item.Code);
                   break;
                 }
               }

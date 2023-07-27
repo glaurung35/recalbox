@@ -288,7 +288,7 @@ void GuiSearch::Render(const Transform4x4f& parentTrans)
   Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0x00000011);
 }
 
-void GuiSearch::PopulateGrid(const std::string& search)
+void GuiSearch::PopulateGrid(const String& search)
 {
   if (mList)
     mList->clear();
@@ -307,10 +307,8 @@ void GuiSearch::PopulateGrid(const std::string& search)
       for (auto *game : mSearchResults)
       {
         row.elements.clear();
-        std::string gameName;
-
-        gameName.append(game->System().Descriptor().IconPrefix());
-        gameName.append(game->Metadata().Name());
+        String gameName(game->System().Descriptor().IconPrefix());
+        gameName.Append(game->Metadata().Name());
 
         ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
                                              mMenuTheme->menuText.color,
@@ -432,13 +430,13 @@ void GuiSearch::GoToGame()
   }
 }
 
-void GuiSearch::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& /*vk*/, const std::string& text)
+void GuiSearch::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& /*vk*/, const String& text)
 {
   mSearch->setValue(text);
   PopulateGrid(text);
 }
 
-void GuiSearch::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& /*vk*/, const std::string& /*text*/)
+void GuiSearch::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& /*vk*/, const String& /*text*/)
 {
 }
 

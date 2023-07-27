@@ -1,4 +1,3 @@
-#include <algorithm>
 #include "Component.h"
 #include "WindowManager.h"
 #include "utils/Log.h"
@@ -30,11 +29,11 @@ Component::~Component()
 {
 	cancelAllAnimations();
 
-	if(mParent != nullptr)
-		mParent->removeChild(this);
+  if(mParent != nullptr)
+    mParent->removeChild(this);
 
-	for (int i = (int)getChildCount(); --i >= 0; )
-		getChild(i)->setParent(nullptr);
+  for (int i = (int)getChildCount(); --i >= 0; )
+    getChild(i)->setParent(nullptr);
 
   delete mChildren;
 }
@@ -55,7 +54,7 @@ void Component::updateSelf(int deltaTime)
 		advanceAnimation(i, deltaTime);
 }
 
-void Component::updateChildren(int deltaTime)
+void Component::updateChildren(int deltaTime) const
 {
 	for (unsigned int i = 0; i < getChildCount(); i++)
 	{
@@ -185,7 +184,7 @@ void Component::setOpacity(unsigned char opacity)
 {
 	mOpacity = opacity;
 	if (mChildren != nullptr)
-    for (auto it : *mChildren)
+    for (auto *it : *mChildren)
     {
       it->setOpacity(opacity);
     }
@@ -223,7 +222,7 @@ const Transform4x4f& Component::getTransform()
 void Component::textInput(const char* text)
 {
   if (mChildren != nullptr)
-    for (auto iter : *mChildren)
+    for (auto *iter : *mChildren)
     {
       iter->textInput(text);
     }
@@ -331,17 +330,19 @@ int Component::getAnimationTime(unsigned char slot) const
 	return mAnimationMap[slot]->getTime();
 }
 
-Vector2f Component::denormalise(float x, float y) {
+Vector2f Component::denormalise(float x, float y)
+{
     Vector2f value(x, y);
     return denormalise(value);
 }
 
-Vector2f Component::denormalise(const Vector2f& value) {
+Vector2f Component::denormalise(const Vector2f& value) const
+{
     Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
     return value * scale;
 }
 
-void Component::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void Component::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 

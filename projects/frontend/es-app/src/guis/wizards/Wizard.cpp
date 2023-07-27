@@ -9,7 +9,7 @@
 #include <components/ImageComponent.h>
 #include <help/Help.h>
 
-Wizard::Wizard(WindowManager& window, const std::string& title, int pageCount)
+Wizard::Wizard(WindowManager& window, const String& title, int pageCount)
   : Gui(window)
   , mBackground(window)
   , mGrid(window, { 5, 3 })

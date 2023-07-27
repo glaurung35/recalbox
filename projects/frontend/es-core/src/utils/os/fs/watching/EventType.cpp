@@ -1,25 +1,25 @@
 #include "EventType.h"
 
-std::string& operator <<(std::string& stream, const EventType& event)
+String& operator <<(String& stream, const EventType& event)
 {
-  if (hasFlag(event, EventType::Access))       stream.append("access ");
-  if (hasFlag(event, EventType::Attrib))       stream.append("attrib ");
-  if (hasFlag(event, EventType::CloseWrite))   stream.append("close_write ");
-  if (hasFlag(event, EventType::CloseNowrite)) stream.append("close_nowrite ");
-  if (hasFlag(event, EventType::Create))       stream.append("create ");
-  if (hasFlag(event, EventType::Remove))       stream.append("remove ");
-  if (hasFlag(event, EventType::RemoveSelf))   stream.append("remove_self ");
-  if (hasFlag(event, EventType::Modify))       stream.append("modify ");
-  if (hasFlag(event, EventType::MoveSelf))     stream.append("move_self ");
-  if (hasFlag(event, EventType::MovedFrom))    stream.append("moved_from ");
-  if (hasFlag(event, EventType::MovedTo))      stream.append("moved_to ");
-  if (hasFlag(event, EventType::Open))         stream.append("open ");
-  if (hasFlag(event, EventType::IsDir))        stream.append("is_dir ");
-  if (hasFlag(event, EventType::Unmount))      stream.append("unmount ");
-  if (hasFlag(event, EventType::QOverflow))    stream.append("q_overflow ");
-  if (hasFlag(event, EventType::Close))        stream.append("close ");
-  if (hasFlag(event, EventType::Ignored))      stream.append("ignored ");
-  if (hasFlag(event, EventType::Oneshot))      stream.append("oneshot ");
+  if (hasFlag(event, EventType::Access))       stream.Append("access ");
+  if (hasFlag(event, EventType::Attrib))       stream.Append("attrib ");
+  if (hasFlag(event, EventType::CloseWrite))   stream.Append("close_write ");
+  if (hasFlag(event, EventType::CloseNowrite)) stream.Append("close_nowrite ");
+  if (hasFlag(event, EventType::Create))       stream.Append("create ");
+  if (hasFlag(event, EventType::Remove))       stream.Append("remove ");
+  if (hasFlag(event, EventType::RemoveSelf))   stream.Append("remove_self ");
+  if (hasFlag(event, EventType::Modify))       stream.Append("modify ");
+  if (hasFlag(event, EventType::MoveSelf))     stream.Append("move_self ");
+  if (hasFlag(event, EventType::MovedFrom))    stream.Append("moved_from ");
+  if (hasFlag(event, EventType::MovedTo))      stream.Append("moved_to ");
+  if (hasFlag(event, EventType::Open))         stream.Append("open ");
+  if (hasFlag(event, EventType::IsDir))        stream.Append("is_dir ");
+  if (hasFlag(event, EventType::Unmount))      stream.Append("unmount ");
+  if (hasFlag(event, EventType::QOverflow))    stream.Append("q_overflow ");
+  if (hasFlag(event, EventType::Close))        stream.Append("close ");
+  if (hasFlag(event, EventType::Ignored))      stream.Append("ignored ");
+  if (hasFlag(event, EventType::Oneshot))      stream.Append("oneshot ");
 
   return stream;
 }

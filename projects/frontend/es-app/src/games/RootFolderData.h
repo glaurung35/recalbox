@@ -28,7 +28,7 @@ class RootFolderData : public FolderData
       , mSystem(system)
       , mChildOwnership(childownership)
       , mType(type)
-      , mPreinstalled(Strings::Contains(startpath.ToString(), "/share_init"))
+      , mPreinstalled(startpath.ToString().Contains("/share_init"))
     {
     }
 

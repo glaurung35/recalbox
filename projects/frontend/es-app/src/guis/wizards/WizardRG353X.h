@@ -40,7 +40,7 @@ class WizardRG353X : public WizardLanguage
     Path OnImageRequired(int page) override;
 
     //! Called when a page text is required
-    std::string OnTextRequired(int page) override;
+    String OnTextRequired(int page) override;
 
     //! Called when z key event is received
     Move OnKeyReceived(int page, const InputCompactEvent& event) override;

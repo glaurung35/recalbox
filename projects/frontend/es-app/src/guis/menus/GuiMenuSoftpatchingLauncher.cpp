@@ -8,7 +8,7 @@
 
 GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
                                                          FileData& game,
-                                                         std::vector<Path>& patches,
+                                                         std::vector<Path>&& patches,
                                                          int lastChoice,
                                                          ISoftPatchingNotifier* notifier)
   : GuiMenuBase(window, _("SOFTPATCHING"), nullptr)
@@ -16,9 +16,9 @@ GuiMenuSoftpatchingLauncher::GuiMenuSoftpatchingLauncher(WindowManager& window,
   , mPatches(patches)
 {
     // Footer
-    std::string gameName(game.Name());
-    gameName.append(" (").append(game.RomPath().Filename()).append(1, ')');
-    SetFooter(Strings::Replace(_("GAME %s"), "%s", Strings::ToUpperUTF8(gameName)));
+    String gameName(game.Name());
+    gameName.Append(" (").Append(game.RomPath().Filename()).Append(')');
+    SetFooter(_("GAME %s").Replace("%s", gameName.UpperCaseUTF8()));
 
     // select
     mPaths = AddList<Path>(_("select a patch"),(int) Components::Patch, this,GetPatchesEntries(), "");
@@ -39,7 +39,7 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuSoftpatchingLauncher::GetPatche
   for(auto& path : mPatches)
   {
     bool isDefault = patchListSize == 1 || (path == mGame.Metadata().LastPatch() && mGame.Metadata().LastPatch().Exists()) || nb == 1;
-   std::string patchName = path.Directory() == mGame.RomPath().Directory() ? path.Filename() + " (auto)" : path.Filename();
+   String patchName = path.Directory() == mGame.RomPath().Directory() ? path.Filename() + " (auto)" : path.Filename();
 
     list.push_back({ patchName, path , isDefault });
     nb++;

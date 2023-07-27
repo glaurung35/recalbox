@@ -10,7 +10,7 @@
 #define MOVE_REPEAT_DELAY 500
 #define MOVE_REPEAT_RATE 40
 
-SliderComponent::SliderComponent(WindowManager&window, float min, float max, float increment, const std::string& suffix)
+SliderComponent::SliderComponent(WindowManager&window, float min, float max, float increment, const String& suffix)
   : Component(window)
   , mMin(min)
   , mMax(max)
@@ -126,8 +126,8 @@ void SliderComponent::onValueChanged()
 	// update suffix textcache
 	if(mFont)
 	{
-		const std::string val = Strings::ToString(mValue, 0) + mSuffix;
-		const std::string max = Strings::ToString(mMax, 0) + mSuffix;
+		String val(mValue, 0); val.Append(mSuffix);
+		String max(mMax, 0); max.Append(mSuffix);
 
 		Vector2f textSize = mFont->sizeText(max);
 

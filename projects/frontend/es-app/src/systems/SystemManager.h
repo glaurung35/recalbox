@@ -125,7 +125,7 @@ class SystemManager : private INoCopy // No copy allowed
     //! Interface for system changes
     ISystemChangeNotifier* mSystemChangeNotifier;
 
-    HashSet<std::string>& mWatcherIgnoredFiles;
+    HashSet<String>& mWatcherIgnoredFiles;
 
     //! The system manager is instructed to reload game list from disk, not only from gamelist.xml
     bool mForceReload;
@@ -239,8 +239,9 @@ class SystemManager : private INoCopy // No copy allowed
      * @brief Initialize system - Populate, then call either InitializeVirtualSystem or InitializeRegularSystem
      * Calling this method multiple times has no effect
      * @param system System to initialize
+     * @param initializeOnly True to initialize the system without populating it first. False to populate and initialize
      */
-    void InitializeSystem(SystemData* system);
+    void InitializeSystem(SystemData* system, bool initializeOnly);
 
     /*!
      * @brief Top level virtual system populate - load theme, then set initialized
@@ -463,7 +464,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param removedSystems Removed system or nullptr
      * @param modifiedSystems Modified system or nullptr
      */
-    void NotifySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
+    void ApplySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
 
     /*
      * Log facilities
@@ -478,7 +479,7 @@ class SystemManager : private INoCopy // No copy allowed
     /*!
      * @brief constructor
      */
-    explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<std::string>& watcherIgnoredFiles)
+    explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<String>& watcherIgnoredFiles)
       : mMountPointMonitoring(this)
       , mFastSearchSeries()
       , mFastSearchCacheHash(0)
@@ -533,7 +534,14 @@ class SystemManager : private INoCopy // No copy allowed
      * @param name Short name
      * @return System instance of nullptr if not found
      */
-    SystemData* SystemByName(const std::string& name);
+    SystemData* SystemByName(const String& name);
+
+    /*!
+     * @brief Lookup virtual system by type
+     * @param type Virtual system type
+     * @return System reference - never null
+     */
+    SystemData* VirtualSystemByType(VirtualSystemType type);
 
     /*!
      * @brief Get the first non-empty system
@@ -546,7 +554,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param name System name
      * @return System index or -1 if not found
      */
-    int getVisibleSystemIndex(const std::string& name);
+    int getVisibleSystemIndex(const String& name);
 
     /*!
      * @brief Update gamelist that contain modified game metadata
@@ -653,7 +661,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param maxglobal Maximum results
      * @return Sorted game found list
      */
-    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const std::string& text, int maxglobal, const SystemData* targetSystem);
+    FileData::List SearchTextInGames(FolderData::FastSearchContext context, const String& text, int maxglobal, const SystemData* targetSystem);
 
     /*!
      * @brief Autoscrape system with game in png
@@ -681,7 +689,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param filePath file path to lookup
      * @return FileData or nullptr if no game is found
      */
-    FileData* LookupGameByFilePath(const std::string& filePath);
+    FileData* LookupGameByFilePath(const String& filePath);
 
     /*!
      * @brief Create an empty rom structure in
@@ -690,7 +698,7 @@ class SystemManager : private INoCopy // No copy allowed
      */
     static bool CreateRomFoldersIn(const DeviceMount& device);
 
-    void AddWatcherIgnoredFiles(const std::string& path) { mWatcherIgnoredFiles.insert(path); }
+    void AddWatcherIgnoredFiles(const String& path) { mWatcherIgnoredFiles.insert(path); }
 
     /*!
      * @brief Get an existing system or create it if it does not exists!

@@ -69,7 +69,7 @@ std::vector<GuiMenuBase::ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> 
   ScreenScraperEnums::ScreenScraperVideoType videoCode = RecalboxConf::Instance().GetScreenScraperVideo();
   std::vector<ListEntry<ScreenScraperEnums::ScreenScraperVideoType>> list;
   list.push_back({ _("No video"), ScreenScraperEnums::ScreenScraperVideoType::None, ScreenScraperEnums::ScreenScraperVideoType::None == videoCode });
-  list.push_back({ std::string(_("Optimized video")).append(" (").append(_("RECOMMENDED")).append(")"),
+  list.push_back({ String(_("Optimized video")).Append(" (").Append(_("RECOMMENDED")).Append(')'),
                    ScreenScraperEnums::ScreenScraperVideoType::Optimized,ScreenScraperEnums::ScreenScraperVideoType::Optimized == videoCode });
   list.push_back({ _("Original video"),   ScreenScraperEnums::ScreenScraperVideoType::Raw,  ScreenScraperEnums::ScreenScraperVideoType::Raw == videoCode});
   return list;
@@ -113,7 +113,7 @@ std::vector<GuiMenuBase::ListEntry<Languages>> GuiMenuScreenScraperOptions::GetL
   return list;
 }
 
-void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const std::string& text)
+void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const String& text)
 {
   if ((Components)id == Components::Login) SetLogin(text);
   else if ((Components)id == Components::Password) SetPassword(text);
@@ -168,7 +168,7 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
     RecalboxConf::Instance().SetScreenScraperLanguage(value).Save();
 }
 
-std::string GuiMenuScreenScraperOptions::GetLogin()
+String GuiMenuScreenScraperOptions::GetLogin()
 {
   switch(mType)
   {
@@ -177,10 +177,10 @@ std::string GuiMenuScreenScraperOptions::GetLogin()
     case ScraperType::TheGameDB:
     default: break;
   }
-  return std::string();
+  return String();
 }
 
-std::string GuiMenuScreenScraperOptions::GetPassword()
+String GuiMenuScreenScraperOptions::GetPassword()
 {
   switch(mType)
   {
@@ -189,10 +189,10 @@ std::string GuiMenuScreenScraperOptions::GetPassword()
     case ScraperType::TheGameDB:
     default: break;
   }
-  return std::string();
+  return String();
 }
 
-void GuiMenuScreenScraperOptions::SetLogin(const std::string& login)
+void GuiMenuScreenScraperOptions::SetLogin(const String& login)
 {
   switch(mType)
   {
@@ -203,7 +203,7 @@ void GuiMenuScreenScraperOptions::SetLogin(const std::string& login)
   }
 }
 
-void GuiMenuScreenScraperOptions::SetPassword(const std::string& password)
+void GuiMenuScreenScraperOptions::SetPassword(const String& password)
 {
   switch(mType)
   {

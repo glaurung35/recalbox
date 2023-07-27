@@ -1,5 +1,5 @@
 #include "Thread.h"
-#include <string>
+#include <utils/String.h>
 #include <utils/Log.h>
 #include <cstring>
 
@@ -12,7 +12,7 @@ Thread::Thread()
 {
   static int sTotalCount = 0;
   memset(mName, 0, sizeof(mName));
-  std::string strName = "thread " + std::to_string(++sTotalCount);
+  String strName = "thread " + std::to_string(++sTotalCount);
   int len = (int)strName.size() + 1;
   if (len > (int)sizeof(mName)) len = (int)sizeof(mName);
   strncpy(mName, strName.c_str(), len);
@@ -23,7 +23,7 @@ Thread::~Thread()
   Stop();
 }
 
-void Thread::Start(const std::string& name)
+void Thread::Start(const String& name)
 {
   Stop();
 

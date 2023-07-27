@@ -6,7 +6,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <games/FileData.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperUser.h>
 
@@ -48,7 +48,7 @@ class IEndPointProvider
      * @brief Get base url for relative media
      * @return Base url
      */
-    virtual std::string GetUrlBase() = 0;
+    virtual String GetUrlBase() = 0;
 
     /*!
      * @brief Provide a user info Url built from the given credentials
@@ -56,7 +56,7 @@ class IEndPointProvider
      * @param password Password
      * @return User info Url
      */
-    virtual std::string GetUserInfoUrl(const std::string& login, const std::string& password) = 0;
+    virtual String GetUserInfoUrl(const String& login, const String& password) = 0;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -70,7 +70,7 @@ class IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    virtual std::string GetGameInfoUrl(const std::string& login, const std::string& password, const FileData& game, const std::string& crc32, const std::string& md5, long long size) = 0;
+    virtual String GetGameInfoUrl(const String& login, const String& password, const FileData& game, const String& crc32, const String& md5, long long size) = 0;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -82,7 +82,7 @@ class IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    virtual std::string GetGameInfoUrlByMD5(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) = 0;
+    virtual String GetGameInfoUrlByMD5(const String& login, const String& password, const FileData& game, const String& md5, long long size) = 0;
 
     /*!
      * @brief Provide a game info Url built from the given parameters
@@ -94,7 +94,7 @@ class IEndPointProvider
      * @param size Rom file size
      * @return Game info Url
      */
-    virtual std::string GetGameInfoUrlByName(const std::string& login, const std::string& password, const FileData& game, const std::string& md5, long long size) = 0;
+    virtual String GetGameInfoUrlByName(const String& login, const String& password, const FileData& game, const String& md5, long long size) = 0;
 
     /*!
      * @brief Add (or not) query parameters to media request
@@ -102,11 +102,11 @@ class IEndPointProvider
      * @param size game file size
      * @param url Url to decorate
      */
-    virtual void AddQueryParametersToMediaRequest(const FileData* game, long long size, std::string& url) = 0;
+    virtual void AddQueryParametersToMediaRequest(const FileData* game, long long size, String& url) = 0;
 
     /*!
      * @brief Return the endpoint provider web url
      * @return Web url
      */
-    virtual std::string GetProviderWebURL() = 0;
+    virtual String GetProviderWebURL() = 0;
 };

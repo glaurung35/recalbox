@@ -8,11 +8,11 @@
 class GuiTextEditPopupKeyboard : public Gui
 {
 public:
-	GuiTextEditPopupKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
-                           const std::function<void(const std::string&)>& okCallback, bool multiLine,
-                           const std::string& acceptBtnText);
-  GuiTextEditPopupKeyboard(WindowManager& window, const std::string& title, const std::string& initValue,
-                           const std::function<void(const std::string&)>& okCallback, bool multiLine)
+	GuiTextEditPopupKeyboard(WindowManager& window, const String& title, const String& initValue,
+                           const std::function<void(const String&)>& okCallback, bool multiLine,
+                           const String& acceptBtnText);
+  GuiTextEditPopupKeyboard(WindowManager& window, const String& title, const String& initValue,
+                           const std::function<void(const String&)>& okCallback, bool multiLine)
     : GuiTextEditPopupKeyboard(window, title, initValue, okCallback, multiLine, "OK")
   {
   }
@@ -28,9 +28,9 @@ private:
     {
     public:
         std::shared_ptr<ButtonComponent> button;
-		    const std::string key;
-		    const std::string shiftedKey;
-        KeyboardButton(const std::shared_ptr<ButtonComponent>& b, const std::string& k, const std::string& sk)
+		    const String key;
+		    const String shiftedKey;
+        KeyboardButton(const std::shared_ptr<ButtonComponent>& b, const String& k, const String& sk)
           : button(b),
             key(k),
             shiftedKey(sk)
@@ -39,7 +39,7 @@ private:
     };
 
 	void switchShift();
-    std::shared_ptr<ButtonComponent> makeButton(const std::string& key, const std::string& shiftedKey);
+    std::shared_ptr<ButtonComponent> makeButton(const String& key, const String& shiftedKey);
 
     NinePatchComponent mBackground;
 	ComponentGrid mGrid;

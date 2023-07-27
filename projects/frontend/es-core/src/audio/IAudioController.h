@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <utils/String.h>
 #include "DeviceDescriptor.h"
 #include <audio/IAudioNotification.h>
 
@@ -31,7 +31,7 @@ class IAudioController
      * @param playbackName playback name from GetPlaybackList()
      * @return playbackName or default value if playbackName is invalid
      */
-    virtual std::string SetDefaultPlayback(const std::string& playbackName) = 0;
+    virtual String SetDefaultPlayback(const String& playbackName) = 0;
 
     /*!
      * @brief Get volume from the given playback
@@ -53,7 +53,7 @@ class IAudioController
     /*!
      * @brief Get current running audio output name
      */
-    virtual std::string GetActivePlaybackName() = 0;
+    virtual String GetActivePlaybackName() = 0;
 
     virtual void SetNotificationCallback(IAudioNotification*) = 0;
 

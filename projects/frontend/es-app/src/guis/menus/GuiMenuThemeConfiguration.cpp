@@ -6,7 +6,7 @@
 #include "GuiMenuThemeConfiguration.h"
 #include "guis/MenuMessages.h"
 
-GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, const std::string& themeName)
+GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, const String& themeName)
   : GuiMenuBase(window, _("THEME CONFIGURATION"), nullptr)
   , mThemeName(themeName)
   , mReloadRequired(false)
@@ -52,7 +52,7 @@ GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
   }
 }
 
-void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)
@@ -67,15 +67,16 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
   }
 }
 
-GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const std::string& label, const std::string& help, const std::string& selected, const StringMaps & items, Components id, std::string& original)
+GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const StringMaps & items, Components id, String& original)
 {
   auto selectedColorSet = items.find(selected);
   if (selectedColorSet == items.end()) selectedColorSet = items.begin();
   if (!items.empty()) original = selectedColorSet->first;
 
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
   for (const auto& it : items)
     list.push_back({ it.first, it.first, it.first == selectedColorSet->first });
+  std::sort(list.begin(), list.end(), [] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return a.mText < b.mText; });
 
   if (!items.empty())
   {

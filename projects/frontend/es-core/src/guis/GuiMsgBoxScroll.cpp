@@ -6,10 +6,10 @@
 //#define HORIZONTAL_PADDING_PX 20
 
 GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
-                                 const std::string& title, const std::string& text,
-                                 const std::string& name1, const std::function<void()>& func1,
-                                 const std::string& name2, const std::function<void()>& func2,
-                                 const std::string& name3, const std::function<void()>& func3,
+                                 const String& title, const String& text,
+                                 const String& name1, const std::function<void()>& func1,
+                                 const String& name2, const std::function<void()>& func2,
+                                 const String& name3, const std::function<void()>& func3,
                                  TextAlignment align, float height)
   : Gui(window)
   , mBackground(window, Path(":/frame.png"))
@@ -51,15 +51,14 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	if(mButtons.size() == 1)
 	{
 		mAcceleratorFunc = mButtons.front()->getPressedFunc();
-	}else{
+	}else
+  {
 		for (auto& mButton : mButtons)
-		{
-			if(Strings::ToUpperASCII(mButton->getText()) == "OK" || Strings::ToUpperASCII(mButton->getText()) == "NO")
+			if (String buttonUC = mButton->getText().ToUpperCase(); buttonUC == "OK" || buttonUC == "NO") // #TODO Do not rely on button texts
 			{
 				mAcceleratorFunc = mButton->getPressedFunc();
 				break;
 			}
-		}
 	}
 
 	// put the buttons into a ComponentGrid

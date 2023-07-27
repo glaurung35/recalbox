@@ -370,7 +370,7 @@ void SystemView::onCursorChanged(const CursorState& state)
 
   Animation* anim = nullptr;
   bool move_carousel = RecalboxConf::Instance().GetThemeCarousel();
-  std::string transition_style = RecalboxConf::Instance().GetThemeTransition();
+  String transition_style = RecalboxConf::Instance().GetThemeTransition();
   if(transition_style == "fade")
   {
     float startExtrasFade = mExtrasFadeOpacity;
@@ -732,7 +732,12 @@ void SystemView::getCarouselFromTheme(const ThemeElement* elem)
 
 void SystemView::removeSystem(SystemData * system)
 {
-  (void)std::remove_if(mEntries.begin(), mEntries.end(), [&](const auto& item) -> bool { return item.object->Name() == system->Name(); });
+  for(auto it = mEntries.begin(); it != mEntries.end(); ++it)
+    if (it->object == system)
+    {
+      mEntries.erase(it);
+      break;
+    }
 }
 
 /**
@@ -781,7 +786,7 @@ void SystemView::manageSystemsList()
 SystemData* SystemView::LookupSystemByName(const String& name)
 {
   for (auto& mEntrie : mEntries)
-    if ((std::string)mEntrie.object->Name() == name)
+    if (mEntrie.object->Name() == name)
       return mEntrie.object;
   return nullptr;
 }

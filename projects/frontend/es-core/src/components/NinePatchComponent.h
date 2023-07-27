@@ -30,7 +30,7 @@ public:
 	void setEdgeColor(unsigned int edgeColor); // Apply a color shift to the "edge" parts of the ninepatch.
 	void setCenterColor(unsigned int centerColor); // Apply a color shift to the "center" part of the ninepatch.
 
-	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
 	float MargingX() const { return mW; }
   float MargingY() const { return mH; }

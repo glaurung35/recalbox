@@ -59,7 +59,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     struct ParamBag
     {
       //! Action parameters
-      std::string mActionParameters;
+      String mActionParameters;
       //! System
       const SystemData* mSystemData;
       // Game
@@ -85,7 +85,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
        * @param action Action
        * @param actionParameters Optional action parameters
        */
-      ParamBag(const SystemData* systemData, const FileData* fileData, Notification action, const std::string& actionParameters)
+      ParamBag(const SystemData* systemData, const FileData* fileData, Notification action, const String& actionParameters)
         : mActionParameters(actionParameters),
           mSystemData(systemData),
           mFileData(fileData),
@@ -117,7 +117,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     MqttClient mMQTTClient;
 
     //! Permanent scripts PID
-    static HashMap<std::string, pid_t> sPermanentScriptsPID;
+    static HashMap<String, pid_t> sPermanentScriptsPID;
 
     //! Status file
     static const Path sStatusFilePath;
@@ -143,7 +143,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action String to convert
      * @return Converted Action (Action::None if the conversion fails)
      */
-    static Notification ActionFromString(const std::string& action);
+    static Notification ActionFromString(const String& action);
 
     /*!
      * @brief Extract notifications bitflag from file name.
@@ -189,14 +189,14 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param play True if the target game is going to be launched
      * @param demo True if the target game is going ot be launched as demo
      */
-    void Notify(const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters);
+    void Notify(const SystemData* system, const FileData* game, Notification action, const String& actionParameters);
 
     /*!
      * @brief Run all script associated to the given action
      * @param action Action to filter scripts with
      * @param param Optional action parameter
      */
-    void RunScripts(Notification action, const std::string& param);
+    void RunScripts(Notification action, const String& param);
 
     /*!
      * @brief Run the target using the given arguments.
@@ -204,7 +204,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param target executable/scriupt to run
      * @param arguments arguments passed to the target
      */
-    void RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent);
+    void RunProcess(const Path& target, const String::List& arguments, bool synchronous, bool permanent);
 
     /*!
      * @brief Build es_state.info Common information into output string
@@ -214,7 +214,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action Notification
      * @param actionParameters Notification parameters or empty string
      */
-    static void BuildStateCommons(std::string& output, const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters);
+    static void BuildStateCommons(String& output, const SystemData* system, const FileData* game, Notification action, const String& actionParameters);
 
     /*!
      * @brief Build es_state.info game information into output string
@@ -222,7 +222,7 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param game Game or nullptr
      * @param action Notification
      */
-    static void BuildStateGame(std::string& output, const FileData* game, Notification action);
+    static void BuildStateGame(String& output, const FileData* game, Notification action);
 
     /*!
      * @brief Build es_state.info system information into output string
@@ -230,13 +230,13 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param game System or nullptr
      * @param action Notification
      */
-    static void BuildStateSystem(std::string& output, const SystemData* system, Notification action);
+    static void BuildStateSystem(String& output, const SystemData* system, Notification action);
 
     /*!
      * @brief Build es_state.info compatibility key/values
      * @param output Output string
      */
-    static void BuildStateCompatibility(std::string& output, Notification action);
+    static void BuildStateCompatibility(String& output, Notification action);
 
     /*!
      * @brief Check path extension and check if the extension is valid or not
@@ -275,11 +275,11 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action Action to notify
      * @param actionParameters Optional action parameters
      */
-    void Notify(Notification action, const std::string& actionParameters) { Notify(nullptr, nullptr, action, actionParameters); }
+    void Notify(Notification action, const String& actionParameters) { Notify(nullptr, nullptr, action, actionParameters); }
 
     /*!
      * @brief
      * @param action Action to notify
      */
-    void Notify(Notification action) { Notify(nullptr, nullptr, action, std::string()); }
+    void Notify(Notification action) { Notify(nullptr, nullptr, action, String()); }
 };

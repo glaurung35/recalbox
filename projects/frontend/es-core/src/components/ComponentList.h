@@ -35,9 +35,9 @@ struct ComponentListRow
   public:
 
     std::vector<ComponentListElement> elements;
-    std::string name;
+    String name;
 
-    explicit ComponentListRow(/*std::string n = std::string()*/)
+    explicit ComponentListRow(/*String n = String()*/)
       : name(/*n*/)
       , mInterceptor(nullptr)
       , mInterface(nullptr)

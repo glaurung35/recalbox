@@ -13,6 +13,7 @@ Mutex Http::sDownloadLocker;
 
 Http::Http() noexcept
   : mHandle(curl_easy_init())
+  , mStringList(nullptr)
   , mIDownload(nullptr)
   , mContentSize(0)
   , mContentLength(0)
@@ -33,11 +34,13 @@ Http::Http() noexcept
 
 Http::~Http()
 {
+  if (mStringList != nullptr)
+    curl_slist_free_all(mStringList);
   if (mHandle != nullptr)
     curl_easy_cleanup(mHandle);
 }
 
-bool Http::Execute(const std::string& url, std::string& output)
+bool Http::Execute(const String& url, String& output)
 {
   if (mHandle != nullptr)
   {
@@ -59,7 +62,7 @@ bool Http::Execute(const std::string& url, std::string& output)
   return false;
 }
 
-bool Http::Execute(const std::string& url, const Path& output)
+bool Http::Execute(const String& url, const Path& output)
 {
   if (mHandle != nullptr)
   {
@@ -86,7 +89,7 @@ bool Http::Execute(const std::string& url, const Path& output)
   return false;
 }
 
-bool Http::Execute(const std::string& url, const Path& output, Http::IDownload* interface)
+bool Http::Execute(const String& url, const Path& output, Http::IDownload* interface)
 {
   mIDownload = interface;
   return Execute(url, output);
@@ -102,7 +105,7 @@ size_t Http::WriteCallback(char* ptr, size_t size, size_t nmemb, void* userdata)
 size_t Http::DoDataReceived(const char* data, int length)
 {
   // Always store into the string
-  mResultHolder.append(data, length);
+  mResultHolder.Append(data, length);
   mContentSize += (long long)(length);
 
   // Get content length
@@ -142,7 +145,7 @@ void Http::Cancel()
   mCancel = true;
 }
 
-void Http::SetBasicAuth(const std::string& login, const std::string& password)
+void Http::SetBasicAuth(const String& login, const String& password)
 {
   if (mHandle != nullptr)
   {
@@ -156,18 +159,18 @@ void Http::SetBasicAuth(const std::string& login, const std::string& password)
   }
 }
 
-void Http::SetBearer(const std::string& bearer)
+void Http::SetBearer(const String& bearer)
 {
   if (mHandle != nullptr)
   {
     // Hold strings
     mBearer = bearer;
     // Set bearer auth
-    struct curl_slist *list = nullptr;
-    const std::string header = std::string("Authorization: Bearer ")+bearer;
-    list = curl_slist_append(list, header.c_str());
-
-    curl_easy_setopt(mHandle, CURLOPT_HTTPHEADER, list);
+    if (mStringList != nullptr) curl_slist_free_all(mStringList);
+    mStringList = nullptr;
+    const String header = String("Authorization: Bearer ").Append(bearer);
+    mStringList = curl_slist_append(mStringList, header.c_str());
+    curl_easy_setopt(mHandle, CURLOPT_HTTPHEADER, mStringList);
   }
 }
 

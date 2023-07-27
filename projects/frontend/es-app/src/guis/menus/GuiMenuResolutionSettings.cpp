@@ -16,41 +16,41 @@ GuiMenuResolutionSettings::GuiMenuResolutionSettings(WindowManager& window, Syst
   , mSystemManager(systemManager)
 {
   // Add global video mode
-  AddList<std::string>(_("GLOBAL RESOLUTION"), (int)Components::GlobalResolution, this, GetGlobalResolutionEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG));
+  AddList<String>(_("GLOBAL RESOLUTION"), (int)Components::GlobalResolution, this, GetGlobalResolutionEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG));
 
   // Add frontend video mode
-  AddList<std::string>(_("EMULATIONSTATION RESOLUTION"), (int)Components::FrontendResolution, this, GetFrontEndResolutionEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_FRONTEND_HELP_MSG));
+  AddList<String>(_("EMULATIONSTATION RESOLUTION"), (int)Components::FrontendResolution, this, GetFrontEndResolutionEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_FRONTEND_HELP_MSG));
 
   // Emulator resolutions
   AddSubMenu(_("EMULATORS SPECIFIC RESOLUTIONS"), (int)Components::Emulators, _(MENUMESSAGE_ADVANCED_RESOLUTION_EMULATORS_HELP_MSG));
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetGlobalResolutionEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuResolutionSettings::GetGlobalResolutionEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> result;
+  std::vector<GuiMenuBase::ListEntry<String>> result;
   result.push_back({ _("NATIVE"), "default", !RecalboxConf::Instance().IsDefinedGlobalVideoMode() || RecalboxConf::Instance().GetGlobalVideoMode() == "default" });
   for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(true))
   {
-    std::string reso = resolution.ToRawString();
+    String reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetGlobalVideoMode() });
   }
   return result;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuResolutionSettings::GetFrontEndResolutionEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuResolutionSettings::GetFrontEndResolutionEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> result;
+  std::vector<GuiMenuBase::ListEntry<String>> result;
   result.push_back({ _("USE GLOBAL"), "", !RecalboxConf::Instance().IsDefinedEmulationstationVideoMode() });
   result.push_back({ _("NATIVE"), "default", RecalboxConf::Instance().GetEmulationstationVideoMode() == "default" });
   for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(true))
   {
-    std::string reso = resolution.ToRawString();
+    String reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetEmulationstationVideoMode() });
   }
   return result;
 }
 
-void GuiMenuResolutionSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuResolutionSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)

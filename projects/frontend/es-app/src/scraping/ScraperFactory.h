@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <scraping/scrapers/IScraperEngine.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <scraping/ScraperType.h>
@@ -48,7 +48,7 @@ class ScraperFactory : public StaticLifeCycleControler<ScraperFactory>
      * @brief Get scraper list type/name
      * @return HashMap type/name
      */
-    static const HashMap<ScraperType, std::string>& GetScraperList();
+    static const HashMap<ScraperType, String>& GetScraperList();
 
     static void ExtractFileNameUndecorated(FileData& game);
 

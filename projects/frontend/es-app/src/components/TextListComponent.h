@@ -1,7 +1,7 @@
 #pragma once
 
 #include <components/ITextListComponentOverlay.h>
-#include <string>
+#include <utils/String.h>
 #include <memory>
 #include <audio/AudioManager.h>
 
@@ -49,11 +49,11 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
-	void applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties) override;
+	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
-	void add(const std::string& name, const T& obj, int colorId, bool toTheBeginning = false);
-  void add(const std::string& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
-  void changeTextAt(int index, const std::string& name);
+	void add(const String& name, const T& obj, int colorId, bool toTheBeginning = false);
+  void add(const String& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
+  void changeTextAt(int index, const String& name);
   void changeBackgroundColorAt(int index, int colorIndex);
   int Lookup(T object);
 
@@ -254,8 +254,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
 
 		if(!entry.data.textCache)
-			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? Strings::ToUpperUTF8(
-        entry.name) : entry.name, 0, 0, 0x000000FF));
+			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, 0, 0, 0x000000FF));
 
 		entry.data.textCache->setColor(color);
 
@@ -467,7 +466,7 @@ void TextListComponent<T>::Update(int deltaTime)
 
 //list management stuff
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, int color, bool toTheBeginning)
+void TextListComponent<T>::add(const String& name, const T& obj, int color, bool toTheBeginning)
 {
 	assert((unsigned int)color < COLOR_ID_COUNT);
 
@@ -485,7 +484,7 @@ void TextListComponent<T>::add(const std::string& name, const T& obj, int color,
 }
 
 template <typename T>
-void TextListComponent<T>::add(const std::string& name, const T& obj, int color, signed char colorBackground, HorizontalAlignment align)
+void TextListComponent<T>::add(const String& name, const T& obj, int color, signed char colorBackground, HorizontalAlignment align)
 {
   assert((unsigned int)color < COLOR_ID_COUNT);
 
@@ -500,7 +499,7 @@ void TextListComponent<T>::add(const std::string& name, const T& obj, int color,
 }
 
 template <typename T>
-void TextListComponent<T>::changeTextAt(int index, const std::string& name)
+void TextListComponent<T>::changeTextAt(int index, const String& name)
 {
   ((IList< TextListData, T >*)this)->changeCursorName(index, name);
 }
@@ -523,7 +522,7 @@ void TextListComponent<T>::onCursorChanged(const CursorState& state)
 }
 
 template <typename T>
-void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void TextListComponent<T>::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	Component::applyTheme(theme, view, element, properties);
 
@@ -555,7 +554,7 @@ void TextListComponent<T>::applyTheme(const ThemeData& theme, const std::string&
 	{
 		if(elem->HasProperty("alignment"))
 		{
-			const std::string& str = elem->AsString("alignment");
+			const String& str = elem->AsString("alignment");
 			if(str == "left")
 				setAlignment(HorizontalAlignment::Left);
 			else if(str == "center")

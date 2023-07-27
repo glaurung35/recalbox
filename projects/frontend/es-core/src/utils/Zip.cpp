@@ -48,7 +48,7 @@ int Zip::Crc32(int index) const
   return 0;
 }
 
-std::string Zip::Md5(int index) const
+String Zip::Md5(int index) const
 {
   if (mArchive != nullptr)
   {
@@ -65,17 +65,17 @@ std::string Zip::Md5(int index) const
     }
   }
 
-  return std::string();
+  return String();
 }
 
-std::string Zip::Md5Composite() const
+String Zip::Md5Composite() const
 {
   if (mArchive != nullptr)
   {
     MD5 md5;
 
     // Build sorted file list
-    std::vector<std::string> fileList;
+    std::vector<String> fileList;
     for(int i = zip_get_num_entries(mArchive, 0); --i >= 0; )
       fileList.push_back(zip_get_name(mArchive, i, ZIP_FL_ENC_GUESS));
     std::sort(fileList.begin(), fileList.end());
@@ -96,7 +96,7 @@ std::string Zip::Md5Composite() const
     return md5.hexdigest();
   }
 
-  return std::string();
+  return String();
 }
 
 long long Zip::CompressedSize(int index) const
@@ -144,7 +144,7 @@ bool Zip::Add(const Path& file, const Path& base)
   return true;
 }
 
-bool Zip::Add(const std::string& content, const std::string path)
+bool Zip::Add(const String& content, const String path)
 {
   // Get source
   zip_source* source = zip_source_buffer(mArchive, content.data(), content.length(), 0);
@@ -164,20 +164,20 @@ bool Zip::Add(const std::string& content, const std::string path)
   return true;
 }
 
-std::string Zip::Content(int index) const
+String Zip::Content(int index) const
 {
   if (mArchive != nullptr)
   {
     zip_file_t* file = zip_fopen_index(mArchive, index, 0);
     if (file != nullptr)
     {
-      std::string result;
+      String result;
       char buffer[1 << 20]; // 1Mb buffer
       for(int read = 0; (read = (int)zip_fread(file, buffer, sizeof(buffer))) > 0; )
-        result.append(buffer, read);
+        result.Append(buffer, read);
       zip_fclose(file);
       return result;
     }
   }
-  return std::string();
+  return String();
 }

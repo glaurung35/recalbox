@@ -21,7 +21,7 @@ void MetadataStringHolder::Initialize()
   mIndexes.Clear();
   mStringToIndexes.clear();
   // Add empty string so that all uninitialized indexes must be set to 0
-  AddString32(Strings::Empty);
+  AddString32(String::Empty);
 }
 
 void MetadataStringHolder::Finalize()
@@ -38,17 +38,17 @@ String MetadataStringHolder::GetString(Index32 index)
   // Out of range
   if ((unsigned int)index >= (unsigned int)mIndexes.Count())
   #ifdef DEBUG
-    return std::string("Unknown Index ").append(Strings::ToString(index));
+    return String("Unknown Index ").Append(index);
   #else
   {
     { LOG(LogError) << "[MetadataStringHolder] GetString - Index error! " << index; }
-    return std::string();
+    return String();
   }
   #endif
   // Regular string
-  if (index < mIndexes.Count() - 1) return std::string(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
+  if (index < mIndexes.Count() - 1) return String(&mMetaString(mIndexes[index]), mIndexes[index + 1] - 1 - mIndexes[index]);
   // Last item is zero terminal
-  return std::string(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
+  return String(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
 }
 
 Path MetadataStringHolder::GetPath(MetadataStringHolder::Index32 index)
@@ -59,7 +59,7 @@ Path MetadataStringHolder::GetPath(MetadataStringHolder::Index32 index)
   // Out of range
   if ((unsigned int)index >= (unsigned int)mIndexes.Count())
   #ifdef DEBUG
-    return Path("/unknown/index") / Strings::ToString(index);
+    return Path("/unknown/index") / String(index);
   #else
   {
     { LOG(LogError) << "[MetadataStringHolder] GetPath - Index error! " << index; }
@@ -72,7 +72,7 @@ Path MetadataStringHolder::GetPath(MetadataStringHolder::Index32 index)
   return Path(&mMetaString(mIndexes[index]), mMetaString.Count() - 1 - mIndexes[index]);
 }
 
-MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::string& newString)
+MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const String& newString)
 {
   // Synchronize
   Mutex::AutoLock locker(mSyncher);
@@ -91,7 +91,7 @@ MetadataStringHolder::Index32 MetadataStringHolder::AddString32(const std::strin
   return result;
 }
 
-void MetadataStringHolder::FindText(const std::string& text, MetadataStringHolder::FoundTextList& output, int context)
+void MetadataStringHolder::FindText(const String& text, MetadataStringHolder::FoundTextList& output, int context)
 {
   const char* fdn = mMetaString.BufferReadOnly();             // Keep filedata name pointer for fast result computation
   const char* tts = text.c_str();                             // Keep text pointer for fast search reset

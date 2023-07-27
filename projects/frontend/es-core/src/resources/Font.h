@@ -1,6 +1,6 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <memory>
 #include <map>
 
@@ -70,10 +70,10 @@ class Font : public IReloadable
 
     struct FontFace
     {
-      const std::string data;
+      const String data;
       FT_Face face;
 
-      FontFace(std::string&& d, int size);
+      FontFace(String&& d, int size);
       virtual ~FontFace();
     };
 
@@ -115,7 +115,7 @@ class Font : public IReloadable
     //! Maximum size of charaters from 32 to 128
     float mSizeMax;
 
-    float getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment);
+    float getNewlineStartOffset(const String& text, unsigned int charStart, float xLen, TextAlignment alignment);
 
     friend TextCache;
 
@@ -126,15 +126,15 @@ class Font : public IReloadable
 
     virtual ~Font();
 
-    Vector2f sizeText(const std::string& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
-    TextCache* buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false);
-    TextCache* buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f, bool nospacing = false);
+    Vector2f sizeText(const String& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
+    TextCache* buildTextCache(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false);
+    TextCache* buildTextCache(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f, bool nospacing = false);
     static void renderTextCache(TextCache* cache);
     void renderCharacter(unsigned int unicode, float x, float y, float wr, float hr, unsigned int color);
 
-    std::string wrapText(std::string text, float xLen); // Inserts newlines into text to make it wrap properly.
-    Vector2f sizeWrappedText(const std::string& text, float xLen, float lineSpacing = 1.5f); // Returns the expected size of a string after wrapping is applied.
-    Vector2f getWrappedTextCursorOffset(const std::string& text, float xLen, size_t cursor, float lineSpacing = 1.5f); // Returns the position of of the cursor after moving "cursor" characters.
+    String wrapText(String text, float xLen); // Inserts newlines into text to make it wrap properly.
+    Vector2f sizeWrappedText(const String& text, float xLen, float lineSpacing = 1.5f); // Returns the expected size of a string after wrapping is applied.
+    Vector2f getWrappedTextCursorOffset(const String& text, float xLen, size_t cursor, float lineSpacing = 1.5f); // Returns the position of of the cursor after moving "cursor" characters.
 
     float getHeight(float lineSpacing = 1.5f) const;
     float getLetterHeight();
@@ -153,10 +153,10 @@ class Font : public IReloadable
     static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)
 
     // utf8 stuff
-    static size_t getNextCursor(const std::string& str, size_t cursor);
-    static size_t getPrevCursor(const std::string& str, size_t cursor);
-    static size_t moveCursor(const std::string& str, size_t cursor, int moveAmt); // negative moveAmt = move backwards, positive = move forwards
-    static UnicodeChar readUnicodeChar(const std::string& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
+    static size_t getNextCursor(const String& str, size_t cursor);
+    static size_t getPrevCursor(const String& str, size_t cursor);
+    static size_t moveCursor(const String& str, size_t cursor, int moveAmt); // negative moveAmt = move backwards, positive = move forwards
+    static UnicodeChar readUnicodeChar(const String& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
 
     /*!
      * @brief Return the max bearing (distance from top to baseline)

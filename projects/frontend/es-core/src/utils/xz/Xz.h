@@ -7,7 +7,7 @@
 
 #include <cstring>
 #include <lzma.h>
-#include <string>
+#include <utils/String.h>
 
 class Xz
 {
@@ -16,13 +16,13 @@ class Xz
     ~Xz();
     lzma_ret InitDecoder();
     lzma_ret Error();
-    std::string ErrorMessage();
+    String ErrorMessage();
     void InjectBuffer(const uint8_t *inbuf, size_t inbuf_size, lzma_action action);
     size_t Decompress(uint8_t *outbuf, size_t outbuf_size);
     [[nodiscard]] bool IsStillDecompressing() const;
 
   private:
-    std::string m_message;
+    String m_message;
     lzma_action m_action;
     lzma_ret m_status;
     lzma_stream m_strm;

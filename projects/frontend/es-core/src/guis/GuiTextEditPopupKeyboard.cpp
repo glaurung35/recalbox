@@ -4,8 +4,8 @@
 #include <RecalboxConf.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const std::string& title, const std::string& initValue,
-                                                   const std::function<void(const std::string&)>& okCallback, bool multiLine, const std::string& acceptBtnText)
+GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const String& title, const String& initValue,
+                                                   const std::function<void(const String&)>& okCallback, bool multiLine, const String& acceptBtnText)
 	: Gui(window),
 	  mBackground(window, Path(":/frame.png")),
 	  mGrid(window, Vector2i(1, 4)),
@@ -20,7 +20,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const s
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, title.ToUpperCaseUTF8(), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);
@@ -40,9 +40,9 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const s
 	// Case for if multiline is enabled, then don't create the keyboard.
 	if (!mMultiLine) {
 
-		std::vector<std::array<std::string, 12> > lines;
+		std::vector<std::array<String, 12> > lines;
 
-		std::string keyboard = RecalboxConf::Instance().AsString("system.kblayout");
+		String keyboard = RecalboxConf::Instance().AsString("system.kblayout");
 
 		if (keyboard == "fr")
 		{
@@ -152,7 +152,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const s
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (screenHeightAvailable - mSize.y()) / 2);
 }
 
-std::shared_ptr<ButtonComponent> GuiTextEditPopupKeyboard::makeButton(const std::string& key, const std::string& shiftedKey)
+std::shared_ptr<ButtonComponent> GuiTextEditPopupKeyboard::makeButton(const String& key, const String& shiftedKey)
 {
     std::shared_ptr<ButtonComponent> button = std::make_shared<ButtonComponent>(mWindow, key, key, [this, key, shiftedKey] {
         mText->startEditing();
@@ -230,7 +230,7 @@ void GuiTextEditPopupKeyboard::switchShift()
 
   for (auto & kb: keyboardButtons)
   {
-    const std::string& text = mShift ? kb.shiftedKey : kb.key;
+    const String& text = mShift ? kb.shiftedKey : kb.key;
     kb.button->setText(text, text, false, false, false);
   }
 

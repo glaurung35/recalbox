@@ -15,7 +15,7 @@ std::map<std::pair<Path, int>, std::weak_ptr<Font> > Font::sFontMap;
 
 
 // utf8 stuff
-size_t Font::getNextCursor(const std::string& str, size_t cursor)
+size_t Font::getNextCursor(const String& str, size_t cursor)
 {
   // compare to character at the cursor
   const char& c = str[cursor];
@@ -54,7 +54,7 @@ size_t Font::getNextCursor(const std::string& str, size_t cursor)
 }
 
 // note: will happily accept malformed utf8
-size_t Font::getPrevCursor(const std::string& str, size_t cursor)
+size_t Font::getPrevCursor(const String& str, size_t cursor)
 {
   if (cursor == 0)
     return 0;
@@ -67,7 +67,7 @@ size_t Font::getPrevCursor(const std::string& str, size_t cursor)
   return cursor;
 }
 
-size_t Font::moveCursor(const std::string& str, size_t cursor, int amt)
+size_t Font::moveCursor(const String& str, size_t cursor, int amt)
 {
   if (amt > 0)
   {
@@ -83,7 +83,7 @@ size_t Font::moveCursor(const std::string& str, size_t cursor, int amt)
   return cursor;
 }
 
-UnicodeChar Font::readUnicodeChar(const std::string& str, size_t& cursor)
+UnicodeChar Font::readUnicodeChar(const String& str, size_t& cursor)
 {
   const char& c = str[cursor];
 
@@ -400,7 +400,7 @@ Font::Glyph* Font::getGlyph(UnicodeChar id)
 
   if (FT_Load_Char(face, id, FT_LOAD_RENDER) != 0)
   {
-    { LOG(LogError) << "[Font] Could not find glyph for character " << (int) id << " for font " << mPath.ToString() << ", size " << mSize << "!"; }
+    { LOG(LogError) << "[Font] Could not find glyph for character " << (int) id << " for font " << mPath.ToString() << ", size " << mSize << '!'; }
     return nullptr;
   }
 
@@ -584,7 +584,7 @@ void Font::renderTextCache(TextCache* cache)
   }
 }
 
-Vector2f Font::sizeText(const std::string& text, float lineSpacing)
+Vector2f Font::sizeText(const String& text, float lineSpacing)
 {
   float lineWidth = 0.0f;
   float highestWidth = 0.0f;
@@ -633,21 +633,21 @@ float Font::getLetterHeight()
 // TODO: Rewrite!
 //the worst algorithm ever written
 //breaks up a normal string with newlines to make it fit xLen
-std::string Font::wrapText(std::string text, float xLen)
+String Font::wrapText(String text, float xLen)
 {
-  std::string out;
+  String out;
 
-  std::string line, word, temp;
+  String line, word, temp;
 
   Vector2f textSize(0);
 
   while (text.length() > 0) //while there's text or we still have text to render
   {
     size_t space = text.find_first_of(" \t\n");
-    if (space == std::string::npos)
+    if (space == String::npos)
       space = text.length() - 1;
 
-    word = text.substr(0, space + 1);
+    word = text.SubString(0, space + 1);
     text.erase(0, space + 1);
 
     temp = line + word;
@@ -674,14 +674,14 @@ std::string Font::wrapText(std::string text, float xLen)
   return out;
 }
 
-Vector2f Font::sizeWrappedText(const std::string& text, float xLen, float lineSpacing)
+Vector2f Font::sizeWrappedText(const String& text, float xLen, float lineSpacing)
 {
   return sizeText(wrapText(text, xLen), lineSpacing);
 }
 
-Vector2f Font::getWrappedTextCursorOffset(const std::string& text, float xLen, size_t stop, float lineSpacing)
+Vector2f Font::getWrappedTextCursorOffset(const String& text, float xLen, size_t stop, float lineSpacing)
 {
-  std::string wrappedText = wrapText(text, xLen);
+  String wrappedText = wrapText(text, xLen);
 
   float lineWidth = 0.0f;
   float y = 0.0f;
@@ -723,23 +723,20 @@ Vector2f Font::getWrappedTextCursorOffset(const std::string& text, float xLen, s
 //TextCache
 //=============================================================================================================
 
-float Font::getNewlineStartOffset(const std::string& text, unsigned int charStart, float xLen, TextAlignment alignment)
+float Font::getNewlineStartOffset(const String& text, unsigned int charStart, float xLen, TextAlignment alignment)
 {
   switch (alignment)
   {
     case TextAlignment::Left: return 0;
     case TextAlignment::Center:
     {
-      size_t endChar = text.find('\n', charStart);
-      return
-        (xLen - sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x()) /
-        2.0f;
+      int endChar = text.Find('\n', charStart);
+      return (xLen - sizeText(text.SubString(charStart, endChar >= 0 ? endChar - charStart : endChar)).x()) / 2.0f;
     }
     case TextAlignment::Right:
     {
-      size_t endChar = text.find('\n', charStart);
-      return xLen -
-             (sizeText(text.substr(charStart, endChar != std::string::npos ? endChar - charStart : endChar)).x());
+      int endChar = text.Find('\n', charStart);
+      return xLen - (sizeText(text.SubString(charStart, endChar >= 0 ? endChar - charStart : endChar)).x());
     }
     case TextAlignment::Top:
     case TextAlignment::Bottom:
@@ -748,7 +745,7 @@ float Font::getNewlineStartOffset(const std::string& text, unsigned int charStar
 }
 
 TextCache*
-Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment,
+Font::buildTextCache(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment,
                      float lineSpacing, bool nospacing)
 {
   float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
@@ -839,7 +836,7 @@ Font::buildTextCache(const std::string& text, Vector2f offset, unsigned int colo
 }
 
 TextCache*
-Font::buildTextCache(const std::string& text, float offsetX, float offsetY, unsigned int color, bool nospacing)
+Font::buildTextCache(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing)
 {
   return buildTextCache(text, Vector2f(offsetX, offsetY), color, 0.0f, TextAlignment::Left, 1.5f, nospacing);
 }

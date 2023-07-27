@@ -28,14 +28,13 @@ void RatingComponent::setValue(float value)
   updateVertices();
 }
 
-void RatingComponent::setValue(const std::string& value)
+void RatingComponent::setValue(const String& value)
 {
   mValue = 0.0f;
 	if(!value.empty())
   {
-		Strings::ToFloat(value, mValue);
-		if(mValue > 1.0f)	mValue = 1.0f;
-		else if(mValue < 0.0f) mValue = 0.0f;
+		if (value.TryAsFloat(mValue))
+  		mValue = Math::clamp(mValue, 0.f, 1.f);
 	}
 
 	updateVertices();
@@ -157,7 +156,7 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-void RatingComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void RatingComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	Component::applyTheme(theme, view, element, properties);
 

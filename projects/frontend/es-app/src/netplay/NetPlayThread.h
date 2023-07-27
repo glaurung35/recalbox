@@ -12,7 +12,7 @@ class NetPlayThread: private Thread
 {
   public:
     //! Typedef for convenience
-    typedef std::vector<std::pair<std::string, std::string>> PlayerGameList;
+    typedef std::vector<std::pair<String, String>> PlayerGameList;
 
     /*!
      * @brief Constructor
@@ -34,7 +34,7 @@ class NetPlayThread: private Thread
      */
     void StopScan();
 
-    static std::string getLobbyListCommand();
+    static String getLobbyListCommand();
 
     /*!
      * @brief Load current netplay list
@@ -50,7 +50,7 @@ class NetPlayThread: private Thread
     SyncMessageSender<void> mSender;
 
     //! Last created popup
-    std::string mLastPopupText;
+    String mLastPopupText;
 
     //! Main thread runner
     void Run() override;
@@ -72,6 +72,6 @@ class NetPlayThread: private Thread
      * @param player Player name
      * @param game Game
      */
-    void PopupTriggered(const std::string& player, const std::string& game);
+    void PopupTriggered(const String& player, const String& game);
 };
 

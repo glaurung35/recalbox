@@ -177,7 +177,7 @@ bool Renderer::CreateSdlSurface(int width, int height)
   /*if (SDL_GL_SetSwapInterval(-1) == 0) LOG(LogInfo) << "Adaptative VSync' activated.";
   else*/
   if (SDL_GL_SetSwapInterval(1) == 0) { LOG(LogInfo) << "[Renderer] Normal VSync' activated."; }
-  else { LOG(LogWarning) << "[Renderer] Tried to enable vsync, but failed! (" << SDL_GetError() << ")"; }
+  else { LOG(LogWarning) << "[Renderer] Tried to enable vsync, but failed! (" << SDL_GetError() << ')'; }
 
   return true;
 }
@@ -231,12 +231,12 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     {
       ResolutionAdapter adapter;
       Resolutions::SimpleResolution output { 0, 0 };
-      std::string resolution = Strings::Trim(Strings::ToLowerASCII(RecalboxConf::Instance().GetEmulationstationVideoMode()));
+      String resolution = RecalboxConf::Instance().GetEmulationstationVideoMode().LowerCase().Trim();
       { LOG(LogInfo) << "[Renderer] Get resolution from recalbox.conf: " << w << 'x' << h; }
 
       if (!adapter.AdjustResolution(0, resolution, output))
       {
-        resolution = Strings::ToLowerASCII(RecalboxConf::Instance().GetGlobalVideoMode());
+        resolution = RecalboxConf::Instance().GetGlobalVideoMode().LowerCase();
         adapter.AdjustResolution(0, resolution, output);
       }
       if (output.IsValid())

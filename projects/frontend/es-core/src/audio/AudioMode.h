@@ -19,6 +19,6 @@ class AudioModeTools
     static bool CanPlayMusic();
     static bool CanDecodeVideoSound();
 
-    static AudioMode AudioModeFromString(const std::string& audioMode);
-    static const std::string& AudioModeFromEnum(AudioMode audioMode);
+    static AudioMode AudioModeFromString(const String& audioMode);
+    static const String& AudioModeFromEnum(AudioMode audioMode);
 };

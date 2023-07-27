@@ -1,6 +1,5 @@
 #pragma once
 
-#include <string>
 #include <utils/cplusplus/INoCopy.h>
 #include <emulators/EmulatorList.h>
 #include <games/RootFolderData.h>
@@ -166,11 +165,11 @@ class SystemData : private INoCopy
     [[nodiscard]] const SystemDescriptor& Descriptor() const { return mDescriptor; }
 
     //! Get system name
-    [[nodiscard]] const std::string& Name() const { return mDescriptor.Name(); }
+    [[nodiscard]] const String& Name() const { return mDescriptor.Name(); }
     //! Get full name
-    [[nodiscard]] const std::string& FullName() const { return mDescriptor.FullName(); }
+    [[nodiscard]] const String& FullName() const { return mDescriptor.FullName(); }
     //! Theme folder
-    [[nodiscard]] const std::string& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
+    [[nodiscard]] const String& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     //! Get system rotation option in system view (tate mode)
     [[nodiscard]] bool Rotatable() const;
 
@@ -179,9 +178,7 @@ class SystemData : private INoCopy
     [[nodiscard]] bool HasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
 
     [[nodiscard]] FileData::List getFavorites() const;
-    [[nodiscard]] FileData::List getGames() const;
     [[nodiscard]] FileData::List getAllGames() const;
-    [[nodiscard]] FileData::List getFolders() const;
     [[nodiscard]] FileData::List getTopGamesAndFolders() const;
 
     [[nodiscard]] inline const ThemeData& Theme() const { return mTheme; }
@@ -255,12 +252,6 @@ class SystemData : private INoCopy
 
     //! Get virtual type
     [[nodiscard]] VirtualSystemType VirtualType() const { return mVirtualType; }
-
-    /*!
-     * @brief Get or create pure virtual root - USE IT ONLY ON FAVORITE SYSTEM
-     * @return Virtual root
-     */
-    FolderData& GetFavoriteRoot();
 
     //! Get fixed sort
     [[nodiscard]] FileSorts::Sorts FixedSort() const { return mFixedSort; }

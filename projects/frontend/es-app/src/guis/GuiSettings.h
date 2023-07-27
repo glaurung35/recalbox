@@ -9,26 +9,26 @@
 class GuiSettings : public Gui
 {
   public:
-    GuiSettings(WindowManager& window, const std::string& title);
+    GuiSettings(WindowManager& window, const String& title);
     ~GuiSettings() override; // just calls save();
 
     void save();
     inline void updatePosition() {mMenu.setPosition((Renderer::Instance().DisplayWidthAsFloat() - mMenu.getSize().x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mMenu.getSize().y()) / 2);};
     inline void addRow(const ComponentListRow& row) { mMenu.addRow(row); updatePosition();};
-    inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
-    inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "") {
+    inline void addRowWithHelp(ComponentListRow& row, const String& label, const String& help) { mMenu.addRowWithHelp(row, label, help); updatePosition();};
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const String& label, const String& help = "") {
       mMenu.addWithLabel(comp, label, help, false, true, nullptr);
       updatePosition();
     };
-    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const std::string& label, const std::string& help = "") {
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const String& label, const String& help = "") {
       mMenu.addWithLabel(comp, iconPath, label, help, false, true, nullptr);
       updatePosition();
     };
-    inline void addSubMenu(const std::string& label, const std::function<void()>& func, const std::string& help = "") {
+    inline void addSubMenu(const String& label, const std::function<void()>& func, const String& help = "") {
 		ComponentListRow row;
 		row.makeAcceptInputHandler(func);
 		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-		const std::string& helpLabel(label);
+		const String& helpLabel(label);
 		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
 				mWindow.pushGui(new GuiMsgBoxScroll(

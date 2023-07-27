@@ -16,7 +16,7 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuPadsPair : public GuiMenuBase
-                      , ILongExecution<std::string, bool>
+                      , ILongExecution<String, bool>
                       , IGuiMenuBase
 {
   public:
@@ -24,7 +24,7 @@ class GuiMenuPadsPair : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuPadsPair(WindowManager& window, const Strings::Vector& deviceList);
+    explicit GuiMenuPadsPair(WindowManager& window, const String::List& deviceList);
 
   private:
     enum class Components
@@ -33,7 +33,7 @@ class GuiMenuPadsPair : public GuiMenuBase
     };
 
     //! Device list
-    Strings::Vector mDevices;
+    String::List mDevices;
 
     /*
      * ILongExecution implementation
@@ -45,14 +45,14 @@ class GuiMenuPadsPair : public GuiMenuBase
      * @param parameter Device to pair
      * @return True if the device is paired, fals eotherwise
      */
-    bool Execute(GuiWaitLongExecution<std::string, bool>& from, const std::string& parameter) override;
+    bool Execute(GuiWaitLongExecution<String, bool>& from, const String& parameter) override;
 
     /*!
      * @brief Process result of pairing
      * @param parameter Device to paired
      * @param result Pairing result
      */
-    void Completed(const std::string& parameter, const bool& result) override;
+    void Completed(const String& parameter, const bool& result) override;
 
     /*
      * IGuiMenuBase implementation

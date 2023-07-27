@@ -19,7 +19,7 @@ GuiMenuKodiSettings::GuiMenuKodiSettings(WindowManager& window)
   mKodiEnabled = AddSwitch(_("ENABLE KODI"), RecalboxConf::Instance().GetKodiEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_ADVANCED_KODI_ENABLE_HELP_MSG));
 
   // Select kodi video mode
-  AddList<std::string>(_("KODI RESOLUTION"), (int)Components::KodiResolution, this, GetKodiResolutionsEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_KODI_HELP_MSG));
+  AddList<String>(_("KODI RESOLUTION"), (int)Components::KodiResolution, this, GetKodiResolutionsEntries(), _(MENUMESSAGE_ADVANCED_RESOLUTION_KODI_HELP_MSG));
 
   // Run Kodi at startup
   mKodiAtStartup = AddSwitch(_("KODI AT START"), RecalboxConf::Instance().GetKodiAtStartup(), (int)Components::RunAtStartup, this, _(MENUMESSAGE_ADVANCED_KODI_AT_START_HELP_MSG));
@@ -41,20 +41,20 @@ void GuiMenuKodiSettings::SwitchComponentChanged(int id, bool status)
 }
 
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuKodiSettings::GetKodiResolutionsEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuKodiSettings::GetKodiResolutionsEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<std::string>> result;
+  std::vector<GuiMenuBase::ListEntry<String>> result;
   result.push_back({ _("NATIVE"), "default", RecalboxConf::Instance().GetKodiVideoMode() == "default" });
   result.push_back({ _("USE GLOBAL"), "", !RecalboxConf::Instance().IsDefinedKodiVideoMode() });
   for(const ResolutionAdapter::Resolution& resolution : mResolutionAdapter.Resolutions(false))
   {
-    std::string reso = resolution.ToRawString();
+    String reso = resolution.ToRawString();
     result.push_back({ resolution.ToString(), reso, reso == RecalboxConf::Instance().GetKodiVideoMode() });
   }
   return result;
 }
 
-void GuiMenuKodiSettings::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuKodiSettings::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   switch((Components)id)

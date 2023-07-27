@@ -29,7 +29,7 @@ class WizardDidYouKnow : public WizardLanguage
     Path OnImageRequired(int page) override { (void)page; return Path(sImagePath); }
 
     //! Called when a page text is required
-    std::string OnTextRequired(int page) override { return mPagesTexts[page]; }
+    String OnTextRequired(int page) override { return mPagesTexts[page]; }
 
     //! Called when z key event is received
     Move OnKeyReceived(int page, const InputCompactEvent& event) override;

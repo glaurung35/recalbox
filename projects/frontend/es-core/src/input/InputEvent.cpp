@@ -24,7 +24,7 @@ String InputEvent::TypeToString(EventType type)
   }
 }
 
-InputEvent::EventType InputEvent::StringToType(const std::string& type)
+InputEvent::EventType InputEvent::StringToType(const String& type)
 {
   if (type == "axis")	  return EventType::Axis;
   if (type == "button")	return EventType::Button;

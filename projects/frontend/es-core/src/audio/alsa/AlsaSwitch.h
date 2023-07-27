@@ -3,14 +3,14 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "AlsaMixer.h"
 
 class AlsaSwitch : public AlsaMixer
 {
   public:
     //! Default constructor
-    AlsaSwitch(int id, const std::string& name, int cardReference)
+    AlsaSwitch(int id, const String& name, int cardReference)
       : AlsaMixer(id, name, cardReference, MixerType::Switch)
     {
     }

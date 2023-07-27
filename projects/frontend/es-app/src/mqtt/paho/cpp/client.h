@@ -68,17 +68,17 @@ class client : private callback
 	// Most are launched in a separate thread, for convenience, except
 	// message_arrived, for performance.
 	void connected(const string& cause) override {
-		std::async(std::launch::async, &callback::connected, userCallback_, cause);
+		(void)std::async(std::launch::async, &callback::connected, userCallback_, cause);
 	}
 	void connection_lost(const string& cause) override {
-		std::async(std::launch::async,
+		(void)std::async(std::launch::async,
 				   &callback::connection_lost, userCallback_, cause);
 	}
 	void message_arrived(const_message_ptr msg) override {
 		userCallback_->message_arrived(msg);
 	}
 	void delivery_complete(delivery_token_ptr tok) override {
-		std::async(std::launch::async, &callback::delivery_complete, userCallback_, tok);
+		(void)std::async(std::launch::async, &callback::delivery_complete, userCallback_, tok);
 	}
 
 	/** Non-copyable */

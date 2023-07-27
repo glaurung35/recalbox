@@ -2,7 +2,7 @@
 #include "WindowManager.h"
 #include "utils/locale/LocaleHelper.h"
 
-GuiSettings::GuiSettings(WindowManager&window, const std::string& title)
+GuiSettings::GuiSettings(WindowManager&window, const String& title)
   : Gui(window),
     mMenu(window, title)
 {

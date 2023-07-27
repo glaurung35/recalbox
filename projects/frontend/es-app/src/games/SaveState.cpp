@@ -4,7 +4,6 @@
 
 #include <sys/stat.h>
 #include "SaveState.h"
-#include "utils/Strings.h"
 
 SaveState::SaveState(const Path& path)
   : mPath(path),
@@ -19,5 +18,5 @@ SaveState::SaveState(const Path& path)
   if (!path.Exists()) mSlotNumber = -1;
   else if ( ext == ".state") mSlotNumber = 0;
   else if ( ext == ".auto") mIsAuto = true;
-  else mSlotNumber = ext.Replace(".state", Strings::Empty).AsInt();
+  else mSlotNumber = ext.Remove(".state").AsInt();
 }

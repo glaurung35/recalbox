@@ -2,23 +2,22 @@
 // Created by bkg2k on 03/04/2020.
 //
 
-#include <utils/Strings.h>
-#include <cstring>
+#include <utils/String.h>
 #include "GameNameMapManager.h"
 
 void GameNameMapManager::GenerateMameNameHashes()
 {
   for(int i = sMameListSize; --i >=0; )
-    mMameNameHashes[i] = Strings::ToHash(mMameNameToRealName[i * 2]);
+    mMameNameHashes[i] = String::Hash(mMameNameToRealName[i * 2]);
 }
 
 void GameNameMapManager::GenerateFlashbackNameHashes()
 {
   for(int i = sFlashbackListSize; --i >=0; )
-    mFlashbackNameHashes[i] = Strings::ToHash(mFlashbackNameToRealName[i * 2]);
+    mFlashbackNameHashes[i] = String::Hash(mFlashbackNameToRealName[i * 2]);
 }
 
-const char* GameNameMapManager::GetCleanMameName(const std::string& from)
+const char* GameNameMapManager::GetCleanMameName(const String& from)
 {
   static bool HashGenerated = false;
   if (!HashGenerated)
@@ -27,7 +26,7 @@ const char* GameNameMapManager::GetCleanMameName(const std::string& from)
     HashGenerated = true;
   }
 
-  int hash = Strings::ToHash(from);
+  int hash = from.Hash();
   for(int i = sMameListSize; --i >= 0; )
     if (mMameNameHashes[i] == hash)
       if (strcmp(from.c_str(), mMameNameToRealName[i << 1]) == 0)
@@ -37,7 +36,7 @@ const char* GameNameMapManager::GetCleanMameName(const std::string& from)
 }
 
 
-const char* GameNameMapManager::GetCleanFlashbackName(const std::string& from)
+const char* GameNameMapManager::GetCleanFlashbackName(const String& from)
 {
   static bool HashGenerated = false;
   if (!HashGenerated)
@@ -46,7 +45,7 @@ const char* GameNameMapManager::GetCleanFlashbackName(const std::string& from)
     HashGenerated = true;
   }
 
-  int hash = Strings::ToHash(from);
+  int hash = from.Hash();
   for(int i = sFlashbackListSize; --i >= 0; )
     if (mFlashbackNameHashes[i] == hash)
       if (strcmp(from.c_str(), mFlashbackNameToRealName[i << 1]) == 0)
@@ -68,7 +67,7 @@ bool GameNameMapManager::HasFiltering(const SystemData& system)
          system.Descriptor().Name() == "neogeo";
 }
 
-bool GameNameMapManager::IsFiltered(const SystemData& system, const std::string& filenameWoExt)
+bool GameNameMapManager::IsFiltered(const SystemData& system, const String& filenameWoExt)
 {
   if (HasFiltering(system))
   {
@@ -77,20 +76,19 @@ bool GameNameMapManager::IsFiltered(const SystemData& system, const std::string&
   return false;
 }
 
-std::string GameNameMapManager::Rename(const SystemData& system, const std::string& filenameWoExt)
+String GameNameMapManager::Rename(const SystemData& system, const String& filenameWoExt)
 {
   if (HasRenaming(system))
   {
-    if (system.Descriptor().IsTrueArcade() ||
-        system.Descriptor().Name() == "neogeo")
+    if (system.Descriptor().IsTrueArcade() || system.Descriptor().Name() == "neogeo")
     {
       const char* newName = GetCleanMameName(filenameWoExt);
-      return newName != nullptr ? std::string(newName) : filenameWoExt;
+      return newName != nullptr ? String(newName) : filenameWoExt;
     }
     if (system.Descriptor().Name() == "flashback")
     {
-      const char* newName = GetCleanFlashbackName(Strings::ToLowerASCII(filenameWoExt));
-      return newName != nullptr ? std::string(newName) : filenameWoExt;
+      const char* newName = GetCleanFlashbackName(filenameWoExt.ToLowerCase());
+      return newName != nullptr ? String(newName) : filenameWoExt;
     }
   }
   { LOG(LogError) << "[GameName] Renaming called on non-renamed platform game: " << filenameWoExt; }

@@ -41,11 +41,11 @@ class IConfiguration
     virtual void ResetConfiguration() = 0;
 
     //! Get Token
-    virtual std::string GetBearer() const = 0;
+    virtual String GetBearer() const = 0;
     //! Get Login
-    virtual std::string GetLogin() const = 0;
+    virtual String GetLogin() const = 0;
     //! Get password
-    virtual std::string GetPassword() const = 0;
+    virtual String GetPassword() const = 0;
     //! Get favorite language
     virtual Languages GetFavoriteLanguage() const = 0;
     //! Get favorite region

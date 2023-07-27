@@ -3,7 +3,7 @@
 #include "utils/math/Vector2f.h"
 #include "Help.h"
 #include <memory>
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
 
 class ThemeData;
@@ -34,7 +34,7 @@ class HelpStyle
      * @param theme Theme data
      * @param view View from which to extract data
      */
-  	void FromTheme(const ThemeData& theme, const std::string& view);
+  	void FromTheme(const ThemeData& theme, const String& view);
 
     /*
      * Accessors

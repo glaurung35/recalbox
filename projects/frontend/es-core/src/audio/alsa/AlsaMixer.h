@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <alsa/asoundlib.h>
 
 class AlsaMixer
@@ -18,7 +18,7 @@ class AlsaMixer
     };
 
     //! Default constructor
-    AlsaMixer(int id, const std::string& name, int cardReference, MixerType mixerType)
+    AlsaMixer(int id, const String& name, int cardReference, MixerType mixerType)
       : mMixerHandle(nullptr)
       , mMixerName(name)
       , mMixerId(id)
@@ -30,7 +30,7 @@ class AlsaMixer
     //! Get mixer identifier
     int Identifier() const { return mMixerId; }
     //! Get mixer name
-    const std::string& Name() const { return mMixerName; }
+    const String& Name() const { return mMixerName; }
     //! Get mixer type
     MixerType Type() const { return mMixerType; }
 
@@ -51,7 +51,7 @@ class AlsaMixer
 
   private:
     // Internal references
-    std::string mMixerName; //!< Mixer name
+    String mMixerName; //!< Mixer name
     int mMixerId;           //!< Mixer ID
     int mCardReference;     //!< Reference index of the parent sound provider
     MixerType mMixerType;   //!< Mixer type

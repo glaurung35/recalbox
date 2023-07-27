@@ -18,9 +18,9 @@ GuiMenuVirtualSystemPerGenre::GuiMenuVirtualSystemPerGenre(WindowManager& window
   // All games
   for(const auto & genre : Genres::GetOrderedList())
   {
-    std::string shortName = Genres::GetShortName(genre);
-    std::string longName = Genres::GetFullName(genre);
-    std::string prefix = Genres::IsSubGenre(genre) ? "   \u21B3 " : "";
+    String shortName = Genres::GetShortName(genre);
+    String longName = Genres::GetFullName(genre);
+    String prefix = Genres::IsSubGenre(genre) ? "   \u21B3 " : "";
     Path icon = Path(Genres::GetResourcePath(genre));
     bool value = RecalboxConf::Instance().GetCollection(shortName);
     auto component = AddSwitch(icon, prefix + _S(longName), value, 0, nullptr, _S(longName));

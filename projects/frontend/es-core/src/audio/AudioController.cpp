@@ -16,11 +16,11 @@ bool AudioController::GetSpecialAudio()
   return result;
 }
 
-std::string AudioController::SetDefaultPlayback(const std::string& playbackName)
+String AudioController::SetDefaultPlayback(const String& playbackName)
 {
   if (!mHasSpecialAudio)
   {
-    std::string playback = mController.SetDefaultPlayback(playbackName);
+    String playback = mController.SetDefaultPlayback(playbackName);
     return playback;
   }
 

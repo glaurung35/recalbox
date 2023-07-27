@@ -10,7 +10,7 @@
 
 struct DeviceDescriptor
 {
-  std::string DisplayableName;
-  std::string InternalName;
+  String DisplayableName;
+  String InternalName;
   AudioIcon Icon;
 };

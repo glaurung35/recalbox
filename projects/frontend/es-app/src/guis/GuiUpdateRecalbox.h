@@ -22,7 +22,7 @@ class GuiUpdateRecalbox: public Gui
                        , private Http::IDownload
 {
   public:
-    GuiUpdateRecalbox(WindowManager& window, const std::string& tarUrl, const std::string& imageUrl, const std::string& sha1Url, const std::string& newVersion);
+    GuiUpdateRecalbox(WindowManager& window, const String& tarUrl, const String& imageUrl, const String& sha1Url, const String& newVersion);
 
     ~GuiUpdateRecalbox() override;
 
@@ -64,16 +64,16 @@ class GuiUpdateRecalbox: public Gui
     Http mImgRequest;
 
     //! Tar Url to download and decompress
-    std::string mTarUrl;
+    String mTarUrl;
     //! Image Url to download
-    std::string mImageUrl;
+    String mImageUrl;
     //! Sha1 Url to download
-    std::string mSha1Url;
+    String mSha1Url;
     //! New version
-    std::string mNewVersion;
+    String mNewVersion;
     // texts
-    std::string mRebootIn;
-    std::string mError;
+    String mRebootIn;
+    String mError;
 
     //! Time reference
     DateTime mTimeReference;

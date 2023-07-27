@@ -28,7 +28,7 @@ Path WizardAgo3::OnImageRequired(int page)
   return Path();
 }
 
-std::string WizardAgo3::OnTextRequired(int page)
+String WizardAgo3::OnTextRequired(int page)
 {
   switch((Pages)page)
   {
@@ -45,7 +45,7 @@ std::string WizardAgo3::OnTextRequired(int page)
     case Pages::Count: break;
   }
 
-  return std::string();
+  return String();
 }
 
 Wizard::Move WizardAgo3::OnKeyReceived(int page, const InputCompactEvent& event)

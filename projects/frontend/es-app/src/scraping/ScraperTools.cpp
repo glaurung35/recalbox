@@ -10,26 +10,26 @@ ScraperNameOptions ScraperTools::Clamp(int option)
     return ScraperNameOptions::GetFromFilenameUndecorated;
   return (ScraperNameOptions) option;
 }
-ScraperNameOptions ScraperTools::ScraperNameOptionsFromString(const std::string& menu)
+ScraperNameOptions ScraperTools::ScraperNameOptionsFromString(const String& menu)
 {
   if (menu == "scraper") return ScraperNameOptions::GetFromScraper;
   if (menu == "filename") return ScraperNameOptions::GetFromFilename;
   return ScraperNameOptions::GetFromFilenameUndecorated;
 }
 
-const std::string& ScraperTools::ScraperNameOptionsFromEnum(ScraperNameOptions scraperNameOptions)
+const String& ScraperTools::ScraperNameOptionsFromEnum(ScraperNameOptions scraperNameOptions)
 {
   switch (scraperNameOptions)
   {
     case ScraperNameOptions::GetFromScraper:
     {
-      static std::string sScraper = "scraper";
+      static String sScraper = "scraper";
       return sScraper;
     }
 
     case ScraperNameOptions::GetFromFilename:
     {
-      static std::string sFileName = "filename";
+      static String sFileName = "filename";
       return sFileName;
     }
     case ScraperNameOptions::GetFromFilenameUndecorated:
@@ -37,6 +37,6 @@ const std::string& ScraperTools::ScraperNameOptionsFromEnum(ScraperNameOptions s
       break;
     }
   }
-  static std::string sFileName = "filenameUndecorated";
+  static String sFileName = "filenameUndecorated";
   return sFileName;
 }

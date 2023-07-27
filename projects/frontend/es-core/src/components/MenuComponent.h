@@ -1,12 +1,10 @@
 #pragma once
 
 #include <guis/GuiInfoPopupBase.h>
-#include <utils/Strings.h>
 #include <components/NinePatchComponent.h>
 #include <components/ComponentList.h>
 #include <components/TextComponent.h>
 #include <components/ComponentGrid.h>
-#include <WindowManager.h>
 #include <themes/MenuThemeData.h>
 #include <guis/GuiMsgBoxScroll.h>
 #include <components/DateTimeComponent.h>
@@ -24,15 +22,15 @@ std::shared_ptr<ImageComponent> makeArrow(WindowManager&window);
 class MenuComponent : public Component
 {
   public:
-    MenuComponent(WindowManager&window, const std::string& title, const std::shared_ptr<Font>& titleFont);
-    MenuComponent(WindowManager&window, const std::string& title)
+    MenuComponent(WindowManager&window, const String& title, const std::shared_ptr<Font>& titleFont);
+    MenuComponent(WindowManager&window, const String& title)
       : MenuComponent(window, title, Font::get(FONT_SIZE_LARGE))
     {
     }
 
     void onSizeChanged() override;
 
-    inline std::function<void()> buildHelpGui(const std::string& label, const std::string& help)
+    inline std::function<void()> buildHelpGui(const String& label, const String& help)
     {
       return [this, label, help] () {
         int dur = RecalboxConf::Instance().GetPopupHelp();
@@ -44,7 +42,7 @@ class MenuComponent : public Component
 
     inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 
-    inline void addRowWithHelp(ComponentListRow& row, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool updateGeometry = true)
+    inline void addRowWithHelp(ComponentListRow& row, const String& label, const String& help = "", bool setCursorHere = false, bool updateGeometry = true)
     {
       if (!help.empty()) {
         row.makeHelpInputHandler(buildHelpGui(label, help));
@@ -52,11 +50,11 @@ class MenuComponent : public Component
       addRow(row, setCursorHere, updateGeometry);
     }
 
-    inline void addWithLabel(const std::shared_ptr<Component>& comp, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const String& label, const String& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
     {
       ComponentListRow row;
       auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-      row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
+      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color), true);
       row.addElement(comp, false, invert_when_selected);
       if (acceptCallback) {
         row.makeAcceptInputHandler(acceptCallback);
@@ -67,7 +65,7 @@ class MenuComponent : public Component
       addRow(row, setCursorHere, true);
     }
 
-    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const std::string& label, const std::string& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const String& label, const String& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
     {
       ComponentListRow row;
       auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
@@ -87,7 +85,7 @@ class MenuComponent : public Component
         row.addElement(spacer, false, invert_when_selected);
       }
 
-      row.addElement(std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(label), menuTheme->menuText.font, menuTheme->menuText.color), true);
+      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color), true);
       row.addElement(comp, false, invert_when_selected);
 
       if (acceptCallback) {
@@ -99,15 +97,15 @@ class MenuComponent : public Component
       addRow(row, setCursorHere, true);
     }
 
-    void addButton(const std::string& label, const std::string& helpText, const std::function<void()>& callback);
+    void addButton(const String& label, const String& helpText, const std::function<void()>& callback);
 
-    void setFooter(const std::string& label);
+    void setFooter(const String& label);
 
-    void setTitle(const std::string& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
+    void setTitle(const String& title, const std::shared_ptr<Font>& font = Font::get(FONT_SIZE_LARGE));
 
     inline void setCursorToList() { mGrid.setCursorTo(mList); }
     inline void setCursorToList(int index) { mGrid.setCursorTo(mList); mList->setCursorIndex(index % mList->Count()); }
-    inline int getButtonsSize() { return mButtons.size(); }
+    inline int getButtonsSize() { return (int)mButtons.size(); }
     inline void setCursorToButtons() { assert(mButtonGrid); mGrid.setCursorTo(mButtonGrid); }
     inline void setCursorToButton(int index) {
         setCursorToButtons();
@@ -146,8 +144,8 @@ protected:
 
     void updateSize();
     void updateGrid();
-    float getButtonGridHeight() const;
-    float getFooterHeight() const;
+    [[nodiscard]] float getButtonGridHeight() const;
+    [[nodiscard]] float getFooterHeight() const;
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;

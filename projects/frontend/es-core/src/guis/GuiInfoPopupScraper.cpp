@@ -12,7 +12,7 @@
 #include <components/ProgressBarComponent.h>
 #include <systems/SystemData.h>
 
-std::string GuiInfoPopupScraper::mTextTemplate("Scraping game %VALUE%/%TOTAL%\n%SYSTEM%\n%NAME%");
+String GuiInfoPopupScraper::mTextTemplate("Scraping game %VALUE%/%TOTAL%\n%SYSTEM%\n%NAME%");
 
 GuiInfoPopupScraper::GuiInfoPopupScraper(WindowManager& window)
   : GuiInfoPopupBase(window, true, 0x7FFFFFF, PopupType::Scraper, 3, 2, 1.6f)
@@ -23,7 +23,7 @@ float GuiInfoPopupScraper::AddComponents(WindowManager& window, ComponentGrid& g
                                          int paddingX, int paddingY)
 {
   (void)paddingY;
-  std::string iconText = "\uF1e4";
+  String iconText = "\uF1e4";
 
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
@@ -69,11 +69,11 @@ void GuiInfoPopupScraper::SetScrapedGame(const FileData& game, int value, int to
   {
     mProgressBar->setMaxValue(total);
     mProgressBar->setCurrentValue(value);
-    std::string msg(mTextTemplate);
-    Strings::ReplaceAllIn(msg, "%VALUE%", Strings::ToString(value));
-    Strings::ReplaceAllIn(msg, "%TOTAL%", Strings::ToString(total));
-    Strings::ReplaceAllIn(msg, "%NAME%", game.Metadata().Name());
-    Strings::ReplaceAllIn(msg, "%SYSTEM%", game.System().FullName());
+    String msg(mTextTemplate);
+    msg.Replace("%VALUE%", String(value))
+       .Replace("%TOTAL%", String(total))
+       .Replace("%NAME%", game.Metadata().Name())
+       .Replace("%SYSTEM%", game.System().FullName());
     mText->setVerticalAlignment(TextAlignment::Top);
     mText->setSize(Grid().getColWidth(1), Grid().getRowHeight(0));
     mText->setText(msg);
@@ -98,15 +98,15 @@ void GuiInfoPopupScraper::ScrapingComplete(ScrapeResult result)
 {
   if (Initialized())
   {
-    std::string msg("Scraping completed!\n\n");
+    String msg("Scraping completed!\n\n");
     switch(result)
     {
-      case ScrapeResult::Ok: msg.append("All games scraped successfully."); break;
-      case ScrapeResult::QuotaReached: msg.append("You reached your daily quota. Retry tomorrow."); break;
-      case ScrapeResult::DiskFull: msg.append("Your disk is full Pleas make room before trying again."); break;
+      case ScrapeResult::Ok: msg.Append("All games scraped successfully."); break;
+      case ScrapeResult::QuotaReached: msg.Append("You reached your daily quota. Retry tomorrow."); break;
+      case ScrapeResult::DiskFull: msg.Append("Your disk is full Pleas make room before trying again."); break;
       case ScrapeResult::NotScraped:
       case ScrapeResult::NotFound:
-      case ScrapeResult::FatalError: msg.append("Errors occurred and prevented some games to get their metadata. Retry later."); break;
+      case ScrapeResult::FatalError: msg.Append("Errors occurred and prevented some games to get their metadata. Retry later."); break;
       default: break;
     }
     mText->setVerticalAlignment(TextAlignment::Top);

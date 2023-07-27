@@ -1,11 +1,11 @@
 #include "InputDevice.h"
 #include "InputEvent.h"
-#include <string>
+#include <utils/String.h>
 #include <SDL2/SDL.h>
 
 unsigned int InputDevice::mReferenceTimes[32];
 
-std::string InputDevice::EntryToString(InputDevice::Entry entry)
+String InputDevice::EntryToString(InputDevice::Entry entry)
 {
   switch(entry)
   {
@@ -44,9 +44,9 @@ std::string InputDevice::EntryToString(InputDevice::Entry entry)
   }
 }
 
-InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
+InputDevice::Entry InputDevice::StringToEntry(const String& entry)
 {
-  static HashMap<std::string, InputDevice::Entry> sStringToEntry
+  static HashMap<String, InputDevice::Entry> sStringToEntry
   {
     { "none", InputDevice::Entry::None },
     { "start", InputDevice::Entry::Start },
@@ -75,7 +75,7 @@ InputDevice::Entry InputDevice::StringToEntry(const std::string& entry)
     { "lum+", InputDevice::Entry::BrightnessUp },
     { "lum-", InputDevice::Entry::BrightnessDown },
   };
-  InputDevice::Entry* result = sStringToEntry.try_get(Strings::ToLowerASCII(entry));
+  InputDevice::Entry* result = sStringToEntry.try_get(entry.ToLowerCase());
   if (result != nullptr) return *result;
   { LOG(LogError) << "[InputDevice] Unknown string Input entry: " << entry; }
   return InputDevice::Entry::None;
@@ -125,7 +125,7 @@ void InputDevice::LoadFrom(const InputDevice& source)
 String InputDevice::NameExtented() const
 {
   String result(mDeviceName);
-  std::string powerLevel = PowerLevel();
+  String powerLevel = PowerLevel();
   if (!powerLevel.empty())
     result.Append(' ').Append(powerLevel);
   return result;
@@ -151,7 +151,7 @@ String InputDevice::PowerLevel() const
   return "";
 }
 
-/*std::string InputDevice::getSysPowerLevel()
+/*String InputDevice::getSysPowerLevel()
 {
   SDL_Joystick* joy;
   //joy = InputManager::getInstance()->getJoystickByJoystickID(getDeviceId());
@@ -206,7 +206,7 @@ bool InputDevice::IsMatching(Entry input, InputEvent event) const
 
 InputDevice::Entry InputDevice::GetMatchedEntry(InputEvent input) const
 {
-  std::vector<std::string> maps;
+  std::vector<String> maps;
 
   for (int i = (int)Entry::__Count; --i >= 0; )
     if ((mConfigurationBits & (1 << (int)i)) != 0)
@@ -235,138 +235,134 @@ InputDevice::Entry InputDevice::GetMatchedEntry(InputEvent input) const
   return Entry::None;
 }
 
-bool InputDevice::LoadAutoConfiguration(const std::string& configuration)
+bool InputDevice::LoadAutoConfiguration(const String& configuration)
 {
   bool result = false;
 
   { LOG(LogInfo) << "[InputDevice] Autoconfiguration from " << configuration; }
-  Strings::Vector mappingList = Strings::Split(configuration, ',');
-  for(const std::string& mapping : mappingList)
-  {
-    size_t pos = mapping.find(':');
-    if (pos == std::string::npos) continue;
-    std::string key = mapping.substr(0, pos);
-    std::string value = mapping.substr(pos + 1);
-
-    static HashMap<std::string, Entry> mapper
-    ({
-       { "dpup",          Entry::Up },
-       { "dpright",       Entry::Right },
-       { "dpdown",        Entry::Down },
-       { "dpleft",        Entry::Left },
-       { "a",             Entry::B }, // A <=> B and X <=> Y to match ES buttons.
-       { "b",             Entry::A },
-       { "x",             Entry::Y },
-       { "y",             Entry::X },
-       { "back",          Entry::Select },
-       { "start",         Entry::Start },
-       { "guide",         Entry::Hotkey },
-       { "leftshoulder",  Entry::L1 },
-       { "rightshoulder", Entry::R1 },
-       { "lefttrigger",   Entry::L2 },
-       { "righttrigger",  Entry::R2 },
-       { "leftstick",     Entry::L3 },
-       { "rightstick",    Entry::R3 },
-       { "leftx",         Entry::Joy1AxisH },
-       { "lefty",         Entry::Joy1AxisV },
-       { "rightx",        Entry::Joy2AxisH },
-       { "righty",        Entry::Joy2AxisV },
-    });
-
-    Entry* entry = mapper.try_get(key);
-    if (entry == nullptr || value.length() < 2)
+  String::List mappingList = configuration.Split(',');
+  for(const String& mapping : mappingList)
+    if (String key, value; mapping.Extract(':', key, value, false))
     {
-      { LOG(LogError) << "[InputDevice] Unknown mapping: " << mapping; }
-      continue;
-    }
+      static HashMap<String, Entry> mapper
+      ({
+         { "dpup",          Entry::Up },
+         { "dpright",       Entry::Right },
+         { "dpdown",        Entry::Down },
+         { "dpleft",        Entry::Left },
+         { "a",             Entry::B }, // A <=> B and X <=> Y to match ES buttons.
+         { "b",             Entry::A },
+         { "x",             Entry::Y },
+         { "y",             Entry::X },
+         { "back",          Entry::Select },
+         { "start",         Entry::Start },
+         { "guide",         Entry::Hotkey },
+         { "leftshoulder",  Entry::L1 },
+         { "rightshoulder", Entry::R1 },
+         { "lefttrigger",   Entry::L2 },
+         { "righttrigger",  Entry::R2 },
+         { "leftstick",     Entry::L3 },
+         { "rightstick",    Entry::R3 },
+         { "leftx",         Entry::Joy1AxisH },
+         { "lefty",         Entry::Joy1AxisV },
+         { "rightx",        Entry::Joy2AxisH },
+         { "righty",        Entry::Joy2AxisV },
+      });
 
-    // Default values
-    InputEvent::EventType typeEnum = InputEvent::EventType::Unknown;
-    int id = -1;
-    int val = 0;
-    int code = -1;
-    int sign = 0;
-    int parserIndex = 0;
-
-    // Sign?
-    switch(value[parserIndex])
-    {
-      case '-': { sign = -1; ++parserIndex; break; }
-      case '+': { sign = +1; ++parserIndex; break; }
-      default: break;
-    }
-
-    bool parsed = false;
-    switch(value[parserIndex])
-    {
-      case 'a':
+      Entry* entry = mapper.try_get(key);
+      if (entry == nullptr || value.length() < 2)
       {
-        if (Strings::ToInt(value, parserIndex + 1, id))
-        {
-          typeEnum = InputEvent::EventType::Axis;
-          if (sign == 0) val = -1; // non-signed axes are affected to joysticks: always left or up
-          else val = sign;         // Otherwise, take the sign as-is
-          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-            code = SDL_JoystickAxisEventCodeById(mDeviceIndex, id);
-          #else
-            #ifdef _RECALBOX_PRODUCTION_BUILD_
-              #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
-            #endif
-          #endif
-          parsed = true;
-          { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Axis " << id << " (Code: " << code << ')'; }
-        }
-        break;
+        { LOG(LogError) << "[InputDevice] Unknown mapping: " << mapping; }
+        continue;
       }
-      case 'b':
+
+      // Default values
+      InputEvent::EventType typeEnum = InputEvent::EventType::Unknown;
+      int id = -1;
+      int val = 0;
+      int code = -1;
+      int sign = 0;
+      int parserIndex = 0;
+
+      // Sign?
+      switch(value[parserIndex])
       {
-        if (Strings::ToInt(value, parserIndex + 1, id))
-        {
-          typeEnum = InputEvent::EventType::Button;
-          val = 1;
-          #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-          code = SDL_JoystickButtonEventCodeById(mDeviceIndex, id);
-          #else
-            #ifdef _RECALBOX_PRODUCTION_BUILD_
-              #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
-            #endif
-          #endif
-          parsed = true;
-          { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Button " << id << " (Code: " << code << ')'; }
-        }
-        break;
+        case '-': { sign = -1; ++parserIndex; break; }
+        case '+': { sign = +1; ++parserIndex; break; }
+        default: break;
       }
-      case 'h':
+
+      bool parsed = false;
+      switch(value[parserIndex])
       {
-        if (Strings::ToInt(value, parserIndex + 1, '.', id))
-          if (Strings::ToInt(value, parserIndex + 3, val))
+        case 'a':
+        {
+          if (value.TryAsInt(parserIndex + 1, id))
           {
-            typeEnum = InputEvent::EventType::Hat;
+            typeEnum = InputEvent::EventType::Axis;
+            if (sign == 0) val = -1; // non-signed axes are affected to joysticks: always left or up
+            else val = sign;         // Otherwise, take the sign as-is
             #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-            code = SDL_JoystickHatEventCodeById(mDeviceIndex, id);
+              code = SDL_JoystickAxisEventCodeById(mDeviceIndex, id);
             #else
               #ifdef _RECALBOX_PRODUCTION_BUILD_
                 #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
               #endif
             #endif
             parsed = true;
-            { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Hat " << id << '/' << val << " (Code: " << code << ')'; }
+            { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Axis " << id << " (Code: " << code << ')'; }
           }
-        break;
+          break;
+        }
+        case 'b':
+        {
+          if (value.TryAsInt(parserIndex + 1, id))
+          {
+            typeEnum = InputEvent::EventType::Button;
+            val = 1;
+            #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+            code = SDL_JoystickButtonEventCodeById(mDeviceIndex, id);
+            #else
+              #ifdef _RECALBOX_PRODUCTION_BUILD_
+                #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+              #endif
+            #endif
+            parsed = true;
+            { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Button " << id << " (Code: " << code << ')'; }
+          }
+          break;
+        }
+        case 'h':
+        {
+          if (value.TryAsInt(parserIndex + 1, '.', id))
+            if (value.TryAsInt(parserIndex + 3, val))
+            {
+              typeEnum = InputEvent::EventType::Hat;
+              #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+              code = SDL_JoystickHatEventCodeById(mDeviceIndex, id);
+              #else
+                #ifdef _RECALBOX_PRODUCTION_BUILD_
+                  #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+                #endif
+              #endif
+              parsed = true;
+              { LOG(LogInfo) << "[InputDevice] Auto-Assign " << EntryToString(*entry) << " to Hat " << id << '/' << val << " (Code: " << code << ')'; }
+            }
+          break;
+        }
+        default:
+        {
+        }
       }
-      default:
+      if (!parsed)
       {
+        { LOG(LogError) << "[InputDevice] Error parsing mapping: " << mapping; }
+        continue;
       }
-    }
-    if (!parsed)
-    {
-      { LOG(LogError) << "[InputDevice] Error parsing mapping: " << mapping; }
-      continue;
-    }
 
-    Set(*entry, InputEvent(mDeviceId, typeEnum, id, val, code));
-    result = true; // At least one mapping has been done
-  }
+      Set(*entry, InputEvent(mDeviceId, typeEnum, id, val, code));
+      result = true; // At least one mapping has been done
+    }
 
   // Manage pads with only one analog joystick and no dpad
   if (mInputEvents[(int)Entry::Up].Type() == InputEvent::EventType::Unknown)
@@ -411,8 +407,8 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
   int loaded = 0;
   for (pugi::xml_node input = root.child("input"); input != nullptr; input = input.next_sibling("input"))
   {
-    std::string name = input.attribute("name").as_string();
-    std::string type = input.attribute("type").as_string();
+    String name = input.attribute("name").as_string();
+    String type = input.attribute("type").as_string();
     InputEvent::EventType typeEnum = InputEvent::StringToType(type);
 
     if(typeEnum == InputEvent::EventType::Unknown)
@@ -426,7 +422,7 @@ int InputDevice::LoadFromXml(pugi::xml_node root)
     int code = input.attribute("code").as_int();
 
     if(value == 0)
-    { LOG(LogWarning) << "[InputDevice] WARNING: InputConfig value is 0 for " << type << " " << id << "!\n"; }
+    { LOG(LogWarning) << "[InputDevice] WARNING: InputConfig value is 0 for " << type << ' ' << id << "!\n"; }
 
     // Adapt seamlessly old l1/r1
     if (name == "pageup") name = "l1";

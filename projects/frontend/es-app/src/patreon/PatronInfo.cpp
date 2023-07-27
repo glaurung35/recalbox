@@ -11,7 +11,7 @@
 PatronInfo::PatronInfo(IPatreonNotification* callback)
   : StaticLifeCycleControler<PatronInfo>("PatronInfo")
   , mEvent(*this)
-  , mToken(Strings::Trim(RecalboxConf::Instance().GetRecalboxPrivateKey(), " \t"))
+  , mToken(RecalboxConf::Instance().GetRecalboxPrivateKey().Trim(" \t"))
   , mCallback(callback)
   , mResult(PatronAuthenticationResult::Unknown)
   , mLevel(0)
@@ -28,9 +28,9 @@ void PatronInfo::Initialize()
     while((SDL_GetTicks() - start) < sNetworkTimeout)
     {
       mHttp.SetBearer(mToken);
-      std::string url = sRootDomainName;
-      std::string body;
-      url.append("/userinfo");
+      String url = sRootDomainName;
+      String body;
+      url.Append("/userinfo");
       if (mHttp.Execute(url, body))
       {
         bool success = mHttp.GetLastHttpResponseCode() == 200;
@@ -45,7 +45,7 @@ void PatronInfo::Initialize()
             {
               const rapidjson::Value& response = json["full_name"];
               mName = response.GetString();
-              bool active = std::string(json["patron_status"].GetString()) == "active_patron";
+              bool active = String(json["patron_status"].GetString()) == "active_patron";
               mResult = active ? PatronAuthenticationResult::Patron : PatronAuthenticationResult::FormerPatron;
               { LOG(LogInfo) << "[Patreon] You're a " << (active ? "Patron!" : "Former patron"); }
               mLevel = json["tier_status"].GetInt();

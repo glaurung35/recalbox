@@ -39,13 +39,13 @@ class GuiNetPlayEditPasswords : public Gui, private IGuiArcadeVirtualKeyboardInt
      * @brief Called when the edited text change.
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
+    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) override;
 
     /*!
      * @brief Called when the edited text is validated (Enter or Start)
      * Current text is available from the Text() method.
      */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text) override;
+    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) override;
 
     /*!
      * @brief Called when the edited text is cancelled.

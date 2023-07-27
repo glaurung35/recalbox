@@ -31,7 +31,7 @@ public:
 
 	explicit ImageGridComponent(WindowManager& window);
 
-	void add(const std::string& name, const Path& imagePath, const T& obj);
+	void add(const String& name, const Path& imagePath, const T& obj);
 	
 	void onSizeChanged() override;
 
@@ -101,7 +101,7 @@ ImageGridComponent<T>::ImageGridComponent(WindowManager& window)
 }
 
 template<typename T>
-void ImageGridComponent<T>::add(const std::string& name, const Path& imagePath, const T& obj)
+void ImageGridComponent<T>::add(const String& name, const Path& imagePath, const T& obj)
 {
 	typename IList<ImageGridData, T>::Entry entry;
 	entry.name = name;

@@ -7,7 +7,7 @@
 #pragma once
 
 #include <iostream>
-#include <string>
+#include <utils/String.h>
 #include <stdlib.h>
 
 typedef struct TARFileHeader
@@ -55,14 +55,14 @@ class Tar
     Tar();
     ~Tar();
     size_t InjectBuffer(uint8_t *bufferin, int buffersize);
-    void Untar(std::string path);
+    void Untar(String path);
     void Close();
     tar_error Error();
 
     /*!
      * @brieg Returns last error message
      */
-    std::string ErrorMessage();
+    String ErrorMessage();
 
   private:
     /*!
@@ -113,12 +113,12 @@ class Tar
     /*!
      * @brief Destination dir
      */
-    std::string m_outputpath;
+    String m_outputpath;
 
     /*!
      * @brief Current processing file
      */
-    std::string m_currentfile;
+    String m_currentfile;
 
     /*!
      * @brief Processing status

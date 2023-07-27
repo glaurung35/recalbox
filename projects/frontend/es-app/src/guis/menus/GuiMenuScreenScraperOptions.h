@@ -55,7 +55,7 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
     static std::vector<ListEntry<Regions::GameRegions>> GetRegionsEntries();
     static std::vector<ListEntry<Languages>> GetLanguagesEntries();
 
-    void EditableComponentTextChanged(int id, const std::string& text) override;
+    void EditableComponentTextChanged(int id, const String& text) override;
     void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperImageType& value) override;
     void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperVideoType& value) override;
     void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperRegionPriority& value) override;
@@ -65,14 +65,14 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
     void SwitchComponentChanged(int id, bool status) override;
 
     //! Get login regarding scraper type
-    std::string GetLogin();
+    String GetLogin();
 
     //! Get password regarding scraper type
-    std::string GetPassword();
+    String GetPassword();
 
     //! Get login regarding scraper type
-    void SetLogin(const std::string& login);
+    void SetLogin(const String& login);
 
     //! Get password regarding scraper type
-    void SetPassword(const std::string& password);
+    void SetPassword(const String& password);
 };

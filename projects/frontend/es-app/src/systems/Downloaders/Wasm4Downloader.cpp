@@ -175,8 +175,7 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
         TimeSpan elapsed = DateTime() - mTimeReference;
         TimeSpan eta((elapsed.TotalMilliseconds() * (mTotalSize - mCurrentSize)) / mCurrentSize);
 
-        std::string text = _("Downloading... Estimated time: %s");
-        Strings::ReplaceAllIn(text, "%s", eta.ToTimeString());
+        String text = _("Downloading... Estimated time: %s").Replace("%s", eta.ToTimeString());
         mUpdater.UpdateETAText(text);
       }
       break;
@@ -186,8 +185,7 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      std::string text = _("Extracting... found %s games");
-      Strings::ReplaceAllIn(text, "%s", String(mGames));
+      String text = _("Extracting... found %s games").Replace("%s", String(mGames));
       mUpdater.UpdateETAText(text);
       break;
     }
@@ -196,8 +194,7 @@ void Wasm4Downloader::ReceiveSyncMessage(const Wasm4DownloadingGameState& code)
       // Load size into progress bar component
       mUpdater.UpdateProgressbar(mCurrentSize, mTotalSize);
 
-      std::string text = _("Updating metadata...");
-      Strings::ReplaceAllIn(text, "%s", String(mCurrentSize));
+      String text = _("Updating metadata...").Replace("%s", String(mCurrentSize));
       if (mCurrentSize == 0) text = _("Refreshing gamelist...");
       mUpdater.UpdateETAText(text);
       break;

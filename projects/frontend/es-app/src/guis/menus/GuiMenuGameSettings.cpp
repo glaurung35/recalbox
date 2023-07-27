@@ -39,7 +39,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   mShowSaveStates = AddSwitch(_("SHOW SAVE STATES ON START"), RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun(), (int)Components::ShowSaveStates, this, _(MENUMESSAGE_GAME_SHOW_SAVESTATES_HELP_MSG));
 
   // autosave
-  AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
+  mAutoSave = AddSwitch(_("AUTO SAVE/LOAD"), RecalboxConf::Instance().GetGlobalAutoSave(), (int)Components::AutoSave, this, _(MENUMESSAGE_GAME_AUTOSAVELOAD_HELP_MSG));
 
   // Press twice to quit
   AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::QuitTwice, this, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
@@ -95,7 +95,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetSuperGameBoy
 {
   std::vector<GuiMenuBase::ListEntry<String>> list;
 
-  std::string currentOption = RecalboxConf::Instance().GetSuperGameBoy();
+  String currentOption = RecalboxConf::Instance().GetSuperGameBoy();
   list.push_back({ _("GAME BOY"), "gb", currentOption == "gb" });
   list.push_back({ _("SUPER GAME BOY"), "sgb", currentOption == "sgb" });
   list.push_back({ _("ASK AT LAUNCH"), "ask", currentOption == "ask" });
@@ -119,7 +119,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGameSettings::GetShaderPreset
 {
   std::vector<GuiMenuBase::ListEntry<String>> list;
 
-  std::string currentPreset = RecalboxConf::Instance().GetGlobalShaderSet();
+  String currentPreset = RecalboxConf::Instance().GetGlobalShaderSet();
   if (currentPreset != "scanlines" && currentPreset != "retro" && currentPreset != "crtcurved") currentPreset = "none";
   list.push_back({ _("NONE"), "none", currentPreset == "none" });
   list.push_back({ _("CRT CURVED"), "crtcurved", currentPreset == "crtcurved" });

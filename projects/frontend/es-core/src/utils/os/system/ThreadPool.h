@@ -89,7 +89,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
     };
 
     //! Name
-    std::string                mThreadPoolName;
+    String                mThreadPoolName;
     //! Worker threads
     std::vector<WorkerThread*> mThreads;
     //! Queue of waiting jobs
@@ -144,7 +144,7 @@ template<class FeedObject, class ResultObject> class ThreadPool
      * @param parmanent if set to True, all workers do no die after job completion.
      * They wait for next queued job instead
      */
-    ThreadPool(IThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const std::string& name, bool permanent, int tickduration = 0)
+    ThreadPool(IThreadPoolWorkerInterface<FeedObject, ResultObject>* interface, const String& name, bool permanent, int tickduration = 0)
       : mThreadPoolName(name),
         mInterface(interface),
         mIndex(0),

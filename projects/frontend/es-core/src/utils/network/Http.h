@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "utils/os/fs/Path.h"
 #include "utils/os/system/Mutex.h"
 #include "utils/datetime/DateTime.h"
@@ -44,7 +44,7 @@ class Http
      * @param output String to write request result into
      * @return True if the request executed successfuly
      */
-    bool Execute(const std::string& url, std::string& output);
+    bool Execute(const String& url, String& output);
 
     /*!
      * @brief Execute an HTTP Request ang save the result into a file
@@ -52,7 +52,7 @@ class Http
      * @param output File path to save request result into
      * @return True if the request executed successfuly
      */
-    bool Execute(const std::string& url, const Path& output);
+    bool Execute(const String& url, const Path& output);
 
     /*!
      * @brief Execute an HTTP Request ang save the result into a file
@@ -61,9 +61,9 @@ class Http
      * @param interface IDownload interface
      * @return True if the request executed successfuly
      */
-    bool Execute(const std::string& url, const Path& output, IDownload* interface);
+    bool Execute(const String& url, const Path& output, IDownload* interface);
 
-    //bool SimpleExecute(const std::string& url, IDownload* interface);
+    //bool SimpleExecute(const String& url, IDownload* interface);
     /*!
      * @brief Asynchronously cancel a running request
      */
@@ -92,13 +92,13 @@ class Http
      * @param login Login
      * @param password Password
      */
-    void SetBasicAuth(const std::string& login, const std::string& password);
+    void SetBasicAuth(const String& login, const String& password);
 
     /*!
      * @brief Set bearer authentication
      * @param bearer bearer
      */
-    void SetBearer(const std::string& bearer);
+    void SetBearer(const String& bearer);
 
     /*!
      * @brief Unset basic authentication
@@ -116,18 +116,20 @@ class Http
     static constexpr int sMaxDataKeptInRam = (2 << 20); // 20Mb
 
     //! Bearer (Authorization)
-    std::string mBearer;
+    String mBearer;
     //! Login (basic auth)
-    std::string mLogin;
+    String mLogin;
     //! Password (basic auth)
-    std::string mPassword;
+    String mPassword;
     //! Request result, or temporary buffer waiting for disk flush
-    std::string mResultHolder;
+    String mResultHolder;
     //! Store request result into this file if it's not empty
-    Path        mResultFile;
+    Path mResultFile;
 
     //! CURL Handle for all requests. Allocated once
     CURL* mHandle;
+    //! CURL string list
+    struct curl_slist* mStringList;
     //! Download intarface
     IDownload* mIDownload;
     //! Real content size

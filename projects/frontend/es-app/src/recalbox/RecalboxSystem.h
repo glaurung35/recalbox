@@ -1,13 +1,13 @@
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "WindowManager.h"
 #include "games/FileData.h"
 
 struct EmulatorDefaults
 {
-  std::string core;
-  std::string emulator;
+  String core;
+  String emulator;
 };
 
 /*!
@@ -22,29 +22,29 @@ class RecalboxSystem
 
     static long long GetMinimumFreeSpaceOnSharePartition() { return 3LL << 30; } // 3Gb
 
-    static unsigned long long getFreeSpace(const std::string& mountpoint);
+    static unsigned long long getFreeSpace(const String& mountpoint);
 
-    static unsigned long getFreeSpaceGB(const std::string& mountpoint);
+    static unsigned long getFreeSpaceGB(const String& mountpoint);
 
-    static std::string getFreeSpaceInfo();
+    static String getFreeSpaceInfo();
 
     static bool isFreeSpaceLimit();
 
     static bool isFreeSpaceUnderLimit(long long size);
 
-    static std::string getRootPassword();
+    static String getRootPassword();
 
-    static std::vector<std::string> getAvailableWiFiSSID(bool activateWifi);
+    static std::vector<String> getAvailableWiFiSSID(bool activateWifi);
 
     static bool getWifiWps();
 
     static bool saveWifiWps();
 
-    static bool getWifiConfiguration(std::string& ssid, std::string& psk);
+    static bool getWifiConfiguration(String& ssid, String& psk);
 
     static bool setOverscan(bool enable);
 
-    static bool setOverclock(const std::string& mode);
+    static bool setOverclock(const String& mode);
 
     static bool ping();
 
@@ -52,7 +52,7 @@ class RecalboxSystem
 
     static bool backupRecalboxConf();
 
-    static bool enableWifi(std::string ssid, std::string key);
+    static bool enableWifi(String ssid, String key);
 
     static bool disableWifi();
 
@@ -63,27 +63,27 @@ class RecalboxSystem
      */
     static bool hasIpAdress(bool onlyWIFI);
 
-    static std::string getIpAddress();
+    static String getIpAddress();
 
-    static bool getIpV4Address(std::string& result);
+    static bool getIpV4Address(String& result);
 
-    static bool getIpV6Address(std::string& result);
+    static bool getIpV6Address(String& result);
 
-    static std::vector<std::string> scanBluetooth();
+    static std::vector<String> scanBluetooth();
 
-    static bool pairBluetooth(const std::string& basic_string);
+    static bool pairBluetooth(const String& basic_string);
 
-    static std::vector<std::string> getAvailableStorageDevices();
+    static std::vector<String> getAvailableStorageDevices();
 
-    static std::string getCurrentStorage();
+    static String getCurrentStorage();
 
-    static bool setStorage(const std::string& basic_string);
+    static bool setStorage(const String& basic_string);
 
     static bool forgetBluetoothControllers();
 
-    static std::pair<std::string, int> execute(const std::string& command);
+    static std::pair<String, int> execute(const String& command);
 
-    static std::pair<std::string, int> getSDLBatteryInfo();
+    static std::pair<String, int> getSDLBatteryInfo();
 
     static bool getSysBatteryInfo(int& charge, int& unicodeIcon);
 
@@ -92,8 +92,8 @@ class RecalboxSystem
     static constexpr const char* sSharePath = "/recalbox/share/";
     static constexpr const char* sConfigScript = "/recalbox/scripts/recalbox-config.sh";
 
-    static std::string BuildSettingsCommand(const std::string& arguments);
+    static String BuildSettingsCommand(const String& arguments);
 
-    static Strings::Vector ExecuteSettingsCommand(const std::string& arguments);
+    static String::List ExecuteSettingsCommand(const String& arguments);
 };
 

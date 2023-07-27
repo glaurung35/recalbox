@@ -11,7 +11,7 @@
 class SystemManager;
 
 class GuiMenuResolutionByEmulator : public GuiMenuBase
-                                  , private IOptionListComponent<std::string>
+                                  , private IOptionListComponent<String>
 {
   public:
     /*!
@@ -24,13 +24,13 @@ class GuiMenuResolutionByEmulator : public GuiMenuBase
     //! System manager reference
     SystemManager& mSystemManager;
 
-    static std::vector<ListEntry<std::string>> GetResolutionEntries(SystemData& system);
+    static std::vector<ListEntry<String>> GetResolutionEntries(SystemData& system);
 
     /*
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 };
 
 

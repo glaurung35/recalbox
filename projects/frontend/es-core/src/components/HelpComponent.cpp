@@ -1,13 +1,9 @@
-#include <utils/Strings.h>
 #include <utils/storage/HashMap.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include "components/HelpComponent.h"
 #include "Renderer.h"
-#include "RecalboxConf.h"
-#include "utils/Log.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
-#include "components/ComponentGrid.h"
 
 #define ICON_TEXT_SPACING (Renderer::Instance().Is480pOrLower() ? 2.0f : Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f)) // space between [icon] and [text] (px)
 #define ENTRY_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
@@ -87,7 +83,7 @@ void HelpComponent::UpdateHelps(bool force)
       icon->setResize(0, height);
       icons.push_back(icon);
 
-      auto lbl = std::make_shared<TextComponent>(mWindow, Strings::ToUpperUTF8(mHelp.Text(Help::TypeFromIndex(i))), font, HelpItemStyle().TextColor());
+      auto lbl = std::make_shared<TextComponent>(mWindow, mHelp.Text(Help::TypeFromIndex(i)).ToUpperCaseUTF8(), font, HelpItemStyle().TextColor());
       labels.push_back(lbl);
 
       width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
@@ -101,10 +97,10 @@ void HelpComponent::UpdateHelps(bool force)
 	for (int i = 0; i < (int)icons.size(); i++)
 	{
 		const int col = i*4;
-		mGrid.setColWidthPerc(col, ((int)icons[i]->getSize().x() / width));
-		mGrid.setColWidthPerc(col + 1, ((int)ICON_TEXT_SPACING / width));
-		mGrid.setColWidthPerc(col + 2, ((int)labels[i]->getSize().x() / width));
-    mGrid.setColWidthPerc(col + 3, ((int)ENTRY_SPACING / width));
+		mGrid.setColWidthPerc(col, (icons[i]->getSize().x() / width));
+		mGrid.setColWidthPerc(col + 1, (ICON_TEXT_SPACING / width));
+		mGrid.setColWidthPerc(col + 2, (labels[i]->getSize().x() / width));
+    mGrid.setColWidthPerc(col + 3, (ENTRY_SPACING / width));
 
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);

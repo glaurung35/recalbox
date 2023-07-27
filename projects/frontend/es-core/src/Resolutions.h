@@ -4,7 +4,7 @@
 #pragma once
 
 #include <utils/storage/HashMap.h>
-#include <utils/Strings.h>
+#include <utils/String.h>
 
 class Resolutions
 {
@@ -16,10 +16,10 @@ class Resolutions
       int Height; //!< Resolution width
 
       //! Is resolution valid?
-      bool IsValid() const { return (Width * Height) > 0; }
+      [[nodiscard]] bool IsValid() const { return (Width * Height) > 0; }
 
       //! Stringize resolution
-      std::string ToString() { return Strings::ToString(Width).append(1, 'x').append(Strings::ToString(Height)); }
+      [[nodiscard]] String ToString() const { return String(Width).Append('x').Append(Height); }
     };
 
     /*!
@@ -27,7 +27,7 @@ class Resolutions
      * @param resolution Input resolution
      * @return Simple resolution
      */
-    static SimpleResolution ConvertSimpleResolution(const std::string& resolution);
+    static SimpleResolution ConvertSimpleResolution(const String& resolution);
 
   private:
     //! CEA index to resolution
@@ -35,7 +35,7 @@ class Resolutions
     //! DMT index to resolution
     static const HashMap<int, SimpleResolution>& GetDmtMap();
     //! Named resolution to resolutions
-    static const HashMap<std::string, SimpleResolution>& GetNamedMap();
+    static const HashMap<String, SimpleResolution>& GetNamedMap();
 };
 
 

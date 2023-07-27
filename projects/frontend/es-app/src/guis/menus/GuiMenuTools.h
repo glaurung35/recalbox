@@ -7,7 +7,7 @@
 
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <vector>
 
 // Forward declarations

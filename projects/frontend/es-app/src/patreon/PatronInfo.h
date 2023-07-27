@@ -6,7 +6,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <utils/os/system/Thread.h>
 #include <patreon/IPatreonNotification.h>
@@ -32,7 +32,7 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
      * @returns the name of the patron, or empty string if not a patron
      * @note Multi thread access protected
      */
-    std::string Name() { Mutex::AutoLock locker(mLocker); return mName; }
+    String Name() { Mutex::AutoLock locker(mLocker); return mName; }
 
     /*!
      * @brief Get the patron state of the current user
@@ -83,8 +83,8 @@ class PatronInfo : public StaticLifeCycleControler<PatronInfo>
     Http mHttp;
 
     Mutex       mLocker;                //!< Prevent members from being accessed from different threads
-    std::string mToken;                 //!< User toten from Patreon
-    std::string mName;                  //!< Patreon name
+    String mToken;                 //!< User toten from Patreon
+    String mName;                  //!< Patreon name
     IPatreonNotification* mCallback;    //!< Callback interface
     PatronAuthenticationResult mResult; //!< Patron state & authentication result
     int mLevel;                         //!< Boss Level

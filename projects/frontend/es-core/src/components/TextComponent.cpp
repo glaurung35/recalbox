@@ -1,4 +1,3 @@
-#include <utils/Strings.h>
 #include "components/TextComponent.h"
 #include "Renderer.h"
 #include "utils/Log.h"
@@ -25,7 +24,7 @@ TextComponent::TextComponent(WindowManager&window)
   mPosition = Vector3f::Zero();
   mSize = Vector2f::Zero();
 }
-TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color)
+TextComponent::TextComponent(WindowManager&window, const String& text, const std::shared_ptr<Font>& font, unsigned int color)
   : TextComponent(window)
 {
   mFont = font;
@@ -36,7 +35,7 @@ TextComponent::TextComponent(WindowManager&window, const std::string& text, cons
   onTextChanged();
 }
 
-TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
+TextComponent::TextComponent(WindowManager&window, const String& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align)
   : TextComponent(window)
 {
   mFont = font;
@@ -48,7 +47,7 @@ TextComponent::TextComponent(WindowManager&window, const std::string& text, cons
   onTextChanged();
 }
 
-TextComponent::TextComponent(WindowManager&window, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
+TextComponent::TextComponent(WindowManager&window, const String& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align,
                              Vector3f pos, Vector2f size, unsigned int bgcolor)
 	: TextComponent(window, text, font, color, align)
 {
@@ -96,7 +95,7 @@ void TextComponent::setOpacity(unsigned char opacity)
 	// This method is mostly called to do fading in-out of the Text component element.
 	// Therefore, we assume here that opacity is a fractional value (expressed as an int 0-255),
 	// of the opacity originally set with setColor() or setBackgroundColor().
- 
+
 	unsigned char o = (unsigned char)((float)opacity / 255.f * (float) mColorOpacity);
 	mColor = (mColor & 0xFFFFFF00) | (unsigned char) o;
 
@@ -108,9 +107,10 @@ void TextComponent::setOpacity(unsigned char opacity)
 	Component::setOpacity(opacity);
 }
 
-void TextComponent::setText(const std::string& text)
+void TextComponent::setText(const String& text)
 {
-  mText = mUppercase ? Strings::ToUpperUTF8(text) : text;
+  mText = text;
+  if (mUppercase) mText.UpperCaseUTF8();
 	onTextChanged();
 }
 
@@ -160,7 +160,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
 			Renderer::SetMatrix(trans);
 			Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
 		}
-		
+
 		trans.translate(off);
 		trans.round();
 		Renderer::SetMatrix(trans);
@@ -212,7 +212,7 @@ void TextComponent::onTextChanged()
 		return;
 	}
 
-	std::string text = mUppercase ? Strings::ToUpperUTF8(mText) : mText;
+	String text = mUppercase ? mText.ToUpperCaseUTF8() : mText;
 
 	std::shared_ptr<Font> f = mFont;
 	const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
@@ -221,15 +221,15 @@ void TextComponent::onTextChanged()
 	if (!isMultiline)
 	{
 		size_t newline = text.find('\n');
-		text = text.substr(0, newline); // single line of text - stop at the first newline since it'll mess everything up
-		addAbbrev = newline != std::string::npos;
+		text = text.SubString(0, newline); // single line of text - stop at the first newline since it'll mess everything up
+		addAbbrev = newline != String::npos;
 	}
 
 	Vector2f size = f->sizeText(text);
 	if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > mSize.x() || addAbbrev))
 	{
 		// abbreviate text
-		const std::string abbrev = "...";
+		const String abbrev = "...";
 		Vector2f abbrevSize = f->sizeText(abbrev);
 
 		while(!text.empty() && size.x() + abbrevSize.x() > mSize.x())
@@ -239,7 +239,7 @@ void TextComponent::onTextChanged()
 			size = f->sizeText(text);
 		}
 
-		text.append(abbrev);
+		text.Append(abbrev);
 
 		mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
 	}else{
@@ -267,7 +267,7 @@ void TextComponent::setLineSpacing(float spacing)
 	onTextChanged();
 }
 
-void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void TextComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
 	Component::applyTheme(theme, view, element, properties);
 
@@ -286,7 +286,7 @@ void TextComponent::applyTheme(const ThemeData& theme, const std::string& view, 
 
 	if(hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
 	{
-		std::string str = elem->AsString("alignment");
+		String str = elem->AsString("alignment");
 		if(str == "left")
 			setHorizontalAlignment(TextAlignment::Left);
 		else if(str == "center")

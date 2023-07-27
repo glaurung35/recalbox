@@ -146,13 +146,13 @@ class ScraperSeamless : public IThreadPoolWorkerInterface<FileData*, FileData*>
     void ResetConfiguration() override {}
 
     //! Get screenscraper login
-    [[nodiscard]] std::string GetLogin() const override { return Strings::Empty; }
+    [[nodiscard]] String GetLogin() const override { return String::Empty; }
 
     //! Get screenscraper password
-    [[nodiscard]] std::string GetPassword() const override { return Strings::Empty; }
+    [[nodiscard]] String GetPassword() const override { return String::Empty; }
 
     //! Get recalbox token
-    [[nodiscard]] std::string GetBearer() const override { return Strings::Trim(mConfiguration.GetRecalboxPrivateKey()); }
+    [[nodiscard]] String GetBearer() const override { return mConfiguration.GetRecalboxPrivateKey().ToTrim(); }
 
     //! Get favorite language
     [[nodiscard]] Languages GetFavoriteLanguage() const override { return LanguagesTools::GetScrapingLanguage(); };

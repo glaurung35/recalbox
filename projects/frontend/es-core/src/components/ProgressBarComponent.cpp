@@ -25,7 +25,9 @@ void ProgressBarComponent::Render(const Transform4x4f& parentTrans)
   Transform4x4f trans = (parentTrans * getTransform()).round();
   Renderer::SetMatrix(trans);
 
-  float width = (float)((double)mCurrentValue * (double)mSize.x() / (double)mMaxValue);
+  double max = (double)mMaxValue; if (max < 1.) max = 1.;
+  double val = Math::clampf((double)mCurrentValue, 0., max);
+  float width = (float)(val * (double)mSize.x() / max);
 
   Renderer::DrawRectangle(0.0f, 0.0f, mSize.x(), mSize.y(), mEmptyColor);
   Renderer::DrawRectangle(0.0f, 0.0f, width, mSize.y(), mFillColor);

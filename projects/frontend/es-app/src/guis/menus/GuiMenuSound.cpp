@@ -25,7 +25,7 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
 
   // Audio device
   if (RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
-    mOutputList = AddList<std::string>(_("OUTPUT DEVICE"), (int)Components::Output, this, GetOutputEntries(), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
+    mOutputList = AddList<String>(_("OUTPUT DEVICE"), (int)Components::Output, this, GetOutputEntries(), _(MENUMESSAGE_SOUND_DEVICE_HELP_MSG));
 
   // Bluetooth pairing
   AddSubMenu(_("PAIR A BLUETOOTH AUDIO DEVICE"), (int)Components::Pair, _(MENUMESSAGE_SOUND_BT_HELP_MSG));
@@ -39,13 +39,13 @@ GuiMenuSound::~GuiMenuSound()
   AudioController::Instance().ClearNotificationCallback();
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuSound::GetOutputEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSound::GetOutputEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
-  std::string currentDevice = AudioController::Instance().GetActivePlaybackName();
+  String currentDevice = AudioController::Instance().GetActivePlaybackName();
   IAudioController::DeviceList playbackList = AudioController::Instance().GetPlaybackList();
-  std::vector<std::string> availableAudio;
+  std::vector<String> availableAudio;
 
   // Add all remaining stuff
   for(const auto& playback : playbackList)
@@ -70,7 +70,7 @@ std::vector<GuiMenuBase::ListEntry<AudioMode>> GuiMenuSound::GetAudioModeEntries
 void GuiMenuSound::Refresh()
 {
   mOutputList->clear();
-  for (const ListEntry<std::string>& entry : GetOutputEntries())
+  for (const ListEntry<String>& entry : GetOutputEntries())
     mOutputList->add(entry.mText, entry.mValue, entry.mSelected);
 }
 
@@ -84,7 +84,7 @@ void GuiMenuSound::Update(int deltaTime)
     mVolume->setSlider((float)realVolume);
 }
 
-void GuiMenuSound::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::Output)
@@ -137,15 +137,15 @@ void GuiMenuSound::SubMenuSelected(int id)
 
 void GuiMenuSound::StartScanningDevices()
 {
-  mWindow.pushGui((new GuiWaitLongExecution<bool, Strings::Vector>(mWindow, *this))->Execute(false, _("DISCOVERING BLUETOOTH AUDIO DEVICES...")));
+  mWindow.pushGui((new GuiWaitLongExecution<bool, String::List>(mWindow, *this))->Execute(false, _("DISCOVERING BLUETOOTH AUDIO DEVICES...")));
 }
 
-Strings::Vector GuiMenuSound::Execute(GuiWaitLongExecution<bool, Strings::Vector>&, const bool&)
+String::List GuiMenuSound::Execute(GuiWaitLongExecution<bool, String::List>&, const bool&)
 {
   return RecalboxSystem::scanBluetooth();
 }
 
-void GuiMenuSound::Completed(const bool&, const Strings::Vector& result)
+void GuiMenuSound::Completed(const bool&, const String::List& result)
 {
   mWindow.pushGui(result.empty()
                   ? (Gui*)new GuiMsgBox(mWindow, _("NO AUDIO DEVICE FOUND"), _("OK"))

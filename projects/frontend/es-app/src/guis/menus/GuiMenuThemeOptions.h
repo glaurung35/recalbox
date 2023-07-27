@@ -10,7 +10,7 @@
 
 class GuiMenuThemeOptions : public GuiMenuBase
                           , private ISwitchComponent
-                          , private IOptionListComponent<std::string>
+                          , private IOptionListComponent<String>
 {
   public:
     /*!
@@ -33,29 +33,29 @@ class GuiMenuThemeOptions : public GuiMenuBase
     //! Carousel
     std::shared_ptr<SwitchComponent> mCarousel;
     //! Transition
-    std::shared_ptr<OptionListComponent<std::string>> mTransition;
+    std::shared_ptr<OptionListComponent<String>> mTransition;
     //! Teeme
-    std::shared_ptr<OptionListComponent<std::string>> mTheme;
+    std::shared_ptr<OptionListComponent<String>> mTheme;
 
     //! Carousel original value
     bool mOriginalCaroussel;
     //! Transition original value
-    std::string mOriginalTransition;
+    String mOriginalTransition;
     //! Theme original value
-    std::string mOriginalTheme;
+    String mOriginalTheme;
     //! Recalbox theme indx
     int mRecalboxThemeIndex;
 
     //! Get O/C List
-    std::vector<ListEntry<std::string>> GetTransitionEntries();
+    std::vector<ListEntry<String>> GetTransitionEntries();
     //! Get Theme List
-    std::vector<ListEntry<std::string>> GetThemeEntries();
+    std::vector<ListEntry<String>> GetThemeEntries();
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * ISwitchComponent implementation

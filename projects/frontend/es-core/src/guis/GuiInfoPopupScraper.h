@@ -45,7 +45,7 @@ class GuiInfoPopupScraper : public GuiInfoPopupBase
 
   private:
     //! Text template
-    static std::string mTextTemplate;
+    static String mTextTemplate;
 
     //! Message component
     std::shared_ptr<TextComponent> mText;

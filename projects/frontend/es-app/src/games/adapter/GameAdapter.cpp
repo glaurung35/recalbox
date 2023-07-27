@@ -7,21 +7,20 @@
 
 #include "GameAdapter.h"
 #include "GameNameMapManager.h"
+#include "games/GameFilesUtils.h"
 #include <systems/SystemData.h>
 
 const String GameAdapter::sEasyRPGSystemName(LEGACY_STRING("easyrpg"));
-const String GameAdapter::sEasyRPGGameNameUpper(LEGACY_STRING("RPG_RT.INI"));
-const String GameAdapter::sEasyRPGGameNameLower(LEGACY_STRING("RPG_RT.ini"));
+const String GameAdapter::sEasyRPGGameNameLower(LEGACY_STRING("rpg_rt.ini"));
 
-std::string GameAdapter::ScrapingName() const
+String GameAdapter::ScrapingName() const
 {
-  if (mGame.System().Name() == (std::string)sEasyRPGSystemName) // TODO: move to String & remove cast
+  if (mGame.System().Name() == sEasyRPGSystemName) // TODO: move to String & remove cast
   {
-    if (mGame.RomPath().Filename() == sEasyRPGGameNameUpper ||
-        mGame.RomPath().Filename() == sEasyRPGGameNameLower)
+    if (mGame.RomPath().Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
       IniFile ini(mGame.RomPath(), false);
-      std::string gameName = Strings::RemoveParenthesis(ini.AsString("GameTitle"));
+      String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
   }
@@ -29,28 +28,27 @@ std::string GameAdapter::ScrapingName() const
   return mGame.RomPath().Filename();
 }
 
-std::string GameAdapter::DisplayName() const
+String GameAdapter::DisplayName() const
 {
   if (!mGame.Name().empty()) return mGame.Name();
 
   return RawDisplayName(mGame.System(), mGame.RomPath());
 }
 
-std::string GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
+String GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
 {
-  if (system.Name() == (std::string)sEasyRPGSystemName) // TODO: move to String & remove cast
+  if (system.Name() == sEasyRPGSystemName)
   {
-    if (rompath.Filename() == sEasyRPGGameNameUpper ||
-        rompath.Filename() == sEasyRPGGameNameLower)
+    if (rompath.Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
       IniFile ini(rompath, false);
-      std::string gameName = Strings::RemoveParenthesis(ini.AsString("GameTitle"));
+      String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
   }
   else if (GameNameMapManager::HasRenaming(system))
   {
-    std::string gameName(GameNameMapManager::Rename(system, rompath.FilenameWithoutExtension()));
+    String gameName(GameNameMapManager::Rename(system, rompath.FilenameWithoutExtension()));
     if (!gameName.empty()) return gameName;
   }
 

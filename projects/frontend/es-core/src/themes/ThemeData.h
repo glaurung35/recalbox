@@ -3,7 +3,7 @@
 #include <map>
 #include <deque>
 #include <random>
-#include <string>
+#include <utils/String.h>
 #include <utils/os/fs/Path.h>
 #include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
@@ -26,8 +26,8 @@ class ThemeSet
   public:
     ThemeSet() = default;
     explicit ThemeSet(const Path& path) : mPath(path) {}
-    inline std::string getName() const { return mPath.FilenameWithoutExtension(); }
-    inline Path getThemePath(const std::string& system) const { return mPath / system / "theme.xml"; }
+    inline String getName() const { return mPath.FilenameWithoutExtension(); }
+    inline Path getThemePath(const String& system) const { return mPath / system / "theme.xml"; }
 };
 
 class ThemeData
@@ -36,8 +36,8 @@ class ThemeData
     class ThemeView
     {
       public:
-        std::map<std::string, ThemeElement> elements;
-        std::vector<std::string> orderedKeys;
+        HashMap<String, ThemeElement> elements;
+        String::List orderedKeys;
     };
 
     static ThemeData* sCurrent;
@@ -56,7 +56,7 @@ class ThemeData
     static void SetThemeHasHelpSystem(bool on) { sThemeHasHelpSystem = on; }
 
   	// throws ThemeException
-	  void loadFile(const std::string& systemThemeFolder, const Path& path);
+	  void loadFile(const String& systemThemeFolder, const Path& path);
 
     enum class ElementProperty
     {
@@ -69,22 +69,22 @@ class ThemeData
     };
 
     // If expectedType is an empty string, will do no type checking.
-    const ThemeElement* getElement(const std::string& view, const std::string& element, const std::string& expectedType) const;
+    const ThemeElement* getElement(const String& view, const String& element, const String& expectedType) const;
 
-    static std::vector<Component*> makeExtras(const ThemeData& theme, const std::string& view, WindowManager& window);
+    static std::vector<Component*> makeExtras(const ThemeData& theme, const String& view, WindowManager& window);
 
     //static const ThemeData& getDefault();
     static const ThemeData& getCurrent();
     static void SetThemeChanged(bool themeChanged);
     static bool IsThemeChanged();
-    std::string getGameClipView() const;
+    String getGameClipView() const;
     static const char *getNoTheme() { return "0 - DEFAULT"; }
 
-    static std::map<std::string, ThemeSet> getThemeSets();
-	static std::map<std::string, std::string> getThemeSubSets(const std::string& theme);
-	static std::map<std::string, std::string> sortThemeSubSets(const std::map<std::string, std::string>& subsetmap, const std::string& subset);
-	static Path getThemeFromCurrentSet(const std::string& system);
-	std::string getTransition() const;
+    static HashMap<String, ThemeSet> getThemeSets();
+	static HashMap<String, String> getThemeSubSets(const String& theme);
+	static HashMap<String, String> sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset);
+	static Path getThemeFromCurrentSet(const String& system);
+	String getTransition() const;
 
     bool getHasFavoritesInTheme() const
     { return (mVersion >= CURRENT_THEME_FORMAT_VERSION); }
@@ -94,21 +94,21 @@ class ThemeData
     static constexpr int CURRENT_THEME_FORMAT_VERSION = 4;
 
   private:
-    static std::map<std::string, std::map<std::string, ElementProperty>>& ElementMap();
-    static std::vector<std::string>& SupportedFeatures();
-    static std::vector<std::string>& SupportedViews();
+    static HashMap<String, HashMap<String, ElementProperty>>& ElementMap();
+    static String::List& SupportedFeatures();
+    static String::List& SupportedViews();
 
 	std::deque<Path> mPaths;
 	float mVersion;
-	std::string mColorset;
-	std::string mIconset;
-	std::string mMenu;
-	std::string mSystemview;
-	std::string mGamelistview;
-	std::string mRegion;
-	std::string mGameClipView;
-	std::string mSystemThemeFolder;
-	std::string mRandomPath;
+	String mColorset;
+	String mIconset;
+	String mMenu;
+	String mSystemview;
+	String mGamelistview;
+	String mRegion;
+	String mGameClipView;
+	String mSystemThemeFolder;
+	String mRandomPath;
 	static constexpr const char* sRandomMethod = "$random(";
 
 
@@ -116,57 +116,55 @@ class ThemeData
     void parseIncludes(const pugi::xml_node& themeRoot);
     void parseViews(const pugi::xml_node& themeRoot);
     void parseView(const pugi::xml_node& viewNode, ThemeView& view);
-    void parseElement(const pugi::xml_node& elementNode, const std::map<std::string, ElementProperty>& typeMap, ThemeElement& element);
+    void parseElement(const pugi::xml_node& elementNode, const HashMap<String, ElementProperty>& typeMap, ThemeElement& element);
     bool parseRegion(const pugi::xml_node& root);
     bool parseSubset(const pugi::xml_node& node);
-    static void crawlIncludes(const pugi::xml_node& root, std::map<std::string, std::string>& sets, std::deque<Path>& dequepath);
-    static void findRegion(const pugi::xml_document& doc, std::map<std::string, std::string>& sets);
+    static void crawlIncludes(const pugi::xml_node& root, HashMap<String, String>& sets, std::deque<Path>& dequepath);
+    static void findRegion(const pugi::xml_document& doc, HashMap<String, String>& sets);
 
-    static bool CheckThemeOption(std::string& selected, const std::map<std::string, std::string>& subsets, const std::string& subset);
-    static std::string resolveSystemVariable(const std::string& systemThemeFolder, const std::string& path, std::string& randomPath)
+    static bool CheckThemeOption(String& selected, const HashMap<String, String>& subsets, const String& subset);
+    static String resolveSystemVariable(const String& systemThemeFolder, const String& path, String& randomPath)
     {
-      std::string lccc = Strings::ToLowerASCII(RecalboxConf::Instance().GetSystemLanguage());
-      std::string lc = "en";
-      std::string cc = "us";
+      String lccc = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+      String lc = "en";
+      String cc = "us";
       if (lccc.size() >= 5)
       {
-        size_t pos = lccc.find('_');
-        if (pos >=2 && pos < lccc.size() - 1)
+        int pos = lccc.Find('_');
+        if (pos >=2 && pos < (int)lccc.size() - 1)
         {
-          lc = lccc.substr(0, pos);
-          cc = lccc.substr(pos + 1);
+          lc = lccc.SubString(0, pos);
+          cc = lccc.SubString(pos + 1);
         }
       }
 
-      std::string result = path;
-      Strings::ReplaceAllIn(result, "$system", systemThemeFolder);
-      Strings::ReplaceAllIn(result, "$language", lc);
-      Strings::ReplaceAllIn(result, "$country", cc);
-
+      String result = path;
+      result.Replace("$system", systemThemeFolder)
+            .Replace("$language", lc)
+            .Replace("$country", cc);
 
       return PickRandomPath(result, randomPath);;
     }
 
-    static std::string PickRandomPath(std::string value, std::string& randomPath)
+    static String PickRandomPath(const String& value, String& randomPath)
     {
-
-      if(!Strings::Contains(value, sRandomMethod))
+      if (!value.Contains(sRandomMethod))
         return value;
 
-      std::string args = Strings::Extract(value, sRandomMethod, ")", 8, 1);
+      String args;
+      if (value.Extract( sRandomMethod, ")", args, true))
+        if (randomPath.empty())
+        {
+          String::List paths = args.Split(',');
+          std::random_device rd;
+          std::default_random_engine engine(rd());
+          const int max = (int)paths.size();
+          std::uniform_int_distribution<int> distrib{0, max-1};
+          randomPath = paths[distrib(engine)];
+        }
 
-      if(randomPath.empty())
-      {
-        std::vector<std::string> paths = Strings::Split(args, ',');
-        std::random_device rd;
-        std::default_random_engine engine(rd());
-        const int max = paths.size();
-        std::uniform_int_distribution<int> distrib{0, max-1};
-        randomPath = paths[distrib(engine)];
-      }
-
-      return Strings::Replace(value, sRandomMethod + args + ")", randomPath);
+      return String(value).Replace(sRandomMethod + args + ')', randomPath);
     }
 
-    std::map<std::string, ThemeView> mViews;
+    HashMap<String, ThemeView> mViews;
 };

@@ -12,7 +12,7 @@
 class SystemManager;
 
 class GuiMenuResolutionSettings : public GuiMenuBase
-  , private IOptionListComponent<std::string>
+  , private IOptionListComponent<String>
   , private IGuiMenuBase
 {
   public:
@@ -36,14 +36,14 @@ class GuiMenuResolutionSettings : public GuiMenuBase
     // Resolution Adapter
     ResolutionAdapter mResolutionAdapter;
 
-    std::vector<ListEntry<std::string>> GetGlobalResolutionEntries();
-    std::vector<ListEntry<std::string>> GetFrontEndResolutionEntries();
+    std::vector<ListEntry<String>> GetGlobalResolutionEntries();
+    std::vector<ListEntry<String>> GetFrontEndResolutionEntries();
 
     /*
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * IGuiMenuBase implementation

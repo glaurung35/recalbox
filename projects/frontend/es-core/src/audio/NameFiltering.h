@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 
 class NameFiltering
 {
@@ -21,5 +21,5 @@ class NameFiltering
      * @param from Name source
      * @return filtered string
      */
-    static std::string Filter(const std::string& sourceString, Source from);
+    static String Filter(const String& sourceString, Source from);
 };

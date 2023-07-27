@@ -6,7 +6,7 @@
 
 //! Use it with const char*
 #define _(s) Internationalizer::GetText(STRING_AND_LENGTH(s))
-//! Use it with std::string
+//! Use it with String
 #define _S(String) Internationalizer::GetText(String.c_str(), (int)String.size())
 
 //! Use it for singular/plural form, const char*

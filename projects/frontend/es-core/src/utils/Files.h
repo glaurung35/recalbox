@@ -40,7 +40,7 @@ class Files
      * @param content String ot save
      * @return True if the content has been saved
      */
-    static bool SaveFile(const Path& path, const std::string& content);
+    static bool SaveFile(const Path& path, const String& content);
 
     /*!
      * @brief Append the given string at the end of the given file or create it if it does not exist

@@ -16,7 +16,7 @@ class HttpMd5 : public Http
     ~HttpMd5() override = default;
 
     //! Get md5
-    std::string Md5() const { return mMd5.hexdigest(); }
+    [[nodiscard]] String Md5() const { return mMd5.hexdigest(); }
 
   private:
     //! Md5 calculator

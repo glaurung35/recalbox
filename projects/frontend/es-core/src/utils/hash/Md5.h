@@ -33,9 +33,8 @@ documentation and/or software.
 #ifndef BZF_MD5_H
 #define BZF_MD5_H
 
-#include <cstring>
+#include <utils/String.h>
 #include <iostream>
-
 
 // a small class for calculating MD5 hashes of strings or byte arrays
 // it is not meant to be fast or secure
@@ -44,7 +43,7 @@ documentation and/or software.
 //      2) finalize()
 //      3) get hexdigest() string
 //      or
-//      MD5(std::string).hexdigest()
+//      MD5(String).hexdigest()
 //
 // assumes that char is 8 bit and int is 32 bit
 class MD5
@@ -83,17 +82,17 @@ class MD5
 
   public:
     MD5();
-    explicit MD5(const std::string& text);
+    explicit MD5(const String& text);
     void reset() { init(); }
     void update(const unsigned char *buf, size_type length);
     void update(const char *buf, size_type length);
     MD5& finalize();
-    [[nodiscard]] std::string hexdigest() const;
+    [[nodiscard]] String hexdigest() const;
     friend std::ostream& operator<<(std::ostream&, MD5 md5);
 
     [[nodiscard]] const DigestMd5& Output() const { return digest; }
 };
 
-std::string md5(const std::string& str);
+String md5(const String& str);
 
 #endif

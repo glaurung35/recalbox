@@ -16,14 +16,14 @@ class TextComponent;
 class GuiInfoPopup : public GuiInfoPopupBase
 {
   public:
-    GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon);
+    GuiInfoPopup(WindowManager& window, const String& message, int duration, PopupType icon);
 
   protected:
     float AddComponents(WindowManager& window, ComponentGrid& grid, float maxWidth, float maxHeight, int paddingX, int paddingY) override;
 
   private:
     //! Text message
-    std::string mMessage;
+    String mMessage;
     //! Icon
     PopupType mIcon;
 

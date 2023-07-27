@@ -24,10 +24,10 @@ class GameAdapter
     [[nodiscard]] const class FileData& FileData() const { return mGame; }
 
     //! Get scraping name
-    [[nodiscard]] std::string ScrapingName() const;
+    [[nodiscard]] String ScrapingName() const;
 
     //! Get displayable name if the game has no name
-    [[nodiscard]] std::string DisplayName() const;
+    [[nodiscard]] String DisplayName() const;
 
     //! Get rom size
     long long RomSize();
@@ -38,13 +38,11 @@ class GameAdapter
      * @param rompath Rom path
      * @return Name or empty string
      */
-    static std::string RawDisplayName(SystemData& system, const Path& rompath) ;
+    static String RawDisplayName(SystemData& system, const Path& rompath) ;
 
   private:
     //! Easy RPG system name
     static const String sEasyRPGSystemName;
-    //! Easy RPG special name uppercase
-    static const String sEasyRPGGameNameUpper;
     //! Easy RPG special name lowercase
     static const String sEasyRPGGameNameLower;
 

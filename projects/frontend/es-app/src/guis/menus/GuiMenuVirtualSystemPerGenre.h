@@ -27,9 +27,9 @@ class GuiMenuVirtualSystemPerGenre : public GuiMenuBase
 
   private:
     //! Switch component per genre
-    std::map<std::shared_ptr<SwitchComponent>, std::string> mComponents;
+    std::map<std::shared_ptr<SwitchComponent>, String> mComponents;
     //! Original values
-    std::map<std::string, bool> mOriginalValues;
+    std::map<String, bool> mOriginalValues;
 };
 
 

@@ -8,14 +8,14 @@
 #include <guis/menus/GuiMenuBase.h>
 
 class GuiMenuThemeConfiguration : public GuiMenuBase
-                                , private IOptionListComponent<std::string>
+                                , private IOptionListComponent<String>
 {
   public:
     /*!
      * @brief Default constructor
      * @param window Global window
      */
-    GuiMenuThemeConfiguration(WindowManager& window, const std::string& theme);
+    GuiMenuThemeConfiguration(WindowManager& window, const String& theme);
 
     //! Destructor
     ~GuiMenuThemeConfiguration() override;
@@ -32,12 +32,12 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
       Region,
     };
 
-    typedef std::map<std::string, std::string> StringMaps;
-    typedef std::shared_ptr<OptionListComponent<std::string>> OptionList;
+    typedef HashMap<String, String> StringMaps;
+    typedef std::shared_ptr<OptionListComponent<String>> OptionList;
     typedef std::function<void()> Callback;
 
     //! Theme name
-    std::string mThemeName;
+    String mThemeName;
     //! Changed flag
     bool mReloadRequired;
 
@@ -57,19 +57,19 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
     OptionList mRegion;
 
     //! Color Set
-    std::string mOriginalColorSet;
+    String mOriginalColorSet;
     //! Icon Set
-    std::string mOriginalIconSet;
+    String mOriginalIconSet;
     //! Menu Set
-    std::string mOriginalMenuSet;
+    String mOriginalMenuSet;
     //! System View
-    std::string mOriginalSystemView;
+    String mOriginalSystemView;
     //! Gamelist View
-    std::string mOriginalGameListView;
+    String mOriginalGameListView;
     //! Gameclip View
-    std::string mOriginalGameClipView;
+    String mOriginalGameClipView;
     //! Region
-    std::string mOriginalRegion;
+    String mOriginalRegion;
 
     /*!
      * @brief Build an option menu
@@ -80,11 +80,11 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
      * @param id Menu id
      * @return OptionList component
      */
-    OptionList BuildSelector(const std::string& label, const std::string& help, const std::string& selected, const StringMaps& items, Components id, std::string& original);
+    OptionList BuildSelector(const String& label, const String& help, const String& selected, const StringMaps& items, Components id, String& original);
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 };

@@ -24,7 +24,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
 
   mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
-  mFilter = std::make_shared<OptionListComponent<std::string> >(mWindow, _("FILTER"), false);
+  mFilter = std::make_shared<OptionListComponent<String> >(mWindow, _("FILTER"), false);
   mFilter->add(_("Only missing hashs"), "missing", true);
   mFilter->add(_("All Games"), "all", false);
   mMenu.addWithLabel(mFilter, _("FILTER"));
@@ -78,7 +78,7 @@ void GuiHashStart::Update(int deltaTime)
     {
       // Read summary text
       mMutex.Lock();
-      std::string text = mSummaryText;
+      String text = mSummaryText;
       mMutex.UnLock();
 
       mBusyAnim.setText(text);
@@ -148,11 +148,11 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
   {
     feed->CalculateHash();
 
-    std::string busyText(feed->System().FullName());
-    busyText.append(1, ' ')
-            .append(Strings::ToString(mTotalGames - mRemaininglGames))
-            .append(1, '/')
-            .append(Strings::ToString(mTotalGames));
+    String busyText(feed->System().FullName());
+    busyText.Append(' ')
+            .Append(mTotalGames - mRemaininglGames)
+            .Append('/')
+            .Append(mTotalGames);
 
     // Write summary text
     mMutex.Lock();
@@ -171,8 +171,8 @@ FileData* GuiHashStart::ThreadPoolRunJob(FileData*& feed)
 
 void GuiHashStart::Quit()
 {
-  std::string message = (mTotalGames == 0) ? _("No missing hash found!") : _("%i missing hashes have been calculated!");
-  message = Strings::Replace(message, "%i", Strings::ToString(mTotalGames));
+  String message = (mTotalGames == 0) ? _("No missing hash found!") : _("%i missing hashes have been calculated!");
+  message.Replace("%i", String(mTotalGames));
   mWindow.displayMessage(message);
   Close();
 }

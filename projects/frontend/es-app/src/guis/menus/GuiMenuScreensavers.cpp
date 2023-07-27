@@ -58,7 +58,7 @@ void GuiMenuScreensavers::OptionListComponentChanged(int id, int index, const Re
   if ((Components)id == Components::Type) RecalboxConf::Instance().SetScreenSaverType(value).Save();
 }
 
-void GuiMenuScreensavers::OptionListMultiComponentChanged(int id, const std::vector<String>& value)
+void GuiMenuScreensavers::OptionListMultiComponentChanged(int id, const String::List& value)
 {
   if ((Components)id == Components::SystemList)
   {

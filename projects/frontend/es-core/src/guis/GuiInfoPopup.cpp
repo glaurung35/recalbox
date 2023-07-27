@@ -9,7 +9,7 @@
 #include <themes/MenuThemeData.h>
 #include <components/TextComponent.h>
 
-GuiInfoPopup::GuiInfoPopup(WindowManager& window, const std::string& message, int duration, PopupType icon)
+GuiInfoPopup::GuiInfoPopup(WindowManager& window, const String& message, int duration, PopupType icon)
   : GuiInfoPopupBase(window, false, duration, icon, 2, 1, 1.f)
   , mMessage(message)
   , mIcon(icon)
@@ -20,7 +20,7 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
 {
   (void)paddingY;
 
-  std::string iconText;
+  String iconText;
   switch (mIcon)
   {
     case PopupType::Music    : iconText = "\uF1b0"; break;

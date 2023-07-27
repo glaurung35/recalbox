@@ -4,13 +4,13 @@
 #include <functional>
 #include "resources/Font.h"
 #include "components/NinePatchComponent.h"
-#include <string>
+#include <utils/String.h>
 
 class ButtonComponent : public Component
 {
 public:
-	ButtonComponent(WindowManager&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase);
-  ButtonComponent(WindowManager&window, const std::string& text, const std::string& helpText, const std::function<void()>& func)
+	ButtonComponent(WindowManager&window, const String& text, const String& helpText, const std::function<void()>& func, bool upperCase);
+  ButtonComponent(WindowManager&window, const String& text, const String& helpText, const std::function<void()>& func)
     : ButtonComponent(window, text, helpText, func, true)
   {
   }
@@ -22,11 +22,11 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Render(const Transform4x4f& parentTrans) override;
 
-	void setText(const std::string& text, const std::string& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);
+	void setText(const String& text, const String& helpText, bool upperCase = true, bool resize = true, bool doUpdateHelpPrompts = true);
 	void autoSizeFont();
 	bool isTextOverlapping();
 
-	inline const std::string& getText() const { return mText; };
+	inline const String& getText() const { return mText; };
 	inline const std::function<void()>& getPressedFunc() const { return mPressedFunc; };
 
 	void onSizeChanged() override;
@@ -53,8 +53,8 @@ private:
 	unsigned int getCurTextColor() const;
 	void updateImage();
 
-	std::string mText;
-	std::string mHelpText;
+	String mText;
+	String mHelpText;
 	Path mButton;
 	Path mButton_filled;
 	std::unique_ptr<TextCache> mTextCache;

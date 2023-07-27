@@ -35,11 +35,11 @@ GuiMenuUpdates::GuiMenuUpdates(WindowManager& window)
   // mType = AddList(_("UPDATE TYPE"), (int)Components::UpdateType, this, GetUpdateTypeEntries(), _(MENUMESSAGE_UPDATE_TYPE_HELP_MSG));
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuUpdates::GetUpdateTypeEntries()
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuUpdates::GetUpdateTypeEntries()
 {
-  std::vector<ListEntry<std::string>> list;
+  std::vector<ListEntry<String>> list;
 
-  std::string updatesType = RecalboxConf::Instance().GetUpdatesType();
+  String updatesType = RecalboxConf::Instance().GetUpdatesType();
   if (updatesType != "stable" && updatesType != "custom") updatesType = "stable";
   list.push_back({ "stable", "stable", updatesType == "stable" });
   list.push_back({ "custom", "custom", updatesType != "stable" });
@@ -57,11 +57,11 @@ void GuiMenuUpdates::SubMenuSelected(int id)
 {
   if ((Components)id == Components::Changelog)
   {
-    std::string changelog = Upgrade::NewReleaseNote();
+    String changelog = Upgrade::NewReleaseNote();
     if (!changelog.empty())
     {
-      const std::string& message = changelog;
-      std::string updateVersion = Upgrade::NewVersion();
+      const String& message = changelog;
+      String updateVersion = Upgrade::NewVersion();
       mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"),
                                    _("NEW VERSION:") + ' ' + updateVersion + "\n" +
                                    _("UPDATE CHANGELOG:") + "\n" + message);
@@ -75,7 +75,7 @@ void GuiMenuUpdates::SubMenuSelected(int id)
   }
 }
 
-void GuiMenuUpdates::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuUpdates::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::UpdateType)

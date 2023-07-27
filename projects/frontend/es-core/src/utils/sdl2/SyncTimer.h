@@ -14,7 +14,7 @@ class SyncTimer : private Thread
     SyncMessageSender<void> mSender;
 
     //! Timer's thread name
-    std::string mName;
+    String mName;
 
     //! Timer callbacl interface
     ISyncTimer* mCallback;
@@ -60,7 +60,7 @@ class SyncTimer : private Thread
      * @param callback Timer callback
      * @param identifier Identifier passed to the timer callback to identify the source timer
      */
-    SyncTimer(ISyncTimer* callback, int identifier, const std::string& name)
+    SyncTimer(ISyncTimer* callback, int identifier, const String& name)
       : mSender(*this),
         mName(name),
         mCallback(callback),

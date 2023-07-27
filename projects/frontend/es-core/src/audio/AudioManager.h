@@ -42,7 +42,7 @@ class AudioManager : private ISyncMessageReceiver<void>
     //! Current playing music
     AudioHandle mCurrentMusic;
     //! Last popup text
-    std::string mCurrentMusicTitle;
+    String mCurrentMusicTitle;
     //! Current music source
     MusicSource mCurrentMusicSource;
 

@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <vector>
 #include "AlsaDevice.h"
 #include "audio/NameFiltering.h"
@@ -15,7 +15,7 @@ class AlsaCard
 {
   private:
     int mCardIdentifier;                //!< Card identifier/index in ALSA
-    std::string mCardName;              //!< Displayable Card name
+    String mCardName;              //!< Displayable Card name
     std::vector<AlsaVolume> mVolumes;   //!< Available mixers for volume control
     std::vector<AlsaSwitch> mSwitches;  //!< Available mixers for switching output on/off
     std::vector<AlsaMixer>  mRawMixers; //!< Raw mixer objects
@@ -46,7 +46,7 @@ class AlsaCard
     //! Get card index
     int Identifier() const { return mCardIdentifier; }
     //! Get card name
-    const std::string& Name() const { return mCardName; }
+    const String& Name() const { return mCardName; }
 
     //! Get mixer count
     int VolumeCount() const { return mVolumes.size(); }

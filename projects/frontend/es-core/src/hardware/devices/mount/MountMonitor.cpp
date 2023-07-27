@@ -7,16 +7,15 @@
 
 #include <fcntl.h>
 #include "MountMonitor.h"
-#include "utils/Log.h"
 #include <sys/poll.h>
 #include "utils/Files.h"
 #include <blkid/blkid.h>
 
 MountMonitor::MountMonitor(IMountMonitorNotifications* interface)
   : mEvent(*this)
-  , mShareMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
-  , mShareRomsMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
-  , mPendingMountPoint(Path::Empty, Path::Empty, Strings::Empty, Strings::Empty, Strings::Empty)
+  , mShareMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
+  , mShareRomsMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
+  , mPendingMountPoint(Path::Empty, Path::Empty, String::Empty, String::Empty, String::Empty)
   , mInterface(interface)
 {
   // Initialize mount points
@@ -61,48 +60,49 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
   DeviceMountList result;
 
   // Get all valid mount point
-  for(const std::string& line : Strings::Split(Files::LoadFile(Path(sMountPointFile)), '\n')) // For every entry
-  {
-    Strings::Vector items = Strings::Split(line, ' ');
-    const Path device(items[sDeviceIndex]);
-    const Path mountPoint(items[sMountPointIndex]);
-    const std::string& type = items[sTypeIndex];
-    const std::string& options = items[sOptionsIndex];
-
-    // Physical USB devices
-    if (device.StartWidth(std::string(LEGACY_STRING("/dev/")))) // starting with /dev/
+  for(const String& line : Files::LoadFile(Path(sMountPointFile)).Split('\n')) // For every entry
+    if (!line.empty())
     {
-      #ifndef DEBUG
-      if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
-      #endif
-      result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
-      { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
-    }
-    // Network?
-    if (type == "cifs" || Strings::StartsWith(type,LEGACY_STRING("nfs")))
-      //#ifndef DEBUG
-      if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
-      //#endif
+      String::List items = line.Split(' ');
+      const Path device(items[sDeviceIndex]);
+      const Path mountPoint(items[sMountPointIndex]);
+      const String& type = items[sTypeIndex];
+      const String& options = items[sOptionsIndex];
+
+      // Physical USB devices
+      if (device.StartWidth(String(LEGACY_STRING("/dev/")))) // starting with /dev/
       {
-        result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+        #ifndef DEBUG
+        if (mountPoint.StartWidth(sRecalboxRootMountPoint))    // is it valid?
+        #endif
+        result.push_back(DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options)); // so store it in the list
         { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
       }
+      // Network?
+      if (type == "cifs" || type.StartsWith(LEGACY_STRING("nfs")))
+        //#ifndef DEBUG
+        if (mountPoint.StartWidth(sRecalboxRootMountPoint)) // is it valid?
+        //#endif
+        {
+          result.push_back(DeviceMount(device, mountPoint, "Network", type, options)); // so store it in the list
+          { LOG(LogDebug) << "[MountMonitor] Candidate: " << device.ToString() << " mounted to " << mountPoint.ToString() << " (" << GetPartitionLabel(device) << ')';  }
+        }
 
-    // Initialize special mount points
-    if (initializeSpecialMountPoints)
-    {
-      if (mountPoint == sSharePath)
+      // Initialize special mount points
+      if (initializeSpecialMountPoints)
       {
-        mShareMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
-        { LOG(LogDebug) << "[MountMonitor] Share mount point found on device: " << mShareMountPoint.Device().ToString(); }
-      }
-      else if (mountPoint == sShareRomsPath)
-      {
-        mShareRomsMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
-        { LOG(LogDebug) << "[MountMonitor] Roms mount point found on device: " << mShareRomsMountPoint.Device().ToString(); }
+        if (mountPoint == sSharePath)
+        {
+          mShareMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+          { LOG(LogDebug) << "[MountMonitor] Share mount point found on device: " << mShareMountPoint.Device().ToString(); }
+        }
+        else if (mountPoint == sShareRomsPath)
+        {
+          mShareRomsMountPoint = DeviceMount(device, mountPoint, GetPartitionLabel(device), type, options);
+          { LOG(LogDebug) << "[MountMonitor] Roms mount point found on device: " << mShareRomsMountPoint.Device().ToString(); }
+        }
       }
     }
-  }
 
   // Seek & destroy any Mount device that match the share device
   for(int i = (int)result.size(); --i >= 0;)
@@ -113,7 +113,7 @@ MountMonitor::DeviceMountList MountMonitor::LoadMountPoints(bool initializeSpeci
   return result;
 }
 
-std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
+String MountMonitor::GetPartitionLabel(const Path& devicePath)
 {
   blkid_probe pr = blkid_new_probe_from_filename(devicePath.ToChars());
   if (pr == nullptr)
@@ -134,7 +134,7 @@ std::string MountMonitor::GetPartitionLabel(const Path& devicePath)
       string = "UNKNOWN";
     }
   }
-  std::string result(string); // Store result before destroying blkid structures!
+  String result(string); // Store result before destroying blkid structures!
   blkid_free_probe(pr);
   { LOG(LogDebug) << "[MountMonitor] " << devicePath.ToString() << " name is: " << result; }
   return result;

@@ -1,10 +1,9 @@
-#include <utils/Strings.h>
 #include "components/ButtonComponent.h"
 #include "Renderer.h"
 #include "WindowManager.h"
 #include "themes/MenuThemeData.h"
 
-ButtonComponent::ButtonComponent(WindowManager&window, const std::string& text, const std::string& helpText, const std::function<void()>& func, bool upperCase)
+ButtonComponent::ButtonComponent(WindowManager&window, const String& text, const String& helpText, const std::function<void()>& func, bool upperCase)
   : Component(window),
     mFont(Font::get(FONT_SIZE_MEDIUM)),
     mFocused(false),
@@ -50,9 +49,9 @@ bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-void ButtonComponent::setText(const std::string& text, const std::string& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
+void ButtonComponent::setText(const String& text, const String& helpText, bool upperCase, bool resize, bool doUpdateHelpPrompts)
 {
-	mText = upperCase ? Strings::ToUpperUTF8(text) : text;
+	mText = upperCase ? text.ToUpperCaseUTF8() : text;
 	mHelpText = helpText;
 
 	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));

@@ -650,6 +650,14 @@ class String : public std::string
      * @param[in,out] position Position to read unicode character from. Position is updated to the next character position.
      * @return Unicode character
      */
+    [[nodiscard]] Unicode ReadFirstUTF8() const { int pos = 0; return ReadUTF8(pos); }
+
+    /*!
+     * @brief Read unicode character at the given position
+     * Subsequent calls update the position until it reaches the end of the string
+     * @param[in,out] position Position to read unicode character from. Position is updated to the next character position.
+     * @return Unicode character
+     */
     Unicode ReadUTF8(int& position) const { return position < Count() ? DecodeUTF8Char(position) : 0; }
 
     /*!
@@ -946,7 +954,7 @@ class String : public std::string
     String& Replace(const char* what, int whatLength, const char* with, int withLength)
     {
       if ((whatLength | withLength) > 0)
-        for(int pos = 0; (pos = (int)find(what, pos, whatLength)) != (int)std::string::npos; pos += withLength)
+        for(int pos = 0; (pos = (int)find(what, pos, whatLength)) != (int)std::string::npos; pos += 0/*withLength*/)
           replace(pos, whatLength, with, withLength);
       return *this;
     }
@@ -3408,6 +3416,7 @@ class String : public std::string
     using std::string::append;
     using std::string::assign;
     using std::string::insert;
+    using std::string::substr;
 
     /*
      * Counters

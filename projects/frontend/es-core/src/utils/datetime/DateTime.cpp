@@ -279,9 +279,9 @@ static const char* longMonthNames[] = { "", "January", "February", "March", "Apr
 static const char* shortDayNames[] = { "Mon.", "Tue.", "Wed.", "Thu.", "Fri.", "Sat.", "Sun." };
 static const char* longDayNames[] = { "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday" };
 
-std::string DateTime::ToStringFormat(const char* format) const
+String DateTime::ToStringFormat(const char* format) const
 {
-  std::string result;
+  String result;
   bool Escaped = false;
 
   for (int index = 0; format[index] != 0;)
@@ -380,13 +380,13 @@ std::string DateTime::ToStringFormat(const char* format) const
       }
       case '%':
       {
-        result.append((unsigned int)repeat, '%');
+        result.Append('%', repeat);
         break;
       }
       default:
       {
         result += ("<Unk:");
-        result.append((unsigned int)(repeat + 1), c);
+        result.Append(c, repeat + 1);
         result += ('>');
         break;
       }
@@ -426,7 +426,7 @@ bool DateTime::FetchStringIndex(const char*& str, const char* strs[], int count,
   return false;
 }
 
-bool DateTime::ParseFromString(const char* format, const std::string& str, DateTime& destination)
+bool DateTime::ParseFromString(const char* format, const String& str, DateTime& destination)
 {
   int year = 0, month = 1, day = 1, hour = 0, minute = 0, second = 0, millisecond = 0, tz = 0, dummy = 0;
   bool escaped = false;

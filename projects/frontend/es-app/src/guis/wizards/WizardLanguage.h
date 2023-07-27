@@ -18,7 +18,7 @@ class WizardLanguage : public Wizard
      * @param title
      * @param pagecount
      */
-    explicit WizardLanguage(WindowManager& window, const std::string& title, int pagecount)
+    explicit WizardLanguage(WindowManager& window, const String& title, int pagecount)
     : Wizard(window, title, pagecount)
     {
     }

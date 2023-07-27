@@ -7,11 +7,10 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <utils/String.h>
 #include <input/Input.h>
 #include <input/IInputChange.h>
 #include <utils/math/Misc.h>
-#include <utils/Strings.h>
 
 class InputMapper : IInputChange
 {
@@ -19,20 +18,20 @@ class InputMapper : IInputChange
     //! Pad structure
     struct Pad
     {
-      std::string Name; //!< Real pad name
-      std::string UUID; //!< Pad uuid
+      String Name; //!< Real pad name
+      String UUID; //!< Pad uuid
       int Identifier;   //!< Incremental index for multiple same pads
 
       Pad() : Identifier(-1) {}
 
-      Pad(const std::string& name, const std::string& uuid, int index)
+      Pad(const String& name, const String& uuid, int index)
         : Name(name)
         , UUID(uuid)
         , Identifier(index)
       {
       }
 
-      void Set(const std::string& name, const std::string& uuid, int index)
+      void Set(const String& name, const String& uuid, int index)
       {
         Name = name;
         UUID = uuid;
@@ -46,24 +45,24 @@ class InputMapper : IInputChange
         Identifier = -1;
       }
 
-      bool IsValid() const { return !Name.empty() && !UUID.empty(); }
+      [[nodiscard]] bool IsValid() const { return !Name.empty() && !UUID.empty(); }
 
-      bool IsConnected() const { return !Name.empty() && !UUID.empty() && Identifier >= 0; }
+      [[nodiscard]] bool IsConnected() const { return !Name.empty() && !UUID.empty() && Identifier >= 0; }
 
-      bool Equals(const Pad& to) const
+      [[nodiscard]] bool Equals(const Pad& to) const
       {
         return Name == to.Name &&
                UUID == to.UUID &&
                Identifier == to.Identifier;
       }
 
-      bool Same(const Pad& than) const
+      [[nodiscard]] bool Same(const Pad& than) const
       {
         return Name == than.Name &&
                UUID == than.UUID;
       }
 
-      std::string AsString() const { return std::string(Name).append(1, '.').append(UUID).append(1, '.').append(Strings::ToString(Identifier)); }
+      [[nodiscard]] String AsString() const { return String(Name).Append('.').Append(UUID).Append('.').Append(Identifier); }
     };
 
     //! Pad array
@@ -75,7 +74,7 @@ class InputMapper : IInputChange
     explicit InputMapper(IInputChange* interface);
 
     //! Destructor
-    ~InputMapper();
+    virtual ~InputMapper();
 
     /*!
      * @brief Compose numbered name at the given index, by counting same pads' name/uuid with lower indexes
@@ -83,7 +82,7 @@ class InputMapper : IInputChange
      * @param index Index of the pad to get name from
      * @return Name or numbered name
      */
-    std::string GetDecoratedName(int index);
+    String GetDecoratedName(int index);
 
     /*!
      * @brief Lookup the given pad in the connected list
@@ -104,7 +103,7 @@ class InputMapper : IInputChange
      * @param index Index to retrieve the pad at
      * @return Pad
      */
-    const Pad& PadAt(int index) const { return mPads[Math::clampi(index, 0, Input::sMaxInputDevices - 1)]; }
+    [[nodiscard]] const Pad& PadAt(int index) const { return mPads[Math::clampi(index, 0, Input::sMaxInputDevices - 1)]; }
 
     /*!
      * @brief Swap pads at the given positions

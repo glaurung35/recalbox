@@ -315,21 +315,15 @@ void GameFilesUtils::ExtractUselessFilesFromGdi(const Path& path, HashSet<String
 String GameFilesUtils::ExtractFileNameFromLine(const String& line)
 {
   // 1 check file name between double quotes
-  const size_t strBegin = line.find_first_of('"') + 1;
-  const size_t strEnd = line.find_last_of('"');
-
-  String string = line.substr(strBegin, strEnd - strBegin);
-  if (string.Contains('.'))
-  {
-    return string;
-  }
+  if (String string; line.Extract('"', '"', string, true))
+    if (string.Contains('.'))
+      return string;
 
   // 2 check every words separated by space that contains dot
   for (const String& word: line.Split(' ', true))
-  {
     if (word.Contains('.'))
       return word;
-  }
+
   return "";
 }
 
@@ -456,3 +450,33 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   DeleteFoldersRecIfEmpty(parent);
 }
 
+String GameFilesUtils::RemoveParenthesis(const String& str)
+{
+  String s = str;
+
+  // Remove () starting from the end to minimize char moves
+  for(int end = s.FindLast(')'); end >= 0; )
+  {
+    int start = s.FindLast('(', end);
+    if (start < 0) break;
+    while(s[++end] == ' '); // Trim right
+    while(start != 0 && s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = s.FindLast(')', start - 1);
+  }
+
+  // Remove [] starting from the end to minimize char moves
+  for(int end = s.FindLast(']'); end >= 0; )
+  {
+    int start = s.FindLast('[', end);
+    if (start < 0) break;
+    while(s[++end] == ' '); // Trim right
+    while(start != 0 && s[--start] == ' '); // Trim left
+    ++start;
+    s.erase(start, end - start);
+    end = s.FindLast(']', start - 1);
+  }
+
+  return s;
+}

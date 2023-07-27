@@ -204,7 +204,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
      * @param biosList Source bios list
      * @return Core list, comma separated
      */
-    static std::string GetUniqueCoreList(const BiosList& biosList);
+    static String GetUniqueCoreList(const BiosList& biosList);
 
     /*
      * IBiosScanReporting implementation

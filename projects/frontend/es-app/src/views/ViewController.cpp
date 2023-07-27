@@ -1,6 +1,5 @@
 #include <RecalboxConf.h>
 #include "systems/SystemData.h"
-#include <recalbox/RecalboxSystem.h>
 #include "views/ViewController.h"
 
 #include "views/gamelist/DetailedGameListView.h"
@@ -14,12 +13,10 @@
 #include "RotationManager.h"
 #include "guis/GuiSaveStates.h"
 #include "guis/menus/GuiFastMenuList.h"
-#include <audio/AudioMode.h>
 
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
 #include <guis/GuiMsgBox.h>
-#include <guis/menus/GuiCheckMenu.h>
 
 #include <games/GameFilesUtils.h>
 
@@ -31,13 +28,13 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mCheckFlags(LaunchCheckFlags::None)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
+  , mCurrentSystem(nullptr)
 	, mSystemListView(window, systemManager)
 	, mSplashView(window)
 	, mGameClipView(window, systemManager)
   , mCrtView(window)
-  , mCurrentMode(ViewType::None)
-  , mPreviousMode(ViewType::None)
-  , mCurrentSystem(nullptr)
+  , mCurrentViewType(ViewType::None)
+  , mPreviousViewType(ViewType::None)
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
@@ -71,7 +68,7 @@ void ViewController::goToStart()
 {
   CheckFilters();
 
-  std::string systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
+  String systemName = RecalboxConf::Instance().GetStartupSelectedSystem();
   int index = systemName.empty() ? -1 : mSystemManager.getVisibleSystemIndex(systemName);
   SystemData* selectedSystem = index < 0 ? nullptr : mSystemManager.VisibleSystemList()[index];
 
@@ -155,7 +152,7 @@ void ViewController::goToSystemView(SystemData* system)
 
 void ViewController::goToGameClipView()
 {
-  if (mCurrentMode == ViewType::GameClip) return; // #TODO: avoid ths method being called in loop
+  if (mCurrentViewType == ViewType::GameClip) return; // #TODO: avoid ths method being called in loop
 
   ChangeView(ViewType::GameClip, nullptr);
   NotificationManager::Instance().Notify(Notification::StartGameClip);
@@ -177,27 +174,26 @@ void ViewController::selectGamelistAndCursor(FileData *file)
   view->setCursor(file);
 }
 
-void ViewController::goToNextGameList()
+SystemData* ViewController::goToNextGameList()
 {
-	assert(mCurrentMode == ViewType::GameList);
+	assert(mCurrentViewType == ViewType::GameList);
 	SystemData* system = mCurrentSystem;
 	assert(system);
 
   CheckFilters();
   SystemData* next = mSystemManager.NextVisible(system);
-	while(!next->HasVisibleGame()) {
-		next = mSystemManager.NextVisible(next);
-
-	}
+	while(!next->HasVisibleGame())
+    next = mSystemManager.NextVisible(next);
 
   AudioManager::Instance().StartPlaying(next->Theme());
 
 	goToGameList(next);
+  return next;
 }
 
 void ViewController::goToPrevGameList()
 {
-	assert(mCurrentMode == ViewType::GameList);
+	assert(mCurrentViewType == ViewType::GameList);
 	SystemData* system = mCurrentSystem;
 	assert(system);
 
@@ -218,7 +214,7 @@ void ViewController::goToGameList(SystemData* system)
 	{
 		mWindow.Rotate(rotation);
 	}
-	if (mCurrentMode == ViewType::SystemList)
+	if (mCurrentViewType == ViewType::SystemList)
 	{
 		// move system list
 		float offX = mSystemListView.getPosition().x();
@@ -269,7 +265,7 @@ void ViewController::playViewTransition()
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
 		return;
 
-	std::string transitionTheme = ThemeData::getCurrent().getTransition();
+	String transitionTheme = ThemeData::getCurrent().getTransition();
 	if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 	if(transitionTheme == "fade")
 	{
@@ -317,7 +313,7 @@ void ViewController::playViewTransition()
 
 void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget)
 {
-  if (!mGameToLaunch->IsGame())
+  if (!game->IsGame())
   {
     { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }
     return;
@@ -454,7 +450,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
         std::vector<Path> patches = GameFilesUtils::GetSoftPatches(mGameToLaunch);
         if (!mGameLinkedData.ConfigurablePatch().IsConfigured() && !patches.empty())
         {
-          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, patches, mSoftPatchingLastChoice, this));
+          mWindow.pushGui(new GuiMenuSoftpatchingLauncher(mWindow, *mGameToLaunch, std::move(patches), mSoftPatchingLastChoice, this));
           return true;
         }
         break;
@@ -544,7 +540,7 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
   if (elapsed.TotalMilliseconds() <= 3000) // 3s
   {
     // Build text
-    std::string text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
+    String text = _("It seems that your game didn't start at all!\n\nIt's most likely due to either:\n- bad rom\n- missing/bad mandatory bios files\n- missing/bad optional BIOS files (but required for this very game)");
     // Show the dialog box
     Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
@@ -563,7 +559,7 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
-  std::string transitionTheme = ThemeData::getCurrent().getTransition();
+  String transitionTheme = ThemeData::getCurrent().getTransition();
   if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
 	auto launchFactory = [this, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
@@ -574,7 +570,7 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 
       mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
-      if (mCurrentMode == ViewType::GameList)
+      if (mCurrentViewType == ViewType::GameList)
         ((ISimpleGameListView*)mCurrentView)->DoUpdateGameInformation(true);
 
 			// Re-sort last played system if it exists
@@ -613,7 +609,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 
 	//if we didn't, make it, remember it, and return it
 	ISimpleGameListView* view =
-    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !system->ArcadeDatabases().IsEmpty()) ?
+    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
     new ArcadeGameListView(mWindow, mSystemManager, *system) :
     new DetailedGameListView(mWindow, mSystemManager, *system);
   view->Initialize();
@@ -651,7 +647,7 @@ void ViewController::Update(int deltaTime)
 
 void ViewController::Render(const Transform4x4f& parentTrans)
 {
-  switch(mCurrentMode)
+  switch(mCurrentViewType)
   {
     case ViewType::GameClip:
     case ViewType::CrtCalibration: mCurrentView->Render(parentTrans); break;
@@ -799,16 +795,16 @@ void ViewController::ApplyHelpStyle()
 void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData* targetSystem)
 {
   // Save previous mode & deinit
-  mPreviousMode = mCurrentMode;
+  mPreviousViewType = mCurrentViewType;
   mCurrentView->onHide();
-  switch(mCurrentMode)
+  switch(mCurrentViewType)
   {
     case ViewType::None:
     case ViewType::SplashScreen:
     case ViewType::SystemList:
     case ViewType::GameList:
-    case ViewType::GameClip: break;
-    case ViewType::CrtCalibration:
+    case ViewType::CrtCalibration: break;
+    case ViewType::GameClip:
     {
       WakeUp();
       if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
@@ -818,11 +814,15 @@ void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData
   }
 
   // Process new mode
-  mCurrentMode = newViewMode;
-  switch(mCurrentMode)
+  mCurrentViewType = newViewMode;
+  switch(mCurrentViewType)
   {
     case ViewType::None: return; // lol
-    case ViewType::SplashScreen: { mCurrentView = &mSplashView; break; }
+    case ViewType::SplashScreen:
+    {
+      mCurrentView = &mSplashView;
+      break;
+    }
     case ViewType::SystemList:
     {
       mCurrentView = &mSystemListView;
@@ -843,7 +843,11 @@ void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData
       mCurrentView = &mGameClipView;
       break;
     }
-    case ViewType::CrtCalibration: { mCurrentView = &mCrtView; break; }
+    case ViewType::CrtCalibration:
+    {
+      mCurrentView = &mCrtView;
+      break;
+    }
   }
   mCurrentView->onShow();
   updateHelpPrompts();
@@ -851,9 +855,9 @@ void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData
 
 void ViewController::BackToPreviousView()
 {
-  if (mPreviousMode == ViewType::None) return; // Previous mode not initialized
-  ChangeView(mPreviousMode, mCurrentSystem);
-  mPreviousMode = ViewType::None; // Reset previous mode so that you cannot go back until next forward move
+  if (mPreviousViewType == ViewType::None) return; // Previous mode not initialized
+  ChangeView(mPreviousViewType, mCurrentSystem);
+  mPreviousViewType = ViewType::None; // Reset previous mode so that you cannot go back until next forward move
 }
 
 void ViewController::ShowSystem(SystemData* system)
@@ -864,8 +868,18 @@ void ViewController::ShowSystem(SystemData* system)
 
 void ViewController::HideSystem(SystemData* system)
 {
-  GetOrReCreateGamelistView(system);
+  // Remove system in system view
   mSystemListView.removeSystem(system);
+  //mSystemListView.goToSystem(system, false);
+
+  // Are we on the gamelist that just need to be removed?
+  if (isViewing(ViewType::GameList))
+    if (&((ISimpleGameListView*)mCurrentView)->System() == system)
+    {
+      //goToSystemView(&mSystemListView.CurrentSystem());
+      SystemData* nextSystem = goToNextGameList();
+      mSystemListView.goToSystem(nextSystem, false);
+    }
 }
 
 void ViewController::UpdateSystem(SystemData* system)
@@ -886,6 +900,6 @@ void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool force
   if (view != nullptr) (*view)->RefreshItem(game);
 
   // Info popup
-  String message = _(game->Metadata().Favorite() ? "Added to favorites" : "Removed from favorites");
+  String message = game->Metadata().Favorite() ? _("Added to favorites") : _("Removed from favorites");
   mWindow.InfoPopupAddRegular(message.Append(":\n").Append(game->Name()), RecalboxConf::Instance().GetPopupHelp(), PopupType::None, false);
 }

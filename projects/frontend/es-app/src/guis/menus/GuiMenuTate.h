@@ -51,7 +51,7 @@ class GuiMenuTate : public GuiMenuBase
     static std::vector<GuiMenuBase::ListEntry<RotationType>> GetRotationEntries(RotationType currentRotation);
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
     void OptionListComponentChanged(int id, int index, const RotationType& value) override;
 

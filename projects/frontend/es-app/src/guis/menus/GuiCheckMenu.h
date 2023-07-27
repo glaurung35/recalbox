@@ -14,45 +14,45 @@ class GuiCheckMenu : public GuiMenuBase
   public:
     //! Constructor
     GuiCheckMenu(WindowManager& window,
-                 const std::string& title,
-                 const std::string& footer,
+                 const String& title,
+                 const String& footer,
                  int lastChoice,
-                 const std::string& name1,
-                 const std::string& help1,
+                 const String& name1,
+                 const String& help1,
                  const std::function<void()>& func1,
-                 const std::string& name2,
-                 const std::string& help2,
+                 const String& name2,
+                 const String& help2,
                  const std::function<void()>& func2);
 
     GuiCheckMenu(WindowManager& window,
-                 const std::string& title,
-                 const std::string& footer,
+                 const String& title,
+                 const String& footer,
                  int lastChoice,
-                 const std::string& name1,
-                 const std::string& help1,
+                 const String& name1,
+                 const String& help1,
                  const std::function<void()>& func1,
-                 const std::string& name2,
-                 const std::string& help2,
+                 const String& name2,
+                 const String& help2,
                  const std::function<void()>& func2,
-                 const std::string& name3,
-                 const std::string& help3,
+                 const String& name3,
+                 const String& help3,
                  const std::function<void()>& func3);
 
     GuiCheckMenu(WindowManager& window,
-                 const std::string& title,
-                 const std::string& footer,
+                 const String& title,
+                 const String& footer,
                  int lastChoice,
-                 const std::string& name1,
-                 const std::string& help1,
+                 const String& name1,
+                 const String& help1,
                  const std::function<void()>& func1,
-                 const std::string& name2,
-                 const std::string& help2,
+                 const String& name2,
+                 const String& help2,
                  const std::function<void()>& func2,
-                 const std::string& name3,
-                 const std::string& help3,
+                 const String& name3,
+                 const String& help3,
                  const std::function<void()>& func3,
-                 const std::string& name4,
-                 const std::string& help4,
+                 const String& name4,
+                 const String& help4,
                  const std::function<void()>& func4);
 
 private:
@@ -60,9 +60,9 @@ private:
     bool ProcessInput(const InputCompactEvent& event) override;
     void CloseAndCall(const std::function<void()>& func);
 
-    void build(const std::string& name1, const std::string& help1, const std::function<void()>& func1,
-               const std::string& name2, const std::string& help2, const std::function<void()>& func2,
-               const std::string& name3, const std::string& help3, const std::function<void()>& func3,
-               const std::string& name4, const std::string& help4, const std::function<void()>& func4,
-               int lastChoice, const std::string& footer);
+    void build(const String& name1, const String& help1, const std::function<void()>& func1,
+               const String& name2, const String& help2, const std::function<void()>& func2,
+               const String& name3, const String& help3, const std::function<void()>& func3,
+               const String& name4, const String& help4, const std::function<void()>& func4,
+               int lastChoice, const String& footer);
 };

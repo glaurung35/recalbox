@@ -1,7 +1,8 @@
 //
 // Created by gugue_u on 02/03/2022.
 //
-#include <string>
+
+#include <utils/String.h>
 
 class Versions
 {
@@ -77,7 +78,7 @@ class Versions
      * @param File name
      * @return game versions
      */
-    static Versions::GameVersions ExtractGameVersionNoIntro(const std::string& fileName);
+    static Versions::GameVersions ExtractGameVersionNoIntro(const String& fileName);
 
   private:
     /*!
@@ -85,14 +86,14 @@ class Versions
      * @param string tag
      * @return GameVersions
      */
-    static Versions::GameVersions Deserialize(const std::string& tag);
+    static Versions::GameVersions Deserialize(const String& tag);
 
     /*!
      * @brief Deserialize game version
      * @param game version
      * @return game version has string
      */
-    static std::string& Serialize(GameVersions versions);
+    static String& Serialize(GameVersions versions);
 };
 
 

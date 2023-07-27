@@ -34,7 +34,7 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   }
 }
 
-bool MqttClient::Send(const std::string& topic, const std::string& message)
+bool MqttClient::Send(const String& topic, const String& message)
 {
   #ifdef FREEZE_MQTT
   return true;
@@ -68,7 +68,7 @@ void MqttClient::on_failure(const mqtt::token& asyncActionToken)
     }
     case mqtt::token::PUBLISH:
     {
-      { LOG(LogError) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed code " << asyncActionToken.get_reason_code(); }
+      { LOG(LogTrace) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed code " << asyncActionToken.get_reason_code(); }
       break;
     }
     case mqtt::token::UNSUBSCRIBE:

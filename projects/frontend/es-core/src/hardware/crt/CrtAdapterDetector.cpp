@@ -22,8 +22,8 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
   automaticallyDetected = false;
 
   // RGB Dual hat
-  std::string vendor = Files::LoadFile(Path(sHatVendorFile));
-  std::string product = Files::LoadFile(Path(sHatProductFile));
+  String vendor = Files::LoadFile(Path(sHatVendorFile));
+  String product = Files::LoadFile(Path(sHatProductFile));
   if (vendor.rfind(sRecalboxVendorString) == 0 &&
       product.rfind(sRGBDualProductString) == 0)
   {

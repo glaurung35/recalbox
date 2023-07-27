@@ -7,44 +7,39 @@
 
 #include "RecalboxSystem.h"
 #include <sys/statvfs.h>
-#include "utils/Log.h"
 #include "audio/AudioManager.h"
 
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <utils/Strings.h>
-#include <utils/Files.h>
 #include <MainRunner.h>
 #include <Upgrade.h>
-#include <utils/locale/LocaleHelper.h>
-#include <utils/IniFile.h>
 #include <input/InputMapper.h>
 
-std::string RecalboxSystem::BuildSettingsCommand(const std::string& arguments)
+String RecalboxSystem::BuildSettingsCommand(const String& arguments)
 {
-  std::string result = sConfigScript;
-  result.append(1, ' ');
-  result.append(arguments);
+  String result = sConfigScript;
+  result.Append(' ');
+  result.Append(arguments);
   return result;
 }
 
-Strings::Vector RecalboxSystem::ExecuteSettingsCommand(const std::string& arguments)
+String::List RecalboxSystem::ExecuteSettingsCommand(const String& arguments)
 {
-  std::string output;
+  String output;
   char buffer[1024];
   FILE* pipe = popen(BuildSettingsCommand(arguments).c_str(), "r");
   if (pipe != nullptr)
   {
     while (feof(pipe) == 0)
       if (fgets(buffer, sizeof(buffer), pipe) != nullptr)
-        output.append(buffer);
+        output.Append(buffer);
     pclose(pipe);
   }
-  return Strings::Split(output, '\n');
+  return output.Split('\n');
 }
 
-unsigned long long RecalboxSystem::getFreeSpace(const std::string& mountpoint)
+unsigned long long RecalboxSystem::getFreeSpace(const String& mountpoint)
 {
   struct statvfs fiData {};
   const char* fnPath = mountpoint.c_str();
@@ -56,15 +51,15 @@ unsigned long long RecalboxSystem::getFreeSpace(const std::string& mountpoint)
   return free;
 }
 
-unsigned long RecalboxSystem::getFreeSpaceGB(const std::string& mountpoint)
+unsigned long RecalboxSystem::getFreeSpaceGB(const String& mountpoint)
 {
   return (unsigned long)(getFreeSpace(mountpoint) >> 30);
 }
 
-std::string RecalboxSystem::getFreeSpaceInfo()
+String RecalboxSystem::getFreeSpaceInfo()
 {
-  std::string sharePart = sSharePath;
-  std::string result = "N/A";
+  String sharePart = sSharePath;
+  String result = "N/A";
   if (!sharePart.empty())
   {
     const char* fnPath = sharePart.c_str();
@@ -81,7 +76,7 @@ std::string RecalboxSystem::getFreeSpaceInfo()
       {
         long long used = total - free;
         int percent = (int)(used * 100 / total);
-        result = Strings::ToHumanSize(used) + '/' + Strings::ToHumanSize(total) + " (" + std::to_string(percent) + "%)";
+        result = Sizes(used).ToHumanSize().Append('/').Append(Sizes(total).ToHumanSize()).Append(" (").Append(percent).Append("%)");
       }
     }
   }
@@ -97,7 +92,7 @@ bool RecalboxSystem::isFreeSpaceUnderLimit(long long size)
 
 bool RecalboxSystem::isFreeSpaceLimit()
 {
-  std::string sharePart = sSharePath;
+  String sharePart = sSharePath;
   if (!sharePart.empty())
   {
     return (long long)getFreeSpace(sharePart) < GetMinimumFreeSpaceOnSharePartition();
@@ -109,10 +104,10 @@ bool RecalboxSystem::isFreeSpaceLimit()
 
 }
 
-std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
+std::vector<String> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
 {
   if (!activatedWifi) enableWifi("", "");
-  std::vector<std::string> result = ExecuteSettingsCommand("wifi list");
+  std::vector<String> result = ExecuteSettingsCommand("wifi list");
   if (!activatedWifi) disableWifi();
 
   return result;
@@ -120,7 +115,7 @@ std::vector<std::string> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi
 
 bool RecalboxSystem::setOverscan(bool enable)
 {
-  std::string cmd(sConfigScript);
+  String cmd(sConfigScript);
   cmd += " overscan";
   cmd += enable ? " enable" : " disable";
   { LOG(LogInfo) << "[System] Launching " << cmd; }
@@ -137,11 +132,11 @@ bool RecalboxSystem::setOverscan(bool enable)
 
 }
 
-bool RecalboxSystem::setOverclock(const std::string& mode)
+bool RecalboxSystem::setOverclock(const String& mode)
 {
   if (!mode.empty())
   {
-    std::string cmd(sConfigScript);
+    String cmd(sConfigScript);
     cmd += " overclock";
     cmd += ' ';
     cmd += mode;
@@ -163,7 +158,7 @@ bool RecalboxSystem::setOverclock(const std::string& mode)
 
 bool RecalboxSystem::backupRecalboxConf()
 {
-  std::string cmd(sConfigScript);
+  String cmd(sConfigScript);
   cmd += " configbackup";
   { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
@@ -178,11 +173,11 @@ bool RecalboxSystem::backupRecalboxConf()
   }
 }
 
-bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
+bool RecalboxSystem::enableWifi(String ssid, String key)
 {
-  ssid = Strings::Replace(ssid, "\"", "\\\"");
-  key = Strings::Replace(key, "\"", "\\\"");
-  std::string cmd(sConfigScript);
+  ssid.Replace('"', "\\\"");
+  key.Replace('"', "\\\"");
+  String cmd(sConfigScript);
   cmd += " wifi enable \"" + ssid + "\" \"" + key + "\"";
   { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
@@ -199,7 +194,7 @@ bool RecalboxSystem::enableWifi(std::string ssid, std::string key)
 
 bool RecalboxSystem::disableWifi()
 {
-  std::string cmd(sConfigScript);
+  String cmd(sConfigScript);
   cmd += " wifi disable";
   { LOG(LogInfo) << "[System] Launching " << cmd; }
   if (system(cmd.c_str()) == 0)
@@ -217,9 +212,9 @@ bool RecalboxSystem::disableWifi()
 bool RecalboxSystem::getWifiWps()
 {
   bool result = false;
-  Strings::Vector lines = ExecuteSettingsCommand("wifi wps");
-  for(const std::string& line : lines)
-    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+  String::List lines = ExecuteSettingsCommand("wifi wps");
+  for(const String& line : lines)
+    if (line.StartsWith(LEGACY_STRING("OK")))
     {
       result = true;
       break;
@@ -230,9 +225,9 @@ bool RecalboxSystem::getWifiWps()
 bool RecalboxSystem::saveWifiWps()
 {
   bool result = false;
-  Strings::Vector lines = ExecuteSettingsCommand("wifi save");
-  for(const std::string& line : lines)
-    if (Strings::StartsWith(line, STRING_AND_LENGTH("OK")))
+  String::List lines = ExecuteSettingsCommand("wifi save");
+  for(const String& line : lines)
+    if (line.StartsWith(STRING_AND_LENGTH("OK")))
     {
       result = true;
       break;
@@ -240,15 +235,15 @@ bool RecalboxSystem::saveWifiWps()
   return result;
 }
 
-bool RecalboxSystem::getWifiConfiguration(std::string& ssid, std::string& psk)
+bool RecalboxSystem::getWifiConfiguration(String& ssid, String& psk)
 {
   IniFile wpaConfiguration(Path("/overlay/.configs/wpa_supplicant.conf"), false);
-  ssid = Strings::Trim(wpaConfiguration.AsString("ssid"), " \"");
-  psk = Strings::Trim(wpaConfiguration.AsString("psk"), " \"");
+  ssid = wpaConfiguration.AsString("ssid").Trim(" \"");
+  psk = wpaConfiguration.AsString("psk").Trim(" \"");
   return !ssid.empty() && !psk.empty();
 }
 
-bool RecalboxSystem::getIpV4Address(std::string& result)
+bool RecalboxSystem::getIpV4Address(String& result)
 {
   struct ifaddrs* ifAddrStruct = nullptr;
   getifaddrs(&ifAddrStruct);
@@ -263,7 +258,7 @@ bool RecalboxSystem::getIpV4Address(std::string& result)
         { LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
         if (strcmp(ifa->ifa_name, "lo") != 0)
         {
-          result = std::string(addressBuffer);
+          result = String(addressBuffer);
           freeifaddrs(ifAddrStruct);
           return true;
         }
@@ -273,7 +268,7 @@ bool RecalboxSystem::getIpV4Address(std::string& result)
   return false;
 }
 
-bool RecalboxSystem::getIpV6Address(std::string& result)
+bool RecalboxSystem::getIpV6Address(String& result)
 {
   struct ifaddrs* ifAddrStruct = nullptr;
   getifaddrs(&ifAddrStruct);
@@ -288,7 +283,7 @@ bool RecalboxSystem::getIpV6Address(std::string& result)
         { LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
         if (strcmp(ifa->ifa_name, "lo") != 0)
         {
-          result = std::string(addressBuffer);
+          result = String(addressBuffer);
           freeifaddrs(ifAddrStruct);
           return true;
         }
@@ -298,9 +293,9 @@ bool RecalboxSystem::getIpV6Address(std::string& result)
   return false;
 }
 
-std::string RecalboxSystem::getIpAddress()
+String RecalboxSystem::getIpAddress()
 {
-  std::string result = "NOT CONNECTED";
+  String result = "NOT CONNECTED";
 
   if (!getIpV4Address(result))
     getIpV6Address(result);
@@ -353,39 +348,39 @@ bool RecalboxSystem::hasIpAdress(bool onlyWIFI)
   return result;
 }
 
-std::vector<std::string> RecalboxSystem::scanBluetooth()
+String::List RecalboxSystem::scanBluetooth()
 {
   return ExecuteSettingsCommand("hcitoolscan");
 }
 
-bool RecalboxSystem::pairBluetooth(const std::string& controller)
+bool RecalboxSystem::pairBluetooth(const String& controller)
 {
-  std::string escapedController(controller);
-  Strings::ReplaceAllIn(escapedController, "(", "\\(");
-  Strings::ReplaceAllIn(escapedController, ")", "\\)");
-  Strings::ReplaceAllIn(escapedController, "*", "\\*");
-  Strings::ReplaceAllIn(escapedController, "'", "\\'");
-  Strings::ReplaceAllIn(escapedController, "\"", "\\\"");
-  std::string cmd(sConfigScript);
+  String escapedController(controller);
+  escapedController.Replace('(', "\\(")
+                   .Replace(')', "\\)")
+                   .Replace('*', "\\*")
+                   .Replace('\'', "\\'")
+                   .Replace('"', "\\\"");
+  String cmd(sConfigScript);
   cmd += " hiddpair " + escapedController;
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
-std::vector<std::string> RecalboxSystem::getAvailableStorageDevices()
+std::vector<String> RecalboxSystem::getAvailableStorageDevices()
 {
   return ExecuteSettingsCommand("storage list");
 }
 
-std::string RecalboxSystem::getCurrentStorage()
+String RecalboxSystem::getCurrentStorage()
 {
-  Strings::Vector lines = ExecuteSettingsCommand("storage current");
+  String::List lines = ExecuteSettingsCommand("storage current");
   return lines.empty() ? "INTERNAL" : lines[0];
 }
 
-bool RecalboxSystem::setStorage(const std::string& selected)
+bool RecalboxSystem::setStorage(const String& selected)
 {
-  std::string cmd(sConfigScript);
+  String cmd(sConfigScript);
   cmd += " storage " + selected;
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
@@ -393,19 +388,19 @@ bool RecalboxSystem::setStorage(const std::string& selected)
 
 bool RecalboxSystem::forgetBluetoothControllers()
 {
-  std::string cmd(sConfigScript);
+  String cmd(sConfigScript);
   cmd += " forgetBT";
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
 }
 
-std::string RecalboxSystem::getRootPassword()
+String RecalboxSystem::getRootPassword()
 {
-  Strings::Vector lines = ExecuteSettingsCommand("getRootPassword");
+  String::List lines = ExecuteSettingsCommand("getRootPassword");
   return lines.empty() ? "" : lines[0];
 }
 
-std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
+std::pair<String, int> RecalboxSystem::execute(const String& command)
 {
   FILE* pipe = popen(command.c_str(), "r");
   char line[1024];
@@ -414,7 +409,7 @@ std::pair<std::string, int> RecalboxSystem::execute(const std::string& command)
   {
     return std::make_pair("", -1);
   }
-  std::string output;
+  String output;
   while (fgets(line, 1024, pipe) != nullptr)
   {
     output += line;
@@ -428,9 +423,9 @@ bool RecalboxSystem::ping()
   return Upgrade::NetworkReady();
 }
 
-std::pair<std::string, int> RecalboxSystem::getSDLBatteryInfo()
+std::pair<String, int> RecalboxSystem::getSDLBatteryInfo()
 {
-  std::pair<std::string, int> result;
+  std::pair<String, int> result;
   int percent = -1;
   auto powerInfo = SDL_GetPowerInfo(nullptr, &percent);
   switch (powerInfo)

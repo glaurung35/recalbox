@@ -7,7 +7,6 @@
 
 #include <components/EditableComponent.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include <themes/ThemeData.h>
 #include <Renderer.h>
@@ -36,7 +35,7 @@ EditableComponent::EditableComponent(WindowManager& window)
   mBackground.setEdgeColor(0xFFFFFF80/*0x00000020*/);
 }
 
-EditableComponent::EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, int id, IEditableComponent* interface, bool masked)
+EditableComponent::EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, int id, IEditableComponent* interface, bool masked)
   : EditableComponent(window)
 {
   mMasked = masked;
@@ -51,7 +50,7 @@ EditableComponent::EditableComponent(WindowManager&window, const std::string& ed
   onTextChanged();
 }
 
-EditableComponent::EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, const std::function<void(const std::string&)>& callback)
+EditableComponent::EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, const std::function<void(const String&)>& callback)
   : EditableComponent(window)
 {
   mTextChanged = callback;
@@ -64,7 +63,7 @@ EditableComponent::EditableComponent(WindowManager&window, const std::string& ed
   onTextChanged();
 }
 
-EditableComponent::EditableComponent(WindowManager&window, const std::string& editTitle, const std::string& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align, const std::function<void(const std::string&)>& callback)
+EditableComponent::EditableComponent(WindowManager&window, const String& editTitle, const String& text, const std::shared_ptr<Font>& font, unsigned int color, TextAlignment align, const std::function<void(const String&)>& callback)
   : EditableComponent(window)
 {
   mTextChanged = callback;
@@ -117,9 +116,10 @@ void EditableComponent::setOpacity(unsigned char opacity)
   Component::setOpacity(opacity);
 }
 
-void EditableComponent::setText(const std::string& text)
+void EditableComponent::setText(const String& text)
 {
-  mText = mUppercase ? Strings::ToUpperUTF8(text) : text;
+  mText = text;
+  if (mUppercase) mText.UpperCaseUTF8();
   onTextChanged();
 }
 
@@ -154,19 +154,19 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
     }
     Vector3f off(mBackground.MargingX(), yOff, 0);
 
-    if (false /*Settings::Instance().DebugText()*/)
+    /*if (Settings::Instance().DebugText())
     {
       // draw the "textbox" area, what we are aligned within
       Renderer::SetMatrix(trans);
       Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
-    }
+    }*/
 
     trans.translate(off);
     trans.round();
     Renderer::SetMatrix(trans);
 
     // draw the text area, where the text actually is going
-    if (false /*Settings::Instance().DebugText()*/)
+    /*if (Settings::Instance().DebugText())
     {
       float usableSize = mSize.x() - mBackground.MargingX() * 2;
       switch(mHorizontalAlignment)
@@ -183,7 +183,7 @@ void EditableComponent::Render(const Transform4x4f& parentTrans)
         case TextAlignment::Top:
         case TextAlignment::Bottom:break;
       }
-    }
+    }*/
 
     mFont->renderTextCache(mTextCache.get());
   }
@@ -213,7 +213,7 @@ void EditableComponent::onTextChanged()
     return;
   }
 
-  std::string text = mMasked ? std::string(mText.size(), '*') : (mUppercase ? Strings::ToUpperUTF8(mText) : mText);
+  String text = mMasked ? String('*', mText.size()) : (mUppercase ? mText.ToUpperCaseUTF8() : mText);
 
   std::shared_ptr<Font> f = mFont;
   const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
@@ -222,8 +222,8 @@ void EditableComponent::onTextChanged()
   if (!isMultiline)
   {
     size_t newline = text.find('\n');
-    text = text.substr(0, newline); // single line of text - stop at the first newline since it'll mess everything up
-    addAbbrev = newline != std::string::npos;
+    text = text.SubString(0, newline); // single line of text - stop at the first newline since it'll mess everything up
+    addAbbrev = newline != String::npos;
   }
 
   Vector2f size = f->sizeText(text);
@@ -231,7 +231,7 @@ void EditableComponent::onTextChanged()
   if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > usableSize || addAbbrev))
   {
     // abbreviate text
-    const std::string abbrev = "\u2026";
+    const String abbrev = "\u2026";
     Vector2f abbrevSize = f->sizeText(abbrev);
 
     while(!text.empty() && size.x() + abbrevSize.x() > usableSize)
@@ -241,7 +241,7 @@ void EditableComponent::onTextChanged()
       size = f->sizeText(text);
     }
 
-    text.append(abbrev);
+    text.Append(abbrev);
 
     mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, usableSize, mHorizontalAlignment, mLineSpacing));
   }else{
@@ -269,7 +269,7 @@ void EditableComponent::setLineSpacing(float spacing)
   onTextChanged();
 }
 
-void EditableComponent::applyTheme(const ThemeData& theme, const std::string& view, const std::string& element, ThemeProperties properties)
+void EditableComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
   Component::applyTheme(theme, view, element, properties);
 
@@ -281,7 +281,7 @@ void EditableComponent::applyTheme(const ThemeData& theme, const std::string& vi
 
   if(hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
   {
-    std::string str = elem->AsString("alignment");
+    String str = elem->AsString("alignment");
     if(str == "left")
       setHorizontalAlignment(TextAlignment::Left);
     else if(str == "center")
@@ -310,13 +310,13 @@ void EditableComponent::StartEditing()
   mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, mEditTitle, mTextBackup, this));
 }
 
-void EditableComponent::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void EditableComponent::ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text)
 {
   (void)vk;
   setText(text);
 }
 
-void EditableComponent::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const std::string& text)
+void EditableComponent::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text)
 {
   (void)vk;
   (void)text;

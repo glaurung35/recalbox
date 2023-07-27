@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include <vector>
 #include "Resolutions.h"
 
@@ -42,37 +42,37 @@ class ResolutionAdapter
         , IsDefault(def)
       {}
 
-      [[nodiscard]] std::string ToRawString() const
+      [[nodiscard]] String ToRawString() const
       {
-        return std::to_string(Width)
-               .append(1, 'x')
-               .append(std::to_string(Height));
+        return String(Width)
+               .Append('x')
+               .Append(std::to_string(Height));
       }
 
-      [[nodiscard]] std::string ToString() const
+      [[nodiscard]] String ToString() const
       {
-        return std::string("Display ")
-          .append(std::to_string(Display))
-          .append(": ")
-          .append(std::to_string(Width))
-          .append(1, 'x')
-          .append(std::to_string(Height))
-          .append(" - ")
-          #ifdef USE_KMSDRM
-          .append(Interlaced ? "interlaced " : "progressive ")
-          #else
-          //.append(std::to_string(Bpp))
-          //.append("Bpp ")
-          #endif
-          .append(std::to_string(Frequency))
-          .append("Hz Max")
-          .append(IsDefault ? " (Default)" : "");
+        return String("Display ")
+               .Append(std::to_string(Display))
+               .Append(": ")
+               .Append(std::to_string(Width))
+               .Append('x')
+               .Append(std::to_string(Height))
+               .Append(" - ")
+               #ifdef USE_KMSDRM
+               .Append(Interlaced ? "interlaced " : "progressive ")
+               #else
+               //.append(std::to_string(Bpp))
+               //.append("Bpp ")
+               #endif
+               .Append(std::to_string(Frequency))
+               .Append("Hz Max")
+               .Append(IsDefault ? " (Default)" : "");
       }
     };
     typedef std::vector<Resolution> ResolutionList;
 
     //! Adjust the given resolution to the best matching available resolution
-    bool AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output, bool filtered = true);
+    bool AdjustResolution(int display, const String& value, Resolutions::SimpleResolution& output, bool filtered = true);
 
     //! Resolution list with bpm and frequency
     const ResolutionList& ResolutionsDetailed(bool filterHighResolutions) { return GetResolutionDetailedList(filterHighResolutions); }

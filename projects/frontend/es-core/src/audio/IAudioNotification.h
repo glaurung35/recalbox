@@ -4,7 +4,7 @@
 #pragma once
 
 #include <vector>
-#include <string>
+#include <utils/String.h>
 
 class IAudioNotification
 {

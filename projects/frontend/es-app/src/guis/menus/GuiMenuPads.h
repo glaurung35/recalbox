@@ -24,10 +24,10 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuPads : public GuiMenuBase
-                  , ILongExecution<bool, Strings::Vector>
+                  , ILongExecution<bool, String::List>
                   , IInputChange
                   , IOptionListComponent<int>
-                  , IOptionListComponent<std::string>
+                  , IOptionListComponent<String>
                   , IGuiMenuBase
 {
   public:
@@ -74,7 +74,7 @@ class GuiMenuPads : public GuiMenuBase
     void UnpairAll();
 
     //! Get modes
-    static std::vector<GuiMenuBase::ListEntry<std::string>> GetModes();
+    static std::vector<GuiMenuBase::ListEntry<String>> GetModes();
 
     /*
      * ILongExecution
@@ -86,14 +86,14 @@ class GuiMenuPads : public GuiMenuBase
      * @param parameter Useless "in" parameter
      * @return List of available devices
      */
-    Strings::Vector Execute(GuiWaitLongExecution<bool, Strings::Vector>& from, const bool& parameter) override;
+    String::List Execute(GuiWaitLongExecution<bool, String::List>& from, const bool& parameter) override;
 
     /*!
      * @brief Called when the device scan is complete
      * @param parameter Useless "in" parameter
      * @param result List of available devices
      */
-    void Completed(const bool& parameter, const Strings::Vector& result) override;
+    void Completed(const bool& parameter, const String::List& result) override;
 
     /*
      * IInputChange implementation
@@ -115,10 +115,10 @@ class GuiMenuPads : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const int& value) override;
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * @brief convert action enum to string

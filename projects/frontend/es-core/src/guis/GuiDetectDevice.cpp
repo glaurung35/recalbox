@@ -1,4 +1,4 @@
-#include <string>
+#include <utils/String.h>
 #include <guis/GuiDetectDevice.h>
 #include <WindowManager.h>
 #include <Renderer.h>
@@ -36,7 +36,7 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	
 	// device info
-	std::string deviceInfo;
+	String deviceInfo;
 	int numDevices = InputManager::Instance().DeviceCount();
 	
 	if(numDevices > 0) {
@@ -96,7 +96,7 @@ bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
     // started holding
     mHoldingConfig = &event.Device();
     mHoldTime = HOLD_TIME;
-    mDeviceHeld->setText(Strings::ToUpperASCII(event.Device().Name()));
+    mDeviceHeld->setText(event.Device().Name().UpperCase());
   }
   else if (event.RawEvent().AnyButtonReleased() && mHoldingConfig == &event.Device())
   {

@@ -5,7 +5,6 @@
 #include <linux/input.h>
 #include <utils/os/fs/Path.h>
 #include <utils/Files.h>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include <cstring>
 #include <padtokeyboard/mouse/VirtualMouse.h>
@@ -61,7 +60,7 @@ void MappingConfiguration::Load(const Path& path, bool folder)
     path.ChangeExtension(path.Extension() + ConfigurationExtensions); // /path/to/file.ext.p2k.cfg
 
   // Load whole file
-  std::string content = Files::LoadFile(configurationPath);
+  String content = Files::LoadFile(configurationPath);
   if (content.empty()) return;
 
   // Line loop
@@ -74,26 +73,26 @@ void MappingConfiguration::Load(const Path& path, bool folder)
     if (equal > start && equal < end)
     {
       // Extract and trim key/values
-      std::string key = Strings::Trim(content.substr(start, equal - start), " \t\r\n");
-      std::string value = Strings::Trim(content.substr(equal + 1, end - (equal + 1)), " \t\r\n");
+      String key = content.SubString(start, equal - start).Trim();
+      String value = content.SubString(equal + 1, end - (equal + 1)).Trim();
       // Extract comment if any
-      std::string comment;
+      String comment;
       int commentPos = (int)value.find(";;");
-      if (commentPos != (int)std::string::npos)
+      if (commentPos != (int)String::npos)
       {
-        comment = Strings::Trim(value.substr(commentPos + 2), " \t\r\n");
-        value = Strings::Trim(value.erase(commentPos, UINT32_MAX), " \t\r\n");
+        comment = value.SubString(commentPos + 2).Trim();
+        value = value.SubString(0, commentPos).Trim();
       }
       // Store mapping
       if (key.length() > 0)
         if (key[0] != '#' && key[0] != ';')
-          AssignMapping(Strings::ToLowerASCII(key), Strings::ToLowerASCII(value), comment);
+          AssignMapping(key.LowerCase(), value.LowerCase(), comment);
     }
     start = end + 1;
   }
 }
 
-void MappingConfiguration::AssignMapping(const std::string& key, const std::string& value, const std::string& comment)
+void MappingConfiguration::AssignMapping(const String& key, const String& value, const String& comment)
 {
   PadItems padItem = PadItems::Invalid;
   int padNum = 0;
@@ -254,7 +253,7 @@ int MappingConfiguration::Count() const
   return count;
 }
 
-bool MappingConfiguration::ParseKeyCode(const std::string& value, Mapping::CodeArray codes, Types& type, int& count, int& delay)
+bool MappingConfiguration::ParseKeyCode(const String& value, Mapping::CodeArray codes, Types& type, int& count, int& delay)
 {
   static const struct KeyNameTranslator
   {
@@ -377,7 +376,7 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, Mapping::CodeA
 
   memset(codes, 0, sizeof(Mapping::CodeArray));
 
-  bool isMulti = value.find(' ') !=  std::string::npos;
+  bool isMulti = value.find(' ') !=  String::npos;
 
   if (!isMulti) // Simple c& most common case
   {
@@ -400,22 +399,22 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, Mapping::CodeA
     for(;;)
     {
       // Split
-      Strings::Vector list = Strings::Split(value, ' ', true);
+      String::List list = value.Split(' ', true);
 
       // Check type & delay
       int index = 0;
       type = Types::Keyboard;
       delay = 0;
-      std::string& intro = list[0];
-      if (Strings::StartsWith(intro, "+", 1))
+      String& intro = list[0];
+      if (intro.StartsWith('+'))
       {
-        if (!Strings::ToInt(intro, 1, delay)) break;
+        if (!intro.TryAsInt(1, delay)) break;
         index++;
       }
-      else if (Strings::StartsWith(intro, "/", 1))
+      else if (intro.StartsWith('/'))
       {
         type = Types::KeyboardSequence;
-        if (!Strings::ToInt(intro, 1, delay)) break;
+        if (!intro.TryAsInt(1, delay)) break;
         index++;
       }
 
@@ -448,7 +447,7 @@ bool MappingConfiguration::ParseKeyCode(const std::string& value, Mapping::CodeA
   return false;
 }
 
-bool MappingConfiguration::ParsePadItems(const std::string& value, int& padNum, PadItems& padItem)
+bool MappingConfiguration::ParsePadItems(const String& value, int& padNum, PadItems& padItem)
 {
   static const struct PadItemTranslator
   {

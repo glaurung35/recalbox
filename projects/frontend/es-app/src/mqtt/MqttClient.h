@@ -3,7 +3,7 @@
 //
 #pragma once
 
-#include <string>
+#include <utils/String.h>
 #include "IMQTTMessageReceived.h"
 #include "utils/os/system/Mutex.h"
 #include "utils/sync/SyncMessageSender.h"
@@ -26,7 +26,7 @@ class MqttClient
      * @param data UTF8 string to send
      * @return True if the string has been sent w/o error
      */
-    bool Send(const std::string& topic, const std::string& data);
+    bool Send(const String& topic, const String& data);
 
     /*!
      * @brief Wait for current operation to finish

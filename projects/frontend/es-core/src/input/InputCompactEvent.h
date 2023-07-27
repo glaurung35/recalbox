@@ -361,7 +361,7 @@ class InputCompactEvent
      * Debug
      */
 
-    [[nodiscard]] std::string ToString() const;
+    [[nodiscard]] String ToString() const;
 
     /*!
      * @brief Rotate the current event

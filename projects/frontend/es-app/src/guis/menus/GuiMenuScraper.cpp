@@ -106,7 +106,7 @@ void GuiMenuScraper::start()
 {
   if (mSystems->getSelectedObjects().empty())
   {
-    std::string text = _("Please select one or more systems to scrape!");
+    String text = _("Please select one or more systems to scrape!");
     GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), nullptr);
     mWindow.pushGui(msgBox);
   }

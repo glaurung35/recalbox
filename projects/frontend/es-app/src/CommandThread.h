@@ -43,7 +43,7 @@ class CommandThread: private Thread
      * @brief Read an UDP packets and convert the buffer to a string
      * @return Received string
      */
-    [[nodiscard]] std::string ReadUDP() const;
+    [[nodiscard]] String ReadUDP() const;
 
     /*
      * Thread overrides

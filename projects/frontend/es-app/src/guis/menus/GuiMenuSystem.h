@@ -16,7 +16,7 @@ class TextComponent;
 class SystemManager;
 
 class GuiMenuSystem : public GuiMenuBase
-                    , private IOptionListComponent<std::string>
+                    , private IOptionListComponent<String>
                     , private IOptionListComponent<StorageDevices::Device>
                     , private IGuiMenuBase
 {
@@ -43,8 +43,8 @@ class GuiMenuSystem : public GuiMenuBase
     //! Kayboard name
     struct Keyboard
     {
-      std::string Displayable; //!< Kayboard displayable name
-      std::string Identifier;  //!< Keyboard identifier
+      String Displayable; //!< Kayboard displayable name
+      String Identifier;  //!< Keyboard identifier
     };
     //! Keyboard list
     typedef std::vector<Keyboard> KeyboardList;
@@ -52,8 +52,8 @@ class GuiMenuSystem : public GuiMenuBase
     //! Culture structure
     struct Culture
     {
-      std::string Displayable; //!< Language name
-      std::string Identifier;  //!< Culture identifier
+      String Displayable; //!< Language name
+      String Identifier;  //!< Culture identifier
     };
     //! Culture list
     typedef std::vector<Culture> CultureList;
@@ -69,29 +69,29 @@ class GuiMenuSystem : public GuiMenuBase
     //! Available storages
     std::shared_ptr<OptionListComponent<StorageDevices::Device>> mStorages;
     //! Culture
-    std::shared_ptr<OptionListComponent<std::string>> mCulture;
+    std::shared_ptr<OptionListComponent<String>> mCulture;
     //! Keyboard
-    std::shared_ptr<OptionListComponent<std::string>> mKeyboard;
+    std::shared_ptr<OptionListComponent<String>> mKeyboard;
 
     //! Original storage
     String mOriginalStorage;
     //! Original culture
-    std::string mOriginalCulture;
+    String mOriginalCulture;
     //! Original keyboard
-    std::string mOriginalKeyboard;
+    String mOriginalKeyboard;
 
     //! Get Storage List
     std::vector<ListEntry<StorageDevices::Device>> GetStorageEntries();
     //! Get Culture List
-    std::vector<ListEntry<std::string>> GetCultureEntries();
+    std::vector<ListEntry<String>> GetCultureEntries();
     //! Get Keyboard List
-    std::vector<ListEntry<std::string>> GetKeyboardEntries();
+    std::vector<ListEntry<String>> GetKeyboardEntries();
 
     /*
-     * IOptionListComponent<std::string> implementation
+     * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const std::string& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
      * IOptionListComponent<StorageDevices::Device> implementation

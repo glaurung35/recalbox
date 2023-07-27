@@ -9,7 +9,7 @@
 //Allow embedded resources to be optionally remapped to actual files for further customization.
 
 //!< Use a simple string as byte buffer
-typedef std::string ResourceData;
+typedef String ResourceData;
 
 class ResourceManager
 {

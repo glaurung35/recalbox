@@ -80,8 +80,7 @@ GuiMenuTools::ShaderList GuiMenuTools::ListShaders()
   {
     bool ok = false;
     String shaderName = path.MakeRelative(sShadersPath, ok).ToString();
-    Strings::ReplaceAllIn(shaderName, '/', " - ", 3);
-    Strings::ReplaceAllIn(shaderName, '_', " ", 1);
+    shaderName.Replace('/', " - ", 3).Replace('_', " ", 1);
     result.push_back({ path, shaderName });
   }
 

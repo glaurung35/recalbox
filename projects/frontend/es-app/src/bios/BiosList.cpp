@@ -97,27 +97,27 @@ Bios::ReportStatus BiosList::ReportStatus() const
   return Bios::ReportStatus::Unknown;
 }
 
-std::vector<std::string> BiosList::GetMissingBiosFileList() const
+String::List BiosList::GetMissingBiosFileList() const
 {
-  std::vector<std::string> result;
+  String::List result;
   for(const Bios& bios : mBiosList)
     result.push_back(bios.Filename(false));
 
   return result;
 }
 
-std::string BiosList::GenerateReport() const
+String BiosList::GenerateReport() const
 {
-  std::string header("SYSTEM: ");
-  header.append(mSystemFullName).append("\r\n")
-        .append("---------------------------------------------\r\n\r\n");
-  std::string report;
+  String header("SYSTEM: ");
+  header.Append(mSystemFullName).Append(String::CRLF)
+        .Append("---------------------------------------------\r\n\r\n");
+  String report;
 
   for(const Bios& bios : mBiosList)
   {
-    std::string subReport = bios.GenerateReport();
+    String subReport = bios.GenerateReport();
     if (!subReport.empty())
-      report.append(subReport).append("\r\n");
+      report.Append(subReport).Append(String::CRLF);
   }
 
   return report.empty() ? report : header + report;

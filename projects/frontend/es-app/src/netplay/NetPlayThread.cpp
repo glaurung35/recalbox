@@ -19,9 +19,9 @@ NetPlayThread::NetPlayThread(WindowManager&window)
   StartScan();
 }
 
-std::string NetPlayThread::getLobbyListCommand()
+String NetPlayThread::getLobbyListCommand()
 {
-  static std::string command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::Instance().GetNetplayLobby();
+  static String command = "curl -s --connect-timeout 3 -m 3 -A libretro " + RecalboxConf::Instance().GetNetplayLobby();
   return command;
 }
 
@@ -52,8 +52,8 @@ void NetPlayThread::Run()
     int popupDuration = RecalboxConf::Instance().GetPopupNetplay();
     if (popupDuration != 0)
     {
-      std::vector<std::pair<std::string, std::string>> oldGames;
-      std::vector<std::pair<std::string, std::string>> newGames;
+      std::vector<std::pair<String, String>> oldGames;
+      std::vector<std::pair<String, String>> newGames;
 
       while (IsRunning())
       {
@@ -116,7 +116,7 @@ bool NetPlayThread::Sleep(bool& enabled)
   return false;
 }
 
-void NetPlayThread::PopupTriggered(const std::string& player, const std::string& game)
+void NetPlayThread::PopupTriggered(const String& player, const String& game)
 {
   // Create popup text
   mLastPopupText = _("A Recalbox friend has started a Netplay game!") + "\n " + _("Player") + ": " +
@@ -141,10 +141,10 @@ bool NetPlayThread::RefreshNetplayList(PlayerGameList& list, bool filtered)
     {
       const rapidjson::Value& fields = item["fields"];
 
-      std::string player = fields["username"].GetString();
-      std::string game   = fields["game_name"].GetString();
+      String player = fields["username"].GetString();
+      String game   = fields["game_name"].GetString();
       if ((!filtered) ||
-          (std::string(fields["frontend"].GetString()).find("@RECALBOX") != std::string::npos))
+          (String(fields["frontend"].GetString()).find("@RECALBOX") != String::npos))
         list.push_back(std::make_pair(player, game));
     }
     return true;

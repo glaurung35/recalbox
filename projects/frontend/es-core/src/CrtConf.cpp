@@ -21,9 +21,9 @@ void CrtConf::OnSave()
   NotificationManager::Instance().Notify(Notification::ConfigurationChanged, crtConfFile.ToString());
 }
 
-CrtAdapterType CrtConf::CrtAdapterFromString(const std::string& adapter)
+CrtAdapterType CrtConf::CrtAdapterFromString(const String& adapter)
 {
-  std::string foundAdapter = adapter;
+  String foundAdapter = adapter;
   if(foundAdapter.empty())
   {
     foundAdapter = RecalboxConf::Instance().AsString("system.crt");
@@ -35,22 +35,22 @@ CrtAdapterType CrtConf::CrtAdapterFromString(const std::string& adapter)
   return CrtAdapterType::None;
 }
 
-const std::string& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
+const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
 {
   switch(adapter)
   {
-    case CrtAdapterType::RGBDual:  { static std::string adapterString("recalboxrgbdual"); return adapterString; }
-    case CrtAdapterType::Pi2Scart: { static std::string adapterString("pi2scart"); return adapterString; }
-    case CrtAdapterType::RGBPi:    { static std::string adapterString("rgbpi"); return adapterString; }
-    case CrtAdapterType::Vga666:   { static std::string adapterString("vga666"); return adapterString; }
+    case CrtAdapterType::RGBDual:  { static String adapterString("recalboxrgbdual"); return adapterString; }
+    case CrtAdapterType::Pi2Scart: { static String adapterString("pi2scart"); return adapterString; }
+    case CrtAdapterType::RGBPi:    { static String adapterString("rgbpi"); return adapterString; }
+    case CrtAdapterType::Vga666:   { static String adapterString("vga666"); return adapterString; }
     case CrtAdapterType::None:
     default: break;
   }
-  static std::string sDefault;
+  static String sDefault;
   return sDefault;
 }
 
-CrtResolution CrtConf::CrtResolutionFromString(const std::string& menu)
+CrtResolution CrtConf::CrtResolutionFromString(const String& menu)
 {
   if (menu == "p1920x224") return CrtResolution::r224p;
   if (menu == "p1920x240") return CrtResolution::r240p;
@@ -64,24 +64,24 @@ CrtResolution CrtConf::CrtResolutionFromString(const std::string& menu)
   return CrtResolution::rNone;
 }
 
-const std::string& CrtConf::CrtResolutionFromEnum(CrtResolution type)
+const String& CrtConf::CrtResolutionFromEnum(CrtResolution type)
 {
   switch(type)
   {
-    case CrtResolution::r224p: { static std::string result("p1920x224"); return result; }
-    case CrtResolution::r240p: { static std::string result("p1920x240"); return result; }
-    case CrtResolution::r320x240p: { static std::string result("p320x240"); return result; }
-    case CrtResolution::r288p: { static std::string result("p1920x288"); return result; }
-    case CrtResolution::r384x288p: { static std::string result("p384x288"); return result; }
-    case CrtResolution::r480i: { static std::string result("i640x480"); return result; }
-    case CrtResolution::r576i: { static std::string result("i768x576"); return result; }
-    case CrtResolution::r480p: { static std::string result("p640x480"); return result; }
-    case CrtResolution::r240p120Hz: { static std::string result("p1920x240at120"); return result; }
+    case CrtResolution::r224p: { static String result("p1920x224"); return result; }
+    case CrtResolution::r240p: { static String result("p1920x240"); return result; }
+    case CrtResolution::r320x240p: { static String result("p320x240"); return result; }
+    case CrtResolution::r288p: { static String result("p1920x288"); return result; }
+    case CrtResolution::r384x288p: { static String result("p384x288"); return result; }
+    case CrtResolution::r480i: { static String result("i640x480"); return result; }
+    case CrtResolution::r576i: { static String result("i768x576"); return result; }
+    case CrtResolution::r480p: { static String result("p640x480"); return result; }
+    case CrtResolution::r240p120Hz: { static String result("p1920x240at120"); return result; }
     case CrtResolution::_rCount:
     case CrtResolution::rNone:
     default: break;
   }
-  static std::string result("None");
+  static String result("None");
   return result;
 }
 

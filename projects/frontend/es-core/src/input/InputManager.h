@@ -1,7 +1,7 @@
 #pragma once
 
 #include <SDL2/SDL.h>
-#include <string>
+#include <utils/String.h>
 #include <input/InputDevice.h>
 #include <input/OrderedDevices.h>
 #include <utils/os/fs/watching/FileSystemWatcher.h>
@@ -91,7 +91,7 @@ class InputManager : public IFileSystemWatcherNotification
      * ready to be used in the configgen
      * @return Configuration string
      */
-    std::string GetMappedDeviceListConfiguration(const InputMapper& mapper);
+    String GetMappedDeviceListConfiguration(const InputMapper& mapper);
 
     /*!
      * @brief Lookup Xml configuration for a particular device, lookinf for matching
@@ -198,7 +198,7 @@ class InputManager : public IFileSystemWatcherNotification
      * @param joystick SDL Joystick handle
      * @return GUID string
      */
-    static std::string DeviceGUIDString(SDL_Joystick* joystick);
+    static String DeviceGUIDString(SDL_Joystick* joystick);
 
     /*!
      * @brief Clear all configurations

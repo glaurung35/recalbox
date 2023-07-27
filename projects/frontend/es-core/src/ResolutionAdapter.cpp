@@ -213,14 +213,14 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
 
 #endif // USE_KMSDRM
 
-bool ResolutionAdapter::AdjustResolution(int display, const std::string& value, Resolutions::SimpleResolution& output, bool filtered)
+bool ResolutionAdapter::AdjustResolution(int display, const String& value, Resolutions::SimpleResolution& output, bool filtered)
 {
   { LOG(LogDebug) << "[ResolutionAdapter] Adjusting " << value; }
   // Process default
   if (value == "default")
   {
     Resolution res = GetDefaultResolution(filtered);
-    { LOG(LogDebug) << "[ResolutionAdapter] Default resolution asked, adjusting with current default resolution: " << res.Width << "x" << res.Height; }
+    { LOG(LogDebug) << "[ResolutionAdapter] Default resolution asked, adjusting with current default resolution: " << res.Width << 'x' << res.Height; }
     output.Height = res.Height;
     output.Width = res.Width;
     return true;

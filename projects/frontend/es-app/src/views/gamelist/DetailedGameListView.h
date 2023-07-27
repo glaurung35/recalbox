@@ -87,11 +87,11 @@ class DetailedGameListView : public ISimpleGameListView
       return mList.getObjectAt(0);
     }
 
-    const std::string& getCursorText() override { return mList.getSelectedName(); }
-    const std::string& getCursorTextAt(int i) override
+    const String& getCursorText() override { return mList.getSelectedName(); }
+    const String& getCursorTextAt(int i) override
     {
       if (i >= 0 && i < getCursorIndexMax()) return mList.getNameAt(i);
-      static const std::string __nulltext;
+      static const String __nulltext;
       return __nulltext;
     }
 

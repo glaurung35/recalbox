@@ -2,7 +2,7 @@
 
 #include <utils/cplusplus/Bitflags.h>
 #include <sys/inotify.h>
-#include <string>
+#include <utils/String.h>
 
 enum class EventType : unsigned int
 {
@@ -29,6 +29,6 @@ enum class EventType : unsigned int
   All = IN_ALL_EVENTS
 };
 
-std::string& operator <<(std::string& stream, const EventType& event);
+String& operator <<(String& stream, const EventType& event);
 
 DEFINE_BITFLAG_ENUM(EventType, unsigned int)

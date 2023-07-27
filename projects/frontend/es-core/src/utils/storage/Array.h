@@ -63,7 +63,7 @@ template<typename T> class Array : private Allocator
     {
       if (from >= fCount) return;
       if (from + count > fCount) count = fCount - from;
-      memcpy(&__GET(from), &__GET(from + count), (fCount - (from + count)) * __OBJSZ);
+      memmove(&__GET(from), &__GET(from + count), (fCount - (from + count)) * __OBJSZ);
       fCount -= count;
       ClearMemory(&__GET(fCount), count * __OBJSZ);
     }

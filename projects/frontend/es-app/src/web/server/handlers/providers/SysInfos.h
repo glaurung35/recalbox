@@ -59,7 +59,7 @@ class SysInfos : public Thread
     Platform mPlatform;
 
     //! Cpu names
-    std::string mCpuNames[sMaxCPU];
+    String mCpuNames[sMaxCPU];
 
     // data
     struct DataBag
@@ -118,7 +118,7 @@ class SysInfos : public Thread
      * @param platformName Platform name
      * @return Platform type
      */
-    static Platform GetPlatformFrom(const std::string& platformName);
+    static Platform GetPlatformFrom(const String& platformName);
 
     /*!
      * @brief Get platform full name from type
@@ -168,7 +168,7 @@ class SysInfos : public Thread
     void CpuConsumption(int cpu, FloatStorage& percents) const;
 
     //! Get cpu names
-    const std::string& CpuName(int cpu) const { return mCpuNames[cpu]; }
+    const String& CpuName(int cpu) const { return mCpuNames[cpu]; }
 
     //! Get platform name
     const char* SystemPlatform() const { return GetPlatformFrom(mPlatform); }
@@ -202,13 +202,13 @@ class SysInfos : public Thread
      * @brief Build RAM object
      * @return RAM object
      */
-    JSONBuilder BuildMemoryObject(bool all);
+    JSONBuilder BuildMemoryObject(bool all) const;
 
     /*!
      * @brief Build Temperature object
      * @return
      */
-    JSONBuilder BuildTemperatureObject(bool all);
+    JSONBuilder BuildTemperatureObject(bool all) const;
 
     /*!
      * @brief Send all cpu/ram/t° update object

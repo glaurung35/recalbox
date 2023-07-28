@@ -89,7 +89,7 @@ bool HttpClient::Execute(const String& url, const Path& output)
   return false;
 }
 
-bool HttpClient::Execute(const String& url, const Path& output, Http::IDownload* interface)
+bool HttpClient::Execute(const String& url, const Path& output, HttpClient::IDownload* interface)
 {
   mIDownload = interface;
   return Execute(url, output);

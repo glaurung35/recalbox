@@ -24,7 +24,7 @@ Pistache::Http::Mime::MediaType Mime::FontTtf(Pistache::Http::Mime::Type::Font, 
 Pistache::Http::Mime::MediaType Mime::FontWoff(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Woff);
 Pistache::Http::Mime::MediaType Mime::FontWoff2(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Woff2);
 
-HashMap<std::string, Pistache::Http::Mime::MediaType> Mime::ExtToMIME
+HashMap<String, Pistache::Http::Mime::MediaType> Mime::ExtToMIME
 ({
   { ".html"  , Mime::Html       },
   { ".htm"   , Mime::Html       },

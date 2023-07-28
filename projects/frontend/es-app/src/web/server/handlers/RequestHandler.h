@@ -25,6 +25,13 @@ class RequestHandler : public IRouter
     //! WWW default file
     String mDefaultFile;
 
+    /*!
+     * @brief Decode the given string using base64 algorythm
+     * @param base64 String to decode
+     * @return Decoded string
+     */
+    static String Decode64(const String& base64);
+
   public:
     RequestHandler(const String& wwwRoot, const String& defaultFile)
       : mBiosManager(BiosManager::Instance())

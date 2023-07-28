@@ -3,7 +3,6 @@
 //
 
 #include <utils/Files.h>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include <utils/datetime/DateTime.h>
 #include <web/server/handlers/MqttTopics.h>
@@ -42,26 +41,25 @@ void SysInfos::Run()
 
 void SysInfos::ReadCPUNames()
 {
-  Strings::Vector lines = Strings::Split(Files::LoadFile(Path("/proc/cpuinfo")), '\n');
+  String::List lines = Files::LoadFile(Path("/proc/cpuinfo")).Split('\n');
   mData.CpuCount = 0;
   int processorNumber = 0;
-  std::string hardware;
-  for(const std::string& line : lines)
+  String hardware;
+  for(const String& line : lines)
   {
-    int p = line.find(':');
-    if (p != (int)std::string::npos)
+    int p = line.Find(':');
+    if (p >= 0)
     {
-      std::string key = Strings::Trim(line.substr(0, p));
-      std::string value = Strings::Trim(line.substr(p + 1));
+      String key = line.SubString(0, p).Trim();
+      String value = line.SubString(p + 1).Trim();
       if (key == "processor")
       {
-        if (Strings::ToInt(value, processorNumber))
+        if (value.TryAsInt(processorNumber))
           mData.CpuCount = (processorNumber + 1 > mData.CpuCount) ? processorNumber + 1 : mData.CpuCount;
         else
           LOG(LogError) << "Unreadable line: " << line;
       }
-      if (key == "model name")
-        if ((unsigned int)processorNumber < sMaxCPU)
+      if (key == "model name" && (unsigned int)processorNumber < sMaxCPU)
           mCpuNames[processorNumber] = value;
       if (key == "Hardware")
         hardware = value;
@@ -74,24 +72,24 @@ void SysInfos::ReadCPUNames()
 void SysInfos::GetCpu()
 {
   // Get raw values
-  Strings::Vector lines = Strings::Split(Files::LoadFile(Path("/proc/stat")), '\n');
+  String::List lines = Files::LoadFile(Path("/proc/stat")).Split('\n');
   long long cpuData[sMaxCPU][CpuDataType::__Count];
   int cpuIndex = 0;
-  for(const std::string& line : lines)
+  for(const String& line : lines)
     if (line.length() > 3)
       if (line[0] == 'c')
         if (line[1] == 'p')
           if (line[2] == 'u')
             if ((unsigned int)line[3] - 0x30u <= 9)
             {
-              if (Strings::ToInt(line, 3, ' ', cpuIndex))
+              if (line.TryAsInt(3, ' ', cpuIndex))
               {
                 int start = 3;
                 for(int i = 0; i < CpuDataType::__Count; ++i)
                 {
-                  start = line.find(' ', start + 1);
-                  if (!Strings::ToLong(line, start + 1, ' ', cpuData[cpuIndex][i]))
-                    Strings::ToLong(line, start + 1, 0, cpuData[cpuIndex][i]);
+                  start = line.Find(' ', start + 1);
+                  if (!line.TryAsInt64(start + 1, ' ', cpuData[cpuIndex][i]))
+                    (void)line.TryAsInt64(start + 1, 0, cpuData[cpuIndex][i]);
                 }
               }
             }
@@ -126,17 +124,17 @@ void SysInfos::GetTemperature()
     case Platform::RaspberryPi:
     case Platform::Anbernic:
     {
-      std::string temp = Files::LoadFile(Path("/sys/class/thermal/thermal_zone0/temp"));
+      String temp = Files::LoadFile(Path("/sys/class/thermal/thermal_zone0/temp"));
       int temperature = 0;
-      if (Strings::ToInt(Strings::Trim(temp, " \t\r\n"), temperature))
+      if (temp.Trim().TryAsInt(temperature))
         mData.Temperature[mData.StorageIndex] = (float)temperature / 1000.0f;
       break;
     }
     case Platform::Odroid:
     {
-      std::string temp = Files::LoadFile(Path("/sys/devices/virtual/thermal/thermal_zone0/temp"));
+      String temp = Files::LoadFile(Path("/sys/devices/virtual/thermal/thermal_zone0/temp"));
       int temperature = 0;
-      if (Strings::ToInt(temp, temperature))
+      if (temp.TryAsInt(temperature))
         mData.Temperature[mData.StorageIndex] = (float)temperature / 1000.0f;
       break;
     }
@@ -147,21 +145,21 @@ void SysInfos::GetMemory()
 {
   #define __STR(x) x, (int)sizeof(x) - 1
   // Get raw values
-  Strings::Vector lines = Strings::Split(Files::LoadFile(Path("/proc/meminfo")), '\n');
+  String::List lines = Files::LoadFile(Path("/proc/meminfo")).Split('\n');
   int dataToGet = 3; // Total, Free & Available
   long long total = 0, free = 0, available = 0;
-  for(const std::string& line : lines)
+  for(const String& line : lines)
   {
     // Collect target data
     long long* data = nullptr;
-    if (Strings::StartsWith(line, __STR("MemTotal:"))) data = &total;
-    else if (Strings::StartsWith(line, __STR("MemFree:"))) data = &free;
-    else if (Strings::StartsWith(line, __STR("MemAvailable:"))) data = &available;
+    if (line.StartsWith(__STR("MemTotal:"))) data = &total;
+    else if (line.StartsWith(__STR("MemFree:"))) data = &free;
+    else if (line.StartsWith(__STR("MemAvailable:"))) data = &available;
     // Get data
     if (data != nullptr)
     {
       int pos = (int)line.find_first_not_of(' ', line.find(':') + 1);
-      Strings::ToLong(line, pos, ' ', *data);
+      (void)line.TryAsInt64(pos, ' ', *data);
       // Completed?
       if (--dataToGet == 0)
       {
@@ -191,11 +189,11 @@ void SysInfos::CpuConsumption(int cpu, FloatStorage& percents) const
   GetData<float>(percents, mData.Cpu[cpu]);
 }
 
-SysInfos::Platform SysInfos::GetPlatformFrom(const std::string& platformName)
+SysInfos::Platform SysInfos::GetPlatformFrom(const String& platformName)
 {
-  if (Strings::StartsWith(platformName, "BCM2835")) return Platform::RaspberryPi;
-  if (Strings::StartsWith(platformName, "ODROID")) return Platform::Odroid;
-  if (Strings::StartsWith(platformName, "Anbernic")) return Platform::Anbernic;
+  if (platformName.StartsWith("BCM2835")) return Platform::RaspberryPi;
+  if (platformName.StartsWith("ODROID")) return Platform::Odroid;
+  if (platformName.StartsWith("Anbernic")) return Platform::Anbernic;
   return Platform::PC;
 }
 
@@ -233,7 +231,7 @@ JSONBuilder SysInfos::BuildCpuObject(bool all)
   for(int i = mData.CpuCount; --i >= 0;)
   {
     CpuConsumption(i, cpusData);
-    cpus.OpenObject(Strings::ToString(i).c_str())
+    cpus.OpenObject(String(i).c_str())
         .Field(all ? "model" : nullptr, mCpuNames[i])
         .Field("consumption", cpusData + SysInfos::MeasureCount() - length, length)
         .CloseObject();
@@ -243,7 +241,7 @@ JSONBuilder SysInfos::BuildCpuObject(bool all)
   return cpus;
 }
 
-JSONBuilder SysInfos::BuildMemoryObject(bool all)
+JSONBuilder SysInfos::BuildMemoryObject(bool all) const
 {
   // Build memory object
   SysInfos::LongStorage freeData;
@@ -271,7 +269,7 @@ JSONBuilder SysInfos::BuildPlatformObject()
   return platform;
 }
 
-JSONBuilder SysInfos::BuildTemperatureObject(bool all)
+JSONBuilder SysInfos::BuildTemperatureObject(bool all) const
 {
   SysInfos::FloatStorage temperatures;
   Temperature(temperatures);

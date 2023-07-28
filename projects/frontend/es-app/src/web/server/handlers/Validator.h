@@ -4,7 +4,6 @@
 #pragma once
 
 #include <string>
-#include <utils/Strings.h>
 #include <utils/storage/HashMap.h>
 #include "utils/String.h"
 
@@ -35,6 +34,23 @@ class Validator
     //! Int range higher value
     int mHigher;
 
+    /*!
+     * @brief Make a quick join of c strings
+     * @param list c-strin glist
+     * @param joiner Separator
+     * @return Joined string
+     */
+    static String JoinConstChars(const std::vector<const char*>& list, char joiner)
+    {
+      String result;
+      for(const char* cstring : list)
+      {
+        if (!result.empty()) result.Append(joiner);
+        result.Append(cstring);
+      }
+      return result;
+    }
+
   public:
     /*!
      * @brief Default constructor: Free string
@@ -63,7 +79,7 @@ class Validator
      */
     explicit Validator(bool multi, const std::vector<const char*>&  list)
       : mType(multi ? Types::StringMultiPicker : Types::StringPicker),
-        mList('|' + Strings::Join(list, "|")),
+        mList('|' + JoinConstChars(list, '|')),
         mLower(0),
         mHigher(0)
     {

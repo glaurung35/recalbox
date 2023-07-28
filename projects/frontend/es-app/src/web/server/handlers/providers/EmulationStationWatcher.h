@@ -22,7 +22,7 @@ class EmulationStationWatcher : private IMQTTMessageReceived
     MqttClient mMqttClient;
 
     //! Fast event to method lookup
-    HashMap<std::string, SimpleMethodReference> mEventMethod;
+    HashMap<String, SimpleMethodReference> mEventMethod;
 
     /*!
      * @brief Mqtt message receiver

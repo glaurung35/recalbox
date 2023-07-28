@@ -3,7 +3,6 @@
 //
 
 #include <cstring>
-#include <utils/Strings.h>
 #include <utils/Log.h>
 #include "Parameters.h"
 

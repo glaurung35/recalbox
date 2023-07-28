@@ -74,7 +74,7 @@ bool Validator::Validate(String& value) const
     case Types::IntRange:
     {
       int intValue = 0;
-      if (Strings::ToInt(value, intValue))
+      if (value.TryAsInt(intValue))
         return (intValue >= mLower && intValue <= mHigher);
       return false;
     }
@@ -82,7 +82,7 @@ bool Validator::Validate(String& value) const
     {
       if (value.length() == 1)
         return (value[0] == '0' || value[0] == '1');
-      value = Strings::ToLowerASCII(value);
+      value.LowerCase();
       if (value == "true") value = "1";
       else if (value == "false") value = "0";
       return (value[0] == '0' || value[0] == '1');

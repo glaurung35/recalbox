@@ -5,6 +5,7 @@
 
 #include <pistache/include/pistache/mime.h>
 #include <utils/storage/HashMap.h>
+#include <utils/String.h>
 
 class Mime
 {
@@ -49,5 +50,5 @@ class Mime
     static Pistache::Http::Mime::MediaType FontWoff2;
 
     //! Extension to MIME Type
-    static HashMap<std::string, Pistache::Http::Mime::MediaType> ExtToMIME;
+    static HashMap<String, Pistache::Http::Mime::MediaType> ExtToMIME;
 };

@@ -49,7 +49,7 @@ class Files
      * @param content String ot save
      * @return True if the content has been saved
      */
-    static bool SaveFile(const Path& path, const String& content);
+    static bool SaveFile(const Path& path, const String& content)
     {
       return SaveFile(path, content.data(), (int)content.length());
     }

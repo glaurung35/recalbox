@@ -365,8 +365,8 @@ void NotificationManager::Run()
       if (*request != mPreviousRequest)
       {
         // Build all
-        std::string output("Version=2.0");
-        output.append(eol);
+        String output("Version=2.0");
+        output.Append(eol);
         BuildStateCommons(output, request->mSystemData, request->mFileData, request->mAction,
                           request->mActionParameters);
         BuildStateGame(output, request->mFileData, request->mAction);
@@ -383,7 +383,7 @@ void NotificationManager::Run()
         mMQTTClient.Send(sEventJsonTopic, json);
 
         // Run scripts
-        const String notificationParameter = (request->mFileData != nullptr)
+        const String& notificationParameter = (request->mFileData != nullptr)
                                                    ? request->mFileData->RomPath().ToString()
                                                    : ((request->mSystemData != nullptr) ? request->mSystemData->Name()
                                                                                         : request->mActionParameters);
@@ -400,7 +400,7 @@ void NotificationManager::Run()
   }
 }
 
-void NotificationManager::Notify(const SystemData* system, const FileData* game, Notification action, const std::string& actionParameters)
+void NotificationManager::Notify(const SystemData* system, const FileData* game, Notification action, const String& actionParameters)
 {
   // Build new parameter bag
   NotificationRequest* request = mRequestProvider.Obtain();
@@ -414,7 +414,7 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
   }
 }
 
-void NotificationManager::RunProcess(const Path& target, const Strings::Vector& arguments, bool synchronous, bool permanent)
+void NotificationManager::RunProcess(const Path& target, const String::List& arguments, bool synchronous, bool permanent)
 {
   // final argument array
   std::vector<const char*> args;

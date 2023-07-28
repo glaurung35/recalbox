@@ -206,7 +206,7 @@ class JSONBuilder : public String
      */
     JSONBuilder& Field(const char* name, int value)
     {
-      if (name != nullptr) FieldName(name).Append(':').Append(Strings::ToString(value));
+      if (name != nullptr) FieldName(name).Append(':').Append(value);
       return *this;
     }
 
@@ -218,7 +218,7 @@ class JSONBuilder : public String
      */
     JSONBuilder& Field(const char* name, long long value)
     {
-      if (name != nullptr) FieldName(name).Append(':').Append(Strings::ToString(value));
+      if (name != nullptr) FieldName(name).Append(':').Append(value);
       return *this;
     }
 
@@ -230,7 +230,7 @@ class JSONBuilder : public String
      */
     JSONBuilder& Field(const char* name, float value)
     {
-      if (name != nullptr) FieldName(name).Append(':').Append(Strings::ToString(value, 2));
+      if (name != nullptr) FieldName(name).Append(':').Append(value, 2);
       return *this;
     }
 
@@ -292,7 +292,7 @@ class JSONBuilder : public String
       if (name != nullptr) FieldName(name).Append(":[");
       for(int i = 0; --count >= 0; ++i)
       {
-        Append(Strings::ToString(value[i], 2));
+        Append(value[i], 2);
         if (count != 0) Append(',');
       }
       Append(']');
@@ -311,7 +311,7 @@ class JSONBuilder : public String
       if (name != nullptr) FieldName(name).Append(":[");
       for(int i = 0; --count >= 0; i++)
       {
-        Append(Strings::ToString(value[i]));
+        Append(value[i]);
         if (count != 0) Append(',');
       }
       Append(']');
@@ -330,7 +330,7 @@ class JSONBuilder : public String
       if (name != nullptr) FieldName(name).Append(":[");
       for(int i = 0; --count >= 0; i++)
       {
-        Append(Strings::ToString(value[i]));
+        Append(value[i]);
         if (count != 0) Append(',');
       }
       Append(']');

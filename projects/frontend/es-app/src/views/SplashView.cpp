@@ -44,7 +44,9 @@ void SplashView::Render(const Transform4x4f& parentTrans)
   Renderer::DrawRectangle(x, y, w, h, mIsRGBDual ? 0x404040FF : 0xC0C0C0FF);
   if (mSystemCount != 0)
   {
-    w = (w * mSystemLoaded) / mSystemCount;
+    int max = Math::clampi(mSystemCount, 1, INT32_MAX);
+    int val = Math::clampi(mSystemLoaded, 0, max);
+    w = (w * val) / max;
     Renderer::DrawRectangle(x, y, w, h, mIsRGBDual ? 0xA0A0A0FF : 0x606060FF);
   }
 

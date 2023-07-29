@@ -193,7 +193,7 @@ class SystemData : private INoCopy
     [[nodiscard]] Path getThemePath() const;
 
     [[nodiscard]] bool HasGame() const;
-    [[nodiscard]] bool HasVisibleGame(bool forceTateOnly = false) const;
+    [[nodiscard]] bool HasVisibleGame() const;
 
     /*!
     * @brief Check if system has no only RO games

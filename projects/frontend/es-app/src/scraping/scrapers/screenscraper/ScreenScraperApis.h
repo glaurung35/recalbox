@@ -65,6 +65,14 @@ class ScreenScraperApis
           String mMd5;
           //! size
           long long mSize;
+
+          [[nodiscard]] bool IsValid() const
+          {
+            return !mUrl.empty() &&
+                   !mFormat.empty() &&
+                   !mMd5.empty() &&
+                   mSize != 0;
+          }
         };
 
         //! Main image

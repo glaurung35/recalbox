@@ -43,6 +43,8 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mResolutionLastChoice(0)
   , mSuperGameboyLastChoice(0)
   , mSoftPatchingLastChoice(0)
+  , mSender(*this)
+  , mNextItem(nullptr)
 {
   // Set interfaces
   systemManager.SetProgressInterface(&mSplashView);
@@ -56,10 +58,16 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   mSystemListView.setPosition(0, Renderer::Instance().DisplayHeightAsFloat());
   // Splash
   mSplashView.setPosition(0,0);
+
+  //! Centralized thread that process slow information for gamelists
+  Thread::Start("gamelist-slow");
 }
 
 ViewController::~ViewController()
 {
+  // Stop gamelist thread
+  Thread::Stop();
+
   for(const auto& view : mGameListViews)
     delete view.second;
 }
@@ -902,4 +910,72 @@ void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool force
   // Info popup
   String message = game->Metadata().Favorite() ? _("Added to favorites") : _("Removed from favorites");
   mWindow.InfoPopupAddRegular(message.Append(":\n").Append(game->Name()), RecalboxConf::Instance().GetPopupHelp(), PopupType::None, false);
+}
+
+void ViewController::Run()
+{
+  while(IsRunning())
+  {
+    mSignal.WaitSignal();
+    if (!IsRunning()) return; // Destructor called :)
+    for(bool working = true; working; )
+    {
+      mLocker.Lock();
+      const FileData* item = mNextItem;
+      mNextItem = nullptr;
+      mLocker.UnLock();
+      if (item == nullptr) working = false;
+      else if (item->IsFolder())
+      {
+        FolderData* folder = (FolderData*)item;
+        int count = folder->CountAll(false, folder->System().Excludes());
+
+        class Filter : public IFilter
+        {
+          private:
+            Path mPath[sFoldersMaxGameImageCount];
+            int mCount;
+
+          public:
+            Filter() : mCount(0) {}
+
+            bool ApplyFilter(const FileData& file) override
+            {
+              if (mCount < sFoldersMaxGameImageCount)
+                if (file.HasThumbnailOrImage())
+                  mPath[mCount++] = file.ThumbnailOrImagePath();
+              return false;
+            }
+
+            Path& GetPath(int index) { return mPath[index]; }
+        } filter;
+        folder->CountFilteredItemsRecursively(&filter, false);
+
+        // Store results
+        mLocker.Lock();
+        for(int i = sFoldersMaxGameImageCount; --i >= 0;)
+          mLastFolderImagePath[i] = std::move(filter.GetPath(i));
+        mLocker.UnLock();
+        mSender.Send({ item, count, false, &mLastFolderImagePath });
+      }
+      else if (item->IsGame())
+      {
+        if (item->HasP2K()) // Send message only if p2k is available
+          mSender.Send({ item, 0, true, &mLastFolderImagePath } );
+      }
+    }
+  }
+}
+
+void ViewController::ReceiveSyncMessage(const SlowDataInformation& data)
+{
+  if (mCurrentViewType == ViewType::GameList)
+    ((ISimpleGameListView*)mCurrentView)->UpdateSlowData(data);
+}
+
+void ViewController::FetchSlowDataFor(FileData* data)
+{
+  Mutex::AutoLock locker(mLocker);
+  mNextItem = data;
+  mSignal.Fire();
 }

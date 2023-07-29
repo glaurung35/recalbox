@@ -8,6 +8,7 @@
 #include "guis/menus/IFastMenuListCallback.h"
 #include "ISaveStateSlotNotifier.h"
 #include "ISoftPatchingNotifier.h"
+#include "views/gamelist/DetailedGameListView.h"
 #include <emulators/run/GameLinkedData.h>
 
 class SystemData;
@@ -20,6 +21,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
                      , public IFastMenuListCallback
                      , public ISaveStateSlotNotifier
                      , public ISoftPatchingNotifier
+                     , private Thread
+                     , public ISyncMessageReceiver<SlowDataInformation>
 {
   public:
     //! Flags used in launch method to check what option is already selected
@@ -152,6 +155,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void Update(int deltaTime) override;
     void Render(const Transform4x4f& parentTrans) override;
 
+    void FetchSlowDataFor(FileData* data);
+
   private:
     //! Fast menu types
     enum class FastMenuType
@@ -204,6 +209,17 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     int mSuperGameboyLastChoice;
     //! Keep choice of Soft patching
     int mSoftPatchingLastChoice;
+
+    //! Item information synchronizer
+    SyncMessageSender<SlowDataInformation> mSender;
+    //! Next item to fetch slow data from
+    FileData* mNextItem;
+    //! Last slow data extracted: folder images' path
+    FolderImagesPath mLastFolderImagePath;
+    //! Locker
+    Mutex mLocker;
+    //! Fetch info thread signal
+    Signal mSignal;
 
     /*!
      * @brief  Check if softpatching is required and let the user select
@@ -289,6 +305,23 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      * @param path Selected patch's path
      */
     void SoftPatchingSelected(const Path& path) override;
+
+    /*
+     * Thread implementation
+     */
+
+    //! Break the system info fetching thread
+    void Break() override { mSignal.Fire(); }
+
+    //! Implementation of system fetching info
+    void Run() override;
+
+    /*
+     * ISyncMessageReceiver<const FileData*> implementation
+     */
+
+    //! Receive enf-of-fetch info for the very last system the user is on
+    void ReceiveSyncMessage(const SlowDataInformation& data) override;
 };
 
 DEFINE_BITFLAG_ENUM(ViewController::LaunchCheckFlags, int)

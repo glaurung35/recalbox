@@ -452,6 +452,8 @@ ScreenScraperSingleEngine::DownloadAndStoreMedia(FileData& game, bool noKeep, co
                                                  const ScreenScraperApis::Game::MediaUrl::Media& mediaSource, ProtectedSet& md5Set,
                                                  bool& pathHasBeenSet)
 {
+  if (!mediaSource.IsValid()) return ScrapeResult::NotScraped;
+
   pathHasBeenSet = false;
   Path path = target / subPath / String(name).Append(' ').Append(mediaSource.mMd5).Append('.').Append(mediaSource.mFormat);
   bool exists = path.Exists();

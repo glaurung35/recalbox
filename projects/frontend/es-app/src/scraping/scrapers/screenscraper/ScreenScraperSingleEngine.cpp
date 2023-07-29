@@ -172,7 +172,7 @@ ScrapeResult ScreenScraperSingleEngine::RequestZipGameInfo(ScreenScraperApis::Ga
       { LOG(LogDebug) << "[ScreenScraper] MD5 of " << filePath.ToString() << " [" << game.RomPath().ToString() << "] : " << md5; }
 
       // Get crc32
-      int crc32i = zip.Crc32(0);
+      unsigned int crc32i = zip.Crc32(0);
       String crc32(crc32i, 8, String::Hexa::None);
 
       // Call!

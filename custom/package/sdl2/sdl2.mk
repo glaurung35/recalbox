@@ -26,7 +26,6 @@ SDL2_CONF_OPTS += \
 	--disable-video-wayland \
 	--disable-video-dummy \
 	--disable-video-offscreen \
-	--disable-video-vulkan \
 	--disable-ime \
 	--disable-ibus \
 	--disable-fcitx \
@@ -183,6 +182,13 @@ SDL2_DEPENDENCIES += pulseaudio
 SDL2_CONF_OPTS += --enable-pulseaudio
 else
 SDL2_CONF_OPTS += --disable-pulseaudio
+endif
+
+ifeq ($(BR2_PACKAGE_RECALBOX_HAS_VULKAN),y)
+SDL2_DEPENDENCIES += vulkan-headers
+SDL2_CONF_OPTS += --enable-video-vulkan
+else
+SDL2_CONF_OPTS += --disable-video-vulkan
 endif
 
 ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)

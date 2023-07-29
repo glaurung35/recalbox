@@ -452,9 +452,9 @@ class MetadataDescriptor
      * Validators
      */
 
-    [[nodiscard]] bool HasImage()     const { return (mImagePath     | mImageFile    ) >= 0; }
-    [[nodiscard]] bool HasThumnnail() const { return (mThumbnailPath | mThumbnailFile) >= 0; }
-    [[nodiscard]] bool HasVideo()     const { return (mVideoPath     | mVideoFile    ) >= 0; }
+    [[nodiscard]] bool HasImage()     const { return (mImagePath     | mImageFile    ) > 0; }
+    [[nodiscard]] bool HasThumnnail() const { return (mThumbnailPath | mThumbnailFile) > 0; }
+    [[nodiscard]] bool HasVideo()     const { return (mVideoPath     | mVideoFile    ) > 0; }
 
     /*
      * String accessors

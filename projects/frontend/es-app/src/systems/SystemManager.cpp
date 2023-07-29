@@ -1027,7 +1027,7 @@ bool SystemManager::ThreadPoolRunJob(SystemData*& feed)
   return true;
 }
 
-void SystemManager::UpdateAllSystems()
+void SystemManager::UpdateAllGameLists()
 {
   DateTime start;
 
@@ -1050,7 +1050,7 @@ void SystemManager::UpdateAllSystems()
 void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
   if (updateGamelists && !mAllSystems.Empty())
-    UpdateAllSystems();
+    UpdateAllGameLists();
 
   for(SystemData* system : mAllSystems)
     delete system;
@@ -1098,16 +1098,6 @@ SystemData* SystemManager::FirstNonEmptySystem()
       return system;
 
   return nullptr;
-}
-
-void SystemManager::UpdateLastPlayedSystem(FileData& game)
-{
-  // Get last-played system
-  int index = getVisibleSystemIndex(sLastPlayedSystemShortName);
-  if (index < 0) return; // No last played system
-  SystemData& system = *mVisibleSystems[index];
-  // Update system
-  system.UpdateLastPlayedGame(game);
 }
 
 FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem)
@@ -1578,5 +1568,31 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
     for (SystemData* system: *modifiedSystems)
       if (mSystemChangeNotifier != nullptr)
         mSystemChangeNotifier->UpdateSystem(system);
+}
+
+void SystemManager::UpdatedTopLevelFilter()
+{
+  SystemManager::List added;
+  SystemManager::List removed;
+  SystemManager::List updated;
+
+  // Check all systems
+  for(SystemData* system : mAllSystems)
+    if (system->HasVisibleGame())
+    {
+      if (!mVisibleSystems.Contains(system)) // System was invisible?
+        added.Add(system);
+    }
+    else
+    {
+      if (mVisibleSystems.Contains(system)) // System was visible?
+        removed.Add(system);
+    }
+  // Finally, any visible system not in remove list must be updated
+  for(SystemData* system : mAllSystems)
+    if (!removed.Contains(system))
+      updated.Add(system);
+
+  ApplySystemChanges(&added, &removed, &updated);
 }
 

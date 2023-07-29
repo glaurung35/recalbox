@@ -200,7 +200,6 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   game.Metadata().IncPlayCount();
 
   // Update last played time
-  mSystemManager.UpdateLastPlayedSystem(game);
   game.Metadata().SetLastPlayedNow();
 
   return exitCode == 0;

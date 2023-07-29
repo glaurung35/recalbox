@@ -17,10 +17,20 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   // Enable virtual system
   AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this);
 
+  class Filter : public IFilter
+  {
+    public:
+      bool ApplyFilter(const FileData& file) override
+      {
+        return file.Metadata().Rotation() == RotationType::Left ||
+               file.Metadata().Rotation() == RotationType::Right;
+      }
+  } filter;
+
   // Enable virtual system
   bool hasTateGames = false;
   for(const SystemData* system : systemManager.VisibleSystemList())
-    if (system->HasVisibleGame(true))
+    if (system->MasterRoot().HasFilteredItemsRecursively(&filter))
     {
       hasTateGames = true;
       break;
@@ -106,8 +116,7 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
     case Components::TateOnly:
     {
       RecalboxConf::Instance().SetTateOnly(status).Save();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-      ViewController::Instance().getSystemListView().manageSystemsList();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
     }
     case Components::TateGamesRotation:

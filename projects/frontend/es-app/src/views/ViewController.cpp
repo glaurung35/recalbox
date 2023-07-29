@@ -878,13 +878,11 @@ void ViewController::HideSystem(SystemData* system)
 {
   // Remove system in system view
   mSystemListView.removeSystem(system);
-  //mSystemListView.goToSystem(system, false);
 
   // Are we on the gamelist that just need to be removed?
   if (isViewing(ViewType::GameList))
     if (&((ISimpleGameListView*)mCurrentView)->System() == system)
     {
-      //goToSystemView(&mSystemListView.CurrentSystem());
       SystemData* nextSystem = goToNextGameList();
       mSystemListView.goToSystem(nextSystem, false);
     }

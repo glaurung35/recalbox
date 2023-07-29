@@ -559,7 +559,7 @@ class SystemManager : private INoCopy // No copy allowed
     /*!
      * @brief Update gamelist that contain modified game metadata
      */
-    void UpdateAllSystems();
+    void UpdateAllGameLists();
 
     /*!
      * @brief Delete all systems and all sub-objects
@@ -610,23 +610,6 @@ class SystemManager : private INoCopy // No copy allowed
      * @return System list
      */
     [[nodiscard]] const List& VisibleSystemList() const { return mVisibleSystems; }
-
-    /*!
-     * @brief Update last-played system with the given game
-     * @param game Last played game
-     */
-    void UpdateLastPlayedSystem(FileData& game);
-
-    /*!
-     * @brief Get Last Played system
-     * @return Last played system or nullptr if it does not exist
-     */
-    SystemData* LastPlayedSystem()
-    {
-      int index = getVisibleSystemIndex(sLastPlayedSystemShortName);
-      if (index < 0) return nullptr;
-      return mVisibleSystems[index];
-    }
 
     /*!
      * @brief Get next system to the given system
@@ -717,4 +700,10 @@ class SystemManager : private INoCopy // No copy allowed
      * @param deleted True if the game has been deleted
      */
     void UpdateSystemsOnGameChange(FileData* target, MetadataType changes, bool deleted);
+
+    /*!
+     * @brief Top level filter component has been updated
+     * All systems must check if they are becoming visible or invisible or just updated
+     */
+    void UpdatedTopLevelFilter();
 };

@@ -1,9 +1,7 @@
 #include <RecalboxConf.h>
 #include <VideoEngine.h>
 #include "views/gamelist/DetailedGameListView.h"
-#include "views/ViewController.h"
 #include "animations/LambdaAnimation.h"
-#include "utils/locale/LocaleHelper.h"
 #include "scraping/ScraperSeamless.h"
 #include "recalbox/RecalboxStorageWatcher.h"
 
@@ -41,6 +39,8 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mBusy(window)
   , mSettings(RecalboxConf::Instance())
   , mFadeBetweenImage(-1)
+  , mLastCursorItem(nullptr)
+  , mLastCursorItemHasP2K(false)
 {
 }
 
@@ -66,7 +66,7 @@ void DetailedGameListView::Initialize()
   mList.setAlignment(HorizontalAlignment::Left);
 
   // folder components
-  for (int i = 3 * 3; --i >= 0; )
+  for (int i = sFoldersMaxGameImageCount; --i >= 0; )
   {
     auto* img = new ImageComponent(mWindow);
     addChild(img); // normalised functions required to be added first
@@ -294,23 +294,19 @@ void DetailedGameListView::initMDLabels()
 {
   std::vector<TextComponent*> components = getMDLabels();
 
-  const unsigned int colCount = 2;
+  //const unsigned int colCount = 2;
   const unsigned int rowCount = (unsigned int) (components.size() / 2);
 
   Vector3f start(mSize.x() * 0.01f, mSize.y() * 0.625f, 0.0f);
 
-  const float colSize = (mSize.x() * 0.48f) / colCount;
+  //const float colSize = (mSize.x() * 0.48f) / colCount;
   const float rowPadding = 0.01f * mSize.y();
 
+  Vector3f pos = start + Vector3f(0, 0, 0);
   for (unsigned int i = 0; i < (unsigned int)components.size(); i++)
   {
     const unsigned int row = i % rowCount;
-    Vector3f pos(0.0f, 0.0f, 0.0f);
-    if (row == 0)
-    {
-      pos = start + Vector3f(colSize * ((float)i / (float)rowCount), 0, 0);
-    }
-    else
+    if (row != 0)
     {
       // work from the last component
       Component* lc = components[i - 1];
@@ -362,6 +358,7 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
 {
   FileData* file = (mList.size() == 0 || mList.isScrolling()) ? nullptr : mList.getSelected();
 
+  // Reset null game
   if (file == nullptr)
   {
     VideoEngine::Instance().StopVideo(false);
@@ -382,9 +379,10 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
     {
        if (isFolder)
        {
-         setFolderInfo((FolderData*) file);
          for(int i = (int)mRegions.size(); --i >= 0; )
            mRegions[i]->setImage(Path());
+         if (file != mLastCursorItem)
+           ViewController::Instance().FetchSlowDataFor(file);
        }
        else
         setGameInfo(file, update);
@@ -392,7 +390,20 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
     }
   }
 
+  // Reset p2k status (except if the last item is the same
+  if (file != mLastCursorItem) mLastCursorItemHasP2K = false;
   mWindow.UpdateHelpSystem();
+  // Update p2k status
+  if (file != nullptr && file != mLastCursorItem)
+  {
+    if (file->IsGame())
+      ViewController::Instance().FetchSlowDataFor(file);
+    else if (file->IsFolder()) // Kill video on multi-thumbnail folder
+      mVideo.setVideo(Path::Empty, 0, 0);
+  }
+
+  // Update last procesed item
+  mLastCursorItem = file;
 }
 
 bool DetailedGameListView::switchToFolderScrapedDisplay()
@@ -446,30 +457,14 @@ std::vector<Component*> DetailedGameListView::getScrapedFolderComponents()
   return comps;
 }
 
-void DetailedGameListView::setFolderInfo(FolderData* folder)
+void DetailedGameListView::SetFolderInfo(FolderData* folder, int count, const FolderImagesPath& path)
 {
-  FileData::List games = folder->GetAllDisplayableItemsRecursively(false, folder->System().Excludes());
-  String gameCount(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", (int)games.size()));
-  gameCount.Replace("%i", String((int)games.size()));
+  String gameCount(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", count));
+  gameCount.Replace("%i", String(count));
   mFolderName.setText(folder->Name() + " - " + gameCount);
 
-  unsigned char idx = 0;
-
-  for (FileData* game : games)
-  {
-    if (game->HasThumbnailOrImage())
-    {
-      mFolderContent[idx]->setImage(game->ThumbnailOrImagePath());
-      if (++idx == mFolderContent.size())
-        break;
-    }
-  }
-  for (int i = idx; i < (int) mFolderContent.size(); i++)
-  {
-    mFolderContent[i]->setImage(Path());
-  }
-  // Kill video on multi-thumbnail folder
-  mVideo.setVideo(Path::Empty, 0, 0);
+  for (int i = sFoldersMaxGameImageCount; --i >= 0;)
+    mFolderContent[i]->setImage(path[i]);
 }
 
 void DetailedGameListView::SetImageFading(FileData* game, bool update)
@@ -1016,4 +1011,19 @@ void DetailedGameListView::RefreshItem(FileData* game)
   if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
   mList.changeTextAt(index, GetDisplayName(*game));
   if (mList.getCursorIndex() == index) DoUpdateGameInformation(true);
+}
+
+void DetailedGameListView::UpdateSlowData(const SlowDataInformation& info)
+{
+  if (info.mItem == getCursor())
+  {
+    // Game? update p2k status
+    if (info.mItem->IsGame())
+    {
+      mLastCursorItemHasP2K = info.mHasP2k;
+      mWindow.UpdateHelpSystem();
+    }
+    else if (info.mItem->IsFolder())
+      SetFolderInfo((FolderData*)info.mItem, info.mCount, *info.mPathList);
+  }
 }

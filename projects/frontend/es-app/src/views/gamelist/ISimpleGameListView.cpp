@@ -281,10 +281,8 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
     help.Set(HelpType::X, _("NETPLAY"));
   else
   {
-    FileData* fd = getCursor();
-    if (fd != nullptr)
-      if (fd->HasP2K())
-        help.Set(HelpType::X, _("P2K CONTROLS"));
+    if (HasCurrentGameP2K())
+      help.Set(HelpType::X, _("P2K CONTROLS"));
   }
   FileData* fd = getCursor();
   if (!fd->TopAncestor().PreInstalled())

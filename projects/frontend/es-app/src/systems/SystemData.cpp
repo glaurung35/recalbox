@@ -506,10 +506,9 @@ FileData::List SystemData::getAllGames() const
   return result;
 }
 
-bool SystemData::HasVisibleGame(bool forceTateOnlyCheck) const
+bool SystemData::HasVisibleGame() const
 {
   FileData::TopLevelFilter filter = FileData::BuildTopLevelFilter();
-  if (forceTateOnlyCheck) filter |= FileData::TopLevelFilter::Tate;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (root->HasVisibleGame(filter)) return true;
   return false;

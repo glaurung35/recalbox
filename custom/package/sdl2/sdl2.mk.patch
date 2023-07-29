@@ -1,8 +1,8 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 5f2e1e0ed1..52c9e3b187 100644
+index 5f2e1e0ed1..7ac9298cb2 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
-@@ -15,11 +15,11 @@ SDL2_INSTALL_STAGING = YES
+@@ -15,18 +15,17 @@ SDL2_INSTALL_STAGING = YES
  SDL2_CONFIG_SCRIPTS = sdl2-config
  
  SDL2_CONF_OPTS += \
@@ -15,7 +15,14 @@ index 5f2e1e0ed1..52c9e3b187 100644
  	--disable-video-vivante \
  	--disable-video-cocoa \
  	--disable-video-metal \
-@@ -50,6 +50,10 @@ define SDL2_FIX_SDL2_CONFIG_CMAKE
+ 	--disable-video-wayland \
+ 	--disable-video-dummy \
+ 	--disable-video-offscreen \
+-	--disable-video-vulkan \
+ 	--disable-ime \
+ 	--disable-ibus \
+ 	--disable-fcitx \
+@@ -50,6 +49,10 @@ define SDL2_FIX_SDL2_CONFIG_CMAKE
  		$(STAGING_DIR)/usr/lib/cmake/SDL2/sdl2-config.cmake
  endef
  SDL2_POST_INSTALL_STAGING_HOOKS += SDL2_FIX_SDL2_CONFIG_CMAKE
@@ -26,7 +33,7 @@ index 5f2e1e0ed1..52c9e3b187 100644
  
  # We must enable static build to get compilation successful.
  SDL2_CONF_OPTS += --enable-static
-@@ -174,6 +178,13 @@ else
+@@ -174,6 +177,20 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  
@@ -37,10 +44,17 @@ index 5f2e1e0ed1..52c9e3b187 100644
 +SDL2_CONF_OPTS += --disable-pulseaudio
 +endif
 +
++ifeq ($(BR2_PACKAGE_RECALBOX_HAS_VULKAN),y)
++SDL2_DEPENDENCIES += vulkan-headers
++SDL2_CONF_OPTS += --enable-video-vulkan
++else
++SDL2_CONF_OPTS += --disable-video-vulkan
++endif
++
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
  SDL2_DEPENDENCIES += libdrm libgbm libegl
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -181,4 +192,15 @@ else
+@@ -181,4 +198,15 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  

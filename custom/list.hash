@@ -4,6 +4,7 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
+--------------------------------  package/usbmount/0001-rules-fix.patch
 659a58bb047b48f06331465ca6128592  linux/Config.in
 f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in

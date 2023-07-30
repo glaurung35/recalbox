@@ -316,7 +316,7 @@ void SystemManager::PopulatePortsSystem(SystemData* systemPorts)
     // Lookup all non-empty arcade platforms
     List ports;
     FileData::StringMap doppelganger;
-    for (SystemData* system : mVisibleSystems)
+    for (SystemData* system : mAllSystems)
       if (system->Descriptor().IsPort() && system->HasGame())
       {
         ports.Add(system);
@@ -371,19 +371,24 @@ void SystemManager::PopulateMultiPlayerSystem(SystemData* systemMultiPlayer)
 
 void SystemManager::PopulateAllGamesSystem(SystemData* systemAllGames)
 {
-  FileData::StringMap doppelganger;
-  for (SystemData* system : mVisibleSystems)
-    system->BuildDoppelgangerMap(doppelganger, false);
-
   if (RecalboxConf::Instance().GetCollectionAllGames())
-    PopulateVirtualSystemWithSystem(systemAllGames, mVisibleSystems, doppelganger, true);
+  {
+    FileData::StringMap doppelganger;
+    for (SystemData* system: mAllSystems)
+      if (!system->IsVirtual())
+        system->BuildDoppelgangerMap(doppelganger, false);
+
+    PopulateVirtualSystemWithSystem(systemAllGames, mAllSystems, doppelganger, true);
+  }
 }
 
 void SystemManager::PopulateLightgunSystem(SystemData* systemLightGun)
 {
-  LightGunDatabase database;
-  if (RecalboxConf::Instance().GetCollectionLightGun())
+  if (RecalboxConf::Instance().GetCollectionAllGames())
+  {
+    LightGunDatabase database;
     PopulateMetaSystemWithFilter(systemLightGun, &database, nullptr);
+  }
 }
 
 void SystemManager::PopulateTateSystem(SystemData* systemTate)
@@ -411,7 +416,7 @@ void SystemManager::PopulateArcadeSystem(SystemData* systemArcade)
     List candidates;
     FileData::StringMap doppelganger;
     bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
-    for (SystemData* arcade: mVisibleSystems)
+    for (SystemData* arcade: mAllSystems)
       if (arcade->Descriptor().IsTrueArcade() || (includeNeogeo && arcade->Descriptor().Name() == "neogeo"))
       {
         candidates.Add(arcade);
@@ -573,7 +578,7 @@ void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* fi
   // Filter and insert items
   FileData::List allGames;
   FileData::StringMap doppelganger;
-  for (SystemData* regular : mVisibleSystems)
+  for (SystemData* regular : mAllSystems)
     if (!regular->IsVirtual())
     {
       for (const RootFolderData* root : regular->MasterRoot().SubRoots())
@@ -603,15 +608,13 @@ void SystemManager::PopulateVirtualSystemWithSystem(SystemData* system, const Li
 {
   RootFolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
   for(SystemData* source : systems)
-  {
-    FileData::List all = includesubfolder ? source->getAllGames() : source->getTopGamesAndFolders();
-    if (!all.empty())
-    {
-      { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << system->FullName(); }
-      for (auto* fd : all)
-        system->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
-    }
-  }
+    if (!source->IsVirtual())
+      if (FileData::List all = includesubfolder ? source->getAllGames() : source->getTopGamesAndFolders(); !all.empty())
+      {
+        { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << system->FullName(); }
+        for (auto* fd : all)
+          system->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
+      }
 }
 
 void SystemManager::PopulateVirtualSystemWithGames(SystemData* system, const FileData::List& games, FileData::StringMap& doppelganger)

@@ -62,7 +62,7 @@ LIBRETRO_MAME_OPTS += RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)"
 define LIBRETRO_MAME_BUILD_CMDS
 	mkdir -p $(@D)/build/gmake/libretro/obj/x64/libretro/src/osd/retro
 	mkdir -p $(@D)/3rdparty/genie/build/gmake.linux/obj/Release/src/host
-	$(MAKE) -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
+	$(MAKE) -j1 -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
 endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS

@@ -10,6 +10,7 @@
 --------------------------------  package/llvm/0002-Add-missing-cstdint-header-to-Signals.h.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch
+--------------------------------  package/usbmount/0001-rules-fix.patch
 659a58bb047b48f06331465ca6128592  linux/Config.in
 f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in

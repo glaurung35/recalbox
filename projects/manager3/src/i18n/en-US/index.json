@@ -837,10 +837,6 @@
           "label": "Enables \"Arcade\" meta system",
           "help": "Activate the Arcade metasystem to group all games from piFBA, FBN (libretro), MAME and optionally Neogeo into a single \"Arcade\" system."
         },
-        "position": {
-          "label": "\"Arcade\" system position",
-          "help": "You may want to specify its position in the system list. Default position is 0, negatives values may be used to start from the end."
-        },
         "includeNeogeo": {
           "label": "Include Neogeo",
           "help": "Include NeoGeo or not in the meta system \"Arcade\"."

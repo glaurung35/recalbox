@@ -88,10 +88,6 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'virtualarcade.position': z.object({
-    exist: z.boolean(),
-    value: z.number(),
-  }),
   'virtualarcade.includeneogeo': z.object({
     exist: z.boolean(),
     value: z.boolean(),
@@ -246,11 +242,6 @@ export const EmulationStationConfigOptionsSchema = z.object({
   virtualarcade: z.object({
     type: z.string(),
     value: z.boolean(),
-  }),
-  'virtualarcade.position': z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
   }),
   'virtualarcade.includeneogeo': z.object({
     type: z.string(),

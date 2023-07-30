@@ -12,9 +12,6 @@ USBMOUNT_LICENSE = BSD-2-Clause
 USBMOUNT_LICENSE_FILES = debian/copyright
 
 define USBMOUNT_INSTALL_TARGET_CMDS
-	$(SED) 's|^FILESYSTEMS=.*|FILESYSTEMS="vfat ext2 ext3 ext4 hfsplus ntfs exfat"|g' $(@D)/usbmount.conf
-	$(SED) 's|/media/usb|/recalbox/share/externals/usb|g' $(@D)/usbmount.conf
-	$(SED) 's|/usr/share/usbmount/usbmount|/recalbox/scripts/recalbox-usbmount.sh|g' $(@D)/usbmount.rules
 	$(INSTALL) -m 0755 -D $(@D)/usbmount $(TARGET_DIR)/usr/share/usbmount/usbmount
 
 	$(INSTALL) -m 0755 -D $(@D)/00_create_model_symlink \

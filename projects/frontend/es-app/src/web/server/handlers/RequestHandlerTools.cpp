@@ -406,7 +406,6 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "videosnaps.delay"           , Validator(0, 15000) },
          { "videosnaps.loop"            , Validator(0, 300) },
          { "virtualarcade"              , Validator(true) },
-         { "virtualarcade.position"     , Validator(-200, 200) },
          { "virtualarcade.includeneogeo", Validator(true) },
          { "virtualarcade.hideoriginals", Validator(true) },
          { "collection.ports.hide"      , Validator(true) },

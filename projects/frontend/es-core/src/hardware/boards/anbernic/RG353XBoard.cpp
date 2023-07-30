@@ -86,12 +86,14 @@ bool RG353XBoard::IsBatteryCharging()
 
 void RG353XBoard::HeadphonePlugged()
 {
-  (void)system("amixer sset 'Playback Path' HP");
+  if (system("amixer sset 'Playback Path' HP") != 0)
+  { LOG(LogError) << "[RG353XBoard] Error setting headphone on!"; }
 }
 
 void RG353XBoard::HeadphoneUnplugged()
 {
-  (void)system("amixer sset 'Playback Path' SPK");
+  if (system("amixer sset 'Playback Path' SPK") != 0)
+  { LOG(LogError) << "[RG353XBoard] Error setting headphone off!"; }
 }
 
 void RG353XBoard::SetFrontendCPUGovernor()

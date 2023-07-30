@@ -831,7 +831,7 @@
           "help": "Cette option vous permet d'activer ou de désactiver la possibilité de faire 2 fois la combinaison de touches Hotkey + Start pour quitter le jeu en cours."
         }
       },
-      "arcade": {
+      "virtualarcade": {
         "title": "Arcade",
         "activate": {
           "label": "Activer le meta système \"Arcade\"",

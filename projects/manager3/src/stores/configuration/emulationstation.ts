@@ -27,7 +27,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         lowerValue: 0,
         higherValue: 30,
       },
-      'arcade.position': {
+      'virtualarcade.position': {
         lowerValue: -200,
         higherValue: 200,
       },
@@ -62,7 +62,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     screensaverTimeOptions: (state) => state._emulationstationOptions['screensaver.time'],
     screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList,
     themeFolderOptions: (state) => state._emulationstationOptions['theme.folder'].allowedStringList,
-    arcadePositionOptions: (state) => state._emulationstationOptions['arcade.position'],
+    virtualarcadePositionOptions: (state) => state._emulationstationOptions['virtualarcade.position'],
     systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
     themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList,
     brightnessOptions: (state) => state._emulationstationOptions.brightness,

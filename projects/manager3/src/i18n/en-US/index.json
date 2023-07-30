@@ -831,7 +831,7 @@
           "help": "This option allows you to enable or disable the possibility to press twice Hotkey + Start to quit a game."
         }
       },
-      "arcade": {
+      "virtualarcade": {
         "title": "Arcade",
         "activate": {
           "label": "Enables \"Arcade\" meta system",

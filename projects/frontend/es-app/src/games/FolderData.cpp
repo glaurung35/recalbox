@@ -534,7 +534,6 @@ bool FolderData::HasVisibleGameWithVideo(TopLevelFilter filter) const
 
 bool FolderData::HasFilteredItemsRecursively(IFilter* filter) const
 {
-  int result = 0;
   for (FileData* fd : mChildren)
   {
     if (fd->IsFolder())

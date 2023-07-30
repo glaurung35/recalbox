@@ -176,54 +176,54 @@
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.global.arcade.title">
+      <FormFragmentContainer title="emulation.global.virtualarcade.title">
         <template v-slot:content>
           <WrappedToggle
-            label="emulation.global.arcade.activate.label"
-            :getter="emulationstation.arcade"
+            label="emulation.global.virtualarcade.activate.label"
+            :getter="emulationstation.virtualarcade"
             :setter="emulationstationStore.post"
-            apiKey="arcade"
-            v-if="emulationstation.arcade"
+            apiKey="virtualarcade"
+            v-if="emulationstation.virtualarcade"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.activate.help') }}
+              {{ $t('emulation.global.virtualarcade.activate.help') }}
             </template>
           </WrappedToggle>
           <WrappedTextInput
-            label="emulation.global.arcade.position.label"
-            :getter="emulationstation['arcade.position']"
+            label="emulation.global.virtualarcade.position.label"
+            :getter="emulationstation['virtualarcade.position']"
             :setter="emulationstationStore.post"
-            apiKey="arcade.position"
-            v-if="emulationstation['arcade.position']"
+            apiKey="virtualarcade.position"
+            v-if="emulationstation['virtualarcade.position']"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.position.help') }}
+              {{ $t('emulation.global.virtualarcade.position.help') }}
             </template>
           </WrappedTextInput>
           <WrappedToggle
-            label="emulation.global.arcade.includeNeogeo.label"
-            :getter="emulationstation['arcade.includeneogeo']"
+            label="emulation.global.virtualarcade.includeNeogeo.label"
+            :getter="emulationstation['virtualarcade.includeneogeo']"
             :setter="emulationstationStore.post"
-            apiKey="arcade.includeneogeo"
-            v-if="emulationstation['arcade.includeneogeo']"
+            apiKey="virtualarcade.includeneogeo"
+            v-if="emulationstation['virtualarcade.includeneogeo']"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.includeNeogeo.help') }}
+              {{ $t('emulation.global.virtualarcade.includeNeogeo.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
-            label="emulation.global.arcade.hideOriginals.label"
-            :getter="emulationstation['arcade.hideoriginals']"
+            label="emulation.global.virtualarcade.hideOriginals.label"
+            :getter="emulationstation['virtualarcade.hideoriginals']"
             :setter="emulationstationStore.post"
-            apiKey="arcade.hideoriginals"
-            v-if="emulationstation['arcade.hideoriginals']"
+            apiKey="virtualarcade.hideoriginals"
+            v-if="emulationstation['virtualarcade.hideoriginals']"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.hideOriginals.help') }}
+              {{ $t('emulation.global.virtualarcade.hideOriginals.help') }}
             </template>
           </WrappedToggle>
         </template>

@@ -1,0 +1,52 @@
+From f3602f2b0a90ae60af2c534b1ad1046eac410aca Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Sun, 30 Jul 2023 23:15:25 +0200
+Subject: [PATCH] use recalbox dir and add mmc support
+
+---
+ usbmount.conf  |  6 +++---
+ usbmount.rules | 12 +++++++-----
+ 2 files changed, 10 insertions(+), 8 deletions(-)
+
+diff --git a/usbmount.conf b/usbmount.conf
+index 97f7ccc..1a89eed 100644
+--- a/usbmount.conf
++++ b/usbmount.conf
+@@ -9,12 +9,12 @@ ENABLED=1
+ # removable storage devices.  A newly plugged in device is mounted on
+ # the first directory in this list that exists and on which nothing is
+ # mounted yet.
+-MOUNTPOINTS="/media/usb0 /media/usb1 /media/usb2 /media/usb3
+-             /media/usb4 /media/usb5 /media/usb6 /media/usb7"
++MOUNTPOINTS="/recalbox/share/externals/usb0 /recalbox/share/externals/usb1 /recalbox/share/externals/usb2 /recalbox/share/externals/usb3
++             /recalbox/share/externals/usb4 /recalbox/share/externals/usb5 /recalbox/share/externals/usb6 /recalbox/share/externals/usb7"
+ 
+ # Filesystem types: removable storage devices are only mounted if they
+ # contain a filesystem type which is in this list.
+-FILESYSTEMS="vfat ext2 ext3 ext4 hfsplus"
++FILESYSTEMS="vfat ext2 ext3 ext4 hfsplus ntfs exfat"
+ 
+ #############################################################################
+ # WARNING!                                                                  #
+diff --git a/usbmount.rules b/usbmount.rules
+index 38afed7..02b9882 100644
+--- a/usbmount.rules
++++ b/usbmount.rules
+@@ -1,7 +1,9 @@
+ # Rules for USBmount -*- conf -*-
+ 
+-KERNEL=="sd*", DRIVERS=="sbp2",		ACTION=="add",	RUN+="/usr/share/usbmount/usbmount add"
+-KERNEL=="sd*", SUBSYSTEMS=="usb",	ACTION=="add",	RUN+="/usr/share/usbmount/usbmount add"
+-KERNEL=="ub*", SUBSYSTEMS=="usb",	ACTION=="add",	RUN+="/usr/share/usbmount/usbmount add"
+-KERNEL=="sd*",				ACTION=="remove",	RUN+="/usr/share/usbmount/usbmount remove"
+-KERNEL=="ub*",				ACTION=="remove",	RUN+="/usr/share/usbmount/usbmount remove"
++KERNEL=="sd*", DRIVERS=="sbp2",		ACTION=="add",	RUN+="/recalbox/scripts/recalbox-usbmount.sh add"
++KERNEL=="sd*", SUBSYSTEMS=="usb",	ACTION=="add",	RUN+="/recalbox/scripts/recalbox-usbmount.sh add"
++KERNEL=="ub*", SUBSYSTEMS=="usb",	ACTION=="add",	RUN+="/recalbox/scripts/recalbox-usbmount.sh add"
++KERNEL=="mmcblk*",			ACTION=="add",	RUN+="/recalbox/scripts/recalbox-usbmount.sh add"
++KERNEL=="sd*",				ACTION=="remove",	RUN+="/recalbox/scripts/recalbox-usbmount.sh remove"
++KERNEL=="ub*",				ACTION=="remove",	RUN+="/recalbox/scripts/recalbox-usbmount.sh remove"
++KERNEL=="mmcblk*",			ACTION=="remove",	RUN+="/recalbox/scripts/recalbox-usbmount.sh remove"
+-- 
+2.42.0
+

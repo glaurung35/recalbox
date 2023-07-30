@@ -190,18 +190,6 @@
               {{ $t('emulation.global.virtualarcade.activate.help') }}
             </template>
           </WrappedToggle>
-          <WrappedTextInput
-            label="emulation.global.virtualarcade.position.label"
-            :getter="emulationstation['virtualarcade.position']"
-            :setter="emulationstationStore.post"
-            apiKey="virtualarcade.position"
-            v-if="emulationstation['virtualarcade.position']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('emulation.global.virtualarcade.position.help') }}
-            </template>
-          </WrappedTextInput>
           <WrappedToggle
             label="emulation.global.virtualarcade.includeNeogeo.label"
             :getter="emulationstation['virtualarcade.includeneogeo']"

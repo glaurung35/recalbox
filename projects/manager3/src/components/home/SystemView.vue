@@ -55,7 +55,7 @@
   <div class="informations">
     <q-img
       class="logo"
-      src="http://192.168.1.30:20666/api/systems/atomiswave/resource/eu/svg/logo"
+      :src="logoUrl"
       spinner-color="white"
       alt="Sammy Atomiswave"
       @click="() => $router.push(
@@ -105,6 +105,8 @@ const fakeSystemMeta = [
   { label: 'GPU', value: 'PowerVR 2 (PVR2DC)', icon: 'mdi-expansion-card-variant' },
   { label: 'Sound chip', value: 'Yamaha ARM7 AICA @ 45 MHz (CPU interne 32-bit RISC, 64 canaux ADPCM)', icon: 'mdi-toslink' },
 ];
+
+const logoUrl = `${process.env.API_URL}/systems/atomiswave/resource/eu/svg/logo`;
 </script>
 
 <style lang="sass" scoped>

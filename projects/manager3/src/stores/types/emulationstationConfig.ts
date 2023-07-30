@@ -84,19 +84,19 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  arcade: z.object({
+  virtualarcade: z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'arcade.position': z.object({
+  'virtualarcade.position': z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
-  'arcade.includeneogeo': z.object({
+  'virtualarcade.includeneogeo': z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'arcade.hideoriginals': z.object({
+  'virtualarcade.hideoriginals': z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
@@ -243,20 +243,20 @@ export const EmulationStationConfigOptionsSchema = z.object({
     type: z.string(),
     value: z.boolean(),
   }),
-  arcade: z.object({
+  virtualarcade: z.object({
     type: z.string(),
     value: z.boolean(),
   }),
-  'arcade.position': z.object({
+  'virtualarcade.position': z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),
   }),
-  'arcade.includeneogeo': z.object({
+  'virtualarcade.includeneogeo': z.object({
     type: z.string(),
     value: z.boolean(),
   }),
-  'arcade.hideoriginals': z.object({
+  'virtualarcade.hideoriginals': z.object({
     type: z.string(),
     value: z.boolean(),
   }),

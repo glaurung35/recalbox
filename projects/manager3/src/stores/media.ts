@@ -5,6 +5,7 @@ import { defineStore } from 'pinia';
 import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
 import { MediasList } from 'stores/types/mediasList';
+import { apiUrl } from 'boot/axios';
 
 export type MediaStoreState = {
   _baseUrl: string,
@@ -34,7 +35,7 @@ export const useMediaStore = defineStore('media', {
             name: key,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            url: process.env.API_URL + MEDIA.get + key,
+            url: apiUrl + MEDIA.get + key,
             date: formattedDate,
           });
         }

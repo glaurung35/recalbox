@@ -126,9 +126,10 @@
 import { date } from 'quasar';
 import { ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
+import { apiUrl } from 'boot/axios';
 
 const router = useRouter();
-const logoUrl = `${process.env.API_URL}/systems/${useRoute().params.system}/resource/eu/svg/logo`;
+const logoUrl = `${apiUrl}/systems/${useRoute().params.system}/resource/eu/svg/logo`;
 
 const columns: Array<object> = [
   {

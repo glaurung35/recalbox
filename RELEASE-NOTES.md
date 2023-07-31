@@ -16,11 +16,13 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### Improvements
+- Show a battery indicator in EmulationStation for Piboy DMG and XRS
 
 
 ### Fixes
 - Fix argonone case power management
 - Fix gpu overclock when overclocking on RPi4
+- Fix multi-wifi configuration
 
 
 ## Version 9.1-Pulstar

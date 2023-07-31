@@ -42,6 +42,9 @@ class Case
       None,
     };
 
+    static constexpr const char* sPiboyBatteryCapacityPath = "/sys/kernel/xpi_gamecon/percent";
+    static constexpr const char* sPiboyAmpsPath = "/sys/kernel/xpi_gamecon/amps";
+
     /*!
      * @brief Return the current model enum of this case
      * @return the current model enum of this case

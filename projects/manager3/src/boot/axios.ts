@@ -14,10 +14,14 @@ declare module '@vue/runtime-core' {
 }
 
 let clientApiUrl = process.env.API_URL;
+let clientApi80Url = process.env.API_URL80;
 
 if (process.env.API_URL === '/api') {
   clientApiUrl = `${window.location.protocol}//${window.location.host}:81${process.env.API_URL}`;
+  clientApi80Url = `${window.location.protocol}//${window.location.host}${process.env.API_URL}`;
 }
+
+const apiUrl = clientApiUrl;
 
 // Be careful when using SSR for cross-request state pollution
 // due to creating a Singleton instance here;
@@ -26,6 +30,7 @@ if (process.env.API_URL === '/api') {
 // "export default () => {}" function below (which runs individually
 // for each client)
 const api:AxiosInstance = axios.create({ baseURL: clientApiUrl });
+const api80:AxiosInstance = axios.create({ baseURL: clientApi80Url });
 const httpClient:AxiosInstance = axios.create();
 
 export default boot(({ app }):void => {
@@ -37,6 +42,10 @@ export default boot(({ app }):void => {
 
   app.config.globalProperties.$api = api;
   // ^ ^ ^ this will allow you to use this.$api (for Vue Options API form)
+  //       so you can easily perform requests against your app's API
+
+  app.config.globalProperties.$api80 = api80;
+  // ^ ^ ^ this will allow you to use this.$api80 (for Vue Options API form)
   //       so you can easily perform requests against your app's API
 });
 
@@ -75,19 +84,6 @@ api.interceptors.response.use((response) => {
     icon = 'mdi-folder-multiple-image';
   }
 
-  if (response.config.url === SYSTEM.es.start) {
-    message = i18n.global.t('general.notify.esStart');
-    icon = 'mdi-play';
-  }
-  if (response.config.url === SYSTEM.es.stop) {
-    message = i18n.global.t('general.notify.esStop');
-    icon = 'mdi-stop';
-  }
-  if (response.config.url === SYSTEM.es.restart) {
-    message = i18n.global.t('general.notify.esRestart');
-    icon = 'mdi-restart';
-  }
-
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (response.config.method === 'delete' && response.config.url.includes(MEDIA.delete)) {
@@ -123,4 +119,74 @@ api.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
-export { api, httpClient };
+api80.interceptors.request.use((config) => {
+  // change some state in your store here
+  // Do something before request is sent
+  Loading.show();
+
+  return config;
+}, (error) => {
+  // Do something with request error
+  Notify.create({
+    message: error,
+    type: 'negative',
+    icon: 'mdi-alert-outline',
+  });
+
+  Loading.hide();
+  return Promise.reject(error);
+});
+
+// Add Notify Toasters on current axios requests
+api80.interceptors.response.use((response) => {
+  let message:string = i18n.global.t('general.notify.updateSuccess');
+  let icon = 'mdi-check-bold';
+  Loading.hide();
+
+  if (response.config.url === SYSTEM.es.start) {
+    message = i18n.global.t('general.notify.esStart');
+    icon = 'mdi-play';
+  }
+  if (response.config.url === SYSTEM.es.stop) {
+    message = i18n.global.t('general.notify.esStop');
+    icon = 'mdi-stop';
+  }
+  if (response.config.url === SYSTEM.es.restart) {
+    message = i18n.global.t('general.notify.esRestart');
+    icon = 'mdi-restart';
+  }
+
+  if (response.config.method === 'post' || response.config.method === 'delete') {
+    Notify.create({
+      message,
+      type: 'positive',
+      icon,
+    });
+  }
+
+  return response;
+}, (error) => {
+  let message = error;
+
+  // some network errors can't be detected so...
+  if (!error.status) {
+    message = 'networkError';
+  }
+
+  Loading.hide();
+
+  Notify.create({
+    message: i18n.global.t(`general.notify.${message}`),
+    type: 'negative',
+    icon: 'mdi-check-bold',
+  });
+
+  return Promise.reject(error);
+});
+
+export {
+  api,
+  api80,
+  apiUrl,
+  httpClient,
+};

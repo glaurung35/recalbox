@@ -68,6 +68,7 @@ module.exports = configure((ctx) => ({
     env: ctx.dev
       ? { // so on dev we'll have
         API_URL: 'http://192.168.1.30:81/api',
+        API_URL80: 'http://192.168.1.30/api',
 
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
@@ -84,6 +85,7 @@ module.exports = configure((ctx) => ({
       }
       : { // and on build (production):
         API_URL: '/api',
+        API_URL80: '',
 
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',

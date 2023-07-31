@@ -29,9 +29,9 @@ export const CONFIGURATION = {
 
 export const SYSTEM = {
   es: {
-    start: '/system/es/start',
-    stop: '/system/es/stop',
-    restart: '/system/es/restart',
+    start: '/system/frontend/start',
+    stop: '/system/frontend/stop',
+    restart: '/system/frontend/restart',
   },
   reboot: '/system/reboot',
   shutdown: '/system/shutdown',

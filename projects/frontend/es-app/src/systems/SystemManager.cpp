@@ -384,7 +384,7 @@ void SystemManager::PopulateAllGamesSystem(SystemData* systemAllGames)
 
 void SystemManager::PopulateLightgunSystem(SystemData* systemLightGun)
 {
-  if (RecalboxConf::Instance().GetCollectionAllGames())
+  if (RecalboxConf::Instance().GetCollectionLightGun())
   {
     LightGunDatabase database;
     PopulateMetaSystemWithFilter(systemLightGun, &database, nullptr);

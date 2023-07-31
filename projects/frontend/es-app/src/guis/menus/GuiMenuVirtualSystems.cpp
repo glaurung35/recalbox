@@ -18,8 +18,8 @@ GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window)
   , mAllGamesOriginalValues(RecalboxConf::Instance().GetCollectionAllGames())
   , mMultiplayersOriginalValues(RecalboxConf::Instance().GetCollectionMultiplayer())
   , mLastPlayedOriginalValues(RecalboxConf::Instance().GetCollectionLastPlayed())
-  , mLightGunOriginalValues(!RecalboxConf::Instance().GetCollectionHide("lightgun"))
-  , mPortsOriginalValues(!RecalboxConf::Instance().GetCollectionHide("ports"))
+  , mLightGunOriginalValues(!RecalboxConf::Instance().GetCollectionLightGun())
+  , mPortsOriginalValues(!RecalboxConf::Instance().GetCollectionPorts())
 {
   // All games
   AddSwitch(_("SHOW ALL-GAMES SYSTEM"), mAllGamesOriginalValues, (int)Components::AllGames, this, _(MENUMESSAGE_ADVANCED_ALLGAMES_HELP_MSG));
@@ -45,8 +45,8 @@ GuiMenuVirtualSystems::~GuiMenuVirtualSystems()
 {
   if ((mLastPlayedOriginalValues != RecalboxConf::Instance().GetCollectionLastPlayed()) ||
       (mMultiplayersOriginalValues != RecalboxConf::Instance().GetCollectionMultiplayer()) ||
-      (mLightGunOriginalValues == RecalboxConf::Instance().GetCollectionHide("lightgun")) ||
-      (mPortsOriginalValues == RecalboxConf::Instance().GetCollectionHide("ports")) ||
+      (mLightGunOriginalValues == RecalboxConf::Instance().GetCollectionLightGun()) ||
+      (mPortsOriginalValues == RecalboxConf::Instance().GetCollectionPorts()) ||
       (mAllGamesOriginalValues != RecalboxConf::Instance().GetCollectionAllGames()))
     RequestRelaunch();
 }
@@ -63,8 +63,8 @@ void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
     case Components::AllGames: RecalboxConf::Instance().SetCollectionAllGames(status).Save(); break;
     case Components::Multiplayers: RecalboxConf::Instance().SetCollectionMultiplayer(status).Save(); break;
     case Components::LastPlayed: RecalboxConf::Instance().SetCollectionLastPlayed(status).Save(); break;
-    case Components::LightGun: RecalboxConf::Instance().SetCollectionHide("lightgun", !status).Save(); break;
-    case Components::Ports: RecalboxConf::Instance().SetCollectionHide("ports", !status).Save(); break;
+    case Components::LightGun: RecalboxConf::Instance().SetCollectionLightGun(status).Save(); break;
+    case Components::Ports: RecalboxConf::Instance().SetCollectionPorts(status).Save(); break;
     case Components::VirtualPerGenre: break;
   }
 }

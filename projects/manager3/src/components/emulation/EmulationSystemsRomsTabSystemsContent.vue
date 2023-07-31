@@ -81,12 +81,13 @@
 import { useSystemsStore } from 'stores/systems';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
+import { apiUrl } from 'boot/axios';
 
 const systemsStore = useSystemsStore();
 systemsStore.fetch();
 const { systemsList } = storeToRefs(systemsStore);
 
-const api:string|undefined = process.env.API_URL;
+const api:string|undefined = apiUrl;
 const columns = computed<object[]>(() => [
   {
     name: 'desc',

@@ -38,7 +38,7 @@ public:
   /*!
    * @brief Has Battery?
    */
-  bool HasBattery() final { return false; }
+  bool HasBattery() final;
 
   /*!
    * @brief Has CPU governance? (and is it worth the use)
@@ -91,13 +91,13 @@ public:
    * @brief Get battery charge in percent
    * @return Battery charge (-1 = no battery)
    */
-  int BatteryChargePercent() final { return -1; }
+  int BatteryChargePercent() final;
 
   /*!
    * @brief Check if the battery is charging
    * @return True = charging, False = discharging or no battery
    */
-  bool IsBatteryCharging() final { return false; }
+  bool IsBatteryCharging() final;
 
   /*!
    * @brief Process special input if any

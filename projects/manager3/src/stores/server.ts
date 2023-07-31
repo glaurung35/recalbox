@@ -18,7 +18,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        await this._apiProvider.post(SYSTEM.reboot);
+        await this._api80Provider.post(SYSTEM.reboot);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -28,7 +28,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        await this._apiProvider.post(SYSTEM.shutdown);
+        await this._api80Provider.post(SYSTEM.shutdown);
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);
@@ -39,7 +39,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        await this._apiProvider.post(SYSTEM.es.start);
+        await this._api80Provider.post(SYSTEM.es.start);
         this.available = true;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -50,7 +50,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        await this._apiProvider.post(SYSTEM.es.stop);
+        await this._api80Provider.post(SYSTEM.es.stop);
         this.available = false;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -61,7 +61,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        await this._apiProvider.post(SYSTEM.es.restart);
+        await this._api80Provider.post(SYSTEM.es.restart);
         this.available = true;
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -72,7 +72,7 @@ export const useServerStore = defineStore('server', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const response = await this._apiProvider.get(SYSTEM.supportArchive);
+        const response = await this._api80Provider.get(SYSTEM.supportArchive);
         this.available = true;
       } catch (error) {
         console.log(error);

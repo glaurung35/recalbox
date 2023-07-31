@@ -92,6 +92,7 @@
 
 <script lang="ts" setup>
 import { useServerStore } from 'stores/server';
+import { apiUrl } from 'boot/axios';
 
 const serverStore = useServerStore();
 
@@ -106,7 +107,7 @@ const fakeSystemMeta = [
   { label: 'Sound chip', value: 'Yamaha ARM7 AICA @ 45 MHz (CPU interne 32-bit RISC, 64 canaux ADPCM)', icon: 'mdi-toslink' },
 ];
 
-const logoUrl = `${process.env.API_URL}/systems/atomiswave/resource/eu/svg/logo`;
+const logoUrl = `${apiUrl}/systems/atomiswave/resource/eu/svg/logo`;
 </script>
 
 <style lang="sass" scoped>

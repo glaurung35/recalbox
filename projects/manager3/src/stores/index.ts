@@ -8,6 +8,7 @@ import FetchStorePlugin from 'stores/plugins/fetchStorePlugin';
 import FetchOptionsStorePlugin from 'stores/plugins/fetchOptionsStorePlugin';
 import PostStorePlugin from 'stores/plugins/postStorePlugin';
 import ApiProviderStorePlugin from 'stores/plugins/apiProviderStorePlugin';
+import Api80ProviderStorePlugin from 'stores/plugins/api80ProviderStorePlugin';
 import HttpClientProviderStorePlugin from 'stores/plugins/httpClientProviderStorePlugin';
 
 /*
@@ -36,6 +37,9 @@ export default store((/* { ssrContext } */) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pinia.use(ApiProviderStorePlugin);
+  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+  // @ts-ignore
+  pinia.use(Api80ProviderStorePlugin);
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   pinia.use(HttpClientProviderStorePlugin);

@@ -45,6 +45,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Bumps
 - Bump libretro-picodrive
 - Bump libretro-bluemsx
+- Bump libretro-bk
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

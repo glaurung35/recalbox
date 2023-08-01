@@ -49,6 +49,7 @@ as release notes for end user on a Recalbox upgrade.
   - Compatible with SG-1000 games
 - Bump libretro-bk
 - Bump libretro-atari800
+- Bump libretro-a5200
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

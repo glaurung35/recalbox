@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_ATARI800_VERSION = 94033288b026fe699bc50703609807aa8075f4dd
+# Commit of 2023/07/31
+LIBRETRO_ATARI800_VERSION = 20d59afb3f19065749549732f20845c3be82e68c
 LIBRETRO_ATARI800_SITE = $(call github,libretro,libretro-atari800,$(LIBRETRO_ATARI800_VERSION))
 LIBRETRO_ATARI800_LICENSE = GPL
 
@@ -19,6 +20,8 @@ endef
 define LIBRETRO_ATARI800_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/atari800_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/atari800_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari800
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari5200
 endef
 
 $(eval $(generic-package))

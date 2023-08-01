@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-picodrive
 - Bump libretro-bluemsx
 
+- Bump libretro-bk
 
 ### Improvements
 

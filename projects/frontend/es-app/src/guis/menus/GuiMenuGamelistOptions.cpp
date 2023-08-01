@@ -299,7 +299,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     }
     case Components::ArcadeOptions:
     {
-      mWindow.pushGui(new GuiMenuArcade(mWindow, mArcade));
+      mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, mArcade));
       break;
     }
     case Components::JumpToLetter:

@@ -36,7 +36,7 @@
     <bios path="atari/ATARIXL.ROM"  md5="06daac977823773a3eea3422fd26a703" core="atari800" />
   </system>
   <system fullname="Atari 5200" platform="atari5200">
-    <bios path="5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="atari800" />
+    <bios path="atari/5200.rom" md5="281f20ea4320404ec820fb7ec0693b38" core="a5200,atari800" />
   </system>
   <system fullname="Atari 7800" platform="atari7800">
     <bios path="7800 BIOS (U).rom" md5="0763f1ffb006ddbe32e52d497ee848ae" mandatory="false" core="prosystem" note="RUN ONLY US GAMES! Display official Atari logo." />

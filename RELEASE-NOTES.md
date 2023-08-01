@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-bluemsx
 
 - Bump libretro-bk
+- Bump libretro-atari800
 
 ### Improvements
 

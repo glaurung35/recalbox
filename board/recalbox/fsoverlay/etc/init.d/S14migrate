@@ -85,6 +85,17 @@ function runMigrations {
             migrationDone "${SHARE_TYPE}" "9.1-model3-save"
         fi
     fi
+    if shouldMigrate "${SHARE_TYPE}" "9.2-move-bios"; then
+        # Move bios into specific directories
+        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running migration 9.2-move-bios"
+        # lr-atari800 bios
+        mv "/recalbox/share/bios/5200.ROM" "/recalbox/share/bios/atari"
+        mv "/recalbox/share/bios/ATARIBAS.ROM" "/recalbox/share/bios/atari"
+        mv "/recalbox/share/bios/ATARIOSA.ROM" "/recalbox/share/bios/atari"
+        mv "/recalbox/share/bios/ATARIOSB.ROM" "/recalbox/share/bios/atari"
+        mv "/recalbox/share/bios/ATARIXL.ROM" "/recalbox/share/bios/atari"
+        migrationDone "${SHARE_TYPE}" "9.2-share-bios"
+    fi
 }
 
 runMigrations

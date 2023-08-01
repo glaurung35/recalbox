@@ -1,0 +1,10 @@
+--- a/libretro/libretro-core.c	2023-08-04 13:40:00.000000000 +0200
++++ b/libretro/libretro-core.c	2023-08-05 00:58:03.000000000 +0200
+@@ -1014,6 +1014,7 @@
+     if (environ_cb(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &system_dir) && system_dir)
+     {
+         // if defined, use the system directory
++        strcat(system_dir, "atari/");
+         retro_system_directory = system_dir;
+     }
+ 

@@ -23,6 +23,11 @@ class SystemManager : private INoCopy // No copy allowed
     //! Convenient alias for System list
     typedef Array<SystemData*> List;
 
+    //! Arcade manufacturer virtual system's name prefix
+    static constexpr const char* sArcadeManufacturerPrefix = "arcade-manufacturer-";
+    //! Genre virtual system's name prefix
+    static constexpr const char* sGenrePrefix = "genre-";
+
     //! Favorite system internal name
     static constexpr const char* sFavoriteSystemShortName = "favorites";
     //! Multiplayer system internal name
@@ -224,11 +229,6 @@ class SystemManager : private INoCopy // No copy allowed
      * @return New Arcade Manufacturers system
      */
     SystemData* CreateArcadeManufacturersSystem(const String& manufacturer);
-
-    /*!
-     * @brief Manager hiden/shown arcade system, regarding arcade virtual system configuration
-     */
-    void ManageArcadeVirtualSystem();
 
     /*!
      * @brief Manager hiden ports' sub-systems
@@ -544,6 +544,20 @@ class SystemManager : private INoCopy // No copy allowed
     SystemData* VirtualSystemByType(VirtualSystemType type);
 
     /*!
+     * @brief Lookup arcade manufacturer virtual system by name
+     * @param name Short name w/o prefix
+     * @return System reference - never null
+     */
+    SystemData* VirtualArcadeManufacturerSystemByName(const String& name);
+
+    /*!
+     * @brief Lookup genre virtual system by genre enumeration
+     * * @param genre Genre type
+     * @return System reference - never null
+     */
+    SystemData* VirtualGenreSystemByGenre(GameGenres genre);
+
+    /*!
      * @brief Get the first non-empty system
      * @return First non empty system or null if all systems are empty
      */
@@ -706,4 +720,76 @@ class SystemManager : private INoCopy // No copy allowed
      * All systems must check if they are becoming visible or invisible or just updated
      */
     void UpdatedTopLevelFilter();
+
+    /*!
+     * @brief Show or Hide the given system.Initialize the given system ir required, then make is visible!
+     * This method is a high level method that make the move in/out the Visible list, initialize the system if required
+     * and call the SystemNotifier
+     * @param system System to change visibility
+     * @param show Tru to show the system, false to hide
+     */
+    void UpdateSystemsVisibility(SystemData* system, bool show);
+
+    /*!
+     * @brief Show or Hide the given virtual system. Initialize the given system ir required, then make is visible!
+     * This method is a high level method that make the move in/out the Visible list, initialize the system if required
+     * and call the SystemNotifier
+     * @param type Virtual system to change visibility
+     * @param show Tru to show the system, false to hide
+     */
+    void UpdateVirtualSystemsVisibility(VirtualSystemType type, bool show)
+    {
+      UpdateSystemsVisibility(VirtualSystemByType(type), show);
+    }
+
+    /*!
+     * @brief Show or Hide the given arcade manufacturer virtual system. Initialize the given system ir required, then make is visible!
+     * This method is a high level method that make the move in/out the Visible list, initialize the system if required
+     * and call the SystemNotifier
+     * @param name arcade manufacturer virtual system name to change visibility
+     * @param show Tru to show the system, false to hide
+     */
+    void UpdateVirtualArcadeManufacturerSystemsVisibility(const String& name, bool show)
+    {
+      UpdateSystemsVisibility(VirtualArcadeManufacturerSystemByName(name), show);
+    }
+
+    /*!
+     * @brief Show or Hide the given genre virtual system. Initialize the given system ir required, then make is visible!
+     * This method is a high level method that make the move in/out the Visible list, initialize the system if required
+     * and call the SystemNotifier
+     * @param genre Virtual genre system to change visibility
+     * @param show Tru to show the system, false to hide
+     */
+    void UpdateVirtualGenreSystemsVisibility(GameGenres genre, bool show)
+    {
+      UpdateSystemsVisibility(VirtualGenreSystemByGenre(genre), show);
+    }
+
+    /*!
+     * @brief Manager hiden/shown arcade system, regarding arcade virtual system configuration
+     * @param startup If true, the method make required system visible/invisible without calling
+     * the SystemInterfaceNotifier on added/removed systems from the visible list
+     */
+    void ManageArcadeVirtualSystem(bool startup = false);
+
+    /*!
+     * @brief Get system name from the given arcade manufacturer name
+     * @param manufacturer Manufacturer name
+     * @return System name
+     */
+    static String BuildArcadeManufacturerSystemName(const String& manufacturer)
+    {
+      return String(sArcadeManufacturerPrefix).Append(manufacturer).Replace('/', '-');
+    }
+
+    /*!
+     * @brief Get system name from the given genre
+     * @param genre Game genre
+     * @return System name
+     */
+    static String BuildGenreSystemName(GameGenres genre)
+    {
+      return String(sGenrePrefix).Append(Genres::GetShortName(genre));
+    }
 };

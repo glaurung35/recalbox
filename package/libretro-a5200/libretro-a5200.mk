@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_A5200_VERSION = 599a2e53feaf47c920bbb0f1f419cf54af570d58
+# Commit of 2023/08/18
+LIBRETRO_A5200_VERSION = 0942c88d64cad6853b539f51b39060a9de0cbcab
 LIBRETRO_A5200_SITE = $(call github,libretro,a5200,$(LIBRETRO_A5200_VERSION))
 LIBRETRO_A5200_LICENSE = GPL
 
@@ -19,6 +20,7 @@ endef
 define LIBRETRO_A5200_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/a5200_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/a5200_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/atari5200
 endef
 
 $(eval $(generic-package))

@@ -8,8 +8,9 @@
 #include <guis/MenuMessages.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 
-GuiMenuArcade::GuiMenuArcade(WindowManager& window, IArcadeGamelistInterface* arcadeInterface)
+GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
   :	GuiMenuBase(window, _("ARCADE VIEW OPTIONS"), this)
+  , mSystemManager(systemManager)
   , mArcade(arcadeInterface)
 {
   AddSwitch(_("ENABLE ENHANCED VIEW"), RecalboxConf::Instance().GetArcadeViewEnhanced(), (int)Components::EnhancedView, this, _(MENUMESSAGE_UI_ARCADE_ENHANCED_MSG));
@@ -67,8 +68,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuArcade::GetManufacturersVirtu
 
   for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
   {
-    String identifier(rawIdentifier);
-    identifier.Replace('/', '-');
+    String identifier(SystemManager::sArcadeManufacturerPrefix);
+    identifier.Append(rawIdentifier).Replace('/', '-');
+    mManufacturersIdentifiers.push_back(identifier);
     result.push_back({ ArcadeVirtualSystems::GetRealName(rawIdentifier), identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
   }
   return result;
@@ -77,7 +79,13 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuArcade::GetManufacturersVirtu
 void GuiMenuArcade::OptionListMultiComponentChanged(int id, const String::List& value)
 {
   if ((Components)id == Components::ManufacturersVirtual)
+  {
+    // Save
     RecalboxConf::Instance().SetCollectionArcadeManufacturers(value).Save();
+    // Refresh all systems
+    for(const String& manufacturer : mManufacturersIdentifiers)
+      mSystemManager.UpdateVirtualArcadeManufacturerSystemsVisibility(manufacturer, RecalboxConf::Instance().IsInCollectionArcadeManufacturers(manufacturer));
+  }
 }
 
 void GuiMenuArcade::OptionListMultiComponentChanged(int id, const std::vector<int>& value)
@@ -114,5 +122,5 @@ String GuiMenuArcade::FormatManufacturer(const ArcadeDatabase::Driver& driver)
 void GuiMenuArcade::SubMenuSelected(int id)
 {
   if ((Components)id == Components::GlobalArcadeSystem)
-    mWindow.pushGui(new GuiMenuArcadeAllInOneSystem(mWindow));
+    mWindow.pushGui(new GuiMenuArcadeAllInOneSystem(mWindow, mSystemManager));
 }

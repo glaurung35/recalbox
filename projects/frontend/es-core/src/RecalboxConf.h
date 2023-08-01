@@ -268,6 +268,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionLightGun, bool, Bool, sCollectionLightGun, false)
     DefineGetterSetter(CollectionPorts, bool, Bool, sCollectionPorts, true)
     DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
+    DefineListGetterSetter(CollectionGenre, sCollectionGenre, "")
     DefineGetterSetter(TateGameRotation, int, Int, sTateGameRotation, 0)
     DefineGetterSetter(TateOnly, bool, Bool, sTateOnly, false)
 
@@ -322,38 +323,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #undef DefineListGetterSetter
     #undef DefineGetterSetterParameterized
 
-    /*
-     * Direct Implementations - Collections
-     */
-
-    [[nodiscard]] bool GetCollection(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name), false); }
-    RecalboxConf& SetCollection(const String& name, bool on) { SetBool(String(sCollectionHeader).Append('.').Append(name), on); return *this; }
-
-    [[nodiscard]] String GetCollectionTheme(const String& name) const { return AsString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-").Append(name)); }
-    RecalboxConf& SetCollectionTheme(const String& name, const String& value) { SetString(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
-
-    [[nodiscard]] int GetCollectionLimit(const String& name) const { return AsInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), 0); }
-    RecalboxConf& SetCollectionLimit(const String& name, int limit) { SetInt(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionLimit), limit); return *this; }
-
-    [[nodiscard]] bool GetCollectionHide(const String& name) const { return AsBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), false); }
-    RecalboxConf& SetCollectionHide(const String& name, bool hide) { SetBool(String(sCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionHide), hide); return *this; }
-
-    /*
-     * Direct Implementations - Arcade collections
-     */
-    /*
-    [[nodiscard]] bool GetArcadeCollection(const String& name) const { return AsBool(String(sArcadeCollectionHeader).Append('.').Append(name), false); }
-    RecalboxConf& SetArcadeCollection(const String& name, bool on) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name), on); return *this; }
-
-    [[nodiscard]] String GetArcadeCollectionTheme(const String& name) const { return AsString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), String("auto-arcade-").Append(name)); }
-    RecalboxConf& SetArcadeCollectionTheme(const String& name, const String& value) { SetString(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionTheme), value); return *this; }
-
-    [[nodiscard]] int GetArcadeCollectionPosition(const String& name) const { return AsInt(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), 0); }
-    RecalboxConf& SetArcadeCollectionPosition(const String& name, int position) { SetInt(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionPosition), position); return *this; }
-
-    [[nodiscard]] bool GetArcadeCollectionShow(const String& name) const { return AsBool(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionShow), false); }
-    RecalboxConf& SetArcadeCollectionShow(const String& name, bool Show) { SetBool(String(sArcadeCollectionHeader).Append('.').Append(name).Append('.').Append(sCollectionShow), Show); return *this; }
-    */
     /*
      * Direct Implementations - Pads
      */
@@ -533,6 +502,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionLightGun         = "emulationstation.collection.lightgun";
     static constexpr const char* sCollectionPorts            = "emulationstation.collection.ports";
     static constexpr const char* sCollectionTate             = "emulationstation.collection.tate";
+    static constexpr const char* sCollectionGenre            = "emulationstation.collection.genre";
     static constexpr const char* sTateGameRotation           = "tate.gamerotation";
     static constexpr const char* sTateOnly                   = "emulationstation.tateonly";
 

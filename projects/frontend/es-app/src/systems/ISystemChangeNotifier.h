@@ -21,4 +21,7 @@ class ISystemChangeNotifier
 
     //! System must be updated (games have been updated inside)
     virtual void UpdateSystem(SystemData* system) = 0;
+
+    //! Move to selected system if possible
+    virtual void SelectSystem(SystemData* system) = 0;
 };

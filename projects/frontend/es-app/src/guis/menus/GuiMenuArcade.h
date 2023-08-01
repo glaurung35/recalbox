@@ -19,7 +19,7 @@ class GuiMenuArcade : public GuiMenuBase
     /*!
      * @brief Constructor
      */
-    explicit GuiMenuArcade(WindowManager& window, IArcadeGamelistInterface* arcadeInterface);
+    explicit GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface);
 
     //! Destructor
     ~GuiMenuArcade() override;
@@ -37,11 +37,17 @@ class GuiMenuArcade : public GuiMenuBase
       GlobalArcadeSystem,
     };
 
+    //! System manager reference
+    SystemManager& mSystemManager;
+
     // IArcadeGamelistInterface for gamelist options
     IArcadeGamelistInterface* mArcade;
 
+    // Manufacturer virtual system cached initial list
+    String::List mManufacturersIdentifiers;
+
     //! Get virtual manufacturer/system entries
-    static std::vector<GuiMenuBase::ListEntry<String>> GetManufacturersVirtualEntries();
+    std::vector<GuiMenuBase::ListEntry<String>> GetManufacturersVirtualEntries();
 
     //! Get filter by manufacturer/system entries
     std::vector<GuiMenuBase::ListEntry<int>> GetManufacturerFilterEntries();

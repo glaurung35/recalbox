@@ -255,7 +255,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
   {
     case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
     case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
-    case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow)); break;
+    case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;

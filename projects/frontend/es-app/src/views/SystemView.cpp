@@ -155,10 +155,14 @@ void SystemView::addSystem(SystemData * it)
   e.data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
   e.data.backgroundExtras->setExtras(ThemeData::makeExtras((it)->Theme(), "system", mWindow));
 
-
   // sort the extras by z-index
   e.data.backgroundExtras->sortExtrasByZIndex();
 
+  /*int index = 0;
+  for(SystemData* system : mSystemManager.VisibleSystemList())
+    if (index < (int)mEntries.size() && system == mEntries[index].object)
+      index++;
+  this->insert(index, e);*/
   this->add(e);
 }
 
@@ -172,28 +176,19 @@ SystemData* SystemView::Prev()
   return prev;
 }
 
-void SystemView::RemoveCurrentSystem()
-{
-  std::vector<Entry> newEntries;
-    for(auto& systemView : mEntries)
-      if (systemView.object == mCurrentSystem && mCurrentSystem->HasVisibleGame())
-      {
-        newEntries.push_back(systemView);
-        break;
-      }
-  mEntries = newEntries;
-}
-
 void SystemView::Sort()
 {
+  // Make a reference map: system => entry
+  HashMap<const SystemData*, Entry*> map;
+  for(Entry& entry : mEntries) map[entry.object] = &entry;
+
+  // Sort
   std::vector<Entry> newEntries;
-  for(auto* const system : mSystemManager.VisibleSystemList())
-    for(auto& systemView : mEntries)
-      if (systemView.object == system)
-      {
-        newEntries.push_back(systemView);
-        break;
-      }
+  for(const SystemData* system : mSystemManager.VisibleSystemList())
+    if (Entry** entry = map.try_get(system); entry != nullptr)
+      newEntries.push_back(**entry);
+
+  // Set new sorted vector
   mEntries = newEntries;
   goToSystem(mCurrentSystem, false);
 }
@@ -227,6 +222,7 @@ void SystemView::populate()
     if (mProgressInterface != nullptr)
       mProgressInterface->SetProgress(++count);
   }
+  Sort();
 }
 
 void SystemView::goToSystem(SystemData* system, bool animate)
@@ -730,14 +726,21 @@ void SystemView::getCarouselFromTheme(const ThemeElement* elem)
   }
 }
 
+void SystemView::RemoveCurrentSystem()
+{
+  removeSystem(mCurrentSystem);
+}
+
 void SystemView::removeSystem(SystemData * system)
 {
+  SystemData* previousSystem = Prev();
   for(auto it = mEntries.begin(); it != mEntries.end(); ++it)
     if (it->object == system)
     {
       mEntries.erase(it);
       break;
     }
+  goToSystem(system == mCurrentSystem ? previousSystem : mCurrentSystem, true);
 }
 
 /**

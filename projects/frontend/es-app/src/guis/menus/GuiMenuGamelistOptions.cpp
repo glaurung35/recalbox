@@ -316,7 +316,12 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
-    case Components::FavoritesOnly: RecalboxConf::Instance().SetFavoritesOnly(status).Save(); ManageSystems(); break;
+    case Components::FavoritesOnly:
+    {
+      RecalboxConf::Instance().SetFavoritesOnly(status).Save();
+      mSystemManager.UpdatedTopLevelFilter();
+      break;
+    }
     case Components::Download:
     case Components::Regions:
     case Components::Sorts:

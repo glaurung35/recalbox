@@ -92,7 +92,7 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); break;
     case Components::ThemeConfig: mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
     case Components::UpdateGamelist: ReloadGamelists(); break;
-    case Components::Filters: mWindow.pushGui(new GuiMenuGameFilters(mWindow)); break;
+    case Components::Filters: mWindow.pushGui(new GuiMenuGameFilters(mWindow, mSystemManager)); break;
     case Components::Arcade: mWindow.pushGui(new GuiMenuArcadeOptions(mWindow)); break;
     case Components::Brightness:
     case Components::Clock:

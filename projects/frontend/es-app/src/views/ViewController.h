@@ -147,6 +147,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! System must be updated (games have been updated inside)
     void UpdateSystem(SystemData* system) override;
 
+    //! System should be selected
+    void SelectSystem(SystemData* system) override;
+
     /*
      * Component override
      */

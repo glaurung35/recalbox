@@ -14,8 +14,9 @@
 #include "GuiMenu.h"
 #include "guis/GuiMsgBox.h"
 
-GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
+GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemManager& systemManager)
   :	GuiMenuBase(window, _("GAME FILTERS"), nullptr)
+  , mSystemManager(systemManager)
 {
   AddSwitch(_("SHOW ONLY LATEST VERSION") + " (BETA)", RecalboxConf::Instance().GetShowOnlyLatestVersion(), (int)Components::ShowOnlyLatestVersion, this, _(MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG));
 
@@ -30,51 +31,46 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window)
   AddSwitch(_("HIDE NO GAMES"), RecalboxConf::Instance().GetHideNoGames(), (int)Components::NoGames, this, _(MENUMESSAGE_UI_HIDE_NO_GAMES_MSG));
 }
 
-GuiMenuGameFilters::~GuiMenuGameFilters()
-{
-  if(!ViewController::Instance().CheckFilters())
-   ManageSystems();
-}
-
 void GuiMenuGameFilters::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
     case Components::ShowOnlyLatestVersion:
+    {
       RecalboxConf::Instance().SetShowOnlyLatestVersion(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
     case Components::FavoritesOnly:
+    {
       RecalboxConf::Instance().SetFavoritesOnly(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
     case Components::ShowHidden:
+    {
       RecalboxConf::Instance().SetShowHidden(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
     case Components::Adult:
+    {
       RecalboxConf::Instance().SetFilterAdultGames(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
     case Components::HidePreinstalled:
+    {
       RecalboxConf::Instance().SetGlobalHidePreinstalled(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
     case Components::NoGames:
+    {
       RecalboxConf::Instance().SetHideNoGames(status).Save();
-      ManageSystems();
+      mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
+    default: break;
   }
-}
-
-void GuiMenuGameFilters::ManageSystems()
-{
-  SystemData* systemData = ViewController::Instance().CurrentSystem();
-  ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
-
-  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
-
-  // for updating game counts on system view
-  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }

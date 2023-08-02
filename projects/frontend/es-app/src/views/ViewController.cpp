@@ -126,7 +126,7 @@ void ViewController::ResetFilters()
   conf.SetHideNoGames(false);
   conf.SetFilterAdultGames(false);
 
-  conf.SetCollectionHide("ports",false);
+  conf.SetCollectionPorts(true);
 //  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 }
 
@@ -868,10 +868,17 @@ void ViewController::BackToPreviousView()
   mPreviousViewType = ViewType::None; // Reset previous mode so that you cannot go back until next forward move
 }
 
+void ViewController::SelectSystem(SystemData* system)
+{
+  if (mCurrentViewType == ViewType::SystemList) mSystemListView.goToSystem(system, false);
+  else if (mCurrentViewType == ViewType::GameList) goToGameList(system);
+}
+
 void ViewController::ShowSystem(SystemData* system)
 {
   GetOrCreateGamelistView(system);
   mSystemListView.addSystem(system);
+  mSystemListView.Sort();
 }
 
 void ViewController::HideSystem(SystemData* system)

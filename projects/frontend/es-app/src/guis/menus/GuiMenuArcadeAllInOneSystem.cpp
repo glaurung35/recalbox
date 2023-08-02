@@ -27,6 +27,7 @@ void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool status)
     {
       RecalboxConf::Instance().SetCollectionArcade(status).Save();
       mSystemManager.UpdateSystemsVisibility(mSystemManager.VirtualSystemByType(VirtualSystemType::Arcade), status);
+      mSystemManager.ManageArcadeVirtualSystem();
       break;
     }
     case Components::IncludeNeogeo:

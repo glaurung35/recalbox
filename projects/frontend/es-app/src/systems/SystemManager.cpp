@@ -900,7 +900,7 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   mAllSystems.ExpandTo(count);
   mVisibleSystems.Clear();
   for(SystemData* result = nullptr; threadPool.PopResult(result, index); )
-    //if (result != nullptr)
+    if (result != nullptr)
     {
       mAllSystems(index) = result;
       if (result->HasVisibleGame()) mVisibleSystems.Add(result);

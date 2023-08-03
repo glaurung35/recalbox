@@ -18,6 +18,7 @@ class SystemManager : private INoCopy // No copy allowed
                     , public IThreadPoolWorkerInterface<SystemData*, bool> // Multi-threaded system unloading
                     , public IThreadPoolWorkerInterface<VirtualSystemDescriptor, VirtualSystemResult> // Multi-threaded system unloading
                     , public IMountMonitorNotifications
+                    , public ISlowSystemOperation
 {
   public:
     //! Convenient alias for System list
@@ -241,7 +242,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param system System to initialize
      * @param initializeOnly True to initialize the system without populating it first. False to populate and initialize
      */
-    void InitializeSystem(SystemData* system, bool initializeOnly);
+    void InitializeSystem(SystemData* system);
 
     /*!
      * @brief Top level virtual system populate - load theme, then set initialized
@@ -466,6 +467,13 @@ class SystemManager : private INoCopy // No copy allowed
      */
     void ApplySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
 
+    /*!
+     * @brief Check the given list, looking for uninitialized systems
+     * @param list List to check
+     * @return True if at least one systm is not initialized, false if they are all initialized
+     */
+    static bool ContainsUnitializedSystem(const List& list);
+
     /*
      * Log facilities
      */
@@ -475,13 +483,22 @@ class SystemManager : private INoCopy // No copy allowed
     static void LogSystemGameAdded(SystemData* system, FileData* game) { LOG(LogWarning) << "[SystemManager] Metadata changed. Add " << game->Name() << " into " << system->FullName(); }
     static void LogSystemGameRemoved(SystemData* system, FileData* game) { LOG(LogWarning) << "[SystemManager] Metadata changed. Remove " << game->Name() << " from " << system->FullName(); }
 
+    /*
+     * ISlowSystemOperation implementation
+     */
+
+    //! Populate operation
+    void SlowPopulateExecute(const List& listToPopulate) override;
+
+    //! Completed
+    void SlowPopulateCompleted(const List& listToPopulate) override;
+
   public:
     /*!
      * @brief constructor
      */
     explicit SystemManager(IRomFolderChangeNotification& interface, HashSet<String>& watcherIgnoredFiles)
       : mMountPointMonitoring(this)
-      , mFastSearchSeries()
       , mFastSearchCacheHash(0)
       , mProgressInterface(nullptr)
       , mLoadingPhaseInterface(nullptr)

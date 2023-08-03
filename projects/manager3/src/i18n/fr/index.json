@@ -844,6 +844,34 @@
         "hideOriginals": {
           "label": "Masquer les systèmes originaux",
           "help": "Masque les systèmes inclus dans le meta système \"Arcade\"."
+        },
+        "manufacturers": {
+          "label": "Systèmes virtuels des fabricants",
+          "help": "Cette option vous permet de choisir les fabricants à afficher dnas leurs propres systèmes."
+        }
+      },
+      "arcade": {
+        "view": {
+          "enhanced": {
+            "title": "Activer la vue améliorée",
+            "help": "Cette option vous permet d'activer ou de désactiver la vue améliorée dans la vue arcade."
+          },
+          "hideclones": {
+            "title": "Replier les clones par défaut",
+            "help": "Cette option vous permet d'activer ou de désactiver le repliage des clones."
+          },
+          "hidebios": {
+            "title": "Cacher les bios",
+            "help": "Cette option vous permet d'activer ou de désactiver la possibilité de cacher les bios."
+          },
+          "hidenonworking": {
+            "title": "Cacher les jeux non-fonctionnels",
+            "help": "Cette option vous permet d'activer ou de désactiver la possibilité de cacher les jeux arcade non-fonctionnels."
+          },
+          "usedatabasenames": {
+            "title": "Toujours utiliser les noms officiels",
+            "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'utiliser les noms officiels des jeux arcade."
+          }
         }
       },
       "translation": {

@@ -23,6 +23,9 @@ class SystemManager : private INoCopy // No copy allowed
     //! Convenient alias for System list
     typedef Array<SystemData*> List;
 
+    //! Arcade manufacturer virtual system's name prefix
+    static constexpr const char* sArcadeManufacturerPrefix = "arcade-manufacturer-";
+
     //! Favorite system internal name
     static constexpr const char* sFavoriteSystemShortName = "favorites";
     //! Multiplayer system internal name

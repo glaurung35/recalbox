@@ -210,13 +210,13 @@ void SystemManager::MakeSystemInvisible(SystemData* system)
   mVisibleSystems.Remove(system);
 }
 
-void SystemManager::InitializeSystem(SystemData* system, bool initializeOnly)
+void SystemManager::InitializeSystem(SystemData* system)
 {
   // Initialize only once
   if (system->IsInitialized()) return;
 
   // Try to populate!
-  if (!initializeOnly)
+  if (!system->HasGame())
   {
     if (system->IsVirtual()) PopulateVirtualSystem(system);
     else PopulateRegularSystem(system);
@@ -634,7 +634,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   if (systemDescriptor.Name() == "imageviewer") properties = SystemData::Properties::GameInPng | SystemData::Properties::ScreenShots;
 
   SystemData* result = new SystemData(*this, systemDescriptor, properties);
-  InitializeSystem(result, false);
+  InitializeSystem(result);
 
   return result;
 }
@@ -1022,7 +1022,7 @@ VirtualSystemResult SystemManager::ThreadPoolRunJob(VirtualSystemDescriptor& vir
   }
 
   // Initialize
-  if (system != nullptr) InitializeSystem(system, false);
+  if (system != nullptr) InitializeSystem(system);
   else { LOG(LogError) << "[SystemManager] Unprocessed virtual descriptor!"; abort(); }
 
   return { system, virtualDescriptor.Index() };
@@ -1586,19 +1586,48 @@ bool SystemManager::ShouldGameBelongToThisVirtualSystem(const FileData* game, co
   return false;
 }
 
+void SystemManager::SlowPopulateExecute(const SystemManager::List& listToPopulate)
+{
+  // Initialize & populate (if required)
+  for (SystemData* system : listToPopulate)
+    InitializeSystem(system);
+}
+
+void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulated)
+{
+  // Show all systems
+  for (SystemData* system : listPopulated)
+    if (mSystemChangeNotifier != nullptr)
+      mSystemChangeNotifier->ShowSystem(system);
+  // If there is only one, select it!
+  if (listPopulated.Count() == 1)
+    if (mSystemChangeNotifier != nullptr)
+      mSystemChangeNotifier->SelectSystem(listPopulated.First());
+}
+
+bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)
+{
+  // Chekc if at least one system is not initialized
+  for (SystemData* system : list)
+    if (!system->IsInitialized())
+      return true;
+  return false;
+}
+
 void
 SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
                                   SystemManager::List* removedSystems, SystemManager::List* modifiedSystems)
 {
   // Added virtual systems?
   if (addedSystems != nullptr)
-    for(SystemData* system : *addedSystems)
+  {
+    if (ContainsUnitializedSystem(*addedSystems))
     {
-      // Initialize if required
-      InitializeSystem(system, true);
       if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->ShowSystem(system);
+        mSystemChangeNotifier->RequestSlowOperation(this, *addedSystems);
     }
+    else SlowPopulateCompleted(*addedSystems);
+  }
   // Removed virtual systems?
   if (removedSystems != nullptr)
     for(SystemData* system : *removedSystems)
@@ -1645,12 +1674,8 @@ void SystemManager::UpdateSystemsVisibility(SystemData* system, bool show)
   {
     // Make system visible
     MakeSystemVisible(system);
-    // Populate & initialize system! #TODO: Long operation
-    InitializeSystem(system, false);
     // Apply change to the whole application
     ApplySystemChanges(&list, nullptr, nullptr);
-    if (mSystemChangeNotifier != nullptr)
-      mSystemChangeNotifier->SelectSystem(system);
   }
   else if (!show && visible)
   {

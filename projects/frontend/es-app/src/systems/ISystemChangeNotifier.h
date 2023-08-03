@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#include "ISlowSystemOperation.h"
+
 // Forward declaration
 class SystemData;
 class FileData;
@@ -22,6 +24,13 @@ class ISystemChangeNotifier
     //! System must be updated (games have been updated inside)
     virtual void UpdateSystem(SystemData* system) = 0;
 
-    //! Move to selected system if possible
+    //! Move to selected systems if possible
     virtual void SelectSystem(SystemData* system) = 0;
+
+    /*!
+     * @brief Slow operation requested to high level UI class
+     * @param interface Threaded operations methods
+     * @param systems System list to work on
+     */
+    virtual void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) = 0;
 };

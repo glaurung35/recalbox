@@ -10,15 +10,19 @@
 #include <utils/IniFile.h>
 #include <emulators/EmulatorList.h>
 #include <pistache/include/pistache/http.h>
+#include <systems/arcade/ArcadeVirtualSystems.h>
+#include <systems/SystemManager.h>
 
 class RequestHandlerTools
 {
   private:
     /*!
-     * @brief Get suported syetem list
+     * @brief Get supported system list
      * @return Systems' short names list
      */
     static const String::List& GetSupportedSystemList();
+
+    static const String::List& GetArcadeManufacturerList();
 
     static const String::List& GetSupportedRatioList();
 
@@ -122,7 +126,7 @@ class RequestHandlerTools
     static JSONBuilder BuildPartitionObject(const DeviceInfo& deviceInfo, const String& recalboxtype);
 
     /*!
-     * @brief Get device propertie: *Device name, type and bus
+     * @brief Get device properties: *Device name, type and bus
      * @param mount Device
      * @param name Output name
      * @param type Output type
@@ -133,7 +137,7 @@ class RequestHandlerTools
     /*!
      * @brief Build system resource path, both region-based and basic
      * @param regionPath Output region-based path
-     * @param basePath Output basci path
+     * @param basePath Output base path
      * @param resourceFileName Target filename
      */
     static void GetSystemResourcePath(Path& regionPath, Path& basePath, const String& system, const String& region, const char* resourceFileName);
@@ -181,8 +185,8 @@ class RequestHandlerTools
     /*!
      * @brief Check and send target resource if it exists or return 404
      * check and send preferedpath first, then fallback
-     * @param preferedpath Prefered resource path
-     * @param fallbackpath Fallback resource path if Prefered path does not exists
+     * @param preferedpath Preferred resource path
+     * @param fallbackpath Fallback resource path if Preferred path does not exists
      * @param response Response object
      * @param mimetype Mime Type
      */
@@ -197,7 +201,7 @@ class RequestHandlerTools
 
     /*!
      * @brief Get configuration key list for given namespace
-     * @return Key set & configuraion. Empty set if the namespace is unknown
+     * @return Key set & configuration. Empty set if the namespace is unknown
      */
     static const HashMap<String, Validator>& SelectConfigurationKeySet(const String& _namespace);
 
@@ -270,13 +274,13 @@ class RequestHandlerTools
      * @param filename Extracted filename
      * @param startOffset Start offset of the extracted file in request's body
      * @param size Size of the extracted file
-     * @return True if a valid file has been extracted, false otherwize
+     * @return True if a valid file has been extracted, false otherwise
      */
     static bool GetUploadedFile(const Pistache::Rest::Request& request, String& filename, int& startOffset, int& size);
 
     /*!
      * @brief Extract values from the JSON array from the given request body
-     * @param request Requets to extract JSON array from
+     * @param request Requests to extract JSON array from
      * @param result List to fill with array values
      * @return True if the request body is a valid JSON array, false otherwise
      */

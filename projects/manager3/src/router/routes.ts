@@ -33,6 +33,8 @@ const VirtualKeyboard = () => import('components/virtualdevices/VirtualKeyboard.
 const VirtualTrackpad = () => import('components/virtualdevices/VirtualTrackpad.vue');
 const VirtualGamepad = () => import('components/virtualdevices/VirtualGamepad.vue');
 
+const TokenPage = () => import('pages/TokenPage.vue');
+
 const routes: RouteRecordRaw[] = [
   {
     path: '/',
@@ -147,6 +149,11 @@ const routes: RouteRecordRaw[] = [
             component: EmulationScreenshotsTabContent,
           },
         ],
+      },
+      {
+        path: 'token',
+        name: 'token',
+        component: TokenPage,
       },
     ],
   },

@@ -481,30 +481,6 @@
           "help": "Cette option vous permet d'afficher une horloge dans les menus."
         }
       },
-      "theme": {
-        "title": "Thèmes",
-        "folder": {
-          "label": "Sélection du thème",
-          "help": "Cette option vous permet de choisir quel thème utiliser."
-        },
-        "transition": {
-          "label": "Style de transition au lancement des jeux",
-          "help": {
-            "availableOptions": "Cette option vous permet de définir le style de transition au lancement des jeux. Options disponibles :",
-            "0": "<b>fade</b> fait un fondu vers un écran noir.",
-            "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
-            "2": "<b>instant</b> lancera le jeu sans aucune animation."
-          }
-        },
-        "carousel": {
-          "label": "Animation du bandeau",
-          "help": {
-            "availableOptions": "Cette option vous permet de choisir la façon dont s'effectue l'animation pendant le déplacement entre systèmes. Options disponibles :",
-            "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
-            "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
-          }
-        }
-      },
       "filters": {
         "title": "Filtres",
         "showonlylatestversion": {
@@ -592,6 +568,30 @@
           "netplay": {
             "label": "Durée d'affichage de la popup de netplay",
             "help": "Cette option vous permet de choisir en secondes le temps d'affichage de la popup de netplay."
+          }
+        }
+      },
+      "theme": {
+        "title": "Thèmes",
+        "folder": {
+          "label": "Sélection du thème",
+          "help": "Cette option vous permet de choisir quel thème utiliser."
+        },
+        "transition": {
+          "label": "Style de transition au lancement des jeux",
+          "help": {
+            "availableOptions": "Cette option vous permet de définir le style de transition au lancement des jeux. Options disponibles :",
+            "0": "<b>fade</b> fait un fondu vers un écran noir.",
+            "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
+            "2": "<b>instant</b> lancera le jeu sans aucune animation."
+          }
+        },
+        "carousel": {
+          "label": "Animation du bandeau",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir la façon dont s'effectue l'animation pendant le déplacement entre systèmes. Options disponibles :",
+            "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
+            "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
           }
         }
       }

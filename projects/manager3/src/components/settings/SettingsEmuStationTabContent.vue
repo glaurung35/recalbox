@@ -147,116 +147,80 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.emustation.theme.title">
-        <template v-slot:content>
-          <WrappedSelect
-            label="settings.emustation.theme.folder.label"
-            :options="themeFolderOptions"
-            :getter="emulationstation['theme.folder']"
-            :setter="emulationstationStore.post"
-            apiKey="theme.folder"
-            v-if="emulationstation['theme.folder']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.theme.folder.help') }}
-            </template>
-          </WrappedSelect>
-          <WrappedSelect
-            label="settings.emustation.theme.transition.label"
-            :options="themeTransitionOptions"
-            :getter="emulationstation['theme.transition']"
-            :setter="emulationstationStore.post"
-            apiKey="theme.transition"
-            v-if="emulationstation['theme.transition']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.theme.transition.help.availableOptions') }}
-              <ul>
-                <li v-html="$t('settings.emustation.theme.transition.help.0')"></li>
-                <li v-html="$t('settings.emustation.theme.transition.help.1')"></li>
-                <li v-html="$t('settings.emustation.theme.transition.help.2')"></li>
-              </ul>
-            </template>
-          </WrappedSelect>
-          <WrappedToggle
-            label="settings.emustation.theme.carousel.label"
-            :getter="emulationstation['theme.carousel']"
-            :setter="emulationstationStore.post"
-            apiKey="theme.carousel"
-            v-if="emulationstation['theme.carousel']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.theme.carousel.help.availableOptions') }}
-              <ul>
-                <li v-html="$t('settings.emustation.theme.carousel.help.0')"></li>
-                <li v-html="$t('settings.emustation.theme.carousel.help.1')"></li>
-              </ul>
-            </template>
-          </WrappedToggle>
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="settings.emustation.popups.title">
+      <FormFragmentContainer title="settings.emustation.filters.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.emustation.popups.showhelp.label"
-            :getter="emulationstation.showhelp"
+            label="settings.emustation.filters.showonlylatestversion.label"
+            :getter="emulationstation.showonlylatestversion"
             :setter="emulationstationStore.post"
-            apiKey="showhelp"
-            v-if="emulationstation.showhelp"
+            apiKey="showonlylatestversion"
+            v-if="emulationstation.showonlylatestversion"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.popups.showhelp.help') }}
+              {{ $t('settings.emustation.filters.showonlylatestversion.help') }}
             </template>
           </WrappedToggle>
-          <WrappedSlider
-            label="settings.emustation.popups.popup.help.label"
-            :getter="emulationstation['popoup.help']"
+          <WrappedToggle
+            label="settings.emustation.filters.favoritesonly.label"
+            :getter="emulationstation.favoritesonly"
             :setter="emulationstationStore.post"
-            apiKey="popoup.help"
-            v-if="emulationstation['popoup.help']"
-            :min="popupHelpOptions.lowerValue"
-            :max="popupHelpOptions.higherValue"
-            icon="mdi-comment-processing-outline"
+            apiKey="favoritesonly"
+            v-if="emulationstation.favoritesonly"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.popups.popup.help.help') }}
+              {{ $t('settings.emustation.filters.favoritesonly.help') }}
             </template>
-          </WrappedSlider>
-          <WrappedSlider
-            label="settings.emustation.popups.popup.music.label"
-            :getter="emulationstation['popoup.music']"
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.showhidden.label"
+            :getter="emulationstation.showhidden"
             :setter="emulationstationStore.post"
-            apiKey="popoup.music"
-            v-if="emulationstation['popoup.music']"
-            :min="popupMusicOptions.lowerValue"
-            :max="popupMusicOptions.higherValue"
-            icon="mdi-comment-processing-outline"
+            apiKey="showhidden"
+            v-if="emulationstation.showhidden"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.popups.popup.music.help') }}
+              {{ $t('settings.emustation.filters.showhidden.help') }}
             </template>
-          </WrappedSlider>
-          <WrappedSlider
-            label="settings.emustation.popups.popup.netplay.label"
-            :getter="emulationstation['popoup.netplay']"
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.filteradultgames.label"
+            :getter="emulationstation.filteradultgames"
             :setter="emulationstationStore.post"
-            apiKey="popoup.netplay"
-            v-if="emulationstation['popoup.netplay']"
-            :min="popupNetplayOptions.lowerValue"
-            :max="popupNetplayOptions.higherValue"
-            icon="mdi-comment-processing-outline"
+            apiKey="filteradultgames"
+            v-if="emulationstation.filteradultgames"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.popups.popup.netplay.help') }}
+              {{ $t('settings.emustation.filters.filteradultgames.help') }}
             </template>
-          </WrappedSlider>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.hidepreinstalledgames.label"
+            :getter="global.hidepreinstalledgames"
+            :setter="globalStore.post"
+            apiKey="hidepreinstalledgames"
+            v-if="global.hidepreinstalledgames"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.hidepreinstalledgames.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.hidenogames.label"
+            :getter="emulationstation.hidenogames"
+            :setter="emulationstationStore.post"
+            apiKey="hidenogames"
+            v-if="emulationstation.hidenogames"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.hidenogames.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -377,80 +341,116 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="settings.emustation.filters.title">
+      <FormFragmentContainer title="settings.emustation.theme.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="settings.emustation.theme.folder.label"
+            :options="themeFolderOptions"
+            :getter="emulationstation['theme.folder']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.folder"
+            v-if="emulationstation['theme.folder']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.folder.help') }}
+            </template>
+          </WrappedSelect>
+          <WrappedSelect
+            label="settings.emustation.theme.transition.label"
+            :options="themeTransitionOptions"
+            :getter="emulationstation['theme.transition']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.transition"
+            v-if="emulationstation['theme.transition']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.transition.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.theme.transition.help.0')"></li>
+                <li v-html="$t('settings.emustation.theme.transition.help.1')"></li>
+                <li v-html="$t('settings.emustation.theme.transition.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+          <WrappedToggle
+            label="settings.emustation.theme.carousel.label"
+            :getter="emulationstation['theme.carousel']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.carousel"
+            v-if="emulationstation['theme.carousel']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.carousel.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('settings.emustation.theme.carousel.help.0')"></li>
+                <li v-html="$t('settings.emustation.theme.carousel.help.1')"></li>
+              </ul>
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="settings.emustation.popups.title">
         <template v-slot:content>
           <WrappedToggle
-            label="settings.emustation.filters.showonlylatestversion.label"
-            :getter="emulationstation.showonlylatestversion"
+            label="settings.emustation.popups.showhelp.label"
+            :getter="emulationstation.showhelp"
             :setter="emulationstationStore.post"
-            apiKey="showonlylatestversion"
-            v-if="emulationstation.showonlylatestversion"
+            apiKey="showhelp"
+            v-if="emulationstation.showhelp"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.filters.showonlylatestversion.help') }}
+              {{ $t('settings.emustation.popups.showhelp.help') }}
             </template>
           </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.filters.favoritesonly.label"
-            :getter="emulationstation.favoritesonly"
+          <WrappedSlider
+            label="settings.emustation.popups.popup.help.label"
+            :getter="emulationstation['popoup.help']"
             :setter="emulationstationStore.post"
-            apiKey="favoritesonly"
-            v-if="emulationstation.favoritesonly"
+            apiKey="popoup.help"
+            v-if="emulationstation['popoup.help']"
+            :min="popupHelpOptions.lowerValue"
+            :max="popupHelpOptions.higherValue"
+            icon="mdi-comment-processing-outline"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.filters.favoritesonly.help') }}
+              {{ $t('settings.emustation.popups.popup.help.help') }}
             </template>
-          </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.filters.showhidden.label"
-            :getter="emulationstation.showhidden"
+          </WrappedSlider>
+          <WrappedSlider
+            label="settings.emustation.popups.popup.music.label"
+            :getter="emulationstation['popoup.music']"
             :setter="emulationstationStore.post"
-            apiKey="showhidden"
-            v-if="emulationstation.showhidden"
+            apiKey="popoup.music"
+            v-if="emulationstation['popoup.music']"
+            :min="popupMusicOptions.lowerValue"
+            :max="popupMusicOptions.higherValue"
+            icon="mdi-comment-processing-outline"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.filters.showhidden.help') }}
+              {{ $t('settings.emustation.popups.popup.music.help') }}
             </template>
-          </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.filters.filteradultgames.label"
-            :getter="emulationstation.filteradultgames"
+          </WrappedSlider>
+          <WrappedSlider
+            label="settings.emustation.popups.popup.netplay.label"
+            :getter="emulationstation['popoup.netplay']"
             :setter="emulationstationStore.post"
-            apiKey="filteradultgames"
-            v-if="emulationstation.filteradultgames"
+            apiKey="popoup.netplay"
+            v-if="emulationstation['popoup.netplay']"
+            :min="popupNetplayOptions.lowerValue"
+            :max="popupNetplayOptions.higherValue"
+            icon="mdi-comment-processing-outline"
             help
           >
             <template v-slot:help>
-              {{ $t('settings.emustation.filters.filteradultgames.help') }}
+              {{ $t('settings.emustation.popups.popup.netplay.help') }}
             </template>
-          </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.filters.hidepreinstalledgames.label"
-            :getter="global.hidepreinstalledgames"
-            :setter="globalStore.post"
-            apiKey="hidepreinstalledgames"
-            v-if="global.hidepreinstalledgames"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.filters.hidepreinstalledgames.help') }}
-            </template>
-          </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.filters.hidenogames.label"
-            :getter="emulationstation.hidenogames"
-            :setter="emulationstationStore.post"
-            apiKey="hidenogames"
-            v-if="emulationstation.hidenogames"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.filters.hidenogames.help') }}
-            </template>
-          </WrappedToggle>
+          </WrappedSlider>
         </template>
       </FormFragmentContainer>
     </div>
@@ -467,7 +467,6 @@ import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useScraperStore } from 'stores/configuration/scraper';
 import { useGlobalStore } from 'stores/configuration/global';
-import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();

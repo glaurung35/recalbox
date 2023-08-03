@@ -743,26 +743,6 @@ void SystemView::removeSystem(SystemData * system)
   goToSystem(system == mCurrentSystem ? previousSystem : mCurrentSystem, true);
 }
 
-/**
- * Unable to make it work as intendend
- * The apparation of tate system makes the gamelist bugged (entering in tate shows amiga 1200 gamelist
- */
-void SystemView::manageTate(bool remove)
-{
-  SystemData* system = mSystemManager.SystemByName(SystemManager::sTateSystemShortName);
-  if (system == nullptr) { LOG(LogError) << "[SystemView] No TATE system!"; return; }
-
-  if (remove) removeSystem(system);
-  else
-  {
-    bool tateIsInEntries = LookupSystemByName(SystemManager::sTateSystemShortName) != nullptr;
-    bool hasGame = system->HasVisibleGame();
-
-    if(!tateIsInEntries && hasGame) addSystem(system);
-    else if (!hasGame) removeSystem(system);
-  }
-}
-
 void SystemView::manageSystemsList()
 {
   std::vector<Entry> backupedEntries = mEntries;

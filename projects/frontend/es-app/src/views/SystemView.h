@@ -110,8 +110,6 @@ class SystemView : public IList<SystemViewData, SystemData*>
     void Sort();
     void onCursorChanged(const CursorState& state) override;
 
-    void manageTate(bool remove = false);
-
   private:
     //! SystemManager instance
     SystemManager& mSystemManager;

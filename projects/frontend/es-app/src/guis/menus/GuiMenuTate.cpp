@@ -102,17 +102,11 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
   switch((Components)id)
   {
     case Components::TateEnabled:
+    {
       RecalboxConf::Instance().SetCollectionTate(status).Save();
-      if (status)
-      {
-        ViewController::Instance().getSystemListView().manageTate(false);
-        ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
-      }
-      else {
-        ViewController::Instance().getSystemListView().manageTate(true);
-        ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
-      }
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Tate, status);
       break;
+    }
     case Components::TateOnly:
     {
       RecalboxConf::Instance().SetTateOnly(status).Save();

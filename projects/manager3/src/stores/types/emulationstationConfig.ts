@@ -152,6 +152,30 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  'arcade.view.enhanced': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hideclones': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hidebios': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hidenonworking': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'arcade.view.usedatabasenames': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'virtualarcade.manufacturers': z.object({
+    exist: z.boolean(),
+    value: z.array(z.string()),
+  }),
 });
 
 export type EmulationStationConfig = z.infer<typeof EmulationStationConfigSchema>
@@ -310,6 +334,30 @@ export const EmulationStationConfigOptionsSchema = z.object({
   hidenogames: z.object({
     type: z.string(),
     value: z.boolean(),
+  }),
+  'arcade.view.enhanced': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hideclones': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hidebios': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.view.hidenonworking': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'arcade.view.usedatabasenames': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'virtualarcade.manufacturers': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
 });
 

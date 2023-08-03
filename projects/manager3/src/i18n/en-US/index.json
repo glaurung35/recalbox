@@ -481,30 +481,6 @@
           "help": "This option allows you to display a clock in menus."
         }
       },
-      "theme": {
-        "title": "Themes",
-        "folder": {
-          "label": "Theme selection",
-          "help": "This option allows you to select which theme to apply."
-        },
-        "transition": {
-          "label": "Transition style on game launch",
-          "help": {
-            "availableOptions": "This option allows you to define transition style on game start. Available options:",
-            "0": "<b>fade</b> does a fade screen turning black.",
-            "1": "<b>slide</b> will zoom to the game image (or its name if there is no data).",
-            "2": "<b>instant</b> will launch game without any animation."
-          }
-        },
-        "carousel": {
-          "label": "Carousel animation",
-          "help": {
-            "availableOptions": "This option allows you to choose the animation performed while moving across systems. Available options:",
-            "0": "If enabled, transition between systems will be smooth.",
-            "1": "If disabled, transition between systems will be instant."
-          }
-        }
-      },
       "filters": {
         "title": "Filters",
         "showonlylatestversion": {
@@ -592,6 +568,30 @@
           "netplay": {
             "label": "Durée d'affichage de la popup de netplay",
             "help": "This option allows you to change the netplay popup display time period."
+          }
+        }
+      },
+      "theme": {
+        "title": "Themes",
+        "folder": {
+          "label": "Theme selection",
+          "help": "This option allows you to select which theme to apply."
+        },
+        "transition": {
+          "label": "Transition style on game launch",
+          "help": {
+            "availableOptions": "This option allows you to define transition style on game start. Available options:",
+            "0": "<b>fade</b> does a fade screen turning black.",
+            "1": "<b>slide</b> will zoom to the game image (or its name if there is no data).",
+            "2": "<b>instant</b> will launch game without any animation."
+          }
+        },
+        "carousel": {
+          "label": "Carousel animation",
+          "help": {
+            "availableOptions": "This option allows you to choose the animation performed while moving across systems. Available options:",
+            "0": "If enabled, transition between systems will be smooth.",
+            "1": "If disabled, transition between systems will be instant."
           }
         }
       }

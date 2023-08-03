@@ -13,6 +13,8 @@
 #include "Mime.h"
 #include <LibretroRatio.h>
 #include <utils/Zip.h>
+#include <systems/arcade/ArcadeVirtualSystems.h>
+#include <systems/SystemManager.h>
 
 using namespace Pistache;
 
@@ -385,43 +387,49 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-         { "menu"                       , Validator(false, { "default", "bartop", "none" }) },
-         { "selectedsystem"             , Validator(GetSupportedSystemList(), false) },
-         { "bootongamelist"             , Validator(true) },
-         { "hidesystemview"             , Validator(true) },
-         { "gamelistonly"               , Validator(true) },
-         { "forcebasicgamelistview"     , Validator(true) },
-         { "filteradultgames"           , Validator(true) },
-         { "clock"                      , Validator(true) },
-         { "favoritesonly"              , Validator(true) },
-         { "screensaver.time"           , Validator(0, 30) },
-         { "screensaver.type"           , Validator(false, { "dim", "black", "demo", "gameclip" }) },
-         { "showgameclipclippingitem"   , Validator(true) },
-         { "showgamecliphelpitems"      , Validator(true) },
-         { "theme.folder"               , Validator(GetAvailableThemes(), false) },
-         { "collection.allgames"        , Validator(true) },
-         { "collection.multiplayer"     , Validator(true) },
-         { "collection.lastplayed"      , Validator(true) },
-         { "collection.tate"            , Validator(true) },
-         { "videosnaps.delay"           , Validator(0, 15000) },
-         { "videosnaps.loop"            , Validator(0, 300) },
-         { "virtualarcade"              , Validator(true) },
-         { "virtualarcade.includeneogeo", Validator(true) },
-         { "virtualarcade.hideoriginals", Validator(true) },
-         { "collection.ports.hide"      , Validator(true) },
-         { "collection.lightgun.hide"   , Validator(true) },
-         { "quicksystemselect"          , Validator(true) },
-         { "showhelp"                   , Validator(true) },
-         { "popoup.help"                , Validator(0, 10) },
-         { "popoup.music"               , Validator(0, 10) },
-         { "popoup.netplay"             , Validator(0, 10) },
-         { "systemsorting"              , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
-         { "theme.carousel"             , Validator(true) },
-         { "theme.transition"           , Validator(false, { "slide", "instant", "fade" }) },
-         { "brightness"                 , Validator(0, 8) },
-         { "showhidden"                 , Validator(true) },
-         { "showonlylatestversion"      , Validator(true) },
-         { "hidenogames"                , Validator(true) },
+         { "menu"                        , Validator(false, { "default", "bartop", "none" }) },
+         { "selectedsystem"              , Validator(GetSupportedSystemList(), false) },
+         { "bootongamelist"              , Validator(true) },
+         { "hidesystemview"              , Validator(true) },
+         { "gamelistonly"                , Validator(true) },
+         { "forcebasicgamelistview"      , Validator(true) },
+         { "filteradultgames"            , Validator(true) },
+         { "clock"                       , Validator(true) },
+         { "favoritesonly"               , Validator(true) },
+         { "screensaver.time"            , Validator(0, 30) },
+         { "screensaver.type"            , Validator(false, { "dim", "black", "demo", "gameclip" }) },
+         { "showgameclipclippingitem"    , Validator(true) },
+         { "showgamecliphelpitems"       , Validator(true) },
+         { "theme.folder"                , Validator(GetAvailableThemes(), false) },
+         { "collection.allgames"         , Validator(true) },
+         { "collection.multiplayer"      , Validator(true) },
+         { "collection.lastplayed"       , Validator(true) },
+         { "collection.tate"             , Validator(true) },
+         { "videosnaps.delay"            , Validator(0, 15000) },
+         { "videosnaps.loop"             , Validator(0, 300) },
+         { "virtualarcade"               , Validator(true) },
+         { "virtualarcade.includeneogeo" , Validator(true) },
+         { "virtualarcade.hideoriginals" , Validator(true) },
+         { "collection.ports.hide"       , Validator(true) },
+         { "collection.lightgun.hide"    , Validator(true) },
+         { "quicksystemselect"           , Validator(true) },
+         { "showhelp"                    , Validator(true) },
+         { "popoup.help"                 , Validator(0, 10) },
+         { "popoup.music"                , Validator(0, 10) },
+         { "popoup.netplay"              , Validator(0, 10) },
+         { "systemsorting"               , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
+         { "theme.carousel"              , Validator(true) },
+         { "theme.transition"            , Validator(false, { "slide", "instant", "fade" }) },
+         { "brightness"                  , Validator(0, 8) },
+         { "showhidden"                  , Validator(true) },
+         { "showonlylatestversion"       , Validator(true) },
+         { "hidenogames"                 , Validator(true) },
+         { "arcade.view.hidenonworking"  , Validator(true) },
+         { "arcade.view.enhanced"        , Validator(true) },
+         { "arcade.view.hideclones"      , Validator(true) },
+         { "arcade.view.hidebios"        , Validator(true) },
+         { "arcade.view.usedatabasenames", Validator(true) },
+         { "virtualarcade.manufacturers" , Validator(GetArcadeManufacturerList(), false) },
        });
 
       return sList;
@@ -771,7 +779,7 @@ void RequestHandlerTools::SetKeyValues(const String& domain, const HashMap<Strin
           case rapidjson::kNullType:
           case rapidjson::kObjectType:
           {
-            RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Key '" + shortKey + "' has un invalid value!", Mime::PlainText);
+            RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Key '" + shortKey + "' has an invalid value!", Mime::PlainText);
             return;
           }
         }
@@ -786,7 +794,7 @@ void RequestHandlerTools::SetKeyValues(const String& domain, const HashMap<Strin
           }
           else
           {
-            RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Key '" + shortKey + "' has un invalid value!", Mime::PlainText);
+            RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Key '" + shortKey + "' has an invalid value!", Mime::PlainText);
             return;
           }
         }
@@ -852,6 +860,23 @@ const String::List& RequestHandlerTools::GetSupportedSystemList()
     }
     // PATCH
     result.push_back("favorites");
+  }
+
+  return result;
+}
+
+const String::List& RequestHandlerTools::GetArcadeManufacturerList()
+{
+  static String::List result;
+
+  if (result.empty())
+  {
+    for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+    {
+      String identifier(SystemManager::sArcadeManufacturerPrefix);
+      identifier.Append(rawIdentifier).Replace('/', '-');
+      result.push_back(identifier);
+    }
   }
 
   return result;

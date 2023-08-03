@@ -214,6 +214,79 @@
               {{ $t('emulation.global.virtualarcade.hideOriginals.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.arcade.view.enhanced.label"
+            :getter="emulationstation['arcade.view.enhanced']"
+            :setter="emulationstationStore.post"
+            apiKey="arcade.view.enhanced"
+            v-if="emulationstation['arcade.view.enhanced']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.view.enhanced.label') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.arcade.view.hideclones.label"
+            :getter="emulationstation['arcade.view.hideclones']"
+            :setter="emulationstationStore.post"
+            apiKey="arcade.view.hideclones"
+            v-if="emulationstation['arcade.view.hideclones']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.view.hideclones.label') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.arcade.view.hidebios.label"
+            :getter="emulationstation['arcade.view.hidebios']"
+            :setter="emulationstationStore.post"
+            apiKey="arcade.view.hidebios"
+            v-if="emulationstation['arcade.view.hidebios']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.view.hidebios.label') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.arcade.view.hidenonworking.label"
+            :getter="emulationstation['arcade.view.hidenonworking']"
+            :setter="emulationstationStore.post"
+            apiKey="arcade.view.hidenonworking"
+            v-if="emulationstation['arcade.view.hidenonworking']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.view.hidenonworking.label') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.arcade.view.usedatabasenames.label"
+            :getter="emulationstation['arcade.view.usedatabasenames']"
+            :setter="emulationstationStore.post"
+            apiKey="arcade.view.usedatabasenames"
+            v-if="emulationstation['arcade.view.usedatabasenames']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.arcade.view.usedatabasenames.label') }}
+            </template>
+          </WrappedToggle>
+          <WrappedMultipleSelect
+            label="emulation.global.virtualarcade.manufacturers.label"
+            :options="virtualArcadeManufacturersOptions"
+            :getter="emulationstation['virtualarcade.manufacturers']"
+            :setter="emulationstationStore.post"
+            apiKey="demo.systemlist"
+            v-if="emulationstation['virtualarcade.manufacturers']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.virtualarcade.manufacturers.help') }}
+            </template>
+          </WrappedMultipleSelect>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.translation.title">
@@ -354,6 +427,7 @@ const {
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
 const {
+  virtualArcadeManufacturersOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 </script>

@@ -67,7 +67,8 @@
     "home": "Home",
     "monitoring": "Monitoring",
     "settings": "Settings",
-    "emulation": "Emulation"
+    "emulation": "Emulation",
+    "token": "Patreon"
   },
   "home": {
     "preview": {
@@ -543,33 +544,6 @@
             "availableOptions": "This option allows you to define the number of times videoscraps are looping (default: 1). Available options:",
             "0": "If you define this to 0, no video will be played.",
             "1": "If you define this to 1 or more, the video loops x times before fading out."
-          }
-        }
-      },
-      "patreon": {
-        "title": "Patreon",
-        "patron": {
-          "privatekey": {
-            "label": "Key",
-            "help": "This option allows you to fill your Patreon key provided on www.recalbox.com."
-          }
-        },
-        "scraper": {
-          "source": {
-            "label": "Scrap source",
-            "help": "If you are boss level 2 or 3, This option allows you to choose the source of your scraps."
-          },
-          "auto": {
-            "label": "Enable auto-scrap",
-            "help": "This option allows you to enable or disable auto-scrap."
-          }
-        },
-        "music": {
-          "remoteplaylist": {
-            "enable": {
-              "label": "Enable patrons playlist",
-              "help": "This option allows you to disable music playlist."
-            }
           }
         }
       },
@@ -1118,6 +1092,33 @@
       "dialogs": {
         "remove": {
           "text": "Are you sure you want to delete this screenshot?"
+        }
+      }
+    }
+  },
+  "token": {
+    "title": "Patreon",
+    "patron": {
+      "privatekey": {
+        "label": "Key",
+        "help": "This option allows you to fill your Patreon key provided on www.recalbox.com."
+      }
+    },
+    "scraper": {
+      "source": {
+        "label": "Scrap source",
+        "help": "If you are boss level 2 or 3, This option allows you to choose the source of your scraps."
+      },
+      "auto": {
+        "label": "Enable auto-scrap",
+        "help": "This option allows you to enable or disable auto-scrap."
+      }
+    },
+    "music": {
+      "remoteplaylist": {
+        "enable": {
+          "label": "Enable patrons playlist",
+          "help": "This option allows you to disable music playlist."
         }
       }
     }

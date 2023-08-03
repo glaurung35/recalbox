@@ -300,59 +300,6 @@
           </WrappedSlider>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="settings.emustation.patreon.title">
-        <template v-slot:content>
-          <WrappedTextInput
-            label="settings.emustation.patreon.patron.privatekey.label"
-            :getter="patron.privatekey"
-            :setter="patronStore.post"
-            apiKey="privatekey"
-            v-if="patron.privatekey"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.patreon.patron.privatekey.help') }}
-            </template>
-          </WrappedTextInput>
-          <WrappedSelect
-            label="settings.emustation.patreon.scraper.source.label"
-            :options="sourceOptions"
-            :getter="scraper.source"
-            :setter="scraperStore.post"
-            apiKey="source"
-            v-if="scraper.source"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.patreon.scraper.source.help') }}
-            </template>
-          </WrappedSelect>
-          <WrappedToggle
-            label="settings.emustation.patreon.scraper.auto.label"
-            :getter="scraper.auto"
-            :setter="scraperStore.post"
-            apiKey="auto"
-            v-if="scraper.auto"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.patreon.scraper.auto.help') }}
-            </template>
-          </WrappedToggle>
-          <WrappedToggle
-            label="settings.emustation.patreon.music.remoteplaylist.enable.label"
-            :getter="music['remoteplaylist.enable']"
-            :setter="musicStore.post"
-            apiKey="remoteplaylist.enable"
-            v-if="music['remoteplaylist.enable']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.patreon.music.remoteplaylist.enable.help') }}
-            </template>
-          </WrappedToggle>
-        </template>
-      </FormFragmentContainer>
 
       <FormFragmentContainer title="settings.emustation.virtualsystems.title">
         <template v-slot:content>
@@ -518,8 +465,6 @@ import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/configuration/system';
 import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
-import { usePatronStore } from 'stores/configuration/patron';
-import { useMusicStore } from 'stores/configuration/music';
 import { useScraperStore } from 'stores/configuration/scraper';
 import { useGlobalStore } from 'stores/configuration/global';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
@@ -544,18 +489,6 @@ const {
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);
-
-const patronStore = usePatronStore();
-patronStore.fetch();
-const {
-  patron,
-} = storeToRefs(patronStore);
-
-const musicStore = useMusicStore();
-musicStore.fetch();
-const {
-  music,
-} = storeToRefs(musicStore);
 
 const scraperStore = useScraperStore();
 scraperStore.fetch();

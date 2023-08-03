@@ -26,6 +26,7 @@ class SystemManager : private INoCopy // No copy allowed
 
     //! Arcade manufacturer virtual system's name prefix
     static constexpr const char* sArcadeManufacturerPrefix = "arcade-manufacturer-";
+
     //! Genre virtual system's name prefix
     static constexpr const char* sGenrePrefix = "genre-";
 

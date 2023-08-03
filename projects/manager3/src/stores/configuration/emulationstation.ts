@@ -46,6 +46,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       systemsorting: {
         allowedStringList: [''],
       },
+      'virtualarcade.manufacturers': {
+        allowedStringList: [''],
+      },
     },
     emulationstation: {},
   } as EmulationStationStoreState),
@@ -65,5 +68,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
     systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
+    virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList,
   },
 });

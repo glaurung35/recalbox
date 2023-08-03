@@ -67,7 +67,8 @@
     "home": "Accueil",
     "monitoring": "Monitoring",
     "settings": "Configuration",
-    "emulation": "Émulation"
+    "emulation": "Émulation",
+    "token": "Patreon"
   },
   "home": {
     "preview": {
@@ -543,33 +544,6 @@
             "availableOptions": "Cette option vous permet de définir le nombre de fois où les vidéos des scraps passent en boucle (par défaut : 1). Options disponibles :",
             "0": "Si vous définissez ceci à 0, vous n'aurez pas de vidéo.",
             "1": "Si vous définissez ceci à 1 ou plus, la vidéo se répètera le nombre de fois indiqué avant de disparaître."
-          }
-        }
-      },
-      "patreon": {
-        "title": "Patreon",
-        "patron": {
-          "privatekey": {
-            "label": "Clé",
-            "help": "Cette option vous permet de renseigner votre clé Patreon fourni sur www.recalbox.com."
-          }
-        },
-        "scraper": {
-          "source": {
-            "label": "Source du scrap",
-            "help": "Si vous êtes boss level 2 ou 3, cette option vous permet de choisir la source de vos scraps."
-          },
-          "auto": {
-            "label": "Activer l'auto-scrap",
-            "help": "Cette option vous permet d'activer ou de désactiver l'auto-scrap."
-          }
-        },
-        "music": {
-          "remoteplaylist": {
-            "enable": {
-              "label": "Activer la playlist patrons",
-              "help": "Cette option vous permet de désactiver la playlist des musiques."
-            }
           }
         }
       },
@@ -1118,6 +1092,33 @@
       "dialogs": {
         "remove": {
           "text": "Êtes-vous certain de vouloir supprimer cette capture d'écran ?"
+        }
+      }
+    }
+  },
+  "token": {
+    "title": "Patreon",
+    "patron": {
+      "privatekey": {
+        "label": "Clé",
+        "help": "Cette option vous permet de renseigner votre clé Patreon fourni sur www.recalbox.com."
+      }
+    },
+    "scraper": {
+      "source": {
+        "label": "Source du scrap",
+        "help": "Si vous êtes boss level 2 ou 3, cette option vous permet de choisir la source de vos scraps."
+      },
+      "auto": {
+        "label": "Activer l'auto-scrap",
+        "help": "Cette option vous permet d'activer ou de désactiver l'auto-scrap."
+      }
+    },
+    "music": {
+      "remoteplaylist": {
+        "enable": {
+          "label": "Activer la playlist patrons",
+          "help": "Cette option vous permet de désactiver la playlist des musiques."
         }
       }
     }

@@ -77,6 +77,11 @@ const menuLinks: Array<object> = [
     icon: 'mdi-google-controller',
     route: 'emulation',
   },
+  {
+    title: 'menu.token',
+    icon: 'mdi-patreon',
+    route: 'token',
+  },
 ];
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);

@@ -103,7 +103,7 @@ class SystemView : public IList<SystemViewData, SystemData*>
      */
     SystemData* LookupSystemByName(const String& name);
 
-    [[nodiscard]] SystemData& CurrentSystem() const { return *mCurrentSystem; }
+    //[[nodiscard]] SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
     SystemData* Prev();
     void RemoveCurrentSystem();

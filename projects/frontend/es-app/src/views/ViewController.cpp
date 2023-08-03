@@ -984,3 +984,27 @@ void ViewController::FetchSlowDataFor(FileData* data)
   mNextItem = data;
   mSignal.Fire();
 }
+
+void ViewController::RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems)
+{
+  auto* gui = new GuiWaitLongExecution<DelayedSystemOperationData, bool>(mWindow, *this);
+  gui->Execute({ std::move(systems), interface }, _("INITIALIZING SYSTEMS..."));
+  mWindow.pushGui(gui);
+}
+
+bool ViewController::Execute(GuiWaitLongExecution<DelayedSystemOperationData, bool>& from,
+                             const DelayedSystemOperationData& parameter)
+{
+  (void)from;
+  if (parameter.mSlowIMethodInterface != nullptr)
+    parameter.mSlowIMethodInterface->SlowPopulateExecute(parameter.mSystemList);
+  return true;
+}
+
+void ViewController::Completed(const DelayedSystemOperationData& parameter, const bool& result)
+{
+  (void)result;
+  if (parameter.mSlowIMethodInterface != nullptr)
+    parameter.mSlowIMethodInterface->SlowPopulateCompleted(parameter.mSystemList);
+}
+

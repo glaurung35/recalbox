@@ -9,9 +9,16 @@
 #include "ISaveStateSlotNotifier.h"
 #include "ISoftPatchingNotifier.h"
 #include "views/gamelist/DetailedGameListView.h"
+#include "guis/GuiWaitLongExecution.h"
 #include <emulators/run/GameLinkedData.h>
 
 class SystemData;
+
+struct DelayedSystemOperationData
+{
+  SystemManager::List mSystemList;
+  ISlowSystemOperation* mSlowIMethodInterface;
+};
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
 class ViewController : public StaticLifeCycleControler<ViewController>
@@ -23,6 +30,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
                      , public ISoftPatchingNotifier
                      , private Thread
                      , public ISyncMessageReceiver<SlowDataInformation>
+                     , public ILongExecution<DelayedSystemOperationData, bool>
 {
   public:
     //! Flags used in launch method to check what option is already selected
@@ -150,6 +158,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! System should be selected
     void SelectSystem(SystemData* system) override;
 
+    //! Request threaded operations
+    void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) override;
+
     /*
      * Component override
      */
@@ -159,6 +170,11 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void Render(const Transform4x4f& parentTrans) override;
 
     void FetchSlowDataFor(FileData* data);
+
+    bool Execute(GuiWaitLongExecution<DelayedSystemOperationData, bool>& from,
+                 const DelayedSystemOperationData& parameter) override;
+
+    void Completed(const DelayedSystemOperationData& parameter, const bool& result) override;
 
   private:
     //! Fast menu types

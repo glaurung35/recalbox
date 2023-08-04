@@ -33,4 +33,11 @@ class ISystemChangeNotifier
      * @param systems System list to work on
      */
     virtual void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) = 0;
+
+    /*!
+     * @brief The system manager notify the UI a system has been requested to show but has no game
+     * So it is initialized and will automatically show up as soon as it has games
+     * @param system Target system
+     */
+    virtual void SystemShownWithNoGames(SystemData* system) = 0;
 };

@@ -900,6 +900,12 @@ void ViewController::UpdateSystem(SystemData* system)
   InvalidateGamelist(system);
 }
 
+void ViewController::SystemShownWithNoGames(SystemData* system)
+{
+  String text = (_F(_("System \"{0}\" has no visible game yet!\n\nIt will show up automatically as soon as it has visible games.")) / system->FullName()).ToString();
+  mWindow.InfoPopupAddRegular(text, 10, PopupType::Recalbox, false);
+}
+
 void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool forcedStatus)
 {
   // Toggle favorite

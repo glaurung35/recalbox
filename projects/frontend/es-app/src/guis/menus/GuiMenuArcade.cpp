@@ -39,21 +39,42 @@ GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager
   }
 }
 
-GuiMenuArcade::~GuiMenuArcade()
-{
-  // Force refreshing all gamelists
-  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-}
-
 void GuiMenuArcade::SwitchComponentChanged(int id, bool status)
 {
   switch((Components)id)
   {
-    case Components::EnhancedView: RecalboxConf::Instance().SetArcadeViewEnhanced(status).Save(); break;
-    case Components::FoldClones: RecalboxConf::Instance().SetArcadeViewFoldClones(status).Save(); break;
-    case Components::HideBios: RecalboxConf::Instance().SetArcadeViewHideBios(status).Save(); break;
-    case Components::HideNonWorking: RecalboxConf::Instance().SetArcadeViewHideNonWorking(status).Save(); break;
-    case Components::UseDatabasesNames: RecalboxConf::Instance().SetArcadeUseDatabaseNames(status).Save(); break;
+    case Components::EnhancedView:
+    {
+      RecalboxConf::Instance().SetArcadeViewEnhanced(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      break;
+    }
+    case Components::FoldClones:
+    {
+      RecalboxConf::Instance().SetArcadeViewFoldClones(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      break;
+    }
+    case Components::HideBios:
+    {
+      RecalboxConf::Instance().SetArcadeViewHideBios(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      mSystemManager.UpdatedTopLevelFilter();
+      break;
+    }
+    case Components::HideNonWorking:
+    {
+      RecalboxConf::Instance().SetArcadeViewHideNonWorking(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      mSystemManager.UpdatedTopLevelFilter();
+      break;
+    }
+    case Components::UseDatabasesNames:
+    {
+      RecalboxConf::Instance().SetArcadeUseDatabaseNames(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      break;
+    }
     case Components::ManufacturersVirtual:
     case Components::ManufacturersFilter:
     case Components::GlobalArcadeSystem:

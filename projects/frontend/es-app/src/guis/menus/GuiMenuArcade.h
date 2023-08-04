@@ -21,9 +21,6 @@ class GuiMenuArcade : public GuiMenuBase
      */
     explicit GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface);
 
-    //! Destructor
-    ~GuiMenuArcade() override;
-
   private:
     enum class Components
     {

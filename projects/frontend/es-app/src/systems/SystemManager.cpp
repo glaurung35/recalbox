@@ -1673,7 +1673,8 @@ void SystemManager::UpdateSystemsVisibility(SystemData* system, bool show)
   if (show && !visible)
   {
     // Make system visible
-    MakeSystemVisible(system);
+    if (system->HasVisibleGame()) MakeSystemVisible(system);
+    else if (mSystemChangeNotifier != nullptr) mSystemChangeNotifier->SystemShownWithNoGames(system);
     // Apply change to the whole application
     ApplySystemChanges(&list, nullptr, nullptr);
   }

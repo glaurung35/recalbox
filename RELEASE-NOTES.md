@@ -23,7 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix argonone case power management
 - Fix gpu overclock when overclocking on RPi4
 - Fix multi-wifi configuration
-
+- Fix demo Astebros for megadrive
 
 ## Version 9.1-Pulstar
 

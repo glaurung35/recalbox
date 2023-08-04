@@ -239,8 +239,9 @@ void SystemManager::InitializeSystem(SystemData* system)
       if (system->Descriptor().IsTrueArcade())
         system->LoadArcadeDatabase();
     }
-    // Load theme
-    system->loadTheme();
+    // Load theme (not for port games)
+    if (!system->IsPorts())
+      system->loadTheme();
 
     // Set initialised
     system->SetInitialized();

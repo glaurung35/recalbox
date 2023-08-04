@@ -27,12 +27,14 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-picodrive
 - Bump libretro-bluemsx
 
+
 ### Improvements
 
 
 ### Fixes
 
 
+- Fix demo Astebros for megadrive
 
 ## Version 9.1-Pulstar
 

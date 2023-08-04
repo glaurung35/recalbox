@@ -144,22 +144,8 @@ Good Luck!</desc>
     <genreid>258</genreid>
   </game>
   <game id="419412" source="ScreenScraper.fr">
-    <path>./Astebros demo (fr).zip</path>
-    <name>Astebros (Français)</name>
-    <desc>Cette histoire se déroule bien avant les événements de "Demons of Asteborg"...
-En quête d'un Eldorado, humains et démons ont découvert Asteborg, un continent riche en ressources et promettant un avenir luxueux.
-Cependant, aucun de ceux qui ont mis le pied sur le continent d'Asteborg n'en est encore revenu.
-Incarnez trois héros qui partent en éclaireur et affrontent les dangers d'Asteborg, collectent des trésors et découvrent les plus anciens secrets de ce continent perdu...</desc>
-    <releasedate>20230301T000000</releasedate>
-    <developer>Neofid Studios</developer>
-    <publisher>Neofid Studios</publisher>
-    <genre>Platform,Action</genre>
-    <players>2</players>
-    <image>./media/images/Astebros Demo.png</image>
-  </game>
-  <game id="419412" source="ScreenScraper.fr">
-    <path>./Astebros demo (en).zip</path>
-    <name>Astebros (English)</name>
+    <path>./Astebros (Demo).zip</path>
+    <name>Astebros (Demo)</name>
     <desc>This story takes place long before the events of "Demons of Asteborg"...
 In search of an Eldorado, humans and demons discovered Asteborg, a continent rich in resources and promising a luxurious future.
 However, no one who had ever set foot on the continent of Asteborg had yet returned.
@@ -169,7 +155,7 @@ Play as three heroes who set out to scout and confront the dangers of Asteborg, 
     <publisher>Neofid Studios</publisher>
     <genre>Platform,Action</genre>
     <players>2</players>
-    <image>./media/images/Astebros Demo.png</image>
+    <image>./media/images/Astebros (Demo).png</image>
   </game>
   <game id="268176" source="ScreenScraper.fr">
     <path>./Demons Of Asteborg (Demo).zip</path>

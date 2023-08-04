@@ -68,6 +68,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Removed LinApple from PC
 
+- Fix demo Astebros for megadrive
 
 ## Version 9.1-Pulstar
 

@@ -161,6 +161,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! Request threaded operations
     void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) override;
 
+    //! User notification
+    void SystemShownWithNoGames(SystemData* system) override;
+
     /*
      * Component override
      */

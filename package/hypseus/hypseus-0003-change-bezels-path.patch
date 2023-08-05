@@ -17,13 +17,14 @@
                      }
 
 
---- a/src/video/video.cpp	2023-04-05 09:16:44.000000000 +0200
-+++ b/src/video/video.cpp	2023-04-05 09:19:48.000000000 +0200
-@@ -321,7 +321,7 @@
-                                        g_texture_access, g_an_w, g_an_h);
+--- a/src/video/video.cpp	2023-08-08 00:26:36.000000000 +0200
++++ b/src/video/video.cpp	2023-08-08 00:27:51.000000000 +0200
+@@ -319,7 +319,7 @@
+                 }
  
-                 if (g_bezel_file.length() > 0) {
--                    snprintf(bezelpath, sizeof(bezelpath), "bezels/%s", g_bezel_file.c_str());
-+                    snprintf(bezelpath, sizeof(bezelpath), "%s", g_bezel_file.c_str());
+                 if (!g_bezel_file.empty()) {
+-                    string bezelpath = "bezels/" + g_bezel_file;
++                    string bezelpath = g_bezel_file;
+                     g_bezel_texture = IMG_LoadTexture(g_renderer, bezelpath.c_str());
  
-                     g_bezel_texture = IMG_LoadTexture(g_renderer, bezelpath);
+                     if (!notify) {

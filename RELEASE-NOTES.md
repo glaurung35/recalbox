@@ -40,6 +40,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-pcsx_rearmed
 - Bump libretro-gpsp
 - Bump libretro-stella
+- Add new system Sega Pico
+
+### Bumps
+- Bump libretro-picodrive
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

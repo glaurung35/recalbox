@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit 9/03/2022
-LIBRETRO_SWANSTATION_VERSION = 74b958ceae11a1b72ba17d5b783b5eb1a6166701
+# Commit of 2023/10/01
+LIBRETRO_SWANSTATION_VERSION = afb6bc73c7ce522190b19ec3e3c8a14eb264bdeb
 LIBRETRO_SWANSTATION_SITE = $(call github,libretro,swanstation,$(LIBRETRO_SWANSTATION_VERSION))
 LIBRETRO_SWANSTATION_LICENSE = GPL-3.0
 LIBRETRO_SWANSTATION_LICENSE_FILES = LICENSE

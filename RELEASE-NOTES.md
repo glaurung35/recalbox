@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add Naomi 2 system on x86_64
+- Add new system Sega Pico
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -115,6 +116,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-emuscv
 - Bump Anbernic rg353x kernel
 - Bump libretro-hatari
+- Bump libretro-picodrive
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

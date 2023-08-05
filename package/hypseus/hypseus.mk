@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-HYPSEUS_VERSION = v2.10.4
+# Version of 2023/08/05
+HYPSEUS_VERSION = v2.11.1
 HYPSEUS_SITE = $(call github,DirtBagXon,hypseus-singe,$(HYPSEUS_VERSION))
 HYPSEUS_LICENSE = GPL3
 HYPSEUS_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf zlib libogg libvorbis libmpeg2

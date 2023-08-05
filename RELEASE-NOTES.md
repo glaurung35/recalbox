@@ -56,6 +56,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add 240p test suite support for all platforms
 - Add guncon2 support for CRT tvs
 - Bump libretro-stella
+- Bump hypseus-singe
 
 ### Improvements
 

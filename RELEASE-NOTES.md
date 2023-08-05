@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-81
 - Bump hypseus-singe
 - Bump libretro-mame2003+
+- Bump libretro-swanstation
 
 ### Improvements
 

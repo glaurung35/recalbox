@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-mame2003+
 - Bump libretro-swanstation
 - Bump libretro-pcsx_rearmed
+- Bump libretro-gpsp
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

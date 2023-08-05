@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022/08/27
-LIBRETRO_GPSP_VERSION = 188887e6c8a5e5d6b3282e2b07804d0cf3db5314
+# Commit of 2023/09/08
+LIBRETRO_GPSP_VERSION = c0d8ffaa384f724e1a0743e18cb042c29dd48f7f
 LIBRETRO_GPSP_SITE = $(call github,libretro,gpsp,$(LIBRETRO_GPSP_VERSION))
 LIBRETRO_GPSP_LICENSE = GPL-2.0
 LIBRETRO_GPSP_LICENSE_FILES = COPYING

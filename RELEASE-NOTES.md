@@ -55,6 +55,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add direct accesses to most usefull recalbox folder in samba (`\\RECALBOX\...`)
 - Add 240p test suite support for all platforms
 - Add guncon2 support for CRT tvs
+- Bump libretro-stella
 
 ### Improvements
 

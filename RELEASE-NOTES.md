@@ -102,6 +102,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-genesisplusgx_wide
 - Bump lr-mupen64plus_nx
 - Bump libretro-bk
+- Bump libretro-bluemsx
+  - Compatible with SG-1000 games
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

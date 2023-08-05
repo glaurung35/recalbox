@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
   - use vertical wheel to move up/down
   - use horizontal wheel to move left/right
   - left/middle/right buttons act as b/start/a
+- Add new system Sega Pico
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -128,6 +129,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-parallel_n64
 - Bump libretro-emuscv
 - Bump Anbernic rg353x kernel
+- Bump libretro-picodrive
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

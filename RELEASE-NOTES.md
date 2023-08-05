@@ -51,6 +51,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-swanstation
 - Bump libretro-pcsx_rearmed
 - Bump libretro-gpsp
+- Bump libretro-stella
 
 ### Improvements
 

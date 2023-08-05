@@ -107,6 +107,8 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-pcsx_rearmed
 - Bump libretro-stella
 - Bump libretro-picodrive
+- Bump libretro-bluemsx
+  - Compatible with SG-1000 games
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

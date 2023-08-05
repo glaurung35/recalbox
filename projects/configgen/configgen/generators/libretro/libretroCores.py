@@ -191,6 +191,10 @@ class LibretroCores:
         coreSettings.setString("o2em_bios", '"g7400.bin"')
 
     @staticmethod
+    def configureSg1000(coreSettings: keyValueSettings):
+        coreSettings.setString("bluemsx_msxtype", "SEGA - SC-3000")
+
+    @staticmethod
     def configureSwanstation(coreSettings: keyValueSettings):
         coreSettings.setString("duckstation_Controller2.Type", '"DigitalController"')
 
@@ -267,6 +271,7 @@ class LibretroCores:
             "pc98"         : LibretroCores.configureNPKAI,
             "odyssey2"     : LibretroCores.configureOdyssey2,
             "videopacplus" : LibretroCores.configureVideoPacPlus,
+            "sg1000"       : LibretroCores.configureSg1000,
         }
 
         # Get handler and execute

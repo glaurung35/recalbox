@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-bsnes
 - Bump libretro-81
 - Bump hypseus-singe
+- Bump libretro-mame2003+
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

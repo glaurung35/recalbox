@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit of 2022-02-11
-LIBRETRO_PICODRIVE_VERSION = ee6b7139175a3270e9be314218b22baa592610f2
+# Commit of 2023/06/11
+LIBRETRO_PICODRIVE_VERSION = 570319349588288f64c676123244acdb0be33881
 LIBRETRO_PICODRIVE_SITE = https://github.com/libretro/picodrive.git
 LIBRETRO_PICODRIVE_LICENSE = COPYRIGHT
 LIBRETRO_PICODRIVE_LICENSE_FILES = COPYING

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit version of 2022/11/14
-LIBRETRO_PCSX_REARMED_VERSION = a4e249a1373cf6269e1e4e0d60105e72210e67d3
+# Commit version of 2023/09/23
+LIBRETRO_PCSX_REARMED_VERSION = ead6fd751369f6fe50cb5092ab5530fbf1d66b67
 LIBRETRO_PCSX_REARMED_SITE = $(call github,libretro,pcsx_rearmed,$(LIBRETRO_PCSX_REARMED_VERSION))
 LIBRETRO_PCSX_REARMED_LICENSE = GPL-2.0
 LIBRETRO_PCSX_REARMED_LICENSE_FILES = COPYING

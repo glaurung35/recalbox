@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump lr-mupen64plus_nx
 - Bump libretro-bsnes
 - Bump libretro-81
+- Bump hypseus-singe
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

@@ -1,8 +1,19 @@
+From 97c6e6b3e7e418c9b9b5ba752ba97b8acf49cbc8 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 10:08:18 +0100
+Subject: [PATCH 10/12] configuration recalbox experimental
+
+---
+ config.def.h    | 2 ++
+ configuration.c | 1 +
+ configuration.h | 1 +
+ 3 files changed, 4 insertions(+)
+
 diff --git a/config.def.h b/config.def.h
-index 9cc425ae56..b5ae377345 100644
+index 9573ff053d..f0c0eeda36 100644
 --- a/config.def.h
 +++ b/config.def.h
-@@ -1636,6 +1636,8 @@ static const bool enable_device_vibration    = false;
+@@ -1704,6 +1704,8 @@
  
  #define DEFAULT_AI_SERVICE_URL "http://localhost:4404/"
  
@@ -12,26 +23,29 @@ index 9cc425ae56..b5ae377345 100644
  #define DEFAULT_BUILTIN_MEDIAPLAYER_ENABLE true
  #else
 diff --git a/configuration.c b/configuration.c
-index eaa49fb369..2c1dcd8041 100644
+index e0c76d1553..9f78ce0afc 100644
 --- a/configuration.c
 +++ b/configuration.c
-@@ -2007,6 +2007,7 @@ static struct config_bool_setting *populate_settings_bool(
+@@ -2069,6 +2069,7 @@ static struct config_bool_setting *populate_settings_bool(
     SETTING_BOOL("ai_service_enable",     &settings->bools.ai_service_enable, true, DEFAULT_AI_SERVICE_ENABLE, false);
     SETTING_BOOL("ai_service_pause",      &settings->bools.ai_service_pause, true, DEFAULT_AI_SERVICE_PAUSE, false);
     SETTING_BOOL("wifi_enabled",          &settings->bools.wifi_enabled, true, DEFAULT_WIFI_ENABLE, false);
 +   SETTING_BOOL("recalbox_experimental", &settings->bools.recalbox_experimental, true, DEFAULT_RECALBOX_EXPERIMENTAL, false);
     SETTING_BOOL("gamemode_enable",       &settings->bools.gamemode_enable, true, DEFAULT_GAMEMODE_ENABLE, false);
  
-    *size = count;
+ #ifdef ANDROID
 diff --git a/configuration.h b/configuration.h
-index f79a62edac..9515c20e1f 100644
+index 9676d7cfb7..ffa12382c1 100644
 --- a/configuration.h
 +++ b/configuration.h
-@@ -920,6 +920,7 @@ typedef struct settings
+@@ -960,6 +960,7 @@ typedef struct settings
  
        bool ai_service_enable;
        bool ai_service_pause;
 +      bool recalbox_experimental;
  
        bool gamemode_enable;
-    } bools;
+ #ifdef _3DS
+-- 
+2.41.0
+

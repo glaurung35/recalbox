@@ -1,0 +1,39 @@
+From 6d139c7687e9145758ed013b899e68d44a033822 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 10:09:09 +0100
+Subject: [PATCH 11/12] use core refresh rate for kms mode selection
+
+---
+ gfx/drivers_context/drm_ctx.c | 1 +
+ retroarch.c                   | 3 +++
+ 2 files changed, 4 insertions(+)
+
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 307b38136a..aaaeb904d2 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -785,6 +785,7 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+       goto error;
+    }
+ 
++   RARCH_LOG("[KMS]: Mode selected : (%s), %f Hz\n", g_drm_mode->name, drm_calc_refresh_rate(g_drm_mode));
+    drm->fb_width                   = g_drm_mode->hdisplay;
+    drm->fb_height                  = g_drm_mode->vdisplay;
+ 
+diff --git a/retroarch.c b/retroarch.c
+index e9e1c0b96c..183724d9e4 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -785,6 +785,9 @@ void drivers_init(
+          //rotation = runloop_state.system.rotation;
+       }
+    }
++   else if(core_fps > 0.0) {
++      settings->floats.video_refresh_rate = core_fps < 40 ? core_fps * 2 : core_fps;
++   }
+    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
+       driver_adjust_system_rates(
+                                  settings->bools.vrr_runloop_enable,
+-- 
+2.41.0
+

@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BSNES_VERSION = 074a8ad9f11fd571954565a257b5740c6131f1ee
+# Commit of 2023/09/01
+LIBRETRO_BSNES_VERSION = 72857e9a2ae35dee14e179b0eb091367f1556ae1
 LIBRETRO_BSNES_SITE = $(call github,libretro,bsnes-libretro,$(LIBRETRO_BSNES_VERSION))
 LIBRETRO_BSNES_LICENSE = COPYRIGHT
 LIBRETRO_BSNES_LICENSE_FILES = LICENSE

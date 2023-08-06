@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Bumps
 - Bump libretro-bsnes
+- Bump libretro-81
 
 ### Improvements
 

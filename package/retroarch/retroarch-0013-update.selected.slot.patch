@@ -1,52 +1,42 @@
+From 376f0cfa003954660c1cd7f7bd4c2f6716a987ad Mon Sep 17 00:00:00 2001
+From: gugueU <gugue_u@hotmail.com>
+Date: Wed, 7 Jun 2023 17:07:29 +0200
+Subject: [PATCH 13/13] update selected slot
+
+---
+ command.c   |  7 +++++--
+ retroarch.c | 16 +++++++++++++---
+ runloop.c   |  9 +++++----
+ 3 files changed, 23 insertions(+), 9 deletions(-)
+
 diff --git a/command.c b/command.c
-index 7c19d957c9..99ce1db601 100644
+index c3f9f30241..639a6fb74b 100644
 --- a/command.c
 +++ b/command.c
-@@ -1141,7 +1141,7 @@ void command_event_init_cheats(
- }
- #endif
-
--bool command_event_load_entry_state(void)
-+bool command_event_load_entry_state(settings_t *settings)
- {
-    char entry_state_path[PATH_MAX_LENGTH];
-    int entry_path_stats;
-@@ -1179,6 +1179,12 @@ bool command_event_load_entry_state(void)
+@@ -1334,8 +1334,11 @@ bool command_event_load_entry_state(settings_t *settings)
           entry_state_path, ret ? "succeeded" : "failed"
           );
-
+ 
+-   if (ret)
+-      configuration_set_int(settings, settings->ints.state_slot, runloop_st->entry_state_slot);
 +  if (ret)
 +  {
-+    int slot = runloop_st->entry_state_slot;
-+    configuration_set_int(settings, settings->ints.state_slot, slot == 9999 ? 0 : slot);
++      int slot = runloop_st->entry_state_slot;
++      configuration_set_int(settings, settings->ints.state_slot, slot == 9999 ? 0 : slot);
 +  }
-+
+ 
     return ret;
  }
-
-diff --git a/command.h b/command.h
-index 7740260595..620b444578 100644
---- a/command.h
-+++ b/command.h
-@@ -370,7 +370,7 @@ void command_event_set_volume(
- void command_event_init_controllers(rarch_system_info_t *info,
-       settings_t *settings, unsigned num_active_users);
-
--bool command_event_load_entry_state(void);
-+bool command_event_load_entry_state(settings_t *settings);
-
- void command_event_load_auto_state(void);
-
 diff --git a/retroarch.c b/retroarch.c
-index 823c7ad694..700e3671b8 100644
+index 4954019bcc..a5a2848e8c 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -4982,13 +4982,23 @@ static bool retroarch_parse_input_and_config(
+@@ -5977,13 +5977,23 @@ static bool retroarch_parse_input_and_config(
                 break;
              case 'e':
                 {
 -                  unsigned entry_state_slot = (unsigned)strtoul(optarg, NULL, 0);
-
+ 
 +                  char *endptr;
 +                  unsigned entry_state_slot = (unsigned)strtoul(optarg, &endptr, 0);
 +
@@ -69,35 +59,34 @@ index 823c7ad694..700e3671b8 100644
                 break;
              default:
 diff --git a/runloop.c b/runloop.c
-index 08f35ab9d5..256663baea 100644
+index be4aca06f7..a7b832cbb2 100644
 --- a/runloop.c
 +++ b/runloop.c
-@@ -5113,7 +5113,7 @@ static bool event_init_content(
-    if (!cheevos_enable || !cheevos_hardcore_mode_enable)
- #endif
-    {
--      if (runloop_st->entry_state_slot && !command_event_load_entry_state())
-+      if (runloop_st->entry_state_slot && !command_event_load_entry_state(settings))
-          runloop_st->entry_state_slot = 0;
-       if (!runloop_st->entry_state_slot && settings->bools.savestate_auto_load)
-          command_event_load_auto_state();
-@@ -7903,14 +7903,17 @@ bool retroarch_get_entry_state_path(char *path, size_t len, unsigned slot)
+@@ -7246,19 +7246,20 @@ bool runloop_get_replay_path(char *path, size_t len, unsigned slot)
+ 
+ bool runloop_get_entry_state_path(char *path, size_t len, unsigned slot)
+ {
+-   size_t _len;
     runloop_state_t *runloop_st = &runloop_state;
     const char *name_savestate  = NULL;
-
+ 
 -   if (!path || !slot)
 +   if (!path)
        return false;
-
+ 
     name_savestate              = runloop_st->name.savestate;
     if (string_is_empty(name_savestate))
        return false;
-
--   snprintf(path, len, "%s%d%s", name_savestate, slot, ".entry");
+ 
+-   _len = strlcpy(path, name_savestate, len);
+-   snprintf(path + _len, len - _len, "%d.entry", slot);
 +   if (slot == 9999)
 +     snprintf(path, len, "%s", name_savestate);
 +   else
 +     snprintf(path, len, "%s%d", name_savestate, slot);
-
+ 
     return true;
  }
+-- 
+2.41.0
+

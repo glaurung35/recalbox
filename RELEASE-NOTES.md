@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### Bumps
+- Bump RetroArch to version 1.15.0
 - Bump libretro-mame to 0.258
 
 ### Improvements

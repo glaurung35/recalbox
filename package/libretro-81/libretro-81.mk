@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_81_VERSION = 4352130bd2363954262a804b086f86b9d13d97f9
+# Commit of 2023/05/28
+LIBRETRO_81_VERSION = 6d1b4d26aa9870133616fcfb5a763ca138ae25d1
 LIBRETRO_81_SITE = $(call github,libretro,81-libretro,$(LIBRETRO_81_VERSION))
 LIBRETRO_81_LICENSE = GPL-3.0
 LIBRETRO_81_LICENSE_FILES = LICENSE

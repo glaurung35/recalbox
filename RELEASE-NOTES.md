@@ -44,6 +44,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Naomi 2 system on x86_64
 
 ### Bumps
+- Bump libretro-bsnes
 
 ### Improvements
 

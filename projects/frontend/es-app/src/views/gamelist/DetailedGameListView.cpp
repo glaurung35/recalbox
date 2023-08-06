@@ -509,7 +509,8 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
     setRegions(file);
 
   mRating.setValue(file->Metadata().RatingAsString());
-  mReleaseDate.setValue(file->Metadata().ReleaseDate());
+  if (file->Metadata().ReleaseDateEpoc() != 0) mReleaseDate.setValue(file->Metadata().ReleaseDate());
+  else mReleaseDate.setValue(_("UNKNOWN"));
   mDeveloper.setValue(file->Metadata().Developer().empty() ? _("UNKNOWN") : file->Metadata().Developer());
   mPublisher.setValue(file->Metadata().Publisher().empty() ? _("UNKNOWN") : file->Metadata().Publisher());
   mGenre.setValue(file->Metadata().Genre().empty() ? _("NONE") : file->Metadata().Genre());

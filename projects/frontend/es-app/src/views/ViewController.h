@@ -174,6 +174,10 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     void FetchSlowDataFor(FileData* data);
 
+    /*
+     * ILongExecution implementation
+     */
+
     bool Execute(GuiWaitLongExecution<DelayedSystemOperationData, bool>& from,
                  const DelayedSystemOperationData& parameter) override;
 

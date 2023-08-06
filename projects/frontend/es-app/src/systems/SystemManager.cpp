@@ -1502,12 +1502,12 @@ bool SystemManager::UpdateSystemsOnMultipleGameChanges(MetadataType changes, Sys
       if (hasVisibleBefore)
       {
         if (hasVisibleNow) modifiedSystems.Add(system);
-        else { removedSystems.Add(system), MakeSystemInvisible(system); LogSystemRemoved(system); }
+        else { removedSystems.Add(system); LogSystemRemoved(system); }
         result = true;
       }
       else
       {
-        if (hasVisibleNow) { addedSystems.Add(system); MakeSystemVisible(system); LogSystemAdded(system); }
+        if (hasVisibleNow) { addedSystems.Add(system); LogSystemAdded(system); }
         // Else nothing, the system is still invisible
       }
     }
@@ -1538,7 +1538,7 @@ bool SystemManager::UpdateSystemsOnSingleGameChanges(FileData* target, MetadataT
         LogSystemGameRemoved(system, target);
         // In what list must we add the system?
         if (system->HasGame()) modifiedSystems.Add(system);
-        else { removedSystems.Add(system); MakeSystemInvisible(system); LogSystemRemoved(system); }
+        else { removedSystems.Add(system); LogSystemRemoved(system); }
         result = true;
       }
       else if (!isAlreadyIn && shouldBeIn) // Must add
@@ -1553,7 +1553,7 @@ bool SystemManager::UpdateSystemsOnSingleGameChanges(FileData* target, MetadataT
         LogSystemGameAdded(system, target);
         // In what list must we add the system?
         if (hasGame) modifiedSystems.Add(system);
-        else { addedSystems.Add(system); MakeSystemVisible(system); LogSystemAdded(system); }
+        else { addedSystems.Add(system); LogSystemAdded(system); }
         result = true;
       }
     }
@@ -1581,7 +1581,7 @@ bool SystemManager::ShouldGameBelongToThisVirtualSystem(const FileData* game, co
   // Tate ?
   if (system->Name() == sTateSystemShortName) return game->Metadata().Rotation() == RotationType::Left || game->Metadata().Rotation() == RotationType::Right;
   // All game?
-  if (system->Name() == sTateSystemShortName) return true;
+  if (system->Name() == sAllGamesSystemShortName) return true;
 
   // We don't know...
   return false;
@@ -1596,14 +1596,22 @@ void SystemManager::SlowPopulateExecute(const SystemManager::List& listToPopulat
 
 void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulated)
 {
+  bool hasVisibleGame = false;
   // Show all systems
   for (SystemData* system : listPopulated)
-    if (mSystemChangeNotifier != nullptr)
-      mSystemChangeNotifier->ShowSystem(system);
+    if (hasVisibleGame = system->HasVisibleGame(); hasVisibleGame)
+    {
+      MakeSystemVisible(system);
+      if (mSystemChangeNotifier != nullptr)
+        mSystemChangeNotifier->ShowSystem(system);
+    }
   // If there is only one, select it!
   if (listPopulated.Count() == 1)
     if (mSystemChangeNotifier != nullptr)
-      mSystemChangeNotifier->SelectSystem(listPopulated.First());
+    {
+      if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
+      else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
+    }
 }
 
 bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)
@@ -1632,8 +1640,11 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
   // Removed virtual systems?
   if (removedSystems != nullptr)
     for(SystemData* system : *removedSystems)
+    {
+      MakeSystemInvisible(system);
       if (mSystemChangeNotifier != nullptr)
         mSystemChangeNotifier->HideSystem(system);
+    }
   // Modified virtual systems?
   if (modifiedSystems != nullptr)
     for (SystemData* system: *modifiedSystems)
@@ -1671,19 +1682,8 @@ void SystemManager::UpdateSystemsVisibility(SystemData* system, bool show)
 {
   List list({ system });
   bool visible = mVisibleSystems.Contains(system);
-  if (show && !visible)
-  {
-    // Make system visible
-    if (system->HasVisibleGame()) MakeSystemVisible(system);
-    else if (mSystemChangeNotifier != nullptr) mSystemChangeNotifier->SystemShownWithNoGames(system);
-    // Apply change to the whole application
-    ApplySystemChanges(&list, nullptr, nullptr);
-  }
-  else if (!show && visible)
-  {
-    MakeSystemInvisible(system);
-    ApplySystemChanges(nullptr, &list, nullptr);
-  }
+  if (show && !visible) ApplySystemChanges(&list, nullptr, nullptr);
+  else if (!show && visible) ApplySystemChanges(nullptr, &list, nullptr);
 }
 
 

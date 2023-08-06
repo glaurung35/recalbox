@@ -67,15 +67,16 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
   }
 }
 
-GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const StringMaps & items, Components id, String& original)
+GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const String::List& items, Components id, String& original)
 {
-  auto selectedColorSet = items.find(selected);
-  if (selectedColorSet == items.end()) selectedColorSet = items.begin();
-  if (!items.empty()) original = selectedColorSet->first;
+  bool found = false;
+  String realSelected;
+  for(const String& s : items) if (s == selected) { found = true; realSelected = s; break; }
+  if (!found) realSelected = items.front();
+  if (!items.empty()) original = realSelected;
 
   std::vector<ListEntry<String>> list;
-  for (const auto& it : items)
-    list.push_back({ it.first, it.first, it.first == selectedColorSet->first });
+  for (const String& s : items) list.push_back({ s, s, s == realSelected });
   std::sort(list.begin(), list.end(), [] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return a.mText < b.mText; });
 
   if (!items.empty())

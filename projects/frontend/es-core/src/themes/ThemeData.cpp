@@ -298,15 +298,17 @@ ThemeData::ThemeData()
 
 bool ThemeData::CheckThemeOption(String& selected, const HashMap<String, String>& subsets, const String& subset)
 {
-  HashMap<String, String> map = sortThemeSubSets(subsets, subset);
+  String::List list = sortThemeSubSets(subsets, subset);
   // Empty subset?
   if (subsets.empty()) return false;
-  if (map.empty()) return false;
+  if (list.empty()) return false;
   // Try to fix the value if not found
-  auto selectedColorSet = map.find(selected);
-  if (selectedColorSet == map.end())
+  bool found = false;
+  for(const String& s : list)
+    if (s == selected) { found = true; break; }
+  if (!found)
   {
-    selected = map.begin()->first;
+    selected = list.front();
     return true;
   }
   return false;
@@ -910,20 +912,20 @@ void ThemeData::findRegion(const pugi::xml_document& doc, HashMap<String, String
 }
 
 // as the getThemeSubSets process is heavy, doing it 1 time for all subsets then sorting on demand
-HashMap<String, String> ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset)
+String::List ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset)
 {
-	HashMap<String, String> sortedsets;
+  String::List sortedsets;
 
 	for (const auto& it : subsetmap)
-	{
 		if (it.second == subset)
-			sortedsets[it.first] = it.first;
-	}
+			sortedsets.push_back(it.first);
 
 	if(subset == "gameclipview" && !sortedsets.empty() )
-	    sortedsets[getNoTheme()] = getNoTheme();
+	    sortedsets.push_back(getNoTheme());
 
-    return sortedsets;
+  std::sort(sortedsets.begin(), sortedsets.end());
+
+  return sortedsets;
 }
 
 

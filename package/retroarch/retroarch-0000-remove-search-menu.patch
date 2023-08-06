@@ -1,8 +1,17 @@
+From 6e2cb5e81c9db1047495e598cc34be93ebe8bdd7 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 09:03:33 +0100
+Subject: [PATCH 00/12] remove search menu
+
+---
+ menu/menu_driver.c | 1 +
+ 1 file changed, 1 insertion(+)
+
 diff --git a/menu/menu_driver.c b/menu/menu_driver.c
-index bc9066396d..8630b1a2a5 100644
+index 77d799f132..8d1d0cc4af 100644
 --- a/menu/menu_driver.c
 +++ b/menu/menu_driver.c
-@@ -8058,6 +8058,7 @@ bool menu_driver_iterate(
+@@ -8367,6 +8367,7 @@ bool menu_driver_iterate(
  
  bool menu_input_dialog_start_search(void)
  {
@@ -10,3 +19,6 @@ index bc9066396d..8630b1a2a5 100644
     input_driver_state_t
        *input_st                = input_state_get_ptr();
  #ifdef HAVE_ACCESSIBILITY
+-- 
+2.41.0
+

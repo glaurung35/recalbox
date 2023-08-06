@@ -1,8 +1,17 @@
+From f9948e7244d3f88ee15b98a034f4958188113d6a Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 09:43:37 +0100
+Subject: [PATCH 04/12] fix egl prototyping
+
+---
+ gfx/drivers_context/vc_egl_ctx.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
 diff --git a/gfx/drivers_context/vc_egl_ctx.c b/gfx/drivers_context/vc_egl_ctx.c
-index 16f312ae39..3242f65684 100644
+index 61bb585ef7..48a3fe54a1 100644
 --- a/gfx/drivers_context/vc_egl_ctx.c
 +++ b/gfx/drivers_context/vc_egl_ctx.c
-@@ -74,6 +74,9 @@ typedef struct
+@@ -73,6 +73,9 @@ typedef struct
     PFNEGLDESTROYIMAGEKHRPROC peglDestroyImageKHR;
  } vc_ctx_data_t;
  
@@ -12,3 +21,6 @@ index 16f312ae39..3242f65684 100644
  /* TODO/FIXME - static globals */
  static enum gfx_ctx_api vc_api = GFX_CTX_NONE;
  
+-- 
+2.41.0
+

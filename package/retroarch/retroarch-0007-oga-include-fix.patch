@@ -1,5 +1,14 @@
+From 1f62ee8f3b75e4c4e7ae322a2ec556a093a4c0f8 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 09:49:27 +0100
+Subject: [PATCH 07/12] oga include fix
+
+---
+ gfx/drivers/oga_gfx.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
 diff --git a/gfx/drivers/oga_gfx.c b/gfx/drivers/oga_gfx.c
-index 1be05693fe..0e7a3218c9 100644
+index a290b3d7d0..293a15a349 100644
 --- a/gfx/drivers/oga_gfx.c
 +++ b/gfx/drivers/oga_gfx.c
 @@ -22,7 +22,7 @@
@@ -11,3 +20,6 @@ index 1be05693fe..0e7a3218c9 100644
  #include <xf86drm.h>
  #include <xf86drmMode.h>
  #include <drm/drm_fourcc.h>
+-- 
+2.41.0
+

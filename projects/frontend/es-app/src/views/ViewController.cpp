@@ -993,8 +993,11 @@ void ViewController::FetchSlowDataFor(FileData* data)
 
 void ViewController::RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems)
 {
+  String text = systems.Count() > 1 ?
+                _("INITIALIZING SYSTEMS...") :
+                (_F(_("INITIALIZING SYSTEM {0}")) / systems.First()->FullName()).ToString();
   auto* gui = new GuiWaitLongExecution<DelayedSystemOperationData, bool>(mWindow, *this);
-  gui->Execute({ std::move(systems), interface }, _("INITIALIZING SYSTEMS..."));
+  gui->Execute({ std::move(systems), interface }, text);
   mWindow.pushGui(gui);
 }
 

@@ -57,6 +57,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add guncon2 support for CRT tvs
 - Bump libretro-stella
 - Bump hypseus-singe
+- Bump libretro-81
 
 ### Improvements
 

@@ -41,6 +41,12 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-mame to 0.256
 - Bump libretro-emuscv
 
+### News
+- Add libretro fake08 for Pico8
+
+### Bumps
+
+
 ### Improvements
 
 

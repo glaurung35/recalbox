@@ -1,5 +1,14 @@
+From d03762b227d4775415999cce9f41563b024b3cb9 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 09:48:08 +0100
+Subject: [PATCH 06/12] fix min max udev mouse lightgun
+
+---
+ input/drivers/udev_input.c | 30 ++++++++++++++++++++++++++++++
+ 1 file changed, 30 insertions(+)
+
 diff --git a/input/drivers/udev_input.c b/input/drivers/udev_input.c
-index 3cdf013fa4..79d308d5a5 100644
+index b16c4d3837..f314bab886 100644
 --- a/input/drivers/udev_input.c
 +++ b/input/drivers/udev_input.c
 @@ -646,6 +646,36 @@ static int udev_input_add_device(udev_input_t *udev,
@@ -39,3 +48,6 @@ index 3cdf013fa4..79d308d5a5 100644
  
        if (!mouse)
           goto end;
+-- 
+2.41.0
+

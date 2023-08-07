@@ -1,0 +1,5 @@
+config BR2_PACKAGE_HOST_SPIRV_HEADERS
+	bool "spirv-headers"
+	help
+	  The SPIR-V Tools project provides an API and commands for processing SPIR-V modules.
+	  https://github.com/KhronosGroup/SPIRV-Headers

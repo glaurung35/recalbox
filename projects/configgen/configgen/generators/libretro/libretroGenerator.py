@@ -1,4 +1,5 @@
 #!/usr/bin/env python
+import os
 from typing import List, Dict, Any
 
 import configgen.recalboxFiles as recalboxFiles
@@ -225,6 +226,19 @@ class LibretroGenerator(Generator):
             coreConfig.setString("mesen-s_gbmodel", '"Super Game Boy"')
         retroarchConfig.saveFile()
         coreConfig.saveFile()
+
+    @staticmethod
+    def createVideoDriverConfiguration(system: Emulator, rom: str, recalboxOptions: keyValueSettings,
+                               retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
+                               retroarchOverrides: keyValueSettings):
+        vulkanCores = ["flycast"]
+        if os.path.exists("/usr/lib/libvulkan.so") and system.Core in vulkanCores:
+            retroarchConfig.setString("video_driver", "vulkan")
+        else:
+            retroarchConfig.removeOption("video_driver")
+        retroarchConfig.saveFile()
+
+    # recalbox-crt-options.cfg options
     # Create configuration file
     @staticmethod
     def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool,
@@ -252,6 +266,10 @@ class LibretroGenerator(Generator):
 
         # Supergameboy config, core is selected by ES. Overlays are processed after that so there is a specific rule in it
         LibretroGenerator.createSuperGameBoyConfiguration(system, retroarchConfig, coreConfig)
+
+        # video driver config
+        LibretroGenerator.createVideoDriverConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
+                                                     retroarchOverrides)
 
         # crt config (should be after tate as it will change ratio but keep other tate config)
         if system.CRTEnabled:

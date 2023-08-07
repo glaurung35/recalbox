@@ -24,6 +24,8 @@ menu "Recalbox"
     endmenu
     menu "Vulkan"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/vulkan-loader/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/spirv-tools/Config.in"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/spirv-headers/Config.in.host"
     endmenu
   endmenu
   menu "Boot"

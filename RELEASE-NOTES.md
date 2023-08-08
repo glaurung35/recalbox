@@ -58,6 +58,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-stella
 - Bump hypseus-singe
 - Bump libretro-81
+- Bump libretro-a5200
 
 ### Improvements
 

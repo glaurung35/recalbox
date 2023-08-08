@@ -5,7 +5,7 @@
  
     /* Get BIOS path */
 -   fill_pathname_join(bios_path, system_dir,
-+   fill_pathname_join(bios_path, strcat(system_dir; "atari/"),
++   fill_pathname_join(bios_path, strcat(system_dir, "atari/"),
           A5200_BIOS_FILE_NAME, sizeof(bios_path));
  
     /* Read BIOS file */

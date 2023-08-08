@@ -223,7 +223,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.enhanced.label') }}
+              {{ $t('emulation.global.arcade.view.enhanced.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
@@ -235,7 +235,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.hideclones.label') }}
+              {{ $t('emulation.global.arcade.view.hideclones.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
@@ -247,7 +247,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.hidebios.label') }}
+              {{ $t('emulation.global.arcade.view.hidebios.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
@@ -259,7 +259,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.hidenonworking.label') }}
+              {{ $t('emulation.global.arcade.view.hidenonworking.help') }}
             </template>
           </WrappedToggle>
           <WrappedToggle
@@ -271,7 +271,7 @@
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.usedatabasenames.label') }}
+              {{ $t('emulation.global.arcade.view.usedatabasenames.help') }}
             </template>
           </WrappedToggle>
           <WrappedMultipleSelect

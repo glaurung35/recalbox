@@ -279,7 +279,7 @@
             :options="virtualArcadeManufacturersOptions"
             :getter="emulationstation['virtualarcade.manufacturers']"
             :setter="emulationstationStore.post"
-            apiKey="demo.systemlist"
+            apiKey="virtualarcade.manufacturers"
             v-if="emulationstation['virtualarcade.manufacturers']"
             help
           >
@@ -404,6 +404,7 @@
 
 <script lang="ts" setup>
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
+import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useGlobalStore } from 'stores/configuration/global';

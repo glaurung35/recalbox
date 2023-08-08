@@ -429,7 +429,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "arcade.view.hideclones"      , Validator(true) },
          { "arcade.view.hidebios"        , Validator(true) },
          { "arcade.view.usedatabasenames", Validator(true) },
-         { "virtualarcade.manufacturers" , Validator(GetArcadeManufacturerList(), false) },
+         { "virtualarcade.manufacturers" , Validator(GetArcadeManufacturerList(), true) },
        });
 
       return sList;

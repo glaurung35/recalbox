@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-# Commit of 2023/08/05
+# Commit of 2023/08/05 - don't forget to regenerate arcade-dats flats file
 LIBRETRO_MAME2003_PLUS_VERSION = 4406607dcab8d9ee6f332a06de94d37d97cd2d34
 LIBRETRO_MAME2003_PLUS_SITE = $(call github,libretro,mame2003-plus-libretro,$(LIBRETRO_MAME2003_PLUS_VERSION))
 LIBRETRO_MAME2003_PLUS_LICENSE = MAME

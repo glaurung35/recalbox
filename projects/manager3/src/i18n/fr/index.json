@@ -827,23 +827,23 @@
       "arcade": {
         "view": {
           "enhanced": {
-            "title": "Activer la vue améliorée",
+            "label": "Activer la vue améliorée",
             "help": "Cette option vous permet d'activer ou de désactiver la vue améliorée dans la vue arcade."
           },
           "hideclones": {
-            "title": "Replier les clones par défaut",
+            "label": "Replier les clones par défaut",
             "help": "Cette option vous permet d'activer ou de désactiver le repliage des clones."
           },
           "hidebios": {
-            "title": "Cacher les bios",
+            "label": "Cacher les bios",
             "help": "Cette option vous permet d'activer ou de désactiver la possibilité de cacher les bios."
           },
           "hidenonworking": {
-            "title": "Cacher les jeux non-fonctionnels",
+            "label": "Cacher les jeux non-fonctionnels",
             "help": "Cette option vous permet d'activer ou de désactiver la possibilité de cacher les jeux arcade non-fonctionnels."
           },
           "usedatabasenames": {
-            "title": "Toujours utiliser les noms officiels",
+            "label": "Toujours utiliser les noms officiels",
             "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'utiliser les noms officiels des jeux arcade."
           }
         }

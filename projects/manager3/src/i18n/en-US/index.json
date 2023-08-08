@@ -827,23 +827,23 @@
       "arcade": {
         "view": {
           "enhanced": {
-            "title": "Enable enhanced view",
+            "label": "Enable enhanced view",
             "help": "This option allows you to enable or disable the enhanced view in arcade view."
           },
           "hideclones": {
-            "title": "Fold clones by default",
+            "label": "Fold clones by default",
             "help": "This option allows you to enable or disable the possibility to auto-fold clones."
           },
           "hidebios": {
-            "title": "Hide bios",
+            "label": "Hide bios",
             "help": "This option allows you to enable or disable the possibility to hide bios files."
           },
           "hidenonworking": {
-            "title": "Hide non-working games",
+            "label": "Hide non-working games",
             "help": "This option allows you to enable or disable the possibility to hide non-working games."
           },
           "usedatabasenames": {
-            "title": "Always use official names",
+            "label": "Always use official names",
             "help": "This option allows you to enable or disable the use of official names."
           }
         }

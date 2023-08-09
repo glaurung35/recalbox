@@ -4,6 +4,7 @@
 
 LogLevel Log::reportingLevel = LogLevel::LogInfo;
 FILE* Log::sFile = nullptr;
+Path Log::mPath;
 
 const char* Log::sStringLevel[] =
 {
@@ -14,27 +15,31 @@ const char* Log::sStringLevel[] =
   "TRACE",
 };
 
-Path Log::getLogPath(const char* filename)
+Path Log::FormatLogPath(const char* filename)
 {
-	return RootFolders::DataRootFolder / "system/logs" / filename;
+  if (filename == nullptr) filename = "unknown.log";
+  Path path(filename);
+  if (!path.IsAbsolute())
+    path = RootFolders::DataRootFolder / "system/logs" / path;
+	return path;
 }
 
-void Log::open(const char* filename)
+void Log::Open(const char* filename)
 {
   // Build log path
-  Path logpath(filename != nullptr ? filename : getLogPath("es_log.txt").ToChars());
+  mPath = FormatLogPath(filename);
 
   // Backup?
-  if (logpath.Exists())
+  if (mPath.Exists())
   {
-    if (system(String("rm -f ").Append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot remove old log!"); }
-    if (system(String("mv ").Append(logpath.ToString()).Append(' ').Append(logpath.ToString()+".backup").data()) != 0)
-    { printf("[Logs] Cannot backup current log!"); }
+    Path backup(mPath);
+    backup.ChangeExtension(".backup");
+    if (!backup.Delete()) { printf("[Logs] Cannot remove old log!"); }
+    if (!Path::Rename(mPath, backup)) { printf("[Logs] Cannot backup current log!"); }
   }
 
   // Open new log
-  sFile = fopen(logpath.ToChars(), "w");
+  sFile = fopen(mPath.ToChars(), "w");
 }
 
 Log& Log::get(LogLevel level)
@@ -49,26 +54,20 @@ Log& Log::get(LogLevel level)
 	return *this;
 }
 
-void Log::flush()
+void Log::Flush()
 {
   (void)fflush(sFile);
 }
 
-void Log::close()
+void Log::Close()
 {
-  {
-    // *DO NOT REMOVE* the enclosing block as it allow the destructor to be called immediately
-    // before calling doClose()
-    // Generate an immediate log.
-    Log().get(LogLevel::LogInfo) << "Closing logger...";
-  }
-  doClose();
+  { Log().get(LogLevel::LogInfo) << "Closing logger..."; }
+  DoClose();
 }
 
-void Log::doClose()
+void Log::DoClose()
 {
-  if (sFile != nullptr)
-    (void)fclose(sFile);
+  if (sFile != nullptr) (void)fclose(sFile);
   sFile = nullptr;
 }
 
@@ -78,14 +77,14 @@ Log::~Log()
 	// Reopen temporarily
 	if (loggerClosed)
   {
-	  open();
+	  Open(mPath.ToChars());
 	  mMessage += " [closed!]";
   }
 
   mMessage += '\n';
   (void)fputs(mMessage.c_str(), sFile);
-	if (!loggerClosed) flush();
-	else doClose();
+	if (!loggerClosed) Flush();
+	else DoClose();
 
   // if it's an error, also print to console
   // print all messages if using --debug

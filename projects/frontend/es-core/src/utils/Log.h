@@ -2,7 +2,7 @@
 #define _LOG_H_
 
 #define LOG(level) \
-if (LogLevel::level <= Log::getReportingLevel()) Log().get(LogLevel::level)
+if (::LogLevel::level <= ::Log::ReportingLevel()) ::Log().get(LogLevel::level)
 
 #include <utils/String.h>
 #include <utils/os/fs/Path.h>
@@ -24,11 +24,13 @@ class Log
     ~Log();
     Log& get(LogLevel level = LogLevel::LogInfo);
 
-    static LogLevel getReportingLevel() { return reportingLevel; }
-    static void setReportingLevel(LogLevel level) { reportingLevel = level; }
+    static Path FormatLogPath(const char* filename);
 
-    static void open(const char* filename = nullptr);
-    static void close();
+    static LogLevel ReportingLevel() { return reportingLevel; }
+    static void SetReportingLevel(LogLevel level) { reportingLevel = level; }
+
+    static void Open(const char* filename);
+    static void Close();
 
     Log& operator << (char v) { mMessage.Append(v); return *this; }
     Log& operator << (const char* v) { mMessage.Append(v); return *this; }
@@ -48,15 +50,15 @@ class Log
   private:
     static const char* sStringLevel[(int)LogLevel::_Count];
     static FILE* sFile;
+    static Path mPath;
     static LogLevel reportingLevel;
+
     String mMessage;
     LogLevel messageLevel;
 
-    static Path getLogPath(const char* filename);
+    static void Flush();
 
-    static void flush();
-
-    static void doClose();
+    static void DoClose();
 };
 
 #endif

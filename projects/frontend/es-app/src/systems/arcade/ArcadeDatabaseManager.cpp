@@ -202,7 +202,7 @@ ArcadeDatabase::DriverLists ArcadeDatabaseManager::BuildAndRemapDrivers(const Ha
   }
 
   // Log
-  if (Log::getReportingLevel() == LogLevel::LogDebug)
+  if (Log::ReportingLevel() >= LogLevel::LogDebug)
   {
     String log("[Arcade] Most used drivers: ");
     for (int i = 0; i < (int) limitedDriverList.size(); ++i)

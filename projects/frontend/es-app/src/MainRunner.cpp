@@ -40,7 +40,7 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug)
+MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug, bool trace)
   : mRequestedWidth(width)
   , mRequestedHeight(height)
   , mRequestWindowed(windowed)
@@ -50,7 +50,7 @@ MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigne
   , mApplicationWindow(nullptr)
   , mBluetooth()
 {
-  Intro(debug);
+  Intro(debug, trace);
   SetLocale(executablePath);
   CheckHomeFolder();
 
@@ -546,7 +546,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
 
 void onExit()
 {
-  Log::close();
+  ::Log::Close();
 }
 
 void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
@@ -581,29 +581,34 @@ void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char 
   { LOG(LogDebug) << "[SDL2] (" << cat << ':' << subType << ") " << message; }
 }
 
-void MainRunner::SetDebugLogs(bool state)
+void MainRunner::SetDebugLogs(bool debug, bool trace)
 {
-  if (state)
+  if (trace)
   {
-    if (Log::getReportingLevel() < LogLevel::LogDebug)
-      Log::setReportingLevel(LogLevel::LogDebug);
+    if (::Log::ReportingLevel() < LogLevel::LogTrace) ::Log::SetReportingLevel(LogLevel::LogTrace);
+    SDL_LogSetOutputFunction(Sdl2Log, nullptr);
+    SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
+  }
+  else if (debug)
+  {
+    if (::Log::ReportingLevel() < LogLevel::LogDebug) ::Log::SetReportingLevel(LogLevel::LogDebug);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }
   else
   {
-    Log::setReportingLevel(LogLevel::LogInfo);
+    ::Log::SetReportingLevel(LogLevel::LogInfo);
     SDL_LogSetOutputFunction(nullptr, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_ERROR);
   }
 }
 
-void MainRunner::Intro(bool debug)
+void MainRunner::Intro(bool debug, bool trace)
 {
   if (atexit(&onExit) != 0) // Always close the log on exit
     { LOG(LogError) << "[MainRunner] Error setting exit function!"; }
 
-  SetDebugLogs(debug || mConfiguration.GetDebugLogs());
+  SetDebugLogs(debug || mConfiguration.GetDebugLogs(), trace);
 
   { LOG(LogInfo) << "[MainRunner] EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING; }
 }

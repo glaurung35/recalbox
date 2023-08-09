@@ -223,7 +223,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
   {
     case Components::DebugLogs:
     {
-      MainRunner::SetDebugLogs(status);
+      MainRunner::SetDebugLogs(status, false);
       RecalboxConf::Instance().SetDebugLogs(status).Save();
       break;
     }

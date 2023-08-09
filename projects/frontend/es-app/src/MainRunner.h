@@ -175,8 +175,10 @@ class MainRunner
 
     /*!
      * @brief Display Intro
+     * @param debug Set debug logs level
+     * @param trace Set trace logs level. Takes precedence over debug
      */
-    void Intro(bool debug);
+    void Intro(bool debug, bool trace);
 
     /*!
      * @brief Check home folder existence
@@ -401,8 +403,11 @@ class MainRunner
      * @param height Requested height
      * @param windowed No fullscreen
      * @param runCount Number of time the MainRunner has been run
+     * @param environment Application environment
+     * @param debug Debug flag
+     * @param trace Trace flag
      */
-    MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug);
+    MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug, bool trace);
 
     //! Destructor
     ~MainRunner() override;
@@ -427,14 +432,10 @@ class MainRunner
 
     /*!
      * @brief Set debug log state
-     * @param state True to set debug logs on
+     * @param debug True to set debug logs on
+     * @param trace True to set trace logs on. Trace takes precedence over debug
      */
-    static void SetDebugLogs(bool state);
-
-    /*!
-     * @brief Install CRT features
-     */
-    static void InstallCRTFeatures();
+    static void SetDebugLogs(bool debug, bool trace);
 
     /*
      * RomFolderChangeNotification implementaton

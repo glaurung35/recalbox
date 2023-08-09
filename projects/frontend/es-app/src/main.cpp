@@ -28,12 +28,12 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
     }
     else if (strcmp(argv[i], "--debug") == 0)
     {
-      Log::setReportingLevel(LogLevel::LogDebug);
+      Log::SetReportingLevel(LogLevel::LogDebug);
       debug = true;
     }
     else if (strcmp(argv[i], "--trace") == 0)
     {
-      Log::setReportingLevel(LogLevel::LogTrace);
+      Log::SetReportingLevel(LogLevel::LogTrace);
       trace = true;
     }
     else if (strcmp(argv[i], "--windowed") == 0)
@@ -63,19 +63,21 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
 
 int main(int argc, char* argv[], char** env)
 {
-  Log::open();
+  Log::Open("frontend.log");
 
   // Get arguments
   unsigned int width = 0;
   unsigned int height = 0;
-  bool windowed = false, debug = false, trace = false;
+  bool windowed = false;
+  bool debug = false;
+  bool trace = false;
   if (!parseArgs(argc, argv, width, height, windowed, debug, trace))
     return 0;
 
   for(int loopCount = 0;; ++loopCount)
   {
     // Start the runner
-    MainRunner runner(argv[0], width, height, windowed, loopCount, env, debug);
+    MainRunner runner(argv[0], width, height, windowed, loopCount, env, debug, trace);
     MainRunner::ExitState exitState = runner.Run();
 
     { LOG(LogInfo) << "[Main] EmulationStation cleanly shutting down."; }

@@ -111,17 +111,13 @@ class SystemHolder:
 
         class ArcadeProperties:
 
-            def __init__(self, file: str, limit: int, split: str, ignore: str):
+            def __init__(self, file: str, ignore: str):
                 self.__file: str = file
-                self.__limit: int = limit
-                self.__split: str = split
                 self.__ignore: str = ignore
 
             def Serialize(self):
                 return {
                     "file": self.__file,
-                    "limit": str(self.__limit),
-                    "split": self.__split,
                     "ignore": self.__ignore,
                 }
 
@@ -130,12 +126,6 @@ class SystemHolder:
 
             @property
             def File(self) -> str: return self.__file
-
-            @property
-            def Limit(self) -> int: return self.__limit
-
-            @property
-            def Split(self) -> str: return self.__split
 
             @property
             def Ignore(self) -> str: return self.__ignore
@@ -149,7 +139,7 @@ class SystemHolder:
         }
 
         def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool,
-                     arcadefile: str, arcadelimit: int, arcadesplit: str, arcadeignore: str):
+                     arcadefile: str, arcadeignore: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
@@ -162,7 +152,7 @@ class SystemHolder:
             self.__compatibility: str = compatibility
             self.__speed: str = speed
             self.__crtavailable: bool = crtavailable
-            self.__arcade = SystemHolder.Core.ArcadeProperties(arcadefile, arcadelimit, arcadesplit, arcadeignore)
+            self.__arcade = SystemHolder.Core.ArcadeProperties(arcadefile, arcadeignore)
             pass
 
         @property
@@ -362,8 +352,6 @@ class SystemHolder:
                     speed=self.__get(desc, coreSection, "speed", "", True),
                     crtavailable=(self.__get(desc, coreSection, "crt.available", "", False) == '1'),
                     arcadefile=self.__get(desc, coreSection, "arcade.file", "", False),
-                    arcadelimit=int(self.__get(desc, coreSection, "arcade.limit", "0", False)),
-                    arcadesplit=self.__get(desc, coreSection, "arcade.split", "", False),
                     arcadeignore=self.__get(desc, coreSection, "arcade.ignore", "", False),
                 )
                 # Package defined?

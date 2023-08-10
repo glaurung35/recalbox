@@ -4,10 +4,12 @@
 #
 ################################################################################
 
+# Commit of 2023/08/21
 # When bumping please run a build, then run
 # cd output/build/advancemame-vXX/ && find ./obj -type d
 # and replace the directory list in directoriesCreation.sh
-ADVANCEMAME_VERSION = v3.9
+# Run also the arcade-dats package!
+ADVANCEMAME_VERSION = 5f301c8490b25ba518d287d5a6abec8268940b80
 ADVANCEMAME_SITE = $(call github,amadvance,advancemame,$(ADVANCEMAME_VERSION))
 ADVANCEMAME_LICENSE = GPL-2.0 MAME
 ADVANCEMAME_NON_COMMERCIAL = y

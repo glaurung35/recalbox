@@ -20,7 +20,7 @@ class InstallRoms:
         "_liesmich.txt": "de",
     }
 
-    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", 0, "", "")
+    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "")
 
     def __init__(self, systemRoot: str, target: str, root: str, lite: bool = False):
         self.__systemRoot = systemRoot

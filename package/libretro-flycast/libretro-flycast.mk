@@ -38,6 +38,11 @@ endif
 LIBRETRO_FLYCAST_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAGS_EXE) $(LIBRETRO_FLYCAST_SIDE_LIBS)"
 
 define LIBRETRO_FLYCAST_INSTALL_TARGET_CMDS
+	$(call InstallArcadeFiles,libretro,naomi,$(LIBRETRO_FLYCAST_VERSION))
+	$(call InstallArcadeFiles,libretro,naomi2,$(LIBRETRO_FLYCAST_VERSION))
+	$(call InstallArcadeFiles,libretro,naomigd,$(LIBRETRO_FLYCAST_VERSION))
+	$(call InstallArcadeFiles,libretro,atomiswave,$(LIBRETRO_FLYCAST_VERSION))
+
 	$(INSTALL) -D $(@D)/flycast_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/flycast_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/dc

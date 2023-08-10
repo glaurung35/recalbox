@@ -12,7 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Realtek RTW-88 series of wifi controllers
 
 ### News
-
+- Add Naomi 2 system on x86_64
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

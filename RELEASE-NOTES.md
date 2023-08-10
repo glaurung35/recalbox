@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-mednafen_psx
 - Bump libretro-mednafen_pce_fast
 - Bump libretro-genesisplusgx_wide
+- Bump advancemame
 
 ### Improvements
 

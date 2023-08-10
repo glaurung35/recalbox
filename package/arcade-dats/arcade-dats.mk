@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ARCADE_DATS_VERSION = 255
+ARCADE_DATS_VERSION = 258
 ARCADE_DATS_SOURCE =
 ARCADE_DATS_SITE =
 ARCADE_DATS_LICENSE = MAME

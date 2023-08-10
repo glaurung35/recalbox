@@ -41,6 +41,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump advancemame
 - Bump lr-mupen64plus_nx
 
+- Add Naomi 2 system on x86_64
+
+### Bumps
+
 ### Improvements
 
 

@@ -10,7 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### News
-
+- Add Naomi 2 system on x86_64
 
 ### Bumps
 - Bump libretro-mame to 0.258

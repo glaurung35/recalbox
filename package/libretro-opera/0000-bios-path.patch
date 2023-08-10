@@ -1,0 +1,119 @@
+--- a/libopera/opera_bios.c	2023-07-31 04:55:33.000000000 +0200
++++ b/libopera/opera_bios.c	2023-10-03 01:31:52.017865000 +0200
+@@ -3,7 +3,7 @@
+ static const opera_bios_t BIOSES[] =
+   {
+     {
+-      "panafz1.bin",
++      "3do/panafz1.bin",
+       "Panasonic FZ-1 (U)",
+       (1024 * 1024),
+       'U',
+@@ -16,7 +16,7 @@
+        0xdf,0xc1,0xf3,0x04,0xd9,0x8b,0x8d,0x36,0x32,0x5a}
+     },
+     {
+-      "panafz1j.bin",
++      "3do/panafz1j.bin",
+       "Panasonic FZ-1 (J)",
+       (1024 * 1024),
+       'J',
+@@ -29,7 +29,7 @@
+        0xd5,0x6e,0xbc,0x66,0x76,0x1e,0xf3,0xc8,0x0e,0xfc}
+     },
+     {
+-      "panafz1j-norsa.bin",
++      "3do/panafz1j-norsa.bin",
+       "Panasonic FZ-1 (J) [No RSA]",
+       (1024 * 1024),
+       'J',
+@@ -42,7 +42,7 @@
+        0x30,0x92,0x0c,0x21,0xaf,0x8b,0xee,0x88,0xe4,0x19}
+     },
+     {
+-      "panafz10.bin",
++      "3do/panafz10.bin",
+       "Panasonic FZ-10 (U)",
+       (1024 * 1024),
+       'U',
+@@ -55,7 +55,7 @@
+        0x35,0x75,0x7e,0x27,0x9c,0x27,0x4c,0x0a,0xca,0xad}
+     },
+     {
+-      "panafz10-norsa.bin",
++      "3do/panafz10-norsa.bin",
+       "Panasonic FZ-10 (U) [No RSA]",
+       (1024 * 1024),
+       'U',
+@@ -68,7 +68,7 @@
+        0x80,0x9c,0x0b,0x90,0xfc,0x27,0xac,0x73,0xc0,0x02}
+     },
+     {
+-      "panafz10e-anvil.bin",
++      "3do/panafz10e-anvil.bin",
+       "Panasonic FZ-10 (E) ANVIL",
+       (1024 * 1024),
+       'E',
+@@ -81,7 +81,7 @@
+        0x57,0xf1,0x1d,0x40,0x6f,0xd7,0x12,0x51,0xa5,0xfd}
+     },
+     {
+-      "panafz10e-anvil-norsa.bin",
++      "3do/panafz10e-anvil-norsa.bin",
+       "Panasonic FZ-10 (E) ANVIL [No RSA]",
+       (1024 * 1024),
+       'E',
+@@ -94,7 +94,7 @@
+        0x67,0xd2,0x42,0x8d,0x08,0x89,0x80,0x29,0x51,0x59}
+     },
+     {
+-      "goldstar.bin",
++      "3do/goldstar.bin",
+       "Goldstar GDO-101M",
+       (1024 * 1024),
+       'U',
+@@ -107,7 +107,7 @@
+        0xe1,0xee,0xa2,0xcd,0xa4,0x36,0x75,0xee,0x2d,0xe7}
+     },
+     {
+-      "sanyotry.bin",
++      "3do/sanyotry.bin",
+       "Sanyo Try IMP-21J",
+       (1024 * 1024),
+       'J',
+@@ -120,7 +120,7 @@
+        0x4a,0xd3,0xfc,0x3a,0xdf,0xa8,0xd6,0x35,0xe9,0x43}
+     },
+     {
+-      "3do_arcade_saot.bin",
++      "3do/3do_arcade_saot.bin",
+       "3DO Arcade - SAOT",
+       (512 * 1024),
+       'U',
+@@ -138,7 +138,7 @@
+ static const opera_bios_t FONTS[] =
+   {
+     {
+-      "panafz1-kanji.bin",
++      "3do/panafz1-kanji.bin",
+       "Panasonic FZ-1 (J) Kanji ROM",
+       933636,
+       'J',
+@@ -151,7 +151,7 @@
+        0xab,0x44,0x78,0x46,0xc1,0x1f,0xb3,0x1a,0xf6,0x3e}
+     },
+     {
+-      "panafz1j-kanji.bin",
++      "3do/panafz1j-kanji.bin",
+       "Panasonic FZ-1 (J) Kanji ROM",
+       (1024 * 1024),
+       'J',
+@@ -164,7 +164,7 @@
+        0x07,0x67,0xef,0x8c,0x1a,0x73,0x68,0xe4,0xe4,0x07}
+     },
+     {
+-      "panafz10ja-anvil-kanji.bin",
++      "3do/panafz10ja-anvil-kanji.bin",
+       "Panasonic FZ-10 (J) ANVIL Kanji ROM",
+       (1024 * 1024),
+       'J',

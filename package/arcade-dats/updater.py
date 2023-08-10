@@ -49,17 +49,17 @@ class Updater:
         def RelativePath(self) -> list[str]: return self.__relativePath
 
     Descriptors: dict[str, SystemDescriptor] = {
-        "advancemame": SystemDescriptor("advancemame", "advancemame"           , ["advancemame"]                   , "https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_106.7z"      , ["MAME 0.106u13.dat"]),
-        "mame2000"   : SystemDescriptor("mame2000"   , "libretro-mame2000"     , ["mame2000"]                      , "https://github.com/libretro/mame2000-libretro/archive/{}.tar.gz"     , ["metadata/MAME 0.37b5 XML.dat"]),
-        "mame2003"   : SystemDescriptor("mame2003"   , "libretro-mame2003"     , ["mame2003"]                      , "https://github.com/libretro/mame2003-libretro/archive/{}.tar.gz"     , ["metadata/mame2003.xml"]),
-        "mame2003+"  : SystemDescriptor("mame2003+"  , "libretro-mame2003-plus", ["mame2003-plus"]                 , "https://github.com/libretro/mame2003-plus-libretro/archive/{}.tar.gz", ["metadata/mame2003-plus.xml"]),
-        "mame2010"   : SystemDescriptor("mame2010"   , "libretro-mame2010"     , ["mame2010"]                      , "https://github.com/libretro/mame2010-libretro/archive/{}.tar.gz"     , ["metadata/mame2010.xml"]),
-        "mame2015"   : SystemDescriptor("mame2015"   , "libretro-mame2015"     , ["mame2015"]                      , "https://github.com/libretro/mame2015-libretro/archive/{}.tar.gz"     , ["metadata/mame2015-xml.zip"]),
-        "mame"       : SystemDescriptor("mame"       , "libretro-mame"         , ["mame"]                          , "https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_{}.7z"       , ["MAME 0.{} (arcade).dat", "MAME 0.{} (Arcade).dat"]),
-        "pifba"      : SystemDescriptor("pifba"      , "pifba"                 , ["pifba"]                         , "packages:pifba"                                                     , ["fba_rb.dat"]),
-        "fbneo"      : SystemDescriptor("fbneo"      , "libretro-fbneo"        , ["fbneo"]                         , "https://github.com/libretro/FBNeo/archive/{}.tar.gz"                 , ["dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat"]),
-        "supermodel" : SystemDescriptor("supermodel" , "supermodel"            , ["supermodel"]                    , "", []),
-        "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave"], "", []),
+        "advancemame": SystemDescriptor("advancemame", "advancemame"           , ["advancemame"]                             , "https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_106.7z"      , ["MAME 0.106u13.dat"]),
+        "mame2000"   : SystemDescriptor("mame2000"   , "libretro-mame2000"     , ["mame2000"]                                , "https://github.com/libretro/mame2000-libretro/archive/{}.tar.gz"     , ["metadata/MAME 0.37b5 XML.dat"]),
+        "mame2003"   : SystemDescriptor("mame2003"   , "libretro-mame2003"     , ["mame2003"]                                , "https://github.com/libretro/mame2003-libretro/archive/{}.tar.gz"     , ["metadata/mame2003.xml"]),
+        "mame2003+"  : SystemDescriptor("mame2003+"  , "libretro-mame2003-plus", ["mame2003-plus"]                           , "https://github.com/libretro/mame2003-plus-libretro/archive/{}.tar.gz", ["metadata/mame2003-plus.xml"]),
+        "mame2010"   : SystemDescriptor("mame2010"   , "libretro-mame2010"     , ["mame2010"]                                , "https://github.com/libretro/mame2010-libretro/archive/{}.tar.gz"     , ["metadata/mame2010.xml"]),
+        "mame2015"   : SystemDescriptor("mame2015"   , "libretro-mame2015"     , ["mame2015"]                                , "https://github.com/libretro/mame2015-libretro/archive/{}.tar.gz"     , ["metadata/mame2015-xml.zip"]),
+        "mame"       : SystemDescriptor("mame"       , "libretro-mame"         , ["mame"]                                    , "https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_{}.7z"       , ["MAME 0.{} (arcade).dat", "MAME 0.{} (Arcade).dat"]),
+        "pifba"      : SystemDescriptor("pifba"      , "pifba"                 , ["pifba"]                                   , "packages:pifba"                                                      , ["fba_rb.dat"]),
+        "fbneo"      : SystemDescriptor("fbneo"      , "libretro-fbneo"        , ["fbneo"]                                   , "https://github.com/libretro/FBNeo/archive/{}.tar.gz"                 , ["dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat"]),
+        "supermodel" : SystemDescriptor("supermodel" , "supermodel"            , ["supermodel"]                              , "", []),
+        "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave", "naomi2"], "", []),
     }
 
     def execute(self):

@@ -11,7 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
 
 ### News
-
+- Add Naomi 2 system on x86_64
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

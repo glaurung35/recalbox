@@ -14,6 +14,9 @@
    <xsl:template match="/datafile/header/name">
       <name>NaomiGD</name>
    </xsl:template>
+   <xsl:template match="/datafile/header/description">
+      <description>NaomiGD</description>
+   </xsl:template>
    <xsl:template match="/datafile/header/author">
       <author>Recalbox</author>
    </xsl:template>
@@ -21,6 +24,7 @@
       <homepage>https://www.recalbox.com/</homepage>
    </xsl:template>
    <xsl:template match="/datafile/header/url"/>
+   <xsl:template match="/datafile/header/email"/>
 
    <xsl:template match="game|machine">
       <!--type du jeu-->
@@ -67,6 +71,6 @@
          <xsl:copy-of select="."/>
       </xsl:if>
    </xsl:template>
-   
+
 
 </xsl:stylesheet>

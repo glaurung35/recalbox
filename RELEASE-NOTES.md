@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump odroidxu4 kernel to 6.1.49
 - Bump libretro fbneo to 6b6ba3
 - Bump libretro-mame2003+
+- Bump advancemame
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

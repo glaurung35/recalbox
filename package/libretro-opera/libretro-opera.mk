@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022/07/25
-LIBRETRO_OPERA_VERSION = 8a49bb8877611037438aeb857cb182f41ee0e3a1
+# Commit of 2023/07/31
+LIBRETRO_OPERA_VERSION = 100ae1e7decefe1f17d98cfcb9f2af4ff8452691
 LIBRETRO_OPERA_SITE = $(call github,libretro,opera-libretro,$(LIBRETRO_OPERA_VERSION))
 LIBRETRO_OPERA_LICENSE = COPYRIGHT
 LIBRETRO_OPERA_NON_COMMERCIAL = y
@@ -40,6 +40,7 @@ endef
 define LIBRETRO_OPERA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/opera_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/opera_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/3do
 endef
 
 $(eval $(generic-package))

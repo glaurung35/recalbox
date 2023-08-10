@@ -600,4 +600,7 @@
     <bios path="cdi/cdibios.zip"      md5="9fd6b277cd877d51426427a33d1d19bb" core="same_cdi" mandatory="false" hashMatchMandatory="false" />
     <bios path="cdi/cdimono2.zip"     md5="2ac8cd5bb23287e022ca17d616949255" core="same_cdi" mandatory="false" hashMatchMandatory="false" />
   </system>
+  <system fullname="Sega Naomi 2" platform="naomi2">
+    <bios path="dc/naomi2.zip" md5="34f9c1acdaf53d6a50dd8de052e506ca" core="flycast" mandatory="true" hashMatchMandatory="false" />
+  </system>
 </biosList>

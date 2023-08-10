@@ -3,10 +3,10 @@
 <datafile>
   <header>
     <name>Atomiswave</name>
-    <description>MAME Arcade 0.255 (May 31 2023)</description>
+    <description>Atomiswave</description>
     <category>Emulation</category>
-    <version>0.255</version>
-    <date>31/05/2023</date>
+    <version>0.258</version>
+    <date>30/08/2023</date>
     <author>Recalbox</author>
     <homepage>https://www.recalbox.com/</homepage>
     <clrmamepro/>

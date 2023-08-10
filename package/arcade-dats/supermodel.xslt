@@ -14,6 +14,9 @@
    <xsl:template match="/datafile/header/name">
       <name>Model3</name>
    </xsl:template>
+   <xsl:template match="/datafile/header/description">
+      <description>Model3</description>
+   </xsl:template>
    <xsl:template match="/datafile/header/author">
       <author>Recalbox</author>
    </xsl:template>
@@ -21,6 +24,7 @@
       <homepage>https://www.recalbox.com/</homepage>
    </xsl:template>
    <xsl:template match="/datafile/header/url"/>
+   <xsl:template match="/datafile/header/email"/>
 
    <xsl:template match="game|machine">
       <!--type du jeu-->
@@ -46,10 +50,10 @@
       <!--pere du jeu-->
       <xsl:variable name="pere">
          <xsl:if test="$type='clone'">
-            <xsl:value-of select="@cloneof" /> 
+            <xsl:value-of select="@cloneof" />
          </xsl:if>
          <xsl:if test="$type='parent'">
-            <xsl:value-of select="@name" /> 
+            <xsl:value-of select="@name" />
          </xsl:if>
       </xsl:variable>
 
@@ -57,7 +61,7 @@
       <xsl:if test="@sourcefile='sega/model3.cpp'">
          <xsl:choose>
             <!-- eca et ses clones: ajout rom manquante -->
-            <xsl:when test="$pere='eca'"> 
+            <xsl:when test="$pere='eca'">
                <xsl:copy>
                   <xsl:copy-of select="@*"/>
                   <xsl:copy-of select="description"/>
@@ -70,9 +74,9 @@
                   <xsl:copy-of select="device_ref"/>
                   <xsl:copy-of select="driver"/>
                </xsl:copy>
-            </xsl:when>               
+            </xsl:when>
             <!-- lemans24 et ses clones: ajout rom manquante -->
-            <xsl:when test="$pere='lemans24'"> 
+            <xsl:when test="$pere='lemans24'">
                <xsl:copy>
                   <xsl:copy-of select="@*"/>
                   <xsl:copy-of select="description"/>
@@ -110,6 +114,6 @@
 
 
    </xsl:template>
-   
+
 
 </xsl:stylesheet>

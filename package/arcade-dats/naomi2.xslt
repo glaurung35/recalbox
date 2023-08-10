@@ -12,10 +12,10 @@
    </xsl:template>
 
    <xsl:template match="/datafile/header/name">
-      <name>Atomiswave</name>
+      <name>Naomi2</name>
    </xsl:template>
    <xsl:template match="/datafile/header/description">
-      <description>Atomiswave</description>
+      <description>Naomi2</description>
    </xsl:template>
    <xsl:template match="/datafile/header/author">
       <author>Recalbox</author>
@@ -67,7 +67,7 @@
          </xsl:choose>
       </xsl:variable>
       <!--filtre sur bios-->
-      <xsl:if test="$bios='awbios' or @name='awbios'">
+      <xsl:if test="$bios='naomi2' or @name='naomi2'">
          <xsl:copy-of select="."/>
       </xsl:if>
    </xsl:template>

@@ -210,6 +210,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     case BoardType::Pi0:
     case BoardType::Pi1:
     case BoardType::Pi2:
+    case BoardType::RG351V:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper: break;
     // Variable resolution and/or tvservice unavailable

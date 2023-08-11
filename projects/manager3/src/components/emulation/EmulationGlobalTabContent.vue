@@ -427,6 +427,7 @@ const {
 
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
+emulationstationStore.fetchOptions();
 const {
   virtualArcadeManufacturersOptions,
   emulationstation,

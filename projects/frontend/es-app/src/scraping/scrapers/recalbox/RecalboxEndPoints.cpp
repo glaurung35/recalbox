@@ -126,6 +126,7 @@ RecalboxEndPoints::RecalboxEndPoints()
     case BoardType::RG353V:               mBoard = "RG353V"; break;
     case BoardType::RG353M:               mBoard = "RG353M"; break;
     case BoardType::RG503:                mBoard = "RG503"; break;
+    case BoardType::RG351V:               mBoard = "RG351V"; break;
   }
 
   String servers = mDns.GetTxtRecord(sRootDomainName);

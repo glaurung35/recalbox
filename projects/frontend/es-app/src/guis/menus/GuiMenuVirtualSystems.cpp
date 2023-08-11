@@ -32,7 +32,7 @@ GuiMenuVirtualSystems::GuiMenuVirtualSystems(WindowManager& window)
 
   // Lightgun
   BoardType board = Board::Instance().GetBoardType();
-  if (board != BoardType::OdroidAdvanceGo && board != BoardType::OdroidAdvanceGoSuper)
+  if (board != BoardType::OdroidAdvanceGo && board != BoardType::OdroidAdvanceGoSuper && board != BoardType::RG351V)
     AddSwitch(_("SHOW LIGHTGUN SYSTEM"), mLightGunOriginalValues, (int)Components::LightGun, this, _(MENUMESSAGE_ADVANCED_LIGHTGUN_HELP_MSG));
 
   // Ports

@@ -164,6 +164,7 @@ const ResolutionAdapter::ResolutionList& ResolutionAdapter::GetResolutionDetaile
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
+    case BoardType::RG351V:
     case BoardType::RG353P:
     case BoardType::RG353V:
     case BoardType::RG353M:
@@ -353,6 +354,7 @@ void ResolutionAdapter::GetMaximumResolution(int& w, int& h, bool& strict)
     case BoardType::Pi3plus: w = 0; h = 800; strict = false; break;
     case BoardType::Pi4:
     case BoardType::Pi400: w = 0; h = 1200; strict = true; break;
+    case BoardType::RG351V:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::UnknownPi:

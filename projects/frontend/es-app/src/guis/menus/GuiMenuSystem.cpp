@@ -44,6 +44,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
     case BoardType::RG353V:               arch = "RG353V"; break;
     case BoardType::RG353M:               arch = "RG353M"; break;
     case BoardType::RG503:                arch = "RG503"; break;
+    case BoardType::RG351V:               arch = "RG351V"; break;
   }
   arch.Append(' ').Append(sizeof(void*) == 4 ? "32bits" : "64bits");
   AddText(_("VERSION"), version.Append(" (").Append(arch).Append(')'), _(MENUMESSAGE_VERSION_HELP_MSG));

@@ -7,7 +7,7 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2-Pulstar
 
 ### Hardware
-
+- Add support for Anbernic RG351v
 
 ### News
 
@@ -18,12 +18,12 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
 
-
 ### Fixes
 - Fix argonone case power management
 - Fix gpu overclock when overclocking on RPi4
 - Fix multi-wifi configuration
 - Fix demo Astebros for megadrive
+- Fix analog stick with inverted axis behaviour
 
 ## Version 9.1-Pulstar
 

@@ -28,6 +28,7 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
   BoardType model = GetBoardType();
   switch(model)
   {
+    case BoardType::RG351V: // might need adaptation!
     case BoardType::OdroidAdvanceGo:
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected."; }
@@ -181,6 +182,11 @@ BoardType Board::GetBoardType()
           { LOG(LogInfo) << "[Hardware] Hardware " << hardware; }
         }
 
+        if (hardware == "Anbernic RG351V")
+        {
+          { LOG(LogInfo) << "[Hardware] Anbernic RG351V" ; }
+          mType = BoardType::RG351V;
+        }
         if (hardware == "Anbernic RG353P")
         {
           { LOG(LogInfo) << "[Hardware] Anbernic RG353P" ; }
@@ -259,6 +265,7 @@ bool Board::CanHaveCRTBoard()
     case BoardType::Unknown:
     case BoardType::Pi0:
     case BoardType::UnknownPi:
+    case BoardType::RG351V:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::PCx86:

@@ -359,7 +359,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "splash.select"                         , Validator(false, { "all", "recalbox", "custom" }) },
          { "manager.enabled"                       , Validator(true) },
          { "api.enabled"                           , Validator(true) },
-         { "es.videomode"                          , Validator(GetAvailableResolutions(), false) },
+         { "es.videomode"                          , Validator(GetAvailableFrontEndResolutions(), false) },
          { "emulators.specialkeys"                 , Validator(false, { "default", "nomenu", "none" }) },
          { "hostname"                              , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
          { "samba.enabled"                         , Validator(true) },
@@ -465,7 +465,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "enabled"         , Validator(true) },
         { "atstartup"       , Validator(true) },
         { "xbutton"         , Validator(true) },
-        { "videomode"       , Validator(GetAvailableResolutions(), false) },
+        { "videomode"       , Validator(GetAvailableFrontendResolutions(), false) },
         { "network.waitmode", Validator(false, { "required", "wish", "nonce" }) },
         { "network.waittime", Validator(0, INT32_MAX) },
         { "network.waithost", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
@@ -566,7 +566,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "videomode"                 , Validator(GetAvailableResolutions(), false) },
+        { "videomode"                 , Validator(GetAvailableGlobalResolutions(), false) },
         { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
         { "shaderset.file"            , Validator(GetAvailableShaders(), false) },
         { "integerscale"              , Validator(true) },
@@ -609,7 +609,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
         ({
-           { "videomode"                 , Validator(GetAvailableResolutions(), false) },
+           { "videomode"                 , Validator(GetAvailableFrontEndResolutions(), false) },
            { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
            { "shaderset.file"            , Validator(GetAvailableShaders(), false) },
            { "integerscale"              , Validator(true) },
@@ -915,52 +915,37 @@ String RequestHandlerTools::GetCommandOutput(const String& command)
   return output;
 }
 
-HashMap<String, String> RequestHandlerTools::GetAvailableResolutions()
+HashMap<String, String> RequestHandlerTools::GetAvailableGlobalResolutions()
 {
   static HashMap<String, String> sResolutions;
+  ResolutionAdapter resolutionAdapter;
 
   if (sResolutions.empty())
   {
-    String arch = GetArchitecture();
-
-    sResolutions.insert_unique("default", "Default resolution");
-    if (arch.StartsWith("rpi", 3))
+    sResolutions.insert_unique("default", "NATIVE");
+    for(const ResolutionAdapter::Reoslution& resolution : resolutionAdapter.Resolutions(true))
     {
-      rapidjson::Document json;
-      json.Parse(GetCommandOutput("tvservice -j -m CEA").c_str());
-      if (!json.HasParseError())
-        for(const auto& item : json.GetArray())
-        {
-          String name("CEA ");
-          name.Append(String(item["code"].GetInt()));
-          String display(String(item["width"].GetInt()));
-          display.Append('x').Append(String(item["height"].GetInt()))
-                 .Append(' ')
-                 .Append(String(item["rate"].GetInt()))
-                 .Append("Hz ", 3)
-                 .Append(item["aspect_ratio"].GetString());
-          if (item["scan"].GetString()[0] == 'i')
-            display.Append(" (Interlaced)");
-          sResolutions.insert_unique(name + " HDMI", display + ", sound over HDMI");
-          sResolutions.insert_unique(name + " DVI", display + ", no sound");
-        }
-      json.Parse(GetCommandOutput("tvservice -j -m DMT").c_str());
-      if (!json.HasParseError())
-        for(const auto& item : json.GetArray())
-        {
-          String name("DMT ");
-          name.Append(String(item["code"].GetInt()));
-          String display(String(item["width"].GetInt()));
-          display.Append('x').Append(String(item["height"].GetInt()))
-                 .Append(' ')
-                 .Append(String(item["rate"].GetInt()))
-                 .Append("Hz ", 3)
-                 .Append(item["aspect_ratio"].GetString());
-          if (item["scan"].GetString()[0] == 'i')
-            display.Append(" (Interlaced)");
-          sResolutions.insert_unique(name + " HDMI", display + ", sound over HDMI");
-          sResolutions.insert_unique(name + " DVI", display + ", no sound");
-        }
+      String reso = resolution.ToRawString();
+      sResolutions.insert_unique({ reso, resolution.ToString() });
+    }
+  }
+
+  return sResolutions;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableFrontEndResolutions()
+{
+  static HashMap<String, String> sResolutions;
+  ResolutionAdapter resolutionAdapter;
+
+  if (sResolutions.empty())
+  {
+    sResolutions.insert_unique("", "USE GLOBAL");
+    sResolutions.insert_unique("default", "NATIVE");
+    for(const ResolutionAdapter::Reoslution& resolution : resolutionAdapter.Resolutions(true))
+    {
+      String reso = resolution.ToRawString();
+      sResolutions.insert_unique({ reso, resolution.ToString() });
     }
   }
 

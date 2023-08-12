@@ -31,7 +31,9 @@ class RequestHandlerTools
 
     static String GetCommandOutput(const String& command);
 
-    static HashMap<String, String> GetAvailableResolutions();
+    static HashMap<String, String> GetAvailableGlobalResolutions();
+
+    static HashMap<String, String> GetAvailableFrontEndResolutions();
 
     static HashMap<String, String> GetAvailableLanguages();
 

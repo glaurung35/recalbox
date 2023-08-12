@@ -15,6 +15,7 @@
 #include <utils/Zip.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
+#include <audio/AudioController.h>
 
 using namespace Pistache;
 
@@ -966,10 +967,21 @@ HashMap<String, String> RequestHandlerTools::GetAvailableResolutions()
   return sResolutions;
 }
 
-String::List RequestHandlerTools::GetAvailableSoundDevices()
+HashMap<String, String> RequestHandlerTools::GetAvailableSoundDevices()
 {
-  String output = GetCommandOutput("/recalbox/scripts/recalbox-config.sh lsaudio");
-  return output.Split('\n');
+  static HashMap<String, String> result;
+
+  if (result.empty())
+  {
+    IAudioController::DeviceList playbackList = AudioController::Instance().GetPlaybackList();
+
+    for(const auto& playback : playbackList)
+    {
+      result.insert_unique({ playback.InternalName, playback.DisplayableName });
+    }
+  }
+
+  return result;
 }
 
 const String::List& RequestHandlerTools::GetAvailableTimeZone()

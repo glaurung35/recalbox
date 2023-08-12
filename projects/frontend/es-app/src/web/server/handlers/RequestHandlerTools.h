@@ -12,6 +12,7 @@
 #include <pistache/include/pistache/http.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
+#include <audio/AudioController.h>
 
 class RequestHandlerTools
 {
@@ -36,7 +37,7 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableKeyboardLayout();
 
-    static String::List GetAvailableSoundDevices();
+    static HashMap<String, String> GetAvailableSoundDevices();
 
     static const String::List& GetAvailableTimeZone();
 

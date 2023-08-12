@@ -1076,27 +1076,27 @@ String::List RequestHandlerTools::GetAvailableShaders()
 
 void RequestHandlerTools::GetAvailableThemesIn(const Path& rootPath, String::List& results)
 {
-    Path::PathList pathList = rootPath.GetDirectoryContent();
-    for(const Path& path : pathList)
-      if (path.IsDirectory())
-        results.push_back(path.ToString());
+  Path::PathList pathList = rootPath.GetDirectoryContent();
+  for(const Path& path : pathList)
+    if (path.IsDirectory())
+      results.push_back(path.ToString());
 
-    results.push_back("recalbox-240p");
-    results.push_back("recalbox-goa2");
-    results.push_back("recalbox-next");
+  results.push_back("recalbox-240p");
+  results.push_back("recalbox-goa2");
+  results.push_back("recalbox-next");
 }
 
 String::List RequestHandlerTools::GetAvailableThemes()
 {
-    String::List result;
-    static Path themesPath("/recalbox/share/themes");
+  String::List result;
+  static Path themesPath("/recalbox/share/themes");
 
-    GetAvailableThemesIn(themesPath, result);
-    int commonPartLength = (int)themesPath.ToString().length() + 1;
-    for(String& path : result)
-      path.erase(0, commonPartLength);
+  GetAvailableThemesIn(themesPath, result);
+  int commonPartLength = (int)themesPath.ToString().length() + 1;
+  for(String& path : result)
+    path.erase(0, commonPartLength);
 
-    return result;
+  return result;
 }
 
 void RequestHandlerTools::GetEmbeddedBios(const Path& base, HashMap<String, bool>& results)

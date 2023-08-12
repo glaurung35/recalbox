@@ -1,8 +1,8 @@
 diff --git a/src/sdl2/common.c b/src/sdl2/common.c
-index eb93d1ce..b05f17f2 100644
+index 8117db9f..c27ba4df 100644
 --- a/src/sdl2/common.c
 +++ b/src/sdl2/common.c
-@@ -95,6 +95,10 @@ struct joystick_module * const sdl_js_modlist[] = {
+@@ -97,6 +97,10 @@ struct joystick_module * const sdl_js_modlist[] = {
  
  // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
  
@@ -13,7 +13,7 @@ index eb93d1ce..b05f17f2 100644
  void run_sdl_event_loop(struct ui_sdl2_interface *uisdl2) {
  	SDL_Event event;
  	while (SDL_PollEvent(&event) == 1) {
-@@ -110,6 +114,15 @@ void run_sdl_event_loop(struct ui_sdl2_interface *uisdl2) {
+@@ -112,6 +116,15 @@ void run_sdl_event_loop(struct ui_sdl2_interface *uisdl2) {
  		case SDL_QUIT:
  			xroar_quit();
  			break;
@@ -30,7 +30,7 @@ index eb93d1ce..b05f17f2 100644
  			sdl_os_fix_keyboard_event(&event);
  			sdl_keypress(uisdl2, &event.key.keysym);
 diff --git a/src/sdl2/joystick_sdl2.c b/src/sdl2/joystick_sdl2.c
-index bcecb042..4bb37bdd 100644
+index 6b86c4c9..94e9986c 100644
 --- a/src/sdl2/joystick_sdl2.c
 +++ b/src/sdl2/joystick_sdl2.c
 @@ -116,6 +116,7 @@ static void sdl_js_physical_init(void) {
@@ -42,10 +42,10 @@ index bcecb042..4bb37bdd 100644
  	if (num_joysticks < 1) {
  		LOG_DEBUG(1, "\tNo joysticks found\n");
 diff --git a/src/xroar.c b/src/xroar.c
-index 9f6b6da0..db27cb95 100644
+index deb1a7bc..3e452e2c 100644
 --- a/src/xroar.c
 +++ b/src/xroar.c
-@@ -2263,6 +2263,20 @@ static void set_kbd_bind(const char *spec) {
+@@ -2292,6 +2292,20 @@ static void set_kbd_bind(const char *spec) {
  	free(spec_copy);
  }
  
@@ -66,12 +66,12 @@ index 9f6b6da0..db27cb95 100644
  /* Called when a "-joystick" option is encountered. */
  static void set_joystick(const char *name) {
  	// Apply any config to the current joystick config.
-@@ -2510,6 +2524,8 @@ static struct xconfig_option const xroar_options[] = {
- 	{ XC_SET_STRING_LIST("type", &private_cfg.type_list) },
+@@ -2546,6 +2560,8 @@ static struct xconfig_option const xroar_options[] = {
+ 	{ XC_CALL_STRING("kbd-bind", &set_kbd_bind) },
  
  	/* Joysticks: */
 +	{ XC_CALL_INT("joy-start", &set_start) },
 +	{ XC_CALL_INT("joy-hotkey", &set_hotkey) },
  	{ XC_CALL_STRING("joy", &set_joystick) },
- 	{ XC_SET_STRING("joy-desc", &private_cfg.joy_desc) },
+ 	{ XC_SET_STRING("joy-desc", &private_cfg.joy.description) },
  	{ XC_CALL_STRING("joy-axis", &set_joystick_axis) },

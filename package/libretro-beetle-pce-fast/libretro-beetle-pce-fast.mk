@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_PCE_FAST_VERSION = 14d5d40efc3ac263a8c542134000cb1642b0a50c
+# Commit of 2023/08/18
+LIBRETRO_BEETLE_PCE_FAST_VERSION = f2ff19e56fb33361793f9fdaf44c1ea28bce1da3
 LIBRETRO_BEETLE_PCE_FAST_SITE = $(call github,libretro,beetle-pce-fast-libretro,$(LIBRETRO_BEETLE_PCE_FAST_VERSION))
 LIBRETRO_BEETLE_PCE_FAST_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_PCE_FAST_LICENSE_FILES = COPYING

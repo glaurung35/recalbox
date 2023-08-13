@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-VICE_VERSION = 3.6.1
+VICE_VERSION = 3.7.1
 VICE_SITE = https://sourceforge.net/projects/vice-emu/files/releases
 VICE_LICENSE = GPL-2.0
 VICE_LICENSE_FILES = COPYING
@@ -19,9 +19,9 @@ VICE_CONF_OPTS += \
 	--disable-platformdox \
 	--disable-debug-gtk3ui \
 	--disable-native-gtk3ui \
-	--enable-sdlui2 \
+	--enable-sdl2ui \
 	--enable-arch=sdl \
-	--enable-external-ffmpeg \
+	--enable-ffmpeg \
 	--enable-midi \
 	--enable-lame \
 	--with-alsa \

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit version of 19/10/2021
-LIBRETRO_GENESISPLUSGX_VERSION = 22b60cdc157c8063a54a54cb936b156b702bd35a
+# Commit of 2023/09/29
+LIBRETRO_GENESISPLUSGX_VERSION = 3b85b2496275e1e308544eaf18150a472f943ad1
 LIBRETRO_GENESISPLUSGX_SITE = $(call github,libretro,Genesis-Plus-GX,$(LIBRETRO_GENESISPLUSGX_VERSION))
 LIBRETRO_GENESISPLUSGX_LICENSE = COPYRIGHT
 LIBRETRO_GENESISPLUSGX_LICENSE_FILES = LICENSE.txt
@@ -22,6 +22,10 @@ endef
 define LIBRETRO_GENESISPLUSGX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/genesis_plus_gx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/genesisplusgx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gamegear
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mastersystem
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/megadrive
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/segacd
 endef
 
 $(eval $(generic-package))

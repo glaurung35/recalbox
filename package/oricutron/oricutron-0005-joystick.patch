@@ -1,8 +1,8 @@
 diff --git a/joystick.c b/joystick.c
-index 63e5a20..bc97782 100644
+index f27d2c9..32da9b8 100644
 --- a/joystick.c
 +++ b/joystick.c
-@@ -144,6 +144,27 @@ Sint16 joy_keyname_to_sym( char *name )
+@@ -147,6 +147,27 @@ SDL_COMPAT_KEY joy_keyname_to_sym( char *name )
    return 0;
  }
  
@@ -29,8 +29,8 @@ index 63e5a20..bc97782 100644
 +
  static SDL_bool dojoyevent( SDL_Event *ev, struct machine *oric, Sint16 mode, Uint8 *joystate, SDL_Joystick *sjoy )
  {
-   Sint32 i;
-@@ -236,16 +257,33 @@ static SDL_bool dojoyevent( SDL_Event *ev, struct machine *oric, Sint16 mode, Ui
+   SDL_bool swallowit = SDL_FALSE;
+@@ -225,16 +246,33 @@ static SDL_bool dojoyevent( SDL_Event *ev, struct machine *oric, Sint16 mode, Ui
            break;
  
          case SDL_JOYBUTTONDOWN:
@@ -72,7 +72,7 @@ index 63e5a20..bc97782 100644
        break;
    }
 diff --git a/joystick.h b/joystick.h
-index f1bd63a..3904eac 100644
+index d78a5ff..c284364 100644
 --- a/joystick.h
 +++ b/joystick.h
 @@ -43,7 +43,8 @@ enum
@@ -85,16 +85,16 @@ index f1bd63a..3904eac 100644
  };
  
  SDL_bool init_joy( struct machine *oric );
-@@ -53,3 +54,4 @@ Sint16 joy_keyname_to_sym( char *name );
+@@ -53,3 +54,4 @@ SDL_COMPAT_KEY joy_keyname_to_sym( char *name );
  void joy_setup( struct machine *oric );
  SDL_bool joy_filter_event( SDL_Event *ev, struct machine *oric );
  void joy_buildmask( struct machine *oric );
 +int get_joyindex_from_joyname(char* joyname, int defaultjoy);
 diff --git a/machine.c b/machine.c
-index 98d395d..cc8e775 100644
+index 5be8e2e..3215005 100644
 --- a/machine.c
 +++ b/machine.c
-@@ -1144,6 +1144,10 @@ void preinit_machine( struct machine *oric )
+@@ -1159,6 +1159,10 @@ void preinit_machine( struct machine *oric )
    oric->joymode_b = JOYMODE_NONE;
    oric->telejoymode_a = JOYMODE_KB1;
    oric->telejoymode_b = JOYMODE_NONE;
@@ -106,7 +106,7 @@ index 98d395d..cc8e775 100644
    oric->porta_joy = 0xff;
    oric->porta_ay  = 0;
 diff --git a/machine.h b/machine.h
-index 9780b4c..3e07465 100644
+index 24b4566..74f89ca 100644
 --- a/machine.h
 +++ b/machine.h
 @@ -241,6 +241,8 @@ struct machine
@@ -119,7 +119,7 @@ index 9780b4c..3e07465 100644
    SDL_bool printenable;
    SDL_bool printfilter;
 diff --git a/main.c b/main.c
-index 5b0bac7..4bca1aa 100644
+index adf9777..bbdec1b 100644
 --- a/main.c
 +++ b/main.c
 @@ -169,6 +169,7 @@ static char *joymodes[] = { "none",
@@ -141,7 +141,7 @@ index 5b0bac7..4bca1aa 100644
  
    f = fopen( "/recalbox/share/system/.config/oricutron.cfg", "r" );
    if( !f ) return;
-@@ -509,6 +514,8 @@ static void load_config( struct start_opts *sto, struct machine *oric )
+@@ -510,6 +515,8 @@ static void load_config( struct start_opts *sto, struct machine *oric )
      if( read_config_option( &sto->lctmp[i], "joyinterface", &oric->joy_iface, joyifacetypes ) ) continue;
      if( read_config_option( &sto->lctmp[i], "joystick_a",   &oric->joymode_a,     joymodes ) ) continue;
      if( read_config_option( &sto->lctmp[i], "joystick_b",   &oric->joymode_b,     joymodes ) ) continue;
@@ -150,7 +150,7 @@ index 5b0bac7..4bca1aa 100644
      if( read_config_option( &sto->lctmp[i], "telejoy_a",    &oric->telejoymode_a, joymodes ) ) continue;
      if( read_config_option( &sto->lctmp[i], "telejoy_b",    &oric->telejoymode_b, joymodes ) ) continue;
      if( read_config_joykey( &sto->lctmp[i], "kbjoy1_up",    &oric->kbjoy1[0] ) ) continue;
-@@ -525,6 +532,14 @@ static void load_config( struct start_opts *sto, struct machine *oric )
+@@ -526,6 +533,14 @@ static void load_config( struct start_opts *sto, struct machine *oric )
      if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire1", &oric->kbjoy2[4] ) ) continue;
      if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire2", &oric->kbjoy2[5] ) ) continue;
      if( read_config_joykey( &sto->lctmp[i], "kbjoy2_fire3", &oric->kbjoy2[6] ) ) continue;
@@ -165,7 +165,7 @@ index 5b0bac7..4bca1aa 100644
      if( read_config_bool(   &sto->lctmp[i], "diskautosave", &oric->diskautosave ) ) continue;
      if( read_config_bool(   &sto->lctmp[i], "ch376",        &oric->ch376_activated) ) continue;
      if( read_config_bool(   &sto->lctmp[i], "twilighte_board",&oric->twilighteboard_activated) ) continue;
-@@ -541,6 +556,16 @@ static void load_config( struct start_opts *sto, struct machine *oric )
+@@ -542,6 +557,16 @@ static void load_config( struct start_opts *sto, struct machine *oric )
      }
    }
  
@@ -182,12 +182,12 @@ index 5b0bac7..4bca1aa 100644
    fclose( f );
  }
  
-@@ -702,7 +727,7 @@ SDL_bool init( struct machine *oric, int argc, char *argv[] )
+@@ -704,7 +729,7 @@ SDL_bool init( struct machine *oric, int argc, char *argv[] )
    kbd_init(oric);
  
    // Go SDL!
--  if( SDL_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
-+  if( SDL_Init( SDL_INIT_EVERYTHING ) < 0 )
+-  if( SDL_COMPAT_Init( SDL_INIT_VIDEO | SDL_INIT_AUDIO ) < 0 )
++  if( SDL_COMPAT_Init( SDL_INIT_EVERYTHING ) < 0 )
    {
-     error_printf( "SDL init failed" );
      free( sto );
+     return SDL_FALSE;

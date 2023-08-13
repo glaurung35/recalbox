@@ -1,0 +1,33 @@
+--- a/libretro/libretro.c	2023-09-29 17:14:38.000000000 +0200
++++ b/libretro/libretro.c	2023-10-01 00:18:04.901612305 +0200
+@@ -3366,18 +3366,18 @@
+       save_dir = g_rom_dir;
+    }
+ 
+-   fill_pathname_join(GG_ROM,     dir, "ggenie.bin",    sizeof(GG_ROM));
+-   fill_pathname_join(AR_ROM,     dir, "areplay.bin",   sizeof(AR_ROM));
+-   fill_pathname_join(SK_ROM,     dir, "sk.bin",        sizeof(SK_ROM));
+-   fill_pathname_join(SK_UPMEM,   dir, "sk2chip.bin",   sizeof(SK_UPMEM));
+-   fill_pathname_join(MD_BIOS,    dir, "bios_MD.bin",   sizeof(MD_BIOS));
+-   fill_pathname_join(GG_BIOS,    dir, "bios.gg",       sizeof(GG_BIOS));
+-   fill_pathname_join(MS_BIOS_EU, dir, "bios_E.sms",    sizeof(MS_BIOS_EU));
+-   fill_pathname_join(MS_BIOS_US, dir, "bios_U.sms",    sizeof(MS_BIOS_US));
+-   fill_pathname_join(MS_BIOS_JP, dir, "bios_J.sms",    sizeof(MS_BIOS_JP));
+-   fill_pathname_join(CD_BIOS_EU, dir, "bios_CD_E.bin", sizeof(CD_BIOS_EU));
+-   fill_pathname_join(CD_BIOS_US, dir, "bios_CD_U.bin", sizeof(CD_BIOS_US));
+-   fill_pathname_join(CD_BIOS_JP, dir, "bios_CD_J.bin", sizeof(CD_BIOS_JP));
++   fill_pathname_join(GG_ROM,     dir, "ggenie.bin",              sizeof(GG_ROM));
++   fill_pathname_join(AR_ROM,     dir, "areplay.bin",             sizeof(AR_ROM));
++   fill_pathname_join(SK_ROM,     dir, "sk.bin",                  sizeof(SK_ROM));
++   fill_pathname_join(SK_UPMEM,   dir, "sk2chip.bin",             sizeof(SK_UPMEM));
++   fill_pathname_join(MD_BIOS,    dir, "megadrive/bios_MD.bin",   sizeof(MD_BIOS));
++   fill_pathname_join(GG_BIOS,    dir, "gamegear/bios.gg",        sizeof(GG_BIOS));
++   fill_pathname_join(MS_BIOS_EU, dir, "mastersystem/bios_E.sms", sizeof(MS_BIOS_EU));
++   fill_pathname_join(MS_BIOS_US, dir, "mastersystem/bios_U.sms", sizeof(MS_BIOS_US));
++   fill_pathname_join(MS_BIOS_JP, dir, "mastersystem/bios_J.sms", sizeof(MS_BIOS_JP));
++   fill_pathname_join(CD_BIOS_EU, dir, "segacd/bios_CD_E.bin",    sizeof(CD_BIOS_EU));
++   fill_pathname_join(CD_BIOS_US, dir, "segacd/bios_CD_U.bin",    sizeof(CD_BIOS_US));
++   fill_pathname_join(CD_BIOS_JP, dir, "segacd/bios_CD_J.bin",    sizeof(CD_BIOS_JP));
+  
+    check_variables(true);
+ 

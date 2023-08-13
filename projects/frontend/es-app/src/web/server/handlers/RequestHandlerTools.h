@@ -13,6 +13,7 @@
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
 #include <audio/AudioController.h>
+#include "ResolutionAdapter.h"
 
 class RequestHandlerTools
 {

@@ -16,6 +16,7 @@
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
 #include <audio/AudioController.h>
+#include "ResolutionAdapter.h"
 
 using namespace Pistache;
 
@@ -465,7 +466,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "enabled"         , Validator(true) },
         { "atstartup"       , Validator(true) },
         { "xbutton"         , Validator(true) },
-        { "videomode"       , Validator(GetAvailableFrontendResolutions(), false) },
+        { "videomode"       , Validator(GetAvailableFrontEndResolutions(), false) },
         { "network.waitmode", Validator(false, { "required", "wish", "nonce" }) },
         { "network.waittime", Validator(0, INT32_MAX) },
         { "network.waithost", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
@@ -876,7 +877,7 @@ HashMap<String, String> RequestHandlerTools::GetArcadeManufacturerList()
     {
       String identifier(SystemManager::sArcadeManufacturerPrefix);
       identifier.Append(rawIdentifier).Replace('/', '-');
-      result.insert_unique({ identifier, ArcadeVirtualSystems::GetRealName(rawIdentifier) ));
+      result.insert_unique({ identifier, ArcadeVirtualSystems::GetRealName(rawIdentifier) });
     }
   }
 
@@ -923,7 +924,7 @@ HashMap<String, String> RequestHandlerTools::GetAvailableGlobalResolutions()
   if (sResolutions.empty())
   {
     sResolutions.insert_unique("default", "NATIVE");
-    for(const ResolutionAdapter::Reoslution& resolution : resolutionAdapter.Resolutions(true))
+    for(const ResolutionAdapter::Resolution& resolution : resolutionAdapter.Resolutions(true))
     {
       String reso = resolution.ToRawString();
       sResolutions.insert_unique({ reso, resolution.ToString() });
@@ -942,7 +943,7 @@ HashMap<String, String> RequestHandlerTools::GetAvailableFrontEndResolutions()
   {
     sResolutions.insert_unique("", "USE GLOBAL");
     sResolutions.insert_unique("default", "NATIVE");
-    for(const ResolutionAdapter::Reoslution& resolution : resolutionAdapter.Resolutions(true))
+    for(const ResolutionAdapter::Resolution& resolution : resolutionAdapter.Resolutions(true))
     {
       String reso = resolution.ToRawString();
       sResolutions.insert_unique({ reso, resolution.ToString() });

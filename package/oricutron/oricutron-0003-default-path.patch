@@ -1,5 +1,5 @@
 diff --git a/gui.c b/gui.c
-index 6394706..5276130 100644
+index a310c2f..f4fa73b 100644
 --- a/gui.c
 +++ b/gui.c
 @@ -97,21 +97,21 @@ extern Uint32 cyclespersample;

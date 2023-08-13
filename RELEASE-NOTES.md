@@ -6,20 +6,6 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-Pulstar
 
-### Jamma
-- Set pin 27/e as ground by default
-- Add casino games in baord games filter (mahjong + casino + trivia)
-- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
-- Fix autofire enable/disble
-- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
-
-### Patron
-- Fix 31kHz handheld and PSX games
-- Fix naomi 2 instabilities
-- Fix netplay port configuration
-- Debump Flycast on handhelds, should fix perf issues
-
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)
 - Add support for Recalbox RGB JAMMA
@@ -56,18 +42,6 @@ as release notes for end user on a Recalbox upgrade.
 - Add latest libretro mame core (0.258) for RPi4 and RPi5
 - Add RPi5 overclock option
 - Add skip boot video option
-- Add demo Inspector Waffles Early Days (Broke Studio) on gameboy color
-- Perf: enable auto frame delay in retroarch
-- Perf: add auto blitter for fbneo cave games
-- CRT: add superrez and auto scanlines for 240p games on 31kHz display
-- Add new core libretro-dirksimple
-- Add new port SDLPop (port of Prince of Persia)
-- Add libretro-dolphin (MagicSeb)
-- Add possibility to adjust music volume in EmulationStation
-- Add en_GB translation (SecularSteve)
-- Add new core geolith for neogeo
-- Add GladMort Demo on neogeo
-- Add libretro fake08 for pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -170,10 +144,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-emuscv
 - Bump Anbernic rg353x kernel
 - Bump libretro-picodrive
-- Bump rpi wifi firmware
-- Bump libretro-dosbox-pure
-- Bump libretro-bsnes-hd
-- Bump Netflix and YouTube Kodi plugins
+- Bump hatari
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
@@ -183,7 +154,6 @@ as release notes for end user on a Recalbox upgrade.
 - Add new softpatching LAUNCH LAST option
 - Disable unnecessary services when use the Recalbox RGB Jamma
 - Allow starting an update stright from the update popup
-- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
 
 ### Fixes
 - Fix argonone case power management
@@ -199,18 +169,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix some Xbox 360 pad issues
 - Fix vulkan support on rpi5
 - Fix daphne games scrap
-- CRT: fix 24kHz game modes
-- CRT: fix calibration screen
-- CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
-- Fix Yoko games showing in tate only gameclips
-- Fix lightguns and add some new compatible games
-- Fix start game with coin in demo mode
-- Mark `Any external storage` as deprecated
-- Add themes support over network share
-- Fix missing md5 bios for Satellaview
-- Set default emulator to libretro-uae4arm for all Amiga systems
-- Fix N64 image quality on RGB dual + jamma
-- Fix bad resolutions in PSX and Saturn games
 
 ## Version 9.1-Pulstar
 

@@ -97,6 +97,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-px68k
 - Bump libretro-uae
 - Bump libretro-genesisplusgx
+- Bump libretro-mednafen_psx
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

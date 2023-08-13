@@ -866,9 +866,9 @@ const String::List& RequestHandlerTools::GetSupportedSystemList()
   return result;
 }
 
-const String::List& RequestHandlerTools::GetArcadeManufacturerList()
+HashMap<String, String> RequestHandlerTools::GetArcadeManufacturerList()
 {
-  static String::List result;
+  static HashMap<String, String> result;
 
   if (result.empty())
   {
@@ -876,7 +876,7 @@ const String::List& RequestHandlerTools::GetArcadeManufacturerList()
     {
       String identifier(SystemManager::sArcadeManufacturerPrefix);
       identifier.Append(rawIdentifier).Replace('/', '-');
-      result.push_back(identifier);
+      result.insert_unique({ identifier, ArcadeVirtualSystems::GetRealName(rawIdentifier) ));
     }
   }
 

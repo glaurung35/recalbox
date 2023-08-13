@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-ORICUTRON_VERSION = cb57f0f2dc5487bc7cf179ed1dd3e228ac5ce8f9
+ORICUTRON_VERSION = 8cf6b981d4e5948ad2c8e2276745d3a06c696dc7
 ORICUTRON_SITE = $(call github,pete-gordon,oricutron,$(ORICUTRON_VERSION))
 ORICUTRON_DEPENDENCIES = sdl2 sdl
 ORICUTRON_LICENSE = GPL-2.0
@@ -35,7 +35,7 @@ define ORICUTRON_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron
 	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
 	# Copy rom symbols (for who wants to play with Oric/ATmos debugger!)
-	cp $(@D)/roms/*.pch $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
+	cp $(@D)/roms/*.sym $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
 	cp $(@D)/roms/*.rom $(TARGET_DIR)/recalbox/share_upgrade/bios/oricutron/
 endef
 

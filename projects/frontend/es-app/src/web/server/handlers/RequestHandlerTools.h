@@ -46,8 +46,6 @@ class RequestHandlerTools
 
     static void GetAvailableShadersIn(const Path& path, String::List& results);
 
-    static void GetAvailableThemesIn(const Path& path, String::List& results);
-
     static void GetEmbeddedBios(const Path& base, HashMap<String, bool>& results);
 
     static void GetAvailableBios(const Path& path, Path::PathList& results, const HashMap<String, bool>& embedded);

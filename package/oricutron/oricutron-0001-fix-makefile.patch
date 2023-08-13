@@ -1,5 +1,5 @@
 diff --git a/Makefile b/Makefile
-index 73cf732..dbb9dec 100644
+index f7aa7ea..72273a6 100644
 --- a/Makefile
 +++ b/Makefile
 @@ -54,12 +54,12 @@ DEFINES =  -DAPP_NAME_FULL='"$(APP_NAME) WIP Rev: $(GITREVISION)"'

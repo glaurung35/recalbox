@@ -1075,27 +1075,14 @@ String::List RequestHandlerTools::GetAvailableShaders()
   return result;
 }
 
-void RequestHandlerTools::GetAvailableThemesIn(const Path& rootPath, String::List& results)
-{
-  Path::PathList pathList = rootPath.GetDirectoryContent();
-  for(const Path& path : pathList)
-    if (path.IsDirectory())
-      results.push_back(path.ToString());
-
-  results.push_back("recalbox-240p");
-  results.push_back("recalbox-goa2");
-  results.push_back("recalbox-next");
-}
-
 String::List RequestHandlerTools::GetAvailableThemes()
 {
+  auto themeSets = ThemeData::getThemeSets();
   String::List result;
-  static Path themesPath("/recalbox/share/themes");
-
-  GetAvailableThemesIn(themesPath, result);
-  int commonPartLength = (int)themesPath.ToString().length() + 1;
-  for(String& path : result)
-    path.erase(0, commonPartLength);
+  for (const auto& theme : themeSets)
+  {
+    result.push_back(theme.first);
+  }
 
   return result;
 }

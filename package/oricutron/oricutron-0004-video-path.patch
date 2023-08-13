@@ -1,8 +1,8 @@
 diff --git a/machine.c b/machine.c
-index 036d2c1..98d395d 100644
+index 3f127ab..5be8e2e 100644
 --- a/machine.c
 +++ b/machine.c
-@@ -1124,7 +1124,7 @@ void preinit_machine( struct machine *oric )
+@@ -1139,7 +1139,7 @@ void preinit_machine( struct machine *oric )
    oric->prclose = 0;
    oric->lasttapefile[0] = 0;
    oric->keymap = KMAP_QWERTY;
@@ -11,7 +11,7 @@ index 036d2c1..98d395d 100644
    oric->popupstr[0] = 0;
    oric->newpopupstr = SDL_FALSE;
    oric->popuptime = 0;
-@@ -1473,7 +1473,7 @@ SDL_bool emu_event( SDL_Event *ev, struct machine *oric, SDL_bool *needrender )
+@@ -1485,7 +1485,7 @@ SDL_bool emu_event( SDL_Event *ev, struct machine *oric, SDL_bool *needrender )
               break;
             }
  

@@ -1,13 +1,13 @@
 diff --git a/src/cpu/custom.c b/src/cpu/custom.c
-index ca3b5078..3f76174e 100644
+index 15971cef..aff0c025 100644
 --- a/src/cpu/custom.c
 +++ b/src/cpu/custom.c
 @@ -37,7 +37,7 @@ extern struct regstruct mmu_backup_regs;
- uae_u32 currcycle;
+ evt_t currcycle;
  /* declared in savestate.h */
  int savestate_state = 0;
 -TCHAR *savestate_fname;
 +TCHAR savestate_fname[MAX_DPATH];
  /* declared in custom.h */
- unsigned long int hsync_counter = 0, vsync_counter = 0;
+ uae_u32 hsync_counter = 0, vsync_counter = 0;
  #endif

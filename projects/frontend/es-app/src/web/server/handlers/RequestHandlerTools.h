@@ -23,7 +23,7 @@ class RequestHandlerTools
      */
     static const String::List& GetSupportedSystemList();
 
-    static const String::List& GetArcadeManufacturerList();
+    static HashMap<String, String> GetArcadeManufacturerList();
 
     static const String::List& GetSupportedRatioList();
 

@@ -633,13 +633,18 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
            { "retroachievements.username", Validator() },
            { "retroachievements.password", Validator() },
            { "inputdriver"               , Validator(false, { "auto", "udev", "sdl2"}) },
-           { "configfile"                , Validator() },
+           { "configfile"                , Validator("abcdefghijklmnopqrstuvwxyz./-_") }, //<! Path to file for specific config or "dummy" to cancel any config from configgen
            { "translate"                 , Validator(true) },
            { "translate.from"            , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
            { "translate.to"              , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
            { "translate.apikey"          , Validator() },
            { "translate.url"             , Validator() },
-           { "supergameboy"              , Validator(false, { "gb", "sgb", "ask" }) },
+           { "supergameboy"              , Validator(false, { "gb", "sgb", "ask" }) }, //<! For GB only
+           { "ignore"                    , Validator(true) }, //<! To not show a system in systems list
+           { "realgamecubepads"          , Validator(true) }, //<! For GameCube only, play w/ gc pads w/ adapters
+           { "realwiimotes"              , Validator(true) }, //<! For Wii only, use real wiimotes in Dolphin
+           { "emulatedwiimotes"          , Validator(true) }, //<! For Wii only, emulate wiimotes w/ std pads
+           { "sensorbar.position"        , Validator(true) }, //<! For Wii only, specify Dolphin Bar position around screen. 1: top, 0: bottom
          });
 
       return sList;

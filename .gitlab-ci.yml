@@ -133,6 +133,7 @@ tests buildroot patches:
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
+                                          -e "GITLAB_TOKEN=${GITLAB_TOKEN}" \
                                           "recalbox-${ARCH}" sh -c "mkdir -p /work/output/host/usr/bin/ && cp /usr/bin/dos2unix /work/output/host/usr/bin/dos2unix && make BR2_DL_DIR=/share/dl $PKG-patch 2>&1" || exit 1
         fi
       done
@@ -194,7 +195,7 @@ tests nvidia:
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}
-    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN=${GITLAB_TOKEN}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
     # Dist
     - export DIST_DIR="dist/${ARCH}"
@@ -204,12 +205,12 @@ tests nvidia:
     - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
     - cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
-    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "dist" "${CI_PIPELINE_ID}"
     # Specific image for RPIZero 1 + GPICASE2w
     - |
       if [ "${ARCH}" == "rpi1" ];then
         sed -i "s/^;case=.*/case=GPi2W/g" output/images/boot-data/recalbox-boot.conf
-        docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+        docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN=${GITLAB_TOKEN}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
         OLD_DIST_DIR="${DIST_DIR}"
         export DIST_DIR="dist/${ARCH}-gpicase2w"
         mkdir -p "${DIST_DIR}"
@@ -218,7 +219,7 @@ tests nvidia:
         cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
         cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
         cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
-        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
+        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "dist" "${CI_PIPELINE_ID}"
         rm -rf "${DIST_DIR}" "${OLD_DIST_DIR}" "${OUTPUTDIR}"
       else
         rm -rf "${DIST_DIR}" "${OUTPUTDIR}"
@@ -278,6 +279,11 @@ build rg353x:
   when: manual
   variables:
     ARCH: 'rg353x'
+build rpi5_64:
+  <<: *build_definition
+  when: manual
+  variables:
+    ARCH: 'rpi5_64'
 
 ### Release
 
@@ -292,7 +298,7 @@ build rg353x:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "builds" "${CI_PIPELINE_ID}"
     - echo "Force 32 bits to upgrade to 64"
     - |
       if test -d "builds/rpi4";then
@@ -325,7 +331,7 @@ release prod:
   when: manual
   variables:
     DEPLOY_TYPE: prod
-    BUCKET: recalbox-archive-stable
+    BUCKET: recalbox-archive-stable-nda
   environment:
     name: prod
     url: https://www.recalbox.com/download/
@@ -337,7 +343,7 @@ release alpha:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-alpha
+    BUCKET: recalbox-archive-alpha-nda
   environment:
     name: alpha/${CI_COMMIT_REF_SLUG}
 
@@ -351,7 +357,7 @@ release recalboxrgbdual:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-recalboxrgbdual
+    BUCKET: recalbox-archive-recalboxrgbdual-nda
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
 
@@ -363,7 +369,7 @@ release patron:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-patron
+    BUCKET: recalbox-archive-patron-nda
   environment:
     name: patron/${CI_COMMIT_REF_SLUG}
 
@@ -387,6 +393,6 @@ release branch:
     - merge_requests
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-branch
+    BUCKET: recalbox-archive-branch-nda
   environment:
     name: branch/${CI_COMMIT_REF_SLUG}

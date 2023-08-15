@@ -40,6 +40,10 @@ class Architecture:
         return self.__Arch == "rpi4"
 
     @property
+    def isPi5(self):
+        return self.__Arch == "rpi5"
+
+    @property
     def isXu4(self):
         return self.__Arch == "odroidxu4"
 

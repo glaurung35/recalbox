@@ -1,0 +1,5 @@
+config BR2_PACKAGE_HID_NX
+	bool "hid-nx"
+	depends on BR2_LINUX_KERNEL
+	help
+	  A Nintendo Switch Controllers HID kernel module.

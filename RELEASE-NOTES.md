@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-uae
 - Bump libretro-prosystem
 - Bump libretro-mojozork
+- Bump libretro-px68k
 
 ### Improvements
 

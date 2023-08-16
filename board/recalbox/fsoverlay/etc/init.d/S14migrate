@@ -85,21 +85,22 @@ function runMigrations {
             migrationDone "${SHARE_TYPE}" "9.1-model3-save"
         fi
     fi
-    if shouldMigrate "${SHARE_TYPE}" "9.2-move-atari-bios"; then
+    if shouldMigrate "${SHARE_TYPE}" "9.2-move-bios"; then
         # Move bios into specific directories
-        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running migration 9.2-move-atari-bios"
-        # lr-atari800 bios
+        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running migration 9.2-move-bios"
         mv "/recalbox/share/bios/5200.ROM" "/recalbox/share/bios/atari5200"
         mv "/recalbox/share/bios/ATARIBAS.ROM" "/recalbox/share/bios/atari800"
         mv "/recalbox/share/bios/ATARIOSA.ROM" "/recalbox/share/bios/atari800"
         mv "/recalbox/share/bios/ATARIOSB.ROM" "/recalbox/share/bios/atari800"
         mv "/recalbox/share/bios/ATARIXL.ROM" "/recalbox/share/bios/atari800"
+        mv "/recalbox/share/bios/7800 BIOS (E).rom" "/recalbox/share/bios/atari7800"
+        mv "/recalbox/share/bios/7800 BIOS (U).rom" "/recalbox/share/bios/atari7800"
         sed -i "s|ROM_400/800_CUSTOM=/recalbox/share/bios/ATARIOSB.ROM|ROM_400/800_CUSTOM=/recalbox/share/bios/atari800/ATARIOSB.ROM|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_5200=/recalbox/share/bios/5200.rom|ROM_5200=/recalbox/share/bios/atari5200/5200.rom|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_BASIC_C=/recalbox/share/bios/ATARIBAS.ROM|ROM_BASIC_C=/recalbox/share/bios/atari800/ATARIBAS.ROM|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_OS_A_PAL=/recalbox/share/bios/ATARIOSA.ROM|ROM_OS_A_PAL=/recalbox/share/bios/atari800/ATARIOSA.ROM|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_OS_BB01R2=/recalbox/share/bios/ATARIXL.ROM|ROM_OS_BB01R2=/recalbox/share/bios/atari800/ATARIXL.ROM|g" "/recalbox/share/system/.atari800.cfg"
-        migrationDone "${SHARE_TYPE}" "9.2-move-atari-bioses-second-round" # Error is voluntary here during 9.2 development, others bumped cores will be here, will be changed when the latest is good
+        migrationDone "${SHARE_TYPE}" "9.2-move-some-others-bios" # Error is voluntary here during 9.2 development, others bumped cores will be here, will be changed when the latest is good
     fi
 }
 

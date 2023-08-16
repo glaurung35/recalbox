@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-cap32
 - Bump libretro-handy
 - Bump libretro-uae
+- Bump libretro-prosystem
 
 ### Improvements
 

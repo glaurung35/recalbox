@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_PROSYSTEM_VERSION = da596828a6c65753f771bc9bbea5c428ae73af76
+# Commit of 2023/08/17
+LIBRETRO_PROSYSTEM_VERSION = 4202ac5bdb2ce1a21f84efc0e26d75bb5aa7e248
 LIBRETRO_PROSYSTEM_SITE = $(call github,libretro,prosystem-libretro,$(LIBRETRO_PROSYSTEM_VERSION))
 LIBRETRO_PROSYSTEM_LICENSE = GPL-2.0
 LIBRETRO_PROSYSTEM_LICENSE_FILES = License.txt

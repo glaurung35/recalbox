@@ -1,0 +1,14 @@
+--- a/core/libretro.c	2023-08-17 19:42:13.000000000 +0200
++++ b/core/libretro.c	2023-10-01 01:26:54.748465782 +0200
+@@ -580,9 +580,9 @@
+ 
+    /* BIOS is optional */
+    if (cartridge_region == REGION_PAL)
+-      sprintf(biospath, "%s%c%s", system_directory_c, slash, "7800 BIOS (E).rom");
++      sprintf(biospath, "%s%c%s%c%s", system_directory_c, slash, "atari7800", slash, "7800 BIOS (E).rom");
+    else
+-      sprintf(biospath, "%s%c%s", system_directory_c, slash, "7800 BIOS (U).rom");
++      sprintf(biospath, "%s%c%s%c%s", system_directory_c, slash, "atari7800", slash, "7800 BIOS (U).rom");
+    
+    if (bios_Load(biospath))
+       bios_enabled = true;

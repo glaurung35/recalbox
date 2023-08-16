@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit version 12/07/2021
-LIBRETRO_PX68K_VERSION = 979a4a9fa33a309f12432b69fe5dc2bccd0aab8a
+# Commit of 2023/01/14
+LIBRETRO_PX68K_VERSION = 4c7542e34df71e3ebab77b5867901747d58dbb38
 LIBRETRO_PX68K_SITE = $(call github,libretro,px68k-libretro,$(LIBRETRO_PX68K_VERSION))
 LIBRETRO_PX68K_LICENSE = GPL-2.0
 LIBRETRO_PX68K_LICENSE_FILES = COPYING

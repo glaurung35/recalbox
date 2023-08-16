@@ -32,6 +32,9 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix enable RetroAchievements for new systems 
 - Fix Supermodel config and configgen files (Thanks AxelR !)
+### Bumps
+- Bump lr-vice
+
 
 ### Bump
 - Bump libretro sameboy

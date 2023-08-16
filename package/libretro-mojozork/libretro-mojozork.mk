@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version: 2022-12-12
-LIBRETRO_MOJOZORK_VERSION = 22b638ccd0948d46b7902d45387caaccef35b38a
+# Commit of 2023/08/14
+LIBRETRO_MOJOZORK_VERSION = 89832e31d9d05c4e81908286b99db21924f3ba1a
 LIBRETRO_MOJOZORK_SITE = $(call github,icculus,mojozork,$(LIBRETRO_MOJOZORK_VERSION))
 LIBRETRO_MOJOZORK_LICENSE = zlib
 LIBRETRO_MOJOZORK_LICENSE_FILE = LICENSE.txt

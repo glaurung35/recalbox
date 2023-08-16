@@ -32,6 +32,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-handy
 - Bump libretro-uae
 - Bump libretro-prosystem
+- Bump libretro-mojozork
 
 ### Improvements
 

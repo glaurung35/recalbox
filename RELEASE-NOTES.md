@@ -19,6 +19,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 
+### Bumps
+- Bump lr-vice
+
 
 
 ## Version 9.2.3-Pulstar

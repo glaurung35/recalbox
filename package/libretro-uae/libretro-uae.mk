@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit version of 2022/11/03
-LIBRETRO_UAE_VERSION = cca44080f7f059f5faa020c3be67ac5d12090bfc
+# Commit of 2023/10/14
+LIBRETRO_UAE_VERSION = e13578877d1764bde7d6fb5b404c0965fa209540
 LIBRETRO_UAE_SITE = $(call gitlab,recalbox,packages/libretro/libretro-uae,$(LIBRETRO_UAE_VERSION))
 LIBRETRO_UAE_LICENSE = GPL-2.0
 LIBRETRO_UAE_LICENSE_FILES = COPYING

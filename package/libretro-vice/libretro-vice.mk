@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version of 19/08/2021
-LIBRETRO_VICE_VERSION = 14332663225a6fa1b9ce8b13e40c4128d732ee61
+# Commit of 2024/05/05
+LIBRETRO_VICE_VERSION = ffa3cc48b8f159a6ae88594f8b1ca67f22e3044c
 LIBRETRO_VICE_SITE = $(call github,libretro,vice-libretro,$(LIBRETRO_VICE_VERSION))
 LIBRETRO_VICE_LICENSE = GPL-2.0
 LIBRETRO_VICE_LICENSE_FILES = COPYING

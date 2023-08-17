@@ -26,6 +26,7 @@ recalboxBins =\
     'advancemame' : '/usr/bin/advmame',
     'amiberry'    : '/usr/bin/amiberry',
     'beebem'      : '/usr/bin/Beebem',
+    'creativision': '/usr/bin/creatiVision',
     'daphne'      : '/usr/bin/hypseus',
     'dolphin'     : '/usr/bin/dolphin-emu',
     'dosbox'      : '/usr/bin/dosbox',

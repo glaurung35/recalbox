@@ -19,7 +19,6 @@
 #include <video/of_display_timing.h>
 #include <video/videomode.h>
 #include <uapi/linux/media-bus-format.h>
-
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_bridge.h>
 #include <drm/drm_crtc.h>

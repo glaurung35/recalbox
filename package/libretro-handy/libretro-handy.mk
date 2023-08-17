@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_HANDY_VERSION = 5ff55817eafbb1930e222ea2493c22804c872904
+# Commit of 2023/08/20
+LIBRETRO_HANDY_VERSION = 0559d3397f689ea453b986311aeac8dbd33afb0b
 LIBRETRO_HANDY_SITE = $(call github,libretro,libretro-handy,$(LIBRETRO_HANDY_VERSION))
 LIBRETRO_HANDY_LICENSE = ZLIB
 LIBRETRO_HANDY_LICENSE_FILES = lynx/license.txt

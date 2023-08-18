@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 
 - Bump libretro-wasm4
 - Bump libretro-cap32
+- Bump libretro-handy
 
 ### Improvements
 

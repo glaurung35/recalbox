@@ -90,6 +90,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-cheats to 1.15.0
 - Bump libretro-snes9x
 - Bump libretro-mednafen-psx_hw
+- Bump libretro-mednafen-supergrafx
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

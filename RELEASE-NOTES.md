@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-wasm4
 - Bump libretro-cap32
 - Bump libretro-mednafen-psx_hw
+- Bump libretro-mednafen-supergrafx
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

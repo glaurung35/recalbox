@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_PSX_HW_VERSION = 9f126e5752c018fc1c1c6f322ad6b3a2fca93c2d
+# Commit of 2023/10/13
+LIBRETRO_BEETLE_PSX_HW_VERSION = 101a43699c735a6bee196bc432a1a6ee69a3964a
 LIBRETRO_BEETLE_PSX_HW_SITE = $(call github,libretro,beetle-psx-libretro,$(LIBRETRO_BEETLE_PSX_HW_VERSION))
 LIBRETRO_BEETLE_PSX_HW_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_PSX_HW_LICENSE_FILES = COPYING

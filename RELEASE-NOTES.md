@@ -86,6 +86,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-theodore
 - Bump libretro-crocods
 - Bump libretro-hatari
+- Bump libretro-cap32
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

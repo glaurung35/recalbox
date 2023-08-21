@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix analog stick with inverted axis behaviour
 - Fix odroidxu4 OGST video not playing
 - Fix headphone audio output on Anbernic rg353v
+- Removed LinApple from PC
 
 ## Version 9.1-Pulstar
 

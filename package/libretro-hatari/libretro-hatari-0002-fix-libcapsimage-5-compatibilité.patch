@@ -1,7 +1,5 @@
-diff --git a/src/floppy_ipf.c b/src/floppy_ipf.c
-index c615b755..64fcc51c 100644
---- a/src/floppy_ipf.c
-+++ b/src/floppy_ipf.c
+--- a/src/floppy_ipf.c	2023-08-22 00:05:48
++++ b/src/floppy_ipf.c	2023-08-22 01:21:08
 @@ -9,10 +9,10 @@
    IPF files are handled using the capsimage library, which emulates the FDC
    at low level and allows to read complex protections.
@@ -15,12 +13,12 @@ index c615b755..64fcc51c 100644
  
  #include "main.h"
  #include "file.h"
-@@ -26,18 +26,30 @@ const char floppy_ipf_fileid[] = "Hatari floppy_ipf.c : " __DATE__ " " __TIME__;
+@@ -26,18 +26,30 @@
  #include "cycles.h"
  
  #ifdef HAVE_CAPSIMAGE
 -#if CAPSIMAGE_VERSION == 5
--#include <caps5/CapsLibAll.h>
+-#include <CapsLibAll.h>
 -#else
 -#include <caps/fdc.h>
 -#define CAPS_LIB_RELEASE	4
@@ -29,7 +27,7 @@ index c615b755..64fcc51c 100644
 +#define __cdecl  /* CAPS headers need this, but do not define it on their own */
  #endif
 +#include <stdint.h>
-+#include <caps/CapsLibAll.h>
++#include <CapsLibAll.h>
 +#define CapsLong SDWORD
 +#define CapsULong UDWORD
  /* Macro to check release and revision */
@@ -52,7 +50,7 @@ index c615b755..64fcc51c 100644
  typedef struct
  {
  #ifdef HAVE_CAPSIMAGE
-@@ -46,27 +58,33 @@ typedef struct
+@@ -46,27 +58,33 @@
  
  	struct CapsFdc		Fdc;				/* Fdc state */
  	struct CapsDrive 	Drive[ MAX_FLOPPYDRIVES ];	/* Physical drives */
@@ -77,7 +75,7 @@ index c615b755..64fcc51c 100644
  
 +static bool	IPF_Eject_RawStreamImage ( int Drive );
  #ifdef HAVE_CAPSIMAGE
-+static char	*IPF_FilenameFindTrackSide (char *FileName);
++static char	*IPF_FilenameFindTrackSide ( char *FileName );
 +static bool	IPF_Insert_RawStreamImage ( int Drive );
 +
  static void	IPF_CallBack_Trk ( struct CapsFdc *pc , CapsULong State );
@@ -88,7 +86,7 @@ index c615b755..64fcc51c 100644
  #endif
  
  
-@@ -76,40 +94,56 @@ static void	IPF_Drive_Update_Enable_Side ( void );
+@@ -76,40 +94,56 @@
  /**
   * Save/Restore snapshot of local variables('MemorySnapShot_Store' handles type)
   * We must take care of whether Hatari was compiled with IPF support of not
@@ -99,16 +97,16 @@ index c615b755..64fcc51c 100644
  {
  	int	StructSize;
  	int	Drive;
-+	int	Track , Side;
++	int	Track, Side;
 +	int	TrackSize;
 +	Uint8	*p;
-+
  
  	if ( bSave )					/* Saving snapshot */
  	{
  		StructSize = sizeof ( IPF_State );	/* 0 if HAVE_CAPSIMAGE is not defined */
  		MemorySnapShot_Store(&StructSize, sizeof(StructSize));
 -fprintf ( stderr , "ipf save %d\n" , StructSize );
++
  		if ( StructSize > 0 )
 +		{
  			MemorySnapShot_Store(&IPF_State, sizeof(IPF_State));
@@ -151,7 +149,7 @@ index c615b755..64fcc51c 100644
  			MemorySnapShot_Skip( StructSize );	/* Ignore the IPF data */
  			return;				/* Continue restoring the rest of the memory snapshot */
  		}
-@@ -122,13 +156,13 @@ fprintf ( stderr , "ipf load %d\n" , StructSize );
+@@ -122,13 +156,13 @@
  			/* For IPF structures, we need to update some pointers in Fdc/Drive/CapsImage */
  			/* drive : PUBYTE trackbuf, PUDWORD timebuf */
  			/* fdc : PCAPSDRIVE driveprc, PCAPSDRIVE drive, CAPSFDCHOOK callback functions */
@@ -168,7 +166,7 @@ index c615b755..64fcc51c 100644
  			/* Set callback functions */
  			IPF_State.Fdc.cbirq = IPF_CallBack_Irq;
  			IPF_State.Fdc.cbdrq = IPF_CallBack_Drq;
-@@ -145,7 +179,35 @@ fprintf ( stderr , "ipf load %d\n" , StructSize );
+@@ -145,7 +179,35 @@
  						return;
  					}
  
@@ -205,7 +203,7 @@ index c615b755..64fcc51c 100644
  		}
  	}
  }
-@@ -162,16 +224,49 @@ bool IPF_FileNameIsIPF(const char *pszFileName, bool bAllowGZ)
+@@ -162,16 +224,49 @@
  {
  	return ( File_DoesFileExtensionMatch(pszFileName,".ipf" )
  		|| ( bAllowGZ && File_DoesFileExtensionMatch(pszFileName,".ipf.gz") )
@@ -257,7 +255,7 @@ index c615b755..64fcc51c 100644
  /*-----------------------------------------------------------------------*/
  /**
   * Load .IPF file into memory, set number of bytes loaded and return a pointer
-@@ -180,7 +275,7 @@ bool IPF_FileNameIsIPF(const char *pszFileName, bool bAllowGZ)
+@@ -180,7 +275,7 @@
  Uint8 *IPF_ReadDisk(int Drive, const char *pszFileName, long *pImageSize, int *pImageType)
  {
  #ifndef HAVE_CAPSIMAGE
@@ -266,7 +264,7 @@ index c615b755..64fcc51c 100644
  	return NULL;
  
  #else
-@@ -257,6 +352,8 @@ bool	IPF_Init ( void )
+@@ -257,6 +352,8 @@
  
  		IPF_State.DriveEnabled[ i ] = true;
  		IPF_State.DoubleSided[ i ] = true;
@@ -275,7 +273,7 @@ index c615b755..64fcc51c 100644
  	}
  
  	/* Init FDC with 2 physical drives */
-@@ -309,7 +406,7 @@ void	IPF_Exit ( void )
+@@ -309,7 +406,7 @@
  
  
  /*
@@ -284,17 +282,18 @@ index c615b755..64fcc51c 100644
   */
  bool	IPF_Insert ( int Drive , Uint8 *pImageBuffer , long ImageSize )
  {
-@@ -319,6 +416,9 @@ bool	IPF_Insert ( int Drive , Uint8 *pImageBuffer , long ImageSize )
+@@ -319,7 +416,10 @@
  #else
  	CapsLong	ImageId;
  	CapsLong	ImageType;
 +	const char	*ImageTypeStr;
 +	bool		Type_OK;
-+
  
++
  	ImageId = CAPSAddImage();
  	if ( ImageId < 0 )
-@@ -327,29 +427,49 @@ bool	IPF_Insert ( int Drive , Uint8 *pImageBuffer , long ImageSize )
+ 	{
+@@ -327,30 +427,49 @@
  		return false;
  	}
  
@@ -328,16 +327,15 @@ index c615b755..64fcc51c 100644
 +		case citDraft:		ImageTypeStr = "DRAFT" ; break;
 +		default :		ImageTypeStr = "NOT SUPPORTED\n";
 +					Type_OK = false;
-+	}
+ 	}
+-#endif
 +	fprintf ( stderr , "IPF : IPF_Insert drive=%d buf=%p size=%ld imageid=%d type=%s\n" , Drive , pImageBuffer , ImageSize , ImageId , ImageTypeStr );
 +
 +	if ( !Type_OK )
 +	{
 +		CAPSRemImage ( ImageId ) ;
 +		return false;
- 	}
--#endif
-+
++	}
 +
 +	/* Special case for RAW stream image, we load all the tracks now */
 +	if ( ImageType == citKFStream )
@@ -349,11 +347,12 @@ index c615b755..64fcc51c 100644
 +			return false;
 +		}
 +	}
-+
  
++
  	if ( CAPSLockImageMemory ( ImageId , pImageBuffer , (CapsULong)ImageSize , DI_LOCK_MEMREF ) == imgeOk )
  	{
-@@ -396,6 +516,7 @@ bool	IPF_Insert ( int Drive , Uint8 *pImageBuffer , long ImageSize )
+ 		struct CapsImageInfo cii;
+@@ -396,6 +515,7 @@
  
  	
  	IPF_State.CapsImage[ Drive ] = ImageId;
@@ -361,7 +360,7 @@ index c615b755..64fcc51c 100644
  
  	IPF_State.Drive[ Drive ].diskattr |= CAPSDRIVE_DA_IN;				/* Disk inserted, keep the value for "write protect" */
  
-@@ -409,10 +530,32 @@ bool	IPF_Insert ( int Drive , Uint8 *pImageBuffer , long ImageSize )
+@@ -409,10 +529,31 @@
  }
  
  
@@ -381,21 +380,20 @@ index c615b755..64fcc51c 100644
 +	int	TrackCount_0 , TrackCount_1;
 +	Uint8	*p;
 +	long	Size;
-+
-+
-+return true;						/* This function is not used for now, always return true */
+ 
+ 
++	return true;						/* This function is not used for now, always return true */
 +}
 +#endif
 +
- 
- 
++
  /*
 - * When ejecting a disk, free the ressources associated with an IPF image
 + * When ejecting a disk, free the resources associated with an IPF image
   */
  bool	IPF_Eject ( int Drive )
  {
-@@ -436,7 +579,12 @@ bool	IPF_Eject ( int Drive )
+@@ -436,15 +577,47 @@
  		return false;
  	}
  
@@ -408,10 +406,11 @@ index c615b755..64fcc51c 100644
  
  	IPF_State.Drive[ Drive ].diskattr &= ~CAPSDRIVE_DA_IN;
  
-@@ -445,6 +593,35 @@ bool	IPF_Eject ( int Drive )
+ 	return true;
+ #endif
  }
- 
- 
++
++
 +/*
 + * When ejecting a RAW stream image we must free all the individual tracks
 + */
@@ -419,10 +418,10 @@ index c615b755..64fcc51c 100644
 +{
 +#ifndef HAVE_CAPSIMAGE
 +	return true;
-+
+ 
 +#else
 +	int	Track , Side;
-+
+ 
 +return true;						/* This function is not used for now, always return true */
 +	for ( Track=0 ; Track<IPF_MAX_TRACK_RAW_STREAM_IMAGE ; Track++ )
 +		for ( Side=0 ; Side<IPF_MAX_SIDE_RAW_STREAM_IMAGE ; Side++ )
@@ -439,12 +438,10 @@ index c615b755..64fcc51c 100644
 +	return true;
 +#endif
 +}
-+
-+
  
  
  /*
-@@ -593,7 +770,6 @@ static void	IPF_Drive_Update_Enable_Side ( void )
+@@ -593,7 +766,6 @@
  	else
  	        IPF_State.Fdc.drivemax = MAX_FLOPPYDRIVES - 1;		/* Should be 1 */
  
@@ -452,7 +449,7 @@ index c615b755..64fcc51c 100644
  	for ( i=0 ; i < MAX_FLOPPYDRIVES ; i++ )
  	{
  		if ( IPF_State.DoubleSided[ i ] )
-@@ -601,7 +777,6 @@ static void	IPF_Drive_Update_Enable_Side ( void )
+@@ -601,7 +773,6 @@
  		else
  			IPF_State.Drive[ i ].diskattr |= CAPSDRIVE_DA_SS;	/* Single sided */
  	}
@@ -460,22 +457,22 @@ index c615b755..64fcc51c 100644
  }
  #endif
  
-@@ -657,10 +832,11 @@ void	IPF_FDC_WriteReg ( Uint8 Reg , Uint8 Byte )
+@@ -657,10 +828,12 @@
  	return;						/* This should not be reached (an IPF image can't be inserted without capsimage) */
  
  #else
 -	LOG_TRACE(TRACE_FDC, "fdc ipf write reg=%d data=0x%x VBL=%d HBL=%d\n" , Reg , Byte , nVBLs , nHBL );
--
 +	if ( Reg == 0 )					/* more detailed logs for command register */
 +		IPF_FDC_LogCommand ( Byte );
 +	else
 +		LOG_TRACE(TRACE_FDC, "fdc ipf write reg=%d data=0x%x VBL=%d HBL=%d\n" , Reg , Byte , nVBLs , nHBL );
+ 
  	
 -#if CAPS_LIB_REL_REV >= 501
  	/* In the case of CTR images, we must reset the revolution counter */
  	/* when a command access data on disk and track/side changed since last access */
  	if ( Reg == 0 )
-@@ -681,7 +857,6 @@ void	IPF_FDC_WriteReg ( Uint8 Reg , Uint8 Byte )
+@@ -681,7 +854,6 @@
  			}
  		}
  	}
@@ -483,9 +480,11 @@ index c615b755..64fcc51c 100644
  
  	IPF_Emulate();					/* Update emulation's state up to this point */
  
-@@ -741,6 +916,106 @@ void	IPF_FDC_StatusBar ( Uint8 *pCommand , Uint8 *pHead , Uint8 *pTrack , Uint8
- 
- 
+@@ -738,10 +910,108 @@
+ 	*pSide		= IPF_State.Drive[ Drive ].side;
+ #endif
+ }
++
  
 +#ifdef HAVE_CAPSIMAGE
 +static void	IPF_FDC_LogCommand ( Uint8 Command )
@@ -495,10 +494,10 @@ index c615b755..64fcc51c 100644
 +	int	Drive;
 +	int	FrameCycles, HblCounterVideo, LineCycles;
 +	char	buf[ 200 ];
-+
-+
+ 
+ 
 +	Video_GetPosition ( &FrameCycles , &HblCounterVideo , &LineCycles );
-+
+ 
 +	Drive = IPF_State.Fdc.driveact;
 +	if ( Drive < 0 )				/* If no drive enabled, use drive O for Head/Side */
 +		Drive = 0;
@@ -587,23 +586,22 @@ index c615b755..64fcc51c 100644
 +#endif
 +
 +
- 
  /*
   * Run the FDC emulation during NbCycles cycles (relative to the 8MHz FDC's clock)
-diff --git a/src/uae-cpu/newcpu.c b/src/uae-cpu/newcpu.c
-index e752e83d..e923cddf 100644
---- a/src/uae-cpu/newcpu.c
-+++ b/src/uae-cpu/newcpu.c
-@@ -161,12 +161,6 @@ const char NewCpu_fileid[] = "Hatari newcpu.c : " __DATE__ " " __TIME__;
+  */
+
+--- a/src/uae-cpu/newcpu.c	2023-08-22 00:31:02
++++ b/src/uae-cpu/newcpu.c	2023-08-22 00:32:00
+@@ -164,12 +164,6 @@
+ #include "debugui.h"
  #include "debugcpu.h"
  #include "68kDisass.h"
- 
+-
 -#ifdef HAVE_CAPSIMAGE
 -#if CAPSIMAGE_VERSION == 5
--#include <caps5/CapsLibAll.h>
+-#include <CapsLibAll.h>
 -#endif
 -#endif
--
+ 
  //#define DEBUG_PREFETCH
  
- struct flag_struct regflags;

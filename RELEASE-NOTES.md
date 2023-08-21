@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump advancemame
 - Bump libretro-atari800
 - Bump libretro-a5200
+- Bump libretro-wasm4
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

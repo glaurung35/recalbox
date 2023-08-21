@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-crocods
 - Bump odroidxu4 kernel to 6.1.49
 - Bump libretro-hatari
+- Bump libretro-wasm4
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

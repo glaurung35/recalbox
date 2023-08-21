@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_HATARI_VERSION = cea06eebf695b078fadc0e78bb0f2b2baaca799f
+# Commit of 2023/09/29
+LIBRETRO_HATARI_VERSION = a4c9eb0bb79e47a2870c12b04566c1f8d25e4bf3
 LIBRETRO_HATARI_SITE = $(call github,libretro,hatari,$(LIBRETRO_HATARI_VERSION))
 LIBRETRO_HATARI_LICENSE = GPL-2.0
 # Non commercial because of libcapsimage dependency

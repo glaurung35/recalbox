@@ -15,11 +15,13 @@ as release notes for end user on a Recalbox upgrade.
 ### Bumps
 - Bump libretro-hatari
 
+
 ### Improvements
 
 
 ### Fixes
 
+- Removed LinApple from PC
 
 
 ## Version 9.1-Pulstar

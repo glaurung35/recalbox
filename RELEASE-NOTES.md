@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Bumps
 - Bump libretro-hatari
 
+- Bump libretro-wasm4
 
 ### Improvements
 

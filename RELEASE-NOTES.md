@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-snes9x
 - Bump libretro-theodore
 - Bump libretro-crocods
+- Bump libretro-hatari
 
 ### Improvements
 

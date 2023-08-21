@@ -130,6 +130,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-emuscv
 - Bump Anbernic rg353x kernel
 - Bump libretro-picodrive
+- Bump libretro-hatari
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

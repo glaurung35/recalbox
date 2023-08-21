@@ -30,6 +30,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix multi-wifi configuration
 - Fix demo Astebros for megadrive
 - Fix odroidxu4 OGST video not playing
+- Removed LinApple from PC
+
 
 ## Version 9.1-Pulstar
 

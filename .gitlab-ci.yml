@@ -72,6 +72,7 @@ tests configgen:
     changes:
       - projects/configgen/**/*
   script: 
+    - apt update && apt -y install libevdev2
     - cd projects/configgen
     - echo "Installing dependencies"
     - pip install -r requirements.txt

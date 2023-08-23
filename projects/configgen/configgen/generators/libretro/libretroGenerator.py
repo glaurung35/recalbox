@@ -9,6 +9,7 @@ from configgen.generators.Generator import Generator, ControllerPerPlayer
 from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
+import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 
 
 class LibretroGenerator(Generator):
@@ -244,7 +245,6 @@ class LibretroGenerator(Generator):
     def createConfigurationFile(system: Emulator, playersControllers: ControllerPerPlayer, rom: str, demo: bool,
                                 nodefaultkeymap: bool, recalboxOptions: keyValueSettings) -> (str, str, List[str]):
         # Setup system configuration
-        import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
         configuration = libretroConfigurations.LibretroConfiguration(system, playersControllers, rom, demo,
                                                                      nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()

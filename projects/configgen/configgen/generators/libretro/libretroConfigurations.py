@@ -4,6 +4,7 @@ import configgen.recalboxFiles as recalboxFiles
 from configgen.Emulator import Emulator
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import ControllerPerPlayer
+from configgen.generators.libretro.libretroControllers import LibretroControllers
 
 
 # Libretro configuration
@@ -113,7 +114,6 @@ class LibretroConfiguration:
         retroarch = LibretroRetroarch(self.system, retroarchConfig, self.controllers, self.demo, self.recalboxOptions)
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
-        from configgen.generators.libretro.libretroControllers import LibretroControllers
         controllers = LibretroControllers(self.system, self.recalboxOptions, retroarchConfig, self.controllers, self.nodefaultkeymap)
         controllers.fillControllersConfiguration(self.system.RotateControls)
 

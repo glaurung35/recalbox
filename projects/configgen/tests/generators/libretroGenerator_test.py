@@ -6,6 +6,7 @@ import pytest
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 import configgen.generators.libretro.libretroGenerator as libretroGenerator
 import configgen.generators.libretro.libretroLightGuns as libretroLightGuns
+import configgen.generators.libretro.libretroControllers as libretroControllers
 from configgen.Command import Command
 from configgen.Emulator import Emulator, ExtraArguments
 from configgen.crt.Mode import Mode
@@ -14,6 +15,17 @@ from configgen.settings.keyValueSettings import keyValueSettings
 import configgen.controllers.controller as controllersConfig
 from tests.Givens import givenThoseFiles
 from tests.generators.FakeArguments import Arguments
+from unittest.mock import MagicMock
+
+
+def fake_button_mapping():
+    '''fake PS3 button mapping
+    key is the event code and the value is the button posistion'''
+    return {
+        201: 0, 202: 1, 203: 2, 204: 3, 210: 4, 211: 5, 212: 6, 213: 7,
+        214: 8, 215: 9, 221: 10, 222: 11, 223: 12, 224: 13, 231: 14,
+        251: 15, 252: 16, 277: 17, 278: 18, 279: 19, 280: 20,
+    }
 
 
 @pytest.fixture
@@ -24,6 +36,10 @@ def emulator():
     libretroGenerator.recalboxFiles.BIOS = 'tests/tmp/bios/'
     libretroLightGuns.esLightGun = 'tests/resources/lightgun.cfg'
     libretroLightGuns.GAME_INFO_PATH = 'tests/resources/es_state.inf'
+
+    map_controller_buttons_mock = MagicMock(return_value=fake_button_mapping())
+    libretroControllers.LibretroControllers._MapControllerButtons = map_controller_buttons_mock
+
     return LibretroGenerator()
 
 
@@ -72,25 +88,25 @@ def system_quasi88():
 def controller_configuration():
     uuid = "060000004c0500006802000000010000"
     return controllersConfig.Controller.LoadUserControllerConfigurations(
-        p1index=-1, p1guid=uuid, p1name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p1devicepath="", p1nbaxes=-1,
+        p1index=0, p1guid=uuid, p1name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p1devicepath="/nonexistent/device/event1", p1nbaxes=-1,
         p1nbhats=-1, p1nbbuttons=-1,
-        p2index=-1, p2guid=uuid, p2name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p2devicepath="", p2nbaxes=-1,
+        p2index=1, p2guid=uuid, p2name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p2devicepath="/nonexistent/device/event2", p2nbaxes=-1,
         p2nbhats=-1, p2nbbuttons=-1,
-        p3index=-1, p3guid=uuid, p3name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p3devicepath="", p3nbaxes=-1,
+        p3index=2, p3guid=uuid, p3name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p3devicepath="/nonexistent/device/event3", p3nbaxes=-1,
         p3nbhats=-1, p3nbbuttons=-1,
-        p4index=-1, p4guid=uuid, p4name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p4devicepath="", p4nbaxes=-1,
+        p4index=3, p4guid=uuid, p4name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p4devicepath="/nonexistent/device/event4", p4nbaxes=-1,
         p4nbhats=-1, p4nbbuttons=-1,
-        p5index=-1, p5guid=uuid, p5name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p5devicepath="", p5nbaxes=-1,
+        p5index=4, p5guid=uuid, p5name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p5devicepath="/nonexistent/device/event5", p5nbaxes=-1,
         p5nbhats=-1, p5nbbuttons=-1,
-        p6index=-1, p6guid=uuid, p6name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p6devicepath="", p6nbaxes=-1,
+        p6index=5, p6guid=uuid, p6name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p6devicepath="/nonexistent/device/event6", p6nbaxes=-1,
         p6nbhats=-1, p6nbbuttons=-1,
-        p7index=-1, p7guid=uuid, p7name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p7devicepath="", p7nbaxes=-1,
+        p7index=6, p7guid=uuid, p7name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p7devicepath="/nonexistent/device/event7", p7nbaxes=-1,
         p7nbhats=-1, p7nbbuttons=-1,
-        p8index=-1, p8guid=uuid, p8name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p8devicepath="", p8nbaxes=-1,
+        p8index=7, p8guid=uuid, p8name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p8devicepath="/nonexistent/device/event8", p8nbaxes=-1,
         p8nbhats=-1, p8nbbuttons=-1,
-        p9index=-1, p9guid=uuid, p9name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p9devicepath="", p9nbaxes=-1,
+        p9index=8, p9guid=uuid, p9name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p9devicepath="/nonexistent/device/event9", p9nbaxes=-1,
         p9nbhats=-1, p9nbbuttons=-1,
-        p10index=-1, p10guid=uuid, p10name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p10devicepath="",
+        p10index=9, p10guid=uuid, p10name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p10devicepath="/nonexistent/device/event10",
         p10nbaxes=-1, p10nbhats=-1, p80nbbuttons=-1
     )
 

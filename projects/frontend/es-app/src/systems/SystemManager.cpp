@@ -1606,12 +1606,12 @@ void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulat
         mSystemChangeNotifier->ShowSystem(system);
     }
   // If there is only one, select it!
-  if (listPopulated.Count() == 1)
+  /*if (listPopulated.Count() == 1)
     if (mSystemChangeNotifier != nullptr)
     {
       if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
       else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
-    }
+    }*/
 }
 
 bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)

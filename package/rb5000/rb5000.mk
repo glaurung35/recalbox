@@ -4,9 +4,8 @@
 #
 ################################################################################
 
-RB5000_VERSION = c25e4a884cc3ffada20328f20be03a9c088648a1
-RB5000_SITE = https://gitlab-ci-token-rb5000:$(GITLAB_TOKEN_RB5000)@gitlab.com/bkg2k/rb5000.git
-RB5000_SITE_METHOD = git
+RB5000_VERSION = v1.0
+RB5000_SITE = $(call gitlab,recalbox,packages/standalone/rb5000,$(RB5000_VERSION))
 RB5000_DEPENDENCIES = sdl2 sdl2_ttf
 RB5000_LICENSE = GPL-2.0
 RB5000_LICENSE_FILES = COPYING

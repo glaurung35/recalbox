@@ -26,7 +26,7 @@ class LibretroControllers:
         InputItem.ItemJoy2Left: 'r_x'
     }
 
-    # The tate mode on a handheld makes joy 2 the first joystick
+# The tate mode on a handheld makes joy 2 the first joystick
     retroarchjoysticksTate: Dict[int, str] = \
     {
         InputItem.ItemJoy2Left  : 'l_y',
@@ -133,6 +133,9 @@ class LibretroControllers:
         self.nodefaultkeymap: bool = nodefaultkeymap
         self.retroarchspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
         self.retroarchspecials[InputItem.ItemB] = 'menu_toggle'
+        self.button_mapping = {}
+        for player in controllers:
+            self.button_mapping[controllers[player].UdevIndex] = self._MapControllerButtons(controllers[player])
 
     # Fill controllers configuration
     def fillControllersConfiguration(self, rotateControls: bool = False) -> keyValueSettings:
@@ -172,7 +175,10 @@ class LibretroControllers:
     def setHotKey(self):
         if 1 in self.controllers:
             if self.controllers[1].HasHotkey:
-                self.settings.setInt("input_enable_hotkey_btn", self.controllers[1].Hotkey.Id)
+                if self.getInputDriver == "sdl2":
+                    self.settings.setInt("input_enable_hotkey_btn", self.getConfigValue(self.controllers[1].SdlIndex, self.controllers[1].Hotkey))
+                else:
+                    self.settings.setInt("input_enable_hotkey_btn", self.getConfigValue(self.controllers[1].UdevIndex, self.controllers[1].Hotkey))
 
     # Return the retroarch analog_dpad_mode
     @staticmethod
@@ -194,13 +200,12 @@ class LibretroControllers:
         return 'standard'
 
     # Returns the value to write in retroarch config file, depending on the type
-    @staticmethod
-    def getConfigValue(inp: InputItem) -> str:
-        if inp.IsButton: return str(inp.Id)
+    def getConfigValue(self, controller_id: int, inp: InputItem) -> str:
+        if inp.IsButton or inp.IsKey:
+            print(f"controller {controller_id} code evdev {inp.Code} mapped to ra id {self.button_mapping[controller_id][inp.Code]}")
+            return self.button_mapping[controller_id][inp.Code]
         if inp.IsAxis:   return ('-' if inp.Value < 0 else '+') + str(inp.Id)
         if inp.IsHat:    return 'h' + str(inp.Id) + LibretroControllers.hatstoname[inp.Value]
-        if inp.IsKey:    return str(inp.Id)
-
         raise TypeError
 
     # May change the sign of a joystick axis if rotated
@@ -218,22 +223,26 @@ class LibretroControllers:
     def buildController(self, controller: Controller, playerIndex: int, rotateControls: bool = False):
         settings = self.settings
 
+        if self.getInputDriver == "sdl2":
+            inputIndex = controller.SdlIndex
+        else:
+            inputIndex = controller.UdevIndex
         # Get specials string or default
         specials = self.system.SpecialKeys
-
+        print(f"player n°{playerIndex} controller n°{controller.UdevIndex}")
         # config['input_device'] = '"%s"' % controller.RealName
         for btnkey in self.retroarchbtns:
             btnvalue = self.retroarchbtns[btnkey] if not rotateControls else self.retroarchbtnsTate[btnkey]
             if controller.HasInput(btnkey):
                 inp: InputItem = controller.Input(btnkey)
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, btnvalue, self.typetoname[inp.Type]),
-                                   self.getConfigValue(inp))
+                                   self.getConfigValue(inputIndex, inp))
         for dirkey in self.retroarchdirs:
             dirvalue = self.retroarchdirs[dirkey]
             if controller.HasInput(dirkey):
                 inp = controller.Input(dirkey)
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, dirvalue, self.typetoname[inp.Type]),
-                                   self.getConfigValue(inp))
+                                   self.getConfigValue(inputIndex, inp))
         for jskey in self.retroarchjoysticks:
             jsvalue = self.retroarchjoysticks[jskey] if not rotateControls else self.retroarchjoysticksTate[jskey]
             if controller.HasInput(jskey):
@@ -249,11 +258,11 @@ class LibretroControllers:
                 if controller.HasInput(item):
                     value: str = specialMap[item]
                     inp = controller.Input(item)
-                    settings.setString("input_%s%s" % (value, self.typetoname[inp.Type]), self.getConfigValue(inp))
+                    settings.setString("input_%s%s" % (value, self.typetoname[inp.Type]), self.getConfigValue(inputIndex, inp))
             if controller.HasStart:
                 specialvalue = self.retroarchspecials[InputItem.ItemStart]
                 inp = controller.Start
-                settings.setString("input_%s%s" % (specialvalue, self.typetoname[inp.Type]), self.getConfigValue(inp))
+                settings.setString("input_%s%s" % (specialvalue, self.typetoname[inp.Type]), self.getConfigValue(inputIndex, inp))
 
         # No default keymap?
         if self.nodefaultkeymap:
@@ -272,8 +281,24 @@ class LibretroControllers:
             settings.setString("input_exit_emulator", '"escape"')
 
         # Assign pad to player
-        settings.setInt("input_player{}_joypad_index".format(playerIndex), controller.SdlIndex)
+        settings.setInt("input_player{}_joypad_index".format(playerIndex), inputIndex)
         settings.setInt("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(controller))
 
-
-
+    @staticmethod
+    def _MapControllerButtons(controller: Controller) -> dict:
+        button_id = 0
+        button_mapping = {}
+        # scan KEY_UP to KEY_DOWN first
+        for KEY in list(range(103, 108 + 1)):
+            if controller.HasKey(KEY):
+                button_mapping[KEY] = button_id
+                button_id += 1
+        # scan BTN_MISC to KEY_MAX then
+        for BTN in list(range(256, 767 + 1)):
+            if controller.HasKey(BTN):
+                button_mapping[BTN] = button_id
+                button_id += 1
+        print("button mapping summary")
+        for k in button_mapping:
+            print(f" ev code {k} mapped to ra id {button_mapping[k]}")
+        return button_mapping

@@ -5,18 +5,37 @@ from typing import Dict, List, Optional, ValuesView
 # Do not simplify - Allow mocking of Input file path
 from configgen.controllers.inputItem import InputItem, InputCollection
 import configgen.recalboxFiles as recalboxFiles
+import libevdev
+import pyudev
+import re
 
 esInputs = recalboxFiles.esInputs
 
 
+def getControllerIndex(node_path: str) -> int:
+    '''return the position of the named joystick, the retroarch way'''
+    context = pyudev.Context()
+    index = 0
+    for device in context.list_devices(subsystem='input', ID_INPUT_JOYSTICK='1'):
+        # skip empty device nodes
+        if device.device_node:
+            if device.device_node == node_path:
+                return index
+            # increment only for event device
+            if re.search(r"/dev/input/event", device.device_node):
+                index += 1
+    raise BaseException(f"{node_path} not found")
+
+
 class Controller:
 
-    def __init__(self, deviceName: str, typeName: str, guid: str, playerIndex: int, sdlIndex: int,
+    def __init__(self, deviceName: str, typeName: str, guid: str, playerIndex: int, sdlIndex: int, udevIndex: int,
                  inputs: Optional[InputCollection], devicePath: str, axesCount: int, hatsCount: int, buttonCount: int):
         self.__type: str = typeName
         self.__deviceName: str = deviceName
         self.__guid: str = guid
         self.__sdlIndex: int = sdlIndex       # SDL index - starting from 0
+        self.__udevIndex: int = udevIndex     # udev index - starting from 0
         self.__playerIndex: int = playerIndex # Player index - starting from 1
         self.__naturalIndex: int = 0          # Natural index - starting from 0
         self.__devicePath:str = devicePath
@@ -25,6 +44,7 @@ class Controller:
         self.__buttonsCount: int = buttonCount
         self.__inputs: Optional[InputCollection] = inputs if inputs is not None else {}
         self.axisesNumber: List[int] = self.setAxisNumberList() if inputs is not None else []
+        self.__inputCapabilities = self.__GetInputCapabilities(self.__devicePath)
 
     # Getter
 
@@ -54,6 +74,9 @@ class Controller:
 
     @property
     def SdlIndex(self) -> int: return self.__sdlIndex
+
+    @property
+    def UdevIndex(self) -> int: return self.__udevIndex
 
     @property
     def NaturalIndex(self) -> int: return self.__naturalIndex
@@ -190,6 +213,8 @@ class Controller:
     def Input(self, index: int) -> InputItem: return self.__inputs[index]
 
     def HasInput(self, item: int) -> bool: return item in self.__inputs
+
+    def HasKey(self, item: int) -> bool: return item in self.__inputCapabilities[1]
 
     OppositeHat: Dict[int, int] = {
          1 :  4,
@@ -333,7 +358,8 @@ class Controller:
                                        guid=controller.get("deviceGUID"), playerIndex=0, sdlIndex=0, inputs=None,
                                        devicePath="", axesCount=int(controller.get("deviceNbAxes")),
                                        hatsCount=int(controller.get("deviceNbHats")),
-                                       buttonCount=int(controller.get("deviceNbButtons")))
+                                       buttonCount=int(controller.get("deviceNbButtons")),
+                                       udevIndex=0)
             controllers[newController.__CompositeIdentifier()] = newController
             controllers[newController.__CompositeAbstractIdentifier()] = newController
             for inp in controller.findall("input"):
@@ -396,7 +422,14 @@ class Controller:
             name: str      = Controller.__LoadStrFromKwargs('p{}name'.format(i), "missong-name", **kwargs)
             index: int     = Controller.__LoadIntFromKwargs('p{}index'.format(i), -1, **kwargs)
 
-            newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, name, dev, nbaxes, nbhats, nbbuttons)
+            try:
+                udevIndex = getControllerIndex(dev)
+            except BaseException as e:
+                udevIndex = index
+                print(e)
+
+            print(f"Joystick {name} is set to udev index {udevIndex}")
+            newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, udevIndex, name, dev, nbaxes, nbhats, nbbuttons)
             if newController:
                 startPerEvent[dev] = newController.__inputs[InputItem.ItemStart].Code
 
@@ -416,7 +449,14 @@ class Controller:
             nbhats: int    = Controller.__LoadIntFromKwargs('p{}nbhats'.format(i), -1, **kwargs)
             nbbuttons: int = Controller.__LoadIntFromKwargs('p{}nbbuttons'.format(i), -1, **kwargs)
 
-            newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, name, dev, nbaxes, nbhats, nbbuttons)
+            try:
+                udevIndex = getControllerIndex(dev)
+            except BaseException as e:
+                udevIndex = index
+                print(e)
+
+            print(f"Joystick {name} is set to udev index {udevIndex}")
+            newController = Controller.__FindBestControllerConfig(controllers, i, guid, index, udevIndex, name, dev, nbaxes, nbhats, nbbuttons)
             if newController:
                 playerControllers[i] = newController
 
@@ -425,7 +465,7 @@ class Controller:
         return playerControllers
 
     @staticmethod
-    def __FindBestControllerConfig(controllers: ControllerCollection, playerIndex: int, guid: str, sdlIndex, deviceName: str,
+    def __FindBestControllerConfig(controllers: ControllerCollection, playerIndex: int, guid: str, sdlIndex, udevIndex, deviceName: str,
                                    devicePath: str, axesCount: int, hatsCount: int, buttonsCount: int) -> Optional[Controller]:
         compositeId = Controller.__CompositeIdentifierFrom(guid, axesCount, hatsCount, buttonsCount)
         if compositeId in controllers:
@@ -433,7 +473,7 @@ class Controller:
             return Controller(deviceName=deviceName, typeName=controller.Type, guid=guid,
                               playerIndex=playerIndex, sdlIndex=sdlIndex, inputs=controller.__inputs,
                               devicePath=devicePath, axesCount=axesCount, hatsCount=hatsCount,
-                              buttonCount=buttonsCount)
+                              buttonCount=buttonsCount, udevIndex=udevIndex)
         return None
 
     @staticmethod
@@ -442,6 +482,20 @@ class Controller:
         for idx, controller in controllers.items(): finalData.append(controller.generateSDLGameDBLine())
         with open(outputFile, "w") as text_file: text_file.write("\n".join(finalData))
         return outputFile
+
+    @staticmethod
+    def __GetInputCapabilities(path: str):
+        capabilities = {}
+        try:
+            with open(path, "rb") as fd:
+                dev = libevdev.Device(fd)
+                for t, cs in dev.evbits.items():
+                    capabilities[t.value] = []
+                    for c in cs:
+                        capabilities[t.value].append(c.value)
+        except Exception as e:
+            print(e)
+        return capabilities
 
 # Type def for convenience
 ControllerCollection = Dict[str, Controller]

@@ -5,3 +5,4 @@ pytest-subprocess
 pytest-lazy-fixture
 pytest-mock
 pyudev
+libevdev

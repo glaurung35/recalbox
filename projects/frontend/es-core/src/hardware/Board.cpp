@@ -4,6 +4,7 @@
 #include <utils/Files.h>
 #include <input/InputCompactEvent.h>
 #include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
+#include <hardware/boards/anbernic/RG351VBoard.h>
 #include <hardware/boards/anbernic/RG353XBoard.h>
 #include <sys/utsname.h>
 #include <hardware/boards/NullBoard.h>
@@ -29,6 +30,10 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
   switch(model)
   {
     case BoardType::RG351V: // might need adaptation!
+    {
+      { LOG(LogInfo) << "[Hardware] Anbernic RG351V."; }
+      return *(new RG351VBoard(messageSender, model));
+    }
     case BoardType::OdroidAdvanceGo:
     {
       { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 detected."; }

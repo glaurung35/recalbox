@@ -55,8 +55,6 @@ void InstallSignalCatcher()
 
 int main(int argc, char* argv[])
 {
-  LOG(LogInfo) << "Recalbox Micro Webserver 1.0";
-
   InstallSignalCatcher();
 
   // Get parameters
@@ -64,6 +62,8 @@ int main(int argc, char* argv[])
 
   ::Log::Open("web-server.log");
   if (param.Debug()) ::Log::SetReportingLevel(LogLevel::LogDebug);
+
+  LOG(LogInfo) << "Recalbox Micro Webserver 1.0";
 
   param.LogConfig();
 

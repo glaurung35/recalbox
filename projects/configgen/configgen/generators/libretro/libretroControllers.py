@@ -268,6 +268,11 @@ class LibretroControllers:
                 inp = controller.Input(jskey)
                 settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), self.getJoystickSignRotated(system.RotateControls, '-', jskey) + str(inp.Id))
                 settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  self.getJoystickSignRotated(system.RotateControls, '+', jskey) + str(inp.Id))
+                # handle inverted axis
+                minus = "-" if inp.Value < 0 else "+"
+                plus = "+" if inp.Value < 0 else "-"
+                settings.setString("input_player%s_%s_minus_axis" % (controller.PlayerIndex, jsvalue), self.getJoystickSignRotated(system.RotateControls, minus, jskey) + str(inp.Id))
+                settings.setString("input_player%s_%s_plus_axis" % (controller.PlayerIndex, jsvalue),  self.getJoystickSignRotated(system.RotateControls, plus, jskey) + str(inp.Id))
 
         if controller.PlayerIndex == 1:
             specialMap: Dict[int, str] = {}

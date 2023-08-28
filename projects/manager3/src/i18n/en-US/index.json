@@ -135,6 +135,30 @@
           "options": {}
         }
       },
+      "externalScreen": {
+        "title": "External screen",
+        "prefered": {
+          "label": "Prefered external screen",
+          "help": {
+            "availableOptions": "This option allows you to specify the external screen to use.",
+            "0": "You can find more informations in the following page: https://wiki.recalbox.com/en/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        },
+        "forceresolution": {
+          "label": "Force resolution",
+          "help": {
+            "availableOptions": "This option allows you to specify the resolution to force.",
+            "0": "You can find more informations in the following page: https://wiki.recalbox.com/en/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        },
+        "forcefrequency": {
+          "label": "Force frequency",
+          "help": {
+            "availableOptions": "This option allows you to specify the frequency to force.",
+            "0": "You can find more informations in the following page: https://wiki.recalbox.com/en/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        }
+      },
       "splashScreen": {
         "title": "Splash screen",
         "splashLength": {

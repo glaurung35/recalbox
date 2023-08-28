@@ -489,8 +489,6 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
       else if (ext == ".mkv") RequestHandlerTools::SendResource(path, response, Mime::VideoMkv);
       else if (ext == ".mp4") RequestHandlerTools::SendResource(path, response, Mime::VideoMp4);
       else if (ext == ".avi") RequestHandlerTools::SendResource(path, response, Mime::VideoAvi);
-      // Video
-      else if (ext == ".pdf") RequestHandlerTools::SendResource(path, response, Mime::FilePdf);
       // Unknown
       else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
     }
@@ -522,8 +520,6 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
       else if (ext == ".mkv") RequestHandlerTools::SendResource(path, response, Mime::VideoMkv);
       else if (ext == ".mp4") RequestHandlerTools::SendResource(path, response, Mime::VideoMp4);
       else if (ext == ".avi") RequestHandlerTools::SendResource(path, response, Mime::VideoAvi);
-      // Video
-      else if (ext == ".pdf") RequestHandlerTools::SendResource(path, response, Mime::FilePdf);
       // Unknown
       else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
     }

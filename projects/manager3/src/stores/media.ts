@@ -25,40 +25,34 @@ export const useMediaStore = defineStore('media', {
       const result: Array<object> = [];
 
       Object.keys(state.media.mediaList).forEach((key:string):void => {
-        const extension:string = key.substring(key.length - 3).substring(0, key.length);
         // The screenshots directory have some text file, don't parse them
-        if (extension === 'png') {
+        if (key.includes('.png') || key.includes('.gif') || key.includes('.jpg') || key.includes('.svg')) {
+          let formattedDate:string;
           if (key.includes('screenshot-')) {
             // Check screenshots created via current manager
             const name:string = key.substring(11).substring(0, 24);
-            const formattedDate:string = date.formatDate(
+            formattedDate = date.formatDate(
               date.extractDate(name, 'YYYY-MM-DDTHH-mm-ss'), // "2023-04-03T07-51-41-443Z"
               'DD/MM/YYYY - HH:mm:ss',
             );
-            result.push({
-              name: key,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              url: apiUrl + MEDIA.get + key,
-              date: formattedDate,
-            });
           } else {
             // Check screenshots created in-game (HK + L1)
             const name:string = key.substring(key.length - 17).substring(0, key.length);
-            const formattedDate:string = date.formatDate(
-              date.extractDate(name, 'YYMMDD-HHmmss'),
-              'DD/MM/YY - HH:mm-ss',
+            formattedDate = date.formatDate(
+              date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
+              'DD/MM/YYYY - HH:mm-ss',
             );
-            result.push({
-              name: key,
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              // @ts-ignore
-              url: apiUrl + MEDIA.get + key,
-              date: formattedDate,
-            });
           }
+          result.push({
+            name: key,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            url: apiUrl + MEDIA.get + key,
+            date: formattedDate,
+          });
         }
       });
+      console.log(result);
       return result;
     },
   },

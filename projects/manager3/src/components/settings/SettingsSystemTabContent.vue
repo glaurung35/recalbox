@@ -48,6 +48,53 @@
         </template>
       </FormFragmentContainer>
 
+      <formFragmentContainer title="settings.system.externalScreen.title">
+        <template v-slot:content>
+          <WrappedTextInput
+            label="settings.system.externalScreen.prefered.label"
+            :getter="system['externalscreen.prefered']"
+            :setter="systemStore.post"
+            apiKey="externalscreen.prefered"
+            v-if="system['externalscreen.prefered']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.externalScreen.prefered.help.availableOptions') }}
+              <br /><br />
+              {{ $t('settings.system.externalScreen.prefered.help.0') }}
+            </template>
+          </WrappedTextInput>
+          <WrappedTextInput
+            label="settings.system.externalScreen.forceresolution.label"
+            :getter="system['externalscreen.forceresolution']"
+            :setter="systemStore.post"
+            apiKey="externalscreen.forceresolution"
+            v-if="system['externalscreen.forceresolution']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.externalScreen.forceresolution.help.availableOptions') }}
+              <br /><br />
+              {{ $t('settings.system.externalScreen.forceresolution.help.0') }}
+            </template>
+          </WrappedTextInput>
+          <WrappedTextInput
+            label="settings.system.externalScreen.forcefrequency.label"
+            :getter="system['externalscreen.forcefrequency']"
+            :setter="systemStore.post"
+            apiKey="externalscreen.forcefrequency"
+            v-if="system['externalscreen.forcefrequency']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.externalScreen.forcefrequency.help.availableOptions') }}
+              <br /><br />
+              {{ $t('settings.system.externalScreen.forcefrequency.help.0') }}
+            </template>
+          </WrappedTextInput>
+        </template>
+      </formFragmentContainer>
+
       <FormFragmentContainer title="settings.system.splashScreen.title">
         <template v-slot:content>
           <WrappedSlider
@@ -558,6 +605,7 @@ import { storeToRefs } from 'pinia';
 import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
 import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
+import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 
 const updateStore = useUpdatesStore();
 updateStore.fetch();

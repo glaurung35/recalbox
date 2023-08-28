@@ -135,6 +135,30 @@
           "options": {}
         }
       },
+      "externalScreen": {
+        "title": "Écran externe",
+        "prefered": {
+          "label": "Écran externe préféré",
+          "help": {
+            "availableOptions": "Cette option vous permet de spécifier l'écran à utiliser.",
+            "0": "Vous trouverez plus d'informations sur la page suivante : https://wiki.recalbox.com/fr/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        },
+        "forceresolution": {
+          "label": "Résolution à appliquer",
+          "help": {
+            "availableOptions": "Cette option vous permet de spécifier la résolution d'écran à utiliser.",
+            "0": "Vous trouverez plus d'informations sur la page suivante : https://wiki.recalbox.com/fr/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        },
+        "forcefrequency": {
+          "label": "Fréquence à appliquer",
+          "help": {
+            "availableOptions": "Cette option vous permet de spécifier la fréquence d'affichage à utiliser.",
+            "0": "Vous trouverez plus d'informations sur la page suivante : https://wiki.recalbox.com/fr/tutorials/video/display-configuration/external-screen-configuration"
+          }
+        }
+      },
       "splashScreen": {
         "title": "Vidéos de démarrage",
         "splashLength": {

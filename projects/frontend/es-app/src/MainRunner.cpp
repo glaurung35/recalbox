@@ -682,7 +682,7 @@ void MainRunner::FileSystemWatcherNotification(EventType event, const Path& path
       String name = path.Filename();
       if (name == "gamelist.xml" || name == "gamelist.zip")
         mPendingExit = PendingExit::GamelistChanged;
-      else if (path.ToString().find("themes") != String::npos)
+      else if (path.ToString().Find("themes") >= 0)
         mPendingExit = PendingExit::ThemeChanged;
     }
   }

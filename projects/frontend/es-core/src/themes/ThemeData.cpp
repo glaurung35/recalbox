@@ -381,7 +381,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 			String str = resolveSystemVariable(mSystemThemeFolder, node.text().get(), mRandomPath);
 			
 			//workaround for an issue in parseincludes introduced by variable implementation
-			if (str.find("//") == String::npos)
+			if (!str.Contains("//"))
 			{
 				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
 				if(!ResourceManager::fileExists(path))
@@ -583,8 +583,8 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
       float x = 0, y = 0;
       if (str.TryAsFloat(0, ' ', x))
       {
-        size_t pos = str.find(' ');
-        if (pos != String::npos)
+        int pos = str.Find(' ');
+        if (pos >= 0)
           if (str.TryAsFloat((int) pos + 1, 0, y))
           {
             element.AddVectorProperty(node.name(), x, y);
@@ -605,7 +605,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 			if(!ResourceManager::fileExists(path))
 			{
 				//too many warnings with region and system variable surcharge in themes
-				if (!root.attribute("region") && variable.find("$system") == String::npos)
+				if (!root.attribute("region") && !variable.Contains("$system"))
 				{
 					String ss = "  Warning " + ThemeException::AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
 					ss += String("could not find file \"") + node.text().get() + "\" ";

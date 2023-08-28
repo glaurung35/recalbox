@@ -134,7 +134,7 @@ bool WindowManager::Initialize(unsigned int width, unsigned int height, bool ini
   String glExts = (const char*) glGetString(GL_EXTENSIONS);
   { LOG(LogInfo) << "[WindowManager] Checking available OpenGL extensions..."; }
   { LOG(LogInfo) << "[WindowManager] ARB_texture_non_power_of_two: "
-                 << (glExts.find("ARB_texture_non_power_of_two") != String::npos ? "OK" : "MISSING"); }
+                 << (glExts.Contains("ARB_texture_non_power_of_two") ? "OK" : "MISSING"); }
 
   //InputManager::Instance().Initialize(this);
   ResourceManager::getInstance()->reloadAll();

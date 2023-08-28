@@ -92,24 +92,24 @@ Notification NotificationManager::ActionFromString(const String& action)
 
 bool NotificationManager::ExtractSyncFlagFromPath(const Path& path)
 {
-  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
-  return (scriptName.find("(sync)") != String::npos);
+  const String scriptName = path.FilenameWithoutExtension().LowerCase();
+  return (scriptName.Contains("(sync)"));
 }
 
 bool NotificationManager::ExtractPermanentFlagFromPath(const Path& path)
 {
-  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
-  return (scriptName.find("(permanent)") != String::npos);
+  const String scriptName = path.FilenameWithoutExtension().LowerCase();
+  return (scriptName.Contains("(permanent)"));
 }
 
 Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
 {
   // Extract events between [ and ] in filename
-  const String& scriptName = path.FilenameWithoutExtension().LowerCase();
-  unsigned long start = scriptName.find('[');
-  unsigned long stop = scriptName.find(']');
+  const String scriptName = path.FilenameWithoutExtension().LowerCase();
+  int start = scriptName.Find('[');
+  int stop = scriptName.Find(']');
 
-  if (((start | stop) == String::npos) || (stop - start <= 1)) return (Notification)-1;
+  if (((start | stop) < 0) || (stop - start <= 1)) return (Notification)-1;
 
   Notification result = Notification::None;
   // Split events
@@ -280,12 +280,8 @@ void NotificationManager::BuildStateCompatibility(String& output, Notification a
 
 void NotificationManager::Notify(const SystemData* system, const FileData* game, Notification action, const String& actionParameters)
 {
-//  why ?
-//  if (VideoEngine::IsInstantiated())
-//    VideoEngine::Instance().StopVideo();
-
-  const String& notificationParameter = (game != nullptr) ? game->RomPath().ToString() :
-                                             ((system != nullptr) ? system->Name() : actionParameters);
+  const String notificationParameter = (game != nullptr) ? game->RomPath().ToString() :
+                                       ((system != nullptr) ? system->Name() : actionParameters);
 
   // Check if it is the same event than in previous call
   ParamBag newBag(system, game, action, actionParameters);

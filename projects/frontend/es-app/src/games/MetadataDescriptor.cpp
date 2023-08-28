@@ -137,8 +137,8 @@ String MetadataDescriptor::IntToRange(int range)
 bool MetadataDescriptor::RangeToInt(const String& range, int& to)
 {
   // max+ (min+)
-  int p = (int)range.find('+');
-  if (p != (int)String::npos)
+  int p = range.Find('+');
+  if (p >= 0)
   {
     if (!StringToInt(range, p, 0, '+')) return false;
     to = (p << 16) + 0xFFFF;
@@ -146,8 +146,8 @@ bool MetadataDescriptor::RangeToInt(const String& range, int& to)
   }
 
   // max-max
-  p = (int)range.find('-');
-  if (p == (int)String::npos)
+  p = range.Find('-');
+  if (p < 0)
   {
     if (!StringToInt(range, p)) return false;
     to = (p << 16) + p;

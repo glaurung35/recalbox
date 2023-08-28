@@ -112,6 +112,18 @@ export const SystemConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  'externalscreen.prefered': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'externalscreen.forceresolution': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
+  'externalscreen.forcefrequency': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type SystemConfig = z.infer<typeof SystemConfigSchema>
@@ -212,6 +224,15 @@ export const SystemConfigOptionsSchema = z.object({
     type: z.string(),
   }),
   'secondminitft.sleepenabled': z.object({
+    type: z.string(),
+  }),
+  'externalscreen.prefered': z.object({
+    type: z.string(),
+  }),
+  'externalscreen.forceresolution': z.object({
+    type: z.string(),
+  }),
+  'externalscreen.forcefrequency': z.object({
     type: z.string(),
   }),
 });

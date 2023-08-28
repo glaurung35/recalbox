@@ -79,8 +79,8 @@ static bool IsMatching(const String& fileWoExt, const String& extension, const S
   // Seek complete files
   constexpr int sFilesPrefixLength = sizeof(sFilesPrefix) - 1;
   String file(fileWoExt); file.Append(extension).LowerCase();
-  size_t filePos = extensionList.find(file);
-  if (filePos == String::npos) return false;
+  int filePos = extensionList.Find(file);
+  if (filePos < 0) return false;
   const char* p = extensionList.data();
   return ((filePos == sFilesPrefixLength) || (p[filePos - 1] == ' ')) &&
          ((filePos + file.size() == extensionList.size()) || (p[filePos + file.size()] == ' '));
@@ -141,10 +141,9 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const String& ori
     // Force to hide ignored files
     const String fileName = filePath.Filename();
     int p = (int)ignoreList.find(fileName);
-    if (p != (int)String::npos)
-      if (p > 0 && ignoreList[p-1] == ',')
-        if (ignoreList[p + fileName.length()] == ',')
-          continue;
+    if (p > 0 && ignoreList[p-1] == ',')
+      if (ignoreList[p + fileName.length()] == ',')
+        continue;
 
     if (containsMultiDiskFile && blacklist.contains(filePath.ToString())) continue;
 

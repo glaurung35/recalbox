@@ -255,11 +255,10 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
 
         // Force to hide ignored files
         const String fileName = path.Filename();
-        int p = (int)ignoreList.find(fileName);
-        if (p != (int)String::npos)
-          if (p > 0 && ignoreList[p-1] == ',')
-            if (ignoreList[p + fileName.length()] == ',')
-              continue;
+        int p = ignoreList.Find(fileName);
+        if (p > 0 && ignoreList[p-1] == ',')
+          if (ignoreList[p + fileName.length()] == ',')
+            continue;
 
         if (blacklist.contains(path.ToString()))
           continue;

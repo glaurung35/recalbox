@@ -111,8 +111,8 @@ void Bios::Scan()
 bool Bios::IsForCore(const String& core) const
 {
   // Contains?
-  unsigned long long pos = mCores.find(core);
-  if (pos == String::npos) return false;
+  int pos = mCores.find(core);
+  if (pos < 0) return false;
 
   // Start?
   if (pos != 0)

@@ -10,6 +10,7 @@
 #include "RequestHandler.h"
 #include "Mime.h"
 #include "RequestHandlerTools.h"
+#include <utils/network/Url.h>
 
 using namespace Pistache;
 
@@ -138,7 +139,7 @@ void RequestHandler::BiosUpload(const Rest::Request& request, Http::ResponseWrit
 
     // Lookup
     const Bios* bios = nullptr;
-    BiosManager::LookupResult result = mBiosManager.Lookup(request.splatAt(0).name(), biosMd5, bios);
+    BiosManager::LookupResult result = mBiosManager.Lookup(Url::URLDecode(request.splatAt(0).name()), biosMd5, bios);
 
     String extraResult = "Unknown";
     switch (result)
@@ -200,7 +201,7 @@ void RequestHandler::BiosGetSystem(const Rest::Request& request, Http::ResponseW
     mBiosManager.LoadFromFile();
   mBiosManager.Scan(nullptr, true);
 
-  String systemName = request.splatAt(0).name();
+  String systemName = Url::URLDecode(request.splatAt(0).name());
   BiosList list = mBiosManager.SystemBios(systemName);
   // Empty system does not have a name => not found
   if (list.Name() == systemName)
@@ -273,7 +274,7 @@ void RequestHandler::SystemsResourceGetConsole(const Rest::Request& request, Htt
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetConsole");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "console.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "console.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
@@ -282,7 +283,7 @@ void RequestHandler::SystemsResourceGetController(const Rest::Request& request, 
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetController");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "controller.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "controller.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
@@ -291,7 +292,7 @@ void RequestHandler::SystemsResourceGetControls(const Rest::Request& request, Ht
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetControls");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "controls.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "controls.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
@@ -300,7 +301,7 @@ void RequestHandler::SystemsResourceGetGame(const Rest::Request& request, Http::
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetGame");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "game.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "game.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
@@ -309,7 +310,7 @@ void RequestHandler::SystemsResourceGetLogo(const Rest::Request& request, Http::
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetLogo");
 
   Path first, second;
-  RequestHandlerTools::GetSystemResourcePath(first, second, request.splatAt(0).name(), request.splatAt(1).name(), "logo.svg");
+  RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "logo.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
 
@@ -317,7 +318,7 @@ void RequestHandler::ConfigurationGet(const Rest::Request& request, Http::Respon
 {
   RequestHandlerTools::LogRoute(request, "ConfigurationGet");
 
-  String ns = request.splatAt(0).name();
+  String ns = Url::URLDecode(request.splatAt(0).name());
   const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
@@ -329,7 +330,7 @@ void RequestHandler::ConfigurationOptions(const Rest::Request& request, Http::Re
 {
   RequestHandlerTools::LogRoute(request, "ConfigurationOptions");
 
-  String ns = request.splatAt(0).name();
+  String ns = Url::URLDecode(request.splatAt(0).name());
   const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
@@ -341,7 +342,7 @@ void RequestHandler::ConfigurationSet(const Rest::Request& request, Http::Respon
 {
   RequestHandlerTools::LogRoute(request, "ConfigurationSet");
 
-  String ns = request.splatAt(0).name();
+  String ns = Url::URLDecode(request.splatAt(0).name());
   const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
@@ -353,7 +354,7 @@ void RequestHandler::ConfigurationDelete(const Rest::Request& request, Http::Res
 {
   RequestHandlerTools::LogRoute(request, "ConfigurationDelete");
 
-  String ns = request.splatAt(0).name();
+  String ns = Url::URLDecode(request.splatAt(0).name());
   const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
@@ -366,7 +367,7 @@ void RequestHandler::SystemConfigurationGet(const Rest::Request& request, Http::
   RequestHandlerTools::LogRoute(request, "SystemConfigurationGet");
 
   // Check system
-  String subSystem = request.splatAt(0).name();
+  String subSystem = Url::URLDecode(request.splatAt(0).name());
   if (!RequestHandlerTools::IsValidSystem(subSystem))
     RequestHandlerTools::Error404(response);
 
@@ -383,7 +384,7 @@ void RequestHandler::SystemConfigurationSet(const Rest::Request& request, Http::
   RequestHandlerTools::LogRoute(request, "SystemConfigurationSet");
 
   // Check system
-  String subSystem = request.splatAt(0).name();
+  String subSystem = Url::URLDecode(request.splatAt(0).name());
   if (!RequestHandlerTools::IsValidSystem(subSystem))
     RequestHandlerTools::Error404(response);
 
@@ -400,7 +401,7 @@ void RequestHandler::SystemConfigurationOptions(const Rest::Request& request, Ht
   RequestHandlerTools::LogRoute(request, "SystemConfigurationOptions");
 
   // Check system
-  String subSystem = request.splatAt(0).name();
+  String subSystem = Url::URLDecode(request.splatAt(0).name());
   if (!RequestHandlerTools::IsValidSystem(subSystem))
     RequestHandlerTools::Error404(response);
 
@@ -417,7 +418,7 @@ void RequestHandler::SystemConfigurationDelete(const Rest::Request& request, Htt
   RequestHandlerTools::LogRoute(request, "SystemConfigurationDelete");
 
   // Check system
-  String subSystem = request.splatAt(0).name();
+  String subSystem = Url::URLDecode(request.splatAt(0).name());
   if (!RequestHandlerTools::IsValidSystem(subSystem))
     RequestHandlerTools::Error404(response);
 
@@ -445,7 +446,7 @@ void RequestHandler::MediaDelete(const Rest::Request& request, Http::ResponseWri
 {
   RequestHandlerTools::LogRoute(request, "MediaDelete");
 
-  String mediaName = request.splatAt(0).name();
+  String mediaName = Url::URLDecode(request.splatAt(0).name());
   Path mediaPath("/recalbox/share/screenshots");
   Path media = mediaPath / mediaName;
 
@@ -470,8 +471,8 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::LogRoute(request, "MediaGet");
 
   // Get path
-  Path path(Decode64(request.splatAt(0).name()));
-  std::cout << " path = " << request.splatAt(0).name() << std::endl;
+  Path path(Decode64(Url::URLDecode(request.splatAt(0).name())));
+  std::cout << " path = " << Url::URLDecode(request.splatAt(0).name()) << std::endl;
 
   // Check extension
   String ext = path.Extension().LowerCase();
@@ -502,7 +503,7 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
 {
   RequestHandlerTools::LogRoute(request, "MediaGetScreenshot");
 
-  String fileName = request.splatAt(0).name();
+  String fileName = Url::URLDecode(request.splatAt(0).name());
   Path path = Path("/recalbox/share/screenshots/" + fileName);
 
   // Check extension

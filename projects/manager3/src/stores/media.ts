@@ -52,7 +52,7 @@ export const useMediaStore = defineStore('media', {
           });
         }
       });
-      console.log(result);
+
       return result;
     },
   },

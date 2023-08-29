@@ -58,6 +58,13 @@ class RequestHandler : public IRouter
     void Versions(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle GET Architecture
+     * @param request Request object
+     * @param response Response object
+     */
+    void Architecture(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET version
      * @param request Request object
      * @param response Response object

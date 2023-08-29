@@ -28,8 +28,6 @@ class RequestHandlerTools
 
     static const String::List& GetSupportedRatioList();
 
-    static const String& GetArchitecture();
-
     static String GetCommandOutput(const String& command);
 
     static HashMap<String, String> GetAvailableGlobalResolutions();
@@ -143,6 +141,12 @@ class RequestHandlerTools
      * @param resourceFileName Target filename
      */
     static void GetSystemResourcePath(Path& regionPath, Path& basePath, const String& system, const String& region, const char* resourceFileName);
+
+    /*!
+     * @brief Execute external command
+     * @return Serialized Architecture object
+     */
+    static const String& GetArchitecture();
 
     /*!
      * @brief Execute external command

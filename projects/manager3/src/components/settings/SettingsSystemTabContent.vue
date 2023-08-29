@@ -48,7 +48,7 @@
         </template>
       </FormFragmentContainer>
 
-      <formFragmentContainer title="settings.system.externalScreen.title">
+      <FormFragmentContainer title="settings.system.externalScreen.title" v-if="architecture.arch === 'x86_64'">
         <template v-slot:content>
           <WrappedTextInput
             label="settings.system.externalScreen.prefered.label"
@@ -93,7 +93,7 @@
             </template>
           </WrappedTextInput>
         </template>
-      </formFragmentContainer>
+      </FormFragmentContainer>
 
       <FormFragmentContainer title="settings.system.splashScreen.title">
         <template v-slot:content>
@@ -215,7 +215,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.brightness.title">
+      <FormFragmentContainer title="settings.system.brightness.title" v-if="architecture.arch === 'rg353x' || architecture.arch === 'odroidgo2'">
         <template v-slot:content>
           <WrappedSlider
             label="settings.system.brightness.label"
@@ -606,6 +606,7 @@ import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import { useGlobalStore } from 'stores/configuration/global';
 import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
+import { useArchitectureStore } from 'stores/architecture';
 
 const updateStore = useUpdatesStore();
 updateStore.fetch();
@@ -651,6 +652,11 @@ const {
   boardOptions,
   hat,
 } = storeToRefs(hatStore);
+
+const architectureStore = useArchitectureStore();
+architectureStore.fetch();
+const { architecture } = storeToRefs(architectureStore);
+
 </script>
 
 <style lang="sass" scoped>

@@ -34,6 +34,13 @@ class IRouter
     virtual void Versions(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
+     * @brief Handle GET architecture
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void Architecture(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
      * @brief Handle GET cpu information
      * @param request Request object
      * @param response Response object
@@ -230,6 +237,8 @@ class IRouter
     {
       // Versions
       Rest::Routes::Get(mRouter, "/api/versions", Rest::Routes::bind(&IRouter::Versions, this));
+      // Architecture
+      Rest::Routes::Get(mRouter, "/api/architecture", Rest::Routes::bind(&IRouter::Architecture, this));
       // Monitoring
       Rest::Routes::Get(mRouter, "/api/monitoring/systeminfo", Rest::Routes::bind(&IRouter::SystemInfo, this));
       Rest::Routes::Get(mRouter, "/api/monitoring/storageinfo", Rest::Routes::bind(&IRouter::StorageInfo, this));

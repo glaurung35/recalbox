@@ -178,3 +178,5 @@ export const TWITCH = {
 };
 
 export const VERSIONS = '/versions';
+
+export const ARCHITECTURE = '/architecture';

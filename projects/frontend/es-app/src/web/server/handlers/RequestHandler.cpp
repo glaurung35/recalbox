@@ -63,6 +63,20 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);
 }
 
+void RequestHandler::Architecture(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "Architecture");
+
+  String arch = RequestHandlerTools::GetArchitecture();
+
+  JSONBuilder json;
+  json.Open()
+      .Field("arch", arch)
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);
+}
+
 void RequestHandler::SystemInfo(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "CpuInfo");

@@ -24,7 +24,7 @@ then
   for i in "${percent_fan_speeds[@]}"; do
     fan_spd_val=${fan_spd_val:+$fan_spd_val }$(($i*255/100))
   done
-  echo ${fan_spd_val} > /sys/devices/platform/pwm-fan/hwmon/hwmon0/fan_speed
+  echo ${fan_spd_val} > /sys/devices/platform/pwm-fan/hwmon/hwmon0/device/fan_speed
 
   # Set target temperatures (trip point value = celcius temperature * 1000)
   TRIP_POINT_0=$((${celcius_temperatures[0]}*1000))

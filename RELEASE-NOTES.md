@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix multi-wifi configuration
 - Fix demo Astebros for megadrive
 - Fix analog stick with inverted axis behaviour
+- Fix odroidxu4 OGST video not playing
 
 ## Version 9.1-Pulstar
 

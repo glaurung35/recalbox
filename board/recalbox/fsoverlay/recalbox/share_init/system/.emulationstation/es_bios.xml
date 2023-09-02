@@ -43,12 +43,12 @@
     <bios path="7800 BIOS (E).rom" md5="397bb566584be7b9764e7a68974c4263" mandatory="false" core="prosystem" note="RUN ONLY EUROPEAN GAMES! Display official Atari logo." />
   </system>
   <system fullname="VTech Creativision/Laser 2001" platform="creativision">
-    <bios path="bioscv.rom" md5="3b1ef759d8e3fb4071582efd33dd05f9" core="creativision" />
-    <bios path="cslbios.rom" md5="b320579c642b007ce01697e384151a53" mandatory="false" core="creativision" note="Required for CSL Cartridge emulation" />
-    <bios path="cslbiossm.rom" md5="bd01e99eec4b50fc97a7bd53867868c6" mandatory="false" core="creativision" note="Required for CSL Cartridge emulation" />
-    <bios path="disk.rom" md5="99691286a9d860b9512c1368e74e4c14" mandatory="false" core="creativision" note="Required for floppy disk emulation (Laser 2001/Saloram Manager)" />
-    <bios path="laser2001.rom" md5="4dfadfb1158f84e2df2b85b13f303986" mandatory="false" core="creativision" note="Required for Laser 2001 emulation" />
-    <bios path="saloram.rom" md5="e65f96e9ffef24b5215a2cd86d5c94b8" mandatory="false" core="creativision" note="Required for Saloram Manager emulation" />
+    <bios path="creativision/bioscv.rom" md5="3b1ef759d8e3fb4071582efd33dd05f9" core="creativision" />
+    <bios path="creativision/cslbios.rom" md5="b320579c642b007ce01697e384151a53" mandatory="false" core="creativision" note="Required for CSL Cartridge emulation" />
+    <bios path="creativision/cslbiossm.rom" md5="bd01e99eec4b50fc97a7bd53867868c6" mandatory="false" core="creativision" note="Required for CSL Cartridge emulation" />
+    <bios path="creativision/disk.rom" md5="99691286a9d860b9512c1368e74e4c14" mandatory="false" core="creativision" note="Required for floppy disk emulation (Laser 2001/Saloram Manager)" />
+    <bios path="creativision/laser2001.rom" md5="4dfadfb1158f84e2df2b85b13f303986" mandatory="false" core="creativision" note="Required for Laser 2001 emulation" />
+    <bios path="creativision/saloram.rom" md5="e65f96e9ffef24b5215a2cd86d5c94b8" mandatory="false" core="creativision" note="Required for Saloram Manager emulation" />
   </system>
   <system fullname="Elektronika BK" platform="bk">
     <bios path="bk/B11M_BOS.ROM" md5="fe4627d1e3a1535874085050733263e7" core="bk" />

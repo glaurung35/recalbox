@@ -14,6 +14,8 @@ from tests.generators.FakeArguments import Arguments
 def emulator():
     duckstationGenerator.recalboxFiles.duckstationConfig = 'tests/tmp/duckstation.ini'
     duckstationGenerator.recalboxFiles.SAVES = 'tests/tmp/savedir/'
+    duckstationGenerator.DuckstationGenerator.SETTINGS_FILE = 'tests/tmp/recalbox/settings.ini'
+    duckstationGenerator.DuckstationGenerator.DATABASE_FILE = 'tests/tmp/recalbox/gamecontrollerdb.txt'
     controllersConfig.esInputs = 'tests/resources/es_input.cfg'
     return DuckstationGenerator()
 
@@ -23,16 +25,8 @@ def system():
     return Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='duckstation', core='duckstation')
 
 
-@pytest.fixture
-def controller_configuration():
-    return controllersConfig.Controller.LoadUserControllerConfigurations(
-        p1index =-1, p1guid ="060000004c0500006802000000010000", p1name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p1devicepath ="", p1nbaxes = -1, p1nbhats = -1, p1nbbuttons = -1,
-        p2index =-1, p2guid ="05000000c82d00000161000000010000", p2name ="8Bitdo SN30 Pro", p2devicepath ="", p2nbaxes = -1, p2nbhats = -1, p2nbbuttons = -1
-    )
-
-
+@pytest.mark.usefixtures("controller_configuration")
 def test_simple_generate_duckstation(emulator, system, mocker, controller_configuration):
-#    mocker.patch("configgen.generators.duckstation.duckstationGenerator.DuckstationsxGenerator.EvdevGetJoystickName", return_value="Microsoft Xbox 360 controller")
     command = emulator.generate(system, controller_configuration, keyValueSettings("", False), Arguments('path/to/test.dsk'))
     assert command.videomode == '1920x1080'
     assert command.array == ['/usr/bin/duckstation', 'path/to/test.dsk']

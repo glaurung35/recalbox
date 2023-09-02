@@ -6,6 +6,7 @@ from unittest.mock import mock_open
 
 def givenThoseFiles(mocker, files: Dict[str, str]):
     real = builtins.open
+
     def my_open(filename, mode):
         if filename in files.keys():
             content = files[filename]
@@ -15,4 +16,4 @@ def givenThoseFiles(mocker, files: Dict[str, str]):
         else:
             return real(filename, mode)
 
-    mocker.patch('builtins.open', new=my_open)
+    mocker.patch("builtins.open", new=my_open)

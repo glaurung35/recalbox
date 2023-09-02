@@ -1,15 +1,8 @@
 #!/usr/bin/env python
 import os
-import shutil
 import unittest
 import configgen.controllers.controller as controllersConfig
 from configgen.controllers.inputItem import InputItem
-
-shutil.copyfile(os.path.abspath(os.path.join(os.path.dirname(__file__), "resources/es_input.cfg.origin")),
-                os.path.abspath(os.path.join(os.path.dirname(__file__), "resources/es_input.cfg")))
-
-# Injecting test es_input
-controllersConfig.esInputs = os.path.abspath(os.path.join(os.path.dirname(__file__), "resources/es_input.cfg"))
 
 
 class TestControllersConfig(unittest.TestCase):
@@ -25,21 +18,21 @@ class TestControllersConfig(unittest.TestCase):
         self.assertEqual(InputItem.TypeButton, controller.A.Type)
         self.assertEqual(InputItem.TypeAxis, controller.Joy1Up.Type)
         self.assertEqual(1, controller.A.Value)
-        self.assertEqual(13, controller.A.Id)
+        self.assertEqual(1, controller.A.Id)
 
     def test_associate_controllers_with_players_with_sameuuid(self):
         uuid = "060000004c0500006802000000010000"
         players: controllersConfig.ControllerPerPlayer = controllersConfig.Controller.LoadUserControllerConfigurations(
-            p1index =-1, p1guid =uuid, p1name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p1devicepath ="", p1nbaxes = -1, p1nbhats = -1, p1nbbuttons = -1,
-            p2index =-1, p2guid =uuid, p2name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p2devicepath ="", p2nbaxes = -1, p2nbhats = -1, p2nbbuttons = -1,
-            p3index =-1, p3guid =uuid, p3name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p3devicepath ="", p3nbaxes = -1, p3nbhats = -1, p3nbbuttons = -1,
-            p4index =-1, p4guid =uuid, p4name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p4devicepath ="", p4nbaxes = -1, p4nbhats = -1, p4nbbuttons = -1,
-            p5index =-1, p5guid =uuid, p5name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p5devicepath ="", p5nbaxes = -1, p5nbhats = -1, p5nbbuttons = -1,
-            p6index =-1, p6guid =uuid, p6name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p6devicepath ="", p6nbaxes = -1, p6nbhats = -1, p6nbbuttons = -1,
-            p7index =-1, p7guid =uuid, p7name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p7devicepath ="", p7nbaxes = -1, p7nbhats = -1, p7nbbuttons = -1,
-            p8index =-1, p8guid =uuid, p8name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p8devicepath ="", p8nbaxes = -1, p8nbhats = -1, p8nbbuttons = -1,
-            p9index =-1, p9guid =uuid, p9name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p9devicepath ="", p9nbaxes = -1, p9nbhats = -1, p9nbbuttons = -1,
-            p10index=-1, p10guid=uuid, p10name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p10devicepath="", p10nbaxes= -1, p10nbhats= -1, p80nbbuttons= -1
+            p1index =0, p1guid =uuid, p1name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p1devicepath ="/fakedev/input1", p1nbaxes=6, p1nbhats=1, p1nbbuttons=20,
+            p2index =1, p2guid =uuid, p2name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p2devicepath ="/fakedev/input2", p2nbaxes=6, p2nbhats=1, p2nbbuttons=20,
+            p3index =2, p3guid =uuid, p3name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p3devicepath ="/fakedev/input3", p3nbaxes=6, p3nbhats=1, p3nbbuttons=20,
+            p4index =3, p4guid =uuid, p4name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p4devicepath ="/fakedev/input4", p4nbaxes=6, p4nbhats=1, p4nbbuttons=20,
+            p5index =4, p5guid =uuid, p5name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p5devicepath ="/fakedev/input5", p5nbaxes=6, p5nbhats=1, p5nbbuttons=20,
+            p6index =5, p6guid =uuid, p6name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p6devicepath ="/fakedev/input6", p6nbaxes=6, p6nbhats=1, p6nbbuttons=20,
+            p7index =6, p7guid =uuid, p7name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p7devicepath ="/fakedev/input7", p7nbaxes=6, p7nbhats=1, p7nbbuttons=20,
+            p8index =7, p8guid =uuid, p8name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p8devicepath ="/fakedev/input8", p8nbaxes=6, p8nbhats=1, p8nbbuttons=20,
+            p9index =8, p9guid =uuid, p9name ="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p9devicepath ="/fakedev/input9", p9nbaxes=6, p9nbhats=1, p9nbbuttons=20,
+            p10index=9, p10guid=uuid, p10name="PLAYSTATION(R)3 Controller (00:48:E8:D1:63:25)", p10devicepath="/fakedev/input10", p10nbaxes=6, p10nbhats=1, p10nbbuttons=20
         )
         self.assertEqual(10, len(players))
         self.assertEqual(uuid, players[1].GUID)
@@ -90,7 +83,7 @@ class TestControllersConfig(unittest.TestCase):
         self.assertEqual(uuid8, players[8].GUID)
         self.assertEqual(uuid9, players[9].GUID)
         self.assertEqual(uuid10, players[10].GUID)
-        self.assertEqual(13, players[1].A.Id)
+        self.assertEqual(1, players[1].A.Id)
 
     def test_controllers_defaults(self):
         uuid1 = "060000004c0500006802000000010000"

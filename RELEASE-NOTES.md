@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix gpu overclock when overclocking on RPi4
 - Fix multi-wifi configuration
 - Fix demo Astebros for megadrive
+- Fix odroidxu4 OGST video not playing
 
 ## Version 9.1-Pulstar
 

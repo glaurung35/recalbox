@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-snes9x
 - Bump libretro-theodore
 - Bump libretro-crocods
+- Bump odroidxu4 kernel to 6.1.49
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

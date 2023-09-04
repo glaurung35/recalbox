@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix gpu overclock when overclocking on RPi4
 - Fix multi-wifi configuration
 - Bump libretro-snes9x
+- Bump libretro-theodore
 
 ### Improvements
 

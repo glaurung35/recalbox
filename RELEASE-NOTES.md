@@ -57,6 +57,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump easyrpg
 - Bump Anbernic rg353x kernel
 - Bump frotz
+- Bump libretro-theodore
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

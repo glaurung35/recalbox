@@ -82,6 +82,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-fceunext
 - Bump easyrpg
 - Bump libretro-fceumm
+- Bump libretro-theodore
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

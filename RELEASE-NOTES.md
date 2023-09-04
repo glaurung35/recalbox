@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump frotz
 - Bump libretro-snes9x
 - Bump libretro-theodore
+- Bump libretro-crocods
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

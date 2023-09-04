@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_CROCODS_VERSION = 8d8443cd68093dab195e38973374159c8daefa96
+# Commit of 2022/07/26
+LIBRETRO_CROCODS_VERSION = f1b4b91291ba1e8e7c0be02269cd0d75c7fa71b9
 LIBRETRO_CROCODS_SITE = $(call github,libretro,libretro-crocods,$(LIBRETRO_CROCODS_VERSION))
 LIBRETRO_CROCODS_LICENSE = MIT
 LIBRETRO_CROCODS_LICENSE_FILES = LICENSE

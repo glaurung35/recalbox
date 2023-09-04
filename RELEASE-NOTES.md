@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix multi-wifi configuration
 - Bump libretro-snes9x
 - Bump libretro-theodore
+- Bump libretro-crocods
 
 ### Improvements
 

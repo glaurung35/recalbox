@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_SNES9X_VERSION = 4ec8679a37b1ecac42d27766fc391de593e31a31
+# Commit of 2023/10/13
+LIBRETRO_SNES9X_VERSION = ec4ebfc8f3819a9522fcb8e53eed985090017b1b
 LIBRETRO_SNES9X_SITE = $(call github,libretro,snes9x,$(LIBRETRO_SNES9X_VERSION))
 LIBRETRO_SNES9X_LICENSE = COPYRIGHT
 LIBRETRO_SNES9X_LICENSE_FILES = LICENSE
@@ -21,6 +22,8 @@ endef
 define LIBRETRO_SNES9X_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/snes9x_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/snes9x_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/satellaview
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sufami
 endef
 
 $(eval $(generic-package))

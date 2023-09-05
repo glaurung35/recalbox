@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_SNES9X_VERSION = 4ec8679a37b1ecac42d27766fc391de593e31a31
+# Commit of 2023/09/15
+LIBRETRO_SNES9X_VERSION = 9fcd99d124872cc2aafe806974eb28789dd6827e
 LIBRETRO_SNES9X_SITE = $(call github,libretro,snes9x,$(LIBRETRO_SNES9X_VERSION))
 LIBRETRO_SNES9X_LICENSE = COPYRIGHT
 LIBRETRO_SNES9X_LICENSE_FILES = LICENSE

@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Anbernic rg353x kernel
 - Bump libretro-fceumm
 - Bump frotz
+- Bump libretro-snes9x
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

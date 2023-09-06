@@ -130,11 +130,6 @@ void ViewController::ResetFilters()
 //  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 }
 
-int ViewController::getSystemId(SystemData* system)
-{
-	return mSystemManager.VisibleSystemList().IndexOf(system);
-}
-
 void ViewController::goToQuitScreen()
 {
   mSplashView.Quit();
@@ -145,7 +140,7 @@ void ViewController::goToQuitScreen()
 void ViewController::goToSystemView(SystemData* system)
 {
   CheckFilters();
-  mSystemListView.setPosition((float)getSystemId(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
+  mSystemListView.setPosition((float) getSystemIndex(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
   if (!system->HasVisibleGame()) {
     system = mSystemManager.FirstNonEmptySystem();
@@ -226,7 +221,7 @@ void ViewController::goToGameList(SystemData* system)
 	{
 		// move system list
 		float offX = mSystemListView.getPosition().x();
-		int sysId = getSystemId(system);
+		int sysId = getSystemIndex(system);
     mSystemListView.setPosition((float)sysId * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 		offX = mSystemListView.getPosition().x() - offX;
 		mCamera.translation().x() -= offX;

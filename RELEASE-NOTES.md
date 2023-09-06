@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add Naomi 2 system on x86_64
 - Add new system Sega Pico
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -130,6 +131,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix odroidxu4 OGST video not playing
 - Removed LinApple from PC
 - Fix headphone audio output on Anbernic rg353v
+
 
 ## Version 9.1-Pulstar
 

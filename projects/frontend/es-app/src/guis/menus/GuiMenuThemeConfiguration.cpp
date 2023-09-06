@@ -69,6 +69,9 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
 
 GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const String::List& items, Components id, String& original)
 {
+  // No option?
+  if (items.empty()) return nullptr;
+
   bool found = false;
   String realSelected;
   for(const String& s : items) if (s == selected) { found = true; realSelected = s; break; }

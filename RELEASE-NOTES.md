@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Sega Pico
 - Add new time played information
 - Add Naomi 2 system on rpi5 and x86_64
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -150,6 +151,7 @@ as release notes for end user on a Recalbox upgrade.
 - Removed LinApple from PC
 - Fix headphone audio output on Anbernic rg353v
 - Fix not mappables pads
+
 
 ## Version 9.1-Pulstar
 

@@ -58,7 +58,7 @@
 
 #define PCA_CHIP_TYPE(x)  ((x) & PCA_TYPE_MASK)
 
-#define DEBUG 1
+#define DEBUG 0
 
 static const struct i2c_device_id pca953x_id[] = {
     {"recalboxrgbjamma", 16 | PCA953X_TYPE | PCA_INT,},
@@ -650,7 +650,8 @@ static int process_inputs(struct gpio_chip *gpio_chip);
 static struct config {
   struct gpio_chip *gpio_chip_0;
   struct gpio_chip *gpio_chip_1;
-  struct gpio_chip *gpio_chip_2;
+  struct gpio_desc *switch36_gpio_ref;
+  int switch36_gpio_state;
   struct task_struct *config_thread;
   struct task_struct *debounce_thread;
   struct mutex process_mutex;
@@ -658,7 +659,6 @@ static struct config {
   bool disable_credit_on_hk_btn1;
   bool reverse_credit_logic;
   uint buttons_on_jamma;
-  bool btn_6_auto_disabled;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -668,14 +668,10 @@ static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
     DEBUG && printk(KERN_INFO
     "recalboxrgbjamma: IRQ triggered on chip 0\n");
     process_inputs(jamma_config.gpio_chip_0);
-  } else if(&chip->gpio_chip == jamma_config.gpio_chip_1){
+  } else {
     DEBUG && printk(KERN_INFO
     "recalboxrgbjamma: IRQ triggered on chip 1\n");
     process_inputs(jamma_config.gpio_chip_1);
-  } else {
-    DEBUG && printk(KERN_INFO
-    "recalboxrgbjamma: IRQ triggered on chip 2\n");
-    process_inputs(jamma_config.gpio_chip_2);
   }
 
   return IRQ_RETVAL(1);
@@ -774,563 +770,6 @@ static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert) {
   out:
   return ret;
 }
-
-
-/*
- * A,B,X,Y are in SNES notation
- *
- * Chip 0 : address = 0x25
- *                                    __________
- *   P1K-B4 (P1-X)       IO0-0  <--- |0        8| ---> IO1-0  P1-B4    (P1-X)
- *   P1K-B5 (P1-L)       IO0-1  <--- |1        9| ---> IO1-1  P2-B4    (P2-X)
- *   P1K-B6 (P1-R)       IO0-2  <--- |2       10| ---> IO1-2  P1-B5    (P1-L)
- *   P2-B6  (P2-R)       IO0-3  <--- |3       11| ---> IO1-3  P2-B5    (P2-L)
- *   P1-B6  (P1-R)       IO0-4  <--- |4       12| ---> IO1-4  P3K-B3   (P3-Y)
- *   P2K-B4 (P2-X)       IO0-5  <--- |5       13| ---> IO1-5  P3K-LOCK (P3-LOCK)
- *   P2K-B5 (P2-L)       IO0-6  <--- |6       14| ---> IO1-6  P3K-START
- *   P2K-B5 (P2-R)       IO0-7  <--- |7       15| ---> IO1-7  P3K-UP
- *                                    ‾‾‾‾‾‾‾‾‾‾
- * Chip 1 : address = 0x24
- *                                    __________
- *   P4K-RIGHT           IO0-0  <--- |16      24| ---> IO1-0  P1-B3 (P1-Y)
- *   P4K-LEFT            IO0-1  <--- |17      25| ---> IO1-1  P2-B3 (P2-Y)
- *   P4K-DOWN            IO0-2  <--- |18      26| ---> IO1-2  P1-B2
- *   P4K-B1              IO0-3  <--- |19      27| ---> IO1-3  P2-B2
- *   P4K-B3              IO0-4  <--- |20      28| ---> IO1-4  P4K-LOCK
- *   P4K-B4              IO0-5  <--- |21      29| ---> IO1-5  P4K-UP
- *   P4K-B2              IO0-6  <--- |22      30| ---> IO1-6  P4K-START
- *   P3K-B4              IO0-7  <--- |23      31| ---> IO1-7  P4K-COIN
- *                                    ‾‾‾‾‾‾‾‾‾‾
- *                                    ‾‾‾‾‾‾‾‾‾‾
- * Chip 3 : address = 0x28
- *                                    __________
- *   P2-B1               IO0-0  <--- |32      40| ---> IO1-0  P2-UP
- *   P1-B1               IO0-1  <--- |33      41| ---> IO1-1  P1-UP
- *   P1-DOWN             IO0-2  <--- |34      42| ---> IO1-2  P2-START
- *   P2-DOWN             IO0-3  <--- |35      43| ---> IO1-3  P1-START
- *   P1-LEFT             IO0-4  <--- |36      44| ---> IO1-4  P2-COIN
- *   P2-LEFT             IO0-5  <--- |37      45| ---> IO1-5  P1-COIN
- *   P1-RIGHT            IO0-6  <--- |38      46| ---> IO1-6  TEST
- *   P2-RIGHT            IO0-7  <--- |39      47| ---> IO1-7  SERVICE
- *                                    ‾‾‾‾‾‾‾‾‾‾
- *
- */
-
-#define TOTAL_PLAYERS 2
-
-struct input_dev *player_devs[TOTAL_PLAYERS];
-
-// Standard buttons mapping
-#define BTN_PER_PLAYER 11
-#define BTN_PER_PLAYER_ON_JAMMA 10
-#define TOTAL_GPIO_ON_PCA 48
-
-// Keep in mind the vanilla mapping for Recalbox RGB Jamma is (SNES notation):
-// B A Y
-// X L R
-// We use this mapping to get B and A on first line, whatever the number of buttons
-// Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
-//
-static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    //  B1        B2         B3         B4         B5          B6          START          COIN            SERVICE         TEST             HOTKEY
-    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
-};
-// Games buttons are from 0 to 5 in buttons codes
-#define LAST_GAME_BUTTON 5
-
-
-#define PLAYER1 0
-#define PLAYER2 1
-#define JAMMA_BTNS 0
-#define KICK_BTNS 1
-
-static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
-  // Player 1
-  {
-    // The value is the bit of the data containing the
-    // information for the button at the same index in buttons_codes array
-    // Start is a special case
-    {33, 26, 24, 8, 10, 4, -1, 45, 47, 46,},
-    // Kick harness buttons mapping
-    // Only use values where >= 0
-    {-1, -1, -1, 0, 1, 2, -1, -1, -1, -1,},
-  },
-  // Player 2
-  {
-    {32, 27, 25, 9, 11, 3, 42, 44, -1, -1,},
-    {-1, -1, -1, 5, 6, 7, -1, -1, -1, -1,},
-  }
-};
-
-#define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][0]
-#define P1_START buttons_bits[PLAYER1][JAMMA_BTNS][6]
-#define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][0]
-
-#define DIR_UP 0
-#define DIR_DOWN 1
-#define DIR_LEFT 2
-#define DIR_RIGHT 3
-
-static const int direction_bits[2][4]= {
-  // Player 1
-    {41,34,36,38},
-    {40,35,37,39},
-};
-
-
-
-// Logic is not the same for each buttons (coins and service/test are reversed)
-// TODO: add service and test for next version
-static const unsigned short buttonsReleasedValues[TOTAL_GPIO_ON_PCA] = {
-    1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 0, 0
-};
-// TODO: add service and test for next version
-static const unsigned short buttonsReleasedValuesReversed[TOTAL_GPIO_ON_PCA] = {
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 0, 0, 0, 0
-};
-
-
-#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^(jamma_config.reverse_credit_logic ? buttonsReleasedValuesReversed[btn]: buttonsReleasedValues[btn])) : 0)
-#define WAIT_SYNC() usleep_range(50000,80000);
-//Exit delay (HK + START) set to 2 secondes
-#define EXIT_DELAY(now, start) ((now - start) / 1000000000UL >= 2)
-//HK delay set to 1 second
-#define HOTKEY_DELAY(now, start) ((now - start) / 1000000000UL >= 1)
-static long long int last_start_press = 0;
-static unsigned long start_state = 0;
-static unsigned int start_credit = 0;
-static short can_exit = 0;
-static short should_release_hk = 0;
-
-#define PRESS_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 1); input_sync(player_devs[(player)]); WAIT_SYNC();
-#define RELEASE_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 0); input_sync(player_devs[(player)]); WAIT_SYNC();
-
-
-/**
- *
- * @param data_chips the data read from both chips
- * The right 16 bits are for the chip 1, left 16 bits for the chip 0
- */
-static void input_report(unsigned long long *data_chips, long long int *time_ns) {
-  int player, buttonIndex, buttonValue;
-
-  if (jamma_config.hotkey_patterns) {
-    // Special case for HOTKEY:
-    // Simple press + release of START -> START event
-    // Simple press of START + BTN1 -> send SELECT (COIN)
-    // Simple press of START + an other button -> send HOTKEY + BUTTON
-    // Long press (3s) of START -> HOTKEY + START
-
-    if (PRESSED(*data_chips, P1_START)) {
-      DEBUG && printk(KERN_INFO
-      "recalboxrgbjamma: start is pressed\n");
-      if (last_start_press == 0) {
-        // First press
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: saving first press\n");
-        last_start_press = *time_ns;
-        start_state = *data_chips;
-        can_exit = 1;
-        start_credit = 0;
-      } else {
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: startstate=%u data_chips=%u different=%d B1=%d\n", start_state, *data_chips, start_state !=
-                                                                                                       *data_chips,
-            PRESSED(
-                *data_chips,
-                P1_BTN1));
-        if (start_state != *data_chips /*&& !start_credit*/) {
-          // If we can use START + BTN1 for a credit
-          if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P1_BTN1)) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(0, BTN_SELECT);
-            RELEASE_AND_SYNC(0, BTN_SELECT);
-            start_credit = 1;
-            can_exit = 0;
-          } if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P2_BTN1)) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: credit (SELECT) triggered (hk+P2_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(1, BTN_SELECT);
-            RELEASE_AND_SYNC(1, BTN_SELECT);
-            start_credit = 1;
-            can_exit = 0;
-          } else if (!start_credit && !should_release_hk) {
-            // As another button has been pressed, we press hotkey before
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: other button press (hk+x)\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
-            can_exit = 0;
-            should_release_hk = 1;
-          }
-        }
-        start_state = *data_chips;
-
-      }
-    } else {
-      if (last_start_press != 0) {
-        // Start released
-        if (!start_credit) {
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: start released\n");
-          if (should_release_hk) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: release hotkey\n");
-            should_release_hk = 0;
-            RELEASE_AND_SYNC(0, BTN_MODE);
-          } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
-            // Longest press, so we send both HK + START
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: long press : sending HK + START\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
-            PRESS_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_MODE);
-          } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
-            // Long press, so we send HK
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: middle press : sending HK\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
-            RELEASE_AND_SYNC(0, BTN_MODE);
-          } else {
-            // Simple start
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: quick press : sending START\n");
-            PRESS_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_START);
-          }
-        }
-        last_start_press = 0;
-      }
-    }
-  } else {
-    // Standard start
-    input_report_key(player_devs[0], BTN_START, PRESSED(*data_chips, P1_START));
-  }
-
-  for(player = 0; player < TOTAL_PLAYERS; player++){
-    if (player > 0 || !start_credit) {
-      input_report_abs(player_devs[0], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
-      input_report_abs(player_devs[0], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
-
-      for (buttonIndex = 0; buttonIndex < BTN_PER_PLAYER_ON_JAMMA; buttonIndex++) {
-        // If we are on a game button that is not on jamma (because user config)
-        // or if the btn6 has been auto disabled (at startup because on ground)
-        // then we use kickharness
-        if ((buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma) ||
-            (buttonIndex == 5 && jamma_config.btn_6_auto_disabled)) {
-          buttonValue = PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
-          /* DEBUG && printk(KERN_INFO "recalboxrgbjamma: sending report P1 for key bit:%d, inputcode:%d, value : %d\n", player1_kick_btn_bits[j],
-             buttons_codes[j], PRESSED(data_chips, player1_kick_btn_bits[j]));*/
-        } else {
-          // let's read on both inputs
-          buttonValue = PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][buttonIndex]) | PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
-        }
-        input_report_key(player_devs[player], buttons_codes[buttonIndex], buttonValue);
-      }
-      input_sync(player_devs[player]);
-    }
-  }
-}
-
-static unsigned long lastGpioState = 0;
-static unsigned long debounceGpioValue = 0;
-static long long int lastActionOn[TOTAL_GPIO_ON_PCA] = {0};
-
-#define SETGPIO(data_addr, gpio, value) (*(data_addr) = ((*(data_addr) & (~(1UL << (gpio)))) | ((value) << (gpio))))
-
-static int debounce(unsigned long long *data_chips, unsigned long long *debounced_data, long long int *time_ns) {
-  unsigned long gpioVal;
-  *debounced_data = *data_chips;
-  unsigned int gpio;
-  for (gpio = 0; gpio < TOTAL_GPIO_ON_PCA; gpio++) {
-    if (lastActionOn[gpio] != 0) {
-      // We are in debounce time lap
-      // We cancel this event by setting the saved value at debounce start
-      DEBUG && printk(KERN_INFO
-      "recalboxrgbjamma: debouncing: setting gpio %d value to %d (%s) in place of %d\n", gpio,
-          (debounceGpioValue >> gpio) &
-          1, ((debounceGpioValue >> gpio) & 1) ? "released" : "pressed", gpioVal);
-      SETGPIO(debounced_data, gpio, (debounceGpioValue >> gpio) & 1);
-    } else {
-      gpioVal = (((*data_chips) >> gpio) & 1);
-      if (((lastGpioState >> gpio) & 1) != gpioVal) {
-        // Gpio changed its state since last event
-        // We set the start time for debounce and the value of the gpio
-        lastActionOn[gpio] = *time_ns;
-        // Saving the value that will be still during the debounce
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: debouncing: first event of gpio %d, setting debounced value to %d \n", gpio, gpioVal);
-        SETGPIO(&debounceGpioValue, gpio, gpioVal);
-      }
-    }
-  }
-  lastGpioState = *data_chips;
-  return 0;
-}
-static const unsigned long mask = 0xFFFF;
-
-static int read_gpios(unsigned long long *gpio_data) {
-  unsigned long gpio_values0 = 0;
-  unsigned long gpio_values1 = 0;
-  unsigned long gpio_values2 = 0;
-  if (jamma_config.gpio_chip_0 != NULL) {
-    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_0, &mask, &gpio_values0)) {
-      printk(KERN_INFO
-      "recalboxrgbjamma: unable to read gpio on chip 0, skipping\n");
-      return -1;
-    };
-  }
-  if (jamma_config.gpio_chip_1 != NULL) {
-    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_1, &mask, &gpio_values1)) {
-      printk(KERN_INFO
-      "recalboxrgbjamma: unable to read gpio chip 1, skipping\n");
-      return -1;
-    }
-  }
-  if (jamma_config.gpio_chip_2 != NULL) {
-    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_2, &mask, &gpio_values2)) {
-      printk(KERN_INFO
-      "recalboxrgbjamma: unable to read gpio chip 2, skipping\n");
-      return -1;
-    }
-  }
-  *gpio_data = (gpio_values2 << 32) | (gpio_values1 << 16) | gpio_values0;
-  return 0;
-}
-
-static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_chip) {
-  if (pca953x_gpio_get_multiple(gpio_chip, &mask, gpio_data)) {
-    printk(KERN_INFO
-    "recalboxrgbjamma: unable to read gpio on chip %s, skipping\n", gpio_chip == jamma_config.gpio_chip_0 ? "0":(gpio_chip == jamma_config.gpio_chip_1 ? "1" : "2"));
-    return -1;
-  };
-  return 0;
-}
-
-
-// Debounce to 40ms
-#define DEBOUNCE_TIME (40000000)
-
-static unsigned long long gpio_data = 0;
-
-static int process_inputs(struct gpio_chip *gpio_chip) {
-  unsigned long long debounced_data = 0;
-  unsigned long gpio_data_chip = 0;
-  long long int time_start = ktime_to_ns(ktime_get_boottime());
-  mutex_lock(&jamma_config.process_mutex);
-
-  if(gpio_chip != NULL) {
-    if (read_gpios_one_chip(&gpio_data_chip, gpio_chip)) {
-      mutex_unlock(&jamma_config.process_mutex);
-      return -1;
-    }
-    DEBUG && printk(KERN_INFO
-    "recalboxrgbjamma: read gpio values on chip : %u\n", gpio_data_chip);
-    if(gpio_chip == jamma_config.gpio_chip_0){
-      gpio_data = ((gpio_data & 0xFFFFFFFF0000) | gpio_data_chip);
-    } else if(gpio_chip == jamma_config.gpio_chip_1) {
-      gpio_data = ((gpio_data & 0xFFFF0000FFFF) | (gpio_data_chip << 16));
-    } else if(gpio_chip == jamma_config.gpio_chip_2) {
-      gpio_data = ((gpio_data & 0x0000FFFFFFFF) | (gpio_data_chip << 32));
-    }
-
-    DEBUG && printk(KERN_INFO
-    "recalboxrgbjamma: gpio_data = %u\n", gpio_data);
-  } else {
-    if (read_gpios(&gpio_data)) {
-      mutex_unlock(&jamma_config.process_mutex);
-      return -1;
-    }
-  }
-
-  debounce(&gpio_data, &debounced_data, &time_start);
-  input_report(&debounced_data, &time_start);
-  mutex_unlock(&jamma_config.process_mutex);
-  return 0;
-}
-
-static int process_debounce(void *idx) {
-  unsigned int gpio;
-  long long int time_ns;
-  bool sendEvent;
-
-  while (!kthread_should_stop()) {
-    time_ns = ktime_to_ns(ktime_get_boottime());
-    sendEvent = false;
-    for (gpio = 0; gpio < TOTAL_GPIO_ON_PCA; gpio++) {
-      if (lastActionOn[gpio] != 0) {
-        if (time_ns - lastActionOn[gpio] > DEBOUNCE_TIME) {
-          // This gpio must be debounced
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: debouncing thread: finish debouncing of %d\n", gpio);
-          sendEvent = 1;
-          lastActionOn[gpio] = 0;
-        }
-      }
-    }
-    if (sendEvent) {
-      // Maybe we should not debounce here
-      process_inputs(NULL);
-    }
-    usleep_range(10000, 15000);
-  }
-  return 0;
-}
-
-static int unregister_controllers(void) {
-  int player;
-  for (player = 0; player < TOTAL_PLAYERS; player++) {
-    if (player_devs[player] != NULL)
-      input_unregister_device(player_devs[player]);
-  }
-  return 0;
-}
-
-static const char *controllers_names[2] = {
-    "JammaControllerP1", "JammaControllerP2"
-};
-
-static int register_controllers(void) {
-  int err = 0, i = 0, player = 0;
-  for (player = 0; player < TOTAL_PLAYERS; player++) {
-    if (!(player_devs[player] = input_allocate_device())) {
-      pr_err("recalboxrgbjamma: not enough memory for input device\n");
-      return -ENOMEM;
-    }
-
-    player_devs[player]->name = controllers_names[player];
-    player_devs[player]->phys = controllers_names[player];
-    player_devs[player]->id.bustype = BUS_I2C;
-    player_devs[player]->id.vendor = 0x7262;
-    player_devs[player]->id.product = 0x0A01;
-    player_devs[player]->id.version = 0x0100;
-
-    player_devs[player]->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
-
-    for (i = 0; i < 2; i++)
-      input_set_abs_params(player_devs[player], ABS_X + i, -1, 1, 0, 0);
-    for (i = 0; i < BTN_PER_PLAYER; i++)
-      __set_bit(buttons_codes[i], player_devs[player]->keybit);
-
-    if ((err = input_register_device(player_devs[player]))) {
-      pr_err("recalboxrgbjamma: Cannot register input device\n");
-      input_free_device(player_devs[player]);
-      player_devs[player] = NULL;
-      return -1;
-    }
-  }
-  return 0;
-}
-// Load configuration from recalbox-crt-options.cfg
-// Used to get Hotkey mode
-#define READ_SIZE_MAX 2048
-#define LINE_SIZE_MAX 256
-static char read_buf[READ_SIZE_MAX];
-static const char *config_path = "/boot/crt/recalbox-crt-options.cfg";
-
-static int load_config(void) {
-  struct file *fp = NULL;
-  ssize_t read_size = 0;
-  size_t cursor = 0;
-  char line[LINE_SIZE_MAX];
-  char optionname[LINE_SIZE_MAX];
-  int optionvalue = 0;
-  size_t line_start = 0;
-  size_t line_len = 0;
-  int scanret = 0;
-
-  fp = filp_open(config_path, O_RDONLY, 0);
-  if (IS_ERR(fp) || !fp) {
-    //printk(KERN_INFO "recalboxrgbjamma: config file not found, skipping configuration loading\n");
-    return 0;
-  }
-
-  read_size = kernel_read(fp, &read_buf, READ_SIZE_MAX, &fp->f_pos);
-  if (read_size <= 0) {
-    filp_close(fp, NULL);
-    //printk(KERN_INFO "recalboxrgbjamma: empty config file found, skipping configuration loading\n");
-    return 0;
-  }
-  filp_close(fp, NULL);
-  for (cursor = 0; cursor < read_size; cursor++) {
-    line[cursor - line_start] = read_buf[cursor];
-    line_len++;
-    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0') {
-      if (line_len > 1 && line[0] != '#') {
-        line[line_len - 1] = '\0';
-        scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
-        if (scanret == 2) {
-          if (strcmp(optionname, "options.jamma.hk_patterns") == 0) {
-            if (jamma_config.hotkey_patterns != optionvalue) {
-              printk(KERN_INFO
-              "recalboxrgbjamma: switch to %s mode\n",
-                  optionvalue ? "hotkey_patterns" : "enable_hk_on_start");
-              jamma_config.hotkey_patterns = optionvalue;
-            }
-          } else if (strcmp(optionname, "options.jamma.disable_credit_on_hk_btn1") == 0) {
-            if (jamma_config.disable_credit_on_hk_btn1 != optionvalue) {
-              printk(KERN_INFO
-              "recalboxrgbjamma: switch to %s mode\n",
-                  optionvalue ? "disable_credit_on_hk_btn1" : "enable_credit_on_hk_btn1");
-              jamma_config.disable_credit_on_hk_btn1 = optionvalue;
-            }
-          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
-            if (jamma_config.buttons_on_jamma != optionvalue) {
-              printk(KERN_INFO
-              "recalboxrgbjamma: switch buttons_on_jamma to %d\n",
-                  optionvalue);
-              jamma_config.buttons_on_jamma = optionvalue;
-            }
-          } else if (strcmp(optionname, "options.jamma.reverse_credit_logic") == 0) {
-            if (jamma_config.reverse_credit_logic != optionvalue) {
-              printk(KERN_INFO
-              "recalboxrgbjamma: switch reverse_credit_logic to %d\n",
-                  optionvalue);
-              jamma_config.reverse_credit_logic = optionvalue;
-            }
-          }
-        }
-      }
-      line_start += line_len;
-      line_len = 0;
-      memset(line, 0, 128);
-    }
-  }
-  return 0;
-}
-
-static int watch_configuration(void *idx) {
-  int gpio_value = 0;
-  while (!kthread_should_stop()) {
-    // Read file
-    load_config();
-    // Change switch 3/6 GPIO
-    /*if (jamma_config.switch36_gpio_ref != NULL) {
-      gpio_value = gpiod_get_value(jamma_config.switch36_gpio_ref);
-      if (gpio_value != jamma_config.switch36_gpio_state) {
-        jamma_config.switch36_gpio_state = gpio_value;
-        printk(KERN_INFO
-        "recalboxrgbjamma: switch to %s buttons mode\n", gpio_value ? "6" : "3");
-      }
-    }*/
-    usleep_range(10000000, 15000000);
-  }
-  return 0;
-}
-
-
-
 
 
 static int pca953x_probe(struct i2c_client *client,
@@ -1461,11 +900,11 @@ static int pca953x_probe(struct i2c_client *client,
   }
   int command_ret;
   for (gpio_idx = 0; gpio_idx < 16; gpio_idx++) {
-    /*    command_ret = pca953x_gpio_set_config(&chip->gpio_chip, gpio_idx, PIN_CONFIG_BIAS_PULL_UP);
-        if(command_ret != 0) {
-          dev_err(&client->dev, "cannot set pull up for gpio %d on chip %d. error: %d\n", gpio_idx, client->addr, command_ret);
-          goto err_exit;
-        }*/
+/*    command_ret = pca953x_gpio_set_config(&chip->gpio_chip, gpio_idx, PIN_CONFIG_BIAS_PULL_UP);
+    if(command_ret != 0) {
+      dev_err(&client->dev, "cannot set pull up for gpio %d on chip %d. error: %d\n", gpio_idx, client->addr, command_ret);
+      goto err_exit;
+    }*/
     if (pca953x_gpio_direction_input(&chip->gpio_chip, gpio_idx) != 0) {
       dev_err(&client->dev, "cannot set input for gpio %d on chip %d\n", gpio_idx, client->addr);
       goto err_exit;
@@ -1474,19 +913,19 @@ static int pca953x_probe(struct i2c_client *client,
 
   dev_info(&client->dev, "created jamma pca at %d\n", client->addr);
   if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x25) {
-    // Check if button 6 is on gnd, and if it is, we will ignore it
-    jamma_config.gpio_chip_0 = &chip->gpio_chip;
-    if (process_inputs(&chip->gpio_chip) == 0) {
-      dev_info(&client->dev, "VALUE HERE : %llu\n", gpio_data);
-      if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][5]) || PRESSED(gpio_data,buttons_bits[PLAYER2][JAMMA_BTNS][5])){
-        dev_info(&client->dev, "disabled 6th button on jamma!\n");
-        jamma_config.btn_6_auto_disabled = true;
-      }
+    jamma_config.switch36_gpio_ref = gpiod_get((client->dev.parent), "switch36", GPIOD_IN);
+    if (IS_ERR(jamma_config.switch36_gpio_ref)) {
+      dev_warn(&client->dev, "cannot get switch36 gpio reference, default to 6 buttons\n");
+      jamma_config.switch36_gpio_ref = NULL;
+      jamma_config.switch36_gpio_state = 1;
+    } else {
+      jamma_config.switch36_gpio_state = gpiod_get_value(jamma_config.switch36_gpio_ref);
+      dev_info(&client->dev, "switch36 gpio reference found, set to = %s.\n",
+               jamma_config.switch36_gpio_state ? "6 buttons" : "3 buttons");
     }
+    jamma_config.gpio_chip_0 = &chip->gpio_chip;
   } else if (client->addr == 0x22 || client->addr == 0x24) {
     jamma_config.gpio_chip_1 = &chip->gpio_chip;
-  } else if (client->addr == 0x27) {
-    jamma_config.gpio_chip_2 = &chip->gpio_chip;
   }
 
   process_inputs(NULL);
@@ -1517,8 +956,8 @@ static int pca953x_remove(struct i2c_client *client) {
 }
 
 static const struct of_device_id pca953x_dt_ids[] = {
-  {.compatible = "raspberrypi,recalboxrgbjamma", .data = (void *) (16 | PCA953X_TYPE | PCA_INT),},
-  {}
+    {.compatible = "raspberrypi,recalboxrgbjamma", .data = (void *) (16 | PCA953X_TYPE | PCA_INT),},
+    {}
 };
 
 MODULE_DEVICE_TABLE(of, pca953x_dt_ids
@@ -1527,30 +966,582 @@ static SIMPLE_DEV_PM_OPS(pca953x_pm_ops, pca953x_suspend, pca953x_resume
 );
 
 static struct i2c_driver pca953x_driver = {
-  .driver = {
-    .name  = "recalboxrgbjamma",
-    .pm  = &pca953x_pm_ops,
-    .of_match_table = pca953x_dt_ids,
-    .acpi_match_table = pca953x_acpi_ids,
-  },
-  .probe     = pca953x_probe,
-  .remove    = pca953x_remove,
-  .id_table  = pca953x_id,
+    .driver = {
+        .name  = "recalboxrgbjamma",
+        .pm  = &pca953x_pm_ops,
+        .of_match_table = pca953x_dt_ids,
+        .acpi_match_table = pca953x_acpi_ids,
+    },
+    .probe     = pca953x_probe,
+    .remove    = pca953x_remove,
+    .id_table  = pca953x_id,
 };
+
+/*
+ * A,B,X,Y are in SNES notation
+ *
+ * Chip 0 : address = 0x25
+ *                                    __________
+ *   P1-B5  (P1-L)       IO0-0  <--- |0        8| ---> IO1-0  P1-B6  (P1-R)
+ *   P2-B5  (P2-L)       IO0-1  <--- |1        9| ---> IO1-1  P2-B6  (P2-R)
+ *   P1-B4  (P1-X)       IO0-2  <--- |2       10| ---> IO1-2  P1K-B4 (P1-X)
+ *   P2-B4  (P2-X)       IO0-3  <--- |3       11| ---> IO1-3  P1K-B5 (P1-L)
+ *   P1-B2  (P1-A)       IO0-4  <--- |4       12| ---> IO1-4  P1K-B6 (P1-R)
+ *   P2-B2  (P2-A)       IO0-5  <--- |5       13| ---> IO1-5  P2K-B4 (P2-X)
+ *   P1-B3  (P1-Y)       IO0-6  <--- |6       14| ---> IO1-6  P2K-B5 (P2-L)
+ *   P2-B3  (P2-Y)       IO0-7  <--- |7       15| ---> IO1-7  P2K-B5 (P2-R)
+ *                                    ‾‾‾‾‾‾‾‾‾‾
+ * Chip 1 : address = 0x24
+ *                                    __________
+ *   SERVICE             IO0-0  <--- |16      24| ---> IO1-0  P2-B1 (P2-B)
+ *   TEST                IO0-1  <--- |17      25| ---> IO1-1  P1-B1 (P1-B)
+ *   P1-UP               IO0-2  <--- |18      26| ---> IO1-2  P2-RIGHT
+ *   P2-UP               IO0-3  <--- |19      27| ---> IO1-3  P1-RIGHT
+ *   P1-DOWN             IO0-4  <--- |20      28| ---> IO1-4  P2-START
+ *   P2-DOWN             IO0-5  <--- |21      29| ---> IO1-5  P1-START
+ *   P1-LEFT             IO0-6  <--- |22      30| ---> IO1-6  P1-COIN
+ *   P2-LEFT             IO0-7  <--- |23      31| ---> IO1-7  P2-COIN
+ *                                    ‾‾‾‾‾‾‾‾‾‾
+ *
+ */
+
+
+struct input_dev *player_devs[2];
+
+// Standard buttons mapping
+#define BTN_PER_PLAYER 11
+#define BTN_PER_PLAYER_ON_JAMMA 10
+// Keep in mind the vanilla mapping for Recalbox RGB Jamma is (SNES notation):
+// B A Y
+// X L R
+// We use this mapping to get B and A on first line, whatever the number of buttons
+// Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
+//
+static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
+    //  B1        B2         B3         B4         B5          B6          START          COIN            SERVICE         TEST             HOTKEY
+    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
+};
+
+
+// The value is the bit of the data containing the
+// information for the button at the same index in buttons_codes array
+// Start is a special case
+static const int player1_6btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    25, 4, 6, 2, 0, 8, -1, 30, 16, 17,
+};
+// 3btn mode bits
+static const int player1_3btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    25, 4, 6, -1, -1, -1, -1, 30, 16, 17,
+};
+// Kick harness buttons mapping
+// Only use values where >= 0
+static const int player1_kick_btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    -1, -1, -1, 10, 11, 12, -1, -1, -1, -1,
+};
+
+#define P1_UP 18
+#define P1_DOWN 20
+#define P1_LEFT 22
+#define P1_RIGHT 27
+#define P1_START 29
+#define P1_BTN1 player1_3btn_bits[0]
+
+static const int player2_6btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    24, 5, 7, 3, 1, 9, 28, 31, -1, -1,
+};
+static const int player2_3btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    24, 5, 7, -1, -1, -1, 28, 31, -1, -1,
+};
+
+static const int player2_kick_btn_bits[BTN_PER_PLAYER_ON_JAMMA] = {
+    -1, -1, -1, 13, 14, 15, -1, -1, -1, -1,
+};
+
+#define P2_UP 19
+#define P2_DOWN 21
+#define P2_LEFT 23
+#define P2_RIGHT 26
+#define P2_BTN1 player2_3btn_bits[0]
+
+// Logic is not the same for each buttons (coins and service/test are reversed)
+// TODO: add service and test for next version
+static const unsigned short buttonsReleasedValues[32] = {
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 0, 0
+};
+// TODO: add service and test for next version
+static const unsigned short buttonsReleasedValuesReversed[32] = {
+    1, 1, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1,
+    0, 0, 1, 1, 1, 1, 1, 1,
+    1, 1, 1, 1, 1, 1, 1, 1
+};
+
+#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^(jamma_config.reverse_credit_logic ? buttonsReleasedValuesReversed[btn]: buttonsReleasedValues[btn])) : 0)
+#define WAIT_SYNC() usleep_range(50000,80000);
+//Exit delay (HK + START) set to 2 secondes
+#define EXIT_DELAY(now, start) ((now - start) / 1000000000UL >= 2)
+//HK delay set to 1 second
+#define HOTKEY_DELAY(now, start) ((now - start) / 1000000000UL >= 1)
+static long long int last_start_press = 0;
+static unsigned long start_state = 0;
+static unsigned int start_credit = 0;
+static short can_exit = 0;
+static short should_release_hk = 0;
+
+#define PRESS_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 1); input_sync(player_devs[(player)]); WAIT_SYNC();
+#define RELEASE_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 0); input_sync(player_devs[(player)]); WAIT_SYNC();
+
+
+/**
+ *
+ * @param data_chips the data read from both chips
+ * The right 16 bits are for the chip 1, left 16 bits for the chip 0
+ */
+static void input_report(unsigned long *data_chips, long long int *time_ns) {
+  int j;
+  int gpio;
+  int buttonValue;
+
+  if (jamma_config.hotkey_patterns) {
+    // Special case for HOTKEY:
+    // Simple press + release of START -> START event
+    // Simple press of START + BTN1 -> send SELECT (COIN)
+    // Simple press of START + an other button -> send HOTKEY + BUTTON
+    // Long press (3s) of START -> HOTKEY + START
+
+    if (PRESSED(*data_chips, P1_START)) {
+      DEBUG && printk(KERN_INFO
+      "recalboxrgbjamma: start is pressed\n");
+      if (last_start_press == 0) {
+        // First press
+        DEBUG && printk(KERN_INFO
+        "recalboxrgbjamma: saving first press\n");
+        last_start_press = *time_ns;
+        start_state = *data_chips;
+        can_exit = 1;
+        start_credit = 0;
+      } else {
+        DEBUG && printk(KERN_INFO
+        "recalboxrgbjamma: startstate=%u data_chips=%u different=%d B1=%d\n", start_state, *data_chips, start_state !=
+                                                                                                       *data_chips,
+            PRESSED(
+                *data_chips,
+                P1_BTN1));
+        if (start_state != *data_chips /*&& !start_credit*/) {
+          // If we can use START + BTN1 for a credit
+          if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P1_BTN1)) {
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
+            PRESS_AND_SYNC(0, BTN_SELECT);
+            RELEASE_AND_SYNC(0, BTN_SELECT);
+            start_credit = 1;
+            can_exit = 0;
+          } if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P2_BTN1)) {
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: credit (SELECT) triggered (hk+P2_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
+            PRESS_AND_SYNC(1, BTN_SELECT);
+            RELEASE_AND_SYNC(1, BTN_SELECT);
+            start_credit = 1;
+            can_exit = 0;
+          } else if (!start_credit && !should_release_hk) {
+            // As another button has been pressed, we press hotkey before
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: other button press (hk+x)\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            can_exit = 0;
+            should_release_hk = 1;
+          }
+        }
+        start_state = *data_chips;
+
+      }
+    } else {
+      if (last_start_press != 0) {
+        // Start released
+        if (!start_credit) {
+          DEBUG && printk(KERN_INFO
+          "recalboxrgbjamma: start released\n");
+          if (should_release_hk) {
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: release hotkey\n");
+            should_release_hk = 0;
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
+            // Longest press, so we send both HK + START
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: long press : sending HK + START\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            PRESS_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
+            // Long press, so we send HK
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: middle press : sending HK\n");
+            PRESS_AND_SYNC(0, BTN_MODE);
+            RELEASE_AND_SYNC(0, BTN_MODE);
+          } else {
+            // Simple start
+            DEBUG && printk(KERN_INFO
+            "recalboxrgbjamma: quick press : sending START\n");
+            PRESS_AND_SYNC(0, BTN_START);
+            RELEASE_AND_SYNC(0, BTN_START);
+          }
+        }
+        last_start_press = 0;
+      }
+    }
+  } else {
+    // Standard start
+    input_report_key(player_devs[0], BTN_START, PRESSED(*data_chips, P1_START));
+  }
+
+  if (!start_credit) {
+    // Player 1
+    input_report_abs(player_devs[0], ABS_Y, PRESSED(*data_chips, P1_DOWN) - PRESSED(*data_chips, P1_UP));
+    input_report_abs(player_devs[0], ABS_X, PRESSED(*data_chips, P1_RIGHT) - PRESSED(*data_chips, P1_LEFT));
+
+    for (j = 0; j < BTN_PER_PLAYER_ON_JAMMA; j++) {
+      //printk(KERN_INFO "recalboxrgbjamma: sending report P1 for key bit:%d, inputcode:%d, value : %d\n", player1_btn_bits[j],
+      //       buttons_codes[j], PRESSED(data_chips, player1_btn_bits[j]));
+
+      // Either 6btn mode code, or the 3btn, or the kick. No report if button is -1
+      if (j <= 5 && j >= jamma_config.buttons_on_jamma) {
+        // Only kick harness as the jamma does not have this button
+        buttonValue = PRESSED(*data_chips, player1_kick_btn_bits[j]);
+      } else {
+        if (jamma_config.switch36_gpio_state) {
+          // 6 buttons on jamma, plus kick harness
+          buttonValue = PRESSED(*data_chips, player1_6btn_bits[j]) | PRESSED(*data_chips, player1_kick_btn_bits[j]);
+        } else {
+          // 3 buttons on jamma, plus kick harness
+          buttonValue = PRESSED(*data_chips, player1_3btn_bits[j]) | PRESSED(*data_chips, player1_kick_btn_bits[j]);
+        }
+      }
+      input_report_key(player_devs[0], buttons_codes[j], buttonValue);
+    }
+    input_sync(player_devs[0]);
+  }
+  // Player 2
+  input_report_abs(player_devs[1], ABS_Y, PRESSED(*data_chips, P2_DOWN) - PRESSED(*data_chips, P2_UP));
+  input_report_abs(player_devs[1], ABS_X, PRESSED(*data_chips, P2_RIGHT) - PRESSED(*data_chips, P2_LEFT));
+  for (j = 0; j < BTN_PER_PLAYER_ON_JAMMA; j++) {
+    // Either 6btn mode code, or the 3btn, or the kick. No report if button is -1
+    if (j <= 5 && j >= jamma_config.buttons_on_jamma) {
+      // Only kick harness as the jamma does not have this button
+      buttonValue = PRESSED(*data_chips, player2_kick_btn_bits[j]);
+    } else {
+      if (jamma_config.switch36_gpio_state) {
+        // 6 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player2_6btn_bits[j]) | PRESSED(*data_chips, player2_kick_btn_bits[j]);
+      } else {
+        // 3 buttons on jamma, plus kick harness
+        buttonValue = PRESSED(*data_chips, player2_3btn_bits[j]) | PRESSED(*data_chips, player2_kick_btn_bits[j]);
+      }
+    }
+    input_report_key(player_devs[1], buttons_codes[j], buttonValue);
+  }
+  input_sync(player_devs[1]);
+}
+
+static unsigned long lastGpioState = 0;
+static unsigned long debounceGpioValue = 0;
+static long long int lastActionOn[32] = {0};
+
+#define SETGPIO(data_addr, gpio, value) (*(data_addr) = ((*(data_addr) & (~(1UL << (gpio)))) | ((value) << (gpio))))
+
+static int debounce(unsigned long *data_chips, unsigned long *debounced_data, long long int *time_ns) {
+  unsigned long gpioVal;
+  *debounced_data = *data_chips;
+  unsigned int gpio;
+  for (gpio = 0; gpio < 32; gpio++) {
+    if (lastActionOn[gpio] != 0) {
+      // We are in debounce time lap
+      // We cancel this event by setting the saved value at debounce start
+      DEBUG && printk(KERN_INFO
+      "recalboxrgbjamma: debouncing: setting gpio %d value to %d (%s) in place of %d\n", gpio,
+          (debounceGpioValue >> gpio) &
+          1, ((debounceGpioValue >> gpio) & 1) ? "released" : "pressed", gpioVal);
+      SETGPIO(debounced_data, gpio, (debounceGpioValue >> gpio) & 1);
+    } else {
+      gpioVal = (((*data_chips) >> gpio) & 1);
+      if (((lastGpioState >> gpio) & 1) != gpioVal) {
+        // Gpio changed its state since last event
+        // We set the start time for debounce and the value of the gpio
+        lastActionOn[gpio] = *time_ns;
+        // Saving the value that will be still during the debounce
+        DEBUG && printk(KERN_INFO
+        "recalboxrgbjamma: debouncing: first event of gpio %d, setting debounced value to %d \n", gpio, gpioVal);
+        SETGPIO(&debounceGpioValue, gpio, gpioVal);
+      }
+    }
+  }
+  lastGpioState = *data_chips;
+  return 0;
+}
+static const unsigned long mask = 0xFFFF;
+
+static int read_gpios(unsigned long *gpio_data) {
+  unsigned long gpio_values0 = 0;
+  unsigned long gpio_values1 = 0;
+  if (jamma_config.gpio_chip_0 != NULL) {
+    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_0, &mask, &gpio_values0)) {
+      printk(KERN_INFO
+      "recalboxrgbjamma: unable to read gpio on chip 0, skipping\n");
+      return -1;
+    };
+  }
+  if (jamma_config.gpio_chip_1 != NULL) {
+    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_1, &mask, &gpio_values1)) {
+      printk(KERN_INFO
+      "recalboxrgbjamma: unable to read gpio chip 1, skipping\n");
+      return -1;
+    }
+  }
+  *gpio_data = (gpio_values1 << 16) | gpio_values0;
+  return 0;
+}
+
+static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_chip) {
+  if (pca953x_gpio_get_multiple(gpio_chip, &mask, gpio_data)) {
+    printk(KERN_INFO
+    "recalboxrgbjamma: unable to read gpio on chip %s, skipping\n", gpio_chip == jamma_config.gpio_chip_0 ? "0":"1");
+    return -1;
+  };
+  return 0;
+}
+
+
+// Debounce to 40ms
+#define DEBOUNCE_TIME (40000000)
+
+static unsigned long gpio_data = 0;
+
+static int process_inputs(struct gpio_chip *gpio_chip) {
+  unsigned long debounced_data = 0;
+  unsigned long gpio_data_chip = 0;
+  long long int time_start = ktime_to_ns(ktime_get_boottime());
+  mutex_lock(&jamma_config.process_mutex);
+
+  if(gpio_chip != NULL) {
+    if (read_gpios_one_chip(&gpio_data_chip, gpio_chip)) {
+      mutex_unlock(&jamma_config.process_mutex);
+      return -1;
+    }
+    DEBUG && printk(KERN_INFO
+    "recalboxrgbjamma: read gpio values on chip : %u\n", gpio_data_chip);
+    if(gpio_chip == jamma_config.gpio_chip_0){
+      gpio_data = ((gpio_data & 0xFFFF0000) | gpio_data_chip);
+    } else {
+      gpio_data = ((gpio_data & 0x0000FFFF) | (gpio_data_chip << 16));
+    }
+
+    DEBUG && printk(KERN_INFO
+    "recalboxrgbjamma: gpio_data = %u\n", gpio_data);
+  } else {
+    if (read_gpios(&gpio_data)) {
+      mutex_unlock(&jamma_config.process_mutex);
+      return -1;
+    }
+  }
+
+  debounce(&gpio_data, &debounced_data, &time_start);
+  input_report(&debounced_data, &time_start);
+  mutex_unlock(&jamma_config.process_mutex);
+  return 0;
+}
+
+static int process_debounce(void *idx) {
+  unsigned int gpio;
+  long long int time_ns;
+  bool sendEvent;
+
+  while (!kthread_should_stop()) {
+    time_ns = ktime_to_ns(ktime_get_boottime());
+    sendEvent = false;
+    for (gpio = 0; gpio < 32; gpio++) {
+      if (lastActionOn[gpio] != 0) {
+        if (time_ns - lastActionOn[gpio] > DEBOUNCE_TIME) {
+          // This gpio must be debounced
+          DEBUG && printk(KERN_INFO
+          "recalboxrgbjamma: debouncing thread: finish debouncing of %d\n", gpio);
+          sendEvent = 1;
+          lastActionOn[gpio] = 0;
+        }
+      }
+    }
+    if (sendEvent) {
+      // Maybe we should not debounce here
+      process_inputs(NULL);
+    }
+    usleep_range(10000, 15000);
+  }
+  return 0;
+}
+
+static int unregister_controllers(void) {
+  int player;
+  for (player = 0; player < 2; player++) {
+    if (player_devs[player] != NULL)
+      input_unregister_device(player_devs[player]);
+  }
+  return 0;
+}
+
+static const char *controllers_names[2] = {
+    "JammaControllerP1", "JammaControllerP2"
+};
+
+static int register_controllers(void) {
+  int err = 0, i = 0, player = 0;
+  for (player = 0; player < 2; player++) {
+    if (!(player_devs[player] = input_allocate_device())) {
+      pr_err("recalboxrgbjamma: not enough memory for input device\n");
+      return -ENOMEM;
+    }
+
+    player_devs[player]->name = controllers_names[player];
+    player_devs[player]->phys = controllers_names[player];
+    player_devs[player]->id.bustype = BUS_I2C;
+    player_devs[player]->id.vendor = 0x7262;
+    player_devs[player]->id.product = 0x0A01;
+    player_devs[player]->id.version = 0x0100;
+
+    player_devs[player]->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
+
+    for (i = 0; i < 2; i++)
+      input_set_abs_params(player_devs[player], ABS_X + i, -1, 1, 0, 0);
+    for (i = 0; i < BTN_PER_PLAYER; i++)
+      __set_bit(buttons_codes[i], player_devs[player]->keybit);
+
+    if ((err = input_register_device(player_devs[player]))) {
+      pr_err("recalboxrgbjamma: Cannot register input device\n");
+      input_free_device(player_devs[player]);
+      player_devs[player] = NULL;
+      return -1;
+    }
+  }
+  return 0;
+}
+// Load configuration from recalbox-crt-options.cfg
+// Used to get Hotkey mode
+#define READ_SIZE_MAX 2048
+#define LINE_SIZE_MAX 256
+static char read_buf[READ_SIZE_MAX];
+static const char *config_path = "/boot/crt/recalbox-crt-options.cfg";
+
+static int load_config(void) {
+  struct file *fp = NULL;
+  ssize_t read_size = 0;
+  size_t cursor = 0;
+  char line[LINE_SIZE_MAX];
+  char optionname[LINE_SIZE_MAX];
+  int optionvalue = 0;
+  size_t line_start = 0;
+  size_t line_len = 0;
+  int scanret = 0;
+
+  fp = filp_open(config_path, O_RDONLY, 0);
+  if (IS_ERR(fp) || !fp) {
+    //printk(KERN_INFO "recalboxrgbjamma: config file not found, skipping configuration loading\n");
+    return 0;
+  }
+
+  read_size = kernel_read(fp, &read_buf, READ_SIZE_MAX, &fp->f_pos);
+  if (read_size <= 0) {
+    filp_close(fp, NULL);
+    //printk(KERN_INFO "recalboxrgbjamma: empty config file found, skipping configuration loading\n");
+    return 0;
+  }
+  filp_close(fp, NULL);
+  for (cursor = 0; cursor < read_size; cursor++) {
+    line[cursor - line_start] = read_buf[cursor];
+    line_len++;
+    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0') {
+      if (line_len > 1 && line[0] != '#') {
+        line[line_len - 1] = '\0';
+        scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
+        if (scanret == 2) {
+          if (strcmp(optionname, "options.jamma.hk_patterns") == 0) {
+            if (jamma_config.hotkey_patterns != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch to %s mode\n",
+                  optionvalue ? "hotkey_patterns" : "enable_hk_on_start");
+              jamma_config.hotkey_patterns = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.disable_credit_on_hk_btn1") == 0) {
+            if (jamma_config.disable_credit_on_hk_btn1 != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch to %s mode\n",
+                  optionvalue ? "disable_credit_on_hk_btn1" : "enable_credit_on_hk_btn1");
+              jamma_config.disable_credit_on_hk_btn1 = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
+            if (jamma_config.buttons_on_jamma != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch buttons_on_jamma to %d\n",
+                  optionvalue);
+              jamma_config.buttons_on_jamma = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
+            if (jamma_config.buttons_on_jamma != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch buttons_on_jamma to %d\n",
+                  optionvalue);
+              jamma_config.buttons_on_jamma = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.reverse_credit_logic") == 0) {
+            if (jamma_config.reverse_credit_logic != optionvalue) {
+              printk(KERN_INFO
+              "recalboxrgbjamma: switch reverse_credit_logic to %d\n",
+                  optionvalue);
+              jamma_config.reverse_credit_logic = optionvalue;
+            }
+          }
+        }
+      }
+      line_start += line_len;
+      line_len = 0;
+      memset(line, 0, 128);
+    }
+  }
+  return 0;
+}
+
+static int watch_configuration(void *idx) {
+  int gpio_value = 0;
+  while (!kthread_should_stop()) {
+    // Read file
+    load_config();
+    // Change switch 3/6 GPIO
+    if (jamma_config.switch36_gpio_ref != NULL) {
+      gpio_value = gpiod_get_value(jamma_config.switch36_gpio_ref);
+      if (gpio_value != jamma_config.switch36_gpio_state) {
+        jamma_config.switch36_gpio_state = gpio_value;
+        printk(KERN_INFO
+        "recalboxrgbjamma: switch to %s buttons mode\n", gpio_value ? "6" : "3");
+      }
+    }
+    usleep_range(10000000, 15000000);
+  }
+  return 0;
+}
 
 static int __init
 
 pca953x_init(void) {
   int idx = 0;
+  jamma_config.switch36_gpio_ref = NULL;
+  jamma_config.switch36_gpio_state = 1;
   jamma_config.gpio_chip_0 = NULL;
   jamma_config.gpio_chip_1 = NULL;
-  jamma_config.gpio_chip_2 = NULL;
   jamma_config.hotkey_patterns = true;
   jamma_config.disable_credit_on_hk_btn1 = false;
   jamma_config.reverse_credit_logic = false;
   jamma_config.buttons_on_jamma = 6;
-  jamma_config.btn_6_auto_disabled = false;
-
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
   printk(KERN_INFO
@@ -1602,6 +1593,8 @@ pca953x_exit(void) {
     printk("recalboxrgbjamma: can't stop debounce thread");
   }
   unregister_controllers();
+  if (jamma_config.switch36_gpio_ref != NULL)
+    gpiod_put(jamma_config.switch36_gpio_ref);
   i2c_del_driver(&pca953x_driver);
 }
 

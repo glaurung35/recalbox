@@ -158,6 +158,7 @@ void GuiScraperRun::finish()
     case ScrapeResult::FatalError:
     default: break;
   }*/
+  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
 	mIsProcessing = false;
 }
 

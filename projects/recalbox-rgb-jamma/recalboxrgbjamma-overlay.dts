@@ -21,6 +21,11 @@
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
+        irq_gpio_0: irq_gpio_0_conf {
+          brcm,pins = <0>; // GPIO 0
+          brcm,function = <0>; // Input
+          brcm,pull = <2>; // Pull up
+        };
 
       };
   };
@@ -128,8 +133,7 @@
     __overlay__ {
       status = "okay";
       pinctrl-names = "default";
-      pinctrl-0 = <&i2c1_pins>, <&switch36_gpio>;
-      switch36-gpios = <&gpio 11 0>;
+      pinctrl-0 = <&i2c1_pins>;
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
       jammactrl_0: jammactrl_0@25 {
@@ -151,6 +155,16 @@
         interrupt-parent = <&gpio>;
         interrupts = <10 2>;
         irq-gpios = <&gpio 10 0>;
+      };
+      jammactrl_2: jammactrl_2@27 {
+        compatible = "raspberrypi,recalboxrgbjamma";
+        reg = <0x27>;
+        status = "okay";
+        pinctrl-names = "default";
+        pinctrl-0 = <&irq_gpio_0>;
+        interrupt-parent = <&gpio>;
+        interrupts = <0 2>;
+        irq-gpios = <&gpio 0 0>;
       };
     };
   };
@@ -182,7 +196,7 @@
       trips {
         cpu_hot: trip-point@0 {
           temperature = <60000>;	/* (millicelsius) Fan started at 60°C */
-          hysteresis = <10000>;	/* (millicelsius) Fan stopped at 50°C */
+          hysteresis = <10000>;	    /* (millicelsius) Fan stopped at 50°C */
           type = "active";
         };
       };

@@ -2,7 +2,6 @@
 #include "systems/SystemData.h"
 #include "views/ViewController.h"
 
-#include "views/gamelist/DetailedGameListView.h"
 #include "views/gamelist/ArcadeGameListView.h"
 #include "guis/GuiDetectDevice.h"
 #include "animations/LaunchAnimation.h"

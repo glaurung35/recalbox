@@ -10,7 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 
 
 ### News
-
+- Add libretro fake08 for Pico8
 
 ### Bumps
 
@@ -74,6 +74,7 @@ as release notes for end user on a Recalbox upgrade.
 - Removed LinApple from PC
 
 - Fix demo Astebros for megadrive
+
 
 ## Version 9.1-Pulstar
 

@@ -226,6 +226,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "iconRecalboxRGBDual", ElementProperty::Path },
         { "iconTate", ElementProperty::Path },
         { "iconArcade", ElementProperty::Path },
+        { "iconDownload", ElementProperty::Path },
       },
     },
     { "menuSwitch",

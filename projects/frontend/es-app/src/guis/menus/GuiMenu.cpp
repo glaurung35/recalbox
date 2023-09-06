@@ -48,13 +48,13 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   // Games menu
   AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
 
-  // Games menu
+  // Download menu
   if (!bartop)
-    AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.games, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
+    AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.download, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
 
   // Controllers menu
   if (!bartop)
-    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.updates, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
+    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
 
   // UI Settings menu
   if (!bartop)

@@ -390,6 +390,11 @@ bool SystemData::IsScreenshots() const
     return (mProperties & Properties::ScreenShots) != 0;
 }
 
+bool SystemData::IsLastPlayed() const
+{
+  return (mSensitivity & MetadataType::LastPlayed) != 0;
+}
+
 bool SystemData::IsVirtual() const
 {
   return (mProperties & Properties::Virtual) != 0;

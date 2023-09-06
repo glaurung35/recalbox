@@ -227,7 +227,11 @@ class SystemData : private INoCopy
     //! Is this system the "Ports" system?ScreenShots
     [[nodiscard]] bool IsPorts() const;
 
+    //! Is this the Screenshots system
     [[nodiscard]] bool IsScreenshots() const;
+
+    //! Is this the Last Played system
+    [[nodiscard]] bool IsLastPlayed() const;
 
     //! Is this system virtual?
     [[nodiscard]] bool IsVirtual() const;

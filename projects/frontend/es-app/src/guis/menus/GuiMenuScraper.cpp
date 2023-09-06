@@ -69,7 +69,7 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   std::vector<ListEntry<SystemData*>> list;
   for(SystemData* system : mSystemManager.VisibleSystemList())
   {
-    if (!system->IsScreenshots()) // Only screenshot doesn't need to be scraped
+    if (!system->IsScreenshots() && !system->IsLastPlayed()) // Only screenshot doesn't need to be scraped
       if (system->HasScrapableGame())
         list.push_back({ system->FullName(), system, false });
   }

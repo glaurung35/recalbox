@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add Naomi 2 system on x86_64
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump libretro-mame to 0.258
@@ -61,6 +62,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix demo Astebros for megadrive
 - Fix odroidxu4 OGST video not playing
 - Removed LinApple from PC
+
 
 
 ## Version 9.1-Pulstar

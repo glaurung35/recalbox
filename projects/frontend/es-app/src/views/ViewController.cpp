@@ -871,9 +871,10 @@ void ViewController::SelectSystem(SystemData* system)
 
 void ViewController::ShowSystem(SystemData* system)
 {
-  GetOrCreateGamelistView(system);
   mSystemListView.addSystem(system);
   mSystemListView.Sort();
+  InvalidateAllGamelistsExcept(nullptr);
+  GetOrCreateGamelistView(system);
 }
 
 void ViewController::HideSystem(SystemData* system)

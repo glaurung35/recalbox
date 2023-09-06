@@ -169,9 +169,8 @@ void SystemView::addSystem(SystemData * it)
 SystemData* SystemView::Prev()
 {
   SystemData* prev = mSystemManager.PreviousVisible(mCurrentSystem);
-  while(!prev->HasVisibleGame()) {
+  while(!prev->HasVisibleGame())
     prev = mSystemManager.PreviousVisible(prev);
-  }
 
   return prev;
 }
@@ -187,6 +186,8 @@ void SystemView::Sort()
   for(const SystemData* system : mSystemManager.VisibleSystemList())
     if (Entry** entry = map.try_get(system); entry != nullptr)
       newEntries.push_back(**entry);
+    else
+    { LOG(LogError) << "[SystemView] Sort cannot lookup visible system '" << system->FullName() << "' in system entries!"; }
 
   // Set new sorted vector
   mEntries = newEntries;
@@ -847,4 +848,13 @@ void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
     // wait ms to fade in
     setAnimation(infoFadeIn, 800, nullptr, false, 2);
   }
+}
+
+int SystemView::SystemIndex(const SystemData* system)
+{
+  int index = -1;
+  for(const Entry& entry : mEntries)
+    if (++index; entry.object == system)
+      break;
+  return index;
 }

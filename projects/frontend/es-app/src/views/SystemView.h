@@ -103,6 +103,13 @@ class SystemView : public IList<SystemViewData, SystemData*>
      */
     SystemData* LookupSystemByName(const String& name);
 
+    /*!
+     * @brief Get system index in the system list
+     * @param system System to lookup index
+     * @return System index
+     */
+    int SystemIndex(const SystemData* system);
+
     //[[nodiscard]] SystemData& CurrentSystem() const { return *mCurrentSystem; }
 
     SystemData* Prev();

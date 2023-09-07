@@ -35,12 +35,11 @@ import { ref, toRefs } from 'vue';
 const helpOpen = ref<boolean>(false);
 
 const props = defineProps({
-  text: { type: String, default: '' },
   warning: { type: Boolean },
   toggle: { type: Boolean },
 });
 
-const { text, warning, toggle } = toRefs(props);
+const { warning, toggle } = toRefs(props);
 
 const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-warning' : 'help-dialog-card'}`;
 </script>

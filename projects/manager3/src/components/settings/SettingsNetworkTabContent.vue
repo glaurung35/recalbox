@@ -275,7 +275,6 @@ const wifi3Store = useWifi3Store();
 wifi3Store.fetch();
 const { wifi3 } = storeToRefs(wifi3Store);
 
-const text = ref<string>('');
 const tab = ref<string>('wifi_1');
 const splitterModel = ref<number>(20);
 </script>

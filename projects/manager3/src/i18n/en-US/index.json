@@ -46,7 +46,8 @@
       "networkError": "Network error",
       "esStart": "Start EmulationStation",
       "esStop": "Stop EmulationStation",
-      "esRestart": "Restart EmulationStation"
+      "esRestart": "Restart EmulationStation",
+      "supportArchiveCopied": "Support Archive copied to clipboard"
     },
     "upload": {
       "clearAll": "Clear All",

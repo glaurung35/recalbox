@@ -155,8 +155,12 @@ api80.interceptors.response.use((response) => {
     message = i18n.global.t('general.notify.esRestart');
     icon = 'mdi-restart';
   }
+  if (response.config.url === SYSTEM.supportArchive) {
+    message = i18n.global.t('general.notify.supportArchiveCopied');
+    icon = 'mdi-bash';
+  }
 
-  if (response.config.method === 'post' || response.config.method === 'delete') {
+  if (response.config.method === 'get' || response.config.method === 'post') {
     Notify.create({
       message,
       type: 'positive',

@@ -3,14 +3,19 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
+import { ServerList } from 'stores/types/serverList';
 
 export type ServerStoreState = {
   available: boolean,
+  server: ServerList,
 };
 
 export const useServerStore = defineStore('server', {
   state: () => ({
     available: false,
+    server: {
+      linkResponse: {},
+    },
   } as ServerStoreState),
 
   actions: {
@@ -73,8 +78,10 @@ export const useServerStore = defineStore('server', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const response = await this._api80Provider.get(SYSTEM.supportArchive);
-        this.available = true;
+        navigator.clipboard.writeText(response.data.linkResponse);
+        this.server = response.data;
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.log(error);
       }
     },

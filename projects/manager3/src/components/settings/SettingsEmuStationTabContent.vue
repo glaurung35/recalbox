@@ -465,7 +465,6 @@ import { storeToRefs } from 'pinia';
 import { useSystemStore } from 'stores/configuration/system';
 import WrappedSlider from 'components/ui-kit/WrappedSlider.vue';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
-import { useScraperStore } from 'stores/configuration/scraper';
 import { useGlobalStore } from 'stores/configuration/global';
 
 const emulationstationStore = useEmulationstationStore();
@@ -488,13 +487,6 @@ const {
   emulationstation,
 } = storeToRefs(emulationstationStore);
 const { esVideomodeOptions, system } = storeToRefs(systemStore);
-
-const scraperStore = useScraperStore();
-scraperStore.fetch();
-const {
-  sourceOptions,
-  scraper,
-} = storeToRefs(scraperStore);
 
 const globalStore = useGlobalStore();
 globalStore.fetch();

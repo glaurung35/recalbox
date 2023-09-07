@@ -46,7 +46,8 @@
       "networkError": "Problème de connexion réseau",
       "esStart": "Démarrage EmulationStation",
       "esStop": "Arrêt EmulationStation",
-      "esRestart": "Redémarrage EmulationStation"
+      "esRestart": "Redémarrage EmulationStation",
+      "supportArchiveCopied": "Archive de support copié dans le presse-papiers"
     },
     "upload": {
       "clearAll": "Effacer tout",

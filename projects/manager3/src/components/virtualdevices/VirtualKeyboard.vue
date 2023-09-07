@@ -53,6 +53,7 @@ export default {
   }),
   mounted() {
     const commonKeyboardOptions = {
+      // eslint-disable-next-line  @typescript-eslint/no-explicit-any
       onChange: (input:any) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -257,6 +258,7 @@ export default {
     });
   },
   methods: {
+    // eslint-disable-next-line  @typescript-eslint/no-explicit-any
     onChange(input:any) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore

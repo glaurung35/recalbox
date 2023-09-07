@@ -243,6 +243,7 @@ class LibretroConfigCRT:
                                          "audio_driver": '"pulse"',
                                          "video_smooth": '"false"',
                                          "video_allow_rotate": '"true"',
+                                         "video_driver": '"gl"'
                                          }
         core: str = system.Core
         default: bool = True

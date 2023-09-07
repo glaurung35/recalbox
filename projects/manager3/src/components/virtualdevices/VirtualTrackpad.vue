@@ -8,7 +8,9 @@
 </template>
 
 <script lang="ts" setup>
+// eslint-disable-next-line  @typescript-eslint/no-unused-vars
 let x = 0;
+// eslint-disable-next-line  @typescript-eslint/no-unused-vars
 let y = 0;
 
 function updateCoordinates(event:object) {

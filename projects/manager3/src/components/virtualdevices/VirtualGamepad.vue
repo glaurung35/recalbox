@@ -131,6 +131,7 @@
 
 <script lang="ts" setup>
 function press(button:string) {
+  // eslint-disable-next-line no-console
   console.log(button);
 }
 </script>

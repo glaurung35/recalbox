@@ -37,9 +37,9 @@ srally2|Sega Rally 2 (Export)|parent|sega/model3.cpp|0|496|384|57.524160|||preli
 srally2dx|Sega Rally 2 Deluxe (Export)|clone|sega/model3.cpp|0|496|384|57.524160||srally2|preliminary|Sega
 srally2p|Sega Rally 2 (prototype, 29 Dec 1997)|clone|sega/model3.cpp|0|496|384|57.524160||srally2|preliminary|Sega
 srally2pa|Sega Rally 2 (prototype, 8 Dec 1997)|clone|sega/model3.cpp|0|496|384|57.524160||srally2|preliminary|Sega
-swtrilgy|Star Wars Trilogy Arcade (Export, Revision A)|parent|sega/model3.cpp|0|496|384|57.524160|||preliminary|LucasArts/Sega
-swtrilgya|Star Wars Trilogy Arcade (Export)|clone|sega/model3.cpp|0|496|384|57.524160||swtrilgy|preliminary|LucasArts/Sega
-swtrilgyp|Star Wars Trilogy Arcade (location test, 16.09.98)|clone|sega/model3.cpp|0|496|384|57.524160||swtrilgy|preliminary|LucasArts/Sega
+swtrilgy|Star Wars Trilogy Arcade (Export, Revision A)|parent|sega/model3.cpp|0|496|384|57.524160|||preliminary|Sega / LucasArts
+swtrilgya|Star Wars Trilogy Arcade (Export)|clone|sega/model3.cpp|0|496|384|57.524160||swtrilgy|preliminary|Sega / LucasArts
+swtrilgyp|Star Wars Trilogy Arcade (location test, 16.09.98)|clone|sega/model3.cpp|0|496|384|57.524160||swtrilgy|preliminary|Sega / LucasArts
 vf3|Virtua Fighter 3 (Japan, Revision D)|parent|sega/model3.cpp|0|496|384|57.524160|||preliminary|Sega
 vf3a|Virtua Fighter 3 (Japan, Revision A)|clone|sega/model3.cpp|0|496|384|57.524160||vf3|preliminary|Sega
 vf3c|Virtua Fighter 3 (Japan, Revision C)|clone|sega/model3.cpp|0|496|384|57.524160||vf3|preliminary|Sega

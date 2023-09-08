@@ -6,6 +6,8 @@ import sys
 import urllib.request
 import zipfile
 
+from simplify import Simplifier
+
 
 class Updater:
 
@@ -184,13 +186,20 @@ class Updater:
                 print("Cannot generate {} flat dat".format(subsystem))
                 sys.exit(0)
 
-    def generateFlatList(self, descriptor: SystemDescriptor, version: str, mameXml: str):
+    @staticmethod
+    def generateFlatList(descriptor: SystemDescriptor, version: str, mameXml: str):
         for subsystem in descriptor.Systems:
             os.system("rm ./precompiled/{}-*.lst 2>/dev/null".format(subsystem))
             print("  Generating {} flat list".format(subsystem))
-            status = os.system("xsltproc --stringparam lastmamexml {} ./arcade.xslt ./precompiled/{}-{}.dat > ./precompiled/{}-{}.lst".format(mameXml, subsystem, version, subsystem, version))
+            flatName: str = "./precompiled/{}-{}.lst".format(subsystem, version)
+            status = os.system("xsltproc --stringparam lastmamexml {} ./arcade.xslt ./precompiled/{}-{}.dat > {}.original".format(mameXml, subsystem, version, flatName))
             if status != 0:
                 print("Cannot generate {} flat list".format(subsystem))
+                sys.exit(0)
+            print("  Simplifying {} manufacturers".format(subsystem))
+            simplifier = Simplifier("{}.original".format(flatName), flatName)
+            if not simplifier.execute(False):
+                print("Cannot simplify {} flat list".format(subsystem))
                 sys.exit(0)
 
     def create(self, systems: list[str]):

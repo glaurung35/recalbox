@@ -14,15 +14,15 @@ anpanman2a|Soreike! Anpanman Popcorn Koujou 2 (Rev A)|clone|sega/naomi.cpp|0|640
 asndynmt|Asian Dynamite / Dynamite Deka EX|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 asndynmto|Asian Dynamite / Dynamite Deka EX (older)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|asndynmt|preliminary|Sega
 ausfache|Akatsuki Blitzkampf Ausf. Achse (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Subtle Style
-capsnk|Capcom Vs. SNK: Millennium Fight 2000 (Rev C)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/SNK
-capsnka|Capcom Vs. SNK: Millennium Fight 2000 (Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|capsnk|preliminary|Capcom/SNK
-capsnkb|Capcom Vs. SNK: Millennium Fight 2000|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|capsnk|preliminary|Capcom/SNK
+capsnk|Capcom Vs. SNK: Millennium Fight 2000 (Rev C)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom / SNK
+capsnka|Capcom Vs. SNK: Millennium Fight 2000 (Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|capsnk|preliminary|Capcom / SNK
+capsnkb|Capcom Vs. SNK: Millennium Fight 2000|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|capsnk|preliminary|Capcom / SNK
 crackndj|Crackin' DJ|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 crakndj2|Crackin' DJ Part 2 (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 crzytaxi|Crazy Taxi|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 csmash|Cosmic Smash (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 csmasho|Cosmic Smash|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|csmash|preliminary|Sega
-cspike|Cannon Spike / Gun Spike|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Psikyo
+cspike|Cannon Spike / Gun Spike|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Psikyo / Capcom
 deathcox|Death Crimson OX (USA)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Ecole Software
 deathcoxj|Death Crimson OX (Japan, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|deathcox|preliminary|Ecole Software
 deathcoxo|Death Crimson OX (Japan)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|deathcox|preliminary|Ecole Software
@@ -49,10 +49,10 @@ f355twn2|Ferrari F355 Challenge 2 - International Course Edition (twin/deluxe)|p
 ggram2|Giant Gram: All Japan Pro Wrestling 2 (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 ggx|Guilty Gear X|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Arc System Works
 gram2000|Giant Gram 2000|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
-gundmct|Mobile Suit Gundam: Federation Vs. Zeon|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Banpresto/Capcom
-gunsur2|Gun Survivor 2 Biohazard Code: Veronica (World, BHF2 Ver.E)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Namco
-gunsur2j|Gun Survivor 2 Biohazard Code: Veronica (Japan, BHF1 Ver.E)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|gunsur2|preliminary|Capcom/Namco
-gwing2|Giga Wing 2|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Takumi
+gundmct|Mobile Suit Gundam: Federation Vs. Zeon|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Banpresto / Capcom
+gunsur2|Gun Survivor 2 Biohazard Code: Veronica (World, BHF2 Ver.E)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom / Namco
+gunsur2j|Gun Survivor 2 Biohazard Code: Veronica (Japan, BHF1 Ver.E)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|gunsur2|preliminary|Capcom / Namco
+gwing2|Giga Wing 2|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Takumi / Capcom
 hmgeo|Heavy Metal: Geomatrix (Rev B)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom
 hod2bios|NAOMI The House of the Dead 2 BIOS|bios|sega/naomi.cpp|0|640|480|61.702586||||Sega
 hopper|SWP Hopper Board|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
@@ -61,7 +61,7 @@ hotd2e|The House of the Dead 2 (Export)|clone|sega/naomi.cpp|0|640|480|61.702586
 hotd2o|The House of the Dead 2|clone|sega/naomi.cpp|0|640|480|61.702586|hod2bios|hotd2|preliminary|Sega
 hotd2p|The House of the Dead 2 (prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|hod2bios|hotd2|preliminary|Sega
 illvelo|Illvelo (Illmatic Envelope) (Japan)|parent|sega/naomi.cpp|270|640|480|61.702586|naomi||preliminary|Milestone
-inunoos|Inu no Osanpo / Dog Walking (Japan, Export, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega/Wow Entertainment
+inunoos|Inu no Osanpo / Dog Walking (Japan, Export, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Wow Entertainment / Sega
 jambo|Jambo! Safari (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 kick4csh|Kick '4' Cash (Export)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 mamonoro|Mamoru-kun wa Norowarete Shimatta! (Japan)|parent|sega/naomi.cpp|270|640|480|61.702586|naomi||preliminary|G.Rev
@@ -70,8 +70,8 @@ marstv|Mars TV (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||prelimin
 mazan|Mazan: Flash of the Blade (World, MAZ2 Ver.A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Namco
 mazanj|Mazan: Flash of the Blade (Japan, MAZ1 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mazan|preliminary|Namco
 mazanu|Mazan: Flash of the Blade (US, MAZ3 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mazan|preliminary|Namco
-mbaa|Melty Blood Actress Again Version A (Japan, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Ecole/Type-Moon
-mbaao|Melty Blood Actress Again (Japan)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mbaa|preliminary|Ecole/Type-Moon
+mbaa|Melty Blood Actress Again Version A (Japan, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Type-Moon / Ecole
+mbaao|Melty Blood Actress Again (Japan)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mbaa|preliminary|Type-Moon / Ecole
 mushi2eo|Mushiking The King Of Beetles - Mushiking II / III / III+ (Ver. 1.001) (World)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mushik2e|preliminary|Sega
 mushi2k4|Mushiking The King Of Beetles 2004 Second (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 mushi2k5|Mushiking The King Of Beetles 2005 First (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
@@ -85,8 +85,8 @@ mushike|Mushiking The King Of Beetle (2K3 2ND Ver. 1.003-, World)|parent|sega/na
 mushikeo|Mushiking The King Of Beetle (2K3 2ND Ver. 1.002-, World)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mushike|preliminary|Sega
 mushikep|Mushiking The King Of Beetle (MUSHIUSA '04 1ST, Prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mushike|preliminary|Sega
 mushikk|Mushiking The King Of Beetle (2K3 2ND Ver. 1.000-, Korea)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mushike|preliminary|Sega
-mvsc2|Marvel Vs. Capcom 2: New Age of Heroes (Export, Korea, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Marvel
-mvsc2u|Marvel Vs. Capcom 2: New Age of Heroes (USA, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mvsc2|preliminary|Capcom/Marvel
+mvsc2|Marvel Vs. Capcom 2: New Age of Heroes (Export, Korea, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom / Marvel
+mvsc2u|Marvel Vs. Capcom 2: New Age of Heroes (USA, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mvsc2|preliminary|Capcom / Marvel
 naomi|NAOMI BIOS|bios|sega/naomi.cpp|0|640|480|61.702586||||Sega
 ninjaslt|Ninja Assault (World, NJA2 Ver.A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Namco
 ninjaslta|Ninja Assault (Asia, NJA4 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|ninjaslt|preliminary|Namco
@@ -102,8 +102,8 @@ pstone2|Power Stone 2|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||prelimina
 pstone2b|Power Stone 2 (bootleg)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|pstone2|preliminary|Capcom
 puyoda|Puyo Puyo Da! (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Compile
 qmegamis|Quiz Aa! Megami-sama ~Tatakau Tsubasa to Tomoni~ (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
-radirgyn|Radirgy Noa (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Lucky/Milestone
-rhytngk|Rhythm Tengoku (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Nintendo - J.P ROOM/Sega
+radirgyn|Radirgy Noa (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Milestone / Lucky
+rhytngk|Rhythm Tengoku (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega / Nintendo - J.P ROOM
 ringout|Ring Out 4x4 (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 ringouto|Ring Out 4x4|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|ringout|preliminary|Sega
 samba|Samba De Amigo (Rev B)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
@@ -138,7 +138,7 @@ sl2007|Shooting Love 2007 (Japan)|parent|sega/naomi.cpp|270|640|480|61.702586|na
 slasho|Slashout|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 smarinef|Sega Marine Fishing|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 smlg99|World Series 99 / Super Major League 99|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
-spawn|Spawn: In the Demon's Hand (Rev B)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Todd McFarlane
+spawn|Spawn: In the Demon's Hand (Rev B)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Todd McFarlane / Capcom
 sstrkfgt|Sega Strike Fighter (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 sstrkfgta|Sega Strike Fighter (Rev A, no training mode)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|sstrkfgt|preliminary|Sega
 suchie3|Idol Janshi Suchie-Pai 3 (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Jaleco
@@ -148,7 +148,7 @@ tokyobus|Tokyo Bus Guide (Japan, Rev A)|parent|sega/naomi.cpp|0|640|480|61.70258
 totd|The Typing of the Dead (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 totdo|The Typing of the Dead|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|totd|preliminary|Sega
 toukon4|Shin Nihon Pro Wrestling Toukon Retsuden 4 Arcade Edition (Japan, TRF1 Ver.A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Namco
-toyfight|Toy Fighter|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Anchor/Sega
+toyfight|Toy Fighter|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega / Anchor Inc.
 virnba|Virtua NBA (USA)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 virnbao|Virtua NBA|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
 virnbap|Virtua NBA (prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
@@ -163,8 +163,8 @@ wldkicksj|World Kicks (Japan, WK1 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.70258
 wldkickspj|World Kicks PCB (Japan, WKC1 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|wldkicks|preliminary|Namco
 wldkickspw|World Kicks PCB (World, WKC2 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|wldkicks|preliminary|Namco
 wldkicksu|World Kicks (US, WK3 Ver.A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|wldkicks|preliminary|Namco
-wrungp|Wave Runner GP|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|CRI/Sega
-wrungpo|Wave Runner GP (USA, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|wrungp|preliminary|CRI/Sega
+wrungp|Wave Runner GP|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|CRI / Sega
+wrungpo|Wave Runner GP (USA, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|wrungp|preliminary|CRI / Sega
 wwfroyal|WWF Royal Rumble|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 zerogu2|Zero Gunner 2|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Psikyo
 zombrvn|Zombie Revenge (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega

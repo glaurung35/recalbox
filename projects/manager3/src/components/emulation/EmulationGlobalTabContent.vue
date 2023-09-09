@@ -107,7 +107,7 @@
             label="emulation.global.display.recalboxoverlays.label"
             :getter="global.recalboxoverlays"
             :setter="globalStore.post"
-            apiKey="showfps"
+            apiKey="recalboxoverlays"
             v-if="global.recalboxoverlays"
             help
           >

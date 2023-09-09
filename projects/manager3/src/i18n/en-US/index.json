@@ -201,6 +201,11 @@
           "help": "This option allows you to ask to your Recalbox to verify if an update exists at startup."
         }
       },
+      "debuglogs": {
+        "title": "Debug",
+        "label": "Enable debug mode",
+        "help": "This option allows you to enable or disable the debug mode.\n\nIf you don't need to use the debug mode, please disable it. This option can extremely slow down your game experience."
+      },
       "brightness": {
         "title": "Brightness",
         "label": "Power of the brightness",

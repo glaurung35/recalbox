@@ -178,6 +178,24 @@
         </template>
       </FormFragmentContainer>
 
+      <FormFragmentContainer title="settings.system.debuglogs.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.debuglogs.label"
+            :getter="emulationstation.debuglogs"
+            :setter="emulationstationStore"
+            apiKey="debuglogs"
+            v-if="emulationstation.debuglogs"
+            help
+            warning
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.debuglogs.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+
       <FormFragmentContainer title="settings.system.hat.wpaf.title">
         <template v-slot:content>
           <WrappedToggle

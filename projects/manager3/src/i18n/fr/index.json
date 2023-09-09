@@ -201,6 +201,11 @@
           "help": "Cette option vous permet de demander à votre Recalbox de rechercher si une mise à jour existe lors de son démarrage."
         }
       },
+      "debuglogs": {
+        "title": "Debug",
+        "label": "Activer le mode debug",
+        "help": "Cette option vous permet d'activer ou de désactiver le mode debug.\n\nSi vous n'avez pas besoin d'utiiser le mode debug, veuillez le désactiver. Cette option peut faire énormément ralentir votre expérience de jeu."
+      },
       "brightness": {
         "title": "Luminosité",
         "label": "Puissance de la luminosité",

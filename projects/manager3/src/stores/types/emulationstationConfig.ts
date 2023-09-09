@@ -176,6 +176,10 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.array(z.string()),
   }),
+  debuglogs: z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
 });
 
 export type EmulationStationConfig = z.infer<typeof EmulationStationConfigSchema>
@@ -358,6 +362,10 @@ export const EmulationStationConfigOptionsSchema = z.object({
   'virtualarcade.manufacturers': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+  }),
+  debuglogs: z.object({
+    type: z.string(),
+    value: z.boolean(),
   }),
 });
 

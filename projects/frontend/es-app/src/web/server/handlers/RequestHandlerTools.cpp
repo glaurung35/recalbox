@@ -444,6 +444,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "pad6"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
          { "pad7"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
          { "pad8"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
+         { "debuglogs"                   , Validator(true) },
        });
 
       return sList;

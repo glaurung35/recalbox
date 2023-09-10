@@ -56,6 +56,7 @@
             :setter="systemStore.post"
             apiKey="externalscreen.prefered"
             v-if="system['externalscreen.prefered']"
+            clearable
             help
           >
             <template v-slot:help>
@@ -70,6 +71,7 @@
             :setter="systemStore.post"
             apiKey="externalscreen.forceresolution"
             v-if="system['externalscreen.forceresolution']"
+            clearable
             help
           >
             <template v-slot:help>
@@ -84,6 +86,7 @@
             :setter="systemStore.post"
             apiKey="externalscreen.forcefrequency"
             v-if="system['externalscreen.forcefrequency']"
+            clearable
             help
           >
             <template v-slot:help>

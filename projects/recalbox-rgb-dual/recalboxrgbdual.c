@@ -610,6 +610,7 @@ static int dpidac_probe(struct platform_device *pdev) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", config.dip50Hz.gpio_state, config.dip31kHz.gpio_state);
 
   } else if(rgbjamma == 1) {
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
     config.current_hat = RecalboxRGBJAMMA;
     config.dip50Hz.gpio_state = 1;
     config.dip31kHz.gpio_state = 1;

@@ -12,16 +12,22 @@ if test "$1" == "start"; then
         modprobe i2c-dev
         dtoverlay i2c1
         i2cdetect -y 1 36 37 | grep -q "20:             24 25"
-        detected=$?
-	dtoverlay -r i2c1
+        detectedv2=$?
+        i2cdetect -y 1 36 39 | grep -q "20:             24 25 -- 27"
+        detectedv3=$?
+        dtoverlay -r i2c1
         rmmod i2c-dev
         umount /config
 
-        if [ $detectedpoll == 0 ] || [ $detected == 0 ]; then
+        if [ $detectedv2 || $detectedv3 ]; then
             mount -o remount,rw /boot
             CONFIG="/boot/crt/recalbox-crt-options.cfg"
             CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
-            adapter="recalboxrgbjamma"
+            if [ $detectedv3 == 0 ];
+              adapter="recalboxrgbjamma"
+            else
+              adapter="recalboxrgbjamma-v2"
+            fi
             echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter})!" >> /boot/hardware.log
             if ! grep "dtoverlay=${adapter}" "${CRT_DAC_FILE}"; then
                 echo "dtoverlay=${adapter}" > "${CRT_DAC_FILE}"

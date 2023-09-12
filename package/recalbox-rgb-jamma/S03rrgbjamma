@@ -19,11 +19,11 @@ if test "$1" == "start"; then
         rmmod i2c-dev
         umount /config
 
-        if [ $detectedv2 || $detectedv3 ]; then
+        if [[ $detectedv2 == 0 || $detectedv3 == 0 ]]; then
             mount -o remount,rw /boot
             CONFIG="/boot/crt/recalbox-crt-options.cfg"
             CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
-            if [ $detectedv3 == 0 ];
+            if [ $detectedv3 == 0 ];then
               adapter="recalboxrgbjamma"
             else
               adapter="recalboxrgbjamma-v2"

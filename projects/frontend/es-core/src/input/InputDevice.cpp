@@ -553,7 +553,7 @@ int InputDevice::ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entr
           // the joystick is inverted.
           // Note: values are already normalized to -1/0/+1
           value = (config.Value() > 0) ? -value : value;
-          int previousValue = (config.Value() > 0) ? -mPreviousAxisValues[axis] : mPreviousAxisValues[axis];
+          int previousValue = mPreviousAxisValues[axis];
           if (previousValue != value)
           switch(value)
           {

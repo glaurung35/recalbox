@@ -954,22 +954,22 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
           if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P1_BTN1)) {
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(0, BTN_SELECT);
-            RELEASE_AND_SYNC(0, BTN_SELECT);
+            PRESS_AND_SYNC(PLAYER1, BTN_SELECT);
+            RELEASE_AND_SYNC(PLAYER1, BTN_SELECT);
             start_credit = 1;
             can_exit = 0;
           } if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P2_BTN1)) {
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: credit (SELECT) triggered (hk+P2_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(1, BTN_SELECT);
-            RELEASE_AND_SYNC(1, BTN_SELECT);
+            PRESS_AND_SYNC(PLAYER2, BTN_SELECT);
+            RELEASE_AND_SYNC(PLAYER2, BTN_SELECT);
             start_credit = 1;
             can_exit = 0;
           } else if (!start_credit && !should_release_hk) {
             // As another button has been pressed, we press hotkey before
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: other button press (hk+x)\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
             can_exit = 0;
             should_release_hk = 1;
           }
@@ -987,27 +987,27 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: release hotkey\n");
             should_release_hk = 0;
-            RELEASE_AND_SYNC(0, BTN_MODE);
+            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
           } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
             // Longest press, so we send both HK + START
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: long press : sending HK + START\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
-            PRESS_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_MODE);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+            PRESS_AND_SYNC(PLAYER1, BTN_START);
+            RELEASE_AND_SYNC(PLAYER1, BTN_START);
+            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
           } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
             // Long press, so we send HK
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: middle press : sending HK\n");
-            PRESS_AND_SYNC(0, BTN_MODE);
-            RELEASE_AND_SYNC(0, BTN_MODE);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
           } else {
             // Simple start
             DEBUG && printk(KERN_INFO
             "recalboxrgbjamma: quick press : sending START\n");
-            PRESS_AND_SYNC(0, BTN_START);
-            RELEASE_AND_SYNC(0, BTN_START);
+            PRESS_AND_SYNC(PLAYER1, BTN_START);
+            RELEASE_AND_SYNC(PLAYER1, BTN_START);
           }
         }
         last_start_press = 0;
@@ -1015,13 +1015,13 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
     }
   } else {
     // Standard start
-    input_report_key(player_devs[0], BTN_START, PRESSED(*data_chips, P1_START));
+    input_report_key(player_devs[PLAYER1], BTN_START, PRESSED(*data_chips, P1_START));
   }
 
   for(player = 0; player < TOTAL_PLAYERS; player++){
     if (player > 0 || !start_credit) {
-      input_report_abs(player_devs[0], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
-      input_report_abs(player_devs[0], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
+      input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
+      input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
 
       for (buttonIndex = 0; buttonIndex < BTN_PER_PLAYER_ON_JAMMA; buttonIndex++) {
         // If we are on a game button that is not on jamma (because user config)

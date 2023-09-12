@@ -130,7 +130,7 @@
       switch36-gpios = <&gpio 4 0>;
       clock-frequency = <400000>;
       jammactrl_0: jammactrl_0@21 {
-        compatible = "raspberrypi,recalboxrgbjamma";
+        compatible = "raspberrypi,recalboxrgbjamma-v2";
         reg = <0x21>;
         status = "okay";
         pinctrl-names = "default";
@@ -140,7 +140,7 @@
         irq-gpios = <&gpio 5 0>;
       };
       jammactrl_1: jammactrl_1@22 {
-        compatible = "raspberrypi,recalboxrgbjamma";
+        compatible = "raspberrypi,recalboxrgbjamma-v2";
         reg = <0x22>;
         status = "okay";
         pinctrl-names = "default";

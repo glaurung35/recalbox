@@ -102,6 +102,10 @@ void ArcadeGameListView::BuildList()
           }
         }
   }
+
+  // Check emptyness
+  if (mList.IsEmpty())
+    mList.add(_S(mEmptyListItem.Name()), &mEmptyListItem, 0, true);
 }
 
 String ArcadeGameListView::getArcadeItemIcon(const ArcadeTupple& game)

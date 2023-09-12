@@ -159,14 +159,14 @@ class CrtData
     [[nodiscard]] CrtRegion Region() const { return mRegion; }
 
   private:
-    //! NTSC configured
-    bool mRegionOrVideoStandardConfigured;
-    //! 480i configured
-    bool mHighResolutionConfigured;
     //! ICrtInterface reference
     ICrtInterface* mCrt;
     //! Configuration
     CrtConf* mConf;
+    //! NTSC configured
+    bool mRegionOrVideoStandardConfigured;
+    //! 480i configured
+    bool mHighResolutionConfigured;
     //! Video system (default: auto
     CrtVideoStandard mVideoStandard;
     CrtRegion mRegion;

@@ -392,6 +392,7 @@ if test "$1" == "start"; then
             configure_case
             if [ "${DAC}" != "recalboxrgbjamma" ] && [ "${DAC}" != "recalboxrgbjammapoll" ]; then
                 # recalbox rgb jamma will already have its dtbo loaded
+
                 recallog -s "S13crt" -t "CRT" "Rebooting"
                 reboot
             fi

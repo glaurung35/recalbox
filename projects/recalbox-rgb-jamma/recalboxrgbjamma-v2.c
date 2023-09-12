@@ -956,7 +956,7 @@ static int pca953x_remove(struct i2c_client *client) {
 }
 
 static const struct of_device_id pca953x_dt_ids[] = {
-    {.compatible = "raspberrypi,recalboxrgbjamma", .data = (void *) (16 | PCA953X_TYPE | PCA_INT),},
+    {.compatible = "raspberrypi,recalboxrgbjamma-v2", .data = (void *) (16 | PCA953X_TYPE | PCA_INT),},
     {}
 };
 
@@ -967,7 +967,7 @@ static SIMPLE_DEV_PM_OPS(pca953x_pm_ops, pca953x_suspend, pca953x_resume
 
 static struct i2c_driver pca953x_driver = {
     .driver = {
-        .name  = "recalboxrgbjamma",
+        .name  = "recalboxrgbjamma-v2",
         .pm  = &pca953x_pm_ops,
         .of_match_table = pca953x_dt_ids,
         .acpi_match_table = pca953x_acpi_ids,

@@ -165,6 +165,7 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   ParentTuppleList orphaned;
   ParentTuppleList bios;
   ParentTuppleList notWorking;
+  ParentTuppleList folders;
   // Virtual arcade only - Avoid too much lookups by keeping already found database localy
   // and by comparing parent pointers so that database changes only when parent changes
   HashMap<const FolderData*, const ArcadeDatabase*> mDatabaseLookup;
@@ -207,7 +208,11 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
     const ArcadeGame* arcade = mDatabase->LookupGame(*item);
     // Distribute tuples in lists according to their type
     // Clones are stored in parent's lists
-    if (arcade == nullptr) notWorking.push_back(ParentTupple(nullptr, item, false));
+    if (arcade == nullptr)
+    {
+      if (item->IsFolder()) folders.push_back(ParentTupple(nullptr, item, false));
+      else notWorking.push_back(ParentTupple(nullptr, item, false));
+    }
     else
       switch(arcade->Hierarchy())
       {
@@ -222,12 +227,16 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
       }
   }
 
+  // Folders first
+  AddSortedCategories({ &folders }, comparer, ascending);
+
   // Sorts parents / orphaned
   AddSortedCategories({ &parents, &orphaned }, comparer, ascending);
 
   // Insert clones as children
   for(ParentTupple& parent : mGameList)
   {
+    if (parent.mGame->IsFolder()) continue; // Ignore folders
     if (parent.mArcade->Hierarchy() != ArcadeGame::Type::Parent) continue;
     ArcadeTuppleList** children = clones.try_get(parent.mGame);
     if (children != nullptr)

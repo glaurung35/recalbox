@@ -72,10 +72,10 @@ const String& CrtConf::CrtScanlinesFromEnum(CrtScanlines scanlines)
 {
   switch(scanlines)
   {
-    case CrtScanlines::None:     { static std::string scanlineString("none"); return scanlineString; }
-    case CrtScanlines::Light:     { static std::string scanlineString("light"); return scanlineString; }
-    case CrtScanlines::Medium:   { static std::string scanlineString("medium"); return scanlineString; }
-    case CrtScanlines::Heavy:     { static std::string scanlineString("heavy"); return scanlineString; }
+    case CrtScanlines::None:     { static String scanlineString("none"); return scanlineString; }
+    case CrtScanlines::Light:     { static String scanlineString("light"); return scanlineString; }
+    case CrtScanlines::Medium:   { static String scanlineString("medium"); return scanlineString; }
+    case CrtScanlines::Heavy:     { static String scanlineString("heavy"); return scanlineString; }
     default: break;
   }
   static String sScanlineDefault("none");

@@ -525,10 +525,10 @@ void ViewController::LaunchCheck()
         return;
       }
     }
-  }
-  else
-  {
-    mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch->System());
+    else
+    {
+      mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch->System());
+    }
   }
 
 

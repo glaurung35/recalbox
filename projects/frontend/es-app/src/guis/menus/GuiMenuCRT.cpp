@@ -90,14 +90,14 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   if(isRGBJamma)
   {
 
-    AddList<std::string>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
-                         std::vector<GuiMenuBase::ListEntry<std::string>>(
+    AddList<String>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
+                         std::vector<GuiMenuBase::ListEntry<String>>(
                              {{ "1-3 buttons", "3", !CrtConf::Instance().GetSystemCRTJamma6Btns() },
                               { "4-6 buttons", "6", CrtConf::Instance().GetSystemCRTJamma6Btns() }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
     bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
-    AddList<std::string>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
-                         std::vector<GuiMenuBase::ListEntry<std::string>>(
+    AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
+                         std::vector<GuiMenuBase::ListEntry<String>>(
                              {{ "Line", "line", neoline },
                               { "Square", "square", !neoline }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
@@ -179,7 +179,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<std::string>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync)
 {
   std::vector<GuiMenuBase::ListEntry<String>> list;
 
@@ -254,11 +254,11 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanline
   (void)index;
   if ((Components)id == Components::ScanlinesOn31kHz)
   {
-    CrtConf::Instance().SetSystemCRTScanlines31kHz(value);
+    CrtConf::Instance().SetSystemCRTScanlines31kHz(value).Save();
   }
 }
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const std::string& value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::EsResolution)

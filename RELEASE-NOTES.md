@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Hardware
 - Add support for Anbernic RG351v (Thanks BelgaWill !)
 - Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
+- Add support for Realtek RTW-88 series of wifi controllers
 
 ### News
 

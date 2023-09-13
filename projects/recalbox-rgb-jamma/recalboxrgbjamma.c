@@ -862,8 +862,8 @@ static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
   }
 };
 
+#define P1_START 43
 #define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][0]
-#define P1_START buttons_bits[PLAYER1][JAMMA_BTNS][6]
 #define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][0]
 
 #define DIR_UP 0
@@ -1009,6 +1009,9 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
             PRESS_AND_SYNC(PLAYER1, BTN_START);
             RELEASE_AND_SYNC(PLAYER1, BTN_START);
           }
+        } else {
+          // Start have been released after a credit
+          start_credit = 0;
         }
         last_start_press = 0;
       }

@@ -179,11 +179,6 @@ MainRunner::ExitState MainRunner::Run()
       // Enable joystick autopairing
       EnableAutopair();
 
-      // Bios
-      BiosManager biosManager;
-      biosManager.LoadFromFile();
-      biosManager.Scan(nullptr);
-
       // Main Loop!
       CreateReadyFlagFile();
       Path externalNotificationFolder = Path(sQuitNow).Directory();

@@ -50,7 +50,7 @@ class GuiMenuArcade : public GuiMenuBase
     std::vector<GuiMenuBase::ListEntry<int>> GetManufacturerFilterEntries();
 
     //! Format driver name
-    String FormatManufacturer(const ArcadeDatabase::Driver& driver);
+    String FormatManufacturer(const ArcadeDatabase::Manufacturer& driver);
 
     /*
      * ISwitchComponent implementation

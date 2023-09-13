@@ -187,5 +187,5 @@ DefineEmulationStationSystemGetterSetterImplementation(FlatFolders, bool, Bool, 
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(Sort, FileSorts::Sorts, sSystemSort, FileSorts::Sorts::FileNameAscending)
 DefineEmulationStationSystemGetterSetterNumericEnumImplementation(RegionFilter, Regions::GameRegions, sSystemRegionFilter, Regions::GameRegions::Unknown)
 
-DefineEmulationStationSystemListGetterSetterImplementation(ArcadeSystemHiddenDrivers, sArcadeSystemHiddenDrivers, "")
+DefineEmulationStationSystemListGetterSetterImplementation(ArcadeSystemHiddenManufacturers, sArcadeSystemHiddenManufacturers, "")
 

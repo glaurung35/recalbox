@@ -9,7 +9,7 @@
 class ArcadeVirtualSystems
 {
   public:
-    static constexpr const char* sAllOtherDriver = "allothers";
+    static constexpr const char* sAllOtherManufacturers = "allothers";
     /*!
      * @brief Return known list of arcade driver
      * @return Arcade driver list
@@ -21,5 +21,5 @@ class ArcadeVirtualSystems
      * @param driverName Arcade driver
      * @return Freindly name or driver name if no match is found
      */
-    static String GetRealName(const String& driverName);
+    //static String GetRealName(const String& driverName);
 };

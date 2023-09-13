@@ -139,7 +139,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       bool RecalboxConf::IsIn##name(const SystemData& system, const String& value) const { return isInList(String("emulationstation.").Append(system.Name()).Append('.').Append(key), value); } \
       RecalboxConf& RecalboxConf::Set##name(const SystemData& system, const String::List& value) { SetString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), String::Join(value, ',')); return *this; }
 
-    DefineEmulationStationSystemListGetterSetterDeclaration(ArcadeSystemHiddenDrivers, sArcadeSystemHiddenDrivers)
+    DefineEmulationStationSystemListGetterSetterDeclaration(ArcadeSystemHiddenManufacturers, sArcadeSystemHiddenManufacturers)
 
     DefineGetterSetterEnum(MenuType, Menu, sMenuType, Menu)
     DefineGetterSetterEnum(ScraperNameOptions, ScraperNameOptions, sScraperGetNameFrom, ScraperTools::ScraperNameOptions)
@@ -529,7 +529,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
 
-    static constexpr const char* sArcadeSystemHiddenDrivers  = "hiddendrivers";
+    static constexpr const char* sArcadeSystemHiddenManufacturers  = "hiddendrivers";
 
   private:
     /*

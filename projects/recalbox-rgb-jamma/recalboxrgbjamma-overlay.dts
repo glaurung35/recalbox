@@ -6,11 +6,6 @@
   fragment@0 {
       target = <&gpio>;
       __overlay__ {
-        switch36_gpio: switch36_gpio_conf {
-          brcm,pins = <11>; // GPIO 11
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
         irq_gpio_27: irq_gpio_27_conf {
           brcm,pins = <27>; // GPIO 5
           brcm,function = <0>; // Input

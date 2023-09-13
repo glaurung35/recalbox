@@ -45,7 +45,6 @@ class GuiMenuUserInterface : public GuiMenuBase
       UpdateGamelist,
       Filters,
       DisplayByFileName,
-      Arcade,
     };
 
     //! System Manager

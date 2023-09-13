@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-FROTZ_RECALBOX_VERSION = 2.54
+# Commit of 2023/09/24
+FROTZ_RECALBOX_VERSION = 2f17d64f23f3d6e68cd676d35c9d1789e17bc9fc
 FROTZ_RECALBOX_SITE = $(call gitlab,DavidGriffith,frotz,$(FROTZ_RECALBOX_VERSION))
 FROTZ_RECALBOX_DEPENDENCIES = host-pkgconf libpng jpeg sdl2 freetype zlib libao sdl2_mixer
 FROTZ_RECALBOX_LICENSE = GPL-2.0+

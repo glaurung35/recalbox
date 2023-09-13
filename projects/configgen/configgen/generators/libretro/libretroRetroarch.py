@@ -347,3 +347,6 @@ class LibretroRetroarch:
 
         # Overlay reset
         settings.setString("input_overlay", "")
+
+        # Ignore core informations (allow rewind, save states, netplay)
+        settings.setBool("core_info_savestate_bypass", True)

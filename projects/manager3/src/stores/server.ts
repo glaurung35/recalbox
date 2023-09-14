@@ -78,7 +78,6 @@ export const useServerStore = defineStore('server', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         const response = await this._api80Provider.get(SYSTEM.supportArchive);
-        navigator.clipboard.writeText(response.data.linkResponse);
         this.server = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

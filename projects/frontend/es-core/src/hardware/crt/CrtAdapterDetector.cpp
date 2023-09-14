@@ -50,7 +50,7 @@ ICrtInterface* CrtAdapterDetector::CreateCrtBoard()
     case CrtAdapterType::Pi2Scart: return new CrtPi2Scart(automatic);
     case CrtAdapterType::RGBDual: return new CrtRGBDual(automatic);
     case CrtAdapterType::RGBJamma: return new CrtRGBJamma(automatic);
-    case CrtAdapterType::RGBJammaPoll: return new CrtRGBJamma(automatic);
+    case CrtAdapterType::RGBJammaV2: return new CrtRGBJamma(automatic);
     case CrtAdapterType::None:
     default: break;
   }

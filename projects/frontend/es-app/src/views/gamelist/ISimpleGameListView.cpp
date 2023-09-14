@@ -219,7 +219,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // JUMP TO -10
-  if (event.L2Pressed())
+  if (event.L2Pressed() || (!RecalboxConf::Instance().GetQuickSystemSelect() && event.AnyPrimaryLeftReleased()))
   {
     auto index = getCursorIndex();
     if (index > 0)
@@ -230,7 +230,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // JUMP TO +10
-  if (event.R2Pressed())
+  if (event.R2Pressed() || (!RecalboxConf::Instance().GetQuickSystemSelect() && event.AnyPrimaryRightReleased()))
   {
     auto index = getCursorIndex();
     auto max = getCursorIndexMax();

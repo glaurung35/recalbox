@@ -141,6 +141,10 @@ api80.interceptors.request.use((config) => {
 api80.interceptors.response.use((response) => {
   let message:string = i18n.global.t('general.notify.updateSuccess');
   let icon = 'mdi-check-bold';
+  let timeout = 5000;
+  let closeBtn = false;
+  let html = false;
+
   Loading.hide();
 
   if (response.config.url === SYSTEM.es.start) {
@@ -156,8 +160,11 @@ api80.interceptors.response.use((response) => {
     icon = 'mdi-restart';
   }
   if (response.config.url === SYSTEM.supportArchive) {
-    message = i18n.global.t('general.notify.supportArchiveCopied');
-    icon = 'mdi-bash';
+    message = i18n.global.t('general.notify.supportArchive') + response.data.linkResponse;
+    icon = 'mdi-check-bold';
+    timeout = 0;
+    closeBtn = true;
+    html = true;
   }
 
   if (response.config.method === 'get' || response.config.method === 'post') {
@@ -165,6 +172,9 @@ api80.interceptors.response.use((response) => {
       message,
       type: 'positive',
       icon,
+      timeout,
+      closeBtn,
+      html,
     });
   }
 

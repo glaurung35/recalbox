@@ -47,7 +47,7 @@
       "esStart": "Démarrage EmulationStation",
       "esStop": "Arrêt EmulationStation",
       "esRestart": "Redémarrage EmulationStation",
-      "supportArchiveCopied": "Archive de support copié dans le presse-papiers"
+      "supportArchive": "Voici l'adresse URL de votre archive de support :<br /><br />"
     },
     "upload": {
       "clearAll": "Effacer tout",

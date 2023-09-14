@@ -21,7 +21,7 @@ class JammaData
     JammaData() {};
     bool ShouldConfigureJammaConfiggen() const {
       return  (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ||
-               Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll);
+               Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2);
     }
 
     bool ShouldSwitchTo6ButtonLayout(const FileData& game, const EmulatorData& emulator) const {

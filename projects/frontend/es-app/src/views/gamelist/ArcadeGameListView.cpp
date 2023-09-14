@@ -291,6 +291,20 @@ bool ArcadeGameListView::ProcessInput(const InputCompactEvent& event)
     else if (event.HotkeyUpReleased())                 { FoldAll(); return true; }
     else if (event.HotkeyDownReleased())               { UnfoldAll(); return true; }
   }
+  if (event.AnyPrimaryRightPressed() || event.AnyPrimaryLeft())
+  {
+    bool vertical = event.HotkeyDownReleased() || event.HotkeyUpReleased();
+    if (!RecalboxConf::Instance().GetQuickSystemSelect() && !vertical)
+    {
+      auto index = getCursorIndex();
+      auto max = getCursorIndexMax();
+      if(event.AnyPrimaryLeftPressed())
+        index > 0 ? setCursorIndex(index > 10 ? index - 10 : 0) : setCursorIndex(max);
+      else if(event.AnyPrimaryRightPressed())
+        index == max ? setCursorIndex(0) : setCursorIndex(index > max - 10 ? max : index + 10);
+      return true;
+    }
+  }
 
   return DetailedGameListView::ProcessInput(event);
 }

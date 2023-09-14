@@ -5,7 +5,13 @@ declare -A ES_CONFIG=(
     ["emulationstation.screensaver.type"]="demo"
     ["240ptestsuite.ignore"]="0"
     ["global.smooth"]="0"
+    ["emulationstation.quicksystemselect"]="0"
     ["audio.device"]="alsa_card.platform-bcm2835_audio:analog-output:output:analog-stereo"
+)
+declare -A ES_JAMMA_CONFIG=(
+    ["global.rewind"]="0"
+    ["emulationstation.quicksystemselect"]="0"
+    ["emulationstation.theme.recalbox-240p.iconset"]="4-jamma"
 )
 
 declare -A ES_CLEAN_CONFIG=(
@@ -51,6 +57,19 @@ function configure_rbconf {
                 "${RECALBOX_CONF}"
         else
             echo "${KEY}=${ES_CONFIG[$KEY]}" >>"${RECALBOX_CONF}"
+        fi
+    done
+}
+
+function configure_rbconf_jamma {
+    recallog -s "S13crt" -t "CRT" "Adding configuration for jamma in recalbox.conf"
+    echo "" >>"${RECALBOX_CONF}"
+    for KEY in "${!ES_JAMMA_CONFIG[@]}"; do
+        if grep -q -e "^.\?${KEY}=.*" "${RECALBOX_CONF}"; then
+            sed -i "s/^.\?${KEY}=.*/${KEY}=${ES_JAMMA_CONFIG[$KEY]}/g" \
+                "${RECALBOX_CONF}"
+        else
+            echo "${KEY}=${ES_JAMMA_CONFIG[$KEY]}" >>"${RECALBOX_CONF}"
         fi
     done
 }
@@ -390,9 +409,10 @@ if test "$1" == "start"; then
             mount -o remount,ro /boot
             genericInstall
             configure_case
-            if [ "${DAC}" != "recalboxrgbjamma" ] && [ "${DAC}" != "recalboxrgbjammapoll" ]; then
+            if [ "${DAC}" == "recalboxrgbjamma" ] || [ "${DAC}" == "recalboxrgbjamma-v2" ]; then
+                configure_rbconf_jamma
+            else
                 # recalbox rgb jamma will already have its dtbo loaded
-
                 recallog -s "S13crt" -t "CRT" "Rebooting"
                 reboot
             fi

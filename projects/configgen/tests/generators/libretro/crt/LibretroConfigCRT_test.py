@@ -1130,3 +1130,30 @@ def test_given_mk_clone_find_mk_mode(mocker):
 
     assert libretro_config["custom_viewport_height_ntsc"] == 256
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1"'
+
+def test_given_any_yoko_game_and_jamma_then_return_fullscreen_ratio_and_integer_scale(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbjamma")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["aspect_ratio_index"] == "24"
+    assert libretro_config["video_scale_integer"] == '"true"'
+
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbdual")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["aspect_ratio_index"] == "23"
+

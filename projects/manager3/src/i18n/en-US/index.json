@@ -47,7 +47,7 @@
       "esStart": "Start EmulationStation",
       "esStop": "Stop EmulationStation",
       "esRestart": "Restart EmulationStation",
-      "supportArchiveCopied": "Support Archive copied to clipboard"
+      "supportArchive": "There is the URL of your support archive:<br /><br />"
     },
     "upload": {
       "clearAll": "Clear All",

@@ -894,8 +894,8 @@ HashMap<String, String> RequestHandlerTools::GetArcadeManufacturerList()
     for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
     {
       String identifier(SystemManager::sArcadeManufacturerPrefix);
-      identifier.Append(rawIdentifier).Replace('/', '-');
-      result.insert_unique({ identifier, ArcadeVirtualSystems::GetRealName(rawIdentifier) });
+      identifier.Append(rawIdentifier).Replace('\\', '-');
+      result.insert_unique({ identifier, String(rawIdentifier).Replace('\\', " - ") });
     }
   }
 

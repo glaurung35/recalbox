@@ -19,7 +19,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
-  bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaPoll;
+  bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   bool supports120Hz = is31kHz && Board::Instance().CrtBoard().Has120HzSupport();
   bool multisync = Board::Instance().CrtBoard().MultiSyncEnabled();
@@ -160,7 +160,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   {
     { "Recalbox RGB Dual", CrtAdapterType::RGBDual },
     { "Recalbox RGB Jamma", CrtAdapterType::RGBJamma },
-    { "Recalbox RGB Jamma Proto", CrtAdapterType::RGBJammaPoll },
+    { "Recalbox RGB Jamma Proto" , CrtAdapterType::RGBJammaV2 },
     { "VGA666", CrtAdapterType::Vga666 },
     { "RGBPi", CrtAdapterType::RGBPi },
     { "Pi2SCART", CrtAdapterType::Pi2Scart },

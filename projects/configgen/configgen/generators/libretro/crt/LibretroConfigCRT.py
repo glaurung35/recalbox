@@ -7,7 +7,7 @@ from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTVid
 from configgen.crt.CRTModeGenerator import CRTModeGenerator
 from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
 from configgen.crt.CRTMonitorRanges import CRTMonitorRanges
-from configgen.crt.CRTTypes import CRTArcadeGameV2, CRTResolution, CRTScanlines
+from configgen.crt.CRTTypes import CRTArcadeGameV2, CRTResolution, CRTScanlines, CRTAdapter
 from configgen.crt.Mode import Mode
 from configgen.utils.Rotation import Rotation
 from configgen.utils.recallog import recallog
@@ -22,7 +22,7 @@ class LibretroConfigCRT:
 
     arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015"]
 
-    def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, game_is_tate: int, system_rotation: Rotation, k31:bool=False) -> \
+    def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, game_is_tate: int, system_rotation: Rotation, k31:bool=False, forceFullAndIntegerScale:bool=False) -> \
             typing.Dict[
                 str, typing.Any]:
         config: typing.Dict[str, typing.Any] = {}
@@ -40,6 +40,7 @@ class LibretroConfigCRT:
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
 
         if (system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and game_is_tate:
+            # Screen not rotated and tate
             config["video_smooth"] = '"true"'
             if viewport_height + viewport_width == 0:
                 # Change the ratio to 1920 core only if no viewport info is given
@@ -47,6 +48,13 @@ class LibretroConfigCRT:
             if mode.width / mode.height < 1.5:
                 # Change the ratio to core as we are 4/3 like mode (not super res)
                 config["aspect_ratio_index"] = '22'
+
+        if ((system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and not game_is_tate) \
+                or ((system_rotation.value == Rotation.left or system_rotation.value == Rotation.right) and game_is_tate):
+            # we are in a yoko game on a yoko screen, or tate game on tate screen
+            if forceFullAndIntegerScale:
+                config["aspect_ratio_index"] = '24'
+                config["video_scale_integer"] = '"true"'
 
         # default viewport calculation
         final_width = viewport_width if viewport_width > 0 else mode.width
@@ -188,7 +196,7 @@ class LibretroConfigCRT:
         config["custom_viewport_width_ntsc"] = game_width_pp
         config["custom_viewport_height_ntsc"] = game_config.height
         config["custom_viewport_x_ntsc"] = (mode.width - game_width_pp) // 2
-        config["video_scale_integer"] = "false"
+        config["video_scale_integer"] = '"false"'
         config["aspect_ratio_index"] = "23"
         if system.Rotation == Rotation.upsidedown:
             config["video_rotation"] = int(Rotation.upsidedown)
@@ -292,7 +300,8 @@ class LibretroConfigCRT:
                                                      height,
                                                      gameIsTate,
                                                      system.Rotation,
-                                                     k31=True)
+                                                     k31=True,
+                                                     forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA))
                         )
                     recallog("Setting 31kHz mode {} for arcade game".format(system.CRTResolutionType), log_type="CRT")
                     default = False
@@ -313,7 +322,7 @@ class LibretroConfigCRT:
                             config.update(
                                 self.createConfigForMode("all", mode,
                                                          self.select_width(system, game_config[2], mode, gameIsTate),
-                                                         game_config[3], gameIsTate, system.Rotation))
+                                                         game_config[3], gameIsTate, system.Rotation, forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA)))
                             default = False
                         else:
                             recallog("Game configuration not found for {}".format(game_name), log_type="CRT")
@@ -336,7 +345,7 @@ class LibretroConfigCRT:
                         config.update(
                             self.createConfigForMode(region, mode,
                                                      self.select_width(system, system_config.viewport_width, mode, system.VerticalGame),
-                                                     system_config.viewport_height, system.VerticalGame, system.Rotation))
+                                                     system_config.viewport_height, system.VerticalGame, system.Rotation, forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA)))
                         default = False
                     else:
                         recallog(
@@ -360,7 +369,7 @@ class LibretroConfigCRT:
                         config.update(
                             self.createConfigForMode(region, mode,
                                                      self.select_width(system, system_config.viewport_width, mode, system.VerticalGame),
-                                                     system_config.viewport_height, system.VerticalGame, system.Rotation))
+                                                     system_config.viewport_height, system.VerticalGame, system.Rotation, forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA)))
                     default = False
         if default:
             recallog("Setting CRT default modes for {} on {}".format(game_name, system.Name), log_type="CRT")
@@ -374,7 +383,7 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system),
-                                                 width, height, system.VerticalGame, system.Rotation))
+                                                 width, height, system.VerticalGame, system.Rotation, forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA)))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
 
             else:
@@ -387,8 +396,10 @@ class LibretroConfigCRT:
                     config.update(
                         self.createConfigForMode(region, self.crt_mode_processor.processMode(
                             self.crt_config_parser.loadMode(defaultMode), system),
-                                                 width, height, system.VerticalGame, system.Rotation))
+                                                 width, height, system.VerticalGame, system.Rotation, forceFullAndIntegerScale=(system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA)))
                     recallog("Setting mode {} for {} with width {}".format(defaultMode, region, width), log_type="CRT")
         if system.Name in ["wswan", "wswanc"]:
             config["video_vsync"] = '"false"'
+
+
         return config

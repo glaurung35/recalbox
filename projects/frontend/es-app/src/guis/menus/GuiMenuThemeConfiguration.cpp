@@ -78,9 +78,12 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
   if (!found) realSelected = items.front();
   if (!items.empty()) original = realSelected;
 
+  // Build list
   std::vector<ListEntry<String>> list;
   for (const String& s : items) list.push_back({ s, s, s == realSelected });
-  std::sort(list.begin(), list.end(), [] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return a.mText < b.mText; });
+  // Try numeric sorting, else  use an alphanumeric sort
+  if (!TrySortNumerically(list))
+    std::sort(list.begin(), list.end(), [] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return a.mText < b.mText; });
 
   if (!items.empty())
   {
@@ -88,4 +91,19 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
     return optionList;
   }
   return nullptr;
+}
+
+bool GuiMenuThemeConfiguration::TrySortNumerically(std::vector<ListEntry<String>>& list)
+{
+  HashMap<String, int> nameToNumeric;
+  for(const ListEntry<String>& item : list)
+  {
+    if (item.mText.empty()) return false;
+    size_t pos = item.mText.find_first_not_of("0123456789");
+    if (pos == 0) return false;
+    nameToNumeric[item.mText] = (pos == std::string::npos) ? item.mText.AsInt() : item.mText.AsInt(item.mText[pos]);
+  }
+
+  std::sort(list.begin(), list.end(), [&nameToNumeric] (const ListEntry<String>& a, const ListEntry<String>& b) -> bool { return nameToNumeric[a.mText] < nameToNumeric[b.mText]; });
+  return true;
 }

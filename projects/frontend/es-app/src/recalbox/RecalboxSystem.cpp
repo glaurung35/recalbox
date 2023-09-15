@@ -1,7 +1,7 @@
 /*
  * File:   RecalboxSystem.cpp
  * Author: digitallumberjack
- * 
+ *
  * Created on 29 novembre 2014, 03:1
  */
 
@@ -255,13 +255,14 @@ bool RecalboxSystem::getIpV4Address(String& result)
         void* tmpAddrPtr = &((struct sockaddr_in*) ifa->ifa_addr)->sin_addr;
         char addressBuffer[INET_ADDRSTRLEN];
         inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
-        { LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
-        if (strcmp(ifa->ifa_name, "lo") != 0)
+        if (strcmp(ifa->ifa_name, "lo") != 0 && strncmp(ifa->ifa_name, STRING_AND_LENGTH("eth")) != 0)
         {
+          { LOG(LogDebug) << "[Network] IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
           result = String(addressBuffer);
           freeifaddrs(ifAddrStruct);
           return true;
-        }
+        }else
+          { LOG(LogDebug) << "[Network] Skip IPv4 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
       }
 
   if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
@@ -280,13 +281,14 @@ bool RecalboxSystem::getIpV6Address(String& result)
         void* tmpAddrPtr = &((struct sockaddr_in6*) ifa->ifa_addr)->sin6_addr;
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
-        { LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
-        if (strcmp(ifa->ifa_name, "lo") != 0)
+        if (strcmp(ifa->ifa_name, "lo") != 0 && strncmp(ifa->ifa_name, STRING_AND_LENGTH("eth")) != 0)
         {
+          { LOG(LogDebug) << "[Network] IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
           result = String(addressBuffer);
           freeifaddrs(ifAddrStruct);
           return true;
-        }
+        }else
+          { LOG(LogDebug) << "[Network] Skip IPv6 found for interface " << ifa->ifa_name << " : " << addressBuffer; }
       }
 
   if (ifAddrStruct != nullptr) freeifaddrs(ifAddrStruct);
@@ -318,8 +320,11 @@ bool RecalboxSystem::hasIpAdress(bool onlyWIFI)
       char addressBuffer[INET_ADDRSTRLEN];
       inet_ntop(AF_INET, tmpAddrPtr, addressBuffer, INET_ADDRSTRLEN);
       if ((strcmp(ifa->ifa_name, "lo") != 0 && !onlyWIFI) ||
-          (strncmp(ifa->ifa_name,STRING_AND_LENGTH("wlan")) == 0 && onlyWIFI))
+          (strncmp(ifa->ifa_name, STRING_AND_LENGTH("wlan")) == 0 &&
+           strncmp(addressBuffer, STRING_AND_LENGTH("169.254")) != 0 &&
+           onlyWIFI))
       {
+        { LOG(LogDebug) << "[Network] Interface " << ifa->ifa_name << " has IPv4 address " << addressBuffer; }
         result = true;
         break;
       }
@@ -336,8 +341,12 @@ bool RecalboxSystem::hasIpAdress(bool onlyWIFI)
         char addressBuffer[INET6_ADDRSTRLEN];
         inet_ntop(AF_INET6, tmpAddrPtr, addressBuffer, INET6_ADDRSTRLEN);
         if ((strcmp(ifa->ifa_name, "lo") != 0 && !onlyWIFI) ||
-            (strncmp(ifa->ifa_name,STRING_AND_LENGTH("wlan")) == 0 && onlyWIFI))
+            (strncmp(ifa->ifa_name, STRING_AND_LENGTH("wlan")) == 0 &&
+             strncmp(addressBuffer, STRING_AND_LENGTH("fe80")) != 0 &&
+             strncmp(addressBuffer, STRING_AND_LENGTH("fd")) != 0 &&
+             onlyWIFI))
         {
+          { LOG(LogDebug) << "[Network] Interface " << ifa->ifa_name << " has IPv6 address " << addressBuffer; }
           result = true;
           break;
         }

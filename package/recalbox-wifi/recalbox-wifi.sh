@@ -60,11 +60,14 @@ rb_wifi_configure() {
     if [ -n "$settings_key" ]; then
         # Connect to protected wifi
         echo -n "Setting network psk:"
-        wpa_cli -i "$interface" set_network "$network" psk "\"$settings_key\"" || exit 1
+        if [ ${#settings_key} -lt 64 ]; then # compatible with encoded psk
+            settings_key="\"$settings_key\""
+        fi
+        wpa_cli -i "$interface" set_network "$network" psk "$settings_key" || exit 1
         echo -n "setting network key_mgmt:"
         wpa_cli -i "$interface" set_network "$network" key_mgmt WPA-PSK WPA-EAP WPA-PSK-SHA256 NONE SAE || exit 1
         echo -n "Setting network sae_password:"
-        wpa_cli -i "$interface" set_network "$network" sae_password "\"$settings_key\"" || exit 1
+        wpa_cli -i "$interface" set_network "$network" sae_password "$settings_key" || exit 1
         echo -n "Setting network ieee80211w:"
         wpa_cli -i "$interface" set_network "$network" ieee80211w 1 || exit 1
     else

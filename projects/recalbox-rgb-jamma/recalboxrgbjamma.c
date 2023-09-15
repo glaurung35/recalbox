@@ -1500,23 +1500,16 @@ static int pca953x_probe(struct i2c_client *client,
   return ret;
 }
 
-static int pca953x_remove(struct i2c_client *client) {
+static void pca953x_remove(struct i2c_client *client) {
   struct pca953x_platform_data *pdata = dev_get_platdata(&client->dev);
   struct pca953x_chip *chip = i2c_get_clientdata(client);
-  int ret;
 
   if (pdata && pdata->teardown) {
-    ret = pdata->teardown(client, chip->gpio_chip.base,
+    pdata->teardown(client, chip->gpio_chip.base,
                           chip->gpio_chip.ngpio, pdata->context);
-    if (ret < 0)
-      dev_err(&client->dev, "teardown failed, %d\n", ret);
-  } else {
-    ret = 0;
   }
 
   regulator_disable(chip->regulator);
-
-  return ret;
 }
 
 static const struct of_device_id pca953x_dt_ids[] = {

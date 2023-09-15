@@ -1122,6 +1122,9 @@
       "dialogs": {
         "remove": {
           "text": "Êtes-vous certain de vouloir supprimer cette capture d'écran ?"
+        },
+        "removevideo": {
+          "text": "Êtes-vous certain de vouloir supprimer cette vidéo ?"
         }
       }
     }

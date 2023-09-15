@@ -1122,6 +1122,9 @@
       "dialogs": {
         "remove": {
           "text": "Are you sure you want to delete this screenshot?"
+        },
+        "removevideo": {
+          "text": "Are you sure you want to delete this video?"
         }
       }
     }

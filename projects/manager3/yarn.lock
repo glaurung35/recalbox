@@ -1546,6 +1546,11 @@
     core-js "^3.6.5"
     core-js-compat "^3.6.5"
 
+"@quasar/extras@^1.13.0":
+  version "1.16.6"
+  resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.16.6.tgz#6b79d3c01785793c10543c93f21653e26539a740"
+  integrity sha512-yHvp2Z73LuS29fhjE+dSzUvEKGCuTTy+WGIsAYxbnhBVW2rTYlYmFQfGdOPdzNreHZh+G/1D56n0Q6ClZxJHKg==
+
 "@quasar/extras@^1.16.3":
   version "1.16.3"
   resolved "https://registry.yarnpkg.com/@quasar/extras/-/extras-1.16.3.tgz#72216e2d450a2ee70613957da88191339b90de41"
@@ -1555,6 +1560,13 @@
   version "1.1.5"
   resolved "https://registry.npmjs.org/@quasar/fastclick/-/fastclick-1.1.5.tgz"
   integrity sha512-p3JKgTjRlJ1YQXbqTw3Bsa4j0mQdt5dq+WfYvyb7MgKGdephHCKdR/kxA5PCTAmJanGJuDKqRdyGYX/hYN4KGw==
+
+"@quasar/quasar-app-extension-qmediaplayer@^2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-app-extension-qmediaplayer/-/quasar-app-extension-qmediaplayer-2.0.0-beta.6.tgz#527430f1c1821d2c8623a508146aad754a9dcf29"
+  integrity sha512-Mrqqny92+/Kj5TuHzXLsbHF8j4Ltjuhwdq+tkkpx99Iw0zeE5lcFDTNzmiAllN8+W7h57FzDWiidvsh8dXPnDg==
+  dependencies:
+    "@quasar/quasar-ui-qmediaplayer" "^2.0.0-beta.6"
 
 "@quasar/quasar-app-extension-testing-unit-jest@^3.0.0-beta.5":
   version "3.0.0-beta.5"
@@ -1579,6 +1591,13 @@
     chalk "^4.1.1"
     execa "^5.1.1"
     strip-ansi "^6.0.0"
+
+"@quasar/quasar-ui-qmediaplayer@^2.0.0-beta.6":
+  version "2.0.0-beta.6"
+  resolved "https://registry.yarnpkg.com/@quasar/quasar-ui-qmediaplayer/-/quasar-ui-qmediaplayer-2.0.0-beta.6.tgz#9b29e0b68ffe4575df682abd13e50392bc8a2361"
+  integrity sha512-j0Y6NCMkup/fjwpOT2kWPG+w3X1yVxmRaSHxQRtWLsWHjiSheaJLWKqZDJ9UarEKL8rtS/CUtadD+ENvcBEHHQ==
+  dependencies:
+    "@quasar/extras" "^1.13.0"
 
 "@quasar/ssr-helpers@2.2.2":
   version "2.2.2"

@@ -40,14 +40,32 @@ export const useMediaStore = defineStore('media', {
             const name:string = key.substring(key.length - 17).substring(0, key.length);
             formattedDate = date.formatDate(
               date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
-              'DD/MM/YYYY - HH:mm-ss',
+              'DD/MM/YYYY - HH:mm:ss',
             );
           }
           result.push({
             name: key,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
-            url: apiUrl + MEDIA.get + key,
+            urlImage: apiUrl + MEDIA.get + key,
+            date: formattedDate,
+          });
+        }
+
+        // Do the videos
+        if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi')) {
+          let formattedDate:string;
+          const name:string = key.substring(key.length - 17).substring(0, key.length);
+          // eslint-disable-next-line prefer-const
+          formattedDate = date.formatDate(
+            date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
+            'DD/MM/YYYY - HH:mm:ss',
+          );
+          result.push({
+            name: key,
+            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+            // @ts-ignore
+            urlVideo: apiUrl + MEDIA.get + key,
             date: formattedDate,
           });
         }

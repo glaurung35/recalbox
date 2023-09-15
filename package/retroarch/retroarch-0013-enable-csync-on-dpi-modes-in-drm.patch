@@ -1,0 +1,13 @@
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index aaaeb90..21180a7 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -175,6 +175,8 @@ static bool gfx_ctx_drm_load_mode(drmModeModeInfoPtr modeInfo)
+       modeInfo->flags       = timings.interlaced ? DRM_MODE_FLAG_INTERLACE : 0;
+       modeInfo->flags      |= timings.v_sync_polarity ? DRM_MODE_FLAG_NVSYNC : DRM_MODE_FLAG_PVSYNC;
+       modeInfo->flags      |= timings.h_sync_polarity ? DRM_MODE_FLAG_NHSYNC : DRM_MODE_FLAG_PHSYNC;
++      modeInfo->flags      |= DRM_MODE_FLAG_CSYNC;
++      modeInfo->flags      |= timings.h_sync_polarity && timings.v_sync_polarity ? DRM_MODE_FLAG_NCSYNC : 0;
+       modeInfo->type        = 0;
+       snprintf(modeInfo->name, DRM_DISPLAY_MODE_LEN, "CRT_%ux%u_%u",
+                modeInfo->hdisplay, modeInfo->vdisplay, modeInfo->vrefresh);

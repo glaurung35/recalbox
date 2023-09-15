@@ -9,6 +9,7 @@
 #include <RecalboxConf.h>
 #include <hardware/crt/CrtAdapterType.h>
 #include <views/crt/CrtResolutions.h>
+#include "hardware/crt/CRTScanlines.h"
 
 class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
 {
@@ -43,12 +44,18 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameRegionSelect, bool, Bool, sSystemCRTGameRegionSelect, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTGameResolutionSelect, bool, Bool, sSystemCRTGameResolutionSelect, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTScanlines31kHz, bool, Bool, sSystemCRTScanlines31kHz, false)
+    DefineGetterSetterEnumGeneric(CrtConf, SystemCRTScanlines31kHz, CrtScanlines, sSystemCRTScanlines31kHz, CrtScanlines)
     DefineGetterSetterGeneric(CrtConf, SystemCRTExtended15KhzRange, bool, Bool, sSystemCRTExtended15KhzRange, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "x6")
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma6Btns, bool, Bool, sSystemCRTJamma6Btns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, std::string, String, sSystemCRTJammaNeogeoLayout, "line")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHotkeyPatterns, bool, Bool, sSystemCRTJammaHotkeyPatterns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
+
 
     DefineCrtModeOffsetDeclaration(VerticalOffset, int, Int, sVerticalOffset)
     DefineCrtModeOffsetDeclaration(HorizontalOffset, int, Int, sHorizontalOffset)
@@ -56,6 +63,9 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
 
     static CrtResolution CrtResolutionFromString(const String& menu);
     static const String& CrtResolutionFromEnum(CrtResolution type);
+
+    static CrtScanlines CrtScanlinesFromString(const String& scanlines);
+    static const String& CrtScanlinesFromEnum(CrtScanlines scanlines);
 
   private:
     static constexpr const char* sSystemCRT                       = "adapter.type";
@@ -70,6 +80,12 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTExtended15KhzRange     = "options.15khz.extendedrange";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
+    static constexpr const char* sSystemCRTJamma6Btns             = "options.jamma.6btns";
+    static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.neogeolayout";
+    static constexpr const char* sSystemCRTJammaHotkeyPatterns    = "options.jamma.hk_patterns";
+    static constexpr const char* sSystemCRTScreen31kHz            = "options.screen.31kHz";
+    static constexpr const char* sSystemCRTScreenMultiSync        = "options.screen.multisync";
+
 
     static constexpr const char* sViewportPrefix                  = "viewport";
     static constexpr const char* sModeOffsetPrefix                = "mode.offset";

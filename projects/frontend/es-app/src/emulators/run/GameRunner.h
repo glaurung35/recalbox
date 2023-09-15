@@ -99,11 +99,12 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
 
     /*!
      * @brief Build CRT options from the CRT interface
+     * @param system System
      * @param data CRT Data
      * @param demo starting a demo
      * @return Option string
      */
-    static String BuildCRTOptions(const CrtData& data, RotationType rotation, const bool demo);
+    static String BuildCRTOptions(const SystemData& system, const CrtData& data, RotationType rotation, const bool demo);
 
     /*!
     * @brief Automatic Game running flag management

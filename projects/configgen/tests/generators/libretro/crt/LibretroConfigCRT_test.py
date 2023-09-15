@@ -17,7 +17,7 @@ ARCADE_TXT = "/recalbox/share/system/configs/crt/arcade_games.txt"
 
 
 def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutiontype="progressive", crtscreentype="15kHz",
-                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines=False, rotation=0, verticalgame=False):
+                    crtadaptor="recalboxrgbdual", crtregion="auto", crtscanlines="", rotation=0, verticalgame=False):
     emulator.configure(keyValueSettings(""),
                        ExtraArguments("", "", "", "", "", "", "", "", crtvideostandard, crtresolutiontype,
                                       crtscreentype,
@@ -738,20 +738,26 @@ def test_given_psx_game_when_starting_a_game_on_pcsx_then_use_pulse(
 def test_given_31kHz_and_scanlines_on_should_create_scanlines_config(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
-                                crtvideostandard="all", crtscanlines=True)
+                                crtvideostandard="all", crtscanlines="light")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
 
     assert libretro_config["video_shader_enable"] == '"true"'
     assert libretro_config["video_shader_dir"] == '"/recalbox/share/shaders/"'
-    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines.glslp'
+    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-light.glslp'
+
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
+                                crtvideostandard="all", crtscanlines="heavy")
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "rom.zip")
+    assert libretro_config["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-heavy.glslp'
 
 
 def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_double_freq(mocker, system_dreamcast):
     givenThoseFiles(mocker, SEGA_CONFIGURATION)
     dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="doublefreq",
-                                crtvideostandard="all", crtscanlines=True)
+                                crtvideostandard="all", crtscanlines="light")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
                                                                                                "rom.zip")
@@ -1124,3 +1130,30 @@ def test_given_mk_clone_find_mk_mode(mocker):
 
     assert libretro_config["custom_viewport_height_ntsc"] == 256
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1"'
+
+def test_given_any_yoko_game_and_jamma_then_return_fullscreen_ratio_and_integer_scale(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbjamma")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["aspect_ratio_index"] == "24"
+    assert libretro_config["video_scale_integer"] == '"true"'
+
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbdual")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["aspect_ratio_index"] == "23"
+

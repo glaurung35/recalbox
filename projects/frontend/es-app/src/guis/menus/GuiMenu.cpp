@@ -44,6 +44,8 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
   // Recalbox RGB Dual menu
   if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
     AddSubMenu(_("RECALBOX RGB DUAL"), mTheme.menuIconSet.recalboxrgbdual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
+  if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2)
+    AddSubMenu(_("RECALBOX RGB JAMMA"), mTheme.menuIconSet.recalboxrgbdual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
 
   // Games menu
   AddSubMenu(_("GAMES SETTINGS"), mTheme.menuIconSet.games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));

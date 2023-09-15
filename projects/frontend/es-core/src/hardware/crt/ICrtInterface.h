@@ -7,6 +7,7 @@
 #pragma once
 
 #include <hardware/crt/CrtAdapterType.h>
+#include <string>
 
 class ICrtInterface
 {
@@ -15,6 +16,7 @@ class ICrtInterface
     {
       KHz15, //!< 15 Khz
       KHz31, //!< 31 Khz
+      KHzMulti, //!< MultiSync
     };
 
     /*!
@@ -45,6 +47,25 @@ class ICrtInterface
     virtual bool Has31KhzSupport() const = 0;
 
     /*!
+     * @brief Check if the adapter supports 120hz modes
+     * @return True if the adapter supports 120hz modes
+     */
+    virtual bool Has120HzSupport() const { return false; }
+
+
+    /*!
+     * @brief MultiSync support
+     * @return True if the multisync is enabled
+     */
+    virtual bool MultiSyncEnabled() const { return false; }
+
+    /*!
+     * @brief Check if the adapter supports multisync 15/31khz
+     * @return True if the adapter supports multisync 15/31khz
+     */
+    virtual bool HasMultiSyncSupport() const { return false; }
+
+    /*!
      * @brief Get horizontal frequency
      * @return Horitontal frequency
      */
@@ -62,6 +83,17 @@ class ICrtInterface
      */
     virtual bool MustForce50Hz() const = 0;
 
+    /*!
+     * @brief Returns the name of the adapter
+     * @return the name of the adapter
+     */
+    virtual std::string& Name() const = 0;
+
+    /*!
+     * @brief Returns the short name of the adapter
+     * @return the short name of the adapter
+     */
+    virtual std::string& ShortName() const = 0;
     /*!
      * @brief Check if this board has been automatically detected
      * @return True of the board has been automatically detected, false otherwise

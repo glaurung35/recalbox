@@ -115,7 +115,7 @@ class LibretroConfiguration:
         retroarch.fillRetroarchConfiguration()
         # Configure controllers
         controllers = LibretroControllers(self.system, self.recalboxOptions, retroarchConfig, self.controllers, self.nodefaultkeymap)
-        controllers.fillControllersConfiguration(self.system.RotateControls)
+        controllers.fillControllersConfiguration(self.system)
 
         # Save settings
         retroarchConfig.changeSettingsFile(self.retroarchCustomFile)

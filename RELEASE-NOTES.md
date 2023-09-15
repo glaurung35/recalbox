@@ -7,13 +7,14 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2-Pulstar
 
 ### Hardware
-
+- Add support for Anbernic RG351v
 
 ### News
 - Add Naomi 2 system on x86_64
 - Add libretro fake08 for Pico8
 
 ### Bumps
+- Bump RetroArch to version 1.15.0
 - Bump libretro-mame to 0.258
 - Bump libretro-snes9x
 - Bump libretro-theodore
@@ -50,10 +51,10 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-atari800
 - Bump libretro-a5200
 - Bump libretro-emuscv
+- Bump odroidxu4 kernel to 6.1.49
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
-
 
 ### Fixes
 - Fix argonone case power management
@@ -64,6 +65,8 @@ as release notes for end user on a Recalbox upgrade.
 - Removed LinApple from PC
 
 
+- Fix analog stick with inverted axis behaviour
+- Fix odroidxu4 OGST video not playing
 
 ## Version 9.1-Pulstar
 

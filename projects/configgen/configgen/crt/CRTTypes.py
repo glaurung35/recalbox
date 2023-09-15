@@ -48,7 +48,7 @@ class CRTResolution(StrEnum):
         return None
 
 
-class CRTSuperRez(str, Enum):
+class CRTSuperRez(StrEnum):
     original = "original"
     x2 = "x2"
     x6 = "x6"
@@ -107,6 +107,38 @@ class CRTVideoStandard(StrEnum):
         if value == "ntsc":
             return CRTVideoStandard.NTSC
         return CRTVideoStandard.AUTO
+
+class CRTAdapter(StrEnum):
+    RECALBOXRGBDUAL = "recalboxrgbdual"
+    RECALBOXRGBJAMMA = "recalboxrgbjamma"
+    OTHER = "other"
+    NONE = "none"
+
+    @staticmethod
+    def fromString(value: str):
+        if value == "recalboxrgbdual":
+            return CRTAdapter.RECALBOXRGBDUAL
+        if value == "recalboxrgbjamma":
+            return CRTAdapter.RECALBOXRGBJAMMA
+        if len(value) > 0:
+            return CRTAdapter.OTHER
+        return CRTAdapter.NONE
+
+class CRTScanlines(StrEnum):
+    LIGHT = "light"
+    MEDIUM = "medium"
+    HEAVY = "heavy"
+    NONE = "none"
+
+    @staticmethod
+    def fromString(value: str):
+        if value == "light":
+            return CRTScanlines.LIGHT
+        if value == "medium":
+            return CRTScanlines.MEDIUM
+        if value == "heavy":
+            return CRTScanlines.HEAVY
+        return CRTScanlines.NONE
 
 
 class CRTRegion(StrEnum):

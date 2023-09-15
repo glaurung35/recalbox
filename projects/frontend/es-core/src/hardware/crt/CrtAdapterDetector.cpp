@@ -14,6 +14,7 @@
 #include <hardware/crt/CrtPi2Scart.h>
 #include <hardware/crt/CrtRGBDual.h>
 #include <CrtConf.h>
+#include "CrtRGBJamma.h"
 
 CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
 {
@@ -48,6 +49,8 @@ ICrtInterface* CrtAdapterDetector::CreateCrtBoard()
     case CrtAdapterType::RGBPi: return new CrtRGBPi(automatic);
     case CrtAdapterType::Pi2Scart: return new CrtPi2Scart(automatic);
     case CrtAdapterType::RGBDual: return new CrtRGBDual(automatic);
+    case CrtAdapterType::RGBJamma: return new CrtRGBJamma(automatic);
+    case CrtAdapterType::RGBJammaV2: return new CrtRGBJamma(automatic);
     case CrtAdapterType::None:
     default: break;
   }

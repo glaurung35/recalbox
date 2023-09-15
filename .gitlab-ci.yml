@@ -187,6 +187,9 @@ tests nvidia:
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "patron";then
         sed -i "s/^updates.type=.*/updates.type=patron/g" package/recalbox-system/*/recalbox.conf
       fi
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "jamma";then
+        sed -i "s/^updates.type=.*/updates.type=jamma/g" package/recalbox-system/*/recalbox.conf
+      fi
     # Build
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
@@ -368,6 +371,18 @@ release patron:
     BUCKET: recalbox-archive-patron
   environment:
     name: patron/${CI_COMMIT_REF_SLUG}
+
+release jamma:
+  <<: *release_definition
+  only:
+    refs:
+      - tags
+  when: manual
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-jamma
+  environment:
+    name: jamma/${CI_COMMIT_REF_SLUG}
 
 release branch:
   <<: *release_definition

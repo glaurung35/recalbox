@@ -179,7 +179,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG "Select emulationstation resolution. 480i is recommended for better details."
     #define MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG "Let you choice between 50Hz and 60Hz at launch, for compatible systems."
     #define MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG "Let you choice between 240p, 480i, or 480p at launch, for compatible systems."
-    #define MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG "Configure emulators to approach a zero lag experience."
+    #define MENUMESSAGE_ADVANCED_CRT_REDUCE_LATENCY_HELP_MSG "Configure emulators to reduce latency."
+    #define MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG "Use run ahead to reduce latency. Can have undesired effect on some emulators."
     #define MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG "Run the demos in 240p resolution on you 31kHz monitor."
     #define MENUMESSAGE_ADVANCED_CRT_FRONTEND_RESOLUTION_ON_31KHZ_HELP_MSG "Run the frontend in 240p resolution on you 31kHz monitor."
     #define MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG "Add scanlines when running games in 480p on 31kHz screen."
@@ -191,6 +192,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_V2 "Use experimental CRT V2 implementation. Works only on selected systems."
     #define MENUMESSAGE_ADVANCED_CRT_EXTENDED "Uses a range at the edge of the CRT support to increase image quality."
     #define MENUMESSAGE_ADVANCED_CRT_SUPERREZ "Superrez can increase image quality depending on your CRT."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG "Number of button on your arcade cab panel."
 
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."

@@ -61,13 +61,17 @@ getInstallUpgradeImagePath() {
 getCrtMpvOptions() {
   local connector="1.VGA-1"
   local arch="$(getArchName)"
-  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then 
+  if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then
     echo ""
     return
   fi
-  if mpv --drm-mode=help | grep -q "640x480"; then
-    echo "--vo=drm --drm-connector=${connector} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+  local command="--vo=drm --drm-connector=${connector}"
+  if ! isRecalboxRGBJamma; then
+      if mpv --drm-mode=help | grep -q "640x480"; then
+        command="${command} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
+      fi
   fi
+  echo "${command}"
 }
 
 # findConnectedConnectors
@@ -78,10 +82,15 @@ findConnectedConnectors() {
 
 isLowDef() {
     if [ "$(cut -d, -f2 /sys/class/graphics/fb0/virtual_size)" -le 320 ] \
-       && ! isRecalboxRGBDual; then
+       && ! isCRTLoaded; then
       return 0
     fi
     return 1
+}
+
+# Return if a crt is connected
+currentVideoOnCRT() {
+    grep "connected" /sys/class/drm/card*-VGA*/status
 }
 
 # Check if we are on Recalbox RGB Dual
@@ -97,6 +106,10 @@ isRecalboxRGBDual() {
 # Check if we are on Recalbox RGB Dual
 isCRTLoaded() {
   lsmod | grep -q "^recalboxrgbdual"
+}
+
+isRecalboxRGBJamma() {
+    isCRTLoaded && lsmod | grep -q "^recalboxrgbjamma"
 }
 
 # Check if we have to disable HDMI
@@ -145,7 +158,7 @@ getMpvOptions() {
             rotationcli="--video-rotate=180"
         fi
     fi
-    if isRecalboxRGBDual; then
+    if currentVideoOnCRT; then
         echo "${rotationcli} $(getCrtMpvOptions)"
     else
         echo "${rotationcli}"
@@ -230,12 +243,14 @@ isOldIntelChipset() {
 #   displays our intro background via the framebuffer
 displayFrameBufferImage() {
     if isRotated; then
-        fbv2 -f -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
+        fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
     else
-        if isLowDef && ! isRecalboxRGBDual; then
-            fbv2 -f -i /recalbox/system/resources/splash/240p/logo-version.png
+        if isRecalboxRGBJamma; then
+            fbv2 -f -i /recalbox/system/resources/splash/recalbox-rgb-jamma.png
+        elif isLowDef && ! isRecalboxRGBDual; then
+            fbv2 -k -i /recalbox/system/resources/splash/240p/logo-version.png
         else
-            fbv2 -f -i /recalbox/system/resources/splash/logo-version.png
+            fbv2 -k -i /recalbox/system/resources/splash/logo-version.png
         fi
     fi
 }

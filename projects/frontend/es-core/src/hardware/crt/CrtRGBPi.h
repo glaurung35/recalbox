@@ -31,4 +31,8 @@ class CrtRGBPi : public ICrtInterface
 
     //! This adapter cannot force 50hz
     bool MustForce50Hz() const override { return false; }
+
+    std::string& Name() const override { static std::string adapterString("RGBPi"); return adapterString; }
+
+    std::string& ShortName() const override { static std::string adapterShortString("rgbpi"); return adapterShortString; }
 };

@@ -19,7 +19,10 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   : GuiMenuBase(window, _("CRT SETTINGS"), this)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
+  bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
+  bool supports120Hz = is31kHz && Board::Instance().CrtBoard().Has120HzSupport();
+  bool multisync = Board::Instance().CrtBoard().MultiSyncEnabled();
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
   // Selected Dac
@@ -27,7 +30,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
   // Resolution
   mOriginalEsResolution = is31kHz ? CrtConf::Instance().GetSystemCRT31kHzResolution() : CrtConf::Instance().GetSystemCRTResolution();
-  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz && !multisync, supports120Hz, multisync), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
   if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
@@ -50,14 +53,20 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   if(is31kHz)
   {
     // Demo Game Resolution on 31khz
-    AddSwitch(_("RUN DEMOS IN 240P@120"), CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz(), (int)Components::DemoIn240pOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
-
+    if (supports120Hz)
+      AddSwitch(_("RUN DEMOS IN 240P@120"), CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz(),
+                (int) Components::DemoIn240pOn31kHz, this,
+                _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+  }
+  if(multisync || is31kHz)
+  {
     // Scanlines on 31kHz resolution
-    AddSwitch(_("SCANLINES IN 480P"), CrtConf::Instance().GetSystemCRTScanlines31kHz(), (int)Components::ScanlinesOn31kHz, this, _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
+    AddList<CrtScanlines>(_("SCANLINES FOR 240P GAMES IN 480"), (int)Components::ScanlinesOn31kHz, this, GetScanlinesEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG));
   }
 
   // Zero Lag
-  AddSwitch(_("ZERO LAG (BETA)"), RecalboxConf::Instance().GetGlobalZeroLag(), (int)Components::ZeroLag, this, _(MENUMESSAGE_ADVANCED_CRT_ZERO_LAG_HELP_MSG));
+  AddSwitch(_("REDUCED LATENCY (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalReduceLatency(), (int)Components::ReduceLatency, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
+  AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
 #if defined(BETA) || defined(DEBUG)
   // ConfiggenV2
@@ -75,6 +84,27 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   mForceJack = mOriginalForceJack;
   if(isRGBDual)
     AddSwitch(_("FORCE SOUND ON JACK"), mOriginalForceJack, (int)Components::ForceJack, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_JACK_HELP_MSG));
+
+
+  // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
+  if(isRGBJamma)
+  {
+
+    AddList<String>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
+                         std::vector<GuiMenuBase::ListEntry<String>>(
+                             {{ "1-3 buttons", "3", !CrtConf::Instance().GetSystemCRTJamma6Btns() },
+                              { "4-6 buttons", "6", CrtConf::Instance().GetSystemCRTJamma6Btns() }}),
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+    bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
+    AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
+                         std::vector<GuiMenuBase::ListEntry<String>>(
+                             {{ "Line", "line", neoline },
+                              { "Square", "square", !neoline }}),
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+    AddSwitch(_("HOTKEY PATTERNS"), CrtConf::Instance().GetSystemCRTJammaHotkeyPatterns(),
+              (int)Components::JammaHotkeyPatterns, this);
+
+  }
 
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
@@ -100,12 +130,13 @@ String GuiMenuCRT::GetHorizontalFrequency()
   String result = "15khz";
   switch(Board::Instance().CrtBoard().GetHorizontalFrequency())
   {
-    case ICrtInterface::HorizontalFrequency::KHz31: result = "31khz";
+    case ICrtInterface::HorizontalFrequency::KHz31: result = "31khz"; break;
+    case ICrtInterface::HorizontalFrequency::KHzMulti: result = "MultiSync"; break;
     case ICrtInterface::HorizontalFrequency::KHz15:
     default: break;
   }
   if (Board::Instance().CrtBoard().Has31KhzSupport())
-    result.Append(' ').Append(_("(Hardware managed)"));
+    result.Append( ' ').Append(_("(Hardware managed)"));
 
   return result;
 }
@@ -128,6 +159,8 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   Adapters[] =
   {
     { "Recalbox RGB Dual", CrtAdapterType::RGBDual },
+    { "Recalbox RGB Jamma", CrtAdapterType::RGBJamma },
+    { "Recalbox RGB Jamma Proto" , CrtAdapterType::RGBJammaV2 },
     { "VGA666", CrtAdapterType::Vga666 },
     { "RGBPi", CrtAdapterType::RGBPi },
     { "Pi2SCART", CrtAdapterType::Pi2Scart },
@@ -146,7 +179,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz)
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync)
 {
   std::vector<GuiMenuBase::ListEntry<String>> list;
 
@@ -154,12 +187,18 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(b
   {
     bool is480 = CrtConf::Instance().GetSystemCRT31kHzResolution() == "480";
     list.push_back({ "480p", "480", is480 });
-    list.push_back({ "240p@120Hz", "240", !is480 });
+    if(supports120Hz)
+      list.push_back({ "240p@120Hz", "240", !is480 });
     return list;
   } else {
     bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
     list.push_back({ "240p", "240", rdef });
-    list.push_back({ "480i", "480", !rdef });
+    if(multisync)
+    {
+      list.push_back({ "480p", "480", !rdef });
+    } else {
+      list.push_back({ "480i", "480", !rdef });
+    }
   }
 
   return list;
@@ -174,6 +213,18 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetSuperRezEntries()
   list.push_back({ "ORIGINAL", "original", selected == "original" });
   list.push_back({ "X2", "x2", selected == "x2" });
   list.push_back({ "x8", "x8", selected == "x8" });
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<CrtScanlines>> GuiMenuCRT::GetScanlinesEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<CrtScanlines>> list;
+  CrtScanlines selected = CrtConf::Instance().GetSystemCRTScanlines31kHz();
+
+  list.push_back({ "NONE", CrtScanlines::None, selected == CrtScanlines::None });
+  list.push_back({ "LIGHT", CrtScanlines::Light, selected == CrtScanlines::Light });
+  list.push_back({ "MEDIUM", CrtScanlines::Medium, selected == CrtScanlines::Medium });
+  list.push_back({ "HEAVY", CrtScanlines::Heavy, selected == CrtScanlines::Heavy });
   return list;
 }
 
@@ -198,12 +249,24 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
   }
 }
 
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanlines& value)
+{
+  (void)index;
+  if ((Components)id == Components::ScanlinesOn31kHz)
+  {
+    CrtConf::Instance().SetSystemCRTScanlines31kHz(value).Save();
+  }
+}
+
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
-    if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+    if(Board::Instance().CrtBoard().MultiSyncEnabled()){
+      CrtConf::Instance().SetSystemCRTResolution(value).Save();
+    }
+    else if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
       CrtConf::Instance().SetSystemCRT31kHzResolution(value).Save();
     } else {
@@ -211,9 +274,20 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
     }
   }
   else if ((Components)id == Components::SuperRez)
-    {
-      CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
-    }
+  {
+    CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
+  }
+  else if ((Components)id == Components::Jamma6btns)
+  {
+    if (value == "3")
+      CrtConf::Instance().SetSystemCRTJamma6Btns(false).Save();
+    else if (value == "6")
+      CrtConf::Instance().SetSystemCRTJamma6Btns(true).Save();
+  }
+  else if ((Components)id == Components::JammaNeogeoLayout)
+  {
+    CrtConf::Instance().SetSystemCRTJammaNeogeoLayout(value).Save();
+  }
 }
 
 void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
@@ -224,14 +298,16 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTGameResolutionSelect(status).Save();
   if ((Components)id == Components::DemoIn240pOn31kHz)
     CrtConf::Instance().SetSystemCRTRunDemoIn240pOn31kHz(status).Save();
-  if ((Components)id == Components::ScanlinesOn31kHz)
-    CrtConf::Instance().SetSystemCRTScanlines31kHz(status).Save();
-  if ((Components)id == Components::ZeroLag)
-    RecalboxConf::Instance().SetGlobalZeroLag(status).Save();
+  if ((Components)id == Components::ReduceLatency)
+    RecalboxConf::Instance().SetGlobalReduceLatency(status).Save();
+  if ((Components)id == Components::RunAhead)
+    RecalboxConf::Instance().SetGlobalRunAhead(status).Save();
   if ((Components)id == Components::UseV2)
     CrtConf::Instance().SetSystemCRTUseV2(status).Save();
   if ((Components)id == Components::Extended15kHzRange)
     CrtConf::Instance().SetSystemCRTExtended15KhzRange(status).Save();
+  if ((Components)id == Components::JammaHotkeyPatterns)
+    CrtConf::Instance().SetSystemCRTJammaHotkeyPatterns(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

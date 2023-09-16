@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump RetroArch to version 1.15.0
 - Bump libretro-mame to 0.258
 - Bump odroidxu4 kernel to 6.1.49
+- Bump libretro fbneo to 6b6ba3
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

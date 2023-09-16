@@ -105,7 +105,8 @@ class Updater:
             except:
                 print("  mame {} seems to be the latest version!".format(mameVersion))
             print("  Uncrunching {}".format(self.sMameZip))
-            os.system("7z e -y -o/tmp {} >/dev/null".format(self.sMameZip))
+            if os.system("7z e -y -o/tmp {} >/dev/null".format(self.sMameZip)) != 0:
+                os.system("7zz e -y -o/tmp {} >/dev/null".format(self.sMameZip))
             if not os.path.exists(mameXml) or not os.path.exists(mameDat):
                 print("Cannot extract {} and/or {}".format(mameDat, mameXml))
                 sys.exit(0)

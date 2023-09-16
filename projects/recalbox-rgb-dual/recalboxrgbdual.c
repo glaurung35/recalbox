@@ -63,6 +63,7 @@ static enum HatReference {
 static struct sconfig {
   struct gpiodesc dip50Hz;
   struct gpiodesc dip31kHz;
+  struct gpiodesc video_filter;
   enum HatReference current_hat;
   bool multisync;
   bool desktop480p;
@@ -612,6 +613,18 @@ static int dpidac_probe(struct platform_device *pdev) {
   } else if(rgbjamma == 1) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
     config.current_hat = RecalboxRGBJAMMA;
+
+    /* Switch video filter */
+    config.video_filter.gpio = devm_gpiod_get_index(&(pdev->dev), "videofilter", 0, GPIOD_OUT_HIGH);
+    if (IS_ERR(config.video_filter.gpio)) {
+      pr_err("Error when assigning GPIO to video_filter.\n");
+    }
+    config.video_filter.gpio_state = 1;
+    gpiod_set_value(config.video_filter.gpio, 1);
+    gpiod_export(config.video_filter.gpio, false);
+    gpiod_export_link(&pdev->dev, "jamma-video-filter", config.video_filter.gpio);
+
+
     config.dip50Hz.gpio_state = 1;
     config.dip31kHz.gpio_state = 1;
   } else {

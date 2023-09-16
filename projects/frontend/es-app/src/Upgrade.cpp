@@ -124,7 +124,7 @@ String Upgrade::GetDomainName()
   if(target == "patron")
     target = "not-existing";
   // And if we are a patron, we can upgrade
-  if (PatronInfo::Instance().IsPatron() && target != "alpha")
+  if (PatronInfo::Instance().IsPatron() && target != "alpha" && target != "jamma")
     target = "patron";
   target.Remove(' ');
   String domain(target);

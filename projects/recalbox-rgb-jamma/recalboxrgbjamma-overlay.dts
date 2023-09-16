@@ -21,6 +21,11 @@
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
+        videofilter_gpio: videofilter_gpio_conf {
+          brcm,pins = <11>; // GPIO 11
+          brcm,function = <1>; // Output
+          brcm,pull = <0>; // Pull up
+        };
 
       };
   };
@@ -36,6 +41,9 @@
 
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-jamma = <1>;
+				videofilter-gpios = <&gpio 11 1>;
+				pinctrl-0 = <&videofilter_gpio>;
+				pinctrl-names = "default";
 
 				ports {
 					#address-cells = <1>;

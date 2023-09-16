@@ -58,7 +58,7 @@
 
 #define PCA_CHIP_TYPE(x)  ((x) & PCA_TYPE_MASK)
 
-#define DEBUG 1
+#define DEBUG 0
 
 static const struct i2c_device_id pca953x_id[] = {
     {"recalboxrgbjamma", 16 | PCA953X_TYPE | PCA_INT,},

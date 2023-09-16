@@ -243,9 +243,9 @@ class LibretroControllers:
         print(f"player n°{playerIndex} controller n°{inputIndex} ({controller.DeviceName} at {controller.DevicePath})")
         is_jamma = controller.DeviceName.startswith("JammaController")
         if is_jamma:
-            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), system.JammaLayout.toRetroarchDeviceType())
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), system.JammaLayout.toRetroarchDeviceType())
         else:
-            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex), "1")
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), "1")
 
         # config['input_device'] = '"%s"' % controller.RealName
         for btnkey in self.retroarchbtns:

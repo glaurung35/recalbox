@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 
 GTMP="/tmp"
@@ -91,6 +91,13 @@ f_cp /var/log/Xorg.0.log                                          "${DSYSTEM}"
 f_cp /recalbox/share_init/system/.emulationstation/systemlist.xml "${DSYSTEM}/share_init_systemlist.xml"
 f_cp /recalbox/share/system/.emulationstation/systemlist.xml      "${DSYSTEM}/share_systemlist.xml"
 find /recalbox/share/roms/ -type f \( ! -iname "*.txt" ! -iname "*.xml" ! -iname "*.png" ! -iname "*.jpg" ! -iname "*.dat" \) ! -path "*/data/*" | wc -l > "${DSYSTEM}/approxnbroms.txt"
+
+# recalbox.conf filter
+recalbox_conf_keys_to_filter=("wifi.\?.key" "wifi.\?.ssid" "patron.privatekey" "global.retroachievements.username" "global.retroachievements.password" "scraper.screenscraper.user" "scraper.screenscraper.password")
+for KEY in "${recalbox_conf_keys_to_filter[@]}"; do sed -i "s/\(${KEY}=\).\+/\1******/g" "${DSYSTEM}/recalbox.conf"; done
+
+# recalbox-boot.conf filter
+sed -i "s/\(password=\)[^,]\+/\1******/g" "${DSYSTEM}/boot/recalbox-boot.conf"
 
 # Themes
 ls -1 /recalbox/share/themes                               > "${DSYSTEM}/share_themes.txt"

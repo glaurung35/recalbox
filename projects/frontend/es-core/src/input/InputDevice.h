@@ -56,6 +56,7 @@ class InputDevice
   private:
     InputEvent mInputEvents[(int)Entry::__Count]; //!< Entry configurations
     String mDeviceName;                           //!< Device name: Keyboard or Pad/joystick name
+    String mUDevDeviceName;                       //!< Device name as declared in low level udev device
     SDL_JoystickGUID mDeviceGUID;                 //!< GUID
     SDL_Joystick* mDeviceSDL;                     //!< SDL2 structure
     int mDeviceId;                                //!< SDL2 Joystick Identifier
@@ -170,6 +171,7 @@ class InputDevice
      */
     InputDevice()
       : mDeviceName {}
+      , mUDevDeviceName {}
       , mDeviceGUID {}
       , mDeviceSDL(nullptr)
       , mDeviceId(0)
@@ -217,7 +219,8 @@ class InputDevice
      * Accessors
      */
 
-    [[nodiscard]] String Name() const { return mDeviceName; }
+    //[[nodiscard]] String Name() const { return mDeviceName; }   // Original naming
+    [[nodiscard]] String Name() const { return mUDevDeviceName; } // New naming
     [[nodiscard]] String NameExtented() const;
     [[nodiscard]] String GUID() const { char sguid[64]; SDL_JoystickGetGUIDString(mDeviceGUID, sguid, sizeof(sguid)); return sguid; }
     [[nodiscard]] const SDL_JoystickGUID& RawGUID() const { return mDeviceGUID; }
@@ -262,6 +265,13 @@ class InputDevice
      * @param source source object to copy configuration
      */
     void LoadFrom(const InputDevice& source);
+
+    /*
+     * Non SDL2 LowLevel
+     */
+
+    //! Get low level name or return SDL2 name if it fails
+    String LowLevelName(int index);
 
     /*
      * Manage entries

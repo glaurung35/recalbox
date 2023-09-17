@@ -158,6 +158,7 @@ set(COMMON_LIBRARIES
     pugixml
     nanosvg
     liboping
+    udev
 )
 
 if(MSVC)

@@ -1,7 +1,13 @@
 #include "InputDevice.h"
 #include "InputEvent.h"
+#include "utils/udev/UDevDevice.h"
+#include "utils/udev/UDev.h"
+#include "utils/udev/UDevEnumerate.h"
 #include <utils/String.h>
 #include <SDL2/SDL.h>
+#include <linux/input.h>
+#include <fcntl.h>
+#include <unistd.h>
 
 unsigned int InputDevice::mReferenceTimes[32];
 
@@ -83,6 +89,7 @@ InputDevice::Entry InputDevice::StringToEntry(const String& entry)
 
 InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int deviceIndex, const String& deviceName, const SDL_JoystickGUID& deviceGUID, int deviceNbAxes, int deviceNbHats, int deviceNbButtons)
   : mDeviceName(deviceName)
+  , mUDevDeviceName(LowLevelName(deviceIndex)) // Default SDL2 name
   , mDeviceGUID(deviceGUID)
   , mDeviceSDL(device)
   , mDeviceId(deviceId)
@@ -124,7 +131,7 @@ void InputDevice::LoadFrom(const InputDevice& source)
 
 String InputDevice::NameExtented() const
 {
-  String result(mDeviceName);
+  String result(Name());
   String powerLevel = PowerLevel();
   if (!powerLevel.empty())
     result.Append(' ').Append(powerLevel);
@@ -703,4 +710,29 @@ bool InputDevice::CheckNeutralPosition() const
       return false;
   }
   return true;
+}
+
+String InputDevice::LowLevelName([[maybe_unused]] int index)
+{
+  if (index >= 0)
+  {
+    #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
+    const char* devicePath = SDL_JoystickDevicePathById(index);
+    #else
+      #ifdef _RECALBOX_PRODUCTION_BUILD_
+        #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
+      #endif
+    const char* devicePath = "/dev/input/event11"; // Bkg2k's dev machine first pad
+    #endif
+
+    UDev udev;
+    UDevEnumerate::DeviceList list = UDevEnumerate(udev).MatchSysname(Path(devicePath).Filename()).List();
+    if (list.size() == 1)
+    {
+      const UDevDevice& device = list[0];
+      String newName = device.PropertyDecode("ID_VENDOR_ENC").Append(' ').Append(device.PropertyDecode("ID_MODEL_ENC"));
+      if (!newName.empty()) return newName;
+    }
+  }
+  return mDeviceName;
 }

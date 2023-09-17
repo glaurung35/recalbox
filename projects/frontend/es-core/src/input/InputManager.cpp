@@ -16,8 +16,8 @@
 
 InputManager::InputManager()
   : mIndexToId {}
-  , mKeyboard(nullptr, InputEvent::sKeyboardDevice, -1, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
-  , mMousse(nullptr, InputEvent::sMousseDevice, 0, "Mousse", KEYBOARD_GUID_STRING, 0, 0, 5)
+  , mKeyboard(nullptr, InputEvent::sKeyboardDevice, (int)InputEvent::sKeyboardDevice, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
+  , mMousse(nullptr, InputEvent::sMouseDevice, (int)InputEvent::sMouseDevice, "Mouse", KEYBOARD_GUID_STRING, 0, 0, 5)
   , mScancodeStates()
   , mScancodePreviousStates()
   , mJoystickChangePending(false)
@@ -57,7 +57,7 @@ InputDevice& InputManager::GetDeviceConfigurationFromId(SDL_JoystickID deviceId)
     return *device;
 
   { LOG(LogError) << "[Input] Unexisting device!"; }
-  static InputDevice sEmptyDevice(nullptr, InputEvent::sEmptyDevice, -1, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
+  static InputDevice sEmptyDevice(nullptr, InputEvent::sEmptyDevice, (int)InputEvent::sEmptyDevice, "Empty Device", EMPTY_GUID_STRING, 0, 0, 0);
   return sEmptyDevice;
 }
 
@@ -127,8 +127,8 @@ void InputManager::LoadDefaultKeyboardConfiguration()
   //WriteDeviceXmlConfiguration(mKeyboard);
 
   mMousse.ClearAll();
-  mMousse.Set(InputDevice::Entry::B, InputEvent(InputEvent::sMousseDevice, InputEvent::EventType::Button, SDL_BUTTON_LEFT, 1));
-  mMousse.Set(InputDevice::Entry::A, InputEvent(InputEvent::sMousseDevice, InputEvent::EventType::Button, SDL_BUTTON_RIGHT, 1));
+  mMousse.Set(InputDevice::Entry::B, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::Button, SDL_BUTTON_LEFT, 1));
+  mMousse.Set(InputDevice::Entry::A, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::Button, SDL_BUTTON_RIGHT, 1));
 
   // Load configuration
   LookupDeviceXmlConfiguration(mKeyboard);

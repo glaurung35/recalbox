@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022-03-01
-LIBRETRO_FCEUMM_VERSION = 0b77d74f87da8ee50033afe9b8a0ebe38f38f31a
+# Commit of 2023/09/16
+LIBRETRO_FCEUMM_VERSION = 7fad08e5522e5396a1196055fc106be9b5d5de77
 LIBRETRO_FCEUMM_SITE = $(call github,libretro,libretro-fceumm,$(LIBRETRO_FCEUMM_VERSION))
 LIBRETRO_FCEUMM_LICENSE = GPL-2.0
 LIBRETRO_FCEUMM_LICENSE_FILES = Copying
@@ -21,6 +21,7 @@ endef
 define LIBRETRO_FCEUMM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/fceumm_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fceumm_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fds
 endef
 
 $(eval $(generic-package))

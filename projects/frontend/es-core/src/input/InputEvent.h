@@ -28,11 +28,11 @@ class InputEvent
 
   public:
     //! Define virtual default mousse device
-    static constexpr int sMousseDevice = 0;
+    static constexpr int sMouseDevice = -1;
     //! Define virtual default keyboard device
-    static constexpr int sKeyboardDevice = -1;
+    static constexpr int sKeyboardDevice = -2;
     //! Define empty device device
-    static constexpr int sEmptyDevice = -2;
+    static constexpr int sEmptyDevice = -3;
 
     /*!
      * @brief Default constructor

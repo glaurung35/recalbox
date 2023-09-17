@@ -1022,7 +1022,8 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
   }
 
   for(player = 0; player < TOTAL_PLAYERS; player++){
-    if (player > 0 || !start_credit) {
+    // Only process P1 if start + credit is not running
+    if (player > PLAYER1 || !start_credit) {
       input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
       input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
 

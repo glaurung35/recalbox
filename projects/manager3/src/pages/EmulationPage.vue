@@ -52,12 +52,6 @@
           icon="mdi-gamepad-variant-outline"
           name="controllers"
         />
-        <q-route-tab
-          :to="{ name: 'screenshots' }"
-          :label="$t('emulation.menu.screenshots')"
-          icon="mdi-camera-iris"
-          name="screenshots"
-        />
       </q-tabs>
     </transition>
 

@@ -266,15 +266,6 @@ def test_given_any_system_returns_overscan_active(mocker, system_snes: Emulator)
     assert libretro_config["video_crop_overscan"] == '"false"'
 
 
-def test_given_a_vertical_game_and_no_viewport_info_returns_core_1920_ratio(mocker, system_fbneo):
-    givenThoseFiles(mocker, {
-        ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,0,0,1",
-        MODES_TXT: "arcade:224@60.000000,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"
-    })
-    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
-        system_fbneo, "/recalbox/share/roms/mame/arkbl2.zip")
-    assert libretro_config["aspect_ratio_index"] == "25"
-
 
 def test_given_a_vertical_game_and_viewport_info_returns_custom_ratio(mocker, system_fbneo):
     givenThoseFiles(mocker, {
@@ -285,15 +276,6 @@ def test_given_a_vertical_game_and_viewport_info_returns_custom_ratio(mocker, sy
         system_fbneo, "/recalbox/share/roms/mame/arkbl2.zip")
     assert libretro_config["aspect_ratio_index"] == "23"
 
-
-def test_given_a_vertical_game_and_system_wide_viewport_info_core_1920_ratio(mocker, system_fbneo):
-    givenThoseFiles(mocker, {
-        ARCADE_TXT: "arkbl2,fbneo,arcade:224@60.000000,0,0,1",
-        MODES_TXT: "arcade:224@60.000000,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60"
-    })
-    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(
-        system_fbneo, "/recalbox/share/roms/mame/arkbl2.zip")
-    assert libretro_config["aspect_ratio_index"] == "25"
 
 
 def test_given_a_vertical_game_returns_bilinear_filtering(mocker, system_fbneo):
@@ -1157,3 +1139,20 @@ def test_given_any_yoko_game_and_jamma_then_return_fullscreen_ratio_and_integer_
 
     assert libretro_config["aspect_ratio_index"] == "23"
 
+def test_given_tate_game_on15khzyoko_then_return_a_timber_config(mocker, system_fbneo):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "espgal,fbneo,arcade:224@59.170000,0,0,1",
+        MODES_TXT: "arcade:224@59.170000,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39137405 1,59.170000"
+    })
+
+    emulator = configureForCrt(system_fbneo, rotation=0)
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "espgal.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"59.170000"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["video_scale_integer"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1008
+    assert config_lines["custom_viewport_height_ntsc"] == 224
+    assert config_lines["custom_viewport_x_ntsc"] == 456

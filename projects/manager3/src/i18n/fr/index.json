@@ -69,6 +69,7 @@
     "monitoring": "Monitoring",
     "settings": "Configuration",
     "emulation": "Émulation",
+    "screenshots": "Captures",
     "token": "Patreon"
   },
   "home": {
@@ -762,8 +763,7 @@
       "retroachievements": "retroachievements",
       "bios": "bios",
       "systems": "systèmes / roms",
-      "controllers": "contrôleurs",
-      "screenshots": "screenshots"
+      "controllers": "contrôleurs"
     },
     "global": {
       "display": {

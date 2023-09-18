@@ -23,7 +23,6 @@ const EmulationNetplayTabContent = () => import('components/emulation/EmulationN
 const EmulationRetroachievementsTabContent = () => import('components/emulation/EmulationRetroachievementsTabContent.vue');
 const EmulationBiosTabContent = () => import('components/emulation/EmulationBiosTabContent.vue');
 const EmulationControllersTabContent = () => import('components/emulation/EmulationControllersTabContent.vue');
-const EmulationScreenshotsTabContent = () => import('components/emulation/EmulationScreenshotsTabContent.vue');
 const EmulationSystemsContainer = () => import('components/emulation/EmulationSystemsRomsContainer.vue');
 const EmulationSystemsTabContent = () => import('components/emulation/EmulationSystemsRomsTabSystemsContent.vue');
 const EmulationSystemsTabSystemContent = () => import('components/emulation/EmulationSystemsRomsTabSystemContent.vue');
@@ -32,6 +31,8 @@ const VirtualDevicesLayout = () => import('layouts/VirtualDevicesLayout.vue');
 const VirtualKeyboard = () => import('components/virtualdevices/VirtualKeyboard.vue');
 const VirtualTrackpad = () => import('components/virtualdevices/VirtualTrackpad.vue');
 const VirtualGamepad = () => import('components/virtualdevices/VirtualGamepad.vue');
+
+const ScreenshotsPage = () => import('pages/ScreenshotsPage.vue');
 
 const TokenPage = () => import('pages/TokenPage.vue');
 
@@ -143,12 +144,12 @@ const routes: RouteRecordRaw[] = [
             name: 'controllers',
             component: EmulationControllersTabContent,
           },
-          {
-            path: 'screenshots',
-            name: 'screenshots',
-            component: EmulationScreenshotsTabContent,
-          },
         ],
+      },
+      {
+        path: 'screenshots',
+        name: 'screenshots',
+        component: ScreenshotsPage,
       },
       {
         path: 'token',

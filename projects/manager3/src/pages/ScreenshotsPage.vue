@@ -36,7 +36,7 @@
       <div v-if="screenshot.urlVideo">
         <q-card @click="openVideo(screenshot.urlVideo)" class="screenshot" flat rounded>
           <q-card-section horizontal>
-            <q-img src="../../assets/video-poster.jpg" class="col" loading="lazy">
+            <q-img src="../assets/video-poster.jpg" class="col" loading="lazy">
               <div
                 class="absolute-bottom text-white justify-between row items-start"
                 style="padding: .5em"

@@ -7,7 +7,7 @@
       color="primary"
       direction="up"
       flat
-      icon="mdi-help-circle-outline"
+      icon="mdi-cog"
       id="help-button"
       square
       vertical-actions-align="right"

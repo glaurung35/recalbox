@@ -39,15 +39,7 @@ class LibretroConfigCRT:
         config["aspect_ratio_index"] = '23'
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
 
-        if (system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and game_is_tate:
-            # Screen not rotated and tate
-            config["video_smooth"] = '"true"'
-            if viewport_height + viewport_width == 0:
-                # Change the ratio to 1920 core only if no viewport info is given
-                config["aspect_ratio_index"] = '25'
-            if mode.width / mode.height < 1.5:
-                # Change the ratio to core as we are 4/3 like mode (not super res)
-                config["aspect_ratio_index"] = '22'
+
 
         if ((system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and not game_is_tate) \
                 or ((system_rotation.value == Rotation.left or system_rotation.value == Rotation.right) and game_is_tate):
@@ -77,6 +69,22 @@ class LibretroConfigCRT:
                 final_y = 0
                 config["video_smooth"] = '"true"'
                 config["video_scale_integer"] = '"false"'
+
+        # Tate on yoko
+        if (system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and game_is_tate:
+            # Screen not rotated and tate
+            config["video_smooth"] = '"true"'
+            if viewport_height + viewport_width == 0:
+                # Change the ratio to 3/4
+                final_width = mode.height * (3/4) * (mode.width//(mode.height*4/3))
+                final_height = mode.height
+                final_x = (mode.width - final_width) // 2
+                final_y = 0
+                config["video_smooth"] = '"true"'
+                config["video_scale_integer"] = '"false"'
+            if mode.width / mode.height < 1.5:
+                # Change the ratio to core as we are 4/3 like mode (not super res)
+                config["aspect_ratio_index"] = '22'
 
         # Setting values
         for region in extension:
@@ -202,6 +210,7 @@ class LibretroConfigCRT:
             config["video_rotation"] = int(Rotation.upsidedown)
         if game_config.vertical:
             if system.Rotation == Rotation.none or system.Rotation == Rotation.upsidedown:
+                # Todo ratio 25 is not available anymore
                 config["aspect_ratio_index"] = "25"
                 config["video_smooth"] = '"true"'
                 config["video_scale_integer"] = '"false"'

@@ -78,6 +78,11 @@ const menuLinks: Array<object> = [
     route: 'emulation',
   },
   {
+    title: 'menu.screenshots',
+    icon: 'mdi-camera-iris',
+    route: 'screenshots',
+  },
+  {
     title: 'menu.token',
     icon: 'mdi-patreon',
     route: 'token',

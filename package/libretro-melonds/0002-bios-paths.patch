@@ -1,0 +1,11 @@
+--- a/src/libretro/libretro.cpp	2023-04-13 10:35:31.000000000 +0200
++++ b/src/libretro/libretro.cpp	2023-10-02 20:41:57.295181134 +0200
+@@ -796,7 +796,7 @@
+    */
+    cached_info = const_cast<retro_game_info*>(info);
+ 
+-   std::vector <std::string> required_roms = {"bios7.bin", "bios9.bin", "firmware.bin"};
++   std::vector <std::string> required_roms = {"nds/bios7.bin", "nds/bios9.bin", "nds/firmware.bin"};
+    std::vector <std::string> missing_roms;
+ 
+    // Check if any of the bioses / firmware files are missing

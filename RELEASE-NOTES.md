@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 - bump libretro-freechaf
 - Bump libretro-fmsx
 - Bump libretro-neocd
+- Bump libretro-mu
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

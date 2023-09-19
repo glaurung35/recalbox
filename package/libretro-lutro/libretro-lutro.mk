@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_LUTRO_VERSION = aff19c0817c49e16e6ada0851829ec3e737b2924
+# Commit of 2023/05/29
+LIBRETRO_LUTRO_VERSION = 09a134eccad87127ec757503f736d6e4f9d06d4c
 LIBRETRO_LUTRO_SITE = $(call github,libretro,libretro-lutro,$(LIBRETRO_LUTRO_VERSION))
 LIBRETRO_LUTRO_LICENSE = MIT
 LIBRETRO_LUTRO_LICENSE_FILES = LICENSE

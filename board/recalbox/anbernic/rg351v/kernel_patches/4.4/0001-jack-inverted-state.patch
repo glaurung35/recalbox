@@ -1,0 +1,25 @@
+From 658d08831c3606298cf4514629be2f2ec732c5eb Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Tue, 19 Sep 2023 21:53:09 +0200
+Subject: [PATCH] jack inverted state
+
+---
+ arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts b/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts
+index 7c63c70f3..5a7739563 100644
+--- a/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts
++++ b/arch/arm64/boot/dts/rockchip/rk3326-rg351v-linux.dts
+@@ -100,7 +100,7 @@
+ 			/*"IN1P", "Mic Jack",*/
+ 			"Headphone Jack", "HPOL",
+ 			"Headphone Jack", "HPOR";
+-		simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_HIGH>;
++		simple-audio-card,hp-det-gpio = <&gpio2 RK_PC6 GPIO_ACTIVE_LOW>;
+ 		simple-audio-card,codec-hp-det = <1>;
+ 		simple-audio-card,cpu {
+ 			sound-dai = <&i2s1_2ch>;
+-- 
+2.42.0
+

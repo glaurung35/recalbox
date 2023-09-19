@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_MELONDS_VERSION = 7bbf8e1606697f7591072d05b61fae84e8b49455
+# Commit of 2023/04/13
+LIBRETRO_MELONDS_VERSION = c6488c88cb4c7583dbcd61609e0eef441572fae8
 LIBRETRO_MELONDS_SITE = $(call github,libretro,melonds,$(LIBRETRO_MELONDS_VERSION))
 LIBRETRO_MELONDS_LICENSE = GPLv3
 
@@ -26,6 +27,7 @@ endef
 define LIBRETRO_MELONDS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/melonds_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/melonds_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/nds
 endef
 
 $(eval $(generic-package))

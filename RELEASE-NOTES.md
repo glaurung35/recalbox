@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-gambatte
 - Bump libretro-sameboy
 - Bump libretro-mgba
+- Bump libretro-meteor
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# commit of 2022/05/15
-LIBRETRO_NEOCD_VERSION = b7d96e794f2dfa500cba46c78cbc3c28349cfd05
+# Commit of 2021/02/21
+LIBRETRO_NEOCD_VERSION = 2070f5258c9d3feee15962f9db8c8ef20072ece8
 LIBRETRO_NEOCD_SITE = https://github.com/libretro/neocd_libretro.git
 LIBRETRO_NEOCD_LICENSE = LGPLv3
 

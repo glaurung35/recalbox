@@ -233,6 +233,30 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-picodrive
 - Bump hatari
 
+### Improvements
+- Show a battery indicator in EmulationStation for Piboy DMG and XRS
+- Removed unplugged pads from the pad list
+- Unplugged/plugged-in pads keep their positions
+- Bluetooth auto-pairing is started at each boot now
+- Add new softpatching LAUNCH LAST option
+- Disable unnecessary services when use the Recalbox RGB Jamma
+- Allow starting an update stright from the update popup
+- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
+
+### Fixes
+- Fix argonone case power management
+- Fix gpu overclock when overclocking on RPi4
+- Fix multi-wifi configuration
+- Fix demo Astebros for megadrive
+- Fix analog stick with inverted axis behaviour
+- Fix odroidxu4 OGST video not playing
+- Removed LinApple from PC
+- Fix headphone audio output on Anbernic rg353v
+- Fix not mappables pads
+- Fix some pandorabox controllers for 2 players
+- Fix some Xbox 360 pad issues
+- Fix vulkan support on rpi5
+- Fix daphne games scrap
 
 ## Version 9.1-Pulstar
 

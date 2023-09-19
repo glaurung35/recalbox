@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_FCEUNEXT_VERSION = ebd46a592c23a8091abd72e74cf0d9f4517769e1
+# Commit of 2023/01/09
+LIBRETRO_FCEUNEXT_VERSION = 204a5a1bba98dadea6ee3eb28cf74fa25089c161
 LIBRETRO_FCEUNEXT_SITE = $(call github,libretro,fceu-next,$(LIBRETRO_FCEUNEXT_VERSION))
 LIBRETRO_FCEUNEXT_LICENSE = GPL-2.0
 LIBRETRO_FCEUNEXT_LICENSE_FILES = fceumm-code/Copying

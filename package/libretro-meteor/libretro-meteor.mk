@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_METEOR_VERSION = 3d21e3b5a7596918bee0fcaca5752ae76624c05e
+# Commit of 2020/12/28
+LIBRETRO_METEOR_VERSION = e533d300d0561564451bde55a2b73119c768453c
 LIBRETRO_METEOR_SITE = $(call github,libretro,meteor-libretro,$(LIBRETRO_METEOR_VERSION))
 LIBRETRO_METEOR_LICENSE = GPL-3.0
 LIBRETRO_METEOR_LICENSE_FILES = COPYING

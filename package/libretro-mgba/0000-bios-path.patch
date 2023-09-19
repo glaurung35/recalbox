@@ -1,0 +1,48 @@
+--- a/src/platform/libretro/libretro.c	2023-05-28 05:56:40.000000000 +0200
++++ b/src/platform/libretro/libretro.c	2023-10-03 13:11:25.656205513 +0200
+@@ -2067,6 +2067,7 @@
+ 
+ 	const char* sysDir = 0;
+ 	const char* biosName = 0;
++	const char* biosSystem = 0;
+ 	char biosPath[PATH_MAX];
+ 	environCallback(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &sysDir);
+ 
+@@ -2074,6 +2075,7 @@
+ 	if (core->platform(core) == mPLATFORM_GBA) {
+ 		core->setPeripheral(core, mPERIPH_GBA_LUMINANCE, &lux);
+ 		biosName = "gba_bios.bin";
++		biosSystem = "gba";
+ 	}
+ #endif
+ 
+@@ -2100,21 +2102,24 @@
+ 		switch (gb->model) {
+ 		case GB_MODEL_AGB:
+ 		case GB_MODEL_CGB:
+-			biosName = "gbc_bios.bin";
++			biosName = "gbc/gbc_bios.bin";
++			biosSystem = "gbc";
+ 			break;
+ 		case GB_MODEL_SGB:
+-			biosName = "sgb_bios.bin";
++			biosName = "sgb/sgb_bios.bin";
++			biosSystem = "sgb";
+ 			break;
+ 		case GB_MODEL_DMG:
+ 		default:
+-			biosName = "gb_bios.bin";
++			biosName = "gb/gb_bios.bin";
++			biosSystem = "gb";
+ 			break;
+ 		}
+ 	}
+ #endif
+ 
+-	if (core->opts.useBios && sysDir && biosName) {
+-		snprintf(biosPath, sizeof(biosPath), "%s%s%s", sysDir, PATH_SEP, biosName);
++	if (core->opts.useBios && sysDir && biosName && biosSystem) {
++		snprintf(biosPath, sizeof(biosPath), "%s%s%s%s%s", sysDir, PATH_SEP, biosSystem, PATH_SEP, biosName);
+ 		struct VFile* bios = VFileOpen(biosPath, O_RDONLY);
+ 		if (bios) {
+ 			core->loadBIOS(core, bios, 0);

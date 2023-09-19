@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-cheats to 1.15.0
 - Bump libretro-gambatte
 - Bump libretro-sameboy
+- Bump libretro-mgba
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

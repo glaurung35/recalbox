@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_DESMUME_VERSION = 6f520c816303a00a777817dc6a1a8d04ced336ea
+# Commit of 2023/10/06
+LIBRETRO_DESMUME_VERSION = 4ee1bb1d6a6c9695baea49d0c2dff34c10187502
 LIBRETRO_DESMUME_SITE = $(call github,libretro,desmume,$(LIBRETRO_DESMUME_VERSION))
 LIBRETRO_DESMUME_DEPENDENCIES = libpcap
 LIBRETRO_DESMUME_LICENSE = GPL-2.0+
@@ -28,6 +29,7 @@ endef
 define LIBRETRO_DESMUME_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/desmume/src/frontend/libretro/desmume_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/desmume_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/nds
 endef
 
 $(eval $(generic-package))

@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_VB_VERSION = 005c4c8b5dbecc2dfecf81b61ecb497ee05c52cf
+# Commit of 2023/05/28
+LIBRETRO_BEETLE_VB_VERSION = 732a8f701e671bf032165730fdf8bd96fb5ca7bb
 LIBRETRO_BEETLE_VB_SITE = $(call github,libretro,beetle-vb-libretro,$(LIBRETRO_BEETLE_VB_VERSION))
 LIBRETRO_BEETLE_VB_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_VB_LICENSE_FILES = COPYING

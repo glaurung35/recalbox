@@ -45,6 +45,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-mrboom
 - Bump libretro-minivmac
 - Bump libretro-mednafen_wswan
+- Bump libretro-mednafen_vb
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

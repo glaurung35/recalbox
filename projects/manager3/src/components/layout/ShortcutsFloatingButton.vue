@@ -3,9 +3,8 @@
 -->
 <template>
   <q-page-sticky
-    :offset="[18, 18]"
-    position="bottom-right"
-    style="transform: translate(-74px, 0px);"
+    position="bottom"
+    style="transform: translate(36px, 0px);"
   >
     <q-fab
       color="primary"

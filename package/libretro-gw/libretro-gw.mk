@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_GW_VERSION = 819b1dde560013003eeac86c2069c5be7af25c6d
+# Commit of 2023/05/28
+LIBRETRO_GW_VERSION = 0ecff52b11c327af52b22ea94b268c90472b6732
 LIBRETRO_GW_SITE = $(call github,libretro,gw-libretro,$(LIBRETRO_GW_VERSION))
 LIBRETRO_GW_LICENSE = ZLIB
 LIBRETRO_GW_LICENSE_FILES = LICENSE

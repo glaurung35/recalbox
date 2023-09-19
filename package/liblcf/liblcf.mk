@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBLCF_VERSION = eb1d54bc20bde934893b1badb15efb2c4777f9ec
+# Commit of 2023/09/20
+LIBLCF_VERSION = 87504151691830ab924daa89203c8b5d722b62c4
 LIBLCF_SITE = https://github.com/EasyRPG/liblcf.git
 LIBLCF_DEPENDENCIES = expat icu
 LIBLCF_SITE_METHOD = git

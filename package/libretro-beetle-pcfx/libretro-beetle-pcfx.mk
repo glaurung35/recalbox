@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_PCFX_VERSION = f0d284854a1973196c36590505f70c3404cc37b4
+# Commit of 2023/05/28
+LIBRETRO_BEETLE_PCFX_VERSION = 47c355b6a515aef6dc57f57df1535570108a0e21
 LIBRETRO_BEETLE_PCFX_SITE = $(call github,libretro,beetle-pcfx-libretro,$(LIBRETRO_BEETLE_PCFX_VERSION))
 LIBRETRO_BEETLE_PCFX_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_PCFX_LICENSE_FILES = COPYING
@@ -24,6 +25,7 @@ endef
 define LIBRETRO_BEETLE_PCFX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_pcfx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_pcfx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/pcfx
 endef
 
 $(eval $(generic-package))

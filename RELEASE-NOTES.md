@@ -35,6 +35,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-opera
 - Bump libretro-o2em
 - Bump libretro-freeintv
+- bump libretro-freechaf
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

@@ -3,9 +3,8 @@
 -->
 <template>
   <q-page-sticky
-    :offset="[18, 18]"
-    position="bottom-right"
-    style="transform: translate(-148px, 0px);"
+    position="bottom"
+    style="transform: translate(-38px, 0px);"
   >
     <q-btn
       padding="16px"

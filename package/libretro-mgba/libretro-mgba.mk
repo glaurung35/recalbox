@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Version of 22/08/2021
-LIBRETRO_MGBA_VERSION = 5ba012e530b81aa27b237bf646b4e0e37e3dadf9
+# Commit of 2023/05/28
+LIBRETRO_MGBA_VERSION = 314bf7b676f5b820f396209eb0c7d6fbe8103486
 LIBRETRO_MGBA_SITE = $(call github,libretro,mgba,$(LIBRETRO_MGBA_VERSION))
 LIBRETRO_MGBA_LICENSE = MPL-2.0
 LIBRETRO_MGBA_LICENSE_FILES = LICENSE
@@ -33,6 +33,10 @@ endef
 define LIBRETRO_MGBA_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mgba_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mgba_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gba
 endef
 
 $(eval $(generic-package))

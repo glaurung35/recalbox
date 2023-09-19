@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit version of 19/01/2022
-LIBRETRO_MAME2015_VERSION = e6a7aa4d53726e61498f68d6b8e2c092a2169fa2
+# Commit of 2022/07/14
+LIBRETRO_MAME2015_VERSION = 2599c8aeaf84f62fe16ea00daa460a19298c121c
 LIBRETRO_MAME2015_SITE = $(call github,libretro,mame2015-libretro,$(LIBRETRO_MAME2015_VERSION))
 LIBRETRO_MAME2015_LICENSE = MAME
 LIBRETRO_MAME2015_NON_COMMERCIAL = y

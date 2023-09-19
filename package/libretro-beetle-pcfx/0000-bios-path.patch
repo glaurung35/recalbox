@@ -1,0 +1,10 @@
+--- a/mednafen/settings.c	2023-05-28 05:58:56.000000000 +0200
++++ b/mednafen/settings.c	2023-10-02 23:41:59.791234610 +0200
+@@ -90,6 +90,6 @@
+ const char *MDFN_GetSettingS(const char *name)
+ {
+    if (!strcmp("pcfx.bios", name))
+-      return "pcfx.rom";
++      return "pcfx/pcfx.rom";
+    return 0;
+ }

@@ -53,6 +53,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-gearsystem
 - Bump libretro-gearcoleco
 - Bump libretro-fuse
+- Bump libretro-fceunext
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_LOWRES_NX_VERSION = f2b5c1d4ec95290081eb95fd8262bd25bdea31cc
+# Commit of 2023/03/23
+LIBRETRO_LOWRES_NX_VERSION = 10a48e309ac5284724010eea56372fbc72b9f975
 LIBRETRO_LOWRES_NX_SITE = $(call github,timoinutilis,lowres-nx,$(LIBRETRO_LOWRES_NX_VERSION))
 LIBRETRO_LOWRES_NX_LICENSE = ZLIB
 LIBRETRO_LOWRES_NX_LICENSE_FILES = LICENSE

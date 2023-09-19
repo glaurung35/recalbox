@@ -1,0 +1,27 @@
+--- a/src/libretro.c	2022-07-30 21:11:31.000000000 +0200
++++ b/src/libretro.c	2023-10-03 00:54:33.375961552 +0200
+@@ -183,13 +183,13 @@
+ 	Environ(RETRO_ENVIRONMENT_GET_SYSTEM_DIRECTORY, &SystemPath);
+ 
+ 	// load PSU 1 Update
+-	fill_pathname_join(PSU_1_Update_Path, SystemPath, "sl90025.bin", PATH_MAX_LENGTH);
++	fill_pathname_join(PSU_1_Update_Path, SystemPath, "channelf/sl90025.bin", PATH_MAX_LENGTH);
+ 	if(!MEMORY_loadSysROM_libretro(PSU_1_Update_Path, 0))
+ 	{
+ 		log_cb(RETRO_LOG_WARN, "[WARN] [FREECHAF] Failed loading Channel F II BIOS(1) from: %s\n", PSU_1_Update_Path);
+ 		
+ 		// load PSU 1 Original
+-		fill_pathname_join(PSU_1_Path, SystemPath, "sl31253.bin", PATH_MAX_LENGTH);
++		fill_pathname_join(PSU_1_Path, SystemPath, "channelf/sl31253.bin", PATH_MAX_LENGTH);
+ 		if(!MEMORY_loadSysROM_libretro(PSU_1_Path, 0))
+ 		{
+ 			log_cb(RETRO_LOG_WARN, "[WARN] [FREECHAF] Failed loading Channel F BIOS(1) from: %s\n", PSU_1_Path);
+@@ -199,7 +199,7 @@
+ 	}
+ 
+ 	// load PSU 2
+-	fill_pathname_join(PSU_2_Path, SystemPath, "sl31254.bin", PATH_MAX_LENGTH);
++	fill_pathname_join(PSU_2_Path, SystemPath, "channelf/sl31254.bin", PATH_MAX_LENGTH);
+ 	if(!MEMORY_loadSysROM_libretro(PSU_2_Path, 0x400))
+ 	{
+ 		log_cb(RETRO_LOG_WARN, "[WARN] [FREECHAF] Failed loading Channel F BIOS(2) from: %s\n", PSU_2_Path);

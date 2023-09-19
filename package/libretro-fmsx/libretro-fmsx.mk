@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_FMSX_VERSION = 3de916bbf15062de1ab322432d38a1fee29d5e68
+# Commit of 2023/04/17
+LIBRETRO_FMSX_VERSION = 1806eed4376fbe2fad82fa19271ea298cfbb7795
 LIBRETRO_FMSX_SITE = $(call github,libretro,fmsx-libretro,$(LIBRETRO_FMSX_VERSION))
 LIBRETRO_FMSX_LICENSE = COPYRIGHT
 LIBRETRO_FMSX_LICENSE_FILES = LICENSE
@@ -22,7 +23,8 @@ define LIBRETRO_FMSX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/fmsx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fmsx_libretro.so
 	# Copy required ROM images
-	cp -R $(@D)/fMSX/ROMs/* $(TARGET_DIR)/recalbox/share_upgrade/bios
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/msx
+	cp -R $(@D)/fMSX/ROMs/* $(TARGET_DIR)/recalbox/share_upgrade/bios/msx
 endef
 
 $(eval $(generic-package))

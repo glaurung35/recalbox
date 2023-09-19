@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_NGP_VERSION = 3d31f4ad9f8d8367ccf492f04640c8ca172ef81d
+# Commit of 2023/02/20
+LIBRETRO_BEETLE_NGP_VERSION = 65460e3a9ad529f6901caf669abbda11f437ab55
 LIBRETRO_BEETLE_NGP_SITE = $(call github,libretro,beetle-ngp-libretro,$(LIBRETRO_BEETLE_NGP_VERSION))
 LIBRETRO_BEETLE_NGP_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_NGP_LICENSE_FILES = COPYING

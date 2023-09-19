@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_MAME2000_VERSION = e5d4a934c60adc6d42a3f87319312aad89595a15
+# Commit of 2023/04/25
+LIBRETRO_MAME2000_VERSION = 720b8ad4cbd76abd57b9aeced9ba541dc8476f7f
 LIBRETRO_MAME2000_SITE = $(call github,libretro,mame2000-libretro,$(LIBRETRO_MAME2000_VERSION))
 LIBRETRO_MAME2000_LICENSE = MAME
 LIBRETRO_MAME2000_NON_COMMERCIAL = y

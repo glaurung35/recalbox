@@ -56,10 +56,10 @@ aliensyj|Alien Syndrome (Japan)|clone|sega/segas16b.cpp|0|320|224|60.054389||ali
 aliensyn|Alien Syndrome (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
 alleymas|Alley Master|parent|cinematronics/leland.cpp|270|320|240|60.000000||||Cinematronics
 alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|60.000000||||Taito
-alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|60.000000||alpine||Taito
-altbeas2|Altered Beast (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System16
-altbeast|Altered Beast (Version 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
+alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
+alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||alpine||Taito
+altbeas2|Altered Beast (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System 16
+altbeast|Altered Beast (Version 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16
 ambush|Ambush|parent|tecfri/ambush.cpp|0|256|224|60.606061||||Nippon Amuse
 amidar|Amidar|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Konami
 amidaro|Amidar (Olympia)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amidar||Konami/Olympia
@@ -77,7 +77,7 @@ apb2|APB - All Points Bulletin (set 2)|clone|atari/atarisy2.cpp|270|512|384|60.0
 appoooh|Appoooh|parent|sanritsu/appoooh.cpp|0|256|224|60.000000||||Sega
 arabian|Arabian|parent|sunelectronics/arabian.cpp|270|256|234|60.000000||||Sun Electronics
 arabiana|Arabian (Atari)|clone|sunelectronics/arabian.cpp|270|256|234|60.000000||arabian||Atari/Sun Electronics
-arbalest|Arbalester|parent|seta/seta.cpp|270|384|224|60.000000||||Seta
+arbalest|Arbalester|parent|seta/downtown.cpp|270|384|224|60.000000||||Seta
 arcadecl|Arcade Classics (prototype)|parent|atari/arcadecl.cpp|0|336|240|59.922743||||Atari
 archriv2|Arch Rivals (rev 2.0)|clone|midway/mcr68.cpp|0|512|480|30.000000||archrivl||Bally Midway
 archrivl|Arch Rivals (rev 4.0)|parent|midway/mcr68.cpp|0|512|480|30.000000||||Bally Midway
@@ -142,7 +142,7 @@ avalnche|Avalanche|parent|atari/avalnche.cpp|0|256|240|60.114504||||Atari
 avenger2|Avengers (set 2)|clone|capcom/lwings.cpp|90|256|240|60.000000||avengers||Capcom
 avengers|Avengers (set 1)|parent|capcom/lwings.cpp|90|256|240|60.000000||||Capcom
 avspirit|Avenging Spirit|parent|jaleco/megasys1.cpp|0|256|224|56.191350||||Jaleco
-aztarac|Aztarac|parent|misc/aztarac.cpp|0|||40.000000||||Centuri
+aztarac|Aztarac|parent|alliedleisure/aztarac.cpp|0|||40.000000||||Centuri
 azurian|Azurian Attack|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Rait Electronics
 baddudes|Bad Dudes vs. Dragonninja (US)|parent|dataeast/dec0.cpp|0|256|240|57.444853||||Data East
 badlands|Bad Lands|parent|atari/badlands.cpp|0|336|240|59.922743||||Atari
@@ -185,7 +185,7 @@ berzerk1|Berzerk (set 2)|clone|stern/berzerk.cpp|0|256|224|59.637405||berzerk||S
 bigprowr|The Big Pro Wrestling!|parent|technos/tagteam.cpp|270|256|240|57.000000||||Technos
 bigstrik|Big Striker|parent|jaleco/megasys1.cpp|0|256|224|56.191350||||Jaleco
 billiard|The Billiards|clone|galaxian/scobra.cpp|90|256|224|60.606061||hustler||
-bioatack|Bio Attack|parent|taito/taitosj.cpp|270|256|224|60.000000||||Fox Video Games/Taito
+bioatack|Bio Attack|parent|taito/taitosj.cpp|270|256|224|59.185606||||Fox Video Games/Taito
 bionicc|Bionic Commando (US set 1)|parent|capcom/bionicc.cpp|0|256|224|59.637405||||Capcom
 bionicc2|Bionic Commando (US set 2)|clone|capcom/bionicc.cpp|0|256|224|59.637405||bionicc||Capcom
 bjourney|Blue's Journey / Raguy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
@@ -220,7 +220,7 @@ bloodbro|Blood Bros.|parent|seibu/bloodbro.cpp|0|256|224|59.390000||||Tad
 blsthead|Blasteroids (with heads)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid||Atari
 blstroi2|Blasteroids (version 2)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid||Atari
 blstroid|Blasteroids (version 4)|parent|atari/blstroid.cpp|0|640|240|59.922748||||Atari
-blswhstl|Bells & Whistles|parent|konami/tmnt.cpp|90|320|224|60.000000||||Konami
+blswhstl|Bells & Whistles|parent|konami/tmnt2.cpp|90|320|224|60.000000||||Konami
 blueprnj|Blue Print (Jaleco)|clone|jaleco/blueprnt.cpp|270|256|224|60.000000||blueprnt||Jaleco/Zilec
 blueprnt|Blue Print (Midway)|parent|jaleco/blueprnt.cpp|270|256|224|60.000000||||Bally Midway/Zilec
 blueshrk|Blue Shark|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
@@ -277,7 +277,7 @@ cabal|Cabal (US set 1)|parent|seibu/cabal.cpp|0|256|224|59.600000||||Fabtek/Tad
 cabal2|Cabal (US set 2)|clone|seibu/cabal.cpp|0|256|224|59.600000||cabal||Fabtek/Tad
 cabalbl|Cabal (bootleg)|clone|seibu/cabal.cpp|0|256|224|60.000000||cabal||
 cachat|Cachat (Japan)|parent|taito/taito_l.cpp|0|320|224|60.000000||||Taito
-calibr50|Caliber 50|parent|seta/seta.cpp|270|384|240|57.420000||||Athena/Seta
+calibr50|Caliber 50|parent|seta/downtown.cpp|270|384|240|57.420000||||Athena/Seta
 calipso|Calipso|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Stern/Tago
 cameltru|Camel Try (US)|clone|taito/taito_f2.cpp|0|320|224|60.000000||cameltry||Taito
 cameltry|Camel Try (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
@@ -312,7 +312,7 @@ centipd2|Centipede (revision 2)|clone|atari/centiped.cpp|270|256|240|60.000000||
 centipdb|Centipede (bootleg set 1)|clone|atari/centiped.cpp|270|256|240|60.000000||centiped||
 centiped|Centipede (revision 3)|parent|atari/centiped.cpp|270|256|240|60.000000||||Atari
 cerberus|Cerberus|parent|cinematronics/leland.cpp|0|320|240|60.000000||||Cinematronics
-challeng|Challenger|parent|gameplan/gameplan.cpp|0|256|256|59.196429||||Centuri/Game Plan
+challeng|Challenger|parent|alliedleisure/killcom.cpp|270|256|256|59.196429||||Centuri/Game Plan
 champbas|Champion Baseball|parent|alpha/champbas.cpp|0|256|224|60.000000||||Sega
 champbb2|Champion Baseball II|parent|alpha/champbas.cpp|0|256|224|60.000000||||Sega
 champbbj|Champion Baseball (Japan)|clone|alpha/champbas.cpp|0|256|224|60.000000||champbas||Alpha Denshi
@@ -465,7 +465,7 @@ desertgu|Desert Gun|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
 destderb|Demolition Derby|parent|||||||||Bally Midway
 destderm|Demolition Derby (2-Player Mono Board Version)|clone|||||||destderb||Bally Midway
 desterth|Destination Earth|clone|midw8080/8080bw.cpp|270|260|224|59.541985||lrescue||
-detatwin|Detana!! Twin Bee (Japan)|clone|konami/tmnt.cpp|90|320|224|60.000000||blswhstl||Konami
+detatwin|Detana!! Twin Bee (Japan)|clone|konami/tmnt2.cpp|90|320|224|60.000000||blswhstl||Konami
 devilfsg|Devil Fish (Galaxian hardware, bootleg?)|clone|galaxian/scramble.cpp|90|256|224|60.606061||devilfsh||Artic/Vision
 devilfsh|Devil Fish|parent|galaxian/scramble.cpp|90|256|224|60.606061||||Artic
 devilw|Devil World|parent|konami/twin16.cpp|0|320|224|60.606061||||Konami
@@ -517,7 +517,7 @@ dotrone|Discs of Tron (Environmental)|clone|midway/mcr.cpp|0|512|480|30.000000||
 doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Technos
 douni|Mr. Do vs. Unicorns|clone|universal/docastle.cpp|270|240|192|59.659091||docastle||Universal
 dowild|Mr. Do's Wild Ride|parent|universal/docastle.cpp|0|240|192|59.659091||||Universal
-downtown|DownTown|parent|seta/seta.cpp|270|384|240|57.420000||||Seta
+downtown|DownTown|parent|seta/downtown.cpp|270|384|240|57.420000||||Seta
 dplay|Double Play|clone|midw8080/mw8080bw.cpp|0|260|224|59.541985||einnings||Midway
 dremshpr|Dream Shopper|parent|pacman/pacman.cpp|270|288|224|60.606061||||Sanritsu
 drgnbstr|Dragon Buster|parent|namco/skykid.cpp|0|288|224|60.606060||||Namco
@@ -547,8 +547,8 @@ eightman|Eight Man|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Pallas/
 einnings|Extra Innings|parent|||||||||Midway
 elecyoy2|The Electric Yo-Yo (set 2)|clone|taito/qix.cpp|270|256|256|55.838470||elecyoyo||Taito
 elecyoyo|The Electric Yo-Yo (set 1)|parent|taito/qix.cpp|270|256|256|55.838470||||Taito
-elevatob|Elevator Action (bootleg)|clone|taito/taitosj.cpp|0|256|224|60.000000||elevator||
-elevator|Elevator Action|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
+elevatob|Elevator Action (bootleg)|clone|taito/taitosj.cpp|0|256|224|59.185606||elevator||
+elevator|Elevator Action|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
 elim2|Eliminator (2 Players, set 1)|parent|sega/segag80v.cpp|180|||40.000000||||Gremlin
 elim2a|Eliminator (2 Players, set 2)|clone|sega/segag80v.cpp|180|||40.000000||elim2||Gremlin
 elim4|Eliminator (4 Players)|clone|sega/segag80v.cpp|180|||40.000000||elim2||Gremlin
@@ -639,7 +639,7 @@ froggrmc|Frogger (modified Moon Cresta hardware)|clone|galaxian/galaxian.cpp|90|
 frogs|Frogs|parent|sega/vicdual.cpp|0|256|224|60.000000||||Gremlin
 frogseg1|Frogger (Sega set 1)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||frogger||Konami/Sega
 frogseg2|Frogger (Sega set 2)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||frogger||Konami/Sega
-frontlin|Front Line|parent|taito/taitosj.cpp|270|256|224|60.000000||||Taito
+frontlin|Front Line|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 fround|Final Round|parent|konami/twin16.cpp|0|320|224|60.606061||||Konami
 fshark|Flying Shark (World)|parent|toaplan/twincobr.cpp|270|320|240|54.877858||||Taito/Toaplan
 fsharkbt|Flying Shark (bootleg)|clone|toaplan/twincobr.cpp|270|320|240|54.877858||fshark||
@@ -749,7 +749,7 @@ gsword|Great Swordsman|parent|taito/gsword.cpp|0|256|224|60.000000||||Taito
 gteikoku|Gingateikoku No Gyakushu|clone|galaxian/galaxian.cpp|90|768|224|60.606061||uniwars||Irem
 gtmr|Great 1000 Miles Rally|parent|kaneko/kaneko16.cpp|0|320|240|60.000000||||Kaneko
 gtmre|Great 1000 Miles Rally (Evolution Model)|clone|kaneko/kaneko16.cpp|0|320|240|60.000000||gtmr||Kaneko
-gunbird|Gun Bird (Japan)|parent|psikyo/psikyo.cpp|270|320|224|59.300000||||Psikyo
+gunbird|Gun Bird (Japan)|parent|psikyo/psikyo.cpp|270|320|224|59.922743||||Psikyo
 gundeala|Gun Dealer (set 2)|clone|dooyong/gundealr.cpp|270|256|224|60.000000||gundealr||Dooyong
 gundealr|Gun Dealer (set 1)|parent|dooyong/gundealr.cpp|270|256|224|60.000000||||Dooyong
 gunfight|Gun Fight|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
@@ -828,8 +828,8 @@ hustle|Hustle|parent|sega/blockade.cpp|0|256|224|60.114504||||Gremlin
 hustler|Video Hustler|parent|galaxian/scobra.cpp|90|256|224|60.606061||||Konami
 hustlerb|Video Hustler (bootleg)|clone|galaxian/scobra.cpp|90|256|224|60.606061||hustler||
 hvymetal|Heavy Metal|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
-hwchamp|Heavyweight Champ|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
-hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|60.000000||||Taito
+hwchamp|Heavyweight Champ|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16
+hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 hydra|Hydra|parent|atari/atarig1.cpp|0|336|240|59.922743||||Atari
 hydrap|Hydra (prototype)|clone|atari/atarig1.cpp|0|336|240|59.922743||hydra||Atari
 hyperspt|Hyper Sports|parent|konami/hyperspt.cpp|0|256|224|60.000000||||Centuri/Konami
@@ -874,9 +874,9 @@ jack2|Jack the Giantkiller (set 2)|clone|cinematronics/jack.cpp|90|256|224|59.18
 jack3|Jack the Giantkiller (set 3)|clone|cinematronics/jack.cpp|90|256|224|59.185606||jack||Cinematronics
 jackal|Jackal (World)|parent|konami/jackal.cpp|90|240|224|60.000000||||Konami
 jackalj|Tokushu Butai Jackal (Japan)|clone|konami/jackal.cpp|90|240|224|60.000000||jackal||Konami
-jackrab2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt||Zaccaria
-jackrabs|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt||Zaccaria
-jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000||||Zaccaria
+jackrab2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt||Zaccaria
+jackrabs|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt||Zaccaria
+jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061||||Zaccaria
 jailbrek|Jail Break|parent|konami/jailbrek.cpp|0|240|224|60.606061||||Konami
 janshin|Jyanshin Densetsu - Quest of Jongmaster|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom
 jedi|Return of the Jedi|parent|atari/jedi.cpp|0|296|240|60.000000||||Atari
@@ -896,11 +896,11 @@ jumpbugb|Jump Bug (bootleg)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||ju
 jumpcoas|Jump Coaster|parent|galaxian/fastfred.cpp|90|256|224|60.000000||||Kaneko
 jumping|Jumping|clone|taito/rbisland.cpp|0|320|224|60.000000||rainbow||
 jumpshot|Jump Shot|parent|pacman/pacman.cpp|90|288|224|60.606061||||
-jungleh|Jungle Hunt (US)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek||Taito
-junglek|Jungle King (Japan)|parent|taito/taitosj.cpp|180|256|224|60.000000||||Taito
+jungleh|Jungle Hunt (US)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek||Taito
+junglek|Jungle King (Japan)|parent|taito/taitosj.cpp|180|256|224|59.185606||||Taito
 jungler|Jungler|parent|namco/rallyx.cpp|90|288|224|60.606061||||Konami
 junglers|Jungler (Stern)|clone|namco/rallyx.cpp|90|288|224|60.606061||jungler||Konami/Stern
-junglkj2|Jungle King (Japan, earlier)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek||Taito
+junglkj2|Jungle King (Japan, earlier)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek||Taito
 junofrst|Juno First|parent|konami/junofrst.cpp|90|768|224|60.606061||||Konami
 junofstg|Juno First (Gottlieb)|clone|konami/junofrst.cpp|90|768|224|60.606061||junofrst||Gottlieb/Konami
 jyuohki|Jyuohki (Japan)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System16
@@ -914,7 +914,7 @@ kamikaze|Kamikaze|clone|stern/astinvad.cpp|270|256|224|60.000000||astinvad||Leij
 kangaroa|Kangaroo (Atari)|clone|sunelectronics/kangaroo.cpp|90|512|240|60.096154||kangaroo||Atari/Sun Electronics
 kangarob|Kangaroo (bootleg)|clone|sunelectronics/kangaroo.cpp|90|512|240|60.096154||kangaroo||
 kangaroo|Kangaroo|parent|sunelectronics/kangaroo.cpp|90|512|240|60.096154||||Sun Electronics
-kaos|Kaos|parent|gameplan/gameplan.cpp|270|256|256|59.196429||||Game Plan
+kaos|Kaos|parent|alliedleisure/killcom.cpp|270|256|256|59.196429||||Game Plan
 karatblu|Karate Blazers (US)|clone|vsystem/aerofgt.cpp|0|352|240|60.000000||karatblz||Video System
 karatblz|Karate Blazers (World?)|parent|vsystem/aerofgt.cpp|0|352|240|60.000000||||Video System
 karatedo|Karate Dou (Japan)|clone|dataeast/kchamp.cpp|90|256|224|60.000000||kchamp||Data East
@@ -934,8 +934,8 @@ kickridr|Kick Rider|parent|universal/docastle.cpp|0|240|192|59.659091||||Univers
 kidniki|Kid Niki - Radical Ninja (US)|parent|irem/m62.cpp|0|384|256|55.017606||||Data East/Irem
 kikcubic|Meikyu Jima (Japan)|parent|irem/vigilant.cpp|0|384|256|55.017606||||Irem
 kikikai|KiKi KaiKai|parent|taito/kikikai.cpp|90|256|224|59.185606||||Taito
-kikstart|Kick Start Wheelie King|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
-killcom|Killer Comet|parent|gameplan/gameplan.cpp|0|256|256|59.196429||||Centuri/Game Plan
+kikstart|Kick Start Wheelie King|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
+killcom|Killer Comet|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Centuri/Game Plan
 kingbalj|King & Balloon (Japan)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||kingball||Namco
 kingball|King & Balloon (US)|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Namco
 kingofb|King of Boxer (English)|parent|dataeast/kingobox.cpp|90|256|224|60.000000||||Woodplace
@@ -997,10 +997,10 @@ ldruna|Lode Runner (set 2)|clone|irem/m62.cpp|0|384|256|55.017606||ldrun||Broder
 ledstorm|Led Storm (US)|clone|capcom/lastduel.cpp|270|384|240|57.444400||madgear||Capcom
 legendos|Legend of Success Joe / Ashitano Joe Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
 legofair|Koukuu Kihei Monogatari - The Legend of Air Cavalry|clone|snk/snk.cpp|270|400|224|60.000000||chopper||SNK
-leprechn|Leprechaun|parent|gameplan/gameplan.cpp|0|256|256|59.196429||||Tong Electronic
+leprechn|Leprechaun|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Tong Electronic
 lethalth|Lethal Thunder (World)|parent|irem/m92.cpp|270|320|240|60.000000||||Irem
 levers|Levers|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Rock-ola
-lgtnfght|Lightning Fighters (US)|parent|konami/tmnt.cpp|90|320|224|60.000000||||Konami
+lgtnfght|Lightning Fighters (US)|parent|konami/tmnt2.cpp|90|320|224|60.000000||||Konami
 liberatr|Liberator (set 1)|parent|atari/liberatr.cpp|0|240|232|60.000000||||Atari
 lifefrce|Lifeforce (US)|clone|konami/nemesis.cpp|0|256|224|60.606061||salamand||Konami
 lifefrcj|Lifeforce (Japan)|clone|konami/nemesis.cpp|0|256|224|60.606061||salamand||Konami
@@ -1090,8 +1090,8 @@ mbombrdj|Muscle Bomber Duo - Heat Up Warriors (Japan)|clone|capcom/cps1.cpp|0|38
 mbrush|Magic Brush|clone|pacman/pacman.cpp|90|288|224|60.606061||crush||
 medlanes|Meadows Lanes|parent|meadows/lazercmd.cpp|0|256|240|60.000000||||Meadows Games
 megaforc|Mega Force|clone|tecmo/senjyo.cpp|90|256|224|60.000000||starforc||Tehkan/Video Ware
-megaman|Mega Man - The Power Battle (Asia)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
-megatack|MegaTack|parent|gameplan/gameplan.cpp|0|256|256|59.196429||||Centuri/Game Plan
+megaman|Mega Man - The Power Battle (Asia)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS 1
+megatack|MegaTack|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Centuri/Game Plan
 megaznik|Mega Zone (Kosuka)|clone|konami/megazone.cpp|90|288|224|60.606060||megazone||Interlogic/Konami/Kosuka
 megazone|Mega Zone|parent|konami/megazone.cpp|90|288|224|60.606060||||Konami
 meikyuh|Meikyuu Hunter G (Japan)|clone|dataeast/dec8.cpp|0|256|240|57.444853||ghostb||Data East
@@ -1099,7 +1099,7 @@ mercs|Mercs (World)|parent|capcom/cps1.cpp|270|384|224|59.637405||||Capcom\CPS1
 mercsj|Senjo no Ookami II (Japan)|clone|capcom/cps1.cpp|270|384|224|59.637405||mercs||Capcom\CPS1
 mercsu|Mercs (US)|clone|capcom/cps1.cpp|270|384|224|59.637405||mercs||Capcom\CPS1
 mermaid|Mermaid|parent|sanritsu/mermaid.cpp|0|256|224|60.000000||||Rock-ola
-metafox|Meta Fox|parent|seta/seta.cpp|270|384|224|60.000000||||Seta
+metafox|Meta Fox|parent|seta/downtown.cpp|270|384|224|60.000000||||Seta
 meteor|Meteoroids|parent|venture/spcforce.cpp|270|256|224|60.000000||||Venture Line
 metrocrs|Metro-Cross|parent|namco/baraduke.cpp|0|288|224|60.606061||||Namco
 mexico86|Mexico 86|clone|taito/kikikai.cpp|0|256|224|59.185606||kicknrun||
@@ -1152,7 +1152,7 @@ mole|Mole Attack|parent|misc/mole.cpp|0|320|200|60.000000||||Yachiyo Electronics
 monkeyd|Monkey Donkey|clone|nichibutsu/cclimber.cpp|270|256|224|60.000000||ckong||
 monsterb|Monster Bash|parent|sega/segag80r.cpp|270|256|224|60.000000||||Sega
 monwar2a|Moon War II (set 2)|clone|||||||moonwar2||Stern
-monymony|Money Money|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000||||Zaccaria
+monymony|Money Money|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061||||Zaccaria
 moonal2|Moon Alien Part 2|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Nichibutsu
 moonal2b|Moon Alien Part 2 (older version)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||moonal2||Nichibutsu
 moonbase|Moon Base|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invadpt2||Nichibutsu
@@ -1391,7 +1391,7 @@ popeyebl|Popeye (bootleg)|clone|nintendo/popeye.cpp|0|512|448|59.940000||popeye|
 popflama|Pop Flamer (set 2)|clone|phoenix/naughtyb.cpp|90|288|224|60.000000||popflame||Jaleco
 popflame|Pop Flamer (set 1)|parent|phoenix/naughtyb.cpp|90|288|224|60.000000||||Jaleco
 portman|Port Man|parent|thepit/thepit.cpp|90|256|224|60.606061||||Nova Games
-potogold|Pot of Gold|clone|gameplan/gameplan.cpp|0|256|256|59.196429||leprechn||Game Plan
+potogold|Pot of Gold|clone|alliedleisure/killcom.cpp|0|256|256|59.196429||leprechn||Game Plan
 poundfor|Pound for Pound (World)|parent|irem/m72.cpp|270|384|256|55.017606||||Irem
 poundfou|Pound for Pound (US)|clone|irem/m72.cpp|270|384|256|55.017606||poundfor||Irem
 pow|P.O.W. - Prisoners of War (US)|parent|snk/snk68.cpp|0|256|224|59.185606||||SNK
@@ -1413,11 +1413,11 @@ pulirulj|PuLiRuLa (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||pulirula
 pulsar|Pulsar|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom
 punchout|Punch-Out!!|parent|nintendo/punchout.cpp|0|256|224|60.000000||||Nintendo
-punisher|The Punisher (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
-punishrj|The Punisher (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS1
-punishru|The Punisher (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS1
-punkshot|Punk Shot (4 Players)|parent|konami/tmnt.cpp|0|288|224|60.000000||||Konami
-punksht2|Punk Shot (2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot||Konami
+punisher|The Punisher (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS 1
+punishrj|The Punisher (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS 1
+punishru|The Punisher (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS 1
+punkshot|Punk Shot (4 Players)|parent|konami/tmnt2.cpp|0|288|224|60.000000||||Konami
+punksht2|Punk Shot (2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot||Konami
 puzbobb|Puzzle Bobble (Japan, B-System)|clone|taito/taito_b.cpp|0|320|224|60.000000|neogeo|pbobble||Taito
 puzlclub|Puzzle Club (Japan prototype)|parent|namco/namcos1.cpp|90|288|224|60.606061||||Namco
 puzzldpr|Puzzle De Pon R|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|puzzledp||Taito/Visco
@@ -1646,7 +1646,7 @@ sf2tj|Street Fighter II' Turbo - Hyper Fighting (Japan)|clone|capcom/cps1.cpp|0|
 sfeverbw|Space Fever (black and white)|parent|||||||||Nintendo
 sfootbal|Street Football|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 sformula|Super Formula (Japan)|clone|vsystem/tail2nos.cpp|90|320|240|60.000000||tail2nos||V-System
-sfposeid|Sea Fighter Poseidon|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
+sfposeid|Sea Fighter Poseidon|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
 shackled|Shackled (US)|parent|dataeast/dec8.cpp|0|256|240|57.444853||||Data East
 shadowld|Shadow Land|parent|namco/namcos1.cpp|180|288|224|60.606061||||Namco
 shadoww|Shadow Warriors (US)|clone|tecmo/gaiden.cpp|0|256|224|59.170000||gaiden||Tecmo
@@ -1734,7 +1734,7 @@ smooncrs|Super Moon Cresta|clone|galaxian/galaxian.cpp|90|768|224|60.606061||moo
 snakepit|Snake Pit|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 snakjack|Snacks'n Jaxson|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 snapjack|Snap Jack|parent|universal/ladybug.cpp|0|240|192|60.114504||||Universal
-sngkace|Sengoku Ace (Japan)|parent|psikyo/psikyo.cpp|270|320|224|59.300000||||Psikyo
+sngkace|Sengoku Ace (Japan)|parent|psikyo/psikyo.cpp|270|320|224|59.922743||||Psikyo
 snowbro2|Snow Bros. 2 - With New Elves|parent|toaplan/toaplan2.cpp|0|320|240|59.637405||||Hanafram/Toaplan
 snowbroa|Snow Bros. - Nick & Tom (set 2)|clone|kaneko/snowbros.cpp|0|256|224|57.500000||snowbros||Romstar/Toaplan
 snowbrob|Snow Bros. - Nick & Tom (set 3)|clone|kaneko/snowbros.cpp|0|256|224|57.500000||snowbros||Romstar/Toaplan
@@ -1771,7 +1771,7 @@ spaceinv|Space Invasion|clone|pinball/by35.cpp||||||commando||
 spaceod|Space Odyssey|parent|sega/segag80r.cpp|270|256|224|60.000000||||Sega
 spaceph|Space Phantoms|clone|midw8080/8080bw.cpp|270|260|224|59.541985||ozmawars||Zilec
 spaceplt|Space Pilot|clone|konami/timeplt.cpp|90|256|224|60.000000||timeplt||
-spaceskr|Space Seeker|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
+spaceskr|Space Seeker|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
 spacetrk|Space Trek (upright)|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 spacewar|Space Wars|parent|cinematronics/cinemat.cpp|180|||38.000107||||Cinematronics
 spacewr3|Space War Part 3|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invaders||
@@ -1833,14 +1833,14 @@ sspacat2|Space Attack (upright, older)|clone|sega/vicdual.cpp|270|256|224|60.000
 sspacatc|Space Attack (cocktail)|clone|sega/vicdual.cpp|270|256|224|60.000000||sspaceat||Sega
 sspaceat|Space Attack (upright)|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 ssprint|Super Sprint|parent|atari/atarisy2.cpp|0|512|384|60.096154||||Atari
-ssrdrabd|Sunset Riders (Asia 2 Players ver. ABD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdrebc|Sunset Riders (World 2 Players ver. EBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdrebd|Sunset Riders (World 2 Players ver. EBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdrjbd|Sunset Riders (Japan 2 Players ver. JBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdruac|Sunset Riders (US 4 Players ver. UAC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdrubc|Sunset Riders (US 2 Players ver. UBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssrdruda|Sunset Riders (US 4 Players ver. UDA)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders||Konami
-ssriders|Sunset Riders (World 4 Players ver. EAC)|parent|konami/tmnt.cpp|0|288|224|60.000000||||Konami
+ssrdrabd|Sunset Riders (Asia 2 Players ver. ABD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdrebc|Sunset Riders (World 2 Players ver. EBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdrebd|Sunset Riders (World 2 Players ver. EBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdrjbd|Sunset Riders (Japan 2 Players ver. JBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdruac|Sunset Riders (US 4 Players ver. UAC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdrubc|Sunset Riders (US 2 Players ver. UBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssrdruda|Sunset Riders (US 4 Players ver. UDA)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders||Konami
+ssriders|Sunset Riders (World 4 Players ver. EAC)|parent|konami/tmnt2.cpp|0|288|224|60.000000||||Konami
 sstingry|Super Stingray|parent|alpha/alpha68k_n.cpp|90|256|224|59.185606||||Alpha Denshi
 stactics|Space Tactics|parent|sega/stactics.cpp|0|256|232|60.000000||||Sega
 stadhero|Stadium Hero (Japan)|parent|dataeast/stadhero.cpp|0|256|240|58.000000||||Data East
@@ -1952,7 +1952,7 @@ thehustl|The Hustler (Japan version M)|parent|konami/battlnts.cpp|90|256|224|60.
 thepit|The Pit|parent|thepit/thepit.cpp|90|256|224|60.606061||||Centuri
 thndblst|Thunder Blaster (Japan)|clone|irem/m92.cpp|270|320|240|60.000000||lethalth||Irem
 thnderxj|Thunder Cross (Japan)|clone|konami/thunderx.cpp|0|320|224|59.170000||thunderx||Konami
-thndrx2|Thunder Cross II (Japan)|parent|konami/tmnt.cpp|0|288|224|60.000000||||Konami
+thndrx2|Thunder Cross II (Japan)|parent|konami/tmnt2.cpp|0|288|224|60.000000||||Konami
 thunderj|ThunderJaws|parent|atari/thunderj.cpp|0|336|240|59.922743||||Atari
 thunderx|Thunder Cross|parent|konami/thunderx.cpp|0|320|224|59.170000||||Konami
 thundfox|Thunder Fox (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
@@ -1967,22 +1967,22 @@ timeplt|Time Pilot|parent|konami/timeplt.cpp|90|256|224|60.000000||||Konami
 timepltc|Time Pilot (Centuri)|clone|konami/timeplt.cpp|90|256|224|60.000000||timeplt||Centuri/Konami
 timesol1|Time Soldiers (US Rev 1)|clone|alpha/alpha68k.cpp|90|256|224|59.185606||timesold||Romstar/SNK
 timesold|Time Soldiers (US Rev 3)|parent|alpha/alpha68k.cpp|90|256|224|59.185606||||Romstar/SNK
-timetunl|Time Tunnel|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
+timetunl|Time Tunnel|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
 timscanr|Time Scanner|parent|||||||||Sega
-tinstar|The Tin Star|parent|taito/taitosj.cpp|0|256|224|60.000000||||Taito
+tinstar|The Tin Star|parent|taito/taitosj.cpp|0|256|224|59.185606||||Taito
 tiptop|Tip Top|clone|sega/zaxxon.cpp|90|256|224|59.999408||congo||Sega
 tknight|Tecmo Knight|parent|tecmo/gaiden.cpp|0|256|224|59.170000||||Tecmo
 tmht|Teenage Mutant Hero Turtles (4 Players UK)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt||Konami
 tmht2p|Teenage Mutant Hero Turtles (2 Players UK)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt||Konami
 tmnt|Teenage Mutant Ninja Turtles (4 Players US)|parent|konami/tmnt.cpp|0|320|224|60.000000||||Konami
-tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players US)|parent|konami/tmnt.cpp|0|304|224|60.000000||||Konami
-tmnt22p|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players US)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2||Konami
-tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players Asia)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2||Konami
+tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players US)|parent|konami/tmnt2.cpp|0|304|224|60.000000||||Konami
+tmnt22p|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players US)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2||Konami
+tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players Asia)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2||Konami
 tmnt2pj|Teenage Mutant Ninja Turtles (2 Players Japan)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt||Konami
 tmnt2po|Teenage Mutant Ninja Turtles (2 Players Oceania)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt||Konami
 tmntj|Teenage Mutant Ninja Turtles (4 Players Japan)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt||Konami
-tndrcade|Thundercade / Twin Formation|parent|seta/seta.cpp|270|384|224|60.000000||||Seta/Taito
-tndrcadj|Tokusyu Butai UAG (Japan)|clone|seta/seta.cpp|270|384|224|60.000000||tndrcade||Seta/Taito
+tndrcade|Thundercade / Twin Formation|parent|seta/downtown.cpp|270|384|224|60.000000||||Seta/Taito
+tndrcadj|Tokusyu Butai UAG (Japan)|clone|seta/downtown.cpp|270|384|224|60.000000||tndrcade||Seta/Taito
 tnk3|TNK III (US?)|parent|snk/snk.cpp|270|288|216|60.000000||||SNK
 tnk3j|Tank (Japan)|clone|snk/snk.cpp|270|288|216|60.000000||tnk3||SNK
 tnzs|The NewZealand Story (Japan)|parent|taito/tnzs.cpp|0|256|224|59.150000||||Taito
@@ -2025,7 +2025,7 @@ trally|Thrash Rally|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha 
 tranqgun|Tranquilizer Gun|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 travrusa|Traverse USA / Zippy Race|parent|irem/travrusa.cpp|270|240|256|56.750000||||Irem
 treahunt|Treasure Hunt (Japan?)|clone|cinematronics/jack.cpp|90|256|224|59.185606||jack||Hara Industries
-trigon|Trigon (Japan)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght||Konami
+trigon|Trigon (Japan)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght||Konami
 triothep|Trio The Punch - Never Forget Me... (Japan)|parent|dataeast/actfancr.cpp|0|256|240|60.000000||||Data East
 triplep|Triple Punch|parent|galaxian/scramble.cpp|90|256|224|60.606061||||KKI
 trisport|Tri-Sports|parent|midway/mcr68.cpp|270|512|480|30.000000||||Bally Midway
@@ -2070,7 +2070,7 @@ tutankst|Tutankham (Stern)|clone|konami/tutankhm.cpp|90|768|224|60.606061||tutan
 twinbee|TwinBee|parent|konami/nemesis.cpp|90|256|224|60.606061||||Konami
 twincobr|Twin Cobra (World)|parent|toaplan/twincobr.cpp|270|320|240|54.877858||||Taito/Toaplan
 twincobu|Twin Cobra (US)|clone|toaplan/twincobr.cpp|270|320|240|54.877858||twincobr||Romstar/Taito/Toaplan
-twineagl|Twin Eagle (Japan)|parent|seta/seta.cpp|270|384|240|57.420000||||Seta/Taito
+twineagl|Twin Eagle (Japan)|parent|seta/downtown.cpp|270|384|240|57.420000||||Seta/Taito
 twinspri|Twinkle Star Sprites|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK
 twocrude|Two Crude (US)|clone|dataeast/cbuster.cpp|0|256|240|58.000000||cbuster||Data East
 twotiger|Two Tigers|parent|midway/mcr.cpp|0|512|480|30.000000||||Bally Midway
@@ -2085,7 +2085,7 @@ uniwars|UniWar S|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Irem
 unsquad|U.N. Squadron (US)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 uopoko|Uo Poko (Japan)|parent|misc/cave.cpp|0|320|240|57.550645||||Cave/Jaleco
 upndown|Up'n Down|parent|sega/system1.cpp|270|512|224|60.096154||||Sega
-usclssic|U.S. Classic|parent|seta/seta.cpp|270|384|240|60.000000||||Seta
+usclssic|U.S. Classic|parent|seta/downtown.cpp|270|384|240|60.000000||||Seta
 usvsthem|Us vs. Them|parent|gottlieb/gottlieb.cpp|0|704|480|59.940057||||Mylstar
 valkyrie|Legend of the Valkyrie (Japan)|parent|namco/namcos2.cpp|90|288|224|60.606061||||Namco
 vangrd2|Vanguard II|parent|snk/snk.cpp|270|288|216|60.000000||||SNK
@@ -2139,9 +2139,9 @@ warpwar2|Warp Warp (Rock-ola set 2)|clone|namco/warpwarp.cpp|90|272|224|60.60606
 warpwarp|Warp & Warp|parent|namco/warpwarp.cpp|90|272|224|60.606061||||Namco
 warpwarr|Warp Warp (Rock-ola set 1)|clone|namco/warpwarp.cpp|90|272|224|60.606061||warpwarp||Namco/Rock-ola
 warrior|Warrior|parent|cinematronics/cinemat.cpp|180|||38.000107||||Vectorbeam
-waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|60.000000||||Taito
-wb3|Wonder Boy III - Monster Lair (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16/Westone
-wb3a|Wonder Boy III - Monster Lair (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System16/Westone
+waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
+wb3|Wonder Boy III - Monster Lair (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16/Westone
+wb3a|Wonder Boy III - Monster Lair (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System 16/Westone
 wb3bl|Wonder Boy III - Monster Lair (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||
 wbdeluxe|Wonder Boy Deluxe|clone|sega/system1.cpp|0|512|224|60.096154||wboy||Escape/Sega
 wbml|Wonder Boy in Monster Land|parent|sega/system1.cpp|0|512|224|60.096154||||
@@ -2191,8 +2191,8 @@ ws90|World Stadium '90 (Japan)|clone|namco/namcos1.cpp|180|288|224|60.606061||ws
 wseries|World Series: The Season|parent|cinematronics/leland.cpp|0|320|240|60.000000||||Cinematronics
 wsf|World Soccer Finals|parent|cinematronics/leland.cpp|0|320|240|60.000000||||Leland
 wtennis|World Tennis|parent|dataeast/btime.cpp|270|240|240|57.444853||||
-wwester1|Wild Western (set 2)|clone|taito/taitosj.cpp|270|256|224|60.000000||wwestern||Taito
-wwestern|Wild Western (set 1)|parent|taito/taitosj.cpp|270|256|224|60.000000||||Taito
+wwester1|Wild Western (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||wwestern||Taito
+wwestern|Wild Western (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 wwfmania|WWF: Wrestlemania (rev 1.30)|parent|midway/midwunit.cpp|0|400|254|54.706840||||Midway
 xenophob|Xenophobe|parent|midway/mcr68.cpp|0|512|480|30.000000||||Bally Midway
 xevios|Xevios|clone|namco/galaga.cpp|90|288|224|60.606061||xevious||

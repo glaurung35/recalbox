@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit: 2021-09-06
-LIBRETRO_GEARCOLECO_VERSION = 95c534c2a61b01b0c919344ac11ac3797bb0611f
+# Commit of 2023/08/23
+LIBRETRO_GEARCOLECO_VERSION = cc7c19c776a12d149c2c935e2198ddad15f22f54
 LIBRETRO_GEARCOLECO_SITE = $(call gitlab,recalbox,packages/libretro/Gearcoleco,$(LIBRETRO_GEARCOLECO_VERSION))
 LIBRETRO_GEARCOLECO_LICENSE = GPL-3.0
 LIBRETRO_GEARCOLECO_LICENSE_FILES = LICENSE

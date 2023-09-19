@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_FUSE_VERSION = 3f9344ddf88dfd251d95cffdea615692479e8cc6
+# Commit of 2023/06/23
+LIBRETRO_FUSE_VERSION = 847dbbd6f787823ac9a5dfacdd68ab181063374e
 LIBRETRO_FUSE_SITE = $(call github,libretro,fuse-libretro,$(LIBRETRO_FUSE_VERSION))
 LIBRETRO_FUSE_LICENSE = GPL-3.0
 LIBRETRO_FUSE_LICENSE_FILES = LICENSE

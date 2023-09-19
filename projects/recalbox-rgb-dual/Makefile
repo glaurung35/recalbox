@@ -1,5 +1,5 @@
 ifneq (${KERNELRELEASE},)
-	obj-m += recalboxrgbdual.o
+	obj-m += recalboxrgbdual.o recalbox-i2s-audio.o
 else
 	KERNELDIR        ?= /lib/modules/$(shell uname -r)/build
 	MODULE_DIR       ?= $(shell pwd)

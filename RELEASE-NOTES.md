@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-nxengine
 - Bump libretro-np2kai
 - Bump libretro-mrboom
+- Bump libretro-minivmac
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

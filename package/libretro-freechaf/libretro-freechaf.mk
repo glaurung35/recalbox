@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_FREECHAF_VERSION = 923a42b30fcda9b0d2ef84916b7b0e0d1760df2b
+# commit of 2022/07/30
+LIBRETRO_FREECHAF_VERSION = 4d1d5cb83b93728a63f03454e472a23055d9bbfc
 LIBRETRO_FREECHAF_SITE = https://github.com/libretro/FreeChaF.git
 LIBRETRO_FREECHAF_LICENSE = GPL-3.0
 LIBRETRO_FREECHAF_LICENSE_FILES = LICENSE
@@ -26,6 +27,7 @@ endef
 define LIBRETRO_FREECHAF_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/freechaf_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/freechaf_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/channelf
 endef
 
 $(eval $(generic-package))

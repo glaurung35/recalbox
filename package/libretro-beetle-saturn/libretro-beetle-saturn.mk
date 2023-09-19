@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_BEETLE_SATURN_VERSION = e6ba71f8bcc647b646d94dec812b24d00c41cf3f
+# Commit of 2023/05/28
+LIBRETRO_BEETLE_SATURN_VERSION = cd395e9e3ee407608450ebc565e871b24e7ffed6
 LIBRETRO_BEETLE_SATURN_SITE = $(call github,libretro,beetle-saturn-libretro,$(LIBRETRO_BEETLE_SATURN_VERSION))
 LIBRETRO_BEETLE_SATURN_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_SATURN_LICENSE_FILES = COPYING
@@ -28,6 +29,7 @@ endef
 define LIBRETRO_BEETLE_SATURN_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_saturn_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_saturn_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
 endef
 
 $(eval $(generic-package))

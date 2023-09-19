@@ -1,0 +1,87 @@
+--- a/fMSX/MSX.c	2023-04-17 23:04:26.000000000 +0200
++++ b/fMSX/MSX.c	2023-10-03 00:26:20.057507000 +0200
+@@ -526,10 +526,10 @@
+      memcpy(RTC,RTCInit,sizeof(RTC));
+ 
+   /* Try loading Kanji alphabet ROM */
+-  if((Kanji = LoadROM("KANJI.ROM",0x20000,0))) { }
++  if((Kanji = LoadROM("msx/KANJI.ROM",0x20000,0))) { }
+ 
+   /* Try loading RS232 support ROM to slot */
+-  if((P=LoadROM("RS232.ROM",0x4000,0)))
++  if((P=LoadROM("msx/RS232.ROM",0x4000,0)))
+   {
+     MemMap[3][3][2]=P;
+     MemMap[3][3][3]=P+0x2000;
+@@ -541,19 +541,19 @@
+   /* If MSX2 or better and DiskROM present...  */
+   /* ...try loading MSXDOS2 cartridge into 3:0 */
+   if(!MODEL(MSX_MSX1)&&OPTION(MSX_MSXDOS2)&&(MemMap[3][1][2]!=EmptyRAM)&&!ROMData[2])
+-    if(LoadCart("MSXDOS2.ROM",2,MAP_GEN16))
++    if(LoadCart("msx/MSXDOS2.ROM",2,MAP_GEN16))
+       SetMegaROM(2,0,1,ROMMask[J]-1,ROMMask[J]);
+ 
+   /* If MSX2 or better, load PAINTER cartridge */
+   if(!MODEL(MSX_MSX1))
+   {
+     for(;(J<MAXSLOTS)&&ROMData[J];++J);
+-    if((J<MAXSLOTS)&&LoadCart("PAINTER.ROM",J,0)) ++J;
++    if((J<MAXSLOTS)&&LoadCart("msx/PAINTER.ROM",J,0)) ++J;
+   }
+ 
+   /* Load FMPAC cartridge */
+   for(;(J<MAXSLOTS)&&ROMData[J];++J);
+-  if((J<MAXSLOTS)&&LoadCart("FMPAC.ROM",J,MAP_FMPAC)) ++J;
++  if((J<MAXSLOTS)&&LoadCart("msx/FMPAC.ROM",J,MAP_FMPAC)) ++J;
+ 
+   /* Load Konami GameMaster2/GameMaster cartridges */
+   J=0; // by default load GM2&GM in slot A
+@@ -689,7 +689,7 @@
+     switch(NewMode&MSX_MODEL)
+     {
+       case MSX_MSX1:
+-        P1=LoadROM("MSX.ROM",0x8000,0);
++        P1=LoadROM("msx/MSX.ROM",0x8000,0);
+         if(!P1) NewMode=(NewMode&~MSX_MODEL)|(Mode&MSX_MODEL);
+         else
+         {
+@@ -705,8 +705,8 @@
+         break;
+ 
+       case MSX_MSX2:
+-        P1=LoadROM("MSX2.ROM",0x8000,0);
+-        P2=LoadROM("MSX2EXT.ROM",0x4000,0);
++        P1=LoadROM("msx/MSX2.ROM",0x8000,0);
++        P2=LoadROM("msx/MSX2EXT.ROM",0x4000,0);
+         if(!P1||!P2)
+         {
+           NewMode=(NewMode&~MSX_MODEL)|(Mode&MSX_MODEL);
+@@ -727,8 +727,8 @@
+         break;
+ 
+       case MSX_MSX2P:
+-        P1=LoadROM("MSX2P.ROM",0x8000,0);
+-        P2=LoadROM("MSX2PEXT.ROM",0x4000,0);
++        P1=LoadROM("msx/MSX2P.ROM",0x8000,0);
++        P2=LoadROM("msx/MSX2PEXT.ROM",0x4000,0);
+         if(!P1||!P2)
+         {
+           NewMode=(NewMode&~MSX_MODEL)|(Mode&MSX_MODEL);
+@@ -776,7 +776,7 @@
+     if(ProgDir && chdir(ProgDir)) { }
+ 
+     /* Try loading DiskROM */
+-    P1=LoadROM("DISK.ROM",0x4000,0);
++    P1=LoadROM("msx/DISK.ROM",0x4000,0);
+     DiskROMLoaded=!!P1;
+ 
+     /* Change to the working directory */
+@@ -2696,7 +2696,7 @@
+   }
+ 
+   /* Try opening file with SHA1 sums */
+-  if((Result<0) && (F=rfopen("CARTS.SHA","rb")))
++  if((Result<0) && (F=rfopen("msx/CARTS.SHA","rb")))
+   {
+     char S1[41],S2[41];
+     SHA1 C;

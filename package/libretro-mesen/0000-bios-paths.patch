@@ -1,0 +1,11 @@
+--- a/Core/FdsLoader.cpp	2023-05-21 04:24:57.000000000 +0200
++++ b/Core/FdsLoader.cpp	2023-10-03 02:25:11.291166840 +0200
+@@ -51,7 +51,7 @@
+ 	if(biosFile) {
+ 		return vector<uint8_t>(std::istreambuf_iterator<char>(biosFile), {});
+ 	} else {
+-		biosFile.open(FolderUtilities::CombinePath(FolderUtilities::GetHomeFolder(), "disksys.rom"), ios::in | ios::binary);
++		biosFile.open(FolderUtilities::CombinePath(FolderUtilities::GetHomeFolder(), "fds/disksys.rom"), ios::in | ios::binary);
+ 		if(biosFile) {
+ 			return vector<uint8_t>(std::istreambuf_iterator<char>(biosFile), {});
+ 		}

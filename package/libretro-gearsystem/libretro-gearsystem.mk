@@ -5,7 +5,8 @@
 ################################################################################
 
 # acf84e235ff5716822905dc5107e7fe8fa6b9509 = Latest working comits on RPi2/3
-LIBRETRO_GEARSYSTEM_VERSION = acf84e235ff5716822905dc5107e7fe8fa6b9509
+# Commit of 2023/08/23
+LIBRETRO_GEARSYSTEM_VERSION = c58a865a727e6f7b83123a1a261c13bcc1b0f0dc
 LIBRETRO_GEARSYSTEM_SITE = $(call github,drhelius,Gearsystem,$(LIBRETRO_GEARSYSTEM_VERSION))
 LIBRETRO_GEARSYSTEM_LICENSE = GPL-3.0
 LIBRETRO_GEARSYSTEM_LICENSE_FILES = LICENSE

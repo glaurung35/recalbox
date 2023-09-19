@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_MU_VERSION = 4ac406874ccdc33ca3282299fda412f15ec544ad
+# Commit of 2023/05/28
+LIBRETRO_MU_VERSION = 15bb26daa562e2907eb30b6cebba68a7e825b9b9
 LIBRETRO_MU_SITE = $(call github,libretro,Mu,$(LIBRETRO_MU_VERSION))
 LIBRETRO_MU_LICENSE = CC-BY-NC-3.0
 LIBRETRO_MU_NON_COMMERCIAL = y
@@ -22,6 +23,7 @@ endef
 define LIBRETRO_MU_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretroBuildSystem/mu_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mu_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/palm
 endef
 
 $(eval $(generic-package))

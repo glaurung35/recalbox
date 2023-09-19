@@ -1,0 +1,17 @@
+--- a/libgambatte/libretro/libretro.cpp	2023-09-29 12:52:51.000000000 +0200
++++ b/libgambatte/libretro/libretro.cpp	2023-10-03 14:29:53.936120973 +0200
+@@ -1301,12 +1301,12 @@
+    /* Get BIOS type */
+    if (isgbc)
+    {
+-      bios_name = "gbc_bios.bin";
++      bios_name = "gbc/gbc_bios.bin";
+       bios_size = 0x900;
+    }
+    else
+    {
+-      bios_name = "gb_bios.bin";
++      bios_name = "gb/gb_bios.bin";
+       bios_size = 0x100;
+    }
+ 

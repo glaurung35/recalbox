@@ -87,7 +87,7 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 48in1a|48 in 1 MAME bootleg (set 3, ver 3.02)|clone|misc/39in1.cpp|90|296|480|60.000000||39in1|preliminary|bootleg
 48in1b|48 in 1 MAME bootleg (set 2, ver 3.09, alt flash)|clone|misc/39in1.cpp|90|296|480|60.000000||39in1|preliminary|bootleg
 4dwarrio|4-D Warriors (315-5162)|parent|sega/system1.cpp|0|512|224|60.096154|||good|Coreland / Sega
-4enlinea|Cuatro en Linea|parent|misc/4enlinea.cpp|0|640|200|59.922748|||preliminary|Compumatic
+4enlinea|Cuatro en Linea|parent|misc/4enlinea.cpp|0|640|200|59,922748|||preliminary|Compumatic
 4enraya|4 En Raya (set 1)|parent|misc/4enraya.cpp|0|256|224|60.000000|||good|IDSA
 4enrayaa|4 En Raya (set 2)|clone|misc/4enraya.cpp|0|256|224|60.000000||4enraya|good|IDSA
 4in1|4 Fun in 1|parent|galaxian/galaxold.cpp|90|256|224|60.606061|||imperfect|Armenia / Food and Fun
@@ -128,7 +128,7 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 8ballact2|Eight Ball Action (DKJr conversion)|clone|nintendo/dkong.cpp|270|256|224|60.606061||8ballact|good|Seatongrove Ltd (Magic Electronics USA license)
 8bpm|Eight Ball Action (Pac-Man conversion)|clone|pacman/pacman.cpp|90|256|224|60.606061||8ballact|good|Seatongrove Ltd (Magic Electronics USA license)
 98best44|Neo Print - '98 NeoPri Best 44 (Japan)|parent|misc/neoprint.cpp|0|384|240|60.000000|||preliminary|SNK
-99bottles|99 Bottles of Beer|clone|misc/gammagic.cpp|0|640|480|53.178707||gammagic|preliminary|Bally Gaming Co.
+99bottles|99 Bottles of Beer|clone|misc/gammagic.cpp||||||gammagic|preliminary|Bally Gaming Co.
 99lstwar|'99: The Last War (set 1)|clone|orca/kyugo.cpp|90|288|224|60.000000||repulse|good|Crux / Proma
 99lstwara|'99: The Last War (set 2)|clone|orca/kyugo.cpp|90|288|224|60.000000||repulse|good|Crux / Proma
 99lstwark|'99: The Last War (Kyugo)|clone|orca/kyugo.cpp|90|288|224|60.000000||repulse|good|Crux / Kyugo
@@ -568,7 +568,7 @@ algar_l1|Algar (L-1)|parent|pinball/s6.cpp|||||||preliminary|Williams
 ali|Ali|parent|pinball/st_mp200.cpp|||||||preliminary|Stern
 alibaba|Ali Baba and 40 Thieves|parent|pacman/pacman.cpp|90|288|224|60.606061|||preliminary|Sega
 alibabab|Mustafa and 40 Thieves (bootleg)|clone|pacman/pacman.cpp|90|288|224|60.606061||alibaba|preliminary|bootleg
-alien|Alien: The Arcade Medal Edition|parent|capcom/alien.cpp|0|256|256|60.000000|||preliminary|Capcom
+alien|Alien: The Arcade Medal Edition|parent|capcom/alien.cpp|0|480|234|62.776215|||preliminary|Capcom
 alien3|Alien3: The Gun (World)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Sega
 alien3u|Alien3: The Gun (US)|clone|sega/segas32.cpp|0|416|224|60.000000||alien3|imperfect|Sega
 alienar|Alien Arena|parent|midway/williams.cpp|0|292|240|60.096154|||good|Duncan Brown
@@ -611,8 +611,8 @@ alphaonea|Alpha One (prototype, 5 lives)|clone|atari/mhavoc.cpp|0|||50.000000||m
 alphaxz|The Alphax Z (Japan)|clone|taito/tsamurai.cpp|90|256|224|60.000000||m660|good|Ed Co. Ltd. (Wood Place Inc. license)
 alpilota|Airline Pilots (Rev A)|parent||||||naomi||preliminary|Sega
 alpiltdx|Airline Pilots (deluxe) (Rev B)|parent||||||airlbios||preliminary|Sega
-alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation
-alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|60.000000||alpine|good|Taito Corporation
+alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation
+alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||alpine|good|Taito Corporation
 alpinerc|Alpine Racer (Rev. AR2 Ver.C)|clone|namco/namcos22.cpp|0|640|480|59.904060||alpinerd|imperfect|Namco
 alpinerd|Alpine Racer (Rev. AR2 Ver.D)|parent|namco/namcos22.cpp|0|640|480|59.904060|||imperfect|Namco
 alpinesa|Alpine Surfer (Rev. AF2 Ver.A)|parent|namco/namcos22.cpp|0|640|480|59.904060|||preliminary|Namco
@@ -776,9 +776,9 @@ arabiana|Arabian (Atari)|clone|sunelectronics/arabian.cpp|270|256|234|60.000000|
 arabianm|Arabian Magic (Ver 1.0O 1992/07/06)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||good|Taito Corporation Japan
 arabianmj|Arabian Magic (Ver 1.0J 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|58.970000||arabianm|good|Taito Corporation
 arabianmu|Arabian Magic (Ver 1.0A 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|58.970000||arabianm|good|Taito America Corporation
-arac6000|Super Six Plus II English Mark Darts|parent|misc/arachnid.cpp|0|280|216|59.922738|||preliminary|Arachnid
+arac6000|Super Six Plus II English Mark Darts|parent||||||||preliminary|Arachnid
 aracnis|Aracnis (bootleg of Scorpion on Moon Cresta hardware)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||scorpion|imperfect|bootleg
-arbalest|Arbalester|parent|seta/seta.cpp|270|384|224|60.000000|||good|Seta
+arbalest|Arbalester|parent|seta/downtown.cpp|270|384|224|60.000000|||good|Seta
 arcadecl|Arcade Classics (prototype)|parent|atari/arcadecl.cpp|0|336|240|59.922743|||good|Atari Games
 arcadian|Arcadia (NMK)|parent|nmk/nmk16.cpp|270|384|224|56.180000|||good|NMK
 archrivl|Arch Rivals (rev 4.0 6/29/89)|parent|midway/mcr68.cpp|0|512|480|30.000000|||good|Bally Midway
@@ -1173,7 +1173,7 @@ avtnfl|NFL (ver 109)|parent|misc/avt.cpp|0|256|256|60.000000|||preliminary|Advan
 avtsym14|Symbols (ver 1.4)|parent|misc/avt.cpp|0|256|256|60.000000|||preliminary|Advanced Video Technology
 avtsym25|Symbols (ver 2.5)|clone|misc/avt.cpp|0|256|256|60.000000||avtsym14|preliminary|Advanced Video Technology
 awbios|Atomiswave Bios|bios|sega/dc_atomiswave.cpp|0|640|480|61.702586|||preliminary|Sammy
-aztarac|Aztarac|parent|misc/aztarac.cpp|0|||40.000000|||good|Centuri
+aztarac|Aztarac|parent|alliedleisure/aztarac.cpp|0|||40.000000|||good|Centuri
 azumanga|Azumanga Daioh Puzzle Bobble (GDL-0018)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|MOSS (Taito license)
 azurian|Azurian Attack|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||good|Rait Electronics Ltd
 b2b|Bang Bang Busters (2010 NCI release)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo||good|Visco
@@ -1401,7 +1401,7 @@ bellring|Bell Ringer|parent|pinball/gts3.cpp|||||||preliminary|Gottlieb
 benberob|Ben Bero Beh (Japan)|parent|taito/halleys.cpp|0|256|240|59.500000|||imperfect|Taito
 berabohm|Beraboh Man (Japan, Rev C)|parent|namco/namcos1.cpp|180|288|224|60.606061|||good|Namco
 berabohmb|Beraboh Man (Japan, Rev B)|clone|namco/namcos1.cpp|180|288|224|60.606061||berabohm|good|Namco
-berenstn|The Berenstain Bears in Big Paw's Cave|parent|misc/tugboat.cpp|90|240|224|60.000000|||preliminary|Enter-Tech, Ltd.
+berenstn|The Berenstain Bears in Big Paw's Cave|parent|misc/tugboat.cpp|90|240|232|59.185606|||preliminary|Enter-Tech, Ltd.
 berlwall|The Berlin Wall|parent|kaneko/kaneko16.cpp|0|256|224|60.000000|||good|Kaneko
 berlwallk|The Berlin Wall (Korea)|clone|kaneko/kaneko16.cpp|0|256|224|60.000000||berlwall|good|Kaneko (Inter license)
 berlwallt|The Berlin Wall (bootleg ?)|clone|kaneko/kaneko16.cpp|0|256|224|60.000000||berlwall|good|Kaneko
@@ -1478,7 +1478,7 @@ bingor4|Bingo Roll / Bell Star? (set 4)|parent|misc/bingor.cpp|0|400|300|60.0000
 bingor5|Bingo Roll / Bell Star V3? (set 5)|parent|misc/bingor.cpp|0|400|300|60.000000|||preliminary|<unknown>
 bingowng|Bingo (set 1)|parent|igs/goldstar.cpp|0|512|224|60.000000|||good|Wing Co., Ltd.
 bingownga|Bingo (set 2)|clone|igs/goldstar.cpp|0|512|224|60.000000||bingowng|good|Wing Co., Ltd.
-bioatack|Bio Attack|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation (Fox Video Games license)
+bioatack|Bio Attack|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation (Fox Video Games license)
 biofreak|BioFreaks (prototype)|parent|midway/seattle.cpp|0|640|480|57.000000|||good|Midway Games
 biomtoy|Biomechanical Toy (Ver. 1.0.1885)|parent|gaelco/gaelco.cpp|0|320|240|57.420000|||good|Gaelco
 biomtoya|Biomechanical Toy (Ver. 1.0.1884)|clone|gaelco/gaelco.cpp|0|320|240|57.420000||biomtoy|good|Gaelco
@@ -1605,7 +1605,7 @@ blstroid2|Blasteroids (rev 2)|clone|atari/blstroid.cpp|0|640|240|59.922748||blst
 blstroid3|Blasteroids (rev 3)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
 blstroidg|Blasteroids (German, rev 2)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
 blstroidh|Blasteroids (with heads)|clone|atari/blstroid.cpp|0|640|240|59.922748||blstroid|good|Atari Games
-blswhstl|Bells & Whistles (Version L)|parent|konami/tmnt.cpp|90|320|224|60.000000|||good|Konami
+blswhstl|Bells & Whistles (Version L)|parent|konami/tmnt2.cpp|90|320|224|60.000000|||good|Konami
 bluehawk|Blue Hawk|parent|dooyong/dooyong.cpp|270|384|240|60.000000|||good|Dooyong
 bluehawkn|Blue Hawk (NTC)|clone|dooyong/dooyong.cpp|270|384|240|60.000000||bluehawk|good|Dooyong (NTC license)
 blueprnt|Blue Print (Midway)|parent|jaleco/blueprnt.cpp|270|256|224|60.000000|||good|Zilec Electronics / Bally Midway
@@ -1846,8 +1846,8 @@ btippers|Big Tippers (Russia)|parent|misc/wms.cpp|0|256|224|60.000000|||prelimin
 btlecity|Vs. Battle City|parent|nintendo/vsnes.cpp|0|256|240|60.098476|||good|Namco
 btlfield|Battle Field (Japan)|clone|alpha/alpha68k.cpp|90|256|224|59.185606||timesold|good|Alpha Denshi Co. (SNK license)
 btlfieldb|Battle Field (bootleg)|clone|alpha/alpha68k.cpp|90|256|224|59.185606||timesold|good|bootleg
-btlkroad|Battle K-Road|parent|psikyo/psikyo.cpp|0|320|224|59.300000|||good|Psikyo
-btlkroadk|Battle K-Road (Korean PCB)|clone|psikyo/psikyo.cpp|0|320|224|59.300000||btlkroad|good|Psikyo
+btlkroad|Battle K-Road|parent|psikyo/psikyo.cpp|0|320|224|59.922743|||good|Psikyo
+btlkroadk|Battle K-Road (Korean PCB)|clone|psikyo/psikyo.cpp|0|320|224|59.922743||btlkroad|good|Psikyo
 btltryst|Battle Tryst (ver JAC)|parent|konami/konamim2.cpp|0|640|240|59.360001|||preliminary|Konami
 btmn_101|Batman (1.01)|clone|pinball/de_3.cpp|0|128|16|50.000000||btmn_103|preliminary|Data East
 btmn_103|Batman (1.03)|parent|pinball/de_3.cpp|0|128|16|50.000000|||preliminary|Data East
@@ -1963,8 +1963,8 @@ cafedoll|Mahjong Cafe Doll (Japan)|parent|dynax/royalmah.cpp|0|256|240|60.000000
 cafepara|Mahjong Cafe Paradise|parent|dynax/royalmah.cpp|0|256|240|60.000000|||preliminary|Techno-Top
 cafetime|Mahjong Cafe Time|parent|dynax/royalmah.cpp|0|256|240|60.000000|||good|Dynax
 cairblad|Change Air Blade (Japan)|parent|seta/ssv.cpp|270|338|240|60.186720|||good|Sammy
-calchase|California Chase|parent|pc/calchase.cpp|0|640|480|53.178707|||preliminary|The Game Room
-calibr50|Caliber 50|parent|seta/seta.cpp|270|384|240|57.420000|||good|Athena / Seta
+calchase|California Chase|parent|pc/calchase.cpp|0|640|480|60.054866|||preliminary|The Game Room
+calibr50|Caliber 50|parent|seta/downtown.cpp|270|384|240|57.420000|||good|Athena / Seta
 calipso|Calipso|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||good|Tago Electronics
 calorie|Calorie Kun vs Moguranian|parent|sega/calorie.cpp|0|256|224|60.000000|||good|Sega
 calorieb|Calorie Kun vs Moguranian (bootleg)|clone|sega/calorie.cpp|0|256|224|60.000000||calorie|good|bootleg
@@ -2170,7 +2170,7 @@ ch2000v1|Fruit Bonus 2000 / New Cherry 2000 (Version 4.4R Dual)|clone|misc/sfbon
 ch2000v2|Fruit Bonus 2000 / New Cherry 2000 (Version 4.1LT Dual)|clone|misc/sfbonus.cpp|0|512|288|60.000000||ch2000|good|Amcoe
 chainrec|Chain Reaction (World, Version 2.2, 1995.09.25)|parent|dataeast/simpl156.cpp|0|320|240|58.000000|||good|Data East
 chaknpop|Chack'n Pop|parent|taito/chaknpop.cpp|0|256|224|59.182800|||good|Taito Corporation
-challeng|Challenger|parent|gameplan/gameplan.cpp|0|256|256|59.196429|||good|Game Plan (Centuri license)
+challeng|Challenger|parent|alliedleisure/killcom.cpp|270|256|256|59.196429|||good|Game Plan (Centuri license)
 cham24|Chameleon 24|parent|nintendo/cham24.cpp|0|256|240|60.000000|||preliminary|bootleg
 chamburger|Hamburger (DECO Cassette, Japan)|clone|dataeast/decocass.cpp|270|256|240|57.444853|decocass|cbtime|good|Data East Corporation
 chameleo|Chameleon|parent|snk/lasso.cpp|0|256|224|57.000000|||good|Jaleco
@@ -2187,7 +2187,7 @@ champwru|Champion Wrestler (US)|clone|taito/taito_l.cpp|0|320|224|60.000000||cha
 chanbara|Chanbara|parent|dataeast/chanbara.cpp|270|256|224|57.444853|||good|Data East
 chance|Chance|parent|pinball/play_1.cpp|||||||preliminary|Playmatic
 chance32|Chance Thirty Two|parent|misc/chance32.cpp|0|560|232|52.786000|||good|PAL System Co, Ltd.
-changela|Change Lanes|parent|taito/changela.cpp|180|256|224|60.000000|||good|Taito Corporation
+changela|Change Lanes|parent|taito/changela.cpp|180|248|224|60.012483|||good|Taito Corporation
 changes|Changes|parent|orca/marineb.cpp|0|256|224|60.000000|||good|Orca
 changesa|Changes (EME license)|clone|orca/marineb.cpp|0|256|224|60.000000||changes|good|Orca (Eastern Micro Electronics, Inc. license)
 chaosbrk|Chaos Breaker (v2.02J)|parent|taito/taitotx.cpp|||||||preliminary|Taito Corporation
@@ -2372,11 +2372,11 @@ cmehyou|Mahjong Circuit no Mehyou (Japan)|parent|nichibutsu/nbmj9195.cpp|0|640|2
 cmezspin|Cherry Master I (E-Z Spin bootleg / hack)|clone|igs/goldstar.cpp|0|512|224|60.000000||cmaster|good|Dyna
 cmfun|Cherry Master (Fun USA v2.5 bootleg / hack)|clone|igs/goldstar.cpp|0|512|224|60.000000||cmv4|good|Dyna
 cmissnx|Mission-X (DECO Cassette)|parent|dataeast/decocass.cpp|270|256|240|57.444853|decocass||good|Data East Corporation
-cmkenosp|Coinmaster Keno (Y2K, Spanish, 2000-12-14)|parent|misc/coinmvga.cpp|90|640|480|60.000000|||preliminary|Coinmaster-Gaming, Ltd.
-cmkenospa|Coinmaster Keno (Y2K, Spanish, 2000-12-02)|clone|misc/coinmvga.cpp|90|640|480|60.000000||cmkenosp|preliminary|Coinmaster-Gaming, Ltd.
+cmkenosp|Coinmaster Keno (Y2K, Spanish, 2000-12-14)|parent|misc/coinmvga.cpp|90|640|480|60.054866|||preliminary|Coinmaster-Gaming, Ltd.
+cmkenospa|Coinmaster Keno (Y2K, Spanish, 2000-12-02)|clone|misc/coinmvga.cpp|90|640|480|60.054866||cmkenosp|preliminary|Coinmaster-Gaming, Ltd.
 cmmb162|Centipede / Millipede / Missile Command / Let's Go Bowling (rev 1.62)|parent|atari/cmmb.cpp|270|256|240|59.659091|||preliminary|Cosmodog / Team Play (Licensed from Infogrames via Midway Games West)
 cmpacman|Super Pacman (v1.2) + Cherry Master (Corsica, v8.31)|parent|igs/goldstar.cpp|0|512|224|60.000000|||good|<unknown>
-cmrltv75|Coinmaster Roulette P497 V75 (Y2K, Spanish)|parent|misc/coinmvga.cpp|90|640|480|60.000000|||preliminary|Coinmaster-Gaming, Ltd.
+cmrltv75|Coinmaster Roulette P497 V75 (Y2K, Spanish)|parent|misc/coinmvga.cpp|90|640|480|60.054866|||preliminary|Coinmaster-Gaming, Ltd.
 cmtetris|Tetris + Cherry Master (Corsica, v8.01, set 1)|parent|igs/goldstar.cpp|0|512|224|60.000000|||good|<unknown>
 cmtetrsa|Tetris + Cherry Master (Corsica, v8.01, set 2)|parent||||||||preliminary|<unknown>
 cmtetrsb|Tetris + Cherry Master (+K, Canada Version, encrypted)|parent||||||||preliminary|<unknown>
@@ -2412,8 +2412,8 @@ code1db|Code One Dispatch (ver B)|clone|konami/viper.cpp|0|1024|768|60.000000|kv
 colmns97|Columns '97 (JET 961209 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Sega
 colony7|Colony 7 (set 1)|parent|midway/williams.cpp|270|292|240|60.096154|||good|Taito
 colony7a|Colony 7 (set 2)|clone|midway/williams.cpp|270|292|240|60.096154||colony7|good|Taito
-colorama|Colorama (P521, English)|parent|misc/coinmvga.cpp|0|640|480|60.000000|||preliminary|Coinmaster-Gaming, Ltd.
-coloramas|Colorama (P521 V13, Spanish)|clone|misc/coinmvga.cpp|0|640|480|60.000000||colorama|preliminary|Coinmaster-Gaming, Ltd.
+colorama|Colorama (P521, English)|parent|misc/coinmvga.cpp|0|640|480|60.054866|||preliminary|Coinmaster-Gaming, Ltd.
+coloramas|Colorama (P521 V13, Spanish)|clone|misc/coinmvga.cpp|0|640|480|60.054866||colorama|preliminary|Coinmaster-Gaming, Ltd.
 colt|Colt|clone|taito/nycaptor.cpp|0|256|224|60.000000||nycaptor|preliminary|bootleg
 columbia|Columbia|parent|pinball/ltd.cpp|||||||preliminary|LTD
 columbus|Columbus (set 1)|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
@@ -3135,7 +3135,7 @@ destroyr|Destroyer (version O2)|parent|atari/destroyr.cpp|0|256|240|59.885932|||
 destroyr1|Destroyer (version O1)|clone|atari/destroyr.cpp|0|256|240|59.885932||destroyr|preliminary|Atari
 destryer|Destroyer (Cidelsa) (set 1)|parent|efo/cidelsa.cpp|90|294|294|50.875178|||imperfect|Cidelsa
 destryera|Destroyer (Cidelsa) (set 2)|clone|efo/cidelsa.cpp|90|294|294|50.875178||destryer|imperfect|Cidelsa
-detatwin|Detana!! Twin Bee (Japan ver. J)|clone|konami/tmnt.cpp|90|320|224|60.000000||blswhstl|good|Konami
+detatwin|Detana!! Twin Bee (Japan ver. J)|clone|konami/tmnt2.cpp|90|320|224|60.000000||blswhstl|good|Konami
 detest|Data East Test Chip|parent|pinball/de_3.cpp|||||||preliminary|Data East
 deucesw2|Deuces Wild 2 - American Heritage (Ver. 2.02F)|parent|misc/blitz68k.cpp|0|512|256|60.000000|||preliminary|<unknown>
 devilfsg|Devil Fish (Galaxian hardware, bootleg?)|clone|galaxian/scramble.cpp|90|256|224|60.606061||devilfsh|good|Vision / Artic
@@ -3288,7 +3288,7 @@ dodgecty|Dodge City (9131-02)|parent|merit/meritm.cpp|0|543|465|59.922749|||impe
 dodgectya|Dodge City (2131-82, U5-0D)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
 dodgectyb|Dodge City (2131-82, U5-50)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
 dodgectyc|Dodge City (2131-82, U5-0 GT)|clone|merit/merit.cpp|0|512|256|76.293945||dodgecty|preliminary|Merit
-dodgem|Dodgem|parent|zaccaria/zac2650.cpp|0|720|768|55.000000|||imperfect|Zaccaria
+dodgem|Dodgem|parent|zaccaria/zac1b1120.cpp|0|720|256|50.541416|||imperfect|Zaccaria
 dogfgt|Acrobatic Dog-Fight|parent|technos/dogfgt.cpp|0|256|240|60.000000|||good|Technos Japan
 dogfgtj|Dog-Fight (Japan)|clone|technos/dogfgt.cpp|0|256|240|60.000000||dogfgt|good|Technos Japan
 dogfgtu|Acrobatic Dog-Fight (USA)|clone|technos/dogfgt.cpp|0|256|240|60.000000||dogfgt|good|Technos Japan (Data East USA, Inc. license)
@@ -3343,10 +3343,10 @@ doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|ne
 douni|Mr. Do vs. Unicorns|clone|universal/docastle.cpp|270|240|192|59.659091||docastle|good|Universal
 dowild|Mr. Do's Wild Ride|parent|universal/docastle.cpp|0|240|192|59.659091|||good|Universal
 downhill|Downhill Bikers (DH3 Ver. A)|parent|namco/namcos23.cpp|0|640|480|59.882400|||preliminary|Namco
-downtown|DownTown / Mokugeki (set 1)|parent|seta/seta.cpp|270|384|240|57.420000|||good|Seta
-downtown2|DownTown / Mokugeki (set 2)|clone|seta/seta.cpp|270|384|240|57.420000||downtown|good|Seta
-downtownj|DownTown / Mokugeki (joystick hack)|clone|seta/seta.cpp|270|384|240|57.420000||downtown|good|Seta
-downtownp|DownTown / Mokugeki (prototype)|clone|seta/seta.cpp|270|384|240|57.420000||downtown|good|Seta
+downtown|DownTown / Mokugeki (set 1)|parent|seta/downtown.cpp|270|384|240|57.420000|||good|Seta
+downtown2|DownTown / Mokugeki (set 2)|clone|seta/downtown.cpp|270|384|240|57.420000||downtown|good|Seta
+downtownj|DownTown / Mokugeki (joystick hack)|clone|seta/downtown.cpp|270|384|240|57.420000||downtown|good|Seta
+downtownp|DownTown / Mokugeki (prototype)|clone|seta/downtown.cpp|270|384|240|57.420000||downtown|good|Seta
 dpatrol|Desert Patrol [TTL]|parent|misc/pse.cpp|0|455|262|60.053687|||preliminary|Project Support Engineering
 dphl|Draw Poker HI-LO (M.Kramer)|parent|misc/norautp.cpp|0|464|248|60.000000|||preliminary|M.Kramer Manufacturing.
 dphla|Draw Poker HI-LO (Alt)|parent|misc/norautp.cpp|0|464|248|60.000000|||preliminary|<unknown>
@@ -4034,7 +4034,7 @@ eforestb|Enchanted Forest (3VXFC5343, New Zealand)|clone|aristocrat/aristmk4.cpp
 egghunt|Egg Hunt|parent|capcom/egghunt.cpp|0|384|240|60.000000|||good|Invi Image
 eggor|Eggor|parent|pacman/pacman.cpp|90|288|224|60.606061|||preliminary|Telko
 eggs|Eggs (USA)|clone|dataeast/scregg.cpp|270|240|240|57.444853||scregg|good|Technos Japan (Universal USA license)
-eggsplc|Eggs Playing Chicken|parent|pc/calchase.cpp|0|640|480|53.178707|||good|The Game Room
+eggsplc|Eggs Playing Chicken|parent|pc/calchase.cpp|0|640|480|60.054866|||good|The Game Room
 eggventr|Egg Venture (Release 10)|parent|ice/lethalj.cpp|0|512|236|61.235714|||good|The Game Room
 eggventr2|Egg Venture (Release 2)|clone|ice/lethalj.cpp|0|512|236|61.235714||eggventr|good|The Game Room
 eggventr7|Egg Venture (Release 7)|clone|ice/lethalj.cpp|0|512|236|61.235714||eggventr|good|The Game Room
@@ -4061,8 +4061,8 @@ elecyoyo2|The Electric Yo-Yo (set 2)|clone|taito/qix.cpp|270|256|256|55.838470||
 elektra|Elektra|parent|pinball/by35.cpp|||||||preliminary|Bally
 elephfam|Elephant Family (Italian, new)|parent|funworld/funworld.cpp|0|384|232|60.000000|||good|C.M.C.
 elephfmb|Elephant Family (Italian, old)|clone|funworld/funworld.cpp|0|384|232|60.000000||elephfam|good|C.M.C.
-elevator|Elevator Action|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
-elevatorb|Elevator Action (bootleg)|clone|taito/taitosj.cpp|0|256|224|60.000000||elevator|good|bootleg
+elevator|Elevator Action|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
+elevatorb|Elevator Action (bootleg)|clone|taito/taitosj.cpp|0|256|224|59.185606||elevator|good|bootleg
 elfin|Elfin|parent|misc/dgpix.cpp|0|320|240|60.000000|||preliminary|dgPIX Entertainment Inc.
 elgrande|El Grande - 5 Card Draw (New)|parent|misc/calomega.cpp|0|256|248|60.000000|||good|Enter-Tech, Ltd. / Tuni Electro Service
 elim2|Eliminator (2 Players, set 1)|parent|sega/segag80v.cpp|180|||40.000000|||imperfect|Gremlin
@@ -4115,9 +4115,9 @@ enduror1|Enduro Racer (YM2203, FD1089B 317-0013A)|clone|sega/segahang.cpp|0|320|
 enforce|Enforce (World)|parent|taito/taito_z.cpp|0|320|224|60.055992|||imperfect|Taito Corporation Japan
 enforcej|Enforce (Japan)|clone|taito/taito_z.cpp|0|320|224|60.055992||enforce|imperfect|Taito Corporation
 enforceja|Enforce (Japan, Analog Controls)|clone|taito/taito_z.cpp|0|320|224|60.055992||enforce|imperfect|Taito Corporation
-enigma2|Enigma II|parent|gameplan/enigma2.cpp|270|256|224|52.787162|||good|Game Plan (Zilec Electronics license)
-enigma2a|Enigma II (Space Invaders hardware)|clone|gameplan/enigma2.cpp|270|256|224|52.787162||enigma2|good|Zilec Electronics
-enigma2b|Phantoms II (Space Invaders hardware)|clone|gameplan/enigma2.cpp|270|256|224|52.787162||enigma2|good|Zilec Electronics
+enigma2|Enigma II|parent|misc/enigma2.cpp|270|256|224|52.787162|||good|Game Plan (Zilec Electronics license)
+enigma2a|Enigma II (Space Invaders hardware)|clone|misc/enigma2.cpp|270|256|224|52.787162||enigma2|good|Zilec Electronics
+enigma2b|Phantoms II (Space Invaders hardware)|clone|misc/enigma2.cpp|270|256|224|52.787162||enigma2|good|Zilec Electronics
 ep_21clb|Twenty One Club (Maygay) (EPOCH) (3.2, set 1)|parent|maygay/maygayep.cpp|||||||preliminary|Maygay
 ep_21clba|Twenty One Club (Maygay) (EPOCH) (3.2, set 2)|clone|maygay/maygayep.cpp||||||ep_21clb|preliminary|Maygay
 ep_25crt|25 Carrot Gold (Maygay) (EPOCH) (1.2, set 1)|parent|maygay/maygayep.cpp|||||||preliminary|Maygay
@@ -5465,7 +5465,7 @@ fromanc4|Taisen Mahjong Final Romance 4 (Japan)|parent|vsystem/fromanc2.cpp|0|35
 fromance|Idol-Mahjong Final Romance (Japan)|parent|vsystem/fromance.cpp|0|352|240|60.000000|||good|Video System Co.
 fromancr|Taisen Mahjong Final Romance R (Japan)|parent|vsystem/fromanc2.cpp|0|352|240|60.000000|||good|Video System Co.
 frontier|Frontier|parent|pinball/by35.cpp|||||||preliminary|Bally
-frontlin|Front Line|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation
+frontlin|Front Line|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation
 fround|The Final Round (version M)|parent|konami/twin16.cpp|0|320|224|60.606061|||good|Konami
 froundl|The Final Round (version L)|clone|konami/twin16.cpp|0|320|224|60.606061||fround|good|Konami
 frpwr_l2|Firepower (L-2)|clone|pinball/s6.cpp||||||frpwr_l6|preliminary|Williams
@@ -5661,7 +5661,7 @@ gambl186a|unknown 186 based gambling game (V399)|clone|misc/gambl186.cpp|0|640|4
 gamecst2|GameCristal (version 2.613)|clone|pc/sis630.cpp|0|640|480|53.178707||gamecstl|preliminary|Cristaltec
 gamecstl|GameCristal|parent|pc/sis630.cpp|0|640|480|53.178707|||preliminary|Cristaltec
 gametngk|The Game Paradise - Master of Shooting! / Game Tengoku - The Game Paradise|parent|jaleco/ms32.cpp|270|320|224|59.410646|||imperfect|Jaleco
-gammagic|Game Magic|parent|misc/gammagic.cpp|0|640|480|53.178707|||preliminary|Bally Gaming Co.
+gammagic|Game Magic|parent|misc/gammagic.cpp|||||||preliminary|Bally Gaming Co.
 gamshara|Gamshara (10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Mitchell
 gamt1|Gaminator 1 (set 1)|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
 gamt10|Gaminator 10 (set 1)|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
@@ -5998,15 +5998,15 @@ gl_wywh24p|Wish You Were Here Club (Global) (v2.4 Protocol) (Stealth)|clone|misc
 gl_wywhp|Wish You Were Here Club (Global) (v2.9 Protocol) (Stealth)|clone|misc/globalfr.cpp||||||gl_wywh|preliminary|Global
 gladiatp|Gladiators|parent|pinball/gts3a.cpp|0|128|64|60.000000|||preliminary|Gottlieb
 gladiatr|Gladiator (US)|parent|taito/gladiatr.cpp|0|256|224|60.000000|||good|Allumer / Taito America Corporation
-glass|Glass (Ver 1.1)|parent|gaelco/glass.cpp|0|368|240|60.000000|||preliminary|OMK / Gaelco
-glass10|Glass (Ver 1.0)|clone|gaelco/glass.cpp|0|368|240|60.000000||glass|preliminary|OMK / Gaelco
-glassbrk|Glass (Ver 1.0, Break Edition)|clone|gaelco/glass.cpp|0|368|240|60.000000||glass|preliminary|OMK / Gaelco
+glass|Glass (Ver 1.1)|parent|gaelco/glass.cpp|0|368|240|57.420000|||preliminary|OMK / Gaelco
+glass10|Glass (Ver 1.0)|clone|gaelco/glass.cpp|0|368|240|57.420000||glass|preliminary|OMK / Gaelco
+glassbrk|Glass (Ver 1.0, Break Edition)|clone|gaelco/glass.cpp|0|368|240|57.420000||glass|preliminary|OMK / Gaelco
 gldarrow|Golden Arrow (Standard G8-03)|parent|misc/meyc8088.cpp|0|256|224|59.865900|||good|Meyco Games, Inc.
 gldncrwn|Golden Crown (Dutch, Game Card 95-752-011)|parent|bfm/bfm_sc2.cpp|0|400|280|50.000000|||good|BFM/ELAM
 gldneye|Goldeneye|parent|pinball/whitestar.cpp|0|128|32|60.000000|||preliminary|Sega
 gldnpkr|Golden Poker (8VXEC037, New Zealand)|parent|aristocrat/aristmk4.cpp|0|304|216|60.000000|||good|Ainsworth Nominees P.L.
-glfgreat|Golfing Greats|parent|konami/tmnt.cpp|0|288|224|60.000000|||preliminary|Konami
-glfgreatj|Golfing Greats (Japan)|clone|konami/tmnt.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
+glfgreat|Golfing Greats|parent|konami/tmnt2.cpp|0|288|224|60.000000|||preliminary|Konami
+glfgreatj|Golfing Greats (Japan)|clone|konami/tmnt2.cpp|0|288|224|60.000000||glfgreat|preliminary|Konami
 gloc|G-LOC Air Battle (US)|parent|sega/segaybd.cpp|0|320|224|60.000000|||good|Sega
 glocr360|G-LOC R360|clone|sega/segaybd.cpp|0|320|224|60.000000||gloc|good|Sega
 glpracr|Gallop Racer (English Ver 10.17.K)|parent|sony/zn.cpp|0|640|480|60.000000|cpzn1||imperfect|Tecmo
@@ -6363,10 +6363,10 @@ gumbo|Gumbo|parent|misc/gumbo.cpp|0|320|224|60.000000|||good|Min Corp.
 gunbalina|Gunbalina (Japan, GNN1 Ver.A)|clone|namco/namcos10.cpp|0|640|480|60.000000||ptblank3|preliminary|Namco
 gunball|Gun Ball (Japan)|clone|dataeast/rohga.cpp|270|320|240|58.000000||nitrobal|good|Data East Corporation
 gunbarl|Gunbarl (Japan, GNB4/VER.A)|clone|namco/namcos12.cpp|0|640|480|60.000000||ptblank2|imperfect|Namco
-gunbird|Gunbird (World)|parent|psikyo/psikyo.cpp|270|320|224|59.300000|||good|Psikyo
+gunbird|Gunbird (World)|parent|psikyo/psikyo.cpp|270|320|224|59.922743|||good|Psikyo
 gunbird2|Gunbird 2|parent|psikyo/psikyosh.cpp|270|320|224|60.000000|||good|Psikyo
-gunbirdj|Gunbird (Japan)|clone|psikyo/psikyo.cpp|270|320|224|59.300000||gunbird|good|Psikyo
-gunbirdk|Gunbird (Korea)|clone|psikyo/psikyo.cpp|270|320|224|59.300000||gunbird|good|Psikyo
+gunbirdj|Gunbird (Japan)|clone|psikyo/psikyo.cpp|270|320|224|59.922743||gunbird|good|Psikyo
+gunbirdk|Gunbird (Korea)|clone|psikyo/psikyo.cpp|270|320|224|59.922743||gunbird|good|Psikyo
 gunblade|Gunblade NY (Revision A)|parent|sega/model2.cpp|0|496|384|57.524160|||preliminary|Sega
 gunbuletj|Gun Bullet (Japan, GN1)|clone|namco/namconb1.cpp|0|288|224|59.659091||ptblank|imperfect|Namco
 gunbuletw|Gun Bullet (World, GN3 Rev B)|clone|namco/namconb1.cpp|0|288|224|59.659091||ptblank|imperfect|Namco
@@ -6796,7 +6796,7 @@ horekid|Kid no Hore Hore Daisakusen|parent|nichibutsu/terracre.cpp|270|256|224|6
 horekidb|Kid no Hore Hore Daisakusen (bootleg)|clone|nichibutsu/terracre.cpp|270|256|224|60.000000||horekid|good|bootleg
 horizon|Horizon (Irem)|parent|irem/m62.cpp|0|256|256|56.338028|||imperfect|Irem
 horshoes|American Horseshoes (US)|parent|taito/taito_l.cpp|270|320|224|60.000000|||good|Taito America Corporation
-hostinv|Host Invaders|parent|pc/calchase.cpp|0|640|480|53.178707|||preliminary|The Game Room
+hostinv|Host Invaders|parent|pc/calchase.cpp|0|640|480|60.054866|||preliminary|The Game Room
 hotblock|Hot Blocks - Tetrix II|parent|misc/hotblock.cpp|0|320|200|50.080128|||good|NIX?
 hotbubl|Hot Bubble|clone|nmk/nmk16.cpp|0|256|224|56.180000||bubl2000|good|Afega (Pandora license)
 hotchase|Hot Chase|parent|konami/wecleman.cpp|0|320|224|60.000000|||good|Konami
@@ -6894,7 +6894,7 @@ hvyunitjo|Heavy Unit (Japan, Older)|clone|kaneko/hvyunit.cpp|0|256|224|58.000000
 hvyunitu|Heavy Unit -U.S.A. Version- (US)|clone|kaneko/hvyunit.cpp|0|256|224|58.000000||hvyunit|good|Kaneko / Taito
 hwchamp|Heavyweight Champ|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega
 hwchampj|Heavyweight Champ (Japan, FD1094 317-0046)|clone|sega/segas16b.cpp|0|320|224|60.054389||hwchamp|good|Sega
-hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation
+hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation
 hydra|Hydra|parent|atari/atarig1.cpp|0|336|240|59.922743|||good|Atari Games
 hydrap|Hydra (prototype 5/14/90)|clone|atari/atarig1.cpp|0|336|240|59.922743||hydra|good|Atari Games
 hydrap2|Hydra (prototype 5/25/90)|clone|atari/atarig1.cpp|0|336|240|59.922743||hydra|good|Atari Games
@@ -7088,7 +7088,7 @@ invmultis1a|Space Invaders Multigame (S0.81A)|clone|midw8080/8080bw.cpp|270|260|
 invmultis2a|Space Invaders Multigame (S0.82A)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
 invmultis3a|Space Invaders Multigame (S0.83A)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
 invmultit3d|Space Invaders Multigame (T8.03D)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invmulti|imperfect|hack (Braze Technologies)
-invqix|Space Invaders / Qix Silver Anniversary Edition (Ver. 2.03)|parent|taito/invqix.cpp|270|257|241|60.000000|||good|Taito / Namco
+invqix|Space Invaders / Qix Silver Anniversary Edition (Ver. 2.03)|parent|taito/invqix.cpp|270|256|240|60.000000|||good|Taito / Namco
 invrvnge|Invader's Revenge (set 1)|parent|midw8080/8080bw.cpp|270|260|224|59.541985|||preliminary|Zenitone-Microsec Ltd.
 invrvngea|Invader's Revenge (set 2)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invrvnge|preliminary|Zenitone-Microsec Ltd.
 invrvngeb|Invader's Revenge (set 3)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invrvnge|preliminary|Zenitone-Microsec Ltd.
@@ -8516,9 +8516,9 @@ jackalr|Jackal (World, Rotary Joystick)|clone|konami/jackal.cpp|90|240|224|60.00
 jackie|Happy Jackie (v110U)|parent|igs/jackie.cpp|0|512|256|57.000000|||good|IGS
 jackler|Jackler (Jungler bootleg)|clone|namco/rallyx.cpp|90|288|224|60.606061||jungler|good|bootleg
 jackpool|Jackpot Cards / Jackpot Pool (Italy)|parent|misc/jackpool.cpp|0|512|256|60.000000|||preliminary|Electronic Projects
-jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000|||imperfect|Zaccaria
-jackrabt2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt|imperfect|Zaccaria
-jackrabts|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.570000||jackrabt|imperfect|Zaccaria
+jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061|||imperfect|Zaccaria
+jackrabt2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt|imperfect|Zaccaria
+jackrabts|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt|imperfect|Zaccaria
 jailbrek|Jail Break|parent|konami/jailbrek.cpp|0|240|224|60.606061|||good|Konami
 jailbrekb|Jail Break (bootleg)|clone|konami/jailbrek.cpp|0|240|224|60.606061||jailbrek|good|bootleg
 jajamaru|Vs. Ninja Jajamaru Kun (Japan)|parent|nintendo/vsnes.cpp|0|256|240|60.098476|||good|Jaleco
@@ -8695,12 +8695,12 @@ jumpshot|Jump Shot|parent|pacman/pacman.cpp|90|288|224|60.606061|||good|Bally Mi
 jumpshotp|Jump Shot Engineering Sample|clone|pacman/pacman.cpp|90|288|224|60.606061||jumpshot|good|Bally Midway
 junai|Junai - Manatsu no First Kiss (Japan)|parent|nichibutsu/hrdvd.cpp|0|543|465|59.922749|||preliminary|Nichibutsu/eic
 junai2|Junai 2 - White Love Story (Japan)|parent|nichibutsu/hrdvd.cpp|0|543|465|59.922749|||preliminary|Nichibutsu/eic
-jungleby|Jungle Boy (bootleg)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|bootleg
-jungleh|Jungle Hunt (US)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|Taito America Corporation
-junglehbr|Jungle Hunt (Brazil)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|Taito do Brasil
-junglek|Jungle King (Japan)|parent|taito/taitosj.cpp|180|256|224|60.000000|||good|Taito Corporation
-junglekas|Jungle King (alternate sound)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|Taito Corporation
-junglekj2|Jungle King (Japan, earlier)|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|Taito Corporation
+jungleby|Jungle Boy (bootleg)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|bootleg
+jungleh|Jungle Hunt (US)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|Taito America Corporation
+junglehbr|Jungle Hunt (Brazil)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|Taito do Brasil
+junglek|Jungle King (Japan)|parent|taito/taitosj.cpp|180|256|224|59.185606|||good|Taito Corporation
+junglekas|Jungle King (alternate sound)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|Taito Corporation
+junglekj2|Jungle King (Japan, earlier)|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|Taito Corporation
 jungler|Jungler|parent|namco/rallyx.cpp|90|288|224|60.606061|||good|Konami
 junglers|Jungler (Stern Electronics)|clone|namco/rallyx.cpp|90|288|224|60.606061||jungler|good|Konami (Stern Electronics license)
 junofrst|Juno First|parent|konami/junofrst.cpp|90|768|224|60.606061|||good|Konami
@@ -8741,7 +8741,7 @@ kanatuen|Kanatsuen no Onna [BET] (Japan 880905)|parent|nichibutsu/nbmj8688.cpp|0
 kangaroo|Kangaroo|parent|sunelectronics/kangaroo.cpp|90|512|240|60.096154|||good|Sun Electronics
 kangarooa|Kangaroo (Atari)|clone|sunelectronics/kangaroo.cpp|90|512|240|60.096154||kangaroo|good|Sun Electronics (Atari license)
 kangaroob|Kangaroo (bootleg)|clone|sunelectronics/kangaroo.cpp|90|512|240|60.096154||kangaroo|good|bootleg
-kaos|Kaos|parent|gameplan/gameplan.cpp|270|256|256|59.196429|||good|Game Plan
+kaos|Kaos|parent|alliedleisure/killcom.cpp|270|256|256|59.196429|||good|Game Plan
 karatblz|Karate Blazers (World)|parent|vsystem/aerofgt.cpp|0|352|240|60.000000|||good|Video System Co.
 karatblzj|Karate Blazers (Japan)|clone|vsystem/aerofgt.cpp|0|352|240|60.000000||karatblz|good|Video System Co.
 karatblzu|Karate Blazers (US)|clone|vsystem/aerofgt.cpp|0|352|240|60.000000||karatblz|good|Video System Co.
@@ -8825,11 +8825,11 @@ kikaioh|Choukou Senki Kikaioh (Japan 980914)|clone|sony/zn.cpp|0|640|480|60.0000
 kikcubic|Meikyu Jima (Japan)|parent|irem/vigilant.cpp|0|384|256|55.017606|||good|Irem
 kikcubicb|Kickle Cubele|clone|irem/vigilant.cpp|0|384|256|55.017606||kikcubic|good|bootleg
 kikikai|KiKi KaiKai|parent|taito/kikikai.cpp|90|256|224|59.185606|||good|Taito Corporation
-kikstart|Kick Start - Wheelie King|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
+kikstart|Kick Start - Wheelie King|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
 killbld|The Killing Blade (ver. 109, Chinese Board)|parent|igs/pgm.cpp|0|448|224|59.185606|pgm||imperfect|IGS
 killbld104|The Killing Blade (ver. 104)|clone|igs/pgm.cpp|0|448|224|59.185606|pgm|killbld|imperfect|IGS
 killbldp|The Killing Blade Plus (China, ver. 300)|parent|igs/pgm.cpp|0|448|224|59.185606|pgm||imperfect|IGS
-killcom|Killer Comet|parent|gameplan/gameplan.cpp|0|256|256|59.196429|||good|Game Plan (Centuri license)
+killcom|Killer Comet|parent|alliedleisure/killcom.cpp|0|256|256|59.196429|||good|Game Plan (Centuri license)
 kimbldhl|Kimble Double HI-LO|parent|misc/norautp.cpp|0|464|248|60.000000|||preliminary|Kimble Ireland
 kimblz80|Kimble Double HI-LO (z80 version)|parent|misc/norautp.cpp|0|464|248|60.000000|||preliminary|Kimble Ireland
 kingball|King & Balloon (US)|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||good|Namco
@@ -9161,8 +9161,8 @@ leking|Le King|parent|pinball/jeutel.cpp|||||||preliminary|Jeutel
 lemans24|Le Mans 24 (Revision B)|parent|sega/model3.cpp|0|496|384|57.524160|||preliminary|Sega
 lemmings|Lemmings (US prototype)|parent|dataeast/lemmings.cpp|0|320|224|60.000000|||good|Data East USA
 lemnangl|Mahjong Lemon Angel (Japan)|parent|misc/homedata.cpp|0|432|224|59.000000|||good|Home Data
-leprechn|Leprechaun|parent|gameplan/gameplan.cpp|0|256|256|59.196429|||good|Tong Electronic
-leprechp|Leprechaun (Pacific)|clone|gameplan/gameplan.cpp|0|256|256|59.196429||leprechn|good|Tong Electronic (Pacific Polytechnical license)
+leprechn|Leprechaun|parent|alliedleisure/killcom.cpp|0|256|256|59.196429|||good|Tong Electronic
+leprechp|Leprechaun (Pacific)|clone|alliedleisure/killcom.cpp|0|256|256|59.196429||leprechn|good|Tong Electronic (Pacific Polytechnical license)
 leprgld|Leprechaun's Gold (Russia)|parent|misc/wms.cpp|0|256|224|60.000000|||preliminary|WMS
 lethalen|Lethal Enforcers (ver UAE, 11/19/92 15:04)|parent|konami/lethal.cpp|180|288|224|59.620000|||imperfect|Konami
 lethaleneab|Lethal Enforcers (ver EAB, 10/14/92 19:53)|clone|konami/lethal.cpp|180|288|224|59.620000||lethalen|imperfect|Konami
@@ -9179,9 +9179,9 @@ lghost|Laser Ghost (World, FD1094 317-0166)|parent|sega/segas18.cpp|0|320|224|57
 lghostu|Laser Ghost (US, FD1094 317-0165)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|Sega
 lgp|Laser Grand Prix|parent|taito/lgp.cpp|0|704|480|59.940057|||preliminary|Taito
 lgpalt|Laser Grand Prix (alternate)|clone|taito/lgp.cpp|0|704|480|59.940057||lgp|preliminary|Taito
-lgtnfght|Lightning Fighters (World)|parent|konami/tmnt.cpp|90|320|224|60.000000|||good|Konami
-lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
-lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+lgtnfght|Lightning Fighters (World)|parent|konami/tmnt2.cpp|90|320|224|60.000000|||good|Konami
+lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
 lhaunt_10|Lucky Haunter (090712 Entertainment)|clone|misc/multfish.cpp|0|640|480|60.000000||lhaunt_6|good|Igrosoft
 lhaunt_11|Lucky Haunter (100331 Entertainment)|clone|misc/multfish.cpp|0|640|480|60.000000||lhaunt_6|good|Igrosoft
 lhaunt_2|Lucky Haunter (030804 World)|clone|misc/multfish.cpp|0|640|480|60.000000||lhaunt_6|good|Igrosoft
@@ -10472,8 +10472,8 @@ m1wotw|War Of The Worlds (Maygay) (M1A/B) (set 1)|parent|maygay/maygay1bsw.cpp||
 m1wotwa|War Of The Worlds (Maygay) (M1A/B) (set 2)|clone|maygay/maygay1bsw.cpp||||||m1wotw|preliminary|Maygay
 m1wotwb|War Of The Worlds (Maygay) (M1A/B) (set 3)|clone|maygay/maygay1bsw.cpp||||||m1wotw|preliminary|Maygay
 m21|21 (Mirco)|clone|olivetti/m24.cpp|0|640|400|33.982164||hitme|good|Mirco Games
-m2hilite|Hi-Lights (Barcrest) (MPU2)|parent|barcrest/mpu2.cpp|||||||preliminary|Barcrest
-m2svlite|Silver Lights (Barcrest) (MPU2)|parent|barcrest/mpu2.cpp|||||||preliminary|Barcrest
+m2hilite|Hi-Lights (Barcrest) (MPU2)|parent|barcrest/mpu1.cpp|||||||preliminary|Barcrest
+m2svlite|Silver Lights (Barcrest) (MPU2)|parent|barcrest/mpu1.cpp|||||||preliminary|Barcrest
 m3acech|Ace Chase (Bwb) (MPU3)|parent|barcrest/mpu3.cpp|||||||preliminary|Bwb
 m3autort|Autoroute (Barcrest) (MPU3)|parent|barcrest/mpu3.cpp|||||||preliminary|Barcrest
 m3bankr|Banker (Bwb) (MPU3)|parent|barcrest/mpu3.cpp|||||||preliminary|Bwb
@@ -17093,7 +17093,7 @@ megat5nj|Megatouch 5 (9255-60-07 RON, New Jersey version)|clone|merit/meritm.cpp
 megat5t|Megatouch 5 Tournament Edition (9255-70-01 ROC, Standard version)|clone|merit/meritm.cpp|0|543|465|59.922749||megat5|imperfect|Merit
 megat5tg|Megatouch 5 Turnier Version (9255-70-50 ROD, Bi-Lingual GER/ENG version)|clone|merit/meritm.cpp|0|543|465|59.922749||megat5|imperfect|Merit
 megat6|Megatouch 6 (9255-80-01 ROA, Standard version)|parent|merit/meritm.cpp|0|543|465|59.922749|||imperfect|Merit
-megatack|Megatack|parent|gameplan/gameplan.cpp|0|256|256|59.196429|||good|Game Plan (Centuri license)
+megatack|Megatack|parent|alliedleisure/killcom.cpp|0|256|256|59.196429|||good|Game Plan (Centuri license)
 megatech|Mega-Tech|bios|sega/megatech.cpp|0|256|224|59.922738|||good|Sega
 megazone|Mega Zone (Konami set 1)|parent|konami/megazone.cpp|90|288|224|60.606060|||good|Konami
 megazonea|Mega Zone (Konami set 2)|clone|konami/megazone.cpp|90|288|224|60.606060||megazone|good|Konami
@@ -17118,7 +17118,7 @@ mercsur1|Mercs (USA 900302)|clone|capcom/cps1.cpp|270|384|224|59.637405||mercs|g
 merlinmm|Merlins Money Maze|parent|konami/pingpong.cpp|90|256|224|60.000000|||good|Zilec-Zenitone
 mermaid|Mermaid|parent|sanritsu/mermaid.cpp|0|256|224|60.000000|||imperfect|Sanritsu / Rock-Ola
 merryjn|Merry Joiner|parent|misc/belatra.cpp|||||||preliminary|Belatra
-metafox|Meta Fox|parent|seta/seta.cpp|270|384|224|60.000000|||good|Seta
+metafox|Meta Fox|parent|seta/downtown.cpp|270|384|224|60.000000|||good|Seta
 metalb|Metal Black (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito Corporation Japan
 metalbj|Metal Black (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||metalb|good|Taito Corporation
 metalman|Metal Man|parent|pinball/spinb.cpp|||||||preliminary|Inder
@@ -17453,7 +17453,7 @@ monsterb2|Monster Bash (2 board version)|clone|sega/segag80r.cpp|270|256|224|60.
 monsterz|Monster Zero|parent|galaxian/galaxian.cpp|0|648|224|60.606061|||preliminary|Nihon Game
 montana|Montana Bingo Stake 6/10 (Bingo)|parent|pinball/bingo.cpp|||||||preliminary|Splin
 montecar|Monte Carlo|parent|atari/firetrk.cpp|270|320|240|60.114504|||good|Atari
-monymony|Money Money|parent|zaccaria/zaccaria.cpp|90|256|224|60.570000|||imperfect|Zaccaria
+monymony|Money Money|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061|||imperfect|Zaccaria
 monzagp|Monza GP|parent|olympia/monzagp.cpp|270|560|229|50.000000|||preliminary|Olympia
 monzagpb|Monza GP (bootleg)|clone|olympia/monzagp.cpp|270|560|229|50.000000||monzagp|preliminary|bootleg
 moomesa|Wild West C.O.W.-Boys of Moo Mesa (ver EAB)|parent|konami/moo.cpp|0|384|224|60.000000|||imperfect|Konami
@@ -18011,7 +18011,7 @@ nmoves|Night Moves|parent|pinball/gts80b.cpp|||||||preliminary|International Con
 nmsengen|Nekketsu Mahjong Sengen! AFTER 5 (Japan)|parent|vsystem/fromance.cpp|0|352|240|60.000000|||good|Video System Co.
 nndmseal|Nandemo Seal Iinkai|parent|jaleco/tetrisp2.cpp|0|384|240|60.054442|||preliminary|I'Max / Jaleco
 nndmseala|Nandemo Seal Iinkai (Astro Boy ver.)|clone|jaleco/tetrisp2.cpp|0|384|240|60.054442||nndmseal|preliminary|I'Max / Jaleco
-noahsark|Noah's Ark|parent|misc/tugboat.cpp|90|240|224|60.000000|||imperfect|Enter-Tech, Ltd.
+noahsark|Noah's Ark|parent|misc/tugboat.cpp|90|240|232|59.185606|||imperfect|Enter-Tech, Ltd.
 nob|Noboranka (Japan)|parent|sega/system1.cpp|270|512|224|60.096154|||good|Coreland / Data East Corporation
 nobb|Noboranka (Japan, bootleg)|clone|sega/system1.cpp|270|512|224|60.096154||nob|good|bootleg (Game Electronics)
 nomnlnd|No Man's Land|parent|universal/cosmic.cpp|270|256|192|58.639833|||imperfect|Universal
@@ -18855,7 +18855,7 @@ pexmp017a|Player's Edge Plus (XMP00017) 5-in-1 Wingboard (CG2352)|clone|igt/pepl
 pexmp017b|Player's Edge Plus (XMP00017) 5-in-1 Wingboard (CG2426)|clone|igt/peplus.cpp|0|320|200|60.000000||pexmp017|good|IGT - International Game Technology
 pexmp026|Player's Edge Plus (XMP00026) 5-in-1 Wingboard (CG2346) - Spanish|parent|igt/peplus.cpp|0|320|200|60.000000|||good|IGT - International Game Technology
 pexmp030|Player's Edge Plus (XMP00030) 5-in-1 Wingboard (CG2426)|parent|igt/peplus.cpp|0|320|200|60.000000|||good|IGT - International Game Technology
-pf2012|Psychic Force 2012|parent|taito/taitowlf.cpp|0|512|256|60.000000|||preliminary|Taito
+pf2012|Psychic Force 2012|parent|taito/taitowlf.cpp|0|512|240|57.000000|||preliminary|Taito
 pfevr_l2|Pennant Fever (L-2)|parent|pinball/s8.cpp|||||||preliminary|Williams
 pfevr_p3|Pennant Fever (P-3)|clone|pinball/s8.cpp||||||pfevr_l2|preliminary|Williams
 pfghtj|Pocket Fighter (Japan 970904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|Capcom
@@ -18990,9 +18990,9 @@ pirate_2|Pirate (060210 World)|clone|misc/multfish.cpp|0|640|480|60.000000||pira
 pirate_3|Pirate (060803 World)|parent|misc/multfish.cpp|0|640|480|60.000000|||good|Igrosoft
 pirate_4|Pirate (070412 Russia)|clone|misc/multfish.cpp|0|640|480|60.000000||pirate_3|good|Igrosoft
 pirates|Pirates|parent|nix/pirates.cpp|0|288|224|60.000000|||good|NIX
-piratetr|Pirate Treasure|parent|gameplan/gameplan.cpp|0|256|256|59.196429|||good|Tong Electronic
+piratetr|Pirate Treasure|parent|alliedleisure/killcom.cpp|0|256|256|59.196429|||good|Tong Electronic
 pirati|Pirati|parent|misc/itgambl2.cpp|0|512|256|60.000000|||preliminary|Cin
-piratpet|Pirate Pete|clone|taito/taitosj.cpp|180|256|224|60.000000||junglek|good|Taito America Corporation
+piratpet|Pirate Pete|clone|taito/taitosj.cpp|180|256|224|59.185606||junglek|good|Taito America Corporation
 pirpok2|Pirate Poker II (Version 2.4E Dual)|parent|misc/sfbonus.cpp|0|512|288|60.000000|||good|Amcoe
 pirpok2b1|Pirate Poker II (Version 2.2R, set 1)|clone|misc/sfbonus.cpp|0|512|288|60.000000||pirpok2|good|Amcoe
 pirpok2d1|Pirate Poker II (Version 2.2R, set 2)|clone|misc/sfbonus.cpp|0|512|288|60.000000||pirpok2|good|Amcoe
@@ -19262,7 +19262,7 @@ potnpkrd|Jack Potten's Poker (set 5)|clone|misc/goldnpkr.cpp|0|256|232|60.096154
 potnpkre|Jack Potten's Poker (set 6)|clone|misc/goldnpkr.cpp|0|256|232|60.096154||pottnpkr|good|bootleg
 potnpkrf|Jack Potten's Poker (set 7, Royale GFX)|clone|misc/goldnpkr.cpp|0|256|232|60.096154||pottnpkr|good|bootleg
 poto_a32|The Phantom of the Opera (3.2)|parent|pinball/de_2.cpp|||||||preliminary|Data East
-potogold|Pot of Gold|clone|gameplan/gameplan.cpp|0|256|256|59.196429||leprechn|good|Tong Electronic (Game Plan license)
+potogold|Pot of Gold|clone|alliedleisure/killcom.cpp|0|256|256|59.196429||leprechn|good|Tong Electronic (Game Plan license)
 potopoto|Poto Poto (Japan)|parent|sega/segac2.cpp|0|256|224|59.922743|||good|Sega
 pottnpkr|Jack Potten's Poker (set 1)|parent|misc/goldnpkr.cpp|0|256|232|60.096154|||good|bootleg
 poundfor|Pound for Pound (World)|parent|irem/m72.cpp|270|384|256|55.017606|||good|Irem
@@ -19439,8 +19439,8 @@ primrag2|Primal Rage 2 (Ver 0.36a)|parent|sony/zn.cpp|0|640|480|60.000000|atpsx|
 primrage|Primal Rage (version 2.3)|parent|atari/atarigt.cpp|0|336|240|59.922743|||preliminary|Atari Games
 primrage20|Primal Rage (version 2.0)|clone|atari/atarigt.cpp|0|336|240|59.922743||primrage|preliminary|Atari Games
 princess|Cosmic Princess|parent|pinball/st_mp100.cpp|||||||preliminary|Stern
-prmrsocr|Premier Soccer (ver EAB)|parent|konami/tmnt.cpp|0|288|224|60.000000|||good|Konami
-prmrsocrj|Premier Soccer (ver JAB)|clone|konami/tmnt.cpp|0|288|224|60.000000||prmrsocr|good|Konami
+prmrsocr|Premier Soccer (ver EAB)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||good|Konami
+prmrsocrj|Premier Soccer (ver JAB)|clone|konami/tmnt2.cpp|0|288|224|60.000000||prmrsocr|good|Konami
 prmtmfgt|Prime Time Fighter (Ver 2.1A 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|58.970000||trstar|good|Taito America Corporation
 prmtmfgto|Prime Time Fighter (Ver 2.1A 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|58.970000||trstar|good|Taito America Corporation
 profpac|Professor Pac-Man|parent|midway/astrocde.cpp|0|352|240|60.054442|||good|Dave Nutting Associates / Bally Midway
@@ -19532,9 +19532,9 @@ punisherh|The Punisher (Hispanic 930422)|clone|capcom/cps1.cpp|0|384|224|59.6374
 punisherj|The Punisher (Japan 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom
 punisheru|The Punisher (USA 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom
 punk|Punk!|parent|pinball/gts80a.cpp|||||||preliminary|Gottlieb
-punkshot|Punk Shot (US 4 Players)|parent|konami/tmnt.cpp|0|288|224|60.000000|||good|Konami
-punkshot2|Punk Shot (US 2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot|good|Konami
-punkshotj|Punk Shot (Japan 2 Players)|clone|konami/tmnt.cpp|0|288|224|60.000000||punkshot|good|Konami
+punkshot|Punk Shot (US 4 Players)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||good|Konami
+punkshot2|Punk Shot (US 2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot|good|Konami
+punkshotj|Punk Shot (Japan 2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot|good|Konami
 pururun|Pururun|parent|metro/metro.cpp|0|320|224|58.232800|||good|Metro / Banpresto
 pushman|Pushman (Korea, set 1)|parent|capcom/tigeroad.cpp|0|256|224|59.637405|||good|Comad
 pushmana|Pushman (Korea, set 2)|clone|capcom/tigeroad.cpp|0|256|224|59.637405||pushman|good|Comad
@@ -19611,7 +19611,7 @@ qcrayon|Quiz Crayon Shinchan (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.0000
 qcrayon2|Crayon Shinchan Orato Asobo (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito Corporation
 qdrmfgp|Quiz Do Re Mi Fa Grand Prix (Japan)|parent|konami/qdrmfgp.cpp|0|384|224|60.000000|||good|Konami
 qdrmfgp2|Quiz Do Re Mi Fa Grand Prix 2 - Shin-Kyoku Nyuukadayo (Japan)|parent|konami/qdrmfgp.cpp|0|384|224|60.000000|||good|Konami
-qgakumon|Quiz Gakumon no Susume (Japan ver. JA2 Type L)|parent|konami/tmnt.cpp|0|304|224|60.000000|||good|Konami
+qgakumon|Quiz Gakumon no Susume (Japan ver. JA2 Type L)|parent|konami/tmnt2.cpp|0|304|224|60.000000|||good|Konami
 qgh|Quiz Ghost Hunter (Japan, ROM Based)|parent|sega/segas24.cpp|0|496|384|57.524160|||good|Sega
 qgundam|Quiz Mobile Suit Gundam: Monsenshi (QG1 Ver. A)|parent|namco/namcops2.cpp|0|640|480|60.000000|sys246||preliminary|Namco
 qix|Qix (Rev 2)|parent|taito/qix.cpp|270|256|256|55.838470|||good|Taito America Corporation
@@ -19654,7 +19654,7 @@ quarteta|Quartet (8751 315-5194)|clone|sega/segas16a.cpp|0|320|224|60.000000||qu
 quarth|Quarth (Japan)|clone|konami/blockhl.cpp|0|288|224|59.185606||blockhl|good|Konami
 quasar|Quasar (set 1)|parent|cvs/quasar.cpp|90|223|240|50.000000|||imperfect|Zaccaria / Zelco
 quasara|Quasar (set 2)|clone|cvs/quasar.cpp|90|223|240|50.000000||quasar|imperfect|Zaccaria / Zelco
-queen|Queen?|parent|pc/queen.cpp|0|640|480|53.178707|||preliminary|STG
+queen|Queen?|parent|pc/queen.cpp|||||||preliminary|STG
 queenotg|Queen of the Games|parent|misc/itgambl3.cpp|0|512|256|60.000000|||preliminary|<unknown>
 quester|Quester (Japan)|parent|namco/namcos1.cpp|90|288|224|60.606061|||good|Namco
 questers|Quester Special Edition (Japan)|clone|namco/namcos1.cpp|90|288|224|60.606061||quester|good|Namco
@@ -20413,7 +20413,7 @@ samshoh|Samurai Shodown / Samurai Spirits (NGH-045)|clone|neogeo/neogeo.cpp|0|32
 samspsen|Samurai Spirits Sen (v1.00)|parent|taito/taitotx.cpp|||||||preliminary|SNK Playmore
 samsptk|Samurai Spirits Tenkaichi Kenkakuden|parent|sega/dc_atomiswave.cpp|0|640|480|61.702586|awbios||preliminary|Sammy / SNK Playmore
 samurai|Samurai|parent|sega/vicdual.cpp|270|256|224|60.000000|||preliminary|Sega
-samuraia|Samurai Aces (World)|parent|psikyo/psikyo.cpp|270|320|224|59.300000|||good|Psikyo
+samuraia|Samurai Aces (World)|parent|psikyo/psikyo.cpp|270|320|224|59.922743|||good|Psikyo
 sandor|Puzzle & Action: Sando-R (J 951114 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Sega
 sandscrp|Sand Scorpion|parent|kaneko/sandscrp.cpp|90|256|224|60.000000|||good|Face
 sandscrpa|Sand Scorpion (Earlier)|clone|kaneko/sandscrp.cpp|90|256|224|60.000000||sandscrp|good|Face
@@ -26203,7 +26203,7 @@ sflush|Straight Flush|parent|midw8080/8080bw.cpp|270|260|224|59.541985|||prelimi
 sfootbal|Street Football (11/12/86)|parent|midway/balsente.cpp|0|256|240|59.185606|||good|Bally/Sente
 sformula|Super Formula (Japan)|clone|vsystem/tail2nos.cpp|90|320|240|60.000000||tail2nos|good|V-System Co.
 sfp|Street Fighter (prototype)|clone|capcom/sf.cpp|0|384|224|60.000000||sf|good|Capcom
-sfposeid|Sea Fighter Poseidon|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
+sfposeid|Sea Fighter Poseidon|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
 sfruitb|Super Fruit Bonus (Version 2.5E Dual)|parent|misc/sfbonus.cpp|0|512|288|60.000000|||good|Amcoe
 sfruitbb1|Super Fruit Bonus (Version 2.5R, set 1)|clone|misc/sfbonus.cpp|0|512|288|60.000000||sfruitb|good|Amcoe
 sfruitbb2|Super Fruit Bonus (Version 2.0LT, set 1)|clone|misc/sfbonus.cpp|0|512|288|60.000000||sfruitb|good|Amcoe
@@ -26399,7 +26399,7 @@ shufshot139|Shuffleshot (v1.39)|clone|itech/itech32.cpp|0|384|240|60.106990||shu
 shuttlei|Shuttle Invader|parent|midw8080/8080bw.cpp|270|256|192|60.000000|||imperfect|Omori Electric Co., Ltd.
 shuuz|Shuuz (version 8.0)|parent|atari/shuuz.cpp|0|336|240|59.922743|||good|Atari Games
 shuuz2|Shuuz (version 7.1)|clone|atari/shuuz.cpp|0|336|240|59.922743||shuuz|good|Atari Games
-sia2650|Super Invader Attack (bootleg of The Invaders)|clone|zaccaria/zac2650.cpp|270|720|768|55.000000||tinv2650|imperfect|bootleg (Sidam)
+sia2650|Super Invader Attack (bootleg of The Invaders)|clone|zaccaria/zac1b1120.cpp|270|720|256|55.154326||tinv2650|imperfect|bootleg (Sidam)
 sianniv|Space Invaders Anniversary (V2.02J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||preliminary|Taito
 sichuan2|Sichuan II (hack, set 1)|clone|irem/shisen.cpp|0|512|256|55.017606||matchit|good|hack
 sichuan2a|Sichuan II (hack, set 2)|clone|irem/shisen.cpp|0|512|256|55.017606||matchit|good|hack
@@ -26657,7 +26657,7 @@ snakjack|Snacks'n Jaxson|parent|midway/balsente.cpp|0|256|240|59.185606|||good|B
 snapjack|Snap Jack|parent|universal/ladybug.cpp|0|240|192|60.114504|||good|Universal
 snapper|Snapper (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
 sncwgltd|Sonic Wings Limited (Japan)|clone|sony/zn.cpp|270|640|480|60.000000|vspsx|aerofgts|imperfect|Video System Co.
-sngkace|Sengoku Ace (Japan)|clone|psikyo/psikyo.cpp|270|320|224|59.300000||samuraia|good|Psikyo
+sngkace|Sengoku Ace (Japan)|clone|psikyo/psikyo.cpp|270|320|224|59.922743||samuraia|good|Psikyo
 snlad|Snake & Ladders|parent|jpm/jpmimpct.cpp|0|400|300|48.858662|||preliminary|JPM
 snookr10|Snooker 10 (Ver 1.11)|parent|funworld/snookr10.cpp|0|384|240|60.000000|||good|Sandii'
 snowboar|Snow Board Championship (Version 2.1)|parent|gaelco/gaelco2.cpp|0|384|240|59.100000|||preliminary|Gaelco
@@ -27277,7 +27277,7 @@ spacebrd|Space Bird (bootleg)|clone|nintendo/spacefb.cpp|270|512|224|61.523438||
 spacecho|Space Echo (set 1)|clone|sunelectronics/route16.cpp|270|256|256|57.000000||speakres|good|bootleg
 spacecho2|Space Echo (set 2)|clone|sunelectronics/route16.cpp|270|256|256|57.000000||speakres|good|bootleg
 spacecom|Space Combat (bootleg of Space Invaders)|clone|midw8080/8080bw.cpp|270|256|224|60.096154||invaders|imperfect|bootleg
-spacecr|Space Cruiser|parent|taito/taitosj.cpp|90|256|224|60.000000|||good|Taito Corporation
+spacecr|Space Cruiser|parent|taito/taitosj.cpp|90|256|224|59.185606|||good|Taito Corporation
 spacecty|Space City|parent|pinball/zac_proto.cpp|||||||preliminary|Zaccaria
 spacedem|Space Demon|clone|nintendo/spacefb.cpp|270|512|224|61.523438||spacefb|imperfect|Nintendo (Fortrek license)
 spacedx|Space Invaders DX (US, v2.1)|parent|taito/taito_b.cpp|0|320|224|60.000000|||good|Taito Corporation
@@ -27316,7 +27316,7 @@ spacepir_14|Space Pirates v1.4|clone|amiga/alg.cpp|0|724|483|59.940059|alg_bios|
 spaceplt|Space Pilot|clone|konami/timeplt.cpp|90|256|224|60.000000||timeplt|good|bootleg
 spacerng|Space Ranger (bootleg of Space Invaders)|clone|midw8080/8080bw.cpp|90|260|224|59.541985||invaders|preliminary|bootleg (Leisure Time Electronics)
 spaceshp|Space Ship|clone|cinematronics/cinemat.cpp|180|||38.000107||spacewar|imperfect|Cinematronics (Sega license)
-spaceskr|Space Seeker|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
+spaceskr|Space Seeker|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
 spacetrk|Space Trek (upright)|parent|sega/vicdual.cpp|270|256|224|60.000000|||preliminary|Sega
 spacetrkc|Space Trek (cocktail)|clone|sega/vicdual.cpp|270|256|224|60.000000||spacetrk|preliminary|Sega
 spacewar|Space Wars|parent|cinematronics/cinemat.cpp|180|||38.000107|||imperfect|Cinematronics
@@ -27616,20 +27616,20 @@ ssprintf|Super Sprint (French)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssp
 ssprintg|Super Sprint (German, rev 2)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
 ssprintg1|Super Sprint (German, rev 1)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
 ssprints|Super Sprint (Spanish)|clone|atari/atarisy2.cpp|0|512|384|60.096154||ssprint|good|Atari Games
-ssriders|Sunset Riders (4 Players ver EAC)|parent|konami/tmnt.cpp|0|288|224|60.000000|||imperfect|Konami
-ssriders2|Sunset Riders 2 (bootleg 4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
-ssridersabd|Sunset Riders (2 Players ver ABD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersadd|Sunset Riders (4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersb|Sunset Riders (bootleg 4 Players ver ADD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
-ssriderseaa|Sunset Riders (4 Players ver EAA)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersebc|Sunset Riders (2 Players ver EBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersebd|Sunset Riders (2 Players ver EBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersjac|Sunset Riders (4 Players ver JAC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersjbd|Sunset Riders (2 Players ver JBD)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuab|Sunset Riders (4 Players ver UAB)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuac|Sunset Riders (4 Players ver UAC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersubc|Sunset Riders (2 Players ver UBC)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
-ssridersuda|Sunset Riders (4 Players ver UDA)|clone|konami/tmnt.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssriders|Sunset Riders (4 Players ver EAC)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||imperfect|Konami
+ssriders2|Sunset Riders 2 (bootleg 4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
+ssridersabd|Sunset Riders (2 Players ver ABD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersadd|Sunset Riders (4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersb|Sunset Riders (bootleg 4 Players ver ADD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|preliminary|bootleg
+ssriderseaa|Sunset Riders (4 Players ver EAA)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersebc|Sunset Riders (2 Players ver EBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersebd|Sunset Riders (2 Players ver EBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersjac|Sunset Riders (4 Players ver JAC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersjbd|Sunset Riders (2 Players ver JBD)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuab|Sunset Riders (4 Players ver UAB)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuac|Sunset Riders (4 Players ver UAC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersubc|Sunset Riders (2 Players ver UBC)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
+ssridersuda|Sunset Riders (4 Players ver UDA)|clone|konami/tmnt2.cpp|0|288|224|60.000000||ssriders|imperfect|Konami
 ssrj|Super Speed Race Junior (Japan)|parent|taito/ssrj.cpp|90|272|240|60.000000|||preliminary|Taito Corporation
 sss|Steep Slope Sliders (JUET 981110 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Capcom / Cave / Victor
 sst|Supersonic|parent|pinball/by35.cpp|||||||preliminary|Bally
@@ -28326,9 +28326,9 @@ thndblst|Thunder Blaster (Japan)|clone|irem/m92.cpp|270|320|240|60.000000||letha
 thndbolt|Thunderbolt|parent|pinball/allied.cpp|||||allied||preliminary|Allied Leisure
 thndrbld|Thunder Blade (upright, FD1094 317-0056)|parent|sega/segaxbd.cpp|0|320|224|59.637405|||good|Sega
 thndrbld1|Thunder Blade (deluxe/standing, unprotected)|clone|sega/segaxbd.cpp|0|320|224|59.637405||thndrbld|good|Sega
-thndrx2|Thunder Cross II (World)|parent|konami/tmnt.cpp|0|288|224|60.000000|||good|Konami
-thndrx2a|Thunder Cross II (Asia)|clone|konami/tmnt.cpp|0|288|224|60.000000||thndrx2|good|Konami
-thndrx2j|Thunder Cross II (Japan)|clone|konami/tmnt.cpp|0|288|224|60.000000||thndrx2|good|Konami
+thndrx2|Thunder Cross II (World)|parent|konami/tmnt2.cpp|0|288|224|60.000000|||good|Konami
+thndrx2a|Thunder Cross II (Asia)|clone|konami/tmnt2.cpp|0|288|224|60.000000||thndrx2|good|Konami
+thndrx2j|Thunder Cross II (Japan)|clone|konami/tmnt2.cpp|0|288|224|60.000000||thndrx2|good|Konami
 thndzone|Thunder Zone (World, Rev 1)|parent|dataeast/dassault.cpp|0|320|240|57.799650|||good|Data East Corporation
 thndzone4|Thunder Zone (World 4 Players)|clone|dataeast/dassault.cpp|0|320|240|57.799650||thndzone|good|Data East Corporation
 thndzonea|Thunder Zone (World)|clone|dataeast/dassault.cpp|0|320|240|57.799650||thndzone|good|Data East Corporation
@@ -28405,11 +28405,11 @@ timescan1|Time Scanner (set 1, System 16A, FD1089B 317-0024)|clone|sega/segas16a
 timesold|Time Soldiers (US Rev 3)|parent|alpha/alpha68k.cpp|90|256|224|59.185606|||good|Alpha Denshi Co. (SNK/Romstar license)
 timesold1|Time Soldiers (US Rev 1)|clone|alpha/alpha68k.cpp|90|256|224|59.185606||timesold|good|Alpha Denshi Co. (SNK/Romstar license)
 timetrv|Time Traveler|parent|sega/timetrv.cpp|180|704|480|59.940057|||preliminary|Virtual Image Productions (Sega license)
-timetunl|Time Tunnel|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
+timetunl|Time Tunnel|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
 tinklpit|Tinkle Pit (Japan)|parent|namco/namcona1.cpp|0|304|224|60.000000|||good|Namco
-tinstar|The Tin Star (set 1)|parent|taito/taitosj.cpp|0|256|224|60.000000|||good|Taito Corporation
-tinstar2|The Tin Star (set 2)|clone|taito/taitosj.cpp|0|256|224|60.000000||tinstar|good|Taito Corporation
-tinv2650|The Invaders|parent|zaccaria/zac2650.cpp|270|720|768|55.000000|||imperfect|Zaccaria / Zelco
+tinstar|The Tin Star (set 1)|parent|taito/taitosj.cpp|0|256|224|59.185606|||good|Taito Corporation
+tinstar2|The Tin Star (set 2)|clone|taito/taitosj.cpp|0|256|224|59.185606||tinstar|good|Taito Corporation
+tinv2650|The Invaders|parent|zaccaria/zac1b1120.cpp|270|720|256|55.154326|||imperfect|Zaccaria / Zelco
 tiptop|Tip Top (3 board stack)|clone|sega/zaxxon.cpp|90|256|224|59.999408||congo|imperfect|Sega
 tisland|Treasure Island|parent|dataeast/btime.cpp|270|240|240|57.444853|||preliminary|Data East Corporation
 tisub|Treasure Island (Subsino, set 1)|parent|subsino/subsino.cpp|0|512|224|60.000000|||good|Subsino
@@ -28464,16 +28464,16 @@ tmek45|T-MEK (v4.5)|clone|atari/atarigt.cpp|0|336|240|59.922743||tmek|preliminar
 tmek51p|T-MEK (v5.1, prototype)|clone|atari/atarigt.cpp|0|336|240|59.922743||tmek|preliminary|Atari Games
 tmfnt_l5|Time Fantasy (L-5)|parent|pinball/s7.cpp|||||||preliminary|Williams
 tmht|Teenage Mutant Hero Turtles (UK 4 Players, set 1)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
-tmht22pe|Teenage Mutant Hero Turtles - Turtles in Time (2 Players ver EBA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmht22pe|Teenage Mutant Hero Turtles - Turtles in Time (2 Players ver EBA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
 tmht2p|Teenage Mutant Hero Turtles (UK 2 Players, set 1)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmht2pa|Teenage Mutant Hero Turtles (UK 2 Players, set 2)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmhta|Teenage Mutant Hero Turtles (UK 4 Players, set 2)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmhtb|Teenage Mutant Hero Turtles (UK 4 Players, set 3)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmmjprd|Tokimeki Mahjong Paradise - Dear My Love|parent|metro/tmmjprd.cpp|0|320|224|60.000000|||imperfect|Media / Sonnet
 tmnt|Teenage Mutant Ninja Turtles (World 4 Players)|parent|konami/tmnt.cpp|0|320|224|60.000000|||good|Konami
-tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UAA)|parent|konami/tmnt.cpp|0|304|224|60.000000|||good|Konami
-tmnt22pu|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players ver UDA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
-tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver ADA)|clone|konami/tmnt.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmnt2|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver UAA)|parent|konami/tmnt2.cpp|0|304|224|60.000000|||good|Konami
+tmnt22pu|Teenage Mutant Ninja Turtles - Turtles in Time (2 Players ver UDA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
+tmnt2a|Teenage Mutant Ninja Turtles - Turtles in Time (4 Players ver ADA)|clone|konami/tmnt2.cpp|0|304|224|60.000000||tmnt2|good|Konami
 tmnt2pj|Teenage Mutant Ninja Turtles (Japan 2 Players)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmnt2po|Teenage Mutant Ninja Turtles (Oceania 2 Players)|clone|konami/tmnt.cpp|0|320|224|60.000000||tmnt|good|Konami
 tmnt_103|Teenage Mutant Ninja Turtles (1.03)|clone|pinball/de_3.cpp|0|128|16|50.000000||tmnt_104|preliminary|Data East
@@ -28489,8 +28489,8 @@ tmpdoki|Tokimeki Mahjong Paradise - Doki Doki Hen|clone|metro/tmmjprd.cpp|0|320|
 tmspoker|unknown TMS9980 Poker Game|parent|misc/tmspoker.cpp|0|256|256|60.000000|||preliminary|<unknown>
 tmwrp_l2|Time Warp (L-2)|parent|pinball/s4.cpp|||||||preliminary|Williams
 tmwrp_t2|Time Warp (T-2)|clone|pinball/s4.cpp||||||tmwrp_l2|preliminary|Williams
-tndrcade|Thundercade / Twin Formation|parent|seta/seta.cpp|270|384|224|60.000000|||good|Seta (Taito license)
-tndrcadej|Tokusyu Butai U.A.G. (Japan)|clone|seta/seta.cpp|270|384|224|60.000000||tndrcade|good|Seta (Taito license)
+tndrcade|Thundercade / Twin Formation|parent|seta/downtown.cpp|270|384|224|60.000000|||good|Seta (Taito license)
+tndrcadej|Tokusyu Butai U.A.G. (Japan)|clone|seta/downtown.cpp|270|384|224|60.000000||tndrcade|good|Seta (Taito license)
 tnextspc|The Next Space (set 1)|parent|alpha/alpha68k_i.cpp|90|256|224|59.185606|||good|SNK
 tnextspc2|The Next Space (set 2)|clone|alpha/alpha68k_i.cpp|90|256|224|59.185606||tnextspc|good|SNK
 tnextspcj|The Next Space (Japan)|clone|alpha/alpha68k_i.cpp|90|256|224|59.185606||tnextspc|good|SNK (Pasadena International Corp. license)
@@ -28571,7 +28571,7 @@ topskatru|Top Skater (USA, Revision A)|clone|sega/model2.cpp|0|496|384|57.524160
 topspeed|Top Speed (World)|parent|taito/topspeed.cpp|0|320|240|60.053200|||good|Taito Corporation Japan
 topspeedu|Top Speed (US)|clone|taito/topspeed.cpp|0|320|240|60.053200||topspeed|good|Taito America Corporation (Romstar license)
 toramich|Tora e no Michi (Japan)|clone|capcom/tigeroad.cpp|0|256|224|59.637405||tigeroad|good|Capcom
-toratora|Tora Tora (prototype?)|parent|gameplan/toratora.cpp|90|256|240|56.456882|||preliminary|Game Plan
+toratora|Tora Tora (prototype?)|parent|misc/toratora.cpp|90|256|240|60.195505|||preliminary|Game Plan
 torch|Torch|parent|pinball/gts1.cpp|||||gts1s||preliminary|Gottlieb
 toride2g|Toride II Adauchi Gaiden|parent|metro/metro.cpp|0|320|224|58.232800|||imperfect|Metro
 toride2gg|Toride II Adauchi Gaiden (German)|clone|metro/metro.cpp|0|320|224|58.232800||toride2g|imperfect|Metro
@@ -28606,10 +28606,10 @@ toukon3|Shin Nihon Pro Wrestling Toukon Retsuden 3 Arcade Edition (Japan, TR1/VE
 toukon4|Shin Nihon Pro Wrestling Toukon Retsuden 4 Arcade Edition (TRF1 Ver. A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Namco
 tour4000|Tour 4000|parent|misc/highvdeo.cpp|0|320|200|60.000000|||good|High Video
 tour4010|Tour 4010|parent|misc/highvdeo.cpp|0|320|200|60.000000|||good|High Video
-toursol|Tournament Solitaire (V1.06, 08/03/95)|parent|pc/pcat_dyn.cpp|0|640|480|60.000000|||preliminary|Dynamo
-toursol1|Tournament Solitaire (V1.04, 06/22/95)|clone|pc/pcat_dyn.cpp|0|640|480|60.000000||toursol|preliminary|Dynamo
-tourtab2|Tournament Table (set 2)|clone|atari/tourtabl.cpp|0|160|200|59.922743||tourtabl|good|Atari
-tourtabl|Tournament Table (set 1)|parent|atari/tourtabl.cpp|0|160|200|59.922743|||good|Atari
+toursol|Tournament Solitaire (V1.06, 08/03/95)|parent|pc/pcat_dyn.cpp|0|640|480|53.178707|||preliminary|Dynamo
+toursol1|Tournament Solitaire (V1.04, 06/22/95)|clone|pc/pcat_dyn.cpp|0|640|480|53.178707||toursol|preliminary|Dynamo
+tourtab2|Tournament Table (set 2)|clone|atari/tourtabl.cpp|0|160|200|59.923246||tourtabl|good|Atari
+tourtabl|Tournament Table (set 1)|parent|atari/tourtabl.cpp|0|160|200|59.923246|||good|Atari
 tourvis|Tourvision PCE bootleg|bios|pce/tourvis.cpp|0|1088|242|59.826098|||preliminary|bootleg (Tourvision)
 touryuu|Touryuumon (V1.1)?|parent|eolith/ghosteo.cpp|0|320|256|60.000000|||imperfect|Yuki Enterprise
 toutrun|Turbo Out Run (Out Run upgrade, FD1094 317-0118)|parent|sega/segaorun.cpp|0|320|224|60.054389|||good|Sega
@@ -28653,7 +28653,7 @@ trgheart|Trigger Heart Exelica (Rev A) (GDL-0036A)|parent|sega/naomi.cpp|270|640
 tricktrp|Trick Trap (World?)|parent|konami/labyrunr.cpp|90|280|224|60.000000|||good|Konami
 trident|Trident|parent|pinball/st_mp100.cpp|||||||preliminary|Stern
 triforce|Triforce Bios|bios|sega/triforce.cpp|0|640|480|60.000000|||preliminary|Sega
-trigon|Trigon (Japan)|clone|konami/tmnt.cpp|90|320|224|60.000000||lgtnfght|good|Konami
+trigon|Trigon (Japan)|clone|konami/tmnt2.cpp|90|320|224|60.000000||lgtnfght|good|Konami
 triothep|Trio The Punch - Never Forget Me... (World)|parent|dataeast/actfancr.cpp|0|256|240|60.000000|||good|Data East Corporation
 triothepj|Trio The Punch - Never Forget Me... (Japan)|clone|dataeast/actfancr.cpp|0|256|240|60.000000||triothep|good|Data East Corporation
 tripdraw|Tripple Draw (V3.1 s)|parent|misc/statriv2.cpp|0|320|240|59.992284|||preliminary|Status Games
@@ -28722,7 +28722,7 @@ trvmstr|Trivia Master (set 1)|parent|phoenix/naughtyb.cpp|90|288|224|60.000000||
 trvmstra|Trivia Master (set 2)|clone|phoenix/naughtyb.cpp|90|288|224|60.000000||trvmstr|good|Enerdyne Technologies Inc.
 trvmstrb|Trivia Master (set 3)|clone|phoenix/naughtyb.cpp|90|288|224|60.000000||trvmstr|good|Enerdyne Technologies Inc.
 trvmstrc|Trivia Master (set 4)|clone|phoenix/naughtyb.cpp|90|288|224|60.000000||trvmstr|good|Enerdyne Technologies Inc.
-trvquest|Trivia Quest|parent|gameplan/trvquest.cpp|90|256|256|59.196429|||good|Sunn / Techstar
+trvquest|Trivia Quest|parent|alliedleisure/trvquest.cpp|90|256|256|59.196429|||good|Sunn / Techstar
 trvwz2|Trivia ? Whiz (6221-05, Edition 2)|parent|merit/merit.cpp|90|512|256|76.293945|||good|Merit
 trvwz2a|Trivia ? Whiz (6221-05, Edition 2 Alt Sex trivia)|clone|merit/merit.cpp|90|512|256|76.293945||trvwz2|good|Merit
 trvwz3h|Trivia ? Whiz (6221-05, Edition 3)|parent|merit/merit.cpp|0|512|256|76.293945|||good|Merit
@@ -28778,7 +28778,7 @@ tturfu|Tough Turf (set 1, US, 8751 317-0099)|clone|sega/segas16b.cpp|0|320|224|6
 tubeit|Tube-It|clone|taito/taito_l.cpp|0|320|224|60.000000||cachat|good|bootleg
 tubep|Tube Panic|parent|nichibutsu/tubep.cpp|0|256|224|60.000000|||good|Nichibutsu / Fujitek
 tubepb|Tube Panic (bootleg)|clone|nichibutsu/tubep.cpp|0|256|224|60.000000||tubep|good|bootleg
-tugboat|Tugboat|parent|misc/tugboat.cpp|90|240|224|60.000000|||imperfect|Enter-Tech, Ltd.
+tugboat|Tugboat|parent|misc/tugboat.cpp|90|240|232|59.185606|||imperfect|Enter-Tech, Ltd.
 tumbleb|Tumble Pop (bootleg)|clone|dataeast/tumbleb.cpp|0|320|240|58.000000||tumblep|imperfect|bootleg
 tumbleb2|Tumble Pop (bootleg with PIC)|clone|dataeast/tumbleb.cpp|0|320|240|58.000000||tumblep|imperfect|bootleg
 tumblep|Tumble Pop (World)|parent|dataeast/supbtime.cpp|0|320|240|57.799650|||good|Data East Corporation
@@ -28837,7 +28837,7 @@ twinbrata|Twin Brats (set 2)|clone|edevices/stlforce.cpp|0|328|240|58.000000||tw
 twincobr|Twin Cobra (World)|parent|toaplan/twincobr.cpp|270|320|240|54.877858|||good|Toaplan / Taito Corporation
 twincobru|Twin Cobra (US)|clone|toaplan/twincobr.cpp|270|320|240|54.877858||twincobr|good|Toaplan / Taito America Corporation (Romstar license)
 twineag2|Twin Eagle II - The Rescue Mission|parent|seta/ssv.cpp|270|336|240|60.186720|||good|Seta
-twineagl|Twin Eagle - Revenge Joe's Brother|parent|seta/seta.cpp|270|384|240|57.420000|||good|Seta (Taito license)
+twineagl|Twin Eagle - Revenge Joe's Brother|parent|seta/downtown.cpp|270|384|240|57.420000|||good|Seta (Taito license)
 twinfalc|Twin Falcons|parent|capcom/sidearms.cpp|0|384|224|60.000000|||good|Philko (Poara Enterprises license)
 twinhawk|Twin Hawk (World)|parent|taito/taito_x.cpp|270|384|224|60.000000|||good|Taito Corporation Japan
 twinhawku|Twin Hawk (US)|clone|taito/taito_x.cpp|270|384|224|60.000000||twinhawk|good|Taito America Corporation
@@ -28934,7 +28934,7 @@ usafootb|U.S.A. Football|parent|pinball/alvg.cpp|||||||preliminary|Alvin G
 usagi|Usagi (V2.02J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Warashi / Mahjong Kobo / Taito
 usagiol|Usagi Online (v2.04J)|parent|taito/taitotx.cpp|||||||preliminary|Taito Corporation/Warashi
 usagiym|Usagi - Yamashiro Mahjong Hen (GDL-0022)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Warashi / Mahjong Kobo / Taito
-usclssic|U.S. Classic|parent|seta/seta.cpp|270|384|240|60.000000|||good|Seta
+usclssic|U.S. Classic|parent|seta/downtown.cpp|270|384|240|60.000000|||good|Seta
 usg182|Games V18.2|clone|misc/usgames.cpp|0|400|248|60.000000||usgames|good|U.S. Games
 usg185|Games V18.5|clone|misc/usgames.cpp|0|400|248|60.000000||usgames|good|U.S. Games
 usg187c|Games V18.7C|clone|misc/usgames.cpp|0|400|248|60.000000||usgames|good|U.S. Games
@@ -29231,7 +29231,7 @@ vonj|Cyber Troopers Virtual-On (Japan, Revision B)|clone|sega/model2.cpp|0|496|3
 vonot|Virtual On Oratorio Tangram M.S.B.S. ver5.66 2000 Edition|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 vortex|Vortex|parent|midw8080/8080bw.cpp|270|260|224|59.541985|||imperfect|Zilec Electronics
 vortexp|Vortex (Pinball)|parent|pinball/taito.cpp|||||||preliminary|Taito do Brasil
-voyager|Star Trek: Voyager|parent|misc/voyager.cpp|0|640|480|53.178707|||preliminary|Team Play/Game Refuge/Monaco Entertainment
+voyager|Star Trek: Voyager|parent|misc/voyager.cpp|||||||preliminary|Team Play/Game Refuge/Monaco Entertainment
 vpoker|Videotronics Poker|parent|misc/vpoker.cpp|0|480|240|60.000000|||preliminary|Videotronics
 vpool|Video Pool (bootleg on Moon Cresta hardware)|clone|galaxian/galaxold.cpp|90|256|224|60.606061||hustler|good|bootleg
 vr|Virtua Racing|parent|sega/model1.cpp|0|496|384|57.524160|||imperfect|Sega
@@ -29337,7 +29337,7 @@ warrior|Warrior|parent|cinematronics/cinemat.cpp|180|||38.000107|||imperfect|Vec
 warriorb|Warrior Blade - Rastan Saga Episode III (Japan)|parent|taito/warriorb.cpp|0|320|240|60.000000|||good|Taito Corporation
 warzard|Warzard (Japan 961121)|clone|capcom/cps3.cpp|0|384|224|59.599491||redearth|imperfect|Capcom
 warzardr1|Warzard (Japan 961023)|clone|capcom/cps3.cpp|0|384|224|59.599491||redearth|imperfect|Capcom
-waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation
+waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation
 waterwld|Waterworld (rev.3)|parent|pinball/gts3a.cpp|0|128|64|60.000000|||preliminary|Gottlieb
 waterwld2|Waterworld (rev.2)|clone|pinball/gts3a.cpp|0|128|64|60.000000||waterwld|preliminary|Gottlieb
 watrball|Water Balls|parent|gaelco/blmbycar.cpp|0|384|240|60.000000|||good|ABM
@@ -29714,8 +29714,8 @@ ww_p1|White Water (P-8 P-1 sound)|clone|pinball/wpc_flip2.cpp|0|128|32|60.000000
 ww_p8|White Water (P-8 P-2 sound)|clone|pinball/wpc_flip2.cpp|0|128|32|60.000000||ww_l5|preliminary|Williams
 wwallyj|Wally wo Sagase! (rev B, Japan, FD1094 317-0197B)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega
 wwallyja|Wally wo Sagase! (rev A, Japan, FD1094 317-0197A)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|Sega
-wwestern|Wild Western (set 1)|parent|taito/taitosj.cpp|270|256|224|60.000000|||good|Taito Corporation
-wwestern1|Wild Western (set 2)|clone|taito/taitosj.cpp|270|256|224|60.000000||wwestern|good|Taito Corporation
+wwestern|Wild Western (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito Corporation
+wwestern1|Wild Western (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||wwestern|good|Taito Corporation
 wwfmania|WWF: Wrestlemania (rev 1.30 08/10/95)|parent|midway/midwunit.cpp|0|400|254|54.706840|||good|Midway
 wwfmaniab|WWF: Wrestlemania (rev 1.20 08/02/95)|clone|midway/midwunit.cpp|0|400|254|54.706840||wwfmania|good|Midway
 wwfmaniac|WWF: Wrestlemania (rev 1.1 07/11/95)|clone|midway/midwunit.cpp|0|400|254|54.706840||wwfmania|good|Midway
@@ -29941,7 +29941,7 @@ screen|Video Screen|device|emu/screen.cpp||||||||
 speaker|Speaker|device|emu/speaker.cpp||||||||
 i8255|8255 PPI|device|devices/machine/i8255.cpp||||||||
 samples|Samples|device|devices/sound/samples.cpp||||||||
-sega005_sound|Sega 005 Audio Custom|device|mame/sega/segag80r_a.cpp||||||||
+sega005_sound|Sega 005 Audio Custom|device|sega/segag80r_a.cpp||||||||
 m6803|M6803|device|devices/cpu/m6800/m6801.cpp||||||||
 irem_audio|Irem Audio|device|||||||||
 ay8910|AY-3-8910A|device|devices/sound/ay8910.cpp||||||||
@@ -29949,22 +29949,22 @@ msm5205|MSM5205|device|devices/sound/msm5205.cpp||||||||
 vr4300be|VR4300 (big)|device|devices/cpu/mips/mips3.cpp||||||||
 rsp|RSP|device|devices/cpu/rsp/rsp.cpp||||||||
 dmadac|DMA-driven DAC|device|devices/sound/dmadac.cpp||||||||
-n64_periphs|N64 Periphal Chips|device|mame/nintendo/n64_m.cpp||||||||
+n64_periphs|N64 Periphal Chips|device|nintendo/n64_m.cpp||||||||
 sh4|SH-4 (little)|device|||||||||
 timer|Timer|device|devices/machine/timer.cpp||||||||
 arm7|ARM7|device|||||||||
-maple_dc|Dreamcast Maple Bus|device|mame/sega/maple-dc.cpp||||||||
+maple_dc|Dreamcast Maple Bus|device|sega/maple-dc.cpp||||||||
 93c46_16|Serial EEPROM 93C46 (64x16)|device|devices/machine/eepromser.cpp||||||||
-powervr2|PowerVR 2|device|mame/sega/powervr2.cpp||||||||
+powervr2|PowerVR 2|device|sega/powervr2.cpp||||||||
 aica|AICA|device|devices/sound/aica.cpp||||||||
 aicartc|AICA RTC|device|devices/machine/aicartc.cpp||||||||
-mie|Sega 315-6146 MIE|device|mame/sega/mie.cpp||||||||
-mie_jvs|JVS (MIE)|device|mame/sega/mie.cpp||||||||
+mie|Sega 315-6146 MIE|device|sega/mie.cpp||||||||
+mie_jvs|JVS (MIE)|device|sega/mie.cpp||||||||
 sega_837_13551|Sega 837-13551 I/O Board|device|||||||||
 93c46_8|Serial EEPROM 93C46 (128x8)|device|devices/machine/eepromser.cpp||||||||
 x76f100|X76F100 Flash|device|devices/machine/x76f100.cpp||||||||
-naomi_m2_board|Sega NAOMI M2 Board|device|mame/sega/naomim2.cpp||||||||
-sega315_5881|Sega 315-5881 Encryption|device|mame/sega/315-5881_crypt.cpp||||||||
+naomi_m2_board|Sega NAOMI M2 Board|device|sega/naomim2.cpp||||||||
+sega315_5881|Sega 315-5881 Encryption|device|sega/315-5881_crypt.cpp||||||||
 m68000|M68000|device|devices/cpu/m68000/m68000.cpp||||||||
 ym2151|YM2151|device|devices/sound/ymopm.cpp||||||||
 okim6295|OKI6295|device|devices/sound/okim6295.cpp||||||||
@@ -29984,7 +29984,7 @@ psxrcnt|Sony PSX RCNT|device|devices/cpu/psx/rcnt.cpp||||||||
 psxsio0|Sony PSX SIO-0|device|devices/cpu/psx/sio.cpp||||||||
 psxsio1|Sony PSX SIO-1|device|devices/cpu/psx/sio.cpp||||||||
 ram|RAM|device|devices/machine/ram.cpp||||||||
-cat702|CAT702|device|mame/sony/cat702.cpp||||||||
+cat702|CAT702|device|sony/cat702.cpp||||||||
 zndip|Sony ZNDIP|device|||||||||
 cxd8561q|CXD8561Q GPU|device|devices/video/psx.cpp||||||||
 spu|SPU|device|||||||||
@@ -29994,7 +29994,7 @@ ym2610|YM2610|device|devices/sound/ymopn.cpp||||||||
 neogeo_banked_cart|NeoGeo Banked Cartridge|device|||||||||
 upd4990a|uPD4990A RTC|device|devices/machine/upd1990a.cpp||||||||
 nvram|NVRAM|device|devices/machine/nvram.cpp||||||||
-ng_memcard|NeoGeo Memory Card|device|mame/neogeo/ng_memcard.cpp||||||||
+ng_memcard|NeoGeo Memory Card|device|neogeo/ng_memcard.cpp||||||||
 mslugx_prot|NeoGeo Protection (Metal Slug X)|device|||||||||
 sma_prot|NeoGeo SMA Cartridge|device|||||||||
 cmc_prot|NeoGeo Protection (CMC)|device|||||||||
@@ -30041,12 +30041,12 @@ c6545_1|C6545-1 CRTC|device|devices/video/mc6845.cpp||||||||
 mc146818|MC146818 RTC|device|devices/machine/mc146818.cpp||||||||
 arm7_be|ARM7 (big endian)|device|devices/cpu/arm7/arm7.cpp||||||||
 cdrom_image|CD-ROM Image|device|devices/imagedev/cdromimg.cpp||||||||
-kaneko_pandora|Kaneko PANDORA GFX|device|mame/kaneko/kan_pand.cpp||||||||
+kaneko_pandora|Kaneko PANDORA GFX|device|kaneko/kan_pand.cpp||||||||
 upd7810|uPD7810|device|devices/cpu/upd7810/upd7810.cpp||||||||
 ym2413|YM2413|device|devices/sound/ymopl.cpp||||||||
-vsystem_spr|Video System Sprites|device|mame/vsystem/vsystem_spr.cpp||||||||
+vsystem_spr|Video System Sprites|device|vsystem/vsystem_spr.cpp||||||||
 i8088|I8088|device|devices/cpu/i86/i86.cpp||||||||
-gotsndr2|Gottlieb Sound rev. 2|device|mame/shared/gottlieb_a.cpp||||||||
+gotsndr2|Gottlieb Sound rev. 2|device|shared/gottlieb_a.cpp||||||||
 m6502|M6502|device|devices/cpu/m6502/m6502.cpp||||||||
 ay8913|AY-3-8913A|device|devices/sound/ay8910.cpp||||||||
 sp0250|SP0250|device|devices/sound/sp0250.cpp||||||||
@@ -30059,10 +30059,10 @@ sn76489a|SN76489A|device|devices/sound/sn76496.cpp||||||||
 z80pio|Z80 PIO|device|devices/machine/z80pio.cpp||||||||
 isa8|ISA8|device|devices/bus/isa/isa.cpp||||||||
 isa8_slot|ISA8_SLOT|device|devices/bus/isa/isa.cpp||||||||
-4enlinea_cga|ISA8_CGA_4ENLINEA|device|mame/misc/4enlinea.cpp|0|640|200|59.922748||||
+4enlinea_cga|ISA8_CGA_4ENLINEA|device|misc/4enlinea.cpp|0|640|200|59.922748||||
 mc6845|MC6845 CRTC|device|devices/video/mc6845.cpp||||||||
 7474|7474 TTL|device|devices/machine/7474.cpp||||||||
-galaxian_sound|Galaxian Audio Custom|device|mame/galaxian/galaxian_a.cpp||||||||
+galaxian_sound|Galaxian Audio Custom|device|galaxian/galaxian_a.cpp||||||||
 discrete|DISCRETE|device|devices/sound/discrete.cpp||||||||
 tmp68301|TMP68301|device|devices/cpu/m68000/tmp68301.cpp||||||||
 tmpz84c011|TMPZ84C011|device|devices/cpu/z80/tmpz84c011.cpp||||||||
@@ -30077,24 +30077,24 @@ h8_digital_port|H8 digital port|device|devices/cpu/h8/h8_port.cpp||||||||
 h8_timer16|H8 16-bits timer|device|devices/cpu/h8/h8_timer16.cpp||||||||
 h8h_16bits_timer_channel|H8H 16-bits timer channel|device|||||||||
 h8_sci|H8 Serial Communications Interface|device|devices/cpu/h8/h8_sci.cpp||||||||
-namco_settings|Namco Settings|device|mame/namco/namco_settings.cpp||||||||
+namco_settings|Namco Settings|device|namco/namco_settings.cpp||||||||
 rtc4543|R4543 RTC|device|devices/machine/rtc4543.cpp||||||||
 devcb_line_dispatch|Line dispatcher (2 slots)|device|||||||||
 c352|C352|device|devices/sound/c352.cpp||||||||
 ptm6840|6840 PTM|device|devices/machine/6840ptm.cpp||||||||
 t11|T11|device|devices/cpu/t11/t11.cpp||||||||
-slapstic|Atari Slapstic|device|mame/atari/slapstic.cpp||||||||
+slapstic|Atari Slapstic|device|atari/slapstic.cpp||||||||
 2804|Parallel EEPROM 2804 (512x8)|device|devices/machine/eeprompar.cpp||||||||
 tilemap|Tilemap|device|emu/tilemap.cpp||||||||
-atarimo|Atari Motion Objects|device|mame/atari/atarimo.cpp||||||||
+atarimo|Atari Motion Objects|device|atari/atarimo.cpp||||||||
 atarscom|Atari Sound Communications|device|||||||||
 pokey|POKEY|device|devices/sound/pokey.cpp||||||||
 tms5220c|TMS5220C|device|devices/sound/tms5220.cpp||||||||
-decospr|DECO 52 Sprite|device|mame/shared/decospr.cpp||||||||
+decospr|DECO 52 Sprite|device|shared/decospr.cpp||||||||
 h46505|H46505 CRTC|device|||||||||
 konami_cpu|KONAMI CPU|device|devices/cpu/m6809/konami.cpp||||||||
-k052109|K052109 Tilemap Generator|device|mame/konami/k052109.cpp||||||||
-k051960|K051960 Sprite Generator|device|mame/konami/k051960.cpp||||||||
+k052109|K052109 Tilemap Generator|device|konami/k052109.cpp||||||||
+k051960|K051960 Sprite Generator|device|konami/k051960.cpp||||||||
 k051316|K051316 PSAC|device|devices/video/k051316.cpp||||||||
 upd7759|uPD7759|device|devices/sound/upd7759.cpp||||||||
 s2650|S2650|device|devices/cpu/s2650/s2650.cpp||||||||
@@ -30120,7 +30120,7 @@ jaguargpu|Jaguar GPU|device|devices/cpu/jaguar/jaguar.cpp||||||||
 jaguardsp|Jaguar DSP|device|devices/cpu/jaguar/jaguar.cpp||||||||
 vt83c461|VIA VT83C461|device|devices/machine/vt83c461.cpp||||||||
 ata_slot|ATA Connector|device|devices/bus/ata/atadev.cpp||||||||
-cojag_hdd|HDD CoJag|device|mame/atari/jaguar.cpp||||||||
+cojag_hdd|HDD CoJag|device|atari/jaguar.cpp||||||||
 harddisk_image|Harddisk|device|devices/imagedev/harddriv.cpp||||||||
 mediagx|MEDIAGX|device|devices/cpu/i386/i386.cpp||||||||
 ide_controller|IDE Controller (32 bit)|device|||||||||
@@ -30130,50 +30130,50 @@ cdrom|ATAPI CDROM|device|devices/bus/ata/atapicdr.cpp||||||||
 ppc403gcx|PowerPC 403GCX|device|devices/cpu/powerpc/ppccom.cpp||||||||
 ymz280b|YMZ280B|device|devices/sound/ymz280b.cpp||||||||
 i80186|I80186|device|devices/cpu/i86/i186.cpp||||||||
-leland_80186_sound|80186 DAC (Leland)|device|mame/cinematronics/leland_a.cpp||||||||
-decocpu3|Data East Pinball CPU Board Type 3|device|mame/pinball/decopincpu.cpp||||||||
+leland_80186_sound|80186 DAC (Leland)|device|cinematronics/leland_a.cpp||||||||
+decocpu3|Data East Pinball CPU Board Type 3|device|pinball/decopincpu.cpp||||||||
 m6808|M6808|device|devices/cpu/m6800/m6800.cpp||||||||
-decobsmt|Data East/Sega/Stern BSMT2000 Sound Board|device|mame/shared/decobsmt.cpp||||||||
+decobsmt|Data East/Sega/Stern BSMT2000 Sound Board|device|shared/decobsmt.cpp||||||||
 bsmt2000|BSMT2000|device|devices/sound/bsmt2000.cpp||||||||
 tms32015|TMS32015|device|devices/cpu/tms32010/tms32010.cpp||||||||
-decodmd2|Data East Pinball Dot Matrix Display Type 2|device|mame/pinball/decodmd2.cpp|0|128|32|60.000000||||
+decodmd2|Data East Pinball Dot Matrix Display Type 2|device|pinball/decodmd2.cpp|0|128|32|60.000000||||
 m6809e|M6809E|device|||||||||
 m6800|M6800|device|devices/cpu/m6800/m6800.cpp||||||||
 h83048|H8/3048|device|devices/cpu/h8/h83048.cpp||||||||
-fd1094|FD1094|device|mame/sega/fd1094.cpp||||||||
-sega_315_5248|Sega 315-5248 Multiplier|device|mame/sega/segaic16_m.cpp||||||||
-sega_315_5249|Sega 315-5249 Divider|device|mame/sega/segaic16_m.cpp||||||||
-sega_315_5250|Sega 315-5250 Compare/Timer|device|mame/sega/segaic16_m.cpp||||||||
-sega_xboard_sprite|Sega X-Board Sprites|device|mame/sega/sega16sp.cpp||||||||
-segaic16_video|Sega 16-bit Video|device|mame/sega/segaic16.cpp||||||||
-segaic16_road|Sega 16-bit Road Generator|device|mame/sega/segaic16_road.cpp||||||||
+fd1094|FD1094|device|sega/fd1094.cpp||||||||
+sega_315_5248|Sega 315-5248 Multiplier|device|sega/segaic16_m.cpp||||||||
+sega_315_5249|Sega 315-5249 Divider|device|sega/segaic16_m.cpp||||||||
+sega_315_5250|Sega 315-5250 Compare/Timer|device|sega/segaic16_m.cpp||||||||
+sega_xboard_sprite|Sega X-Board Sprites|device|sega/sega16sp.cpp||||||||
+segaic16_video|Sega 16-bit Video|device|sega/segaic16.cpp||||||||
+segaic16_road|Sega 16-bit Road Generator|device|sega/segaic16_road.cpp||||||||
 segapcm|Sega PCM|device|devices/sound/segapcm.cpp||||||||
 namco|Namco|device|devices/sound/namco.cpp||||||||
-nb1413m3|NB1413M3 Mahjong Custom|device|mame/nichibutsu/nb1413m3.cpp||||||||
+nb1413m3|NB1413M3 Mahjong Custom|device|nichibutsu/nb1413m3.cpp||||||||
 stepper|Stepper Motor|device|devices/machine/steppers.cpp||||||||
-sega_315_5195|Sega 315-5195 Memory Mapper|device|mame/sega/315_5195.cpp||||||||
+sega_315_5195|Sega 315-5195 Memory Mapper|device|sega/315_5195.cpp||||||||
 sega_16bit_sprite|Sega System 16B Sprites|device|||||||||
 n7751|N7751|device|devices/cpu/mcs48/mcs48.cpp||||||||
 i8243|8243 I/O Expander|device|devices/machine/i8243.cpp||||||||
-sega_sys16a_sprite|Sega System 16A Sprites|device|mame/sega/sega16sp.cpp||||||||
+sega_sys16a_sprite|Sega System 16A Sprites|device|sega/sega16sp.cpp||||||||
 m68020|M68020|device|devices/cpu/m68000/m68020.cpp||||||||
 tms32025|TMS32025|device|devices/cpu/tms32025/tms32025.cpp||||||||
-namcoc74|C74 (M37702)|device|mame/namco/namcomcu.cpp||||||||
+namcoc74|C74 (M37702)|device|namco/namcomcu.cpp||||||||
 2864|Parallel EEPROM 2864 (8192x8)|device|devices/machine/eeprompar.cpp||||||||
 arm920t|ARM920T|device|devices/cpu/arm7/arm7.cpp||||||||
 serflash|Serial Flash|device|devices/machine/serflash.cpp||||||||
-nmk004|NMK004|device|mame/nmk/nmk004.cpp||||||||
+nmk004|NMK004|device|nmk/nmk004.cpp||||||||
 tmp90840|TMP90840|device|devices/cpu/tlcs90/tlcs90.cpp||||||||
 h6280|H6280|device|devices/cpu/h6280/h6280.cpp||||||||
-deco_bac06|DECO BAC06 Tilemap|device|mame/dataeast/decbac06.cpp||||||||
-deco_mxc06|DECO MXC06 Sprite|device|mame/dataeast/decmxc06.cpp||||||||
+deco_bac06|DECO BAC06 Tilemap|device|dataeast/decbac06.cpp||||||||
+deco_mxc06|DECO MXC06 Sprite|device|dataeast/decmxc06.cpp||||||||
 pic16c57|PIC16C57|device|devices/cpu/pic16c5x/pic16c5x.cpp||||||||
 tmsprom|TMSPROM|device|devices/sound/tms5110.cpp||||||||
 tms5110a|TMS5110A|device|devices/sound/tms5110.cpp||||||||
 mc68307|MC68307|device|devices/machine/68307.cpp||||||||
 mc68681|MC68681 DUART|device|devices/machine/mc68681.cpp||||||||
 mc68681_channel|MC68681 DUART CHANNEL|device|||||||||
-bfm_bda|BFM BDA VFD controller|device|mame/bfm/bfm_bda.cpp||||||||
+bfm_bda|BFM BDA VFD controller|device|bfm/bfm_bda.cpp||||||||
 mc68340|MC68340|device|devices/machine/68340.cpp||||||||
 mcf5206e|MCF5206E|device|devices/cpu/m68000/mcf5206e.cpp||||||||
 mcf5206e_peripheral|MCF5206E Peripheral|device|devices/machine/mcf5206e.cpp||||||||
@@ -30184,36 +30184,36 @@ aakart|AAKART|device|||||||||
 vsystem_spr2|Video System Sprites Type 2|device|||||||||
 vector_device|VECTOR|device|devices/video/vector.cpp||||||||
 dvg|Atari DVG|device|devices/video/avgdvg.cpp||||||||
-fd1089a|FD1089A|device|mame/sega/fd1089.cpp||||||||
-wpc_pic|Williams Pinball Controller PIC Security|device|mame/pinball/wpc_pic.cpp||||||||
-wpc_lamp|Williams Pinball Controller Lamp Control|device|mame/pinball/wpc_lamp.cpp||||||||
-wpc_out|Williams Pinball Controller Output Control|device|mame/pinball/wpc_out.cpp||||||||
-wpc_shift|Williams Pinball Controller Shifter|device|mame/pinball/wpc_shift.cpp||||||||
-wpc_dmd|Williams Pinball Controller Dot Matrix Display|device|mame/pinball/wpc_dmd.cpp|0|512|128|60.000000||||
-dcs_audio_wpc|DCS Audio WPC|device|mame/shared/dcs.cpp||||||||
+fd1089a|FD1089A|device|sega/fd1089.cpp||||||||
+wpc_pic|Williams Pinball Controller PIC Security|device|pinball/wpc_pic.cpp||||||||
+wpc_lamp|Williams Pinball Controller Lamp Control|device|pinball/wpc_lamp.cpp||||||||
+wpc_out|Williams Pinball Controller Output Control|device|pinball/wpc_out.cpp||||||||
+wpc_shift|Williams Pinball Controller Shifter|device|pinball/wpc_shift.cpp||||||||
+wpc_dmd|Williams Pinball Controller Dot Matrix Display|device|pinball/wpc_dmd.cpp|0|512|128|60.000000||||
+dcs_audio_wpc|DCS Audio WPC|device|shared/dcs.cpp||||||||
 adsp2105|ADSP-2105|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
 sn76494|SN76494|device|devices/sound/sn76496.cpp||||||||
-dcs_audio_8k|DCS Audio 8K|device|mame/shared/dcs.cpp||||||||
-tc0220ioc|Taito TC0220IOC|device|mame/taito/taitoio.cpp||||||||
-tc0080vco|Taito TC0080VCO|device|mame/taito/tc0080vco.cpp||||||||
-tc0140syt|Taito TC0140SYT|device|mame/shared/taitosnd.cpp||||||||
+dcs_audio_8k|DCS Audio 8K|device|shared/dcs.cpp||||||||
+tc0220ioc|Taito TC0220IOC|device|taito/taitoio.cpp||||||||
+tc0080vco|Taito TC0080VCO|device|taito/tc0080vco.cpp||||||||
+tc0140syt|Taito TC0140SYT|device|shared/taitosnd.cpp||||||||
 v33|V33|device|devices/cpu/nec/nec.cpp||||||||
 v35|V35|device|devices/cpu/nec/v25.cpp||||||||
 iremga20|Irem GA20|device|devices/sound/iremga20.cpp||||||||
-hd63705|HD63705|device|devices/cpu/m6805/m6805.cpp||||||||
+hd63705|HD63705|device|||||||||
 c140|C140|device|devices/sound/c140.cpp||||||||
 v30|V30|device|devices/cpu/nec/nec.cpp||||||||
-m72_audio|Irem M72 Audio Custom|device|mame/irem/m72_a.cpp||||||||
-naomi_rom_board|Sega NAOMI ROM Board|device|mame/sega/naomirom.cpp||||||||
+m72_audio|Irem M72 Audio Custom|device|irem/m72_a.cpp||||||||
+naomi_rom_board|Sega NAOMI ROM Board|device|sega/naomirom.cpp||||||||
 tms32010|TMS32010|device|devices/cpu/tms32010/tms32010.cpp||||||||
-seibu_sound|Seibu Sound System|device|mame/shared/seibusound.cpp||||||||
+seibu_sound|Seibu Sound System|device|shared/seibusound.cpp||||||||
 k007232|K007232 PCM Controller|device|devices/sound/k007232.cpp||||||||
 msm6242|MSM6242 RTC|device|devices/machine/msm6242.cpp||||||||
-taito_en|Taito Ensoniq Sound System|device|mame/taito/taito_en.cpp||||||||
+taito_en|Taito Ensoniq Sound System|device|taito/taito_en.cpp||||||||
 mb87078|MB87078 Volume Controller|device|devices/machine/mb87078.cpp||||||||
 es5505|ES5505|device|devices/sound/es5506.cpp||||||||
 buffered_spriteram|Buffered Sprite RAM|device|||||||||
-k007121|K007121 Sprite/Tilemap Controller|device|mame/konami/k007121.cpp||||||||
+k007121|K007121 Sprite/Tilemap Controller|device|konami/k007121.cpp||||||||
 k051649|K051649 SCC1|device|devices/sound/k051649.cpp||||||||
 sega315_5313|Sega 315-5313 Megadrive VDP|device|devices/video/315_5313.cpp||||||||
 ym2612|YM2612|device|devices/sound/ymopn.cpp||||||||
@@ -30234,10 +30234,10 @@ huc6270|HuC6270 VDC|device|devices/video/huc6270.cpp||||||||
 c6280|HuC6280|device|devices/sound/c6280.cpp||||||||
 sn76477|SN76477|device|devices/sound/sn76477.cpp||||||||
 hd63701|HD63701|device|||||||||
-riot6532|6532 RIOT|device|devices/machine/6532riot.cpp||||||||
+riot6532|6532 RIOT|device|||||||||
 gotsndr0|Gottlieb Sound rev. 0|device|||||||||
 mos6530|MOS6530 RRIOT|device|devices/machine/mos6530.cpp||||||||
-fd1089b|FD1089B|device|mame/sega/fd1089.cpp||||||||
+fd1089b|FD1089B|device|sega/fd1089.cpp||||||||
 gaelco_gae1|Gaelco GAE1|device|devices/sound/gaelco.cpp||||||||
 m6504|M6504|device|devices/cpu/m6502/m6504.cpp||||||||
 ym3526|YM3526|device|devices/sound/ymopl.cpp||||||||
@@ -30246,7 +30246,7 @@ cdp1802|CDP1802|device|devices/cpu/cosmac/cosmac.cpp||||||||
 cdp1852|CDP1852 I/O|device|devices/machine/cdp1852.cpp||||||||
 cdp1869|RCA CDP1869|device|devices/sound/cdp1869.cpp||||||||
 i8751|I8751|device|devices/cpu/mcs51/mcs51.cpp||||||||
-gotsndr1|Gottlieb Sound rev. 1|device|mame/shared/gottlieb_a.cpp||||||||
+gotsndr1|Gottlieb Sound rev. 1|device|shared/gottlieb_a.cpp||||||||
 ay8912|AY-3-8912A|device|devices/sound/ay8910.cpp||||||||
 ds1204|DS1204|device|devices/machine/ds1204.cpp||||||||
 v9938|V9938 VDP|device|devices/video/v9938.cpp||||||||
@@ -30254,22 +30254,22 @@ i8086|I8086|device|devices/cpu/i86/i86.cpp||||||||
 r6545_1|R6545-1 CRTC|device|devices/video/mc6845.cpp||||||||
 sn76489|SN76489|device|devices/sound/sn76496.cpp||||||||
 ticket_dispenser|Ticket Dispenser|device|devices/machine/ticket.cpp||||||||
-gamtor_vga|GAMTOR VGA|device|devices/video/pc_vga.cpp||||||||
+gamtor_vga|GAMTOR VGA|device|misc/gamtor.cpp||||||||
 ttl74123|74123 TTL|device|devices/machine/74123.cpp||||||||
 okim9810|OKI9810|device|devices/sound/okim9810.cpp||||||||
 macronix_29l001mc|Macronix 29L001MC Flash|device|devices/machine/intelfsh.cpp||||||||
-aw_rom_board|Sammy Atomiswave ROM Board|device|mame/sega/awboard.cpp||||||||
-dcctrl|Dreamcast Controller|device|mame/sega/dc-ctrl.cpp||||||||
+aw_rom_board|Sammy Atomiswave ROM Board|device|sega/awboard.cpp||||||||
+dcctrl|Dreamcast Controller|device|sega/dc-ctrl.cpp||||||||
 netlist_cpu|Netlist CPU Device|device|devices/machine/netlist.cpp||||||||
 fixfreq|Fixed Frequency Monochrome Monitor|device|devices/video/fixfreq.cpp||||||||
 e132xn|E1-32XN|device|devices/cpu/e132xs/e132xs.cpp||||||||
 v20|V20|device|devices/cpu/nec/nec.cpp||||||||
 m65sc02|M65SC02|device|devices/cpu/m6502/m65sc02.cpp||||||||
-tc0100scn|Taito TC0100SCN|device|mame/taito/tc0100scn.cpp||||||||
-tc0150rod|Taito TC0150ROD|device|mame/taito/tc0150rod.cpp||||||||
-tc0110pcr|Taito TC0110PCR|device|mame/taito/tc0110pcr.cpp||||||||
+tc0100scn|Taito TC0100SCN|device|taito/tc0100scn.cpp||||||||
+tc0150rod|Taito TC0150ROD|device|taito/tc0150rod.cpp||||||||
+tc0110pcr|Taito TC0110PCR|device|taito/tc0110pcr.cpp||||||||
 filter_volume|Volume Filter|device|devices/sound/flt_vol.cpp||||||||
-excellent_spr|Excellent 8-bit Sprite|device|mame/excellent/excellent_spr.cpp||||||||
+excellent_spr|Excellent 8-bit Sprite|device|excellent/excellent_spr.cpp||||||||
 cxd8661r|CXD8661R|device|devices/cpu/psx/psx.cpp||||||||
 cxd8654q|CXD8654Q GPU|device|devices/video/psx.cpp||||||||
 mb8841|MB8841|device|devices/cpu/mb88xx/mb88xx.cpp||||||||
@@ -30280,27 +30280,27 @@ x1_010|X1-010|device|devices/sound/x1_010.cpp||||||||
 atari2804|Atari EEPROM Interface (2804)|device|||||||||
 tmp90841|TMP90841|device|devices/cpu/tlcs90/tlcs90.cpp||||||||
 nmk112|NMK112|device|devices/machine/nmk112.cpp||||||||
-wmscvsd|Williams CVSD Sound Board|device|mame/shared/williamssound.cpp||||||||
-jaleco_blend|Jaleco Blending Device|device|mame/jaleco/jalblend.cpp||||||||
+wmscvsd|Williams CVSD Sound Board|device|shared/williamssound.cpp||||||||
+jaleco_blend|Jaleco Blending Device|device|jaleco/jalblend.cpp||||||||
 ym2149|YM2149|device|devices/sound/ay8910.cpp||||||||
 tms34061|TMS34061 VSC|device|devices/video/tms34061.cpp||||||||
 ccpu|Cinematronics CPU|device|devices/cpu/ccpu/ccpu.cpp||||||||
 n2a03|N2A03|device|||||||||
 nesapu|N2A03 APU|device|devices/sound/nes_apu.cpp||||||||
 vlm5030|VLM5030|device|devices/sound/vlm5030.cpp||||||||
-tc0180vcu|Taito TC0180VCU|device|mame/taito/tc0180vcu.cpp||||||||
-naomi_m4_board|Sega NAOMI M4 Board|device|mame/sega/naomim4.cpp||||||||
+tc0180vcu|Taito TC0180VCU|device|taito/tc0180vcu.cpp||||||||
+naomi_m4_board|Sega NAOMI M4 Board|device|sega/naomim4.cpp||||||||
 pps4|PPS4|device|devices/cpu/pps4/pps4.cpp||||||||
 ra17xx|Rockwell A17XX|device|devices/machine/ra17xx.cpp||||||||
 r10696|Rockwell 10696|device|devices/machine/r10696.cpp||||||||
 r10788|Rockwell 10788|device|devices/machine/r10788.cpp||||||||
 atari_vg_earom|Atari VG EAROM|device|||||||||
 er5911_8|Serial EEPROM ER5911 (128x8)|device|devices/machine/eepromser.cpp||||||||
-k056832|K056832 Tilemap Generator|device|mame/konami/k054156_k054157_k056832.cpp||||||||
-k05324x|K053244 & 053245 Sprite Generator|device|mame/konami/k053244_k053245.cpp||||||||
-k053251|K053251 Priority Encoder|device|mame/konami/k053251.cpp||||||||
+k056832|K056832 Tilemap Generator|device|konami/k054156_k054157_k056832.cpp||||||||
+k05324x|K053244 & 053245 Sprite Generator|device|konami/k053244_k053245.cpp||||||||
+k053251|K053251 Priority Encoder|device|konami/k053251.cpp||||||||
 k053260|K053260 KDSC|device|devices/sound/k053260.cpp||||||||
-315_5296|Sega 315-5296 I/O|device|mame/sega/315_5296.cpp||||||||
+315_5296|Sega 315-5296 I/O|device|sega/315_5296.cpp||||||||
 sh2|SH-2|device|devices/cpu/sh/sh2.cpp||||||||
 scudsp|SCUDSP|device|devices/cpu/scudsp/scudsp.cpp||||||||
 scsp|SCSP|device|devices/sound/scsp.cpp||||||||
@@ -30309,44 +30309,44 @@ i8035|I8035|device|devices/cpu/mcs48/mcs48.cpp||||||||
 sega_speech_sound|Sega Speech Sound Board|device|||||||||
 sega315_5124|Sega 315-5124 VDP|device|devices/video/315_5124.cpp||||||||
 ldv1000|Pioneer LD-V1000|device|devices/machine/ldv1000.cpp||||||||
-pc090oj|Taito PC090OJ|device|mame/taito/pc090oj.cpp||||||||
-fuukivid|Fuuki Video|device|mame/fuuki/fuukifg.cpp||||||||
+pc090oj|Taito PC090OJ|device|taito/pc090oj.cpp||||||||
+fuukivid|Fuuki Video|device|fuuki/fuukifg.cpp||||||||
 ymf262|YMF262|device|devices/sound/ymopl.cpp||||||||
 93c56_16|Serial EEPROM 93C56 (128x16)|device|devices/machine/eepromser.cpp||||||||
-wsf_80186_sound|80186 DAC (WSF)|device|mame/cinematronics/leland_a.cpp||||||||
+wsf_80186_sound|80186 DAC (WSF)|device|cinematronics/leland_a.cpp||||||||
 m68010|M68010|device|devices/cpu/m68000/m68010.cpp||||||||
-ataxx_80186_sound|80186 DAC (Ataxx)|device|mame/cinematronics/leland_a.cpp||||||||
-trackfld_audio|Track And Field Audio|device|mame/konami/trackfld_a.cpp||||||||
-hyprolyb_adpcm|Hyper Olympics Audio|device|mame/konami/hyprolyb.cpp||||||||
+ataxx_80186_sound|80186 DAC (Ataxx)|device|cinematronics/leland_a.cpp||||||||
+trackfld_audio|Track And Field Audio|device|konami/trackfld_a.cpp||||||||
+hyprolyb_adpcm|Hyper Olympics Audio|device|konami/hyprolyb.cpp||||||||
 i8039|I8039|device|devices/cpu/mcs48/mcs48.cpp||||||||
 mos656x_attack_ufo|MOS656X|device|devices/sound/mos6560.cpp||||||||
 ppc603|PowerPC 603|device|devices/cpu/powerpc/ppccom.cpp||||||||
 naomi_gdrom_board|Sega NAOMI GDROM Board|device|||||||||
 i8085a|8085A|device|devices/cpu/i8085/i8085.cpp||||||||
 tms36xx|TMS36XX|device|devices/sound/tms36xx.cpp||||||||
-phoenix_sound|Phoenix Audio Custom|device|mame/phoenix/phoenix_a.cpp||||||||
+phoenix_sound|Phoenix Audio Custom|device|phoenix/phoenix_a.cpp||||||||
 roc10937|Rockwell 10937 VFD controller and compatible|device|devices/machine/roc10937.cpp||||||||
 acia6850|6850 ACIA|device|devices/machine/6850acia.cpp||||||||
 clock|Clock|device|devices/machine/clock.cpp||||||||
 i8031|I8031|device|devices/cpu/mcs51/mcs51.cpp||||||||
 tms9928a|TMS9928A VDP|device|devices/video/tms9928a.cpp||||||||
 beep|Beep|device|devices/sound/beep.cpp||||||||
-deco16ic|DECO 55 / 56 / 74 / 141 IC|device|mame/dataeast/deco16ic.cpp||||||||
-tecmo_spr|Tecmo Chained Sprites|device|mame/shared/tecmo_spr.cpp||||||||
+deco16ic|DECO 55 / 56 / 74 / 141 IC|device|dataeast/deco16ic.cpp||||||||
+tecmo_spr|Tecmo Chained Sprites|device|shared/tecmo_spr.cpp||||||||
 microtouch|Microtouch Touchscreen|device|devices/machine/microtch.cpp||||||||
 h63484|HD63484 CRTC (rewrite)|device|||||||||
 atari2816|Atari EEPROM Interface (2816)|device|||||||||
 2816|Parallel EEPROM 2816 (2048x8)|device|devices/machine/eeprompar.cpp||||||||
-cclimber_audio|Crazy Climber Sound Board|device|mame/shared/cclimber_a.cpp||||||||
+cclimber_audio|Crazy Climber Sound Board|device|shared/cclimber_a.cpp||||||||
 kaneko_view2_tilemap|Kaneko VIEW2 Tilemaps|device|||||||||
 kaneko16_sprite|Kaneko 16-bit Sprites|device|||||||||
-namco_c117|Namco C117 MMU|device|mame/namco/c117.cpp||||||||
-namco_c116|Namco C116 Video Controller|device|mame/namco/namco_c116.cpp||||||||
+namco_c117|Namco C117 MMU|device|namco/c117.cpp||||||||
+namco_c116|Namco C116 Video Controller|device|namco/namco_c116.cpp||||||||
 ppu2c04|2C04 PPU|device|devices/video/ppu2c0x.cpp||||||||
 gaelco_cg1v|Gaelco CG1V|device|devices/sound/gaelco.cpp||||||||
 i8051|I8051|device|devices/cpu/mcs51/mcs51.cpp||||||||
-gtia|Atari GTIA|device|mame/atari/gtia.cpp||||||||
-antic|Atari ANTIC|device|mame/atari/antic.cpp||||||||
+gtia|Atari GTIA|device|atari/gtia.cpp||||||||
+antic|Atari ANTIC|device|atari/antic.cpp||||||||
 ppc603e|PowerPC 603e|device|devices/cpu/powerpc/ppccom.cpp||||||||
 scsi|SCSI Port|device|devices/bus/scsi/scsi.cpp||||||||
 scsi_slot|SCSI Connector|device|devices/bus/scsi/scsi.cpp||||||||
@@ -30355,7 +30355,7 @@ mb89371|MB89371 Dual Serial UART|device|devices/machine/mb89371.cpp||||||||
 ata_interface|ATA Interface|device|devices/bus/ata/ataintf.cpp||||||||
 cr589|Matsushita CR589 CD-ROM Drive|device|devices/bus/ata/cr589.cpp||||||||
 k573cassslot|Konami 573 Cassette Slot|device|||||||||
-k573cassx|Konami 573 Cassette X|device|mame/konami/k573cass.cpp||||||||
+k573cassx|Konami 573 Cassette X|device|konami/k573cass.cpp||||||||
 x76f041|X76F041 Flash|device|devices/machine/x76f041.cpp||||||||
 fujitsu_29f016a|Fujitsu 29F016A Flash|device|||||||||
 pccard|PCCARD SLOT|device|devices/machine/pccard.cpp||||||||
@@ -30367,28 +30367,28 @@ ds2404|DS2404|device|devices/machine/ds2404.cpp||||||||
 intel_e28f008sa|Intel E28F008SA Flash|device|devices/machine/intelfsh.cpp||||||||
 fifo7200|IDT7200 FIFO|device|||||||||
 tmp95c063|TMP95C063|device|devices/cpu/tlcs900/tmp95c063.cpp||||||||
-atarivad|Atari VAD|device|mame/atari/atarivad.cpp||||||||
-atjsa3|Atari JSA III Sound Board|device|mame/atari/atarijsa.cpp||||||||
-decocpu3b|Data East Pinball CPU Board Type 3B|device|mame/pinball/decopincpu.cpp||||||||
-decodmd3|Data East Pinball Dot Matrix Display Type 3|device|mame/pinball/decodmd3.cpp|0|192|64|60.000000||||
+atarivad|Atari VAD|device|atari/atarivad.cpp||||||||
+atjsa3|Atari JSA III Sound Board|device|atari/atarijsa.cpp||||||||
+decocpu3b|Data East Pinball CPU Board Type 3B|device|pinball/decopincpu.cpp||||||||
+decodmd3|Data East Pinball Dot Matrix Display Type 3|device|pinball/decodmd3.cpp|0|192|64|60.000000||||
 adsp2181|ADSP-2181|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
-gp9001vdp|GP9001 VDP|device|mame/toaplan/gp9001.cpp||||||||
+gp9001vdp|GP9001 VDP|device|toaplan/gp9001.cpp||||||||
 v25|V25|device|devices/cpu/nec/v25.cpp||||||||
 upd7807|uPD7807|device|devices/cpu/upd7810/upd7810.cpp||||||||
-namco51|Namco 51xx|device|mame/namco/namco51.cpp||||||||
+namco51|Namco 51xx|device|namco/namco51.cpp||||||||
 mb8843|MB8843|device|devices/cpu/mb88xx/mb88xx.cpp||||||||
 namco06xx|Namco 06xx|device|||||||||
 hd6309|HD6309|device|devices/cpu/m6809/hd6309.cpp||||||||
-k007342|K007342 Video Controller|device|mame/konami/k007342.cpp||||||||
-k007420|K007420 Sprite Generator|device|mame/konami/k007420.cpp||||||||
+k007342|K007342 Video Controller|device|konami/k007342.cpp||||||||
+k007420|K007420 Sprite Generator|device|konami/k007420.cpp||||||||
 93c66_8|Serial EEPROM 93C66 (512x8)|device|devices/machine/eepromser.cpp||||||||
 arm9|ARM9|device|devices/cpu/arm7/arm7.cpp||||||||
 s3c2410|S3C2410 MCU|device|devices/machine/s3c2410.cpp||||||||
 qs1000|QS1000|device|devices/sound/qs1000.cpp||||||||
 i8052|I8052|device|devices/cpu/mcs51/mcs51.cpp||||||||
 i2cmem|I2C Memory|device|||||||||
-tigeroad_spr|Simple Capcom (Tiger Road) Sprite|device|mame/capcom/tigeroad_spr.cpp||||||||
-s11c_bg|Williams System 11C Background Music|device|mame/shared/s11c_bg.cpp||||||||
+tigeroad_spr|Simple Capcom (Tiger Road) Sprite|device|capcom/tigeroad_spr.cpp||||||||
+s11c_bg|Williams System 11C Background Music|device|shared/s11c_bg.cpp||||||||
 v53a|V53A|device|devices/cpu/nec/v5x.cpp||||||||
 v53_dmau|V53 DMAU|device|||||||||
 v53_scu|V53 SCU|device|||||||||
@@ -30397,37 +30397,37 @@ asap|ASAP|device|devices/cpu/asap/asap.cpp||||||||
 beezer_sound|beezer SFX|device|||||||||
 i960kb|i960kb|device|devices/cpu/i960/i960.cpp||||||||
 mb86235|MB86235|device|devices/cpu/mb86235/mb86235.cpp||||||||
-segas24_tile|Sega System 24 Tilemap|device|mame/sega/segaic24.cpp||||||||
+segas24_tile|Sega System 24 Tilemap|device|sega/segaic24.cpp||||||||
 y8950|Y8950|device|devices/sound/ymopl.cpp||||||||
 ttl74181|74181 TTL|device|devices/machine/74181.cpp||||||||
 s14001a|S14001A|device|devices/sound/s14001a.cpp||||||||
-exidy_sfx|Exidy SFX|device|mame/shared/exidysound.cpp||||||||
+exidy_sfx|Exidy SFX|device|shared/exidysound.cpp||||||||
 r65c02|R65C02|device|devices/cpu/m6502/r65c02.cpp||||||||
 hd61830|HD61830 LCDC|device|devices/video/hd61830.cpp||||||||
 v9958|V9958 VDP|device|devices/video/v9938.cpp||||||||
 timeplt_audio|Time Pilot Audio|device|||||||||
 filter_rc|RC Filter|device|devices/sound/flt_rc.cpp||||||||
-tiamc1_sound|TIA-MC1 Audio Custom|device|mame/ussr/tiamc1_a.cpp||||||||
+tiamc1_sound|TIA-MC1 Audio Custom|device|ussr/tiamc1_a.cpp||||||||
 saa1099|SAA1099|device|devices/sound/saa1099.cpp||||||||
 r5000le|R5000 (little)|device|devices/cpu/mips/mips3.cpp||||||||
 bus_master_ide_controller|Bus Master IDE Controller|device|||||||||
 voodoo_1|3dfx Voodoo Graphics|device|devices/video/voodoo.cpp||||||||
-dcs2_audio_2115|DCS2 Audio 2115|device|mame/shared/dcs.cpp||||||||
+dcs2_audio_2115|DCS2 Audio 2115|device|shared/dcs.cpp||||||||
 adsp2115|ADSP-2115|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
-midway_ioasic|Midway IOASIC|device|mame/midway/midwayic.cpp||||||||
-k054338|K054338 Mixer|device|mame/konami/k054338.cpp||||||||
-k055555|K055555 Priority Encoder|device|mame/konami/k055555.cpp||||||||
+midway_ioasic|Midway IOASIC|device|midway/midwayic.cpp||||||||
+k054338|K054338 Mixer|device|konami/k054338.cpp||||||||
+k055555|K055555 Priority Encoder|device|konami/k055555.cpp||||||||
 h83044|H8/3044|device|devices/cpu/h8/h83048.cpp||||||||
-namcoc69|C69 (M37702)|device|mame/namco/namcomcu.cpp||||||||
+namcoc69|C69 (M37702)|device|namco/namcomcu.cpp||||||||
 i486|I486|device|devices/cpu/i386/i386.cpp||||||||
-k051733|K051733 Protection|device|mame/konami/k051733.cpp||||||||
-midsg|Midway Sounds Good Sound Board|device|mame/midway/midway.cpp||||||||
-seibu_crtc|Seibu CRT Controller|device|mame/seibu/seibu_crtc.cpp||||||||
+k051733|K051733 Protection|device|konami/k051733.cpp||||||||
+midsg|Midway Sounds Good Sound Board|device|midway/midway.cpp||||||||
+seibu_crtc|Seibu CRT Controller|device|seibu/seibu_crtc.cpp||||||||
 es5506|ES5506|device|devices/sound/es5506.cpp||||||||
-kaneko_toybox|Kaneko Toybox MCU|device|mame/kaneko/kaneko_toybox.cpp||||||||
-kaneko_hit|Kaneko CALC Hitbox|device|mame/kaneko/kaneko_hit.cpp||||||||
-atjsa1|Atari JSA I Sound Board|device|mame/atari/atarijsa.cpp||||||||
-k054000|K054000 Protection|device|mame/konami/k054000.cpp||||||||
+kaneko_toybox|Kaneko Toybox MCU|device|kaneko/kaneko_toybox.cpp||||||||
+kaneko_hit|Kaneko CALC Hitbox|device|kaneko/kaneko_hit.cpp||||||||
+atjsa1|Atari JSA I Sound Board|device|atari/atarijsa.cpp||||||||
+k054000|K054000 Protection|device|konami/k054000.cpp||||||||
 k053936|K053936 Video Controller|device|devices/video/k053936.cpp||||||||
 k054539|K054539 ADPCM|device|devices/sound/k054539.cpp||||||||
 rtc65271|RTC-65271|device|devices/machine/rtc65271.cpp||||||||
@@ -30439,51 +30439,51 @@ fdc37c665gt|FDC37C665GT|device|devices/machine/fdc37c665gt.cpp||||||||
 rs232|RS232 Port|device|devices/bus/rs232/rs232.cpp||||||||
 xvd701|JVC XV-D701|device|devices/bus/rs232/xvd701.cpp||||||||
 rf5c400|RF5C400|device|devices/sound/rf5c400.cpp||||||||
-decoc10707|DECO C10707|device|mame/dataeast/deco222.cpp||||||||
-segas24_sprite|Sega System 24 Sprites|device|mame/sega/segaic24.cpp||||||||
-segas24_mixer|Sega System 24 Mixer|device|mame/sega/segaic24.cpp||||||||
-warpwarp_sound|Warp Warp Audio Custom|device|mame/namco/warpwarp_a.cpp||||||||
+decoc10707|DECO C10707|device|dataeast/deco222.cpp||||||||
+segas24_sprite|Sega System 24 Sprites|device|sega/segaic24.cpp||||||||
+segas24_mixer|Sega System 24 Mixer|device|sega/segaic24.cpp||||||||
+warpwarp_sound|Warp Warp Audio Custom|device|namco/warpwarp_a.cpp||||||||
 cirrus_vga|Cirrus Logic VGA|device|||||||||
 ns16450|National Semiconductor NS16450|device|devices/machine/ins8250.cpp||||||||
-decocomn|DECO Common Video Functions|device|mame/dataeast/decocomn.cpp||||||||
-deco104|DECO 104 Protection|device|mame/dataeast/deco104.cpp||||||||
+decocomn|DECO Common Video Functions|device|dataeast/decocomn.cpp||||||||
+deco104|DECO 104 Protection|device|dataeast/deco104.cpp||||||||
 deco16|DECO16|device|devices/cpu/m6502/deco16.cpp||||||||
-deco222|DECO 222|device|mame/dataeast/deco222.cpp||||||||
+deco222|DECO 222|device|dataeast/deco222.cpp||||||||
 e116t|E1-16T|device|devices/cpu/e132xs/e132xs.cpp||||||||
-wpc|Williams WPC ASIC|device|mame/pinball/wpc.cpp||||||||
-wpcsnd|Williams WPC Sound|device|mame/pinball/wpcsnd.cpp||||||||
-namco50|Namco 50xx|device|mame/namco/namco50.cpp||||||||
+wpc|Williams WPC ASIC|device|pinball/wpc.cpp||||||||
+wpcsnd|Williams WPC Sound|device|pinball/wpcsnd.cpp||||||||
+namco50|Namco 50xx|device|namco/namco50.cpp||||||||
 mb8842|MB8842|device|devices/cpu/mb88xx/mb88xx.cpp||||||||
-namco52|Namco 52xx|device|mame/namco/namco52.cpp||||||||
-namco54|Namco 54xx|device|mame/namco/namco54.cpp||||||||
+namco52|Namco 52xx|device|namco/namco52.cpp||||||||
+namco54|Namco 54xx|device|namco/namco54.cpp||||||||
 mb8844|MB8844|device|devices/cpu/mb88xx/mb88xx.cpp||||||||
 am29000|AMD Am29000|device|devices/cpu/am29000/am29000.cpp||||||||
 mc68901|MC68901 MFP|device|devices/machine/mc68901.cpp||||||||
-micro3d_sound|Microprose Audio Custom|device|mame/misc/micro3d_a.cpp||||||||
+micro3d_sound|Microprose Audio Custom|device|misc/micro3d_a.cpp||||||||
 h83008|H8/3008|device|devices/cpu/h8/h83008.cpp||||||||
 h8_adc_3006|H8 ADC 3006|device|devices/cpu/h8/h8_adc.cpp||||||||
 h8h_8bits_timer_channel|H8H 8-bits timer channel|device|||||||||
 mpc8240|PowerPC MPC8240|device|devices/cpu/powerpc/ppccom.cpp||||||||
 voodoo_3|3dfx Voodoo 3|device|devices/video/voodoo_banshee.cpp||||||||
 avg_bzone|Atari AVG (Battle Zone)|device|devices/video/avgdvg.cpp||||||||
-mathbox|Atari MATHBOX|device|mame/atari/mathbox.cpp||||||||
-kaneko_calc3|Kaneko CALC3 MCU|device|mame/kaneko/kaneko_calc3.cpp||||||||
+mathbox|Atari MATHBOX|device|atari/mathbox.cpp||||||||
+kaneko_calc3|Kaneko CALC3 MCU|device|kaneko/kaneko_calc3.cpp||||||||
 okim6376|OKI6376|device|devices/sound/okim6376.cpp||||||||
-deco_karnovsprites|DECO Karnov Sprites|device|mame/dataeast/deckarn.cpp||||||||
+deco_karnovsprites|DECO Karnov Sprites|device|dataeast/deckarn.cpp||||||||
 tms9128|TMS9128 VDP|device|devices/video/tms9928a.cpp||||||||
 cxd8530bq|CXD8530BQ|device|devices/cpu/psx/psx.cpp||||||||
 cxd8514q|CXD8514Q GPU|device|devices/video/psx.cpp||||||||
 sharp_lh28f400|Sharp LH28F400 Flash|device|devices/machine/intelfsh.cpp||||||||
-decocpu7|DECO CPU-7|device|mame/dataeast/decocpu7.cpp||||||||
+decocpu7|DECO CPU-7|device|dataeast/decocpu7.cpp||||||||
 ppc602|PowerPC 602|device|devices/cpu/powerpc/ppccom.cpp||||||||
-decodmd1|Data East Pinball Dot Matrix Display Type 1|device|mame/pinball/decodmd1.cpp|0|128|16|50.000000||||
+decodmd1|Data East Pinball Dot Matrix Display Type 1|device|pinball/decodmd1.cpp|0|128|16|50.000000||||
 tms34020|TMS34020|device|devices/cpu/tms34010/tms34010.cpp||||||||
 m6801|M6801|device|devices/cpu/m6800/m6801.cpp||||||||
 k005289|K005289 SCC|device|devices/sound/k005289.cpp||||||||
 i8279|8279 KDC|device|devices/machine/i8279.cpp||||||||
 k053252|K053252 Timing/Interrupt|device|devices/machine/k053252.cpp||||||||
-k053247|K053246 & K053247 Sprite Generator|device|mame/konami/k053246_k053247_k055673.cpp||||||||
-buggyboy_sound|Buggy Boy Audio Custom|device|mame/tatsumi/tx1_a.cpp||||||||
+k053247|K053246 & K053247 Sprite Generator|device|konami/k053246_k053247_k055673.cpp||||||||
+buggyboy_sound|Buggy Boy Audio Custom|device|tatsumi/tx1_a.cpp||||||||
 ppc403ga|PowerPC 403GA|device|devices/cpu/powerpc/ppccom.cpp||||||||
 ppc604|PowerPC 604|device|devices/cpu/powerpc/ppccom.cpp||||||||
 k001604|K001604 2D tilemaps + 2x ROZ|device|||||||||
@@ -30491,53 +30491,53 @@ cobra_jvs_host|JVS-HOST (COBRA)|device|||||||||
 cobra_jvs|JVS (COBRA)|device|||||||||
 alpha8301|ALPHA-8301|device|||||||||
 avg|Atari AVG|device|devices/video/avgdvg.cpp||||||||
-seibu_adpcm|Seibu ADPCM (MSM5205)|device|mame/shared/seibusound.cpp||||||||
+seibu_adpcm|Seibu ADPCM (MSM5205)|device|shared/seibusound.cpp||||||||
 i8041|I8041|device|||||||||
-decocass_tape|DECO Cassette Tape|device|mame/dataeast/decocass_tape.cpp||||||||
-trident_vga|Trident TGUI9680|device|devices/bus/isa/trident.cpp||||||||
+decocass_tape|DECO Cassette Tape|device|dataeast/decocass_tape.cpp||||||||
+trident_vga|Trident TGUI9680|device|devices/video/pc_vga_trident.cpp||||||||
 ds12885|DS12885|device|devices/machine/ds128x.cpp||||||||
 smc91c94|SMC91C94 Ethernet Controller|device|devices/machine/smc91c9x.cpp||||||||
-tc0280grd|Taito TC0280GRD & TC0430GRW|device|mame/taito/tc0280grd.cpp||||||||
-tc0360pri|Taito TC0360PRI|device|mame/taito/tc0360pri.cpp||||||||
+tc0280grd|Taito TC0280GRD & TC0430GRW|device|taito/tc0280grd.cpp||||||||
+tc0360pri|Taito TC0360PRI|device|taito/tc0360pri.cpp||||||||
 e132n|E1-32N|device|devices/cpu/e132xs/e132xs.cpp||||||||
 i8032|I8032|device|devices/cpu/mcs51/mcs51.cpp||||||||
-deco146|DECO 146 Protection|device|mame/dataeast/deco146.cpp||||||||
+deco146|DECO 146 Protection|device|dataeast/deco146.cpp||||||||
 i80c32|I80C32|device|devices/cpu/mcs51/mcs51.cpp||||||||
 vr4310le|VR4310 (little)|device|devices/cpu/mips/mips3.cpp||||||||
 vrc4373|NEC VRC4373 System Controller|device|devices/machine/vrc4373.cpp||||||||
-iteagle_fpga|ITEagle FPGA|device|mame/itech/iteagle_fpga.cpp||||||||
+iteagle_fpga|ITEagle FPGA|device|itech/iteagle_fpga.cpp||||||||
 ide|ITEagle IDE Controller|device|||||||||
 es1373|Creative Labs Ensoniq AudioPCI97 ES1373|device|devices/sound/es1373.cpp||||||||
 voodoo_pci|Voodoo PCI|device|||||||||
 voodoo_banshee|3dfx Voodoo Banshee|device|devices/video/voodoo_banshee.cpp||||||||
-eeprom|ITEagle EEPROM AT93C46|device|mame/shared/xbox.cpp||||||||
+eeprom|ITEagle EEPROM AT93C46|device|shared/xbox.cpp||||||||
 74148|74148 TTL|device|devices/machine/74148.cpp||||||||
 74153|74153 TTL|device|||||||||
 rm7000le|RM7000 (little)|device|devices/cpu/mips/mips3.cpp||||||||
 m48t37|M48T37 Timekeeper|device|devices/machine/timekpr.cpp||||||||
-dcs2_audio_2104|DCS2 Audio 2104|device|mame/shared/dcs.cpp||||||||
+dcs2_audio_2104|DCS2 Audio 2104|device|shared/dcs.cpp||||||||
 adsp2104|ADSP-2104|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
 s16lf01|Samsung 16LF01 Series VFD controller and compatible|device|devices/machine/roc10937.cpp||||||||
 hd6303y|HD6303Y|device|devices/cpu/m6800/m6801.cpp||||||||
-exidy440_sound|Exidy 440 CVSD|device|mame/exidy/exidy440_a.cpp||||||||
+exidy440_sound|Exidy 440 CVSD|device|exidy/exidy440_a.cpp||||||||
 votrax|Votrax SC-01|device|||||||||
-tc0480scp|Taito TC0480SCP|device|mame/taito/tc0480scp.cpp||||||||
+tc0480scp|Taito TC0480SCP|device|taito/tc0480scp.cpp||||||||
 x2212|X2212 NVRAM|device|devices/machine/x2212.cpp||||||||
 pentium3|Pentium III|device|devices/cpu/i386/i386.cpp||||||||
-ide_baseboard|IDE Baseboard|device|mame/sega/chihiro.cpp||||||||
-nb1414m4|NB1414M4 Mahjong Custom|device|mame/nichibutsu/nb1414m4.cpp||||||||
+ide_baseboard|IDE Baseboard|device|sega/chihiro.cpp||||||||
+nb1414m4|NB1414M4 Mahjong Custom|device|nichibutsu/nb1414m4.cpp||||||||
 scc68070|SCC68070|device|devices/machine/scc68070.cpp||||||||
-mcd212|MCD212 Video|device|mame/philips/mcd212.cpp||||||||
+mcd212|MCD212 Video|device|philips/mcd212.cpp||||||||
 cdi68070|CDI68070|device|||||||||
-cdicdic|CDICDIC|device|mame/philips/cdicdic.cpp||||||||
+cdicdic|CDICDIC|device|philips/cdicdic.cpp||||||||
 cdislave|CDISLAVE|device|||||||||
 m48t08|MK48T08 Timekeeper|device|||||||||
-alpha8201|ALPHA-8201|device|mame/alpha/alpha8201.cpp||||||||
+alpha8201|ALPHA-8201|device|alpha/alpha8201.cpp||||||||
 ataflash|ATA Flash PCCARD|device|devices/machine/ataflash.cpp||||||||
 mb3773|MB3773 Power Supply Monitor|device|devices/machine/mb3773.cpp||||||||
 intel_te28f160|Intel TE28F160 Flash|device|devices/machine/intelfsh.cpp||||||||
 intel_e28f400b|Intel E28F400B Flash|device|devices/machine/intelfsh.cpp||||||||
-taito_zoom|Taito Zoom Sound System|device|mame/sony/taito_zm.cpp||||||||
+taito_zoom|Taito Zoom Sound System|device|sony/taito_zm.cpp||||||||
 mn1020012a|MN1020012A|device|devices/cpu/mn10200/mn10200.cpp||||||||
 zsg2|ZSG-2|device|devices/sound/zsg2.cpp||||||||
 tc8830f|TC8830F|device|devices/sound/tc8830f.cpp||||||||
@@ -30546,8 +30546,8 @@ cxd8561cq|CXD8561CQ GPU|device|devices/video/psx.cpp||||||||
 i8742|I8742|device|devices/cpu/mcs48/mcs48.cpp||||||||
 pr8210|Pioneer PR-8210|device|devices/machine/ldpr8210.cpp||||||||
 i8049|I8049|device|devices/cpu/mcs48/mcs48.cpp||||||||
-wiping_sound|Wiping Audio Custom|device|mame/nichibutsu/wiping_a.cpp||||||||
-naomi_m1_board|Sega NAOMI M1 Board|device|mame/sega/naomim1.cpp||||||||
+wiping_sound|Wiping Audio Custom|device|nichibutsu/wiping_a.cpp||||||||
+naomi_m1_board|Sega NAOMI M1 Board|device|sega/naomim1.cpp||||||||
 h83337|H8/3337|device|devices/cpu/h8/h83337.cpp||||||||
 h8_intc|H8 INTC|device|devices/cpu/h8/h8_intc.cpp||||||||
 h8_8bits_timer_channel|H8 8-bits timer channel|device|||||||||
@@ -30557,14 +30557,14 @@ akiko|CBM AKIKO|device|devices/machine/akiko.cpp||||||||
 sh1|SH-1|device|devices/cpu/sh/sh2.cpp||||||||
 tms9980a|TMS9980A|device|devices/cpu/tms9900/tms9980a.cpp||||||||
 wd33c93|33C93 SCSI|device|devices/machine/wd33c9x.cpp||||||||
-cps3_custom|CPS3 Audio Custom|device|mame/capcom/cps3_a.cpp||||||||
-midssio|Midway SSIO Sound Board|device|mame/midway/midway.cpp||||||||
+cps3_custom|CPS3 Audio Custom|device|capcom/cps3_a.cpp||||||||
+midssio|Midway SSIO Sound Board|device|midway/midway.cpp||||||||
 gms30c2132|GMS30C2132|device|devices/cpu/e132xs/e132xs.cpp||||||||
 h83334|H8/3334|device|devices/cpu/h8/h83337.cpp||||||||
 tms32032|TMS32032|device|devices/cpu/tms32031/tms32031.cpp||||||||
 m48t35|M48T35 Timekeeper|device|devices/machine/timekpr.cpp||||||||
 tms32031|TMS32031|device|devices/cpu/tms32031/tms32031.cpp||||||||
-dcs_audio_2k|DCS Audio 2K|device|mame/shared/dcs.cpp||||||||
+dcs_audio_2k|DCS Audio 2K|device|shared/dcs.cpp||||||||
 midway_serial_pic|Midway Serial Pic|device|||||||||
 tms57002|TMS57002|device|devices/cpu/tms57002/tms57002.cpp||||||||
 scsihd|SCSI HD|device|devices/bus/scsi/scsihd.cpp||||||||
@@ -30574,7 +30574,7 @@ se3208|SE3208|device|devices/cpu/se3208/se3208.cpp||||||||
 vr0video|VRender0 Video|device|devices/video/vrender0.cpp||||||||
 ds1302|DS1302|device|devices/machine/ds1302.cpp||||||||
 vrender0|VRender0|device|devices/machine/vrender0.cpp|0|320|240|60.054442||||
-k055673|K053246 & K055673 Sprite Generator|device|mame/konami/k053246_k053247_k055673.cpp||||||||
+k055673|K053246 & K055673 Sprite Generator|device|konami/k053246_k053247_k055673.cpp||||||||
 cem3394|CEM3394|device|devices/sound/cem3394.cpp||||||||
 tms9927|TMS9927 VTC|device|devices/video/tms9927.cpp||||||||
 cquestrot|Cube Quest Rotate CPU|device|devices/cpu/cubeqcpu/cubeqcpu.cpp||||||||
@@ -30582,26 +30582,26 @@ cquestlin|Cube Quest Line CPU|device|devices/cpu/cubeqcpu/cubeqcpu.cpp||||||||
 cquestsnd|Cube Quest Sound CPU|device|devices/cpu/cubeqcpu/cubeqcpu.cpp||||||||
 simutrek|Simutrek Modified PR-8210|device|devices/machine/ldpr8210.cpp||||||||
 i8748|I8748|device|devices/cpu/mcs48/mcs48.cpp||||||||
-st0016_cpu|ST0016|device|mame/seta/st0016.cpp||||||||
+st0016_cpu|ST0016|device|seta/st0016.cpp||||||||
 st0016_audio|ST0016 (Audio)|device|||||||||
-raiden2cop|Seibu COP (Raiden 2)|device|mame/seibu/seibucop.cpp||||||||
-seibu_cop_boot|Seibu COP (Bootleg)|device|mame/seibu/seicopbl.cpp||||||||
-atjsa2|Atari JSA II Sound Board|device|mame/atari/atarijsa.cpp||||||||
-sknsspr|SKNS Sprite|device|mame/kaneko/sknsspr.cpp||||||||
+raiden2cop|Seibu COP (Raiden 2)|device|seibu/seibucop.cpp||||||||
+seibu_cop_boot|Seibu COP (Bootleg)|device|seibu/seicopbl.cpp||||||||
+atjsa2|Atari JSA II Sound Board|device|atari/atarijsa.cpp||||||||
+sknsspr|SKNS Sprite|device|kaneko/sknsspr.cpp||||||||
 tms5220|TMS5220|device|devices/sound/tms5220.cpp||||||||
-namcoc76|C76 (M37702)|device|mame/namco/namcomcu.cpp||||||||
-keycus_c431|Namco C431 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+namcoc76|C76 (M37702)|device|namco/namcomcu.cpp||||||||
+keycus_c431|Namco C431 KEYCUS|device|namco/ns11prot.cpp||||||||
 m68040|M68040|device|devices/cpu/m68000/m68040.cpp||||||||
 tms32051|TMS32051|device|devices/cpu/tms32051/tms32051.cpp||||||||
-tc0640fio|Taito TC0640FIO|device|mame/taito/taitoio.cpp||||||||
+tc0640fio|Taito TC0640FIO|device|taito/taitoio.cpp||||||||
 93c56_8|Serial EEPROM 93C56 (256x8)|device|devices/machine/eepromser.cpp||||||||
-pc080sn|Taito PC080SN|device|mame/taito/pc080sn.cpp||||||||
-t5182|T5182 MCU|device|mame/seibu/t5182.cpp||||||||
+pc080sn|Taito PC080SN|device|taito/pc080sn.cpp||||||||
+t5182|T5182 MCU|device|seibu/t5182.cpp||||||||
 ppc603r|PowerPC 603R|device|devices/cpu/powerpc/ppccom.cpp||||||||
 mb86233|MB86233|device|devices/cpu/mb86233/mb86233.cpp||||||||
-segam1audio|Sega Model 1 Sound Board|device|mame/shared/segam1audio.cpp||||||||
+segam1audio|Sega Model 1 Sound Board|device|shared/segam1audio.cpp||||||||
 multipcm|Sega/Yamaha 315-5560|device|||||||||
-tc0510nio|Taito TC0510NIO|device|mame/taito/taitoio.cpp||||||||
+tc0510nio|Taito TC0510NIO|device|taito/taitoio.cpp||||||||
 v3021|V3021 RTC|device|devices/machine/v3021.cpp||||||||
 ics2115|ICS2115|device|devices/sound/ics2115.cpp||||||||
 rtc9701|RTC-9701|device|devices/machine/rtc9701.cpp||||||||
@@ -30609,24 +30609,24 @@ ymz770|Yamaha YMZ770|device|devices/sound/ymz770.cpp||||||||
 epic12|EP1C12 Blitter|device|devices/video/epic12.cpp||||||||
 sh3be|SH-3 (big)|device|devices/cpu/sh/sh4.cpp||||||||
 linearflash16mb|Linear Flash PCCARD (16MB)|device|devices/machine/linflash.cpp||||||||
-k573mcr|Konami 573 Memory Card Reader|device|mame/konami/k573mcr.cpp||||||||
-k573cassyi|Konami 573 Cassette YI|device|mame/konami/k573cass.cpp||||||||
+k573mcr|Konami 573 Memory Card Reader|device|konami/k573mcr.cpp||||||||
+k573cassyi|Konami 573 Cassette YI|device|konami/k573cass.cpp||||||||
 ds2401|DS2401|device|devices/machine/ds2401.cpp||||||||
 linearflash32mb|Linear Flash PCCARD (32MB)|device|devices/machine/linflash.cpp||||||||
 k573dio|Konami 573 digital I/O board|device|||||||||
 mas3507d|MAS3507D|device|devices/sound/mas3507d.cpp||||||||
-k573casszi|Konami 573 Cassette ZI|device|mame/konami/k573cass.cpp||||||||
-zs01|Konami ZS01 PIC|device|mame/konami/zs01.cpp||||||||
-k573cassxi|Konami 573 Cassette XI|device|mame/konami/k573cass.cpp||||||||
-sega315_5838|Sega 315-5838 / 317-0029 Compression (Encryption?)|device|mame/sega/315-5838_317-0229_comp.cpp||||||||
+k573casszi|Konami 573 Cassette ZI|device|konami/k573cass.cpp||||||||
+zs01|Konami ZS01 PIC|device|konami/zs01.cpp||||||||
+k573cassxi|Konami 573 Cassette XI|device|konami/k573cass.cpp||||||||
+sega315_5838|Sega 315-5838 / 317-0029 Compression (Encryption?)|device|sega/315-5838_317-0229_comp.cpp||||||||
 m68301|M68301|device|||||||||
-midtcs|Midway Turbo Chip Squeak Sound Board|device|mame/midway/midway.cpp||||||||
+midtcs|Midway Turbo Chip Squeak Sound Board|device|midway/midway.cpp||||||||
 5a22|5A22|device|devices/cpu/g65816/g65816.cpp||||||||
 spc700|SPC700|device|devices/cpu/spc700/spc700.cpp||||||||
 snes_ppu|SNES PPU|device|devices/video/snes_ppu.cpp||||||||
 snes_sound|SNES Custom DSP (SPC700)|device|||||||||
 tc0091lvc|Taito TC0091LVC|device|devices/machine/tc009xlvc.cpp||||||||
-namco53|Namco 53xx|device|mame/namco/namco53.cpp||||||||
+namco53|Namco 53xx|device|namco/namco53.cpp||||||||
 namco_15xx|Namco 15XX|device|devices/sound/namco.cpp||||||||
 58xx|Namco 58xx|device|||||||||
 56xx|Namco 56xx|device|||||||||
@@ -30643,131 +30643,131 @@ cop402|COP402|device|devices/cpu/cop400/cop400.cpp||||||||
 deco_zoomspr|DECO Zooming Sprites|device|||||||||
 pic16c55|PIC16C55|device|devices/cpu/pic16c5x/pic16c5x.cpp||||||||
 igs_025_022|IGS025|device|||||||||
-igs022|IGS022|device|mame/igs/igs022.cpp||||||||
+igs022|IGS022|device|igs/igs022.cpp||||||||
 upd96050|uPD96050|device|devices/cpu/upd7725/upd7725.cpp||||||||
-k573msu|Konami 573 Multi Session Unit|device|mame/konami/k573msu.cpp||||||||
+k573msu|Konami 573 Multi Session Unit|device|konami/k573msu.cpp||||||||
 adc0838|ADC0838|device|devices/machine/adc083x.cpp||||||||
-keycus_c410|Namco C410 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c410|Namco C410 KEYCUS|device|namco/ns11prot.cpp||||||||
 i8275x|I8275 CRTC|device|||||||||
 astrocade|Astrocade|device|||||||||
 i8251|8251 USART|device|devices/machine/i8251.cpp||||||||
 e132xt|E1-32XT|device|devices/cpu/e132xs/e132xs.cpp||||||||
-namcoc70|C70 (M37702)|device|mame/namco/namcomcu.cpp||||||||
-sega_sharrier_sprite|Sega Custom Sprites (Space Harrier)|device|mame/sega/sega16sp.cpp||||||||
+namcoc70|C70 (M37702)|device|namco/namcomcu.cpp||||||||
+sega_sharrier_sprite|Sega Custom Sprites (Space Harrier)|device|sega/sega16sp.cpp||||||||
 avg_starwars|Atari AVG (Star Wars)|device|devices/video/avgdvg.cpp||||||||
 i80188|I80188|device|devices/cpu/i86/i186.cpp||||||||
-snk6502_sound|SNK6502 Audio Custom|device|mame/snk/snk6502_a.cpp||||||||
-venture_sound|Exidy SFX+PSG|device|mame/shared/exidysound.cpp||||||||
+snk6502_sound|SNK6502 Audio Custom|device|snk/snk6502_a.cpp||||||||
+venture_sound|Exidy SFX+PSG|device|shared/exidysound.cpp||||||||
 nscsi_bus|NSCSI Bus|device|devices/machine/nscsi_bus.cpp||||||||
 nscsi_connector|NSCSI Connector Abstraction|device|devices/machine/nscsi_bus.cpp||||||||
 scsi_harddisk|SCSI HARDDISK|device|devices/bus/nscsi/hd.cpp||||||||
 ncr537xx|53C7xx SCSI|device|devices/machine/53c7xx.cpp||||||||
 pit8253|8253 PIT|device|devices/machine/pit8253.cpp||||||||
-filetto_cga|ISA8_CGA_FILETTO|device|mame/pc/pcxt.cpp|0|640|200|59.922748||||
-tetriskr_cga|ISA8_CGA_TETRISKR|device|mame/pc/pcxt.cpp|0|640|200|59.922748||||
-namco_c45_road|Namco C45 Road|device|mame/namco/namco_c45road.cpp||||||||
-namcoc75|C75 (M37702)|device|mame/namco/namcomcu.cpp||||||||
+filetto_cga|ISA8_CGA_FILETTO|device|pc/pcxt.cpp|0|640|200|59.922748||||
+tetriskr_cga|ISA8_CGA_TETRISKR|device|pc/pcxt.cpp|0|640|200|59.922748||||
+namco_c45_road|Namco C45 Road|device|namco/namco_c45road.cpp||||||||
+namcoc75|C75 (M37702)|device|namco/namcomcu.cpp||||||||
 e132t|E1-32T|device|devices/cpu/e132xs/e132xs.cpp||||||||
 x24c44_16|Serial EEPROM X24C44 (16x16)|device|devices/machine/eepromser.cpp||||||||
 tms9995|TMS9995|device|devices/cpu/tms9900/tms9995.cpp||||||||
 22vp931|Phillips 22VP931|device|devices/machine/ldvp931.cpp||||||||
 i4004|Intel I4004|device|devices/cpu/mcs40/mcs40.cpp||||||||
 hd6845|HD6845 CRTC|device|||||||||
-flower_sound|Flower Audio Custom|device|mame/misc/flower_a.cpp||||||||
-toaplan_scu|Toaplan SCU|device|mame/toaplan/toaplan_scu.cpp||||||||
+flower_sound|Flower Audio Custom|device|misc/flower_a.cpp||||||||
+toaplan_scu|Toaplan SCU|device|toaplan/toaplan_scu.cpp||||||||
 nsc8105|NSC8105|device|devices/cpu/m6800/m6800.cpp||||||||
 i8741|I8741|device|||||||||
-tecmo_mix|Tecmo 16-bit Mixer|device|mame/tecmo/tecmo_mix.cpp||||||||
+tecmo_mix|Tecmo 16-bit Mixer|device|tecmo/tecmo_mix.cpp||||||||
 funcube_touchscrene|Funcube Touchscreen|device|||||||||
 intel_28f320j5|Intel 28F320J3D_a Flash|device|devices/machine/intelfsh.cpp||||||||
-namco62|Namco 62xx|device|mame/namco/namco62.cpp||||||||
+namco62|Namco 62xx|device|namco/namco62.cpp||||||||
 93c76_8|Serial EEPROM 93C76 (1024x8)|device|devices/machine/eepromser.cpp||||||||
-kaneko_grap2|Kaneko GRAP2|device|mame/kaneko/kaneko_grap2.cpp||||||||
+kaneko_grap2|Kaneko GRAP2|device|kaneko/kaneko_grap2.cpp||||||||
 upd7756|uPD7756|device|devices/sound/upd7759.cpp||||||||
 voodoo_2|3dfx Voodoo 2|device|devices/video/voodoo_2.cpp||||||||
 taito8741_4pack|I8741 MCU Simulation (Taito 4Pack)|device|||||||||
 msm6585|MSM6585|device|devices/sound/msm5205.cpp||||||||
-st0020|Seta ST0020 Sprites|device|mame/seta/st0020.cpp||||||||
-geebee_sound|Gee Bee Audio Custom|device|mame/namco/geebee.cpp||||||||
+st0020|Seta ST0020 Sprites|device|seta/st0020.cpp||||||||
+geebee_sound|Gee Bee Audio Custom|device|namco/geebee.cpp||||||||
 namco_63701x|Namco 63701X|device|devices/sound/n63701x.cpp||||||||
-sega_yboard_sprite|Sega Y-Board Sprites|device|mame/sega/sega16sp.cpp||||||||
+sega_yboard_sprite|Sega Y-Board Sprites|device|sega/sega16sp.cpp||||||||
 huc6202|HuC6202 VPC|device|devices/video/huc6202.cpp||||||||
 m37702s1|M37702S1|device|devices/cpu/m37710/m37710.cpp||||||||
 i8155|8155 RIOT|device|devices/machine/i8155.cpp||||||||
-bfm_bd1|BFM BD1 VFD controller|device|mame/bfm/bfm_bd1.cpp||||||||
-bfm_adder2|BFM ADDER2|device|mame/bfm/bfm_adr2.cpp|0|400|280|50.000000||||
-gomoku_sound|Gomoku Narabe Renju Audio Custom|device|mame/nichibutsu/gomoku_a.cpp||||||||
+bfm_bd1|BFM BD1 VFD controller|device|bfm/bfm_bd1.cpp||||||||
+bfm_adder2|BFM ADDER2|device|bfm/bfm_adr2.cpp|0|400|280|50.000000||||
+gomoku_sound|Gomoku Narabe Renju Audio Custom|device|nichibutsu/gomoku_a.cpp||||||||
 k033906|K033906 PCI bridge|device|devices/machine/k033906.cpp||||||||
-k037122|K037122 2D Tilemap|device|mame/konami/k037122.cpp||||||||
+k037122|K037122 2D Tilemap|device|konami/k037122.cpp||||||||
 adc12138|ADC12138|device|devices/machine/adc1213x.cpp||||||||
-konppc|Konami PowerPC Common Functions|device|mame/konami/konppc.cpp||||||||
+konppc|Konami PowerPC Common Functions|device|konami/konppc.cpp||||||||
 mb_vcu|Mazer Blazer custom VCU|device|devices/video/mb_vcu.cpp||||||||
-gridlee_sound|Gridlee Audio Custom|device|mame/midway/gridlee_a.cpp||||||||
+gridlee_sound|Gridlee Audio Custom|device|midway/gridlee_a.cpp||||||||
 ym2608|YM2608|device|devices/sound/ymopn.cpp||||||||
-mb60553|MB60553 Zooming Tilemap|device|mame/vsystem/mb60553.cpp||||||||
-vs920a|VS920A Text Tilemap|device|mame/vsystem/vs920a.cpp||||||||
+mb60553|MB60553 Zooming Tilemap|device|vsystem/mb60553.cpp||||||||
+vs920a|VS920A Text Tilemap|device|vsystem/vs920a.cpp||||||||
 m48t02|M48T02 Timekeeper|device|devices/machine/timekpr.cpp||||||||
 k573npu|Konami 573 Network PCB Unit|device|||||||||
 adc1038|ADC1038|device|devices/machine/adc1038.cpp||||||||
 k056230|K056230 LANC|device|devices/machine/k056230.cpp||||||||
-k001005|K001005 Polygon Renderer|device|mame/konami/k001005.cpp||||||||
-k001006|K001006 Texel Unit|device|mame/konami/k001006.cpp||||||||
-atari_rle|Atari RLE Motion Objects|device|mame/atari/atarirle.cpp||||||||
-asic65|Atari ASIC65|device|mame/atari/asic65.cpp||||||||
+k001005|K001005 Polygon Renderer|device|konami/k001005.cpp||||||||
+k001006|K001006 Texel Unit|device|konami/k001006.cpp||||||||
+atari_rle|Atari RLE Motion Objects|device|atari/atarirle.cpp||||||||
+asic65|Atari ASIC65|device|atari/asic65.cpp||||||||
 ins8050|INS 8050 SC/MP|device|devices/cpu/scmp/scmp.cpp||||||||
-sega_hangon_sprite|Sega Custom Sprites (Hang On)|device|mame/sega/sega16sp.cpp||||||||
+sega_hangon_sprite|Sega Custom Sprites (Hang On)|device|sega/sega16sp.cpp||||||||
 harddriv_pcb|Hard Drivin' PCB Family|device|||||||||
 adsp2100|ADSP-2100|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
 adsp2101|ADSP-2101|device|devices/cpu/adsp2100/adsp2100.cpp||||||||
 dsp32c|DSP32C|device|devices/cpu/dsp32/dsp32.cpp||||||||
 i8080a|8080A|device|devices/cpu/i8085/i8085.cpp||||||||
-k573cassy|Konami 573 Cassette Y|device|mame/konami/k573cass.cpp||||||||
+k573cassy|Konami 573 Cassette Y|device|konami/k573cass.cpp||||||||
 h8s2394|H8S/2394|device|devices/cpu/h8/h8s2357.cpp||||||||
 h8s_intc|H8S INTC|device|devices/cpu/h8/h8_intc.cpp||||||||
 h8_adc_2357|H8 ADC 2357|device|devices/cpu/h8/h8_adc.cpp||||||||
 h8s_16bits_timer_channel|H8S 16-bits timer channel|device|||||||||
-segausbrom|Sega Universal Sound Board with ROM|device|mame/sega/segausb.cpp||||||||
+segausbrom|Sega Universal Sound Board with ROM|device|sega/segausb.cpp||||||||
 tms9902|TMS9902 ACC|device|devices/machine/tms9902.cpp||||||||
 ppu2c05_01|2C05_01 PPU|device|devices/video/ppu2c0x.cpp||||||||
-janshi_vdp|Janshi VDP|device|mame/wing/pinkiri8.cpp||||||||
-wmsadpcm|Williams ADPCM Sound Board|device|mame/shared/williamssound.cpp||||||||
+janshi_vdp|Janshi VDP|device|wing/pinkiri8.cpp||||||||
+wmsadpcm|Williams ADPCM Sound Board|device|shared/williamssound.cpp||||||||
 josvolly8741_4pack|I8741 MCU Simulation (Joshi Volleyball)|device|||||||||
 v810|V810|device|devices/cpu/v810/v810.cpp||||||||
-midi_kbd|Generic MIDI Keyboard|device|mame/konami/midikbd.cpp||||||||
+midi_kbd|Generic MIDI Keyboard|device|konami/midikbd.cpp||||||||
 mb89363b|MB89363 I/O|device|devices/machine/mb89363b.cpp||||||||
 r4600le|R4600 (little)|device|devices/cpu/mips/mips3.cpp||||||||
 kog_prot|NeoGeo Protection (King of Gladiator)|device|||||||||
 hd63484|HD63484 CRTC|device|devices/video/hd63484.cpp||||||||
 tms3615|TMS3615|device|devices/sound/tms3615.cpp||||||||
 er2055|ER2055 EAROM|device|devices/machine/er2055.cpp||||||||
-indervd|Inder / Dinamic TMS Video|device|mame/shared/inder_vid.cpp|0|338|246|30.006238||||
+indervd|Inder / Dinamic TMS Video|device|shared/inder_vid.cpp|0|338|246|30.006238||||
 cop420|COP420|device|devices/cpu/cop400/cop400.cpp||||||||
-decocpu1|Data East Pinball CPU Board Type 1|device|mame/pinball/decopincpu.cpp||||||||
+decocpu1|Data East Pinball CPU Board Type 1|device|pinball/decopincpu.cpp||||||||
 snkwave|SNK Wave|device|devices/sound/snkwave.cpp||||||||
 r5000be|R5000 (big)|device|devices/cpu/mips/mips3.cpp||||||||
 tmp91640|TMP91640|device|devices/cpu/tlcs90/tlcs90.cpp||||||||
 saa5050|SAA5050 Video|device|devices/video/saa5050.cpp||||||||
 m58715|M58715|device|devices/cpu/mcs48/mcs48.cpp||||||||
 pic16c54|PIC16C54|device|devices/cpu/pic16c5x/pic16c5x.cpp||||||||
-indersb|Inder 4xDAC Sound Board|device|mame/misc/inder_sb.cpp||||||||
+indersb|Inder 4xDAC Sound Board|device|misc/inder_sb.cpp||||||||
 sega315_5246|Sega 315-5246 VDP|device|devices/video/315_5124.cpp||||||||
 generic_socket|Generic ROM Socket / RAM Socket / Cartridge Slot|device|devices/bus/generic/slot.cpp||||||||
 software_list|Software list|device|emu/softlist_dev.cpp||||||||
 generic_rom_plain|Generic ROM (plain mapping)|device|devices/bus/generic/rom.cpp||||||||
-atari_cage|Atari CAGE|device|mame/shared/cage.cpp||||||||
-k053250|K053250 LVC|device|mame/konami/k053250.cpp||||||||
+atari_cage|Atari CAGE|device|shared/cage.cpp||||||||
+k053250|K053250 LVC|device|konami/k053250.cpp||||||||
 ppu2c05_02|2C05_02 PPU|device|devices/video/ppu2c0x.cpp||||||||
 gms30c2116|GMS30C2116|device|devices/cpu/e132xs/e132xs.cpp||||||||
-decocpu2|Data East Pinball CPU Board Type 2|device|mame/pinball/decopincpu.cpp||||||||
-atjsa3s|Atari JSA IIIs Sound Board|device|mame/atari/atarijsa.cpp||||||||
+decocpu2|Data East Pinball CPU Board Type 2|device|pinball/decopincpu.cpp||||||||
+atjsa3s|Atari JSA IIIs Sound Board|device|atari/atarijsa.cpp||||||||
 es5503|Ensoniq ES5503|device|devices/sound/es5503.cpp||||||||
 u8106|U8106|device|||||||||
 mc3417|MC3417|device|devices/sound/hc55516.cpp||||||||
 dcs2_audio_denver|DCS2 Audio Denver|device|||||||||
-keycus_c443|Namco C443 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
-wmsnarc|Williams NARC Sound Board|device|mame/shared/williamssound.cpp||||||||
-naughtyb_sound|Naughty Boy Audio Custom|device|mame/phoenix/pleiads.cpp||||||||
-ygv608|YGV608 VDP|device|mame/namco/ygv608.cpp||||||||
+keycus_c443|Namco C443 KEYCUS|device|namco/ns11prot.cpp||||||||
+wmsnarc|Williams NARC Sound Board|device|shared/williamssound.cpp||||||||
+naughtyb_sound|Naughty Boy Audio Custom|device|phoenix/pleiads.cpp||||||||
+ygv608|YGV608 VDP|device|namco/ygv608.cpp||||||||
 neogeo_cart_slot|NeoGeo Cartridge Slot|device|devices/bus/neogeo/slot.cpp||||||||
 neogeo_rom|NEOGEO ROM Carts|device|||||||||
 sma_kof99_cart|NEOGEO SMA Kof99 Cart|device|||||||||
@@ -30828,31 +30828,31 @@ m50458|M50458 OSD|device|devices/video/m50458.cpp||||||||
 s3520cf|S-3520CF RTC|device|devices/machine/s3520cf.cpp||||||||
 rp5h01|RP5H01 6/7-bit Counter|device|devices/machine/rp5h01.cpp||||||||
 m6m80011ap|M6M80011AP EEPROM|device|devices/machine/m6m80011ap.cpp||||||||
-midway_serial_pic2|Midway Serial Pic 2|device|mame/midway/midwayic.cpp||||||||
-igs028|IGS028|device|mame/igs/igs028.cpp||||||||
+midway_serial_pic2|Midway Serial Pic 2|device|midway/midwayic.cpp||||||||
+igs028|IGS028|device|igs/igs028.cpp||||||||
 upd4992|uPD4992 RTC|device|devices/machine/upd4992.cpp||||||||
-sega_outrun_sprite|Sega Custom Sprites (Out Run)|device|mame/sega/sega16sp.cpp||||||||
+sega_outrun_sprite|Sega Custom Sprites (Out Run)|device|sega/sega16sp.cpp||||||||
 er5911_16|Serial EEPROM ER5911 (64x16)|device|devices/machine/eepromser.cpp||||||||
 y2404|Y2404|device|devices/sound/sn76496.cpp||||||||
 59xx|Namco 59xx|device|||||||||
 e116xt|E1-16XT|device|devices/cpu/e132xs/e132xs.cpp||||||||
-bootleg_sys16a_sprite|Sega System 16A Sprites (Bootleg)|device|mame/sega/sega16sp.cpp||||||||
+bootleg_sys16a_sprite|Sega System 16A Sprites (Bootleg)|device|sega/sega16sp.cpp||||||||
 es8712|ES8712|device|devices/sound/es8712.cpp||||||||
 ppu2c03b|2C03B PPU|device|devices/video/ppu2c0x.cpp||||||||
 mb8421|MB8421 DPSRAM|device|devices/machine/mb8421.cpp||||||||
-segausb|Sega Universal Sound Board|device|mame/sega/segausb.cpp||||||||
-pleiads_sound|Pleiads Audio Custom|device|mame/phoenix/pleiads.cpp||||||||
+segausb|Sega Universal Sound Board|device|sega/segausb.cpp||||||||
+pleiads_sound|Pleiads Audio Custom|device|phoenix/pleiads.cpp||||||||
 dsp56156|DSP56156|device|devices/cpu/dsp56156/dsp56156.cpp||||||||
 linearflash64mb|Linear Flash PCCARD (64MB)|device|devices/machine/linflash.cpp||||||||
-keycus_c432|Namco C432 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c432|Namco C432 KEYCUS|device|namco/ns11prot.cpp||||||||
 z8002|Z8002|device|devices/cpu/z8000/z8000.cpp||||||||
-polepos_sound|Pole Position Audio Custom|device|mame/namco/polepos_a.cpp||||||||
+polepos_sound|Pole Position Audio Custom|device|namco/polepos_a.cpp||||||||
 netlist_analog_input|Netlist Analog Input|device|||||||||
 netlist_logic_input|Netlist Logic Input|device|||||||||
 netlist_analog_output|Netlist Analog Output|device|||||||||
-popflame_sound|Pop Flamer Audio Custom|device|mame/phoenix/pleiads.cpp||||||||
-keycus_c411|Namco C411 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
-decocpu6|DECO CPU-6|device|mame/dataeast/decocpu6.cpp||||||||
+popflame_sound|Pop Flamer Audio Custom|device|phoenix/pleiads.cpp||||||||
+keycus_c411|Namco C411 KEYCUS|device|namco/ns11prot.cpp||||||||
+decocpu6|DECO CPU-6|device|dataeast/decocpu6.cpp||||||||
 mb90082|MB90082 OSD|device|devices/video/mb90082.cpp||||||||
 puzzlet_io|Puzzlet Coin/Start I/O|device|||||||||
 pentium2|Pentium II|device|devices/cpu/i386/i386.cpp||||||||
@@ -30860,48 +30860,48 @@ avg_quantum|Atari AVG (Quantum)|device|devices/video/avgdvg.cpp||||||||
 i5000snd|I5000|device|devices/sound/i5000.cpp||||||||
 m58819|M58819 Memory Controller|device|||||||||
 m58817|M58817|device|devices/sound/tms5110.cpp||||||||
-gaelco_serial|Gaelco 3D Serial Hardware|device|mame/gaelco/gaelco3d_m.cpp||||||||
+gaelco_serial|Gaelco 3D Serial Hardware|device|gaelco/gaelco3d_m.cpp||||||||
 at89c4051|AT89C4051|device|devices/cpu/mcs51/mcs51.cpp||||||||
-redbaron_custom|Red Baron Audio Custom|device|mame/atari/redbaron.cpp||||||||
-redline_80186_sound|80186 DAC (Redline Racer)|device|mame/cinematronics/leland_a.cpp||||||||
-dcs_audio_2k_uart|DCS Audio 2K UART|device|mame/shared/dcs.cpp||||||||
-dcs2_audio_dsio|DCS2 Audio DSIO|device|mame/shared/dcs.cpp||||||||
+redbaron_custom|Red Baron Audio Custom|device|atari/redbaron.cpp||||||||
+redline_80186_sound|80186 DAC (Redline Racer)|device|cinematronics/leland_a.cpp||||||||
+dcs_audio_2k_uart|DCS Audio 2K UART|device|shared/dcs.cpp||||||||
+dcs2_audio_dsio|DCS2 Audio DSIO|device|shared/dcs.cpp||||||||
 sp0256|SP0256|device|devices/sound/sp0256.cpp||||||||
-s3_vga|S3 Graphics VGA|device|devices/video/pc_vga.cpp||||||||
-ibm8514a|IBM8514A Video|device|devices/video/pc_vga.cpp||||||||
-bfm_dm01|BFM Dotmatrix 01|device|mame/bfm/bfm_dm01.cpp||||||||
+s3_vga|S3 Graphics VGA|device|devices/video/pc_vga_s3.cpp||||||||
+ibm8514a|IBM8514A Video|device|devices/video/ibm8514a.cpp||||||||
+bfm_dm01|BFM Dotmatrix 01|device|bfm/bfm_dm01.cpp||||||||
 digitalker|Digitalker|device|devices/sound/digitalk.cpp||||||||
 dsbz80|Sega Z80-based Digital Sound Board|device|||||||||
 dm9368|DM9368 7-Segment Decoder|device|devices/video/dm9368.cpp||||||||
-atari_cage_seattle|Atari CAGE Seattle|device|mame/shared/cage.cpp||||||||
+atari_cage_seattle|Atari CAGE Seattle|device|shared/cage.cpp||||||||
 m3745x|Mitsubishi M37450|device|||||||||
 i860xr|i860XR|device|devices/cpu/i860/i860.cpp||||||||
 i80c31|I80C31|device|devices/cpu/mcs51/mcs51.cpp||||||||
 ins8060|INS 8060 SC/MP II|device|devices/cpu/scmp/scmp.cpp||||||||
 m68ec030|M68EC030|device|devices/cpu/m68000/m68030.cpp||||||||
-keycus_c409|Namco C409 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c409|Namco C409 KEYCUS|device|namco/ns11prot.cpp||||||||
 r3051|R3051|device|devices/cpu/mips/mips1.cpp||||||||
 rp5c01|RP5C01|device|devices/machine/rp5c01.cpp||||||||
 gms30c2232|GMS30C2232|device|devices/cpu/e132xs/e132xs.cpp||||||||
-midcsd|Midway Chip Squeak Deluxe Sound Board|device|mame/midway/csd.cpp||||||||
+midcsd|Midway Chip Squeak Deluxe Sound Board|device|midway/csd.cpp||||||||
 nile|NiLe|device|||||||||
-keycus_c442|Namco C442 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c442|Namco C442 KEYCUS|device|namco/ns11prot.cpp||||||||
 cxd8530aq|CXD8530AQ|device|devices/cpu/psx/psx.cpp||||||||
-keycus_c406|Namco C406 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c406|Namco C406 KEYCUS|device|namco/ns11prot.cpp||||||||
 avg_tempest|Atari AVG (Tempest)|device|devices/video/avgdvg.cpp||||||||
 cop421|COP421|device|devices/cpu/cop400/cop400.cpp||||||||
 avg_tomcat|Atari AVG (TomCat)|device|||||||||
 ppu2c05_04|2C05_04 PPU|device|devices/video/ppu2c0x.cpp||||||||
-tia_ntsc_video|TIA Video (NTSC)|device|mame/atari/tia.cpp||||||||
+tia_ntsc_video|TIA Video (NTSC)|device|atari/tia.cpp||||||||
 tia_sound|TIA|device|devices/sound/tiaintf.cpp||||||||
 esrip|ESRIP|device|devices/cpu/esrip/esrip.cpp||||||||
-turrett_hdd|HDD Turrett Tower|device|mame/namco/turrett.cpp||||||||
-ttsnd|Turret Tower Sound|device|mame/namco/turrett_a.cpp||||||||
-tx1_sound|TX-1 Audio Custom|device|mame/tatsumi/tx1_a.cpp||||||||
+turrett_hdd|HDD Turrett Tower|device|namco/turrett.cpp||||||||
+ttsnd|Turret Tower Sound|device|namco/turrett_a.cpp||||||||
+tx1_sound|TX-1 Audio Custom|device|tatsumi/tx1_a.cpp||||||||
 scn2674_device|Signetics SCN2674 AVDC|device|||||||||
 ins8154|INS8154 RAM I/O|device|devices/machine/ins8154.cpp||||||||
-victory_sound|Exidy SFX+PSG+Speech|device|mame/shared/exidysound.cpp||||||||
+victory_sound|Exidy SFX+PSG+Speech|device|shared/exidysound.cpp||||||||
 ppu2c05_03|2C05_03 PPU|device|devices/video/ppu2c0x.cpp||||||||
 r4700le|R4700 (little)|device|devices/cpu/mips/mips3.cpp||||||||
 ds5002fp|DS5002FP|device|devices/cpu/mcs51/mcs51.cpp||||||||
-keycus_c430|Namco C430 KEYCUS|device|mame/namco/ns11prot.cpp||||||||
+keycus_c430|Namco C430 KEYCUS|device|namco/ns11prot.cpp||||||||

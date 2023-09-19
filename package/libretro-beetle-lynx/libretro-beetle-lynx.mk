@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022/06/10
-LIBRETRO_BEETLE_LYNX_VERSION = 3d2fcc5a555bea748b76f92a082c40227dff8222
+# Commit of 2023/07/21
+LIBRETRO_BEETLE_LYNX_VERSION = fab3ac02d5622eb53a707bd392cc037282e9d8b4
 LIBRETRO_BEETLE_LYNX_SITE = $(call github,libretro,beetle-lynx-libretro,$(LIBRETRO_BEETLE_LYNX_VERSION))
 LIBRETRO_BEETLE_LYNX_LICENSE = GPL-2.0
 LIBRETRO_BEETLE_LYNX_LICENSE_FILES = COPYING
@@ -27,6 +27,7 @@ endef
 define LIBRETRO_BEETLE_LYNX_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_lynx_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_lynx_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/lynx
 endef
 
 $(eval $(generic-package))

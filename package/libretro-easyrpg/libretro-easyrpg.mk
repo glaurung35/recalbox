@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_EASYRPG_VERSION = b4b61ed7f0e2acdf6623a03cda9fd450d33f2c25
+# Commit of 2023/09/29
+LIBRETRO_EASYRPG_VERSION = ad6e8232bf51b804537fd603fc77a6c2770d4254
 LIBRETRO_EASYRPG_SITE = https://github.com/EasyRPG/Player.git
 LIBRETRO_EASYRPG_DEPENDENCIES = pixman libpng zlib fmt freetype mpg123 wildmidi libvorbis libogg opusfile libsndfile libxmp-lite liblcf speexdsp
 LIBRETRO_EASYRPG_SITE_METHOD=git

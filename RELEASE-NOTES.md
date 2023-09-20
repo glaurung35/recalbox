@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-race
 - Bump libretro-quicknes
 - Bump libretro-quasi88
+- Bump libretro-prboom
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

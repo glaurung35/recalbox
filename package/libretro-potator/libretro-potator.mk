@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_POTATOR_VERSION = 356b6951a8dc59408e15f67cd449a6fe0e539f5a
+# Commit of 2023/05/28
+LIBRETRO_POTATOR_VERSION = aed31f9254cada9826c65ff4528cc8bdda338275
 LIBRETRO_POTATOR_SITE = $(call github,libretro,potator,$(LIBRETRO_POTATOR_VERSION))
 LIBRETRO_POTATOR_LICENSE = Unlicense
 

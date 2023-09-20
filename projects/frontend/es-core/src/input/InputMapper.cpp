@@ -7,8 +7,6 @@
 
 #include <input/InputMapper.h>
 #include <input/InputManager.h>
-#include <utils/Log.h>
-#include <RecalboxConf.h>
 
 InputMapper::InputMapper(IInputChange* interface)
   : mInterface(interface)
@@ -53,6 +51,18 @@ void InputMapper::Build()
         break;
       }
 
+  // Assigned? If not, take the slot from the first non connected pad
+  if (!activePads.empty() && !assignNew)
+    for(const Pad& connectedDevice : activePads)
+      for (Pad& device : mPads)
+        if (!device.IsConnected())
+        {
+          { LOG(LogDebug) << "[PadMapping] Add connected to the list (took unconnected slot): " << connectedDevice.AsString(); }
+          device.Set(connectedDevice.Name, connectedDevice.UUID, connectedDevice.Identifier);
+          assignNew = true;
+          break;
+        }
+
   // Push active pads first
   { LOG(LogDebug) << "[PadMapping] Sort active first"; }
   SortActiveFirst(mPads);
@@ -69,7 +79,8 @@ void InputMapper::Build()
 void InputMapper::LoadConfiguration()
 {
   // Fill from configuration
-  String uuid, name;
+  String uuid;
+  String name;
   for(int i = Input::sMaxInputDevices; --i >= 0; )
     if (RecalboxConf::Instance().GetPad(i).Extract(':', uuid, name, true))
     {
@@ -164,7 +175,7 @@ String InputMapper::GetDecoratedName(int index)
   if (count > 0) result.Append(LEGACY_STRING(" #")).Append(count + 1);
   result.Insert(0, pad.Identifier < 0 ? "\u26aa" : "\u26ab")
         .Append(pad.Identifier < 0 ? "\u26aa" : "\u26ab");
-  return result;
+  return pad.IsConnected() ? result : String::Empty;
 }
 
 void InputMapper::Swap(int index1, int index2)

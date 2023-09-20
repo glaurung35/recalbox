@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_PRBOOM_VERSION = 3c6166b710777816e42f9b73263cd1406f0dabbf
+# Commit of 2023/05/28
+LIBRETRO_PRBOOM_VERSION = 6ec854969fd9dec33bb2cab350f05675d1158969
 LIBRETRO_PRBOOM_SITE = $(call github,libretro,libretro-prboom,$(LIBRETRO_PRBOOM_VERSION))
 LIBRETRO_PRBOOM_LICENSE = GPL-2.0
 LIBRETRO_PRBOOM_LICENSE_FILES = COPYING

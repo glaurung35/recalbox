@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022-02-11
-LIBRETRO_QUASI88_VERSION = 15ff9fd94aa9db45a5519d00227180b04e074157
+# Commit of 2023/01/03
+LIBRETRO_QUASI88_VERSION = 7980f2484997055a9665837bb4c325d562acb04e
 LIBRETRO_QUASI88_SITE = $(call github,libretro,quasi88-libretro,$(LIBRETRO_QUASI88_VERSION))
 LIBRETRO_QUASI88_LICENSE = BSD-3-Clause
 LIBRETRO_QUASI88_LICENSE_FILES = LICENSE

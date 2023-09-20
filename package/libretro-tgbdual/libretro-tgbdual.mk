@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_TGBDUAL_VERSION = 5b6e6f9807f889c26d7066a64970d308bff0474d
+# Commit of 2022/08/06
+LIBRETRO_TGBDUAL_VERSION = a6f3018e6a23030afc1873845ee54d4b2d8ec9d3
 LIBRETRO_TGBDUAL_SITE = $(call github,libretro,tgbdual-libretro,$(LIBRETRO_TGBDUAL_VERSION))
 LIBRETRO_TGBDUAL_LICENSE = GPL-2.0
 

@@ -11,6 +11,7 @@ set(ALL_TESTED_SOURCES ${TESTED_PATH})
 
 find_package(SDL2 REQUIRED)
 find_package(LibLZMA REQUIRED)
+find_package(Udev REQUIRED)
 
 include_directories(
         ${SDL2_INCLUDE_DIR}
@@ -28,4 +29,4 @@ add_executable(
         ${ALL_TESTED_SOURCES}
 )
 
-target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv ${LIBLZMA_LIBRARIES})
+target_link_libraries(emulationstation_test pthread ${SDL2_LIBRARY} curl zip procps resolv ${UDEV_LIBRARIES} ${LIBLZMA_LIBRARIES})

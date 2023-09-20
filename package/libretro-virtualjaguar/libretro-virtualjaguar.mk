@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_VIRTUALJAGUAR_VERSION = 5a293de747823dc0a9ceba0dd878ef75e9a9d920
+# Commit of 2023/06/01
+LIBRETRO_VIRTUALJAGUAR_VERSION = 8126e5c504ac7217a638f38e4cd9190822c8abdd
 LIBRETRO_VIRTUALJAGUAR_SITE = $(call github,libretro,virtualjaguar-libretro,$(LIBRETRO_VIRTUALJAGUAR_VERSION))
 LIBRETRO_VIRTUALJAGUAR_LICENSE = GPL-3.0
 

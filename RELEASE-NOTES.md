@@ -26,6 +26,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-xrick
 - Bump libretro-xmil
 - Bump libretro-virtualjaguar
+- Bump libretro-vecx
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022-12-12
-LIBRETRO_SUPAFAUST_VERSION = 75c658cce454e58ae04ea252f53a31c60d61548e
+# Commit of 2023/07/19
+LIBRETRO_SUPAFAUST_VERSION = 6b639c98372d1c9bac885c55d772c812d2a9d525
 LIBRETRO_SUPAFAUST_SITE = $(call github,libretro,supafaust,$(LIBRETRO_SUPAFAUST_VERSION))
 LIBRETRO_SUPAFAUST_LICENSE = GPL-2.0
 LIBRETRO_SUPAFAUST_LICENSE_FILES = COPYING

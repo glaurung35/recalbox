@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2020-11-16 (https://github.com/LIJI32/SameBoy/commits/SameDuck)
-LIBRETRO_SAMEDUCK_VERSION = a5e5462f79164d21053f81fc680bfa9f59a2bf59
+# Commit of 2022/07/03 (https://github.com/LIJI32/SameBoy/commits/SameDuck)
+LIBRETRO_SAMEDUCK_VERSION = 5cc014b23af963f9e9a77091a1e6ff7a7852e8a7
 LIBRETRO_SAMEDUCK_SITE = $(call github,LIJI32,SameBoy,$(LIBRETRO_SAMEDUCK_VERSION))
 LIBRETRO_SAMEDUCK_LICENSE = MIT
 LIBRETRO_SAMEDUCK_LICENSE_FILES = LICENSE

@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_O2EM_VERSION = 0f13c969e6b7db021a9dc7a73ba7015227101024
+# Commit of 2023/02/21
+LIBRETRO_O2EM_VERSION = a2a12472fde910b6089ac3ca6de805bd58a9c999
 LIBRETRO_O2EM_SITE = $(call github,libretro,libretro-o2em,$(LIBRETRO_O2EM_VERSION))
 LIBRETRO_O2EM_LICENSE = ARTISTIC
 LIBRETRO_O2EM_LICENSE_FILES = COPYING
@@ -20,6 +21,8 @@ endef
 define LIBRETRO_O2EM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/o2em_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/o2em_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/o2em
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/videopacplus
 endef
 
 $(eval $(generic-package))

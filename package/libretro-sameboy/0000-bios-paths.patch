@@ -1,0 +1,29 @@
+--- a/libretro/libretro.c	2022-08-19 20:22:32.000000000 +0200
++++ b/libretro/libretro.c	2023-10-03 13:35:52.968008039 +0200
+@@ -525,6 +525,17 @@
+         [GB_BOOT_ROM_AGB] = "agb",
+     }[type];
+ 
++    const char *system_name = (char *[]) {
++        [GB_BOOT_ROM_DMG_0] = "gb",
++        [GB_BOOT_ROM_DMG] = "gb",
++        [GB_BOOT_ROM_MGB] = "gb", // game boy pocket
++        [GB_BOOT_ROM_SGB] = "sgb",
++        [GB_BOOT_ROM_SGB2] = "sgb",
++        [GB_BOOT_ROM_CGB_0] = "gbc",
++        [GB_BOOT_ROM_CGB] = "gbc",
++        [GB_BOOT_ROM_AGB] = "gba",
++    }[type];
++
+     const uint8_t *boot_code = (const unsigned char *[]) {
+         [GB_BOOT_ROM_DMG_0] = dmg_boot, // DMG_0 not implemented yet
+         [GB_BOOT_ROM_DMG] = dmg_boot,
+@@ -553,7 +564,7 @@
+     boot_rom_path[0] = '\0';
+     boot_rom_file[0] = '\0';
+ 
+-    snprintf(boot_rom_file, sizeof(boot_rom_file), "%s_boot.bin", model_name);
++    snprintf(boot_rom_file, sizeof(boot_rom_file), "%s/%s_boot.bin", system_name, model_name);
+     fill_pathname_join(boot_rom_path, retro_system_directory,
+             boot_rom_file, sizeof(boot_rom_path));
+ 

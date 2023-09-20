@@ -4,9 +4,9 @@
  CORE_DIR := .
  
  ifneq (,$(filter $(platform), unix unix-armv7-hardfloat-neon))
--	CFLAGS = -g -O2 
--	CXXFLAGS = -g -O2  -fno-merge-constants 
-+	CFLAGS += -g -O2 
+-	CFLAGS   = 
+-	CXXFLAGS = -fno-merge-constants 
++	CFLAGS   += -g -O2 
 +	CXXFLAGS += -g -O2  -fno-merge-constants 
  	TARGET := $(TARGET_NAME)_libretro.so
  	fpic := -fPIC

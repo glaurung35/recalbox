@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_UZEM_VERSION = faa6c67ce9bc2d1540c9ace78e63124202c5eb44
+# Commit of 2022/04/14
+LIBRETRO_UZEM_VERSION = 08e39e19167727c89fb995e3fa70dde252e6aab0
 LIBRETRO_UZEM_SITE = $(call github,libretro,libretro-uzem,$(LIBRETRO_UZEM_VERSION))
 LIBRETRO_UZEM_LICENSE = GPL-3.0
 

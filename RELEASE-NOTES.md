@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-tic80
 - Bump libretro-supafaust
 - Bump libretro-snes9x2010
+- Bump libretro-snes9x2005
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

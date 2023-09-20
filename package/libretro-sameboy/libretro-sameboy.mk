@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022-05-24
-LIBRETRO_SAMEBOY_VERSION = 9fd4e30591317aea48bb9ebd6095c0527c708b29
+# Commit of 2023/04/19
+LIBRETRO_SAMEBOY_VERSION = 09138330990da32362246c7034cf4de2ea0a2a2b
 LIBRETRO_SAMEBOY_SITE = $(call github,libretro,SameBoy,$(LIBRETRO_SAMEBOY_VERSION))
 LIBRETRO_SAMEBOY_LICENSE = MIT
 LIBRETRO_SAMEBOY_LICENSE_FILES = LICENSE
@@ -21,8 +21,15 @@ endef
 define LIBRETRO_SAMEBOY_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/libretro/sameboy_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/sameboy_libretro.so
-	$(INSTALL) -D $(@D)/BootROMs/prebuilt/*.bin \
-		$(TARGET_DIR)/recalbox/share_upgrade/bios/
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gba
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/dmg_boot.bin $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/cgb_boot.bin $(TARGET_DIR)/recalbox/share_upgrade/bios/gbc
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/sgb_boot.bin $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/sgb2_boot.bin $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
+	$(INSTALL) -D $(@D)/BootROMs/prebuilt/agb_boot.bin $(TARGET_DIR)/recalbox/share_upgrade/bios/gba
 endef
 
 $(eval $(generic-package))

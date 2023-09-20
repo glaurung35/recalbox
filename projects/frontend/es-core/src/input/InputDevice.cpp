@@ -730,8 +730,13 @@ String InputDevice::LowLevelName([[maybe_unused]] int index)
     if (list.size() == 1)
     {
       const UDevDevice& device = list[0];
-      String newName = device.PropertyDecode("ID_VENDOR_ENC").Append(' ').Append(device.PropertyDecode("ID_MODEL_ENC"));
-      if (!newName.empty()) return newName;
+      String vendor(device.PropertyDecode("ID_VENDOR_ENC"));
+      String model(device.PropertyDecode("ID_MODEL_ENC"));
+      if (!model.empty())
+      {
+        if (!vendor.empty()) model.Insert(0, ' ').Insert(0, vendor);
+        if (!model.empty()) return model;
+      }
     }
   }
   return mDeviceName;

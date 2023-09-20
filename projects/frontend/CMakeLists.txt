@@ -59,6 +59,7 @@ find_package(SDL2 REQUIRED)
 find_package(CURL REQUIRED)
 find_package(PulseAudio REQUIRED)
 find_package(LibLZMA REQUIRED)
+find_package(Udev REQUIRED)
 
 #-------------------------------------------------------------------------------
 #set up compiler flags and excutable names
@@ -127,6 +128,7 @@ set(COMMON_INCLUDE_DIRS
     ${SDL2_INCLUDE_DIR}
     ${CURL_INCLUDE_DIR}
     ${PULSEAUDIO_INCLUDE_DIR}
+    ${UDEV_INCLUDE_DIRS}
 )
 
 if(${GLSystem} MATCHES "Desktop OpenGL")
@@ -153,10 +155,10 @@ set(COMMON_LIBRARIES
     ${PULSEAUDIO_LIBRARY}
     ${LIBDRM_LIBRARY}
     ${LIBLZMA_LIBRARIES}
+    ${UDEV_LIBRARIES}
     pugixml
     nanosvg
     liboping
-    udev
 )
 
 if(MSVC)

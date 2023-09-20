@@ -797,7 +797,7 @@ class SystemManager : private INoCopy // No copy allowed
      */
     static String BuildArcadeManufacturerSystemName(const String& manufacturer)
     {
-      return String(sArcadeManufacturerPrefix).Append(manufacturer).Replace('/', '-');
+      return String(sArcadeManufacturerPrefix).Append(manufacturer).Replace('\\', '-');
     }
 
     /*!

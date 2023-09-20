@@ -26,8 +26,8 @@ class Simplifier:
 
     SUBSYSTEM_MANUFACTURERS: dict[str, list[tuple[str, str]]] = \
     {
-        "capcom": [("cps1", "CPS 1"), ("cps2", "CPS 2"), ("cps3", "CPS 3")],
-        "sega": [("segas32", "System 32"), ("segas16*", "System 16")],
+        "capcom": [("cps1", "CPS1"), ("cps2", "CPS2"), ("cps3", "CPS3")],
+        "sega": [("segas32", "System32"), ("segas16*", "System16")],
     }
 
     COMPLETE_REPLACEMENTS: dict[str, str] = \

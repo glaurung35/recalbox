@@ -90,9 +90,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuArcade::GetManufacturersVirtu
   for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
   {
     String identifier(SystemManager::sArcadeManufacturerPrefix);
-    identifier.Append(rawIdentifier).Replace('/', '-');
+    identifier.Append(rawIdentifier).Replace('\\', '-');
     mManufacturersIdentifiers.push_back(identifier);
-    result.push_back({ ArcadeVirtualSystems::GetRealName(rawIdentifier), identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
+    result.push_back({ String(rawIdentifier).Replace('\\', " - "), identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
   }
   return result;
 }
@@ -113,29 +113,29 @@ void GuiMenuArcade::OptionListMultiComponentChanged(int id, const std::vector<in
 {
   if ((Components)id == Components::ManufacturersFilter)
   {
-    std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
-    String::List driverNameList;
-    for(int driverIndex : value)
-      driverNameList.push_back(driverList[driverIndex].Name.empty() ? ArcadeVirtualSystems::sAllOtherDriver : driverList[driverIndex].Name);
-    RecalboxConf::Instance().SetArcadeSystemHiddenDrivers(mArcade->GetAttachedSystem(), driverNameList);
+    std::vector<ArcadeDatabase::Manufacturer> manufacturerList = mArcade->GetManufacturerList();
+    String::List manufacturerNameList;
+    for(int manufacturerIndex : value)
+      manufacturerNameList.push_back(manufacturerList[manufacturerIndex].Name.empty() ? ArcadeVirtualSystems::sAllOtherManufacturers : manufacturerList[manufacturerIndex].Name);
+    RecalboxConf::Instance().SetArcadeSystemHiddenManufacturers(mArcade->GetAttachedSystem(), manufacturerNameList);
   }
 }
 
 std::vector<GuiMenuBase::ListEntry<int>> GuiMenuArcade::GetManufacturerFilterEntries()
 {
-  std::vector<ArcadeDatabase::Driver> driverList = mArcade->GetDriverList();
+  std::vector<ArcadeDatabase::Manufacturer> manufacturerList = mArcade->GetManufacturerList();
   std::vector<GuiMenuBase::ListEntry<int>> result;
-  for(const ArcadeDatabase::Driver& driver : driverList)
-    result.push_back({ FormatManufacturer(driver), driver.Index, RecalboxConf::Instance().IsInArcadeSystemHiddenDrivers(mArcade->GetAttachedSystem(), driver.Name) });
+  for(const ArcadeDatabase::Manufacturer& manufacturer : manufacturerList)
+    result.push_back({FormatManufacturer(manufacturer), manufacturer.Index, RecalboxConf::Instance().IsInArcadeSystemHiddenManufacturers(mArcade->GetAttachedSystem(), manufacturer.Name) });
   return result;
 }
 
-String GuiMenuArcade::FormatManufacturer(const ArcadeDatabase::Driver& driver)
+String GuiMenuArcade::FormatManufacturer(const ArcadeDatabase::Manufacturer& manufacturer)
 {
-  String newName = ArcadeVirtualSystems::GetRealName(driver.Name);
-  if (driver.Name.empty()) newName = _("ALL OTHERS");
-  if (newName.Contains('/')) newName.Replace('/', " - ");
-  int count = mArcade->GetGameCountForDriver(driver.Index);
+  String newName = manufacturer.Name;
+  if (newName.empty()) newName = _("ALL OTHERS");
+  if (newName.Contains('\\')) newName.Replace('\\', " - ");
+  int count = mArcade->GetGameCountForManufacturer(manufacturer.Index);
   newName.Append(" (").Append(count != 0 ? (_F(_N("{0} GAME", "{0} GAMES", count)) / count)() : "").Append(')');
   return newName;
 }

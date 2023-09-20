@@ -465,49 +465,23 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
       const ArcadeDatabaseManager& mArcadeDatabaseManager;
       const ArcadeDatabase* mDatabase;
       const FolderData* mParent;
-      String mDriverName;
-      ArcadeDatabase::IndexList* mDriverIndexes;
-      HashMap<const ArcadeDatabase*, ArcadeDatabase::IndexList*> mDriverIndexesFastLookup;
+      String mManufacturerName;
+      int mManufacturerIndex;
+      HashMap<const ArcadeDatabase*, int> mManufacturerIndexesFastLookup;
 
     public:
       /*!
        * @brief Constructor
        * @param arcadeDatabaseManager Database manager from witch to retrieve arcade database
-       * @param driverName Driver name to lookup for games matching this driver
+       * @param manufacturerName manufacturer name to lookup for games matching this manufacturer
        */
-      explicit Filter(const ArcadeDatabaseManager& arcadeDatabaseManager, const String& driverName)
+      explicit Filter(const ArcadeDatabaseManager& arcadeDatabaseManager, const String& manufacturerName)
         : mArcadeDatabaseManager(arcadeDatabaseManager)
         , mDatabase(nullptr)
         , mParent(nullptr)
-        , mDriverName(driverName)
-        , mDriverIndexes(nullptr)
+        , mManufacturerName(manufacturerName)
+        , mManufacturerIndex(-1)
       {
-      }
-
-      //! Destrutor - destroy index caches
-      ~Filter() override
-      {
-        for(const auto& kv : mDriverIndexesFastLookup)
-          delete kv.second;
-      }
-
-      /*!
-       * @brief Optimized driver lookup in index list
-       * @param driver raw driver index
-       * @return bool if driver is in the last driver list, false otherwise
-       */
-      bool LookupDriver(int driver)
-      {
-        int count = (int)mDriverIndexes->Count();
-        // Optimized case for only one driver
-        if (count == 1 && ((*mDriverIndexes)[0] == driver)) return true;
-        // Multiple driver
-        for(int i = (count-- + 1) >> 1; --i >= 0; )
-        {
-          if ((*mDriverIndexes)[i] == driver) return true;
-          if ((*mDriverIndexes)[count - i] == driver) return true;
-        }
-        return false;
       }
 
       /*!
@@ -518,19 +492,20 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
       [[nodiscard]] bool ApplyFilter(const FileData& file) override
       {
         // Update the database regarding the emulator configured for the current Folder
-        // After the database is updated, lookup the driver index regarding the driver name.
-        // If neither no database, nor driver index is found, ignore the current game
+        // After the database is updated, lookup the manufacturer index regarding the manufacturer name.
+        // If neither no database, nor manufacturer index is found, ignore the current game
         if (mDatabase == nullptr || mParent != file.Parent())
         {
           if (mDatabase = mArcadeDatabaseManager.LookupDatabase(*(mParent = file.Parent())); mDatabase != nullptr)
           {
-            if (ArcadeDatabase::IndexList** cacheList = mDriverIndexesFastLookup.try_get(mDatabase); cacheList != nullptr) mDriverIndexes = *cacheList;
-            else mDriverIndexesFastLookup[mDatabase] = (mDriverIndexes = new ArcadeDatabase::IndexList(mDatabase->RawDriverIndexesFromFamilly(mDriverName)));
+            if (int* cacheList = mManufacturerIndexesFastLookup.try_get(mDatabase); cacheList != nullptr) mManufacturerIndex = *cacheList;
+            else mManufacturerIndexesFastLookup[mDatabase] = (mManufacturerIndex = mDatabase->RawManufacturerIndexFromName(
+                mManufacturerName));
           }
-          if (mDatabase == nullptr) return false; // No database for the current folder
+          else return false; // No database for the current folder
         }
         // Valid data?
-        if (mDriverIndexes->Empty()) return false; // No driver
+        if (mManufacturerIndex < 0) return false; // No manufacturer
 
         // Lookup the current game in the arcade database
         const ArcadeGame* arcade = mDatabase->LookupGame(file);
@@ -538,13 +513,13 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
         if (arcade == nullptr) return false;
         // Not a regular arcade game?
         if (arcade->Hierarchy() == ArcadeGame::Type::Bios) return false;
-        // Finally, compare the driver index. If it's the right index, we got a game!
-        return LookupDriver(arcade->RawDriver());
+        // Finally, compare the manufacturer index. If it's the right index, we got a game!
+        return arcade->RawManufacturer().Contains(mManufacturerIndex);
       }
   };
 
   String identifier = system->Name();
-  String manufacturer(identifier); manufacturer.Remove(sArcadeManufacturerPrefix).Replace('-', '/');
+  String manufacturer(identifier); manufacturer.Remove(sArcadeManufacturerPrefix).Replace('-', '\\');
   if (RecalboxConf::Instance().IsInCollectionArcadeManufacturers(identifier))
   {
     // Filter and insert items
@@ -751,10 +726,9 @@ SystemData* SystemManager::CreateGenreSystem(GameGenres genre)
 SystemData* SystemManager::CreateArcadeManufacturersSystem(const String& manufacturer)
 {
   SystemDescriptor descriptor;
-  String fullName = ArcadeVirtualSystems::GetRealName(manufacturer);
-  descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), BuildArcadeManufacturerSystemName(manufacturer), fullName)
+  descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), BuildArcadeManufacturerSystemName(manufacturer), String(manufacturer).Replace('\\', " - "))
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-arcade-").Append(manufacturer).Replace('/','-'), "", "", false, false, false);
+            .SetDescriptorInformation("", "", String("auto-arcade-").Append(manufacturer).Replace('\\','-'), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::ArcadeManufacturers);
 
   return result;
@@ -956,8 +930,8 @@ void SystemManager::LoadVirtualSystemConfigurations(bool portableSystem)
   // Add ports first so that we can move it at the right place
   threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Ports, 50), ++priority);
   // Start with arcade manufacturer systems, which load slower than the others
-  for(const String& driver : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
-    threadPool.PushFeed(VirtualSystemDescriptor(driver, --arcadeIndex), ++priority);
+  for(const String& manufacturer : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+    threadPool.PushFeed(VirtualSystemDescriptor(manufacturer, --arcadeIndex), ++priority);
   // Add genre systems
   for(GameGenres genre : Genres::GetOrderedList())
     threadPool.PushFeed(VirtualSystemDescriptor(genre, genreIndex), ++priority);
@@ -1017,7 +991,7 @@ VirtualSystemResult SystemManager::ThreadPoolRunJob(VirtualSystemDescriptor& vir
     case VirtualSystemType::Arcade: { system = CreateArcadeSystem(); break; }
     case VirtualSystemType::Tate: { system = CreateTateSystem(); break; }
     case VirtualSystemType::Genre: { system = CreateGenreSystem(virtualDescriptor.Genre()); break; }
-    case VirtualSystemType::ArcadeManufacturers: { system = CreateArcadeManufacturersSystem(virtualDescriptor.ArcadeDriver()); break; }
+    case VirtualSystemType::ArcadeManufacturers: { system = CreateArcadeManufacturersSystem(virtualDescriptor.ArcadeManufacturer()); break; }
     case VirtualSystemType::None:
     default: break;
   }

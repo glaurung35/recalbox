@@ -15,9 +15,9 @@ const String::List& ArcadeVirtualSystems::GetVirtualArcadeSystemList()
     "atlus",
     "banpresto",
     "capcom",
-    "capcom/cps1",
-    "capcom/cps2",
-    "capcom/cps3",
+    "capcom\\cps1",
+    "capcom\\cps2",
+    "capcom\\cps3",
     "cave",
     "dataeast",
     "exidy",
@@ -48,7 +48,7 @@ const String::List& ArcadeVirtualSystems::GetVirtualArcadeSystemList()
   return sList;
 }
 
-String ArcadeVirtualSystems::GetRealName(const String& driverName)
+/*String ArcadeVirtualSystems::GetRealName(const String& driverName)
 {
   static HashMap<String, String> sList
   {
@@ -177,6 +177,6 @@ String ArcadeVirtualSystems::GetRealName(const String& driverName)
         return String(*result).Append(" - ").Append(driverName.SubString(separator + 1).ToUpperCaseUTF8());
 
   return driverName;
-}
+}*/
 
 

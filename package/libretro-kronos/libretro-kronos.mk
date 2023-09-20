@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 20/08/2021 (https://github.com/libretro/yabause/commit/c538bcac82770c1acb691eeca95688860fd264f0)
-LIBRETRO_KRONOS_VERSION = c538bcac82770c1acb691eeca95688860fd264f0
+# Commit of 2023/02/06 (https://github.com/libretro/yabause/commits/kronos)
+LIBRETRO_KRONOS_VERSION = fec6e18cc6f00933f6303a983935a44302f3075f
 LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
 LIBRETRO_KRONOS_LICENSE = GPL-2.0
 
@@ -27,6 +27,7 @@ endef
 define LIBRETRO_KRONOS_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/yabause/src/libretro/kronos_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/kronos_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/saturn
 endef
 
 $(eval $(generic-package))

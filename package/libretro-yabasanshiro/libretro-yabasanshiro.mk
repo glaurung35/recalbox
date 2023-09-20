@@ -5,7 +5,8 @@
 ################################################################################
 
 # https://github.com/libretro/yabause/tree/yabasanshiro/yabause/src/libretro
-LIBRETRO_YABASANSHIRO_VERSION = db67d16c89f4c10f958a0ae72209d6651111007c
+# Commit of 2021/11/01
+LIBRETRO_YABASANSHIRO_VERSION = 2848d5053fef1a69f68c600b65a1b9e0d915056c
 LIBRETRO_YABASANSHIRO_SITE = $(call github,libretro,yabause,$(LIBRETRO_YABASANSHIRO_VERSION))
 LIBRETRO_YABASANSHIRO_LICENSE = GPL-2.0
 
@@ -43,6 +44,7 @@ endef
 define LIBRETRO_YABASANSHIRO_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/yabause/src/libretro/yabasanshiro_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/yabasanshiro_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/saturn
 endef
 
 $(eval $(generic-package))

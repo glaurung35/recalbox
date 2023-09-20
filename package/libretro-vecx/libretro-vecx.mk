@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_VECX_VERSION = 71604b399d50a6b2844e4ce3f3c1c062b7c1884f
+# Commit of 2023/06/01
+LIBRETRO_VECX_VERSION = a401c268e425dc8ae6a301e7fdb9a9e96f39b8ea
 LIBRETRO_VECX_SITE = $(call github,libretro,libretro-vecx,$(LIBRETRO_VECX_VERSION))
 LIBRETRO_VECX_LICENSE = GPL-3.0
 LIBRETRO_VECX_LICENSE_FILES = LICENSE.md

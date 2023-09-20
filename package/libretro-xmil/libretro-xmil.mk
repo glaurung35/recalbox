@@ -4,7 +4,8 @@
 #
 ################################################################################
 
-LIBRETRO_XMIL_VERSION = e6a5150921c1c8e81085aa20d534fcf40f91d333
+# Commit of 2022/04/14
+LIBRETRO_XMIL_VERSION = 4cb1e4eaab37321904144d1f1a23b2830268e8df
 LIBRETRO_XMIL_SITE = $(call github,libretro,xmil-libretro,$(LIBRETRO_XMIL_VERSION))
 LIBRETRO_XMIL_LICENSE = BSD-3-Clause
 LIBRETRO_XMIL_LICENSE_FILES = LICENSE

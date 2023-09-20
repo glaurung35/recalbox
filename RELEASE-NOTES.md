@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-mednafen_pcfx
 - Bump libretro-kronos
 - Bump libretro-mednafen_saturn
+- Bump libretro-yabasanshiro
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

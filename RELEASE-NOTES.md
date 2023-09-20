@@ -55,6 +55,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-vecx
 - Bump libretro-uzem
 - Bump libretro-tic80
+- Bump libretro-supafaust
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

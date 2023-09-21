@@ -18,6 +18,7 @@ struct DelayedSystemOperationData
 {
   SystemManager::List mSystemList;
   ISlowSystemOperation* mSlowIMethodInterface;
+  bool autoSelectMonoSystem;
 };
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
@@ -159,7 +160,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void SelectSystem(SystemData* system) override;
 
     //! Request threaded operations
-    void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) override;
+    void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems, bool autoSelectMonoSystem) override;
 
     //! User notification
     void SystemShownWithNoGames(SystemData* system) override;

@@ -26,7 +26,8 @@ void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool status)
     case Components::ArcadeOnOff:
     {
       RecalboxConf::Instance().SetCollectionArcade(status).Save();
-      mSystemManager.UpdateSystemsVisibility(mSystemManager.VirtualSystemByType(VirtualSystemType::Arcade), status);
+      mSystemManager.UpdateSystemsVisibility(mSystemManager.VirtualSystemByType(VirtualSystemType::Arcade),
+                                             status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide);
       mSystemManager.ManageArcadeVirtualSystem();
       break;
     }

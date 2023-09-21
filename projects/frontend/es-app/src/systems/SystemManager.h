@@ -21,6 +21,14 @@ class SystemManager : private INoCopy // No copy allowed
                     , public ISlowSystemOperation
 {
   public:
+    //! Requested Visibility
+    enum class Visibility
+    {
+      Show,          //! Show the system
+      ShowAndSelect, //! Show and select the system
+      Hide,          //! Hide the system
+    };
+
     //! Convenient alias for System list
     typedef Array<SystemData*> List;
 
@@ -464,8 +472,9 @@ class SystemManager : private INoCopy // No copy allowed
      * @param addedSystems Added systems or nullptr
      * @param removedSystems Removed system or nullptr
      * @param modifiedSystems Modified system or nullptr
+     * @param autoSelectMonoSystem If the list contains only one system, tell the GUI to move onto this system)
      */
-    void ApplySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems);
+    void ApplySystemChanges(List* addedSystems, List* removedSystems, List* modifiedSystems, bool autoSelectMonoSystem);
 
     /*!
      * @brief Check the given list, looking for uninitialized systems
@@ -491,7 +500,7 @@ class SystemManager : private INoCopy // No copy allowed
     void SlowPopulateExecute(const List& listToPopulate) override;
 
     //! Completed
-    void SlowPopulateCompleted(const List& listToPopulate) override;
+    void SlowPopulateCompleted(const List& listToPopulate, bool autoSelectMonoSystem) override;
 
   public:
     /*!
@@ -745,7 +754,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param system System to change visibility
      * @param show Tru to show the system, false to hide
      */
-    void UpdateSystemsVisibility(SystemData* system, bool show);
+    void UpdateSystemsVisibility(SystemData* system, Visibility visibility);
 
     /*!
      * @brief Show or Hide the given virtual system. Initialize the given system ir required, then make is visible!
@@ -754,9 +763,9 @@ class SystemManager : private INoCopy // No copy allowed
      * @param type Virtual system to change visibility
      * @param show Tru to show the system, false to hide
      */
-    void UpdateVirtualSystemsVisibility(VirtualSystemType type, bool show)
+    void UpdateVirtualSystemsVisibility(VirtualSystemType type, Visibility visibility)
     {
-      UpdateSystemsVisibility(VirtualSystemByType(type), show);
+      UpdateSystemsVisibility(VirtualSystemByType(type), visibility);
     }
 
     /*!
@@ -766,9 +775,9 @@ class SystemManager : private INoCopy // No copy allowed
      * @param name arcade manufacturer virtual system name to change visibility
      * @param show Tru to show the system, false to hide
      */
-    void UpdateVirtualArcadeManufacturerSystemsVisibility(const String& name, bool show)
+    void UpdateVirtualArcadeManufacturerSystemsVisibility(const String& name, Visibility visibility)
     {
-      UpdateSystemsVisibility(VirtualArcadeManufacturerSystemByName(name), show);
+      UpdateSystemsVisibility(VirtualArcadeManufacturerSystemByName(name), visibility);
     }
 
     /*!
@@ -778,9 +787,9 @@ class SystemManager : private INoCopy // No copy allowed
      * @param genre Virtual genre system to change visibility
      * @param show Tru to show the system, false to hide
      */
-    void UpdateVirtualGenreSystemsVisibility(GameGenres genre, bool show)
+    void UpdateVirtualGenreSystemsVisibility(GameGenres genre, Visibility visibility)
     {
-      UpdateSystemsVisibility(VirtualGenreSystemByGenre(genre), show);
+      UpdateSystemsVisibility(VirtualGenreSystemByGenre(genre), visibility);
     }
 
     /*!

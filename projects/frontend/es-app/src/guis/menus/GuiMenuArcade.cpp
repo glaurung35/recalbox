@@ -105,7 +105,10 @@ void GuiMenuArcade::OptionListMultiComponentChanged(int id, const String::List& 
     RecalboxConf::Instance().SetCollectionArcadeManufacturers(value).Save();
     // Refresh all systems
     for(const String& manufacturer : mManufacturersIdentifiers)
-      mSystemManager.UpdateVirtualArcadeManufacturerSystemsVisibility(manufacturer, RecalboxConf::Instance().IsInCollectionArcadeManufacturers(manufacturer));
+      mSystemManager.UpdateVirtualArcadeManufacturerSystemsVisibility(manufacturer,
+                                                                      RecalboxConf::Instance().IsInCollectionArcadeManufacturers(manufacturer) ?
+                                                                      SystemManager::Visibility::ShowAndSelect :
+                                                                      SystemManager::Visibility::Hide);
   }
 }
 

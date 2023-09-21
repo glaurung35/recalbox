@@ -25,6 +25,10 @@ class ISlowSystemOperation
     //! Populate operation
     virtual void SlowPopulateExecute(const List& listToPopulate) = 0;
 
-    //! Completed
-    virtual void SlowPopulateCompleted(const List& listToPopulate) = 0;
+    /*!
+     * @brief Operation coimpleted
+     * @param listToPopulate Populated system list
+     * @param autoSelectMonoSystem If the list contains only one system, tell the GUI to move onto this system)
+     */
+    virtual void SlowPopulateCompleted(const List& listToPopulate, bool autoSelectMonoSystem) = 0;
 };

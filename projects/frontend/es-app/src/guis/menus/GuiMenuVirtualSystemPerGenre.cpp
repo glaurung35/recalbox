@@ -42,6 +42,6 @@ void GuiMenuVirtualSystemPerGenre::SwitchComponentChanged(int id, bool status)
       list.push_back(it.first);
   // Save and update systems
   RecalboxConf::Instance().SetCollectionGenre(list);
-  mSystemManager.UpdateVirtualGenreSystemsVisibility(genre, status);
+  mSystemManager.UpdateVirtualGenreSystemsVisibility(genre, status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide);
 }
 

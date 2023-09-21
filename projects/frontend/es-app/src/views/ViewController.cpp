@@ -986,13 +986,13 @@ void ViewController::FetchSlowDataFor(FileData* data)
   mSignal.Fire();
 }
 
-void ViewController::RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems)
+void ViewController::RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems, bool autoSelectMonoSystem)
 {
   String text = systems.Count() > 1 ?
                 _("INITIALIZING SYSTEMS...") :
                 (_F(_("INITIALIZING SYSTEM {0}")) / systems.First()->FullName()).ToString();
   auto* gui = new GuiWaitLongExecution<DelayedSystemOperationData, bool>(mWindow, *this);
-  gui->Execute({ std::move(systems), interface }, text);
+  gui->Execute({ std::move(systems), interface, autoSelectMonoSystem }, text);
   mWindow.pushGui(gui);
 }
 
@@ -1009,6 +1009,6 @@ void ViewController::Completed(const DelayedSystemOperationData& parameter, cons
 {
   (void)result;
   if (parameter.mSlowIMethodInterface != nullptr)
-    parameter.mSlowIMethodInterface->SlowPopulateCompleted(parameter.mSystemList);
+    parameter.mSlowIMethodInterface->SlowPopulateCompleted(parameter.mSystemList, parameter.autoSelectMonoSystem);
 }
 

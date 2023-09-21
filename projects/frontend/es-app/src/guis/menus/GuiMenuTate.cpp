@@ -104,7 +104,8 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
     case Components::TateEnabled:
     {
       RecalboxConf::Instance().SetCollectionTate(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Tate, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Tate,
+                                                    status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide);
       break;
     }
     case Components::TateOnly:

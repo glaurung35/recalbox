@@ -45,36 +45,37 @@ void GuiMenuVirtualSystems::SubMenuSelected(int id)
 
 void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
 {
+  SystemManager::Visibility visibility = status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide;
   switch((Components)id)
   {
     case Components::AllGames:
     {
       RecalboxConf::Instance().SetCollectionAllGames(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::AllGames, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::AllGames, visibility);
       break;
     }
     case Components::Multiplayers:
     {
       RecalboxConf::Instance().SetCollectionMultiplayer(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Multiplayers, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Multiplayers, visibility);
       break;
     }
     case Components::LastPlayed:
     {
       RecalboxConf::Instance().SetCollectionLastPlayed(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::LastPlayed, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::LastPlayed, visibility);
       break;
     }
     case Components::LightGun:
     {
       RecalboxConf::Instance().SetCollectionLightGun(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Lightgun, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Lightgun, visibility);
       break;
     }
     case Components::Ports:
     {
       RecalboxConf::Instance().SetCollectionPorts(status).Save();
-      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Ports, status);
+      mSystemManager.UpdateVirtualSystemsVisibility(VirtualSystemType::Ports, visibility);
       break;
     }
     case Components::VirtualPerGenre: break;

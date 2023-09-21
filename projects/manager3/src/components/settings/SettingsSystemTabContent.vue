@@ -186,7 +186,7 @@
           <WrappedToggle
             label="settings.system.debuglogs.label"
             :getter="emulationstation.debuglogs"
-            :setter="emulationstationStore"
+            :setter="emulationstationStore.post"
             apiKey="debuglogs"
             v-if="emulationstation.debuglogs"
             help

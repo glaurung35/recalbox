@@ -766,7 +766,7 @@ void SystemManager::ManageArcadeVirtualSystem(bool startup)
       }
     }
   if (!startup)
-    ApplySystemChanges(&added, &removed, nullptr);
+    ApplySystemChanges(&added, &removed, nullptr, false);
 }
 
 void SystemManager::ManagePortsVirtualSystem()
@@ -1413,7 +1413,7 @@ void SystemManager::UpdateSystemsOnGameChange(FileData* target, MetadataType cha
     List removedSystems;
     List modifiedSystems;
     if (UpdateSystemsOnGameDeletion(target, removedSystems, modifiedSystems))
-      ApplySystemChanges(nullptr, &removedSystems, &modifiedSystems);
+      ApplySystemChanges(nullptr, &removedSystems, &modifiedSystems, false);
     return;
   }
   if (changes != MetadataType::None)
@@ -1425,12 +1425,12 @@ void SystemManager::UpdateSystemsOnGameChange(FileData* target, MetadataType cha
     if (target != nullptr)
     {
       if (UpdateSystemsOnSingleGameChanges(target, changes, addedSystems, removedSystems, modifiedSystems))
-        ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
+        ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems, false);
       return;
     }
     // Multiple game move
     if (UpdateSystemsOnMultipleGameChanges(changes, addedSystems, removedSystems, modifiedSystems))
-      ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems);
+      ApplySystemChanges(&addedSystems, &removedSystems, &modifiedSystems, false);
     return;
   }
   { LOG(LogError) << "[SystemManager] UpdateSystem called w/o any changes!"; }
@@ -1568,7 +1568,7 @@ void SystemManager::SlowPopulateExecute(const SystemManager::List& listToPopulat
     InitializeSystem(system);
 }
 
-void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulated)
+void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulated, bool autoSelectMonoSystem)
 {
   bool hasVisibleGame = false;
   // Show all systems
@@ -1580,12 +1580,13 @@ void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulat
         mSystemChangeNotifier->ShowSystem(system);
     }
   // If there is only one, select it!
-  /*if (listPopulated.Count() == 1)
-    if (mSystemChangeNotifier != nullptr)
-    {
-      if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
-      else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
-    }*/
+  if (autoSelectMonoSystem)
+    if (listPopulated.Count() == 1)
+      if (mSystemChangeNotifier != nullptr)
+      {
+        if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
+        else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
+      }
 }
 
 bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)
@@ -1599,7 +1600,8 @@ bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)
 
 void
 SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
-                                  SystemManager::List* removedSystems, SystemManager::List* modifiedSystems)
+                                  SystemManager::List* removedSystems, SystemManager::List* modifiedSystems,
+                                  bool autoSelectMonoSystem)
 {
   // Added virtual systems?
   if (addedSystems != nullptr)
@@ -1607,9 +1609,9 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
     if (ContainsUnitializedSystem(*addedSystems))
     {
       if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->RequestSlowOperation(this, *addedSystems);
+        mSystemChangeNotifier->RequestSlowOperation(this, *addedSystems, autoSelectMonoSystem);
     }
-    else SlowPopulateCompleted(*addedSystems);
+    else SlowPopulateCompleted(*addedSystems, autoSelectMonoSystem);
   }
   // Removed virtual systems?
   if (removedSystems != nullptr)
@@ -1649,15 +1651,15 @@ void SystemManager::UpdatedTopLevelFilter()
     if (!removed.Contains(system))
       updated.Add(system);
 
-  ApplySystemChanges(&added, &removed, &updated);
+  ApplySystemChanges(&added, &removed, &updated, false);
 }
 
-void SystemManager::UpdateSystemsVisibility(SystemData* system, bool show)
+void SystemManager::UpdateSystemsVisibility(SystemData* system, Visibility visibility)
 {
   List list({ system });
   bool visible = mVisibleSystems.Contains(system);
-  if (show && !visible) ApplySystemChanges(&list, nullptr, nullptr);
-  else if (!show && visible) ApplySystemChanges(nullptr, &list, nullptr);
+  if ((visibility == Visibility::Show || visibility == Visibility::ShowAndSelect) && !visible) ApplySystemChanges(&list, nullptr, nullptr, visibility == Visibility::ShowAndSelect);
+  else if (visibility == Visibility::Hide && visible) ApplySystemChanges(nullptr, &list, nullptr, false);
 }
 
 

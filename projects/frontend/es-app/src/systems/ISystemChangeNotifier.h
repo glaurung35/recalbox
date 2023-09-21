@@ -31,8 +31,9 @@ class ISystemChangeNotifier
      * @brief Slow operation requested to high level UI class
      * @param interface Threaded operations methods
      * @param systems System list to work on
+     * @param autoSelectMonoSystem If the list contains only one system, tell the GUI to move onto this system)
      */
-    virtual void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems) = 0;
+    virtual void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems, bool autoSelectMonoSystem) = 0;
 
     /*!
      * @brief The system manager notify the UI a system has been requested to show but has no game

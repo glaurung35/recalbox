@@ -53,12 +53,12 @@
           label="Kodi"
           name="kodi"
         />
-        <q-route-tab
-          :to="{ name: 'hyperion' }"
-          icon="mdi-lightbulb"
-          label="Hyperion"
-          name="hyperion"
-        />
+<!--        <q-route-tab -->
+<!--          :to="{ name: 'hyperion' }" -->
+<!--          icon="mdi-lightbulb" -->
+<!--          label="Hyperion" -->
+<!--          name="hyperion" -->
+<!--        /> -->
       </q-tabs>
     </transition>
 

@@ -1289,6 +1289,7 @@ String PulseAudioController::GetPortDescription(const pa_card_port_info& info, A
     case BoardType::RG353V:
     case BoardType::RG353M:
     case BoardType::RG503:
+    case BoardType::RG351V:
     case BoardType::PCx86:
     case BoardType::PCx64:
     case BoardType::UndetectedYet:

@@ -67,14 +67,14 @@ bool Http::Execute(const String& url, const Path& output)
   if (mHandle != nullptr)
   {
     if (!output.Directory().Exists())
-      output.Directory().CreatePath();
+      (void)output.Directory().CreatePath();
     DateTime start;
     mContentSize = 0;
     mContentFlushed = 0;
     mLastReturnCode = 0;
     mResultHolder.clear();
     mResultFile = output;
-    mResultFile.Delete();
+    (void)mResultFile.Delete();
     DataStart();
     curl_easy_setopt(mHandle, CURLOPT_URL, url.c_str());
     CURLcode res = curl_easy_perform(mHandle);
@@ -82,7 +82,7 @@ bool Http::Execute(const String& url, const Path& output)
     curl_easy_getinfo(mHandle, CURLINFO_RESPONSE_CODE, &mLastReturnCode);
     StoreDownloadInfo(start, DateTime(), mContentSize);
     bool ok = (res == CURLcode::CURLE_OK);
-    if (!ok) output.Delete();
+    if (!ok) (void)output.Delete();
     else DataEnd();
     return ok;
   }

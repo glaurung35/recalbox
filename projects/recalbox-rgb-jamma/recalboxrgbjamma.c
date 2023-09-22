@@ -656,9 +656,7 @@ static struct config {
   struct mutex process_mutex;
   bool hotkey_patterns;
   bool disable_credit_on_hk_btn1;
-  bool reverse_credit_logic;
   uint buttons_on_jamma;
-  bool btn_6_auto_disabled;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -832,9 +830,31 @@ struct input_dev *player_devs[TOTAL_PLAYERS];
 // Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
 //
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    //  B1        B2         B3         B4         B5          B6          START          COIN            SERVICE         TEST             HOTKEY
-    BTN_A, BTN_B, BTN_X, BTN_Y, BTN_TL, BTN_TR, BTN_START, BTN_SELECT, BTN_THUMBL, BTN_THUMBR, BTN_MODE,
+    BTN_A,          //  JAMMA_BTN_1
+    BTN_B,          //  JAMMA_BTN_2
+    BTN_X,          //  JAMMA_BTN_3
+    BTN_Y,          //  JAMMA_BTN_4
+    BTN_TL,         //  JAMMA_BTN_5
+    BTN_TR,         //  JAMMA_BTN_6
+    BTN_START,      //  JAMMA_BTN_START
+    BTN_SELECT,     //  JAMMA_BTN_COIN
+    BTN_THUMBL,     //  JAMMA_BTN_SERVICE
+    BTN_THUMBR,     //  JAMMA_BTN_TEST
+    BTN_MODE,       // BTN_HOTKEY
 };
+
+#define JAMMA_BTN_1 0
+#define JAMMA_BTN_2 1
+#define JAMMA_BTN_3 2
+#define JAMMA_BTN_4 3
+#define JAMMA_BTN_5 4
+#define JAMMA_BTN_6 5
+#define JAMMA_BTN_START 6
+#define JAMMA_BTN_COIN 7
+#define JAMMA_BTN_SERVICE 8
+#define JAMMA_BTN_TEST 9
+#define BTN_HOTKEY 10
+
 // Games buttons are from 0 to 5 in buttons codes
 #define LAST_GAME_BUTTON 5
 
@@ -863,8 +883,8 @@ static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
 };
 
 #define P1_START 43
-#define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][0]
-#define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][0]
+#define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_1]
+#define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_1]
 
 #define DIR_UP 0
 #define DIR_DOWN 1
@@ -881,26 +901,18 @@ static const int direction_bits[2][4]= {
 
 // Logic is not the same for each buttons (coins and service/test are reversed)
 // TODO: add service and test for next version
-static const unsigned short buttonsReleasedValues[TOTAL_GPIO_ON_PCA] = {
+static unsigned short buttonsReleasedValues[TOTAL_GPIO_ON_PCA] = {
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
     1, 1, 1, 1, 1, 1, 1, 1,
-    1, 1, 1, 1, 1, 1, 0, 0
-};
-// TODO: add service and test for next version
-static const unsigned short buttonsReleasedValuesReversed[TOTAL_GPIO_ON_PCA] = {
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 1, 1, 1, 1,
-  1, 1, 1, 1, 0, 0, 0, 0
+    1, 1, 1, 1, 1, 1, 1, 1
 };
 
 
-#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^(jamma_config.reverse_credit_logic ? buttonsReleasedValuesReversed[btn]: buttonsReleasedValues[btn])) : 0)
+
+#define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1)^(buttonsReleasedValues[btn])) : 0)
 #define WAIT_SYNC() usleep_range(50000,80000);
 //Exit delay (HK + START) set to 2 secondes
 #define EXIT_DELAY(now, start) ((now - start) / 1000000000UL >= 2)
@@ -1029,10 +1041,8 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
 
       for (buttonIndex = 0; buttonIndex < BTN_PER_PLAYER_ON_JAMMA; buttonIndex++) {
         // If we are on a game button that is not on jamma (because user config)
-        // or if the btn6 has been auto disabled (at startup because on ground)
         // then we use kickharness
-        if ((buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma) ||
-            (buttonIndex == 5 && jamma_config.btn_6_auto_disabled)) {
+        if ((buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma)) {
           buttonValue = PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
           /* DEBUG && printk(KERN_INFO "recalboxrgbjamma: sending report P1 for key bit:%d, inputcode:%d, value : %d\n", player1_kick_btn_bits[j],
              buttons_codes[j], PRESSED(data_chips, player1_kick_btn_bits[j]));*/
@@ -1296,13 +1306,6 @@ static int load_config(void) {
                   optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
             }
-          } else if (strcmp(optionname, "options.jamma.reverse_credit_logic") == 0) {
-            if (jamma_config.reverse_credit_logic != optionvalue) {
-              printk(KERN_INFO
-              "recalboxrgbjamma: switch reverse_credit_logic to %d\n",
-                  optionvalue);
-              jamma_config.reverse_credit_logic = optionvalue;
-            }
           }
         }
       }
@@ -1328,7 +1331,7 @@ static int watch_configuration(void *idx) {
         "recalboxrgbjamma: switch to %s buttons mode\n", gpio_value ? "6" : "3");
       }
     }*/
-    usleep_range(10000000, 15000000);
+    usleep_range(5000000, 10000000);
   }
   return 0;
 }
@@ -1481,10 +1484,22 @@ static int pca953x_probe(struct i2c_client *client,
     // Check if button 6 is on gnd, and if it is, we will ignore it
     jamma_config.gpio_chip_0 = &chip->gpio_chip;
     if (process_inputs(&chip->gpio_chip) == 0) {
-      dev_info(&client->dev, "VALUE HERE : %llu\n", gpio_data);
-      if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][5]) || PRESSED(gpio_data,buttons_bits[PLAYER2][JAMMA_BTNS][5])){
-        dev_info(&client->dev, "disabled 6th button on jamma!\n");
-        jamma_config.btn_6_auto_disabled = true;
+      if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6])){
+        dev_info(&client->dev, "disabled 6th button on jamma for player 1!\n");
+        // Todo remove this logic for btn6 an set output 0
+        buttonsReleasedValues[buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
+      }
+      if(PRESSED(gpio_data,buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6])){
+        dev_info(&client->dev, "disabled 6th button on jamma for player 2!\n");
+        buttonsReleasedValues[buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
+      }
+      if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE])){
+        dev_info(&client->dev, "reversing logic for SERVICE button on jamma!\n");
+        buttonsReleasedValues[buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE]] = 0;
+      }
+      if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_TEST])){
+        dev_info(&client->dev, "reversing logic for TEST button on jamma!\n");
+        buttonsReleasedValues[buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_TEST]] = 0;
       }
     }
   } else if (client->addr == 0x22 || client->addr == 0x24) {
@@ -1544,9 +1559,7 @@ pca953x_init(void) {
   jamma_config.gpio_chip_2 = NULL;
   jamma_config.hotkey_patterns = true;
   jamma_config.disable_credit_on_hk_btn1 = false;
-  jamma_config.reverse_credit_logic = false;
   jamma_config.buttons_on_jamma = 6;
-  jamma_config.btn_6_auto_disabled = false;
 
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");

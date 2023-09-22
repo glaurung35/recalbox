@@ -472,9 +472,17 @@ class Path
 
     /*!
      * @brief Get file/directory list from the current directory path
+     * @param storeFolders True to store folders in the list. False to get files only
      * @return file and directory list, or empty list if the current path is invalid or not a directory
      */
-    PathList GetDirectoryContent() const;
+    [[nodiscard]] PathList GetDirectoryContent(bool storeFolders = true) const;
+
+    /*!
+     * @brief Get file/directory list recursively from the current directory path
+     * @param storeFolders True to store folders in the list. False to get files only
+     * @return file and directory list, or empty list if the current path is invalid or not a directory
+     */
+    [[nodiscard]] PathList RecurseDirectoryContent(bool storeFolders = true) const;
 
     /*!
      * @brief Check if the current folder contains at least a file

@@ -18,13 +18,25 @@ RestApiServer::RestApiServer()
 
 void RestApiServer::Run()
 {
-  LOG(LogInfo) << "Recalbox WebApi Server 1.0";
+  LOG(LogInfo) << "[RestAPIServer] Recalbox WebApi Server 1.0";
 
   // Run!
-  mServer.Run();
+  while(IsRunning())
+    try
+    {
+      mServer.Serve();
+      break;
+    }
+    catch(std::exception& ex)
+    {
+      LOG(LogError) << "[RestAPIServer] Error running server! Retrying in 5s... (Exception: " << ex.what() << ')';
+      Thread::Sleep(5);
+    }
+
+  mServer.Shutdown();
 }
 
 void RestApiServer::Break()
 {
-  mServer.Cancel();
+  mServer.Shutdown();
 }

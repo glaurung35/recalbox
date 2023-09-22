@@ -10,18 +10,27 @@
 class RestApiServer : public Thread
 {
   public:
-    // Constructor
+    //! Constructor
     RestApiServer();
 
     //! Destructor
     ~RestApiServer() override { Stop(); }
 
   private:
+    //! Server parameters
     Parameters mParam;
+    //! API Request handler
     RequestHandler mRequestHandler;
+    //! Http server
     Server mServer;
 
+    /*
+     * Thread implementation
+     */
+
+    //! Main thread running function
     void Break() override;
 
+    //! Stop the thread
     void Run() override;
 };

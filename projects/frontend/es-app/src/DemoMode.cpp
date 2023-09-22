@@ -29,7 +29,7 @@ void DemoMode::runDemo()
   mGameSelector.Initialize();
 
   Path shouldStop(MainRunner::sStopDemo);
-  shouldStop.Delete();
+  (void)shouldStop.Delete();
   { LOG(LogDebug) << "[DemoMode] Starting demo mode"; }
 
   for(FileData* game = mGameSelector.NextGame();

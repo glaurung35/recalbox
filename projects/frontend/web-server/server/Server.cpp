@@ -21,7 +21,7 @@ void Server::Run()
   for(;;)
     try
     {
-      LOG(LogInfo) << "Server up!";
+      LOG(LogInfo) << "[WebServer] Server up!";
       mServer.serve();
       break;
     }

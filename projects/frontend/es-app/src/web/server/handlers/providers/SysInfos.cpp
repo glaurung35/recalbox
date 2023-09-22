@@ -16,7 +16,7 @@ SysInfos::SysInfos()
 {
   mData.Reset();
   ReadCPUNames();
-  LOG(LogInfo) << "CPU Count: " << mData.CpuCount;
+  LOG(LogInfo) << "[SysInfo] CPU Count: " << mData.CpuCount;
   Start("SysInfo");
 }
 

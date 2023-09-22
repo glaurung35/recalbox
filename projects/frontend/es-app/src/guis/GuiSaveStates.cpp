@@ -252,8 +252,8 @@ void GuiSaveStates::launch(int slot)
 
 void GuiSaveStates::Delete()
 {
-  mCurrentState.GetPath().Delete();
-  mCurrentState.GetThrumbnail().Delete();
+  (void)mCurrentState.GetPath().Delete();
+  (void)mCurrentState.GetThrumbnail().Delete();
   updateHelpPrompts();
   { LOG(LogDebug) << "[SAVESTATE] " << mCurrentState.GetPath().Filename() << " slot has been deleted"; }
 }

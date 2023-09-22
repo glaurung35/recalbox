@@ -176,7 +176,7 @@ MainRunner::ExitState MainRunner::Run()
       // Main Loop!
       CreateReadyFlagFile();
       Path externalNotificationFolder = Path(sQuitNow).Directory();
-      externalNotificationFolder.CreatePath();
+      (void)externalNotificationFolder.CreatePath();
       fileNotifier.WatchFile(externalNotificationFolder)
                   .SetEventNotifier(EventType::CloseWrite | EventType::Remove | EventType::Create, this);
 
@@ -247,7 +247,7 @@ void MainRunner::CreateReadyFlagFile()
 void MainRunner::DeleteReadyFlagFile()
 {
   Path ready(sReadyFile);
-  ready.Delete();
+  (void)ready.Delete();
 }
 
 MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemManager& systemManager, FileNotifier& fileNotifier, SyncMessageFactory& syncMessageFactory)
@@ -472,7 +472,7 @@ void MainRunner::CheckUpdateMessage(WindowManager& window)
     String changelog = Files::LoadFile(Path(Upgrade::sLocalReleaseNoteFile));
     String message = "Changes :\n" + changelog;
     window.pushGui(new GuiMsgBoxScroll(window, _("THE SYSTEM IS UP TO DATE"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
-    flag.Delete();
+    (void)flag.Delete();
   }
 }
 
@@ -486,7 +486,7 @@ void MainRunner::CheckUpdateFailed(WindowManager& window)
     String message = _("The upgrade process has failed. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, and contact the team on https://forum.recalbox.com if the problem persists.")
                      .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE HAS FAILED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
-    flag.Delete();
+    (void)flag.Delete();
   }
 }
 
@@ -500,7 +500,7 @@ void MainRunner::CheckUpdateCorrupted(WindowManager& window)
     String message = _("One or more files are corrupted. You are back on Recalbox %s.\nPlease retry to upgrade your Recalbox, check your Recalbox storage (SD Card, USB Key or hard drive).\nContact the team on https://forum.recalbox.com if the problem persists.")
                      .Replace("%s", version.c_str());
     window.pushGui(new GuiMsgBoxScroll(window, _("THE UPGRADE IS CORRUPTED"), message, _("OK"), []{}, "", nullptr, "", nullptr, TextAlignment::Left));
-    flag.Delete();
+    (void)flag.Delete();
   }
 }
 
@@ -646,8 +646,7 @@ void MainRunner::CheckHomeFolder()
   if (!configDir.Exists())
   {
     { LOG(LogError) << "[MainRunner] Creating config directory \"" << configDir.ToString() << "\"\n"; }
-    configDir.CreatePath();
-    if (!configDir.Exists()) { LOG(LogError) << "[MainRunner] Config directory could not be created!\n"; }
+    if (!configDir.CreatePath()) { LOG(LogError) << "[MainRunner] Config directory could not be created!\n"; }
   }
 }
 

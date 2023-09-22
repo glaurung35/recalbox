@@ -46,7 +46,7 @@ void GenericDownloader::DownloadAndInstall()
 
   // Download
   if (mStopAsap) return;
-  destination.Delete();
+  (void)destination.Delete();
   mTimeReference = DateTime();
   if (!mRequest.Execute(source, destination, this)) { mSender.Send(GenericDownloadingGameState::DownloadError); return; }
 
@@ -66,7 +66,7 @@ void GenericDownloader::DownloadAndInstall()
     if (relativePath.Filename() == "gamelist.xml") gamelist = zip.Content(i);
     else
     {
-      destinationPath.Directory().CreatePath();
+      (void)destinationPath.Directory().CreatePath();
       if (!destinationPath.Exists())
       {
         String content = zip.Content(i);
@@ -134,7 +134,7 @@ void GenericDownloader::DownloadAndInstall()
   else { LOG(LogError) << "[GenericDownloader] Cannot load remote gamelist!"; }
 
   // Delete temp file
-  destination.Delete();
+  (void)destination.Delete();
 }
 
 void GenericDownloader::DownloadProgress(const Http &http, long long int currentSize, long long int expectedSize)

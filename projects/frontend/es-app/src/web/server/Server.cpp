@@ -4,39 +4,27 @@
 
 #include <cassert>
 #include "Server.h"
+#include "utils/os/system/Thread.h"
 
 Server::Server(const Parameters& param, IRouter* router)
-  : mAddress(param.IP(), Pistache::Port(param.Port())),
-    mServer(mAddress)
+  : mAddress(param.IP(), Pistache::Port(param.Port()))
+  , mServer(mAddress)
 {
   assert(router != nullptr);
 
-  auto opts = Http::Endpoint::options().threads(param.Threads());
-  mServer.init(opts);
+  Http::Endpoint::Options options = Http::Endpoint::options().threads(param.Threads());
+  mServer.init(options);
   mServer.setHandler(router->Handler());
 }
 
-void Server::Run()
+void Server::Serve()
 {
-  for(;;)
-    try
-    {
-      LOG(LogInfo) << "Server up!";
-      mServer.serve();
-      break;
-    }
-    catch(std::exception& ex)
-    {
-      LOG(LogError) << "Error running server! Retrying in 5s... (Exception: " << ex.what() << ')';
-      sleep(5);
-    }
-
-  mServer.shutdown();
-  LOG(LogInfo) << "Server down.";
+  LOG(LogInfo) << "[WebServer] Launching Server!";
+  mServer.serve();
 }
 
-void Server::Cancel()
+void Server::Shutdown()
 {
-  LOG(LogInfo) << "Server interrupted!";
+  LOG(LogInfo) << "[WebServer] Server interrupted!";
   mServer.shutdown();
 }

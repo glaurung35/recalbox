@@ -275,7 +275,7 @@ class IRouter
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));
 
-      LOG(LogInfo) << "Router initialized";
+      LOG(LogInfo) << "[RestAPIRouter] Router initialized";
     }
 
     //! Virtual destructor

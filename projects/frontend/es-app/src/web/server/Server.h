@@ -11,7 +11,9 @@
 class Server
 {
   private:
+    //! Address to listen on
     Pistache::Address mAddress;
+    //! Http server
     Http::Endpoint mServer;
 
   public:
@@ -23,10 +25,10 @@ class Server
     /*!
      * @brief Run the server
      */
-    void Run();
+    void Serve();
 
     /*!
      * @brief Stop the server
      */
-    void Cancel();
+    void Shutdown();
 };

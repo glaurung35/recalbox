@@ -9,7 +9,7 @@
 #include <systems/arcade/ArcadeVirtualSystems.h>
 
 GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
-  :	GuiMenuBase(window, _("ARCADE VIEW OPTIONS"), this)
+  :	GuiMenuBase(window, _("ARCADE SETTINGS"), this)
   , mSystemManager(systemManager)
   , mArcade(arcadeInterface)
 {

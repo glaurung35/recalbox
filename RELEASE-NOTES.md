@@ -67,6 +67,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix demo Astebros for megadrive
 - Fix analog stick with inverted axis behaviour
 - Fix odroidxu4 OGST video not playing
+- Fix headphone audio output on Anbernic rg353v
 
 ## Version 9.1-Pulstar
 

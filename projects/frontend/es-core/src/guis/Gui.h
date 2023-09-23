@@ -47,5 +47,15 @@ class Gui : public Component
      */
     [[nodiscard]] virtual bool MustRenderOverHelpSystem() const { return false; }
 
+    /*!
+     * @brief Allow a gui to tell the system not to interrupt by popupwindows
+     * @return True of the windows does not want to be interrupted, false otherwise
+     */
     [[nodiscard]] virtual bool DoNotDisturb() const { return false; }
+
+    /*!
+     * @brief Instruct the current Gui that the pad list has changed.
+     * @param removed True if a pad has been removed, false iof it has been added
+     */
+    virtual void PadListChanged(bool removed) { (void)removed; }
 };

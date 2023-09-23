@@ -23,6 +23,7 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
   , mActiveHats(0)
   , mNeutralPositionSet(false)
   , mCursorOnList(true)
+  , mFirstEventReceived(true)
 {
   mTargetDevice->SetConfiguringState(true);
   { LOG(LogInfo) << "[GuiInput] Configuring device " << mTargetDevice->Index() << " (" << mTargetDevice->Name() << ")."; }
@@ -338,6 +339,13 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
   if(&event.Device() != mTargetDevice)
     return false;
 
+  // 8bitdo DInput bug
+  if (mFirstEventReceived)
+  {
+    event.Device().RecordAxisNeutralPosition();
+    mFirstEventReceived = false;
+  }
+
   // Neutral position has been reached?
   if (!mNeutralPositionSet)
   {
@@ -349,10 +357,6 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
   RecordRawInput(event.RawEvent());
   if (!mEventList.empty() && NeutralPosition())
     ProcessEvents();
-
-  /*if (event.RawEvent().AnythingPressed()) // Something was pressed/moved
-    if (!mInputStack.hasInput(event.RawEvent()))
-      mInputStack.push(event.RawEvent());*/
 
   return true;
 }

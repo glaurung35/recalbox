@@ -21,6 +21,7 @@ InputManager::InputManager()
   , mScancodeStates()
   , mScancodePreviousStates()
   , mJoystickChangePending(false)
+  , mJoystickChangePendingRemoved(false)
 {
   memset(mScancodeStates, 0, sizeof(mScancodeStates));
   memset(mScancodePreviousStates, 0, sizeof(mScancodePreviousStates));
@@ -542,8 +543,12 @@ void InputManager::FileSystemWatcherNotification(EventType event, const Path& pa
 {
   (void)time;
   { LOG(LogWarning) << "[/dev/input] Event " << (int)event << " : " << path.ToString(); }
-  if (path.Filename().StartsWith("event"))
-    mJoystickChangePending = true;
+  if (path.Filename().StartsWith("js"))
+    if (path.Filename().AsInt(2, -1) != -1)
+    {
+      mJoystickChangePending = true;
+      mJoystickChangePendingRemoved = (event == EventType::Remove);
+    }
 }
 
 void InputManager::WatchJoystickAddRemove(WindowManager* window)
@@ -556,6 +561,7 @@ void InputManager::WatchJoystickAddRemove(WindowManager* window)
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     Refresh(window, true);
     mJoystickChangePending = false;
+    window->PadListChanged(mJoystickChangePendingRemoved);
   }
 }
 

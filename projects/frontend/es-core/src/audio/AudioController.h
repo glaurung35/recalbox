@@ -96,6 +96,7 @@ class AudioController: public StaticLifeCycleControler<AudioController>
     void EnableNotification();
 
     /*!
+
      * @brief Change sink input volume
      */
     int GetSinkInputVolume(const String& name) { return mController.GetSinkInputVolume(name); }
@@ -103,4 +104,9 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Change sink input volume
      */
     void SetSinkInputVolume(const String& name, int volume) { mController.SetSinkInputVolume(name, volume); }
+
+    /*!
+     * @brief Set the output port name from the current sink
+     */
+    void SetOutputPort(const String portName) const { mController.SetOutputPort(portName); }
 };

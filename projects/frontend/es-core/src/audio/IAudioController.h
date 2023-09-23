@@ -64,4 +64,6 @@ class IAudioController
 
     virtual int GetSinkInputVolume(const String&) = 0;
     virtual void SetSinkInputVolume(const String&, int) = 0;
+
+    virtual void SetOutputPort(const String) = 0;
 };

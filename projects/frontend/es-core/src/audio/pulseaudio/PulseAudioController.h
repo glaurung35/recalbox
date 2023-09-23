@@ -425,4 +425,5 @@ class PulseAudioController: public IAudioController
     void SetSinkInputVolume(const String& name, const int);
     static void EnumerateSinkInputInfoListCallback(pa_context* context, const pa_sink_input_info* info, int eol, void* userdata);
     const SinkInput* GetSinkInputFromName(const String& name);
+    void SetOutputPort(const String portName);
 };

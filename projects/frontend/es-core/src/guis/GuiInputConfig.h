@@ -98,4 +98,10 @@ class GuiInputConfig : public Gui
      * @brief Process all received events
      */
     void ProcessEvents();
+
+    /*!
+     * @brief Instruct the current Gui that the pad list has changed.
+     * @param removed True if a pad has been removed, false iof it has been added
+     */
+    void PadListChanged(bool removed) override { if (removed) Close(); }
 };

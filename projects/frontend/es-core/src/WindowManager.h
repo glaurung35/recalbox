@@ -149,6 +149,12 @@ class WindowManager
      */
     virtual void Rotate(RotationType rotation) = 0;
 
+    /*!
+     * @brief Instruct all GUI that the pad list has changed
+     * @param removed True if a pad has been removed, false if it has been added
+     */
+    void PadListChanged(bool removed);
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;

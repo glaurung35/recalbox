@@ -83,6 +83,7 @@ class GuiInputConfig : public Gui
 
     bool mNeutralPositionSet;           //!< Neutral position has been reached, we can start recording
     bool mCursorOnList;
+    bool mFirstEventReceived;           //!< First event received flag
     unsigned int mMainColor;
 
     /*!

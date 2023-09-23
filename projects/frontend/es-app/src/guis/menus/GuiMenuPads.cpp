@@ -128,7 +128,7 @@ void GuiMenuPads::RefreshDevices()
 
     // Add none element
     mDevices[i]->clear();
-    if (pad.IsValid())
+    if (pad.IsConnected() /*IsValid()*/)
       for(int j = 0; j < Input::sMaxInputDevices; ++j)
       {
         const InputMapper::Pad& displayablePad = mMapper.PadAt(j);

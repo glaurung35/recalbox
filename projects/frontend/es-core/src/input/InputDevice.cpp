@@ -108,13 +108,7 @@ InputDevice::InputDevice(SDL_Joystick* device, SDL_JoystickID deviceId, int devi
   memset(mPreviousAxisValues, 0, sizeof(mPreviousAxisValues));
   memset(mPreviousHatsValues, 0, sizeof(mPreviousHatsValues));
 
-  // Fill neutral values
-  for(int i = deviceNbAxes; --i >= 0;)
-  {
-    Sint16 state = 0;
-    if (SDL_JoystickGetAxisInitialState(device, i, &state) == SDL_TRUE)
-      mNeutralAxisValues[i] = state < -sJoystickDeadZone ? -1 : (state > sJoystickDeadZone ? 1 : 0);
-  }
+  RecordAxisNeutralPosition();
 }
 
 void InputDevice::ClearAll()
@@ -740,4 +734,15 @@ String InputDevice::LowLevelName([[maybe_unused]] int index)
     }
   }
   return mDeviceName;
+}
+
+void InputDevice::RecordAxisNeutralPosition()
+{
+  // Fill neutral values
+  for (int i = mDeviceNbAxes; --i >= 0;)
+  {
+    Sint16 state = 0;
+    if (SDL_JoystickGetAxisInitialState(mDeviceSDL, i, &state) == SDL_TRUE)
+      mNeutralAxisValues[i] = state < -sJoystickDeadZone ? -1 : (state > sJoystickDeadZone ? 1 : 0);
+  }
 }

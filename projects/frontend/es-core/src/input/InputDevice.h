@@ -256,6 +256,11 @@ class InputDevice
     [[nodiscard]] bool CheckNeutralPosition() const;
 
     /*!
+     * @brief Record neutral position
+     */
+    void RecordAxisNeutralPosition();
+
+    /*!
      * @brief Reset all InputEvent
      */
     void ClearAll();

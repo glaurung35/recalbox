@@ -702,7 +702,7 @@ bool InputDevice::CheckNeutralPosition() const
     if (SDL_JoystickGetHat(mDeviceSDL, i) != 0)
       return false;
   // Check axis
-  for(int i = mDeviceNbHats; --i >= 0; )
+  for(int i = mDeviceNbAxes; --i >= 0; )
   {
     int axis = SDL_JoystickGetAxis(mDeviceSDL, i);
     axis = axis < -sJoystickDeadZone ? -1 : (axis > sJoystickDeadZone ? 1 : 0);

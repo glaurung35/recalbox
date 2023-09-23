@@ -181,3 +181,10 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& va
   if ((Components)id == Components::Driver)
     RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
 }
+
+void GuiMenuPads::PadListChanged(bool removed)
+{
+  (void)removed;
+  mMapper.PadListChanged();
+  RefreshDevices();
+}

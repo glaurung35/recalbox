@@ -112,6 +112,11 @@ class InputMapper : IInputChange
      */
     void Swap(int index1, int index2);
 
+    /*!
+     * @brief Pad list has changedn force refresh!
+     */
+    void PadListChanged() { Build(); }
+
   private:
     //! Pad array
     PadArray mPads;

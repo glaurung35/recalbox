@@ -175,6 +175,8 @@ class InputManager : public IFileSystemWatcherNotification
     FileNotifier mFileNotifier;
     //! Joystick change pendings
     bool mJoystickChangePending;
+    //! joystick change pending - added or removed?
+    bool mJoystickChangePendingRemoved;
 
     /*!
      * @brief Default constructor

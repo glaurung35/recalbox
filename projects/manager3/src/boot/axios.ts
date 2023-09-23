@@ -160,7 +160,7 @@ api80.interceptors.response.use((response) => {
     icon = 'mdi-restart';
   }
   if (response.config.url === SYSTEM.supportArchive) {
-    message = i18n.global.t('general.notify.supportArchive') + response.data.linkResponse;
+    message = i18n.global.t('general.notify.supportArchive1') + response.data.linkResponse + i18n.global.t('general.notify.supportArchive2');
     icon = 'mdi-check-bold';
     timeout = 0;
     closeBtn = true;

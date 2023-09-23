@@ -47,7 +47,8 @@
       "esStart": "Start EmulationStation",
       "esStop": "Stop EmulationStation",
       "esRestart": "Restart EmulationStation",
-      "supportArchive": "There is the URL of your support archive:<br /><br />"
+      "supportArchive1": "Your support archive is available <a href=\"",
+      "supportArchive2": "\" target=\"_blank\" title=\"Link to your support archive\">here</a>."
     },
     "upload": {
       "clearAll": "Clear All",

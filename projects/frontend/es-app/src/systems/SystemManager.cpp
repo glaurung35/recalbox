@@ -1603,6 +1603,8 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
                                   SystemManager::List* removedSystems, SystemManager::List* modifiedSystems,
                                   bool autoSelectMonoSystem)
 {
+  // Remove always-hidden system
+  RemoveAlwaysHiddenSystems(*addedSystems);
   // Added virtual systems?
   if (addedSystems != nullptr)
   {
@@ -1662,4 +1664,18 @@ void SystemManager::UpdateSystemsVisibility(SystemData* system, Visibility visib
   else if (visibility == Visibility::Hide && visible) ApplySystemChanges(nullptr, &list, nullptr, false);
 }
 
-
+void SystemManager::RemoveAlwaysHiddenSystems(List& list)
+{
+  bool arcadeCollectionOn = RecalboxConf::Instance().GetCollectionArcade();
+  bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
+  bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
+  for(int i = list.Count(); --i >= 0;)
+  {
+    const SystemData* system = list[i];
+    if (system->IsPorts()) list.Delete(i);
+    else if (system->IsTrueArcade())
+      if (arcadeCollectionOn)
+        if (hideOriginals || (includeNeogeo && system->Name() == "neogeo"))
+          list.Delete(i);
+  }
+}

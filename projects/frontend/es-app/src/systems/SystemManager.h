@@ -483,6 +483,12 @@ class SystemManager : private INoCopy // No copy allowed
      */
     static bool ContainsUnitializedSystem(const List& list);
 
+    /*!
+     * @brief Check the given list and remove system that must stay hidden
+     * @param list List to filter
+     */
+    static void RemoveAlwaysHiddenSystems(List& list);
+
     /*
      * Log facilities
      */

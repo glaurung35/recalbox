@@ -8,12 +8,19 @@ export const UpdatesConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  type: z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type UpdatesConfig = z.infer<typeof UpdatesConfigSchema>
 
 export const UpdatesConfigOptionsSchema = z.object({
   enabled: z.object({
+    type: z.string(),
+  }),
+  type: z.object({
     type: z.string(),
   }),
 });

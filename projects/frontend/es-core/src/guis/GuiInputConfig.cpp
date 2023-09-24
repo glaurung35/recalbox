@@ -49,7 +49,7 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
 
   String deviceName = _("KEYBOARD");
   if (mTargetDevice->Identifier() != InputEvent::sKeyboardDevice)
-    deviceName = _("GAMEPAD %i").Replace("%i", String(mTargetDevice->Index() + 1));
+    deviceName = _("GAMEPAD %i").Replace("%i", mTargetDevice->Name());
 
   mSubtitle1 = std::make_shared<TextComponent>(mWindow, deviceName.UpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);

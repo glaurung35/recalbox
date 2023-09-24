@@ -10,6 +10,12 @@
   },
   "general": {
     "server": {
+      "supportArchive": {
+        "title": "Support archive"
+      },
+      "versions": {
+        "title": "Versions"
+      },
       "reboot": {
         "title": "Reboot Recalbox"
       },

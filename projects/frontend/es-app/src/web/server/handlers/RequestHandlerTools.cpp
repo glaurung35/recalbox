@@ -571,7 +571,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "enabled"   , Validator(true) },
+        { "enabled", Validator(true) },
+        { "type"   , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz012345789") },
       });
 
       return sList;

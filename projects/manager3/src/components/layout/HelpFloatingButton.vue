@@ -18,7 +18,7 @@
         @click="useServerStore().supportArchive()"
         color="secondary"
         icon="mdi-bash"
-        label="recalbox-support.sh"
+        :label="$t('general.server.supportArchive.title')"
         label-position="left"
         square
       />
@@ -26,7 +26,7 @@
         @click="() => open = true"
         color="secondary"
         icon="mdi-source-branch"
-        label="Versions"
+        :label="$t('general.server.versions.title')"
         label-position="left"
         square
       />

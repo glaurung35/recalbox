@@ -107,6 +107,7 @@ MainRunner::ExitState MainRunner::Run()
 
     // Initialize audio manager
     AudioManager audioManager(window);
+    // here set volume
 
     // Board-related background processes
     // Initialize here so that all global object are available

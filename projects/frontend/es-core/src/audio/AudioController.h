@@ -94,4 +94,13 @@ class AudioController: public StaticLifeCycleControler<AudioController>
      * @brief Enable notification sending
      */
     void EnableNotification();
+
+    /*!
+     * @brief Change sink input volume
+     */
+    int GetSinkInputVolume(const String& name) { return mController.GetSinkInputVolume(name); }
+    /*!
+     * @brief Change sink input volume
+     */
+    void SetSinkInputVolume(const String& name, int volume) { mController.SetSinkInputVolume(name, volume); }
 };

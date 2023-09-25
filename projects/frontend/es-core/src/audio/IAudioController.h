@@ -61,4 +61,7 @@ class IAudioController
 
     virtual void DisableNotification() = 0;
     virtual void EnableNotification() = 0;
+
+    virtual int GetSinkInputVolume(const String&) = 0;
+    virtual void SetSinkInputVolume(const String&, int) = 0;
 };

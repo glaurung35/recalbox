@@ -46,10 +46,12 @@ class GuiMenuSound : public GuiMenuBase
       AudioMode,
       Output,
       Pair,
+      MusicVolume,
     };
 
     //! Volume slider
     std::shared_ptr<SliderComponent> mVolume;
+    std::shared_ptr<SliderComponent> mMusicVolume;
     //! Audio
     std::shared_ptr<OptionListComponent<AudioMode>> mAudioMode;
     //! Outputs

@@ -30,7 +30,7 @@ void RestApiServer::Run()
     catch(std::exception& ex)
     {
       LOG(LogError) << "[RestAPIServer] Error running server! Retrying in 5s... (Exception: " << ex.what() << ')';
-      Thread::Sleep(5);
+      Thread::Sleep(5000);
     }
 
   mServer.Shutdown();

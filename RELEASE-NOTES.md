@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add RPi5 overclock option
 - Add skip boot video option
 - Add Picade support
+- Add new port SDLPop (port of Prince of Persia)
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

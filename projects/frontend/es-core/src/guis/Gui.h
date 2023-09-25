@@ -52,10 +52,4 @@ class Gui : public Component
      * @return True of the windows does not want to be interrupted, false otherwise
      */
     [[nodiscard]] virtual bool DoNotDisturb() const { return false; }
-
-    /*!
-     * @brief Instruct the current Gui that the pad list has changed.
-     * @param removed True if a pad has been removed, false iof it has been added
-     */
-    virtual void PadListChanged(bool removed) { (void)removed; }
 };

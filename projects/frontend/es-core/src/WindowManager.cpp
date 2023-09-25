@@ -555,10 +555,3 @@ void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
       mInfoPopups[i]->Render(transform);
 }
 
-void WindowManager::PadListChanged(bool removed)
-{
-  for(int i = mGuiStack.Count(); --i >= 0;)
-    mGuiStack[i]->PadListChanged(removed);
-}
-
-

@@ -6,11 +6,13 @@
 #include <components/ComponentList.h>
 #include <input/InputStack.h>
 #include <utils/locale/LocaleHelper.h>
+#include <input/IInputChange.h>
 
 class TextComponent;
 
 class GuiInputConfig : public Gui
                      , private IComponentListRowEventInterceptor
+                     , private IInputChange
 {
   public:
     GuiInputConfig(WindowManager& window, InputDevice* target, const std::function<void()>& doneCallback);
@@ -100,9 +102,11 @@ class GuiInputConfig : public Gui
      */
     void ProcessEvents();
 
-    /*!
-     * @brief Instruct the current Gui that the pad list has changed.
-     * @param removed True if a pad has been removed, false iof it has been added
+
+    /*
+     * IInputChange implementation
      */
-    void PadListChanged(bool removed) override { if (removed) Close(); }
+
+    //! Refresh pad list
+    void PadsAddedOrRemoved(bool removed) override { if (removed) Close(); };
 };

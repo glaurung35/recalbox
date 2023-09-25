@@ -12,7 +12,7 @@
 #include <input/IInputChange.h>
 #include <utils/math/Misc.h>
 
-class InputMapper : IInputChange
+class InputMapper : private IInputChange
 {
   public:
     //! Pad structure
@@ -112,11 +112,6 @@ class InputMapper : IInputChange
      */
     void Swap(int index1, int index2);
 
-    /*!
-     * @brief Pad list has changedn force refresh!
-     */
-    void PadListChanged() { Build(); }
-
   private:
     //! Pad array
     PadArray mPads;
@@ -174,7 +169,7 @@ class InputMapper : IInputChange
      */
 
     //! Refresh pad list
-    void PadsAddedOrRemoved() override;
+    void PadsAddedOrRemoved(bool removed) override;
 };
 
 

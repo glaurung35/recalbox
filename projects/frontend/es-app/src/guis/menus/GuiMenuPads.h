@@ -76,12 +76,6 @@ class GuiMenuPads : public GuiMenuBase
     //! Get modes
     static std::vector<GuiMenuBase::ListEntry<String>> GetModes();
 
-    /*!
-     * @brief Instruct the current Gui that the pad list has changed.
-     * @param removed True if a pad has been removed, false iof it has been added
-     */
-    void PadListChanged(bool removed) override;
-
     /*
      * ILongExecution
      */
@@ -106,7 +100,7 @@ class GuiMenuPads : public GuiMenuBase
      */
 
     //! Refresh pad list
-    void PadsAddedOrRemoved() override;
+    void PadsAddedOrRemoved(bool removed) override;
 
     /*
      * IGuiMenuBase implementation

@@ -59,8 +59,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPads::GetModes()
   return list;
 }
 
-void GuiMenuPads::PadsAddedOrRemoved()
+void GuiMenuPads::PadsAddedOrRemoved(bool removed)
 {
+  (void)removed;
   RefreshDevices();
 }
 
@@ -80,8 +81,10 @@ void GuiMenuPads::RunDeviceDetection(GuiMenuPads* thiz)
   thiz->mWindow.pushGui(new GuiDetectDevice(thiz->mWindow, false, [thiz] { thiz->RefreshDevices(); }));
 }
 
-String::List GuiMenuPads::Execute(GuiWaitLongExecution<bool, String::List>&, const bool&)
+String::List GuiMenuPads::Execute(GuiWaitLongExecution<bool, String::List>& from, const bool& parameter)
 {
+  (void)from;
+  (void)parameter;
   return RecalboxSystem::scanBluetooth();
 }
 
@@ -180,11 +183,4 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& va
   (void)index;
   if ((Components)id == Components::Driver)
     RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
-}
-
-void GuiMenuPads::PadListChanged(bool removed)
-{
-  (void)removed;
-  mMapper.PadListChanged();
-  RefreshDevices();
 }

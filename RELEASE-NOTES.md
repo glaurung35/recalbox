@@ -52,6 +52,7 @@ as release notes for end user on a Recalbox upgrade.
 - Perf: add auto blitter for fbneo cave games
 - CRT: add superrez and auto scanlines for 240p games on 31kHz display
 - Add new core libretro-dirksimple
+- Add new port SDLPop (port of Prince of Persia)
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

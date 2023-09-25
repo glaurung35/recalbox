@@ -94,6 +94,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.openbor.openborGenerator", fromlist=["OpenborGenerator"])
         generatorClass = getattr(module, "OpenborGenerator")
         return generatorClass()
+    elif emulator == "sdlpop":
+        module = __import__("configgen.generators.sdlpop.sdlpopGenerator", fromlist=["SdlpopGenerator"])
+        generatorClass = getattr(module, "SdlpopGenerator")
+        return generatorClass()
     elif emulator == "solarus":
         module = __import__("configgen.generators.solarus.solarusGenerator", fromlist=["SolarusGenerator"])
         generatorClass = getattr(module, "SolarusGenerator")

@@ -354,7 +354,7 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
       SDL_InitSubSystem(SDL_INIT_JOYSTICK);
       Refresh(window, true);
       for(int i = mNotificationInterfaces.Count(); --i >= 0; )
-        mNotificationInterfaces[i]->PadsAddedOrRemoved();
+        mNotificationInterfaces[i]->PadsAddedOrRemoved(ev.type == SDL_JOYDEVICEREMOVED);
       break;
     }
   }
@@ -561,7 +561,8 @@ void InputManager::WatchJoystickAddRemove(WindowManager* window)
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     Refresh(window, true);
     mJoystickChangePending = false;
-    window->PadListChanged(mJoystickChangePendingRemoved);
+    for(int i = mNotificationInterfaces.Count(); --i >= 0; )
+      mNotificationInterfaces[i]->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
   }
 }
 

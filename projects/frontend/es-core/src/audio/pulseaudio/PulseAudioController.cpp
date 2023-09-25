@@ -141,7 +141,7 @@ void PulseAudioController::ContextStateCallback(pa_context *context, void *userd
       // Set callback
       pa_context_set_subscribe_callback(context, SubscriptionCallback, userdata);
       // Set events mask and enable event callback.
-      pa_operation *o = pa_context_subscribe(context, (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK), nullptr, nullptr);
+      pa_operation *o = pa_context_subscribe(context, (pa_subscription_mask_t)(PA_SUBSCRIPTION_MASK_SINK|PA_SUBSCRIPTION_MASK_SINK_INPUT), nullptr, nullptr);
 
       if (o != nullptr)
       {
@@ -199,9 +199,9 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
   // UI may need to refresh that change
   if (This.mNotification && (type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
       &&
-      (facility == PA_SUBSCRIPTION_EVENT_SINK))
+      (facility == PA_SUBSCRIPTION_EVENT_SINK || facility == PA_SUBSCRIPTION_EVENT_SINK_INPUT))
   {
-    { LOG(LogDebug) << "[PulseAudio] Sink altered, send event"; }
+    { LOG(LogDebug) << "[PulseAudio] Sink or sink input altered, send event"; }
     // Notify of sink/card change
     This.mEvent.Send();
   }
@@ -405,6 +405,30 @@ void PulseAudioController::EnumerateSinkCallback(pa_context* context, const pa_s
   This.mSyncer.UnLock();
 }
 
+void PulseAudioController::EnumerateSinkInputInfoListCallback(pa_context* context, const pa_sink_input_info* info, int eol, void* userdata)
+{
+  (void)context;
+  // Get class
+  PulseAudioController& This = *(PulseAudioController*)userdata;
+
+  // If eol is set to a positive number, you're at the end of the list
+  if (eol > 0)
+  {
+    This.mSignal.Fire();
+    return;
+  }
+
+  { LOG(LogDebug) << "[PulseAudio] Sink input #" << info->index << ' ' << info->name << " found."; }
+  SinkInput newSinkInput;
+  newSinkInput.Name = info->name;
+  newSinkInput.Index = info->index;
+  newSinkInput.Channels = info->channel_map.channels;
+
+  This.mSyncer.Lock();
+  This.mSinkInputs.push_back(newSinkInput);
+  This.mSyncer.UnLock();
+}
+
 void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& list)
 {
   (void)list;
@@ -588,6 +612,15 @@ const PulseAudioController::Sink* PulseAudioController::GetSinkFromName(const St
   return nullptr;
 }
 
+const PulseAudioController::SinkInput* PulseAudioController::GetSinkInputFromName(const String& name)
+{
+  for(const SinkInput& sinkInput : mSinkInputs)
+    if (sinkInput.Name == name)
+      return &sinkInput;
+
+  return nullptr;
+}
+
 bool PulseAudioController::IsPortAvailable(const String& portName)
 {
   bool available = false;
@@ -671,7 +704,7 @@ String PulseAudioController::GetActivePlaybackName()
   // PulseAudio Filter (eg. stereo to mono)
   else
     playbackName.Append(sinkName).Append(':');
-  
+
   LOG(LogDebug) << "[PulseAudio] Playback name is '" << playbackName << '\'';
   return playbackName;
 }
@@ -884,6 +917,43 @@ void PulseAudioController::SetVolume(int volume)
   }
 }
 
+int PulseAudioController::GetSinkInputVolume(const String& SinkInputName)
+{
+  // API Sync'
+  Mutex::AutoLock locker(mAPISyncer);
+
+  return Math::clampi(RecalboxConf::Instance().AsInt("audio."+SinkInputName+".volume"),0, 100);
+}
+
+void PulseAudioController::SetSinkInputVolume(const String& SinkInputName, int volume)
+{
+  // API Sync'
+  Mutex::AutoLock locker(mAPISyncer);
+
+  if (mPulseAudioContext == nullptr) return;
+
+  volume = Math::clampi(volume, 0, 100);
+
+  Mutex::AutoLock lock(mSyncer);
+
+  const PulseAudioController::SinkInput* sinkInput = GetSinkInputFromName(SinkInputName);
+  if (!sinkInput)
+  {
+    { LOG(LogError) << "[PulseAudio] Sink input " << SinkInputName << " not found."; }
+    return;
+  }
+
+  pa_cvolume volumeStructure;
+  pa_cvolume_init(&volumeStructure);
+  pa_cvolume_set(&volumeStructure, sinkInput->Channels, (PA_VOLUME_NORM * volume) / 100);
+
+  pa_operation* op = pa_context_set_sink_input_volume(mPulseAudioContext, sinkInput->Index, &volumeStructure, SetVolumeCallback, this);
+  mSignal.WaitSignal(sTimeOut);
+  // Release
+  pa_operation_unref(op);
+  { LOG(LogDebug) << "[PulseAudio] Sink input " << SinkInputName << " set to volume " << volume << "."; }
+}
+
 void PulseAudioController::Break()
 {
   pa_mainloop_quit(mPulseAudioMainLoop, 1);
@@ -1057,6 +1127,20 @@ void PulseAudioController::PulseEnumerateSinks()
   pa_operation_unref(sinkOp);
 }
 
+void PulseAudioController::PulseEnumerateSinkInputs()
+{
+  mSyncer.Lock();
+  mSinkInputs.clear();
+  mSyncer.UnLock();
+
+  // Enumerate cards
+  { LOG(LogInfo) << "[PulseAudio] Enumerating Sink inputs."; }
+  // refresh list of sink inputs
+  pa_operation* op = pa_context_get_sink_input_info_list(mPulseAudioContext, EnumerateSinkInputInfoListCallback, this);
+  mSignal.WaitSignal(sTimeOut);
+  pa_operation_unref(op);
+}
+
 void PulseAudioController::PulseEnumerateCards()
 {
   mSyncer.Lock();
@@ -1136,7 +1220,7 @@ String PulseAudioController::GetCardDescription(const pa_card_info& info)
   return result.Trim();
 }
 
-const PulseAudioController::Card* PulseAudioController::GetCardByIndex(int index) 
+const PulseAudioController::Card* PulseAudioController::GetCardByIndex(int index)
 {
   for(Card& card : mCards)
     if (card.Index == index)
@@ -1229,6 +1313,7 @@ void PulseAudioController::Refresh()
 
     PulseEnumerateSinks();
     PulseEnumerateCards();
+    PulseEnumerateSinkInputs();
   }
 }
 

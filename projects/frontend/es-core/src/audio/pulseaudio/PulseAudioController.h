@@ -112,6 +112,13 @@ class PulseAudioController: public IAudioController
       String ActivePort;             //!< Selected port
     };
 
+    struct SinkInput
+    {
+      String Name;                   //!< Sink input name
+      int Index;                     //!< Sink index
+      int Channels;                       //!< Channel count
+    };
+
     struct Card
     {
       std::vector<Port> Ports;       //!< Available port list
@@ -151,6 +158,8 @@ class PulseAudioController: public IAudioController
     std::vector<Card> mCards;
     //! Sink list
     std::vector<Sink> mSinks;
+    //! Sink input list
+    std::vector<SinkInput> mSinkInputs;
     //! Server Information
     ServerInfo mServerInfo;
     //! Internal Syncer
@@ -335,6 +344,9 @@ class PulseAudioController: public IAudioController
     //! Enumerates outputs (sinks)
     void PulseEnumerateSinks();
 
+    //! Enumerates sink inputs
+    void PulseEnumerateSinkInputs();
+
     //! Subscribe to all pulse audio events
     void PulseSubscribe();
 
@@ -413,4 +425,8 @@ class PulseAudioController: public IAudioController
      * @brief Set output port name of the current sink
      */
     void SetOutputPort(const String portName);
+    int GetSinkInputVolume(const String& SinkInputName);
+    void SetSinkInputVolume(const String& name, const int);
+    static void EnumerateSinkInputInfoListCallback(pa_context* context, const pa_sink_input_info* info, int eol, void* userdata);
+    const SinkInput* GetSinkInputFromName(const String& name);
 };

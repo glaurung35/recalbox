@@ -48,6 +48,7 @@ recalboxBins =\
     'rb5000'      : '/usr/bin/rb5000',
     'reicast'     : '/usr/bin/reicast.elf',
     'scummvm'     : '/usr/bin/scummvm',
+    'sdlpop'      : '/usr/bin/prince',
     'simcoupe'    : '/usr/bin/simcoupe',
     'solarus'     : '/usr/bin/solarus-run',
     'supermodel'  : '/usr/bin/supermodel',
@@ -175,3 +176,5 @@ minivmacRomFile = '/tmp/minivmac.cmd'
 minivmacOsFile = BIOS + '/macintosh/MinivMacBootv2.dsk'
 
 frotzConfig = HOME + '/.config/frotz/frotz.conf'
+
+sdlpopConfigFile = CONF + '/sdlpop/sdlpop.ini'

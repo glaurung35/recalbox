@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
   - Use HotKey+up/down to fold/unfold all
   - Use Hotkey+left/right to fold/unfold current selection
   - Use official names from DAT files
+  - Use oficial names from DAT files
 - Add Arcade manufacturers virtual systems (Atari Classics, CPS1/2/3, Banpresto, IREM, ...)
 - Add current DATS in `\\RECALBOX\share\arcade` or `/recalbox/share/arcade`
 - Add Arcade settings in the main menu
@@ -32,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Sega Pico
 - Add Naomi 2 system on rpi5 and x86_64
 - Add new Saturn core on RPi5: beetle saturn
+- Add new port SDLPop (port of Prince of Persia)
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

@@ -1,0 +1,66 @@
+--- a/src/seg009.c	2023-11-19 21:10:59.418246162 +0100
++++ b/src/seg009.c	2023-11-19 21:32:10.452630333 +0100
+@@ -81,7 +81,7 @@
+ void find_home_dir(void) {
+ 	if (found_home_dir) return;
+ 	const char* home_path = getenv("HOME");
+-	snprintf_check(home_dir, POP_MAX_PATH - 1, "%s/.%s", home_path, POP_DIR_NAME);
++	snprintf_check(home_dir, POP_MAX_PATH - 1, "%s/configs/%s", home_path, POP_DIR_NAME);
+ 	if(file_exists(home_dir))
+ 		found_home_dir = true;
+ }
+@@ -105,7 +105,7 @@
+ #else
+ 	find_home_dir();
+ 	find_share_dir();
+-	char* dirs[3] = {home_dir, share_dir, exe_dir};
++	char* dirs[3] = {home_dir, share_dir, "/recalbox/share/roms/ports/Prince of Persia"};
+ 	for (int i = 0; i < 3; i++) {
+ 		snprintf_check(dst, size, format, dirs[i], filename);
+ 		if(file_exists(dst))
+ 
+--- a/src/menu.c	2023-07-01 18:05:35.000000000 +0200
++++ b/src/menu.c	2023-11-19 22:34:40.232155103 +0100
+@@ -2257,7 +2257,7 @@
+ }
+ 
+ void save_ingame_settings(void) {
+-	SDL_RWops* rw = SDL_RWFromFile(locate_save_file("SDLPoP.cfg"), "wb");
++	SDL_RWops* rw = SDL_RWFromFile(locate_save_file("/recalbox/share/system/configs/sdlpop/sdlpop.cfg"), "wb");
+ 	if (rw != NULL) {
+ 		calculate_exe_crc();
+ 		SDL_RWwrite(rw, &exe_crc, sizeof(exe_crc), 1);
+@@ -2274,8 +2274,8 @@
+ 	// We want the SDLPoP.cfg file (in-game menu settings) to override the SDLPoP.ini file,
+ 	// but ONLY if the .ini file wasn't modified since the last time the .cfg file was saved!
+ 	struct stat st_ini, st_cfg;
+-	const char* cfg_filename = locate_file("SDLPoP.cfg");
+-	const char* ini_filename = locate_file("SDLPoP.ini");
++	const char* cfg_filename = locate_file("/recalbox/share/system/configs/sdlpop/sdlpop.cfg");
++	const char* ini_filename = locate_file("/recalbox/share/system/configs/sdlpop/sdlpop.ini");
+ 	if (stat( cfg_filename, &st_cfg ) == 0 && stat( ini_filename, &st_ini ) == 0) {
+ 		if (st_ini.st_mtime > st_cfg.st_mtime ) {
+ 			// SDLPoP.ini is newer than SDLPoP.cfg, so just go with the .ini configuration
+
+--- a/src/options.c	2023-07-01 18:05:35.000000000 +0200
++++ b/src/options.c	2023-11-19 22:49:41.321238919 +0100
+@@ -497,7 +497,7 @@
+ 
+ void load_global_options() {
+ 	set_options_to_default();
+-	ini_load(locate_file("SDLPoP.ini"), global_ini_callback); // global configuration
++	ini_load(locate_file("/recalbox/share/system/configs/sdlpop/sdlpop.ini"), global_ini_callback); // global configuration
+ 	load_dos_exe_modifications("."); // read PRINCE.EXE in the current working directory
+ }
+ 
+ --- a/src/screenshot.c	2023-07-01 18:05:35.000000000 +0200
++++ b/src/screenshot.c	2023-11-19 23:37:22.819622050 +0100
+@@ -29,7 +29,7 @@
+ // Use incrementing numbers and a separate folder, like DOSBox.
+ void make_screenshot_filename(void) {
+ 	// Create the screenshots directory in SDLPoP's directory, even if the current directory is something else.
+-	snprintf_check(screenshots_folder, sizeof(screenshots_folder), "%s", locate_file("screenshots"));
++	snprintf_check(screenshots_folder, sizeof(screenshots_folder), "%s", locate_file("/recalbox/share/screenshots"));
+ 	// Create the folder if it doesn't exist yet:
+ #if defined WIN32 || _WIN32 || WIN64 || _WIN64
+ 	mkdir (screenshots_folder);

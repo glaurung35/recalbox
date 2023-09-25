@@ -181,6 +181,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SwapValidateAndCancel, bool, Bool, sSwapValidateAndCancel, false)
 
     DefineGetterSetter(AudioVolume, int, Int, sAudioVolume, 90)
+    DefineGetterSetter(AudioMusicVolume, int, Int, sAudioMusicVolume, 35)
     DefineGetterSetter(AudioOuput, String, String, sAudioOuput, "")
 
     DefineGetterSetter(MusicRemoteEnable, bool, Bool, sMusicDisableRemote, true)
@@ -432,6 +433,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSwapValidateAndCancel      = "controllers.swapvalidateandcancel";
 
     static constexpr const char* sAudioVolume                = "audio.volume";
+    static constexpr const char* sAudioMusicVolume           = "audio.music.volume";
     static constexpr const char* sAudioOptions               = "audio.mode";
     static constexpr const char* sAudioOuput                 = "audio.device";
 

@@ -40,6 +40,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for HD mode on Pi5, PC (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)
 - Add support for Widescreen mode on Pi4, Pi5, PC (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)
 - Add new port SDLPop (port of Prince of Persia)
+- Add possibility to adjust music volume in EmulationStation 
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

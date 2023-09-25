@@ -40,6 +40,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new manager
 - Add new Saturn core on RPi4 and RPi5: beetle saturn
 - Add new port SDLPop (port of Prince of Persia)
+- Add possibility to adjust music volume in EmulationStation 
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

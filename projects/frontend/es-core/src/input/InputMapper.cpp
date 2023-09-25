@@ -193,9 +193,9 @@ void InputMapper::Swap(int index1, int index2)
   mPads[index2] = tmp;
 }
 
-void InputMapper::PadsAddedOrRemoved()
+void InputMapper::PadsAddedOrRemoved(bool removed)
 {
   Build();
   if (mInterface != nullptr)
-    mInterface->PadsAddedOrRemoved();
+    mInterface->PadsAddedOrRemoved(removed);
 }

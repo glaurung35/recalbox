@@ -19,6 +19,7 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
 {
   // Volume
   mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
+  mMusicVolume = AddSlider(_("MUSIC VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME), "%", (int)Components::MusicVolume, this, _(MENUMESSAGE_SOUND_MUSIC_VOLUME_HELP_MSG));
 
   // AudioMode
   mAudioMode = AddList<AudioMode>(_("AUDIO MODE"), (int)Components::AudioMode, this, GetAudioModeEntries(), _(MENUMESSAGE_SOUND_MODE_HELP_MSG));
@@ -82,6 +83,10 @@ void GuiMenuSound::Update(int deltaTime)
   int realVolume = AudioController::Instance().GetVolume();
   if (realVolume != (int)mVolume->getSlider())
     mVolume->setSlider((float)realVolume);
+
+  realVolume = AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME);
+  if (realVolume != (int)mMusicVolume->getSlider())
+    mMusicVolume->setSlider((float)realVolume);
 }
 
 void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
@@ -90,11 +95,9 @@ void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& v
   (void)index;
   if ((Components)id == Components::Output)
   {
-    AudioManager::Instance().Deactivate();
     AudioController::Instance().DisableNotification();
     AudioController::Instance().SetDefaultPlayback(value);
     AudioController::Instance().EnableNotification();
-    AudioManager::Instance().Reactivate();
     RecalboxConf::Instance().SetAudioOuput(value).Save();
   }
 }
@@ -122,6 +125,11 @@ void GuiMenuSound::SliderMoved(int id, float value)
     if (RecalboxConf::Instance().GetAudioVolume() != Math::roundi(value))
       RecalboxConf::Instance().SetAudioVolume(Math::roundi(value)).Save();
   }
+  if ((Components)id == Components::MusicVolume && AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME) != Math::roundi(value))
+  {
+    AudioController::Instance().SetSinkInputVolume(AUDIO_CHANNEL_NAME, Math::roundi(value));
+    RecalboxConf::Instance().SetAudioMusicVolume(Math::roundi(value)).Save();
+  }
 }
 
 void GuiMenuSound::SubMenuSelected(int id)
@@ -129,6 +137,7 @@ void GuiMenuSound::SubMenuSelected(int id)
   switch((Components)id)
   {
     case Components::Volume:
+    case Components::MusicVolume:
     case Components::AudioMode:
     case Components::Output:
       break;

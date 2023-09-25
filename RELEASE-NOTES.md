@@ -54,6 +54,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new core libretro-dirksimple
 - Add new port SDLPop (port of Prince of Persia)
 - Add libretro-dolphin (MagicSeb)
+- Add possibility to adjust music volume in EmulationStation
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

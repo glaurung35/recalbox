@@ -6,6 +6,7 @@
 #pragma GCC diagnostic ignored "-Wdeprecated-declarations"
 
 #include <SDL_audio.h>
+#include <SDL_hints.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
 
@@ -343,6 +344,7 @@ bool VideoEngine::InitializeDecoder()
     Wanted.userdata = this;
     Wanted.callback = AudioCallback;
 
+    SDL_SetHint(SDL_HINT_AUDIO_DEVICE_STREAM_NAME, "video");
     SDL_OpenAudio(&Wanted, &ActuallyGot);
     SDL_PauseAudio(0);
   }

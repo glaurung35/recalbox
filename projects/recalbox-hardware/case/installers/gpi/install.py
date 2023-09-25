@@ -44,13 +44,6 @@ class Install(InstallBase):
                     return False
                 logger.hardlog("GPi: cmdline.txt installed")
 
-                # Install Overlay
-                sourceOverlay = self.BASE_SOURCE_FOLDER + "assets/overlays/*.dtbo"
-                if os.system("cp -r {} /boot/overlays".format(sourceOverlay)) != 0:
-                    logger.hardlog("GPi: Error installing overlays")
-                    return False
-                logger.hardlog("GPi: overlays installed")
-
             except Exception as e:
                 logger.hardlog("GPi: Exception = {}".format(e))
                 return False

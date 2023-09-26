@@ -226,11 +226,18 @@ String InputManager::DeviceGUIDString(SDL_Joystick* joystick)
 void InputManager::LoadJoystickConfiguration(int index)
 {
   bool autoConfigured = true;
-  { LOG(LogInfo) << "[InputManager] Lond configuration for Joystick #: " << index; }
+  { LOG(LogInfo) << "[InputManager] Load configuration for Joystick #: " << index; }
 
   // Open joystick & add to our list
   SDL_Joystick* joy = SDL_JoystickOpen(index);
   if (joy == nullptr) return;
+
+  // Get device properties
+  int buttons = SDL_JoystickNumButtons(joy);
+  int axes    = SDL_JoystickNumAxes(joy);
+  int hats    = SDL_JoystickNumHats(joy);
+
+  // Record device properties
   SDL_JoystickID identifier = SDL_JoystickInstanceID(joy);
   mIdToSdlJoysticks[identifier] = joy;
   mIndexToId[index] = identifier;
@@ -241,9 +248,9 @@ void InputManager::LoadJoystickConfiguration(int index)
                      index,
                      SDL_JoystickName(joy),
                      SDL_JoystickGetGUID(joy),
-                     SDL_JoystickNumAxes(joy),
-                     SDL_JoystickNumHats(joy),
-                     SDL_JoystickNumButtons(joy));
+                     axes,
+                     hats,
+                     buttons);
 
   // Try to load from configuration file
   if (!LookupDeviceXmlConfiguration(device))
@@ -274,7 +281,6 @@ void InputManager::LoadJoystickConfiguration(int index)
                       << ", Buttons: " << SDL_JoystickNumButtons(joy) << ')'; }
     WriteDeviceXmlConfiguration(device);
   }
-
 }
 
 int InputManager::ConfiguredDeviceCount()
@@ -480,7 +486,7 @@ OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
   {
     const InputMapper::Pad& pad = mapper.PadAt(player);
     if (pad.IsConnected())
-      devices.SetDevice(player, mIdToDevices[pad.Identifier]);
+      devices.SetDevice(player, mIdToDevices[mIndexToId[pad.mIndex]]);
   }
 
   return devices;
@@ -494,7 +500,7 @@ String InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
     const InputMapper::Pad& pad = mapper.PadAt(player);
     if (pad.IsConnected())
     {
-      const InputDevice& device = mIdToDevices[pad.Identifier];
+      const InputDevice& device = mIdToDevices[mIndexToId[pad.mIndex]];
       String p(" -p"); p.Append(player + 1);
       command.Append(p).Append("index ").Append(device.Index())
              .Append(p).Append("guid ").Append(device.GUID())
@@ -502,14 +508,7 @@ String InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
              .Append(p).Append("nbaxes ").Append(device.AxeCount())
              .Append(p).Append("nbhats ").Append(device.HatCount())
              .Append(p).Append("nbbuttons ").Append(device.ButtonCount())
-             #ifdef SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX
-               .Append(p).Append("devicepath ").Append(SDL_JoystickDevicePathById(device.Index()))
-             #else
-               #ifdef _RECALBOX_PRODUCTION_BUILD_
-                 #pragma GCC error "SDL_JOYSTICK_IS_OVERRIDEN_BY_RECALBOX undefined in production build!"
-               #endif
-             #endif
-             ;
+             .Append(p).Append("devicepath ").Append(device.UDevPath().ToString());
     }
   }
   { LOG(LogInfo) << "[Input] Configure emulators command : " << command; }

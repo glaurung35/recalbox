@@ -32,6 +32,9 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   // Driver
   AddList<String>(_("DRIVER"), (int)Components::Driver, this, GetModes(), _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
 
+  // Driver
+  AddSwitch(_("ALWAYS SHOW PAD OSD"), RecalboxConf::Instance().GetPadBatteryOSD(), (int)Components::PadOSD, this, _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
+
   // Pad list
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
   {
@@ -162,7 +165,8 @@ void GuiMenuPads::SubMenuSelected(int id)
     }
     case Components::Unpair: UnpairAll(); break;
     case Components::Pads:
-    case Components::Driver:break;
+    case Components::Driver:
+    case Components::PadOSD: break;
   }
 }
 
@@ -183,4 +187,10 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& va
   (void)index;
   if ((Components)id == Components::Driver)
     RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
+}
+
+void GuiMenuPads::SwitchComponentChanged(int id, bool status)
+{
+  if ((Components)id == Components::PadOSD)
+    RecalboxConf::Instance().SetPadBatteryOSD(status).Save();
 }

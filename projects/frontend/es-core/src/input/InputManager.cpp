@@ -172,47 +172,30 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
   if (window == nullptr) return;
   if (!padplugged) return;
 
+  // Build current list & make diff with previous list
   std::vector<InputDevice> current = BuildCurrentDeviceList();
-  if (current.size() > previous.size())
+  KeepDifferentPads(current, previous);
+  // Popup every added pad
+  for(const InputDevice& added : current)
   {
-    while (current.size() > previous.size())
-    {
-      // Joystick added
-      int index = 0;
-      while (index < (int) previous.size() && previous[index].EqualsTo(current[index]))
-        index++;
+    // Build the text
+    String text = added.Name();
+    text.Append(' ').Append(_(" has been plugged!")).Append("\n\n");
+    if (added.IsConfigured()) text.Append(_("Ready to play!"));
+    else text.Append(_("Not configured yet! Press a button to enter the configuration window."));
 
-      // Build the text
-      String text = current[index].Name();
-      text.Append(' ')
-          .Append(_(" has been plugged!"))
-          .Append("\n\n");
-      if (current[index].IsConfigured()) text.Append(_("Ready to play!"));
-      else text.Append(_("Not configured yet! Press a button to enter the configuration window."));
-      current.erase(current.begin() + index);
-
-      GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
-      window->InfoPopupAdd(popup);
-    }
+    GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
+    window->InfoPopupAdd(popup);
   }
-  else
+  // Popup every added pad
+  for(const InputDevice& removed : previous)
   {
-    while (current.size() < previous.size())
-    {
-      // Joystick removed
-      int index = 0;
-      while (index < (int) current.size() && previous[index].EqualsTo(current[index]))
-        index++;
+    // Build the text
+    String text = removed.Name();
+    text.Append(' ').Append(_(" has been unplugged!"));
 
-      // Build the text
-      String text = previous[index].Name();
-      text.Append(' ')
-          .Append(_(" has been unplugged!"));
-      previous.erase(previous.begin() + index);
-
-      GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
-      window->InfoPopupAdd(popup);
-    }
+    GuiInfoPopupBase* popup = new GuiInfoPopup(*window, text, 10, PopupType::Pads);
+    window->InfoPopupAdd(popup);
   }
 }
 
@@ -562,6 +545,24 @@ void InputManager::WatchJoystickAddRemove(WindowManager* window)
     mJoystickChangePending = false;
     for(int i = mNotificationInterfaces.Count(); --i >= 0; )
       mNotificationInterfaces[i]->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
+  }
+}
+
+void InputManager::KeepDifferentPads(std::vector<InputDevice>& left, std::vector<InputDevice>& right)
+{
+  for (int l = (int)left.size(); --l >= 0;)
+  {
+    const InputDevice& leftDevice = left[l];
+    for(int r = (int)right.size(); --r >= 0; )
+    {
+      const InputDevice& rightDevice = right[r];
+      if (leftDevice.EqualsTo(rightDevice))
+      {
+        left.erase(left.begin() + l);
+        right.erase(right.begin() + r);
+        break;
+      }
+    }
   }
 }
 

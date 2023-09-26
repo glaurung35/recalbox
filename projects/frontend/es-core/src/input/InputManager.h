@@ -207,7 +207,18 @@ class InputManager : public IFileSystemWatcherNotification
      */
     void ClearAllConfigurations();
 
+    /*!
+     * @brief Build current jostick list
+     * @return Joystick list
+     */
     std::vector<InputDevice> BuildCurrentDeviceList();
+
+    /*!
+     * @brief Remove from both lists, devices that are in both lists, keeping only unique devices in left or right lists
+     * @param left Left list
+     * @param right Right list
+     */
+    static void KeepDifferentPads(std::vector<InputDevice>& left, std::vector<InputDevice>& right);
 
     /*!
      * @brief Load all joystick and load configurations

@@ -295,6 +295,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ESForce43, bool, Bool, sESForce43, false)
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
+    DefineGetterSetter(PadBatteryOSD, bool, Bool, sPadBatteryOSD, true)
 
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
@@ -438,6 +439,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
 
     static constexpr const char* sBatteryHidden              = "emulationstation.battery.hidden";
+    static constexpr const char* sPadBatteryOSD              = "emulationstation.battery.pads.osd";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";

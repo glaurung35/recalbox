@@ -28,6 +28,7 @@ class GuiMenuPads : public GuiMenuBase
                   , IInputChange
                   , IOptionListComponent<int>
                   , IOptionListComponent<String>
+                  , ISwitchComponent
                   , IGuiMenuBase
 {
   public:
@@ -45,6 +46,7 @@ class GuiMenuPads : public GuiMenuBase
       Pair,
       Unpair,
       Driver,
+      PadOSD,
     };
 
     //! Pad lists
@@ -120,6 +122,10 @@ class GuiMenuPads : public GuiMenuBase
 
     void OptionListComponentChanged(int id, int index, const String& value) override;
 
+    /*
+     * ISwitchComponent
+     */
+    void SwitchComponentChanged(int id, bool status) override;
     /*
      * @brief convert action enum to string
      */

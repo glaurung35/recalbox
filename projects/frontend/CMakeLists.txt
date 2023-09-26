@@ -213,9 +213,11 @@ add_subdirectory(tool-md5zip)
 message(
         "=========================================================================================================\n"
         "\n"
-        "C    Flags : ${CMAKE_C_FLAGS}\n"
-        "C++  Flags : ${CMAKE_CXX_FLAGS}\n"
-        "Link Flags : ${CMAKE_EXE_LINKER_FLAGS}\n"
+        "C    Flags  : ${CMAKE_C_FLAGS}\n"
+        "C++  Flags  : ${CMAKE_CXX_FLAGS}\n"
+        "Link Flags  : ${CMAKE_EXE_LINKER_FLAGS}\n"
+        "SDL Include : ${SDL2_INCLUDE_DIR}\n"
+        "SDL Library : ${SDL2_LIBRARY}\n"
         "\n"
         "=========================================================================================================\n"
 )

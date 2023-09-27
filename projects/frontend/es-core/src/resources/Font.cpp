@@ -500,6 +500,8 @@ void Font::renderCharacter(unsigned int character, float x, float y, float wr, f
 
   Vector2f topLeft(0.0f + x, 0.0f + y);
   Vector2f bottomRight(glyphWidth * wr + x, glyphHeight * hr + y);
+  topLeft.round();
+  bottomRight.round();
 
   vertices[0].pos.Set(topLeft.x(), topLeft.y());
   vertices[1].pos.Set(topLeft.x(), bottomRight.y());

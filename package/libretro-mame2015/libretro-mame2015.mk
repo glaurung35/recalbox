@@ -45,6 +45,7 @@ define LIBRETRO_MAME2015_INSTALL_TARGET_CMDS
 		$(TARGET_DIR)/usr/lib/libretro/mame2015_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/samples
 	cp -R $(@D)/metadata/* $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015
+	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/mame2014-xml.zip
 	rm $(TARGET_DIR)/recalbox/share_upgrade/bios/mame2015/mame2015-xml.zip
 endef
 

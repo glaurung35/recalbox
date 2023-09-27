@@ -8,17 +8,9 @@
 #include <input/InputMapper.h>
 #include <input/InputManager.h>
 
-InputMapper::InputMapper(IInputChange* interface)
-  : mInterface(interface)
-{
-  Build();
-  InputManager::Instance().AddNotificationInterface(this);
-}
-
 InputMapper::~InputMapper()
 {
   SaveConfiguration();
-  InputManager::Instance().RemoveNotificationInterface(this);
 }
 
 void InputMapper::Build()
@@ -187,13 +179,33 @@ void InputMapper::Swap(int index1, int index2)
 
 void InputMapper::PadsAddedOrRemoved(bool removed)
 {
+  (void)removed;
+  // Rebuild all when a pad has been added or removed
   Build();
-  if (mInterface != nullptr)
-    mInterface->PadsAddedOrRemoved(removed);
+}
+
+int InputMapper::PadIndexFromDeviceIdentifier(SDL_JoystickID identifier)
+{
+  int index = InputManager::Instance().GetDeviceIndexFromId(identifier);
+  if (index >= 0)
+    for(int i = Input::sMaxInputDevices; --i >= 0; )
+      if (const Pad& pad = mPads[i]; pad.IsConnected())
+        if (pad.mIndex == index)
+          return i;
+  return -1;
+}
+
+int InputMapper::ConnectedPadCount() const
+{
+  int result = 0;
+  for(int i = Input::sMaxInputDevices; --i >= 0; )
+    if (const Pad& pad = mPads[i]; pad.IsConnected())
+      result++;
+  return result;
 }
 
 String InputMapper::Pad::LookupPowerLevel() const
 {
-  if (mIndex >= 0) return InputManager::Instance().GetDeviceConfigurationFromIndex(mIndex).BatteryLevelIcon();
+  if (mIndex >= 0) return String((String::Unicode )InputManager::Instance().GetDeviceConfigurationFromIndex(mIndex).BatteryLevelIcon(), 1);
   return "";
 }

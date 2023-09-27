@@ -30,12 +30,26 @@ InputManager::InputManager()
   // Watcher
   mFileNotifier.SetEventNotifier(EventType::Remove | EventType::Create, this);
   mFileNotifier.WatchFile(Path("/dev/input"));
+  // Add mapper to pad change callbacks
+  mNotificationInterfaces.Add(&mMapper);
 }
 
 InputManager& InputManager::Instance()
 {
   static InputManager _instance;
   return _instance;
+}
+
+
+int InputManager::GetDeviceIndexFromId(SDL_JoystickID deviceId)
+{
+  // Already exists?
+  InputDevice* device = mIdToDevices.try_get(deviceId);
+  if (device != nullptr)
+    return device->Index();
+
+  //{ LOG(LogError) << "[Input] Unexisting device!"; }
+  return -1;
 }
 
 String InputManager::GetDeviceNameFromId(SDL_JoystickID deviceId)
@@ -46,7 +60,6 @@ String InputManager::GetDeviceNameFromId(SDL_JoystickID deviceId)
     return device->Name();
 
   { LOG(LogError) << "[Input] Unexisting device!"; }
-
   return "Unknown";
 }
 
@@ -167,6 +180,10 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
   { LOG(LogInfo) << "[InputManager] Joystick count: " << numJoysticks; }
   for (int i = 0; i < numJoysticks; i++)
     LoadJoystickConfiguration(i);
+
+  //! Notify
+  for(int i = mNotificationInterfaces.Count(); --i >= 0; )
+    mNotificationInterfaces[i]->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
 
   // No info popup ?
   if (window == nullptr) return;
@@ -342,8 +359,6 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
       SDL_QuitSubSystem(SDL_INIT_JOYSTICK);
       SDL_InitSubSystem(SDL_INIT_JOYSTICK);
       Refresh(window, true);
-      for(int i = mNotificationInterfaces.Count(); --i >= 0; )
-        mNotificationInterfaces[i]->PadsAddedOrRemoved(ev.type == SDL_JOYDEVICEREMOVED);
       break;
     }
   }
@@ -543,8 +558,6 @@ void InputManager::WatchJoystickAddRemove(WindowManager* window)
     SDL_InitSubSystem(SDL_INIT_JOYSTICK);
     Refresh(window, true);
     mJoystickChangePending = false;
-    for(int i = mNotificationInterfaces.Count(); --i >= 0; )
-      mNotificationInterfaces[i]->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
   }
 }
 

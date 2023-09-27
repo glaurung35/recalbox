@@ -116,6 +116,32 @@ const String& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
   return sDefault;
 }
 
+RecalboxConf::PadOSDType RecalboxConf::PadOSDTypeFromString(const String& pad)
+{
+  if (pad == "megadrive") return PadOSDType::MD;
+  if (pad == "xbox") return PadOSDType::XBox;
+  if (pad == "playstation") return PadOSDType::PSX;
+  if (pad == "nintendo64") return PadOSDType::N64;
+  if (pad == "dreamcast") return PadOSDType::DC;
+  return PadOSDType::Snes;
+}
+
+const String& RecalboxConf::PadOSDTypeFromEnum(PadOSDType type)
+{
+  switch(type)
+  {
+    case PadOSDType::MD: { static String s = "megadrive"; return s; }
+    case PadOSDType::XBox: { static String s = "xbox"; return s; }
+    case PadOSDType::PSX: { static String s = "playstation"; return s; }
+    case PadOSDType::N64: { static String s = "nintendo64"; return s; }
+    case PadOSDType::DC: { static String s = "dreamcast"; return s; }
+    case PadOSDType::Snes:
+    default: break;
+  }
+  static String sDefault = "snes";
+  return sDefault;
+}
+
 SystemSorting RecalboxConf::SystemSortingFromString(const String& systemSorting)
 {
   if (systemSorting == "default")                        return SystemSorting::Default;

@@ -28,6 +28,7 @@ class GuiMenuPads : public GuiMenuBase
                   , IInputChange
                   , IOptionListComponent<int>
                   , IOptionListComponent<String>
+                  , IOptionListComponent<RecalboxConf::PadOSDType>
                   , ISwitchComponent
                   , IGuiMenuBase
 {
@@ -38,6 +39,9 @@ class GuiMenuPads : public GuiMenuBase
      */
     explicit GuiMenuPads(WindowManager& window);
 
+    // Destructor
+    ~GuiMenuPads();
+
   private:
     enum class Components
     {
@@ -47,6 +51,7 @@ class GuiMenuPads : public GuiMenuBase
       Unpair,
       Driver,
       PadOSD,
+      PadOSDType,
     };
 
     //! Pad lists
@@ -77,6 +82,9 @@ class GuiMenuPads : public GuiMenuBase
 
     //! Get modes
     static std::vector<GuiMenuBase::ListEntry<String>> GetModes();
+
+    //! Get modes
+    static std::vector<GuiMenuBase::ListEntry<RecalboxConf::PadOSDType>> GetPadOSDType();
 
     /*
      * ILongExecution
@@ -123,13 +131,19 @@ class GuiMenuPads : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const String& value) override;
 
     /*
+     * IOptionListComponent<String> implementation
+     */
+
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value) override;
+
+    /*
      * ISwitchComponent
      */
     void SwitchComponentChanged(int id, bool status) override;
     /*
      * @brief convert action enum to string
      */
-    const char* ActionToString(Command action);
+    static const char* ActionToString(Command action);
 };
 
 

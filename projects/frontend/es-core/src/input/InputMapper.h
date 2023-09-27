@@ -13,7 +13,10 @@
 #include <utils/math/Misc.h>
 #include <utils/os/fs/Path.h>
 
-class InputMapper : private IInputChange
+// Forward declaration
+class InputManager;
+
+class InputMapper : public IInputChange
 {
   public:
     //! Pad structure
@@ -86,7 +89,7 @@ class InputMapper : private IInputChange
     typedef std::vector<Pad> PadList;
 
     //! Constructor
-    explicit InputMapper(IInputChange* interface);
+    InputMapper() = default;
 
     //! Destructor
     virtual ~InputMapper();
@@ -113,6 +116,16 @@ class InputMapper : private IInputChange
      */
     void Swap(int index1, int index2);
 
+    //! Get connected pad count
+    [[nodiscard]] int ConnectedPadCount() const;
+
+    /*!
+     * @brief Get real pad index (not included disconnected pads) from its identifier
+     * @param identifier Device identifier
+     * @return Index from 0 to X, or -1 if he device is unknown
+     */
+    int PadIndexFromDeviceIdentifier(int identifier);
+
   private:
     //! Pad array
     PadArray mPads;
@@ -120,9 +133,6 @@ class InputMapper : private IInputChange
     PadList mConnected;
     //! Unconnected pad list
     PadList mUnconnected;
-
-    //! Interface
-    IInputChange* mInterface;
 
     //! Rebuid the pad array, ready to be used
     void Build();

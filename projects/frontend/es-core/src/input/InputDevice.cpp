@@ -143,9 +143,9 @@ void InputDevice::LoadFrom(const InputDevice& source)
 String InputDevice::NameExtented()
 {
   String result(Name());
-  String powerLevel = BatteryLevelIcon();
-  if (!powerLevel.empty())
-    result.Append(' ').Append(powerLevel);
+  String::Unicode powerLevel = BatteryLevelIcon();
+  if (powerLevel != 0)
+    result.Append(' ').AppendUTF8(powerLevel);
   return result;
 }
 
@@ -153,8 +153,9 @@ int InputDevice::BatteryLevel()
 {
   if (!mUDevPowerPath.IsEmpty())
   {
-    if ((int)SDL_GetTicks() - mLastTimeBatteryCheck > 10000)
+    if (int now = (int)SDL_GetTicks(); now - mLastTimeBatteryCheck > 10000)
     {
+      mLastTimeBatteryCheck = now;
       mBatteryCharging = Files::LoadFile(mUDevPowerPath / "status").Trim() == "Charging";
       int level = 0;
       if (Files::LoadFile(mUDevPowerPath / "capacity").Trim().TryAsInt(level)) return mBatteryLevel = level;
@@ -164,16 +165,16 @@ int InputDevice::BatteryLevel()
   return -1; // Unknown / unavailable
 }
 
-String InputDevice::BatteryLevelIcon()
+String::Unicode InputDevice::BatteryLevelIcon()
 {
-  if (mBatteryCharging) return "\uF1b4";; // in charge
+  if (mBatteryCharging) return 0xF1b4; // in charge
   int level = BatteryLevel();
-  if (level <    0) return ""; // Unknown / Wired
-  if (level == 100) return "\uF1ba"; // Max
-  if (level >   80) return "\uF1b7"; // Full
-  if (level >   40) return "\uF1b8"; // Medium
-  if (level >   15) return "\uF1b1"; // Low
-  return "\uF1b5";            // Empty!
+  if (level <    0) return 0;      // Unknown / Wired
+  if (level == 100) return 0xF1ba; // Max
+  if (level >   80) return 0xF1b7; // Full
+  if (level >   40) return 0xF1b8; // Medium
+  if (level >   15) return 0xF1b1; // Low
+  return 0xF1b5;                   // Empty!
 }
 
 void InputDevice::Set(Entry input, InputEvent event)

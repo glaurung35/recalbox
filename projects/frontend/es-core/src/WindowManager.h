@@ -8,6 +8,7 @@
 #include <input/InputManager.h>
 #include "bluetooth/BluetoothOverlayGUI.h"
 #include "guis/PopupType.h"
+#include "guis/InputDeviceOSD.h"
 
 // Forward declaration
 class GuiInfoPopupBase;
@@ -149,6 +150,17 @@ class WindowManager
      */
     virtual void Rotate(RotationType rotation) = 0;
 
+    /*!
+     * @brief PAd OSD icon has changed, refresh OSD
+     */
+    void PadOSDIconHasChanged();
+
+    /*!
+     * @brief PAd OSD icon has changed, refresh OSD
+     * @param force True to force OSD
+     */
+    void ForcePadOSD(bool force);
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;
@@ -166,6 +178,7 @@ class WindowManager
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
+    InputDeviceOSD mInputOSD;
     Array<GuiInfoPopupBase*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;

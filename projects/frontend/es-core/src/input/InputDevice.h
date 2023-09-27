@@ -248,11 +248,12 @@ class InputDevice
     [[nodiscard]] int AxeCount()     const { return mDeviceNbAxes; };
     [[nodiscard]] int HatCount()     const { return mDeviceNbHats; };
     [[nodiscard]] int ButtonCount()  const { return mDeviceNbButtons; };
+    [[nodiscard]] bool HasBatteryLevel() const { return !mUDevPowerPath.IsEmpty(); }
     [[nodiscard]] int BatteryLevel();
-    [[nodiscard]] String BatteryLevelIcon();
+    [[nodiscard]] String::Unicode BatteryLevelIcon();
 
     [[nodiscard]] bool IsKeyboard() const { return mDeviceId == InputEvent::sKeyboardDevice; }
-    [[nodiscard]] bool IsPad()      const { return mDeviceId != InputEvent::sKeyboardDevice; }
+    [[nodiscard]] bool IsPad()      const { return mDeviceId != InputEvent::sKeyboardDevice && mDeviceId != InputEvent::sMouseDevice; }
 
     /*!
      * @brief Get recorded axis value for a particular axis

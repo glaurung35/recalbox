@@ -11,6 +11,7 @@
 WindowManager::WindowManager()
   : mHelp(*this)
   , mBackgroundOverlay(*this)
+  , mInputOSD(*this)
   , mInfoPopups(sMaxInfoPopups)
   , mGuiStack(16) // Allocate memory once for all gui
   , mBluetooth(*this)
@@ -177,6 +178,8 @@ bool WindowManager::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
+  mInputOSD.ProcessInput(event);
+
   mTimeSinceLastInput = 0;
   if (peekGui() != nullptr)
   {
@@ -259,8 +262,12 @@ void WindowManager::Update(int deltaTime)
 
   // Process popups
   InfoPopupsUpdate(deltaTime);
+
   // Process bluetooth
   mBluetooth.Update(deltaTime);
+
+  // Process input OSD
+  mInputOSD.Update(deltaTime);
 }
 
 void WindowManager::Render(Transform4x4f& transform)
@@ -306,9 +313,15 @@ void WindowManager::Render(Transform4x4f& transform)
     }
   }
 
+  // Reset matrix
   Renderer::SetMatrix(Transform4x4f::Identity());
+  // Display host machine battery state if available
   DisplayBatteryState();
+  // Pad OSD
+  mInputOSD.Render(Transform4x4f::Identity());
+  // Display auto-pairing bluetooth countdown
   mBluetooth.Render(Transform4x4f::Identity());
+  // Then popups
   InfoPopupsDisplay(transform);
 }
 
@@ -553,5 +566,15 @@ void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
   if (!DoNotDisturb())
     for(int i = mInfoPopups.Count(); --i >= 0;)
       mInfoPopups[i]->Render(transform);
+}
+
+void WindowManager::PadOSDIconHasChanged()
+{
+  mInputOSD.UpdatePadIcon();
+}
+
+void WindowManager::ForcePadOSD(bool force)
+{
+ mInputOSD.ForcedActivation(force);
 }
 

@@ -70,6 +70,16 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       Select,  //!< Manual patch selection
     };
 
+    enum class PadOSDType
+    {
+      Snes, //!< SNES type pad
+      MD  , //!< Megadrive type pad
+      XBox, //!< XBox type pad
+      PSX , //!< Playstation type pad
+      N64 , //!< Nintendo 64 type pad
+      DC  , //!< Dreamcast pad type
+    };
+
     /*
      * Shortcuts
      */
@@ -294,7 +304,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ESForce43, bool, Bool, sESForce43, false)
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
-    DefineGetterSetter(PadBatteryOSD, bool, Bool, sPadBatteryOSD, true)
+    DefineGetterSetter(PadOSD, bool, Bool, sPadOSD, false)
+    DefineGetterSetterEnum(PadOSDType, PadOSDType, sPadOSDType, PadOSDType)
 
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
@@ -437,13 +448,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
 
     static constexpr const char* sBatteryHidden              = "emulationstation.battery.hidden";
-    static constexpr const char* sPadBatteryOSD              = "emulationstation.battery.pads.osd";
+    static constexpr const char* sPadOSD                     = "emulationstation.pads.osd";
+    static constexpr const char* sPadOSDType                 = "emulationstation.pads.osd.type";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";
     static constexpr const char* sKodiVideoMode              = "kodi.videomode";
     static constexpr const char* sESForce43                  = "system.es.force43";
-
 
     static constexpr const char* sFirstTimeUse               = "system.firsttimeuse";
     static constexpr const char* sSystemLanguage             = "system.language";
@@ -559,4 +570,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const String& SystemSortingFromEnum(SystemSorting systemSorting);
     static ScraperType ScraperTypeFromString(const String& menu);
     static const String& ScraperTypeFromEnum(ScraperType type);
+    static PadOSDType PadOSDTypeFromString(const String& pad);
+    static const String& PadOSDTypeFromEnum(PadOSDType type);
 };

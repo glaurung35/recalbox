@@ -8,9 +8,9 @@
 #include <utils/os/fs/watching/IFileSystemWatcherNotification.h>
 #include <utils/os/fs/watching/FileNotifier.h>
 #include "IInputChange.h"
+#include <input/InputMapper.h>
 
 class WindowManager;
-class InputMapper;
 
 class InputManager : public IFileSystemWatcherNotification
 {
@@ -41,6 +41,9 @@ class InputManager : public IFileSystemWatcherNotification
      * @param window Main window
      */
     void Refresh(WindowManager* window, bool padplugged);
+
+    //! Mapper accessor
+    InputMapper& Mapper() { return mMapper; }
 
     /*!
      * Get number of initialized devices
@@ -74,11 +77,18 @@ class InputManager : public IFileSystemWatcherNotification
     static void WriteDeviceXmlConfiguration(InputDevice& device);
 
     /*!
+     * @brief Get device by index
+     * @param index Device index
+     * @return Device configuration
+     */
+    InputDevice& GetDeviceConfigurationFromIndex(int index) { return GetDeviceConfigurationFromId(mIndexToId[index]); }
+
+    /*!
      * @brief Get device by SDL Identifier
      * @param deviceId Device identifier
      * @return Device configuration
      */
-    InputDevice& GetDeviceConfigurationFromIndex(int index) { return GetDeviceConfigurationFromId(mIndexToId[index]); }
+    InputDevice& GetDeviceConfigurationFromId(SDL_JoystickID deviceId);
 
     /*!
      * @brief Generate an ordered device list in function of player devices configuratons
@@ -148,6 +158,13 @@ class InputManager : public IFileSystemWatcherNotification
      */
     String GetDeviceNameFromId(SDL_JoystickID id);
 
+    /*!
+     * @brief Get device name by SDL Identifier
+     * @param deviceId Device identifier
+     * @return Device name
+     */
+    int GetDeviceIndexFromId(SDL_JoystickID id);
+
   private:
     //! Device list
     typedef Array<InputDevice> InputDeviceList;
@@ -170,6 +187,9 @@ class InputManager : public IFileSystemWatcherNotification
 
     //! Notification interfaces
     Array<IInputChange*> mNotificationInterfaces;
+
+    //! Input mapper (must be initialized after mNotificationInterfaces)
+    InputMapper mMapper;
 
     //! /dev/input watcher
     FileNotifier mFileNotifier;
@@ -265,13 +285,6 @@ class InputManager : public IFileSystemWatcherNotification
      * @return InputCompactEvent filled with event information
      */
     InputCompactEvent ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down);
-
-    /*!
-     * @brief Get device by SDL Identifier
-     * @param deviceId Device identifier
-     * @return Device configuration
-     */
-    InputDevice& GetDeviceConfigurationFromId(SDL_JoystickID deviceId);
 
     /*
      * IFileSystemWatcherNotification implementation

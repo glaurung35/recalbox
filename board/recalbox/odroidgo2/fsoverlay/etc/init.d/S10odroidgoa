@@ -6,15 +6,17 @@ source /recalbox/scripts/recalbox-utils.sh
 IMAGE_PATH=$(getInstallUpgradeImagePath)
 
 # Calibrate joypad
-KEYPAD=/sys/devices/platform/odroidgo?-joypad
+KEYPAD="/sys/devices/platform/odroidgo?-joypad"
 
-# disable then enable joypad
-echo 0 > $KEYPAD/enable
-echo 1 > $KEYPAD/enable
-
-# calibrate current position of joypad
-echo 1 > $KEYPAD/adc_cal
-
+if [ -f "$KEYPAD" ]; then
+  # disable then enable joypad
+  echo 0 > "$KEYPAD/enable"
+  echo 1 > "$KEYPAD/enable"
+  
+  # calibrate current position of joypad
+  echo 1 > "$KEYPAD/adc_cal"
+fi
+  
 # Enable sound
 amixer sset 'Playback' 100%
 amixer sset 'Playback Path' SPK

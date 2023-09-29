@@ -49,6 +49,7 @@ getInstallUpgradeImagePath() {
     MODEL=$(tr '\0' '\n' </sys/firmware/devicetree/base/model)
     case $MODEL in
       *RG351P) echo "/recalbox/system/resources/320x480" ;;
+      *RG351V) echo "/recalbox/system/resources/640x480" ;;
       *ODROID-GO2) echo "/recalbox/system/resources/320x480" ;;
       *ODROID-GO3) echo "/recalbox/system/resources/480x854" ;;
       *)           echo "/recalbox/system/resources" ;;
@@ -240,3 +241,10 @@ displayFrameBufferImage() {
         fi
     fi
 }
+
+# doesBoardNeedSDLRotation
+#   return true (0) if board has a 270° rotated screen
+doesBoardNeedSDLRotation() {
+  grep -E -q '(ODROID-GO[123]?$|RG351(P|M))' /proc/cpuinfo
+}
+

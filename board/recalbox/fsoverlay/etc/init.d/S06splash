@@ -37,6 +37,10 @@ if isLowDef; then
   LOWDEF=1
 fi
 
+# odroidgo boards with rotated screen
+if doesBoardNeedSDLRotation; then
+  export SDL_ODROIDGO_ROTATE=1
+fi
 ## -1 : Video will be stopped when emulationstation is ready to start.
 ##  0 : All the video will be played before emulationstation start (default)
 ## >0 : Time the video will be played before emulationstation start (in seconds)

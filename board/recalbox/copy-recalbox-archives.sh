@@ -8,7 +8,7 @@
 # TARGET_DIR = output/target
 
 # List of files not upgraded (typically user modified files)
-EXCLUDED_FILE_LIST=(boot.lst boot.ini config.ini recalbox-user-config.txt recalbox-boot.conf crt/recalbox-crt-config.txt crt/recalbox-crt-options.cfg)
+EXCLUDED_FILE_LIST=(boot.lst config.ini recalbox-user-config.txt recalbox-boot.conf crt/recalbox-crt-config.txt crt/recalbox-crt-options.cfg)
 
 # $1 boot directory
 generate_boot_file_list() {
@@ -109,6 +109,7 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/zImage" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
 
+  EXCLUDED_FILE_LIST+=(boot.ini)
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidxu4/genimage.cfg"
 	;;
 
@@ -123,29 +124,19 @@ case "${RECALBOX_TARGET}" in
 	cp "${BINARIES_DIR}/rk3326-odroidgo2-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/rk3326-odroidgo3-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/rk3326-rg351p-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351v-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351v-linux-oc.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351v-linux-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351v-linux-oc-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351mp-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351mp-linux-oc.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351mp-linux-oc-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
+  cp "${BINARIES_DIR}/rk3326-rg351mp-linux-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
 	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
 	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
 	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
 
 	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/odroidgo2/genimage.cfg"
-	;;
-
-	RG351V)
-	rm -rf "${BINARIES_DIR}/boot-data/boot" || exit 1
-	mkdir -p "${BINARIES_DIR}/boot-data/boot" || exit 1
-
-	# /boot
-	echo "generating boot"
-	cp "${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg351v/boot.ini" "${BINARIES_DIR}/boot-data/boot.ini" || exit 1
-  cp "${BINARIES_DIR}/rk3326-rg351v-linux.dtb" "${BINARIES_DIR}/boot-data" || exit 1
-  cp "${BINARIES_DIR}/rk3326-rg351v-linux-oc.dtb" "${BINARIES_DIR}/boot-data" || exit 1
-  cp "${BINARIES_DIR}/rk3326-rg351v-linux-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
-  cp "${BINARIES_DIR}/rk3326-rg351v-linux-oc-timing_fix.dtb" "${BINARIES_DIR}/boot-data" || exit 1
-	cp "${BINARIES_DIR}/uInitrd" "${BINARIES_DIR}/boot-data/boot/" || exit 1
-	cp "${BINARIES_DIR}/Image" "${BINARIES_DIR}/boot-data/boot/linux" || exit 1
-	cp "${BINARIES_DIR}/rootfs.squashfs" "${BINARIES_DIR}/boot-data/boot/recalbox" || exit 1
-
-	GENIMAGE_CFG="${BR2_EXTERNAL_RECALBOX_PATH}/board/recalbox/anbernic/rg351v/genimage.cfg"
 	;;
 
 	RG353X)

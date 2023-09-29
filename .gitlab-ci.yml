@@ -273,11 +273,6 @@ build rpizero2:
   when: manual
   variables:
     ARCH: 'rpizero2'
-build rg351v:
-  <<: *build_definition
-  when: manual
-  variables:
-    ARCH: 'rg351v'
 build rg353x:
   <<: *build_definition
   when: manual

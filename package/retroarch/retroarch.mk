@@ -54,7 +54,7 @@ RETROARCH_CONF_OPTS += --disable-videocore
 endif
 
 # odroid go advance
-ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2)$(BR2_PACKAGE_RECALBOX_TARGET_RG351V),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_ODROIDGO2),y)
 RETROARCH_CONF_OPTS += --enable-odroidgo2
 endif
 

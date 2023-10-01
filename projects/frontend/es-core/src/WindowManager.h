@@ -8,7 +8,7 @@
 #include <input/InputManager.h>
 #include "bluetooth/BluetoothOverlayGUI.h"
 #include "guis/PopupType.h"
-#include "guis/InputDeviceOSD.h"
+#include "guis/OSDManager.h"
 
 // Forward declaration
 class GuiInfoPopupBase;
@@ -150,16 +150,8 @@ class WindowManager
      */
     virtual void Rotate(RotationType rotation) = 0;
 
-    /*!
-     * @brief PAd OSD icon has changed, refresh OSD
-     */
-    void PadOSDIconHasChanged();
-
-    /*!
-     * @brief PAd OSD icon has changed, refresh OSD
-     * @param force True to force OSD
-     */
-    void ForcePadOSD(bool force);
+    //! Get OSD manager
+    OSDManager& OSD() { return mOSD; }
 
   private:
     //! Maximum popup info
@@ -178,7 +170,7 @@ class WindowManager
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
-    InputDeviceOSD mInputOSD;
+    OSDManager mOSD;
     Array<GuiInfoPopupBase*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;
@@ -187,11 +179,8 @@ class WindowManager
     String::List mScrollTitle;
 
     std::vector<std::shared_ptr<Font> > mDefaultFonts;
-    std::unique_ptr<TextCache> mFrameDataText;
     BluetoothOverlayGUI mBluetooth;
 
-    int mFrameTimeElapsed;
-    int mFrameCountElapsed;
     int mAverageDeltaTime;
     unsigned int mTimeSinceLastInput;
 

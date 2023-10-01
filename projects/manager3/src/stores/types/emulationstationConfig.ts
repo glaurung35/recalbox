@@ -180,6 +180,14 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
+  'pads.osd': z.object({
+    exist: z.boolean(),
+    value: z.boolean(),
+  }),
+  'pads.osd.type': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
 });
 
 export type EmulationStationConfig = z.infer<typeof EmulationStationConfigSchema>
@@ -366,6 +374,14 @@ export const EmulationStationConfigOptionsSchema = z.object({
   debuglogs: z.object({
     type: z.string(),
     value: z.boolean(),
+  }),
+  'pads.osd': z.object({
+    type: z.string(),
+    value: z.boolean(),
+  }),
+  'pads.osd.type': z.object({
+    type: z.string(),
+    allowedStringList: z.array(z.string()),
   }),
 });
 

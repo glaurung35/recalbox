@@ -1,4 +1,4 @@
-{
+  {
   "404": {
     "message": "Désolé, rien ici...",
     "returnButton": "Retour"
@@ -1047,6 +1047,17 @@
         "settings": {
           "label": "Paramètres",
           "help": "Cette option vous permet de définir des paramètres pour les contrôleurs DB9."
+        }
+      },
+      "osd": {
+        "title": "OSD",
+        "enabled": {
+          "label": "Toujours afficher l'OSD de la manette",
+          "help": "Cette option vous permet de définir si vous souhaitez afficher les représentation des manettes en haut à gauche de votre écran."
+        },
+        "type": {
+          "label": "Type de manette OSD",
+          "help": "Cette option vous permet de choisir le type de manette à afficher en haut à gauche de votre écran."
         }
       },
       "gamecon": {

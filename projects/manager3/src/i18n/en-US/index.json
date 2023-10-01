@@ -1049,6 +1049,17 @@
           "help": "This option allows you to enable or disable DB9 controllers."
         }
       },
+      "osd": {
+        "title": "OSD",
+        "enabled": {
+          "label": "Always show pad OSD",
+          "help": "This option allows you to enable or disable pad OSD everywhere or not."
+        },
+        "type": {
+          "label": "Pad OSD type",
+          "help": "This option allows you to choose the pad to display for the OSD."
+        }
+      },
       "gamecon": {
         "title": "Gamecon",
         "enabled": {

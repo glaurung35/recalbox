@@ -34,6 +34,8 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableFrontEndResolutions();
 
+    static HashMap<String, String> GetAvailableOsdTypes();
+
     static HashMap<String, String> GetAvailableLanguages();
 
     static HashMap<String, String> GetAvailableKeyboardLayout();

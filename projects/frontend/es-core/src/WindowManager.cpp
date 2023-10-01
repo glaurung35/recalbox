@@ -11,12 +11,10 @@
 WindowManager::WindowManager()
   : mHelp(*this)
   , mBackgroundOverlay(*this)
-  , mInputOSD(*this)
+  , mOSD(*this)
   , mInfoPopups(sMaxInfoPopups)
   , mGuiStack(16) // Allocate memory once for all gui
   , mBluetooth(*this)
-  , mFrameTimeElapsed(0)
-  , mFrameCountElapsed(0)
   , mAverageDeltaTime(10)
   , mTimeSinceLastInput(0)
   , mNormalizeNextUpdate(false)
@@ -178,7 +176,7 @@ bool WindowManager::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  mInputOSD.ProcessInput(event);
+  mOSD.ProcessInput(event);
 
   mTimeSinceLastInput = 0;
   if (peekGui() != nullptr)
@@ -224,31 +222,6 @@ void WindowManager::Update(int deltaTime)
       deltaTime = mAverageDeltaTime;
   }
 
-  mFrameTimeElapsed += deltaTime;
-  mFrameCountElapsed++;
-  if (mFrameTimeElapsed > 500)
-  {
-    mAverageDeltaTime = mFrameTimeElapsed / mFrameCountElapsed;
-
-    if (RecalboxConf::Instance().GetGlobalShowFPS())
-    {
-      String ss = String(1000.0f * (float) mFrameCountElapsed / (float) mFrameTimeElapsed, 1) +
-                  "fps, " + String((float) mFrameTimeElapsed / (float) mFrameCountElapsed, 2) + "ms";
-
-      // vram
-      float textureVramUsageMb = (float)TextureResource::getTotalMemUsage() / (1024.0f * 1024.0f);
-      float textureTotalUsageMb = (float)TextureResource::getTotalTextureSize() / (1024.0f * 1024.0f);
-      float fontVramUsageMb = (float)Font::getTotalMemUsage() / (1024.0f * 1024.0f);
-      ss += "\nFont VRAM: " + String(fontVramUsageMb, 2) + " Tex VRAM: " +
-            String(textureVramUsageMb, 2) + " Tex Max: " + String(textureTotalUsageMb, 2);
-
-      mFrameDataText = std::unique_ptr<TextCache>(mDefaultFonts[1]->buildTextCache(ss, 50.f, 50.f, 0xFF00FFFF));
-    }
-
-    mFrameTimeElapsed = 0;
-    mFrameCountElapsed = 0;
-  }
-
   mTimeSinceLastInput += deltaTime;
 
   // Process GUI pending for deletion
@@ -267,7 +240,7 @@ void WindowManager::Update(int deltaTime)
   mBluetooth.Update(deltaTime);
 
   // Process input OSD
-  mInputOSD.Update(deltaTime);
+  mOSD.Update(deltaTime);
 }
 
 void WindowManager::Render(Transform4x4f& transform)
@@ -294,12 +267,6 @@ void WindowManager::Render(Transform4x4f& transform)
   if (!mRenderedHelpPrompts)
     mHelp.Render(transform);
 
-  if (RecalboxConf::Instance().GetGlobalShowFPS() && mFrameDataText)
-  {
-    Renderer::SetMatrix(Transform4x4f::Identity());
-    mDefaultFonts[1]->renderTextCache(mFrameDataText.get());
-  }
-
   unsigned int screensaverTime = (unsigned int) RecalboxConf::Instance().GetScreenSaverTime() * 60000;
   if (mTimeSinceLastInput >= screensaverTime && screensaverTime != 0)
   {
@@ -317,12 +284,12 @@ void WindowManager::Render(Transform4x4f& transform)
   Renderer::SetMatrix(Transform4x4f::Identity());
   // Display host machine battery state if available
   DisplayBatteryState();
-  // Pad OSD
-  mInputOSD.Render(Transform4x4f::Identity());
   // Display auto-pairing bluetooth countdown
   mBluetooth.Render(Transform4x4f::Identity());
   // Then popups
   InfoPopupsDisplay(transform);
+  // Pad OSD
+  mOSD.Render(Transform4x4f::Identity());
 }
 
 void WindowManager::renderHelpPromptsEarly()
@@ -447,7 +414,9 @@ void WindowManager::RenderAll(bool halfLuminosity)
     Renderer::SetMatrix(Transform4x4f::Identity());
     Renderer::DrawRectangle(0.f, 0.f, Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0x00000080);
   }
+  mOSD.RecordStopFrame();
   Renderer::Instance().SwapBuffers();
+  mOSD.RecordStartFrame();
 }
 
 void WindowManager::CloseAll()
@@ -566,15 +535,5 @@ void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
   if (!DoNotDisturb())
     for(int i = mInfoPopups.Count(); --i >= 0;)
       mInfoPopups[i]->Render(transform);
-}
-
-void WindowManager::PadOSDIconHasChanged()
-{
-  mInputOSD.UpdatePadIcon();
-}
-
-void WindowManager::ForcePadOSD(bool force)
-{
- mInputOSD.ForcedActivation(force);
 }
 

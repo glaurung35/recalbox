@@ -445,6 +445,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "pad7"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
          { "pad8"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
          { "debuglogs"                   , Validator(true) },
+         { "pads.osd"                    , Validator(true) },
+         { "pads.osd.type"               , Validator(GetAvailableOsdTypes(), false) },
        });
 
       return sList;
@@ -1011,6 +1013,21 @@ const String::List& RequestHandlerTools::GetAvailableTimeZone()
   }
 
   return output;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableOsdTypes()
+{
+  static HashMap<String, String> sOSDs
+  ({
+    {"snes", "Super Nintendo"},
+    {"nintendo64", "Nintendo 64"},
+    {"megadrive", "Megadrive"},
+    {"dreamcast", "Dreamcast"},
+    {"playstation", "Playstation"},
+    {"xbox", "Xbox"},
+  });
+
+  return sOSDs;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableLanguages()

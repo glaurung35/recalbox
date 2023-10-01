@@ -32,6 +32,35 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.osd.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.osd.enabled.label"
+            :getter="emulationstation['pads.osd']"
+            :setter="emulationstationStore.post"
+            apiKey="pads.osd"
+            v-if="emulationstation['pads.osd']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.osd.enabled.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedSelect
+            label="emulation.controllers.osd.type.label"
+            :options="padsOsdTypeOptions"
+            :getter="emulationstation['pads.osd.type']"
+            :setter="emulationstationStore.post"
+            apiKey="pads.osd.type"
+            v-if="emulationstation['pads.osd.type']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.osd.type.help') }}
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.db9.title">
         <template v-slot:content>
           <WrappedToggle
@@ -88,6 +117,8 @@
           </WrappedTextInput>
         </template>
       </FormFragmentContainer>
+    </div>
+    <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.controllers.gpio.title">
         <template v-slot:content>
           <WrappedToggle
@@ -116,8 +147,6 @@
           </WrappedTextInput>
         </template>
       </FormFragmentContainer>
-    </div>
-    <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.controllers.ps3.title">
         <template v-slot:content>
           <WrappedToggle
@@ -250,6 +279,7 @@ import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { storeToRefs } from 'pinia';
 import { useControllersStore } from 'stores/configuration/controllers';
 import { useGlobalStore } from 'stores/configuration/global';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 
 const controllersStore = useControllersStore();
 controllersStore.fetch();
@@ -258,4 +288,8 @@ const { ps3driverOptions, controllers } = storeToRefs(controllersStore);
 const globalStore = useGlobalStore();
 globalStore.fetch();
 const { inputdriverOptions, global } = storeToRefs(globalStore);
+
+const emulationstationStore = useEmulationstationStore();
+emulationstationStore.fetch();
+const { padsOsdTypeOptions, emulationstation } = storeToRefs(emulationstationStore);
 </script>

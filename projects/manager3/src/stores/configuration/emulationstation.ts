@@ -49,6 +49,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       'virtualarcade.manufacturers': {
         allowedStringList: [''],
       },
+      'pads.osd.type': {
+        allowedStringList: [''],
+      },
     },
     emulationstation: {},
   } as EmulationStationStoreState),
@@ -69,5 +72,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
     systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
     virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList,
+    padsOsdTypeOptions: (state) => state._emulationstationOptions['pads.osd.type'].allowedStringList,
   },
 });

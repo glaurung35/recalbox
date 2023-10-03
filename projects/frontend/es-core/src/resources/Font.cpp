@@ -8,6 +8,11 @@
 
 FT_Library Font::sLibrary = nullptr;
 
+Path Font::sRecalboxIconPath(":/Recalbox_icons.ttf");
+Path Font::sDroidPath("/usr/share/fonts/truetype/DroidSansFallback.ttf");
+Path Font::sDejaVuPath("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf");
+Path Font::sUbuntuPath("/usr/share/fonts/truetype/ubuntu_condensed.ttf");
+
 int Font::getSize() const
 { return mSize; }
 
@@ -333,10 +338,10 @@ void Font::getTextureForNewGlyph(const Vector2i& glyphSize, FontTexture*& tex_ou
 const std::vector<Path>& getFallbackFontPaths()
 {
   static Path originalPath[] = {
-    Path(":/Recalbox_icons.ttf"),
-    Path("/usr/share/fonts/truetype/DroidSansFallback.ttf"),// japanese, chinese, korean
-    Path("/usr/share/fonts/truetype/DejaVuSansCondensed.ttf"),
-    Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"),
+    Font::sRecalboxIconPath,
+    Font::sDroidPath,
+    Font::sDejaVuPath,
+    Font::sUbuntuPath,
   };
   static std::vector<Path> fontPaths;
   if (fontPaths.empty())

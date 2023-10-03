@@ -12,6 +12,7 @@
 #include <scraping/scrapers/screenscraper/Languages.h>
 #include <audio/AudioMode.h>
 #include "systems/SystemSorting.h"
+#include "IRecalboxConfChanged.h"
 #include <scraping/ScraperType.h>
 
 // Forward declaration
@@ -33,6 +34,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * @brief Called when file has been saved
      */
     void OnSave() override;
+
+    /*
+     * Watching
+     */
+
+    void Watch(const String& key, IRecalboxConfChanged& callback);
 
     /*
      * Enums
@@ -547,6 +554,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sArcadeSystemHiddenManufacturers  = "hiddendrivers";
 
   private:
+    HashMap<String, Array<IRecalboxConfChanged*>> mWatchers;
+
     /*
      * Culture
      */

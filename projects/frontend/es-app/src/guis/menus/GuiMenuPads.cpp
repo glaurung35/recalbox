@@ -54,13 +54,13 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   InputManager::Instance().AddNotificationInterface(this);
 
   // Force OSD when thius menu is on
-  mWindow.OSD().ForcedPadOSDActivation(true);
+  mWindow.OSD().GetPadOSD().ForcedPadOSDActivation(true);
 }
 
 GuiMenuPads::~GuiMenuPads()
 {
   InputManager::Instance().RemoveNotificationInterface(this);
-  mWindow.OSD().ForcedPadOSDActivation(false);
+  mWindow.OSD().GetPadOSD().ForcedPadOSDActivation(false);
 }
 
 std::vector<GuiMenuBase::ListEntry<String>> GuiMenuPads::GetModes()
@@ -220,7 +220,7 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const RecalboxCo
   if ((Components)id == Components::PadOSDType)
   {
     RecalboxConf::Instance().SetPadOSDType(value).Save();
-    mWindow.OSD().UpdatePadIcon();
+    mWindow.OSD().GetPadOSD().UpdatePadIcon();
   }
 }
 

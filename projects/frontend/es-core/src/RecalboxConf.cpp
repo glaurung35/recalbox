@@ -215,3 +215,8 @@ DefineEmulationStationSystemGetterSetterNumericEnumImplementation(RegionFilter, 
 
 DefineEmulationStationSystemListGetterSetterImplementation(ArcadeSystemHiddenManufacturers, sArcadeSystemHiddenManufacturers, "")
 
+void RecalboxConf::Watch(const String& key, IRecalboxConfChanged& callback)
+{
+  mWatchers[key].Add(&callback);
+}
+

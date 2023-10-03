@@ -6,9 +6,8 @@
 #include <components/ImageComponent.h>
 #include <resources/Font.h>
 #include <input/InputManager.h>
-#include "bluetooth/BluetoothOverlayGUI.h"
 #include "guis/PopupType.h"
-#include "guis/OSDManager.h"
+#include "osd/OSDManager.h"
 
 // Forward declaration
 class GuiInfoPopupBase;
@@ -124,7 +123,6 @@ class WindowManager
      */
     virtual bool UpdateHelpSystem();
 
-
     /*!
      * @brief Check if at least a GUI on the stack is claiming not to be disturbed!
      * @return
@@ -137,12 +135,6 @@ class WindowManager
         if (mGuiStack[i]->DoNotDisturb()) return true;
       return false;
     }
-
-    /*!
-     * @brief Get access to bluetooth notifier
-     * @return Bluetooth notifier instance
-     */
-    BluetoothOverlayGUI& BluetoothNotifier() { return mBluetooth; }
 
     /*!
      * @brief Rotate
@@ -168,9 +160,11 @@ class WindowManager
 
     static bool KonamiCode(const InputCompactEvent& input);
 
+    //! OSD Manager
+    OSDManager mOSD;
+
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
-    OSDManager mOSD;
     Array<GuiInfoPopupBase*> mInfoPopups;
 
     Stack<Gui*> mGuiStack;
@@ -179,7 +173,6 @@ class WindowManager
     String::List mScrollTitle;
 
     std::vector<std::shared_ptr<Font> > mDefaultFonts;
-    BluetoothOverlayGUI mBluetooth;
 
     int mAverageDeltaTime;
     unsigned int mTimeSinceLastInput;

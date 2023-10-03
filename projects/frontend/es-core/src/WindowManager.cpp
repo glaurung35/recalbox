@@ -9,12 +9,11 @@
 #include "guis/GuiInfoPopup.h"
 
 WindowManager::WindowManager()
-  : mHelp(*this)
+  : mOSD(*this)
+  , mHelp(*this)
   , mBackgroundOverlay(*this)
-  , mOSD(*this)
   , mInfoPopups(sMaxInfoPopups)
   , mGuiStack(16) // Allocate memory once for all gui
-  , mBluetooth(*this)
   , mAverageDeltaTime(10)
   , mTimeSinceLastInput(0)
   , mNormalizeNextUpdate(false)
@@ -236,9 +235,6 @@ void WindowManager::Update(int deltaTime)
   // Process popups
   InfoPopupsUpdate(deltaTime);
 
-  // Process bluetooth
-  mBluetooth.Update(deltaTime);
-
   // Process input OSD
   mOSD.Update(deltaTime);
 }
@@ -284,8 +280,6 @@ void WindowManager::Render(Transform4x4f& transform)
   Renderer::SetMatrix(Transform4x4f::Identity());
   // Display host machine battery state if available
   DisplayBatteryState();
-  // Display auto-pairing bluetooth countdown
-  mBluetooth.Render(Transform4x4f::Identity());
   // Then popups
   InfoPopupsDisplay(transform);
   // Pad OSD
@@ -414,9 +408,9 @@ void WindowManager::RenderAll(bool halfLuminosity)
     Renderer::SetMatrix(Transform4x4f::Identity());
     Renderer::DrawRectangle(0.f, 0.f, Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat(), 0x00000080);
   }
-  mOSD.RecordStopFrame();
+  mOSD.GetFpsOSD().RecordStopFrame();
   Renderer::Instance().SwapBuffers();
-  mOSD.RecordStartFrame();
+  mOSD.GetFpsOSD().RecordStartFrame();
 }
 
 void WindowManager::CloseAll()

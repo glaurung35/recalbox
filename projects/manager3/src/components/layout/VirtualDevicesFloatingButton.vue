@@ -4,7 +4,7 @@
 <template>
   <q-page-sticky
     position="bottom"
-    style="transform: translate(-38px, 0px);"
+    style="transform: translate(-58px, 0px);"
   >
     <q-btn
       padding="16px"

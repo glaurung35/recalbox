@@ -140,4 +140,7 @@ footer
   &:hover
     opacity: 1
 
+.q-notifications__list--bottom
+  bottom: 50px
+
 </style>

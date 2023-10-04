@@ -49,6 +49,7 @@ endef
 
 define REICAST_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/shell/linux/reicast.elf $(TARGET_DIR)/usr/bin
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/dc
 endef
 
 $(eval $(generic-package))

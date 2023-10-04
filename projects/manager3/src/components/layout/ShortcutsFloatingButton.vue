@@ -4,7 +4,7 @@
 <template>
   <q-page-sticky
     position="bottom"
-    style="transform: translate(36px, 0px);"
+    style="transform: translate(16px, 0px);"
   >
     <q-fab
       color="primary"

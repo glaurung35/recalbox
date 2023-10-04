@@ -2,7 +2,7 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <q-page-sticky position="bottom" style="transform: translate(110px, 0px)">
+  <q-page-sticky position="bottom" style="transform: translate(90px, 0px)">
     <q-fab
       color="primary"
       direction="up"

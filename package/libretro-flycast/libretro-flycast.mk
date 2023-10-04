@@ -40,6 +40,7 @@ LIBRETRO_FLYCAST_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAGS_EXE
 define LIBRETRO_FLYCAST_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/flycast_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/flycast_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/dc
 endef
 
 $(eval $(cmake-package))

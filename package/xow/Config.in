@@ -1,6 +1,0 @@
-config BR2_PACKAGE_XOW
-	bool "xow"
-	depends on BR2_LINUX_KERNEL
-	depends on BR2_INSTALL_LIBSTDCPP
-	help
-	  Xbox One wireless dongles support

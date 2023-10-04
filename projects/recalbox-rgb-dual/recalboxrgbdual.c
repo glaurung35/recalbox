@@ -586,6 +586,11 @@ static int dpidac_probe(struct platform_device *pdev) {
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-jamma", &rgbjamma);
   config.multisync = 0;
   config.desktop480p = 0;
+
+  config.dip50Hz.gpio_state = 1;
+  config.dip31kHz.gpio_state = 1;
+  config.video_filter.gpio_state = 0;
+
   if (rgbdual == 1) {
     config.current_hat = RecalboxRGBDual;
     printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
@@ -593,20 +598,22 @@ static int dpidac_probe(struct platform_device *pdev) {
     /* Switch 31kHz */
     config.dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
     if (IS_ERR(config.dip31kHz.gpio)) {
-      pr_err("Error when assigning GPIO.\n");
+      pr_err("Error when assigning dip31kHz GPIO.\n");
+    } else {
+      config.dip31kHz.gpio_state = gpiod_get_value(config.dip31kHz.gpio);
+      gpiod_export(config.dip31kHz.gpio, false);
+      gpiod_export_link(&pdev->dev, "dipswitch-31khz", config.dip31kHz.gpio);
     }
-    config.dip31kHz.gpio_state = gpiod_get_value(config.dip31kHz.gpio);
-    gpiod_export(config.dip31kHz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-31khz", config.dip31kHz.gpio);
 
     /* Switch 50 HZ */
     config.dip50Hz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 1, GPIOD_IN);
     if (IS_ERR(config.dip50Hz.gpio)) {
-      pr_err("Error when assigning GPIO.\n");
+      pr_err("Error when assigning dip50Hz GPIO.\n");
+    } else {
+      config.dip50Hz.gpio_state = gpiod_get_value(config.dip50Hz.gpio);
+      gpiod_export(config.dip50Hz.gpio, false);
+      gpiod_export_link(&pdev->dev, "dipswitch-50hz", config.dip50Hz.gpio);
     }
-    config.dip50Hz.gpio_state = gpiod_get_value(config.dip50Hz.gpio);
-    gpiod_export(config.dip50Hz.gpio, false);
-    gpiod_export_link(&pdev->dev, "dipswitch-50hz", config.dip50Hz.gpio);
 
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", config.dip50Hz.gpio_state, config.dip31kHz.gpio_state);
 
@@ -618,19 +625,14 @@ static int dpidac_probe(struct platform_device *pdev) {
     config.video_filter.gpio = devm_gpiod_get_index(&(pdev->dev), "videofilter", 0, GPIOD_OUT_HIGH);
     if (IS_ERR(config.video_filter.gpio)) {
       pr_err("Error when assigning GPIO to video_filter.\n");
+    } else {
+      config.video_filter.gpio_state = 1;
+      gpiod_set_value(config.video_filter.gpio, 1);
+      gpiod_export(config.video_filter.gpio, false);
+      gpiod_export_link(&pdev->dev, "jamma-video-filter", config.video_filter.gpio);
     }
-    config.video_filter.gpio_state = 1;
-    gpiod_set_value(config.video_filter.gpio, 1);
-    gpiod_export(config.video_filter.gpio, false);
-    gpiod_export_link(&pdev->dev, "jamma-video-filter", config.video_filter.gpio);
-
-
-    config.dip50Hz.gpio_state = 1;
-    config.dip31kHz.gpio_state = 1;
   } else {
     config.current_hat = OTHER;
-    config.dip50Hz.gpio_state = 1;
-    config.dip31kHz.gpio_state = 1;
   }
 
   drm_bridge_add(&vga->bridge);

@@ -45,8 +45,12 @@ void OSDManager::Render(const Transform4x4f& parentTrans)
   Renderer::SetMatrix(parentTrans);
 
   // Display left
-  float x = Math::round(renderer.DisplayWidthAsFloat() / 80.f);
-  float yl = Math::round(renderer.DisplayHeightAsFloat() / 80.f);
+  float x = Board::Instance().CrtBoard().IsCrtAdapterAttached() ?
+            Math::round(renderer.DisplayWidthAsFloat() / 20.f) :
+            Math::round(renderer.DisplayWidthAsFloat() / 80.f);
+  float yl = Board::Instance().CrtBoard().IsCrtAdapterAttached() ?
+             Math::round(renderer.DisplayHeightAsFloat() / 20.f) :
+             Math::round(renderer.DisplayHeightAsFloat() / 80.f);
   float yr = yl;
   float gap = Math::round(renderer.DisplayHeightAsFloat() / 40.f);
   for(BaseOSD* osd : mOSDList)

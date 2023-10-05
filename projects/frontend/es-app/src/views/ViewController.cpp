@@ -531,7 +531,6 @@ void ViewController::LaunchCheck()
     }
   }
 
-
   if ((mCheckFlags & LaunchCheckFlags::SoftPatching) == 0)
     if (mCheckFlags |= LaunchCheckFlags::SoftPatching; CheckSoftPatching(emulator))
       return;

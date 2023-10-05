@@ -74,6 +74,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     {
       Disable, //!< No soft patching
       Auto,    //!< Automatic patch selection
+      LaunchLast,    //!< Automatic patch selection
       Select,  //!< Manual patch selection
     };
 

@@ -16,8 +16,6 @@ MetadataStringHolder MetadataDescriptor::sCoreHolder(2 << 10, 1 << 10);
 MetadataStringHolder MetadataDescriptor::sRatioHolder(1 << 10, 1 << 10);
 MetadataStringHolder MetadataDescriptor::sPathHolder(64 << 10, 32 << 10);
 MetadataStringHolder MetadataDescriptor::sFileHolder(128 << 10, 32 << 10);
-MetadataStringHolder MetadataDescriptor::sLastPatchPathHolder(2 << 10, 1 << 10);
-MetadataStringHolder MetadataDescriptor::sLastPatchFileHolder(2 << 10, 1 << 10);
 
 #ifdef _METADATA_STATS_
 int MetadataDescriptor::LivingClasses = 0;
@@ -379,8 +377,7 @@ void MetadataDescriptor::CleanupHolders()
   LOG(LogDebug) << "[MetadataDescriptor] Emulator storage: "    << sEmulatorHolder.StorageSize()      << " - object count: " << sEmulatorHolder.ObjectCount()   ;
   LOG(LogDebug) << "[MetadataDescriptor] Path storage: "        << sPathHolder.StorageSize()          << " - object count: " << sPathHolder.ObjectCount()       ;
   LOG(LogDebug) << "[MetadataDescriptor] File storage: "        << sFileHolder.StorageSize()          << " - object count: " << sFileHolder.ObjectCount()       ;
-  LOG(LogDebug) << "[MetadataDescriptor] Patch Path storage: "  << sLastPatchPathHolder.StorageSize() << " - object count: " << sLastPatchPathHolder.ObjectCount()       ;
-  LOG(LogDebug) << "[MetadataDescriptor] Patcn File storage: "  << sLastPatchFileHolder.StorageSize() << " - object count: " << sLastPatchFileHolder.ObjectCount()       ;
+
   sNameHolder.Finalize();
   sDescriptionHolder.Finalize();
   sPublisherHolder.Finalize();
@@ -391,6 +388,4 @@ void MetadataDescriptor::CleanupHolders()
   sEmulatorHolder.Finalize();
   sPathHolder.Finalize();
   sFileHolder.Finalize();
-  sLastPatchPathHolder.Finalize();
-  sLastPatchFileHolder.Finalize();
 }

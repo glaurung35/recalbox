@@ -138,6 +138,7 @@ as release notes for end user on a Recalbox upgrade.
 - Removed unplugged pads from the pad list
 - Unplugged/plugged-in pads keep their positions
 - Bluetooth auto-pairing is started at each boot now
+- Add new softpatching LAUNCH LAST option
 
 ### Fixes
 - Fix argonone case power management

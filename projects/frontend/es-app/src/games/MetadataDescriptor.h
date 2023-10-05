@@ -48,10 +48,6 @@ class MetadataDescriptor
     static MetadataStringHolder sPathHolder;
     //! File string holder
     static MetadataStringHolder sFileHolder;
-    //! Path string holder
-    static MetadataStringHolder sLastPatchPathHolder;
-    //! File string holder
-    static MetadataStringHolder sLastPatchFileHolder;
 
     // Please keep field ordered by type size to reduce alignment padding
     unsigned int                  mTimeStamp;    //!< Scraping timestamp
@@ -432,7 +428,7 @@ class MetadataDescriptor
     [[nodiscard]] String       Emulator()    const { return sEmulatorHolder.GetString(mEmulator);         }
     [[nodiscard]] String       Core()        const { return sCoreHolder.GetString(mCore);                 }
     [[nodiscard]] String       Ratio()       const { return sRatioHolder.GetString(mRatio);               }
-    [[nodiscard]] Path         LastPatch()   const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
+    [[nodiscard]] Path         LastPatch()   const {return sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile); }
 
     [[nodiscard]] float              Rating()          const { return mRating;                           }
     [[nodiscard]] int                PlayerRange()     const { return mPlayers;                          }
@@ -525,8 +521,8 @@ class MetadataDescriptor
     }
     void SetLastPatch(const Path& patch)
     {
-      mLastPatchPath = sLastPatchPathHolder.AddString16(patch.Directory().ToString());
-      mLastPatchFile = sLastPatchFileHolder.AddString16(patch.Filename());
+      mLastPatchPath = sPathHolder.AddString16(patch.Directory().ToString());
+      mLastPatchFile = sFileHolder.AddString16(patch.Filename());
       mDirty = true;
     }
     void SetEmulator(const String& emulator)       { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }

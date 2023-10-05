@@ -182,8 +182,8 @@ void InputManager::LoadAllJoysticksConfiguration(std::vector<InputDevice> previo
     LoadJoystickConfiguration(i);
 
   //! Notify
-  for(int i = mNotificationInterfaces.Count(); --i >= 0; )
-    mNotificationInterfaces[i]->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
+  for(IInputChange* input : mNotificationInterfaces)
+    input->PadsAddedOrRemoved(mJoystickChangePendingRemoved);
 
   // No info popup ?
   if (window == nullptr) return;

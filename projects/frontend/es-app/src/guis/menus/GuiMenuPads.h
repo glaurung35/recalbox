@@ -58,7 +58,8 @@ class GuiMenuPads : public GuiMenuBase
     std::shared_ptr<OptionListComponent<int>> mDevices[Input::sMaxInputDevices];
 
     //! Pad Mapper
-    InputMapper mMapper;
+    InputMapper& mMapper;
+
     //! Refreshing component, ignore change event
     bool mRefreshing;
 

@@ -37,8 +37,9 @@ class MenuMessages
     #define MENUMESSAGE_GAME_SHADERSET_HELP_MSG "Shaders are like filters for the game rendering. You can select a shader set here, which is a collection of shaders selected for each system. You can also change the shader within the game with HOTKEY + L2 or HOTKEY + R2."
     #define MENUMESSAGE_GAME_HIDE_PREINSTALLED "Hide all pre-installed games. Changing this option makes EmulationStation to relaunch."
     #define MENUMESSAGE_GAME_SOFTPATCHING "Choose strategy\n\n" \
-    "AUTO: auto apply default patch\n\n" \
-    "SELECT: choose manually which patch to apply. Default one or patchs in [ROM_NAME]-patches directory\n\n" \
+    "AUTO: auto apply default patch\n\n"                        \
+    "LAUNCH LAST: always launch the last one (can be modified in edit game menu)\n\n"             \
+    "SELECT: choose manually which patch to apply. Default one or patches in [ROM_NAME]-patches directory\n\n" \
     "DISABLED: never apply patch"
     #define MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG "Set the Super GameBoy mode for GameBoy games."
 

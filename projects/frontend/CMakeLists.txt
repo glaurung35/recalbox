@@ -93,6 +93,10 @@ if(CMAKE_COMPILER_IS_GNUCXX)
         set(OPTION_RECALBOX_EASY_DEBUG "-DFREEZE_MQTT=1 -DSLOW_LOADING=1")
     endif()
 
+    if(OPTION_RECALBOX_SIMULATE_RRGBD)
+        set(OPTION_RECALBOX_EASY_DEBUG "-DOPTION_RECALBOX_SIMULATE_RRGBD=1")
+    endif()
+
     #set up compiler flags for GCC
 	if (CMAKE_BUILD_TYPE MATCHES Debug)
         # -fsanitize=address -fsanitize-address-use-after-scope

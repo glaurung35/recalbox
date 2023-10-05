@@ -17,8 +17,15 @@ class CrtRGBDual : public ICrtInterface
     explicit CrtRGBDual(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
 
     //! An RGB Dual is attached
-    bool IsCrtAdapterAttached() const override { return Files::LoadFile(Path(vgaCardConnectedPi4)) == "connected\n"
-                                                        || Files::LoadFile(Path(vgaCardConnectedPi3)) == "connected\n" ; }
+    bool IsCrtAdapterAttached() const override
+    {
+      #ifdef OPTION_RECALBOX_SIMULATE_RRGBD
+      return true;
+      #else
+      return Files::LoadFile(Path(vgaCardConnectedPi4)) == "connected\n"
+             || Files::LoadFile(Path(vgaCardConnectedPi3)) == "connected\n";
+      #endif
+    }
 
     //! This adapter is an RGB Dual
     CrtAdapterType GetCrtAdapter() const override { return CrtAdapterType::RGBDual; }

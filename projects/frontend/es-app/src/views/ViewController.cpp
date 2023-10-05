@@ -450,6 +450,22 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
         }
         break;
       }
+      case RecalboxConf::SoftPatching::LaunchLast:
+      {
+        Path lastPatchPath = mGameToLaunch->Metadata().LastPatch();
+
+        if (lastPatchPath.Exists())
+        {
+          mGameLinkedData.ConfigurablePatch().SetPatchPath(lastPatchPath);
+          break;
+        }
+        else if (lastPatchPath != nullptr && lastPatchPath.Filename() == "original")
+        {
+          mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
+          break;
+        }
+        // if no patch are configured yet go to next SoftPatching::Select case
+      }
       case RecalboxConf::SoftPatching::Select:
       {
         std::vector<Path> patches = GameFilesUtils::GetSoftPatches(mGameToLaunch);

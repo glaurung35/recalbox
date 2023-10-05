@@ -23,19 +23,23 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
   automaticallyDetected = false;
 
   // RGB Dual hat
+  #ifndef OPTION_RECALBOX_SIMULATE_RRGBD
   String vendor = Files::LoadFile(Path(sHatVendorFile));
   String product = Files::LoadFile(Path(sHatProductFile));
   if (vendor.rfind(sRecalboxVendorString) == 0 &&
       product.rfind(sRGBDualProductString) == 0)
   {
+  #endif
     result = CrtAdapterType::RGBDual;
     automaticallyDetected = true;
+  #ifndef OPTION_RECALBOX_SIMULATE_RRGBD
   }
   else
   {
     // User config
     result = CrtConf::Instance().GetSystemCRT();
   }
+  #endif
 
   return result;
 }

@@ -269,7 +269,7 @@ ICrtInterface& Board::GetCrtBoard()
 
 bool Board::CanHaveCRTBoard()
 {
-  #ifdef DEBUG
+  #if defined(DEBUG) || defined(OPTION_RECALBOX_SIMULATE_RRGBD)
   return true;
   #else
   switch(GetBoardType())

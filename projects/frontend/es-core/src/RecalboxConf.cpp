@@ -32,6 +32,7 @@ RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& so
 {
   if (softpatching == "auto") return SoftPatching::Auto;
   if (softpatching == "select") return SoftPatching::Select;
+  if (softpatching == "launchLast") return SoftPatching::LaunchLast;
 
   return SoftPatching::Disable;
 }
@@ -42,6 +43,7 @@ const String& RecalboxConf::SoftPatchingFromEnum(SoftPatching softpatching)
   {
     case SoftPatching::Auto: { static String s("auto"); return s; }
     case SoftPatching::Select: { static String s("select"); return s; }
+    case SoftPatching::LaunchLast: { static String s("launchLast"); return s; }
     case SoftPatching::Disable:
     default: break;
   }

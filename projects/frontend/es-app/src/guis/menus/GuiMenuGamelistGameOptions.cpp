@@ -14,6 +14,7 @@
 #include <components/SwitchComponent.h>
 #include <views/ViewController.h>
 #include <LibretroRatio.h>
+#include "games/GameFilesUtils.h"
 
 GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, ISimpleGameListView& view, SystemManager& systemManager, SystemData& system, FileData& game)
   : GuiMenuBase(window, _("GAME OPTIONS"), this)
@@ -37,6 +38,12 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
   if (mGame.IsGame())
     mEmulator = AddList<String>(_("RUN WITH"), (int)Components::Emulator, this, GetEmulatorEntries(), _(MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG));
 
+  // Patch width
+  if (mGame.IsGame() && !GameFilesUtils::GetSoftPatches(&mGame).empty())
+  {
+    mPath = AddList<Path>(_("SOFTPATCHING"), (int)Components::Patch, this, GetPatchEntries());
+
+  }
   // Ratio
   if (mGame.IsGame())
     mRatio = AddList<String>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
@@ -133,6 +140,26 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGamelistGameOptions::GetEmula
   return list;
 }
 
+
+std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameOptions::GetPatchEntries()
+{
+  std::vector<ListEntry<Path>> list;
+  std::vector<Path> patches = GameFilesUtils::GetSoftPatches(&mGame);
+
+
+  unsigned long patchListSize = patches.size();
+  list.push_back({ _("original"), Path("original")  , true});
+
+  for(auto& path : patches)
+  {
+    bool isDefault = patchListSize == 1 || (path == mGame.Metadata().LastPatch() && mGame.Metadata().LastPatch().Exists());
+    String patchName = path.Directory() == mGame.RomPath().Directory() ? path.Filename() + " (auto)" : path.Filename();
+
+    list.push_back({ patchName, path , isDefault });
+  }
+  return list;
+}
+
 void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const String& value)
 {
   (void)index;
@@ -152,6 +179,13 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
   }
   else if ((Components)id == Components::Ratio)
     mGame.Metadata().SetRatio(value);
+}
+
+void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const Path& value)
+{
+  (void)index;
+  if ((Components)id == Components::Patch)
+    mGame.Metadata().SetLastPatch(value);
 }
 
 void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const GameGenres& value)
@@ -204,7 +238,9 @@ void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
     case Components::Genre:
     case Components::Scrape:
     case Components::Ratio:
-    case Components::Emulator: break;
+    case Components::Emulator:
+    case Components::Patch:
+      break;
   }
   if (updatedMetadata != MetadataType::None)
     mSystemManager.UpdateSystemsOnGameChange(&mGame, updatedMetadata, false);

@@ -119,6 +119,7 @@ std::vector<GuiMenuBase::ListEntry<RecalboxConf::SoftPatching>> GuiMenuGameSetti
   RecalboxConf::SoftPatching currentOption = RecalboxConf::Instance().GetGlobalSoftpatching();
 
   list.emplace_back( _("AUTO"), RecalboxConf::SoftPatching::Auto, currentOption == RecalboxConf::SoftPatching::Auto );
+  list.emplace_back( _("LAUNCH LAST"), RecalboxConf::SoftPatching::LaunchLast, currentOption == RecalboxConf::SoftPatching::LaunchLast );
   list.emplace_back( _("SELECT"), RecalboxConf::SoftPatching::Select, currentOption == RecalboxConf::SoftPatching::Select );
   list.emplace_back( _("DISABLE"), RecalboxConf::SoftPatching::Disable, currentOption == RecalboxConf::SoftPatching::Disable);
 

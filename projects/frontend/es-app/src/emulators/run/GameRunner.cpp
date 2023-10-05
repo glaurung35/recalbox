@@ -130,13 +130,13 @@ String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& e
            && data.Patch().PatchPath().Directory() != game.RomPath().Directory())
   {
     // launch with a selected path in xxxxx-patches directory
-    const String patchPAthEscaped = data.Patch().PatchPath().MakeEscaped();
+    const String patchPathEscaped = data.Patch().PatchPath().MakeEscaped();
     if (data.Patch().PatchPath().Extension() == ".ips")
-      command.Append(" -ips ").Append(patchPAthEscaped);
+      command.Append(" -ips ").Append(patchPathEscaped);
     else if (data.Patch().PatchPath().Extension() == ".bps")
-      command.Append(" -bps ").Append(patchPAthEscaped);
+      command.Append(" -bps ").Append(patchPathEscaped);
     else if (data.Patch().PatchPath().Extension() == ".ups")
-      command.Append(" -ups ").Append(patchPAthEscaped);
+      command.Append(" -ups ").Append(patchPathEscaped);
   }
   if(data.SuperGameBoy().ShouldEnable(game.System()))
     command.Append(" -sgb ")

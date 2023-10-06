@@ -11,6 +11,7 @@
 GuiInputConfig::~GuiInputConfig()
 {
   mTargetDevice->SetConfiguringState(false);
+  InputManager::Instance().RemoveNotificationInterface(this);
 }
 
 GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const std::function<void()>& doneCallback)
@@ -139,6 +140,8 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
   float height = Renderer::Instance().Is480pOrLower() ? Renderer::Instance().DisplayHeightAsFloat() * 0.70f : Renderer::Instance().DisplayHeightAsFloat() * 0.85f;
   setSize(width, height);
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
+
+  InputManager::Instance().AddNotificationInterface(this);
 }
 
 void GuiInputConfig::initFormInputs()

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-LIBRETRO_CHEATS_VERSION = v1.9.0
+LIBRETRO_CHEATS_VERSION = v1.15.0
 LIBRETRO_CHEATS_SITE = $(call github,libretro,libretro-database,$(LIBRETRO_CHEATS_VERSION))
 LIBRETRO_CHEATS_LICENSE = MIT
 LIBRETRO_CHEATS_LICENSE_FILES = COPYING

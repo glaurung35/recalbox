@@ -31,7 +31,7 @@ class MqttClient
      * @param data UTF8 string to send
      * @return True if the string has been sent w/o error
      */
-    bool Send(const String& topic, const String& data);
+    bool Send(const String& topic, const String& data, int qos = 0);
 
     /*!
      * @brief Wait for current operation to finish

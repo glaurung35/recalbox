@@ -49,11 +49,17 @@ void Upgrade::Run()
     int waitForSeconds = 15;
     while (IsRunning())
     {
-      if (mSignal.WaitSignal(waitForSeconds * 1000LL))
-        break;
+      if (mSignal.WaitSignal(waitForSeconds * 1000LL)) return;
 
       // Next checks, once an hour
       waitForSeconds = 3600;
+
+      // Wait for network being available
+      while(IsRunning())
+      {
+        if (mSignal.WaitSignal(5000LL)) return;
+        if (RecalboxSystem::hasIpAdress(false)) break;
+      }
 
       // Do we have to update?
       mRemoteVersion = GetRemoteVersion();
@@ -171,13 +177,10 @@ String Upgrade::GetRemoteVersion()
     {
       int returnCode = request.GetLastHttpResponseCode();
       if (returnCode == 200) break;  // Exit for
-      else if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
-      else
-      {
-        { LOG(LogError) << "[Update] Error getting remote version: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
-        version.clear();
-        break;
-      }
+      if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
+      { LOG(LogError) << "[Update] Error getting remote version: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
+      version.clear();
+      break;
     }
     else
     {
@@ -266,13 +269,10 @@ String Upgrade::GetRemoteReleaseVersion()
     {
       int returnCode = request.GetLastHttpResponseCode();
       if (returnCode == 200) break;  // Exit for
-      else if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
-      else
-      {
-        { LOG(LogError) << "[Update] Error getting remote release note: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
-        releaseNote.clear();
-        break;
-      }
+      if (returnCode >= 500 && returnCode <= 599) { Thread::Sleep(5000); continue; } // Next loop
+      { LOG(LogError) << "[Update] Error getting remote release note: " << url << " - got: " << request.GetLastHttpResponseCode() ; }
+      releaseNote.clear();
+      break;
     }
     else
     {

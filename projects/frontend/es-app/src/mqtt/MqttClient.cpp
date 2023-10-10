@@ -39,7 +39,7 @@ MqttClient::~MqttClient()
   mMqtt.stop_consuming();
 }
 
-bool MqttClient::Send(const String& topic, const String& message)
+bool MqttClient::Send(const String& topic, const String& message, int qos)
 {
   #ifdef FREEZE_MQTT
   return true;
@@ -47,7 +47,7 @@ bool MqttClient::Send(const String& topic, const String& message)
 
   try
   {
-    mMqtt.publish(topic, message.data(), message.size(), 0, false, nullptr, *this);
+    mMqtt.publish(topic, message.data(), message.size(), qos, false, nullptr, *this);
     return true;
   }
   catch(std::exception& e)

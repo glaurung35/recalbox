@@ -119,7 +119,7 @@ tests buildroot patches:
     - apk update && apk add git
   script:
     - export ARCH=rpi4
-    - git remote show target || git remote add target "${CI_MERGE_REQUEST_PROJECT_URL}"
+    - git remote show target || git remote add target "${CI_MERGE_REQUEST_PROJECT_URL}" || exit 0
     - git fetch target "${CI_MERGE_REQUEST_TARGET_BRANCH_NAME}"
     - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" OUTPUTDIR="$(pwd)/output"
@@ -167,10 +167,10 @@ tests nvidia:
 .build_template: &build_definition
   stage: build
   variables:
-    ARCH: arch # to build (no default)
+    ARCH: arch  # to build (no default)
   <<: *only-default
   before_script:
-    - apk update && apk add git
+    - apk update && apk add git bash
     - source scripts/release/functions.sh
   script:
     # Version generation
@@ -198,16 +198,37 @@ tests nvidia:
         sed -i "s/^updates.type=.*/updates.type=jamma/g" package/recalbox-system/*/recalbox.conf
       fi
     # Build
-    - docker build -t "recalbox-${ARCH}" .
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}
-    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+    - docker build -t "recalbox-${ARCH}" .
+    - |
+      if [ "${ARCH}" == "rpi4_64" ] || [ "${ARCH}" == "rpi5_64" ];then
+        echo "Building lite image"
+        echo "Create a configs/recalbox-${ARCH}_lite_defconfig"
+        bash scripts/release/generate-free-defconfig.sh "${ARCH}"
+        echo "BR2_PACKAGE_RECALBOX_LITE=y" >> "configs/recalbox-${ARCH}_lite_defconfig"
+        cat "configs/recalbox-${ARCH}_lite_defconfig"
+        echo "Setting flag file recalbox.lite"
+        touch "./board/recalbox/fsoverlay/recalbox/recalbox.lite"
+        docker run -e "ARCH=${ARCH}_lite" --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
+        # clean specific lite elements
+        rm -rf "./board/recalbox/fsoverlay/recalbox/recalbox.lite" output/target/recalbox/recalbox.lite output/build/recalbox-romfs2/ output/target/recalbox/share_init/roms output/.config
+        export DIST_DIR="dist/${ARCH}_lite"
+        mkdir -p "${DIST_DIR}"
+        cp ${OUTPUTDIR}/images/recalbox/* "${DIST_DIR}"
+        echo "${RECALBOX_VERSION}_lite" > "${DIST_DIR}/recalbox.version"
+        cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
+        cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
+        cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
+        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
+      fi
+    - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?
     # Dist
     - export DIST_DIR="dist/${ARCH}"
     - mkdir -p "${DIST_DIR}"
     - cp ${OUTPUTDIR}/images/recalbox/* "${DIST_DIR}"
-    - echo "${RECALBOX_VERSION}" >> "${DIST_DIR}/recalbox.version"
+    - echo "${RECALBOX_VERSION}" > "${DIST_DIR}/recalbox.version"
     - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
     - cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"

@@ -424,6 +424,14 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
   }
 }
 
+void MainRunner::CheckRecalboxLite(WindowManager& window)
+{
+  if (RecalboxSystem::IsLiteVersion())
+  {
+    // Run wizard
+  }
+}
+
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
   if (RecalboxConf::Instance().GetFirstTimeUse())
@@ -464,7 +472,11 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::Pi5:
       case BoardType::Pi3plus:
       case BoardType::UnknownPi:
-      default: break;
+      default:
+      {
+        CheckRecalboxLite(window);
+        break;
+      }
     }
     RecalboxConf::Instance().SetFirstTimeUse(false);
   }

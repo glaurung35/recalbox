@@ -6,9 +6,11 @@
 
 AMIBERRY_VERSION = v4.1.6
 AMIBERRY_SITE = $(call gitlab,recalbox,packages/standalone/amiberry,$(AMIBERRY_VERSION))
-AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf libcapsimage libmpeg2 mpg123 flac
 AMIBERRY_LICENSE = GPL-3.0
 AMIBERRY_LICENSE_FILES = COPYING
+# Non commercial because of libcapsimage dependency
+AMIBERRY_NON_COMMERCIAL = y
+AMIBERRY_DEPENDENCIES = sdl2 sdl2_image sdl2_ttf libcapsimage libmpeg2 mpg123 flac
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 AMIBERRY_PLATFORM=rpi4-64-sdl2

@@ -13,6 +13,9 @@
 #include "RecalboxConf.h"
 #include "utils/locale/LocaleHelper.h"
 #include "recalbox/RecalboxSystem.h"
+#include "guis/GuiMsgBox.h"
+#include "guis/GuiMsgBoxScroll.h"
+#include "guis/GuiUpdateRecalbox.h"
 #include <patreon/PatronInfo.h>
 #include <guis/GuiInfoPopup.h>
 
@@ -111,7 +114,13 @@ void Upgrade::ReceiveSyncMessage()
 
   // Messagebox
   if (!mMessageBoxMessage.empty())
-    mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage, false);
+  {
+    //mWindow.displayScrollMessage(_("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage, false);
+    Gui* gui = new GuiMsgBoxScroll(mWindow, _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), mMessageBoxMessage, _("LATER"), nullptr, _("UPDATE NOW"),
+                                   [this] { mWindow.pushGui(new GuiUpdateRecalbox(mWindow, TarUrl(), ImageUrl(), HashUrl(), NewVersion())); },
+                                   String::Empty, nullptr);
+    mWindow.pushGui(gui);
+  }
 }
 
 String Upgrade::GetDomainName()

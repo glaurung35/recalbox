@@ -1,9 +1,11 @@
 config BR2_PACKAGE_HATARI
-	bool "recalbox Emulationstation 2"
+	bool "hatari standalon"
 	depends on BR2_INSTALL_LIBSTDCPP
 	select BR2_PACKAGE_SDL2
 	select BR2_PACKAGE_LIBZIP
 	select BR2_PACKAGE_MTOOLS
+	select BR2_PACKAGE_LIBCAPSIMAGE
+
 	help
 	  Atari ST/STE/TT/Falcon emulator.
 

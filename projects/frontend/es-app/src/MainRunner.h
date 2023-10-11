@@ -228,6 +228,11 @@ class MainRunner
     static void CheckFirstTimeWizard(WindowManager& window);
 
     /*!
+     * @brief Check Recalbox Lite status and show wizard
+     */
+    static void CheckRecalboxLite(WindowManager& window);
+
+    /*!
      * @brief Initialize input configurations
      * @param window Main window
      */

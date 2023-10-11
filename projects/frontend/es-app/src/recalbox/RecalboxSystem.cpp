@@ -492,3 +492,16 @@ bool RecalboxSystem::MakeBootReadWrite()
 {
   return system("mount -o remount,rw /boot") == 0;
 }
+
+bool RecalboxSystem::IsLiteVersion()
+{
+  // Original file existe?
+  if (!Path(sLiteFlagFile).Exists()) return false;
+
+  // Keep track of lite versions
+  Path track(sLiteFlagTrackFile);
+  if (track.Exists())
+    Files::SaveFile(track, String::Empty);
+
+  return true;
+}

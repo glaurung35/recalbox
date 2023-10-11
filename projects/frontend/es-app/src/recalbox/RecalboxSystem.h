@@ -91,10 +91,14 @@ class RecalboxSystem
 
     static bool getSysBatteryInfo(int& charge, int& unicodeIcon);
 
+    static bool IsLiteVersion();
+
   private:
     //! Share path
     static constexpr const char* sSharePath = "/recalbox/share/";
     static constexpr const char* sConfigScript = "/recalbox/scripts/recalbox-config.sh";
+    static constexpr const char* sLiteFlagFile = "/recalbox/recalbox.lite";
+    static constexpr const char* sLiteFlagTrackFile = "/overlay/recalbox.lite";
 
     static String BuildSettingsCommand(const String& arguments);
 

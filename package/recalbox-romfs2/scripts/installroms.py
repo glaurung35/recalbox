@@ -22,7 +22,7 @@ class InstallRoms:
 
     __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", 0, "", "")
 
-    def __init__(self, systemRoot: str, target: str, root: str):
+    def __init__(self, systemRoot: str, target: str, root: str, lite: bool = False):
         self.__systemRoot = systemRoot
         self.__targetInit = target + "share_init/roms"
         self.__targetUpgrade = target + "share_upgrade/roms"
@@ -30,6 +30,7 @@ class InstallRoms:
         self.__tags.loadFile(True)
         self.__config = ConfigIn(root)
         self.__arch = self.__config.Arch
+        self.__lite = lite
 
     def execute(self):
         print("[ROMFS 2] Copying systems and metadata to {}".format(self.__targetInit))
@@ -46,7 +47,7 @@ class InstallRoms:
                 self.__installReadMe(system_folder, holder)
 
                 print("[ROMFS 2] Copying init in share_init {}".format(system_folder))
-                self.__copyFolderContent(os.path.join(absolute_system_folder, "init", "roms"),
+                self.__copyFolderContent(os.path.join(absolute_system_folder, "init" if not self.__lite else "init_lite", "roms"),
                                          holder, self.__targetInit)
 
                 print("[ROMFS 2] Copying upgrade in share_upgrade {}".format(system_folder))
@@ -58,7 +59,7 @@ class InstallRoms:
         if os.path.exists(roms_folder):
             if "%ROOT%" in holder.RomFolder:
                 target_directory = holder.RomFolder.replace("%ROOT%", target)
-                shutil.copytree(roms_folder, target_directory, dirs_exist_ok=True)
+                shutil.copytree(roms_folder, target_directory, dirs_exist_ok=True, symlinks=True)
                 return
             elif holder.RomFolder == "/recalbox/share/screenshots":
                 target_directory = os.path.join(target, "../screenshots")

@@ -22,25 +22,29 @@ BluetoothOverlayGUI::BluetoothOverlayGUI(WindowManager &windowManager)
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   mControllerIcon.setImage(Path(":/bluetooth/bt_controller.svg"));
   mControllerIcon.setPosition(10 + sw / 100, 10 + sh / 50);
-  mControllerIcon.setMaxSize(sw / 32, sw / 32);
+  mControllerIcon.setResize(sw / 32, sw / 32);
+  mControllerIcon.setKeepRatio(true);
   mControllerIcon.setColor(menuTheme->menuBackground.color);
 
   mBtBottom.setImage(Path(":/bluetooth/bt_bottom.svg"));
   mBtBottom.setOrigin(0.5, 0);
   mBtBottom.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 90);
-  mBtBottom.setMaxSize(sw / 85, sw / 85);
+  mBtBottom.setResize(sw / 85, sw / 85);
+  mBtBottom.setKeepRatio(true);
   mBtBottom.setColor(menuTheme->menuBackground.color);
 
   mBtMiddle.setImage(Path(":/bluetooth/bt_middle.svg"));
   mBtMiddle.setOrigin(0.5, 0);
   mBtMiddle.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 51);
-  mBtMiddle.setMaxSize(sw / 53, sw / 53);
+  mBtMiddle.setResize(sw / 53, sw / 53);
+  mBtMiddle.setKeepRatio(true);
   mBtMiddle.setColor(menuTheme->menuBackground.color);
 
   mBtTop.setImage(Path(":/bluetooth/bt_top.svg"));
   mBtTop.setOrigin(0.5, 0);
   mBtTop.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 36);
-  mBtTop.setMaxSize(sw / 40, sw / 40);
+  mBtTop.setResize(sw / 40, sw / 40);
+  mBtTop.setKeepRatio(true);
   mBtTop.setColor(menuTheme->menuBackground.color);
 
   // Outlined Progress bar

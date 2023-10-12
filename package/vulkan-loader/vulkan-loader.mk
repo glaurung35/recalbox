@@ -14,7 +14,7 @@ VULKAN_LOADER_DEPENDENCIES = vulkan-headers
 VULKAN_LOADER_CONF_OPTS = -DVulkanHeaders_INCLUDE_DIR=$(STAGING_DIR)/usr/include/ \
 													-DVulkanRegistry_DIR=$(TARGET_DIR)/usr/share/vulkan/registry
 
-ifeq ($(BR2_PACKAGE_XORG7),y)
+ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),y)
 VULKAN_LOADER_DEPENDENCIES += libxcb xserver_xorg-server
 VULKAN_LOADER_CONF_OPTS += \
 	-DBUILD_WSI_XCB_SUPPORT=ON \

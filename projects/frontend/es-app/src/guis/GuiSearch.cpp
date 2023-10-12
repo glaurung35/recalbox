@@ -414,7 +414,7 @@ void GuiSearch::launch()
 
     int index = mList->getCursor();
     Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
-    ViewController::Instance().Launch(mSearchResults[index], GameLinkedData(), target);
+    ViewController::Instance().Launch(mSearchResults[index], GameLinkedData(), target, true);
   }
 }
 

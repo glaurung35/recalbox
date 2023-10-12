@@ -25,6 +25,7 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mGameToLaunch(nullptr)
   , mLaunchCameraTarget()
   , mCheckFlags(LaunchCheckFlags::None)
+  , mForceGoToGame(false)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
   , mCurrentSystem(nullptr)
@@ -97,8 +98,9 @@ void ViewController::goToStart()
     else
     {
       mSystemListView.SetProgressInterface(&mSplashView);
-      goToSystemView(selectedSystem);
+      mSystemListView.populate();
       mSystemListView.SetProgressInterface(nullptr);
+      goToSystemView(selectedSystem);
     }
   }
 }
@@ -216,7 +218,7 @@ void ViewController::goToGameList(SystemData* system)
 	{
 		mWindow.Rotate(rotation);
 	}
-	if (mCurrentViewType == ViewType::SystemList)
+	if (mCurrentViewType != ViewType::GameList)
 	{
 		// move system list
 		float offX = mSystemListView.getPosition().x();
@@ -313,7 +315,7 @@ void ViewController::playViewTransition()
 	}
 }
 
-void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget)
+void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceGoToGame)
 {
   if (!game->IsGame())
   {
@@ -325,6 +327,7 @@ void ViewController::Launch(FileData* game, const GameLinkedData& data, const Ve
   mGameToLaunch = game;
   mLaunchCameraTarget = cameraTarget;
   mCheckFlags = LaunchCheckFlags::None;
+  mForceGoToGame = forceGoToGame;
   LaunchCheck();
 }
 
@@ -561,6 +564,8 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
 {
   DateTime start;
   GameRunner::Instance().RunGame(*mGameToLaunch, emulator, mGameLinkedData);
+  if (mForceGoToGame)
+    selectGamelistAndCursor(mGameToLaunch);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s

@@ -574,7 +574,7 @@ void DetailedGameListView::launch(FileData* game)
   if (mImage.hasImage())
     target.Set(mImage.getCenter().x(), mImage.getCenter().y(), 0);
 
-  ViewController::Instance().Launch(game, GameLinkedData(), target);
+  ViewController::Instance().Launch(game, GameLinkedData(), target, false);
 }
 
 // element order need to follow the one in onThemeChanged

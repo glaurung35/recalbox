@@ -639,11 +639,20 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 {
   if (keepratio && texture.width() != 0 && texture.height() != 0)
   {
-    float sx = (float)w / (float)texture.width();
-    float sy = (float)h / (float)texture.height();
-
-    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
-    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+    float areaRatio = (float)w / (float)h;
+    float textureRatio = texture.width() / texture.height();
+    if (areaRatio < textureRatio)
+    {
+      double height = (float)w / textureRatio;
+      y += (h - (int) height) / 2;
+      h = (int)height;
+    }
+    else
+    {
+      double width = (float)h * textureRatio;
+      x += (w - (int) width) / 2;
+      w = (int)width;
+    }
   }
 
   if (texture.bind())
@@ -693,11 +702,20 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 {
   if (keepratio && texture.width() != 0 && texture.height() != 0)
   {
-    float sx = (float)w / (float)texture.width();
-    float sy = (float)h / (float)texture.height();
-
-    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
-    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+    float areaRatio = (float)w / (float)h;
+    float textureRatio = texture.width() / texture.height();
+    if (areaRatio < textureRatio)
+    {
+      double height = (float)w / textureRatio;
+      y += (h - (int) height) / 2;
+      h = (int)height;
+    }
+    else
+    {
+      double width = (float)h * textureRatio;
+      x += (w - (int) width) / 2;
+      w = (int)width;
+    }
   }
 
   if (texture.bind())
@@ -749,14 +767,25 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, Colors::ColorARGB color)
 {
+  //DrawRectangle(x, y, w, h, 0xFF000040);
   if (keepratio && texture.width() != 0 && texture.height() != 0)
   {
-    float sx = (float)w / (float)texture.width();
-    float sy = (float)h / (float)texture.height();
-
-    if (sx < sy) { x = Math::roundi((float)x * sx); y = Math::roundi((float)y * sx); }
-    else         { x = Math::roundi((float)x * sy); y = Math::roundi((float)y * sy); }
+    float areaRatio = (float)w / (float)h;
+    float textureRatio = texture.width() / texture.height();
+    if (areaRatio < textureRatio)
+    {
+      double height = (float)w / textureRatio;
+      y += (h - (int) height) / 2;
+      h = (int)height;
+    }
+    else
+    {
+      double width = (float)h * textureRatio;
+      x += (w - (int) width) / 2;
+      w = (int)width;
+    }
   }
+  //DrawRectangle(x, y, w, h, 0x00FF0040);
 
   if (texture.bind())
   {

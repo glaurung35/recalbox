@@ -2,14 +2,14 @@
 // Created by bkg2k on 11/11/2020.
 //
 
-#include "Wizard.h"
+#include "SimpleWizardBase.h"
 #include <themes/MenuThemeData.h>
 #include <utils/locale/LocaleHelper.h>
 #include <components/TextComponent.h>
 #include <components/ImageComponent.h>
 #include <help/Help.h>
 
-Wizard::Wizard(WindowManager& window, const String& title, int pageCount)
+SimpleWizardBase::SimpleWizardBase(WindowManager& window, const String& title, int pageCount)
   : Gui(window)
   , mBackground(window)
   , mGrid(window, { 5, 3 })
@@ -86,7 +86,7 @@ Wizard::Wizard(WindowManager& window, const String& title, int pageCount)
   mImage->setKeepRatio(true);
 }
 
-bool Wizard::ProcessInput(const InputCompactEvent& event)
+bool SimpleWizardBase::ProcessInput(const InputCompactEvent& event)
 {
   switch(OnKeyReceived(mCurrentPage, event))
   {
@@ -99,7 +99,7 @@ bool Wizard::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-void Wizard::Update(int deltaTime)
+void SimpleWizardBase::Update(int deltaTime)
 {
   Component::Update(deltaTime);
 
@@ -107,7 +107,7 @@ void Wizard::Update(int deltaTime)
     SetPage(0);
 }
 
-void Wizard::SetPage(int page)
+void SimpleWizardBase::SetPage(int page)
 {
   mCurrentPage = Math::clampi(page, 0, mPageCount - 1);
 
@@ -118,7 +118,7 @@ void Wizard::SetPage(int page)
   updateHelpPrompts();
 }
 
-bool Wizard::getHelpPrompts(Help& help)
+bool SimpleWizardBase::getHelpPrompts(Help& help)
 {
   help.Clear();
   if (mCurrentPage > 0) help.Set(Help::Cancel(), _("BACK"));
@@ -128,7 +128,7 @@ bool Wizard::getHelpPrompts(Help& help)
   return true;
 }
 
-void Wizard::UpdatePage()
+void SimpleWizardBase::UpdatePage()
 {
   SetPage(mCurrentPage);
 }

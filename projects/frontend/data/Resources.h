@@ -29,6 +29,9 @@ extern const uint8_t f8bitfortressplus_ttf_data[];
 extern const uint16_t window_icon_256_png_size;
 extern const uint8_t window_icon_256_png_data[];
 
+extern const uint16_t win_network_share_png_size;
+extern const uint8_t win_network_share_png_data[];
+
 extern const uint16_t textinput_ninepatch_png_size;
 extern const uint8_t textinput_ninepatch_png_data[];
 
@@ -40,6 +43,9 @@ extern const uint8_t busy_1_png_data[];
 
 extern const uint16_t heart_filled_svg_size;
 extern const uint8_t heart_filled_svg_data[];
+
+extern const uint16_t pad_info_fr_svg_size;
+extern const uint8_t pad_info_fr_svg_data[];
 
 extern const uint16_t arrow_svg_size;
 extern const uint8_t arrow_svg_data[];
@@ -113,6 +119,9 @@ extern const uint8_t fav_remove_svg_data[];
 extern const uint32_t ubuntu_condensed_ttf_size;
 extern const uint8_t ubuntu_condensed_ttf_data[];
 
+extern const uint16_t recalbox_qrcode_svg_size;
+extern const uint8_t recalbox_qrcode_svg_data[];
+
 extern const uint16_t option_arrow_svg_size;
 extern const uint8_t option_arrow_svg_data[];
 
@@ -124,6 +133,9 @@ extern const uint8_t star_unfilled_svg_data[];
 
 extern const uint16_t on_svg_size;
 extern const uint8_t on_svg_data[];
+
+extern const uint16_t recalbox_x_kubii_svg_size;
+extern const uint8_t recalbox_x_kubii_svg_data[];
 
 extern const uint16_t button_filled_png_size;
 extern const uint8_t button_filled_png_data[];

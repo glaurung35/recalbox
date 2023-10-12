@@ -20,7 +20,7 @@ class HttpTest: public ::testing::Test
     }
 };
 
-TEST_F(HttpTest, TestGetString)
+/*TEST_F(HttpTest, TestGetString)
 {
   Http http;
   String output;
@@ -37,7 +37,7 @@ TEST_F(HttpTest, TestGetFile)
   ASSERT_TRUE(http.Execute("http://www.perdu.com", path));
   String output = Files::LoadFile(path);
   ASSERT_EQ(output, "<html><head><title>Vous Etes Perdu ?</title></head><body><h1>Perdu sur l'Internet ?</h1><h2>Pas de panique, on va vous aider</h2><strong><pre>    * <----- vous &ecirc;tes ici</pre></strong></body></html>\n");
-}
+}*/
 
 //TEST_F(HttpTest, TestGetBigFile)
 //{

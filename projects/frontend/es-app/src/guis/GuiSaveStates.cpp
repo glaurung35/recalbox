@@ -240,7 +240,7 @@ void GuiSaveStates::launch(int slot)
                       Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
     GameLinkedData gameLinkedData = GameLinkedData();
     gameLinkedData.ConfigurableSaveState().SetSlotNumber(slot);
-    ViewController::Instance().Launch(&mGame, gameLinkedData, target);
+    ViewController::Instance().Launch(&mGame, gameLinkedData, target, true);
   }
   else
   {

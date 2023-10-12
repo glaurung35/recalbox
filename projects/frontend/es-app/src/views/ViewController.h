@@ -76,8 +76,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      * @param game game to launch
      * @param netplay optional netplay data
      * @param centerCameraOn optional camera target point
+     * @param forceGoToGame Force gamelist & game display after the game end. This is only usefull when a game is not run from its gamelist
      */
-    void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn);
+    void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn, bool forceGoToGame);
 
     bool GetOrReCreateGamelistView(SystemData* view, bool reloadTheme = false);
     void InvalidateGamelist(const SystemData* system);
@@ -202,6 +203,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     Vector3f mLaunchCameraTarget;
     //! Check flags
     LaunchCheckFlags mCheckFlags;
+    //! Force go to game after the game ends
+    bool mForceGoToGame;
 
     //! SystemManager instance
     SystemManager& mSystemManager;

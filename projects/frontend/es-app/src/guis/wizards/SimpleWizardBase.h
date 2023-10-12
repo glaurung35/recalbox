@@ -12,7 +12,7 @@
 class TextComponent;
 class ImageComponent;
 
-class Wizard : public Gui
+class SimpleWizardBase : public Gui
 {
   public:
     enum class Move
@@ -29,7 +29,7 @@ class Wizard : public Gui
      * @param title Wizard title
      * @param pageCount Total page count
      */
-    Wizard(WindowManager& window, const String& title, int pageCount);
+    SimpleWizardBase(WindowManager& window, const String& title, int pageCount);
 
     /*!
      * @brief Called when a new page is displayed

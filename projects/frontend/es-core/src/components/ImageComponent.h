@@ -10,17 +10,29 @@
 class ImageComponent : public Component
 {
 public:
-  ImageComponent(WindowManager&window, bool forceLoad, bool dynamic);
-  ImageComponent(WindowManager&window, bool forceLoad)
-    : ImageComponent(window, forceLoad, true)
+  ImageComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic);
+  ImageComponent(WindowManager&window, bool forceLoad, bool dynamic)
+    : ImageComponent(window, false, Path::Empty, forceLoad, dynamic)
   {
   }
-  explicit ImageComponent(WindowManager&window)
-    : ImageComponent(window, false, true)
+  ImageComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad)
+    : ImageComponent(window, keepRatio, imagePath, forceLoad, true)
+  {
+  }
+  ImageComponent(WindowManager&window, bool forceLoad)
+    : ImageComponent(window, false, Path::Empty, forceLoad, true)
+  {
+  }
+  explicit ImageComponent(WindowManager& window, bool keepRatio, const Path& imagePath)
+    : ImageComponent(window, keepRatio, imagePath, false, true)
+  {
+  }
+  explicit ImageComponent(WindowManager& window)
+    : ImageComponent(window, false, Path::Empty, false, true)
   {
   }
 
-  virtual ~ImageComponent() = default;
+  ~ImageComponent() override = default;
 
 	//Loads the image at the given filepath. Will tile if tile is true (retrieves texture as tiling, creates vertices accordingly).
   void setImage(const Path& path, bool tile = false);
@@ -63,7 +75,7 @@ public:
 	void setFlipY(bool flip); // Mirror on the Y axis.
 
 	// Returns the size of the current texture, or (0, 0) if none is loaded.  May be different than drawn size (use getSize() for that).
-	Vector2i getTextureSize() const;
+	[[nodiscard]] Vector2i getTextureSize() const;
 
 	bool hasImage() { return mTexture != nullptr; }
 
@@ -83,7 +95,7 @@ public:
    * @brief Set component visibility
    * @param enabled True (default) to render the component, false to hide it
    */
-  bool Visible() const { return mVisible; }
+  [[nodiscard]] bool Visible() const { return mVisible; }
 
   private:
 	Vector2f mTargetSize;

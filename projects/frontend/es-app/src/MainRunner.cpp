@@ -27,6 +27,7 @@
 #include "RotationManager.h"
 #include "RootFolders.h"
 #include "web/RestApiServer.h"
+#include "guis/wizards/WizardLite.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -431,13 +432,12 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
 void MainRunner::CheckRecalboxLite(WindowManager& window)
 {
   if (RecalboxSystem::IsLiteVersion())
-  {
-    // Run wizard
-  }
+    window.pushGui(new WizardLite(window));
 }
 
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
+  bool firstTime = false;
   if (RecalboxConf::Instance().GetFirstTimeUse())
   {
     switch (Board::Instance().GetBoardType())

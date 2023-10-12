@@ -12,10 +12,10 @@ Vector2i ImageComponent::getTextureSize() const {
     return Vector2i::Zero();
 }
 
-ImageComponent::ImageComponent(WindowManager&window, bool forceLoad, bool dynamic)
+ImageComponent::ImageComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
   : Component(window)
   , mTargetSize(0, 0)
-  , mPath()
+  , mPath(imagePath)
   , mFlipX(false)
   , mFlipY(false)
   , mVertices{ { { 0, 0 }, { 0, 0 } } }
@@ -28,8 +28,9 @@ ImageComponent::ImageComponent(WindowManager&window, bool forceLoad, bool dynami
   , mForceLoad(forceLoad)
   , mDynamic(dynamic)
   , mVisible(true)
-  , mKeepRatio(false)
+  , mKeepRatio(keepRatio)
 {
+  if (!imagePath.IsEmpty()) setImage(imagePath);
   updateColors();
 }
 

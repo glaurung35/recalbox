@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-# Commit of Jul 21, 2022
+# Commit of Oct, 11 2023
 DOLPHIN_EMU_SITE = https://github.com/dolphin-emu/dolphin.git
-DOLPHIN_EMU_VERSION = 57f106d521e1ec65cc0b10fc6f68dcd56fcbc0d8
+DOLPHIN_EMU_VERSION = 1c0605d1c41d5e99b6e13a90dca7bb7a126d355b
 DOLPHIN_EMU_LICENSE = GPL-2.0+
 DOLPHIN_EMU_LICENSE_FILES = license.txt
 DOLPHIN_EMU_DEPENDENCIES = libevdev ffmpeg zlib libpng lzo libusb libcurl bluez5_utils hidapi xz host-xz
@@ -21,8 +21,15 @@ DOLPHIN_EMU_CONF_OPTS += -DTHREADS_PTHREAD_ARG=OFF
 DOLPHIN_EMU_CONF_OPTS += -DBUILD_SHARED_LIBS=OFF
 DOLPHIN_EMU_CONF_OPTS += -DUSE_MGBA=OFF
 
-ifeq ($(BR2_PACKAGE_XSERVER_XORG_SERVER),y)
+ifeq ($(BR2_PACKAGE_RECALBOX_VIDEO_XORG_SERVER),y)
 DOLPHIN_EMU_DEPENDENCIES += xserver_xorg-server
+endif
+
+ifeq ($(BR2_PACKAGE_RECALBOX_VIDEO_XWAYLAND),y)
+DOLPHIN_EMU_DEPENDENCIES += xwayland
+endif
+
+ifeq ($(BR2_PACKAGE_RECALBOX_VIDEO_XORG_SERVER)$(BR2_PACKAGE_RECALBOX_VIDEO_XWAYLAND),y)
 DOLPHIN_EMU_CONF_OPTS += -DENABLE_NOGUI=OFF
 DOLPHIN_EMU_CONF_OPTS += -DENABLE_EGL=OFF
 endif

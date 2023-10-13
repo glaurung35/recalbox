@@ -1,8 +1,8 @@
-diff --git a/arch/arm/boot/dts/bcm2712-rpi.dtsi b/arch/arm/boot/dts/bcm2712-rpi.dtsi
-index 748be3777..e130c8ae8 100644
---- a/arch/arm/boot/dts/bcm2712-rpi.dtsi
-+++ b/arch/arm/boot/dts/bcm2712-rpi.dtsi
-@@ -168,6 +168,7 @@ gpiomem@7d510700 {
+diff --git a/arch/arm/boot/dts/bcm2712-rpi-5-b.dts b/arch/arm/boot/dts/bcm2712-rpi-5-b.dts
+index cfe58771f..796eedd73 100644
+--- a/arch/arm/boot/dts/bcm2712-rpi-5-b.dts
++++ b/arch/arm/boot/dts/bcm2712-rpi-5-b.dts
+@@ -237,6 +237,7 @@ gpio: &rp1_gpio {
  i2c6: &rp1_i2c6 { };
  i2s:  &rp1_i2s0 { };
  i2s_clk_producer: &rp1_i2s0 { };
@@ -10,26 +10,26 @@ index 748be3777..e130c8ae8 100644
  i2s_clk_consumer: &rp1_i2s1 { };
  pwm0: &rp1_pwm0 { };
  pwm1: &rp1_pwm1 { };
-@@ -226,6 +227,11 @@ &i2s_clk_producer {
+@@ -313,6 +314,11 @@ &rp1_i2s0 {
  	pinctrl-0 = <&rp1_i2s0_18_21>;
  };
- 
-+&i2s_clk_producer_27 {
+
++&rp1_i2s0_27 {
 +	pinctrl-names = "default";
 +	pinctrl-0 = <&rp1_i2s0_18_27>;
 +};
 +
- &i2s_clk_consumer {
+ &rp1_i2s1 {
  	pinctrl-names = "default";
  	pinctrl-0 = <&rp1_i2s1_18_21>;
 diff --git a/arch/arm/boot/dts/rp1.dtsi b/arch/arm/boot/dts/rp1.dtsi
-index ed0add087..e5874e649 100644
+index ae5f54458..dd67d61d8 100644
 --- a/arch/arm/boot/dts/rp1.dtsi
 +++ b/arch/arm/boot/dts/rp1.dtsi
-@@ -374,6 +374,19 @@ rp1_i2s0: i2s@a0000 {
+@@ -373,6 +373,19 @@ rp1_i2s0: i2s@a0000 {
  			status = "disabled";
  		};
- 
+
 +		rp1_i2s0_27: i2s27@a0000 {
 +			reg = <0xc0 0x400a0000  0x0 0x1000>;
 +			compatible = "snps,designware-i2s";
@@ -46,16 +46,15 @@ index ed0add087..e5874e649 100644
  		rp1_i2s1: i2s@a4000 {
  			reg = <0xc0 0x400a4000  0x0 0x1000>;
  			compatible = "snps,designware-i2s";
-@@ -612,6 +625,12 @@ rp1_i2s0_18_21: rp1_i2s0_18_21 {
+@@ -610,6 +623,11 @@ rp1_i2s0_18_21: rp1_i2s0_18_21 {
+ 				pins = "gpio18", "gpio19", "gpio20", "gpio21";
  				bias-disable;
  			};
- 
 +			rp1_i2s0_18_27: rp1_i2s0_18_27 {
 +				function = "i2s0";
-+				pins = "gpio18", "gpio19", "gpio20", "gpio27";
++				pins = "gpio18", "gpio19", "gpio27";
 +				bias-disable;
 +			};
-+
+
  			rp1_i2s1_18_21: rp1_i2s1_18_21 {
  				function = "i2s1";
- 				pins = "gpio18", "gpio19", "gpio20", "gpio21";

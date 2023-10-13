@@ -5,6 +5,7 @@
 #include "guis/menus/GuiMenuGamelistOptions.h"
 #include "views/ViewController.h"
 #include "RotationManager.h"
+#include "views/MenuFilter.h"
 #include <usernotifications/NotificationManager.h>
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
@@ -257,8 +258,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
         mWindow.pushGui(new GuiControlHints(mWindow, fd->RomPath()));
     return true;
   }
-
-  if (event.StartPressed())
+  if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::GamelistOptions))
   {
     clean();
     mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface()));

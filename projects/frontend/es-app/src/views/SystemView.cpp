@@ -13,6 +13,7 @@
 #include <guis/GuiSettings.h>
 #include <guis/menus/GuiMenuSwitchKodiNetplay.h>
 #include <emulators/run/GameRunner.h>
+#include "MenuFilter.h"
 
 // buffer values for scrolling velocity (left, stopped, right)
 const int logoBuffersLeft[] = { -5, -2, -1 };
@@ -298,18 +299,18 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
     }
 
-    if (event.SelectPressed() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None)
+    if (event.SelectPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Exit))
     {
       GuiMenuQuit::PushQuitGui(mWindow);
     }
 
-    if (event.StartPressed() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None)
+    if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Main))
     {
       mWindow.pushGui(new GuiMenu(mWindow, mSystemManager));
       return true;
     }
 
-    if (event.R1Pressed())
+    if (event.R1Pressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Search))
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       return true;

@@ -277,11 +277,8 @@ class LibretroControllers:
             # No menu always pritority
             if specials == "nomenu":
                 specialMap = self.retroarchspecialsnomenu
-            else:
-                if is_jamma:
-                    specialMap = self.jammaspecials
-                elif specials == "default":
-                    specialMap = self.retroarchspecials
+            elif specials == "default":
+                    specialMap = self.jammaspecials if is_jamma else self.retroarchspecials
             for item in specialMap:
                 if controller.HasInput(item):
                     value: str = specialMap[item]

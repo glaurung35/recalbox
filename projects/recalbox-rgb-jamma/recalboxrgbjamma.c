@@ -655,11 +655,12 @@ static struct config {
   struct task_struct *config_thread;
   struct task_struct *debounce_thread;
   struct mutex process_mutex;
-  bool disable_hk_on_start;
-  bool disable_credit_on_start_btn1;
-  bool disable_exit_on_start;
+  bool hk_on_start;
+  bool credit_on_start_btn1;
+  bool exit_on_start;
   bool i2s;
   uint buttons_on_jamma;
+  uint amp_boost;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -776,8 +777,14 @@ static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert) {
   return ret;
 }
 
+/* EXPANDER */
+#define EXP_I2S_FILTER 1
+#define EXP_PI5_I2S 2
+#define EXP_VIDEO_BYPASS 8
+#define EXP_GAIN1 10
+#define EXP_GAIN0 11
 
-/*
+/* CONTROLS
  * A,B,X,Y are in SNES notation
  *
  * Chip 0 : address = 0x25
@@ -930,7 +937,7 @@ static short should_release_hk = 0;
 #define PRESS_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 1); input_sync(player_devs[(player)]); WAIT_SYNC();
 #define RELEASE_AND_SYNC(player, button) input_report_key(player_devs[(player)], (button), 0); input_sync(player_devs[(player)]); WAIT_SYNC();
 #define PRESS_AND_RELEASE(player, button) PRESS_AND_SYNC(player, button); RELEASE_AND_SYNC(player, button);
-#define HOTKEY_PATTERNS_ENABLED(jamma_config) ((jamma_config.disable_credit_on_start_btn1 || jamma_config.disable_hk_on_start || jamma_config.disable_exit_on_start))
+#define HOTKEY_PATTERNS_ENABLED(jamma_config) (jamma_config.credit_on_start_btn1 || jamma_config.hk_on_start || jamma_config.exit_on_start)
 
 
 
@@ -959,11 +966,11 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
         start_state = *data_chips;
         start_credit = 0;
         should_release_hk = 0;
-        can_exit = !jamma_config.disable_exit_on_start;
+        can_exit = jamma_config.exit_on_start;
       } else if (start_state != *data_chips) {
         // Start is pressed and the state has changed since last loop
         // Check if credit should be added for P1
-        if (!jamma_config.disable_credit_on_start_btn1 && PRESSED(*data_chips, P1_BTN1)) {
+        if (jamma_config.credit_on_start_btn1 && PRESSED(*data_chips, P1_BTN1)) {
           DEBUG &&printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+P1_BTN1) B1=%u\n",
                          PRESSED(*data_chips, P1_BTN1));
           PRESS_AND_RELEASE(PLAYER1, BTN_SELECT);
@@ -971,7 +978,7 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
           start_credit = 1;
         }
         // Check if credit should be added for P2
-        if (!jamma_config.disable_credit_on_start_btn1 && PRESSED(*data_chips, P2_BTN1)) {
+        if (jamma_config.credit_on_start_btn1 && PRESSED(*data_chips, P2_BTN1)) {
           DEBUG &&printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+P2_BTN1) B1=%u\n",
                          PRESSED(*data_chips, P2_BTN1));
           PRESS_AND_RELEASE(PLAYER2, BTN_SELECT);
@@ -980,7 +987,7 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
         }
         // Check if we should use START + BTN pattern (Hotkey)
         // Only if not disabled in config, and credit not already used, and this is the first hk event
-        if (!jamma_config.disable_hk_on_start && !start_credit && !should_release_hk) {
+        if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
           // As another button has been pressed, we press hotkey before
           DEBUG &&printk(KERN_INFO "recalboxrgbjamma: other button press (hk+btnx)\n");
           PRESS_AND_SYNC(PLAYER1, BTN_MODE);
@@ -1383,25 +1390,34 @@ static int load_config(void) {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", optionname, &optionvalue);
         if (scanret == 2) {
-          if (strcmp(optionname, "options.jamma.controls.disable_hk_on_start") == 0) {
-            if (jamma_config.disable_hk_on_start != optionvalue) {
-              printk(KERN_INFO "recalboxrgbjamma: switch disable_hk_on_start to %d\n", optionvalue);
-              jamma_config.disable_hk_on_start = optionvalue;
+          if (strcmp(optionname, "options.jamma.controls.hk_on_start") == 0) {
+            if (jamma_config.hk_on_start != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch hk_on_start to %d\n", optionvalue);
+              jamma_config.hk_on_start = optionvalue;
             }
-          } else if (strcmp(optionname, "options.jamma.controls.disable_credit_on_start_btn1") == 0) {
-            if (jamma_config.disable_credit_on_start_btn1 != optionvalue) {
-              printk(KERN_INFO "recalboxrgbjamma: switch disable_credit_on_start_btn1 to %d\n", optionvalue);
-              jamma_config.disable_credit_on_start_btn1 = optionvalue;
+          } else if (strcmp(optionname, "options.jamma.controls.credit_on_start_btn1") == 0) {
+            if (jamma_config.credit_on_start_btn1 != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch credit_on_start_btn1 to %d\n", optionvalue);
+              jamma_config.credit_on_start_btn1 = optionvalue;
             }
-          } else if (strcmp(optionname, "options.jamma.controls.disable_exit_on_start") == 0) {
-            if (jamma_config.disable_exit_on_start != optionvalue) {
-              printk(KERN_INFO "recalboxrgbjamma: switch disable_exit_on_start to %d\n", optionvalue);
-              jamma_config.disable_exit_on_start = optionvalue;
+          } else if (strcmp(optionname, "options.jamma.controls.exit_on_start") == 0) {
+            if (jamma_config.exit_on_start != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch exit_on_start to %d\n", optionvalue);
+              jamma_config.exit_on_start = optionvalue;
             }
-          } else if (strcmp(optionname, "options.jamma.buttons_on_jamma") == 0) {
+          } else if (strcmp(optionname, "options.jamma.controls.buttons_on_jamma") == 0) {
             if (jamma_config.buttons_on_jamma != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch buttons_on_jamma to %d\n", optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
+            if (jamma_config.amp_boost != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
+              jamma_config.amp_boost = optionvalue;
+              if(jamma_config.expander != NULL){
+                pca953x_gpio_set_value(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
+                pca953x_gpio_set_value(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
+              }
             }
           }
         }
@@ -1552,7 +1568,7 @@ static int pca953x_probe(struct i2c_client *client,
   }
 
   if(client->addr == 0x26) {
-    // Special exapander case, we set pins to output
+    // Special expander case, we set pins to output
     /*
      * A,B,X,Y are in SNES notation
      *
@@ -1568,11 +1584,6 @@ static int pca953x_probe(struct i2c_client *client,
      *                  IO0-7  <--- |7       15| ---> IO1-7     EXTRA1
      *                               __________
      */
-    #define EXP_I2S_FILTER 1
-    #define EXP_PI5_I2S 2
-    #define EXP_VIDEO_BYPASS 8
-    #define EXP_GAIN1 10
-    #define EXP_GAIN0 11
 
     jamma_config.expander = &chip->gpio_chip;
     unsigned int is_pi5 = 0;
@@ -1684,11 +1695,12 @@ pca953x_init(void) {
   jamma_config.gpio_chip_1 = NULL;
   jamma_config.gpio_chip_2 = NULL;
   jamma_config.expander = NULL;
-  jamma_config.disable_hk_on_start = false;
-  jamma_config.disable_credit_on_start_btn1 = false;
-  jamma_config.disable_exit_on_start = false;
+  jamma_config.hk_on_start = true;
+  jamma_config.credit_on_start_btn1 = true;
+  jamma_config.exit_on_start = true;
   jamma_config.i2s = false;
   jamma_config.buttons_on_jamma = 6;
+  jamma_config.amp_boost = 0;
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
   printk(KERN_INFO

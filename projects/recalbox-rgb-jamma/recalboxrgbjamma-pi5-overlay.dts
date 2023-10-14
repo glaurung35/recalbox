@@ -108,21 +108,45 @@
 		};
 	};
 
-    fragment@5 {
-        target = <&audio_pins>;
-            __overlay__ {
-                brcm,pins = < 18 19 >;
-                brcm,function = < 2 >; /* alt5 alt5 */
-                swap_lr;
-            };
-    };
 
-    fragment@6 {
-        target = <&chosen>;
-        __overlay__  {
-            bootargs = "snd_bcm2835.enable_headphones=1";
-        };
-    };
+	fragment@5 {
+		target = <&sound>;
+		__overlay__ {
+			compatible = "simple-audio-card";
+			simple-audio-card,name = "Recalbox RGB JAMMA";
+			status = "okay";
+			simple-audio-card,dai-link@1 {
+				format = "i2s";
+				cpu {
+					sound-dai = <&i2s_clk_producer_27>;
+					dai-tdm-slot-num = <2>;
+					dai-tdm-slot-width = <32>;
+				};
+				codec {
+					sound-dai = <&codec_out>;
+				};
+			};
+		};
+	};
+
+	fragment@6 {
+		target-path = "/";
+		__overlay__ {
+			codec_out: recalbox_i2s {
+				#sound-dai-cells = <0>;
+				compatible = "recalbox_i2s";
+				status = "okay";
+			};
+		};
+	};
+
+	fragment@7 {
+		target = <&i2s_clk_producer_27>;
+		__overlay__ {
+			#sound-dai-cells = <0>;
+			status = "okay";
+		};
+	};
 
   fragment@8 {
     target = <&i2c1>;
@@ -132,6 +156,7 @@
       pinctrl-0 = <&i2c1_pins>;
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
+
       jammactrl_0: jammactrl_0@25 {
         compatible = "raspberrypi,recalboxrgbjamma";
         reg = <0x25>;
@@ -164,6 +189,7 @@
       };
       jammaexpander: jammaexpander@26 {
         compatible = "raspberrypi,recalboxrgbjamma";
+        is_pi5 = <1>;
         reg = <0x26>;
         status = "okay";
       };

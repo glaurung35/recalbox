@@ -25,7 +25,7 @@ class JammaData
     }
 
     bool ShouldSwitchTo6ButtonLayout(const FileData& game, const EmulatorData& emulator) const {
-      return  ShouldConfigureJammaConfiggen() && CrtConf::Instance().GetSystemCRTJamma6Btns() &&
+      return  ShouldConfigureJammaConfiggen() && CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "6" &&
                !(emulator.Emulator() == "libretro" &&
                (emulator.Core() == "fbneo" || emulator.Core() == "mame2015" || systemIsDreamcastArcade(game.System().Name()))
                );

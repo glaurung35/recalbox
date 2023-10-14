@@ -196,7 +196,7 @@ bool IniFile::Save()
     if (!backup.Delete()) { LOG(LogError) << "[IniFile] Save: Error deleting backup file " << backup; }
     if (!Path::Rename(mFilePath, backup)) { LOG(LogError) << "[IniFile] Save: Error moving file " << mFilePath << " to backup file " << backup; }
   }
-  if (!Files::SaveFile(mFilePath, String::Join(lines, '\n').Append('\n'))) { result = false; LOG(LogError) << "[IniFile] Save: Error saving file " << mFilePath; }
+  if (!Files::SaveFile(mFilePath, String::Join(lines, '\n').Append(lines.back().empty() ? "" : "\n"))) { result = false; LOG(LogError) << "[IniFile] Save: Error saving file " << mFilePath; }
   if (boot && MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 
   OnSave();

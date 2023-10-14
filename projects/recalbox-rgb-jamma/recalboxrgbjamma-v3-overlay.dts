@@ -6,8 +6,8 @@
   fragment@0 {
       target = <&gpio>;
       __overlay__ {
-        irq_gpio_11: irq_gpio_11_conf {
-          brcm,pins = <11>; // GPIO 11
+        irq_gpio_27: irq_gpio_27_conf {
+          brcm,pins = <27>; // GPIO 5
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
@@ -21,6 +21,12 @@
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
+        videofilter_gpio: videofilter_gpio_conf {
+          brcm,pins = <11>; // GPIO 11
+          brcm,function = <1>; // Output
+          brcm,pull = <0>; // Pull up
+        };
+
       };
   };
 
@@ -133,17 +139,17 @@
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
       jammactrl_0: jammactrl_0@25 {
-        compatible = "raspberrypi,recalboxrgbjamma";
+        compatible = "raspberrypi,recalboxrgbjamma-v3";
         reg = <0x25>;
         status = "okay";
         pinctrl-names = "default";
-        pinctrl-0 = <&irq_gpio_11>;
+        pinctrl-0 = <&irq_gpio_27>;
         interrupt-parent = <&gpio>;
-        interrupts = <11 2>;
-        irq-gpios = <&gpio 11 0>;
+        interrupts = <27 2>;
+        irq-gpios = <&gpio 27 0>;
       };
       jammactrl_1: jammactrl_1@24 {
-        compatible = "raspberrypi,recalboxrgbjamma";
+        compatible = "raspberrypi,recalboxrgbjamma-v3";
         reg = <0x24>;
         status = "okay";
         pinctrl-names = "default";
@@ -153,7 +159,7 @@
         irq-gpios = <&gpio 10 0>;
       };
       jammactrl_2: jammactrl_2@27 {
-        compatible = "raspberrypi,recalboxrgbjamma";
+        compatible = "raspberrypi,recalboxrgbjamma-v3";
         reg = <0x27>;
         status = "okay";
         pinctrl-names = "default";
@@ -161,11 +167,6 @@
         interrupt-parent = <&gpio>;
         interrupts = <0 2>;
         irq-gpios = <&gpio 0 0>;
-      };
-      jammaexpander: jammaexpander@26 {
-        compatible = "raspberrypi,recalboxrgbjamma";
-        reg = <0x26>;
-        status = "okay";
       };
     };
   };

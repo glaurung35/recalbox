@@ -50,9 +50,12 @@ class GuiMenuCRT : public GuiMenuBase
       HorizontalPalOffset,
       VerticalPalOffset,
       ForceHDMI,
-      Jamma6btns,
+      JammaPanelButtons,
       JammaNeogeoLayout,
-      JammaHotkeyPatterns
+      JammaStartBtn1Credit,
+      JammaHKOnStart,
+      JammaExitOnStart,
+      JammaMonoBoost
     };
 
     //! Dac selection

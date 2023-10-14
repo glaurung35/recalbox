@@ -50,9 +50,12 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma6Btns, bool, Bool, sSystemCRTJamma6Btns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaPanelButtons, std::string, String, sSystemCRTJammaPanelButtons, "6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMonoAmpBoost, std::string, String, sSystemCRTJammaMonoAmpBoost, "0")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, std::string, String, sSystemCRTJammaNeogeoLayout, "line")
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHotkeyPatterns, bool, Bool, sSystemCRTJammaHotkeyPatterns, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaStartBtn1Credit, bool, Bool, sSystemCRTJammaStartBtn1Credit, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHKOnStart, bool, Bool, sSystemCRTJammaHKOnStart, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaExitOnStart, bool, Bool, sSystemCRTJammaExitOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
 
@@ -80,11 +83,15 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTExtended15KhzRange     = "options.15khz.extendedrange";
     static constexpr const char* sSystemCRTForceJack              = "audio.forcejack";
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
-    static constexpr const char* sSystemCRTJamma6Btns             = "options.jamma.6btns";
-    static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.neogeolayout";
-    static constexpr const char* sSystemCRTJammaHotkeyPatterns    = "options.jamma.hk_patterns";
     static constexpr const char* sSystemCRTScreen31kHz            = "options.screen.31kHz";
     static constexpr const char* sSystemCRTScreenMultiSync        = "options.screen.multisync";
+    static constexpr const char* sSystemCRTJammaMonoAmpBoost      = "options.jamma.amp.boost";
+    static constexpr const char* sSystemCRTJammaPanelButtons      = "options.jamma.controls.panel_buttons";
+    static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.controls.neogeolayout";
+    static constexpr const char* sSystemCRTJammaStartBtn1Credit   = "options.jamma.controls.credit_on_start_btn1";
+    static constexpr const char* sSystemCRTJammaHKOnStart         = "options.jamma.controls.hk_on_start";
+    static constexpr const char* sSystemCRTJammaExitOnStart       = "options.jamma.controls.exit_on_start";
+
 
 
     static constexpr const char* sViewportPrefix                  = "viewport";

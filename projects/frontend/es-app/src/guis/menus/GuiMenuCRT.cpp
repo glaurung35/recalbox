@@ -68,7 +68,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   AddSwitch(_("REDUCED LATENCY (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalReduceLatency(), (int)Components::ReduceLatency, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
   AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
-#if defined(BETA) || defined(DEBUG)
+/*#if false//defined(BETA) || defined(DEBUG)
   // ConfiggenV2
   AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
 
@@ -77,7 +77,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
 
   // Superrez multiplier
   AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
-#endif
+#endif*/
 
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
@@ -89,20 +89,34 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   if(isRGBJamma)
   {
-
-    AddList<String>(_("JAMMA PANEL"), (int)Components::Jamma6btns, this,
-                         std::vector<GuiMenuBase::ListEntry<String>>(
-                             {{ "1-3 buttons", "3", !CrtConf::Instance().GetSystemCRTJamma6Btns() },
-                              { "4-6 buttons", "6", CrtConf::Instance().GetSystemCRTJamma6Btns() }}),
-                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+    AddList<String>(_("MONO AMP BOOST"), (int)Components::JammaMonoBoost, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                            {{ "default", "0", CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost() == "0" },
+                             { "+6dB", "1", CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost() == "1" },
+                             { "+12dB", "2", CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost() == "2" },
+                             { "+16dB", "3", CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost() == "3" }}),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_MONO_AMP_BOOST));
+    AddList<String>(_("PANEL TYPE"), (int)Components::JammaPanelButtons, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                            {{ "2 buttons", "2", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "2" },
+                             { "3 buttons", "3", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "3" },
+                             { "4 buttons", "4", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "4" },
+                             { "5 buttons", "5", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "5" },
+                             { "6 buttons", "6", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "6" },
+                             }),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
     bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
     AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
                          std::vector<GuiMenuBase::ListEntry<String>>(
                              {{ "Line", "line", neoline },
                               { "Square", "square", !neoline }}),
-                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
-    AddSwitch(_("HOTKEY PATTERNS"), CrtConf::Instance().GetSystemCRTJammaHotkeyPatterns(),
-              (int)Components::JammaHotkeyPatterns, this);
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
+    AddSwitch(_("START + BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
+              (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
+    AddSwitch(_("START + BTN = HK + BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
+              (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
+    AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
+              (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
 
   }
 
@@ -277,16 +291,17 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   {
     CrtConf::Instance().SetSystemCRTSuperrez(value).Save();
   }
-  else if ((Components)id == Components::Jamma6btns)
+  else if ((Components)id == Components::JammaPanelButtons)
   {
-    if (value == "3")
-      CrtConf::Instance().SetSystemCRTJamma6Btns(false).Save();
-    else if (value == "6")
-      CrtConf::Instance().SetSystemCRTJamma6Btns(true).Save();
+      CrtConf::Instance().SetSystemCRTJammaPanelButtons(value).Save();
   }
   else if ((Components)id == Components::JammaNeogeoLayout)
   {
     CrtConf::Instance().SetSystemCRTJammaNeogeoLayout(value).Save();
+  }
+  else if ((Components)id == Components::JammaMonoBoost)
+  {
+    CrtConf::Instance().SetSystemCRTJammaMonoAmpBoost(value).Save();
   }
 }
 
@@ -306,8 +321,12 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTUseV2(status).Save();
   if ((Components)id == Components::Extended15kHzRange)
     CrtConf::Instance().SetSystemCRTExtended15KhzRange(status).Save();
-  if ((Components)id == Components::JammaHotkeyPatterns)
-    CrtConf::Instance().SetSystemCRTJammaHotkeyPatterns(status).Save();
+  if ((Components)id == Components::JammaExitOnStart)
+    CrtConf::Instance().SetSystemCRTJammaExitOnStart(status).Save();
+  if ((Components)id == Components::JammaHKOnStart)
+    CrtConf::Instance().SetSystemCRTJammaHKOnStart(status).Save();
+  if ((Components)id == Components::JammaStartBtn1Credit)
+    CrtConf::Instance().SetSystemCRTJammaStartBtn1Credit(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

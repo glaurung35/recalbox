@@ -220,6 +220,7 @@ void Renderer::GetResolutionFromConfiguration(int& w, int& h)
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::UndetectedYet:
     case BoardType::Unknown:

@@ -895,6 +895,8 @@ static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
 #define P1_START 43
 #define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_1]
 #define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_1]
+#define P1_SERVICE buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE]
+#define P1_TEST buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_TEST]
 
 #define DIR_UP 0
 #define DIR_DOWN 1
@@ -1040,6 +1042,14 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
   }
   /** End of new version of start patterns **/
 
+  // Exit with TEST + SERVICE
+  if(PRESSED(*data_chips, P1_SERVICE) && PRESSED(*data_chips, P1_TEST)) {
+    printk(KERN_INFO "recalboxrgbjamma: Exiting with SERVICCE + TEST\n");
+    PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+    PRESS_AND_SYNC(PLAYER1, BTN_START);
+    RELEASE_AND_SYNC(PLAYER1, BTN_START);
+    RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
+  }
 
 /*  if (jamma_config.hotkey_patterns) {
     // Special case for HOTKEY:

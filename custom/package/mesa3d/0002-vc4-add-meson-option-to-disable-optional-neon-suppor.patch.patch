@@ -1,0 +1,36 @@
+diff --git a/package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch b/package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
+index bb5ef00a9f..f05de4d8b5 100644
+--- a/package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
++++ b/package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
+@@ -18,13 +18,13 @@ Signed-off-by: Bernd Kuhls <bernd.kuhls@t-online.de>
+  3 files changed, 11 insertions(+), 4 deletions(-)
+ 
+ diff --git a/meson_options.txt b/meson_options.txt
+-index a39596a6f19..0f6b6c62b55 100644
++index 8130c3e..6003ef2 100644
+ --- a/meson_options.txt
+ +++ b/meson_options.txt
+-@@ -123,6 +123,13 @@ option(
+-   choices : ['auto', 'true', 'false', 'enabled', 'disabled'],
+-   description : 'enable gallium va frontend.',
+- )
++@@ -1,6 +1,14 @@
++ # Copyright © 2017-2019 Intel Corporation
++ # SPDX-License-Identifier: MIT
++
+ +option(
+ +  'gallium-vc4-neon',
+ +  type : 'combo',
+@@ -32,9 +32,10 @@ index a39596a6f19..0f6b6c62b55 100644
+ +  choices : ['auto', 'disabled'],
+ +  description : 'enable gallium vc4 optional neon support.',
+ +)
+++
+  option(
+-   'va-libs-path',
+-   type : 'string',
++   'platforms',
++   type : 'array',
+ diff --git a/src/gallium/drivers/vc4/meson.build b/src/gallium/drivers/vc4/meson.build
+ index 5ce5af5f6b4..e3f7d8d62ae 100644
+ --- a/src/gallium/drivers/vc4/meson.build

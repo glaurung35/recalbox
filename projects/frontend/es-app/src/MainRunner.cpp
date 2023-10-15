@@ -443,6 +443,7 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
       case BoardType::Pi3:
       case BoardType::Pi4:
       case BoardType::Pi400:
+      case BoardType::Pi5:
       case BoardType::Pi3plus:
       case BoardType::UnknownPi:
       default: break;
@@ -528,6 +529,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:

@@ -35,7 +35,6 @@
 
 					port@0 {
 						reg = <0>;
-
 						vga_bridge_in: endpoint {
 							remote-endpoint = <&dpi_out>;
 						};
@@ -43,7 +42,6 @@
 
 					port@1 {
 						reg = <1>;
-
 						vga_bridge_out: endpoint {
 							remote-endpoint = <&vga_con_in>;
 						};
@@ -53,7 +51,6 @@
 
 			vga {
 				compatible = "vga-connector";
-
 				port {
 					vga_con_in: endpoint {
 						remote-endpoint = <&vga_bridge_out>;
@@ -67,20 +64,13 @@
 		target = <&dpi>;
 		__overlay__  {
 			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&vga666_mode6_pins>;
 			port {
 				dpi_out: endpoint@0 {
 					remote-endpoint = <&vga_bridge_in>;
 				};
 			};
-		};
-	};
-
-	fragment@3 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
 		};
 	};
 
@@ -93,15 +83,6 @@
 				brcm,function = <6>;
 				brcm,pull = <0>;
 			};
-		};
-	};
-
-	fragment@5 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
 		};
 	};
 

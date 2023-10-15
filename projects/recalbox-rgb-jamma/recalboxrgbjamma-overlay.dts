@@ -3,26 +3,26 @@
 
 / {
 	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
-  fragment@0 {
-      target = <&gpio>;
-      __overlay__ {
-        irq_gpio_11: irq_gpio_11_conf {
-          brcm,pins = <11>; // GPIO 11
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
+    fragment@0 {
+        target = <&gpio>;
+        __overlay__ {
+            irq_gpio_11: irq_gpio_11_conf {
+                brcm,pins = <11>; // GPIO 11
+                brcm,function = <0>; // Input
+                brcm,pull = <2>; // Pull up
+            };
+            irq_gpio_10: irq_gpio_10_conf {
+                brcm,pins = <10>; // GPIO 10
+                brcm,function = <0>; // Input
+                brcm,pull = <2>; // Pull up
+            };
+            irq_gpio_0: irq_gpio_0_conf {
+                brcm,pins = <0>; // GPIO 0
+                brcm,function = <0>; // Input
+                brcm,pull = <2>; // Pull up
+            };
         };
-        irq_gpio_10: irq_gpio_10_conf {
-          brcm,pins = <10>; // GPIO 10
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
-        irq_gpio_0: irq_gpio_0_conf {
-          brcm,pins = <0>; // GPIO 0
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
-      };
-  };
+    };
 
 	fragment@1 {
 		target-path = "/";
@@ -35,17 +35,12 @@
 
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-jamma = <1>;
-				videofilter-gpios = <&gpio 11 1>;
-				pinctrl-0 = <&videofilter_gpio>;
-				pinctrl-names = "default";
-
 				ports {
 					#address-cells = <1>;
 					#size-cells = <0>;
 
 					port@0 {
 						reg = <0>;
-
 						vga_bridge_in: endpoint {
 							remote-endpoint = <&dpi_out>;
 						};
@@ -53,7 +48,6 @@
 
 					port@1 {
 						reg = <1>;
-
 						vga_bridge_out: endpoint {
 							remote-endpoint = <&vga_con_in>;
 						};
@@ -63,7 +57,6 @@
 
 			vga {
 				compatible = "vga-connector";
-
 				port {
 					vga_con_in: endpoint {
 						remote-endpoint = <&vga_bridge_out>;
@@ -76,21 +69,13 @@
 	fragment@2 {
 		target = <&dpi>;
 		__overlay__  {
-			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&vga666_mode6_pins>;
 			port {
 				dpi_out: endpoint@0 {
 					remote-endpoint = <&vga_bridge_in>;
 				};
 			};
-		};
-	};
-
-	fragment@3 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
 		};
 	};
 
@@ -129,7 +114,7 @@
     __overlay__ {
       status = "okay";
       pinctrl-names = "default";
-      pinctrl-0 = <&i2c1_pins>;
+      pinctrl-0 = <&rp1_i2c1_2_3>;
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
       jammactrl_0: jammactrl_0@25 {
@@ -169,14 +154,6 @@
       };
     };
   };
-
-  fragment@9 {
-		target = <&i2c1_pins>;
-		__overlay__ {
-			brcm,pins = <2 3>;
-		};
-	};
-
 
   fragment@10 {
     target-path = "/";

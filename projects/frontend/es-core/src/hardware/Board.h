@@ -228,6 +228,7 @@ class Board: public StaticLifeCycleControler<Board>
         Zero2       = 0x12,
         FourHundred = 0x13,
         FourCM4     = 0x14,
+        FiveB       = 0x17,
     };
 
     /*!

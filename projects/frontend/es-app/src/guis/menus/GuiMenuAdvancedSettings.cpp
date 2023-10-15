@@ -141,6 +141,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::Pi3plus: boardFolder = "rpi3plus"; break;
     case BoardType::Pi4: boardFolder = "rpi4"; break;
     case BoardType::Pi400: boardFolder = "rpi400"; break;
+    case BoardType::Pi5: boardFolder = "rpi5"; break;
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::UnknownPi:

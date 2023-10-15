@@ -75,6 +75,7 @@ IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
     case BoardType::Pi3: { LOG(LogInfo) << "[Hardware] Raspberry Pi 3 detected."; return *(new PiBoard(messageSender)); }
     case BoardType::Pi3plus: { LOG(LogInfo) << "[Hardware] Raspberry Pi 3B+ detected."; return *(new PiBoard(messageSender)); }
     case BoardType::Pi4: { LOG(LogInfo) << "[Hardware] Raspberry Pi 4 detected."; return *(new PiBoard(messageSender)); }
+    case BoardType::Pi5: { LOG(LogInfo) << "[Hardware] Raspberry Pi 5 detected."; return *(new PiBoard(messageSender)); }
     case BoardType::Pi400:
     {
       { LOG(LogInfo) << "[Hardware] Pi 400 detected."; }
@@ -139,6 +140,7 @@ BoardType Board::GetPiModel(unsigned int revision)
     case RaspberryModel::FourB:
     case RaspberryModel::FourCM4: return BoardType::Pi4;
     case RaspberryModel::FourHundred: return BoardType::Pi400;
+    case RaspberryModel::FiveB: return BoardType::Pi5;
     case RaspberryModel::Alpha:
     default: break;
   }
@@ -276,7 +278,8 @@ bool Board::CanHaveCRTBoard()
     case BoardType::Pi3:
     case BoardType::Pi3plus:
     case BoardType::Pi4:
-    case BoardType::Pi400: return true;
+    case BoardType::Pi400:
+    case BoardType::Pi5: return true;
     case BoardType::Pi1:
     case BoardType::Pi2:
     case BoardType::UndetectedYet:

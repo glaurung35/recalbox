@@ -426,6 +426,7 @@ void PulseAudioController::AddSpecialPlaybacks(IAudioController::DeviceList& lis
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -641,6 +642,7 @@ String PulseAudioController::GetActivePlaybackName()
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -718,6 +720,7 @@ String PulseAudioController::AdjustSpecialPlayback(const String& originalPlaybac
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
@@ -1102,6 +1105,7 @@ String PulseAudioController::GetCardDescription(const pa_card_info& info)
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     {
       result = cardName;
@@ -1156,6 +1160,7 @@ String PulseAudioController::GetPortDescription(const pa_sink_port_info& info, A
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::RG351V:
     case BoardType::RG351P:
@@ -1192,6 +1197,7 @@ String PulseAudioController::GetPortDescription(const pa_card_port_info& info, A
     case BoardType::Pi3plus:
     case BoardType::Pi4:
     case BoardType::Pi400:
+    case BoardType::Pi5:
     case BoardType::UnknownPi:
     case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:

@@ -21,7 +21,6 @@
 
 					port@0 {
 						reg = <0>;
-
 						vga_bridge_in: endpoint {
 							remote-endpoint = <&dpi_out>;
 						};
@@ -29,7 +28,6 @@
 
 					port@1 {
 						reg = <1>;
-
 						vga_bridge_out: endpoint {
 							remote-endpoint = <&vga_con_in>;
 						};
@@ -39,7 +37,6 @@
 
 			vga {
 				compatible = "vga-connector";
-
 				port {
 					vga_con_in: endpoint {
 						remote-endpoint = <&vga_bridge_out>;

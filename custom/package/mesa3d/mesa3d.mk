@@ -5,9 +5,9 @@
 ################################################################################
 
 # When updating the version, please also update mesa3d-headers
-MESA3D_VERSION = 22.3.4
-MESA3D_SOURCE = mesa-$(MESA3D_VERSION).tar.xz
-MESA3D_SITE = https://archive.mesa3d.org
+MESA3D_VERSION = 8b6b405a0131e20b1b54cc4e2246dc07d0e0b6fb
+MESA3D_SITE = https://gitlab.freedesktop.org/mesa/mesa
+MESA3D_SITE_METHOD = git
 MESA3D_LICENSE = MIT, SGI, Khronos
 MESA3D_LICENSE_FILES = docs/license.rst
 MESA3D_CPE_ID_VENDOR = mesa3d

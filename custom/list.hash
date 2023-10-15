@@ -4,6 +4,10 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
+++++++++++++++++++++++++++++++++  package/mesa3d/0004-Fix-uClibc-build.patch.pending
+++++++++++++++++++++++++++++++++  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch.obsolete
+--------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
+--------------------------------  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch
 659a58bb047b48f06331465ca6128592  linux/Config.in
 f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
@@ -19,7 +23,9 @@ be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 dfe35e9f39b004b3977968223107bd51  package/libgtk3/0001-disable-atk-bridge.patch
 84caeaa857a89462b8a4e4c775a60ea4  package/lirc-tools/lirc-tools.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
+05bbad65b2c01a63d2cd661f54962dee  package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
 201ba12d953eb7111d08b3952a7b6b3c  package/mesa3d/Config.in
+848b4032bd832a28461e364ce5926383  package/mesa3d/mesa3d.hash
 6d6f9c8f807001b9b421d1b924e8d2f3  package/mesa3d/mesa3d.mk
 f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk
 2cd9a8d1ff6aa58b1ae2709179929998  package/mpv/mpv.mk

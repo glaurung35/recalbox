@@ -35,6 +35,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
     case BoardType::Pi3plus:              arch = "RPi 3B+"; break;
     case BoardType::Pi4:                  arch = "RPi 4"; break;
     case BoardType::Pi400:                arch = "RPi 400"; break;
+    case BoardType::Pi5  :                arch = "RPi 5"; break;
     case BoardType::UnknownPi:            arch = "unknown RPi"; break;
     case BoardType::OdroidAdvanceGo:      arch = "Odroid GO Advance"; break;
     case BoardType::OdroidAdvanceGoSuper: arch = "Odroid GO Super"; break;

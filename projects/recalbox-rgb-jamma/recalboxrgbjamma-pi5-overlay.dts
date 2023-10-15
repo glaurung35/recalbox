@@ -2,7 +2,7 @@
 /plugin/;
 
 / {
-	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+	compatible = "brcm,bcm2712";
   fragment@0 {
       target = <&gpio>;
       __overlay__ {
@@ -35,9 +35,6 @@
 
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-jamma = <1>;
-				videofilter-gpios = <&gpio 11 1>;
-				pinctrl-0 = <&videofilter_gpio>;
-				pinctrl-names = "default";
 
 				ports {
 					#address-cells = <1>;
@@ -77,20 +74,13 @@
 		target = <&dpi>;
 		__overlay__  {
 			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&vga666_mode6_pins>;
 			port {
 				dpi_out: endpoint@0 {
 					remote-endpoint = <&vga_bridge_in>;
 				};
 			};
-		};
-	};
-
-	fragment@3 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
 		};
 	};
 
@@ -153,7 +143,7 @@
     __overlay__ {
       status = "okay";
       pinctrl-names = "default";
-      pinctrl-0 = <&i2c1_pins>;
+      pinctrl-0 = <&rp1_i2c1_2_3>;
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
 
@@ -197,14 +187,6 @@
   };
 
   fragment@9 {
-		target = <&i2c1_pins>;
-		__overlay__ {
-			brcm,pins = <2 3>;
-		};
-	};
-
-
-  fragment@10 {
     target-path = "/";
     __overlay__ {
       fan0: gpio-fan@0 {

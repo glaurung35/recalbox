@@ -31,7 +31,7 @@ bool WizardLite::OnComponentRequired(int page, int componentIndex, Rectangle& wh
         auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
         String text = _("Recalbox et Kubii vous remercient pour votre confiance !\n"
                         "\n"
-                        "Profitons de ce  premier lancement pour découvrir ensemble votre Recalbox.");
+                        "Profitons de ce premier lancement pour découvrir ensemble comment utiliser votre Recalbox.");
         std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
         textComponent->setVerticalAlignment(TextAlignment::Top);
         component = textComponent;
@@ -51,9 +51,9 @@ bool WizardLite::OnComponentRequired(int page, int componentIndex, Rectangle& wh
       if (componentIndex == 1)
       {
         auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-        String text = _("Vous pouvez naviguer dans les menus a l’aide de la croix directionelle, selectionner un systeme ou un jeu a l’aide du bouton B et en sortir a l’aide du bouton A.\n\n"
-                        "Accedez au menu principal a l’aide du bouton START.\n"
-                        "Pour sortir d’un jeu, appuyez simultanement sur les boutons SELECT et START");
+        String text = _("Vous pouvez naviguer dans les menus à l’aide de la croix directionnelle, sélectionner un système ou un jeu à l’aide du bouton B et en sortir à l’aide du bouton A.\n\n"
+                        "Accédez au menu principal à l’aide du bouton START.\n"
+                        "Pour sortir d’un jeu, appuyez simultanément sur les boutons SELECT et START");
         std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
         textComponent->setVerticalAlignment(TextAlignment::Top);
         component = textComponent;
@@ -73,8 +73,8 @@ bool WizardLite::OnComponentRequired(int page, int componentIndex, Rectangle& wh
       if (componentIndex == 1)
       {
         auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-        String text = _("Recalbox partage ses dossiers de roms, de bios et de sauvegardes sur le reseau local. Pour ajouter vos roms, rien de plus simple: sur votre ordinateur, recherchez votre “recalbox” dans les partages reseaux.\n"
-                        "Accedez au dossier roms, et copiez ensuite votre jeu dans le dossier correspondant a son systeme. Par exemple pour ajouter un jeu “NES”, copiez le dans le dossier 'roms/nes'.");
+        String text = _("Recalbox partage ses dossiers de roms, de bios et de sauvegardes sur le réseau local. Pour ajouter vos roms, rien de plus simple : sur votre ordinateur, recherchez votre “recalbox” dans les partages réseaux.\n"
+                        "Accédez au dossier roms, et copiez ensuite votre jeu dans le dossier correspondant à son système. Par exemple, pour ajouter un jeu “NES”, copiez-le dans le dossier 'roms/nes'.");
         std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
         textComponent->setVerticalAlignment(TextAlignment::Top);
         component = textComponent;
@@ -94,8 +94,8 @@ bool WizardLite::OnComponentRequired(int page, int componentIndex, Rectangle& wh
       if (componentIndex == 1)
       {
         auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-        String text = _("Passez gratuitement a la version complete du système en connectant votre recalbox à internet et profitez de tous les emulateurs et de toutes les fonctionalités !\n\n"
-                        "Un fois votre Recalbox connectée, une mise a jour vous sera proposée automatiquement.\n\n"
+        String text = _("Passez gratuitement à la version complète du système en connectant votre recalbox à internet et profitez de tous les émulateurs et de toutes les fonctionnalités !\n\n"
+                        "Une fois votre Recalbox connectée, une mise à jour vous sera proposée automatiquement.\n\n"
                         "Retrouvez des infos utiles et des tutoriels sur recalbox.com, ou sur le wiki recalbox en scannant le qr code.");
         std::shared_ptr<TextComponent> textComponent = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
         textComponent->setVerticalAlignment(TextAlignment::Top);

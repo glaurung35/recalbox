@@ -26,7 +26,7 @@ class GuiMenuCRT : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuCRT(WindowManager& window);
+    explicit GuiMenuCRT(WindowManager& window, const String title);
 
     //! Default destructor
     ~GuiMenuCRT() override;

@@ -114,7 +114,7 @@ void GuiMenu::SubMenuSelected(int id)
     case Components::Kodi: if (!GameRunner::Instance().RunKodi()) { LOG(LogWarning) << "[Kodi] Error running Kodi."; } break;
     case Components::System: mWindow.pushGui(new GuiMenuSystem(mWindow, mSystemManager)); break;
     case Components::Update: mWindow.pushGui(new GuiMenuUpdates(mWindow)); break;
-    case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
+    case Components::RecalboxRGBDual: mWindow.pushGui(new GuiMenuCRT(mWindow, Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ? _("JAMMA SETTINGS") : _("CRT SETTINGS"))); break;
     case Components::Games: mWindow.pushGui(new GuiMenuGameSettings(mWindow, mSystemManager)); break;
     case Components::ContentDoanwloader:
     {

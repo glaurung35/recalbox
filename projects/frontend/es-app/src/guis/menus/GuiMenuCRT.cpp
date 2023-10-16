@@ -15,8 +15,8 @@
 #include <hardware/crt/CrtAdapterDetector.h>
 #include <CrtConf.h>
 
-GuiMenuCRT::GuiMenuCRT(WindowManager& window)
-  : GuiMenuBase(window, _("CRT SETTINGS"), this)
+GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
+  : GuiMenuBase(window, title, this)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
@@ -111,9 +111,9 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window)
                              {{ "Line", "line", neoline },
                               { "Square", "square", !neoline }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
-    AddSwitch(_("START + BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
+    AddSwitch(_("START+BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
               (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
-    AddSwitch(_("START + BTN = HK + BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
+    AddSwitch(_("START+BTN = HK+BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
               (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
     AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
               (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));

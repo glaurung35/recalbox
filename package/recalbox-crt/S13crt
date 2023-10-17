@@ -27,7 +27,7 @@ declare -A CONFIG_CONTENT=(
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19"
     ["recalboxrgbjamma"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma"
     ["recalboxrgbjamma-v2"]="#device=recalboxrgbjamma-v2\ndtoverlay=recalboxrgbjamma-v2"
-    ["recalboxrgbjamma-v2"]="#device=recalboxrgbjamma-v3\ndtoverlay=recalboxrgbjamma-v3"
+    ["recalboxrgbjamma-v3"]="#device=recalboxrgbjamma-v3\ndtoverlay=recalboxrgbjamma-v3"
     ["recalboxrgbjamma-pi5"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma-pi5"
 )
 
@@ -412,7 +412,7 @@ if test "$1" == "start"; then
             mount -o remount,ro /boot
             genericInstall
             configure_case
-            if [ "${DAC}" =~ recalboxrgbjamma.* ]; then
+            if [[ "${DAC}" =~ recalboxrgbjamma.* ]]; then
                 configure_rbconf_jamma
                 if [ "$(getArchName)" == "rpi5_64" ]; then
                     echo -e "${CONFIG_CONTENT['recalboxrgbjamma-pi5']}" > ${CRT_DAC_FILE}

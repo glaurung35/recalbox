@@ -1425,8 +1425,9 @@ static int load_config(void) {
               printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
               jamma_config.amp_boost = optionvalue;
               if(jamma_config.expander != NULL){
-                pca953x_gpio_set_value(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
-                pca953x_gpio_set_value(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
+                printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
+                pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
+                pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
               }
             }
           }
@@ -1601,6 +1602,7 @@ static int pca953x_probe(struct i2c_client *client,
     if(is_pi5 == 1){
       jamma_config.i2s = true;
     }
+    dev_info(&client->dev, "Setting expander gpio output pins\n");
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_I2S_FILTER, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_PI5_I2S, jamma_config.i2s);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_VIDEO_BYPASS, 1);

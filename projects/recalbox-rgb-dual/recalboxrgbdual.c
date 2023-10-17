@@ -122,7 +122,7 @@ static struct videomode modes[ModeCount] = {
         .vfront_porch = 4,
         .vsync_len = 5,
         .vback_porch = 14,
-        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
     },
     // 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
     {
@@ -450,9 +450,9 @@ static void dpidac_apply_module_mode(struct drm_connector *connector, int modeId
   if (preferred)
     mode->type |= DRM_MODE_TYPE_PREFERRED;
 
-  if(config.current_hat == RecalboxRGBJAMMA){
+/*  if(config.current_hat == RecalboxRGBJAMMA){
     mode->flags |= (DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC);
-  }
+  }*/
   drm_mode_set_name(mode);
   drm_mode_probed_add(connector, mode);
 }
@@ -615,7 +615,7 @@ static int dpidac_probe(struct platform_device *pdev) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", config.dip50Hz.gpio_state, config.dip31kHz.gpio_state);
 
   } else if(rgbjamma == 1) {
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support, have fun on Recalbox RGB JAMMA!\n");
     config.current_hat = RecalboxRGBJAMMA;
   } else {
     config.current_hat = OTHER;

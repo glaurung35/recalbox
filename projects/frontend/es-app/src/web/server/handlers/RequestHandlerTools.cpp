@@ -541,6 +541,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
       ({
         { "device" , Validator(GetAvailableSoundDevices(), false) },
         { "volume" , Validator(0, 100) },
+        { "music.volume", Validator(0, 100) },
         { "bgmusic", Validator(true) },
         { "mode"   , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
       });

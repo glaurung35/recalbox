@@ -12,6 +12,10 @@ export const AudioConfigSchema = z.object({
     exist: z.boolean(),
     value: z.number(),
   }),
+  'music.volume': z.object({
+    exist: z.boolean(),
+    value: z.string(),
+  }),
   device: z.object({
     exist: z.boolean(),
     value: z.string(),
@@ -29,6 +33,11 @@ export const AudioConfigOptionsSchema = z.object({
     type: z.string(),
   }),
   volume: z.object({
+    type: z.string(),
+    lowerValue: z.number(),
+    higherValue: z.number(),
+  }),
+  'music.volume': z.object({
     type: z.string(),
     lowerValue: z.number(),
     higherValue: z.number(),

@@ -55,6 +55,23 @@
             </template>
           </WrappedSlider>
         </template>
+      <FormFragmentContainer title="settings.audio.music.volume.title">
+        <template v-slot:content>
+          <WrappedSlider
+            :getter="audio['music.volume']"
+            :setter="audioStore.post"
+            apiKey="audio.music.volume"
+            v-if="audio['music.volume']"
+            :mix="musicVolumeOptions.lowerValue"
+            :max="musicVolumeOptions.higherValue"
+            icon="mdi-volume-high"
+          >
+            <template v-slot:help>
+              {{ $t('settings.audio.music.volume.help') }}
+            </template>
+          </WrappedSlider>
+        </template>
+      </FormFragmentContainer>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.audio.mode.title">
         <template v-slot:content>
@@ -97,6 +114,7 @@ audioStore.fetch();
 const {
   deviceOptions,
   volumeOptions,
+  musicVolumeOptions,
   modeOptions,
   audio,
 } = storeToRefs(audioStore);

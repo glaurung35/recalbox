@@ -16,8 +16,8 @@
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
-        irq_gpio_0: irq_gpio_0_conf {
-          brcm,pins = <0>; // GPIO 0
+        irq_gpio_26: irq_gpio_26_conf {
+          brcm,pins = <26>; // GPIO 26
           brcm,function = <0>; // Input
           brcm,pull = <2>; // Pull up
         };
@@ -88,7 +88,7 @@
 		target = <&gpio>;
 		__overlay__ {
 			vga666_mode6_pins: vga666_mode6_pins {
-				brcm,pins = <1
+				brcm,pins = <2 3
 				      4  5  6  7  8  9
 				      12 13 14 15 16 17
 				      20 21 22 23 24 25>;
@@ -139,11 +139,11 @@
 	};
 
   fragment@8 {
-    target = <&i2c1>;
+    target = <&i2c0>;
     __overlay__ {
       status = "okay";
       pinctrl-names = "default";
-      pinctrl-0 = <&rp1_i2c1_2_3>;
+      pinctrl-0 = <&rp1_i2c0_0_1>;
       clock-frequency = <400000>;
       read-timeout-ms = <50>;
 
@@ -172,10 +172,10 @@
         reg = <0x27>;
         status = "okay";
         pinctrl-names = "default";
-        pinctrl-0 = <&irq_gpio_0>;
+        pinctrl-0 = <&irq_gpio_26>;
         interrupt-parent = <&gpio>;
-        interrupts = <0 2>;
-        irq-gpios = <&gpio 0 0>;
+        interrupts = <26 2>;
+        irq-gpios = <&gpio 26 0>;
       };
       jammaexpander: jammaexpander@26 {
         compatible = "raspberrypi,recalboxrgbjamma";
@@ -186,35 +186,5 @@
     };
   };
 
-  fragment@9 {
-    target-path = "/";
-    __overlay__ {
-      fan0: gpio-fan@0 {
-        compatible = "gpio-fan";
-        gpios = <&gpio 26 0>;
-        gpio-fan,speed-map = <0 0>,<5000 1>;
-        #cooling-cells = <2>;
-      };
-    };
-  };
 
-  fragment@11 {
-    target = <&cpu_thermal>;
-    polling-delay = <5000>;	/* milliseconds */
-    __overlay__ {
-      trips {
-        cpu_hot: trip-point@0 {
-          temperature = <60000>;	/* (millicelsius) Fan started at 60°C */
-          hysteresis = <10000>;	    /* (millicelsius) Fan stopped at 50°C */
-          type = "active";
-        };
-      };
-      cooling-maps {
-        map0 {
-          trip = <&cpu_hot>;
-          cooling-device = <&fan0 1 1>;
-        };
-      };
-    };
-  };
 };

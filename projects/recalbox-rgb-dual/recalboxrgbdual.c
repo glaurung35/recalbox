@@ -590,7 +590,7 @@ static int dpidac_probe(struct platform_device *pdev) {
 
   if (rgbdual == 1) {
     config.current_hat = RecalboxRGBDual;
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support, have fun on Recalbox RGB DUAL!\n");
 
     /* Switch 31kHz */
     config.dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
@@ -620,7 +620,6 @@ static int dpidac_probe(struct platform_device *pdev) {
   } else {
     config.current_hat = OTHER;
   }
-
   drm_bridge_add(&vga->bridge);
 
   return 0;

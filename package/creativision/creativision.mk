@@ -35,6 +35,7 @@ define CREATIVISION_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/utils/tool_cas2wav $(TARGET_DIR)/usr/share/creatiVision/cas2wav
 	$(INSTALL) -D $(@D)/utils/tool_cvgfx $(TARGET_DIR)/usr/share/creatiVision/cvgfx
 	$(INSTALL) -D $(@D)/utils/tool_smbloader $(TARGET_DIR)/usr/share/creatiVision/smbloader
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/creativision
 endef
 
 $(eval $(cmake-package))

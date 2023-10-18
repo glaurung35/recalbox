@@ -52,7 +52,7 @@ index ed0add087..e5874e649 100644
  
 +			rp1_i2s0_18_27: rp1_i2s0_18_27 {
 +				function = "i2s0";
-+				pins = "gpio18", "gpio19", "gpio20", "gpio27";
++				pins = "gpio18", "gpio19", "gpio27";
 +				bias-disable;
 +			};
 +

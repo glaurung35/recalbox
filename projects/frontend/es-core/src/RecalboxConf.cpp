@@ -63,14 +63,14 @@ const String& RecalboxConf::ScreensaverFromEnum(RecalboxConf::Screensaver screen
 {
   switch(screensaver)
   {
-    case Screensaver::Dim: { static String s("dim"); return s; }
     case Screensaver::Demo: { static String s("demo"); return s; }
     case Screensaver::Gameclip: { static String s("gameclip"); return s; }
     case Screensaver::Suspend: { static String s("suspend"); return s; }
-    case Screensaver::Black:
+    case Screensaver::Black: { static String s("black"); return s; }
+    case Screensaver::Dim:
     default: break;
   }
-  static String s("black");
+  static String s("dim");
   return s;
 }
 

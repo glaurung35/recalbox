@@ -41,12 +41,12 @@ const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
 {
   switch(adapter)
   {
-    case CrtAdapterType::RGBDual:      { static std::string adapterString("recalboxrgbdual");       return adapterString; }
-    case CrtAdapterType::RGBJamma:     { static std::string adapterString("recalboxrgbjamma");      return adapterString; }
-    case CrtAdapterType::RGBJammaV2:   { static std::string adapterString("recalboxrgbjamma-v2");   return adapterString; }
-    case CrtAdapterType::Pi2Scart:     { static std::string adapterString("pi2scart");              return adapterString; }
-    case CrtAdapterType::RGBPi:        { static std::string adapterString("rgbpi");                 return adapterString; }
-    case CrtAdapterType::Vga666:       { static std::string adapterString("vga666");                return adapterString; }
+    case CrtAdapterType::RGBDual:      { static String adapterString("recalboxrgbdual");       return adapterString; }
+    case CrtAdapterType::RGBJamma:     { static String adapterString("recalboxrgbjamma");      return adapterString; }
+    case CrtAdapterType::RGBJammaV2:   { static String adapterString("recalboxrgbjamma-v2");   return adapterString; }
+    case CrtAdapterType::Pi2Scart:     { static String adapterString("pi2scart");              return adapterString; }
+    case CrtAdapterType::RGBPi:        { static String adapterString("rgbpi");                 return adapterString; }
+    case CrtAdapterType::Vga666:       { static String adapterString("vga666");                return adapterString; }
     case CrtAdapterType::None:
     default: break;
   }

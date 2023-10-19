@@ -1,6 +1,15 @@
---- a/libretro.c	2023-02-21 17:06:15.000000000 +0100
-+++ b/libretro.c	2023-10-03 01:20:44.557804649 +0200
-@@ -1100,7 +1100,7 @@
+--- a/libretro.c	2023-10-19 22:20:38.000000000 +0200
++++ b/libretro.c	2023-10-20 01:07:36.664057331 +0200
+@@ -55,7 +55,7 @@
+ 
+ void retro_destroybmp(void);
+ 
+-char bios_file_name[16] = {0};
++char bios_file_name[32] = {0};
+ 
+ uint16_t mbmp[TEX_WIDTH * TEX_HEIGHT];
+ uint16_t *mbmp_prev = NULL;
+@@ -1107,7 +1107,7 @@
        /* Emulated Hardware */
        var.key   = "o2em_bios";
        var.value = NULL;
@@ -9,7 +18,7 @@
  
        if (environ_cb(RETRO_ENVIRONMENT_GET_VARIABLE, &var) && var.value)
        {
-@@ -1108,19 +1108,19 @@
+@@ -1115,19 +1115,19 @@
            * copy an invalid value */
           if (!strcmp(var.value, "c52.bin"))
           {

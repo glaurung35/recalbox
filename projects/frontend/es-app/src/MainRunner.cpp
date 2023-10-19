@@ -376,7 +376,7 @@ void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)
   if (memory != 0 && memory <= 512)
   {
     int realSystemCount = 0;
-    for(const SystemData* system : systemManager.AllSystems())
+    for(const SystemData* system : systemManager.VisibleSystemList())
       if (system->HasVisibleGame())
         realSystemCount++;
     if (realSystemCount > maxSystem)

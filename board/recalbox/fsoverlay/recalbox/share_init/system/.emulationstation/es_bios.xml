@@ -128,7 +128,7 @@
   <system fullname="Nintendo Family Computer Disk System" platform="fds">
     <bios path="fds/disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia,mesen" />
   </system>
-  <system fullname="Nintendo Game Boy Advance" platform="gba">
+  <system fullname="Nintendo Gameboy Advance" platform="gba">
     <bios path="gba/gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />
     <bios path="gba/open_gba_bios.bin" md5="1876f71b0d8c65eef3454547896ffb11" mandatory="false" core="gpsp" />
   </system>
@@ -156,7 +156,7 @@
     <bios path="pcfx/pcfx.rom" md5="08e36edbea28a017f79f8d4f7ff9b6d7" core="pcfx" />
   </system>
   <system fullname="MSX Familly" platform="msx1,msx2">
-    <bios path="msx/CARTS.SHA"    md5="d6dedca1112ddfda94cc9b2e426b818b" core="fmsx" />
+    <bios path="msx/CARTS.SHA"    md5="d6dedca1112ddfda94cc9b2e426b818b,74b0f217fa0e2b8bb5a2f8e2ecc69da3" core="fmsx" />
     <bios path="msx/CYRILLIC.FNT" md5="85b38e4128bbc300e675f55b278683a8" core="fmsx" />
     <bios path="msx/DISK.ROM"     md5="80dcd1ad1a4cf65d64b7ba10504e8190" core="fmsx" />
     <bios path="msx/FMPAC16.ROM"  md5="af8537262df8df267072f359399a7635" core="fmsx" />
@@ -258,8 +258,8 @@
     <bios path="o2em/c52.bin"   md5="f1071cdb0b6b10dde94d3bc8a6146387" core="o2em" />
   </system>
   <system fullname="Philips VideoPac+" platform="videopacplus">
-    <bios path="videopacplus/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
-    <bios path="videopacplus/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
+    <bios path="o2em/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
+    <bios path="o2em/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
   </system>
   <system fullname="Panasonic 3DO" platform="3do">
     <bios path="3do/panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" />

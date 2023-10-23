@@ -24,6 +24,8 @@ XROAR_CONF_OPTS += --enable-filereq-cli
 
 define XROAR_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/src/xroar $(TARGET_DIR)/usr/bin/xroar
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/dragon
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/trs80coco
 endef
 
 $(eval $(autotools-package))

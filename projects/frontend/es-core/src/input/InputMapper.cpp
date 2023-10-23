@@ -16,10 +16,8 @@ InputMapper::~InputMapper()
 void InputMapper::Build()
 {
   LoadConfiguration();
-  // Get connected pads
-  mConnected = AvailablePads();
   // Copy to pad active list
-  PadList activePads(mConnected);
+  PadList activePads(AvailablePads());
 
   // Remove device already fetched from configuration
   // Also add non-connected pads to the phantom list
@@ -27,7 +25,7 @@ void InputMapper::Build()
     if (device.IsValid())
     {
       bool found = false;
-      for(int i = (int)activePads.size(); --i >= 0; )
+      for(int i = 0; i < (int)activePads.size(); ++i)
         if (const Pad& connectedDevice = activePads[i]; connectedDevice.Same(device))
         {
           found = true;
@@ -37,10 +35,7 @@ void InputMapper::Build()
         }
       // Device not found, move to unconnected list
       if (!found)
-      {
-        mUnconnected.push_back(device);
         { LOG(LogDebug) << "[PadMapping] Move to unconnected: " << device.AsString(); }
-      }
     }
 
   // Add remaining pads in unused slots
@@ -67,9 +62,10 @@ void InputMapper::Build()
           break;
         }
 
-  // Push active pads first
-  { LOG(LogDebug) << "[PadMapping] Sort active first"; }
-  SortActiveFirst(mPads);
+  // Assign position in mapper list
+  { LOG(LogDebug) << "[PadMapping] Assign positions"; }
+  AssignPositions();
+
 
   int index = 0;
   for(const Pad& pad : mPads)
@@ -120,37 +116,14 @@ InputMapper::PadList InputMapper::AvailablePads()
   return result;
 }
 
-void InputMapper::SortActiveFirst(PadArray& padArray)
-{
-  // Seek highest non empty/phantom devices
-  int higher = Input::sMaxInputDevices;
-  while(--higher >= 0)
-    if (padArray[higher].mIndex >= 0)
-      break;
-
-  // No devices or no empty slot?
-  if ((unsigned int)higher >= Input::sMaxInputDevices) return;
-
-  // Stack the active ones
-  for(int i = 0; i < higher; ++i)
-    if (padArray[i].mIndex < 0)
-    {
-      Pad tmp = padArray[i];
-      for(int j = i; j < higher; ++j) padArray[j] = padArray[j+1];
-      padArray[higher] = tmp;
-      --higher;
-      --i; // restart @ same position
-    }
-}
-
-String InputMapper::GetDecoratedName(int index)
+String InputMapper::GetDecoratedName(int position)
 {
   int count = 0;
-  const Pad& pad = mPads[index];
+  const Pad& pad = mPads[position];
   if (pad.mIndex >= 0)
     for(const Pad& current : mPads)
       if (current.Same(pad))
-        if (current.mIndex < pad.mIndex && current.mIndex >= 0)
+        if (current.mIndex < pad.mIndex && !current.mPath.IsEmpty())
           count++;
 
   String result(pad.mName);
@@ -162,19 +135,24 @@ String InputMapper::GetDecoratedName(int index)
   return pad.IsConnected() ? result : String::Empty;
 }
 
-void InputMapper::Swap(int index1, int index2)
+void InputMapper::Swap(int position1, int position2)
 {
   // Clamp indexes
-  index1 = Math::clampi(index1, 0, Input::sMaxInputDevices - 1);
-  index2 = Math::clampi(index2, 0, Input::sMaxInputDevices - 1);
+  position1 = Math::clampi(position1, 0, Input::sMaxInputDevices - 1);
+  position2 = Math::clampi(position2, 0, Input::sMaxInputDevices - 1);
 
   // Really swap?
-  if ((index1 == index2) || (index1 < 0) || (index2 < 0)) return;
+  if ((position1 == position2) || (position1 < 0) || (position2 < 0)) return;
 
   // Swap
-  Pad tmp       = mPads[index1];
-  mPads[index1] = mPads[index2];
-  mPads[index2] = tmp;
+  Pad tmp          = mPads[position1];
+  mPads[position1] = mPads[position2];
+  mPads[position2] = tmp;
+  mPads[position1].mPosition = position1;
+  mPads[position2].mPosition = position2;
+
+  // Save
+  SaveConfiguration();
 }
 
 void InputMapper::PadsAddedOrRemoved(bool removed)
@@ -202,6 +180,21 @@ int InputMapper::ConnectedPadCount() const
     if (const Pad& pad = mPads[i]; pad.IsConnected())
       result++;
   return result;
+}
+
+InputMapper::PadList InputMapper::GetPads() const
+{
+  PadList list;
+  for(const Pad& pad : mPads)
+    if (pad.IsConnected())
+      list.push_back(pad);
+  return list;
+}
+
+void InputMapper::AssignPositions()
+{
+  for(int i = Input::sMaxInputDevices; --i >= 0; )
+    mPads[i].mPosition = i;
 }
 
 String InputMapper::Pad::LookupPowerLevel() const

@@ -480,9 +480,10 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
 OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
 {
   OrderedDevices devices;
+  InputMapper::PadList list = mapper.GetPads();
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    const InputMapper::Pad& pad = mapper.PadAt(player);
+    const InputMapper::Pad& pad = list[player];
     if (pad.IsConnected())
       devices.SetDevice(player, mIdToDevices[mIndexToId[pad.mIndex]]);
   }
@@ -493,9 +494,10 @@ OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
 String InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
 {
   String command;
+  InputMapper::PadList list = mapper.GetPads();
   for (int player = 0; player < Input::sMaxInputDevices; ++player)
   {
-    const InputMapper::Pad& pad = mapper.PadAt(player);
+    const InputMapper::Pad& pad = list[player];
     if (pad.IsConnected())
     {
       const InputDevice& device = mIdToDevices[mIndexToId[pad.mIndex]];

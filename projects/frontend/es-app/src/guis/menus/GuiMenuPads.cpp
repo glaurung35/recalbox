@@ -9,8 +9,6 @@
 #include "GuiMenuPadsPair.h"
 #include "guis/GuiBluetoothDevices.h"
 #include <guis/MenuMessages.h>
-#include <utils/locale/LocaleHelper.h>
-#include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
 #include <recalbox/RecalboxSystem.h>
 #include <guis/GuiDetectDevice.h>
@@ -144,21 +142,18 @@ void GuiMenuPads::RefreshDevices()
 {
   mRefreshing = true;
   // Finaly fill in all components
-  for(int i = 0; i < Input::sMaxInputDevices; ++i)
+  InputMapper::PadList list = mMapper.GetPads();
+  for(int i = 0; i < (int)list.size(); ++i)
   {
-    const InputMapper::Pad& pad = mMapper.PadAt(i);
-
-    // Add none element
     mDevices[i]->clear();
-    if (pad.IsConnected() /*IsValid()*/)
-      for(int j = 0; j < Input::sMaxInputDevices; ++j)
-      {
-        const InputMapper::Pad& displayablePad = mMapper.PadAt(j);
-        if (displayablePad.IsValid())
-          mDevices[i]->add(mMapper.GetDecoratedName(j), j, i == j);
-      }
-    else
-      mDevices[i]->add(_("NONE"), -1, true);
+    for(int j = 0; j < (int)list.size(); ++j)
+      if (const InputMapper::Pad& displayablePad = list[j]; displayablePad.IsConnected())
+        mDevices[i]->add(mMapper.GetDecoratedName(displayablePad.mPosition), j, i == j);
+  }
+  for(int i = Input::sMaxInputDevices; --i >= (int)list.size();)
+  {
+    mDevices[i]->clear();
+    mDevices[i]->add(_("NONE"), -1, true);
   }
   mRefreshing = false;
 }
@@ -196,8 +191,13 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const int& value
   int newIndex = mDevices[id]->getSelected();
   if (newIndex < 0) return; // Ignore user playing with NONE :)
 
+  // Get positions
+  InputMapper::PadList list = mMapper.GetPads();
+  int position1 = list[id].mPosition;
+  int position2 = list[newIndex].mPosition;
+
   // Swap both pads
-  mMapper.Swap(id, newIndex);
+  mMapper.Swap(position1, position2);
   RefreshDevices();
 }
 

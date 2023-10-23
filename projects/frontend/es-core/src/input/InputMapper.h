@@ -22,27 +22,30 @@ class InputMapper : public IInputChange
     //! Pad structure
     struct Pad
     {
-      String mName;  //!< Real pad name
-      String mUUID;  //!< Pad uuid
-      Path   mPath;  //! /dev/input/eventX
-      int    mIndex; //!< Pad index in InputManager list
+      String mName;     //!< Real pad name
+      String mUUID;     //!< Pad uuid
+      Path   mPath;     //! /dev/input/eventX
+      int    mIndex;    //!< Pad index in InputManager list
+      int    mPosition; //!< Position in the mapper array
 
       Pad() : mIndex(-1) {}
 
-      Pad(const String& name, const String& uuid, const Path& path, int index)
+      Pad(const String& name, const String& uuid, const Path& path, int inputIndex)
         : mName(name)
         , mUUID(uuid)
         , mPath(path)
-        , mIndex(index)
+        , mIndex(inputIndex)
+        , mPosition(-1)
       {
       }
 
-      void Set(const String& name, const String& uuid, const Path& path, int index)
+      void Set(const String& name, const String& uuid, const Path& path, int inputIndex)
       {
         mName = name;
         mUUID = uuid;
         mPath = path;
-        mIndex = index;
+        mIndex = inputIndex;
+        mPosition = -1;
       }
 
       void Reset()
@@ -51,6 +54,7 @@ class InputMapper : public IInputChange
         mUUID.clear();
         mPath = Path();
         mIndex = -1;
+        mPosition = -1;
       }
 
       [[nodiscard]] String LookupPowerLevel() const;
@@ -80,6 +84,7 @@ class InputMapper : public IInputChange
         mUUID = source.mUUID;
         mPath = source.mPath;
         mIndex = source.mIndex;
+        mPosition = source.mPosition;
       }
     };
 
@@ -103,11 +108,10 @@ class InputMapper : public IInputChange
     String GetDecoratedName(int index);
 
     /*!
-     * @brief Get pat at the given index
-     * @param index Index to retrieve the pad at
-     * @return Pad
+     * @brief Get all connected pads in a compact list (no unconnected pads)
+     * @return Connected pad list
      */
-    [[nodiscard]] const Pad& PadAt(int index) const { return mPads[Math::clampi(index, 0, Input::sMaxInputDevices - 1)]; }
+    [[nodiscard]] PadList GetPads() const;
 
     /*!
      * @brief Swap pads at the given positions
@@ -129,10 +133,6 @@ class InputMapper : public IInputChange
   private:
     //! Pad array
     PadArray mPads;
-    //! Connected pad list
-    PadList mConnected;
-    //! Unconnected pad list
-    PadList mUnconnected;
 
     //! Rebuid the pad array, ready to be used
     void Build();
@@ -150,12 +150,8 @@ class InputMapper : public IInputChange
     //! Get available pad list
     static PadList AvailablePads();
 
-    /*!
-     * @brief Sort pads, pushing active ones first
-     * This sort does not change the order of active pads
-     * @param list List to sort
-     */
-    static void SortActiveFirst(PadArray& padArray);
+    // Assign each pad a position in the mapper list
+    void AssignPositions();
 
     /*
      * IInputChange implementation

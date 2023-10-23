@@ -22,7 +22,6 @@ define LIBRETRO_O2EM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/o2em_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/o2em_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/o2em
-	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/videopacplus
 endef
 
 $(eval $(generic-package))

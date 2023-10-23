@@ -30,6 +30,7 @@ define TI99SIM_INSTALL_TARGET_CMDS
 	$(TARGET_STRIP) -s $(@D)/bin/*
 	mkdir -p $(TARGET_DIR)/usr/bin/ti99sim
 	$(INSTALL) -D $(@D)/bin/* $(TARGET_DIR)/usr/bin/ti99sim
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/ti994a
 endef
 
 $(eval $(generic-package))

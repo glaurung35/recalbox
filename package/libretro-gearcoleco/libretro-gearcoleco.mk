@@ -22,6 +22,7 @@ endef
 define LIBRETRO_GEARCOLECO_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/platforms/libretro/gearcoleco_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/gearcoleco_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/coleco
 endef
 
 $(eval $(generic-package))

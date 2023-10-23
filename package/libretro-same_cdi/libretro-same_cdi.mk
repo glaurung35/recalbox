@@ -20,6 +20,7 @@ endef
 define LIBRETRO_SAME_CDI_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/same_cdi_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/same_cdi_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/cdi
 endef
 
 $(eval $(generic-package))

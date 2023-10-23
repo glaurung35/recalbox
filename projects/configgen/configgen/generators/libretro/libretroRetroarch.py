@@ -350,3 +350,66 @@ class LibretroRetroarch:
 
         # Ignore core informations (allow rewind, save states, netplay)
         settings.setBool("core_info_savestate_bypass", True)
+
+        # Use bios in directories
+        # By core first
+        if self.system.Core == 'a5200':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/atari5200")
+        elif self.system.Core == 'bsnes':
+            if self.system.Name == 'gb' or self.system.Name == 'gbc':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
+            elif self.system.Name == 'satellaview':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/satellaview")
+        elif self.system.Core == 'bsneshd':
+            if self.system.Name == 'gb' or self.system.Name == 'gbc':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
+        elif self.system.Core == 'cdi2015':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/cdi")
+        elif self.system.Core == 'emuscv':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/scv")
+        elif self.system.Core == 'fmsx':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/msx")
+        elif self.system.Core == 'freechaf':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/channelf")
+        elif self.system.Core == 'freechaf':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/channelf")
+        elif self.system.Core == 'freeintv':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/intellevision")
+        elif self.system.Core == 'gambatte':
+            if self.system.Name == 'gb':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/gb")
+            elif self.system.Name == 'gbc':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/gbc")
+        elif self.system.Core == 'gpsp':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/gba")
+        elif self.system.Core == 'mednafen_pcfx':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/pcfx")
+        elif self.system.Core == 'mu':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/palm")
+        elif self.system.Core == 'o2em':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/o2em")
+        elif self.system.Core == 'opera':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/3do")
+        elif self.system.Core == 'pokemini':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/pokemini")
+        elif self.system.Core == 'prosystem':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/atari7800")
+        elif self.system.Core == 'snes9x':
+            if self.system.Name == 'satellaview':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/satellaview")
+            elif self.system.Name == 'sufami':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/sufami")
+        # Then by name - when there are multiple cores with same bios
+        elif self.system.Name == 'fds':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/fds")
+        elif self.system.Name == 'lynx':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/lynx")
+        elif self.system.Name == 'nds':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/nds")
+        elif self.system.Name == 'saturn':
+            settings.setString("system_directory", recalboxFiles.BIOS + "/saturn")
+        # Default
+        else:
+            settings.setString("system_directory", recalboxFiles.BIOS);
+
+        print("Bios directory: {}".format(settings.getString("system_directory", recalboxFiles.BIOS)));

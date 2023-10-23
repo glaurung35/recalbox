@@ -21,7 +21,9 @@ endef
 define LIBRETRO_BSNES_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/bsnes_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/bsnes_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb/
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/satellaview
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sgb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/sufami
 endef
 
 $(eval $(generic-package))

@@ -258,8 +258,8 @@
     <bios path="o2em/c52.bin"   md5="f1071cdb0b6b10dde94d3bc8a6146387" core="o2em" />
   </system>
   <system fullname="Philips VideoPac+" platform="videopacplus">
-    <bios path="videopacplus/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
-    <bios path="videopacplus/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
+    <bios path="o2em/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
+    <bios path="o2em/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
   </system>
   <system fullname="Panasonic 3DO" platform="3do">
     <bios path="3do/panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" />

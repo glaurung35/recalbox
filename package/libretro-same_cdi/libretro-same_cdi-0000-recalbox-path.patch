@@ -14,15 +14,6 @@ index 4eeedd5f..8ecd335e 100644
              else
                 sprintf(tmp_dir, "%s%c%s%c%s%c", ".", slash, core, slash,dir_name[i],slash);
           }
-@@ -416,7 +419,7 @@ static void Set_Path_Option(void)
-                   sprintf(tmp_dir, "%s%c%s%c%s", retro_save_directory, slash, core, slash,dir_name[i]);
-             else
-                if (game_specific_nvram_enable)
--                  sprintf(tmp_dir, "%s%c%s%c%s%c%s%c",".",slash,core,slash,dir_name[i],slash,MgameName,slash);   
-+                  sprintf(tmp_dir, "%s%c%s%c%s%c%s%c",".",slash,core,slash,dir_name[i],slash,MgameName,slash);
-                else
-                   sprintf(tmp_dir, "%s%c%s%c%s%c", ".", slash, core, slash,dir_name[i],slash);
-          }
 @@ -537,7 +540,7 @@ static int execute_game(char* path)
             }
     }

@@ -41,8 +41,9 @@ bool PadOSD::ProcessInput(const InputCompactEvent& event)
 {
   // Pad alpha
   if (event.Device().IsPad())
-    if (int padIndex = InputManager::Instance().Mapper().PadIndexFromDeviceIdentifier(event.RawEvent().Device()); padIndex >= 0)
-      mAlpha[padIndex] = sMaxAlpha;
+    if (event.AnythingPressed() || event.AnythingReleased())
+      if (int padIndex = InputManager::Instance().Mapper().PadIndexFromDeviceIdentifier(event.RawEvent().Device()); padIndex >= 0)
+        mAlpha[padIndex] = sMaxAlpha;
   return false;
 }
 
@@ -65,11 +66,12 @@ void PadOSD::Render(const Transform4x4f& transform)
   int step = Renderer::Instance().DisplayHeightAsInt() / 32;
   int w = (int) mPadGlyph.advance.x() + Renderer::Instance().DisplayWidthAsInt() / 160;
   int bh = (int) mPadGlyph.bearing.y();
+  const InputMapper::PadList padList = mMapper.GetPads();
   for (int i = mPadCount; --i >= 0;)
   {
     int y = i * (step + 1);
     mFont->renderCharacter(mPadChar, 0, (float) y, 1.f, 1.f, sColor | mAlpha[i]);
-    InputDevice& device = inputManager.GetDeviceConfigurationFromIndex(mMapper.PadAt(i).mIndex);
+    InputDevice& device = inputManager.GetDeviceConfigurationFromIndex(padList[i].mIndex);
     if (device.HasBatteryLevel() && (device.BatteryLevel() > 15 || ((flashing >> 3) & 3) != 0))
     {
       float hr = (float) bh / (float) step;

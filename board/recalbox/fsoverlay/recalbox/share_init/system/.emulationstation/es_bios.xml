@@ -128,7 +128,7 @@
   <system fullname="Nintendo Family Computer Disk System" platform="fds">
     <bios path="fds/disksys.rom" md5="ca30b50f880eb660a320674ed365ef7a" core="fceumm,nestopia,mesen" />
   </system>
-  <system fullname="Nintendo Game Boy Advance" platform="gba">
+  <system fullname="Nintendo Gameboy Advance" platform="gba">
     <bios path="gba/gba_bios.bin" md5="a860e8c0b6d573d191e4ec7db1b1e4f6" mandatory="false" core="gpsp,mgba,meteor" />
     <bios path="gba/open_gba_bios.bin" md5="1876f71b0d8c65eef3454547896ffb11" mandatory="false" core="gpsp" />
   </system>
@@ -258,8 +258,8 @@
     <bios path="o2em/c52.bin"   md5="f1071cdb0b6b10dde94d3bc8a6146387" core="o2em" />
   </system>
   <system fullname="Philips VideoPac+" platform="videopacplus">
-    <bios path="videopacplus/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
-    <bios path="videopacplus/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
+    <bios path="o2em/g7400.bin" md5="c500ff71236068e0dc0d0603d265ae76" core="o2em" />
+    <bios path="o2em/jopac.bin" md5="279008e4a0db2dc5f1c048853b033828" core="o2em" />
   </system>
   <system fullname="Panasonic 3DO" platform="3do">
     <bios path="3do/panafz1.bin"                 md5="f47264dd47fe30f73ab3c010015c155b" core="opera" note="Panasonic FZ-1 (U)" />

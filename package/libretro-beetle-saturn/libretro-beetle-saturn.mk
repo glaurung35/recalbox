@@ -29,7 +29,7 @@ endef
 define LIBRETRO_BEETLE_SATURN_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/mednafen_saturn_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mednafen_saturn_libretro.so
-	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/gb
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/saturn
 endef
 
 $(eval $(generic-package))

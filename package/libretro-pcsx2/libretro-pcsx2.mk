@@ -29,6 +29,7 @@ LIBRETRO_PCSX2_CONF_OPTS += \
 define LIBRETRO_PCSX2_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/pcsx2/pcsx2_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/pcsx2_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/ps2
 endef
 
 $(eval $(cmake-package))

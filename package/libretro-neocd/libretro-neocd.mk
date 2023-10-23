@@ -23,6 +23,7 @@ endef
 define LIBRETRO_NEOCD_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/neocd_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/neocd_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/neocd
 endef
 
 $(eval $(generic-package))

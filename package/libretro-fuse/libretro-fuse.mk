@@ -21,6 +21,7 @@ endef
 define LIBRETRO_FUSE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/fuse_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/fuse_libretro.so
+	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/fuse
 endef
 
 $(eval $(generic-package))

@@ -88,93 +88,97 @@ function runMigrations {
     if shouldMigrate "${SHARE_TYPE}" "9.2-move-bios"; then
         # Move bios into specific directories
         recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running migration 9.2-move-bios"
-        mv "/recalbox/share/bios/5200.ROM" "/recalbox/share/bios/atari5200"
-        mv "/recalbox/share/bios/ATARIBAS.ROM" "/recalbox/share/bios/atari800"
-        mv "/recalbox/share/bios/ATARIOSA.ROM" "/recalbox/share/bios/atari800"
-        mv "/recalbox/share/bios/ATARIOSB.ROM" "/recalbox/share/bios/atari800"
-        mv "/recalbox/share/bios/ATARIXL.ROM" "/recalbox/share/bios/atari800"
-        mv "/recalbox/share/bios/upd7801g.s01" "/recalbox/share/bios/scv/upd7801g.s01"
-        mv "/recalbox/share/bios/bios_MD.bin" "/recalbox/share/bios/megadrive"
-        mv "/recalbox/share/bios/bios.gg" "/recalbox/share/bios/gamegear"
-        mv "/recalbox/share/bios/bios_E.sms" "/recalbox/share/bios/mastersystem"
-        mv "/recalbox/share/bios/bios_J.sms" "/recalbox/share/bios/mastersystem"
-        mv "/recalbox/share/bios/bios_U.sms" "/recalbox/share/bios/mastersystem"
-        mv "/recalbox/share/bios/bios_CD_E.bin" "/recalbox/share/bios/segacd"
-        mv "/recalbox/share/bios/bios_CD_J.bin" "/recalbox/share/bios/segacd"
-        mv "/recalbox/share/bios/bios_CD_U.bin" "/recalbox/share/bios/segacd"
-        mv "/recalbox/share/bios/7800 BIOS (E).rom" "/recalbox/share/bios/atari7800"
-        mv "/recalbox/share/bios/7800 BIOS (U).rom" "/recalbox/share/bios/atari7800"
-        mv "/recalbox/share/bios/lynxboot.img" "/recalbox/share/bios/lynx"
-        mkdir -p "/recalbox/share/bios/nds"
-        mv "/recalbox/share/bios/bios7.bin" "/recalbox/share/bios/nds"
-        mv "/recalbox/share/bios/bios9.bin" "/recalbox/share/bios/nds"
-        mv "/recalbox/share/bios/firmware.bin" "/recalbox/share/bios/nds"
-        mkdir -p "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/saturn_bios.bin" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/stvbios.zip" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/sega_101.bin" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/mpr-17933.bin" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/mpr-18811-mx.ic1" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/mpr-19367-mx.ic1" "/recalbox/share/bios/saturn"
-        mv "/recalbox/share/bios/pcfx.rom" "/recalbox/share/bios/pcfx"
-        mv "/recalbox/share/bios/bootloader-dbvz.rom" "/recalbox/share/bios/palm"
-        mv "/recalbox/share/bios/palmos41-en-m515.rom" "/recalbox/share/bios/palm"
-        mv "/recalbox/share/bios/CARTS.SHA" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/CYRILLIC.FNT" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/DISK.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/FMPAC16.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/FMPAC.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/ITALIC.FNT" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/KANJI.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSX2EXT.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSX2PEXT.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSX2P.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSX2.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSXDOS2.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/MSX.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/PAINTER.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/RS232.ROM" "/recalbox/share/bios/msx"
-        mv "/recalbox/share/bios/sl31253.bin" "/recalbox/share/bios/channelf"
-        mv "/recalbox/share/bios/sl31254.bin" "/recalbox/share/bios/channelf"
-        mv "/recalbox/share/bios/sl90025.bin" "/recalbox/share/bios/channelf"
-        mv "/recalbox/share/bios/exec.bin" "/recalbox/share/bios/intellivision"
-        mv "/recalbox/share/bios/grom.bin" "/recalbox/share/bios/intellivision"
-        mv "/recalbox/share/bios/o2rom.bin" "/recalbox/share/bios/o2em"
-        mv "/recalbox/share/bios/c52.bin" "/recalbox/share/bios/o2em"
-        mv "/recalbox/share/bios/g7400.bin" "/recalbox/share/bios/videopacplus"
-        mv "/recalbox/share/bios/jopac.bin" "/recalbox/share/bios/videopacplus"
-        mv "/recalbox/share/bios/panafz1.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz1j.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz1j-norsa.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz10.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz10-norsa.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz10e-anvil.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz10e-anvil-norsa.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/goldstar.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/sanyotry.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/3do_arcade_saot.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz1-kanji.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz1j-kanji.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/panafz10ja-anvil-kanji.bin" "/recalbox/share/bios/3do"
-        mv "/recalbox/share/bios/bios.min" "/recalbox/share/bios/pokemini"
-        mv "/recalbox/share/bios/disksys.rom" "/recalbox/share/bios/fds"
-        mv "/recalbox/share/bios/gb_bios.bin" "/recalbox/share/bios/gb"
-        mv "/recalbox/share/bios/dmg_boot.bin" "/recalbox/share/bios/gb"
-        mv "/recalbox/share/bios/sgb_bios.bin" "/recalbox/share/bios/sgb"
-        mv "/recalbox/share/bios/sgb_boot.bin" "/recalbox/share/bios/sgb"
-        mv "/recalbox/share/bios/sgb2_boot.bin" "/recalbox/share/bios/sgb"
-        mv "/recalbox/share/bios/SGB1.sfc" "/recalbox/share/bios/sgb"
-        mv "/recalbox/share/bios/SGB2.sfc" "/recalbox/share/bios/sgb"
-        mv "/recalbox/share/bios/gbc_bios.bin" "/recalbox/share/bios/gbc"
-        mv "/recalbox/share/bios/cgb_boot.bin" "/recalbox/share/bios/gbc"
-        mv "/recalbox/share/bios/gba_bios.bin" "/recalbox/share/bios/gba"
-        mv "/recalbox/share/bios/agb_boot.bin" "/recalbox/share/bios/gba"
-        mv "/recalbox/share/bios/BS-X.bin" "/recalbox/share/bios/satellaview"
-        mv "/recalbox/share/bios/STBIOS.bin" "/recalbox/share/bios/sufami"
-        mv "/recalbox/share/bios/gexpress.pce" "/recalbox/share/bios/pcengine"
-        mv "/recalbox/share/bios/syscard1.pce" "/recalbox/share/bios/pcenginecd"
-        mv "/recalbox/share/bios/syscard2.pce" "/recalbox/share/bios/pcenginecd"
-        mv "/recalbox/share/bios/syscard3.pce" "/recalbox/share/bios/pcenginecd"
+        mv "/recalbox/share/bios/5200.ROM" "/recalbox/share/bios/atari5200" 2>/dev/null
+        mv "/recalbox/share/bios/ATARIBAS.ROM" "/recalbox/share/bios/atari800" 2>/dev/null
+        mv "/recalbox/share/bios/ATARIOSA.ROM" "/recalbox/share/bios/atari800" 2>/dev/null
+        mv "/recalbox/share/bios/ATARIOSB.ROM" "/recalbox/share/bios/atari800" 2>/dev/null
+        mv "/recalbox/share/bios/ATARIXL.ROM" "/recalbox/share/bios/atari800" 2>/dev/null
+        mv "/recalbox/share/bios/upd7801g.s01" "/recalbox/share/bios/scv/upd7801g.s01" 2>/dev/null
+        mv "/recalbox/share/bios/bios_MD.bin" "/recalbox/share/bios/megadrive" 2>/dev/null
+        mv "/recalbox/share/bios/bios.gg" "/recalbox/share/bios/gamegear" 2>/dev/null
+        mv "/recalbox/share/bios/bios_E.sms" "/recalbox/share/bios/mastersystem" 2>/dev/null
+        mv "/recalbox/share/bios/bios_J.sms" "/recalbox/share/bios/mastersystem" 2>/dev/null
+        mv "/recalbox/share/bios/bios_U.sms" "/recalbox/share/bios/mastersystem" 2>/dev/null
+        mv "/recalbox/share/bios/bios_CD_E.bin" "/recalbox/share/bios/segacd" 2>/dev/null
+        mv "/recalbox/share/bios/bios_CD_J.bin" "/recalbox/share/bios/segacd" 2>/dev/null
+        mv "/recalbox/share/bios/bios_CD_U.bin" "/recalbox/share/bios/segacd" 2>/dev/null
+        mv "/recalbox/share/bios/7800 BIOS (E).rom" "/recalbox/share/bios/atari7800" 2>/dev/null
+        mv "/recalbox/share/bios/7800 BIOS (U).rom" "/recalbox/share/bios/atari7800" 2>/dev/null
+        mv "/recalbox/share/bios/lynxboot.img" "/recalbox/share/bios/lynx" 2>/dev/null
+        [ -d "/recalbox/share/bios/nds" ] && mkdir -p "/recalbox/share/bios/nds"
+        mv "/recalbox/share/bios/bios7.bin" "/recalbox/share/bios/nds" 2>/dev/null
+        mv "/recalbox/share/bios/bios9.bin" "/recalbox/share/bios/nds" 2>/dev/null
+        mv "/recalbox/share/bios/firmware.bin" "/recalbox/share/bios/nds" 2>/dev/null
+        [ -d "/recalbox/share/bios/saturn" ] && mkdir -p "/recalbox/share/bios/saturn"
+        mv "/recalbox/share/bios/saturn_bios.bin" "/recalbox/share/bios/saturn" 2>/dev/null
+        mv "/recalbox/share/bios/stvbios.zip" "/recalbox/share/bios/saturn" 2>/dev/null
+        mv "/recalbox/share/bios/sega_101.bin" "/recalbox/share/bios/saturn" 2>/dev/null
+        mv "/recalbox/share/bios/mpr-17933.bin" "/recalbox/share/bios/saturn" 2>/dev/null
+        mv "/recalbox/share/bios/mpr-18811-mx.ic1" "/recalbox/share/bios/saturn" 2>/dev/null
+        mv "/recalbox/share/bios/mpr-19367-mx.ic1" "/recalbox/share/bios/saturn" 2>/dev/null
+        [ -d "/recalbox/share/bios/pcfx" ] && mkdir -p "/recalbox/share/bios/pcfx"
+        mv "/recalbox/share/bios/pcfx.rom" "/recalbox/share/bios/pcfx" 2>/dev/null
+        mv "/recalbox/share/bios/bootloader-dbvz.rom" "/recalbox/share/bios/palm" 2>/dev/null
+        mv "/recalbox/share/bios/palmos41-en-m515.rom" "/recalbox/share/bios/palm" 2>/dev/null
+        mv "/recalbox/share/bios/CARTS.SHA" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/CYRILLIC.FNT" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/DISK.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/FMPAC16.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/FMPAC.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/ITALIC.FNT" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/KANJI.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSX2EXT.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSX2PEXT.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSX2P.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSX2.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSXDOS2.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/MSX.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/PAINTER.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/RS232.ROM" "/recalbox/share/bios/msx" 2>/dev/null
+        mv "/recalbox/share/bios/sl31253.bin" "/recalbox/share/bios/channelf" 2>/dev/null
+        mv "/recalbox/share/bios/sl31254.bin" "/recalbox/share/bios/channelf" 2>/dev/null
+        mv "/recalbox/share/bios/sl90025.bin" "/recalbox/share/bios/channelf" 2>/dev/null
+        mv "/recalbox/share/bios/exec.bin" "/recalbox/share/bios/intellivision" 2>/dev/null
+        mv "/recalbox/share/bios/grom.bin" "/recalbox/share/bios/intellivision" 2>/dev/null
+        mv "/recalbox/share/bios/c52.bin" "/recalbox/share/bios/o2em" 2>/dev/null
+        mv "/recalbox/share/bios/g7400.bin" "/recalbox/share/bios/o2em" 2>/dev/null
+        mv "/recalbox/share/bios/jopac.bin" "/recalbox/share/bios/o2em" 2>/dev/null
+        mv "/recalbox/share/bios/o2rom.bin" "/recalbox/share/bios/o2em" 2>/dev/null
+        [ -d "/recalbox/share/bios/3do" ] && mkdir -p "/recalbox/share/bios/3do"
+        mv "/recalbox/share/bios/panafz1.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz1j.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz1j-norsa.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz10.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz10-norsa.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz10e-anvil.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz10e-anvil-norsa.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/goldstar.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/sanyotry.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/3do_arcade_saot.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz1-kanji.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz1j-kanji.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/panafz10ja-anvil-kanji.bin" "/recalbox/share/bios/3do" 2>/dev/null
+        mv "/recalbox/share/bios/bios.min" "/recalbox/share/bios/pokemini" 2>/dev/null
+        mv "/recalbox/share/bios/disksys.rom" "/recalbox/share/bios/fds" 2>/dev/null
+        mv "/recalbox/share/bios/gb_bios.bin" "/recalbox/share/bios/gb" 2>/dev/null
+        mv "/recalbox/share/bios/dmg_boot.bin" "/recalbox/share/bios/gb" 2>/dev/null
+        mv "/recalbox/share/bios/sgb_bios.bin" "/recalbox/share/bios/sgb" 2>/dev/null
+        mv "/recalbox/share/bios/sgb_boot.bin" "/recalbox/share/bios/sgb" 2>/dev/null
+        mv "/recalbox/share/bios/sgb2_boot.bin" "/recalbox/share/bios/sgb" 2>/dev/null
+        mv "/recalbox/share/bios/SGB1.sfc" "/recalbox/share/bios/sgb" 2>/dev/null
+        mv "/recalbox/share/bios/SGB2.sfc" "/recalbox/share/bios/sgb" 2>/dev/null
+        mv "/recalbox/share/bios/gbc_bios.bin" "/recalbox/share/bios/gbc" 2>/dev/null
+        mv "/recalbox/share/bios/cgb_boot.bin" "/recalbox/share/bios/gbc" 2>/dev/null
+        mv "/recalbox/share/bios/gba_bios.bin" "/recalbox/share/bios/gba" 2>/dev/null
+        mv "/recalbox/share/bios/agb_boot.bin" "/recalbox/share/bios/gba" 2>/dev/null
+        [ -d "/recalbox/share/bios/satellaview" ] && mkdir -p "/recalbox/share/bios/satellaview"
+        mv "/recalbox/share/bios/BS-X.bin" "/recalbox/share/bios/satellaview" 2>/dev/null
+        [ -d "/recalbox/share/bios/sufami" ] && mkdir -p "/recalbox/share/bios/sufami"
+        mv "/recalbox/share/bios/STBIOS.bin" "/recalbox/share/bios/sufami" 2>/dev/null
+        mv "/recalbox/share/bios/gexpress.pce" "/recalbox/share/bios/pcengine" 2>/dev/null
+        mv "/recalbox/share/bios/syscard1.pce" "/recalbox/share/bios/pcenginecd" 2>/dev/null
+        mv "/recalbox/share/bios/syscard2.pce" "/recalbox/share/bios/pcenginecd" 2>/dev/null
+        mv "/recalbox/share/bios/syscard3.pce" "/recalbox/share/bios/pcenginecd" 2>/dev/null
         rm -rf "/recalbox/share/bios/64DD_IPL.bin"
         sed -i "s|ROM_400/800_CUSTOM=/recalbox/share/bios/ATARIOSB.ROM|ROM_400/800_CUSTOM=/recalbox/share/bios/atari800/ATARIOSB.ROM|g" "/recalbox/share/system/.atari800.cfg"
         sed -i "s|ROM_5200=/recalbox/share/bios/5200.rom|ROM_5200=/recalbox/share/bios/atari5200/5200.rom|g" "/recalbox/share/system/.atari800.cfg"

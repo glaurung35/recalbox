@@ -208,7 +208,7 @@ void GuiUpdateRecalbox::Run()
       return;
     }
 
-  destination.Delete();
+  (void)destination.Delete();
   mSender.Send(-1);
 }
 

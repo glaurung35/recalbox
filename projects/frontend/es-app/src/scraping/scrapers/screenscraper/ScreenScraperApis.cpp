@@ -718,7 +718,7 @@ ScrapeResult ScreenScraperApis::GetMedia(const FileData& game, const String& med
   // Delete wrong files
   if (to.Size() <= 256 || !mClient.IsOutputFileValid())
   {
-    to.Delete();
+    (void)to.Delete();
     size = 0;
   }
 

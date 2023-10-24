@@ -15,10 +15,13 @@ class SystemHasher : private Thread
     SystemHasher();
 
     //! Destructor
-    ~SystemHasher();
+    ~SystemHasher() override;
 
     //! Push a new system to auto-hash
     void Push(SystemData* system);
+
+    //! Application is about to quit - stop any processing asap
+    void MustQuit();
 
   private:
     //! Working signal

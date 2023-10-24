@@ -1046,6 +1046,8 @@ void SystemManager::UpdateAllGameLists()
 
 void SystemManager::DeleteAllSystems(bool updateGamelists)
 {
+  mHasher.MustQuit();
+
   if (updateGamelists && !mAllSystems.Empty())
     UpdateAllGameLists();
 

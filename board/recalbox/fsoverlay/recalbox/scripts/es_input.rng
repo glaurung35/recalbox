@@ -28,9 +28,11 @@
           <value>joystick</value>
         </choice>
       </attribute>
-      <attribute name="deviceName">
-        <data type="string" />
-      </attribute>
+      <optional>
+        <attribute name="deviceName">
+          <data type="string" />
+        </attribute>
+      </optional>
       <attribute name="deviceGUID">
         <data type="string" />
       </attribute>

@@ -14,9 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Realtek RTW-88 series of wifi controllers
 - Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
 - Add support for eeprom update on RPi4 and RPi 5
-- Add support for HD mode on Pi5, PC (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)
-- Add support for Widescreen mode on Pi4, Pi5, PC (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)
-
+- Add auto mapping for retroflag snes usb and hutopi controllers:
 
 ### News
 - Add Arcade View
@@ -39,6 +37,8 @@ as release notes for end user on a Recalbox upgrade.
 - Add "Boot on game" feature to enable recalbox booting on a selected game
 - Add undervoltage and temperature popups in frontend for rpi familly
 - Add new Saturn core on RPi4 and RPi5: beetle saturn
+- Add support for HD mode on Pi5, PC (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)
+- Add support for Widescreen mode on Pi4, Pi5, PC (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

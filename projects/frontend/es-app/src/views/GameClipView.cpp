@@ -136,8 +136,9 @@ void GameClipView::Update(int elapsed)
     }
     case State::LaunchGame:
     {
+      ViewController::Instance().selectGamelistAndCursor(mGame);
       ViewController::Instance().Launch(mGame, GameLinkedData(), Vector3f(), true);
-      mState = State::Quit;
+      mState = State::Terminated;
       break;
     }
     case State::GoToSystem:

@@ -328,6 +328,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-dtoverlay/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/arcade-dats/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-userland-tools/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/llvm-cmake/Config.in.host"
 endmenu
 menu "Small TFT Screen"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-fbcp/Config.in"

@@ -1,0 +1,12 @@
+diff --git a/package/llvm/Config.in b/package/llvm/Config.in
+index d9d30a5ba5..9317a05c8f 100644
+--- a/package/llvm/Config.in
++++ b/package/llvm/Config.in
+@@ -24,6 +24,7 @@ config BR2_PACKAGE_LLVM
+ 	depends on !BR2_STATIC_LIBS
+ 	depends on BR2_USE_WCHAR # std::wstring
+ 	depends on BR2_HOST_GCC_AT_LEAST_5 # host-llvm
++	select BR2_PACKAGE_LLVM_CMAKE
+ 	help
+ 	  The LLVM Project is a collection of modular and reusable
+ 	  compiler and toolchain technologies.

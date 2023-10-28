@@ -6,6 +6,8 @@
 
 ++++++++++++++++++++++++++++++++  package/mesa3d/0004-Fix-uClibc-build.patch.pending
 ++++++++++++++++++++++++++++++++  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch.obsolete
+--------------------------------  package/llvm/0001-nfc-Fix-missing-include.patch
+--------------------------------  package/llvm/0002-Add-missing-cstdint-header-to-Signals.h.patch
 --------------------------------  package/mesa3d/0004-Fix-uClibc-build.patch
 --------------------------------  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch
 --------------------------------  package/usbmount/0001-rules-fix.patch
@@ -14,6 +16,8 @@ f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 164ecdbdb3d962e53a88cffbdd61651e  package/binutils/binutils.mk
 05a2454fb455799e570b8059a9189e0c  package/bluez5_utils/bluez5_utils.mk
+006973dba7be7db4526120e91c0fec02  package/clang/clang.hash
+4f746ddf03f753f83904fcb876c5853c  package/clang/clang.mk
 40e93c6a4fd117a51513b11cd6a334f7  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 3398123f7ff9593633983a8635d87529  package/ffmpeg/ffmpeg.mk
@@ -23,6 +27,9 @@ be7091dd90cc6633f644562fd3416acb  package/libcec/libcec.mk
 7ecd8faf8aee2a75412583ccbca01ef0  package/libfreeimage/libfreeimage.mk
 dfe35e9f39b004b3977968223107bd51  package/libgtk3/0001-disable-atk-bridge.patch
 84caeaa857a89462b8a4e4c775a60ea4  package/lirc-tools/lirc-tools.mk
+1e2e1a26705613a56306354fbbed2768  package/llvm/Config.in
+205dc9eb24bd5d606bc37cdd8e518b3c  package/llvm/llvm.hash
+8e9d594ccabd51a6863314c188bb2e3b  package/llvm/llvm.mk
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
 05bbad65b2c01a63d2cd661f54962dee  package/mesa3d/0002-vc4-add-meson-option-to-disable-optional-neon-suppor.patch
 201ba12d953eb7111d08b3952a7b6b3c  package/mesa3d/Config.in

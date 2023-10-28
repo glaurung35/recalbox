@@ -1,0 +1,15 @@
+diff --git a/package/clang/clang.mk b/package/clang/clang.mk
+index 3c75f8d6b1..1fc4ac4b20 100644
+--- a/package/clang/clang.mk
++++ b/package/clang/clang.mk
+@@ -5,8 +5,8 @@
+ ################################################################################
+ 
+ # LLVM, Clang and lld should be version bumped together
+-CLANG_VERSION_MAJOR = 11
+-CLANG_VERSION = $(CLANG_VERSION_MAJOR).1.0
++CLANG_VERSION_MAJOR = 15
++CLANG_VERSION = $(CLANG_VERSION_MAJOR).0.7
+ CLANG_SITE = https://github.com/llvm/llvm-project/releases/download/llvmorg-$(CLANG_VERSION)
+ CLANG_SOURCE = clang-$(CLANG_VERSION).src.tar.xz
+ CLANG_LICENSE = Apache-2.0 with exceptions

@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2023/09/25
-LIBRETRO_TIC80_VERSION = 9ed15297f600f1dea39f27b5eaabf34e91ac2db5
+# Commit of 2023/10/22
+LIBRETRO_TIC80_VERSION = 0937023babce9dd55eba5ada4b46c2f98b740324
 LIBRETRO_TIC80_SITE = https://github.com/nesbox/TIC-80.git
 LIBRETRO_TIC80_LICENSE = MIT
 LIBRETRO_TIC80_SITE_METHOD=git
@@ -16,7 +16,8 @@ LIBRETRO_TIC80_CONF_OPTS=-DBUILD_SDL=OFF \
 						-DBUILD_LIBRETRO=ON \
 						-DBUILD_DEMO_CARTS=OFF \
 						-DBUILD_PLAYER=OFF \
-						-DBUILD_PRO=TRUE
+						-DBUILD_PRO=TRUE \
+						-DBUILD_WITH_JANET=FALSE
 
 define LIBRETRO_TIC80_INSTALL_TARGET_CMDS
 	mkdir -p $(TARGET_DIR)/usr/lib/libretro

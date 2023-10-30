@@ -4,6 +4,7 @@ config BR2_PACKAGE_RECALBOX_RGB_JAMMA
 	select BR2_PACKAGE_RECALBOX_RGB_DUAL
 	select BR2_PACKAGE_RECALBOX_I2S_AUDIO
 	select BR2_PACKAGE_RPI_USERLAND_TOOLS
+	select BR2_PACKAGE_MOSQUITTO
 	help
 	  Support for Recalbox RGB Jamma, the jamma dac
 	  for Rasbperry Pi 5, 4, 400, and 3

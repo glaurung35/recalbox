@@ -2,6 +2,8 @@
 
 if test "$1" == "start"; then
   source /recalbox/scripts/recalbox-utils.sh
+  CONFIG="/boot/crt/recalbox-crt-options.cfg"
+  CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
   # RRGBD or RRGBJ is already present if CRT is loaded
   if ! isCRTLoaded; then
     board=""
@@ -29,8 +31,7 @@ if test "$1" == "start"; then
 
     if [ "${adapter}" != "" ]; then
       mount -o remount,rw /boot
-      CONFIG="/boot/crt/recalbox-crt-options.cfg"
-      CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
+
       echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter}${board})!" >> /boot/hardware.log
       if ! grep "dtoverlay=${adapter}${board}" "${CRT_DAC_FILE}"; then
         echo "dtoverlay=${adapter}${board}" > "${CRT_DAC_FILE}"
@@ -43,6 +44,11 @@ if test "$1" == "start"; then
         #reboot
       fi
       mount -o ro,remount /boot
+    fi
+  else
+    if grep -q "adapter.type = recalboxrgbjamma" "${CONFIG}";then
+      modprobe i2c-dev
+      start-stop-daemon -S -q -m -p /var/run/recalboxrgbjamma_screen.pid  --exec "recalboxrgbjamma_screen" &
     fi
   fi
 fi

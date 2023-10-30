@@ -226,7 +226,7 @@ tests nvidia:
     - cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
     - cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
     - cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
-    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "dist" "${CI_PIPELINE_ID}"
+    - uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
     # Specific image for RPIZero 1 + GPICASE2w
     - |
       if [ "${ARCH}" == "rpi1" ];then
@@ -240,7 +240,7 @@ tests nvidia:
         cp ${WORKDIR}/CHANGELOG.md "${DIST_DIR}/recalbox.changelog"
         cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
         cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
-        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "dist" "${CI_PIPELINE_ID}"
+        uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
         rm -rf "${DIST_DIR}" "${OLD_DIST_DIR}" "${OUTPUTDIR}"
       else
         rm -rf "${DIST_DIR}" "${OUTPUTDIR}"
@@ -319,7 +319,7 @@ build rpi5_64:
     - source scripts/release/functions.sh
     - apk add --update-cache --no-cache xz bash
   script:
-    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts-nda" "builds" "${CI_PIPELINE_ID}"
+    - downloadBucketFolderTo "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "builds" "${CI_PIPELINE_ID}"
     - echo "Force 32 bits to upgrade to 64"
     - |
       if test -d "builds/rpi4";then
@@ -352,7 +352,7 @@ release prod:
   when: manual
   variables:
     DEPLOY_TYPE: prod
-    BUCKET: recalbox-archive-stable-nda
+    BUCKET: recalbox-archive-stable
   environment:
     name: prod
     url: https://www.recalbox.com/download/
@@ -364,7 +364,7 @@ release alpha:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-alpha-nda
+    BUCKET: recalbox-archive-alpha
   environment:
     name: alpha/${CI_COMMIT_REF_SLUG}
 
@@ -378,7 +378,7 @@ release recalboxrgbdual:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-recalboxrgbdual-nda
+    BUCKET: recalbox-archive-recalboxrgbdual
   environment:
     name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
 
@@ -390,7 +390,7 @@ release patron:
   when: manual
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-patron-nda
+    BUCKET: recalbox-archive-patron
   environment:
     name: patron/${CI_COMMIT_REF_SLUG}
 
@@ -414,6 +414,6 @@ release branch:
     - merge_requests
   variables:
     DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-branch-nda
+    BUCKET: recalbox-archive-branch
   environment:
     name: branch/${CI_COMMIT_REF_SLUG}

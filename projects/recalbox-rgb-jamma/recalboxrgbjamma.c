@@ -1031,6 +1031,8 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
           }
         } else {
           // Start have been released after a credit
+          if(should_release_hk)
+            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
           start_credit = 0;
         }
         last_start_press = 0;

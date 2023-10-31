@@ -481,7 +481,7 @@ OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)
 {
   OrderedDevices devices;
   InputMapper::PadList list = mapper.GetPads();
-  for (int player = 0; player < Input::sMaxInputDevices; ++player)
+  for (int player = 0; player < (int)list.size(); ++player)
   {
     const InputMapper::Pad& pad = list[player];
     if (pad.IsConnected())
@@ -495,7 +495,7 @@ String InputManager::GetMappedDeviceListConfiguration(const InputMapper& mapper)
 {
   String command;
   InputMapper::PadList list = mapper.GetPads();
-  for (int player = 0; player < Input::sMaxInputDevices; ++player)
+  for (int player = 0; player < (int)list.size(); ++player)
   {
     const InputMapper::Pad& pad = list[player];
     if (pad.IsConnected())

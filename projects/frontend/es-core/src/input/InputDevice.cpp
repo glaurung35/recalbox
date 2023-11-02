@@ -212,6 +212,8 @@ bool InputDevice::IsMatching(Entry input, InputEvent event) const
         case InputEvent::EventType::Key: return true;
         case InputEvent::EventType::Hat: return (event.Value() == 0 || ((event.Value() & comp.Value()) != 0));
         case InputEvent::EventType::Axis: return event.Value() == 0 || comp.Value() == event.Value();
+        case InputEvent::EventType::MouseWheel:
+        case InputEvent::EventType::MouseButton:
         case InputEvent::EventType::Unknown:
         default: break;
       }
@@ -602,6 +604,32 @@ int InputDevice::ConvertAxisToOnOff(int axis, int value, InputCompactEvent::Entr
   return elapsed;
 }
 
+int InputDevice::ConvertMouseButtonToOnOff(int button, bool pressed, InputCompactEvent::Entry& on,
+                                           InputCompactEvent::Entry& off)
+{
+  int elapsed = 0;
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::MouseButton)
+        if (config.Id() == button)
+          elapsed = SetEntry(ConvertEntry((Entry)i), pressed, on, off);
+  return elapsed;
+}
+
+int InputDevice::ConvertMouseWheelToOnOff(int wheel, int direction, InputCompactEvent::Entry& on,
+                                          InputCompactEvent::Entry& off)
+{
+  bool stop = (direction & 0x1) == 0;
+  if (stop) direction >>= 1;
+  int elapsed = 0;
+  for (int i = (int)Entry::__Count; --i >= 0; )
+    if ((mConfigurationBits & (1 << (int)i)) != 0)
+      if (const InputEvent& config = mInputEvents[i]; config.Type() == InputEvent::EventType::MouseWheel)
+        if (config.Id() == wheel)
+          if (config.Value() == direction)
+            elapsed = SetEntry(ConvertEntry((Entry)i), !stop, on, off);
+  return elapsed;
+}
 
 InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
 {
@@ -620,6 +648,8 @@ InputCompactEvent InputDevice::ConvertToCompact(const InputEvent& event)
     case InputEvent::EventType::Hat: elapsed = ConvertHatToOnOff(event.Id(), event.Value(), on, off); break;
     case InputEvent::EventType::Button: elapsed = ConvertButtonToOnOff(event.Id(), event.Value() != 0, on, off); break;
     case InputEvent::EventType::Key: elapsed = ConvertKeyToOnOff(event.Id(), event.Value() != 0, on, off); break;
+    case InputEvent::EventType::MouseButton: elapsed = ConvertMouseButtonToOnOff(event.Id(), event.Value() != 0, on, off); break;
+    case InputEvent::EventType::MouseWheel: elapsed = ConvertMouseWheelToOnOff(event.Id(), event.Value(), on, off); break;
     case InputEvent::EventType::Unknown:
     default: { LOG(LogError) << "[InputDevice] Abnormal InputEvent::EventType: " << (int)event.Type(); break; }
   }

@@ -608,6 +608,7 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
   SystemData::Properties properties = SystemData::Properties::Searchable;
   if (systemDescriptor.Name() == "pico8") properties |= SystemData::Properties::GameInPng;
   if (systemDescriptor.Name() == "imageviewer") properties = SystemData::Properties::GameInPng | SystemData::Properties::ScreenShots;
+  if (systemDescriptor.IsPort()) properties |= SystemData::Properties::Ports;
 
   SystemData* result = new SystemData(*this, systemDescriptor, properties);
   InitializeSystem(result);
@@ -1651,7 +1652,7 @@ void SystemManager::UpdatedTopLevelFilter()
         removed.Add(system);
     }
   // Finally, any visible system not in remove list must be updated
-  for(SystemData* system : mAllSystems)
+  for(SystemData* system : mVisibleSystems)
     if (!removed.Contains(system))
       updated.Add(system);
 

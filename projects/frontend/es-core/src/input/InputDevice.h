@@ -116,6 +116,26 @@ class InputDevice
     int ConvertButtonToOnOff(int button, bool pressed, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
 
     /*!
+     * @brief Build a new Button event to on/off event flags regarding current device configuration
+     * @param button id
+     * @param pressed Key state - true = pressed, false = released
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return elapsed time
+     */
+    int ConvertMouseButtonToOnOff(int button, bool pressed, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
+     * @brief Build a new Mouse wheel event to on/off event flags regarding current device configuration
+     * @param wheel x/y
+     * @param direction wheel direction 1/0/-1
+     * @param on output activated entries
+     * @param off output deactivated entries
+     * @return elapsed time
+     */
+    int ConvertMouseWheelToOnOff(int wheel, int direction, InputCompactEvent::Entry& on, InputCompactEvent::Entry& off);
+
+    /*!
      * @brief Build a new key event to on/off event flags regarding current device configuration
      * @param key Key id
      * @param pressed Key state - true = pressed, false = released

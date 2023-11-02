@@ -141,8 +141,13 @@ void InputManager::LoadDefaultKeyboardConfiguration()
   //WriteDeviceXmlConfiguration(mKeyboard);
 
   mMousse.ClearAll();
-  mMousse.Set(InputDevice::Entry::B, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::Button, SDL_BUTTON_LEFT, 1));
-  mMousse.Set(InputDevice::Entry::A, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::Button, SDL_BUTTON_RIGHT, 1));
+  mMousse.Set(InputDevice::Entry::B, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseButton, 1, 1));
+  mMousse.Set(InputDevice::Entry::Start, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseButton, 2, 1));
+  mMousse.Set(InputDevice::Entry::A, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseButton, 3, 1));
+  mMousse.Set(InputDevice::Entry::Up, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseWheel, SDL_MOUSEWHEEL_NORMAL, 1));
+  mMousse.Set(InputDevice::Entry::Down, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseWheel, SDL_MOUSEWHEEL_NORMAL, -1));
+  mMousse.Set(InputDevice::Entry::Left, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseWheel, SDL_MOUSEWHEEL_FLIPPED, 1));
+  mMousse.Set(InputDevice::Entry::Right, InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseWheel, SDL_MOUSEWHEEL_FLIPPED, -1));
 
   // Load configuration
   LookupDeviceXmlConfiguration(mKeyboard);
@@ -334,9 +339,17 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   return mKeyboard.ConvertToCompact(event);
 }
 
-InputCompactEvent InputManager::ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down)
+InputCompactEvent InputManager::ManageMouseButtonEvent(const SDL_MouseButtonEvent& button, bool down)
 {
-  InputEvent event = InputEvent((int)button.which, InputEvent::EventType::Button, button.button, down  ? 1 : 0);
+  InputEvent event = InputEvent((int)button.which, InputEvent::EventType::MouseButton, button.button, down  ? 1 : 0);
+  return mMousse.ConvertToCompact(event);
+}
+
+InputCompactEvent InputManager::ManageMouseWheelEvent(const SDL_MouseWheelEvent& wheel)
+{
+  InputEvent event = InputEvent(InputEvent::sMouseDevice, InputEvent::EventType::MouseWheel,
+                                wheel.y != 0 ? SDL_MOUSEWHEEL_NORMAL : wheel.x != 0 ? SDL_MOUSEWHEEL_FLIPPED : -1,
+                                (wheel.y != 0 ? wheel.y : wheel.x) << ((int)wheel.which < 0 ? 1 : 0));
   return mMousse.ConvertToCompact(event);
 }
 
@@ -351,7 +364,8 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
     case SDL_KEYDOWN:
     case SDL_KEYUP: return ManageKeyEvent(ev.key, ev.type == SDL_KEYDOWN);
     case SDL_MOUSEBUTTONDOWN:
-    case SDL_MOUSEBUTTONUP: return ManageMousseButtonEvent(ev.button, ev.type == SDL_MOUSEBUTTONDOWN);
+    case SDL_MOUSEBUTTONUP: return ManageMouseButtonEvent(ev.button, ev.type == SDL_MOUSEBUTTONDOWN);
+    case SDL_MOUSEWHEEL: return ManageMouseWheelEvent(ev.wheel);
     case SDL_JOYDEVICEADDED:
     case SDL_JOYDEVICEREMOVED:
     {

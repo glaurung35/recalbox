@@ -280,11 +280,18 @@ class InputManager : public IFileSystemWatcherNotification
     InputCompactEvent ManageKeyEvent(const SDL_KeyboardEvent& key, bool down);
 
     /*!
-     * @brief Process a mousse SDL event and generate an InputCompactEvent accordingly
-     * @param mousse SDL event
+     * @brief Process a mouse SDL event and generate an InputCompactEvent accordingly
+     * @param button SDL event
      * @return InputCompactEvent filled with event information
      */
-    InputCompactEvent ManageMousseButtonEvent(const SDL_MouseButtonEvent& button, bool down);
+    InputCompactEvent ManageMouseButtonEvent(const SDL_MouseButtonEvent& button, bool down);
+
+    /*!
+     * @brief Process a mouse wheel SDL event and generate an InputCompactEvent accordingly
+     * @param wheel SDL event
+     * @return InputCompactEvent filled with event information
+     */
+    InputCompactEvent ManageMouseWheelEvent(const SDL_MouseWheelEvent& wheel);
 
     /*
      * IFileSystemWatcherNotification implementation

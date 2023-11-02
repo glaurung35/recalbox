@@ -111,8 +111,8 @@ if(CMAKE_COMPILER_IS_GNUCXX)
 endif()
 
 if(OPTION_SANITIZERS)
-    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -O1 -fno-omit-frame-pointer -g")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -O1 -fno-omit-frame-pointer -g")
+    set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -fsanitize=address -O0 -fno-omit-frame-pointer -g3")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -fsanitize=address -O0 -fno-omit-frame-pointer -g3")
 endif()
 
 if(${GLSystem} MATCHES "Desktop OpenGL")

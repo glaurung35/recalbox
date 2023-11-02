@@ -12,11 +12,13 @@ class InputEvent
     //! Event type
     enum class EventType: int
     {
-      Unknown, //!< Unknown/Not initialized event
-      Axis,    //!< Analog axis with values from -32768 to +32767
-      Button,  //!< Button with binary state
-      Hat,     //!< DPAD bitflag
-      Key,     //!< Keyboard key
+      Unknown,     //!< Unknown/Not initialized event
+      Axis,        //!< Analog axis with values from -32768 to +32767
+      Button,      //!< Button with binary state
+      Hat,         //!< DPAD bitflag
+      Key,         //!< Keyboard key
+      MouseButton, //!< Mouse button
+      MouseWheel,  //!< Mouse wheel
     };
 
   private:

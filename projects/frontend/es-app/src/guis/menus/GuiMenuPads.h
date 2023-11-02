@@ -61,7 +61,7 @@ class GuiMenuPads : public GuiMenuBase
     InputMapper& mMapper;
 
     //! Refreshing component, ignore change event
-    bool mRefreshing;
+    volatile bool mRefreshing;
 
     //! MQTT Topic
     static constexpr const char* sEventTopic = "bluetooth/operation";

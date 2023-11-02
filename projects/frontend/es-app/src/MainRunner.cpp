@@ -292,15 +292,23 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
         //case SDL_JOYDEVICEREMOVED:
         case SDL_MOUSEBUTTONDOWN:
         case SDL_MOUSEBUTTONUP:
+        case SDL_MOUSEWHEEL:
         {
           // Convert event
-          //{ LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
-          InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
-          // TODO: invert those lines, special events should be managed by the board in priority
-          if (!ProcessSpecialInputs(compactEvent))
-            if (!Board::Instance().ProcessSpecialInputs(compactEvent, this))
-              if (!compactEvent.Empty())
-                window.ProcessInput(compactEvent);
+          for(;;)
+          {
+            //{ LOG(LogInfo) << "[MainRunner] Event in Loop event."; }
+            InputCompactEvent compactEvent = InputManager::Instance().ManageSDLEvent(&window, event);
+            // TODO: invert those lines, special events should be managed by the board in priority
+            if (!ProcessSpecialInputs(compactEvent))
+              if (!Board::Instance().ProcessSpecialInputs(compactEvent, this))
+                if (!compactEvent.Empty())
+                  window.ProcessInput(compactEvent);
+            // Mouse Wheel event must resend a null move
+            if (event.type == SDL_MOUSEWHEEL)
+              if ((int)event.wheel.which >= 0) { event.wheel.which = -1; continue; }
+            break;
+          }
           // Quit?
           if (window.Closed()) RequestQuit(ExitState::Quit);
           break;

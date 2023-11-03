@@ -110,7 +110,7 @@ int main(int argc, char **argv) {
     struct mosquitto *mosq = NULL;
     printf("Starting screen utility\n");
     uint8_t rc = 0;
-    uint8_t i2c_node_address = 1;
+    uint8_t i2c_node_address = 0;
 
     rc = ssd1306_init(i2c_node_address);
     ssd1306_oled_default_config(64, 128);
@@ -130,7 +130,7 @@ int main(int argc, char **argv) {
         if (mqttcon != MOSQ_ERR_SUCCESS) {
             mqttcon = mqtt_reconnect(mosq);
         }
-        printf("Waiting for messages\n");
+        //printf("Waiting for messages\n");
         mosquitto_loop(mosq, 1000, 10);
         sleep(1);
     }

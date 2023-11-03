@@ -922,6 +922,15 @@ void ViewController::HideSystem(SystemData* system)
 void ViewController::UpdateSystem(SystemData* system)
 {
   InvalidateGamelist(system);
+  // Force refresh if we're on this system's view
+  ISimpleGameListView** view = mGameListViews.try_get(system);
+  if (view != nullptr)
+    if (*view == mCurrentView)
+    {
+      int index = (*view)->getCursorIndex();
+      (*view)->refreshList();
+      (*view)->setCursorIndex(index);
+    }
 }
 
 void ViewController::SystemShownWithNoGames(SystemData* system)

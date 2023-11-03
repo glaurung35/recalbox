@@ -1609,7 +1609,7 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
   // Remove always-hidden system
   RemoveAlwaysHiddenSystems(*addedSystems);
   // Added virtual systems?
-  if (addedSystems != nullptr)
+  if (addedSystems != nullptr && !addedSystems->Empty())
   {
     if (ContainsUnitializedSystem(*addedSystems))
     {
@@ -1619,7 +1619,7 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
     else SlowPopulateCompleted(*addedSystems, autoSelectMonoSystem);
   }
   // Removed virtual systems?
-  if (removedSystems != nullptr)
+  if (removedSystems != nullptr && !removedSystems->Empty())
     for(SystemData* system : *removedSystems)
     {
       MakeSystemInvisible(system);

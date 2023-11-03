@@ -298,13 +298,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     void playViewTransition();
 
-    /*!
-     * @brief Get system index in the system list
-     * @param system System to lookup index
-     * @return Index
-     */
-    int getSystemIndex(const SystemData* system) { return mSystemListView.SystemIndex(system); }
-
     /*
      * IFastMenuLineCallback implementation
      */

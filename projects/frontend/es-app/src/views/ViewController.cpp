@@ -141,7 +141,7 @@ void ViewController::goToQuitScreen()
 void ViewController::goToSystemView(SystemData* system)
 {
   CheckFilters();
-  mSystemListView.setPosition((float) getSystemIndex(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
+  mSystemListView.setPosition((float)mSystemManager.SystemAbsoluteIndex(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 
   if (!system->HasVisibleGame()) {
     system = mSystemManager.FirstNonEmptySystem();
@@ -222,7 +222,7 @@ void ViewController::goToGameList(SystemData* system)
 	{
 		// move system list
 		float offX = mSystemListView.getPosition().x();
-		int sysId = getSystemIndex(system);
+		int sysId = mSystemManager.SystemAbsoluteIndex(system);
     mSystemListView.setPosition((float)sysId * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
 		offX = mSystemListView.getPosition().x() - offX;
 		mCamera.translation().x() -= offX;
@@ -646,7 +646,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
   view->Initialize();
 	view->setTheme(system->Theme());
 
-  int id = mSystemManager.VisibleSystemList().IndexOf(system);
+  int id = mSystemManager.SystemAbsoluteIndex(system);
 	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);
 
 	addChild(view);

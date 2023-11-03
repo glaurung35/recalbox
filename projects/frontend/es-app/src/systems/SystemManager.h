@@ -824,4 +824,15 @@ class SystemManager : private INoCopy // No copy allowed
     {
       return String(sGenrePrefix).Append(Genres::GetShortName(genre));
     }
+
+    /*!
+     * @brief Get absolute system index from the all system list
+     * this index must not change whether there are shown/hidden/loaded/unloaded systems before or after
+     * @param system System to get index from
+     * @return System index or -1
+     */
+    int SystemAbsoluteIndex(SystemData* const system)
+    {
+      return mAllSystems.IndexOf(system);
+    }
 };

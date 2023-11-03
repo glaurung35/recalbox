@@ -849,12 +849,3 @@ void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
     setAnimation(infoFadeIn, 800, nullptr, false, 2);
   }
 }
-
-int SystemView::SystemIndex(const SystemData* system)
-{
-  int index = -1;
-  for(const Entry& entry : mEntries)
-    if (++index; entry.object == system)
-      break;
-  return index;
-}

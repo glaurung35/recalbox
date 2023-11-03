@@ -661,6 +661,7 @@ static struct config {
   bool i2s;
   uint buttons_on_jamma;
   uint amp_boost;
+  uint player_count;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -800,12 +801,12 @@ static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert) {
  *                                    ‾‾‾‾‾‾‾‾‾‾
  * Chip 1 : address = 0x24
  *                                    __________
- *   P2-B4 (P2-X)        IO0-0  <--- |16      24| ---> IO1-0  P1K-B4 (P1K-X)
- *   P1-B4 (P1-X)        IO0-1  <--- |17      25| ---> IO1-1  P1K-B5 (P1K-L)
- *   P1-B5 (P1-L)        IO0-2  <--- |18      26| ---> IO1-2  P1K-B6 (P1K-R)
- *   P2-B5 (P2-L)        IO0-3  <--- |19      27| ---> IO1-3  P2K-B4 (P2K-X)
- *   P3K-B3              IO0-4  <--- |20      28| ---> IO1-4  P2K-B5 (P2K-L)
- *   P3K-UP              IO0-5  <--- |21      29| ---> IO1-5  P2K-B6 (P2K-R)
+ *   P2-B4 (P2-X)        IO0-0  <--- |16      24| ---> IO1-0  P1K-B4/P3-RIGHT
+ *   P1-B4 (P1-X)        IO0-1  <--- |17      25| ---> IO1-1  P1K-B5/P3-LEFT
+ *   P1-B5 (P1-L)        IO0-2  <--- |18      26| ---> IO1-2  P1K-B6/P3-DOWN
+ *   P2-B5 (P2-L)        IO0-3  <--- |19      27| ---> IO1-3  P2K-B4/P3-B1
+ *   P3K-B3              IO0-4  <--- |20      28| ---> IO1-4  P2K-B5/P3-B2
+ *   P3K-UP              IO0-5  <--- |21      29| ---> IO1-5  P2K-B6/P3-COIN
  *   P3K-START           IO0-6  <--- |22      30| ---> IO1-6  P1-B6  (P1-R)
  *   P3K-LOCK            IO0-7  <--- |23      31| ---> IO1-7  P2-B6  (P2-R)
  *                                    ‾‾‾‾‾‾‾‾‾‾
@@ -824,9 +825,9 @@ static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert) {
  *
  */
 
-#define TOTAL_PLAYERS 2
+#define MAX_PLAYERS 4
 
-struct input_dev *player_devs[TOTAL_PLAYERS];
+struct input_dev *player_devs[MAX_PLAYERS];
 
 // Standard buttons mapping
 #define BTN_PER_PLAYER 11
@@ -871,24 +872,38 @@ static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
 
 #define PLAYER1 0
 #define PLAYER2 1
+#define PLAYER3 2
+#define PLAYER4 3
 #define JAMMA_BTNS 0
 #define KICK_BTNS 1
 
-static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
+static const int buttons_bits[MAX_PLAYERS][2][BTN_PER_PLAYER_ON_JAMMA] = {
   // Player 1
   {
     // The value is the bit of the data containing the
     // information for the button at the same index in buttons_codes array
     // Start is a special case
-    {33, 15, 13, 17, 18, 30, -1, 45, 47, 46,},
+    {33, 15, 13, 17, 18, 30, -1, 45, 46, 47},
     // Kick harness buttons mapping
     // Only use 3 btns here
-    {-1, -1, -1, 24, 25, 26, -1, -1, -1, -1,},
+    {-1, -1, -1, 24, 25, 26, -1, -1, -1, -1},
   },
   // Player 2
   {
-    {32, 14, 12, 16, 19, 31, 42, 44, -1, -1,},
-    {-1, -1, -1, 27, 28, 29, -1, -1, -1, -1,},
+    {32, 14, 12, 16, 19, 31, 42, 44, -1, -1},
+    {-1, -1, -1, 27, 28, 29, -1, -1, -1, -1},
+  },
+  // Player 3
+  {
+    //1   2   3   4   5   6  ST  CON  TL  TR
+    {27, 28, 20,  8, 23, -1, 22,  29, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
+  },
+  // Player 4
+  {
+    //1   2   3   4   5   6  ST  CON  TL  TR
+    {7,  11, 10,  9,  0, -1,  2,   1, -1, -1},
+    {-1, -1, -1, -1, -1, -1, -1, -1, -1, -1},
   }
 };
 
@@ -903,10 +918,12 @@ static const int buttons_bits[2][2][BTN_PER_PLAYER_ON_JAMMA] = {
 #define DIR_LEFT 2
 #define DIR_RIGHT 3
 
-static const int direction_bits[2][4]= {
+static const int direction_bits[MAX_PLAYERS][4]= {
   // Player 1
     {40,38,39,35},
     {41,37,36,34},
+    {21,26,25,24},
+    {3,4,5,6},
 };
 
 
@@ -946,7 +963,7 @@ static short should_release_hk = 0;
 /**
  *
  * @param data_chips the data read from both chips
- * The right 16 bits are for the chip 1, left 16 bits for the chip 0
+ * The right 16 bits are for the chip 2, middle 16 bits for the chip 1, left 16 bits for the chip 0
  */
 static void input_report(unsigned long long *data_chips, long long int *time_ns) {
   int player, buttonIndex, buttonValue;
@@ -972,20 +989,15 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
       } else if (start_state != *data_chips) {
         // Start is pressed and the state has changed since last loop
         // Check if credit should be added for P1
-        if (jamma_config.credit_on_start_btn1 && PRESSED(*data_chips, P1_BTN1)) {
-          DEBUG &&printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+P1_BTN1) B1=%u\n",
-                         PRESSED(*data_chips, P1_BTN1));
-          PRESS_AND_RELEASE(PLAYER1, BTN_SELECT);
-          can_exit = 0;
-          start_credit = 1;
-        }
-        // Check if credit should be added for P2
-        if (jamma_config.credit_on_start_btn1 && PRESSED(*data_chips, P2_BTN1)) {
-          DEBUG &&printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+P2_BTN1) B1=%u\n",
-                         PRESSED(*data_chips, P2_BTN1));
-          PRESS_AND_RELEASE(PLAYER2, BTN_SELECT);
-          can_exit = 0;
-          start_credit = 1;
+        if (jamma_config.credit_on_start_btn1){
+          for(player = 0; player < jamma_config.player_count; player++){
+            if(PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][JAMMA_BTN_1])){
+              DEBUG && printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%u\n", player);
+              PRESS_AND_RELEASE(player, BTN_SELECT);
+              can_exit = 0;
+              start_credit = 1;
+            }
+          }
         }
         // Check if we should use START + BTN pattern (Hotkey)
         // Only if not disabled in config, and credit not already used, and this is the first hk event
@@ -1046,127 +1058,42 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
 
   // Exit with TEST + SERVICE
   if(PRESSED(*data_chips, P1_SERVICE) && PRESSED(*data_chips, P1_TEST)) {
-    printk(KERN_INFO "recalboxrgbjamma: Exiting with SERVICCE + TEST\n");
+    printk(KERN_INFO "recalboxrgbjamma: Exiting with SERVICE + TEST\n");
     PRESS_AND_SYNC(PLAYER1, BTN_MODE);
     PRESS_AND_SYNC(PLAYER1, BTN_START);
     RELEASE_AND_SYNC(PLAYER1, BTN_START);
     RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
   }
 
-/*  if (jamma_config.hotkey_patterns) {
-    // Special case for HOTKEY:
-    // Simple press + release of START -> START event
-    // Simple press of START + BTN1 -> send SELECT (COIN)
-    // Simple press of START + an other button -> send HOTKEY + BUTTON
-    // Long press (3s) of START -> HOTKEY + START
-
-    if (PRESSED(*data_chips, P1_START)) {
-      DEBUG && printk(KERN_INFO
-      "recalboxrgbjamma: start is pressed\n");
-      if (last_start_press == 0) {
-        // First press
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: saving first press\n");
-        last_start_press = *time_ns;
-        start_state = *data_chips;
-        can_exit = 1;
-        start_credit = 0;
-      } else {
-        DEBUG && printk(KERN_INFO
-        "recalboxrgbjamma: startstate=%u data_chips=%u different=%d B1=%d\n", start_state, *data_chips, start_state !=
-                                                                                                       *data_chips,
-            PRESSED(
-                *data_chips,
-                P1_BTN1));
-        if (start_state != *data_chips) {
-          // If we can use START + BTN1 for a credit
-          if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P1_BTN1)) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: credit (SELECT) triggered (hk+P1_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(PLAYER1, BTN_SELECT);
-            RELEASE_AND_SYNC(PLAYER1, BTN_SELECT);
-            start_credit = 1;
-            can_exit = 0;
-          } if (!jamma_config.disable_credit_on_hk_btn1 && PRESSED(*data_chips, P2_BTN1)) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: credit (SELECT) triggered (hk+P2_BTN1) B1=%u\n", PRESSED(*data_chips, P1_BTN1));
-            PRESS_AND_SYNC(PLAYER2, BTN_SELECT);
-            RELEASE_AND_SYNC(PLAYER2, BTN_SELECT);
-            start_credit = 1;
-            can_exit = 0;
-          } else if (!start_credit && !should_release_hk) {
-            // As another button has been pressed, we press hotkey before
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: other button press (hk+x)\n");
-            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-            can_exit = 0;
-            should_release_hk = 1;
-          }
-        }
-        start_state = *data_chips;
-
-      }
-    } else {
-      if (last_start_press != 0) {
-        // Start released
-        if (!start_credit) {
-          DEBUG && printk(KERN_INFO
-          "recalboxrgbjamma: start released\n");
-          if (should_release_hk) {
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: release hotkey\n");
-            should_release_hk = 0;
-            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
-          } else if (can_exit && EXIT_DELAY(*time_ns, last_start_press)) {
-            // Longest press, so we send both HK + START
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: long press : sending HK + START\n");
-            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-            PRESS_AND_SYNC(PLAYER1, BTN_START);
-            RELEASE_AND_SYNC(PLAYER1, BTN_START);
-            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
-          } else if (HOTKEY_DELAY(*time_ns, last_start_press)) {
-            // Long press, so we send HK
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: middle press : sending HK\n");
-            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-            RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
-          } else {
-            // Simple start
-            DEBUG && printk(KERN_INFO
-            "recalboxrgbjamma: quick press : sending START\n");
-            PRESS_AND_SYNC(PLAYER1, BTN_START);
-            RELEASE_AND_SYNC(PLAYER1, BTN_START);
-          }
-        } else {
-          // Start have been released after a credit
-          start_credit = 0;
-        }
-        last_start_press = 0;
-      }
-    }
-  } else {
-    // Standard start
-    input_report_key(player_devs[PLAYER1], BTN_START, PRESSED(*data_chips, P1_START));
-  }*/
-
-  for(player = 0; player < TOTAL_PLAYERS; player++){
+  for(player = 0; player < jamma_config.player_count; player++){
     // Only process P1 if start + credit is not running
     if (player > PLAYER1 || !start_credit) {
       input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
       input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
 
       for (buttonIndex = 0; buttonIndex < BTN_PER_PLAYER_ON_JAMMA; buttonIndex++) {
-        // If we are on a game button that is not on jamma (because user config)
-        // then we use kickharness
-        if ((buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma)) {
-          buttonValue = PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
-          /* DEBUG && printk(KERN_INFO "recalboxrgbjamma: sending report P1 for key bit:%d, inputcode:%d, value : %d\n", player1_kick_btn_bits[j],
-             buttons_codes[j], PRESSED(data_chips, player1_kick_btn_bits[j]));*/
+        // If we are on 4 player mode, all kick harness buttons are used for player 3 and 4, so player 1 and 2 have only jamma buttons.
+        if(jamma_config.player_count == 4){
+          // Don't read player 1 and 2 buttons on jamma if they are not wired
+          if (player < 2 && (buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma)) {
+            continue;
+          } else {
+            // Read only on jamma for players 1 and 2. Player 3 and 4 are considered on JAMMA for algo purpose
+            buttonValue = PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][buttonIndex]);
+          }
         } else {
-          // let's read on both inputs
-          buttonValue = PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][buttonIndex]) | PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
+          // If we are on a game button that is not on jamma (because user config)
+          // then we use kickharness
+          if ((buttonIndex <= LAST_GAME_BUTTON && buttonIndex >= jamma_config.buttons_on_jamma)) {
+            buttonValue = PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
+            /* DEBUG && printk(KERN_INFO "recalboxrgbjamma: sending report P1 for key bit:%d, inputcode:%d, value : %d\n", player1_kick_btn_bits[j],
+             buttons_codes[j], PRESSED(data_chips, player1_kick_btn_bits[j]));*/
+          } else {
+            // let's read on both inputs
+            buttonValue = PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][buttonIndex]) | PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
+          }
         }
+
         input_report_key(player_devs[player], buttons_codes[buttonIndex], buttonValue);
       }
       input_sync(player_devs[player]);
@@ -1190,8 +1117,7 @@ static int debounce(unsigned long long *data_chips, unsigned long long *debounce
       // We cancel this event by setting the saved value at debounce start
       DEBUG && printk(KERN_INFO
       "recalboxrgbjamma: debouncing: setting gpio %d value to %d (%s) in place of %d\n", gpio,
-          (debounceGpioValue >> gpio) &
-          1, ((debounceGpioValue >> gpio) & 1) ? "released" : "pressed", gpioVal);
+          (debounceGpioValue >> gpio) & 1, ((debounceGpioValue >> gpio) & 1) ? "released" : "pressed", gpioVal);
       SETGPIO(debounced_data, gpio, (debounceGpioValue >> gpio) & 1);
     } else {
       gpioVal = (((*data_chips) >> gpio) & 1);
@@ -1321,24 +1247,31 @@ static int process_debounce(void *idx) {
 
 static int unregister_controllers(void) {
   int player;
-  for (player = 0; player < TOTAL_PLAYERS; player++) {
-    if (player_devs[player] != NULL)
+  mutex_lock(&jamma_config.process_mutex);
+  for (player = 0; player < MAX_PLAYERS; player++) {
+    if (player_devs[player] != NULL){
       input_unregister_device(player_devs[player]);
+      player_devs[player] = NULL;
+    }
   }
+  mutex_unlock(&jamma_config.process_mutex);
+
   return 0;
 }
 
-static const char *controllers_names[2] = {
-    "JammaControllerP1", "JammaControllerP2"
+static const char *controllers_names[MAX_PLAYERS] = {
+    "JammaControllerP1", "JammaControllerP2", "JammaControllerP3", "JammaControllerP4"
 };
 
 static int register_controllers(void) {
   int err = 0, i = 0, player = 0;
-  for (player = 0; player < TOTAL_PLAYERS; player++) {
+  mutex_lock(&jamma_config.process_mutex);
+  for (player = 0; player < jamma_config.player_count; player++) {
     if (!(player_devs[player] = input_allocate_device())) {
       pr_err("recalboxrgbjamma: not enough memory for input device\n");
       return -ENOMEM;
     }
+    printk(KERN_INFO "recalboxrgbjamma: register player %d controller\n", player);
 
     player_devs[player]->name = controllers_names[player];
     player_devs[player]->phys = controllers_names[player];
@@ -1361,6 +1294,7 @@ static int register_controllers(void) {
       return -1;
     }
   }
+  mutex_unlock(&jamma_config.process_mutex);
   return 0;
 }
 // Load configuration from recalbox-crt-options.cfg
@@ -1422,6 +1356,13 @@ static int load_config(void) {
               printk(KERN_INFO "recalboxrgbjamma: switch buttons_on_jamma to %d\n", optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
             }
+          } else if (strcmp(optionname, "options.jamma.controls.4players") == 0) {
+            if ((jamma_config.player_count == 2 && optionvalue == 1) || (jamma_config.player_count == 4 && optionvalue == 0)) {
+              printk(KERN_INFO "recalboxrgbjamma: switch player_count to %d\n", (optionvalue == 1 ? 4 : 2));
+              jamma_config.player_count = (optionvalue == 1 ? 4 : 2);
+              unregister_controllers();
+              register_controllers();
+            }
           } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
             if (jamma_config.amp_boost != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
@@ -1448,7 +1389,7 @@ static int watch_configuration(void *idx) {
   while (!kthread_should_stop()) {
     // Read file
     load_config();
-    usleep_range(5000000, 10000000);
+    usleep_range(2000000, 5000000);
   }
   return 0;
 }
@@ -1715,6 +1656,11 @@ pca953x_init(void) {
   jamma_config.i2s = false;
   jamma_config.buttons_on_jamma = 6;
   jamma_config.amp_boost = 0;
+  jamma_config.player_count = 2;
+
+  mutex_init(&jamma_config.process_mutex);
+  printk(KERN_INFO "recalboxrgbjamma: registering controllers\n");
+  register_controllers();
 
   jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
   printk(KERN_INFO
@@ -1742,10 +1688,7 @@ pca953x_init(void) {
     return -1;
   }
 
-  mutex_init(&jamma_config.process_mutex);
-  printk(KERN_INFO
-  "recalboxrgbjamma: registering controllers\n");
-  register_controllers();
+
   return i2c_add_driver(&pca953x_driver);
 }
 

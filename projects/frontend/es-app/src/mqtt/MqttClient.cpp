@@ -167,3 +167,8 @@ void MqttClient::Disconnect()
 {
   mMqtt.disconnect();
 }
+
+MqttClient::~MqttClient()
+{
+    mMqtt.stop_consuming();
+}

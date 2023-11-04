@@ -135,10 +135,6 @@ class GuiMenuPads : public GuiMenuBase
      * ISwitchComponent
      */
     void SwitchComponentChanged(int id, bool status) override;
-    /*
-     * @brief convert action enum to string
-     */
-    static const char* ActionToString(Command action);
 };
 
 

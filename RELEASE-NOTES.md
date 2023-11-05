@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Anbernic RG351v (Thanks BelgaWill !)
 - Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
 - Add support for Realtek RTW-88 series of wifi controllers
+- Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
 
 ### News
 - Add Naomi 2 system on x86_64

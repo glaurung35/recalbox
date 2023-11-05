@@ -10,9 +10,11 @@ declare -A ES_CONFIG=(
 )
 declare -A ES_JAMMA_CONFIG=(
     ["global.rewind"]="0"
+    ["global.smooth"]="0"
     ["emulationstation.quicksystemselect"]="0"
     ["emulationstation.theme.recalbox-240p.iconset"]="4-jamma"
     ["emulationstation.virtualarcade.manufacturers"]="arcade-manufacturer-acclaim,arcade-manufacturer-atari,arcade-manufacturer-atlus,arcade-manufacturer-banpresto,arcade-manufacturer-capcom,arcade-manufacturer-capcom-cps1,arcade-manufacturer-capcom-cps2,arcade-manufacturer-capcom-cps3,arcade-manufacturer-cave,arcade-manufacturer-dataeast,arcade-manufacturer-exidy,arcade-manufacturer-igs,arcade-manufacturer-irem,arcade-manufacturer-itech,arcade-manufacturer-jaleco,arcade-manufacturer-kaneko,arcade-manufacturer-konami,arcade-manufacturer-midway,arcade-manufacturer-mitchell,arcade-manufacturer-namco,arcade-manufacturer-nichibutsu,arcade-manufacturer-nintendo,arcade-manufacturer-nmk,arcade-manufacturer-sammy,arcade-manufacturer-sega,arcade-manufacturer-seibu,arcade-manufacturer-seta,arcade-manufacturer-snk,arcade-manufacturer-taito,arcade-manufacturer-technos,arcade-manufacturer-tecmo,arcade-manufacturer-toaplan,arcade-manufacturer-visco"
+    ["global.hidepreinstalledgames"]="1"
 )
 
 declare -A ES_CLEAN_CONFIG=(

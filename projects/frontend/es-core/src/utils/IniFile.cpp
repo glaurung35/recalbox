@@ -223,7 +223,7 @@ void IniFile::SetList(const String& name, const String::List& values)
 bool IniFile::isInList(const String& name, const String& value) const
 {
   if (!value.empty())
-    if (mConfiguration.contains(name))
+    if (mConfiguration.contains(name) || mPendingWrites.contains(name))
     {
       String s = AsString(name);
       for (int p = s.Find(value); p >= 0; p = s.Find(value, p + value.Count()))

@@ -314,7 +314,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
   // Hiden?
   if (mWindow.InfoPopupIsShown(&mPopup) || mLowResolution)
   {
-    String text = _("Your scraping session completed. Press OK to show the results.");
+    String text = mLowResolution ? _("Your scraping session completed!") : _("Your scraping session completed. Press OK to show the results.");
     GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { if (mLowResolution) Terminate(); else Show(mWindow); mButtonGrid->resetCursor(); });
     mWindow.pushGui(msgBox);
   }

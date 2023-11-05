@@ -811,7 +811,7 @@ static int device_pca95xx_init(struct pca953x_chip *chip, u32 invert) {
  *   P3K-LOCK            IO0-7  <--- |23      31| ---> IO1-7  P2-B6  (P2-R)
  *                                    ‾‾‾‾‾‾‾‾‾‾
  *                                    ‾‾‾‾‾‾‾‾‾‾
- * Chip 3 : address = 0x28
+ * Chip 2 : address = 0x27
  *                                    __________
  *   P2-B1               IO0-0  <--- |32      40| ---> IO1-0  P1-UP
  *   P1-B1               IO0-1  <--- |33      41| ---> IO1-1  P2-UP
@@ -1526,7 +1526,7 @@ static int pca953x_probe(struct i2c_client *client,
     /*
      * A,B,X,Y are in SNES notation
      *
-     * Chip 0 : address = 0x25
+     * Chip 3 : address = 0x26
      *                               __________
      *                         <--- |0        8| ---> IO1-0     VIDEO_BYPASS
      *   I2S_FILTER     IO0-1  <--- |1        9| ---> IO1-1
@@ -1543,6 +1543,7 @@ static int pca953x_probe(struct i2c_client *client,
     unsigned int is_pi5 = 0;
     of_property_read_u32(client->dev.of_node, "is_pi5", &is_pi5);
     if(is_pi5 == 1){
+      dev_info(&client->dev, "We are on RPi5, switching to i2s\n");
       jamma_config.i2s = true;
     }
     dev_info(&client->dev, "Setting expander gpio output pins\n");
@@ -1561,10 +1562,18 @@ static int pca953x_probe(struct i2c_client *client,
 
     dev_info(&client->dev, "created jamma pca at %d\n", client->addr);
     if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x25) {
-      // Check if button 6 is on gnd, and if it is, we will ignore it
       jamma_config.gpio_chip_0 = &chip->gpio_chip;
-
       if (process_inputs(&chip->gpio_chip) == 0) {
+        if ((gpio_data & 0x00000000FFFF) != 0x00000000FFFF) {
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 0: %04X\n", (gpio_data & 0x00000000FFFF));
+        }
+      }
+    } else if (client->addr == 0x22 || client->addr == 0x24) {
+      jamma_config.gpio_chip_1 = &chip->gpio_chip;
+      if (process_inputs(&chip->gpio_chip) == 0) {
+        if((gpio_data & 0x0000FFFF0000) != 0x0000FFFF0000){
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 1: %04X\n", (gpio_data & 0x0000FFFF0000) >> 16);
+        }
         if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6])){
           dev_info(&client->dev, "disabled 6th button on jamma for player 1!\n");
           // Todo remove this logic for btn6 and set output 0
@@ -1573,6 +1582,13 @@ static int pca953x_probe(struct i2c_client *client,
         if(PRESSED(gpio_data,buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6])){
           dev_info(&client->dev, "disabled 6th button on jamma for player 2!\n");
           buttonsReleasedValues[buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
+        }
+      }
+    } else if (client->addr == 0x27) {
+      jamma_config.gpio_chip_2 = &chip->gpio_chip;
+      if (process_inputs(&chip->gpio_chip) == 0) {
+        if ((gpio_data & 0xFFFF00000000) != 0xFFFF00000000) {
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 2: %04X\n", (gpio_data & 0xFFFF00000000) >> 32);
         }
         if(PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE])){
           dev_info(&client->dev, "reversing logic for SERVICE button on jamma!\n");
@@ -1591,10 +1607,6 @@ static int pca953x_probe(struct i2c_client *client,
           buttonsReleasedValues[buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_COIN]] = 0;
         }
       }
-    } else if (client->addr == 0x22 || client->addr == 0x24) {
-      jamma_config.gpio_chip_1 = &chip->gpio_chip;
-    } else if (client->addr == 0x27) {
-      jamma_config.gpio_chip_2 = &chip->gpio_chip;
     }
   }
 

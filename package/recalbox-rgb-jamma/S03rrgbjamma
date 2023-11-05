@@ -41,12 +41,12 @@ if test "$1" == "start"; then
             echo -e "\nadapter.type = ${adapter}" >> "${CONFIG}"
         fi
         echo "S03rrgbdjamma CRT Reboot after install of ${adapter}${board}" >> /boot/hardware.log
-        #reboot
+        reboot
       fi
       mount -o ro,remount /boot
     fi
   else
-    if grep -q "adapter.type = recalboxrgbjamma" "${CONFIG}";then
+    if isRecalboxRGBJamma;then
       modprobe i2c-dev
       start-stop-daemon -S -q -m -p /var/run/recalboxrgbjamma_screen.pid  --exec "recalboxrgbjamma_screen" &
     fi

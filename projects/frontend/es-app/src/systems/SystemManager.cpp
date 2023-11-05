@@ -1607,7 +1607,8 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
                                   bool autoSelectMonoSystem)
 {
   // Remove always-hidden system
-  RemoveAlwaysHiddenSystems(*addedSystems);
+  if (addedSystems != nullptr)
+    RemoveAlwaysHiddenSystems(*addedSystems);
   // Added virtual systems?
   if (addedSystems != nullptr && !addedSystems->Empty())
   {

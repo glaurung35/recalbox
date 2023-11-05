@@ -100,8 +100,9 @@ bool IniFile::Save()
   for (auto& it : mPendingWrites)
   {
     // Write new kay/value
-    String key = it.first;
-    String val = it.second;
+    String key(it.first);
+    String orgKey(key);
+    String val(it.second);
     bool lineFound = false;
     bool commented = false;
     for (auto& line : lines)
@@ -116,7 +117,7 @@ bool IniFile::Save()
       lines.push_back(key.Append(equal).Append(val));
 
     // Move from Pendings to regular Configuration
-    mConfiguration[key] = val;
+    mConfiguration[orgKey] = val;
     mPendingWrites.erase(key);
   }
 

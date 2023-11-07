@@ -742,8 +742,8 @@ void SystemManager::ManageArcadeVirtualSystem(bool startup)
   bool arcadeColectionOn = RecalboxConf::Instance().GetCollectionArcade();
   bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
   bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
-  for (int i = mVisibleSystems.Count(); --i >= 0;)
-    if (SystemData* arcade = mVisibleSystems[i]; arcade->Descriptor().IsTrueArcade())
+  for (int i = mAllSystems.Count(); --i >= 0;)
+    if (SystemData* arcade = mAllSystems[i]; arcade->Descriptor().IsTrueArcade())
     {
       bool isVisible = mVisibleSystems.Contains(arcade);
       if (arcadeColectionOn)
@@ -751,20 +751,15 @@ void SystemManager::ManageArcadeVirtualSystem(bool startup)
           if (includeNeogeo || arcade->Descriptor().Name() != "neogeo")
           {
             if (isVisible) removed.Add(arcade);
-            MakeSystemInvisible(arcade);
             continue;
           }
       // Normal processing if arcade is not ON
       if (arcade->HasVisibleGame())
       {
         if (!isVisible) added.Add(arcade);
-        MakeSystemVisible(arcade);
       }
       else
-      {
         if (isVisible) removed.Add(arcade);
-        MakeSystemInvisible(arcade);
-      }
     }
   if (!startup)
     ApplySystemChanges(&added, &removed, nullptr, false);

@@ -18,6 +18,7 @@ class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<CrtAdapterType>
                  , private IOptionListComponent<String>
                  , private IOptionListComponent<CrtScanlines>
+                 , private IOptionListComponent<ICrtInterface::HorizontalFrequency>
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -55,7 +56,8 @@ class GuiMenuCRT : public GuiMenuBase
       JammaStartBtn1Credit,
       JammaHKOnStart,
       JammaExitOnStart,
-      JammaMonoBoost
+      JammaMonoBoost,
+      JammaScreenType
     };
 
     //! Dac selection
@@ -72,6 +74,8 @@ class GuiMenuCRT : public GuiMenuBase
     bool mOriginalForceHDMI;
     bool mOriginalFrontendIn240pOn31kHz;
     std::string mOriginalJammaNeogeoLayout;
+    ICrtInterface::HorizontalFrequency mOriginalResolution;
+    std::shared_ptr<OptionListComponent<ICrtInterface::HorizontalFrequency>> mScreenTypeList;
 
     //! Get dacs
     static std::vector<ListEntry<CrtAdapterType>> GetDacEntries(bool onlyRgbDual);
@@ -112,11 +116,14 @@ class GuiMenuCRT : public GuiMenuBase
      */
     void OptionListComponentChanged(int id, int index, const CrtScanlines& value) override;
 
+    /*
+     * IOptionListComponent<ICrtInterface::HorizontalFrequency> implementation
+     */
+    void OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency& value) override;
 
-  /*
+    /*
      * ISwitchComponent implementation
      */
-
     void SwitchComponentChanged(int id, bool status) override;
 
     /*
@@ -124,4 +131,5 @@ class GuiMenuCRT : public GuiMenuBase
      */
 
     void SubMenuSelected(int id) override;
+
 };

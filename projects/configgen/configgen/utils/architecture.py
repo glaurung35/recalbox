@@ -37,11 +37,11 @@ class Architecture:
 
     @property
     def isPi4(self):
-        return self.__Arch == "rpi4"
+        return self.__Arch == "rpi4" or self.__Arch == "rpi4_64"
 
     @property
     def isPi5(self):
-        return self.__Arch == "rpi5"
+        return self.__Arch == "rpi5" or self.__Arch == "rpi5_64"
 
     @property
     def isXu4(self):

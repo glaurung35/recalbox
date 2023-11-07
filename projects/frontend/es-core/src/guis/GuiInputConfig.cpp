@@ -487,6 +487,8 @@ void GuiInputConfig::RecordRawInput(const InputEvent& raw)
     }
     case InputEvent::EventType::Unknown:
     case InputEvent::EventType::Key:
+    case InputEvent::EventType::MouseButton:
+    case InputEvent::EventType::MouseWheel:
     default: break;
   }
 }

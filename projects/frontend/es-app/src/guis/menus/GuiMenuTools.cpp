@@ -21,13 +21,13 @@ GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& syst
   String emulator = currentEmulator;
   String core = currentCore;
 
-  if (systemManager.Emulators().GetDefaultEmulator(system, outDefaultEmulator, outDefaultCore))
+  if (EmulatorManager::GetDefaultEmulator(system, outDefaultEmulator, outDefaultCore))
   {
     bool selected = false;
     if (emulator.empty()) emulator = outDefaultEmulator;
     if (core.empty()) core = outDefaultCore;
-    for (const String& emulatorName : systemManager.Emulators().GetEmulators(system))
-      for (const String& coreName : systemManager.Emulators().GetCores(system, emulatorName))
+    for (const String& emulatorName : EmulatorManager::GetEmulators(system))
+      for (const String& coreName : EmulatorManager::GetCores(system, emulatorName))
       {
         // Get display name, composed of "emulator core" or just "emulator" of both are the same (standalone)
         // Add "(default)" if this is the default emulator/core

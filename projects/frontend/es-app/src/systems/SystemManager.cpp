@@ -791,9 +791,6 @@ SystemData* SystemManager::ThreadPoolRunJob(SystemDescriptor& systemDescriptor)
   try
   {
     SystemData* newSys = CreateRegularSystem(systemDescriptor);
-    mEmulatorGuard.Lock();
-    mEmulatorManager.AddEmulatorList(*newSys);
-    mEmulatorGuard.UnLock();
     { LOG(LogWarning) << "[System] Adding \"" << systemDescriptor.Name() << "\" in system list."; }
     return newSys;
   }

@@ -275,14 +275,13 @@ void ArcadeDatabaseManager::AssignNames()
 
       void Parse(FileData& game) override
       {
-        EmulatorManager emulators;
         String emulator;
         String core;
         if (game.IsGame())
           // Game is unamed?
-          if (game.Metadata().Name().empty())
+          if (String name = game.Metadata().Name(); name.empty() || name == game.Metadata().RomFileOnly().FilenameWithoutExtension())
             // Get emulator & core for this game, regarding all default and override configurations
-            if (emulators.GetGameEmulator(game, emulator, core))
+            if (EmulatorManager::GetGameEmulator(game, emulator, core))
               // Lookup emulator hashmap
               if (ArcadeDatabase** gameDatabase = mDatabase.try_get(emulator.Append('|').Append(core)); gameDatabase != nullptr)
                 // Has Game a matching ArcadeGame?
@@ -290,14 +289,15 @@ void ArcadeDatabaseManager::AssignNames()
                   game.Metadata().SetName(arcadeGame->ArcadeName());
       }
   } Rename(mDatabases);
-  mSystem.MasterRoot().ParseAllItems(Rename);
+  if (mSystem.Name() == "atomiswave")
+    mSystem.MasterRoot().ParseAllItems(Rename);
 }
 
 const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase() const
 {
   String emulator;
   String core;
-  if (mSystem.Manager().Emulators().GetDefaultEmulator(mSystem, emulator, core))
+  if (EmulatorManager::GetDefaultEmulator(mSystem, emulator, core))
   {
     ArcadeDatabase** database = mDatabases.try_get(emulator.Append('|').Append(core));
     if (database != nullptr) return *database;
@@ -309,7 +309,7 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
 {
   emulatorName.clear();
   coreName.clear();
-  if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulatorName, coreName))
+  if (EmulatorManager::GetGameEmulator(folder, emulatorName, coreName))
   {
     ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
     if (database != nullptr) return *database;
@@ -321,7 +321,7 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FileData& game
 {
   emulatorName.clear();
   coreName.clear();
-  if (mSystem.Manager().Emulators().GetGameEmulator(game, emulatorName, coreName))
+  if (EmulatorManager::GetGameEmulator(game, emulatorName, coreName))
   {
     ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
     if (database != nullptr) return *database;
@@ -333,7 +333,7 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
 {
   String emulatorName;
   String coreName;
-  if (mSystem.Manager().Emulators().GetGameEmulator(folder, emulatorName, coreName))
+  if (EmulatorManager::GetGameEmulator(folder, emulatorName, coreName))
   {
     ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
     if (database != nullptr) return *database;

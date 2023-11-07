@@ -337,7 +337,7 @@ bool ViewController::CheckBiosBeforeLaunch()
   if (biosList.TotalBiosKo() != 0)
   {
     // Build emulator name
-    EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch);
+    EmulatorData emulator = EmulatorManager::GetGameEmulator(*mGameToLaunch);
     String emulatorString = emulator.Emulator();
     if (emulator.Emulator() != emulator.Core()) emulatorString.Append('/').Append(emulator.Core());
     // Build text
@@ -474,7 +474,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
 
 void ViewController::LaunchCheck()
 {
-  EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch);
+  EmulatorData emulator = EmulatorManager::GetGameEmulator(*mGameToLaunch);
   if (!emulator.IsValid())
   {
     {
@@ -550,7 +550,7 @@ void ViewController::LaunchCheck()
 
   // Save state slot
   if ((mCheckFlags & LaunchCheckFlags::SaveState) == 0)
-    if (mCheckFlags |= LaunchCheckFlags::SaveState; mSystemManager.Emulators().GetGameEmulator(*mGameToLaunch).IsLibretro() && RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun())
+    if (mCheckFlags |= LaunchCheckFlags::SaveState; EmulatorManager::GetGameEmulator(*mGameToLaunch).IsLibretro() && RecalboxConf::Instance().GetGlobalShowSaveStateBeforeRun())
       if (!GameFilesUtils::GetGameSaveStateFiles(*mGameToLaunch).empty())
       {
         mWindow.pushGui(new GuiSaveStates(mWindow, mSystemManager, *mGameToLaunch, this, false));

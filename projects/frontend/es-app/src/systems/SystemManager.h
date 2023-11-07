@@ -107,8 +107,6 @@ class SystemManager : private INoCopy // No copy allowed
     Path::PathList mMountPoints;
     //! Mount point monitoring
     MountMonitor mMountPointMonitoring;
-    //! Emulator manager
-    EmulatorManager mEmulatorManager;
     //! Emulator manager guard
     Mutex mEmulatorGuard;
 
@@ -680,9 +678,6 @@ class SystemManager : private INoCopy // No copy allowed
       if (index < 0) return mVisibleSystems[0];
       return mVisibleSystems[(--index + mVisibleSystems.Count()) % mVisibleSystems.Count()];
     }
-
-    //! Get emulator manager
-    [[nodiscard]] const EmulatorManager& Emulators() const { return mEmulatorManager; }
 
     /*!
      * @brief Search games from text

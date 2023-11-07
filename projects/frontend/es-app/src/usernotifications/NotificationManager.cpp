@@ -292,7 +292,7 @@ void NotificationManager::BuildStateGame(String& output, const FileData* game, N
   {
     String emulator;
     String core;
-    if (game->System().Manager().Emulators().GetGameEmulator(*game, emulator, core))
+    if (EmulatorManager::GetGameEmulator(*game, emulator, core))
       output.Append("Emulator=").Append(emulator).Append(eol).Append("Core=").Append(core).Append(eol);
   }
 }
@@ -305,7 +305,7 @@ void NotificationManager::BuildStateSystem(String& output, const SystemData* sys
   {
     String emulator;
     String core;
-    if (system->Manager().Emulators().GetDefaultEmulator(*system, emulator, core))
+    if (EmulatorManager::GetDefaultEmulator(*system, emulator, core))
       output.Append("DefaultEmulator=").Append(emulator).Append(eol).Append("DefaultCore=").Append(core).Append(eol);
   }
 }

@@ -23,7 +23,7 @@ GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager
   , mSort(Sort::Descending)
   , mInterface(notifier)
 {
-  mIsLibretro = mSystemManager.Emulators().GetGameEmulator(mGame).IsLibretro();
+  mIsLibretro = EmulatorManager::GetGameEmulator(mGame).IsLibretro();
   addChild(&mBackground);
   addChild(&mGrid);
 

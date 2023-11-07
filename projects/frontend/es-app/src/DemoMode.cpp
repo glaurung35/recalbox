@@ -45,7 +45,7 @@ void DemoMode::runDemo()
 
     int duration = RecalboxConf::Instance().GetSystemDemoDuration(game->System());
     // Run game
-    EmulatorData emulator = mSystemManager.Emulators().GetGameEmulator(*game);
+    EmulatorData emulator = EmulatorManager::GetGameEmulator(*game);
     if (GameRunner::Instance().DemoRunGame(*game, emulator, duration, mInfoScreenDuration) || shouldStop.Exists())
     {
       { LOG(LogDebug) << "[DemoMode] Stopping demo mode"; }

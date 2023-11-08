@@ -658,6 +658,7 @@ static struct config {
   bool autofire;
   uint turbo_laps;
   bool i2s;
+  bool videofilter;
   uint buttons_on_jamma;
   uint amp_boost;
   uint player_count;
@@ -1442,6 +1443,18 @@ static int load_config(void) {
               unregister_controllers();
               register_controllers();
             }
+          } else if (strcmp(optionname, "options.jamma.i2s") == 0) {
+            if (jamma_config.i2s != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch i2s to %d\n", optionvalue);
+              jamma_config.i2s = optionvalue;
+              pca953x_gpio_direction_output(jamma_config.expander, EXP_PI5_I2S, jamma_config.i2s);
+            }
+          } else if (strcmp(optionname, "options.jamma.videofilter") == 0) {
+            if (jamma_config.videofilter != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch videofilter to %d\n", optionvalue);
+              jamma_config.videofilter = optionvalue;
+              pca953x_gpio_direction_output(jamma_config.expander, EXP_VIDEO_BYPASS, jamma_config.videofilter);
+            }
           } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
             if (jamma_config.amp_boost != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
@@ -1467,8 +1480,8 @@ static int watch_configuration(void *idx) {
   int gpio_value = 0;
   while (!kthread_should_stop()) {
     // Read file
-    load_config();
     usleep_range(2000000, 5000000);
+    load_config();
   }
   return 0;
 }
@@ -1727,6 +1740,8 @@ pca953x_init(void) {
   jamma_config.autofire = true;
   jamma_config.turbo_laps = 50000000;// 50ms
   jamma_config.i2s = false;
+  jamma_config.videofilter = false;
+
   jamma_config.buttons_on_jamma = 6;
   jamma_config.amp_boost = 0;
   jamma_config.player_count = 2;

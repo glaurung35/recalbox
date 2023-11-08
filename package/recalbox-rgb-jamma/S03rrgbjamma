@@ -7,10 +7,10 @@ if test "$1" == "start"; then
   # RRGBD or RRGBJ is already present if CRT is loaded
   if ! isCRTLoaded; then
     board=""
-    dtbo="i2c0"
+    i2c="22"
     if [ "$(getArchName)" == "rpi5_64" ]; then
+      i2c="0"
       board="-pi5"
-      dtbo="i2c0custom-pi5"
     fi
     mount -o remount,rw /
     mkdir -p /config
@@ -18,8 +18,8 @@ if test "$1" == "start"; then
     mount -t configfs none /config
     # Detect production recalbox rgb jamma
     modprobe i2c-dev
-    dtoverlay "${dtbo}"
-    res="$(i2cdetect -y 0 36 39 | grep '20:')"
+    dtoverlay "i2c0custom${board}"
+    res="$(i2cdetect -y "${i2c}" 36 39 | grep '20:')"
     if echo "$res" | grep -q -e "24 25 -- --"; then
       adapter="recalboxrgbjamma-v2"
     elif echo "$res" | grep -q -e "24 25 -- 27"; then
@@ -27,7 +27,7 @@ if test "$1" == "start"; then
     elif echo "$res" | grep -q -e "24 25 26 27"; then
       adapter="recalboxrgbjamma"
     fi
-    dtoverlay -r "${dtbo}"
+    dtoverlay -r "i2c0custom${board}"
     rmmod i2c-dev
     umount /config
 

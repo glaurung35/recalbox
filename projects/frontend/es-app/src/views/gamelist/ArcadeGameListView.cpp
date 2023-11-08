@@ -521,7 +521,7 @@ String ArcadeGameListView::GetDescription(FileData& game)
 
 void ArcadeGameListView::RefreshItem(FileData* game)
 {
-  if (game == nullptr || !game->IsFolder()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
+  if (game == nullptr || !game->IsGame()) { LOG(LogError) << "[DetailedGameListView] Trying to refresh null or empty item"; return; }
 
   int index = mList.Lookup(game);
   if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }

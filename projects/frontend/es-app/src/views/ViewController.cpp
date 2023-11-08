@@ -459,7 +459,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
           mGameLinkedData.ConfigurablePatch().SetPatchPath(lastPatchPath);
           break;
         }
-        else if (lastPatchPath != nullptr && lastPatchPath.Filename() == "original")
+        else if (lastPatchPath.Filename() == "original")
         {
           mGameLinkedData.ConfigurablePatch().SetDisabledSoftPatching(true);
           break;

@@ -1,5 +1,6 @@
 //
 // Created by thierry.imbert on 18/02/2020.
+// Last modification by Maksthorr on 28/04/2023
 //
 
 #include "IniFile.h"

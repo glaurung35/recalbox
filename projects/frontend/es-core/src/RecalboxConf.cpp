@@ -11,7 +11,7 @@ RecalboxConf::RecalboxConf()
 {
 }
 
-void RecalboxConf::OnSave()
+void RecalboxConf::OnSave() const
 {
   NotificationManager::Instance().Notify(Notification::ConfigurationChanged, recalboxConfFile.ToString());
 }

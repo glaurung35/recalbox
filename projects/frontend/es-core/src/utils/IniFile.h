@@ -1,5 +1,5 @@
 //
-// Created by Bkg2k on 18/02/2020.
+// Last modification by Maksthorr on 28/04/2023
 //
 #pragma once
 
@@ -81,12 +81,42 @@ class IniFile
     [[nodiscard]] String AsString(const String &name, const String &defaultValue) const;
 
     /*!
+     * @brief Get string value from the given key
+     * @param name Key
+     * @return Value or empty string if the key does not exist
+     */
+    [[nodiscard]] String AsString(const char* name) const { return AsString(String(name)); };
+
+    /*!
+     * @brief Get string value from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value
+     * @return Value or default value if the key does not exist
+     */
+    [[nodiscard]] String AsString(const char* name, const char* defaultValue) const { return AsString(String(name), defaultValue); }
+
+    /*!
+     * @brief Get value from the given key in List format
+     * @param name Key
+     * @return Value
+     */
+    [[nodiscard]] [[nodiscard]] String::List AsStringList(const String& name) const { return AsString(String(name)).Split(','); }
+
+    /*!
      * @brief Get boolean value from the given key or return the default value
      * @param name Key
      * @param defaultValue Default value (optional, false by default)
      * @return Value or default value if the key does not exist
      */
     [[nodiscard]] bool AsBool(const String& name, bool defaultValue = false) const;
+
+    /*!
+     * @brief Get boolean value from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value (optional, false by default)
+     * @return Value or default value if the key does not exist
+     */
+    [[nodiscard]] bool AsBool(const char* name, bool defaultValue = false) const { return AsBool(String(name), defaultValue); }
 
     /*!
      * @brief Get value as unsigned int from the given key or return the default value
@@ -103,6 +133,14 @@ class IniFile
      * @return Value or default value if the key does not exist
      */
     [[nodiscard]] int AsInt(const String& name, int defaultValue = 0) const;
+
+    /*!
+     * @brief Get value as signed int from the given key or return the default value
+     * @param name Key
+     * @param defaultValue Default value (optional, 0 by default)
+     * @return Value or default value if the key does not exist
+     */
+    [[nodiscard]] int AsInt(const char* name, int defaultValue = 0) const { return AsInt(String(name), defaultValue); }
 
     /*!
      * @brief Set the value as string of the given key
@@ -138,6 +176,13 @@ class IniFile
      * @param values string list
      */
     void SetList(const String &name, const String::List &values);
+
+    /*!
+     * @brief Check if the given key exists in the configuration file
+     * @param name Key to check
+     * @return True if the key exists, false otherwise
+     */
+    [[nodiscard]] bool Exists(const String& name) const { return mConfiguration.contains(name); }
 
     /*!
      * @brief Check if a value is in the given named list
@@ -192,7 +237,7 @@ class IniFile
     /*!
      * @brief Called after saving the file
      */
-    virtual void OnSave() {}
+    virtual void OnSave() const {}
 
   private:
     //! Save guardian

@@ -205,7 +205,7 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
            .Field("System", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->FullName())
            .Field("SystemId", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->Name());
     if (!request.mSystemData->IsVirtual())
-      if (request.mSystemData->Manager().Emulators().GetDefaultEmulator(*request.mSystemData, emulator, core))
+      if (EmulatorManager::GetDefaultEmulator(*request.mSystemData, emulator, core))
         builder.OpenObject("DefaultEmulator")
                .Field("Emulator", emulator)
                .Field("Core", core)
@@ -231,7 +231,7 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
            .Field("Favorite", request.mFileData->Metadata().Favorite())
            .Field("Hidden", request.mFileData->Metadata().Hidden())
            .Field("Adult", request.mFileData->Metadata().Adult());
-    if (request.mFileData->System().Manager().Emulators().GetGameEmulator(*request.mFileData, emulator, core))
+    if (EmulatorManager::GetGameEmulator(*request.mFileData, emulator, core))
       builder.OpenObject("SelectedEmulator")
              .Field("Emulator", emulator)
              .Field("Core", core)

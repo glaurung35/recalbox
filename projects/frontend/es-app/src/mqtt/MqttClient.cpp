@@ -24,7 +24,7 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   try
   {
     if (mOriginalTocken = mMqtt.connect(connectOptions, nullptr, *this); mOriginalTocken != nullptr)
-      { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
+      { mMqtt.start_consuming(); LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " successful !"; }
     else
       { LOG(LogError) << "[MQTT] Connexion to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (init) !"; }
   }
@@ -32,6 +32,11 @@ MqttClient::MqttClient(const char* clientId, IMQTTMessageReceived* callback)
   {
     { LOG(LogError) << "[MQTT] Connection to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " failed (catch) ! reason: " << e.what(); }
   }
+}
+
+MqttClient::~MqttClient()
+{
+  mMqtt.stop_consuming();
 }
 
 bool MqttClient::Send(const String& topic, const String& message)
@@ -98,7 +103,10 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
     }
     case mqtt::token::PUBLISH:
     {
-      { LOG(LogInfo) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
+      if (mMqtt.get_client_id() == "recalbox-api-server-broadcaster")
+        { LOG(LogTrace) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
+      else
+        { LOG(LogInfo) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
       break;
     }
     case mqtt::token::UNSUBSCRIBE:
@@ -155,7 +163,8 @@ void MqttClient::ReceiveSyncMessage()
 void MqttClient::Wait()
 {
   #ifndef FREEZE_MQTT
-  mOriginalTocken->wait();
+  if (mOriginalTocken)
+    mOriginalTocken->wait();
   #endif
 }
 

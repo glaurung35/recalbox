@@ -164,12 +164,15 @@ void InputMapper::PadsAddedOrRemoved(bool removed)
 
 int InputMapper::PadIndexFromDeviceIdentifier(SDL_JoystickID identifier)
 {
-  int index = InputManager::Instance().GetDeviceIndexFromId(identifier);
-  if (index >= 0)
+  int sdlIndex = InputManager::Instance().GetDeviceIndexFromId(identifier);
+  int realIndex = 0;
+  if (sdlIndex >= 0)
     for(int i = Input::sMaxInputDevices; --i >= 0; )
       if (const Pad& pad = mPads[i]; pad.IsConnected())
-        if (pad.mIndex == index)
-          return i;
+      {
+        if (pad.mIndex == sdlIndex) return realIndex;
+        ++realIndex;
+      }
   return -1;
 }
 

@@ -13,7 +13,20 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
 
 ### News
-
+- Add Arcade View
+  - Tree view of Parents/Clones
+  - Separated bios/unknown roms
+  - Use HotKey+up/down to fold/unfold all
+  - Use Hotkey+left/right to fold/unfold current selection
+  - Use oficial names from DAT files 
+- Add Arcade manufacturers virtual systems (Atari Classics, CPS1/2/3, Banpresto, IREM, ...)
+- Add current DATS in `\\RECALBOX\share\arcade` or `/recalbox/share/arcade`
+- Add Arcade settings in the main menu
+- Add Input OSD (icon selectable among most common pads)
+- Add mouse controls:
+  - use vertical wheel to move up/down
+  - use horizontal wheel to move left/right
+  - left/middle/right buttons act as b/start/a
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -118,6 +131,8 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
+- Removed unplugged pads from the pad list
+- Unplugged/plugged-in pads keep their positions
 
 ### Fixes
 - Fix argonone case power management
@@ -128,6 +143,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix odroidxu4 OGST video not playing
 - Removed LinApple from PC
 - Fix headphone audio output on Anbernic rg353v
+- Fix not mappables pads
 
 ## Version 9.1-Pulstar
 

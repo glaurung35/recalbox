@@ -53,7 +53,7 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   mBTArea.Swallow(mBtTop.getPosition().x() - (sw / 80), mControllerIcon.getPosition().y() - sh / 36, sw / 40, sw / 40);
 
   // Outlined Progress bar
-  mProgressBar = Rectangle(mControllerIcon.getPosition().x() + mControllerIcon.getSize().x() + sh / 200,
+  mProgressBar = Rectangle(mControllerIcon.getPosition().x() + mControllerIcon.getSize().x() + sh / 100,
                            mControllerIcon.getPosition().y() + mControllerIcon.getSize().y() / 2 - (4 + sh / 100) / 2,
                            15 + sw / 12,
                            4 + sh / 100);
@@ -87,4 +87,5 @@ void BluetoothOSD::Render(const Transform4x4f& parentTrans)
     outer.Contract(1, 1);
     Rectangle inner(outer.Left(), outer.Top(), outer.Width() * ((float) mRemaining / (float) mTotal), outer.Height());
     Renderer::DrawRectangle(inner, mBarBackColor);
-  }}
+  }
+}

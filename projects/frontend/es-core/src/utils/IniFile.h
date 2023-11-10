@@ -6,6 +6,7 @@
 #include <utils/os/fs/Path.h>
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Set.h>
+#include "utils/os/system/Mutex.h"
 
 class IniFile
 {
@@ -13,16 +14,19 @@ class IniFile
     /*!
      * @brief Constructor
      * @param confpath File to load
-     * @param extraSpace Extra spaces rou nd the "=" sign
+     * @param extraSpace if True, add extra space around separator
+     * @param autoBackup automatically manager backup file of the confpath
      */
-    explicit IniFile(const Path& confpath, bool extraSpace);
+    explicit IniFile(const Path& confpath, bool extraSpace, bool autoBackup);
 
     /*!
      * @brief Constructor
      * @param confpath File to load
      * @param fallbackpath File to load if confpath has not been loaded
+     * @param extraSpace if True, add extra space around separator
+     * @param autoBackup automatically manager backup file of the confpath
      */
-    explicit IniFile(const Path& confpath, const Path& fallbackpath, bool extraSpace);
+    explicit IniFile(const Path& confpath, const Path& fallbackpath, bool extraSpace, bool autoBackup);
 
     //! Destructor
     virtual ~IniFile()
@@ -191,6 +195,8 @@ class IniFile
     virtual void OnSave() {}
 
   private:
+    //! Save guardian
+    Mutex mLocker;
     //! Configuration map: key, value - Read from file
     HashMap<String, String> mConfiguration;
     //! Configuration map: key, value - Pending writes
@@ -203,6 +209,8 @@ class IniFile
     Path mFallbackFilePath;
     //! Extra spaces
     bool mExtraSpace;
+    //! Automatic backup
+    bool mAutoBackup;
     //! This object is valid and has keys/values
     bool mValid;
 
@@ -211,6 +219,13 @@ class IniFile
      * @return True if a configuration file has been loaded successfully
      */
     bool Load();
+
+    /*!
+     * @brief Load content into the given string
+     * @param content Content string
+     * @return True if loading is ok, false otherwise
+     */
+    bool LoadContent([[out]] String& content);
 
     /*!
      * @brief Extract the value from the given key

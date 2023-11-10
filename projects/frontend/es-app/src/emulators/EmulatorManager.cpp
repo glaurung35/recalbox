@@ -170,7 +170,7 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
   }
 
   // Get file config
-  IniFile configuration(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"), false);
+  IniFile configuration(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"), false, false);
   if (configuration.IsValid())
   {
     // Get values

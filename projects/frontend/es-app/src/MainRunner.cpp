@@ -506,7 +506,7 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 
 bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
-  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"), false);
+  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"), false, false);
   bool portable = recalboxBootConf.AsString("case") == "GPiV1:1";
   switch(Board::Instance().GetBoardType())
   {

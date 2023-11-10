@@ -312,7 +312,7 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     if (system(String("rm -rf ").Append(path).data()) != 0)
     { LOG(LogError) << "[ResetFactory] Error removing folder " << path; }
 
-  IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false);
+  IniFile recalboxBoot(Path("/boot/recalbox-boot.conf"), false, true);
   // Reset rotation
   recalboxBoot.SetString("screen.rotation", "0");
   // Special case for rpizero plus GPiCase2W, that cannot be detected. Can be removed after the rpizero image is frozen

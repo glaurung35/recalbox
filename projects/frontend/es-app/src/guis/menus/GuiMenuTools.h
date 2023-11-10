@@ -39,7 +39,6 @@ class GuiMenuTools
 
     /*!
      * @brief Get a displayable list of emulator and core available for the given system
-     * @param systemManager System manager instance
      * @param system System to retrieve emulators & cores from
      * @param outDefaultEmulator Filled with default emeulator
      * @param outDefaultCore Filled from default core
@@ -47,7 +46,7 @@ class GuiMenuTools
      * @param currentCore Current core from caller (to select the right entry)
      * @return Emulator & core list
      */
-    static EmulatorAndCoreList ListEmulatorAndCore(SystemManager& systemManager, SystemData& system,
+    static EmulatorAndCoreList ListEmulatorAndCore(SystemData& system,
                                                    String& outDefaultEmulator, String& outDefaultCore,
                                                    const String& currentEmulator, const String& currentCore);
 

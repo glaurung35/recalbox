@@ -10,7 +10,7 @@
 
 bool Case::SetCaseInBoot(const String& theCase)
 {
-  IniFile bootConf(Path("/boot/recalbox-boot.conf"), false);
+  IniFile bootConf(Path("/boot/recalbox-boot.conf"), false, true);
   bootConf.SetString("case", theCase);
   bootConf.Save();
   return true;

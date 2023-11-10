@@ -11,7 +11,7 @@
 static Path crtConfFile("/boot/crt/recalbox-crt-options.cfg");
 
 CrtConf::CrtConf()
-  : IniFile(crtConfFile, true),
+  : IniFile(crtConfFile, true, true),
     StaticLifeCycleControler<CrtConf>("CrtConf")
 {
 }

@@ -19,7 +19,7 @@ String GameAdapter::ScrapingName() const
   {
     if (mGame.RomPath().Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
-      IniFile ini(mGame.RomPath(), false);
+      IniFile ini(mGame.RomPath(), false, false);
       String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }
@@ -41,7 +41,7 @@ String GameAdapter::RawDisplayName(SystemData& system, const Path& rompath)
   {
     if (rompath.Filename().ToLowerCase() == sEasyRPGGameNameLower)
     {
-      IniFile ini(rompath, false);
+      IniFile ini(rompath, false, false);
       String gameName = GameFilesUtils::RemoveParenthesis(ini.AsString("GameTitle"));
       if (!gameName.empty()) return gameName;
     }

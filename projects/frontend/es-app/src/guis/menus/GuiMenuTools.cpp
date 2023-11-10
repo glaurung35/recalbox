@@ -13,7 +13,7 @@
 const Path GuiMenuTools::sShadersPath("/recalbox/share/shaders");
 
 GuiMenuTools::EmulatorAndCoreList
-GuiMenuTools::ListEmulatorAndCore(SystemManager& systemManager, SystemData& system, String& outDefaultEmulator,
+GuiMenuTools::ListEmulatorAndCore(SystemData& system, String& outDefaultEmulator,
                                   String& outDefaultCore, const String& currentEmulator,
                                   const String& currentCore)
 {

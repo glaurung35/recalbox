@@ -6,7 +6,7 @@ static Path recalboxConfFile("/recalbox/share/system/recalbox.conf");
 static Path recalboxConfFileInit("/recalbox/share_init/system/recalbox.conf");
 
 RecalboxConf::RecalboxConf()
-  : IniFile(recalboxConfFile, recalboxConfFileInit, false),
+  : IniFile(recalboxConfFile, recalboxConfFileInit, false, true),
     StaticLifeCycleControler<RecalboxConf>("RecalboxConf")
 {
 }

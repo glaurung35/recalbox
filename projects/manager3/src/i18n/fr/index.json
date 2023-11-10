@@ -388,6 +388,12 @@
         "title": "Volume",
         "help": "Cette option vous permet de définir le volume sonore."
       },
+      "music": {
+        "volume": {
+          "title": "Volume de la musique",
+          "help": "Cette option vous permet de définir le volume sonore de la musique."
+        }
+      },
       "audioOutput": {
         "title": "Sortie audio",
         "help": "Cette option vous permet de choisir la sortie audio.",

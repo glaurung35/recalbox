@@ -1430,6 +1430,11 @@ static int load_config(void) {
             if (jamma_config.buttons_on_jamma != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch buttons_on_jamma to %d\n", optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
+              if(jamma_config.buttons_on_jamma < 6) {
+                printk(KERN_INFO "recalboxrgbjamma: setting BTN6 to output GND\n", optionvalue);
+                pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 14, 0);
+                pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
+              }
             }
           } else if (strcmp(optionname, "options.jamma.controls.turbo_ms") == 0) {
             if (jamma_config.turbo_laps != optionvalue * 1000000) {
@@ -1652,7 +1657,6 @@ static int pca953x_probe(struct i2c_client *client,
         }
         if (PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6])) {
           dev_info(&client->dev, "disabled 6th button on jamma for player 1!\n");
-          // Todo remove this logic for btn6 and set output 0
           buttonsReleasedValues[buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
         }
         if (PRESSED(gpio_data, buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6])) {

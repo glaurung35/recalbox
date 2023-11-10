@@ -203,6 +203,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_HK "START + any button will send the HK+BTN event, so you can use special hotkey controls in emulators."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT "Pressing START for 3sec will exit the game. If you disable this option, you will have to exit the game with SERVICE + TEST."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE "Select the type of your screen. If you don't know what you are doing, do not change this value."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS "4 player mode, with player 2 and 3 on CPS2 kickharness."
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

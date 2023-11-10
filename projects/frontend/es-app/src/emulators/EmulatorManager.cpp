@@ -146,12 +146,13 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
 
   // Get game directory
   Path romPath(game.RomPath());
-  Path path = romPath.Directory();
+  Path path = game.IsGame() ? romPath.Directory() : romPath;
   // Run through all folder starting from root
   int count = path.ItemCount();
-  for (int i = 0; i < count; ++i)
+  int start = game.IsRoot() ? count : game.TopAncestor().RomPath().ItemCount();
+  for (int i = start; i <= count; ++i)
   {
-    IniFile configuration(Path(path.UptoItem(i)) / ".recalbox.conf", false);
+    IniFile configuration(Path(path.UptoItem(i)) / ".recalbox.conf", false, false);
     if (configuration.IsValid())
     {
       // Get values

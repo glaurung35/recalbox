@@ -927,7 +927,8 @@
             "availableOptions": "This option allows you to patch a game on-the-fly, without modifying your roms. Available options:",
             "0": "<b>auto</b> will apply only 1 patch everytime automatically.",
             "1": "<b>select</b> will ask you to choose one or more patche(s) to apply if you would like.",
-            "2": "<b>disable</b> will ignore completely patches if it exist."
+            "2": "<b>disable</b> will ignore completely patches if it exist.",
+            "3": "<b>launchLast</b> will use the selected patch in the game options."
           }
         }
       },

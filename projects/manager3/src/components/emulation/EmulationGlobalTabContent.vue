@@ -393,6 +393,7 @@
                 <li v-html="$t('emulation.global.softpatching.select.help.0')"></li>
                 <li v-html="$t('emulation.global.softpatching.select.help.1')"></li>
                 <li v-html="$t('emulation.global.softpatching.select.help.2')"></li>
+                <li v-html="$t('emulation.global.softpatching.select.help.3')"></li>
               </ul>
             </template>
           </WrappedSelect>

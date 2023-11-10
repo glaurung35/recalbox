@@ -351,5 +351,5 @@ bool IniFile::ResetWithFallback() {
   }
   this->Cancel();
   mConfiguration.clear();
-  return this->Load(true);
+  return this->Load();
 }

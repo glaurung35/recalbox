@@ -512,6 +512,10 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
   {
     case BoardType::RG351V:
     case BoardType::RG351P:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper: portable = true; break;
     case BoardType::UndetectedYet:
@@ -527,10 +531,6 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
     case BoardType::UnknownPi:
     case BoardType::PCx86:
     case BoardType::PCx64:
-    case BoardType::RG353P:
-    case BoardType::RG353V:
-    case BoardType::RG353M:
-    case BoardType::RG503:
     default: break;
   }
 

@@ -614,7 +614,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "netplay.relay"             , Validator(false, { "none", "nyc", "madrid", "montreal", "saopaulo" }) },
         { "netplay.lobby"             , Validator() },
         { "recalboxoverlays"          , Validator(true) },
-        { "softpatching"              , Validator(false, { "auto", "select", "disable" }) },
+        { "softpatching"              , Validator(false, { "auto", "select", "disable", "launchLast" }) },
         { "showfps"                   , Validator(true) },
         { "hidepreinstalledgames"     , Validator(true) },
         { "show.savestate.before.run" , Validator(true) },

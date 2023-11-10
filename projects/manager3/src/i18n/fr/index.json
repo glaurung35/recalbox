@@ -927,7 +927,8 @@
             "availableOptions": "Cette option vous permet de patcher un jeu à la volée, sans modifier vos roms. Options disponibles :",
             "0": "<b>auto</b> appliquera un seul patch automatiquement tout le temps.",
             "1": "<b>select</b> vous demandera de choisir un ou plusieurs patchs à appliquer si vous le souhaitez.",
-            "2": "<b>disable</b> ignorera complètement les patchs si il en existe."
+            "2": "<b>disable</b> ignorera complètement les patchs si il en existe.",
+            "3": "<b>launchLast</b> lancera le patch qui aura été sélectionné dans les options du jeu."
           }
         }
       },

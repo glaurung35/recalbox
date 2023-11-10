@@ -56,6 +56,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaStartBtn1Credit, bool, Bool, sSystemCRTJammaStartBtn1Credit, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHKOnStart, bool, Bool, sSystemCRTJammaHKOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaExitOnStart, bool, Bool, sSystemCRTJammaExitOnStart, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJamma4Players, bool, Bool, sSystemCRTJamma4Players, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
 
@@ -91,7 +92,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJammaStartBtn1Credit   = "options.jamma.controls.credit_on_start_btn1";
     static constexpr const char* sSystemCRTJammaHKOnStart         = "options.jamma.controls.hk_on_start";
     static constexpr const char* sSystemCRTJammaExitOnStart       = "options.jamma.controls.exit_on_start";
-
+    static constexpr const char* sSystemCRTJamma4Players          = "options.jamma.controls.4players";
 
 
     static constexpr const char* sViewportPrefix                  = "viewport";

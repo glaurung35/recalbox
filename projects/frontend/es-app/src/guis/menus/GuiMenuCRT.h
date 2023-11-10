@@ -58,6 +58,7 @@ class GuiMenuCRT : public GuiMenuBase
       JammaExitOnStart,
       JammaMonoBoost,
       JammaScreenType,
+      Jamma4Players,
       ResetJamma
     };
 

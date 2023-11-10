@@ -341,3 +341,14 @@ String::List IniFile::GetKeyEndingWith(const String& endWidth)
 
   return result;
 }
+
+bool IniFile::ResetWithFallback() {
+  if (!mFallbackFilePath.IsEmpty() && mFallbackFilePath.Exists())
+  {
+    if(!Files::CopyFile(mFallbackFilePath, mFilePath))
+      return false;
+  }
+  this->Cancel();
+  mConfiguration.clear();
+  return this->Load(true);
+}

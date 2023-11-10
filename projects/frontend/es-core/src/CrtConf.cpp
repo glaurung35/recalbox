@@ -9,9 +9,10 @@
 #include <usernotifications/NotificationManager.h>
 
 static Path crtConfFile("/boot/crt/recalbox-crt-options.cfg");
+static Path crtConfFileDefault("/boot/crt/recalbox-crt-options.cfg.defaults");
 
 CrtConf::CrtConf()
-  : IniFile(crtConfFile, true, true),
+  : IniFile(crtConfFile, crtConfFileDefault, true, true),
     StaticLifeCycleControler<CrtConf>("CrtConf")
 {
 }

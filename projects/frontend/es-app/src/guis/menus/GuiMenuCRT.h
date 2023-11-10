@@ -57,7 +57,8 @@ class GuiMenuCRT : public GuiMenuBase
       JammaHKOnStart,
       JammaExitOnStart,
       JammaMonoBoost,
-      JammaScreenType
+      JammaScreenType,
+      ResetJamma
     };
 
     //! Dac selection

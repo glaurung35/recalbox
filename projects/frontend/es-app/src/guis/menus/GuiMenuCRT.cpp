@@ -6,14 +6,15 @@
 //
 
 #include "GuiMenuCRT.h"
-#include "views/ViewController.h"
 #include "guis/GuiMsgBox.h"
-#include <utils/locale/LocaleHelper.h>
-#include <guis/MenuMessages.h>
-#include <recalbox/RecalboxSystem.h>
-#include <components/SwitchComponent.h>
-#include <hardware/crt/CrtAdapterDetector.h>
+#include "systems/arcade/ArcadeVirtualSystems.h"
+#include "views/ViewController.h"
 #include <CrtConf.h>
+#include <components/SwitchComponent.h>
+#include <guis/MenuMessages.h>
+#include <hardware/crt/CrtAdapterDetector.h>
+#include <recalbox/RecalboxSystem.h>
+#include <utils/locale/LocaleHelper.h>
 
 GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
   : GuiMenuBase(window, title, this)
@@ -138,7 +139,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
               (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
     AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
               (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
-
+    AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma);
   }
 
   // Screen Adjustments
@@ -417,5 +418,38 @@ void GuiMenuCRT::SubMenuSelected(int id)
             mWindow.CloseAll();},
                                     TextAlignment::Center));
     }
+  }
+  else if ((Components)id == Components::ResetJamma)
+  {
+    mWindow.pushGui(new GuiMsgBox(mWindow, _("Are you sure you want to reset JAMMA configuration?"),
+        _("YES"), [this] {
+          // recalbox.conf
+          RecalboxConf::Instance().ResetWithFallback();
+          // Set jamma config to default
+          RecalboxConf::Instance().SetGlobalRewind(false);
+          RecalboxConf::Instance().SetGlobalSmooth(false);
+          RecalboxConf::Instance().SetQuickSystemSelect(false);
+          RecalboxConf::Instance().SetThemeFolder("recalbox-240p");
+          RecalboxConf::Instance().SetThemeIconSet("recalbox-240p", "4-jamma");
+          RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
+
+          std::vector<String> manufacturers;
+          for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+          {
+            String identifier(SystemManager::sArcadeManufacturerPrefix);
+            identifier.Append(rawIdentifier).Replace('\\', '-');
+            manufacturers.push_back(identifier);
+          }
+          RecalboxConf::Instance().SetCollectionArcadeManufacturers(manufacturers);
+          RecalboxConf::Instance().Save();
+
+          // recalbox-crt-options.cfg
+          CrtConf::Instance().ResetWithFallback();
+          CrtConf::Instance().SetSystemCRT(CrtAdapterType::RGBJamma);
+          CrtConf::Instance().Save();
+          // REBOOT
+          RequestReboot();
+        },
+        _("NO"), [] { }));
   }
 }

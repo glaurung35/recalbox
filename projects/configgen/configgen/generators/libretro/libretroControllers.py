@@ -309,6 +309,13 @@ class LibretroControllers:
         settings.setInt("input_player{}_joypad_index".format(playerIndex), inputIndex)
         settings.setInt("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(controller))
 
+        # Specific configuration for Nintendo Switch N64 Controller
+        if controller.DeviceName == 'Nintendo Switch N64 Controller':
+            settings.setString("input_player{}_r_x_plus_btn".format(playerIndex), '"9"');
+            settings.setString("input_player{}_r_x_minus_btn".format(playerIndex), '"2"');
+            settings.setString("input_player{}_r_y_plus_btn".format(playerIndex), '"8"');
+            settings.setString("input_player{}_r_y_minus_btn".format(playerIndex), '"3"');
+
     @staticmethod
     def _MapSdl2ControllerButtons(controller: Controller) -> dict:
         button_mapping = {}

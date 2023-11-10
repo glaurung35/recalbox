@@ -425,7 +425,6 @@ void MainRunner::CheckRecalboxLite(WindowManager& window)
 
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
-  bool firstTime = false;
   if (RecalboxConf::Instance().GetFirstTimeUse())
   {
     switch (Board::Instance().GetBoardType())
@@ -470,17 +469,8 @@ void MainRunner::CheckFirstTimeWizard(WindowManager& window)
         break;
       }
     }
-    // start autopair process
-    firstTime = true;
   }
 
-  // Auto pair
-  if (InputManager::Instance().DeviceCount() == 0 || firstTime)
-  {
-    MqttClient mqtt("recalbox-emulationstation-bt", nullptr);
-    mqtt.Wait();
-    mqtt.Send("bluetooth/operation", R"({"command": "start_discovery"})", 2);
-  }
   RecalboxConf::Instance().SetFirstTimeUse(false);
 }
 

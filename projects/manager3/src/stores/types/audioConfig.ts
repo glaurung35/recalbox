@@ -14,7 +14,7 @@ export const AudioConfigSchema = z.object({
   }),
   'music.volume': z.object({
     exist: z.boolean(),
-    value: z.string(),
+    value: z.number(),
   }),
   device: z.object({
     exist: z.boolean(),

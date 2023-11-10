@@ -388,6 +388,12 @@
         "title": "Volume",
         "help": "This option allows you to modify the volume."
       },
+      "music": {
+        "volume": {
+          "title": "Music volume",
+          "help": "This option allows you to modify the music volume."
+        }
+      },
       "audioOutput": {
         "title": "Audio output",
         "help": "This option allows you to select the audio output.",

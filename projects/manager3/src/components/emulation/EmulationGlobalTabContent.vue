@@ -404,7 +404,7 @@
 
 <script lang="ts" setup>
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
-import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
+// import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useGlobalStore } from 'stores/configuration/global';
@@ -429,7 +429,7 @@ const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
 emulationstationStore.fetchOptions();
 const {
-  virtualArcadeManufacturersOptions,
+  // virtualArcadeManufacturersOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 </script>

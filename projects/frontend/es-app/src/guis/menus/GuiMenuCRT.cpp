@@ -133,6 +133,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
                              {{ "Line", "line", neoline },
                               { "Square", "square", !neoline }}),
                          _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
+    AddSwitch(_("4 PLAYERS MODE"), CrtConf::Instance().GetSystemCRTJamma4Players(),
+              (int)Components::Jamma4Players, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS));
     AddSwitch(_("START+BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
               (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
     AddSwitch(_("START+BTN = HK+BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
@@ -382,6 +384,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTJammaHKOnStart(status).Save();
   if ((Components)id == Components::JammaStartBtn1Credit)
     CrtConf::Instance().SetSystemCRTJammaStartBtn1Credit(status).Save();
+  if ((Components)id == Components::Jamma4Players)
+    CrtConf::Instance().SetSystemCRTJamma4Players(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

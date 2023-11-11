@@ -82,7 +82,8 @@ Wizard::Wizard(WindowManager& window, const String& title, int pageCount)
   mGrid.SetColumnHighlight(true, 1, 1);
 
   // Image size
-  mImage->setMaxSize(0/*mGrid.getColWidth(1)*/, mGrid.getRowHeight(1));
+  mImage->setResize(0/*mGrid.getColWidth(1)*/, mGrid.getRowHeight(1));
+  mImage->setKeepRatio(true);
 }
 
 bool Wizard::ProcessInput(const InputCompactEvent& event)

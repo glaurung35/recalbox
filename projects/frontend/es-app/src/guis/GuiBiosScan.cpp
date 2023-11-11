@@ -282,7 +282,8 @@ void GuiBiosScan::onSizeChanged()
   mDetailText1Value->setSize(mDetailText1ValueContainer->getSize().x(), 0); // make desc text wrap at edge of container
   mDetailText2Value->setSize(mDetailText2ValueContainer->getSize().x(), 0); // make desc text wrap at edge of container
   mDetailStatusImage->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(9));
-  mDetailStatusImage->setMaxSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(9));
+  mDetailStatusImage->setResize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(9));
+  mDetailStatusImage->setKeepRatio(true);
 
   mDetailBiosOkLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(4));
   mDetailBiosUnsafeLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(5));

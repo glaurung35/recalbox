@@ -656,7 +656,7 @@ static struct config {
   bool credit_on_start_btn1;
   bool exit_on_start;
   bool autofire;
-  uint turbo_laps;
+  uint autofire_time;
   bool i2s;
   bool videofilter;
   uint buttons_on_jamma;
@@ -1297,7 +1297,7 @@ static int process_debounce_and_turbo(void *idx) {
       for (int player = 0; player < jamma_config.player_count; player++) {
         must_send_turbo = false;
         for (button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
-          if ((PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button])) && turbo_enabled[player][button] && time_ns - turbo_time[player][button] > jamma_config.turbo_laps) {
+          if ((PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button])) && turbo_enabled[player][button] && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {
             turbo_state[player][button] = !turbo_state[player][button];
             turbo_time[player][button] = time_ns;
             /*printk(KERN_INFO
@@ -1436,10 +1436,15 @@ static int load_config(void) {
                 pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
               }
             }
-          } else if (strcmp(optionname, "options.jamma.controls.turbo_ms") == 0) {
-            if (jamma_config.turbo_laps != optionvalue * 1000000) {
-              printk(KERN_INFO "recalboxrgbjamma: switch turbo_ms to %d\n", optionvalue * 1000000);
-              jamma_config.turbo_laps = optionvalue * 1000000;
+          } else if (strcmp(optionname, "options.jamma.controls.autofire") == 0) {
+            if (jamma_config.autofire != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch autofire to %d\n", optionvalue);
+              jamma_config.autofire = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.controls.autofire_ms") == 0) {
+            if (jamma_config.autofire_time != optionvalue * 1000000) {
+              printk(KERN_INFO "recalboxrgbjamma: switch autofire_ms to %d\n", optionvalue * 1000000);
+              jamma_config.autofire_time = optionvalue * 1000000;
             }
           } else if (strcmp(optionname, "options.jamma.controls.4players") == 0) {
             if ((jamma_config.player_count == 2 && optionvalue == 1) || (jamma_config.player_count == 4 && optionvalue == 0)) {
@@ -1742,7 +1747,7 @@ pca953x_init(void) {
   jamma_config.credit_on_start_btn1 = true;
   jamma_config.exit_on_start = true;
   jamma_config.autofire = true;
-  jamma_config.turbo_laps = 50000000;// 50ms
+  jamma_config.autofire_time = 50000000;// 50ms
   jamma_config.i2s = false;
   jamma_config.videofilter = false;
 

@@ -357,14 +357,16 @@ void GuiSearch::populateGridMeta(int i)
 {
   //screenshot & video
   mResultThumbnail->setImage(mSearchResults[i]->Metadata().Image());
-  mResultThumbnail->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
+  mResultThumbnail->setResize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
+  mResultThumbnail->setKeepRatio(true);
   mResultVideo->setVideo(mSearchResults[i]->Metadata().Video(), 2000, 1);
   mResultVideo->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
 
   //system logo retieved from theme
   mResultSystemLogo->applyTheme(mSearchResults[i]->System().Theme(), "system", "logo", ThemeProperties::Path);
   mGridLogoAndMD->setRowHeightPerc(0, 0.5f);
-  mResultSystemLogo->setMaxSize(mGridLogo->getSize().x() * 0.8f, mGridLogo->getSize().y() * 0.8f);
+  mResultSystemLogo->setResize(mGridLogo->getSize().x() * 0.8f, mGridLogo->getSize().y() * 0.8f);
+  mResultSystemLogo->setKeepRatio(true);
   ResizeGridLogo();
 
   //Metadata

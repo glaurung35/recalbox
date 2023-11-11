@@ -71,7 +71,8 @@ void DetailedGameListView::Initialize()
     auto* img = new ImageComponent(mWindow);
     addChild(img); // normalised functions required to be added first
     img->setOrigin(0.5f, 0.5f);
-    img->setNormalisedMaxSize(0.4f, 0.4f);
+    img->setNormalisedSize(0.4f, 0.4f);
+    img->setKeepRatio(true),
     img->setDefaultZIndex(30);
     img->setZIndex(30);
     mFolderContent.push_back(img);
@@ -83,13 +84,15 @@ void DetailedGameListView::Initialize()
   // image
   mImage.setOrigin(0.5f, 0.5f);
   mImage.setPosition(mSize.x() * 0.25f, mList.getPosition().y() + mSize.y() * 0.2125f);
-  mImage.setMaxSize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
+  mImage.setResize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
+  mImage.setKeepRatio(true);
   mImage.setDefaultZIndex(30);
 
   // no image
   mNoImage.setOrigin(mImage.getOrigin());
   mNoImage.setPosition(mImage.getPosition());
-  mNoImage.setMaxSize(mImage.getSize());
+  mNoImage.setResize(mImage.getSize());
+  mNoImage.setKeepRatio(true);
   mNoImage.setDefaultZIndex(30);
 
   addChild(&mNoImage);
@@ -281,7 +284,8 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
       for (unsigned int y = 0; y < grid; y++)
       {
         ImageComponent* img = mFolderContent[x + y * grid];
-        img->setMaxSize(imgSize, imgSize);
+        img->setResize(imgSize, imgSize);
+        img->setKeepRatio(true);
         img->setPosition(left + imgSize * img->getOrigin().x() + (float)x * (1 + relativeMarge) * imgSize,
                          top + imgSize * img->getOrigin().y() + (float)y * (1 + relativeMarge) * imgSize);
         img->setZIndex(30);

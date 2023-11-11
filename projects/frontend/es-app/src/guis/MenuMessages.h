@@ -204,6 +204,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT "Pressing START for 3sec will exit the game. If you disable this option, you will have to exit the game with SERVICE + TEST."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE "Select the type of your screen. If you don't know what you are doing, do not change this value."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS "4 player mode, with player 2 and 3 on CPS2 kickharness."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_AUTOFIRE "Set auto fire for a button by pressing START + a button for 5 seconds"
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND "On some cabs, the pins E/27 of the JAMMA are the common ground for controls. Enable this option if you have this configuration."
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

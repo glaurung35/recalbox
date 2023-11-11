@@ -50,13 +50,15 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaPanelButtons, std::string, String, sSystemCRTJammaPanelButtons, "6")
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMonoAmpBoost, std::string, String, sSystemCRTJammaMonoAmpBoost, "0")
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, std::string, String, sSystemCRTJammaNeogeoLayout, "line")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaPanelButtons, String, String, sSystemCRTJammaPanelButtons, "6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMonoAmpBoost, String, String, sSystemCRTJammaMonoAmpBoost, "0")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, String, String, sSystemCRTJammaNeogeoLayout, "line")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaStartBtn1Credit, bool, Bool, sSystemCRTJammaStartBtn1Credit, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHKOnStart, bool, Bool, sSystemCRTJammaHKOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaExitOnStart, bool, Bool, sSystemCRTJammaExitOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJamma4Players, bool, Bool, sSystemCRTJamma4Players, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAutoFire, bool, Bool, sSystemCRTJammaAutoFire, true)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaButtonsOnJamma, String, String, sSystemCRTJammaButtonsOnJamma, "6")
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
 
@@ -93,6 +95,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJammaHKOnStart         = "options.jamma.controls.hk_on_start";
     static constexpr const char* sSystemCRTJammaExitOnStart       = "options.jamma.controls.exit_on_start";
     static constexpr const char* sSystemCRTJamma4Players          = "options.jamma.controls.4players";
+    static constexpr const char* sSystemCRTJammaAutoFire          = "options.jamma.controls.autofire";
+    static constexpr const char* sSystemCRTJammaButtonsOnJamma    = "options.jamma.controls.buttons_on_jamma";
 
 
     static constexpr const char* sViewportPrefix                  = "viewport";

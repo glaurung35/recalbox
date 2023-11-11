@@ -223,7 +223,8 @@ void GuiSaveStates::updateInformations()
 
   mCurrentState = mSaveStates[index - 1];
   mThumbnail->setImage(mCurrentState.GetThrumbnail());
-  mThumbnail->setMaxSize(mGrid.getColWidth(3), mGrid.getRowHeight(4));
+  mThumbnail->setResize(mGrid.getColWidth(3), mGrid.getRowHeight(4));
+  mThumbnail->setKeepRatio(true);
   mThumbnail->setOrigin(0.5f, 0.5f);
   mThumbnail->setPosition(mGrid.getPosition().x() + mGrid.getColWidth(0, 2) + mGrid.getColWidth(3) / 2.f,
                           mGrid.getPosition().y() + mGrid.getRowHeight(0, 3) + mGrid.getRowHeight(4) / 2.f);

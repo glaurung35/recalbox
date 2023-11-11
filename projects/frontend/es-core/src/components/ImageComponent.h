@@ -46,13 +46,12 @@ public:
 	// setMaxSize() and setResize() are mutually exclusive.
 	void setResize(float width, float height);
 	inline void setResize(const Vector2f& size) { setResize(size.x(), size.y()); }
+  void setNormalisedSize(float width, float height);
 
-	// Resize the image to be as large as possible but fit within a box of this size.
-	// Can be set before or after an image is loaded.
-	// Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
-	void setMaxSize(float width, float height);
-	void setNormalisedMaxSize(float width, float height);
-	inline void setMaxSize(const Vector2f& size) { setMaxSize(size.x(), size.y()); }
+    // Resize the image to be as large as possible but fit within a box of this size.
+    // Can be set before or after an image is loaded.
+    // Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
+  void setKeepRatio(bool keepRatio) { mKeepRatio = keepRatio; }
 
 	// Multiply all pixels in the image by this color when rendering.
 	void setColorShift(unsigned int color);
@@ -90,7 +89,7 @@ public:
 	Vector2f mTargetSize;
 
 	Path mPath;
-	bool mFlipX, mFlipY, mTargetIsMax;
+	bool mFlipX, mFlipY;
 
 	// Calculates the correct mSize from our resizing information (set by setResize/setMaxSize).
 	// Used internally whenever the resizing parameters or texture change.
@@ -118,5 +117,6 @@ public:
 	bool mForceLoad;
 	bool mDynamic;
   bool mVisible;
+  bool mKeepRatio;
 };
 

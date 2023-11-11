@@ -55,7 +55,8 @@ void SystemView::addSystem(SystemData * it)
   if(logoElement != nullptr && logoElement->HasProperties())
   {
     ImageComponent* logo = new ImageComponent(mWindow, false, false);
-    logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
+    logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
+    logo->setKeepRatio(true);
     logo->applyTheme((it)->Theme(), "system", "logo", ThemeProperties::Path);
     e.data.logo = std::shared_ptr<Component>(logo);
     if ((it)->ThemeFolder() == "default")
@@ -92,7 +93,8 @@ void SystemView::addSystem(SystemData * it)
     else
     {
       ImageComponent* logo = new ImageComponent(mWindow, false, false);
-      logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
+      logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
+      logo->setKeepRatio(true);
       logo->setImage(Genres::GetResourcePath(genre));
       e.data.logo = std::shared_ptr<Component>(logo);
 

@@ -127,6 +127,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
                              { "6 buttons", "6", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "6" },
                              }),
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+
     bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
     AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
                          std::vector<GuiMenuBase::ListEntry<String>>(
@@ -141,6 +142,10 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
               (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
     AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
               (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
+    AddSwitch(_("START+BTN 5SEC = AUTO FIRE"), CrtConf::Instance().GetSystemCRTJammaAutoFire(),
+              (int)Components::JammaAutoFire, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_AUTOFIRE));
+    AddSwitch(_("PIN E/27 AS GND"), CrtConf::Instance().GetSystemCRTJammaButtonsOnJamma() != "6",
+              (int)Components::JammaButtonsBtn6Gnd, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND));
     AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma);
   }
 
@@ -386,6 +391,10 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
     CrtConf::Instance().SetSystemCRTJammaStartBtn1Credit(status).Save();
   if ((Components)id == Components::Jamma4Players)
     CrtConf::Instance().SetSystemCRTJamma4Players(status).Save();
+  if ((Components)id == Components::JammaAutoFire)
+    CrtConf::Instance().SetSystemCRTJammaAutoFire(status).Save();
+  if ((Components)id == Components::JammaButtonsBtn6Gnd)
+    CrtConf::Instance().SetSystemCRTJammaButtonsOnJamma(status ? "5" : "6").Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

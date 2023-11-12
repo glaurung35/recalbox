@@ -37,6 +37,8 @@ f0dfbbe844feaf583ba0cd9432704f09  package/mosquitto/mosquitto.mk
 2cd9a8d1ff6aa58b1ae2709179929998  package/mpv/mpv.mk
 eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
 481ff92234bdf273c5ed16867caa501f  package/python-pygame/python-pygame.mk
+a9329943bcd399b580c3931afc54811f  package/qt6/qt6base/Config.in
+c56b981985e20d4ddc67635402483fde  package/qt6/qt6base/qt6base.mk
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in
 bb6386cc54355917f1dad1fd576d9298  package/rpi-firmware/rpi-firmware.hash
 dd767d51e6ab8fa62a8cf94e23d44980  package/rpi-firmware/rpi-firmware.mk

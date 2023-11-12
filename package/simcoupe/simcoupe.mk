@@ -18,6 +18,7 @@ define SIMCOUPE_INSTALL_TARGET_CMDS
 	$(INSTALL) -D $(@D)/_deps/spectrum-build/libspectrum.so* $(TARGET_DIR)/usr/lib/
 	$(INSTALL) -D $(@D)/_deps/saasound-build/libSAASound.so* $(TARGET_DIR)/usr/lib/
 	$(INSTALL) -D $(@D)/_deps/resid-build/libresid.so* $(TARGET_DIR)/usr/lib/
+	$(INSTALL) -D $(@D)/Extern/whereami/libwhereami.so* $(TARGET_DIR)/usr/lib/
 	#$(INSTALL) -D $(@D)/Extern/fmt/libfmt* $(TARGET_DIR)/usr/lib/
 	mkdir -p $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)
 	cp -R $(@D)/Resource/** $(TARGET_DIR)$(SIMCOUPE_BIOS_AND_RESOURCES)

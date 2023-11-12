@@ -59,9 +59,9 @@ export const useSystemStore = defineStore('system', {
   } as SystemStoreState),
 
   getters: {
-    languageOptions: (state) => state._systemOptions.language.allowedStringList,
-    kblayoutOptions: (state) => state._systemOptions.kblayout.allowedStringList,
-    timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList,
+    languageOptions: (state) => state._systemOptions.language.allowedStringList.sort(),
+    kblayoutOptions: (state) => state._systemOptions.kblayout.allowedStringList.sort(),
+    timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList.sort(),
     specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
     esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
     splashLengthOptions: (state) => state._systemOptions['splash.length'],

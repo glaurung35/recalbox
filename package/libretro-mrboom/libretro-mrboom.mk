@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2023/10/06
-LIBRETRO_MRBOOM_VERSION = 089b91d4dcf016d0595824d519707bed709178f2
+# Commit of 2023/11/14
+LIBRETRO_MRBOOM_VERSION = 20244a75910802b22690407750189f837682c68e
 LIBRETRO_MRBOOM_SITE = https://github.com/libretro/mrboom-libretro.git
 LIBRETRO_MRBOOM_LICENSE = MIT
 LIBRETRO_MRBOOM_LICENSE_FILES = LICENSE

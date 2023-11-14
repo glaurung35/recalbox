@@ -1044,6 +1044,18 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
             press_time[player][button] = 0;
           }
         }
+        // Directions
+        for (int direction = 0; direction < 4; direction++) {
+          if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
+            if (player == PLAYER1 && PRESSED(*data_chips, direction_bits[player][direction])) {
+              // As another button has been pressed, we press hotkey before
+              printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
+              PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+              can_exit = 0;
+              should_release_hk = 1;
+            }
+          }
+        }
       }
       start_state = *data_chips;
     }

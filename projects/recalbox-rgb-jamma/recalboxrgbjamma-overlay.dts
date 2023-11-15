@@ -117,8 +117,8 @@
       status = "okay";
       pinctrl-names = "default";
       pinctrl-0 = <&i2c0_pins>;
-      clock-frequency = <400000>;
-      read-timeout-ms = <50>;
+      clock-frequency = <100000>;
+      read-timeout-ms = <100>;
       jammactrl_0: jammactrl_0@25 {
         compatible = "raspberrypi,recalboxrgbjamma";
         reg = <0x25>;

@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
   - use horizontal wheel to move left/right
   - left/middle/right buttons act as b/start/a
 - Add new system Sega Pico
+- Add new time played information
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

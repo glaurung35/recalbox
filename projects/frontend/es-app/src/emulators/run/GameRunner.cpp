@@ -183,11 +183,20 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     Board::Instance().SetCPUGovernance(GetGovernance(core));
     Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
     fputs("==============================================\n", stdout);
+    long start = DateTime().ToEpochTime();
+
     // Start game thread
     ThreadRunner gameRunner(sdl2Runner, command, debug);
     // Start sdl2 loop
     sdl2Runner.Run();
     exitCode = gameRunner.ExitCode();
+    if (exitCode == 0)
+    {
+      long stop = DateTime().ToEpochTime();
+      int timePlayed = game.Metadata().TimePlayed();
+      game.Metadata().SetTimePlayed(timePlayed + stop - start);
+    }
+
     fputs("==============================================\n", stdout);
     Board::Instance().StopInGameBackgroundProcesses(sdl2Runner);
     Board::Instance().SetFrontendCPUGovernor();

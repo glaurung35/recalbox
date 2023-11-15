@@ -90,6 +90,7 @@ class MetadataDescriptor
     bool                          mNoGame:1;       //!< ?!
     bool                          mDirty:1;        //!< Dirty flag (modified data flag)
     RotationType                  mRotation:2;     //<! Rotation flag
+    int                           mTimePlayed;         //<! Game timpe played
 
     //! Default value storage for fast default detection
     static const MetadataDescriptor& Default();
@@ -210,6 +211,7 @@ class MetadataDescriptor
       , mNoGame(false)
       , mDirty(false)
       , mRotation(RotationType::None)
+      , mTimePlayed(0)
     {
       SetRomPath(path);
       SetName(defaultName);
@@ -258,6 +260,7 @@ class MetadataDescriptor
         mDirty(source.mDirty),
         mType(source.mType),
         mRotation(source.mRotation),
+        mTimePlayed(source.mTimePlayed),
     {
       LivingClasses++;
       if (_Type == ItemType::Game) LivingGames++;
@@ -314,6 +317,7 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
+      mTimePlayed        = source.mTimePlayed       ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -369,6 +373,7 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
+      mTimePlayed        = source.mTimePlayed       ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -447,6 +452,7 @@ class MetadataDescriptor
     [[nodiscard]] bool               NoGame()          const { return mNoGame;                           }
     [[nodiscard]] GameGenres         GenreId()         const { return mGenreId;                          }
     [[nodiscard]] RotationType       Rotation()        const { return mRotation;                         }
+    [[nodiscard]] int                TimePlayed()      const { return mTimePlayed;                       }
 
     /*
      * Validators
@@ -486,6 +492,7 @@ class MetadataDescriptor
     [[nodiscard]] String GenreIdAsString()     const { return String((int)mGenreId);                           }
     [[nodiscard]] String LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
     [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
+    [[nodiscard]] String TimePlayedAsString()      const { return String(mTimePlayed);                        }
 
 
     /*
@@ -540,6 +547,7 @@ class MetadataDescriptor
     void SetAdult(bool adult)                           { mAdult        = adult;                                       mDirty = true; }
     void SetGenreId(GameGenres genre)                   { mGenreId      = genre;                                       mDirty = true; }
     void SetRotation(RotationType rotation)             { mRotation     = rotation;                                    mDirty = true; }
+    void SetTimePlayed(int timePlayed)                  { mTimePlayed   = timePlayed;                                  mDirty = true; }
     // Volatiles flags - no dirtiness
     void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                               }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                              }
@@ -587,6 +595,7 @@ class MetadataDescriptor
     void SetGenreIdAsString(const String& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
     void SetRegionAsString(const String& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
     void SetRotationAsString(const String& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
+    void SetTimePlayedAsString(const String& timePlayed)   { int u = 0; if (StringToInt(timePlayed, u)) { mTimePlayed = u; mDirty = true; } }
     /*
      * Defaults
      */
@@ -616,6 +625,7 @@ class MetadataDescriptor
     [[nodiscard]] bool IsDefaultGenreId()         const { return Default().mGenreId == mGenreId;         }
     [[nodiscard]] bool IsDefaultLastPath()        const { return Default().mLastPatchPath == mLastPatchPath && Default().mLastPatchFile == mLastPatchFile; }
     [[nodiscard]] bool IsDefaultRotation()        const { return Default().mRotation == mRotation; }
+    [[nodiscard]] bool IsDefaultTimePlayed()      const { return Default().mTimePlayed == mTimePlayed; }
 
 
     /*

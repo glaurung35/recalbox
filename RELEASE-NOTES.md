@@ -34,6 +34,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Naomi 2 system on rpi5 and x86_64
 - Add new Saturn core on RPi5: beetle saturn
 - Add new port SDLPop (port of Prince of Persia)
+- Add new time played information
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

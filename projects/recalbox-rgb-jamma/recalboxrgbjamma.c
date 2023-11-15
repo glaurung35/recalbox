@@ -1248,14 +1248,16 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
   unsigned long long debounced_data = 0;
   unsigned long gpio_data_chip = 0;
   long long int time_start = ktime_to_ns(ktime_get_boottime());
+  DEBUG && printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
   mutex_lock(&jamma_config.process_mutex);
 
   if (gpio_chip != NULL) {
     if (read_gpios_one_chip(&gpio_data_chip, gpio_chip)) {
+      DEBUG && printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chip, unlocking mutex\n");
       mutex_unlock(&jamma_config.process_mutex);
       return -1;
     }
-    DEBUG &&printk(KERN_INFO
+    DEBUG && printk(KERN_INFO
                    "recalboxrgbjamma: read gpio values on chip : %u\n",
                    gpio_data_chip);
     if (gpio_chip == jamma_config.gpio_chip_0) {
@@ -1271,6 +1273,7 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
                    gpio_data);
   } else {
     if (read_gpios(&gpio_data)) {
+      printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chips in batch, unlocking mutext\n");
       mutex_unlock(&jamma_config.process_mutex);
       return -1;
     }
@@ -1309,7 +1312,9 @@ static int process_debounce_and_turbo(void *idx) {
       for (int player = 0; player < jamma_config.player_count; player++) {
         must_send_turbo = false;
         for (button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
-          if ((PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button])) && turbo_enabled[player][button] && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {
+          if (turbo_enabled[player][button]
+              && (PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button]))
+              && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {
             turbo_state[player][button] = !turbo_state[player][button];
             turbo_time[player][button] = time_ns;
             /*printk(KERN_INFO
@@ -1376,6 +1381,7 @@ static int register_controllers(void) {
 
     if ((err = input_register_device(player_devs[player]))) {
       pr_err("recalboxrgbjamma: Cannot register input device\n");
+      mutex_unlock(&jamma_config.process_mutex);
       input_free_device(player_devs[player]);
       player_devs[player] = NULL;
       return -1;

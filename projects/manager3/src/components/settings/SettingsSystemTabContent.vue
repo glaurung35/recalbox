@@ -199,7 +199,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.hat.wpaf.title">
+      <FormFragmentContainer title="settings.system.hat.wpaf.title" v-if="isWpafAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="settings.system.hat.wpaf.enabled.label"
@@ -236,7 +236,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.brightness.title" v-if="architecture.arch === 'rg353x' || architecture.arch === 'odroidgo2'">
+      <FormFragmentContainer title="settings.system.brightness.title" v-if="isBrightnessAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedSlider
             label="settings.system.brightness.label"
@@ -257,7 +257,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.minitft.title">
+      <FormFragmentContainer title="settings.system.minitft.title" v-if="isFbcpAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="settings.system.minitft.label"
@@ -273,7 +273,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.power.switch.title">
+      <FormFragmentContainer title="settings.system.power.switch.title" v-if="isPowerSwitchAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedSelect
             label="settings.system.power.switch.label"
@@ -461,7 +461,7 @@
         </template>
       </FormFragmentContainer>
 
-      <FormFragmentContainer title="settings.system.secondminitft.title">
+      <FormFragmentContainer title="settings.system.secondminitft.title" v-if="isSecondMiniTftAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="settings.system.secondminitft.enabled.label"
@@ -677,6 +677,12 @@ const {
 const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
+
+const isWpafAvailable = (arch:string) => ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isBrightnessAvailable = (arch:string) => ['odroidgo2', 'rg353x'].includes(arch);
+const isFbcpAvailable = (arch:string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isPowerSwitchAvailable = (arch:string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isSecondMiniTftAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 
 </script>
 

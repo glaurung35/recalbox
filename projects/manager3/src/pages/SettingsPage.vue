@@ -52,6 +52,7 @@
           icon="mdi-kodi"
           label="Kodi"
           name="kodi"
+          v-if="isKodiAvailable(architecture.arch)"
         />
 <!--        <q-route-tab -->
 <!--          :to="{ name: 'hyperion' }" -->
@@ -106,6 +107,8 @@ import { useScraperStore } from 'stores/configuration/scraper';
 import { useWifiStore } from 'stores/configuration/wifi';
 import { useGlobalStore } from 'stores/configuration/global';
 import { useHatStore } from 'stores/configuration/hat';
+import { storeToRefs } from 'pinia';
+import { useArchitectureStore } from 'stores/architecture';
 
 useSystemStore().fetchOptions();
 
@@ -117,6 +120,12 @@ useScraperStore().fetchOptions();
 useWifiStore().fetchOptions();
 useGlobalStore().fetchOptions();
 useHatStore().fetchOptions();
+
+const architectureStore = useArchitectureStore();
+architectureStore.fetch();
+const { architecture } = storeToRefs(architectureStore);
+
+const isKodiAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
 
 const tab = ref<string>('system');
 </script>

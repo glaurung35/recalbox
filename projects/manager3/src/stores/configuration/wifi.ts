@@ -18,7 +18,22 @@ export const useWifiStore = defineStore('wifi', {
       region: {
         allowedStringList: [''],
       },
-      priority: {},
+      priority: {
+        lowerValue: 0,
+        higherValue: 20,
+      },
+      netmask: {
+        allowedChars: '',
+      },
+      ip: {
+        allowedChars: '',
+      },
+      gateway: {
+        allowedChars: '',
+      },
+      nameservers: {
+        allowedChars: '',
+      },
     },
     wifi: {
       priority: {},

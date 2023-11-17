@@ -175,6 +175,7 @@ export const SystemConfigOptionsSchema = z.object({
   'es.videomode': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+    displayableStringList: z.array(z.string()),
   }),
   'power.switch': z.object({
     type: z.string(),
@@ -228,12 +229,15 @@ export const SystemConfigOptionsSchema = z.object({
   }),
   'externalscreen.prefered': z.object({
     type: z.string(),
+    allowedChars: z.string(),
   }),
   'externalscreen.forceresolution': z.object({
     type: z.string(),
+    allowedChars: z.string(),
   }),
   'externalscreen.forcefrequency': z.object({
     type: z.string(),
+    allowedChars: z.string(),
   }),
 });
 

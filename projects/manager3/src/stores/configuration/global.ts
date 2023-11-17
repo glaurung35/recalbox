@@ -32,6 +32,7 @@ export const useGlobalStore = defineStore('global', {
       },
       videomode: {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'demo.infoscreenduration': {
         lowerValue: 5,
@@ -52,6 +53,13 @@ export const useGlobalStore = defineStore('global', {
       },
       inputdriver: {
         allowedStringList: [''],
+      },
+      'netplay.port': {
+        lowerValue: 1,
+        higherValue: 65535,
+      },
+      'netplay.nickname': {
+        allowedChars: '',
       },
     },
     global: {},

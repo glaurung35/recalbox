@@ -23,6 +23,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         lowerValue: 0,
         higherValue: 15000,
       },
+      'screensaver.type': {
+        allowedStringList: [''],
+      },
       'screensaver.time': {
         lowerValue: 0,
         higherValue: 30,
@@ -48,8 +51,22 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
       'virtualarcade.manufacturers': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'pads.osd.type': {
+        allowedStringList: [''],
+        displayableStringList: [''],
+      },
+      menu: {
+        allowedStringList: [''],
+      },
+      selectedsystem: {
+        allowedStringList: [''],
+      },
+      'theme.folder': {
+        allowedStringList: [''],
+      },
+      'theme.transition': {
         allowedStringList: [''],
       },
     },

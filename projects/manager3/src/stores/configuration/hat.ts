@@ -14,7 +14,11 @@ export type HatStoreState = {
 export const useHatStore = defineStore('hat', {
   state: () => ({
     _baseUrl: CONFIGURATION.hat,
-    _hatOptions: {},
+    _hatOptions: {
+      'wpaf.board': {
+        allowedStringList: [''],
+      },
+    },
     hat: {},
   } as HatStoreState),
 

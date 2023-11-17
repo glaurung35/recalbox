@@ -15,52 +15,29 @@ export const useScraperStore = defineStore('scraper', {
   state: () => ({
     _baseUrl: CONFIGURATION.scraper,
     _scraperOptions: {
-      'screenscraper.password': {
-        type: '',
-      },
       'screenscraper.media': {
-        type: '',
         allowedStringList: [''],
       },
-      extractregionfromfilename: {
-        type: '',
-      },
       getnamefrom: {
-        type: '',
         lowerValue: 0,
         higherValue: 2,
       },
       'screenscraper.language': {
-        type: '',
         allowedStringList: [''],
       },
       'screenscraper.region': {
-        type: '',
         allowedStringList: [''],
       },
       'screenscraper.thumbnail': {
-        type: '',
         allowedStringList: [''],
       },
       'screenscraper.video': {
-        type: '',
         allowedStringList: [''],
       },
-      'screenscraper.maps': {
-        type: '',
-      },
-      'screenscraper.manual': {
-        type: '',
-      },
-      'screenscraper.user': {
-        type: '',
-      },
       source: {
-        type: '',
         allowedStringList: [''],
       },
       'screenscraper.regionPriority': {
-        type: '',
         allowedStringList: [''],
       },
     },

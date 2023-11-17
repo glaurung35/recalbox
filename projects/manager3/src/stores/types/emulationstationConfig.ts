@@ -370,6 +370,7 @@ export const EmulationStationConfigOptionsSchema = z.object({
   'virtualarcade.manufacturers': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+    displayableStringList: z.array(z.string()),
   }),
   debuglogs: z.object({
     type: z.string(),
@@ -382,6 +383,7 @@ export const EmulationStationConfigOptionsSchema = z.object({
   'pads.osd.type': z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+    displayableStringList: z.array(z.string()),
   }),
 });
 

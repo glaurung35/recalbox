@@ -15,7 +15,9 @@ export const usePatronStore = defineStore('patron', {
   state: () => ({
     _baseUrl: CONFIGURATION.patron,
     _patronOptions: {
-      privatekey: {},
+      privatekey: {
+        allowedChars: '',
+      },
     },
     patron: {},
   } as PatronStoreState),

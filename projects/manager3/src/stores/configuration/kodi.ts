@@ -14,7 +14,22 @@ export type KodiStoreState = {
 export const useKodiStore = defineStore('kodi', {
   state: () => ({
     _baseUrl: CONFIGURATION.kodi,
-    _kodiOptions: {},
+    _kodiOptions: {
+      'network.waithost': {
+        allowedChars: '',
+      },
+      'network.waitmode': {
+        allowedStringList: [''],
+      },
+      'network.waittime': {
+        lowerValue: 0,
+        higherValue: 2147483647,
+      },
+      videomode: {
+        allowedStringList: [''],
+        displayableStringList: [''],
+      },
+    },
     kodi: {},
   } as KodiStoreState),
 

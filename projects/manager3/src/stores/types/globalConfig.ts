@@ -160,6 +160,7 @@ export const GlobalConfigOptionsSchema = z.object({
   }),
   'netplay.nickname': z.object({
     type: z.string(),
+    allowedChars: z.string(),
   }),
   'demo.duration': z.object({
     type: z.string(),

@@ -17,11 +17,18 @@ export const useAudioStore = defineStore('audio', {
     _audioOptions: {
       device: {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
-      volume: {},
+      volume: {
+        lowerValue: 0,
+        higherValue: 100,
+      },
       'music.volume': {
         lowerValue: 0,
         higherValue: 100,
+      },
+      mode: {
+        allowedStringList: [''],
       },
     },
     audio: {

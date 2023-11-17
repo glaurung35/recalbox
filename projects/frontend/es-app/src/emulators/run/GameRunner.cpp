@@ -20,6 +20,7 @@
 #include "Resolutions.h"
 #include "ResolutionAdapter.h"
 #include "RotationManager.h"
+#include <chrono>
 
 bool GameRunner::sGameIsRunning = false;
 
@@ -183,7 +184,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     Board::Instance().SetCPUGovernance(GetGovernance(core));
     Board::Instance().StartInGameBackgroundProcesses(sdl2Runner);
     fputs("==============================================\n", stdout);
-    long startGameTime = DateTime().ToEpochTime();
+
+    auto start = std::chrono::steady_clock::now();
 
     // Start game thread
     ThreadRunner gameRunner(sdl2Runner, command, debug);
@@ -191,8 +193,8 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     sdl2Runner.Run();
     exitCode = gameRunner.ExitCode();
 
-    long stopGameTime = DateTime().ToEpochTime();
-
+    auto end = std::chrono::steady_clock::now();
+    long gameDuration = std::chrono::duration_cast<std::chrono::seconds>(end - start).count();
 
     fputs("==============================================\n", stdout);
     Board::Instance().StopInGameBackgroundProcesses(sdl2Runner);
@@ -205,7 +207,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     {
       LOG(LogInfo) << "[Run] No error running " << path.ToString();
       // Update time played
-      game.Metadata().SetTimePlayed(game.Metadata().TimePlayed() + (int) stopGameTime - (int) startGameTime);
+      game.Metadata().SetTimePlayed(game.Metadata().TimePlayed() + (int) gameDuration);
     }
   }
 

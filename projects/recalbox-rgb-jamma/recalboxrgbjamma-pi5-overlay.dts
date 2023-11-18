@@ -3,26 +3,26 @@
 
 / {
 	compatible = "brcm,bcm2712";
-  fragment@0 {
-      target = <&gpio>;
-      __overlay__ {
-        irq_gpio_11: irq_gpio_11_conf {
-          brcm,pins = <11>; // GPIO 11
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
-        irq_gpio_10: irq_gpio_10_conf {
-          brcm,pins = <10>; // GPIO 10
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
-        irq_gpio_26: irq_gpio_26_conf {
-          brcm,pins = <26>; // GPIO 26
-          brcm,function = <0>; // Input
-          brcm,pull = <2>; // Pull up
-        };
-      };
-  };
+	fragment@0 {
+		target = <&gpio>;
+		__overlay__ {
+		irq_gpio_11: irq_gpio_11_conf {
+			brcm,pins = <11>; // GPIO 11
+			brcm,function = <0>; // Input
+			brcm,pull = <2>; // Pull up
+		};
+		irq_gpio_10: irq_gpio_10_conf {
+			brcm,pins = <10>; // GPIO 10
+			brcm,function = <0>; // Input
+			brcm,pull = <2>; // Pull up
+		};
+		irq_gpio_26: irq_gpio_26_conf {
+			brcm,pins = <26>; // GPIO 26
+			brcm,function = <0>; // Input
+			brcm,pull = <2>; // Pull up
+		};
+		};
+	};
 
 	fragment@1 {
 		target-path = "/";

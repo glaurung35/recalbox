@@ -4,14 +4,14 @@
 / {
 	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
 	fragment@0 {
-			target = <&gpio>;
-			__overlay__ {
-				dipswitch_gpio: dipswitch_gpio_conf {
-					brcm,pins = <10 27>; // GPIO 10
-					brcm,function = <0>; // Input
-					brcm,pull = <2 2>; // Pull up
-				};
+		target = <&gpio>;
+		__overlay__ {
+			dipswitch_gpio: dipswitch_gpio_conf {
+				brcm,pins = <10 27>; // GPIO 10
+				brcm,function = <0>; // Input
+				brcm,pull = <2 2>; // Pull up
 			};
+		};
 	};
 	fragment@1 {
 		target-path = "/";
@@ -25,9 +25,9 @@
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-dual = <1>;
 
-                dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
-                pinctrl-0 = <&dipswitch_gpio>;
-                pinctrl-names = "default";
+				dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
+				pinctrl-0 = <&dipswitch_gpio>;
+				pinctrl-names = "default";
 
 				ports {
 					#address-cells = <1>;

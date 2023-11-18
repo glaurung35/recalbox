@@ -2,21 +2,16 @@
 /plugin/;
 
 / {
-	compatible = "brcm,bcm2835", "brcm,bcm2708", "brcm,bcm2709";
+	compatible = "brcm,bcm2712";
 	fragment@0 {
-			target = <&gpio>;
-			__overlay__ {
-				dipswitch_gpio: dipswitch_gpio_conf {
-					brcm,pins = <10>;
-					brcm,function = <0>; // Input
-					brcm,pull = <2>; // Pull up
-				};
-				i2s_gpio: i2s_gpio_conf {
-					brcm,pins = <11>;
-					brcm,function = <1>; // Output
-					brcm,pull = <0>; // Pull up
-				};
+		target = <&gpio>;
+		__overlay__ {
+			dipswitch_gpio: dipswitch_gpio_conf {
+				brcm,pins = <10 27>; // GPIO 10
+				brcm,function = <0>; // Input
+				brcm,pull = <2 2>; // Pull up
 			};
+		};
 	};
 	fragment@1 {
 		target-path = "/";
@@ -30,10 +25,9 @@
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-dual = <1>;
 
-                dipswitch-gpios = <&gpio 10 0>;
-                i2s-gpios = <&gpio 11 0>;
-                pinctrl-0 = <&dipswitch_gpio>,<&i2s_gpio>;
-                pinctrl-names = "default";
+				dipswitch-gpios = <&gpio 10 0>,<&gpio 27 0>;
+				pinctrl-0 = <&dipswitch_gpio>;
+				pinctrl-names = "default";
 
 				ports {
 					#address-cells = <1>;
@@ -41,7 +35,6 @@
 
 					port@0 {
 						reg = <0>;
-
 						vga_bridge_in: endpoint {
 							remote-endpoint = <&dpi_out>;
 						};
@@ -49,7 +42,6 @@
 
 					port@1 {
 						reg = <1>;
-
 						vga_bridge_out: endpoint {
 							remote-endpoint = <&vga_con_in>;
 						};
@@ -59,7 +51,6 @@
 
 			vga {
 				compatible = "vga-connector";
-
 				port {
 					vga_con_in: endpoint {
 						remote-endpoint = <&vga_bridge_out>;
@@ -73,6 +64,8 @@
 		target = <&dpi>;
 		__overlay__  {
 			status = "okay";
+			pinctrl-names = "default";
+			pinctrl-0 = <&vga666_mode6_pins>;
 			port {
 				dpi_out: endpoint@0 {
 					remote-endpoint = <&vga_bridge_in>;
@@ -82,15 +75,6 @@
 	};
 
 	fragment@3 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
-		};
-	};
-
-	fragment@4 {
 		target = <&gpio>;
 		__overlay__ {
 			vga666_mode6_pins: vga666_mode6_pins {
@@ -102,58 +86,7 @@
 		};
 	};
 
-	fragment@5 {
-		target = <&dpi>;
-		__overlay__  {
-			status = "okay";
-			pinctrl-names = "default";
-			pinctrl-0 = <&vga666_mode6_pins>;
-		};
-	};
-
-	fragment@6 {
-		target = <&sound>;
-		__overlay__ {
-			compatible = "simple-audio-card";
-			simple-audio-card,name = "Recalbox I2S";
-			status = "okay";
-
-			simple-audio-card,dai-link@1 {
-				format = "i2s";
-
-				cpu {
-					sound-dai = <&i2s_clk_producer_27>;
-					dai-tdm-slot-num = <2>;
-					dai-tdm-slot-width = <32>;
-				};
-
-				codec {
-					sound-dai = <&codec_out>;
-				};
-			};
-		};
-	};
-
-	fragment@7 {
-		target-path = "/";
-		__overlay__ {
-			codec_out: recalbox_i2s {
-				#sound-dai-cells = <0>;
-				compatible = "recalbox_i2s";
-				status = "okay";
-			};
-		};
-	};
-
-	fragment@8 {
-		target = <&i2s_clk_producer_27>;
-		__overlay__ {
-			#sound-dai-cells = <0>;
-			status = "okay";
-		};
-	};
-
-	fragment@9 {
+	fragment@4 {
 		target-path = "/";
 		__overlay__ {
 			fan0: gpio-fan@0 {
@@ -166,7 +99,7 @@
 		};
 	};
 
-	fragment@10 {
+	fragment@5 {
 		target = <&cpu_thermal>;
 		polling-delay = <5000>;	/* milliseconds */
 		__overlay__ {

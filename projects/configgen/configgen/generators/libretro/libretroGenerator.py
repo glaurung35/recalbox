@@ -184,6 +184,8 @@ class LibretroGenerator(Generator):
                 if system.Name == "dreamcast":
                     config["video_rotation"] = (system.Rotation.value + 1) % 4
                 config["input_player1_analog_dpad_mode"] = 3
+            if system.Name == "saturn":
+                config["video_rotation"] = (system.Rotation.value + 1) % 4
 
 
         return config, coreConfig

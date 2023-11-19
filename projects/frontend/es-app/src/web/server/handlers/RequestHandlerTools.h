@@ -34,6 +34,10 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableFrontEndResolutions();
 
+    static HashMap<String, String> GetScraperRegions();
+
+    static HashMap<String, String> GetScraperLanguages();
+
     static HashMap<String, String> GetAvailableOsdTypes();
 
     static HashMap<String, String> GetAvailableLanguages();

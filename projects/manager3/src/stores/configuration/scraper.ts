@@ -49,8 +49,8 @@ export const useScraperStore = defineStore('scraper', {
 
   getters: {
     mediaOptions: (state) => state._scraperOptions['screenscraper.media'].allowedStringList,
-    languageOptions: (state) => state._scraperOptions['screenscraper.language'].allowedStringList,
-    regionOptions: (state) => state._scraperOptions['screenscraper.region'].allowedStringList,
+    languageOptions: (state) => state._scraperOptions['screenscraper.language'].allowedStringList.sort(),
+    regionOptions: (state) => state._scraperOptions['screenscraper.region'].allowedStringList.sort(),
     thumbnailOptions: (state) => state._scraperOptions['screenscraper.thumbnail'].allowedStringList,
     videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList,
     getNameFromOptions: () => [0, 1, 2],

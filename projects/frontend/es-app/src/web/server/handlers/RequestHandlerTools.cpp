@@ -459,8 +459,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "getnamefrom"                 , Validator(0, 2) },
         { "source"                      , Validator(false, { "ScreenScraper", "Recalbox" }) },
         { "auto"                        , Validator(true) },
-        { "screenscraper.region"        , Validator(false, { "eu", "us", "jp", "wor" }) },
-        { "screenscraper.language"      , Validator(false, { "en", "es", "pt", "fr", "de", "it", "nl", "ja", "zh", "ko", "ru", "da", "fi", "sv", "hu", "no", "pl", "cz", "sk", "tr" }) },
+        { "screenscraper.region"        , Validator(GetScraperRegions(), false) },
+        { "screenscraper.language"      , Validator(GetScraperLanguages(), false) },
         { "screenscraper.media"         , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
         { "screenscraper.thumbnail"     , Validator(false, { "screenshot", "title", "logo", "marquee", "box2d", "box3d", "mixv1", "mixv2" }) },
         { "screenscraper.video"         , Validator(false, { "none", "OriginalVideo", "NormalizedVideo" }) },
@@ -1014,6 +1014,74 @@ const String::List& RequestHandlerTools::GetAvailableTimeZone()
   }
 
   return output;
+}
+
+HashMap<String, String> RequestHandlerTools::GetScraperRegions()
+{
+  static HashMap<String, String> sRegions
+  ({
+    {"wor", "World"},
+    {"us", "USA"},
+    {"eu", "Europe"},
+    {"ame", "Latin America"},
+    {"asi", "Asia"},
+    {"au", "Australia"},
+    {"br", "Brazil"},
+    {"bg", "Bulgaria"},
+    {"ca", "Canada"},
+    {"cl", "Chile"},
+    {"cn", "China"},
+    {"cz", "Czechia"},
+    {"dk", "Denmark"},
+    {"fi", "Finland"},
+    {"fr", "France"},
+    {"de", "Germany"},
+    {"gr", "Greece"},
+    {"hu", "Hungary"},
+    {"il", "Israel"},
+    {"it", "Italy"},
+    {"kr", "Korea"},
+    {"jp", "Japan"},
+    {"nl", "Netherlands"},
+    {"nz", "New Zealand"},
+    {"no", "Norway"},
+    {"pl", "Poland"},
+    {"pt", "Portugal"},
+    {"ru", "Russia"},
+    {"es", "Spain"},
+    {"se", "Sweden"},
+    {"uk", "United Kingdom"},
+  });
+
+  return sRegions;
+}
+
+HashMap<String, String> RequestHandlerTools::GetScraperLanguages()
+{
+  static HashMap<String, String> sLanguages({
+    {"cz", "Čeština"},
+    {"da", "Dansk"},
+    {"de", "Deutsch"},
+    {"es", "Español"},
+    {"en", "English"},
+    {"fr", "Français"},
+    {"it", "Italiano"},
+    {"ja", "日本語"},
+    {"ko", "한국어"},
+    {"nl", "Nederlands"},
+    {"no", "Norsk"},
+    {"hu", "Magyar"},
+    {"pl", "Polski"},
+    {"pt", "Português"},
+    {"ru", "Русский"},
+    {"sk", "Slovenčina"},
+    {"fi", "Suomi"},
+    {"sv", "Svenska"},
+    {"tr", "Türkçe"},
+    {"zh", "简体中文"},
+  });
+
+  return sLanguages;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableOsdTypes()

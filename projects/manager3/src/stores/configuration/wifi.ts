@@ -41,7 +41,7 @@ export const useWifiStore = defineStore('wifi', {
   } as WifiStoreState),
 
   getters: {
-    regionOptions: (state) => state._wifiOptions.region.allowedStringList,
+    regionOptions: (state) => state._wifiOptions.region.allowedStringList.sort(),
     priorityOptions: (state) => state._wifiOptions.priority,
   },
 });

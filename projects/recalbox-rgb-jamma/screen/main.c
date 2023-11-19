@@ -47,6 +47,8 @@ void update_screen() {
     size_t len = 0;
     ssize_t read;
     fptr = fopen("/tmp/es_state.inf", "r");
+    draw_game_name("Frontend");
+    draw_system_name("");
     if (fptr != NULL) {
         while ((read = getline(&line, &len, fptr)) != -1) {
             int sred = sscanf(line, "Game=%[^\n\r]", buf);
@@ -128,6 +130,7 @@ int main(int argc, char **argv) {
     printf("Mqtt connected\n");
     while (true) {
         if (mqttcon != MOSQ_ERR_SUCCESS) {
+            printf("Reconnecting\n");
             mqttcon = mqtt_reconnect(mosq);
         }
         //printf("Waiting for messages\n");

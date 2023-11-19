@@ -26,7 +26,7 @@ void on_connect(struct mosquitto *mosq, void *obj, int reason_code) {
     /* Making subscriptions in the on_connect() callback means that if the
      * connection drops and is automatically resumed by the client, then the
      * subscriptions will be recreated when the client reconnects. */
-    rc = mosquitto_subscribe(mosq, NULL, "#", 1);
+    rc = mosquitto_subscribe(mosq, NULL, "Recalbox/EmulationStation/Event", 1);
     if (rc != MOSQ_ERR_SUCCESS) {
         fprintf(stderr, "Error subscribing: %s\n", mosquitto_strerror(rc));
         /* We might as well disconnect if we were unable to subscribe */

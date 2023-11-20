@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
   - left/middle/right buttons act as b/start/a
 - Add new system Sega Pico
 - Add Naomi 2 system on rpi5 and x86_64
+- Add new Saturn core on RPi5: beetle saturn
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

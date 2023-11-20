@@ -36,6 +36,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new system Sega Pico
 - Add Naomi 2 system on rpi5 and x86_64
 - Add "Boot on game" feature to enable recalbox booting on a selected game
+- Add new Saturn core on RPi4 and RPi5: beetle saturn
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

@@ -180,7 +180,7 @@ MainRunner::ExitState MainRunner::Run()
       CheckAlert(window, systemManager);
 
       // Enable joystick autopairing
-      mBTAutopairManager.StartDiscovery();
+      //mBTAutopairManager.StartDiscovery();
 
       // Main Loop!
       CreateReadyFlagFile();

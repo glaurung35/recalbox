@@ -6,6 +6,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-Pulstar
 
+- Add support for START + BTN1 = CREDIT for all players
+- Fix Saturn tate mode
+- Add autoconfig for Naomi2 performance
+- Add Beetle Saturn on rpi5 (pour voir comment ca tourne)
+
+
+## Version 9.2-Pulstar
+
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)
 - Add support for Recalbox RGB JAMMA

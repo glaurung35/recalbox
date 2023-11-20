@@ -161,6 +161,7 @@ class MenuMessages
 
     #define MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG "Enable or disable overscan.\nOverscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\nMore overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
     #define MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG "Show the framerate in EmulationStation and in game."
+    #define MENUMESSAGE_ADVANCED_AUTORUN_HELP_MSG "Enable to select games as auto-runnable games at startup."
     #define MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG "Enable or disable the Recalbox Manager.\nThe Recalbox Manager is a web application available on http://recalbox , if you are on windows, http://recalbox.local , if you are on Linux or Mac, or directly with your recalbox IP : http://192.168.1.XX.\nYou can configure many options from within the manager, and even manage games, saves, and scrapes!"
     #define MENUMESSAGE_ADVANCED_API_HELP_MSG "Enable or disable the recalbox API.\nThe Recalbox API is a REST API exposing endpoints to control your recalbox via http requests."
     #define MENUMESSAGE_ADVANCED_EMU_EMU_HELP_MSG "Select which emulator to use when you start a game for this system."

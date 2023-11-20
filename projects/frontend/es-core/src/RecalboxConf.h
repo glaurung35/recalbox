@@ -317,6 +317,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
 
+    DefineGetterSetter(AutorunEnabled, bool, Bool, sAutorunEnabled, false)
+    DefineGetterSetter(AutorunSystemUUID, String, String, sAutorunSystemUUID, "")
+    DefineGetterSetter(AutorunGamePath, String, String, sAutorunGamePath, "")
+
     /*
      * System
      */
@@ -539,6 +543,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sArcadeViewHideBios         = "emulationstation.arcade.view.hidebios";
     static constexpr const char* sArcadeViewHideNonWorking   = "emulationstation.arcade.view.hidenonworking";
     static constexpr const char* sArcadeUseDatabaseNames     = "emulationstation.arcade.usedatabasenames";
+
+    static constexpr const char* sAutorunEnabled             = "autorun.enabled";
+    static constexpr const char* sAutorunSystemUUID          = "autorun.uuid";
+    static constexpr const char* sAutorunGamePath            = "autorun.path";
 
     static constexpr const char* sUpdatesEnabled             = "updates.enabled";
     static constexpr const char* sUpdatesType                = "updates.type";

@@ -919,8 +919,6 @@ static const int buttons_bits[MAX_PLAYERS][2][BTN_PER_PLAYER_ON_JAMMA] = {
     }};
 
 #define P1_START 43
-#define P1_BTN1 buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_1]
-#define P2_BTN1 buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_1]
 #define P1_SERVICE buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE]
 #define P1_TEST buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_TEST]
 
@@ -1003,60 +1001,62 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
       // Start is pressed and the state has changed since last loop
       // Check if credit should be added for P1
       // Save the time
-      for (int player = 0; player < jamma_config.player_count; player++) {
-        for (int button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
-          if (press_time[player][button] == 0 && ANYPRESSED(*data_chips, player, button)) {
-            // Saving press time
-            press_time[player][button] = *time_ns;
-          } else if (press_time[player][button] > 0 && !ANYPRESSED(*data_chips, player, button)) {
-            // button released while start pressed, we must act
-            // Checking if simple press (time < 3sec)
-            if (*time_ns - press_time[player][button] < 3000000000LL) {
-              // Credit ?
-              if (jamma_config.credit_on_start_btn1) {
-                if (button == JAMMA_BTN_1) {
-                  printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
-                  PRESS_AND_RELEASE(player, BTN_SELECT);
-                  can_exit = 0;
-                  start_credit = 1;
-                }
-              }
-              // Hotkey + BTN ?
-              // Check if we should use START + BTN pattern (Hotkey)
-              // Only if not disabled in config, and credit not already used, and this is the first hk event
-              if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
-                if (player == PLAYER1) {
-                  // As another button has been pressed, we press hotkey before
-                  printk(KERN_INFO "recalboxrgbjamma: sending HK + BTN%d\n", button);
-                  PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-                  can_exit = 0;
-                  should_release_hk = 1;
-                }
-              }
-            } else {
-              // AUTO FIRE because press time > 3 sec
-              if (jamma_config.autofire && !start_credit && !should_release_hk) {
-                printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[button]);
-                turbo_enabled[player][button] = !turbo_enabled[player][button];
+      //for (int player = 0; player < jamma_config.player_count; player++) {
+      // Only player 1
+      int player = PLAYER1;
+      for (int button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
+        if (press_time[player][button] == 0 && ANYPRESSED(*data_chips, player, button)) {
+          // Saving press time
+          press_time[player][button] = *time_ns;
+        } else if (press_time[player][button] > 0 && !ANYPRESSED(*data_chips, player, button)) {
+          // button released while start pressed, we must act
+          // Checking if simple press (time < 3sec)
+          if (*time_ns - press_time[player][button] < 3000000000LL) {
+            // Credit ?
+            if (jamma_config.credit_on_start_btn1) {
+              if (button == JAMMA_BTN_1) {
+                printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
+                PRESS_AND_RELEASE(player, BTN_SELECT);
                 can_exit = 0;
+                start_credit = 1;
               }
             }
-            press_time[player][button] = 0;
-          }
-        }
-        // Directions
-        for (int direction = 0; direction < 4; direction++) {
-          if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
-            if (player == PLAYER1 && PRESSED(*data_chips, direction_bits[player][direction])) {
-              // As another button has been pressed, we press hotkey before
-              printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
-              PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-              can_exit = 0;
-              should_release_hk = 1;
+            // Hotkey + BTN ?
+            // Check if we should use START + BTN pattern (Hotkey)
+            // Only if not disabled in config, and credit not already used, and this is the first hk event
+            if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
+              if (player == PLAYER1) {
+                // As another button has been pressed, we press hotkey before
+                printk(KERN_INFO "recalboxrgbjamma: sending HK + BTN%d\n", button);
+                PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+                can_exit = 0;
+                should_release_hk = 1;
+              }
             }
+          } else {
+            // AUTO FIRE because press time > 3 sec
+            if (jamma_config.autofire && !start_credit && !should_release_hk) {
+              printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[player][button]);
+              turbo_enabled[player][button] = !turbo_enabled[player][button];
+              can_exit = 0;
+            }
+          }
+          press_time[player][button] = 0;
+        }
+      }
+      // Directions
+      for (int direction = 0; direction < 4; direction++) {
+        if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
+          if (PRESSED(*data_chips, direction_bits[player][direction])) {
+            // As another button has been pressed, we press hotkey before
+            printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+            can_exit = 0;
+            should_release_hk = 1;
           }
         }
       }
+      //}
       start_state = *data_chips;
     }
   } else {
@@ -1099,6 +1099,36 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
       last_start_press = 0;
     }
   }
+  // For other players, only credits and turbos
+  if (jamma_config.credit_on_start_btn1) {
+    for (int player = 1; player < jamma_config.player_count; player++) {
+      if (PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][JAMMA_BTN_START])) {
+        for (int button = 0; button < LAST_GAME_BUTTON; button++) {
+          if (press_time[player][button] == 0 && ANYPRESSED(*data_chips, player, button)) {
+            // Saving press time
+            press_time[player][button] = *time_ns;
+          } else if (press_time[player][button] > 0 && !ANYPRESSED(*data_chips, player, button)) {
+            // button released while start pressed, we must act
+            // Checking if simple press (time < 3sec)
+            if (*time_ns - press_time[player][button] < 3000000000LL) {
+              // Credit ?
+              if (button == JAMMA_BTN_1) {
+                printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
+                PRESS_AND_RELEASE(player, BTN_SELECT);
+              }
+            } else {
+              // AUTO FIRE because press time > 3 sec
+              if (jamma_config.autofire) {
+                printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[player][button]);
+                turbo_enabled[player][button] = !turbo_enabled[player][button];
+              }
+            }
+            press_time[player][button] = 0;
+          }
+        }
+      }
+    }
+  }
 }
 
 /**
@@ -1107,7 +1137,7 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
  * The right 16 bits are for the chip 2, middle 16 bits for the chip 1, left 16 bits for the chip 0
  */
 static void input_report(unsigned long long *data_chips, long long int *time_ns) {
-  int player, buttonIndex, buttonValue;
+  int player = 0, buttonIndex = 0, buttonValue = 0;
 
   if (HOTKEY_PATTERNS_ENABLED(jamma_config)) {
     manage_special_inputs(data_chips, time_ns);
@@ -1123,6 +1153,11 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
     PRESS_AND_SYNC(PLAYER1, BTN_START);
     RELEASE_AND_SYNC(PLAYER1, BTN_START);
     RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
+    // Adding player 2 as it may be set as player 1
+    PRESS_AND_SYNC(PLAYER2, BTN_MODE);
+    PRESS_AND_SYNC(PLAYER2, BTN_START);
+    RELEASE_AND_SYNC(PLAYER2, BTN_START);
+    RELEASE_AND_SYNC(PLAYER2, BTN_MODE);
   }
 
   for (player = 0; player < jamma_config.player_count; player++) {
@@ -1200,9 +1235,9 @@ static int debounce(unsigned long long *data_chips, unsigned long long *debounce
 static const unsigned long mask = 0xFFFF;
 
 static int read_gpios(unsigned long long *gpio_data) {
-  unsigned long gpio_values0 = 0;
-  unsigned long gpio_values1 = 0;
-  unsigned long gpio_values2 = 0;
+  unsigned long gpio_values0 = 0xFFFF;
+  unsigned long gpio_values1 = 0xFFFF;
+  unsigned long gpio_values2 = 0xFFFF;
   if (jamma_config.gpio_chip_0 != NULL) {
     if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_0, &mask, &gpio_values0)) {
       printk(KERN_INFO
@@ -1242,22 +1277,22 @@ static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_
 // Debounce to 40ms
 #define DEBOUNCE_TIME (40000000)
 
-static unsigned long long gpio_data = 0;
+static unsigned long long gpio_data = 0xFFFFFFFFFFFF;
 
 static int process_inputs(struct gpio_chip *gpio_chip) {
   unsigned long long debounced_data = 0;
   unsigned long gpio_data_chip = 0;
   long long int time_start = ktime_to_ns(ktime_get_boottime());
-  DEBUG && printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
+  DEBUG &&printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
   mutex_lock(&jamma_config.process_mutex);
 
   if (gpio_chip != NULL) {
     if (read_gpios_one_chip(&gpio_data_chip, gpio_chip)) {
-      DEBUG && printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chip, unlocking mutex\n");
+      DEBUG &&printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chip, unlocking mutex\n");
       mutex_unlock(&jamma_config.process_mutex);
       return -1;
     }
-    DEBUG && printk(KERN_INFO
+    DEBUG &&printk(KERN_INFO
                    "recalboxrgbjamma: read gpio values on chip : %u\n",
                    gpio_data_chip);
     if (gpio_chip == jamma_config.gpio_chip_0) {
@@ -1312,9 +1347,7 @@ static int process_debounce_and_turbo(void *idx) {
       for (int player = 0; player < jamma_config.player_count; player++) {
         must_send_turbo = false;
         for (button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
-          if (turbo_enabled[player][button]
-              && (PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button]))
-              && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {
+          if (turbo_enabled[player][button] && (PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button])) && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {
             turbo_state[player][button] = !turbo_state[player][button];
             turbo_time[player][button] = time_ns;
             /*printk(KERN_INFO
@@ -1448,7 +1481,7 @@ static int load_config(void) {
             if (jamma_config.buttons_on_jamma != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch buttons_on_jamma to %d\n", optionvalue);
               jamma_config.buttons_on_jamma = optionvalue;
-              if(jamma_config.buttons_on_jamma < 6) {
+              if (jamma_config.buttons_on_jamma < 6) {
                 printk(KERN_INFO "recalboxrgbjamma: setting BTN6 to output GND\n", optionvalue);
                 pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 14, 0);
                 pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
@@ -1713,6 +1746,24 @@ static int pca953x_probe(struct i2c_client *client,
     }
   }
 
+  if (jamma_config.gpio_chip_0 && jamma_config.gpio_chip_1 && jamma_config.gpio_chip_2 && jamma_config.expander) {
+    printk(KERN_INFO
+           "recalboxrgbjamma: all chips configured\n");
+    int idx = 0;
+    jamma_config.debounce_thread = kthread_create(process_debounce_and_turbo, &idx, "kthread_recalboxrgbjamma_debounce");
+    printk(KERN_INFO
+           "recalboxrgbjamma: setting debounce thread\n");
+    if (jamma_config.debounce_thread != NULL) {
+      wake_up_process(jamma_config.debounce_thread);
+      printk(KERN_INFO
+             "recalboxrgbjamma: kthread_recalboxrgbjamma_debounce is running\n");
+    } else {
+      printk(KERN_ERR
+             "recalboxrgbjamma: kthread_recalboxrgbjamma_debounce could not be created\n");
+      return -1;
+    }
+  }
+
 
   process_inputs(NULL);
   return 0;
@@ -1789,21 +1840,6 @@ pca953x_init(void) {
            "recalboxrgbjamma: kthread kthread_recalboxrgbjamma_cfg could not be created\n");
     return -1;
   }
-
-  jamma_config.debounce_thread = kthread_create(process_debounce_and_turbo, &idx, "kthread_recalboxrgbjamma_debounce");
-  printk(KERN_INFO
-         "recalboxrgbjamma: setting debounce thread\n");
-  if (jamma_config.debounce_thread != NULL) {
-    wake_up_process(jamma_config.debounce_thread);
-    printk(KERN_INFO
-           "recalboxrgbjamma: kthread_recalboxrgbjamma_debounce is running\n");
-  } else {
-    printk(KERN_ERR
-           "recalboxrgbjamma: kthread_recalboxrgbjamma_debounce could not be created\n");
-    return -1;
-  }
-
-
   return i2c_add_driver(&pca953x_driver);
 }
 

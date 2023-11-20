@@ -936,7 +936,7 @@ bool SystemManager::LoadSystems(const DescriptorList& systemList, FileNotifier* 
   NotifyLoadingPhase(ISystemLoadingPhase::Phase::Completed);
   ThreadPoolTick(1, 1);
 
-  return true;
+  return mVisibleSystems.Count() != 0;
 }
 
 bool SystemManager::VirtualSystemNeedRefresh(const DescriptorList& systemList, VirtualSystemType type) const

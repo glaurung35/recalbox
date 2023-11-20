@@ -810,8 +810,26 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 {
   mForceReload = forceReloadFromDisk;
 
-  // Phase #1
-  NotifyLoadingPhase(ISystemLoadingPhase::Phase::RegularSystems);
+  SystemDeserializer deserializer;
+  bool loaded = deserializer.LoadSystems();
+  // Is there at least
+  if (!loaded)
+  {
+    { LOG(LogError) << "[System] No systemlist.xml file available!"; }
+    return false;
+  }
+
+  DescriptorList list;
+  for (int index = 0; index < deserializer.Count(); ++index)
+    if (SystemDescriptor descriptor; deserializer.Deserialize(index, descriptor))
+      list.push_back(descriptor);
+
+  return LoadSystems(list, &gamelistWatcher, portableSystem, false);
+}
+
+bool SystemManager::LoadSingleSystemConfigurations(const String& UUID)
+{
+  mForceReload = false;
 
   SystemDeserializer deserializer;
   bool loaded = deserializer.LoadSystems();
@@ -822,6 +840,20 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
     return false;
   }
 
+  DescriptorList list;
+  for (int index = 0; index < deserializer.Count(); ++index)
+    if (SystemDescriptor descriptor; deserializer.Deserialize(index, descriptor))
+      if (descriptor.GUID() == UUID)
+        list.push_back(descriptor);
+
+  return LoadSystems(list, nullptr, false, true);
+}
+
+bool SystemManager::LoadSystems(const DescriptorList& systemList, FileNotifier* gamelistWatcher, bool portableSystem, bool novirtuals)
+{
+  // Phase #1
+  NotifyLoadingPhase(ISystemLoadingPhase::Phase::RegularSystems);
+
   DateTime start;
 
   // Get weight store
@@ -831,24 +863,17 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   ThreadPool<SystemDescriptor, SystemData*> threadPool(this, "System-Load", false, 20);
   // Push system to process
   mSystemNameToSystemRootPath.clear();
-  for (int index = 0; index < deserializer.Count(); ++index)
-  {
-    // Create system descriptor
-    SystemDescriptor descriptor;
-    if (deserializer.Deserialize(index, descriptor))
+  for (const SystemDescriptor& descriptor : systemList)
+    if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
     {
-      if (!RecalboxConf::Instance().AsBool(descriptor.Name() + ".ignore"))
-      {
-        // Store root path
-        mSystemNameToSystemRootPath[descriptor.RomPath().ToString()] = descriptor.Extension();
-        // Get weight
-        int weight = weights.GetInt(descriptor.FullName(), 0);
-        // Push weighted system
-        threadPool.PushFeed(descriptor, weight);
-      }
-      else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
+      // Store root path
+      mSystemNameToSystemRootPath[descriptor.RomPath().ToString()] = descriptor.Extension();
+      // Get weight
+      int weight = weights.GetInt(descriptor.FullName(), 0);
+      // Push weighted system
+      threadPool.PushFeed(descriptor, weight);
     }
-  }
+    else { LOG(LogInfo) << "[System] " << descriptor.FullName() << " ignored in configuration."; }
 
   // Initialize external mount points first so that they can be used in system loading
   InitializeMountPoints();
@@ -886,19 +911,23 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   // Phase #2
   NotifyLoadingPhase(ISystemLoadingPhase::Phase::VirtualSystems);
 
-  // Load virtual systems
-  LoadVirtualSystemConfigurations(portableSystem);
+  if (!novirtuals)
+  {
+    // Load virtual systems
+    LoadVirtualSystems(systemList, portableSystem);
 
-  // Remove required systems
-  ManagePortsVirtualSystem();
-  ManageArcadeVirtualSystem(true);
+    // Remove required systems
+    ManagePortsVirtualSystem();
+    ManageArcadeVirtualSystem(true);
+  }
 
   // Sort systems based on conf option
   mOriginalOrderedSystems = mAllSystems;
   SystemSorting();
 
   // Add gamelist watching
-  WatchGameList(gamelistWatcher);
+  if (gamelistWatcher != nullptr)
+    WatchGameList(*gamelistWatcher);
 
   // Finalize arcade loading
   ArcadeDatabaseManager::Finalize();
@@ -910,7 +939,39 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
   return true;
 }
 
-void SystemManager::LoadVirtualSystemConfigurations(bool portableSystem)
+bool SystemManager::VirtualSystemNeedRefresh(const DescriptorList& systemList, VirtualSystemType type) const
+{
+  switch(type)
+  {
+    case VirtualSystemType::Favorites:
+    case VirtualSystemType::LastPlayed:
+    case VirtualSystemType::Multiplayers:
+    case VirtualSystemType::AllGames:
+    case VirtualSystemType::Tate:
+    case VirtualSystemType::Genre:
+    case VirtualSystemType::Lightgun: return true;
+    case VirtualSystemType::Ports:
+    {
+      for(const SystemDescriptor& descriptor : systemList)
+        if (descriptor.IsPort())
+          return true;
+      return false;
+    }
+    case VirtualSystemType::Arcade:
+    case VirtualSystemType::ArcadeManufacturers:
+    {
+      for(const SystemDescriptor& descriptor : systemList)
+        if (descriptor.IsTrueArcade())
+          return true;
+      return false;
+    }
+    case VirtualSystemType::None:
+    default: break;
+  }
+  return false;
+}
+
+void SystemManager::LoadVirtualSystems(const DescriptorList& systemList, bool portableSystem)
 {
   // Create automatic thread-pool
   ThreadPool<VirtualSystemDescriptor, VirtualSystemResult> threadPool(this, "Virtual-Load", false, 20);
@@ -921,28 +982,38 @@ void SystemManager::LoadVirtualSystemConfigurations(bool portableSystem)
   int genreIndex = 500;
 
   // Add ports first so that we can move it at the right place
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Ports, 50), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Ports))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Ports, 50), ++priority);
   // Start with arcade manufacturer systems, which load slower than the others
-  for(const String& manufacturer : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
-    threadPool.PushFeed(VirtualSystemDescriptor(manufacturer, --arcadeIndex), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::ArcadeManufacturers))
+    for(const String& manufacturer : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+      threadPool.PushFeed(VirtualSystemDescriptor(manufacturer, --arcadeIndex), ++priority);
   // Add genre systems
-  for(GameGenres genre : Genres::GetOrderedList())
-    threadPool.PushFeed(VirtualSystemDescriptor(genre, genreIndex), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Genre))
+    for(GameGenres genre : Genres::GetOrderedList())
+      threadPool.PushFeed(VirtualSystemDescriptor(genre, genreIndex), ++priority);
   // Add lightgun
   if (!portableSystem)
-    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Lightgun, 10), ++priority);
+    if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Lightgun))
+      threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Lightgun, 10), ++priority);
   // Add all games
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::AllGames, 2), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::AllGames))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::AllGames, 2), ++priority);
   // Add Arcade
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Arcade, --arcadeIndex), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Arcade))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Arcade, --arcadeIndex), ++priority);
   // Add Multiplayers
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Multiplayers, 3), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Multiplayers))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Multiplayers, 3), ++priority);
   // Add favorites
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Favorites, 0), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Favorites))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Favorites, 0), ++priority);
   // Add Tate
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Tate, --arcadeIndex), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::Tate))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::Tate, --arcadeIndex), ++priority);
   // Add Last played
-  threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::LastPlayed, 1), ++priority);
+  if (VirtualSystemNeedRefresh(systemList, VirtualSystemType::LastPlayed))
+    threadPool.PushFeed(VirtualSystemDescriptor(VirtualSystemType::LastPlayed, 1), ++priority);
 
   if (mProgressInterface != nullptr)
     mProgressInterface->SetMaximum(priority);
@@ -1675,3 +1746,4 @@ void SystemManager::RemoveAlwaysHiddenSystems(List& list)
           list.Delete(i);
   }
 }
+

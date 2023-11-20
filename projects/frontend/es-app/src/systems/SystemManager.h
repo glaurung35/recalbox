@@ -31,6 +31,8 @@ class SystemManager : private INoCopy // No copy allowed
 
     //! Convenient alias for System list
     typedef Array<SystemData*> List;
+    //! Convenient alias for SystemDescriptor list
+    typedef std::vector<SystemDescriptor> DescriptorList;
 
     //! Arcade manufacturer virtual system's name prefix
     static constexpr const char* sArcadeManufacturerPrefix = "arcade-manufacturer-";
@@ -620,10 +622,35 @@ class SystemManager : private INoCopy // No copy allowed
     bool LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool ForeReload, bool portableSystem);
 
     /*!
+     * @brief Load a single system to get mgame metadata in autorun mode
+     * @param UUID UUID of system to load
+     */
+    bool LoadSingleSystemConfigurations(const String& UUID);
+
+    /*!
+     * @brief Load akk systems from the descriptor list
+     * @param systemList System to load
+     * @param gamelistWatcher FileNotifier to fill in with gamelist path
+     * @param portableSystem true if the current board is a portable system and does not need lightgun
+     * @param novirtuals True to bypass virtual system loading (only useful for fast system loading in autorun mode)
+     */
+    bool LoadSystems(const DescriptorList& systemList, FileNotifier* gamelistWatcher, bool portableSystem, bool novirtuals);
+
+    /*!
      * @brief Build all virtual systems
+     * @param systemList true system list to load/reload
      * @param portableSystem true if the current board is a portable system and does not need lightgun
      */
-    void LoadVirtualSystemConfigurations(bool portableSystem);
+    void LoadVirtualSystems(const DescriptorList& systemList, bool portableSystem);
+
+    /*!
+     * @brief Check if a Virtual system identified by the given type needs to be refreshed according to the given list
+     * of loaded/reloaded systems
+     * @param systemList System list
+     * @param type Virtual system type
+     * @return True if the given Virtual system needs to be refreshed, false otherwise
+     */
+    bool VirtualSystemNeedRefresh(const DescriptorList& systemList, VirtualSystemType type) const;
 
     /*!
      * @brief Set file watching on all gamelist so that the frontend may know if they have been modified from elsewhere

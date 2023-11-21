@@ -810,6 +810,9 @@ bool SystemManager::LoadSystemConfigurations(FileNotifier& gamelistWatcher, bool
 {
   mForceReload = forceReloadFromDisk;
 
+  // Remove any existing system & save (useful to save autorun game metadata)
+  DeleteAllSystems(true);
+
   SystemDeserializer deserializer;
   bool loaded = deserializer.LoadSystems();
   // Is there at least

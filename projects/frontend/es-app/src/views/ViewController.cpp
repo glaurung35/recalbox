@@ -575,7 +575,6 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
     // Show the dialog box
     Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
-    return;
   }
 }
 

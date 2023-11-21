@@ -145,6 +145,12 @@ class WindowManager
     //! Get OSD manager
     OSDManager& OSD() { return mOSD; }
 
+    /*!
+     * @brief Set display visibility. Usually set to false while loading a single system in autorun mode
+     * @param visible Visibility
+     */
+    void SetDisplayEnabled(bool enabled) { mDisplayEnabled = enabled; }
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;
@@ -180,6 +186,9 @@ class WindowManager
     bool mNormalizeNextUpdate;
     bool mSleeping;
     bool mRenderedHelpPrompts;
+
+    //! Screen refresh enabled?
+    bool mDisplayEnabled;
 
     /*!
      * @brief Delete GUI pending for deletion

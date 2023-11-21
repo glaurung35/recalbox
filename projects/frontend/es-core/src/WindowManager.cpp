@@ -19,6 +19,7 @@ WindowManager::WindowManager()
   , mNormalizeNextUpdate(false)
   , mSleeping(false)
   , mRenderedHelpPrompts(false)
+  , mDisplayEnabled(true)
 {
   auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
   mBackgroundOverlay.setImage(menuTheme->menuBackground.fadePath);
@@ -241,6 +242,13 @@ void WindowManager::Update(int deltaTime)
 
 void WindowManager::Render(Transform4x4f& transform)
 {
+  if (!mDisplayEnabled)
+  {
+    Renderer::SetMatrix(Transform4x4f::Identity());
+    Renderer::DrawRectangle(0, 0, Renderer::Instance().DisplayWidthAsInt(), Renderer::Instance().DisplayHeightAsInt(), 0x000000FF);
+    return;
+  }
+
   mRenderedHelpPrompts = false;
 
   // draw only bottom and top of GuiStack (if they are different)

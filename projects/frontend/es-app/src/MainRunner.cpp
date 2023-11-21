@@ -118,6 +118,7 @@ MainRunner::ExitState MainRunner::Run()
                       !RecalboxConf::Instance().GetAutorunGamePath().empty();
 
     // Display "loading..." screen
+    if (hasAutoRun) window.SetDisplayEnabled(false);
     window.RenderAll();
     PlayLoadingSound(audioManager);
 
@@ -154,8 +155,15 @@ MainRunner::ExitState MainRunner::Run()
         {
           FileData* game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
           if (game != nullptr)
+          {
             gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
+            // Restore UI and load systems
+            window.SetDisplayEnabled(true);
+            TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk);
+          }
+          else window.displayMessage(_("Either the system or the autorun game has not been found !"));
         }
+        window.SetDisplayEnabled(true);
       }
 
       // Start update thread

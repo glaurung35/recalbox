@@ -11,20 +11,45 @@
 #include <kms-mode.h>
 
 
+int readTemp() {
+    int temp = 0;
+    size_t len = 0;
+    ssize_t read;
+    char *line = NULL;
+    FILE *fptr = fopen("/sys/class/thermal/thermal_zone0/temp", "r");
+    if (fptr != NULL) {
+        if ((read = getline(&line, &len, fptr)) != -1) {
+            sscanf(line, "%d", &temp);
+        }
+        fclose(fptr);
+    }
+    return temp;
+}
+
+
 void draw_game_name(const char *game_name) {
     char buf[21];
     memset(buf, 0, 21);
-    strncpy(buf, game_name, strlen(game_name) < 21 ? strlen(game_name) : 21);
+    strncpy(buf, game_name, strlen(game_name) < 16 ? strlen(game_name) : 16);
     //printf("Drawing game name %s\n", buf);
     ssd1306_oled_clear_line(0);
     ssd1306_oled_set_XY(0, 0);
     ssd1306_oled_write_line(SSD1306_FONT_SMALL, buf);
 }
 
+void draw_temp(int temp) {
+    char buf[10];
+    sprintf(buf, "%d", (int) (temp / 1000));
+    ssd1306_oled_set_XY(98, 0);
+    ssd1306_oled_write_line(SSD1306_FONT_PIXTYPE, buf);
+    ssd1306_oled_set_XY(122, 0);
+    ssd1306_oled_write_line(SSD1306_FONT_SMALL, "o");
+}
+
 void draw_system_name(const char *system_name) {
     char buf[64];
     memset(buf, 0, 64);
-    strncpy(buf, system_name, strlen(system_name) < 64 ? strlen(system_name) : 64);
+    strncpy(buf, system_name, strlen(system_name) < 16 ? strlen(system_name) : 16);
     //printf("Drawing system name %s\n", buf);
     ssd1306_oled_clear_line(1);
     ssd1306_oled_set_XY(0, 1);
@@ -66,6 +91,8 @@ void update_screen() {
         }
         fclose(fptr);
     }
+
+    draw_temp(readTemp());
 
     video_mode mode = get_current_mode();
 
@@ -136,6 +163,8 @@ int main(int argc, char **argv) {
         //printf("Waiting for messages\n");
         mosquitto_loop(mosq, 1000, 10);
         sleep(1);
+        // Temperature
+        draw_temp(readTemp());
     }
     // close the I2C device node
     ssd1306_end();

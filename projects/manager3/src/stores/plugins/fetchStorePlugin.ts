@@ -27,6 +27,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'music',
     'hat',
     'architecture',
+    'autorun',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

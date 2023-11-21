@@ -10,6 +10,7 @@ export const BIOS = {
 
 export const CONFIGURATION = {
   audio: '/configuration/audio',
+  autorun: '/configuration/autorun',
   controllers: '/configuration/controllers',
   emustation: '/configuration/emulationstation',
   global: '/configuration/global',

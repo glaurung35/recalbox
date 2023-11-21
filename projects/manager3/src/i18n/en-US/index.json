@@ -848,6 +848,13 @@
           "help": "This option allows you to enable or disable the possibility to press twice Hotkey + Start to quit a game."
         }
       },
+      "autorun": {
+        "title": "Autorun",
+        "enabled": {
+          "label": "Enable game autorun",
+          "help": "This option allows you to enable or disable the possibility to launch automatically a specific game. Note: If Kodi is also defined to autorun, Kodi have the priority."
+        }
+      },
       "virtualarcade": {
         "title": "Arcade",
         "activate": {

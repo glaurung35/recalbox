@@ -21,6 +21,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
     'patron',
     'music',
     'hat',
+    'autorun',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

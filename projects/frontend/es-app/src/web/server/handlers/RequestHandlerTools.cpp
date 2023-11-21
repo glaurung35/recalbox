@@ -323,6 +323,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     Patron,
     Music,
     Hat,
+    Autorun,
   };
 
   static HashMap<String, Namespace> sConverter
@@ -681,6 +682,17 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         ({
           { "wpaf.enabled", Validator(true) },
           { "wpaf.board"  , Validator(false, { "wspoehatb", "argonforty", "piboy", "rpipoeplus", "fanshim" }) }
+        });
+
+      return sList;
+    }
+    case Namespace::Autorun:
+    {
+      static HashMap<String, Validator> sList
+        ({
+          {"enabled", Validator(true)},
+          {"systemuuid", Validator()},
+          {"gamepath", Validator()}
         });
 
       return sList;

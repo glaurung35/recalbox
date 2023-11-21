@@ -16,6 +16,7 @@ const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
     'controllers',
     'global',
     'hat',
+    'autorun',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

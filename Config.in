@@ -331,6 +331,7 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/eepromutils/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/arcade-dats/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-utils/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/rpi-eeprom/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/llvm-cmake/Config.in.host"
 endmenu
 menu "Small TFT Screen"

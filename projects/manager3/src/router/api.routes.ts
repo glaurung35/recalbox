@@ -18,7 +18,7 @@ export const CONFIGURATION = {
   hyperion: '/configuration/hyperion',
   kodi: '/configuration/kodi',
   music: '/configuration/music',
-  patron: 'configuration/patron',
+  patreon: 'configuration/patron',
   scraper: '/configuration/scraper',
   screenshots: '/configuration/screenshots',
   system: '/configuration/system',

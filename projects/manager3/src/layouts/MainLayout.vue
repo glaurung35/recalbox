@@ -83,9 +83,9 @@ const menuLinks: Array<object> = [
     route: 'screenshots',
   },
   {
-    title: 'menu.token',
+    title: 'menu.patreon',
     icon: 'mdi-patreon',
-    route: 'token',
+    route: 'patreon',
   },
 ];
 const shortcutsButtonOpeningStatus = ref(false);

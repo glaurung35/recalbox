@@ -168,7 +168,7 @@ export const EmulationStationConfigSchema = z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
-  'arcade.view.usedatabasenames': z.object({
+  'arcade.usedatabasenames': z.object({
     exist: z.boolean(),
     value: z.boolean(),
   }),
@@ -363,7 +363,7 @@ export const EmulationStationConfigOptionsSchema = z.object({
     type: z.string(),
     value: z.boolean(),
   }),
-  'arcade.view.usedatabasenames': z.object({
+  'arcade.usedatabasenames': z.object({
     type: z.string(),
     value: z.boolean(),
   }),

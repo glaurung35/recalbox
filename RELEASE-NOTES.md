@@ -40,6 +40,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new port SDLPop (port of Prince of Persia)
 - Add new time played information
 - Add possibility to adjust music volume in EmulationStation 
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -161,6 +162,7 @@ as release notes for end user on a Recalbox upgrade.
 - Removed LinApple from PC
 - Fix headphone audio output on Anbernic rg353v
 - Fix not mappables pads
+
 
 ## Version 9.1-Pulstar
 

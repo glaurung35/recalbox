@@ -3,8 +3,9 @@
 -->
 <template>
   <q-page-sticky
-    position="bottom"
-    style="transform: translate(16px, 0px);"
+    :offset="[18, 18]"
+    position="bottom-right"
+    style="transform: translate(-74px, 0px);"
   >
     <q-fab
       color="primary"
@@ -42,8 +43,8 @@
         square
       />
       <q-fab-action
-        @click="() => openURL(urls.wiki)"
-        class="wiki"
+        @click="() => openURL(urls.gitbook)"
+        class="gitbook"
         color="secondary"
         icon="icon-gitbook"
         label="Documentation"
@@ -68,7 +69,7 @@ import { toRefs } from 'vue';
 
 const urls: object = {
   discord: process.env.DISCORD_URL,
-  wiki: process.env.WIKI_URL,
+  gitbook: process.env.GITBOOK_URL,
   forum: process.env.FORUM_URL,
   gitlab: process.env.GITLAB_URL,
   patreon: process.env.PATREON_URL,
@@ -94,7 +95,7 @@ function update(value:boolean) {
       .q-icon:before
         color: $accent
 
-    .wiki
+    .gitbook
       i
         font-size: 18px
         margin-left: 3px

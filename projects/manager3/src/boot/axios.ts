@@ -144,6 +144,7 @@ api80.interceptors.response.use((response) => {
   let timeout = 5000;
   let closeBtn = false;
   let html = false;
+  let actions;
 
   Loading.hide();
 
@@ -160,11 +161,24 @@ api80.interceptors.response.use((response) => {
     icon = 'mdi-restart';
   }
   if (response.config.url === SYSTEM.supportArchive) {
-    message = i18n.global.t('general.notify.supportArchive1') + response.data.linkResponse + i18n.global.t('general.notify.supportArchive2');
+    message = i18n.global.t('general.notify.support.label');
     icon = 'mdi-check-bold';
     timeout = 0;
-    closeBtn = true;
+    closeBtn = false;
     html = true;
+    actions = [
+      {
+        label: i18n.global.t('general.notify.support.archiveDownload'),
+        color: 'white',
+        handler: () => window.open(response.data.linkResponse),
+      },
+      {
+        icon: 'close',
+        color: 'white',
+        round: true,
+        handler: () => { /* ... */ },
+      },
+    ];
   }
 
   if (response.config.method === 'get' || response.config.method === 'post') {
@@ -175,6 +189,7 @@ api80.interceptors.response.use((response) => {
       timeout,
       closeBtn,
       html,
+      actions,
     });
   }
 

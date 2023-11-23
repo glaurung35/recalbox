@@ -115,14 +115,27 @@ MainRunner::ExitState MainRunner::Run()
     // Initialize here so that all global object are available
     board.StartGlobalBackgroundProcesses();
 
+    // Autorun?
+    bool hasAutoRun = mRunCount == 0 &&
+                      RecalboxConf::Instance().GetAutorunEnabled() &&
+                      !RecalboxConf::Instance().GetAutorunGamePath().empty();
+
     // Display "loading..." screen
+    if (hasAutoRun) window.SetDisplayEnabled(false);
     window.RenderAll();
     PlayLoadingSound(audioManager);
 
     // Try to load system configurations
     FileNotifier fileNotifier;
-    if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
-      return ExitState::FatalError;
+    if (hasAutoRun)
+    {
+       systemManager.LoadSingleSystemConfigurations(RecalboxConf::Instance().GetAutorunSystemUUID());
+    }
+    else
+    {
+      if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
+        return ExitState::FatalError;
+    }
     ResetForceReloadState();
 
     // Scrapers
@@ -145,12 +158,26 @@ MainRunner::ExitState MainRunner::Run()
       // Remote music
       RemotePlaylist remotePlaylist;
 
-      // Run kodi at startup?
+      // Run game/kodi at startup?
       GameRunner gameRunner(window, systemManager, *this);
-      //if (RecalboxSystem::kodiExists())
-      if ((mRunCount == 0) && mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
-        gameRunner.RunKodi();
-      
+      if (mRunCount == 0)
+      {
+        if (mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup()) gameRunner.RunKodi();
+        else if (hasAutoRun)
+        {
+          FileData* game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
+          if (game != nullptr)
+          {
+            gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
+            // Restore UI and load systems
+            window.SetDisplayEnabled(true);
+            TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk);
+          }
+          else window.displayMessage(_("Either the system or the autorun game has not been found !"));
+        }
+        window.SetDisplayEnabled(true);
+      }
+
       // Start update thread
       { LOG(LogDebug) << "[MainRunner] Launching Network thread"; }
       Upgrade networkThread(window);

@@ -229,6 +229,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     float mFadeOpacity;
     bool mLockInput;
 
+    //! Last launch time
+    DateTime mLastGameLaunched;
+
     //! Keep choice of frequency (megadrive multi-60)
     int mFrequencyLastChoiceMulti60;
     //! Keep choice of frequency (all systems, except megadrive)

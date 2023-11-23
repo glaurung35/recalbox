@@ -30,7 +30,6 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   if (!nomenu && !bartop)
   {
     mGame = AddSubMenu(String::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
-    RefreshGameMenuContext();
 
     if(!mGamelist.getCursor()->IsEmpty())
     {
@@ -44,6 +43,11 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
       if (mSystem.IsScreenshots())
       {
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
+      }
+
+      if (RecalboxConf::Instance().GetAutorunEnabled() && mGamelist.getCursor()->IsGame())
+      {
+        AddSwitch(_("AUTORUN THIS GAME"), mGamelist.getCursor()->RomPath().ToString() == RecalboxConf::Instance().GetAutorunGamePath(), (int) Components::AutorunGame, this);
       }
 
       if (!GameFilesUtils::GetGameSaveStateFiles(*mGamelist.getCursor()).empty())
@@ -307,7 +311,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::Regions:
     case Components::FavoritesOnly:
     case Components::FlatFolders:
-      break;
+    case Components::AutorunGame: break;
   }
 }
 
@@ -321,6 +325,21 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
       RecalboxConf::Instance().SetFavoritesOnly(status).Save();
       mSystemManager.UpdatedTopLevelFilter();
       break;
+    }
+    case Components::AutorunGame:
+    {
+      FileData* game = mGamelist.getCursor();
+      if (game->IsGame())
+      {
+        if (status)
+          RecalboxConf::Instance().SetAutorunGamePath(game->RomPath().ToString())
+                                  .SetAutorunSystemUUID(game->System().Descriptor().GUID())
+                                  .Save();
+        else
+          RecalboxConf::Instance().SetAutorunGamePath(String::Empty)
+                                  .SetAutorunSystemUUID(String::Empty)
+                                  .Save();
+      }
     }
     case Components::Download:
     case Components::Regions:

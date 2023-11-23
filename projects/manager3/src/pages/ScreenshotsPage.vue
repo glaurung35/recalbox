@@ -2,86 +2,88 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <div class="screenshots row">
-    <div
-      :key="screenshot.name"
-      class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
-      v-for="screenshot in screenshots"
-    >
-      <div v-if="screenshot.urlImage">
-        <q-card @click="openScreenshot(screenshot.urlImage)" class="screenshot" flat rounded>
-          <q-card-section horizontal>
-            <q-img :src="screenshot.urlImage" class="col" loading="lazy">
-              <div
-                class="absolute-bottom text-white justify-between row items-start"
-                style="padding: .5em"
-              >
+  <q-page class="background screenshots">
+    <div class="row">
+      <div
+        :key="screenshot.name"
+        class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
+        v-for="screenshot in screenshots"
+      >
+        <div v-if="screenshot.urlImage">
+          <q-card @click="openScreenshot(screenshot.urlImage)" class="screenshot" flat rounded>
+            <q-card-section horizontal>
+              <q-img :src="screenshot.urlImage" class="col" loading="lazy">
+                <div
+                  class="absolute-bottom text-white justify-between row items-start"
+                  style="padding: .5em"
+                >
+                  <span class="self-center"><q-icon
+                    name="mdi-calendar-clock"
+                    style="font-size: 1.5em; margin-right: .25em;"
+                  />
+                  {{ screenshot.date }}</span>
+                  <q-btn
+                    class="float-right"
+                    color="negative"
+                    flat icon="mdi-delete"
+                    round
+                    @click.stop="openDeleteConfirm(screenshot.name)"
+                  />
+                </div>
+              </q-img>
+            </q-card-section>
+          </q-card>
+        </div>
+        <div v-if="screenshot.urlVideo">
+          <q-card @click="openVideo(screenshot.urlVideo)" class="screenshot" flat rounded>
+            <q-card-section horizontal>
+              <q-img src="../assets/video-poster.jpg" class="col" loading="lazy">
+                <div
+                  class="absolute-bottom text-white justify-between row items-start"
+                  style="padding: .5em"
+                >
                 <span class="self-center"><q-icon
                   name="mdi-calendar-clock"
                   style="font-size: 1.5em; margin-right: .25em;"
                 />
                 {{ screenshot.date }}</span>
-                <q-btn
-                  class="float-right"
-                  color="negative"
-                  flat icon="mdi-delete"
-                  round
-                  @click.stop="openDeleteConfirm(screenshot.name)"
-                />
-              </div>
-            </q-img>
-          </q-card-section>
-        </q-card>
+                  <q-btn
+                    class="float-right"
+                    color="negative"
+                    flat icon="mdi-delete"
+                    round
+                    @click.stop="openDeleteVideoConfirm(screenshot.name)"
+                  />
+                </div>
+              </q-img>
+            </q-card-section>
+          </q-card>
+        </div>
+
       </div>
-      <div v-if="screenshot.urlVideo">
-        <q-card @click="openVideo(screenshot.urlVideo)" class="screenshot" flat rounded>
+      <q-dialog v-model="modalImage.open" full-height full-width>
+        <q-card>
           <q-card-section horizontal>
-            <q-img src="../assets/video-poster.jpg" class="col" loading="lazy">
-              <div
-                class="absolute-bottom text-white justify-between row items-start"
-                style="padding: .5em"
-              >
-              <span class="self-center"><q-icon
-                name="mdi-calendar-clock"
-                style="font-size: 1.5em; margin-right: .25em;"
-              />
-              {{ screenshot.date }}</span>
-                <q-btn
-                  class="float-right"
-                  color="negative"
-                  flat icon="mdi-delete"
-                  round
-                  @click.stop="openDeleteVideoConfirm(screenshot.name)"
-                />
-              </div>
-            </q-img>
+            <q-img :src="modalImage.imgUrl" @click="modalImage.open = false" class="opened"/>
           </q-card-section>
         </q-card>
-      </div>
+      </q-dialog>
 
+      <q-dialog v-model="modalVideo.open" full-height full-width>
+        <q-card>
+          <q-card-section horizontal>
+            <q-media-player
+              type="video"
+              :sources="[{ src: modalVideo.videoUrl, type: 'video/mp4' }]"
+              style="height: 1000px; margin: 0 auto"
+              @click="modalVideo.open = false"
+              class="opened"
+            />
+          </q-card-section>
+        </q-card>
+      </q-dialog>
     </div>
-    <q-dialog v-model="modalImage.open" full-height full-width>
-      <q-card>
-        <q-card-section horizontal>
-          <q-img :src="modalImage.imgUrl" @click="modalImage.open = false" class="opened"/>
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-
-    <q-dialog v-model="modalVideo.open" full-height full-width>
-      <q-card>
-        <q-card-section horizontal>
-          <q-media-player
-            type="video"
-            :sources="[{ src: modalVideo.videoUrl, type: 'video/mp4' }]"
-            style="height: 1000px; margin: 0 auto"
-            @click="modalVideo.open = false"
-            class="opened"
-          />
-        </q-card-section>
-      </q-card>
-    </q-dialog>
-  </div>
+  </q-page>
 </template>
 
 <script lang="ts" setup>
@@ -156,6 +158,11 @@ function openDeleteVideoConfirm(name:string) {
 
 <style lang="sass">
 .screenshots
+  padding: 16px 8px
+
+  &:before
+    content: "\F0104"
+
   .screenshot
     cursor: pointer
 

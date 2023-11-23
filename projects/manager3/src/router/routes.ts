@@ -34,7 +34,7 @@ const VirtualGamepad = () => import('components/virtualdevices/VirtualGamepad.vu
 
 const ScreenshotsPage = () => import('pages/ScreenshotsPage.vue');
 
-const TokenPage = () => import('pages/TokenPage.vue');
+const PatreonPage = () => import('pages/PatreonPage.vue');
 
 const routes: RouteRecordRaw[] = [
   {
@@ -152,9 +152,9 @@ const routes: RouteRecordRaw[] = [
         component: ScreenshotsPage,
       },
       {
-        path: 'token',
-        name: 'token',
-        component: TokenPage,
+        path: 'patreon',
+        name: 'patreon',
+        component: PatreonPage,
       },
     ],
   },

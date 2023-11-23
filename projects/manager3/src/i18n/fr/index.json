@@ -77,7 +77,7 @@
     "settings": "Configuration",
     "emulation": "Émulation",
     "screenshots": "Captures",
-    "token": "Patreon"
+    "patreon": "Patreon"
   },
   "home": {
     "preview": {
@@ -1161,13 +1161,11 @@
       }
     }
   },
-  "token": {
+  "patreon": {
     "title": "Patreon",
-    "patron": {
-      "privatekey": {
-        "label": "Clé",
-        "help": "Cette option vous permet de renseigner votre clé Patreon fourni sur www.recalbox.com."
-      }
+    "privatekey": {
+      "label": "Clé",
+      "help": "Cette option vous permet de renseigner votre clé Patreon fourni sur www.recalbox.com."
     },
     "scraper": {
       "source": {

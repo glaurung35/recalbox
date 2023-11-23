@@ -18,7 +18,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
     'updates',
     'controllers',
     'global',
-    'patron',
+    'patreon',
     'music',
     'hat',
     'autorun',

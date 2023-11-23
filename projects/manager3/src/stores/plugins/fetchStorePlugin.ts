@@ -23,7 +23,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'systems',
     'monitoring',
     'media',
-    'patron',
+    'patreon',
     'music',
     'hat',
     'architecture',

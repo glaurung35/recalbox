@@ -2,52 +2,51 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <q-page-sticky :offset="[18, 18]" position="bottom-right">
-    <q-fab
-      color="primary"
-      direction="up"
-      flat
-      icon="mdi-help-circle-outline"
-      id="help-button"
+  <q-fab
+    color="white"
+    direction="up"
+    flat
+    icon="mdi-help-circle-outline"
+    id="help-button"
+    square
+    vertical-actions-align="right"
+    @update:model-value="update"
+    :model-value="model"
+    :offset="[18, 18]"
+  >
+    <q-fab-action
+      @click="useServerStore().supportArchive()"
+      color="secondary"
+      icon="mdi-bash"
+      :label="$t('general.server.supportArchive.title')"
+      label-position="left"
       square
-      vertical-actions-align="right"
-      @update:model-value="update"
-      :model-value="model"
-    >
-      <q-fab-action
-        @click="useServerStore().supportArchive()"
-        color="secondary"
-        icon="mdi-bash"
-        label="recalbox-support.sh"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => open = true"
-        color="secondary"
-        icon="mdi-source-branch"
-        label="Versions"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="useServerStore().reboot()"
-        color="secondary"
-        icon="mdi-restart"
-        :label="$t('general.server.reboot.title')"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="useServerStore().shutdown()"
-        color="secondary"
-        icon="mdi-stop"
-        :label="$t('general.server.shutdown.title')"
-        label-position="left"
-        square
-      />
-    </q-fab>
-  </q-page-sticky>
+    />
+    <q-fab-action
+      @click="() => open = true"
+      color="secondary"
+      icon="mdi-source-branch"
+      label="Versions"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="useServerStore().reboot()"
+      color="secondary"
+      icon="mdi-restart"
+      :label="$t('general.server.reboot.title')"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="useServerStore().shutdown()"
+      color="secondary"
+      icon="mdi-stop"
+      :label="$t('general.server.shutdown.title')"
+      label-position="left"
+      square
+    />
+  </q-fab>
   <q-dialog
     transition-hide="slide-down"
     transition-show="slide-up"

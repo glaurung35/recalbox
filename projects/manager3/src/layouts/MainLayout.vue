@@ -36,10 +36,14 @@
 
     <q-page-container>
       <router-view />
-        <ScreenshotFloatingButton/>
-        <VirtualDevicesFloatingButton/>
-        <ShortcutsFloatingButton :model="shortcutsButtonOpeningStatus" @toggle="toggle"/>
-        <HelpFloatingButton :model="helpButtonOpeningStatus" @toggle="toggle"/>
+      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+        <div class="help-menu-container">
+          <ScreenshotFloatingButton />
+          <VirtualDevicesFloatingButton />
+          <ShortcutsFloatingButton :model="shortcutsButtonOpeningStatus" @toggle="toggle" />
+          <HelpFloatingButton :model="helpButtonOpeningStatus" @toggle="toggle" />
+        </div>
+      </q-page-sticky>
     </q-page-container>
   </q-layout>
 </template>
@@ -126,4 +130,8 @@ header
     img
       width: 30px
       margin-bottom: 1em
+
+.help-menu-container
+  background-color: #34495ecf
+  border-radius: 4px
 </style>

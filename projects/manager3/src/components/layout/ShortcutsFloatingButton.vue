@@ -2,65 +2,60 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <q-page-sticky
-    :offset="[18, 18]"
-    position="bottom-right"
-    style="transform: translate(-74px, 0px);"
+  <q-fab
+    color="white"
+    direction="up"
+    flat
+    icon="mdi-web"
+    id="help-button"
+    square
+    vertical-actions-align="right"
+    @update:model-value="update"
+    :model-value="model"
+    style="margin-right: 1em;"
   >
-    <q-fab
-      color="primary"
-      direction="up"
-      flat
-      icon="mdi-web"
-      id="help-button"
+    <q-fab-action
+      @click="() => openURL(urls.patreon)"
+      color="secondary"
+      icon="mdi-patreon"
+      label="Patreon"
+      label-position="left"
       square
-      vertical-actions-align="right"
-      @update:model-value="update"
-      :model-value="model"
-    >
-      <q-fab-action
-        @click="() => openURL(urls.patreon)"
-        color="secondary"
-        icon="mdi-patreon"
-        label="Patreon"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.gitlab)"
-        color="secondary"
-        icon="mdi-gitlab"
-        label="Gitlab"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.forum)"
-        color="secondary"
-        icon="mdi-forum"
-        label="Forum"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.gitbook)"
-        class="gitbook"
-        color="secondary"
-        icon="icon-gitbook"
-        label="Documentation"
-        label-position="left"
-        square
-      />
-      <q-fab-action
-        @click="() => openURL(urls.discord)"
-        color="secondary"
-        icon="mdi-discord"
-        label="Discord"
-        label-position="left"
-        square
-      />
-    </q-fab>
-  </q-page-sticky>
+    />
+    <q-fab-action
+      @click="() => openURL(urls.gitlab)"
+      color="secondary"
+      icon="mdi-gitlab"
+      label="Gitlab"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="() => openURL(urls.forum)"
+      color="secondary"
+      icon="mdi-forum"
+      label="Forum"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="() => openURL(urls.gitbook)"
+      class="gitbook"
+      color="secondary"
+      icon="icon-gitbook"
+      label="Documentation"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="() => openURL(urls.discord)"
+      color="secondary"
+      icon="mdi-discord"
+      label="Discord"
+      label-position="left"
+      square
+    />
+  </q-fab>
 </template>
 
 <script lang="ts" setup>

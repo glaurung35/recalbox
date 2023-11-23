@@ -2,12 +2,12 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <q-page-sticky position="bottom" style="transform: translate(90px, 0px)">
+  <q-page-sticky :offset="[18, 18]" position="bottom-right">
     <q-fab
       color="primary"
       direction="up"
       flat
-      icon="mdi-cog"
+      icon="mdi-help-circle-outline"
       id="help-button"
       square
       vertical-actions-align="right"
@@ -18,7 +18,7 @@
         @click="useServerStore().supportArchive()"
         color="secondary"
         icon="mdi-bash"
-        :label="$t('general.server.supportArchive.title')"
+        label="recalbox-support.sh"
         label-position="left"
         square
       />
@@ -26,7 +26,7 @@
         @click="() => open = true"
         color="secondary"
         icon="mdi-source-branch"
-        :label="$t('general.server.versions.title')"
+        label="Versions"
         label-position="left"
         square
       />
@@ -56,7 +56,7 @@
   >
     <q-card
       class="bg-primary text-white background versions-dialog-card"
-       style="width: 50vw; max-width: 80vw;"
+      style="width: 50vw; max-width: 80vw;"
     >
       <q-card-section>
         <VersionsList/>

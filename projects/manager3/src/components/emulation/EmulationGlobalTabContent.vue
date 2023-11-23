@@ -279,15 +279,15 @@
             </template>
           </WrappedToggle>
           <WrappedToggle
-            label="emulation.global.arcade.view.usedatabasenames.label"
-            :getter="emulationstation['arcade.view.usedatabasenames']"
+            label="emulation.global.arcade.usedatabasenames.label"
+            :getter="emulationstation['arcade.usedatabasenames']"
             :setter="emulationstationStore.post"
-            apiKey="arcade.view.usedatabasenames"
-            v-if="emulationstation['arcade.view.usedatabasenames']"
+            apiKey="arcade.usedatabasenames"
+            v-if="emulationstation['arcade.usedatabasenames']"
             help
           >
             <template v-slot:help>
-              {{ $t('emulation.global.arcade.view.usedatabasenames.help') }}
+              {{ $t('emulation.global.arcade.usedatabasenames.help') }}
             </template>
           </WrappedToggle>
 <!--           <WrappedMultipleSelect -->

@@ -893,11 +893,11 @@
           "hidenonworking": {
             "label": "Cacher les jeux non-fonctionnels",
             "help": "Cette option vous permet d'activer ou de désactiver la possibilité de cacher les jeux arcade non-fonctionnels."
-          },
-          "usedatabasenames": {
-            "label": "Toujours utiliser les noms officiels",
-            "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'utiliser les noms officiels des jeux arcade."
           }
+        },
+        "usedatabasenames": {
+          "label": "Toujours utiliser les noms officiels",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'utiliser les noms officiels des jeux arcade."
         }
       },
       "translation": {

@@ -434,7 +434,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "arcade.view.enhanced"        , Validator(true) },
          { "arcade.view.hideclones"      , Validator(true) },
          { "arcade.view.hidebios"        , Validator(true) },
-         { "arcade.view.usedatabasenames", Validator(true) },
+         { "arcade.usedatabasenames"     , Validator(true) },
          { "virtualarcade.manufacturers" , Validator(GetArcadeManufacturerList(), true) },
          { "pad0"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },
          { "pad1"                        , Validator("ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopwrstuvwxyz0123456789: ") },

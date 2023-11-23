@@ -893,11 +893,11 @@
           "hidenonworking": {
             "label": "Hide non-working games",
             "help": "This option allows you to enable or disable the possibility to hide non-working games."
-          },
-          "usedatabasenames": {
-            "label": "Always use official names",
-            "help": "This option allows you to enable or disable the use of official names."
           }
+        },
+        "usedatabasenames": {
+          "label": "Always use official names",
+          "help": "This option allows you to enable or disable the use of official names."
         }
       },
       "translation": {

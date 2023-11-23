@@ -38,6 +38,7 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
+  , mLastGameLaunched(0LL)
   , mFrequencyLastChoiceMulti60(0)
   , mFrequencyLastChoice(0)
   , mResolutionLastChoice(0)
@@ -317,6 +318,11 @@ void ViewController::playViewTransition()
 
 void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceGoToGame)
 {
+  // Avoid launch repeat
+  DateTime now;
+  if ((mLastGameLaunched - now).TotalMilliseconds() < 2000) return;
+  mLastGameLaunched = now;
+
   if (!game->IsGame())
   {
     { LOG(LogError) << "[ViewController] Tried to launch something that isn't a game"; }

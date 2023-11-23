@@ -141,6 +141,7 @@ GuiMenuAdvancedSettings::OverclockList GuiMenuAdvancedSettings::AvailableOverclo
     case BoardType::Pi3plus: boardFolder = "rpi3plus"; break;
     case BoardType::Pi4: boardFolder = "rpi4"; break;
     case BoardType::Pi400: boardFolder = "rpi400"; break;
+    case BoardType::Pi5: boardFolder = "rpi5"; break;
     case BoardType::UndetectedYet:
     case BoardType::Unknown:
     case BoardType::UnknownPi:
@@ -256,7 +257,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
   switch ((Components)id)
   {
     case Components::BootSubMenu: mWindow.pushGui(new GuiMenuBootSettings(mWindow, mSystemManager)); break;
-    case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow)); break;
+    case Components::CrtSubMenu: mWindow.pushGui(new GuiMenuCRT(mWindow, Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma ? _("JAMMA SETTINGS") : _("CRT SETTINGS"))); break;
     case Components::VirtualSubMenu: mWindow.pushGui(new GuiMenuVirtualSystems(mWindow, mSystemManager)); break;
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;

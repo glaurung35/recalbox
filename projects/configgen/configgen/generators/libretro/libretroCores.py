@@ -2,6 +2,7 @@ from configgen.Emulator import Emulator
 from configgen.crt.CRTTypes import CRTAdapter
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.controllers.controller import ControllerPerPlayer
+from configgen.utils.architecture import Architecture
 
 
 class LibretroCores:
@@ -201,6 +202,16 @@ class LibretroCores:
     def configureSg1000(coreSettings: keyValueSettings):
         coreSettings.setString("bluemsx_msxtype", "SEGA - SC-3000")
 
+    def configureNaomi2(self, coreSettings: keyValueSettings):
+        if Architecture().isPi5:
+            coreSettings.setString("reicast_alpha_sorting", '"per-strip (fast, least accurate)"')
+            coreSettings.setString("reicast_anisotropic_filtering", '"2"')
+            coreSettings.setString("reicast_sh4clock", '"300"')
+        else:
+            coreSettings.setString("reicast_alpha_sorting", '"per-triangle (normal)"')
+            coreSettings.setString("reicast_anisotropic_filtering", '"4"')
+            coreSettings.setString("reicast_sh4clock", '"200"')
+
     @staticmethod
     def configureSwanstation(coreSettings: keyValueSettings):
         coreSettings.setString("duckstation_Controller2.Type", '"DigitalController"')
@@ -226,8 +237,12 @@ class LibretroCores:
     def configureBsnesHd(coreSettings: keyValueSettings):
         coreSettings.setString("bsnes_mode7_wsMode", '"all"')
     def configureFlycast(self, coreSettings: keyValueSettings):
+        coreSettings.setString("reicast_alpha_sorting", '"per-triangle (normal)"')
+        coreSettings.setString("reicast_anisotropic_filtering", '"4"')
+        coreSettings.setString("reicast_sh4clock", '"200"')
         if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             coreSettings.setString("reicast_allow_service_buttons", '"enabled"')
+
     def configureFBNeo(self, coreSettings: keyValueSettings):
         if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             coreSettings.setString("fbneo-diagnostic-input", '"L3"')
@@ -280,6 +295,7 @@ class LibretroCores:
             "odyssey2"     : LibretroCores.configureOdyssey2,
             "videopacplus" : LibretroCores.configureVideoPacPlus,
             "sg1000"       : LibretroCores.configureSg1000,
+            "naomi2"       : self.configureNaomi2,
         }
 
         # Get handler and execute

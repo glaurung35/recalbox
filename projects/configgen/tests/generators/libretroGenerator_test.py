@@ -255,3 +255,29 @@ def test_sgb_disabled_configure_core_for_sgb(mocker, emulator, controller_config
     assert 'mgba_gb_model = "Autodetect"' in coreConf
     assert 'mgba_sgb_borders = "OFF"' in coreConf
     assert 'mesen-s_gbmodel = "Auto"' in coreConf
+
+def test_naomi2_on_rpi5_set_alpha_sorting_per_strip(mocker, emulator, controller_configuration):
+    mocker.patch('configgen.utils.architecture.Architecture.isPi5', return_value=True)
+
+    recalbox_conf = keyValueSettings("", True)
+    naomi2 = Emulator(name='naomi2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast')
+    naomi2.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", ""))
+
+    emulator.generate(naomi2, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'reicast_alpha_sorting = "per-strip (fast, least accurate)"' in coreConf
+    assert 'reicast_anisotropic_filtering = "2"' in coreConf
+    assert 'reicast_sh4clock = "300"' in coreConf
+
+    naomi = Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast')
+    naomi.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", ""))
+
+    emulator.generate(naomi, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'reicast_alpha_sorting = "per-triangle (normal)"' in coreConf
+    assert 'reicast_anisotropic_filtering = "4"' in coreConf
+    assert 'reicast_sh4clock = "200"' in coreConf

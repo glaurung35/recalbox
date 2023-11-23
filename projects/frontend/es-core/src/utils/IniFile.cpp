@@ -197,7 +197,21 @@ bool IniFile::Save()
     if (!backup.Delete()) { LOG(LogError) << "[IniFile] Save: Error deleting backup file " << backup; }
     if (!Path::Rename(mFilePath, backup)) { LOG(LogError) << "[IniFile] Save: Error moving file " << mFilePath << " to backup file " << backup; }
   }
-  if (!Files::SaveFile(mFilePath, String::Join(lines, '\n').Append('\n'))) { result = false; LOG(LogError) << "[IniFile] Save: Error saving file " << mFilePath; }
+  if (!Files::SaveFile(mFilePath, String::Join(lines, '\n')))
+  {
+    { result = false; LOG(LogError) << "[IniFile] Save: Error saving file " << mFilePath; }
+    if (mAutoBackup)
+    {
+      { result = false; LOG(LogError) << "[IniFile] Save: Trying emergency rescue from backup file"; }
+      Path backup(mFilePath.ToString() + ".backup");
+      if (backup.Exists())
+      {
+        if (!mFilePath.Delete()) { LOG(LogWarning) << "[IniFile] Save: Error deleting unsafe " << mFilePath; }
+        if (!Path::Rename(backup, mFilePath)) { LOG(LogError) << "[IniFile] Save: Error moving file " << backup << " to backup file " << mFilePath; }
+      }
+      else { LOG(LogError) << "[IniFile] Save: Backup file unavailable!"; }
+    }
+  }
   if (boot && MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 
   OnSave();
@@ -341,4 +355,15 @@ String::List IniFile::GetKeyEndingWith(const String& endWidth)
       result.push_back(it.first);
 
   return result;
+}
+
+bool IniFile::ResetWithFallback() {
+  if (!mFallbackFilePath.IsEmpty() && mFallbackFilePath.Exists())
+  {
+    if(!Files::CopyFile(mFallbackFilePath, mFilePath))
+      return false;
+  }
+  this->Cancel();
+  mConfiguration.clear();
+  return this->Load();
 }

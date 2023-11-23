@@ -42,6 +42,13 @@ dtoverlay=rpivid-v4l2
 include crt/recalbox-crt-config.txt
 hdmi_enable_4kp60=1
 
+[board-type=0x17]
+force_eeprom_read=0
+arm_64bit=1
+dtoverlay=vc4-kms-v3d,cma-512
+include crt/recalbox-crt-config.txt
+hdmi_enable_4kp60=1
+
 [board-type=0x12]
 dtoverlay=vc4-kms-v3d
 include crt/recalbox-crt-config.txt

@@ -14,9 +14,7 @@ export type MusicStoreState = {
 export const useMusicStore = defineStore('music', {
   state: () => ({
     _baseUrl: CONFIGURATION.music,
-    _musicOptions: {
-      'remoteplaylist.enable': {},
-    },
+    _musicOptions: {},
     music: {},
   } as MusicStoreState),
 

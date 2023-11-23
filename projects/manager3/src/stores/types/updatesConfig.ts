@@ -22,6 +22,7 @@ export const UpdatesConfigOptionsSchema = z.object({
   }),
   type: z.object({
     type: z.string(),
+    allowedChars: z.string(),
   }),
 });
 

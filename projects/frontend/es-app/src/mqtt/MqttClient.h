@@ -37,6 +37,7 @@ class MqttClient
      * @brief Wait for current operation to finish
      */
     void Wait();
+    void WaitFor(int t);
 
     /*!
      * @brief Disconnect

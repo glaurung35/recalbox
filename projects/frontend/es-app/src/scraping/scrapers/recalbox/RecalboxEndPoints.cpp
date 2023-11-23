@@ -117,6 +117,7 @@ RecalboxEndPoints::RecalboxEndPoints()
     case BoardType::Pi3plus:              mBoard = "RPi 3B+"; break;
     case BoardType::Pi4:                  mBoard = "RPi 4"; break;
     case BoardType::Pi400:                mBoard = "RPi 400"; break;
+    case BoardType::Pi5:                  mBoard = "RPi 5"; break;
     case BoardType::UnknownPi:            mBoard = "unknown RPi"; break;
     case BoardType::OdroidAdvanceGo:      mBoard = "Odroid GO Advance"; break;
     case BoardType::OdroidAdvanceGoSuper: mBoard = "Odroid GO Super"; break;

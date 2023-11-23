@@ -45,6 +45,7 @@ export const AudioConfigOptionsSchema = z.object({
   device: z.object({
     type: z.string(),
     allowedStringList: z.array(z.string()),
+    displayableStringList: z.array(z.string()),
   }),
   mode: z.object({
     type: z.string(),

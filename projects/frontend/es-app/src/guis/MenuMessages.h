@@ -195,7 +195,15 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_EXTENDED "Uses a range at the edge of the CRT support to increase image quality."
     #define MENUMESSAGE_ADVANCED_CRT_SUPERREZ "Superrez can increase image quality depending on your CRT."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG "Number of button on your arcade cab panel."
-
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_MONO_AMP_BOOST "Boost mono amp power. Use only if the sound level is too low."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT "Define the NEOGEO layout when playing NEOGEO games."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT "Add a credit in game, pressing START + BTN1. Works for all players."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_HK "START + any button will send the HK+BTN event, so you can use special hotkey controls in emulators."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT "Pressing START for 3sec will exit the game. If you disable this option, you will have to exit the game with SERVICE + TEST."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE "Select the type of your screen. If you don't know what you are doing, do not change this value."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS "4 player mode, with player 2 and 3 on CPS2 kickharness."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_AUTOFIRE "Set auto fire for a button by pressing START + a button for 5 seconds"
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND "On some cabs, the pins E/27 of the JAMMA are the common ground for controls. Enable this option if you have this configuration."
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

@@ -1,45 +1,56 @@
 #!/bin/bash
 
 if test "$1" == "start"; then
-    source /recalbox/scripts/recalbox-utils.sh
-    # RRGBD or jamma is already present if CRT is loaded
-    if ! isCRTLoaded; then
-        mount -o remount,rw /
-        mkdir -p /config
-        mount -o remount,ro /
-        mount -t configfs none /config
-        # Detect production recalbox rgb jamma
-        modprobe i2c-dev
-        dtoverlay i2c1
-        i2cdetect -y 1 36 37 | grep -q "20:             24 25"
-        detectedv2=$?
-        i2cdetect -y 1 36 39 | grep -q "20:             24 25 -- 27"
-        detectedv3=$?
-        dtoverlay -r i2c1
-        rmmod i2c-dev
-        umount /config
-
-        if [[ $detectedv2 == 0 || $detectedv3 == 0 ]]; then
-            mount -o remount,rw /boot
-            CONFIG="/boot/crt/recalbox-crt-options.cfg"
-            CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
-            if [ $detectedv3 == 0 ];then
-              adapter="recalboxrgbjamma"
-            else
-              adapter="recalboxrgbjamma-v2"
-            fi
-            echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter})!" >> /boot/hardware.log
-            if ! grep "dtoverlay=${adapter}" "${CRT_DAC_FILE}"; then
-                echo "dtoverlay=${adapter}" > "${CRT_DAC_FILE}"
-                if grep -q "adapter.type = .\+" "${CONFIG}";then
-                    sed -i "s/adapter.type = .+/adapter.type = ${adapter}/g" "${CONFIG}"
-                else
-                    echo -e "\nadapter.type = ${adapter}" >> "${CONFIG}"
-                fi
-                echo "S03rrgbdjamma CRT Reboot after install of ${adapter}" >> /boot/hardware.log
-                reboot
-            fi
-            mount -o ro,remount /boot
-        fi
+  source /recalbox/scripts/recalbox-utils.sh
+  CONFIG="/boot/crt/recalbox-crt-options.cfg"
+  CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
+  # RRGBD or RRGBJ is already present if CRT is loaded
+  if ! isCRTLoaded; then
+    board=""
+    i2c="22"
+    if [ "$(getArchName)" == "rpi5_64" ]; then
+      i2c="0"
+      board="-pi5"
     fi
+    mount -o remount,rw /
+    mkdir -p /config
+    mount -o remount,ro /
+    mount -t configfs none /config
+    # Detect production recalbox rgb jamma
+    modprobe i2c-dev
+    dtoverlay "i2c0custom${board}"
+    res="$(i2cdetect -y "${i2c}" 36 39 | grep '20:')"
+    if echo "$res" | grep -q -e "24 25 -- --"; then
+      adapter="recalboxrgbjamma-v2"
+    elif echo "$res" | grep -q -e "24 25 -- 27"; then
+      adapter="recalboxrgbjamma-v3"
+    elif echo "$res" | grep -q -e "24 25 26 27"; then
+      adapter="recalboxrgbjamma"
+    fi
+    dtoverlay -r "i2c0custom${board}"
+    rmmod i2c-dev
+    umount /config
+
+    if [ "${adapter}" != "" ]; then
+      mount -o remount,rw /boot
+
+      echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter}${board})!" >> /boot/hardware.log
+      if ! grep "dtoverlay=${adapter}${board}" "${CRT_DAC_FILE}"; then
+        echo "dtoverlay=${adapter}${board}" > "${CRT_DAC_FILE}"
+        if grep -q "adapter.type = .\+" "${CONFIG}";then
+            sed -i "s/adapter.type = .+/adapter.type = ${adapter}/g" "${CONFIG}"
+        else
+            echo -e "\nadapter.type = ${adapter}" >> "${CONFIG}"
+        fi
+        echo "S03rrgbdjamma CRT Reboot after install of ${adapter}${board}" >> /boot/hardware.log
+        reboot
+      fi
+      mount -o ro,remount /boot
+    fi
+  else
+    if isRecalboxRGBJamma;then
+      modprobe i2c-dev
+      start-stop-daemon -S -q -m -p /var/run/recalboxrgbjamma_screen.pid  --exec "recalboxrgbjamma_screen" &
+    fi
+  fi
 fi

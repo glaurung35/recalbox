@@ -848,6 +848,13 @@
           "help": "Cette option vous permet d'activer ou de désactiver la possibilité de faire 2 fois la combinaison de touches Hotkey + Start pour quitter le jeu en cours."
         }
       },
+      "autorun": {
+        "title": "Auto-démarrage",
+        "enabled": {
+          "label": "Activer l'auto-démarrage sur un jeu",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'auto-démarrer sur un jeu spécifique. Remarque : si Kodi est aussi défini en auto-démarrage, Kodi a la priorité."
+        }
+      },
       "virtualarcade": {
         "title": "Arcade",
         "activate": {

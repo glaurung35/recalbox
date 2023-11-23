@@ -174,6 +174,22 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.autorun.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.global.autorun.enabled.label"
+            :getter="autorun.enabled"
+            :setter="autorunStore.post"
+            apiKey="enabled"
+            v-if="autorun.enabled"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.autorun.enabled.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.global.virtualarcade.title">
@@ -412,6 +428,7 @@ import { useGlobalStore } from 'stores/configuration/global';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
+import { useAutorunStore } from 'stores/configuration/autorun';
 
 const globalStore = useGlobalStore();
 globalStore.fetch();
@@ -433,4 +450,8 @@ const {
   // virtualArcadeManufacturersOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
+
+const autorunStore = useAutorunStore();
+autorunStore.fetch();
+const { autorun } = storeToRefs(autorunStore);
 </script>

@@ -131,3 +131,12 @@ def test_given_tate_mode_naomi_game_then_configure_retroarch():
     assert config["video_allow_rotate"] == '"true"'
     assert config["video_rotation"] == 1
     assert config["input_player1_analog_dpad_mode"] == 3
+
+def test_given_tate_mode_saturn_game_then_configure_retroarch_with_specific_rotation(controller_configuration):
+    saturn = Emulator(name='saturn', videoMode='1920x1080', ratio='auto', emulator='libretro',
+                         core='yabasanshiro')
+    configureForTate(saturn, rotation=1)
+    config, core = LibretroGenerator().createTateModeConfiguration(saturn)
+
+    assert config["video_allow_rotate"] == '"true"'
+    assert config["video_rotation"] == 2

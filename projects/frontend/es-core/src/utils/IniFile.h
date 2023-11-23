@@ -239,6 +239,11 @@ class IniFile
      */
     virtual void OnSave() const {}
 
+    /*!
+     * @brief Clear configuration and reset everything with fallback
+     */
+    bool ResetWithFallback();
+
   private:
     //! Save guardian
     Mutex mLocker;

@@ -9,13 +9,7 @@
 #include <guis/menus/GuiMenuBase.h>
 #include <guis/GuiWaitLongExecution.h>
 #include <input/InputMapper.h>
-#include <mqtt/MqttClient.h>
-
-enum class Command
-{
-    StartDiscovery     = 0x00001,
-    StopDiscovery      = 0x00002,
-};
+#include <btautopair/BTAutopairManager.h>
 
 // Forward declaration
 class SystemManager;
@@ -141,10 +135,6 @@ class GuiMenuPads : public GuiMenuBase
      * ISwitchComponent
      */
     void SwitchComponentChanged(int id, bool status) override;
-    /*
-     * @brief convert action enum to string
-     */
-    static const char* ActionToString(Command action);
 };
 
 

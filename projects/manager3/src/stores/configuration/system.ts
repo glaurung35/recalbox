@@ -17,9 +17,11 @@ export const useSystemStore = defineStore('system', {
     _systemOptions: {
       language: {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       kblayout: {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       timezone: {
         allowedStringList: [''],
@@ -29,6 +31,7 @@ export const useSystemStore = defineStore('system', {
       },
       'es.videomode': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'splash.length': {
         lowerValue: -1,
@@ -49,6 +52,18 @@ export const useSystemStore = defineStore('system', {
       'secondminitft.backlightcontrol': {
         lowerValue: 0,
         higherValue: 100,
+      },
+      'externalscreen.prefered': {
+        allowedChars: '',
+      },
+      'externalscreen.forceresolution': {
+        allowedChars: '',
+      },
+      'externalscreen.forcefrequency': {
+        allowedChars: '',
+      },
+      hostname: {
+        allowedChars: '',
       },
     },
     system: {

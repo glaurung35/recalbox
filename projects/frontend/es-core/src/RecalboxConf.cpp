@@ -51,12 +51,12 @@ const String& RecalboxConf::SoftPatchingFromEnum(SoftPatching softpatching)
 
 RecalboxConf::Screensaver RecalboxConf::ScreensaverFromString(const String& screensaver)
 {
-  if (screensaver == "dim") return Screensaver::Dim;
+  if (screensaver == "black") return Screensaver::Black;
   if (screensaver == "demo") return Screensaver::Demo;
   if (screensaver == "gameclip") return Screensaver::Gameclip;
   if (screensaver == "suspend") return Screensaver::Suspend;
 
-  return Screensaver::Black;
+  return Screensaver::Dim;
 }
 
 const String& RecalboxConf::ScreensaverFromEnum(RecalboxConf::Screensaver screensaver)

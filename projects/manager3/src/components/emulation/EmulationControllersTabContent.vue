@@ -32,6 +32,22 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.swapvalidateandcancel.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.swapvalidateandcancel.enabled.label"
+            :getter="controllers['swapvalidateandcancel']"
+            :setter="controllersStore.post"
+            apiKey="swapvalidateandcancel"
+            v-if="controllers['swapvalidateandcancel']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.swapvalidateandcancel.enabled.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.osd.title">
         <template v-slot:content>
           <WrappedToggle
@@ -61,7 +77,29 @@
           </WrappedSelect>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.controllers.db9.title">
+      <FormFragmentContainer title="emulation.controllers.inputdriver.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.controllers.inputdriver.label"
+            :options="inputdriverOptions"
+            :getter="global.inputdriver"
+            :setter="globalStore.post"
+            apiKey="inputdriver"
+            v-if="global.inputdriver"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.inputdriver.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('emulation.controllers.inputdriver.help.0')"></li>
+                <li v-html="$t('emulation.controllers.inputdriver.help.1')"></li>
+                <li v-html="$t('emulation.controllers.inputdriver.help.2')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.db9.title" v-if="isDB9Available(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="emulation.controllers.db9.enabled.label"
@@ -89,7 +127,9 @@
           </WrappedTextInput>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.controllers.gamecon.title">
+    </div>
+    <div class="col col-xs-12 col-sm-12 col-md-6">
+      <FormFragmentContainer title="emulation.controllers.gamecon.title" v-if="isGameconAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="emulation.controllers.gamecon.enabled.label"
@@ -117,9 +157,7 @@
           </WrappedTextInput>
         </template>
       </FormFragmentContainer>
-    </div>
-    <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="emulation.controllers.gpio.title">
+      <FormFragmentContainer title="emulation.controllers.gpio.title" v-if="isGPIOAvailable(architecture.arch)">
         <template v-slot:content>
           <WrappedToggle
             label="emulation.controllers.gpio.enabled.label"
@@ -229,44 +267,6 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.controllers.swapvalidateandcancel.title">
-        <template v-slot:content>
-          <WrappedToggle
-            label="emulation.controllers.swapvalidateandcancel.enabled.label"
-            :getter="controllers['swapvalidateandcancel']"
-            :setter="controllersStore.post"
-            apiKey="swapvalidateandcancel"
-            v-if="controllers['swapvalidateandcancel']"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('emulation.controllers.swapvalidateandcancel.enabled.help') }}
-            </template>
-          </WrappedToggle>
-        </template>
-      </FormFragmentContainer>
-      <FormFragmentContainer title="emulation.controllers.inputdriver.title">
-        <template v-slot:content>
-          <WrappedSelect
-            label="emulation.controllers.inputdriver.label"
-            :options="inputdriverOptions"
-            :getter="global.inputdriver"
-            :setter="globalStore.post"
-            apiKey="inputdriver"
-            v-if="global.inputdriver"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('emulation.controllers.inputdriver.help.availableOptions') }}
-              <ul>
-                <li v-html="$t('emulation.controllers.inputdriver.help.0')"></li>
-                <li v-html="$t('emulation.controllers.inputdriver.help.1')"></li>
-                <li v-html="$t('emulation.controllers.inputdriver.help.2')"></li>
-              </ul>
-            </template>
-          </WrappedSelect>
-        </template>
-      </FormFragmentContainer>
     </div>
   </div>
 </template>
@@ -280,6 +280,7 @@ import { storeToRefs } from 'pinia';
 import { useControllersStore } from 'stores/configuration/controllers';
 import { useGlobalStore } from 'stores/configuration/global';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { useArchitectureStore } from 'stores/architecture';
 
 const controllersStore = useControllersStore();
 controllersStore.fetch();
@@ -292,4 +293,12 @@ const { inputdriverOptions, global } = storeToRefs(globalStore);
 const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
 const { padsOsdTypeOptions, emulationstation } = storeToRefs(emulationstationStore);
+
+const architectureStore = useArchitectureStore();
+architectureStore.fetch();
+const { architecture } = storeToRefs(architectureStore);
+
+const isDB9Available = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
+const isGameconAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
+const isGPIOAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
 </script>

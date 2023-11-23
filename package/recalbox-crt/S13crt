@@ -10,9 +10,11 @@ declare -A ES_CONFIG=(
 )
 declare -A ES_JAMMA_CONFIG=(
     ["global.rewind"]="0"
+    ["global.smooth"]="0"
     ["emulationstation.quicksystemselect"]="0"
     ["emulationstation.theme.recalbox-240p.iconset"]="4-jamma"
     ["emulationstation.virtualarcade.manufacturers"]="arcade-manufacturer-acclaim,arcade-manufacturer-atari,arcade-manufacturer-atlus,arcade-manufacturer-banpresto,arcade-manufacturer-capcom,arcade-manufacturer-capcom-cps1,arcade-manufacturer-capcom-cps2,arcade-manufacturer-capcom-cps3,arcade-manufacturer-cave,arcade-manufacturer-dataeast,arcade-manufacturer-exidy,arcade-manufacturer-igs,arcade-manufacturer-irem,arcade-manufacturer-itech,arcade-manufacturer-jaleco,arcade-manufacturer-kaneko,arcade-manufacturer-konami,arcade-manufacturer-midway,arcade-manufacturer-mitchell,arcade-manufacturer-namco,arcade-manufacturer-nichibutsu,arcade-manufacturer-nintendo,arcade-manufacturer-nmk,arcade-manufacturer-sammy,arcade-manufacturer-sega,arcade-manufacturer-seibu,arcade-manufacturer-seta,arcade-manufacturer-snk,arcade-manufacturer-taito,arcade-manufacturer-technos,arcade-manufacturer-tecmo,arcade-manufacturer-toaplan,arcade-manufacturer-visco"
+    ["global.hidepreinstalledgames"]="1"
 )
 
 declare -A ES_CLEAN_CONFIG=(
@@ -27,6 +29,8 @@ declare -A CONFIG_CONTENT=(
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19"
     ["recalboxrgbjamma"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma"
     ["recalboxrgbjamma-v2"]="#device=recalboxrgbjamma-v2\ndtoverlay=recalboxrgbjamma-v2"
+    ["recalboxrgbjamma-v3"]="#device=recalboxrgbjamma-v3\ndtoverlay=recalboxrgbjamma-v3"
+    ["recalboxrgbjamma-pi5"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma-pi5"
 )
 
 RGBDUAL_FORCE_HEADPHONE_CONTENT="dtoverlay=headphones"
@@ -399,7 +403,7 @@ if test "$1" == "start"; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" == "recalboxrgbjamma" || "${DAC}" == "recalboxrgbjamma-v2" || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" =~ recalboxrgbjamma.* || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
         runMigrations
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
@@ -410,8 +414,11 @@ if test "$1" == "start"; then
             mount -o remount,ro /boot
             genericInstall
             configure_case
-            if [ "${DAC}" == "recalboxrgbjamma" ] || [ "${DAC}" == "recalboxrgbjamma-v2" ]; then
+            if [[ "${DAC}" =~ recalboxrgbjamma.* ]]; then
                 configure_rbconf_jamma
+                if [ "$(getArchName)" == "rpi5_64" ]; then
+                    echo -e "${CONFIG_CONTENT['recalboxrgbjamma-pi5']}" > ${CRT_DAC_FILE}
+                fi
             else
                 # recalbox rgb jamma will already have its dtbo loaded
                 recallog -s "S13crt" -t "CRT" "Rebooting"

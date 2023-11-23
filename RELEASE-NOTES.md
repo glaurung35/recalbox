@@ -7,6 +7,8 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2-Pulstar
 
 ### Hardware
+- Add support for Raspberry Pi 5 (64 bits)
+- Add support for Recalbox RGB JAMMA
 - Add support for Anbernic RG351v (Thanks BelgaWill !)
 - Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
 - Add support for Realtek RTW-88 series of wifi controllers
@@ -18,7 +20,7 @@ as release notes for end user on a Recalbox upgrade.
   - Separated bios/unknown roms
   - Use HotKey+up/down to fold/unfold all
   - Use Hotkey+left/right to fold/unfold current selection
-  - Use oficial names from DAT files 
+  - Use official names from DAT files
 - Add Arcade manufacturers virtual systems (Atari Classics, CPS1/2/3, Banpresto, IREM, ...)
 - Add current DATS in `\\RECALBOX\share\arcade` or `/recalbox/share/arcade`
 - Add Arcade settings in the main menu
@@ -28,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
   - use horizontal wheel to move left/right
   - left/middle/right buttons act as b/start/a
 - Add new system Sega Pico
+- Add Naomi 2 system on rpi5 and x86_64
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -135,6 +138,7 @@ as release notes for end user on a Recalbox upgrade.
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS
 - Removed unplugged pads from the pad list
 - Unplugged/plugged-in pads keep their positions
+- Bluetooth auto-pairing is started at each boot now
 
 ### Fixes
 - Fix argonone case power management

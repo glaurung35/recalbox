@@ -19,7 +19,6 @@
 #include <video/of_display_timing.h>
 #include <video/videomode.h>
 #include <uapi/linux/media-bus-format.h>
-
 #include <drm/drm_atomic_helper.h>
 #include <drm/drm_bridge.h>
 #include <drm/drm_crtc.h>
@@ -63,7 +62,6 @@ static enum HatReference {
 static struct sconfig {
   struct gpiodesc dip50Hz;
   struct gpiodesc dip31kHz;
-  struct gpiodesc video_filter;
   enum HatReference current_hat;
   bool multisync;
   bool desktop480p;
@@ -124,7 +122,7 @@ static struct videomode modes[ModeCount] = {
         .vfront_porch = 4,
         .vsync_len = 5,
         .vback_porch = 14,
-        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_VSYNC_LOW
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
     },
     // 1920x240p@60 : 1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1
     {
@@ -452,9 +450,9 @@ static void dpidac_apply_module_mode(struct drm_connector *connector, int modeId
   if (preferred)
     mode->type |= DRM_MODE_TYPE_PREFERRED;
 
-  if(config.current_hat == RecalboxRGBJAMMA){
+/*  if(config.current_hat == RecalboxRGBJAMMA){
     mode->flags |= (DRM_MODE_FLAG_CSYNC | DRM_MODE_FLAG_NCSYNC);
-  }
+  }*/
   drm_mode_set_name(mode);
   drm_mode_probed_add(connector, mode);
 }
@@ -589,11 +587,10 @@ static int dpidac_probe(struct platform_device *pdev) {
 
   config.dip50Hz.gpio_state = 1;
   config.dip31kHz.gpio_state = 1;
-  config.video_filter.gpio_state = 0;
 
   if (rgbdual == 1) {
     config.current_hat = RecalboxRGBDual;
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support, have fun on Recalbox RGB DUAL!\n");
 
     /* Switch 31kHz */
     config.dip31kHz.gpio = devm_gpiod_get_index(&(pdev->dev), "dipswitch", 0, GPIOD_IN);
@@ -618,23 +615,11 @@ static int dpidac_probe(struct platform_device *pdev) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dip50Hz: %i, dip31kHz: %i\n", config.dip50Hz.gpio_state, config.dip31kHz.gpio_state);
 
   } else if(rgbjamma == 1) {
-    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support!\n");
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: Thank you for your support, have fun on Recalbox RGB JAMMA!\n");
     config.current_hat = RecalboxRGBJAMMA;
-
-    /* Switch video filter */
-    config.video_filter.gpio = devm_gpiod_get_index(&(pdev->dev), "videofilter", 0, GPIOD_OUT_HIGH);
-    if (IS_ERR(config.video_filter.gpio)) {
-      pr_err("Error when assigning GPIO to video_filter.\n");
-    } else {
-      config.video_filter.gpio_state = 1;
-      gpiod_set_value(config.video_filter.gpio, 1);
-      gpiod_export(config.video_filter.gpio, false);
-      gpiod_export_link(&pdev->dev, "jamma-video-filter", config.video_filter.gpio);
-    }
   } else {
     config.current_hat = OTHER;
   }
-
   drm_bridge_add(&vga->bridge);
 
   return 0;

@@ -53,8 +53,10 @@
       "esStart": "Démarrage EmulationStation",
       "esStop": "Arrêt EmulationStation",
       "esRestart": "Redémarrage EmulationStation",
-      "supportArchive1": "Votre archive de support est disponible <a href=\"",
-      "supportArchive2": "\" target=\"_blank\" title=\"Lien vers votre archive de support\">ici</a>."
+      "support": {
+        "label": "Votre archive de support est disponible",
+        "archiveDownload": "Télécharger"
+      }
     },
     "upload": {
       "clearAll": "Effacer tout",

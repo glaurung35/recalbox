@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { AutorunConfig, AutorunConfigOptions } from 'stores/types/autorunConfig';
+import {
+  AutorunConfigOptionsResponse,
+  AutorunConfigResponse,
+} from 'stores/types/autorunConfig';
 
 export type AutorunStoreState = {
   _baseUrl: string,
-  _autorunOptions: AutorunConfigOptions,
-  autorun: AutorunConfig,
+  _autorunOptions: AutorunConfigOptionsResponse,
+  autorun: AutorunConfigResponse,
 };
 
 export const useAutorunStore = defineStore('autorun', {

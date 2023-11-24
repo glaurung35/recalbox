@@ -27,7 +27,7 @@ case "$1" in
 	if [ "$enabled" != "0" ];then
 		# get output video size
 		source /recalbox/scripts/recalbox-utils.sh
-		displayFrameBufferImage
+		#displayFrameBufferImage
 		echo $videoMode | grep -qE "(CEA|DMT) [0-9]{1,2} (HDMI|DVI)"
 		[ $? = "0" ] && tvservice -e "$videoMode"
 		settings_lang="`$systemsetting -command load -key system.language`"

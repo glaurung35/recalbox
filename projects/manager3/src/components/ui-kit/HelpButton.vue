@@ -3,7 +3,7 @@
 -->
 <template>
   <q-btn
-    :color="warning ? 'negative' : 'light-blue'"
+    :color="warning ? 'warning' : 'light-blue'"
     @click="() => helpOpen = true"
     flat
     :icon="warning ? 'mdi-alert' : 'mdi-help-circle-outline'"
@@ -75,7 +75,7 @@ const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-war
     content: "\F0625"
 
 .help-dialog-card-warning
-  border-left: 6px solid $negative
+  border-left: 6px solid $warning
 
   &:before
     content: "\F0026"

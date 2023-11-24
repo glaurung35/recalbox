@@ -245,10 +245,14 @@ isOldIntelChipset() {
 #   displays our intro background via the framebuffer
 displayFrameBufferImage() {
     if isRotated; then
-        fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
+        if isRecalboxRGBJamma; then
+            fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma-$(getRotationIndex).png
+        else
+            fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
+        fi
     else
         if isRecalboxRGBJamma; then
-            fbv2 -f -i /recalbox/system/resources/splash/recalbox-rgb-jamma.png
+            fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma-0.png
         elif isLowDef && ! isRecalboxRGBDual; then
             fbv2 -k -i /recalbox/system/resources/splash/240p/logo-version.png
         else

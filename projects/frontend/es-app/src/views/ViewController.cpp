@@ -320,7 +320,7 @@ void ViewController::Launch(FileData* game, const GameLinkedData& data, const Ve
 {
   // Avoid launch repeat
   DateTime now;
-  if ((mLastGameLaunched - now).TotalMilliseconds() < 2000) return;
+  if ((now - mLastGameLaunched).TotalMilliseconds() < 2000) return;
   mLastGameLaunched = now;
 
   if (!game->IsGame())

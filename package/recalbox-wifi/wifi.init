@@ -35,8 +35,7 @@ start() {
   if [ -f "$config_file" ]; then
     if [ "$("$system_setting" -command load -key "wifi.enabled" -source "$config_file")" -ne 0 ]; then
       echo "Wifi option enabled, trying to configure"
-      set_default_config
-      enable_wifi
+      (set_default_config; enable_wifi;)&
     else
       echo "Wifi option disabled"
       stop

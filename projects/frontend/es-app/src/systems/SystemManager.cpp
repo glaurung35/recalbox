@@ -365,7 +365,7 @@ void SystemManager::PopulateMultiPlayerSystem(SystemData* systemMultiPlayer)
       }
   } filter;
 
-  if (RecalboxConf::Instance().GetCollectionLastPlayed())
+  if (RecalboxConf::Instance().GetCollectionMultiplayer())
     PopulateMetaSystemWithFilter(systemMultiPlayer, &filter, nullptr);
 }
 

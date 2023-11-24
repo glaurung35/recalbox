@@ -43,6 +43,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Quit,
       Search,
       ArcadeOptions,
+      AutorunGame,
     };
 
     //! System reference

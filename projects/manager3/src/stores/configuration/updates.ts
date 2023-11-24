@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { UpdatesConfig, UpdatesConfigOptions } from 'stores/types/updatesConfig';
+import {
+  UpdatesConfigOptionsResponse,
+  UpdatesConfigResponse,
+} from 'stores/types/updatesConfig';
 
 export type UpdatesStoreState = {
   _baseUrl: string,
-  _updatesOptions: UpdatesConfigOptions,
-  updates: UpdatesConfig,
+  _updatesOptions: UpdatesConfigOptionsResponse,
+  updates: UpdatesConfigResponse,
 };
 
 export const useUpdatesStore = defineStore('updates', {

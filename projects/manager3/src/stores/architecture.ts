@@ -3,11 +3,11 @@
  */
 import { defineStore } from 'pinia';
 import { ARCHITECTURE } from 'src/router/api.routes';
-import { ArchitectureList } from 'stores/types/architectureList';
+import { ArchitectureResponse } from 'stores/types/architecture';
 
 export type ArchitectureStoreState = {
   _baseUrl: string,
-  architecture: ArchitectureList,
+  architecture: ArchitectureResponse,
 }
 
 export const useArchitectureStore = defineStore('architecture', {

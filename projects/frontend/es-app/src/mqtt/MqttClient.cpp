@@ -161,10 +161,9 @@ void MqttClient::Wait()
 
 void MqttClient::WaitFor(int t)
 {
+  (void)t;
   #ifndef FREEZE_MQTT
   mOriginalTocken->wait_for(t);
-  #else
-  (void)t;
   #endif
 }
 

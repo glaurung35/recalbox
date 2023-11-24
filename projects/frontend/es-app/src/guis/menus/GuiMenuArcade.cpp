@@ -27,15 +27,15 @@ GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager
   if (mArcade == nullptr)
   {
     // Per manufacturer systems
-    //AddMultiList<String>(_("MANUFACTURER VIRTUAL SYSTEMS"), (int)Components::ManufacturersVirtual, this, GetManufacturersVirtualEntries());
+    AddMultiList<String>(_("MANUFACTURER VIRTUAL SYSTEMS"), (int)Components::ManufacturersVirtual, this, GetManufacturersVirtualEntries());
 
     // All-in-one arcade system options
     AddSubMenu(_("ARCADE ALL-IN-ONE SYSTEM"), (int)Components::GlobalArcadeSystem, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
   }
   else // Gamelist menu
   {
-    if (mArcade->HasValidDatabase())
-      AddMultiList<int>((_F(_("HIDE {0} MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::ManufacturersFilter, this, GetManufacturerFilterEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
+    //if (mArcade->HasValidDatabase())
+    //  AddMultiList<int>((_F(_("HIDE {0} MANUFACTURERS")) / mArcade->GetCurrentCoreName())(), (int) Components::ManufacturersFilter, this, GetManufacturerFilterEntries(), _(MENUMESSAGE_GAMELISTOPTION_MANUFACTURERS_MSG));
   }
 }
 

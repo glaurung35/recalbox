@@ -3,11 +3,11 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { HyperionConfig } from 'stores/types/hyperionConfig';
+import { HyperionConfigResponse } from 'stores/types/hyperionConfig';
 
 export type HyperionStoreState = {
   _baseUrl: string,
-  hyperion: HyperionConfig,
+  hyperion: HyperionConfigResponse,
 }
 
 export const useHyperionStore = defineStore('hyperion', {

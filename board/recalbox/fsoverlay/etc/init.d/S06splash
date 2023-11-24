@@ -170,8 +170,17 @@ playVideo() {
   fi
 }
 
+shouldPlayBootVideo() {
+  autorun="$($systemsetting -command load -key autorun.enabled -source /boot/recalbox-backup.conf)"
+  uuid="$($systemsetting -command load -key autorun.uuid -source /boot/recalbox-backup.conf)"
+  path="$($systemsetting -command load -key autorun.path -source /boot/recalbox-backup.conf)"
+  if [[ "$autorun" == "1" && ! -z "$uuid" && ! -z "$path" ]]; then
+    return 1
+  fi
+  return 0
+}
 ## Main ##
-
-playVideo "$(selectVideo)"
-
+if shouldPlayBootVideo; then
+  playVideo "$(selectVideo)"
+fi
 exit 0

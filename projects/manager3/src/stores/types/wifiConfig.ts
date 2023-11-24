@@ -2,7 +2,29 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 
-export interface WifiConfigResponse {
+export interface WifiBaseConfigResponse {
+  key: {
+    exist: boolean;
+    value: string;
+  };
+  ssid: {
+    exist: boolean;
+    value: string;
+  };
+}
+
+export interface WifiBaseConfigOptionsResponse {
+  key: {
+    exist: boolean;
+    value: string;
+  };
+  ssid: {
+    exist: boolean;
+    value: string;
+  };
+}
+
+export interface WifiConfigResponse extends WifiBaseConfigResponse {
   enabled: {
     exist: boolean;
     value: boolean;
@@ -11,15 +33,7 @@ export interface WifiConfigResponse {
     exist: boolean;
     value: string;
   };
-  key: {
-    exist: boolean;
-    value: string;
-  };
   ip: {
-    exist: boolean;
-    value: string;
-  };
-  ssid: {
     exist: boolean;
     value: string;
   };
@@ -41,7 +55,7 @@ export interface WifiConfigResponse {
   };
 }
 
-export interface WifiConfigOptionsResponse {
+export interface WifiConfigOptionsResponse extends WifiBaseConfigOptionsResponse {
   enabled: {
     type: string;
   };
@@ -49,15 +63,9 @@ export interface WifiConfigOptionsResponse {
     type: string;
     allowedChars: string;
   };
-  key: {
-    type: string;
-  };
   ip: {
     type: string;
     allowedChars: string;
-  };
-  ssid: {
-    type: string;
   };
   gateway: {
     type: string;

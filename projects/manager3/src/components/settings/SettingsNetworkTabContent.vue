@@ -192,6 +192,7 @@
                     :setter="wifi2Store.post"
                     v-if="wifi2.ssid"
                     help
+                    api-key="ssid"
                   >
                     <template v-slot:help>
                       {{ $t('settings.network.wifi.ssid.help') }}
@@ -204,6 +205,7 @@
                     v-if="wifi2.key"
                     password
                     help
+                    api-key="key"
                   >
                     <template v-slot:help>
                       {{ $t('settings.network.wifi.key.help') }}
@@ -218,6 +220,7 @@
                     :setter="wifi3Store.post"
                     v-if="wifi3.ssid"
                     help
+                    api-key="ssid"
                   >
                     <template v-slot:help>
                       {{ $t('settings.network.wifi.ssid.help') }}
@@ -230,6 +233,7 @@
                     v-if="wifi3.key"
                     password
                     help
+                    api-key="key"
                   >
                     <template v-slot:help>
                       {{ $t('settings.network.wifi.key.help') }}

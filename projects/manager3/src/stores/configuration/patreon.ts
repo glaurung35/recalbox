@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { PatreonConfig, PatreonConfigOptions } from 'stores/types/patreonConfig';
+import {
+  PatreonConfigOptionsResponse,
+  PatreonConfigResponse,
+} from 'stores/types/patreonConfig';
 
 export type PatreonStoreState = {
   _baseUrl: string,
-  _patreonOptions: PatreonConfigOptions,
-  patreon: PatreonConfig,
+  _patreonOptions: PatreonConfigOptionsResponse,
+  patreon: PatreonConfigResponse,
 };
 
 export const usePatreonStore = defineStore('patreon', {

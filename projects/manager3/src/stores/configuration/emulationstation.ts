@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { EmulationStationConfig, EmulationStationConfigOptions } from 'stores/types/emulationstationConfig';
+import {
+  EmulationStationConfigOptionsResponse,
+  EmulationStationConfigResponse,
+} from 'stores/types/emulationstationConfig';
 
 export type EmulationStationStoreState = {
   _baseUrl: string,
-  _emulationstationOptions: EmulationStationConfigOptions,
-  emulationstation: EmulationStationConfig,
+  _emulationstationOptions: EmulationStationConfigOptionsResponse,
+  emulationstation: EmulationStationConfigResponse,
 };
 
 export const useEmulationstationStore = defineStore('emulationstation', {

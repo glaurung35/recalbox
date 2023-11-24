@@ -3,12 +3,12 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { WifiConfig, WifiConfigOptions } from 'stores/types/wifiConfig';
+import { WifiConfigOptionsResponse, WifiConfigResponse } from 'stores/types/wifiConfig';
 
 export type WifiStoreState = {
   _baseUrl: string,
-  _wifiOptions: WifiConfigOptions,
-  wifi: WifiConfig,
+  _wifiOptions: WifiConfigOptionsResponse,
+  wifi: WifiConfigResponse,
 };
 
 export const useWifiStore = defineStore('wifi', {

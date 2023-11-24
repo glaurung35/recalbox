@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { GlobalConfig, GlobalConfigOptions } from 'stores/types/globalConfig';
+import {
+  GlobalConfigOptionsResponse,
+  GlobalConfigResponse,
+} from 'stores/types/globalConfig';
 
 export type GlobalStoreState = {
   _baseUrl: string,
-  _globalOptions: GlobalConfigOptions,
-  global: GlobalConfig,
+  _globalOptions: GlobalConfigOptionsResponse,
+  global: GlobalConfigResponse,
 };
 
 export const useGlobalStore = defineStore('global', {

@@ -1,244 +1,239 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import { z } from 'zod';
 
-export const SystemConfigSchema = z.object({
-  'emulators.specialkeys': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'splash.length': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'splash.select': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  hostname: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'virtual-gamepads.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'ssh.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  kblayout: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  language: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'samba.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  timezone: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'manager.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'es.videomode': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'power.switch': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'fbcp.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'api.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  overscan: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.type': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'secondminitft.resolution': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'secondminitft.imagestretchenabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.imageenlargeenabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.imagealphaenabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.imageignoreaspectenabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.disablevideoines': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.backlightcontrol': z.object({
-    exist: z.boolean(),
-    value: z.number(),
-  }),
-  'secondminitft.usemarquee': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'secondminitft.sleepenabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'externalscreen.prefered': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'externalscreen.forceresolution': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'externalscreen.forcefrequency': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-});
+export interface SystemConfigResponse {
+  'emulators.specialkeys': {
+    exist: boolean;
+    value: string;
+  };
+  'splash.length': {
+    exist: boolean;
+    value: string;
+  };
+  'splash.select': {
+    exist: boolean;
+    value: string;
+  };
+  hostname: {
+    exist: boolean;
+    value: string;
+  };
+  'virtual-gamepads.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'ssh.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  kblayout: {
+    exist: boolean;
+    value: string;
+  };
+  language: {
+    exist: boolean;
+    value: string;
+  };
+  'samba.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  timezone: {
+    exist: boolean;
+    value: string;
+  };
+  'manager.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'es.videomode': {
+    exist: boolean;
+    value: string;
+  };
+  'power.switch': {
+    exist: boolean;
+    value: string;
+  };
+  'fbcp.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'api.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  overscan: {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.type': {
+    exist: boolean;
+    value: string;
+  };
+  'secondminitft.resolution': {
+    exist: boolean;
+    value: string;
+  };
+  'secondminitft.imagestretchenabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.imageenlargeenabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.imagealphaenabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.imageignoreaspectenabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.disablevideoines': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.backlightcontrol': {
+    exist: boolean;
+    value: number;
+  };
+  'secondminitft.usemarquee': {
+    exist: boolean;
+    value: boolean;
+  };
+  'secondminitft.sleepenabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'externalscreen.prefered': {
+    exist: boolean;
+    value: string;
+  };
+  'externalscreen.forceresolution': {
+    exist: boolean;
+    value: string;
+  };
+  'externalscreen.forcefrequency': {
+    exist: boolean;
+    value: string;
+  };
+}
 
-export type SystemConfig = z.infer<typeof SystemConfigSchema>
-
-export const SystemConfigOptionsSchema = z.object({
-  'emulators.specialkeys': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'splash.length': z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
-  }),
-  'splash.select': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  hostname: z.object({
-    type: z.string(),
-    allowedChars: z.string(),
-  }),
-  'virtual-gamepads.enabled': z.object({
-    type: z.string(),
-  }),
-  'ssh.enabled': z.object({
-    type: z.string(),
-  }),
-  kblayout: z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-    displayableStringList: z.array(z.string()),
-  }),
-  language: z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-    displayableStringList: z.array(z.string()),
-  }),
-  'samba.enabled': z.object({
-    type: z.string(),
-  }),
-  timezone: z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'manager.enabled': z.object({
-    type: z.string(),
-  }),
-  'es.videomode': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-    displayableStringList: z.array(z.string()),
-  }),
-  'power.switch': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'fbcp.enabled': z.object({
-    type: z.string(),
-  }),
-  'api.enabled': z.object({
-    type: z.string(),
-  }),
-  overscan: z.object({
-    type: z.string(),
-  }),
-  'secondminitft.enabled': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.type': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'secondminitft.resolution': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'secondminitft.imagestretchenabled': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.imageenlargeenabled': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.imagealphaenabled': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.imageignoreaspectenabled': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.disablevideoines': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.backlightcontrol': z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
-  }),
-  'secondminitft.usemarquee': z.object({
-    type: z.string(),
-  }),
-  'secondminitft.sleepenabled': z.object({
-    type: z.string(),
-  }),
-  'externalscreen.prefered': z.object({
-    type: z.string(),
-    allowedChars: z.string(),
-  }),
-  'externalscreen.forceresolution': z.object({
-    type: z.string(),
-    allowedChars: z.string(),
-  }),
-  'externalscreen.forcefrequency': z.object({
-    type: z.string(),
-    allowedChars: z.string(),
-  }),
-});
-
-export type SystemConfigOptions = z.infer<typeof SystemConfigOptionsSchema>
+export interface SystemConfigOptionsResponse {
+  'emulators.specialkeys': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'splash.length': {
+    type: string;
+    lowerValue: number;
+    higherValue: number;
+  };
+  'splash.select': {
+    type: string;
+    allowedStringList: string[];
+  };
+  hostname: {
+    type: string;
+    allowedChars: string;
+  };
+  'virtual-gamepads.enabled': {
+    type: string;
+  };
+  'ssh.enabled': {
+    type: string;
+  };
+  kblayout: {
+    type: string;
+    allowedStringList: string[];
+    displayableStringList: string[];
+  };
+  language: {
+    type: string;
+    allowedStringList: string[];
+    displayableStringList: string[];
+  };
+  'samba.enabled': {
+    type: string;
+  };
+  timezone: {
+    type: string;
+    allowedStringList: string[];
+  };
+  'manager.enabled': {
+    type: string;
+  };
+  'es.videomode': {
+    type: string;
+    allowedStringList: string[];
+    displayableStringList: string[];
+  };
+  'power.switch': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'fbcp.enabled': {
+    type: string;
+  };
+  'api.enabled': {
+    type: string;
+  };
+  overscan: {
+    type: string;
+  };
+  'secondminitft.enabled': {
+    type: string;
+  };
+  'secondminitft.type': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'secondminitft.resolution': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'secondminitft.imagestretchenabled': {
+    type: string;
+  };
+  'secondminitft.imageenlargeenabled': {
+    type: string;
+  };
+  'secondminitft.imagealphaenabled': {
+    type: string;
+  };
+  'secondminitft.imageignoreaspectenabled': {
+    type: string;
+  };
+  'secondminitft.disablevideoines': {
+    type: string;
+  };
+  'secondminitft.backlightcontrol': {
+    type: string;
+    lowerValue: number;
+    higherValue: number;
+  };
+  'secondminitft.usemarquee': {
+    type: string;
+  };
+  'secondminitft.sleepenabled': {
+    type: string;
+  };
+  'externalscreen.prefered': {
+    type: string;
+    allowedChars: string;
+  };
+  'externalscreen.forceresolution': {
+    type: string;
+    allowedChars: string;
+  };
+  'externalscreen.forcefrequency': {
+    type: string;
+    allowedChars: string;
+  };
+}

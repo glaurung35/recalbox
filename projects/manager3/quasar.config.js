@@ -97,7 +97,7 @@ module.exports = configure((ctx) => ({
         TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
-        MQTT_URL: 'mqtt://recalbox:18833',
+        MQTT_URL: '',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
       },
     // transpile: false,

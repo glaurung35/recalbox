@@ -7,7 +7,14 @@ import { useMonitoringStore } from 'stores/monitoring';
 const options:{clientId:string} = {
   clientId: `mqttjs_${Math.random().toString(16).substring(2, 8)}`,
 };
-const client:mqtt.MqttClient = mqtt.connect(String(process.env.MQTT_URL), options);
+
+let mqttUrl = process.env.MQTT_URL;
+
+if (process.env.MQTT_URL === '') {
+  mqttUrl = `mqtt://${window.location.hostname}:18833`;
+}
+
+const client:mqtt.MqttClient = mqtt.connect(String(mqttUrl), options);
 const monitoringStore = useMonitoringStore();
 
 // SystemInfo subcription and VueJS store injection

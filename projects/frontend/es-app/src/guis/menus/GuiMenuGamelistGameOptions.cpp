@@ -108,7 +108,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuGamelistGameOptions::GetEmula
   String currentEmulator(mGame.Metadata().Emulator());
   String currentCore    (mGame.Metadata().Core());
   GuiMenuTools::EmulatorAndCoreList eList =
-    GuiMenuTools::ListEmulatorAndCore(mGame.System(), mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
+    GuiMenuTools::ListGameEmulatorAndCore(mGame, mDefaultEmulator, mDefaultCore, currentEmulator, currentCore);
   if (!eList.empty())
     for (const GuiMenuTools::EmulatorAndCore& emulator : eList)
       list.push_back({ emulator.Displayable, emulator.Identifier, emulator.Selected });
@@ -124,7 +124,8 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
     mGame.Metadata().SetEmulator(String::Empty);
     mGame.Metadata().SetCore(String::Empty);
     // Split emulator & core
-    String emulator, core;
+    String emulator;
+    String core;
     if (value.Extract(':', emulator, core, false))
       if (emulator != mDefaultEmulator || core != mDefaultCore)
       {

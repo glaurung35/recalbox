@@ -13,6 +13,56 @@
 const Path GuiMenuTools::sShadersPath("/recalbox/share/shaders");
 
 GuiMenuTools::EmulatorAndCoreList
+GuiMenuTools::ListGameEmulatorAndCore(FileData& game, String& outDefaultEmulator,
+                                      String& outDefaultCore, const String& currentEmulator,
+                                      const String& currentCore)
+{
+  EmulatorAndCoreList result;
+  String emulator = currentEmulator;
+  String core = currentCore;
+
+  bool override = false;
+  if (EmulatorManager::GetGameEmulatorOverriden(game, outDefaultEmulator, outDefaultCore, override))
+  {
+    if (override)
+    {
+      String displayName(outDefaultEmulator);
+      if (displayName != outDefaultCore) displayName.Append(' ').Append(outDefaultCore);
+      result.push_back({ "", _("FORCED").Append(' ').Append(displayName), true });
+      return result;
+    }
+    result.push_back({ "", "SYSTEM DEFAULT", currentEmulator.empty() && currentCore.empty() });
+    if (emulator.empty()) emulator = outDefaultEmulator;
+    if (core.empty()) core = outDefaultCore;
+    for (const String& emulatorName : EmulatorManager::GetEmulators(game.System()))
+      for (const String& coreName : EmulatorManager::GetCores(game.System(), emulatorName))
+      {
+        // Get display name, composed of "emulator core" or just "emulator" of both are the same (standalone)
+        // Add "(default)" if this is the default emulator/core
+        String displayName(emulatorName);
+        if (displayName != coreName) displayName.Append(' ').Append(coreName);
+
+        // Build a key "emulator:core"
+        String emulatorAndCore(emulatorName);
+        emulatorAndCore.Append(':').Append(coreName);
+        bool match = (emulatorName == emulator && coreName == core) &&
+                     (!currentEmulator.empty() || !currentCore.empty());
+        if (match) { LOG(LogDebug) << "[GUI] Selected emulator/core: " << emulatorAndCore; }
+        // Add the entry
+        result.push_back({ emulatorAndCore, displayName, match });
+      }
+  }
+  else
+  {
+    result.push_back({ "", "SYSTEM DEFAULT", true });
+    { LOG(LogError) << "[GUI] Can't get default emulator/core for " << game.RomPath(); }
+  }
+
+  return result;
+
+}
+
+GuiMenuTools::EmulatorAndCoreList
 GuiMenuTools::ListEmulatorAndCore(SystemData& system, String& outDefaultEmulator,
                                   String& outDefaultCore, const String& currentEmulator,
                                   const String& currentCore)

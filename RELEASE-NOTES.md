@@ -4,13 +4,14 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-Pulstar
+## Version 9.2-jamma-14
 
-- Add support for START + BTN1 = CREDIT for all players
-- Fix Saturn tate mode
-- Add autoconfig for Naomi2 performance
-- Add Beetle Saturn on rpi5 (pour voir comment ca tourne)
-
+- Ajout de la feature autorun pour lancer un jeu automatiquement au démarrage de recalbox.
+- À activer dans les menus avancés -> autorun sur ON
+- Ensuite dans le menu d'un jeu (START), activer son autorun, et au reboot la recalbox bootera automatiquement sur le jeu.
+- Pour passer en mode gamecenter, désactiver tous les START pattern dans le menu recalbox rgb jamma. Comme ca plus de start pour quitter, plus de hotkey, plus de crédits avec START + BTN1, on se croirait à "la tête dans les nuages."
+- Vous pourrez toujours quitter le jeu avec la combinaison SERVICE + TEST.
+- Amusez-vous bien :)
 
 ## Version 9.2-Pulstar
 

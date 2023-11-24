@@ -1,6 +1,8 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+export const ARCHITECTURE = '/architecture';
+
 export const BIOS = {
   root: '/bios',
   all: '/bios',
@@ -179,5 +181,3 @@ export const TWITCH = {
 };
 
 export const VERSIONS = '/versions';
-
-export const ARCHITECTURE = '/architecture';

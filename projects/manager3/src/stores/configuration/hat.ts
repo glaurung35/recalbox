@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { HatConfig, HatConfigOptions } from 'stores/types/hatConfig';
+import {
+  HatConfigOptionsResponse,
+  HatConfigResponse,
+} from 'stores/types/hatConfig';
 
 export type HatStoreState = {
   _baseUrl: string,
-  _hatOptions: HatConfigOptions,
-  hat: HatConfig,
+  _hatOptions: HatConfigOptionsResponse,
+  hat: HatConfigResponse,
 };
 
 export const useHatStore = defineStore('hat', {

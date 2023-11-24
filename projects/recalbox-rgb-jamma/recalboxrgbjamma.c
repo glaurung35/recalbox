@@ -889,7 +889,7 @@ static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
 #define JAMMA_BTNS 0
 #define KICK_BTNS 1
 
-static const int buttons_bits[MAX_PLAYERS][2][BTN_PER_PLAYER_ON_JAMMA] = {
+static int buttons_bits[MAX_PLAYERS][2][BTN_PER_PLAYER_ON_JAMMA] = {
     // Player 1
     {
         // The value is the bit of the data containing the
@@ -948,7 +948,7 @@ static unsigned short buttonsReleasedValues[TOTAL_GPIO_ON_PCA] = {
 
 
 #define PRESSED(data, btn) ((btn) != -1 ? (((data >> (btn)) & 1) ^ (buttonsReleasedValues[btn])) : 0)
-#define ANYPRESSED(data, player, btn) (PRESSED(data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(data, buttons_bits[player][KICK_BTNS][button]))
+#define ANYPRESSED(data, player, btn) (PRESSED(data, buttons_bits[player][JAMMA_BTNS][btn]) || PRESSED(data, buttons_bits[player][KICK_BTNS][btn]))
 
 #define WAIT_SYNC() usleep_range(50000, 80000);
 //Exit delay (HK + START) set to 2 secondes
@@ -1140,10 +1140,10 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
   int player = 0, buttonIndex = 0, buttonValue = 0;
 
   if (HOTKEY_PATTERNS_ENABLED(jamma_config)) {
+    buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_START] = -1;
     manage_special_inputs(data_chips, time_ns);
   } else {
-    // Standard start
-    input_report_key(player_devs[PLAYER1], BTN_START, PRESSED(*data_chips, P1_START));
+    buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_START] = P1_START;
   }
 
   // Exit with TEST + SERVICE
@@ -1185,7 +1185,7 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
              buttons_codes[j], PRESSED(data_chips, player1_kick_btn_bits[j]));*/
           } else {
             // let's read on both inputs
-            buttonValue = PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][buttonIndex]) | PRESSED(*data_chips, buttons_bits[player][KICK_BTNS][buttonIndex]);
+            buttonValue = ANYPRESSED(*data_chips, player, buttonIndex);
           }
         }
 

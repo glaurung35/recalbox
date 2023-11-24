@@ -2,13 +2,13 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { AudioConfig, AudioConfigOptions } from 'stores/types/audioConfig';
+import { AudioConfigOptionsResponse, AudioConfigResponse } from 'stores/types/audioConfig';
 import { CONFIGURATION } from 'src/router/api.routes';
 
 export type AudioStoreState = {
   _baseUrl: string,
-  _audioOptions: AudioConfigOptions,
-  audio: AudioConfig,
+  _audioOptions: AudioConfigOptionsResponse,
+  audio: AudioConfigResponse,
 };
 
 export const useAudioStore = defineStore('audio', {

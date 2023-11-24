@@ -72,8 +72,9 @@ class EmulatorManager : public INoCopy
      * @param game Game from whitch to get rom path
      * @param emulator Emulator name to override with the one(s) from override files if they exists
      * @param core Core name to override with the one(s) from override files if they exists
+     * @return True if the emulator/core have been overriden, false otherwise
      */
-    static void GetEmulatorFromOverride(const FileData& game, String& emulator, String& core) ;
+    static bool GetEmulatorFromOverride(const FileData& game, String& emulator, String& core) ;
 
     /*!
      * @brief Patch name if required (example: libretro-duckstation renamed libretro-swanstation in 7.2.1)
@@ -104,7 +105,21 @@ class EmulatorManager : public INoCopy
      * @param core Core name
      * @return True if emulator/core have been filled properly, false otherwise (error, non-existing system, ...)
      */
-    static bool GetGameEmulator(const FileData& game, String& emulator, String& core) ;
+    static bool GetGameEmulatorOverriden(const FileData& game, String& emulator, String& core, bool& byOverride);
+
+    /*!
+     * @brief Get final emulator/core names used to run the given game
+     * this method explore all config files and override to find out final names
+     * @param game Game to get emulator/core for
+     * @param emulator Emulator name
+     * @param core Core name
+     * @return True if emulator/core have been filled properly, false otherwise (error, non-existing system, ...)
+     */
+    static bool GetGameEmulator(const FileData& game, String& emulator, String& core)
+    {
+      bool dummy;
+      return GetGameEmulatorOverriden(game, emulator, core, dummy);
+    }
 
     /*!
      * @brief Get final emulator/core names used to run the given game

@@ -13,9 +13,11 @@ bool EmulatorManager::GetDefaultEmulator(const SystemData& system, String& emula
   return Ok;
 }
 
-bool EmulatorManager::GetGameEmulator(const FileData& game, String& emulator, String& core)
+bool EmulatorManager::GetGameEmulatorOverriden(const FileData& game, String& emulator, String& core, bool& byOverride)
 {
   { LOG(LogTrace) << "[Emulator] Get game's emulator for " << game.RomPath().ToString(); }
+
+  byOverride = false;
 
   // Get default emulator first
   bool Ok = GetSystemDefaultEmulator(game.System(), emulator, core);
@@ -28,7 +30,8 @@ bool EmulatorManager::GetGameEmulator(const FileData& game, String& emulator, St
     GetEmulatorFromGamelist(game, emulator, core);
 
     // Then from file overrides
-    GetEmulatorFromOverride(game, emulator, core);
+    if (GetEmulatorFromOverride(game, emulator, core))
+      byOverride = true;
   }
   else { LOG(LogError) << "[Emulator] Cannot get default emulator!"; }
 
@@ -134,7 +137,7 @@ void EmulatorManager::GetEmulatorFromGamelist(const FileData& game, String& emul
   }
 }
 
-void EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emulator, String& core)
+bool EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emulator, String& core)
 {
   String rawGlobalEmulator;
   String rawSystemEmulator;
@@ -198,14 +201,18 @@ void EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
       emulator = finalEmulator;
       core = finalCore;
       { LOG(LogTrace) << "[Emulator]   From override files" << emulator << '/' << core; }
+      return true;
     }
-    else if (GuessEmulatorAndCore(game.System(), finalEmulator, finalCore))
+    if (GuessEmulatorAndCore(game.System(), finalEmulator, finalCore))
     {
       emulator = finalEmulator;
       core = finalCore;
       { LOG(LogTrace) << "[Emulator]   Guessed from override files" << emulator << '/' << core; }
+      return true;
     }
   }
+
+  return false;
 }
 
 bool EmulatorManager::ConfigOverloaded(const FileData& game)

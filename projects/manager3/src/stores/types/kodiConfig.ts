@@ -1,70 +1,65 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import { z } from 'zod';
 
-export const KodiConfigSchema = z.object({
-  enabled: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  xbutton: z.object({
-    exist: z.boolean(),
-    value: z.number(),
-  }),
-  'network.waittime': z.object({
-    exist: z.boolean(),
-    value: z.number(),
-  }),
-  'network.waithost': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  atstartup: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  videomode: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'network.waitmode': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-});
+export interface KodiConfigResponse {
+  enabled: {
+    exist: boolean;
+    value: boolean;
+  };
+  xbutton: {
+    exist: boolean;
+    value: number;
+  };
+  'network.waittime': {
+    exist: boolean;
+    value: number;
+  };
+  'network.waithost': {
+    exist: boolean;
+    value: string;
+  };
+  atstartup: {
+    exist: boolean;
+    value: boolean;
+  };
+  videomode: {
+    exist: boolean;
+    value: string;
+  };
+  'network.waitmode': {
+    exist: boolean;
+    value: string;
+  };
+}
 
-export type KodiConfig = z.infer<typeof KodiConfigSchema>
-
-export const KodiConfigOptionsSchema = z.object({
-  enabled: z.object({
-    type: z.string(),
-  }),
-  xbutton: z.object({
-    type: z.string(),
-    value: z.number(),
-  }),
-  'network.waittime': z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
-  }),
-  'network.waithost': z.object({
-    type: z.string(),
-    allowedChars: z.string(),
-  }),
-  atstartup: z.object({
-    type: z.string(),
-  }),
-  videomode: z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-    displayableStringList: z.array(z.string()),
-  }),
-  'network.waitmode': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-});
-
-export type KodiConfigOptions = z.infer<typeof KodiConfigOptionsSchema>
+export interface KodiConfigOptionsResponse {
+  enabled: {
+    type: string;
+  };
+  xbutton: {
+    type: string;
+    value: number;
+  };
+  'network.waittime': {
+    type: string;
+    lowerValue: number;
+    higherValue: number;
+  };
+  'network.waithost': {
+    type: string;
+    allowedChars: string;
+  };
+  atstartup: {
+    type: string;
+  };
+  videomode: {
+    type: string;
+    allowedStringList: string[];
+    displayableStringList: string[];
+  };
+  'network.waitmode': {
+    type: string;
+    allowedStringList: string[];
+  };
+}

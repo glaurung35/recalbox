@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { SystemConfig, SystemConfigOptions } from 'stores/types/systemConfig';
+import {
+  SystemConfigOptionsResponse,
+  SystemConfigResponse,
+} from 'stores/types/systemConfig';
 
 export type SystemStoreState = {
   _baseUrl: string,
-  _systemOptions: SystemConfigOptions,
-  system: SystemConfig,
+  _systemOptions: SystemConfigOptionsResponse,
+  system: SystemConfigResponse,
 };
 
 export const useSystemStore = defineStore('system', {

@@ -3,12 +3,14 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { ControllersConfig, ControllersConfigOptions } from 'stores/types/controllersConfig';
+import {
+  ControllersConfigOptionsResponse, ControllersConfigResponse,
+} from 'stores/types/controllersConfig';
 
 export type ControllersStoreState = {
   _baseUrl: string,
-  _controllersOptions: ControllersConfigOptions,
-  controllers: ControllersConfig,
+  _controllersOptions: ControllersConfigOptionsResponse,
+  controllers: ControllersConfigResponse,
 };
 
 export const useControllersStore = defineStore('controllers', {

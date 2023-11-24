@@ -1,113 +1,108 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import { z } from 'zod';
 
-export const ControllersConfigSchema = z.object({
-  'xarcade.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'bluetooth.ertm': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'gpio.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'ps3.driver': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'steam.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'gamecon.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'ps3.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'gpio.args': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'gamecon.args': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'bluetooth.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'db9.args': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'db9.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'joycond.enabled': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  swapvalidateandcancel: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-});
+export interface ControllersConfigResponse {
+  'xarcade.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'bluetooth.ertm': {
+    exist: boolean;
+    value: boolean;
+  };
+  'gpio.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'ps3.driver': {
+    exist: boolean;
+    value: string;
+  };
+  'steam.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'gamecon.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'ps3.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'gpio.args': {
+    exist: boolean;
+    value: string;
+  };
+  'gamecon.args': {
+    exist: boolean;
+    value: string;
+  };
+  'bluetooth.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'db9.args': {
+    exist: boolean;
+    value: string;
+  };
+  'db9.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  'joycond.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
+  swapvalidateandcancel: {
+    exist: boolean;
+    value: boolean;
+  };
+}
 
-export type ControllersConfig = z.infer<typeof ControllersConfigSchema>
-
-export const ControllersConfigOptionsSchema = z.object({
-  'xarcade.enabled': z.object({
-    type: z.string(),
-  }),
-  'bluetooth.ertm': z.object({
-    type: z.string(),
-  }),
-  'gpio.enabled': z.object({
-    type: z.string(),
-  }),
-  'ps3.driver': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'steam.enabled': z.object({
-    type: z.string(),
-  }),
-  'gamecon.enabled': z.object({
-    type: z.string(),
-  }),
-  'ps3.enabled': z.object({
-    type: z.string(),
-  }),
-  'gpio.args': z.object({
-    type: z.string(),
-  }),
-  'gamecon.args': z.object({
-    type: z.string(),
-  }),
-  'bluetooth.enabled': z.object({
-    type: z.string(),
-  }),
-  'db9.args': z.object({
-    type: z.string(),
-  }),
-  'db9.enabled': z.object({
-    type: z.string(),
-  }),
-  'joycond.enable': z.object({
-    type: z.string(),
-  }),
-  swapvalidateandcancel: z.object({
-    type: z.string(),
-  }),
-});
-
-export type ControllersConfigOptions = z.infer<typeof ControllersConfigOptionsSchema>
+export interface ControllersConfigOptionsResponse {
+  'xarcade.enabled': {
+    type: string;
+  };
+  'bluetooth.ertm': {
+    type: string;
+  };
+  'gpio.enabled': {
+    type: string;
+  };
+  'ps3.driver': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'steam.enabled': {
+    type: string;
+  };
+  'gamecon.enabled': {
+    type: string;
+  };
+  'ps3.enabled': {
+    type: string;
+  };
+  'gpio.args': {
+    type: string;
+  };
+  'gamecon.args': {
+    type: string;
+  };
+  'bluetooth.enabled': {
+    type: string;
+  };
+  'db9.args': {
+    type: string;
+  };
+  'db9.enabled': {
+    type: string;
+  };
+  'joycond.enable': {
+    type: string;
+  };
+  swapvalidateandcancel: {
+    type: string;
+  };
+}

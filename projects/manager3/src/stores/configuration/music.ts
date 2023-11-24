@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { MusicConfig, MusicConfigOptions } from 'stores/types/musicConfig';
+import {
+  MusicConfigOptionsResponse,
+  MusicConfigResponse,
+} from 'stores/types/musicConfig';
 
 export type MusicStoreState = {
   _baseUrl: string,
-  _musicOptions: MusicConfigOptions,
-  music: MusicConfig,
+  _musicOptions: MusicConfigOptionsResponse,
+  music: MusicConfigResponse,
 };
 
 export const useMusicStore = defineStore('music', {

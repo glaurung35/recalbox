@@ -1,128 +1,123 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import { z } from 'zod';
 
-export const ScraperConfigSchema = z.object({
-  'screenscraper.password': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.media': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  extractregionfromfilename: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  getnamefrom: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.language': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.region': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.thumbnail': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.video': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  'screenscraper.maps': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'screenscraper.manual': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'screenscraper.user': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  source: z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-  auto: z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'screenscraper.p2k': z.object({
-    exist: z.boolean(),
-    value: z.boolean(),
-  }),
-  'screenscraper.regionPriority': z.object({
-    exist: z.boolean(),
-    value: z.string(),
-  }),
-});
+export interface ScraperConfigResponse {
+  'screenscraper.password': {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.media': {
+    exist: boolean;
+    value: string;
+  };
+  extractregionfromfilename: {
+    exist: boolean;
+    value: boolean;
+  };
+  getnamefrom: {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.language': {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.region': {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.thumbnail': {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.video': {
+    exist: boolean;
+    value: string;
+  };
+  'screenscraper.maps': {
+    exist: boolean;
+    value: boolean;
+  };
+  'screenscraper.manual': {
+    exist: boolean;
+    value: boolean;
+  };
+  'screenscraper.user': {
+    exist: boolean;
+    value: string;
+  };
+  source: {
+    exist: boolean;
+    value: string;
+  };
+  auto: {
+    exist: boolean;
+    value: boolean;
+  };
+  'screenscraper.p2k': {
+    exist: boolean;
+    value: boolean;
+  };
+  'screenscraper.regionPriority': {
+    exist: boolean;
+    value: string;
+  };
+}
 
-export type ScraperConfig = z.infer<typeof ScraperConfigSchema>
-
-export const ScraperConfigOptionsSchema = z.object({
-  'screenscraper.password': z.object({
-    type: z.string(),
-  }),
-  'screenscraper.media': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  extractregionfromfilename: z.object({
-    type: z.string(),
-  }),
-  getnamefrom: z.object({
-    type: z.string(),
-    lowerValue: z.number(),
-    higherValue: z.number(),
-  }),
-  'screenscraper.language': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'screenscraper.region': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'screenscraper.thumbnail': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'screenscraper.video': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  'screenscraper.maps': z.object({
-    type: z.string(),
-  }),
-  'screenscraper.manual': z.object({
-    type: z.string(),
-  }),
-  'screenscraper.user': z.object({
-    type: z.string(),
-  }),
-  source: z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-  auto: z.object({
-    type: z.string(),
-  }),
-  'screenscraper.p2k': z.object({
-    type: z.string(),
-  }),
-  'screenscraper.regionPriority': z.object({
-    type: z.string(),
-    allowedStringList: z.array(z.string()),
-  }),
-});
-
-export type ScraperConfigOptions = z.infer<typeof ScraperConfigOptionsSchema>
+export interface ScraperConfigOptionsResponse {
+  'screenscraper.password': {
+    type: string;
+  };
+  'screenscraper.media': {
+    type: string;
+    allowedStringList: string[];
+  };
+  extractregionfromfilename: {
+    type: string;
+  };
+  getnamefrom: {
+    type: string;
+    lowerValue: number;
+    higherValue: number;
+  };
+  'screenscraper.language': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'screenscraper.region': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'screenscraper.thumbnail': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'screenscraper.video': {
+    type: string;
+    allowedStringList: string[];
+  };
+  'screenscraper.maps': {
+    type: string;
+  };
+  'screenscraper.manual': {
+    type: string;
+  };
+  'screenscraper.user': {
+    type: string;
+  };
+  source: {
+    type: string;
+    allowedStringList: string[];
+  };
+  auto: {
+    type: string;
+  };
+  'screenscraper.p2k': {
+    type: string;
+  };
+  'screenscraper.regionPriority': {
+    type: string;
+    allowedStringList: string[];
+  };
+}

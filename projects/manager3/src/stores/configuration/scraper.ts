@@ -3,12 +3,15 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { ScraperConfig, ScraperConfigOptions } from 'stores/types/scraperConfig';
+import {
+  ScraperConfigOptionsResponse,
+  ScraperConfigResponse,
+} from 'stores/types/scraperConfig';
 
 export type ScraperStoreState = {
   _baseUrl: string,
-  _scraperOptions: ScraperConfigOptions,
-  scraper: ScraperConfig,
+  _scraperOptions: ScraperConfigOptionsResponse,
+  scraper: ScraperConfigResponse,
 };
 
 export const useScraperStore = defineStore('scraper', {

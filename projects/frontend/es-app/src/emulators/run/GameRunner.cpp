@@ -211,21 +211,25 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
 
 void GameRunner::SubSystemPrepareForRun()
 {
-  if (VideoEngine::IsInstantiated())
-    VideoEngine::Instance().StopVideo(false);
-  AudioManager::Instance().Deactivate();
-  WindowManager::Finalize();
+  if(mWindowManager != nullptr) {
+    if (VideoEngine::IsInstantiated())
+      VideoEngine::Instance().StopVideo(false);
+    AudioManager::Instance().Deactivate();
+    WindowManager::Finalize();
+  }
 }
 
 void GameRunner::SubSystemRestore()
 {
-  // Reinit
-  Sdl2Init::Finalize();
-  Sdl2Init::Initialize();
-  mWindowManager.ReInitialize();
-  mWindowManager.normalizeNextUpdate();
-  AudioManager::Instance().Reactivate();
-  InputManager::Instance().Refresh(&mWindowManager, false);
+  if(mWindowManager != nullptr) {
+    // Reinit
+    Sdl2Init::Finalize();
+    Sdl2Init::Initialize();
+    mWindowManager->ReInitialize();
+    mWindowManager->normalizeNextUpdate();
+    AudioManager::Instance().Reactivate();
+    InputManager::Instance().Refresh(mWindowManager, false);
+  }
 }
 
 bool

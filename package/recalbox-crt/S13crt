@@ -35,6 +35,7 @@ declare -A CONFIG_CONTENT=(
     ["pi2scart"]="#device=pi2scart\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
     ["vga666"]="#device=vga666\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
     ["rgbpi"]="#device=rgbpi\ndtoverlay=recalboxrgbdual-thirdparty,mode6\naudio_pwm_mode=2\ndtoverlay=audremap,pins_18_19"
+    ["pi2jamma"]="#device=pi2jamma\ndtoverlay=recalboxrgbdual-thirdparty\ndtoverlay=headphones"
     ["recalboxrgbjamma"]="#device=recalboxrgbjamma\ndtoverlay=recalboxrgbjamma"
     ["recalboxrgbjamma-v2"]="#device=recalboxrgbjamma-v2\ndtoverlay=recalboxrgbjamma-v2"
     ["recalboxrgbjamma-v3"]="#device=recalboxrgbjamma-v3\ndtoverlay=recalboxrgbjamma-v3"
@@ -411,7 +412,7 @@ if test "$1" == "start"; then
         DAC=${CONFIG_LINE##*"= "}
     fi
 
-    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" =~ recalboxrgbjamma.* || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart" ]]; then
+    if [[ "${DAC}" == "recalboxrgbdual" || "${DAC}" =~ recalboxrgbjamma.* || "${DAC}" == "vga666" || "${DAC}" == "rgbpi" || "${DAC}" == "pi2scart"  || "${DAC}" == "pi2jamma" ]]; then
         runMigrations
         if [[ ! -f "${CRT_DAC_FILE}" ]] || ! grep -q "#device=${DAC}" "${CRT_DAC_FILE}"; then
             source /recalbox/scripts/recalbox-utils.sh
@@ -422,7 +423,7 @@ if test "$1" == "start"; then
             mount -o remount,ro /boot
             genericInstall
             configure_case
-            if [[ "${DAC}" =~ recalboxrgbjamma.* ]]; then
+            if [[ "${DAC}" =~ recalboxrgbjamma.* || "${DAC}" == "pi2jamma" ]]; then
                 configure_rbconf_jamma
                 if [ "$(getArchName)" == "rpi5_64" ]; then
                     echo -e "${CONFIG_CONTENT['recalboxrgbjamma-pi5']}" > ${CRT_DAC_FILE}

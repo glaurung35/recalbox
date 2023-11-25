@@ -1,0 +1,17 @@
+--- python-evdev-v0.7.0/evdev/eventio_async.py	2017-06-16 18:59:46.000000000 +0200
++++ new-evmapy/eventio_async.py	2023-12-03 19:23:46.405772048 +0100
+@@ -70,12 +70,10 @@
+             self.current_batch = self.device.read()
+             return next(self.current_batch)
+ 
+-    @asyncio.coroutine
+-    def __aiter__(self):
++    async def __aiter__(self):
+         return self
+ 
+-    @asyncio.coroutine
+-    def __anext__(self):
++    async def __anext__(self):
+         future = asyncio.Future()
+         try:
+             # Read from the previous batch of events.

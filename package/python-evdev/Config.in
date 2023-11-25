@@ -1,0 +1,7 @@
+config BR2_PACKAGE_EVDEV
+	bool "python-evdev"
+	help
+	  This package provides bindings to the generic input event
+	  interface in Linux.
+
+	  https://github.com/gvalkov/python-evdev

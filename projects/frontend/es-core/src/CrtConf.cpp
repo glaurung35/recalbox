@@ -32,6 +32,7 @@ CrtAdapterType CrtConf::CrtAdapterFromString(const String& adapter)
   if (foundAdapter == "recalboxrgbdual"     ) return CrtAdapterType::RGBDual;
   if (foundAdapter == "recalboxrgbjamma"    ) return CrtAdapterType::RGBJamma;
   if (foundAdapter == "recalboxrgbjamma-v2" ) return CrtAdapterType::RGBJammaV2;
+  if (foundAdapter == "pi2jamma"            ) return CrtAdapterType::Pi2Jamma;
   if (foundAdapter == "pi2scart"            ) return CrtAdapterType::Pi2Scart;
   if (foundAdapter == "rgbpi"               ) return CrtAdapterType::RGBPi;
   if (foundAdapter == "vga666"              ) return CrtAdapterType::Vga666;
@@ -45,6 +46,7 @@ const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
     case CrtAdapterType::RGBDual:      { static String adapterString("recalboxrgbdual");       return adapterString; }
     case CrtAdapterType::RGBJamma:     { static String adapterString("recalboxrgbjamma");      return adapterString; }
     case CrtAdapterType::RGBJammaV2:   { static String adapterString("recalboxrgbjamma-v2");   return adapterString; }
+    case CrtAdapterType::Pi2Jamma:     { static String adapterString("pi2jamma");              return adapterString; }
     case CrtAdapterType::Pi2Scart:     { static String adapterString("pi2scart");              return adapterString; }
     case CrtAdapterType::RGBPi:        { static String adapterString("rgbpi");                 return adapterString; }
     case CrtAdapterType::Vga666:       { static String adapterString("vga666");                return adapterString; }

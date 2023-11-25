@@ -90,6 +90,8 @@ menu "Controllers"
          comment "Piboy DMG XPI Gamecon support"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xpi_gamecon_rpi/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-volumed/Config.in"
+         comment "Pi2Jamma"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/pikeyd165/Config.in"
 endmenu
 menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/advancemame/Config.in"

@@ -21,6 +21,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
+  bool isPi2Jamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::Pi2Jamma;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   bool supports120Hz = is31kHz && Board::Instance().CrtBoard().Has120HzSupport();
   bool supportsInterlaced = Board::Instance().CrtBoard().HasInterlacedSupport();
@@ -150,6 +151,35 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
     AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma);
   }
 
+  if(isPi2Jamma)
+  {
+    AddList<String>(_("PANEL TYPE"), (int)Components::JammaPanelButtons, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                            {{ "2 buttons", "2", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "2" },
+                             { "3 buttons", "3", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "3" },
+                             { "4 buttons", "4", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "4" },
+                             { "5 buttons", "5", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "5" },
+                             { "6 buttons", "6", CrtConf::Instance().GetSystemCRTJammaPanelButtons() == "6" },
+                             }),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
+
+    bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
+    AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
+                         std::vector<GuiMenuBase::ListEntry<String>>(
+                             {{ "Line", "line", neoline },
+                              { "Square", "square", !neoline }}),
+                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
+    AddSwitch(_("4 PLAYERS MODE"), CrtConf::Instance().GetSystemCRTJamma4Players(),
+              (int)Components::Jamma4Players, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS));
+    AddSwitch(_("START+BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
+              (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
+    AddSwitch(_("START+BTN = HK+BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
+              (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
+    AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
+              (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
+    AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma);
+  }
+
   // Screen Adjustments
   AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
 }
@@ -206,6 +236,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
     { "VGA666", CrtAdapterType::Vga666 },
     { "RGBPi", CrtAdapterType::RGBPi },
     { "Pi2SCART", CrtAdapterType::Pi2Scart },
+    { "Pi2Jamma", CrtAdapterType::Pi2Jamma },
   };
 
   // Always push none

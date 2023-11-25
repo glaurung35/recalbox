@@ -1,0 +1,8 @@
+config BR2_PACKAGE_PIKEYD165
+	bool "pikeyd165"
+	select BR2_PACKAGE_EVSIEVE
+	select BR2_PACKAGE_EVMAPY
+	help
+	  Pi2Jamma Tool
+
+	  https://github.com/arcadeforge/RetroPieRGB

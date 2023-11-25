@@ -464,7 +464,7 @@ void RequestHandler::MediaDelete(const Rest::Request& request, Http::ResponseWri
   Path mediaPath("/recalbox/share/screenshots");
   Path media = mediaPath / mediaName;
 
-  if (media.Exists()) media.Delete();
+  if (media.Exists()) (void)media.Delete();
   else RequestHandlerTools::Error404(response);
 
   RequestHandlerTools::GetJSONMediaList(response);

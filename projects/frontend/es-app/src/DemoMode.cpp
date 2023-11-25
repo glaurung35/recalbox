@@ -39,7 +39,7 @@ void DemoMode::runDemo()
     // Initialize (shutdown ES display)
     if (!Initialized)
     {
-      GameRunner::SubSystemPrepareForRun();
+      GameRunner::Instance().SubSystemPrepareForRun();
       Initialized = true;
     }
 

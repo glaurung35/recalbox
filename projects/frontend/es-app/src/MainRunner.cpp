@@ -90,17 +90,35 @@ MainRunner::ExitState MainRunner::Run()
     // Shut-up joysticks :)
     SDL_JoystickEventState(SDL_DISABLE);
 
+    SystemManager systemManager(*this, mIgnoredFiles);
+    GameRunner gameRunner(nullptr, systemManager, *this);
+    FileNotifier fileNotifier;
+    InputManager::Instance().Initialize();
+
+    // Autorun?
+    if (mRunCount == 0) {
+      if (mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
+        gameRunner.RunKodi();
+      if (RecalboxConf::Instance().GetAutorunEnabled() && !RecalboxConf::Instance().GetAutorunGamePath().empty()) {
+        systemManager.LoadSingleSystemConfigurations(RecalboxConf::Instance().GetAutorunSystemUUID());
+        ResetForceReloadState();
+        FileData *game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
+        if (game != nullptr) {
+          gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
+        }
+      }
+    }
+
     // Initialize the renderer first,'cause many things depend on renderer width/height
     Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed,
                       RotationManager::GetSystemRotation());
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Initialize main Window and ViewController
-    SystemManager systemManager(*this, mIgnoredFiles);
     ApplicationWindow window(systemManager);
     if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
-    InputManager::Instance().Initialize();
     mApplicationWindow = &window;
+    gameRunner.SetWindowManager(&window);
     mBluetooth.Register(&window.OSD().GetBluetoothOSD());
     // Brightness
     if (board.HasBrightnessSupport())
@@ -113,27 +131,12 @@ MainRunner::ExitState MainRunner::Run()
     // Initialize here so that all global object are available
     board.StartGlobalBackgroundProcesses();
 
-    // Autorun?
-    bool hasAutoRun = mRunCount == 0 &&
-                      RecalboxConf::Instance().GetAutorunEnabled() &&
-                      !RecalboxConf::Instance().GetAutorunGamePath().empty();
-
     // Display "loading..." screen
-    if (hasAutoRun) window.SetDisplayEnabled(false);
     window.RenderAll();
     PlayLoadingSound(audioManager);
 
-    // Try to load system configurations
-    FileNotifier fileNotifier;
-    if (hasAutoRun)
-    {
-       systemManager.LoadSingleSystemConfigurations(RecalboxConf::Instance().GetAutorunSystemUUID());
-    }
-    else
-    {
-      if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
-        return ExitState::FatalError;
-    }
+    if (!TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk))
+      return ExitState::FatalError;
     ResetForceReloadState();
 
     // Scrapers
@@ -155,26 +158,6 @@ MainRunner::ExitState MainRunner::Run()
       PatronInfo patronInfo(this);
       // Remote music
       RemotePlaylist remotePlaylist;
-
-      // Run game/kodi at startup?
-      GameRunner gameRunner(window, systemManager, *this);
-      if (mRunCount == 0)
-      {
-        if (mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup()) gameRunner.RunKodi();
-        else if (hasAutoRun)
-        {
-          FileData* game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
-          if (game != nullptr)
-          {
-            gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
-            // Restore UI and load systems
-            window.SetDisplayEnabled(true);
-            TryToLoadConfiguredSystems(systemManager, fileNotifier, sForceReloadFromDisk);
-          }
-          else window.displayMessage(_("Either the system or the autorun game has not been found !"));
-        }
-        window.SetDisplayEnabled(true);
-      }
 
       // Start update thread
       { LOG(LogDebug) << "[MainRunner] Launching Network thread"; }

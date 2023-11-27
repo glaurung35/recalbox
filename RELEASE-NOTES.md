@@ -14,6 +14,9 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Realtek RTW-88 series of wifi controllers
 - Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
 - Add support for eeprom update on RPi4 and RPi 5
+- Add support for HD mode on Pi5, PC (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)
+- Add support for Widescreen mode on Pi4, Pi5, PC (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)
+
 
 ### News
 - Add Arcade View

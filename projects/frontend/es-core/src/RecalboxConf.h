@@ -280,6 +280,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalReduceLatency, bool, Bool, sGlobalReduceLatency, false)
     DefineGetterSetter(GlobalRunAhead, bool, Bool, sGlobalRunAhead, false)
     DefineGetterSetter(GlobalShowSaveStateBeforeRun, bool, Bool, sGlobalShowSaveStateBeforeRun, false)
+    DefineGetterSetter(GlobalHDMode, bool, Bool, sGlobalHDMode, false)
+    DefineGetterSetter(GlobalWidescreenMode, bool, Bool, sGlobalWidescreen, false)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
@@ -414,6 +416,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalDemoInfoScreen       = "global.demo.infoscreenduration";
     static constexpr const char* sGlobalReduceLatency        = "global.reducelatency";
     static constexpr const char* sGlobalRunAhead             = "global.runahead";
+    static constexpr const char* sGlobalHDMode               = "global.hdmode";
+    static constexpr const char* sGlobalWidescreen           = "global.widescreenmode";
     static constexpr const char* sGlobalShowSaveStateBeforeRun = "global.show.savestate.before.run";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";

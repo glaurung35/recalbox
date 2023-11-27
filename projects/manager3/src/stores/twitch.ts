@@ -20,7 +20,7 @@ export const useTwitchStore = defineStore('twitch', {
   } as TwitchStoreState),
 
   actions: {
-    getSchedule():void {
+    getSchedule() {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.loadingSchedule = true;
@@ -42,14 +42,14 @@ export const useTwitchStore = defineStore('twitch', {
             'Client-Id': process.env.TWITCH_CLIENT_ID,
           },
         }).get(TWITCH.schedule, { params: { broadcaster_id: broadcasterId, first: perPage } }),
-      }).then((resultAggregator):void => {
+      }).then((resultAggregator) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.schedule = resultAggregator.schedule.value.data.data.segments;
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.loadingSchedule = false;
-      }).catch((errResult):void => {
+      }).catch((errResult) => {
         // eslint-disable-next-line no-console
         console.error(`Error encountered on job (${errResult.key}):`);
         // eslint-disable-next-line no-console

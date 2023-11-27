@@ -110,11 +110,11 @@ const modalImage = ref<object>({
   selectedName: null,
 });
 
-function openScreenshot(url:string) {
+function openScreenshot(url: string) {
   modalImage.value.imgUrl = url;
   modalImage.value.open = true;
 }
-function openDeleteConfirm(name:string) {
+function openDeleteConfirm(name: string) {
   modalImage.value.selectedName = name;
   $q.dialog({
     class: 'delete-dialog-card',
@@ -136,12 +136,12 @@ const modalVideo = ref<object>({
   selectedName: null,
 });
 
-function openVideo(url:string) {
+function openVideo(url: string) {
   modalVideo.value.videoUrl = url;
   modalVideo.value.open = true;
 }
 
-function openDeleteVideoConfirm(name:string) {
+function openDeleteVideoConfirm(name: string) {
   modalImage.value.selectedName = name;
   $q.dialog({
     class: 'delete-dialog-card',

@@ -104,6 +104,13 @@ module.exports = {
 
     'vue/no-v-text-v-html-on-component': 'off',
     'max-len': 'off',
+
+    "@typescript-eslint/type-annotation-spacing": [
+      "error",
+      {
+        "after": true,
+      },
+    ],
   },
 
   // add jest config

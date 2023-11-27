@@ -5,7 +5,7 @@ import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return
 const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
-  const allowedStores:string[] = [
+  const allowedStores = [
     'audio',
     'kodi',
     'scraper',
@@ -21,7 +21,7 @@ const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
 
   if (allowedStores.includes(context.store.$id)) {
     return {
-      async fetchOptions():Promise<void> {
+      async fetchOptions() {
         try {
           const response = await context.store._apiProvider.options(context.store._baseUrl);
           context.store[`_${context.store.$id}Options`] = response.data;

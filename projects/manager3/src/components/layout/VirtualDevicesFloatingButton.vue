@@ -34,7 +34,7 @@ const systemStore = useSystemStore();
 systemStore.fetch();
 const { system } = storeToRefs(systemStore);
 
-function show(display:boolean) {
+function show(display: boolean) {
   $q.bottomSheet({
     message: t('general.virtualDevices.title'),
     class: 'virtual-devices-menu',

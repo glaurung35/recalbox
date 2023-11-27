@@ -150,7 +150,7 @@ const columns: Array<object> = [
     label: 'Date de sortie',
     field: 'dateSortie',
     sortable: true,
-    format: (val:string) => date.formatDate(date.extractDate(val, 'YYYY-MM-DD'), 'DD/MM/YYYY'),
+    format: (val: string) => date.formatDate(date.extractDate(val, 'YYYY-MM-DD'), 'DD/MM/YYYY'),
   },
   {
     name: 'joueurs', align: 'center', label: 'Joueurs', field: 'joueurs', sortable: true,

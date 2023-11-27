@@ -678,11 +678,11 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isWpafAvailable = (arch:string) => ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
-const isBrightnessAvailable = (arch:string) => ['odroidgo2', 'rg353x'].includes(arch);
-const isFbcpAvailable = (arch:string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
-const isPowerSwitchAvailable = (arch:string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
-const isSecondMiniTftAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isWpafAvailable = (arch: string) => ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isBrightnessAvailable = (arch: string) => ['odroidgo2', 'rg353x'].includes(arch);
+const isFbcpAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isPowerSwitchAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+const isSecondMiniTftAvailable = (arch: string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 
 </script>
 

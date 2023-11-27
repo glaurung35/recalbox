@@ -8,7 +8,7 @@ export default async () => {
 
   try {
     await import(`quasar/lang/${langIso}`)
-      .then((lang):void => {
+      .then((lang): void => {
         Quasar.lang.set(lang.default);
       });
   } catch (err) {

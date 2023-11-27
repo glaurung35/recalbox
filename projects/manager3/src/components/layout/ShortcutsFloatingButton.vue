@@ -77,7 +77,7 @@ const props = defineProps({
 
 const { model } = toRefs(props);
 
-function update(value:boolean) {
+function update(value: boolean) {
   emit('toggle', { label: 'shortcutsButton', value });
 }
 

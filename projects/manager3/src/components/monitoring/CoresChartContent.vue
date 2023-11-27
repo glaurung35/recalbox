@@ -64,7 +64,7 @@ const options = computed(() => ({
     },
   },
   dataLabels: {
-    formatter(value:number) {
+    formatter(value: number) {
       return `${value}%`;
     },
     style: {

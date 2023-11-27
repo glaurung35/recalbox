@@ -68,7 +68,7 @@ const twitchUrl = process.env.TWITCH_URL;
 
 twitchStore.getSchedule();
 
-function formatDateTime(timestamp:string) {
+function formatDateTime(timestamp: string) {
   return date.formatDate(timestamp, 'DD/MM/YYYY - HH:mm');
 }
 </script>

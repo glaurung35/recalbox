@@ -95,7 +95,7 @@ const menuLinks: Array<object> = [
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 
-function toggle(event:object) {
+function toggle(event: object) {
   if (event.label === 'shortcutsButton') {
     shortcutsButtonOpeningStatus.value = event.value;
     helpButtonOpeningStatus.value = false;

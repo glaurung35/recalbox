@@ -29,11 +29,11 @@ const apiUrl = clientApiUrl;
 // good idea to move this instance creation inside of the
 // "export default () => {}" function below (which runs individually
 // for each client)
-const api:AxiosInstance = axios.create({ baseURL: clientApiUrl });
-const api80:AxiosInstance = axios.create({ baseURL: clientApi80Url });
-const httpClient:AxiosInstance = axios.create();
+const api: AxiosInstance = axios.create({ baseURL: clientApiUrl });
+const api80: AxiosInstance = axios.create({ baseURL: clientApi80Url });
+const httpClient: AxiosInstance = axios.create();
 
-export default boot(({ app }):void => {
+export default boot(({ app }): void => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
@@ -75,7 +75,7 @@ api.interceptors.request.use((config) => {
 
 // Add Notify Toasters on current axios requests
 api.interceptors.response.use((response) => {
-  let message:string = i18n.global.t('general.notify.updateSuccess');
+  let message = i18n.global.t('general.notify.updateSuccess');
   let icon = 'mdi-check-bold';
   Loading.hide();
 
@@ -139,7 +139,7 @@ api80.interceptors.request.use((config) => {
 
 // Add Notify Toasters on current axios requests
 api80.interceptors.response.use((response) => {
-  let message:string = i18n.global.t('general.notify.updateSuccess');
+  let message = i18n.global.t('general.notify.updateSuccess');
   let icon = 'mdi-check-bold';
   let timeout = 5000;
   let closeBtn = false;

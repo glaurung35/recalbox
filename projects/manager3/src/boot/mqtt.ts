@@ -4,7 +4,7 @@
 import mqtt from 'mqtt';
 import { useMonitoringStore } from 'stores/monitoring';
 
-const options:{clientId:string} = {
+const options: { clientId: string } = {
   clientId: `mqttjs_${Math.random().toString(16).substring(2, 8)}`,
 };
 
@@ -14,14 +14,14 @@ if (process.env.MQTT_URL === '') {
   mqttUrl = `mqtt://${window.location.hostname}:18833`;
 }
 
-const client:mqtt.MqttClient = mqtt.connect(String(mqttUrl), options);
+const client = mqtt.connect(String(mqttUrl), options);
 const monitoringStore = useMonitoringStore();
 
 // SystemInfo subcription and VueJS store injection
 client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
-client.on('message', (topic:string, message:Buffer):void => {
+client.on('message', (topic, message): void => {
   const newMessage = JSON.parse(new TextDecoder('utf-8').decode(message));
-  const temperatures:{x:string, y:string}[] = [
+  const temperatures: { x: string, y: string }[] = [
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     ...monitoringStore.metrics.temperatures,
@@ -31,7 +31,7 @@ client.on('message', (topic:string, message:Buffer):void => {
     ],
   ];
 
-  const memory:{x:string, y:string}[] = [
+  const memory: { x: string, y: string }[] = [
     // eslint-disable-next-line @typescript-eslint/ban-ts-comment
     // @ts-ignore
     ...monitoringStore.metrics.memory,
@@ -45,8 +45,8 @@ client.on('message', (topic:string, message:Buffer):void => {
     ],
   ];
 
-  const cores:{x:string, y:number}[] = Object.keys(newMessage.cpus).map(
-    (core:string):{x:string, y:number} => ({
+  const cores: { x: string, y: number }[] = Object.keys(newMessage.cpus).map(
+    (core): { x: string, y: number } => ({
       x: `Core ${core}`,
       y: parseFloat(newMessage.cpus[core].consumption.shift().toFixed(0)),
     }),

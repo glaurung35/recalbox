@@ -419,15 +419,15 @@ function refresh() {
   biosStore.fetch();
 }
 
-function isBios(column:object, pathNode:string) {
+function isBios(column: object, pathNode: string) {
   return column.value.split('/').slice(-1).pop() === pathNode;
 }
 
-function getBiosClass(column:object, pathNode:string) {
+function getBiosClass(column: object, pathNode: string) {
   return isBios(column, pathNode) ? 'path bios copy-to-clipboard' : 'path copy-to-clipboard';
 }
 
-function getBreadCrumbIcon(column:object, pathNode:string) {
+function getBreadCrumbIcon(column: object, pathNode: string) {
   return isBios(column, pathNode) ? 'mdi-chip' : 'mdi-folder-open-outline';
 }
 //   methods: {

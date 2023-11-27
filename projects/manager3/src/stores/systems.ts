@@ -24,7 +24,7 @@ export const useSystemsStore = defineStore('systems', {
     systemsList: (state) => {
       const list: object[] = [];
 
-      Object.keys(state.systems.systemList).forEach((system:string):void => {
+      Object.keys(state.systems.systemList).forEach((system) => {
         list.push(state.systems.systemList[system as keyof typeof state.systems.systemList]);
       });
 
@@ -33,7 +33,7 @@ export const useSystemsStore = defineStore('systems', {
   },
 
   actions: {
-    getSystemsListCount():number {
+    getSystemsListCount() {
       if (Object.keys(this.systems.systemList).length > 0) {
         return Object.keys(toRaw(this.systems.systemList)).length;
       }

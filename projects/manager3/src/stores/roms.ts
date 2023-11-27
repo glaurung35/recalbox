@@ -11,7 +11,7 @@ export const useRomsStore = defineStore('roms', {
   }),
 
   actions: {
-    async fetch():Promise<void> {
+    async fetch() {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -22,7 +22,7 @@ export const useRomsStore = defineStore('roms', {
         console.log(error);
       }
     },
-    async fetchBySystem(system:string):Promise<void> {
+    async fetchBySystem(system: string) {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

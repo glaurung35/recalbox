@@ -81,7 +81,7 @@ const { model } = toRefs(props);
 const open = ref<boolean>(false);
 const emit = defineEmits(['toggle']);
 
-function update(value:boolean) {
+function update(value: boolean) {
   emit('toggle', { label: 'helpButton', value });
 }
 </script>

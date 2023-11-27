@@ -5,7 +5,7 @@ import { PiniaPluginContext } from 'pinia';
 
 // eslint-disable-next-line consistent-return
 const PostStorePlugin = (context: PiniaPluginContext) => {
-  const allowedStores:string[] = [
+  const allowedStores = [
     'audio',
     'hyperion',
     'kodi',
@@ -26,7 +26,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
 
   if (allowedStores.includes(context.store.$id)) {
     return {
-      async post(data: Record<string, unknown>):Promise<void> {
+      async post(data: Record<string, unknown>) {
         try {
           const response = await context.store._apiProvider.post(context.store._baseUrl, data);
           context.store[context.store.$id] = response.data;

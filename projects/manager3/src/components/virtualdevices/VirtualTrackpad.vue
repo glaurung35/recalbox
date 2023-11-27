@@ -13,7 +13,7 @@ let x = 0;
 // eslint-disable-next-line  @typescript-eslint/no-unused-vars
 let y = 0;
 
-function updateCoordinates(event:object) {
+function updateCoordinates(event: object) {
   x = event.offsetX;
   y = event.offsetY;
 }

@@ -87,7 +87,7 @@ const systemsStore = useSystemsStore();
 systemsStore.fetch();
 const { systemsList } = storeToRefs(systemsStore);
 
-const api:string|undefined = apiUrl;
+const api: string|undefined = apiUrl;
 const columns = computed<object[]>(() => [
   {
     name: 'desc',

@@ -58,7 +58,7 @@ const options = computed(() => ({
   ],
   xaxis: {
     labels: {
-      formatter(value:number, timestamp:number) {
+      formatter(value: number, timestamp: number) {
         return date.formatDate(timestamp, 'HH:mm:ss');
       },
       trim: true,

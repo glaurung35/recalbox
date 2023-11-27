@@ -54,17 +54,17 @@ export default {
   mounted() {
     const commonKeyboardOptions = {
       // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-      onChange: (input:any) => {
+      onChange: (input: any) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.onChange(input);
       },
-      onKeyPress: (button:string) => {
+      onKeyPress: (button: string) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.onKeyPress(button);
       },
-      onKeyReleased: (button:string) => {
+      onKeyReleased: (button: string) => {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.onKeyReleased(button);
@@ -259,12 +259,12 @@ export default {
   },
   methods: {
     // eslint-disable-next-line  @typescript-eslint/no-explicit-any
-    onChange(input:any) {
+    onChange(input: any) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.$emit('onChange', input);
     },
-    onKeyPress(button:string) {
+    onKeyPress(button: string) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.$emit('onKeyPress', button);
@@ -279,7 +279,7 @@ export default {
         || button === '{capslock}'
       ) { this.handleShift(); }
     },
-    onKeyReleased(button:string) {
+    onKeyReleased(button: string) {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.$emit('onKeyReleased', button);

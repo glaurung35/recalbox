@@ -126,7 +126,7 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isKodiAvailable = (arch:string) => BOARDS.includes(arch);
+const isKodiAvailable = (arch: string) => BOARDS.includes(arch);
 
 const tab = ref<string>('system');
 </script>

@@ -44,7 +44,7 @@ const langOptions = [
   { value: 'en-US', label: 'i18nMenu.english' },
   { value: 'fr', label: 'i18nMenu.french' },
 ];
-function isSelected(value:string) {
+function isSelected(value: string) {
   return value === locale.value ? 'text-accent' : '';
 }
 function getTitle() {

@@ -299,7 +299,7 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isDB9Available = (arch:string) => BOARDS.includes(arch);
-const isGameconAvailable = (arch:string) => BOARDS.includes(arch);
-const isGPIOAvailable = (arch:string) => BOARDS.includes(arch);
+const isDB9Available = (arch: string) => BOARDS.includes(arch);
+const isGameconAvailable = (arch: string) => BOARDS.includes(arch);
+const isGPIOAvailable = (arch: string) => BOARDS.includes(arch);
 </script>

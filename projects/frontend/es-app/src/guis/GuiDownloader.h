@@ -4,7 +4,7 @@
 #pragma once
 
 #include "guis/Gui.h"
-#include "utils/network/Http.h"
+#include "utils/network/HttpClient.h"
 #include "components/TextComponent.h"
 #include "components/ProgressBarComponent.h"
 #include "components/ComponentGrid.h"

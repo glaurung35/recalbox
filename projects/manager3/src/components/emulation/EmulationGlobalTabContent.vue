@@ -290,19 +290,19 @@
               {{ $t('emulation.global.arcade.usedatabasenames.help') }}
             </template>
           </WrappedToggle>
-<!--           <WrappedMultipleSelect -->
-<!--            label="emulation.global.virtualarcade.manufacturers.label" -->
-<!--            :options="virtualArcadeManufacturersOptions" -->
-<!--            :getter="emulationstation['virtualarcade.manufacturers']" -->
-<!--            :setter="emulationstationStore.post" -->
-<!--            apiKey="virtualarcade.manufacturers" -->
-<!--            v-if="emulationstation['virtualarcade.manufacturers']" -->
-<!--            help -->
-<!--          > -->
-<!--            <template v-slot:help> -->
-<!--              {{ $t('emulation.global.virtualarcade.manufacturers.help') }} -->
-<!--            </template> -->
-<!--          </WrappedMultipleSelect> -->
+          <WrappedMultipleSelect
+            label="emulation.global.virtualarcade.manufacturers.label"
+            :options="virtualArcadeManufacturersOptions"
+            :getter="emulationstation['virtualarcade.manufacturers']"
+            :setter="emulationstationStore.post"
+            apiKey="virtualarcade.manufacturers"
+            v-if="emulationstation['virtualarcade.manufacturers']"
+            help
+          >
+            <template v-slot:help> -->
+              {{ $t('emulation.global.virtualarcade.manufacturers.help') }}
+            </template>
+          </WrappedMultipleSelect>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.global.translation.title">
@@ -421,7 +421,7 @@
 
 <script lang="ts" setup>
 import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
-// import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
+import WrappedMultipleSelect from 'components/ui-kit/WrappedMultipleSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { useGlobalStore } from 'stores/configuration/global';
@@ -447,7 +447,7 @@ const emulationstationStore = useEmulationstationStore();
 emulationstationStore.fetch();
 emulationstationStore.fetchOptions();
 const {
-  // virtualArcadeManufacturersOptions,
+  virtualArcadeManufacturersOptions,
   emulationstation,
 } = storeToRefs(emulationstationStore);
 

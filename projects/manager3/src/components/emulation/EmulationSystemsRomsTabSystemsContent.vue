@@ -94,7 +94,7 @@ const columns = computed(() => [
     required: true,
     label: '',
     align: 'left',
-    field: (row: { fullname: any; }) => row.fullname,
+    field: (row) => row.fullname,
     sortable: true,
   },
 ]);

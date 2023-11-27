@@ -143,4 +143,9 @@ class BiosManager : public StaticLifeCycleControler<BiosManager>
      * @brief Generate missing bios report in bios root folder
      */
     void GenerateReport() const;
+
+    //! Global move status
+    [[nodiscard]] bool Moved() const;
+    //! Global move error status
+    [[nodiscard]] bool MoveError() const;
 };

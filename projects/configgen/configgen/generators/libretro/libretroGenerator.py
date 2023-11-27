@@ -50,59 +50,60 @@ class LibretroGenerator(Generator):
         import os.path
         # tate mode do not support overlay
         # If we are on super game boy mode, we do not enable overlays
-        if system.Rotation or system.SuperGameBoy:
+        # Widescreen means no overlays
+        if system.Rotation or system.SuperGameBoy or system.WideScreenMode:
             return
         # If we are in crt mode, we only allow recalbox default 240p overlays
         if system.CRTEnabled:
             if system.RecalboxOverlays:
                 crtOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_240P_OVERLAYS, system.Name,
-                                                           system.Name)
+                                                       system.Name)
                 if os.path.isfile(crtOverlayFile):
                     configs.append(crtOverlayFile)
         # Overlays are applied only when we are not in wide core
         else:
-            if system.Core not in ["genesisplusgxwide", "bsneshd"]:
-                # User overlays
-                userOverlayApplied = False
-                overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
+            # User overlays
+            userOverlayApplied = False
+            overlayFile = "{}/{}/.overlay.cfg".format(recalboxFiles.OVERLAYS, system.Name)
+            if os.path.isfile(overlayFile):
+                # System global configuration
+                configs.append(overlayFile)
+                userOverlayApplied = True
+            else:
+                overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
                 if os.path.isfile(overlayFile):
-                    # System global configuration
+                    # All system global configuration
                     configs.append(overlayFile)
                     userOverlayApplied = True
-                else:
-                    overlayFile = "{}/.overlay.cfg".format(recalboxFiles.OVERLAYS)
-                    if os.path.isfile(overlayFile):
-                        # All system global configuration
-                        configs.append(overlayFile)
-                        userOverlayApplied = True
-                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, romName)
+            overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, romName)
+            if os.path.isfile(overlayFile):
+                # Rom file overlay
+                configs.append(overlayFile)
+                userOverlayApplied = True
+            else:
+                overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, system.Name)
                 if os.path.isfile(overlayFile):
-                    # Rom file overlay
+                    # System overlay
                     configs.append(overlayFile)
                     userOverlayApplied = True
-                else:
-                    overlayFile = "{}/{}/{}.cfg".format(recalboxFiles.OVERLAYS, system.Name, system.Name)
-                    if os.path.isfile(overlayFile):
-                        # System overlay
-                        configs.append(overlayFile)
-                        userOverlayApplied = True
-                if not userOverlayApplied:
-                    # The recalbox overlays should be added only if
-                    # global.recalboxoverlays=1 or system.recalboxoverlays activated
-                    if system.RecalboxOverlays:
-                        # ratio = we can activate when ratio is not 16/9 and 16/10
-                        if system.Ratio not in ["16/9", "16/10"]:
-                            # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
-                            from configgen.utils.resolutions import ResolutionParser
-                            resolution = ResolutionParser(system.VideoMode)
-                            if resolution.ratio() > 1.51:
-                                defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.Name,
-                                                                           system.Name)
-                                if os.path.isfile(defaultOverlayFile):
-                                    configs.append(defaultOverlayFile)
+            if not userOverlayApplied:
+                # The recalbox overlays should be added only if
+                # global.recalboxoverlays=1 or system.recalboxoverlays activated
+                if system.RecalboxOverlays:
+                    # ratio = we can activate when ratio is not 16/9 and 16/10
+                    if system.Ratio not in ["16/9", "16/10"]:
+                        # screen resolution that can support overlays are over 1.5 ratio (as it is float > 1.51)
+                        from configgen.utils.resolutions import ResolutionParser
+                        resolution = ResolutionParser(system.VideoMode)
+                        if resolution.ratio() > 1.51:
+                            defaultOverlayFile = "{}/{}/{}.cfg".format(recalboxFiles.RECALBOX_OVERLAYS, system.Name,
+                                                                       system.Name)
+                            if os.path.isfile(defaultOverlayFile):
+                                configs.append(defaultOverlayFile)
 
     # Build appendable configurations files argument
-    def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str, recalboxOptions: keyValueSettings) -> List[str]:
+    def getAppendConfigs(self, system: Emulator, rom: str, externalOverrides: str, recalboxOptions: keyValueSettings) -> \
+            List[str]:
         # Extra configs
         configs = []
         import os.path
@@ -188,9 +189,85 @@ class LibretroGenerator(Generator):
             if system.Name == "saturn":
                 config["video_rotation"] = (system.Rotation.value + 1) % 4
 
-
         return config, coreConfig
 
+    @staticmethod
+    def configureBsnesHD(system: Emulator) -> Dict[str, Any]:
+        return {"bsnes_mode7_scale": '"1x"', "bsnes_mode7_wsMode": '"all"' if system.WideScreenMode else '"none"'}
+
+    @staticmethod
+    def configureGenesisWide(system: Emulator) -> Dict[str, Any]:
+        if not system.WideScreenMode:
+            return {"genesis_plus_gx_wide_h40_extra_columns": "0"}
+        from configgen.utils.resolutions import ResolutionParser
+        ratio = ResolutionParser(system.VideoMode).ratio()
+        currentColumns = 10
+        # Ratio to columns (16/9 and more => 10 cols, 1.6 = 16/10 => 6 cols, 1.5 = GOA => 2 cols, 1.34 = 4/3 => 0 cols)
+        if ratio <= 1.6:
+            currentColumns = 6
+        if ratio <= 1.5:
+            currentColumns = 2
+        if ratio <= 1.34:
+            currentColumns = 0
+        config: Dict[str, Any] = {"genesis_plus_gx_wide_h40_extra_columns": "{}".format(currentColumns), }
+        return config
+
+    def configureFlycastWide(system: Emulator) -> Dict[str, Any]:
+        return {"reicast_widescreen_hack": '"enabled"' if system.WideScreenMode else '"disabled"'}
+
+    @staticmethod
+    def createHDWidescreenConfig(system: Emulator) -> (Dict[str, Any], Dict[str, Any], str):
+        libretroConfig: Dict[str, Any] = {}
+        coreConfig: Dict[str, Any] = {}
+        choosenCore = system.Core
+        # Skip widescreen when tate
+        system.WideScreenMode = system.WideScreenMode and system.Rotation == Rotation.none
+
+        systemsToWideScreenOrHdCore = {"snes": "bsneshd", "megadrive": "genesisplusgxwide", "dreamcast": "flycast",
+                                       "naomi": "flycast", "atomiswave": "flycast", "psx": "pcsx_rearmed",
+                                       "saturn": "yabasanshiro"}
+        widescreenCoreToCoreConfig = {"bsneshd": LibretroGenerator.configureBsnesHD,
+                                      "genesisplusgxwide": LibretroGenerator.configureGenesisWide,
+                                      "flycast": LibretroGenerator.configureFlycastWide}
+        hdCoreToCoreConfig = {
+            "flycast":
+                [
+                    {"reicast_internal_resolution": '"1024x768"', "reicast_cable_type": '"VGA"'},
+                    {"reicast_internal_resolution": '"640x480"', "reicast_cable_type": '"VGA"'}
+                ],
+            "pcsx_rearmed":
+                [
+                    {"pcsx_rearmed_neon_enhancement_enable": '"enabled"'},
+                    {"pcsx_rearmed_neon_enhancement_enable": '"disabled"'}
+                ],
+            "yabasanshiro":
+                [
+                    {"yabasanshiro_resolution_mode": '"2x"'},
+                    {"yabasanshiro_resolution_mode": '"1x"'}
+                ]
+        }
+
+        # HD
+        if system.Name in systemsToWideScreenOrHdCore:
+            if system.HDMode:
+                choosenCore = systemsToWideScreenOrHdCore[system.Name]
+                print("[Configgen.libretroGenerator] Setting new core for hdmode : {}".format(choosenCore))
+            if choosenCore in hdCoreToCoreConfig:
+                for config in hdCoreToCoreConfig[choosenCore][0 if system.HDMode else 1].items():
+                    coreConfig[config[0]] = config[1]
+
+        # Widescreen
+        if system.Name in systemsToWideScreenOrHdCore:
+            if system.WideScreenMode:
+                choosenCore = systemsToWideScreenOrHdCore[system.Name]
+                print("[Configgen.libretroGenerator] Setting new core for widescreenmode : {}".format(choosenCore))
+            if choosenCore in widescreenCoreToCoreConfig:
+                for config in widescreenCoreToCoreConfig[choosenCore](system).items():
+                    coreConfig[config[0]] = config[1]
+
+        # Update system wide widescreen if the widescreen is really activated
+        system.WideScreenMode = system.WideScreenMode and choosenCore in widescreenCoreToCoreConfig.keys()
+        return libretroConfig, coreConfig, choosenCore
 
     # Create run ahead configuration
     @staticmethod
@@ -207,7 +284,8 @@ class LibretroGenerator(Generator):
         }
         RunAheadSupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
         RunAheadSupportedCores = ["fbneo"]
-        configToSet = activated if system.RunAhead and (system.Name in RunAheadSupportedSystems or system.Core in RunAheadSupportedCores) else defaults
+        configToSet = activated if system.RunAhead and (
+                system.Name in RunAheadSupportedSystems or system.Core in RunAheadSupportedCores) else defaults
         for option in configToSet.items():
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
@@ -225,13 +303,15 @@ class LibretroGenerator(Generator):
         }
         ReduceLatencyupportedSystems = ["snes", "megadrive", "mastersystem", "nes", "gb", "gbc", "gamegear"]
         ReduceLatencyupportedCores = ["fbneo"]
-        configToSet = activated if system.ReduceLatency and (system.Name in ReduceLatencyupportedSystems or system.Core in ReduceLatencyupportedCores) else defaults
+        configToSet = activated if system.ReduceLatency and (
+                system.Name in ReduceLatencyupportedSystems or system.Core in ReduceLatencyupportedCores) else defaults
         for option in configToSet.items():
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
 
     @staticmethod
-    def createSuperGameBoyConfiguration(system: Emulator, retroarchConfig: keyValueSettings, coreConfig: keyValueSettings):
+    def createSuperGameBoyConfiguration(system: Emulator, retroarchConfig: keyValueSettings,
+                                        coreConfig: keyValueSettings):
         coreConfig.setString("mgba_sgb_borders", '"OFF"')
         coreConfig.setString("mgba_gb_model", '"Autodetect"')
         coreConfig.setString("mesen-s_gbmodel", '"Auto"')
@@ -285,7 +365,7 @@ class LibretroGenerator(Generator):
 
         # video driver config
         LibretroGenerator.createVideoDriverConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
-                                                     retroarchOverrides)
+                                                         retroarchOverrides)
 
         # crt config (should be after tate as it will change ratio but keep other tate config)
         if system.CRTEnabled:
@@ -296,12 +376,20 @@ class LibretroGenerator(Generator):
         # Run Ahead config
         LibretroGenerator.createRunAheadConfiguration(system, retroarchConfig)
 
-
+        # HD and widescreen config
+        libretroConfigHD, coreConfigHD, newCoreHD = LibretroGenerator.createHDWidescreenConfig(system)
+        for option in libretroConfigHD.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+        for option in coreConfigHD.items():
+            coreConfig.setString(option[0], option[1])
+        coreConfig.saveFile()
+        system.Core = newCoreHD
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \
-               configuration.getRetroarchOverridesFileName(), \
-               commandArgs
+            configuration.getRetroarchOverridesFileName(), \
+            commandArgs
 
     # Configure retroarch and return a command
     def generate(self, system: Emulator, playersControllers: ControllerPerPlayer, recalboxOptions: keyValueSettings,

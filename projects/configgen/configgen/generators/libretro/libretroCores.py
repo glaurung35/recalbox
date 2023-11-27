@@ -220,22 +220,6 @@ class LibretroCores:
     def configureDosBoxPure(coreSettings: keyValueSettings):
         coreSettings.setString("dosbox_pure_savestate", '"rewind"')
 
-    def configureGenesisPlusGxWide(self, coreSettings: keyValueSettings):
-        from configgen.utils.resolutions import ResolutionParser
-        ratio = ResolutionParser(self.system.VideoMode).ratio()
-        currentColumns = 10
-        # Ratio to columns (16/9 and more => 10 cols, 1.6 = 16/10 => 6 cols, 1.5 = GOA => 2 cols, 1.34 = 4/3 => 0 cols)
-        if ratio <= 1.6:
-            currentColumns = 6
-        if ratio <= 1.5:
-            currentColumns = 2
-        if ratio <= 1.34:
-            currentColumns = 0
-        coreSettings.setString("genesis_plus_gx_wide_h40_extra_columns", '"{}"'.format(currentColumns))
-
-    @staticmethod
-    def configureBsnesHd(coreSettings: keyValueSettings):
-        coreSettings.setString("bsnes_mode7_wsMode", '"all"')
     def configureFlycast(self, coreSettings: keyValueSettings):
         coreSettings.setString("reicast_alpha_sorting", '"per-triangle (normal)"')
         coreSettings.setString("reicast_anisotropic_filtering", '"4"')
@@ -261,9 +245,7 @@ class LibretroCores:
             "parallel_n64": LibretroCores.configurePARALLELN64,
             "np2kai" : LibretroCores.configureNPKAI,
             "swanstation" : LibretroCores.configureSwanstation,
-            "genesisplusgxwide": self.configureGenesisPlusGxWide,
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
-            "bsneshd": LibretroCores.configureBsnesHd,
             "flycast": self.configureFlycast,
             "fbneo": self.configureFBNeo,
         }

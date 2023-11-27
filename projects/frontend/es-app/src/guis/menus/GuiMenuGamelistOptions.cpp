@@ -253,7 +253,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
   {
     case Components::Download:
     {
-      mWindow.pushGui(new GuiDownloader(mWindow, mSystem));
+      mWindow.pushGui(new GuiDownloader(mWindow, mSystem, mSystemManager));
       break;
     }
     case Components::MetaData:

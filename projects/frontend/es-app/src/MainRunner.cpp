@@ -206,7 +206,6 @@ MainRunner::ExitState MainRunner::Run()
 
       // Enable joystick autopairing
       mBTAutopairManager.StartDiscovery();
-
       // Main Loop!
       CreateReadyFlagFile();
       Path externalNotificationFolder = Path(sQuitNow).Directory();
@@ -1121,4 +1120,16 @@ bool MainRunner::ProcessSpecialInputs(const InputCompactEvent& event)
         default: break;
       }
   return false;
+}
+
+void MainRunner::ScanComplete()
+{
+  BiosManager& manager = BiosManager::Instance();
+  WindowManager& window = *mApplicationWindow;
+  if (manager.Moved() && !manager.MoveError())
+    window.displayMessage(_("With regard to the new BIOS folder structure, some of your bios files have been moved automatically to their new path.").Append("\n\n").Append(_("This move is applied only once. No additional operation required.")));
+  else if (manager.Moved() && manager.MoveError())
+    window.displayMessage(_("With regard to the new BIOS folder structure, some of your bios files have been moved automatically to their new path.").Append("\n\n").Append(_("However, some files failed to move. You should run the BIOS Checker and move some files manually.")));
+  else if (manager.MoveError())
+    window.displayMessage(_("With regard to the new BIOS folder structure, some of your bios files have been moved automatically to their new path.").Append("\n\n").Append(_("However, all files failed to move. You should:\n- either run the BIOS Checker and move the required files manually.\n- or if your bios files are on a read-only device or remote share, change it to read-write, reboot your recalbox, wait until all files are moved, then protect it again.")));
 }

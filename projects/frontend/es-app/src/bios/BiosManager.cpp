@@ -165,3 +165,18 @@ void BiosManager::GenerateReport() const
 
   Files::SaveFile(RootFolders::DataRootFolder / sReportPath, report);
 }
+
+bool BiosManager::Moved() const
+{
+  for(const BiosList& biosList : mSystemBiosList)
+    if (biosList.MoveStatus()) return true;
+  return false;
+}
+
+bool BiosManager::MoveError() const
+{
+  for(const BiosList& biosList : mSystemBiosList)
+    if (biosList.MoveErrorStatus()) return true;
+  return false;
+}
+

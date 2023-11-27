@@ -1073,12 +1073,11 @@ VirtualSystemResult SystemManager::ThreadPoolRunJob(VirtualSystemDescriptor& vir
 SystemData& SystemManager::GetOrCreateSystem(const SystemDescriptor& descriptor)
 {
   // Seek for existing system
-  for(SystemData* system : mVisibleSystems)
+  for(SystemData* system : mAllSystems)
     if (system->Descriptor().GUID() == descriptor.GUID())
-    {
-      MakeSystemVisible(system);
       return *system;
-    }
+
+  { LOG(LogError) << "Unknown system UUID " << descriptor.GUID(); }
   abort();
 }
 

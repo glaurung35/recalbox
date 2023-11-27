@@ -1,4 +1,4 @@
-  {
+{
   "404": {
     "message": "Désolé, rien ici...",
     "returnButton": "Retour"
@@ -214,12 +214,12 @@
       "debuglogs": {
         "title": "Debug",
         "label": "Activer le mode debug",
-        "help": "Cette option vous permet d'activer ou de désactiver le mode debug.\n\nSi vous n'avez pas besoin d'utiiser le mode debug, veuillez le désactiver. Cette option peut faire énormément ralentir votre expérience de jeu."
+        "help": "Cette option vous permet d'activer ou de désactiver le mode debug.\n\nSi vous n'avez pas besoin d'utiliser ce mode, veuillez le désactiver. Cette option peut faire énormément ralentir votre expérience de jeu."
       },
       "brightness": {
         "title": "Luminosité",
         "label": "Puissance de la luminosité",
-        "help": "Cette option vous permet de régler la lumonisité de l'écran. Option utilisable uniquement sur Anbernic RG353 et Odroid Go Advance."
+        "help": "Cette option vous permet de régler la luminosité de l'écran. Option utilisable uniquement sur Anbernic RG353 et Odroid Go Advance."
       },
       "minitft": {
         "title": "Mini écran TFT",
@@ -236,7 +236,7 @@
             "1": "<b>MAUSBERRY</b> correspond aux boutons Mausberry.",
             "2": "<b>REMOTEPIBOARD_2003</b> correspond aux boutons RemotePi Board.",
             "3": "<b>REMOTEPIBOARD_2005</b> correspond aux boutons RemotePi Board.",
-            "4": "<b>WITTYPI</b> correpond aux boutons Witty Pi.",
+            "4": "<b>WITTYPI</b> correspond aux boutons Witty Pi.",
             "5": "<b>PIN56ONOFF</b> correspond à un bouton on/off branché entre le GPIO3 et la masse.",
             "6": "<b>PIN56PUSH</b> correspond à un bouton poussoir branché entre le GPIO3 et la masse.",
             "7": "<b>PIN356ONOFFRESET</b> correspond à un bouton on/off branché entre le GPIO2 et la masse pour l'allumage.",
@@ -309,7 +309,7 @@
           "title": "Ventilation",
           "enabled": {
             "label": "Activer la ventilation",
-            "help": "Cette option vous permet d'activer la ventilation sur botre board en fonction du hat."
+            "help": "Cette option vous permet d'activer la ventilation sur votre board en fonction du hat."
           },
           "board": {
             "label": "Choix du hat",
@@ -980,7 +980,7 @@
         },
         "lobby": {
           "label": "Lobby libretro",
-          "help": "Cette opiotn vous permet de définir une autre adresse pour le lobby Netplay.\n\nL'URL http://lobby.libretro.com/list/ est configurée par défaut."
+          "help": "Cette option vous permet de définir une autre adresse pour le lobby Netplay.\n\nL'URL http://lobby.libretro.com/list/ est configurée par défaut."
         }
       }
     },

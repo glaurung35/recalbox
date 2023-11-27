@@ -236,7 +236,7 @@
             "1": "<b>MAUSBERRY</b> corresponds to Mausberry buttons.",
             "2": "<b>REMOTEPIBOARD_2003</b> corresponds to RemotePi Board buttons.",
             "3": "<b>REMOTEPIBOARD_2005</b> corresponds to RemotePi Board buttons.",
-            "4": "<b>WITTYPI</b> correponds to Witty Pi buttons.",
+            "4": "<b>WITTYPI</b> corresponds to Witty Pi buttons.",
             "5": "<b>PIN56ONOFF</b> corresponds to an on-off button between GPIO3 and ground.",
             "6": "<b>PIN56PUSH</b> corresponds to a pression button between GPIO3 and ground.",
             "7": "<b>PIN356ONOFFRESET</b> corresponds to an on-off button between GPIO2 and ground.",

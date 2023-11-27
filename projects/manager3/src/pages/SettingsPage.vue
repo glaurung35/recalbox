@@ -97,6 +97,7 @@
 </template>
 
 <script lang="ts" setup>
+import { BOARDS } from 'src/utils/constants';
 import { ref } from 'vue';
 import { useSystemStore } from 'stores/configuration/system';
 import { useUpdatesStore } from 'stores/configuration/updates';
@@ -125,7 +126,7 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isKodiAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
+const isKodiAvailable = (arch:string) => BOARDS.includes(arch);
 
 const tab = ref<string>('system');
 </script>

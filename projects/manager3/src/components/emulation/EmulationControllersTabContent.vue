@@ -277,6 +277,7 @@ import WrappedSelect from 'components/ui-kit/WrappedSelect.vue';
 import WrappedTextInput from 'components/ui-kit/WrappedTextInput.vue';
 import WrappedToggle from 'components/ui-kit/WrappedToggle.vue';
 import { storeToRefs } from 'pinia';
+import { BOARDS } from 'src/utils/constants';
 import { useControllersStore } from 'stores/configuration/controllers';
 import { useGlobalStore } from 'stores/configuration/global';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
@@ -298,7 +299,7 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isDB9Available = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
-const isGameconAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
-const isGPIOAvailable = (arch:string) => ['odroidxu4', 'rpi1', 'rpi3', 'rpi4_64', 'rpi5_64', 'rpizero2', 'rpizero2legacy', 'x86_64'].includes(arch);
+const isDB9Available = (arch:string) => BOARDS.includes(arch);
+const isGameconAvailable = (arch:string) => BOARDS.includes(arch);
+const isGPIOAvailable = (arch:string) => BOARDS.includes(arch);
 </script>

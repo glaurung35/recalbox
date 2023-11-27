@@ -96,10 +96,17 @@ const percents = computed<object[]>(() => [
     -webkit-box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
     box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
 
+    @keyframes animatedBackground
+      from
+        background-position: 0 0
+      to
+        background-position: 100% 0
+
     .background-container
       height: 100%
       background-image: url(../assets/controller-background.png)
       position: relative
+      animation: animatedBackground 200s linear infinite alternate
 
       @keyframes logoslidein
         from

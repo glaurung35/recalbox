@@ -96,6 +96,17 @@ function runMigrations {
         sed -i "s|ROM_OS_BB01R2=/recalbox/share/bios/ATARIXL.ROM|ROM_OS_BB01R2=/recalbox/share/bios/atari800/ATARIXL.ROM|g" "/recalbox/share/system/.atari800.cfg"
         migrationDone "${SHARE_TYPE}" "9.2-move-bios"
     fi
+    if shouldMigrate "${SHARE_TYPE}" "9.2-remove-autoconf-popup-retroarch"; then
+        source /recalbox/scripts/recalbox-utils.sh
+        recallog -s "${INIT_SCRIPT}" -t "MIGRATION" "Running 9.2-remove-autoconf-popup-retroarch"
+        notification_show_autoconfig
+        if grep -q "notification_show_autoconfig" /recalbox/share/system/configs/retroarch/retroarchcustom.cfg; then
+          sed -i 's/notification_show_autoconfig.*/notification_show_autoconfig = "false"/g' /recalbox/share/system/configs/retroarch/retroarchcustom.cfg
+        else
+          echo 'notification_show_autoconfig = "false"' >> /recalbox/share/system/configs/retroarch/retroarchcustom.cfg
+        fi
+        migrationDone "${SHARE_TYPE}" "9.2-remove-autoconf-popup-retroarch"
+    fi
 }
 
 runMigrations

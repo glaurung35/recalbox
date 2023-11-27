@@ -69,3 +69,4 @@ cheevos_badges_enable = true
 
 input_overlay_hide_in_menu = true
 builtin_imageviewer_enable = false
+notification_show_autoconfig = "false"

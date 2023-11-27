@@ -281,3 +281,43 @@ def test_naomi2_on_rpi5_set_alpha_sorting_per_strip(mocker, emulator, controller
     assert 'reicast_alpha_sorting = "per-triangle (normal)"' in coreConf
     assert 'reicast_anisotropic_filtering = "4"' in coreConf
     assert 'reicast_sh4clock = "200"' in coreConf
+
+
+def test_hd_mode_change_core(mocker, emulator, controller_configuration):
+    mocker.patch('configgen.utils.architecture.Architecture.isPi5', return_value=True)
+
+    recalbox_conf = keyValueSettings("", True)
+    recalbox_conf.setBool("global.hdmode", True)
+    recalbox_conf.setBool("global.widescreenmode", True)
+
+    dreamcast = Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='libretro', core='badcore')
+    dreamcast.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", "",))
+
+    command = emulator.generate(dreamcast, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'flycast_internal_resolution = "1024x768"' in coreConf
+    assert 'flycast_widescreen_hack = "On"' in coreConf
+    assert '/usr/lib/libretro/flycast_libretro.so' in command.array
+
+
+def test_widescreen_mode_disabled_tate(mocker, emulator, controller_configuration):
+    mocker.patch('configgen.utils.architecture.Architecture.isPi5', return_value=True)
+
+    recalbox_conf = keyValueSettings("", True)
+    recalbox_conf.setBool("global.hdmode", True)
+    recalbox_conf.setBool("global.widescreenmode", True)
+
+    dreamcast = Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='libretro', core='badcore')
+    dreamcast.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", "", rotation=1))
+
+    command = emulator.generate(dreamcast, controller_configuration, recalbox_conf,
+                                             Arguments('path/to/rom.zip'))
+
+    print(command.array)
+    coreConf = Path(libretroConfigurations.recalboxFiles.retroarchCoreCustom).read_text()
+    assert 'flycast_internal_resolution = "1024x768"' in coreConf
+    assert 'flycast_widescreen_hack = "Off"' in coreConf
+    assert '/usr/lib/libretro/flycast_libretro.so' in command.array
+

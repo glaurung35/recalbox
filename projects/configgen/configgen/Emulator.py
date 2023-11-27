@@ -81,6 +81,8 @@ class Emulator:
         self._rewind: bool = False
         self._autoSave: bool = False
         self._integerScale: bool = False
+        self._hdmode: bool = False
+        self._widescreenmode: bool = False
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
         self._translate: bool = False
@@ -160,6 +162,8 @@ class Emulator:
         self._rewind: bool           = self.__guessBestBoolValue  (recalboxOptions, "rewind", self._rewind)
         self._autoSave: bool         = self.__guessBestBoolValue  (recalboxOptions, "autosave", self._autoSave)
         self._integerScale: bool     = self.__guessBestBoolValue  (recalboxOptions, "integerscale", self._integerScale)
+        self._hdmode: bool           = self.__guessBestBoolValue  (recalboxOptions, "hdmode", self._hdmode)
+        self._widescreenmode: bool   = self.__guessBestBoolValue  (recalboxOptions, "widescreenmode", self._widescreenmode)
         self._quitTwice: bool        = self.__guessBestBoolValue  (recalboxOptions, "quitpresstwice", self._quitTwice)
         self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
         self._netplay: bool          = self.__guessBestBoolValue  (recalboxOptions, "netplay", self._netplay)
@@ -172,6 +176,7 @@ class Emulator:
         self._translateTo: str       = self.__guessBestStringValue(recalboxOptions, "translate.to", recalboxOptions.getString("system.language", self._translateTo))
         self._extraArgs: str         = self.__guessBestStringValue(recalboxOptions, "extra", self._extraArgs)
         self._configArgs: str        = self.__guessBestStringValue(recalboxOptions, "args", self._configArgs)
+
 
 
         # Vars straight from recalbox.conf
@@ -267,6 +272,10 @@ class Emulator:
 
     @property
     def Core(self) -> str: return self._core
+
+    @Core.setter
+    def Core(self, value):
+        self._core = value
 
     @property
     def Ratio(self) -> str: return self._ratio
@@ -371,6 +380,16 @@ class Emulator:
     def IntegerScale(self) -> bool: return self._integerScale
 
     @property
+    def HDMode(self) -> bool: return self._hdmode
+
+    @property
+    def WideScreenMode(self) -> bool: return self._widescreenmode
+
+    @WideScreenMode.setter
+    def WideScreenMode(self, value):
+        self._widescreenmode = value
+
+    @property
     def AutoSave(self) -> bool: return self._autoSave
 
     @property
@@ -452,3 +471,6 @@ class Emulator:
 
     @property
     def JammaLayout(self) -> JammaLayout: return JammaLayout.fromString(self._jammalayout)
+
+
+

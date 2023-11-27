@@ -67,6 +67,7 @@ const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-war
 
 .help-button
   margin-bottom: 1em
+  margin-left: 6px
 
 .help-dialog-card
   border-left: 6px solid $accent

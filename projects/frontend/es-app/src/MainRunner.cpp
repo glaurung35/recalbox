@@ -136,7 +136,7 @@ MainRunner::ExitState MainRunner::Run()
 
       // Start webserver
       { LOG(LogDebug) << "[MainRunner] Launching Webserver"; }
-      RestApiServer webManager;
+      RestApiServer webManager(systemManager);
 
       // Patron Information
       PatronInfo patronInfo(this);

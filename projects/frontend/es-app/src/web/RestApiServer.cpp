@@ -9,8 +9,8 @@
 #include "server/Server.h"
 #include <utils/Log.h>
 
-RestApiServer::RestApiServer()
-  : mRequestHandler(mParam.WWWRoot(), mParam.DefaultFile())
+RestApiServer::RestApiServer(SystemManager& systemManager)
+  : mRequestHandler(mParam.WWWRoot(), mParam.DefaultFile(), systemManager)
   , mServer(mParam, &mRequestHandler)
 {
   Start("rest-api");

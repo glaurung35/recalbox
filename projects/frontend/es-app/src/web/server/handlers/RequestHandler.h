@@ -8,17 +8,19 @@
 #include <bios/BiosManager.h>
 #include <mqtt/MqttClient.h>
 #include <web/server/handlers/providers/EmulationStationWatcher.h>
+#include "systems/SystemManager.h"
 
 class RequestHandler : public IRouter
 {
   private:
     //! Bios Manager
     BiosManager& mBiosManager;
+    //! SystemManager reference
+    SystemManager& mSystemManager;
     //! System information provider
     SysInfos mSysInfos;
     //! Event watcher
     EmulationStationWatcher mWatcher;
-    //!
 
     //! WWW root
     Path mWWWRoot;
@@ -33,8 +35,9 @@ class RequestHandler : public IRouter
     static String Decode64(const String& base64);
 
   public:
-    RequestHandler(const String& wwwRoot, const String& defaultFile)
+    RequestHandler(const String& wwwRoot, const String& defaultFile, SystemManager& systemManager)
       : mBiosManager(BiosManager::Instance())
+      , mSystemManager(systemManager)
       , mWWWRoot(wwwRoot)
       , mDefaultFile(defaultFile)
     {

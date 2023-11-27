@@ -11,7 +11,7 @@ class RestApiServer : public Thread
 {
   public:
     //! Constructor
-    RestApiServer();
+    explicit RestApiServer(SystemManager& systemManager);
 
     //! Destructor
     ~RestApiServer() override { Stop(); }

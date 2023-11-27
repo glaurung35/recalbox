@@ -355,8 +355,8 @@ void ResolutionAdapter::GetMaximumResolution(int& w, int& h, bool& strict)
     case BoardType::Pi3:
     case BoardType::Pi3plus: w = 0; h = 800; strict = false; break;
     case BoardType::Pi4:
-    case BoardType::Pi400: w = 0; h = 1200; strict = true; break;
-    case BoardType::Pi5:
+    case BoardType::Pi400:
+    case BoardType::Pi5: w = 0; h = 1200; strict = true; break;
     case BoardType::RG351V:
     case BoardType::RG351P:
     case BoardType::OdroidAdvanceGo:

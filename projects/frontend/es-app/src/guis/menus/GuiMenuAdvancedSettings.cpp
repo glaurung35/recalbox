@@ -13,6 +13,7 @@
 #include "GuiMenuCRT.h"
 #include "GuiMenuResolutionSettings.h"
 #include "ResolutionAdapter.h"
+#include "hardware/RPiEepromUpdater.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -82,6 +83,10 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Recalbox Manager
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
+
+  // Eeprom update
+  if(Board::Instance().GetBoardType() == BoardType::Pi4 || Board::Instance().GetBoardType() == BoardType::Pi5)
+    AddSubMenu(_("EEPROM UPDATE"), (int)Components::EepromUpdate, _(MENUMESSAGE_ADVANCED_EEPROM_UPDATE));
 
   // Reset Factory
   AddSubMenu(_("RESET TO FACTORY SETTINGS"), (int)Components::FactoryReset, _(MENUMESSAGE_ADVANCED_FACTORY_RESET));
@@ -267,6 +272,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;
     case Components::FactoryReset: ResetFactory(); break;
+    case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:
     case Components::Overscan:
     case Components::ShowFPS:
@@ -276,6 +282,39 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::DebugLogs:
     case Components::Cases:
     default: break;
+  }
+}
+
+void GuiMenuAdvancedSettings::EepromUpdate()
+{
+  RPiEepromUpdater updater;
+  if(updater.Error())
+  {
+    mWindow.pushGui(new GuiMsgBox(mWindow, _("Could not get eeprom status. Something went wrong"), _("OK"), nullptr));
+    return;
+  }
+  if(updater.IsUpdateAvailable())
+  {
+    mWindow.pushGui(new GuiMsgBox(mWindow, _("An update is available :\n").Append(_("Current version: \n")).Append(updater.CurrentVersion()).Append(_("\nLatest version: \n")).Append(updater.LastVersion()),
+                                  _("UPDATE"), [this, updater]{
+                                                { LOG(LogInfo) << "[EepromUpdate] Processing UPDATE to " << updater.LastVersion(); }
+                                                if(updater.Update())
+                                                {
+                                                  mWindow.pushGui(
+                                                    new GuiMsgBox(mWindow, _("Update success. The eeprom is up to date."), _("OK"), [&]{ RequestReboot(); }));
+                                                  { LOG(LogInfo) << "[EepromUpdate] Update success to " << updater.LastVersion(); }
+                                                }
+                                                else
+                                                {
+                                                  mWindow.pushGui(new GuiMsgBox(mWindow, _("Could not update eeprom. Something went wrong"), _("OK"), nullptr));
+                                                  { LOG(LogError) << "[EepromUpdate] Unable to update to " << updater.LastVersion(); }
+                                                }
+                                              },
+                                  _("CANCEL"), nullptr));
+  }
+  else
+  {
+    mWindow.pushGui(new GuiMsgBox(mWindow, _("Your eeprom is up to date :\n").Append(updater.CurrentVersion()), _("OK"), nullptr));
   }
 }
 

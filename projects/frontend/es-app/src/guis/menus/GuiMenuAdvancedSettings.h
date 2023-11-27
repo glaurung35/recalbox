@@ -61,6 +61,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       CrtSubMenu,
       Manager,
       FactoryReset,
+      EepromUpdate
     };
 
     static constexpr const char* sOverclockBaseFolder = "/recalbox/system/configs/overclocking";
@@ -128,6 +129,10 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
      */
 
     void SubMenuSelected(int id) override;
+
+    void EepromUpdate();
+
+    String ExtractVersion(String cmdResult, String updateType);
 };
 
 

@@ -131,7 +131,7 @@ import { apiUrl } from 'boot/axios';
 const router = useRouter();
 const logoUrl = `${apiUrl}/systems/${useRoute().params.system}/resource/eu/svg/logo`;
 
-const columns: Array<object> = [
+const columns = [
   {
     name: 'nom', required: true, align: 'left', label: 'Nom', field: 'nom', sortable: true,
   },
@@ -159,7 +159,7 @@ const columns: Array<object> = [
     name: 'rating', align: 'center', label: 'Note', field: 'rating', sortable: true,
   },
 ];
-const table = ref<object>({
+const table = ref({
   filter: '',
   pagination: {
     rowsPerPage: 20,
@@ -168,7 +168,7 @@ const table = ref<object>({
   },
 });
 
-const roms: Array<object> = [
+const roms = [
   {
     nom: 'Pokémon Puzzle Challenge',
     editeur: 'Nintendo',

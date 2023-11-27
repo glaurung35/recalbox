@@ -4,12 +4,13 @@
 import { defineStore } from 'pinia';
 import { TWITCH } from 'src/router/api.routes';
 import { runSequentialPromises } from 'quasar';
+import { TwitchScheduleResponse } from 'stores/types/twitch';
 
 const perPage = 7;
 const broadcasterId = '115060112';
 
 export type TwitchStoreState = {
-  schedule: object,
+  schedule: TwitchScheduleResponse,
   loadingSchedule: boolean,
 };
 

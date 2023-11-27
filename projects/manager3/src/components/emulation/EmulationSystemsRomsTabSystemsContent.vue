@@ -88,18 +88,18 @@ systemsStore.fetch();
 const { systemsList } = storeToRefs(systemsStore);
 
 const api: string|undefined = apiUrl;
-const columns = computed<object[]>(() => [
+const columns = computed(() => [
   {
     name: 'desc',
     required: true,
     label: '',
     align: 'left',
-    field: (row: object) => row.fullname,
+    field: (row: { fullname: any; }) => row.fullname,
     sortable: true,
   },
 ]);
 
-const table = ref<object>({
+const table = ref({
   filter: '',
   pagination: {
     rowsPerPage: 24,

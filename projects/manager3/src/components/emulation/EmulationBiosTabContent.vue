@@ -339,7 +339,7 @@ const biosStore = useBiosStore();
 biosStore.fetch();
 const { biosList } = storeToRefs(biosStore);
 
-const columns = computed<object[]>(() => [
+const columns = computed(() => [
   {
     name: 'system',
     required: true,
@@ -387,16 +387,16 @@ const columns = computed<object[]>(() => [
   },
 ]);
 
-// const selectedSlug = ref<string>('');
-const md5Open = ref<boolean>(false);
-const helpOpen = ref<boolean>(false);
-const selectedMd5 = ref<string>('');
-const filterButtons = reactive<object>({
+// const selectedSlug = ref('');
+const md5Open = ref(false);
+const helpOpen = ref(false);
+const selectedMd5 = ref('');
+const filterButtons = reactive({
   redFilter: true,
   yellowFilter: true,
   greenFilter: true,
 });
-const table = ref<object>({
+const table = ref({
   filter: '',
   pagination: {
     rowsPerPage: 15,

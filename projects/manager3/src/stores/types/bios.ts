@@ -14,6 +14,7 @@ export type BiosResponse = Record<string, {
     hashKo: number;
   };
   biosList: Record<string, {
+    system?: string;
     mandatory: boolean;
     hashMatchingMandatory: boolean;
     displayFileName: string;

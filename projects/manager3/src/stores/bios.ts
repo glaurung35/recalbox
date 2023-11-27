@@ -23,8 +23,6 @@ export const useBiosStore = defineStore('bios', {
       Object.keys(state.bios).forEach((systemName) => {
         Object.keys(state.bios[systemName].biosList).forEach((biosName) => {
           const biosList = state.bios[systemName].biosList[biosName];
-          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-          // @ts-ignore
           biosList.system = state.bios[systemName].fullName;
           list.push(biosList);
         });

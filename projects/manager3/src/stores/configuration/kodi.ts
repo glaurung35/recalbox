@@ -3,7 +3,7 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { KodiConfigOptionsResponse, KodiConfigResponse } from 'stores/types/kodiConfig';
+import { KodiConfigOptionsResponse, KodiConfigResponse } from 'stores/types/kodi';
 
 export type KodiStoreState = {
   _baseUrl: string,

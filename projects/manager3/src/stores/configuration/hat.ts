@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   HatConfigOptionsResponse,
   HatConfigResponse,
-} from 'stores/types/hatConfig';
+} from 'stores/types/hat';
 
 export type HatStoreState = {
   _baseUrl: string,

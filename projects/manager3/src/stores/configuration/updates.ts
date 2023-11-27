@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   UpdatesConfigOptionsResponse,
   UpdatesConfigResponse,
-} from 'stores/types/updatesConfig';
+} from 'stores/types/updates';
 
 export type UpdatesStoreState = {
   _baseUrl: string,

@@ -4,11 +4,11 @@
 import { defineStore } from 'pinia';
 import { SYSTEMS } from 'src/router/api.routes';
 import { toRaw } from 'vue';
-import { SystemsList } from 'stores/types/systemsList';
+import { SystemsResponse } from 'stores/types/systems';
 
 export type SystemsStoreState = {
   _baseUrl: string,
-  systems: SystemsList,
+  systems: SystemsResponse,
 };
 
 export const useSystemsStore = defineStore('systems', {

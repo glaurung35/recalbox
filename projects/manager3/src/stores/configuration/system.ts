@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   SystemConfigOptionsResponse,
   SystemConfigResponse,
-} from 'stores/types/systemConfig';
+} from 'stores/types/system';
 
 export type SystemStoreState = {
   _baseUrl: string,

@@ -4,11 +4,11 @@
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
 import { toRaw } from 'vue';
-import { StoragesList } from 'stores/types/storagesList';
+import { StoragesResponse } from 'stores/types/storages';
 
 export type MonitoringStoreState = {
   _baseUrl: string,
-  monitoring: StoragesList,
+  monitoring: StoragesResponse,
 };
 
 export const useMonitoringStore = defineStore('monitoring', {

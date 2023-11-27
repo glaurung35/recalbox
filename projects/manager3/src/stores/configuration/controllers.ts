@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
 import {
   ControllersConfigOptionsResponse, ControllersConfigResponse,
-} from 'stores/types/controllersConfig';
+} from 'stores/types/controllers';
 
 export type ControllersStoreState = {
   _baseUrl: string,

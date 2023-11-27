@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { AudioConfigOptionsResponse, AudioConfigResponse } from 'stores/types/audioConfig';
+import { AudioConfigOptionsResponse, AudioConfigResponse } from 'stores/types/audio';
 import { CONFIGURATION } from 'src/router/api.routes';
 
 export type AudioStoreState = {

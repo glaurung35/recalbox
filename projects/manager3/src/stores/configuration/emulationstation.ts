@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   EmulationStationConfigOptionsResponse,
   EmulationStationConfigResponse,
-} from 'stores/types/emulationstationConfig';
+} from 'stores/types/emulationstation';
 
 export type EmulationStationStoreState = {
   _baseUrl: string,

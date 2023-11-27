@@ -3,11 +3,11 @@
  */
 import { defineStore } from 'pinia';
 import { VERSIONS } from 'src/router/api.routes';
-import { VersionsList } from 'stores/types/versionsList';
+import { VersionsResponse } from 'stores/types/versions';
 
 export type VersionsStoreState = {
   _baseUrl: string,
-  versions: VersionsList,
+  versions: VersionsResponse,
 };
 
 export const useVersionsStore = defineStore('versions', {

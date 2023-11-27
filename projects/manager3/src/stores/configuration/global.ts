@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   GlobalConfigOptionsResponse,
   GlobalConfigResponse,
-} from 'stores/types/globalConfig';
+} from 'stores/types/global';
 
 export type GlobalStoreState = {
   _baseUrl: string,

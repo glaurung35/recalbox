@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   ScraperConfigOptionsResponse,
   ScraperConfigResponse,
-} from 'stores/types/scraperConfig';
+} from 'stores/types/scraper';
 
 export type ScraperStoreState = {
   _baseUrl: string,

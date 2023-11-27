@@ -3,7 +3,7 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
-import { WifiBaseConfigOptionsResponse, WifiBaseConfigResponse } from 'stores/types/wifiConfig';
+import { WifiBaseConfigOptionsResponse, WifiBaseConfigResponse } from 'stores/types/wifi';
 
 export type Wifi2StoreState = {
   _baseUrl: string,

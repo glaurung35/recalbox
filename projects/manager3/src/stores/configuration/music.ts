@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   MusicConfigOptionsResponse,
   MusicConfigResponse,
-} from 'stores/types/musicConfig';
+} from 'stores/types/music';
 
 export type MusicStoreState = {
   _baseUrl: string,

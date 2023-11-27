@@ -3,11 +3,11 @@
  */
 import { defineStore } from 'pinia';
 import { BIOS } from 'src/router/api.routes';
-import { BiosList } from 'stores/types/biosList';
+import { BiosResponse } from 'stores/types/bios';
 
 export type BiosStoreState = {
   _baseUrl: string,
-  bios: BiosList,
+  bios: BiosResponse,
 };
 
 export const useBiosStore = defineStore('bios', {

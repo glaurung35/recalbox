@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   AutorunConfigOptionsResponse,
   AutorunConfigResponse,
-} from 'stores/types/autorunConfig';
+} from 'stores/types/autorun';
 
 export type AutorunStoreState = {
   _baseUrl: string,

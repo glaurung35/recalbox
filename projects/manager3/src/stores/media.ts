@@ -4,12 +4,12 @@
 import { defineStore } from 'pinia';
 import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
-import { MediasList } from 'stores/types/mediasList';
+import { MediasResponse } from 'stores/types/medias';
 import { apiUrl } from 'boot/axios';
 
 export type MediaStoreState = {
   _baseUrl: string,
-  media: MediasList,
+  media: MediasResponse,
 };
 
 export const useMediaStore = defineStore('media', {

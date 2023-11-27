@@ -6,7 +6,7 @@ import { CONFIGURATION } from 'src/router/api.routes';
 import {
   PatreonConfigOptionsResponse,
   PatreonConfigResponse,
-} from 'stores/types/patreonConfig';
+} from 'stores/types/patreon';
 
 export type PatreonStoreState = {
   _baseUrl: string,

@@ -3,11 +3,11 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
-import { ServerList } from 'stores/types/serverList';
+import { ServerResponse } from 'stores/types/server';
 
 export type ServerStoreState = {
   available: boolean,
-  server: ServerList,
+  server: ServerResponse,
 };
 
 export const useServerStore = defineStore('server', {

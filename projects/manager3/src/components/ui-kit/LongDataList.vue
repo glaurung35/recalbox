@@ -7,7 +7,7 @@
   >
     <div
       :key="index"
-      @click="copyToClipboard(index + ' : ' + value)"
+      @click="copy(index + ' : ' + value)"
       class="row version-line"
       v-for="(value, index) in data"
     >
@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts" setup>
-import { copyToClipboard } from 'src/utils/copyToClipboard';
+import { copy } from 'src/utils/copy';
 import { toRefs } from 'vue';
 
 const props = defineProps({

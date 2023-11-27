@@ -7,7 +7,7 @@
       <div class="row">
         <div class="col col-xs-12 col-sm-12 col-md-6">
           <div
-            @click="copyToClipboard('Linux : ' + versions.linux)"
+            @click="copy('Linux : ' + versions.linux)"
             class="row system-versions"
           >
             <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
@@ -26,7 +26,7 @@
             </div>
           </div>
           <div
-            @click="copyToClipboard('Recalbox : ' + versions.recalbox)"
+            @click="copy('Recalbox : ' + versions.recalbox)"
             class="row system-versions"
           >
             <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
@@ -46,7 +46,7 @@
           </div>
         </div>
         <div
-          @click="copyToClipboard('WebAPI : ' + versions.webapi)"
+          @click="copy('WebAPI : ' + versions.webapi)"
           class="col col-xs-12 col-sm-12 col-md-6"
         >
           <div class="row system-versions">
@@ -66,7 +66,7 @@
             </div>
           </div>
           <div
-            @click="copyToClipboard('RetroArch : ' + versions.libretro.retroarch)"
+            @click="copy('RetroArch : ' + versions.libretro.retroarch)"
             class="row system-versions"
           >
             <div class="col col-xs-3 col-md-4 self-center" style="padding-left: .5em;">
@@ -99,7 +99,7 @@
 
 <script lang="ts" setup>
 import LongDataList from 'components/ui-kit/LongDataList.vue';
-import { copyToClipboard } from 'src/utils/copyToClipboard';
+import { copy } from 'src/utils/copy';
 import { useVersionsStore } from 'stores/versions';
 import { storeToRefs } from 'pinia';
 

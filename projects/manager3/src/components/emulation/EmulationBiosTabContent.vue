@@ -162,7 +162,7 @@
                   >
                     <q-btn
                       :label="pathNode"
-                      @click="copyToClipboard(pathNode)"
+                      @click="copy(pathNode)"
                       :class="getBiosClass(col, pathNode)"
                       color="primary"
                       dense
@@ -177,7 +177,7 @@
               <span class="md5" v-else-if="col.name === 'currentMd5'">
                 <q-btn
                   :label="col.value"
-                  @click="copyToClipboard(col.value)"
+                  @click="copy(col.value)"
                   class="copy-to-clipboard"
                   color="primary"
                   dense
@@ -191,7 +191,7 @@
               <span v-else-if="col.name === 'md5'">
                 <q-btn
                   :label="col.value[0]"
-                  @click="copyToClipboard(col.value)"
+                  @click="copy(col.value)"
                   class="copy-to-clipboard md5"
                   color="primary"
                   dense
@@ -287,7 +287,7 @@
           <q-toolbar>
             <q-toolbar-title>MD5s</q-toolbar-title>
             <q-btn
-              @click="copyToClipboard(selectedMd5)"
+              @click="copy(selectedMd5)"
               color="accent"
               dense
               flat
@@ -323,7 +323,7 @@
 
 <script lang="ts" setup>
 import { useBiosStore } from 'stores/bios';
-import { copyToClipboard } from 'src/utils/copyToClipboard';
+import { copy } from 'src/utils/copy';
 import { storeToRefs } from 'pinia';
 import {
   computed,

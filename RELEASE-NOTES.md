@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for Anbernic RG351p and RG351m (Thanks lxmaster1 & yomax69fly !)
 - Add support for Realtek RTW-88 series of wifi controllers
 - Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
+- Add support for eeprom update on RPi4 and RPi 5
 
 ### News
 - Add Arcade View

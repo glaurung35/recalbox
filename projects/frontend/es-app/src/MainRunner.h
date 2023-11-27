@@ -14,9 +14,11 @@
 #include "bluetooth/BluetoothListener.h"
 #include "recalbox/BootConf.h"
 #include <btautopair/BTAutopairManager.h>
+#include <bios/IBiosScanReporting.h>
 
 class AudioManager;
 class SystemManager;
+class BiosManager;
 
 //! Special operations
 enum class HardwareTriggeredSpecialOperations
@@ -75,6 +77,7 @@ class MainRunner
   , private ILongExecution<USBInitialization, bool>
   , public ISdl2EventNotifier
   , public ISpecialGlobalAction
+  , public IBiosScanReporting
 {
   public:
     //! Pending Exit
@@ -243,7 +246,7 @@ class MainRunner
     /*!
      * @brief Send mqtt message to enable joystick auopairing
      */
-    static void EnableAutopair();
+    //static void EnableAutopair();
 
     /*!
      * @brief Main SDL event loop w/ UI update/refresh
@@ -403,6 +406,21 @@ class MainRunner
      * @param result Not used
      */
     void Completed(const USBInitialization& parameter, const bool& result) final;
+
+    /*
+     * IBiosScanReporting implementation
+     */
+
+    /*!
+     * @brief Report a new Bios has been scanned
+     * @param bios Newly scanned bios
+     */
+    void ScanProgress(const Bios& bios) override { (void)bios; }
+
+    /*!
+     * @brief Report the bios scan is complete
+     */
+    void ScanComplete() override;
 
   public:
     /*!

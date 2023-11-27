@@ -47,10 +47,13 @@ String Bios::Md5Hash::ToString() const
 }
 
 Bios::Bios()
-  : mMandatory(false),
-    mHashMatchMandatory(false),
-    mStatus(Status::Unknown),
-    mReportStatus(ReportStatus::Unknown)
+  : mBiosRoot(RootFolders::DataRootFolder / "bios")
+  , mMandatory(false)
+  , mHashMatchMandatory(false)
+  , mStatus(Status::Unknown)
+  , mReportStatus(ReportStatus::Unknown)
+  , mMoved(false)
+  , mMoveFailed(false)
 {
 }
 
@@ -60,17 +63,34 @@ void Bios::Scan()
   bool found = false;
   for(int i = sMaxBiosPath; --i >= 0;)
   {
-    if (!mPath[i].Exists()) continue;
-    if (mPath[i].Extension().LowerCase() == ".zip")
+    Path path = mPathx[i].IsAbsolute() ? mPathx[i] : mBiosRoot / mPathx[i];
+    if (!path.Exists())
+    {
+      if (mPathx[i].IsAbsolute()) continue; // Not in the bios folder
+      Path rootPath = mBiosRoot / mPathx[i].Filename(); // Rebuild the path from the root
+      if (!rootPath.Exists()) continue; // old bios does not exists
+      // Try to move old bios to its new path
+      mMoved = true;
+      if (path.Directory().CreatePath() && Path::Rename(rootPath, path))
+      { LOG(LogError) << "[Bios] Bios " << rootPath << " moved to " << path; }
+      else
+      {
+        mMoveFailed = true;
+        { LOG(LogError) << "[Bios] Cannot move " << rootPath << " to " << path; }
+      }
+      // Last check
+      if (!path.Exists()) continue;
+    }
+    if (path.Extension().LowerCase() == ".zip")
     {
       // Get composite hash from the zip file
-      String md5string = Zip(mPath[i]).Md5Composite();
+      String md5string = Zip(path).Md5Composite();
       mRealFileHash = Md5Hash(md5string);
     }
     else
     {
       // Load bios
-      String biosContent = Files::LoadFile(mPath[i]);
+      String biosContent = Files::LoadFile(path);
 
       // Compute md5
       MD5 md5;
@@ -111,7 +131,7 @@ void Bios::Scan()
 bool Bios::IsForCore(const String& core) const
 {
   // Contains?
-  int pos = mCores.find(core);
+  int pos = mCores.Find(core);
   if (pos < 0) return false;
 
   // Start?
@@ -128,8 +148,13 @@ bool Bios::IsForCore(const String& core) const
 }
 
 Bios::Bios(const XmlNode& biosNode)
-  : mStatus(Status::Unknown),
-    mReportStatus(ReportStatus::Unknown)
+  : mBiosRoot(RootFolders::DataRootFolder / "bios")
+  , mMandatory(false)
+  , mHashMatchMandatory(false)
+  , mStatus(Status::Unknown)
+  , mReportStatus(ReportStatus::Unknown)
+  , mMoved(false)
+  , mMoveFailed(false)
 {
   // Load mandatory fields
   pugi::xml_attribute path = biosNode.attribute("path");
@@ -143,11 +168,7 @@ Bios::Bios(const XmlNode& biosNode)
   String::List list = String(path.value()).Split('|');
   for(int i = sMaxBiosPath; --i >= 0; )
     if ((int)list.size() > i)
-    {
-      mPath[i] = Path(list[i]);
-      if (!mPath[i].IsAbsolute())
-        mPath[i] = RootFolders::DataRootFolder / "bios" / path.value();
-    }
+      mPathx[i] = Path(list[i]);
 
   mCores = cores.value();
   String::List md5list = String(hashes.value()).Split(',');
@@ -175,15 +196,12 @@ String::List Bios::MD5List() const
 
 String Bios::Filename(bool shorten) const
 {
-  bool ok = false;
-
   // Try to make relative to the bios folder
-  Path rootPath(RootFolders::DataRootFolder);
-  String result = mPath[0].MakeRelative(rootPath, ok).ToString();
+  String result = mPathx[0].ToString();
   // Too long?
   if (shorten)
-    if (result.Count('/') > 2)
-      result = String(".../").Append(mPath[0].Filename());
+    if (result.Count('/') > 0)
+      result = String(".../").Append(mPathx[0].Filename());
 
   return result;
 }
@@ -203,12 +221,12 @@ String Bios::GenerateReport() const
       // BIOS
       report.Append("  ").Append(mStatus == Status::FileNotFound ? "MISSING " : "INCORRECT ")
             .Append(mMandatory ? "REQUIRED " : "OPTIONAL ")
-            .Append("BIOS: ").Append(mPath[0].Filename()).Append(String::CRLF);
+            .Append("BIOS: ").Append(mPathx[0].Filename()).Append(String::CRLF);
 
       // Information
-      report.Append("    Path: ").Append(mPath[0].ToString());
+      report.Append("    Path: ").Append(PathString(0));
       for(int i = sMaxBiosPath; --i >= 1; )
-        if (!mPath[i].IsEmpty()) report.Append(" or ").Append(mPath[i].ToString());
+        if (!mPathx[i].IsEmpty()) report.Append(" or ").Append(PathString(i));
       report.Append(String::CRLF);
       if (!mNotes.empty()) report.Append("    Notes: ").Append(mNotes).Append(String::CRLF);
       if (!mCores.empty()) report.Append("    For: ").Append(mCores).Append(String::CRLF);
@@ -227,5 +245,11 @@ String Bios::GenerateReport() const
   }
 
   return report;
+}
+
+String Bios::PathString(int index) const
+{
+  const Path& path = mPathx[index].IsAbsolute() ? mPathx[index] : mBiosRoot / mPathx[index];
+  return path.ToString();
 }
 

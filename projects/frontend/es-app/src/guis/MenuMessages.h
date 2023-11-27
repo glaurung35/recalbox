@@ -42,6 +42,9 @@ class MenuMessages
     "SELECT: choose manually which patch to apply. Default one or patches in [ROM_NAME]-patches directory\n\n" \
     "DISABLED: never apply patch"
     #define MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG "Set the Super GameBoy mode for GameBoy games."
+    #define MENUMESSAGE_GAME_HD_MODE_HELP_MSG "Improves resolution on compatible 3d emulators. May have an impact on performance. (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)"
+    #define MENUMESSAGE_GAME_WIDESCREEN_MODE_HELP_MSG "Enables 16:9 hacks for compatible emulators. May have an impact on performance. (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)"
+
 
     #define MENUMESSAGE_RA_ONOFF_HELP_MSG "Enable or disable RetroAchievements in games."
     #define MENUMESSAGE_RA_HARDCORE_HELP_MSG "Hardcore mode disables *all* savestate and rewind functions within the emulator: you will not be able to save and reload at any time. You will have to complete the game and get the achievements first time, just like on the original console. In reward for this, you will earn both the standard and the hardcore achievement, in effect earning double points! A regular game worth 400 points, is now worth 800 if you complete it on hardcore! For example: if you complete the game for 400 points, you then have the opportunity to earn another 400 on hardcore."

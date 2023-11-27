@@ -44,7 +44,9 @@ class GuiMenuGameSettings : public GuiMenuBase
       ShaderSet,
       RetroAchivements,
       Netplay,
-      SuperGameBoy
+      SuperGameBoy,
+      HDMode,
+      WideScreenMode
     };
 
     //! System manager

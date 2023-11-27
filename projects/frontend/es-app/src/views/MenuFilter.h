@@ -7,11 +7,35 @@
 class MenuFilter
 {
   public:
-    enum Menu {
+    enum Menu
+    {
       Main,
       Exit,
       Search,
       GamelistOptions
     };
-    static bool ShouldDisplayMenu(const enum Menu menu) { return RecalboxConf::Instance().GetMenuType() !=RecalboxConf::Menu::None; }
+
+    static bool ShouldDisplayMenu(const enum Menu menu)
+    { return RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None; }
+
+    enum MenuEntry
+    {
+      HDMode,
+      Widescreen,
+    };
+
+    static bool ShouldDisplayMenuEntry(const enum MenuEntry menuEntry)
+    {
+      switch (menuEntry)
+      {
+        case HDMode:
+          return Board::Instance().GetBoardType() == BoardType::PCx64 ||
+                 Board::Instance().GetBoardType() == BoardType::Pi5;
+        case Widescreen:
+          return Board::Instance().GetBoardType() == BoardType::PCx64 ||
+                 Board::Instance().GetBoardType() == BoardType::Pi5 ||
+                 Board::Instance().GetBoardType() == BoardType::Pi4;
+        default: return false;
+      }
+    }
 };

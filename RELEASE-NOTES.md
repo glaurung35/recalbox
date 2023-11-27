@@ -149,6 +149,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bluetooth auto-pairing is started at each boot now
 - Add new softpatching LAUNCH LAST option
 - Disable unnecessary services when use the Recalbox RGB Jamma
+- Allow starting an update stright from the update popup
 
 ### Fixes
 - Fix argonone case power management

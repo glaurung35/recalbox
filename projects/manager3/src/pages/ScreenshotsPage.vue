@@ -37,7 +37,8 @@
         <div v-if="screenshot.urlVideo">
           <q-card @click="openVideo(screenshot.urlVideo)" class="screenshot" flat rounded>
             <q-card-section horizontal>
-              <q-img src="../assets/video-poster.jpg" class="col" loading="lazy">
+              <video class="col" loading="lazy">
+                <source :src="screenshot.urlVideo" type="video/mp4" />
                 <div
                   class="absolute-bottom text-white justify-between row items-start"
                   style="padding: .5em"
@@ -55,7 +56,7 @@
                     @click.stop="openDeleteVideoConfirm(screenshot.name)"
                   />
                 </div>
-              </q-img>
+              </video>
             </q-card-section>
           </q-card>
         </div>
@@ -71,14 +72,15 @@
 
       <q-dialog v-model="modalVideo.open" full-height full-width>
         <q-card>
-          <q-card-section horizontal>
-            <q-media-player
-              type="video"
-              :sources="[{ src: modalVideo.videoUrl, type: 'video/mp4' }]"
-              style="height: 1000px; margin: 0 auto"
+          <q-card-section horizontal style="height: 100%">
+            <video
+              controls
+              style="height: 100%; margin: 0 auto"
               @click="modalVideo.open = false"
               class="opened"
-            />
+            >
+              <source :src="modalVideo.videoUrl" type="video/mp4" />
+            </video>
           </q-card-section>
         </q-card>
       </q-dialog>

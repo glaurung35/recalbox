@@ -9,6 +9,5 @@
       "scripts",
       "typescript"
     ]
-  },
-  "@quasar/qmediaplayer": {}
+  }
 }

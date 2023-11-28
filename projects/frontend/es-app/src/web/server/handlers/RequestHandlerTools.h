@@ -42,6 +42,10 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableLanguages();
 
+    static HashMap<String, String> GetAvailableSingleSystemSorts();
+
+    static HashMap<String, String> GetAvailableRegionFilter();
+
     static HashMap<String, String> GetAvailableKeyboardLayout();
 
     static HashMap<String, String> GetAvailableSoundDevices();

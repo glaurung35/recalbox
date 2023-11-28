@@ -29,7 +29,7 @@ class SystemHasher : private Thread
     //! Queue protector
     Mutex mLocker;
     //! System queue
-    Queue<SystemData*> mQueue;
+    ::Queue<SystemData*> mQueue;
 
     /*!
      * @brief Check missing hashed and calculate them all

@@ -324,6 +324,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     Music,
     Hat,
     Autorun,
+    Tate,
   };
 
   static HashMap<String, Namespace> sConverter
@@ -340,10 +341,12 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
      { "controllers", Namespace::Controllers },
      { "updates", Namespace::Updates },
      { "global", Namespace::Global },
-     { "specific", Namespace::Global },
+     { "specific", Namespace::Specific },
      { "patron", Namespace::Patron },
      { "music", Namespace::Music },
      { "hat", Namespace::Hat },
+     { "autorun", Namespace::Autorun },
+     { "tate", Namespace::Tate },
   });
 
   Namespace* pns = sConverter.try_get(_namespace);
@@ -360,7 +363,6 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "splash.length"                         , Validator(-1, 300) },
          { "splash.select"                         , Validator(false, { "all", "recalbox", "custom" }) },
          { "manager.enabled"                       , Validator(true) },
-         { "api.enabled"                           , Validator(true) },
          { "es.videomode"                          , Validator(GetAvailableFrontEndResolutions(), false) },
          { "emulators.specialkeys"                 , Validator(false, { "default", "nomenu", "none" }) },
          { "hostname"                              , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-") },
@@ -385,6 +387,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "externalscreen.prefered"               , Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789.-_") },
          { "externalscreen.forceresolution"        , Validator("0123456789x") },
          { "externalscreen.forcefrequency"         , Validator("0123456789.") },
+         { "es.force43"                            , Validator(true) },
        });
 
       return sList;
@@ -599,7 +602,6 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "retroachievements.username", Validator() },
         { "retroachievements.password", Validator() },
         { "inputdriver"               , Validator(false, { "auto", "udev", "sdl2"}) },
-        { "configfile"                , Validator() },
         { "demo.systemlist"           , Validator(GetSupportedSystemList(), true) },
         { "demo.duration"             , Validator(30, 600) },
         { "demo.infoscreenduration"   , Validator(5, 30) },
@@ -620,6 +622,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "hidepreinstalledgames"     , Validator(true) },
         { "show.savestate.before.run" , Validator(true) },
         { "quitpresstwice"            , Validator(true) },
+        { "reducelatency"             , Validator(true) },
+        { "runahead"                  , Validator(true) },
       });
 
       return sList;
@@ -627,73 +631,80 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     case Namespace::Specific:
     {
       static HashMap<String, Validator> sList
-        ({
-           { "videomode"                 , Validator(GetAvailableFrontEndResolutions(), false) },
-           { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
-           { "shaderset.file"            , Validator(GetAvailableShaders(), false) },
-           { "integerscale"              , Validator(true) },
-           { "shaders"                   , Validator(true) },
-           { "ratio"                     , Validator(GetSupportedRatioList(), false) },
-           { "smooth"                    , Validator(true) },
-           { "rewind"                    , Validator(true) },
-           { "autosave"                  , Validator(true) },
-           { "retroachievements"         , Validator(true) },
-           { "retroachievements.hardcore", Validator(true) },
-           { "retroachievements.username", Validator() },
-           { "retroachievements.password", Validator() },
-           { "inputdriver"               , Validator(false, { "auto", "udev", "sdl2"}) },
-           { "configfile"                , Validator("abcdefghijklmnopqrstuvwxyz./-_") }, //<! Path to file for specific config or "dummy" to cancel any config from configgen
-           { "translate"                 , Validator(true) },
-           { "translate.from"            , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
-           { "translate.to"              , Validator(false, {"auto", "EN", "ES", "FR", "IT", "DE", "JP", "NL", "CS", "DA", "SV", "HR", "KO", "ZH_CN", "ZH_TW", "CA", "BG", "BN", "EU", "AZ", "AR", "SQ", "AF", "EO", "ET", "TL", "FI", "GL", "KA", "EL", "GU", "HT", "IW", "HI", "HU", "IS", "ID", "GA", "KN", "LA", "LV", "LT", "MK", "MS", "MT", "NO", "FA", "PL", "PT", "RO", "RU", "SR", "SK", "SL", "SW", "TA", "TE", "TH", "TR", "UK", "UR", "VI", "CY", "YI"}) },
-           { "translate.apikey"          , Validator() },
-           { "translate.url"             , Validator() },
-           { "supergameboy"              , Validator(false, { "gb", "sgb", "ask" }) }, //<! For GB only
-           { "ignore"                    , Validator(true) }, //<! To not show a system in systems list
-           { "realgamecubepads"          , Validator(true) }, //<! For GameCube only, play w/ gc pads w/ adapters
-           { "realwiimotes"              , Validator(true) }, //<! For Wii only, use real wiimotes in Dolphin
-           { "emulatedwiimotes"          , Validator(true) }, //<! For Wii only, emulate wiimotes w/ std pads
-           { "sensorbar.position"        , Validator(true) }, //<! For Wii only, specify Dolphin Bar position around screen. 1: top, 0: bottom
-         });
+      ({
+        { "videomode"                 , Validator(GetAvailableFrontEndResolutions(), false) },
+        { "emulator"                  , Validator("abcdefghijklmnopqrstuvwxyz0123456789_") },
+        { "core"                      , Validator("abcdefghijklmnopqrstuvwxyz0123456789_") },
+        { "shaders"                   , Validator(true) },
+        { "shaderset"                 , Validator({ "none", "crtcurved", "scanlines", "retro", "custom" }, false) },
+        { "ratio"                     , Validator(GetSupportedRatioList(), false) },
+        { "smooth"                    , Validator(true) },
+        { "rewind"                    , Validator(true) },
+        { "autosave"                  , Validator(true) },
+        { "integerscale"              , Validator(true) },
+        { "configfile"                , Validator() }, //<! Empty or "dummy" to cancel any config from configgen
+        { "demo.include"              , Validator(true) }, //<! Include system to the demo screensaver
+        { "demo.duration"             , Validator(30, 600) }, //<! Duration of the demo for the current system
+        { "ignore"                    , Validator(true) }, //<! Ignore to display the specific system
+        { "displaybyfilenames"        , Validator(true) },
+        { "filteradultnames"          , Validator(true) },
+        { "regionfilter"              , Validator(GetAvailableRegionFilter(), false) },
+        { "flatfolders"               , Validator(true) },
+        { "sort"                      , Validator(GetAvailableSingleSystemSorts(), false) },
+        { "supergameboy"              , Validator(false, { "gb", "sgb", "ask" }) }, //<! For GB only
+        { "realgamecubepads"          , Validator(true) }, //<! For GameCube only, play w/ gc pads w/ adapters
+        { "realwiimotes"              , Validator(true) }, //<! For Wii only, use real wiimotes in Dolphin
+        { "emulatedwiimotes"          , Validator(true) }, //<! For Wii only, emulate wiimotes w/ std pads
+        { "sensorbar.position"        , Validator(true) }, //<! For Wii only, specify Dolphin Bar position around screen. 1: top, 0: bottom
+      });
 
       return sList;
     }
     case Namespace::Patron:
     {
       static HashMap<String, Validator> sList
-        ({
-          { "privatekey", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-") },
-        });
+      ({
+        { "privatekey", Validator("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-") },
+      });
 
       return sList;
     }
     case Namespace::Music:
     {
       static HashMap<String, Validator> sList
-        ({
-          { "remoteplaylist.enable", Validator(true) },
-        });
+      ({
+        { "remoteplaylist.enable", Validator(true) },
+      });
 
       return sList;
     }
     case Namespace::Hat:
     {
       static HashMap<String, Validator> sList
-        ({
-          { "wpaf.enabled", Validator(true) },
-          { "wpaf.board"  , Validator(false, { "wspoehatb", "argonforty", "piboy", "rpipoeplus", "fanshim" }) }
-        });
+      ({
+        { "wpaf.enabled", Validator(true) },
+        { "wpaf.board"  , Validator(false, { "wspoehatb", "argonforty", "piboy", "rpipoeplus", "fanshim" }) },
+      });
 
       return sList;
     }
     case Namespace::Autorun:
     {
       static HashMap<String, Validator> sList
-        ({
-          {"enabled", Validator(true)},
-          {"systemuuid", Validator()},
-          {"gamepath", Validator()}
-        });
+      ({
+        { "enabled", Validator(true) },
+        { "systemuuid", Validator() },
+        { "gamepath", Validator() },
+      });
+
+      return sList;
+    }
+    case Namespace::Tate:
+    {
+      static HashMap<String, Validator> sList
+      ({
+        { "gamerotation", Validator(0, 3) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
+      });
 
       return sList;
     }
@@ -1032,37 +1043,37 @@ HashMap<String, String> RequestHandlerTools::GetScraperRegions()
 {
   static HashMap<String, String> sRegions
   ({
-    {"wor", "World"},
-    {"us", "USA"},
-    {"eu", "Europe"},
-    {"ame", "Latin America"},
-    {"asi", "Asia"},
-    {"au", "Australia"},
-    {"br", "Brazil"},
-    {"bg", "Bulgaria"},
-    {"ca", "Canada"},
-    {"cl", "Chile"},
-    {"cn", "China"},
-    {"cz", "Czechia"},
-    {"dk", "Denmark"},
-    {"fi", "Finland"},
-    {"fr", "France"},
-    {"de", "Germany"},
-    {"gr", "Greece"},
-    {"hu", "Hungary"},
-    {"il", "Israel"},
-    {"it", "Italy"},
-    {"kr", "Korea"},
-    {"jp", "Japan"},
-    {"nl", "Netherlands"},
-    {"nz", "New Zealand"},
-    {"no", "Norway"},
-    {"pl", "Poland"},
-    {"pt", "Portugal"},
-    {"ru", "Russia"},
-    {"es", "Spain"},
-    {"se", "Sweden"},
-    {"uk", "United Kingdom"},
+    { "wor", "World"          },
+    { "us",  "USA"            },
+    { "eu",  "Europe"         },
+    { "ame", "Latin America"  },
+    { "asi", "Asia"           },
+    { "au",  "Australia"      },
+    { "br",  "Brazil"         },
+    { "bg",  "Bulgaria"       },
+    { "ca",  "Canada"         },
+    { "cl",  "Chile"          },
+    { "cn",  "China"          },
+    { "cz",  "Czechia"        },
+    { "dk",  "Denmark"        },
+    { "fi",  "Finland"        },
+    { "fr",  "France"         },
+    { "de",  "Germany"        },
+    { "gr",  "Greece"         },
+    { "hu",  "Hungary"        },
+    { "il",  "Israel"         },
+    { "it",  "Italy"          },
+    { "kr",  "Korea"          },
+    { "jp",  "Japan"          },
+    { "nl",  "Netherlands"    },
+    { "nz",  "New Zealand"    },
+    { "no",  "Norway"         },
+    { "pl",  "Poland"         },
+    { "pt",  "Portugal"       },
+    { "ru",  "Russia"         },
+    { "es",  "Spain"          },
+    { "se",  "Sweden"         },
+    { "uk",  "United Kingdom" },
   });
 
   return sRegions;
@@ -1071,26 +1082,26 @@ HashMap<String, String> RequestHandlerTools::GetScraperRegions()
 HashMap<String, String> RequestHandlerTools::GetScraperLanguages()
 {
   static HashMap<String, String> sLanguages({
-    {"cz", "Čeština"},
-    {"da", "Dansk"},
-    {"de", "Deutsch"},
-    {"es", "Español"},
-    {"en", "English"},
-    {"fr", "Français"},
-    {"it", "Italiano"},
-    {"ja", "日本語"},
-    {"ko", "한국어"},
-    {"nl", "Nederlands"},
-    {"no", "Norsk"},
-    {"hu", "Magyar"},
-    {"pl", "Polski"},
-    {"pt", "Português"},
-    {"ru", "Русский"},
-    {"sk", "Slovenčina"},
-    {"fi", "Suomi"},
-    {"sv", "Svenska"},
-    {"tr", "Türkçe"},
-    {"zh", "简体中文"},
+    { "cz", "Čeština"    },
+    { "da", "Dansk"      },
+    { "de", "Deutsch"    },
+    { "es", "Español"    },
+    { "en", "English"    },
+    { "fr", "Français"   },
+    { "it", "Italiano"   },
+    { "ja", "日本語"      },
+    { "ko", "한국어"       },
+    { "nl", "Nederlands" },
+    { "no", "Norsk"      },
+    { "hu", "Magyar"     },
+    { "pl", "Polski"     },
+    { "pt", "Português"  },
+    { "ru", "Русский"    },
+    { "sk", "Slovenčina" },
+    { "fi", "Suomi"      },
+    { "sv", "Svenska"    },
+    { "tr", "Türkçe"     },
+    { "zh", "简体中文"     },
   });
 
   return sLanguages;
@@ -1100,12 +1111,12 @@ HashMap<String, String> RequestHandlerTools::GetAvailableOsdTypes()
 {
   static HashMap<String, String> sOSDs
   ({
-    {"snes", "Super Nintendo"},
-    {"nintendo64", "Nintendo 64"},
-    {"megadrive", "Megadrive"},
-    {"dreamcast", "Dreamcast"},
-    {"playstation", "Playstation"},
-    {"xbox", "Xbox"},
+    { "snes",        "Super Nintendo" },
+    { "nintendo64",  "Nintendo 64"    },
+    { "megadrive",   "Megadrive"      },
+    { "dreamcast",   "Dreamcast"      },
+    { "playstation", "Playstation"    },
+    { "xbox",        "Xbox"           },
   });
 
   return sOSDs;
@@ -1115,34 +1126,320 @@ HashMap<String, String> RequestHandlerTools::GetAvailableLanguages()
 {
   static HashMap<String, String> sLanguages
   ({
-     { "eu_ES", "EUSKARA"       },
-     { "zh_TW", "正體中文"        },
-     { "zh_CN", "简体中文"        },
-     { "de_DE", "DEUTSCH"       },
-     { "en_US", "ENGLISH"       },
-     { "es_ES", "ESPAÑOL"       },
-     { "fr_FR", "FRANÇAIS"      },
-     { "it_IT", "ITALIANO"      },
-     { "pt_BR", "PORTUGUES"     },
-     { "sv_SE", "SVENSKA"       },
-     { "tr_TR", "TÜRKÇE"        },
-     { "ca_ES", "CATALÀ"        },
-     { "ar_YE", "اللغة العربية" },
-     { "nl_NL", "NEDERLANDS"    },
-     { "el_GR", "ελληνικά"      },
-     { "ko_KR", "한국어"         },
-     { "nn_NO", "NORSK"         },
-     { "nb_NO", "BOKMAL"        },
-     { "pl_PL", "POLSKI"        },
-     { "ja_JP", "日本語"         },
-     { "ru_RU", "Русский"       },
-     { "hu_HU", "MAGYAR"        },
-     { "cs_CZ", "čeština"       },
-     { "lv_LV", "latviešu"      },
-     { "lb_LU", "Lëtzebuergesch"},
+     { "eu_ES", "EUSKARA"        },
+     { "zh_TW", "正體中文"         },
+     { "zh_CN", "简体中文"         },
+     { "de_DE", "DEUTSCH"        },
+     { "en_US", "ENGLISH"        },
+     { "es_ES", "ESPAÑOL"        },
+     { "fr_FR", "FRANÇAIS"       },
+     { "it_IT", "ITALIANO"       },
+     { "pt_BR", "PORTUGUES"      },
+     { "sv_SE", "SVENSKA"        },
+     { "tr_TR", "TÜRKÇE"         },
+     { "ca_ES", "CATALÀ"         },
+     { "ar_YE", "اللغة العربية"  },
+     { "nl_NL", "NEDERLANDS"     },
+     { "el_GR", "ελληνικά"       },
+     { "ko_KR", "한국어"          },
+     { "nn_NO", "NORSK"          },
+     { "nb_NO", "BOKMAL"         },
+     { "pl_PL", "POLSKI"         },
+     { "ja_JP", "日本語"          },
+     { "ru_RU", "Русский"        },
+     { "hu_HU", "MAGYAR"         },
+     { "cs_CZ", "čeština"        },
+     { "lv_LV", "latviešu"       },
+     { "lb_LU", "Lëtzebuergesch" },
   });
 
   return sLanguages;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableSingleSystemSorts()
+{
+  static HashMap<String, String> sSorts
+  ({
+    { "0",  "filenameascending"     },
+    { "1",  "filenamedescending"    },
+    { "16", "ratingascending"       },
+    { "17", "ratingdescending"      },
+    { "4",  "timesplayedascending"  },
+    { "5",  "timesplayeddescending" },
+    { "6",  "lastplayedascending"   },
+    { "7",  "lastplayeddescending"  },
+    { "8",  "playerascending"       },
+    { "9",  "playerdescending"      },
+    { "10", "developerascending"    },
+    { "11", "developerdescending"   },
+    { "12", "publisherascending"    },
+    { "13", "publisherdescending"   },
+    { "14", "genreascending"        },
+    { "15", "genredescending"       },
+    { "18", "releasedateascending"  },
+    { "19", "releasedatedescending" },
+  });
+
+  return sSorts;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableRegionFilter()
+{
+  static HashMap<String, String> sRegions
+  ({
+    { "0",   "Unknown"                                },
+    { "1",   "Djibouti"                               },
+    { "2",   "Eritrea"                                },
+    { "3",   "Ethiopia"                               },
+    { "4",   "Afghanistan"                            },
+    { "5",   "Namibia"                                },
+    { "6",   "South Africa"                           },
+    { "7",   "Cameroon"                               },
+    { "8",   "Ghana"                                  },
+    { "9",   "Armenia"                                },
+    { "10",  "Argentina"                              },
+    { "11",  "World"                                  },
+    { "12",  "United Arab Emirates"                   },
+    { "13",  "Bahrain"                                },
+    { "14",  "Algeria"                                },
+    { "15",  "Egypt"                                  },
+    { "16",  "Israel"                                 },
+    { "17",  "Iraq"                                   },
+    { "18",  "Jordan"                                 },
+    { "19",  "Comoros"                                },
+    { "20",  "Kuwait"                                 },
+    { "21",  "Lebanon"                                },
+    { "22",  "Libya"                                  },
+    { "23",  "Morocco"                                },
+    { "24",  "Mauritania"                             },
+    { "25",  "Oman"                                   },
+    { "26",  "Palestinian Authority"                  },
+    { "27",  "Qatar"                                  },
+    { "28",  "Saudi Arabia"                           },
+    { "29",  "Sudan"                                  },
+    { "30",  "Somalia"                                },
+    { "31",  "South Sudan"                            },
+    { "32",  "Syria"                                  },
+    { "33",  "Chad"                                   },
+    { "34",  "Tunisia"                                },
+    { "35",  "Yemen"                                  },
+    { "36",  "Chile"                                  },
+    { "37",  "American Samoa"                         },
+    { "38",  "India"                                  },
+    { "39",  "Tanzania"                               },
+    { "40",  "Spain"                                  },
+    { "41",  "Azerbaijan"                             },
+    { "42",  "Bosnia and Herzegovina"                 },
+    { "43",  "Russia"                                 },
+    { "44",  "Belgium"                                },
+    { "45",  "Belarus"                                },
+    { "46",  "Zambia"                                 },
+    { "47",  "Bulgaria"                               },
+    { "48",  "Nigeria"                                },
+    { "49",  "Bermuda"                                },
+    { "50",  "Mali"                                   },
+    { "51",  "Brunei"                                 },
+    { "52",  "Bangladesh"                             },
+    { "53",  "Bolivia"                                },
+    { "54",  "China"                                  },
+    { "55",  "Brazil"                                 },
+    { "56",  "France"                                 },
+    { "57",  "Bahamas"                                },
+    { "58",  "Canada"                                 },
+    { "59",  "Andorra"                                },
+    { "60",  "Italy"                                  },
+    { "61",  "Uganda"                                 },
+    { "62",  "Colombia"                               },
+    { "63",  "Czechia"                                },
+    { "64",  "Cuba"                                   },
+    { "65",  "Cyprus"                                 },
+    { "66",  "United Kingdom"                         },
+    { "67",  "Denmark"                                },
+    { "68",  "Greenland"                              },
+    { "69",  "Kenya"                                  },
+    { "70",  "Germany"                                },
+    { "71",  "Austria"                                },
+    { "72",  "Switzerland"                            },
+    { "73",  "Liechtenstein"                          },
+    { "74",  "Luxembourg"                             },
+    { "75",  "Niger"                                  },
+    { "76",  "Maldives"                               },
+    { "77",  "Senegal"                                },
+    { "78",  "Bhutan"                                 },
+    { "79",  "Estonia"                                },
+    { "80",  "Togo"                                   },
+    { "81",  "Greece"                                 },
+    { "82",  "Caribbean"                              },
+    { "83",  "Europe"                                 },
+    { "84",  "Antigua and Barbuda"                    },
+    { "85",  "Anguilla"                               },
+    { "86",  "Australia"                              },
+    { "87",  "Barbados"                               },
+    { "88",  "Burundi"                                },
+    { "89",  "Botswana"                               },
+    { "90",  "Belize"                                 },
+    { "91",  "Cocos (Keeling) Islands"                },
+    { "92",  "Cook Islands"                           },
+    { "93",  "Christmas Island"                       },
+    { "94",  "Dominica"                               },
+    { "95",  "Finland"                                },
+    { "96",  "Fiji"                                   },
+    { "97",  "Falkland Islands"                       },
+    { "98",  "Micronesia"                             },
+    { "99",  "Grenada"                                },
+    { "100", "Guernsey"                               },
+    { "101", "Gibraltar"                              },
+    { "102", "Gambia"                                 },
+    { "103", "Guam"                                   },
+    { "104", "Guyana"                                 },
+    { "105", "Hong Kong SAR"                          },
+    { "106", "Indonesia"                              },
+    { "107", "Ireland"                                },
+    { "108", "Isle of Man"                            },
+    { "109", "British Indian Ocean Territory"         },
+    { "110", "Jersey"                                 },
+    { "111", "Jamaica"                                },
+    { "112", "Kiribati"                               },
+    { "113", "Saint Kitts and Nevis"                  },
+    { "114", "Cayman Islands"                         },
+    { "115", "Saint Lucia"                            },
+    { "116", "Liberia"                                },
+    { "117", "Lesotho"                                },
+    { "118", "Madagascar"                             },
+    { "119", "Marshall Islands"                       },
+    { "120", "Macao SAR"                              },
+    { "121", "Northern Mariana Islands"               },
+    { "122", "Montserrat"                             },
+    { "123", "Malta"                                  },
+    { "124", "Mauritius"                              },
+    { "125", "Malawi"                                 },
+    { "126", "Malaysia"                               },
+    { "127", "Norfolk Island"                         },
+    { "128", "Netherlands"                            },
+    { "129", "Nauru"                                  },
+    { "130", "Niue"                                   },
+    { "131", "New Zealand"                            },
+    { "132", "Papua New Guinea"                       },
+    { "133", "Philippines"                            },
+    { "134", "Pakistan"                               },
+    { "135", "Pitcairn Islands"                       },
+    { "136", "Puerto Rico"                            },
+    { "137", "Palau"                                  },
+    { "138", "Rwanda"                                 },
+    { "139", "Solomon Islands"                        },
+    { "140", "Seychelles"                             },
+    { "141", "Sweden"                                 },
+    { "142", "Singapore"                              },
+    { "143", "St Helena, Ascension, Tristan da Cuhna" },
+    { "144", "Slovenia"                               },
+    { "145", "Sierra Leone"                           },
+    { "146", "Sint Marteen"                           },
+    { "147", "Swaziland"                              },
+    { "148", "Turks and Caicos Islands"               },
+    { "149", "Tokelau"                                },
+    { "150", "Tonga"                                  },
+    { "151", "Trinidad and Tobago"                    },
+    { "152", "Tuvalu"                                 },
+    { "153", "U.S. Outlying Islands"                  },
+    { "154", "Saint Vincent and the Grenadines"       },
+    { "155", "British Virgin Islands"                 },
+    { "156", "U.S. Virgin Islands"                    },
+    { "157", "Vanuatu"                                },
+    { "158", "Samoa"                                  },
+    { "159", "Zimbabwe"                               },
+    { "160", "Latin America"                          },
+    { "161", "Costa Rica"                             },
+    { "162", "Dominican Republic"                     },
+    { "163", "Ecuador"                                },
+    { "164", "Equatorial Guinea"                      },
+    { "165", "Guatemala"                              },
+    { "166", "Honduras"                               },
+    { "167", "Mexico"                                 },
+    { "168", "Nicaragua"                              },
+    { "169", "Panama"                                 },
+    { "170", "Peru"                                   },
+    { "171", "Paraguay"                               },
+    { "172", "El Salvador"                            },
+    { "173", "Uruguay"                                },
+    { "174", "Venezuela"                              },
+    { "175", "Iran"                                   },
+    { "176", "Guinea"                                 },
+    { "177", "Faroe Islands"                          },
+    { "178", "Burkina Faso"                           },
+    { "179", "Benin"                                  },
+    { "180", "Saint Barthélemy"                       },
+    { "181", "Congo (DRC)"                            },
+    { "182", "Central African Republic"               },
+    { "183", "Congo"                                  },
+    { "184", "Côte d'Ivoire"                          },
+    { "185", "Gabon"                                  },
+    { "186", "French Guiana"                          },
+    { "187", "Guadeloupe"                             },
+    { "188", "Haiti"                                  },
+    { "189", "Monaco"                                 },
+    { "190", "Saint Martin"                           },
+    { "191", "Martinique"                             },
+    { "192", "New Caledonia"                          },
+    { "193", "French Polynesia"                       },
+    { "194", "Saint Pierre and Miquelon"              },
+    { "195", "Réunion"                                },
+    { "196", "Wallis and Futuna"                      },
+    { "197", "Mayotte"                                },
+    { "198", "Croatia"                                },
+    { "199", "Hungary"                                },
+    { "200", "Iceland"                                },
+    { "201", "San Marino"                             },
+    { "202", "Vatican City"                           },
+    { "203", "Japan"                                  },
+    { "204", "Georgia"                                },
+    { "205", "Cabo Verde"                             },
+    { "206", "Kazakhstan"                             },
+    { "207", "Cambodia"                               },
+    { "208", "North Korea"                            },
+    { "209", "Korea"                                  },
+    { "210", "Kyrgyzstan"                             },
+    { "211", "Laos"                                   },
+    { "212", "Angola"                                 },
+    { "213", "Lithuania"                              },
+    { "214", "Latvia"                                 },
+    { "215", "Mozambique"                             },
+    { "216", "Macedonia, FYRO"                        },
+    { "217", "Mongolia"                               },
+    { "218", "Myanmar"                                },
+    { "219", "Norway"                                 },
+    { "220", "Svalbard and Jan Mayen"                 },
+    { "221", "Nepal"                                  },
+    { "222", "Aruba"                                  },
+    { "223", "Bonaire, Sint Eustatius and Saba"       },
+    { "224", "Curaçao"                                },
+    { "225", "Suriname"                               },
+    { "226", "Poland"                                 },
+    { "227", "Portugal"                               },
+    { "228", "Guinea-Bissau"                          },
+    { "229", "São Tomé and Principe"                  },
+    { "230", "Timor-Leste"                            },
+    { "231", "Romania"                                },
+    { "232", "Moldova"                                },
+    { "233", "Ukraine"                                },
+    { "234", "Sri Lanka"                              },
+    { "235", "Slovakia"                               },
+    { "236", "Albania"                                },
+    { "237", "Kosovo"                                 },
+    { "238", "Montenegro"                             },
+    { "239", "Serbia"                                 },
+    { "240", "Åland Islands"                          },
+    { "241", "Tajikistan"                             },
+    { "242", "Thailand"                               },
+    { "243", "Turkmenistan"                           },
+    { "244", "Turkey"                                 },
+    { "245", "Uzbekistan"                             },
+    { "246", "Vietnam"                                },
+    { "247", "Taiwan"                                 },
+    { "248", "USA"                                    },
+    { "249", "Asia"                                   },
+  });
+
+  return sRegions;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableKeyboardLayout()

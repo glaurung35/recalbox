@@ -451,6 +451,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "debuglogs"                   , Validator(true) },
          { "pads.osd"                    , Validator(true) },
          { "pads.osd.type"               , Validator(GetAvailableOsdTypes(), false) },
+         { "tateonly"                    , Validator(true) },
        });
 
       return sList;
@@ -705,7 +706,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "gamerotation", Validator(0, 3) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
+        { "gamerotation", Validator(false,{ "0", "1", "2", "3" }) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
       });
 
       return sList;

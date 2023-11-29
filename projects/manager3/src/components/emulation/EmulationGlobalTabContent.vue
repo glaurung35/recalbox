@@ -190,6 +190,29 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.tate.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.global.tate.gamerotation.label"
+            :options="gameRotationOptions"
+            :getter="tate.gamerotation"
+            :setter="tateStore.post"
+            apiKey="gamerotation"
+            v-if="tate.gamerotation"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.tate.gamerotation.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.0')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.1')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.2')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.3')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
       <FormFragmentContainer title="emulation.global.virtualarcade.title">
@@ -429,6 +452,7 @@ import { useEmulationstationStore } from 'stores/configuration/emulationstation'
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useAutorunStore } from 'stores/configuration/autorun';
+import { useTateStore } from 'stores/configuration/tate';
 
 const globalStore = useGlobalStore();
 globalStore.fetch();
@@ -453,4 +477,8 @@ const {
 const autorunStore = useAutorunStore();
 autorunStore.fetch();
 const { autorun } = storeToRefs(autorunStore);
+
+const tateStore = useTateStore();
+tateStore.fetch();
+const { tate, gameRotationOptions } = storeToRefs(tateStore);
 </script>

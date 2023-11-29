@@ -24,6 +24,7 @@ export const CONFIGURATION = {
   scraper: '/configuration/scraper',
   screenshots: '/configuration/screenshots',
   system: '/configuration/system',
+  tate: '/configuration/tate',
   updates: '/configuration/updates',
   wifi: '/configuration/wifi',
   wifi2: '/configuration/wifi2',

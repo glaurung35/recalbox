@@ -187,6 +187,10 @@ export interface EmulationStationConfigResponse {
     exist: boolean;
     value: string;
   };
+  tateonly: {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface EmulationStationConfigOptionsResponse {
@@ -381,5 +385,9 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     allowedStringList: string[];
     displayableStringList: string[];
+  };
+  tateonly: {
+    type: string;
+    value: boolean;
   };
 }

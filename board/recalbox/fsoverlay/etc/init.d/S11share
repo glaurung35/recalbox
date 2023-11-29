@@ -340,14 +340,13 @@ esac
 # Mount remote folders & additionel shares
 mountNetwork > /tmp/mountNetwork.log 2> /tmp/mountNetwork.err
 
+# reenable standard usbmount
+touch /var/run/recalbox.share.mounted
+
 # Now, let's mount delayed usbmount devices
-ls /var/run/usbmount.delay |
-    while read -r RULE ; do
-        RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
-        (
-            source "/var/run/usbmount.delay/${RULE}"
-            /usr/share/usbmount/usbmount "${RTYPE}"
-            rm "/var/run/usbmount.delay/${RULE}"
-        )
-    done
-touch /var/run/recalbox.share.mounted # reenable standard usbmount
+for DEV in /var/run/usbmount.delay/*; do
+  (
+     source "$DEV"
+     /recalbox/scripts/recalbox-usbmount.sh "${ACTION}"
+  )
+done

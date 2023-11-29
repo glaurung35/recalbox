@@ -474,6 +474,10 @@
         "videomode": {
           "label": "Video mode",
           "help": "This option allows you to choose a resolution screen for your Recalbox. There are two groups of video modes: CEA and DMT. Make sure the mode is compatible with your native screen resolution."
+        },
+        "force43": {
+          "label": "Force 4/3 format",
+          "help": "This option allows you to choose if you like to force the frontend to display in 4/3 format."
         }
       },
       "menus": {
@@ -596,26 +600,9 @@
           "help": "This option allows you to enable or disable Tate virtual system."
         }
       },
-      "popups": {
-        "title": "Popups",
-        "showhelp": {
-          "label": "Display help",
-          "help": "This option allows you to enable or disable help popups."
-        },
-        "popup": {
-          "help": {
-            "label": "Durée d'affichage de la popup d'aide",
-            "help": "This option allows you to change the help popup display time period."
-          },
-          "music": {
-            "label": "Durée d'affichage de la popup de musique",
-            "help": "This option allows you to change the music popup display time period."
-          },
-          "netplay": {
-            "label": "Durée d'affichage de la popup de netplay",
-            "help": "This option allows you to change the netplay popup display time period."
-          }
-        }
+      "tate": {
+        "label": "Display only tate games in gamelists",
+        "help": "This option allows you to enable or disable to display only tate games in gamelists."
       },
       "theme": {
         "title": "Themes",
@@ -638,6 +625,27 @@
             "availableOptions": "This option allows you to choose the animation performed while moving across systems. Available options:",
             "0": "If enabled, transition between systems will be smooth.",
             "1": "If disabled, transition between systems will be instant."
+          }
+        }
+      },
+      "popups": {
+        "title": "Popups",
+        "showhelp": {
+          "label": "Display help",
+          "help": "This option allows you to enable or disable help popups."
+        },
+        "popup": {
+          "help": {
+            "label": "Durée d'affichage de la popup d'aide",
+            "help": "This option allows you to change the help popup display time period."
+          },
+          "music": {
+            "label": "Durée d'affichage de la popup de musique",
+            "help": "This option allows you to change the music popup display time period."
+          },
+          "netplay": {
+            "label": "Durée d'affichage de la popup de netplay",
+            "help": "This option allows you to change the netplay popup display time period."
           }
         }
       }
@@ -853,8 +861,21 @@
       "autorun": {
         "title": "Autorun",
         "enabled": {
-          "label": "Enable game autorun",
-          "help": "This option allows you to enable or disable the possibility to launch automatically a specific game. Note: If Kodi is also defined to autorun, Kodi have the priority."
+          "label": "Enable boot on game",
+          "help": "This option allows you to enable or disable the possibility to launch automatically a specific game on boot. Note: If Kodi is also defined to boot, Kodi have the priority."
+        }
+      },
+      "tate": {
+        "title": "Tate",
+        "gamerotation": {
+          "label": "Game rotation",
+          "help": {
+            "availableOptions": "This option allows you to define the rotation of the game screen of tate games. Available options:",
+            "0": "<b>0</b> will left you games as is.",
+            "1": "<b>1</b> will turn game screen 90° to the left.",
+            "2": "<b>2</b> will turn upside down game screen.",
+            "3": "<b>3</b> will turn game screen 90° to the right."
+          }
         }
       },
       "virtualarcade": {

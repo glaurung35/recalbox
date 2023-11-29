@@ -7,16 +7,17 @@ import { PiniaPluginContext } from 'pinia';
 const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [
     'audio',
-    'kodi',
-    'scraper',
-    'emulationstation',
-    'wifi',
-    'system',
-    'updates',
+    'autorun',
     'controllers',
+    'emulationstation',
     'global',
     'hat',
-    'autorun',
+    'kodi',
+    'scraper',
+    'system',
+    'updates',
+    'wifi',
+    'tate',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

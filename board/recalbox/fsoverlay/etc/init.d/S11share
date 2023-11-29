@@ -346,7 +346,7 @@ ls /var/run/usbmount.delay |
         RTYPE=$(echo "${RULE}" | sed -e s+'^[0-9]*\.'++)
         (
             source "/var/run/usbmount.delay/${RULE}"
-            /usr/share/usbmount/usbmount "${RTYPE}"
+            /recalbox/scripts/recalbox-usbmount.sh "${RTYPE}"
             rm "/var/run/usbmount.delay/${RULE}"
         )
     done

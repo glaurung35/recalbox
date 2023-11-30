@@ -207,7 +207,7 @@
       "updates": {
         "title": "mises à jour",
         "enabled": {
-          "label": "Vérifier les mises à jours au démarrage du système",
+          "label": "Vérifier les mises à jour au démarrage du système",
           "help": "Cette option vous permet de demander à votre Recalbox de rechercher si une mise à jour existe lors de son démarrage."
         }
       },

@@ -35,28 +35,28 @@
           </q-card>
         </div>
         <div v-if="screenshot.urlVideo">
-          <q-card @click="openVideo(screenshot.urlVideo)" class="screenshot" flat rounded>
+          <q-card @click="openVideo(screenshot.urlVideo, screenshot.type)" class="screenshot" flat rounded>
             <q-card-section horizontal>
               <video class="col" loading="lazy">
-                <source :src="screenshot.urlVideo" type="video/mp4" />
-                <div
-                  class="absolute-bottom text-white justify-between row items-start"
-                  style="padding: .5em"
-                >
-                <span class="self-center"><q-icon
-                  name="mdi-calendar-clock"
-                  style="font-size: 1.5em; margin-right: .25em;"
-                />
-                {{ screenshot.date }}</span>
-                  <q-btn
-                    class="float-right"
-                    color="negative"
-                    flat icon="mdi-delete"
-                    round
-                    @click.stop="openDeleteVideoConfirm(screenshot.name)"
-                  />
-                </div>
+                <source :src="screenshot.urlVideo" :type="screenshot.type" />
               </video>
+              <div
+                class="absolute-bottom text-white justify-between row items-start"
+                style="padding: .5em"
+              >
+              <span class="self-center"><q-icon
+                name="mdi-calendar-clock"
+                style="font-size: 1.5em; margin-right: .25em;"
+              />
+              {{ screenshot.date }}</span>
+                <q-btn
+                  class="float-right"
+                  color="negative"
+                  flat icon="mdi-delete"
+                  round
+                  @click.stop="openDeleteVideoConfirm(screenshot.name)"
+                />
+              </div>
             </q-card-section>
           </q-card>
         </div>
@@ -79,7 +79,7 @@
               @click="modalVideo.open = false"
               class="opened"
             >
-              <source :src="modalVideo.videoUrl" type="video/mp4" />
+              <source :src="modalVideo.videoUrl" :type="modalVideo.type" />
             </video>
           </q-card-section>
         </q-card>
@@ -133,11 +133,13 @@ function openDeleteConfirm(name: string) {
 const modalVideo = ref<object>({
   open: false,
   videoUrl: '',
+  type: '',
   selectedName: null,
 });
 
-function openVideo(url: string) {
+function openVideo(url: string, type: string) {
   modalVideo.value.videoUrl = url;
+  modalVideo.value.type = type;
   modalVideo.value.open = true;
 }
 

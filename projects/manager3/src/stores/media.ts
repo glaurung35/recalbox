@@ -53,7 +53,7 @@ export const useMediaStore = defineStore('media', {
         }
 
         // Do the videos
-        if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi')) {
+        if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi') || key.includes('.webm')) {
           let formattedDate: string;
           const name = key.substring(key.length - 17).substring(0, key.length);
           // eslint-disable-next-line prefer-const
@@ -61,11 +61,20 @@ export const useMediaStore = defineStore('media', {
             date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
             'DD/MM/YYYY - HH:mm:ss',
           );
+          let mediaType: string;
+          if (key.includes('.webm')) {
+            mediaType = 'video/webm';
+          } else if (key.includes('.avi')) {
+            mediaType = 'video/x-msvideo';
+          } else {
+            mediaType = 'video/mp4';
+          }
           result.push({
             name: key,
             // eslint-disable-next-line @typescript-eslint/ban-ts-comment
             // @ts-ignore
             urlVideo: apiUrl + MEDIA.get + key,
+            type: mediaType,
             date: formattedDate,
           });
         }

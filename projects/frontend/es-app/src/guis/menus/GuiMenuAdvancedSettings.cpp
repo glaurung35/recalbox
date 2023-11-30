@@ -85,7 +85,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
 
   // Eeprom update
-  if(Board::Instance().GetBoardType() == BoardType::Pi4 || Board::Instance().GetBoardType() == BoardType::Pi5)
+  if(Board::Instance().GetBoardType() == BoardType::Pi4 || Board::Instance().GetBoardType() == BoardType::Pi400 || Board::Instance().GetBoardType() == BoardType::Pi5)
     AddSubMenu(_("BOOTLOADER UPDATE"), (int)Components::EepromUpdate, _(MENUMESSAGE_ADVANCED_EEPROM_UPDATE));
 
   // Reset Factory

@@ -20,7 +20,7 @@ class LibretroConfigCRT:
         self.crt_mode_processor = crt_mode_processor
         self.v2 = v2
 
-    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015"]
+    arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015", "mame"]
 
     def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, game_is_tate: int, system_rotation: Rotation, k31:bool=False, forceFullAndIntegerScale:bool=False) -> \
             typing.Dict[
@@ -282,7 +282,7 @@ class LibretroConfigCRT:
         config_core: str = core
         if config_core == "mame2003_plus":
             config_core = "mame2003"
-        if config_core == "mame2015":
+        if config_core == "mame2015" or config_core == "mame":
             config_core = "mame2010"
 
         # Arcade

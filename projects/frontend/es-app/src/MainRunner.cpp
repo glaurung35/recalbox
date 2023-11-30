@@ -205,7 +205,8 @@ MainRunner::ExitState MainRunner::Run()
       CheckAlert(window, systemManager);
 
       // Enable joystick autopairing
-      mBTAutopairManager.StartDiscovery();
+      if(RecalboxConf::Instance().GetAutoPairOnBoot())
+        mBTAutopairManager.StartDiscovery();
 
       // Main Loop!
       CreateReadyFlagFile();

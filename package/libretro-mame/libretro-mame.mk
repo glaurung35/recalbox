@@ -31,6 +31,12 @@ LIBRETRO_MAME_OPTS += PLATFORM=arm
 LIBRETRO_MAME_OPTS += ARCHITECTURE=""
 LIBRETRO_MAME_OPTS += NOASM=1
 LIBRETRO_MAME_ARCHOPTS += -D__arm__
+else ifeq ($(BR2_aarch64),y)
+LIBRETRO_MAME_OPTS += PTR64=1
+LIBRETRO_MAME_OPTS += LIBRETRO_CPU=arm64
+LIBRETRO_MAME_OPTS += PLATFORM=arm64
+LIBRETRO_MAME_OPTS += ARCHITECTURE=""
+LIBRETRO_MAME_OPTS += NOASM=1
 endif
 
 LIBRETRO_MAME_OPTS += ARCHOPTS="$(LIBRETRO_MAME_ARCHOPTS)"
@@ -62,7 +68,7 @@ LIBRETRO_MAME_OPTS += RANLIB="$(TARGET_RANLIB)" AR="$(TARGET_AR)"
 define LIBRETRO_MAME_BUILD_CMDS
 	mkdir -p $(@D)/build/gmake/libretro/obj/x64/libretro/src/osd/retro
 	mkdir -p $(@D)/3rdparty/genie/build/gmake.linux/obj/Release/src/host
-	$(MAKE) -j1 -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
+	$(MAKE) -C $(@D)/ -f makefile $(LIBRETRO_MAME_OPTS)
 endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS

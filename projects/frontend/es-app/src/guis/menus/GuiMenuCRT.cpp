@@ -445,6 +445,7 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RecalboxConf::Instance().SetThemeFolder("recalbox-240p");
           RecalboxConf::Instance().SetThemeIconSet("recalbox-240p", "4-jamma");
           RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
+          RecalboxConf::Instance().SetAutoPairOnBoot(false);
 
           std::vector<String> manufacturers;
           for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())

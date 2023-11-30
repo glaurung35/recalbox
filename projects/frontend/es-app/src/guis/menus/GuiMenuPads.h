@@ -46,6 +46,7 @@ class GuiMenuPads : public GuiMenuBase
       Driver,
       PadOSD,
       PadOSDType,
+      AutoPairOnBoot,
     };
 
     //! Pad lists

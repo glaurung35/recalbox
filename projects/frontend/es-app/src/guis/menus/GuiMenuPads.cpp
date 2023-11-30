@@ -27,6 +27,9 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   // Unpair all pads
   AddSubMenu(_("FORGET BLUETOOTH CONTROLLERS"), (int)Components::Unpair, _(MENUMESSAGE_CONTROLLER_FORGET_HELP_MSG));
 
+  // Automatic pairing on boot
+  AddSwitch(_("AUTO PAIR ON BOOT"), RecalboxConf::Instance().GetAutoPairOnBoot(), (int)Components::AutoPairOnBoot, this, _(MENUMESSAGE_CONTROLLER_AUTOPAIRONBOOT_HELP_MSG));
+
   // Driver
   AddList<String>(_("DRIVER"), (int)Components::Driver, this, GetModes(), _(MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG));
 
@@ -198,6 +201,8 @@ void GuiMenuPads::SwitchComponentChanged(int id, bool status)
 {
   if ((Components)id == Components::PadOSD)
     RecalboxConf::Instance().SetPadOSD(status).Save();
+  if ((Components)id == Components::AutoPairOnBoot)
+    RecalboxConf::Instance().SetAutoPairOnBoot(status).Save();
 }
 
 void GuiMenuPads::OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value)

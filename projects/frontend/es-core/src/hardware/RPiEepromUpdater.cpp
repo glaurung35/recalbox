@@ -37,7 +37,18 @@ bool RPiEepromUpdater::Update() const
 
 std::pair<String, int> RPiEepromUpdater::Run(bool autoupdate) const
 {
-  return RecalboxSystem::execute(String("rpi-eeprom-update").Append(autoupdate ? " -a" : ""));
+  if(autoupdate)
+  {
+    if(system("mount -o remount,rw /boot") == 0)
+    {
+      std::pair<String, int> res = RecalboxSystem::execute("rpi-eeprom-update -a");
+      system("mount -o remount,ro /boot");
+      return res;
+    }
+    else
+      return std::pair("Unable to remount boot", 2);
+  }
+  return RecalboxSystem::execute("rpi-eeprom-update");
 }
 
 String RPiEepromUpdater::ExtractVersion(String cmdResult, String updateType)

@@ -58,6 +58,7 @@ class MenuMessages
     #define MENUMESSAGE_CONTROLLER_DRIVER_HELP_MSG "Change the driver if your pad is not working at all or not working properly in-game."
     #define MENUMESSAGE_CONTROLLER_PADOSD_HELP_MSG "Always display Pad OSD whether you are in pad menus or not."
     #define MENUMESSAGE_CONTROLLER_PADOSDTYPE_HELP_MSG "Change the icon used to display pad OSD."
+    #define MENUMESSAGE_CONTROLLER_AUTOPAIRONBOOT_HELP_MSG "Activates Bluetooth pairing automatically each time you boot."
 
     #define MENUMESSAGE_UI_HELP_MSG "Configure your EmulationStation experience. Select transition types, help prompts, screensaver behavior. You can also deactivate the onscreen keyboard if you have a real keyboard plugged into your recalbox.\nIf you've added games since the last boot, you can also refresh the gamelist from this menu."
     #define MENUMESSAGE_UI_SCREENSAVER_AFTER_HELP_MSG "Configure screensaver"

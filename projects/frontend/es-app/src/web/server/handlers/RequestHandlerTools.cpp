@@ -26,7 +26,7 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
   Path::PathList list = mediaPath.GetDirectoryContent();
 
   static String imagesExtensions(".jpg|.jpeg|.png|.gif");
-  static String videosExtensions(".mkv|.avi|.mp4");
+  static String videosExtensions(".mkv|.avi|.mp4|.webm");
 
   JSONBuilder result;
   result.Open()

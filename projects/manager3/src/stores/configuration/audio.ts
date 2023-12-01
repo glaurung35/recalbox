@@ -2,14 +2,17 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import { AudioConfigOptionsResponse, AudioConfigResponse } from 'stores/types/audio';
 import { CONFIGURATION } from 'src/router/api.routes';
 
-export type AudioStoreState = {
-  _baseUrl: string,
-  _audioOptions: AudioConfigOptionsResponse,
-  audio: AudioConfigResponse,
-};
+export interface AudioStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _audioOptions: AudioConfigOptionsResponse;
+  audio: AudioConfigResponse;
+}
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({

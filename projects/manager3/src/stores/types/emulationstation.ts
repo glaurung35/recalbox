@@ -383,3 +383,39 @@ export interface EmulationStationConfigOptionsResponse {
     displayableStringList: string[];
   };
 }
+
+export interface CurrentSystemMetaDataColor {
+  band1: string;
+  band2: string;
+  band3: string;
+  band4: string;
+}
+
+export interface CurrentSystemMetaData {
+  system: object;
+  colors: CurrentSystemMetaDataColor
+}
+
+export interface CurrentSystem {
+  name: string;
+  systemId: string;
+  logoPath: string;
+  metaData: CurrentSystemMetaData;
+}
+
+export interface CurrentRom {
+  name: string;
+  imagePath: string;
+  thumbnailPath: string;
+  videoPath: string;
+  developer: string;
+  publisher: string;
+  players: string;
+  region: string;
+  genre: string;
+}
+
+export interface EmulationStationCurrentState {
+  currentSystem: CurrentSystem|null,
+  currentRom: CurrentRom|null,
+}

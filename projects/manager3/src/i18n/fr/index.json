@@ -47,7 +47,7 @@
     "notify": {
       "updateSuccess": "Modification effectuée",
       "screenshotTaken": "Capture d'écran effectuée",
-      "screenshotDeleted": "Capture d'écran supprimée",
+      "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
       "networkError": "Problème de connexion réseau",
       "esStart": "Démarrage EmulationStation",
@@ -99,7 +99,13 @@
         "start": "Démarrer EmulationStation",
         "stop": "Arrêter EmulationStation",
         "restart": "Redémarrer EmulationStation"
-      }
+      },
+      "manufacturer": "Fabriquant",
+      "yearOfRelease": "Année de sortie",
+      "cpu": "CPU",
+      "ram": "RAM",
+      "gpu": "GPU",
+      "soundChip": "Processeur audio"
     },
     "game": {
       "title": "Jeux en cours",
@@ -1155,10 +1161,7 @@
       "tooltip": "Faire une capture",
       "dialogs": {
         "remove": {
-          "text": "Êtes-vous certain de vouloir supprimer cette capture d'écran ?"
-        },
-        "removevideo": {
-          "text": "Êtes-vous certain de vouloir supprimer cette vidéo ?"
+          "text": "Êtes-vous certain de vouloir supprimer ce média ?"
         }
       }
     }

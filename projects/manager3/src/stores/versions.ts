@@ -3,12 +3,13 @@
  */
 import { defineStore } from 'pinia';
 import { VERSIONS } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { VersionsResponse } from 'stores/types/versions';
 
-export type VersionsStoreState = {
-  _baseUrl: string,
-  versions: VersionsResponse,
-};
+export interface VersionsStoreState extends FetchStore {
+  _baseUrl: string;
+  versions: VersionsResponse;
+}
 
 export const useVersionsStore = defineStore('versions', {
   state: () => ({

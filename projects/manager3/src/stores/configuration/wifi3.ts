@@ -3,13 +3,16 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import { WifiBaseConfigOptionsResponse, WifiBaseConfigResponse } from 'stores/types/wifi';
 
-export type Wifi3StoreState = {
-  _baseUrl: string,
-  _wifi3Options: WifiBaseConfigOptionsResponse,
-  wifi3: WifiBaseConfigResponse,
-};
+export interface Wifi3StoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _wifi3Options: WifiBaseConfigOptionsResponse;
+  wifi3: WifiBaseConfigResponse;
+}
 
 export const useWifi3Store = defineStore('wifi3', {
   state: () => ({

@@ -3,16 +3,20 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   EmulationStationConfigOptionsResponse,
-  EmulationStationConfigResponse,
+  EmulationStationConfigResponse, EmulationStationCurrentState,
 } from 'stores/types/emulationstation';
 
-export type EmulationStationStoreState = {
-  _baseUrl: string,
-  _emulationstationOptions: EmulationStationConfigOptionsResponse,
-  emulationstation: EmulationStationConfigResponse,
-};
+export interface EmulationStationStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _emulationstationOptions: EmulationStationConfigOptionsResponse;
+  emulationstation: EmulationStationConfigResponse;
+  currentState: EmulationStationCurrentState;
+}
 
 export const useEmulationstationStore = defineStore('emulationstation', {
   state: () => ({
@@ -74,6 +78,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
     },
     emulationstation: {},
+    currentState: {},
   } as EmulationStationStoreState),
 
   getters: {
@@ -93,5 +98,13 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
     virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList,
     padsOsdTypeOptions: (state) => state._emulationstationOptions['pads.osd.type'].allowedStringList,
+  },
+
+  actions: {
+    resetCurrentSystem() {
+      if (this.currentState.currentSystem) {
+        this.currentState.currentSystem = null;
+      }
+    },
   },
 });

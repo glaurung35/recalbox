@@ -3,16 +3,19 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   ScraperConfigOptionsResponse,
   ScraperConfigResponse,
 } from 'stores/types/scraper';
 
-export type ScraperStoreState = {
-  _baseUrl: string,
-  _scraperOptions: ScraperConfigOptionsResponse,
-  scraper: ScraperConfigResponse,
-};
+export interface ScraperStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _scraperOptions: ScraperConfigOptionsResponse;
+  scraper: ScraperConfigResponse;
+}
 
 export const useScraperStore = defineStore('scraper', {
   state: () => ({

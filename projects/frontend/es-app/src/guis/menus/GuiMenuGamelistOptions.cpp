@@ -286,7 +286,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         (void)mGamelist.getCursor()->RomPath().Delete();
         RootFolderData::DeleteChild(mGamelist.getCursor());
         mSystemManager.UpdateSystemsOnGameChange(mGamelist.getCursor(), MetadataType::None, true);
-        mWindow.deleteAllGui();
+        mWindow.CloseAll();
       }, _("NO"), {}));
       break;
     }

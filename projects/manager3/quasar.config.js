@@ -84,6 +84,7 @@ module.exports = configure((ctx) => ({
 
         MQTT_URL: `mqtt://${process.env.API_IP}:18833`,
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
+        MQTT_ES_EVENTS_CHANNEL: 'Recalbox/EmulationStation/EventJson',
       }
       : { // and on build (production):
         API_URL: '/api',
@@ -101,6 +102,7 @@ module.exports = configure((ctx) => ({
 
         MQTT_URL: '',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
+        MQTT_ES_EVENTS_CHANNEL: 'Recalbox/EmulationStation/EventJson',
       },
     // transpile: false,
     // publicPath: '/',

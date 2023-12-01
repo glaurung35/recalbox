@@ -49,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useSystemsStore } from 'stores/systems';
 import { ref } from 'vue';
 import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
 import MenuLink from 'components/ui-kit/MenuLink.vue';
@@ -95,7 +96,10 @@ const menuLinks: Array<object> = [
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 
-function toggle(event: object) {
+const systemsStore = useSystemsStore();
+systemsStore.fetch();
+
+function toggle(event: { label: string; value: boolean; }) {
   if (event.label === 'shortcutsButton') {
     shortcutsButtonOpeningStatus.value = event.value;
     helpButtonOpeningStatus.value = false;

@@ -1,0 +1,59 @@
+export interface Emulator {
+  Emulator: string;
+  Core: string;
+}
+
+export interface Game {
+  Game: string;
+  GamePath: string;
+  IsFolder: boolean;
+  ImagePath: string;
+  ThumbnailPath: string;
+  VideoPath: string;
+  Developer: string;
+  Publisher: string;
+  Players: string;
+  Region: string;
+  Genre: string;
+  GenreId: string;
+  Favorite: boolean;
+  Hidden: boolean;
+  Adult: boolean;
+  SelectedEmulator: Emulator;
+}
+
+export interface System {
+  System: string;
+  SystemId: string;
+  DefaultEmulator: Emulator;
+}
+
+export interface EsResponse {
+  Action: 'systembrowsing'|'gamelistbrowsing'|'rungame';
+  Parameter: string;
+  Version: string;
+  System: System;
+  Game: Game;
+}
+
+export type Cpu = Record<string, {
+  consumption: number[];
+}>
+
+export interface Memory {
+  total: number;
+  free: number[];
+  available: number[];
+}
+
+export interface Temperature {
+  unit: '°C',
+  temperatures: number[];
+}
+
+export interface MonitoringResponse {
+  timestamp: string;
+  cpus: Cpu[],
+  memory: Memory;
+  temperature: Temperature;
+}

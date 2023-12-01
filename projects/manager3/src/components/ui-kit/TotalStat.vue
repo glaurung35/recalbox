@@ -41,7 +41,7 @@ const {
 } = toRefs(props);
 
 function click() {
-  if (route.value) {
+  if (route?.value) {
     router.push(
       { name: route.value },
     );

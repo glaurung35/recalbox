@@ -4,7 +4,7 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-alpha-22
+## Version 9.2-patron-2
 
 - Add arcade editor systems (START -> ARCADE OPTIONS)
 - Add support for bootloader update on RPi4 and RPi 5 (START -> ADVANCED SETTINGS -> BOOTLOADER UPDATE)
@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Improved selection of emulators per game (default system added and emulator forced by overload too)
 - Fix downloader crash
 - Automatic bios management in ES
+- Added libretro-mame core on RPi5
 
 ## Version 9.2-Pulstar
 

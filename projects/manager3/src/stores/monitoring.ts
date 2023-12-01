@@ -3,13 +3,19 @@
  */
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { toRaw } from 'vue';
 import { StoragesResponse } from 'stores/types/storages';
 
-export type MonitoringStoreState = {
-  _baseUrl: string,
-  monitoring: StoragesResponse,
-};
+export interface MonitoringStoreState extends FetchStore {
+  _baseUrl: string;
+  monitoring: StoragesResponse;
+  metrics: {
+    temperatures: [];
+    memory: [];
+    cores: [];
+  };
+}
 
 export const useMonitoringStore = defineStore('monitoring', {
   state: () => ({

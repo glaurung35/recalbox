@@ -3,16 +3,19 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   GlobalConfigOptionsResponse,
   GlobalConfigResponse,
 } from 'stores/types/global';
 
-export type GlobalStoreState = {
-  _baseUrl: string,
-  _globalOptions: GlobalConfigOptionsResponse,
-  global: GlobalConfigResponse,
-};
+export interface GlobalStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _globalOptions: GlobalConfigOptionsResponse;
+  global: GlobalConfigResponse;
+}
 
 export const useGlobalStore = defineStore('global', {
   state: () => ({

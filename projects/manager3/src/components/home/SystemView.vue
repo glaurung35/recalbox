@@ -43,6 +43,7 @@
         :disable="!serverStore.available"
       >
         <q-tooltip
+          class="bg-primary"
           :offset="[10, 10]"
           content-class="bg-primary"
           content-style="font-size: 16px"
@@ -53,36 +54,109 @@
     </div>
   </div>
   <div class="informations">
+    <div class="lines" v-if="currentState.currentSystem">
+      <div
+        v-for="color in currentState.currentSystem.metaData.colors"
+        class="line"
+        :key="color"
+        :style="{ backgroundColor: color }"
+      ></div>
+    </div>
     <q-img
       class="logo"
-      :src="logoUrl"
+      :src="currentState.currentSystem?.logoPath"
       spinner-color="white"
-      alt="Sammy Atomiswave"
-      @click="() => $router.push(
-        { name: 'systems-system', params: { system: 'atomiswave' }}
-      )"
+      @click="redirect"
+      fit="contain"
     />
     <transition
       appear
       enter-active-class="animated flipInX"
+      v-if="currentState.currentSystem"
     >
       <q-list class="meta-list">
-        <q-item
-          v-for="system in fakeSystemMeta"
-          v-bind="system"
-          :key="system.label"
-        >
+        <q-item v-if="currentState.currentSystem.metaData.system.manufacturer">
           <q-item-section top avatar>
             <q-avatar
               color="white"
               square
               rounded
-              :icon="system.icon"
+              icon="mdi-factory"
             />
           </q-item-section>
           <q-item-section>
-            <q-item-label>{{system.label}}</q-item-label>
-            <q-item-label caption>{{system.value}}</q-item-label>
+            <q-item-label>{{ $t('home.system.manufacturer') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.manufacturer}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="currentState.currentSystem.metaData.system.yearOfRelease">
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              icon="mdi-calendar-month-outline"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('home.system.yearOfRelease') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.yearOfRelease}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="currentState.currentSystem.metaData.system.cpu">
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              icon="mdi-cpu-32-bit"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('home.system.cpu') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.cpu}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="currentState.currentSystem.metaData.system.ram">
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              icon="mdi-memory"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('home.system.ram') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.ram}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="currentState.currentSystem.metaData.system.gpu">
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              icon="mdi-expansion-card-variant"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('home.system.gpu') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.gpu}}</q-item-label>
+          </q-item-section>
+        </q-item>
+        <q-item v-if="currentState.currentSystem.metaData.system.soundChip">
+          <q-item-section top avatar>
+            <q-avatar
+              color="white"
+              square
+              rounded
+              icon="mdi-toslink"
+            />
+          </q-item-section>
+          <q-item-section>
+            <q-item-label>{{ $t('home.system.soundChip') }}</q-item-label>
+            <q-item-label caption>{{currentState.currentSystem.metaData.system.soundChip}}</q-item-label>
           </q-item-section>
         </q-item>
       </q-list>
@@ -91,23 +165,31 @@
 </template>
 
 <script lang="ts" setup>
+import { useRouter } from 'vue-router';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useServerStore } from 'stores/server';
-import { apiUrl } from 'boot/axios';
+
+const router = useRouter();
 
 const serverStore = useServerStore();
+const emulationStationStore = useEmulationstationStore();
+
+const { currentState } = emulationStationStore;
 
 serverStore.available = true;
+console.log(currentState.currentSystem);
+function redirect() {
+  if (currentState.currentSystem?.systemId === 'imageviewer') {
+    router.push(
+      { name: 'screenshots' },
+    );
+  } else {
+    router.push(
+      { name: 'systems-system', params: { system: currentState.currentSystem?.systemId } },
+    );
+  }
+}
 
-const fakeSystemMeta = [
-  { label: 'Manufacturer', value: 'Sammy', icon: 'mdi-factory' },
-  { label: 'Year of Release', value: '2003', icon: 'mdi-calendar-month-outline' },
-  { label: 'CPU', value: 'Hitachi SH-4 32-bit RISC @ 200 MHz (360 MIPS / 1,4 GFLOPS)', icon: 'mdi-cpu-32-bit' },
-  { label: 'RAM', value: '32 Mo', icon: 'mdi-memory' },
-  { label: 'GPU', value: 'PowerVR 2 (PVR2DC)', icon: 'mdi-expansion-card-variant' },
-  { label: 'Sound chip', value: 'Yamaha ARM7 AICA @ 45 MHz (CPU interne 32-bit RISC, 64 canaux ADPCM)', icon: 'mdi-toslink' },
-];
-
-const logoUrl = `${apiUrl}/systems/atomiswave/resource/eu/svg/logo`;
 </script>
 
 <style lang="sass" scoped>
@@ -140,6 +222,20 @@ const logoUrl = `${apiUrl}/systems/atomiswave/resource/eu/svg/logo`;
   flex-direction: column
   padding: 0 1em
 
+  .lines
+    position: absolute
+    display: flex
+    flex-direction: row
+    top: 44px
+    left: 15px
+    width: 6%
+    height: 100%
+    opacity: 0.3
+
+    .line
+      width: 20%
+      min-height: 100%
+
   .meta-list
     border-color: white
     border-radius: 5px
@@ -148,10 +244,10 @@ const logoUrl = `${apiUrl}/systems/atomiswave/resource/eu/svg/logo`;
     cursor: pointer
     width: 50%
     margin: 0 auto 2em auto
-    filter: saturate(0)
+    filter: saturate(50%)
     opacity: 0.4
     transition: opacity 0.3s
-    height: 50px
+    height: 80px
 
     &:hover
       filter: initial

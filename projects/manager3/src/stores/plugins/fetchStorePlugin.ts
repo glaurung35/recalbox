@@ -3,6 +3,10 @@
  */
 import { PiniaPluginContext } from 'pinia';
 
+export interface FetchStore {
+  fetch(): Promise<void>;
+}
+
 // eslint-disable-next-line consistent-return
 const FetchStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [

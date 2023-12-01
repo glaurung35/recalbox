@@ -4,6 +4,22 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-alpha-22
+
+- Add arcade editor systems (START -> ARCADE OPTIONS)
+- Add support for bootloader update on RPi4 and RPi 5 (START -> ADVANCED SETTINGS -> BOOTLOADER UPDATE)
+- Add support for HD mode on Pi5, PC (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)
+- Add support for Widescreen mode on Pi4, Pi5, PC (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)
+- Add "Boot on game" feature to enable recalbox booting on a selected game 
+  - ADVANCED SETTINGS -> ENABLE BOOT ON GAME
+  - then use START on the game and set BOOT ON THIS GAME to ON
+- Add new Saturn core on RPi4 and RPi5: beetle saturn
+- Add new port SDLPop (port of Prince of Persia)
+- Remove auto config popup when starting a game
+- Improved selection of emulators per game (default system added and emulator forced by overload too)
+- Fix downloader crash
+- Automatic bios management in ES
+
 ## Version 9.2-Pulstar
 
 ### Hardware

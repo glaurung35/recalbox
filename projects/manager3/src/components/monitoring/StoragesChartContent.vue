@@ -32,8 +32,13 @@ const props = defineProps({
 
 const { data } = toRefs(props);
 
+interface Item {
+  icon: string;
+  mount: string;
+  used: number;
+}
 const items = computed(() => {
-  let result: object = {};
+  let result: Item[] = [];
   const storages = JSON.parse(JSON.stringify(data.value));
 
   Object.keys(storages).forEach((key) => {

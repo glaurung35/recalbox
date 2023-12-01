@@ -544,6 +544,49 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   else RequestHandlerTools::Error404(response);
 }
 
+void RequestHandler::RomsGetAll(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetAll");
+}
+
+void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetList");
+
+  String systemName = Url::URLDecode(request.splatAt(0).name());
+  SystemData* system = mSystemManager.SystemByName(systemName);
+  FileData::List allGames = system->getAllGames();
+
+  JSONBuilder roms;
+  roms.Open()
+      .OpenObject("roms");
+
+  for(FileData* game : allGames)
+  {
+    if (game->IsGame())
+    {
+      roms.Open()
+          .Field("name", game->Metadata().Name())
+          .Field("publisher", game->Metadata().Publisher())
+          .Field("developer", game->Metadata().Developer())
+          .Field("genre", game->Metadata().Genre())
+          .Field("players", game->Metadata().PlayerMax())
+          .Field("rating", game->Metadata().Rating())
+          .Close();
+    }
+  }
+
+  roms.CloseObject()
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, roms, Mime::Json);
+}
+
+void RequestHandler::RomsDelete(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsDelete");
+}
+
 static const char Base64Values[] =
   {
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,

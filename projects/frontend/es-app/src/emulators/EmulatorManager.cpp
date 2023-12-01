@@ -7,9 +7,18 @@
 
 bool EmulatorManager::GetDefaultEmulator(const SystemData& system, String& emulator, String& core)
 {
-  { LOG(LogTrace) << "[Emulator] Get system's emulator for " << system.FullName(); }
+  { LOG(LogTrace) << "[Emulator] Get default system's emulator for " << system.FullName(); }
   bool Ok = GetSystemDefaultEmulator(system, emulator, core);
   if (!Ok) { LOG(LogTrace) << "[Emulator] Cannot get default emulator!"; }
+  return Ok;
+}
+
+bool EmulatorManager::GetSystemEmulator(const SystemData& system, String& emulator, String& core)
+{
+  { LOG(LogTrace) << "[Emulator] Get system's emulator for " << system.FullName(); }
+  bool Ok = GetSystemDefaultEmulator(system, emulator, core);
+  if (Ok) GetEmulatorFromConfigFile(system, emulator, core);
+  if (!Ok) { LOG(LogTrace) << "[Emulator] Cannot get system emulator!"; }
   return Ok;
 }
 

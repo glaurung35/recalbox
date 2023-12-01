@@ -31,7 +31,9 @@ GuiMenuTools::ListGameEmulatorAndCore(FileData& game, String& outDefaultEmulator
       result.push_back({ "", _("FORCED").Append(' ').Append(displayName), true });
       return result;
     }
-    result.push_back({ "", "SYSTEM DEFAULT", currentEmulator.empty() && currentCore.empty() });
+    String displayName(outDefaultEmulator);
+    if (displayName != outDefaultCore) displayName.Append(' ').Append(outDefaultCore);
+    result.push_back({ "", _("SYSTEM DEFAULT").Append(" (").Append(displayName).Append(')'), currentEmulator.empty() && currentCore.empty() });
     if (emulator.empty()) emulator = outDefaultEmulator;
     if (core.empty()) core = outDefaultCore;
     for (const String& emulatorName : EmulatorManager::GetEmulators(game.System()))
@@ -39,7 +41,7 @@ GuiMenuTools::ListGameEmulatorAndCore(FileData& game, String& outDefaultEmulator
       {
         // Get display name, composed of "emulator core" or just "emulator" of both are the same (standalone)
         // Add "(default)" if this is the default emulator/core
-        String displayName(emulatorName);
+        displayName.Assign(emulatorName);
         if (displayName != coreName) displayName.Append(' ').Append(coreName);
 
         // Build a key "emulator:core"

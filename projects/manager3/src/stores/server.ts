@@ -3,12 +3,13 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEM } from 'src/router/api.routes';
+import { Api80ProviderStore } from 'stores/plugins/api80ProviderStorePlugin';
 import { ServerResponse } from 'stores/types/server';
 
-export type ServerStoreState = {
-  available: boolean,
-  server: ServerResponse,
-};
+export interface ServerStoreState extends Api80ProviderStore {
+  available: boolean;
+  server: ServerResponse;
+}
 
 export const useServerStore = defineStore('server', {
   state: () => ({
@@ -21,8 +22,6 @@ export const useServerStore = defineStore('server', {
   actions: {
     async reboot(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await this._api80Provider.post(SYSTEM.reboot);
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -31,8 +30,6 @@ export const useServerStore = defineStore('server', {
     },
     async shutdown(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await this._api80Provider.post(SYSTEM.shutdown);
       } catch (error) {
         // eslint-disable-next-line no-console
@@ -42,8 +39,6 @@ export const useServerStore = defineStore('server', {
 
     async esStart(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await this._api80Provider.post(SYSTEM.es.start);
         this.available = true;
       } catch (error) {
@@ -53,8 +48,6 @@ export const useServerStore = defineStore('server', {
     },
     async esStop(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await this._api80Provider.post(SYSTEM.es.stop);
         this.available = false;
       } catch (error) {
@@ -64,8 +57,6 @@ export const useServerStore = defineStore('server', {
     },
     async esRestart(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         await this._api80Provider.post(SYSTEM.es.restart);
         this.available = true;
       } catch (error) {
@@ -75,8 +66,6 @@ export const useServerStore = defineStore('server', {
     },
     async supportArchive(): Promise<void> {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const response = await this._api80Provider.get(SYSTEM.supportArchive);
         this.server = response.data;
       } catch (error) {

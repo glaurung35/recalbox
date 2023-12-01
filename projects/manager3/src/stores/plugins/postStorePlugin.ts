@@ -3,6 +3,10 @@
  */
 import { PiniaPluginContext } from 'pinia';
 
+export interface PostStore {
+  post(): Promise<void>;
+}
+
 // eslint-disable-next-line consistent-return
 const PostStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [

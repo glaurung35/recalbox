@@ -3,11 +3,12 @@
  */
 import { defineStore } from 'pinia';
 import { ARCHITECTURE } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { ArchitectureResponse } from 'stores/types/architecture';
 
-export type ArchitectureStoreState = {
-  _baseUrl: string,
-  architecture: ArchitectureResponse,
+export interface ArchitectureStoreState extends FetchStore {
+  _baseUrl: string;
+  architecture: ArchitectureResponse;
 }
 
 export const useArchitectureStore = defineStore('architecture', {

@@ -3,13 +3,14 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEMS } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { toRaw } from 'vue';
-import { SystemsResponse } from 'stores/types/systems';
+import { System, SystemsResponse } from 'stores/types/systems';
 
-export type SystemsStoreState = {
-  _baseUrl: string,
-  systems: SystemsResponse,
-};
+export interface SystemsStoreState extends FetchStore {
+  _baseUrl: string;
+  systems: SystemsResponse;
+}
 
 export const useSystemsStore = defineStore('systems', {
   state: () => ({
@@ -22,7 +23,7 @@ export const useSystemsStore = defineStore('systems', {
 
   getters: {
     systemsList: (state) => {
-      const list: object[] = [];
+      const list: System[] = [];
 
       Object.keys(state.systems.systemList).forEach((system) => {
         list.push(state.systems.systemList[system as keyof typeof state.systems.systemList]);

@@ -87,7 +87,7 @@ api.interceptors.response.use((response) => {
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   if (response.config.method === 'delete' && response.config.url.includes(MEDIA.delete)) {
-    message = i18n.global.t('general.notify.screenshotDeleted');
+    message = i18n.global.t('general.notify.mediaDeleted');
     icon = 'mdi-image-remove';
   }
 

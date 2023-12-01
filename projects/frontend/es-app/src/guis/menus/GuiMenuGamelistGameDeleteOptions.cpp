@@ -64,7 +64,7 @@ void GuiMenuGamelistGameDeleteOptions::DeleteAllFiles()
 {
   GameFilesUtils::DeleteAllFiles(mGame);
   mView.removeEntry(&mGame);
-  mWindow.deleteAllGui();
+  mWindow.CloseAll();
 }
 
 bool GuiMenuGamelistGameDeleteOptions::ProcessInput(const InputCompactEvent& event)

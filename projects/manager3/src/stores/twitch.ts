@@ -4,15 +4,16 @@
 import { defineStore } from 'pinia';
 import { TWITCH } from 'src/router/api.routes';
 import { runSequentialPromises } from 'quasar';
-import { TwitchScheduleResponse } from 'stores/types/twitch';
+import { HttpClientProviderStore } from 'stores/plugins/httpClientProviderStorePlugin';
+import { Segment } from 'stores/types/twitch';
 
 const perPage = 7;
 const broadcasterId = '115060112';
 
-export type TwitchStoreState = {
-  schedule: TwitchScheduleResponse,
-  loadingSchedule: boolean,
-};
+export interface TwitchStoreState extends HttpClientProviderStore {
+  schedule: Segment[];
+  loadingSchedule: boolean;
+}
 
 export const useTwitchStore = defineStore('twitch', {
   state: () => ({
@@ -22,12 +23,8 @@ export const useTwitchStore = defineStore('twitch', {
 
   actions: {
     getSchedule() {
-      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-      // @ts-ignore
       this.loadingSchedule = true;
       runSequentialPromises({
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         auth: () => this._httpClientProvider.post(TWITCH.auth, {
           client_id: process.env.TWITCH_CLIENT_ID,
           client_secret: process.env.TWITCH_CLIENT_SECRET,
@@ -47,8 +44,6 @@ export const useTwitchStore = defineStore('twitch', {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
         this.schedule = resultAggregator.schedule.value.data.data.segments;
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         this.loadingSchedule = false;
       }).catch((errResult) => {
         // eslint-disable-next-line no-console

@@ -43,15 +43,56 @@ bool WindowManager::UpdateHelpSystem()
 
 void WindowManager::pushGui(Gui* gui)
 {
+  if (Gui* top = peekGui(); top != nullptr) top->onHide();
   mGuiStack.Push(gui);
+  gui->onShow();
   UpdateHelpSystem();
 }
 
 void WindowManager::RemoveGui(Gui* gui)
 {
+  Gui* previousTop = peekGui();
   for(int i = mGuiStack.Count(); --i >= 0;)
     if (mGuiStack[i] == gui)
+    {
+      gui->onHide();
       mGuiStack.PopAt(i);
+    }
+  if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
+}
+
+void WindowManager::deleteClosePendingGui()
+{
+  Gui* previousTop = peekGui();
+  bool deleted = false;
+  for(int i = mGuiStack.Count(); --i >= 0;)
+    if (mGuiStack[i]->IsPendingForDeletion())
+    {
+      Gui* gui = mGuiStack.PopAt(i);
+      gui->onHide();
+      delete gui;
+      deleted = true;
+    }
+  if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
+
+  // Refresh help system
+  if (deleted)
+    UpdateHelpSystem();
+}
+
+void WindowManager::deleteAllGui()
+{
+  for(int i = mInfoPopups.Count(); --i >= 0; )
+    delete mInfoPopups[i];
+  mInfoPopups.Clear();
+
+  for(int i = mGuiStack.Count(); --i >= 0;)
+  {
+    Gui* gui = mGuiStack.PopAt(i);
+    gui->onHide();
+    delete gui;
+  }
+  mGuiStack.Clear();
 }
 
 void WindowManager::displayMessage(const String& message, bool urgent)
@@ -75,32 +116,6 @@ Gui* WindowManager::peekGui()
     return nullptr;
 
   return mGuiStack.Peek();
-}
-
-void WindowManager::deleteClosePendingGui()
-{
-  bool deleted = false;
-  for(int i = mGuiStack.Count(); --i >= 0;)
-    if (mGuiStack[i]->IsPendingForDeletion())
-    {
-      delete mGuiStack.PopAt(i);
-      deleted = true;
-    }
-
-  // Refresh help system
-  if (deleted)
-    UpdateHelpSystem();
-}
-
-void WindowManager::deleteAllGui()
-{
-  for(int i = mInfoPopups.Count(); --i >= 0; )
-    delete mInfoPopups[i];
-  mInfoPopups.Clear();
-
-  for(int i = mGuiStack.Count(); --i >= 0;)
-    delete mGuiStack.PopAt(i);
-  mGuiStack.Clear();
 }
 
 bool WindowManager::ReInitialize()

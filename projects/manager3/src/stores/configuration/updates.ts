@@ -3,16 +3,19 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   UpdatesConfigOptionsResponse,
   UpdatesConfigResponse,
 } from 'stores/types/updates';
 
-export type UpdatesStoreState = {
-  _baseUrl: string,
-  _updatesOptions: UpdatesConfigOptionsResponse,
-  updates: UpdatesConfigResponse,
-};
+export interface UpdatesStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _updatesOptions: UpdatesConfigOptionsResponse;
+  updates: UpdatesConfigResponse;
+}
 
 export const useUpdatesStore = defineStore('updates', {
   state: () => ({

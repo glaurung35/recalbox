@@ -4,13 +4,15 @@
 import { defineStore } from 'pinia';
 import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
-import { MediasResponse } from 'stores/types/medias';
+import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { MediasResponse, Screenshot } from 'stores/types/medias';
 import { apiUrl } from 'boot/axios';
 
-export type MediaStoreState = {
-  _baseUrl: string,
-  media: MediasResponse,
-};
+export interface MediaStoreState extends FetchStore, ApiProviderStore {
+  _baseUrl: string;
+  media: MediasResponse;
+}
 
 export const useMediaStore = defineStore('media', {
   state: () => ({
@@ -22,7 +24,7 @@ export const useMediaStore = defineStore('media', {
 
   getters: {
     screenshots: (state) => {
-      const result: Array<object> = [];
+      const result: Screenshot[] = [];
 
       Object.keys(state.media.mediaList).forEach((key): void => {
         // The screenshots directory have some text file, don't parse them
@@ -45,28 +47,24 @@ export const useMediaStore = defineStore('media', {
           }
           result.push({
             name: key,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            urlImage: apiUrl + MEDIA.get + key,
+            path: apiUrl + MEDIA.get + key,
             date: formattedDate,
+            type: 'image',
           });
         }
 
         // Do the videos
         if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi')) {
-          let formattedDate: string;
           const name = key.substring(key.length - 17).substring(0, key.length);
-          // eslint-disable-next-line prefer-const
-          formattedDate = date.formatDate(
+          const formattedDate = date.formatDate(
             date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
             'DD/MM/YYYY - HH:mm:ss',
           );
           result.push({
             name: key,
-            // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-            // @ts-ignore
-            urlVideo: apiUrl + MEDIA.get + key,
+            path: apiUrl + MEDIA.get + key,
             date: formattedDate,
+            type: 'video',
           });
         }
       });
@@ -78,8 +76,6 @@ export const useMediaStore = defineStore('media', {
   actions: {
     async takeScreenshot() {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const response = await this._apiProvider.post(MEDIA.takeScreenshot);
         this.media = response.data;
       } catch (error) {
@@ -89,8 +85,6 @@ export const useMediaStore = defineStore('media', {
     },
     async delete(screenshotName: string) {
       try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
         const response = await this._apiProvider.delete(MEDIA.delete + screenshotName);
         this.media = response.data;
       } catch (error) {

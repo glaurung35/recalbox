@@ -79,12 +79,12 @@
 
 <script lang="ts" setup>
 import { useSystemsStore } from 'stores/systems';
+import { System } from 'stores/types/systems';
 import { computed, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { apiUrl } from 'boot/axios';
 
 const systemsStore = useSystemsStore();
-systemsStore.fetch();
 const { systemsList } = storeToRefs(systemsStore);
 
 const api: string|undefined = apiUrl;
@@ -94,7 +94,7 @@ const columns = computed(() => [
     required: true,
     label: '',
     align: 'left',
-    field: (row) => row.fullname,
+    field: (row: System) => row.fullname,
     sortable: true,
   },
 ]);

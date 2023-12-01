@@ -24,6 +24,120 @@ export const CONFIGURATION = {
   scraper: '/configuration/scraper',
   screenshots: '/configuration/screenshots',
   system: '/configuration/system',
+  systems: {
+    '3do': '/configuration/system/3do',
+    '64dd': '/configuration/system/64dd',
+    amiga600: '/configuration/system/amiga600',
+    amiga1200: '/configuration/system/amiga1200',
+    amigacd32: '/configuration/system/amigacd32',
+    amigacdtv: '/configuration/system/amigacdtv',
+    amstradcpc: '/configuration/system/amstradcpc',
+    apple2: '/configuration/system/apple2',
+    apple2gs: '/configuration/system/apple2gs',
+    arduboy: '/configuration/system/arduboy',
+    atari800: '/configuration/system/atari800',
+    atari2600: '/configuration/system/atari2600',
+    atari5200: '/configuration/system/atari5200',
+    atari7800: '/configuration/system/atari7800',
+    atarist: '/configuration/system/atarist',
+    atomiswave: '/configuration/system/atomiswave',
+    bbcmicro: '/configuration/system/bbcmicro',
+    bk: '/configuration/system/bk',
+    c64: '/configuration/system/c64',
+    cdi: '/configuration/system/cdi',
+    channelf: '/configuration/system/channelf',
+    colecovision: '/configuration/system/colecovision',
+    daphne: '/configuration/system/daphne',
+    dos: '/configuration/system/dos',
+    dragon: '/configuration/system/dragon',
+    dreamcast: '/configuration/system/dreamcast',
+    easyrpg: '/configuration/system/easyrpg',
+    fbneo: '/configuration/system/fbneo',
+    fds: '/configuration/system/fds',
+    gamecube: '/configuration/system/gamecube',
+    gamegear: '/configuration/system/gamegear',
+    gb: '/configuration/system/gb',
+    gba: '/configuration/system/gba',
+    gbc: '/configuration/system/gbc',
+    gw: '/configuration/system/gw',
+    gx4000: '/configuration/system/gx4000',
+    intellivision: '/configuration/system/intellivision',
+    jaguar: '/configuration/system/jaguar',
+    lowresnx: '/configuration/system/lowresnx',
+    lutro: '/configuration/system/lutro',
+    lynx: '/configuration/system/lynx',
+    macintosh: '/configuration/system/macintosh',
+    mame: '/configuration/system/mame',
+    mastersystem: '/configuration/system/mastersystem',
+    megadrive: '/configuration/system/megadrive',
+    megaduck: '/configuration/system/megaduck',
+    model3: '/configuration/system/model3',
+    moonlight: '/configuration/system/moonlight',
+    msx1: '/configuration/system/msx1',
+    msx2: '/configuration/system/msx2',
+    msxturbor: '/configuration/system/msxturbor',
+    multivision: '/configuration/system/multivision',
+    n64: '/configuration/system/n64',
+    naomi: '/configuration/system/naomi',
+    naomi2: '/configuration/system/naomi2',
+    naomigd: '/configuration/system/naomigd',
+    nds: '/configuration/system/nds',
+    neogeo: '/configuration/system/neogeo',
+    neogeocd: '/configuration/system/neogeocd',
+    nes: '/configuration/system/nes',
+    ngp: '/configuration/system/ngp',
+    ngpc: '/configuration/system/ngpc',
+    o2em: '/configuration/system/o2em',
+    openbor: '/configuration/system/openbor',
+    oricatmos: '/configuration/system/oricatmos',
+    palm: '/configuration/system/palm',
+    pc88: '/configuration/system/pc88',
+    pc98: '/configuration/system/pc98',
+    pcengine: '/configuration/system/pcengine',
+    pcenginecd: '/configuration/system/pcenginecd',
+    pcfx: '/configuration/system/pcfx',
+    pcv2: '/configuration/system/pcv2',
+    pico: '/configuration/system/pico',
+    pico8: '/configuration/system/pico8',
+    pokemini: '/configuration/system/pokemini',
+    ports: '/configuration/system/ports',
+    psp: '/configuration/system/psp',
+    ps2: '/configuration/system/ps2',
+    psx: '/configuration/system/psx',
+    samcoupe: '/configuration/system/samcoupe',
+    satellaview: '/configuration/system/satellaview',
+    saturn: '/configuration/system/saturn',
+    scummvm: '/configuration/system/scummvm',
+    scv: '/configuration/system/scv',
+    sega32x: '/configuration/system/sega32x',
+    segacd: '/configuration/system/segacd',
+    sg1000: '/configuration/system/sg1000',
+    snes: '/configuration/system/snes',
+    solarus: '/configuration/system/solarus',
+    spectravideo: '/configuration/system/spectravideo',
+    sufami: '/configuration/system/sufami',
+    supergrafx: '/configuration/system/supergrafx',
+    supervision: '/configuration/system/supervision',
+    thomson: '/configuration/system/thomson',
+    ti994a: '/configuration/system/ti994a',
+    tic80: '/configuration/system/tic80',
+    trs80coco: '/configuration/system/trs80coco',
+    uzebox: '/configuration/system/uzebox',
+    vectrex: '/configuration/system/vectrex',
+    vg5000: '/configuration/system/vg5000',
+    vic20: '/configuration/system/vic20',
+    videopacplus: '/configuration/system/videopacplus',
+    virtualboy: '/configuration/system/virtualboy',
+    wasm4: '/configuration/system/wasm4',
+    wii: '/configuration/system/wii',
+    wswan: '/configuration/system/wswan',
+    wswanc: '/configuration/system/wswanc',
+    x1: '/configuration/system/x1',
+    x68000: '/configuration/system/x68000',
+    zmachine: '/configuration/system/zmachine',
+    zx81: '/configuration/system/zx81',
+    zxspectrum: '/configuration/system/zxspectrum',
+  },
   tate: '/configuration/tate',
   updates: '/configuration/updates',
   wifi: '/configuration/wifi',
@@ -41,117 +155,6 @@ export const SYSTEM = {
   shutdown: '/system/shutdown',
   supportArchive: '/system/supportarchive',
 };
-
-export const THREEDO = '/configuration/3do';
-export const SIXTYFOURDD = '/configuration/64dd';
-export const AMIGA600 = '/configuration/amiga600';
-export const AMIGA1200 = '/configuration/amiga1200';
-export const AMIGACD32 = '/configuration/amigacd32';
-export const AMIGACDTV = '/configuration/amigacdtv';
-export const AMSTRADCPC = '/configuration/amstradcpc';
-export const APPLE2 = '/configuration/apple2';
-export const APPLE2GS = '/configuration/apple2gs';
-export const ARDUBOY = '/configuration/arduboy';
-export const ATARI800 = '/configuration/atari800';
-export const ATARI2600 = '/configuration/atari2600';
-export const ATARI5200 = '/configuration/atari5200';
-export const ATARI7800 = '/configuration/atari7800';
-export const ATARIST = '/configuration/atarist';
-export const ATOMISWAVE = '/configuration/atomiswave';
-export const BBCMICRO = '/configuration/bbcmicro';
-export const BK = '/configuration/bk';
-export const C64 = '/configuration/c64';
-export const CDI = '/configuration/cdi';
-export const CHANNELF = '/configuration/channelf';
-export const COLECOVISION = '/configuration/colecovision';
-export const DAPHNE = '/configuration/daphne';
-export const DOS = '/configuration/dos';
-export const DRAGON = '/configuration/dragon';
-export const DREAMCAST = '/configuration/dreamcast';
-export const EASYRPG = '/configuration/easyrpg';
-export const FBNEO = '/configuration/fbneo';
-export const FDS = '/configuration/fds';
-export const GAMECUBE = '/configuration/gamecube';
-export const GAMEGEAR = '/configuration/gamegear';
-export const GB = '/configuration/gb';
-export const GBA = '/configuration/gba';
-export const GBC = '/configuration/gbc';
-export const GW = '/configuration/gw';
-export const GX4000 = '/configuration/gx4000';
-export const INTELLIVISION = '/configuration/intellivision';
-export const JAGUAR = '/configuration/jaguar';
-export const LOWRESNX = '/configuration/lowresnx';
-export const LUTRO = '/configuration/lutro';
-export const LYNX = '/configuration/lynx';
-export const MACINTOSH = '/configuration/macintosh';
-export const MAME = '/configuration/mame';
-export const MASTERSYSTEM = '/configuration/mastersystem';
-export const MEGADRIVE = '/configuration/megadrive';
-export const MEGADUCK = '/configuration/megaduck';
-export const MODEL3 = '/configuration/model3';
-export const MOONLIGHT = '/configuration/moonlight';
-export const MSX1 = '/configuration/msx1';
-export const MSX2 = '/configuration/msx2';
-export const MSXTURBOR = '/configuration/msxturbor';
-export const MULTIVISION = '/configuration/multivision';
-export const N64 = '/configuration/n64';
-export const NAOMI = '/configuration/naomi';
-export const NAOMIGD = '/configuration/naomigd';
-export const NDS = '/configuration/nds';
-export const NEOGEO = '/configuration/neogeo';
-export const NEOGEOCD = '/configuration/neogeocd';
-export const NES = '/configuration/nes';
-export const NGP = '/configuration/ngp';
-export const NGPC = '/configuration/ngpc';
-export const O2EM = '/configuration/o2em';
-export const OPENBOR = '/configuration/openbor';
-export const ORICATMOS = '/configuration/oricatmos';
-export const PALM = '/configuration/palm';
-export const PC88 = '/configuration/pc88';
-export const PC98 = '/configuration/pc98';
-export const PCENGINE = '/configuration/pcengine';
-export const PCENGINECD = '/configuration/pcenginecd';
-export const PCFX = '/configuration/pcfx';
-export const PCV2 = '/configuration/pcv2';
-export const PICO8 = '/configuration/pico8';
-export const POKEMINI = '/configuration/pokemini';
-export const PORTS = '/configuration/ports';
-export const PSP = '/configuration/psp';
-export const PS2 = '/configuration/ps2';
-export const PSX = '/configuration/psx';
-export const SAMCOUPE = '/configuration/samcooupe';
-export const SATELLAVIEW = '/configuration/satellaview';
-export const SATURN = '/configuration/saturn';
-export const SCUMMVM = '/configuration/scummvm';
-export const SCV = '/configuration/scv';
-export const SEGA32X = '/configuration/sega32x';
-export const SEGACD = '/configuration/segacd';
-export const SG1000 = '/configuration/sg1000';
-export const SNES = '/configuration/snes';
-export const SOLARUS = '/configuration/solarus';
-export const SPECTRAVIDEO = '/configuration/spectravideo';
-export const SUFAMI = '/configuration/sufami';
-export const SUPERGRAFX = '/configuration/supergrafx';
-export const SUPERVISION = '/configuration/supervision';
-export const THOMSON = '/configuration/thomson';
-export const TI994A = '/configuration/ti994a';
-export const TIC80 = '/configuration/tic80';
-export const TRS80COCO = '/configuration/trs80coco';
-export const UZEBOX = '/configuration/uzebox';
-export const VECTREX = '/configuration/vectrex';
-export const VG5000 = '/configuration/vg5000';
-export const VIC20 = '/configuration/vic20';
-export const VIDEOPACPLUS = '/configuration/videopacplus';
-export const VIRTUALBOY = '/configuration/virtualboy';
-export const WASM4 = '/configuration/wasm4';
-export const WII = '/configuration/wii';
-export const WSWAN = '/configuration/wswan';
-export const WSWANC = '/configuration/wswanc';
-export const X1 = '/configuration/x1';
-export const X68000 = '/configuration/x68000';
-export const ZMACHINE = '/configuration/zmachine';
-export const ZX81 = '/configuration/zx81';
-export const ZXSPECTRUM = '/configuration/zxspectrum';
 
 export const MEDIA = {
   root: '/media',
@@ -174,6 +177,120 @@ export const ROMS = {
 export const SYSTEMS = {
   root: '/systems',
   all: '/systems',
+  system: {
+    '3do': '/3do/roms',
+    '64dd': '/64dd/roms',
+    amiga600: '/amiga600/roms',
+    amiga1200: '/amiga1200/roms',
+    amigacd32: '/amigacd32/roms',
+    amigacdtv: '/amigacdtv/roms',
+    amstradcpc: '/amstradcpc/roms',
+    apple2: '/apple2/roms',
+    apple2gs: '/apple2gs/roms',
+    arduboy: '/arduboy/roms',
+    atari800: '/atari800/roms',
+    atari2600: '/atari2600/roms',
+    atari5200: '/atari5200/roms',
+    atari7800: '/atari7800/roms',
+    atarist: '/atarist/roms',
+    atomiswave: '/atomiswave/roms',
+    bbcmicro: '/bbcmicro/roms',
+    bk: '/bk/roms',
+    c64: '/c64/roms',
+    cdi: '/cdi/roms',
+    channelf: '/channelf/roms',
+    colecovision: '/colecovision/roms',
+    daphne: '/daphne/roms',
+    dos: '/dos/roms',
+    dragon: '/dragon/roms',
+    dreamcast: '/dreamcast/roms',
+    easyrpg: '/easyrpg/roms',
+    fbneo: '/fbneo/roms',
+    fds: '/fds/roms',
+    gamecube: '/gamecube/roms',
+    gamegear: '/gamegear/roms',
+    gb: '/gb/roms',
+    gba: '/gba/roms',
+    gbc: '/gbc/roms',
+    gw: '/gw/roms',
+    gx4000: '/gx4000/roms',
+    intellivision: '/intellivision/roms',
+    jaguar: '/jaguar/roms',
+    lowresnx: '/lowresnx/roms',
+    lutro: '/lutro/roms',
+    lynx: '/lynx/roms',
+    macintosh: '/macintosh/roms',
+    mame: '/mame/roms',
+    mastersystem: '/mastersystem/roms',
+    megadrive: '/megadrive/roms',
+    megaduck: '/megaduck/roms',
+    model3: '/model3/roms',
+    moonlight: '/moonlight/roms',
+    msx1: '/msx1/roms',
+    msx2: '/msx2/roms',
+    msxturbor: '/msxturbor/roms',
+    multivision: '/multivision/roms',
+    n64: '/n64/roms',
+    naomi: '/naomi/roms',
+    naomi2: '/naomi2/roms',
+    naomigd: '/naomigd/roms',
+    nds: '/nds/roms',
+    neogeo: '/neogeo/roms',
+    neogeocd: '/neogeocd/roms',
+    nes: '/nes/roms',
+    ngp: '/ngp/roms',
+    ngpc: '/ngpc/roms',
+    o2em: '/o2em/roms',
+    openbor: '/openbor/roms',
+    oricatmos: '/oricatmos/roms',
+    palm: '/palm/roms',
+    pc88: '/pc88/roms',
+    pc98: '/pc98/roms',
+    pcengine: '/pcengine/roms',
+    pcenginecd: '/pcenginecd/roms',
+    pcfx: '/pcfx/roms',
+    pcv2: '/pcv2/roms',
+    pico: '/pico/roms',
+    pico8: '/pico8/roms',
+    pokemini: '/pokemini/roms',
+    ports: '/ports/roms',
+    psp: '/psp/roms',
+    ps2: '/ps2/roms',
+    psx: '/psx/roms',
+    samcoupe: '/samcoupe/roms',
+    satellaview: '/satellaview/roms',
+    saturn: '/saturn/roms',
+    scummvm: '/scummvm/roms',
+    scv: '/scv/roms',
+    sega32x: '/sega32x/roms',
+    segacd: '/segacd/roms',
+    sg1000: '/sg1000/roms',
+    snes: '/snes/roms',
+    solarus: '/solarus/roms',
+    spectravideo: '/spectravideo/roms',
+    sufami: '/sufami/roms',
+    supergrafx: '/supergrafx/roms',
+    supervision: '/supervision/roms',
+    thomson: '/thomson/roms',
+    ti994a: '/ti994a/roms',
+    tic80: '/tic80/roms',
+    trs80coco: '/trs80coco/roms',
+    uzebox: '/uzebox/roms',
+    vectrex: '/vectrex/roms',
+    vg5000: '/vg5000/roms',
+    vic20: '/vic20/roms',
+    videopacplus: '/videopacplus/roms',
+    virtualboy: '/virtualboy/roms',
+    wasm4: '/wasm4/roms',
+    wii: '/wii/roms',
+    wswan: '/wswan/roms',
+    wswanc: '/wswanc/roms',
+    x1: '/x1/roms',
+    x68000: '/x68000/roms',
+    zmachine: '/zmachine/roms',
+    zx81: '/zx81/roms',
+    zxspectrum: '/zxspectrum/roms',
+  },
 };
 
 export const TWITCH = {

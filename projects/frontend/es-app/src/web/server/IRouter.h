@@ -293,9 +293,8 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
       // Roms
-      Rest::Routes::Get(mRouter, "/api/roms/getall", Rest::Routes::bind(&IRouter::RomsGetAll, this));
-      Rest::Routes::Get(mRouter, "/api/roms/*", Rest::Routes::bind(&IRouter::RomsGetList, this));
-      Rest::Routes::Delete(mRouter, "/api/roms/*", Rest::Routes::bind(&IRouter::RomsDelete, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsGetList, this));
+      Rest::Routes::Delete(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsDelete, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

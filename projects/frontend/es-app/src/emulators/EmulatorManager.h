@@ -98,6 +98,15 @@ class EmulatorManager : public INoCopy
     static bool GetDefaultEmulator(const SystemData& system, String& emulator, String& core) ;
 
     /*!
+     * @brief Get system emulator/core, including system configuration
+     * @param system System to get default emulator/core from
+     * @param emulator Filled in Emulator name
+     * @param core Filled in Core name
+     * @return True if emulator and core have been filled, false otherwise (error, non-existing system, ...)
+     */
+    static bool GetSystemEmulator(const SystemData& system, String& emulator, String& core);
+
+    /*!
      * @brief Get final emulator/core names used to run the given game
      * this method explore all config files and override to find out final names
      * @param game Game to get emulator/core for

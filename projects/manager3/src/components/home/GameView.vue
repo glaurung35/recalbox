@@ -25,6 +25,8 @@
     </div>
   </div>
   <div class="informations">
+    <div>{{ currentState.currentRom?.name }}</div>
+    <div>{{ currentState.currentRom?.imagePath }}</div>
     <div class="screen">
       <img src="../../assets/game-exemple.png" alt="Hokuto No Ken">
     </div>
@@ -32,7 +34,10 @@
 </template>
 
 <script lang="ts" setup>
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 
+const emulationStationStore = useEmulationstationStore();
+const { currentState } = emulationStationStore;
 </script>
 
 <style lang="sass" scoped>

@@ -3,6 +3,10 @@
  */
 import { PiniaPluginContext } from 'pinia';
 
+export interface FetchOptionsStore {
+  fetchOptions(): Promise<void>;
+}
+
 // eslint-disable-next-line consistent-return
 const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [
@@ -11,6 +15,8 @@ const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
     'scraper',
     'emulationstation',
     'wifi',
+    'wifi2',
+    'wifi3',
     'system',
     'updates',
     'controllers',

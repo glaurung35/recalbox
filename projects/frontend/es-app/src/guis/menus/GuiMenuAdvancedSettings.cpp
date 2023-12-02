@@ -14,6 +14,7 @@
 #include "GuiMenuResolutionSettings.h"
 #include "ResolutionAdapter.h"
 #include "hardware/RPiEepromUpdater.h"
+#include "views/MenuFilter.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -85,7 +86,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
 
   // Eeprom update
-  if(Board::Instance().GetBoardType() == BoardType::Pi4 || Board::Instance().GetBoardType() == BoardType::Pi400 || Board::Instance().GetBoardType() == BoardType::Pi5)
+  if(MenuFilter::ShouldDisplayMenuEntry(MenuFilter::PiEeprom))
     AddSubMenu(_("BOOTLOADER UPDATE"), (int)Components::EepromUpdate, _(MENUMESSAGE_ADVANCED_EEPROM_UPDATE));
 
   // Reset Factory

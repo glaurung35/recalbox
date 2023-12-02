@@ -56,7 +56,13 @@
       "support": {
         "label": "Your support archive is available",
         "archiveDownload": "Download"
-      }
+      },
+      "400": "Bad request",
+      "401": "Unauthorized",
+      "403": "Forbidden",
+      "404": "Not found",
+      "411": "Length required",
+      "418": "I'm a teapot"
     },
     "upload": {
       "clearAll": "Clear All",

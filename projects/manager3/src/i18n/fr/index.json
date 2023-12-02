@@ -56,7 +56,13 @@
       "support": {
         "label": "Votre archive de support est disponible",
         "archiveDownload": "Télécharger"
-      }
+      },
+      "400": "Mauvaise requête",
+      "401": "Non-autorisé",
+      "403": "Interdit",
+      "404": "Non trouvé",
+      "411": "Longueur requise",
+      "418": "Je suis une théière"
     },
     "upload": {
       "clearAll": "Effacer tout",

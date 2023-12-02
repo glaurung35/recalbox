@@ -557,20 +557,21 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "bluetooth.enabled"    , Validator(true) },
-        { "bluetooth.ertm"       , Validator(true) },
-        { "ps3.enabled"          , Validator(true) },
-        { "ps3.driver"           , Validator(false, { "bluez", "official", "shanwan" }) },
-        { "gpio.enabled"         , Validator(true) },
-        { "gpio.args"            , Validator() },
-        { "steam.enabled"        , Validator(true) },
-        { "db9.enabled"          , Validator(true) },
-        { "db9.args"             , Validator() },
-        { "gamecon.enabled"      , Validator(true) },
-        { "gamecon.args"         , Validator() },
-        { "xarcade.enabled"      , Validator(true) },
-        { "joycond.enabled"      , Validator(true) },
-        { "swapvalidateandcancel", Validator(true) },
+        { "bluetooth.enabled"       , Validator(true) },
+        { "bluetooth.ertm"          , Validator(true) },
+        { "ps3.enabled"             , Validator(true) },
+        { "ps3.driver"              , Validator(false, { "bluez", "official", "shanwan" }) },
+        { "gpio.enabled"            , Validator(true) },
+        { "gpio.args"               , Validator() },
+        { "steam.enabled"           , Validator(true) },
+        { "db9.enabled"             , Validator(true) },
+        { "db9.args"                , Validator() },
+        { "gamecon.enabled"         , Validator(true) },
+        { "gamecon.args"            , Validator() },
+        { "xarcade.enabled"         , Validator(true) },
+        { "joycond.enabled"         , Validator(true) },
+        { "swapvalidateandcancel"   , Validator(true) },
+        { "bluetooth.autopaironboot", Validator(true) },
       });
 
       return sList;

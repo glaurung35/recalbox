@@ -1079,6 +1079,10 @@
         "ertm": {
           "label": "ERTM protocol activation",
           "help": "This option allows you to enable or disable support of ERTM protocol."
+        },
+        "autopaironboot": {
+          "label": "Auto-pair on boot",
+          "help": "This option allows you to enable or disable auto-pairing on boot."
         }
       },
       "db9": {

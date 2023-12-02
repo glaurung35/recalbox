@@ -1079,6 +1079,10 @@
         "ertm": {
           "label": "Activation du protocole ERTM",
           "help": "Cette option vous permet d'activer ou de désactiver le protocole ERTM."
+        },
+        "autopaironboot": {
+          "label": "Auto-jumeler au démarrage",
+          "help": "Cette option vous permet d'activer ou de désactiver l'auto-jumelage au démarrage."
         }
       },
       "db9": {

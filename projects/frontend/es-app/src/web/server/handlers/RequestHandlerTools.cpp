@@ -13,10 +13,6 @@
 #include "Mime.h"
 #include <LibretroRatio.h>
 #include <utils/Zip.h>
-#include <systems/arcade/ArcadeVirtualSystems.h>
-#include <systems/SystemManager.h>
-#include <audio/AudioController.h>
-#include "ResolutionAdapter.h"
 
 using namespace Pistache;
 
@@ -302,7 +298,7 @@ void RequestHandlerTools::SendResource(const Path& preferedpath, const Path& fal
     Error404(response);
 }
 
-const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet(const String& _namespace)
+const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet(const String& _namespace, SystemManager& manager)
 {
   enum class Namespace
   {
@@ -397,7 +393,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
       static HashMap<String, Validator> sList
       ({
          { "menu"                        , Validator(false, { "default", "bartop", "none" }) },
-         { "selectedsystem"              , Validator(GetSupportedSystemList(), false) },
+         { "selectedsystem"              , Validator(GetSupportedSystemList(manager), false) },
          { "bootongamelist"              , Validator(true) },
          { "hidesystemview"              , Validator(true) },
          { "gamelistonly"                , Validator(true) },
@@ -602,7 +598,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "retroachievements.username", Validator() },
         { "retroachievements.password", Validator() },
         { "inputdriver"               , Validator(false, { "auto", "udev", "sdl2"}) },
-        { "demo.systemlist"           , Validator(GetSupportedSystemList(), true) },
+        { "demo.systemlist"           , Validator(GetSupportedSystemList(manager), true) },
         { "demo.duration"             , Validator(30, 600) },
         { "demo.infoscreenduration"   , Validator(5, 30) },
         { "translate"                 , Validator(true) },
@@ -893,22 +889,14 @@ void RequestHandlerTools::DeleteKeyValues(const String& domain, const HashMap<St
   RequestHandlerTools::Send(response, Http::Code::Bad_Request, "JSON Parsing error", Mime::PlainText);
 }
 
-const String::List& RequestHandlerTools::GetSupportedSystemList()
+const String::List& RequestHandlerTools::GetSupportedSystemList(SystemManager& manager)
 {
   static String::List result;
 
   if (result.empty())
   {
-    SystemDeserializer deserializer;
-    deserializer.LoadSystems();
-    for(int i = deserializer.Count(); --i >= 0; )
-    {
-      SystemDescriptor descriptor;
-      deserializer.Deserialize(i, descriptor);
-      result.push_back(descriptor.Name());
-    }
-    // PATCH
-    result.push_back("favorites");
+    for(const SystemData* system : manager.AllSystems())
+      result.push_back(system->Name());
   }
 
   return result;
@@ -1545,9 +1533,9 @@ Path RequestHandlerTools::GetCompressedBiosFolder()
   return destination;
 }
 
-bool RequestHandlerTools::IsValidSystem(const String& system)
+bool RequestHandlerTools::IsValidSystem(const String& system, SystemManager& manager)
 {
-  String::List systemList = RequestHandlerTools::GetSupportedSystemList();
+  String::List systemList = RequestHandlerTools::GetSupportedSystemList(manager);
   for(const String& s : systemList)
     if (s == system)
       return true;
@@ -1632,6 +1620,74 @@ bool RequestHandlerTools::ExtractArray(const Rest::Request& request, String::Lis
     }
 
   return false;
+}
+
+FileData* RequestHandlerTools::GetGame(SystemManager& manager, const String& systemName, const String& romFullPath)
+{
+  // Extract system
+  SystemData* system = manager.SystemByName(systemName);
+  if (system == nullptr) return nullptr;
+
+  // Lookup game
+  return system->MasterRoot().LookupGameByFilePath(romFullPath);
+}
+
+void RequestHandlerTools::SendGameResource(SystemManager& manager, const String& systemName, const String& gameFullPath, Media media,
+                                           Pistache::Http::ResponseWriter& response)
+{
+  if (FileData* game = RequestHandlerTools::GetGame(manager, systemName, gameFullPath); game != nullptr)
+  {
+    Path mediaPath;
+    switch(media)
+    {
+      case Media::Image: mediaPath = game->Metadata().Image(); break;
+      case Media::Thumbnail: mediaPath = game->Metadata().Thumbnail(); break;
+      case Media::Video: mediaPath = game->Metadata().Video(); break;
+      case Media::Map: break;
+      case Media::Manual: break;
+      default: break;
+    }
+    SendMedia(mediaPath, response);
+  }
+  RequestHandlerTools::Error404(response);
+}
+
+void RequestHandlerTools::SendGameMetadataInformation(SystemManager& manager,
+                                                     const String& systemName, const String& gameFullPath,
+                                                     Http::ResponseWriter& response)
+{
+  if (FileData* game = RequestHandlerTools::GetGame(manager, systemName, gameFullPath); game != nullptr)
+  {
+    JSONBuilder result;
+    MetadataDescriptor& meta = game->Metadata();
+    result.Open()
+            .Field("name", meta.Name())
+            .Field("synopsys", meta.Description())
+            .Field("publisher", meta.Publisher())
+            .Field("developer", meta.Developer())
+            .Field("emulator", meta.Emulator())
+            .Field("core", meta.Core())
+            .Field("ratio", meta.Ratio())
+            .Field("releasedate", (long long int)meta.ReleaseDateEpoc())
+            .Field("lastplayed", meta.LastPlayed().ToEpochTime())
+            .Field("regions", Regions::Serialize4Regions(meta.Region()))
+            .Field("playcount", meta.PlayCount())
+            .Field("crc32", meta.RomCrc32AsString())
+            .Field("adult", meta.Adult())
+            .Field("favorite", meta.Favorite())
+            .Field("hidden", meta.Hidden())
+            .Field("rating", meta.Rating())
+            .OpenObject("players").Field("min", meta.PlayerMin()).Field("max", meta.PlayerMax()).CloseObject()
+            .OpenObject("genres").Field("free", meta.Genre()).Field("normalized", (int)meta.GenreId()).CloseObject()
+            .OpenObject("availablemedia")
+              .Field("hasimage", meta.HasImage())
+              .Field("hasthumbnail", meta.HasThumnnail())
+              .Field("hasvideo", meta.HasVideo())
+            .CloseObject()
+          .Close();
+    RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+  }
+  else RequestHandlerTools::Error404(response);
 }
 
 JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::List& array)
@@ -1727,5 +1783,33 @@ JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::
          .Close();
 
   return systems;
+}
+
+void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter& response)
+{
+  // Check extension
+  String ext = mediaPath.Extension().LowerCase();
+  if (mediaPath.Exists())
+  {
+    if (mediaPath.IsFile())
+    {
+      // Text
+      if (ext == ".txt")      RequestHandlerTools::SendResource(mediaPath, response, Mime::PlainText);
+      else if (ext == ".pdf")      RequestHandlerTools::SendResource(mediaPath, response, Mime::FilePdf);
+      // Image
+      else if (ext == ".gif")      RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageGif);
+      else if (ext == ".jpg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageJpg);
+      else if (ext == ".png") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImagePng);
+      else if (ext == ".svg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageSvg);
+      // Video
+      else if (ext == ".mkv") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMkv);
+      else if (ext == ".mp4") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMp4);
+      else if (ext == ".avi") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoAvi);
+      // Unknown
+      else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
+    }
+    else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Target is a directory!", Mime::PlainText);
+  }
+  else RequestHandlerTools::Error404(response);
 }
 

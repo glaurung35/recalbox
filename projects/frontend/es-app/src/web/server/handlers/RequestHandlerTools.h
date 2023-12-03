@@ -12,6 +12,7 @@
 #include <pistache/include/pistache/http.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
+#include <games/FileData.h>
 #include <audio/AudioController.h>
 #include "ResolutionAdapter.h"
 
@@ -22,7 +23,7 @@ class RequestHandlerTools
      * @brief Get supported system list
      * @return Systems' short names list
      */
-    static const String::List& GetSupportedSystemList();
+    static const String::List& GetSupportedSystemList(SystemManager& manager);
 
     static HashMap<String, String> GetArcadeManufacturerList();
 
@@ -64,6 +65,15 @@ class RequestHandlerTools
 
     static void SetHeaders(Pistache::Http::ResponseWriter& response);
 
+    /*!
+     * @brief Lookup game
+     * @param manager System manager
+     * @param systemName System short name
+     * @param romFullPath Game full path
+     * @return FileData instance or nullptr
+     */
+    static FileData* GetGame(SystemManager& manager, const String& systemName, const String& romFullPath);
+
   public:
     //! Configuration file
     static constexpr const char* sConfiguration = "/recalbox/share/system/recalbox.conf";
@@ -73,6 +83,15 @@ class RequestHandlerTools
     static constexpr const char* sSystemResourceRegionPath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%REGION%/%FILE%";
     //! Basic System resource path
     static constexpr const char* sSystemResourceBasePath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%FILE%";
+
+    enum class Media
+    {
+      Image,     //!< Main image
+      Thumbnail, //!< Thumbnail
+      Video,     //!< Video
+      Map,       //!< Map
+      Manual,    //!< Manual
+    };
 
     //! Device information structure
     struct DeviceInfo
@@ -221,7 +240,7 @@ class RequestHandlerTools
      * @brief Get configuration key list for given namespace
      * @return Key set & configuration. Empty set if the namespace is unknown
      */
-    static const HashMap<String, Validator>& SelectConfigurationKeySet(const String& _namespace);
+    static const HashMap<String, Validator>& SelectConfigurationKeySet(const String& _namespace, SystemManager& manager);
 
     /*!
      * @brief Load recalbox configuration
@@ -284,7 +303,7 @@ class RequestHandlerTools
      * @param system System short name
      * @return True if the given system is in the supported system list, false otherwise
      */
-    static bool IsValidSystem(const String& system);
+    static bool IsValidSystem(const String& system, SystemManager& manager);
 
     /*!
      * @brief Basic but efficient file extractor
@@ -309,6 +328,29 @@ class RequestHandlerTools
     * @param response Response object
     */
     static void GetJSONMediaList(Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Return game metadata or 404
+     * @param systemName System short name
+     * @param gameFullPath Game fullpath
+     * @param response Response object
+     */
+    static void SendGameMetadataInformation(SystemManager& manager, const String& systemName, const String& gameFullPath, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Return game metadata or 404
+     * @param systemName System short name
+     * @param gameFullPath Game fullpath
+     * @param response Response object
+     */
+    static void SendGameResource(SystemManager& manager, const String& systemName, const String& gameFullPath, Media media, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief
+     * @param mediaPath
+     * @param response
+     */
+    static void SendMedia(const Path& mediaPath, Pistache::Http::ResponseWriter& response);
 
     /*!
      * @brief Serialize a system list to JSON object

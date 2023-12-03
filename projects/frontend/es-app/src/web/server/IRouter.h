@@ -229,6 +229,63 @@ class IRouter
      */
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*
+     * Metadata
+     */
+
+    /*!
+     * @brief Handle GET to get roms's information
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's image
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's thumbnail
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's video
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's map
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's manual
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*
+     * Status
+     */
+
+    /*!
+     * @brief Handle GET to get current system/game status
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void StatusGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -271,6 +328,15 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/media/takescreenshot", Rest::Routes::bind(&IRouter::MediaTakeScreenshot, this));
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
+      // Roms metadata
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/info/*", Rest::Routes::bind(&IRouter::MetadataGetInfo, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/image/*", Rest::Routes::bind(&IRouter::MetadataGetImage, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/thumbnail/*", Rest::Routes::bind(&IRouter::MetadataGetThumbnail, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/video/*", Rest::Routes::bind(&IRouter::MetadataGetVideo, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/map/*", Rest::Routes::bind(&IRouter::MetadataGetMap, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/manual/*", Rest::Routes::bind(&IRouter::MetadataGetManual, this));
+      // Status
+      Rest::Routes::Get(mRouter, "/api/status", Rest::Routes::bind(&IRouter::StatusGet, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

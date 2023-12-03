@@ -1634,3 +1634,98 @@ bool RequestHandlerTools::ExtractArray(const Rest::Request& request, String::Lis
   return false;
 }
 
+JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::List& array)
+{
+  class Serializer : public ISerializeToJson<const SystemData>
+  {
+    public:
+      // Serialize a single game
+      JSONBuilder Serialize(const SystemData* system) override
+      {
+        const SystemDescriptor& desc = system->Descriptor();
+
+        // Rom path
+        String::List romPath;
+        for(const RootFolderData* root : system->MasterRoot().SubRoots())
+          romPath.push_back(root->RomPath().ToString());
+
+        // Emulator/cores
+        JSONBuilder::JSONList cores;
+        const EmulatorList& emulatorList = desc.EmulatorTree();
+        for(int i = 0; i < emulatorList.Count(); ++i)
+        {
+          const EmulatorDescriptor& descriptor = emulatorList.EmulatorAt(i);
+          for(int c = 0; c < descriptor.CoreCount(); ++c)
+          {
+            const EmulatorDescriptor::Core& core = descriptor.CoreAt(c);
+            JSONBuilder emulators;
+            emulators.Open()
+                       .Field("emulator", descriptor.Name())
+                       .Field("core", core.mName)
+                       .Field("extensions", core.mExtensions)
+                       .Field("availableOnCRT", core.mCRTAvailable)
+                       .Field("hasNetplay", core.mNetplay)
+                       .Field("priority", core.mPriority)
+                       .Field("speed", (int)core.mSpeed)
+                       .Field("compatibility", (int)core.mCompatibility)
+                     .Close();
+            cores.push_back(emulators);
+          }
+        }
+
+        // System
+        JSONBuilder result;
+        result.Open()
+                .Field("name", desc.Name())
+                .Field("fullName", desc.FullName())
+                .Field("uuid", desc.GUID())
+                .Field("manufacturer", desc.Manufacturer())
+                .Field("releaseDate", desc.ReleaseDate())
+                .Field("romPath", romPath)
+                .Field("extensions", desc.Extension())
+                .Field("type", (int)desc.Type())
+                .Field("ignoredFiles", desc.IgnoredFiles())
+                .OpenObject("inputs")
+                  .Field("pads", (int)desc.PadRequirement())
+                  .Field("keyboard", (int)desc.KeyboardRequirement())
+                  .Field("mouse", (int)desc.MouseRequirement())
+                .CloseObject()
+                .OpenObject("properties")
+                  .Field("hasLightgunSupport", desc.LightGun())
+                  .Field("isReadOnly", desc.IsReadOnly())
+                  .Field("hasNetplay", desc.HasNetPlayCores())
+                .CloseObject()
+                .Field("emulators", cores)
+              .Close();
+
+        return result;
+      }
+  } serializer;
+
+  HashMap<String, String> speeds;
+  for(int i = 0; i < (int)EmulatorDescriptor::Speed::__Count; ++i)
+    speeds[String(i)] = ConvertEmulatorSpeed((EmulatorDescriptor::Speed)i);
+  HashMap<String, String> compatibility;
+  for(int i = 0; i < (int)EmulatorDescriptor::Compatibility::__Count; ++i)
+    compatibility[String(i)] = ConvertEmulatorCompatibility((EmulatorDescriptor::Compatibility)i);
+  HashMap<String, String> requirements;
+  for(int i = 0; i < (int)SystemDescriptor::DeviceRequirement::__Count; ++i)
+    requirements[String(i)] = ConvertDeviceRequirement((SystemDescriptor::DeviceRequirement)i);
+  HashMap<String, String> types;
+  for(int i = 0; i < (int)SystemDescriptor::SystemType::__Count; ++i)
+    types[String(i)] = ConvertSystemType((SystemDescriptor::SystemType)i);
+
+  JSONBuilder systems;
+  systems.Open()
+           .OpenObject("enumerations")
+             .Field("systemTypes", types)
+             .Field("deviceRequirement", requirements)
+             .Field("emulatorSpeed", speeds)
+             .Field("emulatorCompatibility", compatibility)
+           .CloseObject()
+           .Field<SystemData>("systems", array, serializer)
+         .Close();
+
+  return systems;
+}
+

@@ -13,5 +13,5 @@ class MenuFilter
       Search,
       GamelistOptions
     };
-    static bool ShouldDisplayMenu(const enum Menu menu) { return RecalboxConf::Instance().GetMenuType() !=RecalboxConf::Menu::None; }
+    static bool ShouldDisplayMenu(const enum Menu menu) { (void)menu; return RecalboxConf::Instance().GetMenuType() !=RecalboxConf::Menu::None; }
 };

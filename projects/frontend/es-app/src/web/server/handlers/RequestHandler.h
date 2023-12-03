@@ -255,4 +255,57 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's information
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's image
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's thumbnail
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's video
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's map
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's manual
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*
+     * Status
+     */
+
+    /*!
+     * @brief Handle GET to get current system/game status
+     * @param request Request object
+     * @param response Response object
+     */
+    void StatusGet(const Rest::Request& request, Http::ResponseWriter response) override;
 };

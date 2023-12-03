@@ -63,6 +63,7 @@
       ></div>
     </div>
     <q-img
+      v-if="currentState.currentSystem"
       class="logo"
       :src="currentState.currentSystem?.logoPath"
       spinner-color="white"

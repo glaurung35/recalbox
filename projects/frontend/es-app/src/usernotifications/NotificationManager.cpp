@@ -381,6 +381,10 @@ void NotificationManager::Run()
         JSONBuilder json = BuildJsonPacket(*request);
         // MQTT notification
         mMQTTClient.Send(sEventJsonTopic, json);
+        //! Store
+        mSyncer.Lock();
+        mLastJSONEvent = json;
+        mSyncer.UnLock();
 
         // Run scripts
         const String& notificationParameter = (request->mFileData != nullptr)

@@ -145,10 +145,13 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! All available scripts
     ScriptList mScriptList;
 
+    //! Last JSON event
+    JSONBuilder mLastJSONEvent;
+
     //! Request provider
     MessageFactory<NotificationRequest> mRequestProvider;
     //! Request synchronized queue
-    Queue<NotificationRequest*> mRequestQueue;
+    ::Queue<NotificationRequest*> mRequestQueue;
     //! Queue syncer'
     Mutex mSyncer;
     //! Thread signal
@@ -337,4 +340,10 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action Action to notify
      */
     void Notify(Notification action) { Notify(nullptr, nullptr, action, String()); }
+
+    JSONBuilder LastJSONEvent()
+    {
+      Mutex::AutoLock locker(mSyncer);
+      return mLastJSONEvent;
+    }
 };

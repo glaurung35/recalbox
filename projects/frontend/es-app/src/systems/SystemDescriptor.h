@@ -22,6 +22,7 @@ class SystemDescriptor
       Port    , //!< Port
       Virtual , //!< Internal virtual system
       VArcade , //!< Internal virtual Arcade system
+      __Count
     };
 
     //! Device requirement
@@ -32,6 +33,7 @@ class SystemDescriptor
       Recommended, //!< Most games require it
       Optional   , //!< Some games may require it
       None       , //!< Useless
+      __Count
     };
 
     /*!
@@ -41,7 +43,6 @@ class SystemDescriptor
       : mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
-      , mManufacturer()
       , mType(SystemType::Unknown)
       , mPad(DeviceRequirement::Unknown)
       , mKeyboard(DeviceRequirement::Unknown)
@@ -52,7 +53,6 @@ class SystemDescriptor
       , mPort(false)
       , mReadOnly(false)
       , mHasDownloader(false)
-      , mIgnoredFiles()
     {
     }
 

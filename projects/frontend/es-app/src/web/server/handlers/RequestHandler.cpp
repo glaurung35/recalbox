@@ -33,7 +33,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::LogRoute(request, "Versions");
 
   // Get libretro cores
-  std::map<String, String> cores;
+  HashMap<String, String> cores;
   String::List coreLines = Files::LoadFile(Path("/recalbox/share/system/configs/retroarch.corenames")).Split('\n');
   for(const String& coreLine : coreLines)
   {

@@ -9,6 +9,7 @@
 #include <map>
 #include <utils/json/ISerializeToJson.h>
 #include <utils/storage/Array.h>
+#include <utils/storage/HashMap.h>
 
 /*!
  * A very simple JSON string builder that *exactly* suits our needs.
@@ -84,6 +85,8 @@ class JSONBuilder : public String
     }
 
   public:
+    typedef std::vector<JSONBuilder> JSONList;
+
     /*!
      * Return the inherited string
      * @return String reference
@@ -148,7 +151,8 @@ class JSONBuilder : public String
      */
     JSONBuilder& OpenArray(const char* name)
     {
-      FieldName(name).Append(":[");
+      if (name != nullptr) FieldName(name).Append(":[");
+      else FieldCheck();
       return *this;
     }
 
@@ -253,7 +257,7 @@ class JSONBuilder : public String
      * @param value Map
      * @return The current JSON Instance for method chaining.
      */
-    JSONBuilder& Field(const char* name, const std::map<String, String>& values)
+    JSONBuilder& Field(const char* name, const HashMap<String, String>& values)
     {
       if (name != nullptr) FieldName(name).Append(":{");
       for(const auto& value : values)
@@ -276,6 +280,25 @@ class JSONBuilder : public String
       {
         if (back() != '[') Append(',');
         Append('"').Append(value).Append('"');
+      }
+      Append(']');
+      return *this;
+    }
+
+    /*!
+     * Add a JSON array field
+     * @param name Field name
+     * @param value Field array
+     * @param count value count
+     * @return The current JSON Instance for method chaining.
+     */
+    JSONBuilder& Field(const char* name, const JSONBuilder::JSONList& values)
+    {
+      if (name != nullptr) FieldName(name).Append(":[");
+      for(const String& value : values)
+      {
+        if (back() != '[') Append(',');
+        Append(value);
       }
       Append(']');
       return *this;
@@ -443,4 +466,11 @@ class JSONBuilder : public String
       }
       return *this;
     }
+
+    /*!
+     * @brief Append raw data
+     * @param raw raw data
+     * @return This
+     */
+    JSONBuilder& AppendRaw(const String& raw) { Append(raw); return *this; }
 };

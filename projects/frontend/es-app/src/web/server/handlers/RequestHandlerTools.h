@@ -309,4 +309,76 @@ class RequestHandlerTools
     * @param response Response object
     */
     static void GetJSONMediaList(Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Serialize a system list to JSON object
+     * @param array System list
+     * @return JSON
+     */
+    static JSONBuilder SerializeSystemListToJSON(const SystemManager::List& array);
+
+    static String ConvertSystemType(SystemDescriptor::SystemType systemtype)
+    {
+      switch(systemtype)
+      {
+        case SystemDescriptor::SystemType::Arcade: return "Arcade";
+        case SystemDescriptor::SystemType::Console: return "Home Console";
+        case SystemDescriptor::SystemType::Handheld: return "Handheld Console";
+        case SystemDescriptor::SystemType::Computer: return "Computer";
+        case SystemDescriptor::SystemType::Fantasy: return "Fantasy Console";
+        case SystemDescriptor::SystemType::Engine: return "Game Engine";
+        case SystemDescriptor::SystemType::Port: return "Port";
+        case SystemDescriptor::SystemType::Virtual: return "Virtual System";
+        case SystemDescriptor::SystemType::VArcade: return "Virtual Arcade";
+        case SystemDescriptor::SystemType::Unknown:
+        case SystemDescriptor::SystemType::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertDeviceRequirement(SystemDescriptor::DeviceRequirement requirement)
+    {
+      switch(requirement)
+      {
+        case SystemDescriptor::DeviceRequirement::Required: return "Mandatory";
+        case SystemDescriptor::DeviceRequirement::Recommended: return "Recommended";
+        case SystemDescriptor::DeviceRequirement::Optional: return "Optional";
+        case SystemDescriptor::DeviceRequirement::None: return "No need";
+        case SystemDescriptor::DeviceRequirement::Unknown:
+        case SystemDescriptor::DeviceRequirement::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertEmulatorCompatibility(EmulatorDescriptor::Compatibility compatibility)
+    {
+      switch(compatibility)
+      {
+        case EmulatorDescriptor::Compatibility::High: return "High";
+        case EmulatorDescriptor::Compatibility::Good: return "Good";
+        case EmulatorDescriptor::Compatibility::Average: return "Average";
+        case EmulatorDescriptor::Compatibility::Low: return "Low";
+        case EmulatorDescriptor::Compatibility::Unknown:
+        case EmulatorDescriptor::Compatibility::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertEmulatorSpeed(EmulatorDescriptor::Speed speed)
+    {
+      switch(speed)
+      {
+        case EmulatorDescriptor::Speed::High: return "High";
+        case EmulatorDescriptor::Speed::Good: return "Good";
+        case EmulatorDescriptor::Speed::Average: return "Average";
+        case EmulatorDescriptor::Speed::Low: return "Low";
+        case EmulatorDescriptor::Speed::Unknown:
+        case EmulatorDescriptor::Speed::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
 };

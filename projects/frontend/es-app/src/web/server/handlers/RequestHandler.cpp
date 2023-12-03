@@ -155,7 +155,6 @@ void RequestHandler::BiosUpload(const Rest::Request& request, Http::ResponseWrit
     const Bios* bios = nullptr;
     BiosManager::LookupResult result = mBiosManager.Lookup(Url::URLDecode(request.splatAt(0).name()), biosMd5, bios);
 
-    String extraResult = "Unknown";
     switch (result)
     {
       case BiosManager::AlreadyExists:
@@ -228,59 +227,14 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
 {
   RequestHandlerTools::LogRoute(request, "SystemsGetAll");
 
-  JSONBuilder systems;
-  systems.Open()
-         .Field("romPath", "/recalbox/share/roms")
-         .OpenObject("systemList");
-
-  SystemDeserializer deserializer;
-  deserializer.LoadSystems();
-  for(int i = 0; i < deserializer.Count(); ++i)
-  {
-    SystemDescriptor descriptor;
-    deserializer.Deserialize(i, descriptor);
-
-    JSONBuilder emulators = RequestHandlerTools::SerializeEmulatorsAndCoreToJson(descriptor.EmulatorTree());
-
-    JSONBuilder systemJson;
-
-    if (!descriptor.IsPort()) {
-      if (descriptor.Name() != "imageviewer") {
-          systemJson.Open()
-                  .Field("name", descriptor.Name())
-                  .Field("fullname", descriptor.FullName())
-                  .Field("romFolder", descriptor.RomPath().Filename())
-                  .Field("themeFolder", descriptor.ThemeFolder())
-                  .Field("extensions", descriptor.Extension().Split(' ', true))
-                  .Field("command", descriptor.Command())
-                  .Field("emulators", emulators)
-                  .Close();
-          systems.Field(String(i).c_str(), systemJson);
-      }
-    }
-  }
-
-  JSONBuilder portJson;
-
-  portJson.Open()
-          .Field("name", "ports")
-          .Field("fullname", "Ports")
-          .Field("romFolder", "/recalbox/share/roms/ports")
-          .Field("themeFolder", "ports")
-          .Close();
-
-  systems.Field(String(deserializer.Count()).c_str(), portJson);
-
-  systems.CloseObject()
-         .Close();
-  RequestHandlerTools::Send(response, Http::Code::Ok, systems, Mime::Json);
+  RequestHandlerTools::Send(response, Http::Code::Ok, RequestHandlerTools::SerializeSystemListToJSON(mSystemManager.AllSystems()), Mime::Json);
 }
 
 void RequestHandler::SystemsGetActives(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemsGetActives");
 
-  RequestHandlerTools::Send(response, Http::Code::Method_Not_Allowed);
+  RequestHandlerTools::Send(response, Http::Code::Ok, RequestHandlerTools::SerializeSystemListToJSON(mSystemManager.AllSystems()), Mime::Json);
 }
 
 void RequestHandler::SystemsResourceGetConsole(const Rest::Request& request, Http::ResponseWriter response)

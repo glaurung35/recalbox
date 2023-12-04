@@ -31,9 +31,14 @@ GuiMenuTools::ListGameEmulatorAndCore(FileData& game, String& outDefaultEmulator
       result.push_back({ "", _("FORCED").Append(' ').Append(displayName), true });
       return result;
     }
-    String displayName(outDefaultEmulator);
-    if (displayName != outDefaultCore) displayName.Append(' ').Append(outDefaultCore);
+
+    String defaultSystemEmulator;
+    String defaultSystemCore;
+    EmulatorManager::GetSystemEmulator(game.System(), defaultSystemEmulator, defaultSystemCore);
+    String displayName(defaultSystemEmulator);
+    if (displayName != defaultSystemCore) displayName.Append(' ').Append(defaultSystemCore);
     result.push_back({ "", _("SYSTEM DEFAULT").Append(" (").Append(displayName).Append(')'), currentEmulator.empty() && currentCore.empty() });
+
     if (emulator.empty()) emulator = outDefaultEmulator;
     if (core.empty()) core = outDefaultCore;
     for (const String& emulatorName : EmulatorManager::GetEmulators(game.System()))

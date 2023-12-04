@@ -4,24 +4,30 @@
 
 #pragma once
 #include "hardware/IBoardInterface.h"
+#include "utils/os/system/Thread.h"
+#include "PiPowerAndTempThread.h"
 
 class PiBoard : public IBoardInterface {
 public:
-  explicit PiBoard(HardwareMessageSender &messageSender)
-      : IBoardInterface(messageSender) {
+  explicit PiBoard(HardwareMessageSender &messageSender, BoardType boardType)
+      : IBoardInterface(messageSender), powerThread(messageSender, boardType){
   }
 
   /*!
    * @brief Start optional global background processes
    * This method is called when ES starts
    */
-  void StartGlobalBackgroundProcesses() final {}
+  void StartGlobalBackgroundProcesses() final {
+    powerThread.Start("PiPowerAndTempThread");
+  }
 
   /*!
    * @brief Stop optional global background processes
    * This method is called when ES stops
    */
-  void StopGlobalBackgroundProcesses() final {}
+  void StopGlobalBackgroundProcesses() final {
+    powerThread.Stop();
+  }
 
   /*!
    * @brief Start optional in-game background processes.
@@ -119,4 +125,7 @@ public:
    * @brief Set the CPU governor for EmulationStation
    */
   void SetFrontendCPUGovernor() final {};
+
+  private:
+    PiPowerAndTempThread powerThread;
 };

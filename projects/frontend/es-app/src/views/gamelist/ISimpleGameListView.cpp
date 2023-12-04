@@ -343,6 +343,13 @@ void ISimpleGameListView::jumpToNextLetter(bool forward)
   for(int i = cursorIndex; (i = (i + step) % max) != cursorIndex; )
     if (String::UpperUnicode(getDataAt(i)->Name().ReadFirstUTF8()) != baseChar) // Change to dynamic naming ASAP
     {
+      if (!forward) // In backward move, go to the latest same letter
+      {
+        baseChar = String::UpperUnicode(getDataAt(i)->Name().ReadFirstUTF8());
+        for(int j = i; (j = (j + step) % max) != cursorIndex; )
+          if (String::UpperUnicode(getDataAt(j)->Name().ReadFirstUTF8()) == baseChar) i = j;
+          else break;
+      }
       setCursorIndex(i);
       break;
     }

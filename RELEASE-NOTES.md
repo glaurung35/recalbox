@@ -37,6 +37,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Naomi 2 system on rpi5 and x86_64
 - Add new time played information
 - Add "Boot on game" feature to enable recalbox booting on a selected game
+- Add undervoltage and temperature popups in frontend for rpi familly
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

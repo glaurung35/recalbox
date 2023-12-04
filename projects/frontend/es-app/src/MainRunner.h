@@ -338,10 +338,22 @@ class MainRunner
     void BrightnessDecrease(BoardType board, float percent) final;
 
     /*!
-     * @brief Increase volume
+     * @brief Increase brightness
      * @param board current board
      */
     void BrightnessIncrease(BoardType board, float percent) final;
+
+    /*!
+     * @brief Undervoltage alert
+     * @param board current board
+     */
+    void UnderVoltage(BoardType board) final;
+
+    /*!
+     * @brief HighTemperature detected
+     * @param board current board
+     */
+    void TemperatureAlert(BoardType board) final;
 
     /*
      * ILongExecution implementation

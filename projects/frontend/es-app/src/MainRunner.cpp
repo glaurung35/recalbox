@@ -770,6 +770,35 @@ void MainRunner::ResetButtonPressed(BoardType board)
   }
 }
 
+void MainRunner::UnderVoltage(BoardType board)
+{
+  (void)board;
+  { LOG(LogInfo) << "[MainRunner] Undervoltage popup."; }
+  String message = _("An undervoltage has been detected, the system may slow down.\n");
+  String suffix;
+  switch(board)
+  {
+    case(BoardType::Pi400): suffix = " 400."; break;
+    case(BoardType::Pi5): suffix = " 5."; break;
+    case(BoardType::Pi4): suffix = " 4."; break;
+    default: suffix = "."; break;
+  }
+  if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)
+    message.Append(_("We recommend adjusting your JAMMA cabinet power supply to increase the voltage to between 5.05V and 5.2V"));
+  else if (BoardTypeUtil::IsRaspberryPi(Board::Instance().GetBoardType()))
+    message.Append(_("We recommend that you purchase an official USB-C power supply designed for your Raspberry Pi").Append(suffix));
+
+  mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, PopupType::Warning));
+}
+
+void MainRunner::TemperatureAlert(BoardType board)
+{
+  (void)board;
+  { LOG(LogInfo) << "[MainRunner] Temperature popup."; }
+  String message = _("The temperature of your system is high.\nThe system may slow down. Try cooling your Raspberry Pi with a fan or disable overclock if it's enabled.");
+  mApplicationWindow->InfoPopupAdd(new GuiInfoPopup(*mApplicationWindow, message, 15, PopupType::Warning));
+}
+
 void MainRunner::PowerButtonPressed(BoardType board, int milliseconds)
 {
   (void)board;

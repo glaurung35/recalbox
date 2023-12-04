@@ -303,7 +303,7 @@ uint8_t ssd1306_oled_default_config(uint8_t oled_lines, uint8_t oled_columns)
     data_buf[i++] = SSD1306_COMM_RESUME_RAM;    //DISPLAYALLON_RESUME
     data_buf[i++] = SSD1306_COMM_DISP_NORM;     //NORMALDISPLAY
     data_buf[i++] = SSD1306_COMM_DISPLAY_ON;    //DISPLAY ON             
-    data_buf[i++] = SSD1306_COMM_ENABLE_SCROLL;//Stop scroll
+    data_buf[i++] = SSD1306_COMM_DISABLE_SCROLL;//Stop scroll
 
     return _i2c_write(data_buf, i);
 }

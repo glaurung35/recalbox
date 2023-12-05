@@ -41,6 +41,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new Saturn core on RPi4 and RPi5: beetle saturn
 - Add new port SDLPop (port of Prince of Persia)
 - Add possibility to adjust music volume in EmulationStation 
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -165,6 +166,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix not mappables pads
 - Fix vulkan support on rpi5
 - Fix some pandorabox controllers for 2 players
+
 
 ## Version 9.1-Pulstar
 

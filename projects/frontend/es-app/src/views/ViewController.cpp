@@ -471,6 +471,7 @@ bool ViewController::CheckSoftPatching(const EmulatorData& emulator)
           break;
         }
         // if no patch are configured yet go to next SoftPatching::Select case
+        [[fallthrough]];
       }
       case RecalboxConf::SoftPatching::Select:
       {

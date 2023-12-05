@@ -257,6 +257,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     case Components::FactoryReset:
     case Components::CrtSubMenu:
     case Components::ResolutionSubMenu:
+    case Components::EepromUpdate:
     default: break;
   }
 }

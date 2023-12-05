@@ -85,12 +85,14 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
    * Populate the grid
    */
 
+  bool isLowRes = Renderer::Instance().Is240p();
+
   // Title
   mTitle = std::make_shared<TextComponent>(window, _("BIOS CHECKING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, false, Vector2i(5,1) );
 
   // Header
-  mHeader = std::make_shared<TextComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mHeader = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mHeader, Vector2i(1, 1), false, true, Vector2i(5,1) );
 
   // List
@@ -172,10 +174,13 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mGrid.setEntry(mDetailHashIsMatchingLabel, Vector2i(4, 8), false, false, Vector2i(1, 1));
   mGrid.setEntry(mDetailHashIsMatchingValue, Vector2i(5,8), false, false, Vector2i(1,1));
   mGrid.setEntry(mDetailText1Label, Vector2i(2,8), false, false, Vector2i(4,1));
-  mGrid.setEntry(mDetailText1ValueContainer, Vector2i(3,9), false, false, Vector2i(3,1));
-  mGrid.setEntry(mDetailText2Label, Vector2i(2,11), false, false, Vector2i(4,1));
-  mGrid.setEntry(mDetailText2ValueContainer, Vector2i(2,12), false, false, Vector2i(4,1));
-  mGrid.setEntry(mDetailStatusImage, Vector2i(2,9), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailText1ValueContainer, Vector2i(isLowRes ? 2 : 3,9), false, false, Vector2i(3,1));
+  if (!isLowRes)
+  {
+    mGrid.setEntry(mDetailText2Label, Vector2i(2, 11), false, false, Vector2i(4, 1));
+    mGrid.setEntry(mDetailText2ValueContainer, Vector2i(2, 12), false, false, Vector2i(4, 1));
+  }
+  mGrid.setEntry(mDetailStatusImage, Vector2i(isLowRes ? 5 : 2, 9), false, false, Vector2i(1,1));
 
   mGrid.setEntry(mDetailBiosOkLabel, Vector2i(2, 4), false, false, Vector2i(1,1));
   mGrid.setEntry(mDetailBiosUnsafeLabel, Vector2i(2, 5), false, false, Vector2i(1,1));
@@ -191,7 +196,7 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mGrid.setEntry(mDetailBiosNotFoundValue, Vector2i(5, 6), false, false, Vector2i(1,1));
 
   // Footer
-  mFooter = std::make_shared<TextComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mFooter = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
   mGrid.setEntry(mFooter, Vector2i(1, 13), false, true, Vector2i(5,1) );
 
   // Buttons
@@ -224,16 +229,17 @@ void GuiBiosScan::onSizeChanged()
   float footerPercent = mFooter->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float buttonPercent = (mButtonGrid->getSize().y() * 1.2f) / mSize.y();
 
-  float spacerPercent = Renderer::Instance().Is240p() ? 0.0f : 0.02f;
+  bool IsLowRes = Renderer::Instance().Is240p();
+  float spacerPercent = IsLowRes ? 0.0f : 0.02f;
   float systemPercent = mDetailSystemLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float corePercent = mDetailCoreLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
-  float pathPercent = Renderer::Instance().Is240p() ? 0.01f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
+  float pathPercent = IsLowRes ? 0.001f : mDetailPathLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float mandatoryPercent = mDetailMandatoryLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float filePercent = mDetailFileFoundLabel->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remarkPercent = mDetailText1Value->getFont()->getLetterHeight() * 8.6f / mSize.y();
-  float notePercent = mDetailText2Label->getFont()->getLetterHeight() * 2.6f / mSize.y();
+  float notePercent = IsLowRes ? 0.001f : mDetailText2Label->getFont()->getLetterHeight() * 2.6f / mSize.y();
   float remainingPercent = 1.0f - (titlePercent + headerPercent + spacerPercent * 3 + systemPercent + corePercent + pathPercent + mandatoryPercent + filePercent + remarkPercent + notePercent + footerPercent + buttonPercent);
-  if (remainingPercent < 0.0f) remainingPercent = 0.0f;
+  if (remainingPercent < 0.0f) remainingPercent = 0.001f;
 
   mGrid.setRowHeightPerc(0, titlePercent, false);
   mGrid.setRowHeightPerc(1, headerPercent, false);
@@ -252,10 +258,10 @@ void GuiBiosScan::onSizeChanged()
   mGrid.setRowHeightPerc(14, buttonPercent, false);
   mGrid.setColWidthPerc(0, 0.02f, false);
   mGrid.setColWidthPerc(1, 0.40f, false);
-  mGrid.setColWidthPerc(2, 0.16f, false);
-  mGrid.setColWidthPerc(3, 0.10f, false);
-  mGrid.setColWidthPerc(4, 0.20f, false);
-  mGrid.setColWidthPerc(5, 0.10f, false);
+  mGrid.setColWidthPerc(2, 0.20f, false);
+  mGrid.setColWidthPerc(3, 0.06f, false);
+  mGrid.setColWidthPerc(4, 0.24f, false);
+  mGrid.setColWidthPerc(5, 0.06f, false);
   mGrid.setColWidthPerc(6, 0.02f, false);
   mGrid.setSize(mSize);
 
@@ -276,13 +282,15 @@ void GuiBiosScan::onSizeChanged()
   mDetailHashIsMatchingLabel->setSize(marginPercent * mGrid.getColWidth(4), mGrid.getRowHeight(8));
   mDetailHashIsMatchingValue->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(8));
   mDetailText1Label->setSize(marginPercent * mGrid.getColWidth(2, 5), mGrid.getRowHeight(8));
-  mDetailText1ValueContainer->setSize(marginPercent * mGrid.getColWidth(3, 5), mGrid.getRowHeight(9));
+  if (IsLowRes) mDetailText1ValueContainer->setSize(marginPercent * mGrid.getColWidth(2, 4), mGrid.getRowHeight(9));
+  else          mDetailText1ValueContainer->setSize(marginPercent * mGrid.getColWidth(3, 5), mGrid.getRowHeight(9));
   mDetailText2Label->setSize(marginPercent * mGrid.getColWidth(2,5), mGrid.getRowHeight(11));
   mDetailText2ValueContainer->setSize(marginPercent * mGrid.getColWidth(2, 5), mGrid.getRowHeight(12));
   mDetailText1Value->setSize(mDetailText1ValueContainer->getSize().x(), 0); // make desc text wrap at edge of container
   mDetailText2Value->setSize(mDetailText2ValueContainer->getSize().x(), 0); // make desc text wrap at edge of container
-  mDetailStatusImage->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(9));
-  mDetailStatusImage->setMaxSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(9));
+  float imageReduction = IsLowRes ? 0.8f : 1.f;
+  mDetailStatusImage->setSize(marginPercent * imageReduction * mGrid.getColWidth(IsLowRes ? 5 : 2), mGrid.getRowHeight(9));
+  mDetailStatusImage->setMaxSize(marginPercent * imageReduction * mGrid.getColWidth(IsLowRes ? 5 : 2), mGrid.getRowHeight(9));
 
   mDetailBiosOkLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(4));
   mDetailBiosUnsafeLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(5));
@@ -444,7 +452,7 @@ void GuiBiosScan::UpdateBiosList()
                  _("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%s", lastNonWorkingSystemName) :
                  _("%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%i", String(nonWorkingSystem));
   }
-  else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!");
+  else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY! ENJOY YOUR RETRO GAMES YOU AND DON'T BOTHER WITH NETFLIX OR THOSE PLAYSTATIONS!");
   mHeader->setValue(headerText);
 
   // Update footer
@@ -591,10 +599,17 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailBiosMatchingValue->setValue(String(context.mBiosList->TotalHashMatching()));
     mDetailBiosNotMatchingLabel->setValue(_("MD5 NOT OK"));
     mDetailBiosNotMatchingValue->setValue(String(context.mBiosList->TotalHashNotMatching()));
-    mDetailText1Value->setValue(_S(String(text)));
-    mDetailText2Label->setValue(_("Core") + " :");
     String cores = GetUniqueCoreList(*context.mBiosList);
-    mDetailText2Value->setValue(cores);
+    if (!Renderer::Instance().Is240p())
+    {
+      mDetailText1Value->setValue(_S(String(text)));
+      mDetailText2Label->setValue(_("Core") + " :");
+      mDetailText2Value->setValue(cores);
+    }
+    else
+    {
+      mDetailText1Value->setValue(_S(String(text)).Append("\n")/*.Append(_("Core")).Append(" :")*/.Append(cores));
+    }
   }
 }
 

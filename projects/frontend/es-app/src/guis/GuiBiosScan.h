@@ -10,6 +10,7 @@
 #include <components/TextListComponent.h>
 #include <components/BusyComponent.h>
 #include <systems/SystemManager.h>
+#include "components/TextScrollComponent.h"
 
 class GuiBiosScan : public Gui, public IBiosScanReporting
 {
@@ -55,9 +56,9 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     //! Text title
     std::shared_ptr<TextComponent> mTitle;
     //! Header
-    std::shared_ptr<TextComponent> mHeader;
+    std::shared_ptr<TextScrollComponent> mHeader;
     //! Footer
-    std::shared_ptr<TextComponent> mFooter;
+    std::shared_ptr<TextScrollComponent> mFooter;
     //! Bios list
     std::shared_ptr<TextListComponent<ListContext>> mList;
     //! Button grid

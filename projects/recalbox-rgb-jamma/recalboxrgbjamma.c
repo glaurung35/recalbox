@@ -1457,7 +1457,7 @@ static int load_config(void) {
   for (cursor = 0; cursor < read_size; cursor++) {
     line[cursor - line_start] = read_buf[cursor];
     line_len++;
-    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0') {
+    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0' || cursor == read_size-1) {
       if (line_len > 1 && line[0] != '#') {
         line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", optionname, &optionvalue);

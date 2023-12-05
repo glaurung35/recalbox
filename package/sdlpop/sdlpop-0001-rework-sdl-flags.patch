@@ -1,0 +1,15 @@
+--- a/src/seg009.c	2023-12-05 19:50:37.671574384 +0100
++++ b/src/seg009.c2	2023-12-05 19:58:28.878072362 +0100
+@@ -2593,9 +2593,9 @@
+ 	//SDL_EnableUNICODE(1); //deprecated
+ 	Uint32 flags = 0;
+ 	if (!start_fullscreen) start_fullscreen = check_param("full") != NULL;
+-	if (start_fullscreen) flags |= SDL_WINDOW_FULLSCREEN_DESKTOP;
+-	flags |= SDL_WINDOW_RESIZABLE;
+-	flags |= SDL_WINDOW_ALLOW_HIGHDPI; // for Retina displays
++	/*if (start_fullscreen)*/ flags |= SDL_WINDOW_FULLSCREEN;
++	//flags |= SDL_WINDOW_RESIZABLE;
++	//flags |= SDL_WINDOW_ALLOW_HIGHDPI; // for Retina displays
+ 
+ 	// Should use different default window dimensions when using 4:3 aspect ratio
+ 	if (use_correct_aspect_ratio && pop_window_width == 640 && pop_window_height == 400) {

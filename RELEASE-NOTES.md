@@ -55,6 +55,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Picade support
 - Add new port SDLPop (port of Prince of Persia)
 - Add possibility to adjust music volume in EmulationStation
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -189,6 +190,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: fix calibration screen
 - CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
 - Fix Yoko games showing in tate only gameclips
+
 
 ## Version 9.1-Pulstar
 

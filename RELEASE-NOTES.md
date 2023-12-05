@@ -45,6 +45,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add Picade support
 - Add new port SDLPop (port of Prince of Persia)
 - Add possibility to adjust music volume in EmulationStation 
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -173,6 +174,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix some Xbox 360 pad issues
 - Fix vulkan support on rpi5
 - Fix daphne games scrap
+
 
 ## Version 9.1-Pulstar
 

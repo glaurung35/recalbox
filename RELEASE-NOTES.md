@@ -4,6 +4,12 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-jamma-15
+
+- Correction de l'ecran tate
+- Ajout d'un message si sous tension ou haute temperature
+- Correction de l'ecran
+
 ## Version 9.2-Pulstar
 
 ### Hardware

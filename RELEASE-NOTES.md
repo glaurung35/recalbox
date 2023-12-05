@@ -62,6 +62,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: add superrez and auto scanlines for 240p games on 31kHz display
 - Add Picade support
 - Add new port SDLPop (port of Prince of Persia)
+- Add libretro fake08 for Pico8
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -197,6 +198,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
 - Fix Yoko games showing in tate only gameclips
 - Fix lightguns and add some new compatible games
+
 
 ## Version 9.1-Pulstar
 

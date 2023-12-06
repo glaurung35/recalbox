@@ -33,7 +33,7 @@ if test "$1" == "start"; then
 
     if [ "${adapter}" != "" ]; then
       mount -o remount,rw /boot
-
+      mkdir -p /boot/crt/
       echo "S03rrgbdjamma CRT Recalbox RGB Jamma Detected (${adapter}${board})!" >> /boot/hardware.log
       if ! grep "dtoverlay=${adapter}${board}" "${CRT_DAC_FILE}"; then
         echo "dtoverlay=${adapter}${board}" > "${CRT_DAC_FILE}"

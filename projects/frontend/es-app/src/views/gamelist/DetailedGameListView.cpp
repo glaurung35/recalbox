@@ -840,7 +840,8 @@ void DetailedGameListView::populateList(const FolderData& folder)
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
                             mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
-  FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
+  FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() :
+                          FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
   FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
 
   // Region filtering?

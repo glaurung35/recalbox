@@ -27,6 +27,9 @@ menu "Recalbox"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/spirv-tools/Config.in"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/spirv-headers/Config.in.host"
     endmenu
+    menu "Other tools"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/gl4es/Config.in"
+    endmenu
   endmenu
   menu "Boot"
     comment "Boot specific options"

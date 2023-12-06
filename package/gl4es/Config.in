@@ -1,0 +1,8 @@
+config BR2_PACKAGE_GL4ES
+	bool "gl4es"
+	depends on BR2_PACKAGE_HAS_LIBGLES
+	select BR2_PACKAGE_HAS_LIBGL if !BR2_PACKAGE_LIBGLVND
+	help
+	  GL4ES is a OpenGL 2.1/1.5 to GL ES 2.0/1.1 translation library,
+	  with support for Pandora, ODroid, OrangePI, CHIP, Raspberry PI,
+	  Android, Emscripten and AmigaOS4. 

@@ -78,21 +78,16 @@ client.on('message', (topic, message): void => {
   if (topic === process.env.MQTT_ES_EVENTS_CHANNEL) {
     const newMessage: EsResponse = JSON.parse(new TextDecoder('utf-8').decode(message));
     const systemsStore = useSystemsStore();
-    const { systemsList } = systemsStore;
+    const { systems } = systemsStore;
     let { currentSystem } = emulationStationStore.currentState;
     let currentRom = null;
 
     if (newMessage.System) {
-      const storeSystem = systemsList.filter((system) => system.name === newMessage.System.SystemId)[0];
-      let themeFolder = storeSystem ? storeSystem.themeFolder : undefined;
-
-      if (themeFolder === undefined) {
-        themeFolder = 'imageviewer';
-      }
+      const storeSystem = systems.systems.filter((system) => system.name === newMessage.System.SystemId)[0];
 
       emulationStationStore.resetCurrentSystem();
       currentSystem = {
-        logoPath: `${api}/systems/${themeFolder}/resource/eu/svg/logo`,
+        logoPath: `${api}/systems/${storeSystem.name}/resource/eu/svg/logo`,
         name: newMessage.System.System,
         systemId: newMessage.System.SystemId,
         metaData: systemsMetaData[newMessage.System.SystemId],

@@ -49,6 +49,7 @@
 </template>
 
 <script lang="ts" setup>
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useSystemsStore } from 'stores/systems';
 import { ref } from 'vue';
 import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
@@ -97,7 +98,13 @@ const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 
 const systemsStore = useSystemsStore();
-systemsStore.fetch();
+systemsStore.fetch().then(() => {
+  const emulationStationStore = useEmulationstationStore();
+  const { currentState } = emulationStationStore;
+  if (currentState.currentSystem === null) {
+    emulationStationStore.fetchStatus();
+  }
+});
 
 function toggle(event: { label: string; value: boolean; }) {
   if (event.label === 'shortcutsButton') {

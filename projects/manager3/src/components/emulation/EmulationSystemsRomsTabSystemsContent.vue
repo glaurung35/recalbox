@@ -43,7 +43,7 @@
         <template v-slot:item="props">
           <div
             @click="() => $router.push(
-              { name: 'systems-system', params: { system: props.row.themeFolder }}
+              { name: 'systems-system', params: { system: props.row.name }}
             )"
             class="q-pa-xs col-xs-12 col-sm-6 col-md-2 col-lg-2 grid-style-transition"
           >
@@ -51,13 +51,13 @@
               <q-card-section>
                 <div class="background"></div>
                 <q-img
-                  :src="api + '/systems/' + props.row.themeFolder + '/resource/eu/svg/logo'"
+                  :src="api + '/systems/' + props.row.name + '/resource/eu/svg/logo'"
                   spinner-color="$light-blue"
                   :ratio="16/9"
                   fit="contain"
                   loading="lazy"
                 />
-                <div class="fullname">{{props.row.fullname}}</div>
+                <div class="fullname">{{props.row.fullName}}</div>
               </q-card-section>
             </q-card>
           </div>
@@ -94,7 +94,7 @@ const columns = computed(() => [
     required: true,
     label: '',
     align: 'left',
-    field: (row: System) => row.fullname,
+    field: (row: System) => row.fullName,
     sortable: true,
   },
 ]);

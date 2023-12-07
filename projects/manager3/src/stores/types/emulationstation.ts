@@ -400,6 +400,8 @@ export interface CurrentSystem {
   name: string;
   systemId: string;
   logoPath: string;
+  consolePath: string;
+  gamePath: string;
   metaData: CurrentSystemMetaData;
 }
 

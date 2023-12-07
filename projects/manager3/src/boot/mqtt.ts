@@ -1,12 +1,10 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-import { apiUrl } from 'boot/axios';
 import mqtt from 'mqtt';
 import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useMonitoringStore } from 'stores/monitoring';
-import { useSystemsStore } from 'stores/systems';
 import { CurrentSystemMetaData } from 'stores/types/emulationstation';
 import { EsResponse } from 'stores/types/mqtt';
 
@@ -23,8 +21,6 @@ if (process.env.MQTT_URL === '') {
 const client = mqtt.connect(String(mqttUrl), options);
 const monitoringStore = useMonitoringStore();
 const emulationStationStore = useEmulationstationStore();
-
-const api: string|undefined = apiUrl;
 
 export const getCurrentSystemMetaData = (systemId: string): CurrentSystemMetaData => systemsMetaData[
   systemId as keyof typeof systemsMetaData
@@ -77,44 +73,6 @@ client.on('message', (topic, message): void => {
 
   if (topic === process.env.MQTT_ES_EVENTS_CHANNEL) {
     const newMessage: EsResponse = JSON.parse(new TextDecoder('utf-8').decode(message));
-    const systemsStore = useSystemsStore();
-    const { systems } = systemsStore;
-    let { currentSystem } = emulationStationStore.currentState;
-    let currentRom = null;
-
-    if (newMessage.System) {
-      const storeSystem = systems.systems.filter((system) => system.name === newMessage.System.SystemId)[0];
-
-      emulationStationStore.resetCurrentSystem();
-      currentSystem = {
-        logoPath: `${api}/systems/${storeSystem.name}/resource/eu/svg/logo`,
-        name: newMessage.System.System,
-        systemId: newMessage.System.SystemId,
-        metaData: systemsMetaData[newMessage.System.SystemId],
-      };
-    }
-
-    if (newMessage.Action === 'rungame' && newMessage.Game) {
-      currentRom = {
-        name: newMessage.Game.Game,
-        imagePath: newMessage.Game.ImagePath,
-        thumbnailPath: newMessage.Game.ThumbnailPath,
-        videoPath: newMessage.Game.VideoPath,
-        developer: newMessage.Game.Developer,
-        publisher: newMessage.Game.Publisher,
-        players: newMessage.Game.Players,
-        region: newMessage.Game.Region,
-        genre: newMessage.Game.Genre.replace(',', ', '),
-      };
-    }
-
-    const currentState = {
-      currentSystem,
-      currentRom,
-    };
-
-    emulationStationStore.$patch({
-      currentState,
-    });
+    emulationStationStore.updateStatus(newMessage);
   }
 });

@@ -232,6 +232,8 @@ const percents = computed<object[]>(() => [
         display: none
 
     .emustation
+      height: initial
+
       .system
         .header
           flex-direction: column

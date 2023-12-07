@@ -1,17 +1,24 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { apiUrl } from 'boot/axios';
 import { defineStore } from 'pinia';
-import { CONFIGURATION } from 'src/router/api.routes';
+import { CONFIGURATION, GLOBAL } from 'src/router/api.routes';
+import { systemsMetaData } from 'src/utils/systemsMetaData';
+import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { PostStore } from 'stores/plugins/postStorePlugin';
+import { useSystemsStore } from 'stores/systems';
 import {
   EmulationStationConfigOptionsResponse,
   EmulationStationConfigResponse, EmulationStationCurrentState,
 } from 'stores/types/emulationstation';
+import { EsResponse } from 'stores/types/mqtt';
 
-export interface EmulationStationStoreState extends FetchStore, PostStore, FetchOptionsStore {
+const api: string|undefined = apiUrl;
+
+export interface EmulationStationStoreState extends FetchStore, PostStore, FetchOptionsStore, ApiProviderStore {
   _baseUrl: string;
   _emulationstationOptions: EmulationStationConfigOptionsResponse;
   emulationstation: EmulationStationConfigResponse;
@@ -78,7 +85,10 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
     },
     emulationstation: {},
-    currentState: {},
+    currentState: {
+      currentSystem: null,
+      currentRom: null,
+    },
   } as EmulationStationStoreState),
 
   getters: {
@@ -104,6 +114,61 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     resetCurrentSystem() {
       if (this.currentState.currentSystem) {
         this.currentState.currentSystem = null;
+      }
+    },
+    updateStatus(status: EsResponse) {
+      const systemsStore = useSystemsStore();
+      const { systems } = systemsStore;
+
+      let { currentSystem } = this.currentState;
+      let currentRom = null;
+
+      if (status.System) {
+        const storeSystem = systems.systems.filter((system) => system.name === status.System.SystemId)[0];
+
+        this.resetCurrentSystem();
+        currentSystem = {
+          logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/logo`,
+          consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/console`,
+          gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/game`,
+          name: status.System.System,
+          systemId: status.System.SystemId,
+          metaData: systemsMetaData[status.System.SystemId],
+        };
+      }
+
+      if (status.Action === 'rungame' && status.Game) {
+        currentRom = {
+          name: status.Game.Game,
+          imagePath: status.Game.ImagePath,
+          thumbnailPath: status.Game.ThumbnailPath,
+          videoPath: status.Game.VideoPath,
+          developer: status.Game.Developer,
+          publisher: status.Game.Publisher,
+          players: status.Game.Players,
+          region: status.Game.Region,
+          genre: status.Game.Genre.replace(',', ', '),
+        };
+      }
+
+      const currentState = {
+        currentSystem,
+        currentRom,
+      };
+
+      this.$patch({
+        currentState,
+      });
+    },
+    async fetchStatus() {
+      try {
+        const response = await this._apiProvider.get(GLOBAL.status);
+        const status = response.data;
+
+        this.updateStatus(status);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
       }
     },
   },

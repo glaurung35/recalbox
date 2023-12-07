@@ -5,7 +5,7 @@ import { defineStore } from 'pinia';
 import { SYSTEMS } from 'src/router/api.routes';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { toRaw } from 'vue';
-import { SystemsResponse } from 'stores/types/systems';
+import { SystemsResponse, Type } from 'stores/types/systems';
 
 export interface SystemsStoreState extends FetchStore {
   _baseUrl: string;
@@ -22,15 +22,18 @@ export const useSystemsStore = defineStore('systems', {
   } as SystemsStoreState),
 
   getters: {
-    systemsList: (state) => state.systems.systems.filter(
-      (system) => !system.name.includes('genre-') && !system.name.includes('arcade-'),
+    filteredSystemsList: (state) => state.systems.systems.filter(
+      (system) => Type[system.type as keyof typeof Type] !== Type[6]
+        && Type[system.type as keyof typeof Type] !== Type[7]
+        && Type[system.type as keyof typeof Type] !== Type[8]
+        && Type[system.type as keyof typeof Type] !== Type[9],
     ),
   },
 
   actions: {
     getSystemsListCount() {
-      if (Object.keys(this.systems.systems).length > 0) {
-        return Object.keys(toRaw(this.systems.systems)).length;
+      if (Object.keys(this.filteredSystemsList).length > 0) {
+        return Object.keys(toRaw(this.filteredSystemsList)).length;
       }
       return 0;
     },

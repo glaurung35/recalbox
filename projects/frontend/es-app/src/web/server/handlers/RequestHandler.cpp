@@ -110,12 +110,17 @@ void RequestHandler::StorageInfo(const Rest::Request& request, Http::ResponseWri
     {
       RequestHandlerTools::DeviceInfo info(parts[6], parts[0], parts[1], parts[2], parts[3]);
       RequestHandlerTools::GetDevicePropertiesOf(info);
+      // System overlay
       if (info.Mount == "/") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "system"));
+      // Boot partition
       else if (info.Mount == "/boot") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "boot"));
-      else if (info.Mount == "/recalbox/share") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
-      else if (info.Mount == "/recalbox/share/bootvideos") ; // Filtered out
+      // Any nfs/smb network mount in share
       else if (info.Mount.StartsWith("/recalbox/share") &&
-               info.FileSystem.StartsWith("//")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+               String("nfs|smb").Contains(info.FileSystemType)) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+      // Any device mount in share
+      else if (info.Mount == "/recalbox/share" ||
+               info.Mount.StartsWith("/recalbox/share/externals/")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
+      // Anything else
       else result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "unknown"));
     }
     else LOG(LogError) << "df -T unknown result : " << lines[i];

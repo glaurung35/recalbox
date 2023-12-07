@@ -124,12 +124,19 @@
 
 <script lang="ts" setup>
 import { date } from 'quasar';
-import { ref } from 'vue';
+import { useSystemsStore } from 'stores/systems';
+import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { apiUrl } from 'boot/axios';
 
+const systemsStore = useSystemsStore();
+const { systems } = systemsStore;
 const router = useRouter();
-const logoUrl = `${apiUrl}/systems/${useRoute().params.system}/resource/eu/svg/logo`;
+
+const logoUrl = computed(() => {
+  const filteredSystems = systems.systems.filter((s) => s.name === useRoute().params.system);
+  return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/eu/svg/logo`;
+});
 
 const columns = [
   {

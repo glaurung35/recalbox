@@ -3,6 +3,51 @@ import { CurrentSystemMetaData } from 'stores/types/emulationstation';
 type SystemsMetaData = Record<string, CurrentSystemMetaData>
 
 export const systemsMetaData: SystemsMetaData = {
+  lastplayed: {
+    system: {},
+    colors: {
+      band1: '#AF774D',
+      band2: '#96562B',
+      band3: '#969BC7',
+      band4: '#3678A6',
+    },
+  },
+  'auto-tate': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#6EAE97',
+      band3: '#364792',
+      band4: '#851740',
+    },
+  },
+  'auto-lightgun': {
+    system: {},
+    colors: {
+      band1: '#C0BAC0',
+      band2: '#BC4F41',
+      band3: '#181913',
+      band4: '#A3362A',
+    },
+  },
+  'auto-multiplayer': {
+    system: {},
+    colors: {
+      band1: '#F3F1A5',
+      band2: '#679EA3',
+      band3: '#8A9667',
+      band4: '#93627F',
+    },
+  },
+  'auto-allgames': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#6EAE97',
+      band3: '#364792',
+      band4: '#851740',
+    },
+  },
   vg5000: {
     system: {
       manufacturer: 'Philips',

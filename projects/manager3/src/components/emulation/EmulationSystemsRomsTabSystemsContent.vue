@@ -8,7 +8,7 @@
         grid
         card-container-class="card-container"
         card-class="bg-secondary text-white card"
-        :rows="systemsList"
+        :rows="filteredSystemsList"
         :columns="columns"
         row-key="name"
         :filter="table.filter"
@@ -51,7 +51,7 @@
               <q-card-section>
                 <div class="background"></div>
                 <q-img
-                  :src="api + '/systems/' + props.row.name + '/resource/eu/svg/logo'"
+                  :src="api + '/systems/' + props.row.themeFolder + '/resource/eu/svg/logo'"
                   spinner-color="$light-blue"
                   :ratio="16/9"
                   fit="contain"
@@ -85,7 +85,7 @@ import { storeToRefs } from 'pinia';
 import { apiUrl } from 'boot/axios';
 
 const systemsStore = useSystemsStore();
-const { systemsList } = storeToRefs(systemsStore);
+const { filteredSystemsList } = storeToRefs(systemsStore);
 
 const api: string|undefined = apiUrl;
 const columns = computed(() => [
@@ -132,7 +132,7 @@ const table = ref({
           .q-img__image
             transition: filter .2s ease
             filter: saturate(0)
-            opacity: 0.3
+            opacity: 0.5
 
           .fullname, .background
             position: absolute

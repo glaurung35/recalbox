@@ -1,4 +1,12 @@
 <template>
+  <div class="consoleContainer">
+    <q-img
+      v-if="currentState.currentSystem"
+      class="console"
+      :src="currentState.currentSystem?.consolePath"
+      spinner-color="white"
+    />
+  </div>
   <div class="header">
     <div class="title">
       <q-icon name="icon-emustation" size="md"/>
@@ -180,13 +188,13 @@ const { currentState } = emulationStationStore;
 serverStore.available = true;
 
 function redirect() {
-  if (currentState.currentSystem?.systemId === 'imageviewer') {
+  if (currentState?.currentSystem?.systemId === 'imageviewer') {
     router.push(
       { name: 'screenshots' },
     );
   } else {
     router.push(
-      { name: 'systems-system', params: { system: currentState.currentSystem?.systemId } },
+      { name: 'systems-system', params: { system: currentState?.currentSystem?.systemId } },
     );
   }
 }
@@ -194,6 +202,17 @@ function redirect() {
 </script>
 
 <style lang="sass" scoped>
+.consoleContainer
+  position: absolute
+  bottom: 1em
+  width: 50%
+  max-height: 40%
+  transform: translate(50%)
+
+  .console
+    filter: saturate(0)
+    opacity: 0.1
+
 .header
   display: flex
   justify-content: space-between
@@ -219,18 +238,20 @@ function redirect() {
     gap: 0.5em
 
 .informations
+  position: relative
   display: flex
   flex-direction: column
   padding: 0 1em
+  height: 100%
 
   .lines
     position: absolute
     display: flex
     flex-direction: row
-    top: 44px
+    top: -1em
     left: 15px
     width: 6%
-    height: 100%
+    height: calc(100% + 1em)
     opacity: 0.3
 
     .line
@@ -242,6 +263,7 @@ function redirect() {
     border-radius: 5px
 
   .logo
+    z-index: 100
     cursor: pointer
     width: 50%
     margin: 0 auto 2em auto
@@ -253,4 +275,8 @@ function redirect() {
     &:hover
       filter: initial
       opacity: 1
+
+@media(max-width: 700px)
+  .consoleContainer
+    display: none
 </style>

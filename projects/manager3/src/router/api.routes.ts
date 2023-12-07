@@ -1,7 +1,11 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-export const ARCHITECTURE = '/architecture';
+export const GLOBAL = {
+  architecture: '/architecture',
+  status: '/status',
+  versions: '/versions',
+};
 
 export const BIOS = {
   root: '/bios',
@@ -179,5 +183,3 @@ export const TWITCH = {
   auth: 'https://id.twitch.tv/oauth2/token',
   schedule: 'https://api.twitch.tv/helix/schedule',
 };
-
-export const VERSIONS = '/versions';

@@ -178,7 +178,7 @@ const emulationStationStore = useEmulationstationStore();
 const { currentState } = emulationStationStore;
 
 serverStore.available = true;
-console.log(currentState.currentSystem);
+
 function redirect() {
   if (currentState.currentSystem?.systemId === 'imageviewer') {
     router.push(

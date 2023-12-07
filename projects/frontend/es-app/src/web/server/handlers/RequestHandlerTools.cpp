@@ -1735,6 +1735,7 @@ JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::
                 .Field("name", desc.Name())
                 .Field("fullName", desc.FullName())
                 .Field("uuid", desc.GUID())
+                .Field("themeFolder", desc.ThemeFolder())
                 .Field("manufacturer", desc.Manufacturer())
                 .Field("releaseDate", desc.ReleaseDate())
                 .Field("romPath", romPath)

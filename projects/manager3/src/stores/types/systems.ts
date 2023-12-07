@@ -27,7 +27,21 @@ export interface System {
   inputs: Inputs;
   properties: Properties;
   emulators: string[];
+  themeFolder: string;
 }
+
+export const Type = {
+  0: 'Unknown',
+  1: 'Arcade',
+  2: 'Home Console',
+  3: 'Handheld Console',
+  4: 'Computer',
+  5: 'Fantasy Console',
+  6: 'Game Engine',
+  7: 'Port',
+  8: 'Virtual System',
+  9: 'Virtual Arcade',
+};
 
 export type SystemType = Record<string, string>
 

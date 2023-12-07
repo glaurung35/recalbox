@@ -2,19 +2,49 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 
+export interface Inputs {
+  pads: number;
+  keyboard: number;
+  mouse: number;
+}
+
+export interface Properties {
+  hasLightgunSupport: boolean;
+  isReadOnly: boolean;
+  hasNetplay: boolean;
+}
+
 export interface System {
   name: string;
-  fullname: string;
-  romFolder: string;
-  themeFolder: string;
-  extensions: string[];
-  command: string;
-  emulators: {
-    libretro: Record<string, string>;
-  }
+  fullName: string;
+  uuid: string;
+  manufacturer: string;
+  releaseDate: number;
+  romPath: string[];
+  extensions: string;
+  type: number;
+  ignoredFiles: string;
+  inputs: Inputs;
+  properties: Properties;
+  emulators: string[];
+}
+
+export type SystemType = Record<string, string>
+
+export type DeviceRequirement = Record<string, string>
+
+export type EmulatorSpeed = Record<string, string>
+
+export type EmulatorCompatibility = Record<string, string>
+
+export interface Enumerations {
+  systemTypes: SystemType[];
+  deviceRequirement: DeviceRequirement[];
+  emulatorSpeed: EmulatorSpeed[];
+  emulatorCompatibility: EmulatorCompatibility[];
 }
 
 export interface SystemsResponse {
-  romPath: string;
-  systemList: Record<string, System>;
+  enumerations: Enumerations;
+  systems: System[]|[];
 }

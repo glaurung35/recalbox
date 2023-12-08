@@ -518,6 +518,54 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   RequestHandlerTools::SendMedia(path, response);
 }
 
+
+void RequestHandler::RomsGetAll(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetAll");
+}
+
+void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetList");
+
+  String systemName = Url::URLDecode(request.splatAt(0).name());
+  SystemData* system = mSystemManager.SystemByName(systemName);
+  FileData::List allGames = system->getAllGames();
+
+  class Serializer : public ISerializeToJson<const FileData>
+  {
+    public:
+      // Serialize a single game
+      JSONBuilder Serialize(const FileData* game) override
+      {
+        if (game->IsGame())
+          return JSONBuilder()
+                 .Open()
+                   .Field("path", game->Metadata().Rom().ToString())
+                   .Field("name", game->Metadata().Name())
+                   .Field("publisher", game->Metadata().Publisher())
+                   .Field("developer", game->Metadata().Developer())
+                   .Field("genre", game->Metadata().Genre())
+                   .Field("players", game->Metadata().PlayerMax())
+                   .Field("rating", game->Metadata().Rating())
+                 .Close();
+        return JSONBuilder();
+      }
+  } serializer;
+
+  JSONBuilder roms;
+  roms.Open()
+      .Field<FileData>("roms", allGames, serializer)
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, roms, Mime::Json);
+}
+
+void RequestHandler::RomsDelete(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsDelete");
+}
+
 static const char Base64Values[] =
   {
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,

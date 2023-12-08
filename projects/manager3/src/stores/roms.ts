@@ -2,21 +2,23 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { ROMS, SYSTEMS } from 'src/router/api.routes';
-import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
+import { getPathBy, ROMS, SYSTEMS } from 'src/router/api.routes';
+import { Rom } from 'src/stores/types/roms';
 
-export interface RomsStoreState extends ApiProviderStore {
-  roms: object;
+export interface RomsStoreState {
+  roms: Rom[],
 }
 
 export const useRomsStore = defineStore('roms', {
   state: () => ({
-    roms: {},
+    roms: [],
   } as RomsStoreState),
 
   actions: {
     async fetch() {
       try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
         const response = await this._apiProvider.get(ROMS.all);
         this.roms = response.data;
       } catch (error) {
@@ -26,8 +28,10 @@ export const useRomsStore = defineStore('roms', {
     },
     async fetchBySystem(system: string) {
       try {
-        const response = await this._apiProvider.get(`${SYSTEMS.root}/${system}/roms`);
-        this.roms = response.data;
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(getPathBy(SYSTEMS.roms, system));
+        this.roms = response.data.roms;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

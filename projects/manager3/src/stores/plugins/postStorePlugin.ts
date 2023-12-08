@@ -11,21 +11,21 @@ export interface PostStore {
 const PostStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [
     'audio',
+    'autorun',
+    'controllers',
+    'emulationstation',
+    'global',
+    'hat',
     'hyperion',
     'kodi',
+    'music',
+    'patreon',
     'scraper',
-    'emulationstation',
+    'system',
+    'updates',
     'wifi',
     'wifi2',
     'wifi3',
-    'system',
-    'updates',
-    'controllers',
-    'global',
-    'patreon',
-    'music',
-    'hat',
-    'autorun',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

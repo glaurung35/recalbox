@@ -104,8 +104,10 @@ api.interceptors.response.use((response) => {
   let message = error;
 
   // some network errors can't be detected so...
-  if (!error.status) {
+  if (!error.response.status) {
     message = 'networkError';
+  } else {
+    message = error.response.status;
   }
 
   Loading.hide();

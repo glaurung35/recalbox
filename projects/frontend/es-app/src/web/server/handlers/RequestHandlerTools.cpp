@@ -1808,7 +1808,7 @@ void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter&
       else if (ext == ".mkv") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMkv);
       else if (ext == ".mp4") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMp4);
       else if (ext == ".avi") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoAvi);
-      else if (ext == ".webm") RequestHandlerTools::SendResource(path, response, Mime::VideoWebm);
+      else if (ext == ".webm") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoWebm);
       // Unknown
       else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
     }

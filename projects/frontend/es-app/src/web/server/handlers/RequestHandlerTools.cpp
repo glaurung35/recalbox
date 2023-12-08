@@ -1649,7 +1649,7 @@ void RequestHandlerTools::SendGameResource(SystemManager& manager, const String&
     }
     SendMedia(mediaPath, response);
   }
-  RequestHandlerTools::Error404(response);
+  else RequestHandlerTools::Error404(response);
 }
 
 void RequestHandlerTools::SendGameMetadataInformation(SystemManager& manager,
@@ -1796,9 +1796,9 @@ void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter&
     {
       // Text
       if (ext == ".txt")      RequestHandlerTools::SendResource(mediaPath, response, Mime::PlainText);
-      else if (ext == ".pdf")      RequestHandlerTools::SendResource(mediaPath, response, Mime::FilePdf);
+      else if (ext == ".pdf") RequestHandlerTools::SendResource(mediaPath, response, Mime::FilePdf);
       // Image
-      else if (ext == ".gif")      RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageGif);
+      else if (ext == ".gif") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageGif);
       else if (ext == ".jpg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageJpg);
       else if (ext == ".png") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImagePng);
       else if (ext == ".svg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageSvg);

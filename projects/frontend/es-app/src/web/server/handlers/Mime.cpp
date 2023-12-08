@@ -19,6 +19,7 @@ Pistache::Http::Mime::MediaType Mime::ImageSvg(Pistache::Http::Mime::Type::Image
 Pistache::Http::Mime::MediaType Mime::VideoMkv(Pistache::Http::Mime::Type::Video, Pistache::Http::Mime::Subtype::Mkv);
 Pistache::Http::Mime::MediaType Mime::VideoMp4(Pistache::Http::Mime::Type::Video, Pistache::Http::Mime::Subtype::Mp4);
 Pistache::Http::Mime::MediaType Mime::VideoAvi(Pistache::Http::Mime::Type::Video, Pistache::Http::Mime::Subtype::Avi);
+Pistache::Http::Mime::MediaType Mime::VideoWebm(Pistache::Http::Mime::Type::Video, Pistache::Http::Mime::Subtype::Webm);
 Pistache::Http::Mime::MediaType Mime::Zip(Pistache::Http::Mime::Type::Application, Pistache::Http::Mime::Subtype::OctetStream, Pistache::Http::Mime::Suffix::Zip);
 Pistache::Http::Mime::MediaType Mime::FontTtf(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Ttf);
 Pistache::Http::Mime::MediaType Mime::FontWoff(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Woff);

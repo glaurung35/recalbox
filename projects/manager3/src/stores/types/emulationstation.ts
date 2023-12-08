@@ -187,6 +187,10 @@ export interface EmulationStationConfigResponse {
     exist: boolean;
     value: string;
   };
+  tateonly: {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface EmulationStationConfigOptionsResponse {
@@ -382,6 +386,10 @@ export interface EmulationStationConfigOptionsResponse {
     allowedStringList: string[];
     displayableStringList: string[];
   };
+  tateonly: {
+    type: string;
+    value: boolean;
+  };
 }
 
 export interface CurrentSystemMetaDataColor {
@@ -403,6 +411,38 @@ export interface CurrentSystem {
   consolePath: string;
   gamePath: string;
   metaData: CurrentSystemMetaData;
+}
+
+export interface RomMetaData {
+  name: string;
+  synopsys: string;
+  publisher: string;
+  developer: string;
+  emulator: string;
+  core: string;
+  ratio: string;
+  releaseDate: number;
+  lastPlayed: number;
+  regions: string;
+  playCount: number;
+  crc32: string;
+  adult: boolean;
+  favorite: boolean;
+  hidden: boolean;
+  rating: number;
+  players: {
+    min: number;
+    max: number;
+  };
+  genres: {
+    free: string;
+    normalized: number;
+  };
+  availableMedia: {
+    hasImage: boolean;
+    hasThumbnail: boolean;
+    hasVideo: boolean;
+  };
 }
 
 export interface CurrentRom {

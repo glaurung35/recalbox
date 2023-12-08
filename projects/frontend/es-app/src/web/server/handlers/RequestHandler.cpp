@@ -458,42 +458,48 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
 void RequestHandler::MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetInfo");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameMetadataInformation(mSystemManager, request.splatAt(0).name(), fullPath, response);
 }
 
 void RequestHandler::MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetImage");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Image, response);
 }
 
 void RequestHandler::MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetThumbnail");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Thumbnail, response);
 }
 
 void RequestHandler::MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetVideo");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Video, response);
 }
 
 void RequestHandler::MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetMap");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Map, response);
 }
 
 void RequestHandler::MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "MetadataGetManual");
-  String fullPath('/' + Url::URLDecode(request.splatAt(1).name()));
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
   RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Manual, response);
 }
 

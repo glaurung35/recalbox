@@ -482,6 +482,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.type"
             v-if="system['secondminitft.type']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -499,6 +500,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.resolution"
             v-if="system['secondminitft.resolution']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -515,6 +517,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imagestretchenabled"
             v-if="system['secondminitft.imagestretchenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -527,6 +530,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imageenlargeenabled"
             v-if="system['secondminitft.imageenlargeenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -539,6 +543,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imagealphaenabled"
             v-if="system['secondminitft.imagealphaenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -551,6 +556,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imageignoreaspectenabled"
             v-if="system['secondminitft.imageignoreaspectenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -563,6 +569,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.disablevideoines"
             v-if="system['secondminitft.disablevideoines']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -573,11 +580,12 @@
             label="settings.system.secondminitft.backlightcontrol.label"
             :getter="system['secondminitft.backlightcontrol']"
             :setter="systemStore.post"
-            apiKey="secondminitft."
+            apiKey="secondminitft.backlightcontrol"
             v-if="system['secondminitft.backlightcontrol']"
             :min="secondminitftBacklightDurationOptions.lowerValue"
             :max="secondminitftBacklightDurationOptions.higherValue"
             icon="mdi-brightness-6"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -590,6 +598,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.usemarquee"
             v-if="system['secondminitft.usemarquee']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -602,6 +611,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.sleepenabled"
             v-if="system['secondminitft.sleepenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>

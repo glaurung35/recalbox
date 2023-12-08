@@ -257,6 +257,27 @@ class RequestHandler : public IRouter
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
+     * @brief Handle GET to get all roms
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsGetAll(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get system roms
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsGetList(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle DELETE to delete rom
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsDelete(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
      * @brief Handle GET to get roms's information
      * @param request Request object
      * @param response Response object

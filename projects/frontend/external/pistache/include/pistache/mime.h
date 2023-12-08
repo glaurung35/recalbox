@@ -54,7 +54,7 @@ namespace Pistache::Http::Mime
     SUB_TYPE(Bmp, "bmp")                                 \
     SUB_TYPE(Jpeg, "jpeg")                               \
                                                          \
-    /* Mime types added by recalbox */                                               \
+    /* Mime types added by recalbox */                   \
     SUB_TYPE(XIcon, "x-icon")                            \
     SUB_TYPE(Svg, "svg+xml")                             \
                                                          \
@@ -62,6 +62,7 @@ namespace Pistache::Http::Mime
     SUB_TYPE(Mp4, "mp4")                                 \
     SUB_TYPE(Avi, "x-msvideo")                           \
     SUB_TYPE(Pdf, "pdf")                                 \
+    SUB_TYPE(Webm, "webm")                               \
                                                          \
     SUB_TYPE(Ttf, "ttf")                                 \
     SUB_TYPE(Woff, "woff")                               \

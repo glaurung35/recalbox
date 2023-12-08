@@ -119,10 +119,6 @@ export interface GlobalConfigResponse {
     exist: boolean;
     value: string[];
   };
-  configfile: {
-    exist: boolean;
-    value: string;
-  };
   'netplay.active': {
     exist: boolean;
     value: boolean;
@@ -151,6 +147,14 @@ export interface GlobalConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  reducelatency: {
+    exist: boolean;
+    value: boolean;
+  };
+  runahead: {
+    exist: boolean;
+    value: boolean;
+  }
 }
 
 export interface GlobalConfigOptionsResponse {
@@ -281,6 +285,12 @@ export interface GlobalConfigOptionsResponse {
     type: string;
   };
   widescreenmode: {
+    type: string;
+  };
+  reducelatency: {
+    type: string
+  };
+  runahead: {
     type: string;
   };
 }

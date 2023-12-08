@@ -38,6 +38,8 @@ class Mime
     static Pistache::Http::Mime::MediaType VideoMp4;
     //! AVI MIME Type
     static Pistache::Http::Mime::MediaType VideoAvi;
+    //! WEBM MIME Type
+    static Pistache::Http::Mime::MediaType VideoWebm;
     //! PDF MIME Type
     static Pistache::Http::Mime::MediaType FilePdf;
     //! ttf MIME Type

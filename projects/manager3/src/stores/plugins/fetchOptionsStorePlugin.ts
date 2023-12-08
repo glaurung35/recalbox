@@ -11,18 +11,19 @@ export interface FetchOptionsStore {
 const FetchOptionsStorePlugin = (context: PiniaPluginContext) => {
   const allowedStores = [
     'audio',
+    'autorun',
+    'controllers',
+    'emulationstation',
+    'global',
+    'hat',
     'kodi',
     'scraper',
-    'emulationstation',
+    'system',
+    'tate',
+    'updates',
     'wifi',
     'wifi2',
     'wifi3',
-    'system',
-    'updates',
-    'controllers',
-    'global',
-    'hat',
-    'autorun',
   ];
 
   if (allowedStores.includes(context.store.$id)) {

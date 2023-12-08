@@ -60,4 +60,7 @@ const value = computed({
 <style lang="sass" scoped>
 .q-item
   padding: 0
+
+  .q-slider
+    z-index: 0
 </style>

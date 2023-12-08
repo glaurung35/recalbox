@@ -229,6 +229,27 @@ class IRouter
      */
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*!
+     * @brief Handle GET to get all roms
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsGetAll(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get system roms
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsGetList(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle DELETE to delete rom
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsDelete(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
     /*
      * Metadata
      */
@@ -328,6 +349,9 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/media/takescreenshot", Rest::Routes::bind(&IRouter::MediaTakeScreenshot, this));
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
+      // Roms
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsGetList, this));
+      Rest::Routes::Delete(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsDelete, this));
       // Roms metadata
       Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/info/*", Rest::Routes::bind(&IRouter::MetadataGetInfo, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/image/*", Rest::Routes::bind(&IRouter::MetadataGetImage, this));

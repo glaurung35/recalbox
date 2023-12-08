@@ -22,7 +22,7 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
   Path::PathList list = mediaPath.GetDirectoryContent();
 
   static String imagesExtensions(".jpg|.jpeg|.png|.gif");
-  static String videosExtensions(".mkv|.avi|.mp4");
+  static String videosExtensions(".mkv|.avi|.mp4|.webm");
 
   JSONBuilder result;
   result.Open()
@@ -447,6 +447,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "debuglogs"                   , Validator(true) },
          { "pads.osd"                    , Validator(true) },
          { "pads.osd.type"               , Validator(GetAvailableOsdTypes(), false) },
+         { "tateonly"                    , Validator(true) },
        });
 
       return sList;
@@ -566,6 +567,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "xarcade.enabled"      , Validator(true) },
         { "joycond.enabled"      , Validator(true) },
         { "swapvalidateandcancel", Validator(true) },
+        { "bluetooth.autopaironboot", Validator(true) },
       });
 
       return sList;
@@ -701,7 +703,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "gamerotation", Validator(0, 3) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
+        { "gamerotation", Validator(false,{ "0", "1", "2", "3" }) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
       });
 
       return sList;
@@ -1806,6 +1808,7 @@ void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter&
       else if (ext == ".mkv") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMkv);
       else if (ext == ".mp4") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMp4);
       else if (ext == ".avi") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoAvi);
+      else if (ext == ".webm") RequestHandlerTools::SendResource(path, response, Mime::VideoWebm);
       // Unknown
       else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
     }

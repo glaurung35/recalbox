@@ -59,10 +59,6 @@ export interface SystemConfigResponse {
     exist: boolean;
     value: boolean;
   };
-  'api.enabled': {
-    exist: boolean;
-    value: boolean;
-  };
   overscan: {
     exist: boolean;
     value: boolean;
@@ -123,6 +119,10 @@ export interface SystemConfigResponse {
     exist: boolean;
     value: string;
   };
+  'es.force43': {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface SystemConfigOptionsResponse {
@@ -181,9 +181,6 @@ export interface SystemConfigOptionsResponse {
   'fbcp.enabled': {
     type: string;
   };
-  'api.enabled': {
-    type: string;
-  };
   overscan: {
     type: string;
   };
@@ -235,5 +232,8 @@ export interface SystemConfigOptionsResponse {
   'externalscreen.forcefrequency': {
     type: string;
     allowedChars: string;
+  };
+  'es.force43': {
+    type: string;
   };
 }

@@ -59,6 +59,10 @@ export interface ControllersConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  'bluetooth.autopaironboot': {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface ControllersConfigOptionsResponse {
@@ -103,6 +107,9 @@ export interface ControllersConfigOptionsResponse {
     type: string;
   };
   swapvalidateandcancel: {
+    type: string;
+  };
+  'bluetooth.autopaironboot': {
     type: string;
   };
 }

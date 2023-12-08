@@ -88,9 +88,15 @@
 import { useGlobalStore } from 'stores/configuration/global';
 import { ref } from 'vue';
 import { useControllersStore } from 'stores/configuration/controllers';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { useSystemStore } from 'stores/configuration/system';
+import { useTateStore } from 'stores/configuration/tate';
 
 useGlobalStore().fetchOptions();
 useControllersStore().fetchOptions();
+useEmulationstationStore().fetchOptions();
+useSystemStore().fetchOptions();
+useTateStore().fetchOptions();
 
 const tab = ref<string>('global');
 </script>

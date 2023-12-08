@@ -31,7 +31,6 @@
             class="logo"
             :src="logoUrl"
             spinner-color="white"
-            alt="Sammy Atomiswave"
           />
         </template>
         <template v-slot:top-right>
@@ -66,8 +65,8 @@
             >
               {{ col.label }}
             </q-th>
-            <q-th auto-width/>
-            <q-th auto-width/>
+<!--            <q-th auto-width/>-->
+<!--            <q-th auto-width/>-->
           </q-tr>
         </template>
 
@@ -80,13 +79,16 @@
             >
               <span v-if="col.name === 'rating'">
                 <q-rating
-                  v-model="col.value"
+                  :model-value="col.value * 5"
                   class=“no-shadow”
                   color="accent"
                   readonly
                   size="1em"
                   icon="stars"
                 />
+              </span>
+              <span v-else-if="col.name === 'genre'">
+                {{ (col.value).replaceAll(',', ', ') }}
               </span>
               <span v-else>
                 {{ col.value }}
@@ -95,15 +97,15 @@
 <!--            <q-td auto-width>-->
 <!--              <q-btn color="primary" dense flat icon="mdi-pencil" round size="md"/>-->
 <!--            </q-td>-->
-            <q-td auto-width>
-              <q-btn
-                color="negative"
-                dense
-                flat
-                icon="mdi-delete"
-                round size="md"
-              />
-            </q-td>
+<!--            <q-td auto-width>-->
+<!--              <q-btn-->
+<!--                color="negative"-->
+<!--                dense-->
+<!--                flat-->
+<!--                icon="mdi-delete"-->
+<!--                round size="md"-->
+<!--              />-->
+<!--            </q-td>-->
           </q-tr>
         </template>
 
@@ -123,44 +125,41 @@
 </template>
 
 <script lang="ts" setup>
-import { date } from 'quasar';
+import { useRomsStore } from 'stores/roms';
 import { useSystemsStore } from 'stores/systems';
 import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { apiUrl } from 'boot/axios';
+import { storeToRefs } from 'pinia';
 
 const systemsStore = useSystemsStore();
 const { systems } = systemsStore;
 const router = useRouter();
+const { system } = useRoute().params;
 
 const logoUrl = computed(() => {
   const filteredSystems = systems.systems.filter((s) => s.name === useRoute().params.system);
   return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/eu/svg/logo`;
 });
 
+const romsStore = useRomsStore();
+romsStore.fetchBySystem(system as string);
+
 const columns = [
   {
-    name: 'nom', required: true, align: 'left', label: 'Nom', field: 'nom', sortable: true,
+    name: 'nom', required: true, align: 'left', label: 'Nom', field: 'name', sortable: true,
   },
   {
-    name: 'editeur', align: 'left', label: 'Éditeur', field: 'editeur', sortable: true,
+    name: 'editeur', align: 'left', label: 'Éditeur', field: 'publisher', sortable: true,
   },
   {
-    name: 'developpeur', align: 'left', label: 'Développeur', field: 'developpeur', sortable: true,
+    name: 'developpeur', align: 'left', label: 'Développeur', field: 'developer', sortable: true,
   },
   {
     name: 'genre', align: 'left', label: 'Genre', field: 'genre', sortable: true,
   },
   {
-    name: 'dateSortie',
-    align: 'left',
-    label: 'Date de sortie',
-    field: 'dateSortie',
-    sortable: true,
-    format: (val: string) => date.formatDate(date.extractDate(val, 'YYYY-MM-DD'), 'DD/MM/YYYY'),
-  },
-  {
-    name: 'joueurs', align: 'center', label: 'Joueurs', field: 'joueurs', sortable: true,
+    name: 'joueurs', align: 'center', label: 'Joueurs', field: 'players', sortable: true,
   },
   {
     name: 'rating', align: 'center', label: 'Note', field: 'rating', sortable: true,
@@ -175,98 +174,7 @@ const table = ref({
   },
 });
 
-const roms = [
-  {
-    nom: 'Pokémon Puzzle Challenge',
-    editeur: 'Nintendo',
-    developpeur: 'Nintendo',
-    genre: '',
-    dateSortie: '',
-    joueurs: '2',
-    rating: 4,
-  },
-  {
-    nom: 'Breakers Revenge',
-    editeur: 'SNK',
-    developpeur: 'Visco',
-    genre: 'Combat-Combat / Versus',
-    dateSortie: '1998-07-03',
-    joueurs: '2',
-    rating: 4,
-  },
-  {
-    nom: 'SNK Gals Fighters',
-    editeur: 'SNK',
-    developpeur: 'SNK',
-    genre: 'Action',
-    dateSortie: '2000-01-01',
-    joueurs: '1-2',
-    rating: 4,
-  },
-  {
-    nom: 'Bionic Commando: Elite Forces',
-    editeur: 'Nintendo',
-    developpeur: 'Nintendo',
-    genre: 'Combat-Action',
-    dateSortie: '2000-01-01',
-    joueurs: '2',
-    rating: 4,
-  },
-  {
-    nom: 'Bikkuriman 2000 Viva!',
-    editeur: 'Sega',
-    developpeur: 'Sega',
-    genre: 'Action',
-    dateSortie: '2000-03-16',
-    joueurs: '1',
-    rating: 4,
-  },
-  {
-    nom: 'Bahamut Lagoon',
-    editeur: 'Square',
-    developpeur: 'Square',
-    genre: 'Jeu de rôles-Stratégie',
-    dateSortie: '1996-02-09',
-    joueurs: '2',
-    rating: 4,
-  },
-  {
-    nom: 'Earthworm Jim',
-    editeur: 'Virgin',
-    developpeur: 'Shiny Entertainment',
-    genre: 'Plateforme-Action-Plateforme / Run Jump',
-    dateSortie: '1994-10-01',
-    joueurs: '1',
-    rating: 5,
-  },
-  {
-    nom: 'Sonic The Hedgehog 2',
-    editeur: 'Sega',
-    developpeur: 'Sega',
-    genre: 'Plateforme-Action',
-    dateSortie: '1992-01-01',
-    joueurs: '2',
-    rating: 4,
-  },
-  {
-    nom: 'Hellfire',
-    editeur: 'Sega',
-    developpeur: 'Toaplan',
-    genre: 'Action-Combat',
-    dateSortie: '1990-11-01',
-    joueurs: '2',
-    rating: 2,
-  },
-  {
-    nom: 'Best of the Best : Championship Karate',
-    editeur: 'Electro Brain Corp.',
-    developpeur: 'Loriciels',
-    genre: 'Sport-Combat',
-    dateSortie: '1993-07-01',
-    joueurs: '2',
-    rating: 4,
-  },
-];
+const { roms } = storeToRefs(romsStore);
 </script>
 
 <style lang="sass">

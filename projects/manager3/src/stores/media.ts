@@ -6,7 +6,7 @@ import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
-import { MediasResponse, Screenshot } from 'stores/types/medias';
+import { MediasResponse, Screenshot, Type } from 'stores/types/medias';
 import { apiUrl } from 'boot/axios';
 
 export interface MediaStoreState extends FetchStore, ApiProviderStore {
@@ -49,22 +49,28 @@ export const useMediaStore = defineStore('media', {
             name: key,
             path: apiUrl + MEDIA.get + key,
             date: formattedDate,
-            type: 'image',
+            type: Type.image,
           });
         }
 
         // Do the videos
-        if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi')) {
+        if (key.includes('.mkv') || key.includes('.mp4') || key.includes('.avi') || key.includes('.webm')) {
           const name = key.substring(key.length - 17).substring(0, key.length);
           const formattedDate = date.formatDate(
             date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
             'DD/MM/YYYY - HH:mm:ss',
           );
+          let mediaType = Type.mp4;
+          if (key.includes('.webm')) {
+            mediaType = Type.webm;
+          } else if (key.includes('.avi')) {
+            mediaType = Type.xMsvideo;
+          }
           result.push({
             name: key,
             path: apiUrl + MEDIA.get + key,
             date: formattedDate,
-            type: 'video',
+            type: mediaType,
           });
         }
       });

@@ -19,6 +19,18 @@
               {{ $t('settings.emustation.display.videomode.help') }}
             </template>
           </WrappedSelect>
+          <WrappedToggle
+            label="settings.emustation.display.force43.label"
+            :getter="system['es.force43']"
+            :setter="systemStore.post"
+            apiKey="es.force43"
+            v-if="system['es.force43']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.display.force43.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.emustation.menus.title">
@@ -337,6 +349,18 @@
           >
             <template v-slot:help>
               {{ $t('settings.emustation.virtualsystems.tate.help') }}
+            </template>
+          </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.tateonly.label"
+            :getter="emulationstation.tateonly"
+            :setter="emulationstationStore.post"
+            apiKey="tateonly"
+            v-if="emulationstation.tateonly"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.tateonly.help') }}
             </template>
           </WrappedToggle>
         </template>

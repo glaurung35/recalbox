@@ -71,20 +71,20 @@ tests configgen:
       - tags
     changes:
       - projects/configgen/**/*
-  script: 
+  script:
     - apt update && apt -y install libevdev2
     - cd projects/configgen
     - echo "Installing dependencies"
     - pip install -r requirements.txt
-    - echo "Running unittests" 
+    - echo "Running unittests"
     - export PYTHONPATH=$PYTHONPATH:$(pwd) && pytest --cov=configgen
-    - echo "Building configgen" 
+    - echo "Building configgen"
     - python setup.py install
 
 tests emulationstation:
   <<: *lint_definition
   stage: lint
-  image: docker:latest  
+  image: docker:latest
   tags:
     - lintstage
   services:
@@ -98,7 +98,7 @@ tests emulationstation:
       - projects/frontend/**/*
   script:
     - cd projects/frontend
-    - docker build . 
+    - docker build .
   artifacts:
     reports:
       junit: ./**/report.xml
@@ -155,7 +155,7 @@ tests nvidia:
       - tags
     changes:
       - projects/recalbox-hardware/videocard/**/*
-  script: 
+  script:
     - cd projects/recalbox-hardware/videocard
     - echo "Installing dependencies"
     - pip install -r requirements-dev.txt

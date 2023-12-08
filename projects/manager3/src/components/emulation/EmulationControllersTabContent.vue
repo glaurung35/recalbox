@@ -30,6 +30,18 @@
               {{ $t('emulation.controllers.bluetooth.ertm.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="emulation.controllers.bluetooth.autopaironboot.label"
+            :getter="controllers['bluetooth.autopaironboot']"
+            :setter="controllersStore"
+            apiKey="bluetooth.autopaironboot"
+            v-if="controllers['bluetooth.autopaironboot']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.bluetooth.autopaironboot.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.swapvalidateandcancel.title">

@@ -12,7 +12,7 @@ import { PostStore } from 'stores/plugins/postStorePlugin';
 import { useSystemsStore } from 'stores/systems';
 import {
   EmulationStationConfigOptionsResponse,
-  EmulationStationConfigResponse, EmulationStationCurrentState,
+  EmulationStationConfigResponse, EmulationStationCurrentState, RomMetaData,
 } from 'stores/types/emulationstation';
 import { EsResponse } from 'stores/types/mqtt';
 
@@ -135,20 +135,21 @@ export const useEmulationstationStore = defineStore('emulationstation', {
           systemId: status.System.SystemId,
           metaData: systemsMetaData[status.System.SystemId],
         };
-      }
 
-      if (status.Action === 'rungame' && status.Game) {
-        currentRom = {
-          name: status.Game.Game,
-          imagePath: status.Game.ImagePath,
-          thumbnailPath: status.Game.ThumbnailPath,
-          videoPath: status.Game.VideoPath,
-          developer: status.Game.Developer,
-          publisher: status.Game.Publisher,
-          players: status.Game.Players,
-          region: status.Game.Region,
-          genre: status.Game.Genre.replace(',', ', '),
-        };
+        if (status.Action === 'rungame' && status.Game) {
+          const encodedGamePath = encodeURIComponent(status.Game.GamePath);
+          currentRom = {
+            name: status.Game.Game,
+            imagePath: `${api}/systems/${storeSystem.name}/roms/metadata/image/${encodedGamePath}`,
+            thumbnailPath: `${api}/systems/${storeSystem.name}/roms/metadata/thumbnail/${encodedGamePath}`,
+            videoPath: `${api}/systems/${storeSystem.name}/roms/metadata/video/${encodedGamePath}`,
+            developer: status.Game.Developer,
+            publisher: status.Game.Publisher,
+            players: status.Game.Players,
+            region: status.Game.Region,
+            genre: status.Game.Genre.replace(',', ', '),
+          };
+        }
       }
 
       const currentState = {
@@ -159,6 +160,17 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       this.$patch({
         currentState,
       });
+    },
+    async fetchRomMetaData(encodedGamePath: string): Promise<RomMetaData> {
+      let result = null;
+      try {
+        const response = await this._apiProvider.get(GLOBAL.status);
+        result = response.data;
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+      return result;
     },
     async fetchStatus() {
       try {

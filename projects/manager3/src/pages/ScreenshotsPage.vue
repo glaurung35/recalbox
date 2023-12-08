@@ -9,8 +9,8 @@
         class="col col-xs-12 col-sm-4 col-md-3 q-mb-md q-pl-sm q-pr-sm"
         v-for="screenshot in screenshots"
       >
-        <div v-if="screenshot.type === 'image'">
-          <q-card @click="open('image', screenshot.path)" class="screenshot" flat rounded>
+        <div v-if="screenshot.type === Type.image">
+          <q-card @click="open(Type.image, screenshot.path)" class="screenshot" flat rounded>
             <q-card-section horizontal>
               <q-img :src="screenshot.path" class="col" loading="lazy">
                 <div
@@ -34,8 +34,8 @@
             </q-card-section>
           </q-card>
         </div>
-        <div v-if="screenshot.type === 'video'">
-          <q-card @click="open('video', screenshot.path)" class="screenshot" flat rounded>
+        <div v-if="screenshot.type === Type.mp4 || screenshot.type === Type.xMsvideo || screenshot.type === Type.webm">
+          <q-card @click="open(screenshot.type, screenshot.path)" class="screenshot" flat rounded>
             <q-card-section horizontal>
               <video class="col" loading="lazy">
                 <source :src="screenshot.path" type="video/mp4" />
@@ -79,7 +79,7 @@
               @click="openVideo = false"
               class="opened"
             >
-              <source :src="mediaPath" type="video/mp4" />
+              <source :src="mediaPath" :type="videoType" />
             </video>
           </q-card-section>
         </q-card>
@@ -94,6 +94,7 @@ import { useMediaStore } from 'stores/media';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { useQuasar } from 'quasar';
+import { Type } from 'stores/types/medias';
 
 const { t } = useI18n({ useScope: 'global' });
 
@@ -106,14 +107,16 @@ const { screenshots } = storeToRefs(mediaStore);
 const openImage = ref(false);
 const openVideo = ref(false);
 const mediaPath = ref('');
+const videoType = ref('');
 
 function open(type: string, url: string) {
-  if (type === 'image') {
+  if (type === Type.image) {
     mediaPath.value = url;
     openImage.value = true;
-  } else if (type === 'video') {
+  } else if (type === Type.mp4 || type === Type.xMsvideo || type === Type.webm) {
     mediaPath.value = url;
     openVideo.value = true;
+    videoType.value = type;
   }
 }
 

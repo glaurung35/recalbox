@@ -613,7 +613,7 @@
           "help": "Cette option vous permet d'activer ou de désactiver le système virtuel Tate."
         }
       },
-      "tate": {
+      "tateonly": {
         "label": "Afficher uniquement les jeux tate dans les listes de jeux",
         "help": "Cette option vous permet d'activer ou de désactiver d'afficher uniquement les jeux tate dans les listes de jeux."
       },

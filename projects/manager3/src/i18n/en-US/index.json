@@ -613,7 +613,7 @@
           "help": "This option allows you to enable or disable Tate virtual system."
         }
       },
-      "tate": {
+      "tateonly": {
         "label": "Display only tate games in gamelists",
         "help": "This option allows you to enable or disable to display only tate games in gamelists."
       },

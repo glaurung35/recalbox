@@ -62,14 +62,10 @@
     </div>
   </div>
   <div class="informations">
-    <div class="lines" v-if="currentState.currentSystem">
-      <div
-        v-for="color in currentState.currentSystem.metaData.colors"
-        class="line"
-        :key="color"
-        :style="{ backgroundColor: color }"
-      ></div>
-    </div>
+    <AnimatedLines
+      v-if="currentState.currentSystem"
+      :colors="currentState.currentSystem.metaData.colors"
+    />
     <q-img
       v-if="currentState.currentSystem"
       class="logo"
@@ -174,6 +170,7 @@
 </template>
 
 <script lang="ts" setup>
+import AnimatedLines from 'components/ui-kit/AnimatedLines.vue';
 import { useRouter } from 'vue-router';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useServerStore } from 'stores/server';
@@ -243,20 +240,6 @@ function redirect() {
   flex-direction: column
   padding: 0 1em
   height: 100%
-
-  .lines
-    position: absolute
-    display: flex
-    flex-direction: row
-    top: -1em
-    left: 15px
-    width: 6%
-    height: calc(100% + 1em)
-    opacity: 0.3
-
-    .line
-      width: 20%
-      min-height: 100%
 
   .meta-list
     border-color: white

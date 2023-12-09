@@ -455,6 +455,7 @@ export interface CurrentRom {
   players: string;
   region: string;
   genre: string;
+  metaData: RomMetaData|null;
 }
 
 export interface EmulationStationCurrentState {

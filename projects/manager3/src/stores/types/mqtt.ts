@@ -28,8 +28,29 @@ export interface System {
   DefaultEmulator: Emulator;
 }
 
+export enum Actions {
+  configurationChanged = 'configurationchanged',
+  systemBrowsing = 'systembrowsing',
+  gamelistBrowsing = 'gamelistbrowsing',
+  runGame = 'rungame',
+  endGame = 'endgame',
+  runDemo = 'rundemo',
+  endDemo = 'enddemo',
+  sleep = 'sleep',
+  start = 'start',
+  stop = 'stop',
+  shutdown = 'shutdown',
+  reboot = 'reboot',
+  wakeup = 'wakeup',
+  quit = 'quit',
+  relaunch = 'relaunch',
+  scrapStart = 'scrapstart',
+  scrapStop = 'scrapstop',
+  scrapGame = 'scrapgame',
+}
+
 export interface EsResponse {
-  Action: 'systembrowsing'|'gamelistbrowsing'|'rungame';
+  Action: Actions;
   Parameter: string;
   Version: string;
   System: System;

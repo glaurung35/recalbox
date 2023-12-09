@@ -116,7 +116,17 @@
     "game": {
       "title": "Jeu en cours",
       "stop": "Arrêter le jeu",
-      "metaData": "Informations sur le jeu"
+      "metaData": {
+        "iconLabel": "Informations sur le jeu",
+        "modal": {
+          "publisher": "Éditeur",
+          "developer": "Développeur",
+          "releaseDate": "Date de sortie",
+          "rating": "Note",
+          "players": "Nombre de joueurs",
+          "genres": "Genres"
+        }
+      }
     }
   },
   "monitoring": {

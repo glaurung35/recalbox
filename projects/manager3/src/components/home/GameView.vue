@@ -6,7 +6,7 @@
     </div>
     <div class="controls">
       <q-btn
-        v-if="currentState.currentRom"
+        v-if="currentState.currentRom?.metaData"
         flat
         rounded
         square
@@ -19,7 +19,7 @@
           content-class="bg-primary"
           content-style="font-size: 16px"
         >
-          {{ $t('home.game.stop') }}
+          {{ $t('home.game.metaData') }}
         </q-tooltip>
       </q-btn>
       <q-btn
@@ -51,10 +51,15 @@
       />
     </div>
   </div>
-  <q-dialog transition-hide="slide-down" transition-show="slide-up" v-model="infoOpen">
+  <q-dialog
+    v-if="currentState.currentRom?.metaData"
+    transition-hide="slide-down"
+    transition-show="slide-up"
+    v-model="infoOpen"
+  >
     <q-card class="bg-primary text-white info-dialog-card background info-dialog">
       <q-card-section class="text-justify" style="white-space: pre-line;">
-        test de contenu
+        {{ currentState.currentRom?.metaData?.name }}
       </q-card-section>
     </q-card>
   </q-dialog>

@@ -1,7 +1,12 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-export const getPathBy = (route: string, arg: string) => route.replace('*', arg);
+export const getPath = (route: string, args: Record<string, string>) => {
+  Object.keys(args).forEach((key) => {
+    route = route.replace(`{${key}}`, args[key]);
+  });
+  return route;
+};
 
 export const GLOBAL = {
   architecture: '/architecture',
@@ -30,7 +35,7 @@ export const CONFIGURATION = {
   scraper: '/configuration/scraper',
   screenshots: '/configuration/screenshots',
   system: '/configuration/system',
-  systems: '/configuration/system/*',
+  systems: '/configuration/system/{systemName}',
   tate: '/configuration/tate',
   updates: '/configuration/updates',
   wifi: '/configuration/wifi',
@@ -70,7 +75,8 @@ export const ROMS = {
 export const SYSTEMS = {
   root: '/systems',
   all: '/systems',
-  roms: '/systems/*/roms',
+  roms: '/systems/{systemName}/roms',
+  romsMetaData: '/systems/{systemName}/roms/metadata/info/{romPath}',
 };
 
 export const TWITCH = {

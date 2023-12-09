@@ -114,9 +114,9 @@
       "soundChip": "Processeur audio"
     },
     "game": {
-      "title": "Jeux en cours",
+      "title": "Jeu en cours",
       "stop": "Arrêter le jeu",
-      "metaData": "Informations sur le jeux"
+      "metaData": "Informations sur le jeu"
     }
   },
   "monitoring": {

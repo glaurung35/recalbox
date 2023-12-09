@@ -66,6 +66,7 @@
       v-if="currentState.currentSystem"
       :colors="currentState.currentSystem.metaData.colors"
     />
+    <SleepMessage v-if="currentState.currentAction === Actions.sleep"/>
     <q-img
       v-if="currentState.currentSystem"
       class="logo"
@@ -171,9 +172,11 @@
 
 <script lang="ts" setup>
 import AnimatedLines from 'components/ui-kit/AnimatedLines.vue';
-import { useRouter } from 'vue-router';
+import SleepMessage from 'components/ui-kit/SleepMessage.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useServerStore } from 'stores/server';
+import { Actions } from 'stores/types/mqtt';
+import { useRouter } from 'vue-router';
 
 const router = useRouter();
 
@@ -183,7 +186,6 @@ const emulationStationStore = useEmulationstationStore();
 const { currentState } = emulationStationStore;
 
 serverStore.available = true;
-
 function redirect() {
   if (currentState?.currentSystem?.systemId === 'imageviewer') {
     router.push(
@@ -214,7 +216,6 @@ function redirect() {
   display: flex
   justify-content: space-between
   gap: 1em
-  margin-bottom: 1em
   padding: 0.2em
   border-bottom: 2px solid white
 
@@ -238,8 +239,9 @@ function redirect() {
   position: relative
   display: flex
   flex-direction: column
-  padding: 0 1em
+  padding: 1em
   height: 100%
+  overflow: hidden
 
   .meta-list
     border-color: white

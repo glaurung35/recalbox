@@ -19,7 +19,7 @@
           content-class="bg-primary"
           content-style="font-size: 16px"
         >
-          {{ $t('home.game.metaData') }}
+          {{ $t('home.game.metaData.iconLabel') }}
         </q-tooltip>
       </q-btn>
       <q-btn
@@ -43,6 +43,7 @@
     </div>
   </div>
   <div class="informations">
+    <SleepMessage v-if="currentState.currentAction === Actions.sleep"/>
     <div class="screen">
       <q-img
         v-if="currentState.currentRom"
@@ -60,33 +61,55 @@
   >
     <q-card class="bg-primary text-white info-dialog-card background info-dialog">
       <q-card-section class="text-justify" style="white-space: pre-line;">
-        <div>{{ currentState.currentRom?.metaData?.name }}</div>
+        <div class="text-uppercase text-bold">{{ currentState.currentRom?.metaData?.name }}</div>
         <hr />
         <div>{{ currentState.currentRom?.metaData?.synopsys }}</div>
         <hr />
         <table>
-          <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
-          <tr><td>Développeur</td><td>{{ currentState.currentRom?.metaData?.developer }}</td></tr>
-          <tr><td>Date de sortie</td><td>{{ new Date(currentState.currentRom?.metaData?.releaseDate * 1000).toDateString() }}</td></tr>
-          <tr><td>Note</td><td>
-            <q-rating
-              :model-value="currentState.currentRom?.metaData?.rating * 5"
-              class=“no-shadow”
-              color="accent"
-              readonly
-              size="1em"
-              icon="stars"
-            />
-          </td></tr>
-          <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.publisher"
+          >
+            <td>{{ $t('home.game.metaData.modal.publisher') }}</td>
+            <td class="value">{{ currentState.currentRom?.metaData?.publisher }}</td>
+          </tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.developer"
+          >
+            <td>{{ $t('home.game.metaData.modal.developer') }}</td>
+            <td class="value">{{ currentState.currentRom?.metaData?.developer }}</td>
+          </tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.releaseDate"
+          >
+            <td>{{ $t('home.game.metaData.modal.releaseDate') }}</td>
+            <td class="value">{{ new Date(currentState.currentRom?.metaData?.releaseDate * 1000).toLocaleDateString($i18n.locale) }}</td>
+          </tr>
+          <tr
+            v-if="currentState.currentRom?.metaData?.rating"
+          >
+            <td>{{ $t('home.game.metaData.modal.rating') }}</td>
+            <td class="value">
+              <q-rating
+                :model-value="currentState.currentRom?.metaData?.rating * 5"
+                class=“no-shadow”
+                color="accent"
+                readonly
+                size="1em"
+                icon="stars"
+              />
+            </td>
+          </tr>
           <tr>
-            <td>Nombre de joueurs</td>
-            <td>
+            <td>{{ $t('home.game.metaData.modal.players') }}</td>
+            <td class="value">
               {{ currentState.currentRom?.metaData?.players.min }}
               - {{ currentState.currentRom?.metaData?.players.max }}
             </td>
           </tr>
-          <tr><td>Genre</td><td>{{ currentState.currentRom?.metaData?.genres.free }}</td></tr>
+          <tr>
+            <td>{{ $t('home.game.metaData.modal.genres') }}</td>
+            <td class="value">{{ currentState.currentRom?.metaData?.genres.free }}</td>
+          </tr>
         </table>
       </q-card-section>
     </q-card>
@@ -94,7 +117,9 @@
 </template>
 
 <script lang="ts" setup>
+import SleepMessage from 'components/ui-kit/SleepMessage.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { Actions } from 'stores/types/mqtt';
 import { ref } from 'vue';
 
 const emulationStationStore = useEmulationstationStore();
@@ -104,6 +129,9 @@ const infoOpen = ref<boolean>(false);
 </script>
 
 <style lang="sass" scoped>
+.value
+  padding-left: 2em
+
 .header
   display: flex
   justify-content: space-between
@@ -125,6 +153,7 @@ const infoOpen = ref<boolean>(false);
       margin-right: 0.2em
 
 .informations
+  position: relative
   display: flex
   justify-content: center
   padding: 0 1em

@@ -116,7 +116,17 @@
     "game": {
       "title": "Current game",
       "stop": "Stop the game",
-      "metaData": "Informations about the game"
+      "metaData": {
+        "iconLabel": "Informations about the game",
+        "modal": {
+          "publisher": "Publisher",
+          "developer": "Developer",
+          "releaseDate": "Release date",
+          "rating": "Rating",
+          "players": "Players",
+          "genres": "Genres"
+        }
+      }
     }
   },
   "monitoring": {

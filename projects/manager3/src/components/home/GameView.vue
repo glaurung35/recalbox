@@ -68,7 +68,16 @@
           <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
           <tr><td>Développeur</td><td>{{ currentState.currentRom?.metaData?.developer }}</td></tr>
           <tr><td>Date de sortie</td><td>{{ new Date(currentState.currentRom?.metaData?.releaseDate * 1000).toDateString() }}</td></tr>
-          <tr><td>Note</td><td>{{ currentState.currentRom?.metaData?.rating * 5 }} / 5</td></tr>
+          <tr><td>Note</td><td>
+            <q-rating
+              :model-value="currentState.currentRom?.metaData?.rating * 5"
+              class=“no-shadow”
+              color="accent"
+              readonly
+              size="1em"
+              icon="stars"
+            />
+          </td></tr>
           <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
           <tr>
             <td>Nombre de joueurs</td>

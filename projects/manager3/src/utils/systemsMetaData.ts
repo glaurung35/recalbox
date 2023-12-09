@@ -1324,7 +1324,7 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#838382',
     },
   },
-  gc: {
+  gamecube: {
     system: {
       manufacturer: 'Nintendo',
       yearOfRelease: '2001',
@@ -2121,6 +2121,303 @@ export const systemsMetaData: SystemsMetaData = {
       band2: '#9E4968',
       band3: '#DBD9D4',
       band4: '#C02520',
+    },
+  },
+  'arcade-manufacturer-acclaim': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-atari': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-atlus': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-banpresto': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-capcom': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-capcom-cps1': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-capcom-cps2': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-capcom-cps3': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-cave': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-dataeast': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-exidy': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-igs': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-irem': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-itech': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-jaleco': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-kaneko': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-konami': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-midway': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-mitchell': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-namco': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-nichibutsu': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-nintendo': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-nmk': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-sammy': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-sega': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-seibu': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-seta': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-snk': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-taito': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-technos': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-temco': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-toaplan': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
+    },
+  },
+  'arcade-manufacturer-visco': {
+    system: {},
+    colors: {
+      band1: '#B7151D',
+      band2: '#00BAFF',
+      band3: '#FF8200',
+      band4: '#FFDBA1',
     },
   },
 };

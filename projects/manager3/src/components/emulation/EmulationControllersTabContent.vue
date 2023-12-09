@@ -33,7 +33,7 @@
           <WrappedToggle
             label="emulation.controllers.bluetooth.autopaironboot.label"
             :getter="controllers['bluetooth.autopaironboot']"
-            :setter="controllersStore"
+            :setter="controllersStore.post"
             apiKey="bluetooth.autopaironboot"
             v-if="controllers['bluetooth.autopaironboot']"
             help

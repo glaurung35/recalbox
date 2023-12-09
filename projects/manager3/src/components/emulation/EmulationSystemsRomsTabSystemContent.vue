@@ -136,11 +136,18 @@ const systemsStore = useSystemsStore();
 const { systems } = systemsStore;
 const router = useRouter();
 const { system } = useRoute().params;
+let logoUrl = null;
 
-const logoUrl = computed(() => {
-  const filteredSystems = systems.systems.filter((s) => s.name === useRoute().params.system);
-  return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/eu/svg/logo`;
-});
+if (systems.systems.length === 0) {
+  systemsStore.fetch();
+}
+
+if (systems.systems.length > 0) {
+  logoUrl = computed(() => {
+    const filteredSystems = systems.systems.filter((s) => s.name === useRoute().params.system);
+    return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/eu/svg/logo`;
+  });
+}
 
 const romsStore = useRomsStore();
 romsStore.fetchBySystem(system as string);

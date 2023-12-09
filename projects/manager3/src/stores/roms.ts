@@ -2,7 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { getPathBy, ROMS, SYSTEMS } from 'src/router/api.routes';
+import { getPath, ROMS, SYSTEMS } from 'src/router/api.routes';
 import { Rom } from 'src/stores/types/roms';
 
 export interface RomsStoreState {
@@ -30,7 +30,7 @@ export const useRomsStore = defineStore('roms', {
       try {
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
-        const response = await this._apiProvider.get(getPathBy(SYSTEMS.roms, system));
+        const response = await this._apiProvider.get(getPath(SYSTEMS.roms, { systemName: system }));
         this.roms = response.data.roms;
       } catch (error) {
         // eslint-disable-next-line no-console

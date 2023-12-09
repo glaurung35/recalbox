@@ -115,7 +115,8 @@
     },
     "game": {
       "title": "Current game",
-      "stop": "Stop the game"
+      "stop": "Stop the game",
+      "metaData": "Informations about the game"
     }
   },
   "monitoring": {

@@ -115,7 +115,8 @@
     },
     "game": {
       "title": "Jeux en cours",
-      "stop": "Arrêter le jeu"
+      "stop": "Arrêter le jeu",
+      "metaData": "Informations sur le jeux"
     }
   },
   "monitoring": {

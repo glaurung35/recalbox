@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { Actions } from 'stores/types/mqtt';
 
 export interface EmulationStationConfigResponse {
   bootongamelist: {
@@ -461,4 +462,5 @@ export interface CurrentRom {
 export interface EmulationStationCurrentState {
   currentSystem: CurrentSystem|null,
   currentRom: CurrentRom|null,
+  currentAction: Actions;
 }

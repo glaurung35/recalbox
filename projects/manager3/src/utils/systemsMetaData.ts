@@ -12,7 +12,7 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#3678A6',
     },
   },
-  'auto-tate': {
+  tate: {
     system: {},
     colors: {
       band1: '#C1B544',
@@ -21,7 +21,7 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#851740',
     },
   },
-  'auto-lightgun': {
+  lightgun: {
     system: {},
     colors: {
       band1: '#C0BAC0',
@@ -30,7 +30,7 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#A3362A',
     },
   },
-  'auto-multiplayer': {
+  multiplayer: {
     system: {},
     colors: {
       band1: '#F3F1A5',
@@ -39,13 +39,25 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#93627F',
     },
   },
-  'auto-allgames': {
+  allgames: {
     system: {},
     colors: {
       band1: '#C1B544',
       band2: '#6EAE97',
       band3: '#364792',
       band4: '#851740',
+    },
+  },
+  dos: {
+    system: {
+      manufacturer: 'IBM',
+      yearOfRelease: '1981',
+    },
+    colors: {
+      band1: '#1F70C1',
+      band2: '#FFFFFF',
+      band3: '#666870',
+      band4: '#201D1D',
     },
   },
   vg5000: {
@@ -139,37 +151,6 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#E14B26',
     },
   },
-  odyssey2: {
-    system: {
-      manufacturer: 'Magnavox/Philips',
-      yearOfRelease: '1978',
-      unitsSold: '2 million',
-      cpu: 'Intel 8048 @ 1.79 MHz',
-      ram: '64 bytes',
-      audioVideoRam: '128 bytes',
-      rom: '1024 bytes',
-      resolution: '160x200 pixels with 12 colors',
-      display: '16-color fixed palette; sprites may only use 8 of these colors',
-    },
-    colors: {
-      band1: '#8C1914',
-      band2: '#89918F',
-      band3: '#DC3114',
-      band4: '#F8D239',
-    },
-  },
-  pc: {
-    system: {
-      manufacturer: 'IBM',
-      yearOfRelease: '1981',
-    },
-    colors: {
-      band1: '#1F70C1',
-      band2: '#FFFFFF',
-      band3: '#666870',
-      band4: '#201D1D',
-    },
-  },
   zmachine: {
     system: {
       developer: 'Joel Berez and Marc Blank',
@@ -251,6 +232,55 @@ export const systemsMetaData: SystemsMetaData = {
       band2: '#d37d2d',
       band3: '#574287',
       band4: '#3c6d35',
+    },
+  },
+  wswan: {
+    system: {
+      manufacturer: 'Bandaï',
+      yearOfRelease: '1999',
+      cpu: '16Bits NEC V20',
+      ram: '512k video',
+      audio: '4 PCM channels, 32 samples 4Bit for each channel',
+      resolution: '224 x 144 pixels',
+    },
+    colors: {
+      band1: '#8797A4',
+      band2: '#DBE0E1',
+      band3: '#E72835',
+      band4: '#282827',
+    },
+  },
+  wswanc: {
+    system: {
+      manufacturer: 'Bandaï',
+      yearOfRelease: '2000',
+      cpu: 'SSPGY-1002 @ 3.072 MHz 16-bit NEC V30MZ duplicate',
+      ram: '64 kB shared VRAM/WRAM',
+      audio: 'One mono speaker, optional headphones',
+      resolution: '224 x 144 pixels',
+    },
+    colors: {
+      band1: '#009CD4',
+      band2: '#EBA743',
+      band3: '#D65757',
+      band4: '#162B4F',
+    },
+  },
+  o2em: {
+    system: {
+      manufacturer: 'Magnavox/Philips',
+      yearOfRelease: '1978',
+      cpu: 'Intel 8048 @ 1.79 MHz',
+      ram: '64 bytes',
+      audio: '1 channel, 8 sounds',
+      rom: '1024 bytes',
+      resolution: '160×200 pixels with 12 colors',
+    },
+    colors: {
+      band1: '#8C1914',
+      band2: '#89918F',
+      band3: '#DC3114',
+      band4: '#F8D239',
     },
   },
   videopacplus: {
@@ -1266,24 +1296,6 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#379742',
     },
   },
-  wonderswancolor: {
-    system: {
-      manufacturer: 'Bandaï',
-      yearOfRelease: '2000',
-      unitsSold: '740 727',
-      cpu: 'SSPGY-1002 @ 3.072 MHz 16-bit NEC V30MZ duplicate',
-      memory: '64 kB shared VRAM/WRAM',
-      resolution: '224 x 144 pixels',
-      display: 'FSTN reflective LCD, 2.8 in (71 mm), 241 colors',
-      sound: 'One mono speaker, optional headphones',
-    },
-    colors: {
-      band1: '#009CD4',
-      band2: '#EBA743',
-      band3: '#D65757',
-      band4: '#162B4F',
-    },
-  },
   atari800: {
     system: {
       manufacturer: 'Atari, Inc.',
@@ -1310,23 +1322,6 @@ export const systemsMetaData: SystemsMetaData = {
       band2: '#5F7057',
       band3: '#424241',
       band4: '#838382',
-    },
-  },
-  wonderswan: {
-    system: {
-      manufacturer: 'Bandaï',
-      yearOfRelease: '1999',
-      unitsSold: '3.5 million',
-      cpu: '16Bits NEC V20',
-      ram: '512k video',
-      resolution: '224 x 144 pixels',
-      sound: '4 PCM channels, 32 samples 4Bit for each channel',
-    },
-    colors: {
-      band1: '#8797A4',
-      band2: '#DBE0E1',
-      band3: '#E72835',
-      band4: '#282827',
     },
   },
   gc: {

@@ -17,9 +17,11 @@ import { PostStore } from 'stores/plugins/postStorePlugin';
 import { useSystemsStore } from 'stores/systems';
 import {
   EmulationStationConfigOptionsResponse,
-  EmulationStationConfigResponse, EmulationStationCurrentState, RomMetaData,
+  EmulationStationConfigResponse,
+  EmulationStationCurrentState,
+  RomMetaData,
 } from 'stores/types/emulationstation';
-import { EsResponse } from 'stores/types/mqtt';
+import { Actions, EsResponse } from 'stores/types/mqtt';
 
 const api: string|undefined = apiUrl;
 
@@ -141,7 +143,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
           metaData: systemsMetaData[status.System.SystemId],
         };
 
-        if (status.Action === 'rungame' && status.Game) {
+        if (status.Action === Actions.runGame && status.Game) {
           const encodedGamePath = encodeURIComponent(status.Game.GamePath);
           const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);
           currentRom = {
@@ -160,6 +162,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       }
 
       const currentState = {
+        currentAction: status.Action,
         currentSystem,
         currentRom,
       };

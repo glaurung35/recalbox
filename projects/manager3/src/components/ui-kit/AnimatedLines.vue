@@ -2,10 +2,10 @@
 @author Nicolas TESSIER aka Asthonishia
 -->
 <template>
-  <div class="lines">
+  <div class="animatedLines">
     <div
       v-for="(color, index) in colors"
-      :class="'line ' + index"
+      :class="'animatedLine ' + index"
       :key="color"
       :style="{ backgroundColor: color }"
     />
@@ -22,17 +22,18 @@ const { colors } = toRefs(props);
 </script>
 
 <style lang="sass">
-.lines
+.animatedLines
   position: absolute
   display: flex
   flex-direction: row
   top: -1em
-  left: 15px
-  width: 6%
-  height: calc(100% + 1em)
+  left: 8px
+  width: 12%
+  height: calc(110% + 1em)
   opacity: 0.3
+  transform: rotate(357deg)
 
-  .line
+  .animatedLine
     animation-name: grow
     width: 20%
     height: 0

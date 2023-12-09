@@ -3,7 +3,12 @@
  */
 import { apiUrl } from 'boot/axios';
 import { defineStore } from 'pinia';
-import { CONFIGURATION, GLOBAL } from 'src/router/api.routes';
+import {
+  CONFIGURATION,
+  getPath,
+  GLOBAL,
+  SYSTEMS,
+} from 'src/router/api.routes';
 import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
@@ -116,7 +121,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         this.currentState.currentSystem = null;
       }
     },
-    updateStatus(status: EsResponse) {
+    async updateStatus(status: EsResponse) {
       const systemsStore = useSystemsStore();
       const { systems } = systemsStore;
 
@@ -138,6 +143,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
 
         if (status.Action === 'rungame' && status.Game) {
           const encodedGamePath = encodeURIComponent(status.Game.GamePath);
+          const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);
           currentRom = {
             name: status.Game.Game,
             imagePath: `${api}/systems/${storeSystem.name}/roms/metadata/image/${encodedGamePath}`,
@@ -148,6 +154,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
             players: status.Game.Players,
             region: status.Game.Region,
             genre: status.Game.Genre.replace(',', ', '),
+            metaData,
           };
         }
       }
@@ -161,10 +168,12 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         currentState,
       });
     },
-    async fetchRomMetaData(encodedGamePath: string): Promise<RomMetaData> {
+    async fetchRomMetaData(systemName: string, encodedGamePath: string): Promise<RomMetaData> {
       let result = null;
       try {
-        const response = await this._apiProvider.get(GLOBAL.status);
+        const response = await this._apiProvider.get(
+          getPath(SYSTEMS.romsMetaData, { systemName, romPath: encodedGamePath }),
+        );
         result = response.data;
       } catch (error) {
         // eslint-disable-next-line no-console

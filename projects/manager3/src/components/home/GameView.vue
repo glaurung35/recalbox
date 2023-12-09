@@ -23,6 +23,7 @@
         </q-tooltip>
       </q-btn>
       <q-btn
+        v-if="currentState.currentRom"
         flat
         rounded
         square
@@ -59,7 +60,25 @@
   >
     <q-card class="bg-primary text-white info-dialog-card background info-dialog">
       <q-card-section class="text-justify" style="white-space: pre-line;">
-        {{ currentState.currentRom?.metaData?.name }}
+        <div>{{ currentState.currentRom?.metaData?.name }}</div>
+        <hr />
+        <div>{{ currentState.currentRom?.metaData?.synopsys }}</div>
+        <hr />
+        <table>
+          <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
+          <tr><td>Développeur</td><td>{{ currentState.currentRom?.metaData?.developer }}</td></tr>
+          <tr><td>Date de sortie</td><td>{{ currentState.currentRom?.metaData?.releaseDate }}</td></tr>
+          <tr><td>Note</td><td>{{ currentState.currentRom?.metaData?.rating }}</td></tr>
+          <tr><td>Éditeur</td><td>{{ currentState.currentRom?.metaData?.publisher }}</td></tr>
+          <tr>
+            <td>Nombre de joueurs</td>
+            <td>
+              {{ currentState.currentRom?.metaData?.players.min }}
+              - {{ currentState.currentRom?.metaData?.players.max }}
+            </td>
+          </tr>
+          <tr><td>Genre</td><td>{{ currentState.currentRom?.metaData?.genres.free }}</td></tr>
+        </table>
       </q-card-section>
     </q-card>
   </q-dialog>

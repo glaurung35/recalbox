@@ -1,8 +1,5 @@
 #include <hardware/Board.h>
 #include <cstring>
-#include <utils/Log.h>
-#include <utils/Files.h>
-#include <input/InputCompactEvent.h>
 #include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
 #include <hardware/boards/anbernic/RG351VBoard.h>
 #include <hardware/boards/anbernic/RG353XBoard.h>
@@ -264,7 +261,7 @@ BoardType Board::GetBoardType()
 
 ICrtInterface& Board::GetCrtBoard()
 {
-  return *(CanHaveCRTBoard() ? CrtAdapterDetector::CreateCrtBoard() : new CrtNull(false));
+  return *(CanHaveCRTBoard() ? CrtAdapterDetector::CreateCrtBoard(GetBoardType()) : new CrtNull(false, GetBoardType()));
 }
 
 bool Board::CanHaveCRTBoard()

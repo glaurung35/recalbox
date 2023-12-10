@@ -101,7 +101,7 @@ class CrtData
     void AutoConfigureHighResolution(SystemData& system)
     {
       if (!mHighResolutionConfigured)
-        ConfigureHighResolution(system.Descriptor().CrtHighResolution() || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
+        ConfigureHighResolution((system.Descriptor().CrtHighResolution() && Board::Instance().CrtBoard().HasInterlacedSupport()) || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
     }
 
     /*!
@@ -124,10 +124,10 @@ class CrtData
      */
     [[nodiscard]] bool MustChooseHighResolution(const SystemData& system) const
     {
-      // If 15Khz, the system must support high rez
+      // If 15Khz, the system must support high rez and the interlaced must be supported by board
       // If 31khz, the board must support 120Hz
       // If multisync, return true
-      return (system.Descriptor().CrtHighResolution() && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
+      return (system.Descriptor().CrtHighResolution() && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
       || (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
       || (Board::Instance().CrtBoard().MultiSyncEnabled());
     }

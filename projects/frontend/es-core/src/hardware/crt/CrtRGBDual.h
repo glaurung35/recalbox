@@ -14,7 +14,7 @@ class CrtRGBDual : public ICrtInterface
 {
   public:
     //! Constructor
-    explicit CrtRGBDual(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
+    explicit CrtRGBDual(bool automaticallyDetected, BoardType boardType) : ICrtInterface(automaticallyDetected, boardType) {}
 
     //! An RGB Dual is attached
     bool IsCrtAdapterAttached() const override

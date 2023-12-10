@@ -99,13 +99,15 @@ MainRunner::ExitState MainRunner::Run()
     if (mRunCount == 0) {
       if (mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
         gameRunner.RunKodi();
-      if (RecalboxConf::Instance().GetAutorunEnabled() && !RecalboxConf::Instance().GetAutorunGamePath().empty()) {
+      if (RecalboxConf::Instance().GetAutorunEnabled() && !RecalboxConf::Instance().GetAutorunGamePath().empty())
+      {
         systemManager.LoadSingleSystemConfigurations(RecalboxConf::Instance().GetAutorunSystemUUID());
         ResetForceReloadState();
         FileData *game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
-        if (game != nullptr) {
+        if (game != nullptr && InputManager::Instance().ConfiguredControllersCount() > 0)
           gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
-        }
+        else
+          { LOG(LogInfo) << "[MainRunner] Will not boot on game as game = null or no configured controllers found"; }
       }
     }
 
@@ -390,12 +392,8 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 
 void MainRunner::InitializeUserInterface(WindowManager& window)
 {
-  // Choose which GUI to open depending on if an input configuration already exists
   { LOG(LogDebug) << "[MainRunner] Preparing GUI"; }
-  if (InputManager::ConfigurationPath().Exists() && InputManager::Instance().ConfiguredDeviceCount() > 0)
-    ViewController::Instance().goToStart();
-  else
-    window.pushGui(new GuiDetectDevice(window, true, [] { ViewController::Instance().goToStart(); }));
+  ViewController::Instance().goToStart();
 }
 
 void MainRunner::CheckAlert(WindowManager& window, SystemManager& systemManager)

@@ -518,10 +518,16 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
   RequestHandlerTools::SendMedia(path, response);
 }
 
-
-void RequestHandler::RomsGetAll(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "RomsGetAll");
+  RequestHandlerTools::LogRoute(request, "RomsGetTotal");
+
+  JSONBuilder result;
+  result.Open()
+      .Field("total", mSystemManager.GameCount())
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
 }
 
 void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWriter response)

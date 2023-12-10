@@ -101,19 +101,12 @@ api.interceptors.response.use((response) => {
 
   return response;
 }, (error) => {
-  let message = error;
-
-  // some network errors can't be detected so...
-  if (!error.response.status) {
-    message = 'networkError';
-  } else {
-    message = error.response.status;
-  }
+  const { code } = error;
 
   Loading.hide();
 
   Notify.create({
-    message: i18n.global.t(`general.notify.${message}`),
+    message: i18n.global.t(`general.notify.${code}`),
     type: 'negative',
     icon: 'mdi-check-bold',
   });
@@ -197,17 +190,12 @@ api80.interceptors.response.use((response) => {
 
   return response;
 }, (error) => {
-  let message = error;
-
-  // some network errors can't be detected so...
-  if (!error.status) {
-    message = 'networkError';
-  }
+  const { code } = error;
 
   Loading.hide();
 
   Notify.create({
-    message: i18n.global.t(`general.notify.${message}`),
+    message: i18n.global.t(`general.notify.${code}`),
     type: 'negative',
     icon: 'mdi-check-bold',
   });

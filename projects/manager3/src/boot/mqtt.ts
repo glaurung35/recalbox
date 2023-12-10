@@ -27,8 +27,11 @@ export const getCurrentSystemMetaData = (systemId: string): CurrentSystemMetaDat
 ];
 
 // Subcriptions and VueJS store injection
-client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
-client.subscribe(String(process.env.MQTT_ES_EVENTS_CHANNEL));
+client.on('connect', () => {
+  emulationStationStore.fetchStatus();
+  client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
+  client.subscribe(String(process.env.MQTT_ES_EVENTS_CHANNEL));
+});
 
 client.on('message', (topic, message): void => {
   if (topic === process.env.MQTT_MONITORING_CHANNEL) {

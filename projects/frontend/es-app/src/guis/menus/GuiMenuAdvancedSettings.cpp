@@ -247,7 +247,14 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
     }
     case Components::ShowFPS: RecalboxConf::Instance().SetGlobalShowFPS(status).Save(); break;
     case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
-    case Components::AutorunEnabled: RecalboxConf::Instance().SetAutorunEnabled(status).Save(); break;
+    case Components::AutorunEnabled:
+    {
+      RecalboxConf::Instance().SetAutorunEnabled(status).Save();
+      if(status)
+        mWindow.pushGui(
+          new GuiMsgBox(mWindow, _("If no configured controller is detected at boot, recalbox will run as usual and display the system list."), _("OK")));
+      break;
+    }
     case Components::OverclockList:
     case Components::BootSubMenu:
     case Components::VirtualSubMenu:

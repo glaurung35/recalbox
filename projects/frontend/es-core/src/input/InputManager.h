@@ -59,10 +59,10 @@ class InputManager : public IFileSystemWatcherNotification
     InputCompactEvent ManageSDLEvent(WindowManager* window, const SDL_Event& ev);
 
     /*!
-     * @brief Get number of configured devices, either manually or from Xml configuration file
-     * @return Configured device count
+     * @brief Get number of configured controllers, either manually or from Xml configuration file
+     * @return Configured controllers count, not counting the keyboard
      */
-    int ConfiguredDeviceCount();
+    int ConfiguredControllersCount();
 
     /*!
      * @brief Get configuration path

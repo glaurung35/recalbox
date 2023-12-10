@@ -288,13 +288,12 @@ void InputManager::LoadJoystickConfiguration(int index)
   }
 }
 
-int InputManager::ConfiguredDeviceCount()
+int InputManager::ConfiguredControllersCount()
 {
-  int num = mKeyboard.IsConfigured() ? 1 : 0;
+  int num = 0;
   for (auto& mInputConfig : mIdToDevices)
     if (mInputConfig.second.IsConfigured())
       num++;
-
   return num;
 }
 

@@ -156,6 +156,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix headphone audio output on Anbernic rg353v
 - Fix not mappables pads
 - Fix vulkan support on rpi5
+- Fix some pandorabox controllers for 2 players
 
 ## Version 9.1-Pulstar
 

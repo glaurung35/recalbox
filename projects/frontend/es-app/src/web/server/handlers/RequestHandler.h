@@ -257,11 +257,11 @@ class RequestHandler : public IRouter
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
-     * @brief Handle GET to get all roms
+     * @brief Handle GET to get roms total count
      * @param request Request object
      * @param response Response object
      */
-    void RomsGetAll(const Rest::Request& request, Http::ResponseWriter response) override;
+    void RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
      * @brief Handle GET to get system roms

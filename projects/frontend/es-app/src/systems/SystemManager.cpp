@@ -1470,7 +1470,8 @@ int SystemManager::GameCount() const
   int favorites = 0;
   int hidden = 0;
   for(const SystemData* system : mVisibleSystems)
-    result += system->GameCount(favorites, hidden);
+    if (!system->IsVirtual())
+      result += system->GameCount(favorites, hidden);
   return result;
 }
 

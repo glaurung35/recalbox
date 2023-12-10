@@ -165,6 +165,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix not mappables pads
 - Fix some pandorabox controllers for 2 players
 - Fix daphne games scrap
+- Fix vulkan support on rpi5
 
 ## Version 9.1-Pulstar
 

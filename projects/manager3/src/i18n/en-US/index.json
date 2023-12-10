@@ -49,7 +49,7 @@
       "screenshotTaken": "Screenshot taken",
       "mediaDeleted": "Media deleted",
       "updateError": "Error during update :",
-      "networkError": "Network error",
+      "ERR_NETWORK": "Network error",
       "esStart": "Start EmulationStation",
       "esStop": "Stop EmulationStation",
       "esRestart": "Restart EmulationStation",

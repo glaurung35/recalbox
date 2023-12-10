@@ -325,9 +325,9 @@ class LibretroGenerator(Generator):
 
     @staticmethod
     def createVideoDriverConfiguration(system: Emulator, rom: str, recalboxOptions: keyValueSettings,
-                                       retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
-                                       retroarchOverrides: keyValueSettings):
-        vulkanCores = ["flycast"]
+                               retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
+                               retroarchOverrides: keyValueSettings):
+        vulkanCores = ["flycast", "ppsspp"]
         if os.path.exists("/usr/lib/libvulkan.so") and system.Core in vulkanCores:
             retroarchConfig.setString("video_driver", "vulkan")
         else:

@@ -70,6 +70,7 @@ export const MONITORING = {
 export const ROMS = {
   root: '/roms',
   all: '/roms',
+  total: '/roms/total',
 };
 
 export const SYSTEMS = {

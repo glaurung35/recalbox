@@ -12,7 +12,7 @@ class CrtNull : public ICrtInterface
 {
   public:
     //! Constructor
-    explicit CrtNull(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
+    explicit CrtNull(bool automaticallyDetected, BoardType boardType) : ICrtInterface(automaticallyDetected, boardType) {}
 
     bool IsCrtAdapterAttached() const override { return false; }
 
@@ -30,6 +30,3 @@ class CrtNull : public ICrtInterface
 
     std::string& ShortName() const override { static std::string adapterShortString(""); return adapterShortString; }
 };
-
-
-

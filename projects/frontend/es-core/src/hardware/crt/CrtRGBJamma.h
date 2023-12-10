@@ -13,7 +13,7 @@ class CrtRGBJamma : public ICrtInterface
 {
   public:
     //! Constructor
-    explicit CrtRGBJamma(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
+    explicit CrtRGBJamma(bool automaticallyDetected, BoardType boardType) : ICrtInterface(automaticallyDetected, boardType) {}
 
     //! A RGB Jamma is attached
     bool IsCrtAdapterAttached() const override {

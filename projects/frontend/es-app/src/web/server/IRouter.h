@@ -230,11 +230,11 @@ class IRouter
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET to get all roms
+     * @brief Handle GET to get roms total count
      * @param request Request object
      * @param response Response object
      */
-    virtual void RomsGetAll(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
      * @brief Handle GET to get system roms
@@ -350,6 +350,7 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
       // Roms
+      Rest::Routes::Get(mRouter, "/api/roms/total", Rest::Routes::bind(&IRouter::RomsGetTotal, this));
       Rest::Routes::Get(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsGetList, this));
       Rest::Routes::Delete(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsDelete, this));
       // Roms metadata

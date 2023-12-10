@@ -52,9 +52,12 @@ import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';
 import TwitchView from 'components/home/TwitchView.vue';
+import { useRomsStore } from 'stores/roms';
 
 const { getSystemsListCount } = useSystemsStore();
 useSystemsStore().fetch();
+
+useRomsStore().getRomsCount();
 
 const { getSharePercent } = useMonitoringStore();
 useMonitoringStore().fetch();
@@ -69,7 +72,7 @@ const totals = computed<object[]>(() => [
   {
     key: 2,
     title: 'home.preview.roms',
-    value: 70543,
+    value: useRomsStore().total,
   },
 ]);
 

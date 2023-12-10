@@ -51,3 +51,7 @@ rm -rf /recalbox/share/saves/atomiswave/reicast/*.nvmem2
 
 # Remove shaders files
 rm -rf /recalbox/share/shaders/crt-pi.glslp
+
+if [ -f /etc/init.d/S15lowramdevices ]; then
+  sed -i "s/system\.manager\.enabled=.*/system\.manager\.enabled=1/g" /recalbox/share/system/recalbox.conf
+fi

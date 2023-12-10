@@ -4,6 +4,20 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-alpha-25
+
+- Add new time played information
+- Disable unnecessary services when use the Recalbox RGB Jamma
+- Fix vulkan support on rpi5
+- Fix some pandorabox controllers for 2 players
+- Remove 480i from PI5+RGB DUAL
+- Fix issues with web manager
+- Fix last played sorting
+- Disable boot on game if no controllers are found
+- Add automatic detection of RGB Dual on RPi5 with latest bootloader
+- Add switch for bluetooth autopairing on boot
+- Fix HD and Widescreen modes for playstation and dreamcast
+
 ## Version 9.2-Pulstar
 
 ### Hardware

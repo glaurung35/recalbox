@@ -67,11 +67,6 @@ class Install(InstallBase):
             recalboxConf.saveFile()
             logger.hardlog("GPi2W: KODI disabled")
 
-            # Disable virtual gamepad
-            recalboxConf.setOption("system.virtual-gamepads.enabled", "0")
-            recalboxConf.saveFile()
-            logger.hardlog("GPi2W: Virtual Gamepad disabled")
-
             # Disable other controllers
             recalboxConf.setOption("controllers.xarcade.enabled", "0")
             recalboxConf.setOption("controllers.bluetooth.enabled", "0")

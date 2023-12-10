@@ -49,7 +49,7 @@
       "screenshotTaken": "Capture d'écran effectuée",
       "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
-      "networkError": "Problème de connexion réseau",
+      "ERR_NETWORK": "Problème de connexion réseau",
       "esStart": "Démarrage EmulationStation",
       "esStop": "Arrêt EmulationStation",
       "esRestart": "Redémarrage EmulationStation",

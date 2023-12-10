@@ -65,6 +65,7 @@ static struct sconfig {
   enum HatReference current_hat;
   bool multisync;
   bool desktop480p;
+  bool is_pi5;
 } config;
 
 enum ModeIds {
@@ -483,8 +484,11 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n");
         dpidac_apply_module_mode(connector, p384x288, true);
         dpidac_apply_module_mode(connector, p1920x288, false);
-        dpidac_apply_module_mode(connector, i768x576, false);
-        return 3;
+        if(!config.is_pi5) {
+          dpidac_apply_module_mode(connector, i768x576, false);
+          return 3;
+        }
+        return 2;
       } else {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: 60Hz + 50Hz modes will be available\n");
         dpidac_apply_module_mode(connector, p320x240, true);
@@ -492,9 +496,12 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         dpidac_apply_module_mode(connector, p1920x224, false);
         dpidac_apply_module_mode(connector, p384x288, false);
         dpidac_apply_module_mode(connector, p1920x288, false);
-        dpidac_apply_module_mode(connector, i640x480, false);
-        dpidac_apply_module_mode(connector, i768x576, false);
-        return 7;
+        if(!config.is_pi5) {
+          dpidac_apply_module_mode(connector, i640x480, false);
+          dpidac_apply_module_mode(connector, i768x576, false);
+          return 7;
+        }
+        return 5;
       }
     }
   }
@@ -571,6 +578,7 @@ static int dpidac_probe(struct platform_device *pdev) {
   struct dpidac *vga;
   u32 rgbdual = 0;
   u32 rgbjamma = 0;
+  u32 is_pi5 = 0;
 
   vga = devm_kzalloc(&pdev->dev, sizeof(*vga), GFP_KERNEL);
   if (!vga)
@@ -582,11 +590,18 @@ static int dpidac_probe(struct platform_device *pdev) {
 
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-dual", &rgbdual);
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-jamma", &rgbjamma);
-  config.multisync = 0;
-  config.desktop480p = 0;
+  config.multisync = false;
+  config.desktop480p = false;
+  config.is_pi5 = false;
 
   config.dip50Hz.gpio_state = 1;
   config.dip31kHz.gpio_state = 1;
+
+  of_property_read_u32(vga->bridge.of_node, "is_pi5", &is_pi5);
+  if (is_pi5 == 1) {
+    printk(KERN_INFO "[RECALBOXRGBDUAL]: We are on RPi5, disabling interlaced modes\n");
+    config.is_pi5 = true;
+  }
 
   if (rgbdual == 1) {
     config.current_hat = RecalboxRGBDual;

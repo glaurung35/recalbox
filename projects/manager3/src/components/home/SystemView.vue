@@ -66,7 +66,15 @@
       v-if="currentState.currentSystem"
       :colors="currentState.currentSystem.metaData.colors"
     />
-    <SleepMessage v-if="currentState.currentAction === Actions.sleep"/>
+    <OverlayMessage
+      background
+      icon="mdi-sleep"
+      v-if="currentState.currentAction === Actions.sleep"
+    />
+    <OverlayMessage
+      icon="mdi-server-off"
+      v-else-if="currentState.currentSystem === null"
+    />
     <q-img
       v-if="currentState.currentSystem"
       class="logo"
@@ -172,7 +180,7 @@
 
 <script lang="ts" setup>
 import AnimatedLines from 'components/ui-kit/AnimatedLines.vue';
-import SleepMessage from 'components/ui-kit/SleepMessage.vue';
+import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useServerStore } from 'stores/server';
 import { Actions } from 'stores/types/mqtt';

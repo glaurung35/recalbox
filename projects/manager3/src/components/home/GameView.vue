@@ -43,7 +43,15 @@
     </div>
   </div>
   <div class="informations">
-    <SleepMessage v-if="currentState.currentAction === Actions.sleep"/>
+    <OverlayMessage
+      background
+      icon="mdi-sleep"
+      v-if="currentState.currentAction === Actions.sleep"
+    />
+    <OverlayMessage
+      icon="mdi-ghost-off-outline"
+      v-else-if="currentState.currentRom === null"
+    />
     <div class="screen">
       <q-img
         v-if="currentState.currentRom"
@@ -117,7 +125,7 @@
 </template>
 
 <script lang="ts" setup>
-import SleepMessage from 'components/ui-kit/SleepMessage.vue';
+import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { Actions } from 'stores/types/mqtt';
 import { ref } from 'vue';

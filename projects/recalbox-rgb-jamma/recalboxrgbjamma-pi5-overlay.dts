@@ -35,6 +35,7 @@
 
 				vc4-vga666-mode = <6>;
 				recalbox-rgb-jamma = <1>;
+				is_pi5 = <1>;
 
 				ports {
 					#address-cells = <1>;

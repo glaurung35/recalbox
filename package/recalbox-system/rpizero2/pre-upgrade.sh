@@ -16,3 +16,7 @@ rm -rf /recalbox/share/bios/mame2003-plus/mame2003-plus.xml
 rm -rf /recalbox/share/bios/mame2010/mame2010.xml
 rm -rf /recalbox/share/bios/mame2015/mame2014-xml.zip
 rm -rf /recalbox/share/bios/mame2015/mame2015-xml.zip
+
+if [ -f /etc/init.d/S15lowramdevices ]; then
+  sed -i "s/system\.manager\.enabled=.*/system\.manager\.enabled=1/g" /recalbox/share/system/recalbox.conf
+fi

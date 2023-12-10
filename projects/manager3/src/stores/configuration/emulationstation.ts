@@ -133,31 +133,35 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       if (status.System) {
         const storeSystem = systems.systems.filter((system) => system.name === status.System.SystemId)[0];
 
-        this.resetCurrentSystem();
-        currentSystem = {
-          logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/logo`,
-          consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/console`,
-          gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/game`,
-          name: status.System.System,
-          systemId: status.System.SystemId,
-          metaData: systemsMetaData[status.System.SystemId],
-        };
-
-        if (status.Action === Actions.runGame && status.Game) {
-          const encodedGamePath = encodeURIComponent(status.Game.GamePath);
-          const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);
-          currentRom = {
-            name: status.Game.Game,
-            imagePath: `${api}/systems/${storeSystem.name}/roms/metadata/image/${encodedGamePath}`,
-            thumbnailPath: `${api}/systems/${storeSystem.name}/roms/metadata/thumbnail/${encodedGamePath}`,
-            videoPath: `${api}/systems/${storeSystem.name}/roms/metadata/video/${encodedGamePath}`,
-            developer: status.Game.Developer,
-            publisher: status.Game.Publisher,
-            players: status.Game.Players,
-            region: status.Game.Region,
-            genre: status.Game.Genre.replace(',', ', '),
-            metaData,
+        if (this.currentState.currentSystem && storeSystem.name !== this.currentState.currentSystem.systemId) {
+          this.resetCurrentSystem();
+        }
+        if (storeSystem) {
+          currentSystem = {
+            logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/logo`,
+            consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/console`,
+            gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/game`,
+            name: status.System.System,
+            systemId: status.System.SystemId,
+            metaData: systemsMetaData[status.System.SystemId],
           };
+
+          if (status.Action === Actions.runGame && status.Game) {
+            const encodedGamePath = encodeURIComponent(status.Game.GamePath);
+            const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);
+            currentRom = {
+              name: status.Game.Game,
+              imagePath: `${api}/systems/${storeSystem.name}/roms/metadata/image/${encodedGamePath}`,
+              thumbnailPath: `${api}/systems/${storeSystem.name}/roms/metadata/thumbnail/${encodedGamePath}`,
+              videoPath: `${api}/systems/${storeSystem.name}/roms/metadata/video/${encodedGamePath}`,
+              developer: status.Game.Developer,
+              publisher: status.Game.Publisher,
+              players: status.Game.Players,
+              region: status.Game.Region,
+              genre: status.Game.Genre.replace(',', ', '),
+              metaData,
+            };
+          }
         }
       }
 

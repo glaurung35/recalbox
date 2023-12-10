@@ -23,6 +23,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
   bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
   bool supports120Hz = is31kHz && Board::Instance().CrtBoard().Has120HzSupport();
+  bool supportsInterlaced = Board::Instance().CrtBoard().HasInterlacedSupport();
   bool multisync = Board::Instance().CrtBoard().MultiSyncEnabled();
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
@@ -32,7 +33,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
 
   // Resolution
   mOriginalEsResolution = is31kHz ? CrtConf::Instance().GetSystemCRT31kHzResolution() : CrtConf::Instance().GetSystemCRTResolution();
-  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz && !multisync, supports120Hz, multisync), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz && !multisync, supports120Hz, multisync, supportsInterlaced), _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
   if(isRGBJamma) {
@@ -220,7 +221,7 @@ std::vector<GuiMenuBase::ListEntry<CrtAdapterType>> GuiMenuCRT::GetDacEntries(bo
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync)
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync, bool interlaced)
 {
   std::vector<GuiMenuBase::ListEntry<String>> list;
 
@@ -237,7 +238,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetEsResolutionEntries(b
     if(multisync)
     {
       list.push_back({ "480p", "480", !rdef });
-    } else {
+    } else if (interlaced) {
       list.push_back({ "480i", "480", !rdef });
     }
   }

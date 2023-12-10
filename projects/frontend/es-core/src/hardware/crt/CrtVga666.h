@@ -12,7 +12,7 @@ class CrtVga666 : public ICrtInterface
 {
   public:
     //! Constructor
-    explicit CrtVga666(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
+    explicit CrtVga666(bool automaticallyDetected, BoardType boardType) : ICrtInterface(automaticallyDetected, boardType) {}
 
     //! Yes a CRT adapter is attached!
     bool IsCrtAdapterAttached() const override { return true; }

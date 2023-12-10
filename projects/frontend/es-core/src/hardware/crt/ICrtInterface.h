@@ -7,6 +7,7 @@
 #pragma once
 
 #include <hardware/crt/CrtAdapterType.h>
+#include <hardware/BoardType.h>
 #include <string>
 
 class ICrtInterface
@@ -23,7 +24,7 @@ class ICrtInterface
      * @brief Default constructor
      * @param automaticallyDetected True if the board has been automatically detected
      */
-    explicit ICrtInterface(bool automaticallyDetected) : mAutomaticallyDetected(automaticallyDetected) {}
+    explicit ICrtInterface(bool automaticallyDetected, BoardType boardType) : mAutomaticallyDetected(automaticallyDetected), mBoardType(boardType) {}
 
     //! Default destructor
     virtual ~ICrtInterface() = default;
@@ -100,7 +101,13 @@ class ICrtInterface
      */
     bool HasBeenAutomaticallyDetected() const { return mAutomaticallyDetected; }
 
+    /*!
+     * @brief Check if combo adapter/board supports interlaced
+     */
+    [[nodiscard]] bool HasInterlacedSupport() const { return mBoardType != BoardType::Pi5; }
+
   private:
     //! Automatically detected?
     bool mAutomaticallyDetected;
+    BoardType mBoardType;
 };

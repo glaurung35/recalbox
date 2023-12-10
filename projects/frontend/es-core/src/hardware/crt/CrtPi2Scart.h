@@ -12,7 +12,7 @@ class CrtPi2Scart : public ICrtInterface
 {
   public:
     //! Constructor
-    explicit CrtPi2Scart(bool automaticallyDetected) : ICrtInterface(automaticallyDetected) {}
+    explicit CrtPi2Scart(bool automaticallyDetected, BoardType boardType) : ICrtInterface(automaticallyDetected, boardType) {}
 
     //! Yes a CRT adapter is attached!
     bool IsCrtAdapterAttached() const override { return true; }

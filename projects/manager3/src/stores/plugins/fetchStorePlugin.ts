@@ -24,6 +24,7 @@ const FetchStorePlugin = (context: PiniaPluginContext) => {
     'monitoring',
     'music',
     'patreon',
+    'roms',
     'scraper',
     'system',
     'systems',

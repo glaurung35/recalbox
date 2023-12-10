@@ -95,11 +95,6 @@ class Install(InstallBase):
                 recalboxConf.saveFile()
                 logger.hardlog("GPi: KODI disabled")
 
-                # Disable virtual gamepad
-                recalboxConf.setOption("system.virtual-gamepads.enabled", "0")
-                recalboxConf.saveFile()
-                logger.hardlog("GPi: Virtual Gamepad disabled")
-
                 # Disable updates
                 recalboxConf.setOption("updates.enabled", "0")
                 recalboxConf.saveFile()
@@ -109,11 +104,6 @@ class Install(InstallBase):
                 recalboxConf.setOption("global.netplay", "0")
                 recalboxConf.saveFile()
                 logger.hardlog("GPi: Netplay disabled")
-
-                # Disable webmanager
-                recalboxConf.setOption("system.manager.enabled", "0")
-                recalboxConf.saveFile()
-                logger.hardlog("GPi: Webmanager disabled")
 
                 # Disable other controllers
                 recalboxConf.setOption("controllers.xarcade.enabled", "0")

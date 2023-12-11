@@ -2123,6 +2123,57 @@ export const systemsMetaData: SystemsMetaData = {
       band4: '#C02520',
     },
   },
+  creativision: {
+    system: {
+      manufacturer: 'VTech',
+      yearOfRelease: '1982',
+      unitsSold: 'Unknown',
+      numberGames: '18 officially released',
+      cpu: '6502 @ 2MHz',
+      ram: '1kB',
+      video: 'TMS9928',
+      resolution: '256x192, 16 colors',
+      soundChip: 'Texas Instruments SN76489',
+      cartSize: '4kB - 18kB',
+    },
+    colors: {
+      band1: '#EFCB99',
+      band2: '#9D5032',
+      band3: '#73533E',
+      band4: '#1F1F23',
+    },
+  },
+  naomi2: {
+    system: {
+      manufacturer: 'Sega',
+      yearOfRelease: '2000',
+      cpu: 'Hitachi SH-4 32-bit RISC CPU (@ 200 MHz 360 MIPS / 1.4 GFLOPS)',
+      gpu: 'NEC-Videologic PowerVR2 (CLX2)',
+      sound: 'ARM7 Yamaha AICA 45 MHz (with internal 32-bit RISC CPU, 64 channels ADPCM)',
+      ram: '56 MB',
+      media: 'ROM Board (max. size of 168 MB)',
+    },
+    colors: {
+      band1: '#F36418',
+      band2: '#070308',
+      band3: '#4F556B',
+      band4: '#0057F0',
+    },
+  },
+  pico: {
+    system: {
+      manufacturer: 'Sega',
+      yearOfRelease: '1993',
+      cpu: '16-bit Motorola 68000 @ 7.6 MHz',
+      resolution: '320x224 pixels NTSC, 320x240 PAL',
+    },
+    colors: {
+      band1: '#6C378B',
+      band2: '#25BCC1',
+      band3: '#FAC367',
+      band4: '#DB324C',
+    },
+  },
   'arcade-manufacturer-acclaim': {
     system: {},
     colors: {
@@ -2418,6 +2469,501 @@ export const systemsMetaData: SystemsMetaData = {
       band2: '#00BAFF',
       band3: '#FF8200',
       band4: '#FFDBA1',
+    },
+  },
+  'genre-action': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionbattleroyale': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionbeatemup': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionfighting': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionfirstpersonshooter': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionplatformer': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionplatformshooter': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionrythm': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionshootemup': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionshootwithgun': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-actionstealth': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventure': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventuregraphics': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventureinteractivemovie': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventurerealtime3d': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventuresurvivalhorror': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventuretext': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-adventurevisualnovels': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-board': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-casino': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-casual': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-compilation': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-demoscene': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-digitalcard': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-educative': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-party': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-pinball': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-puzzleandlogic': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpg': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgaction': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgdungeoncrawler': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgfirstpersonpartybased': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgjapanese': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgmmo': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-rpgtactical': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulation': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulationbuildandmanagement': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulationfishandhunt': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulationlife': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulationscifi': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-simulationvehicle': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-sportcompetitive': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-sportfight': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-sportracing': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-sports': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-sportsimulation': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategy': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategy4x': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategyartillery': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategyautobattler': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategymoba': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategyrts': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategytbs': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategytowerdefense': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
+    },
+  },
+  'genre-strategywargame': {
+    system: {},
+    colors: {
+      band1: '#C1B544',
+      band2: '#AE976E',
+      band3: '#479236',
+      band4: '#174085',
     },
   },
 };

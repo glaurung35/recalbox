@@ -45,6 +45,8 @@ class ThemeData
     static bool sThemeHasMenuView;
     static bool sThemeHasHelpSystem;
 
+    unsigned int getHexColor(const char* str);
+
   public:
 
     ThemeData();
@@ -55,7 +57,6 @@ class ThemeData
     static void SetThemeHasMenuView(bool on) { sThemeHasMenuView = on; }
     static void SetThemeHasHelpSystem(bool on) { sThemeHasHelpSystem = on; }
 
-  	// throws ThemeException
 	  void loadFile(const String& systemThemeFolder, const Path& path);
 
     enum class ElementProperty
@@ -167,4 +168,14 @@ class ThemeData
     }
 
     HashMap<String, ThemeView> mViews;
+
+    static String AddFiles(const std::deque<Path>& deque)
+    {
+      String result;
+      result = "from theme \"" + deque.front().ToString() + "\"\n";
+      for (auto it = deque.begin() + 1; it != deque.end(); it++)
+        result += "  (from included file \"" + (*it).ToString() + "\")\n";
+      result += "    ";
+      return result;
+    }
 };

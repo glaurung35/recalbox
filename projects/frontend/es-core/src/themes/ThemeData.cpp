@@ -5,6 +5,8 @@
 #include <MainRunner.h>
 #include "RootFolders.h"
 #include "MenuThemeData.h"
+#include "components/TextScrollComponent.h"
+#include "components/BoxComponent.h"
 
 ThemeData* ThemeData::sCurrent = nullptr;
 bool ThemeData::sThemeChanged = false;
@@ -48,6 +50,18 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "rotationOrigin", ElementProperty::NormalizedPair },
         { "path", ElementProperty::Path },
         { "tile", ElementProperty::Boolean },
+        { "color", ElementProperty::Color },
+        { "zIndex", ElementProperty::Float },
+        { "disabled", ElementProperty::Boolean },
+      },
+    },
+    { "box",
+      {
+        { "pos", ElementProperty::NormalizedPair },
+        { "size", ElementProperty::NormalizedPair },
+        { "origin", ElementProperty::NormalizedPair },
+        { "rotation", ElementProperty::Float },
+        { "rotationOrigin", ElementProperty::NormalizedPair },
         { "color", ElementProperty::Color },
         { "zIndex", ElementProperty::Float },
         { "disabled", ElementProperty::Boolean },
@@ -794,14 +808,11 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
 		{
 			Component* comp = nullptr;
 			const String& t = elem.Type();
-			if(t == "image")
-				comp = new ImageComponent(window);
-
-			else if (t == "video")
-				comp = new VideoComponent(window);
-
-			else if(t == "text")
-				comp = new TextComponent(window);
+			if      (t == "image")      comp = new ImageComponent(window);
+			else if (t == "video")      comp = new VideoComponent(window);
+			else if (t == "text")       comp = new TextComponent(window);
+      else if (t == "textscroll") comp = new TextScrollComponent(window);
+      else if (t == "box")        comp = new BoxComponent(window);
 
 			if (comp != nullptr)
       {
@@ -809,7 +820,7 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
         comp->applyTheme(theme, view, key, ThemeProperties::All);
         comps.push_back(comp);
       }
-      else { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << view << "." << element << "] - expected \"" << expectedType << "\", got \"" << elemIt->second.Type() << "\""; }
+      else { LOG(LogWarning) << "[ThemeData] Extra type unknown: " << elem.Type(); }
 		}
 	}
 

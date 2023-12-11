@@ -5,6 +5,7 @@ from configgen.controllers.controller import ControllerPerPlayer
 from configgen.generators.Generator import Generator
 from configgen.settings.keyValueSettings import keyValueSettings
 from pyudev.device._device import Properties
+from configgen.utils.Vulkan import Vulkan
 
 class DaphneGenerator(Generator):
 
@@ -79,7 +80,7 @@ class DaphneGenerator(Generator):
                 commandArray.extend(["-bezel", bezelFile, "-force_aspect_ratio"])
 
         # Use Vulkan if available or use OpenGL
-        if os.path.isfile("/usr/lib/libvulkan.so"):
+        if Vulkan.vulkanAvailable():
             commandArray.extend(["-vulkan"])
         else:
             commandArray.extend(["-opengl"])

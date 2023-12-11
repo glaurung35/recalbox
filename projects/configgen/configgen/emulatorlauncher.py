@@ -169,12 +169,8 @@ def getDefaultEmulator(systemName: str, emulatorName: str, coreName: str):
         # Atari
 
         # Computers
-        "oricatmos"      : Emulator(name='oricatmos', emulator='oricutron', core='oricutron', videoMode='default'),
-        "samcoupe"       : Emulator(name='samcoupe', emulator='simcoupe', core='simcoupe', videoMode='default'),
-        "frotz"          : Emulator(name='frotz', emulator='frotz', core='frotz', videoMode='default'),
 
         # Game engines
-        "scummvm"        : Emulator(name='scummvm', emulator='scummvm', core='scummvm', videoMode='default'),
 
         # Consoles
         "pcv2"           : Emulator(name='pcv2', emulator='libretro', core='mednafen_wswan', ratio='16/10'),

@@ -38,7 +38,7 @@ def test_simple_generate_singe_file(emulator, system, mocker):
                              '-homedir', 'path/to/test',
                              '-bezel', 'path/to/test/../bezels/test.png',
                              '-force_aspect_ratio',
-                             '-opengl',
+                             '-vulkan',
                              ]
 
 

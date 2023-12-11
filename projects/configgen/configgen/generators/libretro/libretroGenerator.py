@@ -10,6 +10,7 @@ from configgen.generators.libretro.libretroRetroarch import LibretroRetroarch
 from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
+from configgen.utils.Vulkan import Vulkan
 
 
 class LibretroGenerator(Generator):
@@ -247,8 +248,8 @@ class LibretroGenerator(Generator):
     def createVideoDriverConfiguration(system: Emulator, rom: str, recalboxOptions: keyValueSettings,
                                retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
                                retroarchOverrides: keyValueSettings):
-        vulkanCores = ["flycast"]
-        if os.path.exists("/usr/lib/libvulkan.so") and system.Core in vulkanCores:
+        vulkanCores = ["flycast", "ppsspp"]
+        if Vulkan.vulkanAvailable() and system.Core in vulkanCores:
             retroarchConfig.setString("video_driver", "vulkan")
         else:
             retroarchConfig.removeOption("video_driver")

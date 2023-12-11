@@ -4,7 +4,6 @@
 #include <components/VideoComponent.h>
 #include <MainRunner.h>
 #include "RootFolders.h"
-#include "ThemeException.h"
 #include "MenuThemeData.h"
 
 ThemeData* ThemeData::sCurrent = nullptr;
@@ -294,15 +293,19 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
 }
 
 // helper
-unsigned int getHexColor(const char* str)
+unsigned int ThemeData::getHexColor(const char* str)
 {
-	if(str == nullptr) throw ThemeException("Empty color");
+	if(str == nullptr)
+  {
+    { LOG(LogError) << "[Themes] Empty color"; }
+    return 0xFFFFFFFF;
+  }
 
   String string('$');
   string.Append(str);
 	int val = 0;
 	if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
-    throw ThemeException("Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)");
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
 
 	if (string.Count() == 7) val = (val << 8) | 0xFF;
 	return (unsigned int)val;
@@ -339,7 +342,10 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 	mPaths.push_back(path);
 
 	if(!path.Exists())
-		throw ThemeException("File does not exist!", mPaths);
+  {
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "File does not exist!"; }
+    return;
+  }
 
 	mVersion = 0;
 	mViews.clear();
@@ -370,19 +376,19 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   pugi::xml_document doc;
 	pugi::xml_parse_result res = doc.load_file(path.ToChars());
 	if(!res)
-		throw ThemeException("XML parsing error: \n    " + String(res.description()), mPaths);
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "XML parsing error: \n    " + String(res.description()); }
 
 	pugi::xml_node root = doc.child("theme");
 	if(!root)
-		throw ThemeException("Missing <theme> tag!", mPaths);
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Missing <theme> tag!"; }
 
 	// parse version
 	mVersion = root.child("formatVersion").text().as_float(-404);
 	if(mVersion == -404)
-		throw ThemeException("<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag.", mPaths);
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
 
 	if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-		throw ThemeException("Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.', mPaths);
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 	
 	parseIncludes(root);
 	parseViews(root);
@@ -417,11 +423,11 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 				pugi::xml_document includeDoc;
 				pugi::xml_parse_result result = includeDoc.load_file(path.ToChars());
 				if(!result)
-					throw ThemeException(errorString + "Error parsing file: \n    " + result.description(), mPaths);
+          { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Error parsing file: \n    " + result.description(); }
 
 				pugi::xml_node newRoot = includeDoc.child("theme");
 				if(!newRoot)
-					throw ThemeException(errorString + "Missing <theme> tag!", mPaths);
+          { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Missing <theme> tag!"; }
 				parseIncludes(newRoot);
 				parseViews(newRoot);
 				parseFeatures(newRoot);
@@ -476,7 +482,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
 	for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
 	{
 		if(!node.attribute("supported"))
-			throw ThemeException("Feature missing \"supported\" attribute!", mPaths);
+    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Feature missing \"supported\" attribute!"; }
 
 		const String supportedAttr = node.attribute("supported").as_string();
 
@@ -493,7 +499,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
 	for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
 	{
 		if(!node.attribute("name"))
-			throw ThemeException("View missing \"name\" attribute!", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "View missing \"name\" attribute!"; }
 
 		const char* delim = " \t\r\n,";
 		const String nameAttr = node.attribute("name").as_string();
@@ -522,7 +528,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
 	{
 		if(!node.attribute("name"))
-			throw ThemeException("Element of type \"" + String(node.name()) + R"(" missing "name" attribute!)", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Element of type \"" + String(node.name()) + R"(" missing "name" attribute!)"; }
 		if (String(node.name()) == "helpsystem")
 			SetThemeHasHelpSystem(true);
 
@@ -530,7 +536,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
 
 		auto elemTypeIt = elementMap.find(node.name());
 		if(elemTypeIt == elementMap.end())
-			throw ThemeException("Unknown element of type \"" + String(node.name()) + "\"!", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown element of type \"" + String(node.name()) + "\"!"; }
     const auto & subElementMap = elemTypeIt->second;
 
 		if (parseRegion(node))
@@ -592,7 +598,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 	{
 		auto typeIt = typeMap.find(node.name());
 		if(typeIt == typeMap.end())
-			throw ThemeException("Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ").", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ")."; }
 		
     String str = resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
 
@@ -611,7 +617,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
             break;
           }
       }
-      throw ThemeException("invalid normalized pair (property \"" + String(node.name()) + "\", value \"" + str + "\")", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
 		}
 		case ElementProperty::String:
     {
@@ -627,7 +633,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 				//too many warnings with region and system variable surcharge in themes
 				if (!root.attribute("region") && !variable.Contains("$system"))
 				{
-					String ss = "  Warning " + ThemeException::AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
+					String ss = "  Warning " + AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
 					ss += String("could not find file \"") + node.text().get() + "\" ";
 					if(path.ToString() != node.text().get())
 						ss += "(which resolved to \"" + path.ToString() + "\") ";
@@ -647,7 +653,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 		{
 			float floatVal = 0;
 			if (!str.TryAsFloat(floatVal))
-        throw ThemeException("invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")", mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
 		  element.AddFloatProperty(node.name(), floatVal);
   		break;
 		}
@@ -661,7 +667,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
   			break;
 		}
 		default:
-			throw ThemeException("Unknown ElementPropertyType for \"" + String(root.attribute("name").as_string()) + "\", property " + node.name(), mPaths);
+      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << node.name(); }
 		}
 	}
 }
@@ -695,15 +701,8 @@ const ThemeElement* ThemeData::getElement(const String& view, const String& elem
 		const Path path = RootFolders::DataRootFolder / "system/.emulationstation/es_theme_default.xml";
 		if (path.Exists())
 		{
-			try
-			{
-				String empty;
-        sDefault.loadFile(empty, path);
-			}
-			catch(ThemeException& e)
-			{
-				{ LOG(LogError) << "[ThemeData] " << e.what(); }
-			}
+      String empty;
+      sDefault.loadFile(empty, path);
 		}
 		sLoaded = true;
 	}
@@ -746,32 +745,18 @@ const ThemeData& ThemeData::getCurrent()
 					Path subTheme = sub / "theme.xml";
 					if (subTheme.Exists())
 					{
-						try
-						{
-							String empty;
-              sCurrent->loadFile(empty, subTheme);
-							break;
-						} catch(ThemeException& e)
-						{
-              { LOG(LogError) << "[ThemeData] " << e.what(); }
-						}
+  					String empty;
+            sCurrent->loadFile(empty, subTheme);
+	  				break;
 					}
-				
 				}
 			}
 			Path masterTheme = master / "theme.xml";
 			if (masterTheme.Exists())
       {
-        try
-        {
-          String empty;
-          sCurrent->loadFile(empty, masterTheme);
-          break;
-        } catch(ThemeException& e)
-        {
-          { LOG(LogError) << "[ThemeData] " << e.what(); }
-          *sCurrent = ThemeData(); //reset to empty
-        }
+        String empty;
+        sCurrent->loadFile(empty, masterTheme);
+        break;
       }
 		}
 
@@ -824,6 +809,7 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
         comp->applyTheme(theme, view, key, ThemeProperties::All);
         comps.push_back(comp);
       }
+      else { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << view << "." << element << "] - expected \"" << expectedType << "\", got \"" << elemIt->second.Type() << "\""; }
 		}
 	}
 

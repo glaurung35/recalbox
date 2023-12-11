@@ -4,7 +4,6 @@
 #include "games/GameFilesUtils.h"
 #include <usernotifications/NotificationManager.h>
 #include <utils/Files.h>
-#include <themes/ThemeException.h>
 #include <utils/Zip.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties)
@@ -95,15 +94,7 @@ void SystemData::loadTheme()
   if (!path.Exists()) // no theme available for this platform
     return;
 
-  try
-  {
-    mTheme.loadFile(ThemeFolder(), path);
-  }
-  catch (ThemeException& e)
-  {
-    { LOG(LogError) << "[Theme] " << e.what(); }
-    mTheme.loadFile(ThemeFolder(), path);
-  }
+  mTheme.loadFile(ThemeFolder(), path);
 }
 
 FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path& rootPath, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher) const

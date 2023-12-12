@@ -28,6 +28,7 @@
 #include "RootFolders.h"
 #include "web/RestApiServer.h"
 #include "guis/wizards/WizardLite.h"
+#include "themes/ThemeManager.h"
 #include <utils/network/DnsClient.h>
 #include <music/RemotePlaylist.h>
 #include <hardware/devices/storage/StorageDevices.h>
@@ -117,6 +118,9 @@ MainRunner::ExitState MainRunner::Run()
     Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed,
                       RotationManager::GetSystemRotation());
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
+
+    // Theme manager
+    ThemeManager themeManager;
 
     // Initialize main Window and ViewController
     ApplicationWindow window(systemManager);

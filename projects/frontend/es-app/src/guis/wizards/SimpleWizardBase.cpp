@@ -8,6 +8,7 @@
 #include <components/TextComponent.h>
 #include <components/ImageComponent.h>
 #include <help/Help.h>
+#include <themes/ThemeManager.h>
 
 SimpleWizardBase::SimpleWizardBase(WindowManager& window, const String& title, int pageCount)
   : Gui(window)
@@ -22,10 +23,10 @@ SimpleWizardBase::SimpleWizardBase(WindowManager& window, const String& title, i
   addChild(&mGrid);
 
   // Get theme
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
   // 7 x 15
   // +-+-------------------------++--------------------------------------+-+
@@ -52,7 +53,7 @@ SimpleWizardBase::SimpleWizardBase(WindowManager& window, const String& title, i
   //  2%          27%             2%                67%                   2%
 
   // Title
-  mTitle = std::make_shared<TextComponent>(window, _S(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(window, _S(title), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, true, Vector2i(3,1) );
 
   // Image
@@ -60,7 +61,7 @@ SimpleWizardBase::SimpleWizardBase(WindowManager& window, const String& title, i
   mGrid.setEntry(mImage, Vector2i(1, 1), false, true, Vector2i(1,1) );
 
   // Text
-  mText = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+  mText = std::make_shared<TextComponent>(window, "", menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Center);
   mGrid.setEntry(mText, Vector2i(3, 1), false, true, Vector2i(1,1) );
 
   // Set Window position/size

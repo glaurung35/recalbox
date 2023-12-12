@@ -106,7 +106,7 @@ void GuiMenuSound::OptionListComponentChanged(int id, int index, const AudioMode
     const bool currentCanPlayMusic = AudioModeTools::CanPlayMusic();
     RecalboxConf::Instance().SetAudioMode(value).Save();
     if (!currentCanPlayMusic && AudioModeTools::CanPlayMusic())
-      AudioManager::Instance().StartPlaying(ThemeData::getCurrent());
+      AudioManager::Instance().StartPlaying(ThemeManager::Instance().Main());
     else if (currentCanPlayMusic && !AudioModeTools::CanPlayMusic())
       AudioManager::Instance().StopAll();
   }

@@ -61,7 +61,7 @@ StaticLifeCycleControler<T>::StaticLifeCycleControler(const char* name)
   if (sInstance != nullptr)
   {
     { LOG(LogInfo) << "[StaticLifeCycleControler] Instance of " << name << " already exists!"; }
-    exit(-1);
+    abort();
   }
 
   sNameHolder.mClassName = name;
@@ -75,7 +75,7 @@ StaticLifeCycleControler<T>::~StaticLifeCycleControler()
   if (sInstance != this)
   {
     { LOG(LogInfo) << "[StaticLifeCycleControler] Abnormal destruction of " << sNameHolder.mClassName; }
-    exit(-1);
+    abort();
   }
   sInstance = nullptr;
 }
@@ -87,6 +87,6 @@ T& StaticLifeCycleControler<T>::Instance()
     return *sInstance;
 
   { LOG(LogError) << "[StaticLifeCycleControler] " << sNameHolder.mClassName << " not yet available!"; }
-  exit(-1);
+  abort();
 }
 

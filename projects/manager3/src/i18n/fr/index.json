@@ -1206,6 +1206,13 @@
           "text": "Êtes-vous certain de vouloir supprimer ce média ?"
         }
       }
+    },
+    "systems": {
+      "tooltips": {
+        "hasNetplay": {
+          "label": "Afficher uniquement les systèmes compatibles Netplay"
+        }
+      }
     }
   },
   "patreon": {

@@ -56,7 +56,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
   if (mounts.size() == 1)
   {
     mounts[0]->UpdateSize();
-    AddText(_("DISK USAGE (FREE/TOTAL)"), mounts[0]->DisplayableFreeSpace(), RecalboxSystem::isFreeSpaceUnderLimit(mounts[0]->FreeSize()) ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
+    AddText(_("DISK USAGE (FREE/TOTAL)"), mounts[0]->DisplayableFreeSpace(), RecalboxSystem::isFreeSpaceUnderLimit(mounts[0]->FreeSize()) ? 0xFF0000FF : mTheme.Text().color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
   }
   else
     AddSubMenu(_("DISK USAGE (FREE/TOTAL)"), (int)Components::DiskUsage);

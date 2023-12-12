@@ -18,7 +18,7 @@
 GuiMenuBase::GuiMenuBase(WindowManager& window, const String& title, IGuiMenuBase* interface)
   : Gui(window)
   , mMenu(window, title)
-  , mTheme(*MenuThemeData::getInstance()->getCurrentTheme())
+  , mTheme(ThemeManager::Instance().Menu())
   , mInterface(interface)
   , mMenuInitialized(false)
 {
@@ -79,7 +79,7 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, int 
   if (!help.empty())
     row.makeHelpInputHandler([this, help, label] { mWindow.pushGui(new GuiMsgBoxScroll(mWindow, label, help, _("OK"), []{}, "", nullptr, "", nullptr)); return true; });
 
-  auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.menuText.font, mTheme.menuText.color);
+  auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.Text().font, mTheme.Text().color);
   row.addElement(entryMenu, true);
   row.addElement(makeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
@@ -96,20 +96,20 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, cons
     // icon
     auto icon = std::make_shared<ImageComponent>(mWindow);
     icon->setImage(iconPath);
-    icon->setColorShift(mTheme.menuText.color);
-    icon->setResize(0, mTheme.menuText.font->getLetterHeight() * 1.25f);
+    icon->setColorShift(mTheme.Text().color);
+    icon->setResize(0, mTheme.Text().font->getLetterHeight() * 1.25f);
     row.addElement(icon, false, true);
 
     // spacer between icon and text
     auto spacer = std::make_shared<Component>(mWindow);
-    spacer->setSize(10.f + Math::round(mTheme.menuText.font->getLetterHeight() * 1.25f) - Math::round(icon->getSize().x()), 0);
+    spacer->setSize(10.f + Math::round(mTheme.Text().font->getLetterHeight() * 1.25f) - Math::round(icon->getSize().x()), 0);
     row.addElement(spacer, false, true);
   }
 
   if (!help.empty())
     row.makeHelpInputHandler([this, help, label] { mWindow.pushGui(new GuiMsgBoxScroll(mWindow, label, help, _("OK"), []{}, "", nullptr, "", nullptr)); return true; });
 
-  auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.menuText.font, mTheme.menuText.color);
+  auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.Text().font, mTheme.Text().color);
   row.addElement(entryMenu, true);
   row.addElement(makeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
@@ -128,8 +128,8 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, cons
 
 std::shared_ptr<RatingComponent> GuiMenuBase::AddRating(const String& text, float value, int id, IRatingComponent* interface, const String& help)
 {
-  auto result = std::make_shared<RatingComponent>(mWindow, mTheme.menuText.color, value);
-  result->setSize(0, mTheme.menuText.font->getHeight() * 0.8f);
+  auto result = std::make_shared<RatingComponent>(mWindow, mTheme.Text().color, value);
+  result->setSize(0, mTheme.Text().font->getHeight() * 0.8f);
   mMenu.addWithLabel(result, text, help);
   result->SetInterface(id, interface);
   return result;
@@ -182,7 +182,7 @@ std::shared_ptr<SwitchComponent> GuiMenuBase::AddSwitch(const String& text, bool
 
 std::shared_ptr<TextComponent> GuiMenuBase::AddText(const String& text, const String& value, unsigned int color, const String& help)
 {
-  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.menuText.font, color);
+  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.Text().font, color);
   mMenu.addWithLabel(result, text, help);
   return result;
 }
@@ -194,7 +194,7 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddText(const String& text, const St
 
 std::shared_ptr<TextComponent> GuiMenuBase::AddText(const String& text, const String& value, const String& help)
 {
-  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.menuText.font, mTheme.menuText.color);
+  auto result = std::make_shared<TextComponent>(mWindow, value, mTheme.Text().font, mTheme.Text().color);
   mMenu.addWithLabel(result, text, help);
   return result;
 }
@@ -206,8 +206,8 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddText(const String& text, const St
 
 std::shared_ptr<EditableComponent> GuiMenuBase::AddEditable(const String& edittitle, const String& text, const String& value, int id, IEditableComponent* interface, const String& help, bool masked)
 {
-  auto result = std::make_shared<EditableComponent>(mWindow, edittitle, value, mTheme.menuText.font, mTheme.menuText.color, id, interface, masked);
-  result->setSize(mMenu.getSize().x() / 3.f, mTheme.menuText.font->getHeight());
+  auto result = std::make_shared<EditableComponent>(mWindow, edittitle, value, mTheme.Text().font, mTheme.Text().color, id, interface, masked);
+  result->setSize(mMenu.getSize().x() / 3.f, mTheme.Text().font->getHeight());
   result->setHorizontalAlignment(TextAlignment::Right);
   mMenu.addWithLabel(result, text, help, false, true, [result] { result->StartEditing(); });
   return result;

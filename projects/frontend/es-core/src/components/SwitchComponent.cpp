@@ -4,6 +4,7 @@
 #include "WindowManager.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 SwitchComponent::SwitchComponent(WindowManager&window)
   : Component(window)
@@ -13,11 +14,11 @@ SwitchComponent::SwitchComponent(WindowManager&window)
   , mState(false)
   , mInitialState(false)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	mImage.setImage(mState ? menuTheme.Elements().on : menuTheme.Elements().off);
 	mImage.setResize(0, Font::get(FONT_SIZE_MEDIUM)->getLetterHeight() * (Renderer::Instance().Is240p() ? 1.4f : 1.0f));
-	mImage.setColorShift(menuTheme->menuText.color);
-	mOriginColor = menuTheme->menuText.color;
+	mImage.setColorShift(menuTheme.Text().color);
+	mOriginColor = menuTheme.Text().color;
 	mSize = mImage.getSize();
 }
 
@@ -52,8 +53,8 @@ void SwitchComponent::Render(const Transform4x4f& parentTrans)
 
 void SwitchComponent::setImageState()
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mImage.setImage(mState ? menuTheme->iconSet.on : menuTheme->iconSet.off);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mImage.setImage(mState ? menuTheme.Elements().on : menuTheme.Elements().off);
 }
 
 void SwitchComponent::setState(bool state)

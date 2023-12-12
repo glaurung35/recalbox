@@ -2,6 +2,7 @@
 #include <themes/MenuThemeData.h>
 #include <help/Help.h>
 #include <utils/locale/LocaleHelper.h>
+#include "themes/ThemeManager.h"
 
 #define TOTAL_HORIZONTAL_PADDING_PX 20
 
@@ -73,11 +74,11 @@ bool ComponentList::ProcessInput(const InputCompactEvent& event)
 	  return true;
 
 	// input handler didn't consume the input - try to scroll
-	if (event.AnyUpPressed())	      return listInput(-1);
-	else if (event.AnyDownPressed()) return listInput(1);
-	else if (event.L1Pressed())   return listInput(-7);
-	else if (event.R1Pressed())   return listInput(7);
-	else if (event.AnyUpReleased() || event.AnyDownReleased() || event.L1Released() || event.R1Released())
+	if (event.AnyUpPressed())   return listInput(-1);
+	if (event.AnyDownPressed()) return listInput(1);
+	if (event.L1Pressed())      return listInput(-7);
+	if (event.R1Pressed())      return listInput(7);
+	if (event.AnyUpReleased() || event.AnyDownReleased() || event.L1Released() || event.R1Released())
 	  listInput(0);
 
 	return false;
@@ -150,14 +151,13 @@ void ComponentList::updateCameraOffset()
 
 void ComponentList::Render(const Transform4x4f& parentTrans)
 {
-	if(size() == 0)
-		return;
+	if(size() == 0) return;
 
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	unsigned int selectorColor = menuTheme->menuText.selectorColor;
-	unsigned int selectedColor = menuTheme->menuText.selectedColor;
-	unsigned int bgColor = menuTheme->menuBackground.color;
-	unsigned int separatorColor = menuTheme->menuText.separatorColor;
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	unsigned int selectorColor = menuTheme.Text().selectorColor;
+	unsigned int selectedColor = menuTheme.Text().selectedColor;
+	unsigned int bgColor = menuTheme.Background().color;
+	unsigned int separatorColor = menuTheme.Text().separatorColor;
 
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 

@@ -4,6 +4,7 @@
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { Cpu, MonitoringResponse } from 'stores/types/mqtt';
 import { toRaw } from 'vue';
 import { StoragesResponse } from 'stores/types/storages';
 
@@ -37,14 +38,58 @@ export const useMonitoringStore = defineStore('monitoring', {
         let result: {used: number, size: number} = { used: 0, size: 0 };
 
         Object.keys(storages).map((key): {used: number, size: number} => {
-          if (storages[key as keyof typeof storages].recalbox === 'share') {
-            result = toRaw(storages[key as keyof typeof storages]);
+          if (storages[key].recalbox === 'share') {
+            result = toRaw(storages[key]);
           }
           return { used: 0, size: 0 };
         });
         return Math.round((100 * result.used) / result.size);
       }
       return 0;
+    },
+    updateMonitoring(message: MonitoringResponse) {
+      const temperatures = [
+        ...this.metrics.temperatures,
+        [
+          (new Date(message.timestamp)).getTime(),
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          parseFloat(message.temperature.temperatures.shift().toFixed(0)) ?? 0,
+        ],
+      ];
+
+      const memory = [
+        ...this.metrics.memory,
+        [
+          (new Date(message.timestamp)).getTime(),
+          parseFloat(
+            ((
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              (message.memory.total - message.memory.available.shift()) / message.memory.total
+            ) * 100).toFixed(0),
+          ),
+        ],
+      ];
+
+      const cores: { x: string, y: number }[] = Object.keys(message.cpus).map(
+        (core): { x: string, y: number } => ({
+          x: `Core ${core}`,
+          // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+          // @ts-ignore
+          y: parseFloat(message.cpus[core as keyof typeof message.cpus].consumption.shift().toFixed(0)),
+        }),
+      );
+
+      this.$patch({
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        metrics: {
+          cores,
+          temperatures: temperatures.slice(-30),
+          memory: memory.slice(-30),
+        },
+      });
     },
   },
 });

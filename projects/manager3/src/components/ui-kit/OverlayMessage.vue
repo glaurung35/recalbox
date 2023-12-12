@@ -33,7 +33,7 @@ const classes = computed(() => `overlayMessage${background.value ? ' background'
   top: -1em
   width: 100%
   height: calc(100% + 1em)
-  z-index: 9999
+  z-index: 100
   display: flex
   align-items: center
   justify-content: center

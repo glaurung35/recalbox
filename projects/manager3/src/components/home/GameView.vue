@@ -45,13 +45,21 @@
   <div class="informations">
     <OverlayMessage
       background
-      icon="mdi-sleep"
-      v-if="currentState.currentAction === Actions.sleep"
-    />
+      v-if="currentState.currentAction === Actions.sleep
+      || currentState.currentAction === Actions.runDemo
+      || currentState.currentAction === Actions.startGameClip"
+    >
+      <template v-slot:content>
+        <AnimatedSleepEmote />
+      </template>
+    </OverlayMessage>
     <OverlayMessage
-      icon="mdi-ghost-off-outline"
       v-else-if="currentState.currentRom === null"
-    />
+    >
+      <template v-slot:content>
+        <q-icon name="mdi-ghost-off-outline"/>
+      </template>
+    </OverlayMessage>
     <div class="screen">
       <q-img
         v-if="currentState.currentRom"
@@ -125,6 +133,7 @@
 </template>
 
 <script lang="ts" setup>
+import AnimatedSleepEmote from 'components/ui-kit/AnimatedSleepEmote.vue';
 import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
 import { storeToRefs } from 'pinia';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
@@ -198,4 +207,8 @@ const infoOpen = ref<boolean>(false);
     opacity: 0.3
     animation-duration: .5s
     animation-name: helpDialogSlidein
+
+.q-icon
+  color: $light-blue
+  font-size: 9em
 </style>

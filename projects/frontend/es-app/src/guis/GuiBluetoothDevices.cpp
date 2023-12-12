@@ -14,14 +14,14 @@ GuiBluetoothDevices::GuiBluetoothDevices(WindowManager& windowManager)
   , mBackground(windowManager, Path(":/frame.png"))
   , mGrid(windowManager, Vector2i(4, 5))
   , mList(nullptr)
-  , mMenuTheme(MenuThemeData::getInstance()->getCurrentTheme())
+  , mMenuTheme(ThemeManager::Instance().Menu())
 {
   addChild(&mBackground);
   addChild(&mGrid);
 
-  mBackground.setImagePath(mMenuTheme->menuBackground.path);
-  mBackground.setCenterColor(mMenuTheme->menuBackground.color);
-  mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
+  mBackground.setImagePath(mMenuTheme.Background().path);
+  mBackground.setCenterColor(mMenuTheme.Background().color);
+  mBackground.setEdgeColor(mMenuTheme.Background().color);
 
   BuildComponents();
   FillDeviceList();
@@ -68,7 +68,7 @@ GuiBluetoothDevices::~GuiBluetoothDevices()
 void GuiBluetoothDevices::BuildComponents()
 {
   // Title
-  mTitle = std::make_shared<TextComponent>(mWindow, _("PAIR BLUETOOTH CONTROLLERS"), mMenuTheme->menuTitle.font, mMenuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(mWindow, _("PAIR BLUETOOTH CONTROLLERS"), mMenuTheme.Title().font, mMenuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, true, Vector2i(2, 1));
 
   // List
@@ -79,7 +79,7 @@ void GuiBluetoothDevices::BuildComponents()
   mList->setFocusGainedCallback([this] { FillDetails(); });
 
   // Details
-  mDetails = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuTitle.color, TextAlignment::Left);
+  mDetails = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Left);
   mDetails->setVerticalAlignment(TextAlignment::Top);
   mGrid.setEntry(mDetails, Vector2i(2, 1), false, true, Vector2i(1, 1));
 
@@ -142,7 +142,7 @@ void GuiBluetoothDevices::FillDeviceList()
     for (const auto& device : mDevices)
     {
       row.elements.clear();
-      std::shared_ptr<Component> ed = std::make_shared<TextComponent>(mWindow, ComposeName(device), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
+      std::shared_ptr<Component> ed = std::make_shared<TextComponent>(mWindow, ComposeName(device), mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Left);
       row.addElement(ed, true);
       mList->addRow(row, false, true);
     }
@@ -151,7 +151,7 @@ void GuiBluetoothDevices::FillDeviceList()
   }
   else
   {
-    std::shared_ptr<Component> ed = std::make_shared<TextComponent>(mWindow, _("NO DEVICE"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Left);
+    std::shared_ptr<Component> ed = std::make_shared<TextComponent>(mWindow, _("NO DEVICE"), mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Left);
     row.addElement(ed, true);
     mList->addRow(row, false, true);
   }

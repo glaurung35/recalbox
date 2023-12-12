@@ -9,6 +9,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include "GuiNetPlayEditPasswords.h"
 #include <views/ViewController.h>
+#include <themes/ThemeManager.h>
 
 GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData& game)
   : Gui(window),
@@ -17,7 +18,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData
 {
 	addChild(&mMenu);
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  //const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
   mPlayerPasswordOnOff = std::make_shared<SwitchComponent>(mWindow, RecalboxConf::Instance().AsBool("netplay.password.useforplayer", false));
   mMenu.addWithLabel(mPlayerPasswordOnOff, _("SET PLAYER PASSWORD"));
@@ -50,7 +51,8 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData
     // Run game
     if(mGame.IsGame())
     {
-      String playerPassword, viewerPassword;
+      String playerPassword;
+      String viewerPassword;
       if (mPlayerPasswordOnOff->getState())
         playerPassword = RecalboxConf::Instance().AsString("netplay.password." + String(mPlayerPassword->getSelected()), DefaultPasswords::sDefaultPassword[mPlayerPassword->getSelected()]);
       if (mViewerPasswordOnOff->getState())

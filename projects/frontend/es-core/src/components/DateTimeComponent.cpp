@@ -4,6 +4,7 @@
 #include "utils/Log.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 DateTimeComponent::DateTimeComponent(WindowManager&window, Display dispMode)
   : Component(window),
@@ -17,9 +18,9 @@ DateTimeComponent::DateTimeComponent(WindowManager&window, Display dispMode)
     mUppercase(false),
     mAutoSize(true)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	setFont(menuTheme->menuTextSmall.font);
-	setColor(menuTheme->menuText.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	setFont(menuTheme.SmallText().font);
+	setColor(menuTheme.Text().color);
 	setOriginColor(mColor);
 	mFlag = true;
 	updateTextCache();

@@ -37,7 +37,7 @@ class GuiBluetoothDevices final
     //! Low button
     std::shared_ptr<ComponentGrid> mButtons;
     //! Menu theme
-    std::shared_ptr<MenuTheme> mMenuTheme;
+    const MenuThemeData& mMenuTheme;
 
     //! Latest devices info
     std::vector<DeviceStatus::Device> mDevices;

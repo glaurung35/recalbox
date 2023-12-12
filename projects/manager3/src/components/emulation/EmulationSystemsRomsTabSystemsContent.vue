@@ -8,7 +8,7 @@
         grid
         card-container-class="card-container"
         card-class="bg-secondary text-white card"
-        :rows="filteredSystemsList"
+        :rows="SystemsList"
         :columns="columns"
         row-key="name"
         :filter="table.filter"
@@ -18,6 +18,25 @@
         dense
         :pagination="table.pagination"
       >
+        <template v-slot:top-left>
+          <q-btn
+            :color="filterButtons.hasNetplay ? 'accent' : 'light-blue'"
+            @click="filterButtons.hasNetplay = !filterButtons.hasNetplay"
+            flat
+            icon="mdi-lan-connect"
+            round
+            size="md"
+          >
+            <q-tooltip
+              class="bg-primary"
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
+              {{ $t('emulation.systems.tooltips.hasNetplay.label') }}
+            </q-tooltip>
+          </q-btn>
+        </template>
         <template v-slot:top-right>
           <q-input
             :placeholder="$t('general.tables.searchLabel')"
@@ -80,7 +99,7 @@
 <script lang="ts" setup>
 import { useSystemsStore } from 'stores/systems';
 import { System } from 'stores/types/systems';
-import { computed, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { apiUrl } from 'boot/axios';
 
@@ -104,6 +123,20 @@ const table = ref({
   pagination: {
     rowsPerPage: 24,
   },
+});
+
+const filterButtons = reactive({
+  hasNetplay: false,
+});
+
+const SystemsList = computed(() => {
+  let list = filteredSystemsList.value;
+
+  if (filterButtons.hasNetplay) {
+    list = list.filter((filteredSystem) => filteredSystem.properties.hasNetplay);
+  }
+  console.log(filterButtons.hasNetplay, list);
+  return list;
 });
 </script>
 

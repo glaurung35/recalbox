@@ -16,6 +16,7 @@ GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager
   , mSystemManager(systemManager)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(5, 6))
+  , mMenuTheme(ThemeManager::Instance().Menu())
   , mList(nullptr)
   , mGame(game)
   , mFromMenu(fromMenu)
@@ -27,11 +28,9 @@ GuiSaveStates::GuiSaveStates(WindowManager& window, SystemManager& systemManager
   addChild(&mBackground);
   addChild(&mGrid);
 
-  mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
-  mBackground.setImagePath(mMenuTheme->menuBackground.path);
-  mBackground.setCenterColor(mMenuTheme->menuBackground.color);
-  mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
+  mBackground.setImagePath(mMenuTheme.Background().path);
+  mBackground.setCenterColor(mMenuTheme.Background().color);
+  mBackground.setEdgeColor(mMenuTheme.Background().color);
 
   initGridsNStuff();
 
@@ -69,11 +68,11 @@ void GuiSaveStates::onSizeChanged()
 void GuiSaveStates::initGridsNStuff()
 {
   // Title
-  mTitle = std::make_shared<TextComponent>(mWindow, _("SAVE STATES"), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(mWindow, _("SAVE STATES"), mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 1), false, true, Vector2i(3, 1));
 
   // Game name
-  mGameName = std::make_shared<TextComponent>(mWindow, mGame.Name(), mMenuTheme->menuText.font, mMenuTheme->menuText.color, TextAlignment::Center);
+  mGameName = std::make_shared<TextComponent>(mWindow, mGame.Name(), mMenuTheme.Text().font, mMenuTheme.Text().color, TextAlignment::Center);
   mGameName->setUppercase(true);
   mGrid.setEntry(mGameName, Vector2i(1, 2), false, true, Vector2i(3, 2));
 
@@ -185,7 +184,7 @@ void GuiSaveStates::PopulateGrid()
   if (mList) mList->clear();
 
   ComponentListRow row;
-  std::shared_ptr<TextComponent> ed = std::make_shared<TextComponent>(mWindow, _("none"), mMenuTheme->menuText.font, mMenuTheme->menuText.color,TextAlignment::Left);
+  std::shared_ptr<TextComponent> ed = std::make_shared<TextComponent>(mWindow, _("none"), mMenuTheme.Text().font, mMenuTheme.Text().color,TextAlignment::Left);
   ed->setUppercase(true);
 
   row.addElement(ed, true);
@@ -196,7 +195,7 @@ void GuiSaveStates::PopulateGrid()
     String text = _("SLOT");
     if (state.GetIsAuto()) text.Append(' ').Append(_("AUTO"));
     else text.Append('#').Append(state.GetSlotNumber()).Append(" - ").Append(state.GetDateTime().ToStringFormat("%YYYY/%MM/%dd %HH:%mm:%ss"));
-    ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme->menuText.font, mMenuTheme->menuText.color,TextAlignment::Left);
+    ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme.Text().font, mMenuTheme.Text().color,TextAlignment::Left);
     ed->setUppercase(true);
 
     row.elements.clear();

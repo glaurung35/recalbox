@@ -20,18 +20,18 @@ MenuComponent::MenuComponent(WindowManager&window, const String& title, const st
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
 
 	// set up title
 	mTitle = std::make_shared<TextComponent>(mWindow);
 	mTitle->setHorizontalAlignment(TextAlignment::Center);
 
-	setTitle(title, menuTheme->menuTitle.font);
-	mTitle->setColor(menuTheme->menuTitle.color);
+	setTitle(title, menuTheme.Title().font);
+	mTitle->setColor(menuTheme.Title().color);
 
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
@@ -44,9 +44,9 @@ MenuComponent::MenuComponent(WindowManager&window, const String& title, const st
   if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
   {
     mBattery = std::make_shared<TextComponent>(mWindow);
-    mBattery->setFont(menuTheme->menuText.font);
+    mBattery->setFont(menuTheme.Text().font);
     if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
-    else                     mBattery->setColor(menuTheme->menuText.color);
+    else                     mBattery->setColor(menuTheme.Text().color);
     mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
     mBattery->setHorizontalAlignment(TextAlignment::Left);
     headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
@@ -57,8 +57,8 @@ MenuComponent::MenuComponent(WindowManager&window, const String& title, const st
     mDateTime = std::make_shared<DateTimeComponent>(mWindow);
     mDateTime->setDisplayMode(DateTimeComponent::Display::RealTime);
     mDateTime->setHorizontalAlignment(TextAlignment::Right);
-    mDateTime->setFont(menuTheme->menuText.font);
-    mDateTime->setColor(menuTheme->menuText.color);
+    mDateTime->setFont(menuTheme.Text().font);
+    mDateTime->setColor(menuTheme.Text().color);
     headerGrid->setEntry(mDateTime, Vector2i(3, 0), false);
   }
 
@@ -77,15 +77,15 @@ MenuComponent::MenuComponent(WindowManager&window, const String& title, const st
 void MenuComponent::Update(int deltaTime)
 {
   // Refresh every 2s
-  if ((mTimeAccumulator += deltaTime) > 2000)
+  if (mTimeAccumulator += deltaTime; mTimeAccumulator > 2000)
   {
     int batteryCharge = 0;
     int batteryIcon = 0;
     if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
     {
-      auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+      const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
       if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
-      else mBattery->setColor(menuTheme->menuText.color);
+      else mBattery->setColor(menuTheme.Text().color);
       mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
     }
     mTimeAccumulator -= 2000;
@@ -103,7 +103,7 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
     mList->setCursorIndex(0);
     return true;
   }
-  else if (event.AnyUpPressed())
+  if (event.AnyUpPressed())
   {
     mList->setCursorIndex(mList->size() - 1);
     if(!mButtons.empty()) mGrid.moveCursor(Vector2i(0, 1));
@@ -122,13 +122,13 @@ void MenuComponent::setTitle(const String& title, const std::shared_ptr<Font>& f
 
 float MenuComponent::getButtonGridHeight() const
 {
-    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-    return ((mButtonGrid ? mButtonGrid->getSize().y() : 0 /*menuTheme->menuText.font->getHeight()*/) + BUTTON_GRID_VERT_PADDING);
+  //const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  return ((mButtonGrid ? mButtonGrid->getSize().y() : 0 /*menuTheme.Text().font->getHeight()*/) + BUTTON_GRID_VERT_PADDING);
 }
 
 void MenuComponent::updateSize()
 {
-    float menuTheme = MenuThemeData::getInstance()->getCurrentTheme()->menuSize.height;
+    float menuTheme = ThemeManager::Instance().Menu().Height();
     const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * menuTheme;
     float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + getFooterHeight() + 2;
     if(height > maxHeight)
@@ -198,15 +198,15 @@ bool MenuComponent::getHelpPrompts(Help& help)
 void MenuComponent::setFooter(const String& label)
 {
   if (mFooter) mGrid.removeEntry(mFooter);
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mFooter = std::make_shared<TextComponent>(mWindow, label, menuTheme->menuFooter.font, menuTheme->menuFooter.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mFooter = std::make_shared<TextComponent>(mWindow, label, menuTheme.Footer().font, menuTheme.Footer().color);
   updateGrid();
   updateSize();
 }
 
 float MenuComponent::getFooterHeight() const
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  //const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
   return ((mFooter ? mFooter->getSize().y() : 0) + BUTTON_GRID_VERT_PADDING);
 }
 
@@ -274,11 +274,11 @@ std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(WindowManager&window, cons
 
 std::shared_ptr<ImageComponent> makeArrow(WindowManager&window)
 {
-    auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-    auto bracket = std::make_shared<ImageComponent>(window);
-    bracket->setImage(menuTheme->iconSet.arrow);
-    bracket->setColorShift(menuTheme->menuText.color);
-    bracket->setResize(0, round(menuTheme->menuText.font->getLetterHeight()));
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  auto bracket = std::make_shared<ImageComponent>(window);
+  bracket->setImage(menuTheme.Elements().arrow);
+  bracket->setColorShift(menuTheme.Text().color);
+  bracket->setResize(0, round(menuTheme.Text().font->getLetterHeight()));
     
     return bracket;
 }

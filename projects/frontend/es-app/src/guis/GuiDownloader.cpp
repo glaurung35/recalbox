@@ -16,17 +16,17 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system, SystemMa
   addChild(&mBackground);
   addChild(&mGrid);
 
-  std::shared_ptr<MenuTheme> menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
   const float height = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.7f : 0.3f);
   const float width = Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.8f : 0.6f);
 
   // Title
-  mTitle = std::make_shared<TextComponent>(mWindow, "Downloader", menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(mWindow, "Downloader", menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, false, Vector2i(1,1) );
 
   // Text
-  mText = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mText = std::make_shared<TextComponent>(mWindow, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Left);
   mGrid.setEntry(mText, Vector2i(1, 1), false, false, Vector2i(1,1) );
 
   // Progress bar
@@ -34,13 +34,13 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system, SystemMa
   mGrid.setEntry(mBar, Vector2i(1, 2), false, true, Vector2i(1,1) );
 
   // ETA
-  mEta = std::make_shared<TextComponent>(mWindow, _("Start downloading..."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mEta = std::make_shared<TextComponent>(mWindow, _("Start downloading..."), menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Left);
   mGrid.setEntry(mEta, Vector2i(1, 3), false, false, Vector2i(1,1) );
 
   // Background
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
   mBackground.fitTo({ width, height }, Vector3f::Zero(), Vector2f(-32, -32));
 
   mGrid.setColWidthPerc(0, 0.02f);

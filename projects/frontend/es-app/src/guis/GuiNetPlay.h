@@ -198,7 +198,7 @@ class GuiNetPlay: public Gui
     NinePatchComponent mBackground;
     BusyComponent mBusyAnim;
     ComponentGrid mGrid;
-    std::shared_ptr<MenuTheme> mMenuTheme;
+    const MenuThemeData& mMenuTheme;
 
     std::shared_ptr<ComponentGrid> mGridMeta;
     std::shared_ptr<ComponentGrid> mGridMetaRight;

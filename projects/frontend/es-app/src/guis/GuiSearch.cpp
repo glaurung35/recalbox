@@ -24,6 +24,7 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
   , mSystemManager(systemManager)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(3, 3))
+  , mMenuTheme(ThemeManager::Instance().Menu())
   , mList(nullptr)
   , mSystemData(nullptr)
   , mJustOpen(true)
@@ -31,11 +32,9 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
   addChild(&mBackground);
   addChild(&mGrid);
 
-  mMenuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-
-  mBackground.setImagePath(mMenuTheme->menuBackground.path);
-  mBackground.setCenterColor(mMenuTheme->menuBackground.color);
-  mBackground.setEdgeColor(mMenuTheme->menuBackground.color);
+  mBackground.setImagePath(mMenuTheme.Background().path);
+  mBackground.setCenterColor(mMenuTheme.Background().color);
+  mBackground.setEdgeColor(mMenuTheme.Background().color);
 
   initGridsNStuff();
 
@@ -49,8 +48,8 @@ GuiSearch::GuiSearch(WindowManager& window, SystemManager& systemManager)
 void GuiSearch::initGridsNStuff()
 {
   //init Title
-  mTitle = std::make_shared<TextComponent>(mWindow, _("SEARCH") + " : ", mMenuTheme->menuText.font,
-                                           mMenuTheme->menuText.color, TextAlignment::Right);
+  mTitle = std::make_shared<TextComponent>(mWindow, _("SEARCH") + " : ", mMenuTheme.Text().font,
+                                           mMenuTheme.Text().color, TextAlignment::Right);
   mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1));
 
   //init search textfield
@@ -76,8 +75,8 @@ void GuiSearch::initGridsNStuff()
   mGridMeta = std::make_shared<ComponentGrid>(mWindow, Vector2i(4, 3));
   mGridMeta->setEntry(std::make_shared<Component>(mWindow), Vector2i(1, 0), false, false, Vector2i(1, 3));
   mGridMeta->setEntry(std::make_shared<Component>(mWindow), Vector2i(2, 0), false, false, Vector2i(2, 1));
-  mText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font,
-                                          mMenuTheme->menuText.color, TextAlignment::Center);
+  mText = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.Text().font,
+                                          mMenuTheme.Text().color, TextAlignment::Center);
   mList = std::make_shared<ComponentList>(mWindow);
   mGridMeta->setEntry(mList, Vector2i(0, 0), true, true, Vector2i(1, 3));
 
@@ -109,14 +108,14 @@ void GuiSearch::initGridsNStuff()
 
   mGridLogoAndMD->setEntry(mGridLogo, Vector2i(0, 0), false, true, Vector2i(2, 1));
 
-  mMDDeveloper = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                          mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-  mMDDeveloperLabel = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                      mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-  mMDPublisher = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                 mMenuTheme->menuTextSmall.color, TextAlignment::Left);
-  mMDPublisherLabel = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuTextSmall.font,
-                                                      mMenuTheme->menuTextSmall.color, TextAlignment::Left);
+  mMDDeveloper = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.SmallText().font,
+                                          mMenuTheme.SmallText().color, TextAlignment::Left);
+  mMDDeveloperLabel = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.SmallText().font,
+                                                      mMenuTheme.SmallText().color, TextAlignment::Left);
+  mMDPublisher = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.SmallText().font,
+                                                 mMenuTheme.SmallText().color, TextAlignment::Left);
+  mMDPublisherLabel = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.SmallText().font,
+                                                      mMenuTheme.SmallText().color, TextAlignment::Left);
 
   mGridLogoAndMD->setEntry(mMDDeveloperLabel, Vector2i(0, 2), false, false, Vector2i(1, 1));
   mGridLogoAndMD->setEntry(mMDDeveloper, Vector2i(1, 2), false, true, Vector2i(1, 1));
@@ -140,7 +139,7 @@ void GuiSearch::initGridsNStuff()
 
   // selected result desc + container
   mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
-  mResultDesc = std::make_shared<TextComponent>(mWindow, "", mMenuTheme->menuText.font, mMenuTheme->menuText.color);
+  mResultDesc = std::make_shared<TextComponent>(mWindow, "", mMenuTheme.Text().font, mMenuTheme.Text().color);
   mDescContainer->addChild(mResultDesc.get());
   mDescContainer->setAutoScroll(true);
   mGridMeta->setEntry(mDescContainer, Vector2i(2, 2), false, true, Vector2i(2, 1));
@@ -166,8 +165,7 @@ GuiSearch::~GuiSearch()
 
 float GuiSearch::getButtonGridHeight() const
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  return (mButtonGrid ? mButtonGrid->getSize().y() : menuTheme->menuText.font->getHeight() + BUTTON_GRID_VERT_PADDING);
+  return (mButtonGrid ? mButtonGrid->getSize().y() : mMenuTheme.Text().font->getHeight() + BUTTON_GRID_VERT_PADDING);
 }
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
@@ -211,7 +209,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     }
     if (event.YPressed())
     {
-      if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
+      if (cursor->IsGame() && cursor->System().Theme().getHasFavoritesInTheme())
       {
         ViewController::Instance().ToggleFavorite(cursor);
         populateGridMeta(mList->getCursor());
@@ -310,8 +308,8 @@ void GuiSearch::PopulateGrid(const String& search)
         String gameName(game->System().Descriptor().IconPrefix());
         gameName.Append(game->Metadata().Name());
 
-        ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme->menuText.font,
-                                             mMenuTheme->menuText.color,
+        ed = std::make_shared<TextComponent>(mWindow, gameName, mMenuTheme.Text().font,
+                                             mMenuTheme.Text().color,
                                              TextAlignment::Left);
         row.addElement(ed, true);
         row.makeAcceptInputHandler([this] { launch(); });

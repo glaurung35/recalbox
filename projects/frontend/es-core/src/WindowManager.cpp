@@ -7,6 +7,7 @@
 #include <views/ViewController.h>
 #include <usernotifications/NotificationManager.h>
 #include "guis/GuiInfoPopup.h"
+#include <themes/ThemeManager.h>
 
 WindowManager::WindowManager()
   : mOSD(*this)
@@ -21,8 +22,8 @@ WindowManager::WindowManager()
   , mRenderedHelpPrompts(false)
   , mDisplayEnabled(true)
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackgroundOverlay.setImage(menuTheme->menuBackground.fadePath);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackgroundOverlay.setImage(menuTheme.Background().fadePath);
 }
 
 WindowManager::~WindowManager()

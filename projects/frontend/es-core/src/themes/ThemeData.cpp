@@ -13,26 +13,21 @@ bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
 
-String::List& ThemeData::SupportedViews()
+HashSet<String>& ThemeData::SupportedViews()
 {
-  static String::List sSupportedViews =
-  {
-    { "system"  },
-    { "basic"   },
-    { "detailed"},
-    { "menu"    },
-    { "gameclip"},
-  };
+  static HashSet<String> sSupportedViews;
+  if (sSupportedViews.empty())
+    for(const String& value : String("system,basic,detailed,menu,gameclip").Split(','))
+      sSupportedViews.insert(value);
   return sSupportedViews;
 }
 
-String::List& ThemeData::SupportedFeatures()
+HashSet<String>& ThemeData::SupportedFeatures()
 {
-  static String::List sSupportedFeatures =
-  {
-    {"carousel" },
-    {"z-index"  },
-  };
+  static HashSet<String> sSupportedFeatures;
+  if (sSupportedFeatures.empty())
+    for(const String& value : String("carousel,z-index").Split(','))
+      sSupportedFeatures.insert(value);
   return sSupportedFeatures;
 }
 
@@ -309,7 +304,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
 // helper
 unsigned int ThemeData::getHexColor(const char* str)
 {
-	if(str == nullptr)
+  if(str == nullptr)
   {
     { LOG(LogError) << "[Themes] Empty color"; }
     return 0xFFFFFFFF;
@@ -317,19 +312,19 @@ unsigned int ThemeData::getHexColor(const char* str)
 
   String string('$');
   string.Append(str);
-	int val = 0;
-	if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
+  int val = 0;
+  if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
 
-	if (string.Count() == 7) val = (val << 8) | 0xFF;
-	return (unsigned int)val;
+  if (string.Count() == 7) val = (val << 8) | 0xFF;
+  return (unsigned int)val;
 }
 
 ThemeData::ThemeData()
 {
-	mVersion = 0;
-	SetThemeHasMenuView(false);
-	mSystemThemeFolder.clear();
+  mVersion = 0;
+  SetThemeHasMenuView(false);
+  mSystemThemeFolder.clear();
   mRandomPath.clear();
 }
 
@@ -353,23 +348,23 @@ bool ThemeData::CheckThemeOption(String& selected, const HashMap<String, String>
 
 void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 {
-	mPaths.push_back(path);
+  mPaths.push_back(path);
 
-	if(!path.Exists())
+  if(!path.Exists())
   {
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "File does not exist!"; }
     return;
   }
 
-	mVersion = 0;
-	mViews.clear();
-	
-	mSystemThemeFolder = systemThemeFolder;
+  mVersion = 0;
+  mViews.clear();
 
-	String themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
-	HashMap<String, String> subSets = getThemeSubSets(themeName);
+  mSystemThemeFolder = systemThemeFolder;
 
-	bool main = systemThemeFolder.empty();
+  String themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
+  HashMap<String, String> subSets = getThemeSubSets(themeName);
+
+  bool main = systemThemeFolder.empty();
   bool needSave = false;
   mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
   if (main && CheckThemeOption(mColorset, subSets, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
@@ -388,341 +383,265 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   if (needSave) RecalboxConf::Instance().Save();
 
   pugi::xml_document doc;
-	pugi::xml_parse_result res = doc.load_file(path.ToChars());
-	if(!res)
+  pugi::xml_parse_result res = doc.load_file(path.ToChars());
+  if(!res)
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "XML parsing error: \n    " + String(res.description()); }
 
-	pugi::xml_node root = doc.child("theme");
-	if(!root)
+  pugi::xml_node root = doc.child("theme");
+  if(!root)
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Missing <theme> tag!"; }
 
-	// parse version
-	mVersion = root.child("formatVersion").text().as_float(-404);
-	if(mVersion == -404)
+  // parse version
+  mVersion = root.child("formatVersion").text().as_float(-404);
+  if(mVersion == -404)
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
 
-	if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
+  if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
-	
-	parseIncludes(root);
-	parseViews(root);
-	parseFeatures(root);
-	mPaths.pop_back();
-}
 
+  parseIncludes(root);
+  parseViews(root);
+  parseFeatures(root);
+  mPaths.pop_back();
+}
 
 void ThemeData::parseIncludes(const pugi::xml_node& root)
 {
-  String errorString;
-	for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
-	{
-		if (parseSubset(node))
-		{
-			String str = resolveSystemVariable(mSystemThemeFolder, node.text().get(), mRandomPath);
-			
-			//workaround for an issue in parseincludes introduced by variable implementation
-			if (!str.Contains("//"))
-			{
-				Path path = Path(str).ToAbsolute(mPaths.back().Directory());
-				if(!ResourceManager::fileExists(path))
+  for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
+  {
+    if (parseSubset(node))
+    {
+      String errorString;
+      String str = resolveSystemVariable(mSystemThemeFolder, node.text().get(), mRandomPath);
+
+      //workaround for an issue in parseincludes introduced by variable implementation
+      if (!str.Contains("//"))
+      {
+        Path path = Path(str).ToAbsolute(mPaths.back().Directory());
+        if(!ResourceManager::fileExists(path))
         {
           { LOG(LogWarning) << "[ThemeData] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
           continue;
         }
 
-				errorString += "    from included file \"" + str + "\":\n    ";
+        errorString += "    from included file \"" + str + "\":\n    ";
 
-				mPaths.push_back(path);
+        mPaths.push_back(path);
 
-				pugi::xml_document includeDoc;
-				pugi::xml_parse_result result = includeDoc.load_file(path.ToChars());
-				if(!result)
+        pugi::xml_document includeDoc;
+        pugi::xml_parse_result result = includeDoc.load_file(path.ToChars());
+        if(!result)
           { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Error parsing file: \n    " + result.description(); }
 
-				pugi::xml_node newRoot = includeDoc.child("theme");
-				if(!newRoot)
+        pugi::xml_node newRoot = includeDoc.child("theme");
+        if(!newRoot)
           { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Missing <theme> tag!"; }
-				parseIncludes(newRoot);
-				parseViews(newRoot);
-				parseFeatures(newRoot);
-			
-				mPaths.pop_back();
-			}			
-		}		
-	}
+        parseIncludes(newRoot);
+        parseViews(newRoot);
+        parseFeatures(newRoot);
+
+        mPaths.pop_back();
+      }
+    }
+  }
 }
 
 bool ThemeData::parseSubset(const pugi::xml_node& node)
 {
-	bool parse = true;
-	
-	if (node.attribute("subset") != nullptr)
-	{
-		parse = false;
-		const String subsetAttr = node.attribute("subset").as_string();
-		const String nameAttr = node.attribute("name").as_string();
-		
-		if (subsetAttr == "colorset" && nameAttr == mColorset)
-		{	
-			return true;
-		}
-		if (subsetAttr == "iconset" && nameAttr == mIconset)
-		{	
-			return true;
-		}
-		if (subsetAttr == "menu" && nameAttr == mMenu)
-		{	
-			return true;
-		}
-		if (subsetAttr == "systemview" && nameAttr == mSystemview)
-		{	
-			return true;
-		}
-		if (subsetAttr == "gamelistview" && nameAttr == mGamelistview)
-		{	
-			return true;
-		}
-        if (subsetAttr == "gameclipview" && nameAttr == mGameClipView)
-        {
-            return true;
-        }
-	}
+  // No subset?
+  if (node.attribute("subset") == nullptr) return true;
 
-	return parse;
+  const String subsetAttr = node.attribute("subset").as_string();
+  const String nameAttr = node.attribute("name").as_string();
+
+  return (subsetAttr == "colorset" && nameAttr == mColorset) ||
+         (subsetAttr == "iconset" && nameAttr == mIconset) ||
+         (subsetAttr == "menu" && nameAttr == mMenu) ||
+         (subsetAttr == "systemview" && nameAttr == mSystemview) ||
+         (subsetAttr == "gamelistview" && nameAttr == mGamelistview) ||
+         (subsetAttr == "gameclipview" && nameAttr == mGameClipView);
 }
 
 void ThemeData::parseFeatures(const pugi::xml_node& root)
 {
-	for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
-	{
-		if(!node.attribute("supported"))
+  for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
+  {
+    if(!node.attribute("supported"))
     { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Feature missing \"supported\" attribute!"; }
 
-		const String supportedAttr = node.attribute("supported").as_string();
-
-		if (std::find(SupportedFeatures().begin(), SupportedFeatures().end(), supportedAttr) != SupportedFeatures().end())
-		{
-			parseViews(node);
-		}
-	}
+    const String supportedAttr = node.attribute("supported").as_string();
+    if (SupportedFeatures().contains(supportedAttr))
+      parseViews(node);
+  }
 }
 
 void ThemeData::parseViews(const pugi::xml_node& root)
 {
-	// parse views
-	for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
-	{
-		if(!node.attribute("name"))
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "View missing \"name\" attribute!"; }
-
-		const char* delim = " \t\r\n,";
-		const String nameAttr = node.attribute("name").as_string();
-		size_t prevOff = nameAttr.find_first_not_of(delim, 0);
-		size_t off = nameAttr.find_first_of(delim, prevOff);
-		String viewKey;
-		while(off != String::npos || prevOff != String::npos)
-		{
-			viewKey = nameAttr.SubString(prevOff, off - prevOff);
-			if (viewKey == "menu")
-				SetThemeHasMenuView(true);
-			prevOff = nameAttr.find_first_not_of(delim, off);
-			off = nameAttr.find_first_of(delim, prevOff);
-			
-			if (std::find(SupportedViews().begin(), SupportedViews().end(), viewKey) != SupportedViews().end())
-			{
-				ThemeView& view = mViews.insert(std::pair<String, ThemeView>(viewKey, ThemeView())).first->second;
-				parseView(node, view);
-			}
-		}
-	}
+  // parse views
+  for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
+  {
+    if(!node.attribute("name")) { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "View missing \"name\" attribute!"; }
+    for(String& viewName : String(node.attribute("name").as_string()).LowerCase().Split(','))
+    {
+      viewName.Trim();
+      if (viewName == "menu") SetThemeHasMenuView(true);
+      if (SupportedViews().contains(viewName))
+      {
+        ThemeView& view = mViews.insert(std::pair<String, ThemeView>(viewName, ThemeView())).first->second;
+        parseView(node, view, false);
+      }
+    }
+  }
 }
 
-void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view)
+void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forcedExtra)
 {
-	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
-	{
-		if(!node.attribute("name"))
+  for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
+  {
+    if(!node.attribute("name"))
       { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Element of type \"" + String(node.name()) + R"(" missing "name" attribute!)"; }
-		if (String(node.name()) == "helpsystem")
-			SetThemeHasHelpSystem(true);
+    if (String(node.name()) == "helpsystem")
+      SetThemeHasHelpSystem(true);
 
     const HashMap< String, HashMap<String, ThemeData::ElementProperty> >& elementMap = ElementMap();
 
-		auto elemTypeIt = elementMap.find(node.name());
-		if(elemTypeIt == elementMap.end())
+    // Process sub folder extra
+    if (strcmp(node.name(), "extra") == 0 && !forcedExtra)
+    {
+      parseView(node, view, true);
+      continue;
+    }
+    // Process normal item type
+    auto elemTypeIt = elementMap.find(node.name());
+    if(elemTypeIt == elementMap.end())
       { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown element of type \"" + String(node.name()) + "\"!"; }
     const auto & subElementMap = elemTypeIt->second;
 
-		if (parseRegion(node))
-		{
-			const char* delim = " \t\r\n,";
-			const String nameAttr = node.attribute("name").as_string();
-			size_t prevOff = nameAttr.find_first_not_of(delim, 0);
-			size_t off =  nameAttr.find_first_of(delim, prevOff);
-			while(off != String::npos || prevOff != String::npos)
-			{
-				String elemKey = nameAttr.SubString(prevOff, off - prevOff);
-				prevOff = nameAttr.find_first_not_of(delim, off);
-				off = nameAttr.find_first_of(delim, prevOff);
-
-				parseElement(node, subElementMap,
-					view.elements.insert(std::pair<String, ThemeElement>(elemKey, ThemeElement())).first->second);
-
-				if(std::find(view.orderedKeys.begin(), view.orderedKeys.end(), elemKey) == view.orderedKeys.end())
-					view.orderedKeys.push_back(elemKey);
-			}
-		}
-	}
+    if (parseRegion(node))
+    {
+      String nameAttr = node.attribute("name").as_string();
+      nameAttr.Trim();
+      for(String& key : nameAttr.Split(','))
+      {
+        key.Trim();
+        int* elementIndex = view.mElements.try_get(key);
+        if (elementIndex == nullptr)
+        {
+          view.mElements[key] = (int) view.mElementArray.size();
+          view.mElementArray.push_back(ThemeElement(key, node.name(), node.attribute("extra").as_bool(false) || forcedExtra));
+          parseElement(node, subElementMap, view.mElementArray.back());
+        }
+        else parseElement(node, subElementMap, view.mElementArray[*elementIndex]);
+      }
+    }
+  }
 }
 
 bool ThemeData::parseRegion(const pugi::xml_node& node)
 {
-	bool parse = true;
-	
-	if (node.attribute("region") != nullptr)
-	{
-		parse = false;
-		const char* delim = " \t\r\n,";
-		const String nameAttr = node.attribute("region").as_string();
-		size_t prevOff = nameAttr.find_first_not_of(delim, 0);
-		size_t off =  nameAttr.find_first_of(delim, prevOff);
-		while(off != String::npos || prevOff != String::npos)
-		{
-			String elemKey = nameAttr.SubString(prevOff, off - prevOff);
-			prevOff = nameAttr.find_first_not_of(delim, off);
-			off = nameAttr.find_first_of(delim, prevOff);
-			if (elemKey == mRegion)
-			{	
-				parse = true;
-				return parse;
-			}
-		}
-			
-	}
-	return parse;
-	
-}
+  // No region?
+  if (node.attribute("region") == nullptr) return true;
 
+  for(String& region : String(node.attribute("region").as_string()).LowerCase().Split(','))
+    if (region.Trim() == mRegion)
+      return true;
+  return false;
+}
 
 void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, ElementProperty>& typeMap, ThemeElement& element)
 {
-	element.SetRootData(root.name(), root.attribute("extra").as_bool(false));
-	
-	for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
-	{
-		auto typeIt = typeMap.find(node.name());
-		if(typeIt == typeMap.end())
+  for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
+  {
+    auto typeIt = typeMap.find(node.name());
+    if(typeIt == typeMap.end())
       { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ")."; }
-		
+
     String str = resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
 
-		switch(typeIt->second)
-		{
-		case ElementProperty::NormalizedPair:
-		{
-      float x = 0, y = 0;
-      if (str.TryAsFloat(0, ' ', x))
+    switch(typeIt->second)
+    {
+      case ElementProperty::NormalizedPair:
       {
-        int pos = str.Find(' ');
-        if (pos >= 0)
-          if (str.TryAsFloat((int) pos + 1, 0, y))
-          {
-            element.AddVectorProperty(node.name(), x, y);
-            break;
-          }
+        float x = 0;
+        float y = 0;
+        if (str.TryAsFloat(0, ' ', x))
+          if (int pos = str.Find(' '); pos >= 0)
+            if (str.TryAsFloat((int) pos + 1, 0, y))
+            {
+              element.AddVectorProperty(node.name(), x, y);
+              break;
+            }
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
+        break;
       }
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
-		}
-		case ElementProperty::String:
-    {
-      element.AddStringProperty(node.name(), str);
-      break;
+      case ElementProperty::String:
+      {
+        element.AddStringProperty(node.name(), str);
+        break;
+      }
+      case ElementProperty::Path:
+      {
+        Path path = Path(str).ToAbsolute(mPaths.back().Directory());
+        String variable = node.text().get();
+        if(!ResourceManager::fileExists(path))
+        {
+          //too many warnings with region and system variable surcharge in themes
+          if (!root.attribute("region") && !variable.Contains("$system"))
+          {
+            String ss = "  Warning " + AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
+            ss += String("could not find file \"") + node.text().get() + "\" ";
+            if(path.ToString() != node.text().get())
+              ss += "(which resolved to \"" + path.ToString() + "\") ";
+            { LOG(LogTrace) << "[ThemeData] " << ss; }
+          }
+          break;
+        }
+        element.AddStringProperty(node.name(), path.ToString());
+        break;
+      }
+      case ElementProperty::Color:
+      {
+        element.AddIntProperty(node.name(), (int) getHexColor(str.c_str()));
+        break;
+      }
+      case ElementProperty::Float:
+      {
+        float floatVal = 0;
+        if (!str.TryAsFloat(floatVal))
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
+        element.AddFloatProperty(node.name(), floatVal);
+        break;
+      }
+      case ElementProperty::Boolean:
+      {
+        // only look at first char
+        char first = str[0];
+        element.AddBoolProperty(node.name(), (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y'));
+        break;
+      }
+      default:
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << node.name(); }
     }
-		case ElementProperty::Path:
-		{
-			Path path = Path(str).ToAbsolute(mPaths.back().Directory());
-			String variable = node.text().get();
-			if(!ResourceManager::fileExists(path))
-			{
-				//too many warnings with region and system variable surcharge in themes
-				if (!root.attribute("region") && !variable.Contains("$system"))
-				{
-					String ss = "  Warning " + AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
-					ss += String("could not find file \"") + node.text().get() + "\" ";
-					if(path.ToString() != node.text().get())
-						ss += "(which resolved to \"" + path.ToString() + "\") ";
-          { LOG(LogTrace) << "[ThemeData] " << ss; }
-				}
-				break;
-			}
-			element.AddStringProperty(node.name(), path.ToString());
-			break;
-		}
-		case ElementProperty::Color:
-    {
-      element.AddIntProperty(node.name(), (int) getHexColor(str.c_str()));
-      break;
-    }
-		case ElementProperty::Float:
-		{
-			float floatVal = 0;
-			if (!str.TryAsFloat(floatVal))
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
-		  element.AddFloatProperty(node.name(), floatVal);
-  		break;
-		}
-		case ElementProperty::Boolean:
-		{
-			// only look at first char
-			char first = str[0];
-			// 1*, t* (true), T* (True), y* (yes), Y* (YES)
-			bool boolVal = (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y');
-			element.AddBoolProperty(node.name(), boolVal);
-  			break;
-		}
-		default:
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << node.name(); }
-		}
-	}
+  }
 }
 
 
-const ThemeElement* ThemeData::getElement(const String& view, const String& element, const String& expectedType) const
+const ThemeElement* ThemeData::getElement(const String& viewName, const String& elementName, const String& expectedType) const
 {
-	auto viewIt = mViews.find(view);
-	if(viewIt == mViews.end())
-		return nullptr; // not found
+  ThemeView* view = mViews.try_get(viewName);
+  if (view == nullptr) return nullptr; // not found
+  int* elementIndex = view->mElements.try_get(elementName);
+  if (elementIndex == nullptr) return nullptr;
+  ThemeElement* element = &(view->mElementArray[*elementIndex]);
 
-	auto elemIt = viewIt->second.elements.find(element);
-	if(elemIt == viewIt->second.elements.end()) return nullptr;
-
-	if(elemIt->second.Type() != expectedType && !expectedType.empty())
-	{
-    { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << view << "." << element << "] - expected \"" << expectedType << "\", got \"" << elemIt->second.Type() << "\""; }
-		return nullptr;
-	}
-
-	return &elemIt->second;
-}
-
-/*const ThemeData& ThemeData::getDefault()
-{
-  static ThemeData sDefault;
-  static bool sLoaded = false;
-
-  if (!sLoaded)
+  if(element->Type() != expectedType && !expectedType.empty())
   {
-		const Path path = RootFolders::DataRootFolder / "system/.emulationstation/es_theme_default.xml";
-		if (path.Exists())
-		{
-      String empty;
-      sDefault.loadFile(empty, path);
-		}
-		sLoaded = true;
-	}
+    { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << expectedType << "\", got \"" << element->Type() << "\""; }
+    return nullptr;
+  }
 
-	return sDefault;
-}*/
+  return element;
+}
 
 const ThemeData& ThemeData::getCurrent()
 {
@@ -732,53 +651,53 @@ const ThemeData& ThemeData::getCurrent()
     sCurrent = nullptr;
   }
 
-	if (sCurrent == nullptr)
-	{
-		Path path;
-		const String& currentTheme = RecalboxConf::Instance().GetThemeFolder();
+  if (sCurrent == nullptr)
+  {
+    Path path;
+    const String& currentTheme = RecalboxConf::Instance().GetThemeFolder();
 
-		static constexpr size_t pathCount = 3;
-		Path paths[pathCount] =
-		{
-			RootFolders::TemplateRootFolder / "system/.emulationstation/themes/" / currentTheme,
-			RootFolders::DataRootFolder     / "themes/" / currentTheme,
-			RootFolders::DataRootFolder     / "system/.emulationstation/themes/" / currentTheme
-		};
+    static constexpr size_t pathCount = 3;
+    Path paths[pathCount] =
+    {
+      RootFolders::TemplateRootFolder / "system/.emulationstation/themes/" / currentTheme,
+      RootFolders::DataRootFolder     / "themes/" / currentTheme,
+      RootFolders::DataRootFolder     / "system/.emulationstation/themes/" / currentTheme
+    };
 
-		sCurrent = new ThemeData();
+    sCurrent = new ThemeData();
 
-		for (const auto& master : paths)
-		{
-			if(!master.IsDirectory()) continue;
+    for (const auto& master : paths)
+    {
+      if(!master.IsDirectory()) continue;
 
-			Path::PathList list = master.GetDirectoryContent();
-			for(auto& sub : list)
-			{
-				if (sub.IsDirectory())
-				{
-					Path subTheme = sub / "theme.xml";
-					if (subTheme.Exists())
-					{
-  					String empty;
-            sCurrent->loadFile(empty, subTheme);
-	  				break;
-					}
-				}
-			}
-			Path masterTheme = master / "theme.xml";
-			if (masterTheme.Exists())
+      // Try master path first
+      if (Path masterTheme = master / "theme.xml"; masterTheme.Exists())
       {
         String empty;
         sCurrent->loadFile(empty, masterTheme);
         break;
       }
-		}
+
+      // Then try to find the main subfolder
+      Path::PathList list = master.GetDirectoryContent();
+      bool found = false;
+      for(auto& sub : list)
+        if (sub.IsDirectory())
+          if (Path subTheme = sub / "theme.xml"; subTheme.Exists())
+          {
+            String empty;
+            sCurrent->loadFile(empty, subTheme);
+            found = true;
+            break;
+          }
+      if (found) break;
+    }
 
     ThemeData::SetThemeChanged(false);
     MenuThemeData::Reset();
   }
 
-	return *sCurrent;
+  return *sCurrent;
 }
 
 void ThemeData::SetThemeChanged(bool themeChanged){
@@ -795,96 +714,94 @@ String ThemeData::getGameClipView() const {
 
 std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const String& view, WindowManager& window)
 {
-	std::vector<Component*> comps;
+  std::vector<Component*> comps;
 
-	auto viewIt = theme.mViews.find(view);
-	if(viewIt == theme.mViews.end())
-		return comps;
-	
-	for (const auto & key : viewIt->second.orderedKeys)
-	{
-		const ThemeElement& elem = viewIt->second.elements.get_or_return_default(key);
-		if(elem.Extra())
-		{
-			Component* comp = nullptr;
-			const String& t = elem.Type();
-			if      (t == "image")      comp = new ImageComponent(window);
-			else if (t == "video")      comp = new VideoComponent(window);
-			else if (t == "text")       comp = new TextComponent(window);
+  ThemeView* viewTheme = theme.mViews.try_get(view);
+  if (viewTheme == nullptr) return comps;
+
+  for(const ThemeElement& elem : viewTheme->mElementArray)
+  {
+    if(elem.Extra())
+    {
+      Component* comp = nullptr;
+      const String& t = elem.Type();
+      if      (t == "image")      comp = new ImageComponent(window);
+      else if (t == "video")      comp = new VideoComponent(window);
+      else if (t == "text")       comp = new TextComponent(window);
       else if (t == "textscroll") comp = new TextScrollComponent(window);
       else if (t == "box")        comp = new BoxComponent(window);
 
-			if (comp != nullptr)
+      if (comp != nullptr)
       {
         comp->setDefaultZIndex(10);
-        comp->applyTheme(theme, view, key, ThemeProperties::All);
+        comp->applyTheme(theme, view, elem.Name(), ThemeProperties::All);
         comps.push_back(comp);
       }
       else { LOG(LogWarning) << "[ThemeData] Extra type unknown: " << elem.Type(); }
-		}
-	}
+    }
+  }
 
-	return comps;
+  return comps;
 }
 
 HashMap<String, ThemeSet> ThemeData::getThemeSets()
 {
-	HashMap<String, ThemeSet> sets;
+  HashMap<String, ThemeSet> sets;
 
-	static const size_t pathCount = 3;
-	static Path paths[pathCount] =
-	{
-		RootFolders::TemplateRootFolder / "/system/.emulationstation/themes",
-		RootFolders::DataRootFolder     / "/themes",
-		RootFolders::DataRootFolder     / "/system/.emulationstation/themes"
-	};
+  static const size_t pathCount = 3;
+  static Path paths[pathCount] =
+  {
+    RootFolders::TemplateRootFolder / "/system/.emulationstation/themes",
+    RootFolders::DataRootFolder     / "/themes",
+    RootFolders::DataRootFolder     / "/system/.emulationstation/themes"
+  };
 
-	for (const auto& path : paths)
-	{
+  for (const auto& path : paths)
+  {
     Path::PathList list = path.GetDirectoryContent();
     for(auto& setPath : list)
-		{
-			if(setPath.IsDirectory())
-			{
-				ThemeSet set(setPath);
-				sets[set.getName()] = set;
-			}
-		}
-	}
+    {
+      if(setPath.IsDirectory())
+      {
+        ThemeSet set(setPath);
+        sets[set.getName()] = set;
+      }
+    }
+  }
 
-	return sets;
+  return sets;
 }
 
 HashMap<String, String> ThemeData::getThemeSubSets(const String& theme)
 {
-	HashMap<String, String> sets;
-	std::deque<Path> dequepath;
+  HashMap<String, String> sets;
+  std::deque<Path> dequepath;
 
-	static const size_t pathCount = 3;
-	Path paths[pathCount] =
-	{
-		RootFolders::TemplateRootFolder / "/system/.emulationstation/themes/" / theme,
-		RootFolders::DataRootFolder     / "/themes/" / theme,
-		RootFolders::DataRootFolder     / "/system/.emulationstation/themes/" / theme
-	};
+  static const size_t pathCount = 3;
+  Path paths[pathCount] =
+  {
+    RootFolders::TemplateRootFolder / "/system/.emulationstation/themes/" / theme,
+    RootFolders::DataRootFolder     / "/themes/" / theme,
+    RootFolders::DataRootFolder     / "/system/.emulationstation/themes/" / theme
+  };
 
-	for (const auto& path : paths)
-	{
+  for (const auto& path : paths)
+  {
     Path::PathList list = path.GetDirectoryContent();
     for(auto& setPath : list)
     {
       if (setPath.IsDirectory())
-			{
-				Path themePath = setPath / "theme.xml";
-				dequepath.push_back(themePath);
-				pugi::xml_document doc;
-				doc.load_file(themePath.ToChars());
-				pugi::xml_node root = doc.child("theme");
-				crawlIncludes(root, sets, dequepath);
-				dequepath.pop_back();
-			}
-		}
-		Path master = path / "theme.xml";
+      {
+        Path themePath = setPath / "theme.xml";
+        dequepath.push_back(themePath);
+        pugi::xml_document doc;
+        doc.load_file(themePath.ToChars());
+        pugi::xml_node root = doc.child("theme");
+        crawlIncludes(root, sets, dequepath);
+        dequepath.pop_back();
+      }
+    }
+    Path master = path / "theme.xml";
     if (master.Exists())
     {
       dequepath.push_back(master);
@@ -895,37 +812,37 @@ HashMap<String, String> ThemeData::getThemeSubSets(const String& theme)
       findRegion(doc, sets);
       dequepath.pop_back();
     }
-	}
+  }
 
-	return sets;
+  return sets;
 }
 
 void ThemeData::crawlIncludes(const pugi::xml_node& root, HashMap<String, String>& sets, std::deque<Path>& dequepath)
 {
-	for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
-	{
-		sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
-		
-		Path relPath(node.text().get());
-		Path path = relPath.ToAbsolute(dequepath.back().Directory());
-		dequepath.push_back(path);
-		pugi::xml_document includeDoc;
-		/*pugi::xml_parse_result result =*/ includeDoc.load_file(path.ToChars());
-		pugi::xml_node newRoot = includeDoc.child("theme");
-		crawlIncludes(newRoot, sets, dequepath);
-		findRegion(includeDoc, sets);
-		dequepath.pop_back();
-	}
+  for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
+  {
+    sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
+
+    Path relPath(node.text().get());
+    Path path = relPath.ToAbsolute(dequepath.back().Directory());
+    dequepath.push_back(path);
+    pugi::xml_document includeDoc;
+    /*pugi::xml_parse_result result =*/ includeDoc.load_file(path.ToChars());
+    pugi::xml_node newRoot = includeDoc.child("theme");
+    crawlIncludes(newRoot, sets, dequepath);
+    findRegion(includeDoc, sets);
+    dequepath.pop_back();
+  }
 }
 
 void ThemeData::findRegion(const pugi::xml_document& doc, HashMap<String, String>& sets)
 {
-	pugi::xpath_node_set regionattr = doc.select_nodes("//@region");
-	for (auto xpath_node : regionattr)
-	{
-		if (xpath_node.attribute() != nullptr)
-			sets[xpath_node.attribute().value()] = "region";
-	}
+  pugi::xpath_node_set regionattr = doc.select_nodes("//@region");
+  for (auto xpath_node : regionattr)
+  {
+    if (xpath_node.attribute() != nullptr)
+      sets[xpath_node.attribute().value()] = "region";
+  }
 }
 
 // as the getThemeSubSets process is heavy, doing it 1 time for all subsets then sorting on demand
@@ -933,12 +850,12 @@ String::List ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetma
 {
   String::List sortedsets;
 
-	for (const auto& it : subsetmap)
-		if (it.second == subset)
-			sortedsets.push_back(it.first);
+  for (const auto& it : subsetmap)
+    if (it.second == subset)
+      sortedsets.push_back(it.first);
 
-	if(subset == "gameclipview" && !sortedsets.empty() )
-	    sortedsets.push_back(getNoTheme());
+  if(subset == "gameclipview" && !sortedsets.empty() )
+      sortedsets.push_back(getNoTheme());
 
   std::sort(sortedsets.begin(), sortedsets.end());
 
@@ -948,49 +865,49 @@ String::List ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetma
 
 Path ThemeData::getThemeFromCurrentSet(const String& system)
 {
-	auto themeSets = ThemeData::getThemeSets();
-	if(themeSets.empty())
-	{
-		// no theme sets available
-		return Path::Empty;
-	}
+  auto themeSets = ThemeData::getThemeSets();
+  if(themeSets.empty())
+  {
+    // no theme sets available
+    return Path::Empty;
+  }
 
-	auto set = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
-	if(set == themeSets.end())
-	{
-		// currently selected theme set is missing, so just pick the first available set
-		set = themeSets.begin();
+  auto set = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
+  if(set == themeSets.end())
+  {
+    // currently selected theme set is missing, so just pick the first available set
+    set = themeSets.begin();
     RecalboxConf::Instance().SetThemeFolder(set->first);
-	}
+  }
 
-	return set->second.getThemePath(system);
+  return set->second.getThemePath(system);
 }
 
 String ThemeData::getTransition() const
 {
-	String result;
-	const auto* elem = getElement("system", "systemcarousel", "carousel");
-	if (elem != nullptr) {
-		if (elem->HasProperty("defaultTransition")) {
-			if (elem->AsString("defaultTransition") == "instant") {
-				result = "instant";
-				return result;
-			}
-			if (elem->AsString("defaultTransition") == "fade") {
-				result = "fade";
-				return result;
-			}
-			if (elem->AsString("defaultTransition") == "slide") {
-				result = "slide";
-				return result;
-			}
-		}
-	}
-	return result;
+  String result;
+  const auto* elem = getElement("system", "systemcarousel", "carousel");
+  if (elem != nullptr) {
+    if (elem->HasProperty("defaultTransition")) {
+      if (elem->AsString("defaultTransition") == "instant") {
+        result = "instant";
+        return result;
+      }
+      if (elem->AsString("defaultTransition") == "fade") {
+        result = "fade";
+        return result;
+      }
+      if (elem->AsString("defaultTransition") == "slide") {
+        result = "slide";
+        return result;
+      }
+    }
+  }
+  return result;
 }
 
 bool ThemeData::isFolderHandled() const
 {
-	const auto* elem = getElement("detailed", "md_folder_name", "text");
-	return elem != nullptr && elem->HasProperty("pos");
+  const auto* elem = getElement("detailed", "md_folder_name", "text");
+  return elem != nullptr && elem->HasProperty("pos");
 }

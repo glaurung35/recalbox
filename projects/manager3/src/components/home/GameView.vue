@@ -126,12 +126,13 @@
 
 <script lang="ts" setup>
 import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
+import { storeToRefs } from 'pinia';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { Actions } from 'stores/types/mqtt';
 import { ref } from 'vue';
 
 const emulationStationStore = useEmulationstationStore();
-const { currentState } = emulationStationStore;
+const { currentState } = storeToRefs(emulationStationStore);
 
 const infoOpen = ref<boolean>(false);
 </script>

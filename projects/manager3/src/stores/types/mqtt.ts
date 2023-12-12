@@ -47,6 +47,7 @@ export enum Actions {
   scrapStart = 'scrapstart',
   scrapStop = 'scrapstop',
   scrapGame = 'scrapgame',
+  startGameClip = 'startgameclip',
 }
 
 export interface EventResponse {

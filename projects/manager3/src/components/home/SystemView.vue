@@ -195,13 +195,13 @@ const emulationStationStore = useEmulationstationStore();
 const { currentState } = storeToRefs(emulationStationStore);
 serverStore.available = true;
 function redirect() {
-  if (currentState?.currentSystem?.systemId === 'imageviewer') {
+  if (currentState.value.currentSystem?.systemId === 'imageviewer') {
     router.push(
       { name: 'screenshots' },
     );
   } else {
     router.push(
-      { name: 'systems-system', params: { system: currentState?.currentSystem?.systemId } },
+      { name: 'systems-system', params: { system: currentState.value.currentSystem?.systemId } },
     );
   }
 }

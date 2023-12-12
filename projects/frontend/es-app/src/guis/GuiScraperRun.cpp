@@ -60,11 +60,11 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
   , mLowResolution(lowResolution)
   , mPopup(window)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 	
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
 	
 	assert(!mSearchQueue.Empty());
 
@@ -74,13 +74,13 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	mIsProcessing = true;
 
 	// set up grid
-	mTitle = std::make_shared<TextComponent>(mWindow, _("SCRAPING IN PROGRESS"), lowResolution ? menuTheme->menuText.font : menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, _("SCRAPING IN PROGRESS"), lowResolution ? menuTheme.Text().font : menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
-  mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+  mSystem = std::make_shared<TextComponent>(mWindow, _("SYSTEM"), menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Center);
 	mGrid.setEntry(mSystem, Vector2i(0, 1), false, true);
 
-	mSubtitle = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+	mSubtitle = std::make_shared<TextComponent>(mWindow, "", menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
 	mGrid.setEntry(mSubtitle, Vector2i(0, 2), false, true);
 
 	mSearchComp = std::make_shared<ScraperSearchComponent>(mWindow,lowResolution);
@@ -98,11 +98,11 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
   mProgressGrid->setRowHeightPerc(1, 0.6f);
   mProgressGrid->setRowHeightPerc(2, 0.2f);
 
-  mTiming = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
+  mTiming = std::make_shared<TextComponent>(mWindow, "", menuTheme.Footer().font, menuTheme.Text().color, TextAlignment::Center);
   mGrid.setEntry(mTiming, Vector2i(0, 5), false, true);
 
 
-  mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mDatabaseMessage = std::make_shared<TextComponent>(mWindow, "", menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
   if(!lowResolution)
     mGrid.setEntry(mDatabaseMessage, Vector2i(0, 6), false, true);
 
@@ -118,7 +118,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 	setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 
 	// Final report component
-  mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme->menuFooter.font, menuTheme->menuText.color, TextAlignment::Center);
+  mFinalReport = std::make_shared<TextComponent>(mWindow, _("subtitle text"), menuTheme.Footer().font, menuTheme.Text().color, TextAlignment::Center);
 
   // Scripts
   NotificationManager::Instance().Notify(Notification::ScrapStart);

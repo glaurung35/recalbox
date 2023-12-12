@@ -8,6 +8,7 @@
 #include "GuiInfoPopup.h"
 #include <themes/MenuThemeData.h>
 #include <components/TextComponent.h>
+#include <themes/ThemeManager.h>
 
 GuiInfoPopup::GuiInfoPopup(WindowManager& window, const String& message, int duration, PopupType icon)
   : GuiInfoPopupBase(window, false, duration, icon, 2, 1, 1.f)
@@ -36,19 +37,19 @@ float GuiInfoPopup::AddComponents(WindowManager& window, ComponentGrid& grid, fl
     default: break;
   }
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
   unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
   unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
 
   if(Renderer::Instance().Is480pOrLower())
   {
-    FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
-    FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
+    FONT_SIZE_ICON = menuTheme.Text().font->getSize();
+    FONT_SIZE_TEXT = menuTheme.Text().font->getSize();
   }
 
-  mMsgText = std::make_shared<TextComponent>(window, mMessage, Font::get((int)FONT_SIZE_TEXT, menuTheme->menuText.font->getPath()), menuTheme->menuText.color, TextAlignment::Left);
-  mMsgIcon = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
+  mMsgText = std::make_shared<TextComponent>(window, mMessage, Font::get((int)FONT_SIZE_TEXT, menuTheme.Text().font->getPath()), menuTheme.Text().color, TextAlignment::Left);
+  mMsgIcon = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme.Text().color, TextAlignment::Left);
 
   grid.setEntry(mMsgText, Vector2i(1, 0), false, false);
   grid.setEntry(mMsgIcon, Vector2i(0, 0), false, false);

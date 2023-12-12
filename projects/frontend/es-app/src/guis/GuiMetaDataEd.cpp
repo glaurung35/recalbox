@@ -33,16 +33,16 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
   mHeaderGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(1, 5));
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
-  mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme->menuTitle.font, menuTheme->menuTitle.color,
+  mTitle = std::make_shared<TextComponent>(mWindow, _("EDIT METADATA"), menuTheme.Title().font, menuTheme.Title().color,
                                            TextAlignment::Center);
   mSubtitle = std::make_shared<TextComponent>(mWindow, game.RomPath().Filename().UpperCase(),
-                                              menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+                                              menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
   float y = 0;
   y += mTitle->getFont()->getHeight() + mSubtitle->getFont()->getHeight();
   mHeaderGrid->setEntry(mTitle, Vector2i(0, 1), false, true);
@@ -83,7 +83,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
     // create ed and add it (and any related components) to mMenu
     // ed's value will be set below
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, field.DisplayName().ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, field.DisplayName().ToUpperCaseUTF8(), menuTheme.Text().font, menuTheme.Text().color);
 
     row.addElement(lbl, true); // label
     y += lbl->getFont()->getHeight();
@@ -92,7 +92,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
     {
       case MetadataFieldDescriptor::EditableType::Rating:
       {
-        ed = std::make_shared<RatingComponent>(window, menuTheme->menuText.color);
+        ed = std::make_shared<RatingComponent>(window, menuTheme.Text().color);
 
         ed->setSize(0, lbl->getSize().y() * 0.8f);
         row.addElement(ed, false, true);
@@ -198,7 +198,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
       case MetadataFieldDescriptor::EditableType::Text:
       {
         // MD_STRING
-        ed = std::make_shared<TextComponent>(window, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
+        ed = std::make_shared<TextComponent>(window, "", menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Right);
         row.addElement(ed, true);
 
         auto spacer = std::make_shared<Component>(mWindow);
@@ -207,8 +207,8 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
 
         auto bracket = std::make_shared<ImageComponent>(mWindow);
 
-        bracket->setImage(menuTheme->iconSet.arrow);
-        bracket->setColorShift(menuTheme->menuText.color);
+        bracket->setImage(menuTheme.Elements().arrow);
+        bracket->setColorShift(menuTheme.Text().color);
         bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
         row.addElement(bracket, false);
 
@@ -249,13 +249,13 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   {
     // append a shortcut to the secondary menu
     ComponentListRow row;
-    auto lbl = std::make_shared<TextComponent>(mWindow, _("MORE DETAILS"), menuTheme->menuText.font, menuTheme->menuText.color);
+    auto lbl = std::make_shared<TextComponent>(mWindow, _("MORE DETAILS"), menuTheme.Text().font, menuTheme.Text().color);
     row.addElement(lbl, true);
     y += lbl->getFont()->getHeight();
 
     auto bracket = std::make_shared<ImageComponent>(mWindow);
-    bracket->setImage(menuTheme->iconSet.arrow);
-    bracket->setColorShift(menuTheme->menuText.color);
+    bracket->setImage(menuTheme.Elements().arrow);
+    bracket->setColorShift(menuTheme.Text().color);
 
     bracket->setResize(Vector2f(0, lbl->getFont()->getLetterHeight()));
     row.addElement(bracket, false);

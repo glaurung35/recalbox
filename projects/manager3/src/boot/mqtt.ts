@@ -38,15 +38,17 @@ client.on('message', (topic, message): void => {
 
     if (newMessage.Action === Actions.reboot) {
       emulationStationStore.resetCurrentSystem();
-    } else if (
-      newMessage.Action === Actions.systemBrowsing
-      || newMessage.Action === Actions.gamelistBrowsing
-      || newMessage.Action === Actions.runGame
-      || newMessage.Action === Actions.endGame
-      || newMessage.Action === Actions.start
-      || newMessage.Action === Actions.wakeup
-      || newMessage.Action === Actions.sleep
-    ) {
+    } else if ([
+      Actions.systemBrowsing,
+      Actions.gamelistBrowsing,
+      Actions.runGame,
+      Actions.endGame,
+      Actions.start,
+      Actions.wakeup,
+      Actions.sleep,
+      Actions.runDemo,
+      Actions.startGameClip,
+    ].includes(newMessage.Action)) {
       emulationStationStore.updateStatus(newMessage);
     }
   }

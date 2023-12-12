@@ -6,6 +6,7 @@
 #include <components/TextComponent.h>
 #include <utils/locale/LocaleHelper.h>
 #include <themes/MenuThemeData.h>
+#include <themes/ThemeManager.h>
 
 #define HOLD_TIME 1000
 
@@ -18,20 +19,19 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	mHoldingConfig = nullptr;
 	mHoldTime = 0;
 	mDoneCallback = doneCallback;
+
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	mColor = menuTheme.Text().color & 0xFFFFFF00;
 	
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mColor = menuTheme->menuText.color & 0xFFFFFF00;
-	
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
 	
 	addChild(&mBackground);
 	addChild(&mGrid);
 	
 	// title
-	mTitle = std::make_shared<TextComponent>(mWindow, firstRun ? _("WELCOME") : _("CONFIGURE INPUT"),
-                                           Renderer::Instance().Is480pOrLower() ? menuTheme->menuTitle.font : menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, firstRun ? _("WELCOME") : _("CONFIGURE INPUT"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
 	//mGrid.setEntry(mTitle, Vector2i(0, 0), false, true, Vector2i(1, 1), GridFlags::BORDER_BOTTOM);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	
@@ -39,28 +39,20 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	String deviceInfo;
 	int numDevices = InputManager::Instance().DeviceCount();
 	
-	if(numDevices > 0) {
-	  char strbuf[256];
-	  snprintf(strbuf, 256, _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).c_str(), numDevices);
-	  deviceInfo = strbuf;
-	}
-	else
-		deviceInfo = _("NO GAMEPADS DETECTED");
-	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+	if(numDevices > 0) deviceInfo = _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices);
+	else               deviceInfo = _("NO GAMEPADS DETECTED");
+	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo, menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);
 
 	// message
-	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+	mMsg1 = std::make_shared<TextComponent>(mWindow, _("HOLD A BUTTON ON YOUR DEVICE TO CONFIGURE IT."), menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
 	mGrid.setEntry(mMsg1, Vector2i(0, 2), false, true);
 
-	if (firstRun)
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS F4 TO QUIT AT ANY TIME."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
-	else
-		mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL."), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+  mMsg2 = std::make_shared<TextComponent>(mWindow, _("PRESS ESC OR THE HOTKEY TO CANCEL."), menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
 	mGrid.setEntry(mMsg2, Vector2i(0, 3), false, true);
 
 	// currently held device
-	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, mColor, TextAlignment::Center);
+	mDeviceHeld = std::make_shared<TextComponent>(mWindow, "", menuTheme.Text().font, mColor, TextAlignment::Center);
 	mGrid.setEntry(mDeviceHeld, Vector2i(0, 4), false, true);
 
 	float y= ((mMsg1->getFont()->getHeight() * 4.0f) + mTitle->getFont()->getHeight() ) / Renderer::Instance().DisplayHeightAsFloat() + 0.08f;

@@ -16,7 +16,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
 {
 	addChild(&mMenu);
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
   mJoinAs = std::make_shared<OptionListComponent<PasswordType>>(mWindow, "passwordtype", false, FONT_SIZE_MEDIUM);
   mJoinAs->add(_("PLAYER"), PasswordType::Player, true);
@@ -29,7 +29,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
   for(int i = 0; i < DefaultPasswords::sPasswordCount; i++)
   {
     String password = RecalboxConf::Instance().AsString("netplay.password." + String(i), DefaultPasswords::sDefaultPassword[i]);
-    auto passwordComp = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
+    auto passwordComp = std::make_shared<TextComponent>(mWindow, password, menuTheme.Text().font, menuTheme.Text().color);
     mPasswords->add(password, i, passwordIndex == i);
   }
   mMenu.addWithLabel(mPasswords, _("CHOOSE PASSWORD"), "");

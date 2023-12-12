@@ -11,16 +11,16 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const S
 	  mGrid(window, Vector2i(1, 4)),
 	  mMultiLine(multiLine)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
 	
 	addChild(&mBackground);
 	addChild(&mGrid);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, title.ToUpperCaseUTF8(), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, title.ToUpperCaseUTF8(), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
 
 	mText = std::make_shared<TextEditComponent>(mWindow);
 	mText->setValue(initValue);

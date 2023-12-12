@@ -27,7 +27,7 @@ class GuiSettings : public Gui
     inline void addSubMenu(const String& label, const std::function<void()>& func, const String& help = "") {
 		ComponentListRow row;
 		row.makeAcceptInputHandler(func);
-		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+    const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 		const String& helpLabel(label);
 		if(!help.empty()) {
 			row.makeHelpInputHandler([this, help, helpLabel] {
@@ -38,9 +38,7 @@ class GuiSettings : public Gui
 			});
 		}
 
-		auto entryMenu = std::make_shared<TextComponent>(mWindow,
-															 label,
-															 menuTheme->menuText.font, menuTheme->menuText.color);
+		auto entryMenu = std::make_shared<TextComponent>(mWindow, label, menuTheme.Text().font, menuTheme.Text().color);
 		row.addElement(entryMenu, true);
 		row.addElement(makeArrow(mWindow), false);
         mMenu.addRowWithHelp(row, label, help);

@@ -24,16 +24,16 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	float minWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.4f; // minimum width
 
 
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
 
-	mTitle = std::make_shared<TextComponent>(mWindow, title, menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+	mTitle = std::make_shared<TextComponent>(mWindow, title, menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
-	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, align);
+	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme.SmallText().font, menuTheme.SmallText().color, align);
 
 	mMsgContainer = std::make_shared<VerticalScrollableContainer>(mWindow);
 	mMsgContainer->addChild(mMsg.get());

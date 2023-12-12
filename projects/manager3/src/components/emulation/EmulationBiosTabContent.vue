@@ -199,7 +199,7 @@
                   size="md"
                 />
                 <q-btn
-                  @click="md5Open = true, selectedMd5 = col.value"
+                  @click="() => { md5Open = true; selectedMd5 = col.value }"
                   class="md5"
                   color="primary"
                   dense
@@ -325,6 +325,7 @@
 import { useBiosStore } from 'stores/bios';
 import { copy } from 'src/utils/copy';
 import { storeToRefs } from 'pinia';
+import { BiosColumn } from 'stores/types/misc';
 import {
   computed,
   ref,
@@ -419,15 +420,15 @@ function refresh() {
   biosStore.fetch();
 }
 
-function isBios(column: object, pathNode: string) {
+function isBios(column: BiosColumn, pathNode: string) {
   return column.value.split('/').slice(-1).pop() === pathNode;
 }
 
-function getBiosClass(column: object, pathNode: string) {
+function getBiosClass(column: BiosColumn, pathNode: string) {
   return isBios(column, pathNode) ? 'path bios copy-to-clipboard' : 'path copy-to-clipboard';
 }
 
-function getBreadCrumbIcon(column: object, pathNode: string) {
+function getBreadCrumbIcon(column: BiosColumn, pathNode: string) {
   return isBios(column, pathNode) ? 'mdi-chip' : 'mdi-folder-open-outline';
 }
 //   methods: {

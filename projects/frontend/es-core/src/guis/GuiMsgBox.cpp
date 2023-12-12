@@ -65,14 +65,14 @@ void GuiMsgBox::build(const String& text, TextAlignment align,
 {
 	float width = Renderer::Instance().DisplayWidthAsFloat() * 0.7f; // max width
 	float minWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.4f; // minimum width
-	
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	
-	mBackground.setImagePath(menuTheme->menuBackground.path);
-	mBackground.setCenterColor(menuTheme->menuBackground.color);
-	mBackground.setEdgeColor(menuTheme->menuBackground.color);
 
-	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme->menuText.font, menuTheme->menuText.color, align);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	
+	mBackground.setImagePath(menuTheme.Background().path);
+	mBackground.setCenterColor(menuTheme.Background().color);
+	mBackground.setEdgeColor(menuTheme.Background().color);
+
+	mMsg = std::make_shared<TextComponent>(mWindow, text, menuTheme.Text().font, menuTheme.Text().color, align);
 	mGrid.setEntry(mMsg, Vector2i(0, 0), false, false);
 
 	// create the buttons

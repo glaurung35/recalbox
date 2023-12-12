@@ -9,6 +9,7 @@
 #include <guis/GuiMsgBoxScroll.h>
 #include <components/DateTimeComponent.h>
 #include <guis/GuiInfoPopup.h>
+#include <themes/ThemeManager.h>
 
 class ButtonComponent;
 class ImageComponent;
@@ -53,8 +54,8 @@ class MenuComponent : public Component
     inline void addWithLabel(const std::shared_ptr<Component>& comp, const String& label, const String& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
     {
       ComponentListRow row;
-      auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color), true);
+      const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme.Text().font, menuTheme.Text().color), true);
       row.addElement(comp, false, invert_when_selected);
       if (acceptCallback) {
         row.makeAcceptInputHandler(acceptCallback);
@@ -68,24 +69,24 @@ class MenuComponent : public Component
     inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const String& label, const String& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
     {
       ComponentListRow row;
-      auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+      const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
       if (!iconPath.IsEmpty())
       {
         // icon
         auto icon = std::make_shared<ImageComponent>(mWindow);
         icon->setImage(iconPath);
-        icon->setColorShift(menuTheme->menuText.color);
-        icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+        icon->setColorShift(menuTheme.Text().color);
+        icon->setResize(0, menuTheme.Text().font->getLetterHeight() * 1.25f);
         row.addElement(icon, false, invert_when_selected);
 
         // spacer between icon and text
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(10 + Math::roundi(menuTheme->menuText.font->getLetterHeight() * 1.25f) - Math::roundi(icon->getSize().x()), 0);
+        spacer->setSize(10 + Math::roundi(menuTheme.Text().font->getLetterHeight() * 1.25f) - Math::roundi(icon->getSize().x()), 0);
         row.addElement(spacer, false, invert_when_selected);
       }
 
-      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuText.color), true);
+      row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme.Text().font, menuTheme.Text().color), true);
       row.addElement(comp, false, invert_when_selected);
 
       if (acceptCallback) {

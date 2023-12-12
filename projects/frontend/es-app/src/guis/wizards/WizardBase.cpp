@@ -22,10 +22,10 @@ WizardBase::WizardBase(WindowManager& window, const String& title, int pageCount
   addChild(&mGrid);
 
   // Get theme
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
   // 12 x 13
   // +-+---------------------------------------------------------------------+-+
@@ -59,7 +59,7 @@ WizardBase::WizardBase(WindowManager& window, const String& title, int pageCount
   //                                Auto size
 
   // Title
-  mTitle = std::make_shared<TextComponent>(window, _S(title), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(window, _S(title), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, true, Vector2i(10,1) );
 
   // Set Window position/size
@@ -73,7 +73,7 @@ WizardBase::WizardBase(WindowManager& window, const String& title, int pageCount
   mGrid.setColWidthPerc(0, 0.04f, false);
   mGrid.setColWidthPerc(11, 0.04f, true);
   mGrid.setRowHeightPerc(0, mTitle->getFont()->getLetterHeight() * 2.6f / mSize.y(), false);
-  mGrid.setRowHeightPerc(11, menuTheme->menuText.font->getLetterHeight() * 2.6f / mSize.y(), false);
+  mGrid.setRowHeightPerc(11, menuTheme.Text().font->getLetterHeight() * 2.6f / mSize.y(), false);
   mGrid.setRowHeightPerc(12, 0.04f, true);
 
   //mGrid.SetColumnHighlight(true, 1, 10);

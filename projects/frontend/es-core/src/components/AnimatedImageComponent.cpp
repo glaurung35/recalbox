@@ -1,6 +1,8 @@
 #include "components/AnimatedImageComponent.h"
+
+#include <memory>
 #include "utils/Log.h"
-#include "themes/MenuThemeData.h"
+#include "themes/ThemeManager.h"
 
 AnimatedImageComponent::AnimatedImageComponent(WindowManager&window)
   : Component(window),
@@ -14,21 +16,21 @@ AnimatedImageComponent::AnimatedImageComponent(WindowManager&window)
 void AnimatedImageComponent::load(const AnimationDef* def)
 {
 	mFrames.clear();
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	assert(def->frameCount >= 1);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  assert(def->frameCount >= 1);
 
 	for (size_t i = 0; i < def->frameCount; i++)
 	{
-		if(def->frames[i].path != nullptr && !ResourceManager::getInstance()->fileExists(Path(def->frames[i].path)))
+		if(def->frames[i].path != nullptr && !ResourceManager::fileExists(Path(def->frames[i].path)))
 		{
       { LOG(LogError) << "[Animation] Missing animation frame " << (int)i << " (\"" << def->frames[i].path << "\")"; }
 			continue;
 		}
 
-		auto img = std::unique_ptr<ImageComponent>(new ImageComponent(mWindow));
+		auto img = std::make_unique<ImageComponent>(mWindow);
 		img->setResize(mSize.x(), mSize.y());
 		img->setImage(Path(def->frames[i].path), false);
-		img->setColorShift(menuTheme->menuText.color);
+		img->setColorShift(menuTheme.Text().color);
 		mFrames.push_back(ImageFrame(std::move(img), def->frames[i].time));
 	}
 

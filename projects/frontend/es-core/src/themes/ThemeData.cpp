@@ -8,8 +8,6 @@
 #include "components/TextScrollComponent.h"
 #include "components/BoxComponent.h"
 
-ThemeData* ThemeData::sCurrent = nullptr;
-bool ThemeData::sThemeChanged = false;
 bool ThemeData::sThemeHasMenuView = true;
 bool ThemeData::sThemeHasHelpSystem = true;
 
@@ -643,72 +641,20 @@ const ThemeElement* ThemeData::getElement(const String& viewName, const String& 
   return element;
 }
 
-const ThemeData& ThemeData::getCurrent()
+void ThemeData::LoadMain(const Path& root)
 {
-  if (IsThemeChanged())
-  {
-    delete sCurrent;
-    sCurrent = nullptr;
-  }
-
-  if (sCurrent == nullptr)
-  {
-    Path path;
-    const String& currentTheme = RecalboxConf::Instance().GetThemeFolder();
-
-    static constexpr size_t pathCount = 3;
-    Path paths[pathCount] =
-    {
-      RootFolders::TemplateRootFolder / "system/.emulationstation/themes/" / currentTheme,
-      RootFolders::DataRootFolder     / "themes/" / currentTheme,
-      RootFolders::DataRootFolder     / "system/.emulationstation/themes/" / currentTheme
-    };
-
-    sCurrent = new ThemeData();
-
-    for (const auto& master : paths)
-    {
-      if(!master.IsDirectory()) continue;
-
-      // Try master path first
-      if (Path masterTheme = master / "theme.xml"; masterTheme.Exists())
-      {
-        String empty;
-        sCurrent->loadFile(empty, masterTheme);
-        break;
-      }
-
-      // Then try to find the main subfolder
-      Path::PathList list = master.GetDirectoryContent();
-      bool found = false;
-      for(auto& sub : list)
-        if (sub.IsDirectory())
-          if (Path subTheme = sub / "theme.xml"; subTheme.Exists())
-          {
-            String empty;
-            sCurrent->loadFile(empty, subTheme);
-            found = true;
-            break;
-          }
-      if (found) break;
-    }
-
-    ThemeData::SetThemeChanged(false);
-    MenuThemeData::Reset();
-  }
-
-  return *sCurrent;
+  { LOG(LogInfo) << "[ThemeManager] Loading main theme from: " << root; }
+  loadFile(String::Empty, root);
 }
 
-void ThemeData::SetThemeChanged(bool themeChanged){
-    sThemeChanged = themeChanged;
+void ThemeData::LoadSystem(const String& systemFolder, const Path& root)
+{
+  { LOG(LogInfo) << "[ThemeManager] Loading system theme from: " << root; }
+  loadFile(systemFolder, root);
 }
 
-bool ThemeData::IsThemeChanged(){
-    return sThemeChanged;
-}
-
-String ThemeData::getGameClipView() const {
+String ThemeData::getGameClipView() const
+{
     return mGameClipView;
 }
 
@@ -742,34 +688,6 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
   }
 
   return comps;
-}
-
-HashMap<String, ThemeSet> ThemeData::getThemeSets()
-{
-  HashMap<String, ThemeSet> sets;
-
-  static const size_t pathCount = 3;
-  static Path paths[pathCount] =
-  {
-    RootFolders::TemplateRootFolder / "/system/.emulationstation/themes",
-    RootFolders::DataRootFolder     / "/themes",
-    RootFolders::DataRootFolder     / "/system/.emulationstation/themes"
-  };
-
-  for (const auto& path : paths)
-  {
-    Path::PathList list = path.GetDirectoryContent();
-    for(auto& setPath : list)
-    {
-      if(setPath.IsDirectory())
-      {
-        ThemeSet set(setPath);
-        sets[set.getName()] = set;
-      }
-    }
-  }
-
-  return sets;
 }
 
 HashMap<String, String> ThemeData::getThemeSubSets(const String& theme)
@@ -860,27 +778,6 @@ String::List ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetma
   std::sort(sortedsets.begin(), sortedsets.end());
 
   return sortedsets;
-}
-
-
-Path ThemeData::getThemeFromCurrentSet(const String& system)
-{
-  auto themeSets = ThemeData::getThemeSets();
-  if(themeSets.empty())
-  {
-    // no theme sets available
-    return Path::Empty;
-  }
-
-  auto set = themeSets.find(RecalboxConf::Instance().GetThemeFolder());
-  if(set == themeSets.end())
-  {
-    // currently selected theme set is missing, so just pick the first available set
-    set = themeSets.begin();
-    RecalboxConf::Instance().SetThemeFolder(set->first);
-  }
-
-  return set->second.getThemePath(system);
 }
 
 String ThemeData::getTransition() const

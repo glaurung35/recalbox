@@ -49,7 +49,7 @@ export enum Actions {
   scrapGame = 'scrapgame',
 }
 
-export interface EsResponse {
+export interface EventResponse {
   Action: Actions;
   Parameter: string;
   Version: string;

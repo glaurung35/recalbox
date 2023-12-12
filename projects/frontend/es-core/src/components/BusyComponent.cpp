@@ -5,6 +5,7 @@
 #include "Renderer.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 // animation definition
 AnimationFrame BUSY_ANIMATION_FRAMES[] = {
@@ -22,15 +23,15 @@ BusyComponent::BusyComponent(WindowManager&window)
   mThreadMessagechanged(false),
   mEnabled(true)
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
 	mAnimation = std::make_shared<AnimatedImageComponent>(mWindow);
 	mAnimation->load(&BUSY_ANIMATION_DEF);
-	mText = std::make_shared<TextComponent>(mWindow, _("WORKING..."), menuTheme->menuText.font, menuTheme->menuText.color);
+	mText = std::make_shared<TextComponent>(mWindow, _("WORKING..."), menuTheme.Text().font, menuTheme.Text().color);
 
 	// col 0 = animation, col 1 = spacer, col 2 = text
 	mGrid.setEntry(mAnimation, Vector2i(1, 1), false, true);

@@ -7,14 +7,19 @@
 #include <SDL_timer.h>
 #include <themes/MenuThemeData.h>
 #include <components/ScrollableContainer.h>
+#include <themes/ThemeManager.h>
 
 GuiInfoPopupBase::GuiInfoPopupBase(WindowManager& window, bool selfProcessed, int duration, PopupType icon, int gridWidth, int gridHeight, float widthRatio)
   : Gui(window)
   , mGrid(window, Vector2i(gridWidth, gridHeight))
   , mFrame(window, Path(":/frame.png"))
+  , mFrameColor(0)
   , mType(icon)
+  , mCorner(Corner::TopRight)
   , mTargetOffset(0)
   , mDuration(duration * 1000)
+  , mMaxAlpha(0xFF)
+  , mStartTime(0)
   , mWidthRatio(widthRatio)
   , mRunning(true)
   , mInitialized(false)
@@ -30,10 +35,10 @@ void GuiInfoPopupBase::Initialize()
   float maxWidth = mWidthRatio * Renderer::Instance().DisplayWidthAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.6f : 0.2f);
   float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * (Renderer::Instance().Is480pOrLower() ? 0.6f : 0.4f);
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-  maxAlpha = (int)menuTheme->menuBackground.color & 0xFF;
-  mFrameColor = menuTheme->menuBackground.color;
+  mMaxAlpha = (int)menuTheme.Background().color & 0xFF;
+  mFrameColor = menuTheme.Background().color;
 
   // add a padding to the box
   int paddingX = (int) (Renderer::Instance().DisplayWidthAsFloat() * 0.02f);
@@ -42,16 +47,14 @@ void GuiInfoPopupBase::Initialize()
   float msgHeight = AddComponents(mWindow, mGrid, maxWidth, maxHeight, paddingX, paddingY);
   mGrid.setSize(maxWidth + (float)paddingX, msgHeight + (float)paddingY);
 
-  float posX = 0.0f, posY = 0.0f;
-
   mCorner = Corner::TopRight;
-  posX = Renderer::Instance().DisplayWidthAsFloat() * (Board::Instance().CrtBoard().IsCrtAdapterAttached() ? 0.94f : 0.98f ) - mGrid.getSize().x();
-  posY = Renderer::Instance().DisplayHeightAsFloat();
+  float posX = Renderer::Instance().DisplayWidthAsFloat() * (Board::Instance().CrtBoard().IsCrtAdapterAttached() ? 0.94f : 0.98f ) - mGrid.getSize().x();
+  float posY = Renderer::Instance().DisplayHeightAsFloat();
 
   setPosition(posX, posY, 0);
   setSize(mGrid.getSize());
 
-  mFrame.setImagePath(menuTheme->menuBackground.path);
+  mFrame.setImagePath(menuTheme.Background().path);
   mFrame.setCenterColor(mFrameColor);
   mFrame.setEdgeColor(mFrameColor);
   mFrame.fitTo(mGrid.getSize(), Vector3f::Zero(), Vector2f(-32, -32));
@@ -119,7 +122,7 @@ void GuiInfoPopupBase::Update(int delta)
 		mRunning = false;
 		return;
 	}
-	else if (curTime - mStartTime <= 500)
+	if (curTime - mStartTime <= 500)
 	{
 		alpha = ((curTime - mStartTime)*255/500);
 	}
@@ -132,8 +135,7 @@ void GuiInfoPopupBase::Update(int delta)
 		alpha = ((-(curTime - mStartTime - mDuration)*255)/500);
 	}
 
-	if (alpha > maxAlpha)
-		alpha = maxAlpha;
+	if (alpha > mMaxAlpha) alpha = mMaxAlpha;
 
 	mGrid.setOpacity(alpha);
 

@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 ButtonComponent::ButtonComponent(WindowManager&window, const String& text, const String& helpText, const std::function<void()>& func, bool upperCase)
   : Component(window),
@@ -14,13 +15,13 @@ ButtonComponent::ButtonComponent(WindowManager&window, const String& text, const
     mButton_filled(":/button_filled.png"),
     mBox(window, mButton)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mFont = menuTheme->menuText.font;
-	mTextColorUnfocused = menuTheme->menuText.color;
-	mTextColorFocused = menuTheme->menuText.selectedColor;
-	mColor = menuTheme->menuText.color;
-	mButton = menuTheme->iconSet.button;
-	mButton_filled = menuTheme->iconSet.button_filled;
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	mFont = menuTheme.Text().font;
+	mTextColorUnfocused = menuTheme.Text().color;
+	mTextColorFocused = menuTheme.Text().selectedColor;
+	mColor = menuTheme.Text().color;
+	mButton = menuTheme.Elements().button;
+	mButton_filled = menuTheme.Elements().button_filled;
 
 	setPressedFunc(func);
 	setText(text, helpText, upperCase);

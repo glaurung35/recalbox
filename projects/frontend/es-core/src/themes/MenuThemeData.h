@@ -1,81 +1,106 @@
 #pragma once
 
-#include <utils/math/Misc.h>
 #include <themes/ThemeData.h>
 #include <resources/Font.h>
-#include <Renderer.h>
+#include "utils/cplusplus/INoCopy.h"
 
-struct MenuElement {
-	unsigned int color;
-	unsigned int selectedColor;
-	unsigned int selectorColor;
-	unsigned int separatorColor;
-	Path path;
-	Path fadePath;
-	std::shared_ptr<Font> font;
-};
-
-struct MenuSize {
-  float height;
-};
-
-struct IconElement {
-	Path button;
-  Path button_filled;
-  Path on;
-  Path off;
-  Path option_arrow;
-  Path arrow;
-  Path knob;
-};
-
-struct MenuIconElement {
-  Path kodi;
-  Path system;
-  Path recalboxrgbdual;
-  Path updates;
-  Path games;
-  Path controllers;
-  Path ui;
-  Path download;
-  Path arcade;
-  Path tate;
-  Path sound;
-  Path network;
-  Path scraper;
-  Path advanced;
-  Path quit;
-  Path restart;
-  Path shutdown;
-  Path fastshutdown;
-  Path license;
-};
-
-struct MenuTheme
+class MenuThemeData : private INoCopy
 {
-	MenuElement menuBackground{ 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, 0xFFFFFFFF, Path(":/frame.png"), Path(":/scroll_gradient.png"), nullptr};
-	MenuElement menuTitle{ 0x555555FF, 0x555555FF, 0x555555FF, 0xFFFFFFFF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_LARGE)};
-	MenuElement menuFooter{ 0xC6C6C6FF, 0xC6C6C6FF, 0xC6C6C6FF, 0xFFFFFFFF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_SMALL)};
-	MenuElement menuText{ 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_MEDIUM)};
-	MenuElement menuTextSmall{ 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, Path::Empty, Path::Empty, Font::get(FONT_SIZE_SMALL)};
-	MenuIconElement menuIconSet; //{Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty,Path::Empty};
-	IconElement iconSet{ Path(":/button.png"), Path(":/button_filled.png"), Path(":/on.svg"), Path(":/off.svg"), Path(":/option_arrow.svg"), Path(":/arrow.svg"), Path(":/slider_knob.svg") };
-	MenuSize menuSize {height: 0.85f};
-};
+  public:
+    struct MenuElement
+    {
+      unsigned int color = 0xFFFFFFFF;
+      unsigned int selectedColor = 0x808080FF;
+      unsigned int selectorColor = 0xC0C0C0FF;
+      unsigned int separatorColor = 0x404040FF;
+      Path path;
+      Path fadePath;
+      std::shared_ptr<Font> font;
+    };
 
-class MenuThemeData
-{
-public:
-	static std::shared_ptr<MenuThemeData> getInstance();
-	inline std::shared_ptr<MenuTheme> getCurrentTheme() { return mCurrent; };
+    struct MenuSize
+    {
+      float height;
+    };
 
-	/*!
-	 * @brief Destroy the singleton and force menu theme reloading
-	 */
-	static void Reset();
-	
-private:
-	MenuThemeData();
-	std::shared_ptr<MenuTheme> mCurrent;
-	static std::shared_ptr<MenuThemeData> sInstance;
+    struct IconElement
+    {
+      Path button;
+      Path button_filled;
+      Path on;
+      Path off;
+      Path option_arrow;
+      Path arrow;
+      Path knob;
+    };
+
+    struct MenuIcons
+    {
+      Path kodi;
+      Path system;
+      Path recalboxrgbdual;
+      Path updates;
+      Path games;
+      Path controllers;
+      Path ui;
+      Path download;
+      Path arcade;
+      Path tate;
+      Path sound;
+      Path network;
+      Path scraper;
+      Path advanced;
+      Path quit;
+      Path restart;
+      Path shutdown;
+      Path fastshutdown;
+      Path license;
+    };
+
+    //! Default constructor
+    MenuThemeData()
+      : mSize()
+    {
+      Reset();
+    }
+
+    /*!
+     * @brief Load theme data from global theme
+     * @param mainTheme Main theme data
+     */
+    void Load(ThemeData& mainTheme);
+
+    //! Reset data to default values
+    void Reset();
+
+    /*
+     * Getters
+     */
+
+    [[nodiscard]] const MenuElement& Background() const { return mBackground; }
+    [[nodiscard]] const MenuElement& Title() const { return mTitle; }
+    [[nodiscard]] const MenuElement& Footer() const { return mFooter; }
+    [[nodiscard]] const MenuElement& Text() const { return mText; }
+    [[nodiscard]] const MenuElement& SmallText() const { return mTextSmall; }
+    [[nodiscard]] const MenuIcons&   Icons() const { return mIconSet; }
+    [[nodiscard]] const IconElement& Elements() const { return mIconElement; }
+    [[nodiscard]] float              Height() const { return mSize.height; }
+
+  private:
+    //! Menu background font/colors
+    MenuElement mBackground;
+    //! Menu title font/colors
+    MenuElement mTitle;
+    //! Menu footer font/colors
+    MenuElement mFooter;
+    //! Menu main text font/colors
+    MenuElement mText;
+    //! Menu small text font/colors
+    MenuElement mTextSmall;
+    //! Menu icon set path
+    MenuIcons mIconSet;
+    //! Menu icons elements path
+    IconElement mIconElement;
+    //! Menu sizes
+    MenuSize mSize;
 };

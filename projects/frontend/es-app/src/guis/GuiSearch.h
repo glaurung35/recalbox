@@ -56,7 +56,7 @@ class GuiSearch : public Gui, public IGuiArcadeVirtualKeyboardInterface
     NinePatchComponent mBackground;
     //full grid (entire frame)
     ComponentGrid mGrid;
-    std::shared_ptr<MenuTheme> mMenuTheme;
+    const MenuThemeData& mMenuTheme;
     //grid for list & Meta
     std::shared_ptr<ComponentGrid> mGridMeta;
     //grid for logo + publisher and developer

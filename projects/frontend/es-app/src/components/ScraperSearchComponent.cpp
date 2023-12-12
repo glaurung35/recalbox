@@ -11,6 +11,7 @@
 #include "guis/GuiTextEditPopupKeyboard.h"
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowResolution)
   : Component(window)
@@ -19,7 +20,7 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowRe
   , mBusyAnim(window)
 {
 	addChild(&mGrid);
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
 	// GRID: 7 x 6
 	// +-+-------------------------------------------------------------------------------------------------------------+-+
@@ -47,12 +48,12 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowRe
   //  0              1                            2                  3                   4                   5        6
   //  5%            30%                          15%                15%                 15%                 15%       5%
 
-  auto font = menuTheme->menuTextSmall.font;
-  const unsigned int mdColor = menuTheme->menuText.color;
-  const unsigned int mdLblColor = menuTheme->menuText.color;
+  auto font = menuTheme.SmallText().font;
+  const unsigned int mdColor = menuTheme.Text().color;
+  const unsigned int mdLblColor = menuTheme.Text().color;
 
   // Game Name
-  mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme->menuText.font, menuTheme->menuText.color);
+  mResultName = std::make_shared<TextComponent>(mWindow, "RESULT NAME", menuTheme.Text().font, menuTheme.Text().color);
   mGrid.setEntry(mResultName, Vector2i(1, 0), false, true, Vector2i(5, 1));
 
   // Image thumbnail
@@ -62,7 +63,7 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowRe
 
   // selected result desc + container
   mDescContainer = std::make_shared<ScrollableContainer>(mWindow);
-  mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", font, menuTheme->menuText.color);
+  mResultDesc = std::make_shared<TextComponent>(mWindow, "RESULT DESC", font, menuTheme.Text().color);
   mDescContainer->addChild(mResultDesc.get());
   mDescContainer->setAutoScroll(true);
   // show description on the right
@@ -91,7 +92,7 @@ ScraperSearchComponent::ScraperSearchComponent(WindowManager& window, bool lowRe
   mGrid.setEntry(mValuePublisher, Vector2i(3, 2), false, false, Vector2i(1, 1));
   mValueGenre = std::make_shared<TextComponent>(mWindow, "", font, mdColor);
   mGrid.setEntry(mValueGenre, Vector2i(3, 3), false, false, Vector2i(1, 1));
-  mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme->menuText.color, 0.f);
+  mValueRating = std::make_shared<RatingComponent>(mWindow, menuTheme.Text().color, 0.f);
   mGrid.setEntry(mValueRating, Vector2i(5, 1), false, false, Vector2i(1, 1));
   mValueReleaseDate = std::make_shared<DateTimeComponent>(mWindow);
   mValueReleaseDate->setColor(mdColor);
@@ -130,8 +131,8 @@ void ScraperSearchComponent::onSizeChanged()
   }
 
 	// row heights
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  auto font = menuTheme->menuTextSmall.font;
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  auto font = menuTheme.SmallText().font;
 	float firstRowPercent = (mResultName->getFont()->getHeight() * 1.6f) / mGrid.getSize().y();
   float textRowPercent  = (font->getHeight() * 1.6f) / mGrid.getSize().y();
   float otherRowPercent = (1.0f - (firstRowPercent + textRowPercent * 3.0f)) / 2.0f;

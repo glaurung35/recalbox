@@ -207,7 +207,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   // TOGGLE FAVORITES - Y
   if (event.YPressed())
   {
-    if (mGame->IsGame() && mGame->System().HasFavoritesInTheme())
+    if (mGame->IsGame() && mGame->System().Theme().getHasFavoritesInTheme())
     {
       ViewController::Instance().ToggleFavorite(mGame);
       updateHelpPrompts();

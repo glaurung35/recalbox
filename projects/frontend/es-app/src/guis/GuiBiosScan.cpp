@@ -35,13 +35,13 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   addChild(&mGrid);
 
   // Get theme
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
   // Bold condensed
-  mBoldCondensed = Font::get(menuTheme->menuTextSmall.font->getSize(), Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"));
+  mBoldCondensed = Font::get(menuTheme.SmallText().font->getSize(), Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"));
 
   // 7 x 15
   // +-+-------------------------------------------------+---------------+------------------------+--------------+----------------------+-+
@@ -88,66 +88,66 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   bool isLowRes = Renderer::Instance().Is240p();
 
   // Title
-  mTitle = std::make_shared<TextComponent>(window, _("BIOS CHECKING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(window, _("BIOS CHECKING"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, false, Vector2i(5,1) );
 
   // Header
-  mHeader = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mHeader = std::make_shared<TextScrollComponent>(window, "", menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
   mGrid.setEntry(mHeader, Vector2i(1, 1), false, true, Vector2i(5,1) );
 
   // List
   mList = std::make_shared<TextListComponent<ListContext>>(window);
-  mList->setFont(menuTheme->menuTextSmall.font);
+  mList->setFont(menuTheme.SmallText().font);
   mList->setAlignment(HorizontalAlignment::Right);
-  mList->setSelectorColor(menuTheme->menuText.selectorColor);
-  mList->setSelectedColor(menuTheme->menuText.selectedColor);
-  mList->setColor(sColorIndexNormal, menuTheme->menuText.color);
-  mList->setColor(sColorIndexHalf, (menuTheme->menuText.color & 0xFFFFFF00) | 0x80);
+  mList->setSelectorColor(menuTheme.Text().selectorColor);
+  mList->setSelectedColor(menuTheme.Text().selectedColor);
+  mList->setColor(sColorIndexNormal, menuTheme.Text().color);
+  mList->setColor(sColorIndexHalf, (menuTheme.Text().color & 0xFFFFFF00) | 0x80);
   mList->setColor(sColorIndexRed, 0xFF000022); // Red
   mList->setColor(sColorIndexYellow, 0xFFFF0022); // Yellow
   mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
   mList->setHorizontalMargin(Renderer::Instance().DisplayWidthAsFloat() * 0.95f * 0.01f);
-  mList->setSelectorHeight((float)menuTheme->menuTextSmall.font->getSize() * 1.5f);
+  mList->setSelectorHeight((float)menuTheme.SmallText().font->getSize() * 1.5f);
   mList->setCursorChangedCallback([this](const CursorState& state) { (void)state; UpdateBiosDetail(); });
   mGrid.setEntry(mList, Vector2i(1,2), true, false, Vector2i(1, 11));
 
   // Details components
-  mDetailSystemLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailSystemValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailCoreLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailCoreValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailPathLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailPathValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailMandatoryLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailMandatoryValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailHashMustMatchLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailHashMustMatchValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailFileFoundLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailFileFoundValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailHashIsMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailHashIsMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailText1Label = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailSystemLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailSystemValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailCoreLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailCoreValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailPathLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailPathValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailMandatoryLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailMandatoryValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailHashMustMatchLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailHashMustMatchValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailFileFoundLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailFileFoundValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailHashIsMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailHashIsMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailText1Label = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Left);
   mDetailText1ValueContainer = std::make_shared<ScrollableContainer>(window);
-  mDetailText1Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailText2Label = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailText1Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailText2Label = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Left);
   mDetailText2ValueContainer = std::make_shared<ScrollableContainer>(window);
-  mDetailText2Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailText2Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
   mDetailText1ValueContainer->addChild(mDetailText1Value.get());
   mDetailText2ValueContainer->addChild(mDetailText2Value.get());
   mDetailStatusImage = std::make_shared<ImageComponent>(window);
 
-  mDetailBiosOkLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosOkValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailBiosUnsafeLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosUnsafeValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailBiosKOLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosKOValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailBiosMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailBiosNotMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosNotMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailBiosNotFoundLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailBiosNotFoundValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailBiosOkLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosOkValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailBiosUnsafeLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosUnsafeValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailBiosKOLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosKOValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailBiosMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailBiosNotMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosNotMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
+  mDetailBiosNotFoundLabel = std::make_shared<TextComponent>(window, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Right);
+  mDetailBiosNotFoundValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme.SmallText().color, TextAlignment::Left);
 
   mDetailSystemLabel->setUppercase(true);
   mDetailCoreLabel->setUppercase(true);
@@ -196,7 +196,7 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mGrid.setEntry(mDetailBiosNotFoundValue, Vector2i(5, 6), false, false, Vector2i(1,1));
 
   // Footer
-  mFooter = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mFooter = std::make_shared<TextScrollComponent>(window, "", menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
   mGrid.setEntry(mFooter, Vector2i(1, 13), false, true, Vector2i(5,1) );
 
   // Buttons

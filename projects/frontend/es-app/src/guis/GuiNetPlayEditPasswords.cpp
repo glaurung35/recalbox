@@ -12,12 +12,12 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
 {
 	addChild(&mMenu);
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
   for(int i = 0; i < DefaultPasswords::sPasswordCount; i++)
   {
     String password = RecalboxConf::Instance().AsString("netplay.password." + String(i), DefaultPasswords::sDefaultPassword[i]);
-    mPasswords[i] = std::make_shared<TextComponent>(mWindow, password, menuTheme->menuText.font, menuTheme->menuText.color);
+    mPasswords[i] = std::make_shared<TextComponent>(mWindow, password, menuTheme.Text().font, menuTheme.Text().color);
     mMenu.addWithLabel(mPasswords[i], _("PASSWORD #%i").Replace("%i", String(i)),
                        "", false, true, [this, i]
                        {

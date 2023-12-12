@@ -9,6 +9,7 @@
 #include <systems/arcade/ArcadeDatabaseManager.h>
 #include "games/MetadataType.h"
 #include "VirtualSystemType.h"
+#include "themes/ThemeManager.h"
 #include <systems/SystemDataBase.h>
 
 class SystemManager;
@@ -40,8 +41,6 @@ class SystemData : private INoCopy
 
     //! Descriptor
     SystemDescriptor mDescriptor;
-    //! Theme object
-    ThemeData mTheme;
     //! Root folders - Children are top level visible game/folder of the system
     RootFolderData mRootOfRoot;
     //! Is this system the favorite system?
@@ -173,15 +172,11 @@ class SystemData : private INoCopy
     //! Get system rotation option in system view (tate mode)
     [[nodiscard]] bool Rotatable() const;
 
-    //! Has favorite in theme?
-    // TODO: Please kill me asap!
-    [[nodiscard]] bool HasFavoritesInTheme() const { return mTheme.getHasFavoritesInTheme(); }
-
     [[nodiscard]] FileData::List getFavorites() const;
     [[nodiscard]] FileData::List getAllGames() const;
     [[nodiscard]] FileData::List getTopGamesAndFolders() const;
 
-    [[nodiscard]] inline const ThemeData& Theme() const { return mTheme; }
+    [[nodiscard]] const ThemeData& Theme() const { return ThemeManager::Instance().System(this); }
 
     static Path getGamelistPath(const RootFolderData& root, bool forWrite);
 
@@ -190,7 +185,6 @@ class SystemData : private INoCopy
      * @return List of writable gamelists
      */
     Path::PathList WritableGamelists();
-    [[nodiscard]] Path getThemePath() const;
 
     [[nodiscard]] bool HasGame() const;
     [[nodiscard]] bool HasVisibleGame() const;

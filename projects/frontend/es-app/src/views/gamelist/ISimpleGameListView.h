@@ -34,11 +34,6 @@ class ISimpleGameListView : public Gui
     ~ISimpleGameListView() override = default;
 
     /*!
-     * @brief Must be called right after the constructor
-     */
-    virtual void Initialize() = 0;
-
-    /*!
      * @brief Get Arcade interface
      * @return Arcade interface or nullptr
      */
@@ -74,8 +69,6 @@ class ISimpleGameListView : public Gui
     void ApplyHelpStyle() override;
 
     void updateInfoPanel();
-
-    void setTheme(const ThemeData& theme);
 
     [[nodiscard]] virtual int Count() const = 0;
 
@@ -114,6 +107,15 @@ class ISimpleGameListView : public Gui
     virtual FileData::List getFileDataList() = 0;
 
     /*!
+     * @brief Must be called right after the constructor
+     */
+    void DoInitialize()
+    {
+      Initialize();
+      onThemeChanged(mSystem.Theme());
+    }
+
+    /*!
      * @brief Get available regions from the current game list
      * @return Region list (may be empty)
      */
@@ -132,6 +134,11 @@ class ISimpleGameListView : public Gui
     virtual void UpdateSlowData(const SlowDataInformation& info) = 0;
 
   protected:
+    /*!
+     * @brief Called right after the constructor
+     */
+    virtual void Initialize() = 0;
+
     virtual void launch(FileData* game) = 0;
 
     virtual void clean() = 0;
@@ -139,7 +146,6 @@ class ISimpleGameListView : public Gui
     virtual FileData* getEmptyListItem() = 0;
 
     SystemData& mSystem;
-    const ThemeData* mTheme;
 
     //! SystemManager instance
     SystemManager& mSystemManager;

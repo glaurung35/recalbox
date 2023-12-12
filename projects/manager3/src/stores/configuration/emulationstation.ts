@@ -144,7 +144,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
             systemId: status.System.SystemId,
             metaData: systemsMetaData[status.System.SystemId],
           };
-          if (status.Action === Actions.runGame && status.Game) {
+          if (([Actions.runGame, Actions.runDemo].includes(status.Action)) && status.Game) {
             const encodedGamePath = encodeURIComponent(status.Game.GamePath);
             const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);
             currentRom = {

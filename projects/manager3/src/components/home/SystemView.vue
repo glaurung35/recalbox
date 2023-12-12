@@ -181,6 +181,7 @@
 <script lang="ts" setup>
 import AnimatedLines from 'components/ui-kit/AnimatedLines.vue';
 import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
+import { storeToRefs } from 'pinia';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useServerStore } from 'stores/server';
 import { Actions } from 'stores/types/mqtt';
@@ -191,8 +192,7 @@ const router = useRouter();
 const serverStore = useServerStore();
 const emulationStationStore = useEmulationstationStore();
 
-const { currentState } = emulationStationStore;
-
+const { currentState } = storeToRefs(emulationStationStore);
 serverStore.available = true;
 function redirect() {
   if (currentState?.currentSystem?.systemId === 'imageviewer') {

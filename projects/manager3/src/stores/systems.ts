@@ -23,10 +23,10 @@ export const useSystemsStore = defineStore('systems', {
 
   getters: {
     filteredSystemsList: (state) => state.systems.systems.filter(
-      (system) => Type[system.type as keyof typeof Type] !== Type[6]
-        && Type[system.type as keyof typeof Type] !== Type[7]
-        && Type[system.type as keyof typeof Type] !== Type[8]
-        && Type[system.type as keyof typeof Type] !== Type[9],
+      (system) => system.type !== Type.GameEngine
+        && system.type !== Type.Port
+        && system.type !== Type.VirtualSystem
+        && system.type !== Type.VirtualArcade,
     ),
   },
 

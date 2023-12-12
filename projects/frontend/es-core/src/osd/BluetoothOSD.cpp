@@ -5,6 +5,7 @@
 #include "BluetoothOSD.h"
 #include "Renderer.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   : BaseOSD(window, side, false)
@@ -17,9 +18,9 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   , mBarBackColor(0)
   , mBarForeColor(0)
 {
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBarBackColor = menuTheme->menuBackground.color;
-  mBarForeColor = menuTheme->menuText.color;
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBarBackColor = menuTheme.Background().color;
+  mBarForeColor = menuTheme.Text().color;
 
   float sw = Renderer::Instance().DisplayWidthAsFloat();
   float sh = Renderer::Instance().DisplayHeightAsFloat();
@@ -29,7 +30,7 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   mControllerIcon.setPosition(0, sh / 36);
   mControllerIcon.setResize(sw / 32, sw / 32);
   mControllerIcon.setKeepRatio(true);
-  mControllerIcon.setColor(menuTheme->menuBackground.color);
+  mControllerIcon.setColor(menuTheme.Background().color);
   mBTArea = Rectangle(mControllerIcon.getPosition().v2(), mControllerIcon.getSize());
 
   mBtBottom.setImage(Path(":/bluetooth/bt_bottom.svg"));
@@ -37,7 +38,7 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   mBtBottom.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 90);
   mBtBottom.setResize(sw / 85, sw / 85);
   mBtBottom.setKeepRatio(true);
-  mBtBottom.setColor(menuTheme->menuBackground.color);
+  mBtBottom.setColor(menuTheme.Background().color);
   mBTArea.Swallow(mBtBottom.getPosition().x() - (sw / 170), mControllerIcon.getPosition().y() - sh / 90, sw / 85, sw / 85);
 
   mBtMiddle.setImage(Path(":/bluetooth/bt_middle.svg"));
@@ -45,7 +46,7 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   mBtMiddle.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 51);
   mBtMiddle.setResize(sw / 53, sw / 53);
   mBtMiddle.setKeepRatio(true);
-  mBtMiddle.setColor(menuTheme->menuBackground.color);
+  mBtMiddle.setColor(menuTheme.Background().color);
   mBTArea.Swallow(mBtMiddle.getPosition().x() - (sw / 106), mControllerIcon.getPosition().y() - sh / 51, sw / 53, sw / 53);
 
   mBtTop.setImage(Path(":/bluetooth/bt_top.svg"));
@@ -53,7 +54,7 @@ BluetoothOSD::BluetoothOSD(WindowManager& window, BaseOSD::Side side)
   mBtTop.setPosition(mControllerIcon.getCenter().x(), mControllerIcon.getPosition().y() - sh / 36);
   mBtTop.setResize(sw / 40, sw / 40);
   mBtTop.setKeepRatio(true);
-  mBtTop.setColor(menuTheme->menuBackground.color);
+  mBtTop.setColor(menuTheme.Background().color);
   mBTArea.Swallow(mBtTop.getPosition().x() - (sw / 80), mControllerIcon.getPosition().y() - sh / 36, sw / 40, sw / 40);
 
   // Outlined Progress bar

@@ -11,6 +11,7 @@
 #include <components/TextComponent.h>
 #include <components/ProgressBarComponent.h>
 #include <systems/SystemData.h>
+#include <themes/ThemeManager.h>
 
 String GuiInfoPopupScraper::mTextTemplate("Scraping game %VALUE%/%TOTAL%\n%SYSTEM%\n%NAME%");
 
@@ -25,19 +26,19 @@ float GuiInfoPopupScraper::AddComponents(WindowManager& window, ComponentGrid& g
   (void)paddingY;
   String iconText = "\uF1e4";
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
   float hwSize = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
   unsigned int FONT_SIZE_ICON = (unsigned int)(0.04f * hwSize);
   unsigned int FONT_SIZE_TEXT = (unsigned int)(0.02f * hwSize);
 
   if(Renderer::Instance().Is480pOrLower())
   {
-    FONT_SIZE_ICON = menuTheme->menuText.font->getSize();
-    FONT_SIZE_TEXT = menuTheme->menuText.font->getSize();
+    FONT_SIZE_ICON = menuTheme.Text().font->getSize();
+    FONT_SIZE_TEXT = menuTheme.Text().font->getSize();
   }
 
-  mText        = std::make_shared<TextComponent>(window, mTextTemplate + '\n', Font::get((int)FONT_SIZE_TEXT), menuTheme->menuText.color, TextAlignment::Top);
-  mIcon        = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme->menuText.color, TextAlignment::Left);
+  mText        = std::make_shared<TextComponent>(window, mTextTemplate + '\n', Font::get((int)FONT_SIZE_TEXT), menuTheme.Text().color, TextAlignment::Top);
+  mIcon        = std::make_shared<TextComponent>(window, iconText, Font::get((int)FONT_SIZE_ICON), menuTheme.Text().color, TextAlignment::Left);
   mProgressBar = std::make_shared<ProgressBarComponent>(window, 1);
   mImage       = std::make_shared<ImageComponent>(window);
   mNoImage     = std::make_shared<ImageComponent>(window);

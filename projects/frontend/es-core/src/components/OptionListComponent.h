@@ -49,9 +49,9 @@ private:
 		{
       addChild(&mMenu);
 
-			auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-			auto font = menuTheme->menuText.font;
-			auto color = menuTheme->menuText.color;
+      const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+			auto font = menuTheme.Text().font;
+			auto color = menuTheme.Text().color;
 			ComponentListRow row;
 
 			// for select all/none
@@ -161,12 +161,12 @@ public:
     , mMultiSelect(multiSelect)
 	{
 		std::shared_ptr<Font> font = nullptr;
-		auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+    const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 		if (font_size == FONT_SIZE_SMALL)
-			font = menuTheme->menuTextSmall.font;
+			font = menuTheme.SmallText().font;
 		else
-			font = menuTheme->menuText.font;
-    unsigned int color = menuTheme->menuText.color;
+			font = menuTheme.Text().font;
+    unsigned int color = menuTheme.Text().color;
 		mOriginColor = color;
 			
 		mText.setFont(font);
@@ -176,16 +176,16 @@ public:
 
 		if(mMultiSelect)
 		{
-			mRightArrow.setImage(menuTheme->iconSet.arrow);
+			mRightArrow.setImage(menuTheme.Elements().arrow);
 			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}else{
-			mLeftArrow.setImage(menuTheme->iconSet.option_arrow);
+			mLeftArrow.setImage(menuTheme.Elements().option_arrow);
 			mLeftArrow.setColorShift(color);
 			mLeftArrow.setFlipX(true);
 			addChild(&mLeftArrow);
 
-			mRightArrow.setImage(menuTheme->iconSet.option_arrow);
+			mRightArrow.setImage(menuTheme.Elements().option_arrow);
 			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}

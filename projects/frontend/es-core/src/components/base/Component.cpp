@@ -4,6 +4,7 @@
 #include "Renderer.h"
 #include "animations/AnimationController.h"
 #include "themes/ThemeData.h"
+#include <themes/ThemeManager.h>
 
 Component::Component(WindowManager& window)
   : mTransform(Transform4x4f::Identity()),
@@ -246,9 +247,8 @@ bool Component::stopAnimation(unsigned char slot)
 		delete mAnimationMap[slot];
 		mAnimationMap[slot] = nullptr;
 		return true;
-	}else{
-		return false;
 	}
+  return false;
 }
 
 bool Component::cancelAnimation(unsigned char slot)
@@ -260,27 +260,26 @@ bool Component::cancelAnimation(unsigned char slot)
 		delete mAnimationMap[slot];
 		mAnimationMap[slot] = nullptr;
 		return true;
-	}else{
-		return false;
 	}
+	return false;
 }
 
 bool Component::finishAnimation(unsigned char slot)
 {
-	assert(slot < MAX_ANIMATIONS);
-	if(mAnimationMap[slot] != nullptr)
-	{
-		// skip to animation's end
-		const bool done = mAnimationMap[slot]->update(mAnimationMap[slot]->getAnimation()->getDuration() - mAnimationMap[slot]->getTime());
-    (void)done;
-		assert(done);
+  assert(slot < MAX_ANIMATIONS);
+  if (mAnimationMap[slot] != nullptr)
+  {
+    // skip to animation's end
+    const bool done = mAnimationMap[slot]->update(
+      mAnimationMap[slot]->getAnimation()->getDuration() - mAnimationMap[slot]->getTime());
+    (void) done;
+    assert(done);
 
-		delete mAnimationMap[slot]; // will also call finishedCallback
-		mAnimationMap[slot] = nullptr;
-		return true;
-	}else{
-		return false;
-	}
+    delete mAnimationMap[slot]; // will also call finishedCallback
+    mAnimationMap[slot] = nullptr;
+    return true;
+  }
+  return false;
 }
 
 bool Component::advanceAnimation(unsigned char slot, unsigned int time)
@@ -296,9 +295,8 @@ bool Component::advanceAnimation(unsigned char slot, unsigned int time)
 			delete anim;
 		}
 		return true;
-	}else{
-		return false;
 	}
+  return false;
 }
 
 void Component::stopAllAnimations()
@@ -401,9 +399,9 @@ void Component::updateHelpPrompts()
 void Component::ApplyHelpStyle()
 {
 	if (ThemeData::ThemeHasMenuView())
-		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "menu");
+		HelpItemStyle().FromTheme(ThemeManager::Instance().Main(), "menu");
 	else
-		HelpItemStyle().FromTheme(ThemeData::getCurrent(), "system");
+		HelpItemStyle().FromTheme(ThemeManager::Instance().Main(), "system");
 }
 
 void Component::onShow()

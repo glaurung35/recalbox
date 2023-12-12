@@ -1493,12 +1493,10 @@ String::List RequestHandlerTools::GetAvailableShaders()
 
 String::List RequestHandlerTools::GetAvailableThemes()
 {
-  auto themeSets = ThemeData::getThemeSets();
+  ThemeManager::ThemeList themeSets = ThemeManager::AvailableThemes();
   String::List result;
   for (const auto& theme : themeSets)
-  {
     result.push_back(theme.first);
-  }
 
   return result;
 }

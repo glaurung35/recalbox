@@ -3,7 +3,7 @@
 -->
 <template>
   <div :class="classes">
-    <q-icon :name="icon"/>
+    <slot name="content"></slot>
   </div>
 </template>
 
@@ -12,12 +12,10 @@ import { computed, toRefs } from 'vue';
 
 const props = defineProps({
   background: { type: Boolean },
-  icon: { type: String, required: true },
 });
 
 const {
   background,
-  icon,
 } = toRefs(props);
 
 const classes = computed(() => `overlayMessage${background.value ? ' background' : ''}`);
@@ -37,8 +35,4 @@ const classes = computed(() => `overlayMessage${background.value ? ' background'
   display: flex
   align-items: center
   justify-content: center
-
-  .q-icon
-    color: $light-blue
-    font-size: 9em
 </style>

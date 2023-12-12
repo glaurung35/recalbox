@@ -21,7 +21,7 @@ import {
   EmulationStationCurrentState,
   RomMetaData,
 } from 'stores/types/emulationstation';
-import { Actions, EsResponse } from 'stores/types/mqtt';
+import { Actions, EventResponse } from 'stores/types/mqtt';
 
 const api: string|undefined = apiUrl;
 
@@ -123,7 +123,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         this.currentState.currentSystem = null;
       }
     },
-    async updateStatus(status: EsResponse) {
+    async updateStatus(status: EventResponse) {
       const systemsStore = useSystemsStore();
       const { systems } = systemsStore;
 
@@ -132,7 +132,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
 
       if (status.System) {
         const storeSystem = systems.systems.filter((system) => system.name === status.System.SystemId)[0];
-
         if (this.currentState.currentSystem && storeSystem.name !== this.currentState.currentSystem.systemId) {
           this.resetCurrentSystem();
         }
@@ -145,7 +144,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
             systemId: status.System.SystemId,
             metaData: systemsMetaData[status.System.SystemId],
           };
-
           if (status.Action === Actions.runGame && status.Game) {
             const encodedGamePath = encodeURIComponent(status.Game.GamePath);
             const metaData = await this.fetchRomMetaData(status.System.SystemId, encodedGamePath);

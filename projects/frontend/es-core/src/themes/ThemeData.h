@@ -1,6 +1,5 @@
 #pragma once
 
-#include <map>
 #include <deque>
 #include <random>
 #include <utils/String.h>
@@ -8,6 +7,7 @@
 #include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
+#include <utils/storage/Set.h>
 
 template<typename T> class TextListComponent;
 
@@ -26,8 +26,8 @@ class ThemeSet
   public:
     ThemeSet() = default;
     explicit ThemeSet(const Path& path) : mPath(path) {}
-    inline String getName() const { return mPath.FilenameWithoutExtension(); }
-    inline Path getThemePath(const String& system) const { return mPath / system / "theme.xml"; }
+    [[nodiscard]] inline String getName() const { return mPath.FilenameWithoutExtension(); }
+    [[nodiscard]] inline Path getThemePath(const String& system) const { return mPath / system / "theme.xml"; }
 };
 
 class ThemeData
@@ -36,8 +36,10 @@ class ThemeData
     class ThemeView
     {
       public:
-        HashMap<String, ThemeElement> elements;
-        String::List orderedKeys;
+        //! Raw element array
+        std::vector<ThemeElement> mElementArray;
+        //! Element name to element index
+        HashMap<String, int> mElements;
     };
 
     static ThemeData* sCurrent;
@@ -70,7 +72,7 @@ class ThemeData
     };
 
     // If expectedType is an empty string, will do no type checking.
-    const ThemeElement* getElement(const String& view, const String& element, const String& expectedType) const;
+    [[nodiscard]] const ThemeElement* getElement(const String& view, const String& element, const String& expectedType) const;
 
     static std::vector<Component*> makeExtras(const ThemeData& theme, const String& view, WindowManager& window);
 
@@ -78,26 +80,26 @@ class ThemeData
     static const ThemeData& getCurrent();
     static void SetThemeChanged(bool themeChanged);
     static bool IsThemeChanged();
-    String getGameClipView() const;
+    [[nodiscard]] String getGameClipView() const;
     static const char *getNoTheme() { return "0 - DEFAULT"; }
 
     static HashMap<String, ThemeSet> getThemeSets();
 	static HashMap<String, String> getThemeSubSets(const String& theme);
 	static String::List sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset);
 	static Path getThemeFromCurrentSet(const String& system);
-	String getTransition() const;
+	[[nodiscard]] String getTransition() const;
 
-    bool getHasFavoritesInTheme() const
+    [[nodiscard]] bool getHasFavoritesInTheme() const
     { return (mVersion >= CURRENT_THEME_FORMAT_VERSION); }
-    bool isFolderHandled() const;
+    [[nodiscard]] bool isFolderHandled() const;
 
     static constexpr int MINIMUM_THEME_FORMAT_VERSION = 3;
     static constexpr int CURRENT_THEME_FORMAT_VERSION = 4;
 
   private:
     static HashMap<String, HashMap<String, ElementProperty>>& ElementMap();
-    static String::List& SupportedFeatures();
-    static String::List& SupportedViews();
+    static HashSet<String>& SupportedFeatures();
+    static HashSet<String>& SupportedViews();
 
 	std::deque<Path> mPaths;
 	float mVersion;
@@ -112,11 +114,10 @@ class ThemeData
 	String mRandomPath;
 	static constexpr const char* sRandomMethod = "$random(";
 
-
     void parseFeatures(const pugi::xml_node& themeRoot);
     void parseIncludes(const pugi::xml_node& themeRoot);
     void parseViews(const pugi::xml_node& themeRoot);
-    void parseView(const pugi::xml_node& viewNode, ThemeView& view);
+    void parseView(const pugi::xml_node& viewNode, ThemeView& view, bool forcedExtra);
     void parseElement(const pugi::xml_node& elementNode, const HashMap<String, ElementProperty>& typeMap, ThemeElement& element);
     bool parseRegion(const pugi::xml_node& root);
     bool parseSubset(const pugi::xml_node& node);
@@ -144,13 +145,13 @@ class ThemeData
             .Replace("$language", lc)
             .Replace("$country", cc);
 
-      return PickRandomPath(result, randomPath);;
+      PickRandomPath(result, randomPath);
+      return result;
     }
 
-    static String PickRandomPath(const String& value, String& randomPath)
+    static void PickRandomPath(String& value, String& randomPath)
     {
-      if (!value.Contains(sRandomMethod))
-        return value;
+      if (!value.Contains(sRandomMethod)) return;
 
       String args;
       if (value.Extract( sRandomMethod, ")", args, true))
@@ -164,7 +165,7 @@ class ThemeData
           randomPath = paths[distrib(engine)];
         }
 
-      return String(value).Replace(sRandomMethod + args + ')', randomPath);
+      value.Replace(sRandomMethod + args + ')', randomPath);
     }
 
     HashMap<String, ThemeView> mViews;

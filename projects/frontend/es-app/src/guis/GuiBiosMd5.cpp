@@ -68,32 +68,32 @@ void GuiBiosMd5::BuildUI()
   addChild(&mGrid);
 
   // Get theme
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
   // Title
-  mTitle = std::make_shared<TextComponent>(mWindow, _("MD5 LIST"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(mWindow, _("MD5 LIST"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(1, 0), false, false, Vector2i(1,1) );
 
   // Header
-  mHeader = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuFooter.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mHeader = std::make_shared<TextComponent>(mWindow, "", menuTheme.Footer().font, menuTheme.Footer().color, TextAlignment::Center);
   mGrid.setEntry(mHeader, Vector2i(1, 1), false, false, Vector2i(1,1) );
 
   // List
   mList = std::make_shared<TextListComponent<bool>>(mWindow);
-  mList->setFont(menuTheme->menuTextSmall.font);
+  mList->setFont(menuTheme.SmallText().font);
   mList->setAlignment(HorizontalAlignment::Right);
-  mList->setSelectorColor(menuTheme->menuText.selectorColor);
-  mList->setSelectedColor(menuTheme->menuText.selectedColor);
-  mList->setColor(sColorIndexNormal, menuTheme->menuText.color);
-  mList->setColor(sColorIndexHalf, (menuTheme->menuText.color & 0xFFFFFF00) | 0x80);
+  mList->setSelectorColor(menuTheme.Text().selectorColor);
+  mList->setSelectedColor(menuTheme.Text().selectedColor);
+  mList->setColor(sColorIndexNormal, menuTheme.Text().color);
+  mList->setColor(sColorIndexHalf, (menuTheme.Text().color & 0xFFFFFF00) | 0x80);
   mList->setColor(sColorIndexRed, 0xFF000022); // Red
   mList->setColor(sColorIndexGray, 0x00000022); // Yellow
   mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
   mList->setHorizontalMargin(Renderer::Instance().DisplayWidthAsFloat() * 0.95f * 0.01f);
-  mList->setSelectorHeight((float)menuTheme->menuTextSmall.font->getSize() * 1.5f);
+  mList->setSelectorHeight((float)menuTheme.SmallText().font->getSize() * 1.5f);
   mGrid.setEntry(mList, Vector2i(1,2), true, false, Vector2i(1, 1));
 
   // Buttons
@@ -104,7 +104,7 @@ void GuiBiosMd5::BuildUI()
   mGrid.setEntry(mButtonGrid, Vector2i(1, 3), true, false, Vector2i(1,1));
 
   // Set Window position/size
-  float width = Math::max(menuTheme->menuTextSmall.font->sizeText(String('0', 16)).x() * 2.5f, Renderer::Instance().DisplayWidthAsFloat() * 0.33f);
+  float width = Math::max(menuTheme.SmallText().font->sizeText(String('0', 16)).x() * 2.5f, Renderer::Instance().DisplayWidthAsFloat() * 0.33f);
   setSize(width, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - mSize.x()) / 2, (Renderer::Instance().DisplayHeightAsFloat() - mSize.y()) / 2);
 

@@ -2,6 +2,7 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 ProgressBarComponent::ProgressBarComponent(WindowManager&window, long long maxvalue)
   : Component(window),
@@ -9,12 +10,12 @@ ProgressBarComponent::ProgressBarComponent(WindowManager&window, long long maxva
     mMaxValue(1),
     mCurrentValue(0)
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mFont = menuTheme->menuText.font;
-  mEmptyColor = menuTheme->menuText.separatorColor;
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	mFont = menuTheme.Text().font;
+  mEmptyColor = menuTheme.Text().separatorColor;
   unsigned int averageComponent = (((mEmptyColor >> 24) & 0xFF) + ((mEmptyColor >> 16) & 0xFF) + ((mEmptyColor >> 8) & 0xFF)) / 3;
   mFillColor = averageComponent >= 0x80 ? 0x00000080 : 0xFFFFFF80;
-  mTextColor = menuTheme->menuText.color;
+  mTextColor = menuTheme.Text().color;
 
 	setMaxValue(maxvalue);
 	setCurrentValue(0);

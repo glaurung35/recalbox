@@ -21,22 +21,22 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, SystemMan
   , mGrid(window, Vector2i(1, 7))
   , mBox(window, Path(":/frame.png"))
 {
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 	
-	mBox.setImagePath(menuTheme->menuBackground.path);
-	mBox.setCenterColor(menuTheme->menuBackground.color);
-	mBox.setEdgeColor(menuTheme->menuBackground.color);
+	mBox.setImagePath(menuTheme.Background().path);
+	mBox.setCenterColor(menuTheme.Background().color);
+	mBox.setEdgeColor(menuTheme.Background().color);
 	addChild(&mBox);
 	addChild(&mGrid);
 
 	// row 0 is a spacer
 
-	mGameName = std::make_shared<TextComponent>(mWindow, game.RomPath().Filename().UpperCase(), menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Center);
+	mGameName = std::make_shared<TextComponent>(mWindow, game.RomPath().Filename().UpperCase(), menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Center);
 	mGrid.setEntry(mGameName, Vector2i(0, 1), false, true);
 
 	// row 2 is a spacer
 
-	mSystemName = std::make_shared<TextComponent>(mWindow, game.System().FullName().ToUpperCase(), menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+	mSystemName = std::make_shared<TextComponent>(mWindow, game.System().FullName().ToUpperCase(), menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
 	mGrid.setEntry(mSystemName, Vector2i(0, 3), false, true);
 
 	// row 4 is a spacer

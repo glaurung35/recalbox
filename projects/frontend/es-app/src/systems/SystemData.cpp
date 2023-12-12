@@ -65,36 +65,9 @@ Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
   return filePath;
 }
 
-Path SystemData::getThemePath() const
-{
-  // where we check for themes, in order:
-  // 1. [SYSTEM_PATH]/theme.xml
-  // 2. system theme from currently selected theme set [CURRENT_THEME_PATH]/[SYSTEM]/theme.xml
-  // 3. default system theme from currently selected theme set [CURRENT_THEME_PATH]/theme.xml
-
-  // try system theme in theme sets
-  Path localThemePath = ThemeData::getThemeFromCurrentSet(mDescriptor.ThemeFolder());
-  if (localThemePath.Exists()) return localThemePath;
-
-  // not system theme, try default system theme in theme set
-  localThemePath = localThemePath.Directory().Directory() / "theme.xml";
-  if (localThemePath.Exists()) return localThemePath;
-
-  // none of the above, try default
-  localThemePath = localThemePath.Directory() / "default/theme.xml";
-  if (localThemePath.Exists()) return localThemePath;
-
-  // No luck...
-  return Path::Empty;
-}
-
 void SystemData::loadTheme()
 {
-  Path path = getThemePath();
-  if (!path.Exists()) // no theme available for this platform
-    return;
-
-  mTheme.loadFile(ThemeFolder(), path);
+  ThemeManager::Instance().LoadSystemTheme(this);
 }
 
 FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path& rootPath, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher) const

@@ -34,28 +34,28 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
   InputDevice previousConfig(*mTargetDevice);
   mTargetDevice->ClearAll();
 
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
-  mMainColor = menuTheme->menuText.color;
+  mMainColor = menuTheme.Text().color;
 
   addChild(&mBackground);
   addChild(&mGrid);
 
-  mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(mWindow, _("CONFIGURING"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 
   String deviceName = _("KEYBOARD");
   if (mTargetDevice->Identifier() != InputEvent::sKeyboardDevice)
     deviceName = _("GAMEPAD %i").Replace("%i", mTargetDevice->Name());
 
-  mSubtitle1 = std::make_shared<TextComponent>(mWindow, deviceName.UpperCaseUTF8(), menuTheme->menuText.font, menuTheme->menuFooter.color, TextAlignment::Center);
+  mSubtitle1 = std::make_shared<TextComponent>(mWindow, deviceName.UpperCaseUTF8(), menuTheme.Text().font, menuTheme.Footer().color, TextAlignment::Center);
   mGrid.setEntry(mSubtitle1, Vector2i(0, 1), false, true);
 
-  mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
+  mSubtitle2 = std::make_shared<TextComponent>(mWindow, "", menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
   mGrid.setEntry(mSubtitle2, Vector2i(0, 2), false, true);
 
   mList = std::make_shared<ComponentList>(mWindow);
@@ -68,8 +68,8 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
     // icon
     auto icon = std::make_shared<ImageComponent>(mWindow);
     icon->setImage(formInput.icon);
-    icon->setColorShift(menuTheme->menuText.color);
-    icon->setResize(0, menuTheme->menuText.font->getLetterHeight() * 1.25f);
+    icon->setColorShift(menuTheme.Text().color);
+    icon->setResize(0, menuTheme.Text().font->getLetterHeight() * 1.25f);
     row.addElement(icon, false);
 
     // spacer between icon and text
@@ -77,10 +77,10 @@ GuiInputConfig::GuiInputConfig(WindowManager&window, InputDevice* target, const 
     spacer->setSize(16, 0);
     row.addElement(spacer, false);
 
-    auto text = std::make_shared<TextComponent>(mWindow, formInput.label, menuTheme->menuText.font, menuTheme->menuText.color);
+    auto text = std::make_shared<TextComponent>(mWindow, formInput.label, menuTheme.Text().font, menuTheme.Text().color);
     row.addElement(text, true);
 
-    auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Right);
+    auto mapping = std::make_shared<TextComponent>(mWindow, "", menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Right);
     row.addElement(mapping, true);
     mMappings.push_back(mapping);
 
@@ -239,7 +239,7 @@ void GuiInputConfig::setHelpMessage()
   FormInput formInput = mFormInputs[inputId];
   bool assigned = mTargetDevice->GetEntryConfiguration(InputDevice::StringToEntry(formInput.name), input);
   //std::shared_ptr<TextComponent>& text = mMappings[inputId];
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
   if (assigned)
   {
@@ -253,15 +253,15 @@ void GuiInputConfig::setHelpMessage()
     }
     if (mTargetDevice->IsSet(InputDevice::Entry::Down))
     {
-      if (inputId == 0) msg = (msg.length() != 0u ? msg + " - " : "") + _("DOWN TO SKIP");
-      else              msg = (msg.length() != 0u ? msg + " - " : "") + _("UP/DOWN TO SKIP");
+      if (inputId == 0) msg = (!msg.empty() ? msg + " - " : "") + _("DOWN TO SKIP");
+      else              msg = (!msg.empty() ? msg + " - " : "") + _("UP/DOWN TO SKIP");
     }
   }
   else if (formInput.skippable)	msg = _("UP/DOWN TO SKIP");
   else                          msg = _("INPUT REQUIRED");
 
   mSubtitle2->setText(msg);
-  mSubtitle2->setColor(formInput.skippable || assigned ? menuTheme->menuTextSmall.color : 0xff4141ff);
+  mSubtitle2->setColor(formInput.skippable || assigned ? menuTheme.SmallText().color : 0xff4141ff);
 }
 
 void GuiInputConfig::setPress() {

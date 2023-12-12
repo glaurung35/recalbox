@@ -28,7 +28,7 @@ class GuiSaveStates : public Gui
 
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
-    std::shared_ptr<MenuTheme> mMenuTheme;
+    const MenuThemeData& mMenuTheme;
     std::shared_ptr<TextComponent> mTitle;
     std::shared_ptr<TextComponent> mGameName;
     std::shared_ptr<ComponentList> mList;

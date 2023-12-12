@@ -254,7 +254,7 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
                           ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
                           ThemeProperties::Rotation);
 
-    if (mSystem->HasFavoritesInTheme())
+    if (mSystem->Theme().getHasFavoritesInTheme())
     {
       mFavoriteIcon.applyTheme(theme, GameClipView::getName(), "favoriteIcon",
                                ThemeProperties::All);
@@ -279,7 +279,7 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
                                      "md_lbl_playcount"
                                    });
 
-    if (mSystem->HasFavoritesInTheme())
+    if (mSystem->Theme().getHasFavoritesInTheme())
     {
       names.emplace_back("md_lbl_favorite");
     }
@@ -303,7 +303,7 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
       "md_playcount",
     };
 
-    if (mSystem->HasFavoritesInTheme())
+    if (mSystem->Theme().getHasFavoritesInTheme())
     {
       names.emplace_back("md_favorite");
     }
@@ -371,7 +371,7 @@ std::vector<TextComponent*> GameClipContainer::getMDLabels()
   ret.push_back(&mLblPlayers);
   ret.push_back(&mLblLastPlayed);
   ret.push_back(&mLblPlayCount);
-  if (mSystem->HasFavoritesInTheme())
+  if (mSystem->Theme().getHasFavoritesInTheme())
   {
     ret.push_back(&mLblFavorite);
   }
@@ -391,7 +391,7 @@ std::vector<Component*> GameClipContainer::getMDValues()
   ret.push_back(&mPlayers);
   ret.push_back(&mLastPlayed);
   ret.push_back(&mPlayCount);
-  if (mSystem->HasFavoritesInTheme())
+  if (mSystem->Theme().getHasFavoritesInTheme())
   {
     ret.push_back(&mFavorite);
   }
@@ -422,7 +422,7 @@ void GameClipContainer::setGameInfo(FileData* game)
   mDescription.setText(mGame->Metadata().Description());
   mDescContainer.reset();
 
-  if (mSystem->HasFavoritesInTheme())
+  if (mSystem->Theme().getHasFavoritesInTheme())
   {
     mLblFavorite.setText(_("Favorite") + ": ");
     addChild(&mLblFavorite);

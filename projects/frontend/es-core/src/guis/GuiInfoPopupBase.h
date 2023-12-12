@@ -103,7 +103,7 @@ class GuiInfoPopupBase : public Gui
     Corner mCorner;
     int mTargetOffset;
     int mDuration;
-    int maxAlpha;
+    int mMaxAlpha;
     int mStartTime;
     float mWidthRatio;
     bool mRunning;

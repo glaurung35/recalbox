@@ -68,13 +68,21 @@
     />
     <OverlayMessage
       background
-      icon="mdi-sleep"
-      v-if="currentState.currentAction === Actions.sleep"
-    />
+      v-if="currentState.currentAction === Actions.sleep
+      || currentState.currentAction === Actions.runDemo
+      || currentState.currentAction === Actions.startGameClip"
+    >
+      <template v-slot:content>
+        <AnimatedSleepEmote />
+      </template>
+    </OverlayMessage>
     <OverlayMessage
-      icon="mdi-server-off"
       v-else-if="currentState.currentSystem === null"
-    />
+    >
+      <template v-slot:content>
+        <q-icon name="mdi-server-off"/>
+      </template>
+    </OverlayMessage>
     <q-img
       v-if="currentState.currentSystem"
       class="logo"
@@ -180,6 +188,7 @@
 
 <script lang="ts" setup>
 import AnimatedLines from 'components/ui-kit/AnimatedLines.vue';
+import AnimatedSleepEmote from 'components/ui-kit/AnimatedSleepEmote.vue';
 import OverlayMessage from 'components/ui-kit/OverlayMessage.vue';
 import { storeToRefs } from 'pinia';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
@@ -268,6 +277,10 @@ function redirect() {
     &:hover
       filter: initial
       opacity: 1
+
+.q-icon
+  color: $light-blue
+  font-size: 9em
 
 @media(max-width: 700px)
   .consoleContainer

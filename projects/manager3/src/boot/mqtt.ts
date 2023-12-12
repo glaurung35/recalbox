@@ -6,7 +6,7 @@ import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useMonitoringStore } from 'stores/monitoring';
 import { CurrentSystemMetaData } from 'stores/types/emulationstation';
-import { EsResponse } from 'stores/types/mqtt';
+import { Actions, EventResponse } from 'stores/types/mqtt';
 
 const options: { clientId: string } = {
   clientId: `mqttjs_${Math.random().toString(16).substring(2, 8)}`,
@@ -75,7 +75,19 @@ client.on('message', (topic, message): void => {
   }
 
   if (topic === process.env.MQTT_ES_EVENTS_CHANNEL) {
-    const newMessage: EsResponse = JSON.parse(new TextDecoder('utf-8').decode(message));
-    emulationStationStore.updateStatus(newMessage);
+    const newMessage: EventResponse = JSON.parse(new TextDecoder('utf-8').decode(message));
+
+    if (newMessage.Action === Actions.reboot) {
+      emulationStationStore.resetCurrentSystem();
+    } else if (
+      newMessage.Action === Actions.systemBrowsing
+      || newMessage.Action === Actions.gamelistBrowsing
+      || newMessage.Action === Actions.runGame
+      || newMessage.Action === Actions.start
+      || newMessage.Action === Actions.wakeup
+      || newMessage.Action === Actions.sleep
+    ) {
+      emulationStationStore.updateStatus(newMessage);
+    }
   }
 });

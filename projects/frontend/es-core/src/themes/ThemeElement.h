@@ -97,7 +97,8 @@ class ThemeElement
             case Type::Vector: return { mFloat, mSecondFloat };
             case Type::String:
             {
-              float x = 0, y = 0;
+              float x = 0;
+              float y = 0;
               if (mString.TryAsFloat(0, ' ', x))
               {
                 int pos = mString.Find(' ');
@@ -115,11 +116,29 @@ class ThemeElement
         }
     };
 
+    //! Properties
     std::map<String, PropertyBag> mProperties;
+    //! Element name
+    String mName;
+    //! Element type
     String mType;
+    //! Is extra element
     bool mExtra;
 
   public:
+    /*!
+     * @brief Constructor
+     * @param name Element name
+     * @param type Element type
+     * @param extra Element is an extra
+     */
+    ThemeElement(const String& name, const String& type, bool extra)
+    {
+      mName = name;
+      mType = type;
+      mExtra = extra;
+    }
+
     [[nodiscard]] String AsString(const String& name) const
     {
       auto it = mProperties.find(name);
@@ -159,15 +178,11 @@ class ThemeElement
 
     [[nodiscard]] bool HasProperties() const { return !mProperties.empty(); }
 
+    [[nodiscard]] const String& Name() const { return mName; }
+
     [[nodiscard]] const String& Type() const { return mType; }
 
     [[nodiscard]] bool Extra() const { return mExtra; }
-
-    void SetRootData(const String& type, bool extra)
-    {
-      mType = type;
-      mExtra = extra;
-    }
 
     void AddVectorProperty(const String& name, float x, float y) { mProperties[name] = PropertyBag(x, y); }
     void AddVectorProperty(const String& name, const Vector2f& v) { mProperties[name] = PropertyBag(v); }

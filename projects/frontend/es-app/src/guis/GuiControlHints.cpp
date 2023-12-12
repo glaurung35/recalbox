@@ -17,6 +17,7 @@
 #include <components/ImageComponent.h>
 #include <themes/MenuThemeData.h>
 #include <input/InputCompactEvent.h>
+#include <themes/ThemeManager.h>
 
 static const char* IconPathMap(PadItems padItems)
 {
@@ -153,10 +154,10 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   addChild(&mGrid);
 
   // Theme
-  auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-  mBackground.setImagePath(menuTheme->menuBackground.path);
-  mBackground.setCenterColor(menuTheme->menuBackground.color);
-  mBackground.setEdgeColor(menuTheme->menuBackground.color);
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
   const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
 
@@ -178,7 +179,7 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   mGrid.SetRowHighlight(true, 2, mRows + 1);
   mGrid.SetColumnHighlight(false, 1, mColumns * 5);
 
-  mTitle = std::make_shared<TextComponent>(window, _("PAD TO KEYBOARD CONTROLS"), menuTheme->menuTitle.font, menuTheme->menuTitle.color, TextAlignment::Center);
+  mTitle = std::make_shared<TextComponent>(window, _("PAD TO KEYBOARD CONTROLS"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);
   mGrid.setEntry(mTitle, { 1, 1 }, false, false, { mColumns * 5, 1});
 
   // Fill in the grid
@@ -193,17 +194,17 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
     if (comment == nullptr || comment->empty())
       comment = &defaultComment;
 
-    std::shared_ptr<TextComponent> padIndex = std::make_shared<TextComponent>(window, IconTextMap(item, padNumber), font, menuTheme->menuText.color, TextAlignment::Right);
+    std::shared_ptr<TextComponent> padIndex = std::make_shared<TextComponent>(window, IconTextMap(item, padNumber), font, menuTheme.Text().color, TextAlignment::Right);
     mGrid.setEntry(padIndex, { currentCol * 5 + 1, currentRow + 2 }, false, true, { 1, 1});
 
     Path iconPath(IconPathMap(item));
     std::shared_ptr<ImageComponent> icon = std::make_shared<ImageComponent>(window);
     icon->setImage(iconPath);
     icon->setResize(0, height);
-    icon->setColorShift(menuTheme->menuText.color);
+    icon->setColorShift(menuTheme.Text().color);
     mGrid.setEntry(icon, { currentCol * 5 + 3, currentRow + 2}, false, false, { 1, 1});
 
-    std::shared_ptr<TextScrollComponent> text = std::make_shared<TextScrollComponent>(window, *comment, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
+    std::shared_ptr<TextScrollComponent> text = std::make_shared<TextScrollComponent>(window, *comment, menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Left);
     mGrid.setEntry(text, { currentCol * 5 + 5, currentRow + 2}, false, true, { 1, 1});
 
     if (++currentRow >= mRows)

@@ -7,6 +7,7 @@
 
 #include "utils/locale/LocaleHelper.h"
 #include "themes/MenuThemeData.h"
+#include <themes/ThemeManager.h>
 
 TextEditComponent::TextEditComponent(WindowManager&window)
 	: Component(window),
@@ -17,7 +18,7 @@ TextEditComponent::TextEditComponent(WindowManager&window)
     mCursorRepeatDir(0),
     mScrollOffset(0.0f, 0.0f),
     mBox(window, Path(":/textinput_ninepatch.png")),
-    mFont(MenuThemeData::getInstance()->getCurrentTheme()->menuText.font)
+    mFont(ThemeManager::Instance().Menu().Text().font)
 {
 	addChild(&mBox);
 	

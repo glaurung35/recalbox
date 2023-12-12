@@ -11,7 +11,6 @@
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : Gui(window)
   , mSystem(system)
-  , mTheme(nullptr)
   , mSystemManager(systemManager)
   , mHeaderText(window)
   , mHeaderImage(window)
@@ -39,12 +38,6 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   addChild(&mBackground);
 }
 
-void ISimpleGameListView::setTheme(const ThemeData& theme)
-{
-    mTheme = &theme;
-    onThemeChanged(theme);
-}
-
 void ISimpleGameListView::updateInfoPanel()
 {
     if (IsEmpty()) return;
@@ -55,7 +48,7 @@ void ISimpleGameListView::updateInfoPanel()
 
 void ISimpleGameListView::ApplyHelpStyle()
 {
-    HelpItemStyle().FromTheme(*mTheme, getName());
+  HelpItemStyle().FromTheme(mSystem.Theme(), getName());
 }
 
 void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
@@ -169,7 +162,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.YPressed() && !cursor->TopAncestor().PreInstalled())
   {
 
-    if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
+    if (cursor->IsGame() && cursor->System().Theme().getHasFavoritesInTheme())
     {
       ViewController::Instance().ToggleFavorite(cursor);
       updateHelpPrompts();

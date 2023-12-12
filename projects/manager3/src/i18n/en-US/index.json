@@ -1206,6 +1206,13 @@
           "text": "Are you sure you want to delete this media?"
         }
       }
+    },
+    "systems": {
+      "tooltips": {
+        "hasNetplay": {
+          "label": "Show only Netplay compatible systems"
+        }
+      }
     }
   },
   "patreon": {

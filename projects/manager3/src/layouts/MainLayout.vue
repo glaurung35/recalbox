@@ -128,6 +128,9 @@ header
 .q-page-container
   background: $rc-light-grey
 
+  .q-page-sticky
+    z-index: 200
+
 .menu
   background: $primary
 

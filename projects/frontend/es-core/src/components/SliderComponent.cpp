@@ -6,6 +6,7 @@
 #include <input/InputCompactEvent.h>
 #include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
+#include <themes/ThemeManager.h>
 
 #define MOVE_REPEAT_DELAY 500
 #define MOVE_REPEAT_RATE 40
@@ -27,15 +28,15 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 
 	// some sane default value
 	mValue = (max + min) / 2;
-	
-	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
-	mColor = mOriginColor = menuTheme->menuText.color;
+
+  const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
+	mColor = mOriginColor = menuTheme.Text().color;
 
 	mKnob.setOrigin(0.5f, 0.5f);
-	mKnob.setImage(menuTheme->iconSet.knob);
+	mKnob.setImage(menuTheme.Elements().knob);
 	
 	mKnob.setColorShift(mColor);
-	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme->menuText.font->getLetterHeight());
+	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme.Text().font->getLetterHeight());
 }
 
 bool SliderComponent::ProcessInput(const InputCompactEvent& event)
@@ -117,7 +118,7 @@ void SliderComponent::setColor(unsigned int color)
 void SliderComponent::onSizeChanged()
 {
 	if(!mSuffix.empty())
-    mFont = MenuThemeData::getInstance()->getCurrentTheme()->menuTextSmall.font;
+    mFont = ThemeManager::Instance().Menu().SmallText().font;
 	onValueChanged();
 }
 

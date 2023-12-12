@@ -270,7 +270,7 @@ void ViewController::playViewTransition()
 	if(target == -mCamera.translation() && !isAnimationPlaying(0))
 		return;
 
-	String transitionTheme = ThemeData::getCurrent().getTransition();
+	String transitionTheme = ThemeManager::Instance().Main().getTransition();
 	if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 	if(transitionTheme == "fade")
 	{
@@ -612,7 +612,7 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
-  String transitionTheme = ThemeData::getCurrent().getTransition();
+  String transitionTheme = ThemeManager::Instance().Main().getTransition();
   if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
 
 	auto launchFactory = [this, origCamera, &emulator] (const std::function<void(std::function<void()>)>& backAnimation)
@@ -665,8 +665,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
     (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
     new ArcadeGameListView(mWindow, mSystemManager, *system) :
     new DetailedGameListView(mWindow, mSystemManager, *system);
-  view->Initialize();
-	view->setTheme(system->Theme());
+  view->DoInitialize();
 
   int id = mSystemManager.SystemAbsoluteIndex(system);
 	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);

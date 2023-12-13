@@ -54,6 +54,18 @@ class ThemeElement
           }
           return String();
         }
+        [[nodiscard]] Path AsPath() const
+        {
+          switch(mType)
+          {
+            case Type::Vector: return Path(String(mFloat, 4).Append(' ').Append(mSecondFloat, 4));
+            case Type::String: return Path(mString);
+            case Type::Integer: return Path(String(mInteger));
+            case Type::Float: return Path(String(mFloat, 4));
+            case Type::Bool: return Path(String(mBool ? '1' : '0'));
+          }
+          return Path();
+        }
         [[nodiscard]] int AsInt() const
         {
           switch(mType)
@@ -144,6 +156,13 @@ class ThemeElement
       auto it = mProperties.find(name);
       if (it != mProperties.end()) return it->second.AsString();
       return String();
+    }
+
+    [[nodiscard]] Path AsPath(const String& name) const
+    {
+      auto it = mProperties.find(name);
+      if (it != mProperties.end()) return it->second.AsPath();
+      return Path();
     }
 
     [[nodiscard]] int AsInt(const String& name) const

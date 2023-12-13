@@ -30,7 +30,6 @@ const options = computed(() => ({
     },
     zoom: { enabled: false },
   },
-  responsive: [{ breakpoint: 480 }],
   xaxis: {
     type: 'category',
   },

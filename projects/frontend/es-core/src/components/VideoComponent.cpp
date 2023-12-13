@@ -1,27 +1,25 @@
 #include <components/VideoComponent.h>
 #include <audio/AudioManager.h>
 #include <VideoEngine.h>
-#include <Renderer.h>
-#include <help/Help.h>
 #include <themes/ThemeData.h>
-#include <utils/Log.h>
 #include <utils/locale/LocaleHelper.h>
 
 VideoComponent::VideoComponent(WindowManager&window)
-: Component(window),
-  mVideoPath(""),
-  mState(State::Uninitialized),
-  mEffect(Effect::BreakingNews),
-  mTargetSize(0),
-  mTargetIsMax(false),
-  mVertices{ { { 0, 0 }, { 0, 0 } } },
-  mColors{ 0 },
-  mColorShift(0xFFFFFFFF),
-  mFadeOpacity(0),
-  mVideoDelay(DEFAULT_VIDEODELAY),
-  mVideoEffect(DEFAULT_VIDEOEFFET),
-  mVideoLoop(DEFAULT_VIDEOLOOP),
-  mDecodeAudio(DEFAULT_VIDEODECODEAUDIO)
+  : Component(window)
+  , mState(State::Uninitialized)
+  , mEffect(Effect::BreakingNews)
+  , mAllowedEffects(AllowedEffects::All)
+  , mTargetSize(0)
+  , mVideoPath("")
+  , mTargetIsMax(false)
+  , mVertices{ { { 0, 0 }, { 0, 0 } } }
+  , mColors{ 0 }
+  , mColorShift(0xFFFFFFFF)
+  , mFadeOpacity(0)
+  , mVideoDelay(DEFAULT_VIDEODELAY)
+  , mVideoEffect(DEFAULT_VIDEOEFFET)
+  , mVideoLoop(DEFAULT_VIDEOLOOP)
+  , mDecodeAudio(DEFAULT_VIDEODECODEAUDIO)
 {
   updateColors();
 }
@@ -155,6 +153,7 @@ void VideoComponent::updateVertices(double bump)
       mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
       break;
     }
+    case Effect::None:
     case Effect::Fade:
     {
       Vector2f topLeft(0.0, 0.0);
@@ -216,6 +215,7 @@ double VideoComponent::ProcessEffect(int elapsedms, bool in)
       if (linear > 1.0) linear = 1.0;
       return linear;
     }
+    case Effect::None:
     case Effect::_LastItem: break;
   }
 
@@ -234,7 +234,11 @@ bool VideoComponent::ProcessDisplay(double& effect)
       effect = 0.0;
       if (elapsed >= mVideoDelay && !mVideoPath.IsEmpty())
       {
-        mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
+        if ((mAllowedEffects & AllowedEffects::All) != 0)
+          while((mAllowedEffects & (1 << (int)mEffect)) == 0)
+            mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
+        else
+          mEffect = Effect::None;
         mState = State::InitializeVideo;
         mTimer.Initialize(0);
         //{  LOG(LogDebug) << "[VideoComponent] Timer reseted: State::InitializeVideo " << DateTime().ToPreciseTimeStamp() << " elapsed: "  << elapsed; }
@@ -267,7 +271,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       video = true;
       effect = ProcessEffect(elapsed, true);
       for(Component* component : mLinked) component->setOpacity(255 - (unsigned char)((255 * Math::clampi(elapsed, 0, mVideoEffect)) / mVideoEffect));
-      if (elapsed >= mVideoEffect)
+      if (elapsed >= mVideoEffect || mEffect == Effect::None)
       {
         mState = State::DisplayVideo;
         mTimer.Initialize(0);
@@ -311,10 +315,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
 
 void VideoComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mThemeDisabled)
-    {
-        return;
-    }
+  if(mThemeDisabled) return;
 
   Transform4x4f trans = parentTrans * getTransform();
   Renderer::SetMatrix(trans);
@@ -367,10 +368,7 @@ void VideoComponent::applyTheme(const ThemeData& theme, const String& view, cons
                                 ThemeProperties properties)
 {
   const ThemeElement* elem = theme.getElement(view, element, "video");
-  if (elem == nullptr)
-  {
-    return;
-  }
+  if (elem == nullptr) return;
 
   Vector2f scale = getParent() != nullptr ?
                    getParent()->getSize() :
@@ -384,52 +382,37 @@ void VideoComponent::applyTheme(const ThemeData& theme, const String& view, cons
 
   if (hasFlag(properties, ThemeProperties::Size))
   {
-    if (elem->HasProperty("size"))
-    {
-      setResize(elem->AsVector("size") * scale);
-    }
-    else if (elem->HasProperty("maxSize"))
-    {
-      setMaxSize(elem->AsVector("maxSize") * scale);
-    }
+    if (elem->HasProperty("size")) setResize(elem->AsVector("size") * scale);
+    else if (elem->HasProperty("maxSize")) setMaxSize(elem->AsVector("maxSize") * scale);
   }
 
   // position + size also implies origin
   if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin"))
-  {
     setOrigin(elem->AsVector("origin"));
-  }
 
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
-  {
-    setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
-  }
+  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path")) setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
 
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
-  {
-    setColorShift((unsigned int)elem->AsInt("color"));
-  }
+  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color")) setColorShift((unsigned int)elem->AsInt("color"));
 
   if (hasFlag(properties, ThemeProperties::Rotation))
   {
-    if (elem->HasProperty("rotation"))
-    {
-      setRotationDegrees(elem->AsFloat("rotation"));
-    }
-    if (elem->HasProperty("rotationOrigin"))
-    {
-      setRotationOrigin(elem->AsVector("rotationOrigin"));
-    }
+    if (elem->HasProperty("rotation")) setRotationDegrees(elem->AsFloat("rotation"));
+    if (elem->HasProperty("rotationOrigin")) setRotationOrigin(elem->AsVector("rotationOrigin"));
   }
 
-  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex"))
+  if (hasFlag(properties, ThemeProperties::Effects) && elem->HasProperty("animations"))
   {
-    setZIndex(elem->AsFloat("zIndex"));
+    mAllowedEffects = AllowedEffects::None;
+    for(String& animation : elem->AsString("animations").Split(','))
+      if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
+      else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
+      else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
+    if ((mAllowedEffects & AllowedEffects::All) == 0)
+      mAllowedEffects = AllowedEffects::All;
   }
-  else
-  {
-    setZIndex(getDefaultZIndex());
-  }
+
+  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex")) setZIndex(elem->AsFloat("zIndex"));
+  else setZIndex(getDefaultZIndex());
 }
 
 bool VideoComponent::getHelpPrompts(Help& help)
@@ -438,6 +421,3 @@ bool VideoComponent::getHelpPrompts(Help& help)
   return true;
 }
 
-bool VideoComponent::isDiplayed() {
-    return mState == State::DisplayVideo;
-}

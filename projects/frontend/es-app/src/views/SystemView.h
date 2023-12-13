@@ -142,6 +142,9 @@ class SystemView : public IList<SystemViewData, SystemData*>
      */
     void SetNextSystem(const SystemData* system);
 
+    // Update extyra data
+    void UpdateExtra(int elapsed);
+
     /*
      * Thread implementation
      */

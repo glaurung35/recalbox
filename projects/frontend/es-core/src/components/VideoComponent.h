@@ -9,6 +9,16 @@
 
 class VideoComponent : public Component
 {
+  public:
+    enum class AllowedEffects
+    {
+      None         = 0,
+      Bump         = (1 << 0),
+      Fade         = (1 << 1),
+      BreakingNews = (1 << 2),
+      All          = Bump | Fade | BreakingNews,
+    };
+
   private:
     enum class State
     {
@@ -22,7 +32,8 @@ class VideoComponent : public Component
 
     enum class Effect
     {
-      Bump,
+      None = -1,
+      Bump = 0,
       Fade,
       BreakingNews,
       _LastItem,
@@ -39,6 +50,8 @@ class VideoComponent : public Component
 
     //! Video effect
     Effect mEffect;
+    //! Allowed video effects
+    AllowedEffects mAllowedEffects;
 
     Vector2f mTargetSize;
     bool mTargetIsMax;
@@ -98,7 +111,11 @@ class VideoComponent : public Component
     static constexpr double Pi = 3.1415926535;
 
   public:
+
+    //! Constructor
     explicit VideoComponent(WindowManager&window);
+
+    //! Destructor
     ~VideoComponent() override = default;
 
     /*!
@@ -132,9 +149,9 @@ class VideoComponent : public Component
 
     void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
-    bool getHelpPrompts(Help& help)  override;
+    bool getHelpPrompts(Help& help) override;
 
-    bool isDiplayed();
+    bool isDiplayed() { return mState == State::DisplayVideo; }
 
     /*!
      * @brief Add a linked component
@@ -147,3 +164,5 @@ class VideoComponent : public Component
     static constexpr int DEFAULT_VIDEOLOOP  = 1;
     static constexpr bool DEFAULT_VIDEODECODEAUDIO  = false;
 };
+
+DEFINE_BITFLAG_ENUM(VideoComponent::AllowedEffects, int)

@@ -328,6 +328,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
 void SystemView::Update(int deltaTime)
 {
+  UpdateExtra(deltaTime);
   listUpdate(deltaTime);
   Component::Update(deltaTime);
 }
@@ -617,6 +618,29 @@ void SystemView::renderInfoBar(const Transform4x4f& trans)
   mSystemInfo.Render(trans);
 }
 
+void SystemView::UpdateExtra(int deltaTime)
+{
+  int extrasCenter = (int)mExtrasCamOffset;
+  // Adding texture loading buffers depending on scrolling speed and status
+  int bufferIndex = getScrollingVelocity() + 1;
+  for (int i = extrasCenter + logoBuffersLeft[bufferIndex]; i <= extrasCenter + logoBuffersRight[bufferIndex]; i++)
+  {
+    int index = i;
+    while (index < 0) index += (int)mEntries.size();
+    while (index >= (int)mEntries.size()) index -= (int)mEntries.size();
+    //Only render selected system when not showing
+    if (mShowing || index == mCursor)
+    {
+      SystemViewData data = mEntries[index].data;
+      for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++)
+      {
+        Component *extra = data.backgroundExtras->getmExtras()[j];
+        extra->Update(deltaTime);
+      }
+    }
+  }
+}
+
 // Draw background extras
 void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upper)
 {	
@@ -642,14 +666,13 @@ void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upp
       else
         extrasTrans.translate(Vector3f(0, ((float)i - mExtrasCamOffset) * mSize.y(), 0));
 
-      Renderer::Instance().PushClippingRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]),
-                   mSize.toInt());
+      Renderer::Instance().PushClippingRect(Vector2i((int)extrasTrans.translation()[0], (int)extrasTrans.translation()[1]), mSize.toInt());
       SystemViewData data = mEntries[index].data;
-      for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++) {
+      for (unsigned int j = 0; j < data.backgroundExtras->getmExtras().size(); j++)
+      {
         Component *extra = data.backgroundExtras->getmExtras()[j];
-        if (extra->getZIndex() >= lower && extra->getZIndex() < upper) {
+        if (extra->getZIndex() >= lower && extra->getZIndex() < upper)
           extra->Render(extrasTrans);
-        }
       }
       Renderer::Instance().PopClippingRect();
     }

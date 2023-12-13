@@ -9,6 +9,7 @@
 #include "utils/Log.h"
 #include "WindowManager.h"
 #include "themes/ThemeData.h"
+#include "utils/Files.h"
 
 TextScrollComponent::TextScrollComponent(WindowManager&window)
   : Component(window)
@@ -251,7 +252,7 @@ void TextScrollComponent::applyTheme(const ThemeData& theme, const String& view,
 {
   Component::applyTheme(theme, view, element, properties);
 
-  const ThemeElement* elem = theme.getElement(view, element, "textscroll");
+  const ThemeElement* elem = theme.getElement(view, element, "scrolltext");
   if(elem == nullptr)
     return;
 
@@ -276,6 +277,9 @@ void TextScrollComponent::applyTheme(const ThemeData& theme, const String& view,
 
   if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))
     setText(elem->AsString("text"));
+
+  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
+    setText(Files::LoadFile(elem->AsPath("path")));
 
   if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
     setUppercase(elem->AsBool("forceUppercase"));

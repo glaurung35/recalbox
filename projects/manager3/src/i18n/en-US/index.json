@@ -332,12 +332,12 @@
           "title": "Fan",
           "enabled": {
             "label": "Enable fan",
-            "help": "This option allows you to enable fan on your board folling specific hat."
+            "help": "This option allows you to enable fan on your board folling specific hat. If you are using a hat like the RGB Dual, you can't use this option."
           },
           "board": {
             "label": "Hat selection",
             "help": {
-              "availableOptions": "This option allows you to choose which hat to use. Available options:",
+              "availableOptions": "This option allows you to choose which hat to use. If you are using a hat like the RGB Dual, you can't use this option. Available options:",
               "0": "<b>wspoehatb</b> corresponds to Waveshare PoE board.",
               "1": "<b>argonforty</b> corresponds to the board in Argon One cases.",
               "2": "<b>piboy</b> corresponds to Experimental Pi PiBoy boards.",

@@ -1817,3 +1817,20 @@ void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter&
   else RequestHandlerTools::Error404(response);
 }
 
+void RequestHandlerTools::GetThemeKeyValue(const String& name, const char* key, Http::ResponseWriter& response)
+{
+  String themeKey(sThemeKeyValue);
+  themeKey.Replace("%NAME%", name)
+          .Replace("%KEY%", key);
+  String option = themeKey;
+
+  IniFile configuration = RequestHandlerTools::LoadConfiguration();
+
+  JSONBuilder result;
+  result.Open()
+        .Field("exist", configuration.Exists(option))
+        .Field(key, configuration.AsString(option))
+        .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+}

@@ -6,3 +6,10 @@ export interface BiosColumn {
   sortable: boolean;
   required?: boolean|undefined;
 }
+
+export interface GlobalMenuLink {
+  title: string;
+  icon: string;
+  route: string;
+  exact?: boolean;
+}

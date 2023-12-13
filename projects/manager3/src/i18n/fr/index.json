@@ -332,12 +332,12 @@
           "title": "Ventilation",
           "enabled": {
             "label": "Activer la ventilation",
-            "help": "Cette option vous permet d'activer la ventilation sur votre board en fonction du hat."
+            "help": "Cette option vous permet d'activer la ventilation sur votre board en fonction du hat. Si vous utilisez un hat tel que le RGB Dual, vous ne pouvez pas utiliser cette option."
           },
           "board": {
             "label": "Choix du hat",
             "help": {
-              "availableOptions": "Cette option vous permet de choisir le hat à utiliser. Options disponibles :",
+              "availableOptions": "Cette option vous permet de choisir le hat à utiliser. Si vous utilisez un hat tel que le RGB Dual, vous ne pouvez pas utiliser cette option. Options disponibles :",
               "0": "<b>wspoehatb</b> correspond à la carte Waveshare PoE.",
               "1": "<b>argonforty</b> correspond à la carte dans les boitiers Argon One.",
               "2": "<b>piboy</b> correspond aux boitiers PiBoy d'Experimental Pi.",

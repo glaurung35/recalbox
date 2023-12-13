@@ -71,6 +71,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "path", ElementProperty::Path },
         { "zIndex", ElementProperty::Float },
         { "disabled", ElementProperty::Boolean },
+        { "animations", ElementProperty::String }
       },
     },
     { "text",
@@ -81,6 +82,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "rotation", ElementProperty::Float },
         { "rotationOrigin", ElementProperty::NormalizedPair },
         { "text", ElementProperty::String },
+        { "path", ElementProperty::Path },
         { "backgroundColor", ElementProperty::Color },
         { "fontPath", ElementProperty::Path },
         { "fontSize", ElementProperty::Float },
@@ -93,7 +95,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "disabled", ElementProperty::Boolean },
       },
     },
-    { "textscroll",
+    { "scrolltext",
       {
         { "pos", ElementProperty::NormalizedPair },
         { "size", ElementProperty::NormalizedPair },
@@ -101,6 +103,7 @@ HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::Eleme
         { "rotation", ElementProperty::Float },
         { "rotationOrigin", ElementProperty::NormalizedPair },
         { "text", ElementProperty::String },
+        { "path", ElementProperty::Path },
         { "backgroundColor", ElementProperty::Color },
         { "fontPath", ElementProperty::Path },
         { "fontSize", ElementProperty::Float },
@@ -550,13 +553,21 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
 {
   for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
   {
-    auto typeIt = typeMap.find(node.name());
-    if(typeIt == typeMap.end())
+    String name = node.name();
+    // Check object property
+    ElementProperty* property = typeMap.try_get(name);
+    if (property == nullptr)
+    {
       { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ")."; }
+      continue;
+    }
 
-    String str = resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
+    // Get value from attribute or text
 
-    switch(typeIt->second)
+    String str = (node.attribute("value") != nullptr) ? String(node.attribute("value").as_string()).Trim()
+                 : resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
+
+    switch(*property)
     {
       case ElementProperty::NormalizedPair:
       {
@@ -566,15 +577,15 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
           if (int pos = str.Find(' '); pos >= 0)
             if (str.TryAsFloat((int) pos + 1, 0, y))
             {
-              element.AddVectorProperty(node.name(), x, y);
+              element.AddVectorProperty(name, x, y);
               break;
             }
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + name + "\", value \"" + str + "\")"; }
         break;
       }
       case ElementProperty::String:
       {
-        element.AddStringProperty(node.name(), str);
+        element.AddStringProperty(name, str);
         break;
       }
       case ElementProperty::Path:
@@ -594,31 +605,31 @@ void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, E
           }
           break;
         }
-        element.AddStringProperty(node.name(), path.ToString());
+        element.AddStringProperty(name, path.ToString());
         break;
       }
       case ElementProperty::Color:
       {
-        element.AddIntProperty(node.name(), (int) getHexColor(str.c_str()));
+        element.AddIntProperty(name, (int) getHexColor(str.c_str()));
         break;
       }
       case ElementProperty::Float:
       {
         float floatVal = 0;
         if (!str.TryAsFloat(floatVal))
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(node.name()) + "\", value \"" + str + "\")"; }
-        element.AddFloatProperty(node.name(), floatVal);
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(name) + "\", value \"" + str + "\")"; }
+        element.AddFloatProperty(name, floatVal);
         break;
       }
       case ElementProperty::Boolean:
       {
         // only look at first char
         char first = str[0];
-        element.AddBoolProperty(node.name(), (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y'));
+        element.AddBoolProperty(name, (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y'));
         break;
       }
       default:
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << node.name(); }
+        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << name; }
     }
   }
 }
@@ -665,17 +676,18 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
   ThemeView* viewTheme = theme.mViews.try_get(view);
   if (viewTheme == nullptr) return comps;
 
+  bool uniqueVideo = false;
   for(const ThemeElement& elem : viewTheme->mElementArray)
   {
     if(elem.Extra())
     {
       Component* comp = nullptr;
       const String& t = elem.Type();
-      if      (t == "image")      comp = new ImageComponent(window);
-      else if (t == "video")      comp = new VideoComponent(window);
-      else if (t == "text")       comp = new TextComponent(window);
-      else if (t == "textscroll") comp = new TextScrollComponent(window);
-      else if (t == "box")        comp = new BoxComponent(window);
+      if      (t == "image")                 comp = new ImageComponent(window);
+      else if (t == "text")                  comp = new TextComponent(window);
+      else if (t == "scrolltext")            comp = new TextScrollComponent(window);
+      else if (t == "box")                   comp = new BoxComponent(window);
+      else if (t == "video" && !uniqueVideo) { comp = new VideoComponent(window); uniqueVideo = true; }
 
       if (comp != nullptr)
       {

@@ -205,19 +205,14 @@ const percents = computed<object[]>(() => [
 
 @media(max-width: 950px)
   .home
-    overflow-y: auto
-
     .emustation
       .system,
       .game
         flex-basis: 100%
-
-      .system
-        padding-bottom: 2em
+        min-height: 250px
 
       .game
         border-top: 2px solid white
-        padding-bottom: 10em
 
 @media(max-width: 420px)
   .home
@@ -238,6 +233,9 @@ const percents = computed<object[]>(() => [
       height: initial
 
       .system
+        &:after
+          display: none
+
         .header
           flex-direction: column
 

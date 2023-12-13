@@ -6,6 +6,11 @@
     <q-header class="mobile-only">
       <q-toolbar>
         <q-btn @click="leftDrawerOpen = !leftDrawerOpen" flat icon="mdi-menu"/>
+        <q-toolbar-title />
+        <MobileScreenshotButton />
+        <MobileVirtualDevicesButton />
+        <MobileShortcutsButton :model="shortcutsButtonOpeningStatus" @toggle="toggle" />
+        <MobileHelpButton :model="helpButtonOpeningStatus" @toggle="toggle" />
       </q-toolbar>
     </q-header>
 
@@ -36,7 +41,7 @@
 
     <q-page-container>
       <router-view />
-      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+      <q-page-sticky :offset="[18, 18]" position="bottom-right" class="desktop-only">
         <div class="help-menu-container">
           <ScreenshotFloatingButton />
           <VirtualDevicesFloatingButton />
@@ -49,8 +54,13 @@
 </template>
 
 <script lang="ts" setup>
+import MobileHelpButton from 'components/layout/MobileHelpButton.vue';
+import MobileScreenshotButton from 'components/layout/MobileScreenshotButton.vue';
+import MobileShortcutsButton from 'components/layout/MobileShortcutsButton.vue';
+import MobileVirtualDevicesButton from 'components/layout/MobileVirtualDevicesButton.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useSystemsStore } from 'stores/systems';
+import { GlobalMenuLink } from 'stores/types/misc';
 import { ref } from 'vue';
 import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
 import MenuLink from 'components/ui-kit/MenuLink.vue';
@@ -61,7 +71,7 @@ import HelpFloatingButton from 'components/layout/HelpFloatingButton.vue';
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);
-const menuLinks: Array<object> = [
+const menuLinks: GlobalMenuLink[] = [
   {
     title: 'menu.home',
     icon: 'mdi-view-dashboard',
@@ -148,4 +158,9 @@ header
 .help-menu-container
   background-color: #34495ecf
   border-radius: 4px
+
+@media(max-width: 950px)
+  .q-page-container
+    .q-page
+      height: calc(100vh - 50px)
 </style>

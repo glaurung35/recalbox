@@ -8,6 +8,9 @@
 inline enumtype operator  |  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs | (ut)rhs); } \
 inline enumtype operator  &  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs & (ut)rhs); } \
 inline enumtype operator  ^  (enumtype lhs, enumtype rhs)  { return (enumtype)((ut)lhs ^ (ut)rhs); } \
+inline enumtype operator  |  (enumtype lhs, ut rhs)        { return (enumtype)((ut)lhs | rhs); } \
+inline enumtype operator  &  (enumtype lhs, ut rhs)        { return (enumtype)((ut)lhs & rhs); } \
+inline enumtype operator  ^  (enumtype lhs, ut rhs)        { return (enumtype)((ut)lhs ^ rhs); } \
 inline enumtype operator  << (enumtype lhs, ut rhs)        { return (enumtype)((ut)lhs << (ut)rhs); } \
 inline enumtype operator  >> (enumtype lhs, ut rhs)        { return (enumtype)((ut)lhs >> (ut)rhs); } \
 inline enumtype operator  ~  (enumtype lhs)                { return (enumtype)(~(ut)lhs); } \

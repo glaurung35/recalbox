@@ -22,6 +22,7 @@ enum class ThemeProperties : unsigned int
     ZIndex         = (1 << 12),
     Rotation       = (1 << 13),
     Display        = (1 << 15),
+    Effects        = (1 << 16),
 
     All            = 0xFFFFFFFF,
 };

@@ -48,30 +48,17 @@ playVideo() {
 playSlides() {
   if [[ ! -f /tmp/first-boot-slides ]] ; then
     touch /tmp/first-boot-slides
-    if isRecalboxRGBDual; then
-      # mpv has a bug having the second and last slide not displayed
-      mpv $(getCrtMpvOptions) --really-quiet --image-display-duration=8 "$IMAGE_PATH/install-1.png" \
-        "$IMAGE_PATH/install-2.png" \
-        "$IMAGE_PATH/install-2.png" \
-        "$IMAGE_PATH/install-3.png" \
-        "$IMAGE_PATH/install-4.png" \
-        "$IMAGE_PATH/install-5.png" \
-        "$IMAGE_PATH/install-6.png" \
-        "$IMAGE_PATH/install-7.png" \
-        "$IMAGE_PATH/install-8.png" \
-        "$IMAGE_PATH/install-8.png" &
-    else
-      fbv2 -i -k -e -s 150 \
-        "$IMAGE_PATH/install-1.png" \
-        "$IMAGE_PATH/install-2.png" \
-        "$IMAGE_PATH/install-3.png" \
-        "$IMAGE_PATH/install-4.png" \
-        "$IMAGE_PATH/install-5.png" \
-        "$IMAGE_PATH/install-6.png" \
-        "$IMAGE_PATH/install-7.png" \
-        "$IMAGE_PATH/install-8.png" &
-    fi
-  fi  
+    (fbv2 -i -k -e -s 100 \
+      "$IMAGE_PATH/install-1.png" \
+      "$IMAGE_PATH/install-2.png" \
+      "$IMAGE_PATH/install-3.png" \
+      "$IMAGE_PATH/install-4.png" \
+      "$IMAGE_PATH/install-5.png" \
+      "$IMAGE_PATH/install-6.png" \
+      "$IMAGE_PATH/install-7.png" \
+      "$IMAGE_PATH/install-8.png" && \
+       displayFrameBufferImage ) &
+  fi
 }
 
 # Play Recalbox RGB Dual installation video

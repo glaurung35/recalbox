@@ -208,6 +208,7 @@
             apiKey="wpaf.enabled"
             v-if="hat['wpaf.enabled']"
             help
+            warning
           >
             <template v-slot:help>
               {{ $t('settings.system.hat.wpaf.enabled.help') }}
@@ -220,7 +221,9 @@
             :setter="hatStore.post"
             apiKey="wpaf.board"
             v-if="hat['wpaf.board']"
+            :disable="!hat['wpaf.enabled'].value"
             help
+            warning
           >
             <template v-slot:help>
               {{ $t('settings.system.hat.wpaf.board.help.availableOptions') }}

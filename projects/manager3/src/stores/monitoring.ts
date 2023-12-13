@@ -4,7 +4,7 @@
 import { defineStore } from 'pinia';
 import { MONITORING } from 'src/router/api.routes';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
-import { Cpu, MonitoringResponse } from 'stores/types/mqtt';
+import { MonitoringResponse } from 'stores/types/mqtt';
 import { toRaw } from 'vue';
 import { StoragesResponse } from 'stores/types/storages';
 
@@ -32,6 +32,12 @@ export const useMonitoringStore = defineStore('monitoring', {
   } as MonitoringStoreState),
 
   actions: {
+    getFilteredStorages() {
+      return Object.fromEntries(Object.entries(this.monitoring.storages).filter(
+        (value, key) => this.monitoring.storages[key].recalbox !== 'unknown'
+          && this.monitoring.storages[key].recalbox !== 'system',
+      ));
+    },
     getSharePercent() {
       if (Object.keys(this.monitoring.storages).length > 0) {
         const { storages } = this.monitoring;

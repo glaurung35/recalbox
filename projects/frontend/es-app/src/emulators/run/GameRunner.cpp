@@ -159,7 +159,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
   { LOG(LogInfo) << "[Run] Launching game"; }
 
   bool debug = RecalboxConf::Instance().GetDebugLogs();
-  InputMapper mapper = InputManager::Instance().Mapper();
+  InputMapper& mapper = InputManager::Instance().Mapper();
   OrderedDevices controllers = InputManager::Instance().GetMappedDeviceList(mapper);
   const String& core = data.NetPlay().NetplayMode() == NetPlayData::Mode::Client ? data.NetPlay().CoreName() : emulator.Core();
 
@@ -253,7 +253,7 @@ GameRunner::DemoRunGame(const FileData& game, const EmulatorData& emulator, int 
 
   { LOG(LogInfo) << "[Run] Launching game demo..."; }
 
-  InputMapper mapper = InputManager::Instance().Mapper();
+  InputMapper& mapper = InputManager::Instance().Mapper();
   bool debug = RecalboxConf::Instance().GetDebugLogs();
 
   String command = CreateCommandLine(game, emulator, emulator.Core(), GameLinkedData(), mapper, debug, true);
@@ -327,7 +327,7 @@ String GameRunner::NetplayOption(const FileData& game, const NetPlayData& netpla
 bool GameRunner::RunKodi()
 {
   { LOG(LogInfo) << "[System] Attempting to launch kodi..."; }
-  InputMapper mapper = InputManager::Instance().Mapper();
+  InputMapper& mapper = InputManager::Instance().Mapper();
   SubSystemPrepareForRun();
   String command = "configgen -system kodi -rom '' " + InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   // Forced resolution

@@ -12,11 +12,13 @@
 #include <input/IInputChange.h>
 #include <utils/math/Misc.h>
 #include <utils/os/fs/Path.h>
+#include "utils/cplusplus/INoCopy.h"
 
 // Forward declaration
 class InputManager;
 
 class InputMapper : public IInputChange
+                  , public INoCopy
 {
   public:
     //! Pad structure
@@ -28,7 +30,7 @@ class InputMapper : public IInputChange
       int    mIndex;    //!< Pad index in InputManager list
       int    mPosition; //!< Position in the mapper array
 
-      Pad() : mIndex(-1) {}
+      Pad() : mIndex(-1), mPosition(-1) {}
 
       Pad(const String& name, const String& uuid, const Path& path, int inputIndex)
         : mName(name)

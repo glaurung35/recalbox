@@ -135,7 +135,6 @@ const SystemsList = computed(() => {
   if (filterButtons.hasNetplay) {
     list = list.filter((filteredSystem) => filteredSystem.properties.hasNetplay);
   }
-  console.log(filterButtons.hasNetplay, list);
   return list;
 });
 </script>

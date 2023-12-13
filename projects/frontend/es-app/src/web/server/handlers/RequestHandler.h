@@ -329,4 +329,57 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void StatusGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*
+     * Themes
+     */
+
+    /*!
+     * @brief Handle GET get theme system view value
+     * @param request
+     * @param response
+     */
+    void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme region value
+     * @param request
+     * @param response
+     */
+    void ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme menu set value
+     * @param request
+     * @param response
+     */
+    void ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme icon set value
+     * @param request
+     * @param response
+     */
+    void ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme gamelist view value
+     * @param request
+     * @param response
+     */
+    void ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme color set value
+     * @param request
+     * @param response
+     */
+    void ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme gameclip view value
+     * @param request
+     * @param response
+     */
+    void ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
 };

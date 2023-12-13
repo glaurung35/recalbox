@@ -9,7 +9,7 @@
         <CoresChartContent :data="cores"/>
       </div>
       <div class="col disks-usage">
-        <StoragesChartContent :data="storages"/>
+        <StoragesChartContent :data="monitoringStore.getFilteredStorages()"/>
       </div>
     </div>
   </q-page>
@@ -24,7 +24,7 @@ import CoresChartContent from 'components/monitoring/CoresChartContent.vue';
 import StoragesChartContent from 'components/monitoring/StoragesChartContent.vue';
 
 const monitoringStore = useMonitoringStore();
-const { metrics, monitoring } = storeToRefs(monitoringStore);
+const { metrics } = storeToRefs(monitoringStore);
 
 monitoringStore.fetch();
 
@@ -35,7 +35,6 @@ const areaChartData = computed<object[]>(() => [
   { data: metrics.value.temperatures },
   { data: metrics.value.memory },
 ]);
-const storages = computed(() => monitoring.value.storages);
 </script>
 
 <style lang="sass">
@@ -80,4 +79,10 @@ const storages = computed(() => monitoring.value.storages);
         font-size: .7em
         margin-left: .2em
         margin-right: .2em
+
+@media(max-width: 950px)
+  .monitoring
+    overflow-y: initial
+    .charts-container
+      flex-direction: column
 </style>

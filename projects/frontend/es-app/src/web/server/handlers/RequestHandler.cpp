@@ -572,6 +572,55 @@ void RequestHandler::RomsDelete(const Rest::Request& request, Http::ResponseWrit
   RequestHandlerTools::LogRoute(request, "RomsDelete");
 }
 
+void RequestHandler::ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeSystemViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "systemview", response);
+}
+
+void RequestHandler::ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeRegionGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "region", response);
+}
+
+void RequestHandler::ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeMenuSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "menuset", response);
+}
+
+void RequestHandler::ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeIconSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "iconset", response);
+}
+
+void RequestHandler::ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeGamelistViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "gamelistview", response);
+}
+
+void RequestHandler::ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeColorSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "colorset", response);
+}
+
+void RequestHandler::ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeGameclipViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "gameclipview", response);
+}
+
 static const char Base64Values[] =
   {
     00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00, 00,

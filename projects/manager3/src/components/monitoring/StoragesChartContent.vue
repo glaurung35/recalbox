@@ -4,7 +4,7 @@
 <template>
   <q-linear-progress
     v-for="item in items"
-    size="30px"
+    size="60px"
     :value="item.used"
     color="accent"
     class="q-mt-sm progress"
@@ -15,9 +15,7 @@
     <div class="absolute-full flex items-center">
       <q-icon :name="item.icon" color="secondary"/>
       <div class="progress-text">
-        <span>
-          {{ item.mount }} <b>| {{ (item.used * 100).toFixed(2) }}%</b>
-        </span>
+        {{ item.recalbox }} | {{ (item.used * 100).toFixed(2) }}%
       </div>
     </div>
   </q-linear-progress>
@@ -33,6 +31,7 @@ const props = defineProps({
 const { data } = toRefs(props);
 
 interface Item {
+  recalbox: string;
   icon: string;
   mount: string;
   used: number;
@@ -45,6 +44,7 @@ const items = computed(() => {
     result = {
       ...result,
       [storages[key].mount]: {
+        recalbox: storages[key].recalbox,
         icon: 'mdi-harddisk',
         mount: storages[key].mount,
         used: storages[key].used / storages[key].size,
@@ -54,3 +54,12 @@ const items = computed(() => {
   return result;
 });
 </script>
+
+<style lang="sass">
+.progress-text
+  display: flex
+  align-items: center
+  font-size: 12px!important
+  font-weight: bold
+  text-transform: capitalize
+</style>

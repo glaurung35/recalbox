@@ -307,6 +307,59 @@ class IRouter
      */
     virtual void StatusGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*
+     * Themes
+     */
+
+    /*!
+     * @grief Handle GET to get theme systemview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme region
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme menuset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme iconset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme gamelistview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme colorset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme gameclipview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -362,6 +415,14 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/manual/*", Rest::Routes::bind(&IRouter::MetadataGetManual, this));
       // Status
       Rest::Routes::Get(mRouter, "/api/status", Rest::Routes::bind(&IRouter::StatusGet, this));
+      // Themes
+      Rest::Routes::Get(mRouter, "/api/themes/*/systemview", Rest::Routes::bind(&IRouter::ThemeSystemViewGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/region", Rest::Routes::bind(&IRouter::ThemeRegionGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/menuset", Rest::Routes::bind(&IRouter::ThemeMenuSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/iconset", Rest::Routes::bind(&IRouter::ThemeIconSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/gamelistview", Rest::Routes::bind(&IRouter::ThemeGamelistViewGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/colorset", Rest::Routes::bind(&IRouter::ThemeColorSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/gameclipview", Rest::Routes::bind(&IRouter::ThemeGameclipViewGet, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

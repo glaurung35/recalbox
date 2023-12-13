@@ -83,6 +83,8 @@ class RequestHandlerTools
     static constexpr const char* sSystemResourceRegionPath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%REGION%/%FILE%";
     //! Basic System resource path
     static constexpr const char* sSystemResourceBasePath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%FILE%";
+    //! Key option for theme
+    static constexpr const char* sThemeKeyValue = "emulationstation.theme.%NAME%.%KEY%";
 
     enum class Media
     {
@@ -351,6 +353,14 @@ class RequestHandlerTools
      * @param response
      */
     static void SendMedia(const Path& mediaPath, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * Build theme option key and value
+     * @param name Name of the theme
+     * @param key Key of the theme option to retrieve
+     * @param response Response object
+     */
+    static void GetThemeKeyValue(const String& name, const char* key, Pistache::Http::ResponseWriter& response);
 
     /*!
      * @brief Serialize a system list to JSON object

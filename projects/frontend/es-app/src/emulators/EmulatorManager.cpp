@@ -35,6 +35,9 @@ bool EmulatorManager::GetGameEmulatorOverriden(const FileData& game, String& emu
     // Then from the general config file
     GetEmulatorFromConfigFile(game.System(), emulator, core);
 
+    // Then automatic
+    GetEmulatorFromSubfolder(game, emulator, core);
+
     // Then from the gamelist.xml file
     GetEmulatorFromGamelist(game, emulator, core);
 
@@ -90,6 +93,42 @@ bool EmulatorManager::GetSystemDefaultEmulator(const SystemData& system, String&
     return true;
   }
   return false;
+}
+
+void EmulatorManager::GetEmulatorFromSubfolder(const FileData& game, String& emulator, String& core)
+{
+  if (game.System().Name() == "mame")
+  {
+    // Make rom path relative to the system folder
+    bool ok;
+    Path relative = game.RomPath().MakeRelative(game.TopAncestor().RomPath(), ok).Directory();
+    // Run through foldert and try to detect a known one
+    if (ok && !relative.IsEmpty())
+      for(int i = relative.ItemCount(); --i >= 0;)
+      {
+        static HashMap<String, String> folderToEmulatorCore
+        {
+          { "mame", "libretro|mame" },
+          { "mame2000", "libretro|mame2000" },
+          { "mame2003", "libretro|mame2003" },
+          { "mame2003+", "libretro|mame2003_plus" },
+          { "mame2003plus", "libretro|mame2003_plus" },
+          { "mame2003-plus", "libretro|mame2003_plus" },
+          { "mame2010", "libretro|mame2010" },
+          { "mame2015", "libretro|mame2015" },
+          { "mame2016", "libretro|mame2016" },
+          { "advancemame", "advancemame|advancemame" },
+        };
+        if (String* result = folderToEmulatorCore.try_get(relative.Item(i)); result != nullptr)
+          if (String newEmulator, newCore; result->Extract('|', newEmulator, newCore, false))
+            if (CheckEmulatorAndCore(game.System(), newEmulator, newCore))
+            {
+              emulator = newEmulator;
+              core = newCore;
+              break;
+            }
+      }
+  }
 }
 
 void EmulatorManager::GetEmulatorFromConfigFile(const SystemData& system, String& emulator, String& core)
@@ -360,4 +399,3 @@ void EmulatorManager::PatchNames(String& emulator, String& core)
   if (emulator == "libretro")
     if (core == "duckstation") core = "swanstation";
 }
-

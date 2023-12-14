@@ -10,6 +10,7 @@ from configgen.crt.CRTMonitorRanges import CRTMonitorRanges
 from configgen.crt.CRTTypes import CRTArcadeGameV2, CRTResolution, CRTScanlines, CRTAdapter
 from configgen.crt.Mode import Mode
 from configgen.utils.Rotation import Rotation
+from configgen.utils.architecture import Architecture
 from configgen.utils.recallog import recallog
 
 
@@ -321,6 +322,12 @@ class LibretroConfigCRT:
                             gameIsTate = game_config[4] or system.VerticalGame
                             mode_id = game_config[1]
                             mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode(mode_id), system)
+                            # Specific case for arcade games that runs in 480i. They can be started in 240p, 480i, or 480p.
+                            if mode.height == 480 and system.CRTResolutionType == CRTResolutionType.Progressive:
+                                mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode("default:ntsc:240@60"), system)
+                            elif mode.interlaced and Architecture().isPi5:
+                                mode = self.crt_mode_processor.processMode(self.crt_config_parser.loadMode("default:ntsc:240@60"), system)
+
                             recallog(
                                 "Setting CRT mode for {} arcade game {} running with {} : {}".format("tate" if gameIsTate else "yoko",
                                                                                                         game_name,

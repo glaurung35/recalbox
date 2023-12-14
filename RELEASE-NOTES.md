@@ -4,6 +4,13 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-jamma-16
+
+- Ajout du support des jeux zn-1 et zn-2
+- Ajout du blitter auto pour fbneo
+- Correctif sur l'ecran
+
+
 ## Version 9.2-Pulstar
 
 ### Hardware

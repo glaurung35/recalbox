@@ -9,7 +9,7 @@
 #include <ssd1306.h>
 #include <mqtt.h>
 #include <kms-mode.h>
-
+#include <sys/stat.h>
 
 int readTemp() {
     int temp = 0;
@@ -61,8 +61,16 @@ void draw_lines() {
     ssd1306_oled_draw_vline(64, 16, 52);
 }
 
+static int lastlen = 0;
 void update_screen() {
-    sleep(2);
+    struct stat st;
+    draw_temp(readTemp());
+
+    stat("/tmp/es_state.inf", &st);
+    if(st.st_size == lastlen)
+        return;
+    lastlen = st.st_size;
+
     ssd1306_oled_clear_screen();
     draw_lines();
     FILE *fptr = NULL;
@@ -92,7 +100,6 @@ void update_screen() {
         fclose(fptr);
     }
 
-    draw_temp(readTemp());
 
     video_mode mode = get_current_mode();
 
@@ -136,7 +143,7 @@ void on_message(struct mosquitto *mosq, void *obj, const struct mosquitto_messag
 }
 
 int main(int argc, char **argv) {
-    struct mosquitto *mosq = NULL;
+    //struct mosquitto *mosq = NULL;
     printf("Starting screen utility\n");
     uint8_t rc = 0;
     uint8_t i2c_node_address = 0;
@@ -150,21 +157,22 @@ int main(int argc, char **argv) {
         return 1;
     }
 
-    int mqttcon = mqtt_init(&mosq, on_message);
+    /*int mqttcon = mqtt_init(&mosq, on_message);
     if (mqttcon != MOSQ_ERR_SUCCESS) {
         printf("unable to start mqtt subscriber, will retry\n");
     }
-    printf("Mqtt connected\n");
+    printf("Mqtt connected\n");*/
     while (true) {
-        if (mqttcon != MOSQ_ERR_SUCCESS) {
+       /* if (mqttcon != MOSQ_ERR_SUCCESS) {
             printf("Reconnecting\n");
             mqttcon = mqtt_reconnect(mosq);
         }
-        //printf("Waiting for messages\n");
-        mosquitto_loop(mosq, 1000, 10);
-        sleep(1);
+        //printf("Waiting for messages\n");*/
+        //mosquitto_loop(mosq, 1000, 1);
+        sleep(2);
         // Temperature
-        draw_temp(readTemp());
+        update_screen();
+        //draw_temp(readTemp());
     }
     // close the I2C device node
     ssd1306_end();

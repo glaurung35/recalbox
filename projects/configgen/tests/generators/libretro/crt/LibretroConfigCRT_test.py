@@ -37,6 +37,10 @@ def system_fbneo():
     return Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro',
                     core='fbneo')
 @pytest.fixture
+def system_mame():
+    return Emulator(name='mame', videoMode='1920x1080', ratio='auto', emulator='libretro',
+                    core='mame')
+@pytest.fixture
 def system_vectrex():
     return Emulator(name='vectrex', videoMode='1920x1080', ratio='auto', emulator='libretro',
                     core='vecx')
@@ -1167,3 +1171,64 @@ def test_given_tate_game_on15khzyoko_then_return_a_timber_config(mocker, system_
     assert config_lines["custom_viewport_width_ntsc"] == 1008
     assert config_lines["custom_viewport_height_ntsc"] == 224
     assert config_lines["custom_viewport_x_ntsc"] == 456
+
+
+def test_given_arcade_hd_game_and_interlaced_mode_then_return_interlaced_mode(mocker, system_mame):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "rvschool,mame2010,arcade:480@60.000000,0,0,0",
+        MODES_TXT: "arcade:480@60.000000,1920 1 80 184 312 480 1 3 6 34 0 0 0 60 1 39162240 1,60.000000"
+    })
+
+    emulator = configureForCrt(system_mame, crtresolutiontype="interlaced", crtscreentype="15kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "rvschool.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60.000000"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 480 1 3 6 34 0 0 0 60 1 39162240 1"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1840
+    assert config_lines["custom_viewport_height_ntsc"] == 480
+
+def test_given_arcade_hd_game_and_15k_progressive_mode_then_return_240pmode_mode(mocker, system_mame):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "rvschool,mame2010,arcade:480@60.000000,0,0,0",
+        MODES_TXT: "arcade:480@60.000000,1920 1 80 184 312 480 1 3 6 34 0 0 0 60 1 39162240 1,60.000000\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+
+    emulator = configureForCrt(system_mame, crtresolutiontype="progressive", crtscreentype="15kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "rvschool.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1840
+    assert config_lines["custom_viewport_height_ntsc"] == 240
+
+def test_given_arcade_hd_game_and_31k_progressive_mode_then_return_480pmode_mode(mocker, system_mame):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "rvschool,mame2010,arcade:480@60.000000,0,0,0",
+        MODES_TXT: "arcade:480@60.000000,1920 1 80 184 312 480 1 3 6 34 0 0 0 60 1 39162240 1,60.000000\ndefault@31kHz:all:480@60,640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1,60"
+    })
+
+    emulator = configureForCrt(system_mame, crtresolutiontype="progressive", crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "rvschool.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"640 1 24 96 48 480 1 11 2 32 0 0 0 60 0 25452000 1"'
+    assert config_lines["custom_viewport_width_ntsc"] == 640
+    assert config_lines["custom_viewport_height_ntsc"] == 480
+
+def test_given_arcade_hd_game_and_15k_interlaced_mode_then_return_progressive_mode_onpi5(mocker, system_mame):
+    mocker.patch('configgen.utils.architecture.Architecture.isPi5', return_value=True)
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "rvschool,mame2010,arcade:480@60.000000,0,0,0",
+        MODES_TXT: "arcade:480@60.000000,1920 1 80 184 312 480 1 3 6 34 0 0 0 60 1 39162240 1,60.000000\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+
+    emulator = configureForCrt(system_mame, crtresolutiontype="interlaced", crtscreentype="15kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                   "rvschool.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
+    assert config_lines["custom_viewport_height_ntsc"] == 240

@@ -335,6 +335,30 @@ class LibretroGenerator(Generator):
             retroarchConfig.removeOption("video_driver")
         retroarchConfig.saveFile()
 
+    @staticmethod
+    def createFBNeoBlitterConfig(system: Emulator, rom: str) -> (Dict[str, str]):
+        romName = os.path.basename(rom).removesuffix(".zip")
+        blitterConfig = {
+            "mmpork": [60, 53],
+            "deathsml": [53,57],
+            "dsmbl": [53, 57],
+            "espgal2": [45, 55],
+            "espgal2a": [45, 55],
+            "espgal2b": [45, 55],
+            "mushisam": [40, 56],
+            "mushisama": [40, 56],
+            "mushisamb": [40, 56],
+            "futaribl": [40, 56],
+            "futariblj": [40, 56],
+        }
+        if system.Core == "fbneo" and romName in blitterConfig:
+            return {
+                "fbneo-cpu-speed-adjust": '"{}%"'.format(blitterConfig[romName][0]),
+                "fbneo-dipswitch-{}-Blitter_Delay".format(romName): '"{}"'.format(blitterConfig[romName][1]),
+            }
+        return {"fbneo-cpu-speed-adjust": '"100%"'}
+
+
     # recalbox-crt-options.cfg options
     # Create configuration file
     @staticmethod
@@ -375,7 +399,10 @@ class LibretroGenerator(Generator):
         LibretroGenerator.createReduceLatencyConfiguration(system, retroarchConfig)
         # Run Ahead config
         LibretroGenerator.createRunAheadConfiguration(system, retroarchConfig)
-
+        # FBNeo Blitter Config
+        blitterCoreConfig = LibretroGenerator.createFBNeoBlitterConfig(system, rom)
+        for option in blitterCoreConfig.items():
+            coreConfig.setString(option[0], option[1])
         # HD and widescreen config
         libretroConfigHD, coreConfigHD, newCoreHD = LibretroGenerator.createHDWidescreenConfig(system)
         for option in libretroConfigHD.items():

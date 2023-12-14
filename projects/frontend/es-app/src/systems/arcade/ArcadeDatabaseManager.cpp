@@ -181,8 +181,10 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   ArcadeGame::Rotation rotation = ArcadeGame::RotationFromString(fields[fRotation]);
   ArcadeGame::Type type = ArcadeGame::TypeFromString(fields[fType], parent != nullptr);
   ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
+  unsigned short width = fields[fWidth].AsInt();
+  unsigned short height = fields[fHeight].AsInt();
 
-  games.Add(ArcadeGame(realGame, parent, fields[fName], rawManufacturers, type, status, rotation));
+  games.Add(ArcadeGame(realGame, parent, fields[fName], rawManufacturers, type, status, rotation, width, height));
   //lookups.insert(realGame, &games(games.Count() - 1));
 }
 

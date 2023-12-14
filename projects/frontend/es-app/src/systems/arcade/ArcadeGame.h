@@ -119,7 +119,7 @@ class ArcadeGame
     };
 
     //! Constructor
-    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, const ManufacturerHolder<long long int>& rawManufacturers, Type type, Status status, Rotation rotation)
+    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, const ManufacturerHolder<long long int>& rawManufacturers, Type type, Status status, Rotation rotation, unsigned short width, unsigned short height)
       : mGame(game)
       , mParent(parent)
       , mRawManufacturer(rawManufacturers)
@@ -127,6 +127,8 @@ class ArcadeGame
       , mType(type)
       , mStatus(status)
       , mRotation(rotation)
+      , mWidth(width)
+      , mHeight(height)
     {
     }
 
@@ -155,6 +157,8 @@ class ArcadeGame
     [[nodiscard]] Type Hierarchy() const { return mType; }
     [[nodiscard]] Status EmulationStatus() const { return mStatus; }
     [[nodiscard]] Rotation ScreenRotation() const { return mRotation; }
+    [[nodiscard]] unsigned short Width() const { return mWidth; }
+    [[nodiscard]] unsigned short Height() const { return mHeight; }
 
     /*
      * Tools
@@ -228,6 +232,8 @@ class ArcadeGame
     Type                      mType;          //!< Game type
     Status                    mStatus;        //!< Emulation status
     Rotation                  mRotation;      //!< Rotation
+    unsigned short            mWidth;
+    unsigned short            mHeight;
 
     //! Arcade name string holder
     static MetadataStringHolder sNameHolder;

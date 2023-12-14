@@ -93,7 +93,8 @@ MainRunner::ExitState MainRunner::Run()
     SystemManager systemManager(*this, mIgnoredFiles);
     GameRunner gameRunner(nullptr, systemManager, *this);
     FileNotifier fileNotifier;
-    InputManager::Instance().Initialize();
+    InputManager inputManager;
+    inputManager.Initialize();
 
     // Autorun?
     if (mRunCount == 0) {
@@ -104,7 +105,7 @@ MainRunner::ExitState MainRunner::Run()
         systemManager.LoadSingleSystemConfigurations(RecalboxConf::Instance().GetAutorunSystemUUID());
         ResetForceReloadState();
         FileData *game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
-        if (game != nullptr && InputManager::Instance().ConfiguredControllersCount() > 0)
+        if (game != nullptr && inputManager.ConfiguredControllersCount() > 0)
           gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
         else
           { LOG(LogInfo) << "[MainRunner] Will not boot on game as game = null or no configured controllers found"; }

@@ -15,7 +15,8 @@
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 
 InputManager::InputManager()
-  : mIndexToId {}
+  : StaticLifeCycleControler<InputManager>("inputmanager")
+  , mIndexToId {}
   , mKeyboard(nullptr, InputEvent::sKeyboardDevice, (int)InputEvent::sKeyboardDevice, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
   , mMousse(nullptr, InputEvent::sMouseDevice, (int)InputEvent::sMouseDevice, "Mouse", KEYBOARD_GUID_STRING, 0, 0, 5)
   , mScancodeStates()
@@ -33,13 +34,6 @@ InputManager::InputManager()
   // Add mapper to pad change callbacks
   mNotificationInterfaces.Add(&mMapper);
 }
-
-InputManager& InputManager::Instance()
-{
-  static InputManager _instance;
-  return _instance;
-}
-
 
 int InputManager::GetDeviceIndexFromId(SDL_JoystickID deviceId)
 {

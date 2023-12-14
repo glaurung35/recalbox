@@ -12,19 +12,19 @@
 
 class WindowManager;
 
-class InputManager : public IFileSystemWatcherNotification
+class InputManager : public StaticLifeCycleControler<InputManager>
+                   , public IFileSystemWatcherNotification
 {
   public:
+    /*!
+     * @brief Default constructor
+     */
+    InputManager();
+
     /*!
      * @brief Default destructor
      */
     virtual ~InputManager() = default;
-
-    /*!
-     * @brief Instance
-     * @return Singleton instance
-     */
-    static InputManager& Instance();
 
     /*!
      * @brief Initialize the InputManager
@@ -197,11 +197,6 @@ class InputManager : public IFileSystemWatcherNotification
     bool mJoystickChangePending;
     //! joystick change pending - added or removed?
     bool mJoystickChangePendingRemoved;
-
-    /*!
-     * @brief Default constructor
-     */
-    InputManager();
 
     /*!
      * @brief Load default keyboard configuration

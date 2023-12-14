@@ -57,7 +57,7 @@ class EmulatorManager : public INoCopy
      * @param emulator Emulator name to override if '<system>.emulator=value' exists in the configuration file
      * @param core Core name to override if '<system>.core=value' exists in the configuration file
      */
-    static void GetEmulatorFromConfigFile(const SystemData& system, String& emulator, String& core) ;
+    static void GetEmulatorFromConfigFile(const SystemData& system, String& emulator, String& core);
 
     /*!
      * @brief Try to get emulator/core override from the given game
@@ -65,7 +65,15 @@ class EmulatorManager : public INoCopy
      * @param emulator Emulator name to override with the one from game's metadata if non empty
      * @param core Core name to override with the one from game's metadata if non empty
      */
-    static void GetEmulatorFromGamelist(const FileData& game, String& emulator, String& core) ;
+    static void GetEmulatorFromGamelist(const FileData& game, String& emulator, String& core);
+
+    /*!
+     * @brief Try to guess emulator/core from known system subfolders
+     * @param game Game
+     * @param emulator Emulator name to override with the one from game's metadata if non empty
+     * @param core Core name to override with the one from game's metadata if non empty
+     */
+    static void GetEmulatorFromSubfolder(const FileData& game, String& emulator, String& core);
 
     /*!
      * @brief Try to get emulator/core override from overrides files (.recalbox.conf) in the rom path
@@ -74,7 +82,7 @@ class EmulatorManager : public INoCopy
      * @param core Core name to override with the one(s) from override files if they exists
      * @return True if the emulator/core have been overriden, false otherwise
      */
-    static bool GetEmulatorFromOverride(const FileData& game, String& emulator, String& core) ;
+    static bool GetEmulatorFromOverride(const FileData& game, String& emulator, String& core);
 
     /*!
      * @brief Patch name if required (example: libretro-duckstation renamed libretro-swanstation in 7.2.1)

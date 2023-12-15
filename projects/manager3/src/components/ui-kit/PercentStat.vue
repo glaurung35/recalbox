@@ -6,7 +6,7 @@
     appear
     enter-active-class="animated flipInX"
   >
-    <div class="col container percent">
+    <div class="col q-pa-md statContainer percent">
       <div class="badge">
         <q-knob
           :thickness="1"
@@ -41,7 +41,7 @@ const {
 </script>
 
 <style lang="sass" scoped>
-.container
+.statContainer
   display: flex
   justify-content: center
   align-items: center

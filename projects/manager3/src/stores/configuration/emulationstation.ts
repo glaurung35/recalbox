@@ -8,6 +8,7 @@ import {
   getPath,
   GLOBAL,
   SYSTEMS,
+  THEMES,
 } from 'src/router/api.routes';
 import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
@@ -30,6 +31,7 @@ export interface EmulationStationStoreState extends FetchStore, PostStore, Fetch
   _emulationstationOptions: EmulationStationConfigOptionsResponse;
   emulationstation: EmulationStationConfigResponse;
   currentState: EmulationStationCurrentState;
+  themeRegion: string,
 }
 
 export const useEmulationstationStore = defineStore('emulationstation', {
@@ -96,6 +98,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       currentSystem: null,
       currentRom: null,
     },
+    themeRegion: 'eu',
   } as EmulationStationStoreState),
 
   getters: {
@@ -137,9 +140,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         }
         if (storeSystem) {
           currentSystem = {
-            logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/logo`,
-            consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/console`,
-            gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/eu/svg/game`,
+            logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/logo`,
+            consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/console`,
+            gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/game`,
             name: status.System.System,
             systemId: status.System.SystemId,
             metaData: systemsMetaData[status.System.SystemId],
@@ -192,6 +195,17 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         const status = response.data;
 
         this.updateStatus(status);
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      }
+    },
+    async getThemeRegion() {
+      try {
+        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+        // @ts-ignore
+        const response = await this._apiProvider.get(getPath(THEMES.region, { themeNameFolder: 'recalbox-next' }));
+        this.themeRegion = response.data.region;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

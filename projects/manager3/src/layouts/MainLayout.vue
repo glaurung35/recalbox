@@ -3,7 +3,7 @@
 -->
 <template>
   <q-layout container style="height: 100vh"  view="lHh Lpr lFf">
-    <q-header class="mobile-only">
+    <q-header>
       <q-toolbar>
         <q-btn @click="leftDrawerOpen = !leftDrawerOpen" flat icon="mdi-menu"/>
         <q-toolbar-title />
@@ -90,7 +90,7 @@ const menuLinks: GlobalMenuLink[] = [
   },
   {
     title: 'menu.emulation',
-    icon: 'mdi-google-controller',
+    icon: 'mdi-gamepad-outline',
     route: 'emulation',
   },
   {
@@ -107,14 +107,15 @@ const menuLinks: GlobalMenuLink[] = [
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 
-const systemsStore = useSystemsStore();
-systemsStore.fetch().then(() => {
+useSystemsStore().fetch().then(() => {
   const emulationStationStore = useEmulationstationStore();
   const { currentState } = emulationStationStore;
   if (currentState.currentSystem === null) {
     emulationStationStore.fetchStatus();
   }
 });
+
+useEmulationstationStore().getThemeRegion();
 
 function toggle(event: { label: string; value: boolean; }) {
   if (event.label === 'shortcutsButton') {
@@ -156,11 +157,14 @@ header
       margin-bottom: 1em
 
 .help-menu-container
-  background-color: #34495ecf
+  background-color: rgba($primary, .8)
   border-radius: 4px
 
-@media(max-width: 950px)
-  .q-page-container
-    .q-page
-      height: calc(100vh - 50px)
+@media(min-width: 500px)
+  .q-header
+    display: none
+
+@media(max-width: 500px)
+  .q-page-sticky
+    display: none
 </style>

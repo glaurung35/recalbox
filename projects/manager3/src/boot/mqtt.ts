@@ -25,6 +25,7 @@ client.on('connect', () => {
   emulationStationStore.fetchStatus();
   client.subscribe(String(process.env.MQTT_MONITORING_CHANNEL));
   client.subscribe(String(process.env.MQTT_ES_EVENTS_CHANNEL));
+  client.subscribe(String(process.env.MQTT_VD_EVENTS_KEYBOARD_CHANNEL));
 });
 
 client.on('message', (topic, message): void => {
@@ -53,3 +54,5 @@ client.on('message', (topic, message): void => {
     }
   }
 });
+
+export default client;

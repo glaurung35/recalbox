@@ -400,9 +400,77 @@ export interface CurrentSystemMetaDataColor {
   band4: string;
 }
 
+export interface CurrentSystemMetaDataSystem {
+  manufacturer?: string;
+  yearOfRelease?: string;
+  cpu?: string;
+  ram?: string;
+  gpu?: string;
+  soundChip?: string;
+  colors?: string;
+  os?: string;
+  rom?: string;
+  resolution?: string;
+  unitsSold?: string;
+  bestSellingGame?: string;
+  author?: string;
+  sound?: string;
+  display?: string;
+  website?: string;
+  builtInFeatures?: string;
+  video?: string;
+  developers?: string;
+  device?: string;
+  cartSize?: string;
+  cartridgeRom?: string;
+  screen?: string;
+  displayAbility?: string;
+  storage?: string;
+  media?: string;
+  fcram?: string;
+  vram?: string;
+  vmuSize?: string;
+  memory?: string;
+  sprites?: string;
+  numberGames?: string;
+  sram?: string;
+  videoRam?: string;
+  audioRam?: string;
+  dram?: string;
+  writtenIn?: string;
+  graphics?: string;
+  lowResolutions?: string;
+  programMemory?: string;
+  diskSpace?: string;
+  ports?: string;
+  bsX?: string;
+  drive?: string;
+  createdBy?: string;
+  portedOnLinuxBy?: string;
+  type?: string;
+  pcCompatibility?: string;
+  necessarySoft?: string;
+  '64ddCpu'?: string;
+  cpu2?: string;
+  designer?: string;
+  mediumResolutions?: string;
+  origin?: string;
+  englishTranslation?: string;
+  highResolutions?: string;
+  bestLaserdiscGamesAre?: string;
+  size?: string;
+  weight?: string;
+}
+
+export interface CurrentSystemMetaDataColors {
+  eu: CurrentSystemMetaDataColor;
+  jp?: CurrentSystemMetaDataColor;
+  us?: CurrentSystemMetaDataColor;
+}
+
 export interface CurrentSystemMetaData {
-  system: object;
-  colors: CurrentSystemMetaDataColor
+  system: CurrentSystemMetaDataSystem;
+  colors: CurrentSystemMetaDataColors;
 }
 
 export interface CurrentSystem {

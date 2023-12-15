@@ -47,6 +47,8 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableRegionFilter();
 
+    static HashMap<String, String> GetAvailableScreensavers();
+
     static HashMap<String, String> GetAvailableKeyboardLayout();
 
     static HashMap<String, String> GetAvailableSoundDevices();

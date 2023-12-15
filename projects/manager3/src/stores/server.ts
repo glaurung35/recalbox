@@ -46,7 +46,7 @@ export const useServerStore = defineStore('server', {
         console.log(error);
       }
     },
-    async esStop(): Promise<void> {
+    async esShutdown(): Promise<void> {
       try {
         await this._api80Provider.post(SYSTEM.es.stop);
         this.available = false;
@@ -55,7 +55,7 @@ export const useServerStore = defineStore('server', {
         console.log(error);
       }
     },
-    async esRestart(): Promise<void> {
+    async esReboot(): Promise<void> {
       try {
         await this._api80Provider.post(SYSTEM.es.restart);
         this.available = true;

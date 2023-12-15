@@ -3,8 +3,10 @@
 -->
 <template>
   <q-page class="background monitoring">
-    <CPUChartContent :data="JSON.parse(JSON.stringify(areaChartData))"/>
-    <div class="charts-container row">
+    <div class="row cpuChart">
+      <CPUChartContent :data="JSON.parse(JSON.stringify(areaChartData))"/>
+    </div>
+    <div class="row charts-container">
       <div class="col cores-usage">
         <CoresChartContent :data="cores"/>
       </div>
@@ -39,10 +41,11 @@ const areaChartData = computed<object[]>(() => [
 
 <style lang="sass">
 .monitoring
-  position: relative
-
   &:before
     content: "\F076A"
+
+  .cpuChart
+    position: relative
 
   .charts-container
     position: relative
@@ -82,7 +85,9 @@ const areaChartData = computed<object[]>(() => [
 
 @media(max-width: 950px)
   .monitoring
-    overflow-y: initial
+    .cores-usage
+      min-height: initial
+
     .charts-container
       flex-direction: column
 </style>

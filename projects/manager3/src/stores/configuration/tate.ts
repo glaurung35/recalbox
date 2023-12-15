@@ -8,10 +8,10 @@ import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { PostStore } from 'stores/plugins/postStorePlugin';
 import { TateConfigOptionsResponse, TateConfigResponse } from 'stores/types/tate';
 
-export interface TateStoreState extends FetchOptionsStore, FetchStore, PostStore {
-  _baseUrl: string,
-  _tateOptions: TateConfigOptionsResponse,
-  tate: TateConfigResponse,
+export interface TateStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _tateOptions: TateConfigOptionsResponse;
+  tate: TateConfigResponse;
 }
 
 export const useTateStore = defineStore('tate', {

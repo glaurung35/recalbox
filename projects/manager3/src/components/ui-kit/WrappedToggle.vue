@@ -4,6 +4,7 @@
 <template>
   <div class="col col-xs-12 col-sm-12 col-md-12">
     <q-toggle
+      :name="label"
       :label="$t(label)"
       class="q-mb-md"
       v-model="enabled"

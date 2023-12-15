@@ -11,6 +11,7 @@
         {{ $t(label) }}
       </q-badge>
       <q-slider
+        :name="label"
         :min="min"
         :step="step"
         :max="max"

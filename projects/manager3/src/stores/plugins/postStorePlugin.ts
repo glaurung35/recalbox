@@ -22,6 +22,7 @@ const PostStorePlugin = (context: PiniaPluginContext) => {
     'patreon',
     'scraper',
     'system',
+    'tate',
     'updates',
     'wifi',
     'wifi2',

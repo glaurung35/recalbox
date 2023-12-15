@@ -80,5 +80,6 @@ const options = computed(() => ({
 
 <style lang="sass">
 .chart-cpu
+  width: 100%
   background: white
 </style>

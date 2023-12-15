@@ -4,6 +4,7 @@
 <template>
   <q-form autocomplete="off">
     <q-input
+      :name="label"
       :label="$t(label)"
       dense
       standout="bg-primary text-white"

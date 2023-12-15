@@ -56,7 +56,7 @@ const {
     display: block
     font-family: 'Material Design Icons'
     position: absolute
-    right: -10px
+    right: -11px
     top: 7px
     color: $rc-light-grey
     font-size: x-large

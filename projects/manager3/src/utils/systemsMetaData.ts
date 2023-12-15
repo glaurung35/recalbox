@@ -6,46 +6,56 @@ export const systemsMetaData: SystemsMetaData = {
   lastplayed: {
     system: {},
     colors: {
-      band1: '#AF774D',
-      band2: '#96562B',
-      band3: '#969BC7',
-      band4: '#3678A6',
+      eu: {
+        band1: '#AF774D',
+        band2: '#96562B',
+        band3: '#969BC7',
+        band4: '#3678A6',
+      },
     },
   },
   tate: {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#6EAE97',
-      band3: '#364792',
-      band4: '#851740',
+      eu: {
+        band1: '#C1B544',
+        band2: '#6EAE97',
+        band3: '#364792',
+        band4: '#851740',
+      },
     },
   },
   lightgun: {
     system: {},
     colors: {
-      band1: '#C0BAC0',
-      band2: '#BC4F41',
-      band3: '#181913',
-      band4: '#A3362A',
+      eu: {
+        band1: '#C0BAC0',
+        band2: '#BC4F41',
+        band3: '#181913',
+        band4: '#A3362A',
+      },
     },
   },
   multiplayer: {
     system: {},
     colors: {
-      band1: '#F3F1A5',
-      band2: '#679EA3',
-      band3: '#8A9667',
-      band4: '#93627F',
+      eu: {
+        band1: '#F3F1A5',
+        band2: '#679EA3',
+        band3: '#8A9667',
+        band4: '#93627F',
+      },
     },
   },
   allgames: {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#6EAE97',
-      band3: '#364792',
-      band4: '#851740',
+      eu: {
+        band1: '#C1B544',
+        band2: '#6EAE97',
+        band3: '#364792',
+        band4: '#851740',
+      },
     },
   },
   dos: {
@@ -54,10 +64,12 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1981',
     },
     colors: {
-      band1: '#1F70C1',
-      band2: '#FFFFFF',
-      band3: '#666870',
-      band4: '#201D1D',
+      eu: {
+        band1: '#1F70C1',
+        band2: '#FFFFFF',
+        band3: '#666870',
+        band4: '#201D1D',
+      },
     },
   },
   vg5000: {
@@ -73,10 +85,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x250 (8 colours)',
     },
     colors: {
-      band1: '#F2F5F7',
-      band2: '#FFC000',
-      band3: '#726A44',
-      band4: '#242527',
+      eu: {
+        band1: '#F2F5F7',
+        band2: '#FFC000',
+        band3: '#726A44',
+        band4: '#242527',
+      },
     },
   },
   megadrive: {
@@ -90,19 +104,33 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '64 kB / VRAM',
       video: '16-bit Sega VDP',
       resolution: '320x224 pixels, 64 colors (512 colors palette)',
-      sound: 'Yamaha YM2612 FM and TI SN76489 PSG',
+      soundChip: 'Yamaha YM2612 FM and TI SN76489 PSG',
     },
     colors: {
-      band1: '#181C4E',
-      band2: '#811B15',
-      band3: '#D2D2D2',
-      band4: '#20211D',
+      eu: {
+        band1: '#DCE3E6',
+        band2: '#884A52',
+        band3: '#D4AA6F',
+        band4: '#212122',
+      },
+      jp: {
+        band1: '#D2D2D2',
+        band2: '#A02B59',
+        band3: '#0069B4',
+        band4: '#00AA00',
+      },
+      us: {
+        band1: '#181C4E',
+        band2: '#811B15',
+        band3: '#D2D2D2',
+        band4: '#20211D',
+      },
     },
   },
   lowresnx: {
     system: {
       author: 'Timo Kloss',
-      initialRelease: '2017',
+      yearOfRelease: '2017',
       website: 'https',
       builtInFeatures: 'Gfx Designer for editing sprites, tiles, fonts and maps, as',
       display: '160x128 pixels, 60 Hz, 8 dynamic 6-bit palettes with 4 colors each',
@@ -110,10 +138,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '4 voices, saw/tri/pulse/noise, pulse width, volume, ADSR, LFO',
     },
     colors: {
-      band1: '#222222',
-      band2: '#F15924',
-      band3: '#F68920',
-      band4: '#00AAA9',
+      eu: {
+        band1: '#222222',
+        band2: '#F15924',
+        band3: '#F68920',
+        band4: '#00AAA9',
+      },
     },
   },
   apple2: {
@@ -128,10 +158,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: 'Lo-res (40x48, 16-color) Hi-res (280x192, 6 color)',
     },
     colors: {
-      band1: '#009ddc',
-      band2: '#e03a3e',
-      band3: '#fdb827',
-      band4: '#61bb46',
+      eu: {
+        band1: '#009ddc',
+        band2: '#e03a3e',
+        band3: '#fdb827',
+        band4: '#61bb46',
+      },
     },
   },
   scv: {
@@ -145,24 +177,28 @@ export const systemsMetaData: SystemsMetaData = {
       soundChip: 'PD1771C @ 6 MHz',
     },
     colors: {
-      band1: '#CFCFCE',
-      band2: '#C02026',
-      band3: '#39B54A',
-      band4: '#E14B26',
+      eu: {
+        band1: '#CFCFCE',
+        band2: '#C02026',
+        band3: '#39B54A',
+        band4: '#E14B26',
+      },
     },
   },
   zmachine: {
     system: {
-      developer: 'Joel Berez and Marc Blank',
+      developers: 'Joel Berez and Marc Blank',
       yearOfRelease: '1979',
       device: 'Keyboard',
       display: '640x480 pixels',
     },
     colors: {
-      band1: '#EEF5F8',
-      band2: '#81F2CC',
-      band3: '#3A3A3A',
-      band4: '#488EAA',
+      eu: {
+        band1: '#EEF5F8',
+        band2: '#81F2CC',
+        band3: '#3A3A3A',
+        band4: '#488EAA',
+      },
     },
   },
   snes: {
@@ -175,14 +211,28 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '128kB / VRAM',
       video: '16-bit PPU (Picture Processor Unit)',
       resolution: '256x224, 256 colors (32768 colors palette)',
-      sound: '8-bit Sony SPC700, 8 channels',
+      soundChip: '8-bit Sony SPC700, 8 channels',
       cartSize: '256kB - 6MB',
     },
     colors: {
-      band1: '#A59EF7',
-      band2: '#47449E',
-      band3: '#CCCCCC',
-      band4: '#4C4C4C',
+      eu: {
+        band1: '#FED01B',
+        band2: '#BA2318',
+        band3: '#0A2A8D',
+        band4: '#007544',
+      },
+      jp: {
+        band1: '#F9EC2B',
+        band2: '#01954B',
+        band3: '#EB2D2F',
+        band4: '#323B98',
+      },
+      us: {
+        band1: '#A59EF7',
+        band2: '#47449E',
+        band3: '#CCCCCC',
+        band4: '#4C4C4C',
+      },
     },
   },
   msxturbor: {
@@ -198,10 +248,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '512 x 212 (4 or 16 colors) and 256 x 212 (16 to 19268 colors)',
     },
     colors: {
-      band1: '#637080',
-      band2: '#28292b',
-      band3: '#99784b',
-      band4: '#32100f',
+      eu: {
+        band1: '#637080',
+        band2: '#28292b',
+        band3: '#99784b',
+        band4: '#32100f',
+      },
     },
   },
   atari7800: {
@@ -212,14 +264,17 @@ export const systemsMetaData: SystemsMetaData = {
       cpu: 'Atari SALLY 6502 ("6502C") @ 1.19-1.79MHz',
       ram: '4KB',
       cartridgeRom: '48KB',
-      audioVideoProcessor: 'TIA/MARIA custom graphics controller',
+      gpu: 'TIA/MARIA custom graphics controller',
+      soundChip: 'TIA/MARIA custom graphics controller',
       ports: '2 joystick ports, 1 cartridge port, 1 expansion connector, power in, RF output',
     },
     colors: {
-      band1: '#BABBBD',
-      band2: '#AA2C39',
-      band3: '#A7B0B5',
-      band4: '#333333',
+      eu: {
+        band1: '#BABBBD',
+        band2: '#AA2C39',
+        band3: '#A7B0B5',
+        band4: '#333333',
+      },
     },
   },
   solarus: {
@@ -228,10 +283,12 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '2011',
     },
     colors: {
-      band1: '#e5b131',
-      band2: '#d37d2d',
-      band3: '#574287',
-      band4: '#3c6d35',
+      eu: {
+        band1: '#e5b131',
+        band2: '#d37d2d',
+        band3: '#574287',
+        band4: '#3c6d35',
+      },
     },
   },
   wswan: {
@@ -240,14 +297,16 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1999',
       cpu: '16Bits NEC V20',
       ram: '512k video',
-      audio: '4 PCM channels, 32 samples 4Bit for each channel',
+      sound: '4 PCM channels, 32 samples 4Bit for each channel',
       resolution: '224 x 144 pixels',
     },
     colors: {
-      band1: '#8797A4',
-      band2: '#DBE0E1',
-      band3: '#E72835',
-      band4: '#282827',
+      eu: {
+        band1: '#8797A4',
+        band2: '#DBE0E1',
+        band3: '#E72835',
+        band4: '#282827',
+      },
     },
   },
   wswanc: {
@@ -256,14 +315,16 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '2000',
       cpu: 'SSPGY-1002 @ 3.072 MHz 16-bit NEC V30MZ duplicate',
       ram: '64 kB shared VRAM/WRAM',
-      audio: 'One mono speaker, optional headphones',
+      sound: 'One mono speaker, optional headphones',
       resolution: '224 x 144 pixels',
     },
     colors: {
-      band1: '#009CD4',
-      band2: '#EBA743',
-      band3: '#D65757',
-      band4: '#162B4F',
+      eu: {
+        band1: '#009CD4',
+        band2: '#EBA743',
+        band3: '#D65757',
+        band4: '#162B4F',
+      },
     },
   },
   o2em: {
@@ -272,15 +333,17 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1978',
       cpu: 'Intel 8048 @ 1.79 MHz',
       ram: '64 bytes',
-      audio: '1 channel, 8 sounds',
+      sound: '1 channel, 8 sounds',
       rom: '1024 bytes',
       resolution: '160×200 pixels with 12 colors',
     },
     colors: {
-      band1: '#8C1914',
-      band2: '#89918F',
-      band3: '#DC3114',
-      band4: '#F8D239',
+      eu: {
+        band1: '#8C1914',
+        band2: '#89918F',
+        band3: '#DC3114',
+        band4: '#F8D239',
+      },
     },
   },
   videopacplus: {
@@ -289,15 +352,17 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1983',
       cpu: 'Intel 8048 @ 5.91MHz',
       ram: '6 KB + 192 Bytes',
-      audio: '1 channel, 8 sounds',
+      sound: '1 channel, 8 sounds',
       rom: '1024 bytes',
       resolution: '320x238 pixels with 16 colors',
     },
     colors: {
-      band1: '#F6C514',
-      band2: '#EF6F4E',
-      band3: '#E0286B',
-      band4: '#BDB9A6',
+      eu: {
+        band1: '#F6C514',
+        band2: '#EF6F4E',
+        band3: '#E0286B',
+        band4: '#BDB9A6',
+      },
     },
   },
   amigacdtv: {
@@ -313,10 +378,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320 x 200 (32 colors) / 640 x 240 (16 colors)',
     },
     colors: {
-      band1: '#C86388',
-      band2: '#6F62E8',
-      band3: '#1CA6F1',
-      band4: '#F62717',
+      eu: {
+        band1: '#C86388',
+        band2: '#6F62E8',
+        band3: '#1CA6F1',
+        band4: '#F62717',
+      },
     },
   },
   nds: {
@@ -333,19 +400,23 @@ export const systemsMetaData: SystemsMetaData = {
       sound: 'Stereo speakers w/virtual surround, headphones',
     },
     colors: {
-      band1: '#5C67A9',
-      band2: '#280FBE',
-      band3: '#BCBCBC',
-      band4: '#212121',
+      eu: {
+        band1: '#5C67A9',
+        band2: '#280FBE',
+        band3: '#BCBCBC',
+        band4: '#212121',
+      },
     },
   },
   kodi: {
     system: {},
     colors: {
-      band1: '#186AAC',
-      band2: '#36A2CD',
-      band3: '#448F3E',
-      band4: '#BF2E31',
+      eu: {
+        band1: '#186AAC',
+        band2: '#36A2CD',
+        band3: '#448F3E',
+        band4: '#BF2E31',
+      },
     },
   },
   vic20: {
@@ -361,10 +432,18 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '128x128 (16 colours)',
     },
     colors: {
-      band1: '#A07445',
-      band2: '#B6A385',
-      band3: '#E8EBD8',
-      band4: '#9C8661',
+      eu: {
+        band1: '#A07445',
+        band2: '#4E4E4E',
+        band3: '#E8EBD8',
+        band4: '#B1BCBF',
+      },
+      jp: {
+        band1: '#A07445',
+        band2: '#B6A385',
+        band3: '#E8EBD8',
+        band4: '#9C8661',
+      },
     },
   },
   amstradcpc: {
@@ -377,10 +456,12 @@ export const systemsMetaData: SystemsMetaData = {
       soundChip: 'General Instrument AY-3-8910',
     },
     colors: {
-      band1: '#E91C23',
-      band2: '#00A651',
-      band3: '#1C75BC',
-      band4: '#942647',
+      eu: {
+        band1: '#E91C23',
+        band2: '#00A651',
+        band3: '#1C75BC',
+        band4: '#942647',
+      },
     },
   },
   amiga1200: {
@@ -396,10 +477,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x200 to 1504x484 (16.8 million colours)',
     },
     colors: {
-      band1: '#192753',
-      band2: '#5F87C0',
-      band3: '#F3AD2D',
-      band4: '#ED2224',
+      eu: {
+        band1: '#192753',
+        band2: '#5F87C0',
+        band3: '#F3AD2D',
+        band4: '#ED2224',
+      },
     },
   },
   dragon: {
@@ -413,10 +496,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '1 voice, 5 octaves with the Basic / 4 voices, 7 octaves with machine code',
     },
     colors: {
-      band1: '#F50019',
-      band2: '#FBFA35',
-      band3: '#74B719',
-      band4: '#3262D9',
+      eu: {
+        band1: '#F50019',
+        band2: '#FBFA35',
+        band3: '#74B719',
+        band4: '#3262D9',
+      },
     },
   },
   x68000: {
@@ -432,10 +517,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '512x512 (65536 colours)',
     },
     colors: {
-      band1: '#2b3138',
-      band2: '#686670',
-      band3: '#C25F7F',
-      band4: '#41BC83',
+      eu: {
+        band1: '#2b3138',
+        band2: '#686670',
+        band3: '#C25F7F',
+        band4: '#41BC83',
+      },
     },
   },
   virtualboy: {
@@ -452,10 +539,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '16Bits stereo',
     },
     colors: {
-      band1: '#363636',
-      band2: '#FE0016',
-      band3: '#8A8C8E',
-      band4: '#232323',
+      eu: {
+        band1: '#363636',
+        band2: '#FE0016',
+        band3: '#8A8C8E',
+        band4: '#232323',
+      },
     },
   },
   sg1000: {
@@ -472,10 +561,12 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '8kB - 48kB',
     },
     colors: {
-      band1: '#D6A763',
-      band2: '#9A2025',
-      band3: '#000000',
-      band4: '#BBBDBD',
+      eu: {
+        band1: '#D6A763',
+        band2: '#9A2025',
+        band3: '#000000',
+        band4: '#BBBDBD',
+      },
     },
   },
   colecovision: {
@@ -488,19 +579,21 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '1kB / VRAM',
       video: 'Texas Instruments TMS9928A',
       resolution: '256x192, 16 colors',
-      sound: 'Texas Instruments SN76489A',
+      soundChip: 'Texas Instruments SN76489A',
       cartSize: '8kB - 32kB',
     },
     colors: {
-      band1: '#EF8185',
-      band2: '#F3994B',
-      band3: '#FADD2F',
-      band4: '#A4DDF0',
+      eu: {
+        band1: '#EF8185',
+        band2: '#F3994B',
+        band3: '#FADD2F',
+        band4: '#A4DDF0',
+      },
     },
   },
   wasm4: {
     system: {
-      developer: 'Bruno Garcia',
+      developers: 'Bruno Garcia',
       yearOfRelease: '2021',
       website: 'www.wasm4.org',
       ram: '64 KB linear RAM, memory-mapped I/O, save states',
@@ -510,10 +603,12 @@ export const systemsMetaData: SystemsMetaData = {
       device: 'Keyboard, mouse, touchscreen, up to 4 gamepads',
     },
     colors: {
-      band1: '#ffcd21',
-      band2: '#e94f96',
-      band3: '#6ebc87',
-      band4: '#2a252e',
+      eu: {
+        band1: '#ffcd21',
+        band2: '#e94f96',
+        band3: '#6ebc87',
+        band4: '#2a252e',
+      },
     },
   },
   atari5200: {
@@ -524,14 +619,16 @@ export const systemsMetaData: SystemsMetaData = {
       cpu: 'MOS Technology 6502C 6502C @ 1.79 MHz',
       ram: '16kB',
       rom: '2KB on-board BIOS; 32 KB window for standard game cartridges',
-      sound: '4-channel POKEY chip',
+      soundChip: '4-channel POKEY chip',
       display: '320x192 pixels with 256 colors',
     },
     colors: {
-      band1: '#1e6547',
-      band2: '#cfa634',
-      band3: '#973e3a',
-      band4: '#1c6eb8',
+      eu: {
+        band1: '#1e6547',
+        band2: '#cfa634',
+        band3: '#973e3a',
+        band4: '#1c6eb8',
+      },
     },
   },
   spectravideo: {
@@ -544,14 +641,16 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '16KB (SV-318) and 64Kb (SV-328) / VRAM',
       video: 'Texas Instruments TMS9918',
       resolution: '256x192, 16 colors',
-      sound: 'General Instrument AY-3-8910 (PSG)',
+      soundChip: 'General Instrument AY-3-8910 (PSG)',
       media: 'ROM Cartridge, Cassette tape',
     },
     colors: {
-      band1: '#B74E6C',
-      band2: '#C23435',
-      band3: '#D17733',
-      band4: '#E9E439',
+      eu: {
+        band1: '#B74E6C',
+        band2: '#C23435',
+        band3: '#D17733',
+        band4: '#E9E439',
+      },
     },
   },
   '3ds': {
@@ -567,10 +666,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: 'Stereo speakers w/virtual surround, headphones',
     },
     colors: {
-      band1: '#929497',
-      band2: '#C02424',
-      band3: '#221D1F',
-      band4: '#1F8ABE',
+      eu: {
+        band1: '#929497',
+        band2: '#C02424',
+        band3: '#221D1F',
+        band4: '#1F8ABE',
+      },
     },
   },
   atomiswave: {
@@ -579,15 +680,17 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '2003',
       cpu: 'Hitachi SH-4 32-bit RISC CPU (@ 200 MHz 360 MIPS / 1.4 GFLOPS)',
       gpu: 'NEC-Videologic PowerVR (PVR2DC/CLX2) @ 100 MHz',
-      sound: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
+      soundChip: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
       ram: '40 MB',
       media: 'ROM Board (max. size of 168 MB)',
     },
     colors: {
-      band1: '#C11127',
-      band2: '#FF6B00',
-      band3: '#04EF94',
-      band4: '#029205',
+      eu: {
+        band1: '#C11127',
+        band2: '#FF6B00',
+        band3: '#04EF94',
+        band4: '#029205',
+      },
     },
   },
   '240ptestsuite': {
@@ -596,19 +699,23 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '2011',
     },
     colors: {
-      band1: '#B00000',
-      band2: '#00B000',
-      band3: '#0000B0',
-      band4: '#FFFFFF',
+      eu: {
+        band1: '#B00000',
+        band2: '#00B000',
+        band3: '#0000B0',
+        band4: '#FFFFFF',
+      },
     },
   },
   favorites: {
     system: {},
     colors: {
-      band1: '#F6DD08',
-      band2: '#800000',
-      band3: '#FF0000',
-      band4: '#4C504E',
+      eu: {
+        band1: '#F6DD08',
+        band2: '#800000',
+        band3: '#FF0000',
+        band4: '#4C504E',
+      },
     },
   },
   channelf: {
@@ -620,14 +727,16 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '64 bytes',
       vram: '2 kB',
       resolution: '128x64, 8 colors',
-      audio: '500 Hz, 1 kHz and 1.5 kHz tones (can be modulated)',
+      sound: '500 Hz, 1 kHz and 1.5 kHz tones (can be modulated)',
       media: 'ROM Cartridge',
     },
     colors: {
-      band1: '#E0E0E0',
-      band2: '#91FFA6',
-      band3: '#CED0FF',
-      band4: '#4B3FF3',
+      eu: {
+        band1: '#E0E0E0',
+        band2: '#91FFA6',
+        band3: '#CED0FF',
+        band4: '#4B3FF3',
+      },
     },
   },
   dreamcast: {
@@ -640,14 +749,28 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '16MB / VRAM',
       video: "100 MHz PowerVR2 (integrated with the system's ASIC)",
       resolution: '640x480 pixels',
-      sound: 'Yamaha AICA[139] sound processor @ 67 MHz',
+      soundChip: 'Yamaha AICA[139] sound processor @ 67 MHz',
       vmuSize: '128kB',
     },
     colors: {
-      band1: '#C1C3C2',
-      band2: '#32507C',
-      band3: '#CF3311',
-      band4: '#E4E5E4',
+      eu: {
+        band1: '#C1C3C2',
+        band2: '#3E649F',
+        band3: '#030303',
+        band4: '#E4E5E4',
+      },
+      jp: {
+        band1: '#C1C3C2',
+        band2: '#32507C',
+        band3: '#CF3311',
+        band4: '#E4E5E4',
+      },
+      us: {
+        band1: '#C1C3C2',
+        band2: '#32507C',
+        band3: '#CF3311',
+        band4: '#E4E5E4',
+      },
     },
   },
   zxspectrum: {
@@ -661,16 +784,18 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'Cassette tape, 3-inch floppy disk on Spectrum +3',
     },
     colors: {
-      band1: '#CA2825',
-      band2: '#EDBA01',
-      band3: '#009C37',
-      band4: '#02559C',
+      eu: {
+        band1: '#CA2825',
+        band2: '#EDBA01',
+        band3: '#009C37',
+        band4: '#02559C',
+      },
     },
   },
   pico8: {
     system: {
-      developer: 'Lexaloffle Games',
-      initialRelease: '2015',
+      developers: 'Lexaloffle Games',
+      yearOfRelease: '2015',
       website: 'www.pico-8.com',
       builtInFeatures: 'Lua code editor, sprite and map creation tools, and an audio sound effect and music editor.',
       display: '128x128 pixels, 16-color palette',
@@ -678,10 +803,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '4 channel chip blerps',
     },
     colors: {
-      band1: '#ff004d',
-      band2: '#ffec27',
-      band3: '#29adff',
-      band4: '#ff77a8',
+      eu: {
+        band1: '#ff004d',
+        band2: '#ffec27',
+        band3: '#29adff',
+        band4: '#ff77a8',
+      },
     },
   },
   naomigd: {
@@ -690,15 +817,17 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1998',
       cpu: 'Hitachi SH-4 32-bit RISC CPU (@ 200 MHz 360 MIPS / 1.4 GFLOPS)',
       gpu: 'NEC-Videologic PowerVR (PVR2DC/CLX2) @ 100 MHz',
-      sound: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
+      soundChip: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
       ram: '56 MB (64 MB with GD-ROM)',
       media: 'ROM Board (max. size of 168 MB) / GD-ROM',
     },
     colors: {
-      band1: '#E4E7D7',
-      band2: '#A39B7C',
-      band3: '#C75433',
-      band4: '#243551',
+      eu: {
+        band1: '#E4E7D7',
+        band2: '#A39B7C',
+        band3: '#C75433',
+        band4: '#243551',
+      },
     },
   },
   apple2gs: {
@@ -709,23 +838,27 @@ export const systemsMetaData: SystemsMetaData = {
       cpu: 'Western Design Center 65C816 16-bit @ 2.8 MHz',
       ram: '256 kB or 1 MB (expandable up to 8 MB)',
       rom: '128 KB expandable to 1 MB',
-      sound: 'Ensoniq ES5503 DOC 8-bit wavetable synthesis sound chip, 32-channels, stereo',
+      soundChip: 'Ensoniq ES5503 DOC 8-bit wavetable synthesis sound chip, 32-channels, stereo',
       display: 'VGC 12-bpp palette (4096 colours), 320x200, 640x200',
     },
     colors: {
-      band1: '#D27C35',
-      band2: '#C44243',
-      band3: '#E3AD3A',
-      band4: '#8C3E8C',
+      eu: {
+        band1: '#D27C35',
+        band2: '#C44243',
+        band3: '#E3AD3A',
+        band4: '#8C3E8C',
+      },
     },
   },
   fbneo: {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   n64: {
@@ -735,15 +868,17 @@ export const systemsMetaData: SystemsMetaData = {
       unitsSold: '32.93 million',
       bestSellingGame: 'Super Mario 64',
       cpu: '64-bit NEC VR4300 @ 93.75 MHz',
-      coCpu: '64-bit MIPS RISC "Reality Immersion" RCP @ 62.5 MHz',
+      cpu2: '64-bit MIPS RISC "Reality Immersion" RCP @ 62.5 MHz',
       ram: '4 MB RAMBUS RDRAM (expandable up to 8 MB)',
       sound: 'Stereo 16-Bit and 48 kHz',
     },
     colors: {
-      band1: '#233387',
-      band2: '#238B41',
-      band3: '#C33D3A',
-      band4: '#E6B531',
+      eu: {
+        band1: '#233387',
+        band2: '#238B41',
+        band3: '#C33D3A',
+        band4: '#E6B531',
+      },
     },
   },
   trs80coco: {
@@ -757,10 +892,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '32 Column Display Ability (32 x 16 with 4 Colors / 256 x 192 with 2 Colors / 128 x 96 at 8 Colors / 128 x 192 with 4 Colors)',
     },
     colors: {
-      band1: '#B3B3B3',
-      band2: '#CE2027',
-      band3: '#0F7C3E',
-      band4: '#3B509C',
+      eu: {
+        band1: '#B3B3B3',
+        band2: '#CE2027',
+        band3: '#0F7C3E',
+        band4: '#3B509C',
+      },
     },
   },
   saturn: {
@@ -773,14 +910,16 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '16Mb / VRAM',
       video: 'VDP1 (sprite/texture and polygons), VDP2 (backgrounds)',
       resolution: '320x224 to 704x224, 16.77 million colors',
-      sound: 'Motorola 68EC000, Yamaha FH1 YMF292, 32 channels',
+      soundChip: 'Motorola 68EC000, Yamaha FH1 YMF292, 32 channels',
       media: 'CD-ROM',
     },
     colors: {
-      band1: '#0D7176',
-      band2: '#D1AE44',
-      band3: '#2740A5',
-      band4: '#86254A',
+      eu: {
+        band1: '#0D7176',
+        band2: '#D1AE44',
+        band3: '#2740A5',
+        band4: '#86254A',
+      },
     },
   },
   mame: {
@@ -792,10 +931,12 @@ export const systemsMetaData: SystemsMetaData = {
       writtenIn: 'C++',
     },
     colors: {
-      band1: '#00ADEF',
-      band2: '#84849C',
-      band3: '#231F20',
-      band4: '#FFFFFF',
+      eu: {
+        band1: '#00ADEF',
+        band2: '#84849C',
+        band3: '#231F20',
+        band4: '#FFFFFF',
+      },
     },
   },
   ngp: {
@@ -803,17 +944,19 @@ export const systemsMetaData: SystemsMetaData = {
       manufacturer: 'SNK',
       yearOfRelease: '1999',
       unitsSold: '2 million, including color version',
-      cpus: 'Toshiba TLCS900H @ 6.144 MHz, Z80 @ 3.072 MHz',
+      cpu: 'Toshiba TLCS900H @ 6.144 MHz, Z80 @ 3.072 MHz',
       ram: '64 Kbytes',
-      pictureProcessorUnit: '16-bit',
+      gpu: '16-bit',
       resolution: '160x152 (256x256 virtual screen)',
       media: 'ROM cartridge 4 MB max',
     },
     colors: {
-      band1: '#B2B8BD',
-      band2: '#E92A30',
-      band3: '#25374A',
-      band4: '#0F1520',
+      eu: {
+        band1: '#B2B8BD',
+        band2: '#E92A30',
+        band3: '#25374A',
+        band4: '#0F1520',
+      },
     },
   },
   atari2600: {
@@ -824,16 +967,25 @@ export const systemsMetaData: SystemsMetaData = {
       bestSellingGame: 'Pac-Man',
       cpu: '8-bit MOS 6507 @ 1.19 MHz',
       ram: '128 bytes',
-      audioVideoProcessor: 'TIA',
+      gpu: 'TIA',
+      soundChip: 'TIA',
       resolution: '160 x 192 pixels, 4 colors per line (128 colors palette)',
       sound: '2 channels of 1-bit monaural sound with 4-bit volume control',
       cartSize: '2kB - 32kB',
     },
     colors: {
-      band1: '#C1272A',
-      band2: '#651966',
-      band3: '#1C267D',
-      band4: '#0B562F',
+      eu: {
+        band1: '#E6CC33',
+        band2: '#B63738',
+        band3: '#2F8FBA',
+        band4: '#7EAA66',
+      },
+      jp: {
+        band1: '#C1272A',
+        band2: '#651966',
+        band3: '#1C267D',
+        band4: '#0B562F',
+      },
     },
   },
   gamegear: {
@@ -845,15 +997,17 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '8kB / VRAM',
       video: 'Sega VDP (custom Texas Instruments TMS9918)',
       resolution: '160 x 146 pixels, 32 colors (4096 colors palette)',
-      sound: 'TI SN76489 PSG',
+      soundChip: 'TI SN76489 PSG',
       cartSize: '32kB - 1MB',
       screen: '8.128cm (3.2 inches), backlit LCD',
     },
     colors: {
-      band1: '#CCCBCB',
-      band2: '#D41808',
-      band3: '#008200',
-      band4: '#0000FE',
+      eu: {
+        band1: '#CCCBCB',
+        band2: '#D41808',
+        band3: '#008200',
+        band4: '#0000FE',
+      },
     },
   },
   macintosh: {
@@ -868,10 +1022,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: '9" Monochrome built-in (512x342 pixels)',
     },
     colors: {
-      band1: '#76B845',
-      band2: '#E19433',
-      band3: '#009DDD',
-      band4: '#C45152',
+      eu: {
+        band1: '#76B845',
+        band2: '#E19433',
+        band3: '#009DDD',
+        band4: '#C45152',
+      },
     },
   },
   bk: {
@@ -883,14 +1039,16 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '32 KB',
       rom: '8 KB',
       gpu: 'K1801VP1-037',
-      sound: 'Covox DACs',
+      soundChip: 'Covox DACs',
       resolution: '512x256 (monochrome) / 256x256 (4 colors)',
     },
     colors: {
-      band1: '#DDD6BA',
-      band2: '#CABFA3',
-      band3: '#231F20',
-      band4: '#861719',
+      eu: {
+        band1: '#DDD6BA',
+        band2: '#CABFA3',
+        band3: '#231F20',
+        band4: '#861719',
+      },
     },
   },
   supervision: {
@@ -903,10 +1061,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '2 Tonal and 1 Noise Channel plus additional audio DMA stereo output',
     },
     colors: {
-      band1: '#55C5CC',
-      band2: '#64B0A6',
-      band3: '#717A76',
-      band4: '#68BD45',
+      eu: {
+        band1: '#55C5CC',
+        band2: '#64B0A6',
+        band3: '#717A76',
+        band4: '#68BD45',
+      },
     },
   },
   bbcmicro: {
@@ -921,10 +1081,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '640x256, 8 colours (various framebuffer modes)',
     },
     colors: {
-      band1: '#DAD6CA',
-      band2: '#BDB7A7',
-      band3: '#EE7670',
-      band4: '#444544',
+      eu: {
+        band1: '#DAD6CA',
+        band2: '#BDB7A7',
+        band3: '#EE7670',
+        band4: '#444544',
+      },
     },
   },
   amiga600: {
@@ -940,10 +1102,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x200 to 1280x512 (4096 colours at lower display resolutions)',
     },
     colors: {
-      band1: '#192753',
-      band2: '#5BA079',
-      band3: '#F9EA38',
-      band4: '#ED2224',
+      eu: {
+        band1: '#192753',
+        band2: '#5BA079',
+        band3: '#F9EA38',
+        band4: '#ED2224',
+      },
     },
   },
   mastersystem: {
@@ -956,14 +1120,22 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '8kB / VRAM',
       video: 'Sega VDP (custom Texas Instruments TMS9918)',
       resolution: '256 x 192 pixels, 32 colors (64 colors palette)',
-      sound: 'TI SN76489 PSG / add-on module YM2413 FM',
+      soundChip: 'TI SN76489 PSG / add-on module YM2413 FM',
       cartSize: '32kB - 1MB',
     },
     colors: {
-      band1: '#C6C6BB',
-      band2: '#94A079',
-      band3: '#1A82C5',
-      band4: '#EED98E',
+      eu: {
+        band1: '#CBCBCB',
+        band2: '#165193',
+        band3: '#E60000',
+        band4: '#1A1A1A',
+      },
+      jp: {
+        band1: '#C6C6BB',
+        band2: '#94A079',
+        band3: '#1A82C5',
+        band4: '#EED98E',
+      },
     },
   },
   vectrex: {
@@ -974,13 +1146,15 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '1KB (two 4-bit 2114 chips)',
       rom: '8KB (one 8-bit 2363 chip)',
       media: 'Cartridge with 32KB ROM',
-      sound: 'General Instrument AY-3-8912',
+      soundChip: 'General Instrument AY-3-8912',
     },
     colors: {
-      band1: '#EEF020',
-      band2: '#EC1D25',
-      band3: '#11192E',
-      band4: '#166FC1',
+      eu: {
+        band1: '#EEF020',
+        band2: '#EC1D25',
+        band3: '#11192E',
+        band4: '#166FC1',
+      },
     },
   },
   pokemini: {
@@ -995,10 +1169,12 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '512 kB',
     },
     colors: {
-      band1: '#FCE200',
-      band2: '#004F8A',
-      band3: '#999998',
-      band4: '#8C8C8C',
+      eu: {
+        band1: '#FCE200',
+        band2: '#004F8A',
+        band3: '#999998',
+        band4: '#8C8C8C',
+      },
     },
   },
   '64dd': {
@@ -1007,16 +1183,18 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1999',
       unitsSold: '15.000',
       cpu: '64-bit NEC VR4300 @ 93.75 MHz',
-      coCpu: '64-bit MIPS RISC "Reality Immersion" RCP @ 62.5 MHz',
+      cpu2: '64-bit MIPS RISC "Reality Immersion" RCP @ 62.5 MHz',
       '64ddCpu': '32-bit co-processor for reading/transferring disk data',
       ram: '4 MB RAMBUS RDRAM (expandable up to 8 MB)',
       sound: 'Stereo 16-Bit and 48 kHz',
     },
     colors: {
-      band1: '#DCAF36',
-      band2: '#268340',
-      band3: '#20317F',
-      band4: '#B73E3A',
+      eu: {
+        band1: '#DCAF36',
+        band2: '#268340',
+        band3: '#20317F',
+        band4: '#B73E3A',
+      },
     },
   },
   gb: {
@@ -1033,10 +1211,12 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '32kB - 1MB',
     },
     colors: {
-      band1: '#9B2063',
-      band2: '#2D308E',
-      band3: '#D9D9D9',
-      band4: '#A3A3A3',
+      eu: {
+        band1: '#9B2063',
+        band2: '#2D308E',
+        band3: '#D9D9D9',
+        band4: '#A3A3A3',
+      },
     },
   },
   '3do': {
@@ -1052,10 +1232,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '640x480 (16.7 million colours)',
     },
     colors: {
-      band1: '#FF0000',
-      band2: '#0000A0',
-      band3: '#FFE41B',
-      band4: '#23B14D',
+      eu: {
+        band1: '#FF0000',
+        band2: '#0000A0',
+        band3: '#FFE41B',
+        band4: '#23B14D',
+      },
     },
   },
   wiiu: {
@@ -1067,24 +1249,28 @@ export const systemsMetaData: SystemsMetaData = {
       cpu: 'Tri-Core IBM PowerPC "Espresso" @ 1.24 GHz',
       gpu: 'AMD Radeon-based "Latte" @ 550 MHz',
       ram: '2 GB DDR3',
-      audio: 'Dedicated 120 MHz audio processor',
+      sound: 'Dedicated 120 MHz audio processor',
       resolution: '480i, 480p, 720p, 1080i, 1080p',
       media: '25 GB Blu-ray based disc',
     },
     colors: {
-      band1: '#1F9EBB',
-      band2: '#3783BC',
-      band3: '#DDDCDC',
-      band4: '#9D8354',
+      eu: {
+        band1: '#1F9EBB',
+        band2: '#3783BC',
+        band3: '#DDDCDC',
+        band4: '#9D8354',
+      },
     },
   },
   lutro: {
     system: {},
     colors: {
-      band1: '#74282b',
-      band2: '#ae353a',
-      band3: '#F2D8B5',
-      band4: '#00007f',
+      eu: {
+        band1: '#74282b',
+        band2: '#ae353a',
+        band3: '#F2D8B5',
+        band4: '#00007f',
+      },
     },
   },
   pc98: {
@@ -1097,10 +1283,12 @@ export const systemsMetaData: SystemsMetaData = {
       soundChip: 'Internal beeper, FM Sound, PCM',
     },
     colors: {
-      band1: '#951610',
-      band2: '#16643C',
-      band3: '#00499A',
-      band4: '#3B3431',
+      eu: {
+        band1: '#951610',
+        band2: '#16643C',
+        band3: '#00499A',
+        band4: '#3B3431',
+      },
     },
   },
   moonlight: {
@@ -1108,15 +1296,17 @@ export const systemsMetaData: SystemsMetaData = {
       createdBy: 'Case Western Reserve University students',
       portedOnLinuxBy: 'irtimmer',
       type: 'Open Source implementation',
-      yearOfFirstRelease: '2013',
+      yearOfRelease: '2013',
       pcCompatibility: 'GFA PC with GTX 600/700/900/ ... GPU',
       necessarySoft: 'Nvidia GeForce Experience',
     },
     colors: {
-      band1: '#82BD0F',
-      band2: '#003366',
-      band3: '#A4A1A4',
-      band4: '#DEDDDE',
+      eu: {
+        band1: '#82BD0F',
+        band2: '#003366',
+        band3: '#A4A1A4',
+        band4: '#DEDDDE',
+      },
     },
   },
   naomi: {
@@ -1125,24 +1315,28 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1998',
       cpu: 'Hitachi SH-4 32-bit RISC CPU (@ 200 MHz 360 MIPS / 1.4 GFLOPS)',
       gpu: 'NEC-Videologic PowerVR (PVR2DC/CLX2) @ 100 MHz',
-      sound: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
+      soundChip: 'ARM7 Yamaha AICA 45 MHZ (with internal 32-bit RISC CPU, 64 channel ADPCM)',
       ram: '56 MB (64 MB with GD-ROM)',
       media: 'ROM Board (max. size of 168 MB) / GD-ROM',
     },
     colors: {
-      band1: '#E4E7D7',
-      band2: '#FD95B0',
-      band3: '#48B3EB',
-      band4: '#35FF90',
+      eu: {
+        band1: '#E4E7D7',
+        band2: '#FD95B0',
+        band3: '#48B3EB',
+        band4: '#35FF90',
+      },
     },
   },
   fba: {
     system: {},
     colors: {
-      band1: '#CF8A61',
-      band2: '#FE7B07',
-      band3: '#231F20',
-      band4: '#444343',
+      eu: {
+        band1: '#CF8A61',
+        band2: '#FE7B07',
+        band3: '#231F20',
+        band4: '#444343',
+      },
     },
   },
   cdi: {
@@ -1158,26 +1352,30 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '384x280 to 768x560 (16.7 million colours)',
     },
     colors: {
-      band1: '#6b6d65',
-      band2: '#f7f8f5',
-      band3: '#74666b',
-      band4: '#0b5ed8',
+      eu: {
+        band1: '#6b6d65',
+        band2: '#f7f8f5',
+        band3: '#74666b',
+        band4: '#0b5ed8',
+      },
     },
   },
   cavestory: {
     system: {
       designer: 'Daisuke Amaya',
-      developer: 'Studio Pixel',
+      developers: 'Studio Pixel',
       type: 'Freeware platform-adventure',
       origin: 'Japan',
       englishTranslation: 'Aeon Genesis Translations',
-      yearOfFirstRelease: '2004',
+      yearOfRelease: '2004',
     },
     colors: {
-      band1: '#648DBD',
-      band2: '#B63523',
-      band3: '#6F1312',
-      band4: '#182142',
+      eu: {
+        band1: '#648DBD',
+        band2: '#B63523',
+        band3: '#6F1312',
+        band4: '#182142',
+      },
     },
   },
   tic80: {
@@ -1191,19 +1389,23 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '4 channels (with editable waveform envelopes)',
     },
     colors: {
-      band1: '#4E76B4',
-      band2: '#C5494A',
-      band3: '#C7772F',
-      band4: '#65A33D',
+      eu: {
+        band1: '#4E76B4',
+        band2: '#C5494A',
+        band3: '#C7772F',
+        band4: '#65A33D',
+      },
     },
   },
   arcade: {
     system: {},
     colors: {
-      band1: '#FB0B47',
-      band2: '#FCE236',
-      band3: '#1229B8',
-      band4: '#5D9EED',
+      eu: {
+        band1: '#FB0B47',
+        band2: '#FCE236',
+        band3: '#1229B8',
+        band4: '#5D9EED',
+      },
     },
   },
   gba: {
@@ -1220,10 +1422,12 @@ export const systemsMetaData: SystemsMetaData = {
       displayAbility: '32 000 colours',
     },
     colors: {
-      band1: '#5C67A9',
-      band2: '#280FBE',
-      band3: '#BCBCBC',
-      band4: '#212121',
+      eu: {
+        band1: '#5C67A9',
+        band2: '#280FBE',
+        band3: '#BCBCBC',
+        band4: '#212121',
+      },
     },
   },
   megaduck: {
@@ -1237,10 +1441,12 @@ export const systemsMetaData: SystemsMetaData = {
       media: '36 pins ROM cartridge',
     },
     colors: {
-      band1: '#35b8c3',
-      band2: '#77a6b0',
-      band3: '#d7d8d7',
-      band4: '#3f3f40',
+      eu: {
+        band1: '#35b8c3',
+        band2: '#77a6b0',
+        band3: '#d7d8d7',
+        band4: '#3f3f40',
+      },
     },
   },
   segacd: {
@@ -1253,14 +1459,28 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '512kB / VRAM',
       video: 'Custom ASIC',
       resolution: '320x224 pixels, 64 colors (512 colors palette)',
-      sound: 'Ricoh RF5C164 + Megadrive Sound chips',
+      soundChip: 'Ricoh RF5C164 + Megadrive Sound chips',
       media: '500MB CD-ROM discs',
     },
     colors: {
-      band1: '#4B95D1',
-      band2: '#2B83C5',
-      band3: '#B2AE85',
-      band4: '#212122',
+      eu: {
+        band1: '#DCE3E6',
+        band2: '#D5202C',
+        band3: '#C0C1C4',
+        band4: '#212122',
+      },
+      jp: {
+        band1: '#5A97D0',
+        band2: '#1D46A5',
+        band3: '#DEAD2C',
+        band4: '#732A46',
+      },
+      us: {
+        band1: '#4B95D1',
+        band2: '#2B83C5',
+        band3: '#B2AE85',
+        band4: '#212122',
+      },
     },
   },
   ps3: {
@@ -1277,23 +1497,27 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'Blu-Ray, DVD, Compact Disc, PlayStation 1 and 2 discs, Super Audio CD',
     },
     colors: {
-      band1: '#94B8F2',
-      band2: '#1A15FF',
-      band3: '#0095D5',
-      band4: '#3DD3C8',
+      eu: {
+        band1: '#94B8F2',
+        band2: '#1A15FF',
+        band3: '#0095D5',
+        band4: '#3DD3C8',
+      },
     },
   },
   scummvm: {
     system: {
       manufacturer: 'ScummVM Team',
-      originalAuthor: 'Ludvig Strigeus',
+      author: 'Ludvig Strigeus',
       yearOfRelease: '2001',
     },
     colors: {
-      band1: '#EFD052',
-      band2: '#C26317',
-      band3: '#F9EDCB',
-      band4: '#379742',
+      eu: {
+        band1: '#EFD052',
+        band2: '#C26317',
+        band3: '#F9EDCB',
+        band4: '#379742',
+      },
     },
   },
   atari800: {
@@ -1309,19 +1533,23 @@ export const systemsMetaData: SystemsMetaData = {
       display: '320x192 monochrome, 160x96 with 128 colors',
     },
     colors: {
-      band1: '#b6b896',
-      band2: '#ebd335',
-      band3: '#5d3615',
-      band4: '#bf9438',
+      eu: {
+        band1: '#b6b896',
+        band2: '#ebd335',
+        band3: '#5d3615',
+        band4: '#bf9438',
+      },
     },
   },
   easyrpg: {
     system: {},
     colors: {
-      band1: '#4D603D',
-      band2: '#5F7057',
-      band3: '#424241',
-      band4: '#838382',
+      eu: {
+        band1: '#4D603D',
+        band2: '#5F7057',
+        band3: '#424241',
+        band4: '#838382',
+      },
     },
   },
   gamecube: {
@@ -1338,10 +1566,12 @@ export const systemsMetaData: SystemsMetaData = {
       media: '1.5 GB miniDVD',
     },
     colors: {
-      band1: '#7b79aa',
-      band2: '#524c82',
-      band3: '#cbc9e0',
-      band4: '#1e1c1a',
+      eu: {
+        band1: '#7b79aa',
+        band2: '#524c82',
+        band3: '#cbc9e0',
+        band4: '#1e1c1a',
+      },
     },
   },
   pcenginecd: {
@@ -1351,15 +1581,23 @@ export const systemsMetaData: SystemsMetaData = {
       unitsSold: '10 million',
       cpu: 'HuC6280 8-bit 7,16 Mhz',
       ram: '8 Kbyte',
-      pictureProcessorUnit: '8-bit',
+      gpu: '8-bit',
       videoRam: '64 Kbyte',
       media: 'HU-Card, SHU-Card, CD-ROM, Super-CD-ROM',
     },
     colors: {
-      band1: '#F79226',
-      band2: '#d5e14d',
-      band3: '#604832',
-      band4: '#1e1c1a',
+      eu: {
+        band1: '#B2B2B2',
+        band2: '#FE0000',
+        band3: '#333333',
+        band4: '#D9D9D9',
+      },
+      us: {
+        band1: '#F79226',
+        band2: '#D5E14D',
+        band3: '#604832',
+        band4: '#1E1C1A',
+      },
     },
   },
   atarist: {
@@ -1375,19 +1613,23 @@ export const systemsMetaData: SystemsMetaData = {
       mediumResolutions: '640 x 200 (4 color), palette of 512 colors',
     },
     colors: {
-      band1: '#152D7D',
-      band2: '#357BB7',
-      band3: '#949494',
-      band4: '#ECECEC',
+      eu: {
+        band1: '#152D7D',
+        band2: '#357BB7',
+        band3: '#949494',
+        band4: '#ECECEC',
+      },
     },
   },
   model3: {
     system: {},
     colors: {
-      band1: '#16A252',
-      band2: '#EB1758',
-      band3: '#236EBC',
-      band4: '#F7ED18',
+      eu: {
+        band1: '#16A252',
+        band2: '#EB1758',
+        band3: '#236EBC',
+        band4: '#F7ED18',
+      },
     },
   },
   pcv2: {
@@ -1400,10 +1642,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '4 PCM channels, 32 samples 4Bit for each channel',
     },
     colors: {
-      band1: '#92AA6C',
-      band2: '#E7D7B8',
-      band3: '#487AB1',
-      band4: '#3B3D53',
+      eu: {
+        band1: '#92AA6C',
+        band2: '#E7D7B8',
+        band3: '#487AB1',
+        band4: '#3B3D53',
+      },
     },
   },
   satellaview: {
@@ -1415,15 +1659,17 @@ export const systemsMetaData: SystemsMetaData = {
       bsX: 'The Story of The Town Whose Name Was Stolen.',
     },
     colors: {
-      band1: '#37336C',
-      band2: '#CD2943',
-      band3: '#FFDF68',
-      band4: '#647A54',
+      eu: {
+        band1: '#37336C',
+        band2: '#CD2943',
+        band3: '#FFDF68',
+        band4: '#647A54',
+      },
     },
   },
   zx81: {
     system: {
-      developer: 'Sinclair Research',
+      developers: 'Sinclair Research',
       manufacturer: 'Timex Corporation',
       yearOfRelease: '1981',
       unitsSold: '1.5 million',
@@ -1434,10 +1680,12 @@ export const systemsMetaData: SystemsMetaData = {
       graphics: '24 lines x 32 characters or 64 x 48 pixels graphics mode',
     },
     colors: {
-      band1: '#EF5857',
-      band2: '#403E4B',
-      band3: '#D2CECD',
-      band4: '#191222',
+      eu: {
+        band1: '#EF5857',
+        band2: '#403E4B',
+        band3: '#D2CECD',
+        band4: '#191222',
+      },
     },
   },
   jaguar: {
@@ -1450,10 +1698,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: 'Max resolution 800x576 at 24 bit "true" color',
     },
     colors: {
-      band1: '#ff0000',
-      band2: '#fdc007',
-      band3: '#232326',
-      band4: '#0f0e0e',
+      eu: {
+        band1: '#ff0000',
+        band2: '#fdc007',
+        band3: '#232326',
+        band4: '#0f0e0e',
+      },
     },
   },
   x1: {
@@ -1469,10 +1719,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: '320 x 200 / 640 x 200 (8 colours)',
     },
     colors: {
-      band1: '#752421',
-      band2: '#4A90CB',
-      band3: '#C1C3D1',
-      band4: '#28333D',
+      eu: {
+        band1: '#752421',
+        band2: '#4A90CB',
+        band3: '#C1C3D1',
+        band4: '#28333D',
+      },
     },
   },
   gw: {
@@ -1483,10 +1735,12 @@ export const systemsMetaData: SystemsMetaData = {
       bestSellingGame: 'Donkey Kong',
     },
     colors: {
-      band1: '#C4353D',
-      band2: '#C2904A',
-      band3: '#853641',
-      band4: '#4C301C',
+      eu: {
+        band1: '#C4353D',
+        band2: '#C2904A',
+        band3: '#853641',
+        band4: '#4C301C',
+      },
     },
   },
   gbc: {
@@ -1503,10 +1757,12 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '256kB - 8MB',
     },
     colors: {
-      band1: '#F63B77',
-      band2: '#2D308E',
-      band3: '#00B3DE',
-      band4: '#7642B6',
+      eu: {
+        band1: '#F63B77',
+        band2: '#2D308E',
+        band3: '#00B3DE',
+        band4: '#7642B6',
+      },
     },
   },
   fds: {
@@ -1518,19 +1774,22 @@ export const systemsMetaData: SystemsMetaData = {
       cpu: 'Ricoh 2A03 8 Bit processor',
       ram: '32 Ko',
       diskSpace: '112 Ko',
-      audioVideoProcessor: 'Uses Famicom hardware',
+      gpu: 'Uses Famicom hardware',
+      soundChip: 'Uses Famicom hardware',
       ports: 'Uses Famicom hardware',
     },
     colors: {
-      band1: '#A71636',
-      band2: '#C7AF89',
-      band3: '#3C3C3B',
-      band4: '#F4B600',
+      eu: {
+        band1: '#A71636',
+        band2: '#C7AF89',
+        band3: '#3C3C3B',
+        band4: '#F4B600',
+      },
     },
   },
   uzebox: {
     system: {
-      developer: 'Belogic Software',
+      developers: 'Belogic Software',
       yearOfRelease: '2008',
       cpu: 'Amtel ATmega644 microcontroller @ 28.6 Mhz',
       ram: '4 K',
@@ -1541,19 +1800,23 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'SD Memory Card',
     },
     colors: {
-      band1: '#C43F32',
-      band2: '#EDC63D',
-      band3: '#C9C2BF',
-      band4: '#07336A',
+      eu: {
+        band1: '#C43F32',
+        band2: '#EDC63D',
+        band3: '#C9C2BF',
+        band4: '#07336A',
+      },
     },
   },
   imageviewer: {
     system: {},
     colors: {
-      band1: '#F2F2F2',
-      band2: '#D50F2A',
-      band3: '#A19795',
-      band4: '#4C504E',
+      eu: {
+        band1: '#F2F2F2',
+        band2: '#D50F2A',
+        band3: '#A19795',
+        band4: '#4C504E',
+      },
     },
   },
   pc88: {
@@ -1566,10 +1829,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '3 FM channels + 3 SSG + 6 rhythms + 1 ADPCM',
     },
     colors: {
-      band1: '#B6A781',
-      band2: '#342B22',
-      band3: '#938CAA',
-      band4: '#77B7C6',
+      eu: {
+        band1: '#B6A781',
+        band2: '#342B22',
+        band3: '#938CAA',
+        band4: '#77B7C6',
+      },
     },
   },
   nes: {
@@ -1586,15 +1851,23 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '8kB - 1MB',
     },
     colors: {
-      band1: '#EA2C27',
-      band2: '#E6E7E8',
-      band3: '#C0A987',
-      band4: '#AA1C41',
+      eu: {
+        band1: '#C23435',
+        band2: '#E0E0E1',
+        band3: '#1A1919',
+        band4: '#818080',
+      },
+      jp: {
+        band1: '#EA2C27',
+        band2: '#E6E7E8',
+        band3: '#C0A987',
+        band4: '#AA1C41',
+      },
     },
   },
   arduboy: {
     system: {
-      developer: 'Kevin Bates',
+      developers: 'Kevin Bates',
       yearOfRelease: '2015',
       cpu: '8-bit ATMega32u4 @ 16 MHz',
       ram: '2.5KB linear RAM',
@@ -1603,10 +1876,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: 'Stereo Piezo Speakers',
     },
     colors: {
-      band1: '#c6a237',
-      band2: '#252525',
-      band3: '#b94444',
-      band4: '#ffffff',
+      eu: {
+        band1: '#c6a237',
+        band2: '#252525',
+        band3: '#b94444',
+        band4: '#ffffff',
+      },
     },
   },
   pcengine: {
@@ -1616,15 +1891,23 @@ export const systemsMetaData: SystemsMetaData = {
       unitsSold: '10 million',
       cpu: 'HuC6280 8-bit 7,16 Mhz',
       ram: '8 Kbyte',
-      pictureProcessorUnit: '8-bit',
+      gpu: '8-bit',
       videoRam: '64 Kbyte',
       media: 'HU-Card, SHU-Card, CD-ROM, Super-CD-ROM',
     },
     colors: {
-      band1: '#F79226',
-      band2: '#ECF332',
-      band3: '#FD5A17',
-      band4: '#D5E14D',
+      eu: {
+        band1: '#B2B2B2',
+        band2: '#FE0000',
+        band3: '#333333',
+        band4: '#D9D9D9',
+      },
+      us: {
+        band1: '#F79226',
+        band2: '#ECF332',
+        band3: '#FD5A17',
+        band4: '#D5E14D',
+      },
     },
   },
   psx: {
@@ -1635,16 +1918,17 @@ export const systemsMetaData: SystemsMetaData = {
       bestSellingGame: 'Gran Turismo',
       cpu: '32-bit R3000A RISC running at 33.8688 Mhz',
       ram: '16 Mbits',
-      pictureProcessorUnit: '32-bit',
       videoRam: '8 Mbits',
       audioRam: '4 Mbits',
-      gpu: 'GFX processor unit',
+      gpu: 'GFX processor unit, 32bit',
     },
     colors: {
-      band1: '#DC0029',
-      band2: '#F1C002',
-      band3: '#00A79B',
-      band4: '#326BB1',
+      eu: {
+        band1: '#DC0029',
+        band2: '#F1C002',
+        band3: '#00A79B',
+        band4: '#326BB1',
+      },
     },
   },
   amigacd32: {
@@ -1660,10 +1944,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x200 to 1280x400i (NTSC), 320x256 to 1280x512i (PAL)',
     },
     colors: {
-      band1: '#FF5853',
-      band2: '#47DEBA',
-      band3: '#FFDF46',
-      band4: '#4A9BE4',
+      eu: {
+        band1: '#FF5853',
+        band2: '#47DEBA',
+        band3: '#FFDF46',
+        band4: '#4A9BE4',
+      },
     },
   },
   multivision: {
@@ -1677,10 +1963,12 @@ export const systemsMetaData: SystemsMetaData = {
       soundChip: 'Texas Instruments SN76489 PSG',
     },
     colors: {
-      band1: '#efebe1',
-      band2: '#571229',
-      band3: '#183b67',
-      band4: '#e8e342',
+      eu: {
+        band1: '#efebe1',
+        band2: '#571229',
+        band3: '#183b67',
+        band4: '#e8e342',
+      },
     },
   },
   thomson: {
@@ -1695,22 +1983,26 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'Cartridge, external 3½ floppy disk and tape drives',
     },
     colors: {
-      band1: '#E6F0EF',
-      band2: '#F0C73B',
-      band3: '#4F8E5C',
-      band4: '#2C2D2C',
+      eu: {
+        band1: '#E6F0EF',
+        band2: '#F0C73B',
+        band3: '#4F8E5C',
+        band4: '#2C2D2C',
+      },
     },
   },
   doom: {
     system: {
-      developer: 'id Software',
+      developers: 'id Software',
       yearOfRelease: '1993',
     },
     colors: {
-      band1: '#33709F',
-      band2: '#DFDED1',
-      band3: '#D37112',
-      band4: '#A63417',
+      eu: {
+        band1: '#33709F',
+        band2: '#DFDED1',
+        band3: '#D37112',
+        band4: '#A63417',
+      },
     },
   },
   lynx: {
@@ -1719,17 +2011,19 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '1989',
       unitsSold: '1 million',
       cpu: '8-bit with 16-bit address space',
-      coProcessors: 'Mikey and Suzy 2 x 16-bit',
+      cpu2: 'Mikey and Suzy 2 x 16-bit',
       ram: '64K 120 ns DRAM',
       rom: '512 bytes',
       resolution: '160 x 102 pixels',
       sound: '4 channels, 8-bit DAC',
     },
     colors: {
-      band1: '#FD6420',
-      band2: '#404040',
-      band3: '#F38900',
-      band4: '#262626',
+      eu: {
+        band1: '#FD6420',
+        band2: '#404040',
+        band3: '#F38900',
+        band4: '#262626',
+      },
     },
   },
   sufami: {
@@ -1739,15 +2033,17 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'SuFami Turbo Application Cartridge +  Game Cartridges',
     },
     colors: {
-      band1: '#FF0000',
-      band2: '#EDDFDE',
-      band3: '#A0C0CF',
-      band4: '#1E2881',
+      eu: {
+        band1: '#FF0000',
+        band2: '#EDDFDE',
+        band3: '#A0C0CF',
+        band4: '#1E2881',
+      },
     },
   },
   wii: {
     system: {
-      developer: 'Nintendo',
+      developers: 'Nintendo',
       manufacturer: 'Foxconn',
       yearOfRelease: '2006',
       unitsSold: '101.63 million',
@@ -1760,24 +2056,28 @@ export const systemsMetaData: SystemsMetaData = {
       media: '4.7/8.54 GB DVD',
     },
     colors: {
-      band1: '#24A9E2',
-      band2: '#D1D1D1',
-      band3: '#005C9A',
-      band4: '#1E1C1A',
+      eu: {
+        band1: '#24A9E2',
+        band2: '#D1D1D1',
+        band3: '#005C9A',
+        band4: '#1E1C1A',
+      },
     },
   },
   ports: {
     system: {},
     colors: {
-      band1: '#FF69B4',
-      band2: '#36D7B7',
-      band3: '#4B77BE',
-      band4: '#BE90D4',
+      eu: {
+        band1: '#FF69B4',
+        band2: '#36D7B7',
+        band3: '#4B77BE',
+        band4: '#BE90D4',
+      },
     },
   },
   oricatmos: {
     system: {
-      developer: 'Tangerine Computer Systems',
+      developers: 'Tangerine Computer Systems',
       manufacturer: 'Tangerine Computer Systems',
       os: 'Tangerine/Microsoft Extended Basic v1.0',
       yearOfRelease: '1982',
@@ -1788,10 +2088,12 @@ export const systemsMetaData: SystemsMetaData = {
       graphics: '40x28 text characters/ 240x200 pixels, 8 colours',
     },
     colors: {
-      band1: '#BFB8A8',
-      band2: '#207EA4',
-      band3: '#77776D',
-      band4: '#9E9C8F',
+      eu: {
+        band1: '#BFB8A8',
+        band2: '#207EA4',
+        band3: '#77776D',
+        band4: '#9E9C8F',
+      },
     },
   },
   msx1: {
@@ -1807,10 +2109,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '256x192 (16 colours)',
     },
     colors: {
-      band1: '#9d9b91',
-      band2: '#89283b',
-      band3: '#3c5e43',
-      band4: '#2761a2',
+      eu: {
+        band1: '#9d9b91',
+        band2: '#89283b',
+        band3: '#3c5e43',
+        band4: '#2761a2',
+      },
     },
   },
   ps2: {
@@ -1827,15 +2131,17 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'DVD, CD',
     },
     colors: {
-      band1: '#33438A',
-      band2: '#0098DF',
-      band3: '#40A9A8',
-      band4: '#849DCA',
+      eu: {
+        band1: '#33438A',
+        band2: '#0098DF',
+        band3: '#40A9A8',
+        band4: '#849DCA',
+      },
     },
   },
   samcoupe: {
     system: {
-      developer: 'Miles Gordon Technology',
+      developers: 'Miles Gordon Technology',
       manufacturer: 'Miles Gordon Technology',
       os: 'SAM BASIC',
       yearOfRelease: '1989',
@@ -1846,10 +2152,12 @@ export const systemsMetaData: SystemsMetaData = {
       graphics: '4 Modes (256x192 / 512x192) and 128 colour palette',
     },
     colors: {
-      band1: '#2A46A5',
-      band2: '#C60000',
-      band3: '#D3D8D3',
-      band4: '#96958C',
+      eu: {
+        band1: '#2A46A5',
+        band2: '#C60000',
+        band3: '#D3D8D3',
+        band4: '#96958C',
+      },
     },
   },
   c64: {
@@ -1865,24 +2173,28 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x200 (16 colours)',
     },
     colors: {
-      band1: '#BBAD93',
-      band2: '#968971',
-      band3: '#FD4120',
-      band4: '#00A0C6',
+      eu: {
+        band1: '#BBAD93',
+        band2: '#968971',
+        band3: '#FD4120',
+        band4: '#00A0C6',
+      },
     },
   },
   openbor: {
     system: {
       developers: 'Senile Team, OpenBOR Team and the Community',
-      initialRelease: '2004',
+      yearOfRelease: '2004',
       website: 'http',
       writtenIn: 'C, C++',
     },
     colors: {
-      band1: '#E17930',
-      band2: '#407AC0',
-      band3: '#EBE470',
-      band4: '#404040',
+      eu: {
+        band1: '#E17930',
+        band2: '#407AC0',
+        band3: '#EBE470',
+        band4: '#404040',
+      },
     },
   },
   pcfx: {
@@ -1898,10 +2210,12 @@ export const systemsMetaData: SystemsMetaData = {
       media: 'CD-ROM',
     },
     colors: {
-      band1: '#FEC101',
-      band2: '#01015B',
-      band3: '#5C3073',
-      band4: '#F00020',
+      eu: {
+        band1: '#FEC101',
+        band2: '#01015B',
+        band3: '#5C3073',
+        band4: '#F00020',
+      },
     },
   },
   supergrafx: {
@@ -1912,15 +2226,17 @@ export const systemsMetaData: SystemsMetaData = {
       bestSellingGame: "Ghouls 'n Ghosts",
       cpu: 'HuC6280 8-bit 7,16 Mhz',
       ram: '8 Kbyte',
-      pictureProcessorUnit: '16-bit',
+      gpu: '16-bit',
       videoRam: '64 Kbyte',
       media: 'HU-Card, SHU-Card, CD-ROM, Super-CD-ROM',
     },
     colors: {
-      band1: '#b2b2b2',
-      band2: '#0091ad',
-      band3: '#000000',
-      band4: '#D9D9D9',
+      eu: {
+        band1: '#b2b2b2',
+        band2: '#0091ad',
+        band3: '#000000',
+        band4: '#D9D9D9',
+      },
     },
   },
   neogeo: {
@@ -1937,25 +2253,29 @@ export const systemsMetaData: SystemsMetaData = {
       soundChip: 'Yamaha YM2610',
     },
     colors: {
-      band1: '#BF9328',
-      band2: '#494949',
-      band3: '#2D2D2D',
-      band4: '#E8E2E9',
+      eu: {
+        band1: '#BF9328',
+        band2: '#494949',
+        band3: '#2D2D2D',
+        band4: '#E8E2E9',
+      },
     },
   },
   daphne: {
     system: {
       developers: 'Matt Ownby (Daphne) and Jeffrey Clark (Hypseus)',
-      initialRelease: '1999',
+      yearOfRelease: '1999',
       website: 'http',
       writtenIn: 'C++',
       bestLaserdiscGamesAre: "Dragon's Lair, Space Ace, ...",
     },
     colors: {
-      band1: '#DEBA27',
-      band2: '#856125',
-      band3: '#DC110B',
-      band4: '#D8D3BD',
+      eu: {
+        band1: '#DEBA27',
+        band2: '#856125',
+        band3: '#DC110B',
+        band4: '#D8D3BD',
+      },
     },
   },
   psp: {
@@ -1972,10 +2292,12 @@ export const systemsMetaData: SystemsMetaData = {
       weight: '260 g',
     },
     colors: {
-      band1: '#313131',
-      band2: '#0F1012',
-      band3: '#97A9BA',
-      band4: '#F9F7F7',
+      eu: {
+        band1: '#313131',
+        band2: '#0F1012',
+        band3: '#97A9BA',
+        band4: '#F9F7F7',
+      },
     },
   },
   msx2: {
@@ -1991,10 +2313,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '256x212 (19268 simultaneous colors)',
     },
     colors: {
-      band1: '#d6d4d4',
-      band2: '#b7b7b7',
-      band3: '#7c3036',
-      band4: '#e3cf94',
+      eu: {
+        band1: '#d6d4d4',
+        band2: '#b7b7b7',
+        band3: '#7c3036',
+        band4: '#e3cf94',
+      },
     },
   },
   ti994a: {
@@ -2008,10 +2332,12 @@ export const systemsMetaData: SystemsMetaData = {
       sound: '3 voices on 5 octaves and noise channel',
     },
     colors: {
-      band1: '#ffffff',
-      band2: '#333333',
-      band3: '#aa0404',
-      band4: '#1a1a1a',
+      eu: {
+        band1: '#ffffff',
+        band2: '#333333',
+        band3: '#aa0404',
+        band4: '#1a1a1a',
+      },
     },
   },
   intellivision: {
@@ -2022,14 +2348,16 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '1kB',
       video: 'General Instrument AY-3-8900-1',
       resolution: '159x96, 16 colors',
-      sound: 'General Instrument AY-3-8914',
+      soundChip: 'General Instrument AY-3-8914',
       cartSize: '8kB - 32kB',
     },
     colors: {
-      band1: '#d4c1a0',
-      band2: '#2b201d',
-      band3: '#c81a7c',
-      band4: '#c8d463',
+      eu: {
+        band1: '#d4c1a0',
+        band2: '#2b201d',
+        band3: '#c81a7c',
+        band4: '#c8d463',
+      },
     },
   },
   neogeocd: {
@@ -2045,10 +2373,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: '304x224 resolution, 4096 colors out of 65536',
     },
     colors: {
-      band1: '#74756E',
-      band2: '#FFD400',
-      band3: '#0088CD',
-      band4: '#24241E',
+      eu: {
+        band1: '#74756E',
+        band2: '#FFD400',
+        band3: '#0088CD',
+        band4: '#24241E',
+      },
     },
   },
   ngpc: {
@@ -2056,17 +2386,19 @@ export const systemsMetaData: SystemsMetaData = {
       manufacturer: 'SNK',
       yearOfRelease: '1999',
       unitsSold: '2 million, including no color version',
-      cpus: 'Toshiba TLCS900H @ 6.144 MHz, Z80 @ 3.072 MHz',
+      cpu: 'Toshiba TLCS900H @ 6.144 MHz, Z80 @ 3.072 MHz',
       ram: '64 Kbytes',
-      pictureProcessorUnit: '16-bit',
+      gpu: '16-bit',
       resolution: '160x152 146 colors (256x256 virtual screen)',
       media: 'ROM cartridge 4 MB max',
     },
     colors: {
-      band1: '#E92A30',
-      band2: '#18A94E',
-      band3: '#1D9ED8',
-      band4: '#25374A',
+      eu: {
+        band1: '#E92A30',
+        band2: '#18A94E',
+        band3: '#1D9ED8',
+        band4: '#25374A',
+      },
     },
   },
   sega32x: {
@@ -2078,14 +2410,28 @@ export const systemsMetaData: SystemsMetaData = {
       ram: '256kB / VRAM',
       video: '32X VDP',
       resolution: '320 x 224 pixels, 32768 colors',
-      sound: 'Q-Sound 10bit Stereo PCM chip + Megadrive Sound chips',
+      soundChip: 'Q-Sound 10bit Stereo PCM chip + Megadrive Sound chips',
       cartSize: '2MB - 4MB',
     },
     colors: {
-      band1: '#DCE3E6',
-      band2: '#D5202C',
-      band3: '#C0C1C4',
-      band4: '#212122',
+      eu: {
+        band1: '#DCE3E6',
+        band2: '#D5202C',
+        band3: '#C0C1C4',
+        band4: '#212122',
+      },
+      jp: {
+        band1: '#6177B3',
+        band2: '#1D46A5',
+        band3: '#F2BA5C',
+        band4: '#FBE627',
+      },
+      us: {
+        band1: '#0084E2',
+        band2: '#ED0A0A',
+        band3: '#FFE607',
+        band4: '#212122',
+      },
     },
   },
   palm: {
@@ -2099,10 +2445,12 @@ export const systemsMetaData: SystemsMetaData = {
       display: '160x160 pixel (65,000+ colors)',
     },
     colors: {
-      band1: '#B2AFAC',
-      band2: '#242443',
-      band3: '#345A89',
-      band4: '#363636',
+      eu: {
+        band1: '#B2AFAC',
+        band2: '#242443',
+        band3: '#345A89',
+        band4: '#363636',
+      },
     },
   },
   gx4000: {
@@ -2117,10 +2465,12 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '160x200 to 640x200, 16 sprites, 4096 colour palette - 32 onscreen',
     },
     colors: {
-      band1: '#E5B3B2',
-      band2: '#9E4968',
-      band3: '#DBD9D4',
-      band4: '#C02520',
+      eu: {
+        band1: '#E5B3B2',
+        band2: '#9E4968',
+        band3: '#DBD9D4',
+        band4: '#C02520',
+      },
     },
   },
   creativision: {
@@ -2137,10 +2487,12 @@ export const systemsMetaData: SystemsMetaData = {
       cartSize: '4kB - 18kB',
     },
     colors: {
-      band1: '#EFCB99',
-      band2: '#9D5032',
-      band3: '#73533E',
-      band4: '#1F1F23',
+      eu: {
+        band1: '#EFCB99',
+        band2: '#9D5032',
+        band3: '#73533E',
+        band4: '#1F1F23',
+      },
     },
   },
   naomi2: {
@@ -2149,15 +2501,17 @@ export const systemsMetaData: SystemsMetaData = {
       yearOfRelease: '2000',
       cpu: 'Hitachi SH-4 32-bit RISC CPU (@ 200 MHz 360 MIPS / 1.4 GFLOPS)',
       gpu: 'NEC-Videologic PowerVR2 (CLX2)',
-      sound: 'ARM7 Yamaha AICA 45 MHz (with internal 32-bit RISC CPU, 64 channels ADPCM)',
+      soundChip: 'ARM7 Yamaha AICA 45 MHz (with internal 32-bit RISC CPU, 64 channels ADPCM)',
       ram: '56 MB',
       media: 'ROM Board (max. size of 168 MB)',
     },
     colors: {
-      band1: '#F36418',
-      band2: '#070308',
-      band3: '#4F556B',
-      band4: '#0057F0',
+      eu: {
+        band1: '#F36418',
+        band2: '#070308',
+        band3: '#4F556B',
+        band4: '#0057F0',
+      },
     },
   },
   pico: {
@@ -2168,802 +2522,980 @@ export const systemsMetaData: SystemsMetaData = {
       resolution: '320x224 pixels NTSC, 320x240 PAL',
     },
     colors: {
-      band1: '#6C378B',
-      band2: '#25BCC1',
-      band3: '#FAC367',
-      band4: '#DB324C',
+      eu: {
+        band1: '#6C378B',
+        band2: '#25BCC1',
+        band3: '#FAC367',
+        band4: '#DB324C',
+      },
     },
   },
   'arcade-manufacturer-acclaim': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-atari': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-atlus': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-banpresto': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-capcom': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-capcom-cps1': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-capcom-cps2': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-capcom-cps3': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-cave': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-dataeast': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-exidy': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-igs': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-irem': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-itech': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-jaleco': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-kaneko': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-konami': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-midway': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-mitchell': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-namco': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-nichibutsu': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-nintendo': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-nmk': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-sammy': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-sega': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-seibu': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-seta': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-snk': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-taito': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-technos': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-temco': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-toaplan': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'arcade-manufacturer-visco': {
     system: {},
     colors: {
-      band1: '#B7151D',
-      band2: '#00BAFF',
-      band3: '#FF8200',
-      band4: '#FFDBA1',
+      eu: {
+        band1: '#B7151D',
+        band2: '#00BAFF',
+        band3: '#FF8200',
+        band4: '#FFDBA1',
+      },
     },
   },
   'genre-action': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionbattleroyale': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionbeatemup': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionfighting': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionfirstpersonshooter': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionplatformer': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionplatformshooter': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionrythm': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionshootemup': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionshootwithgun': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-actionstealth': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventure': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventuregraphics': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventureinteractivemovie': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventurerealtime3d': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventuresurvivalhorror': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventuretext': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-adventurevisualnovels': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-board': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-casino': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-casual': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-compilation': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-demoscene': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-digitalcard': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-educative': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-party': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-pinball': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-puzzleandlogic': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpg': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgaction': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgdungeoncrawler': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgfirstpersonpartybased': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgjapanese': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgmmo': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-rpgtactical': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulation': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulationbuildandmanagement': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulationfishandhunt': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulationlife': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulationscifi': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-simulationvehicle': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-sportcompetitive': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-sportfight': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-sportracing': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-sports': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-sportsimulation': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategy': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategy4x': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategyartillery': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategyautobattler': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategymoba': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategyrts': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategytbs': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategytowerdefense': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
   'genre-strategywargame': {
     system: {},
     colors: {
-      band1: '#C1B544',
-      band2: '#AE976E',
-      band3: '#479236',
-      band4: '#174085',
+      eu: {
+        band1: '#C1B544',
+        band2: '#AE976E',
+        band3: '#479236',
+        band4: '#174085',
+      },
     },
   },
 };

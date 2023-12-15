@@ -23,7 +23,7 @@ const classes = computed(() => `overlayMessage${background.value ? ' background'
 
 <style lang="sass">
 .background
-  background: #F4F5F7BA
+  background: rgba($rc-light-grey, .8)
 
 .overlayMessage
   position: absolute

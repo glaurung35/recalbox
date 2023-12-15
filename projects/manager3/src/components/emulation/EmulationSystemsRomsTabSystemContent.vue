@@ -131,12 +131,15 @@ import { computed, ref } from 'vue';
 import { useRouter, useRoute } from 'vue-router';
 import { apiUrl } from 'boot/axios';
 import { storeToRefs } from 'pinia';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 
 const systemsStore = useSystemsStore();
 const { systems } = systemsStore;
 const router = useRouter();
 const { system } = useRoute().params;
-let logoUrl = null;
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+let logoUrl: any = null;
 
 if (systems.systems.length === 0) {
   systemsStore.fetch();
@@ -145,7 +148,7 @@ if (systems.systems.length === 0) {
 if (systems.systems.length > 0) {
   logoUrl = computed(() => {
     const filteredSystems = systems.systems.filter((s) => s.name === useRoute().params.system);
-    return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/eu/svg/logo`;
+    return `${apiUrl}/systems/${filteredSystems[0].themeFolder}/resource/${useEmulationstationStore().themeRegion}/svg/logo`;
   });
 }
 

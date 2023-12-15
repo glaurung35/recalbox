@@ -133,6 +133,11 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! MQTT Topic - complete event w/ data in JSON form
     static constexpr const char* sEventJsonTopic = "Recalbox/EmulationStation/EventJson";
 
+    //! Virtual devices - events
+    static constexpr const char* sKeyboardEventTopic = "Recalbox/VirtualDevices/Keyboard";
+    static constexpr const char* sGamePadEventTopic = "Recalbox/VirtualDevices/GamePad";
+    static constexpr const char* sTouchPadEventTopic = "Recalbox/VirtualDevices/TouchPad";
+
     // MQTT client
     MqttClient mMQTTClient;
 

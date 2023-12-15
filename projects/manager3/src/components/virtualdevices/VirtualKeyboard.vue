@@ -31,6 +31,7 @@
 </template>
 
 <script lang="ts">
+import client from 'boot/mqtt';
 import Keyboard from 'simple-keyboard';
 import 'simple-keyboard/build/css/index.css';
 
@@ -268,7 +269,7 @@ export default {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.$emit('onKeyPress', button);
-
+      client.publish(String(process.env.MQTT_VD_EVENTS_KEYBOARD_CHANNEL), `${button}, 1`);
       /**
        * If you want to handle the shift and caps lock buttons
        */
@@ -283,7 +284,7 @@ export default {
       // eslint-disable-next-line @typescript-eslint/ban-ts-comment
       // @ts-ignore
       this.$emit('onKeyReleased', button);
-
+      client.publish(String(process.env.MQTT_VD_EVENTS_KEYBOARD_CHANNEL), `${button}, 0`);
       /**
        * If you want to handle the shift and caps lock buttons
        */

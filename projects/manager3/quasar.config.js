@@ -85,6 +85,9 @@ module.exports = configure((ctx) => ({
         MQTT_URL: `mqtt://${process.env.API_IP}:18833`,
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
         MQTT_ES_EVENTS_CHANNEL: 'Recalbox/EmulationStation/EventJson',
+        MQTT_VD_EVENTS_KEYBOARD_CHANNEL: 'Recalbox/VirtualDevices/Keyboard',
+        MQTT_VD_EVENTS_GAMEPAD_CHANNEL: 'Recalbox/VirtualDevices/GamePad',
+        MQTT_VD_EVENTS_TOUCHPAD_CHANNEL: 'Recalbox/VirtualDevices/TouchPad',
       }
       : { // and on build (production):
         API_URL: '/api',

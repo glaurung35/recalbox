@@ -51,8 +51,8 @@
       "updateError": "Erreur lors de la modification : ",
       "ERR_NETWORK": "Problème de connexion réseau",
       "esStart": "Démarrage EmulationStation",
-      "esStop": "Arrêt EmulationStation",
-      "esRestart": "Redémarrage EmulationStation",
+      "esShutdown": "Arrêt EmulationStation",
+      "esReboot": "Redémarrage EmulationStation",
       "support": {
         "label": "Votre archive de support est disponible",
         "archiveDownload": "Télécharger"

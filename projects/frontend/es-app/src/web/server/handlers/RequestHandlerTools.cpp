@@ -402,7 +402,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "clock"                       , Validator(true) },
          { "favoritesonly"               , Validator(true) },
          { "screensaver.time"            , Validator(0, 30) },
-         { "screensaver.type"            , Validator(false, { "dim", "black", "demo", "gameclip" }) },
+         { "screensaver.type"            , Validator(GetAvailableScreensavers(), false) },
          { "showgameclipclippingitem"    , Validator(true) },
          { "showgamecliphelpitems"       , Validator(true) },
          { "theme.folder"                , Validator(GetAvailableThemes(), false) },
@@ -1432,6 +1432,21 @@ HashMap<String, String> RequestHandlerTools::GetAvailableRegionFilter()
   });
 
   return sRegions;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableScreensavers()
+{
+  static HashMap<String, String> sScreensavers({
+    { "dim"     , "DIM" },
+    { "black"   , "BLACK" },
+    { "demo"    , "DEMO" },
+    { "gameclip", "GAMECLIP" },
+  });
+
+  if (Board::Instance().HasSuspendResume())
+    sScreensavers.insert_unique({"suspend", "SUSPEND"});
+
+  return sScreensavers;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableKeyboardLayout()

@@ -4,7 +4,11 @@
 import { boot } from 'quasar/wrappers';
 import axios, { AxiosInstance } from 'axios';
 import { Loading, Notify } from 'quasar';
-import { BIOS, MEDIA, SYSTEM } from 'src/router/api.routes';
+import {
+  BIOS,
+  MEDIA,
+  SYSTEM,
+} from 'src/router/api.routes';
 import { i18n } from 'boot/i18n';
 
 declare module '@vue/runtime-core' {
@@ -56,9 +60,32 @@ api.interceptors.request.use((config) => {
     Loading.show({
       message: i18n.global.t('emulation.bios.loader'),
     });
+  } else if (
+    config.url?.includes('/region')
+    || config.url?.includes('/metadata/info')
+  ) {
+    // allow disabling loader on requesting home region and metadata
   } else {
     Loading.show();
   }
+
+  return config;
+}, (error) => {
+  // Do something with request error
+  Notify.create({
+    message: error,
+    type: 'negative',
+    icon: 'mdi-alert-outline',
+  });
+
+  Loading.hide();
+  return Promise.reject(error);
+});
+
+api80.interceptors.request.use((config) => {
+  // change some state in your store here
+  // Do something before request is sent
+  Loading.show();
 
   return config;
 }, (error) => {
@@ -114,24 +141,6 @@ api.interceptors.response.use((response) => {
   return Promise.reject(error);
 });
 
-api80.interceptors.request.use((config) => {
-  // change some state in your store here
-  // Do something before request is sent
-  Loading.show();
-
-  return config;
-}, (error) => {
-  // Do something with request error
-  Notify.create({
-    message: error,
-    type: 'negative',
-    icon: 'mdi-alert-outline',
-  });
-
-  Loading.hide();
-  return Promise.reject(error);
-});
-
 // Add Notify Toasters on current axios requests
 api80.interceptors.response.use((response) => {
   let message = i18n.global.t('general.notify.updateSuccess');
@@ -148,11 +157,11 @@ api80.interceptors.response.use((response) => {
     icon = 'mdi-play';
   }
   if (response.config.url === SYSTEM.es.stop) {
-    message = i18n.global.t('general.notify.esStop');
+    message = i18n.global.t('general.notify.esShutdown');
     icon = 'mdi-stop';
   }
   if (response.config.url === SYSTEM.es.restart) {
-    message = i18n.global.t('general.notify.esRestart');
+    message = i18n.global.t('general.notify.esReboot');
     icon = 'mdi-restart';
   }
   if (response.config.url === SYSTEM.supportArchive) {

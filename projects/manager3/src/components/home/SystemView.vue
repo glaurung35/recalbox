@@ -13,7 +13,7 @@
       {{ $t('home.system.title') }}
     </div>
     <div class="controls">
-      <q-btn flat rounded square icon="mdi-restart" text-color="warning" @click="serverStore.esRestart()">
+      <q-btn flat rounded square icon="mdi-restart" text-color="warning" @click="serverStore.esReboot()">
         <q-tooltip
           class="bg-primary"
           :offset="[10, 10]"
@@ -23,31 +23,31 @@
           {{ $t('home.system.es.restart') }}
         </q-tooltip>
       </q-btn>
-      <q-btn
-        flat
-        rounded
-        square
-        icon="mdi-play"
-        :text-color="!serverStore.available ? 'positive' : 'secondary'"
-        @click="serverStore.esStart()"
-        :disable="serverStore.available"
-      >
-        <q-tooltip
-          class="bg-primary"
-          :offset="[10, 10]"
-          content-class="bg-primary"
-          content-style="font-size: 16px"
-        >
-          {{ $t('home.system.es.start') }}
-        </q-tooltip>
-      </q-btn>
+<!--      <q-btn-->
+<!--        flat-->
+<!--        rounded-->
+<!--        square-->
+<!--        icon="mdi-play"-->
+<!--        :text-color="!serverStore.available ? 'positive' : 'secondary'"-->
+<!--        @click="serverStore.esStart()"-->
+<!--        :disable="serverStore.available"-->
+<!--      >-->
+<!--        <q-tooltip-->
+<!--          class="bg-primary"-->
+<!--          :offset="[10, 10]"-->
+<!--          content-class="bg-primary"-->
+<!--          content-style="font-size: 16px"-->
+<!--        >-->
+<!--          {{ $t('home.system.es.start') }}-->
+<!--        </q-tooltip>-->
+<!--      </q-btn>-->
       <q-btn
         flat
         rounded
         square
         icon="mdi-stop"
         :text-color="serverStore.available ? 'negative' : 'secondary'"
-        @click="serverStore.esStop()"
+        @click="serverStore.esShutdown()"
         :disable="!serverStore.available"
       >
         <q-tooltip
@@ -64,7 +64,7 @@
   <div class="informations">
     <AnimatedLines
       v-if="currentState.currentSystem"
-      :colors="currentState.currentSystem.metaData.colors"
+      :colors="currentState.currentSystem.metaData.colors[themeRegion] ?? currentState.currentSystem.metaData.colors.eu"
     />
     <OverlayMessage
       background
@@ -201,7 +201,7 @@ const router = useRouter();
 const serverStore = useServerStore();
 const emulationStationStore = useEmulationstationStore();
 
-const { currentState } = storeToRefs(emulationStationStore);
+const { currentState, themeRegion } = storeToRefs(emulationStationStore);
 serverStore.available = true;
 function redirect() {
   if (currentState.value.currentSystem?.systemId === 'imageviewer') {
@@ -214,7 +214,6 @@ function redirect() {
     );
   }
 }
-
 </script>
 
 <style lang="sass" scoped>

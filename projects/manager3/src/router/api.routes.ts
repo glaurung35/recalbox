@@ -80,6 +80,16 @@ export const SYSTEMS = {
   romsMetaData: '/systems/{systemName}/roms/metadata/info/{romPath}',
 };
 
+export const THEMES = {
+  colorset: '/themes/{themeNameFolder}/colorset',
+  gameclipview: '/themes/{themeNameFolder}/gameclipview',
+  gamelistview: '/themes/{themeNameFolder}/gamelistview',
+  iconset: '/themes/{themeNameFolder}/iconset',
+  menuset: '/themes/{themeNameFolder}/menuset',
+  region: '/themes/{themeNameFolder}/region',
+  systemview: '/themes/{themeNameFolder}/systemview',
+};
+
 export const TWITCH = {
   auth: 'https://id.twitch.tv/oauth2/token',
   schedule: 'https://api.twitch.tv/helix/schedule',

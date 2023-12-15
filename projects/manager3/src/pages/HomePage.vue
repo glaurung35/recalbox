@@ -206,6 +206,8 @@ const percents = computed<object[]>(() => [
 @media(max-width: 950px)
   .home
     .emustation
+      height: 100vh
+
       .system,
       .game
         flex-basis: 100%

@@ -70,7 +70,7 @@
               <q-card-section>
                 <div class="background"></div>
                 <q-img
-                  :src="api + '/systems/' + props.row.themeFolder + '/resource/eu/svg/logo'"
+                  :src="api + '/systems/' + props.row.themeFolder + '/resource/' + useEmulationstationStore().themeRegion + '/svg/logo'"
                   spinner-color="$light-blue"
                   :ratio="16/9"
                   fit="contain"
@@ -102,6 +102,7 @@ import { System } from 'stores/types/systems';
 import { computed, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { apiUrl } from 'boot/axios';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 
 const systemsStore = useSystemsStore();
 const { filteredSystemsList } = storeToRefs(systemsStore);
@@ -175,7 +176,7 @@ const SystemsList = computed(() => {
           .background
             top: 0
             height: 0
-            background: #34495e6b
+            background: rgba($primary, .4)
 
           .fullname
             top: -100%

@@ -22,24 +22,24 @@
           {{ $t('home.game.metaData.iconLabel') }}
         </q-tooltip>
       </q-btn>
-      <q-btn
-        v-if="currentState.currentRom"
-        flat
-        rounded
-        square
-        icon="mdi-stop"
-        text-color="negative"
-        disable
-      >
-        <q-tooltip
-          class="bg-primary"
-          :offset="[10, 10]"
-          content-class="bg-primary"
-          content-style="font-size: 16px"
-        >
-          {{ $t('home.game.stop') }}
-        </q-tooltip>
-      </q-btn>
+<!--      <q-btn-->
+<!--        v-if="currentState.currentRom"-->
+<!--        flat-->
+<!--        rounded-->
+<!--        square-->
+<!--        icon="mdi-stop"-->
+<!--        text-color="negative"-->
+<!--        disable-->
+<!--      >-->
+<!--        <q-tooltip-->
+<!--          class="bg-primary"-->
+<!--          :offset="[10, 10]"-->
+<!--          content-class="bg-primary"-->
+<!--          content-style="font-size: 16px"-->
+<!--        >-->
+<!--          {{ $t('home.game.stop') }}-->
+<!--        </q-tooltip>-->
+<!--      </q-btn>-->
     </div>
   </div>
   <div class="informations">

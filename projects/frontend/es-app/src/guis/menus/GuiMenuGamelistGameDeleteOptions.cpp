@@ -4,6 +4,7 @@
 #include <views/ViewController.h>
 #include "components/ButtonComponent.h"
 #include "GuiMenuGamelistGameDeleteSelectionOptions.h"
+#include "guis/MenuMessages.h"
 
 GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager& window, ISimpleGameListView& view, FileData& game)
   : GuiMenuBase(window, _("DELETE ALL FILES"), this)
@@ -20,30 +21,30 @@ GuiMenuGamelistGameDeleteOptions::GuiMenuGamelistGameDeleteOptions(WindowManager
     // Delete
     mGameFiles = GameFilesUtils::GetGameSubFiles(mGame);
     String fileCount = _N("%i file", "%i files", (int) mGameFiles.size() + 1).Replace("%i", String((int) mGameFiles.size() + 1));
-    AddText(_("GAME FILES (ROM | DISK IMAGE)"), fileCount);
+    AddText(_("GAME FILES (ROM | DISK IMAGE)"), fileCount, _(MENUMESSAGE_GAMEDELETION_GAMEFILES_HELP_MSG));
 
     mMediaFiles = GameFilesUtils::GetMediaFiles(mGame);
     if(!mMediaFiles.empty())
     {
       fileCount = _N("%i file", "%i files", (int) mMediaFiles.size()).Replace("%i",String((int) mMediaFiles.size()));
-      AddText(_("MEDIA FILES"), fileCount);
+      AddText(_("MEDIA FILES"), fileCount, _(MENUMESSAGE_GAMEDELETION_MEDIAFILES_HELP_MSG));
     }
 
     mExtraFiles = GameFilesUtils::GetGameExtraFiles(mGame);
     if(!mExtraFiles.empty())
     {
       fileCount = _N("%i file", "%i files", (int) GameFilesUtils::GetGameExtraFiles(mGame).size()).Replace("%i", String((int) GameFilesUtils::GetGameExtraFiles(mGame).size()));
-      AddText(_("CONFIGURATION AND PATCH FILES"), fileCount);
+      AddText(_("CONFIGURATION AND PATCH FILES"), fileCount, _(MENUMESSAGE_GAMEDELETION_CONFIGURATION_HELP_MSG));
     }
 
     mSaveFiles = GameFilesUtils::GetGameSaveFiles(mGame);
     if(!mSaveFiles.empty())
     {
       fileCount = _N("%i file", "%i files", (int) mSaveFiles.size()).Replace("%i", String((int) mSaveFiles.size()));
-      AddText(_("SAVE FILES"), fileCount);
+      AddText(_("SAVE FILES"), fileCount, _(MENUMESSAGE_GAMEDELETION_SAVES_HELP_MSG));
     }
 
-    AddSubMenu(_("ADVANCED DELETE"),  (int)Components::Advanced, "");
+    AddSubMenu(_("ADVANCED DELETE"),  (int)Components::Advanced, _(MENUMESSAGE_GAMEDELETION_ADVANCED_HELP_MSG));
 
     mMenu.addButton(_("OK"), "", [this]
     {

@@ -9,6 +9,7 @@
 #include <utils/os/fs/watching/FileNotifier.h>
 #include "IInputChange.h"
 #include <input/InputMapper.h>
+#include "IKeyboardShortcut.h"
 
 class WindowManager;
 
@@ -19,7 +20,7 @@ class InputManager : public StaticLifeCycleControler<InputManager>
     /*!
      * @brief Default constructor
      */
-    InputManager();
+    explicit InputManager(IKeyboardShortcut* shortcutInterface);
 
     /*!
      * @brief Default destructor
@@ -193,6 +194,10 @@ class InputManager : public StaticLifeCycleControler<InputManager>
 
     //! /dev/input watcher
     FileNotifier mFileNotifier;
+
+    //! Shortcut interface
+    IKeyboardShortcut* mShortcutInterface;
+
     //! Joystick change pendings
     bool mJoystickChangePending;
     //! joystick change pending - added or removed?

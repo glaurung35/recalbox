@@ -32,7 +32,7 @@ class GameClipContainer : public Gui
 
     std::vector<TextComponent*> getMDLabels();
 
-    std::vector<Component*> getMDValues();
+    std::vector<ThemableComponent*> getMDValues();
 
     VideoComponent mVideo;
     ImageComponent mImage;

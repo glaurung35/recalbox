@@ -132,7 +132,7 @@ class DetailedGameListView : public ISimpleGameListView
     TextComponent mFavorite;
 
     std::vector<TextComponent*> getMDLabels();
-    std::vector<Component*> getMDValues();
+    std::vector<ThemableComponent*> getMDValues();
 
     VerticalScrollableContainer mDescContainer;
     TextComponent mDescription;
@@ -156,17 +156,17 @@ class DetailedGameListView : public ISimpleGameListView
 
     bool switchDisplay(bool isGame);
     bool switchToFolderScrapedDisplay();
-    std::vector<Component*> getFolderComponents();
-    std::vector<Component*> getGameComponents(bool includeMainComponents = true);
-    std::vector<Component*> getScrapedFolderComponents();
+    std::vector<ThemableComponent*> getFolderComponents();
+    std::vector<ThemableComponent*> getGameComponents(bool includeMainComponents = true);
+    std::vector<ThemableComponent*> getScrapedFolderComponents();
     void setGameInfo(FileData* file, bool update);
     void setRegions(FileData* file);
     void setScrapedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
-    static void fadeOut(const std::vector<Component*>& comps, bool fadingOut);
+    static void fadeOut(const std::vector<ThemableComponent*>& comps, bool fadingOut);
 
     /*!
-     * @brief Gamelist may update thos information if required
+     * @brief Gamelist may update those information if required
      * @param info
      */
     void UpdateSlowData(const SlowDataInformation& info) override;

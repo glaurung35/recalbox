@@ -5,7 +5,7 @@
 #include "WindowManager.h"
 
 RatingComponent::RatingComponent(WindowManager&window, unsigned int color, float value)
-  : Component(window)
+  : ThemableComponent(window)
   , mValue(value)
   , mVertices()
   , mColor(color)
@@ -158,28 +158,21 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-void RatingComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void RatingComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-	Component::applyTheme(theme, view, element, properties);
-
-	const ThemeElement* elem = theme.getElement(view, element, "rating");
-	if (elem == nullptr)
-		return;
-
 	bool imgChanged = false;
-	if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("filledPath"))
+	if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("filledPath"))
 	{
-		mFilledTexture = TextureResource::get(Path(elem->AsString("filledPath")), true);
+		mFilledTexture = TextureResource::get(Path(element.AsString("filledPath")), true);
 		imgChanged = true;
 	}
-	if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("unfilledPath"))
+	if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("unfilledPath"))
 	{
-		mUnfilledTexture = TextureResource::get(Path(elem->AsString("unfilledPath")), true);
+		mUnfilledTexture = TextureResource::get(Path(element.AsString("unfilledPath")), true);
 		imgChanged = true;
 	}
 
-	if(imgChanged)
-		onSizeChanged();
+	if(imgChanged) onSizeChanged();
 }
 
 bool RatingComponent::getHelpPrompts(Help& help)

@@ -28,16 +28,16 @@ GuiMenuNetplay::GuiMenuNetplay(WindowManager& window, SystemManager& systemManag
   AddSwitch(_("NETPLAY"), RecalboxConf::Instance().GetNetplayEnabled(), (int)Components::Enabled, this, _(MENUMESSAGE_NP_ONOFF_HELP_MSG));
 
   // netplay username
-  AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, false);
+  AddEditable(_("NICKNAME"), RecalboxConf::Instance().GetNetplayLogin(), (int)Components::UserName, this, _(MENUMESSAGE_NP_NICKNAME_HELP_MSG), false);
 
   // netplay port
-  AddEditable(_("PORT"), String(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, false);
+  AddEditable(_("PORT"), String(RecalboxConf::Instance().GetNetplayPort()), (int)Components::Port, this, _(MENUMESSAGE_NP_PORT_HELP_MSG), false);
 
   //mitm
   AddList<RecalboxConf::Relay>(_("NETPLAY MITM"), (int)Components::Mitm, this, GetMitmEntries(), _(MENUMESSAGE_NP_RELAY_HELP_MSG));
 
   // Password edition
-  AddSubMenu(_("PREDEFINED PASSWORDS"), (int)Components::Passwords);
+  AddSubMenu(_("PREDEFINED PASSWORDS"), (int)Components::Passwords, _(MENUMESSAGE_NP_PASSWORDS_HELP_MSG));
 
   // Hash roms
   AddSubMenu(_("HASH ROMS"), (int)Components::Hash, _(MENUMESSAGE_NP_HASH_HELP_MSG));

@@ -4,19 +4,20 @@
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuArcadeAllInOneSystem.h"
 #include "components/SwitchComponent.h"
+#include <guis/MenuMessages.h>
 
 GuiMenuArcadeAllInOneSystem::GuiMenuArcadeAllInOneSystem(WindowManager& window, SystemManager& systemManager)
   : GuiMenuBase(window, _("ARCADE VIRTUAL SYSTEM"), nullptr)
   , mSystemManager(systemManager)
 {
   // Enable arcade
-  AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), RecalboxConf::Instance().GetCollectionArcade(), (int)Components::ArcadeOnOff, this);
+  AddSwitch(_("ENABLE ARCADE VIRTUAL SYSTEM"), RecalboxConf::Instance().GetCollectionArcade(), (int)Components::ArcadeOnOff, this, _(MENUMESSAGE_UI_ARCADE_AIO_VIRTUALSYSTEM_MSG));
 
   // Include neogeo?
-  AddSwitch(_("INCLUDE NEO-GEO"), RecalboxConf::Instance().GetCollectionArcadeNeogeo(), (int)Components::IncludeNeogeo, this);
+  AddSwitch(_("INCLUDE NEO-GEO"), RecalboxConf::Instance().GetCollectionArcadeNeogeo(), (int)Components::IncludeNeogeo, this, _(MENUMESSAGE_UI_ARCADE_AIO_NEOGEO_MSG));
 
   // Hide original systems?
-  AddSwitch(_("HIDE ORIGINAL SYSTEMS"), RecalboxConf::Instance().GetCollectionArcadeHideOriginals(), (int)Components::HideOriginals, this);
+  AddSwitch(_("HIDE ORIGINAL SYSTEMS"), RecalboxConf::Instance().GetCollectionArcadeHideOriginals(), (int)Components::HideOriginals, this, _(MENUMESSAGE_UI_ARCADE_AIO_HIDEORIGINALS_MSG));
 }
 
 void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool& status)

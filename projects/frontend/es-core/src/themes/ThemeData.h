@@ -7,7 +7,8 @@
 #include <RecalboxConf.h>
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
-#include <utils/storage/Set.h>
+#include "ThemeFileCache.h"
+#include <themes/ThemeSupport.h>
 
 // Forward declarations
 template<typename T> class TextListComponent;
@@ -22,7 +23,7 @@ class ThemeData
 {
   public:
     //! Constructor
-    ThemeData();
+    explicit ThemeData(ThemeFileCache& cache, const SystemData* system);
 
     /*!
      * @brief Load main theme
@@ -37,29 +38,13 @@ class ThemeData
      */
     void LoadSystem(const String& systemFolder, const Path& root);
 
-    static bool ThemeHasMenuView()
-    { return sThemeHasMenuView; }
-
-    static bool ThemeHasHelpSystem()
-    { return sThemeHasHelpSystem; }
-
-    static void SetThemeHasMenuView(bool on)
-    { sThemeHasMenuView = on; }
-
-    static void SetThemeHasHelpSystem(bool on)
-    { sThemeHasHelpSystem = on; }
+    /*!
+     * @brief Check if the curren theme contains a menu view
+     * @return True if the curren theme contains a menu view, false otherwise
+     */
+    [[nodiscard]] bool HasMenuView() const { return mViews.contains("menu"); }
 
     void loadFile(const String& systemThemeFolder, const Path& path);
-
-    enum class ElementProperty
-    {
-      NormalizedPair,
-      Path,
-      String,
-      Color,
-      Float,
-      Boolean
-    };
 
     // If expectedType is an empty string, will do no type checking.
     [[nodiscard]] const ThemeElement*
@@ -71,18 +56,24 @@ class ThemeData
 
     static const char* getNoTheme() { return "0 - DEFAULT"; }
 
-    static HashMap<String, String> getThemeSubSets(const String& theme);
-
-    static String::List sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset);
-
     [[nodiscard]] String getTransition() const;
-
-    [[nodiscard]] bool getHasFavoritesInTheme() const { return (mVersion >= CURRENT_THEME_FORMAT_VERSION); } // #TODO: delete
 
     [[nodiscard]] bool isFolderHandled() const;
 
-    static constexpr int MINIMUM_THEME_FORMAT_VERSION = 3;
-    static constexpr int CURRENT_THEME_FORMAT_VERSION = 4;
+    static constexpr int MINIMUM_THEME_FORMAT_VERSION = 4;
+    static constexpr int CURRENT_THEME_FORMAT_VERSION = 5;
+
+    /*!
+     * @brief Cleanup current ThemeData
+     */
+    void Reset();
+
+    /*!
+     * @brief Get subset values for the given subset name
+     * @param subset Subset name
+     * @return subset values
+     */
+    [[nodiscard]] const String::List& GetSubSetValues(const String& subset) const;
 
   private:
     //! View content
@@ -95,19 +86,20 @@ class ThemeData
         HashMap<String, int> mElements;
     };
 
-    static bool sThemeHasMenuView;
-    static bool sThemeHasHelpSystem;
+    //! Cache reference
+    ThemeFileCache& mCache;
+    //! System reference
+    const SystemData* mSystem;
 
-    unsigned int getHexColor(const char* str);
+    //! View's properties
+    HashMap<String, ThemeView> mViews;
+    //! Recorded subsets
+    HashMap<String, String::List> mSubSets;
 
-    //! Authorized elements/sub-elements in the xml
-    static HashMap<String, HashMap<String, ElementProperty>>& ElementMap();
-    //! Supported features set
-    static HashSet<String>& SupportedFeatures();
-    //! Supported view set
-    static HashSet<String>& SupportedViews();
+    //! Static list of element attributes not to process as element properties
+    static HashSet<String> mNoProcessAttributes;
 
-    std::deque<Path> mPaths;
+    std::deque<Path> mIncludePathStack;
     float mVersion;
     String mColorset;
     String mIconset;
@@ -118,7 +110,15 @@ class ThemeData
     String mGameClipView;
     String mSystemThemeFolder;
     String mRandomPath;
+
+    //! User langage
+    String mLangageCode;
+    //! User region
+    String mRegionCode;
+
     static constexpr const char* sRandomMethod = "$random(";
+
+    unsigned int getHexColor(const char* str);
 
     void parseFeatures(const pugi::xml_node& themeRoot);
 
@@ -128,72 +128,57 @@ class ThemeData
 
     void parseView(const pugi::xml_node& viewNode, ThemeView& view, bool forcedExtra);
 
-    void parseElement(const pugi::xml_node& elementNode, const HashMap<String, ElementProperty>& typeMap,
+    void parseElement(const pugi::xml_node& elementNode, const HashMap<String, ThemeSupport::ElementProperty>& typeMap,
                       ThemeElement& element);
+
+  /*!
+   * @brief Parse an element's property
+   * @param elementName Element name (parent node)
+   * @param propertyName Property name (curren tnode)
+   * @param value Property value
+   * @param propertyType Expected property type
+   * @param element Element in which to store property
+   */
+    void parseProperty(const String& elementName, const String& propertyName, String& value, ThemeSupport::ElementProperty propertyType, ThemeElement& element);
 
     bool parseRegion(const pugi::xml_node& root);
 
     bool parseSubset(const pugi::xml_node& node);
 
-    static void crawlIncludes(const pugi::xml_node& root, HashMap<String, String>& sets, std::deque<Path>& dequepath);
+    void resolveSystemVariable(const String& systemThemeFolder, [[out]] String& path, String& randomPath);
 
-    static void findRegion(const pugi::xml_document& doc, HashMap<String, String>& sets);
+    static void PickRandomPath(String& value, String& randomPath);
 
-    static bool CheckThemeOption(String& selected, const HashMap<String, String>& subsets, const String& subset);
+    /*!
+     * @brief Build a file list from the current include stack for logging only
+     * @return Log string
+     */
+    String FileList();
 
-    static String resolveSystemVariable(const String& systemThemeFolder, const String& path, String& randomPath)
-    {
-      String lccc = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
-      String lc = "en";
-      String cc = "us";
-      if (lccc.size() >= 5)
-      {
-        int pos = lccc.Find('_');
-        if (pos >= 2 && pos < (int) lccc.size() - 1)
-        {
-          lc = lccc.SubString(0, pos);
-          cc = lccc.SubString(pos + 1);
-        }
-      }
+    /*!
+     * @brief Browse the whole theme, looking for all subset & subset values
+     * @param root Root theme file
+     */
+    void CrawlThemeSubSets(const Path& root);
 
-      String result = path;
-      result.Replace("$system", systemThemeFolder).Replace("$language", lc).Replace("$country", cc);
+    /*!
+     * @brief Crawl includes, looking for subsets
+     * @param root Root node
+     */
+    void CrawlIncludes(const pugi::xml_node& root);
 
-      PickRandomPath(result, randomPath);
-      return result;
-    }
+    /*!
+     * @brief Crawl includes, looking for region subsets
+     * @param doc Document main node
+     */
+    void CrawlRegions(const pugi::xml_document& doc);
 
-    static void PickRandomPath(String& value, String& randomPath)
-    {
-      if (!value.Contains(sRandomMethod)) return;
-
-      String args;
-      if (value.Extract(sRandomMethod, ")", args, true))
-        if (randomPath.empty())
-        {
-          String::List paths = args.Split(',');
-          std::random_device rd;
-          std::default_random_engine engine(rd());
-          const int max = (int) paths.size();
-          std::uniform_int_distribution<int> distrib {
-            0,
-            max - 1
-          };
-          randomPath = paths[distrib(engine)];
-        }
-
-      value.Replace(sRandomMethod + args + ')', randomPath);
-    }
-
-    HashMap<String, ThemeView> mViews;
-
-    static String AddFiles(const std::deque<Path>& deque)
-    {
-      String result;
-      result = "from theme \"" + deque.front().ToString() + "\"\n";
-      for (auto it = deque.begin() + 1; it != deque.end(); it++)
-        result += "  (from included file \"" + (*it).ToString() + "\")\n";
-      result += "    ";
-      return result;
-    }
+    /*!
+     * @brief Check if the selected option exists in thje given sibset.
+     * If not, it is adjusted to the first option (default)
+     * @param selected Selected option
+     * @param subset Subset name
+     * @return True if the option selected option has been adjusted, false otherwise
+     */
+    bool CheckThemeOption(String& selected, const String& subset);
 };

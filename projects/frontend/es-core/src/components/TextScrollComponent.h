@@ -3,12 +3,12 @@
 //
 #pragma once
 
-#include "components/base/Component.h"
+#include "components/base/ThemableComponent.h"
 #include "resources/Font.h"
 
 class ThemeData;
 
-class TextScrollComponent : public Component
+class TextScrollComponent : public ThemableComponent
 {
   public:
     explicit TextScrollComponent(WindowManager& window);
@@ -63,10 +63,24 @@ class TextScrollComponent : public Component
     std::shared_ptr<Font> getFont() const
     { return mFont; }
 
-    void
-    applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
-
     void Update(int deltaTime) override;
+
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Apply theme element to this nine-patch image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "scrolltext"; }
 
   private:
     static constexpr int sScrollSpeed1 = 80; // In pixel per seconds

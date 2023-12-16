@@ -6,9 +6,9 @@
 //
 #pragma once
 
-#include "components/base/Component.h"
+#include "components/base/ThemableComponent.h"
 
-class VerticalScrollableContainer : public Component
+class VerticalScrollableContainer : public ThemableComponent
 {
   public:
     explicit VerticalScrollableContainer(WindowManager&window);
@@ -33,6 +33,16 @@ class VerticalScrollableContainer : public Component
      * @param parentTrans Transformation
      */
     void Render(const Transform4x4f& parentTrans) override;
+
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return String::Empty; } // Container must be polymorphic
 
   private:
     enum class ScrollSteps

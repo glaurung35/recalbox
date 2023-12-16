@@ -17,7 +17,7 @@ GuiMenuScreensavers::GuiMenuScreensavers(WindowManager& window, SystemManager& s
   AddList<RecalboxConf::Screensaver>(_("SCREENSAVER BEHAVIOR"), (int)Components::Type, this, GetTypeEntries(), _(MENUMESSAGE_UI_SCREENSAVER_BEHAVIOR_HELP_MSG));
 
   // add systems
-  AddMultiList(_("SYSTEMS TO SHOW IN DEMO"), (int)Components::SystemList, this, GetSystemEntries());
+  AddMultiList(_("SYSTEMS TO SHOW IN DEMO"), (int)Components::SystemList, this, GetSystemEntries(), _(MENUMESSAGE_UI_SCREENSAVER_SYSTEMSDEMO_HELP_MSG));
 }
 
 std::vector<GuiMenuBase::ListEntry<RecalboxConf::Screensaver>> GuiMenuScreensavers::GetTypeEntries()

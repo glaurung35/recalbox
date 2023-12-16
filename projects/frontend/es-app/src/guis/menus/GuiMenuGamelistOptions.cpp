@@ -29,7 +29,17 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
   if (!nomenu && !bartop)
   {
-    mGame = AddSubMenu(String::Empty, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+    String editTitle;
+    const FileData* file = mGamelist.getCursor();
+    if ((file == nullptr) || file->IsEmpty())
+      editTitle = _("NO GAME");
+    else if (file->TopAncestor().ReadOnly())
+      editTitle = _("NON EDITABLE GAME");
+    else if (file->IsGame())
+      editTitle = _("EDIT GAME");
+    else if (file->IsFolder())
+      editTitle = _("EDIT FOLDER");
+    mGame = AddSubMenu(editTitle, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 
     if(!mGamelist.getCursor()->IsEmpty())
     {
@@ -42,12 +52,12 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
       if (mSystem.IsScreenshots())
       {
-        AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot);
+        AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot, _(MENUMESSAGE_GAMELISTOPTION_DELETE_SCREENSHOT_MSG));
       }
 
       if (RecalboxConf::Instance().GetAutorunEnabled() && mGamelist.getCursor()->IsGame())
       {
-        AddSwitch(_("BOOT ON THIS GAME"), mGamelist.getCursor()->RomPath().ToString() == RecalboxConf::Instance().GetAutorunGamePath(), (int) Components::AutorunGame, this);
+        AddSwitch(_("BOOT ON THIS GAME"), mGamelist.getCursor()->RomPath().ToString() == RecalboxConf::Instance().GetAutorunGamePath(), (int) Components::AutorunGame, this, _(MENUMESSAGE_GAMELISTOPTION_BOOT_GAME_MSG));
       }
 
       if (!GameFilesUtils::GetGameSaveStateFiles(*mGamelist.getCursor()).empty())
@@ -59,14 +69,14 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Downloader available?
   if (DownloaderManager::HasDownloader(mSystem))
-    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, String::Empty);
+    AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, _(MENUMESSAGE_GAMELISTOPTION_DOWNLOAD_GAMES_MSG));
 
   // Jump to letter
-	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries());
+	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries(), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
 
   // open search wheel for this system
   if (!system.IsFavorite())
-    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, String::Empty);
+    AddSubMenu(_("SEARCH GAMES HERE"),  (int)Components::Search, _(MENUMESSAGE_GAMELISTOPTION_SEARCH_GAMES_MSG));
 
   // Sorting
 	if (!system.IsSelfSorted())
@@ -74,7 +84,7 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // Global arcade option available on any arcade system, true or virtual
   if (system.IsArcade())
-    AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions);
+    AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions, _(MENUMESSAGE_ARCADE_HELP_MSG));
 
   // Region filter
   AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
@@ -94,9 +104,9 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 	if (!nomenu)
   {
     // Main menu
-    AddSubMenu(_("MAIN MENU"), (int)Components::MainMenu);
+    AddSubMenu(_("MAIN MENU"), (int)Components::MainMenu, _(MENUMESSAGE_GAMELISTOPTION_MAIN_MENU_MSG));
     // QUIT
-    AddSubMenu(_("QUIT"), (int)Components::Quit);
+    AddSubMenu(_("QUIT"), (int)Components::Quit, _(MENUMESSAGE_QUIT_HELP_MSG));
   }
 }
 

@@ -20,10 +20,10 @@ GuiMenuRetroAchievements::GuiMenuRetroAchievements(WindowManager& window)
   mHardcore = AddSwitch(_("HARDCORE MODE"), RecalboxConf::Instance().GetRetroAchievementHardcore(), (int)Components::Hardcore, this, _(MENUMESSAGE_RA_HARDCORE_HELP_MSG));
 
   // Login
-  mLogin = AddEditable(_("USERNAME"), RecalboxConf::Instance().GetRetroAchievementLogin(), (int)Components::Login, this, false);
+  mLogin = AddEditable(_("USERNAME"), RecalboxConf::Instance().GetRetroAchievementLogin(), (int)Components::Login, this, _(MENUMESSAGE_RA_USERNAME_MSG), false);
 
   // Password
-  mPassword = AddEditable(_("PASSWORD"), RecalboxConf::Instance().GetRetroAchievementPassword(), (int)Components::Password, this, true);
+  mPassword = AddEditable(_("PASSWORD"), RecalboxConf::Instance().GetRetroAchievementPassword(), (int)Components::Password, this, _(MENUMESSAGE_RA_PASSWORD_MSG), true);
 }
 
 void GuiMenuRetroAchievements::EditableComponentTextChanged(int id, const String& text)

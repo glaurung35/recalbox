@@ -5,7 +5,7 @@
 #include "themes/ThemeData.h"
 
 NinePatchComponent::NinePatchComponent(WindowManager& window)
-  : Component(window)
+  : ThemableComponent(window)
   , mVertices()
   , mColors()
   , mPath()
@@ -192,14 +192,8 @@ void NinePatchComponent::setCenterColor(unsigned int centerColor)
 	updateColors();
 }
 
-void NinePatchComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void NinePatchComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-	Component::applyTheme(theme, view, element, properties);
-
-	const ThemeElement* elem = theme.getElement(view, element, "ninepatch");
-	if(elem == nullptr)
-		return;
-
-	if(hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
-		setImagePath(Path(elem->AsString("path")));
+	if(hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path"))
+		setImagePath(Path(element.AsString("path")));
 }

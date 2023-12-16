@@ -8,8 +8,19 @@
 
 ThemeManager::ThemeManager()
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
+  , mMain(mCache, nullptr)
 {
-  LoadMainTheme();
+  /*HashSet<String> test;
+  for(const auto& kv : ThemeSupport::ElementMap())
+    for(const auto& kv2 : kv.second)
+      test.insert(kv2.first);
+  int l = test.size();
+  LOG(LogInfo) << l;*/
+}
+
+void ThemeManager::Initialize()
+{
+  DoThemeChange();
 }
 
 ThemeManager::~ThemeManager()
@@ -18,7 +29,7 @@ ThemeManager::~ThemeManager()
     delete kv.second;
 }
 
-void ThemeManager::LoadMainTheme()
+Path ThemeManager::GetThemeRootPath()
 {
   // Check theme validity
   String theme = RecalboxConf::Instance().GetThemeFolder();
@@ -26,9 +37,14 @@ void ThemeManager::LoadMainTheme()
   if (!list.contains(theme))
     RecalboxConf::Instance().SetThemeFolder(list.begin()->second.FilenameWithoutExtension());
 
+  return list[RecalboxConf::Instance().GetThemeFolder()];
+}
+
+void ThemeManager::LoadMainTheme()
+{
   // Locate main theme file
   Path root;
-  mRootPath = list[RecalboxConf::Instance().GetThemeFolder()];
+  mRootPath = GetThemeRootPath();
   if (root = mRootPath / sRootThemeFile; !root.Exists())
   {
     // Try locating in subfolders
@@ -40,8 +56,7 @@ void ThemeManager::LoadMainTheme()
       }
   }
 
-  { LOG(LogInfo) << "[ThemeManager] Theme folder: " << mRootPath; }
-
+  mMain.Reset();
   mMain.LoadMain(root);
   mMenu.Load(mMain);
 }
@@ -56,18 +71,57 @@ void ThemeManager::LoadSystemTheme(const SystemData* system)
       // Then check root/theme.xml
       systemPath = mRootPath / sRootThemeFile;
 
-  CreateOrGetSystem(system).LoadSystem(system->Descriptor().ThemeFolder(), systemPath);
+  ThemeData& systemTheme = CreateOrGetSystem(system);
+  systemTheme.Reset();
+  systemTheme.LoadSystem(system->Descriptor().ThemeFolder(), systemPath);
 }
 
-void ThemeManager::ThemeChanged(WindowManager& window)
+const SystemData* ThemeManager::ThreadPoolRunJob(const SystemData*& feed)
 {
+  LoadSystemTheme(feed);
+  return feed;
+}
 
+void ThemeManager::DoThemeChange(bool force)
+{
+  DateTime start;
+  Path newPath = GetThemeRootPath();
+  if (mRootPath.IsEmpty()) { LOG(LogInfo) << "[ThemeManager] Loading initial theme: " << newPath; }
+  else if (newPath != mRootPath) { LOG(LogInfo) << "[ThemeManager] Switching to new theme: " << newPath; }
+  else { LOG(LogInfo) << "[ThemeManager] Current theme options havre changed. Refreshing theme: " << newPath; }
+
+  //! Clear cache if required
+  if (newPath != mRootPath || force) mCache.Clear();
+
+  // Reload Main themes
+  LoadMainTheme();
+  // Reload system themes
+  ThreadPool<const SystemData*, const SystemData*> pool(this, "theme-loader", false);
+  for(auto& kv : mSystem) pool.PushFeed(kv.first);
+  pool.Run(-2, false);
+  DateTime start2;
+  { LOG(LogWarning) << "[ThemeManager] Load time: " << (start2 - start).ToMillisecondsString() << " ms"; }
+  // Refresh
+  NotifyThemeChanged();
+  { LOG(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
+}
+
+void ThemeManager::NotifyThemeChanged()
+{
+  for(IThemeSwitchable* switchable : mSwitchables)
+    if (switchable != nullptr)
+    {
+      if (SystemData* system = switchable->SystemTheme(); system != nullptr)
+        switchable->SwitchToTheme(CreateOrGetSystem(system));
+      else
+        switchable->SwitchToTheme(mMain);
+    }
 }
 
 ThemeData& ThemeManager::CreateOrGetSystem(const SystemData* system)
 {
   ThemeData** theme = mSystem.try_get(system);
-  if (theme == nullptr) theme = &(mSystem[system] = new ThemeData());
+  if (theme == nullptr) theme = &(mSystem[system] = new ThemeData(mCache, system));
   return **theme;
 }
 
@@ -98,4 +152,7 @@ HashMap<String, Path> ThemeManager::AvailableThemes()
 
   return sets;
 }
+
+
+
 

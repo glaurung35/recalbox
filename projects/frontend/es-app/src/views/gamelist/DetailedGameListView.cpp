@@ -138,12 +138,9 @@ void DetailedGameListView::Initialize()
   mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
   addChild(&mPlayCount);
-  if (mSystem.Theme().getHasFavoritesInTheme())
-  {
-    mLblFavorite.setText(_("Favorite") + ": ");
-    addChild(&mLblFavorite);
-    addChild(&mFavorite);
-  }
+  mLblFavorite.setText(_("Favorite") + ": ");
+  addChild(&mLblFavorite);
+  addChild(&mFavorite);
 
   for (int i = 4; --i >= 0; )
   {
@@ -171,20 +168,20 @@ void DetailedGameListView::Initialize()
 void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
   ISimpleGameListView::onThemeChanged(theme);
-  mList.applyTheme(theme, getName(), "gamelist", ThemeProperties::All);
+  mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertiesType::All);
   // Set color 2/3 50% transparent of color 0/1
   mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
   mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
   sortChildren();
 
   for (int i = 0; i < (int) mRegions.size(); i++)
-    mRegions[i]->applyTheme(theme, getName(), String("md_region").Append(i + 1).c_str(),
-                                  ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Path);
+    mRegions[i]->DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
+                                     ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Path);
 
-  mImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
-  mNoImage.applyTheme(theme, getName(), "md_image", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
-  mNoImage.applyTheme(theme, getName(), "default_image_path", ThemeProperties::Path);
-  mVideo.applyTheme(theme, getName(), "md_video", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+  mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
+  mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
+  mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertiesType::Path);
+  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
 
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();
@@ -199,19 +196,16 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
                                    "md_lbl_playcount"
                                  });
 
-  if (mSystem.Theme().getHasFavoritesInTheme())
-  {
-    names.push_back("md_lbl_favorite");
-  }
+  names.push_back("md_lbl_favorite");
 
   assert(names.size() == labels.size());
   for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
   {
-    labels[i]->applyTheme(theme, getName(), names[i], ThemeProperties::All);
+    labels[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertiesType::All);
   }
 
   initMDValues();
-  std::vector<Component*> values = getMDValues();
+  std::vector<ThemableComponent*> values = getMDValues();
   names = {
     "md_rating",
     "md_releasedate",
@@ -223,10 +217,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
     "md_playcount"
   };
 
-  if (mSystem.Theme().getHasFavoritesInTheme())
-  {
-    names.push_back("md_favorite");
-  }
+  names.push_back("md_favorite");
 
   names.push_back("md_folder_name");
   values.push_back(&mFolderName);
@@ -234,23 +225,23 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   assert(names.size() == values.size());
   for (unsigned int i = 0; i < (unsigned int)values.size(); i++)
   {
-    values[i]->applyTheme(theme, getName(), names[i], ThemeProperties::All ^ ThemeProperties::Text);
+    values[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertiesType::All ^ ThemePropertiesType::Text);
   }
 
-  mDescContainer.applyTheme(theme, getName(), "md_description", ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex);
+  mDescContainer.DoApplyThemeElement(theme, getName(), "md_description", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex);
   mDescription.setSize(mDescContainer.getSize().x(), 0);
-  mDescription.applyTheme(theme, getName(), "md_description",
-                          ThemeProperties::All ^ (ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::Origin | ThemeProperties::Text));
+  mDescription.DoApplyThemeElement(theme, getName(), "md_description",
+                                   ThemePropertiesType::All ^ (ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::Origin | ThemePropertiesType::Text));
   mBusy.SetFont(mDescription.getFont());
 
   if (theme.isFolderHandled())
   {
-    mFolderName.applyTheme(theme, getName(), "md_folder_name", ThemeProperties::All);
+    mFolderName.DoApplyThemeElement(theme, getName(), "md_folder_name", ThemePropertiesType::All);
     for (int i = 0; i < (int) mFolderContent.size(); i++)
     {
       String folderImage("md_folder_image_"); folderImage.Append(i);
-      mFolderContent[i]->applyTheme(theme, getName(), folderImage,
-                                    ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex | ThemeProperties::Rotation);
+      mFolderContent[i]->DoApplyThemeElement(theme, getName(), folderImage,
+                                             ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
     }
   }
   else
@@ -328,7 +319,7 @@ void DetailedGameListView::initMDLabels()
 void DetailedGameListView::initMDValues()
 {
   std::vector<TextComponent*> labels = getMDLabels();
-  std::vector<Component*> values = getMDValues();
+  std::vector<ThemableComponent*> values = getMDValues();
 
   std::shared_ptr<Font> defaultFont = Font::get(FONT_SIZE_SMALL);
   mRating.setSize(defaultFont->getHeight() * 5.0f, defaultFont->getHeight());
@@ -427,9 +418,9 @@ bool DetailedGameListView::switchDisplay(bool isGame)
   return true;
 }
 
-std::vector<Component*> DetailedGameListView::getFolderComponents()
+std::vector<ThemableComponent*> DetailedGameListView::getFolderComponents()
 {
-  std::vector<Component*> comps;
+  std::vector<ThemableComponent*> comps;
   for (auto* img: mFolderContent)
   {
     comps.push_back(img);
@@ -438,9 +429,9 @@ std::vector<Component*> DetailedGameListView::getFolderComponents()
   return comps;
 }
 
-std::vector<Component*> DetailedGameListView::getGameComponents(bool includeMainComponents)
+std::vector<ThemableComponent*> DetailedGameListView::getGameComponents(bool includeMainComponents)
 {
-  std::vector<Component*> comps = getMDValues();
+  std::vector<ThemableComponent*> comps = getMDValues();
   if (includeMainComponents)
   {
     comps.push_back(&mNoImage);
@@ -453,9 +444,9 @@ std::vector<Component*> DetailedGameListView::getGameComponents(bool includeMain
   return comps;
 }
 
-std::vector<Component*> DetailedGameListView::getScrapedFolderComponents()
+std::vector<ThemableComponent*> DetailedGameListView::getScrapedFolderComponents()
 {
-  std::vector<Component*> comps;
+  std::vector<ThemableComponent*> comps;
   comps.push_back(&mNoImage);
   comps.push_back(&mImage);
   comps.push_back(&mVideo);
@@ -551,7 +542,7 @@ void DetailedGameListView::setScrapedFolderInfo(FileData* file)
   mDescContainer.reset();
 }
 
-void DetailedGameListView::fadeOut(const std::vector<Component*>& comps, bool fadingOut)
+void DetailedGameListView::fadeOut(const std::vector<ThemableComponent*>& comps, bool fadingOut)
 {
   for (auto* comp : comps)
   {
@@ -595,17 +586,14 @@ std::vector<TextComponent*> DetailedGameListView::getMDLabels()
   ret.push_back(&mLblPlayers);
   ret.push_back(&mLblLastPlayed);
   ret.push_back(&mLblPlayCount);
-  if (mSystem.Theme().getHasFavoritesInTheme())
-  {
-    ret.push_back(&mLblFavorite);
-  }
+  ret.push_back(&mLblFavorite);
   return ret;
 }
 
 // element order need to follow the one in onThemeChanged
-std::vector<Component*> DetailedGameListView::getMDValues()
+std::vector<ThemableComponent*> DetailedGameListView::getMDValues()
 {
-  std::vector<Component*> ret;
+  std::vector<ThemableComponent*> ret;
   ret.push_back(&mRating);
   ret.push_back(&mReleaseDate);
   ret.push_back(&mDeveloper);
@@ -614,10 +602,7 @@ std::vector<Component*> DetailedGameListView::getMDValues()
   ret.push_back(&mPlayers);
   ret.push_back(&mLastPlayed);
   ret.push_back(&mPlayCount);
-  if (mSystem.Theme().getHasFavoritesInTheme())
-  {
-    ret.push_back(&mFavorite);
-  }
+  ret.push_back(&mFavorite);
   return ret;
 }
 

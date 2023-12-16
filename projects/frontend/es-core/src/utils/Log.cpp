@@ -81,9 +81,9 @@ Log::~Log()
   }
 
   mMessage += '\n';
-  (void)fputs(mMessage.c_str(), sFile);
-	if (!loggerClosed) Flush();
-	else DoClose();
+  if (sFile != nullptr) (void)fputs(mMessage.c_str(), sFile);
+  else printf("***Unable to log!*** %s", mMessage.c_str());
+  if (!loggerClosed) Flush(); else DoClose();
 
   // if it's an error, also print to console
   // print all messages if using --debug

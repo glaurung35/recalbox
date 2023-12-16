@@ -8,299 +8,7 @@
 #include "components/TextScrollComponent.h"
 #include "components/BoxComponent.h"
 
-bool ThemeData::sThemeHasMenuView = true;
-bool ThemeData::sThemeHasHelpSystem = true;
-
-HashSet<String>& ThemeData::SupportedViews()
-{
-  static HashSet<String> sSupportedViews;
-  if (sSupportedViews.empty())
-    for(const String& value : String("system,basic,detailed,menu,gameclip").Split(','))
-      sSupportedViews.insert(value);
-  return sSupportedViews;
-}
-
-HashSet<String>& ThemeData::SupportedFeatures()
-{
-  static HashSet<String> sSupportedFeatures;
-  if (sSupportedFeatures.empty())
-    for(const String& value : String("carousel,z-index").Split(','))
-      sSupportedFeatures.insert(value);
-  return sSupportedFeatures;
-}
-
-HashMap< String, HashMap<String, ThemeData::ElementProperty> >& ThemeData::ElementMap()
-{
-  static HashMap< String, HashMap<String, ThemeData::ElementProperty> > sElementMap =
-  {
-    { "image",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "maxSize", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "path", ElementProperty::Path },
-        { "tile", ElementProperty::Boolean },
-        { "color", ElementProperty::Color },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "box",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "color", ElementProperty::Color },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "video",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "maxSize", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "path", ElementProperty::Path },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-        { "animations", ElementProperty::String }
-      },
-    },
-    { "text",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "text", ElementProperty::String },
-        { "path", ElementProperty::Path },
-        { "backgroundColor", ElementProperty::Color },
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "color", ElementProperty::Color },
-        { "alignment", ElementProperty::String },
-        { "forceUppercase", ElementProperty::Boolean },
-        { "lineSpacing", ElementProperty::Float },
-        { "value", ElementProperty::String },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "scrolltext",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "text", ElementProperty::String },
-        { "path", ElementProperty::Path },
-        { "backgroundColor", ElementProperty::Color },
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "color", ElementProperty::Color },
-        { "alignment", ElementProperty::String },
-        { "forceUppercase", ElementProperty::Boolean },
-        { "value", ElementProperty::String },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "textlist",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "selectorHeight", ElementProperty::Float },
-        { "selectorOffsetY", ElementProperty::Float },
-        { "selectorColor", ElementProperty::Color },
-        { "selectorImagePath", ElementProperty::Path },
-        { "selectorImageTile", ElementProperty::Boolean },
-        { "selectedColor", ElementProperty::Color },
-        { "primaryColor", ElementProperty::Color },
-        { "secondaryColor", ElementProperty::Color },
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "scrollSound", ElementProperty::Path },
-        { "alignment", ElementProperty::String },
-        { "horizontalMargin", ElementProperty::Float },
-        { "forceUppercase", ElementProperty::Boolean },
-        { "lineSpacing", ElementProperty::Float },
-        { "zIndex", ElementProperty::Float },
-      },
-    },
-    { "container",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "ninepatch",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "path", ElementProperty::Path },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "datetime",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "color", ElementProperty::Color },
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "alignment", ElementProperty::String },
-        { "forceUppercase", ElementProperty::Boolean },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-        { "display", ElementProperty::String },
-      },
-    },
-    { "rating",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "size", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "rotation", ElementProperty::Float },
-        { "rotationOrigin", ElementProperty::NormalizedPair },
-        { "filledPath", ElementProperty::Path },
-        { "unfilledPath", ElementProperty::Path },
-        { "zIndex", ElementProperty::Float },
-        { "disabled", ElementProperty::Boolean },
-      },
-    },
-    { "sound",
-      {
-        { "path", ElementProperty::Path },
-      },
-    },
-    { "helpsystem",
-      {
-        { "pos", ElementProperty::NormalizedPair },
-        { "textColor", ElementProperty::Color },
-        { "iconColor", ElementProperty::Color },
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "iconUpDown", ElementProperty::Path },
-        { "iconLeftRight", ElementProperty::Path },
-        { "iconUpDownLeftRight", ElementProperty::Path },
-        { "iconA", ElementProperty::Path },
-        { "iconB", ElementProperty::Path },
-        { "iconX", ElementProperty::Path },
-        { "iconY", ElementProperty::Path },
-        { "iconL", ElementProperty::Path },
-        { "iconR", ElementProperty::Path },
-        { "iconStart", ElementProperty::Path },
-        { "iconSelect", ElementProperty::Path },
-      },
-    },
-    { "carousel",
-      {
-        { "type", ElementProperty::String },
-        { "size", ElementProperty::NormalizedPair },
-        { "pos", ElementProperty::NormalizedPair },
-        { "origin", ElementProperty::NormalizedPair },
-        { "color", ElementProperty::Color },
-        { "logoScale", ElementProperty::Float },
-        { "logoRotation", ElementProperty::Float },
-        { "logoRotationOrigin", ElementProperty::NormalizedPair },
-        { "logoSize", ElementProperty::NormalizedPair },
-        { "logoAlignment", ElementProperty::String },
-        { "maxLogoCount", ElementProperty::Float },
-        { "defaultTransition", ElementProperty::String },
-        { "zIndex", ElementProperty::Float },
-      },
-    },
-    { "menuBackground",
-      {
-        { "color", ElementProperty::Color },
-        { "path", ElementProperty::Path },
-        { "fadePath", ElementProperty::Path },
-      },
-    },
-    { "menuIcons",
-      {
-        { "iconKodi", ElementProperty::Path },
-        { "iconSystem", ElementProperty::Path },
-        { "iconSystem", ElementProperty::Path },
-        { "iconUpdates", ElementProperty::Path },
-        { "iconControllers", ElementProperty::Path },
-        { "iconGames", ElementProperty::Path },
-        { "iconUI", ElementProperty::Path },
-        { "iconSound", ElementProperty::Path },
-        { "iconNetwork", ElementProperty::Path },
-        { "iconScraper", ElementProperty::Path },
-        { "iconAdvanced", ElementProperty::Path },
-        { "iconQuit", ElementProperty::Path },
-        { "iconRestart", ElementProperty::Path },
-        { "iconShutdown", ElementProperty::Path },
-        { "iconFastShutdown", ElementProperty::Path },
-        { "iconLicense", ElementProperty::Path },
-        { "iconRecalboxRGBDual", ElementProperty::Path },
-        { "iconTate", ElementProperty::Path },
-        { "iconArcade", ElementProperty::Path },
-        { "iconDownload", ElementProperty::Path },
-      },
-    },
-    { "menuSwitch",
-      {
-        { "pathOn", ElementProperty::Path },
-        { "pathOff", ElementProperty::Path },
-      },
-    },
-    { "menuSlider",
-      {
-        { "path", ElementProperty::Path },
-      },
-    },
-    { "menuButton",
-      {
-        { "path", ElementProperty::Path },
-        { "filledPath", ElementProperty::Path },
-      },
-    },
-    { "menuText",
-      {
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "color", ElementProperty::Color },
-        { "separatorColor", ElementProperty::Color },
-        { "selectedColor", ElementProperty::Color },
-        { "selectorColor", ElementProperty::Color },
-      },
-    },
-    { "menuTextSmall",
-      {
-        { "fontPath", ElementProperty::Path },
-        { "fontSize", ElementProperty::Float },
-        { "color", ElementProperty::Color },
-        { "selectedColor", ElementProperty::Color },
-        { "selectorColor", ElementProperty::Color },
-      },
-    },
-    { "menuSize",
-      {
-        { "height", ElementProperty::Float },
-      },
-    }
-  };
-  return sElementMap;
-}
+HashSet<String> ThemeData::mNoProcessAttributes;
 
 // helper
 unsigned int ThemeData::getHexColor(const char* str)
@@ -315,45 +23,67 @@ unsigned int ThemeData::getHexColor(const char* str)
   string.Append(str);
   int val = 0;
   if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
+    { LOG(LogError) << "[Themes] " << FileList() << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
 
   if (string.Count() == 7) val = (val << 8) | 0xFF;
   return (unsigned int)val;
 }
 
-ThemeData::ThemeData()
+ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system)
+  : mCache(cache)
+  , mSystem(system)
+  , mVersion(0)
+  , mLangageCode("en")
+  , mRegionCode("us")
 {
-  mVersion = 0;
-  SetThemeHasMenuView(false);
   mSystemThemeFolder.clear();
   mRandomPath.clear();
+
+  String lccc = RecalboxConf::Instance().GetSystemLanguage().LowerCase();
+  if (lccc.size() >= 5)
+  {
+    int pos = lccc.Find('_');
+    if (pos >= 2 && pos < (int) lccc.size() - 1)
+    {
+      mLangageCode = lccc.SubString(0, pos);
+      mRegionCode = lccc.SubString(pos + 1);
+    }
+  }
+
+  if (mNoProcessAttributes.empty())
+  {
+    mNoProcessAttributes.insert("name");
+    mNoProcessAttributes.insert("value");
+    mNoProcessAttributes.insert("region");
+    mNoProcessAttributes.insert("extra");
+  }
 }
 
-bool ThemeData::CheckThemeOption(String& selected, const HashMap<String, String>& subsets, const String& subset)
+bool ThemeData::CheckThemeOption(String& selected, const String& subset)
 {
-  String::List list = sortThemeSubSets(subsets, subset);
+  if (mSubSets.empty()) return false;
+
   // Empty subset?
-  if (subsets.empty()) return false;
+  String::List list = GetSubSetValues(subset);
   if (list.empty()) return false;
+
   // Try to fix the value if not found
-  bool found = false;
   for(const String& s : list)
-    if (s == selected) { found = true; break; }
-  if (!found)
-  {
-    selected = list.front();
-    return true;
-  }
-  return false;
+    if (s == selected)
+      return false;
+
+  // Take first value
+  selected = list.front();
+  return true;
 }
 
 void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 {
-  mPaths.push_back(path);
+  mIncludePathStack.push_back(path);
 
   if(!path.Exists())
   {
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "File does not exist!"; }
+    { LOG(LogError) << "[Themes] " << FileList() << "File does not exist!"; }
     return;
   }
 
@@ -363,88 +93,86 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   mSystemThemeFolder = systemThemeFolder;
 
   String themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
-  HashMap<String, String> subSets = getThemeSubSets(themeName);
 
-  bool main = systemThemeFolder.empty();
-  bool needSave = false;
   mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
-  if (main && CheckThemeOption(mColorset, subSets, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
   mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
-  if (main && CheckThemeOption(mIconset, subSets, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
   mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
-  if (main && CheckThemeOption(mMenu, subSets, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
   mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
-  if (main && CheckThemeOption(mSystemview, subSets, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
   mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
-  if (main && CheckThemeOption(mGamelistview, subSets, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
   mGameClipView = RecalboxConf::Instance().GetThemeGameClipView(themeName);
-  if (main && CheckThemeOption(mGameClipView, subSets, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
   mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
-  if (main && mRegion != "us" && mRegion != "eu" && mRegion != "jp") { mRegion="us"; RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
-  if (needSave) RecalboxConf::Instance().Save();
+  // Main theme ?
+  if (mSystem == nullptr)
+  {
+    bool needSave = false;
+    CrawlThemeSubSets(path);
+    //for(auto& kv : subSets) { LOG(LogError) << "[DEBUG]" << kv.first << '-' << kv.second; }
+    if (CheckThemeOption(mColorset, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
+    if (CheckThemeOption(mIconset, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
+    if (CheckThemeOption(mMenu, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
+    if (CheckThemeOption(mSystemview, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
+    if (CheckThemeOption(mGamelistview, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
+    if (CheckThemeOption(mGameClipView, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
+    if (mRegion != "us" && mRegion != "eu" && mRegion != "jp") { mRegion="us"; RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
+    if (needSave) RecalboxConf::Instance().Save();
+  }
 
   pugi::xml_document doc;
-  pugi::xml_parse_result res = doc.load_file(path.ToChars());
-  if(!res)
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "XML parsing error: \n    " + String(res.description()); }
+  pugi::xml_parse_result res = doc.load_string(mCache.File(path).data());
+  if(!res) { LOG(LogError) << "[Themes] " << FileList() << "XML parsing error: \n    " + String(res.description()); }
 
   pugi::xml_node root = doc.child("theme");
-  if(!root)
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Missing <theme> tag!"; }
+  if(!root) { LOG(LogError) << "[Themes] " << FileList() << "Missing <theme> tag!"; }
 
   // parse version
   mVersion = root.child("formatVersion").text().as_float(-404);
   if(mVersion == -404)
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
+    { LOG(LogError) << "[Themes] " << FileList() << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
 
   if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
+    { LOG(LogError) << "[Themes] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 
   parseIncludes(root);
   parseViews(root);
   parseFeatures(root);
-  mPaths.pop_back();
+  mIncludePathStack.pop_back();
 }
 
 void ThemeData::parseIncludes(const pugi::xml_node& root)
 {
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
-  {
     if (parseSubset(node))
     {
-      String errorString;
-      String str = resolveSystemVariable(mSystemThemeFolder, node.text().get(), mRandomPath);
-
+      String str = node.text().get();
+      resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
+      str.Trim();
       //workaround for an issue in parseincludes introduced by variable implementation
       if (!str.Contains("//"))
       {
-        Path path = Path(str).ToAbsolute(mPaths.back().Directory());
+        Path path = Path(str).ToAbsolute(mIncludePathStack.back().Directory());
         if(!ResourceManager::fileExists(path))
         {
           { LOG(LogWarning) << "[ThemeData] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
           continue;
         }
 
-        errorString += "    from included file \"" + str + "\":\n    ";
+        String errorString; errorString += "    from included file \"" + str + "\":\n    ";
 
-        mPaths.push_back(path);
+        mIncludePathStack.push_back(path);
 
         pugi::xml_document includeDoc;
-        pugi::xml_parse_result result = includeDoc.load_file(path.ToChars());
-        if(!result)
-          { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Error parsing file: \n    " + result.description(); }
+        pugi::xml_parse_result result = includeDoc.load_string(mCache.File(path).data());
+        if(!result) { LOG(LogError) << "[Themes] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
 
         pugi::xml_node newRoot = includeDoc.child("theme");
-        if(!newRoot)
-          { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << errorString + "Missing <theme> tag!"; }
+        if(!newRoot) { LOG(LogError) << "[Themes] " << FileList() << errorString + "Missing <theme> tag!"; }
         parseIncludes(newRoot);
         parseViews(newRoot);
         parseFeatures(newRoot);
 
-        mPaths.pop_back();
+        mIncludePathStack.pop_back();
       }
     }
-  }
 }
 
 bool ThemeData::parseSubset(const pugi::xml_node& node)
@@ -468,10 +196,10 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
   for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
   {
     if(!node.attribute("supported"))
-    { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Feature missing \"supported\" attribute!"; }
+    { LOG(LogError) << "[Themes] " << FileList() << "Feature missing \"supported\" attribute!"; continue; }
 
     const String supportedAttr = node.attribute("supported").as_string();
-    if (SupportedFeatures().contains(supportedAttr))
+    if (ThemeSupport::SupportedFeatures().contains(supportedAttr))
       parseViews(node);
   }
 }
@@ -481,12 +209,11 @@ void ThemeData::parseViews(const pugi::xml_node& root)
   // parse views
   for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
   {
-    if(!node.attribute("name")) { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "View missing \"name\" attribute!"; }
+    if(!node.attribute("name")) { LOG(LogError) << "[Themes] " << FileList() << "View missing \"name\" attribute!"; continue; }
     for(String& viewName : String(node.attribute("name").as_string()).LowerCase().Split(','))
     {
       viewName.Trim();
-      if (viewName == "menu") SetThemeHasMenuView(true);
-      if (SupportedViews().contains(viewName))
+      if (ThemeSupport::SupportedViews().contains(viewName))
       {
         ThemeView& view = mViews.insert(std::pair<String, ThemeView>(viewName, ThemeView())).first->second;
         parseView(node, view, false);
@@ -499,40 +226,35 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
 {
   for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
   {
-    if(!node.attribute("name"))
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Element of type \"" + String(node.name()) + R"(" missing "name" attribute!)"; }
-    if (String(node.name()) == "helpsystem")
-      SetThemeHasHelpSystem(true);
-
-    const HashMap< String, HashMap<String, ThemeData::ElementProperty> >& elementMap = ElementMap();
-
+    String type(node.name());
     // Process sub folder extra
-    if (strcmp(node.name(), "extra") == 0 && !forcedExtra)
+    if (type == "extras" && !forcedExtra)
     {
       parseView(node, view, true);
       continue;
     }
+
+    if (!node.attribute("name")) { LOG(LogError) << "[Themes] " << FileList() << "Element of type \"" << type << R"(" missing "name" attribute!)"; continue; }
+
     // Process normal item type
-    auto elemTypeIt = elementMap.find(node.name());
-    if(elemTypeIt == elementMap.end())
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown element of type \"" + String(node.name()) + "\"!"; }
-    const auto & subElementMap = elemTypeIt->second;
+    const HashMap<String, ThemeSupport::ElementProperty>* properties = ThemeSupport::ElementMap().try_get(type);
+    if (properties == nullptr) { LOG(LogError) << "[Themes] " << FileList() << "Unknown element of type \"" << type << "\"!"; continue; }
 
     if (parseRegion(node))
     {
-      String nameAttr = node.attribute("name").as_string();
-      nameAttr.Trim();
-      for(String& key : nameAttr.Split(','))
+      String names = node.attribute("name").as_string();
+      String name;
+      for(bool again = true; again;)
       {
-        key.Trim();
-        int* elementIndex = view.mElements.try_get(key);
+        if (again = names.Extract(',', name, names, true); !again) name = names.Trim();
+        int* elementIndex = view.mElements.try_get(name);
         if (elementIndex == nullptr)
         {
-          view.mElements[key] = (int) view.mElementArray.size();
-          view.mElementArray.push_back(ThemeElement(key, node.name(), node.attribute("extra").as_bool(false) || forcedExtra));
-          parseElement(node, subElementMap, view.mElementArray.back());
+          view.mElements[name] = (int) view.mElementArray.size();
+          view.mElementArray.push_back(ThemeElement(name, type, node.attribute("extra").as_bool(false) || forcedExtra));
+          parseElement(node, *properties, view.mElementArray.back());
         }
-        else parseElement(node, subElementMap, view.mElementArray[*elementIndex]);
+        else parseElement(node, *properties, view.mElementArray[*elementIndex]);
       }
     }
   }
@@ -549,88 +271,99 @@ bool ThemeData::parseRegion(const pugi::xml_node& node)
   return false;
 }
 
-void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, ElementProperty>& typeMap, ThemeElement& element)
+void ThemeData::parseProperty(const String& elementName, const String& propertName, String& value, ThemeSupport::ElementProperty propertyType, ThemeElement& element)
 {
+  switch(propertyType)
+  {
+    case ThemeSupport::ElementProperty::NormalizedPair:
+    {
+      float x = 0;
+      float y = 0;
+      if (value.TryAsFloat(0, ' ', x))
+        if (int pos = value.Find(' '); pos >= 0)
+          if (value.TryAsFloat((int) pos + 1, 0, y))
+          {
+            element.AddVectorProperty(propertName, x, y);
+            break;
+          }
+      { LOG(LogError) << "[Themes] " << FileList() << "invalid normalized pair (property \"" + propertName + "\", value \"" + value + "\")"; }
+      break;
+    }
+    case ThemeSupport::ElementProperty::String:
+    {
+      resolveSystemVariable(mSystemThemeFolder, value, mRandomPath);
+      element.AddStringProperty(propertName, value);
+      break;
+    }
+    case ThemeSupport::ElementProperty::Path:
+    {
+      resolveSystemVariable(mSystemThemeFolder, value, mRandomPath);
+      Path path = Path(value).ToAbsolute(mIncludePathStack.back().Directory());
+      if (ResourceManager::fileExists(path))
+        element.AddStringProperty(propertName, path.ToString());
+      break;
+    }
+    case ThemeSupport::ElementProperty::Color:
+    {
+      element.AddIntProperty(propertName, (int) getHexColor(value.c_str()));
+      break;
+    }
+    case ThemeSupport::ElementProperty::Float:
+    {
+      float floatVal = 0;
+      if (!value.TryAsFloat(floatVal))
+      { LOG(LogError) << "[Themes] " << FileList() << "invalid float value (property \"" + String(propertName) + "\", value \"" + value + "\")"; }
+      element.AddFloatProperty(propertName, floatVal);
+      break;
+    }
+    case ThemeSupport::ElementProperty::Boolean:
+    {
+      // only look at first char
+      char first = value.empty() ? '\0' : value[0];
+      element.AddBoolProperty(propertName, (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y'));
+      break;
+    }
+    default:
+    { LOG(LogError) << "[Themes] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << propertName; }
+  }
+}
+
+void ThemeData::parseElement(const pugi::xml_node& root, const HashMap<String, ThemeSupport::ElementProperty>& typeMap, ThemeElement& element)
+{
+  String elementNode = root.attribute("name").as_string();
+  // process node attributes
+  for (pugi::xml_attribute& attribute : root.attributes())
+  {
+    String name = attribute.name();
+    if (mNoProcessAttributes.contains(name)) continue;
+    //if (name == "name" || name == "region" || name == "extra" || name == "value") continue;
+    // Check object property
+    ThemeSupport::ElementProperty* property = typeMap.try_get(name);
+    if (property == nullptr)
+    {
+      { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      continue;
+    }
+    // Get value
+    String value = attribute.as_string();
+    // Process
+    parseProperty(elementNode, name, value.Trim(), *property, element);
+  }
+  // Process sub nodes
   for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
   {
     String name = node.name();
     // Check object property
-    ElementProperty* property = typeMap.try_get(name);
+    ThemeSupport::ElementProperty* property = typeMap.try_get(name);
     if (property == nullptr)
     {
-      { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown property type \"" + String(node.name()) + "\" (for element of type " + root.name() + ")."; }
+      { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
-
     // Get value from attribute or text
-
-    String str = (node.attribute("value") != nullptr) ? String(node.attribute("value").as_string()).Trim()
-                 : resolveSystemVariable(mSystemThemeFolder, node.text().as_string(), mRandomPath).Trim();
-
-    switch(*property)
-    {
-      case ElementProperty::NormalizedPair:
-      {
-        float x = 0;
-        float y = 0;
-        if (str.TryAsFloat(0, ' ', x))
-          if (int pos = str.Find(' '); pos >= 0)
-            if (str.TryAsFloat((int) pos + 1, 0, y))
-            {
-              element.AddVectorProperty(name, x, y);
-              break;
-            }
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid normalized pair (property \"" + name + "\", value \"" + str + "\")"; }
-        break;
-      }
-      case ElementProperty::String:
-      {
-        element.AddStringProperty(name, str);
-        break;
-      }
-      case ElementProperty::Path:
-      {
-        Path path = Path(str).ToAbsolute(mPaths.back().Directory());
-        String variable = node.text().get();
-        if(!ResourceManager::fileExists(path))
-        {
-          //too many warnings with region and system variable surcharge in themes
-          if (!root.attribute("region") && !variable.Contains("$system"))
-          {
-            String ss = "  Warning " + AddFiles(mPaths); // "from theme yadda yadda, included file yadda yadda
-            ss += String("could not find file \"") + node.text().get() + "\" ";
-            if(path.ToString() != node.text().get())
-              ss += "(which resolved to \"" + path.ToString() + "\") ";
-            { LOG(LogTrace) << "[ThemeData] " << ss; }
-          }
-          break;
-        }
-        element.AddStringProperty(name, path.ToString());
-        break;
-      }
-      case ElementProperty::Color:
-      {
-        element.AddIntProperty(name, (int) getHexColor(str.c_str()));
-        break;
-      }
-      case ElementProperty::Float:
-      {
-        float floatVal = 0;
-        if (!str.TryAsFloat(floatVal))
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "invalid float value (property \"" + String(name) + "\", value \"" + str + "\")"; }
-        element.AddFloatProperty(name, floatVal);
-        break;
-      }
-      case ElementProperty::Boolean:
-      {
-        // only look at first char
-        char first = str[0];
-        element.AddBoolProperty(name, (first == '1' || first == 't' || first == 'T' || first == 'y' || first == 'Y'));
-        break;
-      }
-      default:
-        { LOG(LogError) << "[Themes] " << AddFiles(mPaths) << "Unknown ElementPropertyType for \"" << root.attribute("name").as_string() << "\", property " << name; }
-    }
+    String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
+    // Process
+    parseProperty(elementNode, name, value.Trim(), *property, element);
   }
 }
 
@@ -681,7 +414,7 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
   {
     if(elem.Extra())
     {
-      Component* comp = nullptr;
+      ThemableComponent* comp = nullptr;
       const String& t = elem.Type();
       if      (t == "image")                 comp = new ImageComponent(window);
       else if (t == "text")                  comp = new TextComponent(window);
@@ -692,7 +425,7 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
       if (comp != nullptr)
       {
         comp->setDefaultZIndex(10);
-        comp->applyTheme(theme, view, elem.Name(), ThemeProperties::All);
+        comp->DoApplyThemeElement(theme, view, elem.Name(), ThemePropertiesType::All);
         comps.push_back(comp);
       }
       else { LOG(LogWarning) << "[ThemeData] Extra type unknown: " << elem.Type(); }
@@ -702,94 +435,71 @@ std::vector<Component*> ThemeData::makeExtras(const ThemeData& theme, const Stri
   return comps;
 }
 
-HashMap<String, String> ThemeData::getThemeSubSets(const String& theme)
+void ThemeData::CrawlThemeSubSets(const Path& themeRootPath)
 {
-  HashMap<String, String> sets;
-  std::deque<Path> dequepath;
-
-  static const size_t pathCount = 3;
-  Path paths[pathCount] =
+  if (themeRootPath.Exists())
   {
-    RootFolders::TemplateRootFolder / "/system/.emulationstation/themes/" / theme,
-    RootFolders::DataRootFolder     / "/themes/" / theme,
-    RootFolders::DataRootFolder     / "/system/.emulationstation/themes/" / theme
-  };
+    // Crawl
+    mIncludePathStack.push_back(themeRootPath);
+    pugi::xml_document doc;
+    doc.load_string(mCache.File(themeRootPath).data());
+    pugi::xml_node root = doc.child("theme");
+    CrawlIncludes(root);
+    CrawlRegions(doc);
+    mIncludePathStack.pop_back();
 
-  for (const auto& path : paths)
-  {
-    Path::PathList list = path.GetDirectoryContent();
-    for(auto& setPath : list)
-    {
-      if (setPath.IsDirectory())
-      {
-        Path themePath = setPath / "theme.xml";
-        dequepath.push_back(themePath);
-        pugi::xml_document doc;
-        doc.load_file(themePath.ToChars());
-        pugi::xml_node root = doc.child("theme");
-        crawlIncludes(root, sets, dequepath);
-        dequepath.pop_back();
-      }
-    }
-    Path master = path / "theme.xml";
-    if (master.Exists())
-    {
-      dequepath.push_back(master);
-      pugi::xml_document doc;
-      doc.load_file(master.ToChars());
-      pugi::xml_node root = doc.child("theme");
-      crawlIncludes(root, sets, dequepath);
-      findRegion(doc, sets);
-      dequepath.pop_back();
-    }
+    // Sort all subsets
+    for(auto& kv : mSubSets)
+      std::sort(kv.second.begin(), kv.second.end());
   }
-
-  return sets;
 }
 
-void ThemeData::crawlIncludes(const pugi::xml_node& root, HashMap<String, String>& sets, std::deque<Path>& dequepath)
+void ThemeData::CrawlIncludes(const pugi::xml_node& root)
 {
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
   {
-    sets[node.attribute("name").as_string()] = node.attribute("subset").as_string();
+    mSubSets[node.attribute("subset").as_string()].push_back(node.attribute("name").as_string());
 
     Path relPath(node.text().get());
-    Path path = relPath.ToAbsolute(dequepath.back().Directory());
-    dequepath.push_back(path);
+    Path path = relPath.ToAbsolute(mIncludePathStack.back().Directory());
+    mIncludePathStack.push_back(path);
     pugi::xml_document includeDoc;
-    /*pugi::xml_parse_result result =*/ includeDoc.load_file(path.ToChars());
+    /*pugi::xml_parse_result result =*/ includeDoc.load_string(mCache.File(path).data());
     pugi::xml_node newRoot = includeDoc.child("theme");
-    crawlIncludes(newRoot, sets, dequepath);
-    findRegion(includeDoc, sets);
-    dequepath.pop_back();
+    CrawlIncludes(newRoot);
+    CrawlRegions(includeDoc);
+    mIncludePathStack.pop_back();
   }
 }
 
-void ThemeData::findRegion(const pugi::xml_document& doc, HashMap<String, String>& sets)
+void ThemeData::CrawlRegions(const pugi::xml_document& doc)
 {
   pugi::xpath_node_set regionattr = doc.select_nodes("//@region");
   for (auto xpath_node : regionattr)
   {
     if (xpath_node.attribute() != nullptr)
-      sets[xpath_node.attribute().value()] = "region";
+      mSubSets["region"].push_back(xpath_node.attribute().value());
   }
 }
 
-// as the getThemeSubSets process is heavy, doing it 1 time for all subsets then sorting on demand
-String::List ThemeData::sortThemeSubSets(const HashMap<String, String>& subsetmap, const String& subset)
+const String::List& ThemeData::GetSubSetValues(const String& subset) const
 {
-  String::List sortedsets;
+  String::List* list = mSubSets.try_get(subset);
+  // No subset at all ?
+  if (list == nullptr)
+  {
+    static String::List sEmptySubset;
+    return sEmptySubset;
+  }
 
-  for (const auto& it : subsetmap)
-    if (it.second == subset)
-      sortedsets.push_back(it.first);
+  // Empty subset? special case for gameclipview
+  if (subset == "gameclipview" && !list->empty())
+  {
+    static String::List sEmptySubset { getNoTheme() };
+    return sEmptySubset;
+  }
 
-  if(subset == "gameclipview" && !sortedsets.empty() )
-      sortedsets.push_back(getNoTheme());
-
-  std::sort(sortedsets.begin(), sortedsets.end());
-
-  return sortedsets;
+  return *list;
 }
 
 String ThemeData::getTransition() const
@@ -819,4 +529,62 @@ bool ThemeData::isFolderHandled() const
 {
   const auto* elem = getElement("detailed", "md_folder_name", "text");
   return elem != nullptr && elem->HasProperty("pos");
+}
+
+String ThemeData::FileList()
+{
+  String result;
+  result = "from theme \"" + mIncludePathStack.front().ToString() + "\"\n";
+  for (auto it = mIncludePathStack.begin() + 1; it != mIncludePathStack.end(); it++)
+    result += "  (from included file \"" + (*it).ToString() + "\")\n";
+  result += "    ";
+  return result;
+}
+
+void ThemeData::Reset()
+{
+  mViews.clear();
+  mSubSets.clear();
+  mIncludePathStack.clear();
+  mVersion = 0.f;
+  mColorset.clear();
+  mIconset.clear();
+  mMenu.clear();
+  mSystemview.clear();
+  mGamelistview.clear();
+  mRegion.clear();
+  mGameClipView.clear();
+  mSystemThemeFolder.clear();
+  mRandomPath.clear();
+}
+
+void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[out]] String& path, String& randomPath)
+{
+  if (path.Contains('$'))
+  {
+    path.Replace("$system", systemThemeFolder).Replace("$language", mLangageCode).Replace("$country", mRegionCode);
+    PickRandomPath(path, randomPath);
+  }
+}
+
+void ThemeData::PickRandomPath(String& value, String& randomPath)
+{
+  if (!value.Contains(sRandomMethod)) return;
+
+  String args;
+  if (value.Extract(sRandomMethod, ")", args, true))
+    if (randomPath.empty())
+    {
+      String::List paths = args.Split(',');
+      std::random_device rd;
+      std::default_random_engine engine(rd());
+      const int max = (int) paths.size();
+      std::uniform_int_distribution<int> distrib {
+        0,
+        max - 1
+      };
+      randomPath = paths[distrib(engine)];
+    }
+
+  value.Replace(sRandomMethod + args + ')', randomPath);
 }

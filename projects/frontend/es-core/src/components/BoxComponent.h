@@ -5,12 +5,14 @@
 
 #include "utils/math/Transform4x4f.h"
 #include "WindowManager.h"
+#include <components/base/ThemableComponent.h>
 
-class BoxComponent : public Component
+class BoxComponent : public ThemableComponent
 {
   public:
     explicit BoxComponent(WindowManager& window)
-      : Component(window)
+      : ThemableComponent(window)
+      , mColor(0)
     {
     }
 
@@ -25,15 +27,6 @@ class BoxComponent : public Component
     void Render(const Transform4x4f& trans) override;
 
     /*!
-     * @brief Apply theme
-     * @param theme Theme
-     * @param view View name
-     * @param element Element name
-     * @param properties Properties to set
-     */
-    void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
-
-    /*!
      * @brief Set box color
      * @param color RGBA color
      */
@@ -43,7 +36,24 @@ class BoxComponent : public Component
      * @brief Get box color
      * @return Box color
      */
-    Colors::ColorRGBA Color() const { return mColor; }
+    [[nodiscard]] Colors::ColorRGBA Color() const { return mColor; }
+
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Called when a theme element is applyed on the current component.
+     * @param element Element instance
+     * @param properties Properties to update
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "box"; }
 
   private:
     //! Color

@@ -7,12 +7,9 @@
 #include <guis/GuiTextEditPopupKeyboard.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <views/ViewController.h>
-#include <RecalboxConf.h>
-#include "components/ScrollableContainer.h"
 #include "GuiSearch.h"
 #include "GuiNetPlayHostPasswords.h"
 #include <VideoEngine.h>
-
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10
@@ -176,18 +173,18 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     Close();
     return true;
   }
-  else if (event.R1Pressed())
+  if (event.R1Pressed())
   {
     mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
     return true;
   }
-  else if (event.ValidPressed())
+  if (event.ValidPressed())
   {
     clear();
     launch();
     return true;
   }
-  else if (event.SelectPressed())
+  if (event.SelectPressed())
   {
     clear();
     GoToGame();
@@ -209,7 +206,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     }
     if (event.YPressed())
     {
-      if (cursor->IsGame() && cursor->System().Theme().getHasFavoritesInTheme())
+      if (cursor->IsGame())
       {
         ViewController::Instance().ToggleFavorite(cursor);
         populateGridMeta(mList->getCursor());
@@ -293,7 +290,7 @@ void GuiSearch::PopulateGrid(const String& search)
 
   if (search.length()>2)
   {
-    SystemData* systemData = ViewController::Instance().CurrentView() == ViewController::ViewType::GameList ?
+    SystemData* systemData = ViewController::Instance().CurrentView() == ViewType::GameList ?
                              ViewController::Instance().CurrentSystem() :
                              nullptr;
     mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);
@@ -361,7 +358,7 @@ void GuiSearch::populateGridMeta(int i)
   mResultVideo->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
 
   //system logo retieved from theme
-  mResultSystemLogo->applyTheme(mSearchResults[i]->System().Theme(), "system", "logo", ThemeProperties::Path);
+  mResultSystemLogo->DoApplyThemeElement(mSearchResults[i]->System().Theme(), "system", "logo", ThemePropertiesType::Path);
   mGridLogoAndMD->setRowHeightPerc(0, 0.5f);
   mResultSystemLogo->setResize(mGridLogo->getSize().x() * 0.8f, mGridLogo->getSize().y() * 0.8f);
   mResultSystemLogo->setKeepRatio(true);

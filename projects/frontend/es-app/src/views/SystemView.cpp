@@ -57,7 +57,7 @@ void SystemView::addSystem(SystemData * it)
     ImageComponent* logo = new ImageComponent(mWindow, false, false);
     logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
     logo->setKeepRatio(true);
-    logo->applyTheme((it)->Theme(), "system", "logo", ThemeProperties::Path);
+    logo->DoApplyThemeElement((it)->Theme(), "system", "logo", ThemePropertiesType::Path);
     e.data.logo = std::shared_ptr<Component>(logo);
     if ((it)->ThemeFolder() == "default")
     {
@@ -469,11 +469,6 @@ bool SystemView::getHelpPrompts(Help& help)
   return true;
 }	
 
-void SystemView::ApplyHelpStyle()
-{
-  HelpItemStyle().FromTheme(mEntries[mCursor].object->Theme(), "system");
-}
-
 void SystemView::onThemeChanged(const ThemeData& theme)
 {
   (void)theme; // TODO: Log theme name
@@ -493,7 +488,7 @@ void  SystemView::getViewElements(const ThemeData& theme)
 
     const ThemeElement* sysInfoElem = theme.getElement("system", "systemInfo", "text");
     if (sysInfoElem != nullptr)
-      mSystemInfo.applyTheme(theme, "system", "systemInfo", ThemeProperties::All);
+      mSystemInfo.DoApplyThemeElement(theme, "system", "systemInfo", ThemePropertiesType::All);
 
     mViewNeedsReload = false;
     }
@@ -836,7 +831,7 @@ void SystemView::Run()
 void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
 {
   //! Still on system list?
-  if (ViewController::Instance().isViewing(ViewController::ViewType::SystemList))
+  if (ViewController::Instance().isViewing(ViewType::SystemList))
   {
     mSystemLocker.Lock();
     bool workToDoFirst = mSystemFromWitchToExtractData != nullptr;

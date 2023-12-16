@@ -1,11 +1,11 @@
 #pragma once
 
-#include "components/base/Component.h"
+#include "components/base/ThemableComponent.h"
 #include "resources/Font.h"
 #include <utils/datetime/DateTime.h>
 
 // Used to enter or display a specific point in time.
-class DateTimeComponent : public Component
+class DateTimeComponent : public ThemableComponent
 {
 public:
 	enum class Display
@@ -48,9 +48,20 @@ public:
 	void setUppercase(bool uppercase); // Force text to be uppercase when in DISP_RELATIVE_TO_NOW mode.
 	void setHorizontalAlignment(TextAlignment align);
 
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+    /*!
+     * @brief Apply theme element to this date component
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& theme, ThemePropertiesType properties) override;
 
-private:
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "datetime"; }
+
+  private:
 	std::shared_ptr<Font> getFont() const;
 
 	String getDisplayString(Display mode) const;

@@ -11,21 +11,21 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
   , mThemeName(themeName)
   , mReloadRequired(false)
 {
-  StringMaps themeSubSets = ThemeData::getThemeSubSets(themeName);
-  mColorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG), RecalboxConf::Instance().GetThemeColorSet(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "colorset")    , Components::ColorSet, mOriginalColorSet);
-  mIconSet      = BuildSelector(_("THEME ICONSET"     ), _(MENUMESSAGE_UI_THEME_ICONSET_MSG), RecalboxConf::Instance().GetThemeIconSet(themeName)   ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "iconset")     , Components::IconSet, mOriginalIconSet);
-  mMenuSet      = BuildSelector(_("THEME MENU"        ), _(MENUMESSAGE_UI_THEME_MENU_MSG), RecalboxConf::Instance().GetThemeMenuSet(themeName)   ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "menu")        , Components::MenuSet, mOriginalMenuSet);
+  const ThemeData& theme = ThemeManager::Instance().Main();
+  mColorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG), RecalboxConf::Instance().GetThemeColorSet(themeName),
+                                theme.GetSubSetValues("colorset")    , Components::ColorSet, mOriginalColorSet);
+  mIconSet      = BuildSelector(_("THEME ICONSET"     ), _(MENUMESSAGE_UI_THEME_ICONSET_MSG), RecalboxConf::Instance().GetThemeIconSet(themeName),
+                                theme.GetSubSetValues("iconset")     , Components::IconSet, mOriginalIconSet);
+  mMenuSet      = BuildSelector(_("THEME MENU"        ), _(MENUMESSAGE_UI_THEME_MENU_MSG), RecalboxConf::Instance().GetThemeMenuSet(themeName),
+                                theme.GetSubSetValues("menu")        , Components::MenuSet, mOriginalMenuSet);
   mSystemView   = BuildSelector(_("THEME SYSTEMVIEW"  ), _(MENUMESSAGE_UI_THEME_SYSTEMVIEW_MSG), RecalboxConf::Instance().GetThemeSystemView(themeName),
-                                ThemeData::sortThemeSubSets(themeSubSets, "systemview")  , Components::SystemView, mOriginalSystemView);
-  mGameListView = BuildSelector(_("THEME GAMELISTVIEW"), _(MENUMESSAGE_UI_THEME_GAMELISTVIEW_MSG), RecalboxConf::Instance().GetThemeGamelistView(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "gamelistview"), Components::GamelistView, mOriginalGameListView);
-  mGameClipView = BuildSelector(_("THEME GAMECLIPVIEW"), _(MENUMESSAGE_UI_THEME_GAMECLIPVIEW_MSG), RecalboxConf::Instance().GetThemeGameClipView(themeName)  ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "gameclipview"), Components::GameClipView, mOriginalGameClipView);
-  mRegion       = BuildSelector(_("THEME REGION"      ), _(MENUMESSAGE_UI_THEME_REGION_MSG), RecalboxConf::Instance().GetThemeRegion(themeName)    ,
-                                ThemeData::sortThemeSubSets(themeSubSets, "region")      , Components::Region, mOriginalRegion);
+                                theme.GetSubSetValues("systemview")  , Components::SystemView, mOriginalSystemView);
+  mGameListView = BuildSelector(_("THEME GAMELISTVIEW"), _(MENUMESSAGE_UI_THEME_GAMELISTVIEW_MSG), RecalboxConf::Instance().GetThemeGamelistView(themeName),
+                                theme.GetSubSetValues("gamelistview"), Components::GamelistView, mOriginalGameListView);
+  mGameClipView = BuildSelector(_("THEME GAMECLIPVIEW"), _(MENUMESSAGE_UI_THEME_GAMECLIPVIEW_MSG), RecalboxConf::Instance().GetThemeGameClipView(themeName),
+                                theme.GetSubSetValues("gameclipview"), Components::GameClipView, mOriginalGameClipView);
+  mRegion       = BuildSelector(_("THEME REGION"      ), _(MENUMESSAGE_UI_THEME_REGION_MSG), RecalboxConf::Instance().GetThemeRegion(themeName),
+                                theme.GetSubSetValues("region")      , Components::Region, mOriginalRegion);
 
   // Empty?
   if (!mColorSet && !mIconSet && !mMenuSet && !mSystemView && !mGameListView && !mRegion)
@@ -45,8 +45,6 @@ GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
       (mGameClipView && (mGameClipView->getSelected() != mOriginalGameClipView)) ||
       (mRegion       && (mRegion->getSelected()       != mOriginalRegion      )))
   {
-    ThemeManager::Instance().ThemeChanged(mWindow);
-    RequestRelaunch();
   }
 }
 
@@ -63,6 +61,7 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
     case Components::GameClipView: RecalboxConf::Instance().SetThemeGameClipView(mThemeName, value).Save(); break;
     case Components::Region: RecalboxConf::Instance().SetThemeRegion(mThemeName, value).Save(); break;
   }
+  ThemeManager::Instance().DoThemeChange();
 }
 
 GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const String::List& items, Components id, String& original)

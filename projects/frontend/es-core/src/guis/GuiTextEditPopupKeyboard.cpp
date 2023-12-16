@@ -100,7 +100,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const S
 	    }
 	}
 
-	const float screenHeightAvailable = Renderer::Instance().DisplayHeightAsFloat() - HelpItemStyle().TextFont()->getHeight(); // Height - Help Height
+	const float screenHeightAvailable = Renderer::Instance().DisplayHeightAsFloat() - mWindow.HelpBar().Height();; // Height - Help Height
   const float gridWidth = Renderer::Instance().DisplayWidthAsFloat() * 0.98f;
   const float gridHeight = screenHeightAvailable * ((float) buttonList.size() / (float) (buttonList.size() + 3) ); // 3 => share space with mTitle + mText + buttons
 

@@ -10,6 +10,7 @@
 #include "ISoftPatchingNotifier.h"
 #include "views/gamelist/DetailedGameListView.h"
 #include "guis/GuiWaitLongExecution.h"
+#include "ViewTypes.h"
 #include <emulators/run/GameLinkedData.h>
 
 class SystemData;
@@ -44,17 +45,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
       SoftPatching     = 0x10, //!< Soft patching selected
       SuperGameboy     = 0x20, //!< Supergameboy selected
       SaveState        = 0x40, //!< Savestate selected
-    };
-
-    //! View type
-    enum class ViewType
-    {
-      None,           //!< Unitialized
-      SplashScreen,   //!< Splash screen (startup or stop)
-      SystemList,     //!< System list
-      GameList,       //!< Game list
-      GameClip,       //!< Game clip
-      CrtCalibration, //!< CRT Calibration screen
     };
 
     /*!
@@ -103,7 +93,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentViewType == viewing; }
 
     bool getHelpPrompts(Help& help) override;
-    void ApplyHelpStyle() override;
 
     ISimpleGameListView* GetOrCreateGamelistView(SystemData* system);
     SystemView& getSystemListView() { return mSystemListView; }

@@ -151,6 +151,29 @@ class WindowManager
      */
     void SetDisplayEnabled(bool enabled) { mDisplayEnabled = enabled; }
 
+    /*!
+     * @brief Help component accessor
+     * @return Help component
+     */
+    HelpComponent& HelpBar() { return mHelp; };
+
+    /*!
+     * @brief Register a client interested in being notified of view changes
+     * @param interface Interface to notify
+     */
+    void Register(IViewChanged* interface) { mViewChanged.Add(interface); }
+
+    /*!
+     * @brief Delete a client in the view change list
+     * @param interface Interface to remove
+     */
+    void Unregister(IViewChanged* interface) { mViewChanged.Remove(interface); }
+
+    /*!
+     * @brief Notify view change
+     */
+    void NotifyViewChanges();
+
   private:
     //! Maximum popup info
     static constexpr int sMaxInfoPopups = 10;
@@ -168,6 +191,8 @@ class WindowManager
 
     //! OSD Manager
     OSDManager mOSD;
+
+    Array<IViewChanged*> mViewChanged;
 
     HelpComponent mHelp;
     ImageComponent mBackgroundOverlay;
@@ -223,9 +248,4 @@ class WindowManager
      * @brief Set all popup target position
      */
     void InfoPopupRetarget();
-
-    /*!
-     * @brief Check and display battery icon
-     */
-    static void DisplayBatteryState();
 };

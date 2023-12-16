@@ -24,6 +24,7 @@ struct TextListData
 //A graphical list. Supports multiple colors for rows and scrolling.
 template <typename T>
 class TextListComponent : public IList<TextListData, T>
+                        , public Themable
 {
 protected:
 	using IList<TextListData, T>::mEntries;
@@ -49,7 +50,6 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
 	void add(const String& name, const T& obj, int colorId, bool toTheBeginning = false);
   void add(const String& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
@@ -94,7 +94,24 @@ public:
 	virtual void onScroll(int amt) { (void)amt; AudioManager::Instance().PlaySound(mScrollSound); }
 	virtual void onCursorChanged(const CursorState& state);
 
-private:
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Apply theme element to this nine-patch image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "textlist"; }
+    
+  private:
   void updateBarColor()
   {
     unsigned char lr = mSelectorColor >> 24;
@@ -163,6 +180,7 @@ int TextListComponent<T>::Lookup(const T object)
 template <typename T>
 TextListComponent<T>::TextListComponent(WindowManager& window)
   :	IList<TextListData, T>(window)
+  , Themable(this)
   , mSelectorImage(window)
   , mColors{ 0x0000FFFF, 0x00FF00FF}
   , mFont(Font::get(FONT_SIZE_MEDIUM))
@@ -522,84 +540,61 @@ void TextListComponent<T>::onCursorChanged(const CursorState& state)
 }
 
 template <typename T>
-void TextListComponent<T>::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void TextListComponent<T>::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-	Component::applyTheme(theme, view, element, properties);
-
-	const ThemeElement* elem = theme.getElement(view, element, "textlist");
-	if (elem == nullptr)
-		return;
-
-	if (hasFlag(properties, ThemeProperties::Color))
+	if (hasFlag(properties, ThemePropertiesType::Color))
 	{
-		if(elem->HasProperty("selectorColor"))
-			setSelectorColor((unsigned int)elem->AsInt("selectorColor"));
-		if(elem->HasProperty("selectedColor"))
-			setSelectedColor((unsigned int)elem->AsInt("selectedColor"));
-		if(elem->HasProperty("primaryColor"))
-			setColor(0, (unsigned int)elem->AsInt("primaryColor"));
-		if(elem->HasProperty("secondaryColor"))
-			setColor(1, (unsigned int)elem->AsInt("secondaryColor"));
+		if(element.HasProperty("selectorColor"))  setSelectorColor((unsigned int)element.AsInt("selectorColor"));
+		if(element.HasProperty("selectedColor"))  setSelectedColor((unsigned int)element.AsInt("selectedColor"));
+		if(element.HasProperty("primaryColor"))   setColor(0, (unsigned int)element.AsInt("primaryColor"));
+		if(element.HasProperty("secondaryColor")) setColor(1, (unsigned int)element.AsInt("secondaryColor"));
 	}
 
-	setFont(Font::getFromTheme(elem, properties, mFont));
+	setFont(Font::getFromTheme(element, properties, mFont));
 	
-	if (hasFlag(properties, ThemeProperties::Sound) && elem->HasProperty("scrollSound"))
+	if (hasFlag(properties, ThemePropertiesType::Sound) && element.HasProperty("scrollSound"))
   {
-    Path soundPath = Path(elem->AsString("sound"));
+    Path soundPath = Path(element.AsString("sound"));
     setSound(AudioManager::Instance().LoadSound(soundPath));
   }
 
-	if (hasFlag(properties, ThemeProperties::Alignment))
+	if (hasFlag(properties, ThemePropertiesType::Alignment))
 	{
-		if(elem->HasProperty("alignment"))
+		if(element.HasProperty("alignment"))
 		{
-			const String& str = elem->AsString("alignment");
-			if(str == "left")
-				setAlignment(HorizontalAlignment::Left);
-			else if(str == "center")
-				setAlignment(HorizontalAlignment::Center);
-			else if(str == "right")
-				setAlignment(HorizontalAlignment::Right);
-			else
-      { LOG(LogError) << "[TextListComponent] Unknown TextListComponent alignment \"" << str << "\"!"; }
+			const String& str = element.AsString("alignment");
+			if (str == "left")        setAlignment(HorizontalAlignment::Left);
+			else if (str == "center") setAlignment(HorizontalAlignment::Center);
+			else if(str == "right")   setAlignment(HorizontalAlignment::Right);
+			else { LOG(LogError) << "[TextListComponent] Unknown TextListComponent alignment \"" << str << "\"!"; }
 		}
-		if(elem->HasProperty("horizontalMargin"))
-		{
-			mHorizontalMargin = elem->AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::Instance().DisplayWidthAsFloat());
-		}
+		if(element.HasProperty("horizontalMargin"))
+			mHorizontalMargin = element.AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::Instance().DisplayWidthAsFloat());
 	}
 
-	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
-		setUppercase(elem->AsBool("forceUppercase"));
+	if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase"))
+		setUppercase(element.AsBool("forceUppercase"));
 
-	if (hasFlag(properties, ThemeProperties::LineSpacing))
+	if (hasFlag(properties, ThemePropertiesType::LineSpacing))
 	{
-		if(elem->HasProperty("lineSpacing"))
-			setLineSpacing(elem->AsFloat("lineSpacing"));
-		if(elem->HasProperty("selectorHeight"))
-		{
-			setSelectorHeight(elem->AsFloat("selectorHeight") * Renderer::Instance().DisplayHeightAsFloat());
-		} else {
-			setSelectorHeight(mFont->getSize() * mLineSpacing);
-		}
-		if(elem->HasProperty("selectorOffsetY"))
+		if(element.HasProperty("lineSpacing")) setLineSpacing(element.AsFloat("lineSpacing"));
+		if(element.HasProperty("selectorHeight")) setSelectorHeight(element.AsFloat("selectorHeight") * Renderer::Instance().DisplayHeightAsFloat());
+		else setSelectorHeight(mFont->getSize() * mLineSpacing);
+    if(element.HasProperty("selectorOffsetY"))
 		{
 			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::Instance().DisplayHeightAsFloat();
-			setSelectorOffsetY(elem->AsFloat("selectorOffsetY") * scale);
-		} else {
-			setSelectorOffsetY(0.0);
+			setSelectorOffsetY(element.AsFloat("selectorOffsetY") * scale);
 		}
+    else setSelectorOffsetY(0.0);
 	}
 
-	if (elem->HasProperty("selectorImagePath"))
+  if (element.HasProperty("selectorImagePath"))
 	{
-		Path path(elem->AsString("selectorImagePath"));
-		bool tile = elem->HasProperty("selectorImageTile") && elem->AsBool("selectorImageTile");
+		Path path(element.AsString("selectorImagePath"));
+		bool tile = element.HasProperty("selectorImageTile") && element.AsBool("selectorImageTile");
 		mSelectorImage.setImage(path, tile);
 		mSelectorImage.setSize(mSize.x(), mSelectorHeight);
 		mSelectorImage.setColorShift(mSelectorColor);
-	} else {
-		mSelectorImage.setImage(Path());
 	}
+  else mSelectorImage.setImage(Path());
 }

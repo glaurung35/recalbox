@@ -6,7 +6,6 @@
 #include <padtokeyboard/pad/PadItems.h>
 #include <padtokeyboard/pad/MappingConfiguration.h>
 #include <utils/storage/HashMap.h>
-#include <help/HelpStyle.h>
 #include <memory>
 #include <utils/math/Misc.h>
 #include <resources/Font.h>
@@ -17,6 +16,7 @@
 #include <themes/MenuThemeData.h>
 #include <input/InputCompactEvent.h>
 #include <themes/ThemeManager.h>
+#include <WindowManager.h>
 
 static const char* IconPathMap(PadItems padItems)
 {
@@ -158,7 +158,7 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
   mBackground.setCenterColor(menuTheme.Background().color);
   mBackground.setEdgeColor(menuTheme.Background().color);
 
-  const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
+  const std::shared_ptr<Font>& font = mWindow.HelpBar().TextFont();;
 
   // Keep in sync with HelpComponent to avoid rasterized svg to be stretched
   const float height = Math::round(font->getLetterHeight() * 1.75f);
@@ -234,7 +234,7 @@ void GuiControlHints::onSizeChanged()
     mGrid.setRowHeightPerc(i + 2, 0, false);
 
   // icon/padnumber width
-  const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
+  const std::shared_ptr<Font>& font = mWindow.HelpBar().TextFont();
   const float iconPercent = Math::round(font->getLetterHeight() * 2.0f) / mSize.x();
 
   //  Set columns

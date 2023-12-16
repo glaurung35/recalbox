@@ -5,6 +5,7 @@
 #include <utils/math/Vector3f.h>
 #include <themes/Properties.h>
 #include "IComponent.h"
+#include "themes/ThemeElement.h"
 
 #include <functional>
 #include <vector>
@@ -58,27 +59,27 @@ class Component: public IComponent
      */
     void Render(const Transform4x4f& parentTrans) override;
 
-    inline bool isThemeDisabled() const { return mThemeDisabled; }
+    [[nodiscard]] inline bool isThemeDisabled() const { return mThemeDisabled; }
     inline void setThemeDisabled(bool disabled) { mThemeDisabled = disabled; }
 
-    const Vector3f& getPosition() const { return mPosition; }
+    [[nodiscard]] const Vector3f& getPosition() const { return mPosition; }
     void setNormalisedPosition(float x, float y, float z = 0.0f);
     inline void setPosition(const Vector3f& offset) { setPosition(offset.x(), offset.y(), offset.z()); }
     void setPosition(float x, float y, float z = 0.0f);
     virtual void onPositionChanged() {};
 
     //Sets the origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-    const Vector2f& getOrigin() const { return mOrigin; }
+    [[nodiscard]] const Vector2f& getOrigin() const { return mOrigin; }
     void setOrigin(float originX, float originY);
     inline void setOrigin(const Vector2f& origin) { setOrigin(origin.x(), origin.y()); }
     virtual void onOriginChanged() {};
 
     //Sets the rotation origin as a percentage of this image (e.g. (0, 0) is top left, (0.5, 0.5) is the center)
-    const Vector2f& getRotationOrigin() const { return mRotationOrigin; }
+    [[nodiscard]] const Vector2f& getRotationOrigin() const { return mRotationOrigin; }
     void setRotationOrigin(float originX, float originY);
     inline void setRotationOrigin(const Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
 
-    const Vector2f& getSize() const {	return mSize; }
+    [[nodiscard]] const Vector2f& getSize() const {	return mSize; }
     inline void setSize(const Vector2f& size) { setSize(size.x(), size.y()); }
     void setSize(float w, float h);
 
@@ -87,36 +88,36 @@ class Component: public IComponent
      */
     virtual void onSizeChanged() {};
 
-    float getRotation() const { return mRotation; }
+    [[nodiscard]] float getRotation() const { return mRotation; }
     void setRotation(float rotation) { mRotation = rotation; }
     inline void setRotationDegrees(float rotation) { setRotation(rotation * (float)3.14159265359 / 180.0f); }
 
-    inline float getScale() const { return mScale; }
+    [[nodiscard]] inline float getScale() const { return mScale; }
     inline void setScale(float scale) { mScale = scale; }
 
-    inline float getZIndex() const { return mZIndex; }
+    [[nodiscard]] inline float getZIndex() const { return mZIndex; }
     inline void setZIndex(float zIndex) { mZIndex = zIndex; mThemeDisabled = false; }
 
-    inline float getDefaultZIndex() const { return mDefaultZIndex; }
+    [[nodiscard]] inline float getDefaultZIndex() const { return mDefaultZIndex; }
     inline void setDefaultZIndex(float zIndex) { mDefaultZIndex = zIndex; }
 
     // Returns the center point of the image (takes origin into account).
-    Vector2f getCenter() const;
+    [[nodiscard]] Vector2f getCenter() const;
 
     void setParent(Component* parent) { mParent = parent; }
-    Component* getParent() const { return mParent; }
+    [[nodiscard]] Component* getParent() const { return mParent; }
 
     void addChild(Component* cmp);
     void removeChild(Component* cmp);
     void clearChildren();
     void sortChildren();
-    unsigned int getChildCount() const;
-    Component* getChild(unsigned int i) const;
+    [[nodiscard]] unsigned int getChildCount() const;
+    [[nodiscard]] Component* getChild(unsigned int i) const;
 
     // animation will be automatically deleted when it completes or is stopped.
-    bool isAnimationPlaying(unsigned char slot) const;
-    bool isAnimationReversed(unsigned char slot) const;
-    int getAnimationTime(unsigned char slot) const;
+    [[nodiscard]] bool isAnimationPlaying(unsigned char slot) const;
+    [[nodiscard]] bool isAnimationReversed(unsigned char slot) const;
+    [[nodiscard]] int getAnimationTime(unsigned char slot) const;
     void setAnimation(Animation* animation, int delay = 0, const std::function<void()>& finishedCallback = nullptr, bool reverse = false, unsigned char slot = 0);
     bool stopAnimation(unsigned char slot);
     bool cancelAnimation(unsigned char slot); // Like stopAnimation, but doesn't call finishedCallback - only removes the animation, leaving things in their current state.  Returns true if successful (an animation was in this slot).
@@ -125,14 +126,14 @@ class Component: public IComponent
     void stopAllAnimations();
     void cancelAllAnimations();
 
-    virtual unsigned char getOpacity() const { return mOpacity; }
+    [[nodiscard]] virtual unsigned char getOpacity() const { return mOpacity; }
     virtual void setOpacity(unsigned char opacity);
 
     const Transform4x4f& getTransform();
 
-    virtual String getValue() const { return String::Empty; }
-    virtual void setValue(const String& ) { }
-    virtual void setColor(unsigned int ) { }
+    [[nodiscard]] virtual String getValue() const { return String::Empty; }
+    virtual void setValue(const String&  /*unused*/) { }
+    virtual void setColor(unsigned int  /*unused*/) { }
     virtual unsigned int getOriginColor() {	return 0; }
 
     virtual void onFocusGained() {};
@@ -144,7 +145,7 @@ class Component: public IComponent
 
     // Default implementation just handles <pos> and <size> tags as normalized float pairs.
     // You probably want to keep this behavior for any derived classes as well as add your own.
-    virtual void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties);
+    //virtual void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties);
 
     /*!
      * @brief Fill help list
@@ -156,12 +157,10 @@ class Component: public IComponent
     // Called whenever help prompts change.
     void updateHelpPrompts();
 
-    virtual void ApplyHelpStyle();
-
     virtual inline void setScrollDir(int dir) { (void)dir; }
 
     // Returns true if the component is busy doing background processing (e.g. HTTP downloads)
-    bool isProcessing() const { return mIsProcessing; }
+    [[nodiscard]] bool isProcessing() const { return mIsProcessing; }
 
     const static unsigned char MAX_ANIMATIONS = 4;
 
@@ -181,7 +180,7 @@ class Component: public IComponent
     void updateChildren(int deltaTime) const; // updates animations
 
     Vector2f denormalise(float x, float y);
-    Vector2f denormalise(const Vector2f& value) const;
+    [[nodiscard]] Vector2f denormalise(const Vector2f& value) const;
 
     WindowManager& mWindow;
     Component* mParent;

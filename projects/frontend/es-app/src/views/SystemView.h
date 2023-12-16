@@ -70,7 +70,6 @@ class SystemView : public IList<SystemViewData, SystemData*>
     void onThemeChanged(const ThemeData& theme);
 
     bool getHelpPrompts(Help& help) override;
-    void ApplyHelpStyle() override;
     void populate();
 
     /*!

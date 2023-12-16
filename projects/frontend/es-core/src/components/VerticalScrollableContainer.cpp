@@ -9,9 +9,8 @@
 #include "Renderer.h"
 #include "VerticalScrollableContainer.h"
 
-
 VerticalScrollableContainer::VerticalScrollableContainer(WindowManager&window)
-  : Component(window)
+  : ThemableComponent(window)
   , mScrollOffset(0)
   , mScrollTime(0)
   , mLastDirection(0)

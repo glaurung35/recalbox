@@ -163,10 +163,7 @@ void Component::clearChildren()
 void Component::sortChildren()
 {
   if (mChildren != nullptr)
-    std::stable_sort(mChildren->begin(), mChildren->end(),  [](Component* a, Component* b)
-    {
-      return b->getZIndex() > a->getZIndex();
-    });
+    std::stable_sort(mChildren->begin(), mChildren->end(),  [](Component* a, Component* b) { return b->getZIndex() > a->getZIndex(); });
 }
 
 unsigned int Component::getChildCount() const
@@ -340,46 +337,6 @@ Vector2f Component::denormalise(const Vector2f& value) const
     return value * scale;
 }
 
-void Component::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
-{
-	Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-
-	const ThemeElement* elem = theme.getElement(view, element, "");
-	if(elem == nullptr)
-		return;
-
-	if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos"))
-	{
-		Vector2f denormalized = elem->AsVector("pos") * scale;
-		setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
-	}
-
-	if(hasFlag(properties, ThemeProperties::Size) && elem->HasProperty("size"))
-		setSize(elem->AsVector("size") * scale);
-
-	// position + size also implies origin
-	if ((hasFlag(properties, ThemeProperties::Origin) || hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size)) && elem->HasProperty("origin"))
-		setOrigin(elem->AsVector("origin"));
-
-	if (hasFlag(properties, ThemeProperties::Rotation))
-	{
-		if(elem->HasProperty("rotation"))
-			setRotationDegrees(elem->AsFloat("rotation"));
-		if(elem->HasProperty("rotationOrigin"))
-			setRotationOrigin(elem->AsVector("rotationOrigin"));
-	}
-	
-	if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex"))
-		setZIndex(elem->AsFloat("zIndex"));
-	else
-		setZIndex(getDefaultZIndex());
-
-    if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
-    {
-      mThemeDisabled = elem->AsBool("disabled");
-    }
-}
-
 void Component::updateHelpPrompts()
 {
 	if(getParent() != nullptr)
@@ -391,17 +348,8 @@ void Component::updateHelpPrompts()
 	HelpItems().Clear();
 	if (getHelpPrompts(HelpItems()))
   {
-	  ApplyHelpStyle();
     mWindow.UpdateHelp();
   }
-}
-
-void Component::ApplyHelpStyle()
-{
-	if (ThemeData::ThemeHasMenuView())
-		HelpItemStyle().FromTheme(ThemeManager::Instance().Main(), "menu");
-	else
-		HelpItemStyle().FromTheme(ThemeManager::Instance().Main(), "system");
 }
 
 void Component::onShow()
@@ -420,10 +368,4 @@ Help& Component::HelpItems()
 {
   static Help sHelp;
   return sHelp;
-}
-
-HelpStyle& Component::HelpItemStyle()
-{
-  static HelpStyle sHelpStyle;
-  return sHelpStyle;
 }

@@ -46,16 +46,11 @@ void ISimpleGameListView::updateInfoPanel()
     OnGameSelected();
 }
 
-void ISimpleGameListView::ApplyHelpStyle()
-{
-  HelpItemStyle().FromTheme(mSystem.Theme(), getName());
-}
-
 void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
 {
-  mBackground.applyTheme(theme, getName(), "background", ThemeProperties::All);
-  mHeaderImage.applyTheme(theme, getName(), "logo", ThemeProperties::All);
-  mHeaderText.applyTheme(theme, getName(), "logoText", ThemeProperties::All);
+  mBackground.DoApplyThemeElement(theme, getName(), "background", ThemePropertiesType::All);
+  mHeaderImage.DoApplyThemeElement(theme, getName(), "logo", ThemePropertiesType::All);
+  mHeaderText.DoApplyThemeElement(theme, getName(), "logoText", ThemePropertiesType::All);
 
   // Remove old theme extras
   for (auto* extra : mThemeExtras.getmExtras()) {
@@ -162,7 +157,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.YPressed() && !cursor->TopAncestor().PreInstalled())
   {
 
-    if (cursor->IsGame() && cursor->System().Theme().getHasFavoritesInTheme())
+    if (cursor->IsGame())
     {
       ViewController::Instance().ToggleFavorite(cursor);
       updateHelpPrompts();
@@ -243,7 +238,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
     return true;
   }
-  else if (event.XPressed())
+  if (event.XPressed())
   {
     FileData* fd = getCursor();
     if (fd != nullptr)

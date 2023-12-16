@@ -59,7 +59,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
     AddText(_("DISK USAGE (FREE/TOTAL)"), mounts[0]->DisplayableFreeSpace(), RecalboxSystem::isFreeSpaceUnderLimit(mounts[0]->FreeSize()) ? 0xFF0000FF : mTheme.menuText.color, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
   }
   else
-    AddSubMenu(_("DISK USAGE (FREE/TOTAL)"), (int)Components::DiskUsage);
+    AddSubMenu(_("DISK USAGE (FREE/TOTAL)"), (int)Components::DiskUsage, _(MENUMESSAGE_DISK_USAGE_HELP_MSG));
 
   // Storage device
   mStorages = AddList<StorageDevices::Device>(_("STORAGE DEVICE"), (int)Components::Storage, this, GetStorageEntries(), _(MENUMESSAGE_STORAGE_DEVICE_HELP_MSG));

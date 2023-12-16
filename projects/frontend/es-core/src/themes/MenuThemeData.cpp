@@ -21,7 +21,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutitle", "menuText"); elem != nullptr)
 	{
 		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mTitle.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_LARGE));
+			mTitle.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_LARGE));
 		if(elem->HasProperty("color"))
 			mTitle.color = (unsigned int)elem->AsInt("color");
 	}
@@ -29,7 +29,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 	if (const ThemeElement* elem = mainTheme.getElement("menu", "menufooter", "menuText"); elem != nullptr)
 	{
 		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mFooter.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_SMALL));
+			mFooter.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_SMALL));
 		if(elem->HasProperty("color"))
 			mFooter.color = (unsigned int)elem->AsInt("color");
 	}
@@ -37,7 +37,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutext", "menuText"); elem != nullptr)
 	{
 		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mText.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_MEDIUM));
+			mText.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_MEDIUM));
 
 		if(elem->HasProperty("color"))
 			mText.color = (unsigned int)elem->AsInt("color");
@@ -52,7 +52,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutextsmall", "menuTextSmall"); elem != nullptr)
 	{
 		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-      mTextSmall.font = Font::getFromTheme(elem, ThemeProperties::All, Font::get(FONT_SIZE_SMALL));
+      mTextSmall.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_SMALL));
 
 		if(elem->HasProperty("color"))
 			mTextSmall.color = (unsigned int)elem->AsInt("color");

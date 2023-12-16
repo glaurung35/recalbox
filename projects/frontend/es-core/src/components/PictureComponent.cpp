@@ -115,7 +115,7 @@ void PictureComponent::fadeIn(bool textureLoaded) {
   }
 }
 
-void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemePropertiesType properties)
 {
   const ThemeElement* elem = theme.getElement(view, element, "image");
   if (elem == nullptr) {
@@ -124,12 +124,12 @@ void PictureComponent::applyTheme(const ThemeData& theme, const String& view, co
 
   Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
-  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos")) {
+  if (hasFlag(properties, ThemePropertiesType::Position) && elem->HasProperty("pos")) {
     Vector2f denormalized = elem->AsVector("pos") * scale;
     setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
   }
 
-  if (hasFlag(properties,ThemeProperties::Size)) {
+  if (hasFlag(properties,ThemePropertiesType::Size)) {
     if (elem->HasProperty("size")) {
       setSize(elem->AsVector("size") * scale);
       setKeepRatio(false);
@@ -140,20 +140,20 @@ void PictureComponent::applyTheme(const ThemeData& theme, const String& view, co
   }
 
   // position + size also implies origin
-  if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin")) {
+  if ((hasFlag(properties, ThemePropertiesType::Origin) || (hasFlags(properties, ThemePropertiesType::Position, ThemePropertiesType::Size))) && elem->HasProperty("origin")) {
     setOrigin(elem->AsVector("origin"));
   }
 
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path")) {
+  if (hasFlag(properties, ThemePropertiesType::Path) && elem->HasProperty("path")) {
     bool tile = (elem->HasProperty("tile") && elem->AsBool("tile"));
     setImage(Path(elem->AsString("path")), tile);
   }
 
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color")) {
+  if (hasFlag(properties, ThemePropertiesType::Color) && elem->HasProperty("color")) {
     setColor((unsigned int)elem->AsInt("color"));
   }
 
-  if (hasFlag(properties, ThemeProperties::Rotation)) {
+  if (hasFlag(properties, ThemePropertiesType::Rotation)) {
     if (elem->HasProperty("rotation")) {
       setRotationDegrees(elem->AsFloat("rotation"));
     }
@@ -162,13 +162,13 @@ void PictureComponent::applyTheme(const ThemeData& theme, const String& view, co
     }
   }
 
-  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex")) {
+  if (hasFlag(properties, ThemePropertiesType::ZIndex) && elem->HasProperty("zIndex")) {
     setZIndex(elem->AsFloat("zIndex"));
   } else {
     setZIndex(getDefaultZIndex());
   }
 
-  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
+  if (hasFlag(properties, ThemePropertiesType::Position) && elem->HasProperty("disabled"))
   {
     mThemeDisabled = elem->AsBool("disabled");
   }

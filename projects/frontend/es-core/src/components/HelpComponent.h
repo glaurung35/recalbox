@@ -1,12 +1,16 @@
 #pragma once
 
-#include "components/base/Component.h"
-#include "help/HelpStyle.h"
+#include "components/base/ThemableComponent.h"
 #include "ComponentGrid.h"
+#include "themes/IThemeSwitchable.h"
+#include "help/Help.h"
+#include "IViewChanged.h"
 
 class ComponentGrid;
 
-class HelpComponent : public Component
+class HelpComponent : public ThemableComponent
+                    , public IThemeSwitchable
+                    , public IViewChanged
 {
   public:
     /*!
@@ -14,6 +18,12 @@ class HelpComponent : public Component
      * @param window Target window
      */
     explicit HelpComponent(WindowManager&window);
+
+    //! Get help bar height
+    [[nodiscard]] float Height() const { return mGrid.getSize().y() + 0.5f; }
+
+    //! Get help bar font
+    [[nodiscard]] std::shared_ptr<Font> TextFont() const { return mFont; }
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.
@@ -37,6 +47,47 @@ class HelpComponent : public Component
 
     void UpdateHelps(bool force);
 
+    /*
+     * IThemeSwitchable implementation
+     */
+
+    /*!
+     * @brief Implementation istruct the Theme switcher to use a specific system theme
+     * Returning nullptr means the global theme will be used
+     * @return SystemData or nullptr
+     */
+    [[nodiscard]] SystemData* SystemTheme() const override { return nullptr; }
+
+    /*!
+     * @brief Called when theme switch.
+     * @param theme New Theme
+     */
+    void SwitchToTheme(ThemeData& theme) override;
+
+    /*
+     * Themable implemantation
+     */
+
+    /*!
+     * @brief Called when a theme element is applyed on the current component.
+     * @param element Element instance
+     * @param properties Properties to update
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "helpsystem"; }
+
+    /*!
+     * @brief A view or a window visibility has changed
+     * @param currentView Current view
+     * @param hasWindowOver Has window over the current view?
+     */
+    void ViewChanged(ViewType currentView, bool hasWindowOver) override;
+
   private:
     static constexpr int sPauseTime = 5000;
 
@@ -50,6 +101,9 @@ class HelpComponent : public Component
       ScrollToLeft,  //!< Scrolling to the left
     };
 
+    //! Internal image map
+    static const HashMap<HelpType, Path>& IconPathMap();
+
     //! Previous Help object
     Help mHelp;
 
@@ -61,10 +115,19 @@ class HelpComponent : public Component
 
   	//! Scrolling time accumulator
   	int mScrollingTimeAccumulator;
-
   	//! Scrolling length
   	int mScrollingLength;
-
   	//! Scrolling offset
   	int mScrollingOffset;
+
+    //! Images for every single help type
+    Path mImagesPath[(int)HelpType::__Count + 1];
+    //! Text font
+    std::shared_ptr<Font> mFont;
+    //! Position of help items
+    Vector2f mPosition;
+    //! Icon color
+    unsigned int mIconColor;
+    //! Text color
+    unsigned int mTextColor;
 };

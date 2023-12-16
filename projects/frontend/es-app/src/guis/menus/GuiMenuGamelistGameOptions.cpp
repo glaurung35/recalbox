@@ -41,7 +41,7 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
   // Patch width
   if (mGame.IsGame() && !GameFilesUtils::GetSoftPatches(&mGame).empty())
   {
-    mPath = AddList<Path>(_("SOFTPATCHING"), (int)Components::Patch, this, GetPatchEntries());
+    mPath = AddList<Path>(_("SOFTPATCHING"), (int)Components::Patch, this, GetPatchEntries(), _(MENUMESSAGE_GAME_SOFTPATCHING_HELP_MSG));
 
   }
   // Ratio
@@ -49,36 +49,36 @@ GuiMenuGamelistGameOptions::GuiMenuGamelistGameOptions(WindowManager& window, IS
     mRatio = AddList<String>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
   // Game name
-  mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, false);
+  mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, _(MENUMESSAGE_GAME_NAME_HELP_MSG), false);
 
   // Rating
   if (mGame.IsGame())
-    mRating = AddRating(_("Rating"), mGame.Metadata().Rating(), (int)Components::Rating, this);
+    mRating = AddRating(_("Rating"), mGame.Metadata().Rating(), (int)Components::Rating, this, _(MENUMESSAGE_GAME_RATING_HELP_MSG));
 
   // Normalized genre
   if (mGame.IsGame())
-    mGenre = AddList<GameGenres>(_("Genre"), (int)Components::Genre, this, GetGenreEntries());
+    mGenre = AddList<GameGenres>(_("Genre"), (int)Components::Genre, this, GetGenreEntries(), _(MENUMESSAGE_GAME_GENRE_HELP_MSG));
 
   // Description
-  mDescription = AddEditable(_("Description"), mGame.Metadata().Description(), (int)Components::Description, this, false);
+  mDescription = AddEditable(_("Description"), mGame.Metadata().Description(), (int)Components::Description, this, _(MENUMESSAGE_GAME_DESCRIPTION_HELP_MSG), false);
 
   // Favorite
   if (mGame.IsGame())
-    mFavorite = AddSwitch(_("Favorite"), mGame.Metadata().Favorite(), (int)Components::Favorite, this);
+    mFavorite = AddSwitch(_("Favorite"), mGame.Metadata().Favorite(), (int)Components::Favorite, this, _(MENUMESSAGE_GAME_FAVORITE_HELP_MSG));
 
   // Hidden
-  mHidden = AddSwitch(_("Hidden"), mGame.Metadata().Hidden(), (int)Components::Hidden, this);
+  mHidden = AddSwitch(_("Hidden"), mGame.Metadata().Hidden(), (int)Components::Hidden, this, _(MENUMESSAGE_GAME_HIDDEN_HELP_MSG));
 
   // Adult
   if (mGame.IsGame())
-    mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this);
+    mAdult = AddSwitch(_("Adult"), mGame.Metadata().Adult(), (int)Components::Adult, this, _(MENUMESSAGE_GAME_ADULT_HELP_MSG));
   // Adult
   if (mGame.IsGame())
-    mRotation = AddSwitch(_("Rotation"), mGame.Metadata().Rotation() != RotationType::None, (int)Components::Rotation, this);
+    mRotation = AddSwitch(_("Rotation"), mGame.Metadata().Rotation() != RotationType::None, (int)Components::Rotation, this, _(MENUMESSAGE_GAME_ROTATION_HELP_MSG));
 
   // Scrape
   if (mGame.IsGame())
-    AddSubMenu(_("SCRAPE"), (int)Components::Scrape);
+    AddSubMenu(_("SCRAPE"), (int)Components::Scrape, _(MENUMESSAGE_GAME_SCRAP_HELP_MSG));
 
 
 //  _N("%i GAME HIDDEN", "%i GAMES HIDDEN", data.Hidden)) .Replace("%i", String(data.Hidden)

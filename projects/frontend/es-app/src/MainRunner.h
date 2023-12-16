@@ -13,6 +13,7 @@
 #include <patreon/IPatreonNotification.h>
 #include "bluetooth/BluetoothListener.h"
 #include "recalbox/BootConf.h"
+#include "input/IKeyboardShortcut.h"
 #include <btautopair/BTAutopairManager.h>
 #include <bios/IBiosScanReporting.h>
 
@@ -78,6 +79,7 @@ class MainRunner
   , public ISdl2EventNotifier
   , public ISpecialGlobalAction
   , public IBiosScanReporting
+  , public IKeyboardShortcut
 {
   public:
     //! Pending Exit
@@ -538,4 +540,14 @@ class MainRunner
     {
       if (mApplicationWindow != nullptr) mApplicationWindow->DisableOSDImage();
     }
+
+    /*
+     * IKeyboardShortcut implementation
+     */
+
+    /*!
+     * @brief Called when a shortcut has been pressed and released
+     * @param shortcut Shortcut type
+     */
+    void ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut) override;
 };

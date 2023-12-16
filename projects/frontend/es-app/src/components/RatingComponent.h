@@ -1,6 +1,6 @@
 #pragma once
 
-#include <components/base/Component.h>
+#include <components/base/ThemableComponent.h>
 #include <resources/TextureResource.h>
 #include "IRatingComponent.h"
 
@@ -11,7 +11,7 @@
 //   * (0, y != 0) - x will be automatically calculated (5*y).
 //   * (x != 0, 0) - y will be automatically calculated (x/5).
 //   * (x != 0, y != 0) - you better be sure x = y*5
-class RatingComponent : public Component
+class RatingComponent : public ThemableComponent
 {
 public:
 	explicit RatingComponent(WindowManager&window, float value);
@@ -31,8 +31,6 @@ public:
 
 	void onSizeChanged() override;
 
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
-
 	bool getHelpPrompts(Help& help) override;
 
 	void SetInterface(int id, IRatingComponent* interface)
@@ -40,6 +38,23 @@ public:
 	  mId = id;
 	  mInterface = interface;
   }
+
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Apply theme element to this nine-patch image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "rating"; }
 
 private:
 	void updateVertices();

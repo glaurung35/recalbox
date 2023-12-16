@@ -14,13 +14,14 @@
 #define KEYBOARD_GUID_STRING { 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF, 0xFF }
 #define EMPTY_GUID_STRING { 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00 }
 
-InputManager::InputManager()
+InputManager::InputManager(IKeyboardShortcut* interface)
   : StaticLifeCycleControler<InputManager>("inputmanager")
   , mIndexToId {}
   , mKeyboard(nullptr, InputEvent::sKeyboardDevice, (int)InputEvent::sKeyboardDevice, "Keyboard", KEYBOARD_GUID_STRING, 0, 0, 125)
   , mMousse(nullptr, InputEvent::sMouseDevice, (int)InputEvent::sMouseDevice, "Mouse", KEYBOARD_GUID_STRING, 0, 0, 5)
   , mScancodeStates()
   , mScancodePreviousStates()
+  , mShortcutInterface(interface)
   , mJoystickChangePending(false)
   , mJoystickChangePendingRemoved(false)
 {
@@ -322,12 +323,27 @@ InputCompactEvent InputManager::ManageKeyEvent(const SDL_KeyboardEvent& key, boo
   // Ignore repeat events
   if (key.repeat != 0u) return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
   // Quit?
-  if (down && key.keysym.sym == SDLK_F4 && (key.keysym.mod & KMOD_ALT) != 0)
+  if ((key.keysym.mod & KMOD_ALT) != 0 && !down)
   {
-    SDL_Event quit;
-    quit.type = SDL_QUIT;
-    SDL_PushEvent(&quit);
-    return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
+    switch(key.keysym.sym)
+    {
+      case SDLK_F3:
+      {
+        if (mShortcutInterface != nullptr) mShortcutInterface->ShortcutTriggered(IKeyboardShortcut::Shortcut::Search);
+        return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
+      }
+      case SDLK_F4:
+      {
+        if (mShortcutInterface != nullptr) mShortcutInterface->ShortcutTriggered(IKeyboardShortcut::Shortcut::Quit);
+        return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
+      }
+      case SDLK_F5:
+      {
+        if (mShortcutInterface != nullptr) mShortcutInterface->ShortcutTriggered(IKeyboardShortcut::Shortcut::Refresh);
+        return { InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, event };
+      }
+      default: break;
+    }
   }
   return mKeyboard.ConvertToCompact(event);
 }
@@ -368,6 +384,7 @@ InputCompactEvent InputManager::ManageSDLEvent(WindowManager* window, const SDL_
       Refresh(window, true);
       break;
     }
+    default: break;
   }
 
   return {InputCompactEvent::Entry::Nothing, InputCompactEvent::Entry::Nothing, 0, mKeyboard, InputEvent() };

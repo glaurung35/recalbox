@@ -113,11 +113,11 @@ class Help
     }
 
     /*!
-     * @brief Comparison operator
+     * @brief Comparison
      * @param other Compare current Help to this other Help
      * @return True if both are equals
      */
-    bool operator == (const Help& other)
+    bool Equals(const Help& other)
     {
       if (mMask != other.mMask) return false;
       for(int i = (int)HelpType::__Count; --i >= 0; )

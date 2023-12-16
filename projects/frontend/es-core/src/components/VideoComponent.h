@@ -1,13 +1,11 @@
 #pragma once
 
-#include "platform_gl.h"
-
-#include "components/base/Component.h"
+#include <components/base/ThemableComponent.h>
 #include <utils/String.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "resources/TextureResource.h"
 
-class VideoComponent : public Component
+class VideoComponent : public ThemableComponent
 {
   public:
     enum class AllowedEffects
@@ -147,7 +145,22 @@ class VideoComponent : public Component
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Called when a theme element is applyed on the current component.
+     * @param element Element instance
+     * @param properties Properties to update
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "video"; }
 
     bool getHelpPrompts(Help& help) override;
 

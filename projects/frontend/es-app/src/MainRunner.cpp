@@ -51,7 +51,6 @@ MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigne
   , mRunCount(runCount)
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
-  , mBluetooth()
   , mBTAutopairManager()
 {
   Intro(debug, trace);
@@ -95,7 +94,7 @@ MainRunner::ExitState MainRunner::Run()
     SystemManager systemManager(*this, mIgnoredFiles);
     GameRunner gameRunner(nullptr, systemManager, *this);
     FileNotifier fileNotifier;
-    InputManager inputManager;
+    InputManager inputManager(this);
     inputManager.Initialize();
 
     // Autorun?
@@ -121,6 +120,7 @@ MainRunner::ExitState MainRunner::Run()
 
     // Theme manager
     ThemeManager themeManager;
+    themeManager.Initialize();
 
     // Initialize main Window and ViewController
     ApplicationWindow window(systemManager);
@@ -1181,4 +1181,28 @@ void MainRunner::ScanComplete()
     window.displayMessage(_("With regard to the new BIOS folder structure, some of your bios files have been moved automatically to their new path.").Append("\n\n").Append(_("However, some files failed to move. You should run the BIOS Checker and move some files manually.")));
   else if (manager.MoveError())
     window.displayMessage(_("With regard to the new BIOS folder structure, some of your bios files have been moved automatically to their new path.").Append("\n\n").Append(_("However, all files failed to move. You should:\n- either run the BIOS Checker and move the required files manually.\n- or if your bios files are on a read-only device or remote share, change it to read-write, reboot your recalbox, wait until all files are moved, then protect it again.")));
+}
+
+void MainRunner::ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut)
+{
+  switch(shortcut)
+  {
+    case Shortcut::Quit:
+    {
+      SDL_Event quit;
+      quit.type = SDL_QUIT;
+      SDL_PushEvent(&quit);
+      break;
+    }
+    case Shortcut::Refresh:
+    {
+      ThemeManager::Instance().DoThemeChange(true);
+      break;
+    }
+    case Shortcut::Search:
+    {
+      // Todo search
+      break;
+    }
+  }
 }

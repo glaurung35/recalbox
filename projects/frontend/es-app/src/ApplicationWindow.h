@@ -60,10 +60,8 @@ class ApplicationWindow: public WindowManager
      */
     bool AmIOnTopOfScreen(const Gui* ui) const override
     {
-      if (HasGui())
-        return WindowManager::AmIOnTopOfScreen(ui);
-      else
-        return &mViewController.CurrentUi() == ui;
+      if (HasGui()) return WindowManager::AmIOnTopOfScreen(ui);
+      return &mViewController.CurrentUi() == ui;
     }
 
     /*!

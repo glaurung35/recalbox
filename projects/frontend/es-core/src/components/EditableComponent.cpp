@@ -269,7 +269,7 @@ void EditableComponent::setLineSpacing(float spacing)
   onTextChanged();
 }
 
-void EditableComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+/*void EditableComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
 {
   Component::applyTheme(theme, view, element, properties);
 
@@ -302,7 +302,7 @@ void EditableComponent::applyTheme(const ThemeData& theme, const String& view, c
     setLineSpacing(elem->AsFloat("lineSpacing"));
 
   setFont(Font::getFromTheme(elem, properties, mFont));
-}
+}*/
 
 void EditableComponent::StartEditing()
 {

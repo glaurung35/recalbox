@@ -1,13 +1,10 @@
 #pragma once
 
-#include "platform_gl.h"
-
-#include "components/base/Component.h"
-#include <utils/String.h>
+#include "components/base/ThemableComponent.h"
 #include <memory>
 #include "resources/TextureResource.h"
 
-class ImageComponent : public Component
+class ImageComponent : public ThemableComponent
 {
 public:
   ImageComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic);
@@ -81,7 +78,18 @@ public:
 
 	void Render(const Transform4x4f& parentTrans) override;
 
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+    /*!
+     * @brief Apply theme element to this image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "image"; }
 
   bool getHelpPrompts(Help& help) override;
 

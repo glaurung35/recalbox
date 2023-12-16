@@ -1,0 +1,17 @@
+diff --git a/src/video/kmsdrm/SDL_kmsdrmvideo.c b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+index 83cdbf0..827750f 100644
+--- a/src/video/kmsdrm/SDL_kmsdrmvideo.c
++++ b/src/video/kmsdrm/SDL_kmsdrmvideo.c
+@@ -951,8 +951,11 @@ KMSDRM_InitDisplays (_THIS) {
+     if (ret) {
+         SDL_LogError(SDL_LOG_CATEGORY_VIDEO, "Could not determine async page flip capability.");
+     }
++#ifdef SDL_PI5_NO_ASYNCPAGEFLIP
++    viddata->async_pageflip_support = SDL_FALSE;
++#else
+     viddata->async_pageflip_support = async_pageflip ? SDL_TRUE : SDL_FALSE;
+-
++#endif
+     /***********************************/
+     /* Block for Vulkan compatibility. */
+     /***********************************/

@@ -1,5 +1,5 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 5f2e1e0ed1..7ac9298cb2 100644
+index 5f2e1e0ed1..ebefc3383b 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
 @@ -15,18 +15,17 @@ SDL2_INSTALL_STAGING = YES
@@ -54,7 +54,7 @@ index 5f2e1e0ed1..7ac9298cb2 100644
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
  SDL2_DEPENDENCIES += libdrm libgbm libegl
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -181,4 +198,15 @@ else
+@@ -181,4 +198,19 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  
@@ -67,6 +67,10 @@ index 5f2e1e0ed1..7ac9298cb2 100644
 +# odroid go advance
 +ifeq ($(BR2_PACKAGE_LIBRGA),y)
 +SDL2_DEPENDENCIES += librga
++endif
++
++ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)
++  TARGET_CFLAGS += -DSDL_PI5_NO_ASYNCPAGEFLIP=1
 +endif
 +
  $(eval $(autotools-package))

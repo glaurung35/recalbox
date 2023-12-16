@@ -5,7 +5,7 @@
 #include <utils/locale/LocaleHelper.h>
 
 VideoComponent::VideoComponent(WindowManager&window)
-  : Component(window)
+  : ThemableComponent(window)
   , mState(State::Uninitialized)
   , mEffect(Effect::BreakingNews)
   , mAllowedEffects(AllowedEffects::All)
@@ -364,55 +364,27 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
   Component::renderChildren(trans);
 }
 
-void VideoComponent::applyTheme(const ThemeData& theme, const String& view, const String& element,
-                                ThemeProperties properties)
+void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-  const ThemeElement* elem = theme.getElement(view, element, "video");
-  if (elem == nullptr) return;
+  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path")) setVideo(Path(element.AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
 
-  Vector2f scale = getParent() != nullptr ?
-                   getParent()->getSize() :
-                   Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color")) setColorShift((unsigned int)element.AsInt("color"));
 
-  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos"))
+  if (hasFlag(properties, ThemePropertiesType::Effects))
   {
-    Vector2f denormalized = elem->AsVector("pos") * scale;
-    setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
+    if (element.HasProperty("animations"))
+    {
+      mAllowedEffects = AllowedEffects::None;
+      for (String& animation: element.AsString("animations").Split(','))
+        if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
+        else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
+        else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
+      if ((mAllowedEffects & AllowedEffects::All) == 0)
+        mAllowedEffects = AllowedEffects::All;
+    }
+    if (element.HasProperty("loops")) mVideoLoop = (int)element.AsInt("loops");
+    if (element.HasProperty("delay")) mVideoDelay = (int)element.AsInt("delay");
   }
-
-  if (hasFlag(properties, ThemeProperties::Size))
-  {
-    if (elem->HasProperty("size")) setResize(elem->AsVector("size") * scale);
-    else if (elem->HasProperty("maxSize")) setMaxSize(elem->AsVector("maxSize") * scale);
-  }
-
-  // position + size also implies origin
-  if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin"))
-    setOrigin(elem->AsVector("origin"));
-
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path")) setVideo(Path(elem->AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
-
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color")) setColorShift((unsigned int)elem->AsInt("color"));
-
-  if (hasFlag(properties, ThemeProperties::Rotation))
-  {
-    if (elem->HasProperty("rotation")) setRotationDegrees(elem->AsFloat("rotation"));
-    if (elem->HasProperty("rotationOrigin")) setRotationOrigin(elem->AsVector("rotationOrigin"));
-  }
-
-  if (hasFlag(properties, ThemeProperties::Effects) && elem->HasProperty("animations"))
-  {
-    mAllowedEffects = AllowedEffects::None;
-    for(String& animation : elem->AsString("animations").Split(','))
-      if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
-      else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
-      else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
-    if ((mAllowedEffects & AllowedEffects::All) == 0)
-      mAllowedEffects = AllowedEffects::All;
-  }
-
-  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex")) setZIndex(elem->AsFloat("zIndex"));
-  else setZIndex(getDefaultZIndex());
 }
 
 bool VideoComponent::getHelpPrompts(Help& help)

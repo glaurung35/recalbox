@@ -46,8 +46,7 @@ void ApplicationWindow::Render(Transform4x4f& transform)
 
 bool ApplicationWindow::UpdateHelpSystem()
 {
-  if (!WindowManager::UpdateHelpSystem())
-    mViewController.updateHelpPrompts();
+  mViewController.updateHelpPrompts();
   return true;
 }
 

@@ -5,12 +5,16 @@
 
 #include "ThemeData.h"
 #include "MenuThemeData.h"
+#include "IThemeSwitchable.h"
+#include "ThemeFileCache.h"
+#include <utils/os/system/ThreadPool.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 
 // forward declaration
 class SystemData;
 
 class ThemeManager : public StaticLifeCycleControler<ThemeManager>
+                   , IThreadPoolWorkerInterface<const SystemData*, const SystemData*>
 {
   public:
     //! Default theme file
@@ -27,29 +31,20 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     //! Destructor
     ~ThemeManager();
 
-    /*!
-     * @brief Load main theme & menu theme
-     */
-    void LoadMainTheme();
-
-    /*!
-     * @brief Load system theme
-     * @param system System
-     */
-    void LoadSystemTheme(const SystemData* system);
-
-    /*!
-     * @brief Theme or theme configuration has changed, reload main, menu & all existing system themes
-     * then, apply theme in all UIs
-     * @param window Window manager
-     */
-    void ThemeChanged(WindowManager& window);
+    //! Load initial theme
+    void Initialize();
 
     /*!
      * @brief Get a list of available theme
      * @return Theme list
      */
     static ThemeList AvailableThemes();
+
+    /*!
+     * @brief Load system theme
+     * @param system System
+     */
+    void LoadSystemTheme(const SystemData* system);
 
     /*
      * Getters
@@ -64,7 +59,32 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     //! System theme
     const ThemeData& System(const SystemData* system) { return CreateOrGetSystem(system); }
 
+    /*!
+     * @brief Register a new switchable implementation
+     * @param switchable Switchable implementation
+     */
+    void Register(IThemeSwitchable& switchable) { mSwitchables.Add(&switchable); }
+
+    /*!
+     * @brief Unregister a switchable implementation. May fail silently if the implementation is unknown
+     * @param switchable Switchable implementation
+     */
+    void Unregister(IThemeSwitchable& switchable) { mSwitchables.Remove(&switchable); }
+
+    /*!
+     * @brief Theme or theme configuration has changed, reload main, menu & all existing system themes
+     * then, apply theme in all UIs
+     * @param force True to force theme reload
+     */
+    void DoThemeChange(bool force = false);
+
   private:
+    //! Global file cache
+    ThemeFileCache mCache;
+
+    //! Switchable implementation list
+    Array<IThemeSwitchable*> mSwitchables;
+
     //! Main theme
     ThemeData mMain;
     //! Menu theme data
@@ -81,5 +101,28 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
      * @return ThemeData instance
      */
     ThemeData& CreateOrGetSystem(const SystemData* system);
+
+    /*!
+     * @brief Notify all IThemeSwitchable implementation that a new theme has been loaded
+     * allowing them to refresh their themable elements
+     */
+    void NotifyThemeChanged();
+
+    /*!
+     * @brief Return the currently selected theme root peth
+     * If the theme is inconsistent with available themes, it is changed to match the first theme available
+     */
+    static Path GetThemeRootPath();
+
+    /*!
+     * @brief Load main theme & menu theme
+     */
+    void LoadMainTheme();
+
+    /*
+     * IThreadPoolWorkerInterface implementation
+     */
+
+    const SystemData* ThreadPoolRunJob(const SystemData*& feed) override;
 };
 

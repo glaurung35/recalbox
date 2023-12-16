@@ -60,6 +60,7 @@ void WindowManager::RemoveGui(Gui* gui)
       mGuiStack.PopAt(i);
     }
   if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
+  if (!HasGui()) NotifyViewChanges();
 }
 
 void WindowManager::deleteClosePendingGui()
@@ -77,8 +78,8 @@ void WindowManager::deleteClosePendingGui()
   if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
 
   // Refresh help system
-  if (deleted)
-    UpdateHelpSystem();
+  if (deleted) UpdateHelpSystem();
+  if (!HasGui()) NotifyViewChanges();
 }
 
 void WindowManager::deleteAllGui()
@@ -520,3 +521,9 @@ void WindowManager::InfoPopupsDisplay(Transform4x4f& transform)
       mInfoPopups[i]->Render(transform);
 }
 
+void WindowManager::NotifyViewChanges()
+{
+  for(IViewChanged* interface : mViewChanged)
+    if (interface != nullptr)
+      interface->ViewChanged(ViewController::Instance().CurrentView(), HasGui());
+}

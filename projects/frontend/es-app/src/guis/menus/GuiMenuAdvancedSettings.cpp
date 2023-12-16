@@ -33,7 +33,7 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   , mValidOverclock(false)
 {
   #if defined(BETA) || defined(DEBUG)
-  AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this);
+  AddSwitch(_("DEBUG LOGS"), RecalboxConf::Instance().GetDebugLogs(), (int)Components::DebugLogs, this, _(MENUMESSAGE_ADVANCED_DEBUGLOGS_HELP_MSG));
   #endif
 
   bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();

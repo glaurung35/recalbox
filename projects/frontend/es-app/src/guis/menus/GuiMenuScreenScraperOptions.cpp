@@ -6,27 +6,28 @@
 #include <guis/GuiScraperRun.h>
 #include <guis/GuiMsgBox.h>
 #include "GuiMenuScreenScraperOptions.h"
+#include <guis/MenuMessages.h>
 
 GuiMenuScreenScraperOptions::GuiMenuScreenScraperOptions(WindowManager& window, SystemManager& systemManager, ScraperType scraperType)
   : GuiMenuBase(window, _("SCREENSCRAPER OPTIONS"), nullptr)
   , mSystemManager(systemManager)
   , mType(scraperType)
 {
-  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), "");
-  AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), "");
-  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT IMAGE TYPE"), (int)Components::Image, this, GetImagesEntries(), _(MENUMESSAGE_SCREENSCRAPER_IMAGE_HELP_MSG));
+  AddList<ScreenScraperEnums::ScreenScraperVideoType>(_("SELECT VIDEO TYPE"), (int)Components::Video, this, GetVideosEntries(), _(MENUMESSAGE_SCREENSCRAPER_VIDEO_HELP_MSG));
+  AddList<ScreenScraperEnums::ScreenScraperImageType>(_("SELECT THUMBNAIL TYPE"), (int)Components::Thumbnail, this, GetThumbnailsEntries(), _(MENUMESSAGE_SCREENSCRAPER_THUMBNAIL_HELP_MSG));
 
-  AddList<ScreenScraperEnums::ScreenScraperRegionPriority>(_("SELECT REGION PRIORITY"), (int)Components::RegionPriority, this, GetRegionOptionsEntries(), "");
-  AddList<Regions::GameRegions>(_("SELECT FAVORITE REGION"), (int)Components::Region, this, GetRegionsEntries(), "");
-  AddList<Languages>(_("SELECT FAVORITE LANGUAGE"), (int)Components::Language, this, GetLanguagesEntries(), "");
+  AddList<ScreenScraperEnums::ScreenScraperRegionPriority>(_("SELECT REGION PRIORITY"), (int)Components::RegionPriority, this, GetRegionOptionsEntries(), _(MENUMESSAGE_SCREENSCRAPER_PRIORITY_HELP_MSG));
+  AddList<Regions::GameRegions>(_("SELECT FAVORITE REGION"), (int)Components::Region, this, GetRegionsEntries(), _(MENUMESSAGE_SCREENSCRAPER_REGION_HELP_MSG));
+  AddList<Languages>(_("SELECT FAVORITE LANGUAGE"), (int)Components::Language, this, GetLanguagesEntries(), _(MENUMESSAGE_SCREENSCRAPER_LANGUAGE_HELP_MSG));
 
-  AddSwitch(_("DOWNLOAD GAME MANUALS"), RecalboxConf::Instance().GetScreenScraperWantManual(), (int)Components::Manuals, this, "");
-  AddSwitch(_("DOWNLOAD GAME MAPS"), RecalboxConf::Instance().GetScreenScraperWantMaps(), (int)Components::Maps, this, "");
-  AddSwitch(_("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"), RecalboxConf::Instance().GetScreenScraperWantP2K(), (int)Components::PK2, this, "");
+  AddSwitch(_("DOWNLOAD GAME MANUALS"), RecalboxConf::Instance().GetScreenScraperWantManual(), (int)Components::Manuals, this, _(MENUMESSAGE_SCREENSCRAPER_MANUALS_HELP_MSG));
+  AddSwitch(_("DOWNLOAD GAME MAPS"), RecalboxConf::Instance().GetScreenScraperWantMaps(), (int)Components::Maps, this, _(MENUMESSAGE_SCREENSCRAPER_MAPS_HELP_MSG));
+  AddSwitch(_("INSTALL PAD-2-KEYBOARD CONFIGURATIONS"), RecalboxConf::Instance().GetScreenScraperWantP2K(), (int)Components::PK2, this, _(MENUMESSAGE_SCREENSCRAPER_P2K_HELP_MSG));
 
   if(mType != ScraperType::Recalbox){
-    AddEditable(_("USERNAME"), GetLogin(), (int)Components::Login, this, false);
-    AddEditable(_("PASSWORD"), GetPassword(), (int)Components::Password, this, true);
+    AddEditable(_("USERNAME"), GetLogin(), (int)Components::Login, this, _(MENUMESSAGE_SCREENSCRAPER_USERNAME_HELP_MSG), false);
+    AddEditable(_("PASSWORD"), GetPassword(), (int)Components::Password, this, _(MENUMESSAGE_SCREENSCRAPER_PASSWORD_HELP_MSG), true);
   }
 }
 

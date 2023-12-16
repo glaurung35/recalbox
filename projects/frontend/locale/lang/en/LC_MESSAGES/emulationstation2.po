@@ -130,19 +130,8 @@ msgid ""
 "\n"
 "{TEXTINFO} Text information updated\n"
 "{IMAGES} images and {VIDEOS} videos downloaded\n"
-"{MEDIASIZE} of media saved\n"
-"Now, EmulationStation is going to relaunch to update all gamelists."
+"{MEDIASIZE} of media saved"
 msgstr ""
-"Scraping complete! {PROCESSED} games processed.\n"
-"\n"
-"{SUCCESS} game(s) scraped or updated.\n"
-"{NOTFOUND} game(s) not found...\n"
-"{ERRORS} request/download errors.\n"
-"\n"
-"{TEXTINFO} text information updated.\n"
-"{IMAGES} images and {VIDEOS} videos downloaded.\n"
-"{MEDIASIZE} of media saved.\n"
-"EmulationStation will now relaunch to update all gamelists."
 
 msgid ""
 "You reached your daily quota of scraping request.\n"
@@ -2688,13 +2677,6 @@ msgstr ""
 msgid "HIDE PREINSTALLED GAMES"
 msgstr "HIDE PREINSTALLED GAMES"
 
-msgid ""
-"Hide all pre-installed games. Changing this option makes EmulationStation to "
-"relaunch."
-msgstr ""
-"Hide all pre-installed games. Restarting EmulationStation is required to "
-"change this option."
-
 msgid "SHOW IN LIST"
 msgstr "SHOW IN LIST"
 
@@ -3172,14 +3154,13 @@ msgstr ""
 "Initialization failed! Your USB device is full or contains errors. Please "
 "repair or use another device."
 
+#
 msgid ""
+"\n"
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
-"WARNING: You device may not have been properly unplugged and has consistency "
-"errors. As a result, it's been mounted as read-only. You should plug your "
-"device in a Windows PC and use the repair tool."
 
 msgid "DISPLAY BY FILENAME"
 msgstr "DISPLAY BY FILENAME"
@@ -3259,8 +3240,9 @@ msgstr ""
 "\n"
 "Try again in a few moments or fix your credentials."
 
-msgid "Your scraping session completed. Press OK to show the results."
-msgstr "Your scraping session finished. Press OK to show the results."
+#
+msgid "Your scraping session completed!"
+msgstr ""
 
 msgid "Please select one or more systems to scrape!"
 msgstr "Please select one or more systems to scrape!"
@@ -3890,13 +3872,6 @@ msgstr "ROOT PASSWORD"
 msgid "PAIR A BLUETOOTH CONTROLLER"
 msgstr "PAIR A BLUETOOTH CONTROLLER"
 
-msgid ""
-"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-"will turn the screen black."
-msgstr ""
-"Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-"will turn the screen black."
-
 msgid "Manage your recalbox security."
 msgstr "Manage Recalbox security."
 
@@ -4142,3 +4117,959 @@ msgstr "Downloading free games from Recalbox repositories. Please wait..."
 
 msgid "Installing %s games"
 msgstr "Installing %s games"
+
+#
+msgid "SLOT"
+msgstr ""
+
+#
+msgid "ARCADE SETTINGS"
+msgstr ""
+
+#
+msgid "ENABLE ENHANCED VIEW"
+msgstr ""
+
+#
+msgid "FOLD CLONES BY DEFAULT"
+msgstr ""
+
+#
+msgid "HIDE BIOS"
+msgstr ""
+
+#
+msgid "HIDE NON-WORKING GAMES"
+msgstr ""
+
+#
+msgid "ALWAYS USE OFFICIAL NAMES"
+msgstr ""
+
+#
+msgid "MANUFACTURER VIRTUAL SYSTEMS"
+msgstr ""
+
+#
+msgid "ARCADE ALL-IN-ONE SYSTEM"
+msgstr ""
+
+#
+msgid "HIDE %i MANUFACTURERS"
+msgstr ""
+
+#
+msgid "ALL OTHERS"
+msgstr ""
+
+#
+msgid "HD MODE"
+msgstr ""
+
+#
+msgid "WIDESCREEN (16/9)"
+msgstr ""
+
+#
+msgid "LAUNCH LAST"
+msgstr ""
+
+#
+msgid "ENABLE BOOT ON GAME"
+msgstr ""
+
+#
+msgid "BOOTLOADER UPDATE"
+msgstr ""
+
+#
+msgid ""
+"If no configured controller is detected at boot, recalbox will run as usual "
+"and display the system list."
+msgstr ""
+
+#
+msgid "JAMMA SETTINGS"
+msgstr ""
+
+#
+msgid "Could not get bootloader status. Something went wrong"
+msgstr ""
+
+#
+msgid "An update is available :\n"
+msgstr ""
+
+#
+msgid "Current version: \n"
+msgstr ""
+
+#
+msgid ""
+"\n"
+"Latest version: \n"
+msgstr ""
+
+#
+msgid "Update success. The bootloader is up to date."
+msgstr ""
+
+#
+msgid ""
+"Your bootloader is up to date.\n"
+"The bootloader version is:\n"
+msgstr ""
+
+#
+msgid "AUTO PAIR ON BOOT"
+msgstr ""
+
+#
+msgid "ALWAYS SHOW PAD OSD"
+msgstr ""
+
+#
+msgid "PAD OSD TYPE"
+msgstr ""
+
+#
+msgid "SCANLINES FOR 240P GAMES IN 480"
+msgstr ""
+
+#
+msgid "REDUCED LATENCY (EXPERIMENTAL)"
+msgstr ""
+
+#
+msgid "RUN AHEAD (EXPERIMENTAL)"
+msgstr ""
+
+#
+msgid "MONO AMP BOOST"
+msgstr ""
+
+#
+msgid "PANEL TYPE"
+msgstr ""
+
+#
+msgid "NEOGEO LAYOUT"
+msgstr ""
+
+#
+msgid "4 PLAYERS MODE"
+msgstr ""
+
+#
+msgid "START+BTN1 = CREDIT"
+msgstr ""
+
+#
+msgid "START+BTN = HK+BTN"
+msgstr ""
+
+#
+msgid "START 3SEC = EXIT"
+msgstr ""
+
+#
+msgid "START+BTN 5SEC = AUTO FIRE"
+msgstr ""
+
+#
+msgid "PIN E/27 AS GND"
+msgstr ""
+
+#
+msgid "RESET JAMMA CONFIGURATION"
+msgstr ""
+
+#
+msgid "Are you sure you want to switch the display mode to 15kHz?"
+msgstr ""
+
+#
+msgid ""
+"Are you sure you want to switch the display mode to 31kHz? Your display must "
+"support the 31kHz (480p)"
+msgstr ""
+
+#
+msgid ""
+"Are you sure you want to switch the display mode to MultiSync? Your chassis "
+"must support automatic switching between 15kHz and 31kHz modes."
+msgstr ""
+
+#
+msgid ""
+"You will now calibrate different resolutions for your TV. Select the refresh "
+"rate according to what your TV supports.\n"
+"During the calibration, press B to validate, and A to cancel."
+msgstr ""
+
+#
+msgid "Are you sure you want to reset JAMMA configuration?"
+msgstr ""
+
+#
+msgid "BOOT ON THIS GAME"
+msgstr ""
+
+#
+msgid "DOWNLOAD GAMES"
+msgstr ""
+
+#
+msgid "DISPLAY ONLY TATE GAMES IN GAMELISTS"
+msgstr ""
+
+#
+msgid "TIME PLAYED"
+msgstr ""
+
+#
+msgid "RECALBOX RGB JAMMA"
+msgstr ""
+
+#
+msgid "DID YOU KNOW?"
+msgstr ""
+
+#
+msgid ""
+"Last operation removed all systems!\n"
+"\n"
+"They have been restored to allow normal operations, regardless of the "
+"current filters."
+msgstr ""
+
+#
+msgid "{0} reports the emulation status of this game is 'imperfect'"
+msgstr ""
+
+#
+msgid ""
+"{0} reports the emulation status of this game is 'preliminary'. You should "
+"expect issues such as bugs or even crashes!"
+msgstr ""
+
+#
+msgid "Start the game standard Game Boy mode"
+msgstr ""
+
+#
+msgid "Start the game in Super Game Boy mode"
+msgstr ""
+
+#
+msgid "INITIALIZING SYSTEMS..."
+msgstr ""
+
+#
+msgid "INITIALIZING SYSTEM {0}"
+msgstr ""
+
+#
+msgid "LOADING SYSTEMS..."
+msgstr ""
+
+#
+msgid "LOADING VIRTUAL SYSTEMS..."
+msgstr ""
+
+#
+msgid "INITIALIZING INTERFACE..."
+msgstr ""
+
+#
+msgid ""
+"One or more files are corrupted. You are back on Recalbox %s.\n"
+"Please retry to upgrade your Recalbox, check your Recalbox storage (SD Card, "
+"USB Key or hard drive).\n"
+"Contact the team on https://forum.recalbox.com if the problem persists."
+msgstr ""
+
+#
+msgid "THE UPGRADE IS CORRUPTED"
+msgstr ""
+
+#
+msgid "An undervoltage has been detected, the system may slow down.\n"
+msgstr ""
+
+#
+msgid ""
+"We recommend adjusting your JAMMA cabinet power supply to increase the "
+"voltage to between 5.05V and 5.2V"
+msgstr ""
+
+#
+msgid ""
+"We recommend that you purchase an official USB-C power supply designed for "
+"your Raspberry Pi"
+msgstr ""
+
+#
+msgid ""
+"The temperature of your system is high.\n"
+"The system may slow down. Try cooling your Raspberry Pi with a fan or "
+"disable overclock if it's enabled."
+msgstr ""
+
+#
+msgid "Download various free contents!"
+msgstr ""
+
+#
+msgid ""
+"Choose strategy\n"
+"\n"
+msgstr ""
+
+#
+msgid ""
+"AUTO: auto apply default patch\n"
+"\n"
+msgstr ""
+
+#
+msgid ""
+"LAUNCH LAST: always launch the last one (can be modified in edit game menu)\n"
+"\n"
+msgstr ""
+
+#
+msgid ""
+"SELECT: choose manually which patch to apply. Default one or patches in "
+"[ROM_NAME]-patches directory\n"
+"\n"
+msgstr ""
+
+#
+msgid "DISABLED: never apply patch"
+msgstr ""
+
+#
+msgid "Set the Super GameBoy mode for GameBoy games."
+msgstr ""
+
+#
+msgid ""
+"Improves resolution on compatible 3d emulators. May have an impact on "
+"performance. (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)"
+msgstr ""
+
+#
+msgid ""
+"Enables 16:9 hacks for compatible emulators. May have an impact on "
+"performance. (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)"
+msgstr ""
+
+#
+msgid "Always display Pad OSD whether you are in pad menus or not."
+msgstr ""
+
+#
+msgid "Change the icon used to display pad OSD."
+msgstr ""
+
+#
+msgid "Activates Bluetooth pairing automatically each time you boot."
+msgstr ""
+
+#
+msgid "Manage all arcade options."
+msgstr ""
+
+#
+msgid "Enabled new arcade view with parent/clones sorted hierarchically."
+msgstr ""
+
+#
+msgid "Hide clones and orphaned games"
+msgstr ""
+
+#
+msgid "Hide bios files"
+msgstr ""
+
+#
+msgid "Hide unknown and non-working games"
+msgstr ""
+
+#
+msgid ""
+"Always use arcade names from official databases. Overwrite manual edition & "
+"scraper results."
+msgstr ""
+
+#
+msgid "Manage screen and game rotation options"
+msgstr ""
+
+#
+msgid "Proceed to a complete screen rotation, for frontend and games."
+msgstr ""
+
+#
+msgid "Select the resolution for Kodi interface and videos"
+msgstr ""
+
+#
+msgid "Enable to select games as auto-runnable games at startup."
+msgstr ""
+
+#
+msgid "Update your Raspberry Pi's bootloader."
+msgstr ""
+
+#
+msgid "Enable filtering by manufacturers and/or famous systems."
+msgstr ""
+
+#
+msgid ""
+"This option display a menu which allows to manage savestates for a game."
+msgstr ""
+
+#
+msgid "Configure emulators to reduce latency."
+msgstr ""
+
+#
+msgid ""
+"Use run ahead to reduce latency. Can have undesired effect on some emulators."
+msgstr ""
+
+#
+msgid "Run the frontend in 240p resolution on you 31kHz monitor."
+msgstr ""
+
+#
+msgid "When a HDMI cable is connected, use HDMI output in priority."
+msgstr ""
+
+#
+msgid "Use experimental CRT V2 implementation. Works only on selected systems."
+msgstr ""
+
+#
+msgid "Uses a range at the edge of the CRT support to increase image quality."
+msgstr ""
+
+#
+msgid "Superrez can increase image quality depending on your CRT."
+msgstr ""
+
+#
+msgid "Number of button on your arcade cab panel."
+msgstr ""
+
+#
+msgid "Boost mono amp power. Use only if the sound level is too low."
+msgstr ""
+
+#
+msgid "Define the NEOGEO layout when playing NEOGEO games."
+msgstr ""
+
+#
+msgid "Add a credit in game, pressing START + BTN1. Works for all players."
+msgstr ""
+
+#
+msgid ""
+"START + any button will send the HK+BTN event, so you can use special hotkey "
+"controls in emulators."
+msgstr ""
+
+#
+msgid ""
+"Pressing START for 3sec will exit the game. If you disable this option, you "
+"will have to exit the game with SERVICE + TEST."
+msgstr ""
+
+#
+msgid ""
+"Select the type of your screen. If you don't know what you are doing, do not "
+"change this value."
+msgstr ""
+
+#
+msgid "4 player mode, with player 2 and 3 on CPS2 kickharness."
+msgstr ""
+
+#
+msgid "Set auto fire for a button by pressing START + a button for 5 seconds"
+msgstr ""
+
+#
+msgid ""
+"On some cabs, the pins E/27 of the JAMMA are the common ground for controls. "
+"Enable this option if you have this configuration."
+msgstr ""
+
+#
+msgid "Refreshing systems..."
+msgstr ""
+
+msgid "Your scraping session completed. Press OK to show the results."
+msgstr "Your scraping session finished. Press OK to show the results."
+
+#
+msgid ""
+"There is no game to show after this filter is changed! No change recorded."
+msgstr ""
+
+#
+msgid "ENABLE VULKAN DRIVER"
+msgstr ""
+
+#
+msgid "UPDATE"
+msgstr ""
+
+#
+msgid "Could not update bootloader. Something went wrong"
+msgstr ""
+
+#
+msgid "BOOT VIDEOS"
+msgstr ""
+
+#
+msgid "HIDE BOARD GAMES (MAHJONG)"
+msgstr ""
+
+#
+msgid "There is no favorite games in any system!"
+msgstr ""
+
+#
+msgid "FORCED"
+msgstr ""
+
+#
+msgid "SYSTEM DEFAULT"
+msgstr ""
+
+#
+msgid "SOUND"
+msgstr ""
+
+#
+msgid "NEOGEO LAYOUT P1"
+msgstr ""
+
+#
+msgid "NEOGEO LAYOUT P2"
+msgstr ""
+
+#
+msgid "EDIT GAME"
+msgstr ""
+
+#
+msgid "EDIT FOLDER"
+msgstr ""
+
+#
+msgid "UPSIDEDOWN"
+msgstr ""
+
+#
+msgid "There is no TATE game to show!No change recorded."
+msgstr ""
+
+#
+msgid "REGION"
+msgstr ""
+
+#
+msgid "Europe"
+msgstr ""
+
+#
+msgid "USA"
+msgstr ""
+
+#
+msgid "Japan"
+msgstr ""
+
+#
+msgid "You display {0} is not in the list of this theme's supported displays:"
+msgstr ""
+
+#
+msgid ""
+"You current resolution {0} is not in the list of this theme's supported "
+"resolutions:"
+msgstr ""
+
+#
+msgid "You're in TATE mode and this theme does not seem to support TATE."
+msgstr ""
+
+#
+msgid ""
+"This theme may have one or more compatibility issues with your current "
+"display:\n"
+msgstr ""
+
+#
+msgid "NEXT"
+msgstr ""
+
+#
+msgid "UPDATE NOW"
+msgstr ""
+
+#
+msgid "PAGE UP/DOWN"
+msgstr ""
+
+#
+msgid "{0} reports the emulation status of this game is 'imperfect'."
+msgstr ""
+
+#
+msgid ""
+"System \"{0}\" has no visible game yet!\n"
+"\n"
+"It will show up automatically as soon as it has visible games."
+msgstr ""
+
+#
+msgid ""
+"With regard to the new BIOS folder structure, some of your bios files have "
+"been moved automatically to their new path."
+msgstr ""
+
+#
+msgid "This move is applied only once. No additional operation required."
+msgstr ""
+
+#
+msgid ""
+"However, some files failed to move. You should run the BIOS Checker and move "
+"some files manually."
+msgstr ""
+
+#
+msgid ""
+"However, all files failed to move. You should:\n"
+"- either run the BIOS Checker and move the required files manually.\n"
+"- or if your bios files are on a read-only device or remote share, change it "
+"to read-write, reboot your recalbox, wait until all files are moved, then "
+"protect it again."
+msgstr ""
+
+#
+msgid ""
+"To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
+"your Retroflag case (located inside the case, on the electronic part)"
+msgstr ""
+
+#
+msgid "Updating current theme..."
+msgstr ""
+
+#
+msgid "Loading new theme {0}"
+msgstr ""
+
+#
+msgid "Shows the Recalbox license."
+msgstr ""
+
+#
+msgid "Shows the quit menu to reboot or shutdown Recalbox."
+msgstr ""
+
+msgid ""
+"Hide all pre-installed games. Changing this option makes EmulationStation to "
+"relaunch."
+msgstr ""
+"Hide all pre-installed games. Restarting EmulationStation is required to "
+"change this option."
+
+#
+msgid ""
+"Enable vulkan driver when available. Enabled by default on RPi4, RPi5, and "
+"PC. Set on OFF if Dreamcast, Naomi or Atomiswave stop running."
+msgstr ""
+
+#
+msgid ""
+"Allows you to select the patch to apply automatically on start launch. Don't "
+"forget to select LAUNCH LAST in the softpatching options!"
+msgstr ""
+
+#
+msgid "Sets the rating of the game."
+msgstr ""
+
+#
+msgid "Sets the genre of the game."
+msgstr ""
+
+#
+msgid "Sets the description of the game."
+msgstr ""
+
+#
+msgid "Adds the game into the favorites list."
+msgstr ""
+
+#
+msgid "Defines the game as hidden from gamelists."
+msgstr ""
+
+#
+msgid "Defines the game as adult game."
+msgstr ""
+
+#
+msgid "Defines the screen rotation of the game for tate usage."
+msgstr ""
+
+#
+msgid "Allows you to scrap the game."
+msgstr ""
+
+#
+msgid "List of game files concerned for deletion for the game."
+msgstr ""
+
+#
+msgid "List of media files concerned for deletion for the game."
+msgstr ""
+
+#
+msgid ""
+"List of configuration and patches files concerned for deletion for the game."
+msgstr ""
+
+#
+msgid "List of saves files concerned for deletion for the game."
+msgstr ""
+
+#
+msgid "Allows you to select finely which content to delete for the game."
+msgstr ""
+
+#
+msgid "Retroachievements user name."
+msgstr ""
+
+#
+msgid "Retroachievements password."
+msgstr ""
+
+#
+msgid "Netplay user name. Do not use special characters!"
+msgstr ""
+
+#
+msgid ""
+"Local port other players will connect to when hosting a Netplay session."
+msgstr ""
+
+#
+msgid ""
+"List of predefined passwords to use to protect access to your Netplay "
+"sessions."
+msgstr ""
+
+#
+msgid "Choose systems to use for demo and gameclip screensavers."
+msgstr ""
+
+#
+msgid "Select the region for theme supporting regionalized assets or texts"
+msgstr ""
+
+#
+msgid "Hide board games, like MAHJONG, CHESS etc..."
+msgstr ""
+
+#
+msgid "Shows the Arcade virtual system in the systems list."
+msgstr ""
+
+#
+msgid "Adds the Neo-Geo games into the Arcade virtual system."
+msgstr ""
+
+#
+msgid ""
+"Hides the original arcade systems when the Arcade virtual system is enabled."
+msgstr ""
+
+#
+msgid "Shows the Tate virtual system in the systems list."
+msgstr ""
+
+#
+msgid "Shows only games playable in tate mode in gamelists."
+msgstr ""
+
+#
+msgid "Proceed to a screen rotation in games tate compatible."
+msgstr ""
+
+#
+msgid ""
+"Sets if the auto scraper is available or not. Auto scrap allows you to scrap "
+"games just by moving on them in gamelists."
+msgstr ""
+
+#
+msgid "Sets some scraper options for your games."
+msgstr ""
+
+#
+msgid "Allows you to scrap only non-scraped games or to scrap all games."
+msgstr ""
+
+#
+msgid "Allows you to choose which systems you would like to scrap."
+msgstr ""
+
+#
+msgid "Selects the image type to scrap for your games."
+msgstr ""
+
+#
+msgid "Selects the video type to scrap for your games."
+msgstr ""
+
+#
+msgid "Selects the thumbnail to scrap for your games."
+msgstr ""
+
+#
+msgid "Selects the game region to use when you scrap your games."
+msgstr ""
+
+#
+msgid "Selects the prefered region to scrap for your games."
+msgstr ""
+
+#
+msgid "Selects the prefered language to scrap for your games."
+msgstr ""
+
+#
+msgid ""
+"Selects if you would like to download manual with the scrap data if "
+"available."
+msgstr ""
+
+#
+msgid ""
+"Selects if you would like to download maps with the scrap data if available."
+msgstr ""
+
+#
+msgid ""
+"Selects if you would like to download pad2keyboard files with the scrap data "
+"if available."
+msgstr ""
+
+#
+msgid "ScreenScraper user name."
+msgstr ""
+
+#
+msgid "ScreenScraper password."
+msgstr ""
+
+#
+msgid "Sets the debug logs on or off."
+msgstr ""
+
+#
+msgid "Enabled or disable videos on boot."
+msgstr ""
+
+#
+msgid "This option deletes the selected screenshot."
+msgstr ""
+
+#
+msgid ""
+"This option allows you to select the current game to boot on it directly "
+"when you turn on your Recalbox. Don't forget to enable the boot on game "
+"option!"
+msgstr ""
+
+#
+msgid "This option allows you to download games for the current system."
+msgstr ""
+
+#
+msgid ""
+"This option allows you to search games specifically in the current system "
+"only."
+msgstr ""
+
+#
+msgid "Shows the main menu."
+msgstr ""
+
+#
+msgid "Select sound output: JACK/MONO or JACK/JST. Jack always takes priority."
+msgstr ""
+
+#
+msgid "Configure your Recalbox RGB JAMMA board."
+msgstr ""
+
+#
+msgid "Calibrate different display modes on your screen."
+msgstr ""
+
+#
+msgid " (Deprecated)"
+msgstr ""
+
+#~ msgid ""
+#~ "Scraping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors\n"
+#~ "\n"
+#~ "{TEXTINFO} Text information updated\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded\n"
+#~ "{MEDIASIZE} of media saved\n"
+#~ "Now, EmulationStation is going to relaunch to update all gamelists."
+#~ msgstr ""
+#~ "Scraping complete! {PROCESSED} games processed.\n"
+#~ "\n"
+#~ "{SUCCESS} game(s) scraped or updated.\n"
+#~ "{NOTFOUND} game(s) not found...\n"
+#~ "{ERRORS} request/download errors.\n"
+#~ "\n"
+#~ "{TEXTINFO} text information updated.\n"
+#~ "{IMAGES} images and {VIDEOS} videos downloaded.\n"
+#~ "{MEDIASIZE} of media saved.\n"
+#~ "EmulationStation will now relaunch to update all gamelists."
+
+#~ msgid ""
+#~ "WARNING: You device may not have been properly unplugged and has "
+#~ "consistency errors. As a result, it's been mounted as read-only. You "
+#~ "should plug your device in a Window PC and use the repair tool."
+#~ msgstr ""
+#~ "WARNING: You device may not have been properly unplugged and has "
+#~ "consistency errors. As a result, it's been mounted as read-only. You "
+#~ "should plug your device in a Windows PC and use the repair tool."
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."

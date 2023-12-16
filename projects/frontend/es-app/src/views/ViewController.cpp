@@ -838,13 +838,7 @@ bool ViewController::getHelpPrompts(Help& help)
 	return mCurrentView != nullptr && mCurrentView->getHelpPrompts(help);
 }
 
-void ViewController::ApplyHelpStyle()
-{
-	if (mCurrentView != nullptr)
-    mCurrentView->ApplyHelpStyle();
-}
-
-void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData* targetSystem)
+void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
 {
   // Save previous mode & deinit
   mPreviousViewType = mCurrentViewType;
@@ -902,6 +896,7 @@ void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData
     }
   }
   mCurrentView->onShow();
+  mWindow.NotifyViewChanges();
   updateHelpPrompts();
 }
 

@@ -7,16 +7,16 @@
 #include <themes/ThemeManager.h>
 
 DateTimeComponent::DateTimeComponent(WindowManager&window, Display dispMode)
-  : Component(window),
-    mEditing(false),
-    mEditIndex(0),
-    mDisplayMode(dispMode),
-    mRelativeUpdateAccumulator(0),
-    mColor(0x777777FF),
-    mOriginColor(0),
-    mFont(Font::get(FONT_SIZE_SMALL, Path(FONT_PATH_LIGHT))),
-    mUppercase(false),
-    mAutoSize(true)
+  : ThemableComponent(window)
+  , mEditing(false)
+  , mEditIndex(0)
+  , mDisplayMode(dispMode)
+  , mRelativeUpdateAccumulator(0)
+  , mColor(0x777777FF)
+  , mOriginColor(0)
+  , mFont(Font::get(FONT_SIZE_SMALL, Path(FONT_PATH_LIGHT)))
+  , mUppercase(false)
+  , mAutoSize(true)
 {
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 	setFont(menuTheme.SmallText().font);
@@ -300,57 +300,41 @@ void DateTimeComponent::setUppercase(bool uppercase)
 	updateTextCache();
 }
 
-void DateTimeComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void DateTimeComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-	const ThemeElement* elem = theme.getElement(view, element, "datetime");
-	if(elem == nullptr)
-		return;
-
 	// We set mAutoSize BEFORE calling GuiComponent::applyTheme because it calls
 	// setSize(), which will call updateTextCache(), which will reset mSize if 
 	// mAutoSize == true, ignoring the theme's value.
-	if (hasFlag(properties, ThemeProperties::Size))
-		mAutoSize = !elem->HasProperty("size");
+  // #TODO: Hu? This doesn't make sense, mAutoSize is true if there is no size property
+	if (hasFlag(properties, ThemePropertiesType::Size))
+		mAutoSize = !element.HasProperty("size");
 
-	Component::applyTheme(theme, view, element, properties);
+	if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color"))
+		setColor((unsigned int)element.AsInt("color"));
 
-	if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
-		setColor((unsigned int)elem->AsInt("color"));
-
-	if (hasFlag(properties, ThemeProperties::Display) && elem->HasProperty("display"))
+	if (hasFlag(properties, ThemePropertiesType::Display) && element.HasProperty("display"))
 	{
-        String str = elem->AsString("display");
-        if(str == "date")
-        setDisplayMode(Display::Date);
-        if(str == "dateTime")
-            setDisplayMode(Display::DateTime);
-        else if(str == "year")
-            setDisplayMode(Display::Year);
-        else if(str == "realTime")
-            setDisplayMode(Display::RealTime);
-        else if(str == "time")
-            setDisplayMode(Display::Time);
-        else if(str == "RelativeToNow")
-            setDisplayMode(Display::RelativeToNow);
-        else
-        { LOG(LogError) << "[DateTimeComponent] Unknown date time display mode string: " << str; }
+        String str = element.AsString("display");
+        if (str == "date")              setDisplayMode(Display::Date);
+        else if (str == "dateTime")     setDisplayMode(Display::DateTime);
+        else if(str == "year")          setDisplayMode(Display::Year);
+        else if(str == "realTime")      setDisplayMode(Display::RealTime);
+        else if(str == "time")          setDisplayMode(Display::Time);
+        else if(str == "RelativeToNow") setDisplayMode(Display::RelativeToNow);
+        else { LOG(LogError) << "[DateTimeComponent] Unknown date time display mode string: " << str; }
   }
 
-	if (hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
+	if (hasFlag(properties, ThemePropertiesType::Alignment) && element.HasProperty("alignment"))
 	{
-		String str = elem->AsString("alignment");
-		if(str == "left")
-			setHorizontalAlignment(TextAlignment::Left);
-		else if(str == "center")
-			setHorizontalAlignment(TextAlignment::Center);
-		else if(str == "right")
-			setHorizontalAlignment(TextAlignment::Right);
-		else
-    { LOG(LogError) << "[DateTimeComponent] Unknown text alignment string: " << str; }
+		String str = element.AsString("alignment");
+		if(str == "left")        setHorizontalAlignment(TextAlignment::Left);
+		else if(str == "center") setHorizontalAlignment(TextAlignment::Center);
+		else if(str == "right")  setHorizontalAlignment(TextAlignment::Right);
+		else { LOG(LogError) << "[DateTimeComponent] Unknown text alignment string: " << str; }
 	}
 
-	if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
-		setUppercase(elem->AsBool("forceUppercase"));
+	if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase"))
+		setUppercase(element.AsBool("forceUppercase"));
 
-	setFont(Font::getFromTheme(elem, properties, mFont));
+	setFont(Font::getFromTheme(element, properties, mFont));
 }

@@ -428,7 +428,9 @@ TextureData& VideoEngine::GetDisplayableFrame()
   if (mContext.FrameRGB[frame] != nullptr)
   {
     AquireTexture();
-    mTexture.updateFromRGBA(mContext.FrameRGB[frame]->data[0], mContext.Width, mContext.Height);
+    const unsigned char* rgba = mContext.FrameRGB[frame]->data[0];
+    if (rgba != nullptr)
+      mTexture.updateFromRGBA(rgba, mContext.Width, mContext.Height);
     ReleaseTexture();
   }
   mContext.FrammeRGBLocker[frame].UnLock();

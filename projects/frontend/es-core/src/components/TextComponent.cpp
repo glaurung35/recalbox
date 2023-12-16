@@ -6,7 +6,7 @@
 #include "utils/Files.h"
 
 TextComponent::TextComponent(WindowManager&window)
-  : Component(window)
+  : ThemableComponent(window)
   , mFont(Font::get(FONT_SIZE_MEDIUM))
   , mColor(0x000000FF)
   , mOriginColor(0x000000FF)
@@ -268,47 +268,34 @@ void TextComponent::setLineSpacing(float spacing)
   onTextChanged();
 }
 
-void TextComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void TextComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-  Component::applyTheme(theme, view, element, properties);
-
-  const ThemeElement* elem = theme.getElement(view, element, "text");
-  if(elem == nullptr)
-    return;
-
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
-    setColor((unsigned int)elem->AsInt("color"));
+  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color")) setColor((unsigned int)element.AsInt("color"));
 
   setRenderBackground(false);
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("backgroundColor")) {
-    setBackgroundColor((unsigned int)elem->AsInt("backgroundColor"));
+  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("backgroundColor"))
+  {
+    setBackgroundColor((unsigned int)element.AsInt("backgroundColor"));
     setRenderBackground(true);
   }
 
-  if(hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
+  if(hasFlag(properties, ThemePropertiesType::Alignment) && element.HasProperty("alignment"))
   {
-    String str = elem->AsString("alignment");
-    if(str == "left")
-      setHorizontalAlignment(TextAlignment::Left);
-    else if(str == "center")
-      setHorizontalAlignment(TextAlignment::Center);
-    else if(str == "right")
-      setHorizontalAlignment(TextAlignment::Right);
-    else
-    { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
+    String str = element.AsString("alignment");
+    if(str == "left")        setHorizontalAlignment(TextAlignment::Left);
+    else if(str == "center") setHorizontalAlignment(TextAlignment::Center);
+    else if(str == "right")  setHorizontalAlignment(TextAlignment::Right);
+    else { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
   }
 
-  if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))
-    setText(elem->AsString("text"));
+  if (hasFlag(properties, ThemePropertiesType::Text) && element.HasProperty("text")) setText(element.AsString("text"));
 
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
-    setText(Files::LoadFile(elem->AsPath("path")));
+  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path")) setText(Files::LoadFile(element.AsPath("path")));
 
-  if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
-    setUppercase(elem->AsBool("forceUppercase"));
+  if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase")) setUppercase(element.AsBool("forceUppercase"));
 
-  if (hasFlag(properties, ThemeProperties::LineSpacing) && elem->HasProperty("lineSpacing"))
-    setLineSpacing(elem->AsFloat("lineSpacing"));
+  if (hasFlag(properties, ThemePropertiesType::LineSpacing) && element.HasProperty("lineSpacing")) setLineSpacing(element.AsFloat("lineSpacing"));
 
-  setFont(Font::getFromTheme(elem, properties, mFont));
+  setFont(Font::getFromTheme(element
+                             , properties, mFont));
 }

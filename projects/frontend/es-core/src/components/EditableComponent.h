@@ -46,7 +46,7 @@ class EditableComponent : public Component, private IGuiArcadeVirtualKeyboardInt
 
     inline std::shared_ptr<Font> getFont() const { return mFont; }
 
-    void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+    //void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
 
     //! Start the Virtual Keyboard to edit this component text
     void StartEditing();

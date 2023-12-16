@@ -30,7 +30,7 @@ GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager
     AddMultiList<String>(_("MANUFACTURER VIRTUAL SYSTEMS"), (int)Components::ManufacturersVirtual, this, GetManufacturersVirtualEntries());
 
     // All-in-one arcade system options
-    AddSubMenu(_("ARCADE ALL-IN-ONE SYSTEM"), (int)Components::GlobalArcadeSystem);
+    AddSubMenu(_("ARCADE ALL-IN-ONE SYSTEM"), (int)Components::GlobalArcadeSystem, _(MENUMESSAGE_ADVANCED_ARCADEVIRTUALSYSTEM_HELP_MSG));
   }
   else // Gamelist menu
   {

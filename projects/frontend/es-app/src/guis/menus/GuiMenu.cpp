@@ -90,10 +90,10 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
     AddSubMenu(_("BIOS CHECKING"), mTheme.menuIconSet.games, (int)Components::Bios, _(MENUMESSAGE_BIOS_HELP_MSG));
 
   // License
-  AddSubMenu(_("OPEN-SOURCE LICENSE"), mTheme.menuIconSet.license, (int)Components::License);
+  AddSubMenu(_("OPEN-SOURCE LICENSE"), mTheme.menuIconSet.license, (int)Components::License, _(MENUMESSAGE_LICENSE_HELP_MSG));
 
   // Quit
-  AddSubMenu(_("QUIT"), mTheme.menuIconSet.quit, (int)Components::Quit);
+  AddSubMenu(_("QUIT"), mTheme.menuIconSet.quit, (int)Components::Quit, _(MENUMESSAGE_QUIT_HELP_MSG));
 
   // Animation
   auto fadeFunc = [this](float t)

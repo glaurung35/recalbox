@@ -4,7 +4,6 @@
 
 #include "TextScrollComponent.h"
 
-#include "components/TextScrollComponent.h"
 #include "Renderer.h"
 #include "utils/Log.h"
 #include "WindowManager.h"
@@ -12,7 +11,7 @@
 #include "utils/Files.h"
 
 TextScrollComponent::TextScrollComponent(WindowManager&window)
-  : Component(window)
+  : ThemableComponent(window)
   , mFont(Font::get(FONT_SIZE_MEDIUM))
   , mStep(ScrollSteps::LeftPause)
   , mMarqueeTime(0)
@@ -124,8 +123,8 @@ void TextScrollComponent::Update(int deltaTime)
   mOffset = 0;
   if (mTextCache && mTextCache->metrics.size.x() > mSize.x())
   {
-    int textWidth = mTextCache->metrics.size.x();
-    int width = mSize.x();
+    int textWidth = (int)mTextCache->metrics.size.x();
+    int width = (int)mSize.x();
     if (textWidth > width)
     {
       switch (mStep)
@@ -151,7 +150,7 @@ void TextScrollComponent::Update(int deltaTime)
         case ScrollSteps::RollOver:
         {
           mOffset = (int)(textWidth - width) + (mMarqueeTime * sScrollSpeed2) / 1000;
-          if (mOffset >= textWidth + mSize.x() / 4) { mMarqueeTime = 0; mOffset = 0; mStep = ScrollSteps::LeftPause;}
+          if (mOffset >= textWidth + (int)mSize.x() / 4) { mMarqueeTime = 0; mOffset = 0; mStep = ScrollSteps::LeftPause;}
           break;
         }
         default: break;
@@ -195,7 +194,7 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
       case TextAlignment::Left:
       case TextAlignment::Right: break;
     }
-    Vector3f off(xOff + ((mHorizontalAlignment == TextAlignment::Right) ? mOffset : - mOffset), yOff, 0);
+    Vector3f off(xOff + (float)((mHorizontalAlignment == TextAlignment::Right) ? mOffset : - mOffset), yOff, 0);
 
     // Get clipping area
     Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());
@@ -210,7 +209,7 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
     mFont->renderTextCache(mTextCache.get());
     if (mOffset != 0)
     {
-      int subOffset = mTextCache->metrics.size.x() + mSize.x() / 4;
+      float subOffset = mTextCache->metrics.size.x() + mSize.x() / 4;
       if (mHorizontalAlignment == TextAlignment::Right) subOffset = -subOffset;
       trans.translate(subOffset, 0);
       trans.round();
@@ -248,26 +247,21 @@ void TextScrollComponent::setHorizontalAlignment(TextAlignment align)
   onTextChanged();
 }
 
-void TextScrollComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void TextScrollComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
 {
-  Component::applyTheme(theme, view, element, properties);
-
-  const ThemeElement* elem = theme.getElement(view, element, "scrolltext");
-  if(elem == nullptr)
-    return;
-
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color"))
-    setColor((unsigned int)elem->AsInt("color"));
+  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color"))
+    setColor((unsigned int)element.AsInt("color"));
 
   setRenderBackground(false);
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("backgroundColor")) {
-    setBackgroundColor((unsigned int)elem->AsInt("backgroundColor"));
+  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("backgroundColor"))
+  {
+    setBackgroundColor((unsigned int)element.AsInt("backgroundColor"));
     setRenderBackground(true);
   }
 
-  if(hasFlag(properties, ThemeProperties::Alignment) && elem->HasProperty("alignment"))
+  if(hasFlag(properties, ThemePropertiesType::Alignment) && element.HasProperty("alignment"))
   {
-    String str = elem->AsString("alignment");
+    String str = element.AsString("alignment");
     if      (str == "left")   setHorizontalAlignment(TextAlignment::Left);
     else if (str == "center") setHorizontalAlignment(TextAlignment::Center);
     else if (str == "right")  setHorizontalAlignment(TextAlignment::Right);
@@ -275,14 +269,14 @@ void TextScrollComponent::applyTheme(const ThemeData& theme, const String& view,
     { LOG(LogError) << "[TextScrollComponent] Unknown text alignment string: " << str; }
   }
 
-  if (hasFlag(properties, ThemeProperties::Text) && elem->HasProperty("text"))
-    setText(elem->AsString("text"));
+  if (hasFlag(properties, ThemePropertiesType::Text) && element.HasProperty("text"))
+    setText(element.AsString("text"));
 
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path"))
-    setText(Files::LoadFile(elem->AsPath("path")));
+  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path"))
+    setText(Files::LoadFile(element.AsPath("path")));
 
-  if (hasFlag(properties, ThemeProperties::ForceUppercase) && elem->HasProperty("forceUppercase"))
-    setUppercase(elem->AsBool("forceUppercase"));
+  if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase"))
+    setUppercase(element.AsBool("forceUppercase"));
 
-  setFont(Font::getFromTheme(elem, properties, mFont));
+  setFont(Font::getFromTheme(element, properties, mFont));
 }

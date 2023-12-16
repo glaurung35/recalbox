@@ -66,8 +66,6 @@ class ISimpleGameListView : public Gui
 
     [[nodiscard]] const SystemData& System() const { return mSystem; }
 
-    void ApplyHelpStyle() override;
-
     void updateInfoPanel();
 
     [[nodiscard]] virtual int Count() const = 0;

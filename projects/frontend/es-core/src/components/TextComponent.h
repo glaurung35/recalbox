@@ -1,7 +1,7 @@
 #pragma once
 
-#include "components/base/Component.h"
-#include "resources/Font.h"
+#include <components/base/ThemableComponent.h>
+#include <resources/Font.h>
 
 class ThemeData;
 
@@ -10,7 +10,7 @@ class ThemeData;
 //  * (0, 0)                     - will automatically calculate a size that fits the text on one line (expand horizontally)
 //  * (x != 0, 0)                - wrap text so that it does not reach beyond x. Will automatically calculate a vertical size (expand vertically).
 //  * (x != 0, y <= fontHeight)  - will truncate text so it fits within this box.
-class TextComponent : public Component
+class TextComponent : public ThemableComponent
 {
 public:
 	explicit TextComponent(WindowManager&window);
@@ -47,7 +47,18 @@ public:
 	
 	inline std::shared_ptr<Font> getFont() const { return mFont; }
 
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+    /*!
+     * @brief Apply theme element to this text component
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& theme, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "text"; }
 
 private:
 	void calculateExtent();

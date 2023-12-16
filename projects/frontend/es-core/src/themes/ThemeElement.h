@@ -5,7 +5,7 @@
 
 #include <map>
 #include <utils/String.h>
-
+#include <utils/os/fs/Path.h>
 #include <utils/math/Vector2f.h>
 
 class ThemeElement
@@ -33,6 +33,7 @@ class ThemeElement
         };
         float mSecondFloat;
         Type mType;
+
       public:
         PropertyBag()                              : mInteger(0), mSecondFloat(0.0f), mType(Type::String) {}
         explicit PropertyBag(const Vector2f& v)    : mFloat(v.x()), mSecondFloat(v.y()), mType(Type::Vector) {}
@@ -94,7 +95,7 @@ class ThemeElement
         {
           switch(mType)
           {
-            case Type::String: { bool result = false; return mString.TryAsBool(result) ? result : false; }
+            case Type::String: { bool result = false; if (mString.TryAsBool(result)) return result; return false; }
             case Type::Integer: return (bool)mInteger;
             case Type::Vector:
             case Type::Float: return (bool)mFloat;

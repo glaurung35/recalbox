@@ -2973,7 +2973,8 @@ class String : public std::string
       int position = Find(separator, 0);
       if (position < 0) return false;
       leftOutput.Assign(*this, 0, position);
-      rightOutput.Assign(*this, position + 1);
+      if (&rightOutput == this) rightOutput.Delete(0, position + 1);
+      else rightOutput.Assign(*this, position + 1);
       if (trim) { leftOutput.Trim(); rightOutput.Trim(); }
       return true;
     }
@@ -3003,7 +3004,8 @@ class String : public std::string
       int position = Find(separator, separatorLength, 0, INT32_MAX);
       if (position < 0) return false;
       leftOutput.Assign(*this, 0, position);
-      rightOutput.Assign(*this, position + separatorLength);
+      if (&rightOutput == this) rightOutput.Delete(0, position + separatorLength);
+      else rightOutput.Assign(*this, position + separatorLength);
       if (trim) { leftOutput.Trim(); rightOutput.Trim(); }
       return true;
     }
@@ -3021,7 +3023,8 @@ class String : public std::string
       int position = Find(separator);
       if (position < 0) return false;
       leftOutput.Assign(*this, 0, position);
-      rightOutput.Assign(*this, position + separator.Count());
+      if (&rightOutput == this) rightOutput.Delete(0, position + separator.Count());
+      else rightOutput.Assign(*this, position + separator.Count());
       if (trim) { leftOutput.Trim(); rightOutput.Trim(); }
       return true;
     }

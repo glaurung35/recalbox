@@ -4,51 +4,59 @@
 #include "Renderer.h"
 #include "components/ImageComponent.h"
 #include "components/TextComponent.h"
+#include "views/ViewController.h"
+#include <themes/ThemeManager.h>
+#include <WindowManager.h>
 
 #define ICON_TEXT_SPACING (Renderer::Instance().Is480pOrLower() ? 2.0f : Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.004f, 2.0f)) // space between [icon] and [text] (px)
 #define ENTRY_SPACING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.008f, 2.0f) // space between [text] and next [icon] (px)
 
-static const HashMap<HelpType, const char*>& IconPathMap()
+const HashMap<HelpType, Path>& HelpComponent::IconPathMap()
 {
-  static const HashMap<HelpType, const char*> sIconPathMap =
+  static const HashMap<HelpType, Path> sIconPathMap =
   {
-    { HelpType::UpDown,            ":/help/dpad_updown.svg" },
-    { HelpType::LeftRight,         ":/help/dpad_leftright.svg" },
-    { HelpType::AllDirections,     ":/help/dpad_all.svg" },
-    { HelpType::Start,             ":/help/button_start.svg" },
-    { HelpType::Select,            ":/help/button_select.svg" },
-    { HelpType::A,                 ":/help/button_a.svg" },
-    { HelpType::B,                 ":/help/button_b.svg" },
-    { HelpType::X,                 ":/help/button_x.svg" },
-    { HelpType::Y,                 ":/help/button_y.svg" },
-    { HelpType::L,                 ":/help/button_l.svg" },
-    { HelpType::R,                 ":/help/button_r.svg" },
-    { HelpType::LR,                ":/help/button_lr.svg" },
-    { HelpType::L2R2,              ":/help/button_l2r2.svg" },
-    { HelpType::Joy1AllDirections, ":/help/joystick_all_L.svg" },
-    { HelpType::Joy1UpDown,        ":/help/joystick_updown_L.svg" },
-    { HelpType::Joy1LeftRight,     ":/help/joystick_leftright_L.svg" },
-    { HelpType::Joy2AllDirections, ":/help/joystick_all_R.svg" },
-    { HelpType::Joy2UpDown,        ":/help/joystick_updown_R.svg" },
-    { HelpType::Joy2LeftRight,     ":/help/joystick_leftright_R.svg" },
+    { HelpType::UpDown,            Path(":/help/dpad_updown.svg") },
+    { HelpType::LeftRight,         Path(":/help/dpad_leftright.svg") },
+    { HelpType::AllDirections,     Path(":/help/dpad_all.svg") },
+    { HelpType::Start,             Path(":/help/button_start.svg") },
+    { HelpType::Select,            Path(":/help/button_select.svg") },
+    { HelpType::A,                 Path(":/help/button_a.svg") },
+    { HelpType::B,                 Path(":/help/button_b.svg") },
+    { HelpType::X,                 Path(":/help/button_x.svg") },
+    { HelpType::Y,                 Path(":/help/button_y.svg") },
+    { HelpType::L,                 Path(":/help/button_l.svg") },
+    { HelpType::R,                 Path(":/help/button_r.svg") },
+    { HelpType::LR,                Path(":/help/button_lr.svg") },
+    { HelpType::L2R2,              Path(":/help/button_l2r2.svg") },
+    { HelpType::Joy1AllDirections, Path(":/help/joystick_all_L.svg") },
+    { HelpType::Joy1UpDown,        Path(":/help/joystick_updown_L.svg") },
+    { HelpType::Joy1LeftRight,     Path(":/help/joystick_leftright_L.svg") },
+    { HelpType::Joy2AllDirections, Path(":/help/joystick_all_R.svg") },
+    { HelpType::Joy2UpDown,        Path(":/help/joystick_updown_R.svg") },
+    { HelpType::Joy2LeftRight,     Path(":/help/joystick_leftright_R.svg") },
   };
   return sIconPathMap;
 }
 
 HelpComponent::HelpComponent(WindowManager&window)
-  : Component(window),
-    mGrid(mWindow, Vector2i((int)Help::TypeCount() * 4, 1)),
-    mScrolling(Scrolling::Initialize),
-    mScrollingTimeAccumulator(0),
-    mScrollingLength(0),
-    mScrollingOffset(0)
+  : ThemableComponent(window)
+  , IViewChanged(window)
+  , mGrid(mWindow, Vector2i((int)Help::TypeCount() * 4, 1))
+  , mScrolling(Scrolling::Initialize)
+  , mScrollingTimeAccumulator(0)
+  , mScrollingLength(0)
+  , mScrollingOffset(0)
+  , mFont(Font::get(FONT_SIZE_SMALL))
+  , mPosition(0.012f, 0.9515f)
+  , mIconColor(0x777777FF)
+  , mTextColor(0x777777FF)
 {
 }
 
 void HelpComponent::UpdateHelps(bool force)
 {
   // No change?
-  if (mHelp == HelpItems() && !force)
+  if (mHelp.Equals(HelpItems()) && !force)
     return;
 
   mGrid.ClearEntries();
@@ -56,10 +64,9 @@ void HelpComponent::UpdateHelps(bool force)
 	if(!RecalboxConf::Instance().GetShowHelp() || mHelp.Empty())
 		return;
 
-	const std::shared_ptr<Font>& font = HelpItemStyle().TextFont();
+	const std::shared_ptr<Font>& font = mFont;
 
 	// [icon] [spacer1] [text] [spacer2]
-
 	std::vector< std::shared_ptr<ImageComponent> > icons;
 	std::vector< std::shared_ptr<TextComponent> > labels;
 
@@ -69,28 +76,26 @@ void HelpComponent::UpdateHelps(bool force)
     if (mHelp.IsSet(Help::TypeFromIndex(i)))
     {
       auto icon = std::make_shared<ImageComponent>(mWindow);
-      const Path imagePath = HelpItemStyle().ImagePath(Help::TypeFromIndex(i));
-      if (!imagePath.IsEmpty())
-        icon->setImage(imagePath);
-      else
+      const Path imagePath = mImagesPath[i];
+      icon->setImage(imagePath);
+      if (!ResourceManager::fileExists(imagePath))
       {
-        const char** found = IconPathMap().try_get(Help::TypeFromIndex(i));
-        if (found != nullptr)
-          icon->setImage(Path(*found));
+        { LOG(LogError) << "[HelpComponent] Icon image not found for item " << i; }
+        icon->setImage(IconPathMap().get_or_return_default(Help::TypeFromIndex(i)));
       }
 
-      icon->setColorShift(HelpItemStyle().IconColor());
+      icon->setColorShift(mIconColor);
       icon->setResize(0, height);
       icons.push_back(icon);
 
-      auto lbl = std::make_shared<TextComponent>(mWindow, mHelp.Text(Help::TypeFromIndex(i)).ToUpperCaseUTF8(), font, HelpItemStyle().TextColor());
+      auto lbl = std::make_shared<TextComponent>(mWindow, mHelp.Text(Help::TypeFromIndex(i)).ToUpperCaseUTF8(), font, mTextColor);
       labels.push_back(lbl);
 
       width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
     }
 
 	mGrid.setSize(width, height);
-  mScrollingLength = Math::roundi(width) - (Renderer::Instance().DisplayWidthAsInt() - Math::roundi(2.0f * HelpItemStyle().Position().x()));
+  mScrollingLength = Math::roundi(width) - (Renderer::Instance().DisplayWidthAsInt() - Math::roundi(2.0f * mPosition.x()));
   mScrollingOffset = 0;
   mScrollingTimeAccumulator = 0;
   mScrolling = Scrolling::Initialize;
@@ -105,7 +110,7 @@ void HelpComponent::UpdateHelps(bool force)
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
-	mGrid.setPosition(Vector3f(HelpItemStyle().Position().x() * Renderer::Instance().DisplayWidthAsFloat(), HelpItemStyle().Position().y() * Renderer::Instance().DisplayHeightAsFloat(), 0.0f));
+	mGrid.setPosition(Vector3f(mPosition.x() * Renderer::Instance().DisplayWidthAsFloat(), mPosition.y() * Renderer::Instance().DisplayHeightAsFloat(), 0.0f));
 }
 
 void HelpComponent::setOpacity(unsigned char opacity)
@@ -139,7 +144,7 @@ void HelpComponent::Update(int deltaTime)
         case Scrolling::PauseLeft:
         {
           mScrollingOffset = 0;
-          if ((mScrollingTimeAccumulator += deltaTime) > sPauseTime)
+          if (mScrollingTimeAccumulator += deltaTime; mScrollingTimeAccumulator > sPauseTime)
           {
             mScrollingTimeAccumulator = 0;
             mScrolling = Scrolling::ScrollToRight;
@@ -158,7 +163,7 @@ void HelpComponent::Update(int deltaTime)
         case Scrolling::PauseRight:
         {
           mScrollingOffset = mScrollingLength - 1;
-          if ((mScrollingTimeAccumulator += deltaTime) > sPauseTime)
+          if (mScrollingTimeAccumulator += deltaTime; mScrollingTimeAccumulator > sPauseTime)
           {
             mScrollingTimeAccumulator = 0;
             mScrolling = Scrolling::ScrollToLeft;
@@ -176,3 +181,64 @@ void HelpComponent::Update(int deltaTime)
         }
       }
 }
+
+void HelpComponent::SwitchToTheme(ThemeData& theme)
+{
+  (void)theme; // Always use main theme
+  ViewChanged(ViewController::Instance().CurrentView(), mWindow.HasGui());
+}
+
+void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+{
+  (void)properties;
+  for(int i=Help::TypeCount(); --i>=0; )
+    mImagesPath[i] = Path(IconPathMap().get_or_return_default(Help::TypeFromIndex(i)));
+
+  if(element.HasProperty("pos")) mPosition = element.AsVector("pos");
+  if(element.HasProperty("textColor")) mTextColor = (unsigned int)element.AsInt("textColor");
+  if(element.HasProperty("iconColor")) mIconColor = (unsigned int)element.AsInt("iconColor");
+  if(element.HasProperty("fontPath") || element.HasProperty("fontSize"))
+    mFont = Font::getFromTheme(element, ThemePropertiesType::All, mFont);
+
+  if(element.HasProperty("iconUpDown"))          mImagesPath[(int)HelpType::UpDown] = Path(element.AsString("iconUpDown"));
+  if(element.HasProperty("iconLeftRight"))       mImagesPath[(int)HelpType::LeftRight] = Path(element.AsString("iconLeftRight"));
+  if(element.HasProperty("iconUpDownLeftRight")) mImagesPath[(int)HelpType::AllDirections] = Path(element.AsString("iconUpDownLeftRight"));
+  if(element.HasProperty("iconA"))               mImagesPath[(int)HelpType::A] = Path(element.AsString("iconA"));
+  if(element.HasProperty("iconB"))               mImagesPath[(int)HelpType::B] = Path(element.AsString("iconB"));
+  if(element.HasProperty("iconX"))               mImagesPath[(int)HelpType::X] = Path(element.AsString("iconX"));
+  if(element.HasProperty("iconY"))               mImagesPath[(int)HelpType::Y] = Path(element.AsString("iconY"));
+  if(element.HasProperty("iconL"))               mImagesPath[(int)HelpType::L] = Path(element.AsString("iconL"));
+  if(element.HasProperty("iconR"))               mImagesPath[(int)HelpType::R] = Path(element.AsString("iconR"));
+  if(element.HasProperty("iconStart"))           mImagesPath[(int)HelpType::Start] = Path(element.AsString("iconStart"));
+  if(element.HasProperty("iconSelect"))          mImagesPath[(int)HelpType::Select] = Path(element.AsString("iconSelect"));
+}
+
+void HelpComponent::ViewChanged(ViewType currentView, bool hasWindowOver)
+{
+  String viewName = "system";
+  if (hasWindowOver)
+  {
+    // We are on a menu or a window. Select menu view or if it doesn't exists, just keep default
+    if (ThemeManager::Instance().Main().HasMenuView())
+      viewName = "menu";
+  }
+  else
+  {
+    switch(currentView)
+    {
+      case ViewType::GameList:
+      {
+        viewName = ((ISimpleGameListView&)ViewController::Instance().CurrentUi()).System().Name();
+        break;
+      }
+      case ViewType::SystemList:
+      case ViewType::None:
+      case ViewType::SplashScreen:
+      case ViewType::GameClip:
+      case ViewType::CrtCalibration:
+      default: break; // Keep system view
+    }
+  }
+  DoApplyThemeElement(ThemeManager::Instance().Main(), viewName, "help", ThemePropertiesType::All);
+}
+

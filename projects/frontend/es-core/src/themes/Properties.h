@@ -5,7 +5,7 @@
 
 #include "utils/cplusplus/Bitflags.h"
 
-enum class ThemeProperties : unsigned int
+enum class ThemePropertiesType : unsigned int
 {
     Path           = (1 << 0),
     Position       = (1 << 1),
@@ -27,4 +27,4 @@ enum class ThemeProperties : unsigned int
     All            = 0xFFFFFFFF,
 };
 
-DEFINE_BITFLAG_ENUM(ThemeProperties, unsigned int)
+DEFINE_BITFLAG_ENUM(ThemePropertiesType, unsigned int)

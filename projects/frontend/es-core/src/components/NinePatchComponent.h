@@ -1,7 +1,7 @@
 #pragma once
 
-#include "components/base/Component.h"
-#include "resources/TextureResource.h"
+#include <components/base/ThemableComponent.h>
+#include <resources/TextureResource.h>
 
 // Display an image in a way so that edges don't get too distorted no matter the final size. Useful for UI elements like backgrounds, buttons, etc.
 // This is accomplished by splitting an image into 9 pieces:
@@ -14,7 +14,7 @@
 // Borders (2, 4, 6, 8) will be stretched along one axis (2 and 8 horizontally, 4 and 6 vertically).
 // The center (5) will be stretched.
 
-class NinePatchComponent : public Component
+class NinePatchComponent : public ThemableComponent
 {
 public:
 	NinePatchComponent(WindowManager&window, const Path& path);
@@ -30,10 +30,25 @@ public:
 	void setEdgeColor(unsigned int edgeColor); // Apply a color shift to the "edge" parts of the ninepatch.
 	void setCenterColor(unsigned int centerColor); // Apply a color shift to the "center" part of the ninepatch.
 
-	void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties) override;
+  [[nodiscard]] float MargingX() const { return mW; }
+  [[nodiscard]] float MargingY() const { return mH; }
 
-	float MargingX() const { return mW; }
-  float MargingY() const { return mH; }
+    /*
+     * Themable implementation
+     */
+
+    /*!
+     * @brief Apply theme element to this nine-patch image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+  	void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return "ninepatch"; }
 
 private:
 	void buildVertices();

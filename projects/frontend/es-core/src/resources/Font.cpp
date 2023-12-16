@@ -855,9 +855,9 @@ void TextCache::setColor(unsigned int color)
 }
 
 std::shared_ptr<Font>
-Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const std::shared_ptr<Font>& orig)
+Font::getFromTheme(const ThemeElement& elem, ThemePropertiesType properties, const std::shared_ptr<Font>& orig)
 {
-  if (!hasFlags(properties, ThemeProperties::FontPath, ThemeProperties::FontSize))
+  if (!hasFlags(properties, ThemePropertiesType::FontPath, ThemePropertiesType::FontSize))
     return orig;
 
   std::shared_ptr<Font> font;
@@ -865,10 +865,10 @@ Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const s
   Path path = (orig ? orig->mPath : getDefaultPath());
 
   float sh = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  if (hasFlag(properties, ThemeProperties::FontSize) && elem->HasProperty("fontSize")){
-    float configFontSize = elem->AsFloat("fontSize");
+  if (hasFlag(properties, ThemePropertiesType::FontSize) && elem.HasProperty("fontSize")){
+    float configFontSize = elem.AsFloat("fontSize");
     if(configFontSize < 1)
-      size = (int) (sh * elem->AsFloat("fontSize"));
+      size = (int) (sh * elem.AsFloat("fontSize"));
     else {
       // As the size is given as an integer as the 240p size reference, we use it as absolute size.
       // and then we adapt to the screen height (x1 up to 288p, x2 up to 576, ....)
@@ -877,8 +877,8 @@ Font::getFromTheme(const ThemeElement* elem, ThemeProperties properties, const s
     }
 
   }
-  if (hasFlag(properties, ThemeProperties::FontPath) && elem->HasProperty("fontPath"))
-    path = Path(elem->AsString("fontPath"));
+  if (hasFlag(properties, ThemePropertiesType::FontPath) && elem.HasProperty("fontPath"))
+    path = Path(elem.AsString("fontPath"));
 
   return get(size, path);
 }

@@ -1,8 +1,8 @@
 #pragma once
 
-#include "components/base/Component.h"
+#include <components/base/ThemableComponent.h>
 
-class ScrollableContainer : public Component
+class ScrollableContainer : public ThemableComponent
 {
 public:
 	explicit ScrollableContainer(WindowManager&window);
@@ -20,8 +20,17 @@ public:
 	int mAutoScrollResetAccumulator;
 	int mAutoScrollAccumulator;
 
+    /*
+     * Themable implementation
+     */
 
-private:
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] String ThemeElementType() const override { return String::Empty; } // Container must be polymorphic
+
+  private:
 	Vector2f getContentSize();
 
 	Vector2f mScrollPos;

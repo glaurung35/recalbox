@@ -190,7 +190,7 @@ void GameClipContainer::initMDLabels()
 void GameClipContainer::initMDValues()
 {
   std::vector<TextComponent*> labels = getMDLabels();
-  std::vector<Component*> values = getMDValues();
+  std::vector<ThemableComponent*> values = getMDValues();
 
   std::shared_ptr<Font> defaultFont = Font::get(FONT_SIZE_SMALL);
   mRating.setSize(defaultFont->getHeight() * 5.0f, defaultFont->getHeight());
@@ -216,9 +216,9 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
   if (theme.getGameClipView() != ThemeData::getNoTheme())
   {
 
-    mBackground.applyTheme(theme, GameClipView::getName(), "background", ThemeProperties::All);
-    mHeaderImage.applyTheme(theme, GameClipView::getName(), "logo", ThemeProperties::All);
-    mHeaderText.applyTheme(theme, GameClipView::getName(), "logoText", ThemeProperties::All);
+    mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertiesType::All);
+    mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertiesType::All);
+    mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertiesType::All);
 
     // Remove old theme extras
     for (auto* extra : mThemeExtras.getmExtras())
@@ -246,24 +246,21 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
       removeChild(&mHeaderImage);
     }
 
-    mImage.applyTheme(theme, GameClipView::getName(), "md_image",
-                      ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
-                      ThemeProperties::Rotation);
+    mImage.DoApplyThemeElement(theme, GameClipView::getName(), "md_image",
+                               ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
+                               ThemePropertiesType::Rotation);
 
-    mThumbnail.applyTheme(theme, GameClipView::getName(), "md_thumbnail",
-                          ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
-                          ThemeProperties::Rotation);
+    mThumbnail.DoApplyThemeElement(theme, GameClipView::getName(), "md_thumbnail",
+                                   ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
+                                   ThemePropertiesType::Rotation);
 
-    if (mSystem->Theme().getHasFavoritesInTheme())
-    {
-      mFavoriteIcon.applyTheme(theme, GameClipView::getName(), "favoriteIcon",
-                               ThemeProperties::All);
-    }
+    mFavoriteIcon.DoApplyThemeElement(theme, GameClipView::getName(), "favoriteIcon",
+                                      ThemePropertiesType::All);
 
-    mRecalboxLogo.applyTheme(theme, GameClipView::getName(), "recalboxLogo", ThemeProperties::All);
+    mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertiesType::All);
 
-    mClippingImage.applyTheme(mGame->System().Theme(), GameClipView::getName(), "clippingImage",
-                              ThemeProperties::Path | ThemeProperties::Size);
+    mClippingImage.DoApplyThemeElement(mGame->System().Theme(), GameClipView::getName(), "clippingImage",
+                                       ThemePropertiesType::Path | ThemePropertiesType::Size);
 
     std::vector<TextComponent*> labels = getMDLabels();
     std::vector<String> names({
@@ -279,18 +276,15 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
                                      "md_lbl_playcount"
                                    });
 
-    if (mSystem->Theme().getHasFavoritesInTheme())
-    {
-      names.emplace_back("md_lbl_favorite");
-    }
+    names.emplace_back("md_lbl_favorite");
 
     assert(names.size() == labels.size());
     for (unsigned int i = 0; i < (unsigned int) labels.size(); i++)
     {
-      labels[i]->applyTheme(theme, GameClipView::getName(), names[i], ThemeProperties::All);
+      labels[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertiesType::All);
     }
 
-    std::vector<Component*> values = getMDValues();
+    std::vector<ThemableComponent*> values = getMDValues();
     names = {
       "md_gameName",
       "md_rating",
@@ -303,31 +297,28 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
       "md_playcount",
     };
 
-    if (mSystem->Theme().getHasFavoritesInTheme())
-    {
-      names.emplace_back("md_favorite");
-    }
+    names.emplace_back("md_favorite");
 
     assert(names.size() == values.size());
     for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
     {
-      values[i]->applyTheme(theme, GameClipView::getName(), names[i], ThemeProperties::All ^ ThemeProperties::Text);
+      values[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertiesType::All ^ ThemePropertiesType::Text);
     }
 
-    mSystemName.applyTheme(theme, GameClipView::getName(), "md_systemName",
-    ThemeProperties::All);
-    mDescContainer.applyTheme(theme, GameClipView::getName(), "md_description",
-                              ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex);
+    mSystemName.DoApplyThemeElement(theme, GameClipView::getName(), "md_systemName",
+                                    ThemePropertiesType::All);
+    mDescContainer.DoApplyThemeElement(theme, GameClipView::getName(), "md_description",
+                                       ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex);
     mDescription.setSize(mDescContainer.getSize().x(), 0.0);
-    mDescription.applyTheme(theme, GameClipView::getName(), "md_description", ThemeProperties::All ^
-                                                                              (ThemeProperties::Position |
-                                                                               ThemeProperties::Size |
-                                                                               ThemeProperties::Origin |
-                                                                               ThemeProperties::Text));
+    mDescription.DoApplyThemeElement(theme, GameClipView::getName(), "md_description", ThemePropertiesType::All ^
+                                                                                       (ThemePropertiesType::Position |
+                                                                                        ThemePropertiesType::Size |
+                                                                                        ThemePropertiesType::Origin |
+                                                                                        ThemePropertiesType::Text));
 
-    mVideo.applyTheme(theme, GameClipView::getName(), "md_video",
-                      ThemeProperties::Position | ThemeProperties::Size | ThemeProperties::ZIndex |
-                      ThemeProperties::Rotation);
+    mVideo.DoApplyThemeElement(theme, GameClipView::getName(), "md_video",
+                               ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
+                               ThemePropertiesType::Rotation);
 
   }
   sortChildren();
@@ -371,17 +362,14 @@ std::vector<TextComponent*> GameClipContainer::getMDLabels()
   ret.push_back(&mLblPlayers);
   ret.push_back(&mLblLastPlayed);
   ret.push_back(&mLblPlayCount);
-  if (mSystem->Theme().getHasFavoritesInTheme())
-  {
-    ret.push_back(&mLblFavorite);
-  }
+  ret.push_back(&mLblFavorite);
   return ret;
 }
 
 // element order need to follow the one in onThemeChanged
-std::vector<Component*> GameClipContainer::getMDValues()
+std::vector<ThemableComponent*> GameClipContainer::getMDValues()
 {
-  std::vector<Component*> ret;
+  std::vector<ThemableComponent*> ret;
   ret.push_back(&mGameName);
   ret.push_back(&mRating);
   ret.push_back(&mReleaseDate);
@@ -391,10 +379,7 @@ std::vector<Component*> GameClipContainer::getMDValues()
   ret.push_back(&mPlayers);
   ret.push_back(&mLastPlayed);
   ret.push_back(&mPlayCount);
-  if (mSystem->Theme().getHasFavoritesInTheme())
-  {
-    ret.push_back(&mFavorite);
-  }
+  ret.push_back(&mFavorite);
   return ret;
 }
 
@@ -422,12 +407,9 @@ void GameClipContainer::setGameInfo(FileData* game)
   mDescription.setText(mGame->Metadata().Description());
   mDescContainer.reset();
 
-  if (mSystem->Theme().getHasFavoritesInTheme())
-  {
-    mLblFavorite.setText(_("Favorite") + ": ");
-    addChild(&mLblFavorite);
-    addChild(&mFavorite);
-  }
+  mLblFavorite.setText(_("Favorite") + ": ");
+  addChild(&mLblFavorite);
+  addChild(&mFavorite);
 }
 
 void GameClipContainer::CleanVideo()

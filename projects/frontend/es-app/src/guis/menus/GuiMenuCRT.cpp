@@ -147,11 +147,11 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
               (int)Components::JammaAutoFire, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_AUTOFIRE));
     AddSwitch(_("PIN E/27 AS GND"), CrtConf::Instance().GetSystemCRTJammaButtonsOnJamma() != "6",
               (int)Components::JammaButtonsBtn6Gnd, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND));
-    AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma);
+    AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma, _(MENUMESSAGE_ADVANCED_CRT_JAMMA_HELP_MSG));
   }
 
   // Screen Adjustments
-  AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
+  AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment, _(MENUMESSAGE_ADVANCED_CRT_CALIBRATION));
 }
 
 GuiMenuCRT::~GuiMenuCRT()

@@ -15,7 +15,7 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   , mOriginalTateOnly(RecalboxConf::Instance().GetTateOnly())
 {
   // Enable virtual system
-  AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this);
+  AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this, _(MENUMESSAGE_TATE_VIRTUALSYSTEM_MSG));
 
   class Filter : public IFilter
   {
@@ -36,7 +36,7 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
       break;
     }
   if (hasTateGames)
-    AddSwitch(_("DISPLAY ONLY TATE GAMES IN GAMELISTS"), mOriginalTateOnly, (int)Components::TateOnly, this);
+    AddSwitch(_("DISPLAY ONLY TATE GAMES IN GAMELISTS"), mOriginalTateOnly, (int)Components::TateOnly, this, _(MENUMESSAGE_TATE_GAMELISTS_MSG));
 
   // Rotate games
   RotationCapability cap = Board::Instance().GetRotationCapabilities();
@@ -54,12 +54,13 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
                                  {
                                    { "AUTO", cap.defaultRotationWhenTate, isAuto },
                                    { "NONE", RotationType::None, !isAuto }
-                                 }));
+                                 }),
+                             _(MENUMESSAGE_TATE_GAMESROTATION_MSG));
     }
     else
     {
       // Rotation
-      AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, GetRotationEntries(mOriginalGamesRotation));
+      AddList<RotationType>(_("GAMES ROTATION"), (int)Components::TateGamesRotation, this, GetRotationEntries(mOriginalGamesRotation), _(MENUMESSAGE_TATE_GAMESROTATION_MSG));
     }
     // Screen rotation
     if(cap.systemRotationAvailable)
@@ -76,10 +77,10 @@ GuiMenuTate::~GuiMenuTate()
 std::vector<GuiMenuBase::ListEntry<RotationType>> GuiMenuTate::GetRotationEntries(RotationType currentRotation)
 {
   std::vector<GuiMenuBase::ListEntry<RotationType>> list;
-  list.push_back({ "NONE", RotationType::None, currentRotation == RotationType::None });
-  list.push_back({ "LEFT", RotationType::Left, currentRotation == RotationType::Left });
-  list.push_back({ "RIGHT", RotationType::Right, currentRotation == RotationType::Right });
-  list.push_back({ "UPSIDEDOWN", RotationType::Upsidedown, currentRotation == RotationType::Upsidedown });
+  list.push_back({ _("NONE"), RotationType::None, currentRotation == RotationType::None });
+  list.push_back({ _("LEFT"), RotationType::Left, currentRotation == RotationType::Left });
+  list.push_back({ _("RIGHT"), RotationType::Right, currentRotation == RotationType::Right });
+  list.push_back({ _("UPSIDEDOWN"), RotationType::Upsidedown, currentRotation == RotationType::Upsidedown });
 
   return list;
 }

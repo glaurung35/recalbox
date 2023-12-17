@@ -3,6 +3,104 @@
 //
 
 #include "ThemeSupport.h"
+#include "PropertyNames.h"
+
+ThemePropertyType ThemeSupport::sArray[(int)ThemePropertyName::Count__];
+
+void ThemeSupport::InitializeStatics()
+{
+  static bool sInitialized = false;
+  if (sInitialized) return;
+  sInitialized = true;
+
+  // Intialise property name => type
+  for(int i = (int)ThemePropertyName::Count__; --i >= 0;)
+    switch((ThemePropertyName)i)
+    {
+      case ThemePropertyName::Alignment:
+      case ThemePropertyName::Animations: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::BackgroundColor:
+      case ThemePropertyName::Color: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::DefaultTransition: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::Delay: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::Disabled: sArray[i] = ThemePropertyType::Boolean; break;
+      case ThemePropertyName::Display: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::FadePath:
+      case ThemePropertyName::FilledPath:
+      case ThemePropertyName::FontPath: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::FontSize: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::ForceUppercase: sArray[i] = ThemePropertyType::Boolean; break;
+      case ThemePropertyName::Height:
+      case ThemePropertyName::HorizontalMargin: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::IconA:
+      case ThemePropertyName::IconAdvanced:
+      case ThemePropertyName::IconArcade:
+      case ThemePropertyName::IconB: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::IconColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::IconControllers:
+      case ThemePropertyName::IconDownload:
+      case ThemePropertyName::IconFastShutdown:
+      case ThemePropertyName::IconGames:
+      case ThemePropertyName::IconKodi:
+      case ThemePropertyName::IconL:
+      case ThemePropertyName::IconLeftRight:
+      case ThemePropertyName::IconLicense:
+      case ThemePropertyName::IconNetwork:
+      case ThemePropertyName::IconQuit:
+      case ThemePropertyName::IconR:
+      case ThemePropertyName::IconRecalboxRGBDual:
+      case ThemePropertyName::IconRestart:
+      case ThemePropertyName::IconScraper:
+      case ThemePropertyName::IconSelect:
+      case ThemePropertyName::IconShutdown:
+      case ThemePropertyName::IconSound:
+      case ThemePropertyName::IconStart:
+      case ThemePropertyName::IconSystem:
+      case ThemePropertyName::IconTate:
+      case ThemePropertyName::IconUI:
+      case ThemePropertyName::IconUpDown:
+      case ThemePropertyName::IconUpDownLeftRight:
+      case ThemePropertyName::IconUpdates:
+      case ThemePropertyName::IconX:
+      case ThemePropertyName::IconY: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::LineSpacing: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::LogoAlignment: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::LogoRotation: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::LogoRotationOrigin: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::LogoScale: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::LogoSize: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::Loops:
+      case ThemePropertyName::MaxLogoCount: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::MaxSize:
+      case ThemePropertyName::Origin: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::Path:
+      case ThemePropertyName::PathOff:
+      case ThemePropertyName::PathOn: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::Pos: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::PrimaryColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::Rotation: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::RotationOrigin: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::ScrollSound: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::SecondaryColor:
+      case ThemePropertyName::SelectedColor:
+      case ThemePropertyName::SelectorColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::SelectorHeight: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::SelectorImagePath: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::SelectorImageTile: sArray[i] = ThemePropertyType::Boolean; break;
+      case ThemePropertyName::SelectorOffsetY: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::SeparatorColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::Size: sArray[i] = ThemePropertyType::NormalizedPair; break;
+      case ThemePropertyName::Text: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::TextColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::Tile: sArray[i] = ThemePropertyType::Boolean; break;
+      case ThemePropertyName::Type: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::UnfilledPath: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::Value: sArray[i] = ThemePropertyType::String; break;
+      case ThemePropertyName::ZIndex: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::Count__:
+      default: abort();
+    }
+}
 
 HashSet<String>& ThemeSupport::SupportedViews()
 {
@@ -22,278 +120,507 @@ HashSet<String>& ThemeSupport::SupportedFeatures()
   return sSupportedFeatures;
 }
 
-HashMap< String, HashMap<String, ThemeSupport::ElementProperty> >& ThemeSupport::ElementMap()
+HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
 {
-  static HashMap< String, HashMap<String, ThemeSupport::ElementProperty> > sElementMap =
+  static HashMap<ThemeElementType, ThemePropertyNameBits> sElementMap =
     {
-      { "image",
+      {
+        ThemeElementType::Image,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "maxSize", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "path", ElementProperty::Path },
-          { "tile", ElementProperty::Boolean },
-          { "color", ElementProperty::Color },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::MaxSize,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::Path,
+          ThemePropertyName::Tile,
+          ThemePropertyName::Color,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "box",
+      {
+        ThemeElementType::Box,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "color", ElementProperty::Color },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::Color,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "video",
+      {
+        ThemeElementType::Video,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "maxSize", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "path", ElementProperty::Path },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
-          { "animations", ElementProperty::String },
-          { "loops", ElementProperty::Float },
-          { "delay", ElementProperty::Float },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::MaxSize,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::Path,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
+          ThemePropertyName::Animations,
+          ThemePropertyName::Loops,
+          ThemePropertyName::Delay,
         },
       },
-      { "text",
+      {
+        ThemeElementType::Text,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "text", ElementProperty::String },
-          { "path", ElementProperty::Path },
-          { "backgroundColor", ElementProperty::Color },
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "color", ElementProperty::Color },
-          { "alignment", ElementProperty::String },
-          { "forceUppercase", ElementProperty::Boolean },
-          { "lineSpacing", ElementProperty::Float },
-          { "value", ElementProperty::String },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::Text,
+          ThemePropertyName::Path,
+          ThemePropertyName::BackgroundColor,
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::Color,
+          ThemePropertyName::Alignment,
+          ThemePropertyName::ForceUppercase,
+          ThemePropertyName::LineSpacing,
+          ThemePropertyName::Value,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "scrolltext",
+      {
+        ThemeElementType::ScrollText,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "text", ElementProperty::String },
-          { "path", ElementProperty::Path },
-          { "backgroundColor", ElementProperty::Color },
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "color", ElementProperty::Color },
-          { "alignment", ElementProperty::String },
-          { "forceUppercase", ElementProperty::Boolean },
-          { "value", ElementProperty::String },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::Text,
+          ThemePropertyName::Path,
+          ThemePropertyName::BackgroundColor,
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::Color,
+          ThemePropertyName::Alignment,
+          ThemePropertyName::ForceUppercase,
+          ThemePropertyName::Value,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "textlist",
+      {
+        ThemeElementType::TextList,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "selectorHeight", ElementProperty::Float },
-          { "selectorOffsetY", ElementProperty::Float },
-          { "selectorColor", ElementProperty::Color },
-          { "selectorImagePath", ElementProperty::Path },
-          { "selectorImageTile", ElementProperty::Boolean },
-          { "selectedColor", ElementProperty::Color },
-          { "primaryColor", ElementProperty::Color },
-          { "secondaryColor", ElementProperty::Color },
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "scrollSound", ElementProperty::Path },
-          { "alignment", ElementProperty::String },
-          { "horizontalMargin", ElementProperty::Float },
-          { "forceUppercase", ElementProperty::Boolean },
-          { "lineSpacing", ElementProperty::Float },
-          { "zIndex", ElementProperty::Float },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::SelectorHeight,
+          ThemePropertyName::SelectorOffsetY,
+          ThemePropertyName::SelectorColor,
+          ThemePropertyName::SelectorImagePath,
+          ThemePropertyName::SelectorImageTile,
+          ThemePropertyName::SelectedColor,
+          ThemePropertyName::PrimaryColor,
+          ThemePropertyName::SecondaryColor,
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::ScrollSound,
+          ThemePropertyName::Alignment,
+          ThemePropertyName::HorizontalMargin,
+          ThemePropertyName::ForceUppercase,
+          ThemePropertyName::LineSpacing,
+          ThemePropertyName::ZIndex,
         },
       },
-      { "container",
+      {
+        ThemeElementType::Container,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "ninepatch",
+      {
+        ThemeElementType::NinePatch,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "path", ElementProperty::Path },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Path,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "datetime",
+      {
+        ThemeElementType::DateTime,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "color", ElementProperty::Color },
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "alignment", ElementProperty::String },
-          { "forceUppercase", ElementProperty::Boolean },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
-          { "display", ElementProperty::String },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Color,
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::Alignment,
+          ThemePropertyName::ForceUppercase,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
+          ThemePropertyName::Display,
         },
       },
-      { "rating",
+      {
+        ThemeElementType::Rating,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "size", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "rotation", ElementProperty::Float },
-          { "rotationOrigin", ElementProperty::NormalizedPair },
-          { "filledPath", ElementProperty::Path },
-          { "unfilledPath", ElementProperty::Path },
-          { "zIndex", ElementProperty::Float },
-          { "disabled", ElementProperty::Boolean },
+          ThemePropertyName::Pos,
+          ThemePropertyName::Size,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Rotation,
+          ThemePropertyName::RotationOrigin,
+          ThemePropertyName::FilledPath,
+          ThemePropertyName::UnfilledPath,
+          ThemePropertyName::ZIndex,
+          ThemePropertyName::Disabled,
         },
       },
-      { "sound",
+      {
+        ThemeElementType::Sound,
         {
-          { "path", ElementProperty::Path },
+          ThemePropertyName::Path,
         },
       },
-      { "helpsystem",
+      {
+        ThemeElementType::HelpSystem,
         {
-          { "pos", ElementProperty::NormalizedPair },
-          { "textColor", ElementProperty::Color },
-          { "iconColor", ElementProperty::Color },
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "iconUpDown", ElementProperty::Path },
-          { "iconLeftRight", ElementProperty::Path },
-          { "iconUpDownLeftRight", ElementProperty::Path },
-          { "iconA", ElementProperty::Path },
-          { "iconB", ElementProperty::Path },
-          { "iconX", ElementProperty::Path },
-          { "iconY", ElementProperty::Path },
-          { "iconL", ElementProperty::Path },
-          { "iconR", ElementProperty::Path },
-          { "iconStart", ElementProperty::Path },
-          { "iconSelect", ElementProperty::Path },
+          ThemePropertyName::Pos,
+          ThemePropertyName::TextColor,
+          ThemePropertyName::IconColor,
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::IconUpDown,
+          ThemePropertyName::IconLeftRight,
+          ThemePropertyName::IconUpDownLeftRight,
+          ThemePropertyName::IconA,
+          ThemePropertyName::IconB,
+          ThemePropertyName::IconX,
+          ThemePropertyName::IconY,
+          ThemePropertyName::IconL,
+          ThemePropertyName::IconR,
+          ThemePropertyName::IconStart,
+          ThemePropertyName::IconSelect,
         },
       },
-      { "carousel",
+      {
+        ThemeElementType::Carousel,
         {
-          { "type", ElementProperty::String },
-          { "size", ElementProperty::NormalizedPair },
-          { "pos", ElementProperty::NormalizedPair },
-          { "origin", ElementProperty::NormalizedPair },
-          { "color", ElementProperty::Color },
-          { "logoScale", ElementProperty::Float },
-          { "logoRotation", ElementProperty::Float },
-          { "logoRotationOrigin", ElementProperty::NormalizedPair },
-          { "logoSize", ElementProperty::NormalizedPair },
-          { "logoAlignment", ElementProperty::String },
-          { "maxLogoCount", ElementProperty::Float },
-          { "defaultTransition", ElementProperty::String },
-          { "zIndex", ElementProperty::Float },
+          ThemePropertyName::Type,
+          ThemePropertyName::Size,
+          ThemePropertyName::Pos,
+          ThemePropertyName::Origin,
+          ThemePropertyName::Color,
+          ThemePropertyName::LogoScale,
+          ThemePropertyName::LogoRotation,
+          ThemePropertyName::LogoRotationOrigin,
+          ThemePropertyName::LogoSize,
+          ThemePropertyName::LogoAlignment,
+          ThemePropertyName::MaxLogoCount,
+          ThemePropertyName::DefaultTransition,
+          ThemePropertyName::ZIndex,
         },
       },
-      { "menuBackground",
+      {
+        ThemeElementType::MenuBackground,
         {
-          { "color", ElementProperty::Color },
-          { "path", ElementProperty::Path },
-          { "fadePath", ElementProperty::Path },
+          ThemePropertyName::Color,
+          ThemePropertyName::Path,
+          ThemePropertyName::FadePath,
         },
       },
-      { "menuIcons",
+      {
+        ThemeElementType::MenuIcons,
         {
-          { "iconKodi", ElementProperty::Path },
-          { "iconSystem", ElementProperty::Path },
-          { "iconSystem", ElementProperty::Path },
-          { "iconUpdates", ElementProperty::Path },
-          { "iconControllers", ElementProperty::Path },
-          { "iconGames", ElementProperty::Path },
-          { "iconUI", ElementProperty::Path },
-          { "iconSound", ElementProperty::Path },
-          { "iconNetwork", ElementProperty::Path },
-          { "iconScraper", ElementProperty::Path },
-          { "iconAdvanced", ElementProperty::Path },
-          { "iconQuit", ElementProperty::Path },
-          { "iconRestart", ElementProperty::Path },
-          { "iconShutdown", ElementProperty::Path },
-          { "iconFastShutdown", ElementProperty::Path },
-          { "iconLicense", ElementProperty::Path },
-          { "iconRecalboxRGBDual", ElementProperty::Path },
-          { "iconTate", ElementProperty::Path },
-          { "iconArcade", ElementProperty::Path },
-          { "iconDownload", ElementProperty::Path },
+          ThemePropertyName::IconKodi,
+          ThemePropertyName::IconSystem,
+          ThemePropertyName::IconSystem,
+          ThemePropertyName::IconUpdates,
+          ThemePropertyName::IconControllers,
+          ThemePropertyName::IconGames,
+          ThemePropertyName::IconUI,
+          ThemePropertyName::IconSound,
+          ThemePropertyName::IconNetwork,
+          ThemePropertyName::IconScraper,
+          ThemePropertyName::IconAdvanced,
+          ThemePropertyName::IconQuit,
+          ThemePropertyName::IconRestart,
+          ThemePropertyName::IconShutdown,
+          ThemePropertyName::IconFastShutdown,
+          ThemePropertyName::IconLicense,
+          ThemePropertyName::IconRecalboxRGBDual,
+          ThemePropertyName::IconTate,
+          ThemePropertyName::IconArcade,
+          ThemePropertyName::IconDownload,
         },
       },
-      { "menuSwitch",
+      {
+        ThemeElementType::MenuSwitch,
         {
-          { "pathOn", ElementProperty::Path },
-          { "pathOff", ElementProperty::Path },
+          ThemePropertyName::PathOn,
+          ThemePropertyName::PathOff,
         },
       },
-      { "menuSlider",
+      {
+        ThemeElementType::MenuSlider,
         {
-          { "path", ElementProperty::Path },
+          ThemePropertyName::Path,
         },
       },
-      { "menuButton",
+      {
+        ThemeElementType::MenuButton,
         {
-          { "path", ElementProperty::Path },
-          { "filledPath", ElementProperty::Path },
+          ThemePropertyName::Path,
+          ThemePropertyName::FilledPath,
         },
       },
-      { "menuText",
+      {
+        ThemeElementType::MenuText,
         {
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "color", ElementProperty::Color },
-          { "separatorColor", ElementProperty::Color },
-          { "selectedColor", ElementProperty::Color },
-          { "selectorColor", ElementProperty::Color },
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::Color,
+          ThemePropertyName::SeparatorColor,
+          ThemePropertyName::SelectedColor,
+          ThemePropertyName::SelectorColor,
         },
       },
-      { "menuTextSmall",
+      {
+        ThemeElementType::MenuTextSmall,
         {
-          { "fontPath", ElementProperty::Path },
-          { "fontSize", ElementProperty::Float },
-          { "color", ElementProperty::Color },
-          { "selectedColor", ElementProperty::Color },
-          { "selectorColor", ElementProperty::Color },
+          ThemePropertyName::FontPath,
+          ThemePropertyName::FontSize,
+          ThemePropertyName::Color,
+          ThemePropertyName::SelectedColor,
+          ThemePropertyName::SelectorColor,
         },
       },
-      { "menuSize",
+      {
+        ThemeElementType::MenuSize,
         {
-          { "height", ElementProperty::Float },
+          ThemePropertyName::Height,
         },
       }
     };
   return sElementMap;
 }
 
+HashMap<String, ThemeElementType>& ThemeSupport::ElementType()
+{
+  static HashMap<String, ThemeElementType> sTypes
+  {
+    { "image", ThemeElementType::Image },
+    { "box", ThemeElementType::Box },
+    { "video", ThemeElementType::Video },
+    { "text", ThemeElementType::Text },
+    { "scrolltext", ThemeElementType::ScrollText },
+    { "textlist", ThemeElementType::TextList },
+    { "container", ThemeElementType::Container },
+    { "ninepatch", ThemeElementType::NinePatch },
+    { "datetime", ThemeElementType::DateTime },
+    { "rating", ThemeElementType::Rating },
+    { "sound", ThemeElementType::Sound },
+    { "helpsystem", ThemeElementType::HelpSystem },
+    { "carousel", ThemeElementType::Carousel },
+    { "menuBackground", ThemeElementType::MenuBackground },
+    { "menuIcons", ThemeElementType::MenuIcons },
+    { "menuSwitch", ThemeElementType::MenuSwitch },
+    { "menuSlider", ThemeElementType::MenuSlider },
+    { "menuButton", ThemeElementType::MenuButton },
+    { "menuText", ThemeElementType::MenuText },
+    { "menuTextSmall", ThemeElementType::MenuTextSmall },
+    { "menuSize", ThemeElementType::MenuSize },
+  };
+
+  return sTypes;
+}
+
+HashMap<String, ThemePropertyName>& ThemeSupport::PropertyName()
+{
+  static HashMap<String, ThemePropertyName> sNames
+  {
+    { "alignment", ThemePropertyName::Alignment },
+    { "animations", ThemePropertyName::Animations },
+    { "backgroundColor", ThemePropertyName::BackgroundColor },
+    { "color", ThemePropertyName::Color },
+    { "defaultTransition", ThemePropertyName::DefaultTransition },
+    { "delay", ThemePropertyName::Delay },
+    { "disabled", ThemePropertyName::Disabled },
+    { "display", ThemePropertyName::Display },
+    { "fadePath", ThemePropertyName::FadePath },
+    { "filledPath", ThemePropertyName::FilledPath },
+    { "fontPath", ThemePropertyName::FontPath },
+    { "fontSize", ThemePropertyName::FontSize },
+    { "forceUppercase", ThemePropertyName::ForceUppercase },
+    { "height", ThemePropertyName::Height },
+    { "horizontalMargin", ThemePropertyName::HorizontalMargin },
+    { "iconA", ThemePropertyName::IconA },
+    { "iconAdvanced", ThemePropertyName::IconAdvanced },
+    { "iconArcade", ThemePropertyName::IconArcade },
+    { "iconB", ThemePropertyName::IconB },
+    { "iconColor", ThemePropertyName::IconColor },
+    { "iconControllers", ThemePropertyName::IconControllers },
+    { "iconDownload", ThemePropertyName::IconDownload },
+    { "iconFastShutdown", ThemePropertyName::IconFastShutdown },
+    { "iconGames", ThemePropertyName::IconGames },
+    { "iconKodi", ThemePropertyName::IconKodi },
+    { "iconL", ThemePropertyName::IconL },
+    { "iconLeftRight", ThemePropertyName::IconLeftRight },
+    { "iconLicense", ThemePropertyName::IconLicense },
+    { "iconNetwork", ThemePropertyName::IconNetwork },
+    { "iconQuit", ThemePropertyName::IconQuit },
+    { "iconR", ThemePropertyName::IconR },
+    { "iconRecalboxRGBDual", ThemePropertyName::IconRecalboxRGBDual },
+    { "iconRestart", ThemePropertyName::IconRestart },
+    { "iconScraper", ThemePropertyName::IconScraper },
+    { "iconSelect", ThemePropertyName::IconSelect },
+    { "iconShutdown", ThemePropertyName::IconShutdown },
+    { "iconSound", ThemePropertyName::IconSound },
+    { "iconStart", ThemePropertyName::IconStart },
+    { "iconSystem", ThemePropertyName::IconSystem },
+    { "iconTate", ThemePropertyName::IconTate },
+    { "iconUI", ThemePropertyName::IconUI },
+    { "iconUpDown", ThemePropertyName::IconUpDown },
+    { "iconUpDownLeftRight", ThemePropertyName::IconUpDownLeftRight },
+    { "iconUpdates", ThemePropertyName::IconUpdates },
+    { "iconX", ThemePropertyName::IconX },
+    { "iconY", ThemePropertyName::IconY },
+    { "lineSpacing", ThemePropertyName::LineSpacing },
+    { "logoAlignment", ThemePropertyName::LogoAlignment },
+    { "logoRotation", ThemePropertyName::LogoRotation },
+    { "logoRotationOrigin", ThemePropertyName::LogoRotationOrigin },
+    { "logoScale", ThemePropertyName::LogoScale },
+    { "logoSize", ThemePropertyName::LogoSize },
+    { "loops", ThemePropertyName::Loops },
+    { "maxLogoCount", ThemePropertyName::MaxLogoCount },
+    { "maxSize", ThemePropertyName::MaxSize },
+    { "origin", ThemePropertyName::Origin },
+    { "path", ThemePropertyName::Path },
+    { "pathOff", ThemePropertyName::PathOff },
+    { "pathOn", ThemePropertyName::PathOn },
+    { "pos", ThemePropertyName::Pos },
+    { "primaryColor", ThemePropertyName::PrimaryColor },
+    { "rotation", ThemePropertyName::Rotation },
+    { "rotationOrigin", ThemePropertyName::RotationOrigin },
+    { "scrollSound", ThemePropertyName::ScrollSound },
+    { "secondaryColor", ThemePropertyName::SecondaryColor },
+    { "selectedColor", ThemePropertyName::SelectedColor },
+    { "selectorColor", ThemePropertyName::SelectorColor },
+    { "selectorHeight", ThemePropertyName::SelectorHeight },
+    { "selectorImagePath", ThemePropertyName::SelectorImagePath },
+    { "selectorImageTile", ThemePropertyName::SelectorImageTile },
+    { "selectorOffsetY", ThemePropertyName::SelectorOffsetY },
+    { "separatorColor", ThemePropertyName::SeparatorColor },
+    { "size", ThemePropertyName::Size },
+    { "text", ThemePropertyName::Text },
+    { "textColor", ThemePropertyName::TextColor },
+    { "tile", ThemePropertyName::Tile },
+    { "type", ThemePropertyName::Type },
+    { "unfilledPath", ThemePropertyName::UnfilledPath },
+    { "value", ThemePropertyName::Value },
+    { "zIndex", ThemePropertyName::ZIndex },
+  };
+
+  return sNames;
+}
+
+String ThemeSupport::ReversePropertyName(ThemePropertyName name)
+{
+  static HashMap<ThemePropertyName, String> sNames
+  {
+/*    { "alignment", ThemePropertyName::Alignment },
+    { "animations", ThemePropertyName::Animations },
+    { "backgroundColor", ThemePropertyName::BackgroundColor },
+    { "color", ThemePropertyName::Color },
+    { "defaultTransition", ThemePropertyName::DefaultTransition },
+    { "delay", ThemePropertyName::Delay },
+    { "disabled", ThemePropertyName::Disabled },
+    { "display", ThemePropertyName::Display },
+    { "fadePath", ThemePropertyName::FadePath },
+    { "filledPath", ThemePropertyName::FilledPath },
+    { "fontPath", ThemePropertyName::FontPath },
+    { "fontSize", ThemePropertyName::FontSize },
+    { "forceUppercase", ThemePropertyName::ForceUppercase },
+    { "height", ThemePropertyName::Height },
+    { "horizontalMargin", ThemePropertyName::HorizontalMargin },
+    { "iconA", ThemePropertyName::IconA },
+    { "iconAdvanced", ThemePropertyName::IconAdvanced },
+    { "iconArcade", ThemePropertyName::IconArcade },
+    { "iconB", ThemePropertyName::IconB },
+    { "iconColor", ThemePropertyName::IconColor },
+    { "iconControllers", ThemePropertyName::IconControllers },
+    { "iconDownload", ThemePropertyName::IconDownload },
+    { "iconFastShutdown", ThemePropertyName::IconFastShutdown },
+    { "iconGames", ThemePropertyName::IconGames },
+    { "iconKodi", ThemePropertyName::IconKodi },
+    { "iconL", ThemePropertyName::IconL },
+    { "iconLeftRight", ThemePropertyName::IconLeftRight },
+    { "iconLicense", ThemePropertyName::IconLicense },
+    { "iconNetwork", ThemePropertyName::IconNetwork },
+    { "iconQuit", ThemePropertyName::IconQuit },
+    { "iconR", ThemePropertyName::IconR },
+    { "iconRecalboxRGBDual", ThemePropertyName::IconRecalboxRGBDual },
+    { "iconRestart", ThemePropertyName::IconRestart },
+    { "iconScraper", ThemePropertyName::IconScraper },
+    { "iconSelect", ThemePropertyName::IconSelect },
+    { "iconShutdown", ThemePropertyName::IconShutdown },
+    { "iconSound", ThemePropertyName::IconSound },
+    { "iconStart", ThemePropertyName::IconStart },
+    { "iconSystem", ThemePropertyName::IconSystem },
+    { "iconTate", ThemePropertyName::IconTate },
+    { "iconUI", ThemePropertyName::IconUI },
+    { "iconUpDown", ThemePropertyName::IconUpDown },
+    { "iconUpDownLeftRight", ThemePropertyName::IconUpDownLeftRight },
+    { "iconUpdates", ThemePropertyName::IconUpdates },
+    { "iconX", ThemePropertyName::IconX },
+    { "iconY", ThemePropertyName::IconY },
+    { "lineSpacing", ThemePropertyName::LineSpacing },
+    { "logoAlignment", ThemePropertyName::LogoAlignment },
+    { "logoRotation", ThemePropertyName::LogoRotation },
+    { "logoRotationOrigin", ThemePropertyName::LogoRotationOrigin },
+    { "logoScale", ThemePropertyName::LogoScale },
+    { "logoSize", ThemePropertyName::LogoSize },
+    { "loops", ThemePropertyName::Loops },
+    { "maxLogoCount", ThemePropertyName::MaxLogoCount },
+    { "maxSize", ThemePropertyName::MaxSize },
+    { "origin", ThemePropertyName::Origin },
+    { "path", ThemePropertyName::Path },
+    { "pathOff", ThemePropertyName::PathOff },
+    { "pathOn", ThemePropertyName::PathOn },
+    { "pos", ThemePropertyName::Pos },
+    { "primaryColor", ThemePropertyName::PrimaryColor },
+    { "rotation", ThemePropertyName::Rotation },
+    { "rotationOrigin", ThemePropertyName::RotationOrigin },
+    { "scrollSound", ThemePropertyName::ScrollSound },
+    { "secondaryColor", ThemePropertyName::SecondaryColor },
+    { "selectedColor", ThemePropertyName::SelectedColor },
+    { "selectorColor", ThemePropertyName::SelectorColor },
+    { "selectorHeight", ThemePropertyName::SelectorHeight },
+    { "selectorImagePath", ThemePropertyName::SelectorImagePath },
+    { "selectorImageTile", ThemePropertyName::SelectorImageTile },
+    { "selectorOffsetY", ThemePropertyName::SelectorOffsetY },
+    { "separatorColor", ThemePropertyName::SeparatorColor },
+    { "size", ThemePropertyName::Size },
+    { "text", ThemePropertyName::Text },
+    { "textColor", ThemePropertyName::TextColor },
+    { "tile", ThemePropertyName::Tile },
+    { "type", ThemePropertyName::Type },
+    { "unfilledPath", ThemePropertyName::UnfilledPath },
+    { "value", ThemePropertyName::Value },
+    { "zIndex", ThemePropertyName::ZIndex },*/
+  };
+
+  String* sname = sNames.try_get(name);
+  return sname != nullptr ? *sname : "Unknown";
+}

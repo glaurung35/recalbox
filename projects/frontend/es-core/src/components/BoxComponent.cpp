@@ -13,8 +13,8 @@ void BoxComponent::Render(const Transform4x4f& parentTrans)
   Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), mColor);
 }
 
-void BoxComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void BoxComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color"))
-    setColor((Colors::ColorRGBA )element.AsInt("color"));
+  if (hasFlag(properties, ThemePropertyCategory::Color))
+    setColor((Colors::ColorRGBA)(element.HasProperty(ThemePropertyName::Color) ? element.AsInt(ThemePropertyName::Color) : 0));
 }

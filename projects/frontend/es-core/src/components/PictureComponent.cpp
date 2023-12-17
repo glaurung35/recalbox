@@ -115,62 +115,62 @@ void PictureComponent::fadeIn(bool textureLoaded) {
   }
 }
 
-void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemePropertiesType properties)
+void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemePropertyCategory properties)
 {
-  const ThemeElement* elem = theme.getElement(view, element, "image");
+  const ThemeElement* elem = theme.Element(view, element, ThemeElementType::Image);
   if (elem == nullptr) {
     return;
   }
 
   Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
-  if (hasFlag(properties, ThemePropertiesType::Position) && elem->HasProperty("pos")) {
-    Vector2f denormalized = elem->AsVector("pos") * scale;
+  if (hasFlag(properties, ThemePropertyCategory::Position) && elem->HasProperty(ThemePropertyName::Pos)) {
+    Vector2f denormalized = elem->AsVector(ThemePropertyName::Pos) * scale;
     setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
   }
 
-  if (hasFlag(properties,ThemePropertiesType::Size)) {
-    if (elem->HasProperty("size")) {
-      setSize(elem->AsVector("size") * scale);
+  if (hasFlag(properties,ThemePropertyCategory::Size)) {
+    if (elem->HasProperty(ThemePropertyName::Size)) {
+      setSize(elem->AsVector(ThemePropertyName::Size) * scale);
       setKeepRatio(false);
-    } else if (elem->HasProperty("maxSize")) {
-      setSize(elem->AsVector("maxSize") * scale);
+    } else if (elem->HasProperty(ThemePropertyName::MaxSize)) {
+      setSize(elem->AsVector(ThemePropertyName::MaxSize) * scale);
       setKeepRatio(true);
     }
   }
 
   // position + size also implies origin
-  if ((hasFlag(properties, ThemePropertiesType::Origin) || (hasFlags(properties, ThemePropertiesType::Position, ThemePropertiesType::Size))) && elem->HasProperty("origin")) {
-    setOrigin(elem->AsVector("origin"));
+  if ((hasFlag(properties, ThemePropertyCategory::Origin) || (hasFlags(properties, ThemePropertyCategory::Position, ThemePropertyCategory::Size))) && elem->HasProperty(ThemePropertyName::Origin)) {
+    setOrigin(elem->AsVector(ThemePropertyName::Origin));
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Path) && elem->HasProperty("path")) {
-    bool tile = (elem->HasProperty("tile") && elem->AsBool("tile"));
-    setImage(Path(elem->AsString("path")), tile);
+  if (hasFlag(properties, ThemePropertyCategory::Path) && elem->HasProperty(ThemePropertyName::Path)) {
+    bool tile = (elem->HasProperty(ThemePropertyName::Tile) && elem->AsBool(ThemePropertyName::Tile));
+    setImage(Path(elem->AsString(ThemePropertyName::Path)), tile);
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Color) && elem->HasProperty("color")) {
-    setColor((unsigned int)elem->AsInt("color"));
+  if (hasFlag(properties, ThemePropertyCategory::Color) && elem->HasProperty(ThemePropertyName::Color)) {
+    setColor((unsigned int)elem->AsInt(ThemePropertyName::Color));
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Rotation)) {
-    if (elem->HasProperty("rotation")) {
-      setRotationDegrees(elem->AsFloat("rotation"));
+  if (hasFlag(properties, ThemePropertyCategory::Rotation)) {
+    if (elem->HasProperty(ThemePropertyName::Rotation)) {
+      setRotationDegrees(elem->AsFloat(ThemePropertyName::Rotation));
     }
-    if (elem->HasProperty("rotationOrigin")) {
-      setRotationOrigin(elem->AsVector("rotationOrigin"));
+    if (elem->HasProperty(ThemePropertyName::RotationOrigin)) {
+      setRotationOrigin(elem->AsVector(ThemePropertyName::RotationOrigin));
     }
   }
 
-  if (hasFlag(properties, ThemePropertiesType::ZIndex) && elem->HasProperty("zIndex")) {
-    setZIndex(elem->AsFloat("zIndex"));
+  if (hasFlag(properties, ThemePropertyCategory::ZIndex) && elem->HasProperty(ThemePropertyName::ZIndex)) {
+    setZIndex(elem->AsFloat(ThemePropertyName::ZIndex));
   } else {
     setZIndex(getDefaultZIndex());
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Position) && elem->HasProperty("disabled"))
+  if (hasFlag(properties, ThemePropertyCategory::Position) && elem->HasProperty(ThemePropertyName::Disabled))
   {
-    mThemeDisabled = elem->AsBool("disabled");
+    mThemeDisabled = elem->AsBool(ThemePropertyName::Disabled);
   }
 }
 

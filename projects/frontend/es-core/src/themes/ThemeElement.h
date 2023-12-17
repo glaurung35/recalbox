@@ -7,6 +7,9 @@
 #include <utils/String.h>
 #include <utils/os/fs/Path.h>
 #include <utils/math/Vector2f.h>
+#include "ElementTypes.h"
+#include "PropertyNames.h"
+#include "utils/storage/HashMap.h"
 
 class ThemeElement
 {
@@ -130,11 +133,13 @@ class ThemeElement
     };
 
     //! Properties
-    std::map<String, PropertyBag> mProperties;
+    HashMap<ThemePropertyName, PropertyBag> mProperties;
+    //! Property map
+    ThemePropertyNameBits mAvailableProperties;
     //! Element name
     String mName;
     //! Element type
-    String mType;
+    ThemeElementType mType;
     //! Is extra element
     bool mExtra;
 
@@ -145,70 +150,64 @@ class ThemeElement
      * @param type Element type
      * @param extra Element is an extra
      */
-    ThemeElement(const String& name, const String& type, bool extra)
+    ThemeElement(const String& name, ThemeElementType type, bool extra)
     {
       mName = name;
       mType = type;
       mExtra = extra;
     }
 
-    [[nodiscard]] String AsString(const String& name) const
+    [[nodiscard]] String AsString(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsString();
-      return String();
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr ? bag->AsString() : String::Empty;
     }
 
-    [[nodiscard]] Path AsPath(const String& name) const
+    [[nodiscard]] Path AsPath(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsPath();
-      return Path();
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr ? bag->AsPath() : Path::Empty;
     }
 
-    [[nodiscard]] int AsInt(const String& name) const
+    [[nodiscard]] int AsInt(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsInt();
-      return 0;
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr ? bag->AsInt() : 0;
     }
 
-    [[nodiscard]] float AsFloat(const String& name) const
+    [[nodiscard]] float AsFloat(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsFloat();
-      return 0.0f;
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr ? bag->AsFloat() : 0.f;
     }
 
-    [[nodiscard]] bool AsBool(const String& name) const
+    [[nodiscard]] bool AsBool(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsBool();
-      return false;
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr && bag->AsBool();
     }
 
-    [[nodiscard]] Vector2f AsVector(const String& name) const
+    [[nodiscard]] Vector2f AsVector(ThemePropertyName name) const
     {
-      auto it = mProperties.find(name);
-      if (it != mProperties.end()) return it->second.AsVector();
-      return { 0.0f, 0.0f };
+      PropertyBag* bag = mProperties.try_get(name);
+      return bag != nullptr ? bag->AsVector() : Vector2f(0.0f, 0.0f);
     }
 
-    [[nodiscard]] bool HasProperty(const String& prop) const { return (mProperties.find(prop) != mProperties.end()); }
+    [[nodiscard]] bool HasProperty(ThemePropertyName property) const { return mAvailableProperties.IsSet(property); }
 
     [[nodiscard]] bool HasProperties() const { return !mProperties.empty(); }
 
     [[nodiscard]] const String& Name() const { return mName; }
 
-    [[nodiscard]] const String& Type() const { return mType; }
+    [[nodiscard]] ThemeElementType Type() const { return mType; }
 
     [[nodiscard]] bool Extra() const { return mExtra; }
 
-    void AddVectorProperty(const String& name, float x, float y) { mProperties[name] = PropertyBag(x, y); }
-    void AddVectorProperty(const String& name, const Vector2f& v) { mProperties[name] = PropertyBag(v); }
-    void AddStringProperty(const String& name, const String& s) { mProperties[name] = PropertyBag(s); }
-    void AddIntProperty(const String& name, int v) { mProperties[name] = PropertyBag(v); }
-    void AddFloatProperty(const String& name, float v) { mProperties[name] = PropertyBag(v); }
-    void AddBoolProperty(const String& name, bool v) { mProperties[name] = PropertyBag(v); }
+    void AddVectorProperty(ThemePropertyName name, float x, float y) { mProperties[name] = PropertyBag(x, y); mAvailableProperties.Set(name); }
+    void AddVectorProperty(ThemePropertyName name, const Vector2f& v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
+    void AddStringProperty(ThemePropertyName name, const String& s) { mProperties[name] = PropertyBag(s); mAvailableProperties.Set(name); }
+    void AddIntProperty(ThemePropertyName name, int v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
+    void AddFloatProperty(ThemePropertyName name, float v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
+    void AddBoolProperty(ThemePropertyName name, bool v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
 };
 

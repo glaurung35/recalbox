@@ -1,11 +1,12 @@
 #pragma once
 
-#include "components/base/Component.h"
-#include "components/TextComponent.h"
-#include "components/IList.h"
-#include "themes/ThemeExtras.h"
+#include <components/base/Component.h>
+#include <components/TextComponent.h>
+#include <components/IList.h>
+#include <themes/ThemeExtras.h>
+#include <themes/IThemeSwitchable.h>
 #include "IProgressInterface.h"
-#include "utils/os/system/Thread.h"
+#include <utils/os/system/Thread.h>
 
 class SystemManager;
 class SystemData;
@@ -20,9 +21,9 @@ enum class CarouselType : unsigned int
 
 struct SystemViewData
 {
-	std::shared_ptr<Component> logo;
-	std::shared_ptr<Component> logotext;
-	std::shared_ptr<ThemeExtras> backgroundExtras;
+	std::shared_ptr<ImageComponent> logo;
+	std::shared_ptr<TextComponent> logotext;
+  std::shared_ptr<ThemeExtras> backgroundExtras;
 };
 
 struct SystemViewCarousel
@@ -51,6 +52,7 @@ struct SystemGameCount
 class SystemView : public IList<SystemViewData, SystemData*>
                  , public Thread
                  , public ISyncMessageReceiver<SystemGameCount>
+                 , public IThemeSwitchable
 {
   public:
     SystemView(WindowManager& window, SystemManager& systemManager);
@@ -67,7 +69,7 @@ class SystemView : public IList<SystemViewData, SystemData*>
     void Update(int deltaTime) override;
     void Render(const Transform4x4f& parentTrans) override;
 
-    void onThemeChanged(const ThemeData& theme);
+    //void onThemeChanged(const ThemeData& theme);
 
     bool getHelpPrompts(Help& help) override;
     void populate();
@@ -165,7 +167,7 @@ class SystemView : public IList<SystemViewData, SystemData*>
      * Legacy
      */
 
-    void getViewElements(const ThemeData& theme);
+    void RefreshViewElements(const ThemeData& theme);
     void getDefaultElements();
     void getCarouselFromTheme(const ThemeElement* elem);
 
@@ -173,4 +175,22 @@ class SystemView : public IList<SystemViewData, SystemData*>
     void renderExtras(const Transform4x4f& parentTrans, float lower, float upper);
     void renderInfoBar(const Transform4x4f& trans);
     void renderFade(const Transform4x4f& trans);
+
+    /*
+     * IThemeSwitchable
+     */
+
+    /*!
+     * @brief System view process all system themes by itself
+     * @return nullptr
+     */
+    [[nodiscard]] SystemData* SystemTheme() const override { return nullptr; };
+
+    /*!
+     * @brief Called when theme switch.
+     * @param theme New Theme
+     * @param refreshOnly True if we need to refresh the current view only
+     */
+    void SwitchToTheme(ThemeData& theme, bool refreshOnly) override;
+
 };

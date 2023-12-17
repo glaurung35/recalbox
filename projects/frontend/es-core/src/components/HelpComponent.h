@@ -61,8 +61,9 @@ class HelpComponent : public ThemableComponent
     /*!
      * @brief Called when theme switch.
      * @param theme New Theme
+     * @param refreshOnly True if we need to refresh components only
      */
-    void SwitchToTheme(ThemeData& theme) override;
+    void SwitchToTheme(ThemeData& theme, bool refreshOnly) override;
 
     /*
      * Themable implemantation
@@ -73,13 +74,13 @@ class HelpComponent : public ThemableComponent
      * @param element Element instance
      * @param properties Properties to update
      */
-    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "helpsystem"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::HelpSystem; }
 
     /*!
      * @brief A view or a window visibility has changed

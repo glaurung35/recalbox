@@ -3,22 +3,74 @@
 //
 
 #include "ThemeExtras.h"
+#include "utils/storage/Set.h"
+#include "utils/Log.h"
 
-void ThemeExtras::setExtras(const std::vector<Component*>& extras)
+void ThemeExtras::AssignExtras(ThemeExtras::List&& extras, bool smart)
 {
   // delete old extras (if any)
-  for (auto& mExtra : mExtras)
-    delete mExtra;
+  for (auto& extra : mExtras)
+    removeChild(&extra.Component());
 
-  mExtras = extras;
-  for (auto& mExtra : mExtras)
-    addChild(mExtra);
+  if (smart) CreateSmartList(extras);
+  else mExtras = std::move(extras);
+
+  // Sort
+  SortExtrasByZIndex();
+
+  for (auto& extra : mExtras)
+    addChild(&extra.Component());
 }
 
-ThemeExtras::~ThemeExtras()
+void ThemeExtras::SortExtrasByZIndex()
 {
-  for (auto& mExtra : mExtras)
-    delete mExtra;
+  std::stable_sort(mExtras.begin(), mExtras.end(), [](const Extra& a, const Extra& b) { return b.Component().getZIndex() > a.Component().getZIndex(); });
+}
+
+void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
+{
+  bool move = false;
+  // Create new extra map
+  HashMap<String, const Extra*> newExtrasMap;
+  for(const Extra& newExtra : newExtras) newExtrasMap[newExtra.Name()] = &newExtra;
+
+  // Check existing extras and delete old extras not in the new list
+  for(int i = (int)mExtras.size(); --i >= 0;)
+  {
+    const Extra& oldExtra = mExtras[i];
+    const Extra** foundInNew = newExtrasMap.try_get(oldExtra.Name());
+    if (foundInNew == nullptr || (*foundInNew)->Type() != oldExtra.Type()) // Not found or type does not match
+    {
+      { LOG(LogWarning) << "[ThemeExtra] Removed " << oldExtra.Name(); }
+      //delete oldExtra.mComponent;
+      mExtras.erase(mExtras.begin() + i);
+      move = true;
+    }
+  }
+
+  // Create old extra map
+  HashMap<String, Extra*> oldExtrasMap;
+  for(Extra& oldExtra : mExtras) oldExtrasMap[oldExtra.Name()] = &oldExtra;
+
+  for(Extra& newExtra : newExtras)
+  {
+    Extra** foundInOld = oldExtrasMap.try_get(newExtra.Name());
+    if (foundInOld == nullptr)
+    {
+      { LOG(LogWarning) << "[ThemeExtra] Added " << newExtra.Name(); }
+      mExtras.push_back(std::move(newExtra));
+      move = true;
+    }
+    else if ((*foundInOld)->Type() != newExtra.Type())
+    {
+      { LOG(LogWarning) << "[ThemeExtra] Modified " << newExtra.Name(); }
+      // Type does not match, replace type & component
+      //delete (*foundInOld)->mComponent;
+      **foundInOld = std::move(newExtra);
+      move = true;
+    }
+  }
+  if (!move) { LOG(LogWarning) << "[ThemeExtra] No move"; }
 }
 
 

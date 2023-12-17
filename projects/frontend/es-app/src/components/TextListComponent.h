@@ -103,13 +103,13 @@ public:
      * @param element Theme element
      * @param properties Properties to set
      */
-    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "textlist"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::TextList; }
     
   private:
   void updateBarColor()
@@ -540,58 +540,58 @@ void TextListComponent<T>::onCursorChanged(const CursorState& state)
 }
 
 template <typename T>
-void TextListComponent<T>::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void TextListComponent<T>::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-	if (hasFlag(properties, ThemePropertiesType::Color))
+	if (hasFlag(properties, ThemePropertyCategory::Color))
 	{
-		if(element.HasProperty("selectorColor"))  setSelectorColor((unsigned int)element.AsInt("selectorColor"));
-		if(element.HasProperty("selectedColor"))  setSelectedColor((unsigned int)element.AsInt("selectedColor"));
-		if(element.HasProperty("primaryColor"))   setColor(0, (unsigned int)element.AsInt("primaryColor"));
-		if(element.HasProperty("secondaryColor")) setColor(1, (unsigned int)element.AsInt("secondaryColor"));
+		if (element.HasProperty(ThemePropertyName::SelectorColor))  setSelectorColor((unsigned int)element.AsInt(ThemePropertyName::SelectorColor));
+		if (element.HasProperty(ThemePropertyName::SelectedColor))  setSelectedColor((unsigned int)element.AsInt(ThemePropertyName::SelectedColor));
+		if (element.HasProperty(ThemePropertyName::PrimaryColor))   setColor(0, (unsigned int)element.AsInt(ThemePropertyName::PrimaryColor));
+		if (element.HasProperty(ThemePropertyName::SecondaryColor)) setColor(1, (unsigned int)element.AsInt(ThemePropertyName::SecondaryColor));
 	}
 
 	setFont(Font::getFromTheme(element, properties, mFont));
 	
-	if (hasFlag(properties, ThemePropertiesType::Sound) && element.HasProperty("scrollSound"))
+	if (hasFlag(properties, ThemePropertyCategory::Sound) && element.HasProperty(ThemePropertyName::ScrollSound))
   {
-    Path soundPath = Path(element.AsString("sound"));
+    Path soundPath = Path(element.AsString(ThemePropertyName::ScrollSound));
     setSound(AudioManager::Instance().LoadSound(soundPath));
   }
 
-	if (hasFlag(properties, ThemePropertiesType::Alignment))
+	if (hasFlag(properties, ThemePropertyCategory::Alignment))
 	{
-		if(element.HasProperty("alignment"))
+		if(element.HasProperty(ThemePropertyName::Alignment))
 		{
-			const String& str = element.AsString("alignment");
+			const String& str = element.AsString(ThemePropertyName::Alignment);
 			if (str == "left")        setAlignment(HorizontalAlignment::Left);
 			else if (str == "center") setAlignment(HorizontalAlignment::Center);
 			else if(str == "right")   setAlignment(HorizontalAlignment::Right);
 			else { LOG(LogError) << "[TextListComponent] Unknown TextListComponent alignment \"" << str << "\"!"; }
 		}
-		if(element.HasProperty("horizontalMargin"))
-			mHorizontalMargin = element.AsFloat("horizontalMargin") * (this->mParent ? this->mParent->getSize().x() : Renderer::Instance().DisplayWidthAsFloat());
+		if(element.HasProperty(ThemePropertyName::HorizontalMargin))
+			mHorizontalMargin = element.AsFloat(ThemePropertyName::HorizontalMargin) * (this->mParent ? this->mParent->getSize().x() : Renderer::Instance().DisplayWidthAsFloat());
 	}
 
-	if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase"))
-		setUppercase(element.AsBool("forceUppercase"));
+	if (hasFlag(properties, ThemePropertyCategory::ForceUppercase) && element.HasProperty(ThemePropertyName::ForceUppercase))
+		setUppercase(element.AsBool(ThemePropertyName::ForceUppercase));
 
-	if (hasFlag(properties, ThemePropertiesType::LineSpacing))
+	if (hasFlag(properties, ThemePropertyCategory::LineSpacing))
 	{
-		if(element.HasProperty("lineSpacing")) setLineSpacing(element.AsFloat("lineSpacing"));
-		if(element.HasProperty("selectorHeight")) setSelectorHeight(element.AsFloat("selectorHeight") * Renderer::Instance().DisplayHeightAsFloat());
+		if(element.HasProperty(ThemePropertyName::LineSpacing)) setLineSpacing(element.AsFloat(ThemePropertyName::LineSpacing));
+		if(element.HasProperty(ThemePropertyName::SelectorHeight)) setSelectorHeight(element.AsFloat(ThemePropertyName::SelectorHeight) * Renderer::Instance().DisplayHeightAsFloat());
 		else setSelectorHeight(mFont->getSize() * mLineSpacing);
-    if(element.HasProperty("selectorOffsetY"))
+    if(element.HasProperty(ThemePropertyName::SelectorOffsetY))
 		{
 			float scale = this->mParent ? this->mParent->getSize().y() : Renderer::Instance().DisplayHeightAsFloat();
-			setSelectorOffsetY(element.AsFloat("selectorOffsetY") * scale);
+			setSelectorOffsetY(element.AsFloat(ThemePropertyName::SelectorOffsetY) * scale);
 		}
     else setSelectorOffsetY(0.0);
 	}
 
-  if (element.HasProperty("selectorImagePath"))
+  if (element.HasProperty(ThemePropertyName::SelectorImagePath))
 	{
-		Path path(element.AsString("selectorImagePath"));
-		bool tile = element.HasProperty("selectorImageTile") && element.AsBool("selectorImageTile");
+		Path path(element.AsString(ThemePropertyName::SelectorImagePath));
+		bool tile = element.HasProperty(ThemePropertyName::SelectorImageTile) && element.AsBool(ThemePropertyName::SelectorImageTile);
 		mSelectorImage.setImage(path, tile);
 		mSelectorImage.setSize(mSize.x(), mSelectorHeight);
 		mSelectorImage.setColorShift(mSelectorColor);

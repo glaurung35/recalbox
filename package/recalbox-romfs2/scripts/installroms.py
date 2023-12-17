@@ -18,6 +18,7 @@ class InstallRoms:
         "_leiame.txt": "pt",
         "_leggime.txt": "it",
         "_liesmich.txt": "de",
+        "_leeme.txt": "es",
     }
 
     __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "")

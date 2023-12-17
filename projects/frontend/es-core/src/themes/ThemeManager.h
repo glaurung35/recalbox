@@ -105,8 +105,9 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     /*!
      * @brief Notify all IThemeSwitchable implementation that a new theme has been loaded
      * allowing them to refresh their themable elements
+     * @param refreshOnly the theme did not change but options may have - Implementation must refresh element's properties
      */
-    void NotifyThemeChanged();
+    void NotifyThemeChanged(bool refreshOnly);
 
     /*!
      * @brief Return the currently selected theme root peth

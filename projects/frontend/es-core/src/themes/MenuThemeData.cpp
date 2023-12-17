@@ -4,142 +4,93 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 {
   Reset();
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menuSize", "menuSize"); elem != nullptr)
-		if (elem->HasProperty("height"))
-			mSize.height = elem->AsFloat("height");
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuSize", ThemeElementType::MenuSize); elem != nullptr)
+		if (elem->HasProperty(ThemePropertyName::Height))
+			mSize.height = elem->AsFloat(ThemePropertyName::Height);
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menubg", "menuBackground"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menubg", ThemeElementType::MenuBackground); elem != nullptr)
 	{
-		if (elem->HasProperty("path"))
-			mBackground.path = Path(elem->AsString("path"));
-		if (elem->HasProperty("fadePath"))
-			mBackground.fadePath = Path(elem->AsString("fadePath"));
-		if (elem->HasProperty("color"))
-			mBackground.color = (unsigned int)elem->AsInt("color");
+		if (elem->HasProperty(ThemePropertyName::Path))
+			mBackground.path = Path(elem->AsString(ThemePropertyName::Path));
+		if (elem->HasProperty(ThemePropertyName::FadePath))
+			mBackground.fadePath = Path(elem->AsString(ThemePropertyName::FadePath));
+		if (elem->HasProperty(ThemePropertyName::Color))
+			mBackground.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutitle", "menuText"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutitle", ThemeElementType::MenuText); elem != nullptr)
 	{
-		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mTitle.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_LARGE));
-		if(elem->HasProperty("color"))
-			mTitle.color = (unsigned int)elem->AsInt("color");
+		if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
+			mTitle.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
+		if(elem->HasProperty(ThemePropertyName::Color))
+			mTitle.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menufooter", "menuText"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menufooter", ThemeElementType::MenuText); elem != nullptr)
 	{
-		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mFooter.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_SMALL));
-		if(elem->HasProperty("color"))
-			mFooter.color = (unsigned int)elem->AsInt("color");
+    if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
+			mFooter.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_SMALL));
+		if(elem->HasProperty(ThemePropertyName::Color))
+			mFooter.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutext", "menuText"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutext", ThemeElementType::MenuText); elem != nullptr)
 	{
-		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-			mText.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_MEDIUM));
+    if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
+			mText.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
 
-		if(elem->HasProperty("color"))
-			mText.color = (unsigned int)elem->AsInt("color");
-		if(elem->HasProperty("separatorColor"))
-			mText.separatorColor = (unsigned int)elem->AsInt("separatorColor");
-		if(elem->HasProperty("selectedColor"))
-			mText.selectedColor = (unsigned int)elem->AsInt("selectedColor");
-		if(elem->HasProperty("selectorColor"))
-			mText.selectorColor = (unsigned int)elem->AsInt("selectorColor");
+		if(elem->HasProperty(ThemePropertyName::Color))          mText.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
+		if(elem->HasProperty(ThemePropertyName::SeparatorColor)) mText.separatorColor = (unsigned int)elem->AsInt(ThemePropertyName::SeparatorColor);
+		if(elem->HasProperty(ThemePropertyName::SelectedColor))  mText.selectedColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectedColor);
+		if(elem->HasProperty(ThemePropertyName::SelectorColor))  mText.selectorColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectorColor);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menutextsmall", "menuTextSmall"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutextsmall", ThemeElementType::MenuTextSmall); elem != nullptr)
 	{
-		if(elem->HasProperty("fontPath") || elem->HasProperty("fontSize"))
-      mTextSmall.font = Font::getFromTheme(*elem, ThemePropertiesType::All, Font::get(FONT_SIZE_SMALL));
+    if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
+      mTextSmall.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_SMALL));
 
-		if(elem->HasProperty("color"))
-			mTextSmall.color = (unsigned int)elem->AsInt("color");
-		if(elem->HasProperty("selectedColor"))
-			mText.selectedColor = (unsigned int)elem->AsInt("selectedColor");
-		if(elem->HasProperty("selectorColor"))
-			mText.selectedColor = (unsigned int)elem->AsInt("selectorColor");
+		if(elem->HasProperty(ThemePropertyName::Color))         mTextSmall.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
+		if(elem->HasProperty(ThemePropertyName::SelectedColor)) mText.selectedColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectedColor);
+		if(elem->HasProperty(ThemePropertyName::SelectorColor)) mText.selectedColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectorColor);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menubutton", "menuButton"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menubutton", ThemeElementType::MenuButton); elem != nullptr)
 	{
-		if(elem->HasProperty("path"))
-			mIconElement.button = elem->AsString("path");
-		if(elem->HasProperty("filledPath"))
-			mIconElement.button_filled = elem->AsString("filledPath");
+		if(elem->HasProperty(ThemePropertyName::Path))       mIconElement.button = elem->AsString(ThemePropertyName::Path);
+		if(elem->HasProperty(ThemePropertyName::FilledPath)) mIconElement.button_filled = elem->AsString(ThemePropertyName::FilledPath);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menuswitch", "menuSwitch"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuswitch", ThemeElementType::MenuSwitch); elem != nullptr)
 	{
-		if(elem->HasProperty("pathOn"))
-			mIconElement.on = elem->AsString("pathOn");
-		if(elem->HasProperty("pathOff"))
-			mIconElement.off = elem->AsString("pathOff");
+		if(elem->HasProperty(ThemePropertyName::PathOn))  mIconElement.on = elem->AsString(ThemePropertyName::PathOn);
+		if(elem->HasProperty(ThemePropertyName::PathOff)) mIconElement.off = elem->AsString(ThemePropertyName::PathOff);
 	}
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menuslider", "menuSlider"); elem != nullptr)
-		if(elem->HasProperty("path"))
-			mIconElement.knob = elem->AsString("path");
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuslider", ThemeElementType::MenuSlider); elem != nullptr)
+		if (elem->HasProperty(ThemePropertyName::Path)) mIconElement.knob = elem->AsString(ThemePropertyName::Path);
 
-	if (const ThemeElement* elem = mainTheme.getElement("menu", "menuicons", "menuIcons"); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuicons", ThemeElementType::MenuIcons); elem != nullptr)
   {
-		if (elem->HasProperty("iconKodi"))
-			mIconSet.kodi = elem->AsString("iconKodi");
-
-		if (elem->HasProperty("iconSystem"))
-      mIconSet.system = elem->AsString("iconSystem");
-
-		if (elem->HasProperty("iconUpdates"))
-      mIconSet.updates = elem->AsString("iconUpdates");
-
-		if (elem->HasProperty("iconGames"))
-      mIconSet.games = elem->AsString("iconGames");
-
-		if (elem->HasProperty("iconControllers"))
-      mIconSet.controllers = elem->AsString("iconControllers");
-
-		if (elem->HasProperty("iconUI"))
-      mIconSet.ui = elem->AsString("iconUI");
-
-		if (elem->HasProperty("iconSound"))
-      mIconSet.sound = elem->AsString("iconSound");
-
-		if (elem->HasProperty("iconNetwork"))
-      mIconSet.network = elem->AsString("iconNetwork");
-
-		if (elem->HasProperty("iconScraper"))
-      mIconSet.scraper = elem->AsString("iconScraper");
-
-		if (elem->HasProperty("iconAdvanced"))
-      mIconSet.advanced = elem->AsString("iconAdvanced");
-
-		if (elem->HasProperty("iconQuit"))
-      mIconSet.quit = elem->AsString("iconQuit");
-
-    if (elem->HasProperty("iconRestart"))
-      mIconSet.restart = elem->AsString("iconRestart");
-
-    if (elem->HasProperty("iconShutdown"))
-      mIconSet.shutdown = elem->AsString("iconShutdown");
-
-    if (elem->HasProperty("iconFastShutdown"))
-      mIconSet.fastshutdown = elem->AsString("iconFastShutdown");
-
-    if (elem->HasProperty("iconLicense"))
-      mIconSet.license = elem->AsString("iconLicense");
-
-    if (elem->HasProperty("iconRecalboxRGBDual"))
-      mIconSet.recalboxrgbdual = elem->AsString("iconRecalboxRGBDual");
-
-    if (elem->HasProperty("iconTate"))
-      mIconSet.tate = elem->AsString("iconTate");
-
-    if (elem->HasProperty("iconArcade"))
-      mIconSet.arcade = elem->AsString("iconArcade");
-
-    if (elem->HasProperty("iconDownload"))
-      mIconSet.download = elem->AsString("iconDownload");
+		if (elem->HasProperty(ThemePropertyName::IconKodi))            mIconSet.kodi = elem->AsString(ThemePropertyName::IconKodi);
+		if (elem->HasProperty(ThemePropertyName::IconSystem))          mIconSet.system = elem->AsString(ThemePropertyName::IconSystem);
+		if (elem->HasProperty(ThemePropertyName::IconUpdates))         mIconSet.updates = elem->AsString(ThemePropertyName::IconUpdates);
+		if (elem->HasProperty(ThemePropertyName::IconGames))           mIconSet.games = elem->AsString(ThemePropertyName::IconGames);
+		if (elem->HasProperty(ThemePropertyName::IconControllers))     mIconSet.controllers = elem->AsString(ThemePropertyName::IconControllers);
+		if (elem->HasProperty(ThemePropertyName::IconUI))              mIconSet.ui = elem->AsString(ThemePropertyName::IconUI);
+		if (elem->HasProperty(ThemePropertyName::IconSound))           mIconSet.sound = elem->AsString(ThemePropertyName::IconSound);
+		if (elem->HasProperty(ThemePropertyName::IconNetwork))         mIconSet.network = elem->AsString(ThemePropertyName::IconNetwork);
+    if (elem->HasProperty(ThemePropertyName::IconScraper))         mIconSet.scraper = elem->AsString(ThemePropertyName::IconScraper);
+		if (elem->HasProperty(ThemePropertyName::IconAdvanced))        mIconSet.advanced = elem->AsString(ThemePropertyName::IconAdvanced);
+		if (elem->HasProperty(ThemePropertyName::IconQuit))            mIconSet.quit = elem->AsString(ThemePropertyName::IconQuit);
+    if (elem->HasProperty(ThemePropertyName::IconRestart))         mIconSet.restart = elem->AsString(ThemePropertyName::IconRestart);
+    if (elem->HasProperty(ThemePropertyName::IconShutdown))        mIconSet.shutdown = elem->AsString(ThemePropertyName::IconShutdown);
+    if (elem->HasProperty(ThemePropertyName::IconFastShutdown))    mIconSet.fastshutdown = elem->AsString(ThemePropertyName::IconFastShutdown);
+    if (elem->HasProperty(ThemePropertyName::IconLicense))         mIconSet.license = elem->AsString(ThemePropertyName::IconLicense);
+    if (elem->HasProperty(ThemePropertyName::IconRecalboxRGBDual)) mIconSet.recalboxrgbdual = elem->AsString(ThemePropertyName::IconRecalboxRGBDual);
+    if (elem->HasProperty(ThemePropertyName::IconTate))            mIconSet.tate = elem->AsString(ThemePropertyName::IconTate);
+    if (elem->HasProperty(ThemePropertyName::IconArcade))          mIconSet.arcade = elem->AsString(ThemePropertyName::IconArcade);
+    if (elem->HasProperty(ThemePropertyName::IconDownload))        mIconSet.download = elem->AsString(ThemePropertyName::IconDownload);
 	}
 }
 

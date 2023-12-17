@@ -3,8 +3,9 @@
 //
 #pragma once
 
-#include <themes/Properties.h>
+#include <themes/PropertyCategories.h>
 #include <utils/String.h>
+#include "themes/ElementTypes.h"
 
 // Forward declaration
 class Component;
@@ -30,21 +31,21 @@ class Themable
      * @param element Element name
      * @param properties Properties to update
      */
-    void DoApplyThemeElement(const ThemeData& theme, const String& viewName, const String& elementName, ThemePropertiesType properties);
+    void DoApplyThemeElement(const ThemeData& theme, const String& viewName, const String& elementName, ThemePropertyCategory properties);
 
   protected:
     /*!
      * @brief Force implementations to return a theme element type
      * @return Element type
      */
-    virtual String ThemeElementType() const = 0;
+    virtual ThemeElementType GetThemeElementType() const = 0;
 
     /*!
      * @brief Called when a theme element is applyed on the current component.
      * @param element Element instance
      * @param properties Properties to update
      */
-    virtual void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) { (void)element; (void)properties; }
+    virtual void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) { (void)element; (void)properties; }
 
   private:
     /*!
@@ -56,7 +57,7 @@ class Themable
      * @param element Element instance
      * @param properties Properties to update
      */
-    void OnApplyThemeElementBase(const ThemeElement& element, ThemePropertiesType properties);
+    void OnApplyThemeElementBase(const ThemeElement& element, ThemePropertyCategory properties);
 
     //! Component reference
     Component& mComponent;

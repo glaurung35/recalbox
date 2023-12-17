@@ -83,13 +83,13 @@ public:
      * @param element Theme element
      * @param properties Properties to set
      */
-    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "image"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Image; }
 
   bool getHelpPrompts(Help& help) override;
 

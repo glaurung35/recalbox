@@ -95,27 +95,41 @@ void Component::setNormalisedPosition(float x, float y, float z)
 
 void Component::setPosition(float x, float y, float z)
 {
-	mPosition.Set(x, y, z);
-	onPositionChanged();
-	mThemeDisabled = false;
+  if (x != mPosition.x() ||
+      y != mPosition.y() ||
+      z != mPosition.z())
+  {
+    mPosition.Set(x, y, z);
+    onPositionChanged();
+    mThemeDisabled = false;
+  }
 }
 
 void Component::setOrigin(float x, float y)
 {
-	mOrigin.Set(x, y);
-	onOriginChanged();
-	mThemeDisabled = false;
+  if (x != mOrigin.x() || y != mOrigin.y())
+  {
+    mOrigin.Set(x, y);
+    onOriginChanged();
+    mThemeDisabled = false;
+  }
 }
 
 void Component::setRotationOrigin(float x, float y)
 {
-	mRotationOrigin.Set(x, y);
+  if (x != mRotationOrigin.x() || y != mRotationOrigin.y())
+  {
+    mRotationOrigin.Set(x, y);
+  }
 }
 
 void Component::setSize(float w, float h)
 {
-	mSize.Set(w, h);
+  if (w != mSize.x() || h != mSize.y())
+  {
+    mSize.Set(w, h);
     onSizeChanged();
+  }
 }
 
 Vector2f Component::getCenter() const

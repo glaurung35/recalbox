@@ -59,9 +59,12 @@ void SwitchComponent::setImageState()
 
 void SwitchComponent::setState(bool state)
 {
-	mState = state;
+  if (state != mState)
+  {
+    mState = state;
 	onStateChanged();
-  setImageState();
+    setImageState();
+  }
 }
 
 void SwitchComponent::onStateChanged()

@@ -5,6 +5,7 @@
 #include <views/SystemView.h>
 #include <utils/locale/LocaleHelper.h>
 #include <guis/GuiInfoPopup.h>
+#include <themes/ThemeData.h>
 
 AudioManager::AudioManager(WindowManager& window)
   : StaticLifeCycleControler<AudioManager>("AudioManager")
@@ -160,10 +161,10 @@ void AudioManager::StartPlaying(const ThemeData& theme)
 {
   if (AudioModeTools::CanPlayMusic())
   {
-    const ThemeElement* elem = theme.getElement("system", "directory", "sound");
-    mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
-    elem = theme.getElement("system", "bgsound", "sound");
-    mThemeMusic = ((elem == nullptr) || !elem->HasProperty("path")) ? Path::Empty : Path(elem->AsString("path"));
+    const ThemeElement* elem = theme.Element("system", "directory", ThemeElementType::Sound);
+    mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty(ThemePropertyName::Path)) ? Path::Empty : Path(elem->AsString(ThemePropertyName::Path));
+    elem = theme.Element("system", "bgsound", ThemeElementType::Sound);
+    mThemeMusic = ((elem == nullptr) || !elem->HasProperty(ThemePropertyName::Path)) ? Path::Empty : Path(elem->AsString(ThemePropertyName::Path));
 
     PlayRandomMusic();
   }

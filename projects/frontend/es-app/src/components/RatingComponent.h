@@ -48,13 +48,13 @@ public:
      * @param element Theme element
      * @param properties Properties to set
      */
-    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "rating"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Rating; }
 
 private:
 	void updateVertices();

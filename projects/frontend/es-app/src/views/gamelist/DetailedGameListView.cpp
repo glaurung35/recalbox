@@ -168,7 +168,7 @@ void DetailedGameListView::Initialize()
 void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 {
   ISimpleGameListView::onThemeChanged(theme);
-  mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertiesType::All);
+  mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertyCategory::All);
   // Set color 2/3 50% transparent of color 0/1
   mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
   mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
@@ -176,12 +176,12 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
 
   for (int i = 0; i < (int) mRegions.size(); i++)
     mRegions[i]->DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
-                                     ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Path);
+                                     ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Path);
 
-  mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
-  mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
-  mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertiesType::Path);
-  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
+  mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
+  mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
+  mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
+  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
 
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();
@@ -201,7 +201,7 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   assert(names.size() == labels.size());
   for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
   {
-    labels[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertiesType::All);
+    labels[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertyCategory::All);
   }
 
   initMDValues();
@@ -225,23 +225,23 @@ void DetailedGameListView::onThemeChanged(const ThemeData& theme)
   assert(names.size() == values.size());
   for (unsigned int i = 0; i < (unsigned int)values.size(); i++)
   {
-    values[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertiesType::All ^ ThemePropertiesType::Text);
+    values[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
   }
 
-  mDescContainer.DoApplyThemeElement(theme, getName(), "md_description", ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex);
+  mDescContainer.DoApplyThemeElement(theme, getName(), "md_description", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
   mDescription.setSize(mDescContainer.getSize().x(), 0);
   mDescription.DoApplyThemeElement(theme, getName(), "md_description",
-                                   ThemePropertiesType::All ^ (ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::Origin | ThemePropertiesType::Text));
+                                   ThemePropertyCategory::All ^ (ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::Origin | ThemePropertyCategory::Text));
   mBusy.SetFont(mDescription.getFont());
 
   if (theme.isFolderHandled())
   {
-    mFolderName.DoApplyThemeElement(theme, getName(), "md_folder_name", ThemePropertiesType::All);
+    mFolderName.DoApplyThemeElement(theme, getName(), "md_folder_name", ThemePropertyCategory::All);
     for (int i = 0; i < (int) mFolderContent.size(); i++)
     {
       String folderImage("md_folder_image_"); folderImage.Append(i);
       mFolderContent[i]->DoApplyThemeElement(theme, getName(), folderImage,
-                                             ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex | ThemePropertiesType::Rotation);
+                                             ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
     }
   }
   else

@@ -8,7 +8,6 @@ NinePatchComponent::NinePatchComponent(WindowManager& window)
   : ThemableComponent(window)
   , mVertices()
   , mColors()
-  , mPath()
   , mW(0)
   , mH(0)
   , mEdgeColor(0xFFFFFFFF)
@@ -176,24 +175,33 @@ void NinePatchComponent::fitTo(Vector2f size, Vector3f position, Vector2f paddin
 
 void NinePatchComponent::setImagePath(const Path& path)
 {
-	mPath = path;
-	buildVertices();
+  if (mPath != path)
+  {
+    mPath = path;
+    buildVertices();
+  }
 }
 
 void NinePatchComponent::setEdgeColor(unsigned int edgeColor)
 {
-	mEdgeColor = edgeColor;
-	updateColors();
+  if (edgeColor != mEdgeColor)
+  {
+    mEdgeColor = edgeColor;
+    updateColors();
+  }
 }
 
 void NinePatchComponent::setCenterColor(unsigned int centerColor)
 {
-	mCenterColor = centerColor;
-	updateColors();
+  if (centerColor != mCenterColor)
+  {
+    mCenterColor = centerColor;
+    updateColors();
+  }
 }
 
-void NinePatchComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void NinePatchComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-	if(hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path"))
-		setImagePath(Path(element.AsString("path")));
+	if(hasFlag(properties, ThemePropertyCategory::Path))
+		setImagePath(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty);
 }

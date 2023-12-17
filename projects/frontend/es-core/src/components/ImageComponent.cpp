@@ -92,45 +92,49 @@ void ImageComponent::resize() {
     onSizeChanged();
 }
 
-void ImageComponent::onSizeChanged() {
+void ImageComponent::onSizeChanged()
+{
     updateVertices();
 }
 
-void ImageComponent::setImage(const Path& path, bool tile) {
-    if ( (mPath == path) && mTexture && (mTexture->isTiled() == tile) ) {
-        return;
-    }
+void ImageComponent::setImage(const Path& path, bool tile)
+{
+  if (mPath != path || (mTexture && (mTexture->isTiled() != tile)))
+  {
     mPath = path;
-
-    if (path.IsEmpty() || !ResourceManager::fileExists(path)) {
-        mTexture.reset();
-    } else {
-        mTexture = TextureResource::get(path, tile, mForceLoad, mDynamic);
-    }
+    if (path.IsEmpty() || !ResourceManager::fileExists(path)) mTexture.reset();
+    else mTexture = TextureResource::get(path, tile, mForceLoad, mDynamic);
     resize();
+  }
 }
 
 /**
  * Set image from data scraped
  */
-void ImageComponent::setImage(const char* image, size_t length, bool tile) {
-    mPath = "!";
-    mTexture.reset();
-    mTexture = TextureResource::get(Path::Empty, tile);
-    mTexture->initFromMemory(image, length);
-    resize();
+void ImageComponent::setImage(const char* image, size_t length, bool tile)
+{
+  mPath = "!";
+  mTexture.reset();
+  mTexture = TextureResource::get(Path::Empty, tile);
+  mTexture->initFromMemory(image, length);
+  resize();
 }
 
 
-void ImageComponent::setImage(const std::shared_ptr<TextureResource>& texture) {
-    mPath = "!";
-    mTexture = texture;
-    resize();
+void ImageComponent::setImage(const std::shared_ptr<TextureResource>& texture)
+{
+  mPath = "!";
+  mTexture = texture;
+  resize();
 }
 
-void ImageComponent::setResize(float width, float height) {
+void ImageComponent::setResize(float width, float height)
+{
+  if (width != mTargetSize.x() || height != mTargetSize.y())
+  {
     mTargetSize.Set(width, height);
     resize();
+  }
 }
 
 void ImageComponent::setNormalisedSize(float width, float height) {
@@ -138,40 +142,56 @@ void ImageComponent::setNormalisedSize(float width, float height) {
     setSize(pos.x(), pos.y());
 }
 
-void ImageComponent::setFlipX(bool flip) {
+void ImageComponent::setFlipX(bool flip)
+{
+  if (flip != mFlipX)
+  {
     mFlipX = flip;
     updateVertices();
+  }
 }
 
-void ImageComponent::setFlipY(bool flip) {
+void ImageComponent::setFlipY(bool flip)
+{
+  if (flip != mFlipY)
+  {
     mFlipY = flip;
     updateVertices();
+  }
 }
 
-void ImageComponent::setColorShift(unsigned int color) {
+void ImageComponent::setColorShift(unsigned int color)
+{
+  if (color != mColorShift)
+  {
     mColorShift = color;
     // Grab the opacity from the color shift because we may need to apply it if
     // fading textures in
     mOpacity = color & 0xff;
 
-	if (mColorNotSet) {
-		setOriginColor(mColorShift);
-		mColorNotSet = false;
-	}
+    if (mColorNotSet)
+    {
+      setOriginColor(mColorShift);
+      mColorNotSet = false;
+    }
     updateColors();
+  }
 }
 
-void ImageComponent::setColor(unsigned int color) {
-    setColorShift(color);
-}
+void ImageComponent::setColor(unsigned int color) { setColorShift(color);}
 
-void ImageComponent::setOpacity(unsigned char opacity) {
+void ImageComponent::setOpacity(unsigned char opacity)
+{
+  if (mOpacity != opacity)
+  {
     mOpacity = opacity;
     mColorShift = (mColorShift >> 8 << 8) | mOpacity;
     updateColors();
+  }
 }
 
-void ImageComponent::updateVertices() {
+void ImageComponent::updateVertices()
+{
     if (!mTexture || !mTexture->isInitialized()) {
         return;
     }
@@ -214,7 +234,8 @@ void ImageComponent::updateVertices() {
     }
 }
 
-void ImageComponent::updateColors() {
+void ImageComponent::updateColors()
+{
     Renderer::BuildGLColorArray(mColors, mColorShift, 6);
 }
 
@@ -297,25 +318,21 @@ void ImageComponent::fadeIn(bool textureLoaded) {
     }
 }
 
-void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  if (hasFlag(properties, ThemePropertiesType::Size))
+  if (hasFlag(properties, ThemePropertyCategory::Size))
   {
     Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-    if (element.HasProperty("size")) { setResize(element.AsVector("size") * scale); setKeepRatio(false); }
-    else if (element.HasProperty("maxSize")) { setResize(element.AsVector("maxSize") * scale); setKeepRatio(true); }
+    if (element.HasProperty(ThemePropertyName::Size)) { setResize(element.AsVector(ThemePropertyName::Size) * scale); setKeepRatio(false); }
+    else if (element.HasProperty(ThemePropertyName::MaxSize)) { setResize(element.AsVector(ThemePropertyName::MaxSize) * scale); setKeepRatio(true); }
   }
 
-  // position + size also implies origin
-  if ((hasFlag(properties, ThemePropertiesType::Origin) ||
-       (hasFlags(properties, ThemePropertiesType::Position, ThemePropertiesType::Size))) && element.HasProperty("origin"))
-    setOrigin(element.AsVector("origin"));
+  if (hasFlag(properties, ThemePropertyCategory::Path))
+    setImage(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
+             (element.HasProperty(ThemePropertyName::Tile) && element.AsBool(ThemePropertyName::Tile)));
 
-  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path"))
-    setImage(element.AsPath("path"), (element.HasProperty("tile") && element.AsBool("tile")));
-
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color"))
-    setColorShift((unsigned int) element.AsInt("color"));
+  if (hasFlag(properties, ThemePropertyCategory::Color))
+    setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF);
 }
 
 bool ImageComponent::getHelpPrompts(Help& help)

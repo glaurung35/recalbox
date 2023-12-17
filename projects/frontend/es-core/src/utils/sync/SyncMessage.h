@@ -22,7 +22,7 @@ constexpr bool IsSizeCompatible = (sizeof(T) <= StaticSyncMessageHolder::sFixedS
 
 //! Simple concept of a POD class
 template<class T>
-concept IsPod = ((std::is_standard_layout<T>::value && std::is_trivial<T>::value  && IsSizeCompatible<T>) || std::is_void<T>::value);
+concept IsPod = ((std::is_standard_layout_v<T> && std::is_trivial_v<T> && IsSizeCompatible<T>) || std::is_void_v<T>);
 
 template<IsPod T> union SyncMessageBody
 {

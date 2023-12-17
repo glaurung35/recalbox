@@ -42,7 +42,7 @@ class VerticalScrollableContainer : public ThemableComponent
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return String::Empty; } // Container must be polymorphic
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::None; } // Container must be polymorphic
 
   private:
     enum class ScrollSteps

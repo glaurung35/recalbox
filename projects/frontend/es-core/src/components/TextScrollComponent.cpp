@@ -247,36 +247,38 @@ void TextScrollComponent::setHorizontalAlignment(TextAlignment align)
   onTextChanged();
 }
 
-void TextScrollComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void TextScrollComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color"))
-    setColor((unsigned int)element.AsInt("color"));
-
-  setRenderBackground(false);
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("backgroundColor"))
+  if (hasFlag(properties, ThemePropertyCategory::Color))
   {
-    setBackgroundColor((unsigned int)element.AsInt("backgroundColor"));
-    setRenderBackground(true);
+    setColor(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0);
+    bool hasProp = element.HasProperty(ThemePropertyName::BackgroundColor);
+    setBackgroundColor(hasProp ? (unsigned int)element.AsInt(ThemePropertyName::BackgroundColor) : 0);
+    setRenderBackground(hasProp);
   }
 
-  if(hasFlag(properties, ThemePropertiesType::Alignment) && element.HasProperty("alignment"))
+  if(hasFlag(properties, ThemePropertyCategory::Alignment))
   {
-    String str = element.AsString("alignment");
-    if      (str == "left")   setHorizontalAlignment(TextAlignment::Left);
-    else if (str == "center") setHorizontalAlignment(TextAlignment::Center);
-    else if (str == "right")  setHorizontalAlignment(TextAlignment::Right);
-    else
-    { LOG(LogError) << "[TextScrollComponent] Unknown text alignment string: " << str; }
+    if (element.HasProperty(ThemePropertyName::Alignment))
+    {
+      String str = element.AsString(ThemePropertyName::Alignment);
+      if (str == "left") setHorizontalAlignment(TextAlignment::Left);
+      else if (str == "center") setHorizontalAlignment(TextAlignment::Center);
+      else if (str == "right") setHorizontalAlignment(TextAlignment::Right);
+      else { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
+    }
+    else setHorizontalAlignment(TextAlignment::Left);
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Text) && element.HasProperty("text"))
-    setText(element.AsString("text"));
+  if (hasFlag(properties, ThemePropertyCategory::Text | ThemePropertyCategory::Path))
+  {
+    if      (element.HasProperty(ThemePropertyName::Text)) setText(element.AsString(ThemePropertyName::Text));
+    else if (element.HasProperty(ThemePropertyName::Path)) setText(Files::LoadFile(element.AsPath(ThemePropertyName::Path)));
+    else                                                   setText(String::Empty);
+  }
 
-  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path"))
-    setText(Files::LoadFile(element.AsPath("path")));
-
-  if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase"))
-    setUppercase(element.AsBool("forceUppercase"));
+  if (hasFlag(properties, ThemePropertyCategory::ForceUppercase))
+    setUppercase(element.HasProperty(ThemePropertyName::ForceUppercase) && element.AsBool(ThemePropertyName::ForceUppercase));
 
   setFont(Font::getFromTheme(element, properties, mFont));
 }

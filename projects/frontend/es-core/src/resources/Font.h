@@ -6,7 +6,7 @@
 
 #include <platform_gl.h>
 #include <ft2build.h>
-#include <themes/Properties.h>
+#include <themes/PropertyCategories.h>
 #include <resources/IReloadable.h>
 #include <utils/math/Vector2i.h>
 #include <utils/math/Vector2f.h>
@@ -152,7 +152,7 @@ class Font : public IReloadable
 
     static Path getDefaultPath() { static Path defaultFont(FONT_PATH_REGULAR); return defaultFont; }
 
-    static std::shared_ptr<Font> getFromTheme(const ThemeElement& elem, ThemePropertiesType properties, const std::shared_ptr<Font>& orig);
+    static std::shared_ptr<Font> getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, const std::shared_ptr<Font>& orig);
 
     size_t getMemUsage() const; // returns an approximation of VRAM used by this font's texture (in bytes)
     static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by font textures (in bytes)

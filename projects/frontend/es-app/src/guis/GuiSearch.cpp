@@ -358,7 +358,7 @@ void GuiSearch::populateGridMeta(int i)
   mResultVideo->setMaxSize(mGridMeta->getColWidth(2) * 0.9f, mGridMeta->getRowHeight(1)*0.9f);
 
   //system logo retieved from theme
-  mResultSystemLogo->DoApplyThemeElement(mSearchResults[i]->System().Theme(), "system", "logo", ThemePropertiesType::Path);
+  mResultSystemLogo->DoApplyThemeElement(mSearchResults[i]->System().Theme(), "system", "logo", ThemePropertyCategory::Path);
   mGridLogoAndMD->setRowHeightPerc(0, 0.5f);
   mResultSystemLogo->setResize(mGridLogo->getSize().x() * 0.8f, mGridLogo->getSize().y() * 0.8f);
   mResultSystemLogo->setKeepRatio(true);

@@ -10,12 +10,7 @@ ThemeManager::ThemeManager()
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
   , mMain(mCache, nullptr)
 {
-  /*HashSet<String> test;
-  for(const auto& kv : ThemeSupport::ElementMap())
-    for(const auto& kv2 : kv.second)
-      test.insert(kv2.first);
-  int l = test.size();
-  LOG(LogInfo) << l;*/
+  ThemeSupport::InitializeStatics();
 }
 
 void ThemeManager::Initialize()
@@ -91,30 +86,34 @@ void ThemeManager::DoThemeChange(bool force)
   else { LOG(LogInfo) << "[ThemeManager] Current theme options havre changed. Refreshing theme: " << newPath; }
 
   //! Clear cache if required
-  if (newPath != mRootPath || force) mCache.Clear();
+  bool update = (newPath == mRootPath);
+  if (!update || force) mCache.Clear();
 
   // Reload Main themes
   LoadMainTheme();
   // Reload system themes
-  ThreadPool<const SystemData*, const SystemData*> pool(this, "theme-loader", false);
-  for(auto& kv : mSystem) pool.PushFeed(kv.first);
-  pool.Run(-2, false);
+  if (!mSystem.empty())
+  {
+    ThreadPool<const SystemData*, const SystemData*> pool(this, "theme-loader", false);
+    for (auto& kv: mSystem) pool.PushFeed(kv.first);
+    pool.Run(-2, false);
+  }
   DateTime start2;
   { LOG(LogWarning) << "[ThemeManager] Load time: " << (start2 - start).ToMillisecondsString() << " ms"; }
   // Refresh
-  NotifyThemeChanged();
+  NotifyThemeChanged(update);
   { LOG(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
 }
 
-void ThemeManager::NotifyThemeChanged()
+void ThemeManager::NotifyThemeChanged(bool refreshOnly)
 {
   for(IThemeSwitchable* switchable : mSwitchables)
     if (switchable != nullptr)
     {
       if (SystemData* system = switchable->SystemTheme(); system != nullptr)
-        switchable->SwitchToTheme(CreateOrGetSystem(system));
+        switchable->SwitchToTheme(CreateOrGetSystem(system), refreshOnly);
       else
-        switchable->SwitchToTheme(mMain);
+        switchable->SwitchToTheme(mMain, refreshOnly);
     }
 }
 

@@ -18,8 +18,8 @@ class IThemeSwitchable
     virtual ~IThemeSwitchable();
 
     /*!
-     * @brief Implementation istruct the Theme switcher to use a specific system theme
-     * Returning nullpre means the global theme will be used
+     * @brief Implementation instruct the Theme switcher to use a specific system theme
+     * Returning nullptr means the global theme will be used
      * @return SystemData or nullptr
      */
     [[nodiscard]] virtual SystemData* SystemTheme() const = 0;
@@ -27,6 +27,7 @@ class IThemeSwitchable
     /*!
      * @brief Called when theme switch.
      * @param theme New Theme
+     * @param refreshOnly True if the theme dit not change and the implementation must refresh only (i.e: apply new values)
      */
-    virtual void SwitchToTheme(ThemeData& theme) = 0;
+    virtual void SwitchToTheme(ThemeData& theme, bool refreshOnly) = 0;
 };

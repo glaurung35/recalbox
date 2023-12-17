@@ -90,27 +90,36 @@ void VideoComponent::resize()
 
 void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decodeAudio)
 {
-  AudioManager::ResumeMusicIfNecessary();
-  VideoEngine::Instance().StopVideo(true);
-  mVideoPath = path;
-  mVideoDelay = delay;
-  mVideoLoop = loops;
-  mDecodeAudio = decodeAudio;
-  ResetAnimations();
+  if (path != mVideoPath || mVideoDelay != delay || mVideoLoop != loops || mDecodeAudio != decodeAudio)
+  {
+    AudioManager::ResumeMusicIfNecessary();
+    VideoEngine::Instance().StopVideo(true);
+    mVideoPath = path;
+    mVideoDelay = delay;
+    mVideoLoop = loops;
+    mDecodeAudio = decodeAudio;
+    ResetAnimations();
+  }
 }
 
 void VideoComponent::setResize(float width, float height)
 {
-  mTargetSize.Set(width, height);
-  mTargetIsMax = false;
-  resize();
+  if (width != mTargetSize.x() || height != mTargetSize.y() || mTargetIsMax)
+  {
+    mTargetSize.Set(width, height);
+    mTargetIsMax = false;
+    resize();
+  }
 }
 
 void VideoComponent::setMaxSize(float width, float height)
 {
-  mTargetSize.Set(width, height);
-  mTargetIsMax = true;
-  resize();
+  if (width != mTargetSize.x() || height != mTargetSize.y() || !mTargetIsMax)
+  {
+    mTargetSize.Set(width, height);
+    mTargetIsMax = true;
+    resize();
+  }
 }
 
 void VideoComponent::setColorShift(unsigned int color)
@@ -124,9 +133,12 @@ void VideoComponent::setColorShift(unsigned int color)
 
 void VideoComponent::setOpacity(unsigned char opacity)
 {
-  mOpacity = opacity;
-  mColorShift = ((mColorShift >> 8U) << 8U) | mOpacity;
-  updateColors();
+  if (opacity != mOpacity)
+  {
+    mOpacity = opacity;
+    mColorShift = ((mColorShift >> 8U) << 8U) | mOpacity;
+    updateColors();
+  }
 }
 
 void VideoComponent::updateVertices(double bump)
@@ -364,26 +376,30 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
   Component::renderChildren(trans);
 }
 
-void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path")) setVideo(Path(element.AsString("path")), DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
+  if (hasFlag(properties, ThemePropertyCategory::Path))
+    setVideo(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
+             DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
 
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color")) setColorShift((unsigned int)element.AsInt("color"));
+  if (hasFlag(properties, ThemePropertyCategory::Color))
+    setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF);
 
-  if (hasFlag(properties, ThemePropertiesType::Effects))
+  if (hasFlag(properties, ThemePropertyCategory::Effects))
   {
-    if (element.HasProperty("animations"))
+    if (element.HasProperty(ThemePropertyName::Animations))
     {
       mAllowedEffects = AllowedEffects::None;
-      for (String& animation: element.AsString("animations").Split(','))
+      for (String& animation: element.AsString(ThemePropertyName::Animations).Split(','))
         if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
         else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
         else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
       if ((mAllowedEffects & AllowedEffects::All) == 0)
         mAllowedEffects = AllowedEffects::All;
     }
-    if (element.HasProperty("loops")) mVideoLoop = (int)element.AsInt("loops");
-    if (element.HasProperty("delay")) mVideoDelay = (int)element.AsInt("delay");
+    else mAllowedEffects = AllowedEffects::All;
+    mVideoLoop = element.HasProperty(ThemePropertyName::Loops) ? (int)element.AsInt(ThemePropertyName::Loops) : DEFAULT_VIDEOLOOP;
+    mVideoDelay = element.HasProperty(ThemePropertyName::Delay) ? (int)element.AsInt(ThemePropertyName::Delay) : DEFAULT_VIDEODELAY;
   }
 }
 

@@ -74,13 +74,13 @@ class TextScrollComponent : public ThemableComponent
      * @param element Theme element
      * @param properties Properties to set
      */
-    void OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "scrolltext"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::ScrollText; }
 
   private:
     static constexpr int sScrollSpeed1 = 80; // In pixel per seconds

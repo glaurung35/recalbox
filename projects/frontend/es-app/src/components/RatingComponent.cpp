@@ -95,10 +95,7 @@ void RatingComponent::updateVertices()
 
 void RatingComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mThemeDisabled)
-    {
-        return;
-    }
+  if(mThemeDisabled) return;
 
 	Transform4x4f trans = (parentTrans * getTransform()).round();
 	Renderer::SetMatrix(trans);
@@ -121,11 +118,11 @@ void RatingComponent::Render(const Transform4x4f& parentTrans)
 	glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].pos);
 	glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
 	
-	mFilledTexture->bind();
-	glDrawArrays(GL_TRIANGLES, 0, 6);
+	if (mFilledTexture->bind())
+	  glDrawArrays(GL_TRIANGLES, 0, 6);
 
-	mUnfilledTexture->bind();
-	glDrawArrays(GL_TRIANGLES, 6, 6);
+	if (mUnfilledTexture->bind())
+	  glDrawArrays(GL_TRIANGLES, 6, 6);
 
 	glDisableClientState(GL_VERTEX_ARRAY);
 	glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -158,21 +155,14 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-void RatingComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void RatingComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-	bool imgChanged = false;
-	if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("filledPath"))
-	{
-		mFilledTexture = TextureResource::get(Path(element.AsString("filledPath")), true);
-		imgChanged = true;
-	}
-	if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("unfilledPath"))
-	{
-		mUnfilledTexture = TextureResource::get(Path(element.AsString("unfilledPath")), true);
-		imgChanged = true;
-	}
-
-	if(imgChanged) onSizeChanged();
+	if (hasFlag(properties, ThemePropertyCategory::Path))
+  {
+    mFilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::FilledPath) ? element.AsPath(ThemePropertyName::FilledPath) : Path::Empty, true);
+    mUnfilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::UnfilledPath) ? element.AsPath(ThemePropertyName::UnfilledPath) : Path::Empty, true);
+    onSizeChanged();
+  }
 }
 
 bool RatingComponent::getHelpPrompts(Help& help)

@@ -48,30 +48,25 @@ void ISimpleGameListView::updateInfoPanel()
 
 void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
 {
-  mBackground.DoApplyThemeElement(theme, getName(), "background", ThemePropertiesType::All);
-  mHeaderImage.DoApplyThemeElement(theme, getName(), "logo", ThemePropertiesType::All);
-  mHeaderText.DoApplyThemeElement(theme, getName(), "logoText", ThemePropertiesType::All);
+  mBackground.DoApplyThemeElement(theme, getName(), "background", ThemePropertyCategory::All);
+  mHeaderImage.DoApplyThemeElement(theme, getName(), "logo", ThemePropertyCategory::All);
+  mHeaderText.DoApplyThemeElement(theme, getName(), "logoText", ThemePropertyCategory::All);
 
   // Remove old theme extras
-  for (auto* extra : mThemeExtras.getmExtras()) {
-    removeChild(extra);
-  }
-  mThemeExtras.getmExtras().clear();
-
-  mThemeExtras.setExtras(ThemeData::makeExtras(theme, getName(), mWindow));
-  mThemeExtras.sortExtrasByZIndex();
-
+  for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
+    removeChild(&extra.Component());
   // Add new theme extras
+  mThemeExtras.AssignExtras(theme.GetExtras(getName(), mWindow), false);
+  for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
+    addChild(&extra.Component());
 
-  for (auto* extra : mThemeExtras.getmExtras()) {
-    addChild(extra);
-  }
-
-
-  if (mHeaderImage.hasImage()) {
+  if (mHeaderImage.hasImage())
+  {
     removeChild(&mHeaderText);
     addChild(&mHeaderImage);
-  } else {
+  }
+  else
+  {
     addChild(&mHeaderText);
     removeChild(&mHeaderImage);
   }

@@ -182,35 +182,36 @@ void HelpComponent::Update(int deltaTime)
       }
 }
 
-void HelpComponent::SwitchToTheme(ThemeData& theme)
+void HelpComponent::SwitchToTheme(ThemeData& theme, bool refreshOnly)
 {
   (void)theme; // Always use main theme
+  (void)refreshOnly; // Always rebuild, this is fast
   ViewChanged(ViewController::Instance().CurrentView(), mWindow.HasGui());
 }
 
-void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
   (void)properties;
   for(int i=Help::TypeCount(); --i>=0; )
     mImagesPath[i] = Path(IconPathMap().get_or_return_default(Help::TypeFromIndex(i)));
 
-  if(element.HasProperty("pos")) mPosition = element.AsVector("pos");
-  if(element.HasProperty("textColor")) mTextColor = (unsigned int)element.AsInt("textColor");
-  if(element.HasProperty("iconColor")) mIconColor = (unsigned int)element.AsInt("iconColor");
-  if(element.HasProperty("fontPath") || element.HasProperty("fontSize"))
-    mFont = Font::getFromTheme(element, ThemePropertiesType::All, mFont);
+  if(element.HasProperty(ThemePropertyName::Pos))       mPosition = element.AsVector(ThemePropertyName::Pos);
+  if(element.HasProperty(ThemePropertyName::TextColor)) mTextColor = (unsigned int)element.AsInt(ThemePropertyName::TextColor);
+  if(element.HasProperty(ThemePropertyName::IconColor)) mIconColor = (unsigned int)element.AsInt(ThemePropertyName::IconColor);
+  if(element.HasProperty(ThemePropertyName::FontSize) || element.HasProperty(ThemePropertyName::FontPath))
+    mFont = Font::getFromTheme(element, ThemePropertyCategory::All, mFont);
 
-  if(element.HasProperty("iconUpDown"))          mImagesPath[(int)HelpType::UpDown] = Path(element.AsString("iconUpDown"));
-  if(element.HasProperty("iconLeftRight"))       mImagesPath[(int)HelpType::LeftRight] = Path(element.AsString("iconLeftRight"));
-  if(element.HasProperty("iconUpDownLeftRight")) mImagesPath[(int)HelpType::AllDirections] = Path(element.AsString("iconUpDownLeftRight"));
-  if(element.HasProperty("iconA"))               mImagesPath[(int)HelpType::A] = Path(element.AsString("iconA"));
-  if(element.HasProperty("iconB"))               mImagesPath[(int)HelpType::B] = Path(element.AsString("iconB"));
-  if(element.HasProperty("iconX"))               mImagesPath[(int)HelpType::X] = Path(element.AsString("iconX"));
-  if(element.HasProperty("iconY"))               mImagesPath[(int)HelpType::Y] = Path(element.AsString("iconY"));
-  if(element.HasProperty("iconL"))               mImagesPath[(int)HelpType::L] = Path(element.AsString("iconL"));
-  if(element.HasProperty("iconR"))               mImagesPath[(int)HelpType::R] = Path(element.AsString("iconR"));
-  if(element.HasProperty("iconStart"))           mImagesPath[(int)HelpType::Start] = Path(element.AsString("iconStart"));
-  if(element.HasProperty("iconSelect"))          mImagesPath[(int)HelpType::Select] = Path(element.AsString("iconSelect"));
+  if(element.HasProperty(ThemePropertyName::IconUpDown))          mImagesPath[(int)HelpType::UpDown]        = Path(element.AsString(ThemePropertyName::IconUpDown));
+  if(element.HasProperty(ThemePropertyName::IconLeftRight))       mImagesPath[(int)HelpType::LeftRight]     = Path(element.AsString(ThemePropertyName::IconLeftRight));
+  if(element.HasProperty(ThemePropertyName::IconUpDownLeftRight)) mImagesPath[(int)HelpType::AllDirections] = Path(element.AsString(ThemePropertyName::IconUpDownLeftRight));
+  if(element.HasProperty(ThemePropertyName::IconA))               mImagesPath[(int)HelpType::A]             = Path(element.AsString(ThemePropertyName::IconA));
+  if(element.HasProperty(ThemePropertyName::IconB))               mImagesPath[(int)HelpType::B]             = Path(element.AsString(ThemePropertyName::IconB));
+  if(element.HasProperty(ThemePropertyName::IconX))               mImagesPath[(int)HelpType::X]             = Path(element.AsString(ThemePropertyName::IconX));
+  if(element.HasProperty(ThemePropertyName::IconY))               mImagesPath[(int)HelpType::Y]             = Path(element.AsString(ThemePropertyName::IconY));
+  if(element.HasProperty(ThemePropertyName::IconL))               mImagesPath[(int)HelpType::L]             = Path(element.AsString(ThemePropertyName::IconL));
+  if(element.HasProperty(ThemePropertyName::IconR))               mImagesPath[(int)HelpType::R]             = Path(element.AsString(ThemePropertyName::IconR));
+  if(element.HasProperty(ThemePropertyName::IconStart))           mImagesPath[(int)HelpType::Start]         = Path(element.AsString(ThemePropertyName::IconStart));
+  if(element.HasProperty(ThemePropertyName::IconSelect))          mImagesPath[(int)HelpType::Select]        = Path(element.AsString(ThemePropertyName::IconSelect));
 }
 
 void HelpComponent::ViewChanged(ViewType currentView, bool hasWindowOver)
@@ -239,6 +240,6 @@ void HelpComponent::ViewChanged(ViewType currentView, bool hasWindowOver)
       default: break; // Keep system view
     }
   }
-  DoApplyThemeElement(ThemeManager::Instance().Main(), viewName, "help", ThemePropertiesType::All);
+  DoApplyThemeElement(ThemeManager::Instance().Main(), viewName, "help", ThemePropertyCategory::All);
 }
 

@@ -67,12 +67,17 @@ void TextComponent::onSizeChanged()
 
 void TextComponent::setFont(const std::shared_ptr<Font>& font)
 {
-  mFont = font;
-  onTextChanged();
+  if (mFont != font)
+  {
+    mFont = font;
+    onTextChanged();
+  }
 }
 
 void TextComponent::setColor(unsigned int color)
 {
+  if (color != mColor)
+  {
     mColor = color;
     unsigned char opacity = mColor & 0x000000FF;
     Component::setOpacity(opacity);
@@ -80,6 +85,7 @@ void TextComponent::setColor(unsigned int color)
     mColorOpacity = mColor & 0x000000FF;
 
     onColorChanged();
+  }
 }
 
 //  Set the color of the background box
@@ -93,32 +99,41 @@ void TextComponent::setBackgroundColor(unsigned int color)
 //  Scale the opacity
 void TextComponent::setOpacity(unsigned char opacity)
 {
-  // This method is mostly called to do fading in-out of the Text component element.
-  // Therefore, we assume here that opacity is a fractional value (expressed as an int 0-255),
-  // of the opacity originally set with setColor() or setBackgroundColor().
+  if (opacity != mOpacity)
+  {
+    // This method is mostly called to do fading in-out of the Text component element.
+    // Therefore, we assume here that opacity is a fractional value (expressed as an int 0-255),
+    // of the opacity originally set with setColor() or setBackgroundColor().
 
-  unsigned char o = (unsigned char)((float)opacity / 255.f * (float) mColorOpacity);
-  mColor = (mColor & 0xFFFFFF00) | (unsigned char) o;
+    unsigned char o = (unsigned char) ((float) opacity / 255.f * (float) mColorOpacity);
+    mColor = (mColor & 0xFFFFFF00) | (unsigned char) o;
 
-  unsigned char bgo = (unsigned char)((float)opacity / 255.f * (float)mBgColorOpacity);
-  mBgColor = (mBgColor & 0xFFFFFF00) | (unsigned char)bgo;
+    unsigned char bgo = (unsigned char) ((float) opacity / 255.f * (float) mBgColorOpacity);
+    mBgColor = (mBgColor & 0xFFFFFF00) | (unsigned char) bgo;
 
-  onColorChanged();
+    onColorChanged();
 
-  Component::setOpacity(opacity);
+    Component::setOpacity(opacity);
+  }
 }
 
 void TextComponent::setText(const String& text)
 {
-  mText = text;
-  if (mUppercase) mText.UpperCaseUTF8();
-  onTextChanged();
+  if (mText != text)
+  {
+    mText = text;
+    if (mUppercase) mText.UpperCaseUTF8();
+    onTextChanged();
+  }
 }
 
 void TextComponent::setUppercase(bool uppercase)
 {
-  mUppercase = uppercase;
-  onTextChanged();
+  if (uppercase != mUppercase)
+  {
+    mUppercase = uppercase;
+    onTextChanged();
+  }
 }
 
 void TextComponent::Render(const Transform4x4f& parentTrans)
@@ -268,34 +283,41 @@ void TextComponent::setLineSpacing(float spacing)
   onTextChanged();
 }
 
-void TextComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertiesType properties)
+void TextComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("color")) setColor((unsigned int)element.AsInt("color"));
-
-  setRenderBackground(false);
-  if (hasFlag(properties, ThemePropertiesType::Color) && element.HasProperty("backgroundColor"))
+  if (hasFlag(properties, ThemePropertyCategory::Color))
   {
-    setBackgroundColor((unsigned int)element.AsInt("backgroundColor"));
-    setRenderBackground(true);
+    setColor(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0);
+    bool hasProp = element.HasProperty(ThemePropertyName::BackgroundColor);
+    setBackgroundColor(hasProp ? (unsigned int)element.AsInt(ThemePropertyName::BackgroundColor) : 0);
+    setRenderBackground(hasProp);
   }
 
-  if(hasFlag(properties, ThemePropertiesType::Alignment) && element.HasProperty("alignment"))
+  if(hasFlag(properties, ThemePropertyCategory::Alignment))
   {
-    String str = element.AsString("alignment");
-    if(str == "left")        setHorizontalAlignment(TextAlignment::Left);
-    else if(str == "center") setHorizontalAlignment(TextAlignment::Center);
-    else if(str == "right")  setHorizontalAlignment(TextAlignment::Right);
-    else { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
+    if (element.HasProperty(ThemePropertyName::Alignment))
+    {
+      String str = element.AsString(ThemePropertyName::Alignment);
+      if (str == "left") setHorizontalAlignment(TextAlignment::Left);
+      else if (str == "center") setHorizontalAlignment(TextAlignment::Center);
+      else if (str == "right") setHorizontalAlignment(TextAlignment::Right);
+      else { LOG(LogError) << "[TextComponent] Unknown text alignment string: " << str; }
+    }
+    else setHorizontalAlignment(TextAlignment::Left);
   }
 
-  if (hasFlag(properties, ThemePropertiesType::Text) && element.HasProperty("text")) setText(element.AsString("text"));
+  if (hasFlag(properties, ThemePropertyCategory::Text | ThemePropertyCategory::Path))
+  {
+    if      (element.HasProperty(ThemePropertyName::Text)) setText(element.AsString(ThemePropertyName::Text));
+    else if (element.HasProperty(ThemePropertyName::Path)) setText(Files::LoadFile(element.AsPath(ThemePropertyName::Path)));
+    else                                                   setText(String::Empty);
+  }
 
-  if (hasFlag(properties, ThemePropertiesType::Path) && element.HasProperty("path")) setText(Files::LoadFile(element.AsPath("path")));
+  if (hasFlag(properties, ThemePropertyCategory::ForceUppercase))
+    setUppercase(element.HasProperty(ThemePropertyName::ForceUppercase) && element.AsBool(ThemePropertyName::ForceUppercase));
 
-  if (hasFlag(properties, ThemePropertiesType::ForceUppercase) && element.HasProperty("forceUppercase")) setUppercase(element.AsBool("forceUppercase"));
+  if (hasFlag(properties, ThemePropertyCategory::LineSpacing))
+    setLineSpacing(element.HasProperty(ThemePropertyName::LineSpacing) ? element.AsFloat(ThemePropertyName::LineSpacing) : 1.5f);
 
-  if (hasFlag(properties, ThemePropertiesType::LineSpacing) && element.HasProperty("lineSpacing")) setLineSpacing(element.AsFloat("lineSpacing"));
-
-  setFont(Font::getFromTheme(element
-                             , properties, mFont));
+  setFont(Font::getFromTheme(element, properties, mFont));
 }

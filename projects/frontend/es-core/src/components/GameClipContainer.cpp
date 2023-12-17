@@ -216,24 +216,17 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
   if (theme.getGameClipView() != ThemeData::getNoTheme())
   {
 
-    mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertiesType::All);
-    mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertiesType::All);
-    mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertiesType::All);
+    mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertyCategory::All);
+    mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertyCategory::All);
+    mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertyCategory::All);
 
     // Remove old theme extras
-    for (auto* extra : mThemeExtras.getmExtras())
-    {
-      removeChild(extra);
-    }
-    mThemeExtras.getmExtras().clear();
-    mThemeExtras.setExtras(ThemeData::makeExtras(theme, GameClipView::getName(), mWindow));
-    mThemeExtras.sortExtrasByZIndex();
+    removeChild(&mThemeExtras);
+
+    mThemeExtras.AssignExtras(theme.GetExtras(GameClipView::getName(), mWindow), false);
 
     // Add new theme extras
-    for (auto* extra : mThemeExtras.getmExtras())
-    {
-      addChild(extra);
-    }
+    addChild(&mThemeExtras);
 
     if (mHeaderImage.hasImage())
     {
@@ -247,20 +240,20 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
     }
 
     mImage.DoApplyThemeElement(theme, GameClipView::getName(), "md_image",
-                               ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
-                               ThemePropertiesType::Rotation);
+                               ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                               ThemePropertyCategory::Rotation);
 
     mThumbnail.DoApplyThemeElement(theme, GameClipView::getName(), "md_thumbnail",
-                                   ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
-                                   ThemePropertiesType::Rotation);
+                                   ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                                   ThemePropertyCategory::Rotation);
 
     mFavoriteIcon.DoApplyThemeElement(theme, GameClipView::getName(), "favoriteIcon",
-                                      ThemePropertiesType::All);
+                                      ThemePropertyCategory::All);
 
-    mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertiesType::All);
+    mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertyCategory::All);
 
     mClippingImage.DoApplyThemeElement(mGame->System().Theme(), GameClipView::getName(), "clippingImage",
-                                       ThemePropertiesType::Path | ThemePropertiesType::Size);
+                                       ThemePropertyCategory::Path | ThemePropertyCategory::Size);
 
     std::vector<TextComponent*> labels = getMDLabels();
     std::vector<String> names({
@@ -281,7 +274,7 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
     assert(names.size() == labels.size());
     for (unsigned int i = 0; i < (unsigned int) labels.size(); i++)
     {
-      labels[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertiesType::All);
+      labels[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All);
     }
 
     std::vector<ThemableComponent*> values = getMDValues();
@@ -302,23 +295,23 @@ void GameClipContainer::onThemeChanged(const ThemeData& theme)
     assert(names.size() == values.size());
     for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
     {
-      values[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertiesType::All ^ ThemePropertiesType::Text);
+      values[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
     }
 
     mSystemName.DoApplyThemeElement(theme, GameClipView::getName(), "md_systemName",
-                                    ThemePropertiesType::All);
+                                    ThemePropertyCategory::All);
     mDescContainer.DoApplyThemeElement(theme, GameClipView::getName(), "md_description",
-                                       ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex);
+                                       ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
     mDescription.setSize(mDescContainer.getSize().x(), 0.0);
-    mDescription.DoApplyThemeElement(theme, GameClipView::getName(), "md_description", ThemePropertiesType::All ^
-                                                                                       (ThemePropertiesType::Position |
-                                                                                        ThemePropertiesType::Size |
-                                                                                        ThemePropertiesType::Origin |
-                                                                                        ThemePropertiesType::Text));
+    mDescription.DoApplyThemeElement(theme, GameClipView::getName(), "md_description", ThemePropertyCategory::All ^
+                                                                                       (ThemePropertyCategory::Position |
+                                                                                        ThemePropertyCategory::Size |
+                                                                                        ThemePropertyCategory::Origin |
+                                                                                        ThemePropertyCategory::Text));
 
     mVideo.DoApplyThemeElement(theme, GameClipView::getName(), "md_video",
-                               ThemePropertiesType::Position | ThemePropertiesType::Size | ThemePropertiesType::ZIndex |
-                               ThemePropertiesType::Rotation);
+                               ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                               ThemePropertyCategory::Rotation);
 
   }
   sortChildren();

@@ -229,6 +229,7 @@ class SystemHolder:
         self.__docLinks: Dict[str, str] = {
           "fr": "FR Documentation link",
           "en": "EN Documentation link",
+          "es": "ES Documentation link",
         }
         self.__port: bool = False
         self.__readOnly: bool = False
@@ -329,6 +330,7 @@ class SystemHolder:
         self.__command: str = self.__get(desc, "system", "command", self.__COMMAND_DEFAULT, False)
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
+        self.__docLinks["es"] = self.__get(desc, "system", "doc.link.es", "", False)
         self.__port: bool = self.__get(desc, "system", "port", "0", False) == '1'
         self.__hasDownloader: bool = self.__get(desc, "system", "downloader", "0", False) == '1'
         self.__readOnly: bool = self.__get(desc, "system", "readonly", "0", False) == '1'

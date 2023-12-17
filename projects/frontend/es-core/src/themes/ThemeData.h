@@ -8,7 +8,9 @@
 #include "pugixml/pugixml.hpp"
 #include "ThemeElement.h"
 #include "ThemeFileCache.h"
+#include "ThemeExtras.h"
 #include <themes/ThemeSupport.h>
+#include <themes/ThemeExtras.h>
 
 // Forward declarations
 template<typename T> class TextListComponent;
@@ -47,10 +49,23 @@ class ThemeData
     void loadFile(const String& systemThemeFolder, const Path& path);
 
     // If expectedType is an empty string, will do no type checking.
-    [[nodiscard]] const ThemeElement*
-    getElement(const String& view, const String& element, const String& expectedType) const;
+    [[nodiscard]] const ThemeElement* Element(const String& view, const String& element, ThemeElementType expectedType) const;
 
-    static std::vector<Component*> makeExtras(const ThemeData& theme, const String& view, WindowManager& window);
+    /*!
+     * @brief Build Extra component array from the curren theme
+     * @param view View name
+     * @param window Window manager (for components initialization)
+     * @return Extra list
+     */
+    ThemeExtras::List GetExtras(const String& view, WindowManager& window) const;
+
+    /*!
+     * @brief Re-apply theme properties to the current extra list, allowing to refresh components and make them
+     * doing a theme refresh or a theme switch
+     * @param extras Extra list
+     * @param view View from which to extract theme elements
+     */
+    void RefreshExtraProperties(ThemeExtras::List& extras, const String& view) const;
 
     [[nodiscard]] String getGameClipView() const;
 
@@ -128,18 +143,17 @@ class ThemeData
 
     void parseView(const pugi::xml_node& viewNode, ThemeView& view, bool forcedExtra);
 
-    void parseElement(const pugi::xml_node& elementNode, const HashMap<String, ThemeSupport::ElementProperty>& typeMap,
-                      ThemeElement& element);
+    void parseElement(const pugi::xml_node& elementNode, const ThemePropertyNameBits& typeList, ThemeElement& element);
 
-  /*!
-   * @brief Parse an element's property
-   * @param elementName Element name (parent node)
-   * @param propertyName Property name (curren tnode)
-   * @param value Property value
-   * @param propertyType Expected property type
-   * @param element Element in which to store property
-   */
-    void parseProperty(const String& elementName, const String& propertyName, String& value, ThemeSupport::ElementProperty propertyType, ThemeElement& element);
+    /*!
+     * @brief Parse an element's property
+     * @param elementName Element name (parent node)
+     * @param propertyName Property name (curren tnode)
+     * @param value Property value
+     * @param propertyType Expected property type
+     * @param element Element in which to store property
+     */
+    void parseProperty(const String& elementName, ThemePropertyName propertyName, String& value, ThemeElement& element);
 
     bool parseRegion(const pugi::xml_node& root);
 

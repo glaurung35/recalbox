@@ -53,19 +53,19 @@ public:
      * @param element Theme element
      * @param properties Properties to set
      */
-    void OnApplyThemeElement(const ThemeElement& theme, ThemePropertiesType properties) override;
+    void OnApplyThemeElement(const ThemeElement& theme, ThemePropertyCategory properties) override;
 
     /*!
      * @brief Return theme element type
      * @return Element type
      */
-    [[nodiscard]] String ThemeElementType() const override { return "datetime"; }
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::DateTime; }
 
   private:
-	std::shared_ptr<Font> getFont() const;
+	[[nodiscard]] std::shared_ptr<Font> getFont() const;
 
-	String getDisplayString(Display mode) const;
-	Display getCurrentDisplayMode() const;
+	[[nodiscard]] String getDisplayString(Display mode) const;
+	[[nodiscard]] Display getCurrentDisplayMode() const;
 	
 	void updateTextCache();
 

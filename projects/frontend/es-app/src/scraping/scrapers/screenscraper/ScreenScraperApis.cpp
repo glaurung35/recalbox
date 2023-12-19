@@ -52,7 +52,7 @@ ScreenScraperApis::GetGameInformation(const FileData& file, const String& crc32,
   {
     String url;
     if (mEndPointProvider.RequireSeparateRequests())
-      url = md5.empty() ?
+      url = md5.empty() || size == 0 ?
             mEndPointProvider.GetGameInfoUrlByName(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, md5, size) :
             mEndPointProvider.GetGameInfoUrlByMD5(mConfiguration.GetLogin(), mConfiguration.GetPassword(), file, md5, size);
     else

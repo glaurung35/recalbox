@@ -784,7 +784,8 @@ out:
 #define EXP_VIDEO_BYPASS 8
 #define EXP_GAIN1 9
 #define EXP_GAIN0 10
-#define EXP_FAN 15
+#define EXP_FAN 14
+#define EXP_EXTRA1 15
 
 /* CONTROLS
  *
@@ -1689,6 +1690,7 @@ static int pca953x_probe(struct i2c_client *client,
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_GAIN1, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_GAIN0, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_FAN, 1);
+    pca953x_gpio_direction_output(&chip->gpio_chip, EXP_EXTRA1, 1);
   } else {
     for (gpio_idx = 0; gpio_idx < 16; gpio_idx++) {
       if (pca953x_gpio_direction_input(&chip->gpio_chip, gpio_idx) != 0) {

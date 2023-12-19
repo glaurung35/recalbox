@@ -4,8 +4,6 @@
 #   * a line of minus signs ('-') indicates a file that we remove from Buildroot external tree
 #   * a line of plus signs ('+') indicates a file that we add to the Buildroot external tree
 
-++++++++++++++++++++++++++++++++  package/mesa3d/0004-Fix-uClibc-build.patch.pending
-++++++++++++++++++++++++++++++++  package/mesa3d/0006-meson-ensure-i915-Gallium-driver-includes-Intel-sour.patch.obsolete
 ++++++++++++++++++++++++++++++++  package/sdl2/0001-rpi5-disable-async-pageflip.patch
 --------------------------------  package/llvm/0001-nfc-Fix-missing-include.patch
 --------------------------------  package/llvm/0002-Add-missing-cstdint-header-to-Signals.h.patch

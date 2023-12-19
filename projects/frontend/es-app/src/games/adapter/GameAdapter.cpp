@@ -24,6 +24,8 @@ String GameAdapter::ScrapingName() const
       if (!gameName.empty()) return gameName;
     }
   }
+  if (mGame.System().Name() == "daphne" && mGame.RomPath().Filename().EndsWith(".daphne"))
+    return mGame.RomPath().Filename().Remove(".daphne");
 
   return mGame.RomPath().Filename();
 }

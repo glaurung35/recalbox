@@ -72,7 +72,7 @@ void ArcadeGameListView::BuildList()
   bool onlyTate = RecalboxConf::Instance().GetTateOnly();
   for (const ParentTupple& parent : mGameList)
   {
-    if (parent.mArcade == nullptr && filterOutUnknown) continue;
+    if (parent.mArcade == nullptr && !parent.mGame->IsFolder() && filterOutUnknown) continue;
     if (parent.mArcade != nullptr )
     {
       if (filterOutBios)

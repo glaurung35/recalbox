@@ -578,7 +578,18 @@ void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[out]] S
 {
   if (path.Contains('$'))
   {
-    path.Replace("$system", systemThemeFolder).Replace("$language", mLangageCode).Replace("$country", mRegionCode);
+    path.Replace("$system", systemThemeFolder)
+        .Replace("$language", mLangageCode)
+        .Replace("$country", mRegionCode);
+    if (mSystem != nullptr)
+      path.Replace("$fullname", mSystem->Descriptor().FullName())
+          .Replace("$type", SystemDescriptor::ConvertSystemTypeToString(mSystem->Descriptor().Type()))
+          .Replace("$pad", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().PadRequirement()))
+          .Replace("$keyboard", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().KeyboardRequirement()))
+          .Replace("$mouse", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().MouseRequirement()))
+          .Replace("$releaseyear", DateTime((long long int)mSystem->Descriptor().ReleaseDate()).ToStringFormat("%YYYY"))
+          .Replace("$netplay", mSystem->Descriptor().HasNetPlayCores() ? "yes" : "no")
+          .Replace("$lightgun", mSystem->Descriptor().LightGun() ? "yes" : "no");
     PickRandomPath(path, randomPath);
   }
 }

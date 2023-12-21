@@ -41,7 +41,6 @@ class SystemDescriptor
       : mIcon(0)
       , mScreenScraperID(0)
       , mReleaseDate(0)
-      , mManufacturer()
       , mType(SystemType::Unknown)
       , mPad(DeviceRequirement::Unknown)
       , mKeyboard(DeviceRequirement::Unknown)
@@ -52,7 +51,6 @@ class SystemDescriptor
       , mPort(false)
       , mReadOnly(false)
       , mHasDownloader(false)
-      , mIgnoredFiles()
     {
     }
 
@@ -227,6 +225,41 @@ class SystemDescriptor
 
     //! Is this system an arcade system?
     [[nodiscard]] bool IsVirtualArcade() const { return mType == SystemType::VArcade; };
+
+    static String ConvertSystemTypeToString(SystemType systemtype)
+    {
+      switch(systemtype)
+      {
+        case SystemType::Arcade: { static String string("arcade"); return string; }
+        case SystemType::Console: { static String string("console"); return string; }
+        case SystemType::Handheld: { static String string("handheld"); return string; }
+        case SystemType::Computer: { static String string("computer"); return string; }
+        case SystemType::Fantasy: { static String string("fantasy"); return string; }
+        case SystemType::Engine: { static String string("engine"); return string; }
+        case SystemType::Port: { static String string("port"); return string; }
+        case SystemType::Virtual: { static String string("virtual"); return string; }
+        case SystemType::VArcade: { static String string("virtual-arcade"); return string; }
+        case SystemType::Unknown:
+        default: break;
+      }
+      static String string("unknown");
+      return string;
+    }
+
+    static String ConvertDeviceRequirementToString(DeviceRequirement requirement)
+    {
+      switch(requirement)
+      {
+        case DeviceRequirement::Required: { static String string("mandatory"); return string; }
+        case DeviceRequirement::Recommended: { static String string("recommended"); return string; }
+        case DeviceRequirement::Optional: { static String string("optional"); return string; }
+        case DeviceRequirement::Unknown:
+        case DeviceRequirement::None:
+        default: break;
+      }
+      static String string("no");
+      return string;
+    }
 
   private:
     static String      mDefaultCommand;  //!< Default command

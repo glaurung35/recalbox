@@ -174,7 +174,7 @@ api80.interceptors.response.use((response) => {
       {
         label: i18n.global.t('general.notify.support.archiveDownload'),
         color: 'white',
-        handler: () => window.open(response.data.linkResponse),
+        handler: () => window.open(clientApi80Url + response.data.supportArchive),
       },
       {
         icon: 'close',

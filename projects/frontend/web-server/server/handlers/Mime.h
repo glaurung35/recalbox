@@ -47,6 +47,8 @@ class Mime
     static Pistache::Http::Mime::MediaType FontWoff;
     //! woff2 MIME Type
     static Pistache::Http::Mime::MediaType FontWoff2;
+    //! tar.gz MIME Type
+    static Pistache::Http::Mime::MediaType TarGz;
 
     //! Extension to MIME Type
     static HashMap<std::string, Pistache::Http::Mime::MediaType> ExtToMIME;

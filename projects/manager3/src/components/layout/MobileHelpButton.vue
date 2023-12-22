@@ -44,6 +44,22 @@
       label-position="left"
       square
     />
+    <q-fab-action
+      @click="useServerStore().esReboot()"
+      color="secondary"
+      icon="mdi-restart"
+      :label="$t('home.system.es.restart')"
+      label-position="left"
+      square
+    />
+    <q-fab-action
+      @click="useServerStore().esShutdown()"
+      color="secondary"
+      icon="mdi-stop"
+      :label="$t('home.system.es.stop')"
+      label-position="left"
+      square
+    />
   </q-fab>
   <q-dialog
     transition-hide="slide-down"

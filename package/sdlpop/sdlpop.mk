@@ -13,11 +13,11 @@ SDLPOP_LICENSE_FILES = COPYING
 SDLPOP_DEPENDENCIES = sdl2 sdl2_image
 
 define SDLPOP_INSTALL_TARGET_CMDS
-	mkdir -p $(TARGET_DIR)/recalbox/share_initsystem/configs/sdlpop
-	mkdir -p "$(TARGET_DIR)/recalbox/share_init/roms/ports/Prince of Persia"
+	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/sdlpop
+	mkdir -p "$(TARGET_DIR)/recalbox/share_upgrade/roms/ports/Prince of Persia"
 	$(INSTALL) -m 0755 $(@D)/prince -D $(TARGET_DIR)/usr/bin
 	cp -r $(@D)/SDLPoP.ini $(TARGET_DIR)/recalbox/share_init/system/configs/sdlpop/sdlpop.ini
-	cp -r $(@D)/data "$(TARGET_DIR)/recalbox/share_init/roms/ports/Prince of Persia"
+	cp -r $(@D)/data "$(TARGET_DIR)/recalbox/share_upgrade/roms/ports/Prince of Persia"
 endef
 
 $(eval $(cmake-package))

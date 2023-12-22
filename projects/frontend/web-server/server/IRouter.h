@@ -62,11 +62,18 @@ class IRouter
     virtual void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @brief Handle GET to generate support archive
+     * @brief Handle GET to get support archive api route with generated file name
      * @param request Request object
      * @param response Response object
      */
-    virtual void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) = 0;
+    virtual void SystemGenerateSupportArchive(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to download support archive
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void SystemDownloadSupportArchive(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
   public:
     /*!
@@ -77,7 +84,8 @@ class IRouter
       // System
       Rest::Routes::Post(mRouter, "/api/system/reboot", Rest::Routes::bind(&IRouter::SystemReboot, this));
       Rest::Routes::Post(mRouter, "/api/system/shutdown", Rest::Routes::bind(&IRouter::SystemShutdown, this));
-      Rest::Routes::Get(mRouter, "/api/system/supportarchive", Rest::Routes::bind(&IRouter::SystemSupportArchive, this));
+      Rest::Routes::Get(mRouter, "/api/system/supportarchive/generate", Rest::Routes::bind(&IRouter::SystemGenerateSupportArchive, this));
+      Rest::Routes::Get(mRouter, "/api/system/supportarchive/download/*", Rest::Routes::bind(&IRouter::SystemDownloadSupportArchive, this));
 
       // Frontend
       Rest::Routes::Post(mRouter, "/api/system/frontend/start", Rest::Routes::bind(&IRouter::SystemEsStart, this));

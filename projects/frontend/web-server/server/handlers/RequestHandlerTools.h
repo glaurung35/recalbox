@@ -17,6 +17,7 @@ class RequestHandlerTools
     static void SetHeaders(Pistache::Http::ResponseWriter& response);
 
   public:
+    static constexpr const char* sSupportArchivePath = "/recalbox/share/saves/%FILE%";
     /*!
      * @brief Get HTTP method name
      * @param method Method
@@ -82,4 +83,11 @@ class RequestHandlerTools
      * @param mimetype Mime Type
      */
     static void SendResource(const Path& preferedPath, const Path& fallbackPath, Pistache::Http::ResponseWriter& response, const Pistache::Http::Mime::MediaType& mimetype);
+
+    /*!
+     * @brief Build system resource path, file-based
+     * @param path Output file-based path
+     * @param filename Target filename
+     */
+    static void GetSystemResourcePath(Path& path, const String& filename);
 };

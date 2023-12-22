@@ -51,7 +51,7 @@ export const SYSTEM = {
   },
   reboot: '/system/reboot',
   shutdown: '/system/shutdown',
-  supportArchive: '/system/supportarchive',
+  supportArchive: '/system/supportarchive/generate',
 };
 
 export const MEDIA = {

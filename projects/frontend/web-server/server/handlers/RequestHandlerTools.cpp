@@ -159,3 +159,10 @@ String RequestHandlerTools::GetCommandOutput(const String& command)
   }
   return output;
 }
+
+void RequestHandlerTools::GetSystemResourcePath(Path &path, const String& filename)
+{
+  String file(sSupportArchivePath);
+  file.Replace("%FILE%", filename);
+  path = file;
+}

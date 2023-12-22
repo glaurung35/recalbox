@@ -75,7 +75,8 @@ namespace Pistache::Http::Mime
     SUFFIX(Fastinfoset, "fastinfoset", "Fast Infoset") \
     SUFFIX(Wbxml, "wbxml", "WAP Binary XML")           \
     SUFFIX(Zip, "zip", "ZIP file storage")             \
-    SUFFIX(Xml, "xml", "Extensible Markup Language")
+    SUFFIX(Xml, "xml", "Extensible Markup Language")   \
+    SUFFIX(TarGz, "tar.gz", "TAR GZIP file storage")
 
     enum class Type {
 #define TYPE(val, _) val,

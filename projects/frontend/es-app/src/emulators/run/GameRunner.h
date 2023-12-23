@@ -10,6 +10,7 @@
 #include <systems/SystemManager.h>
 #include <emulators/run/GameLinkedData.h>
 #include <scraping/scrapers/IScraperEngineFreezer.h>
+#include "sdl2/ISdl2EventNotifier.h"
 
 class GameRunner : public StaticLifeCycleControler<GameRunner>
                  , public IScraperEngineFreezer
@@ -139,7 +140,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
         }
 
         //! Get exit code
-        int ExitCode() const { return mExitCode; }
+        [[nodiscard]] int ExitCode() const { return mExitCode; }
 
       private:
         //! Runner to stop when the game is over
@@ -156,11 +157,7 @@ class GameRunner : public StaticLifeCycleControler<GameRunner>
          */
 
         // Run the thread
-        void Run() override
-        {
-          mExitCode = WEXITSTATUS(GameRunner::Run(mCommand, mDebug));
-          mRunner.Stop();
-        }
+        void Run() override;
     };
 
     /*!

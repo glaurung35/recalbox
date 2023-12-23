@@ -3,9 +3,9 @@
 //
 #pragma once
 
+#include "hardware/IBoardInterface.h"
 #include "OdroidAdvanceGo2PowerEventReader.h"
 #include "OdroidAdvanceGo2SpecialButtonsReader.h"
-#include "hardware/IBoardInterface.h"
 #include "OdroidAdvanceGo2JackEventReader.h"
 #include "OdroidAdvanceGo3VolumeReader.h"
 

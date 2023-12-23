@@ -13,6 +13,7 @@
 #include "Mime.h"
 #include <LibretroRatio.h>
 #include <utils/Zip.h>
+#include <patreon/PatronInfo.h>
 
 using namespace Pistache;
 
@@ -384,6 +385,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "externalscreen.forceresolution"        , Validator("0123456789x") },
          { "externalscreen.forcefrequency"         , Validator("0123456789.") },
          { "es.force43"                            , Validator(true) },
+         { "splash.enabled"                        , Validator(true) },
        });
 
       return sList;
@@ -458,7 +460,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
       ({
         { "extractregionfromfilename"   , Validator(true) },
         { "getnamefrom"                 , Validator(0, 2) },
-        { "source"                      , Validator(false, { "ScreenScraper", "Recalbox" }) },
+        { "source"                      , Validator(GetAvailableScrapers(), false) },
         { "auto"                        , Validator(true) },
         { "screenscraper.region"        , Validator(GetScraperRegions(), false) },
         { "screenscraper.language"      , Validator(GetScraperLanguages(), false) },
@@ -1447,6 +1449,18 @@ HashMap<String, String> RequestHandlerTools::GetAvailableScreensavers()
     sScreensavers.insert_unique({"suspend", "SUSPEND"});
 
   return sScreensavers;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableScrapers()
+{
+  static HashMap<String, String> sPatronInfos({
+    { "ScreenScraper", "ScreenScraper" }
+  });
+
+  if (PatronInfo::Instance().IsPatron() && PatronInfo::Instance().BossLevel() >= 2)
+    sPatronInfos.insert_unique({"Recalbox", "Recalbox"});
+
+  return sPatronInfos;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableKeyboardLayout()

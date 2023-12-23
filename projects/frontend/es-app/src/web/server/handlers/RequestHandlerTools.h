@@ -49,6 +49,8 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableScreensavers();
 
+    static HashMap<String, String> GetAvailableScrapers();
+
     static HashMap<String, String> GetAvailableKeyboardLayout();
 
     static HashMap<String, String> GetAvailableSoundDevices();

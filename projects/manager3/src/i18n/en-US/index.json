@@ -46,13 +46,16 @@
     "copyToClipboard": "Copied to clipboard",
     "notify": {
       "updateSuccess": "Update completed",
-      "screenshotTaken": "Screenshot taken",
       "mediaDeleted": "Media deleted",
       "updateError": "Error during update :",
       "ERR_NETWORK": "Network error",
       "esStart": "Start EmulationStation",
       "esShutdown": "Stop EmulationStation",
       "esReboot": "Restart EmulationStation",
+      "screenshots": {
+        "view": "View",
+        "screenshotTaken": "Screenshot taken"
+      },
       "support": {
         "label": "Your support archive is available",
         "archiveDownload": "Download"

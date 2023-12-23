@@ -7,7 +7,7 @@
 #include <themes/IThemeSwitchable.h>
 #include "IProgressInterface.h"
 #include "themes/IGlobalVariableResolver.h"
-#include <utils/os/system/Thread.h>
+#include <utils/os/system/Signal.h>
 
 class SystemManager;
 class SystemData;

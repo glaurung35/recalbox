@@ -32,9 +32,9 @@ function updateCoordinates(event: { offsetX: number; offsetY: number; }) {
     content: "\F07F8"
 
   .trackpad
-    background-color: rgba(0, 0, 0, 0.1)
+    background-color: rgba($black, .1)
     width: 90vw
     height: 90vh
     border-radius: 5px
-    opacity: 0.5
+    opacity: .5
 </style>

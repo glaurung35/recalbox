@@ -122,5 +122,5 @@ function update(value: boolean) {
   #help-button.q-fab--opened
     .q-focus-helper
       background: currentColor
-      opacity: 0.15
+      opacity: .15
 </style>

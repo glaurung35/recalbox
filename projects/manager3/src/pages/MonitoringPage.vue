@@ -64,7 +64,7 @@ const areaChartData = computed<object[]>(() => [
     padding: .5em
 
     .progress
-      border: 1px solid rgba(240, 240, 240, 1)
+      border: 1px solid $rc-input-grey
 
       .q-linear-progress__model
         opacity: .5

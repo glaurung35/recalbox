@@ -155,7 +155,7 @@ const infoOpen = ref<boolean>(false);
   justify-content: space-between
   gap: 1em
   margin-bottom: 1em
-  padding: 0.2em
+  padding: .2em
   border-bottom: 2px solid white
 
   .title
@@ -168,7 +168,7 @@ const infoOpen = ref<boolean>(false);
     margin-left: 1em
 
     .q-icon
-      margin-right: 0.2em
+      margin-right: .2em
 
 .informations
   position: relative
@@ -181,6 +181,7 @@ const infoOpen = ref<boolean>(false);
   .screen
     position: relative
     width: 50%
+    filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.29))
 
 .info-dialog-card
   border-left: 6px solid $accent
@@ -204,7 +205,7 @@ const infoOpen = ref<boolean>(false);
     bottom: 0
     right: -30px
     color: $secondary
-    opacity: 0.3
+    opacity: .3
     animation-duration: .5s
     animation-name: helpDialogSlidein
 

@@ -98,7 +98,7 @@ function formatDateTime(timestamp: string) {
         color: $twitch
 
 .events
-  color: rgba(0, 0, 0, 0.54)
+  color: rgba($black, .54)
 
   .date
     color: $light-blue

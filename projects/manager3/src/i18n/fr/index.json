@@ -46,13 +46,16 @@
     "copyToClipboard": "Copié dans le presse-papiers",
     "notify": {
       "updateSuccess": "Modification effectuée",
-      "screenshotTaken": "Capture d'écran effectuée",
       "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
       "ERR_NETWORK": "Problème de connexion réseau",
       "esStart": "Démarrage EmulationStation",
       "esShutdown": "Arrêt EmulationStation",
       "esReboot": "Redémarrage EmulationStation",
+      "screenshots": {
+        "view": "Visualiser",
+        "screenshotTaken": "Capture d'écran effectuée"
+      },
       "support": {
         "label": "Votre archive de support est disponible",
         "archiveDownload": "Télécharger"

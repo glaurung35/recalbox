@@ -96,8 +96,8 @@ const percents = computed<object[]>(() => [
   .header
     height: 5em
     background-image: linear-gradient(to right, $primary, $accent)
-    -webkit-box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
-    box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
+    -webkit-box-shadow: inset 0 0 15px 4px rgba($black, .29)
+    box-shadow: inset 0 0 15px 4px rgba($black, .29)
 
     @keyframes animatedBackground
       from
@@ -124,6 +124,7 @@ const percents = computed<object[]>(() => [
         bottom: 0
         animation-duration: .5s
         animation-name: logoslidein
+        filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.29))
 
   .stats
     background: white
@@ -189,7 +190,7 @@ const percents = computed<object[]>(() => [
         right: -8px
         background: $rc-light-grey
         margin-top: calc(50vh - 131px)
-        z-index: 1
+        z-index: 11
 
     .social-medias
       flex-basis: 20%

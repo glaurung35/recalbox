@@ -195,6 +195,10 @@
       },
       "splashScreen": {
         "title": "Vidéos de démarrage",
+        "enabled": {
+          "label": "Activer les vidéos de démarrage",
+          "help": "Cette option vous permet d'activer ou de désactiver la lecture des vidéos de démarrage."
+        },
         "splashLength": {
           "label": "Durée des vidéos de démarrage",
           "help": {

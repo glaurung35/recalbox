@@ -195,6 +195,10 @@
       },
       "splashScreen": {
         "title": "Splash screen",
+        "enabled": {
+          "label": "Enable splash screen",
+          "help": "This option allows you to enable or disable splash screens."
+        },
         "splashLength": {
           "label": "Splash screen duration",
           "help": {

@@ -165,7 +165,7 @@ const SystemsList = computed(() => {
           .q-img__image
             transition: filter .2s ease
             filter: saturate(0)
-            opacity: 0.5
+            opacity: .5
 
           .fullname, .background
             position: absolute

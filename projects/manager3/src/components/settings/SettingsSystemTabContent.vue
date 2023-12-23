@@ -268,6 +268,7 @@
             :setter="systemStore.post"
             apiKey="fbcp.enabled"
             v-if="system['fbcp.enabled']"
+            help
           >
             <template v-slot:help>
               {{ $t('settings.system.minitft.help') }}

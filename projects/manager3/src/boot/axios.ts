@@ -174,7 +174,7 @@ api80.interceptors.response.use((response) => {
       {
         label: i18n.global.t('general.notify.support.archiveDownload'),
         color: 'white',
-        handler: () => window.open(clientApi80Url + response.data.supportArchive),
+        handler: () => window.open(clientApi80Url + response.data.linkResponse),
       },
       {
         icon: 'close',
@@ -199,12 +199,10 @@ api80.interceptors.response.use((response) => {
 
   return response;
 }, (error) => {
-  const { code } = error;
-
   Loading.hide();
 
   Notify.create({
-    message: i18n.global.t(`general.notify.${code}`),
+    message: i18n.global.t(`general.notify.${error.response.status}`),
     type: 'negative',
     icon: 'mdi-check-bold',
   });

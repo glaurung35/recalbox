@@ -507,3 +507,8 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
   return result;
 }
 
+void GameRunner::ThreadRunner::Run()
+{
+  mExitCode = WEXITSTATUS(GameRunner::Run(mCommand, mDebug));
+  mRunner.Stop();
+}

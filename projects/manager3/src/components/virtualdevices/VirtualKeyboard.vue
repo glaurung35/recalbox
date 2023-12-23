@@ -141,7 +141,7 @@ function switchLayout(value: string) {
 
   .keyboard-container
     display: flex
-    background-color: rgba(0, 0, 0, 0.1)
+    background-color: rgba($black, .1)
     width: 100vw
     margin: 0 auto
     border-radius: 5px
@@ -156,7 +156,7 @@ function switchLayout(value: string) {
       background-color: transparent
 
     .control-arrows
-      flex: 0.5
+      flex: .5
       display: flex
       align-items: center
       justify-content: space-between
@@ -170,7 +170,7 @@ function switchLayout(value: string) {
       background-color: transparent
 
     .right-controls
-      flex: 0.5
+      flex: .5
       display: flex
       justify-content: space-between
       flex-flow: column

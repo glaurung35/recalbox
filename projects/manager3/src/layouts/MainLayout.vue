@@ -35,7 +35,9 @@
         <LangSelector/>
       </q-list>
       <div class="menu-logo">
-        <img alt="Recalbox" src="../assets/logo-boutons.svg">
+        <a :href="websiteUrl" target="_blank">
+          <img alt="Recalbox" src="../assets/logo-boutons.svg">
+        </a>
       </div>
     </q-drawer>
 
@@ -104,6 +106,7 @@ const menuLinks: GlobalMenuLink[] = [
     route: 'patreon',
   },
 ];
+const websiteUrl = process.env.WEBSITE_URL;
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 

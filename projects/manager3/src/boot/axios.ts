@@ -199,12 +199,10 @@ api80.interceptors.response.use((response) => {
 
   return response;
 }, (error) => {
-  const { code } = error;
-
   Loading.hide();
 
   Notify.create({
-    message: i18n.global.t(`general.notify.${code}`),
+    message: i18n.global.t(`general.notify.${error.response.status}`),
     type: 'negative',
     icon: 'mdi-check-bold',
   });

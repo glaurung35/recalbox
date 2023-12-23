@@ -5,7 +5,8 @@
 #include "components/IList.h"
 #include "themes/ThemeExtras.h"
 #include "IProgressInterface.h"
-#include "utils/os/system/Thread.h"
+#include <utils/os/system/Thread.h>
+#include <utils/os/system/Signal.h>
 
 class SystemManager;
 class SystemData;

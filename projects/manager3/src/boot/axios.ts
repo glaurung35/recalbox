@@ -37,7 +37,7 @@ const api: AxiosInstance = axios.create({ baseURL: clientApiUrl });
 const api80: AxiosInstance = axios.create({ baseURL: clientApi80Url });
 const httpClient: AxiosInstance = axios.create();
 
-export default boot(({ app }): void => {
+export default boot(({ app, router }): void => {
   // for use inside Vue files (Options API) through this.$axios and this.$api
 
   app.config.globalProperties.$axios = axios;
@@ -51,163 +51,174 @@ export default boot(({ app }): void => {
   app.config.globalProperties.$api80 = api80;
   // ^ ^ ^ this will allow you to use this.$api80 (for Vue Options API form)
   //       so you can easily perform requests against your app's API
-});
 
-api.interceptors.request.use((config) => {
-  // change some state in your store here
-  // Do something before request is sent
-  if (config.url === BIOS.all) {
-    Loading.show({
-      message: i18n.global.t('emulation.bios.loader'),
+  api.interceptors.request.use((config) => {
+    // change some state in your store here
+    // Do something before request is sent
+    if (config.url === BIOS.all) {
+      Loading.show({
+        message: i18n.global.t('emulation.bios.loader'),
+      });
+    } else if (
+      config.url?.includes('/region')
+      || config.url?.includes('/metadata/info')
+    ) {
+      // allow disabling loader on requesting home region and metadata
+    } else {
+      Loading.show();
+    }
+
+    return config;
+  }, (error) => {
+    // Do something with request error
+    Notify.create({
+      message: error,
+      type: 'negative',
+      icon: 'mdi-alert-outline',
     });
-  } else if (
-    config.url?.includes('/region')
-    || config.url?.includes('/metadata/info')
-  ) {
-    // allow disabling loader on requesting home region and metadata
-  } else {
+
+    Loading.hide();
+    return Promise.reject(error);
+  });
+
+  api80.interceptors.request.use((config) => {
+    // change some state in your store here
+    // Do something before request is sent
     Loading.show();
-  }
 
-  return config;
-}, (error) => {
-  // Do something with request error
-  Notify.create({
-    message: error,
-    type: 'negative',
-    icon: 'mdi-alert-outline',
-  });
-
-  Loading.hide();
-  return Promise.reject(error);
-});
-
-api80.interceptors.request.use((config) => {
-  // change some state in your store here
-  // Do something before request is sent
-  Loading.show();
-
-  return config;
-}, (error) => {
-  // Do something with request error
-  Notify.create({
-    message: error,
-    type: 'negative',
-    icon: 'mdi-alert-outline',
-  });
-
-  Loading.hide();
-  return Promise.reject(error);
-});
-
-// Add Notify Toasters on current axios requests
-api.interceptors.response.use((response) => {
-  let message = i18n.global.t('general.notify.updateSuccess');
-  let icon = 'mdi-check-bold';
-  Loading.hide();
-
-  if (response.config.url === MEDIA.takeScreenshot) {
-    message = i18n.global.t('general.notify.screenshotTaken');
-    icon = 'mdi-folder-multiple-image';
-  }
-
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  if (response.config.method === 'delete' && response.config.url.includes(MEDIA.delete)) {
-    message = i18n.global.t('general.notify.mediaDeleted');
-    icon = 'mdi-image-remove';
-  }
-
-  if (response.config.method === 'post' || response.config.method === 'delete') {
+    return config;
+  }, (error) => {
+    // Do something with request error
     Notify.create({
-      message,
-      type: 'positive',
-      icon,
+      message: error,
+      type: 'negative',
+      icon: 'mdi-alert-outline',
     });
-  }
 
-  return response;
-}, (error) => {
-  const { code } = error;
-
-  Loading.hide();
-
-  Notify.create({
-    message: i18n.global.t(`general.notify.${code}`),
-    type: 'negative',
-    icon: 'mdi-check-bold',
+    Loading.hide();
+    return Promise.reject(error);
   });
 
-  return Promise.reject(error);
-});
+  // Add Notify Toasters on current axios requests
+  api.interceptors.response.use((response) => {
+    let message = i18n.global.t('general.notify.updateSuccess');
+    let icon = 'mdi-check-bold';
+    let actions;
+    Loading.hide();
 
-// Add Notify Toasters on current axios requests
-api80.interceptors.response.use((response) => {
-  let message = i18n.global.t('general.notify.updateSuccess');
-  let icon = 'mdi-check-bold';
-  let timeout = 5000;
-  let closeBtn = false;
-  let html = false;
-  let actions;
+    if (response.config.url === MEDIA.takeScreenshot) {
+      message = i18n.global.t('general.notify.screenshots.screenshotTaken');
+      icon = 'mdi-folder-multiple-image';
+      actions = [
+        {
+          label: i18n.global.t('general.notify.screenshots.view'),
+          color: 'white',
+          handler: () => router.push(
+            { name: 'screenshots' },
+          ),
+        },
+      ];
+    }
 
-  Loading.hide();
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    if (response.config.method === 'delete' && response.config.url.includes(MEDIA.delete)) {
+      message = i18n.global.t('general.notify.mediaDeleted');
+      icon = 'mdi-image-remove';
+    }
 
-  if (response.config.url === SYSTEM.es.start) {
-    message = i18n.global.t('general.notify.esStart');
-    icon = 'mdi-play';
-  }
-  if (response.config.url === SYSTEM.es.stop) {
-    message = i18n.global.t('general.notify.esShutdown');
-    icon = 'mdi-stop';
-  }
-  if (response.config.url === SYSTEM.es.restart) {
-    message = i18n.global.t('general.notify.esReboot');
-    icon = 'mdi-restart';
-  }
-  if (response.config.url === SYSTEM.supportArchive) {
-    message = i18n.global.t('general.notify.support.label');
-    icon = 'mdi-check-bold';
-    timeout = 0;
-    closeBtn = false;
-    html = true;
-    actions = [
-      {
-        label: i18n.global.t('general.notify.support.archiveDownload'),
-        color: 'white',
-        handler: () => window.open(clientApi80Url + response.data.supportArchive),
-      },
-      {
-        icon: 'close',
-        color: 'white',
-        round: true,
-        handler: () => { /* ... */ },
-      },
-    ];
-  }
+    if (response.config.method === 'post' || response.config.method === 'delete') {
+      Notify.create({
+        message,
+        type: 'positive',
+        icon,
+        actions,
+      });
+    }
 
-  if (response.config.method === 'get' || response.config.method === 'post') {
+    return response;
+  }, (error) => {
+    const { code } = error;
+
+    Loading.hide();
+
     Notify.create({
-      message,
-      type: 'positive',
-      icon,
-      timeout,
-      closeBtn,
-      html,
-      actions,
+      message: i18n.global.t(`general.notify.${code}`),
+      type: 'negative',
+      icon: 'mdi-check-bold',
     });
-  }
 
-  return response;
-}, (error) => {
-  Loading.hide();
-
-  Notify.create({
-    message: i18n.global.t(`general.notify.${error.response.status}`),
-    type: 'negative',
-    icon: 'mdi-check-bold',
+    return Promise.reject(error);
   });
 
-  return Promise.reject(error);
+  // Add Notify Toasters on current axios requests
+  api80.interceptors.response.use((response) => {
+    let message = i18n.global.t('general.notify.updateSuccess');
+    let icon = 'mdi-check-bold';
+    let timeout = 5000;
+    let closeBtn = false;
+    let html = false;
+    let actions;
+
+    Loading.hide();
+
+    if (response.config.url === SYSTEM.es.start) {
+      message = i18n.global.t('general.notify.esStart');
+      icon = 'mdi-play';
+    }
+    if (response.config.url === SYSTEM.es.stop) {
+      message = i18n.global.t('general.notify.esShutdown');
+      icon = 'mdi-stop';
+    }
+    if (response.config.url === SYSTEM.es.restart) {
+      message = i18n.global.t('general.notify.esReboot');
+      icon = 'mdi-restart';
+    }
+    if (response.config.url === SYSTEM.supportArchive) {
+      message = i18n.global.t('general.notify.support.label');
+      icon = 'mdi-check-bold';
+      timeout = 0;
+      closeBtn = false;
+      html = true;
+      actions = [
+        {
+          label: i18n.global.t('general.notify.support.archiveDownload'),
+          color: 'white',
+          handler: () => window.open(clientApi80Url + response.data.linkResponse),
+        },
+        {
+          icon: 'close',
+          color: 'white',
+          round: true,
+          handler: () => { /* ... */ },
+        },
+      ];
+    }
+
+    if (response.config.method === 'get' || response.config.method === 'post') {
+      Notify.create({
+        message,
+        type: 'positive',
+        icon,
+        timeout,
+        closeBtn,
+        html,
+        actions,
+      });
+    }
+
+    return response;
+  }, (error) => {
+    Loading.hide();
+
+    Notify.create({
+      message: i18n.global.t(`general.notify.${error.response.status}`),
+      type: 'negative',
+      icon: 'mdi-check-bold',
+    });
+
+    return Promise.reject(error);
+  });
 });
 
 export {

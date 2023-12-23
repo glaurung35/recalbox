@@ -8,11 +8,9 @@
 </template>
 
 <script lang="ts" setup>
-// eslint-disable-next-line  @typescript-eslint/no-unused-vars
 import client from 'boot/mqtt';
 
 let x = 0;
-// eslint-disable-next-line  @typescript-eslint/no-unused-vars
 let y = 0;
 
 function updateCoordinates(event: { offsetX: number; offsetY: number; }) {

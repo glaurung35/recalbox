@@ -6,7 +6,8 @@
 //
 #pragma once
 
-#include <SDL.h>
+// Forward declaration
+/*typedef*/ union SDL_Event;
 
 class ISdl2EventNotifier
 {

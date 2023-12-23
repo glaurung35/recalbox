@@ -6,6 +6,7 @@
 #include <utils/Log.h>
 #include <SDL2/SDL.h>
 #include <input/InputManager.h>
+#include <sdl2/Sdl2Runner.h>
 
 OdroidAdvanceGo2SpecialButtonsReader::OdroidAdvanceGo2SpecialButtonsReader(IBoardInterface& boardInterface)
   : mBoardInterface(boardInterface)

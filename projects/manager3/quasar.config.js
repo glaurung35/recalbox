@@ -75,6 +75,7 @@ module.exports = configure((ctx) => ({
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
 
+        WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
@@ -96,6 +97,7 @@ module.exports = configure((ctx) => ({
         TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
         TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
 
+        WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',

@@ -37,13 +37,13 @@ class PcComputers: public IBoardInterface
      * @brief Start optional in-game background processes.
      * This method is called when a game starts
      */
-    void StartInGameBackgroundProcesses(Sdl2Runner&) final {}
+    void StartInGameBackgroundProcesses(Sdl2Runner& runner) final { (void)runner; }
 
     /*!
      * @brief Stop optional in-game background processes.
      * This method is called when a game stops
      */
-    void StopInGameBackgroundProcesses(Sdl2Runner&) final {}
+    void StopInGameBackgroundProcesses(Sdl2Runner& runner) final { (void)runner; }
 
     /*!
      * @brief Has Battery?
@@ -120,7 +120,7 @@ class PcComputers: public IBoardInterface
      * @brief The reboot or shutdown is managed by MainRunner, but the board can have some features to manage
      * @return True if a side effect has been triggered
      */
-    bool OnRebootOrShutdown() { return false; }
+    bool OnRebootOrShutdown() override { return false; }
 
     void HeadphonePlugged() final {};
     void HeadphoneUnplugged() final {};

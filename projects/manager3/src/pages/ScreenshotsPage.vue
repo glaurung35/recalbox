@@ -212,7 +212,7 @@ const initialPagination = {
         -webkit-transform: scale(1.1)
 
     .absolute-bottom
-      background: rgba(52, 73, 93, 0.47) !important
+      background: rgba($primary, .47) !important
 
 .delete-dialog-card
   border-left: 6px solid $accent

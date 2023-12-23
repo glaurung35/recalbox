@@ -226,13 +226,13 @@ function redirect() {
 
   .console
     filter: saturate(0)
-    opacity: 0.1
+    opacity: .1
 
 .header
   display: flex
   justify-content: space-between
   gap: 1em
-  padding: 0.2em
+  padding: .2em
   border-bottom: 2px solid white
 
   .title
@@ -244,12 +244,12 @@ function redirect() {
     margin-left: 1em
 
     .q-icon
-      margin-right: 0.2em
+      margin-right: .2em
 
   .controls
     display: flex
     justify-content: flex-end
-    gap: 0.5em
+    gap: .5em
 
 .informations
   position: relative
@@ -269,8 +269,8 @@ function redirect() {
     width: 50%
     margin: 0 auto 2em auto
     filter: saturate(50%)
-    opacity: 0.4
-    transition: opacity 0.3s
+    opacity: .4
+    transition: opacity .3s
     height: 80px
 
     &:hover

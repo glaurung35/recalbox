@@ -123,6 +123,10 @@ export interface SystemConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  'splash.enabled': {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface SystemConfigOptionsResponse {
@@ -234,6 +238,9 @@ export interface SystemConfigOptionsResponse {
     allowedChars: string;
   };
   'es.force43': {
+    type: string;
+  };
+  'splash.enabled': {
     type: string;
   };
 }

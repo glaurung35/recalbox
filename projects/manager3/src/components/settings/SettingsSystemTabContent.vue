@@ -100,6 +100,18 @@
 
       <FormFragmentContainer title="settings.system.splashScreen.title">
         <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.splashScreen.enabled.label"
+            :getter="system['splash.enabled']"
+            :setter="systemStore.post"
+            apiKey="splash.enabled"
+            v-if="system['splash.enabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.splashScreen.enabled.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedSlider
             label="settings.system.splashScreen.splashLength.label"
             :getter="system['splash.length']"
@@ -109,6 +121,7 @@
             :min="splashLengthOptions.lowerValue"
             :max="splashLengthOptions.higherValue"
             icon="mdi-timer-outline"
+            :disable="!system['splash.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -127,6 +140,7 @@
             :setter="systemStore.post"
             apiKey="splash.select"
             v-if="system['splash.select']"
+            :disable="!system['splash.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -268,6 +282,7 @@
             :setter="systemStore.post"
             apiKey="fbcp.enabled"
             v-if="system['fbcp.enabled']"
+            help
           >
             <template v-slot:help>
               {{ $t('settings.system.minitft.help') }}

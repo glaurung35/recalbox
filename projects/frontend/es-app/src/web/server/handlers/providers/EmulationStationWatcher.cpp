@@ -22,6 +22,7 @@ EmulationStationWatcher::EmulationStationWatcher()
        { "rundemo", &EmulationStationWatcher::EventRunDemo },
        { "endgame", &EmulationStationWatcher::EventEndGame },
        { "enddemo", &EmulationStationWatcher::EventEndDemo },
+       { "startgameclip", &EmulationStationWatcher::EventStartGameclip },
        { "sleep", &EmulationStationWatcher::EventSleep },
        { "wakeup", &EmulationStationWatcher::EventWakup },
        { "scrapstart", &EmulationStationWatcher::EventScrapStart },
@@ -281,6 +282,18 @@ JSONBuilder EmulationStationWatcher::EventConfigurationChanged(const IniFile& da
   result.Open()
         .Field("event", "configurationchanged")
         .Field("param", data.AsString("ActionData"))
+        .Close();
+  return result;
+}
+
+JSONBuilder EmulationStationWatcher::EventStartGameclip(const IniFile& data)
+{
+  JSONBuilder result(4096);
+  result.Open()
+        .Field("event", "startgameclip")
+        .Field("param", data.AsString("ActionData"))
+        .Field("system", BuildSystemObject(data))
+        .Field("game", BuildGameObject(data))
         .Close();
   return result;
 }

@@ -67,6 +67,8 @@ class EmulationStationWatcher : private IMQTTMessageReceived
 
     static JSONBuilder EventEndDemo(const IniFile& data);
 
+    static JSONBuilder EventStartGameclip(const IniFile& data);
+
     static JSONBuilder EventSleep(const IniFile& data);
 
     static JSONBuilder EventWakup(const IniFile& data);

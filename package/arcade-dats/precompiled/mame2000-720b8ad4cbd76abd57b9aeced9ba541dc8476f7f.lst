@@ -58,8 +58,8 @@ alleymas|Alley Master|parent|cinematronics/leland.cpp|270|320|240|60.000000||||C
 alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
 alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||alpine||Taito
-altbeas2|Altered Beast (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System 16
-altbeast|Altered Beast (Version 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16
+altbeas2|Altered Beast (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System16
+altbeast|Altered Beast (Version 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
 ambush|Ambush|parent|tecfri/ambush.cpp|0|256|224|60.606061||||Nippon Amuse
 amidar|Amidar|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Konami
 amidaro|Amidar (Olympia)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amidar||Konami/Olympia
@@ -283,8 +283,8 @@ cameltru|Camel Try (US)|clone|taito/taito_f2.cpp|0|320|224|60.000000||cameltry||
 cameltry|Camel Try (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
 canbprot|Canyon Bomber (prototype)|clone|atari/canyon.cpp|0|256|240|60.114504||canyon||Atari
 canyon|Canyon Bomber|parent|atari/canyon.cpp|0|256|240|60.114504||||Atari
-capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|360|245|57.000000||||Incredible Technologies
-capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl||Incredible Technologies
+capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|360|245|57.000000||||ITech
+capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl||ITech
 captcomj|Captain Commando (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm||Capcom\CPS1
 captcomm|Captain Commando (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 captcomu|Captain Commando (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm||Capcom\CPS1
@@ -350,7 +350,7 @@ ckongjeu|Crazy Kong (Jeutel bootleg)|clone|nichibutsu/cclimber.cpp|270|256|224|6
 ckongo|Crazy Kong (Orca bootleg)|clone|nichibutsu/cclimber.cpp|270|256|224|60.000000||ckong||
 ckongs|Crazy Kong (Scramble hardware)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||ckong||
 claypign|Clay Pigeon (version 2.0)|parent|exidy/exidy440.cpp|0|320|240|60.000000||||Exidy
-clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl||Incredible Technologies
+clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl||ITech
 cloak|Cloak & Dagger|parent|atari/cloak.cpp|0|256|232|60.000000||||Atari
 cloud9|Cloud 9 (prototype)|parent|atari/cloud9.cpp|0|256|232|61.035156||||Atari
 clowns|Clowns|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
@@ -828,7 +828,7 @@ hustle|Hustle|parent|sega/blockade.cpp|0|256|224|60.114504||||Gremlin
 hustler|Video Hustler|parent|galaxian/scobra.cpp|90|256|224|60.606061||||Konami
 hustlerb|Video Hustler (bootleg)|clone|galaxian/scobra.cpp|90|256|224|60.606061||hustler||
 hvymetal|Heavy Metal|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
-hwchamp|Heavyweight Champ|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16
+hwchamp|Heavyweight Champ|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
 hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 hydra|Hydra|parent|atari/atarig1.cpp|0|336|240|59.922743||||Atari
 hydrap|Hydra (prototype)|clone|atari/atarig1.cpp|0|336|240|59.922743||hydra||Atari
@@ -1090,7 +1090,7 @@ mbombrdj|Muscle Bomber Duo - Heat Up Warriors (Japan)|clone|capcom/cps1.cpp|0|38
 mbrush|Magic Brush|clone|pacman/pacman.cpp|90|288|224|60.606061||crush||
 medlanes|Meadows Lanes|parent|meadows/lazercmd.cpp|0|256|240|60.000000||||Meadows Games
 megaforc|Mega Force|clone|tecmo/senjyo.cpp|90|256|224|60.000000||starforc||Tehkan/Video Ware
-megaman|Mega Man - The Power Battle (Asia)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS 1
+megaman|Mega Man - The Power Battle (Asia)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 megatack|MegaTack|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Centuri/Game Plan
 megaznik|Mega Zone (Kosuka)|clone|konami/megazone.cpp|90|288|224|60.606060||megazone||Interlogic/Konami/Kosuka
 megazone|Mega Zone|parent|konami/megazone.cpp|90|288|224|60.606060||||Konami
@@ -1413,9 +1413,9 @@ pulirulj|PuLiRuLa (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||pulirula
 pulsar|Pulsar|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom
 punchout|Punch-Out!!|parent|nintendo/punchout.cpp|0|256|224|60.000000||||Nintendo
-punisher|The Punisher (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS 1
-punishrj|The Punisher (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS 1
-punishru|The Punisher (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS 1
+punisher|The Punisher (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
+punishrj|The Punisher (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS1
+punishru|The Punisher (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS1
 punkshot|Punk Shot (4 Players)|parent|konami/tmnt2.cpp|0|288|224|60.000000||||Konami
 punksht2|Punk Shot (2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot||Konami
 puzbobb|Puzzle Bobble (Japan, B-System)|clone|taito/taito_b.cpp|0|320|224|60.000000|neogeo|pbobble||Taito
@@ -2140,8 +2140,8 @@ warpwarp|Warp & Warp|parent|namco/warpwarp.cpp|90|272|224|60.606061||||Namco
 warpwarr|Warp Warp (Rock-ola set 1)|clone|namco/warpwarp.cpp|90|272|224|60.606061||warpwarp||Namco/Rock-ola
 warrior|Warrior|parent|cinematronics/cinemat.cpp|180|||38.000107||||Vectorbeam
 waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
-wb3|Wonder Boy III - Monster Lair (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System 16/Westone
-wb3a|Wonder Boy III - Monster Lair (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System 16/Westone
+wb3|Wonder Boy III - Monster Lair (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16/Westone
+wb3a|Wonder Boy III - Monster Lair (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System16/Westone
 wb3bl|Wonder Boy III - Monster Lair (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||
 wbdeluxe|Wonder Boy Deluxe|clone|sega/system1.cpp|0|512|224|60.096154||wboy||Escape/Sega
 wbml|Wonder Boy in Monster Land|parent|sega/system1.cpp|0|512|224|60.096154||||

@@ -2072,54 +2072,54 @@ block|Block Block (World 911106 Joystick)|parent|capcom/mitchell.cpp|270|240|384
 blocka|Block Block (World 910910)|clone|capcom/mitchell.cpp|270|240|384|57.419998||block|good|Capcom
 blockj|Block Block (Japan 910910)|clone|capcom/mitchell.cpp|270|240|384|57.419998||block|good|Capcom
 blockbl|Block Block (bootleg)|clone|capcom/mitchell.cpp|270|240|384|57.419998||block|good|
-capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|245|360|57.000000|||good|Incredible Technologies
-capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|245|360|57.000000||capbowl|good|Incredible Technologies
-clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|245|360|57.000000||capbowl|good|Incredible Technologies
+capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|245|360|57.000000|||good|ITech
+capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|245|360|57.000000||capbowl|good|ITech
+clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|245|360|57.000000||capbowl|good|ITech
 bowlrama|Bowl-O-Rama|parent|itech/capbowl.cpp|270|240|360|57.000000|||good|P&P Marketing
 wfortune|Wheel Of Fortune|parent|itech/itech8.cpp|0|256|240|60.000000|||good|GameTek
 wfortuna|Wheel Of Fortune (alternate)|clone|itech/itech8.cpp|0|256|240|60.000000||wfortune|good|GameTek
-stratab|Strata Bowling (V3)|parent|itech/itech8.cpp|270|240|256|60.000000|||good|Incredible Technologies/Strata
-stratab1|Strata Bowling (V1)|clone|itech/itech8.cpp|270|240|256|60.000000||stratab|good|Incredible Technologies/Strata
-sstrike|Super Strike Bowling|parent|itech/itech8.cpp|270|240|256|60.000000|||preliminary|Incredible Technologies/Strata
-gtg|Golden Tee Golf (Joystick, v3.1)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|Incredible Technologies/Strata
-hstennis|Hot Shots Tennis (V1.1)|parent|itech/itech8.cpp|90|240|376|60.000000|||good|Incredible Technologies/Strata
-hstenn10|Hot Shots Tennis (V1.0)|clone|itech/itech8.cpp|90|240|376|60.000000||hstennis|good|Incredible Technologies/Strata
-slikshot|Slick Shot (V2.2)|parent|itech/itech8.cpp|90|240|256|60.000000|||good|Grand Products/Incredible Technologies
-sliksh17|Slick Shot (V1.7)|clone|itech/itech8.cpp|90|240|256|60.000000||slikshot|good|Grand Products/Incredible Technologies
-dynobop|Dyno Bop|parent|itech/itech8.cpp|90|240|256|60.000000|||preliminary|Grand Products/Incredible Technologies
-arlingtn|Arlington Horse Racing (v1.21-D)|parent|itech/itech8.cpp|0|374|240|60.000000|||good|Incredible Technologies/Strata
-peggle|Peggle (Joystick, v1.0)|parent|itech/itech8.cpp|90|240|350|60.000000|||good|Incredible Technologies/Strata
-pegglet|Peggle (Trackball, v1.0)|clone|itech/itech8.cpp|90|240|350|60.000000||peggle|good|Incredible Technologies/Strata
-rimrockn|Rim Rockin' Basketball (V2.2)|parent|itech/itech8.cpp|0|352|240|60.000000|||good|Incredible Technologies/Strata
-rimrck20|Rim Rockin' Basketball (V2.0)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
-rimrck16|Rim Rockin' Basketball (V1.6)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
-rimrck12|Rim Rockin' Basketball (V1.2)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
-ninclown|Ninja Clowns (08/27/91)|parent|itech/itech8.cpp|0|360|240|60.000000|||good|Incredible Technologies/Strata
-gtg2|Golden Tee Golf II (Trackball, V2.2)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|Incredible Technologies/Strata
-gtg2t|Golden Tee Golf II (Trackball, V1.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|Incredible Technologies/Strata
-gtg2j|Golden Tee Golf II (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|Incredible Technologies/Strata
-neckneck|Neck-n-Neck (v1.2)|parent|itech/itech8.cpp|0|368|240|60.000000|||good|Bundra Games/Incredible Technologies
-timekill|Time Killers (v1.32)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|Incredible Technologies/Strata
-timek131|Time Killers (v1.31)|clone|itech/itech32.cpp|0|384|240|60.000000||timekill|good|Incredible Technologies/Strata
-hardyard|Hard Yardage (v1.20)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|Incredible Technologies/Strata
-hardyd10|Hard Yardage (v1.00)|clone|itech/itech32.cpp|0|384|240|60.000000||hardyard|good|Incredible Technologies/Strata
-bloodstm|Blood Storm (v2.22)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|Incredible Technologies/Strata
-bloods22|Blood Storm (v2.20)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|Incredible Technologies/Strata
-bloods21|Blood Storm (v2.10)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|Incredible Technologies/Strata
-bloods11|Blood Storm (v1.10)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|Incredible Technologies/Strata
-pairs|Pairs (V1.2, 09/30/94)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|Incredible Technologies/Strata
-pairsa|Pairs (09/07/94)|clone|itech/itech32.cpp|0|384|240|60.000000||pairs|good|Incredible Technologies/Strata
-drivedge|Driver's Edge|parent|itech/itech32.cpp|0|384|240|60.000000|||preliminary|Incredible Technologies/Strata
-wcbowl|World Class Bowling (v1.66)|parent|itech/itech32.cpp|0|384|255|60.000000|||good|Incredible Technologies
-wcbwl165|World Class Bowling (v1.65)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|Incredible Technologies
-wcbwl161|World Class Bowling (v1.61)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|Incredible Technologies
-wcbwl12|World Class Bowling (v1.2)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|Incredible Technologies
-sftm|Street Fighter: The Movie (v1.12)|parent|itech/itech32.cpp|0|384|255|55.000000|||good|Capcom/Incredible Technologies
-sftm110|Street Fighter: The Movie (v1.10)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/Incredible Technologies
-sftm111|Street Fighter: The Movie (v1.11)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/Incredible Technologies
-sftmj|Street Fighter: The Movie (v1.12N, Japan)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/Incredible Technologies
-shufshot|Shuffleshot (v1.39)|parent|itech/itech32.cpp|0|384|255|60.000000|||good|Incredible Technologies/Strata
-sshot137|Shuffleshot (v1.37)|clone|itech/itech32.cpp|0|384|255|60.000000||shufshot|good|Incredible Technologies/Strata
+stratab|Strata Bowling (V3)|parent|itech/itech8.cpp|270|240|256|60.000000|||good|ITech/Strata
+stratab1|Strata Bowling (V1)|clone|itech/itech8.cpp|270|240|256|60.000000||stratab|good|ITech/Strata
+sstrike|Super Strike Bowling|parent|itech/itech8.cpp|270|240|256|60.000000|||preliminary|ITech/Strata
+gtg|Golden Tee Golf (Joystick, v3.1)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|ITech/Strata
+hstennis|Hot Shots Tennis (V1.1)|parent|itech/itech8.cpp|90|240|376|60.000000|||good|ITech/Strata
+hstenn10|Hot Shots Tennis (V1.0)|clone|itech/itech8.cpp|90|240|376|60.000000||hstennis|good|ITech/Strata
+slikshot|Slick Shot (V2.2)|parent|itech/itech8.cpp|90|240|256|60.000000|||good|Grand Products/ITech
+sliksh17|Slick Shot (V1.7)|clone|itech/itech8.cpp|90|240|256|60.000000||slikshot|good|Grand Products/ITech
+dynobop|Dyno Bop|parent|itech/itech8.cpp|90|240|256|60.000000|||preliminary|Grand Products/ITech
+arlingtn|Arlington Horse Racing (v1.21-D)|parent|itech/itech8.cpp|0|374|240|60.000000|||good|ITech/Strata
+peggle|Peggle (Joystick, v1.0)|parent|itech/itech8.cpp|90|240|350|60.000000|||good|ITech/Strata
+pegglet|Peggle (Trackball, v1.0)|clone|itech/itech8.cpp|90|240|350|60.000000||peggle|good|ITech/Strata
+rimrockn|Rim Rockin' Basketball (V2.2)|parent|itech/itech8.cpp|0|352|240|60.000000|||good|ITech/Strata
+rimrck20|Rim Rockin' Basketball (V2.0)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
+rimrck16|Rim Rockin' Basketball (V1.6)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
+rimrck12|Rim Rockin' Basketball (V1.2)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
+ninclown|Ninja Clowns (08/27/91)|parent|itech/itech8.cpp|0|360|240|60.000000|||good|ITech/Strata
+gtg2|Golden Tee Golf II (Trackball, V2.2)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|ITech/Strata
+gtg2t|Golden Tee Golf II (Trackball, V1.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|ITech/Strata
+gtg2j|Golden Tee Golf II (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|ITech/Strata
+neckneck|Neck-n-Neck (v1.2)|parent|itech/itech8.cpp|0|368|240|60.000000|||good|Bundra Games/ITech
+timekill|Time Killers (v1.32)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|ITech/Strata
+timek131|Time Killers (v1.31)|clone|itech/itech32.cpp|0|384|240|60.000000||timekill|good|ITech/Strata
+hardyard|Hard Yardage (v1.20)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|ITech/Strata
+hardyd10|Hard Yardage (v1.00)|clone|itech/itech32.cpp|0|384|240|60.000000||hardyard|good|ITech/Strata
+bloodstm|Blood Storm (v2.22)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|ITech/Strata
+bloods22|Blood Storm (v2.20)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|ITech/Strata
+bloods21|Blood Storm (v2.10)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|ITech/Strata
+bloods11|Blood Storm (v1.10)|clone|itech/itech32.cpp|0|384|240|60.000000||bloodstm|good|ITech/Strata
+pairs|Pairs (V1.2, 09/30/94)|parent|itech/itech32.cpp|0|384|240|60.000000|||good|ITech/Strata
+pairsa|Pairs (09/07/94)|clone|itech/itech32.cpp|0|384|240|60.000000||pairs|good|ITech/Strata
+drivedge|Driver's Edge|parent|itech/itech32.cpp|0|384|240|60.000000|||preliminary|ITech/Strata
+wcbowl|World Class Bowling (v1.66)|parent|itech/itech32.cpp|0|384|255|60.000000|||good|ITech
+wcbwl165|World Class Bowling (v1.65)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|ITech
+wcbwl161|World Class Bowling (v1.61)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|ITech
+wcbwl12|World Class Bowling (v1.2)|clone|itech/itech32.cpp|0|384|255|60.000000||wcbowl|good|ITech
+sftm|Street Fighter: The Movie (v1.12)|parent|itech/itech32.cpp|0|384|255|55.000000|||good|Capcom/ITech
+sftm110|Street Fighter: The Movie (v1.10)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/ITech
+sftm111|Street Fighter: The Movie (v1.11)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/ITech
+sftmj|Street Fighter: The Movie (v1.12N, Japan)|clone|itech/itech32.cpp|0|384|255|55.000000||sftm|good|Capcom/ITech
+shufshot|Shuffleshot (v1.39)|parent|itech/itech32.cpp|0|384|255|60.000000|||good|ITech/Strata
+sshot137|Shuffleshot (v1.37)|clone|itech/itech32.cpp|0|384|255|60.000000||shufshot|good|ITech/Strata
 cerberus|Cerberus|parent|cinematronics/leland.cpp|0|320|240|60.000000|||good|Cinematronics
 mayhem|Mayhem 2002|parent|cinematronics/leland.cpp|0|320|240|60.000000|||good|Cinematronics
 powrplay|Power Play|parent|cinematronics/leland.cpp|0|320|240|60.000000|||good|Cinematronics

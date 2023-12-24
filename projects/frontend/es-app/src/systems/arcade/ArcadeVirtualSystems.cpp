@@ -19,7 +19,7 @@ const String::List& ArcadeVirtualSystems::GetVirtualArcadeSystemList()
     "capcom\\cps2",
     "capcom\\cps3",
     "cave",
-    "dataeast",
+    "data\u00a0east",
     "exidy",
     "igs",
     "irem",

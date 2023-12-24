@@ -47,6 +47,7 @@ class Simplifier:
         "Status Game": "Status Games",
         "Broderbund Software": "Broderbund",
         "Coinmaster-Gaming": "Coinmaster",
+        "Incredible Technologies": "ITech",
     }
 
     def simplifyWords(self, manufacturer: str):

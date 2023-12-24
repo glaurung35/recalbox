@@ -1205,8 +1205,8 @@ arkretrn|Arkanoid Returns (Ver 2.02O 1997/02/10)|parent|taito/taito_f3.cpp|0|320
 arkretrnj|Arkanoid Returns (Ver 2.02J 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|58.970000||arkretrn|imperfect|Taito
 arkretrnu|Arkanoid Returns (Ver 2.02A 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|58.970000||arkretrn|imperfect|Taito
 arktayt2|Arkanoid (Tayto bootleg, harder)|clone|taito/arkanoid.cpp|90|256|224|59.185606||arkanoid|good|Tayto
-arlingtn|Arlington Horse Racing (v1.40-D)|parent|itech/itech8.cpp|0|400|240|60.000000|||good|Incredible Technologies/Strata
-arlingtna|Arlington Horse Racing (v1.21-D)|clone|itech/itech8.cpp|0|400|240|60.000000||arlingtn|good|Incredible Technologies/Strata
+arlingtn|Arlington Horse Racing (v1.40-D)|parent|itech/itech8.cpp|0|400|240|60.000000|||good|ITech/Strata
+arlingtna|Arlington Horse Racing (v1.21-D)|clone|itech/itech8.cpp|0|400|240|60.000000||arlingtn|good|ITech/Strata
 arm11|ARM11|device|devices/cpu/arm7/arm7.cpp||||||||
 arm1176jzf_s|ARM1176JZF-S|device|devices/cpu/arm7/arm7.cpp||||||||
 arm710a|ARM710a|device|devices/cpu/arm7/arm7.cpp||||||||
@@ -1898,16 +1898,16 @@ bbeltzac|Black Belt (Zaccaria)|parent|pinball/zac_2.cpp|||||||preliminary|Zaccar
 bbeltzacf|Black Belt (Zaccaria, French speech)|clone|pinball/zac_2.cpp||||||bbeltzac|preliminary|Zaccaria
 bbeltzacg|Black Belt (Zaccaria, German speech)|clone|pinball/zac_2.cpp||||||bbeltzac|preliminary|Zaccaria
 bbeltzaci|Black Belt (Zaccaria, Italian speech)|clone|pinball/zac_2.cpp||||||bbeltzac|preliminary|Zaccaria
-bbh|Big Buck Hunter (v1.00.14)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-bbh2sp|Big Buck Hunter II - Sportsman's Paradise (v2.02.11)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-bbh2spa|Big Buck Hunter II - Sportsman's Paradise (v2.02.09)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbh2sp|good|Incredible Technologies
-bbh2spb|Big Buck Hunter II - Sportsman's Paradise (v2.02.08)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbh2sp|good|Incredible Technologies
+bbh|Big Buck Hunter (v1.00.14)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+bbh2sp|Big Buck Hunter II - Sportsman's Paradise (v2.02.11)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+bbh2spa|Big Buck Hunter II - Sportsman's Paradise (v2.02.09)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbh2sp|good|ITech
+bbh2spb|Big Buck Hunter II - Sportsman's Paradise (v2.02.08)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbh2sp|good|ITech
 bbh_140|Big Buck Hunter Pro v1.40|clone|pinball/sam.cpp||||||bbh_160|preliminary|Stern
 bbh_150|Big Buck Hunter Pro v1.50|clone|pinball/sam.cpp||||||bbh_160|preliminary|Stern
 bbh_160|Big Buck Hunter Pro v1.60|parent|pinball/sam.cpp|||||||preliminary|Stern
-bbhcotw|Big Buck Hunter Call of the Wild (v3.02.5)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-bbhsc|Big Buck Hunter - Shooter's Challenge (v1.60.01)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-bbhsca|Big Buck Hunter - Shooter's Challenge (v1.50.07)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbhsc|good|Incredible Technologies
+bbhcotw|Big Buck Hunter Call of the Wild (v3.02.5)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+bbhsc|Big Buck Hunter - Shooter's Challenge (v1.60.01)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+bbhsca|Big Buck Hunter - Shooter's Challenge (v1.50.07)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|bbhsc|good|ITech
 bbmanw|Bomber Man World / New Dyna Blaster - Global Quest|parent|irem/m90.cpp|0|320|240|60.000000|||good|Irem
 bbmanwj|Bomber Man World (Japan)|clone|irem/m90.cpp|0|320|240|60.000000||bbmanw|good|Irem
 bbmanwja|Bomber Man World (Japan, revised sound hardware)|clone|irem/m90.cpp|0|320|240|60.000000||bbmanw|good|Irem
@@ -2267,12 +2267,12 @@ bloodbroja|Blood Bros. (Japan)|clone|seibu/bloodbro.cpp|0|256|224|59.390000||blo
 bloodbrok|Blood Bros. (Korea)|clone|seibu/bloodbro.cpp|0|256|224|59.390000||bloodbro|good|TAD
 bloodbrom|Blood Bros. (Modular System)|clone|seibu/bloodbro_ms.cpp|0|256|224|60.000000||bloodbro|preliminary|Ervisa/Gaelco
 bloodbrou|Blood Bros. (US)|clone|seibu/bloodbro.cpp|0|256|224|59.390000||bloodbro|good|Fabtek/TAD
-bloodstm|Blood Storm (v2.22)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
-bloodstm104|Blood Storm (v1.04)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|Incredible Technologies/Strata
-bloodstm110|Blood Storm (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|Incredible Technologies/Strata
-bloodstm210|Blood Storm (v2.10)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|Incredible Technologies/Strata
-bloodstm220|Blood Storm (v2.20)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|Incredible Technologies/Strata
-bloodstm221|Blood Storm (v2.21)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|Incredible Technologies/Strata
+bloodstm|Blood Storm (v2.22)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
+bloodstm104|Blood Storm (v1.04)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|ITech/Strata
+bloodstm110|Blood Storm (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|ITech/Strata
+bloodstm210|Blood Storm (v2.10)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|ITech/Strata
+bloodstm220|Blood Storm (v2.20)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|ITech/Strata
+bloodstm221|Blood Storm (v2.21)|clone|itech/itech32.cpp|0|384|240|60.106990||bloodstm|good|ITech/Strata
 bloodwar|Blood Warrior|parent|kaneko/kaneko16.cpp|0|320|240|60.000000|||good|Kaneko
 bloto|Blits Loto (Ukraine, V. 30.16)|parent|misc/extrema.cpp|||||||preliminary|Extrema
 blotoa|Blits Loto (Ukraine, V. 30.08)|clone|misc/extrema.cpp||||||bloto|preliminary|Extrema
@@ -2858,10 +2858,10 @@ canrose|Canyon Rose (AHG1463, US)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|
 canvas|Canvas Croquis|parent|snk/mainsnk.cpp|0|288|216|60.000000|||good|SNK
 canyon|Canyon Bomber|parent|atari/canyon.cpp|0|256|240|60.114504|||good|Atari
 canyonp|Canyon Bomber (prototype)|clone|atari/canyon.cpp|0|256|240|60.114504||canyon|good|Atari
-capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|360|245|57.000000|||good|Capcom/Incredible Technologies
-capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/Incredible Technologies
-capbowl3|Capcom Bowling (set 3)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/Incredible Technologies
-capbowl4|Capcom Bowling (set 4)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/Incredible Technologies
+capbowl|Capcom Bowling (set 1)|parent|itech/capbowl.cpp|270|360|245|57.000000|||good|Capcom/ITech
+capbowl2|Capcom Bowling (set 2)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/ITech
+capbowl3|Capcom Bowling (set 3)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/ITech
+capbowl4|Capcom Bowling (set 4)|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/ITech
 capcor|Capitani Coraggiosi (Ver 1.3)|parent|misc/itgamble.cpp|0|512|256|60.000000|||preliminary|Nazionale Elettronica
 capitol|Capitol|clone|phoenix/phoenix.cpp|90|256|208|61.035156||pleiads|imperfect|Universal Video Games
 caprcyc|Capriccio Cyclone|parent|taito/caprcyc.cpp|||||||preliminary|Taito
@@ -2904,7 +2904,7 @@ carnivalc|Carnival (cocktail)|clone|sega/vicdual.cpp|270|256|224|60.000000||carn
 carnivalca|Carnival (cocktail, earlier)|clone|sega/vicdual.cpp|270|256|224|60.000000||carnival|preliminary|Sega
 carnivalh|Carnival (Head On hardware, set 1)|clone|sega/vicdual.cpp|270|256|224|60.000000||carnival|imperfect|Sega
 carnivalha|Carnival (Head On hardware, set 2)|clone|sega/vicdual.cpp|270|256|224|60.000000||carnival|imperfect|Sega
-carnking|Carnival King (v1.00.11)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
+carnking|Carnival King (v1.00.11)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
 carpolo|Car Polo|parent|exidy/carpolo.cpp|0|240|256|60.000000|||preliminary|Exidy
 carrera|Carrera (Version 6.7)|parent|misc/carrera.cpp|0|512|256|60.000000|||good|BS Electronics
 cartfury|CART Fury Championship Racing (ver 1.00)|parent|midway/vegas.cpp|0|640|480|57.000000|||good|Midway Games
@@ -3331,7 +3331,7 @@ claybust|Claybuster|parent|midw8080/8080bw.cpp|0|260|224|59.541985|||preliminary
 claychal|Sega Clay Challenge|parent|sega/dc_atomiswave.cpp|0|640|480|61.702586|awbios||preliminary|Sega
 claypign|Clay Pigeon (version 2.0)|parent|exidy/exidy440.cpp|0|320|240|60.000000|||good|Exidy
 clayshoo|Clay Shoot|parent|alliedleisure/clayshoo.cpp|0|256|192|60.000000|||preliminary|Allied Leisure
-clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/Incredible Technologies
+clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|360|245|57.000000||capbowl|good|Capcom/ITech
 cleanswp|Clean Sweep [TTL]|parent|ramtek/ramtek.cpp|0|455|262|60.053687|||preliminary|Ramtek
 cleoftp|Cleopatra Fortune Plus (GDL-0012)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Altron/Taito
 cleopatr|Cleopatra Fortune (Ver 2.1J 1996/09/05)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||imperfect|Taito
@@ -5013,7 +5013,7 @@ drifto94|Drift Out '94 - The Hard Order (Japan)|parent|seta/ssv.cpp|0|336|238|60
 driftout|Drift Out (Europe)|parent|taito/taito_f2.cpp|270|320|224|60.000000|||good|Visco
 driftoutct|Drift Out (Europe, Cameltry conversion)|clone|taito/taito_f2.cpp|270|320|224|60.000000||driftout|good|Visco
 driftoutj|Drift Out (Japan)|clone|taito/taito_f2.cpp|270|320|224|60.000000||driftout|good|Visco
-drivedge|Driver's Edge (v1.6)|parent|itech/itech32.cpp|0|384|240|60.106990|||imperfect|Incredible Technologies/Strata
+drivedge|Driver's Edge (v1.6)|parent|itech/itech32.cpp|0|384|240|60.106990|||imperfect|ITech/Strata
 driveout|Drive Out (bootleg)|clone|taito/taito_f2.cpp|270|320|224|60.000000||driftout|good|
 driveyes|Driver's Eyes (Japan) (1992/01/10, Main Ver 2.1, Sub Ver 1.1)|parent|namco/namcos21_de.cpp|0|496|480|60.606061|||preliminary|Namco
 drivfrcb|Driving Force (Galaxian conversion bootleg)|clone|galaxian/galaxold.cpp|90|256|224|60.606061||drivfrcp|good|Elsys Software
@@ -5199,7 +5199,7 @@ dyndukea|Dynamite Duke (Europe, 25JUL89)|clone|seibu/dynduke.cpp|0|256|224|60.00
 dyndukej|Dynamite Duke (Japan, 03SEP89)|clone|seibu/dynduke.cpp|0|256|224|60.000000||dynduke|good|Seibu
 dyndukeja|Dynamite Duke (Japan, 25JUL89)|clone|seibu/dynduke.cpp|0|256|224|60.000000||dynduke|good|Seibu
 dyndukeu|Dynamite Duke (US, 25JUL89)|clone|seibu/dynduke.cpp|0|256|224|60.000000||dynduke|good|Fabtek/Seibu
-dynobop|Dyno Bop (V1.1)|parent|itech/itech8.cpp|90|256|240|60.000000|||preliminary|Grand Products/Incredible Technologies
+dynobop|Dyno Bop (V1.1)|parent|itech/itech8.cpp|90|256|240|60.000000|||preliminary|Grand Products/ITech
 dynwar|Dynasty Wars (USA, B-Board 89624B-?)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 dynwara|Dynasty Wars (USA, B-Board 88622B-3)|clone|capcom/cps1.cpp|0|384|224|59.637405||dynwar|good|Capcom\CPS1
 dynwarj|Tenchi wo Kurau (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||dynwar|good|Capcom\CPS1
@@ -8385,8 +8385,8 @@ gp2se|Gals Panic II' - Special Edition (Japan)|parent|kaneko/galpani2.cpp|90|320
 gp9001vdp|GP9001 VDP|device|toaplan/gp9001.cpp||||||||
 gp98|Grand Prix '98 (V100K)|parent|igs/igs009.cpp|0|512|240|60.000000|||good|Romtec
 gp_110|Model 110|bios|pinball/gp_1.cpp||||||||Game Plan
-gpgolf|Golden Par Golf (Joystick, V1.1)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|Incredible Technologies/Strata
-gpgolfa|Golden Par Golf (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gpgolf|good|Incredible Technologies/Strata
+gpgolf|Golden Par Golf (Joystick, V1.1)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|ITech/Strata
+gpgolfa|Golden Par Golf (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gpgolf|good|ITech/Strata
 gpilots|Ghost Pilots (NGM-020 ~ NGH-020)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo||good|SNK
 gpilotsh|Ghost Pilots (NGH-020, US)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|gpilots|good|SNK
 gpilotsp|Ghost Pilots (prototype)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|gpilots|good|SNK
@@ -8541,74 +8541,74 @@ gt103aa|Trivia (Version 1.03a Alt questions 1)|clone|misc/gei.cpp|0|416|224|60.0
 gt103ab|Trivia (Version 1.03a Alt questions 2)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers8|imperfect|Greyhound Electronics
 gt103asx|Trivia (Version 1.03a Sex questions)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers8|imperfect|Greyhound Electronics
 gt103asxa|Trivia (Version 1.03a Sex questions, Alt revision questions)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers8|imperfect|Greyhound Electronics
-gt2k|Golden Tee 2K (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gt2kp100|Golden Tee 2K (v1.00) (alt protection)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|Incredible Technologies
-gt2ks100|Golden Tee 2K (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|Incredible Technologies
-gt2kt500|Golden Tee 2K Tournament (v5.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|Incredible Technologies
-gt3d|Golden Tee 3D Golf (v1.93N)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gt3dl19|Golden Tee 3D Golf (v1.9L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dl191|Golden Tee 3D Golf (v1.91L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dl192|Golden Tee 3D Golf (v1.92L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3ds192|Golden Tee 3D Golf (v1.92S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dt211|Golden Tee 3D Golf Tournament (v2.11)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dt231|Golden Tee 3D Golf Tournament (v2.31)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dv14|Golden Tee 3D Golf (v1.4)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dv15|Golden Tee 3D Golf (v1.5)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dv16|Golden Tee 3D Golf (v1.6)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dv17|Golden Tee 3D Golf (v1.7)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
-gt3dv18|Golden Tee 3D Golf (v1.8)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|Incredible Technologies
+gt2k|Golden Tee 2K (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gt2kp100|Golden Tee 2K (v1.00) (alt protection)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|ITech
+gt2ks100|Golden Tee 2K (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|ITech
+gt2kt500|Golden Tee 2K Tournament (v5.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|ITech
+gt3d|Golden Tee 3D Golf (v1.93N)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gt3dl19|Golden Tee 3D Golf (v1.9L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dl191|Golden Tee 3D Golf (v1.91L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dl192|Golden Tee 3D Golf (v1.92L)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3ds192|Golden Tee 3D Golf (v1.92S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dt211|Golden Tee 3D Golf Tournament (v2.11)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dt231|Golden Tee 3D Golf Tournament (v2.31)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dv14|Golden Tee 3D Golf (v1.4)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dv15|Golden Tee 3D Golf (v1.5)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dv16|Golden Tee 3D Golf (v1.6)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dv17|Golden Tee 3D Golf (v1.7)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
+gt3dv18|Golden Tee 3D Golf (v1.8)|clone|itech/itech32.cpp|0|384|240|60.106990||gt3d|good|ITech
 gt507uk|Trivia (UK Version 5.07)|parent|misc/gei.cpp|0|416|224|60.000000|||imperfect|Grayhound Electronics
 gt64010|Galileo GT-64010 System Controller|device|devices/machine/gt64xxx.cpp||||||||
 gt64111|Galileo GT-64111 System Controller|device|devices/machine/gt64xxx.cpp||||||||
 gt913_intc|Casio GT913F interrupt controller|device|devices/cpu/h8/h8_intc.cpp||||||||
-gt97|Golden Tee '97 (v1.30)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gt97s121|Golden Tee '97 (v1.21S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt97t240|Golden Tee '97 Tournament (v2.40)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt97t243|Golden Tee '97 Tournament (v2.43)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt97v120|Golden Tee '97 (v1.20)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt97v121|Golden Tee '97 (v1.21)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt97v122|Golden Tee '97 (v1.22)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|Incredible Technologies
-gt98|Golden Tee '98 (v1.10)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gt98c100|Golden Tee '98 (v1.00C)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
-gt98s100|Golden Tee '98 (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
-gt98t302|Golden Tee '98 Tournament (v3.02)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
-gt98t303|Golden Tee '98 Tournament (v3.03)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
-gt98v100|Golden Tee '98 (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
-gt99|Golden Tee '99 (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gt99s100|Golden Tee '99 (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|Incredible Technologies
-gt99t400|Golden Tee '99 Tournament (v4.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|Incredible Technologies
-gtclassc|Golden Tee Classic (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-gtclasscp|Golden Tee Classic (v1.00) (alt protection)|clone|itech/itech32.cpp|0|384|240|60.106990||gtclassc|good|Incredible Technologies
-gtclasscs|Golden Tee Classic (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gtclassc|good|Incredible Technologies
-gtdiamond|Golden Tee Diamond Edition Tournament (v3.05T ELC)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|Incredible Technologies
+gt97|Golden Tee '97 (v1.30)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gt97s121|Golden Tee '97 (v1.21S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt97t240|Golden Tee '97 Tournament (v2.40)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt97t243|Golden Tee '97 Tournament (v2.43)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt97v120|Golden Tee '97 (v1.20)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt97v121|Golden Tee '97 (v1.21)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt97v122|Golden Tee '97 (v1.22)|clone|itech/itech32.cpp|0|384|240|60.106990||gt97|good|ITech
+gt98|Golden Tee '98 (v1.10)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gt98c100|Golden Tee '98 (v1.00C)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
+gt98s100|Golden Tee '98 (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
+gt98t302|Golden Tee '98 Tournament (v3.02)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
+gt98t303|Golden Tee '98 Tournament (v3.03)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
+gt98v100|Golden Tee '98 (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
+gt99|Golden Tee '99 (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gt99s100|Golden Tee '99 (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|ITech
+gt99t400|Golden Tee '99 Tournament (v4.00)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|ITech
+gtclassc|Golden Tee Classic (v1.00)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+gtclasscp|Golden Tee Classic (v1.00) (alt protection)|clone|itech/itech32.cpp|0|384|240|60.106990||gtclassc|good|ITech
+gtclasscs|Golden Tee Classic (v1.00S)|clone|itech/itech32.cpp|0|384|240|60.106990||gtclassc|good|ITech
+gtdiamond|Golden Tee Diamond Edition Tournament (v3.05T ELC)|clone|itech/itech32.cpp|0|384|240|60.106990||gt98|good|ITech
 gteikoku|Gingateikoku no Gyakushu|clone|galaxian/galaxian.cpp|90|768|224|60.606061||uniwars|good|Irem
 gteikokub|Gingateikoku no Gyakushu (bootleg set 1)|clone|galaxian/galaxian.cpp|270|768|224|60.606061||uniwars|good|
 gteikokub2|Gingateikoku no Gyakushu (bootleg set 2)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||uniwars|good|
 gteikokub3|Gingateikoku no Gyakushu (bootleg set 3)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||uniwars|good|Honly
-gtfore01|Golden Tee Fore! (v1.00.25)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-gtfore02|Golden Tee Fore! 2002 (v2.01.06)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-gtfore03|Golden Tee Fore! 2003 (v3.00.10)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-gtfore03a|Golden Tee Fore! 2003 (v3.00.09)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore03|good|Incredible Technologies
-gtfore04|Golden Tee Fore! 2004 Extra (v4.00.08)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-gtfore04a|Golden Tee Fore! 2004 (v4.00.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore04|good|Incredible Technologies
-gtfore05|Golden Tee Fore! 2005 Extra (v5.01.06)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
-gtfore05a|Golden Tee Fore! 2005 Extra (v5.01.02)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|Incredible Technologies
-gtfore05b|Golden Tee Fore! 2005 Extra (v5.01.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|Incredible Technologies
-gtfore05c|Golden Tee Fore! 2005 Extra (v5.00.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|Incredible Technologies
-gtfore06|Golden Tee Fore! 2006 Complete (v6.00.01)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
+gtfore01|Golden Tee Fore! (v1.00.25)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+gtfore02|Golden Tee Fore! 2002 (v2.01.06)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+gtfore03|Golden Tee Fore! 2003 (v3.00.10)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+gtfore03a|Golden Tee Fore! 2003 (v3.00.09)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore03|good|ITech
+gtfore04|Golden Tee Fore! 2004 Extra (v4.00.08)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+gtfore04a|Golden Tee Fore! 2004 (v4.00.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore04|good|ITech
+gtfore05|Golden Tee Fore! 2005 Extra (v5.01.06)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
+gtfore05a|Golden Tee Fore! 2005 Extra (v5.01.02)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|ITech
+gtfore05b|Golden Tee Fore! 2005 Extra (v5.01.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|ITech
+gtfore05c|Golden Tee Fore! 2005 Extra (v5.00.00)|clone|itech/iteagle.cpp|0|512|384|60.000000|iteagle|gtfore05|good|ITech
+gtfore06|Golden Tee Fore! 2006 Complete (v6.00.01)|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
 gtfrk10m|Guitar Freaks 10th Mix (G*D10 VER. JAB)|parent|konami/ksys573.cpp|0|640|480|60.000000|sys573||preliminary|Konami
 gtfrk10ma|Guitar Freaks 10th Mix (G*D10 VER. JAA)|clone|konami/ksys573.cpp|0|640|480|60.000000|sys573|gtfrk10m|preliminary|Konami
 gtfrk11m|Guitar Freaks 11th Mix (G*D39 VER. JAA)|parent|konami/ksys573.cpp|0|640|480|60.000000|sys573||preliminary|Konami
 gtfrk3ma|Guitar Freaks 3rd Mix (GE949 VER. JAB)|clone|konami/ksys573.cpp|0|640|480|60.000000|sys573|gtrfrk3m|preliminary|Konami
 gtfrk3mb|Guitar Freaks 3rd Mix - security cassette versionup (949JAZ02)|clone|konami/ksys573.cpp|0|640|480|60.000000|sys573|gtrfrk3m|preliminary|Konami
-gtg|Golden Tee Golf (Joystick, v3.3)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|Incredible Technologies/Strata
-gtg2|Golden Tee Golf II (Trackball, V2.2)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|Incredible Technologies/Strata
-gtg2j|Golden Tee Golf II (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|Incredible Technologies/Strata
-gtg2t|Golden Tee Golf II (Trackball, V1.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|Incredible Technologies/Strata
-gtgj31|Golden Tee Golf (Joystick, v3.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|Incredible Technologies/Strata
-gtgt10|Golden Tee Golf (Trackball, v1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|Incredible Technologies/Strata
-gtgt20|Golden Tee Golf (Trackball, v2.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|Incredible Technologies/Strata
-gtgt21|Golden Tee Golf (Trackball, v2.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|Incredible Technologies/Strata
+gtg|Golden Tee Golf (Joystick, v3.3)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|ITech/Strata
+gtg2|Golden Tee Golf II (Trackball, V2.2)|parent|itech/itech8.cpp|0|256|240|60.000000|||good|ITech/Strata
+gtg2j|Golden Tee Golf II (Joystick, V1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|ITech/Strata
+gtg2t|Golden Tee Golf II (Trackball, V1.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg2|good|ITech/Strata
+gtgj31|Golden Tee Golf (Joystick, v3.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|ITech/Strata
+gtgt10|Golden Tee Golf (Trackball, v1.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|ITech/Strata
+gtgt20|Golden Tee Golf (Trackball, v2.0)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|ITech/Strata
+gtgt21|Golden Tee Golf (Trackball, v2.1)|clone|itech/itech8.cpp|0|256|240|60.000000||gtg|good|ITech/Strata
 gtia|Atari GTIA|device|atari/gtia.cpp||||||||
 gticlub|GTI Club: Rally Cote D'Azur (ver EAA)|parent|konami/gticlub.cpp|0|512|384|60.000000|||imperfect|Konami
 gticlub2|GTI Club: Corso Italiano (ver JAB)|parent|konami/viper.cpp|0|1024|768|60.000000|kviper||preliminary|Konami
@@ -8672,7 +8672,7 @@ gtrfrkv3ja|Guitar Freaks V3 (F33:J:A:A:2006072600)|clone|konami/kpython2.cpp|0|6
 gtrfrkva|Guitar Freaks V (E03:A:A:A:2005050200)|parent|konami/kpython2.cpp|0|640|224|60.000000|kpython2||preliminary|Konami
 gtrfrkvj|Guitar Freaks V (E03:J:A:A:2005050200)|parent|konami/kpython2.cpp|0|640|224|60.000000|kpython2||preliminary|Konami
 gtroppo|Gone Troppo (1VXEC542, New Zealand)|parent|aristocrat/aristmk4.cpp|0|304|216|60.000000|||good|Ainsworth Nominees P.L.
-gtroyal|Golden Tee Royal Edition Tournament (v4.02T EDM)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|Incredible Technologies
+gtroyal|Golden Tee Royal Edition Tournament (v4.02T EDM)|clone|itech/itech32.cpp|0|384|240|60.106990||gt99|good|ITech
 gts1|System 1|bios|pinball/gts1.cpp||||||||Gottlieb
 gtsers1|Trivia (Questions Series 1)|parent|misc/gei.cpp|0|416|224|60.000000|||imperfect|Greyhound Electronics
 gtsers10|Trivia (Questions Series 10)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers8|imperfect|Greyhound Electronics
@@ -8694,7 +8694,7 @@ gtsers8a|Trivia (Questions Series 8 Alt Question Rom)|clone|misc/gei.cpp|0|416|2
 gtsers9|Trivia (Questions Series 9)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers8|imperfect|Greyhound Electronics
 gtsersa|Trivia (Alt revision questions set 1)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers1|imperfect|Greyhound Electronics
 gtsersb|Trivia (Alt revision questions set 2)|clone|misc/gei.cpp|0|416|224|60.000000||gtsers1|imperfect|Greyhound Electronics
-gtsupreme|Golden Tee Supreme Edition Tournament (v5.10T ELC S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|Incredible Technologies
+gtsupreme|Golden Tee Supreme Edition Tournament (v5.10T ELC S)|clone|itech/itech32.cpp|0|384|240|60.106990||gt2k|good|ITech
 guab|Give us a Break|parent|jpm/guab.cpp|0|512|256|60.000000|||good|JPM
 guardian|Guardians of the 'Hood|parent|atari/atarig42.cpp|0|336|240|59.922743|||good|Atari
 guiness|The Guiness (Japan)|clone|sunelectronics/markham.cpp|0|240|224|59.637405||strnskil|good|Sun Electronics
@@ -8965,9 +8965,9 @@ hardhead|Hard Head|parent|suna/suna8.cpp|0|256|224|59.100000|||good|SunA
 hardheadb|Hard Head (bootleg, set 1)|clone|suna/suna8.cpp|0|256|224|59.100000||hardhead|good|
 hardheadb2|Hard Head (bootleg, set 2)|clone|suna/suna8.cpp|0|256|224|59.100000||hardhead|preliminary|
 hardheadb3|Hard Head (bootleg, set 3)|clone|suna/suna8.cpp|0|256|224|59.100000||hardhead|good|
-hardyard|Hard Yardage (v1.20)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
-hardyard10|Hard Yardage (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||hardyard|good|Incredible Technologies/Strata
-hardyard11|Hard Yardage (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||hardyard|good|Incredible Technologies/Strata
+hardyard|Hard Yardage (v1.20)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
+hardyard10|Hard Yardage (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||hardyard|good|ITech/Strata
+hardyard11|Hard Yardage (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||hardyard|good|ITech/Strata
 harem|Harem|parent|galaxian/scramble.cpp|90|256|224|60.606061|||good|I.G.R.
 haremchl|Harem Challenge|parent|amiga/cubo.cpp|0|724|567|49.890391|cubo||imperfect|CD Express
 harl_a10|Harley Davidson (Sega, CPU 1.03, display A1.00)|clone|pinball/whitestar.cpp|0|128|32|60.000000||harl_a13|preliminary|Sega
@@ -9392,8 +9392,8 @@ hotgmck3|Taisen Hot Gimmick 3 Digital Surfing (Japan)|parent|psikyo/psikyo4.cpp|
 hotgmcki|Mahjong Hot Gimmick Integral (Japan)|parent|psikyo/psikyo4.cpp|0|320|224|60.000000|||good|Psikyo
 hotgmkmp|Taisen Hot Gimmick Mix Party|parent|taito/taitotx.cpp|||||||preliminary|XNauts
 hothand|Hot Hand|parent|pinball/st_mp100.cpp|||||||preliminary|Stern
-hotmemry|Hot Memory (V1.2, Germany, 12/28/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|Incredible Technologies/Tuning
-hotmemry11|Hot Memory (V1.1, Germany, 11/30/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|Incredible Technologies/Tuning
+hotmemry|Hot Memory (V1.2, Germany, 12/28/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|ITech/Tuning
+hotmemry11|Hot Memory (V1.1, Germany, 11/30/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|ITech/Tuning
 hotmind|Hot Mind (Hard Times hardware)|parent|playmark/playmark.cpp|0|320|224|58.000000|||good|PlayMark
 hotminda|Hot Mind (adjustable prize)|clone|playmark/powerbal.cpp|0|320|240|61.000000||hotmind|good|PlayMark
 hotmindff|Hot Mind (Fit of Fighting hardware)|clone|nix/fitfight.cpp|0|296|224|60.000000||hotmind|preliminary|PlayMark
@@ -9456,8 +9456,8 @@ hshavoc|High Seas Havoc|parent|sega/hshavoc.cpp|0|256|224|59.922743|||preliminar
 hshot_p8|Hot Shot Basketball (P-8)|parent|pinball/wpc_dot.cpp|0|128|32|60.000000|||preliminary|Midway
 hspot2|Hot Spot 2|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
 hspot3|Hot Spot 3|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
-hstennis|Hot Shots Tennis (V1.1)|parent|itech/itech8.cpp|90|400|240|60.000000|||good|Incredible Technologies/Strata
-hstennis10|Hot Shots Tennis (V1.0)|clone|itech/itech8.cpp|90|400|240|60.000000||hstennis|good|Incredible Technologies/Strata
+hstennis|Hot Shots Tennis (V1.1)|parent|itech/itech8.cpp|90|400|240|60.000000|||good|ITech/Strata
+hstennis10|Hot Shots Tennis (V1.0)|clone|itech/itech8.cpp|90|400|240|60.000000||hstennis|good|ITech/Strata
 htchctch|Hatch Catch|parent|dataeast/tumbleb.cpp|0|320|240|60.000000|||good|SemiCom
 htengoku|Hanafuda Hana Tengoku [BET] (Japan)|parent|dynax/ddenlovr.cpp|180|336|240|60.000000|||good|Dynax
 hthero|Hat Trick Hero (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||footchmp|good|Taito
@@ -10023,7 +10023,7 @@ istreb|Istrebiteli|parent|ussr/istrebiteli.cpp|0|192|256|50.080128|||imperfect|T
 istrebiteli_sound|Istrebiteli Sound|device|ussr/istrebiteli.cpp||||||||
 itaten|Itazura Tenshi (Japan)|parent|nichibutsu/dacholer.cpp|0|256|224|60.000000|||good|Alice/Nichibutsu
 itazuram|Itazura Monkey|parent|sigma/sigmab98.cpp|0|320|240|60.000000|sammymdl||good|Sammy
-iteagle|Eagle BIOS|bios|itech/iteagle.cpp|0|512|384|60.000000||||Incredible Technologies
+iteagle|Eagle BIOS|bios|itech/iteagle.cpp|0|512|384|60.000000||||ITech
 iteagle_eeprom|ITEagle EEPROM AT93C46|device|itech/iteagle_fpga.cpp||||||||
 iteagle_fpga|ITEagle FPGA|device|itech/iteagle_fpga.cpp||||||||
 iteagle_periph|ITEagle Peripheral Controller|device|itech/iteagle_fpga.cpp||||||||
@@ -22056,7 +22056,7 @@ nebulray|Nebulas Ray (World, NR2)|parent|namco/namconb1.cpp|90|288|224|59.659091
 nebulrayj|Nebulas Ray (Japan, NR1)|clone|namco/namconb1.cpp|90|288|224|59.659091||nebulray|good|Namco
 nebulrayp|Nebulas Ray (prototype)|clone|namco/namconb1.cpp|90|288|224|59.659091||nebulray|good|Namco
 nec_315_5136|Nec 315-5136|device|devices/machine/segacrp2_device.cpp||||||||
-neckneck|Neck-n-Neck (v1.2)|parent|itech/itech8.cpp|0|400|240|60.000000|||good|Bundra Games/Incredible Technologies
+neckneck|Neck-n-Neck (v1.2)|parent|itech/itech8.cpp|0|400|240|60.000000|||good|Bundra Games/ITech
 nekkyoku|Rettou Juudan Nekkyoku Janshi - Higashi Nippon Hen (Japan)|parent|vsystem/fromance.cpp|0|352|240|60.000000|||imperfect|Video System
 nemesis|Nemesis (ROM version)|parent|konami/nemesis.cpp|0|256|224|60.606061|||good|Konami
 nemesisp|Nemesis|parent|pinball/peyper.cpp|||||||preliminary|Peyper
@@ -22316,7 +22316,7 @@ nightstr|Night Striker (World)|parent|taito/taito_z.cpp|0|320|240|60.055992|||im
 nightstrj|Night Striker (Japan)|clone|taito/taito_z.cpp|0|320|240|60.055992||nightstr|imperfect|Taito
 nightstru|Night Striker (US)|clone|taito/taito_z.cpp|0|320|240|60.055992||nightstr|imperfect|Taito
 nile_sound|Seta ST-0026 NiLe (Sound)|device|devices/sound/setapcm.cpp||||||||
-ninclown|Ninja Clowns (27 oct 91)|parent|itech/itech8.cpp|0|360|240|60.000000|||good|Incredible Technologies/Strata
+ninclown|Ninja Clowns (27 oct 91)|parent|itech/itech8.cpp|0|360|240|60.000000|||good|ITech/Strata
 nineball|Nine Ball|parent|pinball/st_mp200.cpp|||||||preliminary|Stern
 ninja|Ninja (315-5102)|clone|sega/system1.cpp|0|512|224|60.096154||seganinj|good|Sega
 ninjak|The Ninja Kids (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito
@@ -22822,10 +22822,10 @@ painter|Painter (hack of Crush Roller)|clone|pacman/pacman.cpp|90|288|224|60.606
 paintlad|Painted Lady (Splash) (Ver. 1.3 US)|clone|gaelco/splash.cpp|0|368|240|58.000000||splash|good|Gaelco/OMK Software
 paintrlr|Paint Roller (bootleg of Crush Roller)|clone|pacman/pacman.cpp|90|288|224|60.606061||crush|good|
 pairlove|Pairs Love|parent|seta/seta.cpp|270|384|240|60.000000|||good|Athena
-pairs|Pairs (V1.2, 09/30/94)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
-pairsa|Pairs (V1, 09/07/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|Incredible Technologies/Strata
+pairs|Pairs (V1.2, 09/30/94)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
+pairsa|Pairs (V1, 09/07/94)|clone|itech/itech32.cpp|0|384|240|60.106990||pairs|good|ITech/Strata
 pairsnb|Pairs (Nichibutsu) (Japan 890822)|parent|nichibutsu/nbmj8891.cpp|0|512|240|60.000000|||good|Nichibutsu
-pairsred|Pairs Redemption (V1.0, 10/25/94)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
+pairsred|Pairs Redemption (V1.0, 10/25/94)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
 pairsten|Pairs (System Ten) (Japan 890826)|clone|nichibutsu/nbmj8891.cpp|0|512|240|60.000000||pairsnb|good|System Ten
 pajaroes|Pajaro del Espacio (Spanish bootleg of UniWar S)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||uniwars|good|PSV
 palamed|Palamedes (US)|parent|taito/taito_l.cpp|0|320|224|60.000000|||good|Hot-B
@@ -23125,8 +23125,8 @@ pecmen|Mr. & Mrs. Pec-Men|parent|pinball/ltd.cpp|||||||preliminary|LTD
 peekaboo|Peek-a-Boo! (Japan, ver. 1.1)|parent|jaleco/megasys1.cpp|0|256|224|56.180000|||good|Jaleco
 peekaboou|Peek-a-Boo! (North America, ver 1.0)|clone|jaleco/megasys1.cpp|0|256|224|56.180000||peekaboo|good|Jaleco
 peepshow|Nozokimeguri Mahjong Peep Show (Japan 890404)|clone|nichibutsu/nbmj8891.cpp|0|512|240|60.000000||mjfocus|good|AC
-peggle|Peggle (Joystick, v1.0)|parent|itech/itech8.cpp|90|400|240|60.000000|||good|Incredible Technologies/Strata
-pegglet|Peggle (Trackball, v1.0)|clone|itech/itech8.cpp|90|400|240|60.000000||peggle|good|Incredible Technologies/Strata
+peggle|Peggle (Joystick, v1.0)|parent|itech/itech8.cpp|90|400|240|60.000000|||good|ITech/Strata
+pegglet|Peggle (Trackball, v1.0)|clone|itech/itech8.cpp|90|400|240|60.000000||peggle|good|ITech/Strata
 peip0028|Player's Edge Plus (IP0028) Joker Poker - French|parent|igt/peplus.cpp|0|320|200|60.000000|||good|IGT - International Game Technology
 peip0029|Player's Edge Plus (IP0029) Joker Poker - French|clone|igt/peplus.cpp|0|320|200|60.000000||peip0028|good|IGT - International Game Technology
 peip0031|Player's Edge Plus (IP0031) Standard Draw Poker - French|parent|igt/peplus.cpp|0|320|200|60.000000|||good|IGT - International Game Technology
@@ -24205,7 +24205,7 @@ pokiwc162|Poker UCMC/IWC (ver 162.03 20-6-91)|clone|misc/calomega.cpp|0|256|248|
 pokoachu|PokoaPoka Onsen de CHU - Bijin 3 Shimai ni Kiotsukete! (Japan)|parent|nichibutsu/hrdvd.cpp|0|543|465|59.922749|nichidvd||preliminary|eic/Nichibutsu
 pokonl97|Poker Only '97 (Talking ver. 3.3)|parent|igs/goldstar.cpp|0|512|224|60.000000|||good|Amcoe
 pokonyan|Pokonyan! Balloon (Japan 940322)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
-pokrdice|Poker Dice (V1.7)|parent|itech/itech8.cpp|90|256|240|60.000000|||good|Incredible Technologies/Strata
+pokrdice|Poker Dice (V1.7)|parent|itech/itech8.cpp|90|256|240|60.000000|||good|ITech/Strata
 pokrwild|Poker's Wild (V117)|parent|misc/39in1.cpp|0|296|480|60.000000|||preliminary|I.A.M.
 polar|Polar Explorer|parent|pinball/taito.cpp|||||||preliminary|Taito
 polaris|Polaris (latest version)|parent|midw8080/8080bw.cpp|270|260|224|59.541985|||good|Taito
@@ -24712,7 +24712,7 @@ ptm6840|MC6840 PTM|device|devices/machine/6840ptm.cpp||||||||
 ptrain|Panda Train (Novamatic 1.7)|parent|subsino/subsino2.cpp|0|512|240|58.727000|||imperfect|Subsino
 ptrmj|PT Reach Mahjong (Japan)|parent|irem/m14.cpp|0|256|224|60.000000|||imperfect|Irem
 pturn|Parallel Turn|parent|jaleco/pturn.cpp|90|256|224|60.000000|||imperfect|Jaleco
-pubball|Power Up Baseball (prototype)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Midway
+pubball|Power Up Baseball (prototype)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Midway
 pubtimed|Pub Time Darts|parent|merit/pubtimed.cpp|||||||preliminary|Merit-Nomac Industries
 pubtimed2ch|Pub Time Darts II Plus 2 with Solo Challenger (Mar 24, 1992)|parent|merit/merits.cpp|||||||preliminary|Merit
 puchicar|Puchi Carat (Ver 2.02O 1997/10/29)|parent|taito/taito_f3.cpp|0|320|232|58.970000|||imperfect|Taito
@@ -25551,12 +25551,12 @@ ridingf|Riding Fight (Ver 1.0O)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||
 ridingfj|Riding Fight (Ver 1.0J)|clone|taito/taito_f3.cpp|0|320|224|58.970000||ridingf|imperfect|Taito
 ridingfu|Riding Fight (Ver 1.0A)|clone|taito/taito_f3.cpp|0|320|224|58.970000||ridingf|imperfect|Taito
 ridleofp|Riddle of Pythagoras (Japan)|parent|sega/segae.cpp|90|256|192|59.922738|||good|Nasco/Sega
-rimrockn|Rim Rockin' Basketball (V2.2)|parent|itech/itech8.cpp|0|352|240|60.000000|||good|Incredible Technologies/Strata
-rimrockn12|Rim Rockin' Basketball (V1.2)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
+rimrockn|Rim Rockin' Basketball (V2.2)|parent|itech/itech8.cpp|0|352|240|60.000000|||good|ITech/Strata
+rimrockn12|Rim Rockin' Basketball (V1.2)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
 rimrockn12b|Rim Rockin' Basketball (V1.2, bootleg)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|
-rimrockn15|Rim Rockin' Basketball (V1.5)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
-rimrockn16|Rim Rockin' Basketball (V1.6)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
-rimrockn20|Rim Rockin' Basketball (V2.0)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|Incredible Technologies/Strata
+rimrockn15|Rim Rockin' Basketball (V1.5)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
+rimrockn16|Rim Rockin' Basketball (V1.6)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
+rimrockn20|Rim Rockin' Basketball (V2.0)|clone|itech/itech8.cpp|0|352|240|60.000000||rimrockn|good|ITech/Strata
 ringball|Ring Ball (Ver. 2.6)|clone|gaelco/splash.cpp|0|384|240|60.000000||funystrp|preliminary|Microhard
 ringdest|Ring of Destruction: Slammasters II (Euro 940902)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 ringdesta|Ring of Destruction: Slammasters II (Asia 940831)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
@@ -32277,11 +32277,11 @@ sfrush|San Francisco Rush|parent|midway/seattle.cpp|0|640|480|57.000000|||good|A
 sfrushrk|San Francisco Rush: The Rock (boot rom L 1.0, GUTS Oct 6 1997 / MAIN Oct 16 1997)|parent|midway/seattle.cpp|0|640|480|57.000000|||good|Atari
 sfrushrkw|San Francisco Rush: The Rock (Wavenet, boot rom L 1.38, GUTS Aug 19 1997 / MAIN Aug 19 1997)|clone|midway/seattle.cpp|0|640|480|57.000000||sfrushrk|preliminary|Atari
 sfrushrkwo|San Francisco Rush: The Rock (Wavenet, boot rom L 1.38, GUTS Aug 6 1997 / MAIN Aug 5 1997)|clone|midway/seattle.cpp|0|640|480|57.000000||sfrushrk|preliminary|Atari
-sftm|Street Fighter: The Movie (v1.12)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Capcom/Incredible Technologies
-sftm110|Street Fighter: The Movie (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/Incredible Technologies
-sftm111|Street Fighter: The Movie (v1.11)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/Incredible Technologies
-sftmj112|Street Fighter: The Movie (v1.12N, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/Incredible Technologies
-sftmj114|Street Fighter: The Movie (v1.14N, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/Incredible Technologies
+sftm|Street Fighter: The Movie (v1.12)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Capcom/ITech
+sftm110|Street Fighter: The Movie (v1.10)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/ITech
+sftm111|Street Fighter: The Movie (v1.11)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/ITech
+sftmj112|Street Fighter: The Movie (v1.12N, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/ITech
+sftmj114|Street Fighter: The Movie (v1.14N, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||sftm|good|Capcom/ITech
 sfua|Street Fighter (US, set 2) (protected)|clone|capcom/sf.cpp|0|384|224|60.000000||sf|good|Capcom
 sfw|Street Fighter (World) (protected)|clone|capcom/sf.cpp|0|384|224|60.000000||sf|good|Capcom
 sfx|SF-X|parent|galaxian/galaxian.cpp|0|648|224|60.606061|||good|Nichibutsu/Nihon Game
@@ -32466,7 +32466,7 @@ shootoutj|Shoot Out (Japan)|clone|dataeast/shootout.cpp|180|256|240|59.637405||s
 shootpl|Shootout Pool Prize (Export) / Shootout Pool The Medal (Japan, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 shootplm|Shootout Pool Prize (Export) / Shootout Pool The Medal (Japan) Version B|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 shootplmp|Shootout Pool Prize (Export) / Shootout Pool The Medal (Japan) Version B (prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|shootplm|preliminary|Sega
-shoottv|Must Shoot TV (prototype)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
+shoottv|Must Shoot TV (prototype)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
 shors2k1|Star Horse 2001 (satellite, Rev B)|parent|sega/naomi.cpp|270|640|480|61.702586|naomi||preliminary|Sega
 shors2k2|Star Horse 2002 (sound, Export/Taiwan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
 shors2k2l|Star Horse 2002 (live)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
@@ -32514,11 +32514,11 @@ shtriderb|Shot Rider (bootleg)|clone|irem/travrusa.cpp|270|240|256|56.750000||sh
 shtstar|Shooting Star|parent|misc/artmagic.cpp|0|320|256|49.764608|||preliminary|Nova
 shtzone|Shooting Zone System BIOS|bios|sega/shtzone.cpp|0|256|192|59.919200||||Sega
 shuffle|Shuffleboard|parent|midw8080/mw8080bw.cpp|90|260|224|59.541985|||imperfect|Midway
-shufshot|Shuffleshot (v1.40)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
-shufshot135|Shuffleshot (v1.35)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|Incredible Technologies/Strata
-shufshot137|Shuffleshot (v1.37)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|Incredible Technologies/Strata
-shufshot138|Shuffleshot (v1.38)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|Incredible Technologies/Strata
-shufshot139|Shuffleshot (v1.39)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|Incredible Technologies/Strata
+shufshot|Shuffleshot (v1.40)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
+shufshot135|Shuffleshot (v1.35)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|ITech/Strata
+shufshot137|Shuffleshot (v1.37)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|ITech/Strata
+shufshot138|Shuffleshot (v1.38)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|ITech/Strata
+shufshot139|Shuffleshot (v1.39)|clone|itech/itech32.cpp|0|384|240|60.106990||shufshot|good|ITech/Strata
 shuriboy|Shuriken Boy|parent|konami/konmedal.cpp|0|288|224|60.000000|||good|Konami
 shuttlei|Shuttle Invader|parent|midw8080/8080bw.cpp|270|256|192|60.000000|||imperfect|Omori Electric
 shuuz|Shuuz (version 8.0)|parent|atari/shuuz.cpp|0|336|240|59.922743|||good|Atari
@@ -32726,9 +32726,9 @@ slashout|Slashout (GDS-0004)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||
 slbmania|Silverball Mania|parent|pinball/by35.cpp|||||||preliminary|Bally
 sldeluxe|Sweet Liberty Deluxe (AHG1575, US)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5||preliminary|Aristocrat
 sleicpin|Sleic Pin Ball|parent|pinball/sleic.cpp|||||||preliminary|Sleic
-slikshot|Slick Shot (V2.2)|parent|itech/itech8.cpp|90|256|240|60.000000|||preliminary|Grand Products/Incredible Technologies
-slikshot16|Slick Shot (V1.6)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/Incredible Technologies
-slikshot17|Slick Shot (V1.7)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/Incredible Technologies
+slikshot|Slick Shot (V2.2)|parent|itech/itech8.cpp|90|256|240|60.000000|||preliminary|Grand Products/ITech
+slikshot16|Slick Shot (V1.6)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/ITech
+slikshot17|Slick Shot (V1.7)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/ITech
 slimekun|Slime Kun|parent|konami/konmedal.cpp|0|288|224|60.000000|||preliminary|Konami
 slipstrm|Slip Stream (Brazil 950515)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Capcom
 slipstrmh|Slip Stream (Hispanic 950515)|clone|sega/segas32.cpp|0|416|224|60.000000||slipstrm|imperfect|Capcom
@@ -34096,7 +34096,7 @@ sstarcrs|Super Star Crest|clone|galaxian/galaxian.cpp|90|768|224|60.606061||moon
 sstingry|Super Stingray (Japan)|parent|alpha/alpha68k_n.cpp|90|256|224|59.185606|||imperfect|Alpha Denshi
 sstrangr|Space Stranger|parent|misc/sstrangr.cpp|270|256|224|60.000000|||imperfect|Yachiyo Electronics
 sstrangr2|Space Stranger 2|clone|misc/sstrangr.cpp|270|256|224|60.000000||sstrangr|imperfect|Yachiyo Electronics
-sstrike|Super Strike Bowling (V1)|parent|itech/itech8.cpp|270|256|240|60.000000|||preliminary|Incredible Technologies/Strata
+sstrike|Super Strike Bowling (V1)|parent|itech/itech8.cpp|270|256|240|60.000000|||preliminary|ITech/Strata
 sstriker|Sorcer Striker|parent|toaplan/toaplan2.cpp|270|320|240|59.637405|||good|Raizing
 sstrikerk|Sorcer Striker (Korea)|clone|toaplan/toaplan2.cpp|270|320|240|59.637405||sstriker|good|Raizing/Unite Trading
 sstrkfgt|Sega Strike Fighter (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Sega
@@ -34268,9 +34268,9 @@ strahlja|Koutetsu Yousai Strahl (Japan set 2)|clone|nmk/nmk16.cpp|0|256|224|56.1
 strahljbl|Koutetsu Yousai Strahl (Japan, bootleg)|clone|nmk/nmk16.cpp|0|256|224|56.180000||strahl|good|
 strain|Super Train (Ver. 1.9)|parent|subsino/subsino2.cpp|0|512|224|58.727000|||preliminary|Subsino
 strapids|Shooting the Rapids|parent|pinball/zac_1.cpp|||||||preliminary|Zaccaria
-stratab|Strata Bowling (V3)|parent|itech/itech8.cpp|270|256|240|60.000000|||good|Incredible Technologies/Strata
-stratab1|Strata Bowling (V1)|clone|itech/itech8.cpp|270|256|240|60.000000||stratab|good|Incredible Technologies/Strata
-stratabs|Strata Bowling (V1 4T, Super Strike Bowling type PCB)|clone|itech/itech8.cpp|270|256|240|60.000000||stratab|preliminary|Incredible Technologies/Strata
+stratab|Strata Bowling (V3)|parent|itech/itech8.cpp|270|256|240|60.000000|||good|ITech/Strata
+stratab1|Strata Bowling (V1)|clone|itech/itech8.cpp|270|256|240|60.000000||stratab|good|ITech/Strata
+stratabs|Strata Bowling (V1 4T, Super Strike Bowling type PCB)|clone|itech/itech8.cpp|270|256|240|60.000000||stratab|preliminary|ITech/Strata
 stratgys|Strategy X (Stern Electronics)|clone|galaxian/scobra.cpp|0|256|224|60.606061||stratgyx|good|Konami/Stern Electronics
 stratgyx|Strategy X|parent|galaxian/scobra.cpp|0|256|224|60.606061|||good|Konami
 stratof|Raiga - Strato Fighter (US)|parent|tecmo/gaiden.cpp|0|256|224|59.170000|||imperfect|Tecmo
@@ -35178,13 +35178,13 @@ timecrs3u|Time Crisis 3 (TST3 Ver. A)|clone|namco/namcops2.cpp|0|640|480|60.0000
 timecrs4|Time Crisis 4 (World, TSF1002-NA-A)|parent|namco/namcops2.cpp|0|640|480|60.000000|sys256||preliminary|Namco
 timecrs4j|Time Crisis 4 (Japan, TSF1001-NA-A)|clone|namco/namcops2.cpp|0|640|480|60.000000|sys256|timecrs4|preliminary|Namco
 timefgtr|Time Fighter (Time Pilot conversion on Galaxian hardware)|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||preliminary|Taito
-timekill|Time Killers (v1.32)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies/Strata
-timekill100|Time Killers (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
-timekill120|Time Killers (v1.20, alternate ROM board)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
-timekill121|Time Killers (v1.21)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
-timekill121a|Time Killers (v1.21, alternate ROM board)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
-timekill131|Time Killers (v1.31)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
-timekill132i|Time Killers (v1.32I)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|Incredible Technologies/Strata
+timekill|Time Killers (v1.32)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech/Strata
+timekill100|Time Killers (v1.00)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
+timekill120|Time Killers (v1.20, alternate ROM board)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
+timekill121|Time Killers (v1.21)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
+timekill121a|Time Killers (v1.21, alternate ROM board)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
+timekill131|Time Killers (v1.31)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
+timekill132i|Time Killers (v1.32I)|clone|itech/itech32.cpp|0|384|240|60.106990||timekill|good|ITech/Strata
 timelimt|Time Limit|parent|thepit/timelimt.cpp|90|256|224|60.000000|||good|Chuo
 timeline|Time Line|parent|pinball/gts80.cpp|||||||preliminary|Gottlieb
 timeplt|Time Pilot|parent|konami/timeplt.cpp|90|256|224|60.000000|||good|Konami
@@ -36744,7 +36744,7 @@ virnba|Virtua NBA (USA)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||prelimi
 virnbao|Virtua NBA|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
 virnbap|Virtua NBA (prototype)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
 virnbapa|Virtua NBA (prototype, 15.11)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|virnba|preliminary|Sega
-virtpool|Virtual Pool|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|Incredible Technologies
+virtpool|Virtual Pool|parent|itech/iteagle.cpp|0|512|384|60.000000|iteagle||good|ITech
 vitaminc|Mahjong Vitamin C (Japan)|parent|misc/homedata.cpp|0|432|224|59.000000|||good|Home Data
 vivdolls|Vivid Dolls|parent|nintendo/aleck64.cpp|0|3093|525|59.959432|aleck64||imperfect|Visco
 vjdash|VJ Dash (ver 1.0)|clone|jaleco/tetrisp2.cpp|0|320|224|59.410646||vjslap|preliminary|Jaleco
@@ -37017,20 +37017,20 @@ wboyub|Wonder Boy (US bootleg)|clone|sega/system1.cpp|0|512|224|60.096154||wboy|
 wcat3|Wild Cat 3|parent|igs/goldstar.cpp|0|512|224|60.000000|||preliminary|E.A.I.
 wcat3a|Wild Cat 3 (CMV4 hardware)|clone|igs/goldstar.cpp|0|512|224|60.000000||wcat3|preliminary|E.A.I.
 wcatcher|Mahjong Wakuwaku Catcher (Japan)|parent|nichibutsu/nbmj9195.cpp|0|640|240|60.000000|||good|Nichibutsu
-wcbowl|World Class Bowling (v1.66)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|Incredible Technologies
-wcbowl10|World Class Bowling (v1.0)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl11|World Class Bowling (v1.1)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl12|World Class Bowling (v1.2)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl13|World Class Bowling (v1.3)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl130|World Class Bowling Tournament (v1.30)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl13j|World Class Bowling (v1.3J, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl14|World Class Bowling (v1.4)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl140|World Class Bowling Tournament (v1.40)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl15|World Class Bowling (v1.5)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl16|World Class Bowling (v1.6)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl161|World Class Bowling (v1.61)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowl165|World Class Bowling (v1.65)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
-wcbowldx|World Class Bowling Deluxe (v2.00)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|Incredible Technologies
+wcbowl|World Class Bowling (v1.66)|parent|itech/itech32.cpp|0|384|240|60.106990|||good|ITech
+wcbowl10|World Class Bowling (v1.0)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl11|World Class Bowling (v1.1)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl12|World Class Bowling (v1.2)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl13|World Class Bowling (v1.3)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl130|World Class Bowling Tournament (v1.30)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl13j|World Class Bowling (v1.3J, Japan)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl14|World Class Bowling (v1.4)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl140|World Class Bowling Tournament (v1.40)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl15|World Class Bowling (v1.5)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl16|World Class Bowling (v1.6)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl161|World Class Bowling (v1.61)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowl165|World Class Bowling (v1.65)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
+wcbowldx|World Class Bowling Deluxe (v2.00)|clone|itech/itech32.cpp|0|384|240|60.106990||wcbowl|good|ITech
 wccf116|World Club Champion Football Serie A 2001-2002 Ver.2 (Japan) (CDP-10001C)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Hitmaker/Sega
 wccf1dup|World Club Champion Football Serie A 2001-2002 DIMM FIRM Ver.3.03 (CDP-10003)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Hitmaker/Sega
 wccf212e|World Club Champion Football Serie A 2002-2003 Ver.2.12 (Italy) (CDV-10002)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Hitmaker/Sega

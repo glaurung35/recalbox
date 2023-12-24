@@ -76,7 +76,9 @@ void SystemView::addSystem(SystemData * it)
   }
   else
   {
-    GameGenres genre = Genres::LookupFromName(it->Name());
+    String systemName = it->Name();
+    systemName.Remove(SystemManager::sGenrePrefix);
+    GameGenres genre = Genres::LookupFromName(systemName);
     if (genre == GameGenres::None)
     {
       // no logo in theme; use text

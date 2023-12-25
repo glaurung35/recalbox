@@ -65,6 +65,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-dolphin (MagicSeb)
 - Add possibility to adjust music volume in EmulationStation
 - Add en_GB translation (SecularSteve)
+- Add Picade support
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

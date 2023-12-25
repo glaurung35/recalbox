@@ -142,7 +142,7 @@ def DetectPiBoyXRSCase():
 
 # --------- Main
 
-manualCases = (cases.SUPERPI4CASE, cases.NESPI4MANUAL, cases.PISTATION, cases.ARGONONE, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE, cases.RPITOUCHDISPLAY)
+manualCases = (cases.SUPERPI4CASE, cases.NESPI4MANUAL, cases.PISTATION, cases.ARGONONE, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE, cases.RPITOUCHDISPLAY, cases.PICADE)
 # Main identification routine
 def Identify(previousCase):
     case = cases.NONE

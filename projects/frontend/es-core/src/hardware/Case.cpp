@@ -29,6 +29,7 @@ bool Case::Install() const
     case CaseModel::Nespi4CaseManual:
     case CaseModel::SuperPi4Case:
     case CaseModel::RaspberryPiTouchDisplay:
+    case CaseModel::Picade:
     {
       SetCaseInBoot(mShortName);
       break;
@@ -74,6 +75,7 @@ Case Case::FromShortName(const String& value)
   if (value == "ArgonOne") return Create(CaseModel::ArgonOne);
   if (value == "RaspberryPiTouchDisplay") return Create(CaseModel::RaspberryPiTouchDisplay);
   if (value == "rgbhat") return Create(CaseModel::RecalboxRGBDualOrRGBHat);
+  if (value == "picade") return Create(CaseModel::Picade);
   return Create(CaseModel::None);
 }
 
@@ -121,6 +123,8 @@ Case Case::Create(CaseModel model)
       return Case(CaseModel::RaspberryPiTouchDisplay, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED,CASE_ROTATION_SUPPORTED, "Raspberry Pi Touch Display", "RaspberryPiTouchDisplay", "");
     case CaseModel::RecalboxRGBDualOrRGBHat:
       return Case(CaseModel::RecalboxRGBDualOrRGBHat, CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, CASE_ROTATION_SUPPORTED, "Recalbox RGB Dual or RGB Hat", "rgbhat", "");
+    case CaseModel::Picade:
+      return Case(CaseModel::Picade, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, !CASE_ROTATION_SUPPORTED, "Picade", "Picade", "");
   }
   return Case(CaseModel::None, !CASE_DETECTION_AUTOMATIC, MENU_SHUTDOWN_ENABLED, CASE_ROTATION_SUPPORTED, _("NONE"), "", "");
 }
@@ -147,6 +151,7 @@ std::vector<Case> Case::SupportedManualCases()
     list.push_back(Case::Create(Case::CaseModel::Nespi4CaseManual));
     list.push_back(Case::Create(Case::CaseModel::SuperPi4Case));
     list.push_back(Case::Create(Case::CaseModel::RaspberryPiTouchDisplay));
+    list.push_back(Case::Create(Case::CaseModel::Picade));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   else if (Board::Instance().GetBoardType() == BoardType::Pi3plus || Board::Instance().GetBoardType() == BoardType::Pi3)
@@ -155,6 +160,7 @@ std::vector<Case> Case::SupportedManualCases()
     list.push_back(Case::Create(Case::CaseModel::SuperPiCase));
     list.push_back(Case::Create(Case::CaseModel::NespiCasePlus));
     list.push_back(Case::Create(Case::CaseModel::RaspberryPiTouchDisplay));
+    list.push_back(Case::Create(Case::CaseModel::Picade));
     list.push_back(Case::Create(Case::CaseModel::None));
   }
   return list;

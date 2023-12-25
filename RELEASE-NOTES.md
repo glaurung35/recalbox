@@ -42,6 +42,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add latest libretro mame core (0.258) for RPi4 and RPi5
 - Add RPi5 overclock option
 - Add skip boot video option
+- Add Picade support
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

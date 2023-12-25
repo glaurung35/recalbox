@@ -66,6 +66,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add en_GB translation (SecularSteve)
 - Add new core geolith for neogeo
 - Add GladMort Demo on neogeo
+- Add Picade support
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

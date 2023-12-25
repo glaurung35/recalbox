@@ -55,6 +55,7 @@ bool PiBoard::HasBattery()
     case Case::CaseModel::ArgonOne:
     case Case::CaseModel::RaspberryPiTouchDisplay:
     case Case::CaseModel::RecalboxRGBDualOrRGBHat:
+    case Case::CaseModel::Picade:
     case Case::CaseModel::None:
       return false;
       break;

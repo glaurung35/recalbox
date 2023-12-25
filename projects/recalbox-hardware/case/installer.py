@@ -11,6 +11,7 @@ MODULES = {
     "installers.argonone.install": (cases.ARGONONE,),
     "installers.retroflags.install": (cases.SUPERPI4CASE, cases.NESPI4, cases.NESPI4MANUAL, cases.PISTATION, cases.NESPICASEPLUS, cases.SUPERPICASE, cases.MEGAPICASE),
     "installers.raspberrypi-touch-display.install": (cases.RPITOUCHDISPLAY,),
+    "installers.picade.install": (cases.PICADE,),
 }
 
 def processHardware(install, case, previousCase):

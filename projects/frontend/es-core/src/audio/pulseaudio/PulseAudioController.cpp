@@ -17,6 +17,7 @@ PulseAudioController::PulseAudioController()
   , mPulseAudioMainLoop(nullptr)
   , mEvent(*this)
   , mNotificationInterface(nullptr)
+  , mNotification(false)
 {
   Thread::Start("PulseAudio");
   Initialize();
@@ -168,15 +169,15 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
   unsigned int facility = t & PA_SUBSCRIPTION_EVENT_FACILITY_MASK;
   unsigned int type = (pa_subscription_event_type_t)(t & PA_SUBSCRIPTION_EVENT_TYPE_MASK);
 
-  String typeStr;
+  const char* typeStr = "UNKNOWN TYPE";;
   switch(type)
   {
     case PA_SUBSCRIPTION_EVENT_NEW: typeStr = "NEW"; break;
     case PA_SUBSCRIPTION_EVENT_CHANGE: typeStr = "CHANGE"; break;
     case PA_SUBSCRIPTION_EVENT_REMOVE: typeStr = "REMOVE"; break;
-    default: typeStr = "UNKNOWN TYPE"; break;
+    default: break;
   }
-  String eventStr;
+  const char* eventStr = "UNKNOWN EVENT";;
   switch(facility)
   {
     case PA_SUBSCRIPTION_EVENT_SINK: eventStr = "SINK"; break;
@@ -189,7 +190,7 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
     case PA_SUBSCRIPTION_EVENT_SERVER: eventStr = "SERVER"; break;
     case PA_SUBSCRIPTION_EVENT_AUTOLOAD: eventStr = "AUTOLOAD"; break;
     case PA_SUBSCRIPTION_EVENT_CARD: eventStr = "CARD"; break;
-    default: eventStr = "UNKNOWN EVENT"; break;
+    default: break;
   }
 
   { LOG(LogDebug) << "[PulseAudio] Event received Type: " << typeStr << " - Event: " << eventStr << " - Index: " << index; }
@@ -225,12 +226,13 @@ AudioIcon PulseAudioController::GetPortIcon(const pa_sink_port_info& info)
 #if PA_CHECK_VERSION(14,0,0)
   switch(info.type)
   {
-    case PA_DEVICE_PORT_TYPE_SPEAKER: return AudioIcon::Speakers; break;
-    case PA_DEVICE_PORT_TYPE_HEADPHONES: return AudioIcon::Headphones; break;
+    case PA_DEVICE_PORT_TYPE_SPEAKER: return AudioIcon::Speakers;
+    case PA_DEVICE_PORT_TYPE_HEADPHONES: return AudioIcon::Headphones;
     case PA_DEVICE_PORT_TYPE_HDMI:
     case PA_DEVICE_PORT_TYPE_TV:
     case PA_DEVICE_PORT_TYPE_VIDEO:
       return AudioIcon::Screens;
+    default: break;
   }
 #else
   (void)info;
@@ -421,7 +423,7 @@ void PulseAudioController::EnumerateSinkInputInfoListCallback(pa_context* contex
   { LOG(LogDebug) << "[PulseAudio] Sink input #" << info->index << ' ' << info->name << " found."; }
   SinkInput newSinkInput;
   newSinkInput.Name = info->name;
-  newSinkInput.Index = info->index;
+  newSinkInput.Index = (int)info->index;
   newSinkInput.Channels = info->channel_map.channels;
 
   This.mSyncer.Lock();
@@ -503,7 +505,8 @@ IAudioController::DeviceList PulseAudioController::GetPlaybackList()
               continue;
 
             String deviceDesc = " ↳ " + profile.Description;
-            if (profile.Name == selectedProfile->Name)
+            if (selectedProfile != nullptr)
+              if (profile.Name == selectedProfile->Name)
                 deviceDesc.Append(" \uf006");
             String displayableString = available ? String("      \u26ab ").Append(deviceDesc).Append(" \u26ab") : String("      \u26aa ").Append(deviceDesc).Append(" \u26aa") ;
             result.push_back({displayableString, card->Name + ':' + port.Name + ':' + profile.Name, AudioIcon::Auto });
@@ -874,13 +877,9 @@ String PulseAudioController::SetDefaultPlayback(const String& originalPlaybackNa
   {
     if (port != nullptr)
       return String(sink->Name).Append(':').Append(port->Name);
-    else
-      return String(sink->Name).Append(':');
+    return String(sink->Name).Append(':');
   }
-  else
-  {
-    return card->Name+":"+port->Name+":"+profile->Name;
-  }
+  return String(card->Name).Append(':').Append(port->Name).Append(':').Append(profile->Name);
 }
 
 int PulseAudioController::GetVolume()
@@ -937,7 +936,7 @@ void PulseAudioController::SetSinkInputVolume(const String& SinkInputName, int v
   Mutex::AutoLock lock(mSyncer);
 
   const PulseAudioController::SinkInput* sinkInput = GetSinkInputFromName(SinkInputName);
-  if (!sinkInput)
+  if (sinkInput == nullptr)
   {
     { LOG(LogError) << "[PulseAudio] Sink input " << SinkInputName << " not found."; }
     return;
@@ -1001,19 +1000,20 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile2(const
   if (targetCard == nullptr || targetPort == nullptr)
     return nullptr;
 
+  // both target card/port cannot be null behind the test above
   const PulseAudioController::Profile* bestProfile = nullptr;
-  { LOG(LogDebug) << "[PulseAudio] Get Best profile for Card:Port : " << ((targetCard != nullptr) ? targetCard->Description : "NULL") << ":" << ((targetPort != nullptr) ? targetPort->Description : "NULL"); }
+  { LOG(LogDebug) << "[PulseAudio] Get Best profile for Card:Port : " << targetCard->Description << ":" << targetPort->Description; }
 
   // Card loop
   for(const Card& card : mCards)
   {
     // Card is non-null? Only target the selected card
-    if (targetCard != nullptr && targetCard != &card) continue;
+    if (targetCard != &card) continue;
 
     for (const Port& port : card.Ports)
     {
       // Port is non-null? Only target the selected port
-      if (targetPort != nullptr && targetPort != &port) continue;
+      if (targetPort != &port) continue;
 
       for(const Profile& profile : port.Profiles)
       {
@@ -1070,7 +1070,7 @@ const PulseAudioController::Profile* PulseAudioController::GetBestProfile(const 
   targetPort = selectedPort;
 
   // Check port
-  if (selectedPort == nullptr)
+  if (selectedPort == nullptr || selectedCard == nullptr)
   { LOG(LogWarning) << "[PulseAudio] No port with available profiles!"; return nullptr; }
 
   // Check available profiles
@@ -1317,11 +1317,15 @@ void PulseAudioController::Refresh()
   }
 }
 
-void PulseAudioController::DisableNotification() {
+void PulseAudioController::DisableNotification()
+{
+  Mutex::AutoLock locker(mAPISyncer);
   mNotification = false;
 }
 
-void PulseAudioController::EnableNotification() {
+void PulseAudioController::EnableNotification()
+{
+  Mutex::AutoLock locker(mAPISyncer);
   mNotification = true;
 }
 

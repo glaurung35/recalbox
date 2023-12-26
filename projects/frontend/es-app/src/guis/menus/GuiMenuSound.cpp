@@ -32,11 +32,13 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
   AddSubMenu(_("PAIR A BLUETOOTH AUDIO DEVICE"), (int)Components::Pair, _(MENUMESSAGE_SOUND_BT_HELP_MSG));
 
   // Set PulseAudioCallback to update the menu
+  AudioController::Instance().EnableNotification();
   AudioController::Instance().SetNotificationCallback(this);
 }
 
 GuiMenuSound::~GuiMenuSound()
 {
+  AudioController::Instance().DisableNotification();
   AudioController::Instance().ClearNotificationCallback();
 }
 

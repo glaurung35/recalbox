@@ -141,6 +141,8 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_OVERCLOCK_HELP_MSG "Overclock your board to increase the performance.\nOverclock settings are tested and validated by the community. Keep in mind that overclocking your board can void your warranty."
     #define MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG "Select which system to show when the recalbox frontend starts. The default value is 'favorites'."
     #define MENUMESSAGE_ADVANCED_BOOTGAMELIST_HELP_MSG "On boot, recalbox will show the list of games of the selected system rather than the system view."
+    #define MENUMESSAGE_ADVANCED_SPLASH_HELP_MSG "Enabled or disable videos on boot."
+
     #define MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG "Only show games contained in the gamelist.xml file (located in your roms directories).\nThis option highly speeds up boot time, but new games will not be detected."
     #define MENUMESSAGE_ADVANCED_HIDESYSTEMVIEW_HELP_MSG "This option allows you to set the selected system to fixed mode. With this option activated, the user cannot access other systems."
     #define MENUMESSAGE_ADVANCED_BASICGAMELISTVIEW_HELP_MSG "Always display the basic gamelist view, even if you have scraped your games."

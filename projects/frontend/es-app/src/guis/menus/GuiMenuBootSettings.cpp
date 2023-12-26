@@ -28,6 +28,9 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
   // Boot on gamelist
   AddSwitch(_("BOOT ON GAMELIST"), RecalboxConf::Instance().GetStartupStartOnGamelist(), (int)Components::StartOnGamelist, this, _(MENUMESSAGE_ADVANCED_BOOTGAMELIST_HELP_MSG));
 
+  // Boot videos
+  AddSwitch(_("BOOT VIDEOS"), RecalboxConf::Instance().GetSplashEnabled(), (int)Components::SplashEnabled, this, _(MENUMESSAGE_ADVANCED_SPLASH_HELP_MSG));
+
   // Hide system view
   AddSwitch(_("HIDE SYSTEM VIEW"), RecalboxConf::Instance().GetStartupHideSystemView(), (int)Components::HideSystemView, this, _(MENUMESSAGE_ADVANCED_HIDESYSTEMVIEW_HELP_MSG));
 }
@@ -70,6 +73,7 @@ void GuiMenuBootSettings::SwitchComponentChanged(int id, bool& status)
     case Components::GamelistOnly: RecalboxConf::Instance().SetStartupGamelistOnly(status).Save(); break;
     case Components::StartOnGamelist: RecalboxConf::Instance().SetStartupStartOnGamelist(status).Save(); break;
     case Components::HideSystemView: RecalboxConf::Instance().SetStartupHideSystemView(status).Save(); break;
+    case Components::SplashEnabled: RecalboxConf::Instance().SetSplashEnabled(status).Save(); break;
     case Components::SelectedSystem:break;
   }
 }

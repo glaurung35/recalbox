@@ -312,6 +312,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalVideoMode, String, String, sGlobalVideoMode, "")
     DefineGetterSetter(KodiVideoMode, String, String, sKodiVideoMode, "")
     DefineGetterSetter(ESForce43, bool, Bool, sESForce43, false)
+    DefineGetterSetter(SplashEnabled, bool, Bool, sSplashEnabled, true)
+
 
     DefineGetterSetter(BatteryHidden, bool, Bool, sBatteryHidden, false)
     DefineGetterSetter(PadOSD, bool, Bool, sPadOSD, false)
@@ -420,6 +422,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalHDMode               = "global.hdmode";
     static constexpr const char* sGlobalWidescreen           = "global.widescreenmode";
     static constexpr const char* sGlobalShowSaveStateBeforeRun = "global.show.savestate.before.run";
+    static constexpr const char* sSplashEnabled              = "system.splash.enabled";
+
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 

@@ -9,6 +9,7 @@
 #include <SDL_hints.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "VideoEngine.h"
+#include "audio/AudioController.h"
 
 #define PIXEL_FORMAT AV_PIX_FMT_RGBA
 

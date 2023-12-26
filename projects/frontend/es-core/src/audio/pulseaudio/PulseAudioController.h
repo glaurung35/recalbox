@@ -48,7 +48,7 @@ class PulseAudioController: public IAudioController
      * @brief Get current running playback name
      * @return Actual playback name in the form of card:profile:port
      */
-    String GetActivePlaybackName();
+    String GetActivePlaybackName() override;
 
     /*!
      * @brief Get volume level, from 0 to 100
@@ -182,7 +182,7 @@ class PulseAudioController: public IAudioController
     IAudioNotification* mNotificationInterface;
 
     //! Enable/disable notifications
-    bool mNotification = true;
+    bool mNotification;
 
     /*!
      * @brief Initialize all

@@ -263,6 +263,9 @@ class LibretroConfigCRT:
                                          "video_allow_rotate": '"true"',
                                          "video_driver": '"gl"'
                                          }
+        if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+            config["video_font_enable"] = '"false"'
+
         core: str = system.Core
         default: bool = True
         game_name: str = Path(rom).stem

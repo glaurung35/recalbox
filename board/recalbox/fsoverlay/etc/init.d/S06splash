@@ -171,6 +171,8 @@ playVideo() {
 }
 
 shouldPlayBootVideo() {
+  splashEnabled="$($systemsetting -command load -key system.splash.enabled -source /boot/recalbox-backup.conf)"
+  if [[ "$splashEnabled" == "0" ]]; then return 1; fi
   autorun="$($systemsetting -command load -key autorun.enabled -source /boot/recalbox-backup.conf)"
   uuid="$($systemsetting -command load -key autorun.uuid -source /boot/recalbox-backup.conf)"
   path="$($systemsetting -command load -key autorun.path -source /boot/recalbox-backup.conf)"

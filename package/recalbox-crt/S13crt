@@ -23,6 +23,7 @@ declare -A ES_JAMMA_CONFIG=(
     ["controllers.steam.enabled"]="0"
     ["controllers.gamecon.enabled"]="0"
     ["controllers.xarcade.enabled"]="0"
+    ["system.splash.enabled"]="0"
 )
 
 declare -A ES_CLEAN_CONFIG=(

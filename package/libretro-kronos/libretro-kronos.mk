@@ -4,9 +4,9 @@
 #
 ################################################################################
 
-# Commit of 2023/02/06 (https://github.com/libretro/yabause/commits/kronos)
-LIBRETRO_KRONOS_VERSION = fec6e18cc6f00933f6303a983935a44302f3075f
-LIBRETRO_KRONOS_SITE = $(call github,libretro,yabause,$(LIBRETRO_KRONOS_VERSION))
+# Commit of 2023/12/29
+LIBRETRO_KRONOS_VERSION = b847da58fd741bb7351e6da92316ae2fb1f95045
+LIBRETRO_KRONOS_SITE = $(call github,FCare,Kronos,$(LIBRETRO_KRONOS_VERSION))
 LIBRETRO_KRONOS_LICENSE = GPL-2.0
 
 ifeq ($(BR2_PACKAGE_HAS_LIBGLES),y)
@@ -18,6 +18,9 @@ endif
 define LIBRETRO_KRONOS_BUILD_CMDS
 	$(SED) "s|-O2|-O3|g" $(@D)/yabause/src/libretro/Makefile
 	$(SED) "s|-lGL|-l$(LIBRETRO_KRONOS_GL)|g" $(@D)/yabause/src/libretro/Makefile
+	mkdir -p $(@D)/build_retro
+	cd $(@D)/build_retro
+	$(MAKE) -C $(@D)/yabause/src/libretro generate-files
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO)" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \

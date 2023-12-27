@@ -316,6 +316,14 @@ comment "intel vulkan needs a glibc toolchain w/ headers >= 3.17"
 	depends on !BR2_TOOLCHAIN_HEADERS_AT_LEAST_3_17 || \
 		!BR2_TOOLCHAIN_USES_GLIBC
 
+config BR2_PACKAGE_MESA3D_RPI5_VULKAN_DRIVER_BROADCOM
+	bool "Vulkan Broadcom driver"
+	depends on BR2_arm || BR2_aarch64
+	depends on BR2_TOOLCHAIN_USES_GLIBC # ifunc, static_assert
+	select BR2_PACKAGE_MESA3D_RPI5_VULKAN_DRIVER
+	help
+	  Vulkan driver for Broadcom hardware from v3dv Raspberry PI 5.
+
 comment "Off-screen Rendering"
 
 config BR2_PACKAGE_MESA3D_RPI5_OSMESA_GALLIUM

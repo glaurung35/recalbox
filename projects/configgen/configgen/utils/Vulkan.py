@@ -6,4 +6,4 @@ class Vulkan:
     @staticmethod
     def vulkanAvailable():
         # Remove the pi5 condition when vulkan available
-        return os.path.exists("/usr/lib/libvulkan.so") and not Architecture().isPi5
+        return os.path.exists("/usr/lib/libvulkan.so")

@@ -61,7 +61,7 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
     case Components::GameClipView: RecalboxConf::Instance().SetThemeGameClipView(mThemeName, value).Save(); break;
     case Components::Region: RecalboxConf::Instance().SetThemeRegion(mThemeName, value).Save(); break;
   }
-  ThemeManager::Instance().DoThemeChange();
+  ThemeManager::Instance().DoThemeChange(&mWindow);
 }
 
 GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const String::List& items, Components id, String& original)

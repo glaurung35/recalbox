@@ -27,7 +27,7 @@ class WindowManager
 
     void pushGui(Gui* gui);
 
-    void RemoveGui(Gui* gui);
+    bool RemoveGui(Gui* gui);
 
     void displayMessage(const String& message, bool urgent = true);
 

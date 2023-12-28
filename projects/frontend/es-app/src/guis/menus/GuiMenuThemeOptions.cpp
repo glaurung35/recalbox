@@ -66,15 +66,16 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const St
   {
     if (Board::Instance().CrtBoard().IsCrtAdapterAttached() && value != "recalbox-240p")
     {
+      WindowManager* window = &mWindow;
       Gui* gui = new GuiMsgBox(mWindow, _("Are you sure the selected theme is compatible with CRT screens?"),
-                               _("YES"), [value] { RecalboxConf::Instance().SetThemeFolder(value).Save(); ThemeManager::Instance().DoThemeChange(); },
+                               _("YES"), [value, window] { RecalboxConf::Instance().SetThemeFolder(value).Save(); ThemeManager::Instance().DoThemeChange(window); },
                                _("NO"), [this, index] { mTheme->setSelectedIndex(index); });
       mWindow.pushGui(gui);
     }
     else
     {
       RecalboxConf::Instance().SetThemeFolder(value).Save();
-      ThemeManager::Instance().DoThemeChange();
+      ThemeManager::Instance().DoThemeChange(&mWindow);
     }
   }
 }

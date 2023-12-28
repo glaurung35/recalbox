@@ -470,7 +470,7 @@ bool SystemView::getHelpPrompts(Help& help)
   populate();
 }*/
 
-void SystemView::SwitchToTheme(ThemeData& uselessTheme, bool refreshOnly)
+void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly)
 {
   (void)uselessTheme;
 

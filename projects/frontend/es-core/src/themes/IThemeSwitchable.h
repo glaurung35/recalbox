@@ -29,5 +29,5 @@ class IThemeSwitchable
      * @param theme New Theme
      * @param refreshOnly True if the theme dit not change and the implementation must refresh only (i.e: apply new values)
      */
-    virtual void SwitchToTheme(ThemeData& theme, bool refreshOnly) = 0;
+    virtual void SwitchToTheme(const ThemeData& theme, bool refreshOnly) = 0;
 };

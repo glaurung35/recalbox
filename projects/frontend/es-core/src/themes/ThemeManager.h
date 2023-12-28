@@ -32,7 +32,7 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     ~ThemeManager();
 
     //! Load initial theme
-    void Initialize();
+    void Initialize(WindowManager* window);
 
     /*!
      * @brief Get a list of available theme
@@ -74,9 +74,10 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     /*!
      * @brief Theme or theme configuration has changed, reload main, menu & all existing system themes
      * then, apply theme in all UIs
+     * @param window Window manager
      * @param force True to force theme reload
      */
-    void DoThemeChange(bool force = false);
+    void DoThemeChange(WindowManager* window, bool force = false);
 
   private:
     //! Global file cache

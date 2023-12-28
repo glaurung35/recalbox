@@ -20,6 +20,7 @@
 #include "RecalboxConf.h"
 
 class GameClipContainer : public Gui
+                        , public IThemeSwitchable
 {
 
   private:
@@ -65,9 +66,24 @@ class GameClipContainer : public Gui
     FileData* mGame;
     SystemData* mSystem;
 
-    void onThemeChanged(const ThemeData& theme);
-
     void initComponents();
+
+    /*
+     * IThemeSwitchable
+     */
+
+    /*!
+     * @brief Gameclip view has a current game's system
+     * @return SystemData
+     */
+    [[nodiscard]] SystemData* SystemTheme() const override { return mSystem; };
+
+    /*!
+     * @brief Called when theme switch.
+     * @param theme New Theme
+     * @param refreshOnly True if we need to refresh the current view only
+     */
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly) override;
 
   public:
 

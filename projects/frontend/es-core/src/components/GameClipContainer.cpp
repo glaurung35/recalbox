@@ -203,15 +203,16 @@ void GameClipContainer::initMDValues()
   mFavorite.setFont(defaultFont);
   mDescription.setFont(defaultFont);
 
-  for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
+  for (auto & value : values)
   {
-    values[i]->setDefaultZIndex(50);
-    values[i]->setThemeDisabled(true);
+    value->setDefaultZIndex(50);
+    value->setThemeDisabled(true);
   }
 }
 
-void GameClipContainer::onThemeChanged(const ThemeData& theme)
+void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
 {
+  (void)refreshOnly;
   initComponents();
   if (theme.getGameClipView() != ThemeData::getNoTheme())
   {
@@ -382,7 +383,7 @@ void GameClipContainer::setGameInfo(FileData* game)
   mSystem = &mGame->System();
   mSystemName.setValue(mGame->System().FullName());
 
-  onThemeChanged(mSystem->Theme());
+  SwitchToTheme(mSystem->Theme(), true);
 
   mGameName.setValue(mGame->Metadata().Name());
   mRating.setValue(mGame->Metadata().RatingAsString());

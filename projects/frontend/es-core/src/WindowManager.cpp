@@ -50,17 +50,20 @@ void WindowManager::pushGui(Gui* gui)
   UpdateHelpSystem();
 }
 
-void WindowManager::RemoveGui(Gui* gui)
+bool WindowManager::RemoveGui(Gui* gui)
 {
   Gui* previousTop = peekGui();
+  bool result = false;
   for(int i = mGuiStack.Count(); --i >= 0;)
     if (mGuiStack[i] == gui)
     {
       gui->onHide();
       mGuiStack.PopAt(i);
+      result = true;
     }
   if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
   if (!HasGui()) NotifyViewChanges();
+  return result;
 }
 
 void WindowManager::deleteClosePendingGui()

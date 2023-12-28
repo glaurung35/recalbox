@@ -63,7 +63,7 @@ class HelpComponent : public ThemableComponent
      * @param theme New Theme
      * @param refreshOnly True if we need to refresh components only
      */
-    void SwitchToTheme(ThemeData& theme, bool refreshOnly) override;
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly) override;
 
     /*
      * Themable implemantation

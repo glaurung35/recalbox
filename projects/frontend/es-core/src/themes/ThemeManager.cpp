@@ -4,6 +4,8 @@
 
 #include "ThemeManager.h"
 #include "RootFolders.h"
+#include "guis/GuiSyncWaiter.h"
+#include "utils/locale/LocaleHelper.h"
 #include <systems/SystemData.h>
 
 ThemeManager::ThemeManager()
@@ -13,9 +15,9 @@ ThemeManager::ThemeManager()
   ThemeSupport::InitializeStatics();
 }
 
-void ThemeManager::Initialize()
+void ThemeManager::Initialize(WindowManager* window)
 {
-  DoThemeChange();
+  DoThemeChange(window);
 }
 
 ThemeManager::~ThemeManager()
@@ -77,7 +79,7 @@ const SystemData* ThemeManager::ThreadPoolRunJob(const SystemData*& feed)
   return feed;
 }
 
-void ThemeManager::DoThemeChange(bool force)
+void ThemeManager::DoThemeChange(WindowManager* window, bool force)
 {
   DateTime start;
   Path newPath = GetThemeRootPath();
@@ -88,6 +90,14 @@ void ThemeManager::DoThemeChange(bool force)
   //! Clear cache if required
   bool update = (newPath == mRootPath);
   if (!update || force) mCache.Clear();
+
+  GuiSyncWaiter* waiter = nullptr;
+  if (!mRootPath.IsEmpty())
+  {
+    waiter = new GuiSyncWaiter(*window, update ? _("Updating current theme...") :
+                               (_F(_("Loading new theme {0}")) / newPath.FilenameWithoutExtension()).ToString());
+    waiter->Show();
+  }
 
   // Reload Main themes
   LoadMainTheme();
@@ -103,6 +113,12 @@ void ThemeManager::DoThemeChange(bool force)
   // Refresh
   NotifyThemeChanged(update);
   { LOG(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
+
+  if (waiter != nullptr)
+  {
+    waiter->Hide();
+    delete waiter;
+  }
 }
 
 void ThemeManager::NotifyThemeChanged(bool refreshOnly)

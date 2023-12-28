@@ -120,7 +120,7 @@ MainRunner::ExitState MainRunner::Run()
 
     // Theme manager
     ThemeManager themeManager;
-    themeManager.Initialize();
+    themeManager.Initialize(nullptr);
 
     // Initialize main Window and ViewController
     ApplicationWindow window(systemManager);
@@ -1196,7 +1196,7 @@ void MainRunner::ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut)
     }
     case Shortcut::Refresh:
     {
-      ThemeManager::Instance().DoThemeChange(true);
+      ThemeManager::Instance().DoThemeChange(mApplicationWindow, true);
       break;
     }
     case Shortcut::Search:

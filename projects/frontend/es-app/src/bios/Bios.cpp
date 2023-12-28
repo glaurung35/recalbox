@@ -64,6 +64,7 @@ void Bios::Scan()
   for(int i = sMaxBiosPath; --i >= 0;)
   {
     Path rawPath = mPath[i];
+    if (rawPath.IsEmpty()) continue;
     Path path = rawPath.IsAbsolute() ? rawPath : mBiosRoot / rawPath;
     if (!path.Exists())
     {

@@ -165,9 +165,10 @@ void DetailedGameListView::Initialize()
   updateInfoPanel();
 }
 
-void DetailedGameListView::onThemeChanged(const ThemeData& theme)
+void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
 {
-  ISimpleGameListView::onThemeChanged(theme);
+  ISimpleGameListView::SwitchToTheme(theme, refreshOnly);
+
   mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertyCategory::All);
   // Set color 2/3 50% transparent of color 0/1
   mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));

@@ -114,21 +114,24 @@ void SystemView::addSystem(SystemData * it)
     }
   }
 
-  if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
+  if (e.data.logo)
   {
-    if      (mCarousel.logoAlignment == TextAlignment::Left)  e.data.logo->setOrigin(0, 0.5);
-    else if (mCarousel.logoAlignment == TextAlignment::Right) e.data.logo->setOrigin(1.0, 0.5);
-    else                                                      e.data.logo->setOrigin(0.5, 0.5);
-  }
-  else
-  {
-    if      (mCarousel.logoAlignment == TextAlignment::Top)    e.data.logo->setOrigin(0.5, 0);
-    else if (mCarousel.logoAlignment == TextAlignment::Bottom) e.data.logo->setOrigin(0.5, 1);
-    else                                                       e.data.logo->setOrigin(0.5, 0.5);
-  }
+    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
+    {
+      if (mCarousel.logoAlignment == TextAlignment::Left) e.data.logo->setOrigin(0, 0.5);
+      else if (mCarousel.logoAlignment == TextAlignment::Right) e.data.logo->setOrigin(1.0, 0.5);
+      else e.data.logo->setOrigin(0.5, 0.5);
+    }
+    else
+    {
+      if (mCarousel.logoAlignment == TextAlignment::Top) e.data.logo->setOrigin(0.5, 0);
+      else if (mCarousel.logoAlignment == TextAlignment::Bottom) e.data.logo->setOrigin(0.5, 1);
+      else e.data.logo->setOrigin(0.5, 0.5);
+    }
 
-  Vector2f denormalized = mCarousel.logoSize * e.data.logo->getOrigin();
-  e.data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
+    Vector2f denormalized = mCarousel.logoSize * e.data.logo->getOrigin();
+    e.data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
+  }
 
   if (e.data.logotext)
   {
@@ -145,7 +148,7 @@ void SystemView::addSystem(SystemData * it)
       else                                                       e.data.logotext->setOrigin(0.5, 0.5);
     }
 
-    denormalized = mCarousel.logoSize * e.data.logotext->getOrigin();
+    Vector2f denormalized = mCarousel.logoSize * e.data.logotext->getOrigin();
     e.data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
   }
 
@@ -462,7 +465,7 @@ bool SystemView::getHelpPrompts(Help& help)
   populate();
 }*/
 
-void SystemView::SwitchToTheme(ThemeData& uselessTheme, bool refreshOnly)
+void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly)
 {
   (void)uselessTheme;
 

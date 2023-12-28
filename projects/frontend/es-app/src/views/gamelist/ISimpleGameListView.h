@@ -21,6 +21,7 @@ enum class FileChangeType
 };
 
 class ISimpleGameListView : public Gui
+                          , private IThemeSwitchable
 {
   public:
     enum class Change
@@ -50,9 +51,6 @@ class ISimpleGameListView : public Gui
      * @brief Refresh name & properties of the given item
      */
     virtual void RefreshItem(FileData* game) = 0;
-
-    // Called whenever the theme changes.
-    virtual void onThemeChanged(const ThemeData& theme);
 
     bool ProcessInput(const InputCompactEvent& event) override;
 
@@ -110,7 +108,7 @@ class ISimpleGameListView : public Gui
     void DoInitialize()
     {
       Initialize();
-      onThemeChanged(mSystem.Theme());
+      SwitchToTheme(mSystem.Theme(), false);
     }
 
     /*!
@@ -156,10 +154,26 @@ class ISimpleGameListView : public Gui
 
     std::stack<FolderData*> mCursorStack;
 
+    /*
+     * IThemeSwitchable
+     */
+
+    /*!
+     * @brief Gamelist view process their own attached system
+     * @return SystemData
+     */
+    [[nodiscard]] SystemData* SystemTheme() const override { return &mSystem; };
+
+    /*!
+     * @brief Called when theme switch.
+     * @param theme New Theme
+     * @param refreshOnly True if we need to refresh the current view only
+     */
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly) override;
+
   private:
 
     bool mVerticalMove;
 
-    bool IsFavoriteSystem()
-    { return mSystem.IsFavorite(); }
+    bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
 };

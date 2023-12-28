@@ -46,7 +46,7 @@ void ISimpleGameListView::updateInfoPanel()
     OnGameSelected();
 }
 
-void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
+void ISimpleGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
 {
   mBackground.DoApplyThemeElement(theme, getName(), "background", ThemePropertyCategory::All);
   mHeaderImage.DoApplyThemeElement(theme, getName(), "logo", ThemePropertyCategory::All);
@@ -56,7 +56,7 @@ void ISimpleGameListView::onThemeChanged(const ThemeData& theme)
   for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
     removeChild(&extra.Component());
   // Add new theme extras
-  mThemeExtras.AssignExtras(theme.GetExtras(getName(), mWindow), false);
+  mThemeExtras.AssignExtras(theme.GetExtras(getName(), mWindow), refreshOnly);
   for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
     addChild(&extra.Component());
 

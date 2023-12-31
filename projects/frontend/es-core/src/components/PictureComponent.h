@@ -7,8 +7,9 @@
 #include <utils/String.h>
 #include <memory>
 #include "resources/TextureResource.h"
+#include <components/base/ThemableComponent.h>
 
-class PictureComponent : public Component
+class PictureComponent : public ThemableComponent
 {
   public:
     PictureComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic);
@@ -55,8 +56,6 @@ class PictureComponent : public Component
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    void applyTheme(const ThemeData& theme, const String& view, const String& element, ThemePropertyCategory properties);
-
     /*!
      * @brief Set component visibility
      * @param enabled True (default) to render the component, false to hide it
@@ -68,6 +67,19 @@ class PictureComponent : public Component
      * @param enabled True (default) to render the component, false to hide it
      */
     [[nodiscard]] bool Visible() const { return mVisible; }
+
+    /*!
+     * @brief Apply theme element to this image
+     * @param element Theme element
+     * @param properties Properties to set
+     */
+    void OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties) override;
+
+    /*!
+     * @brief Return theme element type
+     * @return Element type
+     */
+    [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Image; }
 
   private:
     Path mPath;

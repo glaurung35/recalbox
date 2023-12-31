@@ -10,7 +10,7 @@
 #include <utils/locale/LocaleHelper.h>
 
 PictureComponent::PictureComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
-  : Component(window)
+  : ThemableComponent(window)
   , mPath(imagePath)
   , mColorShift(0xFFFFFFFF)
   , mFadeOpacity(0.0f)
@@ -115,62 +115,18 @@ void PictureComponent::fadeIn(bool textureLoaded) {
   }
 }
 
-void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemeProperties properties)
+void PictureComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  const ThemeElement* elem = theme.getElement(view, element, "image");
-  if (elem == nullptr) {
-    return;
-  }
-
-  Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-
-  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("pos")) {
-    Vector2f denormalized = elem->AsVector("pos") * scale;
-    setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
-  }
-
-  if (hasFlag(properties,ThemeProperties::Size)) {
-    if (elem->HasProperty("size")) {
-      setSize(elem->AsVector("size") * scale);
-      setKeepRatio(false);
-    } else if (elem->HasProperty("maxSize")) {
-      setSize(elem->AsVector("maxSize") * scale);
-      setKeepRatio(true);
-    }
-  }
-
-  // position + size also implies origin
-  if ((hasFlag(properties, ThemeProperties::Origin) || (hasFlags(properties, ThemeProperties::Position, ThemeProperties::Size))) && elem->HasProperty("origin")) {
-    setOrigin(elem->AsVector("origin"));
-  }
-
-  if (hasFlag(properties, ThemeProperties::Path) && elem->HasProperty("path")) {
-    bool tile = (elem->HasProperty("tile") && elem->AsBool("tile"));
-    setImage(Path(elem->AsString("path")), tile);
-  }
-
-  if (hasFlag(properties, ThemeProperties::Color) && elem->HasProperty("color")) {
-    setColor((unsigned int)elem->AsInt("color"));
-  }
-
-  if (hasFlag(properties, ThemeProperties::Rotation)) {
-    if (elem->HasProperty("rotation")) {
-      setRotationDegrees(elem->AsFloat("rotation"));
-    }
-    if (elem->HasProperty("rotationOrigin")) {
-      setRotationOrigin(elem->AsVector("rotationOrigin"));
-    }
-  }
-
-  if (hasFlag(properties, ThemeProperties::ZIndex) && elem->HasProperty("zIndex")) {
-    setZIndex(elem->AsFloat("zIndex"));
-  } else {
-    setZIndex(getDefaultZIndex());
-  }
-
-  if (hasFlag(properties, ThemeProperties::Position) && elem->HasProperty("disabled"))
+  if (hasFlag(properties, ThemePropertyCategory::Size))
   {
-    mThemeDisabled = elem->AsBool("disabled");
+    if (element.HasProperty(ThemePropertyName::Size)) setKeepRatio(false);
+    else if (element.HasProperty(ThemePropertyName::MaxSize)) setKeepRatio(true);
   }
-}
 
+  if (hasFlag(properties, ThemePropertyCategory::Path))
+    setImage(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
+             (element.HasProperty(ThemePropertyName::Tile) && element.AsBool(ThemePropertyName::Tile)));
+
+  if (hasFlag(properties, ThemePropertyCategory::Color))
+    mColorShift = element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF;
+}

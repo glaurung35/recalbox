@@ -5,22 +5,23 @@
 #include <themes/ThemeData.h>
 #include <utils/locale/LocaleHelper.h>
 
-Vector2i ImageComponent::getTextureSize() const {
-    if (mTexture) {
-        return mTexture->getSize();
-    }
-    return Vector2i::Zero();
+Vector2i ImageComponent::getTextureSize() const
+{
+  if (mTexture)
+  {
+    return mTexture->getSize();
+  }
+  return Vector2i::Zero();
 }
 
-ImageComponent::ImageComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
-  : Component(window)
-  , ThemableComponent(window)
+ImageComponent::ImageComponent(WindowManager& window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
+  : ThemableComponent(window)
   , mTargetSize(0, 0)
   , mPath(imagePath)
   , mFlipX(false)
   , mFlipY(false)
-  , mVertices{ { { 0, 0 }, { 0, 0 } } }
-  , mColors{ 0 }
+  , mVertices {{{ 0, 0 }, { 0, 0 }}}
+  , mColors {0}
   , mColorShift(0xFFFFFFFF)
   , mOriginColor(0)
   , mFadeOpacity(0.0f)
@@ -35,67 +36,81 @@ ImageComponent::ImageComponent(WindowManager&window, bool keepRatio, const Path&
   updateColors();
 }
 
-void ImageComponent::resize() {
-    if (!mTexture) {
-        return;
+void ImageComponent::resize()
+{
+  if (!mTexture)
+  {
+    return;
+  }
+
+  const Vector2f textureSize = mTexture->getSourceImageSize();
+  if (textureSize.isZero())
+    return;
+
+  if (mTexture->isTiled())
+  {
+    mSize = mTargetSize;
+  }
+  else
+  {
+    // SVG rasterization is determined by height (see SVGResource.cpp), and rasterization is done in terms of pixels
+    // if rounding is off enough in the rasterization step (for images with extreme aspect ratios), it can cause cutoff when the aspect ratio breaks
+    // so, we always make sure the resultant height is an integer to make sure cutoff doesn't happen, and scale width from that
+    // (you'll see this scattered throughout the function)
+    // this is probably not the best way, so if you're familiar with this problem and have a better solution, please make a pull request!
+
+    if (mKeepRatio)
+    {
+      mSize = textureSize;
+
+      Vector2f resizeScale((mTargetSize.x() / mSize.x()), (mTargetSize.y() / mSize.y()));
+
+      if (resizeScale.x() < resizeScale.y())
+      {
+        mSize[0] *= resizeScale.x();
+        mSize[1] *= resizeScale.x();
+      }
+      else
+      {
+        mSize[0] *= resizeScale.y();
+        mSize[1] *= resizeScale.y();
+      }
+
+      // for SVG rasterization, always calculate width from rounded height (see comment above)
+      mSize[1] = Math::round(mSize[1]);
+      mSize[0] = (mSize[1] / textureSize.y()) * textureSize.x();
+
     }
+    else
+    {
+      // if both components are set, we just stretch
+      // if no components are set, we don't resize at all
+      mSize = mTargetSize.isZero() ? textureSize : mTargetSize;
 
-    const Vector2f textureSize = mTexture->getSourceImageSize();
-    if (textureSize.isZero())
-        return;
-
-    if (mTexture->isTiled()) {
-        mSize = mTargetSize;
-    } else {
-        // SVG rasterization is determined by height (see SVGResource.cpp), and rasterization is done in terms of pixels
-        // if rounding is off enough in the rasterization step (for images with extreme aspect ratios), it can cause cutoff when the aspect ratio breaks
-        // so, we always make sure the resultant height is an integer to make sure cutoff doesn't happen, and scale width from that 
-        // (you'll see this scattered throughout the function)
-        // this is probably not the best way, so if you're familiar with this problem and have a better solution, please make a pull request!
-
-        if (mKeepRatio) {
-            mSize = textureSize;
-
-            Vector2f resizeScale((mTargetSize.x() / mSize.x()), (mTargetSize.y() / mSize.y()));
-            
-            if (resizeScale.x() < resizeScale.y()) {
-                mSize[0] *= resizeScale.x();
-                mSize[1] *= resizeScale.x();
-            } else {
-                mSize[0] *= resizeScale.y();
-                mSize[1] *= resizeScale.y();
-            }
-
-            // for SVG rasterization, always calculate width from rounded height (see comment above)
-            mSize[1] = Math::round(mSize[1]);
-            mSize[0] = (mSize[1] / textureSize.y()) * textureSize.x();
-
-        } else {
-            // if both components are set, we just stretch
-            // if no components are set, we don't resize at all
-            mSize = mTargetSize.isZero() ? textureSize : mTargetSize;
-
-            // if only one component is set, we resize in a way that maintains aspect ratio
-            // for SVG rasterization, we always calculate width from rounded height (see comment above)
-            if (mTargetSize.x() == 0 && mTargetSize.y() != 0) {
-                mSize[1] = Math::round(mTargetSize.y());
-                mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
-            } else if (mTargetSize.x() != 0 && mTargetSize.y() == 0) {
-                mSize[1] = Math::round((mTargetSize.x() / textureSize.x()) * textureSize.y());
-                mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
-            }
-        }
+      // if only one component is set, we resize in a way that maintains aspect ratio
+      // for SVG rasterization, we always calculate width from rounded height (see comment above)
+      if (mTargetSize.x() == 0 && mTargetSize.y() != 0)
+      {
+        mSize[1] = Math::round(mTargetSize.y());
+        mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
+      }
+      else if (mTargetSize.x() != 0 && mTargetSize.y() == 0)
+      {
+        mSize[1] = Math::round((mTargetSize.x() / textureSize.x()) * textureSize.y());
+        mSize[0] = (mSize.y() / textureSize.y()) * textureSize.x();
+      }
     }
+  }
 
-    // mSize.y() should already be rounded
-    mTexture->rasterizeAt(Math::roundi(mSize.x()), Math::roundi(mSize.y()));
+  // mSize.y() should already be rounded
+  mTexture->rasterizeAt(Math::roundi(mSize.x()), Math::roundi(mSize.y()));
 
-    onSizeChanged();
+  onSizeChanged();
 }
 
 void ImageComponent::onSizeChanged()
 {
-    updateVertices();
+  updateVertices();
 }
 
 void ImageComponent::setImage(const Path& path, bool tile)
@@ -131,16 +146,17 @@ void ImageComponent::setImage(const std::shared_ptr<TextureResource>& texture)
 
 void ImageComponent::setResize(float width, float height)
 {
-  if (width != mTargetSize.x() || height != mTargetSize.y() || mTargetIsMax)
+  if (width != mTargetSize.x() || height != mTargetSize.y())
   {
     mTargetSize.Set(width, height);
     resize();
   }
 }
 
-void ImageComponent::setNormalisedSize(float width, float height) {
-    Vector2f pos = denormalise(width, height);
-    setSize(pos.x(), pos.y());
+void ImageComponent::setNormalisedSize(float width, float height)
+{
+  Vector2f pos = denormalise(width, height);
+  setSize(pos.x(), pos.y());
 }
 
 void ImageComponent::setFlipX(bool flip)
@@ -179,7 +195,8 @@ void ImageComponent::setColorShift(unsigned int color)
   }
 }
 
-void ImageComponent::setColor(unsigned int color) { setColorShift(color);}
+void ImageComponent::setColor(unsigned int color)
+{ setColorShift(color); }
 
 void ImageComponent::setOpacity(unsigned char opacity)
 {
@@ -193,139 +210,162 @@ void ImageComponent::setOpacity(unsigned char opacity)
 
 void ImageComponent::updateVertices()
 {
-    if (!mTexture || !mTexture->isInitialized()) {
-        return;
-    }
+  if (!mTexture || !mTexture->isInitialized())
+  {
+    return;
+  }
 
-    // we go through this mess to make sure everything is properly rounded
-    // if we just round vertices at the end, edge cases occur near sizes of 0.5
-    Vector2f topLeft(0.0, 0.0);
-    Vector2f bottomRight(Math::round(mSize.x()), Math::round(mSize.y()));
+  // we go through this mess to make sure everything is properly rounded
+  // if we just round vertices at the end, edge cases occur near sizes of 0.5
+  Vector2f topLeft(0.0, 0.0);
+  Vector2f bottomRight(Math::round(mSize.x()), Math::round(mSize.y()));
 
-    mVertices[0].pos.Set(topLeft.x(), topLeft.y());
-    mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
-    mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
+  mVertices[0].pos.Set(topLeft.x(), topLeft.y());
+  mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
+  mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
 
-    mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
-    mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
-    mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
+  mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
+  mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
+  mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
 
-    float px = 1, py = 1;
-    if (mTexture->isTiled()) {
-        px = mSize.x() / (float)getTextureSize().x();
-        py = mSize.y() / (float)getTextureSize().y();
-    }
+  float px = 1, py = 1;
+  if (mTexture->isTiled())
+  {
+    px = mSize.x() / (float) getTextureSize().x();
+    py = mSize.y() / (float) getTextureSize().y();
+  }
 
-    mVertices[0].tex.Set(0, py);
-    mVertices[1].tex.Set(0, 0);
-    mVertices[2].tex.Set(px, py);
+  mVertices[0].tex.Set(0, py);
+  mVertices[1].tex.Set(0, 0);
+  mVertices[2].tex.Set(px, py);
 
-    mVertices[3].tex.Set(px, py);
-    mVertices[4].tex.Set(0, 0);
-    mVertices[5].tex.Set(px, 0);
+  mVertices[3].tex.Set(px, py);
+  mVertices[4].tex.Set(0, 0);
+  mVertices[5].tex.Set(px, 0);
 
-    if (mFlipX)
-    {
-      for (auto & mVertice : mVertices)
-            mVertice.tex[0] = mVertice.tex[0] == px ? 0 : px;
-    }
-    if (mFlipY) {
-      for (auto & mVertice : mVertices)
-            mVertice.tex[1] = mVertice.tex[1] == py ? 0 : py;
-    }
+  if (mFlipX)
+  {
+    for (auto& mVertice: mVertices)
+      mVertice.tex[0] = mVertice.tex[0] == px ? 0 : px;
+  }
+  if (mFlipY)
+  {
+    for (auto& mVertice: mVertices)
+      mVertice.tex[1] = mVertice.tex[1] == py ? 0 : py;
+  }
 }
 
 void ImageComponent::updateColors()
 {
-    Renderer::BuildGLColorArray(mColors, mColorShift, 6);
+  Renderer::BuildGLColorArray(mColors, mColorShift, 6);
 }
 
 void ImageComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mThemeDisabled || !mVisible)
-      return;
+  if (mThemeDisabled || !mVisible)
+    return;
 
-    Transform4x4f trans = parentTrans * getTransform();
-    Renderer::SetMatrix(trans);
-    
-    if (mTexture && mOpacity > 0) {
-        if (mTexture->isInitialized()) {
-            // actually draw the image
-            // The bind() function returns false if the texture is not currently loaded. A blank
-            // texture is bound in this case but we want to handle a fade so it doesn't just 'jump' in
-            // when it finally loads
-            fadeIn(mTexture->bind());
+  Transform4x4f trans = parentTrans * getTransform();
+  Renderer::SetMatrix(trans);
 
-            glEnable(GL_TEXTURE_2D);
-            glEnable(GL_BLEND);
-            glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  if (mTexture && mOpacity > 0)
+  {
+    if (mTexture->isInitialized())
+    {
+      // actually draw the image
+      // The bind() function returns false if the texture is not currently loaded. A blank
+      // texture is bound in this case but we want to handle a fade so it doesn't just 'jump' in
+      // when it finally loads
+      fadeIn(mTexture->bind());
 
-            glEnableClientState(GL_VERTEX_ARRAY);
-            glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-            glEnableClientState(GL_COLOR_ARRAY);
+      glEnable(GL_TEXTURE_2D);
+      glEnable(GL_BLEND);
+      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-            glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].pos);
-            glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
-            glColorPointer(4, GL_UNSIGNED_BYTE, 0, mColors);
+      glEnableClientState(GL_VERTEX_ARRAY);
+      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+      glEnableClientState(GL_COLOR_ARRAY);
 
-            glDrawArrays(GL_TRIANGLES, 0, 6);
+      glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].pos);
+      glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
+      glColorPointer(4, GL_UNSIGNED_BYTE, 0, mColors);
 
-            glDisableClientState(GL_VERTEX_ARRAY);
-            glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-            glDisableClientState(GL_COLOR_ARRAY);
+      glDrawArrays(GL_TRIANGLES, 0, 6);
 
-            glDisable(GL_TEXTURE_2D);
-            glDisable(GL_BLEND);
-        } else {
-          { LOG(LogError) << "[ImageComponent] Image texture is not initialized!"; }
-            mTexture.reset();
-        }
+      glDisableClientState(GL_VERTEX_ARRAY);
+      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+      glDisableClientState(GL_COLOR_ARRAY);
+
+      glDisable(GL_TEXTURE_2D);
+      glDisable(GL_BLEND);
     }
+    else
+    {
+      { LOG(LogError) << "[ImageComponent] Image texture is not initialized!"; }
+      mTexture.reset();
+    }
+  }
 
-    Component::renderChildren(trans);
+  Component::renderChildren(trans);
 }
 
-void ImageComponent::fadeIn(bool textureLoaded) {
-    if (!mForceLoad) {
-        if (!textureLoaded) {
-            // Start the fade if this is the first time we've encountered the unloaded texture
-            if (!mFading) {
-                // Start with a zero opacity and flag it as fading
-                mFadeOpacity = 0;
-                mFading = true;
-                // Set the colours to be translucent
-                mColorShift = (mColorShift >> 8 << 8) | 0;
-                updateColors();
-            }
-        }
-        else if (mFading) {
-            // The texture is loaded and we need to fade it in. The fade is based on the frame rate
-            // and is 1/4 second if running at 60 frames per second although the actual value is not
-            // that important
-            int opacity = mFadeOpacity + 255 / 15;
-            // See if we've finished fading
-            if (opacity >= 255) {
-                mFadeOpacity = 255;
-                mFading = false;
-            }
-            else {
-                mFadeOpacity = (unsigned char)opacity;
-            }
-            // Apply the combination of the target opacity and current fade
-            float newOpacity = (float)mOpacity * ((float)mFadeOpacity / 255.0f);
-            mColorShift = (mColorShift >> 8 << 8) | (unsigned char)newOpacity;
-            updateColors();
-        }
+void ImageComponent::fadeIn(bool textureLoaded)
+{
+  if (!mForceLoad)
+  {
+    if (!textureLoaded)
+    {
+      // Start the fade if this is the first time we've encountered the unloaded texture
+      if (!mFading)
+      {
+        // Start with a zero opacity and flag it as fading
+        mFadeOpacity = 0;
+        mFading = true;
+        // Set the colours to be translucent
+        mColorShift = (mColorShift >> 8 << 8) | 0;
+        updateColors();
+      }
     }
+    else if (mFading)
+    {
+      // The texture is loaded and we need to fade it in. The fade is based on the frame rate
+      // and is 1/4 second if running at 60 frames per second although the actual value is not
+      // that important
+      int opacity = mFadeOpacity + 255 / 15;
+      // See if we've finished fading
+      if (opacity >= 255)
+      {
+        mFadeOpacity = 255;
+        mFading = false;
+      }
+      else
+      {
+        mFadeOpacity = (unsigned char) opacity;
+      }
+      // Apply the combination of the target opacity and current fade
+      float newOpacity = (float) mOpacity * ((float) mFadeOpacity / 255.0f);
+      mColorShift = (mColorShift >> 8 << 8) | (unsigned char) newOpacity;
+      updateColors();
+    }
+  }
 }
 
 void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
   if (hasFlag(properties, ThemePropertyCategory::Size))
   {
-    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-    if (element.HasProperty(ThemePropertyName::Size)) setResize(element.AsVector(ThemePropertyName::Size) * scale);
-    else if (element.HasProperty(ThemePropertyName::MaxSize)) setMaxSize(element.AsVector(ThemePropertyName::MaxSize) * scale);
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(
+      Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+    if (element.HasProperty(ThemePropertyName::Size))
+    {
+      setKeepRatio(false);
+      setResize(element.AsVector(ThemePropertyName::Size) * scale);
+    }
+    else if (element.HasProperty(ThemePropertyName::MaxSize))
+    {
+      setKeepRatio(true);
+      setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
+    }
   }
 
   if (hasFlag(properties, ThemePropertyCategory::Path))
@@ -333,7 +373,8 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
              (element.HasProperty(ThemePropertyName::Tile) && element.AsBool(ThemePropertyName::Tile)));
 
   if (hasFlag(properties, ThemePropertyCategory::Color))
-    setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF);
+    setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int) element.AsInt(ThemePropertyName::Color)
+                                                                : 0xFFFFFFFF);
 }
 
 bool ImageComponent::getHelpPrompts(Help& help)

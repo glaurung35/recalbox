@@ -3,7 +3,6 @@
 
 #include <EmulationStation.h>
 #include <utils/Log.h>
-#include <utils//cplusplus/SegFault.h>
 #include "MainRunner.h"
 
 bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height, bool& windowed, bool& debug, bool& trace)
@@ -60,10 +59,10 @@ bool parseArgs(int argc, char* argv[], unsigned int& width, unsigned int& height
   return true;
 }
 
+#include <bluetooth/DeviceStatus.h>
+
 int main(int argc, char* argv[], char** env)
 {
-  InitSegvCatcher();
-
   Log::Open("frontend.log");
 
   // Get arguments

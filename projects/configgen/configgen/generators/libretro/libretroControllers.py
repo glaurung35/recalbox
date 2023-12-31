@@ -235,8 +235,6 @@ class LibretroControllers:
         settings = self.settings
 
         is_jamma = controller.DeviceName.startswith("JammaController")
-        # Get specials string or default
-        specials = self.system.SpecialKeys
         if is_jamma:
             settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), system.JammaLayout.toRetroarchDeviceType())
         else:

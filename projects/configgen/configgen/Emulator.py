@@ -450,6 +450,7 @@ class Emulator:
 
     @property
     def CRTSuperrez(self) -> CRTSuperRez: return self._crtsuperrez
+    
     @property
     def CRTV2(self) -> bool: return self._crtv2
 

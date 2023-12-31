@@ -57,7 +57,7 @@ void SystemView::addSystem(SystemData * it)
     ImageComponent* logo = new ImageComponent(mWindow, false, false);
     logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
     logo->setKeepRatio(true);
-    logo->DoApplyThemeElement((it)->Theme(), "system", "logo", ThemePropertiesType::Path);
+    logo->DoApplyThemeElement((it)->Theme(), "system", "logo", ThemePropertyCategory::Path);
     e.data.logo = std::shared_ptr<ImageComponent>(logo);
     if ((it)->ThemeFolder() == "default") // #TODO: Wrong identification of default theme. Fetch info from the theme itself
     {
@@ -484,7 +484,8 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly)
     // Refresh logo properties
     if (data.logo != nullptr)
     {
-      data.logo->setMaxSize(mCarousel.logoSize * mCarousel.logoScale);
+      data.logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
+      data.logo->setKeepRatio(true);
       data.logo->DoApplyThemeElement(theme, "system", "logo", ThemePropertyCategory::All);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
       {

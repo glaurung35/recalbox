@@ -10,7 +10,7 @@
 #include <utils/locale/LocaleHelper.h>
 
 PictureComponent::PictureComponent(WindowManager&window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
-  : Component(window)
+  : ThemableComponent(window)
   , mPath(imagePath)
   , mColorShift(0xFFFFFFFF)
   , mFadeOpacity(0.0f)
@@ -115,62 +115,18 @@ void PictureComponent::fadeIn(bool textureLoaded) {
   }
 }
 
-void PictureComponent::applyTheme(const ThemeData& theme, const String& view, const String& element, ThemePropertyCategory properties)
+void PictureComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
-  const ThemeElement* elem = theme.Element(view, element, ThemeElementType::Image);
-  if (elem == nullptr) {
-    return;
-  }
-
-  Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-
-  if (hasFlag(properties, ThemePropertyCategory::Position) && elem->HasProperty(ThemePropertyName::Pos)) {
-    Vector2f denormalized = elem->AsVector(ThemePropertyName::Pos) * scale;
-    setPosition(Vector3f(denormalized.x(), denormalized.y(), 0));
-  }
-
-  if (hasFlag(properties,ThemePropertyCategory::Size)) {
-    if (elem->HasProperty(ThemePropertyName::Size)) {
-      setSize(elem->AsVector(ThemePropertyName::Size) * scale);
-      setKeepRatio(false);
-    } else if (elem->HasProperty(ThemePropertyName::MaxSize)) {
-      setSize(elem->AsVector(ThemePropertyName::MaxSize) * scale);
-      setKeepRatio(true);
-    }
-  }
-
-  // position + size also implies origin
-  if ((hasFlag(properties, ThemePropertyCategory::Origin) || (hasFlags(properties, ThemePropertyCategory::Position, ThemePropertyCategory::Size))) && elem->HasProperty(ThemePropertyName::Origin)) {
-    setOrigin(elem->AsVector(ThemePropertyName::Origin));
-  }
-
-  if (hasFlag(properties, ThemePropertyCategory::Path) && elem->HasProperty(ThemePropertyName::Path)) {
-    bool tile = (elem->HasProperty(ThemePropertyName::Tile) && elem->AsBool(ThemePropertyName::Tile));
-    setImage(Path(elem->AsString(ThemePropertyName::Path)), tile);
-  }
-
-  if (hasFlag(properties, ThemePropertyCategory::Color) && elem->HasProperty(ThemePropertyName::Color)) {
-    setColor((unsigned int)elem->AsInt(ThemePropertyName::Color));
-  }
-
-  if (hasFlag(properties, ThemePropertyCategory::Rotation)) {
-    if (elem->HasProperty(ThemePropertyName::Rotation)) {
-      setRotationDegrees(elem->AsFloat(ThemePropertyName::Rotation));
-    }
-    if (elem->HasProperty(ThemePropertyName::RotationOrigin)) {
-      setRotationOrigin(elem->AsVector(ThemePropertyName::RotationOrigin));
-    }
-  }
-
-  if (hasFlag(properties, ThemePropertyCategory::ZIndex) && elem->HasProperty(ThemePropertyName::ZIndex)) {
-    setZIndex(elem->AsFloat(ThemePropertyName::ZIndex));
-  } else {
-    setZIndex(getDefaultZIndex());
-  }
-
-  if (hasFlag(properties, ThemePropertyCategory::Position) && elem->HasProperty(ThemePropertyName::Disabled))
+  if (hasFlag(properties, ThemePropertyCategory::Size))
   {
-    mThemeDisabled = elem->AsBool(ThemePropertyName::Disabled);
+    if (element.HasProperty(ThemePropertyName::Size)) setKeepRatio(false);
+    else if (element.HasProperty(ThemePropertyName::MaxSize)) setKeepRatio(true);
   }
-}
 
+  if (hasFlag(properties, ThemePropertyCategory::Path))
+    setImage(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
+             (element.HasProperty(ThemePropertyName::Tile) && element.AsBool(ThemePropertyName::Tile)));
+
+  if (hasFlag(properties, ThemePropertyCategory::Color))
+    mColorShift = element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF;
+}

@@ -21,6 +21,7 @@ const int logoBuffersRight[] = { 1, 2, 5 };
 
 SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always)
+  , IView(IView::ViewType::SystemList, *this)
   , mSystemManager(systemManager)
   , mCarousel()
   , mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center)
@@ -813,7 +814,7 @@ void SystemView::Run()
 void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
 {
   //! Still on system list?
-  if (ViewController::Instance().isViewing(ViewController::ViewType::SystemList))
+  if (ViewController::Instance().isViewing(IView::ViewType::SystemList))
   {
     mSystemLocker.Lock();
     bool workToDoFirst = mSystemFromWitchToExtractData != nullptr;

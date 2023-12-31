@@ -46,17 +46,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
       SaveState        = 0x40, //!< Savestate selected
     };
 
-    //! View type
-    enum class ViewType
-    {
-      None,           //!< Unitialized
-      SplashScreen,   //!< Splash screen (startup or stop)
-      SystemList,     //!< System list
-      GameList,       //!< Game list
-      GameClip,       //!< Game clip
-      CrtCalibration, //!< CRT Calibration screen
-    };
-
     /*!
      * @brief Constructor
      * @param window Window manager
@@ -87,8 +76,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     // Navigation.
     SystemData* goToNextGameList();
     void goToPrevGameList();
-    void goToGameList(SystemData* system);
-    void goToSystemView(SystemData* system);
+    void goToGameList(SystemData* system) { goToGameList(system, Transition::None); }
+    void goToSystemView(SystemData* system) { goToSystemView(system, Transition::None); }
     void goToGameClipView();
     void goToCrtView(CrtView::CalibrationType screenType);
     void selectGamelistAndCursor(FileData* file);
@@ -100,7 +89,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void BackToPreviousView();
 
-    [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentViewType == viewing; }
+    [[nodiscard]] inline bool isViewing(IView::ViewType viewing) const { return mCurrentView->GetViewType() == viewing; }
 
     bool getHelpPrompts(Help& help) override;
     void ApplyHelpStyle() override;
@@ -108,7 +97,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     ISimpleGameListView* GetOrCreateGamelistView(SystemData* system);
     SystemView& getSystemListView() { return mSystemListView; }
 
-    [[nodiscard]] Gui& CurrentUi() const { return *mCurrentView; }
+    [[nodiscard]] Gui& CurrentUi() const { return mCurrentView->GetGui(); }
 
     void ToggleFavorite(FileData* game, bool forceStatus = false, bool forcedStatus = false);
 
@@ -120,10 +109,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     bool CheckFilters();
 
-    [[nodiscard]] ViewType CurrentView() const { return mCurrentViewType; }
-
     //! Get current system
-    [[nodiscard]] SystemData* CurrentSystem() const { assert(mCurrentViewType == ViewType::GameList || mCurrentViewType == ViewType::SystemList); return mCurrentSystem; }
+    [[nodiscard]] SystemData* CurrentSystem() const { assert(mCurrentView->GetViewType() == IView::ViewType::GameList || mCurrentView->GetViewType() == IView::ViewType::SystemList); return mCurrentSystem; }
 
     /*
      * Gui implementation
@@ -131,14 +118,14 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     [[nodiscard]] bool DoNotDisturb() const override
     {
-      switch(mCurrentViewType)
+      switch(mCurrentView->GetViewType())
       {
-        case ViewType::SplashScreen: return true;
-        case ViewType::SystemList: return mSystemListView.DoNotDisturb();
-        case ViewType::GameList: return mCurrentView->DoNotDisturb();
-        case ViewType::GameClip: return false;
-        case ViewType::CrtCalibration: return true;
-        case ViewType::None:
+        case IView::ViewType::SplashScreen: return true;
+        case IView::ViewType::SystemList: return mSystemListView.DoNotDisturb();
+        case IView::ViewType::GameList: return ((ISimpleGameListView*)mCurrentView)->DoNotDisturb();
+        case IView::ViewType::GameClip: return false;
+        case IView::ViewType::CrtCalibration: return true;
+        case IView::ViewType::None:
         default: break;
       }
       return false;
@@ -186,6 +173,18 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void Completed(const DelayedSystemOperationData& parameter, const bool& result) override;
 
   private:
+    // Slide direction
+    enum class Transition
+    {
+      None,      //!< No transition
+      Upward,    //!< View comes from the bottom
+      Downward,  //!< View comes from the top
+      Leftward,  //!< View comes from the right side
+      Rightward, //!< View comes from the left side
+      Fade,      //!< First 50% of a fade transition
+      Instant,   //!< Instant transition
+    };
+
     //! Fast menu types
     enum class FastMenuType
     {
@@ -194,6 +193,16 @@ class ViewController : public StaticLifeCycleControler<ViewController>
       CrtResolution,      //!< CRT resolution choice
       SuperGameboy,       //!< Supergameboy choice
     };
+
+    class NoView : public Gui
+                 , public IView
+    {
+      public:
+        explicit NoView(WindowManager& window)
+          : Gui(window)
+          , IView(IView::ViewType::None, *this)
+        {}
+    } mNoView;
 
     //! Game linked data internal instance
     GameLinkedData mGameLinkedData;
@@ -210,7 +219,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     SystemManager& mSystemManager;
 
     //! Current view reference
-    Gui* mCurrentView;
+    IView* mCurrentView;
+    //! Current view reference
+    IView* mPreviousView;
     // Current system for views dealing with systems (System list/Game list)
     SystemData* mCurrentSystem;
 
@@ -220,10 +231,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     GameClipView mGameClipView;
     CrtView mCrtView;
     HashMap<SystemData*, bool> mInvalidGameList;
-
-    ViewType mCurrentViewType;  //!< Current view type
-    ViewType mPreviousViewType; //!< Previous view type
-
 
     Transform4x4f mCamera;
     float mFadeOpacity;
@@ -254,6 +261,25 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! Fetch info thread signal
     Signal mSignal;
 
+    //! Current transition
+    Transition mTransition;
+    //! Total transitiojn time in ms
+    int mTransitionElapsedTime;
+
+    /*!
+     * @brief Got o the systemview of the given system
+     * @param system Target system
+     * @param forcedTransition Forced direction, used when moving from systemlist to systemlist or from gamelist to gamelist
+     */
+    void goToSystemView(SystemData* system, Transition forcedTransition);
+
+    /*!
+     * @brief Got o the gamelist of the given system
+     * @param system Target system
+     * @param forcedTransition Forced direction, used when moving from systemlist to systemlist or from gamelist to gamelist
+     */
+    void goToGameList(SystemData* system, Transition forcedTransition);
+
     /*!
      * @brief  Check if softpatching is required and let the user select
      * @param emulator Emulator data
@@ -265,8 +291,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      * @brief Change the current view and store the previous
      * @param newViewMode New view mode
      * @param targetSystem Target system for view requiring a system
+     * @param forcedTransition Forced direction, used when moving from systemlist to systemlist or from gamelist to gamelist
      */
-    void ChangeView(ViewType newViewMode, SystemData* targetSystem);
+    void ChangeView(IView::ViewType newViewMode, SystemData* targetSystem, Transition forcedTransition);
 
     /*!
      * @brief Check bios and call LaunchAnimated
@@ -299,7 +326,16 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     bool CheckBiosBeforeLaunch();
 
-    void playViewTransition();
+    /*!
+     * @brief Initialize transition before previous and current view
+     * @param forcedTransition Forced direction, used when moving from systemlist to systemlist or from gamelist to gamelist
+     */
+    void InitializeViewTransition(Transition forcedTransition);
+
+    /*!
+     * @brief Move view
+     */
+    void PlayViewTransition(int elapsed);
 
     /*
      * IFastMenuLineCallback implementation

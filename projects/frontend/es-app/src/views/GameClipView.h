@@ -11,8 +11,10 @@
 #include <components/GameClipContainer.h>
 #include <components/GameClipNoVideoContainer.h>
 #include "games/GameRandomSelector.h"
+#include "IView.h"
 
 class GameClipView : public Gui
+                   , public IView
 {
     enum class State
     {

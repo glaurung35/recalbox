@@ -6,6 +6,7 @@
 #include "themes/ThemeExtras.h"
 #include "IProgressInterface.h"
 #include "utils/os/system/Thread.h"
+#include "IView.h"
 
 class SystemManager;
 class SystemData;
@@ -49,6 +50,7 @@ struct SystemGameCount
 };
 
 class SystemView : public IList<SystemViewData, SystemData*>
+                 , public IView
                  , public Thread
                  , public ISyncMessageReceiver<SystemGameCount>
 {

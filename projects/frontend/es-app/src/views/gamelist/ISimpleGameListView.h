@@ -6,6 +6,7 @@
 #include "themes/ThemeExtras.h"
 #include "IArcadeGamelistInterface.h"
 #include "SlowDataInformation.h"
+#include "views/IView.h"
 #include <systems/SystemData.h>
 
 class SystemManager;
@@ -21,6 +22,7 @@ enum class FileChangeType
 };
 
 class ISimpleGameListView : public Gui
+                          , public IView
 {
   public:
     enum class Change

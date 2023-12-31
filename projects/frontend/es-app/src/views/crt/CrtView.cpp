@@ -6,16 +6,12 @@
 #include <utils/locale/LocaleHelper.h>
 #include "CrtView.h"
 #include "views/ViewController.h"
-//#include "utils/Files.h"
 #include "sdl2/Sdl2Init.h"
-//#include "themes/MenuThemeData.h"
 #include "recalbox/RecalboxSystem.h"
-//#include "guis/GuiMsgBox.h"
-
-//#define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
 CrtView::CrtView(WindowManager& window)
   : Gui(window)
+  , IView(IView::ViewType::CrtCalibration, *this)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
   , mEvent(*this)

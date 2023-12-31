@@ -19,7 +19,6 @@ IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bo
 
 IniFile::IniFile(const Path& path, bool extraSpace, bool autoBackup)
   : mFilePath(path)
-  , mFallbackFilePath()
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
   , mValid(Load())
@@ -94,7 +93,8 @@ bool IniFile::Load()
   { LOG(LogDebug) << "[IniFile] Load: " << lines.size() << " lines loaded."; }
 
   // Get key/value
-  String key, value;
+  String key;
+  String value;
   bool comment = false;
   for (String& line : lines)
     if (IsValidKeyValue(line.Trim(), key, value, comment))

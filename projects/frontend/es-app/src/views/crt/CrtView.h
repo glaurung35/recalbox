@@ -5,10 +5,12 @@
 #include <components/TextComponent.h>
 #include <utils/sync/SyncMessageSender.h>
 #include <views/crt/CrtResolutions.h>
+#include "views/IView.h"
 
 #pragma once
 
 class CrtView : public Gui
+              , public IView
               , private ISyncMessageReceiver<void>
 {
   public:

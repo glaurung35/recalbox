@@ -853,8 +853,8 @@ class SystemManager : private INoCopy // No copy allowed
      * @param system System to get index from
      * @return System index or -1
      */
-    int SystemAbsoluteIndex(SystemData* const system)
+    int SystemAbsoluteIndex(const SystemData* system) const
     {
-      return mAllSystems.IndexOf(system);
+      return mAllSystems.IndexOf((SystemData*)system);
     }
 };

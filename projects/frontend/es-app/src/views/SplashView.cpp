@@ -10,6 +10,7 @@
 
 SplashView::SplashView(WindowManager& window)
   : Gui(window)
+  , IView(IView::ViewType::SplashScreen, *this)
   , mLogo(window, true, true)
   , mLoading(window, _("LOADING..."), Font::get(FONT_SIZE_MEDIUM), 0)
   , mSystemCount(0)

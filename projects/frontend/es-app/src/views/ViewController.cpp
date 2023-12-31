@@ -22,19 +22,19 @@
 ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
 	: StaticLifeCycleControler<ViewController>("ViewController")
 	, Gui(window)
+  , mNoView(window)
   , mGameToLaunch(nullptr)
   , mLaunchCameraTarget()
   , mCheckFlags(LaunchCheckFlags::None)
   , mForceGoToGame(false)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
+  , mPreviousView(&mSplashView)
   , mCurrentSystem(nullptr)
 	, mSystemListView(window, systemManager)
 	, mSplashView(window)
 	, mGameClipView(window, systemManager)
   , mCrtView(window)
-  , mCurrentViewType(ViewType::None)
-  , mPreviousViewType(ViewType::None)
 	, mCamera(Transform4x4f::Identity())
 	, mFadeOpacity(0)
 	, mLockInput(false)
@@ -46,19 +46,18 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mSoftPatchingLastChoice(0)
   , mSender(*this)
   , mNextItem(nullptr)
+  , mTransition(Transition::None)
 {
   // Set interfaces
   systemManager.SetProgressInterface(&mSplashView);
   systemManager.SetLoadingPhaseInterface(&mSplashView);
   systemManager.SetChangeNotifierInterface(this);
 
-  // default view mode
-  ChangeView(ViewType::SplashScreen, nullptr);
-
-	// System View
-  mSystemListView.setPosition(0, Renderer::Instance().DisplayHeightAsFloat());
   // Splash
   mSplashView.setPosition(0,0);
+
+  // default view mode
+  ChangeView(IView::ViewType::SplashScreen, nullptr, Transition::None);
 
   //! Centralized thread that process slow information for gamelists
   Thread::Start("gamelist-slow");
@@ -108,7 +107,6 @@ void ViewController::goToStart()
 
 bool ViewController::CheckFilters()
 {
-
   if(mSystemManager.FirstNonEmptySystem() == nullptr)
   {
     ResetFilters();
@@ -129,17 +127,16 @@ void ViewController::ResetFilters()
   conf.SetFilterAdultGames(false);
 
   conf.SetCollectionPorts(true);
-//  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 }
 
 void ViewController::goToQuitScreen()
 {
   mSplashView.Quit();
-  ChangeView(ViewType::SplashScreen, nullptr);
+  ChangeView(IView::ViewType::SplashScreen, nullptr, Transition::None);
   mCamera.translation().Set(0,0,0);
 }
 
-void ViewController::goToSystemView(SystemData* system)
+void ViewController::goToSystemView(SystemData* system, Transition forcedTransition)
 {
   CheckFilters();
   mSystemListView.setPosition((float)mSystemManager.SystemAbsoluteIndex(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
@@ -148,25 +145,23 @@ void ViewController::goToSystemView(SystemData* system)
     system = mSystemManager.FirstNonEmptySystem();
   }
 
-  ChangeView(ViewType::SystemList, system);
-
-	playViewTransition();
+  ChangeView(IView::ViewType::SystemList, system, forcedTransition);
 
   NotificationManager::Instance().Notify(*system, Notification::SystemBrowsing);
 }
 
 void ViewController::goToGameClipView()
 {
-  if (mCurrentViewType == ViewType::GameClip) return; // #TODO: avoid ths method being called in loop
+  if (isViewing(IView::ViewType::GameClip)) return; // #TODO: avoid ths method being called in loop
 
-  ChangeView(ViewType::GameClip, nullptr);
+  ChangeView(IView::ViewType::GameClip, nullptr, Transition::None);
   NotificationManager::Instance().Notify(Notification::StartGameClip);
   mGameClipView.Reset();
 }
 
 void ViewController::goToCrtView(CrtView::CalibrationType screenType)
 {
-  ChangeView(ViewType::CrtCalibration, nullptr);
+  ChangeView(IView::ViewType::CrtCalibration, nullptr, Transition::None);
   mCrtView.Initialize(screenType);
 }
 
@@ -181,7 +176,7 @@ void ViewController::selectGamelistAndCursor(FileData *file)
 
 SystemData* ViewController::goToNextGameList()
 {
-	assert(mCurrentViewType == ViewType::GameList);
+	assert(mCurrentView->GetViewType() == IView::ViewType::GameList);
 	SystemData* system = mCurrentSystem;
 	assert(system);
 
@@ -192,13 +187,13 @@ SystemData* ViewController::goToNextGameList()
 
   AudioManager::Instance().StartPlaying(next->Theme());
 
-	goToGameList(next);
+	goToGameList(next, Transition::Rightward);
   return next;
 }
 
 void ViewController::goToPrevGameList()
 {
-	assert(mCurrentViewType == ViewType::GameList);
+	assert(mCurrentView->GetViewType() == IView::ViewType::GameList);
 	SystemData* system = mCurrentSystem;
 	assert(system);
 
@@ -209,25 +204,24 @@ void ViewController::goToPrevGameList()
 	}
 
   AudioManager::Instance().StartPlaying(prev->Theme());
-	goToGameList(prev);
+
+	goToGameList(prev, Transition::Leftward);
 }
 
-void ViewController::goToGameList(SystemData* system)
+void ViewController::goToGameList(SystemData* system, Transition forcedTransition)
 {
 	RotationType rotation = RotationType::None;
 	if(system->Rotatable() && RotationManager::ShouldRotateTateEnter(rotation))
 	{
 		mWindow.Rotate(rotation);
 	}
-	if (mCurrentViewType != ViewType::GameList)
+	/*if (mCurrentView->GetViewType() != IView::ViewType::GameList)
 	{
 		// move system list
-		float offX = mSystemListView.getPosition().x();
 		int sysId = mSystemManager.SystemAbsoluteIndex(system);
     mSystemListView.setPosition((float)sysId * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
-		offX = mSystemListView.getPosition().x() - offX;
-		mCamera.translation().x() -= offX;
-	}
+    mCamera.translation().x() = -mSystemListView.getPosition().x();
+  }*/
 
 	if (mInvalidGameList[system])
 	{
@@ -241,79 +235,172 @@ void ViewController::goToGameList(SystemData* system)
     }
 	}
 
-  ChangeView(ViewType::GameList, system);
-	playViewTransition();
+  ChangeView(IView::ViewType::GameList, system, forcedTransition);
 
   NotificationManager::Instance().Notify(*GetOrCreateGamelistView(system)->getCursor(), Notification::GamelistBrowsing);
   // for reload cursor video path if present
   GetOrCreateGamelistView(system)->DoUpdateGameInformation(false);
 }
 
-/*void ViewController::updateFavorite(SystemData* system, FileData* file)
+void ViewController::PlayViewTransition(int elapsed)
 {
-  ISimpleGameListView* view = GetOrCreateGamelistView(system);
-	if (RecalboxConf::Instance().GetFavoritesOnly())
-	{
-		view->populateList(system->MasterRoot());
-		FileData* nextFavorite = system->MasterRoot().GetNextFavoriteTo(file);
-	  view->setCursor(nextFavorite != nullptr ? nextFavorite : file);
-	}
+  static constexpr float sTiming = 5000.f;
+  mTransitionElapsedTime += elapsed;
+  float factor = Math::clamp((float)mTransitionElapsedTime, 0.f, sTiming) / sTiming;
+  switch(mTransition)
+  {
+    case Transition::Upward:
+    {
+      float offset = mPreviousView->GetGui().getSize().y() * factor;
+      mPreviousView->GetGui().setPosition(0, -offset);
+      mCurrentView->GetGui().setPosition(0, mPreviousView->GetGui().getSize().y() - offset);
+      break;
+    }
+    case Transition::Downward:
+    {
+      float offset = mPreviousView->GetGui().getSize().y() * factor;
+      mPreviousView->GetGui().setPosition(0, offset);
+      mCurrentView->GetGui().setPosition(0, -mCurrentView->GetGui().getSize().y() + offset);
+      break;
+    }
+    case Transition::Leftward:
+    {
+      float offset = mPreviousView->GetGui().getSize().x() * factor;
+      mPreviousView->GetGui().setPosition(offset, 0);
+      mCurrentView->GetGui().setPosition(-mCurrentView->GetGui().getSize().x() + offset, 0);
+      break;
+    }
+    case Transition::Rightward:
+    {
+      float offset = mPreviousView->GetGui().getSize().x() * factor;
+      mPreviousView->GetGui().setPosition(-offset, 0);
+      mCurrentView->GetGui().setPosition(mPreviousView->GetGui().getSize().x() - offset, 0);
+      break;
+    }
+    case Transition::Fade:
+    {
+      factor *= 2.f;
+      if (factor > 1.f) factor = 2.f - factor;
+      mFadeOpacity = factor;
+      break;
+    }
+    case Transition::Instant:
+    {
+      mTransition = Transition::None;
+      break;
+    }
+    case Transition::None:
+    default:break;
+  }
+  if (mTransitionElapsedTime >= 500)
+    mTransition = Transition::None;
+}
 
-	view->updateInfoPanel();
-}*/
-
-void ViewController::playViewTransition()
+void ViewController::InitializeViewTransition(ViewController::Transition forcedTransition)
 {
-	Vector3f target = mCurrentView->getPosition();
+  IView* source = mPreviousView;
+  IView* destination = mCurrentView;
+  Transition transition = Transition::None;
 
-	// no need to animate, we're not going anywhere (probably goToNextGamelist() or goToPrevGamelist() when there's only 1 system)
-	if(target == -mCamera.translation() && !isAnimationPlaying(0))
-		return;
+  switch(IView::ViewType from = source->GetViewType(); from)
+  {
+    case IView::ViewType::None:break;
+    case IView::ViewType::SplashScreen:
+    {
+      if (destination->GetViewType() == IView::ViewType::SplashScreen) return; // Setup: no transition
+      transition = Transition::Upward;
+      break;
+    }
+    case IView::ViewType::SystemList:
+    case IView::ViewType::GameList:
+    {
+      switch(destination->GetViewType())
+      {
+        case IView::ViewType::None: return; // Hu?!
+        case IView::ViewType::SplashScreen:
+        {
+          transition = Transition::Downward;
+          break;
+        }
+        case IView::ViewType::SystemList:
+        {
+          if (from == IView::ViewType::SystemList) transition = forcedTransition; // Syslist => syslist = nope
+          else transition = Transition::Downward;
+          break;
+        }
+        case IView::ViewType::GameList:
+        {
+          if (from == IView::ViewType::SystemList) transition = Transition::Upward;
+          else
+          {
+            // Both are Gamelist views, check indexes
+            int indexFrom = mSystemManager.SystemAbsoluteIndex(&((ISimpleGameListView*) source)->System());
+            int indexTo = mSystemManager.SystemAbsoluteIndex(&((ISimpleGameListView*) destination)->System());
+            transition = indexFrom < indexTo ? Transition::Leftward : Transition::Rightward;
+          }
+          break;
+        }
+        case IView::ViewType::GameClip:
+        case IView::ViewType::CrtCalibration:
+        {
+          // Entering Gameclip or CRT Calibration makes them being shown immediately
+          transition = Transition::Instant;
+          break;
+        }
+      }
+      break;
+    }
+    case IView::ViewType::GameClip:
+    case IView::ViewType::CrtCalibration:
+    {
+      // Exiting from Gameclip or CRT Calibration makes the previous view to be shown immediately
+      transition = Transition::Instant;
+      break;
+    }
+  }
 
-	String transitionTheme = ThemeData::getCurrent().getTransition();
-	if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
-	if(transitionTheme == "fade")
-	{
-		// fade
-		// stop whatever's currently playing, leaving mFadeOpacity wherever it is
-		cancelAnimation(0);
-
-		auto fadeFunc = [this](float t) {
-			mFadeOpacity = lerp<float>(0.f, 1.f, t);
-		};
-
-		const static int FADE_DURATION = 240; // fade in/out time
-		const static int FADE_WAIT = 320; // time to wait between in/out
-		setAnimation(new LambdaAnimation(fadeFunc, FADE_DURATION), 0, [this, fadeFunc, target] {
-			this->mCamera.translation() = -target;
-			updateHelpPrompts();
-			setAnimation(new LambdaAnimation(fadeFunc, FADE_DURATION), FADE_WAIT, nullptr, true);
-		});
-
-		// fast-forward animation if we're partway faded
-		if(target == -mCamera.translation())
-		{
-			// not changing screens, so cancel the first half entirely
-			advanceAnimation(0, FADE_DURATION);
-			advanceAnimation(0, FADE_WAIT);
-			advanceAnimation(0, FADE_DURATION - (int)(mFadeOpacity * FADE_DURATION));
-		}else{
-			advanceAnimation(0, (int)(mFadeOpacity * FADE_DURATION));
-		}
-	} else if (transitionTheme == "slide"){
-		// slide or simple slide
-		setAnimation(new MoveCameraAnimation(mCamera, target));
-		updateHelpPrompts(); // update help prompts immediately
-	} else {
-		// instant
-		setAnimation(new LambdaAnimation(
-				[this, target](float t)
-		{
-      (void)t;
-		  this->mCamera.translation() = -target;
-		}, 1));
-		updateHelpPrompts();
-	}
+  mTransition = transition;
+  mTransitionElapsedTime = 0;
+  switch(transition)
+  {
+    case Transition::Upward:
+    {
+      mPreviousView->GetGui().setPosition(0, 0);
+      mCurrentView->GetGui().setPosition(0, mPreviousView->GetGui().getSize().y());
+      break;
+    }
+    case Transition::Downward:
+    {
+      mPreviousView->GetGui().setPosition(0, 0);
+      mCurrentView->GetGui().setPosition(0, -mPreviousView->GetGui().getSize().y());
+      break;
+    }
+    case Transition::Leftward:
+    {
+      mPreviousView->GetGui().setPosition(0, 0);
+      mCurrentView->GetGui().setPosition(-mPreviousView->GetGui().getSize().y(), 0);
+      break;
+    }
+    case Transition::Rightward:
+    {
+      mPreviousView->GetGui().setPosition(0, 0);
+      mCurrentView->GetGui().setPosition(mPreviousView->GetGui().getSize().y(), 0);
+      break;
+    }
+    case Transition::Fade:
+    {
+      mCurrentView->GetGui().setPosition(0, 0);
+      break;
+    }
+    case Transition::Instant:
+    case Transition::None:
+    default:
+    {
+      mCurrentView->GetGui().setPosition(0, 0);
+      mTransition = Transition::None;
+      break;
+    }
+  }
 }
 
 void ViewController::Launch(FileData* game, const GameLinkedData& data, const Vector3f& cameraTarget, bool forceGoToGame)
@@ -606,9 +693,9 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
   Vector3f center = mLaunchCameraTarget.isZero() ? Vector3f(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0) : mLaunchCameraTarget;
 
 	Transform4x4f origCamera = mCamera;
-	origCamera.translation() = -mCurrentView->getPosition();
+	origCamera.translation() = -mCurrentView->GetGui().getPosition();
 
-	center += mCurrentView->getPosition();
+	center += mCurrentView->GetGui().getPosition();
 	stopAnimation(1); // make sure the fade in isn't still playing
 	mLockInput = true;
 
@@ -623,7 +710,7 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 
       mCamera = origCamera;
 			backAnimation([this] { mLockInput = false; });
-      if (mCurrentViewType == ViewType::GameList)
+      if (isViewing(IView::ViewType::GameList))
         ((ISimpleGameListView*)mCurrentView)->DoUpdateGameInformation(true);
 
 			// Re-sort last played system if it exists
@@ -689,26 +776,33 @@ bool ViewController::ProcessInput(const InputCompactEvent& event)
 		return true;
 	}
 
-  return mCurrentView->ProcessInput(event);
+  return mCurrentView->GetGui().ProcessInput(event);
 }
 
 void ViewController::Update(int deltaTime)
 {
-  mCurrentView->Update(deltaTime);
+  PlayViewTransition(deltaTime);
+  mCurrentView->GetGui().Update(deltaTime);
 	updateSelf(deltaTime);
 }
 
 void ViewController::Render(const Transform4x4f& parentTrans)
 {
-  switch(mCurrentViewType)
+  if (mTransition != Transition::None)
+    if (mPreviousView != nullptr)
+      mPreviousView->GetGui().Render(parentTrans);
+  if (mCurrentView != nullptr)
+    mCurrentView->GetGui().Render(parentTrans);
+
+  /*switch(mCurrentView->GetViewType())
   {
-    case ViewType::GameClip:
-    case ViewType::CrtCalibration: mCurrentView->Render(parentTrans); break;
-      // All the following view have been drawn before as they are part of the "global" visible area
-    case ViewType::SystemList:
-    case ViewType::GameList:
-    case ViewType::SplashScreen:
-    case ViewType::None:
+    case IView::ViewType::GameClip:
+    case IView::ViewType::CrtCalibration: mCurrentView->GetGui().Render(parentTrans); break;
+    // All the following view have been drawn before as they are part of the "global" visible area
+    case IView::ViewType::SystemList:
+    case IView::ViewType::GameList:
+    case IView::ViewType::SplashScreen:
+    case IView::ViewType::None:
     default:
     {
       Transform4x4f trans = mCamera * parentTrans;
@@ -780,7 +874,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 
       break;
     }
-  }
+  }*/
 
 	if(mWindow.peekGui() == nullptr) // TODO:: dafuk?!
 		mWindow.renderHelpPromptsEarly();
@@ -836,28 +930,28 @@ void ViewController::InvalidateAllGamelistsExcept(const SystemData* systemExclud
 
 bool ViewController::getHelpPrompts(Help& help)
 {
-	return mCurrentView != nullptr && mCurrentView->getHelpPrompts(help);
+	return mCurrentView != nullptr && mCurrentView->GetGui().getHelpPrompts(help);
 }
 
 void ViewController::ApplyHelpStyle()
 {
 	if (mCurrentView != nullptr)
-    mCurrentView->ApplyHelpStyle();
+    mCurrentView->GetGui().ApplyHelpStyle();
 }
 
-void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData* targetSystem)
+void ViewController::ChangeView(IView::ViewType newViewMode, SystemData* targetSystem, Transition forcedTransition)
 {
   // Save previous mode & deinit
-  mPreviousViewType = mCurrentViewType;
-  mCurrentView->onHide();
-  switch(mCurrentViewType)
+  mPreviousView = mCurrentView;
+  mCurrentView->GetGui().onHide();
+  switch(mCurrentView->GetViewType())
   {
-    case ViewType::None:
-    case ViewType::SplashScreen:
-    case ViewType::SystemList:
-    case ViewType::GameList:
-    case ViewType::CrtCalibration: break;
-    case ViewType::GameClip:
+    case IView::ViewType::None:
+    case IView::ViewType::SplashScreen:
+    case IView::ViewType::SystemList:
+    case IView::ViewType::GameList:
+    case IView::ViewType::CrtCalibration: break;
+    case IView::ViewType::GameClip:
     {
       WakeUp();
       if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
@@ -867,56 +961,56 @@ void ViewController::ChangeView(ViewController::ViewType newViewMode, SystemData
   }
 
   // Process new mode
-  mCurrentViewType = newViewMode;
-  switch(mCurrentViewType)
+  switch(newViewMode)
   {
-    case ViewType::None: return; // lol
-    case ViewType::SplashScreen:
+    case IView::ViewType::None: return; // lol
+    case IView::ViewType::SplashScreen:
     {
       mCurrentView = &mSplashView;
       break;
     }
-    case ViewType::SystemList:
+    case IView::ViewType::SystemList:
     {
       mCurrentView = &mSystemListView;
       mSystemListView.goToSystem(targetSystem, false);
       mCurrentSystem = targetSystem;
       break;
     }
-    case ViewType::GameList:
+    case IView::ViewType::GameList:
     {
       mCurrentView = GetOrCreateGamelistView(targetSystem);
       mCurrentSystem = targetSystem;
       break;
     }
-    case ViewType::GameClip:
+    case IView::ViewType::GameClip:
     {
       if (AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
         AudioManager::Instance().StopAll();
       mCurrentView = &mGameClipView;
       break;
     }
-    case ViewType::CrtCalibration:
+    case IView::ViewType::CrtCalibration:
     {
       mCurrentView = &mCrtView;
       break;
     }
   }
-  mCurrentView->onShow();
+  mCurrentView->GetGui().onShow();
+  InitializeViewTransition(forcedTransition);
   updateHelpPrompts();
 }
 
 void ViewController::BackToPreviousView()
 {
-  if (mPreviousViewType == ViewType::None) return; // Previous mode not initialized
-  ChangeView(mPreviousViewType, mCurrentSystem);
-  mPreviousViewType = ViewType::None; // Reset previous mode so that you cannot go back until next forward move
+  if (mPreviousView->GetViewType() == IView::ViewType::None) return; // Previous mode not initialized
+  ChangeView(mPreviousView->GetViewType(), mCurrentSystem, Transition::None);
+  mPreviousView = &mNoView; // Reset previous mode so that you cannot go back until next forward move
 }
 
 void ViewController::SelectSystem(SystemData* system)
 {
-  if (mCurrentViewType == ViewType::SystemList) mSystemListView.goToSystem(system, false);
-  else if (mCurrentViewType == ViewType::GameList) goToGameList(system);
+  if (isViewing(IView::ViewType::SystemList)) mSystemListView.goToSystem(system, false);
+  else if (isViewing(IView::ViewType::GameList)) goToGameList(system);
 }
 
 void ViewController::ShowSystem(SystemData* system)
@@ -933,7 +1027,7 @@ void ViewController::HideSystem(SystemData* system)
   mSystemListView.removeSystem(system);
 
   // Are we on the gamelist that just need to be removed?
-  if (isViewing(ViewType::GameList))
+  if (isViewing(IView::ViewType::GameList))
     if (&((ISimpleGameListView*)mCurrentView)->System() == system)
     {
       SystemData* nextSystem = goToNextGameList();
@@ -1035,7 +1129,7 @@ void ViewController::Run()
 
 void ViewController::ReceiveSyncMessage(const SlowDataInformation& data)
 {
-  if (mCurrentViewType == ViewType::GameList)
+  if (isViewing(IView::ViewType::GameList))
     ((ISimpleGameListView*)mCurrentView)->UpdateSlowData(data);
 }
 

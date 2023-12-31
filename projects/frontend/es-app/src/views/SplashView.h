@@ -4,11 +4,13 @@
 #include <WindowManager.h>
 #include <components/TextComponent.h>
 #include "IProgressInterface.h"
+#include "IView.h"
 #include <systems/ISystemLoadingPhase.h>
 
 #pragma once
 
 class SplashView : public Gui
+                 , public IView
                  , public IProgressInterface
                  , public ISystemLoadingPhase
 {

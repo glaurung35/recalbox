@@ -1,3 +1,4 @@
+
 //
 // Created by gugue_U on 17/10/2020
 //
@@ -12,6 +13,7 @@
 
 GameClipView::GameClipView(WindowManager& window, SystemManager& systemManager)
   : Gui(window)
+  , IView(IView::ViewType::GameClip, *this)
   , mWindow(window)
   , mSystemManager(systemManager)
   , mGameRandomSelector(systemManager, &mFilter)

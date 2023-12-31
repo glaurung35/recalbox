@@ -295,7 +295,7 @@ void GuiSearch::PopulateGrid(const String& search)
 
   if (search.length()>2)
   {
-    SystemData* systemData = ViewController::Instance().CurrentView() == ViewController::ViewType::GameList ?
+    SystemData* systemData = ViewController::Instance().isViewing(IView::ViewType::GameList) ?
                              ViewController::Instance().CurrentSystem() :
                              nullptr;
     mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);

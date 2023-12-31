@@ -1,3 +1,4 @@
+
 #include "views/gamelist/ISimpleGameListView.h"
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
@@ -10,6 +11,7 @@
 
 ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
   : Gui(window)
+  , IView(IView::ViewType::GameList, *this)
   , mSystem(system)
   , mTheme(nullptr)
   , mSystemManager(systemManager)

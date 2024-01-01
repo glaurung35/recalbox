@@ -4,6 +4,19 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-alpha-28
+
+- Ajout de vulkan sur Pi5
+- Fix ecran gris standalones sur Pi5
+- Ajout d'une option pour desactiver les videos d'intros (options avancées -> boot)
+- Ajout d'une option d'overclock pour pi5
+- Fix des folders MAME cachés quand on a l'option pour cacher les jeux non jouables activée
+- Fix ITech/DateaEast en virtual arcade
+- Fix de l'ordre aléatoire des systèmes virtuels par genre
+- Fix des logos manquant des systèmes virtuel par genre
+- Fix des bios fantomes dans le bios scanner
+
+
 ## Version 9.2-Pulstar
 
 ### Hardware

@@ -1,0 +1,16 @@
+config BR2_PACKAGE_LINAPPLE3
+	bool "LinApple3"
+	depends on BR2_INSTALL_LIBSTDCPP
+	depends on BR2_PACKAGE_SDL2
+	depends on BR2_PACKAGE_SDL2_IMAGE
+	depends on BR2_PACKAGE_SDL2_TTF
+	depends on BR2_PACKAGE_LIBCURL
+	depends on BR2_PACKAGE_ZLIB
+	depends on BR2_PACKAGE_LIBZIP
+	help
+	  Linapple3 by Recalbox
+
+	  https://gitlab.com/recalbox/packages/standalone/linapple3
+
+comment "LinApple3 needs a toolchain w/ C++, and following librarie : sdl2, sdl2_image, sdl2_ttf, curl, zlib and libzip"
+	depends on !BR2_INSTALL_LIBSTDCPP || !BR2_PACKAGE_SDL2 || !BR2_PACKAGE_SDL2_IMAGE || !BR2_PACKAGE_SDL2_TTF || !BR2_PACKAGE_CURL || !BR2_PACKAGE_ZLIB || !BR2_PACKAGE_LIBZIP

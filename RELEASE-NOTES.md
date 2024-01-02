@@ -153,6 +153,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new softpatching LAUNCH LAST option
 - Disable unnecessary services when use the Recalbox RGB Jamma
 - Allow starting an update stright from the update popup
+- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
 
 ### Fixes
 - Fix argonone case power management

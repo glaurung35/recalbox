@@ -157,6 +157,7 @@ as release notes for end user on a Recalbox upgrade.
 - Bump Anbernic rg353x kernel
 - Bump libretro-picodrive
 - Bump libretro-bsnes-hd
+- Bump Netflix and YouTube Kodi plugins
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

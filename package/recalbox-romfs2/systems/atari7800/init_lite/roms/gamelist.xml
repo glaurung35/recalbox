@@ -1,0 +1,22 @@
+﻿<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<gameList>
+  <provider>
+    <System>Atari 7800</System>
+    <software>Skraper</software>
+    <database>ScreenScraper.fr</database>
+    <web>http://www.screenscraper.fr</web>
+  </provider>
+  <game id="38003" source="ScreenScraper.fr">
+    <path>./BonQ (Ken Siders).a78</path>
+    <name>B*nq</name>
+    <desc>b*nQ is an attempt to bring Q*bert to the Atari 7800. In the game, you must hop from one block to the next, changing its color, without getting stomped by the enemies or hopping off the pyramid. After you have changed all the block's colors, it is off to the next level.</desc>
+    <releasedate>20050421T000000</releasedate>
+    <developer>Ken Siders</developer>
+    <publisher>AtariAge</publisher>
+    <genre>Action</genre>
+    <players>1-2</players>
+    <hash>B08668B0</hash>
+    <image>./media/images/BonQ (Ken Siders).png</image>
+    <genreid>256</genreid>
+  </game>
+</gameList>

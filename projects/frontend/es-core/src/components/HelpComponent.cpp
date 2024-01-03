@@ -182,12 +182,13 @@ void HelpComponent::Update(int deltaTime)
       }
 }
 
-void HelpComponent::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
+void HelpComponent::SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface)
 {
   (void)theme; // Always use main theme
   (void)refreshOnly; // Always rebuild, this is fast
   ViewChanged(ViewController::Instance().CurrentView(), mWindow.HasGui());
   Refresh(mHelp, true);
+  (void)interface;
 }
 
 void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)

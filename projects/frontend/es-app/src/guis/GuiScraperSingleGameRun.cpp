@@ -85,9 +85,9 @@ bool GuiScraperSingleGameRun::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-bool GuiScraperSingleGameRun::getHelpPrompts(Help& help)
+bool GuiScraperSingleGameRun::CollectHelpItems(Help& help)
 {
-	return mGrid.getHelpPrompts(help);
+	return mGrid.CollectHelpItems(help);
 }
 
 

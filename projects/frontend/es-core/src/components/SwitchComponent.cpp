@@ -75,7 +75,7 @@ void SwitchComponent::onStateChanged()
 	  mInterface->SwitchComponentChanged(mId, mState);
 }
 
-bool SwitchComponent::getHelpPrompts(Help& help)
+bool SwitchComponent::CollectHelpItems(Help& help)
 {
 	help.Set(Help::Valid(), _("CHANGE"));
 	return true;

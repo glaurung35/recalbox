@@ -286,7 +286,7 @@ void ViewController::playViewTransition()
 		const static int FADE_WAIT = 320; // time to wait between in/out
 		setAnimation(new LambdaAnimation(fadeFunc, FADE_DURATION), 0, [this, fadeFunc, target] {
 			this->mCamera.translation() = -target;
-			updateHelpPrompts();
+      UpdateHelpBar();
 			setAnimation(new LambdaAnimation(fadeFunc, FADE_DURATION), FADE_WAIT, nullptr, true);
 		});
 
@@ -303,7 +303,7 @@ void ViewController::playViewTransition()
 	} else if (transitionTheme == "slide"){
 		// slide or simple slide
 		setAnimation(new MoveCameraAnimation(mCamera, target));
-		updateHelpPrompts(); // update help prompts immediately
+    UpdateHelpBar(); // update help prompts immediately
 	} else {
 		// instant
 		setAnimation(new LambdaAnimation(
@@ -312,7 +312,7 @@ void ViewController::playViewTransition()
       (void)t;
 		  this->mCamera.translation() = -target;
 		}, 1));
-		updateHelpPrompts();
+    UpdateHelpBar();
 	}
 }
 
@@ -833,9 +833,9 @@ void ViewController::InvalidateAllGamelistsExcept(const SystemData* systemExclud
 			mInvalidGameList[mGameListView.first] = true;
 }
 
-bool ViewController::getHelpPrompts(Help& help)
+bool ViewController::CollectHelpItems(Help& help)
 {
-	return mCurrentView != nullptr && mCurrentView->getHelpPrompts(help);
+	return mCurrentView != nullptr && mCurrentView->CollectHelpItems(help);
 }
 
 void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
@@ -897,7 +897,7 @@ void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
   }
   mCurrentView->onShow();
   mWindow.NotifyViewChanges();
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void ViewController::BackToPreviousView()

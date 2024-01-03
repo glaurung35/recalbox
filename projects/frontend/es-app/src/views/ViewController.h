@@ -92,7 +92,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentViewType == viewing; }
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     ISimpleGameListView* GetOrCreateGamelistView(SystemData* system);
     SystemView& getSystemListView() { return mSystemListView; }

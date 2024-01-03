@@ -37,7 +37,7 @@ public:
 	String getValue() const override;
 	bool changed() const;
 
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
   inline void setChangedCallback(const std::function<void(bool state)>& callback) { mChangedCallback = callback; };
 

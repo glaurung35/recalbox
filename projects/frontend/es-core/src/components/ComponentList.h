@@ -120,7 +120,7 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int deltaTime) override;
 	void Render(const Transform4x4f& parentTrans) override;
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
 	void onSizeChanged() override;
 	void onFocusGained() override;

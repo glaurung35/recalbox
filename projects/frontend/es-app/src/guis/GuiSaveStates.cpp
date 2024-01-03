@@ -140,7 +140,7 @@ bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
   return Component::ProcessInput(event);
 }
 
-bool GuiSaveStates::getHelpPrompts(Help& help)
+bool GuiSaveStates::CollectHelpItems(Help& help)
 {
   help.Clear();
   String sort = mSort == Sort::Descending ? "ASC" : "DESC";
@@ -228,7 +228,7 @@ void GuiSaveStates::updateInformations()
   mThumbnail->setPosition(mGrid.getPosition().x() + mGrid.getColWidth(0, 2) + mGrid.getColWidth(3) / 2.f,
                           mGrid.getPosition().y() + mGrid.getRowHeight(0, 3) + mGrid.getRowHeight(4) / 2.f);
 
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void GuiSaveStates::launch(int slot)
@@ -253,7 +253,7 @@ void GuiSaveStates::Delete()
 {
   (void)mCurrentState.GetPath().Delete();
   (void)mCurrentState.GetThrumbnail().Delete();
-  updateHelpPrompts();
+  UpdateHelpBar();
   { LOG(LogDebug) << "[SAVESTATE] " << mCurrentState.GetPath().Filename() << " slot has been deleted"; }
 }
 

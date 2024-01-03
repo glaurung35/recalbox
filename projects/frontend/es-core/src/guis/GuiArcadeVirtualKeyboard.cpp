@@ -679,7 +679,7 @@ void GuiArcadeVirtualKeyboard::Render(const Transform4x4f& parentTrans)
   }
 }
 
-bool GuiArcadeVirtualKeyboard::getHelpPrompts(Help& help)
+bool GuiArcadeVirtualKeyboard::CollectHelpItems(Help& help)
 {
   help.Clear()
       .Set(Help::Valid(), _("SELECT"))

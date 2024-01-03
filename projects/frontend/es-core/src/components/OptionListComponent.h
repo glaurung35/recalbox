@@ -139,9 +139,9 @@ private:
 			return Component::ProcessInput(event);
 		}
 
-		bool getHelpPrompts(Help& help) override
+		bool CollectHelpItems(Help& help) override
 		{
-			mMenu.getHelpPrompts(help);
+      mMenu.CollectHelpItems(help);
 			help.Set(Help::Cancel(), _("BACK"));
 			return true;
 		}
@@ -442,7 +442,7 @@ private:
 		}
 	}
 
-	bool getHelpPrompts(Help& help) override
+	bool CollectHelpItems(Help& help) override
 	{
 		if(!mMultiSelect)
 		  help.Set(HelpType::LeftRight, _("CHANGE"));

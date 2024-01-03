@@ -165,7 +165,7 @@ void RatingComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProp
   }
 }
 
-bool RatingComponent::getHelpPrompts(Help& help)
+bool RatingComponent::CollectHelpItems(Help& help)
 {
 	help.Set(Help::Valid(), _("ADD STAR"));
 	return true;

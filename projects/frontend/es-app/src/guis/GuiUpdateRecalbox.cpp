@@ -117,9 +117,9 @@ bool GuiUpdateRecalbox::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-bool GuiUpdateRecalbox::getHelpPrompts(Help& help)
+bool GuiUpdateRecalbox::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(Help::Cancel(), _("CANCEL"));
   return true;
 }

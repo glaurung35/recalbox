@@ -120,7 +120,7 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	if(mCursorChangedCallback)
 		mCursorChangedCallback(state);
 
-	updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void ComponentList::updateCameraOffset()
@@ -303,10 +303,10 @@ void ComponentList::textInput(const char* text)
 	mEntries[mCursor].data.elements.back().component->textInput(text);
 }
 
-bool ComponentList::getHelpPrompts(Help& help)
+bool ComponentList::CollectHelpItems(Help& help)
 {
 	if (size() == 0) return false;
-	mEntries[mCursor].data.elements.back().component->getHelpPrompts(help);
+  mEntries[mCursor].data.elements.back().component->CollectHelpItems(help);
 
 	if (size() > 1)
 		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));

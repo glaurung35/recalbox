@@ -152,10 +152,10 @@ class Component: public IComponent
      * @param help Help list to fill
      * @return True if the method filled the list, false otherwise
      */
-    virtual bool getHelpPrompts(Help& help) { (void)help; return false; };
+    virtual bool CollectHelpItems(Help& help) { (void)help; return false; };
 
     // Called whenever help prompts change.
-    void updateHelpPrompts();
+    void UpdateHelpBar();
 
     virtual inline void setScrollDir(int dir) { (void)dir; }
 
@@ -172,9 +172,6 @@ class Component: public IComponent
     std::vector<Component*>* mChildren;
 
   protected:
-    static Help& HelpItems();
-    static HelpStyle& HelpItemStyle();
-
     void renderChildren(const Transform4x4f& transform) const;
     void updateSelf(int deltaTime); // updates animations
     void updateChildren(int deltaTime) const; // updates animations

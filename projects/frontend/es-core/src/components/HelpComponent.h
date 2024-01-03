@@ -45,7 +45,12 @@ class HelpComponent : public ThemableComponent
 
     void setOpacity(unsigned char opacity) final;
 
-    void UpdateHelps(bool force);
+    /*!
+     * @brief Refresh the help component with new items
+     * @param newHelpItems New help items
+     * @param force Force refresh, even if the new items match old ones
+     */
+    void Refresh(const Help& newHelpItems, bool force);
 
     /*
      * IThemeSwitchable implementation

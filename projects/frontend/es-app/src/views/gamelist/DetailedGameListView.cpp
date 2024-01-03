@@ -165,9 +165,9 @@ void DetailedGameListView::Initialize()
   updateInfoPanel();
 }
 
-void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
+void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface)
 {
-  ISimpleGameListView::SwitchToTheme(theme, refreshOnly);
+  ISimpleGameListView::SwitchToTheme(theme, refreshOnly, interface);
 
   mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertyCategory::All);
   // Set color 2/3 50% transparent of color 0/1
@@ -286,6 +286,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   }
 
   sortChildren();
+  (void)interface;
 }
 
 void DetailedGameListView::initMDLabels()

@@ -11,6 +11,7 @@
 ThemeManager::ThemeManager()
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
   , mMain(mCache, nullptr)
+  , mWaiter(nullptr)
 {
   ThemeSupport::InitializeStatics();
 }
@@ -91,12 +92,12 @@ void ThemeManager::DoThemeChange(WindowManager* window, bool force)
   bool update = (newPath == mRootPath);
   if (!update || force) mCache.Clear();
 
-  GuiSyncWaiter* waiter = nullptr;
   if (!mRootPath.IsEmpty())
   {
-    waiter = new GuiSyncWaiter(*window, update ? _("Updating current theme...") :
+    mWaiter = new GuiSyncWaiter(*window, update ? _("Updating current theme...") :
                                (_F(_("Loading new theme {0}")) / newPath.FilenameWithoutExtension()).ToString());
-    waiter->Show();
+    mWaiter->Show();
+    mWaitBarReference = DateTime();
   }
 
   // Reload Main themes
@@ -114,11 +115,22 @@ void ThemeManager::DoThemeChange(WindowManager* window, bool force)
   NotifyThemeChanged(update);
   { LOG(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
 
-  if (waiter != nullptr)
+  if (mWaiter != nullptr)
   {
-    waiter->Hide();
-    delete waiter;
+    mWaiter->Hide();
+    delete mWaiter;
+    mWaiter = nullptr;
   }
+}
+
+void ThemeManager::ThemeSwitchTick()
+{
+  if (mWaiter != nullptr)
+    if (DateTime now; (now - mWaitBarReference).TotalMilliseconds() > 300)
+    {
+      mWaiter->Refresh();
+      mWaitBarReference = now;
+    }
 }
 
 void ThemeManager::NotifyThemeChanged(bool refreshOnly)
@@ -127,9 +139,9 @@ void ThemeManager::NotifyThemeChanged(bool refreshOnly)
     if (switchable != nullptr)
     {
       if (SystemData* system = switchable->SystemTheme(); system != nullptr)
-        switchable->SwitchToTheme(CreateOrGetSystem(system), refreshOnly);
+        switchable->SwitchToTheme(CreateOrGetSystem(system), refreshOnly, this);
       else
-        switchable->SwitchToTheme(mMain, refreshOnly);
+        switchable->SwitchToTheme(mMain, refreshOnly, this);
     }
 }
 

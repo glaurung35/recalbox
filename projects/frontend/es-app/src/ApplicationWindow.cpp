@@ -46,7 +46,8 @@ void ApplicationWindow::Render(Transform4x4f& transform)
 
 bool ApplicationWindow::UpdateHelpSystem()
 {
-  mViewController.updateHelpPrompts();
+  if (WindowManager::UpdateHelpSystem()) return true;
+  mViewController.UpdateHelpBar();
   return true;
 }
 

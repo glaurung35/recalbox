@@ -101,7 +101,7 @@ class SimpleWizardBase : public Gui
      * @param help Help bar
      * @return True
      */
-    bool getHelpPrompts(Help& help) final;
+    bool CollectHelpItems(Help& help) final;
 
     /*!
      * @brief Set the active page of the wizard

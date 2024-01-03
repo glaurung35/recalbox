@@ -75,9 +75,9 @@ bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 	return false;
 }
 
-bool GuiTextEditPopup::getHelpPrompts(Help& help)
+bool GuiTextEditPopup::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
 	help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

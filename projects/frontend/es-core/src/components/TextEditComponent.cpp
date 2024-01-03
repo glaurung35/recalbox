@@ -82,14 +82,14 @@ void TextEditComponent::startEditing()
 {
 	SDL_StartTextInput();
 	mEditing = true;
-	updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void TextEditComponent::stopEditing()
 {
 	SDL_StopTextInput();
 	mEditing = false;
-	updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void TextEditComponent::ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk)
@@ -290,7 +290,7 @@ Vector2f TextEditComponent::getTextAreaSize() const
 	return { mSize.x() - TEXT_PADDING_HORIZ, mSize.y() - TEXT_PADDING_VERT };
 }
 
-bool TextEditComponent::getHelpPrompts(Help& help)
+bool TextEditComponent::CollectHelpItems(Help& help)
 {
 	if(mEditing)
 		help.Set(HelpType::AllDirections, _("MOVE CURSOR"))

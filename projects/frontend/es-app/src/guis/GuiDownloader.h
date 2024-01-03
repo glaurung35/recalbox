@@ -40,7 +40,7 @@ class GuiDownloader : public Gui
      * @param help Help bar
      * @return
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*
      * IGuiDownloadUpdater implementation

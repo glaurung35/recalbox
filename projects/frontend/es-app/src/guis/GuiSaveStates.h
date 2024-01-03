@@ -43,7 +43,7 @@ class GuiSaveStates : public Gui
 
     bool ProcessInput(const InputCompactEvent& event) override;
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     void onSizeChanged() override;
 

@@ -253,7 +253,7 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
 
     mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertyCategory::All);
 
-    mClippingImage.DoApplyThemeElement(mGame->System().Theme(), GameClipView::getName(), "clippingImage",
+    mClippingImage.DoApplyThemeElement(mGame == nullptr ? ThemeManager::Instance().Main() : mGame->System().Theme(), GameClipView::getName(), "clippingImage",
                                        ThemePropertyCategory::Path | ThemePropertyCategory::Size);
 
     std::vector<TextComponent*> labels = getMDLabels();

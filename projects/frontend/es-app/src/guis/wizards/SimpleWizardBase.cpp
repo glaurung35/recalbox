@@ -116,10 +116,10 @@ void SimpleWizardBase::SetPage(int page)
   mText->setText(OnTextRequired(mCurrentPage));
 
   mGrid.onSizeChanged();
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
-bool SimpleWizardBase::getHelpPrompts(Help& help)
+bool SimpleWizardBase::CollectHelpItems(Help& help)
 {
   help.Clear();
   if (mCurrentPage > 0) help.Set(Help::Cancel(), _("BACK"));

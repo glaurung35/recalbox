@@ -416,7 +416,7 @@ Vector2f GameClipContainer::getVideoCenter()
   return mVideo.getCenter();
 }
 
-bool GameClipContainer::getHelpPrompts(Help& help)
+bool GameClipContainer::CollectHelpItems(Help& help)
 {
   if(RecalboxConf::Instance().GetShowGameClipHelpItems())
     help.Set(Help::Cancel(), _("QUIT"))

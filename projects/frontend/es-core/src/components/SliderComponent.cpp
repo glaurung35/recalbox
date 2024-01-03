@@ -150,7 +150,7 @@ void SliderComponent::onValueChanged()
 		mSelectedChangedCallback(mValue);
 }
 
-bool SliderComponent::getHelpPrompts(Help& help)
+bool SliderComponent::CollectHelpItems(Help& help)
 {
 	help.Set(HelpType::LeftRight, _("CHANGE"));
 	return true;

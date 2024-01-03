@@ -330,7 +330,7 @@ void SystemView::onCursorChanged(const CursorState& state)
     AudioManager::Instance().StartPlaying(getSelected()->Theme());
   }
   // update help style
-  updateHelpPrompts();
+  UpdateHelpBar();
 
   // update externs
   NotificationManager::Instance().Notify(*getSelected(), Notification::SystemBrowsing);
@@ -435,7 +435,7 @@ void SystemView::Render(const Transform4x4f& parentTrans)
   renderExtras(trans, minMax.second, INT16_MAX);
 }
 
-bool SystemView::getHelpPrompts(Help& help)
+bool SystemView::CollectHelpItems(Help& help)
 {
   help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
       .Set(Help::Valid(), _("SELECT"));

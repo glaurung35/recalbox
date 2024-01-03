@@ -36,7 +36,7 @@ bool WindowManager::UpdateHelpSystem()
   Gui* gui = peekGui();
   if (gui != nullptr)
   {
-    gui->updateHelpPrompts();
+    gui->UpdateHelpBar();
     return true;
   }
   return false;

@@ -128,7 +128,7 @@ void WizardBase::SetPage(int page)
   mGrid.setCursor({ 10, 11 });
 
   mGrid.onSizeChanged();
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void WizardBase::DoButtonClick(int index)
@@ -148,7 +148,7 @@ void WizardBase::DoButtonClick(int index)
   }
 }
 
-bool WizardBase::getHelpPrompts(Help& help)
+bool WizardBase::CollectHelpItems(Help& help)
 {
   help.Clear();
   if (mCurrentPage > 0) help.Set(Help::Cancel(), _("BACK"));

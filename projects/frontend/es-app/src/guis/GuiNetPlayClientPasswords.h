@@ -17,7 +17,7 @@ class GuiNetPlayClientPasswords : public Gui
   public:
     explicit GuiNetPlayClientPasswords(WindowManager& window, LobbyGame& lobbygame);
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   private:
     enum class PasswordType

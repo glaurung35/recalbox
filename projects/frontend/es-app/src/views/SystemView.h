@@ -191,6 +191,6 @@ class SystemView : public IList<SystemViewData, SystemData*>
      * @param theme New Theme
      * @param refreshOnly True if we need to refresh the current view only
      */
-    void SwitchToTheme(const ThemeData& theme, bool refreshOnly) override;
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface) override;
 
 };

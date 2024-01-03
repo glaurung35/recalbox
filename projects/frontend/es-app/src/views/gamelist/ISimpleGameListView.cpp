@@ -46,7 +46,7 @@ void ISimpleGameListView::updateInfoPanel()
     OnGameSelected();
 }
 
-void ISimpleGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
+void ISimpleGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface)
 {
   mBackground.DoApplyThemeElement(theme, getName(), "background", ThemePropertyCategory::All);
   mHeaderImage.DoApplyThemeElement(theme, getName(), "logo", ThemePropertyCategory::All);
@@ -70,6 +70,7 @@ void ISimpleGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly
     addChild(&mHeaderText);
     removeChild(&mHeaderImage);
   }
+  (void)interface;
 }
 
 void ISimpleGameListView::onChanged(Change change)

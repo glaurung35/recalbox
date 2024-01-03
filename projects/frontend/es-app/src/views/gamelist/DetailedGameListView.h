@@ -25,7 +25,7 @@ class DetailedGameListView : public ISimpleGameListView
      */
     void Initialize() override;
 
-    void SwitchToTheme(const ThemeData& theme, bool refreshOnly) override;
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface) override;
 
     [[nodiscard]] const char* getName() const override { return "detailed"; }
 

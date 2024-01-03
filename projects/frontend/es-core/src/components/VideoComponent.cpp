@@ -6,11 +6,11 @@
 
 VideoComponent::VideoComponent(WindowManager&window)
   : ThemableComponent(window)
+  , mVideoPath("")
   , mState(State::Uninitialized)
   , mEffect(Effect::BreakingNews)
   , mAllowedEffects(AllowedEffects::All)
   , mTargetSize(0)
-  , mVideoPath("")
   , mTargetIsMax(false)
   , mVertices{ { { 0, 0 }, { 0, 0 } } }
   , mColors{ 0 }

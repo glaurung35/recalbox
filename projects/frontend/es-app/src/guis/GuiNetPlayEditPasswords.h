@@ -13,7 +13,7 @@ class GuiNetPlayEditPasswords : public Gui, private IGuiArcadeVirtualKeyboardInt
   public:
     explicit GuiNetPlayEditPasswords(WindowManager& window);
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   private:
     //! Password storage

@@ -109,7 +109,7 @@ class ComponentGrid : public Component
 
     void onFocusGained() override;
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     void SetRowHighlight(bool active, int from = 0, int to = 0)
     {

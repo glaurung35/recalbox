@@ -465,7 +465,7 @@ bool SystemView::CollectHelpItems(Help& help)
   populate();
 }*/
 
-void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly)
+void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, IThemeSwitchTick* interface)
 {
   (void)uselessTheme;
 
@@ -539,6 +539,7 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly)
       data.backgroundExtras->setSize(mSize);
     }
     //{ LOG(LogWarning) << "Refresh " << entry.object->FullName() << " : " << (DateTime() - start).ToMillisecondsString() << " ms"; }
+    interface->ThemeSwitchTick();
   }
 
   SetNextSystem(mCurrentSystem); // Force refresh of curren system info

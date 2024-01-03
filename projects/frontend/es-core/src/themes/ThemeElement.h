@@ -63,7 +63,7 @@ class ThemeElement
           switch(mType)
           {
             case Type::Vector: return Path(String(mFloat, 4).Append(' ').Append(mSecondFloat, 4));
-            case Type::String: return Path(mString);
+            case Type::String: return Path(mString).ToCanonical();
             case Type::Integer: return Path(String(mInteger));
             case Type::Float: return Path(String(mFloat, 4));
             case Type::Bool: return Path(String(mBool ? '1' : '0'));

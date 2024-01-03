@@ -403,7 +403,7 @@ void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
   }
 }
 
-bool VideoComponent::getHelpPrompts(Help& help)
+bool VideoComponent::CollectHelpItems(Help& help)
 {
   help.Set(Help::Valid(), _("SELECT"));
   return true;

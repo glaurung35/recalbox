@@ -56,7 +56,7 @@ class GuiScraperSingleGameRun : public Gui, public INotifyScrapeResult
     void onSizeChanged() override;
 
     bool ProcessInput(const InputCompactEvent& event) override;
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*
      * INotifyScrapeResult implementation

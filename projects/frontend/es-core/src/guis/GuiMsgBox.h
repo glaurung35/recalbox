@@ -33,7 +33,7 @@ class GuiMsgBox : public Gui
   protected:
     bool ProcessInput(const InputCompactEvent& event) override;
     void onSizeChanged() override;
-    bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
+    bool CollectHelpItems(Help& help) override { return mGrid.CollectHelpItems(help); }
 
   private:
     explicit GuiMsgBox(WindowManager& window);

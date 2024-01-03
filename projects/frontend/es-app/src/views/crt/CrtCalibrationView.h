@@ -49,7 +49,7 @@ class CrtCalibrationView : public Gui
     bool ProcessInput(const InputCompactEvent& event) override;
 
     //! Help bar
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   private:
     static constexpr CrtResolution sForced31khz[] =

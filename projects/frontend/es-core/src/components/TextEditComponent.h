@@ -33,7 +33,7 @@ public:
 
 	void setCursor(size_t pos);
 
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
 	void startEditing();
 	void stopEditing();

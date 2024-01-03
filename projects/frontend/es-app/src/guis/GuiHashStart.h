@@ -100,7 +100,7 @@ class GuiHashStart : public Gui, private IThreadPoolWorkerInterface<FileData*, F
      * @brief Get the help system
      * @return True
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*!
      * @brief Update method, called periodically

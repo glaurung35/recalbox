@@ -112,9 +112,9 @@ void GuiHashStart::Render(const Transform4x4f& parentTrans)
     mBusyAnim.Render(trans);
 }
 
-bool GuiHashStart::getHelpPrompts(Help& help)
+bool GuiHashStart::CollectHelpItems(Help& help)
 {
-  mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
   help.Set(Help::Cancel(), _("BACK"));
   return true;
 }

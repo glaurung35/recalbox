@@ -241,8 +241,8 @@ void ScraperSearchComponent::Update(int deltaTime)
     mBusyAnim.Update(deltaTime);
 }
 
-bool ScraperSearchComponent::getHelpPrompts(Help& help)
+bool ScraperSearchComponent::CollectHelpItems(Help& help)
 {
-	mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
 	return true;
 }

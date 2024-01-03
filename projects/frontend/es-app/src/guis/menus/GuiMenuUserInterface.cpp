@@ -121,7 +121,7 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool& status)
     case Components::SwapValidateAndCancel:
     {
       RecalboxConf::Instance().SetSwapValidateAndCancel(status).Save();
-      updateHelpPrompts();
+      UpdateHelpBar();
       break;
     }
     case Components::DisplayByFileName:

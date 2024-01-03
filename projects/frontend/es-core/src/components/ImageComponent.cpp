@@ -377,7 +377,7 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
                                                                 : 0xFFFFFFFF);
 }
 
-bool ImageComponent::getHelpPrompts(Help& help)
+bool ImageComponent::CollectHelpItems(Help& help)
 {
   help.Set(Help::Valid(), _("SELECT"));
   return true;

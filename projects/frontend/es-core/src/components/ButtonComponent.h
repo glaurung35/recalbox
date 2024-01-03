@@ -36,7 +36,7 @@ public:
 	void setColorShift(unsigned int color) { mModdedColor = color; mNewColor = true; updateImage(); }
 	void removeColorShift() { mNewColor = false; updateImage(); }
 
-  bool getHelpPrompts(Help& help) override;
+  bool CollectHelpItems(Help& help) override;
 
 private:
 	std::shared_ptr<Font> mFont;

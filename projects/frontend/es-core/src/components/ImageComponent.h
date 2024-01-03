@@ -91,7 +91,7 @@ public:
      */
     [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Image; }
 
-  bool getHelpPrompts(Help& help) override;
+  bool CollectHelpItems(Help& help) override;
 
   /*!
    * @brief Set component visibility

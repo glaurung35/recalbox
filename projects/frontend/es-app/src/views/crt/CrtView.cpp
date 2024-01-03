@@ -90,7 +90,7 @@ void CrtView::Render(const Transform4x4f& parentTrans)
   mWindow.DoWake();
 }
 
-bool CrtView::getHelpPrompts(Help& help)
+bool CrtView::CollectHelpItems(Help& help)
 {
   help.Set(HelpType::AllDirections, _("MOVE SCREEN"))
       .Set(Help::Valid(), _("NEXT RESOLUTION"))
@@ -126,7 +126,7 @@ void CrtView::SetResolution(CrtResolution resolution)
 
   mWindow.Initialize(w, h);
   mWindow.normalizeNextUpdate();
-  mWindow.UpdateHelp(true);
+  mWindow.UpdateHelpSystem();
   mPattern.setResize(0.0f, Renderer::Instance().DisplayHeightAsFloat());
   mPattern.setImage(Path(":/crt/" + CrtConf::CrtResolutionFromEnum(resolution) + ".png"));
   mPattern.setOrigin(.5f, .5f);

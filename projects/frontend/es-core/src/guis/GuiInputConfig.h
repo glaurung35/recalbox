@@ -18,7 +18,7 @@ class GuiInputConfig : public Gui
     GuiInputConfig(WindowManager& window, InputDevice* target, const std::function<void()>& doneCallback);
     ~GuiInputConfig() override;
     void onSizeChanged() override;
-      bool getHelpPrompts(Help& help) override;
+      bool CollectHelpItems(Help& help) override;
 
   private:
     //! Max axis

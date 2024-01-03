@@ -42,9 +42,9 @@ bool GuiMenuBase::ProcessInput(const InputCompactEvent& event)
   return Gui::ProcessInput(event);
 }
 
-bool GuiMenuBase::getHelpPrompts(Help& help)
+bool GuiMenuBase::CollectHelpItems(Help& help)
 {
-  mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
 
   help.Set(HelpType::UpDown, _("CHOOSE"))
       .Set(Help::Cancel(), _("BACK"))

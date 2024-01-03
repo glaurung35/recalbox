@@ -190,9 +190,9 @@ void MenuComponent::updateGrid()
   if (mFooter) mGrid.setEntry(mFooter, Vector2i(0,3), false, false);
 }
 
-bool MenuComponent::getHelpPrompts(Help& help)
+bool MenuComponent::CollectHelpItems(Help& help)
 {
-  return mGrid.getHelpPrompts(help);
+  return mGrid.CollectHelpItems(help);
 }
 
 void MenuComponent::setFooter(const String& label)

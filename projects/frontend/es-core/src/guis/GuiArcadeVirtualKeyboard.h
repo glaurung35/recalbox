@@ -390,7 +390,7 @@ class GuiArcadeVirtualKeyboard : public Gui
      * @param help Help system to fill in with the configuration
      * @return True if the configuration has been set.
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*!
      * @brief This GUI is a transparent overlay

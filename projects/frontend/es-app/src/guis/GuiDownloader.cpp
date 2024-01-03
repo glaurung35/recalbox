@@ -103,9 +103,9 @@ bool GuiDownloader::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-bool GuiDownloader::getHelpPrompts(Help& help)
+bool GuiDownloader::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(Help::Cancel(), _("CANCEL"));
   return true;
 }

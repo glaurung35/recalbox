@@ -114,7 +114,7 @@ class MenuComponent : public Component
     }
     inline void clear() { mList->clear(); }
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*!
      * @brief Notification of an input event

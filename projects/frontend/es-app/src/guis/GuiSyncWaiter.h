@@ -16,6 +16,8 @@ class GuiSyncWaiter : public Gui
     explicit GuiSyncWaiter(WindowManager& window, const String& message)
       : Gui(window)
       , mBusyAnim(window)
+      , mTimeReference(0)
+      , mShown(false)
     {
       // Configure animation
       mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
@@ -24,14 +26,26 @@ class GuiSyncWaiter : public Gui
 
     void Show()
     {
-      mWindow.pushGui(this);
+      if (!mShown) mWindow.pushGui(this);
       mWindow.RenderAll(false);
+      mShown = true;
+      mTimeReference = (int)SDL_GetTicks();
+      SDL_GL_SetSwapInterval(0);
+    }
+
+    void Refresh()
+    {
+      if (mShown)
+        mWindow.RenderAll(false);
     }
 
     void Hide()
     {
-      if (mWindow.RemoveGui(this))
-        mWindow.RenderAll(false);
+      if (mShown)
+        if (mWindow.RemoveGui(this))
+          mWindow.RenderAll(false);
+      mShown = false;
+      SDL_GL_SetSwapInterval(1);
     }
 
   protected:
@@ -52,6 +66,9 @@ class GuiSyncWaiter : public Gui
      */
     void Render(const Transform4x4f& parentTrans) override
     {
+      int newTimeReference = (int)SDL_GetTicks();
+      mBusyAnim.Update(newTimeReference - mTimeReference);
+      mTimeReference = newTimeReference;
       Transform4x4f trans = parentTrans * getTransform();
       Renderer::SetMatrix(trans);
 
@@ -70,5 +87,9 @@ class GuiSyncWaiter : public Gui
   private:
     //! Busy animation
     BusyComponent mBusyAnim;
+    //! Time reference
+    int mTimeReference;
+    //! Show status
+    bool mShown;
 };
 

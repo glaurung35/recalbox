@@ -7,6 +7,7 @@
 #include "MenuThemeData.h"
 #include "IThemeSwitchable.h"
 #include "ThemeFileCache.h"
+#include "guis/GuiSyncWaiter.h"
 #include <utils/os/system/ThreadPool.h>
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 
@@ -14,7 +15,8 @@
 class SystemData;
 
 class ThemeManager : public StaticLifeCycleControler<ThemeManager>
-                   , IThreadPoolWorkerInterface<const SystemData*, const SystemData*>
+                   , private IThreadPoolWorkerInterface<const SystemData*, const SystemData*>
+                   , public IThemeSwitchTick
 {
   public:
     //! Default theme file
@@ -29,7 +31,7 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     ThemeManager();
 
     //! Destructor
-    ~ThemeManager();
+    ~ThemeManager() override;
 
     //! Load initial theme
     void Initialize(WindowManager* window);
@@ -96,6 +98,11 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     //! Current theme root path
     Path mRootPath;
 
+    //! Wait bar
+    GuiSyncWaiter* mWaiter;
+    //! Wait bar reference time
+    DateTime mWaitBarReference;
+
     /*!
      * @brief Create or get existing system theme
      * @param system System
@@ -126,5 +133,15 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
      */
 
     const SystemData* ThreadPoolRunJob(const SystemData*& feed) override;
+
+    /*
+     * IThemeSwitchTick implementation
+     */
+
+    /*!
+     * @brief Called by IThemeSwitchable implementation every time they update something slow
+     * This is used by the theme manager to update wait bars while switching theme
+     */
+    void ThemeSwitchTick() override;
 };
 

@@ -210,7 +210,7 @@ void GameClipContainer::initMDValues()
   }
 }
 
-void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
+void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface)
 {
   (void)refreshOnly;
   initComponents();
@@ -316,6 +316,7 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
 
   }
   sortChildren();
+  if (interface != nullptr) interface->ThemeSwitchTick();
 }
 
 void GameClipContainer::Render(const Transform4x4f& parentTrans)
@@ -383,7 +384,7 @@ void GameClipContainer::setGameInfo(FileData* game)
   mSystem = &mGame->System();
   mSystemName.setValue(mGame->System().FullName());
 
-  SwitchToTheme(mSystem->Theme(), true);
+  SwitchToTheme(mSystem->Theme(), true, nullptr);
 
   mGameName.setValue(mGame->Metadata().Name());
   mRating.setValue(mGame->Metadata().RatingAsString());

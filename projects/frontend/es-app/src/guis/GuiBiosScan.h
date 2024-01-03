@@ -198,7 +198,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
      * @param help Help structure to fill in
      * @return True
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*!
      * @brief Extract unique core list from the given BiosList

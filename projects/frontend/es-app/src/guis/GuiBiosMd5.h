@@ -60,7 +60,7 @@ class GuiBiosMd5 : public Gui
      * @param help Help structure to fill in
      * @return True
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     /*!
      * @brief Build common UI

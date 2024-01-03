@@ -54,7 +54,7 @@ class GuiScraperRun : public Gui
     ~GuiScraperRun() override = default;
 
     void onSizeChanged() override;
-    bool getHelpPrompts(Help& help) override { return mGrid.getHelpPrompts(help); }
+    bool CollectHelpItems(Help& help) override { return mGrid.CollectHelpItems(help); }
 
   protected:
     /*!

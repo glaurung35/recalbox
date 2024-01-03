@@ -48,7 +48,7 @@ class GuiSettings : public Gui
         inline void setSave(bool sav) { doSave = sav; };
 
 	bool ProcessInput(const InputCompactEvent& event) override;
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
 	const MenuComponent& getMenu() const { return mMenu; }
 

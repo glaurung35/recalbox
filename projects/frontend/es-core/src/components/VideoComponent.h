@@ -162,7 +162,7 @@ class VideoComponent : public ThemableComponent
      */
     [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Video; }
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     bool isDiplayed() { return mState == State::DisplayVideo; }
 

@@ -31,7 +31,7 @@ public:
 
 	void onSizeChanged() override;
 
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
 	void SetInterface(int id, IRatingComponent* interface)
   {

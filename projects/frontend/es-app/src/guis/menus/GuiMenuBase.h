@@ -45,7 +45,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param help Help
      * @return true of the help system has been files
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
     void SetFooter(const String& footer)
     {

@@ -17,7 +17,7 @@ class GuiNetPlayHostPasswords : public Gui
   public:
     explicit GuiNetPlayHostPasswords(WindowManager& window, FileData& game);
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   private:
     //! Target game

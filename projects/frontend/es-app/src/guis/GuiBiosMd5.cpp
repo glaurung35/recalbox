@@ -140,9 +140,9 @@ void GuiBiosMd5::onSizeChanged()
   mList->setSize(mGrid.getColWidth(1), mGrid.getRowHeight(2));
 }
 
-bool GuiBiosMd5::getHelpPrompts(Help& help)
+bool GuiBiosMd5::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(HelpType::UpDown, _("BROWSE"))
       .Set(Help::Cancel(), _("CLOSE"));
   return true;

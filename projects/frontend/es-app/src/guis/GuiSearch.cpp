@@ -242,7 +242,7 @@ void GuiSearch::onSizeChanged()
   mGrid.setSize(mSize);
 }
 
-bool GuiSearch::getHelpPrompts(Help& help)
+bool GuiSearch::CollectHelpItems(Help& help)
 {
   help.Clear();
   if (AmIOnTopOfScreen())
@@ -380,7 +380,7 @@ void GuiSearch::populateGridMeta(int i)
   mGridLogoAndMD->getCellAt(0, 2)->resize = true;
   mGridLogoAndMD->getCellAt(0, 4)->resize = true;
 
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void GuiSearch::ResizeGridLogo()

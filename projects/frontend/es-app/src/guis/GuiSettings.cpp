@@ -45,9 +45,9 @@ bool GuiSettings::ProcessInput(const InputCompactEvent& event)
 	return Component::ProcessInput(event);
 }
 
-bool GuiSettings::getHelpPrompts(Help& help)
+bool GuiSettings::CollectHelpItems(Help& help)
 {
-	mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
 
 	help.Set(Help::Cancel(), _("BACK"))
 	    .Set(HelpType::Start, _("CLOSE"));

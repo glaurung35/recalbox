@@ -43,7 +43,7 @@ class GuiControlHints : public Gui
      * @param help Help list to fill
      * @return True if the method filled the list, false otherwise
      */
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   public:
     /*!

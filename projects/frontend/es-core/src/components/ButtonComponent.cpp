@@ -64,7 +64,7 @@ void ButtonComponent::setText(const String& text, const String& helpText, bool u
 	}
 
 	if (doUpdateHelpPrompts)
-  	updateHelpPrompts();
+    UpdateHelpBar();
 }
 
 void ButtonComponent::autoSizeFont()
@@ -155,7 +155,7 @@ unsigned int ButtonComponent::getCurTextColor() const
 		return mTextColorFocused;
 }
 
-bool ButtonComponent::getHelpPrompts(Help& help)
+bool ButtonComponent::CollectHelpItems(Help& help)
 {
 	help.Set(Help::Valid(), mHelpText.empty() ? mText : mHelpText);
 	return true;

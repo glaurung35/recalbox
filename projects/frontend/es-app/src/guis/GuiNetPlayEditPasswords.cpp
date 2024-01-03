@@ -49,9 +49,9 @@ bool GuiNetPlayEditPasswords::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-bool GuiNetPlayEditPasswords::getHelpPrompts(Help& help)
+bool GuiNetPlayEditPasswords::CollectHelpItems(Help& help)
 {
-	mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
 	help.Set(Help::Cancel(), _("BACK"))
 	    .Set(Help::Valid(), _("EDIT"));
 	return true;

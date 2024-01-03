@@ -36,7 +36,7 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void onSizeChanged() override;
-  bool getHelpPrompts(Help& help)  override { return mGrid.getHelpPrompts(help); }
+  bool CollectHelpItems(Help& help)  override { return mGrid.CollectHelpItems(help); }
 
   GuiMsgBoxScroll* SetDefaultButton(int index);
 

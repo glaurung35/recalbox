@@ -84,9 +84,9 @@ bool GuiNetPlayHostPasswords::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-bool GuiNetPlayHostPasswords::getHelpPrompts(Help& help)
+bool GuiNetPlayHostPasswords::CollectHelpItems(Help& help)
 {
-	mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
 	help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

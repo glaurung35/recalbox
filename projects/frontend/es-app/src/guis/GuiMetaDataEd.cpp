@@ -501,9 +501,9 @@ bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
   return false;
 }
 
-bool GuiMetaDataEd::getHelpPrompts(Help& help)
+bool GuiMetaDataEd::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(Help::Cancel(), _("BACK"))
       .Set(HelpType::Start, _("CLOSE"));
   return true;

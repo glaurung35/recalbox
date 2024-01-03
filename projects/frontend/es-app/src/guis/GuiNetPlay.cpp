@@ -345,9 +345,9 @@ void GuiNetPlay::onSizeChanged()
   mGrid.setSize(mSize);
 }
 
-bool GuiNetPlay::getHelpPrompts(Help& help)
+bool GuiNetPlay::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(Help::Cancel(), _("BACK"))
       .Set(Help::Valid(), _("LAUNCH"))
       .Set(HelpType::Start, _("RESCAN"));

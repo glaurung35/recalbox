@@ -20,7 +20,7 @@ public:
 	bool ProcessInput(const InputCompactEvent& event) override;
 	void Update(int) override {}
 	void onSizeChanged() override;
-	bool getHelpPrompts(Help& help) override;
+	bool CollectHelpItems(Help& help) override;
 
 private:
 

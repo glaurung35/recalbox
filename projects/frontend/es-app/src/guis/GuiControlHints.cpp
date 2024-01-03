@@ -264,7 +264,7 @@ bool GuiControlHints::ProcessInput(const InputCompactEvent& event)
   return Gui::ProcessInput(event);
 }
 
-bool GuiControlHints::getHelpPrompts(Help& help)
+bool GuiControlHints::CollectHelpItems(Help& help)
 {
   help.Clear().Set(Help::Cancel(), _("CLOSE"));
   return true;

@@ -330,7 +330,7 @@ bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
   if (event.XPressed())
   {
     mShowAllSystems = !mShowAllSystems;
-    updateHelpPrompts();
+    UpdateHelpBar();
     UpdateBiosList();
     return true;
   }
@@ -637,9 +637,9 @@ void GuiBiosScan::ScanComplete()
   mScanInProgress = false;
 }
 
-bool GuiBiosScan::getHelpPrompts(Help& help)
+bool GuiBiosScan::CollectHelpItems(Help& help)
 {
-  mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
   help.Set(HelpType::UpDown, _("SELECT"))
       .Set(HelpType::Start, _("RESCAN"))
       .Set(Help::Valid(), _("MD5 LIST"))

@@ -58,7 +58,13 @@ class WindowManager
     [[nodiscard]] bool isSleeping() const { return mSleeping; }
 
     void renderHelpPromptsEarly(); // used to render HelpPrompts before a fade
-    void UpdateHelp(bool force = false) { mHelp.UpdateHelps(force); }
+
+    /*!
+     * @brief Refresh the help bar using new hel items
+     * @param newHelpItems New help items
+     * @param force True to force refreh even tif new items match old ones
+     */
+    void RefreshHelpBar(const Help& newHelpItems, bool force = false) { mHelp.Refresh(newHelpItems, force); }
 
     void DoSleep();
 

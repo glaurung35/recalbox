@@ -92,14 +92,14 @@ void GameClipView::Update(int elapsed)
       if (!mGameRandomSelector.HasValidSystems())
       {
         mState = State::EmptyPlayList;
-        updateHelpPrompts();
+        UpdateHelpBar();
         mTimer.Initialize(0);
         return;
       }
       StartGameClip();
       mTimer.Initialize(0);
       mState = State::InitPlaying;
-      updateHelpPrompts();
+      UpdateHelpBar();
       break;
     }
     case State::EmptyPlayList:
@@ -210,7 +210,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
     if (mGame->IsGame())
     {
       ViewController::Instance().ToggleFavorite(mGame);
-      updateHelpPrompts();
+      UpdateHelpBar();
     }
     return true;
   }
@@ -241,7 +241,7 @@ void GameClipView::ChangeGameClip(Direction direction)
   VideoEngine::Instance().StopVideo(true);
 }
 
-bool GameClipView::getHelpPrompts(Help& help)
+bool GameClipView::CollectHelpItems(Help& help)
 {
   switch(mState)
   {
@@ -250,9 +250,9 @@ bool GameClipView::getHelpPrompts(Help& help)
     case State::LaunchGame:
     case State::Terminated :
     case State::Quit : break;
-    case State::EmptyPlayList: return mNoVideoContainer.getHelpPrompts(help);
+    case State::EmptyPlayList: return mNoVideoContainer.CollectHelpItems(help);
     case State::InitPlaying:
-    case State::Playing: return mGameClipContainer.getHelpPrompts(help);
+    case State::Playing: return mGameClipContainer.CollectHelpItems(help);
   }
   return true;
 }

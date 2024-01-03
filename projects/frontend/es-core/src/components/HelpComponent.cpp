@@ -53,14 +53,14 @@ HelpComponent::HelpComponent(WindowManager&window)
 {
 }
 
-void HelpComponent::UpdateHelps(bool force)
+void HelpComponent::Refresh(const Help& newHelpItems, bool force)
 {
   // No change?
-  if (mHelp.Equals(HelpItems()) && !force)
+  if (mHelp.Equals(newHelpItems) && !force)
     return;
 
   mGrid.ClearEntries();
-  mHelp = HelpItems();
+  mHelp = newHelpItems;
 	if(!RecalboxConf::Instance().GetShowHelp() || mHelp.Empty())
 		return;
 
@@ -187,7 +187,7 @@ void HelpComponent::SwitchToTheme(const ThemeData& theme, bool refreshOnly)
   (void)theme; // Always use main theme
   (void)refreshOnly; // Always rebuild, this is fast
   ViewChanged(ViewController::Instance().CurrentView(), mWindow.HasGui());
-  UpdateHelps(true);
+  Refresh(mHelp, true);
 }
 
 void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)

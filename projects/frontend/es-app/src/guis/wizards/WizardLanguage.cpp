@@ -53,5 +53,5 @@ void WizardLanguage::ChangeLanguage(bool increment)
 
   // Refresh all
   UpdatePage();
-  updateHelpPrompts();
+  UpdateHelpBar();
 }

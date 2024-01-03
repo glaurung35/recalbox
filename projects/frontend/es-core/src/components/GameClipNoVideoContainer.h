@@ -19,7 +19,7 @@ class GameClipNoVideoContainer : public Gui
 
     void Render(const Transform4x4f& parentTrans) override;
 
-    bool getHelpPrompts(Help& help);
+    bool CollectHelpItems(Help& help);
 };
 
 

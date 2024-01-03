@@ -234,12 +234,12 @@ void GuiTextEditPopupKeyboard::switchShift()
     kb.button->setText(text, text, false, false, false);
   }
 
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
-bool GuiTextEditPopupKeyboard::getHelpPrompts(Help& help)
+bool GuiTextEditPopupKeyboard::CollectHelpItems(Help& help)
 {
-	mGrid.getHelpPrompts(help);
+  mGrid.CollectHelpItems(help);
 	help.Set(HelpType::Y, _("SHIFT"))
 	    .Set(Help::Cancel(), _("BACK"))
 	    .Set(HelpType::R, _("SPACE"))

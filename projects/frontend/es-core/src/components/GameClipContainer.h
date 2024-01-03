@@ -97,5 +97,5 @@ class GameClipContainer : public Gui
 
     Vector2f getVideoCenter();
 
-    bool getHelpPrompts(Help& help);
+    bool CollectHelpItems(Help& help);
 };

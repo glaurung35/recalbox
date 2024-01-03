@@ -498,7 +498,7 @@ void ComponentGrid::onCursorMoved(Vector2i from, Vector2i to)
   if (cell != nullptr)
     cell->component->onFocusGained();
 
-  updateHelpPrompts();
+  UpdateHelpBar();
 }
 
 void ComponentGrid::setCursorTo(const std::shared_ptr<Component>& comp)
@@ -518,21 +518,21 @@ void ComponentGrid::setCursorTo(const std::shared_ptr<Component>& comp)
   assert(false);
 }
 
-bool ComponentGrid::getHelpPrompts(Help& help)
+bool ComponentGrid::CollectHelpItems(Help& help)
 {
   GridEntry* e = getCellAt(mCursor);
-  if (e != nullptr) e->component->getHelpPrompts(help);
+  if (e != nullptr) e->component->CollectHelpItems(help);
 
   bool canScrollVert = mGridSize.y() > 1;
   bool canScrollHoriz = mGridSize.x() > 1;
-  if (!help.IsSet(HelpType::AllDirections)) canScrollHoriz = canScrollVert = false;
-  if (!help.IsSet(HelpType::LeftRight)) canScrollHoriz = false;
-  if (!help.IsSet(HelpType::UpDown)) canScrollVert = false;
+  if (help.IsSet(HelpType::AllDirections)) canScrollHoriz = canScrollVert = false;
+  if (help.IsSet(HelpType::LeftRight)) canScrollHoriz = false;
+  if (help.IsSet(HelpType::UpDown)) canScrollVert = false;
 
   if (canScrollHoriz && canScrollVert) help.Set(HelpType::AllDirections, _("CHOOSE"));
   else if (canScrollHoriz) help.Set(HelpType::LeftRight, _("CHOOSE"));
   else if (canScrollVert) help.Set(HelpType::UpDown, _("CHOOSE"));
 
-  return true;
+  return canScrollHoriz || canScrollVert;
 }
 

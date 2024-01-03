@@ -351,35 +351,30 @@ Vector2f Component::denormalise(const Vector2f& value) const
     return value * scale;
 }
 
-void Component::updateHelpPrompts()
+void Component::UpdateHelpBar()
 {
-	if(getParent() != nullptr)
-	{
-		getParent()->updateHelpPrompts();
-		return;
-	}
-
-	HelpItems().Clear();
-	if (getHelpPrompts(HelpItems()))
+  if(getParent() != nullptr)
   {
-    mWindow.UpdateHelp();
+    getParent()->UpdateHelpBar();
+    return;
+  }
+
+  Help helpItems;
+  if (CollectHelpItems(helpItems))
+  {
+    mWindow.RefreshHelpBar(helpItems);
   }
 }
 
 void Component::onShow()
 {
-    for (unsigned int i = 0; i < getChildCount(); i++)
-        getChild(i)->onShow();
+  for (unsigned int i = 0; i < getChildCount(); i++)
+    getChild(i)->onShow();
 }
 
 void Component::onHide()
 {
 	for (unsigned int i = 0; i < getChildCount(); i++)
-        getChild(i)->onHide();
+    getChild(i)->onHide();
 }
 
-Help& Component::HelpItems()
-{
-  static Help sHelp;
-  return sHelp;
-}

@@ -155,7 +155,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     if (cursor->IsGame())
     {
       ViewController::Instance().ToggleFavorite(cursor);
-      updateHelpPrompts();
+      UpdateHelpBar();
     }
     return true;
   }
@@ -253,7 +253,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   return result;
 }
 
-bool ISimpleGameListView::getHelpPrompts(Help& help)
+bool ISimpleGameListView::CollectHelpItems(Help& help)
 {
   bool hideSystemView = RecalboxConf::Instance().GetStartupHideSystemView();
 

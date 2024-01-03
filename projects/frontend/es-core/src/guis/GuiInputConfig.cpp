@@ -364,7 +364,7 @@ bool GuiInputConfig::EventReceived(int id, const InputCompactEvent& event)
   return true;
 }
 
-bool GuiInputConfig::getHelpPrompts(Help &help)
+bool GuiInputConfig::CollectHelpItems(Help &help)
 {
     help.Set(Help::Cancel(), _("CANCEL"));
 

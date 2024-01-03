@@ -28,7 +28,7 @@ class GuiUpdateRecalbox: public Gui
 
     bool ProcessInput(const InputCompactEvent& event) override;
 
-    bool getHelpPrompts(Help& help) override;
+    bool CollectHelpItems(Help& help) override;
 
   private:
     static constexpr const char* sDownloadFolder = "/boot/update";

@@ -82,9 +82,9 @@ bool GuiNetPlayClientPasswords::ProcessInput(const InputCompactEvent& event)
   return Component::ProcessInput(event);
 }
 
-bool GuiNetPlayClientPasswords::getHelpPrompts(Help& help)
+bool GuiNetPlayClientPasswords::CollectHelpItems(Help& help)
 {
-	mMenu.getHelpPrompts(help);
+  mMenu.CollectHelpItems(help);
 	help.Set(Help::Cancel(), _("BACK"));
 	return true;
 }

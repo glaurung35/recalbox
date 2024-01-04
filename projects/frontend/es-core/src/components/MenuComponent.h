@@ -14,12 +14,6 @@
 class ButtonComponent;
 class ImageComponent;
 
-std::shared_ptr<ComponentGrid> makeButtonGrid(WindowManager&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(WindowManager&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
-std::shared_ptr<ImageComponent> makeArrow(WindowManager&window);
-
-#define TITLE_VERT_PADDING (Renderer::Instance().DisplayHeightAsFloat()*0.0637f)
-
 class MenuComponent : public Component
 {
   public:
@@ -30,16 +24,6 @@ class MenuComponent : public Component
     }
 
     void onSizeChanged() override;
-
-    inline std::function<void()> buildHelpGui(const String& label, const String& help)
-    {
-      return [this, label, help] () {
-        int dur = RecalboxConf::Instance().GetPopupHelp();
-        if (dur != 0)
-          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, PopupType::Help));
-        return true;
-      };
-    }
 
     inline void addRow(const ComponentListRow& row, bool setCursorHere = false, bool updateGeometry = true) { mList->addRow(row, setCursorHere, updateGeometry); if (updateGeometry) updateSize(); }
 
@@ -66,7 +50,7 @@ class MenuComponent : public Component
       addRow(row, setCursorHere, true);
     }
 
-    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const String& label, const String& help = "", bool setCursorHere = false, bool invert_when_selected = true, const std::function<void()>& acceptCallback = nullptr)
+    inline void addWithLabel(const std::shared_ptr<Component>& comp, const Path& iconPath, const String& label, const String& help)
     {
       ComponentListRow row;
       const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
@@ -78,24 +62,20 @@ class MenuComponent : public Component
         icon->setImage(iconPath);
         icon->setColorShift(menuTheme.Text().color);
         icon->setResize(0, menuTheme.Text().font->getLetterHeight() * 1.25f);
-        row.addElement(icon, false, invert_when_selected);
+        row.addElement(icon, false, true);
 
         // spacer between icon and text
         auto spacer = std::make_shared<Component>(mWindow);
-        spacer->setSize(10 + Math::roundi(menuTheme.Text().font->getLetterHeight() * 1.25f) - Math::roundi(icon->getSize().x()), 0);
-        row.addElement(spacer, false, invert_when_selected);
+        spacer->setSize(10.f + Math::round(menuTheme.Text().font->getLetterHeight() * 1.25f) - Math::round(icon->getSize().x()), 0);
+        row.addElement(spacer, false, true);
       }
 
       row.addElement(std::make_shared<TextComponent>(mWindow, label.ToUpperCaseUTF8(), menuTheme.Text().font, menuTheme.Text().color), true);
-      row.addElement(comp, false, invert_when_selected);
+      row.addElement(comp, false, true);
 
-      if (acceptCallback) {
-        row.makeAcceptInputHandler(acceptCallback);
-      }
-      if (!help.empty()) {
-        row.makeHelpInputHandler(buildHelpGui(label, help));
-      }
-      addRow(row, setCursorHere, true);
+      //if (acceptCallback) row.makeAcceptInputHandler(acceptCallback);
+      if (!help.empty()) row.makeHelpInputHandler(buildHelpGui(label, help));
+      addRow(row, false, true);
     }
 
     void addButton(const String& label, const String& helpText, const std::function<void()>& callback);
@@ -138,8 +118,18 @@ class MenuComponent : public Component
 
     void SetDefaultButton(int index);
 
-protected:
-    inline ComponentList* getList() const { return mList.get(); }
+    /*!
+     * @brief Update menu regading the given theme
+     * @param theme New theme to apply
+     */
+    void UpdateMenuTheme(const MenuThemeData& theme);
+
+    static std::shared_ptr<ComponentGrid> MakeButtonGrid(WindowManager&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons);
+    static std::shared_ptr<ComponentGrid> MakeMultiDimButtonGrid(WindowManager&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, float outerWidth, float outerHeight);
+    static std::shared_ptr<ImageComponent> MakeArrow(WindowManager&window);
+
+  protected:
+    [[nodiscard]] ComponentList* getList() const { return mList.get(); }
 
   private:
 
@@ -160,4 +150,14 @@ protected:
     std::vector< std::shared_ptr<ButtonComponent> > mButtons;
 
     int mTimeAccumulator;
+
+    std::function<void()> buildHelpGui(const String& label, const String& help)
+    {
+      return [this, label, help] () {
+        int dur = RecalboxConf::Instance().GetPopupHelp();
+        if (dur != 0)
+          mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, PopupType::Help));
+        return true;
+      };
+    }
 };

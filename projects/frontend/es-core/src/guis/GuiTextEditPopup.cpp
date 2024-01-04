@@ -33,7 +33,7 @@ GuiTextEditPopup::GuiTextEditPopup(WindowManager& window, const String& title, c
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, acceptBtnText, acceptBtnText, [this, okCallback] { okCallback(mText->getValue()); Close(); }));
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("DISCARD CHANGES"), [this] { Close(); }));
 
-	mButtonGrid = makeButtonGrid(mWindow, buttons);
+	mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
 
 	mGrid.setEntry(mTitle, Vector2i(0, 0), false, true);
 	mGrid.setEntry(mText, Vector2i(0, 1), true, false, Vector2i(1, 1), Borders::Top | Borders::Bottom);

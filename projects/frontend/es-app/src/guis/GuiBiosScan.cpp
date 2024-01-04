@@ -203,7 +203,7 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mButtonClose = std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { Close(); } );
   std::vector<std::shared_ptr<ButtonComponent>> buttons;
   buttons.push_back(mButtonClose);
-  mButtonGrid = makeButtonGrid(mWindow, buttons);
+  mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtonGrid, Vector2i(1, 14), true, false, Vector2i(5,1));
 
   // Set Window position/size

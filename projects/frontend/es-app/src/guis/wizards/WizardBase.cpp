@@ -121,7 +121,7 @@ void WizardBase::SetPage(int page)
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, buttonName, String::Empty, std::bind(&WizardBase::DoButtonClick, this, index)));
   if (mAutoNext)
     buttons.push_back(std::make_shared<ButtonComponent>(mWindow, (_F(" \uf180 {0} ") / (mCurrentPage < mPageCount - 1 ? _("NEXT") : _("CLOSE"))).ToString(), String::Empty, std::bind(&WizardBase::DoButtonClick, this, -1)));
-  std::shared_ptr<ComponentGrid> buttonGrid = makeButtonGrid(mWindow, buttons);
+  std::shared_ptr<ComponentGrid> buttonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
   mGrid.setEntry(buttonGrid, Vector2i(6, 11), true, ComponentGrid::HAlignment::Right, ComponentGrid::VAlignment::Center, false, Vector2i(5, 1));
   if (mAutoNext)
     buttonGrid->setCursorTo(buttons.back());

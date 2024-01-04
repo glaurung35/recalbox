@@ -13,6 +13,8 @@
 #include "utils/cplusplus/StaticLifeCycleControler.h"
 #include <views/ViewController.h>
 
+#define TITLE_VERT_PADDING (Renderer::Instance().DisplayHeightAsFloat()*0.0637f)
+
 GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                              SystemManager& systemManager,
                              FileData& game,
@@ -298,7 +300,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
   }
 
 
-  mButtons = makeButtonGrid(mWindow, buttons);
+  mButtons = MenuComponent::MakeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtons, Vector2i(0, 2), true, false);
 
   mGrid.setUnhandledInputCallback([this](const InputCompactEvent& event) -> bool

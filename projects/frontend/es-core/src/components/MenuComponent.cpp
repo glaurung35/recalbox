@@ -7,33 +7,32 @@
 #define BUTTON_GRID_VERT_PADDING Math::max(Renderer::Instance().DisplayHeightAsFloat() * 0.008f, 2.0f)
 #define BUTTON_GRID_HORIZ_PADDING Math::max(Renderer::Instance().DisplayWidthAsFloat() * 0.01f, 3.0f)
 
+#define TITLE_VERT_PADDING (Renderer::Instance().DisplayHeightAsFloat()*0.0637f)
+
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + TITLE_VERT_PADDING)
 
-MenuComponent::MenuComponent(WindowManager&window, const String& title, const std::shared_ptr<Font>& titleFont)
-  : Component(window)
-  , mBackground(window)
-  , mGrid(window, Vector2i(1, 4))
-  , mTimeAccumulator(0)
+MenuComponent::MenuComponent(WindowManager& window, const String& title, const std::shared_ptr<Font>& titleFont)
+  : Component(window), mBackground(window), mGrid(window, Vector2i(1, 4)), mTimeAccumulator(0)
 {
-  (void)titleFont;
+  (void) titleFont;
 
-	addChild(&mBackground);
-	addChild(&mGrid);
+  addChild(&mBackground);
+  addChild(&mGrid);
 
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 
-	mBackground.setImagePath(menuTheme.Background().path);
-	mBackground.setCenterColor(menuTheme.Background().color);
-	mBackground.setEdgeColor(menuTheme.Background().color);
+  mBackground.setImagePath(menuTheme.Background().path);
+  mBackground.setCenterColor(menuTheme.Background().color);
+  mBackground.setEdgeColor(menuTheme.Background().color);
 
-	// set up title
-	mTitle = std::make_shared<TextComponent>(mWindow);
-	mTitle->setHorizontalAlignment(TextAlignment::Center);
+  // set up title
+  mTitle = std::make_shared<TextComponent>(mWindow);
+  mTitle->setHorizontalAlignment(TextAlignment::Center);
 
-	setTitle(title, menuTheme.Title().font);
-	mTitle->setColor(menuTheme.Title().color);
+  setTitle(title, menuTheme.Title().font);
+  mTitle->setColor(menuTheme.Title().color);
 
-	mGrid.setEntry(mTitle, Vector2i(0, 0), false);
+  mGrid.setEntry(mTitle, Vector2i(0, 0), false);
 
   auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(5, 1));
   headerGrid->setColWidthPerc(0, 0.02);
@@ -46,7 +45,7 @@ MenuComponent::MenuComponent(WindowManager&window, const String& title, const st
     mBattery = std::make_shared<TextComponent>(mWindow);
     mBattery->setFont(menuTheme.Text().font);
     if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
-    else                     mBattery->setColor(menuTheme.Text().color);
+    else mBattery->setColor(menuTheme.Text().color);
     mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
     mBattery->setHorizontalAlignment(TextAlignment::Left);
     headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
@@ -106,8 +105,8 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
   if (event.AnyUpPressed())
   {
     mList->setCursorIndex(mList->size() - 1);
-    if(!mButtons.empty()) mGrid.moveCursor(Vector2i(0, 1));
-    else                  mGrid.setCursorTo(mList);
+    if (!mButtons.empty()) mGrid.moveCursor(Vector2i(0, 1));
+    else mGrid.setCursorTo(mList);
     return true;
   }
   return false;
@@ -116,78 +115,80 @@ bool MenuComponent::ProcessInput(const InputCompactEvent& event)
 
 void MenuComponent::setTitle(const String& title, const std::shared_ptr<Font>& font)
 {
-    mTitle->setText(title.ToUpperCaseUTF8());
-    mTitle->setFont(font);
+  mTitle->setText(title.ToUpperCaseUTF8());
+  mTitle->setFont(font);
 }
 
 float MenuComponent::getButtonGridHeight() const
 {
   //const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
-  return ((mButtonGrid ? mButtonGrid->getSize().y() : 0 /*menuTheme.Text().font->getHeight()*/) + BUTTON_GRID_VERT_PADDING);
+  return ((mButtonGrid ? mButtonGrid->getSize().y() : 0 /*menuTheme.Text().font->getHeight()*/) +
+          BUTTON_GRID_VERT_PADDING);
 }
 
 void MenuComponent::updateSize()
 {
-    float menuTheme = ThemeManager::Instance().Menu().Height();
-    const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * menuTheme;
-    float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + getFooterHeight() + 2;
-    if(height > maxHeight)
+  float menuTheme = ThemeManager::Instance().Menu().Height();
+  const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * menuTheme;
+  float height = TITLE_HEIGHT + mList->getTotalRowHeight() + getButtonGridHeight() + getFooterHeight() + 2;
+  if (height > maxHeight)
+  {
+    height = TITLE_HEIGHT + getButtonGridHeight() + getFooterHeight() + 2;
+    int i = 0;
+    while (i < mList->size())
     {
-        height = TITLE_HEIGHT + getButtonGridHeight() + getFooterHeight() + 2;
-        int i = 0;
-        while(i < mList->size())
-        {
-            float rowHeight = mList->getRowHeight(i);
-            if(height + rowHeight < maxHeight)
-                height += rowHeight;
-            else
-                break;
-            i++;
-        }
+      float rowHeight = mList->getRowHeight(i);
+      if (height + rowHeight < maxHeight)
+        height += rowHeight;
+      else
+        break;
+      i++;
     }
+  }
 
-    float width = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f, Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
-    setSize(width, height);
+  float width = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f,
+                          Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
+  setSize(width, height);
 }
 
 void MenuComponent::onSizeChanged()
 {
-    mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
+  mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
-    // update grid row/col sizes
-    mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
-    mGrid.setRowHeightPerc(2, getButtonGridHeight() / mSize.y());
-    mGrid.setRowHeightPerc(3, getFooterHeight() / mSize.y());
+  // update grid row/col sizes
+  mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
+  mGrid.setRowHeightPerc(2, getButtonGridHeight() / mSize.y());
+  mGrid.setRowHeightPerc(3, getFooterHeight() / mSize.y());
 
-    mGrid.setSize(mSize);
+  mGrid.setSize(mSize);
 }
 
 void MenuComponent::addButton(const String& name, const String& helpText, const std::function<void()>& callback)
 {
-    mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name.ToUpperCaseUTF8(), helpText, callback));
-    updateGrid();
-    updateSize();
+  mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, name.ToUpperCaseUTF8(), helpText, callback));
+  updateGrid();
+  updateSize();
 }
 
 void MenuComponent::updateGrid()
 {
   Vector2i buttonGridCursor = Vector2i(0, 0);
-  if(mButtonGrid)
+  if (mButtonGrid)
   {
     buttonGridCursor = mButtonGrid->getCursor();
     mGrid.removeEntry(mButtonGrid);
   }
-  if(mFooter) mGrid.removeEntry(mFooter);
+  if (mFooter) mGrid.removeEntry(mFooter);
 
   mButtonGrid.reset();
 
-  if(!mButtons.empty())
+  if (!mButtons.empty())
   {
-      mButtonGrid = makeButtonGrid(mWindow, mButtons);
-      mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
-     mButtonGrid->setCursor(buttonGridCursor);
+    mButtonGrid = MakeButtonGrid(mWindow, mButtons);
+    mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
+    mButtonGrid->setCursor(buttonGridCursor);
   }
-  if (mFooter) mGrid.setEntry(mFooter, Vector2i(0,3), false, false);
+  if (mFooter) mGrid.setEntry(mFooter, Vector2i(0, 3), false, false);
 }
 
 bool MenuComponent::CollectHelpItems(Help& help)
@@ -210,81 +211,111 @@ float MenuComponent::getFooterHeight() const
   return ((mFooter ? mFooter->getSize().y() : 0) + BUTTON_GRID_VERT_PADDING);
 }
 
-std::shared_ptr<ComponentGrid> makeButtonGrid(WindowManager&window, const std::vector< std::shared_ptr<ButtonComponent> >& buttons)
+std::shared_ptr<ComponentGrid> MenuComponent::MakeButtonGrid(WindowManager& window, const std::vector<std::shared_ptr<ButtonComponent> >& buttons)
 {
-    std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(buttons.size(), 2));
+  std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(buttons.size(), 2));
 
-    float gridWidth = (float) BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
-    for (int i = 0; i < (int)buttons.size(); i++)
-    {
-        grid->setEntry(buttons[i], Vector2i(i, 0), true, false);
-        gridWidth += buttons[i]->getSize().x();
-    }
-    for (int i = 0; i < (int)buttons.size(); i++)
-    {
-        grid->setColWidthPerc(i, (buttons[i]->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
-    }
-    
-    grid->setSize(gridWidth, buttons[0]->getSize().y() + BUTTON_GRID_VERT_PADDING + 2);
-    grid->setRowHeightPerc(1, 2 / grid->getSize().y()); // spacer row to deal with dropshadow to make buttons look centered
+  float gridWidth = (float) BUTTON_GRID_HORIZ_PADDING * buttons.size(); // initialize to padding
+  for (int i = 0; i < (int) buttons.size(); i++)
+  {
+    grid->setEntry(buttons[i], Vector2i(i, 0), true, false);
+    gridWidth += buttons[i]->getSize().x();
+  }
+  for (int i = 0; i < (int) buttons.size(); i++)
+    grid->setColWidthPerc(i, (buttons[i]->getSize().x() + BUTTON_GRID_HORIZ_PADDING) / gridWidth);
 
-    return grid;
+  grid->setSize(gridWidth, buttons[0]->getSize().y() + BUTTON_GRID_VERT_PADDING + 2);
+  grid->setRowHeightPerc(1, 2 / grid->getSize().y()); // spacer row to deal with dropshadow to make buttons look centered
+
+  return grid;
 }
 
 /**
  * Limitation: same number of button per line, same dimension per cell
  */
 
-std::shared_ptr<ComponentGrid> makeMultiDimButtonGrid(WindowManager&window, const std::vector< std::vector< std::shared_ptr<ButtonComponent> > >& buttons, const float outerWidth, const float outerHeight)
+std::shared_ptr<ComponentGrid> MenuComponent::MakeMultiDimButtonGrid(WindowManager& window,
+                                                                     const std::vector<std::vector<std::shared_ptr<ButtonComponent> > >& buttons,
+                                                                     const float outerWidth, const float outerHeight)
 {
-    const int sizeX = (int) buttons[0].size();
-    const int sizeY = (int) buttons.size();
-    const float buttonHeight = buttons[0][0]->getSize().y();
-    const float gridHeight = (buttonHeight + BUTTON_GRID_VERT_PADDING + 2) * (float)sizeY;
+  const int sizeX = (int) buttons[0].size();
+  const int sizeY = (int) buttons.size();
+  const float buttonHeight = buttons[0][0]->getSize().y();
+  const float gridHeight = (buttonHeight + BUTTON_GRID_VERT_PADDING + 2) * (float) sizeY;
 
-    float horizPadding = (float) BUTTON_GRID_HORIZ_PADDING;
-    float gridWidth, buttonWidth;
+  float horizPadding = (float) BUTTON_GRID_HORIZ_PADDING;
+  float gridWidth;
+  float buttonWidth;
 
-    do {
-        gridWidth = outerWidth - horizPadding; // to get centered because size * (button size + BUTTON_GRID_VERT_PADDING) let a half BUTTON_GRID_VERT_PADDING left / right marge
-        buttonWidth = (gridWidth / (float)sizeX) - horizPadding;
-        horizPadding -= 2;
-    } while ((buttonWidth < 100) && (horizPadding > 2));
+  do
+  {
+    gridWidth = outerWidth -
+                horizPadding; // to get centered because size * (button size + BUTTON_GRID_VERT_PADDING) let a half BUTTON_GRID_VERT_PADDING left / right marge
+    buttonWidth = (gridWidth / (float) sizeX) - horizPadding;
+    horizPadding -= 2;
+  } while ((buttonWidth < 100) && (horizPadding > 2));
 
 
-    std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(sizeX, sizeY));
+  std::shared_ptr<ComponentGrid> grid = std::make_shared<ComponentGrid>(window, Vector2i(sizeX, sizeY));
 
-    grid->setSize(gridWidth, gridHeight < outerHeight ? gridHeight : outerHeight);
+  grid->setSize(gridWidth, gridHeight < outerHeight ? gridHeight : outerHeight);
 
+  for (int x = 0; x < sizeX; x++)
+    grid->setColWidthPerc(x, (float) 1 / (float) sizeX);
+
+  for (int y = 0; y < sizeY; y++)
+  {
     for (int x = 0; x < sizeX; x++)
-        grid->setColWidthPerc(x, (float) 1 / (float)sizeX);
-
-    for (int y = 0; y < sizeY; y++)
     {
-        for (int x = 0; x < sizeX; x++)
-        {
-            const std::shared_ptr<ButtonComponent>& button = buttons[y][x];
-            button->setSize(buttonWidth, buttonHeight);
-            grid->setEntry(button, Vector2i(x, y), true, false);
-        }
+      const std::shared_ptr<ButtonComponent>& button = buttons[y][x];
+      button->setSize(buttonWidth, buttonHeight);
+      grid->setEntry(button, Vector2i(x, y), true, false);
     }
+  }
 
-    return grid;
+  return grid;
 }
 
-std::shared_ptr<ImageComponent> makeArrow(WindowManager&window)
+std::shared_ptr<ImageComponent> MenuComponent::MakeArrow(WindowManager& window)
 {
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
   auto bracket = std::make_shared<ImageComponent>(window);
   bracket->setImage(menuTheme.Elements().arrow);
   bracket->setColorShift(menuTheme.Text().color);
   bracket->setResize(0, round(menuTheme.Text().font->getLetterHeight()));
-    
-    return bracket;
+
+  return bracket;
 }
 
 void MenuComponent::SetDefaultButton(int index)
 {
-    if ((unsigned int)index < (unsigned int)mButtons.size())
-        mButtonGrid->setCursorTo(mButtons[index]);
+  if ((unsigned int) index < (unsigned int) mButtons.size())
+    mButtonGrid->setCursorTo(mButtons[index]);
+}
+
+void MenuComponent::UpdateMenuTheme(const MenuThemeData& theme)
+{
+  mBackground.setImagePath(theme.Background().path);
+  mBackground.setCenterColor(theme.Background().color);
+  mBackground.setEdgeColor(theme.Background().color);
+
+  mTitle->setFont(theme.Title().font);
+  mTitle->setColor(theme.Title().color);
+
+  if (mBattery)
+  {
+    mBattery->setFont(theme.Text().font);
+    mBattery->setColor(theme.Text().color);
+    mBattery->setHorizontalAlignment(TextAlignment::Left);
+  }
+
+  if (RecalboxConf::Instance().GetClock())
+  {
+    mDateTime->setHorizontalAlignment(TextAlignment::Right);
+    mDateTime->setFont(theme.Text().font);
+    mDateTime->setColor(theme.Text().color);
+  }
+
+  updateGrid();
+  updateSize();
 }

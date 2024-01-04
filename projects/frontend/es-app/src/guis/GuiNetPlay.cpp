@@ -52,7 +52,7 @@ GuiNetPlay::GuiNetPlay(WindowManager& window, SystemManager& systemManager)
   mButtons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this]
   { Close(); }));
 
-  mButtonGrid = makeButtonGrid(mWindow, mButtons);
+  mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, mButtons);
   mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false);
 
   updateSize();

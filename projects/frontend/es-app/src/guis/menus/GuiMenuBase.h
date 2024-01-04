@@ -20,7 +20,9 @@ class RatingComponent;
 class EditableComponent;
 template<typename T> class OptionListComponent;
 
-class GuiMenuBase : public Gui, private IComponentListRow
+class GuiMenuBase : public Gui
+                  , private IComponentListRow
+                  , public IThemeSwitchable
 {
   public:
     //! Constructor
@@ -87,7 +89,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param func Method to call back when selected
      * @param help Help string
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const String& label, const Path& icon, int id, const String& help);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type iconType, int id, const String& help);
 
     /*!
      * @brief Add Submenu with Icon
@@ -95,7 +97,7 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * @param icon Icon image path
      * @param func Method to call back when selected
      */
-    std::shared_ptr<TextComponent> AddSubMenu(const String& label, const Path& icon, int id);
+    std::shared_ptr<TextComponent> AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type iconType, int id);
 
     /*!
      * @brief Add a switch menu entry
@@ -426,4 +428,21 @@ class GuiMenuBase : public Gui, private IComponentListRow
      * IComponentListRow implementation
      */
     void ComponentListRowSelected(int id) override;
+
+    /*
+     * IThemeSwitchable implementation
+     */
+
+    /*!
+     * @brief Always use main theme
+     * @return nullptr
+     */
+    [[nodiscard]] SystemData* SystemTheme() const override { return nullptr; }
+
+    /*!
+     * @brief Called when theme switch.
+     * @param theme New Theme
+     * @param refreshOnly True if the theme dit not change and the implementation must refresh only (i.e: apply new values)
+     */
+    void SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface) override;
 };

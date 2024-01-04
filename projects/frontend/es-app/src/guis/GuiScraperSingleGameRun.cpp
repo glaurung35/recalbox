@@ -49,7 +49,7 @@ GuiScraperSingleGameRun::GuiScraperSingleGameRun(WindowManager&window, SystemMan
 	mButton = std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("CANCEL"), [this] { Close(); });
 	std::vector< std::shared_ptr<ButtonComponent> > buttons;
 	buttons.push_back(mButton);
-	mButtonGrid = makeButtonGrid(mWindow, buttons);
+	mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
 
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 6), true, false);
 

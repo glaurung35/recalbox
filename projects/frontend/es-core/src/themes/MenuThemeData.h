@@ -36,25 +36,79 @@ class MenuThemeData : private INoCopy
 
     struct MenuIcons
     {
-      Path kodi;
-      Path system;
-      Path recalboxrgbdual;
-      Path updates;
-      Path games;
-      Path controllers;
-      Path ui;
-      Path download;
-      Path arcade;
-      Path tate;
-      Path sound;
-      Path network;
-      Path scraper;
-      Path advanced;
-      Path quit;
-      Path restart;
-      Path shutdown;
-      Path fastshutdown;
-      Path license;
+      public:
+        enum class Type
+        {
+          Kodi,
+          System,
+          RecalboxRGBDual,
+          Updates,
+          Games,
+          Controllers,
+          Ui,
+          Download,
+          Arcade,
+          Tate,
+          Sound,
+          Network,
+          Scraper,
+          Advanced,
+          Quit,
+          Restart,
+          Shutdown,
+          Fastshutdown,
+          License,
+        };
+        [[nodiscard]] const Path& FromType(Type type) const
+        {
+          switch(type)
+          {
+            case Type::Kodi: return mKodi;
+            case Type::System: return mSystem;
+            case Type::RecalboxRGBDual: return mRecalboxRGBDual;
+            case Type::Updates: return mUpdates;
+            case Type::Games: return mGames;
+            case Type::Controllers: return mControllers;
+            case Type::Ui: return mUI;
+            case Type::Download: return mDownload;
+            case Type::Arcade: return mArcade;
+            case Type::Tate: return mTate;
+            case Type::Sound: return mSound;
+            case Type::Network: return mNetwork;
+            case Type::Scraper: return mScraper;
+            case Type::Advanced: return mAdvanced;
+            case Type::Quit: return mQuit;
+            case Type::Restart: return mRestart;
+            case Type::Shutdown: return mShutdown;
+            case Type::Fastshutdown: return mFastShutdown;
+            case Type::License: return mLicense;
+            default: break;
+          }
+          abort();
+        }
+      private:
+        Path mKodi;
+        Path mSystem;
+        Path mRecalboxRGBDual;
+        Path mUpdates;
+        Path mGames;
+        Path mControllers;
+        Path mUI;
+        Path mDownload;
+        Path mArcade;
+        Path mTate;
+        Path mSound;
+        Path mNetwork;
+        Path mScraper;
+        Path mAdvanced;
+        Path mQuit;
+        Path mRestart;
+        Path mShutdown;
+        Path mFastShutdown;
+        Path mLicense;
+
+        //! Allow access to the private area to the enlosing class
+        friend class MenuThemeData;
     };
 
     //! Default constructor

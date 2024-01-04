@@ -222,6 +222,7 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Exit
+    audioManager.StopAll();
     mNotificationManager.Notify(Notification::Stop, String(mRunCount));
     window.GoToQuitScreen();
     systemManager.DeleteAllSystems(DoWeHaveToUpdateGamelist(exitState));

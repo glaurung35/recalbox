@@ -81,15 +81,17 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, int 
 
   auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.Text().font, mTheme.Text().color);
   row.addElement(entryMenu, true);
-  row.addElement(makeArrow(mWindow), false);
+  row.addElement(MenuComponent::MakeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
   return entryMenu;
 }
 
-std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, const Path& iconPath, int id, const String& help)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type iconType, int id, const String& help)
 {
   ComponentListRow row;
   row.SetCallbackInterface(id, this);
+
+  const Path& iconPath = ThemeManager::Instance().Menu().Icons().FromType(iconType);
 
   if (!iconPath.IsEmpty())
   {
@@ -111,7 +113,7 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, cons
 
   auto entryMenu = std::make_shared<TextComponent>(mWindow, label, mTheme.Text().font, mTheme.Text().color);
   row.addElement(entryMenu, true);
-  row.addElement(makeArrow(mWindow), false);
+  row.addElement(MenuComponent::MakeArrow(mWindow), false);
   mMenu.addRowWithHelp(row, label, help);
   return entryMenu;
 }
@@ -121,9 +123,9 @@ std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, int 
   return AddSubMenu(label, id, String::Empty);
 }
 
-std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, const Path& icon, int id)
+std::shared_ptr<TextComponent> GuiMenuBase::AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type iconType, int id)
 {
-  return AddSubMenu(label, icon, id, String::Empty);
+  return AddSubMenu(label, iconType, id, String::Empty);
 }
 
 std::shared_ptr<RatingComponent> GuiMenuBase::AddRating(const String& text, float value, int id, IRatingComponent* interface, const String& help)
@@ -269,6 +271,14 @@ void GuiMenuBase::ComponentListRowSelected(int id)
   // Pass-thru from ComponentListRow to user interface
   if (mInterface != nullptr)
     mInterface->SubMenuSelected(id);
+}
+
+void GuiMenuBase::SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface)
+{
+  (void)theme;
+  (void)refreshOnly;
+  (void)interface;
+  mMenu.UpdateMenuTheme(ThemeManager::Instance().Menu());
 }
 
 

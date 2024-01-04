@@ -86,7 +86,7 @@ void GuiBluetoothDevices::BuildComponents()
   // Buttons
   std::vector<std::shared_ptr<ButtonComponent> > buttons;
   buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { Close(); }));
-  mButtons = makeButtonGrid(mWindow, buttons);
+  mButtons = MenuComponent::MakeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtons, Vector2i(1, 3), true, false, Vector2i(2, 1));
 
   const float height = Renderer::Instance().DisplayHeightAsFloat() * 0.75f;

@@ -100,7 +100,7 @@ void GuiBiosMd5::BuildUI()
   mButtonClose = std::make_shared<ButtonComponent>(mWindow, _("CLOSE"), _("CLOSE"), [this] { Close(); } );
   std::vector<std::shared_ptr<ButtonComponent>> buttons;
   buttons.push_back(mButtonClose);
-  mButtonGrid = makeButtonGrid(mWindow, buttons);
+  mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtonGrid, Vector2i(1, 3), true, false, Vector2i(1,1));
 
   // Set Window position/size

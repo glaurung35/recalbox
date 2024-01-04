@@ -20,14 +20,14 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
     mTotalGames(0),
     mRemaininglGames(0)
 {
-  addChild(&mMenu);
+  addChild(&mMenu); // #TODO: Rewrite using MenuBase
 
   mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   mFilter = std::make_shared<OptionListComponent<String> >(mWindow, _("FILTER"), false);
   mFilter->add(_("Only missing hashs"), "missing", true);
   mFilter->add(_("All Games"), "all", false);
-  mMenu.addWithLabel(mFilter, _("FILTER"));
+  mMenu.addWithLabel(mFilter, _("FILTER"), String::Empty);
 
   // add systems (all with a platformid specified selected)
   mSystems = std::make_shared<OptionListComponent<SystemData*> >(mWindow, _("HASH THESE SYSTEMS"), true);
@@ -36,7 +36,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
     if (it->Descriptor().HasNetPlayCores())
       mSystems->add(it->FullName(), it, true);
   }
-  mMenu.addWithLabel(mSystems, _("SYSTEMS"));
+  mMenu.addWithLabel(mSystems, _("SYSTEMS"), String::Empty);
 
   mMenu.addButton(_("START"), "start", [this]
   {

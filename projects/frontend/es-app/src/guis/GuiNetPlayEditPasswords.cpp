@@ -10,7 +10,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
     mCurrentPasswordIndex(0),
     mMenu(window, _("PREDEFINED PASSWORDS"))
 {
-	addChild(&mMenu);
+	addChild(&mMenu); // #TODO: Rewrite using MenuBase
 
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 

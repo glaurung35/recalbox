@@ -114,7 +114,7 @@ void GuiMenuScraper::start()
     GuiScraperRun::CreateOrShow(mWindow, mSystemManager, mSystems->getSelectedObjectsAsArray(), mScrapingMethod->getSelected(), &GameRunner::Instance(), Renderer::Instance().DisplayHeightAsInt() <=576);
 }
 
-void GuiMenuScraper::SwitchComponentChanged(int id, bool status)
+void GuiMenuScraper::SwitchComponentChanged(int id, bool& status)
 {
   if ((Components)id == Components::ScraperAuto)
     RecalboxConf::Instance().SetScraperAuto(status).Save();

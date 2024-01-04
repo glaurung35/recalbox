@@ -135,7 +135,7 @@ class GuiMenuPads : public GuiMenuBase
     /*
      * ISwitchComponent
      */
-    void SwitchComponentChanged(int id, bool status) override;
+    void SwitchComponentChanged(int id, bool& status) override;
 };
 
 

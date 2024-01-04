@@ -650,7 +650,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param type Virtual system type
      * @return True if the given Virtual system needs to be refreshed, false otherwise
      */
-    bool VirtualSystemNeedRefresh(const DescriptorList& systemList, VirtualSystemType type) const;
+    [[nodiscard]] bool VirtualSystemNeedRefresh(const DescriptorList& systemList, VirtualSystemType type) const;
 
     /*!
      * @brief Set file watching on all gamelist so that the frontend may know if they have been modified from elsewhere
@@ -773,7 +773,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @brief Top level filter component has been updated
      * All systems must check if they are becoming visible or invisible or just updated
      */
-    void UpdatedTopLevelFilter();
+    [[nodiscard]] bool UpdatedTopLevelFilter();
 
     /*!
      * @brief Show or Hide the given system.Initialize the given system ir required, then make is visible!

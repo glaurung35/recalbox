@@ -368,7 +368,7 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const ICrtInterfa
   }
 }
 
-void GuiMenuCRT::SwitchComponentChanged(int id, bool status)
+void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
 {
   if ((Components)id == Components::GameRegion)
     CrtConf::Instance().SetSystemCRTGameRegionSelect(status).Save();

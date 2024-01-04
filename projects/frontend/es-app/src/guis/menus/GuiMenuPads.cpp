@@ -167,7 +167,9 @@ void GuiMenuPads::SubMenuSelected(int id)
     case Components::Pads:
     case Components::Driver:
     case Components::PadOSD:
-    case Components::PadOSDType: break;
+    case Components::PadOSDType:
+    case Components::AutoPairOnBoot:
+    default: break;
   }
 }
 
@@ -197,7 +199,7 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& va
     RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
 }
 
-void GuiMenuPads::SwitchComponentChanged(int id, bool status)
+void GuiMenuPads::SwitchComponentChanged(int id, bool& status)
 {
   if ((Components)id == Components::PadOSD)
     RecalboxConf::Instance().SetPadOSD(status).Save();

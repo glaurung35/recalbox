@@ -130,7 +130,7 @@ void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, c
   }
 }
 
-void GuiMenuSystemConfiguration::SwitchComponentChanged(int id, bool status)
+void GuiMenuSystemConfiguration::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {

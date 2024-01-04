@@ -222,7 +222,7 @@ void GuiMenuNetwork::EditableComponentTextChanged(int id, const String& text)
   }
 }
 
-void GuiMenuNetwork::SwitchComponentChanged(int id, bool status)
+void GuiMenuNetwork::SwitchComponentChanged(int id, bool& status)
 {
   (void)id;
   // Save state

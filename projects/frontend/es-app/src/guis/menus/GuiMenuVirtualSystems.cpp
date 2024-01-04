@@ -43,7 +43,7 @@ void GuiMenuVirtualSystems::SubMenuSelected(int id)
     mWindow.pushGui(new GuiMenuVirtualSystemPerGenre(mWindow, mSystemManager));
 }
 
-void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool status)
+void GuiMenuVirtualSystems::SwitchComponentChanged(int id, bool& status)
 {
   SystemManager::Visibility visibility = status ? SystemManager::Visibility::ShowAndSelect : SystemManager::Visibility::Hide;
   switch((Components)id)

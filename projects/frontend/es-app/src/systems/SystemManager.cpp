@@ -1699,7 +1699,7 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
         mSystemChangeNotifier->UpdateSystem(system);
 }
 
-void SystemManager::UpdatedTopLevelFilter()
+bool SystemManager::UpdatedTopLevelFilter()
 {
   SystemManager::List added;
   SystemManager::List removed;
@@ -1722,7 +1722,16 @@ void SystemManager::UpdatedTopLevelFilter()
     if (!removed.Contains(system))
       updated.Add(system);
 
-  ApplySystemChanges(&added, &removed, &updated, false);
+  // Check if the filter does not remove all visible systems
+  int visibleSystems = mVisibleSystems.Count();
+  for(SystemData* system : removed)
+    if (mVisibleSystems.Contains(system))
+      --visibleSystems;
+
+  if (visibleSystems != 0)
+    ApplySystemChanges(&added, &removed, &updated, false);
+
+  return visibleSystems != 0;
 }
 
 void SystemManager::UpdateSystemsVisibility(SystemData* system, Visibility visibility)

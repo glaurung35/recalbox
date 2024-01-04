@@ -39,7 +39,7 @@ GuiMenuArcade::GuiMenuArcade(WindowManager& window, SystemManager& systemManager
   }
 }
 
-void GuiMenuArcade::SwitchComponentChanged(int id, bool status)
+void GuiMenuArcade::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {
@@ -57,16 +57,34 @@ void GuiMenuArcade::SwitchComponentChanged(int id, bool status)
     }
     case Components::HideBios:
     {
-      RecalboxConf::Instance().SetArcadeViewHideBios(status).Save();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-      mSystemManager.UpdatedTopLevelFilter();
+      RecalboxConf::Instance().SetArcadeViewHideBios(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+      {
+        ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+        RecalboxConf::Instance().Save();
+      }
+      else
+      {
+        mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
+        RecalboxConf::Instance().SetArcadeViewHideBios(!status);
+        status = !status;
+      }
       break;
     }
     case Components::HideNonWorking:
     {
-      RecalboxConf::Instance().SetArcadeViewHideNonWorking(status).Save();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-      mSystemManager.UpdatedTopLevelFilter();
+      RecalboxConf::Instance().SetArcadeViewHideNonWorking(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+      {
+        ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+        RecalboxConf::Instance().Save();
+      }
+      else
+      {
+        mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
+        RecalboxConf::Instance().SetArcadeViewHideNonWorking(!status);
+        status = !status;
+      }
       break;
     }
     case Components::UseDatabasesNames:

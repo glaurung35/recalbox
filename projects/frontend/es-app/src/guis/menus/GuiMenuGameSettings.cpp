@@ -182,11 +182,13 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const St
     case Components::Softpatching:
     case Components::RetroAchivements:
     case Components::Netplay:
+    case Components::HDMode:
+    case Components::WideScreenMode:
     default: break;
   }
 }
 
-void GuiMenuGameSettings::SwitchComponentChanged(int id, bool status)
+void GuiMenuGameSettings::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {

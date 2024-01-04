@@ -203,7 +203,7 @@ void GuiMenuGamelistGameOptions::EditableComponentTextChanged(int id, const Stri
     mGame.Metadata().SetDescription(text);
 }
 
-void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool status)
+void GuiMenuGamelistGameOptions::SwitchComponentChanged(int id, bool& status)
 {
   MetadataType updatedMetadata = MetadataType::None;
   switch((Components)id)

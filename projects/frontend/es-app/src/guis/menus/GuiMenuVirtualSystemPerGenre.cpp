@@ -30,7 +30,7 @@ GuiMenuVirtualSystemPerGenre::GuiMenuVirtualSystemPerGenre(WindowManager& window
   }
 }
 
-void GuiMenuVirtualSystemPerGenre::SwitchComponentChanged(int id, bool status)
+void GuiMenuVirtualSystemPerGenre::SwitchComponentChanged(int id, bool& status)
 {
   GameGenres genre = (GameGenres)id;
   String identifier = SystemManager::BuildGenreSystemName(genre);

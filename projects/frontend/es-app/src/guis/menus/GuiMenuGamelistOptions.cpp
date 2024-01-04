@@ -315,15 +315,22 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
   }
 }
 
-void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool status)
+void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {
     case Components::FlatFolders: RecalboxConf::Instance().SetSystemFlatFolders(mSystem, status).Save(); break;
     case Components::FavoritesOnly:
     {
-      RecalboxConf::Instance().SetFavoritesOnly(status).Save();
-      mSystemManager.UpdatedTopLevelFilter();
+      RecalboxConf::Instance().SetFavoritesOnly(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+        RecalboxConf::Instance().Save();
+      else
+      {
+        mWindow.displayMessage(_("There is no favorite games in any system!"));
+        RecalboxConf::Instance().SetFavoritesOnly(!status);
+        status = false;
+      }
       break;
     }
     case Components::AutorunGame:

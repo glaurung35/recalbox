@@ -37,5 +37,5 @@ class GuiMenuGameFilters : public GuiMenuBase
      * ISwitchComponent implementation
      */
 
-    void SwitchComponentChanged(int id, bool status) override;
+    void SwitchComponentChanged(int id, bool& status) override;
 };

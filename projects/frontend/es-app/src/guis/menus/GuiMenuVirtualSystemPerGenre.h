@@ -29,7 +29,7 @@ class GuiMenuVirtualSystemPerGenre : public GuiMenuBase
     HashMap<String, bool> mGenres;
 
     //! Switch component changed
-    void SwitchComponentChanged(int id, bool status) override;
+    void SwitchComponentChanged(int id, bool& status) override;
 };
 
 

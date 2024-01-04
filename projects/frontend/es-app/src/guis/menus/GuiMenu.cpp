@@ -31,69 +31,69 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
 
   // Kodi
   if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
-    AddSubMenu(_("KODI MEDIA CENTER"), mTheme.Icons().kodi, (int)Components::Kodi, _(MENUMESSAGE_START_KODI_HELP_MSG));
+    AddSubMenu(_("KODI MEDIA CENTER"), MenuThemeData::MenuIcons::Type::Kodi, (int)Components::Kodi, _(MENUMESSAGE_START_KODI_HELP_MSG));
 
   // System menu
   if (!bartop)
-    AddSubMenu(_("SYSTEM SETTINGS"), mTheme.Icons().system, (int)Components::System, _(MENUMESSAGE_SYSTEM_HELP_MSG));
+    AddSubMenu(_("SYSTEM SETTINGS"), MenuThemeData::MenuIcons::Type::System, (int)Components::System, _(MENUMESSAGE_SYSTEM_HELP_MSG));
 
   // Update menu
   if (!bartop)
-    AddSubMenu(_("UPDATES"), mTheme.Icons().updates, (int)Components::Update, _(MENUMESSAGE_UPDATE_HELP_MSG));
+    AddSubMenu(_("UPDATES"), MenuThemeData::MenuIcons::Type::Updates, (int)Components::Update, _(MENUMESSAGE_UPDATE_HELP_MSG));
 
   // Recalbox RGB Dual menu
   if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual)
-    AddSubMenu(_("RECALBOX RGB DUAL"), mTheme.Icons().recalboxrgbdual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
+    AddSubMenu(_("RECALBOX RGB DUAL"), MenuThemeData::MenuIcons::Type::RecalboxRGBDual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
   if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2)
-    AddSubMenu(_("RECALBOX RGB JAMMA"), mTheme.Icons().recalboxrgbdual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
+    AddSubMenu(_("RECALBOX RGB JAMMA"), MenuThemeData::MenuIcons::Type::RecalboxRGBDual, (int)Components::RecalboxRGBDual, _(MENUMESSAGE_RECALBOXRGBDUAL_HELP_MSG));
 
   // Games menu
-  AddSubMenu(_("GAMES SETTINGS"), mTheme.Icons().games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
+  AddSubMenu(_("GAMES SETTINGS"), MenuThemeData::MenuIcons::Type::Games, (int)Components::Games, _(MENUMESSAGE_GAME_SETTINGS_HELP_MSG));
 
   // Download menu
   if (!bartop)
-    AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.Icons().download, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
+    AddSubMenu(_("DOWNLOAD CONTENTS"), MenuThemeData::MenuIcons::Type::Download, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
 
   // Controllers menu
   if (!bartop)
-    AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.Icons().controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
+    AddSubMenu(_("CONTROLLERS SETTINGS"), MenuThemeData::MenuIcons::Type::Controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
 
   // UI Settings menu
   if (!bartop)
-    AddSubMenu(_("UI SETTINGS"), mTheme.Icons().ui, (int)Components::UISettings, _(MENUMESSAGE_UI_HELP_MSG));
+    AddSubMenu(_("UI SETTINGS"), MenuThemeData::MenuIcons::Type::Ui, (int)Components::UISettings, _(MENUMESSAGE_UI_HELP_MSG));
 
   // Atcade menu
   if (!bartop)
-    AddSubMenu(_("ARCADE SETTINGS"), mTheme.Icons().arcade, (int)Components::Arcade, _(MENUMESSAGE_ARCADE_HELP_MSG));
+    AddSubMenu(_("ARCADE SETTINGS"), MenuThemeData::MenuIcons::Type::Arcade, (int)Components::Arcade, _(MENUMESSAGE_ARCADE_HELP_MSG));
 
   // TATE menu
   if (!bartop)
-    AddSubMenu(_("TATE SETTINGS"), mTheme.Icons().tate, (int)Components::Tate, _(MENUMESSAGE_TATE_HELP_MSG));
+    AddSubMenu(_("TATE SETTINGS"), MenuThemeData::MenuIcons::Type::Tate, (int)Components::Tate, _(MENUMESSAGE_TATE_HELP_MSG));
 
   // Sound menu
-  AddSubMenu(_("SOUND SETTINGS"), mTheme.Icons().sound, (int)Components::Sound, _(MENUMESSAGE_SOUND_HELP_MSG));
+  AddSubMenu(_("SOUND SETTINGS"), MenuThemeData::MenuIcons::Type::Sound, (int)Components::Sound, _(MENUMESSAGE_SOUND_HELP_MSG));
 
   // Network
   if (!bartop)
-    AddSubMenu(_("NETWORK SETTINGS"), mTheme.Icons().network, (int)Components::Network, _(MENUMESSAGE_NETWORK_HELP_MSG));
+    AddSubMenu(_("NETWORK SETTINGS"), MenuThemeData::MenuIcons::Type::Network, (int)Components::Network, _(MENUMESSAGE_NETWORK_HELP_MSG));
 
   // Scraper
   if (!bartop)
-    AddSubMenu(_("SCRAPER"), mTheme.Icons().scraper, (int)Components::Scraper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
+    AddSubMenu(_("SCRAPER"), MenuThemeData::MenuIcons::Type::Scraper, (int)Components::Scraper, _(MENUMESSAGE_SCRAPER_HELP_MSG));
 
   // Advanced
   if (!bartop)
-    AddSubMenu(_("ADVANCED SETTINGS"), mTheme.Icons().advanced, (int)Components::Advanced, _(MENUMESSAGE_ADVANCED_HELP_MSG));
+    AddSubMenu(_("ADVANCED SETTINGS"), MenuThemeData::MenuIcons::Type::Advanced, (int)Components::Advanced, _(MENUMESSAGE_ADVANCED_HELP_MSG));
 
   // Bios
   if (!bartop)
-    AddSubMenu(_("BIOS CHECKING"), mTheme.Icons().games, (int)Components::Bios, _(MENUMESSAGE_BIOS_HELP_MSG));
+    AddSubMenu(_("BIOS CHECKING"), MenuThemeData::MenuIcons::Type::Games, (int)Components::Bios, _(MENUMESSAGE_BIOS_HELP_MSG));
 
   // License
-  AddSubMenu(_("OPEN-SOURCE LICENSE"), mTheme.Icons().license, (int)Components::License);
+  AddSubMenu(_("OPEN-SOURCE LICENSE"), MenuThemeData::MenuIcons::Type::License, (int)Components::License);
 
   // Quit
-  AddSubMenu(_("QUIT"), mTheme.Icons().quit, (int)Components::Quit);
+  AddSubMenu(_("QUIT"), MenuThemeData::MenuIcons::Type::Quit, (int)Components::Quit);
 
   // Animation
   auto fadeFunc = [this](float t)

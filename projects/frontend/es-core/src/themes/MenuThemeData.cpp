@@ -72,25 +72,25 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 
 	if (const ThemeElement* elem = mainTheme.Element("menu", "menuicons", ThemeElementType::MenuIcons); elem != nullptr)
   {
-		if (elem->HasProperty(ThemePropertyName::IconKodi))            mIconSet.kodi = elem->AsString(ThemePropertyName::IconKodi);
-		if (elem->HasProperty(ThemePropertyName::IconSystem))          mIconSet.system = elem->AsString(ThemePropertyName::IconSystem);
-		if (elem->HasProperty(ThemePropertyName::IconUpdates))         mIconSet.updates = elem->AsString(ThemePropertyName::IconUpdates);
-		if (elem->HasProperty(ThemePropertyName::IconGames))           mIconSet.games = elem->AsString(ThemePropertyName::IconGames);
-		if (elem->HasProperty(ThemePropertyName::IconControllers))     mIconSet.controllers = elem->AsString(ThemePropertyName::IconControllers);
-		if (elem->HasProperty(ThemePropertyName::IconUI))              mIconSet.ui = elem->AsString(ThemePropertyName::IconUI);
-		if (elem->HasProperty(ThemePropertyName::IconSound))           mIconSet.sound = elem->AsString(ThemePropertyName::IconSound);
-		if (elem->HasProperty(ThemePropertyName::IconNetwork))         mIconSet.network = elem->AsString(ThemePropertyName::IconNetwork);
-    if (elem->HasProperty(ThemePropertyName::IconScraper))         mIconSet.scraper = elem->AsString(ThemePropertyName::IconScraper);
-		if (elem->HasProperty(ThemePropertyName::IconAdvanced))        mIconSet.advanced = elem->AsString(ThemePropertyName::IconAdvanced);
-		if (elem->HasProperty(ThemePropertyName::IconQuit))            mIconSet.quit = elem->AsString(ThemePropertyName::IconQuit);
-    if (elem->HasProperty(ThemePropertyName::IconRestart))         mIconSet.restart = elem->AsString(ThemePropertyName::IconRestart);
-    if (elem->HasProperty(ThemePropertyName::IconShutdown))        mIconSet.shutdown = elem->AsString(ThemePropertyName::IconShutdown);
-    if (elem->HasProperty(ThemePropertyName::IconFastShutdown))    mIconSet.fastshutdown = elem->AsString(ThemePropertyName::IconFastShutdown);
-    if (elem->HasProperty(ThemePropertyName::IconLicense))         mIconSet.license = elem->AsString(ThemePropertyName::IconLicense);
-    if (elem->HasProperty(ThemePropertyName::IconRecalboxRGBDual)) mIconSet.recalboxrgbdual = elem->AsString(ThemePropertyName::IconRecalboxRGBDual);
-    if (elem->HasProperty(ThemePropertyName::IconTate))            mIconSet.tate = elem->AsString(ThemePropertyName::IconTate);
-    if (elem->HasProperty(ThemePropertyName::IconArcade))          mIconSet.arcade = elem->AsString(ThemePropertyName::IconArcade);
-    if (elem->HasProperty(ThemePropertyName::IconDownload))        mIconSet.download = elem->AsString(ThemePropertyName::IconDownload);
+		if (elem->HasProperty(ThemePropertyName::IconKodi))            mIconSet.mKodi = elem->AsString(ThemePropertyName::IconKodi);
+		if (elem->HasProperty(ThemePropertyName::IconSystem))          mIconSet.mSystem = elem->AsString(ThemePropertyName::IconSystem);
+		if (elem->HasProperty(ThemePropertyName::IconUpdates))         mIconSet.mUpdates = elem->AsString(ThemePropertyName::IconUpdates);
+		if (elem->HasProperty(ThemePropertyName::IconGames))           mIconSet.mGames = elem->AsString(ThemePropertyName::IconGames);
+		if (elem->HasProperty(ThemePropertyName::IconControllers))     mIconSet.mControllers = elem->AsString(ThemePropertyName::IconControllers);
+		if (elem->HasProperty(ThemePropertyName::IconUI))              mIconSet.mUI = elem->AsString(ThemePropertyName::IconUI);
+		if (elem->HasProperty(ThemePropertyName::IconSound))           mIconSet.mSound = elem->AsString(ThemePropertyName::IconSound);
+		if (elem->HasProperty(ThemePropertyName::IconNetwork))         mIconSet.mNetwork = elem->AsString(ThemePropertyName::IconNetwork);
+    if (elem->HasProperty(ThemePropertyName::IconScraper))         mIconSet.mScraper = elem->AsString(ThemePropertyName::IconScraper);
+		if (elem->HasProperty(ThemePropertyName::IconAdvanced))        mIconSet.mAdvanced = elem->AsString(ThemePropertyName::IconAdvanced);
+		if (elem->HasProperty(ThemePropertyName::IconQuit))            mIconSet.mQuit = elem->AsString(ThemePropertyName::IconQuit);
+    if (elem->HasProperty(ThemePropertyName::IconRestart))         mIconSet.mRestart = elem->AsString(ThemePropertyName::IconRestart);
+    if (elem->HasProperty(ThemePropertyName::IconShutdown))        mIconSet.mShutdown = elem->AsString(ThemePropertyName::IconShutdown);
+    if (elem->HasProperty(ThemePropertyName::IconFastShutdown))    mIconSet.mFastShutdown = elem->AsString(ThemePropertyName::IconFastShutdown);
+    if (elem->HasProperty(ThemePropertyName::IconLicense))         mIconSet.mLicense = elem->AsString(ThemePropertyName::IconLicense);
+    if (elem->HasProperty(ThemePropertyName::IconRecalboxRGBDual)) mIconSet.mRecalboxRGBDual = elem->AsString(ThemePropertyName::IconRecalboxRGBDual);
+    if (elem->HasProperty(ThemePropertyName::IconTate))            mIconSet.mTate = elem->AsString(ThemePropertyName::IconTate);
+    if (elem->HasProperty(ThemePropertyName::IconArcade))          mIconSet.mArcade = elem->AsString(ThemePropertyName::IconArcade);
+    if (elem->HasProperty(ThemePropertyName::IconDownload))        mIconSet.mDownload = elem->AsString(ThemePropertyName::IconDownload);
 	}
 }
 

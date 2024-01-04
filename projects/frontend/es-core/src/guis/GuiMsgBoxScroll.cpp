@@ -62,7 +62,7 @@ GuiMsgBoxScroll::GuiMsgBoxScroll(WindowManager& window,
 	}
 
 	// put the buttons into a ComponentGrid
-	mButtonGrid = makeButtonGrid(mWindow, mButtons);
+	mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, mButtons);
 	mGrid.setEntry(mButtonGrid, Vector2i(0, 2), true, false, Vector2i(1, 1));
 
 	// decide final width

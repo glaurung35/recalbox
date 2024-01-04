@@ -10,7 +10,6 @@
 #include "guis/menus/GuiMenu.h"
 #include "audio/AudioManager.h"
 #include <guis/GuiSearch.h>
-#include <guis/GuiSettings.h>
 #include <guis/menus/GuiMenuSwitchKodiNetplay.h>
 #include <emulators/run/GameRunner.h>
 #include "MenuFilter.h"

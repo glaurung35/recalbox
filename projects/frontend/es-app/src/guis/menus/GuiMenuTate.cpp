@@ -97,7 +97,7 @@ void GuiMenuTate::OptionListComponentChanged(int id, int index, const RotationTy
   }
 }
 
-void GuiMenuTate::SwitchComponentChanged(int id, bool status)
+void GuiMenuTate::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {
@@ -110,8 +110,15 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool status)
     }
     case Components::TateOnly:
     {
-      RecalboxConf::Instance().SetTateOnly(status).Save();
-      mSystemManager.UpdatedTopLevelFilter();
+      RecalboxConf::Instance().SetTateOnly(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+        RecalboxConf::Instance().Save();
+      else
+      {
+        mWindow.displayMessage(_("There is no TATE game to show!No change recorded."));
+        RecalboxConf::Instance().SetTateOnly(!status);
+        status = !status;
+      }
       break;
     }
     case Components::TateGamesRotation:

@@ -394,6 +394,7 @@ MainRunner::ExitState MainRunner::MainLoop(ApplicationWindow& window, SystemMana
 
 void MainRunner::InitializeUserInterface(WindowManager& window)
 {
+  (void)window;
   { LOG(LogDebug) << "[MainRunner] Preparing GUI"; }
   ViewController::Instance().goToStart();
 }
@@ -434,7 +435,6 @@ void MainRunner::CheckRecalboxLite(WindowManager& window)
 
 void MainRunner::CheckFirstTimeWizard(WindowManager& window)
 {
-  bool firstTime = false;
   if (RecalboxConf::Instance().GetFirstTimeUse())
   {
     switch (Board::Instance().GetBoardType())
@@ -775,7 +775,27 @@ void MainRunner::UnderVoltage(BoardType board)
     case(BoardType::Pi400): suffix = " 400."; break;
     case(BoardType::Pi5): suffix = " 5."; break;
     case(BoardType::Pi4): suffix = " 4."; break;
+    case BoardType::UndetectedYet:
+    case BoardType::Unknown:
+    case BoardType::Pi0:
+    case BoardType::Pi02:
+    case BoardType::Pi1:
+    case BoardType::Pi2:
+    case BoardType::Pi3:
+    case BoardType::Pi3plus:
+    case BoardType::UnknownPi:
+    case BoardType::OdroidAdvanceGo:
+    case BoardType::OdroidAdvanceGoSuper:
+    case BoardType::RG351V:
+    case BoardType::RG351P:
+    case BoardType::RG353P:
+    case BoardType::RG353V:
+    case BoardType::RG353M:
+    case BoardType::RG503:
+    case BoardType::PCx86:
+    case BoardType::PCx64:
     default: suffix = "."; break;
+
   }
   if(Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)
     message.Append(_("We recommend adjusting your JAMMA cabinet power supply to increase the voltage to between 5.05V and 5.2V"));

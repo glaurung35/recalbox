@@ -61,7 +61,7 @@ void GuiMenuBootSettings::OptionListComponentChanged(int id, int index, const St
   }
 }
 
-void GuiMenuBootSettings::SwitchComponentChanged(int id, bool status)
+void GuiMenuBootSettings::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {

@@ -47,7 +47,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuUpdates::GetUpdateTypeEntries
   return list;
 }
 
-void GuiMenuUpdates::SwitchComponentChanged(int id, bool status)
+void GuiMenuUpdates::SwitchComponentChanged(int id, bool& status)
 {
   if ((Components)id == Components::Enable)
     RecalboxConf::Instance().SetUpdatesEnabled(status).Save();

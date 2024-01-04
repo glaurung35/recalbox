@@ -109,7 +109,7 @@ void GuiMenuUserInterface::SliderMoved(int id, float value)
     }
 }
 
-void GuiMenuUserInterface::SwitchComponentChanged(int id, bool status)
+void GuiMenuUserInterface::SwitchComponentChanged(int id, bool& status)
 {
   SystemData* systemData = ViewController::Instance().CurrentSystem();
 

@@ -122,7 +122,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
      * IEditableComponent implementation
      */
 
-    void SwitchComponentChanged(int id, bool status) override;
+    void SwitchComponentChanged(int id, bool& status) override;
 
     /*
      * IRatingComponent implementation

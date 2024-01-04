@@ -19,7 +19,7 @@ GuiMenuArcadeAllInOneSystem::GuiMenuArcadeAllInOneSystem(WindowManager& window, 
   AddSwitch(_("HIDE ORIGINAL SYSTEMS"), RecalboxConf::Instance().GetCollectionArcadeHideOriginals(), (int)Components::HideOriginals, this);
 }
 
-void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool status)
+void GuiMenuArcadeAllInOneSystem::SwitchComponentChanged(int id, bool& status)
 {
   switch((Components)id)
   {

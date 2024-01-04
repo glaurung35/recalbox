@@ -229,7 +229,7 @@ void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, cons
   }
 }
 
-void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool status)
+void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool& status)
 {
   switch ((Components)id)
   {

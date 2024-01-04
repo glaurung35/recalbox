@@ -105,7 +105,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const S
   const float gridHeight = screenHeightAvailable * ((float) buttonList.size() / (float) (buttonList.size() + 3) ); // 3 => share space with mTitle + mText + buttons
 
 	// Add keyboard keys
-	mKeyboardGrid = makeMultiDimButtonGrid(mWindow, buttonList, gridWidth, gridHeight);
+	mKeyboardGrid = MenuComponent::MakeMultiDimButtonGrid(mWindow, buttonList, gridWidth, gridHeight);
 
 	mShiftButton->autoSizeFont();
 	if (mShiftButton->isTextOverlapping()) {
@@ -130,7 +130,7 @@ GuiTextEditPopupKeyboard::GuiTextEditPopupKeyboard(WindowManager&window, const S
 	buttons.push_back(std::make_shared<ButtonComponent>(mWindow, _("CANCEL"), _("DISCARD CHANGES"), [this] { Close(); }));
 
 	// Add buttons
-	mButtons = makeButtonGrid(mWindow, buttons);
+	mButtons = MenuComponent::MakeButtonGrid(mWindow, buttons);
 	mGrid.setEntry(mButtons, Vector2i(0, 3), true, false);
 
 	// Determine size from text size

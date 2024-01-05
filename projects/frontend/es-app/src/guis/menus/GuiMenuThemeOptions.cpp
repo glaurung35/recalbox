@@ -44,15 +44,22 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEn
 
 std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries()
 {
-  ThemeManager::ThemeList  themelist = ThemeManager::AvailableThemes();
-  auto selectedSet = themelist.find(RecalboxConf::Instance().GetThemeFolder());
-  if (selectedSet == themelist.end()) selectedSet = themelist.begin();
-  mOriginalTheme = selectedSet->first;
+  // Get theme list
+  ThemeManager::ThemeList themelist = ThemeManager::AvailableThemes();
+  mOriginalTheme = RecalboxConf::Instance().GetThemeFolder();
+  if (!themelist.contains(mOriginalTheme)) mOriginalTheme = "recalbox-next";
+  if (!themelist.contains(mOriginalTheme)) mOriginalTheme = themelist.begin()->first;
+
+  // Sort names
+  String::List sortedNames;
+  for (const auto& kv : themelist) sortedNames.push_back(kv.first);
+  std::sort(sortedNames.begin(), sortedNames.end(), [](const String& a, const String& b) { return a.ToLowerCase() < b.ToLowerCase(); });
+
   std::vector<ListEntry<String>> list;
-  for (const auto& kv : themelist)
+  for (const String& name : sortedNames)
   {
-    if (kv.first == "recalbox-next") mRecalboxThemeIndex = (int)list.size();
-    list.push_back({ kv.first, kv.first, kv.first == mOriginalTheme });
+    if (name == "recalbox-next") mRecalboxThemeIndex = (int)list.size();
+    list.push_back({ name, name, name == mOriginalTheme });
   }
 
   return list;

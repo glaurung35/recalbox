@@ -81,8 +81,11 @@ void WindowManager::deleteClosePendingGui()
   if (Gui* top = peekGui(); top != nullptr && top != previousTop) top->onShow();
 
   // Refresh help system
-  if (deleted) UpdateHelpSystem();
-  if (!HasGui()) NotifyViewChanges();
+  if (deleted)
+  {
+    UpdateHelpSystem();
+    if (!HasGui()) NotifyViewChanges();
+  }
 }
 
 void WindowManager::deleteAllGui()

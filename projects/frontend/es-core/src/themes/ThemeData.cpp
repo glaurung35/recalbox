@@ -132,9 +132,9 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
     { LOG(LogError) << "[Themes] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 
-  parseIncludes(root);
   parseViews(root);
   parseFeatures(root);
+  parseIncludes(root);
   mIncludePathStack.pop_back();
 }
 

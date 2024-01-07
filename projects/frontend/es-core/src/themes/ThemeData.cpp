@@ -150,6 +150,7 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
 void ThemeData::parseIncludes(const pugi::xml_node& root)
 {
+  String errorString;
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
     if (parseSubset(node))
     {

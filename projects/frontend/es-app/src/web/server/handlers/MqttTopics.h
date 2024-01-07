@@ -9,7 +9,7 @@ class MqttTopics
     //! MQTT Topic - Where to broadcast system info
     static constexpr const char* sSystemInfoTopic = "Recalbox/WebAPI/SystemInfo";
 
-    //! MQTT Topic - Where to broardcast emulationstation event objects
+    //! MQTT Topic - Where to broadcast emulationstation event objects
     static constexpr const char* sEventObjectTopic = "Recalbox/WebAPI/EmulationStation/Event";
 
     //! MQTT Topic - From where to get EmulationStation events

@@ -451,7 +451,7 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
 
   // Get path
   Path path(Decode64(Url::URLDecode(request.splatAt(0).name())));
-  //std::cout << " path = " << Url::URLDecode(request.splatAt(0).name()) << std::endl;
+  // { LOG(LogDebug) << "[RequestHandler] path = " << Url::URLDecode(request.splatAt(0).name()); }
   RequestHandlerTools::SendMedia(path, response);
 }
 

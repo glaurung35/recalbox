@@ -48,6 +48,7 @@ export enum Actions {
   scrapStop = 'scrapstop',
   scrapGame = 'scrapgame',
   startGameClip = 'startgameclip',
+  runKodi = 'runkodi',
 }
 
 export interface EventResponse {

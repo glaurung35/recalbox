@@ -49,6 +49,7 @@ client.on('message', (topic, message): void => {
       Actions.sleep,
       Actions.runDemo,
       Actions.startGameClip,
+      Actions.runKodi,
     ].includes(newMessage.Action)) {
       emulationStationStore.updateStatus(newMessage);
     }

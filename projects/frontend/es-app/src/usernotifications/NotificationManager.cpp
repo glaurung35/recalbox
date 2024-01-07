@@ -196,14 +196,22 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
 
   // Action
   builder.Field("Action", ActionToString(request.mAction))
-         .Field("Parameter", request.mActionParameters)
+         .Field("Parameter", request.mAction == Notification::RunKodi ? "Kodi" : request.mActionParameters)
          .Field("Version", LEGACY_STRING("2.0"));
+  // Kodi
+  if (request.mAction == Notification::RunKodi)
+  {
+    builder.OpenObject("System")
+           .Field("System", "kodi")
+           .Field("SystemId", "kodi")
+           .CloseObject();
+  }
   // System
   if (request.mSystemData != nullptr)
   {
     builder.OpenObject("System")
-           .Field("System", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->FullName())
-           .Field("SystemId", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->Name());
+           .Field("System", request.mSystemData->FullName())
+           .Field("SystemId", request.mSystemData->Name());
     if (!request.mSystemData->IsVirtual())
       if (EmulatorManager::GetDefaultEmulator(*request.mSystemData, emulator, core))
         builder.OpenObject("DefaultEmulator")

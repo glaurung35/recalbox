@@ -15,7 +15,7 @@ export const useServerStore = defineStore('server', {
   state: () => ({
     available: false,
     server: {
-      linkResponse: {},
+      supportArchive: {},
     },
   } as ServerStoreState),
 

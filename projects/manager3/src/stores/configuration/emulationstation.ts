@@ -116,7 +116,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
     popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
     systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
-    virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList,
+    virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList.sort(),
     padsOsdTypeOptions: (state) => state._emulationstationOptions['pads.osd.type'].allowedStringList,
   },
 
@@ -132,6 +132,31 @@ export const useEmulationstationStore = defineStore('emulationstation', {
 
       let { currentSystem } = this.currentState;
       let currentRom = null;
+
+      // Add Kodi in the systems list here to make it visible on MQTT result
+      systems.systems[systems.systems.length] = {
+        name: 'kodi',
+        fullName: 'Kodi',
+        uuid: '',
+        manufacturer: '',
+        releaseDate: 0,
+        romPath: [''],
+        extensions: '',
+        type: 0,
+        ignoredFiles: '',
+        inputs: {
+          pads: 0,
+          keyboard: 0,
+          mouse: 0,
+        },
+        properties: {
+          hasLightgunSupport: false,
+          isReadOnly: false,
+          hasNetplay: false,
+        },
+        emulators: [],
+        themeFolder: 'kodi',
+      };
 
       if (status.System) {
         const storeSystem = systems.systems.filter((system) => system.name === status.System.SystemId)[0];

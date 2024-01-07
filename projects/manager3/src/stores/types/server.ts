@@ -3,5 +3,5 @@
  */
 
 export interface ServerResponse {
-  linkResponse: string;
+  supportArchive: string;
 }

@@ -24,11 +24,12 @@ EmulationStationWatcher::EmulationStationWatcher()
        { "enddemo", &EmulationStationWatcher::EventEndDemo },
        { "startgameclip", &EmulationStationWatcher::EventStartGameclip },
        { "sleep", &EmulationStationWatcher::EventSleep },
-       { "wakeup", &EmulationStationWatcher::EventWakup },
+       { "wakeup", &EmulationStationWatcher::EventWakeup },
        { "scrapstart", &EmulationStationWatcher::EventScrapStart },
        { "scrapstop", &EmulationStationWatcher::EventScrapStop },
        { "scrapgame", &EmulationStationWatcher::EventScrapGame },
        { "configurationchanged", &EmulationStationWatcher::EventConfigurationChanged },
+       { "runkodi", &EmulationStationWatcher::EventRunKodi },
      })
 {
   
@@ -234,7 +235,7 @@ JSONBuilder EmulationStationWatcher::EventSleep(const IniFile& data)
   return result;
 }
 
-JSONBuilder EmulationStationWatcher::EventWakup(const IniFile& data)
+JSONBuilder EmulationStationWatcher::EventWakeup(const IniFile& data)
 {
   JSONBuilder result(1024);
   result.Open()
@@ -298,4 +299,13 @@ JSONBuilder EmulationStationWatcher::EventStartGameclip(const IniFile& data)
   return result;
 }
 
-
+JSONBuilder EmulationStationWatcher::EventRunKodi(const IniFile& data)
+{
+  JSONBuilder result(4096);
+  result.Open()
+        .Field("event", "runkodi")
+        .Field("param", data.AsString("ActionData"))
+        .Field("system", BuildSystemObject(data))
+        .Close();
+  return result;
+}

@@ -184,7 +184,7 @@ export default boot(({ app, router }): void => {
         {
           label: i18n.global.t('general.notify.support.archiveDownload'),
           color: 'white',
-          handler: () => window.open(clientApi80Url + response.data.linkResponse),
+          handler: () => window.open(clientApi80Url + response.data.supportArchive),
         },
         {
           icon: 'close',

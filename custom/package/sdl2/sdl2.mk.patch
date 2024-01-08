@@ -1,20 +1,16 @@
 diff --git a/package/sdl2/sdl2.mk b/package/sdl2/sdl2.mk
-index 5f2e1e0ed1..461e020834 100644
+index b5b0fb49e1..6e24ed1043 100644
 --- a/package/sdl2/sdl2.mk
 +++ b/package/sdl2/sdl2.mk
 @@ -4,7 +4,7 @@
  #
  ################################################################################
  
--SDL2_VERSION = 2.26.5
+-SDL2_VERSION = 2.30.3
 +SDL2_VERSION = 2.30.7
  SDL2_SOURCE = SDL2-$(SDL2_VERSION).tar.gz
  SDL2_SITE = http://www.libsdl.org/release
  SDL2_LICENSE = Zlib
-@@ -15,18 +15,17 @@ SDL2_INSTALL_STAGING = YES
-index 42b4a433e8..1ee858ee08 100644
---- a/package/sdl2/sdl2.mk
-+++ b/package/sdl2/sdl2.mk
 @@ -15,18 +15,16 @@ SDL2_INSTALL_STAGING = YES
  SDL2_CONFIG_SCRIPTS = sdl2-config
  
@@ -45,7 +41,7 @@ index 42b4a433e8..1ee858ee08 100644
 +SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
 +
 +define SDL2_FIX_WAYLAND_SCANNER_PATH
-+	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/usr/bin/wayland-scanner#' $(@D)/Makefile
++	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/bin/wayland-scanner#' $(@D)/Makefile
 +endef
 +SDL2_POST_CONFIGURE_HOOKS += SDL2_FIX_WAYLAND_SCANNER_PATH
  
@@ -64,7 +60,7 @@ index 42b4a433e8..1ee858ee08 100644
  # x-includes and x-libraries must be set for cross-compiling
  # By default x_includes and x_libraries contains unsafe paths.
  # (/usr/X11R6/include and /usr/X11R6/lib)
-@@ -178,6 +191,20 @@ else
+@@ -164,6 +177,20 @@ else
  SDL2_CONF_OPTS += --disable-alsa
  endif
  
@@ -85,7 +81,7 @@ index 42b4a433e8..1ee858ee08 100644
  ifeq ($(BR2_PACKAGE_SDL2_KMSDRM),y)
  SDL2_DEPENDENCIES += libdrm libgbm libegl
  SDL2_CONF_OPTS += --enable-video-kmsdrm
-@@ -181,4 +198,15 @@ else
+@@ -171,4 +198,15 @@ else
  SDL2_CONF_OPTS += --disable-video-kmsdrm
  endif
  

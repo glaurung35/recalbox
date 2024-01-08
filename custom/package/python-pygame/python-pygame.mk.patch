@@ -1,5 +1,5 @@
 diff --git a/package/python-pygame/python-pygame.mk b/package/python-pygame/python-pygame.mk
-index 600dd9e743..c7d3f8ffff 100644
+index 84fd6df4e2..c7d3f8ffff 100644
 --- a/package/python-pygame/python-pygame.mk
 +++ b/package/python-pygame/python-pygame.mk
 @@ -4,90 +4,35 @@
@@ -12,10 +12,9 @@ index 600dd9e743..c7d3f8ffff 100644
 -PYTHON_PYGAME_SOURCE = pygame-$(PYTHON_PYGAME_VERSION).tar.gz
 -PYTHON_PYGAME_SITE = https://bitbucket.org/pygame/pygame
 -PYTHON_PYGAME_SITE_METHOD = hg
--PYTHON_PYGAME_SETUP_TYPE = distutils
 +PYTHON_PYGAME_VERSION = 2.2.0
 +PYTHON_PYGAME_SITE = $(call github,pygame,pygame,$(PYTHON_PYGAME_VERSION))
-+PYTHON_PYGAME_SETUP_TYPE = setuptools
+ PYTHON_PYGAME_SETUP_TYPE = setuptools
  PYTHON_PYGAME_LICENSE = LGPL-2.1+
  PYTHON_PYGAME_LICENSE_FILES = LGPL
 +PYTHON_PYGAME_DEPENDENCIES = sdl2

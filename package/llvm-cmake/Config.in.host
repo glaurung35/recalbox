@@ -1,4 +1,0 @@
-config BR2_PACKAGE_LLVM_CMAKE
-	bool "llvm-cmake"
-	help
-	  llvm-cmake

@@ -131,7 +131,7 @@ class HelpComponent : public ThemableComponent
     //! Text font
     std::shared_ptr<Font> mFont;
     //! Position of help items
-    Vector2f mPosition;
+    Vector3f mPositionFromTheme;
     //! Icon color
     unsigned int mIconColor;
     //! Text color

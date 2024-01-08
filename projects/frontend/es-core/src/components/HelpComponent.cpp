@@ -47,7 +47,7 @@ HelpComponent::HelpComponent(WindowManager&window)
   , mScrollingLength(0)
   , mScrollingOffset(0)
   , mFont(Font::get(FONT_SIZE_SMALL))
-  , mPosition(0.012f, 0.9515f)
+  , mPositionFromTheme(0.012f, 0.9515f, 0.f)
   , mIconColor(0x777777FF)
   , mTextColor(0x777777FF)
 {
@@ -94,6 +94,12 @@ void HelpComponent::Refresh(const Help& newHelpItems, bool force)
       width += icon->getSize().x() + lbl->getSize().x() + ICON_TEXT_SPACING + ENTRY_SPACING;
     }
 
+  // Set this component place & saze
+  setPosition(Vector3f(mPositionFromTheme.x() * Renderer::Instance().DisplayWidthAsFloat(), mPositionFromTheme.y() * Renderer::Instance().DisplayHeightAsFloat(), 0.0f));
+  setSize(width, height);
+
+  // Set grid take all available space in this component
+  mGrid.setPosition(0, 0);
 	mGrid.setSize(width, height);
   mScrollingLength = Math::roundi(width) - (Renderer::Instance().DisplayWidthAsInt() - Math::roundi(2.0f * mPosition.x()));
   mScrollingOffset = 0;
@@ -110,7 +116,6 @@ void HelpComponent::Refresh(const Help& newHelpItems, bool force)
 		mGrid.setEntry(icons[i], Vector2i(col, 0), false, false);
 		mGrid.setEntry(labels[i], Vector2i(col + 2, 0), false, false);
 	}
-	mGrid.setPosition(Vector3f(mPosition.x() * Renderer::Instance().DisplayWidthAsFloat(), mPosition.y() * Renderer::Instance().DisplayHeightAsFloat(), 0.0f));
 }
 
 void HelpComponent::setOpacity(unsigned char opacity)
@@ -197,7 +202,9 @@ void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProper
   for(int i=Help::TypeCount(); --i>=0; )
     mImagesPath[i] = Path(IconPathMap().get_or_return_default(Help::TypeFromIndex(i)));
 
-  if(element.HasProperty(ThemePropertyName::Pos))       mPosition = element.AsVector(ThemePropertyName::Pos);
+  if(element.HasProperty(ThemePropertyName::Pos)) mPositionFromTheme = Vector3f(element.AsVector(ThemePropertyName::Pos));
+  else                                            mPositionFromTheme = Vector3f(0.012f, 0.9515f, 0.f);
+
   if(element.HasProperty(ThemePropertyName::TextColor)) mTextColor = (unsigned int)element.AsInt(ThemePropertyName::TextColor);
   if(element.HasProperty(ThemePropertyName::IconColor)) mIconColor = (unsigned int)element.AsInt(ThemePropertyName::IconColor);
   if(element.HasProperty(ThemePropertyName::FontSize) || element.HasProperty(ThemePropertyName::FontPath))

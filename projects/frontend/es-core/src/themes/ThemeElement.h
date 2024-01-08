@@ -209,5 +209,7 @@ class ThemeElement
     void AddIntProperty(ThemePropertyName name, int v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
     void AddFloatProperty(ThemePropertyName name, float v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
     void AddBoolProperty(ThemePropertyName name, bool v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
+
+    ThemeElement& MergeExtra(bool extra) { mExtra |= extra; return *this; }
 };
 

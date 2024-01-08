@@ -132,9 +132,9 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
     { LOG(LogError) << "[Themes] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 
+  parseIncludes(root);
   parseViews(root);
   parseFeatures(root);
-  parseIncludes(root);
   mIncludePathStack.pop_back();
 }
 
@@ -256,7 +256,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
           view.mElementArray.push_back(ThemeElement(name, *type, node.attribute("extra").as_bool(false) || forcedExtra));
           parseElement(node, *properties, view.mElementArray.back());
         }
-        else parseElement(node, *properties, view.mElementArray[*elementIndex]);
+        else parseElement(node, *properties, view.mElementArray[*elementIndex].MergeExtra(node.attribute("extra").as_bool(false)));
       }
     }
   }

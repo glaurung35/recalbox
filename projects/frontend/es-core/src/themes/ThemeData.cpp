@@ -477,10 +477,6 @@ void ThemeData::CrawlThemeSubSets(const Path& themeRootPath)
     CrawlIncludes(root);
     CrawlRegions(doc);
     mIncludePathStack.pop_back();
-
-    // Sort all subsets
-    for(auto& kv : mSubSets)
-      std::sort(kv.second.begin(), kv.second.end());
   }
 }
 
@@ -488,7 +484,7 @@ void ThemeData::CrawlIncludes(const pugi::xml_node& root)
 {
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
   {
-    mSubSets[node.attribute("subset").as_string()].push_back(node.attribute("name").as_string());
+    mSubSets[node.attribute("subset").as_string()].insert(node.attribute("name").as_string());
 
     Path relPath(node.text().get());
     Path path = relPath.ToAbsolute(mIncludePathStack.back().Directory());
@@ -506,15 +502,13 @@ void ThemeData::CrawlRegions(const pugi::xml_document& doc)
 {
   pugi::xpath_node_set regionattr = doc.select_nodes("//@region");
   for (auto xpath_node : regionattr)
-  {
     if (xpath_node.attribute() != nullptr)
-      mSubSets["region"].push_back(xpath_node.attribute().value());
-  }
+      mSubSets["region"].insert(xpath_node.attribute().value());
 }
 
-const String::List& ThemeData::GetSubSetValues(const String& subset) const
+String::List ThemeData::GetSubSetValues(const String& subset) const
 {
-  String::List* list = mSubSets.try_get(subset);
+  HashSet<String>* list = mSubSets.try_get(subset);
   // No subset at all ?
   if (list == nullptr)
   {
@@ -529,7 +523,13 @@ const String::List& ThemeData::GetSubSetValues(const String& subset) const
     return sEmptySubset;
   }
 
-  return *list;
+  // Sort
+  String::List result;
+  for(const String& string : *list)
+    result.push_back(string);
+  std::sort(result.begin(), result.end());
+
+  return result;
 }
 
 String ThemeData::getTransition() const

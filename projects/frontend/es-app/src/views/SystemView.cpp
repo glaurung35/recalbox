@@ -459,7 +459,7 @@ bool SystemView::CollectHelpItems(Help& help)
   }
 
   return true;
-}	
+}
 
 /*void SystemView::onThemeChanged(const ThemeData& theme)
 {
@@ -561,7 +561,11 @@ void SystemView::RefreshViewElements(const ThemeData& theme)
 
   const ThemeElement* sysInfoElem = theme.Element("system", "systemInfo", ThemeElementType::Text);
   if (sysInfoElem != nullptr)
+  {
     mSystemInfo.DoApplyThemeElement(theme, "system", "systemInfo", ThemePropertyCategory::All);
+    if (!sysInfoElem->HasProperty(ThemePropertyName::Alignment))
+      mSystemInfo.setHorizontalAlignment(TextAlignment::Center);
+  }
 
   mViewNeedsReload = false;
 }
@@ -713,7 +717,7 @@ void SystemView::UpdateExtra(int deltaTime)
 
 // Draw background extras
 void SystemView::renderExtras(const Transform4x4f& trans, float lower, float upper)
-{	
+{
   int extrasCenter = (int)mExtrasCamOffset;
 
   Renderer::Instance().PushClippingRect(Vector2i::Zero(), mSize.toInt());

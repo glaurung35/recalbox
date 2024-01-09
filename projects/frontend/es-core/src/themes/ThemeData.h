@@ -88,7 +88,7 @@ class ThemeData
      * @param subset Subset name
      * @return subset values
      */
-    [[nodiscard]] const String::List& GetSubSetValues(const String& subset) const;
+    [[nodiscard]] String::List GetSubSetValues(const String& subset) const;
 
   private:
     //! View content
@@ -109,7 +109,7 @@ class ThemeData
     //! View's properties
     HashMap<String, ThemeView> mViews;
     //! Recorded subsets
-    HashMap<String, String::List> mSubSets;
+    HashMap<String, HashSet<String>> mSubSets;
 
     //! Static list of element attributes not to process as element properties
     static HashSet<String> mNoProcessAttributes;

@@ -35,8 +35,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuResolutionByEmulator::GetReso
   return result;
 }
 
-void GuiMenuResolutionByEmulator::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuResolutionByEmulator::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   const SystemManager::List& systems = mSystemManager.AllSystems();
   if (value.empty()) RecalboxConf::Instance().DeleteSystemVideoMode(*systems[id]).Save();

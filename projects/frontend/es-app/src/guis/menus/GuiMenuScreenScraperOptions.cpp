@@ -119,9 +119,9 @@ void GuiMenuScreenScraperOptions::EditableComponentTextChanged(int id, const Str
   else if ((Components)id == Components::Password) SetPassword(text);
 }
 
-void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
-                                                             const ScreenScraperEnums::ScreenScraperImageType& value)
+void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperImageType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if((Components)id == Components::Image)
     RecalboxConf::Instance().SetScreenScraperMainMedia(value).Save();
@@ -129,9 +129,9 @@ void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
     RecalboxConf::Instance().SetScreenScraperThumbnail(value).Save();
 }
 
-void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
-                                                             const ScreenScraperEnums::ScreenScraperVideoType& value)
+void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperVideoType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if((Components)id == Components::Video)
     RecalboxConf::Instance().SetScreenScraperVideo(value).Save();
@@ -144,25 +144,25 @@ void GuiMenuScreenScraperOptions::SwitchComponentChanged(int id, bool& status)
   if ((Components)id == Components::PK2) RecalboxConf::Instance().SetScreenScraperWantP2K(status).Save();;
 }
 
-void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
-                                                             const ScreenScraperEnums::ScreenScraperRegionPriority& value)
+void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperRegionPriority& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if((Components)id == Components::RegionPriority)
     RecalboxConf::Instance().SetScreenScraperRegionPriority(value).Save();
 }
 
-void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
-                                                             const Regions::GameRegions& value)
+void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index, const Regions::GameRegions& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if((Components)id == Components::Region)
     RecalboxConf::Instance().SetScreenScraperRegion(value).Save();
 }
 
-void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index,
-                                                             const Languages& value)
+void GuiMenuScreenScraperOptions::OptionListComponentChanged(int id, int index, const Languages& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if((Components)id == Components::Language)
     RecalboxConf::Instance().SetScreenScraperLanguage(value).Save();

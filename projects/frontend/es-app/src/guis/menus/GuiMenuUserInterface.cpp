@@ -141,29 +141,30 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool& status)
 }
 
 
-void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const SystemSorting& value)
+void GuiMenuUserInterface::OptionListComponentChanged(int id, int index, const SystemSorting& value, bool quickChange)
 {
-    (void)index;
-    (void)id;
-    RecalboxConf::Instance().SetSystemSorting(value).Save();
+  (void)quickChange;
+  (void)index;
+  (void)id;
+  RecalboxConf::Instance().SetSystemSorting(value).Save();
 
-    mSystemManager.SystemSorting();
-    ViewController::Instance().getSystemListView().Sort();
+  mSystemManager.SystemSorting();
+  ViewController::Instance().getSystemListView().Sort();
 }
 
 std::vector<GuiMenuBase::ListEntry<SystemSorting>> GuiMenuUserInterface::GetSortingEntries()
 {
-    mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
-    return std::vector<ListEntry<SystemSorting>>
-    ({
-        { _("DEFAULT")                                    , SystemSorting::Default                                    , mOriginalSort == SystemSorting::Default },
-        { _("Name")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
-        { _("RELEASE DATE")                               , SystemSorting::ReleaseDate                                , mOriginalSort == SystemSorting::ReleaseDate },
-        { _("TYPE, THEN NAME")                            , SystemSorting::SystemTypeThenName                         , mOriginalSort == SystemSorting::SystemTypeThenName },
-        { _("TYPE, THEN RELEASE DATE")                    , SystemSorting::SystemTypeThenReleaseDate                  , mOriginalSort == SystemSorting::SystemTypeThenReleaseDate },
-        { _("MANUFACTURER, THEN NAME")                    , SystemSorting::ManufacturerThenName                       , mOriginalSort == SystemSorting::ManufacturerThenName },
-        { _("MANUFACTURER, THEN RELEASE DATE")            , SystemSorting::ManufacturerThenReleaseData                , mOriginalSort == SystemSorting::ManufacturerThenReleaseData },
-        { _("TYPE, THEN MANUFACTURER, THEN NAME")         , SystemSorting::SystemTypeThenManufacturerThenName         , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenName },
-        { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
-    });
+  mOriginalSort = RecalboxConf::Instance().GetSystemSorting();
+  return std::vector<ListEntry<SystemSorting>>
+  ({
+    { _("DEFAULT")                                    , SystemSorting::Default                                    , mOriginalSort == SystemSorting::Default },
+    { _("Name")                                       , SystemSorting::Name                                       , mOriginalSort == SystemSorting::Name },
+    { _("RELEASE DATE")                               , SystemSorting::ReleaseDate                                , mOriginalSort == SystemSorting::ReleaseDate },
+    { _("TYPE, THEN NAME")                            , SystemSorting::SystemTypeThenName                         , mOriginalSort == SystemSorting::SystemTypeThenName },
+    { _("TYPE, THEN RELEASE DATE")                    , SystemSorting::SystemTypeThenReleaseDate                  , mOriginalSort == SystemSorting::SystemTypeThenReleaseDate },
+    { _("MANUFACTURER, THEN NAME")                    , SystemSorting::ManufacturerThenName                       , mOriginalSort == SystemSorting::ManufacturerThenName },
+    { _("MANUFACTURER, THEN RELEASE DATE")            , SystemSorting::ManufacturerThenReleaseData                , mOriginalSort == SystemSorting::ManufacturerThenReleaseData },
+    { _("TYPE, THEN MANUFACTURER, THEN NAME")         , SystemSorting::SystemTypeThenManufacturerThenName         , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenName },
+    { _("TYPE, THEN MANUFACTURER, THEN RELEASE DATE") , SystemSorting::SystemTypeThenManufacturerThenReleasdeDate , mOriginalSort == SystemSorting::SystemTypeThenManufacturerThenReleasdeDate },
+  });
 }

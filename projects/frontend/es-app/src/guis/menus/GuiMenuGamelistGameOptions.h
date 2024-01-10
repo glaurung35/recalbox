@@ -102,15 +102,15 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
-    void OptionListComponentChanged(int id, int index, const Path& value) override;
+    void OptionListComponentChanged(int id, int index, const Path& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<GameGenres> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const GameGenres& value) override;
+    void OptionListComponentChanged(int id, int index, const GameGenres& value, bool quickChange) override;
 
     /*
      * ISwitchComponent implementation

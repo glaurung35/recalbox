@@ -23,6 +23,10 @@ class GuiMenuThemeOptions : public GuiMenuBase
     ~GuiMenuThemeOptions() override;
 
   private:
+    //! Apply change timer
+    static constexpr int sApplyChangeTimer = 750;
+
+    //! Components
     enum class Components
     {
       Carousel,
@@ -37,14 +41,12 @@ class GuiMenuThemeOptions : public GuiMenuBase
     //! Teeme
     std::shared_ptr<OptionListComponent<String>> mTheme;
 
-    //! Carousel original value
-    bool mOriginalCaroussel;
     //! Transition original value
     String mOriginalTransition;
     //! Theme original value
     String mOriginalTheme;
-    //! Recalbox theme indx
-    int mRecalboxThemeIndex;
+    //! Timed change
+    int mTimer;
 
     //! Get O/C List
     std::vector<ListEntry<String>> GetTransitionEntries();
@@ -55,11 +57,19 @@ class GuiMenuThemeOptions : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
      * ISwitchComponent implementation
      */
 
     void SwitchComponentChanged(int id, bool& status) override;
+
+    /*
+     * Component overrides
+     */
+
+    void Update(int elapsed) override;
+
+    bool ProcessInput(const InputCompactEvent& event) override;
 };

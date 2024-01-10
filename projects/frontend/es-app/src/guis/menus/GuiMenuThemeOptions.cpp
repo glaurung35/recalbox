@@ -9,10 +9,10 @@
 
 GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
   : GuiMenuBase(window, _("THEME"), nullptr)
-  , mRecalboxThemeIndex(0)
+  , mTimer(0)
 {
   // carousel transition option
-  mCarousel = AddSwitch(_("CAROUSEL ANIMATION"), mOriginalCaroussel = RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
+  mCarousel = AddSwitch(_("CAROUSEL ANIMATION"), RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
 
   // transition style
   mTransition = AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
@@ -23,11 +23,9 @@ GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
 {
-  if ((mCarousel->getState() != mOriginalCaroussel) ||
-      (mTransition->getSelected() != mOriginalTransition) ||
-      (mTheme->getSelected() != mOriginalTheme))
-  {
-  }
+  // If a timer is still active, apply theme right now !
+  if (mTimer > 0)
+    ThemeManager::Instance().DoThemeChange(&mWindow);
 }
 
 std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEntries()
@@ -57,15 +55,12 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
 
   std::vector<ListEntry<String>> list;
   for (const String& name : sortedNames)
-  {
-    if (name == "recalbox-next") mRecalboxThemeIndex = (int)list.size();
     list.push_back({ name, name, name == mOriginalTheme });
-  }
 
   return list;
 }
 
-void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
   (void)index;
   if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
@@ -82,7 +77,12 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const St
     else
     {
       RecalboxConf::Instance().SetThemeFolder(value).Save();
-      ThemeManager::Instance().DoThemeChange(&mWindow);
+      if (quickChange) mTimer = sApplyChangeTimer;
+      else
+      {
+        ThemeManager::Instance().DoThemeChange(&mWindow);
+        mTimer = 0;
+      }
     }
   }
 }
@@ -91,4 +91,27 @@ void GuiMenuThemeOptions::SwitchComponentChanged(int id, bool& status)
 {
   if ((Components)id == Components::Carousel)
     RecalboxConf::Instance().SetThemeCarousel(status).Save();
+}
+
+void GuiMenuThemeOptions::Update(int elapsed)
+{
+  GuiMenuBase::Update(elapsed);
+
+  if (mTimer > 0)
+    if (mTimer -= elapsed; mTimer <= 0)
+    {
+      mTimer = 0;
+      ThemeManager::Instance().DoThemeChange(&mWindow);
+    }
+}
+
+bool GuiMenuThemeOptions::ProcessInput(const InputCompactEvent& event)
+{
+  GuiMenuBase::ProcessInput(event);
+
+  // Reset chaneg timer (if any) when the user is still moving
+  if (!event.Empty())
+    if (mTimer > 0)
+      mTimer = sApplyChangeTimer;
+  return false;
 }

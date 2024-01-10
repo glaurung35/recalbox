@@ -56,11 +56,11 @@ class GuiMenuScreenScraperOptions : public GuiMenuBase
     static std::vector<ListEntry<Languages>> GetLanguagesEntries();
 
     void EditableComponentTextChanged(int id, const String& text) override;
-    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperImageType& value) override;
-    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperVideoType& value) override;
-    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperRegionPriority& value) override;
-    void OptionListComponentChanged(int id, int index, const Regions::GameRegions& value) override;
-    void OptionListComponentChanged(int id, int index, const Languages& value) override;
+    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperImageType& value, bool quickChange) override;
+    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperVideoType& value, bool quickChange) override;
+    void OptionListComponentChanged(int id, int index, const ScreenScraperEnums::ScreenScraperRegionPriority& value, bool quickChange) override;
+    void OptionListComponentChanged(int id, int index, const Regions::GameRegions& value, bool quickChange) override;
+    void OptionListComponentChanged(int id, int index, const Languages& value, bool quickChange) override;
 
     void SwitchComponentChanged(int id, bool& status) override;
 

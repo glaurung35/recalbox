@@ -114,7 +114,7 @@ class GuiMenuNetwork : public GuiMenuBase
      * IOptionListComponent implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
      * IEditableComponent implementation

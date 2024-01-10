@@ -91,13 +91,13 @@ class GuiMenuSystem : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<StorageDevices::Device> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const StorageDevices::Device& value) override;
+    void OptionListComponentChanged(int id, int index, const StorageDevices::Device& value, bool quickChange) override;
 
     /*
      * IGuiMenuBase implementation

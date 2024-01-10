@@ -150,15 +150,17 @@ void GuiMenuGameSettings::SubMenuSelected(int id)
 }
 
 
-void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const RecalboxConf::SoftPatching& value)
+void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const RecalboxConf::SoftPatching& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Softpatching)
     RecalboxConf::Instance().SetGlobalSoftpatching(value).Save();
 }
 
-void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

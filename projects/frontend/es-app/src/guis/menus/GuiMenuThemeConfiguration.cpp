@@ -9,7 +9,7 @@
 GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, const String& themeName)
   : GuiMenuBase(window, _("THEME CONFIGURATION"), nullptr)
   , mThemeName(themeName)
-  , mReloadRequired(false)
+  , mTimer(0)
 {
   const ThemeData& theme = ThemeManager::Instance().Main();
   mColorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG), RecalboxConf::Instance().GetThemeColorSet(themeName),
@@ -37,18 +37,12 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
 
 GuiMenuThemeConfiguration::~GuiMenuThemeConfiguration()
 {
-  if ((mColorSet     && (mColorSet->getSelected()     != mOriginalColorSet    )) ||
-      (mIconSet      && (mIconSet->getSelected()      != mOriginalIconSet     )) ||
-      (mMenuSet      && (mMenuSet->getSelected()      != mOriginalMenuSet     )) ||
-      (mSystemView   && (mSystemView->getSelected()   != mOriginalSystemView  )) ||
-      (mGameListView && (mGameListView->getSelected() != mOriginalGameListView)) ||
-      (mGameClipView && (mGameClipView->getSelected() != mOriginalGameClipView)) ||
-      (mRegion       && (mRegion->getSelected()       != mOriginalRegion      )))
-  {
-  }
+  // If a timer is still active, apply theme right now !
+  if (mTimer > 0)
+    ThemeManager::Instance().DoThemeChange(&mWindow);
 }
 
-void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
   (void)index;
   switch((Components)id)
@@ -61,7 +55,9 @@ void GuiMenuThemeConfiguration::OptionListComponentChanged(int id, int index, co
     case Components::GameClipView: RecalboxConf::Instance().SetThemeGameClipView(mThemeName, value).Save(); break;
     case Components::Region: RecalboxConf::Instance().SetThemeRegion(mThemeName, value).Save(); break;
   }
+  if (quickChange) { mTimer = sApplyChangeTimer; return; }
   ThemeManager::Instance().DoThemeChange(&mWindow);
+  mTimer = 0;
 }
 
 GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(const String& label, const String& help, const String& selected, const String::List& items, Components id, String& original)
@@ -88,6 +84,29 @@ GuiMenuThemeConfiguration::OptionList GuiMenuThemeConfiguration::BuildSelector(c
     return optionList;
   }
   return nullptr;
+}
+
+void GuiMenuThemeConfiguration::Update(int elapsed)
+{
+  GuiMenuBase::Update(elapsed);
+
+  if (mTimer > 0)
+    if (mTimer -= elapsed; mTimer <= 0)
+    {
+      mTimer = 0;
+      ThemeManager::Instance().DoThemeChange(&mWindow);
+    }
+}
+
+bool GuiMenuThemeConfiguration::ProcessInput(const InputCompactEvent& event)
+{
+  GuiMenuBase::ProcessInput(event);
+
+  // Reset chaneg timer (if any) when the user is still moving
+  if (!event.Empty())
+    if (mTimer > 0)
+      mTimer = sApplyChangeTimer;
+  return false;
 }
 
 bool GuiMenuThemeConfiguration::TrySortNumerically(std::vector<ListEntry<String>>& list)

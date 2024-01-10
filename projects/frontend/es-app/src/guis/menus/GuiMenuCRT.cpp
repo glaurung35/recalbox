@@ -278,8 +278,9 @@ std::vector<GuiMenuBase::ListEntry<CrtScanlines>> GuiMenuCRT::GetScanlinesEntrie
 
 
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::CRTDac)
   {
@@ -297,8 +298,9 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtAdapterT
   }
 }
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanlines& value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanlines& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::ScanlinesOn31kHz)
   {
@@ -306,8 +308,9 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const CrtScanline
   }
 }
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
@@ -343,8 +346,9 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   }
 }
 
-void GuiMenuCRT::OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency &value)
+void GuiMenuCRT::OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency &value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::JammaScreenType)
   {

@@ -76,15 +76,17 @@ std::vector<GuiMenuBase::ListEntry<SystemData*>> GuiMenuScraper::GetSystemsEntri
   return list;
 }
 
-void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperType& value)
+void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Scraper)
     RecalboxConf::Instance().SetScraperSource(value).Save();
 }
 
-void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperNameOptions & value)
+void GuiMenuScraper::OptionListComponentChanged(int id, int index, const ScraperNameOptions & value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::ScrapeNameFrom)
     RecalboxConf::Instance().SetScraperNameOptions(value).Save();

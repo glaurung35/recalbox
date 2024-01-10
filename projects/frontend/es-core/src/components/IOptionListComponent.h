@@ -14,6 +14,7 @@ template<typename T> class IOptionListComponent
      * @param id Component id
      * @param index selected index
      * @param value New value
+     * @param quickChange True if the user made a quick change using lest/right direction
      */
-    virtual void OptionListComponentChanged(int id, int index, const T& value) = 0;
+    virtual void OptionListComponentChanged(int id, int index, const T& value, bool quickChange) = 0;
 };

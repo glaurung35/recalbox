@@ -78,7 +78,7 @@ private:
 						e.selected = !e.selected;
 						checkbox->setImage(Path(e.selected ? CHECKED_PATH : UNCHECKED_PATH));
 						checkbox->setColor(color);
-						mParent->onSelectedChanged();
+						mParent->onSelectedChanged(false);
 					});
 
 					// for select all/none
@@ -90,7 +90,7 @@ private:
 					{
 						mParent->mEntries[mParent->getSelectedId()].selected = false;
 						e.selected = true;
-						mParent->onSelectedChanged();
+						mParent->onSelectedChanged(false);
 						Close();
 					});
 				}
@@ -109,7 +109,7 @@ private:
 						checkboxes[i]->setImage(Path(CHECKED_PATH));
 						checkboxes[i]->setColor(color);
 					}
-					mParent->onSelectedChanged();
+					mParent->onSelectedChanged(false);
 				});
 
 			  mMenu.addButton(_("SELECT NONE"), "select none", [this, checkboxes, color]
@@ -120,7 +120,7 @@ private:
 						checkboxes[i]->setImage(Path(UNCHECKED_PATH));
 						checkboxes[i]->setColor(color);
 					}
-					mParent->onSelectedChanged();
+					mParent->onSelectedChanged(false);
 				});
 			}
 
@@ -240,7 +240,7 @@ public:
 
         mEntries[i].selected = false;
         mEntries[next].selected = true;
-        onSelectedChanged();
+        onSelectedChanged(true);
         return true;
 
       }else if (event.AnyRightPressed())
@@ -250,7 +250,7 @@ public:
         int next = (i + 1) % mEntries.size();
         mEntries[i].selected = false;
         mEntries[next].selected = true;
-        onSelectedChanged();
+        onSelectedChanged(true);
         return true;
 
       }
@@ -313,7 +313,7 @@ public:
             hasChanged = hasChanged || (entry.selected != previous);
 		}
 		if (hasChanged) {
-            onSelectedChanged();
+            onSelectedChanged(false);
 		}
 	}
         
@@ -338,11 +338,11 @@ public:
 		}
 
 		mEntries.push_back(e);
-		onSelectedChanged();
+		onSelectedChanged(false);
 	}
 
 	inline void invalidate() {
-		onSelectedChanged();
+		onSelectedChanged(false);
 	}
 
 	inline void setSelectedChangedCallback(const std::function<void(const T&)>& callback) {
@@ -373,7 +373,7 @@ public:
     {
       mEntries[getSelectedIndex()].selected = false;
       mEntries[index].selected = true;
-      onSelectedChanged();
+      onSelectedChanged(false);
     }
   }
 
@@ -396,7 +396,7 @@ private:
 		mWindow.pushGui(new OptionListPopup(mWindow, this, mName));
 	}
 
-	void onSelectedChanged()
+	void onSelectedChanged(bool quickChange)
 	{
 		if(mMultiSelect)
 		{
@@ -426,7 +426,7 @@ private:
 		}
 
 		if (mInterface != nullptr)
-      mInterface->OptionListComponentChanged(mId, getSelectedId(), mEntries[getSelectedId()].object);
+      mInterface->OptionListComponentChanged(mId, getSelectedId(), mEntries[getSelectedId()].object, quickChange);
 
     if (mMultiInterface != nullptr)
     {

@@ -160,8 +160,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystem::GetKeyboardEntries()
   });
 }
 
-void GuiMenuSystem::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuSystem::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {
@@ -172,8 +173,9 @@ void GuiMenuSystem::OptionListComponentChanged(int id, int index, const String& 
   }
 }
 
-void GuiMenuSystem::OptionListComponentChanged(int id, int index, const StorageDevices::Device& value)
+void GuiMenuSystem::OptionListComponentChanged(int id, int index, const StorageDevices::Device& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

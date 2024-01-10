@@ -53,7 +53,7 @@ class GuiMenuTate : public GuiMenuBase
     /*
      * IOptionListComponent<String> implementation
      */
-    void OptionListComponentChanged(int id, int index, const RotationType& value) override;
+    void OptionListComponentChanged(int id, int index, const RotationType& value, bool quickChange) override;
 
     /*
      * ISwitchComponent implementation

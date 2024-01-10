@@ -207,9 +207,7 @@ class SystemData : private INoCopy
      */
     [[nodiscard]] int GameCount([[out]] int& favorites, [[out]] int& hidden) const;
 
-    // Load or re-load theme.
-    void loadTheme();
-
+    //! Gezt emulator list
     [[nodiscard]] const EmulatorList& Emulators() const { return mDescriptor.EmulatorTree(); }
 
     //! Is this system auto scrapable? (Games in png?)

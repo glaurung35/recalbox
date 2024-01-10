@@ -70,7 +70,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn, bool forceGoToGame);
 
-    bool GetOrReCreateGamelistView(SystemData* view, bool reloadTheme = false);
+    bool GetOrReCreateGamelistView(SystemData* view);
     void InvalidateGamelist(const SystemData* system);
     void InvalidateAllGamelistsExcept(const SystemData* systemExclude);
 

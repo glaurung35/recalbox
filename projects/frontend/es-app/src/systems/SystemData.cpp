@@ -65,11 +65,6 @@ Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
   return filePath;
 }
 
-void SystemData::loadTheme()
-{
-  ThemeManager::Instance().LoadSystemTheme(this);
-}
-
 FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path& rootPath, const Path& path, ItemType type, FileData::StringMap& doppelgangerWatcher) const
 {
   if (!path.StartWidth(rootPath))

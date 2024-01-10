@@ -310,7 +310,7 @@ void TextComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProper
   {
     if      (element.HasProperty(ThemePropertyName::Text)) setText(element.AsString(ThemePropertyName::Text));
     else if (element.HasProperty(ThemePropertyName::Path)) setText(Files::LoadFile(element.AsPath(ThemePropertyName::Path)));
-    //else                                                   setText(String::Empty);
+    else                                                   setText(String::Empty);
   }
 
   if (hasFlag(properties, ThemePropertyCategory::ForceUppercase))

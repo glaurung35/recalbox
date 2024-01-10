@@ -113,32 +113,23 @@ void DetailedGameListView::Initialize()
   mBusy.setText(_("UPDATING..."));
 
   // metadata labels + values
-  mLblRating.setText(_("Rating") + ": ");
   addChild(&mLblRating);
   addChild(&mRating);
-  mLblReleaseDate.setText(_("Released") + ": ");
   addChild(&mLblReleaseDate);
   addChild(&mReleaseDate);
-  mLblDeveloper.setText(_("Developer") + ": ");
   addChild(&mLblDeveloper);
   addChild(&mDeveloper);
-  mLblPublisher.setText(_("Publisher") + ": ");
   addChild(&mLblPublisher);
   addChild(&mPublisher);
-  mLblGenre.setText(_("Genre") + ": ");
   addChild(&mLblGenre);
   addChild(&mGenre);
-  mLblPlayers.setText(_("Players") + ": ");
   addChild(&mLblPlayers);
   addChild(&mPlayers);
-  mLblLastPlayed.setText(_("Last played") + ": ");
   addChild(&mLblLastPlayed);
   mLastPlayed.setDisplayMode(DateTimeComponent::Display::RelativeToNow);
   addChild(&mLastPlayed);
-  mLblPlayCount.setText(_("Times played") + ": ");
   addChild(&mLblPlayCount);
   addChild(&mPlayCount);
-  mLblFavorite.setText(_("Favorite") + ": ");
   addChild(&mLblFavorite);
   addChild(&mFavorite);
 
@@ -234,6 +225,16 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mDescription.DoApplyThemeElement(theme, getName(), "md_description",
                                    ThemePropertyCategory::All ^ (ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::Origin | ThemePropertyCategory::Text));
   mBusy.SetFont(mDescription.getFont());
+
+  mLblRating.setText(_("Rating") + ": ");
+  mLblReleaseDate.setText(_("Released") + ": ");
+  mLblDeveloper.setText(_("Developer") + ": ");
+  mLblPublisher.setText(_("Publisher") + ": ");
+  mLblGenre.setText(_("Genre") + ": ");
+  mLblPlayers.setText(_("Players") + ": ");
+  mLblLastPlayed.setText(_("Last played") + ": ");
+  mLblPlayCount.setText(_("Times played") + ": ");
+  mLblFavorite.setText(_("Favorite") + ": ");
 
   if (theme.isFolderHandled())
   {

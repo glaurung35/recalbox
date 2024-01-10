@@ -75,7 +75,7 @@ class ThemeExtras : public Component
      * @param extras Extra
      * @param smart True to try keeping as much as possible of extra component when names/types are matching
      */
-    void AssignExtras(List&& extras, bool smart);
+    void AssignExtras(const ThemeData& theme, const String& view, List&& extras, bool smart);
 
     /*!
      * @brief Access array element

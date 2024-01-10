@@ -47,7 +47,7 @@ class GuiMenuScreensavers : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const RecalboxConf::Screensaver& value) override;
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::Screensaver& value, bool quickChange) override;
 
     /*
      * IOptionListMultiComponent<String> implementation

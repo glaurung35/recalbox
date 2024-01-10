@@ -173,8 +173,9 @@ void GuiMenuPads::SubMenuSelected(int id)
   }
 }
 
-void GuiMenuPads::OptionListComponentChanged(int id, int index, const int& value)
+void GuiMenuPads::OptionListComponentChanged(int id, int index, const int& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   (void)value;
   if (mRefreshing) return;
@@ -192,8 +193,9 @@ void GuiMenuPads::OptionListComponentChanged(int id, int index, const int& value
   RefreshDevices();
 }
 
-void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuPads::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Driver)
     RecalboxConf::Instance().SetGlobalInputDriver(value).Save();
@@ -207,8 +209,9 @@ void GuiMenuPads::SwitchComponentChanged(int id, bool& status)
     RecalboxConf::Instance().SetAutoPairOnBoot(status).Save();
 }
 
-void GuiMenuPads::OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value)
+void GuiMenuPads::OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::PadOSDType)
   {

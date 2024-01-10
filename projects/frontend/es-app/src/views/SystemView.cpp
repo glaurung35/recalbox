@@ -152,7 +152,7 @@ void SystemView::addSystem(SystemData * it)
   }
 
   e.data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
-  e.data.backgroundExtras->AssignExtras((it)->Theme().GetExtras("system", mWindow), false);
+  e.data.backgroundExtras->AssignExtras((it)->Theme(), "system", (it)->Theme().GetExtras("system", mWindow), false);
   e.data.backgroundExtras->setSize(mSize);
 
   this->add(e);
@@ -534,7 +534,7 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, 
     else
     {
       data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
-      data.backgroundExtras->AssignExtras(theme.GetExtras("system", mWindow), false);
+      data.backgroundExtras->AssignExtras(theme, "system", theme.GetExtras("system", mWindow), false);
       data.backgroundExtras->setSize(mSize);
     }
     //{ LOG(LogWarning) << "Refresh " << entry.object->FullName() << " : " << (DateTime() - start).ToMillisecondsString() << " ms"; }

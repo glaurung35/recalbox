@@ -792,7 +792,7 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-bool ViewController::GetOrReCreateGamelistView(SystemData* system, bool reloadTheme)
+bool ViewController::GetOrReCreateGamelistView(SystemData* system)
 {
   for (auto& it : mGameListViews)
     if (it.first == system)
@@ -801,8 +801,6 @@ bool ViewController::GetOrReCreateGamelistView(SystemData* system, bool reloadTh
       bool isCurrent = (mCurrentView == view);
       FileData *cursor = view->Count() != 0 ? view->getCursor() : nullptr;
       mGameListViews.erase(system);
-
-      if (reloadTheme) system->loadTheme();
 
       if (system->HasVisibleGame())
       {

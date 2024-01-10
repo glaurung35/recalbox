@@ -6,10 +6,10 @@
 #include "utils/storage/Set.h"
 #include "utils/Log.h"
 
-void ThemeExtras::AssignExtras(ThemeExtras::List&& extras, bool smart)
+void ThemeExtras::AssignExtras(const ThemeData& theme, const String& view, ThemeExtras::List&& extras, bool smart)
 {
   // delete old extras (if any)
-  for (auto& extra : mExtras)
+  for (Extra& extra : mExtras)
     removeChild(&extra.Component());
 
   if (smart) CreateSmartList(extras);
@@ -18,7 +18,12 @@ void ThemeExtras::AssignExtras(ThemeExtras::List&& extras, bool smart)
   // Sort
   SortExtrasByZIndex();
 
+  // Apply theme
   for (auto& extra : mExtras)
+    extra.Component().DoApplyThemeElement(theme, view, extra.Name(), ThemePropertyCategory::All);
+
+  // add new components
+  for (Extra& extra : mExtras)
     addChild(&extra.Component());
 }
 
@@ -29,6 +34,8 @@ void ThemeExtras::SortExtrasByZIndex()
 
 void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
 {
+  { LOG(LogWarning) << "[ThemeExtra] Smart merge. Old size = " << mExtras.size() << " - new size = " << newExtras.size(); }
+
   bool move = false;
   // Create new extra map
   HashMap<String, const Extra*> newExtrasMap;

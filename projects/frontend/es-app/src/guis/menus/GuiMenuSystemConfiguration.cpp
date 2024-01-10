@@ -100,8 +100,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystemConfiguration::GetShade
   return list;
 }
 
-void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

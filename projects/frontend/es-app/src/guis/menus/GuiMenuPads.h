@@ -118,19 +118,19 @@ class GuiMenuPads : public GuiMenuBase
      * IOptionListComponent<int> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const int& value) override;
+    void OptionListComponentChanged(int id, int index, const int& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value) override;
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::PadOSDType& value, bool quickChange) override;
 
     /*
      * ISwitchComponent

@@ -85,7 +85,7 @@ class GuiMenuUserInterface : public GuiMenuBase
      * IOptionListComponent<SystemSorting> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const SystemSorting& value) override;
+    void OptionListComponentChanged(int id, int index, const SystemSorting& value, bool quickChange) override;
 
 };
 

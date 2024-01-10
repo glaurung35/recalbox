@@ -47,8 +47,9 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuSoftpatchingLauncher::GetPatche
   return list;
 }
 
-void GuiMenuSoftpatchingLauncher::OptionListComponentChanged(int id, int index, const Path& value)
+void GuiMenuSoftpatchingLauncher::OptionListComponentChanged(int id, int index, const Path& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Patch)
     mGame.Metadata().SetLastPatch(value);

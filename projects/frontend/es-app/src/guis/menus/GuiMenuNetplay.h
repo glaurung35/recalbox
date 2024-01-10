@@ -84,7 +84,7 @@ class GuiMenuNetplay : public GuiMenuBase
      * IOptionListComponent implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value) override;
+    void OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value, bool quickChange) override;
 
     /*
      * ISWitchComponent implementation

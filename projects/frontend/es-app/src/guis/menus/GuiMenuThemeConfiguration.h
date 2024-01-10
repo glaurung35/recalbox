@@ -21,6 +21,10 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
     ~GuiMenuThemeConfiguration() override;
 
   private:
+    //! Apply change timer when using quick change
+    static constexpr int sApplyChangeTimer = 750;
+
+    //! Components
     enum class Components
     {
       ColorSet,
@@ -38,8 +42,8 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
 
     //! Theme name
     String mThemeName;
-    //! Changed flag
-    bool mReloadRequired;
+    //! Timed change
+    int mTimer;
 
     //! Color Set
     OptionList mColorSet;
@@ -88,4 +92,13 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;};
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
+
+    /*
+     * Component overrides
+     */
+
+    void Update(int elapsed) override;
+
+    bool ProcessInput(const InputCompactEvent& event) override;
+};

@@ -98,6 +98,7 @@ MainRunner::ExitState MainRunner::Run()
     inputManager.Initialize();
 
     // Autorun?
+    SystemData* autoRunSystem = nullptr;
     if (mRunCount == 0) {
       if (mConfiguration.GetKodiEnabled() && mConfiguration.GetKodiAtStartup())
         gameRunner.RunKodi();
@@ -107,7 +108,10 @@ MainRunner::ExitState MainRunner::Run()
         ResetForceReloadState();
         FileData *game = systemManager.LookupGameByFilePath(RecalboxConf::Instance().GetAutorunGamePath());
         if (game != nullptr && inputManager.ConfiguredControllersCount() > 0)
+        {
+          autoRunSystem = &(game->System());
           gameRunner.RunGame(*game, EmulatorManager::GetGameEmulator(*game), GameLinkedData());
+        }
         else
           { LOG(LogInfo) << "[MainRunner] Will not boot on game as game = null or no configured controllers found"; }
       }
@@ -121,6 +125,8 @@ MainRunner::ExitState MainRunner::Run()
     // Theme manager
     ThemeManager themeManager;
     themeManager.Initialize(nullptr);
+    // Load theme from the first loaded system
+    if (autoRunSystem != nullptr) themeManager.LoadSystemTheme(*autoRunSystem);
 
     // Initialize main Window and ViewController
     ApplicationWindow window(systemManager);

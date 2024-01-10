@@ -46,7 +46,7 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
      * @brief Load system theme
      * @param system System
      */
-    void LoadSystemTheme(const SystemData* system);
+    void LoadSystemTheme(const SystemData& system);
 
     /*
      * Getters

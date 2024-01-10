@@ -853,7 +853,7 @@ void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
     case ViewType::GameClip:
     {
       WakeUp();
-      if(AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+      if (RecalboxConf::Instance().GetAudioMode() == AudioMode::MusicsXorVideosSound && newViewMode != ViewType::SplashScreen)
         AudioManager::Instance().StartPlaying(mCurrentSystem->Theme());
       break;
     }
@@ -884,7 +884,7 @@ void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
     }
     case ViewType::GameClip:
     {
-      if (AudioMode::MusicsXorVideosSound == RecalboxConf::Instance().GetAudioMode())
+      if (RecalboxConf::Instance().GetAudioMode() == AudioMode::MusicsXorVideosSound)
         AudioManager::Instance().StopAll();
       mCurrentView = &mGameClipView;
       break;

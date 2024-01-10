@@ -241,7 +241,12 @@ void SystemManager::InitializeSystem(SystemData* system)
     }
     // Load theme (not for port games)
     if (!system->IsPorts())
-      system->loadTheme();
+    {
+      // Load theme once the Renderer is instantiated since there are dependencies top
+      // several display elements (Fonts, etc.)
+      if (Renderer::IsInstantiated())
+        ThemeManager::Instance().LoadSystemTheme(*system);
+    }
 
     // Set initialised
     system->SetInitialized();

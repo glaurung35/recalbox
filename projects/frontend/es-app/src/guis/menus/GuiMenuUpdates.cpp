@@ -75,8 +75,9 @@ void GuiMenuUpdates::SubMenuSelected(int id)
   }
 }
 
-void GuiMenuUpdates::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuUpdates::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::UpdateType)
     RecalboxConf::Instance().SetUpdatesType(value);

@@ -55,8 +55,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuBootSettings::GetSystemEntrie
   return list;
 }
 
-void GuiMenuBootSettings::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuBootSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::SelectedSystem)
   {

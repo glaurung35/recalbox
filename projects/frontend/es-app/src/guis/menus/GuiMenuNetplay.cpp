@@ -86,8 +86,9 @@ void GuiMenuNetplay::SubMenuSelected(int id)
   else if ((Components)id == Components::Hash) mWindow.pushGui(new GuiHashStart(mWindow, mSystemManager));
 }
 
-void GuiMenuNetplay::OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value)
+void GuiMenuNetplay::OptionListComponentChanged(int id, int index, const RecalboxConf::Relay& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Mitm)
     RecalboxConf::Instance().SetNetplayRelay(value).Save();

@@ -50,8 +50,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuResolutionSettings::GetFrontE
   return result;
 }
 
-void GuiMenuResolutionSettings::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuResolutionSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

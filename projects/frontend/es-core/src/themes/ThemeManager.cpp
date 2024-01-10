@@ -59,24 +59,24 @@ void ThemeManager::LoadMainTheme()
   mMenu.Load(mMain);
 }
 
-void ThemeManager::LoadSystemTheme(const SystemData* system)
+void ThemeManager::LoadSystemTheme(const SystemData& system)
 {
   Path systemPath;
   // Check root/<system>/theme.xml first
-  if (systemPath = mRootPath / system->Descriptor().ThemeFolder() / sRootThemeFile; !systemPath.Exists())
+  if (systemPath = mRootPath / system.Descriptor().ThemeFolder() / sRootThemeFile; !systemPath.Exists())
     // Then check root/default/theme.xml
     if (systemPath = mRootPath / sDefaultSystemThemeFolder / sRootThemeFile; !systemPath.Exists())
       // Then check root/theme.xml
       systemPath = mRootPath / sRootThemeFile;
 
-  ThemeData& systemTheme = CreateOrGetSystem(system);
+  ThemeData& systemTheme = CreateOrGetSystem(&system);
   systemTheme.Reset();
-  systemTheme.LoadSystem(system->Descriptor().ThemeFolder(), systemPath);
+  systemTheme.LoadSystem(system.Descriptor().ThemeFolder(), systemPath);
 }
 
 const SystemData* ThemeManager::ThreadPoolRunJob(const SystemData*& feed)
 {
-  LoadSystemTheme(feed);
+  LoadSystemTheme(*feed);
   return feed;
 }
 

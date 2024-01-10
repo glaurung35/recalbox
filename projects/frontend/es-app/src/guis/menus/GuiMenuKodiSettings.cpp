@@ -54,8 +54,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuKodiSettings::GetKodiResoluti
   return result;
 }
 
-void GuiMenuKodiSettings::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuKodiSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   switch((Components)id)
   {

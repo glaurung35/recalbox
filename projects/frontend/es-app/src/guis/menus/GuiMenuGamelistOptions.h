@@ -86,17 +86,17 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * IOptionListComponent<unsigned int> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const unsigned int& value) override;
+    void OptionListComponentChanged(int id, int index, const unsigned int& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<FileSorts::Sorts> implementation
      */
-    void OptionListComponentChanged(int id, int index, const Regions::GameRegions& value) override;
+    void OptionListComponentChanged(int id, int index, const Regions::GameRegions& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<FileSorts::Sorts> implementation
      */
-    void OptionListComponentChanged(int id, int index, const FileSorts::Sorts& value) override;
+    void OptionListComponentChanged(int id, int index, const FileSorts::Sorts& value, bool quickChange) override;
 
     /*
      * IGuiMenuBase implementation

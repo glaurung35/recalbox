@@ -84,8 +84,9 @@ std::vector<GuiMenuBase::ListEntry<RotationType>> GuiMenuTate::GetRotationEntrie
   return list;
 }
 
-void GuiMenuTate::OptionListComponentChanged(int id, int index, const RotationType& value)
+void GuiMenuTate::OptionListComponentChanged(int id, int index, const RotationType& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::TateGamesRotation)
   {

@@ -160,8 +160,9 @@ std::vector<GuiMenuBase::ListEntry<Path>> GuiMenuGamelistGameOptions::GetPatchEn
   return list;
 }
 
-void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Emulator)
   {
@@ -181,15 +182,17 @@ void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, c
     mGame.Metadata().SetRatio(value);
 }
 
-void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const Path& value)
+void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const Path& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Patch)
     mGame.Metadata().SetLastPatch(value);
 }
 
-void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const GameGenres& value)
+void GuiMenuGamelistGameOptions::OptionListComponentChanged(int id, int index, const GameGenres& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Genre)
     mGame.Metadata().SetGenreId(value);

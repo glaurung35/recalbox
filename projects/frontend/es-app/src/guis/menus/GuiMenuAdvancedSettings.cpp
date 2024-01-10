@@ -211,8 +211,9 @@ void GuiMenuAdvancedSettings::ResetOverclock()
   mOverclock->select(mDefaultOverclock);
 }
 
-void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const Overclocking& value)
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const Overclocking& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::OverclockList)
   {
@@ -398,8 +399,9 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuAdvancedSettings::GetCasesEnt
   return list;
 }
 
-void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuAdvancedSettings::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Cases)
   {

@@ -62,8 +62,8 @@ class GuiMenuSound : public GuiMenuBase
 
     static std::vector<ListEntry<AudioMode>> GetAudioModeEntries();
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
-    void OptionListComponentChanged(int id, int index, const AudioMode& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
+    void OptionListComponentChanged(int id, int index, const AudioMode& value, bool quickChange) override;
 
     /*
      * ISliderComponent implementation

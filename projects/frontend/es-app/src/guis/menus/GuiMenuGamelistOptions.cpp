@@ -209,8 +209,9 @@ void GuiMenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileDat
   //gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
 }
 
-void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const unsigned int& value)
+void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const unsigned int& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::JumpToLetter)
   {
@@ -234,8 +235,9 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
   }
 }
 
-void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const FileSorts::Sorts& value)
+void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const FileSorts::Sorts& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Sorts)
   {
@@ -250,8 +252,9 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
   }
 }
 
-void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const Regions::GameRegions& value)
+void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const Regions::GameRegions& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Regions)
     RecalboxConf::Instance().SetSystemRegionFilter(mSystem, value).Save();

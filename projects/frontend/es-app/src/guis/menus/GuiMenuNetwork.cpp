@@ -39,8 +39,9 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   Completed(NetworkOperation::ScanSSID, true);
 }
 
-void GuiMenuNetwork::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuNetwork::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   if (mFillingList) return;
     if ((Components)id == Components::WifiSSID)
     {

@@ -52,8 +52,9 @@ void GuiMenuScreensavers::SliderMoved(int id, float value)
     RecalboxConf::Instance().SetScreenSaverTime((int)value).Save();
 }
 
-void GuiMenuScreensavers::OptionListComponentChanged(int id, int index, const RecalboxConf::Screensaver& value)
+void GuiMenuScreensavers::OptionListComponentChanged(int id, int index, const RecalboxConf::Screensaver& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Type) RecalboxConf::Instance().SetScreenSaverType(value).Save();
 }

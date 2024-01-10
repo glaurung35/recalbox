@@ -91,8 +91,9 @@ void GuiMenuSound::Update(int deltaTime)
     mMusicVolume->setSlider((float)realVolume);
 }
 
-void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& value)
+void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::Output)
   {
@@ -103,8 +104,9 @@ void GuiMenuSound::OptionListComponentChanged(int id, int index, const String& v
   }
 }
 
-void GuiMenuSound::OptionListComponentChanged(int id, int index, const AudioMode& value)
+void GuiMenuSound::OptionListComponentChanged(int id, int index, const AudioMode& value, bool quickChange)
 {
+  (void)quickChange;
   (void)index;
   if ((Components)id == Components::AudioMode)
   {

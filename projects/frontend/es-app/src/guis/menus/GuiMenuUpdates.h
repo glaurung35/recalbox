@@ -61,7 +61,7 @@ class GuiMenuUpdates : public GuiMenuBase
      * IOptionListComponent<String> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 };
 
 

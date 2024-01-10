@@ -34,7 +34,7 @@ class GuiMenuSoftpatchingLauncher : public GuiMenuBase
 
     std::vector<ListEntry<Path>> GetPatchesEntries();
 
-    void OptionListComponentChanged(int id, int index, const Path& value) override;
+    void OptionListComponentChanged(int id, int index, const Path& value, bool quickChange) override;
 };
 
 

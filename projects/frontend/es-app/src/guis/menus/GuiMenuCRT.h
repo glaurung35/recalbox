@@ -107,23 +107,23 @@ class GuiMenuCRT : public GuiMenuBase
      * IOptionListComponent<CrtAdapterType> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const CrtAdapterType& value) override;
+    void OptionListComponentChanged(int id, int index, const CrtAdapterType& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<std::string> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const String & value) override;
+    void OptionListComponentChanged(int id, int index, const String & value, bool quickChange) override;
 
     /*
      * IOptionListComponent<CrtScanlines> implementation
      */
-    void OptionListComponentChanged(int id, int index, const CrtScanlines& value) override;
+    void OptionListComponentChanged(int id, int index, const CrtScanlines& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<ICrtInterface::HorizontalFrequency> implementation
      */
-    void OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency& value) override;
+    void OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency& value, bool quickChange) override;
 
     /*
      * ISwitchComponent implementation

@@ -50,13 +50,13 @@ class GuiMenuScraper : public GuiMenuBase
      * IOptionListComponent<ScraperNameOptions> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const ScraperNameOptions& value) override;
+    void OptionListComponentChanged(int id, int index, const ScraperNameOptions& value, bool quickChange) override;
 
     /*
      * IOptionListComponent<ScraperFactory::ScraperType> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const ScraperType& value) override;
+    void OptionListComponentChanged(int id, int index, const ScraperType& value, bool quickChange) override;
 
     /*
      * ISwitchInterface implementation

@@ -19,7 +19,6 @@ GameClipContainer::GameClipContainer(WindowManager& window)
     mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mGame(nullptr),
     mSystem(nullptr)
 {
-
   setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   addChild(&mVideo);
@@ -224,7 +223,7 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, 
     // Remove old theme extras
     removeChild(&mThemeExtras);
 
-    mThemeExtras.AssignExtras(theme.GetExtras(GameClipView::getName(), mWindow), false);
+    mThemeExtras.AssignExtras(theme, GameClipView::getName(), theme.GetExtras(GameClipView::getName(), mWindow), false);
 
     // Add new theme extras
     addChild(&mThemeExtras);

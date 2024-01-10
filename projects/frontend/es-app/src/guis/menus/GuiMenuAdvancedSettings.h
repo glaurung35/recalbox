@@ -113,10 +113,10 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
      * IOptionListComponent<Overclocking> implementation
      */
 
-    void OptionListComponentChanged(int id, int index, const Overclocking& value) override;
+    void OptionListComponentChanged(int id, int index, const Overclocking& value, bool quickChange) override;
 
     //! Case component management
-    void OptionListComponentChanged(int id, int index, const String& value) override;
+    void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
      * ISwitchComponent implementation

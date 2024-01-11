@@ -30,6 +30,7 @@ const String::List& ArcadeVirtualSystems::GetVirtualArcadeSystemList()
     "midway",
     "mitchell",
     "namco",
+    "neogeo",
     "nichibutsu",
     "nintendo",
     "nmk",

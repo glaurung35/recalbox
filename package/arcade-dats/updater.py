@@ -129,7 +129,7 @@ class Updater:
                 if not os.path.exists(datPath):
                     print("Cannot find dat file {}".format(datPath))
                     sys.exit(0)
-                if os.system("mv '{}' {}".format(datPath, destination)):
+                if os.system("cp '{}' {}".format(datPath, destination)):
                     print("Error copying {} to {}".format(datPath, destination))
                     sys.exit(0)
         else:

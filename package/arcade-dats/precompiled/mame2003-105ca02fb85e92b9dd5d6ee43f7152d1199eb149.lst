@@ -4550,167 +4550,167 @@ malzak|Malzak|parent|misc/malzak.cpp|0|240|240|50.000000|||preliminary|Kitronix
 supertnk|Super Tank|parent|misc/supertnk.cpp|90|256|256|60.000000|||good|Video Games
 crospang|Cross Pang|parent|f32/crospang.cpp|0|320|240|60.000000|||good|Oksan
 funybubl|Funny Bubble|parent|comad/funybubl.cpp|0|320|224|60.000000|||good|Comad
-nam1975|NAM-1975|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-bstars|Baseball Stars Professional|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-tpgolf|Top Player's Golf|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-mahretsu|Mahjong Kyoretsuden|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-maglord|Magician Lord (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi
-maglordh|Magician Lord (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|maglord|good|Alpha Denshi
-ridhero|Riding Hero (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-ridheroh|Riding Hero (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|ridhero|good|SNK
-alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-ncombat|Ninja Combat|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi
-cyberlip|Cyber-Lip|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-superspy|The Super Spy|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-mutnat|Mutation Nation|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kotm|King of the Monsters (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kotmh|King of the Monsters (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kotm|good|SNK
-sengoku|Sengoku / Sengoku Denshou (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-sengokh|Sengoku / Sengoku Denshou (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|sengoku|good|SNK
-burningf|Burning Fight (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-burningh|Burning Fight (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|burningf|good|SNK
-lbowling|League Bowling|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-gpilots|Ghost Pilots|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-joyjoy|Puzzled / Joy Joy Kid|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-bjourney|Blue's Journey / Raguy|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi
-quizdais|Quiz Daisousa Sen - The Last Count Down|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-lresort|Last Resort|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-eightman|Eight Man|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Pallas/SNK
-minasan|Minnasanno Okagesamadesu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Monolith
-legendos|Legend of Success Joe / Ashitano Joe Densetsu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-2020bb|2020 Super Baseball (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Pallas/SNK
-2020bbh|2020 Super Baseball (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|2020bb|good|Pallas/SNK
-socbrawl|Soccer Brawl|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-roboarmy|Robo Army|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-fatfury1|Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-fbfrenzy|Football Frenzy|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-bakatono|Bakatonosama Mahjong Manyuki|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Monolith
-crsword|Crossed Swords|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi
-trally|Thrash Rally|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi
-kotm2|King of the Monsters 2 - The Next Thing|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-sengoku2|Sengoku 2 / Sengoku Denshou 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-bstars2|Baseball Stars 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-quizdai2|Quiz Meitantei Neo & Geo - Quiz Daisousa Sen part 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-3countb|3 Count Bout / Fire Suplex|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-aof|Art of Fighting / Ryuuko no Ken|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-samsho|Samurai Shodown / Samurai Spirits|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-tophuntr|Top Hunter - Roddy & Cathy|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-fatfury2|Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-janshin|Jyanshin Densetsu - Quest of Jongmaster|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Aicom
-androdun|Andro Dunos|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-ncommand|Ninja Commando|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi
-viewpoin|Viewpoint|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Sammy
-ssideki|Super Sidekicks / Tokuten Ou|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-wh1|World Heroes (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi
-wh1h|World Heroes (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|wh1|good|Alpha Denshi
-kof94|The King of Fighters '94|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-aof2|Art of Fighting 2 / Ryuuko no Ken 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-wh2|World Heroes 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK
-fatfursp|Fatal Fury Special / Garou Densetsu Special (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-fatfursa|Fatal Fury Special / Garou Densetsu Special (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|fatfursp|good|SNK
-savagere|Savage Reign / Fu'un Mokushiroku - kakutou sousei|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-fightfev|Fight Fever (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Viccom
-fightfva|Fight Fever (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|fightfev|good|Viccom
-ssideki2|Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-spinmast|Spin Master / Miracle Adventure|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-samsho2|Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-wh2j|World Heroes 2 Jet|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/SNK
-wjammers|Windjammers / Flying Power Disc|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-karnovr|Karnov's Revenge / Fighter's History Dynamite|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-gururin|Gururin|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Face
-pspikes2|Power Spikes II|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Video System
-fatfury3|Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-panicbom|Panic Bomber|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Eighting/Hudson
-aodk|Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/SNK
-sonicwi2|Aero Fighters 2 / Sonic Wings 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Video System
-zedblade|Zed Blade / Operation Ragnarok|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|NMK
-galaxyfg|Galaxy Fight - Universal Warriors|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Sunsoft
-strhoop|Street Hoop / Street Slam / Dunk Dream|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-quizkof|Quiz King of Fighters|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Saurus
-ssideki3|Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Technos
-pbobblen|Puzzle Bobble / Bust-A-Move (Neo-Geo) (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Taito
-pbobblna|Puzzle Bobble / Bust-A-Move (Neo-Geo) (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|pbobblen|good|Taito
-kof95|The King of Fighters '95 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof95a|The King of Fighters '95 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof95|good|SNK
+nam1975|NAM-1975|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+bstars|Baseball Stars Professional|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+tpgolf|Top Player's Golf|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+mahretsu|Mahjong Kyoretsuden|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+maglord|Magician Lord (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+maglordh|Magician Lord (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|maglord|good|Alpha Denshi/neogeo
+ridhero|Riding Hero (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+ridheroh|Riding Hero (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|ridhero|good|neogeo/SNK
+alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+ncombat|Ninja Combat|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+cyberlip|Cyber-Lip|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+superspy|The Super Spy|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+mutnat|Mutation Nation|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kotm|King of the Monsters (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kotmh|King of the Monsters (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kotm|good|neogeo/SNK
+sengoku|Sengoku / Sengoku Denshou (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+sengokh|Sengoku / Sengoku Denshou (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|sengoku|good|neogeo/SNK
+burningf|Burning Fight (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+burningh|Burning Fight (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|burningf|good|neogeo/SNK
+lbowling|League Bowling|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+gpilots|Ghost Pilots|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+joyjoy|Puzzled / Joy Joy Kid|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+bjourney|Blue's Journey / Raguy|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+quizdais|Quiz Daisousa Sen - The Last Count Down|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+lresort|Last Resort|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+eightman|Eight Man|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Pallas/SNK
+minasan|Minnasanno Okagesamadesu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Monolith/neogeo
+legendos|Legend of Success Joe / Ashitano Joe Densetsu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+2020bb|2020 Super Baseball (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Pallas/SNK
+2020bbh|2020 Super Baseball (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|2020bb|good|neogeo/Pallas/SNK
+socbrawl|Soccer Brawl|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+roboarmy|Robo Army|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+fatfury1|Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+fbfrenzy|Football Frenzy|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+bakatono|Bakatonosama Mahjong Manyuki|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Monolith/neogeo
+crsword|Crossed Swords|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+trally|Thrash Rally|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+kotm2|King of the Monsters 2 - The Next Thing|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+sengoku2|Sengoku 2 / Sengoku Denshou 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+bstars2|Baseball Stars 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+quizdai2|Quiz Meitantei Neo & Geo - Quiz Daisousa Sen part 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+3countb|3 Count Bout / Fire Suplex|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+aof|Art of Fighting / Ryuuko no Ken|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+samsho|Samurai Shodown / Samurai Spirits|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+tophuntr|Top Hunter - Roddy & Cathy|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+fatfury2|Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+janshin|Jyanshin Densetsu - Quest of Jongmaster|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Aicom/neogeo
+androdun|Andro Dunos|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+ncommand|Ninja Commando|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+viewpoin|Viewpoint|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Sammy
+ssideki|Super Sidekicks / Tokuten Ou|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+wh1|World Heroes (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Alpha Denshi/neogeo
+wh1h|World Heroes (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|wh1|good|Alpha Denshi/neogeo
+kof94|The King of Fighters '94|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+aof2|Art of Fighting 2 / Ryuuko no Ken 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+wh2|World Heroes 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/neogeo
+fatfursp|Fatal Fury Special / Garou Densetsu Special (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+fatfursa|Fatal Fury Special / Garou Densetsu Special (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|fatfursp|good|neogeo/SNK
+savagere|Savage Reign / Fu'un Mokushiroku - kakutou sousei|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+fightfev|Fight Fever (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Viccom
+fightfva|Fight Fever (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|fightfev|good|neogeo/Viccom
+ssideki2|Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+spinmast|Spin Master / Miracle Adventure|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+samsho2|Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+wh2j|World Heroes 2 Jet|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/neogeo/SNK
+wjammers|Windjammers / Flying Power Disc|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+karnovr|Karnov's Revenge / Fighter's History Dynamite|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+gururin|Gururin|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Face/neogeo
+pspikes2|Power Spikes II|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Video System
+fatfury3|Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+panicbom|Panic Bomber|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Eighting/Hudson/neogeo
+aodk|Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/neogeo/SNK
+sonicwi2|Aero Fighters 2 / Sonic Wings 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Video System
+zedblade|Zed Blade / Operation Ragnarok|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/NMK
+galaxyfg|Galaxy Fight - Universal Warriors|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Sunsoft
+strhoop|Street Hoop / Street Slam / Dunk Dream|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+quizkof|Quiz King of Fighters|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Saurus
+ssideki3|Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Technos
+pbobblen|Puzzle Bobble / Bust-A-Move (Neo-Geo) (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Taito
+pbobblna|Puzzle Bobble / Bust-A-Move (Neo-Geo) (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|pbobblen|good|neogeo/Taito
+kof95|The King of Fighters '95 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof95a|The King of Fighters '95 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof95|good|neogeo/SNK
 tws96|Tecmo World Soccer '96|parent|||304|224|60.000000|neogeo||good|Tecmo
-samsho3|Samurai Shodown III / Samurai Spirits - Zankurou Musouken|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-stakwin|Stakes Winner / Stakes Winner - GI kinzen seihae no michi|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Saurus
-pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Aicom
-whp|World Heroes Perfect|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|ADK/SNK
-kabukikl|Far East of Eden - Kabuki Klash / Tengai Makyou - Shin Den|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Hudson
-neobombe|Neo Bomberman|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Hudson
-gowcaizr|Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Technos
-rbff1|Real Bout Fatal Fury / Real Bout Garou Densetsu|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-aof3|Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-sonicwi3|Aero Fighters 3 / Sonic Wings 3|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Video System
-turfmast|Neo Turf Masters / Big Tournament Golf|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Nazca
-mslug|Metal Slug - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Nazca
-puzzledp|Puzzle De Pon!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Taito/Visco
+samsho3|Samurai Shodown III / Samurai Spirits - Zankurou Musouken|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+stakwin|Stakes Winner / Stakes Winner - GI kinzen seihae no michi|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Saurus
+pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Aicom/neogeo
+whp|World Heroes Perfect|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|ADK/neogeo/SNK
+kabukikl|Far East of Eden - Kabuki Klash / Tengai Makyou - Shin Den|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Hudson/neogeo
+neobombe|Neo Bomberman|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Hudson/neogeo
+gowcaizr|Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Technos
+rbff1|Real Bout Fatal Fury / Real Bout Garou Densetsu|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+aof3|Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+sonicwi3|Aero Fighters 3 / Sonic Wings 3|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Video System
+turfmast|Neo Turf Masters / Big Tournament Golf|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Nazca/neogeo
+mslug|Metal Slug - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Nazca/neogeo
+puzzledp|Puzzle De Pon!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Taito/Visco
 mosyougi|Syougi No Tatsujin - Master of Syougi|parent|||320|224|60.000000|neogeo||good|ADK/SNK
-marukodq|Chibi Marukochan Deluxe Quiz|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Takara
-neomrdo|Neo Mr. Do!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-sdodgeb|Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Technos
-goalx3|Goal! Goal! Goal!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-overtop|Over Top|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK
-neodrift|Neo Drift Out - New Technology|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-kof96|The King of Fighters '96 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof96h|The King of Fighters '96 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof96|good|SNK
-ssideki4|Ultimate 11 - The SNK Football Championship / Tokuten Ou - Honoo no Libero, The|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-kizuna|Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-ninjamas|Ninja Master's - haoh-ninpo-cho|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|ADK/SNK
-ragnagrd|Ragnagard / Shin-Oh-Ken|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Saurus
-pgoal|Pleasure Goal / Futsal - 5 on 5 Mini Soccer|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Saurus
-magdrop2|Magical Drop II|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-samsho4|Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-rbffspec|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-twinspri|Twinkle Star Sprites|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK
-wakuwak7|Waku Waku 7|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Sunsoft
-stakwin2|Stakes Winner 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Saurus
-breakers|Breakers|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Visco
-miexchng|Money Puzzle Exchanger / Money Idol Exchanger|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Face
-kof97|The King of Fighters '97 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof97a|The King of Fighters '97 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof97|good|SNK
-magdrop3|Magical Drop III|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East
-lastblad|Last Blade / Bakumatsu Roman - Gekka no Kenshi, The (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-lastblda|Last Blade / Bakumatsu Roman - Gekka no Kenshi, The (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|lastblad|good|SNK
-puzzldpr|Puzzle De Pon! R!|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|puzzledp|good|Taito/Visco
-irrmaze|The Irritating Maze / Ultra Denryu Iraira Bou|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Saurus/SNK
-popbounc|Pop 'n Bounce / Gapporin|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Video System
-shocktro|Shock Troopers (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Saurus
-shocktra|Shock Troopers (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|shocktro|good|Saurus
-blazstar|Blazing Star|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Yumekobo
-rbff2|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-rbff2a|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|rbff2|good|SNK
-mslug2|Metal Slug 2 - Super Vehicle-001/II|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof98|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof98n|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof98|good|SNK
-lastbld2|Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekka no Kenshi, The|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-neocup98|Neo-Geo Cup '98 - The Road to the Victory|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-breakrev|Breakers Revenge|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|breakers|good|Visco
-shocktr2|Shock Troopers - 2nd Squad|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Saurus
-flipshot|Battle Flip Shot|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-pbobbl2n|Puzzle Bobble 2 / Bust-A-Move Again (Neo-Geo)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK/Taito
-ctomaday|Captain Tomaday|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-mslugx|Metal Slug X - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof99|The King of Fighters '99 - Millennium Battle (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof99a|The King of Fighters '99 - Millennium Battle (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|SNK
-kof99e|The King of Fighters '99 - Millennium Battle (earlier)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|SNK
-kof99n|The King of Fighters '99 - Millennium Battle (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|SNK
-kof99p|The King of Fighters '99 - Millennium Battle (prototype)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|SNK
-ganryu|Musashi Ganryuuki|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-garou|Garou - Mark of the Wolves (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|SNK
-garouo|Garou - Mark of the Wolves (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|garou|good|SNK
-garoup|Garou - Mark of the Wolves (prototype)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|garou|good|SNK
-s1945p|Strikers 1945 Plus|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Psikyo
-preisle2|Prehistoric Isle 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Yumekobo
-mslug3|Metal Slug 3|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-mslug3n|Metal Slug 3 (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|mslug3|good|SNK
-kof2000|The King of Fighters 2000|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|SNK
-kof2000n|The King of Fighters 2000 (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof2000|good|SNK
-bangbead|Bang Bead|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Visco
-nitd|Nightmare in the Dark|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Eleven/Gavaking
-neogeo|Neo-Geo|not-runnable|neogeo/neogeo.cpp|0|320|224|59.185606||||SNK
+marukodq|Chibi Marukochan Deluxe Quiz|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Takara
+neomrdo|Neo Mr. Do!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+sdodgeb|Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Technos
+goalx3|Goal! Goal! Goal!|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+overtop|Over Top|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/neogeo
+neodrift|Neo Drift Out - New Technology|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+kof96|The King of Fighters '96 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof96h|The King of Fighters '96 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof96|good|neogeo/SNK
+ssideki4|Ultimate 11 - The SNK Football Championship / Tokuten Ou - Honoo no Libero, The|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+kizuna|Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+ninjamas|Ninja Master's - haoh-ninpo-cho|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|ADK/neogeo/SNK
+ragnagrd|Ragnagard / Shin-Oh-Ken|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Saurus
+pgoal|Pleasure Goal / Futsal - 5 on 5 Mini Soccer|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Saurus
+magdrop2|Magical Drop II|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+samsho4|Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+rbffspec|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+twinspri|Twinkle Star Sprites|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|ADK/neogeo
+wakuwak7|Waku Waku 7|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Sunsoft
+stakwin2|Stakes Winner 2|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Saurus
+breakers|Breakers|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Visco
+miexchng|Money Puzzle Exchanger / Money Idol Exchanger|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Face/neogeo
+kof97|The King of Fighters '97 (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof97a|The King of Fighters '97 (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof97|good|neogeo/SNK
+magdrop3|Magical Drop III|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|Data East/neogeo
+lastblad|Last Blade / Bakumatsu Roman - Gekka no Kenshi, The (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+lastblda|Last Blade / Bakumatsu Roman - Gekka no Kenshi, The (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|lastblad|good|neogeo/SNK
+puzzldpr|Puzzle De Pon! R!|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|puzzledp|good|neogeo/Taito/Visco
+irrmaze|The Irritating Maze / Ultra Denryu Iraira Bou|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Saurus/SNK
+popbounc|Pop 'n Bounce / Gapporin|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Video System
+shocktro|Shock Troopers (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Saurus
+shocktra|Shock Troopers (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|shocktro|good|neogeo/Saurus
+blazstar|Blazing Star|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Yumekobo
+rbff2|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+rbff2a|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|rbff2|good|neogeo/SNK
+mslug2|Metal Slug 2 - Super Vehicle-001/II|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof98|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof98n|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof98|good|neogeo/SNK
+lastbld2|Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekka no Kenshi, The|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+neocup98|Neo-Geo Cup '98 - The Road to the Victory|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+breakrev|Breakers Revenge|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|breakers|good|neogeo/Visco
+shocktr2|Shock Troopers - 2nd Squad|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Saurus
+flipshot|Battle Flip Shot|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+pbobbl2n|Puzzle Bobble 2 / Bust-A-Move Again (Neo-Geo)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK/Taito
+ctomaday|Captain Tomaday|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+mslugx|Metal Slug X - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof99|The King of Fighters '99 - Millennium Battle (set 1)|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof99a|The King of Fighters '99 - Millennium Battle (set 2)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|neogeo/SNK
+kof99e|The King of Fighters '99 - Millennium Battle (earlier)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|neogeo/SNK
+kof99n|The King of Fighters '99 - Millennium Battle (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|neogeo/SNK
+kof99p|The King of Fighters '99 - Millennium Battle (prototype)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof99|good|neogeo/SNK
+ganryu|Musashi Ganryuuki|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+garou|Garou - Mark of the Wolves (set 1)|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/SNK
+garouo|Garou - Mark of the Wolves (set 2)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|garou|good|neogeo/SNK
+garoup|Garou - Mark of the Wolves (prototype)|clone|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo|garou|good|neogeo/SNK
+s1945p|Strikers 1945 Plus|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|neogeo/Psikyo
+preisle2|Prehistoric Isle 2|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Yumekobo
+mslug3|Metal Slug 3|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+mslug3n|Metal Slug 3 (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|mslug3|good|neogeo/SNK
+kof2000|The King of Fighters 2000|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/SNK
+kof2000n|The King of Fighters 2000 (not encrypted)|clone|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo|kof2000|good|neogeo/SNK
+bangbead|Bang Bead|parent|neogeo/neogeo.cpp|0|304|224|60.000000|neogeo||good|neogeo/Visco
+nitd|Nightmare in the Dark|parent|neogeo/neogeo.cpp|0|320|224|60.000000|neogeo||good|Eleven/Gavaking/neogeo
+neogeo|Neo-Geo|not-runnable|neogeo/neogeo.cpp|0|320|224|59.185606||||neogeo/SNK
 cvs|CVS Bios|not-runnable|||||||||Century Electronics
 decocass|Cassette System|not-runnable|dataeast/decocass.cpp|270|256|240|57.444853||||DECO
 playch10|PlayChoice-10|not-runnable|nintendo/playch10.cpp|0|256|240|60.000000||||Nintendo

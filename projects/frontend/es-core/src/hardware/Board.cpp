@@ -9,6 +9,7 @@
 #include <hardware/boards/pis/PiBoard.h>
 #include "hardware/crt/CrtAdapterDetector.h"
 #include "hardware/crt/CrtNull.h"
+#include "utils/Files.h"
 #include <hardware/boards/pi400/Pi400Board.h>
 
 Board::Board(IHardwareNotifications& notificationInterface)
@@ -145,8 +146,9 @@ BoardType Board::GetPiModel(unsigned int revision)
   return BoardType::UnknownPi;
 }
 
-#define CPU_INFO_FILE   "/proc/cpuinfo"
+
 #define REVISION_STRING "Revision"
+#define MODEL_STRING "Model"
 #define HARDWARE_STRING "Hardware"
 
 #define SizeLitteral(x) (sizeof(x) - 1)
@@ -174,86 +176,41 @@ BoardType Board::GetBoardType()
   // Then try CPU info
   String hardware;
   String revision;
+  String model;
   mType = BoardType::Unknown;
 
-  FILE* f = fopen(CPU_INFO_FILE, "r");
-  if (f != nullptr)
-  {
-    char line[1024];
-    String str; // Declared before loop to keep memory allocated
-    while (fgets(line, sizeof(line) - 1, f) != nullptr)
+  // Pre-identification data
+  String left;
+  String right;
+  for(const String& line : Files::LoadAllFileLines(Path("/proc/cpuinfo"/* "/tmp/cpuinfo"*/)))
+    if (line.Extract(':', left, right, true))
     {
-      // Raspberry pi or Anbernic
-      if (strncmp(line, HARDWARE_STRING, SizeLitteral(HARDWARE_STRING)) == 0)
-      {
-        char* colon = strchr(line, ':');
-        if (colon != nullptr)
-        {
-          hardware = colon + 2;
-          hardware.erase(hardware.find_last_not_of(" \t\r\n") + 1);
-          { LOG(LogInfo) << "[Hardware] Hardware " << hardware; }
-        }
-
-        if (hardware == "Anbernic RG351V")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG351V" ; }
-          mType = BoardType::RG351V;
-        }
-        if (hardware == "Anbernic RG351P")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG351P" ; }
-          mType = BoardType::RG351P;
-        }
-        if (hardware == "Anbernic RG353P")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG353P" ; }
-          mType = BoardType::RG353P;
-        }
-        if (hardware == "Anbernic RG353V")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG353V" ; }
-          mType = BoardType::RG353V;
-        }
-        if (hardware == "Anbernic RG353M")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG353M" ; }
-          mType = BoardType::RG353M;
-        }
-        if (hardware == "Anbernic RG503")
-        {
-          { LOG(LogInfo) << "[Hardware] Anbernic RG503" ; }
-          mType = BoardType::RG503;
-        }
-      }
-      if (strncmp(line, REVISION_STRING, SizeLitteral(REVISION_STRING)) == 0)
-      {
-        char* colon = strchr(line, ':');
-        if (colon != nullptr)
-        {
-          revision = colon + 2;
-          revision.erase(revision.find_last_not_of(" \t\r\n") + 1);
-          unsigned int irevision = (int) strtol(colon + 2, nullptr, 16); // Convert hexa revision
-
-          if ((hardware == "BCM2835") || (hardware == "BCM2711"))
-          {
-            { LOG(LogInfo) << "[Hardware] Pi revision " << revision; }
-            mType = GetPiModel(irevision);
-            mMemory = GetPiMemory(irevision);
-          }
-          if (hardware == "Hardkernel ODROID-GO3")
-          {
-            { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision; }
-            mType = BoardType::OdroidAdvanceGoSuper;
-          }
-          if ((hardware == "Hardkernel ODROID-GO2") || (hardware == "Hardkernel ODROID-GO1") || (hardware == "Hardkernel ODROID-GO"))
-          {
-            { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision; }
-            mType = BoardType::OdroidAdvanceGo;
-          }
-        }
-      }
+      if (left == HARDWARE_STRING) hardware = right;
+      if (left == MODEL_STRING) model = right;
+      if (left == REVISION_STRING) revision = right;
     }
-    fclose(f);
+
+  // Identification
+  if      (hardware == "Anbernic RG351V") { LOG(LogInfo) << "[Hardware] Anbernic RG351V"; mType = BoardType::RG351V; }
+  else if (hardware == "Anbernic RG351P") { LOG(LogInfo) << "[Hardware] Anbernic RG351P"; mType = BoardType::RG351P; }
+  else if (hardware == "Anbernic RG353P") { LOG(LogInfo) << "[Hardware] Anbernic RG353P"; mType = BoardType::RG353P; }
+  else if (hardware == "Anbernic RG353V") { LOG(LogInfo) << "[Hardware] Anbernic RG353V"; mType = BoardType::RG353V; }
+  else if (hardware == "Anbernic RG353M") { LOG(LogInfo) << "[Hardware] Anbernic RG353M"; mType = BoardType::RG353M; }
+  else if (hardware == "Anbernic RG503")  { LOG(LogInfo) << "[Hardware] Anbernic RG503";  mType = BoardType::RG503; }
+  else if (hardware == "Hardkernel ODROID-GO3") { LOG(LogInfo) << "[Hardware] Odroid Advance Go Super revision " << revision; mType = BoardType::OdroidAdvanceGoSuper; }
+  else if ((hardware == "Hardkernel ODROID-GO2") || (hardware == "Hardkernel ODROID-GO1") || (hardware == "Hardkernel ODROID-GO"))
+  {
+    { LOG(LogInfo) << "[Hardware] Odroid Advance Go 1/2 revision " << revision; }
+    mType = BoardType::OdroidAdvanceGo;
+  }
+  else
+  {
+    if (model.LowerCase().Contains("raspberry"))
+      if (int irevision = 0; revision.Insert(0, '$').TryAsInt(irevision))
+      {
+        mType = GetPiModel(irevision);
+        mMemory = GetPiMemory(irevision);
+      }
   }
 
   return mType;

@@ -8,10 +8,10 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 1943|1943 - The Battle of Midway (US)|parent|capcom/1943.cpp|270|256|224|59.637405||||Capcom
 1943j|1943 - The Battle of Midway (Japan)|clone|capcom/1943.cpp|270|256|224|59.637405||1943||Capcom
 1943kai|1943 Kai|parent|capcom/1943.cpp|270|256|224|59.637405||||Capcom
-2020bb|2020 Super Baseball (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Pallas/SNK
-2020bbh|2020 Super Baseball (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|2020bb||Pallas/SNK
+2020bb|2020 Super Baseball (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Pallas/SNK
+2020bbh|2020 Super Baseball (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|2020bb||neogeo/Pallas/SNK
 280zzzap|Datsun 280 Zzzap|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
-3countb|3 Count Bout / Fire Suplex|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+3countb|3 Count Bout / Fire Suplex|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 3stooges|Three Stooges|parent|gottlieb/gottlieb.cpp|0|256|240|61.419025||||Mylstar
 3wonders|Three Wonders (US)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 4dwarrio|4-D Warriors|parent|sega/system1.cpp|0|512|224|60.096154||||Coreland/Sega
@@ -55,7 +55,7 @@ aliensyb|Alien Syndrome (set 3)|clone|sega/segas16b.cpp|0|320|224|60.054389||ali
 aliensyj|Alien Syndrome (Japan)|clone|sega/segas16b.cpp|0|320|224|60.054389||aliensyn||Sega\System16
 aliensyn|Alien Syndrome (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
 alleymas|Alley Master|parent|cinematronics/leland.cpp|270|320|240|60.000000||||Cinematronics
-alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+alpham2|Alpha Mission II / ASO II - Last Guardian|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 alpine|Alpine Ski (set 1)|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 alpinea|Alpine Ski (set 2)|clone|taito/taitosj.cpp|270|256|224|59.185606||alpine||Taito
 altbeas2|Altered Beast (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System16
@@ -66,12 +66,12 @@ amidaro|Amidar (Olympia)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amida
 amidars|Amidar (Scramble hardware)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amidar||Konami
 amidaru|Amidar (Stern)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amidar||Konami/Stern
 amigo|Amigo|clone|galaxian/galaxian.cpp|90|768|224|60.606061||amidar||
-androdun|Andro Dunos|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
+androdun|Andro Dunos|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
 anteater|Anteater|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Stern/Tago
-aodk|Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/SNK
-aof|Art of Fighting / Ryuuko no Ken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-aof2|Art of Fighting 2 / Ryuuko no Ken 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-aof3|Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+aodk|Aggressors of Dark Kombat / Tsuukai GANGAN Koushinkyoku|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo/SNK
+aof|Art of Fighting / Ryuuko no Ken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+aof2|Art of Fighting 2 / Ryuuko no Ken 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+aof3|Art of Fighting 3 - The Path of the Warrior / Art of Fighting - Ryuuko no Ken Gaiden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 apb|APB - All Points Bulletin (set 1)|parent|atari/atarisy2.cpp|270|512|384|60.096154||||Atari
 apb2|APB - All Points Bulletin (set 2)|clone|atari/atarisy2.cpp|270|512|384|60.096154||apb||Atari
 appoooh|Appoooh|parent|sanritsu/appoooh.cpp|0|256|224|60.000000||||Sega
@@ -150,7 +150,7 @@ bagman|Bagman|parent|valadon/bagman.cpp|270|256|224|60.606061||||Valadon Automat
 bagmans|Bagman (Stern set 1)|clone|valadon/bagman.cpp|270|256|224|60.606061||bagman||Stern/Valadon Automation
 bagmans2|Bagman (Stern set 2)|clone|valadon/bagman.cpp|270|256|224|60.606061||bagman||Stern/Valadon Automation
 bagnard|Le Bagnard|clone|valadon/bagman.cpp|270|256|224|60.606061||bagman||Valadon Automation
-bakatono|Bakatonosama Mahjong Manyuki|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Monolith
+bakatono|Bakatonosama Mahjong Manyuki|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Monolith/neogeo
 ballbomb|Balloon Bomber|parent|midw8080/8080bw.cpp|270|260|224|59.541985||||Taito
 baluba|Baluba-louk no Densetsu|parent|tecmo/senjyo.cpp|90|256|224|60.000000||||Able
 bandido|Bandido|clone|nintendo/n8080.cpp|270|256|224|61.523438||sheriff||Exidy
@@ -188,7 +188,7 @@ billiard|The Billiards|clone|galaxian/scobra.cpp|90|256|224|60.606061||hustler||
 bioatack|Bio Attack|parent|taito/taitosj.cpp|270|256|224|59.185606||||Fox Video Games/Taito
 bionicc|Bionic Commando (US set 1)|parent|capcom/bionicc.cpp|0|256|224|59.637405||||Capcom
 bionicc2|Bionic Commando (US set 2)|clone|capcom/bionicc.cpp|0|256|224|59.637405||bionicc||Capcom
-bjourney|Blue's Journey / Raguy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
+bjourney|Blue's Journey / Raguy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
 bjtwin|Bombjack Twin|parent|nmk/nmk16.cpp|270|384|224|56.180000||||NMK
 bking2|Birdie King 2|parent|taito/bking.cpp|90|256|224|60.000000||||Taito
 bktigerb|Black Tiger (bootleg)|clone|capcom/blktiger.cpp|0|256|224|59.637405||blktiger||
@@ -200,7 +200,7 @@ blaster|Blaster|parent|midway/williams.cpp|0|292|240|60.096154||||Williams
 blasto|Blasto|parent|sega/blockade.cpp|0|256|224|60.114504||||Gremlin
 blastoff|Blast Off (Japan)|parent|namco/namcos1.cpp|90|288|224|60.606061||||Namco
 blazer|Blazer (Japan)|parent|namco/namcos1.cpp|90|288|224|60.606061||||Namco
-blazstar|Blazing Star|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Yumekobo
+blazstar|Blazing Star|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Yumekobo
 blckgalb|Block Gal (bootleg)|clone|sega/system1.cpp|90|512|224|60.096154||blockgal||
 blckout2|Block Out (set 2)|clone|technos/blockout.cpp|0|320|240|57.444853||blockout||California Dreams/Technos
 bldwolf|Bloody Wolf (US)|clone|dataeast/battlera.cpp|0|1088|242|59.826103||battlera||Data East
@@ -246,8 +246,8 @@ bowler|4 Player Bowling|parent|midw8080/mw8080bw.cpp|90|260|224|59.541985||||Mid
 bowlrama|Bowl-O-Rama|parent|itech/capbowl.cpp|270|360|240|57.000000||||P & P Marketing
 boxingb|Boxing Bugs|parent|cinematronics/cinemat.cpp|180|||38.000107||||Cinematronics
 brain|Brain|parent|sega/system1.cpp|0|512|224|60.096154||||Coreland/Sega
-breakers|Breakers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
-breakrev|Breakers Revenge|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|breakers||Visco
+breakers|Breakers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
+breakrev|Breakers Revenge|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|breakers||neogeo/Visco
 breywood|Breywood (Japan revision 2)|clone|dataeast/dec8.cpp|0|256|240|57.444853||shackled||Data East
 brix|Brix|clone|cinematronics/jack.cpp|90|256|224|59.185606||zzyzzyxx||Advanced Microcomputer Systems/Cinematronics
 brkthru|Break Thru (US)|parent|dataeast/brkthru.cpp|0|240|240|57.444853||||Data East
@@ -255,8 +255,8 @@ brkthruj|Kyohkoh-Toppa (Japan)|clone|dataeast/brkthru.cpp|0|240|240|57.444853||b
 brubber|Burnin' Rubber|parent|dataeast/btime.cpp|270|256|240|57.444853||||Data East
 brutforc|Brute Force|parent|cinematronics/leland.cpp|0|320|240|60.000000||||Leland
 bsktball|Basketball|parent|atari/bsktball.cpp|0|256|224|60.114504||||Atari
-bstars|Baseball Stars Professional|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-bstars2|Baseball Stars 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+bstars|Baseball Stars Professional|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+bstars2|Baseball Stars 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 btime|Burger Time (Data East set 1)|parent|dataeast/btime.cpp|270|240|240|57.444853||||Data East
 btime2|Burger Time (Data East set 2)|clone|dataeast/btime.cpp|270|240|240|57.444853||btime||Data East
 btimem|Burger Time (Midway)|clone|dataeast/btime.cpp|270|240|240|57.444853||btime||Bally Midway/Data East
@@ -268,8 +268,8 @@ bublbobl|Bubble Bobble|parent|taito/bublbobl.cpp|0|256|224|59.185606||||Taito
 bublbobr|Bubble Bobble (US with mode select)|clone|taito/bublbobl.cpp|0|256|224|59.185606||bublbobl||Romstar/Taito
 bullfgtj|The Tougyuu (Japan)|parent|||||||||Coreland/Sega
 burnforc|Burning Force (Japan)|parent|namco/namcos2.cpp|0|288|224|60.606061||||Namco
-burningf|Burning Fight (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-burningh|Burning Fight (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|burningf||SNK
+burningf|Burning Fight (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+burningh|Burning Fight (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|burningf||neogeo/SNK
 bwidow|Black Widow|parent|atari/bwidow.cpp|0|||61.523438||||Atari
 bzone|Battle Zone (set 1)|parent|atari/bzone.cpp|0|||41.015625||||Atari
 bzone2|Battle Zone (set 2)|clone|atari/bzone.cpp|0|||41.015625||bzone||Atari
@@ -401,7 +401,7 @@ crimfght|Crime Fighters (US 4 players)|parent|konami/crimfght.cpp|0|320|224|59.1
 crimfgt2|Crime Fighters (World 2 Players)|clone|konami/crimfght.cpp|0|320|224|59.185606||crimfght||Konami
 crimfgtj|Crime Fighters (Japan 2 Players)|clone|konami/crimfght.cpp|0|320|224|59.185606||crimfght||Konami
 crossbow|Crossbow (version 2.0)|parent|exidy/exidy440.cpp|0|320|240|60.000000||||Exidy
-crsword|Crossed Swords|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
+crsword|Crossed Swords|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
 cruisin|Cruisin|clone|jaleco/citycon.cpp|0|240|224|59.637405||citycon||Jaleco/Kitkorp
 crush|Crush Roller (Kural Samno)|parent|pacman/pacman.cpp|90|288|224|60.606061||||Kural Samno Electric
 crush2|Crush Roller (Kural Esco - bootleg?)|clone|pacman/pacman.cpp|90|288|224|60.606061||crush||Kural Esco Electric
@@ -421,7 +421,7 @@ cyberb2p|Cyberball 2072 (2 player)|clone|atari/cyberbal.cpp|0|672|240|59.922748|
 cyberba2|Cyberball (Version 2)|clone|atari/cyberbal.cpp|0|672|240|59.922748||cyberbal||Atari
 cyberbal|Cyberball (Version 4)|parent|atari/cyberbal.cpp|0|672|240|59.922748||||Atari
 cyberbt|Tournament Cyberball 2072|clone|atari/cyberbal.cpp|0|672|240|59.922748||cyberbal||Atari
-cyberlip|Cyber-Lip|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+cyberlip|Cyber-Lip|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 dairesya|Dai Ressya Goutou (Japan)|clone|konami/ironhors.cpp|0|240|224|61.049285||ironhors||Kawakusu/Konami
 dakkochn|DakkoChan Jansoh|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
 dangar|Dangar - Ufo Robo (12/1/1986)|parent|nichibutsu/galivan.cpp|270|256|224|59.949642||||Nichibutsu
@@ -514,7 +514,7 @@ dotriku2|Dottori Kun (old version)|clone|sega/dotrikun.cpp|0|128|192|61.035156||
 dotrikun|Dottori Kun (new version)|parent|sega/dotrikun.cpp|0|128|192|61.035156||||Sega
 dotron|Discs of Tron (Upright)|parent|midway/mcr.cpp|0|512|480|30.000000||||Bally Midway
 dotrone|Discs of Tron (Environmental)|clone|midway/mcr.cpp|0|512|480|30.000000||dotron||Bally Midway
-doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Technos
+doubledr|Double Dragon (Neo-Geo)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Technos
 douni|Mr. Do vs. Unicorns|clone|universal/docastle.cpp|270|240|192|59.659091||docastle||Universal
 dowild|Mr. Do's Wild Ride|parent|universal/docastle.cpp|0|240|192|59.659091||||Universal
 downtown|DownTown|parent|seta/downtown.cpp|270|384|240|57.420000||||Seta
@@ -543,7 +543,7 @@ earthinv|Super Earth Invasion|clone|midw8080/mw8080bw.cpp|270|260|224|59.541985|
 ebases|Extra Bases|parent|midway/astrocde.cpp|0|352|240|60.054442||||Midway
 edf|Earth Defense Force|parent|jaleco/megasys1.cpp|0|256|224|56.191350||||Jaleco
 eggs|Eggs|clone|dataeast/scregg.cpp|270|240|240|57.444853||scregg||Technos/Universal
-eightman|Eight Man|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Pallas/SNK
+eightman|Eight Man|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Pallas/SNK
 einnings|Extra Innings|parent|||||||||Midway
 elecyoy2|The Electric Yo-Yo (set 2)|clone|taito/qix.cpp|270|256|256|55.838470||elecyoyo||Taito
 elecyoyo|The Electric Yo-Yo (set 1)|parent|taito/qix.cpp|270|256|256|55.838470||||Taito
@@ -593,18 +593,18 @@ fantzono|Fantasy Zone (Old Ver.)|clone|sega/segas16a.cpp|0|320|224|60.000000||fa
 farwest|Far West|clone|konami/ironhors.cpp|0|240|224|61.049285||ironhors||
 fastfred|Fast Freddie|clone|galaxian/fastfred.cpp|90|256|224|60.000000||flyboy||Atari
 fastlane|Fast Lane|parent|konami/fastlane.cpp|90|280|224|59.170000||||Konami
-fatfursp|Fatal Fury Special / Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-fatfury1|Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-fatfury2|Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-fatfury3|Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+fatfursp|Fatal Fury Special / Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+fatfury1|Fatal Fury - King of Fighters / Garou Densetsu - shukumei no tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+fatfury2|Fatal Fury 2 / Garou Densetsu 2 - arata-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+fatfury3|Fatal Fury 3 - Road to the Final Victory / Garou Densetsu 3 - haruka-naru tatakai|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 fax|Fax|parent|exidy/exidy.cpp|0|256|256|59.996811||||Exidy
-fbfrenzy|Football Frenzy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+fbfrenzy|Football Frenzy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 ffantasy|Fighting Fantasy (Japan)|clone|dataeast/dec0.cpp|0|256|240|57.444853||hippodrm||Data East
 ffight|Final Fight (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 ffightj|Final Fight (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight||Capcom\CPS1
 ffightu|Final Fight (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight||Capcom\CPS1
 fhawk|Fighting Hawk (Japan)|parent|taito/taito_l.cpp|270|320|224|60.000000||||Taito
-fightfev|Fight Fever / Crystal Legacy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Viccom
+fightfev|Fight Fever / Crystal Legacy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Viccom
 finalb|Final Blow (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
 finalbj|Final Blow (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||finalb||Taito
 finalizb|Finalizer - Super Transformation (bootleg)|clone|konami/finalizr.cpp|90|272|224|60.000000||finalizr||
@@ -619,7 +619,7 @@ fitter|Fitter|clone|thepit/thepit.cpp|90|256|224|60.606061||roundup||Taito
 flashgal|Flash Gal|parent|orca/kyugo.cpp|0|288|224|60.000000||||Sega
 flicky|Flicky (set 1)|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
 flicky2|Flicky (set 2)|clone|sega/system1.cpp|0|512|224|60.096154||flicky||Sega
-flipshot|Battle Flip Shot|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
+flipshot|Battle Flip Shot|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
 flkatck|Flak Attack (Japan)|clone|konami/flkatck.cpp|90|280|224|60.000000||mx5000||Konami
 flyboy|Fly-Boy|parent|galaxian/fastfred.cpp|90|256|224|60.000000||||Kaneko
 flyboyb|Fly-Boy (bootleg)|clone|galaxian/fastfred.cpp|90|256|224|60.000000||flyboy||Kaneko
@@ -663,7 +663,7 @@ galap4|Galaxian Part 4|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxia
 galapx|Galaxian Part X|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxian||
 galaxb|Galaxian (bootleg)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxian||
 galaxian|Galaxian (Namco)|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Namco
-galaxyfg|Galaxy Fight - Universal Warriors|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Sunsoft
+galaxyfg|Galaxy Fight - Universal Warriors|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Sunsoft
 galivan|Galivan - Cosmo Police (12/16/1985)|parent|nichibutsu/galivan.cpp|270|256|224|59.949642||||Nichibutsu
 galivan2|Galivan - Cosmo Police (12/11/1985)|clone|nichibutsu/galivan.cpp|270|256|224|59.949642||galivan||Nichibutsu
 gallag|Gallag|clone|namco/galaga.cpp|90|288|224|60.606061||galaga||
@@ -713,7 +713,7 @@ gmissile|Guided Missile|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midw
 gng|Ghosts'n Goblins (World? set 1)|parent|capcom/gng.cpp|0|256|224|59.637405||||Capcom
 gnga|Ghosts'n Goblins (World? set 2)|clone|capcom/gng.cpp|0|256|224|59.637405||gng||Capcom
 gngt|Ghosts'n Goblins (US)|clone|capcom/gng.cpp|0|256|224|59.637405||gng||Capcom/Taito
-goalx3|Goal! Goal! Goal!|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
+goalx3|Goal! Goal! Goal!|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
 goindol|Goindol|parent|suna/goindol.cpp|90|256|224|60.000000||||Sun a Electronics
 goldmedl|Gold Medalist|parent|alpha/alpha68k.cpp|0|256|224|59.185606||||SNK
 goldnabl|Golden Axe (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||
@@ -726,8 +726,8 @@ gondo|Gondomania (US)|parent|dataeast/dec8.cpp|270|256|240|57.444853||||Data Ea
 gorf|Gorf|parent|midway/astrocde.cpp|270|352|240|60.054442||||Midway
 gorfpgm1|Gorf (Program 1)|clone|midway/astrocde.cpp|270|352|240|60.054442||gorf||Midway
 gotya|Got-Ya (12/24/1981, prototype?)|parent|gametron/gotya.cpp|270|288|224|60.000000||||Game-A-Tron
-gowcaizr|Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Technos
-gpilots|Ghost Pilots|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+gowcaizr|Voltage Fighter - Gowcaizer / Choujin Gakuen Gowcaizer|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Technos
+gpilots|Ghost Pilots|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 gradius|Gradius|clone|konami/nemesis.cpp|0|256|224|60.606061||nemesis||Konami
 gradius2|Gradius II - Gofer no Yabou (Japan set 1)|clone|konami/twin16.cpp|0|320|224|60.606061||vulcan||Konami
 gradius3|Gradius III (Japan)|parent|konami/gradius3.cpp|0|320|224|60.000000||||Konami
@@ -762,7 +762,7 @@ gunsmoka|Gun.Smoke (US set 2)|clone|capcom/gunsmoke.cpp|270|256|224|59.637405||g
 gunsmoke|Gun.Smoke (World)|parent|capcom/gunsmoke.cpp|270|256|224|59.637405||||Capcom
 gunsmokj|Gun.Smoke (Japan)|clone|capcom/gunsmoke.cpp|270|256|224|59.637405||gunsmoke||Capcom
 gunsmrom|Gun.Smoke (US set 1)|clone|capcom/gunsmoke.cpp|270|256|224|59.637405||gunsmoke||Capcom/Romstar
-gururin|Gururin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Face
+gururin|Gururin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Face/neogeo
 gutangtn|Guttang Gottong|clone|namco/rallyx.cpp|90|256|224|60.606061||locomotn||Konami/Sega
 guzzler|Guzzler|parent|nichibutsu/cclimber.cpp|90|256|224|60.570000||||Tehkan
 gwar|Guerrilla War (US)|parent|snk/snk.cpp|270|400|224|60.000000||||SNK
@@ -868,7 +868,7 @@ invrvnga|Invader's Revenge (Dutchford)|clone|midw8080/8080bw.cpp|270|260|224|59.
 invrvnge|Invader's Revenge|parent|midw8080/8080bw.cpp|270|260|224|59.541985||||Zenitone Microsec
 irobot|I, Robot|parent|atari/irobot.cpp|0|256|232|60.000000||||Atari
 ironhors|Iron Horse|parent|konami/ironhors.cpp|0|240|224|61.049285||||Konami
-irrmaze|The Irritating Maze / Ultra Denryu Iraira Bou|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus/SNK
+irrmaze|The Irritating Maze / Ultra Denryu Iraira Bou|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus/SNK
 jack|Jack the Giantkiller (set 1)|parent|cinematronics/jack.cpp|90|256|224|59.185606||||Cinematronics
 jack2|Jack the Giantkiller (set 2)|clone|cinematronics/jack.cpp|90|256|224|59.185606||jack||Cinematronics
 jack3|Jack the Giantkiller (set 3)|clone|cinematronics/jack.cpp|90|256|224|59.185606||jack||Cinematronics
@@ -878,7 +878,7 @@ jackrab2|Jack Rabbit (set 2)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||j
 jackrabs|Jack Rabbit (special)|clone|zaccaria/zaccaria.cpp|90|256|224|60.606061||jackrabt||Zaccaria
 jackrabt|Jack Rabbit (set 1)|parent|zaccaria/zaccaria.cpp|90|256|224|60.606061||||Zaccaria
 jailbrek|Jail Break|parent|konami/jailbrek.cpp|0|240|224|60.606061||||Konami
-janshin|Jyanshin Densetsu - Quest of Jongmaster|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom
+janshin|Jyanshin Densetsu - Quest of Jongmaster|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom/neogeo
 jedi|Return of the Jedi|parent|atari/jedi.cpp|0|296|240|60.000000||||Atari
 jjack|Jumping Jack|parent|universal/docastle.cpp|270|240|192|59.659091||||Universal
 joemac|Joe & Mac (Japan)|clone|dataeast/cninja.cpp|0|256|240|58.238857||cninja||Data East
@@ -888,7 +888,7 @@ joust2|Joust 2 - Survival of the Fittest (set 1)|parent|midway/williams.cpp|270|
 joustr|Joust (Solid Red label)|clone|midway/williams.cpp|0|292|240|60.096154||joust||Williams
 joustwr|Joust (White/Red label)|clone|midway/williams.cpp|0|292|240|60.096154||joust||Williams
 joyfulr|Joyful Road (US)|parent|snk/munchmo.cpp|270|320|240|57.000000||||SNK
-joyjoy|Puzzled / Joy Joy Kid|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+joyjoy|Puzzled / Joy Joy Kid|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 jrpacman|Jr. Pac-Man|parent|pacman/jrpacman.cpp|90|288|224|60.606060||||Bally Midway
 jspecter|Jatre Specter|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invaders||Jatre
 jumpbug|Jump Bug|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Rock-ola
@@ -904,7 +904,7 @@ junglkj2|Jungle King (Japan, earlier)|clone|taito/taitosj.cpp|180|256|224|59.185
 junofrst|Juno First|parent|konami/junofrst.cpp|90|768|224|60.606061||||Konami
 junofstg|Juno First (Gottlieb)|clone|konami/junofrst.cpp|90|768|224|60.606061||junofrst||Gottlieb/Konami
 jyuohki|Jyuohki (Japan)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast||Sega\System16
-kabukikl|Kabuki Klash - Far East of Eden / Tengai Makyou Shinden - Far East of Eden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Hudson
+kabukikl|Kabuki Klash - Far East of Eden / Tengai Makyou Shinden - Far East of Eden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Hudson/neogeo
 kageki|Kageki (US)|parent|taito/tnzs.cpp|90|256|224|60.000000||||Romstar/Taito
 kagekij|Kageki (Japan)|clone|taito/tnzs.cpp|90|256|224|60.000000||kageki||Taito
 kaitei|Kaitei Takara Sagashi|parent|namco/warpwarp.cpp|90|272|224|60.606061||||K.K. Tokki
@@ -921,7 +921,7 @@ karatedo|Karate Dou (Japan)|clone|dataeast/kchamp.cpp|90|256|224|60.000000||kcha
 karatevs|Taisen Karate Dou (Japan VS version)|clone|dataeast/kchamp.cpp|90|256|224|59.100000||kchamp||Data East
 karnov|Karnov (US)|parent|dataeast/karnov.cpp|0|256|240|60.000000||||Data East
 karnovj|Karnov (Japan)|clone|dataeast/karnov.cpp|0|256|240|60.000000||karnov||Data East
-karnovr|Karnov's Revenge / Fighter's History Dynamite|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
+karnovr|Karnov's Revenge / Fighter's History Dynamite|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
 kbash|Knuckle Bash|parent|toaplan/toaplan2.cpp|0|320|240|59.637405||||Toaplan
 kchamp|Karate Champ (US)|parent|dataeast/kchamp.cpp|90|256|224|60.000000||||Data East
 kchampvs|Karate Champ (US VS version)|clone|dataeast/kchamp.cpp|90|256|224|59.100000||kchamp||Data East
@@ -939,7 +939,7 @@ killcom|Killer Comet|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Cen
 kingbalj|King & Balloon (Japan)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||kingball||Namco
 kingball|King & Balloon (US)|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Namco
 kingofb|King of Boxer (English)|parent|dataeast/kingobox.cpp|90|256|224|60.000000||||Woodplace
-kizuna|Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+kizuna|Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 klax|Klax (set 1)|parent|atari/klax.cpp|0|336|240|59.922743||||Atari
 klax2|Klax (set 2)|clone|atari/klax.cpp|0|336|240|59.922743||klax||Atari
 klax3|Klax (set 3)|clone|atari/klax.cpp|0|336|240|59.922743||klax||Atari
@@ -951,16 +951,16 @@ kod|The King of Dragons (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Ca
 kodb|The King of Dragons (bootleg)|clone|capcom/fcrash.cpp|0|384|224|60.000000||kod||Capcom
 kodj|The King of Dragons (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||kod||Capcom\CPS1
 kodure|Kodure Ookami (Japan)|parent|||||||||Nichibutsu
-kof94|The King of Fighters '94|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-kof95|The King of Fighters '95|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-kof96|The King of Fighters '96|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-kof97|The King of Fighters '97|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-kof98|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+kof94|The King of Fighters '94|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+kof95|The King of Fighters '95|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+kof96|The King of Fighters '96|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+kof97|The King of Fighters '97|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+kof98|The King of Fighters '98 - The Slugfest / King of Fighters '98 - dream match never ends|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 konami88|Konami '88|clone|konami/88games.cpp|0|320|224|60.000000||88games||Konami
 konamigt|Konami GT|parent|konami/nemesis.cpp|0|256|224|60.606061||||Konami
 koshien|Ah Eikou no Koshien (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
-kotm|King of the Monsters|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-kotm2|King of the Monsters 2 - The Next Thing|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+kotm|King of the Monsters|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+kotm2|King of the Monsters 2 - The Next Thing|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 kram|Kram (set 1)|parent|taito/qix.cpp|0|256|256|55.838470||||Taito
 kram2|Kram (set 2)|clone|taito/qix.cpp|0|256|256|55.838470||kram||Taito
 kroozr|Kozmik Kroozr|parent|midway/mcr.cpp|0|512|480|30.000000||||Bally Midway
@@ -982,20 +982,20 @@ ladybugb|Lady Bug (bootleg)|clone|universal/ladybug.cpp|270|240|192|60.114504||l
 lagunar|Laguna Racer|parent|midw8080/mw8080bw.cpp|90|260|224|59.541985||||Midway
 laser|Laser|clone|midw8080/8080bw.cpp|270|260|224|59.541985||spclaser||
 lasso|Lasso|parent|snk/lasso.cpp|90|256|224|57.000000||||SNK
-lastblad|The Last Blade / Bakumatsu Roman - Gekkano Kenshi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-lastbld2|The Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekkano Kenshi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+lastblad|The Last Blade / Bakumatsu Roman - Gekkano Kenshi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+lastbld2|The Last Blade 2 / Bakumatsu Roman - Dai Ni Maku Gekkano Kenshi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 lastduel|Last Duel (US set 1)|parent|capcom/lastduel.cpp|270|384|240|60.000000||||Capcom
 lastmiss|Last Mission (US revision 6)|parent|||||||||Data East
 lastmss2|Last Mission (US revision 5)|clone|||||||lastmiss||Data East
 lazercmd|Lazer Command|parent|meadows/lazercmd.cpp|0|256|230|60.000000||||Meadows Games
-lbowling|League Bowling|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+lbowling|League Bowling|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 ldrun|Lode Runner (set 1)|parent|irem/m62.cpp|0|384|256|55.017606||||Broderbund/Irem
 ldrun2|Lode Runner II - The Bungeling Strikes Back|parent|irem/m62.cpp|0|384|256|55.017606||||Broderbund/Irem
 ldrun3|Lode Runner III - Majin No Fukkatsu|parent|irem/m62.cpp|0|384|256|55.017606||||Broderbund/Irem
 ldrun4|Lode Runner IV - Teikoku Karano Dasshutsu|parent|irem/m62.cpp|0|384|256|55.017606||||Broderbund/Irem
 ldruna|Lode Runner (set 2)|clone|irem/m62.cpp|0|384|256|55.017606||ldrun||Broderbund/Irem
 ledstorm|Led Storm (US)|clone|capcom/lastduel.cpp|270|384|240|57.444400||madgear||Capcom
-legendos|Legend of Success Joe / Ashitano Joe Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+legendos|Legend of Success Joe / Ashitano Joe Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 legofair|Koukuu Kihei Monogatari - The Legend of Air Cavalry|clone|snk/snk.cpp|270|400|224|60.000000||chopper||SNK
 leprechn|Leprechaun|parent|alliedleisure/killcom.cpp|0|256|256|59.196429||||Tong Electronic
 lethalth|Lethal Thunder (World)|parent|irem/m92.cpp|270|320|240|60.000000||||Irem
@@ -1024,7 +1024,7 @@ losttomb|Lost Tomb (easy)|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||S
 lostwrld|Lost Worlds (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||forgottn||Capcom\CPS1
 lotlot|Lot Lot|parent|irem/m62.cpp|0|384|256|55.017606||||Irem/Tokuma Shoten
 lrescue|Lunar Rescue|parent|midw8080/8080bw.cpp|270|260|224|59.541985||||Taito
-lresort|Last Resort|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+lresort|Last Resort|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 lsasquad|Land Sea Air Squad / Riku Kai Kuu Saizensen|parent|taito/lsasquad.cpp|270|256|224|60.000000||||Taito
 lstduela|Last Duel (US set 2)|clone|capcom/lastduel.cpp|270|384|240|60.000000||lastduel||Capcom
 lstduelb|Last Duel (bootleg)|clone|capcom/lastduel.cpp|270|384|240|60.000000||lastduel||
@@ -1040,13 +1040,13 @@ madcrash|Mad Crasher|parent|snk/snk.cpp|0|288|216|60.000000||||SNK
 madgear|Mad Gear (US)|parent|capcom/lastduel.cpp|270|384|240|57.444400||||Capcom
 madgearj|Mad Gear (Japan)|clone|capcom/lastduel.cpp|270|384|240|57.444400||madgear||Capcom
 madmotor|Mad Motor|parent|dataeast/madmotor.cpp|0|256|240|58.000000||||Mitchell
-magdrop2|Magical Drop II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
-magdrop3|Magical Drop III|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
+magdrop2|Magical Drop II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
+magdrop3|Magical Drop III|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
 magix|Magix|parent|yunsung/yunsung8.cpp|0|384|240|59.637405||||Yun Sung
-maglord|Magician Lord (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
-maglordh|Magician Lord (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|maglord||Alpha Denshi
+maglord|Magician Lord (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
+maglordh|Magician Lord (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|maglord||Alpha Denshi/neogeo
 magspot2|Magical Spot II|parent|universal/cosmic.cpp|270|256|192|58.639833||||Universal
-mahretsu|Mahjong Kyoretsuden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+mahretsu|Mahjong Kyoretsuden|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 mainevt|The Main Event (version Y)|parent|konami/mainevt.cpp|0|288|224|59.185606||||Konami
 mainevt2|The Main Event (version F)|clone|konami/mainevt.cpp|0|288|224|59.185606||mainevt||Konami
 majest12|Majestic Twelve - The Space Invaders Part IV (Japan)|clone|taito/taito_f2.cpp|270|320|224|60.000000||ssi||Taito
@@ -1072,7 +1072,7 @@ mario|Mario Bros. (US)|parent|nintendo/mario.cpp|0|256|224|59.185606||||Nintendo
 mariojp|Mario Bros. (Japan)|clone|nintendo/mario.cpp|0|256|224|59.185606||mario||Nintendo
 mars|Mars|parent|galaxian/scramble.cpp|90|256|224|60.606061||||Artic
 marukin|Super Marukin-Ban|parent|capcom/mitchell.cpp|0|384|240|60.000000||||Yuga
-marukodq|Chibi Marukochan Deluxe Quiz|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Takara
+marukodq|Chibi Marukochan Deluxe Quiz|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Takara
 marvins|Marvin's Maze|parent|snk/snk.cpp|270|288|216|60.000000||||SNK
 marvland|Marvel Land (US)|parent|namco/namcos2.cpp|0|288|224|60.606061||||Namco
 marvlanj|Marvel Land (Japan)|clone|namco/namcos2.cpp|0|288|224|60.606061||marvland||Namco
@@ -1115,12 +1115,12 @@ miaj|Missing in Action (Japan)|clone|konami/twin16.cpp|0|304|224|60.606061||mia|
 midres|Midnight Resistance (World)|parent|dataeast/dec0.cpp|0|256|240|57.444853||||Data East
 midresj|Midnight Resistance (Japan)|clone|dataeast/dec0.cpp|0|256|240|57.444853||midres||Data East
 midresu|Midnight Resistance (US)|clone|dataeast/dec0.cpp|0|256|240|57.444853||midres||Data East
-miexchng|Money Puzzle Exchanger / Money Idol Exchanger|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Face
+miexchng|Money Puzzle Exchanger / Money Idol Exchanger|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Face/neogeo
 mikie|Mikie|parent|konami/mikie.cpp|270|256|224|60.590000||||Konami
 mikiehs|Mikie (High School Graffiti)|clone|konami/mikie.cpp|270|256|224|60.590000||mikie||Konami
 mikiej|Shinnyuushain Tooru-kun|clone|konami/mikie.cpp|270|256|224|60.590000||mikie||Konami
 milliped|Millipede|parent|atari/centiped.cpp|270|256|240|60.000000||||Atari
-minasan|Minnasanno Okagesamadesu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Monolith
+minasan|Minnasanno Okagesamadesu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Monolith/neogeo
 minefld|Minefield|parent|galaxian/scobra.cpp|90|256|224|60.606061||||Stern
 minigol2|Mini Golf (set 2)|clone|midway/balsente.cpp|0|256|240|59.185606||minigolf||Bally/Sente
 minigolf|Mini Golf (set 1)|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
@@ -1185,8 +1185,8 @@ mrlo|Mr. Lo!|clone|universal/mrdo.cpp|270|240|192|59.943237||mrdo||
 mrtnt|Mr. TNT|parent|pacman/pacman.cpp|90|288|224|60.606061||||Telko
 mrviking|Mister Viking|parent|sega/system1.cpp|270|479|224|60.096154||||Sega
 mrvikinj|Mister Viking (Japan)|clone|sega/system1.cpp|270|479|224|60.096154||mrviking||Sega
-mslug|Metal Slug - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Nazca
-mslug2|Metal Slug 2 - Super Vehicle-001/II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+mslug|Metal Slug - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Nazca/neogeo
+mslug2|Metal Slug 2 - Super Vehicle-001/II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 mspacatk|Ms. Pac-Man Plus|clone|pacman/pacman.cpp|90|288|224|60.606061||mspacman||
 mspacman|Ms. Pac-Man|parent|pacman/pacman.cpp|90|288|224|60.606061||||
 msword|Magic Sword - Heroic Fantasy (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
@@ -1196,7 +1196,7 @@ mtrap|Mouse Trap (version 5)|parent|exidy/exidy.cpp|0|256|256|59.996811||||Exidy
 mtrap3|Mouse Trap (version 3)|clone|exidy/exidy.cpp|0|256|256|59.996811||mtrap||Exidy
 mtrap4|Mouse Trap (version 4)|clone|exidy/exidy.cpp|0|256|256|59.996811||mtrap||Exidy
 mtwins|Mega Twins (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
-mutnat|Mutation Nation|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+mutnat|Mutation Nation|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 mx5000|MX5000|parent|konami/flkatck.cpp|90|280|224|60.000000||||Konami
 myhero|My Hero (US)|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
 myheroj|Seishun Scandal (Japan)|clone|sega/system1.cpp|0|512|224|60.096154||myhero||Coreland/Sega
@@ -1204,7 +1204,7 @@ myherok|My Hero (Korea)|clone|sega/system1.cpp|0|512|224|60.096154||myhero||Core
 mysticm|Mystic Marathon|parent|midway/williams.cpp|0|276|240|61.035156||||Williams
 mysticri|Mystic Riders (World)|parent|irem/m92.cpp|0|320|240|60.000000||||Irem
 mystston|Mysterious Stones|parent|technos/mystston.cpp|270|256|240|57.444853||||Technos
-nam1975|NAM-1975|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+nam1975|NAM-1975|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 nametune|Name That Tune|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 narc|Narc (rev 7.00)|parent|midway/midyunit.cpp|0|512|400|54.824186||||Williams
 narc3|Narc (rev 3.20)|clone|midway/midyunit.cpp|0|512|400|54.824186||narc||Williams
@@ -1221,18 +1221,18 @@ nbajamt2|NBA Jam TE (rev 2.0 01/28/94)|clone|midway/midtunit.cpp|0|400|254|54.70
 nbajamt3|NBA Jam TE (rev 3.0 03/04/94)|clone|midway/midtunit.cpp|0|400|254|54.706840||nbajam||Midway
 nbajamte|NBA Jam TE (rev 4.0 03/23/94)|clone|midway/midtunit.cpp|0|400|254|54.706840||nbajam||Midway
 nbamaxht|NBA Maximum Hangtime (rev 1.0)|parent|||||||||Midway
-ncombat|Ninja Combat|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
-ncommand|Ninja Commando|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
+ncombat|Ninja Combat|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
+ncommand|Ninja Commando|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
 nebulbee|Nebulous Bee|clone|namco/galaga.cpp|90|288|224|60.606061||galaga||
 nemesis|Nemesis (hacked?)|parent|konami/nemesis.cpp|0|256|224|60.606061||||Konami
 nemesuk|Nemesis (World?)|clone|konami/nemesis.cpp|0|256|224|60.606061||nemesis||Konami
 nemo|Nemo (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 nemoj|Nemo (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||nemo||Capcom\CPS1
-neobombe|Neo Bomberman|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Hudson
-neocup98|Neo-Geo Cup '98 - The Road to the Victory|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-neodrift|Neo Drift Out - New Technology|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
-neogeo|Neo Geo BIOS|bios|neogeo/neogeo.cpp|0|320|224|59.185606||||
-neomrdo|Neo Mr. Do!|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Visco
+neobombe|Neo Bomberman|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Hudson/neogeo
+neocup98|Neo-Geo Cup '98 - The Road to the Victory|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+neodrift|Neo Drift Out - New Technology|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
+neogeo|Neo Geo BIOS|bios|neogeo/neogeo.cpp|0|320|224|59.185606||||neogeo
+neomrdo|Neo Mr. Do!|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
 newsin7|New Sinbad 7|parent|galaxian/scramble.cpp|90|256|224|60.606061||||ATW
 nibbler|Nibbler (set 1)|parent|snk/snk6502.cpp|90|256|224|61.246745||||Rock-ola
 nibblera|Nibbler (set 2)|clone|snk/snk6502.cpp|90|256|224|61.246745||nibbler||Rock-ola
@@ -1241,7 +1241,7 @@ ninjak2a|Ninja Kid II (set 2)|clone|upl/ninjakd2.cpp|0|256|192|59.610000||ninjak
 ninjak2b|Ninja Kid II (set 3)|clone|upl/ninjakd2.cpp|0|256|192|59.610000||ninjakd2||UPL
 ninjakd2|Ninja Kid II (set 1)|parent|upl/ninjakd2.cpp|0|256|192|59.610000||||UPL
 ninjakj|Ninja Kids (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||ninjak||Taito
-ninjamas|Ninja Master's - haoh-ninpo-cho|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/SNK
+ninjamas|Ninja Master's - haoh-ninpo-cho|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo/SNK
 ninjemak|Ninja Emaki (US)|parent|nichibutsu/galivan.cpp|270|256|224|59.949642||||Nichibutsu
 nitedrvr|Night Driver|parent|atari/nitedrvr.cpp|0|256|240|60.114504||||Atari
 nomnlnd|No Man's Land|parent|universal/cosmic.cpp|270|256|192|58.639833||||Universal
@@ -1278,7 +1278,7 @@ outruna|Out Run (set 2)|clone|sega/segaorun.cpp|0|320|224|60.054389||outrun||Seg
 outrunb|Out Run (set 3)|clone|sega/segaorun.cpp|0|320|224|60.054389||outrun||Sega
 outzone|Out Zone|parent|toaplan/toaplan1.cpp|270|320|240|55.161545||||Toaplan
 outzonep|Out Zone (bootleg)|clone|toaplan/toaplan1.cpp|270|320|240|55.161545||outzone||
-overtop|Over Top|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK
+overtop|Over Top|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo
 ozmawars|Ozma Wars|parent|midw8080/8080bw.cpp|270|260|224|59.541985||||SNK
 p47|P-47 - The Phantom Fighter (World)|parent|jaleco/megasys1.cpp|0|256|224|56.191350||||Jaleco
 p47j|P-47 - The Freedom Fighter (Japan)|clone|jaleco/megasys1.cpp|0|256|224|56.191350||p47||Jaleco
@@ -1308,7 +1308,7 @@ pang3j|Pang! 3 (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3||Mitchel
 pangb|Pang (bootleg)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang||
 panic|Space Panic (set 1)|parent|universal/cosmic.cpp|270|256|192|58.639833||||Universal
 panica|Space Panic (set 2)|clone|universal/cosmic.cpp|270|256|192|58.639833||panic||Universal
-panicbom|Panic Bomber|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Eighting/Hudson
+panicbom|Panic Bomber|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Eighting/Hudson/neogeo
 panicger|Space Panic (German)|clone|universal/cosmic.cpp|270|256|192|58.639833||panic||ADP Automaten/Universal
 paperboy|Paperboy|parent|atari/atarisy2.cpp|0|512|384|60.096154||||Atari
 parodius|Parodius DA! (Japan)|parent|konami/parodius.cpp|0|288|224|60.000000||||Konami
@@ -1330,7 +1330,7 @@ penta|Penta|clone|pacman/pengo.cpp|90|288|224|60.606061||pengo||
 pepper2|Pepper II|parent|exidy/exidy.cpp|0|256|256|59.996811||||Exidy
 percuss|The Percussor|parent|orca/zodiack.cpp|270|256|224|60.606061||||Orca
 peterpak|Peter Pack-Rat|parent|atari/atarisy1.cpp|0|336|240|59.922743||||Atari
-pgoal|Pleasure Goal / Futsal - 5 on 5 Mini Soccer|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
+pgoal|Pleasure Goal / Futsal - 5 on 5 Mini Soccer|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 phantasm|Phantasm (Japan)|clone|jaleco/megasys1.cpp|0|256|224|56.191350||avspirit||Jaleco
 phantom2|Phantom II|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
 phelios|Phelios (Japan)|parent|namco/namcos2.cpp|90|288|224|60.606061||||Namco
@@ -1384,7 +1384,7 @@ ponpokov|Ponpoko (Venture Line)|clone|pacman/pacman.cpp|0|288|224|60.606061||pon
 pootan|Pootan|clone|konami/pooyan.cpp|90|256|224|60.000000||pooyan||
 pooyan|Pooyan|parent|konami/pooyan.cpp|90|256|224|60.000000||||Konami
 pooyans|Pooyan (Stern)|clone|konami/pooyan.cpp|90|256|224|60.000000||pooyan||Konami/Stern
-popbounc|Pop 'n Bounce / Gapporin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Video System
+popbounc|Pop 'n Bounce / Gapporin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Video System
 popeye|Popeye (set 1)|parent|nintendo/popeye.cpp|0|512|448|59.940000||||Nintendo
 popeye2|Popeye (set 2)|clone|nintendo/popeye.cpp|0|512|448|59.940000||popeye||Nintendo
 popeyebl|Popeye (bootleg)|clone|nintendo/popeye.cpp|0|512|448|59.940000||popeye||
@@ -1402,7 +1402,7 @@ prehisle|Prehistoric Isle in 1930 (World)|parent|snk/prehisle.cpp|0|256|224|59.1
 prehislu|Prehistoric Isle in 1930 (US)|clone|snk/prehisle.cpp|0|256|224|59.185606||prehisle||SNK
 psoldier|Perfect Soldiers (Japan)|parent|irem/m92.cpp|0|320|240|60.000000||||Irem
 pspikes|Power Spikes (Korea)|parent|vsystem/aerofgt.cpp|0|352|240|61.310000||||Video System
-pspikes2|Power Spikes II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Video System
+pspikes2|Power Spikes II|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Video System
 psurge|Power Surge|parent|konami/timeplt.cpp|270|256|224|60.000000||||
 psychic5|Psychic 5|parent|jaleco/psychic5.cpp|270|256|224|54.001512||||Jaleco
 psychos|Psycho Soldier (US)|parent|snk/snk.cpp|0|400|224|60.000000||||SNK
@@ -1411,7 +1411,7 @@ puckman|New Puck-X|clone|pacman/pacman.cpp|90|288|224|60.606061||pacman||
 pulirula|PuLiRuLa (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
 pulirulj|PuLiRuLa (Japan)|clone|taito/taito_f2.cpp|0|320|224|60.000000||pulirula||Taito
 pulsar|Pulsar|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
-pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom
+pulstar|Pulstar|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Aicom/neogeo
 punchout|Punch-Out!!|parent|nintendo/punchout.cpp|0|256|224|60.000000||||Nintendo
 punisher|The Punisher (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 punishrj|The Punisher (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher||Capcom\CPS1
@@ -1420,8 +1420,8 @@ punkshot|Punk Shot (4 Players)|parent|konami/tmnt2.cpp|0|288|224|60.000000||||Ko
 punksht2|Punk Shot (2 Players)|clone|konami/tmnt2.cpp|0|288|224|60.000000||punkshot||Konami
 puzbobb|Puzzle Bobble (Japan, B-System)|clone|taito/taito_b.cpp|0|320|224|60.000000|neogeo|pbobble||Taito
 puzlclub|Puzzle Club (Japan prototype)|parent|namco/namcos1.cpp|90|288|224|60.606061||||Namco
-puzzldpr|Puzzle De Pon R|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|puzzledp||Taito/Visco
-puzzledp|Puzzle De Pon|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Taito/Visco
+puzzldpr|Puzzle De Pon R|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|puzzledp||neogeo/Taito/Visco
+puzzledp|Puzzle De Pon|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Taito/Visco
 puzznic|Puzznic (Japan)|parent|taito/taito_l.cpp|0|320|224|60.000000||||Taito
 pyros|Pyros (US)|clone|toaplan/wardner.cpp|0|320|240|54.877858||wardner||Taito/Toaplan
 qad|Quiz & Dragons (US)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
@@ -1450,10 +1450,10 @@ quartetj|Quartet (Japan)|clone|sega/segas16a.cpp|0|320|224|60.000000||quartet||S
 quarth|Quarth (Japan)|clone|konami/blockhl.cpp|0|288|224|59.185606||blockhl||Konami
 quartrba|Quarterback (set 2)|clone|cinematronics/leland.cpp|270|320|240|60.000000||quarterb||Leland
 quester|Quester (Japan)|parent|namco/namcos1.cpp|90|288|224|60.606061||||Namco
-quizdai2|Quiz Meintantei Neo Geo - Quiz Daisousa Sen Part 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-quizdais|Quiz Daisousa Sen - The Last Count Down|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+quizdai2|Quiz Meintantei Neo Geo - Quiz Daisousa Sen Part 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+quizdais|Quiz Daisousa Sen - The Last Count Down|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 quizhq|Quiz HQ (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
-quizkof|Quiz King of Fighters|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
+quizkof|Quiz King of Fighters|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 qwakprot|Qwak (prototype)|parent|||||||||Atari
 qzchikyu|Quiz Chikyu Bouei Gun (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
 qzquest|Quiz Quest - Hime to Yuusha no Monogatari (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
@@ -1462,7 +1462,7 @@ rabiolep|Rabio Lepus (Japan)|parent|vsystem/rpunch.cpp|0|288|216|60.000000||||V-
 rackemup|Rack 'em Up|clone|konami/battlnts.cpp|90|256|224|60.000000||thehustl||Konami
 radarscp|Radar Scope|parent|nintendo/dkong.cpp|270|256|224|60.606061||||Nintendo
 radrad|Radical Radial|parent|nichibutsu/seicross.cpp|0|256|224|60.606061||||Nichibutsu
-ragnagrd|Operation Ragnagard / Shin-Oh-Ken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
+ragnagrd|Operation Ragnagard / Shin-Oh-Ken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 raiden|Raiden|parent|seibu/raiden.cpp|270|256|224|59.600000||||Seibu
 raidena|Raiden (Alternate Hardware)|clone|seibu/raiden.cpp|270|256|224|59.600000||raiden||Seibu
 raidenk|Raiden (Korea)|clone|seibu/raiden.cpp|270|256|224|59.600000||raiden||IBL/Seibu
@@ -1485,9 +1485,9 @@ rastanu2|Rastan (US set 2)|clone|taito/rastan.cpp|0|320|240|60.000000||rastan||T
 rastsag2|Rastan Saga 2 (Japan)|clone|taito/taito_b.cpp|0|320|224|60.000000||nastar||Taito
 rastsaga|Rastan Saga (Japan)|clone|taito/rastan.cpp|0|320|240|60.000000||rastan||Taito
 razmataz|Razzmatazz|parent|sega/zaxxon.cpp|90|256|224|59.999408||||Sega
-rbff1|Real Bout Fatal Fury / Real Bout Garou Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-rbff2|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-rbffspec|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+rbff1|Real Bout Fatal Fury / Real Bout Garou Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+rbff2|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - the newcomers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+rbffspec|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 rbtapper|Tapper (Root Beer)|clone|midway/mcr.cpp|0|512|480|30.000000||tapper||Bally Midway
 rdaction|Rad Action|clone|upl/ninjakd2.cpp|0|256|192|59.610000||ninjakd2||UPL/World Games
 reactor|Reactor|parent|gottlieb/gottlieb.cpp|0|256|240|61.419025||||Gottlieb
@@ -1508,7 +1508,7 @@ retofin1|Return of the Invaders (bootleg set 1)|clone|taito/retofinv.cpp|90|288|
 retofin2|Return of the Invaders (bootleg set 2)|clone|taito/retofinv.cpp|90|288|224|60.580000||retofinv||
 retofinv|Return of the Invaders|parent|taito/retofinv.cpp|90|288|224|60.580000||||Taito
 rf2|Konami RF2 - Red Fighter|clone|konami/nemesis.cpp|0|256|224|60.606061||konamigt||Konami
-ridhero|Riding Hero|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+ridhero|Riding Hero|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 ringkin2|Ring King (set 2)|clone|dataeast/kingobox.cpp|90|256|224|60.000000||kingofb||
 ringkin3|Ring King (set 3)|clone|dataeast/kingobox.cpp|90|256|224|60.000000||kingofb||Data East
 ringking|Ring King (set 1)|clone|dataeast/kingobox.cpp|90|256|224|60.000000||kingofb||Data East
@@ -1523,7 +1523,7 @@ roadf|Road Fighter (set 1)|parent|konami/hyperspt.cpp|90|256|224|60.000000||||Ko
 roadf2|Road Fighter (set 2)|clone|konami/hyperspt.cpp|90|256|224|60.000000||roadf||Konami
 roadrunn|Road Runner|parent|atari/atarisy1.cpp|0|336|240|59.922743||||Atari
 robby|Robby Roto|parent|midway/astrocde.cpp|0|352|240|60.054442||||Bally Midway
-roboarmy|Robo Army|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+roboarmy|Robo Army|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 robocop|Robocop (World revision 3)|parent|dataeast/dec0.cpp|0|256|240|57.444853||||Data East
 robocopb|Robocop (World bootleg)|clone|dataeast/dec0.cpp|0|256|240|57.444853||robocop||
 robocopu|Robocop (US revision 1)|clone|dataeast/dec0.cpp|0|256|240|57.444853||robocop||Data East
@@ -1572,17 +1572,17 @@ safari|Safari|parent|sega/vicdual.cpp|0|256|224|60.000000||||Gremlin
 safarir|Safari Rally|parent|phoenix/safarir.cpp|90|256|208|60.000000||||SNK
 salamand|Salamander|parent|konami/nemesis.cpp|0|256|224|60.606061||||Konami
 samesame|Same! Same! Same!|clone|toaplan/toaplan1.cpp|270|320|240|57.613169||fireshrk||Toaplan
-samsho|Samurai Shodown / Samurai Spirits|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-samsho2|Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-samsho3|Samurai Shodown III / Samurai Spirits - Zankurou Musouken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-samsho4|Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+samsho|Samurai Shodown / Samurai Spirits|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+samsho2|Samurai Shodown II / Shin Samurai Spirits - Haohmaru jigokuhen|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+samsho3|Samurai Shodown III / Samurai Spirits - Zankurou Musouken|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+samsho4|Samurai Shodown IV - Amakusa's Revenge / Samurai Spirits - Amakusa Kourin|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 samurai|Samurai (Sega)|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 sarge|Sarge|parent|midway/mcr3.cpp|0|512|480|30.000000||||Bally Midway
 sasuke|Sasuke vs. Commander|parent|snk/snk6502.cpp|90|256|224|61.246745||||SNK
 satansat|Satan of Saturn|parent|snk/snk6502.cpp|90|256|224|61.246745||||SNK
 saturn|Saturn|parent|sega/saturn.cpp|0|320|224|59.764802||||Jaleco/Zilec
 sauro|Sauro|parent|tecfri/sauro.cpp|0|240|224|55.720000||||Tecfri
-savagere|Savage Reign / Fu'un Mokushiroku - kakutou sousei|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+savagere|Savage Reign / Fu'un Mokushiroku - kakutou sousei|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 savgbees|Savage Bees|clone|capcom/exedexes.cpp|270|256|224|59.600000||exedexes||Capcom/Memetron
 sbagman|Super Bagman|parent|valadon/bagman.cpp|270|256|224|60.606061||||Valadon Automation
 sbagmans|Super Bagman (Stern)|clone|valadon/bagman.cpp|270|256|224|60.606061||sbagman||Stern/Valadon Automation
@@ -1608,7 +1608,7 @@ screwloo|Screw Loose (prototype)|parent|gottlieb/gottlieb.cpp|0|256|240|61.41902
 sctionza|Section Z (set 2)|clone|capcom/lwings.cpp|0|256|240|55.370000||sectionz||Capcom
 sdi|SDI - Strategic Defense Initiative|parent|sega/segas16a.cpp|0|320|224|60.000000||||Sega\System16
 sdioj|SDI - Strategic Defense Initiative (Japan)|clone|sega/segas16a.cpp|0|320|224|60.000000||sdi||Sega\System16
-sdodgeb|Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Technos
+sdodgeb|Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Technos
 sdungeon|Space Dungeon|parent|taito/qix.cpp|270|256|256|55.838470||||Taito
 searchar|SAR - Search And Rescue (World)|parent|snk/snk68.cpp|90|256|224|59.185606||||SNK
 seawolf|Sea Wolf|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985||||Midway
@@ -1619,9 +1619,9 @@ sectrzon|Sector Zone|clone|nichibutsu/seicross.cpp|90|256|224|60.606061||seicros
 seganinj|Sega Ninja|parent|sega/system1.cpp|0|512|224|60.096154||||Sega
 seganinu|Sega Ninja (not encrypted)|clone|sega/system1.cpp|0|512|224|60.096154||seganinj||Sega
 seicross|Seicross|parent|nichibutsu/seicross.cpp|90|256|224|60.606061||||Alice/Nichibutsu
-sengokh|Sengoku / Sengoku Denshou (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|sengoku||SNK
-sengoku|Sengoku / Sengoku Denshou (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-sengoku2|Sengoku 2 / Sengoku Denshou 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+sengokh|Sengoku / Sengoku Denshou (set 2)|clone|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|sengoku||neogeo/SNK
+sengoku|Sengoku / Sengoku Denshou (set 1)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+sengoku2|Sengoku 2 / Sengoku Denshou 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 senjyo|Senjyo|parent|tecmo/senjyo.cpp|90|256|224|60.000000||||Tehkan
 sentetst|Sente Diagnostic Cartridge|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 sercharu|SAR - Search And Rescue (US)|clone|snk/snk68.cpp|90|256|224|59.185606||searchar||SNK
@@ -1667,8 +1667,8 @@ shinobia|Shinobi (set 2)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||S
 shinobib|Shinobi (set 3)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||Sega\System16
 shinobl|Shinobi (bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||
 shisen|Shisensho - Joshiryo-Hen (Japan)|clone|irem/shisen.cpp|0|512|256|55.017606||sichuan2||Tamtex
-shocktr2|Shock Troopers - 2nd Squad|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
-shocktro|Shock Troopers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
+shocktr2|Shock Troopers - 2nd Squad|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
+shocktro|Shock Troopers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 shollow|Satan's Hollow (set 1)|parent|midway/mcr.cpp|90|512|480|30.000000||||Bally Midway
 shollow2|Satan's Hollow (set 2)|clone|midway/mcr.cpp|90|512|480|30.000000||shollow||Bally Midway
 shootoub|Shoot Out (Korean Bootleg)|clone|dataeast/shootout.cpp|180|256|240|59.637405||shootout||
@@ -1740,7 +1740,7 @@ snowbroa|Snow Bros. - Nick & Tom (set 2)|clone|kaneko/snowbros.cpp|0|256|224|57.
 snowbrob|Snow Bros. - Nick & Tom (set 3)|clone|kaneko/snowbros.cpp|0|256|224|57.500000||snowbros||Romstar/Toaplan
 snowbroj|Snow Bros. - Nick & Tom (Japan)|clone|kaneko/snowbros.cpp|0|256|224|57.500000||snowbros||Romstar/Toaplan
 snowbros|Snow Bros. - Nick & Tom (set 1)|parent|kaneko/snowbros.cpp|0|256|224|57.500000||||Romstar/Toaplan
-socbrawl|Soccer Brawl|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+socbrawl|Soccer Brawl|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 soccer|Atari Soccer|parent|atari/atarifb.cpp|0|304|240|60.114504||||Atari
 solarfox|Solar Fox|parent|midway/mcr.cpp|270|512|480|30.000000||||Bally Midway
 solarq|Solar Quest|parent|cinematronics/cinemat.cpp|180|||38.000107||||Cinematronics
@@ -1750,8 +1750,8 @@ solfight|Solar Fight|clone|midw8080/8080bw.cpp|270|260|224|59.541985||ozmawars||
 solfigtr|Solitary Fighter (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000||||Taito
 solomon|Solomon's Key (Japan)|parent|tecmo/solomon.cpp|0|256|224|60.000000||||Tecmo
 sonicwi|Sonic Wings (Japan)|clone|vsystem/aerofgt.cpp|270|320|224|60.000000||aerofgt||Video System
-sonicwi2|Aero Fighters 2 / Sonic Wings 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Video System
-sonicwi3|Aero Fighters 3 / Sonic Wings 3|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Video System
+sonicwi2|Aero Fighters 2 / Sonic Wings 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Video System
+sonicwi3|Aero Fighters 3 / Sonic Wings 3|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Video System
 sonofphx|Son of Phoenix|parent|orca/kyugo.cpp|90|288|224|60.000000||||Associated Overseas MFR
 sonson|Son Son|parent|capcom/sonson.cpp|0|240|240|55.400000||||Capcom
 sos|SOS|parent|namco/warpwarp.cpp|90|272|224|60.606061||||Namco
@@ -1801,7 +1801,7 @@ spiker|Spiker|parent|midway/balsente.cpp|0|256|240|59.185606||||Bally/Sente
 spinlbrj|Spinal Breakers (Japan)|clone|vsystem/aerofgt.cpp|0|352|240|60.000000||spinlbrk||V-System
 spinlbrk|Spinal Breakers (World)|parent|vsystem/aerofgt.cpp|0|352|240|60.000000||||V-System
 spinlbru|Spinal Breakers (US)|clone|vsystem/aerofgt.cpp|0|352|240|60.000000||spinlbrk||V-System
-spinmast|Spinmaster / Miracle Adventure|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
+spinmast|Spinmaster / Miracle Adventure|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
 splash|Splash!|parent|gaelco/splash.cpp|0|368|240|58.000000||||Gaelco
 splat|Splat!|parent|midway/williams.cpp|0|292|240|60.096154||||Williams
 splatter|Splatter House (Japan)|parent|namco/namcos1.cpp|180|288|224|60.606061||||Namco
@@ -1824,10 +1824,10 @@ srdmissn|S.R.D. Mission|parent|orca/kyugo.cpp|90|288|224|60.000000||||Taito
 srumbler|The Speed Rumbler (set 1)|parent|capcom/srumbler.cpp|270|352|240|60.000000||||Capcom
 srumblr2|The Speed Rumbler (set 2)|clone|capcom/srumbler.cpp|270|352|240|60.000000||srumbler||Capcom
 ssi|Super Space Invaders '91 (World)|parent|taito/taito_f2.cpp|270|320|224|60.000000||||Taito
-ssideki|Super Sidekicks / Tokuten Ou|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-ssideki2|Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-ssideki3|Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
-ssideki4|The Ultimate 11 / Tokuten Ou - Honoo no Libero|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+ssideki|Super Sidekicks / Tokuten Ou|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+ssideki2|Super Sidekicks 2 - The World Championship / Tokuten Ou 2 - real fight football|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+ssideki3|Super Sidekicks 3 - The Next Glory / Tokuten Ou 3 - eikoue no michi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
+ssideki4|The Ultimate 11 / Tokuten Ou - Honoo no Libero|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 ssozumo|Syusse Oozumou (Japan)|parent|technos/ssozumo.cpp|270|256|240|57.444853||||Technos
 sspacat2|Space Attack (upright, older)|clone|sega/vicdual.cpp|270|256|224|60.000000||sspaceat||Sega
 sspacatc|Space Attack (cocktail)|clone|sega/vicdual.cpp|270|256|224|60.000000||sspaceat||Sega
@@ -1844,8 +1844,8 @@ ssriders|Sunset Riders (World 4 Players ver. EAC)|parent|konami/tmnt2.cpp|0|288|
 sstingry|Super Stingray|parent|alpha/alpha68k_n.cpp|90|256|224|59.185606||||Alpha Denshi
 stactics|Space Tactics|parent|sega/stactics.cpp|0|256|232|60.000000||||Sega
 stadhero|Stadium Hero (Japan)|parent|dataeast/stadhero.cpp|0|256|240|58.000000||||Data East
-stakwin|Stakes Winner / Stakes Winner - GI kinzen seihae no michi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
-stakwin2|Stakes Winner 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Saurus
+stakwin|Stakes Winner / Stakes Winner - GI kinzen seihae no michi|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
+stakwin2|Stakes Winner 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 starcas|Star Castle (version 3)|parent|cinematronics/cinemat.cpp|180|||38.000107||||Cinematronics
 starcas1|Star Castle (older)|clone|cinematronics/cinemat.cpp|180|||38.000107||starcas||Cinematronics
 starcrus|Star Cruiser|parent|ramtek/starcrus.cpp|0|256|256|57.000000||||Ramtek
@@ -1874,7 +1874,7 @@ streakng|Streaking|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Shoei
 streets1|Street Smart (US version 1)|clone|snk/snk68.cpp|0|256|224|59.185606||streetsm||SNK
 streetsj|Street Smart (Japan version 1)|clone|snk/snk68.cpp|0|256|224|59.185606||streetsm||SNK
 streetsm|Street Smart (US version 2)|parent|snk/snk68.cpp|0|256|224|59.185606||||SNK
-strhoop|Street Hoop / Street Slam / Dunk Dream|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
+strhoop|Street Hoop / Street Slam / Dunk Dream|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
 strider|Strider (US)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 striderj|Strider Hiryu (Japan set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||strider||Capcom\CPS1
 stridrja|Strider Hiryu (Japan set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||strider||Capcom\CPS1
@@ -1892,7 +1892,7 @@ superman|Superman|parent|taito/taito_x.cpp|0|384|240|57.430000||||Taito
 superpac|Super Pac-Man|parent|namco/mappy.cpp|90|288|224|60.606061||||Namco
 superpcm|Super Pac-Man (Midway)|clone|namco/mappy.cpp|90|288|224|60.606061||superpac||Bally Midway/Namco
 superqix|Super Qix|parent|||||||||Taito
-superspy|The Super Spy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+superspy|The Super Spy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 suprloco|Super Locomotive|parent|sega/suprloco.cpp|0|240|224|60.000000||||Sega
 suprmatk|Super Missile Attack|clone|atari/missile.cpp|0|256|231|61.035156||missile||Atari/Gencomp
 suprmou2|Funny Mouse (bootleg?)|clone|thepit/thepit.cpp|90|256|224|60.606061||suprmous||Chu
@@ -2006,7 +2006,7 @@ toobin2|Toobin' (version 2)|clone|atari/toobin.cpp|270|512|384|60.096154||toobin
 toobinp|Toobin' (Prototype)|clone|atari/toobin.cpp|270|512|384|60.096154||toobin||Atari
 topgunbl|Top Gunner (bootleg)|clone|konami/jackal.cpp|90|240|224|60.000000||jackal||
 topgunr|Top Gunner (US)|clone|konami/jackal.cpp|90|240|224|60.000000||jackal||Konami
-tophuntr|Top Hunter - Roddy & Cathy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+tophuntr|Top Hunter - Roddy & Cathy|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 topracer|Top Racer|clone|namco/polepos.cpp|0|256|224|60.606061||polepos||
 topsecex|Top Secret (Exidy) (version 1.0)|parent|exidy/exidy440.cpp|0|320|236|60.000000||||Exidy
 topsecrt|Top Secret (Japan)|clone|capcom/bionicc.cpp|0|256|224|59.637405||bionicc||Capcom
@@ -2018,10 +2018,10 @@ totcarnp|Total Carnage (prototype, rev 1.0 01/25/92)|clone|midway/midyunit.cpp|0
 toypop|Toypop|parent|namco/toypop.cpp|180|288|224|60.606061||||Namco
 tp84|Time Pilot '84 (set 1)|parent|konami/tp84.cpp|90|256|224|60.000000||||Konami
 tp84a|Time Pilot '84 (set 2)|clone|konami/tp84.cpp|90|256|224|60.000000||tp84||Konami
-tpgolf|Top Player's Golf|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||SNK
+tpgolf|Top Player's Golf|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/SNK
 trackflc|Track & Field (Centuri)|clone|konami/trackfld.cpp|0|256|224|60.000000||trackfld||Centuri/Konami
 trackfld|Track & Field|parent|konami/trackfld.cpp|0|256|224|60.000000||||Konami
-trally|Thrash Rally|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
+trally|Thrash Rally|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
 tranqgun|Tranquilizer Gun|parent|sega/vicdual.cpp|270|256|224|60.000000||||Sega
 travrusa|Traverse USA / Zippy Race|parent|irem/travrusa.cpp|270|240|256|56.750000||||Irem
 treahunt|Treasure Hunt (Japan?)|clone|cinematronics/jack.cpp|90|256|224|59.185606||jack||Hara Industries
@@ -2061,7 +2061,7 @@ turboa|Turbo (encrypted set 1)|clone|sega/turbo.cpp|270|512|224|59.090909||turbo
 turbob|Turbo (encrypted set 2)|clone|sega/turbo.cpp|270|512|224|59.090909||turbo||Sega
 turbofrc|Turbo Force|parent|vsystem/aerofgt.cpp|270|352|240|61.310000||||Video System
 turbotag|Turbo Tag (Prototype)|parent|midway/mcr3.cpp|90|480|480|30.000000||||Bally Midway
-turfmast|Neo Turf Masters / Big Tournament Golf|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Nazca
+turfmast|Neo Turf Masters / Big Tournament Golf|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Nazca/neogeo
 turpin|Turpin|clone|galaxian/galaxian.cpp|90|768|224|60.606061||turtles||Konami/Sega
 turtles|Turtles|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Konami/Stern
 turtship|Turtle Ship|parent|capcom/sidearms.cpp|0|384|224|61.033800||||Philko
@@ -2071,7 +2071,7 @@ twinbee|TwinBee|parent|konami/nemesis.cpp|90|256|224|60.606061||||Konami
 twincobr|Twin Cobra (World)|parent|toaplan/twincobr.cpp|270|320|240|54.877858||||Taito/Toaplan
 twincobu|Twin Cobra (US)|clone|toaplan/twincobr.cpp|270|320|240|54.877858||twincobr||Romstar/Taito/Toaplan
 twineagl|Twin Eagle (Japan)|parent|seta/downtown.cpp|270|384|240|57.420000||||Seta/Taito
-twinspri|Twinkle Star Sprites|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK
+twinspri|Twinkle Star Sprites|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo
 twocrude|Two Crude (US)|clone|dataeast/cbuster.cpp|0|256|240|58.000000||cbuster||Data East
 twotiger|Two Tigers|parent|midway/mcr.cpp|0|512|480|30.000000||||Bally Midway
 tws96|Tecmo World Soccer '96|parent||||||neogeo|||Tecmo
@@ -2111,7 +2111,7 @@ vfive|V-Five (Japan)|parent|toaplan/toaplan2.cpp|270|320|240|59.637405||||Toapla
 victorba|Victor Banana|clone|exidy/victory.cpp|0|256|256|59.996811||victory||Exidy
 victory|Victory|parent|exidy/victory.cpp|0|256|256|59.996811||||Exidy
 victroad|Victory Road|parent|snk/snk.cpp|270|288|216|60.000000||||SNK
-viewpoin|Viewpoint|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Sammy
+viewpoin|Viewpoint|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Sammy
 vigilant|Vigilante (World)|parent|irem/vigilant.cpp|0|256|256|56.338028||||Irem
 vigilntj|Vigilante (Japan)|clone|irem/vigilant.cpp|0|256|256|56.338028||vigilant||Irem
 vigilntu|Vigilante (US)|clone|irem/vigilant.cpp|0|256|256|56.338028||vigilant||Data East/Irem
@@ -2129,7 +2129,7 @@ vulgus|Vulgus (set 1)|parent|capcom/vulgus.cpp|270|256|224|59.637405||||Capcom
 vulgus2|Vulgus (set 2)|clone|capcom/vulgus.cpp|270|256|224|59.637405||vulgus||Capcom
 vulgusj|Vulgus (Japan?)|clone|capcom/vulgus.cpp|270|256|224|59.637405||vulgus||Capcom
 wacko|Wacko|parent|midway/mcr.cpp|0|512|480|30.000000||||Bally Midway
-wakuwak7|Waku Waku 7|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Sunsoft
+wakuwak7|Waku Waku 7|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Sunsoft
 wanted|Wanted|parent|orca/marineb.cpp|90|256|224|60.000000||||Sigma
 wardner|Wardner (World)|parent|toaplan/wardner.cpp|0|320|240|54.877858||||Taito/Toaplan
 wardnerj|Wardna no Mori (Japan)|clone|toaplan/wardner.cpp|0|320|240|54.877858||wardner||Taito/Toaplan
@@ -2160,12 +2160,12 @@ wecleman|WEC Le Mans 24|parent|konami/wecleman.cpp|0|320|224|60.000000||||Konami
 weststry|West Story|clone|seibu/bloodbro.cpp|0|256|224|59.000000||bloodbro||
 wexpresb|Western Express (bootleg)|clone|dataeast/exprraid.cpp|0|256|240|59.637405||exprraid||
 wexpress|Western Express (World?)|clone|dataeast/exprraid.cpp|0|256|240|59.637405||exprraid||Data East
-wh1|World Heroes|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi
-wh2|World Heroes 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK
-wh2j|World Heroes 2 Jet|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/SNK
+wh1|World Heroes|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Alpha Denshi/neogeo
+wh2|World Heroes 2|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo
+wh2j|World Heroes 2 Jet|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo/SNK
 whodunit|Who Dunit (version 8.0)|parent|exidy/exidy440.cpp|0|320|240|60.000000||||Exidy
 whoopee|Whoopee (Japan) / Pipi & Bibis (World)|clone|toaplan/toaplan2.cpp|0|320|240|59.637405||pipibibs||Toaplan
-whp|World Heroes Perfect|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/SNK
+whp|World Heroes Perfect|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||ADK/neogeo/SNK
 wildfang|Wild Fang|clone|tecmo/gaiden.cpp|0|256|224|59.170000||tknight||Tecmo
 willow|Willow (Japan, English)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 willowj|Willow (Japan, Japanese)|clone|capcom/cps1.cpp|0|384|224|59.637405||willow||Capcom\CPS1
@@ -2173,7 +2173,7 @@ wiping|Wiping|parent|nichibutsu/wiping.cpp|90|288|224|60.606061||||Nichibutsu
 wiseguy|Wise Guy|clone|dooyong/gundealr.cpp|0|256|224|60.000000||yamyam||Dooyong
 wiz|Wiz|parent|seibu/wiz.cpp|270|256|224|60.000000||||Seibu
 wizt|Wiz (Taito)|clone|seibu/wiz.cpp|270|256|224|60.000000||wiz||Taito
-wjammers|Windjammers / Flying Power Disc|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East
+wjammers|Windjammers / Flying Power Disc|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||Data East/neogeo
 wldcourt|World Court (Japan)|parent|namco/namcos1.cpp|180|288|224|60.606061||||Namco
 wndrmomo|Wonder Momo|parent|namco/namcos86.cpp|0|288|224|60.606061||||Namco
 wof|Warriors of Fate (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
@@ -2224,7 +2224,7 @@ zarzon|Zarzon|clone|snk/snk6502.cpp|90|256|224|61.246745||satansat||SNK/Taito
 zaxxon|Zaxxon (set 1)|parent|sega/zaxxon.cpp|90|256|224|59.999408||||Sega
 zaxxon2|Zaxxon (set 2)|clone|sega/zaxxon.cpp|90|256|224|59.999408||zaxxon||Sega
 zaxxonb|Jackson|clone|sega/zaxxon.cpp|90|256|224|59.999408||zaxxon||
-zedblade|Zed Blade / Operation Ragnarok|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||NMK
+zedblade|Zed Blade / Operation Ragnarok|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/NMK
 zektor|Zektor|parent|sega/segag80v.cpp|180|||40.000000||||Sega
 zerotime|Zero Time|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxian||Petaco
 zerowing|Zero Wing|parent|toaplan/toaplan1.cpp|0|320|240|57.613169||||Toaplan

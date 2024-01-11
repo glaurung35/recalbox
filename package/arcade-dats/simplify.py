@@ -187,15 +187,13 @@ class Simplifier:
             if len(manu) > 0: outManufacturers.append(manu)
         manufacturers = outManufacturers.copy()
 
-        # Sort
-        manufacturers.sort(key=str.lower)
-
         # Driver mix
         driverLower = driver.lower().replace(".cpp", "")
         if '/' in driver:
             parts: list[str] = driverLower.split('/')
             system: str = parts[len(parts) - 2]
             subSystem: str = parts[len(parts) - 1]
+            # Capcom/Sega/... sub-systems
             if system in self.SUBSYSTEM_MANUFACTURERS.keys():
                 driverTuples: list[tuple[str, str]] = self.SUBSYSTEM_MANUFACTURERS[system]
                 for (name, suffix) in driverTuples:
@@ -203,6 +201,12 @@ class Simplifier:
                         for i in range(len(manufacturers)):
                             if manufacturers[i].lower() == system:
                                 manufacturers[i] = "{}\{}".format(manufacturers[i], suffix)
+            # Neogeo special case
+            if subSystem == "neogeo":
+                manufacturers.append("neogeo")
+
+        # Sort
+        manufacturers.sort(key=str.lower)
 
         # stats
         for manu in manufacturers:

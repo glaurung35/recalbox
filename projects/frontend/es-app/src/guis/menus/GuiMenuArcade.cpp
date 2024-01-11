@@ -105,12 +105,12 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuArcade::GetManufacturersVirtu
   std::vector<GuiMenuBase::ListEntry<String>> result;
   const RecalboxConf& conf = RecalboxConf::Instance();
 
-  for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
+  for(const std::pair<String, String>& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemListExtended())
   {
     String identifier(SystemManager::sArcadeManufacturerPrefix);
-    identifier.Append(rawIdentifier).Replace('\\', '-');
+    identifier.Append(rawIdentifier.first).Replace('\\', '-');
     mManufacturersIdentifiers.push_back(identifier);
-    result.push_back({ String(rawIdentifier).Replace('\\', " - "), identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
+    result.push_back({ /*String(rawIdentifier).Replace('\\', " - ")*/rawIdentifier.second, identifier, conf.IsInCollectionArcadeManufacturers(identifier) });
   }
   return result;
 }

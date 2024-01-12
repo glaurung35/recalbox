@@ -287,6 +287,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   }
 
   sortChildren();
+  DoUpdateGameInformation(false);
   (void)interface;
 }
 

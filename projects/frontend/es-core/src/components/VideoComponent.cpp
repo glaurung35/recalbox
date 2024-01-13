@@ -394,12 +394,16 @@ void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
         if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
         else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
         else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
-      if ((mAllowedEffects & AllowedEffects::All) == 0)
-        mAllowedEffects = AllowedEffects::All;
     }
-    else mAllowedEffects = AllowedEffects::All;
-    mVideoLoop = element.HasProperty(ThemePropertyName::Loops) ? (int)element.AsInt(ThemePropertyName::Loops) : DEFAULT_VIDEOLOOP;
-    mVideoDelay = element.HasProperty(ThemePropertyName::Delay) ? (int)element.AsInt(ThemePropertyName::Delay) : DEFAULT_VIDEODELAY;
+    else mAllowedEffects = AllowedEffects::None;
+    mVideoLoop = element.HasProperty(ThemePropertyName::Loops) ? (int)element.AsInt(ThemePropertyName::Loops) : INT32_MAX;
+    mVideoDelay = element.HasProperty(ThemePropertyName::Delay) ? (int)element.AsInt(ThemePropertyName::Delay) : 0;
+  }
+  else
+  {
+    mAllowedEffects = AllowedEffects::None;
+    mVideoLoop = INT32_MAX;
+    mVideoDelay = 0;
   }
 }
 

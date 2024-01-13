@@ -420,10 +420,10 @@ ThemeExtras::List ThemeData::GetExtras(const String& view, WindowManager& window
       {
         case ThemeElementType::Image: comp = new ImageComponent(window); break;
         case ThemeElementType::Box: comp = new BoxComponent(window); break;
-        case ThemeElementType::Video:break;
+        case ThemeElementType::Video: if (!uniqueVideo) { comp = new VideoComponent(window); uniqueVideo = true; } break;
         case ThemeElementType::Text: comp = new TextComponent(window); break;
         case ThemeElementType::ScrollText: comp = new TextScrollComponent(window); break;
-        case ThemeElementType::TextList: if (!uniqueVideo) { comp = new VideoComponent(window); uniqueVideo = true; } break;
+        case ThemeElementType::TextList:
         case ThemeElementType::Container:
         case ThemeElementType::NinePatch:
         case ThemeElementType::DateTime:

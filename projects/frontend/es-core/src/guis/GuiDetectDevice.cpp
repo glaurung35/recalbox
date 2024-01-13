@@ -39,7 +39,7 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	String deviceInfo;
 	int numDevices = InputManager::Instance().DeviceCount();
 	
-	if(numDevices > 0) deviceInfo = _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices);
+	if(numDevices > 0) deviceInfo = _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).Replace("%i", String(numDevices));
 	else               deviceInfo = _("NO GAMEPADS DETECTED");
 	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo, menuTheme.SmallText().font, menuTheme.SmallText().color, TextAlignment::Center);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);

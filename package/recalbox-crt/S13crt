@@ -298,6 +298,17 @@ if test "$1" == "start"; then
         mount -o remount,ro /boot
     fi
 
+    # RRGBJ volumed
+    # cannot set it in S03 because pulse is not started
+    if isRecalboxRGBJamma; then
+      for js in $(find /sys/class/input/ -name "event*"); do
+        if [[ $(cat "$js/device/name") == "JammaControllerP1" ]]; then
+          (sleep 5 && volumed "/dev/input/$(basename "$js")") &
+        fi
+      done
+      exit 0
+    fi
+
     # RRGBD is present
     if isRecalboxRGBDual; then
         runMigrations

@@ -843,7 +843,7 @@ out:
 struct input_dev *player_devs[MAX_PLAYERS];
 
 // Standard buttons mapping
-#define BTN_PER_PLAYER 11
+#define BTN_PER_PLAYER 13
 #define BTN_PER_PLAYER_ON_JAMMA 10
 #define TOTAL_GPIO_ON_PCA 48
 
@@ -854,17 +854,19 @@ struct input_dev *player_devs[MAX_PLAYERS];
 // Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
 //
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    BTN_A,     //  JAMMA_BTN_1
-    BTN_B,     //  JAMMA_BTN_2
-    BTN_X,     //  JAMMA_BTN_3
-    BTN_Y,     //  JAMMA_BTN_4
-    BTN_TL,    //  JAMMA_BTN_5
-    BTN_TR,    //  JAMMA_BTN_6
-    BTN_START, //  JAMMA_BTN_START
-    BTN_SELECT,//  JAMMA_BTN_COIN
-    BTN_THUMBL,//  JAMMA_BTN_SERVICE
-    BTN_THUMBR,//  JAMMA_BTN_TEST
-    BTN_MODE,  // BTN_HOTKEY
+    BTN_A,              //  JAMMA_BTN_1
+    BTN_B,              //  JAMMA_BTN_2
+    BTN_X,              //  JAMMA_BTN_3
+    BTN_Y,              //  JAMMA_BTN_4
+    BTN_TL,             //  JAMMA_BTN_5
+    BTN_TR,             //  JAMMA_BTN_6
+    BTN_START,          //  JAMMA_BTN_START
+    BTN_SELECT,         //  JAMMA_BTN_COIN
+    BTN_THUMBL,         //  JAMMA_BTN_SERVICE
+    BTN_THUMBR,         //  JAMMA_BTN_TEST
+    BTN_MODE,           //  BTN_HOTKEY
+    KEY_VOLUMEUP,       //  VOLUME_UP
+    KEY_VOLUMEDOWN,     //  VOLUME_DOWN
 };
 
 #define JAMMA_BTN_1 0
@@ -878,6 +880,8 @@ static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
 #define JAMMA_BTN_SERVICE 8
 #define JAMMA_BTN_TEST 9
 #define BTN_HOTKEY 10
+#define VOLUME_UP 11
+#define VOLUME_DOWN 12
 
 // Games buttons are from 0 to 5 in buttons codes
 #define LAST_GAME_BUTTON 5
@@ -958,7 +962,7 @@ static unsigned short buttonsReleasedValues[TOTAL_GPIO_ON_PCA] = {
 #define HOTKEY_DELAY(now, start) ((now - start) / 1000000000UL >= 1)
 static long long int last_start_press = 0;
 static unsigned long start_state = 0;
-static unsigned int start_credit = 0;
+static unsigned int should_release_start = 1;
 static short can_exit = 0;
 static short should_release_hk = 0;
 
@@ -995,14 +999,11 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
       DEBUG &&printk(KERN_INFO "recalboxrgbjamma: saving START first press\n");
       last_start_press = *time_ns;
       start_state = *data_chips;
-      start_credit = 0;
+      should_release_start = 1;
       should_release_hk = 0;
       can_exit = jamma_config.exit_on_start;
     } else if (start_state != *data_chips) {
       // Start is pressed and the state has changed since last loop
-      // Check if credit should be added for P1
-      // Save the time
-      //for (int player = 0; player < jamma_config.player_count; player++) {
       // Only player 1
       int player = PLAYER1;
       for (int button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
@@ -1019,13 +1020,13 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
                 printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
                 PRESS_AND_RELEASE(player, BTN_SELECT);
                 can_exit = 0;
-                start_credit = 1;
+                should_release_start = 0;
               }
             }
             // Hotkey + BTN ?
             // Check if we should use START + BTN pattern (Hotkey)
             // Only if not disabled in config, and credit not already used, and this is the first hk event
-            if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
+            if (jamma_config.hk_on_start && should_release_start && !should_release_hk) {
               if (player == PLAYER1) {
                 // As another button has been pressed, we press hotkey before
                 printk(KERN_INFO "recalboxrgbjamma: sending HK + BTN%d\n", button);
@@ -1036,7 +1037,7 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
             }
           } else {
             // AUTO FIRE because press time > 3 sec
-            if (jamma_config.autofire && !start_credit && !should_release_hk) {
+            if (jamma_config.autofire && should_release_start && !should_release_hk) {
               printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[player][button]);
               turbo_enabled[player][button] = !turbo_enabled[player][button];
               can_exit = 0;
@@ -1046,25 +1047,35 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
         }
       }
       // Directions
-      for (int direction = 0; direction < 4; direction++) {
-        if (jamma_config.hk_on_start && !start_credit && !should_release_hk) {
+      for (int direction = DIR_UP; direction <= DIR_RIGHT; direction++) {
+        if (jamma_config.hk_on_start && !should_release_hk) {
           if (PRESSED(*data_chips, direction_bits[player][direction])) {
-            // As another button has been pressed, we press hotkey before
-            printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
-            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-            can_exit = 0;
-            should_release_hk = 1;
+            // Volume (UP/DOWN)
+            if(direction == DIR_UP) {
+              printk(KERN_INFO "recalboxrgbjamma: VOLUME UP\n");
+              PRESS_AND_RELEASE(player, buttons_codes[VOLUME_UP]);
+              should_release_start = 0;
+            } else if (direction == DIR_DOWN) {
+              printk(KERN_INFO "recalboxrgbjamma: VOLUME DOWN\n");
+              PRESS_AND_RELEASE(player, buttons_codes[VOLUME_DOWN]);
+              should_release_start = 0;
+            } else {
+              // As another direction has been pressed, we press hotkey before
+              printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
+              PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+              can_exit = 0;
+              should_release_hk = 1;
+            }
           }
         }
       }
-      //}
       start_state = *data_chips;
     }
   } else {
     // Start is not pressed, let's check if we have to act
     if (last_start_press != 0) {
       // Start released
-      if (!start_credit) {
+      if (should_release_start) {
         DEBUG &&printk(KERN_INFO
                        "recalboxrgbjamma: start released\n");
         if (should_release_hk) {
@@ -1091,14 +1102,13 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
                          "recalboxrgbjamma: quick press: sending START\n");
           PRESS_AND_RELEASE(PLAYER1, BTN_START);
         }
-      } else {
-        // Start have been released after a credit
-        if (should_release_hk)
+      } else if (should_release_hk) {
+          // Start have been released after a credit
           RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
-        start_credit = 0;
       }
-      last_start_press = 0;
     }
+    should_release_start = 1;
+    last_start_press = 0;
   }
   // For other players, only credits and turbos
   if (jamma_config.credit_on_start_btn1) {
@@ -1163,7 +1173,7 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
 
   for (player = 0; player < jamma_config.player_count; player++) {
     // Only process P1 if start + credit is not running
-    if (player > PLAYER1 || !start_credit) {
+    if (player > PLAYER1 || should_release_start) {
       input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
       input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
 

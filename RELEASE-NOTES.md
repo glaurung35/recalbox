@@ -172,6 +172,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix daphne games scrap
 - Fix vulkan support on rpi5
 
+- Fix daphne games scrap
 
 ## Version 9.1-Pulstar
 

@@ -38,6 +38,9 @@ public:
 
   bool CollectHelpItems(Help& help) override;
 
+  //! Get font
+  [[nodiscard]] std::shared_ptr<Font> getFont() const { return mFont; }
+
 private:
 	std::shared_ptr<Font> mFont;
 	std::function<void()> mPressedFunc;

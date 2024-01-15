@@ -78,6 +78,8 @@ n64,parallel_n64,pal,15kHz,progressive,standard:pal:240@50,0,0
 3do,opera,pal,15kHz,progressive,standard:pal:240@50,0,0
 saturn,yabasanshiro,ntsc,15kHz,progressive,standard:ntsc:240@60,0,224
 saturn,yabasanshiro,pal,15kHz,progressive,standard:pal:288@50,0,224
+saturn,mednafen_saturn,ntsc,15kHz,progressive,standard:ntsc:240@60,0,224
+saturn,mednafen_saturn,pal,15kHz,progressive,standard:pal:288@50,0,224
 atomiswave,flycast,all,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0
 amiga1200,uae4arm,pal,15kHz,progressive,standard:pal:288@50,0,256
 amiga1200,uae4arm,ntsc,15kHz,progressive,standard:ntsc:240@60,0,0

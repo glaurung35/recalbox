@@ -119,6 +119,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuSystem::GetCultureEntries()
     { "DEUTSCH (CH)"  , "de_CH" , mOriginalCulture == "de_CH" },
     { "ελληνικά"      , "el_GR" , mOriginalCulture == "el_GR" },
     { "ENGLISH"       , "en_US" , mOriginalCulture == "en_US" },
+    { "ENGLISH (UK)"  , "en_GB" , mOriginalCulture == "en_GB" },
     { "ESPAÑOL"       , "es_ES" , mOriginalCulture == "es_ES" },
     { "EUSKARA"       , "eu_ES" , mOriginalCulture == "eu_ES" },
     { "PERSIAN"       , "fa_IR" , mOriginalCulture == "fa_IR" },

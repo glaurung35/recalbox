@@ -15,12 +15,12 @@ void ThemeExtras::AssignExtras(const ThemeData& theme, const String& view, Theme
   if (smart) CreateSmartList(extras);
   else mExtras = std::move(extras);
 
-  // Sort
-  SortExtrasByZIndex();
-
   // Apply theme
   for (auto& extra : mExtras)
     extra.Component().DoApplyThemeElement(theme, view, extra.Name(), ThemePropertyCategory::All);
+
+  // Sort
+  SortExtrasByZIndex();
 
   // add new components
   for (Extra& extra : mExtras)

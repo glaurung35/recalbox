@@ -136,6 +136,8 @@ class ThemeElement
     HashMap<ThemePropertyName, PropertyBag> mProperties;
     //! Property map
     ThemePropertyNameBits mAvailableProperties;
+    //! Property map
+    ThemePropertyNameBits mLocalizedProperties;
     //! Element name
     String mName;
     //! Element type
@@ -211,5 +213,8 @@ class ThemeElement
     void AddBoolProperty(ThemePropertyName name, bool v) { mProperties[name] = PropertyBag(v); mAvailableProperties.Set(name); }
 
     ThemeElement& MergeExtra(bool extra) { mExtra |= extra; return *this; }
+
+    [[nodiscard]] bool IsAlreadyLocalized(ThemePropertyName property) const { return mLocalizedProperties.IsSet(property); }
+    void SetLocalized(ThemePropertyName property) { mLocalizedProperties.Set(property); }
 };
 

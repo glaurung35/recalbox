@@ -11,6 +11,7 @@
 #include <components/BusyComponent.h>
 #include <systems/SystemManager.h>
 #include "components/TextScrollComponent.h"
+#include "components/PictureComponent.h"
 
 class GuiBiosScan : public Gui, public IBiosScanReporting
 {
@@ -133,7 +134,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     std::shared_ptr<TextComponent> mDetailBiosNotMatchingValue;
 
     //! Detail: Image
-    std::shared_ptr<ImageComponent> mDetailStatusImage;
+    std::shared_ptr<PictureComponent> mDetailStatusImage;
 
     //! Busy animation while scanning
     BusyComponent mBusyAnim;

@@ -35,6 +35,8 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system)
   , mVersion(0)
   , mLangageCode("en")
   , mRegionCode("us")
+  , mLangageCodeInteger((int)'e' | ((int)'n' >> 8))
+  , mLanguageRegionCodeInteger((int)'e' | ((int)'n' >> 8) | ((int)'U' >> 16) | ((int)'S' >> 24))
 {
   mSystemThemeFolder.clear();
   mRandomPath.clear();
@@ -47,6 +49,8 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system)
     {
       mLangageCode = lccc.SubString(0, pos);
       mRegionCode = lccc.SubString(pos + 1);
+      mLangageCodeInteger = (int)mLangageCode[0] | ((int)mLangageCode[1] >> 8);
+      mLanguageRegionCodeInteger = mLangageCodeInteger | ((int)mRegionCode[0] >> 16) | ((int)mRegionCode[1] >> 24);
     }
   }
 
@@ -338,7 +342,6 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
   {
     String name = attribute.name();
     if (mNoProcessAttributes.contains(name)) continue;
-    //if (name == "name" || name == "region" || name == "extra" || name == "value") continue;
     // Check object property
     ThemePropertyName* property = ThemeSupport::PropertyName().try_get(name);
     if (property == nullptr || !typeList.IsSet(*property))
@@ -346,6 +349,14 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
       { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
+    // Localized?
+    if (int locale = ExtractLocalizedCode(name); locale != 0)
+    {
+      // No matching? continue
+      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
+      element.SetLocalized(*property); // Match!
+    }
+    else if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     // Get value
     String value = attribute.as_string();
     // Process
@@ -362,6 +373,14 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
       { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
+    // Localized?
+    if (int locale = ExtractLocalizedCode(name); locale != 0)
+    {
+      // No matching? continue
+      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
+      element.SetLocalized(*property); // Match!
+    }
+    else if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     // Get value from attribute or text
     String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
     // Process
@@ -606,12 +625,22 @@ void ThemeData::PickRandomPath(String& value, String& randomPath)
       std::random_device rd;
       std::default_random_engine engine(rd());
       const int max = (int) paths.size();
-      std::uniform_int_distribution<int> distrib {
-        0,
-        max - 1
-      };
+      std::uniform_int_distribution<int> distrib { 0, max - 1 };
       randomPath = paths[distrib(engine)];
     }
 
   value.Replace(sRandomMethod + args + ')', randomPath);
+}
+
+int ThemeData::ExtractLocalizedCode(String& name)
+{
+  if (int pos = name.Find('.'); pos > 0 && pos < (int)name.size() - 2)
+  {
+    int result = (int)name[pos + 1] | ((int)name[pos + 2] >> 8); // language code
+    if (pos < (int) name.size() - 5)
+      result |= ((int)name[pos + 1] >> 16) | ((int)name[pos + 2] >> 24);
+    name.Delete(pos);
+    return result;
+  }
+  return 0;
 }

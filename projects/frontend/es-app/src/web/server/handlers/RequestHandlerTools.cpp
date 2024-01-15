@@ -1131,6 +1131,7 @@ HashMap<String, String> RequestHandlerTools::GetAvailableLanguages()
      { "zh_CN", "简体中文"         },
      { "de_DE", "DEUTSCH"        },
      { "en_US", "ENGLISH"        },
+     { "en_GB", "ENGLISH (UK)"   },
      { "es_ES", "ESPAÑOL"        },
      { "fr_FR", "FRANÇAIS"       },
      { "it_IT", "ITALIANO"       },

@@ -130,6 +130,10 @@ class ThemeData
     String mLangageCode;
     //! User region
     String mRegionCode;
+    //! User langage as integer
+    int mLangageCodeInteger;
+    //! User language/region as integer
+    int mLanguageRegionCodeInteger;
 
     static constexpr const char* sRandomMethod = "$random(";
 
@@ -195,4 +199,11 @@ class ThemeData
      * @return True if the option selected option has been adjusted, false otherwise
      */
     bool CheckThemeOption(String& selected, const String& subset);
+
+    /*!
+     * @brief Try to find language and region code in the name, after a final '.' ir available
+     * @param name Original name - May be trimmed from localized info when returning
+     * @return Language code, language + region code, or 0 if no information is available
+     */
+    static int ExtractLocalizedCode(String& name);
 };

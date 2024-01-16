@@ -123,7 +123,7 @@ MainRunner::ExitState MainRunner::Run()
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Theme manager
-    ThemeManager themeManager;
+    ThemeManager themeManager(*this);
     themeManager.Initialize(nullptr);
     // Load theme from the first loaded system
     if (autoRunSystem != nullptr) themeManager.LoadSystemTheme(*autoRunSystem);
@@ -1212,4 +1212,15 @@ void MainRunner::ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut)
       break;
     }
   }
+}
+
+void MainRunner::ResolveVariableIn(String& string)
+{
+  Renderer& renderer = Renderer::Instance();
+  String resolution = renderer.DisplayHeightAsInt() > 720 ? "fhd" :
+                      renderer.DisplayHeightAsInt() > 480 ? "hd" :
+                      renderer.DisplayHeightAsInt() > 240 ? "vga" : "qvga";
+    string.Replace("$crt", Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None ? "yes" : "no")
+        .Replace("$tate", renderer.Rotation() == RotationType::Left || renderer.Rotation() == RotationType::Right ? "yes" : "no")
+        .Replace("$resolution", resolution);
 }

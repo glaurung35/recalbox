@@ -360,8 +360,9 @@ void SystemView::onCursorChanged(const CursorState& state)
 
   Animation* anim = nullptr;
   bool move_carousel = RecalboxConf::Instance().GetThemeCarousel();
-  String transition_style = RecalboxConf::Instance().GetThemeTransition();
-  if(transition_style == "fade")
+  String transitionTheme = ThemeManager::Instance().Main().getTransition();
+  if (transitionTheme.empty()) transitionTheme = RecalboxConf::Instance().GetThemeTransition();
+  if(transitionTheme == "fade")
   {
     float startExtrasFade = mExtrasFadeOpacity;
     anim = new LambdaAnimation([startExtrasFade, startPos, endPos, posMax, this, move_carousel](float t)
@@ -380,7 +381,7 @@ void SystemView::onCursorChanged(const CursorState& state)
       if(t > 0.5f) mExtrasCamOffset = endPos;
     }, 500);
   }
-  else if (transition_style == "slide")
+  else if (transitionTheme == "slide")
   { // slide
     anim = new LambdaAnimation([startPos, endPos, posMax, this, move_carousel](float t)
     {

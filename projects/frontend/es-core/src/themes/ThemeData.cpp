@@ -567,7 +567,7 @@ String ThemeData::getTransition() const
   if (elem != nullptr)
     if (elem->HasProperty(ThemePropertyName::DefaultTransition))
       return elem->AsString(ThemePropertyName::DefaultTransition);
-  return "instant";
+  return String::Empty;
 }
 
 bool ThemeData::isFolderHandled() const

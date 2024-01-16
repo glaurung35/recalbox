@@ -8,7 +8,7 @@
 #include "utils/locale/LocaleHelper.h"
 #include <systems/SystemData.h>
 
-ThemeManager::ThemeManager(IExternalVariableResolver& globalResolver)
+ThemeManager::ThemeManager(IGlobalVariableResolver& globalResolver)
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
   , mMain(mCache, nullptr, globalResolver)
   , mWaiter(nullptr)

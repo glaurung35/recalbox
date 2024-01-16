@@ -1217,10 +1217,12 @@ void MainRunner::ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut)
 void MainRunner::ResolveVariableIn(String& string)
 {
   Renderer& renderer = Renderer::Instance();
-  String resolution = renderer.DisplayHeightAsInt() > 720 ? "fhd" :
-                      renderer.DisplayHeightAsInt() > 480 ? "hd" :
-                      renderer.DisplayHeightAsInt() > 240 ? "vga" : "qvga";
-    string.Replace("$crt", Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None ? "yes" : "no")
-        .Replace("$tate", renderer.Rotation() == RotationType::Left || renderer.Rotation() == RotationType::Right ? "yes" : "no")
+  int height = renderer.RealDisplayHeightAsInt();
+  String resolution = height > 920 ? "fhd" :
+                      height > 576 ? "hd" :
+                      height > 288 ? "vga" : "qvga";
+  string.Replace("$crt", HasCrt() ? "yes" : "no")
+        .Replace("$jamma", HasJamma() ? "yes" : "no")
+        .Replace("$tate", IsTate() ? "yes" : "no")
         .Replace("$resolution", resolution);
 }

@@ -550,7 +550,7 @@ void SystemView::RefreshViewElements(const ThemeData& theme)
   { LOG(LogDebug) << "[SystemView] Get View Elements"; }
   getDefaultElements();
 
-  const ThemeElement* carouselElem = theme.Element("system", "carousel", ThemeElementType::Carousel);
+  const ThemeElement* carouselElem = theme.Element("system", "systemcarousel", ThemeElementType::Carousel);
   if (carouselElem != nullptr)
     getCarouselFromTheme(carouselElem);
 

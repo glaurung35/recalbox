@@ -6,6 +6,7 @@
 #include "GuiMenuThemeOptions.h"
 #include "guis/MenuMessages.h"
 #include "guis/GuiMsgBox.h"
+#include "EmulationStation.h"
 
 GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
   : GuiMenuBase(window, _("THEME"), nullptr)
@@ -43,10 +44,21 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEn
 std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries()
 {
   // Get theme list
-  ThemeManager::ThemeList themelist = ThemeManager::AvailableThemes();
+  ThemeManager::ThemeList themelist = ThemeManager::Instance().AvailableThemes();
   mOriginalTheme = RecalboxConf::Instance().GetThemeFolder();
-  if (!themelist.contains(mOriginalTheme)) mOriginalTheme = "recalbox-next";
+  if (!themelist.contains(mOriginalTheme)) mOriginalTheme = ThemeManager::sDefaultThemeFolder;
   if (!themelist.contains(mOriginalTheme)) mOriginalTheme = themelist.begin()->first;
+
+  ThemeData::Compatibility currentMode = ThemeManager::Instance().GlobalResolver().HasJamma() ? ThemeData::Compatibility::Jamma :
+                                         ThemeManager::Instance().GlobalResolver().HasCrt() ? ThemeData::Compatibility::Crt :
+                                         ThemeData::Compatibility::Hdmi;
+
+  String currentVersionString = PROGRAM_VERSION_STRING;
+  int cut = (int)currentVersionString.find_first_not_of("0123456789.");
+  if (cut >= 0) currentVersionString.Delete(cut, INT32_MAX);
+  /*int currentVersion = (9 << 8) + 20; // Minimum version 9.2
+  if (String major, minor; currentVersionString.Extract('.', major, minor, true))
+  version = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);*/
 
   // Sort names
   String::List sortedNames;
@@ -55,7 +67,26 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
 
   std::vector<ListEntry<String>> list;
   for (const String& name : sortedNames)
-    list.push_back({ name, name, name == mOriginalTheme });
+  {
+    String displayableName;
+
+    int version = 0; // Unknown version
+    ThemeData::Compatibility compatibility = ThemeData::Compatibility::Hdmi;
+
+    // Compatibility
+    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, displayableName, version))
+    {
+      if ((compatibility & currentMode) != 0) displayableName.Insert(0, "\uF1C0 "); // (v) - compatibility match
+      else displayableName.Insert(0, "\uF1CA "); // /!\ sign - compatibility mismatch
+    }
+    else continue; // Failed to inspect theme => no valid theme
+
+    // Version
+    if (version != 0) displayableName.Append(" (").Append(version >> 8).Append('.').Append(version & 0xFF).TrimRight('0').Append(')');
+    //else displayableName.Append(" (").Append("\uF1C1").Append(')'); // (?) sign - no version info
+
+    list.push_back({ displayableName, name, name == mOriginalTheme });
+  }
 
   return list;
 }

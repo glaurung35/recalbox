@@ -80,7 +80,7 @@ class MainRunner
   , public ISpecialGlobalAction
   , public IBiosScanReporting
   , public IKeyboardShortcut
-  , public IExternalVariableResolver
+  , public IGlobalVariableResolver
 {
   public:
     //! Pending Exit
@@ -560,5 +560,30 @@ class MainRunner
      * @brief Resolve variables in the given string
      * @param string String in which to resolve variables
      */
-    void ResolveVariableIn(String& string) override;
+    void ResolveVariableIn(String& string) final;
+
+    //! Has a CRT adapter active?
+    [[nodiscard]] bool HasCrt() const final { return Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None; }
+
+    //! Has a CRT adapter active?
+    [[nodiscard]] bool HasJamma() const final
+    {
+      CrtAdapterType t = Board::Instance().CrtBoard().GetCrtAdapter();
+      return t == CrtAdapterType::RGBJamma || t == CrtAdapterType::RGBJammaV2;
+    }
+
+    //! Is in TATE mode?
+    [[nodiscard]] bool IsTate() const final { return Renderer::Instance().IsRotatedSide(); }
+
+    //! Is resolution QVGA or less?
+    [[nodiscard]] bool IsQVGA() const final { return Renderer::Instance().IsQVGA(); }
+
+    //! Is Resolution between QVGA (excluded) & VGA (included)?
+    [[nodiscard]] bool IsVGA() const final { return Renderer::Instance().IsVGA(); }
+
+    //! Is Resolution between VGA (excluded) & HD (included)?
+    [[nodiscard]] bool IsHD() const final { return Renderer::Instance().IsHD(); }
+
+    //! Is Resolution higher than HD?
+    [[nodiscard]] bool IsFHD() const final { return Renderer::Instance().IsFHD(); }
 };

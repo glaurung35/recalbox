@@ -411,18 +411,27 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     //! Get display Height as float
     [[nodiscard]] float DisplayHeightAsFloat() const { return mVirtualViewportSizeFloat.y(); }
 
-    // Is small resolution?
+    //! Is small resolution?
     [[nodiscard]] bool Is240p() const { return IsRotatedSide() ? mVirtualViewportSize.y() <= 480 || mViewportSize.x() <= 320 : mVirtualViewportSize.x() <= 480 || mViewportSize.y() <= 320; }
-    // Is middle resolution?
+    //! Is middle resolution?
     [[nodiscard]] bool Is480pOrLower() const { return mViewportSize.y() <= 576; }
-    // Return true window width (not scaled, not rotated)
+    //! Return true window width (not scaled, not rotated)
     [[nodiscard]] int RealDisplayWidthAsInt() const { return mViewportSize.x(); }
-    // Return true window height
+    //! Return true window height
     [[nodiscard]] int RealDisplayHeightAsInt() const { return mViewportSize.y(); }
-    // Return true if the screen is rotated either left or right
+    //! Return true if the screen is rotated either left or right
     [[nodiscard]] bool IsRotatedSide() const { return mRotate == RotationType::Left || mRotate == RotationType::Right; }
-    // Return the screen rotation
+    //! Return the screen rotation
     [[nodiscard]] RotationType Rotation() const { return mRotate; }
+    //! Is resolution QVGA or less?
+    [[nodiscard]] bool IsQVGA() const { return Renderer::Instance().RealDisplayHeightAsInt() <= 288; }
+    //! Is Resolution between QVGA (excluded) & VGA (included)?
+    [[nodiscard]] bool IsVGA() const { int h = Renderer::Instance().RealDisplayHeightAsInt(); return h > 288 && h <= 576; }
+    //! Is Resolution between VGA (excluded) & HD (included)?
+    [[nodiscard]] bool IsHD() const { int h = Renderer::Instance().RealDisplayHeightAsInt(); return h > 576 && h <= 920; }
+    //! Is Resolution higher than HD?
+    [[nodiscard]] bool IsFHD() const { return Renderer::Instance().RealDisplayHeightAsInt() > 920; }
+
 
     //! Check if the Renderer is properly initialized
     [[nodiscard]] bool Initialized() const { return mViewPortInitialized; }

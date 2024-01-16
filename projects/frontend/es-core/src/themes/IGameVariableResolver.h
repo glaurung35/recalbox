@@ -5,15 +5,14 @@
 
 #include <utils/String.h>
 
-class IExternalVariableResolver
+class IGameVariableResolver
 {
   public:
     //! Default destructor
-    virtual ~IExternalVariableResolver() = default;
+    virtual ~IGameVariableResolver() = default;
 
     /*!
      * @brief Resolve variables in the given string
      * @param string String in which to resolve variables
      */
     virtual void ResolveVariableIn(String& string) = 0;
-};

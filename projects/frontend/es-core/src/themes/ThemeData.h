@@ -26,8 +26,24 @@ class WindowManager;
 class ThemeData
 {
   public:
+    //! Compatibility
+    enum class Compatibility
+    {
+      None  = 0,
+      Hdmi  = 1,
+      Crt   = 2,
+      Jamma = 4,
+    };
+
     //! Constructor
     explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVariableResolver& globalResolver);
+
+    /*!
+     * @brief Open the main theme file and get compatibility
+     * @param root Theme root path
+     * @return
+     */
+    static bool FetchCompatibility(const Path& root, [[out]] Compatibility& compatibility, [[out]] String& name, [[out]] int& version);
 
     /*!
      * @brief Load main theme
@@ -142,6 +158,9 @@ class ThemeData
     //! External game-related variable resolver
     IGlobalVariableResolver* mGameResolver;
 
+    //! Compatibility
+    Compatibility mCompatiblity;
+
     static constexpr const char* sRandomMethod = "$random(";
 
     unsigned int getHexColor(const char* str);
@@ -217,4 +236,11 @@ class ThemeData
      * @return Language code, language + region code, or 0 if no information is available
      */
     static int ExtractLocalizedCode(String& name);
+
+    /*!
+     * @brief Extract compatibility flags or set default hdmi flag
+     */
+    static Compatibility ExtractCompatibility(const pugi::xml_node& node);
 };
+
+DEFINE_BITFLAG_ENUM(ThemeData::Compatibility, int)

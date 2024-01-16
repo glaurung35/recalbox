@@ -8,6 +8,7 @@
 #include "components/TextScrollComponent.h"
 #include "components/BoxComponent.h"
 #include "SimpleTokenizer.h"
+#include "utils/Files.h"
 
 HashSet<String> ThemeData::mNoProcessAttributes;
 
@@ -16,7 +17,7 @@ unsigned int ThemeData::getHexColor(const char* str)
 {
   if(str == nullptr)
   {
-    { LOG(LogError) << "[Themes] Empty color"; }
+    { LOG(LogError) << "[Theme] Empty color"; }
     return 0xFFFFFFFF;
   }
 
@@ -24,7 +25,7 @@ unsigned int ThemeData::getHexColor(const char* str)
   string.Append(str);
   int val = 0;
   if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
-    { LOG(LogError) << "[Themes] " << FileList() << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
+    { LOG(LogError) << "[Theme] " << FileList() << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
 
   if (string.Count() == 7) val = (val << 8) | 0xFF;
   return (unsigned int)val;
@@ -91,7 +92,7 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
   if(!path.Exists())
   {
-    { LOG(LogError) << "[Themes] " << FileList() << "File does not exist!"; }
+    { LOG(LogError) << "[Theme] " << FileList() << "File does not exist!"; }
     return;
   }
 
@@ -127,18 +128,19 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
   pugi::xml_document doc;
   pugi::xml_parse_result res = doc.load_string(mCache.File(path).data());
-  if(!res) { LOG(LogError) << "[Themes] " << FileList() << "XML parsing error: \n    " + String(res.description()); }
+  if(!res) { LOG(LogError) << "[Theme] " << FileList() << "XML parsing error: \n    " + String(res.description()); }
 
   pugi::xml_node root = doc.child("theme");
-  if(!root) { LOG(LogError) << "[Themes] " << FileList() << "Missing <theme> tag!"; }
+  if(!root) { LOG(LogError) << "[Theme] " << FileList() << "Missing <theme> tag!"; }
+  mCompatiblity = ExtractCompatibility(root);
 
   // parse version
   mVersion = root.child("formatVersion").text().as_float(-404);
   if(mVersion == -404)
-    { LOG(LogError) << "[Themes] " << FileList() << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
+    { LOG(LogError) << "[Theme] " << FileList() << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
 
   if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-    { LOG(LogError) << "[Themes] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
+    { LOG(LogError) << "[Theme] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 
   parseIncludes(root);
   parseViews(root);
@@ -171,10 +173,10 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 
         pugi::xml_document includeDoc;
         pugi::xml_parse_result result = includeDoc.load_string(mCache.File(path).data());
-        if(!result) { LOG(LogError) << "[Themes] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
+        if(!result) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
 
         pugi::xml_node newRoot = includeDoc.child("theme");
-        if(!newRoot) { LOG(LogError) << "[Themes] " << FileList() << errorString + "Missing <theme> tag!"; }
+        if(!newRoot) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Missing <theme> tag!"; }
         parseIncludes(newRoot);
         parseViews(newRoot);
         parseFeatures(newRoot);
@@ -205,7 +207,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
   for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
   {
     if(!node.attribute("supported"))
-    { LOG(LogError) << "[Themes] " << FileList() << "Feature missing \"supported\" attribute!"; continue; }
+    { LOG(LogError) << "[Theme] " << FileList() << "Feature missing \"supported\" attribute!"; continue; }
 
     const String supportedAttr = node.attribute("supported").as_string();
     if (ThemeSupport::SupportedFeatures().contains(supportedAttr))
@@ -218,7 +220,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
   // parse views
   for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
   {
-    if(!node.attribute("name")) { LOG(LogError) << "[Themes] " << FileList() << "View missing \"name\" attribute!"; continue; }
+    if(!node.attribute("name")) { LOG(LogError) << "[Theme] " << FileList() << "View missing \"name\" attribute!"; continue; }
     if (!Condition(node)) continue;
     for(String& viewName : String(node.attribute("name").as_string()).LowerCase().Split(','))
     {
@@ -244,13 +246,13 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
       continue;
     }
 
-    if (!node.attribute("name")) { LOG(LogError) << "[Themes] " << FileList() << "Element of type \"" << typeString << R"(" missing "name" attribute!)"; continue; }
+    if (!node.attribute("name")) { LOG(LogError) << "[Theme] " << FileList() << "Element of type \"" << typeString << R"(" missing "name" attribute!)"; continue; }
 
     // Process normal item type
     ThemeElementType* type = ThemeSupport::ElementType().try_get(typeString);
-    if (type == nullptr) { LOG(LogError) << "[Themes] " << FileList() << "Unknown element of type \"" << typeString << "\"!"; continue; }
+    if (type == nullptr) { LOG(LogError) << "[Theme] " << FileList() << "Unknown element of type \"" << typeString << "\"!"; continue; }
     const ThemePropertyNameBits* properties = ThemeSupport::ElementMap().try_get(*type);
-    if (properties == nullptr) { LOG(LogError) << "[Themes] " << FileList() << " Cannot get properties of element of type \"" << typeString << "\"!"; continue; }
+    if (properties == nullptr) { LOG(LogError) << "[Theme] " << FileList() << " Cannot get properties of element of type \"" << typeString << "\"!"; continue; }
 
     if (parseRegion(node))
     {
@@ -298,7 +300,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
             element.AddVectorProperty(propertyName, x, y);
             break;
           }
-      { LOG(LogError) << "[Themes] " << FileList() << "invalid normalized pair (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" << value << "\")"; }
+      { LOG(LogError) << "[Theme] " << FileList() << "invalid normalized pair (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" << value << "\")"; }
       break;
     }
     case ThemePropertyType::String:
@@ -324,7 +326,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
     {
       float floatVal = 0;
       if (!value.TryAsFloat(floatVal))
-      { LOG(LogError) << "[Themes] " << FileList() << "invalid float value (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" + value + "\")"; }
+      { LOG(LogError) << "[Theme] " << FileList() << "invalid float value (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" + value + "\")"; }
       element.AddFloatProperty(propertyName, floatVal);
       break;
     }
@@ -336,7 +338,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
       break;
     }
     default:
-    { LOG(LogError) << "[Themes] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << ThemeSupport::ReversePropertyName(propertyName); }
+    { LOG(LogError) << "[Theme] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << ThemeSupport::ReversePropertyName(propertyName); }
   }
 }
 
@@ -353,7 +355,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
     ThemePropertyName* property = ThemeSupport::PropertyName().try_get(name);
     if (property == nullptr || !typeList.IsSet(*property))
     {
-      { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
     // Localized?
@@ -377,7 +379,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
     ThemePropertyName* property = ThemeSupport::PropertyName().try_get(name);
     if (property == nullptr || !typeList.IsSet(*property))
     {
-      { LOG(LogError) << "[Themes] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
     // Localized?
@@ -561,7 +563,7 @@ String::List ThemeData::GetSubSetValues(const String& subset) const
 
 String ThemeData::getTransition() const
 {
-  const auto* elem = Element("system", "carousel", ThemeElementType::Carousel);
+  const auto* elem = Element("system", "systemcarousel", ThemeElementType::Carousel);
   if (elem != nullptr)
     if (elem->HasProperty(ThemePropertyName::DefaultTransition))
       return elem->AsString(ThemePropertyName::DefaultTransition);
@@ -651,7 +653,7 @@ int ThemeData::ExtractLocalizedCode(String& name)
     int result = (int)name[pos + 1] | ((int)name[pos + 2] >> 8); // language code
     if (pos < (int) name.size() - 5)
       result |= ((int)name[pos + 1] >> 16) | ((int)name[pos + 2] >> 24);
-    name.Delete(pos);
+    name.Delete(pos, INT32_MAX);
     return result;
   }
   return 0;
@@ -742,4 +744,58 @@ bool ThemeData::Evaluate(const SimpleTokenizer& tokenizer) const
   else if (tokenizer.Token() == "lastplayed") evaluated = mSystem != nullptr ? mSystem->IsLastPlayed() : false;
   else { LOG(LogDebug) << "[Theme] Unknown identifier " << tokenizer.Token() << " at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString() << ". False evaluation assumed."; }
   return evaluated;
+}
+
+ThemeData::Compatibility ThemeData::ExtractCompatibility(const pugi::xml_node& node)
+{
+  pugi::xml_attribute compatibilityNode = node.attribute("compatibility");
+  if (!compatibilityNode) return Compatibility::Hdmi;
+
+  String compatibility = compatibilityNode.as_string();
+
+  Compatibility result = Compatibility::None;
+  String item;
+  for(;!compatibility.empty();)
+  {
+    if (!compatibility.Extract(',', item, compatibility, true))
+    {
+      item = compatibility.Trim();
+      compatibility.clear();
+    }
+    if      (item == "hdmi" ) result |= Compatibility::Hdmi;
+    else if (item == "jamma") result |= Compatibility::Jamma;
+    else if (item == "crt"  ) result |= Compatibility::Crt;
+  }
+  if (result == Compatibility::None) result = Compatibility::Hdmi;
+  return result;
+}
+
+bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, String& name, int& version)
+{
+  if (!path.Exists()) { LOG(LogError) << "[Theme] " << path << " does not exist!"; return false; }
+
+  pugi::xml_document doc;
+  pugi::xml_parse_result res = doc.load_string(Files::LoadFile(path).data());
+  if (!res) { LOG(LogError) << "[Theme] XML parsing error: \n    " + String(res.description()); return false; }
+
+  pugi::xml_node root = doc.child("theme");
+  if (!root) { LOG(LogError) << "[Theme] Missing <theme> tag!"; return false; }
+
+  // Extract compatibility
+  compatibility = ExtractCompatibility(root);
+  // Extract name
+  name = path.Directory().FilenameWithoutExtension();
+  pugi::xml_attribute nameAttribute = root.attribute("name");
+  if ((bool)nameAttribute)
+    if (String newName = nameAttribute.as_string(); !newName.Trim().empty())
+      name = newName;
+  // Extract version
+  version = 0;
+  pugi::xml_attribute versionAttribute = root.attribute("version");
+  if ((bool)versionAttribute)
+    if (String newVersion = versionAttribute.as_string(); !newVersion.Trim().empty())
+      if (String major, minor; newVersion.Extract('.', major, minor, true))
+        version = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);
+
+  return true;
 }

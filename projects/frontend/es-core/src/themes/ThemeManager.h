@@ -19,6 +19,8 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
                    , public IThemeSwitchTick
 {
   public:
+    //! Default theme folder
+    static constexpr const char* sDefaultThemeFolder = "recalbox-next";
     //! Default theme file
     static constexpr const char* sRootThemeFile = "theme.xml";
     //! Default system folder
@@ -80,6 +82,9 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
      * @param force True to force theme reload
      */
     void DoThemeChange(WindowManager* window, bool force = false);
+
+    //! Get global variable resolver
+    const IGlobalVariableResolver& GlobalResolver() const { return mGlobalResolver; }
 
   private:
     //! Global file cache

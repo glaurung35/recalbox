@@ -44,4 +44,6 @@ class Math
 
       static int    absi        (int value) { int m = value >> (sizeof(int) * 8 - 1); return (value + m) ^ m; }
       static float  abs         (float value) { return (value < 0.f) ? -value : value; }
+
+      static float  frac        (float value) { int v = (int)value; return value - (float)v; }
   };

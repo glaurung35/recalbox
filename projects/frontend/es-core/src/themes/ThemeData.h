@@ -9,7 +9,8 @@
 #include "ThemeElement.h"
 #include "ThemeFileCache.h"
 #include "ThemeExtras.h"
-#include "IExternalVariableResolver.h"
+#include "IGlobalVariableResolver.h"
+#include "SimpleTokenizer.h"
 #include <themes/ThemeSupport.h>
 #include <themes/ThemeExtras.h>
 
@@ -26,7 +27,7 @@ class ThemeData
 {
   public:
     //! Constructor
-    explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IExternalVariableResolver& globalResolver);
+    explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVariableResolver& globalResolver);
 
     /*!
      * @brief Load main theme
@@ -137,9 +138,9 @@ class ThemeData
     int mLanguageRegionCodeInteger;
 
     //! External global variable resolver
-    IExternalVariableResolver& mGlobalResolver;
+    IGlobalVariableResolver& mGlobalResolver;
     //! External game-related variable resolver
-    IExternalVariableResolver* mGameResolver;
+    IGlobalVariableResolver* mGameResolver;
 
     static constexpr const char* sRandomMethod = "$random(";
 
@@ -172,6 +173,10 @@ class ThemeData
     void resolveSystemVariable(const String& systemThemeFolder, [[out]] String& path, String& randomPath);
 
     static void PickRandomPath(String& value, String& randomPath);
+
+    bool Condition(const pugi::xml_node& node);
+
+    [[nodiscard]] bool Evaluate(const SimpleTokenizer& tokenizer) const;
 
     /*!
      * @brief Build a file list from the current include stack for logging only

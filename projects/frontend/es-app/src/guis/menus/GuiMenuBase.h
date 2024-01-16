@@ -259,9 +259,9 @@ class GuiMenuBase : public Gui
     //! Normalized entry structure for List components
     template<typename T> struct ListEntry
     {
-      String mText; //!< Displayed text
-      T mValue;          //!< Linked Values
-      bool mSelected;    //!< Whether the entry is selected or not
+      String mText;   //!< Displayed text
+      T mValue;       //!< Linked Values
+      bool mSelected; //!< Whether the entry is selected or not
 
       //! Constructor
       ListEntry(const String& t, const T& v, bool s)

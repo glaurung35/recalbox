@@ -9,6 +9,7 @@
 #include "ThemeElement.h"
 #include "ThemeFileCache.h"
 #include "ThemeExtras.h"
+#include "IExternalVariableResolver.h"
 #include <themes/ThemeSupport.h>
 #include <themes/ThemeExtras.h>
 
@@ -25,7 +26,7 @@ class ThemeData
 {
   public:
     //! Constructor
-    explicit ThemeData(ThemeFileCache& cache, const SystemData* system);
+    explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IExternalVariableResolver& globalResolver);
 
     /*!
      * @brief Load main theme
@@ -134,6 +135,11 @@ class ThemeData
     int mLangageCodeInteger;
     //! User language/region as integer
     int mLanguageRegionCodeInteger;
+
+    //! External global variable resolver
+    IExternalVariableResolver& mGlobalResolver;
+    //! External game-related variable resolver
+    IExternalVariableResolver* mGameResolver;
 
     static constexpr const char* sRandomMethod = "$random(";
 

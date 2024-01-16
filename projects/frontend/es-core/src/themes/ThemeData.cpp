@@ -7,6 +7,7 @@
 #include "MenuThemeData.h"
 #include "components/TextScrollComponent.h"
 #include "components/BoxComponent.h"
+#include "SimpleTokenizer.h"
 
 HashSet<String> ThemeData::mNoProcessAttributes;
 
@@ -29,7 +30,7 @@ unsigned int ThemeData::getHexColor(const char* str)
   return (unsigned int)val;
 }
 
-ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IExternalVariableResolver& globalResolver)
+ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVariableResolver& globalResolver)
   : mCache(cache)
   , mSystem(system)
   , mVersion(0)
@@ -58,6 +59,7 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IExternalV
 
   if (mNoProcessAttributes.empty())
   {
+    mNoProcessAttributes.insert("if");
     mNoProcessAttributes.insert("name");
     mNoProcessAttributes.insert("value");
     mNoProcessAttributes.insert("region");
@@ -149,6 +151,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
     if (parseSubset(node))
     {
+      if (!Condition(node)) continue;
       String str = node.text().get();
       resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
       str.Trim();
@@ -158,7 +161,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
         Path path = Path(str).ToAbsolute(mIncludePathStack.back().Directory());
         if(!ResourceManager::fileExists(path))
         {
-          { LOG(LogWarning) << "[ThemeData] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
+          { LOG(LogWarning) << "[Theme] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
           continue;
         }
 
@@ -216,6 +219,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
   for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
   {
     if(!node.attribute("name")) { LOG(LogError) << "[Themes] " << FileList() << "View missing \"name\" attribute!"; continue; }
+    if (!Condition(node)) continue;
     for(String& viewName : String(node.attribute("name").as_string()).LowerCase().Split(','))
     {
       viewName.Trim();
@@ -339,6 +343,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
 void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyNameBits& typeList, ThemeElement& element)
 {
   String elementNode = root.attribute("name").as_string();
+  if (!Condition(root)) return;
   // process node attributes
   for (pugi::xml_attribute& attribute : root.attributes())
   {
@@ -386,7 +391,8 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
     // Get value from attribute or text
     String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
     // Process
-    parseProperty(elementNode, *property, value.Trim(), element);
+    if (Condition(node))
+      parseProperty(elementNode, *property, value.Trim(), element);
   }
 }
 
@@ -400,7 +406,7 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
 
   if(element->Type() != expectedType && expectedType != ThemeElementType::None)
   {
-    { LOG(LogWarning) << "[ThemeData] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
+    { LOG(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
     return nullptr;
   }
 
@@ -409,13 +415,13 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
 
 void ThemeData::LoadMain(const Path& root)
 {
-  { LOG(LogInfo) << "[ThemeManager] Loading main theme from: " << root; }
+  { LOG(LogInfo) << "[Theme] Loading main theme from: " << root; }
   loadFile(String::Empty, root);
 }
 
 void ThemeData::LoadSystem(const String& systemFolder, const Path& root)
 {
-  { LOG(LogInfo) << "[ThemeManager] Loading " << mSystem->FullName() <<"' system theme from: " << root; }
+  { LOG(LogInfo) << "[Theme] Loading " << mSystem->FullName() <<"' system theme from: " << root; }
   loadFile(systemFolder, root);
 }
 
@@ -470,7 +476,7 @@ ThemeExtras::List ThemeData::GetExtras(const String& view, WindowManager& window
         //comp->DoApplyThemeElement(*this, view, elem.Name(), ThemePropertyCategory::All);
         comps.push_back({ elem.Name(), elem.Type(), comp });
       }
-      else { LOG(LogWarning) << "[ThemeData] Extra type unknown: " << (int)elem.Type(); }
+      else { LOG(LogWarning) << "[Theme] Extra type unknown: " << (int)elem.Type(); }
     }
   }
 
@@ -649,4 +655,91 @@ int ThemeData::ExtractLocalizedCode(String& name)
     return result;
   }
   return 0;
+}
+
+bool ThemeData::Condition(const pugi::xml_node& node)
+{
+  pugi::xml_attribute conditionAttribute = node.attribute("if");
+  if (!conditionAttribute) return true; // No condition, condition always true
+
+  String condition = conditionAttribute.as_string();
+  if (condition.Trim().empty())
+  { LOG(LogError) << "[Theme] Empty condition! Assuming true."; return true; }
+
+  SimpleTokenizer tokenizer(condition);
+  bool result = false;
+  bool inverter = false;
+  for(SimpleTokenizer::Type previousType = tokenizer.TokenType();; previousType = tokenizer.TokenType())
+    switch(tokenizer.Next())
+    {
+      case SimpleTokenizer::Type::Identifier:
+      {
+        // Evaluate token
+        bool evaluated = Evaluate(tokenizer);
+        // Not?
+        if (inverter) evaluated = !evaluated;
+        // Apply operation
+        if      (previousType == SimpleTokenizer::Type::And) result &= evaluated;
+        else if (previousType == SimpleTokenizer::Type::Or ) result |= evaluated;
+        else { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << condition; return false; }
+        break;
+      }
+      case SimpleTokenizer::Type::And:
+      case SimpleTokenizer::Type::Or:
+      {
+        if (previousType != SimpleTokenizer::Type::Identifier)
+        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << condition; return false; }
+        inverter = false;
+        break;
+      }
+      case SimpleTokenizer::Type::Not:
+      {
+        if (previousType != SimpleTokenizer::Type::And &&
+            previousType != SimpleTokenizer::Type::Or &&
+            previousType != SimpleTokenizer::Type::Start)
+        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << condition; return false; }
+        inverter = !inverter;
+        break;
+      }
+      case SimpleTokenizer::Type::Error:
+      {
+        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << condition; }
+        return false;
+      }
+      case SimpleTokenizer::Type::Start:
+      {
+        { LOG(LogDebug) << "[Theme] Internal logic error at index " << tokenizer.Index() << " in conditional string " << condition; }
+        return false;
+      }
+      case SimpleTokenizer::Type::End:
+      {
+        if (previousType != SimpleTokenizer::Type::Identifier)
+        { LOG(LogDebug) << "[Theme] Missing operand at index " << tokenizer.Index() << " in conditionnal string " << condition; }
+        return result;
+      }
+    }
+}
+
+bool ThemeData::Evaluate(const SimpleTokenizer& tokenizer) const
+{
+  bool evaluated = false;
+  if      (tokenizer.Token() == "crt"       ) evaluated = mGlobalResolver.HasCrt();
+  else if (tokenizer.Token() == "jamma"     ) evaluated = mGlobalResolver.HasJamma();
+  else if (tokenizer.Token() == "tate"      ) evaluated = mGlobalResolver.IsTate();
+  else if (tokenizer.Token() == "qvga"      ) evaluated = mGlobalResolver.IsQVGA();
+  else if (tokenizer.Token() == "vga"       ) evaluated = mGlobalResolver.IsVGA();
+  else if (tokenizer.Token() == "hd"        ) evaluated = mGlobalResolver.IsHD();
+  else if (tokenizer.Token() == "fhd"       ) evaluated = mGlobalResolver.IsFHD();
+  else if (tokenizer.Token() == "virtual"   ) evaluated = mSystem != nullptr ? mSystem->IsVirtual() : false;
+  else if (tokenizer.Token() == "arcade"    ) evaluated = mSystem != nullptr ? mSystem->IsArcade() : false;
+  else if (tokenizer.Token() == "port"      ) evaluated = mSystem != nullptr ? mSystem->IsPorts() : false;
+  else if (tokenizer.Token() == "console"   ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Console : false;
+  else if (tokenizer.Token() == "handheld"  ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Handheld : false;
+  else if (tokenizer.Token() == "computer"  ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Computer : false;
+  else if (tokenizer.Token() == "fantasy"   ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Fantasy : false;
+  else if (tokenizer.Token() == "engine"    ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Engine : false;
+  else if (tokenizer.Token() == "favorite"  ) evaluated = mSystem != nullptr ? mSystem->IsFavorite() : false;
+  else if (tokenizer.Token() == "lastplayed") evaluated = mSystem != nullptr ? mSystem->IsLastPlayed() : false;
+  else { LOG(LogDebug) << "[Theme] Unknown identifier " << tokenizer.Token() << " at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString() << ". False evaluation assumed."; }
+  return evaluated;
 }

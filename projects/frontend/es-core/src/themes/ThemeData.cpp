@@ -561,7 +561,7 @@ String::List ThemeData::GetSubSetValues(const String& subset) const
 
 String ThemeData::getTransition() const
 {
-  const auto* elem = Element("system", "systemcarousel", ThemeElementType::Carousel);
+  const auto* elem = Element("system", "carousel", ThemeElementType::Carousel);
   if (elem != nullptr)
     if (elem->HasProperty(ThemePropertyName::DefaultTransition))
       return elem->AsString(ThemePropertyName::DefaultTransition);

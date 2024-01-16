@@ -8,10 +8,11 @@
 #include "utils/locale/LocaleHelper.h"
 #include <systems/SystemData.h>
 
-ThemeManager::ThemeManager()
+ThemeManager::ThemeManager(IExternalVariableResolver& globalResolver)
   : StaticLifeCycleControler<ThemeManager>("theme-manager")
-  , mMain(mCache, nullptr)
+  , mMain(mCache, nullptr, globalResolver)
   , mWaiter(nullptr)
+  , mGlobalResolver(globalResolver)
 {
   ThemeSupport::InitializeStatics();
 }
@@ -148,7 +149,7 @@ void ThemeManager::NotifyThemeChanged(bool refreshOnly)
 ThemeData& ThemeManager::CreateOrGetSystem(const SystemData* system)
 {
   ThemeData** theme = mSystem.try_get(system);
-  if (theme == nullptr) theme = &(mSystem[system] = new ThemeData(mCache, system));
+  if (theme == nullptr) theme = &(mSystem[system] = new ThemeData(mCache, system, mGlobalResolver));
   return **theme;
 }
 

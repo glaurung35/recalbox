@@ -28,7 +28,7 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     typedef HashMap<String, Path> ThemeList;
 
     //! Default constructor
-    ThemeManager();
+    explicit ThemeManager(IExternalVariableResolver& globalResolver);
 
     //! Destructor
     ~ThemeManager() override;
@@ -102,6 +102,9 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     GuiSyncWaiter* mWaiter;
     //! Wait bar reference time
     DateTime mWaitBarReference;
+
+    //! Global variable resolver
+    IExternalVariableResolver& mGlobalResolver;
 
     /*!
      * @brief Create or get existing system theme

@@ -29,7 +29,7 @@ unsigned int ThemeData::getHexColor(const char* str)
   return (unsigned int)val;
 }
 
-ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system)
+ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IExternalVariableResolver& globalResolver)
   : mCache(cache)
   , mSystem(system)
   , mVersion(0)
@@ -37,6 +37,8 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system)
   , mRegionCode("us")
   , mLangageCodeInteger((int)'e' | ((int)'n' >> 8))
   , mLanguageRegionCodeInteger((int)'e' | ((int)'n' >> 8) | ((int)'U' >> 16) | ((int)'S' >> 24))
+  , mGlobalResolver(globalResolver)
+  , mGameResolver(nullptr)
 {
   mSystemThemeFolder.clear();
   mRandomPath.clear();
@@ -593,14 +595,16 @@ void ThemeData::Reset()
   mRandomPath.clear();
 }
 
-void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[out]] String& path, String& randomPath)
+void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[in,out]] String& path, String& randomPath)
 {
   if (path.Contains('$'))
   {
     path.Replace("$system", systemThemeFolder)
         .Replace("$language", mLangageCode)
         .Replace("$country", mRegionCode);
+    mGlobalResolver.ResolveVariableIn(path);
     if (mSystem != nullptr)
+    {
       path.Replace("$fullname", mSystem->Descriptor().FullName())
           .Replace("$type", SystemDescriptor::ConvertSystemTypeToString(mSystem->Descriptor().Type()))
           .Replace("$pad", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().PadRequirement()))
@@ -609,6 +613,8 @@ void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[out]] S
           .Replace("$releaseyear", DateTime((long long int)mSystem->Descriptor().ReleaseDate()).ToStringFormat("%YYYY"))
           .Replace("$netplay", mSystem->Descriptor().HasNetPlayCores() ? "yes" : "no")
           .Replace("$lightgun", mSystem->Descriptor().LightGun() ? "yes" : "no");
+      if (mGameResolver != nullptr) mGameResolver->ResolveVariableIn(path);
+    }
     PickRandomPath(path, randomPath);
   }
 }

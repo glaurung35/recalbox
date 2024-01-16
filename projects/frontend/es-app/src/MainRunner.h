@@ -80,6 +80,7 @@ class MainRunner
   , public ISpecialGlobalAction
   , public IBiosScanReporting
   , public IKeyboardShortcut
+  , public IExternalVariableResolver
 {
   public:
     //! Pending Exit
@@ -550,4 +551,14 @@ class MainRunner
      * @param shortcut Shortcut type
      */
     void ShortcutTriggered(IKeyboardShortcut::Shortcut shortcut) override;
+
+    /*
+     * IExtertnalVariable resolver implementation
+     */
+
+    /*!
+     * @brief Resolve variables in the given string
+     * @param string String in which to resolve variables
+     */
+    void ResolveVariableIn(String& string) override;
 };

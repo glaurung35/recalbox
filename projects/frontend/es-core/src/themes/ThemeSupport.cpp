@@ -78,6 +78,7 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::PathOn: sArray[i] = ThemePropertyType::Path; break;
       case ThemePropertyName::Pos: sArray[i] = ThemePropertyType::NormalizedPair; break;
       case ThemePropertyName::PrimaryColor: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::Reflection: sArray[i] = ThemePropertyType::NormalizedPair; break;
       case ThemePropertyName::Rotation: sArray[i] = ThemePropertyType::Float; break;
       case ThemePropertyName::RotationOrigin: sArray[i] = ThemePropertyType::NormalizedPair; break;
       case ThemePropertyName::ScrollSound: sArray[i] = ThemePropertyType::Path; break;
@@ -138,6 +139,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Color,
           ThemePropertyName::ZIndex,
           ThemePropertyName::Disabled,
+          ThemePropertyName::Reflection,
         },
       },
       {
@@ -511,6 +513,7 @@ HashMap<String, ThemePropertyName>& ThemeSupport::PropertyName()
     { "pathOn", ThemePropertyName::PathOn },
     { "pos", ThemePropertyName::Pos },
     { "primaryColor", ThemePropertyName::PrimaryColor },
+    { "reflection", ThemePropertyName::Reflection },
     { "rotation", ThemePropertyName::Rotation },
     { "rotationOrigin", ThemePropertyName::RotationOrigin },
     { "scrollSound", ThemePropertyName::ScrollSound },

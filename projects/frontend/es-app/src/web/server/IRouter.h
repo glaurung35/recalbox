@@ -319,13 +319,6 @@ class IRouter
     virtual void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
     /*!
-     * @grief Handle GET to get theme region
-     * @param request Request object
-     * @param response Response object
-     */
-    virtual void ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
-
-    /*!
      * @grief Handle GET to get theme menuset
      * @param request Request object
      * @param response Response object
@@ -417,7 +410,6 @@ class IRouter
       Rest::Routes::Get(mRouter, "/api/status", Rest::Routes::bind(&IRouter::StatusGet, this));
       // Themes
       Rest::Routes::Get(mRouter, "/api/themes/*/systemview", Rest::Routes::bind(&IRouter::ThemeSystemViewGet, this));
-      Rest::Routes::Get(mRouter, "/api/themes/*/region", Rest::Routes::bind(&IRouter::ThemeRegionGet, this));
       Rest::Routes::Get(mRouter, "/api/themes/*/menuset", Rest::Routes::bind(&IRouter::ThemeMenuSetGet, this));
       Rest::Routes::Get(mRouter, "/api/themes/*/iconset", Rest::Routes::bind(&IRouter::ThemeIconSetGet, this));
       Rest::Routes::Get(mRouter, "/api/themes/*/gamelistview", Rest::Routes::bind(&IRouter::ThemeGamelistViewGet, this));

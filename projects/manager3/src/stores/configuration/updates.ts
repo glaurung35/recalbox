@@ -25,7 +25,11 @@ export const useUpdatesStore = defineStore('updates', {
         allowedChars: '',
       },
     },
-    updates: {},
+    updates: {
+      enabled: {
+        value: true,
+      },
+    },
   } as UpdatesStoreState),
 
   getters: {},

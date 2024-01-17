@@ -1,6 +1,7 @@
 /**
  * @author Pit64
  */
+import { SimpleStringListObject } from 'stores/types/misc';
 
 export interface HatConfigResponse {
   'wpaf.enabled': {
@@ -17,8 +18,5 @@ export interface HatConfigOptionsResponse {
   'wpaf.enabled': {
     type: string;
   };
-  'wpaf.board': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'wpaf.board': SimpleStringListObject;
 }

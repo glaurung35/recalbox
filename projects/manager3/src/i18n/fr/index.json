@@ -49,6 +49,7 @@
       "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
       "ERR_NETWORK": "Problème de connexion réseau",
+      "ERR_BAD_REQUEST": "Requête erronée",
       "esStart": "Démarrage EmulationStation",
       "esShutdown": "Arrêt EmulationStation",
       "esReboot": "Redémarrage EmulationStation",
@@ -272,6 +273,13 @@
             "7": "<b>PIN356ONOFFRESET</b> correspond à un bouton on/off branché entre le GPIO2 et la masse pour l'allumage.",
             "8": "<b>PIN356PUSHRESET</b> correspond à un bouton on/off branché entre le GPIO3 et la masse pour le redémarrage."
           }
+        }
+      },
+      "battery": {
+        "title": "Batterie",
+        "hidden": {
+          "label": "Cacher l'icône de batterie",
+          "help": "Si vous avez une icône de batterie visible, ceci vous permet de la cacher. Si vous n'en avez pas à l'origine, cette option ne l'affichera pas !"
         }
       },
       "services": {
@@ -586,6 +594,10 @@
         "hidenogames": {
           "label": "Cacher les non-jeux",
           "help": "Cette option vous permet d'activer ou de désactiver l'affichage des éléments n'étant pas reconnus comme des jeux (bios, etc.)."
+        },
+        "displaybyfilename": {
+          "label": "Afficher par nom de fichier",
+          "help": "Cette option vous permet d'afficher les jeux par leur nom de fichier plutôt que leur nom de jeu."
         }
       },
       "videoSnaps": {
@@ -648,6 +660,10 @@
             "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
             "2": "<b>instant</b> lancera le jeu sans aucune animation."
           }
+        },
+        "region": {
+          "label": "Région",
+          "help": "Cette option vous permet de choisir la région à utiliser avec les thèmes pour afficher les logos des systèmes correspondants."
         },
         "carousel": {
           "label": "Animation du bandeau",
@@ -868,6 +884,10 @@
         "showfps": {
           "label": "Afficher la fréquence",
           "help": "Cette option vous permet d'afficher le taux de rafraichissement dans les menus et dans les jeux."
+        },
+        "vulkandriver": {
+          "label": "Activer le pilote vidéo Vulkan",
+          "help": "Cette option vous permet d'activer ou de désactiver l'utilisation du pilote vidéo Vulkan."
         }
       },
       "saves": {

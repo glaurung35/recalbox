@@ -49,6 +49,7 @@
       "mediaDeleted": "Media deleted",
       "updateError": "Error during update :",
       "ERR_NETWORK": "Network error",
+      "ERR_BAD_REQUEST": "Bad request",
       "esStart": "Start EmulationStation",
       "esShutdown": "Stop EmulationStation",
       "esReboot": "Restart EmulationStation",
@@ -272,6 +273,13 @@
             "7": "<b>PIN356ONOFFRESET</b> corresponds to an on-off button between GPIO2 and ground.",
             "8": "<b>PIN356PUSHRESET</b> corresponds to a pression button between GPIO3 and ground."
           }
+        }
+      },
+      "battery": {
+        "title": "Batterie",
+        "hidden": {
+          "label": "Hide battery icon",
+          "help": "If you have a visible icon battery, this allows you to hide it. If you don't have any icon visible at the origin, this option will not show one!"
         }
       },
       "services": {
@@ -586,6 +594,10 @@
         "hidenogames": {
           "label": "Hide no games",
           "help": "This option allows you to enable or disable showing elements which are not recognized as games (bios, etc.)."
+        },
+        "displaybyfilename": {
+          "label": "Display by filename",
+          "help": "This option allows you to display games by their file names instead of their game names."
         }
       },
       "videoSnaps": {
@@ -648,6 +660,10 @@
             "1": "<b>slide</b> will zoom to the game image (or its name if there is no data).",
             "2": "<b>instant</b> will launch game without any animation."
           }
+        },
+        "region": {
+          "label": "Region",
+          "help": "This option allows you to choose the region to use with themes to display logos of corresponding systems."
         },
         "carousel": {
           "label": "Carousel animation",
@@ -868,6 +884,10 @@
         "showfps": {
           "label": "Display frequency",
           "help": "This option allows you to display frequency in menus and in game."
+        },
+        "vulkandriver": {
+          "label": "Enables video driver Vulkan",
+          "help": "This option allows you to enable or disable the usage of the video driver Vulkan."
         }
       },
       "saves": {

@@ -28,6 +28,7 @@ export interface System {
   properties: Properties;
   emulators: string[];
   themeFolder: string;
+  themeRegion: string;
 }
 
 export enum Type {

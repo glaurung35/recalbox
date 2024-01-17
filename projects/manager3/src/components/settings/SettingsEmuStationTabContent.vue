@@ -233,6 +233,18 @@
               {{ $t('settings.emustation.filters.hidenogames.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.displaybyfilename.label"
+            :getter="system.displaybyfilename"
+            :setter="systemStore.post"
+            apiKey="displaybyfilename"
+            v-if="system.displaybyfilename"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.displaybyfilename.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -398,6 +410,19 @@
               </ul>
             </template>
           </WrappedSelect>
+          <WrappedSelect
+            label="settings.emustation.theme.region.label"
+            :options="themeRegionOptions"
+            :getter="emulationstation['theme.region']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.region"
+            v-if="emulationstation['theme.region']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.region.help') }}
+            </template>
+          </WrappedSelect>
           <WrappedToggle
             label="settings.emustation.theme.carousel.label"
             :getter="emulationstation['theme.carousel']"
@@ -504,6 +529,7 @@ const {
   videosnapsDelayOptions,
   themeFolderOptions,
   themeTransitionOptions,
+  themeRegionOptions,
   popupHelpOptions,
   popupMusicOptions,
   popupNetplayOptions,

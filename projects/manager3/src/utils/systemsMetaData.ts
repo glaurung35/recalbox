@@ -2534,10 +2534,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#0739BE',
+        band2: '#17DE13',
+        band3: '#F1F153',
+        band4: '#C10003',
       },
     },
   },
@@ -2545,10 +2545,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#7F0B03',
+        band2: '#000000',
+        band3: '#A7A7A7',
+        band4: '#FEFEFE',
       },
     },
   },
@@ -2556,10 +2556,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#10539A',
+        band2: '#E70012',
+        band3: '#FDFFFF',
+        band4: '#BABABA',
       },
     },
   },
@@ -2567,10 +2567,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#000000',
+        band2: '#FFFFFF',
+        band3: '#F80205',
+        band4: '#BC0004',
       },
     },
   },
@@ -2578,10 +2578,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#0C4DA2',
+        band2: '#FFFFFF',
+        band3: '#FFCB08',
+        band4: '#000000',
       },
     },
   },
@@ -2589,10 +2589,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#FFCB08',
+        band2: '#0C4DA2',
+        band3: '#509FEC',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2600,10 +2600,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#0C4DA2',
+        band2: '#509FEC',
+        band3: '#FFFFFF',
+        band4: '#FFCB08',
       },
     },
   },
@@ -2611,10 +2611,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#FFFFFF',
+        band2: '#FFCB08',
+        band3: '#509FEC',
+        band4: '#0C4DA2',
       },
     },
   },
@@ -2622,10 +2622,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#AF0000',
+        band2: '#319402',
+        band3: '#9FDE01',
+        band4: '#B6B6B6',
       },
     },
   },
@@ -2633,10 +2633,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#F91B20',
+        band2: '#000000',
+        band3: '#A5A5A5',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2644,10 +2644,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#000000',
+        band2: '#262424',
+        band3: '#7D7D7D',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2655,10 +2655,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#FFFFFF',
+        band2: '#7A7A7A',
+        band3: '#FE848D',
+        band4: '#C2020E',
       },
     },
   },
@@ -2666,10 +2666,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#E94B46',
+        band2: '#3A459A',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2677,10 +2677,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#F19C1A',
+        band2: '#FFF31E',
+        band3: '#1C1102',
+        band4: '#FFFCF7',
       },
     },
   },
@@ -2688,10 +2688,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#010205',
+        band2: '#246BBD',
+        band3: '#498DDD',
+        band4: '#F7FAFD',
       },
     },
   },
@@ -2699,10 +2699,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#D81A16',
+        band2: '#EB3D39',
+        band3: '#8E8C8C',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2710,10 +2710,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#BC0224',
+        band2: '#000000',
+        band3: '#FCFEFC',
+        band4: '#959595',
       },
     },
   },
@@ -2721,10 +2721,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#FFFFFF',
+        band2: '#9C929C',
+        band3: '#000000',
+        band4: '#E20207',
       },
     },
   },
@@ -2732,10 +2732,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#3C409A',
+        band2: '#3DC0F0',
+        band3: '#000000',
+        band4: '#9FA5A3',
       },
     },
   },
@@ -2743,10 +2743,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#E50308',
+        band2: '#FC363A',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2754,10 +2754,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#93918F',
+        band2: '#000000',
+        band3: '#FFFFFF',
+        band4: '#FFF100',
       },
     },
   },
@@ -2765,10 +2765,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#000000',
+        band2: '#FF0000',
+        band3: '#FFFFFF',
+        band4: '#807E7C',
       },
     },
   },
@@ -2776,10 +2776,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#FE0001',
+        band2: '#06FF06',
+        band3: '#000CF7',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2787,10 +2787,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#207820',
+        band2: '#54D401',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2798,10 +2798,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#000000',
+        band2: '#FFFFFF',
+        band3: '#0D56BD',
+        band4: '#80808A',
       },
     },
   },
@@ -2809,10 +2809,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#193591',
+        band2: '#F03190',
+        band3: '#FFFFFF',
+        band4: '#9C9C9A',
       },
     },
   },
@@ -2820,10 +2820,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#0B4199',
+        band2: '#1067EE',
+        band3: '#FFFFFF',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -2831,10 +2831,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#0398E1',
+        band2: '#000000',
+        band3: '#FFFFFF',
+        band4: '#8E8E8C',
       },
     },
   },
@@ -2842,10 +2842,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#9A9A9A',
+        band2: '#000000',
+        band3: '#FFFFFF',
+        band4: '#127BCA',
       },
     },
   },
@@ -2853,10 +2853,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#94532C',
+        band2: '#EBBA87',
+        band3: '#0369A6',
+        band4: '#000000',
       },
     },
   },
@@ -2864,10 +2864,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#BB171E',
+        band2: '#E3232E',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2875,10 +2875,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#9C9C9C',
+        band2: '#000000',
+        band3: '#734200',
+        band4: '#E7A500',
       },
     },
   },
@@ -2886,10 +2886,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#B7151D',
-        band2: '#00BAFF',
-        band3: '#FF8200',
-        band4: '#FFDBA1',
+        band1: '#00499B',
+        band2: '#0779FF',
+        band3: '#FFFFFF',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -2897,10 +2897,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FD3135',
+        band2: '#EB3D01',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2908,10 +2908,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#F0020C',
+        band2: '#830106',
+        band3: '#FFFFFF',
+        band4: '#000000',
       },
     },
   },
@@ -2919,10 +2919,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FE5850',
+        band2: '#FEAE50',
+        band3: '#282828',
+        band4: '#E8E9E8',
       },
     },
   },
@@ -2930,10 +2930,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#F41E22',
+        band3: '#FDB915',
+        band4: '#000000',
       },
     },
   },
@@ -2941,10 +2941,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#02A2C6',
+        band2: '#04C453',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2952,10 +2952,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#FFFFFF',
+        band3: '#279400',
+        band4: '#FFC705',
       },
     },
   },
@@ -2963,10 +2963,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#E32B01',
+        band2: '#B70170',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -2974,10 +2974,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#04AE9E',
+        band2: '#0C56A6',
+        band3: '#7C07AB',
+        band4: '#A9092E',
       },
     },
   },
@@ -2985,10 +2985,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#2E01AB',
+        band2: '#5F26FE',
+        band3: '#000000',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -2996,10 +2996,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#9F0108',
+        band2: '#000000',
+        band3: '#FFFFFF',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3007,10 +3007,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#003821',
+        band3: '#0E0567',
+        band4: '#9A9A9A',
       },
     },
   },
@@ -3018,10 +3018,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#62F8EB',
+        band2: '#A95DFD',
+        band3: '#FE955C',
+        band4: '#EFFF5B',
       },
     },
   },
@@ -3029,10 +3029,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#34C430',
+        band2: '#343DC0',
+        band3: '#CEC816',
+        band4: '#000000',
       },
     },
   },
@@ -3040,10 +3040,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#9A9A9A',
+        band2: '#FFFFFF',
+        band3: '#000000',
+        band4: '#0104D3',
       },
     },
   },
@@ -3051,10 +3051,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FC5E00',
+        band2: '#FBDB01',
+        band3: '#ADFE40',
+        band4: '#000000',
       },
     },
   },
@@ -3062,10 +3062,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#000000',
+        band3: '#BF010A',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3073,10 +3073,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#7534B0',
+        band3: '#FFFFFF',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3084,10 +3084,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#F6062D',
+        band3: '#000000',
+        band4: '#FFAA00',
       },
     },
   },
@@ -3095,10 +3095,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#7A060E',
+        band2: '#000000',
+        band3: '#8A8A8A',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3106,10 +3106,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#004802',
+        band3: '#9B0B01',
+        band4: '#000000',
       },
     },
   },
@@ -3117,10 +3117,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#8D0199',
+        band3: '#F690FE',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3128,10 +3128,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#23ABC1',
+        band2: '#2330C1',
+        band3: '#AC1BC9',
+        band4: '#BD2731',
       },
     },
   },
@@ -3139,10 +3139,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#9A9A9A',
+        band3: '#201E1E',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3150,10 +3150,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#B20205',
+        band3: '#000000',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3161,10 +3161,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#7BD7FF',
+        band2: '#C07CFE',
+        band3: '#FE8E7C',
+        band4: '#FED87C',
       },
     },
   },
@@ -3183,10 +3183,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#F2F64E',
+        band2: '#FE8B46',
+        band3: '#000000',
+        band4: '#9A9A9A',
       },
     },
   },
@@ -3205,10 +3205,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#512B1B',
+        band2: '#37A321',
+        band3: '#188AEE',
+        band4: '#000000',
       },
     },
   },
@@ -3216,10 +3216,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#C61302',
+        band2: '#DB9001',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3227,10 +3227,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#8A8A8A',
+        band3: '#FFFFFF',
+        band4: '#054A00',
       },
     },
   },
@@ -3238,10 +3238,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FEA4F1',
+        band2: '#A4BFFE',
+        band3: '#FFFFFF',
+        band4: '#9A9A9A',
       },
     },
   },
@@ -3249,10 +3249,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#FE9CC8',
+        band3: '#A4572E',
+        band4: '#000000',
       },
     },
   },
@@ -3260,10 +3260,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#1401BF',
+        band3: '#0C6FB8',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3271,10 +3271,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#8A8A8A',
+        band2: '#2C5305',
+        band3: '#1D9F6B',
+        band4: '#000000',
       },
     },
   },
@@ -3282,10 +3282,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFFFFF',
+        band2: '#000000',
+        band3: '#9A9A9A',
+        band4: '#6A6A6A',
       },
     },
   },
@@ -3293,10 +3293,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#43F7FB',
+        band2: '#B140FE',
+        band3: '#FFFFFF',
+        band4: '#000000',
       },
     },
   },
@@ -3304,10 +3304,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#0C9AF8',
+        band2: '#8A8A8A',
+        band3: '#6D432D',
+        band4: '#6DEF88',
       },
     },
   },
@@ -3315,10 +3315,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#1AE442',
+        band2: '#F0C0E6',
+        band3: '#9A9A9A',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3326,10 +3326,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#01015F',
+        band2: '#02395E',
+        band3: '#000000',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3337,10 +3337,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#66B67A',
+        band3: '#B860BC',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3348,10 +3348,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#B28100',
+        band2: '#FFD157',
+        band3: '#8A8A8A',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3359,10 +3359,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#A90401',
+        band2: '#000000',
+        band3: '#FD340D',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3370,10 +3370,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#FFFFFF',
+        band3: '#FC180E',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3381,10 +3381,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#7EF89D',
+        band2: '#7D81F9',
+        band3: '#FB877B',
+        band4: '#FACC7C',
       },
     },
   },
@@ -3392,10 +3392,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#9A9A9A',
+        band3: '#FFFFFF',
+        band4: '#0F100E',
       },
     },
   },
@@ -3403,10 +3403,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#DC8FC3',
+        band2: '#30DE99',
+        band3: '#698CC6',
+        band4: '#F62D35',
       },
     },
   },
@@ -3414,10 +3414,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#EFA92F',
+        band2: '#9C5D26',
+        band3: '#D01402',
+        band4: '#000000',
       },
     },
   },
@@ -3425,10 +3425,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#395D2F',
+        band2: '#000000',
+        band3: '#9A9A9A',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3436,10 +3436,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FE8228',
+        band2: '#4967DD',
+        band3: '#000000',
+        band4: '#9A9A9A',
       },
     },
   },
@@ -3447,10 +3447,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#000000',
+        band2: '#BB0109',
+        band3: '#9A9A9A',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3458,10 +3458,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#7C08D4',
+        band2: '#020FDA',
+        band3: '#000000',
+        band4: '#8A8A8A',
       },
     },
   },
@@ -3469,10 +3469,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#41719B',
+        band2: '#7132AA',
+        band3: '#040404',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3480,10 +3480,10 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#D11901',
+        band2: '#000000',
+        band3: '#D18001',
+        band4: '#FFFFFF',
       },
     },
   },
@@ -3491,10 +3491,21 @@ export const systemsMetaData: SystemsMetaData = {
     system: {},
     colors: {
       eu: {
-        band1: '#C1B544',
-        band2: '#AE976E',
-        band3: '#479236',
-        band4: '#174085',
+        band1: '#FFE16B',
+        band2: '#7EFE6C',
+        band3: '#6CA2FE',
+        band4: '#FFFFFF',
+      },
+    },
+  },
+  'genre-trivia': {
+    system: {},
+    colors: {
+      eu: {
+        band1: '#60D00C',
+        band2: '#D80417',
+        band3: '#4D0BD1',
+        band4: '#000000',
       },
     },
   },

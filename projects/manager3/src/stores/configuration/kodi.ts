@@ -3,6 +3,7 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { formatStringList } from 'src/utils/formatStringList';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { PostStore } from 'stores/plugins/postStorePlugin';
@@ -37,7 +38,7 @@ export const useKodiStore = defineStore('kodi', {
   } as KodiStoreState),
 
   getters: {
-    videoModeOptions: (state) => state._kodiOptions.videomode.allowedStringList,
-    waitModeOptions: (state) => state._kodiOptions['network.waitmode'].allowedStringList,
+    videoModeOptions: (state) => formatStringList(state._kodiOptions.videomode),
+    waitModeOptions: (state) => state._kodiOptions['network.waitmode'].allowedStringList.sort(),
   },
 });

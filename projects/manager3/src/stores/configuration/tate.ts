@@ -26,6 +26,6 @@ export const useTateStore = defineStore('tate', {
   } as TateStoreState),
 
   getters: {
-    gameRotationOptions: (state) => state._tateOptions.gamerotation.allowedStringList,
+    gameRotationOptions: (state) => state._tateOptions.gamerotation.allowedStringList.sort(),
   },
 });

@@ -49,6 +49,7 @@
       "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
       "ERR_NETWORK": "Problème de connexion réseau",
+      "ERR_BAD_REQUEST": "Requête erronée",
       "esStart": "Démarrage EmulationStation",
       "esShutdown": "Arrêt EmulationStation",
       "esReboot": "Redémarrage EmulationStation",

@@ -12,6 +12,10 @@
     v-model="value"
     v-bind="$attrs"
     :clearable="clearable"
+    :option-value="optionValue"
+    :option-label="optionLabel"
+    emit-value
+    map-options
   >
     <template v-slot:no-option>
       <q-item>
@@ -43,10 +47,12 @@ const props = defineProps({
   getter: { type: Object, required: true },
   apiKey: { type: String, required: true },
   clearable: { type: Boolean },
+  optionValue: { type: String },
+  optionLabel: { type: String },
 });
 
 const {
-  label, help, warning, options, getter, setter, apiKey,
+  label, help, warning, options, getter, setter, apiKey, optionValue, optionLabel,
 } = toRefs(props);
 
 const value = computed({

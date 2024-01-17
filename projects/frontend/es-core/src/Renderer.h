@@ -51,14 +51,6 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     //! Windowed mode
     bool mWindowed;
 
-    static void ColorToByteArray(GLubyte* array, Colors::ColorARGB color)
-    {
-      array[0] = (GLubyte)(color >> 24);
-      array[1] = (GLubyte)(color >> 16);
-      array[2] = (GLubyte)(color >> 8);
-      array[3] = (GLubyte)color;
-    }
-
     /*!
      * @brief Create SDL display surface
      * @return True if the surface has been created successfuly
@@ -100,6 +92,14 @@ class Renderer : public StaticLifeCycleControler<Renderer>
         OutOfGPUMemory, //!< Out of memory (GPU)
         NoResource,     //!< File not found or unknown internal resource
     };
+
+    static void ColorToByteArray(GLubyte* array, Colors::ColorARGB color)
+    {
+      array[0] = (GLubyte)(color >> 24);
+      array[1] = (GLubyte)(color >> 16);
+      array[2] = (GLubyte)(color >> 8);
+      array[3] = (GLubyte)color;
+    }
 
     /*!
      * @brief Constructor

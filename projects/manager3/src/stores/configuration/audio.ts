@@ -2,6 +2,7 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
+import { formatStringList } from 'src/utils/formatStringList';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { PostStore } from 'stores/plugins/postStorePlugin';
@@ -40,9 +41,9 @@ export const useAudioStore = defineStore('audio', {
   } as AudioStoreState),
 
   getters: {
-    deviceOptions: (state) => state._audioOptions.device.allowedStringList,
+    deviceOptions: (state) => formatStringList(state._audioOptions.device),
     volumeOptions: (state) => state._audioOptions.volume,
     musicVolumeOptions: (state) => state._audioOptions['music.volume'],
-    modeOptions: (state) => state._audioOptions.mode.allowedStringList,
+    modeOptions: (state) => state._audioOptions.mode.allowedStringList.sort(),
   },
 });

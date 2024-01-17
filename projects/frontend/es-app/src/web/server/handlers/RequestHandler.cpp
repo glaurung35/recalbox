@@ -579,13 +579,6 @@ void RequestHandler::ThemeSystemViewGet(const Rest::Request& request, Http::Resp
   RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "systemview", response);
 }
 
-void RequestHandler::ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response)
-{
-  RequestHandlerTools::LogRoute(request, "ThemeRegionGet");
-
-  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "region", response);
-}
-
 void RequestHandler::ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "ThemeMenuSetGet");

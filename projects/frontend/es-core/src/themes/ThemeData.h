@@ -195,7 +195,20 @@ class ThemeData
 
     bool Condition(const pugi::xml_node& node);
 
-    [[nodiscard]] bool Evaluate(const SimpleTokenizer& tokenizer) const;
+    /*!
+     * @brief Evaluate expression or subexpression
+     * @param tokenizer Tokenizer to use
+     * @param deepLevel Deep level ( >0 = subexpression level )
+     * @return Evaluated expression or subexpression
+     */
+    [[nodiscard]] bool EvaluateExpression(SimpleTokenizer& tokenizer, int deepLevel) const;
+
+    /*!
+     * @brief Evaluate a single identifier in conditions
+     * @param tokenizer Tokenizer to get identifier from. Must be located on an identifier
+     * @return Evaluated identifier or false of th identifier is unknown
+     */
+    [[nodiscard]] bool EvaluateIdentifier(const SimpleTokenizer& tokenizer) const;
 
     /*!
      * @brief Build a file list from the current include stack for logging only

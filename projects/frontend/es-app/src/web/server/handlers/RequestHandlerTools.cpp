@@ -326,24 +326,24 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
 
   static HashMap<String, Namespace> sConverter
   ({
-     { "system", Namespace::System },
+     { "system"          , Namespace::System },
      { "emulationstation", Namespace::EmulationStation },
-     { "scraper", Namespace::Scraper },
-     { "kodi", Namespace::Kodi },
-     { "hyperion", Namespace::Hyperion },
-     { "audio", Namespace::Audio },
-     { "wifi", Namespace::Wifi },
-     { "wifi2", Namespace::Wifi2 },
-     { "wifi3", Namespace::Wifi3 },
-     { "controllers", Namespace::Controllers },
-     { "updates", Namespace::Updates },
-     { "global", Namespace::Global },
-     { "specific", Namespace::Specific },
-     { "patron", Namespace::Patron },
-     { "music", Namespace::Music },
-     { "hat", Namespace::Hat },
-     { "autorun", Namespace::Autorun },
-     { "tate", Namespace::Tate },
+     { "scraper"         , Namespace::Scraper },
+     { "kodi"            , Namespace::Kodi },
+     { "hyperion"        , Namespace::Hyperion },
+     { "audio"           , Namespace::Audio },
+     { "wifi"            , Namespace::Wifi },
+     { "wifi2"           , Namespace::Wifi2 },
+     { "wifi3"           , Namespace::Wifi3 },
+     { "controllers"     , Namespace::Controllers },
+     { "updates"         , Namespace::Updates },
+     { "global"          , Namespace::Global },
+     { "specific"        , Namespace::Specific },
+     { "patron"          , Namespace::Patron },
+     { "music"           , Namespace::Music },
+     { "hat"             , Namespace::Hat },
+     { "autorun"         , Namespace::Autorun },
+     { "tate"            , Namespace::Tate },
   });
 
   Namespace* pns = sConverter.try_get(_namespace);
@@ -386,6 +386,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "externalscreen.forcefrequency"         , Validator("0123456789.") },
          { "es.force43"                            , Validator(true) },
          { "splash.enabled"                        , Validator(true) },
+         { "displaybyfilename"                     , Validator(true) },
        });
 
       return sList;
@@ -427,6 +428,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "systemsorting"               , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
          { "theme.carousel"              , Validator(true) },
          { "theme.transition"            , Validator(false, { "slide", "instant", "fade" }) },
+         { "theme.region"                , Validator(GetThemeRegions(), false) },
          { "brightness"                  , Validator(0, 8) },
          { "showhidden"                  , Validator(true) },
          { "showonlylatestversion"       , Validator(true) },
@@ -450,6 +452,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "pads.osd"                    , Validator(true) },
          { "pads.osd.type"               , Validator(GetAvailableOsdTypes(), false) },
          { "tateonly"                    , Validator(true) },
+         { "battery.hidden"              , Validator(true) },
        });
 
       return sList;
@@ -542,11 +545,11 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "device" , Validator(GetAvailableSoundDevices(), false) },
-        { "volume" , Validator(0, 100) },
+        { "device"      , Validator(GetAvailableSoundDevices(), false) },
+        { "volume"      , Validator(0, 100) },
         { "music.volume", Validator(0, 100) },
-        { "bgmusic", Validator(true) },
-        { "mode"   , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
+        { "bgmusic"     , Validator(true) },
+        { "mode"        , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
       });
 
       return sList;
@@ -555,20 +558,20 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "bluetooth.enabled"    , Validator(true) },
-        { "bluetooth.ertm"       , Validator(true) },
-        { "ps3.enabled"          , Validator(true) },
-        { "ps3.driver"           , Validator(false, { "bluez", "official", "shanwan" }) },
-        { "gpio.enabled"         , Validator(true) },
-        { "gpio.args"            , Validator() },
-        { "steam.enabled"        , Validator(true) },
-        { "db9.enabled"          , Validator(true) },
-        { "db9.args"             , Validator() },
-        { "gamecon.enabled"      , Validator(true) },
-        { "gamecon.args"         , Validator() },
-        { "xarcade.enabled"      , Validator(true) },
-        { "joycond.enabled"      , Validator(true) },
-        { "swapvalidateandcancel", Validator(true) },
+        { "bluetooth.enabled"       , Validator(true) },
+        { "bluetooth.ertm"          , Validator(true) },
+        { "ps3.enabled"             , Validator(true) },
+        { "ps3.driver"              , Validator(false, { "bluez", "official", "shanwan" }) },
+        { "gpio.enabled"            , Validator(true) },
+        { "gpio.args"               , Validator() },
+        { "steam.enabled"           , Validator(true) },
+        { "db9.enabled"             , Validator(true) },
+        { "db9.args"                , Validator() },
+        { "gamecon.enabled"         , Validator(true) },
+        { "gamecon.args"            , Validator() },
+        { "xarcade.enabled"         , Validator(true) },
+        { "joycond.enabled"         , Validator(true) },
+        { "swapvalidateandcancel"   , Validator(true) },
         { "bluetooth.autopaironboot", Validator(true) },
       });
 
@@ -626,6 +629,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "runahead"                  , Validator(true) },
         { "hdmode"                    , Validator(true) },
         { "widescreenmode"            , Validator(true) },
+        { "vulkandriver"              , Validator(true) },
       });
 
       return sList;
@@ -694,8 +698,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "enabled", Validator(true) },
-        { "systemuuid", Validator() },
+        { "enabled" , Validator(true) },
+        { "uuid"    , Validator() },
         { "gamepath", Validator() },
       });
 
@@ -705,7 +709,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "gamerotation", Validator(false,{ "0", "1", "2", "3" }) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
+        { "gamerotation", Validator(false, { "0", "1", "2", "3" }) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
       });
 
       return sList;
@@ -1451,6 +1455,17 @@ HashMap<String, String> RequestHandlerTools::GetAvailableScreensavers()
   return sScreensavers;
 }
 
+HashMap<String, String> RequestHandlerTools::GetThemeRegions()
+{
+  static HashMap<String, String> sThemeRegions({
+    { "eu", "Europe" },
+    { "jp", "Japan" },
+    { "us", "USA" }
+  });
+
+  return sThemeRegions;
+}
+
 HashMap<String, String> RequestHandlerTools::GetAvailableScrapers()
 {
   static HashMap<String, String> sPatronInfos({
@@ -1759,12 +1774,14 @@ JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::
         }
 
         // System
+        IniFile configuration = RequestHandlerTools::LoadConfiguration();
         JSONBuilder result;
         result.Open()
                 .Field("name", desc.Name())
                 .Field("fullName", desc.FullName())
                 .Field("uuid", desc.GUID())
                 .Field("themeFolder", desc.ThemeFolder())
+                .Field("themeRegion", configuration.AsString("emulationstation.theme.region"))
                 .Field("manufacturer", desc.Manufacturer())
                 .Field("releaseDate", desc.ReleaseDate())
                 .Field("romPath", romPath)

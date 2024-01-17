@@ -49,6 +49,7 @@
       "mediaDeleted": "Media deleted",
       "updateError": "Error during update :",
       "ERR_NETWORK": "Network error",
+      "ERR_BAD_REQUEST": "Bad request",
       "esStart": "Start EmulationStation",
       "esShutdown": "Stop EmulationStation",
       "esReboot": "Restart EmulationStation",

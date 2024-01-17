@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 
 export interface SystemConfigResponse {
   'emulators.specialkeys': {
@@ -127,22 +128,20 @@ export interface SystemConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  displaybyfilename: {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface SystemConfigOptionsResponse {
-  'emulators.specialkeys': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'emulators.specialkeys': SimpleStringListObject;
   'splash.length': {
     type: string;
     lowerValue: number;
     higherValue: number;
   };
-  'splash.select': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'splash.select': SimpleStringListObject;
   hostname: {
     type: string;
     allowedChars: string;
@@ -153,35 +152,17 @@ export interface SystemConfigOptionsResponse {
   'ssh.enabled': {
     type: string;
   };
-  kblayout: {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
-  language: {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
+  kblayout: StringListObject;
+  language: StringListObject;
   'samba.enabled': {
     type: string;
   };
-  timezone: {
-    type: string;
-    allowedStringList: string[];
-  };
+  timezone: SimpleStringListObject;
   'manager.enabled': {
     type: string;
   };
-  'es.videomode': {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
-  'power.switch': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'es.videomode': StringListObject;
+  'power.switch': SimpleStringListObject;
   'fbcp.enabled': {
     type: string;
   };
@@ -191,14 +172,8 @@ export interface SystemConfigOptionsResponse {
   'secondminitft.enabled': {
     type: string;
   };
-  'secondminitft.type': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'secondminitft.resolution': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'secondminitft.type': SimpleStringListObject;
+  'secondminitft.resolution': SimpleStringListObject;
   'secondminitft.imagestretchenabled': {
     type: string;
   };
@@ -241,6 +216,9 @@ export interface SystemConfigOptionsResponse {
     type: string;
   };
   'splash.enabled': {
+    type: string;
+  };
+  displaybyfilename: {
     type: string;
   };
 }

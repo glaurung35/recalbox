@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 import { Actions } from 'stores/types/mqtt';
 
 export interface EmulationStationConfigResponse {
@@ -136,6 +137,10 @@ export interface EmulationStationConfigResponse {
     exist: boolean;
     value: string;
   };
+  'theme.region': {
+    exist: boolean;
+    value: string;
+  };
   brightness: {
     exist: boolean;
     value: number;
@@ -174,7 +179,7 @@ export interface EmulationStationConfigResponse {
   };
   'virtualarcade.manufacturers': {
     exist: boolean;
-    value: string[];
+    value: string;
   };
   debuglogs: {
     exist: boolean;
@@ -189,6 +194,10 @@ export interface EmulationStationConfigResponse {
     value: string;
   };
   tateonly: {
+    exist: boolean;
+    value: boolean;
+  };
+  'battery.hidden': {
     exist: boolean;
     value: boolean;
   };
@@ -210,10 +219,7 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  menu: {
-    type: string;
-    allowedStringList: string[];
-  };
+  menu: SimpleStringListObject;
   'collection.lastplayed': {
     type: string;
     value: boolean;
@@ -223,10 +229,7 @@ export interface EmulationStationConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  selectedsystem: {
-    type: string;
-    allowedStringList: string[];
-  };
+  selectedsystem: SimpleStringListObject;
   'collection.multiplayer': {
     type: string;
     value: boolean;
@@ -265,14 +268,8 @@ export interface EmulationStationConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  'screensaver.type': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'theme.folder': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'screensaver.type': StringListObject;
+  'theme.folder': SimpleStringListObject;
   'collection.tate': {
     type: string;
     value: boolean;
@@ -320,18 +317,13 @@ export interface EmulationStationConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  systemsorting: {
-    type: string;
-    allowedStringList: string[];
-  };
+  systemsorting: SimpleStringListObject;
   'theme.carousel': {
     type: string;
     value: boolean;
   };
-  'theme.transition': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'theme.transition': SimpleStringListObject;
+  'theme.region': SimpleStringListObject;
   brightness: {
     type: string;
     lowerValue: number;
@@ -369,11 +361,7 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  'virtualarcade.manufacturers': {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
+  'virtualarcade.manufacturers': StringListObject;
   debuglogs: {
     type: string;
     value: boolean;
@@ -382,12 +370,12 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  'pads.osd.type': {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
+  'pads.osd.type': StringListObject;
   tateonly: {
+    type: string;
+    value: boolean;
+  };
+  'battery.hidden': {
     type: string;
     value: boolean;
   };

@@ -1,6 +1,8 @@
 /**
  * @author Pit64
  */
+import { SimpleStringListObject } from 'stores/types/misc';
+
 export interface TateConfigResponse {
   gamerotation: {
     exist: boolean;
@@ -9,8 +11,5 @@ export interface TateConfigResponse {
 }
 
 export interface TateConfigOptionsResponse {
-  gamerotation: {
-    type: string;
-    allowedStringList: string[];
-  };
+  gamerotation: SimpleStringListObject;
 }

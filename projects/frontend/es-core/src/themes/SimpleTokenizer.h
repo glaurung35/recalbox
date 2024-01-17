@@ -15,6 +15,8 @@ class SimpleTokenizer
       And,        //!< AND condition
       Or,         //!< Or condition
       Not,        //!< Not unary
+      Open,       //!< Opening sub-expression (
+      Close,      //!< Closing sub-expression )
       Error,      //!< Unreconized token, syntax error !
       End,        //!< No more tokens
     };
@@ -44,6 +46,9 @@ class SimpleTokenizer
 
     //! Get parsed string
     [[nodiscard]] const String& ParsedString() const { return mString; }
+
+    //! Last token is an unary operator? (not)
+    [[nodiscard]] bool Unary() const { return mType == Type::Not; }
 
   private:
     //! String to tokenize

@@ -475,8 +475,8 @@ static int dpidac_get_modes(struct drm_connector *connector) {
       return 4;
     } else if (config.dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
-      dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
-      dpidac_apply_module_mode(connector, p1920x240at120, !config.desktop480p);
+      dpidac_apply_module_mode(connector, p640x480, true);
+      dpidac_apply_module_mode(connector, p1920x240at120, false);
       return 2;
     } else {
       if (config.dip50Hz.gpio_state == 0) {

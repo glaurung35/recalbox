@@ -398,6 +398,19 @@
               </ul>
             </template>
           </WrappedSelect>
+          <WrappedSelect
+            label="settings.emustation.theme.region.label"
+            :options="themeRegionOptions"
+            :getter="emulationstation['theme.region']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.region"
+            v-if="emulationstation['theme.region']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.region.help') }}
+            </template>
+          </WrappedSelect>
           <WrappedToggle
             label="settings.emustation.theme.carousel.label"
             :getter="emulationstation['theme.carousel']"
@@ -504,6 +517,7 @@ const {
   videosnapsDelayOptions,
   themeFolderOptions,
   themeTransitionOptions,
+  themeRegionOptions,
   popupHelpOptions,
   popupMusicOptions,
   popupNetplayOptions,

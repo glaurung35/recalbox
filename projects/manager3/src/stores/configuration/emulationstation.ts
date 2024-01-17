@@ -8,8 +8,8 @@ import {
   getPath,
   GLOBAL,
   SYSTEMS,
-  THEMES,
 } from 'src/router/api.routes';
+import { formatStringList } from 'src/utils/formatStringList';
 import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
@@ -31,7 +31,6 @@ export interface EmulationStationStoreState extends FetchStore, PostStore, Fetch
   _emulationstationOptions: EmulationStationConfigOptionsResponse;
   emulationstation: EmulationStationConfigResponse;
   currentState: EmulationStationCurrentState;
-  themeRegion: string,
 }
 
 export const useEmulationstationStore = defineStore('emulationstation', {
@@ -48,6 +47,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
       'screensaver.type': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'screensaver.time': {
         lowerValue: 0,
@@ -92,32 +92,35 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       'theme.transition': {
         allowedStringList: [''],
       },
+      'theme.region': {
+        allowedStringList: [''],
+      },
     },
     emulationstation: {},
     currentState: {
       currentSystem: null,
       currentRom: null,
     },
-    themeRegion: 'eu',
   } as EmulationStationStoreState),
 
   getters: {
-    menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList,
-    selectedsystemOptions: (state) => state._emulationstationOptions.selectedsystem.allowedStringList,
+    menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList.sort(),
+    selectedsystemOptions: (state) => state._emulationstationOptions.selectedsystem.allowedStringList.sort(),
     videosnapsLoopOptions: (state) => state._emulationstationOptions['videosnaps.loop'],
     videosnapsDelayOptions: (state) => state._emulationstationOptions['videosnaps.delay'],
     screensaverTimeOptions: (state) => state._emulationstationOptions['screensaver.time'],
-    screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList,
-    themeFolderOptions: (state) => state._emulationstationOptions['theme.folder'].allowedStringList,
-    systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
-    themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList,
+    screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList.sort(),
+    themeFolderOptions: (state) => state._emulationstationOptions['theme.folder'].allowedStringList.sort(),
+    systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList.sort(),
+    themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList.sort(),
+    themeRegionOptions: (state) => state._emulationstationOptions['theme.region'].allowedStringList.sort(),
     brightnessOptions: (state) => state._emulationstationOptions.brightness,
     popupHelpOptions: (state) => state._emulationstationOptions['popoup.help'],
     popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
-    systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
+    systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList.sort(),
     virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList.sort(),
-    padsOsdTypeOptions: (state) => state._emulationstationOptions['pads.osd.type'].allowedStringList,
+    padsOsdTypeOptions: (state) => formatStringList(state._emulationstationOptions['pads.osd.type']),
   },
 
   actions: {
@@ -142,7 +145,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         releaseDate: 0,
         romPath: [''],
         extensions: '',
-        type: 0,
+        type: 8,
         ignoredFiles: '',
         inputs: {
           pads: 0,
@@ -165,9 +168,9 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         }
         if (storeSystem) {
           currentSystem = {
-            logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/logo`,
-            consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/console`,
-            gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.themeRegion}/svg/game`,
+            logoPath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.emulationstation['theme.region']}/svg/logo`,
+            consolePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.emulationstation['theme.region']}/svg/console`,
+            gamePath: `${api}/systems/${storeSystem.themeFolder}/resource/${this.emulationstation['theme.region']}/svg/game`,
             name: status.System.System,
             systemId: status.System.SystemId,
             metaData: systemsMetaData[status.System.SystemId],
@@ -220,17 +223,6 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         const status = response.data;
 
         this.updateStatus(status);
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log(error);
-      }
-    },
-    async getThemeRegion() {
-      try {
-        // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-        // @ts-ignore
-        const response = await this._apiProvider.get(getPath(THEMES.region, { themeNameFolder: 'recalbox-next' }));
-        this.themeRegion = response.data.region;
       } catch (error) {
         // eslint-disable-next-line no-console
         console.log(error);

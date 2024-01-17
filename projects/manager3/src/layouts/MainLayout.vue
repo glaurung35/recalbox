@@ -118,8 +118,6 @@ useSystemsStore().fetch().then(() => {
   }
 });
 
-useEmulationstationStore().getThemeRegion();
-
 function toggle(event: { label: string; value: boolean; }) {
   if (event.label === 'shortcutsButton') {
     shortcutsButtonOpeningStatus.value = event.value;

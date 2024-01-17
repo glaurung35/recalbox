@@ -342,13 +342,6 @@ class RequestHandler : public IRouter
     void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
-     * @brief Handle GET get theme region value
-     * @param request
-     * @param response
-     */
-    void ThemeRegionGet(const Rest::Request& request, Http::ResponseWriter response) override;
-
-    /*!
      * @brief Handle GET get theme menu set value
      * @param request
      * @param response

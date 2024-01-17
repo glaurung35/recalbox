@@ -427,6 +427,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "systemsorting"               , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
          { "theme.carousel"              , Validator(true) },
          { "theme.transition"            , Validator(false, { "slide", "instant", "fade" }) },
+         { "theme.region"                , Validator(GetThemeRegions(), true) },
          { "brightness"                  , Validator(0, 8) },
          { "showhidden"                  , Validator(true) },
          { "showonlylatestversion"       , Validator(true) },
@@ -1449,6 +1450,17 @@ HashMap<String, String> RequestHandlerTools::GetAvailableScreensavers()
     sScreensavers.insert_unique({"suspend", "SUSPEND"});
 
   return sScreensavers;
+}
+
+HashMap<String, String> RequestHandlerTools::GetThemeRegions()
+{
+  static HashMap<String, String> sThemeRegions({
+    { "eu", "Europe" },
+    { "jp", "Japan" },
+    { "us", "USA" }
+  });
+
+  return sThemeRegions;
 }
 
 HashMap<String, String> RequestHandlerTools::GetAvailableScrapers()

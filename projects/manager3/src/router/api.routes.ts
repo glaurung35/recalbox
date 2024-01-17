@@ -86,7 +86,6 @@ export const THEMES = {
   gamelistview: '/themes/{themeNameFolder}/gamelistview',
   iconset: '/themes/{themeNameFolder}/iconset',
   menuset: '/themes/{themeNameFolder}/menuset',
-  region: '/themes/{themeNameFolder}/region',
   systemview: '/themes/{themeNameFolder}/systemview',
 };
 

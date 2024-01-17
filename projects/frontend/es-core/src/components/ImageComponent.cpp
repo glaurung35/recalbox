@@ -25,6 +25,8 @@ ImageComponent::ImageComponent(WindowManager& window, bool keepRatio, const Path
   , mColorShift(0xFFFFFFFF)
   , mOriginColor(0)
   , mFadeOpacity(0.0f)
+  , mTopAlpha(0.0f)
+  , mBottomAlpha(0.0f)
   , mColorNotSet(true)
   , mFading(false)
   , mForceLoad(forceLoad)
@@ -196,7 +198,9 @@ void ImageComponent::setColorShift(unsigned int color)
 }
 
 void ImageComponent::setColor(unsigned int color)
-{ setColorShift(color); }
+{
+  setColorShift(color);
+}
 
 void ImageComponent::setOpacity(unsigned char opacity)
 {
@@ -217,18 +221,21 @@ void ImageComponent::updateVertices()
 
   // we go through this mess to make sure everything is properly rounded
   // if we just round vertices at the end, edge cases occur near sizes of 0.5
-  Vector2f topLeft(0.0, 0.0);
-  Vector2f bottomRight(Math::round(mSize.x()), Math::round(mSize.y()));
+  float x = 0.f;
+  float y = 0.f;
+  float w = Math::round(mSize.x());
+  float h = Math::round(mSize.y());
 
-  mVertices[0].pos.Set(topLeft.x(), topLeft.y());
-  mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
-  mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
+  mVertices[0].pos.Set(x, y);
+  mVertices[1].pos.Set(x, h);
+  mVertices[2].pos.Set(w, y);
 
-  mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
-  mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
-  mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
+  mVertices[3].pos.Set(w, y);
+  mVertices[4].pos.Set(x, h);
+  mVertices[5].pos.Set(w, h);
 
-  float px = 1, py = 1;
+  float px = 1;
+  float py = 1;
   if (mTexture->isTiled())
   {
     px = mSize.x() / (float) getTextureSize().x();
@@ -253,11 +260,41 @@ void ImageComponent::updateVertices()
     for (auto& mVertice: mVertices)
       mVertice.tex[1] = mVertice.tex[1] == py ? 0 : py;
   }
+
+  // Reflected rectangle
+  y += h;
+  h += h;
+  mVertices[6].pos.Set(x, y);
+  mVertices[7].pos.Set(x, h);
+  mVertices[8].pos.Set(w, y);
+
+  mVertices[9].pos.Set(w, y);
+  mVertices[10].pos.Set(x, h);
+  mVertices[11].pos.Set(w, h);
+
+  mVertices[6].tex.Set(0, 0);
+  mVertices[7].tex.Set(0, py);
+  mVertices[8].tex.Set(px, 0);
+
+  mVertices[9].tex.Set(px, 0);
+  mVertices[10].tex.Set(0, py);
+  mVertices[11].tex.Set(px, py);
 }
 
 void ImageComponent::updateColors()
 {
+  // Regular colors
   Renderer::BuildGLColorArray(mColors, mColorShift, 6);
+  // Reflexion top color
+  unsigned int color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mTopAlpha);
+  unsigned int colorGl = 0;
+  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
+  GLuint* targetColors = (GLuint*)mColors;
+  targetColors[6] = targetColors[8] = targetColors[9] = colorGl;
+  // Reflexion bottom color
+  color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mBottomAlpha);
+  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
+  targetColors[7] = targetColors[10] = targetColors[11] = colorGl;
 }
 
 void ImageComponent::Render(const Transform4x4f& parentTrans)
@@ -290,7 +327,7 @@ void ImageComponent::Render(const Transform4x4f& parentTrans)
       glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
       glColorPointer(4, GL_UNSIGNED_BYTE, 0, mColors);
 
-      glDrawArrays(GL_TRIANGLES, 0, 6);
+      glDrawArrays(GL_TRIANGLES, 0, 6 + (mTopAlpha != 0 || mBottomAlpha != 0 ? 6 : 0));
 
       glDisableClientState(GL_VERTEX_ARRAY);
       glDisableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -367,6 +404,9 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
       setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
     }
   }
+
+  if (hasFlag(properties, ThemePropertyCategory::Effects))
+    SetReflection(element.HasProperty(ThemePropertyName::Reflection) ? element.AsVector(ThemePropertyName::Reflection) : Vector2f());
 
   if (hasFlag(properties, ThemePropertyCategory::Path))
     setImage(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,

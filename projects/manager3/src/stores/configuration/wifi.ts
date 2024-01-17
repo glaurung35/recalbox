@@ -39,6 +39,12 @@ export const useWifiStore = defineStore('wifi', {
       },
     },
     wifi: {
+      enabled: {
+        value: false,
+      },
+      region: {
+        value: 'JP',
+      },
       priority: {},
     },
   } as WifiStoreState),

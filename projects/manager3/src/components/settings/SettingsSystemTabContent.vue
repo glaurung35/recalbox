@@ -319,6 +319,23 @@
           </WrappedSelect>
         </template>
       </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.battery.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.battery.hidden.label"
+            :getter="emulationstation['battery.hidden']"
+            :setter="emulationstationStore.post"
+            apiKey="battery.hidden"
+            v-if="emulationstation['battery.hidden']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.battery.hidden.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6 col">
       <FormFragmentContainer title="settings.system.services.title">
@@ -706,7 +723,8 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isWpafAvailable = (arch: string) => ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const isWpafAvailable = (arch: string) => false; // ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 const isBrightnessAvailable = (arch: string) => ['odroidgo2', 'rg353x'].includes(arch);
 const isFbcpAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 const isPowerSwitchAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);

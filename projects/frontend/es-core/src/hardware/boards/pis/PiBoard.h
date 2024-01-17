@@ -125,8 +125,8 @@ public:
   /*!
   * @brief Has vulkan support
   */
-    bool HasVulkanSupport() final
-    { return mBoardType == BoardType::Pi5 || mBoardType == BoardType::Pi4; }
+  bool HasVulkanSupport() final
+  { return mBoardType == BoardType::Pi5 || mBoardType == BoardType::Pi4; }
 
   private:
     PiPowerAndTempThread powerThread;

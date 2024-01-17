@@ -127,6 +127,18 @@
               {{ $t('emulation.global.display.showfps.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.display.vulkandriver.label"
+            :getter="global.vulkandriver"
+            :setter="globalStore.post"
+            apiKey="vulkandriver"
+            v-if="global.vulkandriver"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.vulkandriver.help') }}
+            </template>
+          </WrappedToggle>
 
         </template>
       </FormFragmentContainer>

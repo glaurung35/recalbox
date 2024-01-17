@@ -20,7 +20,11 @@ export const useMusicStore = defineStore('music', {
   state: () => ({
     _baseUrl: CONFIGURATION.music,
     _musicOptions: {},
-    music: {},
+    music: {
+      'remoteplaylist.enable': {
+        value: true,
+      },
+    },
   } as MusicStoreState),
 
   getters: {},

@@ -201,7 +201,7 @@ const router = useRouter();
 const serverStore = useServerStore();
 const emulationStationStore = useEmulationstationStore();
 
-const { currentState, themeRegion } = storeToRefs(emulationStationStore);
+const { currentState } = storeToRefs(emulationStationStore);
 serverStore.available = true;
 function redirect() {
   if (currentState.value.currentSystem?.systemId === 'imageviewer') {

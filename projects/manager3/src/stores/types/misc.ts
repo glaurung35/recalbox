@@ -13,3 +13,12 @@ export interface GlobalMenuLink {
   route: string;
   exact?: boolean;
 }
+
+export interface SimpleStringListObject {
+  type: string;
+  allowedStringList: string[];
+}
+
+export interface StringListObject extends SimpleStringListObject{
+  displayableStringList: string[];
+}

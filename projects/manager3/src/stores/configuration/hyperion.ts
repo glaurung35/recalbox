@@ -15,6 +15,10 @@ export interface HyperionStoreState extends FetchStore, PostStore {
 export const useHyperionStore = defineStore('hyperion', {
   state: () => ({
     _baseUrl: CONFIGURATION.hyperion,
-    hyperion: {},
+    hyperion: {
+      enabled: {
+        value: false,
+      },
+    },
   } as HyperionStoreState),
 });

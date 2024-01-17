@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 
 export interface KodiConfigResponse {
   enabled: {
@@ -9,7 +10,7 @@ export interface KodiConfigResponse {
   };
   xbutton: {
     exist: boolean;
-    value: number;
+    value: boolean;
   };
   'network.waittime': {
     exist: boolean;
@@ -53,13 +54,6 @@ export interface KodiConfigOptionsResponse {
   atstartup: {
     type: string;
   };
-  videomode: {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
-  'network.waitmode': {
-    type: string;
-    allowedStringList: string[];
-  };
+  videomode: StringListObject;
+  'network.waitmode': SimpleStringListObject;
 }

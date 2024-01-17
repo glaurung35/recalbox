@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 
 export interface GlobalConfigResponse {
   'retroachievements.username': {
@@ -176,20 +177,14 @@ export interface GlobalConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  shaderset: {
-    type: string;
-    allowedStringList: string[];
-  };
+  shaderset: SimpleStringListObject;
   'netplay.lobby': {
     type: string;
   };
   'translate.url': {
     type: string;
   };
-  'shaderset.file': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'shaderset.file': SimpleStringListObject;
   'translate.apikey': {
     type: string;
   };
@@ -207,50 +202,28 @@ export interface GlobalConfigOptionsResponse {
   'retroachievements.password': {
     type: string;
   };
-  'translate.from': {
-    type: string;
-    allowedStringList: string[];
-  };
-  videomode: {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
+  'translate.from': SimpleStringListObject;
+  videomode: StringListObject;
   translate: {
     type: string;
   };
   'retroachievements.hardcore': {
     type: string;
   };
-  ratio: {
-    type: string;
-    allowedStringList: string[];
-  };
+  ratio: SimpleStringListObject;
   smooth: {
     type: string;
   };
-  'demo.systemlist': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'netplay.relay': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'demo.systemlist': SimpleStringListObject;
+  'netplay.relay': SimpleStringListObject;
   rewind: {
     type: string;
   };
-  inputdriver: {
-    type: string;
-    allowedStringList: string[];
-  };
+  inputdriver: SimpleStringListObject;
   integerscale: {
     type: string;
   };
-  'translate.to': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'translate.to': SimpleStringListObject;
   'netplay.port': {
     type: string;
     lowerValue: number;
@@ -259,10 +232,7 @@ export interface GlobalConfigOptionsResponse {
   'show.savestate.before.run': {
     type: string;
   };
-  softpatching: {
-    type: string;
-    allowedStringList: string[];
-  };
+  softpatching: StringListObject;
   configfile: {
     type: string;
   };

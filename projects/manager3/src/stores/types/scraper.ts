@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 
 export interface ScraperConfigResponse {
   'screenscraper.password': {
@@ -69,10 +70,7 @@ export interface ScraperConfigOptionsResponse {
   'screenscraper.password': {
     type: string;
   };
-  'screenscraper.media': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'screenscraper.media': SimpleStringListObject;
   extractregionfromfilename: {
     type: string;
   };
@@ -81,22 +79,10 @@ export interface ScraperConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  'screenscraper.language': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'screenscraper.region': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'screenscraper.thumbnail': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'screenscraper.video': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'screenscraper.language': StringListObject;
+  'screenscraper.region': StringListObject;
+  'screenscraper.thumbnail': SimpleStringListObject;
+  'screenscraper.video': SimpleStringListObject;
   'screenscraper.maps': {
     type: string;
   };
@@ -106,18 +92,12 @@ export interface ScraperConfigOptionsResponse {
   'screenscraper.user': {
     type: string;
   };
-  source: {
-    type: string;
-    allowedStringList: string[];
-  };
+  source: StringListObject;
   auto: {
     type: string;
   };
   'screenscraper.p2k': {
     type: string;
   };
-  'screenscraper.regionPriority': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'screenscraper.regionPriority': SimpleStringListObject;
 }

@@ -29,6 +29,6 @@ export const useHatStore = defineStore('hat', {
   } as HatStoreState),
 
   getters: {
-    boardOptions: (state) => state._hatOptions['wpaf.board'].allowedStringList,
+    boardOptions: (state) => state._hatOptions['wpaf.board'].allowedStringList.sort(),
   },
 });

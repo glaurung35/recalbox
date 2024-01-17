@@ -10,6 +10,7 @@ import {
   SYSTEMS,
   THEMES,
 } from 'src/router/api.routes';
+import { formatStringList } from 'src/utils/formatStringList';
 import { systemsMetaData } from 'src/utils/systemsMetaData';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
@@ -48,6 +49,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
       },
       'screensaver.type': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'screensaver.time': {
         lowerValue: 0,
@@ -102,22 +104,22 @@ export const useEmulationstationStore = defineStore('emulationstation', {
   } as EmulationStationStoreState),
 
   getters: {
-    menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList,
-    selectedsystemOptions: (state) => state._emulationstationOptions.selectedsystem.allowedStringList,
+    menuOptions: (state) => state._emulationstationOptions.menu.allowedStringList.sort(),
+    selectedsystemOptions: (state) => state._emulationstationOptions.selectedsystem.allowedStringList.sort(),
     videosnapsLoopOptions: (state) => state._emulationstationOptions['videosnaps.loop'],
     videosnapsDelayOptions: (state) => state._emulationstationOptions['videosnaps.delay'],
     screensaverTimeOptions: (state) => state._emulationstationOptions['screensaver.time'],
-    screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList,
-    themeFolderOptions: (state) => state._emulationstationOptions['theme.folder'].allowedStringList,
-    systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
-    themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList,
+    screensaverTypeOptions: (state) => state._emulationstationOptions['screensaver.type'].allowedStringList.sort(),
+    themeFolderOptions: (state) => state._emulationstationOptions['theme.folder'].allowedStringList.sort(),
+    systemSortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList.sort(),
+    themeTransitionOptions: (state) => state._emulationstationOptions['theme.transition'].allowedStringList.sort(),
     brightnessOptions: (state) => state._emulationstationOptions.brightness,
     popupHelpOptions: (state) => state._emulationstationOptions['popoup.help'],
     popupMusicOptions: (state) => state._emulationstationOptions['popoup.music'],
     popupNetplayOptions: (state) => state._emulationstationOptions['popoup.netplay'],
-    systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList,
+    systemsortingOptions: (state) => state._emulationstationOptions.systemsorting.allowedStringList.sort(),
     virtualArcadeManufacturersOptions: (state) => state._emulationstationOptions['virtualarcade.manufacturers'].allowedStringList.sort(),
-    padsOsdTypeOptions: (state) => state._emulationstationOptions['pads.osd.type'].allowedStringList,
+    padsOsdTypeOptions: (state) => formatStringList(state._emulationstationOptions['pads.osd.type']),
   },
 
   actions: {
@@ -142,7 +144,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         releaseDate: 0,
         romPath: [''],
         extensions: '',
-        type: 0,
+        type: 8,
         ignoredFiles: '',
         inputs: {
           pads: 0,

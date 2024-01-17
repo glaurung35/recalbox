@@ -28,6 +28,6 @@ export const useControllersStore = defineStore('controllers', {
   } as ControllersStoreState),
 
   getters: {
-    ps3driverOptions: (state) => state._controllersOptions['ps3.driver'].allowedStringList,
+    ps3driverOptions: (state) => state._controllersOptions['ps3.driver'].allowedStringList.sort(),
   },
 });

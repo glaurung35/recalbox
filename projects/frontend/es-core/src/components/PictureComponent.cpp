@@ -72,7 +72,7 @@ void PictureComponent::Render(const Transform4x4f& parentTrans)
 
   if (mTexture && mOpacity > 0) {
     if (mTexture->isInitialized())
-      Renderer::DrawTexture(*mTexture, 0/*Math::roundi(mPosition.x())*/, 0/*Math::roundi(mPosition.y())*/, Math::roundi(mSize.x()), Math::roundi(mSize.y()), mKeepRatio, mColorShift);
+      Renderer::DrawTexture(*mTexture, 0, 0, Math::roundi(mSize.x()), Math::roundi(mSize.y()), mKeepRatio, mColorShift);
     else
     {
       { LOG(LogError) << "[ImageComponent] Image texture is not initialized!"; }

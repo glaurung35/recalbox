@@ -68,6 +68,7 @@ enum class ThemePropertyName
   PathOn,
   Pos,
   PrimaryColor,
+  Reflection,
   Rotation,
   RotationOrigin,
   ScrollSound,

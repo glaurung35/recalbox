@@ -101,7 +101,15 @@ void SliderComponent::setSlider(float value)
   if (mValue != value)
   {
     mValue = Math::clamp(value, mMin, mMax);
-    onValueChanged();
+    updateSlider();
+
+    // Callback interface
+    if (mInterface != nullptr)
+      mInterface->SliderMoved(mIdentifier, mValue);
+
+    //send new knob value to functor if any
+    if (mSelectedChangedCallback)
+      mSelectedChangedCallback(mValue);
   }
 }
 
@@ -111,7 +119,7 @@ void SliderComponent::setColor(unsigned int color)
   {
     mColor = color;
     mKnob.setColorShift(mColor);
-    onValueChanged();
+    updateSlider();
   }
 }
 
@@ -119,10 +127,10 @@ void SliderComponent::onSizeChanged()
 {
 	if(!mSuffix.empty())
     mFont = ThemeManager::Instance().Menu().SmallText().font;
-	onValueChanged();
+  updateSlider();
 }
 
-void SliderComponent::onValueChanged()
+void SliderComponent::updateSlider()
 {
 	// update suffix textcache
 	if(mFont)
@@ -141,13 +149,6 @@ void SliderComponent::onValueChanged()
 	float lineLength = mSize.x() - mKnob.getSize().x() - (mValueCache ? mValueCache->metrics.size.x() + 4 : 0);
 	float position = mMin >= 0 ? (mValue + mMin) / mMax : (mValue - mMin) / (mMax - mMin);
 	mKnob.setPosition(position * lineLength + mKnob.getSize().x()/2, mSize.y() / 2);
-
-	if (mInterface != nullptr)
-	  mInterface->SliderMoved(mIdentifier, mValue);
-
-	//send new knob value to functor if any
-	if (mSelectedChangedCallback)
-		mSelectedChangedCallback(mValue);
 }
 
 bool SliderComponent::CollectHelpItems(Help& help)

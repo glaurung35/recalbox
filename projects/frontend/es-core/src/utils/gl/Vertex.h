@@ -25,8 +25,15 @@ struct Vertex
         void Set(float x, float y) { X = x; Y= y; }
         void Set(int x, int y) { X = (float)x; Y = (float)y; }
         void Round() { X = Math::round(X); Y = Math::round(Y); }
+        Point() { X= Y = 0; }
+        Point(int x, int y) { X = (float)x; Y = (float)y; }
+        Point(float x, float y) { X = x; Y= y; }
     };
 
     Point Target; //<! Target (Screen) coordinates
     Point Source; //<! Source (Texture) coordinates
+
+    typedef Vertex Triangle[sVertexPerTriangle];
+    typedef Vertex Rectangle[sVertexPerRectangle];
 };
+

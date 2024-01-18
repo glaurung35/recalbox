@@ -170,6 +170,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Animations,
           ThemePropertyName::Loops,
           ThemePropertyName::Delay,
+          ThemePropertyName::Reflection,
         },
       },
       {

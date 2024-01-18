@@ -74,15 +74,6 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      */
     static void GetResolutionFromConfiguration(int& w, int& h);
 
-    /*!
-     * @brief Get resolution from string
-     * @param resolution Resolution string
-     * @param w Output width
-     * @param h Output height
-     * @return True is a resolution has been converted, false otherwise
-     */
-    static bool GetResolutionFromString(const String& resolution, int& w, int& h);
-
   public:
     //! Error status
     enum class Error
@@ -397,6 +388,18 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param color Blending color
      */
     static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, Colors::ColorARGB color)  { DrawTexture(texture, x, y, w, h, false, color); }
+
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio,
+                            Colors::ColorARGB topleftcolor,
+                            Colors::ColorARGB toprightcolor,
+                            Colors::ColorARGB bottomrightcolor,
+                            Colors::ColorARGB bottomleftcolor);
+
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h,
+                                      Colors::ColorARGB topleftcolor,
+                                      Colors::ColorARGB toprightcolor,
+                                      Colors::ColorARGB bottomrightcolor,
+                                      Colors::ColorARGB bottomleftcolor) { DrawTexture(texture, x, y, w, h, false, topleftcolor, toprightcolor, bottomrightcolor, bottomleftcolor); }
 
     /*
      * Accessors

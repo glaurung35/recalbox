@@ -97,7 +97,8 @@ void GameClipContainer::initComponents()
 
   mVideo.setOrigin(0.5, 0.5);
   mVideo.setPosition(mSize.x() * 0.5f, mSize.y() * 0.5f);
-  mVideo.setMaxSize(mSize.x(), mSize.y());
+  mVideo.setResize(mSize.x(), mSize.y());
+  mVideo.setKeepRatio(true);
   mVideo.setDefaultZIndex(30);
 
   if (RecalboxConf::Instance().GetShowGameClipClippingItem())

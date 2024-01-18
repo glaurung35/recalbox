@@ -220,7 +220,7 @@ const Transform4x4f& Component::getTransform()
 		if (xOff != 0.0 || yOff != 0.0)
 			mTransform.translate(Vector3f(xOff * -1, yOff * -1, 0.0f));
 
-		// apply rotation transorm
+		// apply rotation transform
 		mTransform.rotate(mRotation, Vector3f::UnitZ());
 
 		// Tranform back to original point

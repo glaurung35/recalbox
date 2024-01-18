@@ -7,11 +7,10 @@
 VideoComponent::VideoComponent(WindowManager&window)
   : ThemableComponent(window)
   , mVideoPath("")
-  , mState(State::Uninitialized)
+  , mState(State::InitializeVideo)
   , mEffect(Effect::BreakingNews)
   , mAllowedEffects(AllowedEffects::All)
   , mTargetSize(0)
-  , mTargetIsMax(false)
   , mVertices{ { { 0, 0 }, { 0, 0 } } }
   , mColors{ 0 }
   , mColorShift(0xFFFFFFFF)
@@ -19,7 +18,10 @@ VideoComponent::VideoComponent(WindowManager&window)
   , mVideoDelay(DEFAULT_VIDEODELAY)
   , mVideoEffect(DEFAULT_VIDEOEFFET)
   , mVideoLoop(DEFAULT_VIDEOLOOP)
+  , mTopAlpha(0)
+  , mBottomAlpha(0)
   , mDecodeAudio(DEFAULT_VIDEODECODEAUDIO)
+  , mKeepRatio(false)
 {
   updateColors();
 }
@@ -39,13 +41,7 @@ void VideoComponent::resize()
   }
   else
   {
-    // SVG rasterization is determined by height (see SVGResource.cpp), and rasterization is done in terms of pixels
-    // if rounding is off enough in the rasterization step (for images with extreme aspect ratios), it can cause cutoff when the aspect ratio breaks
-    // so, we always make sure the resultant height is an integer to make sure cutoff doesn't happen, and scale width from that
-    // (you'll see this scattered throughout the function)
-    // this is probably not the best way, so if you're familiar with this problem and have a better solution, please make a pull request!
-
-    if (mTargetIsMax)
+    if (mKeepRatio)
     {
       mSize = textureSize;
 
@@ -104,20 +100,18 @@ void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decod
 
 void VideoComponent::setResize(float width, float height)
 {
-  if (width != mTargetSize.x() || height != mTargetSize.y() || mTargetIsMax)
+  if (width != mTargetSize.x() || height != mTargetSize.y())
   {
     mTargetSize.Set(width, height);
-    mTargetIsMax = false;
     resize();
   }
 }
 
-void VideoComponent::setMaxSize(float width, float height)
+void VideoComponent::setKeepRatio(bool keepRatio)
 {
-  if (width != mTargetSize.x() || height != mTargetSize.y() || !mTargetIsMax)
+  if (mKeepRatio != keepRatio)
   {
-    mTargetSize.Set(width, height);
-    mTargetIsMax = true;
+    mKeepRatio = keepRatio;
     resize();
   }
 }
@@ -150,50 +144,77 @@ void VideoComponent::updateVertices(double bump)
     {
       float bumpedWidth = (float)(mSize.x() * bump);
       float bumpedHeight = (float)(mSize.y() * bump);
-      float centerX = mSize.x() / 2.0f;
-      float centerY = mSize.y() / 2.0f;
+      float lx = Math::round(mSize.x() / 2.0f - bumpedWidth / 2.0f);
+      float ly = Math::round(mSize.y() / 2.0f - bumpedHeight / 2.0f);
+      float rx = lx + bumpedWidth;
+      float ry = ly + bumpedHeight;
 
-      Vector2f topLeft(Math::round(centerX - bumpedWidth / 2.0f), Math::round(centerY - bumpedHeight / 2.0f));
-      Vector2f bottomRight(Math::round(centerX + bumpedWidth / 2.0f), Math::round(centerY + bumpedHeight / 2.0f));
+      mVertices[0].Source.Set(lx, ly);
+      mVertices[1].Source.Set(lx, ry);
+      mVertices[2].Source.Set(rx, ly);
 
-      mVertices[0].pos.Set(topLeft.x(), topLeft.y());
-      mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
-      mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
-
-      mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
-      mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
-      mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
+      mVertices[3].Source.Set(rx, ly);
+      mVertices[4].Source.Set(lx, ry);
+      mVertices[5].Source.Set(rx, ry);
       break;
     }
     case Effect::None:
     case Effect::Fade:
     {
-      Vector2f topLeft(0.0, 0.0);
-      Vector2f bottomRight(Math::round(mSize.x()), Math::round(mSize.y()));
+      float x = 0;
+      float y = 0;
+      float w = Math::round(mSize.x());
+      float h = Math::round(mSize.y());
 
-      mVertices[0].pos.Set(topLeft.x(), topLeft.y());
-      mVertices[1].pos.Set(topLeft.x(), bottomRight.y());
-      mVertices[2].pos.Set(bottomRight.x(), topLeft.y());
+      mVertices[0].Source.Set(x    , y    );
+      mVertices[1].Source.Set(x    , y + h);
+      mVertices[2].Source.Set(x + w, y    );
 
-      mVertices[3].pos.Set(bottomRight.x(), topLeft.y());
-      mVertices[4].pos.Set(topLeft.x(), bottomRight.y());
-      mVertices[5].pos.Set(bottomRight.x(), bottomRight.y());
+      mVertices[3].Source.Set(x + w, y    );
+      mVertices[4].Source.Set(x    , y + h);
+      mVertices[5].Source.Set(x + w, y + h);
+      break;
     }
     case Effect::_LastItem: break;
   }
 
-  mVertices[0].tex.Set(0.0f, 0.0f);
-  mVertices[1].tex.Set(0.0f, 1.0f);
-  mVertices[2].tex.Set(1.0f, 0.0f);
+  for(int i = 6; --i >= 0;)
+  {
+    mVertices[i + 6].Source = mVertices[i].Source;
+    mVertices[i + 6].Source.Y += mSize.y();
+  }
 
-  mVertices[3].tex.Set(1.0f, 0.0f);
-  mVertices[4].tex.Set(0.0f, 1.0f);
-  mVertices[5].tex.Set(1.0f, 1.0f);
+  mVertices[0].Target.Set(0.0f, 0.0f);
+  mVertices[1].Target.Set(0.0f, 1.0f);
+  mVertices[2].Target.Set(1.0f, 0.0f);
+
+  mVertices[3].Target.Set(1.0f, 0.0f);
+  mVertices[4].Target.Set(0.0f, 1.0f);
+  mVertices[5].Target.Set(1.0f, 1.0f);
+
+  mVertices[6].Target.Set(0.0f, 1.0f);
+  mVertices[7].Target.Set(0.0f, 0.0f);
+  mVertices[8].Target.Set(1.0f, 1.0f);
+
+  mVertices[9].Target.Set(1.0f, 1.0f);
+  mVertices[10].Target.Set(0.0f, 0.0f);
+  mVertices[11].Target.Set(1.0f, 0.0f);
 }
 
 void VideoComponent::updateColors()
 {
+  // Regular colors
   Renderer::BuildGLColorArray(mColors, mColorShift, 6);
+  // Reflexion top color
+  unsigned int color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mTopAlpha);
+  unsigned int colorGl = 0;
+  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
+  GLuint* targetColors = (GLuint*)mColors;
+  targetColors[6] = targetColors[8] = targetColors[9] = colorGl;
+  // Reflexion bottom color
+  color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mBottomAlpha);
+  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
+  targetColors[7] = targetColors[10] = targetColors[11] = colorGl;
 }
 
 void VideoComponent::ResetAnimations()
@@ -201,7 +222,7 @@ void VideoComponent::ResetAnimations()
   { LOG(LogDebug) << "[VideoComponent] Animations reseted!"; }
 
   mTimer.Initialize(0);
-  mState = State::Uninitialized;
+  mState = State::InitializeVideo;
   //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::Uninitialized " + DateTime().ToPreciseTimeStamp(); }
 
   // Stop the video
@@ -236,101 +257,103 @@ double VideoComponent::ProcessEffect(int elapsedms, bool in)
 
 bool VideoComponent::ProcessDisplay(double& effect)
 {
-  int elapsed = mTimer.GetMilliSeconds();
   bool video = false;
+  effect = 0.0;
 
-  switch (mState)
-  {
-    case State::Uninitialized:
+  if (mState == State::InitializeVideo)
+    if (int elapsed = mTimer.GetMilliSeconds(); elapsed >= mVideoDelay && !mVideoPath.IsEmpty())
     {
-      effect = 0.0;
-      if (elapsed >= mVideoDelay && !mVideoPath.IsEmpty())
-      {
-        if ((mAllowedEffects & AllowedEffects::All) != 0)
-          while((mAllowedEffects & (1 << (int)mEffect)) == 0)
-            mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
-        else
-          mEffect = Effect::None;
-        mState = State::InitializeVideo;
-        mTimer.Initialize(0);
-        //{  LOG(LogDebug) << "[VideoComponent] Timer reseted: State::InitializeVideo " << DateTime().ToPreciseTimeStamp() << " elapsed: "  << elapsed; }
-      }
-      break;
-    }
-    case State::InitializeVideo:
-    {
+      mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
+      if ((mAllowedEffects & AllowedEffects::All) != 0)
+        while((mAllowedEffects & (1 << (int)mEffect)) == 0)
+          mEffect = (Effect)(((int)mEffect + 1) % (int)Effect::_LastItem);
+      else
+        mEffect = Effect::None;
       // Start video if it's not started yet
       VideoEngine::Instance().PlayVideo(mVideoPath, mDecodeAudio);
       mState = State::WaitForVideoToStart;
       mTimer.Initialize(0);
-      break;
+      //{  LOG(LogDebug) << "[VideoComponent] Timer reseted: State::InitializeVideo " << DateTime().ToPreciseTimeStamp() << " elapsed: "  << elapsed; }
     }
-    case State::WaitForVideoToStart:
+
+  if (mState == State::WaitForVideoToStart)
+    if (VideoEngine::Instance().IsPlaying())
     {
-      effect = 0.0;
-      if (VideoEngine::Instance().IsPlaying())
-      {
-        resize();
-        mState = State::StartVideo;
-        mTimer.Initialize(0);
-        //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
-        AudioManager::PauseMusicIfNecessary();
-      }
-      break;
+      resize();
+      mState = State::StartVideo;
+      mTimer.Initialize(0);
+      //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
+      AudioManager::PauseMusicIfNecessary();
     }
-    case State::StartVideo:
+
+  if (mState == State::StartVideo)
+  {
+    video = true;
+    int elapsed = mTimer.GetMilliSeconds();
+    effect = ProcessEffect(elapsed, true);
+    if (elapsed >= mVideoEffect || mEffect == Effect::None)
     {
-      video = true;
-      effect = ProcessEffect(elapsed, true);
-      for(Component* component : mLinked) component->setOpacity(255 - (unsigned char)((255 * Math::clampi(elapsed, 0, mVideoEffect)) / mVideoEffect));
-      if (elapsed >= mVideoEffect || mEffect == Effect::None)
-      {
-        mState = State::DisplayVideo;
-        mTimer.Initialize(0);
-        //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
-      }
-      break;
+      mState = State::DisplayVideo;
+      mTimer.Initialize(0);
+      //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
     }
-    case State::DisplayVideo:
+  }
+
+  if (mState == State::DisplayVideo)
+  {
+    // Video only
+    video = true;
+    effect = 1.0;
+    int elapsed = mTimer.GetMilliSeconds();
+    if ((mVideoLoop > 0) && (elapsed >= VideoEngine::Instance().GetVideoDurationMs() * mVideoLoop - mVideoEffect))
     {
-      // Video only
-      video = true;
-      effect = 1.0;
-      if ((mVideoLoop > 0) && (elapsed >= VideoEngine::Instance().GetVideoDurationMs() * mVideoLoop - mVideoEffect))
-      {
-        mState = State::StopVideo;
-        mTimer.Initialize(0);
-        //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::FinalizeVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
-      }
-      break;
+      mState = State::StopVideo;
+      mTimer.Initialize(0);
+      //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::FinalizeVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
     }
-    case State::StopVideo:
+  }
+
+  if (mState == State::StopVideo)
+  {
+    video = true;
+    int elapsed = mTimer.GetMilliSeconds();
+    effect = ProcessEffect(elapsed, false);
+    if (elapsed >= mVideoEffect || mEffect == Effect::None)
     {
-      video = true;
-      effect = ProcessEffect(elapsed, false);
-      for(Component* component : mLinked) component->setOpacity((unsigned char)((255 * Math::clampi(elapsed, 0, mVideoEffect)) / mVideoEffect));
-      if (elapsed >= mVideoEffect)
-      {
-        mState = State::Uninitialized;
-        VideoEngine::Instance().StopVideo(false);
-        mTimer.Initialize(0);
-        //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
-        video = false;
-      }
+      mState = State::InitializeVideo;
+      VideoEngine::Instance().StopVideo(false);
       AudioManager::ResumeMusicIfNecessary();
-      break;
+      mTimer.Initialize(0);
+      //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::DisplayImage " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
+      video = false;
     }
   }
 
   return video;
 }
 
+void VideoComponent::Update(int elapsed)
+{
+  Component::Update(elapsed);
+  if (mState == State::StartVideo || mState == State::DisplayVideo)
+    for(Component* component : mLinked)
+    {
+      int fade = component->getOpacity() - elapsed;
+      if (fade < 0) fade = 0;
+      component->setOpacity((unsigned char)fade);
+    }
+  else
+    for(Component* component : mLinked)
+    {
+      int fade = component->getOpacity() + elapsed;
+      if (fade > 255) fade = 255;
+      component->setOpacity((unsigned char)fade);
+    }
+}
+
 void VideoComponent::Render(const Transform4x4f& parentTrans)
 {
   if(mThemeDisabled) return;
-
-  Transform4x4f trans = parentTrans * getTransform();
-  Renderer::SetMatrix(trans);
 
   double effect = 0.0;
   bool display = ProcessDisplay(effect);
@@ -347,9 +370,6 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
     // Opacity
     setOpacity((mEffect == Effect::Fade) ? (int)(effect * 255.0) : 255);
     updateColors();
-    // Rotation
-    setRotation(mEffect == Effect::BreakingNews ? (float)(Pi * 4.0) * (float)effect : 0.0f);
-    setRotationOrigin(0.5f, 0.5f);
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
@@ -359,10 +379,28 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
     glEnableClientState(GL_COLOR_ARRAY);
 
-    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].pos);
-    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
-    glColorPointer(4, GL_UNSIGNED_BYTE, 0, mColors);
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].Source);
 
+    // Anti-Rotation
+    if (mTopAlpha != 0.f || mBottomAlpha != 0.f)
+    {
+      setRotation(mEffect == Effect::BreakingNews ? -(float) (Pi * 4.0) * (float) effect : 0.0f);
+      setRotationOrigin(0.5f, 0.5f);
+      mPosition.translateY(mSize.y());
+      Transform4x4f trans = parentTrans * getTransform();
+      Renderer::SetMatrix(trans);
+      mPosition.translateY(-mSize.y());
+      glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[6].Target);
+      glColorPointer(4, GL_UNSIGNED_BYTE, 0, &mColors[6 * 4]);
+      glDrawArrays(GL_TRIANGLES, 0, 6);
+    }
+
+    // Rotation
+    setRotation(mEffect == Effect::BreakingNews ? (float)(Pi * 4.0) * (float)effect : 0.0f);
+    Transform4x4f trans = parentTrans * getTransform();
+    Renderer::SetMatrix(trans);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].Target);
+    glColorPointer(4, GL_UNSIGNED_BYTE, 0, &mColors[0]);
     glDrawArrays(GL_TRIANGLES, 0, 6);
 
     glDisableClientState(GL_VERTEX_ARRAY);
@@ -372,12 +410,27 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
   }
-
-  Component::renderChildren(trans);
 }
 
 void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)
 {
+  if (hasFlag(properties, ThemePropertyCategory::Size))
+  {
+    Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(
+      Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
+    if (element.HasProperty(ThemePropertyName::Size))
+    {
+      setKeepRatio(false);
+      setResize(element.AsVector(ThemePropertyName::Size) * scale);
+    }
+    else if (element.HasProperty(ThemePropertyName::MaxSize))
+    {
+      setKeepRatio(true);
+      setSize(element.AsVector(ThemePropertyName::MaxSize) * scale);
+      setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
+    }
+  }
+
   if (hasFlag(properties, ThemePropertyCategory::Path))
     setVideo(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
              DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
@@ -387,24 +440,27 @@ void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
 
   if (hasFlag(properties, ThemePropertyCategory::Effects))
   {
+    SetReflection(element.HasProperty(ThemePropertyName::Reflection) ? element.AsVector(ThemePropertyName::Reflection) : Vector2f());
     if (element.HasProperty(ThemePropertyName::Animations))
     {
       mAllowedEffects = AllowedEffects::None;
       for (String& animation: element.AsString(ThemePropertyName::Animations).Split(','))
-        if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
+        if (animation.Trim() == "none") mAllowedEffects = AllowedEffects::None;
+        else if (animation.Trim() == "bump") mAllowedEffects |= AllowedEffects::Bump;
         else if (animation.Trim() == "fade") mAllowedEffects |= AllowedEffects::Fade;
         else if (animation.Trim() == "breakingnews") mAllowedEffects |= AllowedEffects::BreakingNews;
     }
-    else mAllowedEffects = AllowedEffects::None;
-    mVideoLoop = element.HasProperty(ThemePropertyName::Loops) ? (int)element.AsInt(ThemePropertyName::Loops) : INT32_MAX;
-    mVideoDelay = element.HasProperty(ThemePropertyName::Delay) ? (int)element.AsInt(ThemePropertyName::Delay) : 0;
+    else mAllowedEffects = AllowedEffects::All;
+    mVideoLoop = element.HasProperty(ThemePropertyName::Loops) ? (int)element.AsInt(ThemePropertyName::Loops) : DEFAULT_VIDEOLOOP;
+    mVideoDelay = element.HasProperty(ThemePropertyName::Delay) ? (int)element.AsInt(ThemePropertyName::Delay) : DEFAULT_VIDEODELAY;
   }
   else
   {
-    mAllowedEffects = AllowedEffects::None;
-    mVideoLoop = INT32_MAX;
-    mVideoDelay = 0;
+    mAllowedEffects = AllowedEffects::All;
+    mVideoLoop = DEFAULT_VIDEOLOOP;
+    mVideoDelay = DEFAULT_VIDEODELAY;
   }
+  //if (mVideoLoop < 0) mVideoLoop = INT32_MAX;
 }
 
 bool VideoComponent::CollectHelpItems(Help& help)
@@ -412,4 +468,5 @@ bool VideoComponent::CollectHelpItems(Help& help)
   help.Set(Help::Valid(), _("SELECT"));
   return true;
 }
+
 

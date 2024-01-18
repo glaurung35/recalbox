@@ -67,10 +67,8 @@ class ImageComponent : public ThemableComponent
 
     void setNormalisedSize(float width, float height);
 
-    // Resize the image to be as large as possible but fit within a box of this size.
-    // Can be set before or after an image is loaded.
-    // Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
-    void setKeepRatio(bool keepRatio) { mKeepRatio = keepRatio; }
+    //! Set keep ratio
+    void setKeepRatio(bool keepRatio);
 
     // Multiply all pixels in the image by this color when rendering.
     void setColorShift(unsigned int color);

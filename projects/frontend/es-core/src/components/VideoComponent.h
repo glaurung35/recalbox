@@ -4,6 +4,7 @@
 #include <utils/String.h>
 #include <utils/datetime/HighResolutionTimer.h>
 #include "resources/TextureResource.h"
+#include "utils/gl/Vertex.h"
 
 class VideoComponent : public ThemableComponent
 {
@@ -20,7 +21,6 @@ class VideoComponent : public ThemableComponent
   private:
     enum class State
     {
-      Uninitialized,
       InitializeVideo,
       WaitForVideoToStart,
       StartVideo,
@@ -52,19 +52,13 @@ class VideoComponent : public ThemableComponent
     AllowedEffects mAllowedEffects;
 
     Vector2f mTargetSize;
-    bool mTargetIsMax;
 
     // Calculates the correct mSize from our resizing information (set by setResize/setMaxSize).
     // Used internally whenever the resizing parameters or texture change.
     void resize();
 
-    struct Vertex
-    {
-      Vector2f pos;
-      Vector2f tex;
-    } mVertices[6];
-
-    GLubyte mColors[6*4];
+    Vertex mVertices[12];
+    GLubyte mColors[12*4];
 
     void updateVertices(double bump);
     void updateColors();
@@ -80,7 +74,16 @@ class VideoComponent : public ThemableComponent
     //! Video loop (0 for infinite loop)
     int mVideoLoop;
 
+    //!< Reflexion top alpha
+    float mTopAlpha;
+    //!< Reflexion top alpha
+    float mBottomAlpha;
+
+    //! Decode audio ?
     bool mDecodeAudio;
+    //! Keep ratio ?
+    bool mKeepRatio;
+
 
     //! High reolution timer for time computations
     HighResolutionTimer mTimer;
@@ -133,16 +136,14 @@ class VideoComponent : public ThemableComponent
     void setResize(float width, float height);
     inline void setResize(const Vector2f& size) { setResize(size.x(), size.y()); }
 
-    // Resize the image to be as large as possible but fit within a box of this size.
-    // Can be set before or after an image is loaded.
-    // Never breaks the aspect ratio. setMaxSize() and setResize() are mutually exclusive.
-    void setMaxSize(float width, float height);
-    inline void setMaxSize(const Vector2f& size) { setMaxSize(size.x(), size.y()); }
+    //! Set keep ratio
+    void setKeepRatio(bool keepRatio);
 
     // Multiply all pixels in the image by this color when rendering.
     void setColorShift(unsigned int color);
     void setColor(unsigned int color) override { setColorShift(color); }
 
+    void Update(int elapsed) override;
     void Render(const Transform4x4f& parentTrans) override;
 
     /*
@@ -176,6 +177,31 @@ class VideoComponent : public ThemableComponent
     static constexpr int DEFAULT_VIDEOEFFET = 500;
     static constexpr int DEFAULT_VIDEOLOOP  = 1;
     static constexpr bool DEFAULT_VIDEODECODEAUDIO  = false;
+
+    /*!
+     * @brief Set top and bottom alpha for reflection
+     * if both value are zero'ed, no reflection is applied
+     * @param top Top alpha
+     * @param bottom Bottom alpha
+     */
+    void SetReflection(float top, float bottom)
+    {
+      top = Math::clamp(top, 0.f, 1.f);
+      bottom = Math::clamp(bottom, 0.f, 1.f);
+      if (mTopAlpha != top || mBottomAlpha != bottom)
+      {
+        mTopAlpha = top;
+        mBottomAlpha = bottom;
+        updateColors();
+      }
+    }
+
+    /*!
+     * @brief Set top and bottom alpha for reflection
+     * if both value are zero'ed, no reflection is applied
+     * @param v Vector containing top alpha in x and bottom alpha in y
+     */
+    void SetReflection(const Vector2f& v) { SetReflection(v.x(), v.y()); }
 };
 
 DEFINE_BITFLAG_ENUM(VideoComponent::AllowedEffects, int)

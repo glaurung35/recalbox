@@ -101,7 +101,8 @@ void DetailedGameListView::Initialize()
   // video
   mVideo.setOrigin(0.5f, 0.5f);
   mVideo.setPosition(mSize.x() * 0.25f, mList.getPosition().y() + mSize.y() * 0.2125f);
-  mVideo.setMaxSize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
+  mVideo.setResize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
+  mVideo.setKeepRatio(true);
   mVideo.setDefaultZIndex(30);
   mVideo.LinkComponent(&mImage);
   mVideo.LinkComponent(&mNoImage);

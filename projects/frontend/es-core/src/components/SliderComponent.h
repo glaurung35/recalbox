@@ -41,7 +41,7 @@ public:
   }
 
 private:
-	void onValueChanged();
+	void updateSlider();
 
 	float mMin, mMax;
 	float mValue;

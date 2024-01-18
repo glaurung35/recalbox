@@ -55,12 +55,6 @@ void ImageComponent::resize()
   }
   else
   {
-    // SVG rasterization is determined by height (see SVGResource.cpp), and rasterization is done in terms of pixels
-    // if rounding is off enough in the rasterization step (for images with extreme aspect ratios), it can cause cutoff when the aspect ratio breaks
-    // so, we always make sure the resultant height is an integer to make sure cutoff doesn't happen, and scale width from that
-    // (you'll see this scattered throughout the function)
-    // this is probably not the best way, so if you're familiar with this problem and have a better solution, please make a pull request!
-
     if (mKeepRatio)
     {
       mSize = textureSize;
@@ -81,7 +75,6 @@ void ImageComponent::resize()
       // for SVG rasterization, always calculate width from rounded height (see comment above)
       mSize[1] = Math::round(mSize[1]);
       mSize[0] = (mSize[1] / textureSize.y()) * textureSize.x();
-
     }
     else
     {
@@ -421,4 +414,13 @@ bool ImageComponent::CollectHelpItems(Help& help)
 {
   help.Set(Help::Valid(), _("SELECT"));
   return true;
+}
+
+void ImageComponent::setKeepRatio(bool keepRatio)
+{
+  if (mKeepRatio != keepRatio)
+  {
+    mKeepRatio = keepRatio;
+    resize();
+  }
 }

@@ -59,6 +59,12 @@ class Vector3f
     Vector3f& round();
     Vector3f& lerp (const Vector3f& _start, const Vector3f& _end, float _fraction);
 
+    Vector3f& translate(float dx, float dy, float dz) { mX += dx; mY +=dy; mZ += dz; return *this; }
+    Vector3f& translateXY(float dx, float dy) { mX += dx; mY +=dy; return *this; }
+    Vector3f& translateX(float dx) { mX += dx; return *this; }
+    Vector3f& translateY(float dy) { mY += dy; return *this; }
+    Vector3f& translateZ(float dz) { mZ += dz; return *this; }
+
     static Vector3f Zero () { return { 0, 0, 0 }; }
     static Vector3f UnitX() { return { 1, 0, 0 }; }
     static Vector3f UnitY() { return { 0, 1, 0 }; }

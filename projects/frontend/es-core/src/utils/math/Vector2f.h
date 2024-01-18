@@ -54,6 +54,10 @@ public:
 	Vector2f& round();
 	Vector2f& lerp (const Vector2f& _start, const Vector2f& _end, float _fraction);
 
+  Vector2f& translate(float dx, float dy) { mX += dx; mY +=dy; return *this; }
+  Vector2f& translateX(float dx) { mX += dx; return *this; }
+  Vector2f& translateY(float dy) { mY += dy; return *this; }
+
 	static Vector2f Zero () { return { 0, 0 }; }
 	static Vector2f UnitX() { return { 1, 0 }; }
 	static Vector2f UnitY() { return { 0, 1 }; }

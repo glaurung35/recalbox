@@ -199,9 +199,6 @@ void VideoComponent::updateVertices(double bump)
   mVertices[9].Target.Set(1.0f, 1.0f);
   mVertices[10].Target.Set(0.0f, 0.0f);
   mVertices[11].Target.Set(1.0f, 0.0f);
-
-  mTopAlpha = 0.5;
-  updateColors();
 }
 
 void VideoComponent::updateColors()

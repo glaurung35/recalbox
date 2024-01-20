@@ -300,7 +300,7 @@ class LibretroGenerator(Generator):
     def createReduceLatencyConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
         defaults = {
             "video_max_swapchain_images": "3",
-            "video_frame_delay_auto": "false",
+            "video_frame_delay_auto": "true",
         }
         activated = {
             "video_max_swapchain_images": "2",

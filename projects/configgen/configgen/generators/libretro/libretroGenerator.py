@@ -350,9 +350,9 @@ class LibretroGenerator(Generator):
             "espgal2": [45, 55],
             "espgal2a": [45, 55],
             "espgal2b": [45, 55],
-            "mushisam": [40, 56],
-            "mushisama": [40, 56],
-            "mushisamb": [40, 56],
+            "mushisam": [45, 55],
+            "mushisama": [45, 55],
+            "mushisamb": [45, 55],
             "futaribl": [40, 56],
             "futariblj": [40, 56],
         }

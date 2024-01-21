@@ -325,6 +325,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Pos,
           ThemePropertyName::Origin,
           ThemePropertyName::Color,
+          ThemePropertyName::FontPath,
           ThemePropertyName::LogoScale,
           ThemePropertyName::LogoRotation,
           ThemePropertyName::LogoRotationOrigin,

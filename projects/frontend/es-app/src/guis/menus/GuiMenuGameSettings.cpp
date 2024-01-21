@@ -63,6 +63,9 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
     // Widescreen mode
     if(MenuFilter::ShouldDisplayMenuEntry(MenuFilter::Widescreen))
       AddSwitch(_("WIDESCREEN (16/9)"), RecalboxConf::Instance().GetGlobalWidescreenMode(), (int)Components::WideScreenMode, this, _(MENUMESSAGE_GAME_WIDESCREEN_MODE_HELP_MSG));
+
+    if(Board::Instance().HasVulkanSupport())
+      AddSwitch(_("ENABLE VULKAN DRIVER"), RecalboxConf::Instance().GetGlobalVulkanDriver(), (int)Components::VulkanDriver, this, _(MENUMESSAGE_GAME_VULKAN_DRIVER_HELP_MSG));
   }
 
 
@@ -184,6 +187,7 @@ void GuiMenuGameSettings::OptionListComponentChanged(int id, int index, const St
     case Components::Netplay:
     case Components::HDMode:
     case Components::WideScreenMode:
+    case Components::VulkanDriver:
     default: break;
   }
 }
@@ -228,6 +232,7 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool& status)
                                       _("OK"), nullptr));
       RecalboxConf::Instance().SetGlobalWidescreenMode(status).Save(); break;
     }
+    case Components::VulkanDriver: RecalboxConf::Instance().SetGlobalVulkanDriver(status).Save(); break;
     case Components::Ratio:
     case Components::Softpatching:
     case Components::Shaders:

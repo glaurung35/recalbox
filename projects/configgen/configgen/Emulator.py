@@ -83,6 +83,7 @@ class Emulator:
         self._integerScale: bool = False
         self._hdmode: bool = False
         self._widescreenmode: bool = False
+        self._vulkandriver: bool = True
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
         self._translate: bool = False
@@ -164,6 +165,7 @@ class Emulator:
         self._integerScale: bool     = self.__guessBestBoolValue  (recalboxOptions, "integerscale", self._integerScale)
         self._hdmode: bool           = self.__guessBestBoolValue  (recalboxOptions, "hdmode", self._hdmode)
         self._widescreenmode: bool   = self.__guessBestBoolValue  (recalboxOptions, "widescreenmode", self._widescreenmode)
+        self._vulkandriver: bool     = self.__guessBestBoolValue  (recalboxOptions, "vulkandriver", self._vulkandriver)
         self._quitTwice: bool        = self.__guessBestBoolValue  (recalboxOptions, "quitpresstwice", self._quitTwice)
         self._recalboxOverlays: bool = self.__guessBestBoolValue  (recalboxOptions, "recalboxoverlays", self._recalboxOverlays)
         self._netplay: bool          = self.__guessBestBoolValue  (recalboxOptions, "netplay", self._netplay)
@@ -388,6 +390,9 @@ class Emulator:
     @WideScreenMode.setter
     def WideScreenMode(self, value):
         self._widescreenmode = value
+
+    @property
+    def VulkanDriver(self) -> bool: return self._vulkandriver
 
     @property
     def AutoSave(self) -> bool: return self._autoSave

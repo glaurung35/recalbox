@@ -9,8 +9,8 @@
 #include "guis/GuiInfoPopup.h"
 #include <themes/ThemeManager.h>
 
-WindowManager::WindowManager()
-  : mOSD(*this)
+WindowManager::WindowManager(const Options& options)
+  : mOSD(*this, options)
   , mHelp(*this)
   , mBackgroundOverlay(*this)
   , mInfoPopups(sMaxInfoPopups)

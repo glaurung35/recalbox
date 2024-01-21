@@ -14,7 +14,7 @@ class ApplicationWindow: public WindowManager
     ViewController mViewController;
 
     //! OSD image
-    ImageComponent mOSD;
+    ImageComponent mOverlayImage;
 
     //! Active OSD?
     bool mActiveOSD;
@@ -34,9 +34,10 @@ class ApplicationWindow: public WindowManager
      * @brief Constructor
      * @param systemManager Systeme manager instance
      */
-    explicit ApplicationWindow(SystemManager& systemManager)
-      : mViewController(*this, systemManager)
-      , mOSD(*this)
+    explicit ApplicationWindow(SystemManager& systemManager, const Options& options)
+      : WindowManager(options)
+      , mViewController(*this, systemManager)
+      , mOverlayImage(*this)
       , mActiveOSD(false)
       , mClosed(false)
     {

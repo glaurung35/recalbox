@@ -6,11 +6,11 @@
 #include "input/InputManager.h"
 #include "themes/MenuThemeData.h"
 
-OSDManager::OSDManager(WindowManager& window)
+OSDManager::OSDManager(WindowManager& window, const Options& options)
   : Gui(window)
   , mBluetoothOSD(window, BaseOSD::Side::Left)
   , mPadOSD(window, BaseOSD::Side::Left)
-  , mFpsOSD(window, BaseOSD::Side::Right)
+  , mFpsOSD(window, options, BaseOSD::Side::Right)
   , mBatteryOSD(window, BaseOSD::Side::Right)
 {
   // Build OSD lists

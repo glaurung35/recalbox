@@ -43,17 +43,14 @@ MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Q
 bool MainRunner::sQuitRequested = false;
 bool MainRunner::sForceReloadFromDisk = false;
 
-MainRunner::MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug, bool trace)
-  : mRequestedWidth(width)
-  , mRequestedHeight(height)
-  , mRequestWindowed(windowed)
+MainRunner::MainRunner(const String& executablePath, int runCount, char** environment, const Options& options)
+  : mOptions(options)
   , mPendingExit(PendingExit::None)
   , mRunCount(runCount)
   , mNotificationManager(environment)
   , mApplicationWindow(nullptr)
-  , mBTAutopairManager()
 {
-  Intro(debug, trace);
+  Intro();
   SetLocale(executablePath);
   CheckHomeFolder();
 
@@ -72,7 +69,7 @@ MainRunner::ExitState MainRunner::Run()
   try
   {
     // Hardware board
-    Board board(*this);
+    Board board(*this, mOptions);
 
     // Set best performance/power CPU governor for battery-powered devices
     board.SetFrontendCPUGovernor();
@@ -118,8 +115,7 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
-    Renderer renderer((int)mRequestedWidth, (int)mRequestedHeight, mRequestWindowed,
-                      RotationManager::GetSystemRotation());
+    Renderer renderer(mOptions.Width(), mOptions.Height(), mOptions.Windowed(), RotationManager::GetSystemRotation());
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Theme manager
@@ -129,8 +125,9 @@ MainRunner::ExitState MainRunner::Run()
     if (autoRunSystem != nullptr) themeManager.LoadSystemTheme(*autoRunSystem);
 
     // Initialize main Window and ViewController
-    ApplicationWindow window(systemManager);
-    if (!window.Initialize(mRequestedWidth, mRequestedHeight, false)) { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
+    ApplicationWindow window(systemManager, mOptions);
+    if (!window.Initialize(mOptions.Width(), mOptions.Height(), false))
+    { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     mApplicationWindow = &window;
     gameRunner.SetWindowManager(&window);
     mBluetooth.Register(&window.OSD().GetBluetoothOSD());
@@ -250,7 +247,8 @@ MainRunner::ExitState MainRunner::Run()
         break;
       }
       case ExitState::Shutdown:
-      case ExitState::FastShutdown: {
+      case ExitState::FastShutdown:
+      {
         mNotificationManager.Notify(Notification::Shutdown, exitState == ExitState::FastShutdown ? "fast" : "normal");
         board.OnRebootOrShutdown();
         break;
@@ -659,12 +657,12 @@ void MainRunner::SetDebugLogs(bool debug, bool trace)
   }
 }
 
-void MainRunner::Intro(bool debug, bool trace)
+void MainRunner::Intro()
 {
   if (atexit(&onExit) != 0) // Always close the log on exit
     { LOG(LogError) << "[MainRunner] Error setting exit function!"; }
 
-  SetDebugLogs(debug || mConfiguration.GetDebugLogs(), trace);
+  SetDebugLogs(mOptions.Debug() || mConfiguration.GetDebugLogs(), mOptions.Trace());
 
   { LOG(LogInfo) << "[MainRunner] EmulationStation - v" << PROGRAM_VERSION_STRING << ", built " << PROGRAM_BUILT_STRING; }
 }

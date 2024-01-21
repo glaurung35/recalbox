@@ -14,6 +14,7 @@
 #include "bluetooth/BluetoothListener.h"
 #include "recalbox/BootConf.h"
 #include "input/IKeyboardShortcut.h"
+#include "Options.h"
 #include <btautopair/BTAutopairManager.h>
 #include <bios/IBiosScanReporting.h>
 
@@ -121,12 +122,9 @@ class MainRunner
     //! Power button: Threshold from short to long press, in milisecond
     static constexpr const int sPowerButtonThreshold = 500;
 
+    //! Options
+    const Options& mOptions;
     //! Requested width
-    unsigned int mRequestedWidth;
-    //! Requested height
-    unsigned int mRequestedHeight;
-    //! Requested window mode
-    bool mRequestWindowed;
 
     //! Pending exit
     PendingExit mPendingExit;
@@ -185,10 +183,8 @@ class MainRunner
 
     /*!
      * @brief Display Intro
-     * @param debug Set debug logs level
-     * @param trace Set trace logs level. Takes precedence over debug
      */
-    void Intro(bool debug, bool trace);
+    void Intro();
 
     /*!
      * @brief Check home folder existence
@@ -446,15 +442,11 @@ class MainRunner
     /*!
      * @brief Constructor
      * @param executablePath current executable path
-     * @param width Requested width
-     * @param height Requested height
-     * @param windowed No fullscreen
      * @param runCount Number of time the MainRunner has been run
      * @param environment Application environment
-     * @param debug Debug flag
-     * @param trace Trace flag
+     * @param options Command line options
      */
-    MainRunner(const String& executablePath, unsigned int width, unsigned int height, bool windowed, int runCount, char** environment, bool debug, bool trace);
+    MainRunner(const String& executablePath, int runCount, char** environment, const Options& options);
 
     //! Destructor
     ~MainRunner() override;

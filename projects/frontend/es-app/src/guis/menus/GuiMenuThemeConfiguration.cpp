@@ -11,6 +11,7 @@ GuiMenuThemeConfiguration::GuiMenuThemeConfiguration(WindowManager& window, cons
   , mThemeName(themeName)
   , mTimer(0)
 {
+  IniFile::PurgeKey(mThemeName);
   const ThemeData& theme = ThemeManager::Instance().Main();
   mColorSet     = BuildSelector(_("THEME COLORSET"    ), _(MENUMESSAGE_UI_THEME_COLORSET_MSG), RecalboxConf::Instance().GetThemeColorSet(themeName),
                                 theme.GetSubSetValues("colorset")    , Components::ColorSet, mOriginalColorSet);

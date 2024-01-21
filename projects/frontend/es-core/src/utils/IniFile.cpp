@@ -8,6 +8,8 @@
 #include <utils/Files.h>
 #include "utils/Log.h"
 
+String IniFile::sAllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-");
+
 IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bool autoBackup)
   : mFilePath(path)
   , mFallbackFilePath(fallbackpath)
@@ -19,16 +21,21 @@ IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bo
 
 IniFile::IniFile(const Path& path, bool extraSpace, bool autoBackup)
   : mFilePath(path)
-  , mFallbackFilePath()
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
   , mValid(Load())
 {
 }
 
+void IniFile::PurgeKey(String& key)
+{
+  for(char& c : key)
+    if (sAllowedCharacters.Find(c) < 0)
+      c = '-';
+}
+
 bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bool& isCommented)
 {
-  static String _allowedCharacters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-";
   if (!line.empty()) // Ignore empty line
   {
     bool comment = (line[0] == '#');
@@ -40,7 +47,7 @@ bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bo
         key = line.SubString(0, separatorPos).Trim();
         if (isCommented = (!key.empty() && key[0] == ';'); isCommented) key.erase(0, 1);
         value = line.SubString(separatorPos + 1).Trim();
-        if (key.find_first_not_of(_allowedCharacters) == String::npos) return true;
+        if (key.find_first_not_of(sAllowedCharacters) == String::npos) return true;
         { LOG(LogWarning) << "[IniFile] Invalid key: `" << key << '`'; }
       }
       else { LOG(LogError) << "[IniFile] Invalid line: `" << line << '`'; }
@@ -367,3 +374,4 @@ bool IniFile::ResetWithFallback() {
   mConfiguration.clear();
   return this->Load();
 }
+

@@ -282,6 +282,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShowSaveStateBeforeRun, bool, Bool, sGlobalShowSaveStateBeforeRun, false)
     DefineGetterSetter(GlobalHDMode, bool, Bool, sGlobalHDMode, false)
     DefineGetterSetter(GlobalWidescreenMode, bool, Bool, sGlobalWidescreen, false)
+    DefineGetterSetter(GlobalVulkanDriver, bool, Bool, sGlobalVulkanDriver, true)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)
@@ -423,7 +424,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalWidescreen           = "global.widescreenmode";
     static constexpr const char* sGlobalShowSaveStateBeforeRun = "global.show.savestate.before.run";
     static constexpr const char* sSplashEnabled              = "system.splash.enabled";
-
+    static constexpr const char* sGlobalVulkanDriver         = "global.vulkandriver";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
 

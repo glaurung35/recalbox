@@ -334,7 +334,7 @@ class LibretroGenerator(Generator):
                                retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
                                retroarchOverrides: keyValueSettings):
         vulkanCores = ["flycast", "ppsspp"]
-        if Vulkan.vulkanAvailable() and system.Core in vulkanCores:
+        if Vulkan.vulkanAvailable() and system.Core in vulkanCores and system.VulkanDriver:
             retroarchConfig.setString("video_driver", "vulkan")
         else:
             retroarchConfig.removeOption("video_driver")

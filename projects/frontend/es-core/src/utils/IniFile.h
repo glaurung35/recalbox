@@ -35,6 +35,11 @@ class IniFile
     }
 
     /*!
+     * @brief Purge the given key from incompatibles caracters, replacing them all with '-'
+     */
+    static void PurgeKey(String& key);
+
+    /*!
      * @brief Save the configuration file and backup the current one
      * @return True if the operation is successful
      */
@@ -245,6 +250,8 @@ class IniFile
     bool ResetWithFallback();
 
   private:
+    //! Allowed caracters
+    static String sAllowedCharacters;
     //! Save guardian
     Mutex mLocker;
     //! Configuration map: key, value - Read from file

@@ -18,7 +18,7 @@ class WindowManager
     /*!
      * @brief Default constructor
      */
-    WindowManager();
+    explicit WindowManager(const Options& options);
 
     /*!
      * @brief Default destructor

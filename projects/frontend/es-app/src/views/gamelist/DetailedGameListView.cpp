@@ -174,7 +174,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
   mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
-  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
+  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation  | ThemePropertyCategory::Effects);
 
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();

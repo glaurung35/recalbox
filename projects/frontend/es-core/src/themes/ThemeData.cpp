@@ -351,21 +351,26 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
   {
     String name = attribute.name();
     if (mNoProcessAttributes.contains(name)) continue;
+    // Localized?
+    ThemePropertyName* property = nullptr;
+    if (int locale = ExtractLocalizedCode(name); locale != 0)
+    {
+      // No matching? continue
+      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
+      property = ThemeSupport::PropertyName().try_get(name);
+      element.SetLocalized(*property); // Match!
+    }
+    else
+    {
+      property = ThemeSupport::PropertyName().try_get(name);
+      if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
+    }
     // Check object property
-    ThemePropertyName* property = ThemeSupport::PropertyName().try_get(name);
     if (property == nullptr || !typeList.IsSet(*property))
     {
       { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
-    // Localized?
-    if (int locale = ExtractLocalizedCode(name); locale != 0)
-    {
-      // No matching? continue
-      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
-      element.SetLocalized(*property); // Match!
-    }
-    else if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     // Get value
     String value = attribute.as_string();
     // Process
@@ -375,21 +380,26 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
   for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
   {
     String name = node.name();
+    // Localized?
+    ThemePropertyName* property = nullptr;
+    if (int locale = ExtractLocalizedCode(name); locale != 0)
+    {
+      // No matching? continue
+      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
+      property = ThemeSupport::PropertyName().try_get(name);
+      element.SetLocalized(*property); // Match!
+    }
+    else
+    {
+      property = ThemeSupport::PropertyName().try_get(name);
+      if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
+    }
     // Check object property
-    ThemePropertyName* property = ThemeSupport::PropertyName().try_get(name);
     if (property == nullptr || !typeList.IsSet(*property))
     {
       { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
-    // Localized?
-    if (int locale = ExtractLocalizedCode(name); locale != 0)
-    {
-      // No matching? continue
-      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
-      element.SetLocalized(*property); // Match!
-    }
-    else if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     // Get value from attribute or text
     String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
     // Process

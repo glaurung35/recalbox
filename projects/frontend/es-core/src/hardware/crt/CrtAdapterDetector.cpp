@@ -43,8 +43,10 @@ CrtAdapterType CrtAdapterDetector::DetectCrtAdapter(bool& automaticallyDetected)
   return result;
 }
 
-ICrtInterface* CrtAdapterDetector::CreateCrtBoard(BoardType boardType)
+ICrtInterface* CrtAdapterDetector::CreateCrtBoard(BoardType boardType, const Options& options)
 {
+  if (options.EmulateRGBDual()) return new CrtRGBDual(true, boardType);
+  if (options.EmulateRGBJamma()) return new CrtRGBJamma(true, boardType);
   bool automatic = false;
   switch(DetectCrtAdapter(automatic))
   {
@@ -52,7 +54,7 @@ ICrtInterface* CrtAdapterDetector::CreateCrtBoard(BoardType boardType)
     case CrtAdapterType::RGBPi: return new CrtRGBPi(automatic, boardType);
     case CrtAdapterType::Pi2Scart: return new CrtPi2Scart(automatic, boardType);
     case CrtAdapterType::RGBDual: return new CrtRGBDual(automatic, boardType);
-    case CrtAdapterType::RGBJamma: return new CrtRGBJamma(automatic, boardType);
+    case CrtAdapterType::RGBJamma:
     case CrtAdapterType::RGBJammaV2: return new CrtRGBJamma(automatic, boardType);
     case CrtAdapterType::None:
     default: break;

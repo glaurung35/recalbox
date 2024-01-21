@@ -18,7 +18,7 @@ class OSDManager : public Gui
 {
   public:
     //! Constructor
-    explicit OSDManager(WindowManager& window);
+    OSDManager(WindowManager& window, const Options& options);
 
     /*
      * Accesors

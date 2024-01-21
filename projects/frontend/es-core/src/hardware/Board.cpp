@@ -10,10 +10,12 @@
 #include "hardware/crt/CrtAdapterDetector.h"
 #include "hardware/crt/CrtNull.h"
 #include "utils/Files.h"
+#include "hardware/crt/CrtRGBDual.h"
 #include <hardware/boards/pi400/Pi400Board.h>
 
-Board::Board(IHardwareNotifications& notificationInterface)
+Board::Board(IHardwareNotifications& notificationInterface, const Options& options)
   : StaticLifeCycleControler("Board")
+  , mOptions(options)
   , mType(BoardType::UndetectedYet)
   , mMemory(0)
   , mSender(notificationInterface)
@@ -218,11 +220,20 @@ BoardType Board::GetBoardType()
 
 ICrtInterface& Board::GetCrtBoard()
 {
-  return *(CanHaveCRTBoard() ? CrtAdapterDetector::CreateCrtBoard(GetBoardType()) : new CrtNull(false, GetBoardType()));
+  if (CanHaveCRTBoard())
+  {
+    static ICrtInterface& crt = *CrtAdapterDetector::CreateCrtBoard(GetBoardType(), mOptions);
+    return crt;
+  }
+
+  // Null board
+  static CrtNull null(false, GetBoardType());
+  return null;
 }
 
 bool Board::CanHaveCRTBoard()
 {
+  if (mOptions.EmulateRGBDual() || mOptions.EmulateRGBJamma()) return true;
   #if defined(DEBUG) || defined(OPTION_RECALBOX_SIMULATE_RRGBD)
   return true;
   #else

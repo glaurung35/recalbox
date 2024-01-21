@@ -5,6 +5,7 @@
 #include "hardware/messaging/IHardwareNotifications.h"
 #include "IBoardInterface.h"
 #include "hardware/crt/ICrtInterface.h"
+#include "Options.h"
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <hardware/messaging/HardwareMessageSender.h>
 #include <sdl2/Sdl2Runner.h>
@@ -19,7 +20,7 @@ class Board: public StaticLifeCycleControler<Board>
      * @brief Constructor
      * @param notificationInterface Notification interface
      */
-    explicit Board(IHardwareNotifications& notificationInterface);
+    explicit Board(IHardwareNotifications& notificationInterface, const Options& options);
 
     //! Destructor
     ~Board()
@@ -198,6 +199,8 @@ class Board: public StaticLifeCycleControler<Board>
     }
 
   private:
+    //! Options
+    const Options& mOptions;
     //! Board type
     BoardType mType;
     //! Board memory (Only RPi for now)

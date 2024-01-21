@@ -8,6 +8,7 @@
 
 #include <hardware/crt/CrtAdapterType.h>
 #include <hardware/crt/ICrtInterface.h>
+#include "Options.h"
 
 class CrtAdapterDetector
 {
@@ -22,7 +23,7 @@ class CrtAdapterDetector
      * @brief Detect & create CRT board
      * @return CRT board implementation or nullptr
      */
-    static ICrtInterface* CreateCrtBoard(BoardType boardType);
+    static ICrtInterface* CreateCrtBoard(BoardType boardType, const Options& options);
 
   private:
     /*!

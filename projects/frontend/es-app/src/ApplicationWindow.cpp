@@ -41,7 +41,7 @@ void ApplicationWindow::Render(Transform4x4f& transform)
   WindowManager::Render(transform);
 
   if (mActiveOSD)
-    mOSD.Render(transform);
+    mOverlayImage.Render(transform);
 }
 
 bool ApplicationWindow::UpdateHelpSystem()
@@ -53,16 +53,16 @@ bool ApplicationWindow::UpdateHelpSystem()
 
 void ApplicationWindow::EnableOSDImage(const Path& imagePath, float x, float y, float width, float height, float alpha, bool autoCenter)
 {
-  mOSD.setImage(imagePath);
+  mOverlayImage.setImage(imagePath);
   if (autoCenter)
   {
-    mOSD.setOrigin(0.5f, 0.5f);
+    mOverlayImage.setOrigin(0.5f, 0.5f);
     x = y = 0.5f;
   }
-  mOSD.setPosition(x * Renderer::Instance().DisplayWidthAsFloat(), y * Renderer::Instance().DisplayHeightAsFloat());
-  mOSD.setResize(width * Renderer::Instance().DisplayWidthAsFloat(), height * Renderer::Instance().DisplayHeightAsFloat());
-  mOSD.setKeepRatio(true);
-  mOSD.setOpacity((unsigned char)(alpha * 255));
+  mOverlayImage.setPosition(x * Renderer::Instance().DisplayWidthAsFloat(), y * Renderer::Instance().DisplayHeightAsFloat());
+  mOverlayImage.setResize(width * Renderer::Instance().DisplayWidthAsFloat(), height * Renderer::Instance().DisplayHeightAsFloat());
+  mOverlayImage.setKeepRatio(true);
+  mOverlayImage.setOpacity((unsigned char)(alpha * 255));
   mActiveOSD = true;
 }
 

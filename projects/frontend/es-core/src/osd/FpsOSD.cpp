@@ -7,8 +7,9 @@
 #include <Renderer.h>
 #include <resources/Font.h>
 
-FpsOSD::FpsOSD(WindowManager& window, Side side)
+FpsOSD::FpsOSD(WindowManager& window, const Options& options, Side side)
   : BaseOSD(window, side, false)
+  , mOptions(options)
   , mFPSFont(Font::get(FONT_SIZE_SMALL, Font::sUbuntuPath))
   , mFrameStart(0)
   , mFrameTimingComputations(0)

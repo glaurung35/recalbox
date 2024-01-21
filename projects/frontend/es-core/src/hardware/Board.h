@@ -189,6 +189,14 @@ class Board: public StaticLifeCycleControler<Board>
       return mBoard.GetRotationCapabilities();
     }
 
+    /*!
+    * @return if board supports vulkan
+    */
+    const bool HasVulkanSupport() const
+    {
+      return mBoard.HasVulkanSupport();
+    }
+
   private:
     //! Board type
     BoardType mType;

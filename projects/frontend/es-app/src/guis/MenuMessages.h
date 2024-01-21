@@ -44,6 +44,7 @@ class MenuMessages
     #define MENUMESSAGE_GAME_SUPERGAMEBOY_HELP_MSG "Set the Super GameBoy mode for GameBoy games."
     #define MENUMESSAGE_GAME_HD_MODE_HELP_MSG "Improves resolution on compatible 3d emulators. May have an impact on performance. (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)"
     #define MENUMESSAGE_GAME_WIDESCREEN_MODE_HELP_MSG "Enables 16:9 hacks for compatible emulators. May have an impact on performance. (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)"
+    #define MENUMESSAGE_GAME_VULKAN_DRIVER_HELP_MSG "Enable vulkan driver when available. Enabled by default on RPi4, RPi5, and PC. Set on OFF if Dreamcast, Naomi or Atomiswave stop running."
 
 
     #define MENUMESSAGE_RA_ONOFF_HELP_MSG "Enable or disable RetroAchievements in games."

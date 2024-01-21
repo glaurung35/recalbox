@@ -46,7 +46,8 @@ class GuiMenuGameSettings : public GuiMenuBase
       Netplay,
       SuperGameBoy,
       HDMode,
-      WideScreenMode
+      WideScreenMode,
+      VulkanDriver
     };
 
     //! System manager

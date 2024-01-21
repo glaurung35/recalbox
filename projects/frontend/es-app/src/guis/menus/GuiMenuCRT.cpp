@@ -447,6 +447,7 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RecalboxConf::Instance().SetGlobalRewind(false);
           RecalboxConf::Instance().SetGlobalSmooth(false);
           RecalboxConf::Instance().SetQuickSystemSelect(false);
+          RecalboxConf::Instance().SetAutoPairOnBoot(false);
           RecalboxConf::Instance().SetThemeFolder("recalbox-240p");
           RecalboxConf::Instance().SetThemeIconSet("recalbox-240p", "4-jamma");
           RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
@@ -462,6 +463,9 @@ void GuiMenuCRT::SubMenuSelected(int id)
             manufacturers.push_back(identifier);
           }
           RecalboxConf::Instance().SetCollectionArcadeManufacturers(manufacturers);
+          RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
+          RecalboxConf::Instance().SetKodiEnabled(false);
+          RecalboxConf::Instance().SetSplashEnabled(false);
           RecalboxConf::Instance().Save();
 
           // recalbox-crt-options.cfg

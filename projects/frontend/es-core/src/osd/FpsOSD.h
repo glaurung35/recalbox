@@ -5,6 +5,7 @@
 
 #include <memory>
 #include "BaseOSD.h"
+#include "Options.h"
 #include <utils/gl/Rectangle.h>
 #include <RecalboxConf.h>
 
@@ -15,7 +16,7 @@ class FpsOSD : public BaseOSD
      * @brief Constructor
      * @param window Window manager
      */
-    explicit FpsOSD(WindowManager& window, Side side);
+    explicit FpsOSD(WindowManager& window, const Options& options, Side side);
 
     /*!
      * @brief Record start of frame
@@ -45,7 +46,7 @@ class FpsOSD : public BaseOSD
     [[nodiscard]] int OSDAreaHeight() const override { return (int)mFPSArea.Height(); }
 
     //! Visible?
-    [[nodiscard]] bool IsActive() const override { return RecalboxConf::Instance().GetGlobalShowFPS(); };
+    [[nodiscard]] bool IsActive() const override { return RecalboxConf::Instance().GetGlobalShowFPS() || mOptions.FPS(); };
 
   private:
     //! Number of recorded frame timing (in pow of 2)s
@@ -55,6 +56,8 @@ class FpsOSD : public BaseOSD
     //! Number of recorded frame timings
     static constexpr int sMaxFrameTiming = 1 << sMaxFrameTimingPow2;
 
+    //! Options
+    const Options& mOptions;
     //! FPS Font
     std::shared_ptr<Font> mFPSFont;
     //! FPS rectangle

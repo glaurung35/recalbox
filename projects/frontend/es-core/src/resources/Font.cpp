@@ -865,17 +865,16 @@ Font::getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, c
   Path path = (orig ? orig->mPath : getDefaultPath());
 
   float sh = Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat());
-  if (hasFlag(properties, ThemePropertyCategory::FontSize) && elem.HasProperty(ThemePropertyName::FontSize)){
+  if (hasFlag(properties, ThemePropertyCategory::FontSize) && elem.HasProperty(ThemePropertyName::FontSize))
+  {
     float configFontSize = elem.AsFloat(ThemePropertyName::FontSize);
-    if(configFontSize < 1)
-      size = (int) (sh * elem.AsFloat(ThemePropertyName::FontSize));
+    if(configFontSize < 1) size = (int) (sh * elem.AsFloat(ThemePropertyName::FontSize));
     else {
       // As the size is given as an integer as the 240p size reference, we use it as absolute size.
       // and then we adapt to the screen height (x1 up to 288p, x2 up to 576, ....)
       size = configFontSize * Math::ceil(
           Renderer::Instance().IsRotatedSide() ? Renderer::Instance().DisplayWidthAsFloat() / 288 : Renderer::Instance().DisplayHeightAsFloat() / 288);
     }
-
   }
   if (hasFlag(properties, ThemePropertyCategory::FontPath) && elem.HasProperty(ThemePropertyName::FontPath))
     path = Path(elem.AsString(ThemePropertyName::FontPath));

@@ -184,9 +184,17 @@ class Board: public StaticLifeCycleControler<Board>
     /*!
     * @return the rotation capabilities for tate mode
     */
-    const RotationCapability GetRotationCapabilities() const
+    RotationCapability GetRotationCapabilities() const
     {
       return mBoard.GetRotationCapabilities();
+    }
+
+    /*!
+    * @return if board supports vulkan
+    */
+    bool HasVulkanSupport() const
+    {
+      return mBoard.HasVulkanSupport();
     }
 
   private:

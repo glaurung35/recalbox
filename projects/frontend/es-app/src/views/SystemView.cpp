@@ -82,7 +82,7 @@ void SystemView::addSystem(SystemData * it)
     {
       // no logo in theme; use text
       e.data.logo = nullptr;
-      TextComponent* text = new TextComponent(mWindow, (it)->FullName(), Font::get(FONT_SIZE_LARGE), 0x000000FF,
+      TextComponent* text = new TextComponent(mWindow, (it)->FullName(), mCarousel.fontlarge, 0x000000FF,
                                               TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logotext = std::shared_ptr<TextComponent>(text);
@@ -101,7 +101,7 @@ void SystemView::addSystem(SystemData * it)
 
       TextComponent* text = new TextComponent(mWindow,
                                               (it)->FullName(),
-                                              Font::get(FONT_SIZE_MEDIUM),
+                                              mCarousel.fontmedium,
                                               0xE6E6E6FF,
                                               TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
@@ -819,6 +819,10 @@ void SystemView::getCarouselFromTheme(const ThemeElement* elem)
     else if (align == "bottom") mCarousel.logoAlignment = TextAlignment::Bottom;
     else mCarousel.logoAlignment = TextAlignment::Center;
   }
+  mCarousel.fontlarge = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
+  mCarousel.fontmedium = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
+  if (!mCarousel.fontlarge) mCarousel.fontlarge = Font::get(FONT_SIZE_LARGE);
+  if (!mCarousel.fontlarge) mCarousel.fontlarge = Font::get(FONT_SIZE_MEDIUM);
 }
 
 void SystemView::RemoveCurrentSystem()

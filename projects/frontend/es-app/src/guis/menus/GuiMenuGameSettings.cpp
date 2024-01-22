@@ -213,8 +213,21 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool& status)
       break;
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
     case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
-    case Components::HDMode: RecalboxConf::Instance().SetGlobalHDMode(status).Save(); break;
-    case Components::WideScreenMode: RecalboxConf::Instance().SetGlobalWidescreenMode(status).Save(); break;
+    case Components::HDMode: {
+      if(status)
+        mWindow.pushGui(new GuiMsgBox(mWindow,
+                                    _("RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON HD-COMPATIBLE SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."),
+                                    _("OK"), nullptr));
+      RecalboxConf::Instance().SetGlobalHDMode(status).Save();
+      break;
+    }
+    case Components::WideScreenMode: {
+      if(status)
+        mWindow.pushGui(new GuiMsgBox(mWindow,
+                                      _("RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON WIDESCREEN-COMPATIBLE SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."),
+                                      _("OK"), nullptr));
+      RecalboxConf::Instance().SetGlobalWidescreenMode(status).Save(); break;
+    }
     case Components::Ratio:
     case Components::Softpatching:
     case Components::Shaders:

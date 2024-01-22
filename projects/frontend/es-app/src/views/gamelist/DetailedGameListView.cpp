@@ -14,7 +14,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mIsScraping(false)
   , mImage(window)
   , mNoImage(window)
-  , mVideo(window)
+  , mVideo(window, this)
   , mLblRating(window)
   , mLblReleaseDate(window)
   , mLblDeveloper(window)
@@ -39,6 +39,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mBusy(window)
   , mSettings(RecalboxConf::Instance())
   , mFadeBetweenImage(-1)
+  , mFadeImageVideo(0)
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -104,8 +105,6 @@ void DetailedGameListView::Initialize()
   mVideo.setResize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
   mVideo.setKeepRatio(true);
   mVideo.setDefaultZIndex(30);
-  mVideo.LinkComponent(&mImage);
-  mVideo.LinkComponent(&mNoImage);
   addChild(&mVideo);
 
   // Busy
@@ -625,6 +624,14 @@ void DetailedGameListView::Update(int deltatime)
     mImage.setOpacity(255 - f);
     mNoImage.setOpacity(f);
   }
+  if (mFadeImageVideo != 0)
+  {
+    if (mFadeImageVideo < 0) { if (mFadeImageVideo -= deltatime; mFadeImageVideo < -255) mFadeImageVideo = -255; }
+    else { if (mFadeImageVideo += deltatime; mFadeImageVideo > 255) mFadeImageVideo = 255; }
+    ImageComponent& image = mNoImage.isThemeDisabled() ? mImage : mNoImage;
+    image.setOpacity(mFadeImageVideo < 0 ? 255 + mFadeImageVideo : mFadeImageVideo);
+    if (Math::absi(mFadeImageVideo) == 255) mFadeImageVideo = 0;
+  }
 
   // Cancel video
   if (mList.isScrolling())
@@ -786,6 +793,9 @@ void DetailedGameListView::OnGameSelected()
 
   // Update current game information
   DoUpdateGameInformation(false);
+
+  // Kill fade image to/from video
+  mFadeImageVideo = 0;
 }
 
 String DetailedGameListView::getItemIcon(const FileData& item)
@@ -1024,4 +1034,15 @@ void DetailedGameListView::UpdateSlowData(const SlowDataInformation& info)
     else if (info.mItem->IsFolder())
       SetFolderInfo((FolderData*)info.mItem, info.mCount, *info.mPathList);
   }
+}
+
+void DetailedGameListView::VideoComponentRequireAction(const VideoComponent* source, IVideoComponentAction::Action action)
+{
+  if (source == &mVideo)
+    switch(action)
+    {
+      case Action::FadeIn: mFadeImageVideo = 1; break;
+      case Action::FadeOut: mFadeImageVideo = -1; break;
+      default: break;
+    }
 }

@@ -5,6 +5,7 @@
 #include <utils/datetime/HighResolutionTimer.h>
 #include "resources/TextureResource.h"
 #include "utils/gl/Vertex.h"
+#include "IVideoComponentAction.h"
 
 class VideoComponent : public ThemableComponent
 {
@@ -37,11 +38,11 @@ class VideoComponent : public ThemableComponent
       _LastItem,
     };
 
+    //! Action interface
+    IVideoComponentAction* mInterface;
+
     //! Video path
     Path mVideoPath;
-
-    //! Linked component to fade out/in when the video starts/ends
-    Array<Component*> mLinked;
 
     //! Video state
     State mState;
@@ -84,7 +85,6 @@ class VideoComponent : public ThemableComponent
     //! Keep ratio ?
     bool mKeepRatio;
 
-
     //! High reolution timer for time computations
     HighResolutionTimer mTimer;
 
@@ -114,7 +114,7 @@ class VideoComponent : public ThemableComponent
   public:
 
     //! Constructor
-    explicit VideoComponent(WindowManager&window);
+    explicit VideoComponent(WindowManager& window, IVideoComponentAction* actionInterface);
 
     //! Destructor
     ~VideoComponent() override = default;
@@ -166,12 +166,6 @@ class VideoComponent : public ThemableComponent
     bool CollectHelpItems(Help& help) override;
 
     bool isDiplayed() { return mState == State::DisplayVideo; }
-
-    /*!
-     * @brief Add a linked component
-     * @param component Linked component
-     */
-    void LinkComponent(Component* component) { mLinked.Add(component); }
 
     static constexpr int DEFAULT_VIDEODELAY = 2000;
     static constexpr int DEFAULT_VIDEOEFFET = 500;

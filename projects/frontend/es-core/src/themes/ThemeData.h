@@ -11,6 +11,7 @@
 #include "ThemeExtras.h"
 #include "IGlobalVariableResolver.h"
 #include "SimpleTokenizer.h"
+#include "components/IVideoComponentAction.h"
 #include <themes/ThemeSupport.h>
 #include <themes/ThemeExtras.h>
 
@@ -73,9 +74,10 @@ class ThemeData
      * @brief Build Extra component array from the curren theme
      * @param view View name
      * @param window Window manager (for components initialization)
+     * @param videoInterface callback interface for video components
      * @return Extra list
      */
-    ThemeExtras::List GetExtras(const String& view, WindowManager& window) const;
+    ThemeExtras::List GetExtras(const String& view, WindowManager& window, IVideoComponentAction* videoInterface) const;
 
     /*!
      * @brief Re-apply theme properties to the current extra list, allowing to refresh components and make them

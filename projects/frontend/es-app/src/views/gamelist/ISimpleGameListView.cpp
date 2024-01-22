@@ -56,7 +56,7 @@ void ISimpleGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnly
   for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
     removeChild(&extra.Component());
   // Add new theme extras
-  mThemeExtras.AssignExtras(theme, getName(), theme.GetExtras(getName(), mWindow), refreshOnly);
+  mThemeExtras.AssignExtras(theme, getName(), theme.GetExtras(getName(), mWindow, nullptr), refreshOnly);
   for (ThemeExtras::Extra& extra : mThemeExtras.Extras())
     addChild(&extra.Component());
 

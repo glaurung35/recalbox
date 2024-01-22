@@ -38,6 +38,22 @@ SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
   Start("system-info");
 }
 
+void SystemView::AlignComponent(CarouselType carouselType, TextAlignment alignment, Component* component)
+{
+  if (carouselType == CarouselType::Vertical || carouselType == CarouselType::VerticalWheel)
+  {
+    if      (alignment == TextAlignment::Left)  component->setOrigin(0, 0.5);
+    else if (alignment == TextAlignment::Right) component->setOrigin(1.0, 0.5);
+    else                                         component->setOrigin(0.5, 0.5);
+  }
+  else
+  {
+    if      (alignment == TextAlignment::Top)    component->setOrigin(0.5, 0);
+    else if (alignment == TextAlignment::Bottom) component->setOrigin(0.5, 1);
+    else                                          component->setOrigin(0.5, 0.5);
+  }
+}
+
 void SystemView::addSystem(SystemData * it)
 {
   const ThemeData& theme = (it)->Theme();
@@ -60,11 +76,8 @@ void SystemView::addSystem(SystemData * it)
     e.data.logo = std::shared_ptr<ImageComponent>(logo);
     if ((it)->ThemeFolder() == "default") // #TODO: Wrong identification of default theme. Fetch info from the theme itself
     {
-      TextComponent* text = new TextComponent(mWindow,
-                                              (it)->Name(),
-                                              Font::get(FONT_SIZE_MEDIUM),
-                                              0x1A1A1AFF,
-                                              TextAlignment::Center);
+      TextComponent* text = new TextComponent(mWindow, (it)->Name(), Font::get(FONT_SIZE_MEDIUM),
+                                              0x1A1A1AFF, TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logotext = std::shared_ptr<TextComponent>(text);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
@@ -99,11 +112,8 @@ void SystemView::addSystem(SystemData * it)
       logo->setImage(Genres::GetResourcePath(genre));
       e.data.logo = std::shared_ptr<ImageComponent>(logo);
 
-      TextComponent* text = new TextComponent(mWindow,
-                                              (it)->FullName(),
-                                              mCarousel.fontmedium,
-                                              0xE6E6E6FF,
-                                              TextAlignment::Center);
+      TextComponent* text = new TextComponent(mWindow, (it)->FullName(), mCarousel.fontmedium,
+                                              0xE6E6E6FF, TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logotext = std::shared_ptr<TextComponent>(text);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
@@ -115,44 +125,20 @@ void SystemView::addSystem(SystemData * it)
 
   if (e.data.logo)
   {
-    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
-    {
-      if (mCarousel.logoAlignment == TextAlignment::Left) e.data.logo->setOrigin(0, 0.5);
-      else if (mCarousel.logoAlignment == TextAlignment::Right) e.data.logo->setOrigin(1.0, 0.5);
-      else e.data.logo->setOrigin(0.5, 0.5);
-    }
-    else
-    {
-      if (mCarousel.logoAlignment == TextAlignment::Top) e.data.logo->setOrigin(0.5, 0);
-      else if (mCarousel.logoAlignment == TextAlignment::Bottom) e.data.logo->setOrigin(0.5, 1);
-      else e.data.logo->setOrigin(0.5, 0.5);
-    }
-
+    AlignComponent(mCarousel.type, mCarousel.logoAlignment, e.data.logo.get());
     Vector2f denormalized = mCarousel.logoSize * e.data.logo->getOrigin();
     e.data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
   }
 
   if (e.data.logotext)
   {
-    if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
-    {
-      if      (mCarousel.logoAlignment == TextAlignment::Left)  e.data.logotext->setOrigin(0, 0.5);
-      else if (mCarousel.logoAlignment == TextAlignment::Right) e.data.logotext->setOrigin(1.0, 0.5);
-      else                                                      e.data.logotext->setOrigin(0.5, 0.5);
-    }
-    else
-    {
-      if      (mCarousel.logoAlignment == TextAlignment::Top)    e.data.logotext->setOrigin(0.5, 0);
-      else if (mCarousel.logoAlignment == TextAlignment::Bottom) e.data.logotext->setOrigin(0.5, 1);
-      else                                                       e.data.logotext->setOrigin(0.5, 0.5);
-    }
-
+    AlignComponent(mCarousel.type, mCarousel.logoAlignment, e.data.logotext.get());
     Vector2f denormalized = mCarousel.logoSize * e.data.logotext->getOrigin();
     e.data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
   }
 
   e.data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
-  e.data.backgroundExtras->AssignExtras((it)->Theme(), "system", (it)->Theme().GetExtras("system", mWindow), false);
+  e.data.backgroundExtras->AssignExtras((it)->Theme(), "system", (it)->Theme().GetExtras("system", mWindow, nullptr), false);
   e.data.backgroundExtras->setSize(mSize);
 
   this->add(e);
@@ -487,18 +473,7 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, 
       data.logo->setResize(mCarousel.logoSize * mCarousel.logoScale);
       data.logo->setKeepRatio(true);
       data.logo->DoApplyThemeElement(theme, "system", "logo", ThemePropertyCategory::All);
-      if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
-      {
-        if      (mCarousel.logoAlignment == TextAlignment::Left)  data.logo->setOrigin(0, 0.5);
-        else if (mCarousel.logoAlignment == TextAlignment::Right) data.logo->setOrigin(1.0, 0.5);
-        else                                                      data.logo->setOrigin(0.5, 0.5);
-      }
-      else
-      {
-        if      (mCarousel.logoAlignment == TextAlignment::Top)    data.logo->setOrigin(0.5, 0);
-        else if (mCarousel.logoAlignment == TextAlignment::Bottom) data.logo->setOrigin(0.5, 1);
-        else                                                       data.logo->setOrigin(0.5, 0.5);
-      }
+      AlignComponent(mCarousel.type, mCarousel.logoAlignment, data.logo.get());
       Vector2f denormalized = mCarousel.logoSize * data.logo->getOrigin();
       data.logo->setPosition(denormalized.x(), denormalized.y(), 0.0);
     }
@@ -507,21 +482,10 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, 
     if (data.logotext != nullptr)
     {
       data.logotext->setSize(mCarousel.logoSize * mCarousel.logoScale);
-      if (mCarousel.type == CarouselType::Vertical ||
-          mCarousel.type == CarouselType::VerticalWheel) data.logotext->setHorizontalAlignment(mCarousel.logoAlignment);
-      else data.logotext->setVerticalAlignment(mCarousel.logoAlignment);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
-      {
-        if      (mCarousel.logoAlignment == TextAlignment::Left)  data.logotext->setOrigin(0, 0.5);
-        else if (mCarousel.logoAlignment == TextAlignment::Right) data.logotext->setOrigin(1.0, 0.5);
-        else                                                      data.logotext->setOrigin(0.5, 0.5);
-      }
-      else
-      {
-        if      (mCarousel.logoAlignment == TextAlignment::Top)    data.logotext->setOrigin(0.5, 0);
-        else if (mCarousel.logoAlignment == TextAlignment::Bottom) data.logotext->setOrigin(0.5, 1);
-        else                                                       data.logotext->setOrigin(0.5, 0.5);
-      }
+        data.logotext->setHorizontalAlignment(mCarousel.logoAlignment);
+      else data.logotext->setVerticalAlignment(mCarousel.logoAlignment);
+      AlignComponent(mCarousel.type, mCarousel.logoAlignment, data.logotext.get());
       Vector2f denormalized = mCarousel.logoSize * data.logotext->getOrigin();
       data.logotext->setPosition(denormalized.x(), denormalized.y(), 0.0);
     }
@@ -535,7 +499,7 @@ void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, 
     else
     {
       data.backgroundExtras = std::make_shared<ThemeExtras>(mWindow);
-      data.backgroundExtras->AssignExtras(theme, "system", theme.GetExtras("system", mWindow), false);
+      data.backgroundExtras->AssignExtras(theme, "system", theme.GetExtras("system", mWindow, nullptr), false);
       data.backgroundExtras->setSize(mSize);
     }
     //{ LOG(LogWarning) << "Refresh " << entry.object->FullName() << " : " << (DateTime() - start).ToMillisecondsString() << " ms"; }
@@ -947,3 +911,4 @@ void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
     setAnimation(infoFadeIn, 800, nullptr, false, 2);
   }
 }
+

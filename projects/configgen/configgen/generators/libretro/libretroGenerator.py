@@ -225,7 +225,7 @@ class LibretroGenerator(Generator):
 
         systemsToWideScreenOrHdCore = {"snes": "bsneshd", "megadrive": "genesisplusgxwide", "dreamcast": "flycast",
                                        "naomi": "flycast", "atomiswave": "flycast", "psx": "pcsx_rearmed",
-                                       "saturn": "yabasanshiro"}
+                                       "saturn": "yabasanshiro", "n64": "parallel_n64"}
         widescreenCoreToCoreConfig = {"bsneshd": LibretroGenerator.configureBsnesHD,
                                       "genesisplusgxwide": LibretroGenerator.configureGenesisWide,
                                       "flycast": LibretroGenerator.configureFlycastWide}
@@ -244,6 +244,11 @@ class LibretroGenerator(Generator):
                 [
                     {"yabasanshiro_resolution_mode": '"2x"'},
                     {"yabasanshiro_resolution_mode": '"1x"'}
+                ],
+            "parallel_n64":
+                [
+                    {"parallel-n64-parallel-rdp-upscaling": '"4x"', "parallel-n64-screensize": '"1440x1080"'},
+                    {"parallel-n64-parallel-rdp-upscaling": '"1x"', "parallel-n64-screensize": '"320x240"' },
                 ]
         }
 

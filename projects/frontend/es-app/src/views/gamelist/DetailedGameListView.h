@@ -14,6 +14,7 @@
 class DetailedGameListView : public ISimpleGameListView
                            , public ITextListComponentOverlay<FileData*>
                            , private IScraperEngineStage
+                           , private IVideoComponentAction
 {
   public:
     DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
@@ -146,6 +147,8 @@ class DetailedGameListView : public ISimpleGameListView
 
     //! Fade between mImage & mNoImage
     int mFadeBetweenImage;
+    //! Image to/from video fade
+    int mFadeImageVideo;
 
     //! Last processed cursor item
     FileData* mLastCursorItem;
@@ -251,4 +254,15 @@ class DetailedGameListView : public ISimpleGameListView
      * @param changes Metadata that have been actually changed
      */
     void ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes) override;
+
+    /*
+     * IVideoComponentAction
+     */
+
+    /*!
+     * @brief Called when a video component require action
+     * @param source Source video component
+     * @param action Required action
+     */
+    void VideoComponentRequireAction(const VideoComponent* source, Action action) final;
 };

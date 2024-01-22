@@ -4,9 +4,9 @@
 #include <themes/ThemeData.h>
 #include <utils/locale/LocaleHelper.h>
 
-VideoComponent::VideoComponent(WindowManager&window)
+VideoComponent::VideoComponent(WindowManager& window, IVideoComponentAction* actionInterface)
   : ThemableComponent(window)
-  , mVideoPath("")
+  , mInterface(actionInterface)
   , mState(State::InitializeVideo)
   , mEffect(Effect::BreakingNews)
   , mAllowedEffects(AllowedEffects::All)
@@ -284,6 +284,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       mTimer.Initialize(0);
       //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::BumpVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
       AudioManager::PauseMusicIfNecessary();
+      if (mInterface != nullptr) mInterface->VideoComponentRequireAction(this, IVideoComponentAction::Action::FadeOut);
     }
 
   if (mState == State::StartVideo)
@@ -310,6 +311,7 @@ bool VideoComponent::ProcessDisplay(double& effect)
       mState = State::StopVideo;
       mTimer.Initialize(0);
       //{ LOG(LogDebug) << "[VideoComponent] Timer reseted: State::FinalizeVideo " + DateTime().ToPreciseTimeStamp() << " elapsed: " << elapsed; }
+      if (mInterface != nullptr) mInterface->VideoComponentRequireAction(this, IVideoComponentAction::Action::FadeIn);
     }
   }
 
@@ -335,20 +337,6 @@ bool VideoComponent::ProcessDisplay(double& effect)
 void VideoComponent::Update(int elapsed)
 {
   Component::Update(elapsed);
-  if (mState == State::StartVideo || mState == State::DisplayVideo)
-    for(Component* component : mLinked)
-    {
-      int fade = component->getOpacity() - elapsed;
-      if (fade < 0) fade = 0;
-      component->setOpacity((unsigned char)fade);
-    }
-  else
-    for(Component* component : mLinked)
-    {
-      int fade = component->getOpacity() + elapsed;
-      if (fade > 255) fade = 255;
-      component->setOpacity((unsigned char)fade);
-    }
 }
 
 void VideoComponent::Render(const Transform4x4f& parentTrans)
@@ -382,10 +370,10 @@ void VideoComponent::Render(const Transform4x4f& parentTrans)
     glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].Source);
 
     // Anti-Rotation
+    setRotationOrigin(0.5f, 0.5f);
     if (mTopAlpha != 0.f || mBottomAlpha != 0.f)
     {
       setRotation(mEffect == Effect::BreakingNews ? -(float) (Pi * 4.0) * (float) effect : 0.0f);
-      setRotationOrigin(0.5f, 0.5f);
       mPosition.translateY(mSize.y());
       Transform4x4f trans = parentTrans * getTransform();
       Renderer::SetMatrix(trans);

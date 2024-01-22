@@ -131,7 +131,7 @@ void GuiSearch::initGridsNStuff()
   // selected result thumbnail + video
   mResultThumbnail = std::make_shared<ImageComponent>(mWindow);
   mGridMeta->setEntry(mResultThumbnail, Vector2i(3, 1), false, true, Vector2i(1, 1));
-  mResultVideo = std::make_shared<VideoComponent>(mWindow);
+  mResultVideo = std::make_shared<VideoComponent>(mWindow, nullptr);
   mGridMeta->setEntry(mResultVideo, Vector2i(3, 1), false, true, Vector2i(1, 1));
 
   // selected result desc + container

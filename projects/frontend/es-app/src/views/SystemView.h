@@ -140,6 +140,13 @@ class SystemView : public IList<SystemViewData, SystemData*>
     bool mLaunchKodi;
 
     /*!
+     * @brief Check and apply alignment to the given component regarding carousel type
+     * @param alignment Alignment to apply
+     * @param component Component to align
+     */
+    static void AlignComponent(CarouselType carouselType, TextAlignment alignment, Component* component);
+
+    /*!
      * @brief Set next system from witch to extract game information
      * @param system
      */

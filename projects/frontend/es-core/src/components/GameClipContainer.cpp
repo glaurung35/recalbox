@@ -10,14 +10,45 @@
 #include "utils/locale/LocaleHelper.h"
 
 GameClipContainer::GameClipContainer(WindowManager& window)
-  : Gui(window), mWindow(window), mVideo(window), mImage(window), mThumbnail(window), mRecalboxLogo(window),
-    mClippingContainer(window, 300, 1000), mClippingImage(window), mLbGameName(window), mLbSystemName(window), mLblRating(window),
-    mLblReleaseDate(window), mLblDeveloper(window), mLblPublisher(window), mLblGenre(window), mLblPlayers(window),
-    mLblLastPlayed(window), mLblPlayCount(window), mLblFavorite(window), mGameName(window), mSystemName(window),
-    mRating(window, 0.f), mReleaseDate(window), mDeveloper(window), mPublisher(window), mGenre(window), mPlayers(window),
-    mLastPlayed(window), mPlayCount(window), mFavorite(window), mFavoriteIcon(window), mDescContainer(window), mDescription(window),
-    mHeaderText(window), mHeaderImage(window), mBackground(window), mThemeExtras(window), mGame(nullptr),
-    mSystem(nullptr)
+  : Gui(window)
+  , mWindow(window)
+  , mVideo(window, nullptr)
+  , mImage(window)
+  , mThumbnail(window)
+  , mRecalboxLogo(window)
+  , mClippingContainer(window, 300, 1000)
+  , mClippingImage(window)
+  , mLbGameName(window)
+  , mLbSystemName(window)
+  , mLblRating(window)
+  , mLblReleaseDate(window)
+  , mLblDeveloper(window)
+  , mLblPublisher(window)
+  , mLblGenre(window)
+  , mLblPlayers(window)
+  , mLblLastPlayed(window)
+  , mLblPlayCount(window)
+  , mLblFavorite(window)
+  , mGameName(window)
+  , mSystemName(window)
+  , mRating(window, 0.f)
+  , mReleaseDate(window)
+  , mDeveloper(window)
+  , mPublisher(window)
+  , mGenre(window)
+  , mPlayers(window)
+  , mLastPlayed(window)
+  , mPlayCount(window)
+  , mFavorite(window)
+  , mFavoriteIcon(window)
+  , mDescContainer(window)
+  , mDescription(window)
+  , mHeaderText(window)
+  , mHeaderImage(window)
+  , mBackground(window)
+  , mThemeExtras(window)
+  , mGame(nullptr)
+  , mSystem(nullptr)
 {
   setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
@@ -224,7 +255,7 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, 
     // Remove old theme extras
     removeChild(&mThemeExtras);
 
-    mThemeExtras.AssignExtras(theme, GameClipView::getName(), theme.GetExtras(GameClipView::getName(), mWindow), false);
+    mThemeExtras.AssignExtras(theme, GameClipView::getName(), theme.GetExtras(GameClipView::getName(), mWindow, nullptr), false);
 
     // Add new theme extras
     addChild(&mThemeExtras);

@@ -77,7 +77,7 @@ void SystemView::addSystem(SystemData * it)
     if ((it)->ThemeFolder() == "default") // #TODO: Wrong identification of default theme. Fetch info from the theme itself
     {
       TextComponent* text = new TextComponent(mWindow, (it)->Name(), Font::get(FONT_SIZE_MEDIUM),
-                                              0x1A1A1AFF, TextAlignment::Center);
+                                              mCarousel.fontcolor ^ 0x80808000, TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logotext = std::shared_ptr<TextComponent>(text);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
@@ -113,7 +113,7 @@ void SystemView::addSystem(SystemData * it)
       e.data.logo = std::shared_ptr<ImageComponent>(logo);
 
       TextComponent* text = new TextComponent(mWindow, (it)->FullName(), mCarousel.fontmedium,
-                                              0xE6E6E6FF, TextAlignment::Center);
+                                              mCarousel.fontcolor, TextAlignment::Center);
       text->setSize(mCarousel.logoSize * mCarousel.logoScale);
       e.data.logotext = std::shared_ptr<TextComponent>(text);
       if (mCarousel.type == CarouselType::Vertical || mCarousel.type == CarouselType::VerticalWheel)
@@ -442,14 +442,6 @@ bool SystemView::CollectHelpItems(Help& help)
 
   return true;
 }
-
-/*void SystemView::onThemeChanged(const ThemeData& theme)
-{
-  (void)theme; // TODO: Log theme name
-  { LOG(LogDebug) << "[SystemView] Theme Changed"; }
-  mViewNeedsReload = true;
-  populate();
-}*/
 
 void SystemView::SwitchToTheme(const ThemeData& uselessTheme, bool refreshOnly, IThemeSwitchTick* interface)
 {
@@ -785,8 +777,8 @@ void SystemView::getCarouselFromTheme(const ThemeElement* elem)
   }
   mCarousel.fontlarge = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
   mCarousel.fontmedium = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
-  if (!mCarousel.fontlarge) mCarousel.fontlarge = Font::get(FONT_SIZE_LARGE);
-  if (!mCarousel.fontlarge) mCarousel.fontlarge = Font::get(FONT_SIZE_MEDIUM);
+  if (elem->HasProperty(ThemePropertyName::Link)) mCarousel.fontcolor = (unsigned int)elem->AsInt(ThemePropertyName::Link);
+  else mCarousel.fontcolor = 0xE6E6E6FF;
 }
 
 void SystemView::RemoveCurrentSystem()

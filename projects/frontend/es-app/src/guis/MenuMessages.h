@@ -206,6 +206,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_EXTENDED "Uses a range at the edge of the CRT support to increase image quality."
     #define MENUMESSAGE_ADVANCED_CRT_SUPERREZ "Superrez can increase image quality depending on your CRT."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG "Number of button on your arcade cab panel."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_SOUND_OUTPUT "Select sound output: JACK/MONO or JACK/JST. Jack always takes priority."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_MONO_AMP_BOOST "Boost mono amp power. Use only if the sound level is too low."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT "Define the NEOGEO layout when playing NEOGEO games."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT "Add a credit in game, pressing START + BTN1. Works for all players."

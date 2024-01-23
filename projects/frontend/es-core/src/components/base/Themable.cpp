@@ -16,6 +16,8 @@ void Themable::DoApplyThemeElement(const ThemeData& theme, const String& viewNam
     OnApplyThemeElementBase(*elem, properties);
     OnApplyThemeElement(*elem, properties);
   }
+  else
+    mComponent.setThemeDisabled(true);
 }
 
 void Themable::OnApplyThemeElementBase(const ThemeElement& element, ThemePropertyCategory properties)

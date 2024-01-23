@@ -142,6 +142,9 @@ class DetailedGameListView : public ISimpleGameListView
 
     RecalboxConf& mSettings;
 
+    //! Components linked by video component
+    Array<Component*> mVideoLinks;
+
     //! region to flag texture
     HashMap<Regions::GameRegions, std::shared_ptr<TextureResource>> mRegionToTextures;
 
@@ -167,6 +170,12 @@ class DetailedGameListView : public ISimpleGameListView
     void setScrapedFolderInfo(FileData* file);
     //void getFolderGames(FileData* folder, FileData::List &output);
     static void fadeOut(const std::vector<ThemableComponent*>& comps, bool fadingOut);
+
+    /*!
+     * @brief Build component list linked by the video component
+     * @param theme Current theme
+     */
+    void BuildVideoLinks(const ThemeData& theme);
 
     /*!
      * @brief Gamelist may update those information if required

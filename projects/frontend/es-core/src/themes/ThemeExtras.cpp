@@ -80,4 +80,12 @@ void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
   if (!move) { LOG(LogWarning) << "[ThemeExtra] No move"; }
 }
 
+ThemableComponent* ThemeExtras::Lookup(const String& name)
+{
+  for(const Extra& extra : mExtras)
+    if (name == extra.Name())
+      return &(ThemableComponent&)extra.Component();
+  return nullptr;
+}
+
 

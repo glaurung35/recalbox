@@ -800,6 +800,7 @@ ThemeData::Compatibility ThemeData::ExtractCompatibility(const pugi::xml_node& n
     if      (item == "hdmi" ) result |= Compatibility::Hdmi;
     else if (item == "jamma") result |= Compatibility::Jamma;
     else if (item == "crt"  ) result |= Compatibility::Crt;
+    else if (item == "tate" ) result |= Compatibility::Tate;
   }
   if (result == Compatibility::None) result = Compatibility::Hdmi;
   return result;

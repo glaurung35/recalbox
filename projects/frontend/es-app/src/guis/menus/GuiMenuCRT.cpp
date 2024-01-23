@@ -112,6 +112,12 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   if(isRGBJamma)
   {
+
+    AddList<String>(_("SOUND"), (int)Components::JammaSoundOutput, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                      {{ "JACK/MONO", "0", !CrtConf::Instance().GetSystemCRTJammaAmpDisable()},
+                       { "JACK/PINS", "1", CrtConf::Instance().GetSystemCRTJammaAmpDisable() }}),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SOUND_OUTPUT));
     AddList<String>(_("MONO AMP BOOST"), (int)Components::JammaMonoBoost, this,
                     std::vector<GuiMenuBase::ListEntry<String>>(
                             {{ "default", "0", CrtConf::Instance().GetSystemCRTJammaMonoAmpBoost() == "0" },
@@ -331,7 +337,10 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   {
     CrtConf::Instance().SetSystemCRTJammaMonoAmpBoost(value).Save();
   }
-
+  else if ((Components)id == Components::JammaSoundOutput)
+  {
+    CrtConf::Instance().SetSystemCRTJammaAmpDisable(value == "1").Save();
+  }
 }
 
 void GuiMenuCRT::OptionListComponentChanged(int id, int index, const ICrtInterface::HorizontalFrequency &value)

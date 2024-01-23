@@ -661,6 +661,7 @@ static struct config {
   bool videofilter;
   uint buttons_on_jamma;
   uint amp_boost;
+  bool amp_disable;
   uint player_count;
 } jamma_config;
 
@@ -781,7 +782,8 @@ out:
 /* EXPANDER */
 #define EXP_I2S_FILTER 1
 #define EXP_PI5_I2S 2
-#define EXP_VIDEO_BYPASS 8
+#define EXP_VIDEO_BYPASS 7
+#define EXP_AMP_DISABLE 8
 #define EXP_GAIN1 9
 #define EXP_GAIN0 10
 #define EXP_FAN 14
@@ -827,14 +829,14 @@ out:
  *
  * Chip 3 : address = 0x26
  *                               __________
- *                         <--- |0        8| ---> IO1-0     VIDEO_BYPASS
+ *                         <--- |0        8| ---> IO1-0     AMP_DISABLE
  *   I2S_FILTER     IO0-1  <--- |1        9| ---> IO1-1     GAIN1
  *   PI5_I2S        IO0-2  <--- |2       10| ---> IO1-2     GAIN0
  *                  IO0-3  <--- |3       11| ---> IO1-3     EXTRA4
  *                  IO0-4  <--- |4       12| ---> IO1-4     EXTRA3
  *                  IO0-5  <--- |5       13| ---> IO1-5     EXTRA2
  *                  IO0-6  <--- |6       14| ---> IO1-6     EXTRA1
- *                  IO0-7  <--- |7       15| ---> IO1-7     FAN
+ *   VIDEO_BYPASS   IO0-7  <--- |7       15| ---> IO1-7     FAN
  *                               ‾‾‾‾‾‾‾‾‾‾
  */
 
@@ -1529,12 +1531,19 @@ static int load_config(void) {
             }
           } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
             if (jamma_config.amp_boost != optionvalue) {
-              printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
               jamma_config.amp_boost = optionvalue;
               if (jamma_config.expander != NULL) {
                 printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
                 pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
                 pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
+              }
+            }
+          } else if (strcmp(optionname, "options.jamma.amp.disable") == 0) {
+            if (jamma_config.amp_disable != optionvalue) {
+              jamma_config.amp_disable = optionvalue;
+              if (jamma_config.expander != NULL) {
+                printk(KERN_INFO "recalboxrgbjamma: switch amp_disable to %d\n", optionvalue);
+                pca953x_gpio_direction_output(jamma_config.expander, EXP_AMP_DISABLE, jamma_config.amp_disable & 0x1);
               }
             }
           }
@@ -1697,6 +1706,7 @@ static int pca953x_probe(struct i2c_client *client,
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_I2S_FILTER, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_PI5_I2S, jamma_config.i2s);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_VIDEO_BYPASS, 1);
+    pca953x_gpio_direction_output(&chip->gpio_chip, EXP_AMP_DISABLE, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_GAIN1, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_GAIN0, 0);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_FAN, 1);

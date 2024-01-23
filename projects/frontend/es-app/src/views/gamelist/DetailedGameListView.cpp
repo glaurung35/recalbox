@@ -175,6 +175,8 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
   mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation  | ThemePropertyCategory::Effects);
 
+  BuildVideoLinks(theme);
+
   initMDLabels();
   std::vector<TextComponent*> labels = getMDLabels();
   std::vector<String> names({
@@ -626,10 +628,18 @@ void DetailedGameListView::Update(int deltatime)
   }
   if (mFadeImageVideo != 0)
   {
+    // Fade direction
     if (mFadeImageVideo < 0) { if (mFadeImageVideo -= deltatime; mFadeImageVideo < -255) mFadeImageVideo = -255; }
     else { if (mFadeImageVideo += deltatime; mFadeImageVideo > 255) mFadeImageVideo = 255; }
-    ImageComponent& image = mNoImage.isThemeDisabled() ? mImage : mNoImage;
-    image.setOpacity(mFadeImageVideo < 0 ? 255 + mFadeImageVideo : mFadeImageVideo);
+
+    // Fade
+    for(Component* component : mVideoLinks)
+    {
+      if (component == &mImage) component = mNoImage.isThemeDisabled() ? &mImage : &mNoImage;
+      component->setOpacity(mFadeImageVideo < 0 ? 255 + mFadeImageVideo : mFadeImageVideo);
+    }
+
+    // The End?
     if (Math::absi(mFadeImageVideo) == 255) mFadeImageVideo = 0;
   }
 
@@ -1045,4 +1055,18 @@ void DetailedGameListView::VideoComponentRequireAction(const VideoComponent* sou
       case Action::FadeOut: mFadeImageVideo = -1; break;
       default: break;
     }
+}
+
+void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
+{
+  mVideoLinks.Clear();
+  const ThemeElement* elem = theme.Element(getName(), "md_video", ThemeElementType::Video);
+  if (elem != nullptr)
+    if (elem->HasProperty(ThemePropertyName::Link))
+      for(String& link : elem->AsString(ThemePropertyName::Link).Split(','))
+      {
+        link.Trim();
+        if (link == "md_image") mVideoLinks.Add(&mImage);
+        else if (Component* comp = mThemeExtras.Lookup(link); comp != nullptr) mVideoLinks.Add(comp);
+      }
 }

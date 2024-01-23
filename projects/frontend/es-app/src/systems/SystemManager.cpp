@@ -732,8 +732,6 @@ SystemData* SystemManager::CreateGenreSystem(GameGenres genre)
 SystemData* SystemManager::CreateArcadeManufacturersSystem(const String& manufacturer)
 {
   SystemDescriptor descriptor;
-  if (manufacturer.Contains("data"))
-    printf("ga\n");
   descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), BuildArcadeManufacturerSystemName(manufacturer), String(manufacturer).Replace('\\', " - "))
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", String("auto-arcade-").Append(manufacturer).Replace('\\','-').Remove("\u00A0"), "", "", false, false, false);

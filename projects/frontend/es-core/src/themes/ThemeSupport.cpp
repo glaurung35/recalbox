@@ -29,6 +29,7 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::FilledPath:
       case ThemePropertyName::FontPath: sArray[i] = ThemePropertyType::Path; break;
       case ThemePropertyName::FontSize: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::FontColor: sArray[i] = ThemePropertyType::Color; break;
       case ThemePropertyName::ForceUppercase: sArray[i] = ThemePropertyType::Boolean; break;
       case ThemePropertyName::Height:
       case ThemePropertyName::HorizontalMargin: sArray[i] = ThemePropertyType::Float; break;
@@ -64,6 +65,7 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::IconX:
       case ThemePropertyName::IconY: sArray[i] = ThemePropertyType::Path; break;
       case ThemePropertyName::LineSpacing: sArray[i] = ThemePropertyType::Float; break;
+      case ThemePropertyName::Link:
       case ThemePropertyName::LogoAlignment: sArray[i] = ThemePropertyType::String; break;
       case ThemePropertyName::LogoRotation: sArray[i] = ThemePropertyType::Float; break;
       case ThemePropertyName::LogoRotationOrigin: sArray[i] = ThemePropertyType::NormalizedPair; break;
@@ -171,6 +173,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Loops,
           ThemePropertyName::Delay,
           ThemePropertyName::Reflection,
+          ThemePropertyName::Link,
         },
       },
       {

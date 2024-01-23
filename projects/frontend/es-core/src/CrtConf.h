@@ -51,6 +51,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaPanelButtons, String, String, sSystemCRTJammaPanelButtons, "6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAmpDisable, bool, Bool, sSystemCRTJammaAmpDisable, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMonoAmpBoost, String, String, sSystemCRTJammaMonoAmpBoost, "0")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, String, String, sSystemCRTJammaNeogeoLayout, "line")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaStartBtn1Credit, bool, Bool, sSystemCRTJammaStartBtn1Credit, true)
@@ -88,6 +89,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTForceHDMI              = "video.forcehdmi";
     static constexpr const char* sSystemCRTScreen31kHz            = "options.screen.31kHz";
     static constexpr const char* sSystemCRTScreenMultiSync        = "options.screen.multisync";
+    static constexpr const char* sSystemCRTJammaAmpDisable        = "options.jamma.amp.disable";
     static constexpr const char* sSystemCRTJammaMonoAmpBoost      = "options.jamma.amp.boost";
     static constexpr const char* sSystemCRTJammaPanelButtons      = "options.jamma.controls.panel_buttons";
     static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.controls.neogeolayout";

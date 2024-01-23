@@ -34,6 +34,7 @@ struct SystemViewCarousel
 	Vector2f origin;
   std::shared_ptr<Font> fontlarge;
   std::shared_ptr<Font> fontmedium;
+  unsigned int fontcolor;
 	float logoScale;
 	float logoRotation;
 	Vector2f logoRotationOrigin;

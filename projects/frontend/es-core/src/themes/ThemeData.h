@@ -34,6 +34,7 @@ class ThemeData
       Hdmi  = 1,
       Crt   = 2,
       Jamma = 4,
+      Tate  = 8,
     };
 
     //! Constructor

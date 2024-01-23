@@ -358,12 +358,12 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
       // No matching? continue
       if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
       property = ThemeSupport::PropertyName().try_get(name);
-      element.SetLocalized(*property); // Match!
+      if (property != nullptr) element.SetLocalized(*property); // Match!
     }
     else
     {
       property = ThemeSupport::PropertyName().try_get(name);
-      if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
+      if (property != nullptr && element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     }
     // Check object property
     if (property == nullptr || !typeList.IsSet(*property))
@@ -387,12 +387,12 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
       // No matching? continue
       if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
       property = ThemeSupport::PropertyName().try_get(name);
-      element.SetLocalized(*property); // Match!
+      if (property != nullptr) element.SetLocalized(*property); // Match!
     }
     else
     {
       property = ThemeSupport::PropertyName().try_get(name);
-      if (element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
+      if (property != nullptr && element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
     }
     // Check object property
     if (property == nullptr || !typeList.IsSet(*property))

@@ -81,7 +81,14 @@ class ThemeExtras : public Component
      * @brief Access array element
      * @return
      */
-    List& Extras(){return mExtras;}
+    List& Extras() {return mExtras;}
+
+    /*!
+     * @brief Lookup component by name
+     * @param name Component name
+     * @return Component reference or nullptr if not found
+     */
+    ThemableComponent* Lookup(const String& name);
 
   private:
     //! Extra list

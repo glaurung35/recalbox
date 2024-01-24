@@ -54,7 +54,7 @@ endef
 SDL2_PRE_CONFIGURE_HOOKS += SDL2_RUN_AUTOGEN
 
 define SDL2_FIX_WAYLAND_SCANNER_PATH
-	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/usr/bin/wayland-scanner#' $(@D)/Makefile
+	$(SED) 's#^WAYLAND_SCANNER\s*=.*#WAYLAND_SCANNER = $(HOST_DIR)/bin/wayland-scanner#' $(@D)/Makefile
 endef
 SDL2_POST_CONFIGURE_HOOKS += SDL2_FIX_WAYLAND_SCANNER_PATH
 

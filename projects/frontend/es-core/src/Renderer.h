@@ -14,6 +14,7 @@
 #include <utils/gl/Colors.h>
 #include <utils/storage/Stack.h>
 #include <hardware/RotationType.h>
+#include <stdint.h>
 
 // Forward declaration
 class Component;
@@ -86,10 +87,20 @@ class Renderer : public StaticLifeCycleControler<Renderer>
 
     static void ColorToByteArray(GLubyte* array, Colors::ColorARGB color)
     {
-      array[0] = (GLubyte)(color >> 24);
-      array[1] = (GLubyte)(color >> 16);
-      array[2] = (GLubyte)(color >> 8);
-      array[3] = (GLubyte)color;
+      #ifdef LITTLE_ENDIAN
+      *(unsigned int*)array = __builtin_bswap32(color);
+      #else
+      *(unsigned int*)array = color;
+      #endif
+    }
+
+    static GLuint ColorToGL(Colors::ColorARGB color)
+    {
+      #ifdef LITTLE_ENDIAN
+      return __builtin_bswap32(color);
+      #else
+      return color;
+      #endif
     }
 
     /*!
@@ -205,6 +216,40 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      * @param blend_dfactor Destination blending
      */
     static void DrawRectangle(float x, float y, float w, float h, Colors::ColorARGB color, GLenum blend_sfactor = GL_SRC_ALPHA, GLenum blend_dfactor = GL_ONE_MINUS_SRC_ALPHA);
+
+    /*!
+     * @brief Draw rectangle
+     * @param x Left coordinate
+     * @param y Top coordinate
+     * @param w Width
+     * @param h Height
+     * @param topleftcolor Top Left Color
+     * @param toprightcolor Top Right Color
+     * @param bottomleftcolor Bottom Left Color
+     * @param bottomrightcolor Bottom Right Color
+     */
+    static void DrawRectangle(int x, int y, int w, int h,
+                              Colors::ColorARGB topleftcolor,
+                              Colors::ColorARGB toprightcolor,
+                              Colors::ColorARGB bottomrightcolor,
+                              Colors::ColorARGB bottomleftcolor);
+
+    /*!
+     * @brief Draw rectangle
+     * @param x Left coordinate
+     * @param y Top coordinate
+     * @param w Width
+     * @param h Height
+     * @param topleftcolor Top Left Color
+     * @param toprightcolor Top Right Color
+     * @param bottomleftcolor Bottom Left Color
+     * @param bottomrightcolor Bottom Right Color
+     */
+    static void DrawRectangle(float x, float y, float w, float h,
+                            Colors::ColorARGB topleftcolor,
+                            Colors::ColorARGB toprightcolor,
+                            Colors::ColorARGB bottomrightcolor,
+                            Colors::ColorARGB bottomleftcolor) { DrawRectangle((int)x, (int)y, (int)w, (int)h, topleftcolor, toprightcolor, bottomrightcolor, bottomleftcolor); }
 
     /*!
      * @brief Draw polylines

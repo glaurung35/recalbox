@@ -87,9 +87,10 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
 
     int version = 0; // Unknown version
     ThemeData::Compatibility compatibility = ThemeData::Compatibility::Hdmi;
+    ThemeData::Resolutions resolutions = ThemeData::Resolutions::HD | ThemeData::Resolutions::FHD;
 
     // Compatibility
-    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, displayableName, version))
+    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, resolutions, displayableName, version))
     {
       if ((compatibility & currentMode) != 0) displayableName.Insert(0, "\uF1C0 "); // (v) - compatibility match
       else displayableName.Insert(0, "\uF1CA "); // /!\ sign - compatibility mismatch

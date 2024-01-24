@@ -461,24 +461,18 @@ Renderer::DrawRectangle(float x, float y, float w, float h, Colors::ColorARGB co
 void Renderer::DrawRectangle(int x, int y, int w, int h, Colors::ColorARGB color, GLenum blend_sfactor, GLenum blend_dfactor)
 {
   #ifdef USE_OPENGL_ES
-  GLshort points[12];
+  GLshort points[12]
   #else
-  GLint points[12];
+  GLint points[12]
   #endif
-
-  points[0] = x;
-  points[1] = y;
-  points[2] = x;
-  points[3] = y + h;
-  points[4] = x + w;
-  points[5] = y;
-
-  points[6] = x + w;
-  points[7] = y;
-  points[8] = x;
-  points[9] = y + h;
-  points[10] = x + w;
-  points[11] = y + h;
+  {
+    x    , y    ,
+    x    , y + h,
+    x + w, y    ,
+    x + w, y    ,
+    x    , y + h,
+    x + w, y + h,
+  };
 
   GLubyte colors[6 * 4];
   BuildGLColorArray(colors, color, 6);
@@ -906,6 +900,55 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
   }
+}
+
+void Renderer::DrawRectangle(int x, int y, int w, int h,
+                             Colors::ColorARGB topleftcolor,
+                             Colors::ColorARGB toprightcolor,
+                             Colors::ColorARGB bottomrightcolor,
+                             Colors::ColorARGB bottomleftcolor)
+{
+  #ifdef USE_OPENGL_ES
+  GLshort points[12]
+  #else
+  GLint points[12]
+  #endif
+  {
+    x    , y    ,
+    x    , y + h,
+    x + w, y    ,
+    x + w, y    ,
+    x    , y + h,
+    x + w, y + h,
+  };
+
+  GLuint colors[6]
+  {
+    ColorToGL(topleftcolor),
+    ColorToGL(bottomleftcolor),
+    ColorToGL(toprightcolor),
+    ColorToGL(toprightcolor),
+    ColorToGL(bottomleftcolor),
+    ColorToGL(bottomrightcolor)
+  };
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
+  #ifdef USE_OPENGL_ES
+  glVertexPointer(2, GL_SHORT, 0, points);
+  #else
+  glVertexPointer(2, GL_INT, 0, points);
+  #endif
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+  glDrawArrays(GL_TRIANGLES, 0, 6);
+
+  glDisable(GL_BLEND);
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
 }
 
 

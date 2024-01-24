@@ -9,7 +9,7 @@ MOONLIGHT_QT_SITE = https://github.com/moonlight-stream/moonlight-qt.git
 MOONLIGHT_QT_SITE_METHOD = git
 MOONLIGHT_QT_GIT_SUBMODULES=y
 MOONLIGHT_QT_DEPENDENCIES = opus expat libevdev avahi alsa-lib udev libcurl libcec ffmpeg sdl2 libenet \
-			qt6svg pulseaudio openssl sdl2_ttf qt6base qt5base
+			qt5svg pulseaudio openssl sdl2_ttf qt5base qt5quickcontrols2
 MOONLIGHT_QT_LICENSE = GPL-3.0
 MOONLIGHT_QT_LICENSE_FILES = LICENSE
 
@@ -48,4 +48,4 @@ endef
 
 MOONLIGHT_QT_POST_INSTALL_TARGET_HOOKS += MOONLIGHT_QT_SCRIPT_INSTALL
 
-$(eval $(cmake-package))
+$(eval $(qmake-package))

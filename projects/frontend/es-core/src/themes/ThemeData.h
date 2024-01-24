@@ -27,6 +27,14 @@ class WindowManager;
 class ThemeData
 {
   public:
+    //! Region bitflag
+    enum class Regions
+    {
+      US, //!< USA
+      EU, //!< Europe
+      JP, //!< Japan
+    };
+
     //! Compatibility
     enum class Compatibility
     {
@@ -142,19 +150,20 @@ class ThemeData
     String mMenu;
     String mSystemview;
     String mGamelistview;
-    String mRegion;
     String mGameClipView;
     String mSystemThemeFolder;
     String mRandomPath;
 
     //! User langage
     String mLangageCode;
-    //! User region
-    String mRegionCode;
+    //! User country
+    String mCountryCode;
     //! User langage as integer
     int mLangageCodeInteger;
     //! User language/region as integer
-    int mLanguageRegionCodeInteger;
+    int mLanguageCountryCodeInteger;
+    //! User region as integer
+    int mRegionCodeInteger;
 
     //! External global variable resolver
     IGlobalVariableResolver& mGlobalResolver;
@@ -188,7 +197,7 @@ class ThemeData
      */
     void parseProperty(const String& elementName, ThemePropertyName propertyName, String& value, ThemeElement& element);
 
-    bool parseRegion(const pugi::xml_node& root);
+    bool IsMatchingRegionOldTag(const pugi::xml_node& node) const;
 
     bool parseSubset(const pugi::xml_node& node);
 
@@ -257,6 +266,11 @@ class ThemeData
      * @brief Extract compatibility flags or set default hdmi flag
      */
     static Compatibility ExtractCompatibility(const pugi::xml_node& node);
+
+    bool IsMatchingLocaleOrRegionOrNeutral([[in, out]] String& name);
+
+    bool IsPropertyMatchingLocaleOrRegionOrNeutral(ThemeElement& element, [[in, out]] String& name, [[out]] ThemePropertyName*& property) const;
 };
 
 DEFINE_BITFLAG_ENUM(ThemeData::Compatibility, int)
+DEFINE_BITFLAG_ENUM(ThemeData::Regions, int)

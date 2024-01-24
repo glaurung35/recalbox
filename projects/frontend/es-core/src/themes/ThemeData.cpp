@@ -36,9 +36,10 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVar
   , mSystem(system)
   , mVersion(0)
   , mLangageCode("en")
-  , mRegionCode("us")
+  , mCountryCode("us")
   , mLangageCodeInteger((int)'e' | ((int)'n' >> 8))
-  , mLanguageRegionCodeInteger((int)'e' | ((int)'n' >> 8) | ((int)'U' >> 16) | ((int)'S' >> 24))
+  , mLanguageCountryCodeInteger((int)'e' | ((int)'n' >> 8) | ((int)'U' >> 16) | ((int)'S' >> 24))
+  , mRegionCodeInteger(0)
   , mGlobalResolver(globalResolver)
   , mGameResolver(nullptr)
 {
@@ -52,9 +53,9 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVar
     if (pos >= 2 && pos < (int) lccc.size() - 1)
     {
       mLangageCode = lccc.SubString(0, pos);
-      mRegionCode = lccc.SubString(pos + 1);
+      mCountryCode = lccc.SubString(pos + 1);
       mLangageCodeInteger = (int)mLangageCode[0] | ((int)mLangageCode[1] >> 8);
-      mLanguageRegionCodeInteger = mLangageCodeInteger | ((int)mRegionCode[0] >> 16) | ((int)mRegionCode[1] >> 24);
+      mLanguageCountryCodeInteger = mLangageCodeInteger | ((int)mCountryCode[0] >> 16) | ((int)mCountryCode[1] >> 24);
     }
   }
 
@@ -109,7 +110,6 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
   mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
   mGameClipView = RecalboxConf::Instance().GetThemeGameClipView(themeName);
-  mRegion = RecalboxConf::Instance().GetThemeRegion(themeName);
   // Main theme ?
   if (mSystem == nullptr)
   {
@@ -122,7 +122,11 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
     if (CheckThemeOption(mSystemview, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
     if (CheckThemeOption(mGamelistview, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
     if (CheckThemeOption(mGameClipView, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
-    if (mRegion != "us" && mRegion != "eu" && mRegion != "jp") { mRegion="us"; RecalboxConf::Instance().SetThemeRegion(themeName, mRegion); needSave = true; }
+    // Region is set at the begining of the main theme loading
+    String region = RecalboxConf::Instance().GetThemeRegion();
+    if      (region == "jp") mRegionCodeInteger = ((int)'J' << 8) | 'P';
+    else if (region == "eu") mRegionCodeInteger = ((int)'E' << 8) | 'U';
+    else { mRegionCodeInteger = ((int)'U' << 8) | 'S'; needSave = true; }
     if (needSave) RecalboxConf::Instance().Save();
   }
 
@@ -248,6 +252,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
     }
 
     if (!node.attribute("name")) { LOG(LogError) << "[Theme] " << FileList() << "Element of type \"" << typeString << R"(" missing "name" attribute!)"; continue; }
+    if (!IsMatchingLocaleOrRegionOrNeutral(typeString)) continue;
 
     // Process normal item type
     ThemeElementType* type = ThemeSupport::ElementType().try_get(typeString);
@@ -255,7 +260,7 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
     const ThemePropertyNameBits* properties = ThemeSupport::ElementMap().try_get(*type);
     if (properties == nullptr) { LOG(LogError) << "[Theme] " << FileList() << " Cannot get properties of element of type \"" << typeString << "\"!"; continue; }
 
-    if (parseRegion(node))
+    if (IsMatchingRegionOldTag(node))
     {
       String names = node.attribute("name").as_string();
       String name;
@@ -275,15 +280,82 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
   }
 }
 
-bool ThemeData::parseRegion(const pugi::xml_node& node)
+bool ThemeData::IsMatchingRegionOldTag(const pugi::xml_node& node) const
 {
   // No region?
   if (node.attribute("region") == nullptr) return true;
 
-  for(String& region : String(node.attribute("region").as_string()).LowerCase().Split(','))
-    if (region.Trim() == mRegion)
-      return true;
+  for(String& region : String(node.attribute("region").as_string()).UpperCase().Split(','))
+    if (region.Trim(); region.size() == 2)
+      if ((((int)region[0] << 8) | region[1]) == mRegionCodeInteger)
+        return true;
   return false;
+}
+
+void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyNameBits& typeList, ThemeElement& element)
+{
+  String elementNode = root.attribute("name").as_string();
+  if (!Condition(root)) return;
+  // process node attributes
+  for (pugi::xml_attribute& attribute : root.attributes())
+  {
+    String name = attribute.name();
+    if (mNoProcessAttributes.contains(name)) continue;
+    // Localized?
+    ThemePropertyName* property = nullptr;
+    if (!IsPropertyMatchingLocaleOrRegionOrNeutral(element, name, property)) continue;
+    // Check object property
+    if (property == nullptr || !typeList.IsSet(*property))
+    {
+      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      continue;
+    }
+    // Process
+    parseProperty(elementNode, *property, String(attribute.as_string()).Trim(), element);
+  }
+  // Process sub nodes
+  for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
+  {
+    String name = node.name();
+    // Localized?
+    ThemePropertyName* property = nullptr;
+    if (!IsPropertyMatchingLocaleOrRegionOrNeutral(element, name, property)) continue;
+    // Check object property
+    if (property == nullptr || !typeList.IsSet(*property))
+    {
+      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      continue;
+    }
+    // Get value from attribute or text
+    String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
+    // Process
+    if (Condition(node))
+      parseProperty(elementNode, *property, value.Trim(), element);
+  }
+}
+
+bool ThemeData::IsMatchingLocaleOrRegionOrNeutral(String& name)
+{
+  int locale = ExtractLocalizedCode(name);
+  // No locale/region
+  if (locale == 0) return true;
+  // Match?
+  return locale == mLangageCodeInteger || locale == mLanguageCountryCodeInteger || locale == mRegionCodeInteger;
+}
+
+bool ThemeData::IsPropertyMatchingLocaleOrRegionOrNeutral(ThemeElement& element, String& name, ThemePropertyName*& property) const
+{
+  int locale = ExtractLocalizedCode(name);
+  if (locale == 0) // No locale/region
+  {
+    property = ThemeSupport::PropertyName().try_get(name);
+    return property == nullptr || !element.IsAlreadyLocalized(*property); // If already localized, ignore non-localized text
+  }
+  // Property is localized/regionalized
+  if (locale != mLangageCodeInteger && locale != mLanguageCountryCodeInteger && locale != mRegionCodeInteger) return false;
+  property = ThemeSupport::PropertyName().try_get(name);
+  if (property != nullptr) element.SetLocalized(*property); // Match!
+  return true;
 }
 
 void ThemeData::parseProperty(const String& elementName, ThemePropertyName propertyName, String& value, ThemeElement& element)
@@ -340,72 +412,6 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
     }
     default:
     { LOG(LogError) << "[Theme] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << ThemeSupport::ReversePropertyName(propertyName); }
-  }
-}
-
-void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyNameBits& typeList, ThemeElement& element)
-{
-  String elementNode = root.attribute("name").as_string();
-  if (!Condition(root)) return;
-  // process node attributes
-  for (pugi::xml_attribute& attribute : root.attributes())
-  {
-    String name = attribute.name();
-    if (mNoProcessAttributes.contains(name)) continue;
-    // Localized?
-    ThemePropertyName* property = nullptr;
-    if (int locale = ExtractLocalizedCode(name); locale != 0)
-    {
-      // No matching? continue
-      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
-      property = ThemeSupport::PropertyName().try_get(name);
-      if (property != nullptr) element.SetLocalized(*property); // Match!
-    }
-    else
-    {
-      property = ThemeSupport::PropertyName().try_get(name);
-      if (property != nullptr && element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
-    }
-    // Check object property
-    if (property == nullptr || !typeList.IsSet(*property))
-    {
-      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
-      continue;
-    }
-    // Get value
-    String value = attribute.as_string();
-    // Process
-    parseProperty(elementNode, *property, value.Trim(), element);
-  }
-  // Process sub nodes
-  for (pugi::xml_node node = root.first_child(); node != nullptr; node = node.next_sibling())
-  {
-    String name = node.name();
-    // Localized?
-    ThemePropertyName* property = nullptr;
-    if (int locale = ExtractLocalizedCode(name); locale != 0)
-    {
-      // No matching? continue
-      if (locale != mLangageCodeInteger && locale != mLanguageRegionCodeInteger) continue;
-      property = ThemeSupport::PropertyName().try_get(name);
-      if (property != nullptr) element.SetLocalized(*property); // Match!
-    }
-    else
-    {
-      property = ThemeSupport::PropertyName().try_get(name);
-      if (property != nullptr && element.IsAlreadyLocalized(*property)) continue; // If already localized, ignore non-localized text
-    }
-    // Check object property
-    if (property == nullptr || !typeList.IsSet(*property))
-    {
-      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
-      continue;
-    }
-    // Get value from attribute or text
-    String value = node.attribute("value") != nullptr ? String(node.attribute("value").as_string()) : node.text().as_string();
-    // Process
-    if (Condition(node))
-      parseProperty(elementNode, *property, value.Trim(), element);
   }
 }
 
@@ -608,7 +614,6 @@ void ThemeData::Reset()
   mMenu.clear();
   mSystemview.clear();
   mGamelistview.clear();
-  mRegion.clear();
   mGameClipView.clear();
   mSystemThemeFolder.clear();
   mRandomPath.clear();
@@ -620,7 +625,7 @@ void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[in,out]
   {
     path.Replace("$system", systemThemeFolder)
         .Replace("$language", mLangageCode)
-        .Replace("$country", mRegionCode);
+        .Replace("$country", mCountryCode);
     mGlobalResolver.ResolveVariableIn(path);
     if (mSystem != nullptr)
     {
@@ -836,3 +841,5 @@ bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& c
 
   return true;
 }
+
+

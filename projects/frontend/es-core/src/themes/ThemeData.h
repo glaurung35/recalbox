@@ -45,6 +45,16 @@ class ThemeData
       Tate  = 8,
     };
 
+    //! Compatibility
+    enum class Resolutions
+    {
+      None = 0,
+      QVGA = 1,
+      VGA  = 2,
+      HD   = 4,
+      FHD  = 8,
+    };
+
     //! Constructor
     explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVariableResolver& globalResolver);
 
@@ -53,7 +63,7 @@ class ThemeData
      * @param root Theme root path
      * @return
      */
-    static bool FetchCompatibility(const Path& root, [[out]] Compatibility& compatibility, [[out]] String& name, [[out]] int& version);
+    static bool FetchCompatibility(const Path& root, [[out]] Compatibility& compatibility, [[out]] Resolutions& resolutions, [[out]] String& name, [[out]] int& version);
 
     /*!
      * @brief Load main theme
@@ -267,10 +277,16 @@ class ThemeData
      */
     static Compatibility ExtractCompatibility(const pugi::xml_node& node);
 
+    /*!
+     * @brief Extract resolutions flags or set default hdmi flag
+     */
+    static Resolutions ExtractResolutions(const pugi::xml_node& node);
+
     bool IsMatchingLocaleOrRegionOrNeutral([[in, out]] String& name);
 
     bool IsPropertyMatchingLocaleOrRegionOrNeutral(ThemeElement& element, [[in, out]] String& name, [[out]] ThemePropertyName*& property) const;
 };
 
 DEFINE_BITFLAG_ENUM(ThemeData::Compatibility, int)
+DEFINE_BITFLAG_ENUM(ThemeData::Resolutions, int)
 DEFINE_BITFLAG_ENUM(ThemeData::Regions, int)

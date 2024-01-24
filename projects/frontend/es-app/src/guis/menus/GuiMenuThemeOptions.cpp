@@ -12,14 +12,17 @@ GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
   : GuiMenuBase(window, _("THEME"), nullptr)
   , mTimer(0)
 {
-  // carousel transition option
-  mCarousel = AddSwitch(_("CAROUSEL ANIMATION"), RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
-
-  // transition style
-  mTransition = AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
-
   // theme set
   mTheme = AddList(_("THEME SET"), (int)Components::Theme, this, GetThemeEntries(), _(MENUMESSAGE_UI_THEME_HELP_MSG));
+
+  // carousel transition option
+  AddSwitch(_("CAROUSEL ANIMATION"), RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
+
+  // transition style
+  AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
+
+  // Region
+  AddList(_("REGION"), (int)Components::Transition, this, GetRegionEntries(), _(MENUMESSAGE_UI_REGION_HELP_MSG));
 }
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
@@ -33,10 +36,22 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEn
 {
   std::vector<ListEntry<String>> list;
 
-  mOriginalTransition = RecalboxConf::Instance().GetThemeTransition();
-  list.push_back({ _("FADE"), "fade", mOriginalTransition == "fade" });
-  list.push_back({ _("SLIDE"), "slide", mOriginalTransition == "slide" });
-  list.push_back({ _("INSTANT"), "instant", mOriginalTransition == "instant" });
+  String originalTransition = RecalboxConf::Instance().GetThemeTransition();
+  list.push_back({ _("FADE"), "fade", originalTransition == "fade" });
+  list.push_back({ _("SLIDE"), "slide", originalTransition == "slide" });
+  list.push_back({ _("INSTANT"), "instant", originalTransition == "instant" });
+
+  return list;
+}
+
+std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetRegionEntries()
+{
+  std::vector<ListEntry<String>> list;
+
+  String region = RecalboxConf::Instance().GetThemeRegion();
+  list.push_back({ _("Europe"), "eu", region == "eu" });
+  list.push_back({ _("USA"), "us", region == "us" });
+  list.push_back({ _("Japan"), "jp", region == "jp" });
 
   return list;
 }
@@ -44,7 +59,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetTransitionEn
 std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries()
 {
   // Get theme list
-  ThemeManager::ThemeList themelist = ThemeManager::Instance().AvailableThemes();
+  ThemeManager::ThemeList themelist = ThemeManager::AvailableThemes();
   mOriginalTheme = RecalboxConf::Instance().GetThemeFolder();
   if (!themelist.contains(mOriginalTheme)) mOriginalTheme = ThemeManager::sDefaultThemeFolder;
   if (!themelist.contains(mOriginalTheme)) mOriginalTheme = themelist.begin()->first;
@@ -99,9 +114,8 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const St
   {
     if (Board::Instance().CrtBoard().IsCrtAdapterAttached() && value != "recalbox-240p")
     {
-      WindowManager* window = &mWindow;
       Gui* gui = new GuiMsgBox(mWindow, _("Are you sure the selected theme is compatible with CRT screens?"),
-                               _("YES"), [value, window] { RecalboxConf::Instance().SetThemeFolder(value).Save(); ThemeManager::Instance().DoThemeChange(window); },
+                               _("YES"), [this, value] { RecalboxConf::Instance().SetThemeFolder(value).Save(); ThemeManager::Instance().DoThemeChange(&mWindow); },
                                _("NO"), [this, index] { mTheme->setSelectedIndex(index); });
       mWindow.pushGui(gui);
     }
@@ -116,6 +130,8 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const St
       }
     }
   }
+  else if ((Components)id == Components::Region)
+    RecalboxConf::Instance().SetThemeRegion(value).Save();
 }
 
 void GuiMenuThemeOptions::SwitchComponentChanged(int id, bool& status)

@@ -20,7 +20,15 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::Alignment:
       case ThemePropertyName::Animations: sArray[i] = ThemePropertyType::String; break;
       case ThemePropertyName::BackgroundColor:
-      case ThemePropertyName::Color: sArray[i] = ThemePropertyType::Color; break;
+      case ThemePropertyName::Color:
+      case ThemePropertyName::ColorTop:
+      case ThemePropertyName::ColorBottom:
+      case ThemePropertyName::ColorLeft:
+      case ThemePropertyName::ColorRight:
+      case ThemePropertyName::ColorTopLeft:
+      case ThemePropertyName::ColorTopRight:
+      case ThemePropertyName::ColorBottomLeft:
+      case ThemePropertyName::ColorBottomRight: sArray[i] = ThemePropertyType::Color; break;
       case ThemePropertyName::DefaultTransition: sArray[i] = ThemePropertyType::String; break;
       case ThemePropertyName::Delay: sArray[i] = ThemePropertyType::Float; break;
       case ThemePropertyName::Disabled: sArray[i] = ThemePropertyType::Boolean; break;
@@ -153,6 +161,14 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Rotation,
           ThemePropertyName::RotationOrigin,
           ThemePropertyName::Color,
+          ThemePropertyName::ColorTop,
+          ThemePropertyName::ColorBottom,
+          ThemePropertyName::ColorLeft,
+          ThemePropertyName::ColorRight,
+          ThemePropertyName::ColorTopLeft,
+          ThemePropertyName::ColorTopRight,
+          ThemePropertyName::ColorBottomLeft,
+          ThemePropertyName::ColorBottomRight,
           ThemePropertyName::ZIndex,
           ThemePropertyName::Disabled,
         },
@@ -461,6 +477,14 @@ HashMap<String, ThemePropertyName>& ThemeSupport::PropertyName()
     { "animations", ThemePropertyName::Animations },
     { "backgroundColor", ThemePropertyName::BackgroundColor },
     { "color", ThemePropertyName::Color },
+    { "colorTop", ThemePropertyName::ColorTop },
+    { "colorBottom", ThemePropertyName::ColorBottom },
+    { "colorLeft", ThemePropertyName::ColorLeft },
+    { "colorRight", ThemePropertyName::ColorRight },
+    { "colorTopLeft", ThemePropertyName::ColorTopLeft },
+    { "colorTopRight", ThemePropertyName::ColorTopRight },
+    { "colorBottomLeft", ThemePropertyName::ColorBottomLeft },
+    { "colorBottomRight", ThemePropertyName::ColorBottomRight },
     { "defaultTransition", ThemePropertyName::DefaultTransition },
     { "delay", ThemePropertyName::Delay },
     { "disabled", ThemePropertyName::Disabled },
@@ -553,6 +577,14 @@ String ThemeSupport::ReversePropertyName(ThemePropertyName name)
     { ThemePropertyName::Animations, "animations" },
     { ThemePropertyName::BackgroundColor, "backgroundColor" },
     { ThemePropertyName::Color, "color" },
+    { ThemePropertyName::ColorTop, "colorTop" },
+    { ThemePropertyName::ColorBottom, "colorBottom" },
+    { ThemePropertyName::ColorLeft, "colorLeft" },
+    { ThemePropertyName::ColorRight, "colorRight" },
+    { ThemePropertyName::ColorTopLeft, "colorTopLeft" },
+    { ThemePropertyName::ColorTopRight, "colorTopRight" },
+    { ThemePropertyName::ColorBottomLeft, "colorBottomLeft" },
+    { ThemePropertyName::ColorBottomRight, "colorBottomRight" },
     { ThemePropertyName::DefaultTransition, "defaultTransition" },
     { ThemePropertyName::Delay, "delay" },
     { ThemePropertyName::Disabled, "disabled" },

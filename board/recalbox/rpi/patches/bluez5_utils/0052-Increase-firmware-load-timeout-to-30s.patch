@@ -1,8 +1,17 @@
-Index: bluez-5.43/tools/hciattach.c
-===================================================================
---- bluez-5.43.orig/tools/hciattach.c
-+++ bluez-5.43/tools/hciattach.c
-@@ -1239,7 +1239,7 @@ int main(int argc, char *argv[])
+From 45e177481e815416a31cb9b5b286aae1f9be46a5 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 24 Jan 2024 23:52:23 +0100
+Subject: [PATCH 09/10] Increase-firmware-load-timeout-to-30s
+
+---
+ tools/hciattach.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/tools/hciattach.c b/tools/hciattach.c
+index 7d01d8b74..465bb17dd 100644
+--- a/tools/hciattach.c
++++ b/tools/hciattach.c
+@@ -1227,7 +1227,7 @@ int main(int argc, char *argv[])
  {
  	struct uart_t *u = NULL;
  	int detach, printpid, raw, opt, i, n, ld, err;
@@ -11,3 +20,6 @@ Index: bluez-5.43/tools/hciattach.c
  	int init_speed = 0;
  	int send_break = 0;
  	pid_t pid;
+-- 
+2.43.0
+

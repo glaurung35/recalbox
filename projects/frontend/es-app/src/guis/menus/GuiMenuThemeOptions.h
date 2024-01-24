@@ -32,13 +32,10 @@ class GuiMenuThemeOptions : public GuiMenuBase
       Carousel,
       Transition,
       Theme,
+      Region,
     };
 
-    //! Carousel
-    std::shared_ptr<SwitchComponent> mCarousel;
-    //! Transition
-    std::shared_ptr<OptionListComponent<String>> mTransition;
-    //! Teeme
+    //! Theme
     std::shared_ptr<OptionListComponent<String>> mTheme;
 
     //! Transition original value
@@ -48,10 +45,12 @@ class GuiMenuThemeOptions : public GuiMenuBase
     //! Timed change
     int mTimer;
 
-    //! Get O/C List
-    std::vector<ListEntry<String>> GetTransitionEntries();
+    //! Get Transition list
+    static std::vector<ListEntry<String>> GetTransitionEntries();
     //! Get Theme List
     std::vector<ListEntry<String>> GetThemeEntries();
+    //! Get Region List
+    static std::vector<ListEntry<String>> GetRegionEntries();
 
     /*
      * IOptionListComponent<String> implementation

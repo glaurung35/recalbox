@@ -22,8 +22,8 @@ define XBOXDRV_INSTALL_TARGET_CMDS
 endef
 
 define XBOXDRV_HOOK_SCONS
-	$(SED) "s|dbus-binding-tool|$(HOST_DIR)/usr/bin/dbus-binding-tool|g" $(@D)/SConstruct
-	$(SED) "s|pkg-config|$(HOST_DIR)/usr/bin/pkg-config|g" $(@D)/SConstruct
+	$(SED) "s|dbus-binding-tool|$(HOST_DIR)/bin/dbus-binding-tool|g" $(@D)/SConstruct
+	$(SED) "s|pkg-config|$(HOST_DIR)/bin/pkg-config|g" $(@D)/SConstruct
 	$(SED) "s|^\(\s*\)scons|\1$(SCONS) CXX=\"$(TARGET_CXX)\" CC=\"$(TARGET_CC)\" CCFLAGS=\"$(TARGET_CFLAGS)\" CXXFLAGS=\"$(TARGET_CXXFLAGS)\"|g" $(@D)/Makefile
 endef
 

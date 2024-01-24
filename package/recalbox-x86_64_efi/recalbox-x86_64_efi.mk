@@ -82,7 +82,7 @@ HOST_RECALBOX_X86_64_EFI_CONF_OPTS = \
 
 define RECALBOX_X86_64_EFI_INSTALL_IMAGES_CMDS
 	mkdir -p $(dir $(RECALBOX_X86_64_EFI_IMAGE))
-	$(HOST_DIR)/usr/bin/grub-mkimage \
+	$(HOST_DIR)/bin/grub-mkimage \
 		-d $(@D)/grub-core/ \
 		-O $(RECALBOX_X86_64_EFI_TUPLE) \
 		-o $(RECALBOX_X86_64_EFI_IMAGE) \

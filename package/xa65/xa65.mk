@@ -14,7 +14,7 @@ define HOST_XA65_BUILD_CMDS
 endef
 
 define HOST_XA65_INSTALL_CMDS
-	$(INSTALL) -D $(@D)/xa/xa $(HOST_DIR)/usr/bin/xa
+	$(INSTALL) -D $(@D)/xa/xa $(HOST_DIR)/bin/xa
 endef
 
 $(eval $(host-generic-package))

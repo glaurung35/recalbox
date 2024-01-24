@@ -34,6 +34,19 @@ menu "Recalbox"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/uboot-rg353x/Config.in"
     endmenu
   endmenu
+  menu "Video"
+    comment "Video specific options"
+    menu "Wayland"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/dwl/Config.in"
+    endmenu
+  endmenu
+  menu "Emulation"
+    comment "Emulation specific options"
+    menu "Emulator host tooling"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/xa65/Config.in.host"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/xxd/Config.in.host"
+    endmenu
+  endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/guichan/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libenet/Config.in"
@@ -339,7 +352,6 @@ menu "Utils"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/pm-utils/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/wsd/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/pamix/Config.in"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/xxd/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kmsgrab/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/eepromutils/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/arcade-dats/Config.in"

@@ -1,0 +1,25 @@
+From ee7dd199611e28770f42e0da509d3fa59980011b Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 24 Jan 2024 23:37:52 +0100
+Subject: [PATCH 5/6] sixaxis-autotrust
+
+---
+ plugins/sixaxis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/sixaxis.c b/plugins/sixaxis.c
+index 0bc9b41fd..0e2f8284e 100644
+--- a/plugins/sixaxis.c
++++ b/plugins/sixaxis.c
+@@ -524,7 +524,7 @@ static bool setup_device(int fd, const char *sysfs_path,
+ 		btd_device_set_pnpid(device, cp->source, cp->vid, cp->bt_pid, cp->version);
+ 	else
+ 		btd_device_set_pnpid(device, cp->source, cp->vid, cp->pid, cp->version);
+-	btd_device_set_trusted(device, false);
++	btd_device_set_trusted(device, true);
+ 	btd_device_set_temporary(device, true);
+ 
+ 	closure = g_new0(struct authentication_closure, 1);
+-- 
+2.43.0
+

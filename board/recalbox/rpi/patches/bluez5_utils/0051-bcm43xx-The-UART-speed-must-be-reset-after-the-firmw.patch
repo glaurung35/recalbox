@@ -1,8 +1,21 @@
-Index: bluez-5.43/tools/hciattach_bcm43xx.c
-===================================================================
---- bluez-5.43.orig/tools/hciattach_bcm43xx.c
-+++ bluez-5.43/tools/hciattach_bcm43xx.c
-@@ -366,11 +366,8 @@ int bcm43xx_init(int fd, int def_speed,
+From b3e9293916d87c92ebf3a977ae58925977e90e87 Mon Sep 17 00:00:00 2001
+From: Simon Long <simon@raspberrypi.org>
+Date: Fri, 18 Dec 2020 22:49:56 +0100
+Subject: [PATCH 08/10] bcm43xx-The-UART-speed-must-be-reset-after-the-firmw
+
+Disables setting the UART interface speed *before* loading
+the firmware (a later call sets the speed of the interface as requested). It
+also introduces a short wait after the firmware load before the module is
+reset.
+---
+ tools/hciattach_bcm43xx.c | 6 ++----
+ 1 file changed, 2 insertions(+), 4 deletions(-)
+
+diff --git a/tools/hciattach_bcm43xx.c b/tools/hciattach_bcm43xx.c
+index b89fc1b50..de01a6aea 100644
+--- a/tools/hciattach_bcm43xx.c
++++ b/tools/hciattach_bcm43xx.c
+@@ -350,11 +350,8 @@ int bcm43xx_init(int fd, int def_speed, int speed, struct termios *ti,
  		return -1;
  
  	if (bcm43xx_locate_patch(FIRMWARE_DIR, chip_name, fw_path)) {
@@ -15,7 +28,7 @@ Index: bluez-5.43/tools/hciattach_bcm43xx.c
  		if (bcm43xx_load_firmware(fd, fw_path))
  			return -1;
  
-@@ -380,6 +377,7 @@ int bcm43xx_init(int fd, int def_speed,
+@@ -364,6 +361,7 @@ int bcm43xx_init(int fd, int def_speed, int speed, struct termios *ti,
  			return -1;
  		}
  
@@ -23,3 +36,6 @@ Index: bluez-5.43/tools/hciattach_bcm43xx.c
  		if (bcm43xx_reset(fd))
  			return -1;
  	}
+-- 
+2.43.0
+

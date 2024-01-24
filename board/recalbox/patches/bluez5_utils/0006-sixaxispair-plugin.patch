@@ -1,9 +1,21 @@
+From 8aaad72e0fdc5a034976354bbda2ba463fb5ef07 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 24 Jan 2024 23:38:31 +0100
+Subject: [PATCH 6/6] sixaxispair-plugin
+
+---
+ Makefile.plugins      |   5 +
+ plugins/sixaxispair.c | 777 ++++++++++++++++++++++++++++++++++++++++++
+ src/bluetooth.ver     |   9 +-
+ 3 files changed, 783 insertions(+), 8 deletions(-)
+ create mode 100644 plugins/sixaxispair.c
+
 diff --git a/Makefile.plugins b/Makefile.plugins
-index febe61e..64098ce 100644
---- a/Makefile.plugins	2020-07-04 17:53:30.987122410 +0200
-+++ b/Makefile.plugins	2020-07-04 17:54:55.178514586 +0200
-@@ -111,4 +111,9 @@
- 						-no-undefined
+index 1f94f2998..82a16da05 100644
+--- a/Makefile.plugins
++++ b/Makefile.plugins
+@@ -115,6 +115,11 @@ plugins_sixaxis_la_SOURCES = plugins/sixaxis.c
+ plugins_sixaxis_la_LDFLAGS = $(AM_LDFLAGS) -module -avoid-version
  plugins_sixaxis_la_LIBADD = $(UDEV_LIBS) lib/libbluetooth-internal.la
  plugins_sixaxis_la_CFLAGS = $(AM_CFLAGS) -fvisibility=hidden
 +plugin_LTLIBRARIES += plugins/sixaxispair.la
@@ -12,21 +24,11 @@ index febe61e..64098ce 100644
 +						-no-undefined @UDEV_LIBS@
 +plugins_sixaxispair_la_CFLAGS = $(AM_CFLAGS) -fvisibility=hidden @UDEV_CFLAGS@
  endif
-diff --git a/src/bluetooth.ver b/src/bluetooth.ver
-index 214fa8a..15a9eb1 100644
---- a/src/bluetooth.ver
-+++ b/src/bluetooth.ver
-@@ -7,6 +7,7 @@
- 		debug;
- 		baswap;
- 		ba2str;
-+		sdp_*;
- 	local:
- 		*;
- };
+ 
+ if BAP
 diff --git a/plugins/sixaxispair.c b/plugins/sixaxispair.c
 new file mode 100644
-index 0000000..0c061ef
+index 000000000..0c061ef8f
 --- /dev/null
 +++ b/plugins/sixaxispair.c
 @@ -0,0 +1,777 @@
@@ -807,3 +809,26 @@ index 0000000..0c061ef
 +
 +BLUETOOTH_PLUGIN_DEFINE(sixaxispair, VERSION, BLUETOOTH_PLUGIN_PRIORITY_LOW,
 +						sixaxis_init, sixaxis_exit)
+diff --git a/src/bluetooth.ver b/src/bluetooth.ver
+index a96fda2a1..15a9eb143 100644
+--- a/src/bluetooth.ver
++++ b/src/bluetooth.ver
+@@ -7,14 +7,7 @@
+ 		debug;
+ 		baswap;
+ 		ba2str;
+-		/* Don't break LLVM sanitizers */
+-		__asan*;
+-		__dfsan*;
+-		__lsan*;
+-		__msan*;
+-		__sanitizer*;
+-		__tsan*;
+-		__ubsan*;
++		sdp_*;
+ 	local:
+ 		*;
+ };
+-- 
+2.43.0
+

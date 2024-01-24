@@ -11,11 +11,9 @@
 4c323a0fc6461ab2af66e1282fe4585a  linux/Config.in
 cb5b6a8c509a930d8e9815f97855613b  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
-fc6f20fa112f494c495056c20d649ea6  package/binutils/binutils.mk
-2fadae63fb076dd0ff106dc0e06784b3  package/bluez5_utils/bluez5_utils.mk
-fee0d77f1f094e5ca3cf9000da899e28  package/brcmfmac_sdio-firmware-rpi/brcmfmac_sdio-firmware-rpi.hash
-0f1fa62eabeb83bb50158e8f508cb0bd  package/brcmfmac_sdio-firmware-rpi/brcmfmac_sdio-firmware-rpi.mk
-40e93c6a4fd117a51513b11cd6a334f7  package/dhcpcd/dhcpcd.mk
+5a9deb88e7e597a746ee333e858caaca  package/binutils/binutils.mk
+da90ab5754ec8fcf94fb0dc8048ef344  package/bluez5_utils/bluez5_utils.mk
+139c28fb0a041898208f176f918bf135  package/dhcpcd/dhcpcd.mk
 c445390118f5d058dd372a8b2beb25a8  package/dropbear/S50dropbear
 38d81646d1a5d03cd582132606a18936  package/ffmpeg/ffmpeg.mk
 6b31f620c36bb2d6c54cfaf71cc5a086  package/initscripts/init.d/rcK

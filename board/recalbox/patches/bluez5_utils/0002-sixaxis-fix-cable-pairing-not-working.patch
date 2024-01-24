@@ -1,0 +1,25 @@
+From 150dacab1805bf7d51f651870f65ccc70a8ebb25 Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 24 Jan 2024 23:35:24 +0100
+Subject: [PATCH 2/6] sixaxis-fix-cable-pairing-not-working
+
+---
+ plugins/sixaxis.c | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/plugins/sixaxis.c b/plugins/sixaxis.c
+index d5c3e552b..c072907ae 100644
+--- a/plugins/sixaxis.c
++++ b/plugins/sixaxis.c
+@@ -384,7 +384,7 @@ static bool setup_device(int fd, const char *sysfs_path,
+ 	return true;
+ }
+ 
+-static const struct cable_pairing *
++static inline const struct cable_pairing *
+ get_pairing_type_for_device(struct udev_device *udevice, uint16_t *bus,
+ 						char **sysfs_path)
+ {
+-- 
+2.43.0
+

@@ -1,18 +1,18 @@
-From: Szymon Janc <szymon.janc@xxxxxxxxxxx>
+From d5848bb15df068e33797667e4ec3c3bf5464668a Mon Sep 17 00:00:00 2001
+From: David Barbion <davidb@230ruedubac.fr>
+Date: Wed, 24 Jan 2024 23:35:42 +0100
+Subject: [PATCH 3/6] sixaxis-provide-dualshock-3-SDP-record
 
-This allows to skip SDP search for DualShock 3 devices. Since some
-DS3 clones were reported to not provide any SDP record this should
-allow to operate them.
 ---
- Makefile.plugins  |   1 +
- plugins/sixaxis.c | 170 ++++++++++++++++++++++++++++++++++++++++++++++++++++++
- 2 files changed, 171 insertions(+)
+ Makefile.plugins  |   2 +-
+ plugins/sixaxis.c | 170 ++++++++++++++++++++++++++++++++++++++++++++++
+ 2 files changed, 171 insertions(+), 1 deletion(-)
 
 diff --git a/Makefile.plugins b/Makefile.plugins
-index 1f3b5b552..a1073d794 100644
---- a/Makefile.plugins	2020-07-04 15:26:19.350762126 +0200
-+++ a/Makefile.plugins	2020-07-04 17:37:19.310328762 +0200
-@@ -108,6 +108,6 @@ if SIXAXIS
+index fc19522e4..1f94f2998 100644
+--- a/Makefile.plugins
++++ b/Makefile.plugins
+@@ -113,7 +113,7 @@ if SIXAXIS
  plugin_LTLIBRARIES += plugins/sixaxis.la
  plugins_sixaxis_la_SOURCES = plugins/sixaxis.c
  plugins_sixaxis_la_LDFLAGS = $(AM_LDFLAGS) -module -avoid-version
@@ -20,11 +20,12 @@ index 1f3b5b552..a1073d794 100644
 +plugins_sixaxis_la_LIBADD = $(UDEV_LIBS) lib/libbluetooth-internal.la
  plugins_sixaxis_la_CFLAGS = $(AM_CFLAGS) -fvisibility=hidden
  endif
+ 
 diff --git a/plugins/sixaxis.c b/plugins/sixaxis.c
-index 9d0fdb5d3..3ce26793a 100644
+index c072907ae..0bc9b41fd 100644
 --- a/plugins/sixaxis.c
 +++ b/plugins/sixaxis.c
-@@ -40,6 +40,8 @@
+@@ -28,6 +28,8 @@
  
  #include "lib/bluetooth.h"
  #include "lib/sdp.h"
@@ -33,7 +34,7 @@ index 9d0fdb5d3..3ce26793a 100644
  #include "lib/uuid.h"
  
  #include "src/adapter.h"
-@@ -85,6 +87,171 @@ static void auth_closure_destroy(struct authentication_closure *closure,
+@@ -87,6 +89,171 @@ static void auth_closure_destroy(struct authentication_closure *closure,
  	g_free(closure);
  }
  
@@ -205,15 +206,16 @@ index 9d0fdb5d3..3ce26793a 100644
  static int sixaxis_get_device_bdaddr(int fd, bdaddr_t *bdaddr)
  {
  	uint8_t buf[18];
-@@ -360,6 +527,9 @@ static void agent_auth_cb(DBusError *derr, void *user_data)
- 	btd_device_set_trusted(closure->device, true);
- 	btd_device_set_temporary(closure->device, false);
+@@ -300,6 +467,9 @@ static void agent_auth_cb(DBusError *derr, void *user_data)
+ 		btd_device_set_record(closure->device, HID_UUID,
+ 						 SIXAXIS_HID_SDP_RECORD);
  
 +	if (closure->type == CABLE_PAIRING_SIXAXIS)
 +		btd_device_set_record(closure->device, HID_UUID, get_sixaxis_sdp_record());
 +
  	ba2str(&closure->bdaddr, device_addr);
- 	ba2str(&master_bdaddr, master_addr);
+ 	ba2str(&central_bdaddr, central_addr);
  	ba2str(adapter_bdaddr, adapter_addr);
 -- 
-2.14.3
+2.43.0
+

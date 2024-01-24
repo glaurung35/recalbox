@@ -154,7 +154,8 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
     if (parseSubset(node))
     {
       if (!Condition(node)) continue;
-      String str = node.text().get();
+      pugi::xml_attribute pathAttribute = node.attribute("path");
+      String str = pathAttribute ? pathAttribute.as_string() : node.text().get();
       resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
       str.Trim();
       //workaround for an issue in parseincludes introduced by variable implementation

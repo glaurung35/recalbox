@@ -812,7 +812,32 @@ ThemeData::Compatibility ThemeData::ExtractCompatibility(const pugi::xml_node& n
   return result;
 }
 
-bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, String& name, int& version)
+ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
+{
+  pugi::xml_attribute resolutionNode = node.attribute("resolutions");
+  if (!resolutionNode) return Resolutions::FHD | Resolutions::HD;
+
+  String resolutions = resolutionNode.as_string();
+
+  Resolutions result = Resolutions::None;
+  String item;
+  for(;!resolutions.empty();)
+  {
+    if (!resolutions.Extract(',', item, resolutions, true))
+    {
+      item = resolutions.Trim();
+      resolutions.clear();
+    }
+    if      (item == "qvga") result |= Resolutions::QVGA;
+    else if (item == "vga" ) result |= Resolutions::VGA;
+    else if (item == "hd"  ) result |= Resolutions::HD;
+    else if (item == "fhd" ) result |= Resolutions::FHD;
+  }
+  if (result == Resolutions::None) result = Resolutions::FHD | Resolutions::HD;
+  return result;
+}
+
+bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version)
 {
   if (!path.Exists()) { LOG(LogError) << "[Theme] " << path << " does not exist!"; return false; }
 
@@ -825,6 +850,8 @@ bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& c
 
   // Extract compatibility
   compatibility = ExtractCompatibility(root);
+  // Extract compatibility
+  resolutions = ExtractResolutions(root);
   // Extract name
   name = path.Directory().FilenameWithoutExtension();
   pugi::xml_attribute nameAttribute = root.attribute("name");

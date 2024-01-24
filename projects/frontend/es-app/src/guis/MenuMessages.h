@@ -81,6 +81,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_KEYBOARD_HELP_MSG "The onscreen keyboard is necessary to type text if you only have controllers plugged into your recalbox. You can disable it if you have a real keyboard connected."
     #define MENUMESSAGE_UI_CAROUSEL_HELP_MSG "Choose if carousel will be animated or not during transitions"
     #define MENUMESSAGE_UI_TRANSITION_HELP_MSG "Select the type of transition that occurs when you start a game. INSTANT will do nothing, FADE will fade to dark, and SLIDE will zoom on the game cover (or name if there is no scrape information)"
+    #define MENUMESSAGE_UI_REGION_HELP_MSG "Select the region for theme supporting regionalized assets or texts"
     #define MENUMESSAGE_UI_THEME_HELP_MSG "Select a theme for your recalbox."
     #define MENUMESSAGE_UI_THEME_COLORSET_MSG "Select exisiting colorset options for this theme."
     #define MENUMESSAGE_UI_THEME_ICONSET_MSG "Select exisiting iconset options for this theme."

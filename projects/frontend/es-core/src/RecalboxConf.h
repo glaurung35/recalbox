@@ -195,6 +195,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     DefineGetterSetter(ThemeCarousel, bool, Bool, sThemeCarousel, 1)
     DefineGetterSetter(ThemeTransition, String, String, sThemeTransition, "slide")
+    DefineGetterSetter(ThemeRegion, String, String, sThemeRegion, "us")
     DefineGetterSetter(ThemeFolder, String, String, sThemeFolder, "recalbox-next")
 
     DefineGetterSetterParameterized(ThemeColorSet    , String, String, sThemeGeneric, ".colorset", "")
@@ -203,7 +204,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterParameterized(ThemeSystemView  , String, String, sThemeGeneric, ".systemview", "")
     DefineGetterSetterParameterized(ThemeGamelistView, String, String, sThemeGeneric, ".gamelistview", "")
     DefineGetterSetterParameterized(ThemeGameClipView, String, String, sThemeGeneric, ".gameclipview", "")
-    DefineGetterSetterParameterized(ThemeRegion      , String, String, sThemeGeneric, ".region", "")
 
     DefineGetterSetter(Brightness, int, Int, sBrightness, 7)
     DefineGetterSetter(Clock, bool, Bool, sClock, false)
@@ -453,6 +453,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sThemeGeneric               = "emulationstation.theme.";
     static constexpr const char* sThemeCarousel              = "emulationstation.theme.carousel";
     static constexpr const char* sThemeTransition            = "emulationstation.theme.transition";
+    static constexpr const char* sThemeRegion                = "emulationstation.theme.region";
     static constexpr const char* sThemeFolder                = "emulationstation.theme.folder";
 
     static constexpr const char* sBrightness                 = "emulationstation.brightness";

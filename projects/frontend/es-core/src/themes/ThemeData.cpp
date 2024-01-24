@@ -492,7 +492,7 @@ ThemeExtras::List ThemeData::GetExtras(const String& view, WindowManager& window
       if (comp != nullptr)
       {
         comp->setDefaultZIndex(10);
-        //comp->DoApplyThemeElement(*this, view, elem.Name(), ThemePropertyCategory::All);
+        comp->DoApplyThemeElement(*this, view, elem.Name(), ThemePropertyCategory::All);
         comps.push_back({ elem.Name(), elem.Type(), comp });
       }
       else { LOG(LogWarning) << "[Theme] Extra type unknown: " << (int)elem.Type(); }

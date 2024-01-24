@@ -33,7 +33,6 @@ class GuiMenuThemeConfiguration : public GuiMenuBase
       SystemView,
       GamelistView,
       GameClipView,
-      Region,
     };
 
     typedef HashMap<String, String> StringMaps;

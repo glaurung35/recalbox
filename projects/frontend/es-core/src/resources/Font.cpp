@@ -879,5 +879,6 @@ Font::getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, c
   if (hasFlag(properties, ThemePropertyCategory::FontPath) && elem.HasProperty(ThemePropertyName::FontPath))
     path = Path(elem.AsString(ThemePropertyName::FontPath));
 
+
   return get(size, path);
 }

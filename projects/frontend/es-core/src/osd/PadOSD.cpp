@@ -8,7 +8,7 @@
 PadOSD::PadOSD(WindowManager& window, Side side)
   : BaseOSD(window, side, true)
   , mMapper(InputManager::Instance().Mapper())
-  , mFont(Font::get(Renderer::Instance().DisplayHeightAsInt() / 32))
+  , mFont(Board::Instance().CrtBoard().IsCrtAdapterAttached() ? Font::get(8) : Font::get(Renderer::Instance().DisplayHeightAsInt() / 32))
   , mPadGlyph()
   , mAlpha { sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha, sMinAlpha }
   , mPadChar(0)

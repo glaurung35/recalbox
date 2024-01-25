@@ -106,7 +106,6 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::Tile: sArray[i] = ThemePropertyType::Boolean; break;
       case ThemePropertyName::Type: sArray[i] = ThemePropertyType::String; break;
       case ThemePropertyName::UnfilledPath: sArray[i] = ThemePropertyType::Path; break;
-      case ThemePropertyName::Value: sArray[i] = ThemePropertyType::String; break;
       case ThemePropertyName::ZIndex: sArray[i] = ThemePropertyType::Float; break;
       case ThemePropertyName::Count__:
       default: abort();
@@ -209,7 +208,6 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Alignment,
           ThemePropertyName::ForceUppercase,
           ThemePropertyName::LineSpacing,
-          ThemePropertyName::Value,
           ThemePropertyName::ZIndex,
           ThemePropertyName::Disabled,
         },
@@ -230,7 +228,6 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Color,
           ThemePropertyName::Alignment,
           ThemePropertyName::ForceUppercase,
-          ThemePropertyName::Value,
           ThemePropertyName::ZIndex,
           ThemePropertyName::Disabled,
         },
@@ -562,7 +559,6 @@ HashMap<String, ThemePropertyName>& ThemeSupport::PropertyName()
     { "tile", ThemePropertyName::Tile },
     { "type", ThemePropertyName::Type },
     { "unfilledPath", ThemePropertyName::UnfilledPath },
-    { "value", ThemePropertyName::Value },
     { "zIndex", ThemePropertyName::ZIndex },
   };
 
@@ -661,7 +657,6 @@ String ThemeSupport::ReversePropertyName(ThemePropertyName name)
     { ThemePropertyName::Tile, "tile" },
     { ThemePropertyName::Type, "type" },
     { ThemePropertyName::UnfilledPath, "unfilledPath" },
-    { ThemePropertyName::Value, "value" },
     { ThemePropertyName::ZIndex, "zIndex" },
   };
 

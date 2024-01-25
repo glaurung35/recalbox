@@ -96,7 +96,6 @@ enum class ThemePropertyName
   Tile,
   Type,
   UnfilledPath,
-  Value,
   ZIndex,
   Count__, //!< Special count element
 };

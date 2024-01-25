@@ -298,6 +298,13 @@ if test "$1" == "start"; then
         mount -o remount,ro /boot
     fi
 
+    # If config file exists, make it unix lf
+    if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ]; then
+        mount -o remount,rw /boot
+        dos2unix "${CRT_OPTIONS_FILE}"
+        mount -o remount,ro /boot
+    fi
+
     # RRGBJ volumed
     # cannot set it in S03 because pulse is not started
     if isRecalboxRGBJamma; then
@@ -414,11 +421,7 @@ if test "$1" == "start"; then
 
     # Other dacs
 
-    # If the file exists, make it unix lf
     if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ]; then
-        mount -o remount,rw /boot
-        dos2unix "${CRT_OPTIONS_FILE}"
-        mount -o remount,ro /boot
         CONFIG_LINE=$(grep -m 1 -e "^adapter\.type = .*" "${CRT_OPTIONS_FILE}")
         DAC=${CONFIG_LINE##*"= "}
     fi

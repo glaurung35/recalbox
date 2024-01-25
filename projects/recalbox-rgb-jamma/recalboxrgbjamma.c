@@ -1472,7 +1472,8 @@ static int load_config(void) {
     line_len++;
     if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0' || cursor == read_size-1) {
       if (line_len > 1 && line[0] != '#') {
-        line[line_len - 1] = '\0';
+        if(line[line_len - 1] == '\n')
+          line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", optionname, &optionvalue);
         if (scanret == 2) {
           if (strcmp(optionname, "options.jamma.controls.hk_on_start") == 0) {
@@ -1524,27 +1525,23 @@ static int load_config(void) {
               pca953x_gpio_direction_output(jamma_config.expander, EXP_PI5_I2S, jamma_config.i2s);
             }
           } else if (strcmp(optionname, "options.jamma.videofilter") == 0) {
-            if (jamma_config.videofilter != optionvalue) {
+            if (jamma_config.videofilter != optionvalue && jamma_config.expander != NULL) {
               printk(KERN_INFO "recalboxrgbjamma: switch videofilter to %d\n", optionvalue);
               jamma_config.videofilter = optionvalue;
               pca953x_gpio_direction_output(jamma_config.expander, EXP_VIDEO_BYPASS, jamma_config.videofilter);
             }
           } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
-            if (jamma_config.amp_boost != optionvalue) {
-              jamma_config.amp_boost = optionvalue;
-              if (jamma_config.expander != NULL) {
+            if (jamma_config.amp_boost != optionvalue && jamma_config.expander != NULL) {
                 printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
+                jamma_config.amp_boost = optionvalue;
                 pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
                 pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
-              }
             }
           } else if (strcmp(optionname, "options.jamma.amp.disable") == 0) {
-            if (jamma_config.amp_disable != optionvalue) {
+            if (jamma_config.amp_disable != optionvalue && jamma_config.expander != NULL) {
               jamma_config.amp_disable = optionvalue;
-              if (jamma_config.expander != NULL) {
-                printk(KERN_INFO "recalboxrgbjamma: switch amp_disable to %d\n", optionvalue);
-                pca953x_gpio_direction_output(jamma_config.expander, EXP_AMP_DISABLE, jamma_config.amp_disable & 0x1);
-              }
+              printk(KERN_INFO "recalboxrgbjamma: switch amp_disable to %d\n", optionvalue);
+              pca953x_gpio_direction_output(jamma_config.expander, EXP_AMP_DISABLE, jamma_config.amp_disable & 0x1);
             }
           }
         }
@@ -1843,6 +1840,7 @@ pca953x_init(void) {
   jamma_config.videofilter = false;
 
   jamma_config.buttons_on_jamma = 6;
+  jamma_config.amp_disable = 0;
   jamma_config.amp_boost = 0;
   jamma_config.player_count = 2;
 

@@ -28,7 +28,7 @@ mountOptions() {
   case "${filesystemType}" in
     "vfat") echo "${defaultMountOptions},${windowsMask},iocharset=utf8,flush" ;;
     "ntfs") echo "${defaultMountOptions},${windowsMask}" ;;
-    "exfat") echo "${defaultMountOptions},${windowsMask}" ;;
+    "exfat") echo "${defaultMountOptions},${windowsMask},sync" ;;
     *) echo "${defaultMountOptions}"
   esac
 }

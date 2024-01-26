@@ -122,13 +122,14 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
     if (CheckThemeOption(mSystemview, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
     if (CheckThemeOption(mGamelistview, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
     if (CheckThemeOption(mGameClipView, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
-    // Region is set at the begining of the main theme loading
-    String region = RecalboxConf::Instance().GetThemeRegion();
-    if      (region == "jp") mRegionCodeInteger = ((int)'J' << 8) | 'P';
-    else if (region == "eu") mRegionCodeInteger = ((int)'E' << 8) | 'U';
-    else { mRegionCodeInteger = ((int)'U' << 8) | 'S'; needSave = true; }
     if (needSave) RecalboxConf::Instance().Save();
   }
+
+  // Region is set at the begining of the main theme loading
+  String region = RecalboxConf::Instance().GetThemeRegion();
+  if      (region == "jp") mRegionCodeInteger = ((int)'J' << 8) | 'P';
+  else if (region == "eu") mRegionCodeInteger = ((int)'E' << 8) | 'U';
+  else mRegionCodeInteger = ((int)'U' << 8) | 'S';
 
   pugi::xml_document doc;
   pugi::xml_parse_result res = doc.load_string(mCache.File(path).data());
@@ -159,7 +160,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
     {
       if (!Condition(node)) continue;
       pugi::xml_attribute pathAttribute = node.attribute("path");
-      String str = pathAttribute ? pathAttribute.as_string() : node.text().get();
+      String str = (bool)pathAttribute ? pathAttribute.as_string() : node.text().get();
       resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
       str.Trim();
       //workaround for an issue in parseincludes introduced by variable implementation

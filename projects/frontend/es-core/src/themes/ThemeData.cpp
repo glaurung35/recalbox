@@ -635,7 +635,7 @@ void ThemeData::resolveSystemVariable(const String& systemThemeFolder, [[in,out]
           .Replace("$pad", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().PadRequirement()))
           .Replace("$keyboard", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().KeyboardRequirement()))
           .Replace("$mouse", SystemDescriptor::ConvertDeviceRequirementToString(mSystem->Descriptor().MouseRequirement()))
-          .Replace("$releaseyear", DateTime((long long int)mSystem->Descriptor().ReleaseDate()).ToStringFormat("%YYYY"))
+          .Replace("$releaseyear", String(mSystem->Descriptor().ReleaseDate() / 100))
           .Replace("$netplay", mSystem->Descriptor().HasNetPlayCores() ? "yes" : "no")
           .Replace("$lightgun", mSystem->Descriptor().LightGun() ? "yes" : "no");
       if (mGameResolver != nullptr) mGameResolver->ResolveVariableIn(path);

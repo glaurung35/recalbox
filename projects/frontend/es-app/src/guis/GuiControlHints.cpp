@@ -3,6 +3,7 @@
 //
 
 #include "GuiControlHints.h"
+#include "components/TextScrollComponent.h"
 #include <padtokeyboard/pad/PadItems.h>
 #include <padtokeyboard/pad/MappingConfiguration.h>
 #include <utils/storage/HashMap.h>
@@ -202,7 +203,7 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
     icon->setColorShift(menuTheme->menuText.color);
     mGrid.setEntry(icon, { currentCol * 5 + 3, currentRow + 2}, false, false, { 1, 1});
 
-    std::shared_ptr<TextComponent> text = std::make_shared<TextComponent>(window, *comment, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
+    std::shared_ptr<TextScrollComponent> text = std::make_shared<TextScrollComponent>(window, *comment, menuTheme->menuText.font, menuTheme->menuText.color, TextAlignment::Left);
     mGrid.setEntry(text, { currentCol * 5 + 5, currentRow + 2}, false, true, { 1, 1});
 
     if (++currentRow >= mRows)
@@ -241,7 +242,7 @@ void GuiControlHints::onSizeChanged()
   mGrid.setColWidthPerc(mColumns * 5 + 1, 0.02, false);
   for(int i = mColumns; --i >= 0; )
   {
-    mGrid.setColWidthPerc(i * 5 + 1, iconPercent * 2, false);
+    mGrid.setColWidthPerc(i * 5 + 1, iconPercent * 3, false);
     mGrid.setColWidthPerc(i * 5 + 2, 0.02, false);
     mGrid.setColWidthPerc(i * 5 + 3, iconPercent, false);
     mGrid.setColWidthPerc(i * 5 + 4, 0.02, false);

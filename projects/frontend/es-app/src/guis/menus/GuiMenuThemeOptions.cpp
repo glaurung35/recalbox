@@ -22,7 +22,7 @@ GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
   AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
 
   // Region
-  AddList(_("REGION"), (int)Components::Transition, this, GetRegionEntries(), _(MENUMESSAGE_UI_REGION_HELP_MSG));
+  AddList(_("REGION"), (int)Components::Region, this, GetRegionEntries(), _(MENUMESSAGE_UI_REGION_HELP_MSG));
 }
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()

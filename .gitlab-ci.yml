@@ -164,6 +164,23 @@ tests nvidia:
 
 # Build
 
+appimage-amd64:
+  image: beudbeud/appimage-builder:latest
+  stage: build
+  script:
+    - cd projects/frontend
+    - appimage-builder --skip-test
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - projects/frontend/**/*
+  artifacts:
+      paths:
+        - 'projects/frontend/*.AppImage*'
+      expire_in: 1 week
+    
+
 .build_template: &build_definition
   stage: build
   variables:

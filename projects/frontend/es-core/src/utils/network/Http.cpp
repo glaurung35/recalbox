@@ -140,8 +140,8 @@ size_t HttpClient::DoDataReceived(const char* data, int length)
 
 void HttpClient::Cancel()
 {
-  if (mHandle != nullptr)
-    curl_easy_reset(mHandle);
+  //if (mHandle != nullptr)
+  //  curl_easy_reset(mHandle);
   mCancel = true;
 }
 

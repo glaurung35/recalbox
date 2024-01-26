@@ -141,7 +141,7 @@ class HttpClient
     //! HTTP return code of last request
     int  mLastReturnCode;
     //! Cancel flag
-    bool mCancel;
+    volatile bool mCancel;
 
     //! Maximum bandwidth stored information
     static constexpr int sMaxBandwidthInfo = 64;

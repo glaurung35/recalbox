@@ -1781,6 +1781,19 @@ static int pca953x_probe(struct i2c_client *client,
              "recalboxrgbjamma: kthread_recalboxrgbjamma_debounce could not be created\n");
       return -1;
     }
+
+    jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
+    printk(KERN_INFO
+           "recalboxrgbjamma: setting configuration thread\n");
+    if (jamma_config.config_thread != NULL) {
+      wake_up_process(jamma_config.config_thread);
+      printk(KERN_INFO
+             "recalboxrgbjamma: kthread_recalboxrgbjamma_cfg is running\n");
+    } else {
+      printk(KERN_ERR
+             "recalboxrgbjamma: kthread kthread_recalboxrgbjamma_cfg could not be created\n");
+      return -1;
+    }
   }
 
 
@@ -1848,18 +1861,6 @@ pca953x_init(void) {
   printk(KERN_INFO "recalboxrgbjamma: registering controllers\n");
   register_controllers();
 
-  jamma_config.config_thread = kthread_create(watch_configuration, &idx, "kthread_recalboxrgbjamma_cfg");
-  printk(KERN_INFO
-         "recalboxrgbjamma: setting configuration thread\n");
-  if (jamma_config.config_thread != NULL) {
-    wake_up_process(jamma_config.config_thread);
-    printk(KERN_INFO
-           "recalboxrgbjamma: kthread_recalboxrgbjamma_cfg is running\n");
-  } else {
-    printk(KERN_ERR
-           "recalboxrgbjamma: kthread kthread_recalboxrgbjamma_cfg could not be created\n");
-    return -1;
-  }
   return i2c_add_driver(&pca953x_driver);
 }
 

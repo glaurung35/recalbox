@@ -219,7 +219,6 @@ void GuiMenuGameSettings::SwitchComponentChanged(int id, bool& status)
       break;
     case Components::QuitTwice: RecalboxConf::Instance().SetGlobalQuitTwice(status).Save(); break;
     case Components::IntegerScale: RecalboxConf::Instance().SetGlobalIntegerScale(status).Save(); break;
-<<<<<<< HEAD
     case Components::HDMode: {
       if(status)
         mWindow.pushGui(new GuiMsgBox(mWindow,

@@ -251,7 +251,8 @@ isThonEdition() {
 displayFrameBufferImage() {
     if isRecalboxRGBJamma; then
         if isThonEdition; then SPECIAL="-thon";fi
-        fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma$(SPECIAL)-$(getRotationIndex).png
+        fbv2 -f -i "/recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma${SPECIAL}-$(getRotationIndex).png"
+        return 0
     fi
     if isRotated; then
         fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"

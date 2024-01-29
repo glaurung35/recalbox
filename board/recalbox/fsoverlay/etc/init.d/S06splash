@@ -170,19 +170,26 @@ playVideo() {
   fi
 }
 
-shouldPlayBootVideo() {
-  splashEnabled="$($systemsetting -command load -key system.splash.enabled -source /boot/recalbox-backup.conf)"
-  if [[ "$splashEnabled" == "0" ]]; then return 1; fi
+autoRunEnabled() {
   autorun="$($systemsetting -command load -key autorun.enabled -source /boot/recalbox-backup.conf)"
   uuid="$($systemsetting -command load -key autorun.uuid -source /boot/recalbox-backup.conf)"
   path="$($systemsetting -command load -key autorun.path -source /boot/recalbox-backup.conf)"
   if [[ "$autorun" == "1" && ! -z "$uuid" && ! -z "$path" ]]; then
-    return 1
+    return 0
   fi
-  return 0
+  return 1
 }
+
+shouldPlayBootVideo() {
+  splashEnabled="$($systemsetting -command load -key system.splash.enabled -source /boot/recalbox-backup.conf)"
+  if [[ "$splashEnabled" == "0" ]]; then return 1; fi
+  return ! autoRunEnabled
+}
+
 ## Main ##
 if shouldPlayBootVideo; then
   playVideo "$(selectVideo)"
+elif ! autoRunEnabled; then
+  displayFrameBufferImage
 fi
 exit 0

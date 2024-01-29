@@ -241,19 +241,22 @@ isOldIntelChipset() {
   return 1
 }
 
+isThonEdition() {
+  local CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
+  grep -q "special.thon = 1" "${CRT_OPTIONS_FILE}"
+}
+
 # showIntroBackground
 #   displays our intro background via the framebuffer
 displayFrameBufferImage() {
+    if isRecalboxRGBJamma; then
+        if isThonEdition; then SPECIAL="-thon";fi
+        fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma$(SPECIAL)-$(getRotationIndex).png
+    fi
     if isRotated; then
-        if isRecalboxRGBJamma; then
-            fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma-$(getRotationIndex).png
-        else
-            fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
-        fi
+        fbv2 -k -i "/recalbox/system/resources/splash/tate/logo-$(getRotationIndex).png"
     else
-        if isRecalboxRGBJamma; then
-            fbv2 -f -i /recalbox/system/resources/splash/rrgbj/recalbox-rgb-jamma-0.png
-        elif isLowDef && ! isRecalboxRGBDual; then
+        if isLowDef && ! isRecalboxRGBDual; then
             fbv2 -k -i /recalbox/system/resources/splash/240p/logo-version.png
         else
             fbv2 -k -i /recalbox/system/resources/splash/logo-version.png

@@ -20,9 +20,10 @@ ImageComponent::ImageComponent(WindowManager& window, bool keepRatio, const Path
   , mPath(imagePath)
   , mFlipX(false)
   , mFlipY(false)
-  , mVertices {{{ 0, 0 }, { 0, 0 }}}
-  , mColors {0}
-  , mColorShift(0xFFFFFFFF)
+  , mTopLeftColor(0xFFFFFFFF)
+  , mTopRightColor(0xFFFFFFFF)
+  , mBottomLeftColor(0xFFFFFFFF)
+  , mBottomRightColor(0xFFFFFFFF)
   , mOriginColor(0)
   , mFadeOpacity(0.0f)
   , mTopAlpha(0.0f)
@@ -35,7 +36,6 @@ ImageComponent::ImageComponent(WindowManager& window, bool keepRatio, const Path
   , mKeepRatio(keepRatio)
 {
   if (!imagePath.IsEmpty()) setImage(imagePath);
-  updateColors();
 }
 
 void ImageComponent::resize()
@@ -103,11 +103,6 @@ void ImageComponent::resize()
   onSizeChanged();
 }
 
-void ImageComponent::onSizeChanged()
-{
-  updateVertices();
-}
-
 void ImageComponent::setImage(const Path& path, bool tile)
 {
   if (mPath != path || (mTexture && (mTexture->isTiled() != tile)))
@@ -159,7 +154,6 @@ void ImageComponent::setFlipX(bool flip)
   if (flip != mFlipX)
   {
     mFlipX = flip;
-    updateVertices();
   }
 }
 
@@ -168,126 +162,32 @@ void ImageComponent::setFlipY(bool flip)
   if (flip != mFlipY)
   {
     mFlipY = flip;
-    updateVertices();
   }
 }
 
 void ImageComponent::setColorShift(unsigned int color)
 {
-  if (color != mColorShift)
+  if (color != mTopLeftColor)
   {
-    mColorShift = color;
+    mTopLeftColor = color;
+    mTopRightColor = color;
+    mBottomLeftColor = color;
+    mBottomRightColor = color;
     // Grab the opacity from the color shift because we may need to apply it if
     // fading textures in
     mOpacity = color & 0xff;
 
     if (mColorNotSet)
     {
-      setOriginColor(mColorShift);
+      setOriginColor(mTopLeftColor);
       mColorNotSet = false;
     }
-    updateColors();
   }
 }
 
 void ImageComponent::setColor(unsigned int color)
 {
   setColorShift(color);
-}
-
-void ImageComponent::setOpacity(unsigned char opacity)
-{
-  if (mOpacity != opacity)
-  {
-    mOpacity = opacity;
-    mColorShift = (mColorShift >> 8 << 8) | mOpacity;
-    updateColors();
-  }
-}
-
-void ImageComponent::updateVertices()
-{
-  if (!mTexture || !mTexture->isInitialized())
-  {
-    return;
-  }
-
-  // we go through this mess to make sure everything is properly rounded
-  // if we just round vertices at the end, edge cases occur near sizes of 0.5
-  float x = 0.f;
-  float y = 0.f;
-  float w = Math::round(mSize.x());
-  float h = Math::round(mSize.y());
-
-  mVertices[0].pos.Set(x, y);
-  mVertices[1].pos.Set(x, h);
-  mVertices[2].pos.Set(w, y);
-
-  mVertices[3].pos.Set(w, y);
-  mVertices[4].pos.Set(x, h);
-  mVertices[5].pos.Set(w, h);
-
-  float px = 1;
-  float py = 1;
-  if (mTexture->isTiled())
-  {
-    px = mSize.x() / (float) getTextureSize().x();
-    py = mSize.y() / (float) getTextureSize().y();
-  }
-
-  mVertices[0].tex.Set(0, py);
-  mVertices[1].tex.Set(0, 0);
-  mVertices[2].tex.Set(px, py);
-
-  mVertices[3].tex.Set(px, py);
-  mVertices[4].tex.Set(0, 0);
-  mVertices[5].tex.Set(px, 0);
-
-  if (mFlipX)
-  {
-    for (auto& mVertice: mVertices)
-      mVertice.tex[0] = mVertice.tex[0] == px ? 0 : px;
-  }
-  if (mFlipY)
-  {
-    for (auto& mVertice: mVertices)
-      mVertice.tex[1] = mVertice.tex[1] == py ? 0 : py;
-  }
-
-  // Reflected rectangle
-  y += h;
-  h += h;
-  mVertices[6].pos.Set(x, y);
-  mVertices[7].pos.Set(x, h);
-  mVertices[8].pos.Set(w, y);
-
-  mVertices[9].pos.Set(w, y);
-  mVertices[10].pos.Set(x, h);
-  mVertices[11].pos.Set(w, h);
-
-  mVertices[6].tex.Set(0, 0);
-  mVertices[7].tex.Set(0, py);
-  mVertices[8].tex.Set(px, 0);
-
-  mVertices[9].tex.Set(px, 0);
-  mVertices[10].tex.Set(0, py);
-  mVertices[11].tex.Set(px, py);
-}
-
-void ImageComponent::updateColors()
-{
-  // Regular colors
-  Renderer::BuildGLColorArray(mColors, mColorShift, 6);
-  // Reflexion top color
-  unsigned int color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mTopAlpha);
-  unsigned int colorGl = 0;
-  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
-  GLuint* targetColors = (GLuint*)mColors;
-  targetColors[6] = targetColors[8] = targetColors[9] = colorGl;
-  // Reflexion bottom color
-  color = (mColorShift & 0xFFFFFF00) | (unsigned char)((float)(mColorShift & 0xFF) * mBottomAlpha);
-  Renderer::ColorToByteArray((GLubyte*)&colorGl, color);
-  targetColors[7] = targetColors[10] = targetColors[11] = colorGl;
 }
 
 void ImageComponent::Render(const Transform4x4f& parentTrans)
@@ -308,26 +208,19 @@ void ImageComponent::Render(const Transform4x4f& parentTrans)
       // when it finally loads
       fadeIn(mTexture->bind());
 
-      glEnable(GL_TEXTURE_2D);
-      glEnable(GL_BLEND);
-      glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+      // Combine alphas
+      float alpha = (float)mOpacity / 255.f;
+      if (mFading) alpha *= (float)mFadeOpacity / 255.f;
+      // Recompose colors
+      Colors::ColorRGBA topLeftColor = (mTopLeftColor & 0xFFFFFF00) | (int)((float)(mTopLeftColor & 0xFF) * alpha);
+      Colors::ColorRGBA topRightColor = (mTopRightColor & 0xFFFFFF00) | (int)((float)(mTopRightColor & 0xFF) * alpha);
+      Colors::ColorRGBA bottomLeftColor = (mBottomLeftColor & 0xFFFFFF00) | (int)((float)(mBottomLeftColor & 0xFF) * alpha);
+      Colors::ColorRGBA bottomRightColor = (mBottomRightColor & 0xFFFFFF00) | (int)((float)(mBottomRightColor & 0xFF) * alpha);
 
-      glEnableClientState(GL_VERTEX_ARRAY);
-      glEnableClientState(GL_TEXTURE_COORD_ARRAY);
-      glEnableClientState(GL_COLOR_ARRAY);
-
-      glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].pos);
-      glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &mVertices[0].tex);
-      glColorPointer(4, GL_UNSIGNED_BYTE, 0, mColors);
-
-      glDrawArrays(GL_TRIANGLES, 0, 6 + (mTopAlpha != 0 || mBottomAlpha != 0 ? 6 : 0));
-
-      glDisableClientState(GL_VERTEX_ARRAY);
-      glDisableClientState(GL_TEXTURE_COORD_ARRAY);
-      glDisableClientState(GL_COLOR_ARRAY);
-
-      glDisable(GL_TEXTURE_2D);
-      glDisable(GL_BLEND);
+      Renderer::DrawTexture(*mTexture, 0, 0, (int)mSize.x(), (int)mSize.y(),
+                            mKeepRatio, mFlipX, mFlipY,
+                            topLeftColor, topRightColor, bottomRightColor, bottomLeftColor,
+                            mTopAlpha, mBottomAlpha);
     }
     else
     {
@@ -351,9 +244,6 @@ void ImageComponent::fadeIn(bool textureLoaded)
         // Start with a zero opacity and flag it as fading
         mFadeOpacity = 0;
         mFading = true;
-        // Set the colours to be translucent
-        mColorShift = (mColorShift >> 8 << 8) | 0;
-        updateColors();
       }
     }
     else if (mFading)
@@ -368,14 +258,7 @@ void ImageComponent::fadeIn(bool textureLoaded)
         mFadeOpacity = 255;
         mFading = false;
       }
-      else
-      {
-        mFadeOpacity = (unsigned char) opacity;
-      }
-      // Apply the combination of the target opacity and current fade
-      float newOpacity = (float) mOpacity * ((float) mFadeOpacity / 255.0f);
-      mColorShift = (mColorShift >> 8 << 8) | (unsigned char) newOpacity;
-      updateColors();
+      else mFadeOpacity = (unsigned char) opacity;
     }
   }
 }
@@ -406,8 +289,19 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
              (element.HasProperty(ThemePropertyName::Tile) && element.AsBool(ThemePropertyName::Tile)));
 
   if (hasFlag(properties, ThemePropertyCategory::Color))
-    setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int) element.AsInt(ThemePropertyName::Color)
-                                                                : 0xFFFFFFFF);
+  {
+    bool set = false;
+    if (element.HasProperty(ThemePropertyName::Color)) { SetColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::Color)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorTop)) { SetTopColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorTop)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorBottom)) { SetBottomColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorBottom)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorLeft)) { SetLeftColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorLeft)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorRight)) { SetRightColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorRight)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorTopLeft)) { SetTopLeftColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorTopLeft)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorBottomRight)) { SetBottomRightColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorBottomRight)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorBottomLeft)) { SetBottomLeftColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorBottomLeft)); set = true; }
+    if (element.HasProperty(ThemePropertyName::ColorTopRight)) { SetTopRightColor((Colors::ColorRGBA)element.AsInt(ThemePropertyName::ColorTopRight)); set = true; }
+    if (!set) setColor(0xFFFFFFFF); // No color = full white opaque
+  }
 }
 
 bool ImageComponent::CollectHelpItems(Help& help)

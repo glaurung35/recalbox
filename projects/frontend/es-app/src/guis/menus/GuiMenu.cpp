@@ -20,6 +20,7 @@
 #include "GuiMenuDownloadContents.h"
 #include "GuiMenuArcade.h"
 #include "GuiMenuDownloadGamePacks.h"
+#include "views/MenuFilter.h"
 #include <guis/GuiScraperRun.h>
 
 GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
@@ -55,7 +56,7 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager)
     AddSubMenu(_("DOWNLOAD CONTENTS"), mTheme.menuIconSet.download, (int)Components::ContentDoanwloader, _(MENUMESSAGE_DOWNLOADERS_SETTINGS_HELP_MSG));
 
   // Controllers menu
-  if (!bartop)
+  if (!bartop && MenuFilter::ShouldDisplayMenuEntry(MenuFilter::ControllerSettings))
     AddSubMenu(_("CONTROLLERS SETTINGS"), mTheme.menuIconSet.controllers, (int)Components::Controllers, _(MENUMESSAGE_CONTROLLER_HELP_MSG));
 
   // UI Settings menu

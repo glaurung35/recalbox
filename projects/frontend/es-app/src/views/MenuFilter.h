@@ -23,6 +23,7 @@ class MenuFilter
       HDMode,
       Widescreen,
       PiEeprom,
+      ControllerSettings
     };
 
     static bool ShouldDisplayMenuEntry(const enum MenuEntry menuEntry)
@@ -41,6 +42,8 @@ class MenuFilter
           return Board::Instance().GetBoardType() == BoardType::Pi4 ||
                  Board::Instance().GetBoardType() == BoardType::Pi400 ||
                  Board::Instance().GetBoardType() == BoardType::Pi5;
+        case ControllerSettings:
+          return Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::RGBJamma;
         default: return false;
       }
     }

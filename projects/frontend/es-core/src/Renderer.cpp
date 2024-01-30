@@ -951,5 +951,101 @@ void Renderer::DrawRectangle(int x, int y, int w, int h,
   glDisableClientState(GL_COLOR_ARRAY);
 }
 
+void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio,
+                           bool flipOnX, bool flipOnY,
+                           Colors::ColorARGB topleftcolor, Colors::ColorARGB toprightcolor,
+                           Colors::ColorARGB bottomrightcolor, Colors::ColorARGB bottomleftcolor,
+                           float topAlphaReflection, float bottomAlphaReflection)
+{
+  if (keepratio && texture.width() != 0 && texture.height() != 0)
+  {
+    float areaRatio = (float)w / (float)h;
+    float textureRatio = texture.width() / texture.height();
+    if (areaRatio < textureRatio)
+    {
+      double height = (float)w / textureRatio;
+      y += (h - (int) height) / 2;
+      h = (int)height;
+    }
+    else
+    {
+      double width = (float)h * textureRatio;
+      x += (w - (int) width) / 2;
+      w = (int)width;
+    }
+  }
+  //DrawRectangle(x, y, w, h, 0x00FF0040);
+
+  if (texture.bind())
+  {
+    int x1 = x;
+    int x2 = x;
+    if (flipOnX) x1 += w; else x2 += w;
+    int y1 = y;
+    int y2 = y;
+    if (flipOnY) y1 += h; else y2 += h;
+    Vertex vertices[Vertex::sVertexPerRectangle]
+    {
+      { { x1, y1 }, { 0, 1 } },
+      { { x1, y2 }, { 0, 0 } },
+      { { x2, y1 }, { 1, 1 } },
+      { { x2, y1 }, { 1, 1 } },
+      { { x1, y2 }, { 0, 0 } },
+      { { x2, y2 }, { 1, 0 } }
+    };
+
+    GLuint colors[Vertex::sVertexPerRectangle];
+    ColorToByteArray((GLubyte*)&colors[0], topleftcolor);
+    ColorToByteArray((GLubyte*)&colors[1], bottomleftcolor);
+    ColorToByteArray((GLubyte*)&colors[2], toprightcolor);
+    colors[3] = colors[2];
+    colors[4] = colors[1];
+    ColorToByteArray((GLubyte*)&colors[5], bottomrightcolor);
+
+    glEnable(GL_TEXTURE_2D);
+    glEnable(GL_BLEND);
+    glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+
+    glEnableClientState(GL_VERTEX_ARRAY);
+    glEnableClientState(GL_TEXTURE_COORD_ARRAY);
+    glEnableClientState(GL_COLOR_ARRAY);
+
+    glVertexPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Target);
+    glTexCoordPointer(2, GL_FLOAT, sizeof(Vertex), &vertices[0].Source);
+    glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+    glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+
+    if (topAlphaReflection != 0 || bottomAlphaReflection != 0)
+    {
+      for(int i = Vertex::sVertexPerRectangle; --i >= 0;)
+      {
+        vertices[i].Target.Y += (float)h;
+        vertices[i].Source.Y = vertices[i].Source.Y == 0 ? 1 : 0;
+      }
+      ColorToByteArray((GLubyte*)&colors[0], (topleftcolor & 0xFFFFFF00) | (int)((float)(topleftcolor & 0xFF) * topAlphaReflection));
+      ColorToByteArray((GLubyte*)&colors[1], (bottomleftcolor & 0xFFFFFF00) | (int)((float)(bottomleftcolor & 0xFF) * bottomAlphaReflection));
+      ColorToByteArray((GLubyte*)&colors[2], (toprightcolor & 0xFFFFFF00) | (int)((float)(toprightcolor & 0xFF) * topAlphaReflection));
+      colors[3] = colors[2];
+      colors[4] = colors[1];
+      ColorToByteArray((GLubyte*)&colors[5], (bottomrightcolor & 0xFFFFFF00) | (int)((float)(bottomrightcolor & 0xFF) * bottomAlphaReflection));
+
+      glDrawArrays(GL_TRIANGLES, 0, Vertex::sVertexPerRectangle);
+    }
+
+    glDisableClientState(GL_VERTEX_ARRAY);
+    glDisableClientState(GL_TEXTURE_COORD_ARRAY);
+    glDisableClientState(GL_COLOR_ARRAY);
+
+    glColor4ub(0xFF, 0xFF, 0xFF, 0xFF);
+
+    glDisable(GL_TEXTURE_2D);
+    glDisable(GL_BLEND);
+  }
+}
+
 
 

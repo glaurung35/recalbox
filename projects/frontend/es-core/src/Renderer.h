@@ -441,10 +441,28 @@ class Renderer : public StaticLifeCycleControler<Renderer>
                             Colors::ColorARGB bottomleftcolor);
 
     static void DrawTexture(TextureResource& texture, int x, int y, int w, int h,
-                                      Colors::ColorARGB topleftcolor,
-                                      Colors::ColorARGB toprightcolor,
-                                      Colors::ColorARGB bottomrightcolor,
-                                      Colors::ColorARGB bottomleftcolor) { DrawTexture(texture, x, y, w, h, false, topleftcolor, toprightcolor, bottomrightcolor, bottomleftcolor); }
+                            Colors::ColorARGB topleftcolor,
+                            Colors::ColorARGB toprightcolor,
+                            Colors::ColorARGB bottomrightcolor,
+                            Colors::ColorARGB bottomleftcolor) { DrawTexture(texture, x, y, w, h, false, topleftcolor, toprightcolor, bottomrightcolor, bottomleftcolor); }
+
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio,
+                            bool flipOnX, bool flipOnY,
+                            Colors::ColorARGB topleftcolor,
+                            Colors::ColorARGB toprightcolor,
+                            Colors::ColorARGB bottomrightcolor,
+                            Colors::ColorARGB bottomleftcolor,
+                            float topAlphaReflection,
+                            float bottomAlphaReflection);
+
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h,
+                            bool flipOnX, bool flipOnY,
+                            Colors::ColorARGB topleftcolor,
+                            Colors::ColorARGB toprightcolor,
+                            Colors::ColorARGB bottomrightcolor,
+                            Colors::ColorARGB bottomleftcolor,
+                            float topAlphaReflection,
+                            float bottomAlphaReflection) { DrawTexture(texture, x, y, w, h, false, flipOnX, flipOnY, topleftcolor, toprightcolor, bottomrightcolor, bottomleftcolor, topAlphaReflection, bottomAlphaReflection); }
 
     /*
      * Accessors

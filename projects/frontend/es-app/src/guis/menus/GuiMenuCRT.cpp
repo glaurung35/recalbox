@@ -157,7 +157,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
   }
 
   // Screen Adjustments
-  AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Adjustment);
+  AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Calibration);
 }
 
 GuiMenuCRT::~GuiMenuCRT()
@@ -419,25 +419,33 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
 
 void GuiMenuCRT::SubMenuSelected(int id)
 {
-  if ((Components)id == Components::Adjustment)
+  if ((Components)id == Components::Calibration)
   {
     if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
-      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz31);
+      ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz31);
       mWindow.CloseAll();
     }
     else if (Board::Instance().CrtBoard().MustForce50Hz()){
-      ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+      ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_50Hz);
+      mWindow.CloseAll();
+    }
+    else if (Board::Instance().CrtBoard().MultiSyncEnabled()){
+      ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz_plus_kHz31);
+      mWindow.CloseAll();
+    }
+    else if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma){
+      ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz);
       mWindow.CloseAll();
     }
     else
     {
-      mWindow.pushGui(new GuiMsgBox(mWindow, _("You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\nDuring the calibration, press B to apply the mode, START to validate, and A to cancel."),
-                                    _("60Hz & 50Hz"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60plus50Hz);
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("You will now calibrate different resolutions for your TV. Select the refresh rate according to what your TV supports.\nDuring the calibration, press B to validate, and A to cancel."),
+                                    _("60Hz & 50Hz"), [this] {ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60plus50Hz);
             mWindow.CloseAll(); },
-                                    _("60Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_60Hz);
+                                    _("60Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz);
             mWindow.CloseAll(); },
-                                    _("50Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtView::CalibrationType::kHz15_50Hz);
+                                    _("50Hz Only"), [this] {ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_50Hz);
             mWindow.CloseAll();},
                                     TextAlignment::Center));
     }

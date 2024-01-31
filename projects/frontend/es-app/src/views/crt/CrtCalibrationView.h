@@ -8,7 +8,7 @@
 
 #pragma once
 
-class CrtView : public Gui
+class CrtCalibrationView : public Gui
               , private ISyncMessageReceiver<void>
 {
   public:
@@ -16,6 +16,7 @@ class CrtView : public Gui
       kHz15_60plus50Hz,
       kHz15_60Hz,
       kHz15_50Hz,
+      kHz15_60Hz_plus_kHz31,
       kHz31,
     };
 
@@ -23,7 +24,7 @@ class CrtView : public Gui
      * @brief Constructor
      * @param window Main Window instance
      */
-    explicit CrtView(WindowManager& window);
+    explicit CrtCalibrationView(WindowManager& window);
 
     //! Initialize
     void Initialize(CalibrationType calibrationType);
@@ -84,6 +85,14 @@ class CrtView : public Gui
       CrtResolution::r288p,
       CrtResolution::r384x288p,
       CrtResolution::r576i,
+      CrtResolution::rNone
+    };
+
+    static constexpr CrtResolution sMultiSync[] =
+    {
+      CrtResolution::r240p,
+      CrtResolution::r224p,
+      CrtResolution::r480p,
       CrtResolution::rNone
     };
 

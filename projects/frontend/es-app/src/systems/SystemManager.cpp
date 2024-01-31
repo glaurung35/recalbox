@@ -1761,11 +1761,16 @@ void SystemManager::RemoveAlwaysHiddenSystems(List& list)
   for(int i = list.Count(); --i >= 0;)
   {
     const SystemData* system = list[i];
-    if (system->IsPorts()) list.Delete(i);
-    else if (system->IsTrueArcade())
-      if (arcadeCollectionOn)
-        if (hideOriginals || (includeNeogeo && system->Name() == "neogeo"))
-          list.Delete(i);
+    if (
+        // Always hide ports
+        system->IsPorts() ||
+        // Hide arcade systems ?
+        (arcadeCollectionOn && hideOriginals &&
+         (system->IsTrueArcade() || (includeNeogeo && system->Name() == "neogeo"))) ||
+        // Hide last played
+        (system->IsLastPlayed() && !RecalboxConf::Instance().GetCollectionLastPlayed())
+      )
+      list.Delete(i);
   }
 }
 

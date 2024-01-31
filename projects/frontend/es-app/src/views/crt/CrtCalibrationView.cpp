@@ -4,7 +4,7 @@
 
 #include <Renderer.h>
 #include <utils/locale/LocaleHelper.h>
-#include "CrtView.h"
+#include "CrtCalibrationView.h"
 #include "views/ViewController.h"
 //#include "utils/Files.h"
 #include "sdl2/Sdl2Init.h"
@@ -14,7 +14,7 @@
 
 //#define FONT_SIZE_LOADING ((unsigned int)(0.065f * Math::min(Renderer::Instance().DisplayHeightAsFloat(), Renderer::Instance().DisplayWidthAsFloat())))
 
-CrtView::CrtView(WindowManager& window)
+CrtCalibrationView::CrtCalibrationView(WindowManager& window)
   : Gui(window)
   , mPattern(window, true, true)
   , mGrid(window, Vector2i(1, 3))
@@ -29,8 +29,9 @@ CrtView::CrtView(WindowManager& window)
 {
 }
 
-void CrtView::Initialize(CalibrationType calibrationType)
+void CrtCalibrationView::Initialize(CalibrationType calibrationType)
 {
+  mSequenceIndex = 0;
   switch(calibrationType){
     case kHz31:
       mSequence = sForced31khz; break;
@@ -38,28 +39,32 @@ void CrtView::Initialize(CalibrationType calibrationType)
       mSequence = sPALOnly; break;
     case kHz15_60Hz:
       mSequence = sNTSCOnly; break;
+    case kHz15_60Hz_plus_kHz31:
+      mSequence = sMultiSync; break;
     case kHz15_60plus50Hz:
     default:
       mSequence = sPALNTSC; break;
   }
 
-  SetResolution(mSequence[0]);
+  SetResolution(mSequence[mSequenceIndex]);
   Initialize();
   UpdateViewport();
 }
 
-void CrtView::Initialize()
+void CrtCalibrationView::Initialize()
 {
-  mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(mSequence[0]);
-  mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(mSequence[0]);
-  mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(mSequence[0]);
+
+  mOriginalVOffset = CrtConf::Instance().GetCrtModeOffsetVerticalOffset(mSequence[mSequenceIndex]);
+  mOriginalHOffset = CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(mSequence[mSequenceIndex]);
+  mOriginalViewportWidth = CrtConf::Instance().GetCrtViewportWidth(mSequence[mSequenceIndex]);
+  { LOG(LogDebug) << "[CrtCalibrationView] Initialize: mSequenceIndex= " << mSequenceIndex << ", resolution= " << (int)(mSequence[mSequenceIndex]); }
 
   mPosition.Set(0,0,0);
   mSize.Set(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
   mGrid.ClearEntries();
-  mGrid.setSize(Renderer::Instance().DisplayWidthAsFloat() * (300.0f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (156.f / 576.f));
-  mGrid.setPosition(Renderer::Instance().DisplayWidthAsFloat() * (140.f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (100.0f / 576.f));
+  mGrid.setSize(Renderer::Instance().DisplayWidthAsFloat() * (320.0f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (156.f / 576.f));
+  mGrid.setPosition(Renderer::Instance().DisplayWidthAsFloat() * (120.f / 768.f), Renderer::Instance().DisplayHeightAsFloat() * (100.0f / 576.f));
   addChild(&mGrid);
 
   mPattern.setResize(0.0f, Renderer::Instance().DisplayHeightAsFloat());
@@ -76,7 +81,7 @@ void CrtView::Initialize()
   mGrid.setEntry(mViewportText, { 0, 2 }, false);
 }
 
-void CrtView::Render(const Transform4x4f& parentTrans)
+void CrtCalibrationView::Render(const Transform4x4f& parentTrans)
 {
   Transform4x4f trans = (parentTrans * getTransform()).round();
   Renderer::SetMatrix(trans);
@@ -90,7 +95,7 @@ void CrtView::Render(const Transform4x4f& parentTrans)
   mWindow.DoWake();
 }
 
-bool CrtView::CollectHelpItems(Help& help)
+bool CrtCalibrationView::CollectHelpItems(Help& help)
 {
   help.Set(HelpType::AllDirections, _("MOVE SCREEN"))
       .Set(Help::Valid(), _("NEXT RESOLUTION"))
@@ -101,7 +106,7 @@ bool CrtView::CollectHelpItems(Help& help)
   return true;
 }
 
-void CrtView::SetResolution(CrtResolution resolution)
+void CrtCalibrationView::SetResolution(CrtResolution resolution)
 {
   WindowManager::Finalize();
   Sdl2Init::Finalize();
@@ -124,6 +129,8 @@ void CrtView::SetResolution(CrtResolution resolution)
     default: break;
   }
 
+  { LOG(LogDebug) << "[CrtCalibrationView] SetResolution: set resolution to " << w << "x" << h; }
+
   mWindow.Initialize(w, h);
   mWindow.normalizeNextUpdate();
   mWindow.UpdateHelpSystem();
@@ -134,7 +141,7 @@ void CrtView::SetResolution(CrtResolution resolution)
   InputManager::Instance().Refresh(&mWindow, false);
 }
 
-bool CrtView::ProcessInput(const InputCompactEvent& event)
+bool CrtCalibrationView::ProcessInput(const InputCompactEvent& event)
 {
   CrtResolution reso = mSequence[mSequenceIndex];
   bool update = false;
@@ -143,10 +150,14 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   {
     CrtConf::Instance().Save();
     reso = mSequence[++mSequenceIndex];
+    { LOG(LogDebug) << "[CrtCalibrationView] ProcessInput: selected resolution " << (int)mSequence[mSequenceIndex] << " at index " << mSequenceIndex; }
     // Skip interlaced if needed
     if(!Board::Instance().CrtBoard().HasInterlacedSupport())
       while(mSequence[mSequenceIndex] == CrtResolution::r480i || mSequence[mSequenceIndex] == CrtResolution::r576i)
-        mSequenceIndex++;
+      {
+        { LOG(LogDebug) << "[CrtCalibrationView] ProcessInput: skipping resolution " << (int)mSequence[mSequenceIndex] << " at index " << mSequenceIndex; }
+        reso = mSequence[++mSequenceIndex];
+      }
     if (mSequence[mSequenceIndex] == CrtResolution::rNone)
       mEvent.Send();
     else {
@@ -163,23 +174,35 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   }
   else if (event.AnyUpReleased())
   {
-    CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - 1);
-    update = true;
+    if(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) > porch[reso][Offset::Up])
+    {
+      CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) - 1);
+      update = true;
+    }
   }
   else if (event.AnyDownReleased())
   {
-    CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) + 1);
-    update = true;
+    if(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) < porch[reso][Offset::Down])
+    {
+      CrtConf::Instance().SetCrtModeOffsetVerticalOffset(reso, CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso) + 1);
+      update = true;
+    }
   }
   else if (event.AnyLeftReleased())
   {
-    CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - 1);
-    update = true;
+    if(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) > porch[reso][Offset::Left])
+    {
+      CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) - 1);
+      update = true;
+    }
   }
   else if (event.AnyRightReleased())
   {
-    CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
-    update = true;
+    if(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) < porch[reso][Offset::Right])
+    {
+      CrtConf::Instance().SetCrtModeOffsetHorizontalOffset(reso, CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso) + 1);
+      update = true;
+    }
   }
   if(update)
   {
@@ -191,13 +214,13 @@ bool CrtView::ProcessInput(const InputCompactEvent& event)
   return true;
 }
 
-void CrtView::ReceiveSyncMessage()
+void CrtCalibrationView::ReceiveSyncMessage()
 {
   SetResolution(CrtResolution::rNone);
   ViewController::Instance().BackToPreviousView();
 }
 
-void CrtView::UpdateViewport()
+void CrtCalibrationView::UpdateViewport()
 {
   CrtResolution reso = mSequence[mSequenceIndex];
 
@@ -208,10 +231,16 @@ void CrtView::UpdateViewport()
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
   mViewportText->setText(_("Image width:").Append(' ').Append(CrtConf::Instance().GetCrtViewportWidth(reso)));
+  String minMax = "";
+  if(porch[reso][Offset::Left] >= CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)) minMax.Append("(MIN)");
+  if(porch[reso][Offset::Right] <= CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)) minMax.Append("(MAX)");
   mHorizontalOffsetText->setText(
-      _("Horizontal offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)));
+      _("Horizontal offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)).Append(minMax));
+  minMax = "";
+  if(porch[reso][Offset::Up] >= CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)) minMax.Append("(MIN)");
+  if(porch[reso][Offset::Down] <= CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)) minMax.Append("(MAX)");
   mVerticalOffsetText->setText(
-      _("Vertical offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)));
+      _("Vertical offset:").Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso)).Append(minMax));
 
   if (mOriginalHOffset != CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso)) {
     mHorizontalOffsetText->setColor(0xAAAAFFFF);

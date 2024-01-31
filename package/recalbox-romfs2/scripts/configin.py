@@ -8,7 +8,7 @@ from keyvaluesettings import keyValueSettings
 class ConfigIn:
 
     def __init__(self, root: str):
-        self.__config = keyValueSettings(os.path.join(root, "output/.config"), False)
+        self.__config = keyValueSettings(os.getenv("BR2_CONFIG", os.path.join(root, "output/.config")), False)
         self.__config.loadFile(True)
         self.__arch: str = self.__LoadArch()
         pass

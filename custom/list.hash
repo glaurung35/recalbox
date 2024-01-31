@@ -45,6 +45,9 @@ f976cbc5a7299cfc48ec83f255ddf85b  package/sdl2_mixer/sdl2_mixer.mk
 7255c6ecc9f8bd6a511a495b1c8c1d0a  package/sdl_sound/sdl_sound.mk
 503c8043fd40aa5486cd99bc9ccfdc75  package/skeleton-init-common/skeleton-init-common.mk
 837f387642582c0188c5f6e48d6d2f57  package/usbmount/usbmount.mk
+5f85a69a6c5abcd68b9b6bea955d9e62  package/wlroots/Config.in
+2cf0c56bbf21a27a146c534f0c4b5fbb  package/wlroots/wlroots.hash
+7deca18b80b621e96934bb187cdc54fe  package/wlroots/wlroots.mk
 6e3ab6b232135fb951ccb3c161e481d8  package/x265/x265.mk
 1a93fc46e3acf002a8d2b544abd494cd  support/scripts/mkusers
 2673dc3e7fbc4920c43ad91ad9214d3e  system/device_table.txt

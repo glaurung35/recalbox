@@ -11,7 +11,7 @@ SWITCHRES_DEPENDENCIES = libdrm host-dos2unix
 
 # Hack to patch the CRLF files
 define SWITCHRES_CRLF_PATH
-	$(HOST_DIR)/bin/dos2unix $(@D)/modeline.cpp $(@D)/switchres.cpp
+	$(SED) 's/\r//' "$(@D)/modeline.cpp" "$(@D)/switchres.cpp"
 endef
 
 SWITCHRES_PRE_PATCH_HOOKS += SWITCHRES_CRLF_PATH

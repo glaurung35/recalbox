@@ -48,6 +48,7 @@ lint buildroot:
   before_script:
     - pip install six
     - pip install python-magic
+    - pip install flake8
     - apk update && apk add libmagic
   script: test/lint/buildroot
 

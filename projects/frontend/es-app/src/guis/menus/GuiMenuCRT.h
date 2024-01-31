@@ -47,7 +47,7 @@ class GuiMenuCRT : public GuiMenuBase
       ReduceLatency,
       RunAhead,
       ForceJack,
-      Adjustment,
+      Calibration,
       HorizontalPalOffset,
       VerticalPalOffset,
       ForceHDMI,

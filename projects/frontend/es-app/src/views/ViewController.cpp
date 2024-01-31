@@ -165,7 +165,7 @@ void ViewController::goToGameClipView()
   mGameClipView.Reset();
 }
 
-void ViewController::goToCrtView(CrtView::CalibrationType screenType)
+void ViewController::goToCrtView(CrtCalibrationView::CalibrationType screenType)
 {
   ChangeView(ViewType::CrtCalibration, nullptr);
   mCrtView.Initialize(screenType);

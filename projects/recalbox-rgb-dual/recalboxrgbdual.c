@@ -110,6 +110,7 @@ static struct mode_offsets modeconfigs[ModeCount] = {
     {.voffset = 0, .hoffset = 0},
 };
 
+// Same modes are located in the frontend to manage the min / max porsh
 static struct videomode modes[ModeCount] = {
 
     // 240p@60 : 320 1 4 30 46 240 1 4 5 14 0 0 0 60 0 6400000 1
@@ -236,33 +237,45 @@ static struct videomode modes[ModeCount] = {
 
 static void dpidac_offset_and_validate(struct videomode *vm, int hoffset, int voffset) {
 
+  // Horizontal offseting
   hoffset *= vm->hactive / 320;
-  if ((int) vm->hfront_porch - hoffset >= 1) {
-    vm->hfront_porch -= hoffset;
-    vm->hback_porch += hoffset;
-  } else {
-    // minimum front porch = 1
-    vm->hback_porch += vm->hfront_porch - 1;
-    vm->hfront_porch = 1;
+  if ((int) vm->hfront_porch - hoffset < 1) {
+    // if the porch is too high
+    hoffset = vm->hfront_porch;
   }
+  if ((int) vm->hback_porch + hoffset < 0) {
+    // Porch is too low
+    hoffset = - vm->hback_porch;
+  }
+  vm->hfront_porch -= hoffset;
+  vm->hback_porch += hoffset;
+
+  // Vertical offseting
   int min_voffset = 1;
   if (vm->flags & DISPLAY_FLAGS_INTERLACED) {
     // Interlaced modes won't accept a vertical porch < 2
     min_voffset = 2;
   }
-  if ((int) vm->vfront_porch - voffset >= min_voffset) {
-    vm->vfront_porch -= voffset;
-    vm->vback_porch += voffset;
-  } else {
-    vm->vback_porch += (vm->vfront_porch - min_voffset);
-    vm->vfront_porch = min_voffset;
+  if ((int) vm->vfront_porch - voffset < min_voffset) {
+    // if the porch is too high
+    voffset = vm->vfront_porch - min_voffset;
   }
-  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %dx%d - %d %d %d\n",
+  if ((int) vm->vback_porch + voffset < 0) {
+    // Porch is too low
+    voffset = - vm->vback_porch;
+  }
+
+  vm->vfront_porch -= voffset;
+  vm->vback_porch += voffset;
+  printk(KERN_INFO "[RECALBOXRGBDUAL]: modified mode %dx%d - V:%d %d %d - H:%d %d %d\n",
          vm->hactive,
          vm->vactive,
          vm->vfront_porch,
          vm->vsync_len,
-         vm->vback_porch);
+         vm->vback_porch,
+         vm->hfront_porch,
+         vm->hsync_len,
+         vm->hback_porch);
 
 }
 
@@ -379,9 +392,10 @@ static int dpidac_load_config(const char *configfile) {
   for (cursor = 0; cursor < read_size; cursor++) {
     line[cursor - line_start] = read_buf[cursor];
     line_len++;
-    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0') {
+    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0' || cursor == read_size-1) {
       if (line_len > 1 && line[0] != '#') {
-        line[line_len - 1] = '\0';
+        if(line[line_len - 1] == '\n')
+          line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
           if (strcmp(optionname, "options.screen.31kHz") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {

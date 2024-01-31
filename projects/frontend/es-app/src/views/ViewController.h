@@ -4,7 +4,7 @@
 #include "views/gamelist/ISimpleGameListView.h"
 #include "views/SystemView.h"
 #include "SplashView.h"
-#include "views/crt/CrtView.h"
+#include "views/crt/CrtCalibrationView.h"
 #include "guis/menus/IFastMenuListCallback.h"
 #include "ISaveStateSlotNotifier.h"
 #include "ISoftPatchingNotifier.h"
@@ -90,7 +90,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void goToGameList(SystemData* system);
     void goToSystemView(SystemData* system);
     void goToGameClipView();
-    void goToCrtView(CrtView::CalibrationType screenType);
+    void goToCrtView(CrtCalibrationView::CalibrationType screenType);
     void selectGamelistAndCursor(FileData* file);
     void goToStart();
     void goToQuitScreen();
@@ -218,7 +218,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     SystemView mSystemListView;
     SplashView mSplashView;
     GameClipView mGameClipView;
-    CrtView mCrtView;
+    CrtCalibrationView mCrtView;
     HashMap<SystemData*, bool> mInvalidGameList;
 
     ViewType mCurrentViewType;  //!< Current view type

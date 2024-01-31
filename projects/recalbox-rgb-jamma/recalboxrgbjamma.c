@@ -1298,7 +1298,13 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
   long long int time_start = ktime_to_ns(ktime_get_boottime());
   DEBUG &&printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
   mutex_lock(&jamma_config.process_mutex);
-
+  for(int i = PLAYER1; i < jamma_config.player_count; i ++){
+    if(player_devs[i] == NULL){
+      printk(KERN_INFO "recalboxrgbjamma: some players are NULL, unable to process inputs\n");
+      mutex_unlock(&jamma_config.process_mutex);
+      return 0;
+    }
+  }
   if (gpio_chip != NULL) {
     if (read_gpios_one_chip(&gpio_data_chip, gpio_chip)) {
       DEBUG &&printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chip, unlocking mutex\n");
@@ -1387,15 +1393,12 @@ static int process_debounce_and_turbo(void *idx) {
 
 static int unregister_controllers(void) {
   int player;
-  mutex_lock(&jamma_config.process_mutex);
   for (player = 0; player < MAX_PLAYERS; player++) {
     if (player_devs[player] != NULL) {
       input_unregister_device(player_devs[player]);
       player_devs[player] = NULL;
     }
   }
-  mutex_unlock(&jamma_config.process_mutex);
-
   return 0;
 }
 
@@ -1403,7 +1406,6 @@ static const char *controllers_names[MAX_PLAYERS] = {"JammaControllerP1", "Jamma
 
 static int register_controllers(void) {
   int err = 0, i = 0, player = 0;
-  mutex_lock(&jamma_config.process_mutex);
   for (player = 0; player < jamma_config.player_count; player++) {
     if (!(player_devs[player] = input_allocate_device())) {
       pr_err("recalboxrgbjamma: not enough memory for input device\n");
@@ -1427,13 +1429,11 @@ static int register_controllers(void) {
 
     if ((err = input_register_device(player_devs[player]))) {
       pr_err("recalboxrgbjamma: Cannot register input device\n");
-      mutex_unlock(&jamma_config.process_mutex);
       input_free_device(player_devs[player]);
       player_devs[player] = NULL;
       return -1;
     }
   }
-  mutex_unlock(&jamma_config.process_mutex);
   return 0;
 }
 // Load configuration from recalbox-crt-options.cfg
@@ -1514,9 +1514,12 @@ static int load_config(void) {
           } else if (strcmp(optionname, "options.jamma.controls.4players") == 0) {
             if ((jamma_config.player_count == 2 && optionvalue == 1) || (jamma_config.player_count == 4 && optionvalue == 0)) {
               printk(KERN_INFO "recalboxrgbjamma: switch player_count to %d\n", (optionvalue == 1 ? 4 : 2));
-              jamma_config.player_count = (optionvalue == 1 ? 4 : 2);
+              mutex_lock(&jamma_config.process_mutex);
               unregister_controllers();
+              jamma_config.player_count = (optionvalue == 1 ? 4 : 2);
               register_controllers();
+              mutex_unlock(&jamma_config.process_mutex);
+
             }
           } else if (strcmp(optionname, "options.jamma.i2s") == 0) {
             if (jamma_config.i2s != optionvalue) {
@@ -1859,7 +1862,9 @@ pca953x_init(void) {
 
   mutex_init(&jamma_config.process_mutex);
   printk(KERN_INFO "recalboxrgbjamma: registering controllers\n");
+  mutex_lock(&jamma_config.process_mutex);
   register_controllers();
+  mutex_unlock(&jamma_config.process_mutex);
 
   return i2c_add_driver(&pca953x_driver);
 }
@@ -1880,8 +1885,10 @@ pca953x_exit(void) {
   if (kthread_stop(jamma_config.debounce_thread)) {
     printk("recalboxrgbjamma: can't stop debounce thread");
   }
-  unregister_controllers();
   i2c_del_driver(&pca953x_driver);
+  mutex_lock(&jamma_config.process_mutex);
+  unregister_controllers();
+  mutex_unlock(&jamma_config.process_mutex);
 }
 
 module_exit(pca953x_exit);

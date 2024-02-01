@@ -663,6 +663,7 @@ static struct config {
   uint amp_boost;
   bool amp_disable;
   uint player_count;
+  bool dual_joy;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -1176,8 +1177,18 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
   for (player = 0; player < jamma_config.player_count; player++) {
     // Only process P1 if start + credit is not running
     if (player > PLAYER1 || should_release_start) {
-      input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
-      input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
+      if(jamma_config.dual_joy){
+        if(player == PLAYER2) {
+          input_report_abs(player_devs[PLAYER1], ABS_RY, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
+          input_report_abs(player_devs[PLAYER1], ABS_RX, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
+        } else {
+          input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
+          input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
+        }
+      } else {
+        input_report_abs(player_devs[player], ABS_Y, PRESSED(*data_chips, direction_bits[player][DIR_DOWN]) - PRESSED(*data_chips, direction_bits[player][DIR_UP]));
+        input_report_abs(player_devs[player], ABS_X, PRESSED(*data_chips, direction_bits[player][DIR_RIGHT]) - PRESSED(*data_chips, direction_bits[player][DIR_LEFT]));
+      }
 
       for (buttonIndex = 0; buttonIndex < BTN_PER_PLAYER_ON_JAMMA; buttonIndex++) {
         // If we are on 4 player mode, all kick harness buttons are used for player 3 and 4, so player 1 and 2 have only jamma buttons.
@@ -1422,8 +1433,10 @@ static int register_controllers(void) {
 
     player_devs[player]->evbit[0] = BIT_MASK(EV_KEY) | BIT_MASK(EV_ABS);
 
-    for (i = 0; i < 2; i++)
+    for (i = 0; i < 2; i++) {
       input_set_abs_params(player_devs[player], ABS_X + i, -1, 1, 0, 0);
+      input_set_abs_params(player_devs[player], ABS_RX + i, -1, 1, 0, 0);
+    }
     for (i = 0; i < BTN_PER_PLAYER; i++)
       __set_bit(buttons_codes[i], player_devs[player]->keybit);
 
@@ -1519,6 +1532,11 @@ static int load_config(void) {
               jamma_config.player_count = (optionvalue == 1 ? 4 : 2);
               register_controllers();
               mutex_unlock(&jamma_config.process_mutex);
+            }
+          } else if (strcmp(optionname, "options.jamma.controls.dualjoysticks") == 0) {
+            if (jamma_config.dual_joy != optionvalue ) {
+              printk(KERN_INFO "recalboxrgbjamma: switch dual_joy to %d\n", optionvalue);
+              jamma_config.dual_joy = optionvalue;
             }
           } else if (strcmp(optionname, "options.jamma.i2s") == 0) {
             if (jamma_config.i2s != optionvalue) {
@@ -1858,6 +1876,7 @@ pca953x_init(void) {
   jamma_config.amp_disable = 0;
   jamma_config.amp_boost = 0;
   jamma_config.player_count = 2;
+  jamma_config.dual_joy = false;
 
   mutex_init(&jamma_config.process_mutex);
   printk(KERN_INFO "recalboxrgbjamma: registering controllers\n");

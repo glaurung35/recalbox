@@ -62,6 +62,7 @@ class GuiMenuCRT : public GuiMenuBase
       Jamma4Players,
       JammaAutoFire,
       JammaButtonsBtn6Gnd,
+      JammaDualJoysticks,
       ResetJamma,
       JammaSoundOutput
     };

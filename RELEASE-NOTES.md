@@ -6,6 +6,12 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-Pulstar
 
+- Fixed 4 player mode on swing
+- Added experimental twin joysticks (only for 1 player)
+
+
+## Version 9.2-Pulstar
+
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)
 - Add support for Recalbox RGB JAMMA

@@ -614,10 +614,10 @@ void GuiBiosScan::UpdateBiosDetail()
     {
       mDetailText1Value->setValue(_S(String(text)));
       if (Renderer::Instance().Is480pOrLower())
-        mDetailText2Label->setValue(_("Core") .Append(" :").Append(cores));
+        mDetailText2Label->setValue(_("Core") .Append(" : ").Append(cores));
       else
       {
-        mDetailText2Label->setValue(_("Core") + " :");
+        mDetailText2Label->setValue(_("Core") + " : ");
         mDetailText2Value->setValue(cores);
       }
     }

@@ -26,6 +26,7 @@ declare -A ES_JAMMA_CONFIG=(
     ["system.splash.enabled"]="0"
     ["emulationstation.showgameclipclippingitem"]="0"
     ["emulationstation.showgamecliphelpitems"]="0"
+    ["emulationstation.screensaver.type"]="gameclip"
 )
 
 declare -A ES_CLEAN_CONFIG=(

@@ -1532,7 +1532,6 @@ static int load_config(void) {
               jamma_config.player_count = (optionvalue == 1 ? 4 : 2);
               register_controllers();
               mutex_unlock(&jamma_config.process_mutex);
-
             }
           } else if (strcmp(optionname, "options.jamma.controls.dualjoysticks") == 0) {
             if (jamma_config.dual_joy != optionvalue ) {
@@ -1579,8 +1578,8 @@ static int watch_configuration(void *idx) {
   int gpio_value = 0;
   while (!kthread_should_stop()) {
     // Read file
-    usleep_range(2000000, 5000000);
     load_config();
+    usleep_range(2000000, 5000000);
   }
   return 0;
 }

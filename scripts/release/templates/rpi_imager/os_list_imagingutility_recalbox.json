@@ -10,7 +10,8 @@
             "image_download_size": {{rpi5_64ImageDownloadSize}},
             "image_download_sha256": "{{rpi5_64ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi5-64bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi 4 / 400 / CM4 / GPiCase2 / PiBoyDMG",
@@ -22,7 +23,8 @@
             "image_download_size": {{rpi4_64ImageDownloadSize}},
             "image_download_sha256": "{{rpi4_64ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi4-64bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi 3",
@@ -34,7 +36,8 @@
             "image_download_size": {{rpi3ImageDownloadSize}},
             "image_download_sha256": "{{rpi3ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi3-32bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi Zero 2 / GPiCase2W",
@@ -46,7 +49,8 @@
             "image_download_size": {{rpizero2ImageDownloadSize}},
             "image_download_sha256": "{{rpizero2ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi3-32bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi Zero 2 + GPiCase1",
@@ -58,7 +62,8 @@
             "image_download_size": {{rpizero2legacyImageDownloadSize}},
             "image_download_sha256": "{{rpizero2legacyImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi3-32bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi 2",
@@ -70,7 +75,8 @@
             "image_download_size": 870115128,
             "image_download_sha256": "354a786403ed50c93f0ba01f71e3978a3a35f8d8337f0ab3b8ae3017a9a9652c",
             "release_date": "2022-01-29",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi2-32bit"]
         },
         {
             "name": "Recalbox - Raspberry Pi Zero / 1 / GPiCase1",
@@ -82,7 +88,8 @@
             "image_download_size": {{rpi1ImageDownloadSize}},
             "image_download_sha256": "{{rpi1ImageDownloadSha256}}",
             "release_date": "{{releaseDate}}",
-            "website": "https://www.recalbox.com"
+            "website": "https://www.recalbox.com",
+            "devices": ["pi1-32bit"]
         }
     ]
 }

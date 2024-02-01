@@ -113,23 +113,23 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
 
   // Details components
   mDetailSystemLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailSystemValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailSystemValue = std::make_shared<TextScrollComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailCoreLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailCoreValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailPathLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailPathValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailMandatoryLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
+  mDetailPathValue = std::make_shared<TextScrollComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailMandatoryLabel = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailMandatoryValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailHashMustMatchLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
+  mDetailHashMustMatchLabel = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailHashMustMatchValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailFileFoundLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
+  mDetailFileFoundLabel = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailFileFoundValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailHashIsMatchingLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
+  mDetailHashIsMatchingLabel = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailHashIsMatchingValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailText1Label = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailText1ValueContainer = std::make_shared<ScrollableContainer>(window);
   mDetailText1Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
-  mDetailText2Label = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailText2Label = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailText2ValueContainer = std::make_shared<ScrollableContainer>(window);
   mDetailText2Value = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailText1ValueContainer->addChild(mDetailText1Value.get());
@@ -159,22 +159,22 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mDetailText1Label->setUppercase(true);
   mDetailText2Label->setUppercase(true);
 
-  mGrid.setEntry(mDetailSystemLabel, Vector2i(2,2), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailSystemValue, Vector2i(3,2), false, false, Vector2i(3,1));
-  mGrid.setEntry(mDetailCoreLabel, Vector2i(2,4), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailCoreValue, Vector2i(3,4), false, false, Vector2i(3,1));
-  mGrid.setEntry(mDetailPathLabel, Vector2i(2,5), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailPathValue, Vector2i(3,5), false, false, Vector2i(3,1));
-  mGrid.setEntry(mDetailMandatoryLabel, Vector2i(2,6), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailMandatoryValue, Vector2i(3,6), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailHashMustMatchLabel, Vector2i(4,6), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailHashMustMatchValue, Vector2i(5,6), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailFileFoundLabel, Vector2i(2,8), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailFileFoundValue, Vector2i(3,8), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailHashIsMatchingLabel, Vector2i(4, 8), false, false, Vector2i(1, 1));
-  mGrid.setEntry(mDetailHashIsMatchingValue, Vector2i(5,8), false, false, Vector2i(1,1));
-  mGrid.setEntry(mDetailText1Label, Vector2i(2,8), false, false, Vector2i(4,1));
-  mGrid.setEntry(mDetailText1ValueContainer, Vector2i(isLowRes ? 2 : 3,9), false, false, Vector2i(3,1));
+  mGrid.setEntry(mDetailSystemLabel, Vector2i(2, 2), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailSystemValue, Vector2i(3, 2), false, false, Vector2i(3,1));
+  mGrid.setEntry(mDetailCoreLabel, Vector2i(2, 4), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailCoreValue, Vector2i(3, 4), false, false, Vector2i(3,1));
+  mGrid.setEntry(mDetailPathLabel, Vector2i(2, 5), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailPathValue, Vector2i(3, 5), false, false, Vector2i(3,1));
+  mGrid.setEntry(mDetailMandatoryLabel, Vector2i(2, 6), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailMandatoryValue, Vector2i(3, 6), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailHashMustMatchLabel, Vector2i(4, 6), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailHashMustMatchValue, Vector2i(5, 6), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailFileFoundLabel, Vector2i(2, 7), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailFileFoundValue, Vector2i(3, 7), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailHashIsMatchingLabel, Vector2i(4, 7), false, false, Vector2i(1, 1));
+  mGrid.setEntry(mDetailHashIsMatchingValue, Vector2i(5, 7), false, false, Vector2i(1,1));
+  mGrid.setEntry(mDetailText1Label, Vector2i(2, 7), false, false, Vector2i(4,1));
+  mGrid.setEntry(mDetailText1ValueContainer, Vector2i(isLowRes ? 2 : 3, 9), false, false, Vector2i(3,1));
   if (!isLowRes)
   {
     mGrid.setEntry(mDetailText2Label, Vector2i(2, 11), false, false, Vector2i(4, 1));
@@ -205,6 +205,9 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   buttons.push_back(mButtonClose);
   mButtonGrid = makeButtonGrid(mWindow, buttons);
   mGrid.setEntry(mButtonGrid, Vector2i(1, 14), true, false, Vector2i(5,1));
+
+  //mGrid.SetRowHighlight(true, 0, 14);
+  //mGrid.SetColumnHighlight(true, 0, 6);
 
   // Set Window position/size
   setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.95f, Renderer::Instance().DisplayHeightAsFloat() * 0.849f);
@@ -241,28 +244,28 @@ void GuiBiosScan::onSizeChanged()
   float remainingPercent = 1.0f - (titlePercent + headerPercent + spacerPercent * 3 + systemPercent + corePercent + pathPercent + mandatoryPercent + filePercent + remarkPercent + notePercent + footerPercent + buttonPercent);
   if (remainingPercent < 0.0f) remainingPercent = 0.001f;
 
-  mGrid.setRowHeightPerc(0, titlePercent, false);
-  mGrid.setRowHeightPerc(1, headerPercent, false);
-  mGrid.setRowHeightPerc(2, systemPercent, false);
-  mGrid.setRowHeightPerc(3, spacerPercent, false);
-  mGrid.setRowHeightPerc(4, corePercent, false);
-  mGrid.setRowHeightPerc(5, pathPercent, false);
-  mGrid.setRowHeightPerc(6, mandatoryPercent, false);
-  mGrid.setRowHeightPerc(7, spacerPercent, false);
-  mGrid.setRowHeightPerc(8, filePercent, false);
-  mGrid.setRowHeightPerc(9, remarkPercent, false);
-  mGrid.setRowHeightPerc(10, spacerPercent, false);
-  mGrid.setRowHeightPerc(11, notePercent, false);
-  mGrid.setRowHeightPerc(12, remainingPercent, false);
-  mGrid.setRowHeightPerc(13, footerPercent, false);
-  mGrid.setRowHeightPerc(14, buttonPercent, false);
-  mGrid.setColWidthPerc(0, 0.02f, false);
-  mGrid.setColWidthPerc(1, 0.40f, false);
-  mGrid.setColWidthPerc(2, 0.20f, false);
-  mGrid.setColWidthPerc(3, 0.06f, false);
-  mGrid.setColWidthPerc(4, 0.24f, false);
-  mGrid.setColWidthPerc(5, 0.06f, false);
-  mGrid.setColWidthPerc(6, 0.02f, false);
+  mGrid.setRowHeightPerc(0, titlePercent, true);
+  mGrid.setRowHeightPerc(1, headerPercent, true);
+  mGrid.setRowHeightPerc(2, systemPercent, true);
+  mGrid.setRowHeightPerc(3, spacerPercent / 3.f, true);
+  mGrid.setRowHeightPerc(4, corePercent, true);
+  mGrid.setRowHeightPerc(5, pathPercent, true);
+  mGrid.setRowHeightPerc(6, mandatoryPercent, true);
+  mGrid.setRowHeightPerc(7, filePercent, true);
+  mGrid.setRowHeightPerc(8, spacerPercent / 3.f, true);
+  mGrid.setRowHeightPerc(9, remarkPercent, true);
+  mGrid.setRowHeightPerc(10, spacerPercent, true);
+  mGrid.setRowHeightPerc(11, notePercent, true);
+  mGrid.setRowHeightPerc(12, remainingPercent, true);
+  mGrid.setRowHeightPerc(13, footerPercent, true);
+  mGrid.setRowHeightPerc(14, buttonPercent, true);
+  mGrid.setColWidthPerc(0, 0.02f, true);
+  mGrid.setColWidthPerc(1, 0.40f, true);
+  mGrid.setColWidthPerc(2, 0.20f, true);
+  mGrid.setColWidthPerc(3, 0.06f, true);
+  mGrid.setColWidthPerc(4, 0.24f, true);
+  mGrid.setColWidthPerc(5, 0.06f, true);
+  mGrid.setColWidthPerc(6, 0.02f, true);
   mGrid.setSize(mSize);
 
   // Resize all components
@@ -277,11 +280,11 @@ void GuiBiosScan::onSizeChanged()
   mDetailMandatoryValue->setSize(marginPercent * mGrid.getColWidth(3), mGrid.getRowHeight(6));
   mDetailHashMustMatchLabel->setSize(marginPercent * mGrid.getColWidth(4), mGrid.getRowHeight(6));
   mDetailHashMustMatchValue->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(6));
-  mDetailFileFoundLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(8));
-  mDetailFileFoundValue->setSize(marginPercent * mGrid.getColWidth(3), mGrid.getRowHeight(8));
-  mDetailHashIsMatchingLabel->setSize(marginPercent * mGrid.getColWidth(4), mGrid.getRowHeight(8));
-  mDetailHashIsMatchingValue->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(8));
-  mDetailText1Label->setSize(marginPercent * mGrid.getColWidth(2, 5), mGrid.getRowHeight(8));
+  mDetailFileFoundLabel->setSize(marginPercent * mGrid.getColWidth(2), mGrid.getRowHeight(7));
+  mDetailFileFoundValue->setSize(marginPercent * mGrid.getColWidth(3), mGrid.getRowHeight(7));
+  mDetailHashIsMatchingLabel->setSize(marginPercent * mGrid.getColWidth(4), mGrid.getRowHeight(7));
+  mDetailHashIsMatchingValue->setSize(marginPercent * mGrid.getColWidth(5), mGrid.getRowHeight(7));
+  mDetailText1Label->setSize(marginPercent * mGrid.getColWidth(2, 5), mGrid.getRowHeight(7));
   if (IsLowRes) mDetailText1ValueContainer->setSize(marginPercent * mGrid.getColWidth(2, 4), mGrid.getRowHeight(9));
   else          mDetailText1ValueContainer->setSize(marginPercent * mGrid.getColWidth(3, 5), mGrid.getRowHeight(9));
   mDetailText2Label->setSize(marginPercent * mGrid.getColWidth(2,5), mGrid.getRowHeight(11));
@@ -453,7 +456,7 @@ void GuiBiosScan::UpdateBiosList()
                  _("EMULATOR %s MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%s", lastNonWorkingSystemName) :
                  _("%i EMULATORS MAY NOT WORK PROPERLY UNTIL ALL REQUIRED BIOS ARE MADE AVAILABLE!").Replace("%i", String(nonWorkingSystem));
   }
-  else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY! ENJOY YOUR RETRO GAMES YOU AND DON'T BOTHER WITH NETFLIX OR THOSE PLAYSTATIONS!");
+  else headerText = _("CONGRATULATIONS! ALL EMULATORS SHOULD WORK PROPERLY!");
   mHeader->setValue(headerText);
 
   // Update footer
@@ -524,8 +527,13 @@ void GuiBiosScan::UpdateBiosDetail()
     mDetailText1Value->setValue(explain);
     if (!context.mBios->Notes().empty())
     {
-      mDetailText2Label->setValue(_("NOTE") + " :");
-      mDetailText2Value->setValue(context.mBios->Notes());
+      if (Renderer::Instance().Is480pOrLower())
+        mDetailText2Label->setValue(_("NOTE") .Append(" :").Append(context.mBios->Notes()));
+      else
+      {
+        mDetailText2Label->setValue(_("NOTE") + " :");
+        mDetailText2Value->setValue(context.mBios->Notes());
+      }
     }
     else
     {
@@ -604,8 +612,13 @@ void GuiBiosScan::UpdateBiosDetail()
     if (!Renderer::Instance().Is240p())
     {
       mDetailText1Value->setValue(_S(String(text)));
-      mDetailText2Label->setValue(_("Core") + " :");
-      mDetailText2Value->setValue(cores);
+      if (Renderer::Instance().Is480pOrLower())
+        mDetailText2Label->setValue(_("Core") .Append(" :").Append(cores));
+      else
+      {
+        mDetailText2Label->setValue(_("Core") + " :");
+        mDetailText2Value->setValue(cores);
+      }
     }
     else
     {

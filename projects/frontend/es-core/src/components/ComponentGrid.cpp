@@ -5,11 +5,16 @@
 #include <help/Help.h>
 
 ComponentGrid::ComponentGrid(WindowManager& window, const Vector2i& gridDimensions)
-  : Component(window), mGridSize({
-                                   0,
-                                   0
-                                 }), mCursor(0, 0), mHighlightRowFrom(0), mHighlightRowTo(0), mHighlightColumnFrom(0),
-    mHighlightColumnTo(0), mHighlightRows(false), mHighlightColumns(false), mUnhandledInputCallback(nullptr)
+  : Component(window)
+  , mGridSize({ 0, 0 })
+  , mCursor(0, 0)
+  , mHighlightRowFrom(0)
+  , mHighlightRowTo(0)
+  , mHighlightColumnFrom(0)
+  , mHighlightColumnTo(0)
+  , mHighlightRows(false)
+  , mHighlightColumns(false)
+  , mUnhandledInputCallback(nullptr)
 {
   SetGridDimensions(gridDimensions);
 }

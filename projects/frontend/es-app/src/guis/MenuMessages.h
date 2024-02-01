@@ -271,6 +271,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND "On some cabs, the pins E/27 of the JAMMA are the common ground for controls. Enable this option if you have this configuration."
     #define MENUMESSAGE_ADVANCED_CRT_JAMMA_HELP_MSG "Configure your Recalbox RGB JAMMA board."
     #define MENUMESSAGE_ADVANCED_CRT_CALIBRATION "Calibrate different display modes on your screen."
+    #define MENUMESSAGE_ADVANCED_CRT_JAMMA_DUAL_JOYSTICKS "Load the dual joystick configuration on compatible games !"
 
     #define MENUMESSAGE_ADVANCED_RESOLUTION_HELP_MSG "Select system, frontend and emulator resolutions."
     #define MENUMESSAGE_ADVANCED_RESOLUTION_GLOBAL_HELP_MSG "Global resolution is the resolution used by default when specific resolutions are undefined."

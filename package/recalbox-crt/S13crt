@@ -313,7 +313,6 @@ if test "$1" == "start"; then
           (sleep 5 && volumed "/dev/input/$(basename "$js")") &
         fi
       done
-      exit 0
     fi
 
     # RRGBD is present

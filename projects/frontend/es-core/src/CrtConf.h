@@ -61,6 +61,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJamma4Players, bool, Bool, sSystemCRTJamma4Players, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAutoFire, bool, Bool, sSystemCRTJammaAutoFire, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaButtonsOnJamma, String, String, sSystemCRTJammaButtonsOnJamma, "6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaDualJoysticks, bool, Bool, sSystemCRTJammaDualJoysticks, false)
+
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
 
@@ -101,6 +103,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJamma4Players          = "options.jamma.controls.4players";
     static constexpr const char* sSystemCRTJammaAutoFire          = "options.jamma.controls.autofire";
     static constexpr const char* sSystemCRTJammaButtonsOnJamma    = "options.jamma.controls.buttons_on_jamma";
+    static constexpr const char* sSystemCRTJammaDualJoysticks     = "options.jamma.controls.dualjoysticks";
 
 
     static constexpr const char* sViewportPrefix                  = "viewport";

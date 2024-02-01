@@ -24,6 +24,8 @@ declare -A ES_JAMMA_CONFIG=(
     ["controllers.gamecon.enabled"]="0"
     ["controllers.xarcade.enabled"]="0"
     ["system.splash.enabled"]="0"
+    ["emulationstation.screensaver.type"]="gameclip"
+
 )
 
 declare -A ES_CLEAN_CONFIG=(

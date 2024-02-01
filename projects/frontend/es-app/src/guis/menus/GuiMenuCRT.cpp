@@ -157,6 +157,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
               (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
     AddSwitch(_("START+BTN 5SEC = AUTO FIRE"), CrtConf::Instance().GetSystemCRTJammaAutoFire(),
               (int)Components::JammaAutoFire, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_AUTOFIRE));
+    AddSwitch(_("DUAL JOYSTICKS"), CrtConf::Instance().GetSystemCRTJammaDualJoysticks(),
+              (int)Components::JammaDualJoysticks, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_DUAL_JOYSTICKS));
     AddSwitch(_("PIN E/27 AS GND"), CrtConf::Instance().GetSystemCRTJammaButtonsOnJamma() != "6",
               (int)Components::JammaButtonsBtn6Gnd, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_BTN6GND));
     AddSubMenu(_("RESET JAMMA CONFIGURATION"), (int)Components::ResetJamma, _(MENUMESSAGE_ADVANCED_CRT_JAMMA_HELP_MSG));
@@ -419,6 +421,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
     CrtConf::Instance().SetSystemCRTJammaAutoFire(status).Save();
   if ((Components)id == Components::JammaButtonsBtn6Gnd)
     CrtConf::Instance().SetSystemCRTJammaButtonsOnJamma(status ? "5" : "6").Save();
+  if ((Components)id == Components::JammaDualJoysticks)
+    CrtConf::Instance().SetSystemCRTJammaDualJoysticks(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

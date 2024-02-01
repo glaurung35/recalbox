@@ -204,7 +204,7 @@ GuiControlHints::GuiControlHints(WindowManager& window, const Path& romPath)
     icon->setColorShift(menuTheme.Text().color);
     mGrid.setEntry(icon, { currentCol * 5 + 3, currentRow + 2}, false, false, { 1, 1});
 
-    std::shared_ptr<TextComponent> text = std::make_shared<TextScrollComponent>(window, *comment, menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Left);
+    std::shared_ptr<TextScrollComponent> text = std::make_shared<TextScrollComponent>(window, *comment, menuTheme.Text().font, menuTheme.Text().color, TextAlignment::Left);
     mGrid.setEntry(text, { currentCol * 5 + 5, currentRow + 2}, false, true, { 1, 1});
 
     if (++currentRow >= mRows)

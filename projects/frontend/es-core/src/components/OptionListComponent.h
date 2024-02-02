@@ -401,10 +401,8 @@ private:
 		if(mMultiSelect)
 		{
 			// display # selected
-		  	char strbuf[256];
 			int x = getSelectedObjects().size();
-		  	snprintf(strbuf, 256, _N("%i SELECTED", "%i SELECTED", x).c_str(), x);
-			mText.setText(strbuf);
+			mText.setText(_N("%i SELECTED", "%i SELECTED", x).Replace("%i", String(x)));
 			mText.setSize(0, mText.getSize().y());
 			setSize(mText.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());
 			if(mParent) // hack since theres no "on child size changed" callback atm...
@@ -420,6 +418,7 @@ private:
 					setSize(mText.getSize().x() + mLeftArrow.getSize().x() + mRightArrow.getSize().x() + 24, mText.getSize().y());
 					if(mParent) // hack since theres no "on child size changed" callback atm...
 						mParent->onSizeChanged();
+          onSizeChanged();
 					break;
 				}
 			}

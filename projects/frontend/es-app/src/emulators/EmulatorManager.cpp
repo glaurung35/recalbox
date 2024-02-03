@@ -110,16 +110,24 @@ void EmulatorManager::GetEmulatorFromSubfolder(const FileData& game, String& emu
         {
           { "mame", "libretro|mame" },
           { "mame2000", "libretro|mame2000" },
+          { "mame 2000", "libretro|mame2000" },
           { "mame2003", "libretro|mame2003" },
+          { "mame 2003", "libretro|mame2003" },
           { "mame2003+", "libretro|mame2003_plus" },
+          { "mame 2003+", "libretro|mame2003_plus" },
           { "mame2003plus", "libretro|mame2003_plus" },
+          { "mame 2003 plus", "libretro|mame2003_plus" },
           { "mame2003-plus", "libretro|mame2003_plus" },
+          { "mame2003 plus", "libretro|mame2003_plus" },
           { "mame2010", "libretro|mame2010" },
+          { "mame 2010", "libretro|mame2010" },
           { "mame2015", "libretro|mame2015" },
+          { "mame 2015", "libretro|mame2015" },
           { "mame2016", "libretro|mame2016" },
+          { "mame 2016", "libretro|mame2016" },
           { "advancemame", "advancemame|advancemame" },
         };
-        if (String* result = folderToEmulatorCore.try_get(relative.Item(i)); result != nullptr)
+        if (String* result = folderToEmulatorCore.try_get(relative.Item(i).LowerCase()); result != nullptr)
           if (String newEmulator, newCore; result->Extract('|', newEmulator, newCore, false))
             if (CheckEmulatorAndCore(game.System(), newEmulator, newCore))
             {

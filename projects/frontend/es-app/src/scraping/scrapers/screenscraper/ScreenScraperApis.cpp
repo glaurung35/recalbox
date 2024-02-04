@@ -139,8 +139,8 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
     if (rom.HasMember("romcrc")) game.mCrc = rom["romcrc"].GetString();
   }
 
+  game.mRegions = ScreenScraperApis::GetRegions(romRegions, path);
   String requiredRegion = ScreenScraperApis::GetRequiredRegion(romRegions, path, mConfiguration.GetFavoriteRegion());
-  game.mRegion = requiredRegion;
   const String language = LanguagesTools::SerializeLanguage(mConfiguration.GetFavoriteLanguage());
 
   // Deserialize text data
@@ -301,6 +301,17 @@ void ScreenScraperApis::DeserializeGameInformationOuter(const String& jsonstring
       DeserializeGameInformationInner(gameJson, game, path, md5, size);
     }
   }
+}
+
+Regions::RegionPack ScreenScraperApis::GetRegions(Regions::RegionPack romRegions, const Path& path)
+{
+  // From file first
+  Regions::RegionPack regions = Regions::ExtractRegionsFromFileName(path);
+  // Then from database
+  if (!regions.HasRegion())
+    regions = romRegions;
+
+  return regions;
 }
 
 String ScreenScraperApis::GetRequiredRegion(Regions::RegionPack romRegions, const Path& path, Regions::GameRegions favoriteRegion)

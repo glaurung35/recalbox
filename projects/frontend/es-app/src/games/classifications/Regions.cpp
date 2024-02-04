@@ -4,6 +4,8 @@
 
 #include <utils/storage/HashMap.h>
 #include "Regions.h"
+#include "utils/storage/Set.h"
+#include <utils/Log.h>
 
 Regions::GameRegions Regions::FullNameToRegions(const String& region)
 {
@@ -1226,4 +1228,113 @@ Regions::RegionPack Regions::ExtractRegionsFromName(const String& string)
   if (string.Extract('[', ']', regions, true))
     return Deserialize4Regions(regions.LowerCase().Remove(' '));
   return RegionPack();
+}
+
+Regions::RegionPack Regions::ExtractRegionsFromArcadeName(const String& name, bool& nudity)
+{
+  static HashMap<String, Regions::RegionPack> sCompositeRegions
+  {
+    { "north america", RegionPack().Push(GameRegions::US).Push(GameRegions::CA) },
+    { "south america", RegionPack().Push(GameRegions::AME) },
+    { "hong kong", RegionPack().Push(GameRegions::HK) },
+  };
+
+  static HashMap<String, Regions::RegionPack> sRegions
+  {
+    { "us", RegionPack().Push(GameRegions::US) },
+    { "usa", RegionPack().Push(GameRegions::US) },
+    { "american", RegionPack().Push(GameRegions::US) },
+    { "english", RegionPack().Push(GameRegions::US) },
+    { "uk", RegionPack().Push(GameRegions::UK) },
+    { "british", RegionPack().Push(GameRegions::UK) },
+    { "japan", RegionPack().Push(GameRegions::JP) },
+    { "japanese", RegionPack().Push(GameRegions::JP) },
+    { "world", RegionPack().Push(GameRegions::WOR) },
+    { "asia", RegionPack().Push(GameRegions::ASI) },
+    { "taiwan", RegionPack().Push(GameRegions::TW) },
+    { "korea", RegionPack().Push(GameRegions::KR) },
+    { "korean", RegionPack().Push(GameRegions::KR) },
+    { "europe", RegionPack().Push(GameRegions::EU) },
+    { "european", RegionPack().Push(GameRegions::EU) },
+    { "euro", RegionPack().Push(GameRegions::EU) },
+    { "chinese", RegionPack().Push(GameRegions::CN) },
+    { "china", RegionPack().Push(GameRegions::CN) },
+    { "russian", RegionPack().Push(GameRegions::RU) },
+    { "french", RegionPack().Push(GameRegions::FR) },
+    { "france", RegionPack().Push(GameRegions::FR) },
+    { "italy", RegionPack().Push(GameRegions::IT) },
+    { "italian", RegionPack().Push(GameRegions::IT) },
+    { "german", RegionPack().Push(GameRegions::DE) },
+    { "germany", RegionPack().Push(GameRegions::DE) },
+    { "portugal", RegionPack().Push(GameRegions::PT) },
+    { "spain", RegionPack().Push(GameRegions::ES) },
+    { "spanish", RegionPack().Push(GameRegions::ES) },
+    { "hispanic", RegionPack().Push(GameRegions::ES) },
+    { "canada", RegionPack().Push(GameRegions::CA) },
+    { "greece", RegionPack().Push(GameRegions::GR) },
+    { "switzerland", RegionPack().Push(GameRegions::CH) },
+    { "holland", RegionPack().Push(GameRegions::NL) },
+    { "brazil", RegionPack().Push(GameRegions::BR) },
+    { "argentina", RegionPack().Push(GameRegions::AR) },
+    { "austria", RegionPack().Push(GameRegions::AT) },
+    { "denmark", RegionPack().Push(GameRegions::DK) },
+    { "australia", RegionPack().Push(GameRegions::AU) },
+    { "asia/europe", RegionPack().Push(GameRegions::ASI).Push(GameRegions::EU) },
+    { "europe/asia", RegionPack().Push(GameRegions::ASI).Push(GameRegions::EU) },
+    { "euro/asia", RegionPack().Push(GameRegions::ASI).Push(GameRegions::EU) },
+    { "export", RegionPack().Push(GameRegions::US).Push(GameRegions::EU) },
+  };
+  static HashSet<String> sErotics;
+  if (sErotics.empty())
+  {
+    sErotics.insert("adult");
+    sErotics.insert("nudes");
+    sErotics.insert("nude");
+    sErotics.insert("erotics");
+    sErotics.insert("erotic");
+  }
+
+  //static HashSet<String> sRejects;
+
+  RegionPack result;
+  String sub;
+  String words;
+  String word;
+  if (name.Extract('(', ')', sub, true))
+  {
+    sub.LowerCase().Replace('&', ',');
+    // Extract words, comma separated
+    while(!sub.empty())
+    {
+      if (!sub.Extract(',', words, sub, true)) { words = sub; sub.clear(); }
+      words.Trim('?');
+      RegionPack* composite = sCompositeRegions.try_get(words);
+      if (composite != nullptr) result.Push(*composite);
+
+      // Extract words, space separated
+      while(!words.empty())
+      {
+        if (!words.Extract(' ', word, words, true)) { word = words; words.clear(); }
+
+        // Nudity
+        if (sErotics.contains(word)) nudity = true;
+
+        // Regions
+        RegionPack* pack = sRegions.try_get(word);
+        if (pack != nullptr) result.Push(*pack);
+        /*else if (!sRejects.contains(word))
+        {
+          // Debug code
+          bool purge = false;
+          for(char c : word) if (c < 'a' || c > 'z') { purge = true; break; }
+
+          if (!purge) { LOG(LogError) << "[Regions] Nothing to extract in " << word << " - from " << name; }
+          sRejects.insert(word);
+        }*/
+      }
+    }
+  }
+
+  if (!result.HasRegion()) result.Push(GameRegions::WOR);
+  return result;
 }

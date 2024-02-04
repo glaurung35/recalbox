@@ -368,10 +368,10 @@ MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, con
       mTextInfo++;
       result |= MetadataType::GenreId;
     }
-  if (!sourceData.mRegion.empty())
+  if (!sourceData.mRegions.HasRegion())
     if (!game.Metadata().Region().HasRegion() || noKeep)
     {
-      game.Metadata().SetRegionAsString(sourceData.mRegion);
+      game.Metadata().SetRegion(sourceData.mRegions);
       mTextInfo++;
       result |= MetadataType::Region;
     }

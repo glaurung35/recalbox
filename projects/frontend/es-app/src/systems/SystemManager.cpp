@@ -144,6 +144,58 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
   system.MasterRoot().ParseAllItems(overrider);
 }
 
+void SystemManager::BuildRegionData(SystemData& system)
+{
+  class RegionParser : public IParser
+  {
+    private:
+      SystemData& mSystem;
+      const FolderData* mLastFolder;
+      const ArcadeDatabase* mLastDatabase;
+
+    public:
+      explicit RegionParser(SystemData& system)
+        : mSystem(system)
+        , mLastFolder(nullptr)
+        , mLastDatabase(nullptr)
+      {
+      }
+
+      void Parse(FileData& game) override
+      {
+        if (game.IsGame())
+          if (!game.Metadata().Region().HasRegion())
+          {
+            if (game.System().IsTrueArcade())
+            {
+              if (const FolderData* folder = game.Parent(); folder != mLastFolder)
+              {
+                mLastDatabase = mSystem.ArcadeDatabases().LookupDatabase(*folder);
+                mLastFolder = folder;
+              }
+              if (mLastDatabase != nullptr)
+              {
+                bool nudity = false;
+                if (const ArcadeGame* arcade = mLastDatabase->LookupGame(game); arcade != nullptr)
+                {
+                  game.Metadata().SetRegion(Regions::ExtractRegionsFromArcadeName(arcade->ArcadeName(), nudity));
+                  if (nudity) game.Metadata().SetAdult(true);
+                }
+              }
+              else
+              {
+                LOG(LogError) << "[SystemManager] No arcade database for " << game.RomPath();
+              }
+            }
+            else
+              game.Metadata().SetRegion(Regions::ExtractRegionsFromFileName(game.RomPath()));
+          }
+      }
+  } regionMetadata(system);
+
+  system.MasterRoot().ParseAllItems(regionMetadata);
+}
+
 void SystemManager::BuildDynamicMetadata(SystemData& system)
 {
   class : public IParser
@@ -238,6 +290,9 @@ void SystemManager::InitializeSystem(SystemData* system)
       // Arcade special processing?
       if (system->Descriptor().IsTrueArcade())
         system->LoadArcadeDatabase();
+      // Build region data
+      //if (system->IsTrueArcade())
+      BuildRegionData(*system);
     }
     // Load theme (not for port games)
     if (!system->IsPorts())

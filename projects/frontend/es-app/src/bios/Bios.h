@@ -122,6 +122,7 @@ class Bios
 
     //! Bios root
     const Path mBiosRoot;
+    static Path sBiosPath;
 
     //! Bios path
     Path mPath[sMaxBiosPath];
@@ -251,6 +252,9 @@ class Bios
 
     //! Bios file path
     [[nodiscard]] const Path& Filepath() const { return mPath[0]; }
+
+    //! Bios file path
+    [[nodiscard]] String FilepathWithParent() const { return (sBiosPath / mPath[0]).ToString(); }
 
     //! Core list
     [[nodiscard]] const String& Cores() const { return mCores; }

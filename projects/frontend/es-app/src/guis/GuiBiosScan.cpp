@@ -491,7 +491,7 @@ void GuiBiosScan::UpdateBiosDetail()
     if (!Renderer::Instance().Is240p())
     {
       mDetailPathLabel->setValue(_("File Path") + " :");
-      mDetailPathValue->setValue(context.mBios->Filepath().ToString());
+      mDetailPathValue->setValue(context.mBios->FilepathWithParent());
     }
     mDetailMandatoryLabel->setValue(_("Mandatory") + " :");
     mDetailMandatoryValue->setValue(context.mBios->IsMandatory() ? _("YES") : _("NO"));

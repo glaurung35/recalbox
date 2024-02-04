@@ -109,6 +109,7 @@ void EmulatorManager::GetEmulatorFromSubfolder(const FileData& game, String& emu
         static HashMap<String, String> folderToEmulatorCore
         {
           { "mame", "libretro|mame" },
+          { "mame-latest", "libretro|mame" },
           { "mame2000", "libretro|mame2000" },
           { "mame 2000", "libretro|mame2000" },
           { "mame2003", "libretro|mame2003" },

@@ -21,7 +21,7 @@ class InstallRoms:
         "_leeme.txt": "es",
     }
 
-    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "")
+    __NULL_CORE = SystemHolder.Core("", 0, "", "", "", False, False, "", "", False, "", "", "")
 
     def __init__(self, systemRoot: str, target: str, root: str, lite: bool = False):
         self.__systemRoot = systemRoot
@@ -36,7 +36,7 @@ class InstallRoms:
     def execute(self):
         print("[ROMFS 2] Copying systems and metadata to {}".format(self.__targetInit))
 
-        # Run though systems folders
+        # Run through systems folders
         for system_folder in os.listdir(self.__systemRoot):
             absolute_system_folder = os.path.join(self.__systemRoot, system_folder)
             if os.path.isdir(absolute_system_folder) and not system_folder.startswith('.'):
@@ -55,8 +55,20 @@ class InstallRoms:
                 self.__copyFolderContent(os.path.join(absolute_system_folder, "upgrade", "roms"),
                                          holder, self.__targetUpgrade)
 
+                print("[ROMFS 2] Create rom subfolders in share_init {}".format(system_folder))
+                self.__createSubFolders(holder, self.__targetUpgrade)
 
-    def __copyFolderContent(self, roms_folder: str, holder: str, target:str):
+    def __createSubFolders(self, holder: SystemHolder, target: str):
+        target_directory = holder.RomFolder.replace("%ROOT%", target)
+        for emulator in holder.Cores:
+            for core in holder.Cores[emulator]:
+                if len(core.subfolder) > 0:
+                    subTarget: Path = Path(os.path.join(target_directory, core.subfolder))
+                    subTarget.mkdir(parents=True, exist_ok=True)
+                    keep = subTarget.joinpath(".keep")
+                    keep.touch(exist_ok=True)
+
+    def __copyFolderContent(self, roms_folder: str, holder: SystemHolder, target:str):
         if os.path.exists(roms_folder):
             if "%ROOT%" in holder.RomFolder:
                 target_directory = holder.RomFolder.replace("%ROOT%", target)

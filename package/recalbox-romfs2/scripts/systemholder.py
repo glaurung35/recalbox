@@ -139,7 +139,7 @@ class SystemHolder:
         }
 
         def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool,
-                     arcadefile: str, arcadeignore: str):
+                     arcadefile: str, arcadeignore: str, subfolder: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
@@ -153,6 +153,7 @@ class SystemHolder:
             self.__speed: str = speed
             self.__crtavailable: bool = crtavailable
             self.__arcade = SystemHolder.Core.ArcadeProperties(arcadefile, arcadeignore)
+            self.__subfolder = subfolder
             pass
 
         @property
@@ -198,6 +199,10 @@ class SystemHolder:
         @property
         def crtavailable(self) -> bool:
             return self.__crtavailable
+
+        @property
+        def subfolder(self) -> str:
+            return self.__subfolder
 
         def serialize(self):
             return {
@@ -355,6 +360,7 @@ class SystemHolder:
                     crtavailable=(self.__get(desc, coreSection, "crt.available", "", False) == '1'),
                     arcadefile=self.__get(desc, coreSection, "arcade.file", "", False),
                     arcadeignore=self.__get(desc, coreSection, "arcade.ignore", "", False),
+                    subfolder=self.__get(desc, coreSection, "roms.subfolder", "", False),
                 )
                 # Package defined?
                 if self.__config.isDefined(core.package):

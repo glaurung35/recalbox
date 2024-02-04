@@ -35,8 +35,8 @@ class ScreenScraperApis
       String mPlayers;
       //! Genre
       String mGenre;
-      //! Rom region
-      String mRegion;
+      //! Rom regions
+      Regions::RegionPack mRegions;
       //! Rom region
       String mCrc;
       //! Pad2Keyboard
@@ -143,6 +143,14 @@ class ScreenScraperApis
      * @return Serialized best region
      */
     static String GetRequiredRegion(Regions::RegionPack regions, const Path& path, Regions::GameRegions favoriteRegion);
+
+    /*!
+     * @brief Get all regions for a given game
+     * @param romRegions Regions extracted from rom information
+     * @param path File path
+     * @return PAckled regions
+     */
+    static Regions::RegionPack GetRegions(Regions::RegionPack romRegions, const Path& path);
 
     /*!
      * @brief Extract the best-matching text from an array of regionalized texts, regarding the given preferred region

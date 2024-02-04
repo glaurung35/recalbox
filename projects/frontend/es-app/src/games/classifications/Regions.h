@@ -276,7 +276,7 @@ class Regions
       }
 
       //! Push a new region in an empty slot
-      void Push(GameRegions region)
+      RegionPack& Push(GameRegions region)
       {
         for(GameRegions& slot : Regions)
           if (slot == GameRegions::Unknown)
@@ -284,6 +284,16 @@ class Regions
             slot = region;
             break;
           }
+        return *this;
+      }
+
+      //! Push a new region pack in empty slots
+      RegionPack& Push(const RegionPack& regions)
+      {
+        for(GameRegions slot : regions.Regions)
+          if (slot != GameRegions::Unknown)
+            Push(slot);
+        return *this;
       }
 
       //! Reset
@@ -404,5 +414,7 @@ class Regions
     static Regions::RegionPack ExtractRegionsFromTosecName(const String& fileName);
 
     static Regions::RegionPack ExtractRegionsFromName(const String& string);
+
+    static Regions::RegionPack ExtractRegionsFromArcadeName(const String& name, bool& nudity);
 };
 

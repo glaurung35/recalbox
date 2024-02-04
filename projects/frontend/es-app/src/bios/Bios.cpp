@@ -149,8 +149,10 @@ bool Bios::IsForCore(const String& core) const
   return true;
 }
 
+Path Bios::sBiosPath("bios");
+
 Bios::Bios(const XmlNode& biosNode)
-  : mBiosRoot(RootFolders::DataRootFolder / "bios")
+  : mBiosRoot(RootFolders::DataRootFolder / Bios::sBiosPath)
   , mMandatory(false)
   , mHashMatchMandatory(false)
   , mStatus(Status::Unknown)

@@ -415,20 +415,21 @@ class MetadataDescriptor
 
     [[nodiscard]] ItemType Type() const { return mType; }
 
-    [[nodiscard]] Path         Rom()         const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
-    [[nodiscard]] Path         RomFileOnly() const { return sFileHolder.GetPath(mRomFile);        }
-    [[nodiscard]] String       Name()        const { return sNameHolder.GetString(mName);                 }
-    [[nodiscard]] String       Description() const { return sDescriptionHolder.GetString(mDescription);   }
-    [[nodiscard]] Path         Image()       const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
-    [[nodiscard]] Path         Thumbnail()   const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
-    [[nodiscard]] Path         Video()       const { return sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile); }
-    [[nodiscard]] String       Developer()   const { return sDeveloperHolder.GetString(mDeveloper);       }
-    [[nodiscard]] String       Publisher()   const { return sPublisherHolder.GetString(mPublisher);       }
-    [[nodiscard]] String       Genre()       const { return sGenreHolder.GetString(mGenre);               }
-    [[nodiscard]] String       Emulator()    const { return sEmulatorHolder.GetString(mEmulator);         }
-    [[nodiscard]] String       Core()        const { return sCoreHolder.GetString(mCore);                 }
-    [[nodiscard]] String       Ratio()       const { return sRatioHolder.GetString(mRatio);               }
-    [[nodiscard]] Path         LastPatch()   const {return sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile); }
+    [[nodiscard]] Path         Rom()           const { return sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile); }
+    [[nodiscard]] Path         RomFolderOnly() const { return sPathHolder.GetPath(mRomPath); }
+    [[nodiscard]] Path         RomFileOnly()   const { return sFileHolder.GetPath(mRomFile);        }
+    [[nodiscard]] String       Name()          const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] String       Description()   const { return sDescriptionHolder.GetString(mDescription);   }
+    [[nodiscard]] Path         Image()         const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
+    [[nodiscard]] Path         Thumbnail()     const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
+    [[nodiscard]] Path         Video()         const { return sPathHolder.GetPath(mVideoPath) / sFileHolder.GetString(mVideoFile); }
+    [[nodiscard]] String       Developer()     const { return sDeveloperHolder.GetString(mDeveloper);       }
+    [[nodiscard]] String       Publisher()     const { return sPublisherHolder.GetString(mPublisher);       }
+    [[nodiscard]] String       Genre()         const { return sGenreHolder.GetString(mGenre);               }
+    [[nodiscard]] String       Emulator()      const { return sEmulatorHolder.GetString(mEmulator);         }
+    [[nodiscard]] String       Core()          const { return sCoreHolder.GetString(mCore);                 }
+    [[nodiscard]] String       Ratio()         const { return sRatioHolder.GetString(mRatio);               }
+    [[nodiscard]] Path         LastPatch()     const {return sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile); }
 
     [[nodiscard]] float              Rating()          const { return mRating;                           }
     [[nodiscard]] int                PlayerRange()     const { return mPlayers;                          }
@@ -535,7 +536,7 @@ class MetadataDescriptor
     void SetPublisher(const String& publisher)     { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
     void SetRating(float rating)                        { mRating       = rating;                                      mDirty = true; }
     void SetPlayers(int min, int max)                   { mPlayers      = (max << 16) + min;                           mDirty = true; }
-    void SetRegion(Regions::RegionPack regions)         { mRegion       = regions;                                     mDirty = true; }
+    void SetRegion(const Regions::RegionPack& regions)  { mRegion       = regions;                                     mDirty = true; }
     void SetRomCrc32(int romcrc32)                      { mRomCrc32     = romcrc32;                                    mDirty = true; }
     void SetFavorite(bool favorite)                     { mFavorite     = favorite;                                    mDirty = true; }
     void SetHidden(bool hidden)                         { mHidden       = hidden;                                      mDirty = true; }

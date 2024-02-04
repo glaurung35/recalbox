@@ -63,7 +63,7 @@ playSlides() {
 
 # Play Recalbox RGB Dual installation video
 playRRGBDInstallVideo() {
-  mpv $(getCrtMpvOptions) --really-quiet /recalbox/system/resources/install/install-recalbox-rgb-dual.mp4 &
+  (mpv $(getCrtMpvOptions) --really-quiet /recalbox/system/resources/install/install-recalbox-rgb-dual.mp4; displayFrameBufferImage) &
 }
 
 # Start

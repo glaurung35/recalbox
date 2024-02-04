@@ -732,6 +732,12 @@ class SystemManager : private INoCopy // No copy allowed
      */
     static void BuildDynamicMetadata(SystemData& system);
 
+    /*!
+     * @brief Extract region information from file wherever region metadata are empty
+     * @param system System for which to extract region data
+     */
+    static void BuildRegionData(SystemData& system);
+
     //! Sort or resort system list
     void SystemSorting();
 

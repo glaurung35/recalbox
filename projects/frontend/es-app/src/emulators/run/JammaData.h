@@ -43,11 +43,16 @@ class JammaData
               && systemIsArcade(game, emulator);
     }
 
-    String JammaControlType(const FileData& game, const EmulatorData& emulator) const {
+    String JammaControlType(const FileData& game, const EmulatorData& emulator, int player) const {
       if(ShouldSwitchTo6ButtonLayout(game, emulator))
         return "6btns";
       else if(ShouldConfigureNeoGeoLayout(game, emulator))
-          return CrtConf::Instance().GetSystemCRTJammaNeogeoLayout();
+      {
+        if(player == 1)
+          return CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1();
+        if(player == 2)
+          return CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2();
+      }
       else return "standard";
     }
 };

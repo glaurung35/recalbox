@@ -23,4 +23,4 @@ class JammaLayout(str, Enum):
             return "1029"
         if self == JammaLayout.NeoSquare:
             return "1285"
-        return "1"
+        return "1541"

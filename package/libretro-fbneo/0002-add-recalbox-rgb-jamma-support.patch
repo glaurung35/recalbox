@@ -1,5 +1,5 @@
 diff --git a/src/burner/libretro/retro_common.cpp b/src/burner/libretro/retro_common.cpp
-index 125d653a0..a74f9f147 100644
+index f34a0f1..7e5e691 100644
 --- a/src/burner/libretro/retro_common.cpp
 +++ b/src/burner/libretro/retro_common.cpp
 @@ -70,6 +70,7 @@ static UINT8 diag_input_start_l_r[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DE
@@ -18,7 +18,7 @@ index 125d653a0..a74f9f147 100644
  		{ NULL, NULL },
  	},
  	"Hold Start"
-@@ -1399,6 +1401,11 @@ void check_variables(void)
+@@ -1406,6 +1408,11 @@ void check_variables(void)
  				diag_input = diag_input_select_l_r;
  				SetDiagInpHoldFrameDelay(60);
  			}
@@ -31,7 +31,7 @@ index 125d653a0..a74f9f147 100644
  			{
  				diag_input = NULL;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index 4b6514688..d925486c5 100644
+index a4c6d17..90b808a 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
@@ -43,7 +43,7 @@ index 4b6514688..d925486c5 100644
  			pgi->nInput = GIT_MACRO_AUTO;
  			pgi->nType = BIT_DIGITAL;
  			pgi->Macro.nMode = 0;
-@@ -1620,27 +1620,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+@@ -1674,27 +1674,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  		(drvname && strcmp(drvname, "umk3") == 0)
  	) {
  		if (strcmp("High Punch", description) == 0) {
@@ -78,7 +78,7 @@ index 4b6514688..d925486c5 100644
  		}
  	}
  
-@@ -1803,13 +1803,13 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+@@ -1857,13 +1857,13 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  		}
  	}
  
@@ -94,7 +94,7 @@ index 4b6514688..d925486c5 100644
  		if (strncmp("Buttons ABC", description, 11) == 0)
  			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
  		if (strncmp("Buttons BCD", description, 11) == 0)
-@@ -2064,9 +2064,39 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+@@ -2118,9 +2118,39 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
  					GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
  					break;
  			}
@@ -136,7 +136,7 @@ index 4b6514688..d925486c5 100644
  				switch (nButton) {
  					case 1:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
-@@ -2103,10 +2133,10 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+@@ -2157,10 +2187,10 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
  						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
  						break;
  					case 5:
@@ -149,41 +149,44 @@ index 4b6514688..d925486c5 100644
  						break;
  					case 7:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_R2), description);
-@@ -2683,7 +2713,10 @@ void SetControllerInfo()
+@@ -2737,7 +2767,11 @@ void SetControllerInfo()
  			{ "Mouse (ball only)", RETROMOUSE_BALL },
  			{ "Mouse (full)", RETROMOUSE_FULL },
  			{ "Pointer", RETRO_DEVICE_POINTER },
 -			{ "Lightgun", RETRO_DEVICE_LIGHTGUN }
 +      { "Lightgun", RETRO_DEVICE_LIGHTGUN },
 +      { "Recalbox Jamma (NeoLine)", RETRO_RB_JAMMA_NEOLINE },
-+      { "Recalbox Jamma (NeoSquare)", RETRO_RB_JAMMA_NEOSQUARE }
++      { "Recalbox Jamma (NeoSquare)", RETRO_RB_JAMMA_NEOSQUARE },
++      { "Recalbox Jamma (Standard)", RETRO_RB_JAMMA_STANDARD }
 +
  		};
  
  		// kludge for nes (some 1p game want to use p2 controls)
-@@ -3093,7 +3126,9 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
+@@ -3147,7 +3181,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
  				device != RETROMOUSE_BALL &&
  				device != RETROMOUSE_FULL &&
  				device != RETRO_DEVICE_POINTER &&
 -				device != RETRO_DEVICE_LIGHTGUN)
 +				device != RETRO_DEVICE_LIGHTGUN &&
-+        device != RETRO_RB_JAMMA_NEOLINE &&
-+        device != RETRO_RB_JAMMA_NEOSQUARE)
++				device != RETRO_RB_JAMMA_NEOLINE &&
++				device != RETRO_RB_JAMMA_NEOSQUARE &&
++				device != RETRO_RB_JAMMA_STANDARD)
  			{
  				device = RETROPAD_CLASSIC;
  				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Unknown device type for port %d, forcing \"Classic\" instead\n", port);
 diff --git a/src/burner/libretro/retro_input.h b/src/burner/libretro/retro_input.h
-index 91865542f..33bffc372 100644
+index 9186554..602658e 100644
 --- a/src/burner/libretro/retro_input.h
 +++ b/src/burner/libretro/retro_input.h
-@@ -36,6 +36,10 @@ extern retro_input_state_t input_cb;
+@@ -36,6 +36,11 @@ extern retro_input_state_t input_cb;
  #define RETROPAD_MODERN		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 1)
  #define RETROMOUSE_BALL		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 2)
  #define RETROMOUSE_FULL		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_MOUSE, 1)
 +#define RETRO_RB_JAMMA_NEOLINE		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 3)
-+#define RETRO_RB_JAMMA_NEOSQUARE		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 4)
++#define RETRO_RB_JAMMA_NEOSQUARE	RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 4)
++#define RETRO_RB_JAMMA_STANDARD		RETRO_DEVICE_SUBCLASS(RETRO_DEVICE_ANALOG, 5)
 +
-+#define RB_JAMMA(a) ((a) == RETRO_RB_JAMMA_NEOLINE || (a) == RETRO_RB_JAMMA_NEOSQUARE)
++#define RB_JAMMA(a) ((a) == RETRO_RB_JAMMA_NEOLINE || (a) == RETRO_RB_JAMMA_NEOSQUARE || (a) == RETRO_RB_JAMMA_STANDARD)
  
  #define GIT_SPECIAL_SWITCH	(0x03)
  #define GIT_DIRECT_COORD	(0x11)

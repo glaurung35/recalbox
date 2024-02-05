@@ -138,8 +138,16 @@ class SystemHolder:
             "low" : 4,
         }
 
+        __VideoBackendValues: Dict[str, int] = {
+            "unknown": 0,
+            "default": 1,
+            "kms": 2,
+            "x11r7": 3,
+            "wayland": 4,
+        }
+
         def __init__(self, package: str, priority: int, emulator: str, core: str, extensions: str, netplay: bool, softpatching: bool, compatibility: str, speed: str, crtavailable: bool,
-                     arcadefile: str, arcadeignore: str, subfolder: str):
+                     arcadefile: str, arcadeignore: str, subfolder: str, video_backend: str):
             self.__package: str = package
             self.__priority: int = priority
             self.__emulator: str = emulator
@@ -154,6 +162,9 @@ class SystemHolder:
             self.__crtavailable: bool = crtavailable
             self.__arcade = SystemHolder.Core.ArcadeProperties(arcadefile, arcadeignore)
             self.__subfolder = subfolder
+            if len(video_backend) == 0: video_backend="default"
+            if video_backend not in self.__VideoBackendValues.keys(): raise TypeError("Invalid video backend! {}".format(video_backend))
+            self.__video_backend = video_backend
             pass
 
         @property
@@ -204,6 +215,10 @@ class SystemHolder:
         def subfolder(self) -> str:
             return self.__subfolder
 
+        @property
+        def video_backend(self) -> str:
+            return self.__video_backend
+
         def serialize(self):
             return {
                 "name": self.__core,
@@ -214,9 +229,10 @@ class SystemHolder:
                 "compatibility": self.__compatibility,
                 "speed": self.__speed,
                 "crt.available": '1' if self.__crtavailable else '0',
+                "video.backend": self.__video_backend,
             }
 
-    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% %NETPLAY% %CRT%"
+    __COMMAND_DEFAULT: str = "python /usr/bin/emulatorlauncher.pyc %CONTROLLERSCONFIG% -system %SYSTEM% -rom %ROM% -emulator %EMULATOR% -core %CORE% -ratio %RATIO% -videobackend %VIDEO_BACKEND% %NETPLAY% %CRT%"
 
     def __init__(self, arch: str, systemIni: str, config: ConfigIn):
         self.__config = config
@@ -379,6 +395,7 @@ class SystemHolder:
                     arcadefile=self.__get(desc, coreSection, "arcade.file", "", False),
                     arcadeignore=self.__get(desc, coreSection, "arcade.ignore", "", False),
                     subfolder=self.__get(desc, coreSection, "roms.subfolder", "", False),
+                    video_backend=self.__get(desc, coreSection, "video.backend", "", False)
                 )
                 # Package defined?
                 if self.__config.isDefined(core.package):

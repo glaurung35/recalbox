@@ -93,10 +93,17 @@ int GameRunner::Run(const String& cmd_utf8, bool debug)
 String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& emulator, const String& core, const GameLinkedData& data, const InputMapper& mapper, bool debug, bool demo)
 {
   String command = game.System().Descriptor().Command();
+  String video_backend = "default";
   Path path(game.RomPath());
   const String basename = path.FilenameWithoutExtension();
   String controlersConfig = InputManager::Instance().GetMappedDeviceListConfiguration(mapper);
   { LOG(LogInfo) << "[Run] Controllers config : " << controlersConfig; }
+
+  EmulatorDescriptor emulator_descriptor = game.System().Descriptor().EmulatorTree().Named(emulator.Emulator());
+  // Search for lowest priority core/emulator
+  for(int coreIndex = emulator_descriptor.CoreCount(); --coreIndex >= 0; )
+    if (emulator_descriptor.CoreNameAt(coreIndex) == core)
+      video_backend = emulator_descriptor.CoreVideoBackend(coreIndex);
 
   command.Replace("%ROM%", path.MakeEscaped())
          .Replace("%CONTROLLERSCONFIG%", InputManager::Instance().GetMappedDeviceListConfiguration(mapper))
@@ -106,7 +113,8 @@ String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& e
          .Replace("%EMULATOR%", emulator.Emulator())
          .Replace("%RATIO%", game.Metadata().Ratio().empty() ? "auto" : game.Metadata().Ratio())
          .Replace("%NETPLAY%", NetplayOption(game, data.NetPlay()))
-         .Replace("%CRT%", BuildCRTOptions(game.System(), data.Crt(), RotationManager::ShouldRotateGame(game), demo));
+         .Replace("%CRT%", BuildCRTOptions(game.System(), data.Crt(), RotationManager::ShouldRotateGame(game), demo))
+         .Replace("%VIDEO_BACKEND%", video_backend);
 
   if (debug) command.Append(" -verbose");
 

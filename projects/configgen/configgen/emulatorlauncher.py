@@ -404,7 +404,8 @@ if __name__ == '__main__':
     parser.AddSimple(command="verticalgame", chelp="the game is vertical", required=False)
     parser.AddString(command="crtsuperrez", chelp="original, x2, x6 or x8", required=False)
     parser.AddSimple(command="crtv2", chelp="original, x2, x6 or x8", required=False)
-    parser.AddString(command="jammalayout", chelp="jamma layout for controls", required=False)
+    parser.AddString(command="jammalayoutp1", chelp="jamma layout for controls", required=False)
+    parser.AddString(command="jammalayoutp2", chelp="jamma layout for controls", required=False)
 
     args = parser.Parse()
 

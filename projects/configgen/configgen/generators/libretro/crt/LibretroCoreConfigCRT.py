@@ -65,10 +65,14 @@ class LibretroCoreConfigCRT:
             lines["snes9x_overscan"] = '"disabled"'
             lines["bsnes_ppu_show_overscan"] = '"ON"'
         if system.Name in ["nes", "fds"]:
-            lines["nestopia_overscan_h"] = '"disabled"'
-            lines["nestopia_overscan_v"] = '"disabled"'
-            lines["fceumm_overscan_h"] = '"disabled"'
-            lines["fceumm_overscan_v"] = '"disabled"'
+            lines["nestopia_overscan_h_left"] = '0'
+            lines["nestopia_overscan_h_right"] = '0'
+            lines["nestopia_overscan_v_bottom"] = '0'
+            lines["nestopia_overscan_v_top"] = '0'
+            lines["fceumm_overscan_h_left"] = '0'
+            lines["fceumm_overscan_h_right"] = '0'
+            lines["fceumm_overscan_v_bottom"] = '0'
+            lines["fceumm_overscan_v_top"] = '0'
         if system.Name == "atari2600":
             lines["stella_crop_hoverscan"] = '"disabled"'
             lines["stella_console"] = '"auto"'

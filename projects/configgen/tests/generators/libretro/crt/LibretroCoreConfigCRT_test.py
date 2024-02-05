@@ -19,10 +19,14 @@ def test_given_nes_system_should_create_core_config():
     neses = [Emulator(name='nes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='nestopia'),
              Emulator(name='fds', videoMode='1920x1080', ratio='auto', emulator='libretro', core='nestopia')]
     for nes in neses:
-        assert core_configurator.createConfigFor(nes)["nestopia_overscan_h"] == '"disabled"'
-        assert core_configurator.createConfigFor(nes)["nestopia_overscan_v"] == '"disabled"'
-        assert core_configurator.createConfigFor(nes)["fceumm_overscan_h"] == '"disabled"'
-        assert core_configurator.createConfigFor(nes)["fceumm_overscan_v"] == '"disabled"'
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_h_left"] == '0'
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_h_right"] == '0'
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_v_bottom"] == '0'
+        assert core_configurator.createConfigFor(nes)["nestopia_overscan_v_top"] == '0'
+        assert core_configurator.createConfigFor(nes)["fceumm_overscan_h_left"] == '0'
+        assert core_configurator.createConfigFor(nes)["fceumm_overscan_h_right"] == '0'
+        assert core_configurator.createConfigFor(nes)["fceumm_overscan_v_bottom"] == '0'
+        assert core_configurator.createConfigFor(nes)["fceumm_overscan_v_top"] == '0'
 
 
 def segaEmulatorWithGenesis(name):

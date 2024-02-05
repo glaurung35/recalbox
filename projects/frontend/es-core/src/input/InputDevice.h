@@ -445,4 +445,10 @@ class InputDevice
      * @return True if name, uid, buttons, hat and axis are matching. False otherwise
      */
     [[nodiscard]] bool EqualsTo(const InputDevice& to) const;
+
+    /*!
+     * @brief Is device configurable
+     * @return True if configurable
+     */
+    [[nodiscard]] bool IsConfigurable() const { return !mDeviceName.StartsWith("JammaControllerP"); }
 };

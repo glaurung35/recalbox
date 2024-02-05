@@ -12,13 +12,12 @@
 GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std::function<void()>& doneCallback)
   : Gui(window),
     mFirstRun(firstRun),
-	  mBackground(window, Path(":/frame.png")),
-	  mGrid(window, Vector2i(1, 5))
+    mHoldingConfig(nullptr),
+    mHoldTime(0),
+    mBackground(window, Path(":/frame.png")),
+    mGrid(window, Vector2i(1, 5)),
+    mDoneCallback(doneCallback)
 {
-	mHoldingConfig = nullptr;
-	mHoldTime = 0;
-	mDoneCallback = doneCallback;
-	
 	auto menuTheme = MenuThemeData::getInstance()->getCurrentTheme();
 	mColor = menuTheme->menuText.color & 0xFFFFFF00;
 	
@@ -37,15 +36,14 @@ GuiDetectDevice::GuiDetectDevice(WindowManager& window, bool firstRun, const std
 	
 	// device info
 	String deviceInfo;
-	int numDevices = InputManager::Instance().DeviceCount();
-	
+	int numDevices = InputManager::Instance().ConfigurableDeviceCount();
 	if(numDevices > 0) {
 	  char strbuf[256];
 	  snprintf(strbuf, 256, _N("%i GAMEPAD DETECTED", "%i GAMEPADS DETECTED", numDevices).c_str(), numDevices);
 	  deviceInfo = strbuf;
 	}
 	else
-		deviceInfo = _("NO GAMEPADS DETECTED");
+		deviceInfo = _("NO CONFIGURABLE GAMEPADS DETECTED");
 	mDeviceInfo = std::make_shared<TextComponent>(mWindow, deviceInfo, menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Center);
 	mGrid.setEntry(mDeviceInfo, Vector2i(0, 1), false, true);
 
@@ -82,28 +80,32 @@ void GuiDetectDevice::onSizeChanged()
 	mGrid.setRowHeightPerc(4, mDeviceHeld->getFont()->getHeight() *1.5f / mSize.y());
 }
 
+
 bool GuiDetectDevice::ProcessInput(const InputCompactEvent& event)
 {
-	if (!mFirstRun && (event.KeyCode() == SDLK_ESCAPE || event.HotkeyPressed()))
-	{
-		// cancel configuring
-		Close();
-		return true;
-	}
-
-  if (event.RawEvent().AnyButtonPressed() && mHoldingConfig == nullptr)
+  if (!mFirstRun && (event.KeyCode() == SDLK_ESCAPE || event.HotkeyPressed()))
   {
-    // started holding
-    mHoldingConfig = &event.Device();
-    mHoldTime = HOLD_TIME;
-    mDeviceHeld->setText(event.Device().Name().ToUpperCase());
+    // cancel configuring
+    Close();
+    return true;
   }
-  else if (event.RawEvent().AnyButtonReleased() && mHoldingConfig == &event.Device())
+
+  if (event.Device().IsConfigurable())
   {
-    // cancel
-    mHoldingConfig = nullptr;
-    mDeviceHeld->setText("");
-    mAlpha = 0;
+    if (event.RawEvent().AnyButtonPressed() && mHoldingConfig == nullptr)
+    {
+      // started holding
+      mHoldingConfig = &event.Device();
+      mHoldTime = HOLD_TIME;
+      mDeviceHeld->setText(event.Device().Name().ToUpperCase());
+    }
+    else if (event.RawEvent().AnyButtonReleased() && mHoldingConfig == &event.Device())
+    {
+      // cancel
+      mHoldingConfig = nullptr;
+      mDeviceHeld->setText("");
+      mAlpha = 0;
+    }
   }
 
 	return true;

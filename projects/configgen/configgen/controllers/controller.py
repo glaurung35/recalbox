@@ -458,8 +458,13 @@ class Controller:
             if newController:
                 playerControllers[i] = newController
                 # Recalbox JAMMA specific case
+                if i == 2:
+                    jammalayout = kwargs.get("jammalayoutp2", "")
+                else:
+                    jammalayout = kwargs.get("jammalayoutp1", "")
+
                 if newController.DeviceName.startswith("JammaController"):
-                    if kwargs.get("jammalayout", "") == "6btns":
+                    if jammalayout == "6btns":
                         print("[Configgen.Controller] Switching to jamma 6 btn layout for controller {}".format(newController.DeviceName))
                         # We transform
                         # B A Y   to   Y X L

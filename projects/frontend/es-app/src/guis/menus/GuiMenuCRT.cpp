@@ -135,12 +135,18 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
                              }),
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_PANEL_HELP_MSG));
 
-    bool neoline = CrtConf::Instance().GetSystemCRTJammaNeogeoLayout() == "line";
-    AddList<String>(_("NEOGEO LAYOUT"), (int)Components::JammaNeogeoLayout, this,
-                         std::vector<GuiMenuBase::ListEntry<String>>(
-                             {{ "Line", "line", neoline },
-                              { "Square", "square", !neoline }}),
-                         _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
+    AddList<String>(_("NEOGEO LAYOUT P1"), (int)Components::JammaNeogeoLayoutP1, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                      {{ "Default", "default", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "default" },
+                       { "Line", "line", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "line" },
+                       { "Square", "square", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "square" }}),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
+    AddList<String>(_("NEOGEO LAYOUT P2"), (int)Components::JammaNeogeoLayoutP2, this,
+                    std::vector<GuiMenuBase::ListEntry<String>>(
+                      {{ "Default", "default", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "default" },
+                       { "Line", "line", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "line" },
+                       { "Square", "square", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "square" }}),
+                    _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
     AddSwitch(_("4 PLAYERS MODE"), CrtConf::Instance().GetSystemCRTJamma4Players(),
               (int)Components::Jamma4Players, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS));
     AddSwitch(_("START+BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
@@ -332,9 +338,13 @@ void GuiMenuCRT::OptionListComponentChanged(int id, int index, const String& val
   {
       CrtConf::Instance().SetSystemCRTJammaPanelButtons(value).Save();
   }
-  else if ((Components)id == Components::JammaNeogeoLayout)
+  else if ((Components)id == Components::JammaNeogeoLayoutP1)
   {
-    CrtConf::Instance().SetSystemCRTJammaNeogeoLayout(value).Save();
+    CrtConf::Instance().SetSystemCRTJammaNeogeoLayoutP1(value).Save();
+  }
+  else if ((Components)id == Components::JammaNeogeoLayoutP2)
+  {
+    CrtConf::Instance().SetSystemCRTJammaNeogeoLayoutP2(value).Save();
   }
   else if ((Components)id == Components::JammaMonoBoost)
   {

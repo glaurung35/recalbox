@@ -53,7 +53,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaPanelButtons, String, String, sSystemCRTJammaPanelButtons, "6")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAmpDisable, bool, Bool, sSystemCRTJammaAmpDisable, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaMonoAmpBoost, String, String, sSystemCRTJammaMonoAmpBoost, "0")
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayout, String, String, sSystemCRTJammaNeogeoLayout, "line")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayoutP1, String, String, sSystemCRTJammaNeogeoLayoutP1, "default")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaNeogeoLayoutP2, String, String, sSystemCRTJammaNeogeoLayoutP2, "default")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaStartBtn1Credit, bool, Bool, sSystemCRTJammaStartBtn1Credit, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaHKOnStart, bool, Bool, sSystemCRTJammaHKOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaExitOnStart, bool, Bool, sSystemCRTJammaExitOnStart, true)
@@ -92,7 +93,8 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJammaAmpDisable        = "options.jamma.amp.disable";
     static constexpr const char* sSystemCRTJammaMonoAmpBoost      = "options.jamma.amp.boost";
     static constexpr const char* sSystemCRTJammaPanelButtons      = "options.jamma.controls.panel_buttons";
-    static constexpr const char* sSystemCRTJammaNeogeoLayout      = "options.jamma.controls.neogeolayout";
+    static constexpr const char* sSystemCRTJammaNeogeoLayoutP1    = "options.jamma.controls.neogeolayoutp1";
+    static constexpr const char* sSystemCRTJammaNeogeoLayoutP2    = "options.jamma.controls.neogeolayoutp2";
     static constexpr const char* sSystemCRTJammaStartBtn1Credit   = "options.jamma.controls.credit_on_start_btn1";
     static constexpr const char* sSystemCRTJammaHKOnStart         = "options.jamma.controls.hk_on_start";
     static constexpr const char* sSystemCRTJammaExitOnStart       = "options.jamma.controls.exit_on_start";

@@ -51,6 +51,11 @@ class InputManager : public StaticLifeCycleControler<InputManager>
     [[nodiscard]] int DeviceCount() const { return (int)mIdToDevices.size(); }
 
     /*!
+     * Get number of initialized devices
+     */
+    [[nodiscard]] int ConfigurableDeviceCount() const;
+
+    /*!
      * @brief Parse an SDL event and generate an InputCompactEvent accordingly
      * @param ev SDL event
      * @param resultEvent InputCompactEvent to fill with event information

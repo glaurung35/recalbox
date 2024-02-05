@@ -145,7 +145,8 @@ String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& e
     command.Replace("%CORE%", core);
 
   if(data.Jamma().ShouldConfigureJammaConfiggen()){
-    command.Append(" -jammalayout ").Append(data.Jamma().JammaControlType(game, emulator));
+    command.Append(" -jammalayoutp1 ").Append(data.Jamma().JammaControlType(game, emulator, 1));
+    command.Append(" -jammalayoutp2 ").Append(data.Jamma().JammaControlType(game, emulator, 2));
   }
 
   return command;

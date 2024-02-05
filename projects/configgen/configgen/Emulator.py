@@ -61,7 +61,8 @@ class ExtraArguments:
      crtsuperrez: str = "x6"
      crtv2: bool = False
      sgb: bool = False
-     jammalayout: str = ""
+     jammalayoutp1: str = ""
+     jammalayoutp2: str = ""
 
 
 class Emulator:
@@ -131,7 +132,8 @@ class Emulator:
         self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
         self._crtv2: bool = False
         self._crt_config = {}
-        self._jammalayout = ""
+        self._jammalayoutp1 = ""
+        self._jammalayoutp2 = ""
 
         # Computed vars
         self._netplay: bool = False
@@ -225,7 +227,8 @@ class Emulator:
                 self._crt_config[resolution]["viewportwidth"] = getattr(arguments, f'crt_viewportwidth_{resolution}')
 
         self._crtscanlines = CRTScanlines.fromString(arguments.crtscanlines)
-        self._jammalayout = arguments.jammalayout
+        self._jammalayoutp1 = arguments.jammalayoutp1
+        self._jammalayoutp2 = arguments.jammalayoutp2
         # Computed vars
         self._netplay               = arguments.netplay in ("host", "client")
 
@@ -476,7 +479,10 @@ class Emulator:
     def SuperGameBoy(self) -> bool: return self._sgb
 
     @property
-    def JammaLayout(self) -> JammaLayout: return JammaLayout.fromString(self._jammalayout)
+    def JammaLayoutP1(self) -> JammaLayout: return JammaLayout.fromString(self._jammalayoutp1)
+
+    @property
+    def JammaLayoutP2(self) -> JammaLayout: return JammaLayout.fromString(self._jammalayoutp2)
 
 
 

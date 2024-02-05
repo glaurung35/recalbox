@@ -18,6 +18,7 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
       String ignoreDrivers;
       String splitDrivers;
       int limit = 0;
+      String video_backend = Xml::AttributeAsString(coreNode, "video.backend", "default");
       //if (arcadeNode.))
       {
         fileBaseName = Xml::AttributeAsString(arcadeNode, "file", "");
@@ -33,7 +34,7 @@ void SystemDeserializer::DeserializeEmulatorTree(XmlNode emulators, EmulatorList
                                  Xml::AttributeAsString(coreNode, "speed", ""),
                                  Xml::AttributeAsBool(coreNode, "softpatching", false),
                                  Xml::AttributeAsBool(coreNode, "crt.available", false),
-                                 fileBaseName, ignoreDrivers, splitDrivers, limit);
+                                 fileBaseName, ignoreDrivers, splitDrivers, limit, video_backend);
     }
     if (emulatorDescriptor.HasAny()) emulatorList.AddEmulator(emulatorDescriptor);
   }

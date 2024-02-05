@@ -33,6 +33,9 @@ case "$1" in
 		settings_lang="`$systemsetting -command load -key system.language`"
 		recallog -s "${INIT_SCRIPT}" -t "ES" "starting emulationstation with lang = $settings_lang"
 
+		# prepare XDG runtime dir
+		export XDG_RUNTIME_DIR="/run/user/$(id -u)"
+		mkdir -p "$XDG_RUNTIME_DIR"
 		# odroidgo boards with rotated screen
 		if doesBoardNeedSDLRotation; then
 			export SDL_ODROIDGO_ROTATE=1

@@ -342,6 +342,7 @@ if __name__ == '__main__':
     parser.AddString(command="core", chelp="force emulator core", required=True)
     parser.AddString(command="ratio", chelp="force game ratio", required=False)
     parser.AddBool(command="demo", chelp="mode demo", required=False)
+    parser.AddString(command="videobackend", chelp="video backend", required=False)
     parser.AddInt(command="demoduration", chelp="mode demo duration in second", required=False)
     parser.AddInt(command="demoinfoduration", chelp="mode demo outscreen duration in second", required=False)
     parser.AddString(command="netplay", chelp="host/client", required=False)

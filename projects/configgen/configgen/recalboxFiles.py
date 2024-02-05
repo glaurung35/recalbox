@@ -27,7 +27,7 @@ recalboxBins =\
     'amiberry'    : '/usr/bin/amiberry',
     'beebem'      : '/usr/bin/Beebem',
     'daphne'      : '/usr/bin/hypseus',
-    'dolphin'     : '/usr/bin/dolphin-emu',
+    'dolphin'     : '/usr/bin/dolphin-emu-nogui',
     'dosbox'      : '/usr/bin/dosbox',
     'duckstation' : '/usr/bin/duckstation',
     'fba2x'       : '/usr/bin/fba2x',

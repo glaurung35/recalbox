@@ -376,6 +376,17 @@ class IList : public Gui
         scroll(mScrollVelocity);
     }
 
+    String extractFirstTwoAscii7Characters(const String& name)
+    {
+      String result;
+      int position = 0;
+      for(String::Unicode c; (c = name.ReadUTF8(position)) != 0; )
+        if (c < 128)
+          if (result.Append((char)c).Count() >= 2)
+            break;
+      return result.UpperCase();
+    }
+
     void listRenderTitleOverlay(const Transform4x4f& trans)
     {
       (void) trans;
@@ -384,7 +395,7 @@ class IList : public Gui
         return;
 
       // we don't bother caching this because it's only two letters and will change pretty much every frame if we're scrolling
-      const String text = getSelectedName().size() >= 2 ? getSelectedName().SubString(0, 2) : "??";
+      const String text = extractFirstTwoAscii7Characters(getSelectedName());
 
       Vector2f off = mTitleOverlayFont->sizeText(text);
       off[0] = (Renderer::Instance().DisplayWidthAsFloat() - off.x()) * 0.5f;

@@ -606,3 +606,13 @@ void InputManager::KeepDifferentPads(std::vector<InputDevice>& left, std::vector
 }
 
 
+int InputManager::ConfigurableDeviceCount() const
+{
+  int count = 0;
+  for(const auto& device : mIdToDevices)
+    if(device.second.IsConfigurable())
+      count++;
+  return count;
+}
+
+

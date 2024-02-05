@@ -19,7 +19,8 @@ GuiMenuPads::GuiMenuPads(WindowManager& window)
   , mRefreshing(false)
 {
   // Configure a pad
-  AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
+  if(InputManager::Instance().ConfigurableDeviceCount() > 0)
+    AddSubMenu(_("CONFIGURE A CONTROLLER"), (int)Components::Configure, _(MENUMESSAGE_CONTROLLER_CONF_HELP_MSG));
 
   // Pair a pad
   AddSubMenu(_("PAIR BLUETOOTH CONTROLLERS"), (int)Components::Pair, _(MENUMESSAGE_CONTROLLER_BT_HELP_MSG));

@@ -24,11 +24,13 @@ mountOptions() {
   local defaultMountOptions="noatime"
   local windowsMask="fmask=0133,dmask=0022" # Correct access rights for NTFS/FAT/ExFAT (755 for directories, 644 for files)
                                             # (otherwise default would be 777 (umask=0))
-
+  source /recalbox/scripts/recalbox-utils.sh
+  local exfatopts=""
+  if isRecalboxRGBJamma; then exfatopts=",sync"; fi
   case "${filesystemType}" in
     "vfat") echo "${defaultMountOptions},${windowsMask},iocharset=utf8,flush" ;;
     "ntfs") echo "${defaultMountOptions},${windowsMask}" ;;
-    "exfat") echo "${defaultMountOptions},${windowsMask},sync" ;;
+    "exfat") echo "${defaultMountOptions},${windowsMask}${exfatopts}" ;;
     *) echo "${defaultMountOptions}"
   esac
 }

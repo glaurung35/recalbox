@@ -79,7 +79,7 @@ const String& CrtConf::CrtScanlinesFromEnum(CrtScanlines scanlines)
     case CrtScanlines::Heavy:     { static String scanlineString("heavy"); return scanlineString; }
     default: break;
   }
-  static String sScanlineDefault("none");
+  static String sScanlineDefault("heavy");
   return sScanlineDefault;
 }
 
@@ -94,6 +94,7 @@ CrtResolution CrtConf::CrtResolutionFromString(const String& menu)
   if (menu == "i768x576")         return CrtResolution::r576i;
   if (menu == "p640x480")         return CrtResolution::r480p;
   if (menu == "p1920x240at120")   return CrtResolution::r240p120Hz;
+  if (menu == "p1920x480")        return CrtResolution::r1920x480p;
   return CrtResolution::rNone;
 }
 
@@ -110,6 +111,7 @@ const String& CrtConf::CrtResolutionFromEnum(CrtResolution type)
     case CrtResolution::r576i:      { static String result("i768x576"); return result; }
     case CrtResolution::r480p:      { static String result("p640x480"); return result; }
     case CrtResolution::r240p120Hz: { static String result("p1920x240at120"); return result; }
+    case CrtResolution::r1920x480p: { static String result("p1920x480"); return result; }
     case CrtResolution::_rCount:
     case CrtResolution::rNone:
     default: break;

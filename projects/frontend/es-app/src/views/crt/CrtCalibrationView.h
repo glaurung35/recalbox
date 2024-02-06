@@ -17,6 +17,7 @@ class CrtCalibrationView : public Gui
       kHz15_60Hz,
       kHz15_50Hz,
       kHz15_60Hz_plus_kHz31,
+      kHz31_no_120,
       kHz31,
     };
 
@@ -55,6 +56,7 @@ class CrtCalibrationView : public Gui
     static constexpr CrtResolution sForced31khz[] =
     {
       CrtResolution::r480p,
+      CrtResolution::r1920x480p,
       CrtResolution::r240p120Hz,
       CrtResolution::rNone
     };
@@ -93,11 +95,16 @@ class CrtCalibrationView : public Gui
       CrtResolution::r240p,
       CrtResolution::r224p,
       CrtResolution::r480p,
+      CrtResolution::r1920x480p,
       CrtResolution::rNone
     };
 
-    //! Timing file path
-    static constexpr const char* sTimingFile = "/boot/crt/timings.txt";
+    static constexpr CrtResolution s31khzNo120[] =
+      {
+        CrtResolution::r480p,
+        CrtResolution::r1920x480p,
+        CrtResolution::rNone
+      };
 
     //! Pattern image
     ImageComponent mPattern;

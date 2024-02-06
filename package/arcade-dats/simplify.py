@@ -28,6 +28,7 @@ class Simplifier:
     {
         "capcom": [("cps1", "CPS1"), ("cps2", "CPS2"), ("cps3", "CPS3")],
         "sega": [("segas32", "System32"), ("segas16*", "System16")],
+        "taito": [("taito_f3", "F3")],
     }
 
     COMPLETE_REPLACEMENTS: dict[str, str] = \

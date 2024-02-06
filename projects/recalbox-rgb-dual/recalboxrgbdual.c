@@ -79,6 +79,7 @@ enum ModeIds {
   i640x480,
   p640x480,
   p320x240jamma,
+  p1920x480,
   ModeCount,
 };
 
@@ -93,6 +94,7 @@ static const char* ModeNames[] = {
     "i640x480",
     "p640x480",
     "p320x240jamma",
+    "p1920x480",
     "ModeCount",
 };
 
@@ -101,6 +103,7 @@ static struct mode_offsets {
   int hoffset;
 };
 static struct mode_offsets modeconfigs[ModeCount] = {
+    {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
@@ -246,6 +249,19 @@ static struct videomode modes[ModeCount] = {
         .vfront_porch = 2,
         .vsync_len = 3,
         .vback_porch = 16,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x480p@60 : 1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1
+    {
+        .pixelclock = 76462080,
+        .hactive = 1920,
+        .hfront_porch = 48,
+        .hsync_len = 208,
+        .hback_porch = 256,
+        .vactive = 480,
+        .vfront_porch = 15,
+        .vsync_len = 3,
+        .vback_porch = 26,
         .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
     },
 };
@@ -506,6 +522,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     } else if (config.dip31kHz.gpio_state == 0) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
       dpidac_apply_module_mode(connector, p640x480, true);
+      dpidac_apply_module_mode(connector, p1920x480, false);
       dpidac_apply_module_mode(connector, p1920x240at120, false);
       return 2;
     } else {

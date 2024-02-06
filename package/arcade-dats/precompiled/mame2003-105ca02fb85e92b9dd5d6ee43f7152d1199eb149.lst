@@ -1426,82 +1426,82 @@ qcrayon|Quiz Crayon Shinchan (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.0000
 qcrayon2|Crayon Shinchan Orato Asobo (Japan)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito
 driftout|Drift Out (Japan)|parent|taito/taito_f2.cpp|270|224|320|60.000000|||good|Visco
 driveout|Drive Out|clone|taito/taito_f2.cpp|270|224|320|60.000000||driftout|good|
-ringrage|Ring Rage (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-ringragj|Ring Rage (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ringrage|good|Taito
-ringragu|Ring Rage (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ringrage|good|Taito
-arabianm|Arabian Magic (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-arabiamj|Arabian Magic (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||arabianm|good|Taito
-arabiamu|Arabian Magic (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||arabianm|good|Taito
-ridingf|Riding Fight (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-ridefgtj|Riding Fight (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ridingf|good|Taito
-ridefgtu|Riding Fight (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ridingf|good|Taito
-gseeker|Grid Seeker: Project Stormhammer (World)|parent|taito/taito_f3.cpp|90|224|320|60.000000|||good|Taito
-gseekerj|Grid Seeker: Project Stormhammer (Japan)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gseeker|good|Taito
-gseekeru|Grid Seeker: Project Stormhammer (US)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gseeker|good|Taito
-hthero93|Hat Trick Hero '93 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito
-cupfinal|Taito Cup Finals (World)|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito
-trstar|Top Ranking Stars (World new version)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-trstarj|Top Ranking Stars (Japan new version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito
-prmtmfgt|Prime Time Fighter (US new version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito
-trstaro|Top Ranking Stars (World old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito
-trstaroj|Top Ranking Stars (Japan old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito
-prmtmfgo|Prime Time Fighter (US old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito
-gunlock|Gunlock (World)|parent|taito/taito_f3.cpp|90|224|320|60.000000|||good|Taito
-rayforcj|Rayforce (Japan)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gunlock|good|Taito
-rayforce|Rayforce (US)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gunlock|good|Taito
-scfinals|Super Cup Finals (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-intcup94|International Cup '94|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito
-dungeonm|Dungeon Magic (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-lightbr|Light Bringer (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||dungeonm|good|Taito
-dungenmu|Dungeon Magic (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||dungeonm|good|Taito
-kaiserkn|Kaiser Knuckle (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-kaiserkj|Kaiser Knuckle (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito
-gblchmp|Global Champion (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito
-dankuga|Dan-Ku-Ga (Prototype)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito
-dariusg|Darius Gaiden - Silver Hawk (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-dariusgj|Darius Gaiden - Silver Hawk (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito
-dariusgu|Darius Gaiden - Silver Hawk (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito
-dariusgx|Darius Gaiden - Silver Hawk (Extra Version) [Official Hack]|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito
-bublbob2|Bubble Bobble 2 (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-bubsympe|Bubble Symphony (Europe)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito
-bubsympu|Bubble Symphony (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito
-bubsymph|Bubble Symphony (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito
-spcinvdj|Space Invaders DX (Japan F3 version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||spacedx|good|Taito
-pwrgoal|Taito Power Goal (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-hthero95|Hat Trick Hero '95 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||pwrgoal|good|Taito
-hthro95u|Hat Trick Hero '95 (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||pwrgoal|good|Taito
-qtheater|Quiz Theater - 3tsu no Monogatari (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-elvactr|Elevator Action Returns (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-elvactrj|Elevator Action Returns (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||elvactr|good|Taito
-elvact2u|Elevator Action 2 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||elvactr|good|Taito
-spcinv95|Space Invaders '95 - Attack Of The Lunar Loonies (World)|parent|taito/taito_f3.cpp|270|224|320|60.000000|||good|Taito
-spcnv95u|Space Invaders '95 - Attack Of The Lunar Loonies (US)|clone|taito/taito_f3.cpp|270|224|320|60.000000||spcinv95|good|Taito
-akkanvdr|Akkanvader (Japan)|clone|taito/taito_f3.cpp|270|224|320|60.000000||spcinv95|good|Taito
-twinqix|Twin Qix (US Prototype)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-quizhuhu|Moriguchi Hiroko no Quiz de Hyuu!Hyuu! (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-pbobble2|Puzzle Bobble 2 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-pbobbl2j|Puzzle Bobble 2 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito
-pbobbl2u|Bust-A-Move Again (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito
-pbobbl2x|Puzzle Bobble 2X (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito
+ringrage|Ring Rage (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+ringragj|Ring Rage (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ringrage|good|Taito\F3
+ringragu|Ring Rage (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ringrage|good|Taito\F3
+arabianm|Arabian Magic (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+arabiamj|Arabian Magic (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||arabianm|good|Taito\F3
+arabiamu|Arabian Magic (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||arabianm|good|Taito\F3
+ridingf|Riding Fight (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+ridefgtj|Riding Fight (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ridingf|good|Taito\F3
+ridefgtu|Riding Fight (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||ridingf|good|Taito\F3
+gseeker|Grid Seeker: Project Stormhammer (World)|parent|taito/taito_f3.cpp|90|224|320|60.000000|||good|Taito\F3
+gseekerj|Grid Seeker: Project Stormhammer (Japan)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gseeker|good|Taito\F3
+gseekeru|Grid Seeker: Project Stormhammer (US)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gseeker|good|Taito\F3
+hthero93|Hat Trick Hero '93 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito\F3
+cupfinal|Taito Cup Finals (World)|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito\F3
+trstar|Top Ranking Stars (World new version)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+trstarj|Top Ranking Stars (Japan new version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito\F3
+prmtmfgt|Prime Time Fighter (US new version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito\F3
+trstaro|Top Ranking Stars (World old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito\F3
+trstaroj|Top Ranking Stars (Japan old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito\F3
+prmtmfgo|Prime Time Fighter (US old version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||trstar|good|Taito\F3
+gunlock|Gunlock (World)|parent|taito/taito_f3.cpp|90|224|320|60.000000|||good|Taito\F3
+rayforcj|Rayforce (Japan)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gunlock|good|Taito\F3
+rayforce|Rayforce (US)|clone|taito/taito_f3.cpp|90|224|320|60.000000||gunlock|good|Taito\F3
+scfinals|Super Cup Finals (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+intcup94|International Cup '94|clone|taito/taito_f3.cpp|0|320|224|60.000000||scfinals|good|Taito\F3
+dungeonm|Dungeon Magic (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+lightbr|Light Bringer (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||dungeonm|good|Taito\F3
+dungenmu|Dungeon Magic (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||dungeonm|good|Taito\F3
+kaiserkn|Kaiser Knuckle (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+kaiserkj|Kaiser Knuckle (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito\F3
+gblchmp|Global Champion (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito\F3
+dankuga|Dan-Ku-Ga (Prototype)|clone|taito/taito_f3.cpp|0|320|224|60.000000||kaiserkn|good|Taito\F3
+dariusg|Darius Gaiden - Silver Hawk (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+dariusgj|Darius Gaiden - Silver Hawk (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito\F3
+dariusgu|Darius Gaiden - Silver Hawk (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito\F3
+dariusgx|Darius Gaiden - Silver Hawk (Extra Version) [Official Hack]|clone|taito/taito_f3.cpp|0|320|232|60.000000||dariusg|good|Taito\F3
+bublbob2|Bubble Bobble 2 (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+bubsympe|Bubble Symphony (Europe)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito\F3
+bubsympu|Bubble Symphony (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito\F3
+bubsymph|Bubble Symphony (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bublbob2|good|Taito\F3
+spcinvdj|Space Invaders DX (Japan F3 version)|clone|taito/taito_f3.cpp|0|320|232|60.000000||spacedx|good|Taito\F3
+pwrgoal|Taito Power Goal (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+hthero95|Hat Trick Hero '95 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||pwrgoal|good|Taito\F3
+hthro95u|Hat Trick Hero '95 (US)|clone|taito/taito_f3.cpp|0|320|224|60.000000||pwrgoal|good|Taito\F3
+qtheater|Quiz Theater - 3tsu no Monogatari (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+elvactr|Elevator Action Returns (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+elvactrj|Elevator Action Returns (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||elvactr|good|Taito\F3
+elvact2u|Elevator Action 2 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||elvactr|good|Taito\F3
+spcinv95|Space Invaders '95 - Attack Of The Lunar Loonies (World)|parent|taito/taito_f3.cpp|270|224|320|60.000000|||good|Taito\F3
+spcnv95u|Space Invaders '95 - Attack Of The Lunar Loonies (US)|clone|taito/taito_f3.cpp|270|224|320|60.000000||spcinv95|good|Taito\F3
+akkanvdr|Akkanvader (Japan)|clone|taito/taito_f3.cpp|270|224|320|60.000000||spcinv95|good|Taito\F3
+twinqix|Twin Qix (US Prototype)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+quizhuhu|Moriguchi Hiroko no Quiz de Hyuu!Hyuu! (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+pbobble2|Puzzle Bobble 2 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+pbobbl2j|Puzzle Bobble 2 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito\F3
+pbobbl2u|Bust-A-Move Again (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito\F3
+pbobbl2x|Puzzle Bobble 2X (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble2|good|Taito\F3
 gekirido|Gekirindan (Japan)|parent|||232|320|60.000000|||good|Taito
-ktiger2|Kyukyoku Tiger 2 (Japan)|parent|taito/taito_f3.cpp|270|232|320|60.000000|||good|Taito
-bubblem|Bubble Memories - The Story Of Bubble Bobble 3 (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-bubblemj|Bubble Memories - The Story Of Bubble Bobble 3 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bubblem|good|Taito
-cleopatr|Cleopatra Fortune (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-pbobble3|Puzzle Bobble 3 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-pbobbl3u|Puzzle Bobble 3 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble3|good|Taito
-pbobbl3j|Puzzle Bobble 3 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble3|good|Taito
-arkretrn|Arkanoid Returns (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-kirameki|Kirameki Star Road (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito
-puchicar|Puchi Carat (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-pbobble4|Puzzle Bobble 4 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-pbobbl4j|Puzzle Bobble 4 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble4|good|Taito
-pbobbl4u|Puzzle Bobble 4 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble4|good|Taito
-popnpop|Pop 'N Pop (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-popnpopj|Pop 'N Pop (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||popnpop|good|Taito
-popnpopu|Pop 'N Pop (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||popnpop|good|Taito
-landmakr|Land Maker (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito
-landmkrp|Land Maker (World Prototype)|clone|taito/taito_f3.cpp|0|320|232|60.000000||landmakr|good|Taito
+ktiger2|Kyukyoku Tiger 2 (Japan)|parent|taito/taito_f3.cpp|270|232|320|60.000000|||good|Taito\F3
+bubblem|Bubble Memories - The Story Of Bubble Bobble 3 (World)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+bubblemj|Bubble Memories - The Story Of Bubble Bobble 3 (Japan)|clone|taito/taito_f3.cpp|0|320|224|60.000000||bubblem|good|Taito\F3
+cleopatr|Cleopatra Fortune (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+pbobble3|Puzzle Bobble 3 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+pbobbl3u|Puzzle Bobble 3 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble3|good|Taito\F3
+pbobbl3j|Puzzle Bobble 3 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble3|good|Taito\F3
+arkretrn|Arkanoid Returns (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+kirameki|Kirameki Star Road (Japan)|parent|taito/taito_f3.cpp|0|320|224|60.000000|||good|Taito\F3
+puchicar|Puchi Carat (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+pbobble4|Puzzle Bobble 4 (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+pbobbl4j|Puzzle Bobble 4 (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble4|good|Taito\F3
+pbobbl4u|Puzzle Bobble 4 (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||pbobble4|good|Taito\F3
+popnpop|Pop 'N Pop (World)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+popnpopj|Pop 'N Pop (Japan)|clone|taito/taito_f3.cpp|0|320|232|60.000000||popnpop|good|Taito\F3
+popnpopu|Pop 'N Pop (US)|clone|taito/taito_f3.cpp|0|320|232|60.000000||popnpop|good|Taito\F3
+landmakr|Land Maker (Japan)|parent|taito/taito_f3.cpp|0|320|232|60.000000|||good|Taito\F3
+landmkrp|Land Maker (World Prototype)|clone|taito/taito_f3.cpp|0|320|232|60.000000||landmakr|good|Taito\F3
 perfrman|Performan (Japan)|parent|toaplan/slapfght.cpp|270|240|264|60.000000|||good|Data East/Toaplan
 perfrmau|Performan (US)|clone|toaplan/slapfght.cpp|270|240|264|60.000000||perfrman|good|Data East/Toaplan
 tigerh|Tiger Heli (US)|parent|toaplan/slapfght.cpp|270|240|280|60.000000|||good|Taito

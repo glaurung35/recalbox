@@ -441,18 +441,29 @@ void GuiMenuCRT::SubMenuSelected(int id)
   {
     if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
-      ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz31);
-      mWindow.CloseAll();
+      if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)
+      {
+        ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz31_no_120);
+        mWindow.CloseAll();
+      }
+      else
+      {
+        ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz31);
+        mWindow.CloseAll();
+      }
     }
-    else if (Board::Instance().CrtBoard().MustForce50Hz()){
+    else if (Board::Instance().CrtBoard().MustForce50Hz())
+    {
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_50Hz);
       mWindow.CloseAll();
     }
-    else if (Board::Instance().CrtBoard().MultiSyncEnabled()){
+    else if (Board::Instance().CrtBoard().MultiSyncEnabled())
+    {
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz_plus_kHz31);
       mWindow.CloseAll();
     }
-    else if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma){
+    else if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)
+    {
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz);
       mWindow.CloseAll();
     }

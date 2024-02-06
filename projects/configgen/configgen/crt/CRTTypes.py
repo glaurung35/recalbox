@@ -17,6 +17,7 @@ class CRTResolution(StrEnum):
     # 31kHz
     p640x480 = "p640x480"
     p1920x240at120 = "p1920x240at120"
+    p1920x480 = "p1920x480"
 
     @staticmethod
     def fromResolution(width: int, height: int, framerate: float, interlaced: bool) -> typing.Optional["CRTResolution"]:

@@ -41,6 +41,8 @@ void CrtCalibrationView::Initialize(CalibrationType calibrationType)
       mSequence = sNTSCOnly; break;
     case kHz15_60Hz_plus_kHz31:
       mSequence = sMultiSync; break;
+    case kHz31_no_120:
+      mSequence = s31khzNo120; break;
     case kHz15_60plus50Hz:
     default:
       mSequence = sPALNTSC; break;
@@ -124,6 +126,7 @@ void CrtCalibrationView::SetResolution(CrtResolution resolution)
     case CrtResolution::r576i: w = 768; h = 576; break;
     case CrtResolution::r480p: w = 640; h = 480; break;
     case CrtResolution::r240p120Hz: w = 1920; h = 240; break;
+    case CrtResolution::r1920x480p: w = 1920; h = 480; break;
     case CrtResolution::_rCount:
     case CrtResolution::rNone: // Original resolution
     default: break;

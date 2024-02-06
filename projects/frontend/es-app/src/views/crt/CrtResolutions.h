@@ -18,6 +18,7 @@ enum CrtResolution: uint
   r240p120Hz, //!< 31kHz 240
   r320x240p, //!< 320x240
   r384x288p, //!< 384x288
+  r1920x480p, //!< 1920x480 (31kHz superrez)
   _rCount, //!< Counter
 };
 
@@ -43,4 +44,5 @@ static int porch[CrtResolution::_rCount][Offset::Count]
   {-20,8,-14,4}, // r240p120Hz, //!< 31kHz 240
   {-7,1,-14,4}, // r320x240p, //!< 320x240
   {-6,2,-12,3}, // r384x288p, //!< 384x288
+  {-20,15,-10,10}, // r1920x480p
 };

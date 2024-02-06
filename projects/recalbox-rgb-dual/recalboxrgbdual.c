@@ -78,6 +78,7 @@ enum ModeIds {
   i768x576,
   i640x480,
   p640x480,
+  p320x240jamma,
   ModeCount,
 };
 
@@ -91,6 +92,7 @@ static const char* ModeNames[] = {
     "i768x576",
     "i640x480",
     "p640x480",
+    "p320x240jamma",
     "ModeCount",
 };
 
@@ -108,8 +110,8 @@ static struct mode_offsets modeconfigs[ModeCount] = {
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
+    {.voffset = 0, .hoffset = 0},
 };
-
 // Same modes are located in the frontend to manage the min / max porsh
 static struct videomode modes[ModeCount] = {
 
@@ -231,7 +233,21 @@ static struct videomode modes[ModeCount] = {
       .vsync_len = 2,
       .vback_porch = 32,
       .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
-    }
+    },
+
+    //240p@60 jamma : 320 1 16 32 56 240 1 2 3 16 0 0 0 60 0 6639840 1
+    {
+        .pixelclock = 6639840,
+        .hactive = 320,
+        .hfront_porch = 20,
+        .hsync_len = 32,
+        .hback_porch = 52,
+        .vactive = 240,
+        .vfront_porch = 2,
+        .vsync_len = 3,
+        .vback_porch = 16,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
 };
 
 
@@ -482,7 +498,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
   } else {
     if(config.multisync) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: Multisync: 31kHz + 15kHz modes will be available\n");
-      dpidac_apply_module_mode(connector, p320x240, !config.desktop480p);
+      dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, !config.desktop480p);
       dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
       dpidac_apply_module_mode(connector, p1920x240, false);
       dpidac_apply_module_mode(connector, p1920x224, false);
@@ -505,7 +521,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
         return 2;
       } else {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: 60Hz + 50Hz modes will be available\n");
-        dpidac_apply_module_mode(connector, p320x240, true);
+        dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, true);
         dpidac_apply_module_mode(connector, p1920x240, false);
         dpidac_apply_module_mode(connector, p1920x224, false);
         dpidac_apply_module_mode(connector, p384x288, false);

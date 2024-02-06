@@ -55,6 +55,9 @@ class ExtraArguments:
      crt_verticaloffset_p384x288: int = 0
      crt_horizontaloffset_p384x288: int = 0
      crt_viewportwidth_p384x288: int = 0
+     crt_verticaloffset_p1920x480: int = 0
+     crt_horizontaloffset_p1920x480: int = 0
+     crt_viewportwidth_p1920x480: int = 0
      rotation: int = 0
      rotatecontrols: bool = False
      verticalgame: bool = False

@@ -160,7 +160,7 @@ ajax|Ajax|parent|konami/ajax.cpp|90|224|304||||good|Konami
 akazukin|Aka Zukin (Japan)|parent|orca/akazukin.cpp|0|256|224||||good|Sigma
 akatana|Akai Katana (2010/ 8/13 MASTER VER.)|parent|||320|240||||good|Cave
 akkaarrh|Akka Arrh (prototype)|parent|atari/akkaarrh.cpp|0|256|240||||good|Atari
-akkanvdr|Akkanbeder (Ver 2.5J 1995/06/14)|clone|taito/taito_f3.cpp|270|224|320|||spcinv95|good|Taito
+akkanvdr|Akkanbeder (Ver 2.5J 1995/06/14)|clone|taito/taito_f3.cpp|270|224|320|||spcinv95|good|Taito\F3
 akumajoun|Akuma-Jou Dracula (Japan ver. N)|clone|konami/hcastle.cpp|0|256|224|||hcastle|good|Konami
 akumajou|Akuma-Jou Dracula (Japan ver. P)|clone|konami/hcastle.cpp|0|256|224|||hcastle|good|Konami
 agalletj|Akuu Gallet (Japan)|clone|misc/cave.cpp|270|240|320|||agallet|good|Banpresto/Gazelle
@@ -259,9 +259,9 @@ arabiana|Arabian (Atari)|clone|sunelectronics/arabian.cpp|270|234|256|||arabian|
 arabfgtj|Arabian Fight (Japan)|clone|sega/segas32.cpp|0|320|224|||arabfgt|good|Sega\System32
 arabfgtu|Arabian Fight (US)|clone|sega/segas32.cpp|0|320|224|||arabfgt|good|Sega\System32
 arabfgt|Arabian Fight (World)|parent|sega/segas32.cpp|0|320|224||||good|Sega\System32
-arabianmu|Arabian Magic (Ver 1.0A 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|||arabianm|good|Taito
-arabianmj|Arabian Magic (Ver 1.0J 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|||arabianm|good|Taito
-arabianm|Arabian Magic (Ver 1.0O 1992/07/06)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+arabianmu|Arabian Magic (Ver 1.0A 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|||arabianm|good|Taito\F3
+arabianmj|Arabian Magic (Ver 1.0J 1992/07/06)|clone|taito/taito_f3.cpp|0|320|224|||arabianm|good|Taito\F3
+arabianm|Arabian Magic (Ver 1.0O 1992/07/06)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 arabian|Arabian|parent|sunelectronics/arabian.cpp|270|234|256||||good|Sun Electronics
 aracnis|Aracnis (bootleg of Scorpion on Moon Cresta hardware)|clone|galaxian/galaxian.cpp|90|224|256|||scorpion|good|
 arbalest|Arbalester|parent|seta/downtown.cpp|270|224|384||||good|Seta
@@ -299,9 +299,9 @@ arknoid2b|Arkanoid - Revenge of DOH (Japan bootleg)|clone|taito/tnzs.cpp|270|224
 arknoid2j|Arkanoid - Revenge of DOH (Japan)|clone|taito/tnzs.cpp|270|224|256|||arknoid2|good|Taito
 arknoid2u|Arkanoid - Revenge of DOH (US)|clone|taito/tnzs.cpp|270|224|256|||arknoid2|good|Romstar/Taito
 arknoid2|Arkanoid - Revenge of DOH (World)|parent|taito/tnzs.cpp|270|224|256||||good|Taito
-arkretrnu|Arkanoid Returns (Ver 2.02A 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|||arkretrn|good|Taito
-arkretrnj|Arkanoid Returns (Ver 2.02J 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|||arkretrn|good|Taito
-arkretrn|Arkanoid Returns (Ver 2.02O 1997/02/10)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+arkretrnu|Arkanoid Returns (Ver 2.02A 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|||arkretrn|good|Taito\F3
+arkretrnj|Arkanoid Returns (Ver 2.02J 1997/02/10)|clone|taito/taito_f3.cpp|0|320|232|||arkretrn|good|Taito\F3
+arkretrn|Arkanoid Returns (Ver 2.02O 1997/02/10)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 armchmp2o|Arm Champs II v1.7|clone|jaleco/cischeat.cpp|270|224|256|||armchmp2|preliminary|Jaleco
 armchmp2o2|Arm Champs II v2.6|clone|jaleco/cischeat.cpp|270|224|256|||armchmp2|preliminary|Jaleco
 armchmp2|Arm Champs II v2.7|parent|jaleco/cischeat.cpp|270|224|256||||preliminary|Jaleco
@@ -748,21 +748,21 @@ bublboblp|Bubble Bobble (prototype on Tokio hardware)|clone|taito/bublbobl.cpp|0
 bublboblu|Bubble Bobble (Ultra Version, Hack)|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Hack/Penta Penguin
 bublboblr1|Bubble Bobble (US, Ver 1.0)|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Romstar/Taito
 bublboblr|Bubble Bobble (US, Ver 5.1)|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Romstar/Taito
-bublbob2p|Bubble Bobble II (Ver 0.0J 1993/12/13, prototype)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito
-bublbob2o|Bubble Bobble II (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito
-bublbob2|Bubble Bobble II (Ver 2.6O 1994/12/16)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+bublbob2p|Bubble Bobble II (Ver 0.0J 1993/12/13, prototype)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
+bublbob2o|Bubble Bobble II (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
+bublbob2|Bubble Bobble II (Ver 2.6O 1994/12/16)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 bublcave10|Bubble Bobble: Lost Cave V1.0|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Bisboch & Aladar
 bublcave11|Bubble Bobble: Lost Cave V1.1|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Bisboch & Aladar
 boblcave|Bubble Bobble: Lost Cave V1.2 (for Bobble Bobble PCB)|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Bisboch & Aladar
 bublcave|Bubble Bobble: Lost Cave V1.2|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|Bisboch & Aladar
 bublbust|Bubble Buster (USA, B-System)|parent|taito/taito_b.cpp|0|320|224||||good|Taito
-bubblemj|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.3J 1996/02/07)|clone|taito/taito_f3.cpp|0|320|224|||bubblem|good|Taito
-bubblem|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.4O 1996/02/15)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
-bubblemu|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.5A 1996/02/21)|clone|taito/taito_f3.cpp|0|320|224|||bubblem|good|Taito
+bubblemj|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.3J 1996/02/07)|clone|taito/taito_f3.cpp|0|320|224|||bubblem|good|Taito\F3
+bubblem|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.4O 1996/02/15)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
+bubblemu|Bubble Memories: The Story Of Bubble Bobble III (Ver 2.5A 1996/02/21)|clone|taito/taito_f3.cpp|0|320|224|||bubblem|good|Taito\F3
 bublpong|Bubble Pong Pong|clone|taito/missb2.cpp|0|256|224|||missb2|good|Top
-bubsymphu|Bubble Symphony (Ver 2.5A 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito
-bubsymphj|Bubble Symphony (Ver 2.5J 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito
-bubsymphe|Bubble Symphony (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito
+bubsymphu|Bubble Symphony (Ver 2.5A 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
+bubsymphj|Bubble Symphony (Ver 2.5J 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
+bubsymphe|Bubble Symphony (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
 bubbletrj|Bubble Trouble - Golly! Ghost! 2 (Japan, Rev C)|clone|namco/namcos2.cpp|180|288|224|||bubbletr|preliminary|Namco
 bubbletr|Bubble Trouble - Golly! Ghost! 2 (World, Rev B)|parent|namco/namcos2.cpp|180|288|224||||preliminary|Namco
 bubblesp|Bubbles (prototype version)|clone|midway/williams.cpp|0|292|240|||bubbles|good|Williams
@@ -807,7 +807,7 @@ burnforc|Burning Force (Japan, new version (Rev C))|parent|namco/namcos2.cpp|0|2
 burnforco|Burning Force (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||burnforc|good|Namco
 brivalj|Burning Rival (Japan)|clone|sega/segas32.cpp|0|416|224|||brival|good|Sega\System32
 brival|Burning Rival (World)|parent|sega/segas32.cpp|0|416|224||||good|Sega\System32
-pbobble2u|Bust-A-Move Again (Ver 2.3A 1995/07/31)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito
+pbobble2u|Bust-A-Move Again (Ver 2.3A 1995/07/31)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito\F3
 bbros|Buster Bros. (USA)|clone|capcom/mitchell.cpp|0|384|240|||pang|good|Capcom/Mitchell
 dogfgtj|But-ten Ohara's Suit-Cha Luck-a Dog-Fight (Japan)|clone|technos/dogfgt.cpp|0|256|240|||dogfgt|good|Technos
 butasanj|Butasan (Japan, Japanese)|clone|jaleco/argus.cpp|0|256|240|||butasan|good|Jaleco/NMK
@@ -1014,7 +1014,7 @@ clshroadd|Clash-Road (Data East license)|clone|nichibutsu/clshroad.cpp|0|288|224
 clshroads|Clash-Road (Status license)|clone|nichibutsu/clshroad.cpp|0|288|224|||clshroad|good|Status Games/Wood Place
 clshroad|Clash-Road|parent|nichibutsu/clshroad.cpp|0|288|224||||good|Wood Place
 claypign|Clay Pigeon (version 2.0)|parent|exidy/exidy440.cpp|0|320|240||||good|Exidy
-cleopatr|Cleopatra Fortune (Ver 2.1J 1996/09/05)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+cleopatr|Cleopatra Fortune (Ver 2.1J 1996/09/05)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 cloakfr|Cloak & Dagger (French)|clone|atari/cloak.cpp|0|256|232|||cloak|good|Atari
 cloakgr|Cloak & Dagger (German)|clone|atari/cloak.cpp|0|256|232|||cloak|good|Atari
 cloak|Cloak & Dagger (rev 5)|parent|atari/cloak.cpp|0|256|232||||good|Atari
@@ -1054,7 +1054,7 @@ pacmanpe|Come Come (Petaco SA bootleg of Puck Man)|clone|pacman/pacman.cpp|90|22
 mspacmanbhe|Come-Cocos (Ms. Pac-Man) ('Made in Greece' Herle SA bootleg)|clone|pacman/pacman.cpp|90|224|288|||mspacman|good|Herle
 mspacmanbcc|Come-Cocos (Ms. Pac-Man) ('Made in Greece' Tecnausa bootleg)|clone|pacman/pacman.cpp|90|224|288|||mspacman|good|Tecnausa
 mspacmanbco|Come-Cocos (Ms. Pac-Man) (Cocomatic bootleg)|clone|pacman/pacman.cpp|90|224|288|||mspacman|good|Cocamatic
-commandw|Command War - Super Special Battle & War Game (Ver 0.0J) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+commandw|Command War - Super Special Battle & War Game (Ver 0.0J) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 commandob|Commando (bootleg set 1)|clone|capcom/commando.cpp|270|224|256|||commando|good|
 commandob2|Commando (bootleg set 2)|clone|capcom/commando.cpp|270|224|256|||commando|good|
 commandob3|Commando (bootleg set 3)|clone|capcom/commando.cpp|270|224|256|||commando|good|
@@ -1245,7 +1245,7 @@ daitorid|Daitoride|parent|metro/metro.cpp|0|320|224||||good|Metro
 dambustruk|Dambusters (UK)|clone|galaxian/dambustr.cpp|90|224|256|||dambustr|good|South West Research
 dambustr|Dambusters (US, set 1)|parent|galaxian/dambustr.cpp|90|224|256||||good|South West Research
 dambustra|Dambusters (US, set 2)|clone|galaxian/dambustr.cpp|90|224|256|||dambustr|good|South West Research
-dankuga|Dan-Ku-Ga (Ver 0.0J 1994/12/13) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+dankuga|Dan-Ku-Ga (Ver 0.0J 1994/12/13) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 dngrtrck|Danger Track (Rally X bootleg)|clone|namco/rallyx.cpp|0|288|224|||rallyx|good|
 ddungeon|Dangerous Dungeons (set 1)|parent|technos/ddragon.cpp|0|256|240||||good|Game Room
 ddungeone|Dangerous Dungeons (set 2)|clone|technos/ddragon.cpp|0|256|240|||ddungeon|good|East Coast Coin Company
@@ -1256,10 +1256,10 @@ dariuso|Darius (Japan old version)|clone|taito/darius.cpp|0|864|224|||darius|goo
 dariusj|Darius (Japan)|clone|taito/darius.cpp|0|864|224|||darius|good|Taito
 dariusu|Darius (US)|clone|taito/darius.cpp|0|864|224|||darius|good|Taito
 darius|Darius (World)|parent|taito/darius.cpp|0|864|224||||good|Taito
-dariusgu|Darius Gaiden - Silver Hawk (Ver 2.5A 1994/09/19)|clone|taito/taito_f3.cpp|0|320|232|||dariusg|good|Taito
-dariusgj|Darius Gaiden - Silver Hawk (Ver 2.5J 1994/09/19)|clone|taito/taito_f3.cpp|0|320|232|||dariusg|good|Taito
-dariusg|Darius Gaiden - Silver Hawk (Ver 2.5O 1994/09/19)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
-dariusgx|Darius Gaiden - Silver Hawk Extra Version (Ver 2.7J 1995/03/06) (Official Hack)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+dariusgu|Darius Gaiden - Silver Hawk (Ver 2.5A 1994/09/19)|clone|taito/taito_f3.cpp|0|320|232|||dariusg|good|Taito\F3
+dariusgj|Darius Gaiden - Silver Hawk (Ver 2.5J 1994/09/19)|clone|taito/taito_f3.cpp|0|320|232|||dariusg|good|Taito\F3
+dariusg|Darius Gaiden - Silver Hawk (Ver 2.5O 1994/09/19)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
+dariusgx|Darius Gaiden - Silver Hawk Extra Version (Ver 2.7J 1995/03/06) (Official Hack)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 darius2do|Darius II (dual screen) (Japan old version)|clone|taito/warriorb.cpp|0|640|224|||darius2|good|Taito
 darius2d|Darius II (dual screen) (Japan)|clone|taito/warriorb.cpp|0|640|224|||darius2|good|Taito
 sagaia|Darius II (dual screen) (World)|clone|taito/warriorb.cpp|0|640|224|||darius2|good|Taito
@@ -1591,8 +1591,8 @@ cdsteljn|DS Telejan (DECO Cassette) (Japan)|parent|dataeast/decocass.cpp|270|240
 dualaslt|Dual Assault|clone|dataeast/liberate.cpp|270|240|256|||liberate|good|Data East
 ducki|Duck Tales (FMV Demo)|parent|||304|224||neogeo||good|Sergi
 dumpmtmt|Dump Matsumoto (Japan, 8751 317-unknown)|clone|sega/segas16a.cpp|0|320|224|||bodyslam|good|Sega\System16
-dungeonmu|Dungeon Magic (Ver 2.1A 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito
-dungeonm|Dungeon Magic (Ver 2.1O 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito
+dungeonmu|Dungeon Magic (Ver 2.1A 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito\F3
+dungeonm|Dungeon Magic (Ver 2.1O 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito\F3
 ddsomjr1|Dungeons & Dragons - shadow over mystara (960206 Japan)|clone|capcom/cps2.cpp|0|384|224|||ddsom|good|Capcom\CPS2
 ddsomar1|Dungeons & Dragons - shadow over mystara (960208 Asia)|clone|capcom/cps2.cpp|0|384|224|||ddsom|good|Capcom\CPS2
 ddsomr3|Dungeons & Dragons - shadow over mystara (960208 Euro)|clone|capcom/cps2.cpp|0|384|224|||ddsom|good|Capcom\CPS2
@@ -1691,9 +1691,9 @@ elecyoyo2|Electric Yo-Yo, The (set 2)|clone|taito/qix.cpp|270|240|256|||elecyoyo
 elevator|Elevator Action (BA3, 4 pcb version, 1.1)|parent|taito/taitosj.cpp|0|256|224||||good|Taito
 elevatorb|Elevator Action (bootleg)|clone|taito/taitosj.cpp|0|256|224|||elevator|good|
 elevatora|Elevator Action (EA, 5 pcb version, 1.1)|clone|taito/taitosj.cpp|0|256|224|||elevator|good|Taito
-elvact2u|Elevator Action II (Ver 2.2A 1995/02/20)|clone|taito/taito_f3.cpp|0|320|232|||elvactr|good|Taito
-elvactrj|Elevator Action Returns (Ver 2.2J 1995/02/20)|clone|taito/taito_f3.cpp|0|320|232|||elvactr|good|Taito
-elvactr|Elevator Action Returns (Ver 2.2O 1995/02/20)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+elvact2u|Elevator Action II (Ver 2.2A 1995/02/20)|clone|taito/taito_f3.cpp|0|320|232|||elvactr|good|Taito\F3
+elvactrj|Elevator Action Returns (Ver 2.2J 1995/02/20)|clone|taito/taito_f3.cpp|0|320|232|||elvactr|good|Taito\F3
+elvactr|Elevator Action Returns (Ver 2.2O 1995/02/20)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 elim2c|Eliminator (2 Players, cocktail)|clone|sega/segag80v.cpp|180|800|600|||elim2|good|Gremlin
 elim2|Eliminator (2 Players, set 1)|parent|sega/segag80v.cpp|180|800|600||||good|Gremlin
 elim2a|Eliminator (2 Players, set 2)|clone|sega/segag80v.cpp|180|800|600|||elim2|good|Gremlin
@@ -2192,8 +2192,8 @@ geebeeb|Gee Bee (Europe)|clone|namco/warpwarp.cpp|90|224|272|||geebee|good|F.lli
 geebee|Gee Bee (Japan)|parent|namco/warpwarp.cpp|90|224|272||||good|Namco
 geebeea|Gee Bee (UK)|clone|namco/warpwarp.cpp|90|224|272|||geebee|good|Alca/Namco
 geebeeg|Gee Bee (US)|clone|namco/warpwarp.cpp|90|224|272|||geebee|good|Gremlin/Namco
-gekiridnj|Gekirindan (Ver 2.3J 1995/09/21)|clone|taito/taito_f3.cpp|270|232|320|||gekiridn|good|Taito
-gekiridn|Gekirindan (Ver 2.3O 1995/09/21)|parent|taito/taito_f3.cpp|270|232|320||||good|Taito
+gekiridnj|Gekirindan (Ver 2.3J 1995/09/21)|clone|taito/taito_f3.cpp|270|232|320|||gekiridn|good|Taito\F3
+gekiridn|Gekirindan (Ver 2.3O 1995/09/21)|parent|taito/taito_f3.cpp|270|232|320||||good|Taito\F3
 geminij|Gemini Wing (Japan)|clone|tecmo/tecmo.cpp|90|224|256|||gemini|good|Tecmo
 gemini|Gemini Wing (World)|parent|tecmo/tecmo.cpp|90|224|256||||good|Tecmo
 geminib|Gemini Wing (World, bootleg)|clone|tecmo/tecmo.cpp|90|224|256|||gemini|good|Tecmo
@@ -2249,7 +2249,7 @@ glass10|Glass (Ver 1.0, Break Edition) (set 1)|clone|gaelco/glass.cpp|0|368|240|
 glass10a|Glass (Ver 1.0, Break Edition) (set 2)|clone|gaelco/glass.cpp|0|368|240|||glass|good|Gaelco/OMK
 glasskr|Glass (Ver 1.1, Break Edition, Version 1994) (censored, unprotected)|clone|gaelco/glass.cpp|0|368|240|||glass|good|Gaelco/OMK/Promat
 glass|Glass (Ver 1.1, Break Edition, Version 1994)|parent|gaelco/glass.cpp|0|368|240||||good|Gaelco/OMK
-gblchmp|Global Champion (Ver 2.1A 1994/07/29)|clone|taito/taito_f3.cpp|0|320|224|||kaiserkn|good|Taito
+gblchmp|Global Champion (Ver 2.1A 1994/07/29)|clone|taito/taito_f3.cpp|0|320|224|||kaiserkn|good|Taito\F3
 go2000|Go 2000|parent|suna/go2000.cpp|0|384|224||||good|SunA
 gogold|Go For The Gold (Japan)|clone|taito/taito_h.cpp|0|320|240|||recordbr|good|Taito
 yamagchi|Go Go Mr. Yamaguchi / Yuke Yuke Yamaguchi-kun|parent|taito/tsamurai.cpp|90|224|256||||good|Kaneko/Taito
@@ -2364,9 +2364,9 @@ gslgr94u|Great Sluggers '94|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|
 gslugrsj|Great Sluggers (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
 gberetb|Green Beret (bootleg)|clone|konami/gberet.cpp|0|240|224|||gberet|preliminary|
 gberet|Green Beret|parent|konami/gberet.cpp|0|240|224||||good|Konami
-gseekeru|Grid Seeker: Project Storm Hammer (Ver 1.3A)|clone|taito/taito_f3.cpp|90|224|320|||gseeker|good|Taito
-gseekerj|Grid Seeker: Project Storm Hammer (Ver 1.3J)|clone|taito/taito_f3.cpp|90|224|320|||gseeker|good|Taito
-gseeker|Grid Seeker: Project Storm Hammer (Ver 1.3O)|parent|taito/taito_f3.cpp|90|224|320||||good|Taito
+gseekeru|Grid Seeker: Project Storm Hammer (Ver 1.3A)|clone|taito/taito_f3.cpp|90|224|320|||gseeker|good|Taito\F3
+gseekerj|Grid Seeker: Project Storm Hammer (Ver 1.3J)|clone|taito/taito_f3.cpp|90|224|320|||gseeker|good|Taito\F3
+gseeker|Grid Seeker: Project Storm Hammer (Ver 1.3O)|parent|taito/taito_f3.cpp|90|224|320||||good|Taito\F3
 gridlee|Gridlee|parent|midway/gridlee.cpp|0|256|240||||good|Videa
 griffon|Griffon (bootleg of Phoenix)|clone|phoenix/phoenix.cpp|90|208|256|||phoenix|good|Videotron
 grindstma|Grind Stormer (older set)|clone|toaplan/toaplan2.cpp|270|240|320|||grindstm|good|Toaplan
@@ -2432,7 +2432,7 @@ gundhara|Gundhara|parent|seta/seta.cpp|270|240|384||||good|Banpresto
 gunforcej|Gunforce - Battle Fire Engulfed Terror Island (Japan)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem
 gunforceu|Gunforce - Battle Fire Engulfed Terror Island (US)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem
 gunforce|Gunforce - Battle Fire Engulfed Terror Island (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
-gunlock|Gunlock (Ver 2.3O 1994/01/20)|parent|taito/taito_f3.cpp|90|224|320||||good|Taito
+gunlock|Gunlock (Ver 2.3O 1994/01/20)|parent|taito/taito_f3.cpp|90|224|320||||good|Taito\F3
 gunnail|GunNail (28th May. 1992)|parent|nmk/nmk16.cpp|270|224|384||nmk004||good|NMK/Tecmo
 gunnailp|GunNail (location test)|clone|nmk/nmk16.cpp|270|224|384||nmk004|gunnail|good|NMK
 gururin|Gururin|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Face/neogeo
@@ -2491,12 +2491,12 @@ hardyard11|Hard Yardage (v1.10)|clone|itech/itech32.cpp|0|384|240|||hardyard|goo
 hardyard|Hard Yardage (v1.20)|parent|itech/itech32.cpp|0|384|240||||good|ITech/Strata
 harem|Harem|parent|galaxian/scramble.cpp|90|224|256||||good|I.G.R.
 hasamu|Hasamu (Japan)|parent|irem/m90.cpp|0|384|240||||good|Irem
-hthero93u|Hat Trick Hero '93 (Ver 1.0A 1993/02/28)|clone|taito/taito_f3.cpp|0|320|224|||cupfinal|good|Taito
-hthero93|Hat Trick Hero '93 (Ver 1.0J 1993/02/28)|clone|taito/taito_f3.cpp|0|320|224|||cupfinal|good|Taito
-hthero94|Hat Trick Hero '94 (Ver 2.2A 1994/05/26)|clone|taito/taito_f3.cpp|0|320|224|||intcup94|good|Taito
-hthero95u|Hat Trick Hero '95 (Ver 2.5A 1994/11/03)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito
-hthero95|Hat Trick Hero '95 (Ver 2.5J 1994/11/03)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito
-hthero95a|Hat Trick Hero '95 (Ver 2.6Asia 1994/11/17)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito
+hthero93u|Hat Trick Hero '93 (Ver 1.0A 1993/02/28)|clone|taito/taito_f3.cpp|0|320|224|||cupfinal|good|Taito\F3
+hthero93|Hat Trick Hero '93 (Ver 1.0J 1993/02/28)|clone|taito/taito_f3.cpp|0|320|224|||cupfinal|good|Taito\F3
+hthero94|Hat Trick Hero '94 (Ver 2.2A 1994/05/26)|clone|taito/taito_f3.cpp|0|320|224|||intcup94|good|Taito\F3
+hthero95u|Hat Trick Hero '95 (Ver 2.5A 1994/11/03)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito\F3
+hthero95|Hat Trick Hero '95 (Ver 2.5J 1994/11/03)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito\F3
+hthero95a|Hat Trick Hero '95 (Ver 2.6Asia 1994/11/17)|clone|taito/taito_f3.cpp|0|320|224|||pwrgoal|good|Taito\F3
 hthero|Hat Trick Hero (Japan)|clone|taito/taito_f2.cpp|0|320|224|||footchmp|good|Taito
 htchctch|Hatch Catch|parent|dataeast/tumbleb.cpp|0|320|240||||good|SemiCom
 hatrisj|Hatris (Japan)|clone|vsystem/pipedrm.cpp|0|352|240||ym2608|hatris|good|Video System
@@ -2679,7 +2679,7 @@ turbobl|Indianapolis (bootleg of Turbo)|clone|sega/turbo.cpp|270|224|512|||turbo
 insector|Insector (prototype)|parent|gottlieb/gottlieb.cpp|0|256|240||||good|Gottlieb
 insectxj|Insector X (Japan)|clone|taito/tnzs.cpp|0|256|224|||insectx|good|Taito
 insectx|Insector X (World)|parent|taito/tnzs.cpp|0|256|224||||good|Taito
-intcup94|International Cup '94 (Ver 2.2O 1994/05/26)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+intcup94|International Cup '94 (Ver 2.2O 1994/05/26)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 intlaser|International Team Laser (prototype)|clone|midway/mcr68.cpp|0|512|480|||blasted|good|Bally Midway
 intrepidb|Intrepid (Elsys bootleg, set 1)|clone|thepit/thepit.cpp|90|224|256|||intrepid|good|Elsys
 intrepidb3|Intrepid (Elsys bootleg, set 2)|clone|thepit/thepit.cpp|90|224|256|||intrepid|good|Elsys
@@ -2818,8 +2818,8 @@ kagekij|Kageki (Japan)|clone|taito/tnzs.cpp|90|224|256|||kageki|good|Taito
 kagekiu|Kageki (US)|clone|taito/tnzs.cpp|90|224|256|||kageki|good|Romstar/Taito
 kageki|Kageki (World)|parent|taito/tnzs.cpp|90|224|256||||good|Taito
 yanchamr|Kaiketsu Yanchamaru (Japan)|clone|irem/m62.cpp|0|384|256|||kidniki|good|Irem
-kaiserknj|Kaiser Knuckle (Ver 2.1J 1994/07/29)|clone|taito/taito_f3.cpp|0|320|224|||kaiserkn|good|Taito
-kaiserkn|Kaiser Knuckle (Ver 2.1O 1994/07/29)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+kaiserknj|Kaiser Knuckle (Ver 2.1J 1994/07/29)|clone|taito/taito_f3.cpp|0|320|224|||kaiserkn|good|Taito\F3
+kaiserkn|Kaiser Knuckle (Ver 2.1O 1994/07/29)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 kaiteids|Kaitei Daisensou (Japan)|clone|irem/m92.cpp|0|320|240|||inthunt|good|Irem
 kaitein|Kaitei Takara Sagashi (Namco license)|clone|namco/warpwarp.cpp|90|224|272|||kaitei|good|K.K. Tokki/Namco
 kaitei|Kaitei Takara Sagashi|parent|namco/warpwarp.cpp|90|224|272||||good|K.K. Tokki
@@ -2900,7 +2900,7 @@ kotm2|King of the Monsters 2 - The Next Thing (NGM-039 ~ NGH-039)|parent|neogeo/
 kotm2a|King of the Monsters 2 - The Next Thing (older)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|kotm2|good|neogeo/SNK
 kotm2p|King of the Monsters 2 - The Next Thing (prototype)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|kotm2|good|neogeo/SNK
 kingdmgp|Kingdom Grandprix (World)|parent|toaplan/toaplan2.cpp|270|240|320||||good|Eighting/Raizing
-kirameki|Kirameki Star Road (Ver 2.10J 1997/08/29)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+kirameki|Kirameki Star Road (Ver 2.10J 1997/08/29)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 kittenk|Kitten Kaboodle|parent|konami/nemesis.cpp|0|256|224||||good|Konami
 kizuna|Kizuna Encounter - Super Tag Battle / Fu'un Super Tag Battle|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/SNK
 klaxd2|Klax (Germany, version 2)|clone|atari/klax.cpp|0|336|240|||klax|good|Atari
@@ -3033,7 +3033,7 @@ kyros|Kyros|parent|alpha/alpha68k_n.cpp|90|224|256||||good|Alpha Denshi/World Ga
 dadandrn|Kyukyoku Sentai Dadandarn (ver JAA)|clone|konami/mystwarr.cpp|0|288|224|||mmaulers|good|Konami
 ktigera|Kyukyoku Tiger (Japan, 2 player alternate)|clone|toaplan/twincobr.cpp|270|240|320|||twincobr|good|Taito/Toaplan
 ktiger|Kyukyoku Tiger (Japan, 2 player cooperative)|clone|toaplan/twincobr.cpp|270|240|320|||twincobr|good|Taito/Toaplan
-ktiger2|Kyukyoku Tiger II (Ver 2.1J 1995/11/30)|clone|taito/taito_f3.cpp|270|232|320|||tcobra2|good|Taito
+ktiger2|Kyukyoku Tiger II (Ver 2.1J 1995/11/30)|clone|taito/taito_f3.cpp|270|232|320|||tcobra2|good|Taito\F3
 kyukaidk|Kyuukai Douchuuki (Japan, new version (Rev B))|parent|namco/namcos2.cpp|0|288|224||||good|Namco
 kyukaidko|Kyuukai Douchuuki (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||kyukaidk|good|Namco
 divebomb|Kyuukoukabakugekitai - Dive Bomber Squad (Japan, prototype)|parent|konami/divebomb.cpp|270|224|256||||good|Konami
@@ -3051,9 +3051,9 @@ landbrkb|Land Breaker (World) / Miss Tang Ja Ru Gi (Korea) (pcb ver 1.0) (AT89c5
 landbrk|Land Breaker (World) / Miss Tang Ja Ru Gi (Korea) (pcb ver 3.02)|parent|eolith/eolith.cpp|0|320|240||||good|Eolith
 landbrka|Land Breaker (World) / Miss Tang Ja Ru Gi (Korea) (pcb ver 3.03) (AT89c52 protected)|clone|eolith/eolith.cpp|0|320|240|||landbrk|good|Eolith
 landmakrhe|Land Maker (English Translation Hack)|clone|taito/taito_f3.cpp|0|320|232|||landmakr|good|ywy
-landmakrj|Land Maker (Ver 2.01J 1998/06/01)|clone|taito/taito_f3.cpp|0|320|232|||landmakr|good|Taito
-landmakrp|Land Maker (Ver 2.02O 1998/06/02) (Prototype)|clone|taito/taito_f3.cpp|0|320|232|||landmakr|good|Taito
-landmakr|Land Maker (Ver 2.02O 1998/06/02)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+landmakrj|Land Maker (Ver 2.01J 1998/06/01)|clone|taito/taito_f3.cpp|0|320|232|||landmakr|good|Taito\F3
+landmakrp|Land Maker (Ver 2.02O 1998/06/02) (Prototype)|clone|taito/taito_f3.cpp|0|320|232|||landmakr|good|Taito\F3
+landmakr|Land Maker (Ver 2.02O 1998/06/02)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 lsasquad|Land Sea Air Squad / Riku Kai Kuu Saizensen|parent|taito/lsasquad.cpp|270|224|256||||good|Taito
 lans2004|Lansquenet 2004 (Shock Troopers - 2nd Squad bootleg)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|shocktr2|good|neogeo
 lvgirl94|Las Vegas Girl (Girl '94)|parent|comad/zerozone.cpp|0|368|224||||good|Comad
@@ -3135,8 +3135,8 @@ liblrabl|Libble Rabble|parent|namco/toypop.cpp|0|288|224||||good|Namco
 liberate|Liberation|parent|dataeast/liberate.cpp|270|240|256||||good|Data East
 lifefrcej|Lifeforce (Japan)|clone|konami/nemesis.cpp|0|256|224|||salamand|good|Konami
 lifefrce|Lifeforce (US)|clone|konami/nemesis.cpp|0|256|224|||salamand|good|Konami
-lightbrj|Light Bringer (Ver 2.1J 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito
-lightbr|Light Bringer (Ver 2.2O 1994/04/08)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+lightbrj|Light Bringer (Ver 2.1J 1994/02/18)|clone|taito/taito_f3.cpp|0|320|224|||lightbr|good|Taito\F3
+lightbr|Light Bringer (Ver 2.2O 1994/04/08)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt2.cpp|90|224|288|||lgtnfght|good|Konami
 lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt2.cpp|90|224|288|||lgtnfght|good|Konami
 lgtnfght|Lightning Fighters (World)|parent|konami/tmnt2.cpp|90|224|288||||good|Konami
@@ -3626,7 +3626,7 @@ moonwara|Moonwar (older)|clone|galaxian/galaxian.cpp|90|224|256|||moonwar|good|S
 moonwar|Moonwar|parent|galaxian/galaxian.cpp|90|224|256||||good|Stern
 moremorp|More More Plus|parent|kaneko/snowbros.cpp|0|256|224||||good|Exit/SemiCom
 moremore|More More|parent|kaneko/snowbros.cpp|0|256|224||||good|Exit/SemiCom
-quizhuhu|Moriguchi Hiroko no Quiz de Hyuu!Hyuu! (Ver 2.2J 1995/05/25)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+quizhuhu|Moriguchi Hiroko no Quiz de Hyuu!Hyuu! (Ver 2.2J 1995/05/25)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 mknifty666|Mortal Kombat (Nifty Kombo 666, hack)|clone|midway/midyunit.cpp|0|400|256|||mk|good|
 mknifty|Mortal Kombat (Nifty Kombo, hack)|clone|midway/midyunit.cpp|0|400|256|||mk|good|
 mkprot4|Mortal Kombat (prototype, rev 4.0 07/14/92)|clone|midway/midyunit.cpp|0|400|256|||mk|good|Midway
@@ -4305,9 +4305,9 @@ popflamen|Pop Flamer (bootleg on Naughty Boy PCB)|clone|phoenix/naughtyb.cpp|90|
 popflameb|Pop Flamer (hack?)|clone|phoenix/naughtyb.cpp|90|224|288|||popflame|good|Jaleco
 popflamea|Pop Flamer (not protected)|clone|phoenix/naughtyb.cpp|90|224|288|||popflame|good|Jaleco
 popflame|Pop Flamer (protected)|parent|phoenix/naughtyb.cpp|90|224|288||||good|Jaleco
-popnpopu|Pop'n Pop (Ver 2.07A 1998/02/09)|clone|taito/taito_f3.cpp|0|320|232|||popnpop|good|Taito
-popnpopj|Pop'n Pop (Ver 2.07J 1998/02/09)|clone|taito/taito_f3.cpp|0|320|232|||popnpop|good|Taito
-popnpop|Pop'n Pop (Ver 2.07O 1998/02/09)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+popnpopu|Pop'n Pop (Ver 2.07A 1998/02/09)|clone|taito/taito_f3.cpp|0|320|232|||popnpop|good|Taito\F3
+popnpopj|Pop'n Pop (Ver 2.07J 1998/02/09)|clone|taito/taito_f3.cpp|0|320|232|||popnpop|good|Taito\F3
+popnpop|Pop'n Pop (Ver 2.07O 1998/02/09)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 popspops|Pop's Pop's|parent|nmk/nmk16.cpp|0|256|224||||good|Afega
 popeyebl|Popeye (bootleg)|clone|nintendo/popeye.cpp|0|512|448|||popeye|preliminary|
 popeyej|Popeye (Japan, Sky Skipper hardware)|clone|nintendo/popeye.cpp|0|512|448|||popeye|good|Nintendo
@@ -4367,8 +4367,8 @@ sailormnnu|Pretty Soldier Sailor Moon (Version 95/03/22, USA)|clone|misc/cave.cp
 sailormn|Pretty Soldier Sailor Moon (Version 95/03/22B, Europe)|parent|misc/cave.cpp|0|320|240||||good|Banpresto/Gazelle
 sailormnk|Pretty Soldier Sailor Moon (Version 95/03/22B, Korea)|clone|misc/cave.cpp|0|320|240|||sailormn|good|Banpresto/Gazelle
 sailormnu|Pretty Soldier Sailor Moon (Version 95/03/22B, USA)|clone|misc/cave.cpp|0|320|240|||sailormn|good|Banpresto/Gazelle
-prmtmfgt|Prime Time Fighter (Ver 2.1A 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito
-prmtmfgto|Prime Time Fighter (Ver 2.1A 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito
+prmtmfgt|Prime Time Fighter (Ver 2.1A 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito\F3
+prmtmfgto|Prime Time Fighter (Ver 2.1A 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito\F3
 primella|Primella|clone|dooyong/dooyong.cpp|0|384|256|||gundl94|good|Dooyong/NTC
 neoprimo|Primo Demo|parent|||304|224||neogeo||good|iocerom.com
 cprobowl|Pro Bowling (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
@@ -4400,9 +4400,9 @@ oscarj1|Psycho-Nics Oscar (Japan revision 1)|clone|dataeast/dec8.cpp|0|256|240||
 oscarj2|Psycho-Nics Oscar (Japan revision 2)|clone|dataeast/dec8.cpp|0|256|240|||oscar|good|Data East
 oscaru|Psycho-Nics Oscar (US)|clone|dataeast/dec8.cpp|0|256|240|||oscar|good|Data East
 oscar|Psycho-Nics Oscar (World revision 0)|parent|dataeast/dec8.cpp|0|256|240||||good|Data East
-puchicarj|Puchi Carat (Ver 2.02J 1997/10/29)|clone|taito/taito_f3.cpp|0|320|232|||puchicar|good|Taito
-puchicar|Puchi Carat (Ver 2.02O 1997/10/29)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
-puchicaru|Puchi Carat (Ver 2.04A 1997/11/08)|clone|taito/taito_f3.cpp|0|320|232|||puchicar|good|Taito
+puchicarj|Puchi Carat (Ver 2.02J 1997/10/29)|clone|taito/taito_f3.cpp|0|320|232|||puchicar|good|Taito\F3
+puchicar|Puchi Carat (Ver 2.02O 1997/10/29)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
+puchicaru|Puchi Carat (Ver 2.04A 1997/11/08)|clone|taito/taito_f3.cpp|0|320|232|||puchicar|good|Taito\F3
 puckmanb|Puck Man (Bootleg set 1)|clone|pacman/pacman.cpp|90|224|288|||puckman|good|
 puckmanh|Puck Man (bootleg set 2)|clone|pacman/pacman.cpp|90|224|288|||puckman|good|Falcon
 puckman|Puck Man (Japan set 1)|parent|pacman/pacman.cpp|90|224|288||||good|Namco
@@ -4459,18 +4459,18 @@ puzlbang|Puzzle Bang Bang (Korea, version 2.9 / 990108)|clone|misc/vamphalf.cpp|
 pbobble|Puzzle Bobble (Japan, B-System)|clone|taito/taito_b.cpp|0|320|224|||bublbust|good|Taito
 pbobblenb|Puzzle Bobble / Bust-A-Move (Neo-Geo) (bootleg)|clone|neogeo/neogeo.cpp|0|320|224||neogeo|pbobblen|good|neogeo/Taito
 pbobblen|Puzzle Bobble / Bust-A-Move (Neo-Geo) (NGM-083)|parent|neogeo/neogeo.cpp|0|320|224||neogeo||good|neogeo/Taito
-pbobble2j|Puzzle Bobble 2 (Ver 2.2J 1995/07/20)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito
-pbobble2o|Puzzle Bobble 2 (Ver 2.2O 1995/07/20)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito
-pbobble2|Puzzle Bobble 2 (Ver 2.3O 1995/07/31)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+pbobble2j|Puzzle Bobble 2 (Ver 2.2J 1995/07/20)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito\F3
+pbobble2o|Puzzle Bobble 2 (Ver 2.2O 1995/07/20)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito\F3
+pbobble2|Puzzle Bobble 2 (Ver 2.3O 1995/07/31)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 pbobbl2n|Puzzle Bobble 2 / Bust-A-Move Again (Neo-Geo)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/SNK/Taito
-pbobble2x|Puzzle Bobble 2X (Ver 2.2J 1995/11/11)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito
-pbobble3u|Puzzle Bobble 3 (Ver 2.1A 1996/09/27)|clone|taito/taito_f3.cpp|0|320|232|||pbobble3|good|Taito
-pbobble3j|Puzzle Bobble 3 (Ver 2.1J 1996/09/27)|clone|taito/taito_f3.cpp|0|320|232|||pbobble3|good|Taito
-pbobble3|Puzzle Bobble 3 (Ver 2.1O 1996/09/27)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+pbobble2x|Puzzle Bobble 2X (Ver 2.2J 1995/11/11)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito\F3
+pbobble3u|Puzzle Bobble 3 (Ver 2.1A 1996/09/27)|clone|taito/taito_f3.cpp|0|320|232|||pbobble3|good|Taito\F3
+pbobble3j|Puzzle Bobble 3 (Ver 2.1J 1996/09/27)|clone|taito/taito_f3.cpp|0|320|232|||pbobble3|good|Taito\F3
+pbobble3|Puzzle Bobble 3 (Ver 2.1O 1996/09/27)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 pbobble3rc|Puzzle Bobble 3 Recarbonated|clone|taito/taito_f3.cpp|0|320|232|||pbobble3|good|Bank Bank
-pbobble4u|Puzzle Bobble 4 (Ver 2.04A 1997/12/19)|clone|taito/taito_f3.cpp|0|320|232|||pbobble4|good|Taito
-pbobble4j|Puzzle Bobble 4 (Ver 2.04J 1997/12/19)|clone|taito/taito_f3.cpp|0|320|232|||pbobble4|good|Taito
-pbobble4|Puzzle Bobble 4 (Ver 2.04O 1997/12/19)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+pbobble4u|Puzzle Bobble 4 (Ver 2.04A 1997/12/19)|clone|taito/taito_f3.cpp|0|320|232|||pbobble4|good|Taito\F3
+pbobble4j|Puzzle Bobble 4 (Ver 2.04J 1997/12/19)|clone|taito/taito_f3.cpp|0|320|232|||pbobble4|good|Taito\F3
+pbobble4|Puzzle Bobble 4 (Ver 2.04O 1997/12/19)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 pzlbreak|Puzzle Break (set 1)|parent|kaneko/snowbros.cpp|0|256|224||||good|SemiCom/Tirano
 pzlbreaka|Puzzle Break (set 2)|clone|kaneko/snowbros.cpp|0|256|224|||pzlbreak|good|SemiCom/Tirano
 puzlclub|Puzzle Club (Japan prototype)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
@@ -4549,7 +4549,7 @@ quizdaisk|Quiz Salibtamjeong - The Last Count Down (Korean localized Quiz Daisou
 qsangoku|Quiz Sangokushi (Japan)|parent|capcom/mitchell.cpp|0|384|240||||good|Capcom
 qzshowby|Quiz Sekai wa SHOW by shobai (Japan)|parent|taito/taito_b.cpp|0|320|224||||good|Taito
 qsww|Quiz Syukudai wo Wasuremashita (Japan, Floppy Based, FD1094 317-0058-08b)|parent|sega/segas24.cpp|0|496|384||||good|Sega
-qtheater|Quiz Theater - 3tsu no Monogatari (Ver 2.3J 1994/11/10)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+qtheater|Quiz Theater - 3tsu no Monogatari (Ver 2.3J 1994/11/10)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 qtono1|Quiz Tonosama no Yabou (Japan)|parent|capcom/mitchell.cpp|0|384|240||||good|Capcom
 qtono2j|Quiz Tonosama no Yabou 2: Zenkoku-ban (Japan 950123)|parent|capcom/cps1.cpp|0|384|224||||good|Capcom\CPS1
 qtorimon|Quiz Torimonochou (Japan)|parent|taito/taito_f2.cpp|0|320|224||||good|Taito
@@ -4717,8 +4717,8 @@ rastsaga|Rastan Saga (Japan Rev 1)|clone|taito/rastan.cpp|0|320|240|||rastan|goo
 rastsagaa|Rastan Saga (Japan Rev 1, Earlier code base)|clone|taito/rastan.cpp|0|320|240|||rastan|good|Taito
 rastsagab|Rastan Saga (Japan, Earlier code base)|clone|taito/rastan.cpp|0|320|240|||rastan|good|Taito
 rastsag2|Rastan Saga 2 (Japan)|clone|taito/taito_b.cpp|0|320|224|||nastar|good|Taito
-rayforce|Ray Force (Ver 2.3A 1994/01/20)|clone|taito/taito_f3.cpp|90|224|320|||gunlock|good|Taito
-rayforcej|Ray Force (Ver 2.3J 1994/01/20)|clone|taito/taito_f3.cpp|90|224|320|||gunlock|good|Taito
+rayforce|Ray Force (Ver 2.3A 1994/01/20)|clone|taito/taito_f3.cpp|90|224|320|||gunlock|good|Taito\F3
+rayforcej|Ray Force (Ver 2.3J 1994/01/20)|clone|taito/taito_f3.cpp|90|224|320|||gunlock|good|Taito\F3
 razmataz|Razzmatazz|parent|sega/zaxxon.cpp|90|224|256||||preliminary|Sega
 reactor|Reactor|parent|gottlieb/gottlieb.cpp|0|256|240||||good|Gottlieb
 reaktor|Reaktor (Track & Field conversion)|parent|konami/trackfld.cpp|90|224|256||||good|Zilec
@@ -4733,7 +4733,7 @@ rbff2bh|Real Bout Fatal Fury 2 - The Newcomers / Real Bout Garou Densetsu 2 - th
 rbffspbh|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special (Boss Hack)|clone|neogeo/neogeo.cpp|0|320|224||neogeo|rbffspec|good|neogeo
 rbffspeck|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special (Korean release)|clone|neogeo/neogeo.cpp|0|320|224||neogeo|rbffspec|good|neogeo/SNK
 rbffspec|Real Bout Fatal Fury Special / Real Bout Garou Densetsu Special|parent|neogeo/neogeo.cpp|0|320|224||neogeo||good|neogeo/SNK
-recalh|Recalhorn (Ver 1.42J 1994/5/11) (Prototype)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
+recalh|Recalhorn (Ver 1.42J 1994/5/11) (Prototype)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 recordbr|Recordbreaker (World)|parent|taito/taito_h.cpp|0|320|240||||good|Taito
 redbaron|Red Baron (Revised Hardware)|parent|atari/bzone.cpp|0|640|480||||good|Atari
 redbarona|Red Baron|clone|atari/bzone.cpp|0|640|480|||redbaron|good|Atari
@@ -4779,9 +4779,9 @@ rezon|Rezon|parent|seta/seta.cpp|0|384|240||||good|Allumer
 ribbitj|Ribbit! (Japan)|clone|sega/segac2.cpp|0|320|224|||ribbit|good|Sega
 ribbit|Ribbit!|parent|sega/segac2.cpp|0|320|224||||good|Sega
 ridleofp|Riddle of Pythagoras (Japan)|parent|sega/segae.cpp|90|192|240||||good|Nasco/Sega
-ridingfu|Riding Fight (Ver 1.0A)|clone|taito/taito_f3.cpp|0|320|224|||ridingf|good|Taito
-ridingfj|Riding Fight (Ver 1.0J)|clone|taito/taito_f3.cpp|0|320|224|||ridingf|good|Taito
-ridingf|Riding Fight (Ver 1.0O)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+ridingfu|Riding Fight (Ver 1.0A)|clone|taito/taito_f3.cpp|0|320|224|||ridingf|good|Taito\F3
+ridingfj|Riding Fight (Ver 1.0J)|clone|taito/taito_f3.cpp|0|320|224|||ridingf|good|Taito\F3
+ridingf|Riding Fight (Ver 1.0O)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 ridhero|Riding Hero (NGM-006 ~ NGH-006)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/SNK
 ridheroh|Riding Hero (set 2)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|ridhero|good|neogeo/SNK
 ringfgt|Ring Fighter (set 1)|clone|taito/tsamurai.cpp|90|224|256|||vsgongf|good|Kaneko/Taito
@@ -4796,9 +4796,9 @@ ringdestb|Ring of Destruction - slammasters II (940902 Brazil)|clone|capcom/cps2
 ringdstd|Ring of Destruction - slammasters II (940902 Euro Phoenix Edition)|clone|capcom/cps2.cpp|0|384|224|||ringdest|good|
 ringdest|Ring of Destruction - slammasters II (940902 Euro)|parent|capcom/cps2.cpp|0|384|224||||good|Capcom\CPS2
 ringdesth|Ring of Destruction - slammasters II (940902 Hispanic)|clone|capcom/cps2.cpp|0|384|224|||ringdest|good|Capcom\CPS2
-ringrageu|Ring Rage (Ver 2.3A 1992/08/09)|clone|taito/taito_f3.cpp|0|320|224|||ringrage|good|Taito
-ringragej|Ring Rage (Ver 2.3J 1992/08/09)|clone|taito/taito_f3.cpp|0|320|224|||ringrage|good|Taito
-ringrage|Ring Rage (Ver 2.3O 1992/08/09)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+ringrageu|Ring Rage (Ver 2.3A 1992/08/09)|clone|taito/taito_f3.cpp|0|320|224|||ringrage|good|Taito\F3
+ringragej|Ring Rage (Ver 2.3J 1992/08/09)|clone|taito/taito_f3.cpp|0|320|224|||ringrage|good|Taito\F3
+ringrage|Ring Rage (Ver 2.3O 1992/08/09)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 riotw|Riot (Woong Bi license)|clone|tecmo/tecmo16.cpp|0|256|224|||riot|good|Woong Bi
 riotcity|Riot City (Japan)|parent|sega/segas16b.cpp|0|320|224||||good|Sega\System16/Westone
 riot|Riot|parent|tecmo/tecmo16.cpp|0|256|224||||good|NMK
@@ -5322,8 +5322,8 @@ spacegunu|Space Gun (US)|clone|taito/taito_z.cpp|0|320|240|||spacegun|good|Taito
 spacegun|Space Gun (World)|parent|taito/taito_z.cpp|0|320|240||||good|Taito
 sharrier1|Space Harrier (8751 315-5163)|clone|sega/segahang.cpp|0|320|224|||sharrier|good|Sega
 sharrier|Space Harrier (Rev A, 8751 315-5163A)|parent|sega/segahang.cpp|0|320|224||||good|Sega
-spcinv95u|Space Invaders '95: The Attack Of Lunar Loonies (Ver 2.5A 1995/06/14)|clone|taito/taito_f3.cpp|270|224|320|||spcinv95|good|Taito
-spcinv95|Space Invaders '95: The Attack Of Lunar Loonies (Ver 2.5O 1995/06/14)|parent|taito/taito_f3.cpp|270|224|320||||good|Taito
+spcinv95u|Space Invaders '95: The Attack Of Lunar Loonies (Ver 2.5A 1995/06/14)|clone|taito/taito_f3.cpp|270|224|320|||spcinv95|good|Taito\F3
+spcinv95|Space Invaders '95: The Attack Of Lunar Loonies (Ver 2.5O 1995/06/14)|parent|taito/taito_f3.cpp|270|224|320||||good|Taito\F3
 sisv1|Space Invaders (SV Version rev 1)|clone|midw8080/8080bw.cpp|270|224|260|||invaders|preliminary|Taito
 sisv2|Space Invaders (SV Version rev 2)|clone|midw8080/8080bw.cpp|270|224|260|||invaders|good|Taito
 sisv3|Space Invaders (SV Version rev 3)|clone|midw8080/8080bw.cpp|270|224|260|||invaders|good|Taito
@@ -5334,7 +5334,7 @@ invaders|Space Invaders / Space Invaders M|parent|midw8080/mw8080bw.cpp|270|224|
 spacedxo|Space Invaders DX (Japan, v2.0)|clone|taito/taito_b.cpp|0|320|224|||spacedx|good|Taito
 spacedxj|Space Invaders DX (Japan, v2.1)|clone|taito/taito_b.cpp|0|320|224|||spacedx|good|Taito
 spacedx|Space Invaders DX (US, v2.1)|parent|taito/taito_b.cpp|0|320|224||||good|Taito
-spcinvdj|Space Invaders DX (Ver 2.6J 1994/09/14) (F3 Version)|clone|taito/taito_f3.cpp|0|320|232|||spacedx|good|Taito
+spcinvdj|Space Invaders DX (Ver 2.6J 1994/09/14) (F3 Version)|clone|taito/taito_f3.cpp|0|320|232|||spacedx|good|Taito\F3
 galap1|Space Invaders Galactica (galaxiaj hack)|clone|galaxian/galaxian.cpp|90|224|256|||galaxian|good|
 sinvasnb|Space Invasion (bootleg)|clone|capcom/commando.cpp|270|224|256|||commando|good|
 sinvasn|Space Invasion (Europe)|clone|capcom/commando.cpp|270|224|256|||commando|good|Capcom
@@ -5768,9 +5768,9 @@ scontra|Super Contra|parent|konami/thunderx.cpp|90|224|304||||good|Konami
 supcrash|Super Crash (bootleg of Head On)|clone|sega/vicdual.cpp|0|256|224|||headon|good|VGG
 sprcros2|Super Cross II (Japan, set 1)|parent|misc/sprcros2.cpp|0|240|224||||good|GM Shoji
 sprcros2a|Super Cross II (Japan, set 2)|clone|misc/sprcros2.cpp|0|240|224|||sprcros2|good|GM Shoji
-scfinalsoc|Super Cup Finals (Ver 2.1O 1993/11/19, F3 Cartridge)|clone|taito/taito_f3.cpp|0|320|224|||scfinals|good|Taito
-scfinalso|Super Cup Finals (Ver 2.1O 1993/11/19, single PCB)|clone|taito/taito_f3.cpp|0|320|224|||scfinals|good|Taito
-scfinals|Super Cup Finals (Ver 2.2O 1994/01/13, single PCB)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+scfinalsoc|Super Cup Finals (Ver 2.1O 1993/11/19, F3 Cartridge)|clone|taito/taito_f3.cpp|0|320|224|||scfinals|good|Taito\F3
+scfinalso|Super Cup Finals (Ver 2.1O 1993/11/19, single PCB)|clone|taito/taito_f3.cpp|0|320|224|||scfinals|good|Taito\F3
+scfinals|Super Cup Finals (Ver 2.2O 1994/01/13, single PCB)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 sderby|Super Derby (Playmark, v.07.03)|parent|playmark/sderby.cpp|0|320|240||||good|Playmark
 sderbya|Super Derby (Playmark, v.10.04)|clone|playmark/sderby.cpp|0|320|240|||sderby|good|Playmark
 spdodgeb|Super Dodge Ball (US)|parent|technos/spdodgeb.cpp|0|256|240||||good|Technos
@@ -5986,8 +5986,8 @@ hotgmck3|Taisen Hot Gimmick 3 Digital Surfing (Japan)|parent|psikyo/psikyo4.cpp|
 hotgm4ev|Taisen Hot Gimmick 4 Ever (Japan)|parent|psikyo/psikyo4.cpp|0|640|224||||good|Psikyo
 hgkairak|Taisen Hot Gimmick Kairakuten (Japan)|parent|psikyo/psikyo4.cpp|0|640|224||||good|Psikyo
 karatevs|Taisen Karate Dou (Japan VS version)|clone|dataeast/kchamp.cpp|90|224|256|||kchamp|good|Data East
-cupfinal|Taito Cup Finals (Ver 1.0O 1993/02/28)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
-pwrgoal|Taito Power Goal (Ver 2.5O 1994/11/03)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+cupfinal|Taito Cup Finals (Ver 1.0O 1993/02/28)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
+pwrgoal|Taito Power Goal (Ver 2.5O 1994/11/03)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 tshingena|Takeda Shingen (Japan, Japanese)|clone|jaleco/megasys1.cpp|0|256|224|||tshingen|good|Jaleco
 tangtang|Tang Tang (ver. 0526, 26/05/2000)|parent|misc/esd16.cpp|0|320|240||||good|ESD
 tankbust|Tank Busters|parent|valadon/tankbust.cpp|90|240|320||||good|Valadon Automation
@@ -6502,10 +6502,10 @@ tophuntrh|Top Hunter - Roddy & Cathy (NGH-046)|clone|neogeo/neogeo.cpp|0|320|224
 tophuntr|Top Hunter - Roddy & Cathy (NGM-046)|parent|neogeo/neogeo.cpp|0|320|224||neogeo||good|neogeo/SNK
 tpgolf|Top Player's Golf (NGM-003 ~ NGH-003)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/SNK
 drivfrct|Top Racer (bootleg of Driving Force)|clone|galaxian/galaxold.cpp|90|224|256|||drivfrcp|good|EMT Germany
-trstarj|Top Ranking Stars (Ver 2.1J 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito
-trstaroj|Top Ranking Stars (Ver 2.1J 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito
-trstar|Top Ranking Stars (Ver 2.1O 1993/05/21) (New Version)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito
-trstaro|Top Ranking Stars (Ver 2.1O 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito
+trstarj|Top Ranking Stars (Ver 2.1J 1993/05/21) (New Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito\F3
+trstaroj|Top Ranking Stars (Ver 2.1J 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito\F3
+trstar|Top Ranking Stars (Ver 2.1O 1993/05/21) (New Version)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
+trstaro|Top Ranking Stars (Ver 2.1O 1993/05/21) (Old Version)|clone|taito/taito_f3.cpp|0|320|232|||trstar|good|Taito\F3
 topsecex|Top Secret (Exidy) (version 1.0)|parent|exidy/exidy440.cpp|0|320|238||||good|Exidy
 topsecrt|Top Secret (Japan, old revision)|clone|capcom/bionicc.cpp|0|256|224|||bionicc|good|Capcom
 topsecrt2|Top Secret (Japan, revision B)|clone|capcom/bionicc.cpp|0|256|224|||bionicc|good|Capcom
@@ -6643,14 +6643,14 @@ twinbrata|Twin Brats (set 2)|clone|edevices/stlforce.cpp|0|334|240|||twinbrat|go
 twinbratb|Twin Brats (set 3)|clone|edevices/stlforce.cpp|0|334|240|||twinbrat|good|Elettronica Video-Games
 twincobru|Twin Cobra (US)|clone|toaplan/twincobr.cpp|270|240|320|||twincobr|good|Romstar/Taito/Toaplan
 twincobr|Twin Cobra (World)|parent|toaplan/twincobr.cpp|270|240|320||||good|Taito/Toaplan
-tcobra2u|Twin Cobra II (Ver 2.1A 1995/11/30)|clone|taito/taito_f3.cpp|270|232|320|||tcobra2|good|Taito
-tcobra2|Twin Cobra II (Ver 2.1O 1995/11/30)|parent|taito/taito_f3.cpp|270|232|320||||good|Taito
+tcobra2u|Twin Cobra II (Ver 2.1A 1995/11/30)|clone|taito/taito_f3.cpp|270|232|320|||tcobra2|good|Taito\F3
+tcobra2|Twin Cobra II (Ver 2.1O 1995/11/30)|parent|taito/taito_f3.cpp|270|232|320||||good|Taito\F3
 twineagl|Twin Eagle - Revenge Joe's Brother|parent|seta/downtown.cpp|270|224|384||||good|Seta/Taito
 twineag2|Twin Eagle II - The Rescue Mission|parent|seta/ssv.cpp|270|240|336||||good|Seta
 twinfalc|Twin Falcons|parent|capcom/sidearms.cpp|0|384|224||||good|Philko/Poara Enterprises
 twinhawku|Twin Hawk (US)|clone|taito/taito_x.cpp|270|224|384|||twinhawk|good|Taito
 twinhawk|Twin Hawk (World)|parent|taito/taito_x.cpp|270|224|384||||good|Taito
-twinqix|Twin Qix (Ver 1.0A 1995/01/17) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito
+twinqix|Twin Qix (Ver 1.0A 1995/01/17) (Prototype)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
 twinqixjh|Twin Qix Japan (Ver 1.0A 1995/01/17) (Hack)|clone|taito/taito_f3.cpp|0|320|224|||twinqix|good|
 twinsqua|Twin Squash|parent|sega/segac2.cpp|0|320|224||||good|Sega
 twinbeeb|TwinBee (Bubble System)|clone|konami/nemesis.cpp|90|224|256|||twinbee|good|Konami

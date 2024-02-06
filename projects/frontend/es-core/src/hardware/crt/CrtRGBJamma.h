@@ -33,7 +33,7 @@ class CrtRGBJamma : public ICrtInterface
 
     //! Return select output frequency
     HorizontalFrequency GetHorizontalFrequency() const override {
-      return MultiSyncEnabled()? ICrtInterface::HorizontalFrequency::KHzMulti :
+      return MultiSyncEnabled() ? ICrtInterface::HorizontalFrequency::KHzMulti :
       (CrtConf::Instance().GetSystemCRTScreen31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15);
     }
 

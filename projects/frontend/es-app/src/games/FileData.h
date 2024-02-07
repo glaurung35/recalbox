@@ -32,6 +32,7 @@ class FileData
       Adult         = 0x00000010,
       Preinstalled  = 0x00000020,
       NotAGame      = 0x00000040,
+      Board         = 0x00000080,
     };
 
     //! Game filters
@@ -45,7 +46,8 @@ class FileData
       NotLatest    = 16,
       NoGame       = 32,
       PreInstalled = 64,
-      All      = 127, //!< Include all
+      Board        = 128,
+      All          = 255, //!< Include all
     };
 
     //! Search attribute enumeration

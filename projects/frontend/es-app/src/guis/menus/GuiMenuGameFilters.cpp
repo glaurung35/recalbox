@@ -24,6 +24,8 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemManager& sys
 
   AddSwitch(_("SHOW HIDDEN GAMES"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_UI_SHOW_HIDDEN_MSG));
 
+  AddSwitch(_("HIDE BOARD GAMES (MAHJONG)"), RecalboxConf::Instance().GetHideBoardGames(), (int)Components::BoardGames, this, _(MENUMESSAGE_UI_HIDE_BOARD_GAMES_MSG));
+
   AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::Adult, this, _(MENUMESSAGE_UI_HIDE_ADULT_MSG));
 
   AddSwitch(_("HIDE PREINSTALLED GAMES"), RecalboxConf::Instance().GetGlobalHidePreinstalled(), (int)Components::HidePreinstalled, this, _(MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG));
@@ -83,6 +85,19 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool& status)
       {
         mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
         RecalboxConf::Instance().SetFilterAdultGames(!status);
+        status = !status;
+      }
+      break;
+    }
+    case Components::BoardGames:
+    {
+      RecalboxConf::Instance().SetHideBoardGames(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+        RecalboxConf::Instance().Save();
+      else
+      {
+        mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
+        RecalboxConf::Instance().SetHideBoardGames(!status);
         status = !status;
       }
       break;

@@ -5,6 +5,8 @@
 #include <utils/locale/LocaleHelper.h>
 #include "EmulatorManager.h"
 
+HashMap<Path, IniFile*> EmulatorManager::sCachedOverrides;
+
 bool EmulatorManager::GetDefaultEmulator(const SystemData& system, String& emulator, String& core)
 {
   { LOG(LogTrace) << "[Emulator] Get default system's emulator for " << system.FullName(); }
@@ -211,7 +213,7 @@ bool EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
   int start = game.IsRoot() ? count : game.TopAncestor().RomPath().ItemCount();
   for (int i = start; i <= count; ++i)
   {
-    IniFile configuration(Path(path.UptoItem(i)) / ".recalbox.conf", false, false);
+    const IniFile& configuration = GetOverride(Path(path.UptoItem(i)) / ".recalbox.conf");
     if (configuration.IsValid())
     {
       // Get values
@@ -229,20 +231,24 @@ bool EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
   }
 
   // Get file config
-  IniFile configuration(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"), false, false);
-  if (configuration.IsValid())
+  Path romOverride(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"));
+  if (romOverride.Exists())
   {
-    // Get values
-    String globalEmulator = configuration.AsString("global.emulator");
-    String systemEmulator = configuration.AsString(keyEmulator);
-    String globalCore = configuration.AsString("global.core");
-    String systemCore = configuration.AsString(keyCore);
+    const IniFile fileConfiguration(romOverride, false, false);
+    if (fileConfiguration.IsValid())
+    {
+      // Get values
+      String globalEmulator = fileConfiguration.AsString("global.emulator");
+      String systemEmulator = fileConfiguration.AsString(keyEmulator);
+      String globalCore = fileConfiguration.AsString("global.core");
+      String systemCore = fileConfiguration.AsString(keyCore);
 
-    // Record non empty values
-    if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
-    if (!globalCore.empty()    ) rawGlobalCore     = globalCore;
-    if (!systemEmulator.empty()) rawSystemEmulator = systemEmulator;
-    if (!systemCore.empty()    ) rawSystemCore     = systemCore;
+      // Record non empty values
+      if (!globalEmulator.empty()) rawGlobalEmulator = globalEmulator;
+      if (!globalCore.empty()) rawGlobalCore = globalCore;
+      if (!systemEmulator.empty()) rawSystemEmulator = systemEmulator;
+      if (!systemCore.empty()) rawSystemCore = systemCore;
+    }
   }
 
   // Get final tupple
@@ -406,4 +412,16 @@ void EmulatorManager::PatchNames(String& emulator, String& core)
 {
   if (emulator == "libretro")
     if (core == "duckstation") core = "swanstation";
+}
+
+const IniFile& EmulatorManager::GetOverride(const Path& path)
+{
+  if (path.Exists())
+  {
+      IniFile** ini = sCachedOverrides.try_get(path);
+      if (ini != nullptr) return **ini;
+      return *(sCachedOverrides[path] = new IniFile(path, false, false));
+  }
+  static IniFile empty(Path(), false, false);
+  return empty;
 }

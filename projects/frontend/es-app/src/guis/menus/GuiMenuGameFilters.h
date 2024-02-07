@@ -26,6 +26,7 @@ class GuiMenuGameFilters : public GuiMenuBase
       HidePreinstalled,
       NoGames,
       ShowOnlyLatestVersion,
+      BoardGames,
     };
 
     //! System manager reference

@@ -12,6 +12,7 @@
 #include <guis/MenuMessages.h>
 #include <LibretroRatio.h>
 #include "GuiMenuTools.h"
+#include "views/ViewController.h"
 
 GuiMenuSystemConfiguration::GuiMenuSystemConfiguration(WindowManager& window, SystemData& system, SystemManager& systemManager, AdvancedMenuOptions options)
   : GuiMenuBase(window, system.FullName(), nullptr)
@@ -108,15 +109,19 @@ void GuiMenuSystemConfiguration::OptionListComponentChanged(int id, int index, c
     case Components::Emulator:
     {
       // Split emulator & core
-      String emulator, core;
+      String emulator;
+      String core;
       if (value.Extract(':', emulator, core, false))
       {
+        // Set emulator/core
         if (emulator == mDefaultEmulator && core == mDefaultCore)
           RecalboxConf::Instance().SetSystemEmulator(mSystem, "")
                                   .SetSystemCore(mSystem, "").Save();
         else
           RecalboxConf::Instance().SetSystemEmulator(mSystem, emulator)
                                   .SetSystemCore(mSystem, core).Save();
+        // Force refresh of gamelist
+        ViewController::Instance().ForceGamelistRefresh(mSystem);
       }
       else { LOG(LogError) << "[SystemConfigurationGui] Error splitting emulator and core!"; }
       break;

@@ -291,8 +291,8 @@ void ArcadeDatabaseManager::AssignNames()
                   game.Metadata().SetName(arcadeGame->ArcadeName());
       }
   } Rename(mDatabases);
-  if (mSystem.Name() == "atomiswave")
-    mSystem.MasterRoot().ParseAllItems(Rename);
+
+  mSystem.MasterRoot().ParseAllItems(Rename);
 }
 
 const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase() const
@@ -313,7 +313,7 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
   coreName.clear();
   if (EmulatorManager::GetGameEmulator(folder, emulatorName, coreName))
   {
-    ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
+    ArcadeDatabase** database = mDatabases.try_get(String(emulatorName).Append('|').Append(coreName));
     if (database != nullptr) return *database;
   }
   return nullptr;

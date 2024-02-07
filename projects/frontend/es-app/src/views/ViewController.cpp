@@ -1072,3 +1072,9 @@ void ViewController::Completed(const DelayedSystemOperationData& parameter, cons
     parameter.mSlowIMethodInterface->SlowPopulateCompleted(parameter.mSystemList, parameter.autoSelectMonoSystem);
 }
 
+void ViewController::ForceGamelistRefresh(SystemData& data)
+{
+  if (mGameListViews.contains(&data))
+    mGameListViews[&data]->refreshList();
+}
+

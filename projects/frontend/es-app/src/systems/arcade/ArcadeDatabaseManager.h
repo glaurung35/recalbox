@@ -91,6 +91,41 @@ class ArcadeDatabaseManager
     //! Manufacturer limit
     static constexpr int sManufacturerLimits = 21; // 20 + special all-remaining-manufacturers at index 0
 
+    //! Game storage
+    class GamePackage
+    {
+      public:
+        GamePackage()
+          : mCount(0)
+          , mGames(nullptr)
+        {
+        }
+
+        //! Get count
+        [[nodiscard]] int Count() const { return mCount; }
+
+        //! Get games
+        [[nodiscard]] FileData* Game(int index) const { return (unsigned int)index < (unsigned int)sMaxGame ? mGames[index] : nullptr; }
+
+        //! Add games
+        void Add(FileData* game)
+        {
+          if (mCount >= sMaxGame) { LOG(LogError) << "[GamePackage] Game storage full!"; }
+          else mGames[mCount++] = game;
+        }
+
+      private:
+        //! Maximum game storage
+        static constexpr int sMaxGame = 4;
+        //! Actual game count
+        int mCount;
+        //! Game pointers
+        FileData* mGames[sMaxGame];
+    };
+
+    //! Map type
+    typedef HashMap<String, GamePackage> ZipToGamesMap;
+
     //! Raw Manufacturer structure
     struct RawManufacturer
     {
@@ -131,7 +166,7 @@ class ArcadeDatabaseManager
      * @param drivers raw driver map used in loading process
      * @param nextDriverIndex next driver index
      */
-    static void DeserializeTo(Array<ArcadeGame>& games, const String& line, const HashMap<String, FileData*>& map,
+    static void DeserializeTo(Array<ArcadeGame>& games, const String& line, const ZipToGamesMap& map,
                               ManufacturerMap& manufacturerMap, const HashSet<String>& ignoreDrivers, int& nextDriverIndex);
 
     /*!

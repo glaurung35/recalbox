@@ -652,6 +652,8 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::PreInstalled;
   if (!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
     currentExcludes |= Filter::Adult;
+  if (fd->Metadata().GenreId() == GameGenres::Board)
+    currentExcludes |= Filter::Board;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }

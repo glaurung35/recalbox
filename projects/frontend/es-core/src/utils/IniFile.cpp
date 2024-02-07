@@ -19,7 +19,6 @@ IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bo
 
 IniFile::IniFile(const Path& path, bool extraSpace, bool autoBackup)
   : mFilePath(path)
-  , mFallbackFilePath()
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
   , mValid(Load())

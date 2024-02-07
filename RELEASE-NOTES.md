@@ -4,6 +4,17 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-jamma-28
+
+- Ajout des systemes SEGA System 32, SEGA System 16, Psikyo et Taito F3
+- Chaque joueur peut choisir son layout neogeo
+- Correction du mode d'affichage des videos qui désynchronisait sur certaines bornes sensibles au hsync un peu haut
+- Ajout d'une superrez pour le 31kHz pour ameliorer la qualité des jeux 240p qui tournent en 31kHz
+- Heavy scanlines par defaut
+- Correction des drapeaux pour les jeux arcade et consoles
+- Nouveaux bootloaders a mettre a jour sur pi5 et pi4
+- Ecran de calibrage corrigé (a tester en 15 31 et multisync)
+
 ## Version 9.2-Pulstar
 
 ### Hardware

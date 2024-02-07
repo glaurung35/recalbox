@@ -74,7 +74,7 @@ class GuiBiosScan : public Gui, public IBiosScanReporting
     //! Detail: Core label
     std::shared_ptr<TextComponent> mDetailCoreLabel;
     //! Detail: Core names
-    std::shared_ptr<TextComponent> mDetailCoreValue;
+    std::shared_ptr<TextScrollComponent> mDetailCoreValue;
     //! Detail: Path label
     std::shared_ptr<TextComponent> mDetailPathLabel;
     //! Detail: Path value

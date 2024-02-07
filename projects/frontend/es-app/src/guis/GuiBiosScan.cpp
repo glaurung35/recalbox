@@ -115,7 +115,7 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mDetailSystemLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailSystemValue = std::make_shared<TextScrollComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailCoreLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
-  mDetailCoreValue = std::make_shared<TextComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
+  mDetailCoreValue = std::make_shared<TextScrollComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailPathLabel = std::make_shared<TextComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);
   mDetailPathValue = std::make_shared<TextScrollComponent>(window, "", mBoldCondensed, menuTheme->menuTextSmall.color, TextAlignment::Left);
   mDetailMandatoryLabel = std::make_shared<TextScrollComponent>(window, "", menuTheme->menuTextSmall.font, menuTheme->menuTextSmall.color, TextAlignment::Right);

@@ -86,6 +86,13 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void goToQuitScreen();
 
     /*!
+     * @brief Force the gamelist associated to the given system to refresh
+     * If the gamelist doesn't exist, no refresh is performed
+     * @param data Target system
+     */
+    void ForceGamelistRefresh(SystemData& data);
+
+    /*!
      * @brief Set the previous vue back - Only once!
      */
     void BackToPreviousView();

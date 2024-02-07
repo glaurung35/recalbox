@@ -63,19 +63,19 @@ ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase([[maybe_unused]] const S
   }
 
   // Setup romname => FileData map for fast lookup
-  HashMap<String, FileData*> map;
+  ZipToGamesMap map;
   class MapBuilder : public IParser
   {
     private:
-      HashMap<String, FileData*>* mMap;
+      ZipToGamesMap& mMap;
 
     public:
-      explicit MapBuilder(HashMap<String, FileData*>& map) : mMap(&map) {}
+      explicit MapBuilder(ZipToGamesMap& map) : mMap(map) {}
 
       void Parse(FileData& game) override
       {
         if (game.IsGame())
-          mMap->insert_unique(game.Metadata().RomFileOnly().FilenameWithoutExtension(), &game);
+          mMap[game.Metadata().RomFileOnly().FilenameWithoutExtension()].Add(&game);
       }
   } Mapper(map);
   mSystem.MasterRoot().ParseAllItems(Mapper);
@@ -103,7 +103,7 @@ ArcadeDatabase* ArcadeDatabaseManager::LoadFlatDatabase([[maybe_unused]] const S
   return new ArcadeDatabase(std::move(finalDrivers.mRaw), std::move(finalDrivers.mLimited), std::move(games));
 }
 
-void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String& line, const HashMap<String, FileData*>& map,
+void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String& line, const ZipToGamesMap& map,
                                           ManufacturerMap& manufacturerMap, const HashSet<String>& ignoreDrivers, int& nextDriverIndex)
 {
   // Field positions
@@ -130,13 +130,11 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   { LOG(LogError) << "[Arcade] Invalid line: " << line; return; }
 
   // Try to lookup game
-  FileData** fileData = map.try_get(fields[fZip]);
-  if (fileData == nullptr) return; // This game is not in the rom folders
-  FileData* realGame = *fileData;
+  GamePackage* package = map.try_get(fields[fZip]);
+  if (package == nullptr) return; // This game is not in the rom folders
 
-  // Parent?
-  FileData** parentNull = map.try_get(fields[fParent]);
-  FileData* parent = parentNull != nullptr ? *parentNull : nullptr;
+  // Lookup parent
+  GamePackage* parentPackage = map.try_get(fields[fParent]);
 
   // Raw manufacturer
   ArcadeGame::RawManufacturerHolder rawManufacturers;
@@ -178,13 +176,31 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
   }
 
   // Data
-  ArcadeGame::Rotation rotation = ArcadeGame::RotationFromString(fields[fRotation]);
-  ArcadeGame::Type type = ArcadeGame::TypeFromString(fields[fType], parent != nullptr);
-  ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
-  unsigned short width = fields[fWidth].AsInt();
-  unsigned short height = fields[fHeight].AsInt();
+  for(int i = package->Count(); --i >= 0;)
+  {
+    // Get raw game
+    FileData* realGame = package->Game(i);
 
-  games.Add(ArcadeGame(realGame, parent, fields[fName], rawManufacturers, type, status, rotation, width, height));
+    // Lookup parent
+    FileData* parent = nullptr;
+    Path childFolder(realGame->Metadata().RomFolderOnly());
+    if (parentPackage != nullptr)
+      for(int p = parentPackage->Count(); --p >= 0;)
+        if (parentPackage->Game(p)->Metadata().RomFolderOnly() == childFolder)
+        {
+          parent = parentPackage->Game(p);
+          break;
+        }
+
+    // Get game data
+    ArcadeGame::Rotation rotation = ArcadeGame::RotationFromString(fields[fRotation]);
+    ArcadeGame::Type type = ArcadeGame::TypeFromString(fields[fType], parent != nullptr);
+    ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
+    unsigned short width = fields[fWidth].AsInt();
+    unsigned short height = fields[fHeight].AsInt();
+
+    games.Add(ArcadeGame(realGame, parent, fields[fName], rawManufacturers, type, status, rotation, width, height));
+  }
   //lookups.insert(realGame, &games(games.Count() - 1));
 }
 
@@ -291,8 +307,8 @@ void ArcadeDatabaseManager::AssignNames()
                   game.Metadata().SetName(arcadeGame->ArcadeName());
       }
   } Rename(mDatabases);
-  if (mSystem.Name() == "atomiswave")
-    mSystem.MasterRoot().ParseAllItems(Rename);
+
+  mSystem.MasterRoot().ParseAllItems(Rename);
 }
 
 const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase() const
@@ -313,7 +329,7 @@ const ArcadeDatabase* ArcadeDatabaseManager::LookupDatabase(const FolderData& fo
   coreName.clear();
   if (EmulatorManager::GetGameEmulator(folder, emulatorName, coreName))
   {
-    ArcadeDatabase** database = mDatabases.try_get(emulatorName.Append('|').Append(coreName));
+    ArcadeDatabase** database = mDatabases.try_get(String(emulatorName).Append('|').Append(coreName));
     if (database != nullptr) return *database;
   }
   return nullptr;

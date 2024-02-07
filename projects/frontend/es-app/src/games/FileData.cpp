@@ -100,6 +100,7 @@ bool FileData::IsDisplayable(TopLevelFilter topfilter) const
   if ((topfilter & TopLevelFilter::Tate         ) != 0 && mMetadata.Rotation() == RotationType::None) return false;
   if ((topfilter & TopLevelFilter::LatestVersion) != 0 && !mMetadata.LatestVersion()                ) return false;
   if ((topfilter & TopLevelFilter::NotAGame     ) != 0 && mMetadata.NoGame()                        ) return false;
+  if ((topfilter & TopLevelFilter::Board        ) != 0 && mMetadata.GenreId() == GameGenres::Board  ) return false;
 
   return true;
 }
@@ -116,6 +117,7 @@ FileData::TopLevelFilter FileData::BuildTopLevelFilter()
   if (conf.GetTateOnly()              ) result |= TopLevelFilter::Tate;
   if (conf.GetShowOnlyLatestVersion() ) result |= TopLevelFilter::LatestVersion;
   if (conf.GetHideNoGames()           ) result |= TopLevelFilter::NotAGame;
+  if (conf.GetHideBoardGames()        ) result |= TopLevelFilter::Board;
 
   return result;
 }

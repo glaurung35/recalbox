@@ -567,6 +567,9 @@ FileData::Filter SystemData::Excludes() const
   // ignore no games ?
   if(conf.GetHideNoGames())
     excludesFilter |= FileData::Filter::NoGame;
+  // ignore board games ?
+  if(conf.GetHideBoardGames())
+    excludesFilter |= FileData::Filter::Board;
   return excludesFilter;
 }
 

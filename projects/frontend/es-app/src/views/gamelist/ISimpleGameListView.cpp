@@ -166,7 +166,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES
-  if (event.YPressed() && !cursor->TopAncestor().PreInstalled())
+  if (event.YPressed() && !cursor->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
 
     if (cursor->IsGame() && cursor->System().HasFavoritesInTheme())
@@ -243,14 +243,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // NETPLAY
-  if (event.XPressed() && RecalboxConf::Instance().GetNetplayEnabled()
+  if (event.XPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay)
       && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
     clean();
     mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
     return true;
   }
-  else if (event.XPressed())
+  else if (event.XPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::P2K))
   {
     FileData* fd = getCursor();
     if (fd != nullptr)
@@ -276,16 +276,15 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
 
   help.Set(Help::Valid(), _("LAUNCH"));
 
-  bool netplay = RecalboxConf::Instance().GetNetplayEnabled();
-  if (netplay && getCursor()->System().Descriptor().HasNetPlayCores())
+  if (getCursor()->System().Descriptor().HasNetPlayCores() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay))
     help.Set(HelpType::X, _("NETPLAY"));
   else
   {
-    if (HasCurrentGameP2K())
+    if (HasCurrentGameP2K() && MenuFilter::ShouldEnableFeature(MenuFilter::P2K))
       help.Set(HelpType::X, _("P2K CONTROLS"));
   }
   FileData* fd = getCursor();
-  if (!fd->TopAncestor().PreInstalled())
+  if (!fd->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
     help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)
@@ -296,7 +295,11 @@ bool ISimpleGameListView::getHelpPrompts(Help& help)
   if (RecalboxConf::Instance().GetQuickSystemSelect() && !hideSystemView)
     help.Set(HelpType::LeftRight, _("SYSTEM"));
 
-  help.Set(HelpType::Start, _("OPTIONS"));
+  if (!RecalboxConf::Instance().GetQuickSystemSelect())
+    help.Set(HelpType::LeftRight, _("PAGE UP/DOWN"));
+
+  if (MenuFilter::ShouldDisplayMenu(MenuFilter::Main))
+    help.Set(HelpType::Start, _("OPTIONS"));
 
   return true;
 }

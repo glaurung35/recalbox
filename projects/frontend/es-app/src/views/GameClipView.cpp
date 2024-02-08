@@ -7,6 +7,7 @@
 #include "GameClipView.h"
 #include <views/ViewController.h>
 #include "utils/locale/LocaleHelper.h"
+#include "MenuFilter.h"
 #include <guis/GuiInfoPopup.h>
 #include <usernotifications/NotificationManager.h>
 
@@ -205,7 +206,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES - Y
-  if (event.YPressed())
+  if (event.YPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
     if (mGame->IsGame())
     {

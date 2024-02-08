@@ -427,14 +427,19 @@ bool SystemView::CollectHelpItems(Help& help)
   help.Set(mCarousel.type == CarouselType::Vertical ? HelpType::UpDown : HelpType::LeftRight, _("CHOOSE"))
       .Set(Help::Valid(), _("SELECT"));
 
-  if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetKodiXButton())
+  if (MenuFilter::ShouldEnableFeature(MenuFilter::Kodi) && RecalboxConf::Instance().GetKodiXButton() && MenuFilter::ShouldEnableFeature(MenuFilter::Kodi))
     help.Set(HelpType::X, RecalboxConf::Instance().GetNetplayEnabled() ? _("KODI/NETPLAY") : _("START KODI"));
-  else if (RecalboxConf::Instance().GetNetplayEnabled())
+  else if (RecalboxConf::Instance().GetNetplayEnabled() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay))
     help.Set(HelpType::X, _("NETPLAY"));
 
-  help.Set(HelpType::Select, _("QUIT"))
-      .Set(HelpType::Start, _("MENU"))
-      .Set(HelpType::R, _("SEARCH"));
+  if(MenuFilter::ShouldDisplayMenu(MenuFilter::Exit))
+    help.Set(HelpType::Select, _("QUIT"));
+
+  if(MenuFilter::ShouldDisplayMenu(MenuFilter::Main))
+    help.Set(HelpType::Start, _("MENU"));
+
+  if(MenuFilter::ShouldDisplayMenu(MenuFilter::Search))
+    help.Set(HelpType::R, _("SEARCH"));
 
   if(GameClipView::IsGameClipEnabled())
   {

@@ -4,6 +4,8 @@
 
 #pragma once
 
+#include "recalbox/RecalboxSystem.h"
+
 class MenuFilter
 {
   public:
@@ -14,10 +16,30 @@ class MenuFilter
       Search,
       GamelistOptions
     };
+    enum Feature
+    {
+      Kodi,
+      Netplay,
+      Favorites,
+      P2K
+    };
 
     static bool ShouldDisplayMenu(const enum Menu menu)
     { (void)menu; return RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None; }
 
+    static bool ShouldEnableFeature(const enum Feature feature)
+    {
+      switch (feature) {
+        case Kodi :
+          return RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None;
+        case Netplay:
+          return RecalboxConf::Instance().GetNetplayEnabled() && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None;
+        case Favorites:
+        case P2K:
+          return RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None;
+      }
+
+    }
     enum MenuEntry
     {
       HDMode,

@@ -99,6 +99,8 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     MenuThemeData mMenu;
     //! System themes
     HashMap<const SystemData*, ThemeData*> mSystem;
+    //! Hashmap protection
+    Mutex mSystemLocker;
 
     //! Current theme root path
     Path mRootPath;

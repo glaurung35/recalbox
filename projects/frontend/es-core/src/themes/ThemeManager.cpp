@@ -148,6 +148,7 @@ void ThemeManager::NotifyThemeChanged(bool refreshOnly)
 
 ThemeData& ThemeManager::CreateOrGetSystem(const SystemData* system)
 {
+  Mutex::AutoLock locker(mSystemLocker);
   ThemeData** theme = mSystem.try_get(system);
   if (theme == nullptr) theme = &(mSystem[system] = new ThemeData(mCache, system, mGlobalResolver));
   return **theme;

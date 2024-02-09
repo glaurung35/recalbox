@@ -3,8 +3,6 @@
 #include "pugixml/pugixml.hpp"
 #include <components/VideoComponent.h>
 #include <MainRunner.h>
-#include "RootFolders.h"
-#include "MenuThemeData.h"
 #include "components/TextScrollComponent.h"
 #include "components/BoxComponent.h"
 #include "SimpleTokenizer.h"
@@ -42,6 +40,7 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVar
   , mRegionCodeInteger(0)
   , mGlobalResolver(globalResolver)
   , mGameResolver(nullptr)
+  , mCompatiblity(Compatibility::None)
 {
   mSystemThemeFolder.clear();
   mRandomPath.clear();
@@ -101,27 +100,26 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   mViews.clear();
 
   mSystemThemeFolder = systemThemeFolder;
+  mThemeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
 
-  String themeName = path.IsDirectory() ? path.Filename() : path.Directory().Filename();
-
-  mColorset = RecalboxConf::Instance().GetThemeColorSet(themeName);
-  mIconset = RecalboxConf::Instance().GetThemeIconSet(themeName);
-  mMenu = RecalboxConf::Instance().GetThemeMenuSet(themeName);
-  mSystemview = RecalboxConf::Instance().GetThemeSystemView(themeName);
-  mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(themeName);
-  mGameClipView = RecalboxConf::Instance().GetThemeGameClipView(themeName);
+  mColorset = RecalboxConf::Instance().GetThemeColorSet(mThemeName);
+  mIconset = RecalboxConf::Instance().GetThemeIconSet(mThemeName);
+  mMenu = RecalboxConf::Instance().GetThemeMenuSet(mThemeName);
+  mSystemview = RecalboxConf::Instance().GetThemeSystemView(mThemeName);
+  mGamelistview = RecalboxConf::Instance().GetThemeGamelistView(mThemeName);
+  mGameClipView = RecalboxConf::Instance().GetThemeGameClipView(mThemeName);
   // Main theme ?
   if (mSystem == nullptr)
   {
     bool needSave = false;
     CrawlThemeSubSets(path);
     //for(auto& kv : subSets) { LOG(LogError) << "[DEBUG]" << kv.first << '-' << kv.second; }
-    if (CheckThemeOption(mColorset, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(themeName, mColorset); needSave = true; }
-    if (CheckThemeOption(mIconset, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(themeName, mIconset); needSave = true; }
-    if (CheckThemeOption(mMenu, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(themeName, mMenu); needSave = true; }
-    if (CheckThemeOption(mSystemview, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(themeName, mSystemview); needSave = true; }
-    if (CheckThemeOption(mGamelistview, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(themeName, mGamelistview); needSave = true; }
-    if (CheckThemeOption(mGameClipView, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(themeName, mGameClipView); needSave = true; }
+    if (CheckThemeOption(mColorset, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(mThemeName, mColorset); needSave = true; }
+    if (CheckThemeOption(mIconset, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(mThemeName, mIconset); needSave = true; }
+    if (CheckThemeOption(mMenu, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(mThemeName, mMenu); needSave = true; }
+    if (CheckThemeOption(mSystemview, "systemview")) { RecalboxConf::Instance().SetThemeSystemView(mThemeName, mSystemview); needSave = true; }
+    if (CheckThemeOption(mGamelistview, "gamelistview")) { RecalboxConf::Instance().SetThemeGamelistView(mThemeName, mGamelistview); needSave = true; }
+    if (CheckThemeOption(mGameClipView, "gameclipview")) { RecalboxConf::Instance().SetThemeGameClipView(mThemeName, mGameClipView); needSave = true; }
     if (needSave) RecalboxConf::Instance().Save();
   }
 
@@ -335,7 +333,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
   }
 }
 
-bool ThemeData::IsMatchingLocaleOrRegionOrNeutral(String& name)
+bool ThemeData::IsMatchingLocaleOrRegionOrNeutral(String& name) const
 {
   int locale = ExtractLocalizedCode(name);
   // No locale/region

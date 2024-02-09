@@ -245,9 +245,9 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, 
 {
   (void)refreshOnly;
   initComponents();
-  if (theme.getGameClipView() != ThemeData::getNoTheme())
+  String themeOption = RecalboxConf::Instance().GetThemeGameClipView(theme.RawName());
+  if (themeOption != ThemeData::getNoTheme())
   {
-
     mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertyCategory::All);
     mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertyCategory::All);
     mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertyCategory::All);
@@ -368,7 +368,7 @@ void GameClipContainer::Render(const Transform4x4f& parentTrans)
   }
 
   Vector2f videoCenter = mVideo.getCenter();
-  ThemeData theme = mGame->System().Theme();
+  //ThemeData theme = mGame->System().Theme();
   mClippingImage.setPosition(videoCenter.x(), videoCenter.y());
 
   renderChildren(parentTrans);

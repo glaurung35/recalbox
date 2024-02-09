@@ -9,7 +9,6 @@
 #include "ThemeFileCache.h"
 #include "guis/GuiSyncWaiter.h"
 #include <utils/os/system/ThreadPool.h>
-#include <utils/cplusplus/StaticLifeCycleControler.h>
 
 // forward declaration
 class SystemData;
@@ -84,7 +83,7 @@ class ThemeManager : public StaticLifeCycleControler<ThemeManager>
     void DoThemeChange(WindowManager* window, bool force = false);
 
     //! Get global variable resolver
-    const IGlobalVariableResolver& GlobalResolver() const { return mGlobalResolver; }
+    [[nodiscard]] const IGlobalVariableResolver& GlobalResolver() const { return mGlobalResolver; }
 
   private:
     //! Global file cache

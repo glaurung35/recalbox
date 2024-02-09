@@ -129,6 +129,8 @@ class ThemeData
      */
     [[nodiscard]] String::List GetSubSetValues(const String& subset) const;
 
+    const String& RawName() const { return mThemeName; }
+
   private:
     //! View content
     class ThemeView
@@ -161,7 +163,12 @@ class ThemeData
     String mSystemview;
     String mGamelistview;
     String mGameClipView;
+
+    // System foilder (empty for main theme)
     String mSystemThemeFolder;
+    // Theme name (theme folder name)
+    String mThemeName;
+
     String mRandomPath;
 
     //! User langage
@@ -207,7 +214,7 @@ class ThemeData
      */
     void parseProperty(const String& elementName, ThemePropertyName propertyName, String& value, ThemeElement& element);
 
-    bool IsMatchingRegionOldTag(const pugi::xml_node& node) const;
+    [[nodiscard]] bool IsMatchingRegionOldTag(const pugi::xml_node& node) const;
 
     bool parseSubset(const pugi::xml_node& node);
 
@@ -282,7 +289,7 @@ class ThemeData
      */
     static Resolutions ExtractResolutions(const pugi::xml_node& node);
 
-    bool IsMatchingLocaleOrRegionOrNeutral([[in, out]] String& name);
+    bool IsMatchingLocaleOrRegionOrNeutral([[in, out]] String& name) const;
 
     bool IsPropertyMatchingLocaleOrRegionOrNeutral(ThemeElement& element, [[in, out]] String& name, [[out]] ThemePropertyName*& property) const;
 };

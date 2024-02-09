@@ -13,6 +13,7 @@ void Themable::DoApplyThemeElement(const ThemeData& theme, const String& viewNam
   const ThemeElement* elem = theme.Element(viewName, elementName, GetThemeElementType());
   if (elem != nullptr)
   {
+    mComponent.setThemeDisabled(false);
     OnApplyThemeElementBase(*elem, properties);
     OnApplyThemeElement(*elem, properties);
   }

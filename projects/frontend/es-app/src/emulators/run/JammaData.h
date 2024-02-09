@@ -21,7 +21,7 @@ class JammaData
     bool systemIsArcade(const FileData& game, const EmulatorData& emulator) const
     {
       return systemIsDreamcastArcade(game.System().Name())
-              || (emulator.Emulator() == "libretro" && (emulator.Core() == "fbneo" || emulator.Core() == "mame2015" || emulator.Core() == "mame"));
+              || (emulator.Emulator() == "libretro" && (emulator.Core() == "fbneo" || emulator.Core() == "mame2015" || emulator.Core() == "mame2003_plus" || emulator.Core() == "mame"));
     }
 
   public:

@@ -40,8 +40,11 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mBackground.setCenterColor(menuTheme.Background().color);
   mBackground.setEdgeColor(menuTheme.Background().color);
 
+  bool isLowRes = Renderer::Instance().Is240p();
+
   // Bold condensed
-  mBoldCondensed = Font::get(menuTheme.SmallText().font->getSize(), Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"));
+  mBoldCondensed = isLowRes ? menuTheme.SmallText().font :
+                   Font::get(menuTheme.SmallText().font->getSize(), Path("/usr/share/fonts/truetype/ubuntu_condensed.ttf"));
 
   // 7 x 15
   // +-+-------------------------------------------------+---------------+------------------------+--------------+----------------------+-+
@@ -84,8 +87,6 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   /*
    * Populate the grid
    */
-
-  bool isLowRes = Renderer::Instance().Is240p();
 
   // Title
   mTitle = std::make_shared<TextComponent>(window, _("BIOS CHECKING"), menuTheme.Title().font, menuTheme.Title().color, TextAlignment::Center);

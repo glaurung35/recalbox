@@ -555,7 +555,7 @@ class MainRunner
     void ResolveVariableIn(String& string) final;
 
     //! Has a CRT adapter active?
-    [[nodiscard]] bool HasCrt() const final { return Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None; }
+    [[nodiscard]] bool HasCrt() const final { return Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::None && Renderer::Instance().Is480pOrLower(); }
 
     //! Has a CRT adapter active?
     [[nodiscard]] bool HasJamma() const final

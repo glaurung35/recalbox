@@ -513,8 +513,7 @@ void SystemView::RefreshViewElements(const ThemeData& theme)
   getDefaultElements();
 
   const ThemeElement* carouselElem = theme.Element("system", "systemcarousel", ThemeElementType::Carousel);
-  if (carouselElem != nullptr)
-    getCarouselFromTheme(carouselElem);
+  getCarouselFromTheme(carouselElem);
 
   const ThemeElement* sysInfoElem = theme.Element("system", "systemInfo", ThemeElementType::Text);
   if (sysInfoElem != nullptr)
@@ -754,36 +753,41 @@ void  SystemView::getDefaultElements()
 
 void SystemView::getCarouselFromTheme(const ThemeElement* elem)
 {
-  if (elem->HasProperty(ThemePropertyName::Type))
+  if (elem != nullptr)
   {
-    String type = elem->AsString(ThemePropertyName::Type);
-    if (type == "vertical") mCarousel.type = CarouselType::Vertical;
-    else if (type == "vertical_wheel") mCarousel.type = CarouselType::VerticalWheel;
-    else mCarousel.type = CarouselType::Horizontal;
+    if (elem->HasProperty(ThemePropertyName::Type))
+    {
+      String type = elem->AsString(ThemePropertyName::Type);
+      if (type == "vertical") mCarousel.type = CarouselType::Vertical;
+      else if (type == "vertical_wheel") mCarousel.type = CarouselType::VerticalWheel;
+      else mCarousel.type = CarouselType::Horizontal;
+    }
+    if (elem->HasProperty(ThemePropertyName::Size)) mCarousel.size = elem->AsVector(ThemePropertyName::Size) * mSize;
+    if (elem->HasProperty(ThemePropertyName::Pos)) mCarousel.pos = elem->AsVector(ThemePropertyName::Pos) * mSize;
+    if (elem->HasProperty(ThemePropertyName::Origin)) mCarousel.origin = elem->AsVector(ThemePropertyName::Origin);
+    if (elem->HasProperty(ThemePropertyName::Color)) mCarousel.color = (unsigned int) elem->AsInt(ThemePropertyName::Color);
+    if (elem->HasProperty(ThemePropertyName::LogoScale)) mCarousel.logoScale = elem->AsFloat(ThemePropertyName::LogoScale);
+    if (elem->HasProperty(ThemePropertyName::LogoSize)) mCarousel.logoSize = elem->AsVector(ThemePropertyName::LogoSize) * mSize;
+    if (elem->HasProperty(ThemePropertyName::MaxLogoCount)) mCarousel.maxLogoCount = Math::roundi(elem->AsFloat(ThemePropertyName::MaxLogoCount));
+    if (elem->HasProperty(ThemePropertyName::ZIndex)) mCarousel.zIndex = elem->AsFloat(ThemePropertyName::ZIndex);
+    if (elem->HasProperty(ThemePropertyName::LogoRotation)) mCarousel.logoRotation = elem->AsFloat(ThemePropertyName::LogoRotation);
+    if (elem->HasProperty(ThemePropertyName::LogoRotationOrigin)) mCarousel.logoRotationOrigin = elem->AsVector(ThemePropertyName::LogoRotationOrigin);
+    if (elem->HasProperty(ThemePropertyName::LogoAlignment))
+    {
+      String align = elem->AsString(ThemePropertyName::LogoAlignment);
+      if (align == "left") mCarousel.logoAlignment = TextAlignment::Left;
+      else if (align == "right") mCarousel.logoAlignment = TextAlignment::Right;
+      else if (align == "top") mCarousel.logoAlignment = TextAlignment::Top;
+      else if (align == "bottom") mCarousel.logoAlignment = TextAlignment::Bottom;
+      else mCarousel.logoAlignment = TextAlignment::Center;
+    }
+    mCarousel.fontlarge = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
+    mCarousel.fontmedium = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
+    if (elem->HasProperty(ThemePropertyName::Link)) mCarousel.fontcolor = (unsigned int) elem->AsInt(ThemePropertyName::Link);
+    else mCarousel.fontcolor = 0xE6E6E6FF;
   }
-  if (elem->HasProperty(ThemePropertyName::Size)) mCarousel.size = elem->AsVector(ThemePropertyName::Size) * mSize;
-  if (elem->HasProperty(ThemePropertyName::Pos)) mCarousel.pos = elem->AsVector(ThemePropertyName::Pos) * mSize;
-  if (elem->HasProperty(ThemePropertyName::Origin)) mCarousel.origin = elem->AsVector(ThemePropertyName::Origin);
-  if (elem->HasProperty(ThemePropertyName::Color)) mCarousel.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
-  if (elem->HasProperty(ThemePropertyName::LogoScale)) mCarousel.logoScale = elem->AsFloat(ThemePropertyName::LogoScale);
-  if (elem->HasProperty(ThemePropertyName::LogoSize)) mCarousel.logoSize = elem->AsVector(ThemePropertyName::LogoSize) * mSize;
-  if (elem->HasProperty(ThemePropertyName::MaxLogoCount)) mCarousel.maxLogoCount = Math::roundi(elem->AsFloat(ThemePropertyName::MaxLogoCount));
-  if (elem->HasProperty(ThemePropertyName::ZIndex)) mCarousel.zIndex = elem->AsFloat(ThemePropertyName::ZIndex);
-  if (elem->HasProperty(ThemePropertyName::LogoRotation)) mCarousel.logoRotation = elem->AsFloat(ThemePropertyName::LogoRotation);
-  if (elem->HasProperty(ThemePropertyName::LogoRotationOrigin)) mCarousel.logoRotationOrigin = elem->AsVector(ThemePropertyName::LogoRotationOrigin);
-  if (elem->HasProperty(ThemePropertyName::LogoAlignment))
-  {
-    String align = elem->AsString(ThemePropertyName::LogoAlignment);
-    if (align == "left") mCarousel.logoAlignment = TextAlignment::Left;
-    else if (align == "right") mCarousel.logoAlignment = TextAlignment::Right;
-    else if (align == "top") mCarousel.logoAlignment = TextAlignment::Top;
-    else if (align == "bottom") mCarousel.logoAlignment = TextAlignment::Bottom;
-    else mCarousel.logoAlignment = TextAlignment::Center;
-  }
-  mCarousel.fontlarge = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
-  mCarousel.fontmedium = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
-  if (elem->HasProperty(ThemePropertyName::Link)) mCarousel.fontcolor = (unsigned int)elem->AsInt(ThemePropertyName::Link);
-  else mCarousel.fontcolor = 0xE6E6E6FF;
+  if (mCarousel.fontlarge == nullptr) mCarousel.fontlarge = Font::get(FONT_SIZE_LARGE);
+  if (mCarousel.fontmedium == nullptr) mCarousel.fontmedium = Font::get(FONT_SIZE_MEDIUM);
 }
 
 void SystemView::RemoveCurrentSystem()

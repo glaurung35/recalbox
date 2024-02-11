@@ -54,3 +54,11 @@ if test "$1" == "start"; then
     fi
   fi
 fi
+
+if test "$1" == "stop"; then
+  source /recalbox/scripts/recalbox-utils.sh
+  if isRecalboxRGBJamma;then
+    start-stop-daemon -K -p /var/run/recalboxrgbjamma_screen.pid
+    recalboxrgbjamma_screen --clear
+  fi
+fi

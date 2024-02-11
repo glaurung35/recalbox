@@ -3,16 +3,20 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { formatStringList } from 'src/utils/formatStringList';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   ScraperConfigOptionsResponse,
   ScraperConfigResponse,
 } from 'stores/types/scraper';
 
-export type ScraperStoreState = {
-  _baseUrl: string,
-  _scraperOptions: ScraperConfigOptionsResponse,
-  scraper: ScraperConfigResponse,
-};
+export interface ScraperStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _scraperOptions: ScraperConfigOptionsResponse;
+  scraper: ScraperConfigResponse;
+}
 
 export const useScraperStore = defineStore('scraper', {
   state: () => ({
@@ -27,9 +31,11 @@ export const useScraperStore = defineStore('scraper', {
       },
       'screenscraper.language': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'screenscraper.region': {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'screenscraper.thumbnail': {
         allowedStringList: [''],
@@ -39,6 +45,7 @@ export const useScraperStore = defineStore('scraper', {
       },
       source: {
         allowedStringList: [''],
+        displayableStringList: [''],
       },
       'screenscraper.regionPriority': {
         allowedStringList: [''],
@@ -47,17 +54,38 @@ export const useScraperStore = defineStore('scraper', {
     scraper: {
       getnamefrom: {},
       extractregionfromfilename: {},
+      source: {
+        value: 'ScreenScraper',
+      },
+      auto: {
+        value: true,
+      },
+      'screenscraper.user': {
+        value: '',
+      },
+      'screenscraper.password': {
+        value: '',
+      },
+      'screenscraper.manual': {
+        value: false,
+      },
+      'screenscraper.maps': {
+        value: false,
+      },
+      'screenscraper.p2k': {
+        value: false,
+      },
     },
   } as ScraperStoreState),
 
   getters: {
-    mediaOptions: (state) => state._scraperOptions['screenscraper.media'].allowedStringList,
-    languageOptions: (state) => state._scraperOptions['screenscraper.language'].allowedStringList.sort(),
-    regionOptions: (state) => state._scraperOptions['screenscraper.region'].allowedStringList.sort(),
-    thumbnailOptions: (state) => state._scraperOptions['screenscraper.thumbnail'].allowedStringList,
-    videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList,
+    mediaOptions: (state) => state._scraperOptions['screenscraper.media'].allowedStringList.sort(),
+    languageOptions: (state) => formatStringList(state._scraperOptions['screenscraper.language']),
+    regionOptions: (state) => formatStringList(state._scraperOptions['screenscraper.region']),
+    thumbnailOptions: (state) => state._scraperOptions['screenscraper.thumbnail'].allowedStringList.sort(),
+    videoOptions: (state) => state._scraperOptions['screenscraper.video'].allowedStringList.sort(),
     getNameFromOptions: () => [0, 1, 2],
-    sourceOptions: (state) => state._scraperOptions.source.allowedStringList,
-    regionPriorityOptions: (state) => state._scraperOptions['screenscraper.regionPriority'].allowedStringList,
+    sourceOptions: (state) => formatStringList(state._scraperOptions.source),
+    regionPriorityOptions: (state) => state._scraperOptions['screenscraper.regionPriority'].allowedStringList.sort(),
   },
 });

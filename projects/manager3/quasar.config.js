@@ -72,15 +72,11 @@ module.exports = configure((ctx) => ({
         API_URL: `http://${process.env.API_IP}:81/api`,
         API_URL80: `http://${process.env.API_IP}/api`,
 
-        TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
-        TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
-
         WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
         PATREON_URL: 'https://www.patreon.com/recalbox',
-        TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
         MQTT_URL: `mqtt://${process.env.API_IP}:18833`,
@@ -94,15 +90,11 @@ module.exports = configure((ctx) => ({
         API_URL: '/api',
         API_URL80: '',
 
-        TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
-        TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
-
         WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
         PATREON_URL: 'https://www.patreon.com/recalbox',
-        TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
         MQTT_URL: '',

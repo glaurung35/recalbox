@@ -4,8 +4,18 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-29
+## Version 9.2-jamma-31
 
+9.2-jamma-31:
+- Suppression des scanlines en 31kHz lorsque vous lancez un jeu Tate en Yoko ou Yoko en Tate
+- Retablissement des vues arcade pour la naomi et atomiswave
+
+9.2-jamma-30:
+- Correction des jeux en TATE sur ecran YOKO en 31kHz
+- Correction du calibrage 31kHz et multisync
+- Exctinction de l'ecran lors du reboot/shotdown
+
+9.2-jamma-29:
 - Ajout du mode nomenu pour une utilisation en salon (emulationstation.menu=none dans recalbox.conf)
 - Correction de TOUS les mappings joystick sur mame2003+ (Killer Instinct est maintenant bien mappé)
 - Ajout des systemes SEGA System 32, SEGA System 16, Psikyo et Taito F3

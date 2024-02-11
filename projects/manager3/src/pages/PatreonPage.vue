@@ -13,6 +13,7 @@
               :setter="patreonStore.post"
               apiKey="privatekey"
               v-if="patreon.privatekey"
+              password
               help
             >
               <template v-slot:help>

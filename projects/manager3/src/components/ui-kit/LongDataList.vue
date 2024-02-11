@@ -53,10 +53,11 @@ const {
         background: $primary !important
         color: $accent !important
 
-  @media(max-width: 700px)
-    .container
-      .version-line
-        .col-md-6
-          padding-right: 0 !important
-          padding-left: 0 !important
+@media(max-width: 700px)
+  .container
+    padding: 0
+    .version-line
+      .col-md-6
+        padding-right: 0 !important
+        padding-left: 0 !important
 </style>

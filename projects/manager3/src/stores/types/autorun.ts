@@ -7,7 +7,7 @@ export interface AutorunConfigResponse {
     exist: boolean;
     value: boolean;
   };
-  systemuuid: {
+  uuid: {
     exist: boolean;
     value: string;
   };
@@ -21,7 +21,7 @@ export interface AutorunConfigOptionsResponse {
   enabled: {
     type: string;
   };
-  systemuuid: {
+  uuid: {
     type: string;
   };
   gamepath: {

@@ -3,9 +3,14 @@
 -->
 <template>
   <q-layout container style="height: 100vh"  view="lHh Lpr lFf">
-    <q-header class="mobile-only">
+    <q-header>
       <q-toolbar>
         <q-btn @click="leftDrawerOpen = !leftDrawerOpen" flat icon="mdi-menu"/>
+        <q-toolbar-title />
+        <MobileScreenshotButton />
+        <MobileVirtualDevicesButton />
+        <MobileShortcutsButton :model="shortcutsButtonOpeningStatus" @toggle="toggle" />
+        <MobileHelpButton :model="helpButtonOpeningStatus" @toggle="toggle" />
       </q-toolbar>
     </q-header>
 
@@ -30,13 +35,15 @@
         <LangSelector/>
       </q-list>
       <div class="menu-logo">
-        <img alt="Recalbox" src="../assets/logo-boutons.svg">
+        <a :href="websiteUrl" target="_blank">
+          <img alt="Recalbox" src="../assets/logo-boutons.svg">
+        </a>
       </div>
     </q-drawer>
 
     <q-page-container>
       <router-view />
-      <q-page-sticky :offset="[18, 18]" position="bottom-right">
+      <q-page-sticky :offset="[18, 18]" position="bottom-right" class="desktop-only">
         <div class="help-menu-container">
           <ScreenshotFloatingButton />
           <VirtualDevicesFloatingButton />
@@ -49,6 +56,13 @@
 </template>
 
 <script lang="ts" setup>
+import MobileHelpButton from 'components/layout/MobileHelpButton.vue';
+import MobileScreenshotButton from 'components/layout/MobileScreenshotButton.vue';
+import MobileShortcutsButton from 'components/layout/MobileShortcutsButton.vue';
+import MobileVirtualDevicesButton from 'components/layout/MobileVirtualDevicesButton.vue';
+import { useEmulationstationStore } from 'stores/configuration/emulationstation';
+import { useSystemsStore } from 'stores/systems';
+import { GlobalMenuLink } from 'stores/types/misc';
 import { ref } from 'vue';
 import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
 import MenuLink from 'components/ui-kit/MenuLink.vue';
@@ -59,7 +73,7 @@ import HelpFloatingButton from 'components/layout/HelpFloatingButton.vue';
 
 const leftDrawerOpen = ref<boolean>(false);
 const miniState = ref<boolean>(true);
-const menuLinks: Array<object> = [
+const menuLinks: GlobalMenuLink[] = [
   {
     title: 'menu.home',
     icon: 'mdi-view-dashboard',
@@ -78,7 +92,7 @@ const menuLinks: Array<object> = [
   },
   {
     title: 'menu.emulation',
-    icon: 'mdi-google-controller',
+    icon: 'mdi-gamepad-outline',
     route: 'emulation',
   },
   {
@@ -92,10 +106,19 @@ const menuLinks: Array<object> = [
     route: 'patreon',
   },
 ];
+const websiteUrl = process.env.WEBSITE_URL;
 const shortcutsButtonOpeningStatus = ref(false);
 const helpButtonOpeningStatus = ref(false);
 
-function toggle(event: object) {
+useSystemsStore().fetch().then(() => {
+  const emulationStationStore = useEmulationstationStore();
+  const { currentState } = emulationStationStore;
+  if (currentState.currentSystem === null) {
+    emulationStationStore.fetchStatus();
+  }
+});
+
+function toggle(event: { label: string; value: boolean; }) {
   if (event.label === 'shortcutsButton') {
     shortcutsButtonOpeningStatus.value = event.value;
     helpButtonOpeningStatus.value = false;
@@ -117,6 +140,9 @@ header
 .q-page-container
   background: $rc-light-grey
 
+  .q-page-sticky
+    z-index: 200
+
 .menu
   background: $primary
 
@@ -132,6 +158,14 @@ header
       margin-bottom: 1em
 
 .help-menu-container
-  background-color: #34495ecf
+  background-color: rgba($primary, .8)
   border-radius: 4px
+
+@media(min-width: 500px)
+  .q-header
+    display: none
+
+@media(max-width: 500px)
+  .q-page-sticky
+    display: none
 </style>

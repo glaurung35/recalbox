@@ -7,6 +7,9 @@
 #pragma once
 
 #include <map>
+#include <utils/json/ISerializeToJson.h>
+#include <utils/storage/Array.h>
+#include <utils/storage/HashMap.h>
 
 /*!
  * A very simple JSON string builder that *exactly* suits our needs.
@@ -48,17 +51,16 @@ class JSONBuilder : public String
      */
     static String Escape(const String& source)
     {
-      #define __LENGTHY_STRING(x) x, (int)sizeof(x) - 1
-      String result = source;
-      result.Replace('\\', __LENGTHY_STRING("\\\\"))
-            .Replace('\b', __LENGTHY_STRING("\\b"))
-            .Replace('\f', __LENGTHY_STRING("\\f"))
-            .Replace('\n', __LENGTHY_STRING("\\n"))
-            .Replace('\r', __LENGTHY_STRING("\\r"))
-            .Replace('\t', __LENGTHY_STRING("\\t"))
-            .Replace('\"', __LENGTHY_STRING("\\\""));
-      return result;
-      #undef __LENGTHY_STRING
+      #define LENGTHY_STRING(x) x, (int)sizeof(x) - 1
+      return String(source)
+            .Replace('\\', LENGTHY_STRING("\\\\"))
+            .Replace('\b', LENGTHY_STRING("\\b"))
+            .Replace('\f', LENGTHY_STRING("\\f"))
+            .Replace('\n', LENGTHY_STRING("\\n"))
+            .Replace('\r', LENGTHY_STRING("\\r"))
+            .Replace('\t', LENGTHY_STRING("\\t"))
+            .Replace('\"', LENGTHY_STRING("\\\""));
+      #undef LENGTHY_STRING
     }
 
     /*!
@@ -83,6 +85,8 @@ class JSONBuilder : public String
     }
 
   public:
+    typedef std::vector<JSONBuilder> JSONList;
+
     /*!
      * Return the inherited string
      * @return String reference
@@ -147,7 +151,8 @@ class JSONBuilder : public String
      */
     JSONBuilder& OpenArray(const char* name)
     {
-      FieldName(name).Append(":[");
+      if (name != nullptr) FieldName(name).Append(":[");
+      else FieldCheck();
       return *this;
     }
 
@@ -252,7 +257,7 @@ class JSONBuilder : public String
      * @param value Map
      * @return The current JSON Instance for method chaining.
      */
-    JSONBuilder& Field(const char* name, const std::map<String, String>& values)
+    JSONBuilder& Field(const char* name, const HashMap<String, String>& values)
     {
       if (name != nullptr) FieldName(name).Append(":{");
       for(const auto& value : values)
@@ -275,6 +280,25 @@ class JSONBuilder : public String
       {
         if (back() != '[') Append(',');
         Append('"').Append(value).Append('"');
+      }
+      Append(']');
+      return *this;
+    }
+
+    /*!
+     * Add a JSON array field
+     * @param name Field name
+     * @param value Field array
+     * @param count value count
+     * @return The current JSON Instance for method chaining.
+     */
+    JSONBuilder& Field(const char* name, const JSONBuilder::JSONList& values)
+    {
+      if (name != nullptr) FieldName(name).Append(":[");
+      for(const String& value : values)
+      {
+        if (back() != '[') Append(',');
+        Append(value);
       }
       Append(']');
       return *this;
@@ -370,4 +394,83 @@ class JSONBuilder : public String
       if (name != nullptr) FieldName(name).Append(':').Append(object);
       return *this;
     }
+
+    /*!
+     * @brief Serialize a custom object
+     * @tparam T Object type
+     * @param name JSON Object name
+     * @param object Object instance
+     * @param serializer Custom serializer implementation
+     * @return The current JSON Instance for method chaining.
+     */
+    template<class T> JSONBuilder& Field(const char* name, const T& object, ISerializeToJson<T>& serializer)
+    {
+      if (name != nullptr)
+      {
+        OpenObject(name).Append(serializer.Serialize(&object));
+        CloseObject();
+      }
+      return *this;
+    }
+
+    /*!
+     * @brief Serialize a custom object array
+     * @tparam T Object type
+     * @param name JSON Object name
+     * @param object Object array
+     * @param serializer Custom serializer implementation
+     * @return The current JSON Instance for method chaining.
+     */
+    template<class T> JSONBuilder& Field(const char* name, const Array<T*> objects, ISerializeToJson<const T>& serializer)
+    {
+      if (name != nullptr)
+      {
+        bool notEmpty = false;
+        OpenArray(name);
+        for(const T* object : objects)
+          if (object != nullptr)
+            if (JSONBuilder jsonObject = serializer.Serialize(object); !jsonObject.empty())
+            {
+              if (notEmpty) Append(',');
+              Append(jsonObject);
+              notEmpty = true;
+            }
+        CloseArray();
+      }
+      return *this;
+    }
+
+    /*!
+     * @brief Serialize a custom object array
+     * @tparam T Object type
+     * @param name JSON Object name
+     * @param object Object array
+     * @param serializer Custom serializer implementation
+     * @return The current JSON Instance for method chaining.
+     */
+    template<class T> JSONBuilder& Field(const char* name, const std::vector<T*> objects, ISerializeToJson<const T>& serializer)
+    {
+      if (name != nullptr)
+      {
+        bool notEmpty = false;
+        OpenArray(name);
+        for(const T* object : objects)
+          if (object != nullptr)
+            if (JSONBuilder jsonObject = serializer.Serialize(object); !jsonObject.empty())
+            {
+              if (notEmpty) Append(',');
+              Append(jsonObject);
+              notEmpty = true;
+            }
+        CloseArray();
+      }
+      return *this;
+    }
+
+    /*!
+     * @brief Append raw data
+     * @param raw raw data
+     * @return This
+     */
+    JSONBuilder& AppendRaw(const String& raw) { Append(raw); return *this; }
 };

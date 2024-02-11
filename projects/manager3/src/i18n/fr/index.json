@@ -46,17 +46,27 @@
     "copyToClipboard": "Copié dans le presse-papiers",
     "notify": {
       "updateSuccess": "Modification effectuée",
-      "screenshotTaken": "Capture d'écran effectuée",
-      "screenshotDeleted": "Capture d'écran supprimée",
+      "mediaDeleted": "Média supprimé",
       "updateError": "Erreur lors de la modification : ",
-      "networkError": "Problème de connexion réseau",
+      "ERR_NETWORK": "Problème de connexion réseau",
+      "ERR_BAD_REQUEST": "Requête erronée",
       "esStart": "Démarrage EmulationStation",
-      "esStop": "Arrêt EmulationStation",
-      "esRestart": "Redémarrage EmulationStation",
+      "esShutdown": "Arrêt EmulationStation",
+      "esReboot": "Redémarrage EmulationStation",
+      "screenshots": {
+        "view": "Visualiser",
+        "screenshotTaken": "Capture d'écran effectuée"
+      },
       "support": {
         "label": "Votre archive de support est disponible",
         "archiveDownload": "Télécharger"
-      }
+      },
+      "400": "Mauvaise requête",
+      "401": "Non-autorisé",
+      "403": "Interdit",
+      "404": "Non trouvé",
+      "411": "Longueur requise",
+      "418": "Je suis une théière"
     },
     "upload": {
       "clearAll": "Effacer tout",
@@ -88,22 +98,34 @@
       "roms": "roms",
       "sharePercent": "% de la partition share"
     },
-    "twitch": {
-      "our_channel": "Nous rejoindre sur Twitch",
-      "title": "Streams à venir",
-      "is_recurring": "Événement récurrent"
-    },
     "system": {
       "title": "Système en cours",
       "es": {
         "start": "Démarrer EmulationStation",
         "stop": "Arrêter EmulationStation",
         "restart": "Redémarrer EmulationStation"
-      }
+      },
+      "manufacturer": "Fabriquant",
+      "yearOfRelease": "Année de sortie",
+      "cpu": "CPU",
+      "ram": "RAM",
+      "gpu": "GPU",
+      "soundChip": "Processeur audio"
     },
     "game": {
-      "title": "Jeux en cours",
-      "stop": "Arrêter le jeux"
+      "title": "Jeu en cours",
+      "stop": "Arrêter le jeu",
+      "metaData": {
+        "iconLabel": "Informations sur le jeu",
+        "modal": {
+          "publisher": "Éditeur",
+          "developer": "Développeur",
+          "releaseDate": "Date de sortie",
+          "rating": "Note",
+          "players": "Nombre de joueurs",
+          "genres": "Genres"
+        }
+      }
     }
   },
   "monitoring": {
@@ -172,6 +194,10 @@
       },
       "splashScreen": {
         "title": "Vidéos de démarrage",
+        "enabled": {
+          "label": "Activer les vidéos de démarrage",
+          "help": "Cette option vous permet d'activer ou de désactiver la lecture des vidéos de démarrage."
+        },
         "splashLength": {
           "label": "Durée des vidéos de démarrage",
           "help": {
@@ -207,7 +233,7 @@
       "updates": {
         "title": "mises à jour",
         "enabled": {
-          "label": "Vérifier les mises à jours au démarrage du système",
+          "label": "Vérifier les mises à jour au démarrage du système",
           "help": "Cette option vous permet de demander à votre Recalbox de rechercher si une mise à jour existe lors de son démarrage."
         }
       },
@@ -242,6 +268,13 @@
             "7": "<b>PIN356ONOFFRESET</b> correspond à un bouton on/off branché entre le GPIO2 et la masse pour l'allumage.",
             "8": "<b>PIN356PUSHRESET</b> correspond à un bouton on/off branché entre le GPIO3 et la masse pour le redémarrage."
           }
+        }
+      },
+      "battery": {
+        "title": "Batterie",
+        "hidden": {
+          "label": "Cacher l'icône de batterie",
+          "help": "Si vous avez une icône de batterie visible, ceci vous permet de la cacher. Si vous n'en avez pas à l'origine, cette option ne l'affichera pas !"
         }
       },
       "services": {
@@ -309,12 +342,12 @@
           "title": "Ventilation",
           "enabled": {
             "label": "Activer la ventilation",
-            "help": "Cette option vous permet d'activer la ventilation sur votre board en fonction du hat."
+            "help": "Cette option vous permet d'activer la ventilation sur votre board en fonction du hat. Si vous utilisez un hat tel que le RGB Dual, vous ne pouvez pas utiliser cette option."
           },
           "board": {
             "label": "Choix du hat",
             "help": {
-              "availableOptions": "Cette option vous permet de choisir le hat à utiliser. Options disponibles :",
+              "availableOptions": "Cette option vous permet de choisir le hat à utiliser. Si vous utilisez un hat tel que le RGB Dual, vous ne pouvez pas utiliser cette option. Options disponibles :",
               "0": "<b>wspoehatb</b> correspond à la carte Waveshare PoE.",
               "1": "<b>argonforty</b> correspond à la carte dans les boitiers Argon One.",
               "2": "<b>piboy</b> correspond aux boitiers PiBoy d'Experimental Pi.",
@@ -474,6 +507,10 @@
         "videomode": {
           "label": "Mode vidéo",
           "help": "Cette option vous permet de choisir une résolution pour tout Recalbox. Il existe deux groupes de modes vidéo : CEA et DMT. Assurez-vous que le mode est compatible avec votre résolution d'écran native"
+        },
+        "force43": {
+          "label": "Forcer l'affichage en 4/3",
+          "help": "Cette option vous permet de choisir si vous souhaitez forcer le frontend à s'afficher au format 4/3."
         }
       },
       "menus": {
@@ -552,21 +589,10 @@
         "hidenogames": {
           "label": "Cacher les non-jeux",
           "help": "Cette option vous permet d'activer ou de désactiver l'affichage des éléments n'étant pas reconnus comme des jeux (bios, etc.)."
-        }
-      },
-      "videoSnaps": {
-        "title": "Vidéo des scraps",
-        "delay": {
-          "label": "Délai",
-          "help": "Cette option vous permet de définir le délai avant le démarrage des vidéos des scraps, en millisecondes. Par défaut : 2s ( 2000 )."
         },
-        "loop": {
-          "label": "Nombre de boucles vidéo",
-          "help": {
-            "availableOptions": "Cette option vous permet de définir le nombre de fois où les vidéos des scraps passent en boucle (par défaut : 1). Options disponibles :",
-            "0": "Si vous définissez ceci à 0, vous n'aurez pas de vidéo.",
-            "1": "Si vous définissez ceci à 1 ou plus, la vidéo se répètera le nombre de fois indiqué avant de disparaître."
-          }
+        "displaybyfilename": {
+          "label": "Afficher par nom de fichier",
+          "help": "Cette option vous permet d'afficher les jeux par leur nom de fichier plutôt que leur nom de jeu."
         }
       },
       "virtualsystems": {
@@ -596,6 +622,38 @@
           "help": "Cette option vous permet d'activer ou de désactiver le système virtuel Tate."
         }
       },
+      "tateonly": {
+        "label": "Afficher uniquement les jeux tate dans les listes de jeux",
+        "help": "Cette option vous permet d'activer ou de désactiver d'afficher uniquement les jeux tate dans les listes de jeux."
+      },
+      "theme": {
+        "title": "Thèmes",
+        "folder": {
+          "label": "Sélection du thème",
+          "help": "Cette option vous permet de choisir quel thème utiliser."
+        },
+        "transition": {
+          "label": "Style de transition au lancement des jeux",
+          "help": {
+            "availableOptions": "Cette option vous permet de définir le style de transition au lancement des jeux. Options disponibles :",
+            "0": "<b>fade</b> fait un fondu vers un écran noir.",
+            "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
+            "2": "<b>instant</b> lancera le jeu sans aucune animation."
+          }
+        },
+        "region": {
+          "label": "Région",
+          "help": "Cette option vous permet de choisir la région à utiliser avec les thèmes pour afficher les logos des systèmes correspondants."
+        },
+        "carousel": {
+          "label": "Animation du bandeau",
+          "help": {
+            "availableOptions": "Cette option vous permet de choisir la façon dont s'effectue l'animation pendant le déplacement entre systèmes. Options disponibles :",
+            "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
+            "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
+          }
+        }
+      },
       "popups": {
         "title": "Popups",
         "showhelp": {
@@ -614,30 +672,6 @@
           "netplay": {
             "label": "Durée d'affichage de la popup de netplay",
             "help": "Cette option vous permet de choisir en secondes le temps d'affichage de la popup de netplay."
-          }
-        }
-      },
-      "theme": {
-        "title": "Thèmes",
-        "folder": {
-          "label": "Sélection du thème",
-          "help": "Cette option vous permet de choisir quel thème utiliser."
-        },
-        "transition": {
-          "label": "Style de transition au lancement des jeux",
-          "help": {
-            "availableOptions": "Cette option vous permet de définir le style de transition au lancement des jeux. Options disponibles :",
-            "0": "<b>fade</b> fait un fondu vers un écran noir.",
-            "1": "<b>slide</b> zoomera sur l'image du jeu (ou son nom si il n'y a pas de données).",
-            "2": "<b>instant</b> lancera le jeu sans aucune animation."
-          }
-        },
-        "carousel": {
-          "label": "Animation du bandeau",
-          "help": {
-            "availableOptions": "Cette option vous permet de choisir la façon dont s'effectue l'animation pendant le déplacement entre systèmes. Options disponibles :",
-            "0": "Si ceci est activé, la transition entre les systèmes sera animée.",
-            "1": "Si ceci est désactivé, la transition entre les systèmes sera instantanée."
           }
         }
       }
@@ -830,6 +864,10 @@
         "showfps": {
           "label": "Afficher la fréquence",
           "help": "Cette option vous permet d'afficher le taux de rafraichissement dans les menus et dans les jeux."
+        },
+        "vulkandriver": {
+          "label": "Activer le pilote vidéo Vulkan",
+          "help": "Cette option vous permet d'activer ou de désactiver l'utilisation du pilote vidéo Vulkan."
         }
       },
       "saves": {
@@ -851,10 +889,23 @@
         }
       },
       "autorun": {
-        "title": "Auto-démarrage",
+        "title": "Démarrage sur un jeu",
         "enabled": {
-          "label": "Activer l'auto-démarrage sur un jeu",
-          "help": "Cette option vous permet d'activer ou de désactiver la possibilité d'auto-démarrer sur un jeu spécifique. Remarque : si Kodi est aussi défini en auto-démarrage, Kodi a la priorité."
+          "label": "Activer le démarrage sur un jeu",
+          "help": "Cette option vous permet d'activer ou de désactiver la possibilité de lancer automatiquement un jeu spécifique au démarrage. Remarque : si Kodi est aussi défini pour démarrer, Kodi a la priorité."
+        }
+      },
+      "tate": {
+        "title": "Tate",
+        "gamerotation": {
+          "label": "Rotation des jeux",
+          "help": {
+            "availableOptions": "Cette option vous permet de définir la rotation de l'écran dans les jeux tate. Options disponibles :",
+            "0": "<b>0</b> laissera vos jeux dans le sens normal.",
+            "1": "<b>1</b> tournera les jeux à 90° sur la gauche.",
+            "2": "<b>2</b> retournera complètement l'écran de jeu.",
+            "3": "<b>3</b> tournera les jeux à 90° sur la droite."
+          }
         }
       },
       "virtualarcade": {
@@ -1052,6 +1103,10 @@
         "ertm": {
           "label": "Activation du protocole ERTM",
           "help": "Cette option vous permet d'activer ou de désactiver le protocole ERTM."
+        },
+        "autopaironboot": {
+          "label": "Auto-jumeler au démarrage",
+          "help": "Cette option vous permet d'activer ou de désactiver l'auto-jumelage au démarrage."
         }
       },
       "db9": {
@@ -1122,7 +1177,7 @@
       "xarcade": {
         "title": "XArcade",
         "enabled": {
-          "label": "Support des contrôleurs XArcade Tankstik et contrôleurs compatibles",
+          "label": "Support XArcade Tankstik et contrôleurs compatibles",
           "help": "Cette option vous permet d'activer ou de désactiver le support des contrôleurs XArcade Tankstick et compatibles."
         }
       },
@@ -1155,10 +1210,14 @@
       "tooltip": "Faire une capture",
       "dialogs": {
         "remove": {
-          "text": "Êtes-vous certain de vouloir supprimer cette capture d'écran ?"
-        },
-        "removevideo": {
-          "text": "Êtes-vous certain de vouloir supprimer cette vidéo ?"
+          "text": "Êtes-vous certain de vouloir supprimer ce média ?"
+        }
+      }
+    },
+    "systems": {
+      "tooltips": {
+        "hasNetplay": {
+          "label": "Afficher uniquement les systèmes compatibles Netplay"
         }
       }
     }

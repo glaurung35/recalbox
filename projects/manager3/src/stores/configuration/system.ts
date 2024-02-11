@@ -3,16 +3,20 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { formatStringList } from 'src/utils/formatStringList';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import {
   SystemConfigOptionsResponse,
   SystemConfigResponse,
 } from 'stores/types/system';
 
-export type SystemStoreState = {
-  _baseUrl: string,
-  _systemOptions: SystemConfigOptionsResponse,
-  system: SystemConfigResponse,
-};
+export interface SystemStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _systemOptions: SystemConfigOptionsResponse;
+  system: SystemConfigResponse;
+}
 
 export const useSystemStore = defineStore('system', {
   state: () => ({
@@ -73,20 +77,71 @@ export const useSystemStore = defineStore('system', {
       language: {
         value: 'fr_FR',
       },
+      'fbcp.enabled': {
+        value: false,
+      },
+      'splash.length': {
+        value: '-1',
+      },
+      'splash.select': {
+        value: 'all',
+      },
+      'manager.enabled': {
+        value: true,
+      },
+      'emulators.specialkeys': {
+        value: 'default',
+      },
+      hostname: {
+        value: 'RECALBOX',
+      },
+      'samba.enabled': {
+        value: true,
+      },
+      'virtual-gamepads.enabled': {
+        value: true,
+      },
+      'ssh.enabled': {
+        value: true,
+      },
+      'secondminitft.enabled': {
+        value: false,
+      },
+      displaybyfilename: {
+        value: false,
+      },
+      kblayout: {
+        value: 'us',
+      },
+      overscan: {
+        value: false,
+      },
+      'power.switch': {
+        value: '',
+      },
+      'es.videomode': {
+        value: '',
+      },
+      'es.force43': {
+        value: false,
+      },
+      'splash.enabled': {
+        value: true,
+      },
     },
   } as SystemStoreState),
 
   getters: {
-    languageOptions: (state) => state._systemOptions.language.allowedStringList.sort(),
-    kblayoutOptions: (state) => state._systemOptions.kblayout.allowedStringList.sort(),
+    languageOptions: (state) => formatStringList(state._systemOptions.language),
+    kblayoutOptions: (state) => formatStringList(state._systemOptions.kblayout),
     timezoneOptions: (state) => state._systemOptions.timezone.allowedStringList.sort(),
-    specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList,
-    esVideomodeOptions: (state) => state._systemOptions['es.videomode'].allowedStringList,
+    specialkeysOptions: (state) => state._systemOptions['emulators.specialkeys'].allowedStringList.sort(),
+    esVideomodeOptions: (state) => formatStringList(state._systemOptions['es.videomode']),
     splashLengthOptions: (state) => state._systemOptions['splash.length'],
-    splashSelectOptions: (state) => state._systemOptions['splash.select'].allowedStringList,
-    powerSwitchOptions: (state) => state._systemOptions['power.switch'].allowedStringList,
-    secondminitftTypeOptions: (state) => state._systemOptions['secondminitft.type'].allowedStringList,
-    secondminitftResolutionOptions: (state) => state._systemOptions['secondminitft.resolution'].allowedStringList,
+    splashSelectOptions: (state) => state._systemOptions['splash.select'].allowedStringList.sort(),
+    powerSwitchOptions: (state) => state._systemOptions['power.switch'].allowedStringList.sort(),
+    secondminitftTypeOptions: (state) => state._systemOptions['secondminitft.type'].allowedStringList.sort(),
+    secondminitftResolutionOptions: (state) => state._systemOptions['secondminitft.resolution'].allowedStringList.sort(),
     secondminitftBacklightDurationOptions: (state) => state._systemOptions['secondminitft.backlightcontrol'],
   },
 });

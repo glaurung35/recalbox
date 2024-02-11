@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject } from 'stores/types/misc';
 
 export interface ControllersConfigResponse {
   'xarcade.enabled': {
@@ -59,6 +60,10 @@ export interface ControllersConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  'bluetooth.autopaironboot': {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface ControllersConfigOptionsResponse {
@@ -71,10 +76,7 @@ export interface ControllersConfigOptionsResponse {
   'gpio.enabled': {
     type: string;
   };
-  'ps3.driver': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'ps3.driver': SimpleStringListObject;
   'steam.enabled': {
     type: string;
   };
@@ -103,6 +105,9 @@ export interface ControllersConfigOptionsResponse {
     type: string;
   };
   swapvalidateandcancel: {
+    type: string;
+  };
+  'bluetooth.autopaironboot': {
     type: string;
   };
 }

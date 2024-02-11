@@ -229,6 +229,130 @@ class IRouter
      */
     virtual void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) = 0;
 
+    /*!
+     * @brief Handle GET to get roms total count
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get system roms
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsGetList(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle DELETE to delete rom
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void RomsDelete(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*
+     * Metadata
+     */
+
+    /*!
+     * @brief Handle GET to get roms's information
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's image
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's thumbnail
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's video
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's map
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @brief Handle GET to get roms's manual
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*
+     * Status
+     */
+
+    /*!
+     * @brief Handle GET to get current system/game status
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void StatusGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*
+     * Themes
+     */
+
+    /*!
+     * @grief Handle GET to get theme systemview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme menuset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme iconset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme gamelistview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme colorset
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
+    /*!
+     * @grief Handle GET to get theme gameclipview
+     * @param request Request object
+     * @param response Response object
+     */
+    virtual void ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response) = 0;
+
   public:
     /*!
      * @brief Constructor. Set all routes
@@ -271,6 +395,26 @@ class IRouter
       Rest::Routes::Post(mRouter, "/api/media/takescreenshot", Rest::Routes::bind(&IRouter::MediaTakeScreenshot, this));
       Rest::Routes::Get(mRouter, "/api/media/*", Rest::Routes::bind(&IRouter::MediaGet, this));
       Rest::Routes::Get(mRouter, "/api/media/screenshot/*", Rest::Routes::bind(&IRouter::MediaGetScreenshot, this));
+      // Roms
+      Rest::Routes::Get(mRouter, "/api/roms/total", Rest::Routes::bind(&IRouter::RomsGetTotal, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsGetList, this));
+      Rest::Routes::Delete(mRouter, "/api/systems/*/roms", Rest::Routes::bind(&IRouter::RomsDelete, this));
+      // Roms metadata
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/info/*", Rest::Routes::bind(&IRouter::MetadataGetInfo, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/image/*", Rest::Routes::bind(&IRouter::MetadataGetImage, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/thumbnail/*", Rest::Routes::bind(&IRouter::MetadataGetThumbnail, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/video/*", Rest::Routes::bind(&IRouter::MetadataGetVideo, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/map/*", Rest::Routes::bind(&IRouter::MetadataGetMap, this));
+      Rest::Routes::Get(mRouter, "/api/systems/*/roms/metadata/manual/*", Rest::Routes::bind(&IRouter::MetadataGetManual, this));
+      // Status
+      Rest::Routes::Get(mRouter, "/api/status", Rest::Routes::bind(&IRouter::StatusGet, this));
+      // Themes
+      Rest::Routes::Get(mRouter, "/api/themes/*/systemview", Rest::Routes::bind(&IRouter::ThemeSystemViewGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/menuset", Rest::Routes::bind(&IRouter::ThemeMenuSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/iconset", Rest::Routes::bind(&IRouter::ThemeIconSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/gamelistview", Rest::Routes::bind(&IRouter::ThemeGamelistViewGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/colorset", Rest::Routes::bind(&IRouter::ThemeColorSetGet, this));
+      Rest::Routes::Get(mRouter, "/api/themes/*/gameclipview", Rest::Routes::bind(&IRouter::ThemeGameclipViewGet, this));
 
       // Default file service
       Rest::Routes::NotFound(mRouter, Rest::Routes::bind(&IRouter::FileServer, this));

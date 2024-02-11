@@ -11,6 +11,7 @@
 #include "Mime.h"
 #include "RequestHandlerTools.h"
 #include <utils/network/Url.h>
+#include <usernotifications/NotificationManager.h>
 
 using namespace Pistache;
 
@@ -33,7 +34,7 @@ void RequestHandler::Versions(const Rest::Request& request, Http::ResponseWriter
   RequestHandlerTools::LogRoute(request, "Versions");
 
   // Get libretro cores
-  std::map<String, String> cores;
+  HashMap<String, String> cores;
   String::List coreLines = Files::LoadFile(Path("/recalbox/share/system/configs/retroarch.corenames")).Split('\n');
   for(const String& coreLine : coreLines)
   {
@@ -109,12 +110,17 @@ void RequestHandler::StorageInfo(const Rest::Request& request, Http::ResponseWri
     {
       RequestHandlerTools::DeviceInfo info(parts[6], parts[0], parts[1], parts[2], parts[3]);
       RequestHandlerTools::GetDevicePropertiesOf(info);
+      // System overlay
       if (info.Mount == "/") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "system"));
+      // Boot partition
       else if (info.Mount == "/boot") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "boot"));
-      else if (info.Mount == "/recalbox/share") result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
-      else if (info.Mount == "/recalbox/share/bootvideos") ; // Filtered out
+      // Any nfs/smb network mount in share
       else if (info.Mount.StartsWith("/recalbox/share") &&
-               info.FileSystem.StartsWith("//")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+               String("nfs|smb").Contains(info.FileSystemType)) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "network"));
+      // Any device mount in share
+      else if (info.Mount == "/recalbox/share" ||
+               info.Mount.StartsWith("/recalbox/share/externals/")) result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "share"));
+      // Anything else
       else result.Field(String(id++).data(), RequestHandlerTools::BuildPartitionObject(info, "unknown"));
     }
     else LOG(LogError) << "df -T unknown result : " << lines[i];
@@ -155,7 +161,6 @@ void RequestHandler::BiosUpload(const Rest::Request& request, Http::ResponseWrit
     const Bios* bios = nullptr;
     BiosManager::LookupResult result = mBiosManager.Lookup(Url::URLDecode(request.splatAt(0).name()), biosMd5, bios);
 
-    String extraResult = "Unknown";
     switch (result)
     {
       case BiosManager::AlreadyExists:
@@ -228,66 +233,22 @@ void RequestHandler::SystemsGetAll(const Rest::Request& request, Http::ResponseW
 {
   RequestHandlerTools::LogRoute(request, "SystemsGetAll");
 
-  JSONBuilder systems;
-  systems.Open()
-         .Field("romPath", "/recalbox/share/roms")
-         .OpenObject("systemList");
-
-  SystemDeserializer deserializer;
-  deserializer.LoadSystems();
-  for(int i = 0; i < deserializer.Count(); ++i)
-  {
-    SystemDescriptor descriptor;
-    deserializer.Deserialize(i, descriptor);
-
-    JSONBuilder emulators = RequestHandlerTools::SerializeEmulatorsAndCoreToJson(descriptor.EmulatorTree());
-
-    JSONBuilder systemJson;
-
-    if (!descriptor.IsPort()) {
-      if (descriptor.Name() != "imageviewer") {
-          systemJson.Open()
-                  .Field("name", descriptor.Name())
-                  .Field("fullname", descriptor.FullName())
-                  .Field("romFolder", descriptor.RomPath().Filename())
-                  .Field("themeFolder", descriptor.ThemeFolder())
-                  .Field("extensions", descriptor.Extension().Split(' ', true))
-                  .Field("command", descriptor.Command())
-                  .Field("emulators", emulators)
-                  .Close();
-          systems.Field(String(i).c_str(), systemJson);
-      }
-    }
-  }
-
-  JSONBuilder portJson;
-
-  portJson.Open()
-          .Field("name", "ports")
-          .Field("fullname", "Ports")
-          .Field("romFolder", "/recalbox/share/roms/ports")
-          .Field("themeFolder", "ports")
-          .Close();
-
-  systems.Field(String(deserializer.Count()).c_str(), portJson);
-
-  systems.CloseObject()
-         .Close();
-  RequestHandlerTools::Send(response, Http::Code::Ok, systems, Mime::Json);
+  RequestHandlerTools::Send(response, Http::Code::Ok, RequestHandlerTools::SerializeSystemListToJSON(mSystemManager.AllSystems()), Mime::Json);
 }
 
 void RequestHandler::SystemsGetActives(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemsGetActives");
 
-  RequestHandlerTools::Send(response, Http::Code::Method_Not_Allowed);
+  RequestHandlerTools::Send(response, Http::Code::Ok, RequestHandlerTools::SerializeSystemListToJSON(mSystemManager.AllSystems()), Mime::Json);
 }
 
 void RequestHandler::SystemsResourceGetConsole(const Rest::Request& request, Http::ResponseWriter response)
 {
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetConsole");
 
-  Path first, second;
+  Path first;
+  Path second;
   RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "console.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
@@ -296,7 +257,8 @@ void RequestHandler::SystemsResourceGetController(const Rest::Request& request, 
 {
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetController");
 
-  Path first, second;
+  Path first;
+  Path second;
   RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "controller.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
@@ -305,7 +267,8 @@ void RequestHandler::SystemsResourceGetControls(const Rest::Request& request, Ht
 {
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetControls");
 
-  Path first, second;
+  Path first;
+  Path second;
   RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "controls.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
@@ -314,7 +277,8 @@ void RequestHandler::SystemsResourceGetGame(const Rest::Request& request, Http::
 {
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetGame");
 
-  Path first, second;
+  Path first;
+  Path second;
   RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "game.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
@@ -323,7 +287,8 @@ void RequestHandler::SystemsResourceGetLogo(const Rest::Request& request, Http::
 {
   RequestHandlerTools::LogRoute(request, "SystemsResourceGetLogo");
 
-  Path first, second;
+  Path first;
+  Path second;
   RequestHandlerTools::GetSystemResourcePath(first, second, Url::URLDecode(request.splatAt(0).name()), Url::URLDecode(request.splatAt(1).name()), "logo.svg");
   RequestHandlerTools::SendResource(first, second, response, Mime::ImageSvg);
 }
@@ -333,7 +298,7 @@ void RequestHandler::ConfigurationGet(const Rest::Request& request, Http::Respon
   RequestHandlerTools::LogRoute(request, "ConfigurationGet");
 
   String ns = Url::URLDecode(request.splatAt(0).name());
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns, mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -345,7 +310,7 @@ void RequestHandler::ConfigurationOptions(const Rest::Request& request, Http::Re
   RequestHandlerTools::LogRoute(request, "ConfigurationOptions");
 
   String ns = Url::URLDecode(request.splatAt(0).name());
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns, mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -357,7 +322,7 @@ void RequestHandler::ConfigurationSet(const Rest::Request& request, Http::Respon
   RequestHandlerTools::LogRoute(request, "ConfigurationSet");
 
   String ns = Url::URLDecode(request.splatAt(0).name());
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns, mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -369,7 +334,7 @@ void RequestHandler::ConfigurationDelete(const Rest::Request& request, Http::Res
   RequestHandlerTools::LogRoute(request, "ConfigurationDelete");
 
   String ns = Url::URLDecode(request.splatAt(0).name());
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns);
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet(ns, mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -382,11 +347,11 @@ void RequestHandler::SystemConfigurationGet(const Rest::Request& request, Http::
 
   // Check system
   String subSystem = Url::URLDecode(request.splatAt(0).name());
-  if (!RequestHandlerTools::IsValidSystem(subSystem))
+  if (!RequestHandlerTools::IsValidSystem(subSystem, mSystemManager))
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific");
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -399,11 +364,11 @@ void RequestHandler::SystemConfigurationSet(const Rest::Request& request, Http::
 
   // Check system
   String subSystem = Url::URLDecode(request.splatAt(0).name());
-  if (!RequestHandlerTools::IsValidSystem(subSystem))
+  if (!RequestHandlerTools::IsValidSystem(subSystem, mSystemManager))
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific");
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -416,11 +381,11 @@ void RequestHandler::SystemConfigurationOptions(const Rest::Request& request, Ht
 
   // Check system
   String subSystem = Url::URLDecode(request.splatAt(0).name());
-  if (!RequestHandlerTools::IsValidSystem(subSystem))
+  if (!RequestHandlerTools::IsValidSystem(subSystem, mSystemManager))
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific");
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -433,11 +398,11 @@ void RequestHandler::SystemConfigurationDelete(const Rest::Request& request, Htt
 
   // Check system
   String subSystem = Url::URLDecode(request.splatAt(0).name());
-  if (!RequestHandlerTools::IsValidSystem(subSystem))
+  if (!RequestHandlerTools::IsValidSystem(subSystem, mSystemManager))
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific");
+  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -486,29 +451,62 @@ void RequestHandler::MediaGet(const Rest::Request& request, Http::ResponseWriter
 
   // Get path
   Path path(Decode64(Url::URLDecode(request.splatAt(0).name())));
-  std::cout << " path = " << Url::URLDecode(request.splatAt(0).name()) << std::endl;
+  // { LOG(LogDebug) << "[RequestHandler] path = " << Url::URLDecode(request.splatAt(0).name()); }
+  RequestHandlerTools::SendMedia(path, response);
+}
 
-  // Check extension
-  String ext = path.Extension().LowerCase();
-  if (path.Exists())
-  {
-    if (path.IsFile())
-    {
-      // Image
-      if (ext == ".gif")      RequestHandlerTools::SendResource(path, response, Mime::ImageGif);
-      else if (ext == ".jpg") RequestHandlerTools::SendResource(path, response, Mime::ImageJpg);
-      else if (ext == ".png") RequestHandlerTools::SendResource(path, response, Mime::ImagePng);
-      else if (ext == ".svg") RequestHandlerTools::SendResource(path, response, Mime::ImageSvg);
-      // Video
-      else if (ext == ".mkv") RequestHandlerTools::SendResource(path, response, Mime::VideoMkv);
-      else if (ext == ".mp4") RequestHandlerTools::SendResource(path, response, Mime::VideoMp4);
-      else if (ext == ".avi") RequestHandlerTools::SendResource(path, response, Mime::VideoAvi);
-      // Unknown
-      else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
-    }
-    else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Target is a directory!", Mime::PlainText);
-  }
-  else RequestHandlerTools::Error404(response);
+void RequestHandler::MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetInfo");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameMetadataInformation(mSystemManager, request.splatAt(0).name(), fullPath, response);
+}
+
+void RequestHandler::MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetImage");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Image, response);
+}
+
+void RequestHandler::MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetThumbnail");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Thumbnail, response);
+}
+
+void RequestHandler::MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetVideo");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Video, response);
+}
+
+void RequestHandler::MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetMap");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Map, response);
+}
+
+void RequestHandler::MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "MetadataGetManual");
+  String fullPath(Url::URLDecode(request.splatAt(1).name()));
+  if (!fullPath.StartsWith('/')) fullPath.Insert(0, '/');
+  RequestHandlerTools::SendGameResource(mSystemManager, request.splatAt(0).name(), fullPath, RequestHandlerTools::Media::Manual, response);
+}
+
+void RequestHandler::StatusGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "StatusGet");
+  RequestHandlerTools::Send(response, Http::Code::Ok, NotificationManager::Instance().LastJSONEvent(), Mime::Json);
 }
 
 void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response)
@@ -517,29 +515,103 @@ void RequestHandler::MediaGetScreenshot(const Rest::Request& request, Http::Resp
 
   String fileName = Url::URLDecode(request.splatAt(0).name());
   Path path = Path("/recalbox/share/screenshots/" + fileName);
+  RequestHandlerTools::SendMedia(path, response);
+}
 
-  // Check extension
-  String ext = path.Extension().LowerCase();
+void RequestHandler::RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetTotal");
 
-  if (path.Exists())
+  JSONBuilder result;
+  result.Open()
+      .Field("total", mSystemManager.GameCount())
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+}
+
+void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsGetList");
+
+  String systemName = Url::URLDecode(request.splatAt(0).name());
+  SystemData* system = mSystemManager.SystemByName(systemName);
+  FileData::List allGames = system->getAllGames();
+
+  class Serializer : public ISerializeToJson<const FileData>
   {
-    if (path.IsFile())
-    {
-      // Image
-      if (ext == ".gif")      RequestHandlerTools::SendResource(path, response, Mime::ImageGif);
-      else if (ext == ".jpg") RequestHandlerTools::SendResource(path, response, Mime::ImageJpg);
-      else if (ext == ".png") RequestHandlerTools::SendResource(path, response, Mime::ImagePng);
-      else if (ext == ".svg") RequestHandlerTools::SendResource(path, response, Mime::ImageSvg);
-      // Video
-      else if (ext == ".mkv") RequestHandlerTools::SendResource(path, response, Mime::VideoMkv);
-      else if (ext == ".mp4") RequestHandlerTools::SendResource(path, response, Mime::VideoMp4);
-      else if (ext == ".avi") RequestHandlerTools::SendResource(path, response, Mime::VideoAvi);
-      // Unknown
-      else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
-    }
-    else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Target is a directory!", Mime::PlainText);
-  }
-  else RequestHandlerTools::Error404(response);
+    public:
+      // Serialize a single game
+      JSONBuilder Serialize(const FileData* game) override
+      {
+        if (game->IsGame())
+          return JSONBuilder()
+                 .Open()
+                   .Field("path", game->Metadata().Rom().ToString())
+                   .Field("name", game->Metadata().Name())
+                   .Field("publisher", game->Metadata().Publisher())
+                   .Field("developer", game->Metadata().Developer())
+                   .Field("genre", game->Metadata().Genre())
+                   .Field("players", game->Metadata().PlayerMax())
+                   .Field("rating", game->Metadata().Rating())
+                 .Close();
+        return JSONBuilder();
+      }
+  } serializer;
+
+  JSONBuilder roms;
+  roms.Open()
+      .Field<FileData>("roms", allGames, serializer)
+      .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, roms, Mime::Json);
+}
+
+void RequestHandler::RomsDelete(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "RomsDelete");
+}
+
+void RequestHandler::ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeSystemViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "systemview", response);
+}
+
+void RequestHandler::ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeMenuSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "menuset", response);
+}
+
+void RequestHandler::ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeIconSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "iconset", response);
+}
+
+void RequestHandler::ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeGamelistViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "gamelistview", response);
+}
+
+void RequestHandler::ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeColorSetGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "colorset", response);
+}
+
+void RequestHandler::ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "ThemeGameclipViewGet");
+
+  RequestHandlerTools::GetThemeKeyValue(Url::URLDecode(request.splatAt(0).name()), "gameclipview", response);
 }
 
 static const char Base64Values[] =
@@ -590,3 +662,4 @@ String RequestHandler::Decode64(const String& base64)
 
   return result;
 }
+

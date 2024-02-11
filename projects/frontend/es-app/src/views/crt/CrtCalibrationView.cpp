@@ -101,10 +101,12 @@ bool CrtCalibrationView::getHelpPrompts(Help& help)
 {
   help.Set(HelpType::AllDirections, _("MOVE SCREEN"))
       .Set(Help::Valid(), _("NEXT RESOLUTION"))
-      .Set(Help::Cancel(), _("QUIT"))
-      .Set(HelpType::X, _("WIDER"))
-      .Set(HelpType::Y, _("NARROWER"));
-
+      .Set(Help::Cancel(), _("QUIT"));
+  if(Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::RGBJamma)
+  {
+    help.Set(HelpType::X, _("WIDER"));
+    help.Set(HelpType::Y, _("NARROWER"));
+  }
   return true;
 }
 
@@ -167,13 +169,15 @@ bool CrtCalibrationView::ProcessInput(const InputCompactEvent& event)
       update = true;
     }
   }
-  else if (event.XReleased()) // Wider
+  else if (event.XReleased() && Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::RGBJamma) // Wider
   {
     CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) + 1);
+    UpdateViewport();
   }
-  else if (event.YReleased()) // Narrower
+  else if (event.YReleased() && Board::Instance().CrtBoard().GetCrtAdapter() != CrtAdapterType::RGBJamma) // Narrower
   {
     CrtConf::Instance().SetCrtViewportWidth(reso, CrtConf::Instance().GetCrtViewportWidth(reso) - 1);
+    UpdateViewport();
   }
   else if (event.AnyUpReleased())
   {
@@ -212,8 +216,8 @@ bool CrtCalibrationView::ProcessInput(const InputCompactEvent& event)
     CrtConf::Instance().Save();
     SetResolution(reso);
     Initialize();
+    UpdateViewport();
   }
-  UpdateViewport();
   return true;
 }
 

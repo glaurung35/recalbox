@@ -71,9 +71,16 @@ class RequestHandler : public IRouter
     void SystemEsRestart(const Rest::Request& request, Http::ResponseWriter response) override;
 
     /*!
-     * @brief Handle GET to generate support archive
-     * @param request  Request object
+     * @brief Handle GET to get support archive api route with generated file path
+     * @param request Request object
      * @param response Response object
      */
-    void SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response) override;
+    void SystemGenerateSupportArchive(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to download support archive
+     * @param request Request object
+     * @param response Response object
+     */
+    void SystemDownloadSupportArchive(const Rest::Request& request, Http::ResponseWriter response) override;
 };

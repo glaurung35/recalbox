@@ -255,4 +255,124 @@ class RequestHandler : public IRouter
      * @param response Response object
      */
     void MediaGetScreenshot(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms total count
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsGetTotal(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get system roms
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsGetList(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle DELETE to delete rom
+     * @param request Request object
+     * @param response Response object
+     */
+    void RomsDelete(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's information
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetInfo(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's image
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetImage(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's thumbnail
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetThumbnail(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's video
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetVideo(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's map
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetMap(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET to get roms's manual
+     * @param request Request object
+     * @param response Response object
+     */
+    void MetadataGetManual(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*
+     * Status
+     */
+
+    /*!
+     * @brief Handle GET to get current system/game status
+     * @param request Request object
+     * @param response Response object
+     */
+    void StatusGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*
+     * Themes
+     */
+
+    /*!
+     * @brief Handle GET get theme system view value
+     * @param request
+     * @param response
+     */
+    void ThemeSystemViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme menu set value
+     * @param request
+     * @param response
+     */
+    void ThemeMenuSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme icon set value
+     * @param request
+     * @param response
+     */
+    void ThemeIconSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme gamelist view value
+     * @param request
+     * @param response
+     */
+    void ThemeGamelistViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme color set value
+     * @param request
+     * @param response
+     */
+    void ThemeColorSetGet(const Rest::Request& request, Http::ResponseWriter response) override;
+
+    /*!
+     * @brief Handle GET get theme gameclip view value
+     * @param request
+     * @param response
+     */
+    void ThemeGameclipViewGet(const Rest::Request& request, Http::ResponseWriter response) override;
 };

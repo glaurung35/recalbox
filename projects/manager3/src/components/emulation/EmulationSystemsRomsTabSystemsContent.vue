@@ -8,7 +8,7 @@
         grid
         card-container-class="card-container"
         card-class="bg-secondary text-white card"
-        :rows="systemsList"
+        :rows="SystemsList"
         :columns="columns"
         row-key="name"
         :filter="table.filter"
@@ -18,6 +18,25 @@
         dense
         :pagination="table.pagination"
       >
+        <template v-slot:top-left>
+          <q-btn
+            :color="filterButtons.hasNetplay ? 'accent' : 'light-blue'"
+            @click="filterButtons.hasNetplay = !filterButtons.hasNetplay"
+            flat
+            icon="mdi-lan-connect"
+            round
+            size="md"
+          >
+            <q-tooltip
+              class="bg-primary"
+              :offset="[10, 10]"
+              content-class="bg-primary"
+              content-style="font-size: 16px"
+            >
+              {{ $t('emulation.systems.tooltips.hasNetplay.label') }}
+            </q-tooltip>
+          </q-btn>
+        </template>
         <template v-slot:top-right>
           <q-input
             :placeholder="$t('general.tables.searchLabel')"
@@ -43,7 +62,7 @@
         <template v-slot:item="props">
           <div
             @click="() => $router.push(
-              { name: 'systems-system', params: { system: props.row.themeFolder }}
+              { name: 'systems-system', params: { system: props.row.name }}
             )"
             class="q-pa-xs col-xs-12 col-sm-6 col-md-2 col-lg-2 grid-style-transition"
           >
@@ -51,13 +70,13 @@
               <q-card-section>
                 <div class="background"></div>
                 <q-img
-                  :src="api + '/systems/' + props.row.themeFolder + '/resource/eu/svg/logo'"
+                  :src="api + '/systems/' + props.row.themeFolder + '/resource/' + props.row.themeRegion + '/svg/logo'"
                   spinner-color="$light-blue"
                   :ratio="16/9"
                   fit="contain"
                   loading="lazy"
                 />
-                <div class="fullname">{{props.row.fullname}}</div>
+                <div class="fullname">{{props.row.fullName}}</div>
               </q-card-section>
             </q-card>
           </div>
@@ -79,13 +98,13 @@
 
 <script lang="ts" setup>
 import { useSystemsStore } from 'stores/systems';
-import { computed, ref } from 'vue';
+import { System } from 'stores/types/systems';
+import { computed, reactive, ref } from 'vue';
 import { storeToRefs } from 'pinia';
 import { apiUrl } from 'boot/axios';
 
 const systemsStore = useSystemsStore();
-systemsStore.fetch();
-const { systemsList } = storeToRefs(systemsStore);
+const { filteredSystemsList } = storeToRefs(systemsStore);
 
 const api: string|undefined = apiUrl;
 const columns = computed(() => [
@@ -94,7 +113,7 @@ const columns = computed(() => [
     required: true,
     label: '',
     align: 'left',
-    field: (row) => row.fullname,
+    field: (row: System) => row.fullName,
     sortable: true,
   },
 ]);
@@ -104,6 +123,19 @@ const table = ref({
   pagination: {
     rowsPerPage: 24,
   },
+});
+
+const filterButtons = reactive({
+  hasNetplay: false,
+});
+
+const SystemsList = computed(() => {
+  let list = filteredSystemsList.value;
+
+  if (filterButtons.hasNetplay) {
+    list = list.filter((filteredSystem) => filteredSystem.properties.hasNetplay);
+  }
+  return list;
 });
 </script>
 
@@ -132,7 +164,7 @@ const table = ref({
           .q-img__image
             transition: filter .2s ease
             filter: saturate(0)
-            opacity: 0.3
+            opacity: .5
 
           .fullname, .background
             position: absolute
@@ -143,7 +175,7 @@ const table = ref({
           .background
             top: 0
             height: 0
-            background: #34495e6b
+            background: rgba($primary, .4)
 
           .fullname
             top: -100%

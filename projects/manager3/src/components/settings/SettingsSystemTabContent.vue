@@ -100,6 +100,18 @@
 
       <FormFragmentContainer title="settings.system.splashScreen.title">
         <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.splashScreen.enabled.label"
+            :getter="system['splash.enabled']"
+            :setter="systemStore.post"
+            apiKey="splash.enabled"
+            v-if="system['splash.enabled']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.splashScreen.enabled.help') }}
+            </template>
+          </WrappedToggle>
           <WrappedSlider
             label="settings.system.splashScreen.splashLength.label"
             :getter="system['splash.length']"
@@ -109,6 +121,7 @@
             :min="splashLengthOptions.lowerValue"
             :max="splashLengthOptions.higherValue"
             icon="mdi-timer-outline"
+            :disable="!system['splash.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -127,6 +140,7 @@
             :setter="systemStore.post"
             apiKey="splash.select"
             v-if="system['splash.select']"
+            :disable="!system['splash.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -208,6 +222,7 @@
             apiKey="wpaf.enabled"
             v-if="hat['wpaf.enabled']"
             help
+            warning
           >
             <template v-slot:help>
               {{ $t('settings.system.hat.wpaf.enabled.help') }}
@@ -220,7 +235,9 @@
             :setter="hatStore.post"
             apiKey="wpaf.board"
             v-if="hat['wpaf.board']"
+            :disable="!hat['wpaf.enabled'].value"
             help
+            warning
           >
             <template v-slot:help>
               {{ $t('settings.system.hat.wpaf.board.help.availableOptions') }}
@@ -265,6 +282,7 @@
             :setter="systemStore.post"
             apiKey="fbcp.enabled"
             v-if="system['fbcp.enabled']"
+            help
           >
             <template v-slot:help>
               {{ $t('settings.system.minitft.help') }}
@@ -299,6 +317,23 @@
               </ul>
             </template>
           </WrappedSelect>
+        </template>
+      </FormFragmentContainer>
+
+      <FormFragmentContainer title="settings.system.battery.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="settings.system.battery.hidden.label"
+            :getter="emulationstation['battery.hidden']"
+            :setter="emulationstationStore.post"
+            apiKey="battery.hidden"
+            v-if="emulationstation['battery.hidden']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.system.battery.hidden.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
@@ -482,6 +517,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.type"
             v-if="system['secondminitft.type']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -499,6 +535,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.resolution"
             v-if="system['secondminitft.resolution']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -515,6 +552,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imagestretchenabled"
             v-if="system['secondminitft.imagestretchenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -527,6 +565,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imageenlargeenabled"
             v-if="system['secondminitft.imageenlargeenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -539,6 +578,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imagealphaenabled"
             v-if="system['secondminitft.imagealphaenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -551,6 +591,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.imageignoreaspectenabled"
             v-if="system['secondminitft.imageignoreaspectenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -563,6 +604,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.disablevideoines"
             v-if="system['secondminitft.disablevideoines']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -573,11 +615,12 @@
             label="settings.system.secondminitft.backlightcontrol.label"
             :getter="system['secondminitft.backlightcontrol']"
             :setter="systemStore.post"
-            apiKey="secondminitft."
+            apiKey="secondminitft.backlightcontrol"
             v-if="system['secondminitft.backlightcontrol']"
             :min="secondminitftBacklightDurationOptions.lowerValue"
             :max="secondminitftBacklightDurationOptions.higherValue"
             icon="mdi-brightness-6"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -590,6 +633,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.usemarquee"
             v-if="system['secondminitft.usemarquee']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -602,6 +646,7 @@
             :setter="systemStore.post"
             apiKey="secondminitft.sleepenabled"
             v-if="system['secondminitft.sleepenabled']"
+            :disable="!system['secondminitft.enabled'].value"
             help
           >
             <template v-slot:help>
@@ -678,7 +723,8 @@ const architectureStore = useArchitectureStore();
 architectureStore.fetch();
 const { architecture } = storeToRefs(architectureStore);
 
-const isWpafAvailable = (arch: string) => ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+const isWpafAvailable = (arch: string) => false; // ['rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 const isBrightnessAvailable = (arch: string) => ['odroidgo2', 'rg353x'].includes(arch);
 const isFbcpAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);
 const isPowerSwitchAvailable = (arch: string) => ['rpi1', 'rpi3', 'rpi4_64', 'rpi5_64'].includes(arch);

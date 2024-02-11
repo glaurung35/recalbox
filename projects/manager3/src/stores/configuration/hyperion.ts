@@ -3,16 +3,22 @@
  */
 import { defineStore } from 'pinia';
 import { CONFIGURATION } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import { HyperionConfigResponse } from 'stores/types/hyperion';
 
-export type HyperionStoreState = {
-  _baseUrl: string,
-  hyperion: HyperionConfigResponse,
+export interface HyperionStoreState extends FetchStore, PostStore {
+  _baseUrl: string;
+  hyperion: HyperionConfigResponse;
 }
 
 export const useHyperionStore = defineStore('hyperion', {
   state: () => ({
     _baseUrl: CONFIGURATION.hyperion,
-    hyperion: {},
+    hyperion: {
+      enabled: {
+        value: false,
+      },
+    },
   } as HyperionStoreState),
 });

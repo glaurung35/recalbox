@@ -2,17 +2,18 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
-import { VERSIONS } from 'src/router/api.routes';
+import { GLOBAL } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { VersionsResponse } from 'stores/types/versions';
 
-export type VersionsStoreState = {
-  _baseUrl: string,
-  versions: VersionsResponse,
-};
+export interface VersionsStoreState extends FetchStore {
+  _baseUrl: string;
+  versions: VersionsResponse;
+}
 
 export const useVersionsStore = defineStore('versions', {
   state: () => ({
-    _baseUrl: VERSIONS,
+    _baseUrl: GLOBAL.versions,
     versions: {},
   } as VersionsStoreState),
 });

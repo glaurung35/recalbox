@@ -19,8 +19,8 @@
     background: $rc-light-grey
 
     .lines
-      border-left: 38em solid #34495e
-      border-right: 1.5em solid #85d6de
+      border-left: 38em solid $primary
+      border-right: 1.5em solid $accent
       height: 145vh
       position: absolute
       transform: rotate(18deg)

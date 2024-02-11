@@ -19,6 +19,18 @@
               {{ $t('settings.emustation.display.videomode.help') }}
             </template>
           </WrappedSelect>
+          <WrappedToggle
+            label="settings.emustation.display.force43.label"
+            :getter="system['es.force43']"
+            :setter="systemStore.post"
+            apiKey="es.force43"
+            v-if="system['es.force43']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.display.force43.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.emustation.menus.title">
@@ -221,50 +233,22 @@
               {{ $t('settings.emustation.filters.hidenogames.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.filters.displaybyfilename.label"
+            :getter="system.displaybyfilename"
+            :setter="systemStore.post"
+            apiKey="displaybyfilename"
+            v-if="system.displaybyfilename"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.filters.displaybyfilename.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
     </div>
     <div class="col col-xs-12 col-sm-12 col-md-6">
-      <FormFragmentContainer title="settings.emustation.videoSnaps.title">
-        <template v-slot:content>
-          <WrappedSlider
-            label="settings.emustation.videoSnaps.delay.label"
-            :getter="emulationstation['videosnaps.delay']"
-            :setter="emulationstationStore.post"
-            apiKey="videosnaps.delay"
-            v-if="emulationstation['videosnaps.delay']"
-            :min="videosnapsDelayOptions.lowerValue"
-            :step="500"
-            :max="videosnapsDelayOptions.higherValue"
-            icon="mdi-clock-start"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.videoSnaps.delay.help') }}
-            </template>
-          </WrappedSlider>
-          <WrappedSlider
-            label="settings.emustation.videoSnaps.loop.label"
-            :getter="emulationstation['videosnaps.loop']"
-            :setter="emulationstationStore.post"
-            apiKey="videosnaps.loop"
-            v-if="emulationstation['videosnaps.loop']"
-            :min="videosnapsLoopOptions.lowerValue"
-            :max="videosnapsLoopOptions.higherValue"
-            icon="mdi-reload"
-            help
-          >
-            <template v-slot:help>
-              {{ $t('settings.emustation.videoSnaps.loop.help.availableOptions') }}
-              <ul>
-                <li v-html="$t('settings.emustation.videoSnaps.loop.help.0')"></li>
-                <li v-html="$t('settings.emustation.videoSnaps.loop.help.1')"></li>
-              </ul>
-            </template>
-          </WrappedSlider>
-        </template>
-      </FormFragmentContainer>
-
       <FormFragmentContainer title="settings.emustation.virtualsystems.title">
         <template v-slot:content>
           <WrappedToggle
@@ -339,6 +323,18 @@
               {{ $t('settings.emustation.virtualsystems.tate.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="settings.emustation.tateonly.label"
+            :getter="emulationstation.tateonly"
+            :setter="emulationstationStore.post"
+            apiKey="tateonly"
+            v-if="emulationstation.tateonly"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.tateonly.help') }}
+            </template>
+          </WrappedToggle>
         </template>
       </FormFragmentContainer>
       <FormFragmentContainer title="settings.emustation.theme.title">
@@ -372,6 +368,19 @@
                 <li v-html="$t('settings.emustation.theme.transition.help.1')"></li>
                 <li v-html="$t('settings.emustation.theme.transition.help.2')"></li>
               </ul>
+            </template>
+          </WrappedSelect>
+          <WrappedSelect
+            label="settings.emustation.theme.region.label"
+            :options="themeRegionOptions"
+            :getter="emulationstation['theme.region']"
+            :setter="emulationstationStore.post"
+            apiKey="theme.region"
+            v-if="emulationstation['theme.region']"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('settings.emustation.theme.region.help') }}
             </template>
           </WrappedSelect>
           <WrappedToggle
@@ -476,10 +485,9 @@ systemStore.fetch();
 const {
   menuOptions,
   selectedsystemOptions,
-  videosnapsLoopOptions,
-  videosnapsDelayOptions,
   themeFolderOptions,
   themeTransitionOptions,
+  themeRegionOptions,
   popupHelpOptions,
   popupMusicOptions,
   popupNetplayOptions,

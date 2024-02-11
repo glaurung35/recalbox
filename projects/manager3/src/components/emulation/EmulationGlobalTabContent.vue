@@ -127,6 +127,18 @@
               {{ $t('emulation.global.display.showfps.help') }}
             </template>
           </WrappedToggle>
+          <WrappedToggle
+            label="emulation.global.display.vulkandriver.label"
+            :getter="global.vulkandriver"
+            :setter="globalStore.post"
+            apiKey="vulkandriver"
+            v-if="global.vulkandriver"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.display.vulkandriver.help') }}
+            </template>
+          </WrappedToggle>
 
         </template>
       </FormFragmentContainer>
@@ -188,6 +200,29 @@
               {{ $t('emulation.global.autorun.enabled.help') }}
             </template>
           </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.global.tate.title">
+        <template v-slot:content>
+          <WrappedSelect
+            label="emulation.global.tate.gamerotation.label"
+            :options="gameRotationOptions"
+            :getter="tate.gamerotation"
+            :setter="tateStore.post"
+            apiKey="gamerotation"
+            v-if="tate.gamerotation"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.global.tate.gamerotation.help.availableOptions') }}
+              <ul>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.0')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.1')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.2')"></li>
+                <li v-html="$t('emulation.global.tate.gamerotation.help.3')"></li>
+              </ul>
+            </template>
+          </WrappedSelect>
         </template>
       </FormFragmentContainer>
     </div>
@@ -429,6 +464,7 @@ import { useEmulationstationStore } from 'stores/configuration/emulationstation'
 import { storeToRefs } from 'pinia';
 import FormFragmentContainer from 'components/ui-kit/FormFragmentContainer.vue';
 import { useAutorunStore } from 'stores/configuration/autorun';
+import { useTateStore } from 'stores/configuration/tate';
 
 const globalStore = useGlobalStore();
 globalStore.fetch();
@@ -453,4 +489,8 @@ const {
 const autorunStore = useAutorunStore();
 autorunStore.fetch();
 const { autorun } = storeToRefs(autorunStore);
+
+const tateStore = useTateStore();
+tateStore.fetch();
+const { tate, gameRotationOptions } = storeToRefs(tateStore);
 </script>

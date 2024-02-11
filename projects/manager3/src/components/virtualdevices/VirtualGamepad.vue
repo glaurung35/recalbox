@@ -130,9 +130,10 @@
 </template>
 
 <script lang="ts" setup>
+import client from 'boot/mqtt';
+
 function press(button: string) {
-  // eslint-disable-next-line no-console
-  console.log(button);
+  client.publish(String(process.env.MQTT_VD_EVENTS_GAMEPAD_CHANNEL), `${button}, 1`);
 }
 </script>
 

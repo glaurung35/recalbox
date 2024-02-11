@@ -61,7 +61,7 @@ const className = `bg-primary text-white ${warning.value ? 'help-dialog-card-war
     bottom: 0
     right: -30px
     color: $secondary
-    opacity: 0.3
+    opacity: .3
     animation-duration: .5s
     animation-name: helpDialogSlidein
 

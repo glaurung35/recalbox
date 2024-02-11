@@ -6,7 +6,7 @@
     appear
     enter-active-class="animated flipInX"
   >
-    <div class="col q-pa-md container total">
+    <div class="col q-pa-md statContainer total">
       <div class="badge">
         <div
           :class="'circle-container' + (route ? ' hover' : '')"
@@ -41,7 +41,7 @@ const {
 } = toRefs(props);
 
 function click() {
-  if (route.value) {
+  if (route?.value) {
     router.push(
       { name: route.value },
     );
@@ -50,13 +50,12 @@ function click() {
 </script>
 
 <style lang="sass" scoped>
-.container
+.statContainer
   display: flex
   justify-content: center
   align-items: center
 
   .badge
-
     .circle-container
       background-color: $light-blue
       height: 120px

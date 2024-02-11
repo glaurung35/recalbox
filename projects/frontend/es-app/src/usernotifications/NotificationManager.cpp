@@ -196,14 +196,22 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
 
   // Action
   builder.Field("Action", ActionToString(request.mAction))
-         .Field("Parameter", request.mActionParameters)
+         .Field("Parameter", request.mAction == Notification::RunKodi ? "Kodi" : request.mActionParameters)
          .Field("Version", LEGACY_STRING("2.0"));
+  // Kodi
+  if (request.mAction == Notification::RunKodi)
+  {
+    builder.OpenObject("System")
+           .Field("System", "kodi")
+           .Field("SystemId", "kodi")
+           .CloseObject();
+  }
   // System
   if (request.mSystemData != nullptr)
   {
     builder.OpenObject("System")
-           .Field("System", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->FullName())
-           .Field("SystemId", request.mAction == Notification::RunKodi ? "kodi" : request.mSystemData->Name());
+           .Field("System", request.mSystemData->FullName())
+           .Field("SystemId", request.mSystemData->Name());
     if (!request.mSystemData->IsVirtual())
       if (EmulatorManager::GetDefaultEmulator(*request.mSystemData, emulator, core))
         builder.OpenObject("DefaultEmulator")
@@ -226,7 +234,7 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
            .Field("Publisher", request.mFileData->Metadata().Publisher())
            .Field("Players", request.mFileData->Metadata().PlayersAsString())
            .Field("Region", request.mFileData->Metadata().RegionAsString())
-           .Field("Genre", request.mFileData->Metadata().Genre())
+           .Field("Genre", request.mFileData->Metadata().Genre().Replace(',', ", ", 2).Replace(" ", 2, ' '))
            .Field("GenreId", request.mFileData->Metadata().GenreIdAsString())
            .Field("Favorite", request.mFileData->Metadata().Favorite())
            .Field("Hidden", request.mFileData->Metadata().Hidden())
@@ -381,6 +389,10 @@ void NotificationManager::Run()
         JSONBuilder json = BuildJsonPacket(*request);
         // MQTT notification
         mMQTTClient.Send(sEventJsonTopic, json);
+        //! Store
+        mSyncer.Lock();
+        mLastJSONEvent = json;
+        mSyncer.UnLock();
 
         // Run scripts
         const String& notificationParameter = (request->mFileData != nullptr)

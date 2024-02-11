@@ -62,7 +62,7 @@ dreamcast,flycast,ntsc,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0
 dreamcast,flycast,pal,15kHz,interlaced,standard_interlaced:pal:576@50,0,0
 dreamcast,flycast,ntsc,15kHz,progressive,standard:ntsc:240@60,0,0
 dreamcast,flycast,pal,15kHz,progressive,standard:pal:288@50,0,0
-dreamcast,flycast,all,31kHz,progressive,default@31kHz:all:480@60,640,0
+dreamcast,flycast,all,31kHz,progressive,default@31kHz:all:480@60,0,0
 gamegear,genesisplusgx,all,15kHz,progressive,standard:ntsc:224@60,960,144
 gb,gambatte,all,15kHz,progressive,standard:ntsc:224@60,960,144
 dos,dosbox_pure,ntsc,15kHz,progressive,standard:ntsc:224@60,1780,200

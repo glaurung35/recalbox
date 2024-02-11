@@ -29,9 +29,15 @@ def createSystem(crt_verticaloffset_p1920x240at120: int = 0,
                  crt_verticaloffset_p320x240: int = 0,
                  crt_horizontaloffset_p320x240: int = 0,
                  crt_viewportwidth_p320x240: int = 0,
+                 crt_verticaloffset_p320x224: int = 0,
+                 crt_horizontaloffset_p320x224: int = 0,
+                 crt_viewportwidth_p320x224: int = 0,
                  crt_verticaloffset_p384x288: int = 0,
                  crt_horizontaloffset_p384x288: int = 0,
                  crt_viewportwidth_p384x288: int = 0,
+                 crt_verticaloffset_p1920x480: int = 0,
+                 crt_horizontaloffset_p1920x480: int = 0,
+                 crt_viewportwidth_p1920x480: int = 0,
                  crtscreentype: CRTScreenType = CRTScreenType.k15):
     system = Emulator("fbneo", "retroarch", "fbneo")
     system.configure(keyValueSettings(""),
@@ -62,9 +68,15 @@ def createSystem(crt_verticaloffset_p1920x240at120: int = 0,
                                     crt_verticaloffset_p320x240,
                                     crt_horizontaloffset_p320x240,
                                     crt_viewportwidth_p320x240,
+                                    crt_verticaloffset_p320x224,
+                                    crt_horizontaloffset_p320x224,
+                                    crt_viewportwidth_p320x224,
                                     crt_verticaloffset_p384x288,
                                     crt_horizontaloffset_p384x288,
                                     crt_viewportwidth_p384x288,
+                                    crt_verticaloffset_p1920x480,
+                                    crt_horizontaloffset_p1920x480,
+                                    crt_viewportwidth_p1920x480,
     ))
     return system
 
@@ -215,3 +227,9 @@ def test_given_interlaced_mode_and_offsets_then_do_not_get_under_2_for_vfrontpor
     system = createSystem(crt_verticaloffset_i768x576=+5)
     assert CRTModeOffsetter().processMode(mode, system) == Mode(
         "768 1 24 72 88 576 1 2 5 42 0 0 0 50 1 14875000 1")
+
+def test_given_p1920x480_mode_and_offsets_then_modify_mode(mocker):
+    mode = Mode("1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1")
+    system = createSystem(crt_horizontaloffset_p1920x480=10, crt_verticaloffset_p1920x480=-1)
+    assert CRTModeOffsetter().processMode(mode, system) == Mode(
+        "1920 1 18 208 286 480 1 16 3 25 0 0 0 60 0 76462080 1")

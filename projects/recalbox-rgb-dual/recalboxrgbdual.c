@@ -516,6 +516,7 @@ static int dpidac_get_modes(struct drm_connector *connector) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: Multisync: 31kHz + 15kHz modes will be available\n");
       dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, !config.desktop480p);
       dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
+      dpidac_apply_module_mode(connector, p1920x480, false);
       dpidac_apply_module_mode(connector, p1920x240, false);
       dpidac_apply_module_mode(connector, p1920x224, false);
       return 4;

@@ -42,6 +42,8 @@ class CRTResolution(StrEnum):
         if height == 480:
             if interlaced == 1:
                 return CRTResolution.i640x480
+            elif width > 640:
+                return CRTResolution.p1920x480
             else:
                 return CRTResolution.p640x480
         if height == 576:

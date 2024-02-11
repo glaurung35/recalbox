@@ -829,7 +829,11 @@ def test_given_a_vertical_game_in_31khz_returns_vertical_configuration_with_rati
 
     # ratio not needed to be changed since we are now on super rez
     #assert libretro_config["aspect_ratio_index"] == "22"
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["aspect_ratio_index"] == "23"
     assert libretro_config["video_smooth"] == '"true"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1080
+    assert libretro_config["custom_viewport_height_ntsc"] == 480
 
 
 def test_given_mame2015_game_returns_mame2010_game_mode(mocker, system_fbneo: Emulator):
@@ -890,9 +894,9 @@ def test_given_31kHz_and_system_width_should_ignore_system_width(mocker):
 
     assert libretro_config["crt_switch_timings_pal"] == '"1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1"'
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1"'
-    assert libretro_config["custom_viewport_width_ntsc"] == 640
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
     assert libretro_config["custom_viewport_height_ntsc"] == 480
-    assert libretro_config["custom_viewport_width_pal"] == 640
+    assert libretro_config["custom_viewport_width_pal"] == 1920
     assert libretro_config["custom_viewport_height_pal"] == 480
 
 
@@ -1248,3 +1252,40 @@ def test_given_arcade_vf_24khz_but_has_480i_mode_then_return_240p_on_pi5(mocker,
     assert config_lines["video_refresh_rate_ntsc"] == '"60"'
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
     assert config_lines["custom_viewport_height_ntsc"] == 240
+
+
+def test_given_arcade_tate_game_on31khzyoko_then_return_a_timber_config(mocker, system_fbneo):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "espgal,fbneo,arcade:224@59.170000,0,0,1",
+        MODES_TXT: "arcade:224@59.170000,1920 1 80 184 312 224 1 12 3 26 0 0 0 59 0 39137405 1,59.170000\ndefault@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60"
+    })
+
+    emulator = configureForCrt(system_fbneo, rotation=0, crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "espgal.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["video_scale_integer"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1080
+    assert config_lines["custom_viewport_height_ntsc"] == 480
+    assert config_lines["custom_viewport_x_ntsc"] == 420
+
+def test_given_naomi_tate_game_on31khzyoko_then_return_a_timber_config(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "naomi,flycast,ntsc,15kHz,interlaced,standard_interlaced:ntsc:480@60,0,0\nnaomi,flycast,pal,15kHz,interlaced,standard_interlaced:pal:576@50,0,0\nnaomi,flycast,ntsc,15kHz,progressive,standard:ntsc:240@60,0,0\nnaomi,flycast,pal,15kHz,progressive,standard:pal:288@50,0,0\nnaomi,flycast,all,31kHz,progressive,default@31kHz:all:480@60,0,0",
+        MODES_TXT: "default@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60\n"
+    })
+
+    naomi = configureForCrt(Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast'),
+                                crtresolutiontype="progressive", verticalgame=True, crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(naomi, "ikaruga.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["aspect_ratio_index"] == "23"
+    assert config_lines["video_smooth"] == '"true"'
+    assert config_lines["video_scale_integer"] == '"false"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1080
+    assert config_lines["custom_viewport_height_ntsc"] == 480
+    assert config_lines["custom_viewport_x_ntsc"] == 420

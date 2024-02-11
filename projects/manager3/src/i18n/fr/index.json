@@ -98,11 +98,6 @@
       "roms": "roms",
       "sharePercent": "% de la partition share"
     },
-    "twitch": {
-      "our_channel": "Nous rejoindre sur Twitch",
-      "title": "Streams à venir",
-      "is_recurring": "Événement récurrent"
-    },
     "system": {
       "title": "Système en cours",
       "es": {

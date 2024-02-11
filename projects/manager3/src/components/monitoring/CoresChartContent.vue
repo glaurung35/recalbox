@@ -29,11 +29,21 @@ const options = computed(() => ({
       show: false,
     },
     zoom: { enabled: false },
+    height: 'auto',
   },
-  responsive: [{ breakpoint: 480 }],
   xaxis: {
     type: 'category',
   },
+  responsive: [
+    {
+      breakpoint: 950,
+      options: {
+        chart: {
+          height: '250px',
+        },
+      },
+    },
+  ],
   yaxis: {
     title: {
       text: t('monitoring.cores.title'),

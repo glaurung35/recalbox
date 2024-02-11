@@ -133,6 +133,11 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! MQTT Topic - complete event w/ data in JSON form
     static constexpr const char* sEventJsonTopic = "Recalbox/EmulationStation/EventJson";
 
+    //! Virtual devices - events
+    static constexpr const char* sKeyboardEventTopic = "Recalbox/VirtualDevices/Keyboard";
+    static constexpr const char* sGamePadEventTopic = "Recalbox/VirtualDevices/GamePad";
+    static constexpr const char* sTouchPadEventTopic = "Recalbox/VirtualDevices/TouchPad";
+
     // MQTT client
     MqttClient mMQTTClient;
 
@@ -145,10 +150,13 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
     //! All available scripts
     ScriptList mScriptList;
 
+    //! Last JSON event
+    JSONBuilder mLastJSONEvent;
+
     //! Request provider
     MessageFactory<NotificationRequest> mRequestProvider;
     //! Request synchronized queue
-    Queue<NotificationRequest*> mRequestQueue;
+    ::Queue<NotificationRequest*> mRequestQueue;
     //! Queue syncer'
     Mutex mSyncer;
     //! Thread signal
@@ -337,4 +345,10 @@ class NotificationManager : public StaticLifeCycleControler<NotificationManager>
      * @param action Action to notify
      */
     void Notify(Notification action) { Notify(nullptr, nullptr, action, String()); }
+
+    JSONBuilder LastJSONEvent()
+    {
+      Mutex::AutoLock locker(mSyncer);
+      return mLastJSONEvent;
+    }
 };

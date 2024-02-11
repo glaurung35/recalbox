@@ -106,7 +106,7 @@ void MqttClient::on_success(const mqtt::token& asyncActionToken)
       if (mMqtt.get_client_id() == "recalbox-api-server-broadcaster")
         { LOG(LogTrace) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
       else
-        { LOG(LogInfo) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
+        { LOG(LogDebug) << "[MQTT] Publishing to " << mMqtt.get_server_uri() << " from " << mMqtt.get_client_id() << " OK!"; }
       break;
     }
     case mqtt::token::UNSUBSCRIBE:

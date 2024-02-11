@@ -13,10 +13,7 @@
 #include "Mime.h"
 #include <LibretroRatio.h>
 #include <utils/Zip.h>
-#include <systems/arcade/ArcadeVirtualSystems.h>
-#include <systems/SystemManager.h>
-#include <audio/AudioController.h>
-#include "ResolutionAdapter.h"
+#include <patreon/PatronInfo.h>
 
 using namespace Pistache;
 
@@ -26,7 +23,7 @@ void RequestHandlerTools::GetJSONMediaList(Pistache::Http::ResponseWriter& respo
   Path::PathList list = mediaPath.GetDirectoryContent();
 
   static String imagesExtensions(".jpg|.jpeg|.png|.gif");
-  static String videosExtensions(".mkv|.avi|.mp4");
+  static String videosExtensions(".mkv|.avi|.mp4|.webm");
 
   JSONBuilder result;
   result.Open()
@@ -302,7 +299,7 @@ void RequestHandlerTools::SendResource(const Path& preferedpath, const Path& fal
     Error404(response);
 }
 
-const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet(const String& _namespace)
+const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet(const String& _namespace, SystemManager& manager)
 {
   enum class Namespace
   {
@@ -329,24 +326,24 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
 
   static HashMap<String, Namespace> sConverter
   ({
-     { "system", Namespace::System },
+     { "system"          , Namespace::System },
      { "emulationstation", Namespace::EmulationStation },
-     { "scraper", Namespace::Scraper },
-     { "kodi", Namespace::Kodi },
-     { "hyperion", Namespace::Hyperion },
-     { "audio", Namespace::Audio },
-     { "wifi", Namespace::Wifi },
-     { "wifi2", Namespace::Wifi2 },
-     { "wifi3", Namespace::Wifi3 },
-     { "controllers", Namespace::Controllers },
-     { "updates", Namespace::Updates },
-     { "global", Namespace::Global },
-     { "specific", Namespace::Specific },
-     { "patron", Namespace::Patron },
-     { "music", Namespace::Music },
-     { "hat", Namespace::Hat },
-     { "autorun", Namespace::Autorun },
-     { "tate", Namespace::Tate },
+     { "scraper"         , Namespace::Scraper },
+     { "kodi"            , Namespace::Kodi },
+     { "hyperion"        , Namespace::Hyperion },
+     { "audio"           , Namespace::Audio },
+     { "wifi"            , Namespace::Wifi },
+     { "wifi2"           , Namespace::Wifi2 },
+     { "wifi3"           , Namespace::Wifi3 },
+     { "controllers"     , Namespace::Controllers },
+     { "updates"         , Namespace::Updates },
+     { "global"          , Namespace::Global },
+     { "specific"        , Namespace::Specific },
+     { "patron"          , Namespace::Patron },
+     { "music"           , Namespace::Music },
+     { "hat"             , Namespace::Hat },
+     { "autorun"         , Namespace::Autorun },
+     { "tate"            , Namespace::Tate },
   });
 
   Namespace* pns = sConverter.try_get(_namespace);
@@ -388,6 +385,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "externalscreen.forceresolution"        , Validator("0123456789x") },
          { "externalscreen.forcefrequency"         , Validator("0123456789.") },
          { "es.force43"                            , Validator(true) },
+         { "splash.enabled"                        , Validator(true) },
+         { "displaybyfilename"                     , Validator(true) },
        });
 
       return sList;
@@ -397,7 +396,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
       static HashMap<String, Validator> sList
       ({
          { "menu"                        , Validator(false, { "default", "bartop", "none" }) },
-         { "selectedsystem"              , Validator(GetSupportedSystemList(), false) },
+         { "selectedsystem"              , Validator(GetSupportedSystemList(manager), false) },
          { "bootongamelist"              , Validator(true) },
          { "hidesystemview"              , Validator(true) },
          { "gamelistonly"                , Validator(true) },
@@ -406,7 +405,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "clock"                       , Validator(true) },
          { "favoritesonly"               , Validator(true) },
          { "screensaver.time"            , Validator(0, 30) },
-         { "screensaver.type"            , Validator(false, { "dim", "black", "demo", "gameclip" }) },
+         { "screensaver.type"            , Validator(GetAvailableScreensavers(), false) },
          { "showgameclipclippingitem"    , Validator(true) },
          { "showgamecliphelpitems"       , Validator(true) },
          { "theme.folder"                , Validator(GetAvailableThemes(), false) },
@@ -427,6 +426,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "systemsorting"               , Validator(false, { "default", "name", "releasedate", "1type2name", "1type2releasedate", "1manufacturer2name", "1manufacturer2releasedate", "1type2manufacturer3name", "1type2manufacturer3releasedate" }) },
          { "theme.carousel"              , Validator(true) },
          { "theme.transition"            , Validator(false, { "slide", "instant", "fade" }) },
+         { "theme.region"                , Validator(GetThemeRegions(), false) },
          { "brightness"                  , Validator(0, 8) },
          { "showhidden"                  , Validator(true) },
          { "showonlylatestversion"       , Validator(true) },
@@ -449,6 +449,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "debuglogs"                   , Validator(true) },
          { "pads.osd"                    , Validator(true) },
          { "pads.osd.type"               , Validator(GetAvailableOsdTypes(), false) },
+         { "tateonly"                    , Validator(true) },
+         { "battery.hidden"              , Validator(true) },
        });
 
       return sList;
@@ -459,7 +461,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
       ({
         { "extractregionfromfilename"   , Validator(true) },
         { "getnamefrom"                 , Validator(0, 2) },
-        { "source"                      , Validator(false, { "ScreenScraper", "Recalbox" }) },
+        { "source"                      , Validator(GetAvailableScrapers(), false) },
         { "auto"                        , Validator(true) },
         { "screenscraper.region"        , Validator(GetScraperRegions(), false) },
         { "screenscraper.language"      , Validator(GetScraperLanguages(), false) },
@@ -541,11 +543,11 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "device" , Validator(GetAvailableSoundDevices(), false) },
-        { "volume" , Validator(0, 100) },
+        { "device"      , Validator(GetAvailableSoundDevices(), false) },
+        { "volume"      , Validator(0, 100) },
         { "music.volume", Validator(0, 100) },
-        { "bgmusic", Validator(true) },
-        { "mode"   , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
+        { "bgmusic"     , Validator(true) },
+        { "mode"        , Validator(false, { "musicxorvideosound", "musicandvideosound", "musiconly", "videosoundonly", "none"}) },
       });
 
       return sList;
@@ -554,20 +556,21 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "bluetooth.enabled"    , Validator(true) },
-        { "bluetooth.ertm"       , Validator(true) },
-        { "ps3.enabled"          , Validator(true) },
-        { "ps3.driver"           , Validator(false, { "bluez", "official", "shanwan" }) },
-        { "gpio.enabled"         , Validator(true) },
-        { "gpio.args"            , Validator() },
-        { "steam.enabled"        , Validator(true) },
-        { "db9.enabled"          , Validator(true) },
-        { "db9.args"             , Validator() },
-        { "gamecon.enabled"      , Validator(true) },
-        { "gamecon.args"         , Validator() },
-        { "xarcade.enabled"      , Validator(true) },
-        { "joycond.enabled"      , Validator(true) },
-        { "swapvalidateandcancel", Validator(true) },
+        { "bluetooth.enabled"       , Validator(true) },
+        { "bluetooth.ertm"          , Validator(true) },
+        { "ps3.enabled"             , Validator(true) },
+        { "ps3.driver"              , Validator(false, { "bluez", "official", "shanwan" }) },
+        { "gpio.enabled"            , Validator(true) },
+        { "gpio.args"               , Validator() },
+        { "steam.enabled"           , Validator(true) },
+        { "db9.enabled"             , Validator(true) },
+        { "db9.args"                , Validator() },
+        { "gamecon.enabled"         , Validator(true) },
+        { "gamecon.args"            , Validator() },
+        { "xarcade.enabled"         , Validator(true) },
+        { "joycond.enabled"         , Validator(true) },
+        { "swapvalidateandcancel"   , Validator(true) },
+        { "bluetooth.autopaironboot", Validator(true) },
       });
 
       return sList;
@@ -600,7 +603,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "retroachievements.username", Validator() },
         { "retroachievements.password", Validator() },
         { "inputdriver"               , Validator(false, { "auto", "udev", "sdl2"}) },
-        { "demo.systemlist"           , Validator(GetSupportedSystemList(), true) },
+        { "demo.systemlist"           , Validator(GetSupportedSystemList(manager), true) },
         { "demo.duration"             , Validator(30, 600) },
         { "demo.infoscreenduration"   , Validator(5, 30) },
         { "translate"                 , Validator(true) },
@@ -624,6 +627,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "runahead"                  , Validator(true) },
         { "hdmode"                    , Validator(true) },
         { "widescreenmode"            , Validator(true) },
+        { "vulkandriver"              , Validator(true) },
       });
 
       return sList;
@@ -692,8 +696,8 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "enabled", Validator(true) },
-        { "systemuuid", Validator() },
+        { "enabled" , Validator(true) },
+        { "uuid"    , Validator() },
         { "gamepath", Validator() },
       });
 
@@ -703,7 +707,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
     {
       static HashMap<String, Validator> sList
       ({
-        { "gamerotation", Validator(0, 3) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
+        { "gamerotation", Validator(false, { "0", "1", "2", "3" }) }, //<! 0: normal, 1: left, 2: upsidedown, 3: right
       });
 
       return sList;
@@ -891,22 +895,14 @@ void RequestHandlerTools::DeleteKeyValues(const String& domain, const HashMap<St
   RequestHandlerTools::Send(response, Http::Code::Bad_Request, "JSON Parsing error", Mime::PlainText);
 }
 
-const String::List& RequestHandlerTools::GetSupportedSystemList()
+const String::List& RequestHandlerTools::GetSupportedSystemList(SystemManager& manager)
 {
   static String::List result;
 
   if (result.empty())
   {
-    SystemDeserializer deserializer;
-    deserializer.LoadSystems();
-    for(int i = deserializer.Count(); --i >= 0; )
-    {
-      SystemDescriptor descriptor;
-      deserializer.Deserialize(i, descriptor);
-      result.push_back(descriptor.Name());
-    }
-    // PATCH
-    result.push_back("favorites");
+    for(const SystemData* system : manager.AllSystems())
+      result.push_back(system->Name());
   }
 
   return result;
@@ -1442,6 +1438,44 @@ HashMap<String, String> RequestHandlerTools::GetAvailableRegionFilter()
   return sRegions;
 }
 
+HashMap<String, String> RequestHandlerTools::GetAvailableScreensavers()
+{
+  static HashMap<String, String> sScreensavers({
+    { "dim"     , "DIM" },
+    { "black"   , "BLACK" },
+    { "demo"    , "DEMO" },
+    { "gameclip", "GAMECLIP" },
+  });
+
+  if (Board::Instance().HasSuspendResume())
+    sScreensavers.insert_unique({"suspend", "SUSPEND"});
+
+  return sScreensavers;
+}
+
+HashMap<String, String> RequestHandlerTools::GetThemeRegions()
+{
+  static HashMap<String, String> sThemeRegions({
+    { "eu", "Europe" },
+    { "jp", "Japan" },
+    { "us", "USA" }
+  });
+
+  return sThemeRegions;
+}
+
+HashMap<String, String> RequestHandlerTools::GetAvailableScrapers()
+{
+  static HashMap<String, String> sPatronInfos({
+    { "ScreenScraper", "ScreenScraper" }
+  });
+
+  if (PatronInfo::Instance().IsPatron() && PatronInfo::Instance().BossLevel() >= 2)
+    sPatronInfos.insert_unique({"Recalbox", "Recalbox"});
+
+  return sPatronInfos;
+}
+
 HashMap<String, String> RequestHandlerTools::GetAvailableKeyboardLayout()
 {
   static HashMap<String, String> kbLayouts;
@@ -1541,9 +1575,9 @@ Path RequestHandlerTools::GetCompressedBiosFolder()
   return destination;
 }
 
-bool RequestHandlerTools::IsValidSystem(const String& system)
+bool RequestHandlerTools::IsValidSystem(const String& system, SystemManager& manager)
 {
-  String::List systemList = RequestHandlerTools::GetSupportedSystemList();
+  String::List systemList = RequestHandlerTools::GetSupportedSystemList(manager);
   for(const String& s : systemList)
     if (s == system)
       return true;
@@ -1630,3 +1664,215 @@ bool RequestHandlerTools::ExtractArray(const Rest::Request& request, String::Lis
   return false;
 }
 
+FileData* RequestHandlerTools::GetGame(SystemManager& manager, const String& systemName, const String& romFullPath)
+{
+  // Extract system
+  SystemData* system = manager.SystemByName(systemName);
+  if (system == nullptr) return nullptr;
+
+  // Lookup game
+  return system->MasterRoot().LookupGameByFilePath(romFullPath);
+}
+
+void RequestHandlerTools::SendGameResource(SystemManager& manager, const String& systemName, const String& gameFullPath, Media media,
+                                           Pistache::Http::ResponseWriter& response)
+{
+  if (FileData* game = RequestHandlerTools::GetGame(manager, systemName, gameFullPath); game != nullptr)
+  {
+    Path mediaPath;
+    switch(media)
+    {
+      case Media::Image: mediaPath = game->Metadata().Image(); break;
+      case Media::Thumbnail: mediaPath = game->Metadata().Thumbnail(); break;
+      case Media::Video: mediaPath = game->Metadata().Video(); break;
+      case Media::Map: break;
+      case Media::Manual: break;
+      default: break;
+    }
+    SendMedia(mediaPath, response);
+  }
+  else RequestHandlerTools::Error404(response);
+}
+
+void RequestHandlerTools::SendGameMetadataInformation(SystemManager& manager,
+                                                     const String& systemName, const String& gameFullPath,
+                                                     Http::ResponseWriter& response)
+{
+  if (FileData* game = RequestHandlerTools::GetGame(manager, systemName, gameFullPath); game != nullptr)
+  {
+    JSONBuilder result;
+    MetadataDescriptor& meta = game->Metadata();
+    result.Open()
+            .Field("name", meta.Name())
+            .Field("synopsys", meta.Description())
+            .Field("publisher", meta.Publisher())
+            .Field("developer", meta.Developer())
+            .Field("emulator", meta.Emulator())
+            .Field("core", meta.Core())
+            .Field("ratio", meta.Ratio())
+            .Field("releaseDate", (long long int)meta.ReleaseDateEpoc())
+            .Field("lastPlayed", meta.LastPlayed().ToEpochTime())
+            .Field("regions", Regions::Serialize4Regions(meta.Region()))
+            .Field("playCount", meta.PlayCount())
+            .Field("crc32", meta.RomCrc32AsString())
+            .Field("adult", meta.Adult())
+            .Field("favorite", meta.Favorite())
+            .Field("hidden", meta.Hidden())
+            .Field("rating", meta.Rating())
+            .OpenObject("players").Field("min", meta.PlayerMin()).Field("max", meta.PlayerMax()).CloseObject()
+            .OpenObject("genres").Field("free", meta.Genre().Replace(',', ", ", 2).Replace(" ", 2, ' ')).Field("normalized", (int)meta.GenreId()).CloseObject()
+            .OpenObject("availableMedia")
+              .Field("hasImage", meta.HasImage())
+              .Field("hasThumbnail", meta.HasThumnnail())
+              .Field("hasVideo", meta.HasVideo())
+            .CloseObject()
+          .Close();
+    RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+  }
+  else RequestHandlerTools::Error404(response);
+}
+
+JSONBuilder RequestHandlerTools::SerializeSystemListToJSON(const SystemManager::List& array)
+{
+  class Serializer : public ISerializeToJson<const SystemData>
+  {
+    public:
+      // Serialize a single game
+      JSONBuilder Serialize(const SystemData* system) override
+      {
+        const SystemDescriptor& desc = system->Descriptor();
+
+        // Rom path
+        String::List romPath;
+        for(const RootFolderData* root : system->MasterRoot().SubRoots())
+          romPath.push_back(root->RomPath().ToString());
+
+        // Emulator/cores
+        JSONBuilder::JSONList cores;
+        const EmulatorList& emulatorList = desc.EmulatorTree();
+        for(int i = 0; i < emulatorList.Count(); ++i)
+        {
+          const EmulatorDescriptor& descriptor = emulatorList.EmulatorAt(i);
+          for(int c = 0; c < descriptor.CoreCount(); ++c)
+          {
+            const EmulatorDescriptor::Core& core = descriptor.CoreAt(c);
+            JSONBuilder emulators;
+            emulators.Open()
+                       .Field("emulator", descriptor.Name())
+                       .Field("core", core.mName)
+                       .Field("extensions", core.mExtensions)
+                       .Field("availableOnCRT", core.mCRTAvailable)
+                       .Field("hasNetplay", core.mNetplay)
+                       .Field("priority", core.mPriority)
+                       .Field("speed", (int)core.mSpeed)
+                       .Field("compatibility", (int)core.mCompatibility)
+                     .Close();
+            cores.push_back(emulators);
+          }
+        }
+
+        // System
+        IniFile configuration = RequestHandlerTools::LoadConfiguration();
+        JSONBuilder result;
+        result.Open()
+                .Field("name", desc.Name())
+                .Field("fullName", desc.FullName())
+                .Field("uuid", desc.GUID())
+                .Field("themeFolder", desc.ThemeFolder())
+                .Field("themeRegion", configuration.AsString("emulationstation.theme.region"))
+                .Field("manufacturer", desc.Manufacturer())
+                .Field("releaseDate", desc.ReleaseDate())
+                .Field("romPath", romPath)
+                .Field("extensions", desc.Extension())
+                .Field("type", (int)desc.Type())
+                .Field("ignoredFiles", desc.IgnoredFiles())
+                .OpenObject("inputs")
+                  .Field("pads", (int)desc.PadRequirement())
+                  .Field("keyboard", (int)desc.KeyboardRequirement())
+                  .Field("mouse", (int)desc.MouseRequirement())
+                .CloseObject()
+                .OpenObject("properties")
+                  .Field("hasLightgunSupport", desc.LightGun())
+                  .Field("isReadOnly", desc.IsReadOnly())
+                  .Field("hasNetplay", desc.HasNetPlayCores())
+                .CloseObject()
+                .Field("emulators", cores)
+              .Close();
+
+        return result;
+      }
+  } serializer;
+
+  HashMap<String, String> speeds;
+  for(int i = 0; i < (int)EmulatorDescriptor::Speed::__Count; ++i)
+    speeds[String(i)] = ConvertEmulatorSpeed((EmulatorDescriptor::Speed)i);
+  HashMap<String, String> compatibility;
+  for(int i = 0; i < (int)EmulatorDescriptor::Compatibility::__Count; ++i)
+    compatibility[String(i)] = ConvertEmulatorCompatibility((EmulatorDescriptor::Compatibility)i);
+  HashMap<String, String> requirements;
+  for(int i = 0; i < (int)SystemDescriptor::DeviceRequirement::__Count; ++i)
+    requirements[String(i)] = ConvertDeviceRequirement((SystemDescriptor::DeviceRequirement)i);
+  HashMap<String, String> types;
+  for(int i = 0; i < (int)SystemDescriptor::SystemType::__Count; ++i)
+    types[String(i)] = ConvertSystemType((SystemDescriptor::SystemType)i);
+
+  JSONBuilder systems;
+  systems.Open()
+           .OpenObject("enumerations")
+             .Field("systemTypes", types)
+             .Field("deviceRequirement", requirements)
+             .Field("emulatorSpeed", speeds)
+             .Field("emulatorCompatibility", compatibility)
+           .CloseObject()
+           .Field<SystemData>("systems", array, serializer)
+         .Close();
+
+  return systems;
+}
+
+void RequestHandlerTools::SendMedia(const Path& mediaPath, Http::ResponseWriter& response)
+{
+  // Check extension
+  String ext = mediaPath.Extension().LowerCase();
+  if (mediaPath.Exists())
+  {
+    if (mediaPath.IsFile())
+    {
+      // Text
+      if (ext == ".txt")      RequestHandlerTools::SendResource(mediaPath, response, Mime::PlainText);
+      else if (ext == ".pdf") RequestHandlerTools::SendResource(mediaPath, response, Mime::FilePdf);
+      // Image
+      else if (ext == ".gif") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageGif);
+      else if (ext == ".jpg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageJpg);
+      else if (ext == ".png") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImagePng);
+      else if (ext == ".svg") RequestHandlerTools::SendResource(mediaPath, response, Mime::ImageSvg);
+      // Video
+      else if (ext == ".mkv") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMkv);
+      else if (ext == ".mp4") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoMp4);
+      else if (ext == ".avi") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoAvi);
+      else if (ext == ".webm") RequestHandlerTools::SendResource(mediaPath, response, Mime::VideoWebm);
+      // Unknown
+      else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Invalid media extension!", Mime::PlainText);
+    }
+    else RequestHandlerTools::Send(response, Http::Code::Bad_Request, "Target is a directory!", Mime::PlainText);
+  }
+  else RequestHandlerTools::Error404(response);
+}
+
+void RequestHandlerTools::GetThemeKeyValue(const String& name, const char* key, Http::ResponseWriter& response)
+{
+  String themeKey(sThemeKeyValue);
+  themeKey.Replace("%NAME%", name)
+          .Replace("%KEY%", key);
+  String option = themeKey;
+
+  IniFile configuration = RequestHandlerTools::LoadConfiguration();
+
+  JSONBuilder result;
+  result.Open()
+        .Field("exist", configuration.Exists(option))
+        .Field(key, configuration.AsString(option))
+        .Close();
+
+  RequestHandlerTools::Send(response, Http::Code::Ok, result, Mime::Json);
+}

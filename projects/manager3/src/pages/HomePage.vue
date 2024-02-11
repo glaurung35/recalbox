@@ -30,9 +30,8 @@
     </div>
 
     <div class="row flex items-stretch emustation">
-      <div class="col social-medias">
-        <TwitchView/>
-      </div>
+<!--      <div class="col social-medias">-->
+<!--      </div>-->
       <div class="col system">
         <SystemView/>
       </div>
@@ -51,7 +50,6 @@ import TotalStat from 'components/ui-kit/TotalStat.vue';
 import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';
-import TwitchView from 'components/home/TwitchView.vue';
 import { useRomsStore } from 'stores/roms';
 
 const { getSystemsListCount } = useSystemsStore();

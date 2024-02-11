@@ -12,6 +12,7 @@
 #include <pistache/include/pistache/http.h>
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include <systems/SystemManager.h>
+#include <games/FileData.h>
 #include <audio/AudioController.h>
 #include "ResolutionAdapter.h"
 
@@ -22,7 +23,7 @@ class RequestHandlerTools
      * @brief Get supported system list
      * @return Systems' short names list
      */
-    static const String::List& GetSupportedSystemList();
+    static const String::List& GetSupportedSystemList(SystemManager& manager);
 
     static HashMap<String, String> GetArcadeManufacturerList();
 
@@ -46,6 +47,12 @@ class RequestHandlerTools
 
     static HashMap<String, String> GetAvailableRegionFilter();
 
+    static HashMap<String, String> GetAvailableScreensavers();
+
+    static HashMap<String, String> GetThemeRegions();
+
+    static HashMap<String, String> GetAvailableScrapers();
+
     static HashMap<String, String> GetAvailableKeyboardLayout();
 
     static HashMap<String, String> GetAvailableSoundDevices();
@@ -64,6 +71,15 @@ class RequestHandlerTools
 
     static void SetHeaders(Pistache::Http::ResponseWriter& response);
 
+    /*!
+     * @brief Lookup game
+     * @param manager System manager
+     * @param systemName System short name
+     * @param romFullPath Game full path
+     * @return FileData instance or nullptr
+     */
+    static FileData* GetGame(SystemManager& manager, const String& systemName, const String& romFullPath);
+
   public:
     //! Configuration file
     static constexpr const char* sConfiguration = "/recalbox/share/system/recalbox.conf";
@@ -73,6 +89,17 @@ class RequestHandlerTools
     static constexpr const char* sSystemResourceRegionPath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%REGION%/%FILE%";
     //! Basic System resource path
     static constexpr const char* sSystemResourceBasePath = "/recalbox/share_init/system/.emulationstation/themes/recalbox-next/%SYSTEM%/data/%FILE%";
+    //! Key option for theme
+    static constexpr const char* sThemeKeyValue = "emulationstation.theme.%NAME%.%KEY%";
+
+    enum class Media
+    {
+      Image,     //!< Main image
+      Thumbnail, //!< Thumbnail
+      Video,     //!< Video
+      Map,       //!< Map
+      Manual,    //!< Manual
+    };
 
     //! Device information structure
     struct DeviceInfo
@@ -221,7 +248,7 @@ class RequestHandlerTools
      * @brief Get configuration key list for given namespace
      * @return Key set & configuration. Empty set if the namespace is unknown
      */
-    static const HashMap<String, Validator>& SelectConfigurationKeySet(const String& _namespace);
+    static const HashMap<String, Validator>& SelectConfigurationKeySet(const String& _namespace, SystemManager& manager);
 
     /*!
      * @brief Load recalbox configuration
@@ -284,7 +311,7 @@ class RequestHandlerTools
      * @param system System short name
      * @return True if the given system is in the supported system list, false otherwise
      */
-    static bool IsValidSystem(const String& system);
+    static bool IsValidSystem(const String& system, SystemManager& manager);
 
     /*!
      * @brief Basic but efficient file extractor
@@ -309,4 +336,107 @@ class RequestHandlerTools
     * @param response Response object
     */
     static void GetJSONMediaList(Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Return game metadata or 404
+     * @param systemName System short name
+     * @param gameFullPath Game fullpath
+     * @param response Response object
+     */
+    static void SendGameMetadataInformation(SystemManager& manager, const String& systemName, const String& gameFullPath, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Return game metadata or 404
+     * @param systemName System short name
+     * @param gameFullPath Game fullpath
+     * @param response Response object
+     */
+    static void SendGameResource(SystemManager& manager, const String& systemName, const String& gameFullPath, Media media, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief
+     * @param mediaPath
+     * @param response
+     */
+    static void SendMedia(const Path& mediaPath, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * Build theme option key and value
+     * @param name Name of the theme
+     * @param key Key of the theme option to retrieve
+     * @param response Response object
+     */
+    static void GetThemeKeyValue(const String& name, const char* key, Pistache::Http::ResponseWriter& response);
+
+    /*!
+     * @brief Serialize a system list to JSON object
+     * @param array System list
+     * @return JSON
+     */
+    static JSONBuilder SerializeSystemListToJSON(const SystemManager::List& array);
+
+    static String ConvertSystemType(SystemDescriptor::SystemType systemtype)
+    {
+      switch(systemtype)
+      {
+        case SystemDescriptor::SystemType::Arcade: return "Arcade";
+        case SystemDescriptor::SystemType::Console: return "Home Console";
+        case SystemDescriptor::SystemType::Handheld: return "Handheld Console";
+        case SystemDescriptor::SystemType::Computer: return "Computer";
+        case SystemDescriptor::SystemType::Fantasy: return "Fantasy Console";
+        case SystemDescriptor::SystemType::Engine: return "Game Engine";
+        case SystemDescriptor::SystemType::Port: return "Port";
+        case SystemDescriptor::SystemType::Virtual: return "Virtual System";
+        case SystemDescriptor::SystemType::VArcade: return "Virtual Arcade";
+        case SystemDescriptor::SystemType::Unknown:
+        case SystemDescriptor::SystemType::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertDeviceRequirement(SystemDescriptor::DeviceRequirement requirement)
+    {
+      switch(requirement)
+      {
+        case SystemDescriptor::DeviceRequirement::Required: return "Mandatory";
+        case SystemDescriptor::DeviceRequirement::Recommended: return "Recommended";
+        case SystemDescriptor::DeviceRequirement::Optional: return "Optional";
+        case SystemDescriptor::DeviceRequirement::None: return "No need";
+        case SystemDescriptor::DeviceRequirement::Unknown:
+        case SystemDescriptor::DeviceRequirement::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertEmulatorCompatibility(EmulatorDescriptor::Compatibility compatibility)
+    {
+      switch(compatibility)
+      {
+        case EmulatorDescriptor::Compatibility::High: return "High";
+        case EmulatorDescriptor::Compatibility::Good: return "Good";
+        case EmulatorDescriptor::Compatibility::Average: return "Average";
+        case EmulatorDescriptor::Compatibility::Low: return "Low";
+        case EmulatorDescriptor::Compatibility::Unknown:
+        case EmulatorDescriptor::Compatibility::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
+
+    static String ConvertEmulatorSpeed(EmulatorDescriptor::Speed speed)
+    {
+      switch(speed)
+      {
+        case EmulatorDescriptor::Speed::High: return "High";
+        case EmulatorDescriptor::Speed::Good: return "Good";
+        case EmulatorDescriptor::Speed::Average: return "Average";
+        case EmulatorDescriptor::Speed::Low: return "Low";
+        case EmulatorDescriptor::Speed::Unknown:
+        case EmulatorDescriptor::Speed::__Count:
+        default: break;
+      }
+      return "Unknown";
+    }
 };

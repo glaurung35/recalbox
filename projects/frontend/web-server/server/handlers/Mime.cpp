@@ -23,6 +23,7 @@ Pistache::Http::Mime::MediaType Mime::Zip(Pistache::Http::Mime::Type::Applicatio
 Pistache::Http::Mime::MediaType Mime::FontTtf(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Ttf);
 Pistache::Http::Mime::MediaType Mime::FontWoff(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Woff);
 Pistache::Http::Mime::MediaType Mime::FontWoff2(Pistache::Http::Mime::Type::Font, Pistache::Http::Mime::Subtype::Woff2);
+Pistache::Http::Mime::MediaType Mime::TarGz(Pistache::Http::Mime::Type::Application, Pistache::Http::Mime::Subtype::OctetStream, Pistache::Http::Mime::Suffix::TarGz);
 
 HashMap<std::string, Pistache::Http::Mime::MediaType> Mime::ExtToMIME
 ({
@@ -45,5 +46,6 @@ HashMap<std::string, Pistache::Http::Mime::MediaType> Mime::ExtToMIME
   { ".mkv"   , Mime::VideoMkv   },
   { ".mp4"   , Mime::VideoMp4   },
   { ".avi"   , Mime::VideoAvi   },
+  { ".tar.gz", Mime::TarGz      },
 });
 

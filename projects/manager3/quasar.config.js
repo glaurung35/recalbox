@@ -72,35 +72,34 @@ module.exports = configure((ctx) => ({
         API_URL: `http://${process.env.API_IP}:81/api`,
         API_URL80: `http://${process.env.API_IP}/api`,
 
-        TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
-        TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
-
+        WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
         PATREON_URL: 'https://www.patreon.com/recalbox',
-        TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
         MQTT_URL: `mqtt://${process.env.API_IP}:18833`,
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
+        MQTT_ES_EVENTS_CHANNEL: 'Recalbox/EmulationStation/EventJson',
+        MQTT_VD_EVENTS_KEYBOARD_CHANNEL: 'Recalbox/VirtualDevices/Keyboard',
+        MQTT_VD_EVENTS_GAMEPAD_CHANNEL: 'Recalbox/VirtualDevices/GamePad',
+        MQTT_VD_EVENTS_TOUCHPAD_CHANNEL: 'Recalbox/VirtualDevices/TouchPad',
       }
       : { // and on build (production):
         API_URL: '/api',
         API_URL80: '',
 
-        TWITCH_CLIENT_ID: 'jgp2r9ixktfq9fugog7wjeutk0dt21',
-        TWITCH_CLIENT_SECRET: 'dnjccue3una7cccq6hxqpcjtxif69c',
-
+        WEBSITE_URL: 'https://www.recalbox.com',
         FORUM_URL: 'https://forum.recalbox.com',
         DISCORD_URL: 'https://discord.gg/NbQFbGM',
         GITLAB_URL: 'https://gitlab.com/recalbox/recalbox',
         PATREON_URL: 'https://www.patreon.com/recalbox',
-        TWITCH_URL: 'https://www.twitch.tv/recalbox',
         WIKI_URL: 'https://wiki.recalbox.com',
 
         MQTT_URL: '',
         MQTT_MONITORING_CHANNEL: 'Recalbox/WebAPI/SystemInfo',
+        MQTT_ES_EVENTS_CHANNEL: 'Recalbox/EmulationStation/EventJson',
       },
     // transpile: false,
     // publicPath: '/',

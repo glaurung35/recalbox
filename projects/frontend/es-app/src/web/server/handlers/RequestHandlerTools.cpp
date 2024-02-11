@@ -1720,7 +1720,7 @@ void RequestHandlerTools::SendGameMetadataInformation(SystemManager& manager,
             .Field("hidden", meta.Hidden())
             .Field("rating", meta.Rating())
             .OpenObject("players").Field("min", meta.PlayerMin()).Field("max", meta.PlayerMax()).CloseObject()
-            .OpenObject("genres").Field("free", meta.Genre()).Field("normalized", (int)meta.GenreId()).CloseObject()
+            .OpenObject("genres").Field("free", meta.Genre().Replace(',', ", ", 2).Replace(" ", 2, ' ')).Field("normalized", (int)meta.GenreId()).CloseObject()
             .OpenObject("availableMedia")
               .Field("hasImage", meta.HasImage())
               .Field("hasThumbnail", meta.HasThumnnail())

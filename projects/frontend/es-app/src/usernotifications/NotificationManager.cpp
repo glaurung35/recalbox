@@ -234,7 +234,7 @@ JSONBuilder NotificationManager::BuildJsonPacket(const NotificationManager::Noti
            .Field("Publisher", request.mFileData->Metadata().Publisher())
            .Field("Players", request.mFileData->Metadata().PlayersAsString())
            .Field("Region", request.mFileData->Metadata().RegionAsString())
-           .Field("Genre", request.mFileData->Metadata().Genre())
+           .Field("Genre", request.mFileData->Metadata().Genre().Replace(',', ", ", 2).Replace(" ", 2, ' '))
            .Field("GenreId", request.mFileData->Metadata().GenreIdAsString())
            .Field("Favorite", request.mFileData->Metadata().Favorite())
            .Field("Hidden", request.mFileData->Metadata().Hidden())

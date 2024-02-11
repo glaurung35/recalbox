@@ -318,7 +318,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
               publisher: status.Game.Publisher,
               players: status.Game.Players,
               region: status.Game.Region,
-              genre: status.Game.Genre.replace(',', ', '),
+              genre: status.Game.Genre,
               metaData,
             };
           }

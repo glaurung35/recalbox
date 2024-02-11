@@ -41,24 +41,24 @@
 <!--          {{ $t('home.system.es.start') }}-->
 <!--        </q-tooltip>-->
 <!--      </q-btn>-->
-      <q-btn
-        flat
-        rounded
-        square
-        icon="mdi-stop"
-        :text-color="serverStore.available ? 'negative' : 'secondary'"
-        @click="serverStore.esShutdown()"
-        :disable="!serverStore.available"
-      >
-        <q-tooltip
-          class="bg-primary"
-          :offset="[10, 10]"
-          content-class="bg-primary"
-          content-style="font-size: 16px"
-        >
-          {{ $t('home.system.es.stop') }}
-        </q-tooltip>
-      </q-btn>
+<!--      <q-btn-->
+<!--        flat-->
+<!--        rounded-->
+<!--        square-->
+<!--        icon="mdi-stop"-->
+<!--        :text-color="serverStore.available ? 'negative' : 'secondary'"-->
+<!--        @click="serverStore.esShutdown()"-->
+<!--        :disable="!serverStore.available"-->
+<!--      >-->
+<!--        <q-tooltip-->
+<!--          class="bg-primary"-->
+<!--          :offset="[10, 10]"-->
+<!--          content-class="bg-primary"-->
+<!--          content-style="font-size: 16px"-->
+<!--        >-->
+<!--          {{ $t('home.system.es.stop') }}-->
+<!--        </q-tooltip>-->
+<!--      </q-btn>-->
     </div>
   </div>
   <div class="informations">

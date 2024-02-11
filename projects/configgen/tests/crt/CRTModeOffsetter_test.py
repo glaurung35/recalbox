@@ -230,6 +230,6 @@ def test_given_interlaced_mode_and_offsets_then_do_not_get_under_2_for_vfrontpor
 
 def test_given_p1920x480_mode_and_offsets_then_modify_mode(mocker):
     mode = Mode("1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1")
-    system = createSystem(crt_horizontaloffset_p1920x480=10, crt_verticaloffset_p1920x480=-1)
+    system = createSystem(crt_horizontaloffset_p1920x480=5, crt_verticaloffset_p1920x480=-1)
     assert CRTModeOffsetter().processMode(mode, system) == Mode(
         "1920 1 18 208 286 480 1 16 3 25 0 0 0 60 0 76462080 1")

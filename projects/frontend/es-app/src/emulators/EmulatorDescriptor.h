@@ -17,6 +17,7 @@ class EmulatorDescriptor
       Good   , //!< Some games don't work at all or have issues
       Average, //!< Expect to run half of the games
       Low    , //!< only a few games run well and w/o issues
+      __Count
     };
 
     //! Speed information
@@ -27,6 +28,7 @@ class EmulatorDescriptor
       Good   , //!< Some games will not run at full speed or may have slowdowns
       Average, //!< Expect around half of the games running at a decent framerate
       Low    , //!< Only a few games are playable
+      __Count
     };
 
     //! Default constructor

@@ -3,39 +3,37 @@
  */
 import { defineStore } from 'pinia';
 import { SYSTEMS } from 'src/router/api.routes';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
 import { toRaw } from 'vue';
-import { SystemsResponse } from 'stores/types/systems';
+import { SystemsResponse, Type } from 'stores/types/systems';
 
-export type SystemsStoreState = {
-  _baseUrl: string,
-  systems: SystemsResponse,
-};
+export interface SystemsStoreState extends FetchStore {
+  _baseUrl: string;
+  systems: SystemsResponse;
+}
 
 export const useSystemsStore = defineStore('systems', {
   state: () => ({
     _baseUrl: SYSTEMS.all,
     systems: {
-      romPath: '',
-      systemList: {},
+      enumerations: {},
+      systems: [],
     },
   } as SystemsStoreState),
 
   getters: {
-    systemsList: (state) => {
-      const list: object[] = [];
-
-      Object.keys(state.systems.systemList).forEach((system) => {
-        list.push(state.systems.systemList[system as keyof typeof state.systems.systemList]);
-      });
-
-      return list;
-    },
+    filteredSystemsList: (state) => state.systems.systems.filter(
+      (system) => system.type !== Type.GameEngine
+        && system.type !== Type.Port
+        && system.type !== Type.VirtualSystem
+        && system.type !== Type.VirtualArcade,
+    ),
   },
 
   actions: {
     getSystemsListCount() {
-      if (Object.keys(this.systems.systemList).length > 0) {
-        return Object.keys(toRaw(this.systems.systemList)).length;
+      if (Object.keys(this.filteredSystemsList).length > 0) {
+        return Object.keys(toRaw(this.filteredSystemsList)).length;
       }
       return 0;
     },

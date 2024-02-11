@@ -4,7 +4,7 @@
 #pragma once
 
 #include <hardware/IBoardInterface.h>
-#include <sdl2/Sdl2Runner.h>
+#include <sdl2/ISdl2EventNotifier.h>
 #include <input/InputDevice.h>
 
 class OdroidAdvanceGo2SpecialButtonsReader : private ISdl2EventNotifier

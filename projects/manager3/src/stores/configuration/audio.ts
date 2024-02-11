@@ -2,14 +2,18 @@
  * @author Nicolas TESSIER aka Asthonishia
  */
 import { defineStore } from 'pinia';
+import { formatStringList } from 'src/utils/formatStringList';
+import { FetchOptionsStore } from 'stores/plugins/fetchOptionsStorePlugin';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { PostStore } from 'stores/plugins/postStorePlugin';
 import { AudioConfigOptionsResponse, AudioConfigResponse } from 'stores/types/audio';
 import { CONFIGURATION } from 'src/router/api.routes';
 
-export type AudioStoreState = {
-  _baseUrl: string,
-  _audioOptions: AudioConfigOptionsResponse,
-  audio: AudioConfigResponse,
-};
+export interface AudioStoreState extends FetchStore, PostStore, FetchOptionsStore {
+  _baseUrl: string;
+  _audioOptions: AudioConfigOptionsResponse;
+  audio: AudioConfigResponse;
+}
 
 export const useAudioStore = defineStore('audio', {
   state: () => ({
@@ -32,14 +36,19 @@ export const useAudioStore = defineStore('audio', {
       },
     },
     audio: {
-      volume: {},
+      volume: {
+        value: 90,
+      },
+      bgmusic: {
+        value: true,
+      },
     },
   } as AudioStoreState),
 
   getters: {
-    deviceOptions: (state) => state._audioOptions.device.allowedStringList,
+    deviceOptions: (state) => formatStringList(state._audioOptions.device),
     volumeOptions: (state) => state._audioOptions.volume,
     musicVolumeOptions: (state) => state._audioOptions['music.volume'],
-    modeOptions: (state) => state._audioOptions.mode.allowedStringList,
+    modeOptions: (state) => state._audioOptions.mode.allowedStringList.sort(),
   },
 });

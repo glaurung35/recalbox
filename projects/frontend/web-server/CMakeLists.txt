@@ -32,6 +32,7 @@ file(GLOB_RECURSE DEPENDENCIES
     ../es-core/src/utils/json/JSONBuilder.h
     ../es-core/src/RootFolders.cpp
     ../es-core/src/RootFolders.h
+    ../es-core/src/utils/network/Url.cpp
 )
 
 include_directories(

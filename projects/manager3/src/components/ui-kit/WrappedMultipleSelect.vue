@@ -3,6 +3,7 @@
 -->
 <template>
   <q-select
+    :name="label"
     :label="$t(label)"
     :options="options"
     class="q-mb-md"

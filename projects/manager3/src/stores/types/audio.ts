@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
 
 export interface AudioConfigResponse {
   bgmusic: {
@@ -39,13 +40,6 @@ export interface AudioConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  device: {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
-  mode: {
-    type: string;
-    allowedStringList: string[];
-  };
+  device: StringListObject;
+  mode: SimpleStringListObject;
 }

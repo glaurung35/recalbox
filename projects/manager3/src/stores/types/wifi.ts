@@ -1,6 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject } from 'stores/types/misc';
 
 export interface WifiBaseConfigResponse {
   key: {
@@ -71,10 +72,7 @@ export interface WifiConfigOptionsResponse extends WifiBaseConfigOptionsResponse
     type: string;
     allowedChars: string;
   };
-  region: {
-    type: string;
-    allowedStringList: string[];
-  };
+  region: SimpleStringListObject;
   priority: {
     type: string;
     lowerValue: number;

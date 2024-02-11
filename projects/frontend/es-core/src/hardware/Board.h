@@ -1,6 +1,5 @@
 #pragma once
 
-#include <utils/String.h>
 #include "BoardType.h"
 #include "hardware/messaging/IHardwareNotifications.h"
 #include "IBoardInterface.h"
@@ -8,7 +7,6 @@
 #include "Options.h"
 #include <utils/cplusplus/StaticLifeCycleControler.h>
 #include <hardware/messaging/HardwareMessageSender.h>
-#include <sdl2/Sdl2Runner.h>
 
 // Forward declaration
 class InputCompactEvent;

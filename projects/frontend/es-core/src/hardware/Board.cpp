@@ -1,5 +1,4 @@
 #include <hardware/Board.h>
-#include <cstring>
 #include <hardware/boards/odroidadvancego2/OdroidAdvanceGo2Board.h>
 #include <hardware/boards/anbernic/RG351VBoard.h>
 #include <hardware/boards/anbernic/RG353XBoard.h>

@@ -17,29 +17,25 @@ public:
    * @brief Start optional global background processes
    * This method is called when ES starts
    */
-  void StartGlobalBackgroundProcesses() final {
-    powerThread.Start("PiPowerAndTempThread");
-  }
+  void StartGlobalBackgroundProcesses() final { powerThread.Start("PiPowerAndTempThread"); }
 
   /*!
    * @brief Stop optional global background processes
    * This method is called when ES stops
    */
-  void StopGlobalBackgroundProcesses() final {
-    powerThread.Stop();
-  }
+  void StopGlobalBackgroundProcesses() final { powerThread.Stop(); }
 
   /*!
    * @brief Start optional in-game background processes.
    * This method is called when a game starts
    */
-  void StartInGameBackgroundProcesses(Sdl2Runner &) final {}
+  void StartInGameBackgroundProcesses(Sdl2Runner& runner) final { (void)runner; }
 
   /*!
    * @brief Stop optional in-game background processes.
    * This method is called when a game stops
    */
-  void StopInGameBackgroundProcesses(Sdl2Runner &) final {}
+  void StopInGameBackgroundProcesses(Sdl2Runner& runner) final { (void)runner; }
 
   /*!
    * @brief Has Battery?
@@ -129,8 +125,8 @@ public:
   /*!
   * @brief Has vulkan support
   */
-    bool HasVulkanSupport() final
-    { return mBoardType == BoardType::Pi5 || mBoardType == BoardType::Pi4; }
+  bool HasVulkanSupport() final
+  { return mBoardType == BoardType::Pi5 || mBoardType == BoardType::Pi4; }
 
   private:
     PiPowerAndTempThread powerThread;

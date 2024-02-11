@@ -8,6 +8,7 @@
 #include "RequestHandler.h"
 #include "Mime.h"
 #include "RequestHandlerTools.h"
+#include <utils/network/Url.h>
 
 using namespace Pistache;
 
@@ -65,9 +66,9 @@ void RequestHandler::SystemEsRestart(const Rest::Request& request, Http::Respons
   res.then([](ssize_t){ RequestHandlerTools::OutputOf("/etc/init.d/S31emulationstation restart"); },Async::NoExcept);
 }
 
-void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::ResponseWriter response)
+void RequestHandler::SystemGenerateSupportArchive(const Rest::Request& request, Http::ResponseWriter response)
 {
-  RequestHandlerTools::LogRoute(request, "SystemSupportArchive");
+  RequestHandlerTools::LogRoute(request, "SystemGenerateSupportArchive");
 
   std::string archivePath = RequestHandlerTools::OutputOf("bash /recalbox/scripts/recalbox-support.sh");
 
@@ -76,12 +77,19 @@ void RequestHandler::SystemSupportArchive(const Rest::Request& request, Http::Re
   const auto pos = archivePath.find_last_of('/');
   const std::string fileName = archivePath.substr(pos);
 
-  std::string linkResponse = RequestHandlerTools::OutputOf("wget --method PUT --body-file=" + archivePath + " https://transfer.sh" + fileName + " -O - -nv");
-
   JSONBuilder json;
   json.Open()
-      .Field("linkResponse", linkResponse)
-      .Close();
+          .Field("supportArchive", "/system/supportarchive/download" + fileName)
+          .Close();
 
   RequestHandlerTools::Send(response, Http::Code::Ok, json, Mime::Json);
+}
+
+void RequestHandler::SystemDownloadSupportArchive(const Rest::Request& request, Http::ResponseWriter response)
+{
+  RequestHandlerTools::LogRoute(request, "SystemDownloadSupportArchive");
+
+  Path first;
+  RequestHandlerTools::GetSystemResourcePath(first, Url::URLDecode(request.splatAt(0).name()));
+  RequestHandlerTools::SendResource(first, response, Mime::TarGz);
 }

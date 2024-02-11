@@ -30,9 +30,8 @@
     </div>
 
     <div class="row flex items-stretch emustation">
-      <div class="col social-medias">
-        <TwitchView/>
-      </div>
+<!--      <div class="col social-medias">-->
+<!--      </div>-->
       <div class="col system">
         <SystemView/>
       </div>
@@ -51,10 +50,12 @@ import TotalStat from 'components/ui-kit/TotalStat.vue';
 import { useSystemsStore } from 'stores/systems';
 import SystemView from 'components/home/SystemView.vue';
 import GameView from 'components/home/GameView.vue';
-import TwitchView from 'components/home/TwitchView.vue';
+import { useRomsStore } from 'stores/roms';
 
 const { getSystemsListCount } = useSystemsStore();
 useSystemsStore().fetch();
+
+useRomsStore().getRomsCount();
 
 const { getSharePercent } = useMonitoringStore();
 useMonitoringStore().fetch();
@@ -69,7 +70,7 @@ const totals = computed<object[]>(() => [
   {
     key: 2,
     title: 'home.preview.roms',
-    value: 70543,
+    value: useRomsStore().total,
   },
 ]);
 
@@ -93,8 +94,8 @@ const percents = computed<object[]>(() => [
   .header
     height: 5em
     background-image: linear-gradient(to right, $primary, $accent)
-    -webkit-box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
-    box-shadow: inset 0 0 15px 4px rgba(0,0,0,0.29)
+    -webkit-box-shadow: inset 0 0 15px 4px rgba($black, .29)
+    box-shadow: inset 0 0 15px 4px rgba($black, .29)
 
     @keyframes animatedBackground
       from
@@ -121,6 +122,7 @@ const percents = computed<object[]>(() => [
         bottom: 0
         animation-duration: .5s
         animation-name: logoslidein
+        filter: drop-shadow(0 0 0.75rem rgba(0, 0, 0, 0.29))
 
   .stats
     background: white
@@ -186,7 +188,7 @@ const percents = computed<object[]>(() => [
         right: -8px
         background: $rc-light-grey
         margin-top: calc(50vh - 131px)
-        z-index: 1
+        z-index: 11
 
     .social-medias
       flex-basis: 20%
@@ -202,19 +204,16 @@ const percents = computed<object[]>(() => [
 
 @media(max-width: 950px)
   .home
-    overflow-y: auto
-
     .emustation
+      height: 100vh
+
       .system,
       .game
         flex-basis: 100%
-
-      .system
-        padding-bottom: 2em
+        min-height: 250px
 
       .game
         border-top: 2px solid white
-        padding-bottom: 10em
 
 @media(max-width: 420px)
   .home
@@ -232,7 +231,12 @@ const percents = computed<object[]>(() => [
         display: none
 
     .emustation
+      height: initial
+
       .system
+        &:after
+          display: none
+
         .header
           flex-direction: column
 

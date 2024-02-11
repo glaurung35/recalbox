@@ -3,12 +3,13 @@
  */
 import { defineStore } from 'pinia';
 import { BIOS } from 'src/router/api.routes';
-import { BiosResponse } from 'stores/types/bios';
+import { FetchStore } from 'stores/plugins/fetchStorePlugin';
+import { Bios, BiosResponse } from 'stores/types/bios';
 
-export type BiosStoreState = {
-  _baseUrl: string,
-  bios: BiosResponse,
-};
+export interface BiosStoreState extends FetchStore {
+  _baseUrl: string;
+  bios: BiosResponse;
+}
 
 export const useBiosStore = defineStore('bios', {
   state: () => ({
@@ -18,7 +19,7 @@ export const useBiosStore = defineStore('bios', {
 
   getters: {
     biosList: (state) => {
-      const list: object[] = [];
+      const list: Bios[] = [];
 
       Object.keys(state.bios).forEach((systemName) => {
         Object.keys(state.bios[systemName].biosList).forEach((biosName) => {

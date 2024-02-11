@@ -88,8 +88,3 @@ export const THEMES = {
   menuset: '/themes/{themeNameFolder}/menuset',
   systemview: '/themes/{themeNameFolder}/systemview',
 };
-
-export const TWITCH = {
-  auth: 'https://id.twitch.tv/oauth2/token',
-  schedule: 'https://api.twitch.tv/helix/schedule',
-};

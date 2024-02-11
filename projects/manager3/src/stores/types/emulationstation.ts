@@ -1,6 +1,8 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
+import { SimpleStringListObject, StringListObject } from 'stores/types/misc';
+import { Actions } from 'stores/types/mqtt';
 
 export interface EmulationStationConfigResponse {
   bootongamelist: {
@@ -27,10 +29,6 @@ export interface EmulationStationConfigResponse {
     exist: boolean;
     value: boolean;
   };
-  'videosnaps.loop': {
-    exist: boolean;
-    value: number;
-  };
   selectedsystem: {
     exist: boolean;
     value: string;
@@ -42,10 +40,6 @@ export interface EmulationStationConfigResponse {
   'collection.allgames': {
     exist: boolean;
     value: boolean;
-  };
-  'videosnaps.delay': {
-    exist: boolean;
-    value: number;
   };
   hidesystemview: {
     exist: boolean;
@@ -135,6 +129,10 @@ export interface EmulationStationConfigResponse {
     exist: boolean;
     value: string;
   };
+  'theme.region': {
+    exist: boolean;
+    value: string;
+  };
   brightness: {
     exist: boolean;
     value: number;
@@ -173,7 +171,7 @@ export interface EmulationStationConfigResponse {
   };
   'virtualarcade.manufacturers': {
     exist: boolean;
-    value: string[];
+    value: string;
   };
   debuglogs: {
     exist: boolean;
@@ -186,6 +184,14 @@ export interface EmulationStationConfigResponse {
   'pads.osd.type': {
     exist: boolean;
     value: string;
+  };
+  tateonly: {
+    exist: boolean;
+    value: boolean;
+  };
+  'battery.hidden': {
+    exist: boolean;
+    value: boolean;
   };
 }
 
@@ -205,23 +211,12 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  menu: {
-    type: string;
-    allowedStringList: string[];
-  };
+  menu: SimpleStringListObject;
   'collection.lastplayed': {
     type: string;
     value: boolean;
   };
-  'videosnaps.loop': {
-    type: string;
-    lowerValue: number;
-    higherValue: number;
-  };
-  selectedsystem: {
-    type: string;
-    allowedStringList: string[];
-  };
+  selectedsystem: SimpleStringListObject;
   'collection.multiplayer': {
     type: string;
     value: boolean;
@@ -229,11 +224,6 @@ export interface EmulationStationConfigOptionsResponse {
   'collection.allgames': {
     type: string;
     value: boolean;
-  };
-  'videosnaps.delay': {
-    type: string;
-    lowerValue: number;
-    higherValue: number;
   };
   hidesystemview: {
     type: string;
@@ -260,14 +250,8 @@ export interface EmulationStationConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  'screensaver.type': {
-    type: string;
-    allowedStringList: string[];
-  };
-  'theme.folder': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'screensaver.type': StringListObject;
+  'theme.folder': SimpleStringListObject;
   'collection.tate': {
     type: string;
     value: boolean;
@@ -315,18 +299,13 @@ export interface EmulationStationConfigOptionsResponse {
     lowerValue: number;
     higherValue: number;
   };
-  systemsorting: {
-    type: string;
-    allowedStringList: string[];
-  };
+  systemsorting: SimpleStringListObject;
   'theme.carousel': {
     type: string;
     value: boolean;
   };
-  'theme.transition': {
-    type: string;
-    allowedStringList: string[];
-  };
+  'theme.transition': SimpleStringListObject;
+  'theme.region': SimpleStringListObject;
   brightness: {
     type: string;
     lowerValue: number;
@@ -364,11 +343,7 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  'virtualarcade.manufacturers': {
-    type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
-  };
+  'virtualarcade.manufacturers': StringListObject;
   debuglogs: {
     type: string;
     value: boolean;
@@ -377,9 +352,153 @@ export interface EmulationStationConfigOptionsResponse {
     type: string;
     value: boolean;
   };
-  'pads.osd.type': {
+  'pads.osd.type': StringListObject;
+  tateonly: {
     type: string;
-    allowedStringList: string[];
-    displayableStringList: string[];
+    value: boolean;
   };
+  'battery.hidden': {
+    type: string;
+    value: boolean;
+  };
+}
+
+export interface CurrentSystemMetaDataColor {
+  band1: string;
+  band2: string;
+  band3: string;
+  band4: string;
+}
+
+export interface CurrentSystemMetaDataSystem {
+  manufacturer?: string;
+  yearOfRelease?: string;
+  cpu?: string;
+  ram?: string;
+  gpu?: string;
+  soundChip?: string;
+  colors?: string;
+  os?: string;
+  rom?: string;
+  resolution?: string;
+  unitsSold?: string;
+  bestSellingGame?: string;
+  author?: string;
+  sound?: string;
+  display?: string;
+  website?: string;
+  builtInFeatures?: string;
+  video?: string;
+  developers?: string;
+  device?: string;
+  cartSize?: string;
+  cartridgeRom?: string;
+  screen?: string;
+  displayAbility?: string;
+  storage?: string;
+  media?: string;
+  fcram?: string;
+  vram?: string;
+  vmuSize?: string;
+  memory?: string;
+  sprites?: string;
+  numberGames?: string;
+  sram?: string;
+  videoRam?: string;
+  audioRam?: string;
+  dram?: string;
+  writtenIn?: string;
+  graphics?: string;
+  lowResolutions?: string;
+  programMemory?: string;
+  diskSpace?: string;
+  ports?: string;
+  bsX?: string;
+  drive?: string;
+  createdBy?: string;
+  portedOnLinuxBy?: string;
+  type?: string;
+  pcCompatibility?: string;
+  necessarySoft?: string;
+  '64ddCpu'?: string;
+  cpu2?: string;
+  designer?: string;
+  mediumResolutions?: string;
+  origin?: string;
+  englishTranslation?: string;
+  highResolutions?: string;
+  bestLaserdiscGamesAre?: string;
+  size?: string;
+  weight?: string;
+}
+
+export interface CurrentSystemMetaDataColors {
+  eu: CurrentSystemMetaDataColor;
+  jp?: CurrentSystemMetaDataColor;
+  us?: CurrentSystemMetaDataColor;
+}
+
+export interface CurrentSystemMetaData {
+  system: CurrentSystemMetaDataSystem;
+  colors: CurrentSystemMetaDataColors;
+}
+
+export interface CurrentSystem {
+  name: string;
+  systemId: string;
+  logoPath: string;
+  consolePath: string;
+  gamePath: string;
+  metaData: CurrentSystemMetaData;
+}
+
+export interface RomMetaData {
+  name: string;
+  synopsys: string;
+  publisher: string;
+  developer: string;
+  emulator: string;
+  core: string;
+  ratio: string;
+  releaseDate: number;
+  lastPlayed: number;
+  regions: string;
+  playCount: number;
+  crc32: string;
+  adult: boolean;
+  favorite: boolean;
+  hidden: boolean;
+  rating: number;
+  players: {
+    min: number;
+    max: number;
+  };
+  genres: {
+    free: string;
+    normalized: number;
+  };
+  availableMedia: {
+    hasImage: boolean;
+    hasThumbnail: boolean;
+    hasVideo: boolean;
+  };
+}
+
+export interface CurrentRom {
+  name: string;
+  imagePath: string;
+  thumbnailPath: string;
+  videoPath: string;
+  developer: string;
+  publisher: string;
+  players: string;
+  region: string;
+  genre: string;
+  metaData: RomMetaData|null;
+}
+
+export interface EmulationStationCurrentState {
+  currentSystem: CurrentSystem|null,
+  currentRom: CurrentRom|null,
+  currentAction: Actions;
 }

@@ -150,31 +150,21 @@ int main(int argc, char **argv) {
 
     rc = ssd1306_init(i2c_node_address);
     ssd1306_oled_default_config(64, 128);
-    update_screen();
-
     if (rc != 0) {
         printf("no oled attached to /dev/i2c-%d\n", i2c_node_address);
         return 1;
     }
 
-    /*int mqttcon = mqtt_init(&mosq, on_message);
-    if (mqttcon != MOSQ_ERR_SUCCESS) {
-        printf("unable to start mqtt subscriber, will retry\n");
+    if(argc == 2 && strcmp(argv[1], "--clear") == 0){
+        printf("Clear screen\n");
+        ssd1306_oled_clear_screen();
+        return 0;
     }
-    printf("Mqtt connected\n");*/
+
     while (true) {
-       /* if (mqttcon != MOSQ_ERR_SUCCESS) {
-            printf("Reconnecting\n");
-            mqttcon = mqtt_reconnect(mosq);
-        }
-        //printf("Waiting for messages\n");*/
-        //mosquitto_loop(mosq, 1000, 1);
-        sleep(2);
-        // Temperature
         update_screen();
-        //draw_temp(readTemp());
+        sleep(2);
     }
-    // close the I2C device node
     ssd1306_end();
     return 0;
 }

@@ -15,3 +15,6 @@ class Rotation(IntEnum):
         elif value == 3:
             return Rotation.right
         return Rotation.none
+
+    def isTate(self):
+        return self == Rotation.left or self == Rotation.right

@@ -5,15 +5,6 @@
 #include <themes/ThemeData.h>
 #include <utils/locale/LocaleHelper.h>
 
-Vector2i ImageComponent::getTextureSize() const
-{
-  if (mTexture)
-  {
-    return mTexture->getSize();
-  }
-  return Vector2i::Zero();
-}
-
 ImageComponent::ImageComponent(WindowManager& window, bool keepRatio, const Path& imagePath, bool forceLoad, bool dynamic)
   : ThemableComponent(window)
   , mTargetSize(0, 0)

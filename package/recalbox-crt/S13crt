@@ -14,7 +14,7 @@ declare -A ES_JAMMA_CONFIG=(
     ["emulationstation.quicksystemselect"]="0"
     ["controllers.bluetooth.autopaironboot"]="0"
     ["emulationstation.theme.recalbox-240p.iconset"]="4-jamma"
-    ["emulationstation.virtualarcade.manufacturers"]="arcade-manufacturer-acclaim,arcade-manufacturer-atari,arcade-manufacturer-atlus,arcade-manufacturer-banpresto,arcade-manufacturer-capcom,arcade-manufacturer-capcom-cps1,arcade-manufacturer-capcom-cps2,arcade-manufacturer-capcom-cps3,arcade-manufacturer-cave,arcade-manufacturer-dataeast,arcade-manufacturer-exidy,arcade-manufacturer-igs,arcade-manufacturer-irem,arcade-manufacturer-itech,arcade-manufacturer-jaleco,arcade-manufacturer-kaneko,arcade-manufacturer-konami,arcade-manufacturer-midway,arcade-manufacturer-mitchell,arcade-manufacturer-namco,arcade-manufacturer-neogeo,arcade-manufacturer-nichibutsu,arcade-manufacturer-nintendo,arcade-manufacturer-nmk,arcade-manufacturer-sammy,arcade-manufacturer-sega,arcade-manufacturer-seibu,arcade-manufacturer-seta,arcade-manufacturer-snk,arcade-manufacturer-taito,arcade-manufacturer-technos,arcade-manufacturer-tecmo,arcade-manufacturer-toaplan,arcade-manufacturer-visco"
+    ["emulationstation.virtualarcade.manufacturers"]="arcade-manufacturer-acclaim,arcade-manufacturer-atari,arcade-manufacturer-atlus,arcade-manufacturer-banpresto,arcade-manufacturer-capcom,arcade-manufacturer-capcom-cps1,arcade-manufacturer-capcom-cps2,arcade-manufacturer-capcom-cps3,arcade-manufacturer-cave,arcade-manufacturer-data east,arcade-manufacturer-exidy,arcade-manufacturer-igs,arcade-manufacturer-irem,arcade-manufacturer-itech,arcade-manufacturer-jaleco,arcade-manufacturer-kaneko,arcade-manufacturer-konami,arcade-manufacturer-midway,arcade-manufacturer-mitchell,arcade-manufacturer-namco,arcade-manufacturer-neogeo,arcade-manufacturer-nichibutsu,arcade-manufacturer-nintendo,arcade-manufacturer-nmk,arcade-manufacturer-psikyo,arcade-manufacturer-sammy,arcade-manufacturer-sega,arcade-manufacturer-sega-system16,arcade-manufacturer-sega-system32,arcade-manufacturer-seibu,arcade-manufacturer-seta,arcade-manufacturer-snk,arcade-manufacturer-taito,arcade-manufacturer-taito-f3,arcade-manufacturer-technos,arcade-manufacturer-tecmo,arcade-manufacturer-toaplan,arcade-manufacturer-visco"
     ["global.hidepreinstalledgames"]="1"
     ["kodi.enabled"]="0"
     ["system.virtual-gamepads.enabled"]="0"
@@ -27,6 +27,8 @@ declare -A ES_JAMMA_CONFIG=(
     ["emulationstation.showgameclipclippingitem"]="0"
     ["emulationstation.showgamecliphelpitems"]="0"
     ["emulationstation.screensaver.type"]="gameclip"
+    ["mame.emulator"]="libretro"
+    ["mame.core"]="mame"
 )
 
 declare -A ES_CLEAN_CONFIG=(
@@ -50,6 +52,7 @@ RGBDUAL_31KHZ_CONTENT="dtoverlay=headphones"
 
 RECALBOX_CONF="/recalbox/share/system/recalbox.conf"
 CRT_OPTIONS_FILE="/boot/crt/recalbox-crt-options.cfg"
+CRT_OPTIONS_FILE_DEFAULT="${CRT_OPTIONS_FILE}.defaults"
 CRT_DAC_FILE="/boot/crt/recalbox-crt-config.txt"
 TIMINGS_FILE="/boot/crt/timings.txt"
 SWITCH_31KHZ_FILE="/sys/devices/platform/recalboxrgbdual/dipswitch-31khz/value"
@@ -301,12 +304,19 @@ if test "$1" == "start"; then
         mount -o remount,ro /boot
     fi
 
+    if [ ! -f "${CRT_OPTIONS_FILE}" ];then
+      mount -o remount,rw /boot
+      cp "${CRT_OPTIONS_FILE_DEFAULT}" "${CRT_OPTIONS_FILE}"
+      mount -o remount,ro /boot
+    fi
     # If config file exists, make it unix lf
     if [ -f "${CRT_OPTIONS_FILE}" ] && [ $(wc -c "${CRT_OPTIONS_FILE}" | cut -d' ' -f0) -gt 0 ]; then
         mount -o remount,rw /boot
         dos2unix "${CRT_OPTIONS_FILE}"
         mount -o remount,ro /boot
     fi
+
+
 
     # RRGBJ volumed
     # cannot set it in S03 because pulse is not started

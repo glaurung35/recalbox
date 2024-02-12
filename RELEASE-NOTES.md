@@ -43,6 +43,9 @@ as release notes for end user on a Recalbox upgrade.
 - Add RPi5 overclock option
 - Add skip boot video option
 - Add demo Inspector Waffles Early Days (Broke Studio) on gameboy color
+- Perf: enable auto frame delay in retroarch
+- Perf: add auto blitter for fbneo cave games
+- CRT: add superrez and auto scanlines for 240p games on 31kHz display
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -170,6 +173,9 @@ as release notes for end user on a Recalbox upgrade.
 - Fix some Xbox 360 pad issues
 - Fix vulkan support on rpi5
 - Fix daphne games scrap
+- CRT: fix 24kHz game modes
+- CRT: fix calibration screen
+- CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
 
 ## Version 9.1-Pulstar
 

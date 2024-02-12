@@ -349,13 +349,21 @@ void GuiMenuAdvancedSettings::DoResetFactory()
 {
   String::List deleteMe
   ({
-    "/recalbox/share/system",             // Recalbox & emulator configurations
-    "/overlay/upper/*",                   // System overlay
-    "/overlay/.configs/*",                // System configurations
-    "/overlay/upper.old",                 // System overlay backup
-    "/overlay/.config",                   // Old system configurations
-    "/boot/recalbox-backup.conf",         // Recalbox configuration backup
-    "/boot/crt",                          // CRT Configuration
+    "/recalbox/share/system",                       // Recalbox & emulator configurations
+    "/overlay/upper/*",                             // System overlay
+    "/overlay/.configs/*",                          // System configurations
+    "/overlay/upper.old",                           // System overlay backup
+    "/overlay/.config",                             // Old system configurations
+    "/boot/recalbox-backup.conf",                   // Recalbox configuration backup
+    "/boot/crt/recalbox-crt-config.txt",            // CRT Configuration
+    "/boot/crt/recalbox-crt-options.cfg",           // CRT Configuration
+    "/boot/crt/recalbox-crt-options.cfg.backup",    // CRT Configuration
+    "/boot/crt/rrgbd.hdmi",                         // CRT Configuration
+    "/boot/crt/rrgbd.crt",                          // CRT Configuration
+    "/boot/crt/.currentvideoconfig",                // CRT Configuration
+    "/boot/crt/.stamprrgbdual",                     // CRT Configuration
+    "/boot/crt/.stamprrgbdual31khz",                // CRT Configuration
+    "/boot/crt/.stamphdmiforced",                   // CRT Configuration
   });
 
   // Make boot partition writable

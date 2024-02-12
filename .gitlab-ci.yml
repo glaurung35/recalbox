@@ -194,6 +194,9 @@ tests nvidia:
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "jamma";then
         sed -i "s/^updates.type=.*/updates.type=jamma/g" package/recalbox-system/*/recalbox.conf
       fi
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "jamma-early";then
+        sed -i "s/^updates.type=.*/updates.type=jamma-early/g" package/recalbox-system/*/recalbox.conf
+      fi
     # Build
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}

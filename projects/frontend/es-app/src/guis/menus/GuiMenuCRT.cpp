@@ -508,6 +508,8 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
           RecalboxConf::Instance().SetKodiEnabled(false);
           RecalboxConf::Instance().SetSplashEnabled(false);
+          RecalboxConf::Instance().SetString("mame.emulator", "libretro");
+          RecalboxConf::Instance().SetString("mame.core", "mame");
           RecalboxConf::Instance().Save();
 
           // recalbox-crt-options.cfg

@@ -41,6 +41,12 @@ class Themable
     virtual ThemeElementType GetThemeElementType() const = 0;
 
     /*!
+     * @brief Implementations may return a second compatible elemen type
+     * @return Element type
+     */
+    virtual ThemeElementType GetThemeElementType2() const { return ThemeElementType::None; };
+
+    /*!
      * @brief Called when a theme element is applyed on the current component.
      * @param element Element instance
      * @param properties Properties to update

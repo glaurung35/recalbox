@@ -97,6 +97,13 @@ class Genres
     static String GetFullName(GameGenres genre);
 
     /*!
+     * @brief Get generic english name of the given genre for standalone display
+     * @param genre Game genre
+     * @return Generic name (can be used as translation key)
+     */
+    static String GetFullNameStandalone(GameGenres genre);
+
+    /*!
      * @brief Get short name of the given genre
      * @param genre Game genre
      * @return Short name
@@ -121,6 +128,12 @@ class Genres
      * @return Long name map
      */
     static const GenreMap& GetLongNameMap();
+
+    /*!
+     * @brief Get generic english name per genre for standalone display
+     * @return Long name map
+     */
+    static const GenreMap& GetLongNameMapStandalone();
 
     /*!
      * @brief Get ordered genre list

@@ -354,7 +354,13 @@ void GuiMenuAdvancedSettings::DoResetFactory()
     "/overlay/upper.old",                 // System overlay backup
     "/overlay/.config",                   // Old system configurations
     "/boot/recalbox-backup.conf",         // Recalbox configuration backup
-    "/boot/crt",                          // CRT Configuration
+    "/boot/crt/recalbox-crt-config.txt",            // CRT Configuration
+    "/boot/crt/recalbox-crt-options.cfg",           // CRT Configuration
+    "/boot/crt/recalbox-crt-options.cfg.backup",    // CRT Configuration
+    "/boot/crt/rrgbd.hdmi",                         // CRT Configuration
+    "/boot/crt/.currentvideoconfig",                // CRT Configuration
+    "/boot/crt/.stamprgbdual",                      // CRT Configuration
+    "/boot/crt/.stamprgbdual31khz",                 // CRT Configuration
   });
 
   // Make boot partition writable

@@ -761,6 +761,25 @@ def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_do
 
     assert libretro_config["video_shader_enable"] == '"false"'
 
+def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_tate_on_yoko(mocker, system_dreamcast):
+    givenThoseFiles(mocker, SEGA_CONFIGURATION)
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
+                                crtvideostandard="all", crtscanlines="light", verticalgame=True, rotation=0)
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "rom.zip")
+
+    assert libretro_config["video_shader_enable"] == '"false"'
+
+def test_given_31kHz_and_scanlines_on_should_not_create_scanlines_config_when_yoko_on_tate(mocker, system_dreamcast):
+    givenThoseFiles(mocker, SEGA_CONFIGURATION)
+    dreamcast = configureForCrt(system_dreamcast, crtscreentype="31kHz", crtresolutiontype="progressive",
+                                crtvideostandard="all", crtscanlines="light", verticalgame=False, rotation=1)
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(dreamcast,
+                                                                                               "rom.zip")
+
+    assert libretro_config["video_shader_enable"] == '"false"'
 
 # Bug outrunner having 960px height
 def test_given_weird_mode_game_is_started_in_480_it_does_not_double_the_height(mocker):

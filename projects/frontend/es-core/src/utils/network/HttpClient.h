@@ -112,6 +112,7 @@ class HttpClient
     static double GetAverageBandwidth();
 
   protected:
+    static constexpr const char* sCookieFileBase = "/tmp/httpStorage";
     //! Maximum data kept in memory before flushing to file
     static constexpr int sMaxDataKeptInRam = (2 << 20); // 20Mb
 
@@ -125,6 +126,12 @@ class HttpClient
     String mResultHolder;
     //! Store request result into this file if it's not empty
     Path mResultFile;
+    //! Cookie file
+    Path mCookieFile;
+    //! Cookie index
+    static int sCookieIndex;
+    //! Mutex
+    static Mutex sCookieIndexLocker;
 
     //! CURL Handle for all requests. Allocated once
     CURL* mHandle;

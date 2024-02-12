@@ -10,6 +10,8 @@ HttpClient::DownloadInfo HttpClient::sDownloadStorage[sMaxBandwidthInfo];
 int HttpClient::sDownloadCount = 0;
 int HttpClient::sDownloadIndex = 0;
 Mutex HttpClient::sDownloadLocker;
+int HttpClient::sCookieIndex;
+Mutex HttpClient::sCookieIndexLocker;
 
 HttpClient::HttpClient() noexcept
   : mHandle(curl_easy_init())
@@ -23,12 +25,17 @@ HttpClient::HttpClient() noexcept
 {
   if (mHandle != nullptr)
   {
-    curl_easy_setopt(mHandle, CURLOPT_REDIR_PROTOCOLS,CURLPROTO_HTTP | CURLPROTO_HTTPS);
+    curl_easy_setopt(mHandle, CURLOPT_REDIR_PROTOCOLS, CURLPROTO_HTTP | CURLPROTO_HTTPS);
     curl_easy_setopt(mHandle, CURLOPT_TCP_KEEPALIVE, 1L);
     curl_easy_setopt(mHandle, CURLOPT_TCP_KEEPIDLE, 240L);
     curl_easy_setopt(mHandle, CURLOPT_FOLLOWLOCATION, 1L);
     curl_easy_setopt(mHandle, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(mHandle, CURLOPT_WRITEDATA, this);
+    sCookieIndexLocker.Lock();
+    mCookieFile = Path(String(sCookieFileBase).Append(++sCookieIndex).Append(".curl"));
+    sCookieIndexLocker.UnLock();
+    curl_easy_setopt(mHandle, CURLOPT_COOKIEFILE, mCookieFile.ToChars());
+    curl_easy_setopt(mHandle, CURLOPT_COOKIEJAR, mCookieFile.ToChars());
   }
 }
 
@@ -38,6 +45,7 @@ HttpClient::~HttpClient()
     curl_slist_free_all(mStringList);
   if (mHandle != nullptr)
     curl_easy_cleanup(mHandle);
+  (void)mCookieFile.Delete();
 }
 
 bool HttpClient::Execute(const String& url, String& output)

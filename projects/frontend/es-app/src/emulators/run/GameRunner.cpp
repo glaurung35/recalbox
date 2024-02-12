@@ -449,7 +449,6 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
       }
       else
         result.Append(" -crtscreentype ").Append( (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz"));
-
     }
     else
     {

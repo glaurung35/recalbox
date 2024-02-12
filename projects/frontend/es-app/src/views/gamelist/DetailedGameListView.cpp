@@ -511,16 +511,19 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
   if(mSystem.Name() != "imageviewer")
     setRegions(file);
 
-  mRating.setValue(file->Metadata().RatingAsString());
-  if (file->Metadata().ReleaseDateEpoc() != 0) mReleaseDate.setValue(file->Metadata().ReleaseDate());
+  MetadataDescriptor& meta = file->Metadata();
+  mRating.setValue(meta.RatingAsString());
+  if (meta.ReleaseDateEpoc() != 0) mReleaseDate.setValue(meta.ReleaseDate());
   else mReleaseDate.setValue(_("UNKNOWN"));
-  mDeveloper.setValue(file->Metadata().Developer().empty() ? _("UNKNOWN") : file->Metadata().Developer());
-  mPublisher.setValue(file->Metadata().Publisher().empty() ? _("UNKNOWN") : file->Metadata().Publisher());
-  mGenre.setValue(file->Metadata().Genre().empty() ? _("NONE") : file->Metadata().Genre());
-  mPlayers.setValue(file->Metadata().PlayersAsString());
-  mLastPlayed.setValue(file->Metadata().LastPlayed());
-  mPlayCount.setValue(file->Metadata().PlayCountAsString());
-  mFavorite.setValue(file->Metadata().Favorite() ? _("YES") : _("NO"));
+  mDeveloper.setValue(meta.Developer().empty() ? _("UNKNOWN") : meta.Developer());
+  mPublisher.setValue(meta.Publisher().empty() ? _("UNKNOWN") : meta.Publisher());
+  mGenre.setValue(meta.GenreId() != GameGenres::None ? meta.GenreIdAsString() :
+                  !meta.Genre().empty() ? meta.Genre().Replace(',', ", ", 2).Replace("  ", 2, ' ') :
+                  _("NONE"));
+  mPlayers.setValue(meta.PlayersAsString());
+  mLastPlayed.setValue(meta.LastPlayed());
+  mPlayCount.setValue(meta.PlayCountAsString());
+  mFavorite.setValue(meta.Favorite() ? _("YES") : _("NO"));
 
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
@@ -533,9 +536,9 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
 
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
-    mVideo.setVideo(file->Metadata().Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
+    mVideo.setVideo(meta.Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
 
-  { LOG(LogDebug) << "[GamelistView] Set video " << file->Metadata().Video().ToString() << " for " << file->Metadata().Name() << " => " << file->RomPath().ToString(); }
+  { LOG(LogDebug) << "[GamelistView] Set video " << meta.Video().ToString() << " for " << meta.Name() << " => " << file->RomPath().ToString(); }
   mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }

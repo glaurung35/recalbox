@@ -143,9 +143,85 @@ const Genres::GenreMap& Genres::GetLongNameMap()
   return sNames;
 }
 
+const Genres::GenreMap& Genres::GetLongNameMapStandalone()
+{
+  static GenreMap sNames
+    ({
+       { GameGenres::None                          , "None"                                   },
+       { GameGenres::Action                        , "Action"                                 },
+       { GameGenres::  ActionPlatformer            , "Platform"                               },
+       { GameGenres::  ActionPlatformShooter       , "Platform Shooter"                       },
+       { GameGenres::  ActionFirstPersonShooter    , "First Person Shooter"                   },
+       { GameGenres::  ActionShootEmUp             , "Shoot'em Up"                            },
+       { GameGenres::  ActionShootWithGun          , "Shoot with Gun"                         },
+       { GameGenres::  ActionFighting              , "Fighting"                               },
+       { GameGenres::  ActionBeatEmUp              , "Beat'em All"                            },
+       { GameGenres::  ActionStealth               , "Infiltration"                           },
+       { GameGenres::  ActionBattleRoyale          , "Battle Royale"                          },
+       { GameGenres::  ActionRythm                 , "Rythm & Music"                          },
+       { GameGenres::Adventure                     , "Adventure"                              },
+       { GameGenres::  AdventureText               , "Textual Adventure"                      },
+       { GameGenres::  AdventureGraphics           , "Graphical Adventure"                    },
+       { GameGenres::  AdventureVisualNovels       , "Visual Novel"                           },
+       { GameGenres::  AdventureInteractiveMovie   , "Interactive Movie"                      },
+       { GameGenres::  AdventureRealTime3D         , "Real Time 3D Adventure"                 },
+       { GameGenres::  AdventureSurvivalHorror     , "Survival"                               },
+       { GameGenres::RPG                           , "RPG"                                    },
+       { GameGenres::  RPGAction                   , "Action RPG"                             },
+       { GameGenres::  RPGMMO                      , "MMORPG"                                 },
+       { GameGenres::  RPGDungeonCrawler           , "Dungeon Crawler"                        },
+       { GameGenres::  RPGTactical                 , "Tactical RPG"                           },
+       { GameGenres::  RPGJapanese                 , "JRPG"                                   },
+       { GameGenres::  RPGFirstPersonPartyBased    , "Party based RPG"                        },
+       { GameGenres::Simulation                    , "Simulation"                             },
+       { GameGenres::  SimulationBuildAndManagement, "Build & Management"                     },
+       { GameGenres::  SimulationLife              , "Life Simulation"                        },
+       { GameGenres::  SimulationFishAndHunt       , "Fishing & Hunting"                      },
+       { GameGenres::  SimulationVehicle           , "Vehicle Simulation"                     },
+       { GameGenres::  SimulationSciFi             , "Science Fiction Simulation"             },
+       { GameGenres::Strategy                      , "Strategy"                               },
+       { GameGenres::  Strategy4X                  , "eXplore, eXpand, eXploit & eXterminate" },
+       { GameGenres::  StrategyArtillery           , "Artillery"                              },
+       { GameGenres::  StrategyAutoBattler         , "Auto-battler"                           },
+       { GameGenres::  StrategyMOBA                , "Multiplayer Online Battle Arena"        },
+       { GameGenres::  StrategyRTS                 , "Real Time Strategy"                     },
+       { GameGenres::  StrategyTBS                 , "Turn Based Strategy"                    },
+       { GameGenres::  StrategyTowerDefense        , "Tower Defense"                          },
+       { GameGenres::  StrategyWargame             , "Wargame"                                },
+       { GameGenres::Sports                        , "Sports"                                 },
+       { GameGenres::  SportRacing                 , "Racing"                                 },
+       { GameGenres::  SportSimulation             , "Sport Simulation"                       },
+       { GameGenres::  SportCompetitive            , "Competition Sport"                      },
+       { GameGenres::  SportFight                  , "Fighting/Violent Sport"                 },
+       { GameGenres::Pinball                       , "Pinball"                                },
+       { GameGenres::Board                         , "Board game"                             },
+       { GameGenres::Casual                        , "Casual game"                            },
+       { GameGenres::DigitalCard                   , "Digital Cards"                          },
+       { GameGenres::PuzzleAndLogic                , "Puzzle & Logic"                         },
+       { GameGenres::Party                         , "Multiplayer Party Game"                 },
+       { GameGenres::Trivia                        , "Trivia"                                 },
+       { GameGenres::Casino                        , "Casino"                                 },
+       { GameGenres::Compilation                   , "Multi Game Compilation"                 },
+       { GameGenres::DemoScene                     , "Demo from Demo Screne"                  },
+       { GameGenres::Educative                     , "Educative"                              },
+     });
+
+  return sNames;
+}
+
 String Genres::GetFullName(GameGenres genre)
 {
   const char** found = GetLongNameMap().try_get(genre);
+  if (found != nullptr)
+    return *found;
+
+  { LOG(LogError) << "[Genres] Unknown GameGenre " << (int)genre; }
+  return "Uknown";
+}
+
+String Genres::GetFullNameStandalone(GameGenres genre)
+{
+  const char** found = GetLongNameMapStandalone().try_get(genre);
   if (found != nullptr)
     return *found;
 

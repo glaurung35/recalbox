@@ -85,12 +85,13 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
   {
     String displayableName;
 
-    int version = 0; // Unknown version
+    int recalboxVersion = 0; // Unknown version
+    int themeVersion = 0; // Unknown version
     ThemeData::Compatibility compatibility = ThemeData::Compatibility::Hdmi;
     ThemeData::Resolutions resolutions = ThemeData::Resolutions::HD | ThemeData::Resolutions::FHD;
 
     // Compatibility
-    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, resolutions, displayableName, version))
+    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, resolutions, displayableName, themeVersion, recalboxVersion))
     {
       if ((compatibility & currentMode) != 0) displayableName.Insert(0, "\uF1C0 "); // (v) - compatibility match
       else displayableName.Insert(0, "\uF1CA "); // /!\ sign - compatibility mismatch
@@ -98,7 +99,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
     else continue; // Failed to inspect theme => no valid theme
 
     // Version
-    if (version != 0) displayableName.Append(" (").Append(version >> 8).Append('.').Append(version & 0xFF).TrimRight('0').Append(')');
+    if (themeVersion != 0) displayableName.Append(" (").Append(themeVersion >> 8).Append('.').Append(themeVersion & 0xFF).TrimRight('0').Append(')');
     //else displayableName.Append(" (").Append("\uF1C1").Append(')'); // (?) sign - no version info
 
     list.push_back({ displayableName, name, name == mOriginalTheme });

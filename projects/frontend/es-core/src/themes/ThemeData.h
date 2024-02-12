@@ -63,7 +63,7 @@ class ThemeData
      * @param root Theme root path
      * @return
      */
-    static bool FetchCompatibility(const Path& root, [[out]] Compatibility& compatibility, [[out]] Resolutions& resolutions, [[out]] String& name, [[out]] int& version);
+    static bool FetchCompatibility(const Path& root, [[out]] Compatibility& compatibility, [[out]] Resolutions& resolutions, [[out]] String& name, [[out]] int& version, [[out]] int& recalboxVersion);
 
     /*!
      * @brief Load main theme
@@ -129,7 +129,7 @@ class ThemeData
      */
     [[nodiscard]] String::List GetSubSetValues(const String& subset) const;
 
-    const String& RawName() const { return mThemeName; }
+    [[nodiscard]] const String& RawName() const { return mThemeName; }
 
   private:
     //! View content

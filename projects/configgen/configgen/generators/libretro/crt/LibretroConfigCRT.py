@@ -233,6 +233,13 @@ class LibretroConfigCRT:
 
         return config
 
+    def manage_scanlines(self, system: Emulator, config:typing.Dict[str, str], vertical: bool):
+        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines != CRTScanlines.NONE and system.CRTResolutionType == CRTResolutionType.Progressive:
+            if (system.Rotation.isTate() and vertical) or (not system.Rotation.isTate() and not vertical):
+                config.update({"video_shader_enable": '"true"'})
+                config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
+                config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
+
     def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
         config: typing.Dict[str, str] = {"aspect_ratio_index": "23",
                                          "video_aspect_ratio_auto": '"false"',
@@ -277,10 +284,7 @@ class LibretroConfigCRT:
                 game_name, system.Name, system.CRTScreenType, system.CRTResolutionType, system.CRTVideoStandard, system.VerticalGame),
             log_type="CRT")
 
-        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines != CRTScanlines.NONE and system.CRTResolutionType == CRTResolutionType.Progressive:
-            config.update({"video_shader_enable": '"true"'})
-            config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
-            config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
+        gameIsTate = system.VerticalGame
         if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
             config.update({"video_black_frame_insertion": '"1"'})
         if system.Core == "swanstation":
@@ -431,5 +435,7 @@ class LibretroConfigCRT:
         if system.Name in ["wswan", "wswanc"]:
             config["video_vsync"] = '"false"'
 
+        # Gate gameIsTate update value to manager scanlines
+        self.manage_scanlines(system, config, gameIsTate)
 
         return config

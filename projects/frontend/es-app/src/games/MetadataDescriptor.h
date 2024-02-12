@@ -491,7 +491,6 @@ class MetadataDescriptor
     [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
     [[nodiscard]] String TimePlayedAsString()  const { return String(mTimePlayed);                        }
 
-
     /*
      * Setters
      */

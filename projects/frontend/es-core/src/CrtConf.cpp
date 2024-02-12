@@ -58,15 +58,11 @@ const String& CrtConf::CrtAdapterFromEnum(CrtAdapterType adapter)
 CrtScanlines CrtConf::CrtScanlinesFromString(const String& scanlines)
 {
   String foundScanlines = scanlines;
-  if(foundScanlines.empty())
-  {
-    foundScanlines = RecalboxConf::Instance().AsString(sSystemCRTScanlines31kHz);
-  }
   if (foundScanlines == "none"     ) return CrtScanlines::None;
   if (foundScanlines == "light"    ) return CrtScanlines::Light;
   if (foundScanlines == "medium"   ) return CrtScanlines::Medium;
   if (foundScanlines == "heavy"    ) return CrtScanlines::Heavy;
-  return CrtScanlines::None;
+  return CrtScanlines::Heavy;
 }
 
 const String& CrtConf::CrtScanlinesFromEnum(CrtScanlines scanlines)

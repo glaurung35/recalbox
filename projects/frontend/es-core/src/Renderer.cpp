@@ -295,13 +295,13 @@ bool Renderer::Initialize(int w, int h)
 
   mScale.Set(1,1);
   mVirtualViewportSize.Set(mViewportSize.x(), mViewportSize.y());
-  mVirtualViewportSizeFloat.Set(mViewportSize.x(), mViewportSize.y());
+  mVirtualViewportSizeFloat.Set((float)mViewportSize.x(), (float)mViewportSize.y());
   if(isCrt || RecalboxConf::Instance().GetESForce43())
   {
     float scaledWidth = (float)mViewportSize.y() * 1.3334f;
     mScale.Set((float)mViewportSize.x() / scaledWidth, 1);
     mVirtualViewportSize.Set((int) (scaledWidth), mViewportSize.y());
-    mVirtualViewportSizeFloat.Set(scaledWidth, mViewportSize.y());
+    mVirtualViewportSizeFloat.Set(scaledWidth, (float)mViewportSize.y());
   }
 
   glViewport(0, 0, mViewportSize.x(), mViewportSize.y());
@@ -317,7 +317,7 @@ bool Renderer::Initialize(int w, int h)
     mVirtualViewportSizeFloat.Set(mVirtualViewportSizeFloat.y(), mVirtualViewportSizeFloat.x());
     mScale.Set(mScale.y(), mScale.x());
     glRotatef(90,0,0,1);
-    glTranslatef(0, -mViewportSize.x(),0);
+    glTranslatef(0, -(float)mViewportSize.x(),0);
   }
   else if(mRotate == RotationType::Left)
   {
@@ -325,12 +325,12 @@ bool Renderer::Initialize(int w, int h)
     mVirtualViewportSizeFloat.Set(mVirtualViewportSizeFloat.y(), mVirtualViewportSizeFloat.x());
     mScale.Set(mScale.y(), mScale.x());
     glRotatef(270,0,0,1);
-    glTranslatef(-mViewportSize.y(),0,0);
+    glTranslatef(-(float)mViewportSize.y(),0,0);
   }
   else if(mRotate == RotationType::Upsidedown)
   {
     glRotatef(180,0,0,1);
-    glTranslatef(-mViewportSize.x(),-mViewportSize.y(),0);
+    glTranslatef(-(float)mViewportSize.x(),-(float)mViewportSize.y(),0);
   }
   glScalef(mScale.x(),mScale.y(),1);
   glMatrixMode(GL_MODELVIEW);
@@ -555,10 +555,59 @@ void Renderer::DrawLines(const Vector2f coordinates[], const Colors::ColorARGB c
   glEnableClientState(GL_VERTEX_ARRAY);
   glEnableClientState(GL_COLOR_ARRAY);
 
-  glVertexPointer(2, GL_FLOAT, 0, &coordinates);
-  glColorPointer(4, GL_UNSIGNED_BYTE, 0, &colors);
+  glVertexPointer(2, GL_FLOAT, 0, coordinates);
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
 
   glDrawArrays(GL_LINES, 0, count);
+
+  glDisable(GL_BLEND);
+  glDisableClientState(GL_VERTEX_ARRAY);
+  glDisableClientState(GL_COLOR_ARRAY);
+}
+
+void Renderer::DrawRectangle(int x, int y, int w, int h,
+                             Colors::ColorARGB topleftcolor,
+                             Colors::ColorARGB toprightcolor,
+                             Colors::ColorARGB bottomrightcolor,
+                             Colors::ColorARGB bottomleftcolor)
+{
+  #ifdef USE_OPENGL_ES
+  GLshort points[12]
+  #else
+  GLint points[12]
+    #endif
+    {
+      x    , y    ,
+      x    , y + h,
+      x + w, y    ,
+      x + w, y    ,
+      x    , y + h,
+      x + w, y + h,
+    };
+
+  GLuint colors[6]
+    {
+      ColorToGL(topleftcolor),
+      ColorToGL(bottomleftcolor),
+      ColorToGL(toprightcolor),
+      ColorToGL(toprightcolor),
+      ColorToGL(bottomleftcolor),
+      ColorToGL(bottomrightcolor)
+    };
+
+  glEnable(GL_BLEND);
+  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+  glEnableClientState(GL_VERTEX_ARRAY);
+  glEnableClientState(GL_COLOR_ARRAY);
+
+    #ifdef USE_OPENGL_ES
+  glVertexPointer(2, GL_SHORT, 0, points);
+    #else
+  glVertexPointer(2, GL_INT, 0, points);
+    #endif
+  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
+
+  glDrawArrays(GL_TRIANGLES, 0, 6);
 
   glDisable(GL_BLEND);
   glDisableClientState(GL_VERTEX_ARRAY);
@@ -651,30 +700,25 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
   if (texture.bind())
   {
-    Vertex vertices[Vertex::sVertexPerRectangle];
-
-    vertices[0].Target.Set(x, y);
-    vertices[1].Target.Set(x, y + h);
-    vertices[2].Target.Set(x + w, y);
-
-    vertices[3].Target.Set(x + w, y);
-    vertices[4].Target.Set(x, y + h);
-    vertices[5].Target.Set(x + w, y + h);
-
-    vertices[0].Source.Set(0, 1);
-    vertices[1].Source.Set(0, 0);
-    vertices[2].Source.Set(1, 1);
-
-    vertices[3].Source.Set(1, 1);
-    vertices[4].Source.Set(0, 0);
-    vertices[5].Source.Set(1, 0);
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    Vertex vertices[Vertex::sVertexPerRectangle]
+    {
+      { { x    , y     }, { 0.f,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y + h }, {  tx, 0.f } }
+    };
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -714,30 +758,25 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
   if (texture.bind())
   {
-    Vertex vertices[Vertex::sVertexPerRectangle];
-
-    vertices[0].Target.Set(x, y);
-    vertices[1].Target.Set(x, y + h);
-    vertices[2].Target.Set(x + w, y);
-
-    vertices[3].Target.Set(x + w, y);
-    vertices[4].Target.Set(x, y + h);
-    vertices[5].Target.Set(x + w, y + h);
-
-    vertices[0].Source.Set(0, 1);
-    vertices[1].Source.Set(0, 0);
-    vertices[2].Source.Set(1, 1);
-
-    vertices[3].Source.Set(1, 1);
-    vertices[4].Source.Set(0, 0);
-    vertices[5].Source.Set(1, 0);
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    Vertex vertices[Vertex::sVertexPerRectangle]
+    {
+      { { x    , y     }, { 0.f,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y + h }, {  tx, 0.f } }
+    };
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
     glColor4ub(0xFF, 0xFF, 0xFF, alpha);
 
@@ -783,30 +822,25 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
   if (texture.bind())
   {
-    Vertex vertices[Vertex::sVertexPerRectangle];
-
-    vertices[0].Target.Set(x, y);
-    vertices[1].Target.Set(x, y + h);
-    vertices[2].Target.Set(x + w, y);
-
-    vertices[3].Target.Set(x + w, y);
-    vertices[4].Target.Set(x, y + h);
-    vertices[5].Target.Set(x + w, y + h);
-
-    vertices[0].Source.Set(0, 1);
-    vertices[1].Source.Set(0, 0);
-    vertices[2].Source.Set(1, 1);
-
-    vertices[3].Source.Set(1, 1);
-    vertices[4].Source.Set(0, 0);
-    vertices[5].Source.Set(1, 0);
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
+    Vertex vertices[Vertex::sVertexPerRectangle]
+    {
+      { { x    , y     }, { 0.f,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y + h }, {  tx, 0.f } }
+    };
 
     glEnable(GL_TEXTURE_2D);
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
     glColor4ub((GLubyte)(color >> 24),
                (GLubyte)(color >> 16),
@@ -856,14 +890,17 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
 
   if (texture.bind())
   {
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
-      { { x    , y     }, { 0, 1 } },
-      { { x    , y + h }, { 0, 0 } },
-      { { x + w, y     }, { 1, 1 } },
-      { { x + w, y     }, { 1, 1 } },
-      { { x    , y + h }, { 0, 0 } },
-      { { x + w, y + h }, { 1, 0 } }
+      { { x    , y     }, { 0.f,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x + w, y     }, {  tx,  ty } },
+      { { x    , y + h }, { 0.f, 0.f } },
+      { { x + w, y + h }, {  tx, 0.f } }
     };
 
     GLuint colors[Vertex::sVertexPerRectangle];
@@ -878,8 +915,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);
@@ -900,55 +937,6 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     glDisable(GL_TEXTURE_2D);
     glDisable(GL_BLEND);
   }
-}
-
-void Renderer::DrawRectangle(int x, int y, int w, int h,
-                             Colors::ColorARGB topleftcolor,
-                             Colors::ColorARGB toprightcolor,
-                             Colors::ColorARGB bottomrightcolor,
-                             Colors::ColorARGB bottomleftcolor)
-{
-  #ifdef USE_OPENGL_ES
-  GLshort points[12]
-  #else
-  GLint points[12]
-  #endif
-  {
-    x    , y    ,
-    x    , y + h,
-    x + w, y    ,
-    x + w, y    ,
-    x    , y + h,
-    x + w, y + h,
-  };
-
-  GLuint colors[6]
-  {
-    ColorToGL(topleftcolor),
-    ColorToGL(bottomleftcolor),
-    ColorToGL(toprightcolor),
-    ColorToGL(toprightcolor),
-    ColorToGL(bottomleftcolor),
-    ColorToGL(bottomrightcolor)
-  };
-
-  glEnable(GL_BLEND);
-  glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
-  glEnableClientState(GL_VERTEX_ARRAY);
-  glEnableClientState(GL_COLOR_ARRAY);
-
-  #ifdef USE_OPENGL_ES
-  glVertexPointer(2, GL_SHORT, 0, points);
-  #else
-  glVertexPointer(2, GL_INT, 0, points);
-  #endif
-  glColorPointer(4, GL_UNSIGNED_BYTE, 0, colors);
-
-  glDrawArrays(GL_TRIANGLES, 0, 6);
-
-  glDisable(GL_BLEND);
-  glDisableClientState(GL_VERTEX_ARRAY);
-  glDisableClientState(GL_COLOR_ARRAY);
 }
 
 void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio,
@@ -984,14 +972,17 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     int y1 = y;
     int y2 = y;
     if (flipOnY) y1 += h; else y2 += h;
+    bool tiled = texture.isTiled();
+    float tx = tiled ? (float)w / (float)texture.realWidth() : 1.f;
+    float ty = tiled ? (float)h / (float)texture.realHeight() : 1.f;
     Vertex vertices[Vertex::sVertexPerRectangle]
     {
-      { { x1, y1 }, { 0, 1 } },
-      { { x1, y2 }, { 0, 0 } },
-      { { x2, y1 }, { 1, 1 } },
-      { { x2, y1 }, { 1, 1 } },
-      { { x1, y2 }, { 0, 0 } },
-      { { x2, y2 }, { 1, 0 } }
+      { { x1, y1 }, { 0.f,  ty } },
+      { { x1, y2 }, { 0.f, 0.f } },
+      { { x2, y1 }, {  tx,  ty } },
+      { { x2, y1 }, {  tx,  ty } },
+      { { x1, y2 }, { 0.f, 0.f } },
+      { { x2, y2 }, {  tx, 0.f } }
     };
 
     GLuint colors[Vertex::sVertexPerRectangle];
@@ -1006,8 +997,8 @@ void Renderer::DrawTexture(TextureResource& texture, int x, int y, int w, int h,
     glEnable(GL_BLEND);
     glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE);
-    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, tiled ? GL_REPEAT : GL_CLAMP_TO_EDGE);
 
     glEnableClientState(GL_VERTEX_ARRAY);
     glEnableClientState(GL_TEXTURE_COORD_ARRAY);

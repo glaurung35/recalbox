@@ -52,8 +52,6 @@ class ImageComponent : public ThemableComponent
 
     [[nodiscard]] Vector2f getTargetSize() const { return mTargetSize; }
 
-    [[nodiscard]] Vector2i getSourceImageSize() const { return getTextureSize(); }
-
     // Resize the image to fit this size. If one axis is zero, scale that axis to maintain aspect ratio.
     // If both are non-zero, potentially break the aspect ratio.  If both are zero, no resizing.
     // Can be set before or after an image is loaded.
@@ -78,9 +76,6 @@ class ImageComponent : public ThemableComponent
 
     void setFlipX(bool flip); // Mirror on the X axis.
     void setFlipY(bool flip); // Mirror on the Y axis.
-
-    // Returns the size of the current texture, or (0, 0) if none is loaded.  May be different than drawn size (use getSize() for that).
-    [[nodiscard]] Vector2i getTextureSize() const;
 
     bool hasImage() { return mTexture != nullptr; }
 

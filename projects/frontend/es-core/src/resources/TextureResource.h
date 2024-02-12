@@ -30,6 +30,8 @@ public:
 	bool isTiled() const;
 	
   Vector2i getSize() const { return mSize; }
+  float realWidth() { return mSize.x(); }
+  float realHeight() { return mSize.y(); }
 	bool bind();
 
 	static size_t getTotalMemUsage(); // returns an approximation of total VRAM used by textures (in bytes)

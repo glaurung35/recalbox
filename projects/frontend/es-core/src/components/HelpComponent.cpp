@@ -226,6 +226,8 @@ void HelpComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProper
 void HelpComponent::ViewChanged(ViewType currentView, bool hasWindowOver)
 {
   String viewName = "system";
+  const ThemeData* theme = &ThemeManager::Instance().Main();
+
   if (hasWindowOver)
   {
     // We are on a menu or a window. Select menu view or if it doesn't exists, just keep default
@@ -238,17 +240,19 @@ void HelpComponent::ViewChanged(ViewType currentView, bool hasWindowOver)
     {
       case ViewType::GameList:
       {
-        viewName = ((ISimpleGameListView&)ViewController::Instance().CurrentUi()).System().Name();
+        ISimpleGameListView& view = ((ISimpleGameListView&)ViewController::Instance().CurrentUi());
+        viewName = view.getName();
+        theme = &ThemeManager::Instance().System(&view.System());
         break;
       }
+      case ViewType::GameClip:
       case ViewType::SystemList:
+      case ViewType::CrtCalibration:
       case ViewType::None:
       case ViewType::SplashScreen:
-      case ViewType::GameClip:
-      case ViewType::CrtCalibration:
       default: break; // Keep system view
     }
   }
-  DoApplyThemeElement(ThemeManager::Instance().Main(), viewName, "help", ThemePropertyCategory::All);
+  DoApplyThemeElement(*theme, viewName, "help", ThemePropertyCategory::All);
 }
 

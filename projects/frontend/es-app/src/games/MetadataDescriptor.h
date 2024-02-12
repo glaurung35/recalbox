@@ -486,10 +486,10 @@ class MetadataDescriptor
     [[nodiscard]] String RomCrc32AsString()    const { String r; IntToHex(mRomCrc32, r); return r;             }
     [[nodiscard]] String HiddenAsString()      const { return mHidden ? "true" : "false";                           }
     [[nodiscard]] String AdultAsString()       const { return mAdult ? "true" : "false";                            }
-    [[nodiscard]] String GenreIdAsString()     const { return String((int)mGenreId);                           }
+    [[nodiscard]] String GenreIdAsString()     const { return Genres::GetFullNameStandalone(mGenreId);                           }
     [[nodiscard]] String LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
     [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
-    [[nodiscard]] String TimePlayedAsString()      const { return String(mTimePlayed);                        }
+    [[nodiscard]] String TimePlayedAsString()  const { return String(mTimePlayed);                        }
 
 
     /*

@@ -82,6 +82,12 @@ class TextScrollComponent : public ThemableComponent
      */
     [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::ScrollText; }
 
+    /*!
+     * @brief Return compatible element type
+     * @return Element type
+     */
+    [[nodiscard]] ThemeElementType GetThemeElementType2() const override { return ThemeElementType::Text; }
+
   private:
     static constexpr int sScrollSpeed1 = 80; // In pixel per seconds
     static constexpr int sScrollSpeed2 = 160; // In pixel per seconds

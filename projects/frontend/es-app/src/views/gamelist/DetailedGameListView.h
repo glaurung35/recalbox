@@ -6,6 +6,7 @@
 #include "components/VideoComponent.h"
 #include "components/BusyComponent.h"
 #include "components/VerticalScrollableContainer.h"
+#include "components/TextScrollComponent.h"
 #include <views/ViewController.h>
 #include <components/TextListComponent.h>
 #include <games/EmptyData.h>
@@ -124,9 +125,9 @@ class DetailedGameListView : public ISimpleGameListView
 
     RatingComponent mRating;
     DateTimeComponent mReleaseDate;
-    TextComponent mDeveloper;
-    TextComponent mPublisher;
-    TextComponent mGenre;
+    TextScrollComponent mDeveloper;
+    TextScrollComponent mPublisher;
+    TextScrollComponent mGenre;
     TextComponent mPlayers;
     DateTimeComponent mLastPlayed;
     TextComponent mPlayCount;

@@ -836,7 +836,7 @@ ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
   return result;
 }
 
-bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version)
+bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version, int& recalboxVersion)
 {
   if (!path.Exists()) { LOG(LogError) << "[Theme] " << path << " does not exist!"; return false; }
 
@@ -849,14 +849,17 @@ bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& c
 
   // Extract compatibility
   compatibility = ExtractCompatibility(root);
-  // Extract compatibility
+
+  // Extract resolutions
   resolutions = ExtractResolutions(root);
+
   // Extract name
   name = path.Directory().FilenameWithoutExtension();
   pugi::xml_attribute nameAttribute = root.attribute("name");
   if ((bool)nameAttribute)
     if (String newName = nameAttribute.as_string(); !newName.Trim().empty())
       name = newName;
+
   // Extract version
   version = 0;
   pugi::xml_attribute versionAttribute = root.attribute("version");
@@ -864,6 +867,14 @@ bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& c
     if (String newVersion = versionAttribute.as_string(); !newVersion.Trim().empty())
       if (String major, minor; newVersion.Extract('.', major, minor, true))
         version = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);
+
+  // Extract recalbox version
+  recalboxVersion = 0;
+  pugi::xml_attribute recalboxAttribute = root.attribute("recalbox");
+  if ((bool)recalboxAttribute)
+    if (String newRecalbox = recalboxAttribute.as_string(); !newRecalbox.Trim().empty())
+      if (String major, minor; newRecalbox.Extract('.', major, minor, true))
+        recalboxVersion = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);
 
   return true;
 }

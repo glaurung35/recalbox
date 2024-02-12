@@ -188,9 +188,6 @@ tests nvidia:
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "alpha";then
         sed -i "s/^updates.type=.*/updates.type=alpha/g" package/recalbox-system/*/recalbox.conf
       fi
-      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "recalboxrgbdual";then
-        sed -i "s/^updates.type=.*/updates.type=recalboxrgbdual/g" package/recalbox-system/*/recalbox.conf
-      fi
       if echo "${CI_COMMIT_TAG:-""}" | grep -qi "patron";then
         sed -i "s/^updates.type=.*/updates.type=patron/g" package/recalbox-system/*/recalbox.conf
       fi
@@ -374,25 +371,13 @@ release alpha:
   environment:
     name: alpha/${CI_COMMIT_REF_SLUG}
 
-release recalboxrgbdual:
-  <<: *release_definition
-  only:
-    refs:
-      - tags
-    variables:
-      - $CI_COMMIT_TAG =~ /recalboxrgbdual/i
-  when: manual
-  variables:
-    DEPLOY_TYPE: review
-    BUCKET: recalbox-archive-recalboxrgbdual
-  environment:
-    name: recalboxrgbdual/${CI_COMMIT_REF_SLUG}
-
 release patron:
   <<: *release_definition
   only:
     refs:
       - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /patron/i
   when: manual
   variables:
     DEPLOY_TYPE: review
@@ -405,12 +390,28 @@ release jamma:
   only:
     refs:
       - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /jamma/i
   when: manual
   variables:
     DEPLOY_TYPE: review
     BUCKET: recalbox-archive-jamma
   environment:
     name: jamma/${CI_COMMIT_REF_SLUG}
+
+release jamma-early:
+  <<: *release_definition
+  only:
+    refs:
+      - tags
+    variables:
+      - $CI_COMMIT_TAG =~ /jamma/i
+  when: manual
+  variables:
+    DEPLOY_TYPE: review
+    BUCKET: recalbox-archive-jamma-early
+  environment:
+    name: jamma-early/${CI_COMMIT_REF_SLUG}
 
 release branch:
   <<: *release_definition

@@ -53,6 +53,6 @@ class JammaData
         if(player == 2)
           return CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2();
       }
-      else return "standard";
+      return "standard";
     }
 };

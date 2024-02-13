@@ -18,8 +18,9 @@
 const int logoBuffersLeft[] = { -5, -2, -1 };
 const int logoBuffersRight[] = { 1, 2, 5 };
 
-SystemView::SystemView(WindowManager& window, SystemManager& systemManager)
+SystemView::SystemView(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver)
   : IList<SystemViewData, SystemData*>(window, LIST_SCROLL_STYLE_SLOW, LoopType::Always)
+  , mResolver(resolver)
   , mSystemManager(systemManager)
   , mCarousel()
   , mSystemInfo(window, "SYSTEM INFO", Font::get(FONT_SIZE_SMALL), 0x33333300, TextAlignment::Center)
@@ -283,7 +284,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
     if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Main))
     {
-      mWindow.pushGui(new GuiMenu(mWindow, mSystemManager));
+      mWindow.pushGui(new GuiMenu(mWindow, mSystemManager, mResolver));
       return true;
     }
 

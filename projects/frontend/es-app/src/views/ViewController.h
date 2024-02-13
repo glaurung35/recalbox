@@ -52,7 +52,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      * @param window Window manager
      * @param systemManager System manager
      */
-  	ViewController(WindowManager& window, SystemManager& systemManager);
+  	ViewController(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
     //! Destructor
     ~ViewController() override;
 
@@ -202,6 +202,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     //! Force go to game after the game ends
     bool mForceGoToGame;
 
+    //! Global variable resolver
+    const IGlobalVariableResolver& mResolver;
     //! SystemManager instance
     SystemManager& mSystemManager;
 

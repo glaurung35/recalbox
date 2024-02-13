@@ -19,17 +19,18 @@
 
 #include <games/GameFilesUtils.h>
 
-ViewController::ViewController(WindowManager& window, SystemManager& systemManager)
+ViewController::ViewController(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver)
 	: StaticLifeCycleControler<ViewController>("ViewController")
 	, Gui(window)
   , mGameToLaunch(nullptr)
   , mLaunchCameraTarget()
   , mCheckFlags(LaunchCheckFlags::None)
   , mForceGoToGame(false)
+  , mResolver(resolver)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
   , mCurrentSystem(nullptr)
-	, mSystemListView(window, systemManager)
+	, mSystemListView(window, systemManager, resolver)
 	, mSplashView(window)
 	, mGameClipView(window, systemManager)
   , mCrtView(window)
@@ -663,8 +664,8 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 	//if we didn't, make it, remember it, and return it
 	ISimpleGameListView* view =
     (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
-    new ArcadeGameListView(mWindow, mSystemManager, *system) :
-    new DetailedGameListView(mWindow, mSystemManager, *system);
+    new ArcadeGameListView(mWindow, mSystemManager, *system, mResolver) :
+    new DetailedGameListView(mWindow, mSystemManager, *system, mResolver);
   view->DoInitialize();
 
   int id = mSystemManager.SystemAbsoluteIndex(system);

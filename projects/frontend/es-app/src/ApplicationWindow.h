@@ -34,9 +34,9 @@ class ApplicationWindow: public WindowManager
      * @brief Constructor
      * @param systemManager Systeme manager instance
      */
-    explicit ApplicationWindow(SystemManager& systemManager, const Options& options)
+    explicit ApplicationWindow(SystemManager& systemManager, const Options& options, const IGlobalVariableResolver& resolver)
       : WindowManager(options)
-      , mViewController(*this, systemManager)
+      , mViewController(*this, systemManager, resolver)
       , mOverlayImage(*this)
       , mActiveOSD(false)
       , mClosed(false)

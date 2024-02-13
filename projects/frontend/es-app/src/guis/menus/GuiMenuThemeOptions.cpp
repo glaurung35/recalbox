@@ -8,21 +8,22 @@
 #include "guis/GuiMsgBox.h"
 #include "EmulationStation.h"
 
-GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window)
+GuiMenuThemeOptions::GuiMenuThemeOptions(WindowManager& window, const IGlobalVariableResolver& resolver)
   : GuiMenuBase(window, _("THEME"), nullptr)
+  , mResolver(resolver)
   , mTimer(0)
 {
   // theme set
-  mTheme = AddList(_("THEME SET"), (int)Components::Theme, this, GetThemeEntries(), _(MENUMESSAGE_UI_THEME_HELP_MSG));
+  mTheme = AddList<ThemeSpec>(_("THEME SET"), (int)Components::Theme, this, GetThemeEntries(), _(MENUMESSAGE_UI_THEME_HELP_MSG));
 
   // carousel transition option
   AddSwitch(_("CAROUSEL ANIMATION"), RecalboxConf::Instance().GetThemeCarousel(), (int)Components::Carousel, this, _(MENUMESSAGE_UI_CAROUSEL_HELP_MSG));
 
   // transition style
-  AddList(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
+  AddList<String>(_("TRANSITION STYLE"), (int)Components::Transition, this, GetTransitionEntries(), _(MENUMESSAGE_UI_TRANSITION_HELP_MSG));
 
   // Region
-  AddList(_("REGION"), (int)Components::Region, this, GetRegionEntries(), _(MENUMESSAGE_UI_REGION_HELP_MSG));
+  AddList<String>(_("REGION"), (int)Components::Region, this, GetRegionEntries(), _(MENUMESSAGE_UI_REGION_HELP_MSG));
 }
 
 GuiMenuThemeOptions::~GuiMenuThemeOptions()
@@ -56,7 +57,7 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetRegionEntrie
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries()
+std::vector<GuiMenuBase::ListEntry<ThemeSpec>> GuiMenuThemeOptions::GetThemeEntries()
 {
   // Get theme list
   ThemeManager::ThemeList themelist = ThemeManager::AvailableThemes();
@@ -64,76 +65,62 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuThemeOptions::GetThemeEntries
   if (!themelist.contains(mOriginalTheme)) mOriginalTheme = ThemeManager::sDefaultThemeFolder;
   if (!themelist.contains(mOriginalTheme)) mOriginalTheme = themelist.begin()->first;
 
-  ThemeData::Compatibility currentMode = ThemeManager::Instance().GlobalResolver().HasJamma() ? ThemeData::Compatibility::Jamma :
-                                         ThemeManager::Instance().GlobalResolver().HasCrt() ? ThemeData::Compatibility::Crt :
-                                         ThemeData::Compatibility::Hdmi;
-
   String currentVersionString = PROGRAM_VERSION_STRING;
   int cut = (int)currentVersionString.find_first_not_of("0123456789.");
   if (cut >= 0) currentVersionString.Delete(cut, INT32_MAX);
-  /*int currentVersion = (9 << 8) + 20; // Minimum version 9.2
-  if (String major, minor; currentVersionString.Extract('.', major, minor, true))
-  version = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);*/
 
   // Sort names
-  String::List sortedNames;
-  for (const auto& kv : themelist) sortedNames.push_back(kv.first);
-  std::sort(sortedNames.begin(), sortedNames.end(), [](const String& a, const String& b) { return a.ToLowerCase() < b.ToLowerCase(); });
+  ThemeSpecList sortedNames;
+  for (const auto& kv : themelist) sortedNames.push_back({ kv.first, kv.second });
+  std::sort(sortedNames.begin(), sortedNames.end(), [](const ThemeSpec& a, const ThemeSpec& b) { return a.Name.ToLowerCase() < b.Name.ToLowerCase(); });
 
-  std::vector<ListEntry<String>> list;
-  for (const String& name : sortedNames)
+  std::vector<ListEntry<ThemeSpec>> list;
+  for (const ThemeSpec& theme : sortedNames)
   {
-    String displayableName;
+    bool compatible = false;
+    String displayableName = CheckCompatibility(theme.FolderPath, compatible, false);
 
-    int recalboxVersion = 0; // Unknown version
-    int themeVersion = 0; // Unknown version
-    ThemeData::Compatibility compatibility = ThemeData::Compatibility::Hdmi;
-    ThemeData::Resolutions resolutions = ThemeData::Resolutions::HD | ThemeData::Resolutions::FHD;
+    // (v) - compatibility match else /!\ sign - compatibility mismatch
+    displayableName.Insert(0, compatible ? "\uF1C0 " : "\uF1CA ");
 
-    // Compatibility
-    if (ThemeData::FetchCompatibility(themelist[name] / ThemeManager::sRootThemeFile, compatibility, resolutions, displayableName, themeVersion, recalboxVersion))
-    {
-      if ((compatibility & currentMode) != 0) displayableName.Insert(0, "\uF1C0 "); // (v) - compatibility match
-      else displayableName.Insert(0, "\uF1CA "); // /!\ sign - compatibility mismatch
-    }
-    else continue; // Failed to inspect theme => no valid theme
-
-    // Version
-    if (themeVersion != 0) displayableName.Append(" (").Append(themeVersion >> 8).Append('.').Append(themeVersion & 0xFF).TrimRight('0').Append(')');
-    //else displayableName.Append(" (").Append("\uF1C1").Append(')'); // (?) sign - no version info
-
-    list.push_back({ displayableName, name, name == mOriginalTheme });
+    list.push_back({ displayableName, theme, theme.Name == mOriginalTheme });
   }
 
   return list;
 }
 
-void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
+void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const ThemeSpec& value, bool quickChange)
 {
   (void)index;
-  if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
-  else if ((Components)id == Components::Theme)
+  if ((Components)id == Components::Theme)
   {
-    if (Board::Instance().CrtBoard().IsCrtAdapterAttached() && value != "recalbox-240p")
+    RecalboxConf::Instance().SetThemeFolder(value.Name).Save();
+    if (quickChange)
     {
-      Gui* gui = new GuiMsgBox(mWindow, _("Are you sure the selected theme is compatible with CRT screens?"),
-                               _("YES"), [this, value] { RecalboxConf::Instance().SetThemeFolder(value).Save(); ThemeManager::Instance().DoThemeChange(&mWindow); },
-                               _("NO"), [this, index] { mTheme->setSelectedIndex(index); });
-      mWindow.pushGui(gui);
+      mTimer = sApplyChangeTimer;
+      mLastThemePath = value.FolderPath;
     }
     else
     {
-      RecalboxConf::Instance().SetThemeFolder(value).Save();
-      if (quickChange) mTimer = sApplyChangeTimer;
-      else
-      {
-        ThemeManager::Instance().DoThemeChange(&mWindow);
-        mTimer = 0;
-      }
+      mTimer = 0;
+      DoSwitchTheme(value.FolderPath);
     }
   }
+}
+
+void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
+{
+  (void)index;
+  (void)quickChange;
+  if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
   else if ((Components)id == Components::Region)
     RecalboxConf::Instance().SetThemeRegion(value).Save();
+}
+
+void GuiMenuThemeOptions::DoSwitchTheme(const Path& themePath)
+{
+  bool compatible = false;
+  CheckCompatibility(Path(themePath), compatible, true);
 }
 
 void GuiMenuThemeOptions::SwitchComponentChanged(int id, bool& status)
@@ -150,7 +137,7 @@ void GuiMenuThemeOptions::Update(int elapsed)
     if (mTimer -= elapsed; mTimer <= 0)
     {
       mTimer = 0;
-      ThemeManager::Instance().DoThemeChange(&mWindow);
+      DoSwitchTheme(mLastThemePath);
     }
 }
 
@@ -164,3 +151,78 @@ bool GuiMenuThemeOptions::ProcessInput(const InputCompactEvent& event)
       mTimer = sApplyChangeTimer;
   return false;
 }
+
+String GuiMenuThemeOptions::CheckCompatibility(const Path& themePath, [[out]] bool& compatible, bool switchTheme)
+{
+  // Current state
+  bool tate = mResolver.IsTate();
+  ThemeData::Compatibility currentCompatibility = (mResolver.HasJamma() ? ThemeData::Compatibility::Jamma : ThemeData::Compatibility::None) |
+                                                  (mResolver.HasCrt() ? ThemeData::Compatibility::Crt : ThemeData::Compatibility::None) |
+                                                  (mResolver.HasHDMI() ? ThemeData::Compatibility::Hdmi : ThemeData::Compatibility::None);
+  ThemeData::Resolutions currentResolution = mResolver.IsQVGA() ? ThemeData::Resolutions::QVGA :
+                                             mResolver.IsVGA() ? ThemeData::Resolutions::VGA :
+                                             mResolver.IsHD() ? ThemeData::Resolutions::HD :
+                                             ThemeData::Resolutions::FHD;
+
+  // Fetched data
+  int recalboxVersion = 0; // Unknown version
+  int themeVersion = 0; // Unknown version
+  ThemeData::Compatibility compatibility = ThemeData::Compatibility::Hdmi;
+  ThemeData::Resolutions resolutions = ThemeData::Resolutions::HD | ThemeData::Resolutions::FHD;
+  String displayableName;
+
+  if (ThemeData::FetchCompatibility(themePath / ThemeManager::sRootThemeFile, compatibility, resolutions, displayableName, themeVersion, recalboxVersion))
+  {
+    compatible = ((currentCompatibility & compatibility) != 0) &&
+                 ((currentResolution & resolutions) != 0) &&
+                 (!tate || hasFlag(compatibility, ThemeData::Compatibility::Tate));
+    if (switchTheme)
+    {
+      if (!compatible)
+      {
+        String modeIssue = (currentCompatibility & compatibility) == 0 ?
+          String("- ").Append(_("You display {0} is not in the list of this theme's supported displays:"))
+          .Replace("{0}",GetDisplayList(currentCompatibility))
+          .Append(' ').Append(GetDisplayList(compatibility)).Append(String::CRLF) : String::Empty;
+        String resolutionIssue = (currentResolution & resolutions) == 0 ?
+          String("- ").Append(_("You current resolution {0} is not in the list of this theme's supported resolutions:"))
+          .Replace("{0}",GetResolutionList(currentResolution))
+          .Append(' ').Append(GetResolutionList(resolutions)).Append(String::CRLF) : String::Empty;
+        String tateIssue = tate && !hasFlag(compatibility, ThemeData::Compatibility::Tate) ?
+          String("- ").Append(_("You're in TATE mode and this theme does not seem to support TATE.")).Append(String::CRLF) : String::Empty;
+        String message = _("This theme may have one or more compatibility issues with your current display:\n").Append(modeIssue).Append(resolutionIssue).Append(tateIssue).Append(String::CRLF).Append("Are you sure to activate this theme?");
+        mWindow.pushGui(new GuiMsgBox(mWindow, message, _("YES"), [this]{ ThemeManager::Instance().DoThemeChange(&mWindow); mTimer = 0; }, _("NO"), {}));
+      }
+      else
+      {
+        ThemeManager::Instance().DoThemeChange(&mWindow);
+        mTimer = 0;
+      }
+    }
+    if (themeVersion != 0) displayableName.Append(" (").Append(themeVersion >> 8).Append('.').Append(themeVersion & 0xFF).TrimRight('0').Append(')');
+    return displayableName;
+  }
+
+  compatible = false;
+  return String::Empty;
+}
+
+String GuiMenuThemeOptions::GetDisplayList(ThemeData::Compatibility display)
+{
+  String result;
+  if ((display & ThemeData::Compatibility::Hdmi ) != 0) result = "HDMI";
+  if ((display & ThemeData::Compatibility::Crt  ) != 0) { if (!result.empty()) result.Append(','); result.Append("CRT"); };
+  if ((display & ThemeData::Compatibility::Jamma) != 0) { if (!result.empty()) result.Append(','); result.Append("JAMMA"); };
+  return result;
+}
+
+String GuiMenuThemeOptions::GetResolutionList(ThemeData::Resolutions resolutions)
+{
+  String result;
+  if ((resolutions & ThemeData::Resolutions::QVGA) != 0) result = "QVGA (240p)";
+  if ((resolutions & ThemeData::Resolutions::VGA ) != 0) { if (!result.empty()) result.Append(','); result.Append("VGA (480p)"); };
+  if ((resolutions & ThemeData::Resolutions::HD  ) != 0) { if (!result.empty()) result.Append(','); result.Append("HD (720p)"); };
+  if ((resolutions & ThemeData::Resolutions::FHD ) != 0) { if (!result.empty()) result.Append(','); result.Append("FHD (1080p)"); };
+  return result;
+}
+

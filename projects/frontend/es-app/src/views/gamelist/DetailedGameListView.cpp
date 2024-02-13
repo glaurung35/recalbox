@@ -5,8 +5,8 @@
 #include "scraping/ScraperSeamless.h"
 #include "recalbox/RecalboxStorageWatcher.h"
 
-DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system)
-  : ISimpleGameListView(window, systemManager, system)
+DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver)
+  : ISimpleGameListView(window, systemManager, system, resolver)
   , mEmptyListItem(&system)
   , mPopulatedFolder(nullptr)
   , mList(window)

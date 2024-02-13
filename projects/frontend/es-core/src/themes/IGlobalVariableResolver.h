@@ -37,4 +37,7 @@ class IGlobalVariableResolver
 
     //! Is Resolution higher than HD?
     [[nodiscard]] virtual bool IsFHD() const = 0;
+
+    //! Is HDMI?
+    [[nodiscard]] bool HasHDMI() const { return !(HasCrt() || HasJamma()); };
 };

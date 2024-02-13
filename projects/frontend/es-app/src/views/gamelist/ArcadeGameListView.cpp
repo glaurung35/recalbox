@@ -6,8 +6,8 @@
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include "utils/locale/LocaleHelper.h"
 
-ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
-  : DetailedGameListView(window, systemManager, system)
+ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver)
+  : DetailedGameListView(window, systemManager, system, resolver)
   , mDatabase(nullptr)
 {
 }

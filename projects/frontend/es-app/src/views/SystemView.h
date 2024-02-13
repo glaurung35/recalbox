@@ -6,6 +6,7 @@
 #include <themes/ThemeExtras.h>
 #include <themes/IThemeSwitchable.h>
 #include "IProgressInterface.h"
+#include "themes/IGlobalVariableResolver.h"
 #include <utils/os/system/Thread.h>
 
 class SystemManager;
@@ -58,7 +59,7 @@ class SystemView : public IList<SystemViewData, SystemData*>
                  , public IThemeSwitchable
 {
   public:
-    SystemView(WindowManager& window, SystemManager& systemManager);
+    SystemView(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
 
     //! Destructor
     ~SystemView() override { Thread::Stop(); }
@@ -113,6 +114,8 @@ class SystemView : public IList<SystemViewData, SystemData*>
     void onCursorChanged(const CursorState& state) override;
 
   private:
+    //! Global variable resolver
+    const IGlobalVariableResolver& mResolver;
     //! SystemManager instance
     SystemManager& mSystemManager;
 

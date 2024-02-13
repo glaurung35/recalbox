@@ -12,7 +12,7 @@ class GuiMenu : public GuiMenuBase
 {
   public:
     //! Constructor
-    GuiMenu(WindowManager& window, SystemManager& systemManager);
+    GuiMenu(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
 
   private:
     enum class Components
@@ -36,6 +36,8 @@ class GuiMenu : public GuiMenuBase
       Quit,
     };
 
+    //! Global variable resolver
+    const IGlobalVariableResolver& mResolver;
     //! SystemManager instance
     SystemManager& mSystemManager;
 

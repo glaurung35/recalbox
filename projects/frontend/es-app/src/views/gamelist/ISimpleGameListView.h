@@ -30,7 +30,7 @@ class ISimpleGameListView : public Gui
       Update, //!< Update lists
     };
 
-    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
+    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver);
 
     ~ISimpleGameListView() override = default;
 
@@ -140,6 +140,9 @@ class ISimpleGameListView : public Gui
     virtual void clean() = 0;
 
     virtual FileData* getEmptyListItem() = 0;
+
+    //! Global variabel resolver
+    const IGlobalVariableResolver& mResolver;
 
     SystemData& mSystem;
 

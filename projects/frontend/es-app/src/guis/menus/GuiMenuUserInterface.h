@@ -20,7 +20,7 @@ class GuiMenuUserInterface : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager);
+    explicit GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver);
 
     /*!
      * @brief Called once per frame. Override to implement your own drawings.
@@ -47,6 +47,8 @@ class GuiMenuUserInterface : public GuiMenuBase
       DisplayByFileName,
     };
 
+    //! Global variable resolver
+    const IGlobalVariableResolver& mResolver;
     //! System Manager
     SystemManager& mSystemManager;
 

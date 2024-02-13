@@ -8,8 +8,9 @@
 #include "views/MenuFilter.h"
 #include <usernotifications/NotificationManager.h>
 
-ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system)
+ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver)
   : Gui(window)
+  , mResolver(resolver)
   , mSystem(system)
   , mSystemManager(systemManager)
   , mHeaderText(window)
@@ -245,7 +246,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::GamelistOptions))
   {
     clean();
-    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface()));
+    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface(), mResolver));
     return true;
   }
 

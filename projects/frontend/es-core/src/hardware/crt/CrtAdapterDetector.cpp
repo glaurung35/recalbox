@@ -12,6 +12,7 @@
 #include <hardware/crt/CrtVga666.h>
 #include <hardware/crt/CrtRGBPi.h>
 #include <hardware/crt/CrtPi2Scart.h>
+#include <hardware/crt/CrtPi2Jamma.h>
 #include <hardware/crt/CrtRGBDual.h>
 #include <hardware/crt/CrtRGBJamma.h>
 
@@ -50,6 +51,7 @@ ICrtInterface* CrtAdapterDetector::CreateCrtBoard(BoardType boardType)
   {
     case CrtAdapterType::Vga666: return new CrtVga666(automatic, boardType);
     case CrtAdapterType::RGBPi: return new CrtRGBPi(automatic, boardType);
+    case CrtAdapterType::Pi2Jamma: return new CrtPi2Jamma(automatic, boardType);
     case CrtAdapterType::Pi2Scart: return new CrtPi2Scart(automatic, boardType);
     case CrtAdapterType::RGBDual: return new CrtRGBDual(automatic, boardType);
     case CrtAdapterType::RGBJamma: return new CrtRGBJamma(automatic, boardType);

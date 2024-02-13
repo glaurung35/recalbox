@@ -170,10 +170,10 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mGrid.setEntry(mDetailMandatoryValue, Vector2i(3, 6), false, true, Vector2i(1,1));
   mGrid.setEntry(mDetailHashMustMatchLabel, Vector2i(4, 6), false, true, Vector2i(1,1));
   mGrid.setEntry(mDetailHashMustMatchValue, Vector2i(5, 6), false, true, Vector2i(1,1));
-  mGrid.setEntry(mDetailFileFoundLabel, Vector2i(2, 8), false, true, Vector2i(1,1));
-  mGrid.setEntry(mDetailFileFoundValue, Vector2i(3, 8), false, true, Vector2i(1,1));
-  mGrid.setEntry(mDetailHashIsMatchingLabel, Vector2i(4, 8), false, true, Vector2i(1, 1));
-  mGrid.setEntry(mDetailHashIsMatchingValue, Vector2i(5, 8), false, true, Vector2i(1,1));
+  mGrid.setEntry(mDetailFileFoundLabel, Vector2i(2, 7), false, true, Vector2i(1,1));
+  mGrid.setEntry(mDetailFileFoundValue, Vector2i(3, 7), false, true, Vector2i(1,1));
+  mGrid.setEntry(mDetailHashIsMatchingLabel, Vector2i(4, 7), false, true, Vector2i(1, 1));
+  mGrid.setEntry(mDetailHashIsMatchingValue, Vector2i(5, 7), false, true, Vector2i(1,1));
   mGrid.setEntry(mDetailText1Label, Vector2i(2, 8), false, true, Vector2i(4,1));
   mGrid.setEntry(mDetailText1ValueContainer, Vector2i(isLowRes ? 2 : 3, 9), false, true, Vector2i(3,1));
   if (!isLowRes)

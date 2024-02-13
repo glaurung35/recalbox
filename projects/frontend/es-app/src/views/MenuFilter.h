@@ -37,9 +37,10 @@ class MenuFilter
         case Favorites:
         case P2K:
           return RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::None;
+        default: return true;
       }
-
     }
+
     enum MenuEntry
     {
       HDMode,

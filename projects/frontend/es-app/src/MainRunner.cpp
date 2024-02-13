@@ -125,7 +125,7 @@ MainRunner::ExitState MainRunner::Run()
     if (autoRunSystem != nullptr) themeManager.LoadSystemTheme(*autoRunSystem);
 
     // Initialize main Window and ViewController
-    ApplicationWindow window(systemManager, mOptions);
+    ApplicationWindow window(systemManager, mOptions, *this);
     if (!window.Initialize(mOptions.Width(), mOptions.Height(), false))
     { LOG(LogError) << "[Renderer] Window failed to initialize!"; return ExitState::FatalError; }
     mApplicationWindow = &window;

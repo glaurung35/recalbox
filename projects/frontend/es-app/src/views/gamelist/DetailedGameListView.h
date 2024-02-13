@@ -18,7 +18,7 @@ class DetailedGameListView : public ISimpleGameListView
                            , private IVideoComponentAction
 {
   public:
-    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system);
+    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver);
 
     ~DetailedGameListView() override;
 

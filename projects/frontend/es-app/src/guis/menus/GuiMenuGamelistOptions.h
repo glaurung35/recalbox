@@ -20,7 +20,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      * @param system Target system
      * @param systemManager System manager
      */
-    GuiMenuGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface);
+    GuiMenuGamelistOptions(WindowManager&window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface, const IGlobalVariableResolver& resolver);
 
     //! Destructor
     ~GuiMenuGamelistOptions() override;
@@ -46,6 +46,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       AutorunGame,
     };
 
+    //! Global variable resolver
+    const IGlobalVariableResolver& mResolver;
     //! System reference
     SystemData& mSystem;
     //! System manager reference

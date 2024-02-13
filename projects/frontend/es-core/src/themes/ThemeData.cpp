@@ -836,7 +836,7 @@ ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
   return result;
 }
 
-bool ThemeData::FetchCompatibility(const Path& path, ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version, int& recalboxVersion)
+bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version, int& recalboxVersion)
 {
   if (!path.Exists()) { LOG(LogError) << "[Theme] " << path << " does not exist!"; return false; }
 

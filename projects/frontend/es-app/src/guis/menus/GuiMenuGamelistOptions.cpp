@@ -17,8 +17,9 @@
 #include <guis/menus/GuiMenuGamelistGameDeleteOptions.h>
 #include <scraping/ScraperSeamless.h>
 
-GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface)
+GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData& system, SystemManager& systemManager, IArcadeGamelistInterface* arcadeInterface, const IGlobalVariableResolver& resolver)
   :	GuiMenuBase(window, _("OPTIONS"), this)
+  , mResolver(resolver)
   , mSystem(system)
   , mSystemManager(systemManager)
   , mGamelist(*ViewController::Instance().GetOrCreateGamelistView(&system))
@@ -266,7 +267,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
         mWindow.pushGui(new GuiMenuGamelistGameOptions(mWindow, mGamelist, mSystemManager, mSystem, *mGamelist.getCursor()));
       break;
     }
-    case Components::MainMenu: mWindow.pushGui(new GuiMenu(mWindow, mSystemManager)); Close(); break;
+    case Components::MainMenu: mWindow.pushGui(new GuiMenu(mWindow, mSystemManager, mResolver)); Close(); break;
     case Components::Quit: GuiMenuQuit::PushQuitGui(mWindow); break;
     case Components::UpdateGamelist:
     {

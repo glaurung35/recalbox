@@ -13,8 +13,9 @@
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
 
-GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager)
+GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager& systemManager, const IGlobalVariableResolver& resolver)
   : GuiMenuBase(window, _("UI SETTINGS"), this)
+  , mResolver(resolver)
   , mSystemManager(systemManager)
   , mOriginalSort(RecalboxConf::Instance().GetSystemSorting())
 {
@@ -85,7 +86,7 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
   {
     case Components::ScreenSaver: mWindow.pushGui(new GuiMenuScreensavers(mWindow, mSystemManager)); break;
     case Components::Popups: mWindow.pushGui(new GuiMenuPopupSettings(mWindow)); break;
-    case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow)); break;
+    case Components::Theme: mWindow.pushGui(new GuiMenuThemeOptions(mWindow, mResolver)); break;
     case Components::ThemeConfig: mWindow.pushGui(new GuiMenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
     case Components::UpdateGamelist: ReloadGamelists(); break;
     case Components::Filters: mWindow.pushGui(new GuiMenuGameFilters(mWindow, mSystemManager)); break;

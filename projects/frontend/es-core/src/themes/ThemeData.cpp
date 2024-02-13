@@ -154,40 +154,40 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 void ThemeData::parseIncludes(const pugi::xml_node& root)
 {
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
-    if (parseSubset(node))
-    {
-      if (!Condition(node)) continue;
-      pugi::xml_attribute pathAttribute = node.attribute("path");
-      String str = (bool)pathAttribute ? pathAttribute.as_string() : node.text().get();
-      resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
-      str.Trim();
-      //workaround for an issue in parseincludes introduced by variable implementation
-      if (!str.Contains("//"))
+    if (Condition(node))
+      if (parseSubset(node))
       {
-        Path path = Path(str).ToAbsolute(mIncludePathStack.back().Directory());
-        if(!ResourceManager::fileExists(path))
+        pugi::xml_attribute pathAttribute = node.attribute("path");
+        String str = (bool)pathAttribute ? pathAttribute.as_string() : node.text().get();
+        resolveSystemVariable(mSystemThemeFolder, str, mRandomPath);
+        str.Trim();
+        //workaround for an issue in parseincludes introduced by variable implementation
+        if (!str.Contains("//"))
         {
-          { LOG(LogWarning) << "[Theme] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
-          continue;
+          Path path = Path(str).ToAbsolute(mIncludePathStack.back().Directory());
+          if(!ResourceManager::fileExists(path))
+          {
+            { LOG(LogWarning) << "[Theme] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
+            continue;
+          }
+
+          String errorString; errorString += "    from included file \"" + str + "\":\n    ";
+
+          mIncludePathStack.push_back(path);
+
+          pugi::xml_document includeDoc;
+          pugi::xml_parse_result result = includeDoc.load_string(mCache.File(path).data());
+          if(!result) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
+
+          pugi::xml_node newRoot = includeDoc.child("theme");
+          if(!newRoot) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Missing <theme> tag!"; }
+          parseIncludes(newRoot);
+          parseViews(newRoot);
+          parseFeatures(newRoot);
+
+          mIncludePathStack.pop_back();
         }
-
-        String errorString; errorString += "    from included file \"" + str + "\":\n    ";
-
-        mIncludePathStack.push_back(path);
-
-        pugi::xml_document includeDoc;
-        pugi::xml_parse_result result = includeDoc.load_string(mCache.File(path).data());
-        if(!result) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
-
-        pugi::xml_node newRoot = includeDoc.child("theme");
-        if(!newRoot) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Missing <theme> tag!"; }
-        parseIncludes(newRoot);
-        parseViews(newRoot);
-        parseFeatures(newRoot);
-
-        mIncludePathStack.pop_back();
       }
-    }
 }
 
 bool ThemeData::parseSubset(const pugi::xml_node& node)
@@ -528,19 +528,20 @@ void ThemeData::CrawlThemeSubSets(const Path& themeRootPath)
 void ThemeData::CrawlIncludes(const pugi::xml_node& root)
 {
   for (pugi::xml_node node = root.child("include"); node != nullptr; node = node.next_sibling("include"))
-  {
-    mSubSets[node.attribute("subset").as_string()].insert(node.attribute("name").as_string());
+    if (Condition(node))
+    {
+      mSubSets[node.attribute("subset").as_string()].insert(node.attribute("name").as_string());
 
-    Path relPath(node.text().get());
-    Path path = relPath.ToAbsolute(mIncludePathStack.back().Directory());
-    mIncludePathStack.push_back(path);
-    pugi::xml_document includeDoc;
-    /*pugi::xml_parse_result result =*/ includeDoc.load_string(mCache.File(path).data());
-    pugi::xml_node newRoot = includeDoc.child("theme");
-    CrawlIncludes(newRoot);
-    CrawlRegions(includeDoc);
-    mIncludePathStack.pop_back();
-  }
+      Path relPath(node.text().get());
+      Path path = relPath.ToAbsolute(mIncludePathStack.back().Directory());
+      mIncludePathStack.push_back(path);
+      pugi::xml_document includeDoc;
+      /*pugi::xml_parse_result result =*/ includeDoc.load_string(mCache.File(path).data());
+      pugi::xml_node newRoot = includeDoc.child("theme");
+      CrawlIncludes(newRoot);
+      CrawlRegions(includeDoc);
+      mIncludePathStack.pop_back();
+    }
 }
 
 void ThemeData::CrawlRegions(const pugi::xml_document& doc)

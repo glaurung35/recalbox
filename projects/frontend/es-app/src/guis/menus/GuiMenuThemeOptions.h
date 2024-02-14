@@ -80,9 +80,9 @@ class GuiMenuThemeOptions : public GuiMenuBase
      */
     void DoSwitchTheme(const Path& themePath);
 
-    String GetDisplayList(ThemeData::Compatibility display);
+    static String GetDisplayList(ThemeData::Compatibility display);
 
-    String GetResolutionList(ThemeData::Resolutions resolutions);
+    static String GetResolutionList(ThemeData::Resolutions resolutions);
 
     /*
      * IOptionListComponent<String> implementation

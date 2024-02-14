@@ -199,7 +199,7 @@ String GuiMenuThemeOptions::CheckCompatibility(const Path& themePath, [[out]] bo
         mTimer = 0;
       }
     }
-    if (themeVersion != 0) displayableName.Append(" (").Append(themeVersion >> 8).Append('.').Append(themeVersion & 0xFF).TrimRight('0').Append(')');
+    if (themeVersion != 0) displayableName.Append(" (").Append(themeVersion >> 8).Append('.').Append(themeVersion & 0xFF).Append(')');
     return displayableName;
   }
 

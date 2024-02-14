@@ -95,6 +95,7 @@ void DetailedGameListView::Initialize()
   mNoImage.setResize(mImage.getSize());
   mNoImage.setKeepRatio(true);
   mNoImage.setDefaultZIndex(30);
+  mNoImage.setImage(Path(":/no_image.png"));
 
   addChild(&mNoImage);
   addChild(&mImage);
@@ -172,6 +173,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
 
   mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
   mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
+  mNoImage.setImage(Path(":/no_image.png"));
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
   mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
 
@@ -473,7 +475,6 @@ void DetailedGameListView::SetFolderInfo(FolderData* folder, int count, const Fo
 void DetailedGameListView::SetImageFading(FileData* game, bool update)
 {
   // Setup
-  mNoImage.setImage(Path(":/no_image.png"));
   mNoImage.setThemeDisabled(false);
 
   bool imageExists = game->Metadata().Image().Exists();

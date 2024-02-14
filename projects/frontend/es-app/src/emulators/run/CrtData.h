@@ -139,10 +139,10 @@ class CrtData
       }
       // If 15Khz, the system must support high rez and the interlaced must be supported by board
       // If 31khz, the board must support 120Hz
-      // If multisync, return true
+      // If multisync, return true if the system supports hd
       return (gameCanRunInHd && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
       || (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
-      || (Board::Instance().CrtBoard().MultiSyncEnabled());
+      || (gameCanRunInHd && Board::Instance().CrtBoard().MultiSyncEnabled());
     }
 
     /*

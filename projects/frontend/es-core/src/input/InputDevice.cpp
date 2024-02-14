@@ -415,6 +415,15 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
     mInputEvents[(int) Entry::Hotkey] = mInputEvents[(int) Entry::Select];
   }
 
+  // Force hotkey on select for XBOX 360 generics
+  static const uint8_t xboxGUID[16] = {3, 0, 3, 240, 94, 4, 0, 0, 142, 2, 0, 0, 20, 1, 0, 0};
+
+  if(memcmp(mDeviceGUID.data, xboxGUID, 16) == 0)
+  {
+    { LOG(LogInfo) << "[InputDevice] XBox 360 generic X Input. Using SELECT as Hotkey"; }
+    mInputEvents[(int) Entry::Hotkey] = mInputEvents[(int) Entry::Select];
+  }
+
   return result;
 }
 

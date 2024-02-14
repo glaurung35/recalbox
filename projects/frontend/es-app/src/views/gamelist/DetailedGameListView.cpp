@@ -170,10 +170,10 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
     mRegions[i]->DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
                                      ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Path);
 
-  mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
-  mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation);
+  mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
+  mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
-  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Rotation  | ThemePropertyCategory::Effects);
+  mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
 
   BuildVideoLinks(theme);
 

@@ -9,7 +9,7 @@ class RootFolderData : public FolderData
     enum class Ownership : char
     {
       None      , //!< This rootfolder has no ownership at all
-      FolderOnly, //!< This rootfolder owns all sub folders recursively, but for games
+      FolderOnly, //!< This rootfolder owns all sub folders recursively, but no game
       All       , //!< This rootfolder owns all folder and game structures
     };
 
@@ -63,7 +63,7 @@ class RootFolderData : public FolderData
     }
 
     /*!
-     * @brief Delete virtual su tree
+     * @brief Delete virtual sub tree
      */
     void DeleteVirtualSubTree()
     {

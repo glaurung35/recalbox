@@ -107,6 +107,14 @@ function runMigrations {
         fi
         migrationDone "${SHARE_TYPE}" "9.2-remove-autoconf-popup-retroarch"
     fi
+    if shouldMigrate "${SHARE_TYPE}" "9.2-add-default-theme-region"; then
+        if grep -q "emulationstation.theme.recalbox-next.region" /recalbox/share/system/recalbox.conf; then
+          sed -i 's/emulationstation.theme.recalbox-next.region/emulationstation.theme.region/g' >> /recalbox/share/system/recalbox.conf
+        else
+          printf "\nemulationstation.theme.region=us" >> /recalbox/share/system/recalbox.conf
+        fi
+        migrationDone "${SHARE_TYPE}" "9.2-add-default-theme-region"
+    fi
 }
 
 runMigrations

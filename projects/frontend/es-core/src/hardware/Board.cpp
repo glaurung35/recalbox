@@ -24,7 +24,6 @@ Board::Board(IHardwareNotifications& notificationInterface, const Options& optio
 {
   if(mCrtBoard.GetCrtAdapter() != CrtAdapterType::None)
     { LOG(LogInfo) << "[CRT] Detected CRT Adapter: " << mCrtBoard.Name(); }
-
 }
 
 IBoardInterface& Board::GetBoardInterface(HardwareMessageSender& messageSender)
@@ -227,14 +226,14 @@ ICrtInterface& Board::GetCrtBoard()
   }
 
   // Null board
-  static CrtNull null(false, GetBoardType());
+  static CrtNull& null = *(new CrtNull(false, GetBoardType()));
   return null;
 }
 
 bool Board::CanHaveCRTBoard()
 {
   if (mOptions.EmulateRGBDual() || mOptions.EmulateRGBJamma()) return true;
-  #if defined(DEBUG) || defined(OPTION_RECALBOX_SIMULATE_RRGBD)
+  #ifdef OPTION_RECALBOX_SIMULATE_RRGBD
   return true;
   #else
   switch(GetBoardType())
@@ -253,6 +252,10 @@ bool Board::CanHaveCRTBoard()
     case BoardType::UnknownPi:
     case BoardType::RG351V:
     case BoardType::RG351P:
+    case BoardType::RG353M:
+    case BoardType::RG353V:
+    case BoardType::RG353P:
+    case BoardType::RG503:
     case BoardType::OdroidAdvanceGo:
     case BoardType::OdroidAdvanceGoSuper:
     case BoardType::PCx86:

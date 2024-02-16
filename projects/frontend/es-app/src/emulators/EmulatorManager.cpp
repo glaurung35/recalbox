@@ -5,7 +5,8 @@
 #include <utils/locale/LocaleHelper.h>
 #include "EmulatorManager.h"
 
-HashMap<Path, IniFile*> EmulatorManager::sCachedOverrides;
+HashMap<Path, IniFile*> EmulatorManager::OverrideCache::sCachedOverrides;
+EmulatorManager::OverrideCache EmulatorManager::sCache;
 
 bool EmulatorManager::GetDefaultEmulator(const SystemData& system, String& emulator, String& core)
 {
@@ -214,7 +215,7 @@ bool EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
   int start = game.IsRoot() ? count : game.TopAncestor().RomPath().ItemCount();
   for (int i = start; i <= count; ++i)
   {
-    const IniFile& configuration = GetOverride(Path(path.UptoItem(i)) / ".recalbox.conf");
+    const IniFile& configuration = sCache.Get(Path(path.UptoItem(i)) / ".recalbox.conf");
     if (configuration.IsValid())
     {
       // Get values
@@ -415,7 +416,7 @@ void EmulatorManager::PatchNames(String& emulator, String& core)
     if (core == "duckstation") core = "swanstation";
 }
 
-const IniFile& EmulatorManager::GetOverride(const Path& path)
+const IniFile& EmulatorManager::OverrideCache::Get(const Path& path)
 {
   if (path.Exists())
   {

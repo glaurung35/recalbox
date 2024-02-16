@@ -16,7 +16,7 @@ start() {
 
 stop() {
   echo -n "Stopping joycond: "
-  start-stop-daemon -K -q -p /var/run/lirc.pid
+  start-stop-daemon -K -q -p /var/run/joycond.pid
   echo "OK"
 }
 

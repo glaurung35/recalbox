@@ -150,7 +150,8 @@ class Updater:
                     elif descriptor.UrlTemplate.endswith(".tar.zx") or descriptor.UrlTemplate.endswith(".tar.bz2"):
                         os.system("tar -jxf {} -C {} --strip-components=1".format(self.sSystemZip, self.sSystemDir))
                     elif descriptor.UrlTemplate.endswith(".zip") or descriptor.UrlTemplate.endswith(".7z"):
-                        os.system("7z e -y -o{} {} >/dev/null".format(self.sSystemDir, self.sSystemZip))
+                        if os.system("7z e -y -o{} {} >/dev/null".format(self.sSystemDir, self.sSystemZip)) != 0:
+                            os.system("7zz e -y -o{} {} >/dev/null".format(self.sSystemDir, self.sSystemZip))
                     else:
                         print("No extractor defined for file {}".format(descriptor.UrlTemplate))
                         sys.exit(0)

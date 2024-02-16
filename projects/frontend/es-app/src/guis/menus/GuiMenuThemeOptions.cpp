@@ -111,10 +111,21 @@ void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const Th
 void GuiMenuThemeOptions::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
 {
   (void)index;
-  (void)quickChange;
   if ((Components)id == Components::Transition) RecalboxConf::Instance().SetThemeTransition(value).Save();
   else if ((Components)id == Components::Region)
+  {
     RecalboxConf::Instance().SetThemeRegion(value).Save();
+    if (quickChange)
+    {
+      mTimer = sApplyChangeTimer;
+      mLastThemePath = mTheme->getSelected().FolderPath;
+    }
+    else
+    {
+      mTimer = 0;
+      DoSwitchTheme(mTheme->getSelected().FolderPath);
+    }
+  }
 }
 
 void GuiMenuThemeOptions::DoSwitchTheme(const Path& themePath)

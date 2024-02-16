@@ -1,5 +1,17 @@
 #!/bin/bash
 
+kill_process_from_dir() {
+  # kill remaining processes which have open a handle under $1
+  local count=10
+  # give a chance for stale processes to quit nicely
+  fuser -s -m -k -15 "$1" && sleep 1
+  while fuser -s -m "$1" && [ "$count" -gt 0 ]; do
+      # kill remaining processes
+      fuser -s -m -k -9 "$1"; sleep 0.1
+      count=$((count-1))
+  done
+}
+
 if [ "$1" = "stop" ]; then
   INIT_SCRIPT=$(basename "$0")
 
@@ -10,10 +22,21 @@ if [ "$1" = "stop" ]; then
   mount -o remount,ro /boot
   sync
   recallog -s "${INIT_SCRIPT}" -t "BACKUP" "recalbox.conf saved to /boot partition"
-  # umount all network configs
-  # don't just remount the one of the config in case the config changed
-  umount -a -t nfs
-  umount -a -t cifs
+  # umount all network mountpoints
+  for network_fs_type in nfs cifs; do
+      while read -r network_fs_dir; do
+          kill_process_from_dir "$network_fs_dir"
+      done < <(awk -F ' ' '{if ($3 == "'$network_fs_type'") {print $2 } else {next}}' /proc/mounts)
+      umount -a -t $network_fs_type
+  done
+  # umount all externals drives (USB, mmc)
+  umount /recalbox/share/externals/* 2>/dev/null
+
+  # terminate process from /recalbox/share
+  kill_process_from_dir "/recalbox/share"
+
+  # umount share if mounted
+  grep -q -E '\s/recalbox/share\s' /proc/mounts && umount /recalbox/share
   exit 0
 fi
 

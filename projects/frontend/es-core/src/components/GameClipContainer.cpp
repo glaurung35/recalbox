@@ -312,6 +312,7 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, 
     std::vector<ThemableComponent*> values = getMDValues();
     names = {
       "md_gameName",
+      "md_systemName",
       "md_rating",
       "md_releasedate",
       "md_developer",
@@ -397,6 +398,7 @@ std::vector<ThemableComponent*> GameClipContainer::getMDValues()
 {
   std::vector<ThemableComponent*> ret;
   ret.push_back(&mGameName);
+  ret.push_back(&mSystemName);
   ret.push_back(&mRating);
   ret.push_back(&mReleaseDate);
   ret.push_back(&mDeveloper);
@@ -413,10 +415,10 @@ void GameClipContainer::setGameInfo(FileData* game)
 {
   mGame = game;
   mSystem = &mGame->System();
-  mSystemName.setValue(mGame->System().FullName());
 
   SwitchToTheme(mSystem->Theme(), true, nullptr);
 
+  mSystemName.setValue(mGame->System().FullName());
   mGameName.setValue(mGame->Metadata().Name());
   mRating.setValue(mGame->Metadata().RatingAsString());
   mReleaseDate.setValue(mGame->Metadata().ReleaseDateAsString());

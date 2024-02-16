@@ -67,7 +67,7 @@
          </xsl:choose>
       </xsl:variable>
       <!--filtre sur bios-->
-      <xsl:if test="$bios='airlbios' or @name='airlbios' or $bios='naomi' or @name='naomi' or $bios='f355dlx' or @name='f355dlx' or $bios='f355bios' or @name='f355bios' or $bios='hod2bios' or @name='hod2bios'">
+      <xsl:if test="$bios='airlbios' or @name='airlbios' or $bios='naomi' or @name='naomi' or $bios='f355dlx' or @name='f355dlx' or $bios='f355bios' or @name='f355bios' or $bios='hod2bios' or @name='hod2bios' or $bios='naomigd' or @name='naomigd'">
          <xsl:copy-of select="."/>
       </xsl:if>
    </xsl:template>

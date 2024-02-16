@@ -1,13 +1,13 @@
 #!/bin/bash
 
-source /recalbox/scripts/recalbox-utils.sh
-IMAGE_PATH=$(getInstallUpgradeImagePath)
-INIT_SCRIPT=$(basename "$0")
-
 if test "$1" != "start"
 then
   exit 0
 fi
+
+source /recalbox/scripts/recalbox-utils.sh
+IMAGE_PATH=$(getInstallUpgradeImagePath)
+INIT_SCRIPT=$(basename "$0")
 
 # this removes the content of dir $1
 clean_dir() {

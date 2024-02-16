@@ -13,13 +13,28 @@
 class EmulatorManager : public INoCopy
 {
   private:
-    //! Cached Overrides
-    static HashMap<Path, IniFile*> sCachedOverrides;
+    //! Cache class
+    class OverrideCache
+    {
+      public:
+        ~OverrideCache()
+        {
+          for(auto& kv : sCachedOverrides)
+            delete kv.second;
+        }
+
+        const IniFile& Get(const Path& path);
+
+      private:
+        //! Cached Overrides
+        static HashMap<Path, IniFile*> sCachedOverrides;
+    };
+
+    // Cache
+    static OverrideCache sCache;
 
     //! Private constructor - everything is static
     EmulatorManager() =default;
-
-    static const IniFile& GetOverride(const Path& path);
 
     /*!
      * @brief Get an unique key from the given system

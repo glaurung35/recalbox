@@ -16,7 +16,6 @@ TextComponent::TextComponent(WindowManager&window)
   , mBgColorOpacity(0)
   , mHorizontalAlignment(TextAlignment::Left)
   , mVerticalAlignment(TextAlignment::Center)
-  , mRenderBackground(false)
   , mUppercase(false)
   , mAutoCalcExtentX(true)
   , mAutoCalcExtentY(true)
@@ -138,13 +137,11 @@ void TextComponent::setUppercase(bool uppercase)
 
 void TextComponent::Render(const Transform4x4f& parentTrans)
 {
-    if(mThemeDisabled)
-    {
-        return;
-    }
+  if(mThemeDisabled) return;
+  
   Transform4x4f trans = parentTrans * getTransform();
 
-  if (mRenderBackground)
+  if ((mBgColor & 0xFF) != 0)
   {
     Renderer::SetMatrix(trans);
     Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
@@ -288,9 +285,7 @@ void TextComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProper
   if (hasFlag(properties, ThemePropertyCategory::Color))
   {
     setColor(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0);
-    bool hasProp = element.HasProperty(ThemePropertyName::BackgroundColor);
-    setBackgroundColor(hasProp ? (unsigned int)element.AsInt(ThemePropertyName::BackgroundColor) : 0);
-    setRenderBackground(hasProp);
+    setBackgroundColor(element.HasProperty(ThemePropertyName::BackgroundColor) ? (unsigned int)element.AsInt(ThemePropertyName::BackgroundColor) : 0);
   }
 
   if(hasFlag(properties, ThemePropertyCategory::Alignment))

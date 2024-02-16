@@ -34,18 +34,17 @@ public:
 
 	void setLineSpacing(float spacing);
 	void setBackgroundColor(unsigned int color);
-	void setRenderBackground(bool render) { mRenderBackground = render; }
 
 	void Render(const Transform4x4f& parentTrans) override;
 
-	String getValue() const override { return mText; }
+	[[nodiscard]] String getValue() const override { return mText; }
 	void setValue(const String& value) override { setText(value); }
 
-	unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
+	[[nodiscard]] unsigned char getOpacity() const override {	return (unsigned char)(mColor & 0xFF); }
 
   void setOpacity(unsigned char opacity) override;
 	
-	inline std::shared_ptr<Font> getFont() const { return mFont; }
+	[[nodiscard]] inline std::shared_ptr<Font> getFont() const { return mFont; }
 
     /*!
      * @brief Apply theme element to this text component
@@ -77,7 +76,6 @@ private:
 	unsigned char mBgColorOpacity;
   TextAlignment mHorizontalAlignment;
   TextAlignment mVerticalAlignment;
-	bool mRenderBackground;
 	bool mUppercase;
 	bool mAutoCalcExtentX;
   bool mAutoCalcExtentY;

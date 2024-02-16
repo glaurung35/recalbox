@@ -25,7 +25,6 @@ GameClipNoVideoContainer::GameClipNoVideoContainer(WindowManager& window)
   mWarningText.setColor(0xFFFFFFFF);
   mWarningText.setText(_("Gameclips cannot be played. No video availabe for your selection"));
   mWarningText.setBackgroundColor(0x000000FF);
-  mWarningText.setRenderBackground(true);
   addChild(&mWarningText);
 
   mMire.setImage(Path(":/mire_recalbox.svg"));

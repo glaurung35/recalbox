@@ -220,14 +220,10 @@ BoardType Board::GetBoardType()
 ICrtInterface& Board::GetCrtBoard()
 {
   if (CanHaveCRTBoard())
-  {
-    static ICrtInterface& crt = *CrtAdapterDetector::CreateCrtBoard(GetBoardType(), mOptions);
-    return crt;
-  }
+    return *CrtAdapterDetector::CreateCrtBoard(GetBoardType(), mOptions);
 
   // Null board
-  static CrtNull& null = *(new CrtNull(false, GetBoardType()));
-  return null;
+  return *(new CrtNull(false, GetBoardType()));
 }
 
 bool Board::CanHaveCRTBoard()

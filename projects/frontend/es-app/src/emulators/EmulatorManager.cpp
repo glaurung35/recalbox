@@ -104,7 +104,9 @@ void EmulatorManager::GetEmulatorFromSubfolder(const FileData& game, String& emu
   {
     // Make rom path relative to the system folder
     bool ok;
-    Path relative = game.RomPath().MakeRelative(game.TopAncestor().RomPath(), ok).Directory();
+    Path relative = game.RomPath().MakeRelative(game.TopAncestor().RomPath(), ok);
+    if(game.Type() == ItemType::Game)
+      relative = relative.Directory();
     // Run through foldert and try to detect a known one
     if (ok && !relative.IsEmpty())
       for(int i = relative.ItemCount(); --i >= 0;)

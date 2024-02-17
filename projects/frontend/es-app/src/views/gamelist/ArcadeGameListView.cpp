@@ -205,19 +205,17 @@ void ArcadeGameListView::BuildAndSortArcadeGames(FileData::List& items, FileSort
   mGameList.clear();
   for(FileData* item : items)
   {
-    // Lookup database for virtual arcade systems
-    if (mSystem.IsVirtualArcade())
-      if (item->Parent() !=  previousParent)
+    if (item->Parent() !=  previousParent)
+    {
+      previousParent = item->Parent();
+      const ArcadeDatabase** db = mDatabaseLookup.try_get(previousParent);
+      if (db != nullptr) mDatabase = *db;
+      else
       {
-        previousParent = item->Parent();
-        const ArcadeDatabase** db = mDatabaseLookup.try_get(previousParent);
-        if (db != nullptr) mDatabase = *db;
-        else
-        {
-          mDatabase = previousParent->System().ArcadeDatabases().LookupDatabase(*previousParent);
-          mDatabaseLookup[previousParent] = mDatabase;
-        }
+        mDatabase = previousParent->System().ArcadeDatabases().LookupDatabase(*previousParent);
+        mDatabaseLookup[previousParent] = mDatabase;
       }
+    }
     // Safety check
     if (mDatabase == nullptr)
     {

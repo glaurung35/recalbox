@@ -4,6 +4,57 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-patron-4.1
+
+9.2-patron-4.1 (bugfix)
+- Fix crash on gamelist reload on PC and other platforms
+- Fix "show only tate games" having no games in subdirectories
+- Fix automatic mame selection from mame subdirectory
+- Fix theme region not immediatly updated
+
+9.2-patron-4
+- **ARCADE** Ajout du système virtuel "Neo-Geo"
+- **ARCADE** Correction du système virtual Arcade (inclusion neogeo et cacher les systèmes d'origine)
+- **ARCADE** Correction de la détection des jeux MAME dans la vue Arcade, lors de l'utilisation de plusieurs versions de MAME
+- **UI** Correction du Thème "DataEast"
+- **UI** Correction du plantage quand on active les "favoris seulement" sans aucun favoris.
+- **UI** Amélioration de l'affichage des contrôles P2K
+- **UI** Correction du crash quand on annule le téléchargement d'une MAJ
+- **UI** Correction des petits défauts d'affichage des fontes dans certains cas et certaines résolutions
+- **UI** Correction du système LastPlayed qui s'affichait, même désactivé
+- **UI** Amélioration du rendu et de la lisibilité de la fenêtre BIOS (surtout pour les petiotes résolutions et RGB Dual)
+- **UI** Correction/amélioration des drapeaux de régions:
+  - Meilleure gestion dans le scraper interne
+  - Détection automatique des régions dans les noms de fichier
+- **UI** Correction de l'affichage des initiales des jeux lors du défilement rapide dans les les listes
+- **UI** Nouveau fonctionnement des Thèmes (Prérequis pour le gestionnaire de Thème qui va arriver):
+  - Les thèmes sont dynamiques, plus besoin de rebooter pour changer de thème ou changer une option de thème.
+  - Amélioration de la liste des thème disponibles & detection des incompatibilités d'affichage
+  - De nombreuses nouveautés pour les Thémeurs
+  - Nouvelle documentation détaillée en cours d'écriture (Pit64)
+- **EMULATOR** Création automatique des répertoires des différentes versions de MAME
+- **EMULATOR** Correction d'Oricutron (Emulateur Oric)
+- Correction de la 64dd (path du bios pas bon)
+- Correction du cdi sur rpi5 (pas les bons archopts, limité au pi4 avant)
+- MD5 de la Naomi 2 doit être exacte (modification de la liste des bios pour le rendre obligatoire côté correspondance)
+- Ajout des fichiers lisezmoi en espagnol sur tous les systèmes
+- Ajout des icônes des favoris sur les systèmes manquants (bbcmicro, bk, creativision, lowres nx, naomi2, pico, ti99/4a, trs80coco)
+- Ajout du message d'aide sur toutes les options de l'interface
+- Mise à jour de Netflix et Youtube sur Kodi
+- Correction des jeux en TATE sur écran YOKO en 31kHz
+- Correction du calibrage 31kHz et multisync
+- Ajout du mode nomenu pour une utilisation en salon (emulationstation.menu=none dans recalbox.conf)
+- Ajout des systemes SEGA System 32, SEGA System 16, Psikyo et Taito F3
+- Ajout d'une superrez pour le 31kHz pour améliorer la qualité des jeux 240p qui tournent en 31kHz
+- Heavy scanlines par defaut en 31kHz
+- Nouveaux bootloaders à mettre à jour sur pi5 et pi4
+-  Option pour cacher les jeux mahjong etc...
+- Switch pour desactiver vulkan dans le menu des jeux
+- Mode HD nintendo 64 (forcer libretro parallel dans la configuration)
+- Fix des jeux 24kHz qui passaient en 480i sur pi5
+- Fix des emulateurs standalones sur pi5
+
+
 ## Version 9.2-Pulstar
 
 ### Hardware

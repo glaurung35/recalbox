@@ -86,6 +86,30 @@ class MenuThemeData : private INoCopy
           }
           abort();
         }
+        
+        void Reset()
+        {
+          mKodi = Path::Empty;
+          mSystem = Path::Empty;
+          mRecalboxRGBDual = Path::Empty;
+          mUpdates = Path::Empty;
+          mGames = Path::Empty;
+          mControllers = Path::Empty;
+          mUI = Path::Empty;
+          mDownload = Path::Empty;
+          mArcade = Path::Empty;
+          mTate = Path::Empty;
+          mSound = Path::Empty;
+          mNetwork = Path::Empty;
+          mScraper = Path::Empty;
+          mAdvanced = Path::Empty;
+          mQuit = Path::Empty;
+          mRestart = Path::Empty;
+          mShutdown = Path::Empty;
+          mFastShutdown = Path::Empty;
+          mLicense = Path::Empty;
+        }
+        
       private:
         Path mKodi;
         Path mSystem;

@@ -101,6 +101,7 @@ void MenuThemeData::Reset()
   mFooter      = { 0xC6C6C6FF, 0xC6C6C6FF, 0xC6C6C6FF, 0xFFFFFFFF, Path::Empty        , Path::Empty                  , Font::get(FONT_SIZE_SMALL)  };
   mText        = { 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, Path::Empty        , Path::Empty                  , Font::get(FONT_SIZE_MEDIUM) };
   mTextSmall   = { 0x777777FF, 0xFFFFFFFF, 0x878787FF, 0xC6C7C6FF, Path::Empty        , Path::Empty                  , Font::get(FONT_SIZE_SMALL)  };
+  mIconSet.Reset();
   mIconElement = { Path(":/button.png"), Path(":/button_filled.png"), Path(":/on.svg"), Path(":/off.svg"), Path(":/option_arrow.svg"), Path(":/arrow.svg"), Path(":/slider_knob.svg") };
   mSize        = { .height =  0.85f };
 }

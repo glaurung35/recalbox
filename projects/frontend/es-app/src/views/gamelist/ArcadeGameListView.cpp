@@ -72,21 +72,25 @@ void ArcadeGameListView::BuildList()
   bool onlyTate = RecalboxConf::Instance().GetTateOnly();
   for (const ParentTupple& parent : mGameList)
   {
-    if (parent.mArcade == nullptr && !parent.mGame->IsFolder() && filterOutUnknown) continue;
-    if (parent.mArcade != nullptr )
-    {
-      if (filterOutBios)
-        if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Bios) continue;
-      if (mustHideManufacturers)
-        if (HasMatchingManufacturer(hiddenManufacturers, parent.mArcade->LimitedManufacturer())) continue;
-    }
-    // Region filtering?
     int colorIndexOffset = 0;
-    if (activeRegionFiltering)
-      if (!Regions::IsIn4Regions(parent.mGame->Metadata().Region().Pack, currentRegion))
-        colorIndexOffset = 2;
-    // Tate filtering only on parent - clones have presumably the same rotation :)
-    if (onlyTate && parent.mGame->Metadata().Rotation() == RotationType::None) continue;
+    if (!parent.mGame->IsFolder())
+    {
+      if (parent.mArcade == nullptr && filterOutUnknown) continue;
+      // Tate filtering only on parent - clones have presumably the same rotation :)
+      if (onlyTate && parent.mGame->Metadata().Rotation() == RotationType::None) continue;
+      // Non games
+      if (parent.mArcade != nullptr)
+      {
+        if (filterOutBios)
+          if (parent.mArcade->Hierarchy() == ArcadeGame::Type::Bios) continue;
+        if (mustHideManufacturers)
+          if (HasMatchingManufacturer(hiddenManufacturers, parent.mArcade->LimitedManufacturer())) continue;
+      }
+      // Region highlighting?
+      if (activeRegionFiltering)
+        if (!Regions::IsIn4Regions(parent.mGame->Metadata().Region().Pack, currentRegion))
+          colorIndexOffset = 2;
+    }
     // Store
     mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
 

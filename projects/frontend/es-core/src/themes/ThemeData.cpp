@@ -867,7 +867,7 @@ bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatib
   if ((bool)versionAttribute)
     if (String newVersion = versionAttribute.as_string(); !newVersion.Trim().empty())
       if (String major, minor; newVersion.Extract('.', major, minor, true))
-        version = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);
+        version = (major.AsInt() << 8) + minor.AsInt();
 
   // Extract recalbox version
   recalboxVersion = 0;
@@ -875,7 +875,7 @@ bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatib
   if ((bool)recalboxAttribute)
     if (String newRecalbox = recalboxAttribute.as_string(); !newRecalbox.Trim().empty())
       if (String major, minor; newRecalbox.Extract('.', major, minor, true))
-        recalboxVersion = (major.AsInt() << 8) + minor.AsInt() * (minor.Count() < 2 ? 10 : 1);
+        recalboxVersion = (major.AsInt() << 8) + minor.AsInt();
 
   return true;
 }

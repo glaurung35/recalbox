@@ -4,7 +4,6 @@
 #include "games/GameFilesUtils.h"
 #include <usernotifications/NotificationManager.h>
 #include <utils/Files.h>
-#include <utils/Zip.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties)
   : mSystemManager(systemManager)
@@ -48,18 +47,12 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
 
 Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
 {
-  bool zip = RecalboxConf::Instance().AsBool("emulationstation.zippedgamelist", false);
-  Path filePath = root.RomPath() / (zip ? "gamelist.zip" : "gamelist.xml");
+  Path filePath = root.RomPath() / "gamelist.xml";
 
   if (forWrite) // Write mode, ensure folder exist
   {
     if (!filePath.Directory().Exists())
       (void)filePath.Directory().CreatePath();
-  }
-  else if (!filePath.Exists()) // Read mode. Try selected mode first, the fallback to the other mode
-  {
-    Path otherFilePath = root.RomPath() / (zip ? "gamelist.xml" : "gamelist.zip");
-    if (otherFilePath.Exists()) return otherFilePath;
   }
 
   return filePath;
@@ -148,36 +141,11 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
     if (!xmlpath.Exists()) return;
 
     XmlDocument gameList;
-    if (xmlpath.Extension().LowerCase() == ".zip")
+    XmlResult result = gameList.load_file(xmlpath.ToChars());
+    if (!result)
     {
-      Zip zip(xmlpath);
-      if (zip.Count() != 1)
-      {
-        { LOG(LogError) << "[Gamelist] Invalid zipped gamelist: More than one file in the archive!"; }
-        return;
-      }
-      Path gamelist(zip.FileName(0));
-      if (gamelist.Filename() != "gamelist.xml")
-      {
-        { LOG(LogError) << "[Gamelist] Invalid zipped gamelist: No gamelist.xml found!"; }
-        return;
-      }
-      String content = zip.Content(0);
-      XmlResult result = gameList.load_string(content.data());
-      if (!result)
-      {
-        { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
-        return;
-      }
-    }
-    else
-    {
-      XmlResult result = gameList.load_file(xmlpath.ToChars());
-      if (!result)
-      {
-        { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
-        return;
-      }
+      { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
+      return;
     }
 
     String ignoreList(','); ignoreList.Append(mDescriptor.IgnoredFiles()).Append(',');
@@ -299,26 +267,27 @@ void SystemData::UpdateGamelistXml()
         document.save(Writer);
 
         // Save
-        if (xmlWritePath.Extension().LowerCase() == ".zip")
+        Path xmlTempPath = xmlWritePath.ChangeExtension(".tmp");
+        if (Files::SaveFile(xmlTempPath, Writer.mOutput))
         {
-          Zip zip(xmlWritePath, true);
-          Path xmlTruePath = xmlWritePath.ChangeExtension(".xml");
-          if (zip.Add(Writer.mOutput, xmlTruePath.Filename()))
+          // Force sync to disk
+          sync();
+          // Check size
+          if (xmlTempPath.Size() > 0)
           {
-            (void)xmlTruePath.Delete();
-            { LOG(LogInfo) << "[Gamelist] Saved gamelist.zip for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
+            // Delete old list & rename tmp => xml
+            (void)xmlWritePath.Delete();
+            if (Path::Rename(xmlTempPath, xmlWritePath))
+            {
+              // Sync again
+              sync();
+              { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
+            }
+            else { LOG(LogInfo) << "[Gamelist] Failed to rename " << xmlTempPath << " into " << xmlWritePath; }
           }
-          else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
+          else { LOG(LogError) << "[Gamelist] Null file size! " << xmlTempPath.ToString(); }
         }
-        else
-        {
-          if (Files::SaveFile(xmlWritePath, Writer.mOutput))
-          {
-            (void)xmlWritePath.ChangeExtension(".zip").Delete();
-            { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
-          }
-          else { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
-        }
+        else { LOG(LogError) << "[Gamelist] Failed to save " << xmlTempPath.ToString(); }
       }
       catch (std::exception& e)
       {

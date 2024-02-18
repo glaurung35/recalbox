@@ -27,6 +27,7 @@ class GuiMenuThemeOptions : public GuiMenuBase
     ~GuiMenuThemeOptions() override;
 
   private:
+    static constexpr int sRecalboxMinimumCompatibilityVersion = 0x902; // (Major << 8) + Minor
     //! Apply change timer
     static constexpr int sApplyChangeTimer = 750;
 

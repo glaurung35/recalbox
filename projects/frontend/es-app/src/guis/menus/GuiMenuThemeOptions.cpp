@@ -186,7 +186,8 @@ String GuiMenuThemeOptions::CheckCompatibility(const Path& themePath, [[out]] bo
   {
     compatible = ((currentCompatibility & compatibility) != 0) &&
                  ((currentResolution & resolutions) != 0) &&
-                 (!tate || hasFlag(compatibility, ThemeData::Compatibility::Tate));
+                 (!tate || hasFlag(compatibility, ThemeData::Compatibility::Tate)) &&
+                 (recalboxVersion <= sRecalboxMinimumCompatibilityVersion);
     if (switchTheme)
     {
       if (!compatible)

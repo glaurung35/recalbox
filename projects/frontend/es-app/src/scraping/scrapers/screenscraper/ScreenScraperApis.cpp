@@ -178,6 +178,9 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
   if (json.HasMember("sp2kcfg"))
   {
     game.mP2k = json["sp2kcfg"].GetString();
+    DecodeString(game.mP2k);
+    const char* a = game.mP2k.data();
+    printf("%s\n", a);
   }
   if (json.HasMember("note"))
   {
@@ -744,7 +747,8 @@ void ScreenScraperApis::DecodeString(String& raw)
      .Replace("&apos;", "'")
      .Replace("&lt;", "<")
      .Replace("&gt;", ">")
-     .Replace("&nbsp;", "\u0160");
+     .Replace("&nbsp;", "\u0160")
+     .Replace("\\n", '\n');
 }
 
 String ScreenScraperApis::CleanGameName(const String& gameName)

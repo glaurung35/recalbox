@@ -523,6 +523,7 @@ class SystemManager : private INoCopy // No copy allowed
       , mForceReload(false)
     {
       MetadataDescriptor::InitializeDefaultMetadata();
+      MetadataDescriptor::InitializeHolders();
     }
 
     //! Destructor

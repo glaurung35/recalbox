@@ -270,6 +270,8 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
       setKeepRatio(true);
       setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
     }
+    if (element.HasProperty(ThemePropertyName::KeepRatio))
+      setKeepRatio(element.AsBool(ThemePropertyName::KeepRatio));
   }
 
   if (hasFlag(properties, ThemePropertyCategory::Effects))

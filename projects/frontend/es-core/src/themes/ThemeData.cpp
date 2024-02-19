@@ -422,7 +422,7 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
   if (elementIndex == nullptr) return nullptr;
   ThemeElement* element = &(view->mElementArray[*elementIndex]);
 
-  if(element->Type() != expectedType && expectedType != ThemeElementType::None)
+  if(element->Type() != expectedType /*&& expectedType != ThemeElementType::None*/)
   {
     { LOG(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
     return nullptr;

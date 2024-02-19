@@ -72,6 +72,7 @@ void ThemeSupport::InitializeStatics()
       case ThemePropertyName::IconUpdates:
       case ThemePropertyName::IconX:
       case ThemePropertyName::IconY: sArray[i] = ThemePropertyType::Path; break;
+      case ThemePropertyName::KeepRatio: sArray[i] = ThemePropertyType::Boolean; break;
       case ThemePropertyName::LineSpacing: sArray[i] = ThemePropertyType::Float; break;
       case ThemePropertyName::Link:
       case ThemePropertyName::LogoAlignment: sArray[i] = ThemePropertyType::String; break;
@@ -140,6 +141,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Pos,
           ThemePropertyName::Size,
           ThemePropertyName::MaxSize,
+          ThemePropertyName::KeepRatio,
           ThemePropertyName::Origin,
           ThemePropertyName::Rotation,
           ThemePropertyName::RotationOrigin,
@@ -186,6 +188,7 @@ HashMap<ThemeElementType, ThemePropertyNameBits>& ThemeSupport::ElementMap()
           ThemePropertyName::Pos,
           ThemePropertyName::Size,
           ThemePropertyName::MaxSize,
+          ThemePropertyName::KeepRatio,
           ThemePropertyName::Origin,
           ThemePropertyName::Rotation,
           ThemePropertyName::RotationOrigin,
@@ -533,6 +536,7 @@ HashMap<String, ThemePropertyName>& ThemeSupport::PropertyName()
     { "iconUpdates", ThemePropertyName::IconUpdates },
     { "iconX", ThemePropertyName::IconX },
     { "iconY", ThemePropertyName::IconY },
+    { "keepratio", ThemePropertyName::KeepRatio },
     { "lineSpacing", ThemePropertyName::LineSpacing },
     { "link", ThemePropertyName::Link },
     { "logoAlignment", ThemePropertyName::LogoAlignment },
@@ -632,6 +636,7 @@ String ThemeSupport::ReversePropertyName(ThemePropertyName name)
     { ThemePropertyName::IconUpdates, "iconUpdates" },
     { ThemePropertyName::IconX, "iconX" },
     { ThemePropertyName::IconY, "iconY" },
+    { ThemePropertyName::KeepRatio, "keepratio" },
     { ThemePropertyName::LineSpacing, "lineSpacing" },
     { ThemePropertyName::Link, "link" },
     { ThemePropertyName::LogoAlignment, "logoAlignment" },

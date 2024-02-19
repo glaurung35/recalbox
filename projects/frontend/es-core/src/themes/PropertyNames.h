@@ -62,6 +62,7 @@ enum class ThemePropertyName
   IconUpdates,
   IconX,
   IconY,
+  KeepRatio,
   LineSpacing,
   Link,
   LogoAlignment,

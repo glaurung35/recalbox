@@ -44,9 +44,11 @@ bool WindowManager::UpdateHelpSystem()
 
 void WindowManager::pushGui(Gui* gui)
 {
-  if (Gui* top = peekGui(); top != nullptr) top->onHide();
+  bool hadGui = false;
+  if (Gui* top = peekGui(); top != nullptr) { top->onHide(); hadGui = true; }
   mGuiStack.Push(gui);
   gui->onShow();
+  if (!hadGui) NotifyViewChanges();
   UpdateHelpSystem();
 }
 

@@ -179,8 +179,6 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
   {
     game.mP2k = json["sp2kcfg"].GetString();
     DecodeString(game.mP2k);
-    const char* a = game.mP2k.data();
-    printf("%s\n", a);
   }
   if (json.HasMember("note"))
   {

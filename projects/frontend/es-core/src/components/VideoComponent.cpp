@@ -417,6 +417,8 @@ void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
       setSize(element.AsVector(ThemePropertyName::MaxSize) * scale);
       setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
     }
+    if (element.HasProperty(ThemePropertyName::KeepRatio))
+      setKeepRatio(element.AsBool(ThemePropertyName::KeepRatio));
   }
 
   if (hasFlag(properties, ThemePropertyCategory::Path))

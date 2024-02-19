@@ -163,9 +163,13 @@ class MetadataDescriptor
 
     /*!
      * @brief Cleanup temporary data
-     * @return
      */
     static void CleanupHolders();
+
+    /*!
+     * @brief Initialize Holder, starting with no data at all
+     */
+    static void InitializeHolders();
 
     /*!
      * Default constructor

@@ -365,6 +365,20 @@ void MetadataDescriptor::Merge(const MetadataDescriptor& sourceMetadata)
   }
 }
 
+void MetadataDescriptor::InitializeHolders()
+{
+  sNameHolder.Initialize();
+  sDescriptionHolder.Initialize();
+  sPublisherHolder.Initialize();
+  sDeveloperHolder.Initialize();
+  sGenreHolder.Initialize();
+  sRatioHolder.Initialize();
+  sCoreHolder.Initialize();
+  sEmulatorHolder.Initialize();
+  sPathHolder.Initialize();
+  sFileHolder.Initialize();
+}
+
 void MetadataDescriptor::CleanupHolders()
 {
   LOG(LogDebug) << "[MetadataDescriptor] Name storage: "        << sNameHolder.StorageSize()          << " - object count: " << sNameHolder.ObjectCount()       ;

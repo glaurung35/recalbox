@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Patron
 - Fix 31kHz handheld and PSX games
+- Fix naomi 2 instabilities
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

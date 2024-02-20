@@ -180,7 +180,7 @@ class LibretroConfigCRT:
                         height = mode.height
                 if system.CRTScreenType == CRTScreenType.k31:
                     if system.CRTResolutionType == CRTResolutionType.Progressive:
-                        width = 640 * width / 1920
+                        #width = 640 * width / 1920
                         height = height * 2
                 return width, height
         # No default values found, force 640 for 31khz

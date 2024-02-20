@@ -27,8 +27,8 @@ d3e12326dfc6c9b0039637e298084771  package/llvm-project/llvm-project.mk
 be6ac651da6356e2ce471d6c3d4dc2d8  package/llvm-project/llvm/Config.in
 38a00ce9a91212eeb814cb4f7b38173e  package/llvm-project/llvm/llvm.hash
 64b2fa393cafff6958f4bfd2b9e30f24  package/luajit/Config.in
-0f50dbca0f917f6047afa9049a6695f1  package/mesa3d/Config.in
-f87cacbe43db2991cb471bc442123993  package/mesa3d/mesa3d.mk
+4c58912fd65cbd23c274da482250ba08  package/mesa3d/Config.in
+ff9e11eba41f7142fb7f3baad789cb16  package/mesa3d/mesa3d.mk
 1cbf73d63240389b6dce649f2711a610  package/mosquitto/mosquitto.mk
 91f24d342b8b163b77030e8211f1ee79  package/mpv/mpv.mk
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in

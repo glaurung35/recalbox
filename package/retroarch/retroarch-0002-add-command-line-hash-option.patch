@@ -1,16 +1,11 @@
-From 66d5eabbe6779fcdcf61ed8150c360c700bbf171 Mon Sep 17 00:00:00 2001
-From: Bkg2k <bkg2k9@gmail.com>
-Date: Wed, 23 Feb 2022 09:31:32 +0100
-Subject: [PATCH 02/12] add command line hash option
+commit 7202ffa45fbe4fba7a6303de2bcd22ef66ae0dec
+Author: Bkg2k <bkg2k9@gmail.com>
+Date:   Wed Feb 23 09:31:32 2022 +0100
 
----
- retroarch.c          | 11 ++++++++++-
- runloop.h            |  1 +
- tasks/task_content.c | 35 ++++++++++++++++++++++++++++-------
- 3 files changed, 39 insertions(+), 8 deletions(-)
+    add command line hash option
 
 diff --git a/retroarch.c b/retroarch.c
-index 0b0e7f0366..8e63ecaaa3 100644
+index 0b0e7f0366..e4863d5ee5 100644
 --- a/retroarch.c
 +++ b/retroarch.c
 @@ -283,6 +283,7 @@ enum
@@ -21,18 +16,25 @@ index 0b0e7f0366..8e63ecaaa3 100644
     RA_OPT_MAX_FRAMES_SCREENSHOT,
     RA_OPT_MAX_FRAMES_SCREENSHOT_PATH,
     RA_OPT_SET_SHADER,
-@@ -5106,6 +5107,10 @@ static void retroarch_print_help(const char *arg0)
-          "Path to settings used during recording.\n"
-          "      --size=WIDTHxHEIGHT        "
-          "Overrides output video size when recording.\n"
+@@ -5079,6 +5080,8 @@ static void retroarch_print_help(const char *arg0)
+          "Picks a username (for use with netplay). Not mandatory.\n"
+          "      --check-frames=NUMBER      "
+          "Check frames when using netplay.\n"
 +         "      --hash=HASH                "
 +         "Force a ROM hash. Not mandatory.\n"
-+         "      --nick=NICK                "
-+         "Picks a username (for use with netplay).\n"
+          , sizeof(buf));
+ #ifdef HAVE_NETWORK_CMD
+    strlcat(buf, "      --command                  "
+@@ -5155,7 +5158,7 @@ static void retroarch_print_help(const char *arg0)
+          "  -S, --savestate=PATH           "
+          "Path for the save state files (*.state). (DEPRECATED, use --appendconfig and savestate_directory)\n"
           ,
-          sizeof(buf));
+-         sizeof(buf));
++	 sizeof(buf));
  
-@@ -5370,6 +5375,7 @@ static bool retroarch_parse_input_and_config(
+    fputs(buf, stdout);
+ }
+@@ -5370,6 +5373,7 @@ static bool retroarch_parse_input_and_config(
        { "ips",                1, NULL, RA_OPT_IPS },
        { "no-patch",           0, NULL, RA_OPT_NO_PATCH },
  #endif
@@ -40,7 +42,7 @@ index 0b0e7f0366..8e63ecaaa3 100644
        { "detach",             0, NULL, 'D' },
        { "features",           0, NULL, RA_OPT_FEATURES },
        { "subsystem",          1, NULL, RA_OPT_SUBSYSTEM },
-@@ -5849,7 +5855,10 @@ static bool retroarch_parse_input_and_config(
+@@ -5849,7 +5853,10 @@ static bool retroarch_parse_input_and_config(
                 configuration_set_string(settings,
                       settings->paths.username, optarg);
                 break;
@@ -140,6 +142,3 @@ index e750cda267..a20fc55e52 100644
              }
           }
        }
--- 
-2.41.0
-

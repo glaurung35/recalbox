@@ -31,8 +31,6 @@ be6ac651da6356e2ce471d6c3d4dc2d8  package/llvm-project/llvm/Config.in
 f87cacbe43db2991cb471bc442123993  package/mesa3d/mesa3d.mk
 1cbf73d63240389b6dce649f2711a610  package/mosquitto/mosquitto.mk
 91f24d342b8b163b77030e8211f1ee79  package/mpv/mpv.mk
-eccca9996f67a8e3091c986d75a6b85e  package/python-pygame/python-pygame.hash
-374b0ae46dba8f6784a26f9290a49ec0  package/python-pygame/python-pygame.mk
 0f2a1376ed896b443e62fbf9434a99b5  package/rpi-firmware/Config.in
 843fca015657cd17297071b0eb3217a3  package/rpi-firmware/rpi-firmware.hash
 a85f25c48df75412676b624e65624136  package/rpi-firmware/rpi-firmware.mk

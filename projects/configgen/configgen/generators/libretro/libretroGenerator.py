@@ -11,6 +11,7 @@ from configgen.settings.keyValueSettings import keyValueSettings
 from configgen.utils.Rotation import Rotation
 import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
 from configgen.utils.Vulkan import Vulkan
+from configgen.utils.architecture import Architecture
 
 
 class LibretroGenerator(Generator):
@@ -325,11 +326,10 @@ class LibretroGenerator(Generator):
         coreConfig.saveFile()
 
     @staticmethod
-    def createVideoDriverConfiguration(system: Emulator, rom: str, recalboxOptions: keyValueSettings,
-                               retroarchConfig: keyValueSettings, coreConfig: keyValueSettings,
-                               retroarchOverrides: keyValueSettings):
+    def createVideoDriverConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
         vulkanCores = ["flycast", "ppsspp"]
-        if Vulkan.vulkanAvailable() and system.Core in vulkanCores and system.VulkanDriver:
+        naomi2OnPi5 = system.Name == "naomi2" and Architecture.isPi5
+        if Vulkan.vulkanAvailable() and system.Core in vulkanCores and system.VulkanDriver and not naomi2OnPi5:
             retroarchConfig.setString("video_driver", "vulkan")
         else:
             retroarchConfig.removeOption("video_driver")
@@ -388,8 +388,7 @@ class LibretroGenerator(Generator):
         LibretroGenerator.createSuperGameBoyConfiguration(system, retroarchConfig, coreConfig)
 
         # video driver config
-        LibretroGenerator.createVideoDriverConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
-                                                         retroarchOverrides)
+        LibretroGenerator.createVideoDriverConfiguration(system, retroarchConfig)
 
         # crt config (should be after tate as it will change ratio but keep other tate config)
         if system.CRTEnabled:

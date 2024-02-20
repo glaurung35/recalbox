@@ -9,6 +9,8 @@ as release notes for end user on a Recalbox upgrade.
 ### Patron
 - Debump flycast for handhelds, should increase performance
 - Fix naomi 2 instabilities
+# Patron
+- Fix netplay port configuration
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

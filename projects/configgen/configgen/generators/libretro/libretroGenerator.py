@@ -37,13 +37,15 @@ class LibretroGenerator(Generator):
                     result.extend(["--connect", system.NetplayIP])
                 else:
                     raise ValueError("You must specify n IP in client mode")
-
-            result.append("--port")
-            result.append(str(system.NetplayPort))
-            result.append("--nick")
-            result.append(system.NetplayUsername)
+            # port and nick are now directly in config file (see createNetplayConfig)
 
         return result
+    @staticmethod
+    def createNetplayConfig(system: Emulator) -> (Dict[str, Any], Dict[str, Any]):
+        config = {}
+        config["netplay_ip_port"] = system.NetplayPort
+        config["netplay_nickname"] = '"{}"'.format(system.NetplayUsername)
+        return config
 
     # Overlay management
     @staticmethod
@@ -411,6 +413,13 @@ class LibretroGenerator(Generator):
             coreConfig.setString(option[0], option[1])
         coreConfig.saveFile()
         system.Core = newCoreHD
+
+        # Netplay (force in configfile nick and port)
+        netplayConfig = LibretroGenerator.createNetplayConfig(system)
+        for option in netplayConfig.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \

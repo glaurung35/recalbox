@@ -72,7 +72,7 @@ class InstallRoms:
         if os.path.exists(roms_folder):
             if "%ROOT%" in holder.RomFolder:
                 target_directory = holder.RomFolder.replace("%ROOT%", target)
-                shutil.copytree(roms_folder, target_directory, dirs_exist_ok=True, symlinks=True)
+                shutil.copytree(roms_folder, target_directory, dirs_exist_ok=True, symlinks=False)
                 return
             elif holder.RomFolder == "/recalbox/share/screenshots":
                 target_directory = os.path.join(target, "../screenshots")

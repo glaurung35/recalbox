@@ -6,6 +6,9 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-Pulstar
 
+### Patron
+- Fix 31kHz handheld and PSX games
+
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)
 - Add support for Recalbox RGB JAMMA

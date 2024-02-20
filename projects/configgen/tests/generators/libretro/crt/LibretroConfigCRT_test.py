@@ -576,7 +576,7 @@ def test_given_31kHz_should_create_config_with_default_mode_but_best_viewport_si
 
     assert libretro_config["crt_switch_timings_pal"] == '"1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"60"'
-    assert libretro_config["custom_viewport_width_ntsc"] == 320
+    assert libretro_config["custom_viewport_width_ntsc"] == 960
     assert libretro_config["custom_viewport_height_ntsc"] == 288
 
 

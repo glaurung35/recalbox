@@ -4,14 +4,22 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-Pulstar
 
-### Patron
-- Debump flycast for handhelds, should increase performance
+## Version 9.2-alpha-36
+
+- Debump flycast for handhelds (anbernic and odroids), should increase performance
 - Fix naomi 2 instabilities
-# Patron
-- Fix netplay port configuration
+- Fix netplay port configuration 
 - Fix 31kHz handheld and PSX games
+- libretro mame (0.258) is now default Mame emulator on PC and RPI5
+- Fix theme region management
+- Fix a bug that caused inconsistencies in game lists after 2 (or more) gamelist updates
+- Fix the default image that no longer appeared when there was no scraped media
+- Themes
+  - Fix recalbox's required minimum version management
+  - Split size & keepratio in image/video components
+
+## Version 9.2-Pulstar
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

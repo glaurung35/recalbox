@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix 31kHz handheld and PSX games
 - Fix naomi 2 instabilities
 - Fix netplay port configuration
+- Debump Flycast on handhelds, should fix perf issues
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

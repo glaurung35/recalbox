@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Patron
 - Fix 31kHz handheld and PSX games
+- Debump flycast for handhelds, should increase performance
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

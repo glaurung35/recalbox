@@ -95,7 +95,7 @@ void DetailedGameListView::Initialize()
   mNoImage.setResize(mImage.getSize());
   mNoImage.setKeepRatio(true);
   mNoImage.setDefaultZIndex(30);
-  mNoImage.setImage(Path(":/no_image.png"));
+  //mNoImage.setImage(Path(":/no_image.png"));
 
   addChild(&mNoImage);
   addChild(&mImage);

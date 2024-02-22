@@ -79,7 +79,7 @@ function doRbxConfUpgrade {
       echo "$name=$value" >> $tmpFile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" "Couldn't write $name=$value in $tmpFile" ; return 1 ; }
     fi
 
-  done < <(grep -E "^[[:alnum:]\-]+\.[[:alnum:].\-]+=[[:print:]]+$" $cfgOut)
+  done < <(grep -E "^[[:alnum:]\-]+\.[[:alnum:].\-]+=.+$" $cfgOut)
 
   cp $cfgOut $savefile || { recallog -s "${INIT_SCRIPT}" -t "UPGRADE-ERROR" -e "Couldn't backup $cfgOut to $savefile" ; return 1 ; }
   rm -f $cfgOut

@@ -137,13 +137,13 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
 
     AddList<String>(_("NEOGEO LAYOUT P1"), (int)Components::JammaNeogeoLayoutP1, this,
                     std::vector<GuiMenuBase::ListEntry<String>>(
-                      {{ "Default", "default", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "default" },
+                      {{ "Default", "neodefault", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "neodefault" },
                        { "Line", "line", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "line" },
                        { "Square", "square", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP1() == "square" }}),
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
     AddList<String>(_("NEOGEO LAYOUT P2"), (int)Components::JammaNeogeoLayoutP2, this,
                     std::vector<GuiMenuBase::ListEntry<String>>(
-                      {{ "Default", "default", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "default" },
+                      {{ "Default", "neodefault", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "neodefault" },
                        { "Line", "line", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "line" },
                        { "Square", "square", CrtConf::Instance().GetSystemCRTJammaNeogeoLayoutP2() == "square" }}),
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));

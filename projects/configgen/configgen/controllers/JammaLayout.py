@@ -6,6 +6,7 @@ class JammaLayout(str, Enum):
     SixBtn = "6btns",
     NeoLine = "line",
     NeoSquare = "square",
+    NeoDefault = "neodefault",
     NoLayout = "",
 
     @staticmethod
@@ -16,6 +17,8 @@ class JammaLayout(str, Enum):
             return JammaLayout.NeoLine
         if(value == "square"):
             return JammaLayout.NeoSquare
+        if(value == "neodefault"):
+            return JammaLayout.NeoDefault
         return JammaLayout.NoLayout
 
     def toRetroarchDeviceType(self) -> str:
@@ -23,4 +26,6 @@ class JammaLayout(str, Enum):
             return "1029"
         if self == JammaLayout.NeoSquare:
             return "1285"
-        return "1541"
+        if self == JammaLayout.NeoDefault:
+            return "1541"
+        return "1"

@@ -55,12 +55,12 @@ struct ComponentListRow
       if (mInterceptor != nullptr)
         return mInterceptor->EventReceived(mIdentifier, event);
 
-      if(event.ValidPressed())
+      if(event.ValidReleased())
       {
         if (mInterface != nullptr) { mInterface->ComponentListRowSelected(mIdentifier); return true; }
         if (input_handler) { input_handler(); return true; }
       }
-      if(event.YPressed())
+      if(event.YReleased())
         if (help_handler) { help_handler(); return true; }
 
       // No input handler assigned, do the default, which is to give it to the rightmost element in the row

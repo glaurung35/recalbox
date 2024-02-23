@@ -221,8 +221,6 @@ void SystemView::goToSystem(SystemData* system, bool animate)
 
 bool SystemView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.AnythingPressed())
-  {
     switch (mCarousel.type)
     {
       case CarouselType::Vertical:
@@ -240,20 +238,20 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
         break;
       }
     }
-    if (event.ValidPressed())
+    if (event.ValidReleased())
     {
       stopScrolling();
       ViewController::Instance().goToGameList(getSelected());
       return true;
     }
-    if (event.YPressed() && GameClipView::IsGameClipEnabled())
+    if (event.YReleased() && GameClipView::IsGameClipEnabled())
     {
       mWindow.DoSleep();
       ViewController::Instance().goToGameClipView();
       return true;
     }
 
-    if (event.XPressed())
+    if (event.XReleased())
     {
       bool kodiExists = RecalboxSystem::kodiExists();
       bool kodiEnabled = RecalboxConf::Instance().GetKodiEnabled();
@@ -277,24 +275,24 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
     }
 
-    if (event.SelectPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Exit))
+    if (event.SelectReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Exit))
     {
       GuiMenuQuit::PushQuitGui(mWindow);
     }
 
-    if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Main))
+    if (event.StartReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Main))
     {
       mWindow.pushGui(new GuiMenu(mWindow, mSystemManager, mResolver));
       return true;
     }
 
-    if (event.R1Pressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Search))
+    if (event.R1Released() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Search))
     {
       mWindow.pushGui(new GuiSearch(mWindow, mSystemManager));
       return true;
     }
-  }
-  else if (event.AnyLeftReleased() || event.AnyRightReleased() || event.AnyUpReleased() || event.AnyDownReleased())
+
+  if (event.AnyDirectionReleased())
     listInput(0);
 
   return Component::ProcessInput(event);

@@ -75,7 +75,7 @@ void GuiScraperSingleGameRun::onSizeChanged()
 
 bool GuiScraperSingleGameRun::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.CancelPressed())
+	if (event.CancelReleased())
 	{
     mScraper->StopNotifications();
     Close();

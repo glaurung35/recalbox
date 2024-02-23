@@ -40,7 +40,7 @@ void ButtonComponent::setPressedFunc(std::function<void()> f)
 
 bool ButtonComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if(event.ValidPressed())
+	if(event.ValidReleased())
 	{
 		if(mPressedFunc && mEnabled)
 			mPressedFunc();

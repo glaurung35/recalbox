@@ -66,7 +66,7 @@ bool GuiTextEditPopup::ProcessInput(const InputCompactEvent& event)
 		return true;
 
 	// pressing back when not text editing closes us
-	if (event.CancelPressed())
+	if (event.CancelReleased())
 	{
 		Close();
 		return true;

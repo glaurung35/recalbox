@@ -518,7 +518,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
   else mReleaseDate.setValue(_("UNKNOWN"));
   mDeveloper.setValue(meta.Developer().empty() ? _("UNKNOWN") : meta.Developer());
   mPublisher.setValue(meta.Publisher().empty() ? _("UNKNOWN") : meta.Publisher());
-  mGenre.setValue(meta.GenreId() != GameGenres::None ? meta.GenreIdAsString() :
+  mGenre.setValue(meta.GenreId() != GameGenres::None ? Genres::GetFullNameStandalone(meta.GenreId()) :
                   !meta.Genre().empty() ? meta.Genre().Replace(',', ", ", 2).Replace("  ", 2, ' ') :
                   _("NONE"));
   mPlayers.setValue(meta.PlayersAsString());

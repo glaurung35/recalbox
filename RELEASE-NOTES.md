@@ -5,7 +5,10 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
-## Version 9.2-jamma-35
+## Version 9.2-jamma-36
+
+9.2-jamma-36:
+- Fix glitch in gamelist transition
 
 9.2-jamma-35:
 - Fix netplay port configuration

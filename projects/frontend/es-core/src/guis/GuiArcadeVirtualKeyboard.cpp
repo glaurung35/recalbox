@@ -202,9 +202,9 @@ bool GuiArcadeVirtualKeyboard::ProcessInput(const InputCompactEvent& event)
     else if (event.J2Left()) ChangeCursor(true, true, event.J2LeftPressed());
     else if (event.J2Right()) ChangeCursor(false, true, event.J2RightPressed());
     // Edit
-    else if (event.ValidPressed()) AddCharacter(GetSelectedCharacter());
-    else if (event.CancelPressed()) CancelEditor();
-    else if (event.StartPressed()) ValidateEditor();
+    else if (event.ValidReleased()) AddCharacter(GetSelectedCharacter());
+    else if (event.CancelReleased()) CancelEditor();
+    else if (event.StartReleased()) ValidateEditor();
     else if (event.YPressed()) Backspace();
     else if (event.XPressed()) Delete();
   }

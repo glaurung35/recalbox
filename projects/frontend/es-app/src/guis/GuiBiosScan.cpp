@@ -319,19 +319,19 @@ void GuiBiosScan::onSizeChanged()
 
 bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.StartPressed())
+  if (event.StartReleased())
   {
     StartRescan();
     return true;
   }
 
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;
   }
 
-  if (event.XPressed())
+  if (event.XReleased())
   {
     mShowAllSystems = !mShowAllSystems;
     UpdateHelpBar();
@@ -339,7 +339,7 @@ bool GuiBiosScan::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.ValidPressed() && (mList->size() > 0))
+  if (event.ValidReleased() && (mList->size() > 0))
   {
     const ListContext& context = mList->getSelected();
     if (context.mBios != nullptr)

@@ -75,7 +75,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData
 
 bool GuiNetPlayHostPasswords::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;

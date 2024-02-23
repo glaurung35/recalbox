@@ -97,7 +97,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   FileData* cursor = getCursor();
 
   // RUN GAME or ENTER FOLDER
-  if (event.ValidPressed())
+  if (event.ValidReleased())
   {
     clean();
     if (cursor->IsGame())
@@ -119,7 +119,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // BACK to PARENT FOLDER or PARENT SYSTEM
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     clean();
     if (!mCursorStack.empty())
@@ -151,7 +151,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES
-  if (event.YPressed() && !cursor->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
+  if (event.YReleased() && !cursor->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
 
     if (cursor->IsGame())
@@ -228,14 +228,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // NETPLAY
-  if (event.XPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay)
+  if (event.XReleased() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay)
       && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
     clean();
     mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
     return true;
   }
-  if (event.XPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::P2K))
+  if (event.XReleased() && MenuFilter::ShouldEnableFeature(MenuFilter::P2K))
   {
     FileData* fd = getCursor();
     if (fd != nullptr)
@@ -243,7 +243,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
         mWindow.pushGui(new GuiControlHints(mWindow, fd->RomPath()));
     return true;
   }
-  if (event.StartPressed() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::GamelistOptions))
+  if (event.StartReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::GamelistOptions))
   {
     clean();
     mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface(), mResolver));

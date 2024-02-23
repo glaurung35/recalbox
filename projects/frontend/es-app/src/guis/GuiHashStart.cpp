@@ -56,7 +56,7 @@ GuiHashStart::GuiHashStart(WindowManager& window, SystemManager& systemManager)
 bool GuiHashStart::ProcessInput(const InputCompactEvent& event)
 {
   // Cancel or exit immediatelly on pressing A
-  if (event.CancelPressed())
+  if (event.CancelReleased())
     mState = State::Cancelled;
 
   return Component::ProcessInput(event);

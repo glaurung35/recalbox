@@ -95,7 +95,7 @@ GuiDownloader::GuiDownloader(WindowManager& window, SystemData& system, SystemMa
 
 bool GuiDownloader::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     mDownloader->MustExitAsap();
     return true;

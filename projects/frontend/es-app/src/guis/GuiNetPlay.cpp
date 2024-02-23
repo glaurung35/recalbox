@@ -311,11 +311,11 @@ float GuiNetPlay::getButtonGridHeight() const
 
 bool GuiNetPlay::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
   }
-  if (event.StartPressed())
+  if (event.StartReleased())
   {
     // restart the thread if not aleaady done
     if (Thread::IsDone())

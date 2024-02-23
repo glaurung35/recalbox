@@ -137,14 +137,14 @@ void RatingComponent::Render(const Transform4x4f& parentTrans)
 
 bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.ValidPressed() || event.AnyRightPressed())
+	if (event.ValidReleased() || event.AnyRightReleased())
 	{
 		if((mValue += .5f / NUM_RATING_STARS) > 1.1f) mValue = 0.f;
 		updateVertices();
 		if (mInterface != nullptr)
 		  mInterface->RatingChanged(mId, mValue);
 	}
-	else if (event.AnyLeftPressed())
+	else if (event.AnyLeftReleased())
   {
     if((mValue -= .5f / NUM_RATING_STARS) < 0.f) mValue = 1.f;
     updateVertices();

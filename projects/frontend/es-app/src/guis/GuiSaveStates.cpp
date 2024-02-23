@@ -88,17 +88,17 @@ void GuiSaveStates::initGridsNStuff()
 
 bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;
   }
-  else if (event.YPressed())
+  else if (event.YReleased())
   {
     launch(-1);
     return true;
   }
-  else if (event.ValidPressed() && mIsLibretro && mCurrentState.GetPath().Extension() != ".auto" && mList->size() != 0)
+  else if (event.ValidReleased() && mIsLibretro && mCurrentState.GetPath().Extension() != ".auto" && mList->size() != 0)
   {
     if (mCurrentState.GetSlotNumber() < 0)
     {
@@ -110,13 +110,13 @@ bool GuiSaveStates::ProcessInput(const class InputCompactEvent & event)
 
     return true;
   }
-  else if (event.SelectPressed())
+  else if (event.SelectReleased())
   {
     if(mSort == Sort::Ascending) mSort = Sort::Descending;
     else if(mSort == Sort::Descending) mSort = Sort::Ascending;
     PopulateGrid();
   }
-  else if (event.XPressed())
+  else if (event.XReleased())
   {
     String message = _("Game").Append(": ").Append(mGame.Name()).Append("\n");
     message.Append(_("You are about to delete this state, confirm ?"))

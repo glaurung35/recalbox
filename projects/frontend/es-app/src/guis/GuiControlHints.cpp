@@ -255,7 +255,7 @@ void GuiControlHints::onSizeChanged()
 
 bool GuiControlHints::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed() || event.R1Pressed())
+  if (event.CancelReleased() || event.R1Released())
   {
     Close();
     return true;

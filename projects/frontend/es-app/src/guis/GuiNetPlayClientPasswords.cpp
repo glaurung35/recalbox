@@ -73,7 +73,7 @@ GuiNetPlayClientPasswords::GuiNetPlayClientPasswords(WindowManager& window, Lobb
 
 bool GuiNetPlayClientPasswords::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;

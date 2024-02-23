@@ -108,7 +108,7 @@ GuiUpdateRecalbox::~GuiUpdateRecalbox()
 
 bool GuiUpdateRecalbox::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     mTarRequest.Cancel();
     mImgRequest.Cancel();

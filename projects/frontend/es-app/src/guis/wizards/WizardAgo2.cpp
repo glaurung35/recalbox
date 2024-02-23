@@ -46,45 +46,45 @@ String WizardAGO2::OnTextRequired(int page)
 
 SimpleWizardBase::Move WizardAGO2::OnKeyReceived(int page, const InputCompactEvent& event)
 {
-  if (event.CancelPressed()) return Move::Backward;
+  if (event.CancelReleased()) return Move::Backward;
 
   switch((Pages)page)
   {
     case Pages::Intro:
     {
-      if (event.AnyButtonPressed()) return Move::Foreward;
+      if (event.AnyButtonReleased()) return Move::Foreward;
       break;
     }
     case Pages::StartButton:
     {
-      if (event.StartPressed()) return Move::Foreward;
+      if (event.StartReleased()) return Move::Foreward;
       break;
     }
     case Pages::SelectButton:
     {
-      if (event.SelectPressed()) return Move::Foreward;
+      if (event.SelectReleased()) return Move::Foreward;
       break;
     }
     case Pages::VolumeButtons:
     {
-      if (event.VolumeUpPressed() || event.VolumeDownPressed()) return Move::Foreward;
+      if (event.VolumeUpReleased() || event.VolumeDownReleased()) return Move::Foreward;
       break;
     }
     case Pages::BrightnessButtons:
     {
-      if (event.BrightnessDownPressed() || event.BrightnessUpPressed()) return Move::Foreward;
+      if (event.BrightnessDownReleased() || event.BrightnessUpReleased()) return Move::Foreward;
       break;
     }
     case Pages::PowerSuspend:
     case Pages::PowerOff:
     case Pages::Jack:
     {
-      if (event.ValidPressed()) return Move::Foreward;
+      if (event.ValidReleased()) return Move::Foreward;
       break;
     }
     case Pages::Final:
     {
-      if (event.ValidPressed())
+      if (event.ValidReleased())
       {
         RecalboxConf::Instance().SetFirstTimeUse(false);
         return Move::Close;
@@ -94,8 +94,8 @@ SimpleWizardBase::Move WizardAGO2::OnKeyReceived(int page, const InputCompactEve
     case Pages::Count: break;
   }
 
-  if (event.UpPressed()) ChangeLanguage(true);
-  else if (event.DownPressed()) ChangeLanguage(false);
+  if (event.UpReleased()) ChangeLanguage(true);
+  else if (event.DownReleased()) ChangeLanguage(false);
 
   return Move::None;
 }

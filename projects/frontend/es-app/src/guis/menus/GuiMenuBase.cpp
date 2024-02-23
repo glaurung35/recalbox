@@ -27,13 +27,13 @@ GuiMenuBase::GuiMenuBase(WindowManager& window, const String& title, IGuiMenuBas
 
 bool GuiMenuBase::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;
   }
 
-  if (event.StartPressed())
+  if (event.StartReleased())
   {
     // Close everything
     mWindow.CloseAll();

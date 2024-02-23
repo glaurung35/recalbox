@@ -167,24 +167,24 @@ float GuiSearch::getButtonGridHeight() const
 
 bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     clear();
     Close();
     return true;
   }
-  if (event.R1Pressed())
+  if (event.R1Released())
   {
     mWindow.pushGui(new GuiArcadeVirtualKeyboard(mWindow, _("SEARCH"), mSearch->getValue(), this));
     return true;
   }
-  if (event.ValidPressed())
+  if (event.ValidReleased())
   {
     clear();
     launch();
     return true;
   }
-  if (event.SelectPressed())
+  if (event.SelectReleased())
   {
     clear();
     GoToGame();
@@ -197,14 +197,14 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     FileData* cursor = mSearchResults[mList->getCursor()];
 
     // NETPLAY
-    if ((event.XPressed()) && (RecalboxConf::Instance().GetNetplayEnabled())
+    if ((event.XReleased()) && (RecalboxConf::Instance().GetNetplayEnabled())
         && cursor->System().Descriptor().HasNetPlayCores())
     {
       clear();
       mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *cursor));
       return true;
     }
-    if (event.YPressed())
+    if (event.YReleased())
     {
       if (cursor->IsGame())
       {

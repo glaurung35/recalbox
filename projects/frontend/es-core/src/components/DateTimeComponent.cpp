@@ -34,7 +34,7 @@ void DateTimeComponent::setDisplayMode(Display mode)
 
 bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 {
-	if (event.ValidPressed())
+	if (event.ValidReleased())
 	{
 		if(mDisplayMode != Display::RelativeToNow) //don't allow editing for relative times
 			mEditing = !mEditing;
@@ -50,7 +50,7 @@ bool DateTimeComponent::ProcessInput(const InputCompactEvent& event)
 
 	if(mEditing)
 	{
-		if (event.CancelPressed())
+		if (event.CancelReleased())
 		{
 			mEditing = false;
 			mTime = mTimeBeforeEdit;

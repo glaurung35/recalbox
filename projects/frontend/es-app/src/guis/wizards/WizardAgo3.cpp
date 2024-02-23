@@ -50,50 +50,50 @@ String WizardAgo3::OnTextRequired(int page)
 
 SimpleWizardBase::Move WizardAgo3::OnKeyReceived(int page, const InputCompactEvent& event)
 {
-  if (event.CancelPressed()) return Move::Backward;
+  if (event.CancelReleased()) return Move::Backward;
 
   switch((Pages)page)
   {
     case Pages::Intro:
     {
-      if (event.AnyButtonPressed()) return Move::Foreward;
+      if (event.AnyButtonReleased()) return Move::Foreward;
       break;
     }
     case Pages::StartButton:
     {
-      if (event.StartPressed()) return Move::Foreward;
+      if (event.StartReleased()) return Move::Foreward;
       break;
     }
     case Pages::SelectButton:
     {
-      if (event.SelectPressed()) return Move::Foreward;
+      if (event.SelectReleased()) return Move::Foreward;
       break;
     }
     case Pages::VolumeButtons:
     {
-      if (event.AnyButtonPressed()) return Move::Foreward;
+      if (event.AnyButtonReleased()) return Move::Foreward;
       break;
     }
     case Pages::BrightnessButtons:
     {
-      if (event.BrightnessDownPressed() || event.BrightnessUpPressed()) return Move::Foreward;
+      if (event.BrightnessDownReleased() || event.BrightnessUpReleased()) return Move::Foreward;
       break;
     }
     case Pages::L3R3:
     {
-      if (event.L3Pressed() || event.R3Pressed()) return Move::Foreward;
+      if (event.L3Released() || event.R3Released()) return Move::Foreward;
       break;
     }
     case Pages::PowerSuspend:
     case Pages::PowerOff:
     case Pages::Jack:
     {
-      if (event.ValidPressed()) return Move::Foreward;
+      if (event.ValidReleased()) return Move::Foreward;
       break;
     }
     case Pages::Final:
     {
-      if (event.ValidPressed())
+      if (event.ValidReleased())
       {
         RecalboxConf::Instance().SetFirstTimeUse(false);
         return Move::Close;
@@ -103,8 +103,8 @@ SimpleWizardBase::Move WizardAgo3::OnKeyReceived(int page, const InputCompactEve
     case Pages::Count: break;
   }
 
-  if (event.UpPressed()) ChangeLanguage(true);
-  if (event.DownPressed()) ChangeLanguage(false);
+  if (event.UpReleased()) ChangeLanguage(true);
+  if (event.DownReleased()) ChangeLanguage(false);
 
   return Move::None;
 }

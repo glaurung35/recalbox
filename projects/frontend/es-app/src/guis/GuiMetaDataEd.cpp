@@ -494,9 +494,9 @@ bool GuiMetaDataEd::ProcessInput(const InputCompactEvent& event)
     return true;
   }
 
-  if (event.CancelPressed() || event.StartPressed())
+  if (event.CancelReleased() || event.StartReleased())
   {
-    close(event.StartPressed());
+    close(event.StartReleased());
     return true;
   }
 

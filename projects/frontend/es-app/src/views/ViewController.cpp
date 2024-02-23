@@ -130,7 +130,6 @@ void ViewController::ResetFilters()
   conf.SetFilterAdultGames(false);
 
   conf.SetCollectionPorts(true);
-//  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
 }
 
 void ViewController::goToQuitScreen()
@@ -143,7 +142,8 @@ void ViewController::goToQuitScreen()
 void ViewController::goToSystemView(SystemData* system)
 {
   CheckFilters();
-  mSystemListView.setPosition((float)mSystemManager.SystemAbsoluteIndex(system) * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
+  float position = ReorderGamelistViewBeforeMoving(system, Move::None);
+  mSystemListView.setPosition(position, mSystemListView.getPosition().y());
 
   if (!system->HasVisibleGame()) {
     system = mSystemManager.FirstNonEmptySystem();
@@ -192,8 +192,9 @@ SystemData* ViewController::goToNextGameList()
     next = mSystemManager.NextVisible(next);
 
   AudioManager::Instance().StartPlaying(next->Theme());
+  ReorderGamelistViewBeforeMoving(next, Move::Right);
+  goToGameList(next);
 
-	goToGameList(next);
   return next;
 }
 
@@ -210,7 +211,38 @@ void ViewController::goToPrevGameList()
 	}
 
   AudioManager::Instance().StartPlaying(prev->Theme());
-	goToGameList(prev);
+  ReorderGamelistViewBeforeMoving(prev, Move::Left);
+  goToGameList(prev);
+}
+
+float ViewController::ReorderGamelistViewBeforeMoving(SystemData* target, Move move)
+{
+  // If we move left to the last system, let introduce an offet
+  int currentIndex = mSystemManager.SystemVisibleIndex(mCurrentSystem);
+  int targetIndex = mSystemManager.SystemVisibleIndex(target);
+  int offset = 0;
+  if (move == Move::Left && currentIndex < targetIndex) offset = 1;
+
+  // Move every single gamelist to its position regading visible system list
+  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(target);
+  float screenWidth = Renderer::Instance().DisplayWidthAsFloat();
+  for(auto& kv : mGameListViews)
+  {
+    int position = mSystemManager.SystemVisibleIndex(kv.first) + offset;
+    kv.second->setPosition((float)position * screenWidth, kv.second->getPosition().y());
+    if (target == mCurrentSystem)
+      mCamera.translation().x() = (float)position * screenWidth;
+  }
+
+  switch(move)
+  {
+    case Left: { if (offset != 0) gamelistView->setPosition(0, gamelistView->getPosition().y()); break; }
+    case Right: { if (targetIndex < currentIndex) gamelistView->setPosition((float)mSystemManager.VisibleSystemList().Count() * screenWidth, gamelistView->getPosition().y()); break; }
+    case None:
+    default: break;
+  }
+
+  return gamelistView->getPosition().x();
 }
 
 void ViewController::goToGameList(SystemData* system)
@@ -222,13 +254,11 @@ void ViewController::goToGameList(SystemData* system)
 	}
 	if (mCurrentViewType != ViewType::GameList)
 	{
-		// move system list
-		float offX = mSystemListView.getPosition().x();
-		int sysId = mSystemManager.SystemAbsoluteIndex(system);
-    mSystemListView.setPosition((float)sysId * Renderer::Instance().DisplayWidthAsFloat(), mSystemListView.getPosition().y());
-		offX = mSystemListView.getPosition().x() - offX;
-		mCamera.translation().x() -= offX;
+    // move system list
+    float position = ReorderGamelistViewBeforeMoving(system, Move::None);
+    mSystemListView.setPosition(position, mSystemListView.getPosition().y());
 	}
+
 
 	if (mInvalidGameList[system])
 	{
@@ -245,23 +275,11 @@ void ViewController::goToGameList(SystemData* system)
   ChangeView(ViewType::GameList, system);
 	playViewTransition();
 
-  NotificationManager::Instance().Notify(*GetOrCreateGamelistView(system)->getCursor(), Notification::GamelistBrowsing);
+  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(system);
+  NotificationManager::Instance().Notify(*gamelistView->getCursor(), Notification::GamelistBrowsing);
   // for reload cursor video path if present
-  GetOrCreateGamelistView(system)->DoUpdateGameInformation(false);
+  gamelistView->DoUpdateGameInformation(false);
 }
-
-/*void ViewController::updateFavorite(SystemData* system, FileData* file)
-{
-  ISimpleGameListView* view = GetOrCreateGamelistView(system);
-	if (RecalboxConf::Instance().GetFavoritesOnly())
-	{
-		view->populateList(system->MasterRoot());
-		FileData* nextFavorite = system->MasterRoot().GetNextFavoriteTo(file);
-	  view->setCursor(nextFavorite != nullptr ? nextFavorite : file);
-	}
-
-	view->updateInfoPanel();
-}*/
 
 void ViewController::playViewTransition()
 {
@@ -668,13 +686,13 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
     new DetailedGameListView(mWindow, mSystemManager, *system, mResolver);
   view->DoInitialize();
 
-  int id = mSystemManager.SystemAbsoluteIndex(system);
-	view->setPosition((float)id * Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat() * 2);
-
 	addChild(view);
 
 	mGameListViews[system] = view;
 	mInvalidGameList[system] = false;
+
+  ReorderGamelistViewBeforeMoving(system, Move::None);
+
 	return view;
 }
 

@@ -864,4 +864,14 @@ class SystemManager : private INoCopy // No copy allowed
     {
       return mAllSystems.IndexOf(system);
     }
+
+    /*!
+     * @brief Get system index from the visible system list
+     * @param system System to get index from
+     * @return System index or -1
+     */
+    int SystemVisibleIndex(SystemData* const system)
+    {
+      return mVisibleSystems.IndexOf(system);
+    }
 };

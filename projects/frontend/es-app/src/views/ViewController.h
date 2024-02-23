@@ -70,7 +70,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn, bool forceGoToGame);
 
-    bool GetOrReCreateGamelistView(SystemData* view);
+    bool GetOrReCreateGamelistView(SystemData* system);
     void InvalidateGamelist(const SystemData* system);
     void InvalidateAllGamelistsExcept(const SystemData* systemExclude);
 
@@ -182,6 +182,14 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     void Completed(const DelayedSystemOperationData& parameter, const bool& result) override;
 
   private:
+    //! Animation move
+    enum Move
+    {
+      None,
+      Left,
+      Right,
+    };
+
     //! Fast menu types
     enum class FastMenuType
     {
@@ -298,6 +306,15 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     bool CheckBiosBeforeLaunch();
 
     void playViewTransition();
+
+    /*!
+     * @brief Reorder gamelist view according to current visible systems and next move
+     * Replace camera if required
+     * @param target Target system
+     * @param rightMove Next move
+     * @return X position of the target system
+     */
+    float ReorderGamelistViewBeforeMoving(SystemData* target, Move rightMove);
 
     /*
      * IFastMenuLineCallback implementation

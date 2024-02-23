@@ -4,15 +4,53 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-Pulstar
 
 ### Patron
 - Fix 31kHz handheld and PSX games
 - Debump flycast for handhelds, should increase performance
 - Fix naomi 2 instabilities
 # Patron
+## Version 9.2-jamma-35
+
+9.2-jamma-35:
 - Fix netplay port configuration
 - Fix 31kHz handheld and PSX games
+- Fix Dreamcast games (enjoy again Soul Calibur in 31kHz)
+
+9.2-jamma-34:
+- Fix crash on gamelist reload on PC and other platforms
+- Fix "show only tate games" having no games in subdirectories
+- Fix automatic mame selection from mame subdirectory
+- Fix theme region not immediatly updated
+
+9.2-jamma-33:
+- Auto selection du mode 240p pour les jeux 240p en multisync
+
+9.2-jamma-32:
+- Nouveau channel d'update : jamma-early
+
+9.2-jamma-31:
+- Suppression des scanlines en 31kHz lorsque vous lancez un jeu Tate en Yoko ou Yoko en Tate
+- Retablissement des vues arcade pour la naomi et atomiswave
+
+9.2-jamma-30:
+- Correction des jeux en TATE sur ecran YOKO en 31kHz
+- Correction du calibrage 31kHz et multisync
+- Exctinction de l'ecran lors du reboot/shotdown
+
+9.2-jamma-29:
+- Ajout du mode nomenu pour une utilisation en salon (emulationstation.menu=none dans recalbox.conf)
+- Correction de TOUS les mappings joystick sur mame2003+ (Killer Instinct est maintenant bien mappé)
+- Ajout des systemes SEGA System 32, SEGA System 16, Psikyo et Taito F3
+- Chaque joueur peut choisir son layout neogeo
+- Correction du mode d'affichage des videos qui désynchronisait sur certaines bornes sensibles au hsync un peu haut
+- Ajout d'une superrez pour le 31kHz pour ameliorer la qualité des jeux 240p qui tournent en 31kHz
+- Heavy scanlines par defaut
+- Correction des drapeaux pour les jeux arcade et consoles
+- Nouveaux bootloaders a mettre a jour sur pi5 et pi4
+- Ecran de calibrage corrigé (a tester en 15 31 et multisync)
+
+## Version 9.2-Pulstar
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

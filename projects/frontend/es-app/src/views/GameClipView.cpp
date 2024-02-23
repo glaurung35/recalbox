@@ -168,7 +168,7 @@ void GameClipView::Render(const Transform4x4f& parentTrans)
 
 bool GameClipView::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     mState = State::Quit;
     StopGameClipView();
@@ -177,7 +177,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   if (State::EmptyPlayList == mState || State::Playing != mState || mTimer.GetMilliSeconds() < 1000) return true;
 
   // GO TO GAME LIST -  SELECT
-  if (event.SelectPressed())
+  if (event.SelectReleased())
   {
     mState = State::GoToSystem;
     StopGameClipView();
@@ -185,7 +185,7 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   }
 
   // RUN GAME - START
-  if (event.StartPressed())
+  if (event.StartReleased())
   {
     StopGameClipView();
     mState = State::LaunchGame;
@@ -193,20 +193,20 @@ bool GameClipView::ProcessInput(const InputCompactEvent& event)
   }
 
   // NEXT GAMECLIP  - RIGHT
-  if (event.RightPressed())
+  if (event.RightReleased())
   {
     ChangeGameClip(Direction::Next);
     return true;
   }
   // PREVIOUS GAMECLIP - LEFT
-  if (event.LeftPressed())
+  if (event.LeftReleased())
   {
     ChangeGameClip(Direction::Previous);
     return true;
   }
 
   // TOGGLE FAVORITES - Y
-  if (event.YPressed() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
+  if (event.YReleased() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
     if (mGame->IsGame())
     {

@@ -130,7 +130,7 @@ private:
 
 		bool ProcessInput(const InputCompactEvent& event) override
 		{
-			if (event.CancelPressed())
+			if (event.CancelReleased())
 			{
 				Close();
 				return true;
@@ -223,14 +223,14 @@ public:
 
 	bool ProcessInput(const InputCompactEvent& event) override
 	{
-    if (event.ValidPressed())
+    if (event.ValidReleased())
     {
       open();
       return true;
     }
     if(!mMultiSelect)
     {
-      if (event.AnyLeftPressed())
+      if (event.AnyLeftReleased())
       {
         // move selection to previous
         unsigned int i = getSelectedId();
@@ -243,7 +243,7 @@ public:
         onSelectedChanged(true);
         return true;
 
-      }else if (event.AnyRightPressed())
+      }else if (event.AnyRightReleased())
       {
         // move selection to next
         unsigned int i = getSelectedId();

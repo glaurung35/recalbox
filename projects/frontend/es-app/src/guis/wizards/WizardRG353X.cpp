@@ -44,18 +44,18 @@ String WizardRG353X::OnTextRequired(int page)
 
 SimpleWizardBase::Move WizardRG353X::OnKeyReceived(int page, const InputCompactEvent& event)
 {
-  if (event.CancelPressed()) return Move::Backward;
+  if (event.CancelReleased()) return Move::Backward;
 
   switch((Pages)page)
   {
     case Pages::Intro:
     {
-      if (event.AnyButtonPressed()) return Move::Foreward;
+      if (event.AnyButtonReleased()) return Move::Foreward;
       break;
     }
     case Pages::VolumeButtons:
     {
-      if (event.AnyButtonPressed()) return Move::Foreward;
+      if (event.AnyButtonReleased()) return Move::Foreward;
       break;
     }
     case Pages::FunctionKey:
@@ -63,12 +63,12 @@ SimpleWizardBase::Move WizardRG353X::OnKeyReceived(int page, const InputCompactE
     case Pages::PowerSuspend:
     case Pages::PowerOff:
     {
-      if (event.ValidPressed()) return Move::Foreward;
+      if (event.ValidReleased()) return Move::Foreward;
       break;
     }
     case Pages::Final:
     {
-      if (event.ValidPressed())
+      if (event.ValidReleased())
       {
         RecalboxConf::Instance().SetFirstTimeUse(false);
         return Move::Close;
@@ -78,8 +78,8 @@ SimpleWizardBase::Move WizardRG353X::OnKeyReceived(int page, const InputCompactE
     case Pages::Count: break;
   }
 
-  if (event.UpPressed()) ChangeLanguage(true);
-  if (event.DownPressed()) ChangeLanguage(false);
+  if (event.UpReleased()) ChangeLanguage(true);
+  if (event.DownReleased()) ChangeLanguage(false);
 
   return Move::None;
 }

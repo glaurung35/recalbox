@@ -321,6 +321,8 @@ class InputCompactEvent
     [[nodiscard]] bool AnyLeftReleased()  const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Left  | (EntryType)Entry::J1Left  | (EntryType)Entry::J2Left )) != 0; }
     [[nodiscard]] bool AnyRightPressed()  const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Right | (EntryType)Entry::J1Right | (EntryType)Entry::J2Right)) != 0; }
     [[nodiscard]] bool AnyRightReleased() const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Right | (EntryType)Entry::J1Right | (EntryType)Entry::J2Right)) != 0; }
+    [[nodiscard]] bool AnyDirectionPressed() const { return AnyUpPressed() || AnyDownPressed() || AnyLeftPressed() || AnyRightPressed(); }
+    [[nodiscard]] bool AnyDirectionReleased() const { return AnyUpReleased() || AnyDownReleased() || AnyLeftReleased() || AnyRightReleased(); }
 
     [[nodiscard]] bool AnyPrimaryUpPressed()     const { return ((EntryType)mActivatedEntryFlags   & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up   )) != 0; }
     [[nodiscard]] bool AnyPrimaryUpReleased()    const { return ((EntryType)mDeactivatedEntryFlags & ((EntryType)Entry::Up    | (EntryType)Entry::J1Up   )) != 0; }

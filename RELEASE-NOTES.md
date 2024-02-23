@@ -11,6 +11,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix naomi 2 instabilities
 # Patron
 ## Version 9.2-jamma-35
+## Version 9.2-jamma-36
+
+9.2-jamma-36:
+- Fix glitch in gamelist transition
 
 9.2-jamma-35:
 - Fix netplay port configuration

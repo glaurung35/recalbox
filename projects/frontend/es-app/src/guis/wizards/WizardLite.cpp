@@ -9,7 +9,7 @@
 WizardBase::Move WizardLite::OnKeyReceived(int page, const InputCompactEvent& event)
 {
   if (page != 0)
-    if (event.CancelPressed()) return Move::Backward;
+    if (event.CancelReleased()) return Move::Backward;
 
   return Move::None;
 }

@@ -150,7 +150,7 @@ bool GuiBiosMd5::CollectHelpItems(Help& help)
 
 bool GuiBiosMd5::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;

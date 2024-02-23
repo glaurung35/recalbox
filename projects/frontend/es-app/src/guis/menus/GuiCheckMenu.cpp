@@ -84,7 +84,7 @@ bool GuiCheckMenu::ProcessInput(const InputCompactEvent& event)
         return true;
     }
 
-    if (event.CancelPressed() || event.StartPressed())
+    if (event.CancelReleased() || event.StartReleased())
     {
         Close();
         return true;

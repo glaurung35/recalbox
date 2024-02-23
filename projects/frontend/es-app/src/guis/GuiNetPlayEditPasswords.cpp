@@ -40,7 +40,7 @@ GuiNetPlayEditPasswords::GuiNetPlayEditPasswords(WindowManager& window)
 
 bool GuiNetPlayEditPasswords::ProcessInput(const InputCompactEvent& event)
 {
-  if (event.CancelPressed())
+  if (event.CancelReleased())
   {
     Close();
     return true;

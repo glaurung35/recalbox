@@ -12,6 +12,10 @@ as release notes for end user on a Recalbox upgrade.
 # Patron
 ## Version 9.2-jamma-35
 ## Version 9.2-jamma-36
+## Version 9.2-jamma-37
+
+9.2-jamma-37:
+- Fix bug in menulist validation
 
 9.2-jamma-36:
 - Fix glitch in gamelist transition

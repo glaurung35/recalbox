@@ -654,6 +654,8 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::Adult;
   if (fd->Metadata().GenreId() == GameGenres::Board)
     currentExcludes |= Filter::Board;
+  if (fd->Metadata().Rotation() == RotationType::None)
+    currentExcludes |= Filter::Yoko;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }

@@ -184,6 +184,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: fix 24kHz game modes
 - CRT: fix calibration screen
 - CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
+- Fix Yoko games showing in tate only gameclips
 
 ## Version 9.1-Pulstar
 

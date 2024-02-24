@@ -921,9 +921,6 @@ void SystemView::ReceiveSyncMessage(const SystemGameCount& data)
     {
       String text(_N("%i GAME AVAILABLE", "%i GAMES AVAILABLE", data.VisibleGames));
       text.Replace("%i", String(data.VisibleGames));
-      if (data.Hidden != 0)
-        text.Append(", ").Append(_N("%i GAME HIDDEN", "%i GAMES HIDDEN", data.Hidden))
-            .Replace("%i", String(data.Hidden));
       if (data.Favorites != 0)
         text.Append(", ").Append(_N("%i FAVORITE", "%i FAVORITES", data.Favorites))
             .Replace("%i", String(data.Favorites));

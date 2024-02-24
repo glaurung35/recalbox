@@ -498,6 +498,9 @@ FileData::Filter SystemData::Excludes() const
   // ignore board games ?
   if(conf.GetHideBoardGames())
     excludesFilter |= FileData::Filter::Board;
+  // ignore yoko games ?
+  if(conf.GetTateOnly())
+    excludesFilter |= FileData::Filter::Yoko;
   return excludesFilter;
 }
 

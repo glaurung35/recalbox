@@ -27,7 +27,7 @@ class FileData
       None          = 0x00000000,
       Favorites     = 0x00000001,
       Hidden        = 0x00000002,
-      Tate          = 0x00000004,
+      Yoko          = 0x00000004,
       LatestVersion = 0x00000008,
       Adult         = 0x00000010,
       Preinstalled  = 0x00000020,
@@ -47,7 +47,8 @@ class FileData
       NoGame       = 32,
       PreInstalled = 64,
       Board        = 128,
-      All          = 255, //!< Include all
+      Yoko         = 256,
+      All          = 511, //!< Include all
     };
 
     //! Search attribute enumeration

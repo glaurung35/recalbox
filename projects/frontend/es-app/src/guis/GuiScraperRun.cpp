@@ -54,6 +54,7 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
   :	Gui(window)
   , mSystemManager(systemManager)
   , mResult(ScrapeResult::NotScraped)
+  , mTimeReference(0)
   , mSearchQueue(systems)
   , mBackground(window, Path(":/frame.png"))
   , mGrid(window, Vector2i(1, 8))
@@ -180,6 +181,12 @@ void GuiScraperRun::GameResult(int index, int total, FileData* result, MetadataT
       break;
     }
   }
+
+  // No more than 1 refresh per 20ms, otherwise the windows is overwhelmed by refresh message
+  // and the whole scrapper seems to freeze
+  int now = (int)SDL_GetTicks();
+  if (now - mTimeReference < 20) return;
+  mTimeReference = now;
 
   // Update popup
   mPopup.SetScrapedGame(*result, index, total);

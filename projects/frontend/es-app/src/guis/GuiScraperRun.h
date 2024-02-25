@@ -84,6 +84,8 @@ class GuiScraperRun : public Gui
     //! Last scrapping result
     ScrapeResult mResult;
 
+    //! Refresh time reference
+    int mTimeReference;
 
     SystemManager::List mSearchQueue;
 

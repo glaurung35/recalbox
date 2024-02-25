@@ -5,17 +5,12 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
-### Patron
-- Fix 31kHz handheld and PSX games
-- Debump flycast for handhelds, should increase performance
-- Fix naomi 2 instabilities
-# Patron
-## Version 9.2-jamma-35
-## Version 9.2-jamma-36
 ## Version 9.2-jamma-37
 
 9.2-jamma-37:
 - Fix bug in menulist validation
+- Fix game count in gamelists
+- Fix yoko games in tate only mode
 
 9.2-jamma-36:
 - Fix glitch in gamelist transition

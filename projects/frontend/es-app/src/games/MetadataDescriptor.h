@@ -626,7 +626,7 @@ class MetadataDescriptor
     [[nodiscard]] bool IsDefaultLastPath()        const { return Default().mLastPatchPath == mLastPatchPath && Default().mLastPatchFile == mLastPatchFile; }
     [[nodiscard]] bool IsDefaultRotation()        const { return Default().mRotation == mRotation; }
     [[nodiscard]] bool IsDefaultTimePlayed()      const { return Default().mTimePlayed == mTimePlayed; }
-
+    [[nodiscard]] bool IsDefaultTate()            const { return Default().mRotation == mRotation; }
 
     /*
      * Convenient Accessors

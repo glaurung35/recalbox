@@ -186,6 +186,7 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
     Path childFolder(realGame->Metadata().RomFolderOnly());
     if (parentPackage != nullptr)
       for(int p = parentPackage->Count(); --p >= 0;)
+        // If a parent & a child live in the same folder, they are parent/clone
         if (parentPackage->Game(p)->Metadata().RomFolderOnly() == childFolder)
         {
           parent = parentPackage->Game(p);
@@ -193,11 +194,15 @@ void ArcadeDatabaseManager::DeserializeTo(Array<ArcadeGame>& games, const String
         }
 
     // Get game data
-    ArcadeGame::Rotation rotation = ArcadeGame::RotationFromString(fields[fRotation]);
+    RotationType rotation = RotationUtils::FromAngle(fields[fRotation]);
     ArcadeGame::Type type = ArcadeGame::TypeFromString(fields[fType], parent != nullptr);
     ArcadeGame::Status status = ArcadeGame::StatusFromString(fields[fStatus]);
     unsigned short width = fields[fWidth].AsInt();
     unsigned short height = fields[fHeight].AsInt();
+
+    // TATE information is applied forcibly in the metadata, overwriting all user information,
+    // because arcade database information is more reliable.
+    realGame->Metadata().SetRotation(rotation);
 
     games.Add(ArcadeGame(realGame, parent, fields[fName], rawManufacturers, type, status, rotation, width, height));
   }

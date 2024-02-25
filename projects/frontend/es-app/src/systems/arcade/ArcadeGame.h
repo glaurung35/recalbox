@@ -109,17 +109,9 @@ class ArcadeGame
       Imperfect,
       Preliminary,
     };
-    //! Status
-    enum class Rotation: char
-    {
-      Noon,       //!< No rotation
-      ThreeHours, //!< 90° clockwise
-      SixHours,   //!< 190° clockwise
-      NineHours,  //!< 270° clockwise
-    };
 
     //! Constructor
-    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, const ManufacturerHolder<long long int>& rawManufacturers, Type type, Status status, Rotation rotation, unsigned short width, unsigned short height)
+    ArcadeGame(const FileData* game, const FileData* parent, const String& arcadeName, const ManufacturerHolder<long long int>& rawManufacturers, Type type, Status status, RotationType rotation, unsigned short width, unsigned short height)
       : mGame(game)
       , mParent(parent)
       , mRawManufacturer(rawManufacturers)
@@ -156,7 +148,7 @@ class ArcadeGame
     [[nodiscard]] const LimitedManufacturerHolder& LimitedManufacturer() const { return mLimitedManufacturer; }
     [[nodiscard]] Type Hierarchy() const { return mType; }
     [[nodiscard]] Status EmulationStatus() const { return mStatus; }
-    [[nodiscard]] Rotation ScreenRotation() const { return mRotation; }
+    [[nodiscard]] RotationType ScreenRotation() const { return mRotation; }
     [[nodiscard]] unsigned short Width() const { return mWidth; }
     [[nodiscard]] unsigned short Height() const { return mHeight; }
 
@@ -203,23 +195,6 @@ class ArcadeGame
       return Status::Unknown;
     }
 
-    /*!
-     * @brief Get rotation from string
-     * @param rotation Rotation
-     * @return Rotation
-     */
-    static Rotation RotationFromString(const String& rotation)
-    {
-      switch(rotation.AsInt())
-      {
-        case 90: return Rotation::ThreeHours;
-        case 180: return Rotation::SixHours;
-        case 270: return Rotation::NineHours;
-        default: break;
-      }
-      return Rotation::Noon;
-    }
-
     //! Finalize the Name Holder once all database have been loaded
     static void Finalize() { sNameHolder.Finalize(); }
 
@@ -231,7 +206,7 @@ class ArcadeGame
     int                       mNameIndex;     //!< Name index in name holder
     Type                      mType;          //!< Game type
     Status                    mStatus;        //!< Emulation status
-    Rotation                  mRotation;      //!< Rotation
+    RotationType              mRotation;      //!< Rotation
     unsigned short            mWidth;
     unsigned short            mHeight;
 

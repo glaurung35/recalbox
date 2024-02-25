@@ -312,56 +312,56 @@ MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, con
   }
   // Store data only if they are not empty and not scraped if method is IncompleteKeep
   if (!sourceData.mSynopsis.empty())
-    if (game.Metadata().Description().empty() || noKeep)
+    if (game.Metadata().IsDefaultDescription() || noKeep)
     {
       game.Metadata().SetDescription(sourceData.mSynopsis);
       mTextInfo++;
       result |= MetadataType::Synopsis;
     }
   if (!sourceData.mPublisher.empty())
-    if (game.Metadata().Publisher().empty() || noKeep)
+    if (game.Metadata().IsDefaultPublisher() || noKeep)
     {
       game.Metadata().SetPublisher(sourceData.mPublisher);
       mTextInfo++;
       result |= MetadataType::Publisher;
     }
   if (!sourceData.mDeveloper.empty())
-    if (game.Metadata().Developer().empty() || noKeep)
+    if (game.Metadata().IsDefaultDeveloper() || noKeep)
     {
       game.Metadata().SetDeveloper(sourceData.mDeveloper);
       mTextInfo++;
       result |= MetadataType::Developer;
     }
   if (!sourceData.mPlayers.empty())
-    if (game.Metadata().PlayerRange() == 0 || noKeep)
+    if (game.Metadata().IsDefaultPlayerRange() || noKeep)
     {
       game.Metadata().SetPlayersAsString(sourceData.mPlayers);
       mTextInfo++;
       result |= MetadataType::Players;
     }
   if (sourceData.mReleaseDate.ToEpochTime() != 0)
-    if (game.Metadata().ReleaseDateEpoc() == 0 || noKeep)
+    if (game.Metadata().IsDefaultReleaseDateEpoc() || noKeep)
     {
       game.Metadata().SetReleaseDate(sourceData.mReleaseDate);
       mTextInfo++;
       result |= MetadataType::ReleaseDate;
     }
   if (sourceData.mRating != 0.0f)
-    if (game.Metadata().Rating() == 0.0f || noKeep)
+    if (game.Metadata().IsDefaultRating() || noKeep)
     {
       game.Metadata().SetRating(sourceData.mRating);
       mTextInfo++;
       result |= MetadataType::Rating;
     }
   if (!sourceData.mGenre.empty())
-    if (game.Metadata().Genre().empty() || noKeep)
+    if (game.Metadata().IsDefaultGenre() || noKeep)
     {
       game.Metadata().SetGenre(sourceData.mGenre);
       mTextInfo++;
       result |= MetadataType::Genre;
     }
   if (sourceData.mGenreId !=  GameGenres::None)
-    if (game.Metadata().GenreId() == GameGenres::None || noKeep)
+    if (game.Metadata().IsDefaultGenreId() || noKeep)
     {
       game.Metadata().SetGenreId(sourceData.mGenreId);
       game.Metadata().SetAdult(sourceData.mAdult);
@@ -369,7 +369,7 @@ MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, con
       result |= MetadataType::GenreId;
     }
   if (sourceData.mRegions.HasRegion())
-    if (!game.Metadata().Region().HasRegion() || noKeep)
+    if (!game.Metadata().IsDefaultRegion() || noKeep)
     {
       game.Metadata().SetRegion(sourceData.mRegions);
       mTextInfo++;

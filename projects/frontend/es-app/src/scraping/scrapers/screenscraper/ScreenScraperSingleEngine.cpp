@@ -394,7 +394,9 @@ MetadataType ScreenScraperSingleEngine::StoreTextData(ScrapingMethod method, con
     }
   }
   // Store Rotation information
-  if (!sourceData.mRotation.empty())
+  if (!sourceData.mRotation.empty() &&
+      game.Metadata().IsDefaultTate() &&
+      game.System().IsTrueArcade())
   {
     game.Metadata().SetRotation(RotationUtils::FromAngle(sourceData.mRotation));
     mTextInfo++;

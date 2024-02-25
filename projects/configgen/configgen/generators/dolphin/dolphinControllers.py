@@ -181,6 +181,7 @@ def generateControllerConfigAny(playersControllers: ControllerPerPlayer, filenam
         elif system.Name == "gamecube":
             f.write("Main Stick/Dead Zone = 25.000000000000000" + "\n")
             f.write("C-Stick/Dead Zone = 25.000000000000000" + "\n")
+            f.write("Rumble/Motor = Sine|Square|Triangle|Strong|Weak" + "\n")
 
         for inp in pad.AvailableInput:
 

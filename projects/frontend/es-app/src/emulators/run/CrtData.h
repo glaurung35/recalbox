@@ -134,7 +134,7 @@ class CrtData
         if (database != nullptr){
           const ArcadeGame* arcade = database->LookupGame(*game);
           if(arcade != nullptr)
-            gameCanRunInHd |= (arcade->ScreenRotation() == ArcadeGame::Rotation::Noon && arcade->Height() >= 480);
+            gameCanRunInHd |= (arcade->ScreenRotation() == RotationType::None && arcade->Height() >= 480);
         }
       }
       // If 15Khz, the system must support high rez and the interlaced must be supported by board

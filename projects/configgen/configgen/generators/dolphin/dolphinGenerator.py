@@ -199,6 +199,7 @@ class DolphinGenerator(Generator):
         dolphinSettings.setInt(self.SECTION_CORE, "SIDevice3", 12 if padsgamecube == '1' else 6)
         dolphinSettings.setInt(self.SECTION_CORE, "SlotA", 8)
         dolphinSettings.setInt(self.SECTION_CORE, "SlotB", 8)
+        dolphinSettings.setBool(self.SECTION_CORE, "AutoDiscChange", True)
         # GameList
         dolphinSettings.setBool(self.SECTION_GAMELIST, "ColumnID", True)
         # General

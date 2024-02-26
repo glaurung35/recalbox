@@ -257,12 +257,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
                  .Replace("{IMAGES}", String(mScraper->StatsImages()))
                  .Replace("{VIDEOS}", String(mScraper->StatsVideos()));
       long long size = mScraper->StatsMediaSize();
-      String sizeText;
-      if      (size >= (1 << 30)) sizeText = String((float)(size >> 20) / 1024.0f, 2).Append("GB");
-      else if (size >= (1 << 20)) sizeText = String((float)(size >> 10) / 1024.0f, 2).Append("MB");
-      else if (size >= (1 << 10)) sizeText = String((float)size / 1024.0f, 2).Append("KB");
-      else                        sizeText = String((int)size).Append("B");
-      finalReport = finalReport.Replace("{MEDIASIZE}", sizeText).ToUpperCaseUTF8();
+      finalReport = finalReport.Replace("{MEDIASIZE}", Sizes(size).ToHumanSize()).ToUpperCaseUTF8();
       break;
     }
     case ScrapeResult::FatalError:
@@ -293,12 +288,15 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
     case ScrapeResult::Ok:
     case ScrapeResult::NotScraped:
     case ScrapeResult::NotFound:
-    {
-      mSystemManager.UpdateSystemsOnGameChange(nullptr, changedMetadata, false);
-      break;
-    }
     case ScrapeResult::QuotaReached:
     case ScrapeResult::DiskFull:
+    {
+      GuiSyncWaiter waiter(mWindow, _("Refreshing systems..."));
+      waiter.Show();
+      mSystemManager.UpdateSystemsOnGameChange(nullptr, changedMetadata, false);
+      waiter.Hide();
+      break;
+    }
     case ScrapeResult::FatalError:
     default: break;
   }

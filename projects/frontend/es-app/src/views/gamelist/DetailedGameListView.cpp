@@ -38,8 +38,6 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mDescription(window)
   , mBusy(window)
   , mSettings(RecalboxConf::Instance())
-  , mFadeBetweenImage(-1)
-  , mFadeImageVideo(0)
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -175,6 +173,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
   mNoImage.setImage(Path(":/no_image.png"));
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
+  mNoImage.setThemeDisabled(false);
   mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
 
   BuildVideoLinks(theme);
@@ -367,8 +366,8 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
   if (file == nullptr)
   {
     VideoEngine::Instance().StopVideo(false);
-    fadeOut(getFolderComponents(), true);
-    fadeOut(getGameComponents(), true);
+    for(Component* component : getFolderComponents()) MoveToFadeOut(component);
+    for(Component* component : getGameComponents()) MoveToFadeOut(component);
   }
   else
   {
@@ -378,20 +377,27 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
     if (hasImage && isFolder)
     {
       setScrapedFolderInfo(file);
-      switchToFolderScrapedDisplay();
+      for(Component* component : getFolderComponents()) MoveToFadeOut(component);
+      for(Component* component : getGameComponents(false)) MoveToFadeOut(component);
+      for(Component* component : getScrapedFolderComponents()) MoveToFadeIn(component);
     }
     else
     {
        if (isFolder)
        {
-         for(int i = (int)mRegions.size(); --i >= 0; )
-           mRegions[i]->setImage(Path());
-         if (file != mLastCursorItem)
-           ViewController::Instance().FetchSlowDataFor(file);
+         for(Component* component : getFolderComponents()) MoveToFadeIn(component);
+         for(Component* component : getGameComponents()) MoveToFadeOut(component);
+
+         for(int i = (int)mRegions.size(); --i >= 0; ) mRegions[i]->setImage(Path());
+         if (file != mLastCursorItem) ViewController::Instance().FetchSlowDataFor(file);
        }
        else
-        setGameInfo(file, update);
-      switchDisplay(!isFolder);
+       {
+         for(Component* component : getFolderComponents()) MoveToFadeOut(component);
+         for(Component* component : getGameComponents()) MoveToFadeIn(component);
+
+         setGameInfo(file, update);
+       }
     }
   }
 
@@ -409,21 +415,6 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
 
   // Update last procesed item
   mLastCursorItem = file;
-}
-
-bool DetailedGameListView::switchToFolderScrapedDisplay()
-{
-  fadeOut(getGameComponents(false), true);
-  fadeOut(getFolderComponents(), true);
-  fadeOut(getScrapedFolderComponents(), false);
-  return true;
-}
-
-bool DetailedGameListView::switchDisplay(bool isGame)
-{
-  fadeOut(getGameComponents(), !isGame);
-  fadeOut(getFolderComponents(), isGame);
-  return true;
 }
 
 std::vector<ThemableComponent*> DetailedGameListView::getFolderComponents()
@@ -472,38 +463,23 @@ void DetailedGameListView::SetFolderInfo(FolderData* folder, int count, const Fo
     mFolderContent[i]->setImage(path[i]);
 }
 
-void DetailedGameListView::SetImageFading(FileData* game, bool update)
+void DetailedGameListView::SetImageFading(FileData* game, bool videoStillRunning)
 {
-  // Setup
-  mNoImage.setThemeDisabled(false);
-
-  bool imageExists = game->Metadata().Image().Exists();
-  if (game->IsFolder())
+  if (videoStillRunning)
   {
-    // Just set the image if it exists - if not, a folder preview is displayed
+    MoveToFadeOut(&mImage);
+    MoveToFadeOut(&mNoImage);
+  }
+  else if (game->Metadata().Image().Exists())
+  {
     mImage.setImage(game->Metadata().Image());
-    // Let no image display if the image does not exists
-    mNoImage.setThemeDisabled(imageExists);
-    mNoImage.setOpacity(255);
+    MoveToFadeIn(&mImage);
+    MoveToFadeOut(&mNoImage);
   }
   else
   {
-    // Check equality with previous image
-    bool didntExist = !mImage.getImagePath().Exists();
-    // Set new image
-    mImage.setImage(imageExists ? game->Metadata().Image() : Path::Empty);
-    // if updating from no image, let's fade
-    if (update && imageExists && didntExist) // Start fading!
-    {
-      mFadeBetweenImage = 255;
-      mImage.setOpacity(255 - mFadeBetweenImage);
-      mNoImage.setOpacity(mFadeBetweenImage);
-    }
-    else // Just disable no image if the image exists
-    {
-      mNoImage.setThemeDisabled(imageExists);
-      mNoImage.setOpacity(255);
-    }
+    MoveToFadeOut(&mImage);
+    MoveToFadeIn(&mNoImage);
   }
 }
 
@@ -529,17 +505,19 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
   int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
   int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
 
-  SetImageFading(file, update);
-
   mBusy.setPosition(mImage.getPosition());
   mBusy.setSize(mImage.getSize());
   mBusy.setOrigin(mImage.getOrigin());
 
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
+  {
     mVideo.setVideo(meta.Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
+    { LOG(LogDebug) << "[GamelistView] Set video " << meta.Video().ToString() << " for " << meta.Name() << " => " << file->RomPath().ToString(); }
+  }
 
-  { LOG(LogDebug) << "[GamelistView] Set video " << meta.Video().ToString() << " for " << meta.Name() << " => " << file->RomPath().ToString(); }
+  SetImageFading(file, mVideo.isDiplayed());
+
   mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
@@ -550,26 +528,6 @@ void DetailedGameListView::setScrapedFolderInfo(FileData* file)
   mVideo.setVideo(Path::Empty, 0, 0);
   mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
-}
-
-void DetailedGameListView::fadeOut(const std::vector<ThemableComponent*>& comps, bool fadingOut)
-{
-  for (auto* comp : comps)
-  {
-    // an animation is playing
-    //   then animate if reverse != fadingOut
-    // an animation is not playing
-    //   then animate if opacity != our target opacity
-    if ((comp->isAnimationPlaying(0) && comp->isAnimationReversed(0) != fadingOut) ||
-        (!comp->isAnimationPlaying(0) && comp->getOpacity() != (fadingOut ? 0 : 255)))
-    {
-      auto func = [comp](float t)
-      {
-        comp->setOpacity((unsigned char) (lerp<float>(0.0f, 1.0f, t) * 255));
-      };
-      comp->setAnimation(new LambdaAnimation(func, 150), 0, nullptr, fadingOut);
-    }
-  }
 }
 
 void DetailedGameListView::launch(FileData* game)
@@ -623,29 +581,15 @@ void DetailedGameListView::Update(int deltatime)
   mBusy.Enable(mIsScraping);
   mBusy.Update(deltatime);
 
-  if (mFadeBetweenImage >= 0)
-  {
-    mFadeBetweenImage -= deltatime;
-    int f = mFadeBetweenImage < 0 ? 0 : mFadeBetweenImage;
-    mImage.setOpacity(255 - f);
-    mNoImage.setOpacity(f);
-  }
-  if (mFadeImageVideo != 0)
-  {
-    // Fade direction
-    if (mFadeImageVideo < 0) { if (mFadeImageVideo -= deltatime; mFadeImageVideo < -255) mFadeImageVideo = -255; }
-    else { if (mFadeImageVideo += deltatime; mFadeImageVideo > 255) mFadeImageVideo = 255; }
+  // Process fade-in list
+  for(Component* component : mFadeInList)
+    if (component->getOpacity() != 255)
+      component->setOpacity(Math::clampi(component->getOpacity() + deltatime, 0, 255));
 
-    // Fade
-    for(Component* component : mVideoLinks)
-    {
-      if (component == &mImage) component = mNoImage.isThemeDisabled() ? &mImage : &mNoImage;
-      component->setOpacity(mFadeImageVideo < 0 ? 255 + mFadeImageVideo : mFadeImageVideo);
-    }
-
-    // The End?
-    if (Math::absi(mFadeImageVideo) == 255) mFadeImageVideo = 0;
-  }
+  // Process fade-out list
+  for(Component* component : mFadeOutList)
+    if (component->getOpacity() != 0)
+      component->setOpacity(Math::clampi(component->getOpacity() - deltatime, 0, 255));
 
   // Cancel video
   if (mList.isScrolling())
@@ -807,9 +751,6 @@ void DetailedGameListView::OnGameSelected()
 
   // Update current game information
   DoUpdateGameInformation(false);
-
-  // Kill fade image to/from video
-  mFadeImageVideo = 0;
 }
 
 String DetailedGameListView::getItemIcon(const FileData& item)
@@ -1055,8 +996,8 @@ void DetailedGameListView::VideoComponentRequireAction(const VideoComponent* sou
   if (source == &mVideo)
     switch(action)
     {
-      case Action::FadeIn: mFadeImageVideo = 1; break;
-      case Action::FadeOut: mFadeImageVideo = -1; break;
+      case Action::FadeIn: SetImageFading(mLastCursorItem, false); break;
+      case Action::FadeOut: MoveToFadeOut(&mImage); MoveToFadeOut(&mNoImage); break;
       default: break;
     }
 }

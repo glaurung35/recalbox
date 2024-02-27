@@ -149,28 +149,97 @@ class DetailedGameListView : public ISimpleGameListView
     //! region to flag texture
     HashMap<Regions::GameRegions, std::shared_ptr<TextureResource>> mRegionToTextures;
 
-    //! Fade between mImage & mNoImage
-    int mFadeBetweenImage;
-    //! Image to/from video fade
-    int mFadeImageVideo;
+    //! Array of fade-in components (from transparent to opaque)
+    Array<Component*> mFadeInList;
+    //! Array of fade-out components (from opaque to transparent)
+    Array<Component*> mFadeOutList;
 
     //! Last processed cursor item
     FileData* mLastCursorItem;
     //! Current game P2K status
     bool mLastCursorItemHasP2K;
 
+    /*!
+     * @brief Move a component into the fade-in list, removing it from the fade-out list if it was in.
+     * @param component Component to move to the fade-in list
+     */
+    void MoveToFadeIn(Component* component)
+    {
+      mFadeOutList.Remove(component);
+      if (!mFadeInList.Contains(component))
+        mFadeInList.Add(component);
+    }
+    /*!
+     * @brief Move a component into the fade-out list, removing it from the fade-in list if it was in.
+     * @param component Component to move to the fade-out list
+     */
+    void MoveToFadeOut(Component* component)
+    {
+      mFadeInList.Remove(component);
+      if (!mFadeOutList.Contains(component))
+        mFadeOutList.Add(component);
+    }
+
+    /*!
+     * @brief Move a component into the fade-in list, removing it from the fade-out list if it was in.
+     * @param component Component to move to the fade-in list
+     */
+    void MoveToFadeIn(const Array<Component*>& components)
+    {
+      for(Component* component : components)
+      {
+        mFadeOutList.Remove(component);
+        if (!mFadeInList.Contains(component))
+          mFadeInList.Add(component);
+      }
+    }
+    /*!
+     * @brief Move a component into the fade-out list, removing it from the fade-in list if it was in.
+     * @param component Component to move to the fade-out list
+     */
+    void MoveToFadeOut(const Array<Component*>& components)
+    {
+      for(Component* component : components)
+      {
+        mFadeInList.Remove(component);
+        if (!mFadeOutList.Contains(component))
+          mFadeOutList.Add(component);
+      }
+    }
+
+    /*!
+     * @brief Move a component into the fade-in list, removing it from the fade-out list if it was in.
+     * Set opacity to 255 instantly
+     * @param component Component to move to the fade-in list
+     */
+    void MoveToFadeInMax(Component* component)
+    {
+      mFadeOutList.Remove(component);
+      if (!mFadeInList.Contains(component))
+        mFadeInList.Add(component);
+      component->setOpacity(255);
+    }
+    /*!
+     * @brief Move a component into the fade-out list, removing it from the fade-in list if it was in.
+     * Set opacity to 0 instantly
+     * @param component Component to move to the fade-out list
+     */
+    void MoveToFadeOutMax(Component* component)
+    {
+      mFadeInList.Remove(component);
+      if (!mFadeOutList.Contains(component))
+        mFadeOutList.Add(component);
+      component->setOpacity(255);
+    }
+
     FileData* getEmptyListItem() override { return &mEmptyListItem; }
 
-    bool switchDisplay(bool isGame);
-    bool switchToFolderScrapedDisplay();
     std::vector<ThemableComponent*> getFolderComponents();
     std::vector<ThemableComponent*> getGameComponents(bool includeMainComponents = true);
     std::vector<ThemableComponent*> getScrapedFolderComponents();
     void setGameInfo(FileData* file, bool update);
     void setRegions(FileData* file);
     void setScrapedFolderInfo(FileData* file);
-    //void getFolderGames(FileData* folder, FileData::List &output);
-    static void fadeOut(const std::vector<ThemableComponent*>& comps, bool fadingOut);
 
     /*!
      * @brief Build component list linked by the video component
@@ -213,9 +282,9 @@ class DetailedGameListView : public ISimpleGameListView
     /*!
      * @brief Set fading (or not) between NoImage & Image, regarding game data
      * @param game Game data
-     * @param update Data are updating from a previous display
+     * @param update True if the game video is still running
      */
-    void SetImageFading(FileData* game, bool update);
+    void SetImageFading(FileData* game, bool videoStillRunning);
 
     /*!
      * @brief Called when a game is selected

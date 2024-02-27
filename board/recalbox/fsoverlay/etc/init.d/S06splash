@@ -118,10 +118,9 @@ runInBackground() {
   if [ "$timeout" -gt 0 ]; then
     timeout "$videoLength" mpv $(getMpvOptions) "${options[@]}"
   else
-    echo mpv $(getMpvOptions) "${options[@]}"
-    mpv $(getMpvOptions) "${options[@]}"
+    mpv $(getMpvOptions) "${options[@]}" &
+    (sleep 3 && displayFrameBufferImage) &
   fi
-  displayFrameBufferImage
 }
 
 # playVideoOnOneScreen
@@ -135,9 +134,6 @@ playVideoOnOneScreen() {
   options+=($2) # get space delimited options as is
   options+=(--ao=pulse)
   options+=(--fs)
-  if ! isRotated; then
-   options+=(--sub-file=/recalbox/system/resources/splash/recalboxintro.srt)
-  fi
   options+=(--really-quiet)
   options+=(--input-conf=/etc/mpv-input.conf --input-gamepad)
   options+=(--volume="$volume")

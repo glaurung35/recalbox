@@ -61,13 +61,17 @@ getInstallUpgradeImagePath() {
 
 # Get the best CRT MPV Options
 getCrtMpvOptions() {
-  local connector="1.VGA-1"
+  # Let default on pi3 and pizero2
   local arch="$(getArchName)"
   if [[ "$arch" == "rpi3" ]] || [[ "$arch" == "rpizero2" ]]; then
     echo ""
     return
   fi
+  # Find the connected connector (contains VGA)
+  local connector="$(findConnectedConnectors | grep VGA)"
+  if [[ -z "${connector}" ]]; then return 1; fi
   local command="--vo=drm --drm-connector=${connector}"
+  # Force 640x480i/p mode if available, except on jamma
   if ! isRecalboxRGBJamma; then
       if mpv --drm-mode=help | grep -q "640x480"; then
         command="${command} --drm-mode=$(mpv --drm-mode=help | grep 640x480 | awk '{print $2}' | cut -c '1')"
@@ -92,7 +96,7 @@ isLowDef() {
 
 # Return if a crt is connected
 currentVideoOnCRT() {
-    grep "connected" /sys/class/drm/card*-VGA*/status
+    grep -q "connected" /sys/class/drm/card*-VGA*/status
 }
 
 # Check if we are on Recalbox RGB Dual

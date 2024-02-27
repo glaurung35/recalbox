@@ -246,11 +246,27 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       ViewController::Instance().goToGameList(getSelected());
       return true;
     }
-    if (event.YPressed() && GameClipView::IsGameClipEnabled())
+    if (event.YPressed())
     {
-      mWindow.DoSleep();
-      ViewController::Instance().goToGameClipView();
-      return true;
+      switch(RecalboxConf::Instance().GetScreenSaverType())
+      {
+        case RecalboxConf::Screensaver::Demo:
+        {
+          // Enter sleep mode & let main loop run demos
+          mWindow.DoSleep();
+          return true;
+        }
+        case RecalboxConf::Screensaver::Gameclip:
+        {
+          mWindow.DoSleep();
+          ViewController::Instance().goToGameClipView();
+          return true;
+        }
+        case RecalboxConf::Screensaver::Black:
+        case RecalboxConf::Screensaver::Dim:
+        case RecalboxConf::Screensaver::Suspend:
+        default: break;
+      }
     }
 
     if (event.XPressed())
@@ -436,9 +452,14 @@ bool SystemView::CollectHelpItems(Help& help)
       .Set(HelpType::Start, _("MENU"))
       .Set(HelpType::R, _("SEARCH"));
 
-  if(GameClipView::IsGameClipEnabled())
+  switch(RecalboxConf::Instance().GetScreenSaverType())
   {
-    help.Set(HelpType::Y, _("gameclip"));
+    case RecalboxConf::Screensaver::Demo: help.Set(HelpType::Y, _("demo")); break;
+    case RecalboxConf::Screensaver::Gameclip: help.Set(HelpType::Y, _("gameclip")); break;
+    case RecalboxConf::Screensaver::Black:
+    case RecalboxConf::Screensaver::Dim:
+    case RecalboxConf::Screensaver::Suspend:
+    default: break;
   }
 
   return true;

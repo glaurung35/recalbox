@@ -118,7 +118,7 @@ class DetailedGameListView : public ISimpleGameListView
     ImageComponent mNoImage;
     VideoComponent mVideo;
     std::vector<ImageComponent *> mFolderContent;
-    std::vector<ImageComponent *> mRegions;
+    ImageComponent mRegions[Regions::RegionPack::sMaxRegions];
 
     TextComponent mLblRating, mLblReleaseDate, mLblDeveloper, mLblPublisher, mLblGenre, mLblPlayers, mLblLastPlayed, mLblPlayCount, mLblFavorite;
     TextComponent mFolderName;

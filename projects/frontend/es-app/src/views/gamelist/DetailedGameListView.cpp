@@ -15,6 +15,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mImage(window)
   , mNoImage(window)
   , mVideo(window, this)
+  , mRegions { ImageComponent(window), ImageComponent(window), ImageComponent(window), ImageComponent(window) }
   , mLblRating(window)
   , mLblReleaseDate(window)
   , mLblDeveloper(window)
@@ -132,13 +133,11 @@ void DetailedGameListView::Initialize()
   addChild(&mLblFavorite);
   addChild(&mFavorite);
 
-  for (int i = 4; --i >= 0; )
+  for (int i = Regions::RegionPack::sMaxRegions; --i >= 0; )
   {
-    auto* img = new ImageComponent(mWindow);
-    addChild(img); // normalised functions required to be added first
-    img->setDefaultZIndex(40);
-    img->setThemeDisabled(true);
-    mRegions.push_back(img);
+    addChild(&mRegions[i]); // normalised functions required to be added first
+    mRegions[i].setDefaultZIndex(40);
+    mRegions[i].setThemeDisabled(true);
   }
 
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
@@ -165,9 +164,9 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
   sortChildren();
 
-  for (int i = 0; i < (int) mRegions.size(); i++)
-    mRegions[i]->DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
-                                     ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Path);
+  for (int i = 0; i < (int)Regions::RegionPack::sMaxRegions; i++)
+    mRegions[i].DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
+                                    ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex | ThemePropertyCategory::Path);
 
   mImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
   mNoImage.DoApplyThemeElement(theme, getName(), "md_image", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
@@ -388,7 +387,6 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
          for(Component* component : getFolderComponents()) MoveToFadeIn(component);
          for(Component* component : getGameComponents()) MoveToFadeOut(component);
 
-         for(int i = (int)mRegions.size(); --i >= 0; ) mRegions[i]->setImage(Path());
          if (file != mLastCursorItem) ViewController::Instance().FetchSlowDataFor(file);
        }
        else
@@ -485,8 +483,8 @@ void DetailedGameListView::SetImageFading(FileData* game, bool videoStillRunning
 
 void DetailedGameListView::setGameInfo(FileData* file, bool update)
 {
-  if(mSystem.Name() != "imageviewer")
-    setRegions(file);
+  (void)update;
+  setRegions(file);
 
   MetadataDescriptor& meta = file->Metadata();
   mRating.setValue(meta.RatingAsString());
@@ -670,36 +668,24 @@ DetailedGameListView::~DetailedGameListView()
   for(int i = (int)mFolderContent.size(); --i >= 0; )
     delete mFolderContent[i];
   mFolderContent.clear();
-
-  for(int i = (int)mRegions.size(); --i >= 0; )
-    delete mRegions[i];
-  mRegions.clear();
 }
 
 void DetailedGameListView::setRegions(FileData* file)
 {
-  String::List regionList = file->Regions().SplitQuoted(',');
-
-  // reinit non used region flags
-  for(unsigned long idx = 0; idx < mRegions.size(); idx++)
-  {
-    if(regionList.size() <= idx)
-      mRegions[idx]->setImage(Path());
-  }
-
-  if(regionList.empty())
-  {
-    mRegions[0]->setImage(Path());
-    return;
-  }
-
-  int i = 0;
-  for(auto& region: regionList)
-  {
-    if(mRegions[i]->getImagePath() != Path(":/regions/" + region + ".svg"))
-      mRegions[i]->setImage(Path(":/regions/" + region + ".svg"));
-    i++;
-  }
+  for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+    if (Regions::GameRegions region = file->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+    {
+      std::shared_ptr<TextureResource>* flag = mRegionToTextures.try_get(region);
+      if (flag == nullptr)
+      {
+        // Load flag
+        std::shared_ptr<TextureResource> texture = TextureResource::get(Path(":/regions/" + Regions::GameRegionsFromEnum(region) + ".svg"), false, true, true);
+        mRegionToTextures.insert(region, texture);
+        flag = mRegionToTextures.try_get(region);
+      }
+      mRegions[r].setImage(*flag);
+    }
+    else mRegions[r].setImage(Path::Empty);
 }
 
 void DetailedGameListView::ScrapingStageCompleted(FileData* game, Stage stage, MetadataType changes)

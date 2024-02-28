@@ -4,6 +4,9 @@
 #include "Renderer.h"
 #include "WindowManager.h"
 
+Path RatingComponent::sFilledTexture(":/star_filled.svg");
+Path RatingComponent::sUnfilledTexture(":/star_unfilled.svg");
+
 RatingComponent::RatingComponent(WindowManager&window, unsigned int color, float value)
   : ThemableComponent(window)
   , mValue(value)
@@ -13,8 +16,8 @@ RatingComponent::RatingComponent(WindowManager&window, unsigned int color, float
   , mId(0)
   , mInterface(nullptr)
 {
-	mFilledTexture = TextureResource::get(Path(":/star_filled.svg"), true);
-	mUnfilledTexture = TextureResource::get(Path(":/star_unfilled.svg"), true);
+	mFilledTexture = TextureResource::get(sFilledTexture, true);
+	mUnfilledTexture = TextureResource::get(sUnfilledTexture, true);
 	mSize.Set(64 * NUM_RATING_STARS, 64);
 	updateVertices();
 }
@@ -139,14 +142,14 @@ bool RatingComponent::ProcessInput(const InputCompactEvent& event)
 {
 	if (event.ValidPressed() || event.AnyRightPressed())
 	{
-		if((mValue += .5f / NUM_RATING_STARS) > 1.1f) mValue = 0.f;
+		if (mValue += .5f / NUM_RATING_STARS; mValue > 1.1f) mValue = 0.f;
 		updateVertices();
 		if (mInterface != nullptr)
 		  mInterface->RatingChanged(mId, mValue);
 	}
 	else if (event.AnyLeftPressed())
   {
-    if((mValue -= .5f / NUM_RATING_STARS) < 0.f) mValue = 1.f;
+    if (mValue -= .5f / NUM_RATING_STARS; mValue < 0.f) mValue = 1.f;
     updateVertices();
     if (mInterface != nullptr)
       mInterface->RatingChanged(mId, mValue);
@@ -159,8 +162,8 @@ void RatingComponent::OnApplyThemeElement(const ThemeElement& element, ThemeProp
 {
 	if (hasFlag(properties, ThemePropertyCategory::Path))
   {
-    mFilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::FilledPath) ? element.AsPath(ThemePropertyName::FilledPath) : Path::Empty, true);
-    mUnfilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::UnfilledPath) ? element.AsPath(ThemePropertyName::UnfilledPath) : Path::Empty, true);
+    mFilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::FilledPath) ? element.AsPath(ThemePropertyName::FilledPath) : sFilledTexture, true);
+    mUnfilledTexture = TextureResource::get(element.HasProperty(ThemePropertyName::UnfilledPath) ? element.AsPath(ThemePropertyName::UnfilledPath) : sUnfilledTexture, true);
     onSizeChanged();
   }
 }

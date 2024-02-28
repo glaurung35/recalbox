@@ -57,7 +57,10 @@ public:
     [[nodiscard]] ThemeElementType GetThemeElementType() const override { return ThemeElementType::Rating; }
 
 private:
-	void updateVertices();
+  static Path sFilledTexture;
+  static Path sUnfilledTexture;
+
+  void updateVertices();
 
 	float mValue;
 

@@ -488,6 +488,7 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RecalboxConf::Instance().SetAutoPairOnBoot(false);
           RecalboxConf::Instance().SetThemeFolder("recalbox-240p");
           RecalboxConf::Instance().SetThemeIconSet("recalbox-240p", "4-jamma");
+          RecalboxConf::Instance().SetThemeGamelistView("recalbox-240p", "3-240p-large-names");
           RecalboxConf::Instance().SetGlobalHidePreinstalled(true);
           RecalboxConf::Instance().SetAutoPairOnBoot(false);
           RecalboxConf::Instance().SetShowGameClipClippingItem(false);

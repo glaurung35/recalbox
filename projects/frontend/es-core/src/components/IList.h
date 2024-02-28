@@ -43,7 +43,7 @@ const ScrollTierList LIST_SCROLL_STYLE_QUICK = {
 };
 
 const ScrollTier SLOW_SCROLL_TIERS[] = {{500, 500},
-                                        {0,   200}};
+                                        {0,   100}};
 const ScrollTierList LIST_SCROLL_STYLE_SLOW = {
   2,
   SLOW_SCROLL_TIERS
@@ -324,10 +324,10 @@ class IList : public Gui
     }
 
     // see onCursorChanged warn
-    bool listInput(int velocity)
+    bool listInput(int velocity, int tier = 0)
     { // a velocity of 0 = stop scrolling
       mScrollVelocity = velocity;
-      mScrollTier = 0;
+      mScrollTier = tier;
       mScrollTierAccumulator = 0;
       mScrollCursorAccumulator = 0;
 

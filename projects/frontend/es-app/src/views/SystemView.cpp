@@ -228,15 +228,23 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       case CarouselType::Vertical:
       case CarouselType::VerticalWheel:
       {
-        if (event.AnyUpPressed()) { listInput(-1); return true; }
-        if (event.AnyDownPressed()) { listInput(1); return true; }
+        if (event.UpPressed()) { listInput(-1); return true; }
+        if (event.DownPressed()) { listInput(1); return true; }
+        if (event.J1UpPressed()) { listInput(-1); return true; }
+        if (event.J1DownPressed()) { listInput(1); return true; }
+        if (event.J2UpPressed()) { listInput(-1, 1); return true; }
+        if (event.J2DownPressed()) { listInput(1, 1); return true; }
         break;
       }
       case CarouselType::Horizontal:
       default:
       {
-        if (event.AnyLeftPressed()) { listInput(-1); return true; }
-        if (event.AnyRightPressed()) { listInput(1); return true; }
+        if (event.LeftPressed()) { listInput(-1); return true; }
+        if (event.RightPressed()) { listInput(1); return true; }
+        if (event.J1LeftPressed()) { listInput(-1); return true; }
+        if (event.J1RightPressed()) { listInput(1); return true; }
+        if (event.J2LeftPressed()) { listInput(-1, 1); return true; }
+        if (event.J2RightPressed()) { listInput(1, 1); return true; }
         break;
       }
     }

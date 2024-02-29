@@ -33,6 +33,15 @@ class Themable
      */
     void DoApplyThemeElement(const ThemeData& theme, const String& viewName, const String& elementName, ThemePropertyCategory properties);
 
+    /*!
+     * @brief Called to apply a theme element on the current component using all available properties
+     * @param theme Theme
+     * @param view View name
+     * @param element Element name
+     * @param properties Properties to update
+     */
+    void DoApplyThemeElementPolymorphic(const ThemeData& theme, const String& viewName, const String& elementName, ThemePropertyCategory properties);
+
   protected:
     /*!
      * @brief Force implementations to return a theme element type

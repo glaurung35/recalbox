@@ -22,6 +22,19 @@ void Themable::DoApplyThemeElement(const ThemeData& theme, const String& viewNam
     mComponent.setThemeDisabled(true);
 }
 
+void Themable::DoApplyThemeElementPolymorphic(const ThemeData& theme, const String& viewName, const String& elementName, ThemePropertyCategory properties)
+{
+  const ThemeElement* elem = theme.Element(viewName, elementName, ThemeElementType::Polymorphic);
+  if (elem != nullptr)
+  {
+    mComponent.setThemeDisabled(false);
+    OnApplyThemeElementBase(*elem, properties);
+    OnApplyThemeElement(*elem, properties);
+  }
+  else
+    mComponent.setThemeDisabled(true);
+}
+
 void Themable::OnApplyThemeElementBase(const ThemeElement& element, ThemePropertyCategory properties)
 {
   Vector2f scale = mComponent.getParent() != nullptr ? mComponent.getParent()->getSize()

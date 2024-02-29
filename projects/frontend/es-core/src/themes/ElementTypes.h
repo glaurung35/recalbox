@@ -5,7 +5,8 @@
 
 enum class ThemeElementType
 {
-  None, //!< Special value
+  Polymorphic = -1, //!< Special value !
+  None = 0, //!< Special value
   Image,
   Box,
   Video,

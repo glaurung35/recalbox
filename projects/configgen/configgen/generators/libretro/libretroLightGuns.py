@@ -6,17 +6,17 @@
 ## V1: initial version
 ##
 ## V1.1: to manage several platform in same system: to regroup for example naomi/naomigd/atomiswave
-## example : 
+## example :
 ##    <system>
 ##        <platform>naomi</platform>
 ##        <platform>naomigd</platform>
 ##    </system>
 ##
 ## V1.2: to manage group of games with dedicated inputs/options/emulator/core - new tag <games> is mandatory but we could have several by system
-## example : 
+## example :
 ##    <games>
 ##      <emulator name="libretro">
-##          <core>flycast</core> 
+##          <core>flycast</core>
 ##      </emulator>
 ##      <inputs>
 ##      </inputs>
@@ -36,12 +36,12 @@
 ## <system>
 ##      <platform>mame</platform>
 ##      <emulator name="libretro">
-##          <core>mame</core> 
+##          <core>mame</core>
 ## </system>
 ## <system>
 ##      <platform>mame</platform>
 ##      <emulator name="libretro">
-##          <core>mame2003_plus</core> 
+##          <core>mame2003_plus</core>
 ##      </emulator>
 ## </system>
 ##
@@ -50,7 +50,7 @@
 ## b) if no dolphin bar found, no override done
 ## c) if no lightgun.cfg exists, no override done
 ## d) bug corrected: replace of re.search by IN command for search in nodes of gamelist.xml and using encoding to UTF-8
-## 
+##
 ## V1.5:
 ## Usage of keyword value from CGF file to be replace dynamically by index (event value) of mouse found.
 ## a) KEYWORDS list to replace dynamically:
@@ -63,12 +63,13 @@
 ## V1.6.0 : To force mouse index to 0 for player 1 on PC X86_64 using Xorg, only 1 player possible on PC for the moment
 ## V1.6.1 : To force mouse index to 0 for player 1 on all platforms to avoid a bug of indexation when we have only one player.
 ## V1.6.2 : To manage system directories better as for "Ports"/"amstradcpc" and add robustnees/performance optimization.
-## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow) 
+## V1.6.3 : To get name of game from "/tmp/es_state.inf" and to avoid to use gamelist files (too slow)
 ## V1.6.4 : To change way to recalculate the indexation of mouse for retroarch (using udev database)
 ## V1.6.5 : Cleaning + deactivate log by default + to support some keyboards including mouse and identified differently by retroarch (now, we count only header values as js + input + event to anticipate indexation)
 ## V1.6.6 : To support "!" characters in filename to search (remove of _ in regex also)
 ## v1.7   : Optimize
-## V1.8 TO DO: to integrate a popup to inform about buttons to use from wiimote
+## v1.8   : Add support for remapOptions node to restore lightgun feature on RetroArch 1.1.5
+## V1.9 TO DO: to integrate a popup to inform about buttons to use from wiimote
 from typing import Optional
 from xml.etree.ElementTree import Element
 
@@ -96,6 +97,8 @@ class libretroLightGun:
         self.__Demo: bool = demo
         self.__MouseIndexByPlayer = [0, -1, -1, -1]
         self.__debug: bool = True
+        self.__remapConfig: keyValueSettings("", True)
+        self.remapSettings = keyValueSettings("", True)
 
     def __Log(self, txt: str):
         print("[Configgen.LightGun] " + txt)
@@ -212,6 +215,38 @@ class libretroLightGun:
         if self.__debug: self.__Log('  Final best matching game name: ' + gameNode.attrib['name'] if gameNode is not None else "NONE")
         return gameNode, gameListNode
 
+    def __createRemapConfiguration(self, emulatorNode: Optional[Element], rom: str) -> keyValueSettings:
+        remapConfig = self.remapSettings
+
+        # We need the game file name without extension
+        import os.path
+        remapCustomFile: str = recalboxFiles.retroarchRemapCustom + "/" + emulatorNode.attrib["corename"] + "/" + os.path.splitext(os.path.basename(rom))[0] + ".rmp"
+
+        # Configure default values
+        remapConfig.setString("input_libretro_device_p1", '"1"')
+        remapConfig.setString("input_libretro_device_p2", '"1"')
+        remapConfig.setString("input_libretro_device_p3", '"1"')
+        remapConfig.setString("input_libretro_device_p4", '"1"')
+        remapConfig.setString("input_libretro_device_p5", '"1"')
+        remapConfig.setString("input_player1_analog_dpad_mode", '"1"')
+        remapConfig.setString("input_player2_analog_dpad_mode", '"1"')
+        remapConfig.setString("input_player3_analog_dpad_mode", '"0"')
+        remapConfig.setString("input_player4_analog_dpad_mode", '"0"')
+        remapConfig.setString("input_player5_analog_dpad_mode", '"0"')
+        remapConfig.setString("input_remap_port_p1", '"0"')
+        remapConfig.setString("input_remap_port_p2", '"1"')
+        remapConfig.setString("input_remap_port_p3", '"2"')
+        remapConfig.setString("input_remap_port_p4", '"3"')
+        remapConfig.setString("input_remap_port_p5", '"4"')
+
+        if self.__debug: self.__Log("Remap file: {}".format(remapCustomFile))
+
+        remapConfig.changeSettingsFile(remapCustomFile)
+        remapConfig.saveFile()
+
+        # return file for testing purpose only
+        return remapConfig
+
     def __setCoreOptionsFromNode(self, rootNode: Element, emulatorNode: Element):
         for coreOptionsNode in rootNode.findall("coreOptions"):
             coreFilter: str = coreOptionsNode.attrib["filter"] if "filter" in coreOptionsNode.attrib else "*"
@@ -236,7 +271,15 @@ class libretroLightGun:
                 for option in emulatorOptionsNode.findall('option'):
                     self.__setOption(option.attrib["name"], option.attrib["value"])
 
-    def __setConfigurationFromNode(self, stage: str, rootNode: Element, emulatorNode: Element, emulatorOptions: bool, coreOptions: bool, updateEmulatorAndCore: bool) -> Element:
+    def __setRemapOptionsFromNode(seld, rootNode: Element, emulatorNode: Element):
+        for emulatorOptionsNode in rootNode.findall("remapOptions"):
+            emulatorFilter: str = emulatorOptionsNode.attrib["filter"] if "filter" in emulatorOptionsNode.attrib else "*"
+            if emulatorFilter == "*" or emulatorFilter == emulatorNode.attrib["name"]:
+                for option in emulatorOptionsNode.findall('option'):
+                    if self.__debug: self.__Log("    {} = {}".format(option.attrib["name"], option.attrib["value"]))
+                    self.__remapConfig.setString(option.attrib["name"], '"' + option.attrib["value"] + '"')
+
+    def __setConfigurationFromNode(self, stage: str, rootNode: Element, emulatorNode: Element, emulatorOptions: bool, coreOptions: bool, updateEmulatorAndCore: bool, remapOptions: bool) -> Element:
         if self.__debug: self.__Log("Configuring stage: {}".format(stage))
         # Start with updating the emulator so that the following option update match the new emulator
         if updateEmulatorAndCore:
@@ -249,6 +292,10 @@ class libretroLightGun:
         # Then set emulator options
         if emulatorOptions:
             if self.__debug: self.__Log('  Update emulator options')
+            self.__setEmulatorOptionsFromNode(rootNode, emulatorNode)
+        # Then set remap options
+        if remapOptions:
+            if self.__debug: self.__Log('  Update remap options')
             self.__setEmulatorOptionsFromNode(rootNode, emulatorNode)
         # And finally core options
         if coreOptions:
@@ -266,7 +313,7 @@ class libretroLightGun:
         import xml.etree.ElementTree as ET
         tree = ET.parse(recalboxFiles.esLightGun)
         root = tree.getroot()
-        
+
         ## Rom name cleaning (alphanumeric lowercase only):
         requestedGameName: str = "".join([c for c in requestedGameName.lower() if c in 'abcdefghijklmnopqrstuvwxyz0123456789'])
 
@@ -288,18 +335,20 @@ class libretroLightGun:
         if self.__debug: self.__Log('Requested game: ' + requestedGameName)
         gameNode, gameListNode = self.__lookupGame(system, requestedGameName)
 
+        self.__remapConfig = self.__createRemapConfiguration(emulatorNode, self.__Rom)
+
         if gameNode is not None:
             # Set config from root node - Do not update emulator from root node
-            emulatorNode = self.__setConfigurationFromNode("Root", root, emulatorNode, True, True, False)
+            emulatorNode = self.__setConfigurationFromNode("Root", root, emulatorNode, True, True, False, False)
 
             # Then override from system node - Do not update emulator from system node as our primary source is the system node
-            emulatorNode = self.__setConfigurationFromNode("System", system, emulatorNode, True, True, False)
+            emulatorNode = self.__setConfigurationFromNode("System", system, emulatorNode, True, True, False, True)
 
             # Then override from gameList node
-            emulatorNode = self.__setConfigurationFromNode("GameList", gameListNode, emulatorNode, True, True, True)
+            emulatorNode = self.__setConfigurationFromNode("GameList", gameListNode, emulatorNode, True, True, True, True)
 
             # Finally override from game node
-            emulatorNode = self.__setConfigurationFromNode("Game", gameNode, emulatorNode, True, True, True)
+            emulatorNode = self.__setConfigurationFromNode("Game", gameNode, emulatorNode, True, True, True, True)
 
             # Cancel Devices where mouse index is finally not set
             self.__cancelDevicesNotUsed()
@@ -324,12 +373,12 @@ class libretroLightGun:
             # No dolphin bar found, no need to overload configuration in this case
             if self.__debug: self.__Log('No dolphin bar found.')
             return False
-        
+
         ## to check if lightgun.cfg exists or not
         import os
         if not os.path.exists(recalboxFiles.esLightGun):
             # No xml configuration file found for lightgun
-            if self.__debug: self.__Log('Fatal erreor: No lightgun database found.')
+            if self.__debug: self.__Log('Fatal error: No lightgun database found.')
             return False
 
         ## get file name from es_state.inf file

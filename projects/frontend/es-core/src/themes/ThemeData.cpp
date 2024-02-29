@@ -426,13 +426,10 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
   if (elementIndex == nullptr) return nullptr;
   ThemeElement* element = &(view->mElementArray[*elementIndex]);
 
-  if(element->Type() != expectedType /*&& expectedType != ThemeElementType::None*/)
-  {
-    { LOG(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
-    return nullptr;
-  }
+  if(element->Type() == expectedType || expectedType == ThemeElementType::Polymorphic) return element;
 
-  return element;
+  { LOG(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
+  return nullptr;
 }
 
 void ThemeData::LoadMain(const Path& root)
@@ -489,6 +486,7 @@ ThemeExtras::List ThemeData::GetExtras(const String& view, WindowManager& window
         case ThemeElementType::MenuTextSmall:
         case ThemeElementType::MenuSize:
         case ThemeElementType::None:
+        case ThemeElementType::Polymorphic:
         default: break;
       }
 

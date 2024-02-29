@@ -224,7 +224,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
     values[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
   }
 
-  mDescContainer.DoApplyThemeElement(theme, getName(), "md_description", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
+  mDescContainer.DoApplyThemeElementPolymorphic(theme, getName(), "md_description", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
   mDescription.setSize(mDescContainer.getSize().x(), 0);
   mDescription.DoApplyThemeElement(theme, getName(), "md_description",
                                    ThemePropertyCategory::All ^ (ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::Origin | ThemePropertyCategory::Text));
@@ -380,7 +380,7 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
       for(Component* component : getFolderComponents()) MoveToFadeOut(component);
       for(Component* component : getGameComponents(false)) MoveToFadeOut(component);
       for(Component* component : getScrapedFolderComponents()) MoveToFadeIn(component);
-      
+
       setScrapedFolderInfo(file);
     }
     else

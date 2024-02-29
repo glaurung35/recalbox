@@ -178,7 +178,7 @@ def getDefaultEmulator(systemName: str, emulatorName: str, coreName: str):
         "kodi"           : Emulator(name='kodi', emulator='kodi', core='kodi', videoMode='default'),
     }
 
-    # Seek for spécific configuration
+    # Seek for specific configuration
     if systemName in emulators:
         return emulators[systemName]
 

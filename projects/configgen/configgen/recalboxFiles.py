@@ -62,6 +62,7 @@ retroarchCustom = retroarchRoot + '/retroarchcustom.cfg'
 retroarchCustomOrigin = retroarchRoot + "/retroarchcustom.cfg.origin"
 retroarchCoreCustom = retroarchRoot + "/cores/retroarch-core-options.cfg"
 retroarchInitCustomOrigin = HOME_INIT + "configs/retroarch/retroarchcustom.cfg.origin"
+retroarchRemapCustom = HOME + "/.config/retroarch/config/remaps"
 
 retroarchCores = "/usr/lib/libretro/"
 shadersRoot = "/recalbox/share/shaders/"

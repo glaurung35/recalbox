@@ -21,7 +21,7 @@ class LibretroGenerator(Generator):
         import configgen.generators.libretro.libretroConfigurations as libretroConfigurations
         return libretroConfigurations.LibretroConfiguration.updateLibretroConfig(version)
 
-    # Build command ligne arguments for Netplay
+    # Build command line arguments for Netplay
     @staticmethod
     def getNetplayArguments(system: Emulator) -> List[str]:
         # Netplay command holder

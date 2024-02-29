@@ -4,6 +4,30 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-jamma-39
+￼	
+9.2-jamma-39:
+- Allow to run game demos with Y button (same as for gameclip) in system view
+- Fix new large game name view on tate mode (reported by @gyugyu)
+- Automatically set large name list view on install
+- Fix tate gamelist view video and image (reported by @gyugyu)
+- Automatically remove help and press start image in gameclip on install (thanks @beudbeud)
+- Automatically remove demo transistion screen (thanks @gyugyu)
+
+9.2-jamma-38:
+- Added new full width gamelist view (a activer dans menu -> interface -> options du theme)
+- Fix player number data with auto scrap
+- Use arcade database for automatic tate flag in arcade games (no more scrap needed)
+
+9.2-jamma-37:
+- Fix bug in menulist validation
+- Fix game count in gamelists
+- Fix yoko games in tate only mode
+
+9.2-jamma-36:
+- Fix glitch in gamelist transition
+
+
 ## Version 9.2-Pulstar
 
 ### Patron

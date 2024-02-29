@@ -106,6 +106,8 @@ class ThemeData
      */
     void RefreshExtraProperties(ThemeExtras::List& extras, const String& view) const;
 
+    [[nodiscard]] bool IsValid() const { return mValid; }
+
     [[nodiscard]] String getGameClipView() const;
 
     static const char* getNoTheme() { return "0 - DEFAULT"; }
@@ -189,6 +191,9 @@ class ThemeData
 
     //! Compatibility
     Compatibility mCompatiblity;
+
+    //! Theme is loaded and valid?
+    bool mValid;
 
     static constexpr const char* sRandomMethod = "$random(";
 

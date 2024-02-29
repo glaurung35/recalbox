@@ -245,108 +245,108 @@ void GameClipContainer::SwitchToTheme(const ThemeData& theme, bool refreshOnly, 
 {
   (void)refreshOnly;
   initComponents();
-  String themeOption = RecalboxConf::Instance().GetThemeGameClipView(theme.RawName());
-  if (themeOption != ThemeData::getNoTheme())
-  {
-    mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertyCategory::All);
-    mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertyCategory::All);
-    mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertyCategory::All);
-
-    // Remove old theme extras
-    removeChild(&mThemeExtras);
-
-    mThemeExtras.AssignExtras(theme, GameClipView::getName(), theme.GetExtras(GameClipView::getName(), mWindow, nullptr), false);
-
-    // Add new theme extras
-    addChild(&mThemeExtras);
-
-    if (mHeaderImage.hasImage())
+  if (theme.IsValid())
+    if (String themeOption = RecalboxConf::Instance().GetThemeGameClipView(theme.RawName()); !themeOption.empty() && themeOption != ThemeData::getNoTheme())
     {
-      removeChild(&mHeaderText);
-      addChild(&mHeaderImage);
-    }
-    else
-    {
-      addChild(&mHeaderText);
-      removeChild(&mHeaderImage);
-    }
+      mBackground.DoApplyThemeElement(theme, GameClipView::getName(), "background", ThemePropertyCategory::All);
+      mHeaderImage.DoApplyThemeElement(theme, GameClipView::getName(), "logo", ThemePropertyCategory::All);
+      mHeaderText.DoApplyThemeElement(theme, GameClipView::getName(), "logoText", ThemePropertyCategory::All);
 
-    mImage.DoApplyThemeElement(theme, GameClipView::getName(), "md_image",
-                               ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
-                               ThemePropertyCategory::Rotation);
+      // Remove old theme extras
+      removeChild(&mThemeExtras);
 
-    mThumbnail.DoApplyThemeElement(theme, GameClipView::getName(), "md_thumbnail",
-                                   ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
-                                   ThemePropertyCategory::Rotation);
+      mThemeExtras.AssignExtras(theme, GameClipView::getName(), theme.GetExtras(GameClipView::getName(), mWindow, nullptr), false);
 
-    mFavoriteIcon.DoApplyThemeElement(theme, GameClipView::getName(), "favoriteIcon",
+      // Add new theme extras
+      addChild(&mThemeExtras);
+
+      if (mHeaderImage.hasImage())
+      {
+        removeChild(&mHeaderText);
+        addChild(&mHeaderImage);
+      }
+      else
+      {
+        addChild(&mHeaderText);
+        removeChild(&mHeaderImage);
+      }
+
+      mImage.DoApplyThemeElement(theme, GameClipView::getName(), "md_image",
+                                 ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                                 ThemePropertyCategory::Rotation);
+
+      mThumbnail.DoApplyThemeElement(theme, GameClipView::getName(), "md_thumbnail",
+                                     ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                                     ThemePropertyCategory::Rotation);
+
+      mFavoriteIcon.DoApplyThemeElement(theme, GameClipView::getName(), "favoriteIcon",
+                                        ThemePropertyCategory::All);
+
+      mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertyCategory::All);
+
+      mClippingImage.DoApplyThemeElement(mGame == nullptr ? ThemeManager::Instance().Main() : mGame->System().Theme(), GameClipView::getName(), "clippingImage",
+                                         ThemePropertyCategory::Path | ThemePropertyCategory::Size);
+
+      std::vector<TextComponent*> labels = getMDLabels();
+      std::vector<String> names({
+                                       "md_lbl_gameName",
+                                       "md_lbl_systemName",
+                                       "md_lbl_rating",
+                                       "md_lbl_releasedate",
+                                       "md_lbl_developer",
+                                       "md_lbl_publisher",
+                                       "md_lbl_genre",
+                                       "md_lbl_players",
+                                       "md_lbl_lastplayed",
+                                       "md_lbl_playcount"
+                                     });
+
+      names.emplace_back("md_lbl_favorite");
+
+      assert(names.size() == labels.size());
+      for (unsigned int i = 0; i < (unsigned int) labels.size(); i++)
+      {
+        labels[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All);
+      }
+
+      std::vector<ThemableComponent*> values = getMDValues();
+      names = {
+        "md_gameName",
+        "md_systemName",
+        "md_rating",
+        "md_releasedate",
+        "md_developer",
+        "md_publisher",
+        "md_genre",
+        "md_players",
+        "md_lastplayed",
+        "md_playcount",
+      };
+
+      names.emplace_back("md_favorite");
+
+      assert(names.size() == values.size());
+      for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
+      {
+        values[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
+      }
+
+      mSystemName.DoApplyThemeElement(theme, GameClipView::getName(), "md_systemName",
                                       ThemePropertyCategory::All);
+      mDescContainer.DoApplyThemeElement(theme, GameClipView::getName(), "md_description",
+                                         ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
+      mDescription.setSize(mDescContainer.getSize().x(), 0.0);
+      mDescription.DoApplyThemeElement(theme, GameClipView::getName(), "md_description", ThemePropertyCategory::All ^
+                                                                                         (ThemePropertyCategory::Position |
+                                                                                          ThemePropertyCategory::Size |
+                                                                                          ThemePropertyCategory::Origin |
+                                                                                          ThemePropertyCategory::Text));
 
-    mRecalboxLogo.DoApplyThemeElement(theme, GameClipView::getName(), "recalboxLogo", ThemePropertyCategory::All);
+      mVideo.DoApplyThemeElement(theme, GameClipView::getName(), "md_video",
+                                 ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
+                                 ThemePropertyCategory::Rotation);
 
-    mClippingImage.DoApplyThemeElement(mGame == nullptr ? ThemeManager::Instance().Main() : mGame->System().Theme(), GameClipView::getName(), "clippingImage",
-                                       ThemePropertyCategory::Path | ThemePropertyCategory::Size);
-
-    std::vector<TextComponent*> labels = getMDLabels();
-    std::vector<String> names({
-                                     "md_lbl_gameName",
-                                     "md_lbl_systemName",
-                                     "md_lbl_rating",
-                                     "md_lbl_releasedate",
-                                     "md_lbl_developer",
-                                     "md_lbl_publisher",
-                                     "md_lbl_genre",
-                                     "md_lbl_players",
-                                     "md_lbl_lastplayed",
-                                     "md_lbl_playcount"
-                                   });
-
-    names.emplace_back("md_lbl_favorite");
-
-    assert(names.size() == labels.size());
-    for (unsigned int i = 0; i < (unsigned int) labels.size(); i++)
-    {
-      labels[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All);
     }
-
-    std::vector<ThemableComponent*> values = getMDValues();
-    names = {
-      "md_gameName",
-      "md_systemName",
-      "md_rating",
-      "md_releasedate",
-      "md_developer",
-      "md_publisher",
-      "md_genre",
-      "md_players",
-      "md_lastplayed",
-      "md_playcount",
-    };
-
-    names.emplace_back("md_favorite");
-
-    assert(names.size() == values.size());
-    for (unsigned int i = 0; i < (unsigned int) values.size(); i++)
-    {
-      values[i]->DoApplyThemeElement(theme, GameClipView::getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
-    }
-
-    mSystemName.DoApplyThemeElement(theme, GameClipView::getName(), "md_systemName",
-                                    ThemePropertyCategory::All);
-    mDescContainer.DoApplyThemeElement(theme, GameClipView::getName(), "md_description",
-                                       ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
-    mDescription.setSize(mDescContainer.getSize().x(), 0.0);
-    mDescription.DoApplyThemeElement(theme, GameClipView::getName(), "md_description", ThemePropertyCategory::All ^
-                                                                                       (ThemePropertyCategory::Position |
-                                                                                        ThemePropertyCategory::Size |
-                                                                                        ThemePropertyCategory::Origin |
-                                                                                        ThemePropertyCategory::Text));
-
-    mVideo.DoApplyThemeElement(theme, GameClipView::getName(), "md_video",
-                               ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex |
-                               ThemePropertyCategory::Rotation);
-
-  }
   sortChildren();
   if (interface != nullptr) interface->ThemeSwitchTick();
 }

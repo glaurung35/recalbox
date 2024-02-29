@@ -41,6 +41,7 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVar
   , mGlobalResolver(globalResolver)
   , mGameResolver(nullptr)
   , mCompatiblity(Compatibility::None)
+  , mValid(false)
 {
   mSystemThemeFolder.clear();
   mRandomPath.clear();
@@ -149,6 +150,9 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   parseViews(root);
   parseFeatures(root);
   mIncludePathStack.pop_back();
+
+  // Validate the theme
+  mValid = true;
 }
 
 void ThemeData::parseIncludes(const pugi::xml_node& root)

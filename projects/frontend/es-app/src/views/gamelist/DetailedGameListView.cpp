@@ -75,6 +75,7 @@ void DetailedGameListView::Initialize()
     img->setKeepRatio(true),
     img->setDefaultZIndex(30);
     img->setZIndex(30);
+    img->setOpacity(0);
     mFolderContent.push_back(img);
   }
 
@@ -87,6 +88,7 @@ void DetailedGameListView::Initialize()
   mImage.setResize(mSize.x() * (0.50f - 2 * padding), mSize.y() * 0.4f);
   mImage.setKeepRatio(true);
   mImage.setDefaultZIndex(30);
+  mImage.setOpacity(0);
 
   // no image
   mNoImage.setOrigin(mImage.getOrigin());
@@ -94,7 +96,7 @@ void DetailedGameListView::Initialize()
   mNoImage.setResize(mImage.getSize());
   mNoImage.setKeepRatio(true);
   mNoImage.setDefaultZIndex(30);
-  //mNoImage.setImage(Path(":/no_image.png"));
+  mNoImage.setOpacity(0);
 
   addChild(&mNoImage);
   addChild(&mImage);
@@ -375,10 +377,11 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
 
     if (hasImage && isFolder)
     {
-      setScrapedFolderInfo(file);
       for(Component* component : getFolderComponents()) MoveToFadeOut(component);
       for(Component* component : getGameComponents(false)) MoveToFadeOut(component);
       for(Component* component : getScrapedFolderComponents()) MoveToFadeIn(component);
+      
+      setScrapedFolderInfo(file);
     }
     else
     {

@@ -28,6 +28,7 @@ declare -A ES_JAMMA_CONFIG=(
     ["emulationstation.showgameclipclippingitem"]="0"
     ["emulationstation.showgamecliphelpitems"]="0"
     ["emulationstation.screensaver.type"]="gameclip"
+    ["global.demo.infoscreenduration"]="0"
 )
 
 declare -A ES_CLEAN_CONFIG=(

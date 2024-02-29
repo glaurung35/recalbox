@@ -493,6 +493,8 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RecalboxConf::Instance().SetAutoPairOnBoot(false);
           RecalboxConf::Instance().SetShowGameClipClippingItem(false);
           RecalboxConf::Instance().SetShowGameClipHelpItems(false);
+          RecalboxConf::Instance().SetGlobalDemoInfoScreen(0);
+
           std::vector<String> manufacturers;
           for(const String& rawIdentifier : ArcadeVirtualSystems::GetVirtualArcadeSystemList())
           {

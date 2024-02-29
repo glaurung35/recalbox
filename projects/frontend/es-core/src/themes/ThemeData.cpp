@@ -768,6 +768,7 @@ bool ThemeData::EvaluateIdentifier(const SimpleTokenizer& tokenizer) const
   bool evaluated = false;
   if      (tokenizer.Token() == "crt"       ) evaluated = mGlobalResolver.HasCrt();
   else if (tokenizer.Token() == "jamma"     ) evaluated = mGlobalResolver.HasJamma();
+  else if (tokenizer.Token() == "overscan"  ) evaluated = mGlobalResolver.HasCrt() && !mGlobalResolver.HasJamma();
   else if (tokenizer.Token() == "tate"      ) evaluated = mGlobalResolver.IsTate();
   else if (tokenizer.Token() == "qvga"      ) evaluated = mGlobalResolver.IsQVGA();
   else if (tokenizer.Token() == "vga"       ) evaluated = mGlobalResolver.IsVGA();

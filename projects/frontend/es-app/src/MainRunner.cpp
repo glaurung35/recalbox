@@ -1222,5 +1222,6 @@ void MainRunner::ResolveVariableIn(String& string)
   string.Replace("$crt", HasCrt() ? "yes" : "no")
         .Replace("$jamma", HasJamma() ? "yes" : "no")
         .Replace("$tate", IsTate() ? "yes" : "no")
+        .Replace("$overscan", HasCrt() && !HasJamma() ? "yes" : "no")
         .Replace("$resolution", resolution);
 }

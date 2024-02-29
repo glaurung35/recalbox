@@ -53,9 +53,9 @@ ThemeData::ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVar
     if (pos >= 2 && pos < (int) lccc.size() - 1)
     {
       mLangageCode = lccc.SubString(0, pos);
-      mCountryCode = lccc.SubString(pos + 1);
-      mLangageCodeInteger = (int)mLangageCode[0] | ((int)mLangageCode[1] >> 8);
-      mLanguageCountryCodeInteger = mLangageCodeInteger | ((int)mCountryCode[0] >> 16) | ((int)mCountryCode[1] >> 24);
+      mCountryCode = lccc.SubString(pos + 1).UpperCase();
+      mLangageCodeInteger = (int)mLangageCode[0] | ((int)mLangageCode[1] << 8);
+      mLanguageCountryCodeInteger = mLangageCodeInteger | ((int)mCountryCode[0] << 16) | ((int)mCountryCode[1] << 24);
     }
   }
 
@@ -126,9 +126,9 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
   // Region is set at the begining of the main theme loading
   String region = RecalboxConf::Instance().GetThemeRegion();
-  if      (region == "jp") mRegionCodeInteger = ((int)'J' << 8) | 'P';
-  else if (region == "eu") mRegionCodeInteger = ((int)'E' << 8) | 'U';
-  else mRegionCodeInteger = ((int)'U' << 8) | 'S';
+  if      (region == "jp") mRegionCodeInteger = 'J' | ((int)'P' << 8);
+  else if (region == "eu") mRegionCodeInteger = 'E' | ((int)'U' << 8);
+  else mRegionCodeInteger = 'U' | ((int)'S' << 8);
 
   pugi::xml_document doc;
   pugi::xml_parse_result res = doc.load_string(mCache.File(path).data());
@@ -670,9 +670,9 @@ int ThemeData::ExtractLocalizedCode(String& name)
 {
   if (int pos = name.Find('.'); pos > 0 && pos < (int)name.size() - 2)
   {
-    int result = (int)name[pos + 1] | ((int)name[pos + 2] >> 8); // language code
+    int result = (int)name[pos + 1] | ((int)name[pos + 2] << 8); // language code
     if (pos < (int) name.size() - 5)
-      result |= ((int)name[pos + 1] >> 16) | ((int)name[pos + 2] >> 24);
+      result |= ((int)name[pos + 1] << 16) | ((int)name[pos + 2] << 24);
     name.Delete(pos, INT32_MAX);
     return result;
   }

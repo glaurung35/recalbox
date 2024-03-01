@@ -188,11 +188,11 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
     }
     switch(mHorizontalAlignment)
     {
-      case TextAlignment::Bottom: xOff = (getSize().x() - textSize.x()); break;
-      case TextAlignment::Center: if (mTextCache->metrics.size.x() <= mSize.x()) xOff = (getSize().x() - textSize.x()) / 2.0f; break;
+      case TextAlignment::Right: xOff = (getSize().x() - textSize.x()); break;
+      case TextAlignment::Center: if (textSize.x() <= mSize.x()) xOff = (getSize().x() - textSize.x()) / 2.0f; break;
       case TextAlignment::Top:
-      case TextAlignment::Left:
-      case TextAlignment::Right: break;
+      case TextAlignment::Bottom:
+      case TextAlignment::Left: break;
     }
     Vector3f off(xOff + (float)((mHorizontalAlignment == TextAlignment::Right) ? mOffset : - mOffset), yOff, 0);
 
@@ -209,7 +209,7 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
     mFont->renderTextCache(mTextCache.get());
     if (mOffset != 0)
     {
-      float subOffset = mTextCache->metrics.size.x() + mSize.x() / 4;
+      float subOffset = textSize.x() + mSize.x() / 4;
       if (mHorizontalAlignment == TextAlignment::Right) subOffset = -subOffset;
       trans.translate(subOffset, 0);
       trans.round();
@@ -241,10 +241,15 @@ void TextScrollComponent::onColorChanged()
 
 void TextScrollComponent::setHorizontalAlignment(TextAlignment align)
 {
-  if (align != TextAlignment::Left && align != TextAlignment::Right)
+  if (align != TextAlignment::Left &&
+      align != TextAlignment::Right &&
+      align != TextAlignment::Center)
     align = TextAlignment::Left;
-  mHorizontalAlignment = align;
-  onTextChanged();
+  if (align != mHorizontalAlignment)
+  {
+    mHorizontalAlignment = align;
+    onTextChanged();
+  }
 }
 
 void TextScrollComponent::OnApplyThemeElement(const ThemeElement& element, ThemePropertyCategory properties)

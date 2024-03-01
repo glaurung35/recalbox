@@ -25,31 +25,10 @@ MenuComponent::MenuComponent(WindowManager& window, const String& title, const s
   mBackground.setCenterColor(menuTheme.Background().color);
   mBackground.setEdgeColor(menuTheme.Background().color);
 
-  // set up title
-  mTitle = std::make_shared<TextComponent>(mWindow);
-  mTitle->setHorizontalAlignment(TextAlignment::Center);
-
-  setTitle(title, menuTheme.Title().font);
-  mTitle->setColor(menuTheme.Title().color);
-
-  mGrid.setEntry(mTitle, Vector2i(0, 0), false);
-
   auto headerGrid = std::make_shared<ComponentGrid>(mWindow, Vector2i(5, 1));
   headerGrid->setColWidthPerc(0, 0.02);
   headerGrid->setColWidthPerc(4, 0.02);
-
-  int batteryCharge = 0;
-  int batteryIcon = 0;
-  if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
-  {
-    mBattery = std::make_shared<TextComponent>(mWindow);
-    mBattery->setFont(menuTheme.Text().font);
-    if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
-    else mBattery->setColor(menuTheme.Text().color);
-    mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
-    mBattery->setHorizontalAlignment(TextAlignment::Left);
-    headerGrid->setEntry(mBattery, Vector2i(1, 0), false);
-  }
+  //headerGrid->SetColumnHighlight(true, 0, 5);
 
   if (RecalboxConf::Instance().GetClock())
   {
@@ -58,8 +37,18 @@ MenuComponent::MenuComponent(WindowManager& window, const String& title, const s
     mDateTime->setHorizontalAlignment(TextAlignment::Right);
     mDateTime->setFont(menuTheme.Text().font);
     mDateTime->setColor(menuTheme.Text().color);
+    headerGrid->setColWidthPerc(3, menuTheme.Text().font->sizeText("00:00:00").x() / MenuWidth());
     headerGrid->setEntry(mDateTime, Vector2i(3, 0), false);
   }
+
+  // set up title
+  mTitle = std::make_shared<TextScrollComponent>(mWindow);
+  mTitle->setHorizontalAlignment(TextAlignment::Center);
+
+  setTitle(title, menuTheme.Title().font);
+  mTitle->setColor(menuTheme.Title().color);
+
+  headerGrid->setEntry(mTitle, Vector2i(1, 0), false, true, Vector2i(RecalboxConf::Instance().GetClock() ? 2 : 3, 1));
 
   mGrid.setEntry(headerGrid, Vector2i(0, 0), false);
 
@@ -71,25 +60,6 @@ MenuComponent::MenuComponent(WindowManager& window, const String& title, const s
   updateSize();
 
   mGrid.resetCursor();
-}
-
-void MenuComponent::Update(int deltaTime)
-{
-  // Refresh every 2s
-  if (mTimeAccumulator += deltaTime; mTimeAccumulator > 2000)
-  {
-    int batteryCharge = 0;
-    int batteryIcon = 0;
-    if (RecalboxSystem::getSysBatteryInfo(batteryCharge, batteryIcon))
-    {
-      const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
-      if (batteryCharge <= 15) mBattery->setColor(0xFF0000FF);
-      else mBattery->setColor(menuTheme.Text().color);
-      mBattery->setText(String(' ').AppendUTF8(batteryIcon).Append(' ').Append(batteryCharge).Append('%'));
-    }
-    mTimeAccumulator -= 2000;
-  }
-  Component::Update(deltaTime);
 }
 
 bool MenuComponent::ProcessInput(const InputCompactEvent& event)
@@ -146,9 +116,7 @@ void MenuComponent::updateSize()
     }
   }
 
-  float width = Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f,
-                          Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
-  setSize(width, height);
+  setSize(MenuWidth(), height);
 }
 
 void MenuComponent::onSizeChanged()
@@ -301,13 +269,6 @@ void MenuComponent::UpdateMenuTheme(const MenuThemeData& theme)
 
   mTitle->setFont(theme.Title().font);
   mTitle->setColor(theme.Title().color);
-
-  if (mBattery)
-  {
-    mBattery->setFont(theme.Text().font);
-    mBattery->setColor(theme.Text().color);
-    mBattery->setHorizontalAlignment(TextAlignment::Left);
-  }
 
   if (RecalboxConf::Instance().GetClock())
   {

@@ -154,6 +154,11 @@ class DetailedGameListView : public ISimpleGameListView
     //! Array of fade-out components (from opaque to transparent)
     Array<Component*> mFadeOutList;
 
+    //! Flag width not included any margin
+    int mFlagWidth;
+    //! Flag margin
+    int mFlagMargin;
+
     //! Last processed cursor item
     FileData* mLastCursorItem;
     //! Current game P2K status

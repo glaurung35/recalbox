@@ -236,18 +236,18 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
                                         Vector2i((int)(dim.x() /*- mHorizontalMargin*/), (int)dim.y()));
 
   // draw selector bar
-	if(startEntry < listCutoff)
-	{
-		if (mSelectorImage.hasImage())
+  if(startEntry < listCutoff)
+  {
+    if (mSelectorImage.hasImage())
     {
-			mSelectorImage.setPosition(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, 0.f);
+      mSelectorImage.setPosition(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, 0.f);
       mSelectorImage.Render(trans);
-		} else
+    } else
     {
-			Renderer::SetMatrix(trans);
-			Renderer::DrawRectangle(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
-		}
-	}
+      Renderer::SetMatrix(trans);
+      Renderer::DrawRectangle(0.f, (mCursor - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
+    }
+  }
 
 	// Draw text items
   float y = 0;
@@ -262,13 +262,6 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
-		if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
-    {
-      Renderer::SetMatrix(trans);
-      Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
-                         mColors[entry.data.colorBackgroundId]);
-    }
-
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
 
 		if(!entry.data.textCache)
@@ -276,14 +269,14 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
 		entry.data.textCache->setColor(color);
 
-		Vector3f offset(leftMargin, y, 0);
-		Vector2f size(mSize.x() - (leftMargin + rightMargin), entrySize);
-
+    leftMargin = mHorizontalMargin;
+    rightMargin = mHorizontalMargin;
     if (mOverlay != nullptr)
     {
       // overlay?
-      leftMargin = mOverlay->OverlayGetLeftOffset(entry.object);
-      rightMargin = mOverlay->OverlayGetRightOffset(entry.object);
+      leftMargin += mOverlay->OverlayGetLeftOffset(entry.object);
+      rightMargin += mOverlay->OverlayGetRightOffset(entry.object);
+      //if (leftMargin)
       if (leftMargin != previousLeftMargin || rightMargin != previousRightMargin)
       {
         Renderer::Instance().PopClippingRect();
@@ -294,22 +287,33 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       previousRightMargin = rightMargin;
     }
 
+    Vector3f offset(leftMargin, y, 0);
+    Vector2f size(mSize.x() - (leftMargin + rightMargin), entrySize);
+
     switch(entry.data.useHzAlignment ? entry.data.hzAlignement : mAlignment)
 		{
-      case HorizontalAlignment::Left:
-        offset[0] = mHorizontalMargin;
-        break;
+      case HorizontalAlignment::Left: break;
       case HorizontalAlignment::Center:
         offset[0] = (size.x() - entry.data.textCache->metrics.size.x()) / 2;
         if(offset[0] < mHorizontalMargin) offset[0] = mHorizontalMargin;
         break;
       case HorizontalAlignment::Right:
-        offset[0] = (size.x() - entry.data.textCache->metrics.size.x()) - mHorizontalMargin;
+        offset[0] = (size.x() - entry.data.textCache->metrics.size.x());
         if(offset[0] < mHorizontalMargin)	offset[0] = mHorizontalMargin;
         break;
 		  default : break;
 		}
 
+    // Draw background
+    if (mCursor != i)
+      if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
+      {
+        Renderer::SetMatrix(trans);
+        Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
+                                mColors[entry.data.colorBackgroundId]);
+      }
+
+    // Draw text
     if(mCursor == i) offset[0] -= mMarqueeOffset;
 
 		Transform4x4f drawTrans = trans;
@@ -366,8 +370,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     {
       typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
-      Vector3f position(leftMargin, y, 0);
-      Vector2f size(mSize.x(), entrySize);
+      Vector3f position(mHorizontalMargin, y, 0);
+      Vector2f size(mSize.x() - 2 * mHorizontalMargin, entrySize);
 
       unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
 
@@ -399,25 +403,25 @@ bool TextListComponent<T>::ProcessInput(const InputCompactEvent& event)
       mShowBar = true;
       return true;
     }
-    else if (event.AnyPrimaryUpPressed())
+    if (event.AnyPrimaryUpPressed())
     {
       listInput(-1);
       mShowBar = true;
       return true;
     }
-    else if (event.R1Pressed())
+    if (event.R1Pressed())
     {
       listInput(10);
       mShowBar = true;
       return true;
     }
-    else if (event.L1Pressed())
+    if (event.L1Pressed())
     {
       listInput(-10);
       mShowBar = true;
       return true;
     }
-    else if (event.AnyPrimaryDownReleased() || event.AnyPrimaryUpReleased() || event.R1Released() || event.L1Released())
+    if (event.AnyPrimaryDownReleased() || event.AnyPrimaryUpReleased() || event.R1Released() || event.L1Released())
     {
       mBarTimer = sBarFadeTime + sBarFixedTime;
       mShowBar = false;
@@ -437,13 +441,13 @@ void TextListComponent<T>::Update(int deltaTime)
 	if(!isScrolling() && size() > 0 && mEntries[mCursor].data.textCache)
 	{
 		//if we're not scrolling and this object's text goes outside our size, marquee it!
-		const float textWidth = mEntries[mCursor].data.textCache->metrics.size.x();
+		const int textWidth = (int)(mEntries[mCursor].data.textCache->metrics.size.x()) + 1;
 
 		//it's long enough to marquee
-    float width = mSize.x() - mHorizontalMargin - 2;
-    if (mOverlay != nullptr) width -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
-                                      mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
-    else width -= mHorizontalMargin;
+    float fwidth = mSize.x() - 2 * mHorizontalMargin;
+    if (mOverlay != nullptr) fwidth -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
+                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
+    int width = (int)fwidth;
 
 		if (textWidth > width)
     {
@@ -458,18 +462,18 @@ void TextListComponent<T>::Update(int deltaTime)
         case MarqueeSteps::ScrollToRight:
         {
           mMarqueeOffset = (mMarqueeTime * sMarqueeSpeed1) / 1000;
-          if (mMarqueeOffset >= (int)(textWidth - width)) { mMarqueeTime = 0; mMarqueeOffset = (int)(textWidth - width); mMarqueeStep = MarqueeSteps::RightPause;}
+          if (mMarqueeOffset >= textWidth - width) { mMarqueeTime = 0; mMarqueeOffset = textWidth - width; mMarqueeStep = MarqueeSteps::RightPause;}
           break;
         }
         case MarqueeSteps::RightPause:
         {
-          mMarqueeOffset = (int)(textWidth - width);
+          mMarqueeOffset = textWidth - width;
           if (mMarqueeTime > sMarqueePause) { mMarqueeTime = 0; mMarqueeStep = MarqueeSteps::RollOver; }
           break;
         }
         case MarqueeSteps::RollOver:
         {
-          mMarqueeOffset = (int)(textWidth - width) + (mMarqueeTime * sMarqueeSpeed2) / 1000;
+          mMarqueeOffset = textWidth - width + (mMarqueeTime * sMarqueeSpeed2) / 1000;
           if (mMarqueeOffset >= textWidth + mSize.x() / 4) { mMarqueeTime = 0; mMarqueeOffset = 0; mMarqueeStep = MarqueeSteps::LeftPause;}
           break;
         }

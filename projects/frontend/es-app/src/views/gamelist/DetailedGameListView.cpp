@@ -39,6 +39,8 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mDescription(window)
   , mBusy(window)
   , mSettings(RecalboxConf::Instance())
+  , mFlagWidth(0)
+  , mFlagMargin(Renderer::Instance().Is480pOrLower() ? 1 : 2)
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -139,7 +141,7 @@ void DetailedGameListView::Initialize()
   {
     addChild(&mRegions[i]); // normalised functions required to be added first
     mRegions[i].setDefaultZIndex(40);
-    mRegions[i].setThemeDisabled(true);
+    //mRegions[i].setThemeDisabled(true);
   }
 
   mDescContainer.setPosition(mSize.x() * padding, mSize.y() * 0.65f);
@@ -165,6 +167,9 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
   mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
   sortChildren();
+
+  // Compute flag width
+  mFlagWidth = (int)(mList.getFont()->getHeight(1.f) * (71.f / 48.f));
 
   for (int i = 0; i < (int)Regions::RegionPack::sMaxRegions; i++)
     mRegions[i].DoApplyThemeElement(theme, getName(), String("md_region").Append(i + 1).c_str(),
@@ -639,6 +644,7 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
   {
     int drawn = 1;
     int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
+    int y = (int)(position.y() + ((size.y() - (float) flagHeight) / 2.f));
 
     for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
       if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
@@ -652,10 +658,8 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
           flag = mRegionToTextures.try_get(region);
         }
         // Draw
-        int flagWidth = (int) ((float) flagHeight * (float) (*flag)->width() / (float) (*flag)->height());
-        int y = Math::roundi((size.y() - (float) flagHeight) / 2.f) + (int)position.y();
-        int x = ((int)size.x() - (2 + Math::roundi(mList.getHorizontalMargin()) + flagWidth) * drawn) + (int)position.x();
-        Renderer::DrawTexture(**flag, x, y, flagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
+        int x = (int)(position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+        Renderer::DrawTexture(**flag, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
         drawn++;
       }
   }
@@ -663,7 +667,9 @@ void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  return ((mList.getFont()->getHeight(1.f) * (71.f / 48.f) + 2.f) * (float)data->Metadata().Region().Count()) + 2.f + mList.getHorizontalMargin();
+  int regionCount = data->Metadata().Region().Count();
+  int result = (mFlagWidth + mFlagMargin) * regionCount;
+  return (float)result;
 }
 
 DetailedGameListView::~DetailedGameListView()

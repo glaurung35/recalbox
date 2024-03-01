@@ -10,6 +10,7 @@
 #include <components/DateTimeComponent.h>
 #include <guis/GuiInfoPopup.h>
 #include <themes/ThemeManager.h>
+#include "TextScrollComponent.h"
 
 class ButtonComponent;
 class ImageComponent;
@@ -103,13 +104,6 @@ class MenuComponent : public Component
      */
     bool ProcessInput(const InputCompactEvent& event) override;
 
-    /*!
-    * @brief Called once per frame. Override to implement your own drawings.
-    * Call your base::Update() to ensure animation and childrens are updated properly
-    * @param deltaTime Elapsed time from the previous frame, in millisecond
-    */
-    void Update(int deltaTime) override;
-
     void refresh()
     {
       updateGrid();
@@ -141,8 +135,7 @@ class MenuComponent : public Component
     NinePatchComponent mBackground;
     ComponentGrid mGrid;
 
-    std::shared_ptr<TextComponent> mTitle;
-    std::shared_ptr<TextComponent> mBattery;
+    std::shared_ptr<TextScrollComponent> mTitle;
     std::shared_ptr<DateTimeComponent> mDateTime;
     std::shared_ptr<ComponentList> mList;
     std::shared_ptr<ComponentGrid> mButtonGrid;
@@ -159,5 +152,11 @@ class MenuComponent : public Component
           mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, label + "\n" + help, dur, PopupType::Help));
         return true;
       };
+    }
+
+    static float MenuWidth()
+    {
+      return Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f,
+                       Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
     }
 };

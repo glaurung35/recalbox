@@ -131,17 +131,20 @@ void GameClipContainer::initComponents()
   mVideo.setResize(mSize.x(), mSize.y());
   mVideo.setKeepRatio(true);
   mVideo.setDefaultZIndex(30);
+  mVideo.setThemeDisabled(false);
 
   if (RecalboxConf::Instance().GetShowGameClipClippingItem())
   {
     mClippingContainer.setSize(mSize);
     mClippingContainer.setDefaultZIndex(50);
     mClippingContainer.setZIndex(50);
+    mClippingContainer.setThemeDisabled(false);
 
     mClippingImage.setImage(Path(":/press_start.svg"));
     mClippingImage.setResize(mSize.x() * 0.12f, mSize.y() * 0.12f);
     mClippingImage.setKeepRatio(true);
     mClippingImage.setOrigin(0.5, 0.5);
+    mClippingImage.setThemeDisabled(false);
   }
 
   mRecalboxLogo.setImage(Path(":/Recalbox_logo_White.svg"));
@@ -151,6 +154,7 @@ void GameClipContainer::initComponents()
   mRecalboxLogo.setKeepRatio(true);
   mRecalboxLogo.setZIndex(50);
   mRecalboxLogo.setDefaultZIndex(50);
+  mRecalboxLogo.setThemeDisabled(false);
 
   mBackground.setImage(Path(":/white.png"));
   mBackground.setOrigin(0, 1);
@@ -159,6 +163,7 @@ void GameClipContainer::initComponents()
   mBackground.setColor(0x9F9F9FCC);
   mBackground.setZIndex(40);
   mBackground.setDefaultZIndex(0);
+  mBackground.setThemeDisabled(false);
 
   mImage.setOrigin(0, 1);
   mImage.setPosition(mSize.x() * 0.025f, mSize.y() * 0.92f);
@@ -166,6 +171,7 @@ void GameClipContainer::initComponents()
   mImage.setKeepRatio(true);
   mImage.setZIndex(50);
   mImage.setDefaultZIndex(40);
+  mImage.setThemeDisabled(false);
 
   mGameName.setFont(Font::get(FONT_SIZE_MEDIUM));
   mGameName.setPosition(mSize.x() * 0.97f, mSize.y() * 0.91f);
@@ -175,6 +181,7 @@ void GameClipContainer::initComponents()
   mGameName.setDefaultZIndex(50);
   mGameName.setHorizontalAlignment(TextAlignment::Right);
   mGameName.setColor(0xFFFFFFFF);
+  mGameName.setThemeDisabled(false);
 
   mFavoriteIcon.setImage(Path(":/heart_filled.svg"));
   mFavoriteIcon.setOrigin(0, 1);
@@ -183,6 +190,7 @@ void GameClipContainer::initComponents()
   mFavoriteIcon.setKeepRatio(true);
   mFavoriteIcon.setZIndex(50);
   mFavoriteIcon.setDefaultZIndex(50);
+  mFavoriteIcon.setThemeDisabled(false);
 
   float systemPosY = mGameName.getPosition().y() + mGameName.getSize().y() + verticalPadding;
   mSystemName.setPosition(mSize.x() * 0.97f, systemPosY);
@@ -193,6 +201,7 @@ void GameClipContainer::initComponents()
   mSystemName.setHorizontalAlignment(TextAlignment::Right);
   mSystemName.setFont(Font::get(FONT_SIZE_SMALL));
   mSystemName.setColor(0xFFFFFFFF);
+  mSystemName.setThemeDisabled(false);
 
   float releasePosY = mSystemName.getPosition().y() + mSystemName.getSize().y() + verticalPadding;
   mReleaseDate.setPosition(mSize.x() * 0.97f, releasePosY);
@@ -204,6 +213,7 @@ void GameClipContainer::initComponents()
   mReleaseDate.setFont(Font::get(FONT_SIZE_SMALL));
   mReleaseDate.setColor(0xFFFFFFFF);
   mReleaseDate.setDisplayMode(DateTimeComponent::Display::Year);
+  mReleaseDate.setThemeDisabled(false);
 }
 
 void GameClipContainer::initMDLabels()

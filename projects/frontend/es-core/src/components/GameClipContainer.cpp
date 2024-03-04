@@ -452,7 +452,7 @@ void GameClipContainer::setGameInfo(FileData* game)
 
 void GameClipContainer::CleanVideo()
 {
-  mVideo.setVideo(Path::Empty, 0, 0);
+  mVideo.setVideo(Path::Empty);
 }
 
 Vector2f GameClipContainer::getVideoCenter()

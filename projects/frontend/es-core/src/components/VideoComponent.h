@@ -127,6 +127,12 @@ class VideoComponent : public ThemableComponent
      */
     void setVideo(const Path& path, int delay, int loops, bool decodeAudio = false);
 
+    /*!
+     * @brief Set video
+     * @param path Path to video file
+     */
+    void setVideo(const Path& path, bool decodeAudio = false);
+
     void setOpacity(unsigned char opacity) override;
 
     // Resize the image to fit this size. If one axis is zero, scale that axis to maintain aspect ratio.

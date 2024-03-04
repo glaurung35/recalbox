@@ -98,6 +98,18 @@ void VideoComponent::setVideo(const Path& path, int delay, int loops, bool decod
   }
 }
 
+void VideoComponent::setVideo(const Path& path, bool decodeAudio)
+{
+  if (path != mVideoPath || mDecodeAudio != decodeAudio)
+  {
+    AudioManager::ResumeMusicIfNecessary();
+    VideoEngine::Instance().StopVideo(true);
+    mVideoPath = path;
+    mDecodeAudio = decodeAudio;
+    ResetAnimations();
+  }
+}
+
 void VideoComponent::setResize(float width, float height)
 {
   if (width != mTargetSize.x() || height != mTargetSize.y())
@@ -422,8 +434,7 @@ void VideoComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
   }
 
   if (hasFlag(properties, ThemePropertyCategory::Path))
-    setVideo(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty,
-             DEFAULT_VIDEODELAY, DEFAULT_VIDEOLOOP, mDecodeAudio);
+    setVideo(element.HasProperty(ThemePropertyName::Path) ? element.AsPath(ThemePropertyName::Path) : Path::Empty, mDecodeAudio);
 
   if (hasFlag(properties, ThemePropertyCategory::Color))
     setColorShift(element.HasProperty(ThemePropertyName::Color) ? (unsigned int)element.AsInt(ThemePropertyName::Color) : 0xFFFFFFFF);

@@ -62,7 +62,7 @@ class DetailedGameListView : public ISimpleGameListView
     TextListComponent<FileData*> mList;
 
     void launch(FileData* game) override;
-    void clean() override { mVideo.setVideo(Path::Empty, 0, 0); }
+    void clean() override { mVideo.setVideo(Path::Empty); }
 
     /*!
      * @brief Get display name of the given game

@@ -416,7 +416,7 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
     if (file->IsGame())
       ViewController::Instance().FetchSlowDataFor(file);
     else if (file->IsFolder()) // Kill video on multi-thumbnail folder
-      mVideo.setVideo(Path::Empty, 0, 0);
+      mVideo.setVideo(Path::Empty);
   }
 
   // Update last procesed item
@@ -508,9 +508,6 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
   mPlayCount.setValue(meta.PlayCountAsString());
   mFavorite.setValue(meta.Favorite() ? _("YES") : _("NO"));
 
-  int videoDelay = (int) mSettings.AsUInt("emulationstation.videosnaps.delay", VideoComponent::DEFAULT_VIDEODELAY);
-  int videoLoop  = (int) mSettings.AsUInt("emulationstation.videosnaps.loop", VideoComponent::DEFAULT_VIDEOLOOP);
-
   mBusy.setPosition(mImage.getPosition());
   mBusy.setSize(mImage.getSize());
   mBusy.setOrigin(mImage.getOrigin());
@@ -518,7 +515,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
   if (!mSettings.AsBool("system.secondminitft.enabled", false) ||
       !mSettings.AsBool("system.secondminitft.disablevideoines", false))
   {
-    mVideo.setVideo(meta.Video(), videoDelay, videoLoop, AudioModeTools::CanDecodeVideoSound());
+    mVideo.setVideo(meta.Video(), AudioModeTools::CanDecodeVideoSound());
     { LOG(LogDebug) << "[GamelistView] Set video " << meta.Video().ToString() << " for " << meta.Name() << " => " << file->RomPath().ToString(); }
   }
 
@@ -531,7 +528,7 @@ void DetailedGameListView::setGameInfo(FileData* file, bool update)
 void DetailedGameListView::setScrapedFolderInfo(FileData* file)
 {
   SetImageFading(file, false);
-  mVideo.setVideo(Path::Empty, 0, 0);
+  mVideo.setVideo(Path::Empty);
   mDescription.setText(GetDescription(*file));
   mDescContainer.reset();
 }
@@ -539,7 +536,7 @@ void DetailedGameListView::setScrapedFolderInfo(FileData* file)
 void DetailedGameListView::launch(FileData* game)
 {
   VideoEngine::Instance().StopVideo(true);
-  mVideo.setVideo(Path::Empty, 0, 0);
+  mVideo.setVideo(Path::Empty);
 
   Vector3f target(Renderer::Instance().DisplayWidthAsFloat() / 2.0f, Renderer::Instance().DisplayHeightAsFloat() / 2.0f, 0);
   if (mImage.hasImage())
@@ -599,7 +596,7 @@ void DetailedGameListView::Update(int deltatime)
 
   // Cancel video
   if (mList.isScrolling())
-    mVideo.setVideo(Path::Empty, 0, 0);
+    mVideo.setVideo(Path::Empty);
 
   if (!mSystem.IsScreenshots())
   {

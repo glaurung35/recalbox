@@ -414,8 +414,6 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
          { "collection.multiplayer"      , Validator(true) },
          { "collection.lastplayed"       , Validator(true) },
          { "collection.tate"             , Validator(true) },
-         { "videosnaps.delay"            , Validator(0, 15000) },
-         { "videosnaps.loop"             , Validator(0, 300) },
          { "virtualarcade"               , Validator(true) },
          { "virtualarcade.includeneogeo" , Validator(true) },
          { "virtualarcade.hideoriginals" , Validator(true) },

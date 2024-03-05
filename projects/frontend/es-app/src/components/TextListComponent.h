@@ -227,7 +227,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 	}
 
 	int listCutoff = startEntry + screenCount;
-	if(listCutoff > size())	listCutoff = size();
+	if(listCutoff >= size())	listCutoff = size() - 1;
 
   // clip to inside margins
   Vector3f dim(mSize.x(), mSize.y(), 0);
@@ -257,9 +257,6 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   float previousRightMargin = 0.f;
   for (int i = startEntry; i <= listCutoff; i++)
 	{
-    // Last line might be out of list due to display constraints
-    if (i >= size()) continue;
-
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
@@ -366,7 +363,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 
     // Draw overlay
     y = 0;
-    for (int i = startEntry; i < listCutoff; i++)
+    for (int i = startEntry; i <= listCutoff; i++)
     {
       typename IList<TextListData, T>::Entry& entry = mEntries[i];
 

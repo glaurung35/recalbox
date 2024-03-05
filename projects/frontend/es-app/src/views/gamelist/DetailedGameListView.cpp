@@ -51,7 +51,6 @@ void DetailedGameListView::Initialize()
   addChild(&mList);
 
   mEmptyListItem.Metadata().SetName(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."));
-  populateList(mSystem.MasterRoot());
 
   mList.setCursorChangedCallback([this](const CursorState& state)
                                  {
@@ -633,7 +632,7 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
   mBusy.Render(trans);
 }
 
-void DetailedGameListView::OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
+void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
 {
   (void)color;
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));

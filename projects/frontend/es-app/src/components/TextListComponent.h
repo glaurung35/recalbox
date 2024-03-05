@@ -57,6 +57,9 @@ public:
   void changeBackgroundColorAt(int index, int colorIndex);
   int Lookup(T object);
 
+  //! Get alignment
+  [[nodiscard]] HorizontalAlignment Alignment() const { return mAlignment; }
+
   inline void setSelectedAt(int index, const T& object) { mEntries[index].object = object; }
 	inline void setAlignment(HorizontalAlignment align) { mAlignment = align; }
 	inline void setCursorChangedCallback(const std::function<void(CursorState)>& func) { mCursorChangedCallback = func; }
@@ -235,18 +238,25 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   Renderer::Instance().PushClippingRect(Vector2i((int)(trans.translation().x()/* + mHorizontalMargin*/), (int)trans.translation().y()),
                                         Vector2i((int)(dim.x() /*- mHorizontalMargin*/), (int)dim.y()));
 
-  // draw selector bar
-  if(startEntry < listCutoff)
+  // draw selector bar & background
+  Renderer::SetMatrix(trans);
+  for (int i = startEntry; i <= listCutoff; i++)
   {
-    if (mSelectorImage.hasImage())
+    typename IList<TextListData, T>::Entry& entry = mEntries[i];
+    if (mCursor == i)
     {
-      mSelectorImage.setPosition(0.f, (mCursor - startEntry)*entrySize + mSelectorOffsetY, 0.f);
-      mSelectorImage.Render(trans);
-    } else
-    {
-      Renderer::SetMatrix(trans);
-      Renderer::DrawRectangle(0.f, (mCursor - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
+      if (mSelectorImage.hasImage())
+      {
+        mSelectorImage.setPosition(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, 0.f);
+        mSelectorImage.Render(trans);
+      }
+      else
+        Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
     }
+    // Draw background
+    else if ((unsigned int) entry.data.colorBackgroundId < COLOR_ID_COUNT)
+      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
+                              mColors[entry.data.colorBackgroundId]);
   }
 
 	// Draw text items
@@ -291,24 +301,15 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		{
       case HorizontalAlignment::Left: break;
       case HorizontalAlignment::Center:
-        offset[0] = (size.x() - entry.data.textCache->metrics.size.x()) / 2;
+        offset[0] += (size.x() - entry.data.textCache->metrics.size.x()) / 2;
         if(offset[0] < mHorizontalMargin) offset[0] = mHorizontalMargin;
         break;
       case HorizontalAlignment::Right:
-        offset[0] = (size.x() - entry.data.textCache->metrics.size.x());
+        offset[0] += (size.x() - entry.data.textCache->metrics.size.x());
         if(offset[0] < mHorizontalMargin)	offset[0] = mHorizontalMargin;
         break;
 		  default : break;
 		}
-
-    // Draw background
-    if (mCursor != i)
-      if ((unsigned int)entry.data.colorBackgroundId < COLOR_ID_COUNT)
-      {
-        Renderer::SetMatrix(trans);
-        Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
-                                mColors[entry.data.colorBackgroundId]);
-      }
 
     // Draw text
     if(mCursor == i) offset[0] -= mMarqueeOffset;
@@ -376,7 +377,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       drawTrans.translate(position);
       Renderer::SetMatrix(drawTrans);
 
-      mOverlay->OverlayApply(Vector2f(0), size, entry.object, color);
+      mOverlay->OverlayApply(drawTrans, Vector2f(0), size, entry.object, color);
 
       y += entrySize;
     }

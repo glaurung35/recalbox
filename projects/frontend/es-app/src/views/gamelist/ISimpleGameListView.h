@@ -109,6 +109,7 @@ class ISimpleGameListView : public Gui
     {
       Initialize();
       SwitchToTheme(mSystem.Theme(), false, nullptr);
+      populateList(mSystem.MasterRoot());
     }
 
     /*!

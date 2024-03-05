@@ -313,7 +313,7 @@ class DetailedGameListView : public ISimpleGameListView
      * @param size  Width/Height of the item rectangle
      * @param data Linked data
      */
-    void OverlayApply(const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color) override;
+    void OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color) override;
 
     /*!
      * @brief Get the left offset (margin to the text) if any

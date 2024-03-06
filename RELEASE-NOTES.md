@@ -4,6 +4,19 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-alpha-38
+- Pour tout le monde:
+  - Fix de la description des jeux manquante
+  - Fix de la double image pour les folder scrapés (image scrapée + image quand il n'y a pas d'image dispo)
+  - Fix de toutes les titres menu qui débordent (ils sont tous scrollable)
+  - Fix de multiple problèmes dans les overlay des listes (drapeaux qui mordent sur le texte, marges incorrectes, ...)
+  - Fix des soucis de gameclip avec les rares systèmes non thémables (port individuels)
+  - Fix d'un crash rare quand on entrait dans un systèmes (buffer overflow)
+- Pour les thèmeurs:
+  - Fix des éléments/propriété regionalisables ( .JP / .US / .EU )
+  - Fix des delay/loop pour les vidéos
+
+
 ## Version 9.2-Pulstar
 
 ### Patron

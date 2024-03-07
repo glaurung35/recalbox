@@ -438,7 +438,7 @@ static int dpidac_load_config(const char *configfile) {
             printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting %s to %d\n", optionname, optionvalue);
             config.multisync = optionvalue;
           }
-          if (strcmp(optionname, "options.es.resolution") == 0 && config.current_hat == RecalboxRGBJAMMA) {
+          if (strcmp(optionname, "options.es.resolution") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
             printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting desktop480 to %d\n", optionvalue == 480);
             config.desktop480p = optionvalue == 480;
           }

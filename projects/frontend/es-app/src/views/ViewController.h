@@ -199,6 +199,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
       SuperGameboy,       //!< Supergameboy choice
     };
 
+    //! Flag texture cache
+    FlagCaches mFlagCaches;
+
     //! Game linked data internal instance
     GameLinkedData mGameLinkedData;
     //! Game to launch

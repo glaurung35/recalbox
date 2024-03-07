@@ -13,16 +13,15 @@
 #define DPI 96
 
 TextureData::TextureData()
-  : mTile(false),
-    mTextureID(0),
-    mDataRGBA(nullptr),
-    mWidth(0),
-    mHeight(0),
-    mSourceWidth(0.0f),
-    mSourceHeight(0.0f),
-    mScalable(false),
-    mReloadable(false),
-    mSVGImage(nullptr)
+  : mTile(false)
+  , mTextureID(0)
+  , mDataRGBA(nullptr)
+  , mWidth(0)
+  , mHeight(0)
+  , mSourceWidth(0.0f)
+  , mSourceHeight(0.0f)
+  , mScalable(false)
+  , mReloadable(false)
 {
 }
 
@@ -41,12 +40,9 @@ void TextureData::reset()
 {
   releaseVRAM();
   releaseRAM();
-  if (mSVGImage != nullptr)
-    nsvgDelete(mSVGImage);
 
   mWidth = mHeight = 0;
   mDataRGBA = nullptr;
-  mSVGImage = nullptr;
 }
 
 void TextureData::initFromPath(const Path& path)
@@ -66,9 +62,7 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
       return true;
   }
 
-  if (mSVGImage != nullptr)
-    nsvgDelete(mSVGImage);
-  mSVGImage = nullptr;
+  NSVGimage* svgImage = nullptr;
 
   // nsvgParse excepts a modifiable, null-terminated string
   char* copy = (char*)malloc(length + 1);
@@ -76,9 +70,9 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
   memcpy(copy, fileData, length);
   copy[length] = '\0';
 
-  mSVGImage = nsvgParse(copy, "px", DPI);
+  svgImage = nsvgParse(copy, "px", DPI);
   free(copy);
-  if (mSVGImage == nullptr)
+  if (svgImage == nullptr)
   {
     { LOG(LogError) << "[TextureBeta] Error parsing SVG image."; }
     return false;
@@ -88,8 +82,8 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
   // variables are set then use them otherwise set them from the parsed file
   if ((mSourceWidth == 0.0f) && (mSourceHeight == 0.0f))
   {
-    mSourceWidth = mSVGImage->width;
-    mSourceHeight = mSVGImage->height;
+    mSourceWidth = svgImage->width;
+    mSourceHeight = svgImage->height;
   }
   mWidth = (size_t)Math::round(mSourceWidth);
   mHeight = (size_t)Math::round(mSourceHeight);
@@ -97,20 +91,21 @@ bool TextureData::initSVGFromMemory(const unsigned char* fileData, size_t length
   if (mWidth == 0)
   {
     // auto scale width to keep aspect
-    mWidth = (size_t)Math::round(((float)mHeight / mSVGImage->height) * mSVGImage->width);
+    mWidth = (size_t)Math::round(((float)mHeight / svgImage->height) * svgImage->width);
   }
   else if (mHeight == 0)
   {
     // auto scale height to keep aspect
-    mHeight = (size_t)Math::round(((float)mWidth / mSVGImage->width) * mSVGImage->height);
+    mHeight = (size_t)Math::round(((float)mWidth / svgImage->width) * svgImage->height);
   }
 
   unsigned char* dataRGBA = new unsigned char[mWidth * mHeight * 4];
 
   NSVGrasterizer* rast = nsvgCreateRasterizer();
-  float scale = Math::min((float)mHeight / mSVGImage->height, (float)mWidth / mSVGImage->width);
-  nsvgRasterize(rast, mSVGImage, 0, 0, scale, dataRGBA, (int)mWidth, (int)mHeight, (int)mWidth << 2);
+  float scale = Math::min((float)mHeight / svgImage->height, (float)mWidth / svgImage->width);
+  nsvgRasterize(rast, svgImage, 0, 0, scale, dataRGBA, (int)mWidth, (int)mHeight, (int)mWidth << 2);
   nsvgDeleteRasterizer(rast);
+  nsvgDelete(svgImage);
 
   ImageIO::flipPixelsVert(dataRGBA, mWidth, mHeight);
 

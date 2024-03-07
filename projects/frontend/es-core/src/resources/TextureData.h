@@ -65,5 +65,4 @@ private:
 	float			mSourceHeight;
 	bool			mScalable;
 	bool			mReloadable;
-	NSVGimage*		mSVGImage;
 };

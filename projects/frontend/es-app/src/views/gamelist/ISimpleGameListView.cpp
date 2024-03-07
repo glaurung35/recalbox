@@ -8,8 +8,9 @@
 #include "views/MenuFilter.h"
 #include <usernotifications/NotificationManager.h>
 
-ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver)
+ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver,FlagCaches& flagCache)
   : Gui(window)
+  , mFlagCaches(flagCache)
   , mResolver(resolver)
   , mSystem(system)
   , mSystemManager(systemManager)

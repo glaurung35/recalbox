@@ -290,7 +290,7 @@ bool ThemeData::IsMatchingRegionOldTag(const pugi::xml_node& node) const
 
   for(String& region : String(node.attribute("region").as_string()).UpperCase().Split(','))
     if (region.Trim(); region.size() == 2)
-      if ((((int)region[0] << 8) | region[1]) == mRegionCodeInteger)
+      if (((((int)region[1] << 8) | region[0]) & 0xDFDF) == mRegionCodeInteger)
         return true;
   return false;
 }

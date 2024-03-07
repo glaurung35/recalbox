@@ -119,7 +119,7 @@ runInBackground() {
     timeout "$videoLength" mpv $(getMpvOptions) "${options[@]}"
   else
     mpv $(getMpvOptions) "${options[@]}" &
-    (sleep 3 && displayFrameBufferImage) &
+    (sleep 5 && displayFrameBufferImage) &
   fi
 }
 

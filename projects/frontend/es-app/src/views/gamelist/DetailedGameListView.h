@@ -18,7 +18,7 @@ class DetailedGameListView : public ISimpleGameListView
                            , private IVideoComponentAction
 {
   public:
-    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver);
+    DetailedGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
 
     ~DetailedGameListView() override;
 
@@ -145,9 +145,6 @@ class DetailedGameListView : public ISimpleGameListView
 
     //! Components linked by video component
     Array<Component*> mVideoLinks;
-
-    //! region to flag texture
-    HashMap<Regions::GameRegions, std::shared_ptr<TextureResource>> mRegionToTextures;
 
     //! Array of fade-in components (from transparent to opaque)
     Array<Component*> mFadeInList;

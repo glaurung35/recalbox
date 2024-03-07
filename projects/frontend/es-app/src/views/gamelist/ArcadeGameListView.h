@@ -17,7 +17,7 @@ class ArcadeGameListView : public DetailedGameListView
      * @param systemManager System manager reference
      * @param system Target system
      */
-    ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver);
+    ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
 
   private:
     //! Linked arcade/game structure + clone list

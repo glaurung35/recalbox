@@ -6,6 +6,7 @@
 #include "themes/ThemeExtras.h"
 #include "IArcadeGamelistInterface.h"
 #include "SlowDataInformation.h"
+#include "views/FlagCaches.h"
 #include <systems/SystemData.h>
 
 class SystemManager;
@@ -30,7 +31,7 @@ class ISimpleGameListView : public Gui
       Update, //!< Update lists
     };
 
-    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver);
+    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
 
     ~ISimpleGameListView() override = default;
 
@@ -141,6 +142,9 @@ class ISimpleGameListView : public Gui
     virtual void clean() = 0;
 
     virtual FileData* getEmptyListItem() = 0;
+
+    //! Flag texture cache
+    FlagCaches& mFlagCaches;
 
     //! Global variabel resolver
     const IGlobalVariableResolver& mResolver;

@@ -5,8 +5,8 @@
 #include "scraping/ScraperSeamless.h"
 #include "recalbox/RecalboxStorageWatcher.h"
 
-DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver)
-  : ISimpleGameListView(window, systemManager, system, resolver)
+DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache)
+  : ISimpleGameListView(window, systemManager, system, resolver, flagCache)
   , mEmptyListItem(&system)
   , mPopulatedFolder(nullptr)
   , mList(window)
@@ -645,17 +645,10 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
     for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
       if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
       {
-        std::shared_ptr<TextureResource>* flag = mRegionToTextures.try_get(region);
-        if (flag == nullptr)
-        {
-          // Load flag
-          std::shared_ptr<TextureResource> texture = TextureResource::get(Path(":/regions/" + Regions::GameRegionsFromEnum(region) + ".svg"), false, true, true);
-          mRegionToTextures.insert(region, texture);
-          flag = mRegionToTextures.try_get(region);
-        }
+        std::shared_ptr<TextureResource>& flagTexture = mFlagCaches.GetFlag(region);
         // Draw
         int x = (int)(position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
-        Renderer::DrawTexture(**flag, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
+        Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
         drawn++;
       }
   }
@@ -680,15 +673,8 @@ void DetailedGameListView::setRegions(FileData* file)
   for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
     if (Regions::GameRegions region = file->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
     {
-      std::shared_ptr<TextureResource>* flag = mRegionToTextures.try_get(region);
-      if (flag == nullptr)
-      {
-        // Load flag
-        std::shared_ptr<TextureResource> texture = TextureResource::get(Path(":/regions/" + Regions::GameRegionsFromEnum(region) + ".svg"), false, true, true);
-        mRegionToTextures.insert(region, texture);
-        flag = mRegionToTextures.try_get(region);
-      }
-      mRegions[r].setImage(*flag);
+      std::shared_ptr<TextureResource>& flagTexture = mFlagCaches.GetFlag(region);
+      mRegions[r].setImage(flagTexture);
     }
     else mRegions[r].setImage(Path::Empty);
 }

@@ -605,6 +605,8 @@ void ViewController::LaunchCheck()
 
 void ViewController::LaunchActually(const EmulatorData& emulator)
 {
+  mFlagCaches.Clear();
+
   DateTime start;
   GameRunner::Instance().RunGame(*mGameToLaunch, emulator, mGameLinkedData);
   if (mForceGoToGame)
@@ -683,8 +685,8 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 	//if we didn't, make it, remember it, and return it
 	ISimpleGameListView* view =
     (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
-    new ArcadeGameListView(mWindow, mSystemManager, *system, mResolver) :
-    new DetailedGameListView(mWindow, mSystemManager, *system, mResolver);
+    new ArcadeGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches) :
+    new DetailedGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches);
   view->DoInitialize();
 
 	addChild(view);

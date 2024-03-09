@@ -4537,7 +4537,7 @@ mmatrix,mame2010,arcade:224@59.629403,0,0,0
 mmatrixd,mame2010,arcade:224@59.629403,0,0,0
 mmatrixj,mame2010,arcade:224@59.629403,0,0,0
 mmaulers,mame2010,arcade:224@59.185606,0,0,0
-mmaze,mame2010,arcade:224@60.606060,0,0,1
+mmaze,mame2010,arcade:224@60.606060,0,0,0
 mmcamera,mame2010,arcade:224@60.000000,0,0,0
 mmehyou,mame2010,arcade:240@60.000000,0,0,0
 mmonkey,mame2010,arcade:240@57.444853,0,0,1
@@ -11911,8 +11911,8 @@ mmatrix,fbneo,arcade:224@59.637405,0,0,0
 mmatrixd,fbneo,arcade:224@59.637405,0,0,0
 mmatrixj,fbneo,arcade:224@59.637405,0,0,0
 mmaulers,fbneo,arcade:224@59.185606,0,0,0
-mmaze,fbneo,arcade:224@60.606061,0,0,1
-mmaze2,fbneo,arcade:224@60.606061,0,0,1
+mmaze,fbneo,arcade:224@60.606061,0,0,0
+mmaze2,fbneo,arcade:224@60.606061,0,0,0
 mmonkey,fbneo,arcade:240@57.444853,0,0,1
 mnchmobl,fbneo,arcade:240@57.000000,0,0,1
 mnight,fbneo,arcade:192@59.610000,0,0,0

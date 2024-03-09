@@ -5,7 +5,7 @@
 ################################################################################
 
 ifneq ($(GITLAB_TOKEN_THEMES),)
-RECALBOX_THEMES_VERSION = 8cbd6b504d63c1f57da39e8479a20d3394640f1c
+RECALBOX_THEMES_VERSION = 9a1279f1a0493aabf9e1d27686de2fb35aedf7e7
 RECALBOX_THEMES_SITE = https://gitlab-ci-token:$(GITLAB_TOKEN_THEMES)@gitlab.com/recalbox/recalbox-themes-prime
 else
 RECALBOX_THEMES_VERSION = c89e685dcd884f311506f1fe6a7b8522021c8080

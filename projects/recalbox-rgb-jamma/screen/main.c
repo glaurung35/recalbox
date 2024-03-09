@@ -126,6 +126,9 @@ void update_screen() {
     ssd1306_oled_set_XY(0, 7);
     sprintf(buf, "x%d", factor);
     ssd1306_oled_write_line(SSD1306_FONT_SMALL, buf);
+
+    // Temp
+    draw_temp(readTemp());
 }
 
 /* Callback called when the client receives a message. */

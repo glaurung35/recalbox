@@ -655,6 +655,7 @@ static struct config {
   bool hk_on_start;
   bool credit_on_start_btn1;
   bool exit_on_start;
+  bool sound_on_start;
   bool autofire;
   uint autofire_time;
   bool i2s;
@@ -980,7 +981,7 @@ static short should_release_hk = 0;
 #define PRESS_AND_RELEASE(player, button) \
   PRESS_AND_SYNC(player, button);         \
   RELEASE_AND_SYNC(player, button);
-#define HOTKEY_PATTERNS_ENABLED(jamma_config) (jamma_config.credit_on_start_btn1 || jamma_config.hk_on_start || jamma_config.exit_on_start)
+#define HOTKEY_PATTERNS_ENABLED(jamma_config) (jamma_config.credit_on_start_btn1 || jamma_config.hk_on_start || jamma_config.exit_on_start || jamma_config.sound_on_start)
 
 static long long press_time[MAX_PLAYERS][BTN_PER_PLAYER_ON_JAMMA] = {0};
 static bool turbo_enabled[MAX_PLAYERS][BTN_PER_PLAYER_ON_JAMMA] = {0};
@@ -1049,9 +1050,9 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
           press_time[player][button] = 0;
         }
       }
-      // Directions
-      for (int direction = DIR_UP; direction <= DIR_RIGHT; direction++) {
-        if (jamma_config.hk_on_start && !should_release_hk) {
+      // Directions for volume
+      if (jamma_config.sound_on_start) {
+        for (int direction = DIR_UP; direction <= DIR_DOWN; direction++) {
           if (PRESSED(*data_chips, direction_bits[player][direction])) {
             // Volume (UP/DOWN)
             if(direction == DIR_UP) {
@@ -1062,13 +1063,31 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
               printk(KERN_INFO "recalboxrgbjamma: VOLUME DOWN\n");
               PRESS_AND_RELEASE(player, buttons_codes[VOLUME_DOWN]);
               should_release_start = 0;
-            } else {
-              // As another direction has been pressed, we press hotkey before
-              printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
-              PRESS_AND_SYNC(PLAYER1, BTN_MODE);
-              can_exit = 0;
-              should_release_hk = 1;
             }
+          }
+        }
+      }
+      // Directions up down if not volume on start enabled but hk on start is enabled
+      if (jamma_config.hk_on_start && !jamma_config.sound_on_start && !should_release_hk) {
+        for (int direction = DIR_UP; direction <= DIR_DOWN; direction++) {
+          if (PRESSED(*data_chips, direction_bits[player][direction])) {
+            printk(KERN_INFO
+            "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+            can_exit = 0;
+            should_release_hk = 1;
+          }
+        }
+      }
+      // Directions left/right if hk_on_start enabled
+      if (jamma_config.hk_on_start && !should_release_hk) {
+        for (int direction = DIR_LEFT; direction <= DIR_RIGHT; direction++) {
+          if (PRESSED(*data_chips, direction_bits[player][direction])) {
+            // As another direction has been pressed, we press hotkey before
+            printk(KERN_INFO "recalboxrgbjamma: sending HK + DIRECTION %d\n", direction);
+            PRESS_AND_SYNC(PLAYER1, BTN_MODE);
+            can_exit = 0;
+            should_release_hk = 1;
           }
         }
       }
@@ -1106,8 +1125,8 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
           PRESS_AND_RELEASE(PLAYER1, BTN_START);
         }
       } else if (should_release_hk) {
-          // Start have been released after a credit
-          RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
+        // Start have been released after a credit
+        RELEASE_AND_SYNC(PLAYER1, BTN_MODE);
       }
     }
     should_release_start = 1;
@@ -1494,6 +1513,11 @@ static int load_config(void) {
               printk(KERN_INFO "recalboxrgbjamma: switch hk_on_start to %d\n", optionvalue);
               jamma_config.hk_on_start = optionvalue;
             }
+          } else if (strcmp(optionname, "options.jamma.controls.sound_on_start") == 0) {
+            if (jamma_config.sound_on_start != optionvalue) {
+              printk(KERN_INFO "recalboxrgbjamma: switch sound_on_start to %d\n", optionvalue);
+              jamma_config.sound_on_start = optionvalue;
+            }
           } else if (strcmp(optionname, "options.jamma.controls.credit_on_start_btn1") == 0) {
             if (jamma_config.credit_on_start_btn1 != optionvalue) {
               printk(KERN_INFO "recalboxrgbjamma: switch credit_on_start_btn1 to %d\n", optionvalue);
@@ -1865,6 +1889,7 @@ pca953x_init(void) {
   jamma_config.gpio_chip_2 = NULL;
   jamma_config.expander = NULL;
   jamma_config.hk_on_start = true;
+  jamma_config.sound_on_start = true;
   jamma_config.credit_on_start_btn1 = true;
   jamma_config.exit_on_start = true;
   jamma_config.autofire = true;

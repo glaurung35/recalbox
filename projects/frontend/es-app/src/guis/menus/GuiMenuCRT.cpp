@@ -153,6 +153,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
               (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
     AddSwitch(_("START+BTN = HK+BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
               (int)Components::JammaHKOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
+    AddSwitch(_("START+UP/DOWN = VOLUME"), CrtConf::Instance().GetSystemCRTJammaSoundOnStart(),
+              (int)Components::JammaSoundOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_HK));
     AddSwitch(_("START 3SEC = EXIT"), CrtConf::Instance().GetSystemCRTJammaExitOnStart(),
               (int)Components::JammaExitOnStart, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_EXIT));
     AddSwitch(_("START+BTN 5SEC = AUTO FIRE"), CrtConf::Instance().GetSystemCRTJammaAutoFire(),
@@ -423,6 +425,8 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
     CrtConf::Instance().SetSystemCRTJammaButtonsOnJamma(status ? "5" : "6").Save();
   if ((Components)id == Components::JammaDualJoysticks)
     CrtConf::Instance().SetSystemCRTJammaDualJoysticks(status).Save();
+  if ((Components)id == Components::JammaSoundOnStart)
+    CrtConf::Instance().SetSystemCRTJammaSoundOnStart(status).Save();
   if ((Components)id == Components::ForceJack)
   {
     mForceJack = status;

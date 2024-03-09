@@ -62,6 +62,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAutoFire, bool, Bool, sSystemCRTJammaAutoFire, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaButtonsOnJamma, String, String, sSystemCRTJammaButtonsOnJamma, "6")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaDualJoysticks, bool, Bool, sSystemCRTJammaDualJoysticks, false)
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaSoundOnStart, bool, Bool, sSystemCRTJammaSoundOnStart, true)
 
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreen31kHz, bool, Bool, sSystemCRTScreen31kHz, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTScreenMultiSync, bool, Bool, sSystemCRTScreenMultiSync, false)
@@ -104,7 +105,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     static constexpr const char* sSystemCRTJammaAutoFire          = "options.jamma.controls.autofire";
     static constexpr const char* sSystemCRTJammaButtonsOnJamma    = "options.jamma.controls.buttons_on_jamma";
     static constexpr const char* sSystemCRTJammaDualJoysticks     = "options.jamma.controls.dualjoysticks";
-
+    static constexpr const char* sSystemCRTJammaSoundOnStart      = "options.jamma.controls.sound_on_start";
 
     static constexpr const char* sViewportPrefix                  = "viewport";
     static constexpr const char* sModeOffsetPrefix                = "mode.offset";

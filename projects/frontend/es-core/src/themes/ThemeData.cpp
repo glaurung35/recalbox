@@ -556,16 +556,17 @@ void ThemeData::CrawlRegions(const pugi::xml_document& doc)
 
 String::List ThemeData::GetSubSetValues(const String& subset) const
 {
-  HashSet<String>* list = mSubSets.try_get(subset);
+  HashSet<String>* plist = mSubSets.try_get(subset);
   // No subset at all ?
-  if (list == nullptr)
+  if (plist == nullptr)
   {
     static String::List sEmptySubset;
     return sEmptySubset;
   }
 
   // Empty subset? special case for gameclipview
-  if (subset == "gameclipview" && !list->empty())
+  HashSet<String>& list = *plist;
+  if (subset == "gameclipview" && list.empty())
   {
     static String::List sEmptySubset { getNoTheme() };
     return sEmptySubset;
@@ -573,7 +574,7 @@ String::List ThemeData::GetSubSetValues(const String& subset) const
 
   // Sort
   String::List result;
-  for(const String& string : *list)
+  for(const String& string : list)
     result.push_back(string);
   std::sort(result.begin(), result.end());
 

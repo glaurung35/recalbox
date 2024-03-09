@@ -64,7 +64,8 @@ class GuiMenuCRT : public GuiMenuBase
       JammaButtonsBtn6Gnd,
       JammaDualJoysticks,
       ResetJamma,
-      JammaSoundOutput
+      JammaSoundOutput,
+      JammaSoundOnStart
     };
 
     //! Dac selection

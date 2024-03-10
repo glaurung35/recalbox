@@ -81,7 +81,6 @@ const std::vector<std::pair<String, String>>& ArcadeVirtualSystems::GetVirtualAr
       { "nichibutsu",     "Nichibutsu" },
       { "nintendo",       "Nintendo" },
       { "nmk",            "NMK" },
-      { "nmk",            "NML" },
       { "psikyo",         "Psikyo" },
       { "sammy",          "Sammy" },
       { "sega",           "SEGA" },

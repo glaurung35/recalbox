@@ -149,8 +149,11 @@ int main(int argc, char **argv) {
     //struct mosquitto *mosq = NULL;
     printf("Starting screen utility\n");
     uint8_t rc = 0;
+    #ifdef ARCH_RPI4
+    uint8_t i2c_node_address = 22;
+    #else
     uint8_t i2c_node_address = 0;
-
+    #endif
     rc = ssd1306_init(i2c_node_address);
     ssd1306_oled_default_config(64, 128);
     if (rc != 0) {

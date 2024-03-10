@@ -4,6 +4,10 @@ LDFLAGS=-lmosquitto -ldrm
 OBJS=main.o ssd1306.o linux_i2c.o mqtt.o kms-mode.o
 BIN=recalboxrgbjamma_screen
 
+ifneq ("$(ARCH_RPI4)", "")
+	CFLAGS+=-DARCH_RPI4=1
+endif
+
 default: $(BIN)
 .PHONY: default clean
 

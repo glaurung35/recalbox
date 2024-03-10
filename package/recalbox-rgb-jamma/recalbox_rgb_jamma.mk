@@ -10,6 +10,10 @@ RECALBOX_RGB_JAMMA_SITE_METHOD = local
 RECALBOX_RGB_JAMMA_LICENSE = GPL
 RECALBOX_RGB_JAMMA_DEPENDENCIES = linux recalbox-rgb-dual mosquitto
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
+RECALBOX_RGB_JAMMA_EXTRA_ARGS=ARCH_RPI4=1
+endif
+
 define RECALBOX_RGB_JAMMA_BUILD_CMDS
 	$(HOST_DIR)/bin/linux-dtc $(@D)/recalboxrgbjamma-overlay.dts -o $(@D)/recalboxrgbjamma.dtbo
 	$(HOST_DIR)/bin/linux-dtc $(@D)/recalboxrgbjamma-pi5-overlay.dts -o $(@D)/recalboxrgbjamma-pi5.dtbo
@@ -20,7 +24,7 @@ define RECALBOX_RGB_JAMMA_BUILD_CMDS
 	CFLAGS="$(TARGET_CFLAGS) $(COMPILER_COMMONS_CFLAGS_SO)" CROSS_DIR="$(STAGING_DIR)" \
 		CXXFLAGS="$(TARGET_CXXFLAGS) $(COMPILER_COMMONS_CXXFLAGS_SO) -std=c++11" \
 		LDFLAGS="$(TARGET_LDFLAGS) $(COMPILER_COMMONS_LDFLAGS_SO)" \
-		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/screen -f Makefile
+		$(MAKE) CXX="$(TARGET_CXX)" CC="$(TARGET_CC)" -C $(@D)/screen -f Makefile $(RECALBOX_RGB_JAMMA_EXTRA_ARGS)
 endef
 
 define RECALBOX_RGB_JAMMA_INSTALL_TARGET_CMDS

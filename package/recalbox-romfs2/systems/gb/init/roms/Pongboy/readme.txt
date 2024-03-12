@@ -1,6 +1,6 @@
-Pongboy Recalbox Edition
+Pongboy
 
-Eric Quaranta has kindly given his permission to include "Pongboy Recalbox Edition" in the Recalbox distribution.
+Eric Quaranta has kindly given his permission to include "Pongboy" in the Recalbox distribution.
 
 You can visit the author page here: https://www.studio40a.fr/
 Contact: eric@studio40a.fr

@@ -60,7 +60,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaExitOnStart, bool, Bool, sSystemCRTJammaExitOnStart, true)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJamma4Players, bool, Bool, sSystemCRTJamma4Players, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaAutoFire, bool, Bool, sSystemCRTJammaAutoFire, true)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaButtonsOnJamma, String, String, sSystemCRTJammaButtonsOnJamma, "6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTJammaButtonsOnJamma, String, String, sSystemCRTJammaButtonsOnJamma, "5")
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaDualJoysticks, bool, Bool, sSystemCRTJammaDualJoysticks, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTJammaSoundOnStart, bool, Bool, sSystemCRTJammaSoundOnStart, true)
 

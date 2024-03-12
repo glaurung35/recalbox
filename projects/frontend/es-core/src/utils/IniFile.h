@@ -7,8 +7,9 @@
 #include <utils/storage/HashMap.h>
 #include <utils/storage/Set.h>
 #include "utils/os/system/Mutex.h"
+#include "SecuredFile.h"
 
-class IniFile
+class IniFile : public SecuredFile::IValidationInterface
 {
   public:
     /*!
@@ -29,7 +30,7 @@ class IniFile
     explicit IniFile(const Path& confpath, const Path& fallbackpath, bool extraSpace, bool autoBackup);
 
     //! Destructor
-    virtual ~IniFile()
+    ~IniFile() override
     {
       Save();
     }
@@ -290,5 +291,16 @@ class IniFile
      * @return Value or empty string if the key does not exists
      */
     [[nodiscard]] const String& ExtractValue(const String& key) const;
+
+    /*
+     * SecuredFile::IValidationInterface implementation
+     */
+
+    /*!
+     * @brief Interface implementation must validate content
+     * @param content File content
+     * @return True if the content is valid, false otherwise
+     */
+    bool ValidateContent(const String& content) final;
 };
 

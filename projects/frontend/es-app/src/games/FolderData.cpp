@@ -652,7 +652,7 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::PreInstalled;
   if (!fd->System().IncludeAdultGames() && fd->Metadata().Adult())
     currentExcludes |= Filter::Adult;
-  if (fd->Metadata().GenreId() == GameGenres::Board)
+  if (fd->Metadata().GenreId() == GameGenres::Board || fd->Metadata().GenreId() == GameGenres::Trivia || fd->Metadata().GenreId() == GameGenres::Casino)
     currentExcludes |= Filter::Board;
   if (fd->Metadata().Rotation() == RotationType::None)
     currentExcludes |= Filter::Yoko;

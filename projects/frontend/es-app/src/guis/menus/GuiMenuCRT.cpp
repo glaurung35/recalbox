@@ -68,7 +68,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
     AddSwitch(_("PRIORITY TO HDMI"), mOriginalForceHDMI, (int)Components::ForceHDMI, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_HDMI_HELP_MSG));
 
   // Game Region selection
-  AddSwitch(_("SELECT GAME REFRESH RATE AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameRegionSelect(), (int)Components::GameRegion, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG));
+  if(!isRGBJamma)
+    AddSwitch(_("SELECT GAME REFRESH RATE AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameRegionSelect(), (int)Components::GameRegion, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_REGION_HELP_MSG));
 
   // Game Resolution selection
   AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));

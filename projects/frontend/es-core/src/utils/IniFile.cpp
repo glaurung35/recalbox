@@ -135,55 +135,54 @@ bool IniFile::Save()
   String::List lines = content.Split('\n');
   { LOG(LogDebug) << "[IniFile] Save: " << lines.size() << " lines loaded."; }
 
-  // Save new value if exists
+  // Run throiugh lines
   int replacedLines = 0;
   int addedLines = 0;
   int deletedLines = 0;
   String lineKey;
   String lineVal;
   String equal(mExtraSpace ? " = " : "=");
-  for (auto& it : mPendingWrites)
+  HashSet<String> encounteredKeys;
+
+  for (auto& line : lines)
   {
-    // Write new kay/value
-    String key(it.first);
-    String orgKey(key);
-    String val(it.second);
-    bool lineFound = false;
     bool commented = false;
-    for (auto& line : lines)
-      if (IsValidKeyValue(line.Trim(), lineKey, lineVal, commented))
-        if (lineKey == key)
-        {
-          line = key.Append(equal).Append(val);
-          lineFound = true;
-          replacedLines++;
-          break;
-        }
-    if (!lineFound)
+    if (IsValidKeyValue(line.Trim(), lineKey, lineVal, commented))
     {
-      lines.push_back(key.Append(equal).Append(val));
-      addedLines++;
+      // Key alreadu encountered
+      if (encounteredKeys.contains(lineKey))
+      {
+        if (!line.StartsWith(';')) line.Insert(0, ';'); // Comment the line
+        continue;
+      }
+      // Try in pending writes
+      if (String* value = mPendingWrites.try_get(lineKey); value != nullptr)
+      {
+        line = String(lineKey).Append(equal).Append(*value);
+        mConfiguration[lineKey] = *value;
+        mPendingWrites.erase(lineKey);
+        replacedLines++;
+      }
+      // Try pending deletes (no else, cause a pending write may have been deleted also)
+      if (mPendingDelete.contains(lineKey))
+      {
+        if (!line.StartsWith(';')) line.Insert(0, ';');
+        mPendingDelete.erase(lineKey);
+        deletedLines++;
+      }
+      // Line encountered
+      encounteredKeys.insert(lineKey);
     }
-
-    // Move from Pendings to regular Configuration
-    mConfiguration[orgKey] = val;
-    mPendingWrites.erase(key);
   }
 
-  // Delete (comment) keys
-  for (auto& deletedKey : mPendingDelete)
-  {
-    bool commented = false;
-    for (auto& line : lines)
-      if (IsValidKeyValue(line.Trim(" \t\r\n"), lineKey, lineVal, commented))
-        if (lineKey == deletedKey)
-          if (!commented)
-          {
-            line = String(';').Append(deletedKey).Append(equal).Append(lineVal);
-            deletedLines++;
-          }
-  }
+  // Add remaining lines
+  addedLines += (int)mPendingWrites.size();
+  for(const auto& keyValue : mPendingWrites)
+    lines.push_back(String(keyValue.first).Append(equal).Append(keyValue.second));
+
+  // Clear pendings
   mPendingDelete.clear();
+  mPendingWrites.clear();
 
   { LOG(LogDebug) << "[IniFile] Save: " << replacedLines << " values replaced. " << addedLines << " keys/values added. " << deletedLines << " keys commented."; }
 

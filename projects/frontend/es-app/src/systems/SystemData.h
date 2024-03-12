@@ -10,12 +10,14 @@
 #include "games/MetadataType.h"
 #include "VirtualSystemType.h"
 #include "themes/ThemeManager.h"
+#include "utils/SecuredFile.h"
 #include <systems/SystemDataBase.h>
 
 class SystemManager;
 
 class SystemData : private INoCopy
                  , public SystemDataBase
+                 , public SecuredFile::IValidationInterface
 {
   public:
     //! System properties
@@ -310,6 +312,17 @@ class SystemData : private INoCopy
      * @param game Game to remove reference to
      */
     void RemoveArcadeReference(const FileData& game);
+
+    /*
+     * SecuredFile::IValidationInterface implementation
+     */
+
+    /*!
+     * @brief Interface implementation must validate content
+     * @param content File content
+     * @return True if the content is valid, false otherwise
+     */
+    bool ValidateContent(const String& content) final;
 };
 
 DEFINE_BITFLAG_ENUM(SystemData::Properties, int)

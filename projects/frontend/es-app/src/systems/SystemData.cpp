@@ -3,7 +3,6 @@
 #include "audio/AudioManager.h"
 #include "games/GameFilesUtils.h"
 #include <usernotifications/NotificationManager.h>
-#include <utils/Files.h>
 
 SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties)
   : mSystemManager(systemManager)
@@ -133,18 +132,31 @@ FileData* SystemData::LookupOrCreateGame(RootFolderData& topAncestor, const Path
   return nullptr;
 }
 
+bool SystemData::ValidateContent(const String& content)
+{
+  XmlDocument gameList;
+  XmlResult result = gameList.load_string(content.data());
+  if (!result) { LOG(LogError) << "[Gamelist] Validator cannot parse xml content"; return false; }
+  return true;
+}
+
 void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile)
 {
   try
   {
-    Path xmlpath = getGamelistPath(root, false);
-    if (!xmlpath.Exists()) return;
+    Path xmlPath = getGamelistPath(root, false);
+    String xml;
+    if (!SecuredFile::LoadSecuredFile(xmlPath, Path::Empty, xml, String(FullName()).Append(" gamelist"), true, this))
+    {
+      { LOG(LogError) << "[Gamelist] Cannot load gamelist " << xmlPath.ToString() << " for system " << FullName(); }
+      return;
+    }
 
     XmlDocument gameList;
-    XmlResult result = gameList.load_file(xmlpath.ToChars());
+    XmlResult result = gameList.load_string(xml.data());
     if (!result)
     {
-      { LOG(LogError) << "[Gamelist] Could not parse " << xmlpath.ToString() << " file!"; }
+      { LOG(LogError) << "[Gamelist] Cannot parse " << xmlPath.ToString() << " file!"; }
       return;
     }
 
@@ -267,27 +279,8 @@ void SystemData::UpdateGamelistXml()
         document.save(Writer);
 
         // Save
-        Path xmlTempPath = xmlWritePath.ChangeExtension(".tmp");
-        if (Files::SaveFile(xmlTempPath, Writer.mOutput))
-        {
-          // Force sync to disk
-          sync();
-          // Check size
-          if (xmlTempPath.Size() > 0)
-          {
-            // Delete old list & rename tmp => xml
-            (void)xmlWritePath.Delete();
-            if (Path::Rename(xmlTempPath, xmlWritePath))
-            {
-              // Sync again
-              sync();
-              { LOG(LogInfo) << "[Gamelist] Saved gamelist.xml for system " << FullName() << ". Updated items: " << fileList.size() << "/" << fileList.size(); }
-            }
-            else { LOG(LogInfo) << "[Gamelist] Failed to rename " << xmlTempPath << " into " << xmlWritePath; }
-          }
-          else { LOG(LogError) << "[Gamelist] Null file size! " << xmlTempPath.ToString(); }
-        }
-        else { LOG(LogError) << "[Gamelist] Failed to save " << xmlTempPath.ToString(); }
+        if (!SecuredFile::SaveSecuredFile(xmlWritePath, Writer.mOutput, String(FullName()).Append(" gamelist"), true, this))
+        { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
       }
       catch (std::exception& e)
       {

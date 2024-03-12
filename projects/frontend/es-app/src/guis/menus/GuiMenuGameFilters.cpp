@@ -24,7 +24,7 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemManager& sys
 
   AddSwitch(_("SHOW HIDDEN GAMES"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_UI_SHOW_HIDDEN_MSG));
 
-  AddSwitch(_("HIDE BOARD GAMES (MAHJONG)"), RecalboxConf::Instance().GetHideBoardGames(), (int)Components::BoardGames, this, _(MENUMESSAGE_UI_HIDE_BOARD_GAMES_MSG));
+  AddSwitch(_("HIDE MAHJONG AND CASINO GAMES"), RecalboxConf::Instance().GetHideBoardGames(), (int)Components::BoardGames, this, _(MENUMESSAGE_UI_HIDE_BOARD_GAMES_MSG));
 
   AddSwitch(_("HIDE ADULT GAMES"), RecalboxConf::Instance().GetFilterAdultGames(), (int)Components::Adult, this, _(MENUMESSAGE_UI_HIDE_ADULT_MSG));
 

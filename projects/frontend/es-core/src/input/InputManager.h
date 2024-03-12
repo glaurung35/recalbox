@@ -15,6 +15,7 @@ class WindowManager;
 
 class InputManager : public StaticLifeCycleControler<InputManager>
                    , public IFileSystemWatcherNotification
+                   , public SecuredFile::IValidationInterface
 {
   public:
     /*!
@@ -80,7 +81,7 @@ class InputManager : public StaticLifeCycleControler<InputManager>
      * @brief Write device configuration to Xml configuration file
      * @param device
      */
-    static void WriteDeviceXmlConfiguration(InputDevice& device);
+    void WriteDeviceXmlConfiguration(InputDevice& device);
 
     /*!
      * @brief Get device by index
@@ -115,7 +116,7 @@ class InputManager : public StaticLifeCycleControler<InputManager>
      * @param device Device to look for configuration
      * @return
      */
-    static bool LookupDeviceXmlConfiguration(InputDevice& device);
+    bool LookupDeviceXmlConfiguration(InputDevice& device);
 
     /*!
      * @brief Log a detailled report of the raw input event
@@ -309,4 +310,15 @@ class InputManager : public StaticLifeCycleControler<InputManager>
      * @param time Timestamp
      */
     void FileSystemWatcherNotification(EventType event, const Path& path, const DateTime& time) override;
+
+    /*
+     * SecuredFile::IValidationInterface implementation
+     */
+
+    /*!
+     * @brief Interface implementation must validate content
+     * @param content File content
+     * @return True if the content is valid, false otherwise
+     */
+    bool ValidateContent(const String& content) final;
 };

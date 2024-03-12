@@ -7,6 +7,7 @@
 
 #include <utils/Files.h>
 #include "utils/Log.h"
+#include "recalbox/RecalboxSystem.h"
 
 String IniFile::sAllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-");
 
@@ -34,6 +35,32 @@ void IniFile::PurgeKey(String& key)
       c = '-';
 }
 
+bool IniFile::ValidateContent(const String& content)
+{
+  // An empty file may have been a wrecked file. Invalidate.
+  if (content.Count() == 0) return false;
+
+  int faults = 0;
+  String key;
+  String value;
+  for(String& line : content.Split('\n'))
+  {
+    line.Trim();
+    if (line.empty()) continue; // Empty line ok
+    if (line[0] == '#') continue; // Comment line
+    if (line.Extract('=', key, value, true))
+      if (!key.empty())
+      {
+        if (key[0] == ';') key.erase(0, 1);
+        if (!key.empty())
+          if (key.find_first_not_of(sAllowedCharacters) == String::npos) continue; // ok !
+      }
+    faults++;
+  }
+
+  return faults <= 3;
+}
+
 bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bool& isCommented)
 {
   if (!line.empty()) // Ignore empty line
@@ -58,35 +85,10 @@ bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bo
 
 bool IniFile::LoadContent(String& content)
 {
-  // Regular file
-  if (!mFilePath.IsEmpty() && mFilePath.Exists())
-  {
-    content = Files::LoadFile(mFilePath);
-    { LOG(LogDebug) << "[IniFile] Load: Loading default file " << mFilePath << " of " << content.size() << " bytes."; }
-    if (!content.empty()) return true;
-  }
 
-  // Backup if required
-  if (mAutoBackup)
-  {
-    Path backup(mFilePath.ToString() + ".backup");
-    if (!backup.IsEmpty() && backup.Exists())
-    {
-      content = Files::LoadFile(backup);
-      { LOG(LogDebug) << "[IniFile] Load: Loading backup file " << backup << " of " << content.size() << " bytes."; }
-      if (!content.empty()) return true;
-    }
-  }
-
-  // Fallback file
-  if (!mFallbackFilePath.IsEmpty() && mFallbackFilePath.Exists())
-  {
-    content = Files::LoadFile(mFallbackFilePath);
-    { LOG(LogDebug) << "[IniFile] Load: Loading fallback filepath " << mFallbackFilePath << " of " << content.size() << " bytes."; }
-    if (!content.empty()) return true;
-  }
-
-  return false;
+  bool ok = SecuredFile::LoadSecuredFile(mFilePath, mFallbackFilePath, content, "Ini File", true, this);
+  if (!ok) { LOG(LogError) << "[IniFile] Cannot load " << mFilePath; }
+  return ok;
 }
 
 bool IniFile::Load()
@@ -101,7 +103,8 @@ bool IniFile::Load()
   { LOG(LogDebug) << "[IniFile] Load: " << lines.size() << " lines loaded."; }
 
   // Get key/value
-  String key, value;
+  String key;
+  String value;
   bool comment = false;
   for (String& line : lines)
     if (IsValidKeyValue(line.Trim(), key, value, comment))
@@ -110,16 +113,6 @@ bool IniFile::Load()
 
   OnLoad();
   return !mConfiguration.empty();
-}
-
-static bool MakeBootReadOnly()
-{
-  return system("mount -o remount,ro /boot") == 0;
-}
-
-static bool MakeBootReadWrite()
-{
-  return system("mount -o remount,rw /boot") == 0;
 }
 
 bool IniFile::Save()
@@ -197,29 +190,10 @@ bool IniFile::Save()
   // Save new
   bool result = true;
   bool boot = mFilePath.StartWidth("/boot/");
-  if (boot && MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
-  if (mAutoBackup)
-  {
-    Path backup(mFilePath.ToString() + ".backup");
-    if (!backup.Delete()) { LOG(LogError) << "[IniFile] Save: Error deleting backup file " << backup; }
-    if (!Path::Rename(mFilePath, backup)) { LOG(LogError) << "[IniFile] Save: Error moving file " << mFilePath << " to backup file " << backup; }
-  }
-  if (!Files::SaveFile(mFilePath, String::Join(lines, '\n')))
-  {
-    { result = false; LOG(LogError) << "[IniFile] Save: Error saving file " << mFilePath; }
-    if (mAutoBackup)
-    {
-      { result = false; LOG(LogError) << "[IniFile] Save: Trying emergency rescue from backup file"; }
-      Path backup(mFilePath.ToString() + ".backup");
-      if (backup.Exists())
-      {
-        if (!mFilePath.Delete()) { LOG(LogWarning) << "[IniFile] Save: Error deleting unsafe " << mFilePath; }
-        if (!Path::Rename(backup, mFilePath)) { LOG(LogError) << "[IniFile] Save: Error moving file " << backup << " to backup file " << mFilePath; }
-      }
-      else { LOG(LogError) << "[IniFile] Save: Backup file unavailable!"; }
-    }
-  }
-  if (boot && MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
+  if (boot && !RecalboxSystem::MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
+  if (!SecuredFile::SaveSecuredFile(mFilePath, String::Join(lines, '\n'), "Ini File", true, this))
+  { LOG(LogError) << "[IniFile] Unable to save " << mFilePath; }
+  if (boot && !RecalboxSystem::MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 
   OnSave();
   return result;
@@ -233,7 +207,8 @@ String IniFile::AsString(const String& name) const
 String IniFile::AsString(const String& name, const String& defaultValue) const
 {
   String item = ExtractValue(name);
-  return (!item.empty()) ? item : defaultValue;
+  if (!item.empty()) return item;
+  return defaultValue;
 }
 
 bool IniFile::AsBool(const String& name, bool defaultValue) const

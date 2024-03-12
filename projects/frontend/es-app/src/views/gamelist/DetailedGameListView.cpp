@@ -634,6 +634,7 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
 
 void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
 {
+  (void)parentTrans;
   (void)color;
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
   if (w != 0)

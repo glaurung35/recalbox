@@ -395,13 +395,29 @@ Path InputManager::ConfigurationPath()
   return RootFolders::DataRootFolder / "system/.emulationstation/es_input.cfg";
 }
 
+bool InputManager::ValidateContent(const String& content)
+{
+  XmlDocument gameList;
+  XmlResult result = gameList.load_string(content.data());
+  if (!result) { LOG(LogError) << "[Input] Validator cannot parse xml content"; return false; }
+  return true;
+}
+
+
 bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
 {
   Path path = ConfigurationPath();
   if (!path.Exists()) return false;
 
+  String content;
+  if (!SecuredFile::LoadSecuredFile(path, Path::Empty, content, "Pad Configuration", true, this))
+  {
+    { LOG(LogError) << "[Input] Cannot load input configuration file"; }
+    return false;
+  }
+
   pugi::xml_document doc;
-  pugi::xml_parse_result res = doc.load_file(path.ToChars());
+  pugi::xml_parse_result res = doc.load_string(content.data());
   if (!res)
   {
     { LOG(LogError) << "[Input] Error parsing input config: " << res.description(); }
@@ -498,7 +514,20 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   if (!root) root = doc.append_child("inputList");
 
   device.SaveToXml(root);
-  doc.save_file(path.ToChars());
+
+  /*
+   * Custom thread-safe writer
+   */
+  struct XmlWriter : public pugi::xml_writer
+  {
+    String mOutput;
+    void write(const void* data, size_t size) override { mOutput.Append((const char*)data, (int)size); }
+  }
+  Writer;
+
+  doc.save(Writer);
+  if (SecuredFile::SaveSecuredFile(path, Writer.mOutput, "Pad Configuration", true, this))
+  { LOG(LogError) << "[Input] Error saving input configuration file"; }
 }
 
 OrderedDevices InputManager::GetMappedDeviceList(const InputMapper& mapper)

@@ -1536,6 +1536,10 @@ static int load_config(void) {
                 printk(KERN_INFO "recalboxrgbjamma: setting BTN6 to output GND\n", optionvalue);
                 pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 14, 0);
                 pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
+              } else {
+                printk(KERN_INFO "recalboxrgbjamma: setting BTN6 to input\n", optionvalue);
+                pca953x_gpio_direction_input(jamma_config.gpio_chip_1, 14);
+                pca953x_gpio_direction_input(jamma_config.gpio_chip_1, 15);
               }
             }
           } else if (strcmp(optionname, "options.jamma.controls.autofire") == 0) {
@@ -1753,6 +1757,7 @@ static int pca953x_probe(struct i2c_client *client,
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_FAN, 1);
     pca953x_gpio_direction_output(&chip->gpio_chip, EXP_EXTRA1, 1);
   } else {
+    // We are a on control chip
     for (gpio_idx = 0; gpio_idx < 16; gpio_idx++) {
       if (pca953x_gpio_direction_input(&chip->gpio_chip, gpio_idx) != 0) {
         dev_err(&client->dev, "cannot set input for gpio %d on chip %d\n", gpio_idx, client->addr);
@@ -1774,6 +1779,10 @@ static int pca953x_probe(struct i2c_client *client,
         if ((gpio_data & 0x0000FFFF0000) != 0x0000FFFF0000) {
           dev_info(&client->dev, "At module loading, some buttons are pressed on chip 1: %04X\n", (gpio_data & 0x0000FFFF0000) >> 16);
         }
+        pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 14, 0);
+        pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
+        /* no need to auto detect pressed btn6 on jamma as it's configured by default on output gnd
+         * and buttons on jamma are set to 5 by default
         if (PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6])) {
           dev_info(&client->dev, "disabled 6th button on jamma for player 1!\n");
           buttonsReleasedValues[buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
@@ -1781,7 +1790,7 @@ static int pca953x_probe(struct i2c_client *client,
         if (PRESSED(gpio_data, buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6])) {
           dev_info(&client->dev, "disabled 6th button on jamma for player 2!\n");
           buttonsReleasedValues[buttons_bits[PLAYER2][JAMMA_BTNS][JAMMA_BTN_6]] = 0;
-        }
+        }*/
       }
     } else if (client->addr == 0x27) {
       jamma_config.gpio_chip_2 = &chip->gpio_chip;
@@ -1897,7 +1906,7 @@ pca953x_init(void) {
   jamma_config.i2s = false;
   jamma_config.videofilter = false;
 
-  jamma_config.buttons_on_jamma = 6;
+  jamma_config.buttons_on_jamma = 5;
   jamma_config.amp_disable = 0;
   jamma_config.amp_boost = 0;
   jamma_config.player_count = 2;

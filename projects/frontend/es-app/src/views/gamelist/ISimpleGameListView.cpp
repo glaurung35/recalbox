@@ -194,14 +194,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
   {
-    jumpToNextLetter(!FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
+    JumpToNextLetter(!FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 
   // JUMP TO PREVIOUS LETTER
   if (event.R1Pressed())
   {
-    jumpToNextLetter(FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
+    JumpToNextLetter(FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 
@@ -290,12 +290,12 @@ bool ISimpleGameListView::CollectHelpItems(Help& help)
   return true;
 }
 
-std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
+Array<String::Unicode> ISimpleGameListView::GetAvailableLetters()
 {
   constexpr int UnicodeSize = 0x10000;
   FileData::List files = getFileDataList(); // All file
-  std::vector<unsigned int> unicode;        // 1 bit per unicode char used
-  unicode.resize(UnicodeSize / (sizeof(unsigned int) * 8), 0);
+  Array<unsigned int> unicode;        // 1 bit per unicode char used
+  unicode.ExpandTo(UnicodeSize / (sizeof(unsigned int) * 8));
 
   for (auto* file : files)
     if (file->IsGame())
@@ -303,26 +303,25 @@ std::vector<unsigned int> ISimpleGameListView::getAvailableLetters()
       // Tag every first characters from every game name
       String::Unicode wc = String::UpperUnicode(file->Name().ReadFirstUTF8());
       if (wc < UnicodeSize) // Ignore extended unicodes
-        unicode[wc >> 5] |= 1 << (wc & 0x1F);
+        unicode((int)(wc >> 5)) |= 1 << (wc & 0x1F);
     }
 
   // Rebuild a self-sorted unicode list with all tagged characters
   int unicodeOffset = 0;
-  std::vector<unsigned int> result;
+  Array<String::Unicode> result;
   for(unsigned int i : unicode)
   {
     if (i != 0)
       for (int bit = 0; bit < 32; ++bit)
         if (((i >> bit) & 1) != 0)
-          result.push_back(unicodeOffset + bit);
+          result.Add(unicodeOffset + bit);
     unicodeOffset += 32;
   }
 
   return result;
 }
 
-
-void ISimpleGameListView::jumpToNextLetter(bool forward)
+void ISimpleGameListView::JumpToNextLetter(bool forward)
 {
   int cursorIndex = getCursorIndex();
   UnicodeChar baseChar = String::UpperUnicode(getCursor()->Name().ReadFirstUTF8()); // Change to dynamic naming ASAP
@@ -344,7 +343,7 @@ void ISimpleGameListView::jumpToNextLetter(bool forward)
     }
 }
 
-void ISimpleGameListView::jumpToLetter(unsigned int unicode)
+void ISimpleGameListView::JumpToLetter(unsigned int unicode)
 {
   for(int c = 0; c < (int)getCursorIndexMax(); ++c)
     if (getDataAt(c)->IsGame())

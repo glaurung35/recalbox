@@ -178,13 +178,13 @@ std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLet
   std::vector<GuiMenuBase::ListEntry<unsigned int>> list;
 
   // Get available letters
-  std::vector<unsigned int> letters = mGamelist.getAvailableLetters();
-  if (!letters.empty())
+  Array<String::Unicode> letters = mGamelist.GetAvailableLetters();
+  if (!letters.Empty())
   {
     // Get current unicode char
     String::Unicode currentUnicode = String::UpperUnicode(mGamelist.getCursor()->Name().ReadFirstUTF8());
     // Build list
-    for (unsigned int unicode : letters)
+    for (String::Unicode unicode : letters)
       list.push_back({ String(unicode, 1), unicode, unicode == currentUnicode });
   }
 
@@ -231,7 +231,7 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
       }
     }
 
-    mGamelist.jumpToLetter(value);
+    mGamelist.JumpToLetter(value);
     RefreshGameMenuContext();
   }
 }

@@ -6,15 +6,16 @@
  */
 
 #include "RecalboxSystem.h"
+#include "utils/Sizes.h"
+#include "utils/IniFile.h"
 #include <sys/statvfs.h>
-#include "audio/AudioManager.h"
 
 #include <ifaddrs.h>
 #include <netinet/in.h>
 #include <arpa/inet.h>
-#include <MainRunner.h>
 #include <Upgrade.h>
-#include <input/InputMapper.h>
+#include <SDL_power.h>
+#include <hardware/Board.h>
 
 String RecalboxSystem::BuildSettingsCommand(const String& arguments)
 {

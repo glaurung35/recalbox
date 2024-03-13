@@ -1,8 +1,6 @@
 #pragma once
 
 #include <utils/String.h>
-#include "WindowManager.h"
-#include "games/FileData.h"
 
 struct EmulatorDefaults
 {

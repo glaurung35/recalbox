@@ -7,6 +7,7 @@
 #include <rapidjson/document.h>
 #include <RecalboxConf.h>
 #include <recalbox/RecalboxSystem.h>
+#include <SDL_timer.h>
 
 PatronInfo::PatronInfo(IPatreonNotification* callback)
   : StaticLifeCycleControler<PatronInfo>("PatronInfo")

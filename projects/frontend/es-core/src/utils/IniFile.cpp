@@ -7,7 +7,6 @@
 
 #include <utils/Files.h>
 #include "utils/Log.h"
-#include "recalbox/RecalboxSystem.h"
 
 String IniFile::sAllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-");
 
@@ -115,6 +114,16 @@ bool IniFile::Load()
   return !mConfiguration.empty();
 }
 
+bool IniFile::MakeBootReadOnly()
+{
+  return system("mount -o remount,ro /boot") == 0;
+}
+
+bool IniFile::MakeBootReadWrite()
+{
+  return system("mount -o remount,rw /boot") == 0;
+}
+
 bool IniFile::Save()
 {
   Mutex::AutoLock locker(mLocker);
@@ -189,10 +198,10 @@ bool IniFile::Save()
   // Save new
   bool result = true;
   bool boot = mFilePath.StartWidth("/boot/");
-  if (boot && !RecalboxSystem::MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
+  if (boot && !MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
   if (!SecuredFile::SaveSecuredFile(mFilePath, String::Join(lines, '\n'), "Ini File", true, this))
   { LOG(LogError) << "[IniFile] Unable to save " << mFilePath; }
-  if (boot && !RecalboxSystem::MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
+  if (boot && !MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 
   OnSave();
   return result;

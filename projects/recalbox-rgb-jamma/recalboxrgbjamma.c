@@ -1066,9 +1066,8 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
             }
           }
         }
-      }
-      // Directions up down if not volume on start enabled but hk on start is enabled
-      if (jamma_config.hk_on_start && !jamma_config.sound_on_start && !should_release_hk) {
+      } else if (jamma_config.hk_on_start && !should_release_hk) {
+        // Directions up down if not volume on start enabled but hk on start is enabled
         for (int direction = DIR_UP; direction <= DIR_DOWN; direction++) {
           if (PRESSED(*data_chips, direction_bits[player][direction])) {
             printk(KERN_INFO
@@ -1079,8 +1078,9 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
           }
         }
       }
+
       // Directions left/right if hk_on_start enabled
-      if (jamma_config.hk_on_start && !should_release_hk) {
+      if (!should_release_hk) {
         for (int direction = DIR_LEFT; direction <= DIR_RIGHT; direction++) {
           if (PRESSED(*data_chips, direction_bits[player][direction])) {
             // As another direction has been pressed, we press hotkey before
@@ -1133,31 +1133,27 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
     last_start_press = 0;
   }
   // For other players, only credits and turbos
-  if (jamma_config.credit_on_start_btn1) {
-    for (int player = 1; player < jamma_config.player_count; player++) {
-      if (PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][JAMMA_BTN_START])) {
-        for (int button = 0; button < LAST_GAME_BUTTON; button++) {
-          if (press_time[player][button] == 0 && ANYPRESSED(*data_chips, player, button)) {
-            // Saving press time
-            press_time[player][button] = *time_ns;
-          } else if (press_time[player][button] > 0 && !ANYPRESSED(*data_chips, player, button)) {
-            // button released while start pressed, we must act
-            // Checking if simple press (time < 3sec)
-            if (*time_ns - press_time[player][button] < 3000000000LL) {
-              // Credit ?
-              if (button == JAMMA_BTN_1) {
-                printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
-                PRESS_AND_RELEASE(player, BTN_SELECT);
-              }
-            } else {
-              // AUTO FIRE because press time > 3 sec
-              if (jamma_config.autofire) {
-                printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[player][button]);
-                turbo_enabled[player][button] = !turbo_enabled[player][button];
-              }
+  for (int player = 1; player < jamma_config.player_count; player++) {
+    if (PRESSED(*data_chips, buttons_bits[player][JAMMA_BTNS][JAMMA_BTN_START])) {
+      for (int button = 0; button < LAST_GAME_BUTTON; button++) {
+        if (press_time[player][button] == 0 && ANYPRESSED(*data_chips, player, button)) {
+          // Saving press time
+          press_time[player][button] = *time_ns;
+        } else if (press_time[player][button] > 0 && !ANYPRESSED(*data_chips, player, button)) {
+          // button released while start pressed, we must act
+          // Checking if simple press (time < 3sec)
+          if (jamma_config.credit_on_start_btn1 && *time_ns - press_time[player][button] < 3000000000LL) {
+            // Credit ?
+            if (button == JAMMA_BTN_1) {
+              printk(KERN_INFO "recalboxrgbjamma: credit (SELECT) triggered (START+BTN1) for player=%d\n", player);
+              PRESS_AND_RELEASE(player, BTN_SELECT);
             }
-            press_time[player][button] = 0;
+          } else if (jamma_config.autofire && *time_ns - press_time[player][button] >= 3000000000LL){
+            // AUTO FIRE because press time > 3 sec
+            printk(KERN_INFO "recalboxrgbjamma: setting autofire for player %d on + BTN%d to %d\n", player, button, !turbo_enabled[player][button]);
+            turbo_enabled[player][button] = !turbo_enabled[player][button];
           }
+          press_time[player][button] = 0;
         }
       }
     }
@@ -1172,12 +1168,16 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
 static void input_report(unsigned long long *data_chips, long long int *time_ns) {
   int player = 0, buttonIndex = 0, buttonValue = 0;
 
+  /*
   if (HOTKEY_PATTERNS_ENABLED(jamma_config)) {
     buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_START] = -1;
     manage_special_inputs(data_chips, time_ns);
   } else {
     buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_START] = P1_START;
-  }
+  }*/
+  // Always seek special inputs as HK + LEFT RIGHT is always enabled (for clones)
+  buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_START] = -1;
+  manage_special_inputs(data_chips, time_ns);
 
   // Exit with TEST + SERVICE
   if (PRESSED(*data_chips, P1_SERVICE) && PRESSED(*data_chips, P1_TEST)) {
@@ -1391,9 +1391,12 @@ static int process_debounce_and_turbo(void *idx) {
         }
       }
     }
-    // Using turbo only if start is not pressed
-    if (!PRESSED(gpio_data, P1_START)) {
+    if (jamma_config.autofire) {
       for (int player = 0; player < jamma_config.player_count; player++) {
+        if((player == PLAYER1 && PRESSED(gpio_data, P1_START)) || PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][JAMMA_BTN_START])){
+          // Using turbo only if start is not pressed
+          continue;
+        }
         must_send_turbo = false;
         for (button = 0; button < BTN_PER_PLAYER_ON_JAMMA; button++) {
           if (turbo_enabled[player][button] && (PRESSED(gpio_data, buttons_bits[player][JAMMA_BTNS][button]) || PRESSED(gpio_data, buttons_bits[player][KICK_BTNS][button])) && time_ns - turbo_time[player][button] > jamma_config.autofire_time) {

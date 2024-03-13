@@ -57,11 +57,23 @@ class ISimpleGameListView : public Gui
 
     bool CollectHelpItems(Help& help) override;
 
-    virtual std::vector<unsigned int> getAvailableLetters();
+    /*!
+     * @brief Get available initials of games from the current gamelist
+     * @return Unicode character array
+     */
+    virtual Array<String::Unicode> GetAvailableLetters();
 
-    virtual void jumpToLetter(unsigned int unicode);
+    /*!
+     * @brief Move to the given letter in the gamelist
+     * @param unicode Unicode letter to move to
+     */
+    virtual void JumpToLetter(unsigned int unicode);
 
-    virtual void jumpToNextLetter(bool forward);
+    /*!
+     * @brief Move to next or previous letter in the gamelist
+     * @param forward True to move forward, false to move back
+     */
+    virtual void JumpToNextLetter(bool forward);
 
     [[nodiscard]] const SystemData& System() const { return mSystem; }
 

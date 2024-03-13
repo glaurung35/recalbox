@@ -143,16 +143,22 @@ class ArcadeGameListView : public DetailedGameListView
     static Regions::List AvailableRegionsInGames(ParentTuppleList& list);
 
     /*!
+     * @brief Get available initials of games from the current gamelist
+     * @return Unicode character array
+     */
+    Array<String::Unicode> GetAvailableLetters() override;
+
+    /*!
      * @brief Jump to the first game starting with the given unicode char, from the cursor
      * @param unicode Unicode char to lookup
      */
-    void jumpToLetter(unsigned int unicode) override;
+    void JumpToLetter(unsigned int unicode) override;
 
     /*!
      * @brief Jump to next/previous letter forward or backward
      * @param forward True to jump forward, false to jump backward
      */
-    void jumpToNextLetter(bool forward) override;
+    void JumpToNextLetter(bool forward) override;
 
     /*!
      * @brief Lookup the arcade tupple attached to the given

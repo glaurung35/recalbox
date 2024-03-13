@@ -424,18 +424,56 @@ void ArcadeGameListView::Unfold()
   setCursor(item);
 }
 
-void ArcadeGameListView::jumpToLetter(unsigned int unicode)
+Array<String::Unicode> ArcadeGameListView::GetAvailableLetters()
+{
+  constexpr int UnicodeSize = 0x10000;
+  FileData::List files = getFileDataList(); // All file
+  Array<unsigned int> unicode;        // 1 bit per unicode char used
+  unicode.ExpandTo(UnicodeSize / (sizeof(unsigned int) * 8));
+
+  for (auto* file : files)
+    if (file->IsGame())
+    {
+      const ArcadeTupple& currentArcade = Lookup(*file);
+      if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
+
+      // Tag every first characters from every game name
+      String::Unicode wc = String::UpperUnicode(file->Name().ReadFirstUTF8());
+      if (wc < UnicodeSize) // Ignore extended unicodes
+        unicode((int)(wc >> 5)) |= 1 << (wc & 0x1F);
+    }
+
+  // Rebuild a self-sorted unicode list with all tagged characters
+  int unicodeOffset = 0;
+  Array<String::Unicode> result;
+  for(unsigned int i : unicode)
+  {
+    if (i != 0)
+      for (int bit = 0; bit < 32; ++bit)
+        if (((i >> bit) & 1) != 0)
+          result.Add(unicodeOffset + bit);
+    unicodeOffset += 32;
+  }
+
+  return result;
+}
+
+void ArcadeGameListView::JumpToLetter(unsigned int unicode)
 {
   for(int c = 0; c < (int)getCursorIndexMax(); ++c)
     if (getDataAt(c)->IsGame())
+    {
+      const ArcadeTupple& currentArcade = Lookup(*getDataAt(c));
+      if (currentArcade.mArcade != nullptr && currentArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone) continue; // Skip clones
       if (String::UpperUnicode(LookupDisplayName(*getDataAt(c)).ReadFirstUTF8()) == unicode)
       {
         setCursor(getDataAt(c));
         break;
       }
+    }
 }
 
-void ArcadeGameListView::jumpToNextLetter(bool forward)
+void ArcadeGameListView::JumpToNextLetter(bool forward)
 {
   const ArcadeTupple& baseArcade = Lookup(*getCursor());
   const FileData* baseGame = baseArcade.mArcade != nullptr && baseArcade.mArcade->Hierarchy() == ArcadeGame::Type::Clone ? baseArcade.mArcade->Parent() : getCursor();
@@ -531,3 +569,4 @@ void ArcadeGameListView::RefreshItem(FileData* game)
   if (index < 0) { LOG(LogError) << "[DetailedGameListView] Trying to refresh a not found item"; return; }
   mList.changeTextAt(index, GetDisplayName(*game));
 }
+

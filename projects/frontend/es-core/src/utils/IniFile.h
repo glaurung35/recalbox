@@ -292,6 +292,12 @@ class IniFile : public SecuredFile::IValidationInterface
      */
     [[nodiscard]] const String& ExtractValue(const String& key) const;
 
+    //! Mount boot partition read only
+    static bool MakeBootReadOnly();
+
+    //! Mount boot partition read-write
+    static bool MakeBootReadWrite();
+
     /*
      * SecuredFile::IValidationInterface implementation
      */

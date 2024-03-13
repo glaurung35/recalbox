@@ -130,6 +130,8 @@ void InputManager::LoadDefaultKeyboardConfiguration()
 
   mKeyboard.Set(InputDevice::Entry::L1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEUP, 1));
   mKeyboard.Set(InputDevice::Entry::R1, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_PAGEDOWN, 1));
+  mKeyboard.Set(InputDevice::Entry::L2, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_HOME, 1));
+  mKeyboard.Set(InputDevice::Entry::R2, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_END, 1));
 
   mKeyboard.Set(InputDevice::Entry::Hotkey, InputEvent(InputEvent::sKeyboardDevice, InputEvent::EventType::Key, SDLK_ESCAPE, 1));
 

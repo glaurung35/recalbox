@@ -6,6 +6,13 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-Pulstar
 
+### Jamma
+- Set pin 27/e as ground by default
+- Add casino games in baord games filter (mahjong + casino + trivia)
+- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
+- Fix autofire enable/disble
+- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
+
 ### Patron
 - Fix 31kHz handheld and PSX games
 - Fix naomi 2 instabilities

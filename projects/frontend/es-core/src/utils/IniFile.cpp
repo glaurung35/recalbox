@@ -10,8 +10,9 @@
 
 String IniFile::sAllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-");
 
-IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bool autoBackup)
-  : mFilePath(path)
+IniFile::IniFile(const Path& path, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup)
+  : mLogName(logname)
+  , mFilePath(path)
   , mFallbackFilePath(fallbackpath)
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
@@ -19,8 +20,9 @@ IniFile::IniFile(const Path& path, const Path& fallbackpath, bool extraSpace, bo
 {
 }
 
-IniFile::IniFile(const Path& path, bool extraSpace, bool autoBackup)
-  : mFilePath(path)
+IniFile::IniFile(const Path& path, const String& logname, bool extraSpace, bool autoBackup)
+  : mLogName(logname)
+  , mFilePath(path)
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
   , mValid(Load())
@@ -85,7 +87,7 @@ bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bo
 bool IniFile::LoadContent(String& content)
 {
 
-  bool ok = SecuredFile::LoadSecuredFile(mFilePath, mFallbackFilePath, content, "Ini File", true, this);
+  bool ok = SecuredFile::LoadSecuredFile(mFilePath, mFallbackFilePath, content, mLogName, true, this);
   if (!ok) { LOG(LogError) << "[IniFile] Cannot load " << mFilePath; }
   return ok;
 }
@@ -199,7 +201,7 @@ bool IniFile::Save()
   bool result = true;
   bool boot = mFilePath.StartWidth("/boot/");
   if (boot && !MakeBootReadWrite()) { LOG(LogError) <<"[IniFile] Error remounting boot partition (RW)"; }
-  if (!SecuredFile::SaveSecuredFile(mFilePath, String::Join(lines, '\n'), "Ini File", true, this))
+  if (!SecuredFile::SaveSecuredFile(mFilePath, String::Join(lines, '\n'), mLogName, true, this))
   { LOG(LogError) << "[IniFile] Unable to save " << mFilePath; }
   if (boot && !MakeBootReadOnly()) { LOG(LogError) << "[IniFile] Error remounting boot partition (RO)"; }
 

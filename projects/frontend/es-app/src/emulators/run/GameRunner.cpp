@@ -26,7 +26,7 @@ bool GameRunner::sGameIsRunning = false;
 
 IBoardInterface::CPUGovernance GameRunner::GetGovernance(const String& core)
 {
-  static IniFile governanceFile(Path(sGovernanceFile), false, false);
+  static IniFile governanceFile(Path(sGovernanceFile), "GameRunner - CPUGovernance", false, false);
 
   String governance = governanceFile.AsString(core);
 

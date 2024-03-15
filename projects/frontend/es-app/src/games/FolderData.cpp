@@ -112,7 +112,7 @@ void FolderData::PopulateRecursiveFolder(RootFolderData& root, const String& ori
   String filteredExtensions = originalFilteredExtensions;
   if ((folderPath / ".system.cfg").Exists())
   {
-    IniFile subSystem(folderPath / ".system.cfg", false, false);
+    IniFile subSystem(folderPath / ".system.cfg", "FolderData - Extension override", false, false);
     filteredExtensions = subSystem.AsString("extensions", originalFilteredExtensions);
   }
 

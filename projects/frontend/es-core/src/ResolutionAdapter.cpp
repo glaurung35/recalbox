@@ -401,32 +401,34 @@ bool ResolutionAdapter::GetCRTResolution(int& w, int& h)
   // Es will choose its own resolution. The desktop mode cannot be trusted.
   if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
   {
-    w = 1920;
-    h = 240;
+    w = 1920; h = 240;
     if (CrtConf::Instance().GetSystemCRT31kHzResolution() == "480")
     {
-      w = 640;
-      h = 480;
+      w = 640; h = 480;
     }
   }
-  else if (CrtConf::Instance().GetSystemCRTResolution() == "480")
+  else if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
   {
-    w = 640;
-    h = 480;
+    w = 1920; h = 240;
+    if (CrtConf::Instance().GetSystemCRTResolution() == "480")
+    {
+      w = 640; h = 480;
+    }
+  }
+  else if (CrtConf::Instance().GetSystemCRTResolution() == "480" && crt.HasInterlacedSupport())
+  {
+    w = 640; h = 480;
     if (Board::Instance().CrtBoard().MustForce50Hz())
     {
-      w = 768;
-      h = 576;
+      w = 768; h = 576;
     }
   }
   else
   {
-    w = 1920;
-    h = 240;
+    w = 1920; h = 240;
     if (Board::Instance().CrtBoard().MustForce50Hz())
     {
-      w = 1920;
-      h = 288;
+      w = 1920; h = 288;
     }
   }
 

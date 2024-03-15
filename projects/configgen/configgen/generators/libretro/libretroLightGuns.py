@@ -296,7 +296,7 @@ class libretroLightGun:
         # Then set remap options
         if remapOptions:
             if self.__debug: self.__Log('  Update remap options')
-            self.__setEmulatorOptionsFromNode(rootNode, emulatorNode)
+            self.__setRemapOptionsFromNode(rootNode, emulatorNode)
         # And finally core options
         if coreOptions:
             if self.__debug: self.__Log('  Update core options')
@@ -375,8 +375,9 @@ class libretroLightGun:
             # No dolphin bar found, no need to overload configuration in this case
             if self.__debug: self.__Log('No dolphin bar found.')
             try:
-                import os
-                os.remove(recalboxFiles.retroarchRemapCustom + "/*/" + os.path.splitext(os.path.basename(self.__Rom))[0] + ".rmp")
+                import glob, os
+                for filename in glob.glob(recalboxFiles.retroarchRemapCustom + "/*/" + os.path.splitext(os.path.basename(self.__Rom))[0] + ".rmp"):
+                    os.remove(filename)
             except OSError:
                 pass
             return False

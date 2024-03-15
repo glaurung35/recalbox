@@ -1,10 +1,17 @@
 #include "Log.h"
+#include <unistd.h>
+#include <fcntl.h>
 #include "RootFolders.h"
 #include "utils/datetime/DateTime.h"
+#include "utils/os/system/Mutex.h"
 
-LogLevel Log::reportingLevel = LogLevel::LogInfo;
-FILE* Log::sFile = nullptr;
-Path Log::mPath;
+bool Log::sLogsRotated = false;
+Path Log::sPath[sTypeCount] =
+{
+  RootFolders::DataRootFolder / "system/logs" / "frontend.log",
+  RootFolders::DataRootFolder / "system/logs" / "themes.log",
+};
+LogLevel Log::sReportingLevel[sTypeCount] = { LogLevel::LogInfo, LogLevel::LogInfo };
 
 const char* Log::sStringLevel[] =
 {
@@ -15,78 +22,73 @@ const char* Log::sStringLevel[] =
   "TRACE",
 };
 
-Path Log::FormatLogPath(const char* filename)
+Log::Log(LogType type, LogLevel level)
+  : mType(type)
+  , mMessageLevel(level)
 {
-  if (filename == nullptr) filename = "unknown.log";
-  Path path(filename);
-  if (!path.IsAbsolute())
-    path = RootFolders::DataRootFolder / "system/logs" / path;
-	return path;
-}
-
-void Log::Open(const char* filename)
-{
-  // Build log path
-  mPath = FormatLogPath(filename);
-
-  // Backup?
-  if (mPath.Exists())
+  // Not thread safe but quick test
+  if (!sLogsRotated)
   {
-    Path backup(mPath.ChangeExtension(".backup"));
-    if (!backup.Delete()) { printf("[Logs] Cannot remove old log!"); }
-    if (!Path::Rename(mPath, backup)) { printf("[Logs] Cannot backup current log!"); }
+    static Mutex sLocker;
+    Mutex::AutoLock lock(sLocker);
+    // Check again under the mutex so that we ensure only once rotation is done
+    if (!sLogsRotated)
+    {
+      sLogsRotated = true;
+      RotateLogs();
+    }
   }
-
-  // Open new log
-  sFile = fopen(mPath.ToChars(), "w");
 }
 
-Log& Log::get(LogLevel level)
+void Log::SetAllReportingLevel(LogLevel level)
+{
+  for(int i = sTypeCount; --i >= 0;)
+    sReportingLevel[i] = level;
+}
+
+void Log::SetAllMinimumReportingLevel(LogLevel level)
+{
+  for(int i = sTypeCount; --i >= 0;)
+    if (sReportingLevel[i] < level)
+      sReportingLevel[i] = level;
+}
+
+void Log::RotateLogs()
+{
+  for(int i = sTypeCount; --i >= 0;)
+  {
+    Path backup1 = sPath[i].ChangeExtension(".backup");
+    Path backup2 = sPath[i].ChangeExtension(".backup-2");
+    Path backup3 = sPath[i].ChangeExtension(".backup-3");
+    (void)backup3.Delete();
+    Path::Rename(backup2, backup3);
+    Path::Rename(backup1, backup2);
+    Path::Rename(sPath[i], backup1);
+  }
+}
+
+Log& Log::get()
 {
 	mMessage.Append('[')
 	        .Append(DateTime().ToPreciseTimeStamp())
 	        .Append("] (")
-	        .Append(sStringLevel[(int)level])
+	        .Append(sStringLevel[(int)mMessageLevel])
 	        .Append(") : ");
-	messageLevel = level;
 
 	return *this;
 }
 
-void Log::Flush()
-{
-  (void)fflush(sFile);
-}
-
-void Log::Close()
-{
-  { Log().get(LogLevel::LogInfo) << "Closing logger..."; }
-  DoClose();
-}
-
-void Log::DoClose()
-{
-  if (sFile != nullptr) (void)fclose(sFile);
-  sFile = nullptr;
-}
-
 Log::~Log()
 {
-	bool loggerClosed = (sFile == nullptr);
-	// Reopen temporarily
-	if (loggerClosed)
-  {
-	  Open(mPath.ToChars());
-	  mMessage += " [closed!]";
-  }
-
   mMessage += '\n';
-  if (sFile != nullptr) (void)fputs(mMessage.c_str(), sFile);
-  else printf("***Unable to log!*** %s", mMessage.c_str());
-  if (!loggerClosed) Flush(); else DoClose();
+  int fd = open(sPath[(int)mType].ToChars(), O_CREAT | O_APPEND | O_WRONLY | O_NOATIME | O_SYNC, 0666);
+  if (fd >= 0)
+  {
+    write(fd, mMessage.data(), mMessage.size());
+    close(fd);
+  }
+  else printf("*** Unable to log! *** %s", mMessage.c_str());
 
-  // if it's an error, also print to console
-  // print all messages if using --debug
-  if(messageLevel == LogLevel::LogError || reportingLevel >= LogLevel::LogDebug)
+  if(mMessageLevel == LogLevel::LogError || sReportingLevel[(int)mType] >= LogLevel::LogDebug)
     (void)fputs(mMessage.c_str(), stdout);
 }

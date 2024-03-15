@@ -46,7 +46,7 @@ void EmulationStationWatcher::MqttMessageReceived(const String& topic, const Str
     if (reference != nullptr)
     {
       static Path sPath(sEmulationStationEventFile);
-      IniFile data(sPath, false, false);
+      IniFile data(sPath, "EmulationStationWatcher - Event file", false, false);
       JSONBuilder result = (*reference)(data);
       mMqttClient.Send(MqttTopics::sEventObjectTopic, result);
     }

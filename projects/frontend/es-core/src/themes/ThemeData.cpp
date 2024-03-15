@@ -15,7 +15,7 @@ unsigned int ThemeData::getHexColor(const char* str)
 {
   if(str == nullptr)
   {
-    { LOG(LogError) << "[Theme] Empty color"; }
+    { LOGT(LogError) << "[Theme] Empty color"; }
     return 0xFFFFFFFF;
   }
 
@@ -23,7 +23,7 @@ unsigned int ThemeData::getHexColor(const char* str)
   string.Append(str);
   int val = 0;
   if ((string.Count() != 7 && string.Count() != 9) || !string.TryAsInt(val))
-    { LOG(LogError) << "[Theme] " << FileList() << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
+    { LOGT(LogError) << "[Theme] " << FileList() << "Invalid color (bad length, \"" + String(str) + "\" - must be 6 or 8)"; }
 
   if (string.Count() == 7) val = (val << 8) | 0xFF;
   return (unsigned int)val;
@@ -93,7 +93,7 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
   if(!path.Exists())
   {
-    { LOG(LogError) << "[Theme] " << FileList() << "File does not exist!"; }
+    { LOGT(LogError) << "[Theme] " << FileList() << "File does not exist!"; }
     return;
   }
 
@@ -114,7 +114,7 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
   {
     bool needSave = false;
     CrawlThemeSubSets(path);
-    //for(auto& kv : subSets) { LOG(LogError) << "[DEBUG]" << kv.first << '-' << kv.second; }
+    //for(auto& kv : subSets) { LOGT(LogError) << "[DEBUG]" << kv.first << '-' << kv.second; }
     if (CheckThemeOption(mColorset, "colorset")) { RecalboxConf::Instance().SetThemeColorSet(mThemeName, mColorset); needSave = true; }
     if (CheckThemeOption(mIconset, "iconset")) { RecalboxConf::Instance().SetThemeIconSet(mThemeName, mIconset); needSave = true; }
     if (CheckThemeOption(mMenu, "menu")) { RecalboxConf::Instance().SetThemeMenuSet(mThemeName, mMenu); needSave = true; }
@@ -132,19 +132,19 @@ void ThemeData::loadFile(const String& systemThemeFolder, const Path& path)
 
   pugi::xml_document doc;
   pugi::xml_parse_result res = doc.load_string(mCache.File(path).data());
-  if(!res) { LOG(LogError) << "[Theme] " << FileList() << "XML parsing error: \n    " + String(res.description()); }
+  if(!res) { LOGT(LogError) << "[Theme] " << FileList() << "XML parsing error: \n    " + String(res.description()); }
 
   pugi::xml_node root = doc.child("theme");
-  if(!root) { LOG(LogError) << "[Theme] " << FileList() << "Missing <theme> tag!"; }
+  if(!root) { LOGT(LogError) << "[Theme] " << FileList() << "Missing <theme> tag!"; }
   mCompatiblity = ExtractCompatibility(root);
 
   // parse version
   mVersion = root.child("formatVersion").text().as_float(-404);
   if(mVersion == -404)
-    { LOG(LogError) << "[Theme] " << FileList() << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
+    { LOGT(LogError) << "[Theme] " << FileList() << "<formatVersion> tag missing!\n   It's either out of date or you need to add <formatVersion>" + String(CURRENT_THEME_FORMAT_VERSION) + "</formatVersion> inside your <theme> tag."; }
 
   if(mVersion < MINIMUM_THEME_FORMAT_VERSION)
-    { LOG(LogError) << "[Theme] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
+    { LOGT(LogError) << "[Theme] " << FileList() << "Theme uses format version " + String(mVersion, 2) + ". Minimum supported version is " + String(MINIMUM_THEME_FORMAT_VERSION) + '.'; }
 
   parseIncludes(root);
   parseViews(root);
@@ -171,7 +171,7 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
           Path path = Path(str).ToAbsolute(mIncludePathStack.back().Directory());
           if(!ResourceManager::fileExists(path))
           {
-            { LOG(LogWarning) << "[Theme] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
+            { LOGT(LogWarning) << "[Theme] Included file \"" << str << "\" not found! (resolved to \"" << path.ToString() << "\")"; }
             continue;
           }
 
@@ -181,10 +181,10 @@ void ThemeData::parseIncludes(const pugi::xml_node& root)
 
           pugi::xml_document includeDoc;
           pugi::xml_parse_result result = includeDoc.load_string(mCache.File(path).data());
-          if(!result) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
+          if(!result) { LOGT(LogError) << "[Theme] " << FileList() << errorString + "Error parsing file: \n    " + result.description(); }
 
           pugi::xml_node newRoot = includeDoc.child("theme");
-          if(!newRoot) { LOG(LogError) << "[Theme] " << FileList() << errorString + "Missing <theme> tag!"; }
+          if(!newRoot) { LOGT(LogError) << "[Theme] " << FileList() << errorString + "Missing <theme> tag!"; }
           parseIncludes(newRoot);
           parseViews(newRoot);
           parseFeatures(newRoot);
@@ -215,7 +215,7 @@ void ThemeData::parseFeatures(const pugi::xml_node& root)
   for (pugi::xml_node node = root.child("feature"); node != nullptr; node = node.next_sibling("feature"))
   {
     if(!node.attribute("supported"))
-    { LOG(LogError) << "[Theme] " << FileList() << "Feature missing \"supported\" attribute!"; continue; }
+    { LOGT(LogError) << "[Theme] " << FileList() << "Feature missing \"supported\" attribute!"; continue; }
 
     const String supportedAttr = node.attribute("supported").as_string();
     if (ThemeSupport::SupportedFeatures().contains(supportedAttr))
@@ -228,7 +228,7 @@ void ThemeData::parseViews(const pugi::xml_node& root)
   // parse views
   for (pugi::xml_node node = root.child("view"); node != nullptr; node = node.next_sibling("view"))
   {
-    if(!node.attribute("name")) { LOG(LogError) << "[Theme] " << FileList() << "View missing \"name\" attribute!"; continue; }
+    if(!node.attribute("name")) { LOGT(LogError) << "[Theme] " << FileList() << "View missing \"name\" attribute!"; continue; }
     if (!Condition(node)) continue;
     for(String& viewName : String(node.attribute("name").as_string()).LowerCase().Split(','))
     {
@@ -254,14 +254,14 @@ void ThemeData::parseView(const pugi::xml_node& root, ThemeView& view, bool forc
       continue;
     }
 
-    if (!node.attribute("name")) { LOG(LogError) << "[Theme] " << FileList() << "Element of type \"" << typeString << R"(" missing "name" attribute!)"; continue; }
+    if (!node.attribute("name")) { LOGT(LogError) << "[Theme] " << FileList() << "Element of type \"" << typeString << R"(" missing "name" attribute!)"; continue; }
     if (!IsMatchingLocaleOrRegionOrNeutral(typeString)) continue;
 
     // Process normal item type
     ThemeElementType* type = ThemeSupport::ElementType().try_get(typeString);
-    if (type == nullptr) { LOG(LogError) << "[Theme] " << FileList() << "Unknown element of type \"" << typeString << "\"!"; continue; }
+    if (type == nullptr) { LOGT(LogError) << "[Theme] " << FileList() << "Unknown element of type \"" << typeString << "\"!"; continue; }
     const ThemePropertyNameBits* properties = ThemeSupport::ElementMap().try_get(*type);
-    if (properties == nullptr) { LOG(LogError) << "[Theme] " << FileList() << " Cannot get properties of element of type \"" << typeString << "\"!"; continue; }
+    if (properties == nullptr) { LOGT(LogError) << "[Theme] " << FileList() << " Cannot get properties of element of type \"" << typeString << "\"!"; continue; }
 
     if (IsMatchingRegionOldTag(node))
     {
@@ -310,7 +310,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
     // Check object property
     if (property == nullptr || !typeList.IsSet(*property))
     {
-      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      { LOGT(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
     // Process
@@ -326,7 +326,7 @@ void ThemeData::parseElement(const pugi::xml_node& root, const ThemePropertyName
     // Check object property
     if (property == nullptr || !typeList.IsSet(*property))
     {
-      { LOG(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
+      { LOGT(LogError) << "[Theme] " << FileList() << "Unknown property type \"" + name + "\" (for element " << elementNode << " of type " << root.name() << ")."; }
       continue;
     }
     // Get value from attribute or text
@@ -376,7 +376,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
             element.AddVectorProperty(propertyName, x, y);
             break;
           }
-      { LOG(LogError) << "[Theme] " << FileList() << "invalid normalized pair (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" << value << "\")"; }
+      { LOGT(LogError) << "[Theme] " << FileList() << "invalid normalized pair (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" << value << "\")"; }
       break;
     }
     case ThemePropertyType::String:
@@ -402,7 +402,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
     {
       float floatVal = 0;
       if (!value.TryAsFloat(floatVal))
-      { LOG(LogError) << "[Theme] " << FileList() << "invalid float value (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" + value + "\")"; }
+      { LOGT(LogError) << "[Theme] " << FileList() << "invalid float value (property \"" << ThemeSupport::ReversePropertyName(propertyName) << "\", value \"" + value + "\")"; }
       element.AddFloatProperty(propertyName, floatVal);
       break;
     }
@@ -414,7 +414,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
       break;
     }
     default:
-    { LOG(LogError) << "[Theme] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << ThemeSupport::ReversePropertyName(propertyName); }
+    { LOGT(LogError) << "[Theme] " << FileList() << "Unknown ThemeSupport::ElementPropertyType for \"" << elementName << "\", property " << ThemeSupport::ReversePropertyName(propertyName); }
   }
 }
 
@@ -428,19 +428,19 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
 
   if(element->Type() == expectedType || expectedType == ThemeElementType::Polymorphic) return element;
 
-  { LOG(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
+  { LOGT(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
   return nullptr;
 }
 
 void ThemeData::LoadMain(const Path& root)
 {
-  { LOG(LogInfo) << "[Theme] Loading main theme from: " << root; }
+  { LOGT(LogInfo) << "[Theme] Loading main theme from: " << root; }
   loadFile(String::Empty, root);
 }
 
 void ThemeData::LoadSystem(const String& systemFolder, const Path& root)
 {
-  { LOG(LogInfo) << "[Theme] Loading " << mSystem->FullName() <<"' system theme from: " << root; }
+  { LOGT(LogInfo) << "[Theme] Loading " << mSystem->FullName() <<"' system theme from: " << root; }
   loadFile(systemFolder, root);
 }
 
@@ -496,7 +496,7 @@ ThemeExtras::List ThemeData::GetExtras(const String& view, WindowManager& window
         comp->DoApplyThemeElement(*this, view, elem.Name(), ThemePropertyCategory::All);
         comps.push_back({ elem.Name(), elem.Type(), comp });
       }
-      else { LOG(LogWarning) << "[Theme] Extra type unknown: " << (int)elem.Type(); }
+      else { LOGT(LogWarning) << "[Theme] Extra type unknown: " << (int)elem.Type(); }
     }
   }
 
@@ -685,7 +685,7 @@ bool ThemeData::Condition(const pugi::xml_node& node)
 
   String condition = conditionAttribute.as_string();
   if (condition.Trim().empty())
-  { LOG(LogError) << "[Theme] Empty condition! Assuming true."; return true; }
+  { LOGT(LogError) << "[Theme] Empty condition! Assuming true."; return true; }
 
   SimpleTokenizer tokenizer(condition);
   return EvaluateExpression(tokenizer, 0);
@@ -703,7 +703,7 @@ bool ThemeData::EvaluateExpression(SimpleTokenizer& tokenizer, int deepLevel) co
       case SimpleTokenizer::Type::Close:
       {
         if (deepLevel == 0)
-        { LOG(LogDebug) << "[Theme] Unexpected ) at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
+        { LOGT(LogDebug) << "[Theme] Unexpected ) at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
         return result;
       }
       case SimpleTokenizer::Type::Open:
@@ -720,7 +720,7 @@ bool ThemeData::EvaluateExpression(SimpleTokenizer& tokenizer, int deepLevel) co
         else if (previousType == SimpleTokenizer::Type::Or   ) result |= evaluated;
         else if (previousType == SimpleTokenizer::Type::Start ||
                  previousType == SimpleTokenizer::Type::Open) result = evaluated;
-        else { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
+        else { LOGT(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
         break;
       }
       case SimpleTokenizer::Type::And:
@@ -728,7 +728,7 @@ bool ThemeData::EvaluateExpression(SimpleTokenizer& tokenizer, int deepLevel) co
       {
         if (previousType != SimpleTokenizer::Type::Identifier &&
             previousType != SimpleTokenizer::Type::Close)
-        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
+        { LOGT(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
         inverter = false;
         break;
       }
@@ -738,27 +738,27 @@ bool ThemeData::EvaluateExpression(SimpleTokenizer& tokenizer, int deepLevel) co
             previousType != SimpleTokenizer::Type::Or &&
             previousType != SimpleTokenizer::Type::Start &&
             previousType != SimpleTokenizer::Type::Open)
-        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
+        { LOGT(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); return false; }
         inverter = !inverter;
         break;
       }
       case SimpleTokenizer::Type::Error:
       {
-        { LOG(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); }
+        { LOGT(LogDebug) << "[Theme] Syntax error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); }
         return false;
       }
       case SimpleTokenizer::Type::Start:
       {
-        { LOG(LogDebug) << "[Theme] Internal logic error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); }
+        { LOGT(LogDebug) << "[Theme] Internal logic error at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString(); }
         return false;
       }
       case SimpleTokenizer::Type::End:
       {
         if (deepLevel != 0)
-        { LOG(LogDebug) << "[Theme] Missing ) at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
+        { LOGT(LogDebug) << "[Theme] Missing ) at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
         if (previousType != SimpleTokenizer::Type::Identifier &&
             previousType != SimpleTokenizer::Type::Close)
-        { LOG(LogDebug) << "[Theme] Missing operand at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
+        { LOGT(LogDebug) << "[Theme] Missing operand at index " << tokenizer.Index() << " in conditionnal string " << tokenizer.ParsedString(); }
         break;
       }
     }
@@ -787,7 +787,7 @@ bool ThemeData::EvaluateIdentifier(const SimpleTokenizer& tokenizer) const
   else if (tokenizer.Token() == "engine"    ) evaluated = mSystem != nullptr ? mSystem->Descriptor().Type() == SystemDescriptor::SystemType::Engine : false;
   else if (tokenizer.Token() == "favorite"  ) evaluated = mSystem != nullptr ? mSystem->IsFavorite() : false;
   else if (tokenizer.Token() == "lastplayed") evaluated = mSystem != nullptr ? mSystem->IsLastPlayed() : false;
-  else { LOG(LogDebug) << "[Theme] Unknown identifier " << tokenizer.Token() << " at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString() << ". False evaluation assumed."; }
+  else { LOGT(LogDebug) << "[Theme] Unknown identifier " << tokenizer.Token() << " at index " << tokenizer.Index() << " in conditional string " << tokenizer.ParsedString() << ". False evaluation assumed."; }
   return evaluated;
 }
 
@@ -843,14 +843,14 @@ ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
 
 bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version, int& recalboxVersion)
 {
-  if (!path.Exists()) { LOG(LogError) << "[Theme] " << path << " does not exist!"; return false; }
+  if (!path.Exists()) { LOGT(LogError) << "[Theme] " << path << " does not exist!"; return false; }
 
   pugi::xml_document doc;
   pugi::xml_parse_result res = doc.load_string(Files::LoadFile(path).data());
-  if (!res) { LOG(LogError) << "[Theme] XML parsing error: \n    " + String(res.description()); return false; }
+  if (!res) { LOGT(LogError) << "[Theme] XML parsing error: \n    " + String(res.description()); return false; }
 
   pugi::xml_node root = doc.child("theme");
-  if (!root) { LOG(LogError) << "[Theme] Missing <theme> tag!"; return false; }
+  if (!root) { LOGT(LogError) << "[Theme] Missing <theme> tag!"; return false; }
 
   // Extract compatibility
   compatibility = ExtractCompatibility(root);

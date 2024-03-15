@@ -94,6 +94,9 @@ bool IniFile::LoadContent(String& content)
 
 bool IniFile::Load()
 {
+  // Special case of empty path
+  if (mFilePath.IsEmpty() && mFallbackFilePath.IsEmpty()) return true; // New or empty file is valid
+
   // Load file
   String content;
   if (!LoadContent(content)) return false;

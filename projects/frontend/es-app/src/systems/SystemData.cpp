@@ -147,10 +147,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
     Path xmlPath = getGamelistPath(root, false);
     String xml;
     if (!SecuredFile::LoadSecuredFile(xmlPath, Path::Empty, xml, String(FullName()).Append(" gamelist"), true, this))
-    {
-      { LOG(LogError) << "[Gamelist] Cannot load gamelist " << xmlPath.ToString() << " for system " << FullName(); }
       return;
-    }
 
     XmlDocument gameList;
     XmlResult result = gameList.load_string(xml.data());
@@ -279,8 +276,7 @@ void SystemData::UpdateGamelistXml()
         document.save(Writer);
 
         // Save
-        if (!SecuredFile::SaveSecuredFile(xmlWritePath, Writer.mOutput, String(FullName()).Append(" gamelist"), true, this))
-        { LOG(LogError) << "[Gamelist] Failed to save " << xmlWritePath.ToString(); }
+        (void)SecuredFile::SaveSecuredFile(xmlWritePath, Writer.mOutput, String(FullName()).Append(" gamelist"), true, this);
       }
       catch (std::exception& e)
       {

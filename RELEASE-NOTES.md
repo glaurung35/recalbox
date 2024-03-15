@@ -4,7 +4,12 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-43
+## Version 9.2-jamma-44
+
+9.2-jamma-44:
+- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
+- Fix some unidentified arcade games
+- Enhance log system for debug
 
 9.2-jamma-43:
 - Set pin 27/e as ground by default
@@ -12,7 +17,6 @@ as release notes for end user on a Recalbox upgrade.
 - Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
 - Fix autofire enable/disble
 - Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
 
 9.2-jamma-42:
 - Fix crash when quitting games

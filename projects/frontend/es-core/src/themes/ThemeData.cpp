@@ -564,16 +564,15 @@ String::List ThemeData::GetSubSetValues(const String& subset) const
     return sEmptySubset;
   }
 
-  // Empty subset? special case for gameclipview
-  HashSet<String>& list = *plist;
-  if (subset == "gameclipview" && list.empty())
-  {
-    static String::List sEmptySubset { getNoTheme() };
-    return sEmptySubset;
-  }
+
 
   // Sort
+  HashSet<String>& list = *plist;
   String::List result;
+  // Empty subset? special case for gameclipview
+  if (subset == "gameclipview" && !list.empty())
+    result.push_back(getNoTheme());
+  // Copy to destination list
   for(const String& string : list)
     result.push_back(string);
   std::sort(result.begin(), result.end());

@@ -4,89 +4,24 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-44
+## Version 9.2-Beta-39
 
-9.2-jamma-44:
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
-- Fix some unidentified arcade games
-- Enhance log system for debug
+### Improvements
 
-9.2-jamma-43:
-- Set pin 27/e as ground by default
-- Add casino games in baord games filter (mahjong + casino + trivia)
-- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
-- Fix autofire enable/disble
-- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
+- Add secure file load/save to ensure gamelist/recalbox.conf are always in a good state
+- Add 3 shifting backup to log files & split theme logs
 
-9.2-jamma-42:
-- Fix crash when quitting games
-- Fix mmaze ratio
-- Fix gameclip view selection
-- Add specific option for VOLUME + UP/DOWN
+### Fixes
 
-9.2-jamma-41:
-- Fix menu titles
-
-9.2-jamma-40:
-- Fix gamelist large name view in tate + jamma
-
-9.2-jamma-39:
-- Allow to run game demos with Y button (same as for gameclip) in system view
-- Fix new large game name view on tate mode (reported by @gyugyu)
-- Automatically set large name list view on install
-- Fix tate gamelist view video and image (reported by @gyugyu)
-- Automatically remove help and press start image in gameclip on install (thanks @beudbeud)
-
-9.2-jamma-38:
-- Added new full width gamelist view (a activer dans menu -> interface -> options du theme)
-- Fix player number data with auto scrap
-- Use arcade database for automatic tate flag in arcade games (no more scrap needed)
-
-9.2-jamma-37:
-- Fix bug in menulist validation
-- Fix game count in gamelists
-- Fix yoko games in tate only mode
-
-9.2-jamma-36:
-- Fix glitch in gamelist transition
-
-9.2-jamma-35:
-- Fix netplay port configuration
-- Fix 31kHz handheld and PSX games
-- Fix Dreamcast games (enjoy again Soul Calibur in 31kHz)
-
-9.2-jamma-34:
-- Fix crash on gamelist reload on PC and other platforms
-- Fix "show only tate games" having no games in subdirectories
-- Fix automatic mame selection from mame subdirectory
-- Fix theme region not immediatly updated
-
-9.2-jamma-33:
-- Auto selection du mode 240p pour les jeux 240p en multisync
-
-9.2-jamma-32:
-- Nouveau channel d'update : jamma-early
-
-9.2-jamma-31:
-- Suppression des scanlines en 31kHz lorsque vous lancez un jeu Tate en Yoko ou Yoko en Tate
-- Retablissement des vues arcade pour la naomi et atomiswave
-
-9.2-jamma-30:
-- Correction des jeux en TATE sur ecran YOKO en 31kHz
-- Correction du calibrage 31kHz et multisync
-- Exctinction de l'ecran lors du reboot/shotdown
-
-9.2-jamma-29:
-- Ajout du mode nomenu pour une utilisation en salon (emulationstation.menu=none dans recalbox.conf)
-- Correction de TOUS les mappings joystick sur mame2003+ (Killer Instinct est maintenant bien mappé)
-- Ajout des systemes SEGA System 32, SEGA System 16, Psikyo et Taito F3
-- Chaque joueur peut choisir son layout neogeo
-- Correction du mode d'affichage des videos qui désynchronisait sur certaines bornes sensibles au hsync un peu haut
-- Ajout d'une superrez pour le 31kHz pour ameliorer la qualité des jeux 240p qui tournent en 31kHz
-- Heavy scanlines par defaut
-- Correction des drapeaux pour les jeux arcade et consoles
-- Nouveaux bootloaders a mettre a jour sur pi5 et pi4
-- Ecran de calibrage corrigé (a tester en 15 31 et multisync)
+- Fix crashes when exiting games
+- Fix rare crashes when exiting ES w/ themes containing SVGs images
+- Free more GPU VRAM when running emulators (unload flags)
+- Fix multiple issues related to gameclip theme
+- Fix fuplicate key issues in recalbox.conf
+- Fix "move to letter" & L1/R1 moves in Arcade view
+- Fix still unidentified games in MAME when games w/ chd where found more than 2 times in subfolders
+- Fix a few false negative error logs
+- Fix music volume in ES
 
 
 ## Version 9.2-Pulstar

@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
 - Fix autofire enable/disble
 - Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
+- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
 
 9.2-jamma-42:
 - Fix crash when quitting games

@@ -116,7 +116,7 @@ class ArcadeDatabaseManager
 
       private:
         //! Maximum game storage
-        static constexpr int sMaxGame = 4;
+        static constexpr int sMaxGame = 8;
         //! Actual game count
         int mCount;
         //! Game pointers

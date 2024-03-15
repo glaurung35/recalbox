@@ -246,7 +246,7 @@ ArcadeDatabase::ManufacturerLists ArcadeDatabaseManager::BuildAndRemapManufactur
   }
 
   // Log
-  if (Log::ReportingLevel() >= LogLevel::LogDebug)
+  if (Log::ReportingLevel(LogType::Generic) >= LogLevel::LogDebug)
   {
     String log("[Arcade] Most used manufacturers: ");
     for (int i = 0; i < (int) limitedDriverList.size(); ++i)

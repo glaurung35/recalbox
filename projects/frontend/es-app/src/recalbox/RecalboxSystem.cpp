@@ -238,7 +238,7 @@ bool RecalboxSystem::saveWifiWps()
 
 bool RecalboxSystem::getWifiConfiguration(String& ssid, String& psk)
 {
-  IniFile wpaConfiguration(Path("/overlay/.configs/wpa_supplicant.conf"), false, false);
+  IniFile wpaConfiguration(Path("/overlay/.configs/wpa_supplicant.conf"), "getWifiConfiguration - wpa_supplicant.conf", false, false);
   ssid = wpaConfiguration.AsString("ssid").Trim(" \"");
   psk = wpaConfiguration.AsString("psk").Trim(" \"");
   return !ssid.empty() && !psk.empty();

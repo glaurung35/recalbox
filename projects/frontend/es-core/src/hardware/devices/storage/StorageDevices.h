@@ -86,7 +86,7 @@ class StorageDevices
     };
 
     StorageDevices()
-      : mBootConfiguration(Path("/boot/recalbox-boot.conf"), false, true)
+      : mBootConfiguration(Path("/boot/recalbox-boot.conf"), "StorageDevices - Recalbox-boot", false, true)
       , mShareInRAM(false)
     {
       Initialize();

@@ -528,7 +528,7 @@ void InputManager::WriteDeviceXmlConfiguration(InputDevice& device)
   Writer;
 
   doc.save(Writer);
-  if (SecuredFile::SaveSecuredFile(path, Writer.mOutput, "Pad Configuration", true, this))
+  if (!SecuredFile::SaveSecuredFile(path, Writer.mOutput, "Pad Configuration", true, this))
   { LOG(LogError) << "[Input] Error saving input configuration file"; }
 }
 

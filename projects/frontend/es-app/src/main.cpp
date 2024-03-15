@@ -10,8 +10,6 @@
 
 int main(int argc, char* argv[], char** env)
 {
-  Log::Open("frontend.log");
-
   // Get arguments
   Options options(argc, argv);
 

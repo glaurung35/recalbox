@@ -85,9 +85,9 @@ void ThemeManager::DoThemeChange(WindowManager* window, bool force)
 {
   DateTime start;
   Path newPath = GetThemeRootPath();
-  if (mRootPath.IsEmpty()) { LOG(LogInfo) << "[ThemeManager] Loading initial theme: " << newPath; }
-  else if (newPath != mRootPath) { LOG(LogInfo) << "[ThemeManager] Switching to new theme: " << newPath; }
-  else { LOG(LogInfo) << "[ThemeManager] Current theme options havre changed. Refreshing theme: " << newPath; }
+  if (mRootPath.IsEmpty()) { LOGT(LogInfo) << "[ThemeManager] Loading initial theme: " << newPath; }
+  else if (newPath != mRootPath) { LOGT(LogInfo) << "[ThemeManager] Switching to new theme: " << newPath; }
+  else { LOGT(LogInfo) << "[ThemeManager] Current theme options havre changed. Refreshing theme: " << newPath; }
 
   //! Clear cache if required
   bool update = (newPath == mRootPath);
@@ -111,10 +111,10 @@ void ThemeManager::DoThemeChange(WindowManager* window, bool force)
     pool.Run(-2, false);
   }
   DateTime start2;
-  { LOG(LogWarning) << "[ThemeManager] Load time: " << (start2 - start).ToMillisecondsString() << " ms"; }
+  { LOGT(LogWarning) << "[ThemeManager] Load time: " << (start2 - start).ToMillisecondsString() << " ms"; }
   // Refresh
   NotifyThemeChanged(update);
-  { LOG(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
+  { LOGT(LogWarning) << "[ThemeManager] Refresh time: " << (DateTime() - start2).ToMillisecondsString() << " ms"; }
 
   if (mWaiter != nullptr)
   {

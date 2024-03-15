@@ -238,7 +238,7 @@ bool EmulatorManager::GetEmulatorFromOverride(const FileData& game, String& emul
   Path romOverride(romPath.ChangeExtension(romPath.Extension() + ".recalbox.conf"));
   if (romOverride.Exists())
   {
-    const IniFile fileConfiguration(romOverride, false, false);
+    const IniFile fileConfiguration(romOverride, "EmulatorManager - .recalbox.conf override", false, false);
     if (fileConfiguration.IsValid())
     {
       // Get values
@@ -424,8 +424,8 @@ const IniFile& EmulatorManager::OverrideCache::Get(const Path& path)
   {
       IniFile** ini = sCachedOverrides.try_get(path);
       if (ini != nullptr) return **ini;
-      return *(sCachedOverrides[path] = new IniFile(path, false, false));
+      return *(sCachedOverrides[path] = new IniFile(path, "EmulatorManager - .recalbox.conf override cache", false, false));
   }
-  static IniFile empty(Path(), false, false);
+  static IniFile empty(Path(), "EmulatorManager - empty override cache", false, false);
   return empty;
 }

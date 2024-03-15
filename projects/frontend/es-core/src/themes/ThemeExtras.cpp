@@ -34,7 +34,7 @@ void ThemeExtras::SortExtrasByZIndex()
 
 void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
 {
-  { LOG(LogWarning) << "[ThemeExtra] Smart merge. Old size = " << mExtras.size() << " - new size = " << newExtras.size(); }
+  { LOGT(LogWarning) << "[ThemeExtra] Smart merge. Old size = " << mExtras.size() << " - new size = " << newExtras.size(); }
 
   bool move = false;
   // Create new extra map
@@ -48,7 +48,7 @@ void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
     const Extra** foundInNew = newExtrasMap.try_get(oldExtra.Name());
     if (foundInNew == nullptr || (*foundInNew)->Type() != oldExtra.Type()) // Not found or type does not match
     {
-      { LOG(LogWarning) << "[ThemeExtra] Removed " << oldExtra.Name(); }
+      { LOGT(LogWarning) << "[ThemeExtra] Removed " << oldExtra.Name(); }
       //delete oldExtra.mComponent;
       mExtras.erase(mExtras.begin() + i);
       move = true;
@@ -64,20 +64,20 @@ void ThemeExtras::CreateSmartList(ThemeExtras::List& newExtras)
     Extra** foundInOld = oldExtrasMap.try_get(newExtra.Name());
     if (foundInOld == nullptr)
     {
-      { LOG(LogWarning) << "[ThemeExtra] Added " << newExtra.Name(); }
+      { LOGT(LogWarning) << "[ThemeExtra] Added " << newExtra.Name(); }
       mExtras.push_back(std::move(newExtra));
       move = true;
     }
     else if ((*foundInOld)->Type() != newExtra.Type())
     {
-      { LOG(LogWarning) << "[ThemeExtra] Modified " << newExtra.Name(); }
+      { LOGT(LogWarning) << "[ThemeExtra] Modified " << newExtra.Name(); }
       // Type does not match, replace type & component
       //delete (*foundInOld)->mComponent;
       **foundInOld = std::move(newExtra);
       move = true;
     }
   }
-  if (!move) { LOG(LogWarning) << "[ThemeExtra] No move"; }
+  if (!move) { LOGT(LogWarning) << "[ThemeExtra] No move"; }
 }
 
 ThemableComponent* ThemeExtras::Lookup(const String& name)

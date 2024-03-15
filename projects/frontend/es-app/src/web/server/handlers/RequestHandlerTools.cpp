@@ -718,7 +718,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
 
 IniFile RequestHandlerTools::LoadConfiguration()
 {
-  return IniFile(Path(sConfiguration), Path(sConfigurationTemplate), false, true);
+  return IniFile(Path(sConfiguration), Path(sConfigurationTemplate), "RequestHandlerTools - Recalbox.Conf", false, true);
 }
 
 void RequestHandlerTools::SaveConfiguration(IniFile& configuration)

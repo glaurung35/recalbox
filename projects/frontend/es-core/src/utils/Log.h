@@ -1,11 +1,24 @@
 #ifndef _LOG_H_
 #define _LOG_H_
 
-#define LOG(level) \
-if (::LogLevel::level <= ::Log::ReportingLevel()) ::Log().get(LogLevel::level)
-
 #include <utils/String.h>
 #include <utils/os/fs/Path.h>
+
+//! Log types
+enum class LogType
+{
+  Generic, //!< Default logs
+  Themes,  //!< Theme logs
+  __Count,
+};
+
+static constexpr const int sTypeCount = (int)LogType::__Count;
+
+#define LOG(level) \
+if (::LogLevel::level <= ::Log::ReportingLevel(LogType::Generic)) ::Log(LogType::Generic, LogLevel::level).get()
+
+#define LOGT(level) \
+if (::LogLevel::level <= ::Log::ReportingLevel(LogType::Themes)) ::Log(LogType::Themes, LogLevel::level).get()
 
 //! Log level
 enum class LogLevel
@@ -21,16 +34,15 @@ enum class LogLevel
 class Log
 {
   public:
+    Log(LogType type, LogLevel level);
     ~Log();
-    Log& get(LogLevel level = LogLevel::LogInfo);
+    Log& get();
 
-    static Path FormatLogPath(const char* filename);
-
-    static LogLevel ReportingLevel() { return reportingLevel; }
-    static void SetReportingLevel(LogLevel level) { reportingLevel = level; }
-
-    static void Open(const char* filename);
-    static void Close();
+    static void SetPath(LogType type, const Path& path) { sPath[(int)type] = path; }
+    static LogLevel ReportingLevel(LogType type) { return sReportingLevel[(int)type]; }
+    static void SetReportingLevel(LogType type, LogLevel level) { sReportingLevel[(int)type] = level; }
+    static void SetAllReportingLevel(LogLevel level);
+    static void SetAllMinimumReportingLevel(LogLevel level);
 
     Log& operator << (char v) { mMessage.Append(v); return *this; }
     Log& operator << (const char* v) { mMessage.Append(v); return *this; }
@@ -48,17 +60,17 @@ class Log
     Log& operator << (const std::vector<const char*>& v) { for(const char* s : v) mMessage.Append(s).Append(' '); return *this; }
 
   private:
+    static bool sLogsRotated;
     static const char* sStringLevel[(int)LogLevel::_Count];
     static FILE* sFile;
-    static Path mPath;
-    static LogLevel reportingLevel;
+    static Path sPath[sTypeCount];
+    static LogLevel sReportingLevel[sTypeCount];
 
+    LogType mType;
+    LogLevel mMessageLevel;
     String mMessage;
-    LogLevel messageLevel;
 
-    static void Flush();
-
-    static void DoClose();
+    static void RotateLogs();
 };
 
 #endif

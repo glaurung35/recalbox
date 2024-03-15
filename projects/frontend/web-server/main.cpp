@@ -60,8 +60,8 @@ int main(int argc, char* argv[])
   // Get parameters
   Parameters param(argc, argv);
 
-  ::Log::Open("web-server.log");
-  if (param.Debug()) ::Log::SetReportingLevel(LogLevel::LogDebug);
+  ::Log::SetPath(LogType::Generic, Path("/recalbox/share/system/logs/web-server.log"));
+  if (param.Debug()) ::Log::SetAllReportingLevel(LogLevel::LogDebug);
 
   LOG(LogInfo) << "Recalbox Micro Webserver 1.0";
 

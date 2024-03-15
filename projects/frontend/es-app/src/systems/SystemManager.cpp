@@ -46,7 +46,7 @@ SystemManager::RomSources SystemManager::GetRomSource(const SystemDescriptor& sy
   else
   {
     roots[systemDescriptor.RomPath().ToString()] = false;
-    { LOG(LogError) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder."; }
+    { LOG(LogInfo) << "[System] " << systemDescriptor.RomPath().ToString() << " is a standalone folder."; }
   }
 
   return roots;
@@ -166,7 +166,7 @@ void SystemManager::BuildRegionData(SystemData& system)
         if (game.IsGame())
           if (!game.Metadata().Region().HasRegion())
           {
-            if (game.System().IsTrueArcade())
+            if (game.System().IsTrueArcade() && !game.System().ArcadeDatabases().IsEmpty())
             {
               if (const FolderData* folder = game.Parent(); folder != mLastFolder)
               {
@@ -182,10 +182,7 @@ void SystemManager::BuildRegionData(SystemData& system)
                   if (nudity) game.Metadata().SetAdult(true);
                 }
               }
-              else
-              {
-                LOG(LogError) << "[SystemManager] No arcade database for " << game.RomPath();
-              }
+              else { LOG(LogError) << "[SystemManager] No arcade database for " << game.RomPath(); }
             }
             else
               game.Metadata().SetRegion(Regions::ExtractRegionsFromFileName(game.RomPath()));

@@ -547,7 +547,7 @@ void MainRunner::PlayLoadingSound(AudioManager& audioManager)
 
 bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNotifier& gamelistWatcher, bool forceReloadFromDisk)
 {
-  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"), false, false);
+  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"), "TryToLoadConfiguredSystems - recalbox-boot", false, false);
   bool portable = recalboxBootConf.AsString("case") == "GPiV1:1";
   switch(Board::Instance().GetBoardType())
   {
@@ -600,7 +600,7 @@ bool MainRunner::TryToLoadConfiguredSystems(SystemManager& systemManager, FileNo
 
 void onExit()
 {
-  ::Log::Close();
+  //::Log::Close();
 }
 
 void Sdl2Log(void *userdata, int category, SDL_LogPriority priority, const char *message)
@@ -639,19 +639,19 @@ void MainRunner::SetDebugLogs(bool debug, bool trace)
 {
   if (trace)
   {
-    if (::Log::ReportingLevel() < LogLevel::LogTrace) ::Log::SetReportingLevel(LogLevel::LogTrace);
+    ::Log::SetAllMinimumReportingLevel(LogLevel::LogTrace);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }
   else if (debug)
   {
-    if (::Log::ReportingLevel() < LogLevel::LogDebug) ::Log::SetReportingLevel(LogLevel::LogDebug);
+    ::Log::SetAllMinimumReportingLevel(LogLevel::LogDebug);
     SDL_LogSetOutputFunction(Sdl2Log, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_VERBOSE);
   }
   else
   {
-    ::Log::SetReportingLevel(LogLevel::LogInfo);
+    ::Log::SetAllReportingLevel(LogLevel::LogInfo);
     SDL_LogSetOutputFunction(nullptr, nullptr);
     SDL_LogSetAllPriority(SDL_LogPriority::SDL_LOG_PRIORITY_ERROR);
   }

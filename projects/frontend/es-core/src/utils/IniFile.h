@@ -15,19 +15,21 @@ class IniFile : public SecuredFile::IValidationInterface
     /*!
      * @brief Constructor
      * @param confpath File to load
+     * @param logname Free text shown in logs
      * @param extraSpace if True, add extra space around separator
      * @param autoBackup automatically manager backup file of the confpath
      */
-    explicit IniFile(const Path& confpath, bool extraSpace, bool autoBackup);
+    explicit IniFile(const Path& confpath, const String& logname, bool extraSpace, bool autoBackup);
 
     /*!
      * @brief Constructor
      * @param confpath File to load
      * @param fallbackpath File to load if confpath has not been loaded
+     * @param logname Free text shown in logs
      * @param extraSpace if True, add extra space around separator
      * @param autoBackup automatically manager backup file of the confpath
      */
-    explicit IniFile(const Path& confpath, const Path& fallbackpath, bool extraSpace, bool autoBackup);
+    explicit IniFile(const Path& confpath, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup);
 
     //! Destructor
     ~IniFile() override
@@ -261,6 +263,8 @@ class IniFile : public SecuredFile::IValidationInterface
     HashMap<String, String> mPendingWrites;
     //! Configuration set: key - Pending deleted (commented)
     HashSet<String> mPendingDelete;
+    //! Log name
+    String mLogName;
     //! File path
     Path mFilePath;
     //! Fallback File path

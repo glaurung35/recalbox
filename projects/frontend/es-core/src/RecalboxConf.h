@@ -219,6 +219,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
     DefineGetterSetter(HideBoardGames, bool, Bool, sHideBoardGames, false)
+    DefineGetterSetter(ShowOnly3PlusPlayers, bool, Bool, sShowOnly3PlusPlayers, false)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
@@ -471,6 +472,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sShowOnlyLatestVersion      = "emulationstation.showonlylatestversion";
     static constexpr const char* sHideNoGames                = "emulationstation.hidenogames";
     static constexpr const char* sHideBoardGames             = "emulationstation.hideboardgames";
+    static constexpr const char* sShowOnly3PlusPlayers       = "emulationstation.showonly3plusplayers";
 
     static constexpr const char* sSystemSorting              = "emulationstation.systemsorting";
 

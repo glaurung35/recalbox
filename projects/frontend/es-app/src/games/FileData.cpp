@@ -101,7 +101,7 @@ bool FileData::IsDisplayable(TopLevelFilter topfilter) const
   if ((topfilter & TopLevelFilter::LatestVersion    ) != 0 && !mMetadata.LatestVersion()                ) return false;
   if ((topfilter & TopLevelFilter::NotAGame         ) != 0 && mMetadata.NoGame()                        ) return false;
   if ((topfilter & TopLevelFilter::Board            ) != 0 && mMetadata.GenreId() == GameGenres::Board  ) return false;
-  if ((topfilter & TopLevelFilter::OneAndTwoPlayers ) != 0 && mMetadata.PlayerMax() < 2                 ) return false;
+  if ((topfilter & TopLevelFilter::OneAndTwoPlayers ) != 0 && mMetadata.PlayerMax() <= 2                ) return false;
 
   return true;
 }

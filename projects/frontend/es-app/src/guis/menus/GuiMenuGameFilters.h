@@ -27,6 +27,7 @@ class GuiMenuGameFilters : public GuiMenuBase
       NoGames,
       ShowOnlyLatestVersion,
       BoardGames,
+      Players3AndPlus
     };
 
     //! System manager reference

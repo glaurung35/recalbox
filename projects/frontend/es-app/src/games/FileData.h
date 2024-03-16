@@ -24,31 +24,33 @@ class FileData
 
     enum class TopLevelFilter
     {
-      None          = 0x00000000,
-      Favorites     = 0x00000001,
-      Hidden        = 0x00000002,
-      Yoko          = 0x00000004,
-      LatestVersion = 0x00000008,
-      Adult         = 0x00000010,
-      Preinstalled  = 0x00000020,
-      NotAGame      = 0x00000040,
-      Board         = 0x00000080,
+      None              = 0x00000000,
+      Favorites         = 0x00000001,
+      Hidden            = 0x00000002,
+      Yoko              = 0x00000004,
+      LatestVersion     = 0x00000008,
+      Adult             = 0x00000010,
+      Preinstalled      = 0x00000020,
+      NotAGame          = 0x00000040,
+      Board             = 0x00000080,
+      OneAndTwoPlayers  = 0x00000100,
     };
 
     //! Game filters
     enum class Filter
     {
-      None         = 0,  //!< Include nothing
-      Normal       = 1,  //!< Include normal files (not hidden, not favorite)
-      Favorite     = 2,  //!< Include favorites
-      Hidden       = 4,  //!< Include hidden
-      Adult        = 8,
-      NotLatest    = 16,
-      NoGame       = 32,
-      PreInstalled = 64,
-      Board        = 128,
-      Yoko         = 256,
-      All          = 511, //!< Include all
+      None             = 0,  //!< Include nothing
+      Normal           = 1,  //!< Include normal files (not hidden, not favorite)
+      Favorite         = 2,  //!< Include favorites
+      Hidden           = 4,  //!< Include hidden
+      Adult            = 8,
+      NotLatest        = 16,
+      NoGame           = 32,
+      PreInstalled     = 64,
+      Board            = 128,
+      Yoko             = 256,
+      OneAndTwoPlayers = 512,
+      All              = 1023, //!< Include all
     };
 
     //! Search attribute enumeration

@@ -490,6 +490,9 @@ FileData::Filter SystemData::Excludes() const
   // ignore yoko games ?
   if(conf.GetTateOnly())
     excludesFilter |= FileData::Filter::Yoko;
+  // ignore less than 3 players games
+  if(conf.GetShowOnly3PlusPlayers())
+    excludesFilter |= FileData::Filter::OneAndTwoPlayers;
   return excludesFilter;
 }
 

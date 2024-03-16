@@ -4,7 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-44
+## Version 9.2-jamma-45
+
+9.2-jamma-45:
+- Add 3+ player filters (START -> UI OPTIONS -> GAME FILTERS). The activation of the filter is proposed when enabling 4p mode in jamma menu
 
 9.2-jamma-44:
 - Fix menu resolution issue when setting 480p in multisync and switching back to 240p

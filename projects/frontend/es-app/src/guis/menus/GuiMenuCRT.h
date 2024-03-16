@@ -27,7 +27,7 @@ class GuiMenuCRT : public GuiMenuBase
      * @brief Default constructor
      * @param window Global window
      */
-    explicit GuiMenuCRT(WindowManager& window, const String title);
+    explicit GuiMenuCRT(WindowManager& window, SystemManager& systemManager, const String title);
 
     //! Default destructor
     ~GuiMenuCRT() override;
@@ -68,6 +68,8 @@ class GuiMenuCRT : public GuiMenuBase
       JammaSoundOnStart
     };
 
+    //! System manager reference
+    SystemManager& mSystemManager;
     //! Dac selection
     std::shared_ptr<OptionListComponent<CrtAdapterType>> mDac;
     CrtAdapterType mOriginalDac;

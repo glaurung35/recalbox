@@ -93,14 +93,15 @@ bool FileData::IsDisplayable(TopLevelFilter topfilter) const
   // A folder is not displayable if there is no game inside
   if (IsFolder()) return false;
 
-  if ((topfilter & TopLevelFilter::Favorites    ) != 0 && !mMetadata.Favorite()                     ) return false;
-  if ((topfilter & TopLevelFilter::Hidden       ) != 0 && mMetadata.Hidden()                        ) return false;
-  if ((topfilter & TopLevelFilter::Adult        ) != 0 && mMetadata.Adult()                         ) return false;
-  if ((topfilter & TopLevelFilter::Preinstalled ) != 0 && TopAncestor().PreInstalled()              ) return false;
-  if ((topfilter & TopLevelFilter::Yoko         ) != 0 && mMetadata.Rotation() == RotationType::None) return false;
-  if ((topfilter & TopLevelFilter::LatestVersion) != 0 && !mMetadata.LatestVersion()                ) return false;
-  if ((topfilter & TopLevelFilter::NotAGame     ) != 0 && mMetadata.NoGame()                        ) return false;
-  if ((topfilter & TopLevelFilter::Board        ) != 0 && mMetadata.GenreId() == GameGenres::Board  ) return false;
+  if ((topfilter & TopLevelFilter::Favorites        ) != 0 && !mMetadata.Favorite()                     ) return false;
+  if ((topfilter & TopLevelFilter::Hidden           ) != 0 && mMetadata.Hidden()                        ) return false;
+  if ((topfilter & TopLevelFilter::Adult            ) != 0 && mMetadata.Adult()                         ) return false;
+  if ((topfilter & TopLevelFilter::Preinstalled     ) != 0 && TopAncestor().PreInstalled()              ) return false;
+  if ((topfilter & TopLevelFilter::Yoko             ) != 0 && mMetadata.Rotation() == RotationType::None) return false;
+  if ((topfilter & TopLevelFilter::LatestVersion    ) != 0 && !mMetadata.LatestVersion()                ) return false;
+  if ((topfilter & TopLevelFilter::NotAGame         ) != 0 && mMetadata.NoGame()                        ) return false;
+  if ((topfilter & TopLevelFilter::Board            ) != 0 && mMetadata.GenreId() == GameGenres::Board  ) return false;
+  if ((topfilter & TopLevelFilter::OneAndTwoPlayers ) != 0 && mMetadata.PlayerMax() <= 2                ) return false;
 
   return true;
 }
@@ -118,6 +119,7 @@ FileData::TopLevelFilter FileData::BuildTopLevelFilter()
   if (conf.GetShowOnlyLatestVersion() ) result |= TopLevelFilter::LatestVersion;
   if (conf.GetHideNoGames()           ) result |= TopLevelFilter::NotAGame;
   if (conf.GetHideBoardGames()        ) result |= TopLevelFilter::Board;
+  if (conf.GetShowOnly3PlusPlayers()  ) result |= TopLevelFilter::OneAndTwoPlayers;
 
   return result;
 }

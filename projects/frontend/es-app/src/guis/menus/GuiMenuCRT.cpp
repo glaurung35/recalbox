@@ -16,8 +16,9 @@
 #include <recalbox/RecalboxSystem.h>
 #include <utils/locale/LocaleHelper.h>
 
-GuiMenuCRT::GuiMenuCRT(WindowManager& window, const String title)
+GuiMenuCRT::GuiMenuCRT(WindowManager& window, SystemManager& systemManager, const String title)
   : GuiMenuBase(window, title, this)
+  , mSystemManager(systemManager)
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
@@ -419,6 +420,28 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
   if ((Components)id == Components::JammaStartBtn1Credit)
     CrtConf::Instance().SetSystemCRTJammaStartBtn1Credit(status).Save();
   if ((Components)id == Components::Jamma4Players)
+  {
+    CrtConf::Instance().SetSystemCRTJamma4Players(status).Save();
+    auto setStatus = [this, status]{
+      RecalboxConf::Instance().SetShowOnly3PlusPlayers(status);
+      if (mSystemManager.UpdatedTopLevelFilter()) RecalboxConf::Instance().Save();
+      else RecalboxConf::Instance().SetShowOnly3PlusPlayers(!status);
+    };
+    if(status && !RecalboxConf::Instance().GetShowOnly3PlusPlayers())
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow,
+                                    _("Do you want to enable the 3+ player filter for all the games ?"),
+                                    _("NO"), [] {},
+                                    _("YES"), setStatus));
+    }
+    if(!status && RecalboxConf::Instance().GetShowOnly3PlusPlayers())
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow,
+                                    _("Do you want to disable the 3+ player filter for all the games ?"),
+                                    _("NO"), [] {},
+                                    _("YES"), setStatus));
+    }
+  }
     CrtConf::Instance().SetSystemCRTJamma4Players(status).Save();
   if ((Components)id == Components::JammaAutoFire)
     CrtConf::Instance().SetSystemCRTJammaAutoFire(status).Save();

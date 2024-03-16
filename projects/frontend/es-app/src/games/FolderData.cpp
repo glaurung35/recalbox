@@ -656,6 +656,8 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::Board;
   if (fd->Metadata().Rotation() == RotationType::None)
     currentExcludes |= Filter::Yoko;
+  if (fd->Metadata().PlayerMax() < 3)
+    currentExcludes |= Filter::OneAndTwoPlayers;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }

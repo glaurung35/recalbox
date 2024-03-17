@@ -192,7 +192,10 @@ bool IniFile::Save()
   // Add remaining lines
   addedLines += (int)mPendingWrites.size();
   for(const auto& keyValue : mPendingWrites)
+  {
     lines.push_back(String(keyValue.first).Append(equal).Append(keyValue.second));
+    mConfiguration[keyValue.first] = keyValue.second;
+  }
 
   // Clear pendings
   mPendingDelete.clear();

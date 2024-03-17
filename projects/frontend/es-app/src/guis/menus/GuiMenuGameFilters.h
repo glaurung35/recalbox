@@ -27,7 +27,9 @@ class GuiMenuGameFilters : public GuiMenuBase
       NoGames,
       ShowOnlyLatestVersion,
       BoardGames,
-      Players3AndPlus
+      Players3AndPlus,
+      ShowOnlyYoko,
+      ShowOnlyTate
     };
 
     //! System manager reference

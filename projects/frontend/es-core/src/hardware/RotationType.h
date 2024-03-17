@@ -52,4 +52,8 @@ public:
     return RotationType::None;
   }
 
+  static bool IsTate(RotationType value){
+    return value == RotationType::Right || value == RotationType::Left;
+  }
+
 };

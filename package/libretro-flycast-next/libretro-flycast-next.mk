@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 31/07/2023
-LIBRETRO_FLYCAST_NEXT_VERSION = 92a10ba0f0a5ca0d1ec9498962002f4cdcc8e7f6
+# Commit of 15/04/2024
+LIBRETRO_FLYCAST_NEXT_VERSION = 966ff3767dc6c7a8c84b123fcaa94b4bddced48a
 LIBRETRO_FLYCAST_NEXT_SITE = http://github.com/flyinghead/flycast.git
 LIBRETRO_FLYCAST_NEXT_LICENSE = GPL-2.0
 LIBRETRO_FLYCAST_NEXT_SITE_METHOD = git

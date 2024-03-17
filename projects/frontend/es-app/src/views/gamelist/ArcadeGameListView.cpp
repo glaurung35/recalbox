@@ -69,7 +69,8 @@ void ArcadeGameListView::BuildList()
   // Add to list
   bool filterOutBios = RecalboxConf::Instance().GetArcadeViewHideBios();
   bool filterOutUnknown = RecalboxConf::Instance().GetArcadeViewHideNonWorking();
-  bool onlyTate = RecalboxConf::Instance().GetTateOnly();
+  bool onlyTate = RecalboxConf::Instance().GetShowOnlyTateGames();
+  bool onlyYoko = RecalboxConf::Instance().GetShowOnlyYokoGames();
   for (const ParentTupple& parent : mGameList)
   {
     int colorIndexOffset = 0;
@@ -77,7 +78,8 @@ void ArcadeGameListView::BuildList()
     {
       if (parent.mArcade == nullptr && filterOutUnknown) continue;
       // Tate filtering only on parent - clones have presumably the same rotation :)
-      if (onlyTate && parent.mGame->Metadata().Rotation() == RotationType::None) continue;
+      if (onlyTate && !RotationUtils::IsTate(parent.mGame->Metadata().Rotation())) continue;
+      if (onlyYoko && RotationUtils::IsTate(parent.mGame->Metadata().Rotation())) continue;
       // Non games
       if (parent.mArcade != nullptr)
       {

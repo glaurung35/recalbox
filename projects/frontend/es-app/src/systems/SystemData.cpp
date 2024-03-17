@@ -488,11 +488,14 @@ FileData::Filter SystemData::Excludes() const
   if(conf.GetHideBoardGames())
     excludesFilter |= FileData::Filter::Board;
   // ignore yoko games ?
-  if(conf.GetTateOnly())
+  if(conf.GetShowOnlyTateGames())
     excludesFilter |= FileData::Filter::Yoko;
   // ignore less than 3 players games
   if(conf.GetShowOnly3PlusPlayers())
     excludesFilter |= FileData::Filter::OneAndTwoPlayers;
+  // ignore tate games ?
+  if(conf.GetShowOnlyYokoGames())
+    excludesFilter |= FileData::Filter::Tate;
   return excludesFilter;
 }
 

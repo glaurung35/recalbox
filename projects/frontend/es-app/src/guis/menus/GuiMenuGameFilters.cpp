@@ -32,6 +32,10 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemManager& sys
 
   AddSwitch(_("SHOW ONLY 3+ PLAYERS GAMES"), RecalboxConf::Instance().GetShowOnly3PlusPlayers(), (int)Components::Players3AndPlus, this, _(MENUMESSAGE_UI_SHOW_ONLY_3_PLUS_PLAYERS_GAMES));
 
+  AddSwitch(_("SHOW ONLY YOKO (HORIZONTAL) GAMES"), RecalboxConf::Instance().GetShowOnlyYokoGames(), (int)Components::ShowOnlyYoko, this, _(MENUMESSAGE_UI_SHOW_ONLY_YOKO_GAMES));
+
+  AddSwitch(_("SHOW ONLY TATE (VERTICAL) GAMES"), RecalboxConf::Instance().GetShowOnlyTateGames(), (int)Components::ShowOnlyTate, this, _(MENUMESSAGE_UI_SHOW_ONLY_TATE_GAMES));
+
   AddSwitch(_("HIDE NO GAMES"), RecalboxConf::Instance().GetHideNoGames(), (int)Components::NoGames, this, _(MENUMESSAGE_UI_HIDE_NO_GAMES_MSG));
 }
 
@@ -139,6 +143,32 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool& status)
       {
         mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
         RecalboxConf::Instance().SetShowOnly3PlusPlayers(!status);
+        status = !status;
+      }
+      break;
+    }
+    case Components::ShowOnlyYoko:
+    {
+      RecalboxConf::Instance().SetShowOnlyYokoGames(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+        RecalboxConf::Instance().Save();
+      else
+      {
+        mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
+        RecalboxConf::Instance().SetShowOnlyYokoGames(!status);
+        status = !status;
+      }
+      break;
+    }
+    case Components::ShowOnlyTate:
+    {
+      RecalboxConf::Instance().SetShowOnlyTateGames(status);
+      if (mSystemManager.UpdatedTopLevelFilter())
+        RecalboxConf::Instance().Save();
+      else
+      {
+        mWindow.displayMessage(_("There is no game to show after this filter is changed! No change recorded."));
+        RecalboxConf::Instance().SetShowOnlyTateGames(!status);
         status = !status;
       }
       break;

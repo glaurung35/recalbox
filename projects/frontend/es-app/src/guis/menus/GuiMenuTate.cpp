@@ -12,7 +12,7 @@ GuiMenuTate::GuiMenuTate(WindowManager& window, SystemManager& systemManager)
   , mOriginalTateEnabled(RecalboxConf::Instance().GetCollectionTate())
   , mOriginalGamesRotation(RotationUtils::FromUint(RecalboxConf::Instance().GetTateGameRotation()))
   , mOriginalSystemRotation(BootConf::Instance().GetRotation())
-  , mOriginalTateOnly(RecalboxConf::Instance().GetTateOnly())
+  , mOriginalTateOnly(RecalboxConf::Instance().GetShowOnlyTateGames())
 {
   // Enable virtual system
   AddSwitch(_("ENABLE TATE VIRTUAL SYSTEM"), mOriginalTateEnabled, (int)Components::TateEnabled, this, _(MENUMESSAGE_TATE_VIRTUALSYSTEM_MSG));
@@ -112,13 +112,13 @@ void GuiMenuTate::SwitchComponentChanged(int id, bool& status)
     }
     case Components::TateOnly:
     {
-      RecalboxConf::Instance().SetTateOnly(status);
+      RecalboxConf::Instance().SetShowOnlyTateGames(status);
       if (mSystemManager.UpdatedTopLevelFilter())
         RecalboxConf::Instance().Save();
       else
       {
         mWindow.displayMessage(_("There is no TATE game to show!No change recorded."));
-        RecalboxConf::Instance().SetTateOnly(!status);
+        RecalboxConf::Instance().SetShowOnlyTateGames(!status);
         status = !status;
       }
       break;

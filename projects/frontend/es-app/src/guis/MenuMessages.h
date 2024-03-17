@@ -127,6 +127,9 @@ class MenuMessages
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"
     #define MENUMESSAGE_UI_HIDE_BOARD_GAMES_MSG "Hide board games, like MAHJONG, CHESS. Casino games and trivia games are also hidden."
     #define MENUMESSAGE_UI_SHOW_ONLY_3_PLUS_PLAYERS_GAMES "Show only 3 and more players games, for 3/4 players arcade cabs or party."
+    #define MENUMESSAGE_UI_SHOW_ONLY_YOKO_GAMES "Show only yoko (horizontal) games in gamelists."
+    #define MENUMESSAGE_UI_SHOW_ONLY_TATE_GAMES "Show only tate (vertical) games in gamelists."
+
 
     #define MENUMESSAGE_UI_FILE_NAME_MSG "Display game by file name instead of game name."
     #define MENUMESSAGE_UI_ARCADE_MSG "Specific options or arcade system views."

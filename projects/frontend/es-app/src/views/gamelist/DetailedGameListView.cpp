@@ -804,7 +804,8 @@ void DetailedGameListView::populateList(const FolderData& folder)
   }
 
   // Tate flag
-  bool onlyTate = RecalboxConf::Instance().GetTateOnly();
+  bool onlyTate = RecalboxConf::Instance().GetShowOnlyTateGames();
+  bool onlyYoko = RecalboxConf::Instance().GetShowOnlyYokoGames();
 
   // Add to list
   //mList.reserve(items.size()); // TODO: Reserve memory once
@@ -816,7 +817,9 @@ void DetailedGameListView::populateList(const FolderData& folder)
       if (!Regions::IsIn4Regions(fd->Metadata().Region().Pack, currentRegion))
         colorIndexOffset = 2;
     // Tate filtering
-    if (onlyTate && fd->Metadata().Rotation() == RotationType::None) continue;
+    if (onlyTate && !RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    // Yoko filtering
+    if (onlyYoko && RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
     // Store
     mList.add(GetDisplayName(*fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
   }

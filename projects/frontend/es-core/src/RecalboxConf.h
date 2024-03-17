@@ -294,7 +294,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(CollectionTate, bool, Bool, sCollectionTate, false)
     DefineListGetterSetter(CollectionGenre, sCollectionGenre, "")
     DefineGetterSetter(TateGameRotation, int, Int, sTateGameRotation, 0)
-    DefineGetterSetter(TateOnly, bool, Bool, sTateOnly, false)
+    DefineGetterSetter(ShowOnlyTateGames, bool, Bool, sTateOnly, false)
+    DefineGetterSetter(ShowOnlyYokoGames, bool, Bool, sYokoOnly, false)
 
     DefineListGetterSetter(CollectionArcadeManufacturers, sCollectionArcadeManufacturers, "")
     DefineGetterSetter(CollectionArcade, bool, Bool, sCollectionArcade, false)
@@ -548,6 +549,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sCollectionGenre            = "emulationstation.collection.genre";
     static constexpr const char* sTateGameRotation           = "tate.gamerotation";
     static constexpr const char* sTateOnly                   = "emulationstation.tateonly";
+    static constexpr const char* sYokoOnly                   = "emulationstation.yokoonly";
 
     static constexpr const char* sCollectionArcade           = "emulationstation.virtualarcade";
     static constexpr const char* sCollectionArcadeManufacturers = "emulationstation.virtualarcade.manufacturers";

@@ -654,10 +654,12 @@ bool FolderData::IsFiltered(FileData* fd, FileData::Filter includes, FileData::F
     currentExcludes |= Filter::Adult;
   if (fd->Metadata().GenreId() == GameGenres::Board || fd->Metadata().GenreId() == GameGenres::Trivia || fd->Metadata().GenreId() == GameGenres::Casino)
     currentExcludes |= Filter::Board;
-  if (fd->Metadata().Rotation() == RotationType::None)
+  if (!RotationUtils::IsTate(fd->Metadata().Rotation()))
     currentExcludes |= Filter::Yoko;
   if (fd->Metadata().PlayerMax() < 3)
     currentExcludes |= Filter::OneAndTwoPlayers;
+  if (RotationUtils::IsTate(fd->Metadata().Rotation()))
+    currentExcludes |= Filter::Tate;
 
   return ((currentIncludes & includes) != 0 && (currentExcludes & excludes) == 0);
 }

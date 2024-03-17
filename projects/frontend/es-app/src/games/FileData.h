@@ -34,6 +34,8 @@ class FileData
       NotAGame          = 0x00000040,
       Board             = 0x00000080,
       OneAndTwoPlayers  = 0x00000100,
+      Tate              = 0x00000200,
+
     };
 
     //! Game filters
@@ -50,7 +52,8 @@ class FileData
       Board            = 128,
       Yoko             = 256,
       OneAndTwoPlayers = 512,
-      All              = 1023, //!< Include all
+      Tate             = 1024,
+      All              = 2047, //!< Include all
     };
 
     //! Search attribute enumeration

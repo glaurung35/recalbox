@@ -31,7 +31,7 @@ index f34a0f1..7e5e691 100644
  			{
  				diag_input = NULL;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index a4c6d17..90b808a 100644
+index a4c6d17..22dfc39 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
@@ -43,7 +43,41 @@ index a4c6d17..90b808a 100644
  			pgi->nInput = GIT_MACRO_AUTO;
  			pgi->nType = BIT_DIGITAL;
  			pgi->Macro.nMode = 0;
-@@ -1674,27 +1674,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+@@ -1191,12 +1191,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+ 			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
+ 		}
+ 	}
+-
+-	// Alien vs Predator
+-	// Use a layout more similar to the cabinet, with jump in the middle
+-	if ((parentrom && strcmp(parentrom, "avsp") == 0) ||
+-		(drvname && strcmp(drvname, "avsp") == 0)
+-	) {
++  // Dungeons and Dragons
++  // switch last two buttons on rgb jamma
++  if (RB_JAMMA(nDeviceType[nPlayer]) &&
++      (
++        (parentrom && strcmp(parentrom, "ddsom") == 0) || (drvname && strcmp(drvname, "ddsom") == 0) ||
++        (parentrom && strcmp(parentrom, "ddtod") == 0) || (drvname && strcmp(drvname, "ddtod") == 0)
++        )
++    ) {
++    if (strcmp("Use", description) == 0) {
++      GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
++    }
++    if (strcmp("Select", description) == 0) {
++      GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
++    }
++  }
++  // Alien vs Predator
++  // Disable specific mapping on rgb jamma
++  // Use a layout more similar to the cabinet, with jump in the middle
++  if (!RB_JAMMA(nDeviceType[nPlayer]) && ((parentrom && strcmp(parentrom, "avsp") == 0) ||
++                                          (drvname && strcmp(drvname, "avsp") == 0))
++    ) {
+ 		if (strcmp("Attack", description) == 0) {
+ 			GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
+ 		}
+@@ -1674,27 +1689,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  		(drvname && strcmp(drvname, "umk3") == 0)
  	) {
  		if (strcmp("High Punch", description) == 0) {
@@ -78,7 +112,7 @@ index a4c6d17..90b808a 100644
  		}
  	}
  
-@@ -1857,13 +1857,13 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+@@ -1857,13 +1872,13 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  		}
  	}
  
@@ -94,7 +128,7 @@ index a4c6d17..90b808a 100644
  		if (strncmp("Buttons ABC", description, 11) == 0)
  			GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L2 : RETRO_DEVICE_ID_JOYPAD_R2), description, RETRO_DEVICE_JOYPAD, GIT_MACRO_AUTO);
  		if (strncmp("Buttons BCD", description, 11) == 0)
-@@ -2118,9 +2118,39 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+@@ -2118,9 +2133,39 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
  					GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_A, description);
  					break;
  			}
@@ -136,7 +170,7 @@ index a4c6d17..90b808a 100644
  				switch (nButton) {
  					case 1:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
-@@ -2157,10 +2187,10 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
+@@ -2157,10 +2202,10 @@ static INT32 GameInpStandardOne(struct GameInp* pgi, INT32 nPlayer, char* szb, c
  						GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
  						break;
  					case 5:
@@ -149,7 +183,7 @@ index a4c6d17..90b808a 100644
  						break;
  					case 7:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_R2), description);
-@@ -2737,7 +2767,11 @@ void SetControllerInfo()
+@@ -2737,7 +2782,11 @@ void SetControllerInfo()
  			{ "Mouse (ball only)", RETROMOUSE_BALL },
  			{ "Mouse (full)", RETROMOUSE_FULL },
  			{ "Pointer", RETRO_DEVICE_POINTER },
@@ -162,7 +196,7 @@ index a4c6d17..90b808a 100644
  		};
  
  		// kludge for nes (some 1p game want to use p2 controls)
-@@ -3147,7 +3181,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
+@@ -3147,7 +3196,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
  				device != RETROMOUSE_BALL &&
  				device != RETROMOUSE_FULL &&
  				device != RETRO_DEVICE_POINTER &&
@@ -175,7 +209,7 @@ index a4c6d17..90b808a 100644
  				device = RETROPAD_CLASSIC;
  				HandleMessage(RETRO_LOG_INFO, "[FBNeo] Unknown device type for port %d, forcing \"Classic\" instead\n", port);
 diff --git a/src/burner/libretro/retro_input.h b/src/burner/libretro/retro_input.h
-index 9186554..602658e 100644
+index 9186554..6dfe185 100644
 --- a/src/burner/libretro/retro_input.h
 +++ b/src/burner/libretro/retro_input.h
 @@ -36,6 +36,11 @@ extern retro_input_state_t input_cb;

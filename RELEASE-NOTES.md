@@ -4,7 +4,14 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-45
+## Version 9.2-jamma-46
+
+9.2-jamma-46:
+- Add yoko games only filter
+- Add new arcade hardware virtual systems: Irem M72/M92, Konami GX, Namco NA/NB, System 1/2/10/11/12, Sega System 18, Taito G-NET
+- Fix avp 3 buttons order and d&d 4 buttons mappings
+- Fix Mushihime Sama automatic blitter values
+- Fix neogeo timings
 
 9.2-jamma-45:
 - Add 3+ player filters (START -> UI OPTIONS -> GAME FILTERS). The activation of the filter is proposed when enabling 4p mode in jamma menu

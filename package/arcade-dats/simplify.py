@@ -27,8 +27,11 @@ class Simplifier:
     SUBSYSTEM_MANUFACTURERS: dict[str, list[tuple[str, str]]] = \
     {
         "capcom": [("cps1", "CPS1"), ("cps2", "CPS2"), ("cps3", "CPS3")],
-        "sega": [("segas32", "System32"), ("segas16*", "System16")],
-        "taito": [("taito_f3", "F3")],
+        "irem" : [("m72", "M72"), ("m92", "M92")],
+        "konami": [("konamigx", "GX")],
+        "namco": [("namcona*", "NA"), ("namconb*", "NB"), ("namcos1", "System1"), ("namcos2", "System2"), ("namcos10", "System10"), ("namcos11", "System11"), ("namcos12", "System12")],
+        "sega": [("segas32", "System32"), ("segas16*", "System16"), ("segas18", "System18")],
+        "taito": [("taito_f3", "F3"), ("taitogn", "GNET")],
     }
 
     COMPLETE_REPLACEMENTS: dict[str, str] = \
@@ -194,6 +197,9 @@ class Simplifier:
             parts: list[str] = driverLower.split('/')
             system: str = parts[len(parts) - 2]
             subSystem: str = parts[len(parts) - 1]
+            # Sony Taito Gnet special case
+            if system == "sony" and subSystem == "taitogn":
+                system = "taito"
             # Capcom/Sega/... sub-systems
             if system in self.SUBSYSTEM_MANUFACTURERS.keys():
                 driverTuples: list[tuple[str, str]] = self.SUBSYSTEM_MANUFACTURERS[system]

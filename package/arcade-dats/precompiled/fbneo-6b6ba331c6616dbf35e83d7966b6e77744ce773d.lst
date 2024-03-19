@@ -136,10 +136,10 @@ airattcka|Air Attack (set 2)|clone|nmk/nmk16.cpp|270|224|256|||airattck|good|Com
 airbustrb|Air Buster: Trouble Specialty Raid Unit (bootleg)|clone|kaneko/airbustr.cpp|0|256|224|||airbustr|good|
 airbustrj|Air Buster: Trouble Specialty Raid Unit (Japan)|clone|kaneko/airbustr.cpp|0|256|224|||airbustr|good|Kaneko/Namco
 airbustr|Air Buster: Trouble Specialty Raid Unit (World)|parent|kaneko/airbustr.cpp|0|256|224||||good|Kaneko/Namco
-airdueljm72|Air Duel (Japan, M72 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem
-airduelu|Air Duel (US location test, M82 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem
-airduelm72|Air Duel (World, M72 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem
-airduel|Air Duel (World, M82 hardware)|parent|irem/m72.cpp|270|256|384||||good|Irem
+airdueljm72|Air Duel (Japan, M72 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem\M72
+airduelu|Air Duel (US location test, M82 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem\M72
+airduelm72|Air Duel (World, M72 hardware)|clone|irem/m72.cpp|270|256|384|||airduel|good|Irem\M72
+airduel|Air Duel (World, M82 hardware)|parent|irem/m72.cpp|270|256|384||||good|Irem\M72
 agallet|Air Gallet (Europe)|parent|misc/cave.cpp|270|240|320||||good|Banpresto/Gazelle
 agalleth|Air Gallet (Hong Kong)|clone|misc/cave.cpp|270|240|320|||agallet|good|Banpresto/Gazelle
 agalletk|Air Gallet (Korea)|clone|misc/cave.cpp|270|240|320|||agallet|good|Banpresto/Gazelle
@@ -177,13 +177,13 @@ aliencha|Alien Challenge (World)|parent|igs/lordgun.cpp|0|448|224||||good|IGS
 alinvade|Alien Invaders|parent|misc/alinvade.cpp|90|128|128||||good|Forbes
 alienres|Alien Rescue (Homebrew, Test Build July 2019)|parent|||224|288||||good|MonstersGoBoom
 aliensec|Alien Sector|parent|namco/baraduke.cpp|0|288|224||||good|Namco
-astormjd|Alien Storm (set 1, Japan Rev B, 2 Players, FD1094 317-0146 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astormj|Alien Storm (set 1, Japan Rev B, 2 Players, FD1094 317-0146)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astormud|Alien Storm (set 2, US, 3 Players, FD1094 317-0147 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astormu|Alien Storm (set 2, US, 3 Players, FD1094 317-0147)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astorm3d|Alien Storm (set 3, World, 3 Players, FD1094 317-0148 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astorm3|Alien Storm (set 3, World, 3 Players, FD1094 317-0148)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega
-astorm|Alien Storm (set 4, World, 2 Players, FD1094 317-0154)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+astormjd|Alien Storm (set 1, Japan Rev B, 2 Players, FD1094 317-0146 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astormj|Alien Storm (set 1, Japan Rev B, 2 Players, FD1094 317-0146)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astormud|Alien Storm (set 2, US, 3 Players, FD1094 317-0147 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astormu|Alien Storm (set 2, US, 3 Players, FD1094 317-0147)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astorm3d|Alien Storm (set 3, World, 3 Players, FD1094 317-0148 decrypted)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astorm3|Alien Storm (set 3, World, 3 Players, FD1094 317-0148)|clone|sega/segas18.cpp|0|320|224|||astorm|good|Sega\System18
+astorm|Alien Storm (set 4, World, 2 Players, FD1094 317-0154)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 aliensynjo|Alien Syndrome (set 1, Japan, old, System 16A, FD1089A 317-0033)|clone|sega/segas16a.cpp|0|320|224|||aliensyn|good|Sega\System16
 aliensyn2|Alien Syndrome (set 2, System 16A, FD1089A 317-0033)|clone|sega/segas16a.cpp|0|320|224|||aliensyn|good|Sega\System16
 aliensyn3|Alien Syndrome (set 3, System 16B, FD1089A 317-0033)|clone|sega/segas16b.cpp|0|320|224|||aliensyn|good|Sega\System16
@@ -338,9 +338,9 @@ ashuraj|Ashura Blaster (Japan)|clone|taito/taito_b.cpp|270|224|320|||ashura|good
 ashurau|Ashura Blaster (US)|clone|taito/taito_b.cpp|270|224|320|||ashura|good|Taito
 ashura|Ashura Blaster (World)|parent|taito/taito_b.cpp|270|224|320||||good|Taito
 aso|ASO - Armored Scrum Object|parent|snk/snk.cpp|270|216|288||||good|SNK
-assaultj|Assault (Japan)|clone|namco/namcos2.cpp|90|224|288|||assault|good|Namco
-assault|Assault (Rev B)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
-assaultp|Assault Plus (Japan)|clone|namco/namcos2.cpp|90|224|288|||assault|good|Namco
+assaultj|Assault (Japan)|clone|namco/namcos2.cpp|90|224|288|||assault|good|Namco\System2
+assault|Assault (Rev B)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
+assaultp|Assault Plus (Japan)|clone|namco/namcos2.cpp|90|224|288|||assault|good|Namco\System2
 asterixaad|Asterix (ver AAD)|clone|konami/asterix.cpp|0|288|224|||asterix|good|Konami
 asterixeaa|Asterix (ver EAA)|clone|konami/asterix.cpp|0|288|224|||asterix|good|Konami
 asterixeac|Asterix (ver EAC)|clone|konami/asterix.cpp|0|288|224|||asterix|good|Konami
@@ -427,8 +427,8 @@ bagmanj|Bagman (Taito)|clone|valadon/bagman.cpp|270|224|256|||bagman|good|Taito/
 bagman|Bagman|parent|valadon/bagman.cpp|270|224|256||||good|Valadon Automation
 bakatono|Bakatonosama Mahjong Manyuuki (MOM-002 ~ MOH-002)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Monolith/neogeo
 bakubrkr|Bakuretsu Breaker (Japan)|clone|kaneko/kaneko16.cpp|90|224|256|||explbrkr|good|Kaneko
-bkrtmaq|Bakuretsu Quiz Ma-Q Dai Bouken (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco
-bakutotu|Bakutotsu Kijuutei|parent|namco/namcos1.cpp|180|288|224||||good|Namco
+bkrtmaq|Bakuretsu Quiz Ma-Q Dai Bouken (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco\NA
+bakutotu|Bakutotsu Kijuutei|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
 balcube|Bal Cube|parent|metro/metro.cpp|0|320|224||||good|Metro
 ballboy|Ball Boy|clone|kaneko/snowbros.cpp|0|256|224|||snowbro3|good|
 bace|Balloon Ace|parent|||224|288||||good|David Widel
@@ -469,7 +469,7 @@ batlballe|Battle Balls (Hong Kong, earlier)|clone|seibu/seibuspi.cpp|0|320|240||
 batlballpt|Battle Balls (Portugal)|clone|seibu/seibuspi.cpp|0|320|240|||senkyu|good|Seibu
 batlballu|Battle Balls (US)|clone|seibu/seibuspi.cpp|0|320|240|||senkyu|good|Fabtek/Seibu
 batlbubl|Battle Bubble (v2.00)|clone|metro/metro.cpp|0|320|224|||bangball|good|Banpresto/Limenko
-bchopper|Battle Chopper (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
+bchopper|Battle Chopper (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 batcira|Battle Circuit (970319 Asia)|clone|capcom/cps2.cpp|0|384|224|||batcir|good|Capcom\CPS2
 batcird|Battle Circuit (970319 Euro Phoenix Edition)|clone|capcom/cps2.cpp|0|384|224|||batcir|good|
 batcir|Battle Circuit (970319 Euro)|parent|capcom/cps2.cpp|0|384|224||||good|Capcom\CPS2
@@ -606,13 +606,13 @@ blktigerb3|Black Tiger / Black Dragon (mixed bootleg?)|clone|capcom/blktiger.cpp
 blktiger|Black Tiger|parent|capcom/blktiger.cpp|0|256|224||||good|Capcom
 blackt96|Black Touch '96|parent|dgrm/blackt96.cpp|0|256|208||||good|D.G.R.M.
 bwidow|Black Widow|parent|atari/bwidow.cpp|0|800|600||||good|Atari
-bmaster|Blade Master (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+bmaster|Blade Master (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 bladestle|Blades of Steel (version E, Trackball)|clone|konami/bladestl.cpp|90|224|256|||bladestl|good|Konami
 bladestll|Blades of Steel (version L, Trackball)|clone|konami/bladestl.cpp|90|224|256|||bladestl|good|Konami
 bladestl|Blades of Steel (version T, Joystick)|parent|konami/bladestl.cpp|90|224|256||||good|Konami
 blandiap|Blandia (prototype)|clone|seta/seta.cpp|0|384|240|||blandia|good|Allumer
 blandia|Blandia|parent|seta/seta.cpp|0|384|240||||good|Allumer
-blastoff|Blast Off (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
+blastoff|Blast Off (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
 blasted|Blasted|parent|midway/mcr68.cpp|0|512|480||||good|Bally Midway
 blastero|Blaster (location test)|clone|midway/williams.cpp|0|292|240|||blaster|good|Vid Kidz/Williams
 blaster|Blaster|parent|midway/williams.cpp|0|292|240||||good|Vid Kidz/Williams
@@ -624,7 +624,7 @@ blstroidh|Blasteroids (with heads)|clone|atari/blstroid.cpp|0|640|240|||blstroid
 blasto|Blasto|parent|sega/blockade.cpp|0|256|224||||good|Gremlin
 blazeonj|Blaze On (Japan)|clone|kaneko/kaneko16.cpp|0|320|232|||blazeon|good|A.I/Atlus
 blazeon|Blaze On (World)|parent|kaneko/kaneko16.cpp|0|320|232||||good|A.I/Atlus
-blazer|Blazer (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
+blazer|Blazer (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
 blazstarcm|Blazing Star (Stage Select Hack)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|blazstar|good|Clear Paper, NeoCverA, JustinG/neogeo
 blazstar|Blazing Star|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/Yumekobo
 blzntrnd|Blazing Tornado|parent|metro/metro.cpp|0|304|224||||good|Human Amusement
@@ -660,10 +660,10 @@ bloodstm220|Blood Storm (v2.20)|clone|itech/itech32.cpp|0|384|240|||bloodstm|goo
 bloodstm221|Blood Storm (v2.21)|clone|itech/itech32.cpp|0|384|240|||bloodstm|good|ITech/Strata
 bloodstm|Blood Storm (v2.22)|parent|itech/itech32.cpp|0|384|240||||good|ITech/Strata
 bloodwar|Blood Warrior|parent|kaneko/kaneko16.cpp|0|320|240||||good|Kaneko
-bloxeeda|Bloxeed (Japan, earlier) (FD1094 317-0139)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega
-bloxeedd|Bloxeed (Japan, FD1094 317-0139 decrypted)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega
-bloxeed|Bloxeed (Japan, FD1094 317-0139)|parent|sega/segas18.cpp|0|320|224||||good|Elorg/Sega
-blox16b|Bloxeed (System 16B, PS2 data file)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega
+bloxeeda|Bloxeed (Japan, earlier) (FD1094 317-0139)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega\System18
+bloxeedd|Bloxeed (Japan, FD1094 317-0139 decrypted)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega\System18
+bloxeed|Bloxeed (Japan, FD1094 317-0139)|parent|sega/segas18.cpp|0|320|224||||good|Elorg/Sega\System18
+blox16b|Bloxeed (System 16B, PS2 data file)|clone|sega/segas18.cpp|0|320|224|||bloxeed|good|Sega\System18
 bloxeedu|Bloxeed (US, C System, Rev A)|clone|sega/segac2.cpp|0|320|224|||bloxeed|good|Elorg/Sega
 bloxeedc|Bloxeed (World, C System)|clone|sega/segac2.cpp|0|320|224|||bloxeed|good|Elorg/Sega
 bluehawkn|Blue Hawk (NTC)|clone|dooyong/dooyong.cpp|270|240|384|||bluehawk|good|Dooyong/NTC
@@ -723,8 +723,8 @@ bouldash|Boulder Dash / Boulder Dash Part 2 (World)|parent|dataeast/dec0.cpp|0|2
 bballsa|Bouncing Balls (Adult)|clone|capcom/tigeroad.cpp|0|256|224|||bballs|good|Comad
 bballs|Bouncing Balls|parent|capcom/tigeroad.cpp|0|256|224||||good|Comad
 bowlrama|Bowl-O-Rama Rev 1.0|parent|itech/capbowl.cpp|270|240|360||||good|P&P Marketing
-boxyboya|Boxy Boy (SB?)|clone|namco/namcos1.cpp|0|288|224|||boxyboy|good|Namco
-boxyboy|Boxy Boy (World, SB2)|parent|namco/namcos1.cpp|0|288|224||||good|Namco
+boxyboya|Boxy Boy (SB?)|clone|namco/namcos1.cpp|0|288|224|||boxyboy|good|Namco\System1
+boxyboy|Boxy Boy (World, SB2)|parent|namco/namcos1.cpp|0|288|224||||good|Namco\System1
 bradley|Bradley Trainer|parent|atari/bzone.cpp|0|640|480||||good|Atari
 brain|Brain|parent|sega/system1.cpp|0|256|224||||good|Coreland/Sega
 brkthrubl|Break Thru (bootleg)|clone|dataeast/brkthru.cpp|0|240|240|||brkthru|good|
@@ -763,8 +763,8 @@ bublpong|Bubble Pong Pong|clone|taito/missb2.cpp|0|256|224|||missb2|good|Top
 bubsymphu|Bubble Symphony (Ver 2.5A 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
 bubsymphj|Bubble Symphony (Ver 2.5J 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
 bubsymphe|Bubble Symphony (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|||bublbob2|good|Taito\F3
-bubbletrj|Bubble Trouble - Golly! Ghost! 2 (Japan, Rev C)|clone|namco/namcos2.cpp|180|288|224|||bubbletr|preliminary|Namco
-bubbletr|Bubble Trouble - Golly! Ghost! 2 (World, Rev B)|parent|namco/namcos2.cpp|180|288|224||||preliminary|Namco
+bubbletrj|Bubble Trouble - Golly! Ghost! 2 (Japan, Rev C)|clone|namco/namcos2.cpp|180|288|224|||bubbletr|preliminary|Namco\System2
+bubbletr|Bubble Trouble - Golly! Ghost! 2 (World, Rev B)|parent|namco/namcos2.cpp|180|288|224||||preliminary|Namco\System2
 bubblesp|Bubbles (prototype version)|clone|midway/williams.cpp|0|292|240|||bubbles|good|Williams
 bubblesr|Bubbles (Solid Red label)|clone|midway/williams.cpp|0|292|240|||bubbles|good|Williams
 bubbles|Bubbles|parent|midway/williams.cpp|0|292|240||||good|Williams
@@ -803,8 +803,8 @@ burningf|Burning Fight (NGM-018 ~ NGH-018)|parent|neogeo/neogeo.cpp|0|304|224||n
 burningfpa|Burning Fight (prototype, near final, ver 23.3, 910326)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|burningf|good|neogeo/SNK
 burningfpb|Burning Fight (prototype, newer, V07)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|burningf|good|neogeo/SNK
 burningfp|Burning Fight (prototype, older)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|burningf|good|neogeo/SNK
-burnforc|Burning Force (Japan, new version (Rev C))|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-burnforco|Burning Force (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||burnforc|good|Namco
+burnforc|Burning Force (Japan, new version (Rev C))|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+burnforco|Burning Force (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||burnforc|good|Namco\System2
 brivalj|Burning Rival (Japan)|clone|sega/segas32.cpp|0|416|224|||brival|good|Sega\System32
 brival|Burning Rival (World)|parent|sega/segas32.cpp|0|416|224||||good|Sega\System32
 pbobble2u|Bust-A-Move Again (Ver 2.3A 1995/07/31)|clone|taito/taito_f3.cpp|0|320|232|||pbobble2|good|Taito\F3
@@ -981,8 +981,8 @@ chopliftu|Choplifter (unprotected)|clone|sega/system1.cpp|0|256|224|||choplift|g
 choppera|Chopper I (US ver 1?)|clone|snk/snk.cpp|270|224|400|||chopper|good|SNK
 chopper|Chopper I (US ver 2)|parent|snk/snk.cpp|270|224|400||||good|SNK
 chopperb|Chopper I (US)|clone|snk/snk.cpp|270|224|400|||chopper|good|SNK
-berabohmb|Chou Zetsurinjin Berabowman (Japan, Rev B)|clone|namco/namcos1.cpp|180|288|224|||berabohm|good|Namco
-berabohm|Chou Zetsurinjin Berabowman (Japan, Rev C)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
+berabohmb|Chou Zetsurinjin Berabowman (Japan, Rev B)|clone|namco/namcos1.cpp|180|288|224|||berabohm|good|Namco\System1
+berabohm|Chou Zetsurinjin Berabowman (Japan, Rev C)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
 legionjb|Chouji Meikyuu Legion (Japan ver 1.05, bootleg)|clone|nichibutsu/armedf.cpp|270|224|288|||legion|good|Nichibutsu
 legionj|Chouji Meikyuu Legion (Japan ver 1.05, set 1)|clone|nichibutsu/armedf.cpp|270|224|288|||legion|good|Nichibutsu
 legionj2|Chouji Meikyuu Legion (Japan ver 1.05, set 2)|clone|nichibutsu/armedf.cpp|270|224|288|||legion|preliminary|Nichibutsu
@@ -1022,10 +1022,10 @@ cloaksp|Cloak & Dagger (Spanish)|clone|atari/cloak.cpp|0|256|232|||cloak|good|At
 aquario|Clockwork Aquario (prototype)|parent|||320|224||||good|Sega/Westone
 cloud9|Cloud 9 (prototype)|parent|atari/cloud9.cpp|0|256|232||||good|Atari
 cgraplop|Cluster Buster (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
-cltchitrjd|Clutch Hitter (set 1, Japan, FD1094 317-0175 decrypted)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega
-cltchitrj|Clutch Hitter (set 1, Japan, FD1094 317-0175)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega
-cltchitrd|Clutch Hitter (set 2, US, FD1094 317-0176 decrypted)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega
-cltchitr|Clutch Hitter (set 2, US, FD1094 317-0176)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+cltchitrjd|Clutch Hitter (set 1, Japan, FD1094 317-0175 decrypted)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega\System18
+cltchitrj|Clutch Hitter (set 1, Japan, FD1094 317-0175)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega\System18
+cltchitrd|Clutch Hitter (set 2, US, FD1094 317-0176 decrypted)|clone|sega/segas18.cpp|0|320|224|||cltchitr|good|Sega\System18
+cltchitr|Clutch Hitter (set 2, US, FD1094 317-0176)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 cobracomib|Cobra-Command (Italian bootleg)|clone|dataeast/dec8.cpp|0|256|240|||cobracom|good|
 cobracomj|Cobra-Command (Japan)|clone|dataeast/dec8.cpp|0|256|240|||cobracom|good|Data East
 cobracomjb|Cobra-Command (Japan, bootleg)|clone|dataeast/dec8.cpp|0|256|240|||cobracom|good|
@@ -1095,10 +1095,10 @@ clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|244|360|||capbowl|good|Ca
 cop01|Cop 01 (set 1)|parent|nichibutsu/cop01.cpp|0|256|224||||good|Nichibutsu
 cop01a|Cop 01 (set 2)|clone|nichibutsu/cop01.cpp|0|256|224|||cop01|good|Nichibutsu
 cavenger|Cosmic Avenger|parent|universal/ladybug.cpp|0|240|196||||good|Universal
-cosmccop|Cosmic Cop (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
-cgangpzlj|Cosmo Gang the Puzzle (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|cgangpzl|good|Namco
-cgangpzl|Cosmo Gang the Puzzle (US)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco
-cosmogng|Cosmo Gang the Video (US)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
+cosmccop|Cosmic Cop (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
+cgangpzlj|Cosmo Gang the Puzzle (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|cgangpzl|good|Namco\NA
+cgangpzl|Cosmo Gang the Puzzle (US)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco\NA
+cosmogng|Cosmo Gang the Video (US)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
 galivan3|Cosmo Police Galivan (12/11/1985)|clone|nichibutsu/galivan.cpp|270|224|256|||galivan|good|Nichibutsu
 galivan2|Cosmo Police Galivan (12/16/1985)|clone|nichibutsu/galivan.cpp|270|224|256|||galivan|good|Nichibutsu
 galivan|Cosmo Police Galivan (12/26/1985)|parent|nichibutsu/galivan.cpp|270|224|256||||good|Nichibutsu
@@ -1158,7 +1158,7 @@ crockman|Crock-Man (bootleg, Rene-Pierre)|clone|pacman/pacman.cpp|90|224|288|||p
 crockmnf|Crock-Man (Marti Colls bootleg of Rene Pierre Crock-Man)|clone|pacman/pacman.cpp|90|224|288|||puckman|good|Marti Colls
 croquisg|Croquis (Germany)|clone|sega/deniam.cpp|0|320|224|||croquis|good|Deniam
 croquis|Croquis (Korea)|parent|sega/deniam.cpp|0|320|224||||good|Deniam
-crossbld|Cross Blades! (Japan)|clone|irem/m92.cpp|0|320|240|||bmaster|good|Irem
+crossbld|Cross Blades! (Japan)|clone|irem/m92.cpp|0|320|240|||bmaster|good|Irem\M92
 crospang|Cross Pang|parent|f32/crospang.cpp|0|320|240||||good|F2 System
 crossbow|Crossbow (version 2.0)|parent|exidy/exidy440.cpp|0|320|240||||good|Exidy
 crsword|Crossed Swords (ALM-002 ~ ALH-002)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Alpha Denshi/neogeo
@@ -1214,27 +1214,27 @@ ddayc|D-Day (Centuri)|clone|olympia/dday.cpp|0|256|224|||dday|good|Centuri/Olymp
 ddayjlc|D-Day (Jaleco set 1)|parent|jaleco/ddayjlc.cpp|90|224|256||||good|Jaleco
 ddayjlca|D-Day (Jaleco set 2)|clone|jaleco/ddayjlc.cpp|90|224|256|||ddayjlc|good|Jaleco
 dday|D-Day|parent|olympia/dday.cpp|0|256|224||||good|Olympia
-ddcrew1d|D. D. Crew (set 1, World, 4 Players, FD1094 317-? decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrew1|D. D. Crew (set 1, World, 4 Players, FD1094 317-?)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrew2d|D. D. Crew (set 2, World, 2 Players, FD1094 317-0184 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrew2|D. D. Crew (set 2, World, 2 Players, FD1094 317-0184)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewud|D. D. Crew (set 3, US, 4 Players, FD1094 317-0186 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewu|D. D. Crew (set 3, US, 4 Players, FD1094 317-0186)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewd|D. D. Crew (set 4, World, 3 Players, FD1094 317-0190 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrew|D. D. Crew (set 4, World, 3 Players, FD1094 317-0190)|parent|sega/segas18.cpp|0|320|224||||good|Sega
-ddcrewjd|D. D. Crew (set 5, Japan, 4 Players, FD1094 317-0185 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewj|D. D. Crew (set 5, Japan, 4 Players, FD1094 317-0185)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewj2d|D. D. Crew (set 6, Japan, 2 Players, FD1094 317-0182 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
-ddcrewj2|D. D. Crew (set 6, Japan, 2 Players, FD1094 317-0182)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega
+ddcrew1d|D. D. Crew (set 1, World, 4 Players, FD1094 317-? decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrew1|D. D. Crew (set 1, World, 4 Players, FD1094 317-?)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrew2d|D. D. Crew (set 2, World, 2 Players, FD1094 317-0184 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrew2|D. D. Crew (set 2, World, 2 Players, FD1094 317-0184)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewud|D. D. Crew (set 3, US, 4 Players, FD1094 317-0186 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewu|D. D. Crew (set 3, US, 4 Players, FD1094 317-0186)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewd|D. D. Crew (set 4, World, 3 Players, FD1094 317-0190 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrew|D. D. Crew (set 4, World, 3 Players, FD1094 317-0190)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
+ddcrewjd|D. D. Crew (set 5, Japan, 4 Players, FD1094 317-0185 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewj|D. D. Crew (set 5, Japan, 4 Players, FD1094 317-0185)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewj2d|D. D. Crew (set 6, Japan, 2 Players, FD1094 317-0182 decrypted)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
+ddcrewj2|D. D. Crew (set 6, Japan, 2 Players, FD1094 317-0182)|clone|sega/segas18.cpp|0|320|224|||ddcrew|good|Sega\System18
 dacholer|Dacholer|parent|nichibutsu/dacholer.cpp|0|256|224||||good|Nichibutsu
 daimakaib|Dai Makai-Mura (bootleg, Japan)|clone|capcom/cps1.cpp|0|384|224|||ghouls|good|Capcom\CPS1
 daimakair|Dai Makai-Mura (Japan Resale Ver.)|clone|capcom/cps1.cpp|0|384|224|||ghouls|good|Capcom\CPS1
 daimakai|Dai Makai-Mura (Japan)|clone|capcom/cps1.cpp|0|384|224|||ghouls|good|Capcom\CPS1
 dairesya|Dai Ressya Goutou (Japan)|clone|konami/ironhors.cpp|0|240|224|||ironhors|good|Kawakusu/Konami
 daikaiju|Daikaiju no Gyakushu|parent|taito/lsasquad.cpp|270|224|256||||good|Taito
-dkgensanm72|Daiku no Gensan (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem
-dkgensanm82|Daiku no Gensan (Japan, M82 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem
-dkgensan|Daiku no Gensan (Japan, M84 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem
+dkgensanm72|Daiku no Gensan (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem\M72
+dkgensanm82|Daiku no Gensan (Japan, M82 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem\M72
+dkgensan|Daiku no Gensan (Japan, M84 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem\M72
 daiohc|Daioh (93111A PCB conversion)|clone|seta/seta.cpp|270|240|384|||daioh|good|Athena
 daioha|Daioh (earlier)|clone|seta/seta.cpp|270|240|384|||daioh|good|Athena
 daiohp|Daioh (prototype)|clone|seta/seta.cpp|270|240|384|||daioh|good|Athena
@@ -1249,7 +1249,7 @@ dankuga|Dan-Ku-Ga (Ver 0.0J 1994/12/13) (Prototype)|parent|taito/taito_f3.cpp|0|
 dngrtrck|Danger Track (Rally X bootleg)|clone|namco/rallyx.cpp|0|288|224|||rallyx|good|
 ddungeon|Dangerous Dungeons (set 1)|parent|technos/ddragon.cpp|0|256|240||||good|Game Room
 ddungeone|Dangerous Dungeons (set 2)|clone|technos/ddragon.cpp|0|256|240|||ddungeon|good|East Coast Coin Company
-dangseed|Dangerous Seed (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
+dangseed|Dangerous Seed (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
 dfeveron|Dangun Feveron (Japan, 98/09/17 VER.)|clone|misc/cave.cpp|270|240|320|||feversos|good|Cave/Nihon System
 dariuse|Darius (Extra) (Japan)|clone|taito/darius.cpp|0|864|224|||darius|good|Taito
 dariuso|Darius (Japan old version)|clone|taito/darius.cpp|0|864|224|||darius|good|Taito
@@ -1337,10 +1337,10 @@ deroona|Deroon DeroDero (earlier, set 2)|clone|tecmo/tecmosys.cpp|0|320|240|||de
 deroon2|Deroon DeroDero / Tecmo Stackers|clone|tecmo/tecmosys.cpp|0|320|240|||deroon|good|Tecmo
 dassault4|Desert Assault (US 4 Players)|clone|dataeast/dassault.cpp|0|320|240|||thndzone|good|Data East
 dassault|Desert Assault (US)|clone|dataeast/dassault.cpp|0|320|240|||thndzone|good|Data East
-desertbrjd|Desert Breaker (Japan, FD1094 317-0194 decrypted)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega
-desertbrj|Desert Breaker (Japan, FD1094 317-0194)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega
-desertbrd|Desert Breaker (World, FD1094 317-0196 decrypted)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega
-desertbr|Desert Breaker (World, FD1094 317-0196)|parent|sega/segas18.cpp|270|224|320||||good|Sega
+desertbrjd|Desert Breaker (Japan, FD1094 317-0194 decrypted)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega\System18
+desertbrj|Desert Breaker (Japan, FD1094 317-0194)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega\System18
+desertbrd|Desert Breaker (World, FD1094 317-0196 decrypted)|clone|sega/segas18.cpp|270|224|320|||desertbr|good|Sega\System18
+desertbr|Desert Breaker (World, FD1094 317-0196)|parent|sega/segas18.cpp|270|224|320||||good|Sega\System18
 desertdn|Desert Dan|parent|thepit/thepit.cpp|0|256|224||||good|Video Optics
 desertwr|Desert War / Wangan Sensou (ver 1.0)|parent|jaleco/ms32.cpp|270|224|320||||good|Jaleco
 detatwin|Detana!! Twin Bee (Japan ver. J)|clone|konami/tmnt2.cpp|90|224|280|||blswhstl|good|Konami
@@ -1377,7 +1377,7 @@ dinorexj|Dino Rex (Japan)|clone|taito/taito_f2.cpp|0|320|224|||dinorex|good|Tait
 dinorexu|Dino Rex (US)|clone|taito/taito_f2.cpp|0|320|224|||dinorex|good|Taito
 dinorex|Dino Rex (World)|parent|taito/taito_f2.cpp|0|320|224||||good|Taito
 dinohunt|Dinosaur Hunter (Chinese bootleg of Cadillacs and Dinosaurs)|clone|capcom/cps1.cpp|0|384|224|||dino|good|
-dirtfoxj|Dirt Fox (Japan)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
+dirtfoxj|Dirt Fox (Japan)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
 discoboyp|Disco Boy (Promat license?)|clone|misc/discoboy.cpp|270|240|384|||discoboy|good|Soft Art
 discoboy|Disco Boy|parent|misc/discoboy.cpp|270|240|384||||good|Soft Art
 cdiscon1|Disco No.1 (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
@@ -1535,20 +1535,20 @@ dbzvrvs|Dragon Ball Z V.R.V.S. (Japan, Rev A)|parent|sega/segas32.cpp|0|320|224|
 dragnblz|Dragon Blaze|parent|psikyo/psikyosh.cpp|270|224|320||||good|Psikyo
 drgnbowla|Dragon Bowl (set 2, unencrypted program)|clone|tecmo/gaiden.cpp|0|256|224|||drgnbowl|good|Nics
 drgnbowl|Dragon Bowl|parent|tecmo/gaiden.cpp|0|256|224||||good|Nics
-dbreedjm72|Dragon Breed (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||dbreed|good|Irem
-dbreedm72|Dragon Breed (World, M72 hardware)|clone|irem/m72.cpp|0|384|256|||dbreed|good|Irem
-dbreed|Dragon Breed (World, M81 hardware)|parent|irem/m72.cpp|0|384|256||||good|Irem
+dbreedjm72|Dragon Breed (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||dbreed|good|Irem\M72
+dbreedm72|Dragon Breed (World, M72 hardware)|clone|irem/m72.cpp|0|384|256|||dbreed|good|Irem\M72
+dbreed|Dragon Breed (World, M81 hardware)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 drgnbstr|Dragon Buster|parent|namco/skykid.cpp|0|288|224||||good|Namco
 dragngunj|Dragon Gun (Japan)|clone|dataeast/deco32.cpp|0|320|240|||dragngun|good|Data East
 dragngun|Dragon Gun (US)|parent|dataeast/deco32.cpp|0|320|240||||good|Data East
 drgnmst|Dragon Master (set 1)|parent|unico/drgnmst.cpp|0|384|224||||good|Unico
 drgnmst2|Dragon Master (set 2)|clone|unico/drgnmst.cpp|0|384|224|||drgnmst|good|Unico
-dsaberj|Dragon Saber (Japan, Rev B)|clone|namco/namcos2.cpp|90|224|288|||dsaber|good|Namco
-dsaber|Dragon Saber (World, DO2)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
-dsabera|Dragon Saber (World, older?)|clone|namco/namcos2.cpp|90|224|288|||dsaber|good|Namco
-dspirit2|Dragon Spirit (DS2)|clone|namco/namcos1.cpp|90|224|288|||dspirit|good|Namco
-dspirit|Dragon Spirit (new version (DS3))|parent|namco/namcos1.cpp|90|224|288||||good|Namco
-dspirit1|Dragon Spirit (old version (DS1))|clone|namco/namcos1.cpp|90|224|288|||dspirit|good|Namco
+dsaberj|Dragon Saber (Japan, Rev B)|clone|namco/namcos2.cpp|90|224|288|||dsaber|good|Namco\System2
+dsaber|Dragon Saber (World, DO2)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
+dsabera|Dragon Saber (World, older?)|clone|namco/namcos2.cpp|90|224|288|||dsaber|good|Namco\System2
+dspirit2|Dragon Spirit (DS2)|clone|namco/namcos1.cpp|90|224|288|||dspirit|good|Namco\System1
+dspirit|Dragon Spirit (new version (DS3))|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
+dspirit1|Dragon Spirit (old version (DS1))|clone|namco/namcos1.cpp|90|224|288|||dspirit|good|Namco\System1
 drgnunit|Dragon Unit / Castle of Dragon|parent|seta/seta.cpp|0|384|240||||good|Seta
 dw2001|Dragon World 2001 (V100, Japan)|parent|igs/pgm.cpp|0|448|224||pgm||good|Alta/IGS
 drgw3105|Dragon World 3 (V105)|clone|igs/pgm.cpp|0|448|224||pgm|drgw3|good|IGS
@@ -1573,7 +1573,7 @@ keithlcy|Dramatic Adventure Quiz Keith & Lucy (Japan)|parent|seta/ssv.cpp|0|336|
 dreambal|Dream Ball (Japan V2.4)|parent|dataeast/dreambal.cpp|0|320|240||||good|Data East/NDK
 dland|Dream Land / Super Dream Land (bootleg of Bubble Bobble)|clone|taito/bublbobl.cpp|0|256|224|||bublbobl|good|
 dremshpr|Dream Shopper|parent|pacman/pacman.cpp|270|224|288||||good|Sanritsu
-dsoccr94j|Dream Soccer '94 (Japan, M92 hardware)|clone|irem/m92.cpp|0|320|240|||dsoccr94|good|Irem
+dsoccr94j|Dream Soccer '94 (Japan, M92 hardware)|clone|irem/m92.cpp|0|320|240|||dsoccr94|good|Irem\M92
 dsoccr94k|Dream Soccer '94 (Korea, M107 hardware)|clone|irem/m107.cpp|0|320|240|||dsoccr94|good|Data East/Irem
 dsoccr94|Dream Soccer '94 (World, M107 hardware)|parent|irem/m107.cpp|0|320|240||||good|Data East/Irem
 dreamwld|Dream World|parent|misc/dreamwld.cpp|0|304|224||||good|SemiCom
@@ -1699,10 +1699,10 @@ elim2|Eliminator (2 Players, set 1)|parent|sega/segag80v.cpp|180|800|600||||good
 elim2a|Eliminator (2 Players, set 2)|clone|sega/segag80v.cpp|180|800|600|||elim2|good|Gremlin
 elim4|Eliminator (4 Players)|clone|sega/segag80v.cpp|180|800|600|||elim2|good|Gremlin
 elim4p|Eliminator (4 Players, prototype)|clone|sega/segag80v.cpp|180|800|600|||elim2|good|Gremlin
-emeraldah|Emeraldia (Bankbank New Rotate Hack)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco
-emeraldaj|Emeraldia (Japan Version B)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco
-emeraldaja|Emeraldia (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco
-emeralda|Emeraldia (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco
+emeraldah|Emeraldia (Bankbank New Rotate Hack)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco\NA
+emeraldaj|Emeraldia (Japan Version B)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco\NA
+emeraldaja|Emeraldia (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|emeralda|good|Namco\NA
+emeralda|Emeraldia (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco\NA
 empcity|Empire City: 1931 (bootleg?)|parent|seibu/stfight.cpp|0|256|224||||good|Seibu
 empcityi|Empire City: 1931 (Italy)|clone|seibu/stfight.cpp|0|256|224|||empcity|good|Eurobed/Seibu
 empcityj|Empire City: 1931 (Japan)|clone|seibu/stfight.cpp|0|256|224|||empcity|good|Seibu/Taito
@@ -1760,8 +1760,8 @@ extrmatnu|Extermination (US, set 1)|clone|taito/tnzs.cpp|270|224|256|||extrmatn|
 extrmatn|Extermination (World)|parent|taito/tnzs.cpp|270|224|256||||good|Taito
 exterm|Exterminator|parent|gottlieb/exterm.cpp|0|256|240||||good|Gottlieb/Premier Technology
 extdwnhl|Extreme Downhill (v1.5)|parent|seta/seta.cpp|0|320|240||||good|Sammy
-exvaniaj|Exvania (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|exvania|good|Namco
-exvania|Exvania (World)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco
+exvaniaj|Exvania (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|exvania|good|Namco\NA
+exvania|Exvania (World)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco\NA
 exzisusa|Exzisus (Japan, conversion)|clone|taito/exzisus.cpp|0|256|224|||exzisus|good|Taito
 exzisus|Exzisus (Japan, dedicated)|parent|taito/exzisus.cpp|0|256|224||||good|Taito
 exzisust|Exzisus (TAD license)|clone|taito/exzisus.cpp|0|256|224|||exzisus|good|TAD/Taito
@@ -1777,14 +1777,14 @@ f1gpa|F-1 Grand Prix (set 2)|clone|vsystem/f1gp.cpp|90|240|320|||f1gp|good|Video
 f1gp2|F-1 Grand Prix Part II|parent|vsystem/f1gp.cpp|90|224|320||||good|Video System
 f1gpstr2|F-1 Grand Prix Star II|parent|jaleco/cischeat.cpp|0|256|224||||good|Jaleco
 fx|F-X (bootleg of S.R.D. Mission)|clone|orca/kyugo.cpp|90|224|288|||srdmissn|good|
-fa|F/A (Japan)|clone|namco/namcona1.cpp|90|224|304||namcoc69|fghtatck|good|Namco
+fa|F/A (Japan)|clone|namco/namcona1.cpp|90|224|304||namcoc69|fghtatck|good|Namco\NA
 f1enj|F1 Exhaust Note (Japan, Rev A)|clone|sega/segas32.cpp|0|320|224|||f1en|good|Sega\System32
 f1enu|F1 Exhaust Note (US, Rev A)|clone|sega/segas32.cpp|0|320|224|||f1en|good|Sega\System32
 f1en|F1 Exhaust Note (World, Rev A)|parent|sega/segas32.cpp|0|320|224||||good|Sega\System32
 f1lapj|F1 Super Lap (Japan)|clone|sega/segas32.cpp|0|320|224|||f1lap|good|Sega\System32
 f1lap|F1 Super Lap (World)|parent|sega/segas32.cpp|0|320|224||||good|Sega\System32
 f1lapt|F1 Super Lap (World, Unprotected)|clone|sega/segas32.cpp|0|320|224|||f1lap|good|Sega\System32
-faceoff|Face Off (Japan 2 Players)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
+faceoff|Face Off (Japan 2 Players)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
 falcon|Falcon (bootleg of Phoenix) (8085A CPU)|clone|phoenix/phoenix.cpp|90|208|256|||phoenix|good|BGV
 falconz|Falcon (bootleg of Phoenix) (Z80 CPU)|clone|phoenix/phoenix.cpp|90|208|256|||phoenix|good|
 fncywld|Fancy World - Earth of Crisis|parent|dataeast/tumbleb.cpp|0|320|240||||good|Unico
@@ -1837,7 +1837,7 @@ feversos|Fever SOS (World, 98/09/25 VER)|parent|misc/cave.cpp|270|240|320||||goo
 fcombat|Field Combat|parent|jaleco/fcombat.cpp|90|224|320||||good|Jaleco
 fightfev|Fight Fever (set 1)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/Viccom
 fightfeva|Fight Fever (set 2)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|fightfev|good|neogeo/Viccom
-fghtatck|Fighter & Attacker (US)|parent|namco/namcona1.cpp|90|224|304||namcoc69||good|Namco
+fghtatck|Fighter & Attacker (US)|parent|namco/namcona1.cpp|90|224|304||namcoc69||good|Namco\NA
 fghthistjb|Fighter's History (Japan ver 41-04, DE-0380-1 PCB)|clone|dataeast/deco32.cpp|0|320|240|||fghthist|good|Data East
 fghthistja|Fighter's History (Japan ver 41-05, DE-0380-2 PCB)|clone|dataeast/deco32.cpp|0|320|240|||fghthist|good|Data East
 fghthistj|Fighter's History (Japan ver 41-07, DE-0395-1 PCB)|clone|dataeast/deco32.cpp|0|320|240|||fghthist|good|Data East
@@ -1887,18 +1887,18 @@ ffightae|Final Fight 30th Anniversary Edition (World, hack)|clone|capcom/cps1.cp
 ffightaec2|Final Fight Anniversary Edition (CPS2 hardware)|parent|||384|224||||good|
 ffightaec2ds|Final Fight Anniversary Edition (Deadly Streets, Hack)(CPS2 Hardware)|clone|||384|224|||ffightaec2|good|Zombie Master
 finalgdr|Final Godori (Korea, version 2.20.5915)|parent|misc/vamphalf.cpp|0|320|236||||good|SemiCom
-finallapjb|Final Lap (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco
-finallapjc|Final Lap (Japan, Rev C)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco
-finallapc|Final Lap (Rev C)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco
-finallapd|Final Lap (Rev D)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco
-finallap|Final Lap (Rev E)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-finalap2j|Final Lap 2 (Japan)|clone|namco/namcos2.cpp|0|288|224|||finalap2|good|Namco
-finalap2|Final Lap 2|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-finalap3bl|Final Lap 3 (bootleg)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco
-finalap3jc|Final Lap 3 (Japan - Rev C)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco
-finalap3j|Final Lap 3 (Japan)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco
-finalap3|Final Lap 3 (World, set 1)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-finalap3a|Final Lap 3 (World, set 2)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco
+finallapjb|Final Lap (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco\System2
+finallapjc|Final Lap (Japan, Rev C)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco\System2
+finallapc|Final Lap (Rev C)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco\System2
+finallapd|Final Lap (Rev D)|clone|namco/namcos2.cpp|0|288|224|||finallap|good|Namco\System2
+finallap|Final Lap (Rev E)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+finalap2j|Final Lap 2 (Japan)|clone|namco/namcos2.cpp|0|288|224|||finalap2|good|Namco\System2
+finalap2|Final Lap 2|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+finalap3bl|Final Lap 3 (bootleg)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco\System2
+finalap3jc|Final Lap 3 (Japan - Rev C)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco\System2
+finalap3j|Final Lap 3 (Japan)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco\System2
+finalap3|Final Lap 3 (World, set 1)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+finalap3a|Final Lap 3 (World, set 2)|clone|namco/namcos2.cpp|0|288|224|||finalap3|good|Namco\System2
 fstarfrcj|Final Star Force (Japan, set 1)|clone|tecmo/tecmo16.cpp|90|224|256|||fstarfrc|good|Tecmo
 fstarfrcja|Final Star Force (Japan, set 2)|clone|tecmo/tecmo16.cpp|90|224|256|||fstarfrc|good|Tecmo
 fstarfrc|Final Star Force (US)|parent|tecmo/tecmo16.cpp|90|224|256||||good|Tecmo
@@ -1907,7 +1907,7 @@ finalttr|Final Tetris|parent|kaneko/snowbros.cpp|0|256|224||||good|Jeil Computer
 finalizrb|Finalizer - Super Transformation (bootleg)|clone|konami/finalizr.cpp|90|224|272|||finalizr|good|
 finalizr|Finalizer - Super Transformation (set 1)|parent|konami/finalizr.cpp|90|224|272||||good|Konami
 finalizra|Finalizer - Super Transformation (set 2)|clone|konami/finalizr.cpp|90|224|272|||finalizr|good|Konami
-finehour|Finest Hour (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+finehour|Finest Hour (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 finger|Finger (bootleg of Stinger)|clone|seibu/wiz.cpp|90|224|256|||stinger|good|
 fball|Fire Ball (FM Work)|parent|capcom/lwings.cpp|0|256|240||||good|FM Work
 firebarr|Fire Barrel (Japan)|clone|irem/m107.cpp|270|240|320|||airass|good|Irem
@@ -1991,9 +1991,9 @@ forgottn|Forgotten Worlds (World, newer)|parent|capcom/cps1.cpp|0|384|224||||goo
 formatz|Formation Z|parent|jaleco/aeroboto.cpp|0|248|224||||good|Jaleco
 fort2ba|Fortress 2 Blue Arcade (Korea) (ver 1.00 / pcb ver 3.05)|clone|eolith/eolith.cpp|0|320|240|||fort2b|good|Eolith
 fort2b|Fortress 2 Blue Arcade (World) (ver 1.01 / pcb ver 3.05)|parent|eolith/eolith.cpp|0|320|240||||good|Eolith
-fourtraxj|Four Trax (Japan)|clone|namco/namcos2.cpp|0|288|224|||fourtrax|good|Namco
-fourtraxa|Four Trax (US?, censored banners)|clone|namco/namcos2.cpp|0|288|224|||fourtrax|good|Atari/Namco
-fourtrax|Four Trax (World)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+fourtraxj|Four Trax (Japan)|clone|namco/namcos2.cpp|0|288|224|||fourtrax|good|Namco\System2
+fourtraxa|Four Trax (US?, censored banners)|clone|namco/namcos2.cpp|0|288|224|||fourtrax|good|Atari/Namco\System2
+fourtrax|Four Trax (World)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 freekickb1|Free Kick (bootleg set 1)|clone|misc/freekick.cpp|270|224|256|||freekick|good|
 freekickb3|Free Kick (bootleg set 3)|clone|misc/freekick.cpp|270|224|256|||freekick|good|
 freekick|Free Kick (NS6201-A 1987.10)|parent|misc/freekick.cpp|270|224|256||||good|Merit/Nihon System
@@ -2052,9 +2052,9 @@ gground|Gain Ground (World, 3 Players, Floppy Based, FD1094 317-0058-03d Rev A)|
 galastrm|Galactic Storm (Japan)|parent|taito/galastrm.cpp|0|320|232||||good|Taito
 gwarrior|Galactic Warriors|parent|konami/nemesis.cpp|0|256|224||||good|Konami
 galactica2|Galactica-2 (Moon Alien Part 2 bootleg)|clone|galaxian/galaxian.cpp|90|224|256|||moonal2|good|Cirsa
-galaga88a|Galaga '88 (02-03-88)|clone|namco/namcos1.cpp|90|224|288|||galaga88|good|Namco
-galaga88j|Galaga '88 (Japan)|clone|namco/namcos1.cpp|90|224|288|||galaga88|good|Namco
-galaga88|Galaga '88|parent|namco/namcos1.cpp|270|224|288||||good|Namco
+galaga88a|Galaga '88 (02-03-88)|clone|namco/namcos1.cpp|90|224|288|||galaga88|good|Namco\System1
+galaga88j|Galaga '88 (Japan)|clone|namco/namcos1.cpp|90|224|288|||galaga88|good|Namco\System1
+galaga88|Galaga '88|parent|namco/namcos1.cpp|270|224|288||||good|Namco\System1
 galagamf|Galaga (Midway set 1 with fast shoot hack)|clone|namco/galaga.cpp|90|224|288|||galaga|good|Midway/Namco
 galagamw|Galaga (Midway set 1)|clone|namco/galaga.cpp|90|224|288|||galaga|good|Midway/Namco
 galagamk|Galaga (Midway set 2)|clone|namco/galaga.cpp|90|224|288|||galaga|good|Midway/Namco
@@ -2099,8 +2099,8 @@ galaxygn|Galaxy Gunners|parent|edevices/fantland.cpp|90|256|352||||good|Electron
 galwars2|Galaxy Wars II (Defender bootleg)|clone|midway/williams.cpp|0|292|240|||defender|good|Sonic
 galaxyx|Galaxy X (bootleg of Galaxian)|clone|galaxian/galaxian.cpp|90|224|256|||galaxian|good|
 gallag|Gallag|clone|namco/galaga.cpp|90|224|288|||galaga|good|
-gallopm72|Gallop - Armed Police Unit (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||cosmccop|good|Irem
-gallop|Gallop - Armed Police Unit (Japan, M84 hardware)|clone|irem/m72.cpp|0|384|256|||cosmccop|good|Irem
+gallopm72|Gallop - Armed Police Unit (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||cosmccop|good|Irem\M72
+gallop|Gallop - Armed Police Unit (Japan, M84 hardware)|clone|irem/m72.cpp|0|384|256|||cosmccop|good|Irem\M72
 galmedes|Galmedes (Japan)|parent|taito/asuka.cpp|270|240|320||||good|Visco
 galhustl|Gals Hustler|clone|kaneko/expro02.cpp|0|256|224|||pgalvip|good|ACE International
 galpanica|Gals Panic (Unprotected)|clone|kaneko/galpanic.cpp|90|224|256|||galpanic|good|Kaneko
@@ -2200,7 +2200,7 @@ geminib|Gemini Wing (World, bootleg)|clone|tecmo/tecmo.cpp|90|224|256|||gemini|g
 genix|Genix Family|parent|nix/pirates.cpp|0|288|224||||good|NIX
 genpeitd|Genpei ToumaDen|parent|namco/namcos86.cpp|0|288|224||||good|Namco
 gensitou|Genshi-Tou 1930's (Japan)|clone|snk/prehisle.cpp|0|256|224|||prehisle|good|SNK
-geostorm|Geo Storm (Japan)|clone|irem/m92.cpp|0|320|240|||gunforc2|good|Irem
+geostorm|Geo Storm (Japan)|clone|irem/m92.cpp|0|320|240|||gunforc2|good|Irem\M92
 getstarb1|Get Star (bootleg set 1)|clone|toaplan/slapfght.cpp|0|280|240|||grdian|good|
 getstarb2|Get Star (bootleg set 2)|clone|toaplan/slapfght.cpp|0|280|240|||grdian|good|
 getstarj|Get Star (Japan)|clone|toaplan/slapfght.cpp|0|280|240|||grdian|good|Taito/Toaplan
@@ -2312,7 +2312,7 @@ gtclasscs|Golden Tee Classic (v1.00S)|clone|itech/itech32.cpp|0|384|240|||gtclas
 gtdiamond|Golden Tee Diamond Edition Tournament (v3.05T ELC)|clone|itech/itech32.cpp|0|384|240|||gt98|good|ITech
 gtroyal|Golden Tee Royal Edition Tournament (v4.02T EDM)|clone|itech/itech32.cpp|0|384|240|||gt99|good|ITech
 gtsupreme|Golden Tee Supreme Edition Tournament (v5.10T ELC S)|clone|itech/itech32.cpp|0|384|240|||gt2k|good|ITech
-gollygho|Golly! Ghost!|parent|namco/namcos2.cpp|180|288|224||||preliminary|Namco
+gollygho|Golly! Ghost!|parent|namco/namcos2.cpp|180|288|224||||preliminary|Namco\System2
 imsorryj|Gonbee no I'm Sorry (315-5110, Japan)|clone|sega/system1.cpp|0|256|224|||imsorry|good|Coreland/Sega
 gondou|Gondomania (US)|clone|dataeast/dec8.cpp|270|240|256|||gondo|good|Data East
 gondo|Gondomania (World)|parent|dataeast/dec8.cpp|270|240|256||||good|Data East
@@ -2359,9 +2359,9 @@ gtmr2u|Great 1000 Miles Rally 2 USA (95/05/18)|clone|kaneko/kaneko16.cpp|0|320|2
 gtmre|Great 1000 Miles Rally: Evolution Model!!! (94/09/06)|clone|kaneko/kaneko16.cpp|0|320|240|||gtmr|good|Kaneko
 gtmrusa|Great 1000 Miles Rally: U.S.A Version! (94/09/06)|clone|kaneko/kaneko16.cpp|0|320|240|||gtmr|good|Kaneko
 gmahou|Great Mahou Daisakusen (000121 Japan)|clone|capcom/cps2.cpp|270|224|384|||dimahoo|good|Capcom\CPS2/Eighting/Raizing
-gslgr94j|Great Sluggers '94 (Japan)|clone|namco/namconb1.cpp|0|288|224||namcoc75|gslgr94u|good|Namco
-gslgr94u|Great Sluggers '94|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-gslugrsj|Great Sluggers (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
+gslgr94j|Great Sluggers '94 (Japan)|clone|namco/namconb1.cpp|0|288|224||namcoc75|gslgr94u|good|Namco\NB
+gslgr94u|Great Sluggers '94|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+gslugrsj|Great Sluggers (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
 gberetb|Green Beret (bootleg)|clone|konami/gberet.cpp|0|240|224|||gberet|preliminary|
 gberet|Green Beret|parent|konami/gberet.cpp|0|240|224||||good|Konami
 gseekeru|Grid Seeker: Project Storm Hammer (Ver 1.3A)|clone|taito/taito_f3.cpp|90|224|320|||gseeker|good|Taito\F3
@@ -2403,10 +2403,10 @@ gulunpa|Gulun.Pa! (Japan 931220 L) (prototype)|parent|capcom/cps1.cpp|0|384|224|
 gumbo|Gumbo|parent|misc/gumbo.cpp|0|320|224||||good|Min
 gunfront|Gun & Frontier (World)|parent|taito/taito_f2.cpp|270|224|320||||good|Taito
 gunball|Gun Ball (Japan)|clone|dataeast/rohga.cpp|270|240|320|||nitrobal|good|Data East
-gunbuletj|Gun Bullet (Japan, GN1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco
-gunbuletw|Gun Bullet (World, GN3 Rev B)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco
+gunbuletj|Gun Bullet (Japan, GN1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco\NB
+gunbuletw|Gun Bullet (World, GN3 Rev B)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco\NB
 gundl94|Gun Dealer '94|parent|dooyong/dooyong.cpp|0|384|256||||good|Dooyong
-gunforc2|Gun Force II (US)|parent|irem/m92.cpp|0|320|240||||good|Irem
+gunforc2|Gun Force II (US)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 gunfrontj|Gun Frontier (Japan)|clone|taito/taito_f2.cpp|270|224|320|||gunfront|good|Taito
 bangj|Gun Gabacho (Japan)|clone|gaelco/gaelco2.cpp|0|320|240|||bang|good|Gaelco
 gunmast|Gun Master|parent|metro/metro.cpp|0|320|224||||good|Metro
@@ -2429,9 +2429,9 @@ gunbustru|Gunbuster (US)|clone|taito/gunbustr.cpp|0|320|240|||gunbustr|good|Tait
 gunbustr|Gunbuster (World)|parent|taito/gunbustr.cpp|0|320|240||||good|Taito
 gundharac|Gundhara (Chinese, bootleg?)|clone|seta/seta.cpp|270|240|384|||gundhara|good|Banpresto
 gundhara|Gundhara|parent|seta/seta.cpp|270|240|384||||good|Banpresto
-gunforcej|Gunforce - Battle Fire Engulfed Terror Island (Japan)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem
-gunforceu|Gunforce - Battle Fire Engulfed Terror Island (US)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem
-gunforce|Gunforce - Battle Fire Engulfed Terror Island (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+gunforcej|Gunforce - Battle Fire Engulfed Terror Island (Japan)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem\M92
+gunforceu|Gunforce - Battle Fire Engulfed Terror Island (US)|clone|irem/m92.cpp|0|320|240|||gunforce|good|Irem\M92
+gunforce|Gunforce - Battle Fire Engulfed Terror Island (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 gunlock|Gunlock (Ver 2.3O 1994/01/20)|parent|taito/taito_f3.cpp|90|224|320||||good|Taito\F3
 gunnail|GunNail (28th May. 1992)|parent|nmk/nmk16.cpp|270|224|384||nmk004||good|NMK/Tecmo
 gunnailp|GunNail (location test)|clone|nmk/nmk16.cpp|270|224|384||nmk004|gunnail|good|NMK
@@ -2462,9 +2462,9 @@ halleyscjp|Halley's Comet (Japan, Prototype)|clone|taito/halleys.cpp|90|240|256|
 halleyscj|Halley's Comet (Japan, rev 1)|clone|taito/halleys.cpp|90|240|256|||halleysc|good|Taito
 halleysc|Halley's Comet (US)|parent|taito/halleys.cpp|90|240|256||||good|Coin-It/Taito
 chamburger|Hamburger (DECO Cassette) (Japan)|clone|dataeast/decocass.cpp|270|240|256||decocass|cbtime|good|Data East
-hamaway|Hammer Away (prototype)|parent|sega/segas18.cpp|90|224|320||||good|Santos/Sega
-hharryu|Hammerin' Harry (US, M84 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem
-hharry|Hammerin' Harry (World, M81 hardware))|parent|irem/m72.cpp|0|384|256||||good|Irem
+hamaway|Hammer Away (prototype)|parent|sega/segas18.cpp|90|224|320||||good|Santos/Sega\System18
+hharryu|Hammerin' Harry (US, M84 hardware)|clone|irem/m72.cpp|0|384|256|||hharry|good|Irem\M72
+hharry|Hammerin' Harry (World, M81 hardware))|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 hharryb|Hammerin' Harry (World, M84 hardware bootleg)|clone|irem/m72.cpp|0|384|256|||hharry|good|
 hangon|Hang-On (rev A)|parent|sega/segahang.cpp|0|320|224||||good|Sega
 hangon2|Hang-On (Rev A, ride-on)|clone|sega/segahang.cpp|0|320|224|||hangon|good|Sega
@@ -2590,9 +2590,9 @@ homo|Homo|clone|suna/goindol.cpp|90|224|256|||goindol|good|
 honeydol|Honey Doll|parent|kaneko/snowbros.cpp|0|256|224||||good|Barko
 redfoxwp2|Hong Hu Zhanji II (China, set 1)|clone|nmk/nmk16.cpp|270|224|256|||grdnstrm|good|Afega
 redfoxwp2a|Hong Hu Zhanji II (China, set 2)|clone|nmk/nmk16.cpp|270|224|256|||grdnstrm|good|Afega
-hookj|Hook (Japan)|clone|irem/m92.cpp|0|320|240|||hook|good|Irem
-hooku|Hook (US)|clone|irem/m92.cpp|0|320|240|||hook|good|Irem
-hook|Hook (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+hookj|Hook (Japan)|clone|irem/m92.cpp|0|320|240|||hook|good|Irem\M92
+hooku|Hook (US)|clone|irem/m92.cpp|0|320|240|||hook|good|Irem\M92
+hook|Hook (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 hoops96|Hoops '96 (Europe/Asia 2.0)|parent|dataeast/deco_mlc.cpp|0|320|240||||good|Data East
 hoops95|Hoops (Europe/Asia 1.7)|clone|dataeast/deco_mlc.cpp|0|320|240|||hoops96|good|Data East
 hopprobo|Hopper Robo|parent|orca/marineb.cpp|90|224|256||||good|Sega
@@ -2666,14 +2666,14 @@ ikarinc|Ikari Warriors (US No Continues)|clone|snk/snk.cpp|270|216|288|||ikari|g
 ikaria|Ikari Warriors (US, set 1)|clone|snk/snk.cpp|270|216|288|||ikari|good|SNK
 ikaria2|Ikari Warriors (US, set 2)|clone|snk/snk.cpp|270|216|288|||ikari|good|SNK
 ikki|Ikki (Japan)|parent|sunelectronics/ikki.cpp|0|240|224||||good|Sun Electronics
-imgfightj|Image Fight (Japan)|clone|irem/m72.cpp|270|256|384|||imgfight|good|Irem
-imgfightjb|Image Fight (Japan, bootleg)|clone|irem/m72.cpp|270|256|384|||imgfight|good|Irem
-imgfight|Image Fight (World)|parent|irem/m72.cpp|270|256|384||||good|Irem
+imgfightj|Image Fight (Japan)|clone|irem/m72.cpp|270|256|384|||imgfight|good|Irem\M72
+imgfightjb|Image Fight (Japan, bootleg)|clone|irem/m72.cpp|270|256|384|||imgfight|good|Irem\M72
+imgfight|Image Fight (World)|parent|irem/m72.cpp|270|256|384||||good|Irem\M72
 imago|Imago (cocktail set)|parent|galaxian/fastfred.cpp|90|224|256||||good|Acom
 imagoa|Imago (no cocktail set)|clone|galaxian/fastfred.cpp|90|224|256|||imago|good|Acom
 scrambp|Impacto (Billport S.A., Spanish bootleg of Scramble)|clone|galaxian/galaxian.cpp|90|224|256|||scramble|good|Billport
-inthuntu|In The Hunt (US)|clone|irem/m92.cpp|0|320|240|||inthunt|good|Irem
-inthunt|In The Hunt (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+inthuntu|In The Hunt (US)|clone|irem/m92.cpp|0|320|240|||inthunt|good|Irem\M92
+inthunt|In The Hunt (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 inyourfa|In Your Face (North America, prototype)|parent|jaleco/megasys1.cpp|0|256|224||||good|Jaleco
 turbobl|Indianapolis (bootleg of Turbo)|clone|sega/turbo.cpp|270|224|512|||turbo|good|
 insector|Insector (prototype)|parent|gottlieb/gottlieb.cpp|0|256|240||||good|Gottlieb
@@ -2692,7 +2692,7 @@ ironfort|Iron Fortress|parent|eolith/eolith.cpp|0|320|240||||good|Eolith
 ironhors|Iron Horse|parent|konami/ironhors.cpp|0|240|224||||good|Konami
 itaten|Itazura Tenshi (Japan)|parent|nichibutsu/dacholer.cpp|0|256|224||||good|Alice/Nichibutsu
 ixion|Ixion (prototype)|parent|sega/zaxxon.cpp|270|224|256||||preliminary|Sega
-vshoot|J-League Soccer V-Shoot (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
+vshoot|J-League Soccer V-Shoot (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
 jjsquawkb|J. J. Squawkers (bootleg)|clone|seta/seta.cpp|0|384|240|||jjsquawk|good|
 jjsquawkb2|J. J. Squawkers (bootleg, Blandia conversion)|clone|seta/seta.cpp|0|384|240|||jjsquawk|good|
 jjsquawko|J. J. Squawkers (older)|clone|seta/seta.cpp|0|384|240|||jjsquawk|good|Able/Athena
@@ -2820,7 +2820,7 @@ kageki|Kageki (World)|parent|taito/tnzs.cpp|90|224|256||||good|Taito
 yanchamr|Kaiketsu Yanchamaru (Japan)|clone|irem/m62.cpp|0|384|256|||kidniki|good|Irem
 kaiserknj|Kaiser Knuckle (Ver 2.1J 1994/07/29)|clone|taito/taito_f3.cpp|0|320|224|||kaiserkn|good|Taito\F3
 kaiserkn|Kaiser Knuckle (Ver 2.1O 1994/07/29)|parent|taito/taito_f3.cpp|0|320|224||||good|Taito\F3
-kaiteids|Kaitei Daisensou (Japan)|clone|irem/m92.cpp|0|320|240|||inthunt|good|Irem
+kaiteids|Kaitei Daisensou (Japan)|clone|irem/m92.cpp|0|320|240|||inthunt|good|Irem\M92
 kaitein|Kaitei Takara Sagashi (Namco license)|clone|namco/warpwarp.cpp|90|224|272|||kaitei|good|K.K. Tokki/Namco
 kaitei|Kaitei Takara Sagashi|parent|namco/warpwarp.cpp|90|224|272||||good|K.K. Tokki
 kamakazi3|Kamakazi III (superg hack)|clone|galaxian/galaxian.cpp|90|224|256|||galaxian|good|
@@ -2849,8 +2849,8 @@ karnova|Karnov (US, rev 5)|clone|dataeast/karnov.cpp|0|256|248|||karnov|good|Dat
 karnov|Karnov (US, rev 6)|parent|dataeast/karnov.cpp|0|256|248||||good|Data East
 karnovre|Karnov's Revenge / Fighter's History Dynamite (Revolution v0.1, Hack)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|karnovr|good|GameHackFan/neogeo
 karnovr|Karnov's Revenge / Fighter's History Dynamite|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Data East/neogeo
-kengoj|Ken-Go (Japan)|clone|irem/m72.cpp|0|384|256|||ltswords|good|Irem
-kengo|Ken-Go (World)|clone|irem/m72.cpp|0|384|256|||ltswords|good|Irem
+kengoj|Ken-Go (Japan)|clone|irem/m72.cpp|0|384|256|||ltswords|good|Irem\M72
+kengo|Ken-Go (World)|clone|irem/m72.cpp|0|384|256|||ltswords|good|Irem\M72
 keroppij|Kero Kero Keroppi no Issyoni Asobou (Japan)|clone|seta/seta.cpp|0|320|240|||keroppi|good|Sammy
 keroppi|Kero Kero Keroppi's Let's Play Together (USA, Version 2.0)|parent|seta/seta.cpp|0|320|240||||good|American Sammy
 ket1|Ketsui Kizuna Jigoku Tachi (2003/01/01. Master Ver.) (alt rom fill)|clone|igs/pgm.cpp|270|224|448|||ket|good|AMI/Cave
@@ -2982,9 +2982,9 @@ kbashk|Knuckle Bash (Korean PCB)|clone|toaplan/toaplan2.cpp|0|320|240|||kbash|go
 kbashp|Knuckle Bash (location test)|clone|toaplan/toaplan2.cpp|0|320|240|||kbash|good|Taito/Toaplan
 kbash2|Knuckle Bash 2 (bootleg)|parent|toaplan/toaplan2.cpp|0|320|240||||good|
 kbash|Knuckle Bash|parent|toaplan/toaplan2.cpp|0|320|240||||good|Atari/Toaplan
-knckheadj|Knuckle Heads (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|knckhead|good|Namco
-knckheadjp|Knuckle Heads (Japan, Prototype?)|clone|namco/namcona1.cpp|0|304|224||namcoc70|knckhead|good|Namco
-knckhead|Knuckle Heads (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco
+knckheadj|Knuckle Heads (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|knckhead|good|Namco\NA
+knckheadjp|Knuckle Heads (Japan, Prototype?)|clone|namco/namcona1.cpp|0|304|224||namcoc70|knckhead|good|Namco\NA
+knckhead|Knuckle Heads (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco\NA
 kncljoe|Knuckle Joe (set 1)|parent|seibu/kncljoe.cpp|0|240|256||||good|Seibu/Taito
 kncljoea|Knuckle Joe (set 2)|clone|seibu/kncljoe.cpp|0|240|256|||kncljoe|good|Seibu/Taito
 koikois2|Koi Koi Shimasho 2 - Super Real Hanafuda (Japan)|parent|seta/ssv.cpp|0|336|240||||good|Visco
@@ -3034,8 +3034,8 @@ dadandrn|Kyukyoku Sentai Dadandarn (ver JAA)|clone|konami/mystwarr.cpp|0|288|224
 ktigera|Kyukyoku Tiger (Japan, 2 player alternate)|clone|toaplan/twincobr.cpp|270|240|320|||twincobr|good|Taito/Toaplan
 ktiger|Kyukyoku Tiger (Japan, 2 player cooperative)|clone|toaplan/twincobr.cpp|270|240|320|||twincobr|good|Taito/Toaplan
 ktiger2|Kyukyoku Tiger II (Ver 2.1J 1995/11/30)|clone|taito/taito_f3.cpp|270|232|320|||tcobra2|good|Taito\F3
-kyukaidk|Kyuukai Douchuuki (Japan, new version (Rev B))|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-kyukaidko|Kyuukai Douchuuki (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||kyukaidk|good|Namco
+kyukaidk|Kyuukai Douchuuki (Japan, new version (Rev B))|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+kyukaidko|Kyuukai Douchuuki (Japan, old version)|clone|namco/namcos2.cpp|0|288|224|||kyukaidk|good|Namco\System2
 divebomb|Kyuukoukabakugekitai - Dive Bomber Squad (Japan, prototype)|parent|konami/divebomb.cpp|270|224|256||||good|Konami
 lagirl|LA Girl|clone|taito/taito_l.cpp|270|224|320|||plgirls|good|
 labyrunr|Labyrinth Runner (Japan)|clone|konami/labyrunr.cpp|90|224|280|||tricktrp|good|Konami
@@ -3057,11 +3057,11 @@ landmakr|Land Maker (Ver 2.02O 1998/06/02)|parent|taito/taito_f3.cpp|0|320|232||
 lsasquad|Land Sea Air Squad / Riku Kai Kuu Saizensen|parent|taito/lsasquad.cpp|270|224|256||||good|Taito
 lans2004|Lansquenet 2004 (Shock Troopers - 2nd Squad bootleg)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|shocktr2|good|neogeo
 lvgirl94|Las Vegas Girl (Girl '94)|parent|comad/zerozone.cpp|0|368|224||||good|Comad
-lghostj|Laser Ghost (Japan, 317-0164)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega
-lghostud|Laser Ghost (US, 317-0165 decrypted)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega
-lghostu|Laser Ghost (US, 317-0165)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega
-lghostd|Laser Ghost (World, 317-0166 decrypted)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega
-lghost|Laser Ghost (World, 317-0166)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+lghostj|Laser Ghost (Japan, 317-0164)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega\System18
+lghostud|Laser Ghost (US, 317-0165 decrypted)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega\System18
+lghostu|Laser Ghost (US, 317-0165)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega\System18
+lghostd|Laser Ghost (World, 317-0166 decrypted)|clone|sega/segas18.cpp|0|320|224|||lghost|good|Sega\System18
+lghost|Laser Ghost (World, 317-0166)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 lasso|Lasso|parent|snk/lasso.cpp|90|224|256||||good|SNK
 lastduelb|Last Duel (bootleg)|clone|capcom/lastduel.cpp|270|240|384|||lastduel|good|
 lastduelj|Last Duel (Japan)|clone|capcom/lastduel.cpp|270|240|384|||lastduel|good|Capcom
@@ -3099,10 +3099,10 @@ fitegolfu|Lee Trevino's Fighting Golf (US, Ver 2, set 1)|clone|snk/snk.cpp|0|288
 fitegolfua|Lee Trevino's Fighting Golf (US, Ver 2, set 2)|clone|snk/snk.cpp|0|288|216|||fitegolf|good|SNK
 fitegolf|Lee Trevino's Fighting Golf (World?)|parent|snk/snk.cpp|0|288|216||||good|SNK
 loht_ms|Legend of Hero Tonma (Gaelco bootleg, Modular System)|clone|irem/m72.cpp|0|384|256|||loht|preliminary|Ervisa/Gaelco
-lohtj|Legend of Hero Tonma (Japan)|clone|irem/m72.cpp|0|384|256|||loht|good|Irem
+lohtj|Legend of Hero Tonma (Japan)|clone|irem/m72.cpp|0|384|256|||loht|good|Irem\M72
 lohtb2|Legend of Hero Tonma (Japan, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|||loht|good|
 lohtb|Legend of Hero Tonma (unprotected bootleg)|clone|irem/m72.cpp|0|384|256|||loht|good|
-loht|Legend of Hero Tonma (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
+loht|Legend of Hero Tonma (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 lohtb3|Legend of Hero Tonma (World, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|||loht|good|
 legendoh|Legend of Heroes|parent|misc/limenko.cpp|0|384|240||||good|Limenko
 lomakai|Legend of Makai (World)|parent|jaleco/megasys1.cpp|0|256|224||||good|Jaleco
@@ -3129,7 +3129,7 @@ lethalenua|Lethal Enforcers (ver UAA, 08/17/92 21:38)|clone|konami/lethal.cpp|18
 lethalenub|Lethal Enforcers (ver UAB, 09/01/92 11:12)|clone|konami/lethal.cpp|180|288|224|||lethalen|good|Konami
 lethalen|Lethal Enforcers (ver UAE, 11/19/92 15:04)|parent|konami/lethal.cpp|180|288|224||||good|Konami
 lethalenux|Lethal Enforcers (ver unknown, US, 08/06/92 15:11, hacked/proto?)|clone|konami/lethal.cpp|180|288|224|||lethalen|good|Konami
-lethalth|Lethal Thunder (World)|parent|irem/m92.cpp|270|240|320||||good|Irem
+lethalth|Lethal Thunder (World)|parent|irem/m92.cpp|270|240|320||||good|Irem\M92
 levers|Levers|parent|galaxian/galaxian.cpp|90|224|256||||good|Rock-Ola
 liblrabl|Libble Rabble|parent|namco/toypop.cpp|0|288|224||||good|Namco
 liberate|Liberation|parent|dataeast/liberate.cpp|270|240|256||||good|Data East
@@ -3140,7 +3140,7 @@ lightbr|Light Bringer (Ver 2.2O 1994/04/08)|parent|taito/taito_f3.cpp|0|320|224|
 lgtnfghta|Lightning Fighters (Asia)|clone|konami/tmnt2.cpp|90|224|288|||lgtnfght|good|Konami
 lgtnfghtu|Lightning Fighters (US)|clone|konami/tmnt2.cpp|90|224|288|||lgtnfght|good|Konami
 lgtnfght|Lightning Fighters (World)|parent|konami/tmnt2.cpp|90|224|288||||good|Konami
-ltswords|Lightning Swords (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
+ltswords|Lightning Swords (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 shangonleeh|Limited Edition Hang-On (Enhanced Edition v2.0.2)|clone|sega/segaorun.cpp|0|320|224|||shangon|good|Chris White
 shangonle|Limited Edition Hang-On|clone|sega/segaorun.cpp|0|320|224|||shangon|good|Sega
 loffirejd|Line of Fire / Bakudan Yarou (Japan, FD1094 317-0134 decrypted)|clone|sega/segaxbd.cpp|0|320|224|||loffire|good|Sega
@@ -3189,8 +3189,8 @@ kovlsyxqszl|Luan Shi Ying Xiong - Qiu Sheng Zhi Lu (hack of Knights of Valour Su
 kovlsyxqxzl|Luan Shi Ying Xiong - Qun Xiong Zhu Lu (hack of Knights of Valour Super Heroes Plus, ver. 500)|clone|igs/pgm.cpp|0|448|224||pgm|kovshp|good|Hack
 kovlsyxqxzlp|Luan Shi Ying Xiong - Qun Xiong Zhu Lu Plus (hack of Knights of Valour Super Heroes Plus, ver. 500)|clone|igs/pgm.cpp|0|448|224||pgm|kovshp|good|Hack
 kovshpd3dw|Luan Shi Ying Xiong - Qun Xiong Zhu Lu Wu Shuang Edition (Hack, ver. 500)|clone|igs/pgm.cpp|0|448|224||pgm|kovshp|good|Hack
-luckywldj|Lucky & Wild (Japan)|clone|namco/namcos2.cpp|0|288|224|||luckywld|good|Namco
-luckywld|Lucky & Wild|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+luckywldj|Lucky & Wild (Japan)|clone|namco/namcos2.cpp|0|288|224|||luckywld|good|Namco\System2
+luckywld|Lucky & Wild|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 luckboomh|Lucky Boom (Hard Times hardware)|clone|playmark/playmark.cpp|0|320|224|||luckboom|good|Playmark
 luckboom|Lucky Boom|parent|playmark/sderby.cpp|0|320|240||||good|Playmark
 cluckypo|Lucky Poker (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
@@ -3205,8 +3205,8 @@ luplup|Lup Lup Puzzle / Zhuan Zhuan Puzzle (version 3.0 / 990128)|clone|misc/vam
 miaj|M.I.A. - Missing in Action (version R) (Japan)|clone|konami/twin16.cpp|0|304|224|||mia|good|Konami
 mia2|M.I.A. - Missing in Action (version S)|clone|konami/tmnt.cpp|0|304|224|||mia|good|Konami
 mia|M.I.A. - Missing in Action (version T)|parent|konami/tmnt.cpp|0|304|224||||good|Konami
-machbrkr|Mach Breakers (World, MB2)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-machbrkrj|Mach Breakers - Numan Athletics 2 (Japan, MB1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|machbrkr|good|Namco
+machbrkr|Mach Breakers (World, MB2)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+machbrkrj|Mach Breakers - Numan Athletics 2 (Japan, MB1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|machbrkr|good|Namco\NB
 mach9|Mach-9 (bootleg of Vulgus)|clone|capcom/vulgus.cpp|270|224|256|||vulgus|good|Itisa
 machomou|Macho Mouse|parent|thepit/thepit.cpp|90|224|256||||good|Techstar
 macross2k|Macross II (Korea)|clone|nmk/nmk16.cpp|0|384|224|||macross2|good|Banpresto
@@ -3263,7 +3263,7 @@ mjkjidai|Mahjong Kyou Jidai (Japan)|parent|sanritsu/mjkjidai.cpp|0|464|224||||go
 mjnquest|Mahjong Quest (Japan)|parent|taito/taito_f2.cpp|0|320|224||||good|Taito
 mjnquestb|Mahjong Quest (No Nudity)|clone|taito/taito_f2.cpp|0|320|224|||mjnquest|good|Taito
 mahoudai|Mahou Daisakusen (Japan)|clone|toaplan/toaplan2.cpp|270|240|320|||sstriker|good|Raizing
-gunhohki|Mahou Keibitai Gun Hohki (Japan)|clone|irem/m92.cpp|0|320|240|||mysticri|good|Irem
+gunhohki|Mahou Keibitai Gun Hohki (Japan)|clone|irem/m92.cpp|0|320|240|||mysticri|good|Irem\M92
 mainsnk|Main Event (1984)|parent|snk/mainsnk.cpp|180|288|216||||good|SNK
 mstadium|Main Stadium (Japan ver. 4)|clone|konami/bottom9.cpp|0|288|224|||bottom9|good|Konami
 majest12j|Majestic Twelve - The Space Invaders Part IV (Japan)|clone|taito/taito_f2.cpp|270|224|320|||ssi|good|Taito
@@ -3275,12 +3275,12 @@ mhavoc2|Major Havoc (rev 2)|clone|atari/mhavoc.cpp|0|800|600|||mhavoc|good|Atari
 mhavoc|Major Havoc (rev 3)|parent|atari/mhavoc.cpp|0|800|600||||good|Atari
 mhavocrv|Major Havoc - Return to Vax|clone|atari/mhavoc.cpp|0|800|600|||mhavoc|good|JMA
 mjleague|Major League|parent|sega/segas16a.cpp|270|224|320||||good|Sega\System16
-majtitlej|Major Title (Japan)|clone|irem/m72.cpp|0|384|256|||majtitle|good|Irem
-majtitle|Major Title (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
-majtitl2j|Major Title 2 (Japan)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem
-majtitl2|Major Title 2 (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
-majtitl2a|Major Title 2 (World, set 1, alt sound CPU)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem
-majtitl2b|Major Title 2 (World, set 2)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem
+majtitlej|Major Title (Japan)|clone|irem/m72.cpp|0|384|256|||majtitle|good|Irem\M72
+majtitle|Major Title (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
+majtitl2j|Major Title 2 (Japan)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem\M92
+majtitl2|Major Title 2 (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
+majtitl2a|Major Title 2 (World, set 1, alt sound CPU)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem\M92
+majtitl2b|Major Title 2 (World, set 2)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem\M92
 majuu|Majuu no Ohkoku|clone|konami/twin16.cpp|0|320|224|||devilw|good|Konami
 makaiden|Makai Densetsu (Japan)|clone|jaleco/megasys1.cpp|0|256|224|||lomakai|good|Jaleco
 makaimurc|Makai-Mura (Japan revision C)|clone|capcom/gng.cpp|0|256|224|||gng|good|Capcom
@@ -3302,8 +3302,8 @@ manybloc|Many Block|parent|nmk/nmk16.cpp|270|240|256||||good|Bee-Oh
 mappyj|Mappy (Japan)|clone|namco/mappy.cpp|90|224|288|||mappy|good|Namco
 mappy|Mappy (US)|parent|namco/mappy.cpp|90|224|288||||good|Namco
 marblmd2|Marble Madness II (prototype)|parent|atari/marblmd2.cpp|0|336|240||||good|Atari
-mmaze|Marchen Maze (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
-mmaze2|Marchen Maze (Japan, hack?)|clone|namco/namcos1.cpp|180|288|224|||mmaze|good|Namco
+mmaze|Marchen Maze (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
+mmaze2|Marchen Maze (Japan, hack?)|clone|namco/namcos1.cpp|180|288|224|||mmaze|good|Namco\System1
 marineb|Marine Boy|parent|orca/marineb.cpp|0|256|224||||good|Orca
 mariner|Mariner|parent|galaxian/scramble.cpp|90|224|256||||good|Armenia
 marioj|Mario Bros. (Japan)|clone|nintendo/mario.cpp|0|256|224|||mario|good|Nintendo
@@ -3328,8 +3328,8 @@ martmast104c|Martial Masters (V104, 102, 101, China)|clone|igs/pgm.cpp|0|448|224
 martmast|Martial Masters (V104, 102, 102, USA)|parent|igs/pgm.cpp|0|448|224||pgm||good|IGS
 marmatcp|Martial Masters - Community Patch (Hack)|clone|igs/pgm.cpp|0|448|224||pgm|martmast|good|Hack
 marmatsc|Martial Masters - Secret Characters (Hack)|clone|igs/pgm.cpp|0|448|224||pgm|martmast|good|Hack
-marvland|Marvel Land (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-marvlandup|Marvel Land (US, prototype?)|clone|namco/namcos2.cpp|0|288|224|||marvland|good|Namco
+marvland|Marvel Land (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+marvlandup|Marvel Land (US, prototype?)|clone|namco/namcos2.cpp|0|288|224|||marvland|good|Namco\System2
 msha|Marvel Super Heroes (951024 Asia)|clone|capcom/cps2.cpp|0|384|224|||msh|good|Capcom\CPS2
 mshbr1|Marvel Super Heroes (951024 Brazil)|clone|capcom/cps2.cpp|0|384|224|||msh|good|Capcom\CPS2
 msh|Marvel Super Heroes (951024 Euro)|parent|capcom/cps2.cpp|0|384|224||||good|Capcom\CPS2
@@ -3431,8 +3431,8 @@ metalbj|Metal Black (Japan)|clone|taito/taito_f2.cpp|0|320|224|||metalb|good|Tai
 metalb|Metal Black (World)|parent|taito/taito_f2.cpp|0|320|224||||good|Taito
 metlclsh|Metal Clash (Japan)|parent|dataeast/metlclsh.cpp|0|256|224||||good|Data East
 metlfrzr|Metal Freezer|parent|seibu/metlfrzr.cpp|270|224|256||||good|Seibu
-metlhawkj|Metal Hawk (Japan, Rev F)|clone|namco/namcos2.cpp|90|224|288|||metlhawk|good|Namco
-metlhawk|Metal Hawk (Rev C)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
+metlhawkj|Metal Hawk (Japan, Rev F)|clone|namco/namcos2.cpp|90|224|288|||metlhawk|good|Namco\System2
+metlhawk|Metal Hawk (Rev C)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
 metlsavr|Metal Saver|parent|dataeast/tumbleb.cpp|0|320|240||||good|First Amusement
 mslugaks|Metal Slug (Modified by AKS, Hack)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|mslug|good|neogeo
 mslug|Metal Slug - Super Vehicle-001|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Nazca/neogeo
@@ -3503,10 +3503,10 @@ metrocrsa|Metro-Cross (set 2)|clone|namco/baraduke.cpp|0|288|224|||metrocrs|good
 mexico86|Mexico 86 (bootleg of Kick and Run) (set 1)|clone|taito/kikikai.cpp|0|256|224|||kicknrun|good|
 mwalkbl2|Michael Jackson's Moonwalker (bootleg)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|
 mwalkjd|Michael Jackson's Moonwalker (Japan) (bootleg of FD1094/8751 317-0157 set)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|
-mwalkj|Michael Jackson's Moonwalker (Japan) (FD1094/8751 317-0157)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|Sega
-mwalk|Michael Jackson's Moonwalker (set 3, World, FD1094/8751 317-0159)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+mwalkj|Michael Jackson's Moonwalker (Japan) (FD1094/8751 317-0157)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|Sega\System18
+mwalk|Michael Jackson's Moonwalker (set 3, World, FD1094/8751 317-0159)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 mwalkud|Michael Jackson's Moonwalker (US) (bootleg of FD1094/8751 317-0158 set)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|
-mwalku|Michael Jackson's Moonwalker (US) (FD1094/8751 317-0158)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|Sega
+mwalku|Michael Jackson's Moonwalker (US) (FD1094/8751 317-0158)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|Sega\System18
 mwalkd|Michael Jackson's Moonwalker (World) (bootleg of FD1094/8751 317-0159 set)|clone|sega/segas18.cpp|0|320|224|||mwalk|good|
 midresj|Midnight Resistance (Japan)|clone|dataeast/dec0.cpp|0|256|240|||midres|good|Data East
 midresu|Midnight Resistance (US)|clone|dataeast/dec0.cpp|0|256|240|||midres|good|Data East
@@ -3537,8 +3537,8 @@ minivadr|Minivader|parent|taito/minivadr.cpp|0|256|224||||good|Taito
 mmonkeyj|Minky Monkey (Japan)|clone|dataeast/btime.cpp|270|240|242|||mmonkey|good|Roller Tron/Technos
 mmonkey|Minky Monkey|parent|dataeast/btime.cpp|270|240|242||||good|Roller Tron/Technos
 mirage|Mirage Youjuu Mahjongden (Japan)|parent|dataeast/mirage.cpp|0|320|240||||good|Mitchell
-mirninja|Mirai Ninja (Japan, set 1)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-mirninjaa|Mirai Ninja (Japan, set 2)|clone|namco/namcos2.cpp|0|288|224|||mirninja|good|Namco
+mirninja|Mirai Ninja (Japan, set 1)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+mirninjaa|Mirai Ninja (Japan, set 2)|clone|namco/namcos2.cpp|0|288|224|||mirninja|good|Namco\System2
 mirax|Mirax (set 1)|parent|misc/mirax.cpp|90|240|256||||good|Current Technologies
 miraxa|Mirax (set 2)|clone|misc/mirax.cpp|90|240|256|||mirax|good|Current Technologies
 msbingo|Miss Bingo|parent|misc/gumbo.cpp|0|320|224||||good|Min
@@ -3689,7 +3689,7 @@ dowild|Mr. Do's Wild Ride|parent|universal/docastle.cpp|0|240|192||||good|Univer
 docastle|Mr. Do's Castle (set 1)|parent|universal/docastle.cpp|270|192|240||||good|Universal
 mrdu|Mr. Du!|clone|universal/mrdo.cpp|270|192|240|||mrdo|good|Bootleg
 mrgoemon|Mr. Goemon (Japan)|parent|konami/gberet.cpp|0|240|224||||good|Konami
-mrheli|Mr. HELI no Daibouken (Japan)|clone|irem/m72.cpp|0|384|256|||bchopper|good|Irem
+mrheli|Mr. HELI no Daibouken (Japan)|clone|irem/m72.cpp|0|384|256|||bchopper|good|Irem\M72
 mrjong|Mr. Jong (Japan)|parent|kiwako/mrjong.cpp|90|224|240||||good|Kiwako
 mrkicker|Mr. Kicker (F-E1-16-010 PCB)|parent|misc/vamphalf.cpp|0|320|236||||good|SemiCom
 mrkougb|Mr. Kougar (bootleg set 1)|clone|galaxian/scramble.cpp|90|224|256|||mrkougar|good|
@@ -3770,8 +3770,8 @@ myhero|My Hero (US, not encrypted)|parent|sega/system1.cpp|0|256|224||||good|Seg
 mystston|Mysterious Stones - Dr. John's Adventure|parent|technos/mystston.cpp|270|240|256||||good|Technos
 myststonoi|Mysterious Stones - Dr. Kick in Adventure (Itisa PCB)|clone|technos/mystston.cpp|270|240|256|||mystston|good|Technos
 myststono|Mysterious Stones - Dr. Kick in Adventure|clone|technos/mystston.cpp|270|240|256|||mystston|good|Technos
-mysticrib|Mystic Riders (bootleg?)|clone|irem/m92.cpp|0|320|240|||mysticri|good|Irem
-mysticri|Mystic Riders (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+mysticrib|Mystic Riders (bootleg?)|clone|irem/m92.cpp|0|320|240|||mysticri|good|Irem\M92
+mysticri|Mystic Riders (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 mystwarraa|Mystic Warriors (ver AAA)|clone|konami/mystwarr.cpp|0|288|224|||mystwarr|good|Konami
 mystwarra|Mystic Warriors (ver AAB)|clone|konami/mystwarr.cpp|0|288|224|||mystwarr|good|Konami
 mystwarr|Mystic Warriors (ver EAA)|parent|konami/mystwarr.cpp|0|288|224||||good|Konami
@@ -3822,8 +3822,8 @@ nbamhtl10|NBA Maximum Hangtime (ver L1.0 11/08/96)|clone|midway/midwunit.cpp|0|4
 nbamht|NBA Maximum Hangtime (ver L1.03 06/09/97)|parent|midway/midwunit.cpp|0|400|256||||good|Midway
 nbamhtm10|NBA Maximum Hangtime (ver M1.0 11/08/96)|clone|midway/midwunit.cpp|0|400|256|||nbamht|good|Midway
 cnebula|Nebula (DECO Cassette) (UK)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
-nebulrayj|Nebulas Ray (Japan, NR1)|clone|namco/namconb1.cpp|90|224|288||namcoc75|nebulray|good|Namco
-nebulray|Nebulas Ray (World, NR2)|parent|namco/namconb1.cpp|90|224|288||namcoc75||good|Namco
+nebulrayj|Nebulas Ray (Japan, NR1)|clone|namco/namconb1.cpp|90|224|288||namcoc75|nebulray|good|Namco\NB
+nebulray|Nebulas Ray (World, NR2)|parent|namco/namconb1.cpp|90|224|288||namcoc75||good|Namco\NB
 nebulbee|Nebulous Bee|clone|namco/galaga.cpp|90|224|288|||galaga|good|
 kuniokunb|Nekketsu Kouha Kunio-kun (Japan bootleg)|clone|technos/renegade.cpp|0|240|240|||renegade|good|
 kuniokun|Nekketsu Kouha Kunio-kun (Japan)|clone|technos/renegade.cpp|0|240|240|||renegade|good|Technos
@@ -3855,7 +3855,7 @@ neotet|NeoGeo 2-Player Tetris|parent|||304|224||neogeo||good|Crim/Stephen
 neo3ddmo|NeoGeo 3D! Demo|parent|||304|224||neogeo||good|Oxygene
 neotris|NeoTRIS (Free Beta 2, Ver. 202009)|parent|||304|224||neogeo||good|Chipsonsteroids
 netwars|Net Wars|parent|orca/espial.cpp|90|224|256||||good|Esco Trading/Orca
-quiztou|Nettou! Gekitou! Quiztou!! (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco
+quiztou|Nettou! Gekitou! Quiztou!! (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco\NA
 newapunk|New Atomic Punk - Global Quest (US)|clone|irem/m90.cpp|0|320|240|||bbmanw|good|Irem
 newxpang|New Cross Pang (set 1)|parent|misc/vamphalf.cpp|0|320|236||||good|F2 System
 newxpanga|New Cross Pang (set 2)|clone|misc/vamphalf.cpp|0|320|236|||newxpang|good|F2 System
@@ -3904,8 +3904,8 @@ nitdbl|Nightmare in the Dark (bootleg)|clone|neogeo/neogeo.cpp|0|304|224||neogeo
 nitd|Nightmare in the Dark|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Eleven/Gavaking/neogeo
 ninja|Ninja (315-5102)|clone|sega/system1.cpp|0|256|224|||seganinj|good|Sega
 nbbatmano|Ninja Baseball Batman (One Key Edition, Hack)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Hack
-nbbatmanu|Ninja Baseball Batman (US)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem
-nbbatman|Ninja Baseball Batman (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+nbbatmanu|Ninja Baseball Batman (US)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem\M92
+nbbatman|Ninja Baseball Batman (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 ncombath|Ninja Combat (NGH-009)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|ncombat|good|Alpha Denshi/neogeo
 ncombat|Ninja Combat (NGM-009)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Alpha Denshi/neogeo
 ncommand|Ninja Commando|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|Alpha Denshi/neogeo
@@ -3920,7 +3920,7 @@ nprinceso|Ninja Princess (315-5098, 128k Ver.)|clone|sega/system1.cpp|0|256|224|
 nprincesu|Ninja Princess (64k Ver. not encrypted)|clone|sega/system1.cpp|0|256|224|||seganinj|good|Sega
 ryukendn|Ninja Ryukenden (Japan, set 1)|clone|tecmo/gaiden.cpp|0|256|224|||shadoww|good|Tecmo
 ryukendna|Ninja Ryukenden (Japan, set 2)|clone|tecmo/gaiden.cpp|0|256|224|||shadoww|good|Tecmo
-nspirit|Ninja Spirit (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
+nspirit|Ninja Spirit (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 ninjakd2|Ninja-Kid II / NinjaKun Ashura no Shou (set 1)|parent|upl/ninjakd2.cpp|0|256|192||||good|UPL
 ninjakd2a|Ninja-Kid II / NinjaKun Ashura no Shou (set 2, bootleg?)|clone|upl/ninjakd2.cpp|0|256|192|||ninjakd2|good|UPL
 ninjakd2b|Ninja-Kid II / NinjaKun Ashura no Shou (set 3, bootleg?)|clone|upl/ninjakd2.cpp|0|256|192|||ninjakd2|good|UPL
@@ -3940,8 +3940,8 @@ nouryoku|Nouryoku Koujou Iinkai|parent|nmk/nmk16.cpp|0|384|224||||good|Tecmo
 nova2001|Nova 2001 (Japan)|parent|upl/nova2001.cpp|0|256|192||||good|UPL
 nova2001h|Nova 2001 (Japan, hack?)|clone|upl/nova2001.cpp|0|256|192|||nova2001|good|UPL
 nova2001u|Nova 2001 (US)|clone|upl/nova2001.cpp|0|256|192|||nova2001|good|Universal/UPL
-numanathj|Numan Athletics (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|numanath|good|Namco
-numanath|Numan Athletics (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco
+numanathj|Numan Athletics (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc70|numanath|good|Namco\NA
+numanath|Numan Athletics (World)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco\NA
 nunchaku|Nunchackun|clone|taito/tsamurai.cpp|90|224|256|||ladymstr|good|Kaneko/Taito
 nyanpani|Nyan Nyan Panic (Japan)|clone|konami/nemesis.cpp|0|256|224|||kittenk|good|Konami
 cocean1a|Ocean to Ocean (Medal) (DECO Cassette MD) (No.10/Ver.1,Japan)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
@@ -3989,9 +3989,9 @@ opwolf3u|Operation Wolf 3 (US)|clone|taito/slapshot.cpp|0|320|224|||opwolf3|good
 opwolf3|Operation Wolf 3 (World)|parent|taito/slapshot.cpp|0|320|224||||good|Taito
 orbitron|Orbitron|parent|galaxian/galaxian.cpp|270|224|256||||good|Signatron
 orbs|Orbs (10/7/94 prototype?)|parent|seta/seta.cpp|0|320|240||||good|American Sammy
-ordynej|Ordyne (Japan)|clone|namco/namcos2.cpp|180|288|224|||ordyne|good|Namco
-ordyneje|Ordyne (Japan, English Version)|clone|namco/namcos2.cpp|180|288|224|||ordyne|good|Namco
-ordyne|Ordyne (World)|parent|namco/namcos2.cpp|180|288|224||||good|Namco
+ordynej|Ordyne (Japan)|clone|namco/namcos2.cpp|180|288|224|||ordyne|good|Namco\System2
+ordyneje|Ordyne (Japan, English Version)|clone|namco/namcos2.cpp|180|288|224|||ordyne|good|Namco\System2
+ordyne|Ordyne (World)|parent|namco/namcos2.cpp|180|288|224||||good|Namco\System2
 orlegend105k|Oriental Legend (V105, Korea)|clone|igs/pgm.cpp|0|448|224||pgm|orlegend|good|IGS
 orlegend105t|Oriental Legend (V105, Taiwan)|clone|igs/pgm.cpp|0|448|224||pgm|orlegend|good|IGS
 orlegend111c|Oriental Legend - Xi Yo Gi Shi Re Zuang (V111, China)|clone|igs/pgm.cpp|0|448|224||pgm|orlegend|good|IGS
@@ -4074,9 +4074,9 @@ pacmanblv|Pac-Man (Video Dens, Spanish bootleg on Galaxian hardware)|clone|galax
 25pacmano|Pac-Man - 25th Anniversary Edition (Rev 2.00)|clone|namco/20pacgal.cpp|90|224|288|||25pacman|good|Cosmodog/Namco
 25pacman|Pac-Man - 25th Anniversary Edition (Rev 3.00)|parent|namco/20pacgal.cpp|90|224|288||||preliminary|Cosmodog/Namco
 pacplus|Pac-Man Plus|parent|pacman/pacman.cpp|90|224|288||||good|Midway/Namco
-pacmaniao|Pac-Mania (111187 sound program)|clone|namco/namcos1.cpp|270|224|288|||pacmania|good|Namco
-pacmaniaj|Pac-Mania (Japan)|clone|namco/namcos1.cpp|90|224|288|||pacmania|good|Namco
-pacmania|Pac-Mania|parent|namco/namcos1.cpp|270|224|288||||good|Namco
+pacmaniao|Pac-Mania (111187 sound program)|clone|namco/namcos1.cpp|270|224|288|||pacmania|good|Namco\System1
+pacmaniaj|Pac-Mania (Japan)|clone|namco/namcos1.cpp|90|224|288|||pacmania|good|Namco\System1
+pacmania|Pac-Mania|parent|namco/namcos1.cpp|270|224|288||||good|Namco\System1
 sxyreact|Pachinko Sexy Reaction (Japan)|parent|seta/ssv.cpp|0|334|240||||good|Sammy
 sxyreac2|Pachinko Sexy Reaction 2 (Japan)|parent|seta/ssv.cpp|0|336|240||||good|Sammy
 packbang|Pack'n Bang Bang (Prototype)|parent|kaneko/kaneko16.cpp|90|225|256||||good|Kaneko
@@ -4160,7 +4160,7 @@ perestrof|Perestroika Girls (Fuuki license)|clone|taito/superqix.cpp|90|224|256|
 perestro|Perestroika Girls|parent|taito/superqix.cpp|90|224|256||||good|Promat
 pbillrdsa|Perfect Billiard (MC-8123, 317-5008)|clone|misc/freekick.cpp|0|256|224|||pbillrd|good|Nihon System
 pbillrd|Perfect Billiard|parent|misc/freekick.cpp|0|256|224||||good|Nihon System
-psoldier|Perfect Soldiers (Japan)|clone|irem/m92.cpp|0|320|240|||ssoldier|good|Irem
+psoldier|Perfect Soldiers (Japan)|clone|irem/m92.cpp|0|320|240|||ssoldier|good|Irem\M92
 perfrman|Performan (Japan)|parent|toaplan/slapfght.cpp|270|240|256||||good|Data East/Toaplan
 perfrmanu|Performan (US)|clone|toaplan/slapfght.cpp|270|240|256|||perfrman|good|Data East/Toaplan
 pestplce|Pest Place|clone|nintendo/dkong.cpp|0|256|224|||mario|good|
@@ -4169,8 +4169,8 @@ cppicf|Peter Pepper's Ice Cream Factory (DECO Cassette) (US) (set 1)|parent|data
 cppicf2|Peter Pepper's Ice Cream Factory (DECO Cassette) (US) (set 2)|clone|dataeast/decocass.cpp|270|240|256||decocass|cppicf|good|Data East
 pettanp|Pettan Pyuu (Japan)|clone|sunelectronics/markham.cpp|0|240|224|||banbam|good|Sun Electronics
 phantasm|Phantasm (Japan)|clone|jaleco/megasys1.cpp|0|256|224|||avspirit|good|Jaleco
-pheliosj|Phelios (Japan)|clone|namco/namcos2.cpp|90|224|288|||phelios|good|Namco
-phelios|Phelios|parent|namco/namcos2.cpp|90|224|288||||good|Namco
+pheliosj|Phelios (Japan)|clone|namco/namcos2.cpp|90|224|288|||phelios|good|Namco\System2
+phelios|Phelios|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
 phoenix|Phoenix (Amstar)|parent|phoenix/phoenix.cpp|90|208|256||||good|Amstar
 phoenix2|Phoenix (Amstar, set 2)|clone|phoenix/phoenix.cpp|90|208|256|||phoenix|good|Amstar
 phoenixass|Phoenix (Assa, Spanish bootleg)|clone|phoenix/phoenix.cpp|90|208|256|||phoenix|good|Assa
@@ -4235,7 +4235,7 @@ pirates|Pirates (set 1)|parent|nix/pirates.cpp|0|288|224||||good|NIX
 piratesb|Pirates (set 2)|clone|nix/pirates.cpp|0|288|224|||pirates|good|NIX
 piscesb|Pisces (bootleg)|clone|galaxian/galaxian.cpp|90|224|256|||pisces|good|
 pisces|Pisces|parent|galaxian/galaxian.cpp|90|224|256||||good|Subelectro
-pistoldm|Pistol Daimyo no Bouken (Japan)|parent|namco/namcos1.cpp|0|288|224||||good|Namco
+pistoldm|Pistol Daimyo no Bouken (Japan)|parent|namco/namcos1.cpp|0|288|224||||good|Namco\System1
 pitnrun|Pit & Run - F-1 Race (set 1)|parent|taito/pitnrun.cpp|90|224|256||||good|Taito
 pitnruna|Pit & Run - F-1 Race (set 2)|clone|taito/pitnrun.cpp|90|224|256|||pitnrun|good|Taito
 pitfight3|Pit Fighter (rev 3)|clone|atari/atarig1.cpp|0|336|240|||pitfight|good|Atari
@@ -4279,8 +4279,8 @@ pktgaldx|Pocket Gal Deluxe (Euro v3.00)|parent|dataeast/pktgaldx.cpp|0|320|240||
 pktgaldxj|Pocket Gal Deluxe (Japan v3.00)|clone|dataeast/pktgaldx.cpp|0|320|240|||pktgaldx|good|Data East/Nihon System
 pgalvip|Pocket Gals V.I.P (set 1)|parent|kaneko/expro02.cpp|0|256|224||||good|ACE International/Afega
 pgalvipa|Pocket Gals V.I.P (set 2)|clone|kaneko/expro02.cpp|0|256|224|||pgalvip|good|
-ptblank|Point Blank (World, GN2 Rev B, set 1)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-ptblanka|Point Blank (World, GN2 Rev B, set 2)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco
+ptblank|Point Blank (World, GN2 Rev B, set 1)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+ptblanka|Point Blank (World, GN2 Rev B, set 2)|clone|namco/namconb1.cpp|0|288|224||namcoc75|ptblank|good|Namco\NB
 poittoc|Poitto! (revision C)|clone|metro/metro.cpp|0|360|224|||poitto|preliminary|Able/Metro
 poitto|Poitto!|parent|metro/metro.cpp|0|360|224||||good|Able/Metro
 pkladiesla|Poker Ladies (Leprechaun ver. 401)|clone|capcom/mitchell.cpp|0|384|240|||pkladies|good|Leprechaun
@@ -4322,9 +4322,9 @@ porter|Port Man (bootleg on Moon Cresta hardware)|clone|galaxian/galaxian.cpp|90
 portmanj|Port Man (Japan)|clone|thepit/thepit.cpp|90|224|256|||dockman|good|Taito
 portman|Port Man|clone|thepit/thepit.cpp|90|224|256|||dockman|good|Nova Games/Taito
 potopoto|Poto Poto (Japan, Rev A)|parent|sega/segac2.cpp|0|320|224||||good|Sega
-poundforj|Pound for Pound (Japan)|clone|irem/m72.cpp|270|256|384|||poundfor|good|Irem
-poundforu|Pound for Pound (US)|clone|irem/m72.cpp|270|256|384|||poundfor|good|Irem
-poundfor|Pound for Pound (World)|parent|irem/m72.cpp|270|256|384||||good|Irem
+poundforj|Pound for Pound (Japan)|clone|irem/m72.cpp|270|256|384|||poundfor|good|Irem\M72
+poundforu|Pound for Pound (US)|clone|irem/m72.cpp|270|256|384|||poundfor|good|Irem\M72
+poundfor|Pound for Pound (World)|parent|irem/m72.cpp|270|256|384||||good|Irem\M72
 powerbal|Power Balls|parent|playmark/powerbal.cpp|0|320|240||||good|Playmark
 pdriftj|Power Drift (Japan)|clone|sega/segaybd.cpp|0|320|224|||pdrift|good|Sega
 pdrifta|Power Drift (World)|clone|sega/segaybd.cpp|0|320|224|||pdrift|good|Sega
@@ -4376,10 +4376,10 @@ cpsoccerj|Pro Soccer (DECO Cassette) (Japan)|clone|dataeast/decocass.cpp|270|240
 cpsoccer|Pro Soccer (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
 cptennisj|Pro Tennis (DECO Cassette) (Japan)|clone|dataeast/decocass.cpp|270|240|256||decocass|cptennis|good|Data East
 cptennis|Pro Tennis (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
-wldcourt|Pro Tennis World Court (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
-ws89|Pro Yakyuu World Stadium '89 (Japan)|clone|namco/namcos1.cpp|180|288|224|||ws|good|Namco
-ws90|Pro Yakyuu World Stadium '90 (Japan)|clone|namco/namcos1.cpp|180|288|224|||ws|good|Namco
-ws|Pro Yakyuu World Stadium (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
+wldcourt|Pro Tennis World Court (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
+ws89|Pro Yakyuu World Stadium '89 (Japan)|clone|namco/namcos1.cpp|180|288|224|||ws|good|Namco\System1
+ws90|Pro Yakyuu World Stadium '90 (Japan)|clone|namco/namcos1.cpp|180|288|224|||ws|good|Namco\System1
+ws|Pro Yakyuu World Stadium (Japan)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
 progeara|Progear (010117 Asia)|clone|capcom/cps2.cpp|0|384|224|||progear|good|Capcom\CPS2/Cave
 progear|Progear (010117 USA)|parent|capcom/cps2.cpp|0|384|224||||good|Capcom\CPS2/Cave
 progearjd|Progear No Arashi (010117 Japan Phoenix Edition)|clone|capcom/cps2.cpp|0|384|224|||progear|good|
@@ -4473,7 +4473,7 @@ pbobble4j|Puzzle Bobble 4 (Ver 2.04J 1997/12/19)|clone|taito/taito_f3.cpp|0|320|
 pbobble4|Puzzle Bobble 4 (Ver 2.04O 1997/12/19)|parent|taito/taito_f3.cpp|0|320|232||||good|Taito\F3
 pzlbreak|Puzzle Break (set 1)|parent|kaneko/snowbros.cpp|0|256|224||||good|SemiCom/Tirano
 pzlbreaka|Puzzle Break (set 2)|clone|kaneko/snowbros.cpp|0|256|224|||pzlbreak|good|SemiCom/Tirano
-puzlclub|Puzzle Club (Japan prototype)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
+puzlclub|Puzzle Club (Japan prototype)|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
 pclubys|Puzzle Club (Yun Sung, set 1)|parent|yunsung/nmg5.cpp|0|320|240||||good|Yun Sung
 pclubysa|Puzzle Club (Yun Sung, set 2)|clone|yunsung/nmg5.cpp|0|320|240|||pclubys|good|Yun Sung
 pzlbowl|Puzzle De Bowling (Japan)|parent|seta/seta2.cpp|0|384|240||||good|Moss/Nihon System
@@ -4519,8 +4519,8 @@ quartet|Quartet (Rev A, 8751 317-unknown)|parent|sega/segas16a.cpp|0|320|224||||
 quartet2|Quartet 2 (8751 317-0010)|clone|sega/segas16a.cpp|0|320|224|||quartet|good|Sega\System16
 quartet2a|Quartet 2 (unprotected)|clone|sega/segas16a.cpp|0|320|224|||quartet|good|Sega\System16
 quarth|Quarth (Japan)|clone|konami/blockhl.cpp|0|288|224|||blockhl|good|Konami
-quester|Quester (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco
-questers|Quester Special Edition (Japan)|clone|namco/namcos1.cpp|90|224|288|||quester|good|Namco
+quester|Quester (Japan)|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
+questers|Quester Special Edition (Japan)|clone|namco/namcos1.cpp|90|224|288|||quester|good|Namco\System1
 qadjr|Quiz & Dragons: Capcom Quiz Game (Japan Resale Ver. 940921)|clone|capcom/cps1.cpp|0|384|224|||qad|good|Capcom\CPS1
 qad|Quiz & Dragons: Capcom Quiz Game (USA 920701)|parent|capcom/cps1.cpp|0|384|224||||good|Capcom\CPS1
 inufuku|Quiz & Variety Sukusuku Inufuku (Japan)|parent|vsystem/inufuku.cpp|0|320|224||||good|Video System
@@ -4555,18 +4555,18 @@ qtono2j|Quiz Tonosama no Yabou 2: Zenkoku-ban (Japan 950123)|parent|capcom/cps1.
 qtorimon|Quiz Torimonochou (Japan)|parent|taito/taito_f2.cpp|0|320|224||||good|Taito
 rittam|R&T (Rod-Land prototype?)|clone|jaleco/megasys1.cpp|0|256|224|||rodland|good|Jaleco
 rshark|R-Shark|parent|dooyong/dooyong.cpp|270|240|384||||good|Dooyong
-rtypejp|R-Type (Japan prototype)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem
-rtypej|R-Type (Japan)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem
+rtypejp|R-Type (Japan prototype)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem\M72
+rtypej|R-Type (Japan)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem\M72
 rtypem82b|R-Type (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|||rtype|good|
-rtypeu|R-Type (US)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem/Nintendo
+rtypeu|R-Type (US)|clone|irem/m72.cpp|0|384|256|||rtype|good|Irem\M72/Nintendo
 rtypeb|R-Type (World bootleg)|clone|irem/m72.cpp|0|384|256|||rtype|good|
-rtype|R-Type (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
-rtype2j|R-Type II (Japan)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem
-rtype2m82b|R-Type II (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem
-rtype2jc|R-Type II (Japan, revision C)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem
-rtype2|R-Type II (World)|parent|irem/m72.cpp|0|384|256||||good|Irem
-rtypeleoj|R-Type Leo (Japan)|clone|irem/m92.cpp|0|320|240|||rtypeleo|good|Irem
-rtypeleo|R-Type Leo (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
+rtype|R-Type (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
+rtype2j|R-Type II (Japan)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem\M72
+rtype2m82b|R-Type II (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem\M72
+rtype2jc|R-Type II (Japan, revision C)|clone|irem/m72.cpp|0|384|256|||rtype2|good|Irem\M72
+rtype2|R-Type II (World)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
+rtypeleoj|R-Type Leo (Japan)|clone|irem/m92.cpp|0|320|240|||rtypeleo|good|Irem\M92
+rtypeleo|R-Type Leo (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 rabbita|Rabbit (Asia 1/28?)|clone|metro/rabbit.cpp|0|320|224|||rabbit|good|Aorn/Electronic Arts
 rabbit|Rabbit (Asia 3/6)|parent|metro/rabbit.cpp|0|320|224||||good|Aorn/Electronic Arts
 rabbitjt|Rabbit (Japan 1/28, location test)|clone|metro/rabbit.cpp|0|320|224|||rabbit|good|Aorn/Electronic Arts
@@ -4867,10 +4867,10 @@ rthunder1|Rolling Thunder (rev 1)|clone|namco/namcos86.cpp|0|288|224|||rthunder|
 rthunder2|Rolling Thunder (rev 2)|clone|namco/namcos86.cpp|0|288|224|||rthunder|good|Namco
 rthunder|Rolling Thunder (rev 3)|parent|namco/namcos86.cpp|0|288|224||||good|Namco
 rthundera|Rolling Thunder (rev 3, hack)|clone|namco/namcos86.cpp|0|288|224|||rthunder|good|
-rthun2j|Rolling Thunder 2 (Japan)|clone|namco/namcos2.cpp|0|288|224|||rthun2|good|Namco
-rthun2|Rolling Thunder 2|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-rompers|Rompers (Japan, new version (Rev B))|parent|namco/namcos1.cpp|90|224|288||||good|Namco
-romperso|Rompers (Japan, old version)|clone|namco/namcos1.cpp|90|224|288|||rompers|good|Namco
+rthun2j|Rolling Thunder 2 (Japan)|clone|namco/namcos2.cpp|0|288|224|||rthun2|good|Namco\System2
+rthun2|Rolling Thunder 2|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+rompers|Rompers (Japan, new version (Rev B))|parent|namco/namcos1.cpp|90|224|288||||good|Namco\System1
+romperso|Rompers (Japan, old version)|clone|namco/namcos1.cpp|90|224|288|||rompers|good|Namco\System1
 clapapa2|Rootin' Tootin' (DECO Cassette) (US)|clone|dataeast/decocass.cpp|270|240|256||decocass|clapapa|good|Data East
 clapapa|Rootin' Tootin' / La-Pa-Pa (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|240|256||decocass||good|Data East
 ropeman|Ropeman (bootleg of Roc'n Rope)|clone|konami/rocnrope.cpp|270|224|256|||rocnrope|good|
@@ -4916,7 +4916,7 @@ safarir|Safari Rally (World)|parent|phoenix/safarir.cpp|90|208|256||||good|SNK/T
 saiyugoub1|Sai Yu Gou Ma Roku (Japan bootleg 1)|clone|technos/chinagat.cpp|0|256|240|||chinagat|good|
 saiyugoub2|Sai Yu Gou Ma Roku (Japan bootleg 2)|clone|technos/chinagat.cpp|0|256|240|||chinagat|good|
 saiyugou|Sai Yu Gou Ma Roku (Japan)|clone|technos/chinagat.cpp|0|256|240|||chinagat|good|Technos
-nspiritj|Saigo no Nindou (Japan)|clone|irem/m72.cpp|0|384|256|||nspirit|good|Irem
+nspiritj|Saigo no Nindou (Japan)|clone|irem/m72.cpp|0|384|256|||nspirit|good|Irem\M72
 stdragonb|Saint Dragon (bootleg)|clone|jaleco/megasys1.cpp|0|256|224|||stdragon|good|Jaleco
 stdragon|Saint Dragon (set 1)|parent|jaleco/megasys1.cpp|0|256|224||||good|Jaleco
 stdragona|Saint Dragon (set 2)|clone|jaleco/megasys1.cpp|0|256|224|||stdragon|good|Jaleco
@@ -5097,16 +5097,16 @@ senkyua|Senkyu (Japan, earlier)|clone|seibu/seibuspi.cpp|0|320|240|||senkyu|good
 senkyu|Senkyu (Japan, newer)|parent|seibu/seibuspi.cpp|0|320|240||||good|Seibu
 sfx|SF-X|parent|galaxian/galaxian.cpp|0|256|224||||good|Nichibutsu/Taiyo
 shackled|Shackled (US)|parent|dataeast/dec8.cpp|0|256|240||||good|Data East
-shdancer1|Shadow Dancer (set 1)|clone|sega/segas18.cpp|0|320|224|||shdancer|good|Sega
-shdancerj|Shadow Dancer (set 2, Japan)|clone|sega/segas18.cpp|0|320|224|||shdancer|good|Sega
-shdancer|Shadow Dancer (set 3, US)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+shdancer1|Shadow Dancer (set 1)|clone|sega/segas18.cpp|0|320|224|||shdancer|good|Sega\System18
+shdancerj|Shadow Dancer (set 2, Japan)|clone|sega/segas18.cpp|0|320|224|||shdancer|good|Sega\System18
+shdancer|Shadow Dancer (set 3, US)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 shadfrceu|Shadow Force (US, Version 2)|clone|technos/shadfrce.cpp|0|320|240|||shadfrce|good|Technos
 shadfrce|Shadow Force (World, Version 3)|parent|technos/shadfrce.cpp|0|320|240||||good|Technos
 shadfrcej|Shadow Force - Henshin Ninja (Japan, Version 2)|clone|technos/shadfrce.cpp|0|320|240|||shadfrce|good|Technos
 beast|Shadow of the Beast (Neo Geo demo)|parent|||304|224||neogeo||good|Jeff Kurtz
 shadoww|Shadow Warriors (World, set 1)|parent|tecmo/gaiden.cpp|0|256|224||||good|Tecmo
 shadowwa|Shadow Warriors (World, set 2)|clone|tecmo/gaiden.cpp|0|256|224|||shadoww|good|Tecmo
-shadowld|Shadowland (YD3)|parent|namco/namcos1.cpp|180|288|224||||good|Namco
+shadowld|Shadowland (YD3)|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
 shangha3j|Shanghai III (Japan)|clone|sunelectronics/shangha3.cpp|0|384|224|||shangha3|good|Sunsoft
 shangha3u|Shanghai III (US)|clone|sunelectronics/shangha3.cpp|0|384|224|||shangha3|good|Sunsoft
 shangha3up|Shanghai III (US, prototype)|clone|sunelectronics/shangha3.cpp|0|384|224|||shangha3|good|Sunsoft
@@ -5290,7 +5290,7 @@ kokoroj2|Soreike Kokology Vol. 2 - Kokoro no Tanteikyoku|parent|sega/segas32.cpp
 kokoroja|Soreike Kokology|clone|sega/segas32.cpp|0|416|224|||kokoroj|good|Sega\System32
 sos|SOS|parent|namco/warpwarp.cpp|90|224|272||||good|Namco
 sotsugyo|Sotsugyo Shousho (Japan)|parent|dataeast/funkyjet.cpp|0|320|240||||good|Atlus/Mitchell
-soukobdx|Souko Ban Deluxe (Japan, SB1)|clone|namco/namcos1.cpp|0|288|224|||boxyboy|good|Namco
+soukobdx|Souko Ban Deluxe (Japan, SB1)|clone|namco/namcos1.cpp|0|288|224|||boxyboy|good|Namco\System1
 spacbatt|Space Battle (bootleg set 1)|clone|galaxian/galaxian.cpp|90|224|256|||uniwars|good|
 spacbat2|Space Battle (bootleg set 2)|clone|galaxian/galaxian.cpp|90|224|256|||uniwars|good|
 sbsgomo|Space Battle Ship Gomorrah|clone|nmk/nmk16.cpp|0|256|224||nmk004|bioship|good|UPL
@@ -5380,9 +5380,9 @@ spinlbrku|Spinal Breakers (US)|clone|vsystem/aerofgt.cpp|0|352|240|||spinlbrk|go
 spinlbrkup|Spinal Breakers (US, prototype)|clone|vsystem/aerofgt.cpp|0|352|240|||spinlbrk|good|V-System
 spinlbrk|Spinal Breakers (World)|parent|vsystem/aerofgt.cpp|0|352|240||||good|V-System
 splat|Splat!|parent|midway/williams.cpp|0|292|240||||good|Williams
-splatterj|Splatter House (Japan, SH1)|clone|namco/namcos1.cpp|180|288|224|||splatter|good|Namco
-splatter|Splatter House (World, new version (SH3))|parent|namco/namcos1.cpp|180|288|224||||good|Namco
-splatter2|Splatter House (World, old version (SH2))|clone|namco/namcos1.cpp|180|288|224|||splatter|good|Namco
+splatterj|Splatter House (Japan, SH1)|clone|namco/namcos1.cpp|180|288|224|||splatter|good|Namco\System1
+splatter|Splatter House (World, new version (SH3))|parent|namco/namcos1.cpp|180|288|224||||good|Namco\System1
+splatter2|Splatter House (World, old version (SH2))|clone|namco/namcos1.cpp|180|288|224|||splatter|good|Namco\System1
 spotty|Spotty (Ver. 2.0.2)|parent|misc/limenko.cpp|0|384|240||||good|Prince
 springer|Springer|parent|orca/marineb.cpp|270|224|256||||good|Orca
 spyhuntp|Spy Hunter (Playtronic license)|clone|midway/mcr3.cpp|90|480|480||midssio|spyhunt|good|Bally Midway/Playtronic
@@ -5425,10 +5425,10 @@ starwarso|Star Wars (set 3)|clone|atari/starwars.cpp|0|640|480|||starwars|good|A
 stargate|Stargate|parent|midway/williams.cpp|0|292|240||||good|Vid Kidz/Williams
 stealsee|Steal See|parent|eolith/eolith.cpp|0|320|240||||good|Eolith/Moov Generation
 stlforce|Steel Force|parent|edevices/stlforce.cpp|0|368|240||||good|Ecogames/Electronic Devices
-sgunnerj|Steel Gunner (Japan)|clone|namco/namcos2.cpp|0|288|224|||sgunner|good|Namco
-sgunner|Steel Gunner (Rev B)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-sgunner2j|Steel Gunner 2 (Japan, Rev A)|clone|namco/namcos2.cpp|0|288|224|||sgunner2|good|Namco
-sgunner2|Steel Gunner 2 (US)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+sgunnerj|Steel Gunner (Japan)|clone|namco/namcos2.cpp|0|288|224|||sgunner|good|Namco\System2
+sgunner|Steel Gunner (Rev B)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+sgunner2j|Steel Gunner 2 (Japan, Rev A)|clone|namco/namcos2.cpp|0|288|224|||sgunner2|good|Namco\System2
+sgunner2|Steel Gunner 2 (US)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 stera|Steraranger (Moon Cresta bootleg)|clone|galaxian/galaxian.cpp|90|224|256|||mooncrst|good|
 stinger2|Stinger (prototype?)|clone|seibu/wiz.cpp|90|224|256|||stinger|good|Seibu
 stinger|Stinger|parent|seibu/wiz.cpp|90|224|256||||good|Seibu
@@ -5925,23 +5925,23 @@ svolly91|Super Volley '91 (Japan)|clone|vsystem/aerofgt.cpp|0|356|240|||pspikes|
 svolley|Super Volleyball (Japan)|parent|vsystem/rpunch.cpp|0|288|216||||good|V-System
 svolleyk|Super Volleyball (Korea)|clone|vsystem/rpunch.cpp|0|288|216|||svolley|good|V-System
 svolleyu|Super Volleyball (US)|clone|vsystem/rpunch.cpp|0|288|216|||svolley|good|Data East/V-System
-swcourtj|Super World Court (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|swcourt|good|Namco
-swcourt|Super World Court (World)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco
+swcourtj|Super World Court (Japan)|clone|namco/namcona1.cpp|0|304|224||namcoc69|swcourt|good|Namco\NA
+swcourt|Super World Court (World)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco\NA
 swcourtb|Super World Court (World, bootleg)|clone|namco/namcona1.cpp|0|304|224||namcoc69|swcourt|good|Playmark
-sws92|Super World Stadium '92 (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-sws92g|Super World Stadium '92 Gekitouban (Japan)|clone|namco/namcos2.cpp|0|288|224|||sws92|good|Namco
-sws93|Super World Stadium '93 (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-sws95|Super World Stadium '95 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-sws96|Super World Stadium '96 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-sws97|Super World Stadium '97 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
-sws|Super World Stadium (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+sws92|Super World Stadium '92 (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+sws92g|Super World Stadium '92 Gekitouban (Japan)|clone|namco/namcos2.cpp|0|288|224|||sws92|good|Namco\System2
+sws93|Super World Stadium '93 (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+sws95|Super World Stadium '95 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+sws96|Super World Stadium '96 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+sws97|Super World Stadium '97 (Japan)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
+sws|Super World Stadium (Japan)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 sxevious|Super Xevious (Namco)|clone|namco/galaga.cpp|90|224|288|||xevious|good|Namco
 szaxxon|Super Zaxxon|parent|sega/zaxxon.cpp|90|224|256||||good|Sega
 zolapac|Super Zola Pac Gal|clone|pacman/pacman.cpp|90|224|288|||mspacman|good|Tqwn Amusement
 superxm|Super-X (Mitchell)|clone|dooyong/dooyong.cpp|270|240|384|||superx|good|Dooyong/Mitchell
 superx|Super-X (NTC)|parent|dooyong/dooyong.cpp|270|240|384||||good|Dooyong/NTC
 1942h|Supercharger 1942|clone|capcom/1942.cpp|270|224|256|||1942|good|Two-Bit Score
-ssoldier|Superior Soldiers (US)|parent|irem/m92.cpp|0|320|240||||good|Irem
+ssoldier|Superior Soldiers (US)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
 supermanj|Superman (Japan)|clone|taito/taito_x.cpp|0|384|240||cchip|superman|good|Taito
 supermanu|Superman (US)|clone|taito/taito_x.cpp|0|384|240||cchip|superman|good|Taito
 superman|Superman (World)|parent|taito/taito_x.cpp|0|384|240||cchip||good|Taito
@@ -5954,10 +5954,10 @@ survartsu|Survival Arts (USA)|clone|seta/ssv.cpp|0|336|240|||survarts|good|Ameri
 survarts|Survival Arts (World)|parent|seta/ssv.cpp|0|336|240||||good|Sammy
 gogomile|Susume! Mile Smile / Go Go! Mile Smile (newer)|parent|fuuki/fuukifg2.cpp|0|320|240||||good|Fuuki
 gogomileo|Susume! Mile Smile / Go Go! Mile Smile (older)|clone|fuuki/fuukifg2.cpp|0|320|240|||gogomile|good|Fuuki
-suzuka8hj|Suzuka 8 Hours (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||suzuka8h|good|Namco
-suzuka8h|Suzuka 8 Hours (World, Rev C)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
-suzuk8h2j|Suzuka 8 Hours 2 (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||suzuk8h2|good|Namco
-suzuk8h2|Suzuka 8 Hours 2 (World, Rev B)|parent|namco/namcos2.cpp|0|288|224||||good|Namco
+suzuka8hj|Suzuka 8 Hours (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||suzuka8h|good|Namco\System2
+suzuka8h|Suzuka 8 Hours (World, Rev C)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
+suzuk8h2j|Suzuka 8 Hours 2 (Japan, Rev B)|clone|namco/namcos2.cpp|0|288|224|||suzuk8h2|good|Namco\System2
+suzuk8h2|Suzuka 8 Hours 2 (World, Rev B)|parent|namco/namcos2.cpp|0|288|224||||good|Namco\System2
 swarm|Swarm (bootleg?)|clone|galaxian/galaxian.cpp|90|224|256|||galaxian|good|Sebelectro
 swat|SWAT (315-5048)|parent|sega/system1.cpp|270|224|256||||good|Coreland/Sega
 swatpolc|SWAT Police|parent|misc/esd16.cpp|0|320|240||||good|ESD
@@ -5991,9 +5991,9 @@ pwrgoal|Taito Power Goal (Ver 2.5O 1994/11/03)|parent|taito/taito_f3.cpp|0|320|2
 tshingena|Takeda Shingen (Japan, Japanese)|clone|jaleco/megasys1.cpp|0|256|224|||tshingen|good|Jaleco
 tangtang|Tang Tang (ver. 0526, 26/05/2000)|parent|misc/esd16.cpp|0|320|240||||good|ESD
 tankbust|Tank Busters|parent|valadon/tankbust.cpp|90|240|320||||good|Valadon Automation
-tankfrcej|Tank Force (Japan)|clone|namco/namcos1.cpp|0|288|224|||tankfrce|good|Namco
-tankfrce|Tank Force (US, 2 Players)|parent|namco/namcos1.cpp|0|288|224||||good|Namco
-tankfrce4|Tank Force (US, 4 Players)|clone|namco/namcos1.cpp|0|288|224|||tankfrce|good|Namco
+tankfrcej|Tank Force (Japan)|clone|namco/namcos1.cpp|0|288|224|||tankfrce|good|Namco\System1
+tankfrce|Tank Force (US, 2 Players)|parent|namco/namcos1.cpp|0|288|224||||good|Namco\System1
+tankfrce4|Tank Force (US, 4 Players)|clone|namco/namcos1.cpp|0|288|224|||tankfrce|good|Namco\System1
 taotaido|Tao Taido (set 1)|parent|vsystem/taotaido.cpp|0|320|224||||good|Video System
 taotaidoa|Tao Taido (set 2)|clone|vsystem/taotaido.cpp|0|320|224|||taotaido|good|Video System
 tapperg|Tapper (Budweiser, 1/27/84 - Alternate graphics)|clone|midway/mcr.cpp|0|512|480||midssio|tapper|good|Bally Midway
@@ -6172,8 +6172,8 @@ guiness|The Guiness (Japan)|clone|sunelectronics/markham.cpp|0|240|224|||strnski
 thehand|The Hand|parent|gametron/gotya.cpp|270|224|288||||good|T.I.C.
 thehustlj|The Hustler (Japan, program code J)|clone|konami/battlnts.cpp|90|224|256|||rackemup|good|Konami
 thehustl|The Hustler (Japan, program code M)|clone|konami/battlnts.cpp|90|224|256|||rackemup|good|Konami
-skingame|The Irem Skins Game (US set 1)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem
-skingame2|The Irem Skins Game (US set 2)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem
+skingame|The Irem Skins Game (US set 1)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem\M92
+skingame2|The Irem Skins Game (US set 2)|clone|irem/m92.cpp|0|320|240|||majtitl2|good|Irem\M92
 irrmaze|The Irritating Maze / Ultra Denryu Iraira Bou|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|neogeo/Saurus/SNK
 jleagueo|The J.League 1994 (Japan)|clone|sega/segas32.cpp|0|320|224|||svf|good|Sega\System32
 jleague|The J.League 1994 (Japan, Rev A)|clone|sega/segas32.cpp|0|320|224|||svf|good|Sega\System32
@@ -6339,10 +6339,10 @@ ninjawj|The Ninja Warriors (Japan)|clone|taito/ninjaw.cpp|0|864|224|||ninjaw|goo
 ninjawu|The Ninja Warriors (US, Romstar license)|clone|taito/ninjaw.cpp|0|864|224|||ninjaw|good|Romstar/Taito
 ninjaw1|The Ninja Warriors (World, earlier version)|clone|taito/ninjaw.cpp|0|864|224|||ninjaw|good|Taito
 ninjaw|The Ninja Warriors (World, later version)|parent|taito/ninjaw.cpp|0|864|224||||good|Taito
-outfxiesj|The Outfoxies (Japan, OU1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco
-outfxiesja|The Outfoxies (Japan, OU1, alternate GFX ROMs)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco
-outfxiesa|The Outfoxies (Korea?)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco
-outfxies|The Outfoxies (World, OU2)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco
+outfxiesj|The Outfoxies (Japan, OU1)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco\NB
+outfxiesja|The Outfoxies (Japan, OU1, alternate GFX ROMs)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco\NB
+outfxiesa|The Outfoxies (Korea?)|clone|namco/namconb1.cpp|0|288|224||namcoc75|outfxies|good|Namco\NB
+outfxies|The Outfoxies (World, OU2)|parent|namco/namconb1.cpp|0|288|224||namcoc75||good|Namco\NB
 percuss|The Percussor|parent|orca/zodiack.cpp|270|224|256||||good|Orca
 thepitm|The Pit (bootleg on Moon Quasar hardware)|clone|galaxian/galaxian.cpp|90|224|256|||thepit|good|KZH
 thepitj|The Pit (Japan)|clone|thepit/thepit.cpp|90|224|256|||thepit|good|Taito/Zilec
@@ -6400,7 +6400,7 @@ thunderla|Thunder & Lightning (set 2)|clone|seta/seta.cpp|270|240|384|||thunderl
 thndrbld1|Thunder Blade (deluxe/standing, unprotected)|clone|sega/segaxbd.cpp|0|320|224|||thndrbld|good|Sega
 thndrbldd|Thunder Blade (upright, FD1094 317-0056 decrypted)|clone|sega/segaxbd.cpp|0|320|224|||thndrbld|good|Sega
 thndrbld|Thunder Blade (upright, FD1094 317-0056)|parent|sega/segaxbd.cpp|0|320|224||||good|Sega
-thndblst|Thunder Blaster (Japan)|clone|irem/m92.cpp|270|240|320|||lethalth|good|Irem
+thndblst|Thunder Blaster (Japan)|clone|irem/m92.cpp|270|240|320|||lethalth|good|Irem\M92
 tceptor2|Thunder Ceptor II|clone|namco/tceptor.cpp|0|272|224|||tceptor|good|Namco
 tceptor|Thunder Ceptor|parent|namco/tceptor.cpp|0|272|224||||good|Namco
 thunderxj|Thunder Cross (Japan)|clone|konami/thunderx.cpp|0|288|224|||thunderx|good|Konami
@@ -6467,7 +6467,7 @@ timesold|Time Soldiers (US Rev 3)|parent|alpha/alpha68k.cpp|90|224|256||||good|A
 timetunl|Time Tunnel|parent|taito/taitosj.cpp|0|256|224||||good|Taito
 timesupd|Time's UP! (Demo)|parent|||304|224||neogeo||good|NGF Dev.
 timesup|Time's UP!|parent|||304|224||neogeo||good|NGF Dev.
-tinklpit|Tinkle Pit (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco
+tinklpit|Tinkle Pit (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc69||good|Namco\NA
 tiptop|Tip Top|clone|sega/zaxxon.cpp|90|224|256|||congo|good|Sega
 titanpac|Titan (Pac-Man hack)|clone|pacman/pacman.cpp|90|224|288|||puckman|good|
 titlefj|Title Fight (Japan)|clone|sega/segas32.cpp|0|640|224|||titlef|good|Sega\System32
@@ -6699,11 +6699,11 @@ umanclub|Ultraman Club - Tatakae! Ultraman Kyoudai!!|parent|seta/seta.cpp|0|384|
 unclepoo|Uncle Poo|parent|cinematronics/jack.cpp|90|224|256||||good|Diatec
 undrfirej|Under Fire (Japan)|clone|taito/undrfire.cpp|0|320|232|||undrfire|good|Taito
 undrfire|Under Fire (World)|parent|taito/undrfire.cpp|0|320|232||||good|Taito
-uccopsj|Undercover Cops (Japan)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem
-uccopsu|Undercover Cops (US)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem
-uccops|Undercover Cops (World)|parent|irem/m92.cpp|0|320|240||||good|Irem
-uccopsaru|Undercover Cops - Alpha Renewal Version (US)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem
-uccopsar|Undercover Cops - Alpha Renewal Version (World)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem
+uccopsj|Undercover Cops (Japan)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem\M92
+uccopsu|Undercover Cops (US)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem\M92
+uccops|Undercover Cops (World)|parent|irem/m92.cpp|0|320|240||||good|Irem\M92
+uccopsaru|Undercover Cops - Alpha Renewal Version (US)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem\M92
+uccopsar|Undercover Cops - Alpha Renewal Version (World)|clone|irem/m92.cpp|0|320|240|||uccops|good|Irem\M92
 uniwarsa|UniWar S (bootleg)|clone|galaxian/galaxian.cpp|90|224|256|||uniwars|good|Karateco
 uniwars|UniWar S|parent|galaxian/galaxian.cpp|90|224|256||||good|Irem
 unkpacgd|unknown 'Pac Man with cars' gambling game|clone|misc/4enraya.cpp|0|256|224|||unkpacg|good|
@@ -6724,7 +6724,7 @@ vliner54|V-Liner (v0.54)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|vliner|good|B
 vliner6e|V-Liner (v0.6e)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|vliner|good|BrezzaSoft/Dyna/neogeo
 vliner|V-Liner (v0.7a)|parent|neogeo/neogeo.cpp|0|304|224||neogeo||good|BrezzaSoft/Dyna/neogeo
 vliner7e|V-Liner (v0.7e)|clone|neogeo/neogeo.cpp|0|304|224||neogeo|vliner|good|BrezzaSoft/Dyna/neogeo
-valkyrie|Valkyrie no Densetsu (Japan)|parent|namco/namcos2.cpp|90|224|288||||good|Namco
+valkyrie|Valkyrie no Densetsu (Japan)|parent|namco/namcos2.cpp|90|224|288||||good|Namco\System2
 valtric|Valtric|parent|jaleco/argus.cpp|270|224|256||||good|Jaleco/NMK
 vamphalfr1|Vamf x1/2 (Europe, version 1.0.0903)|clone|misc/vamphalf.cpp|0|320|236|||vamphalf|good|Danbi/F2 System
 vamphalf|Vamf x1/2 (Europe, version 1.1.0908)|parent|misc/vamphalf.cpp|0|320|236||||good|Danbi/F2 System
@@ -6912,11 +6912,11 @@ soniccar|Waku Waku Sonic Patrol Car|parent|sega/segac2.cpp|0|320|224||||good|Seg
 ultracin|Waku Waku Ultraman Racing|parent|sega/segas16b.cpp|0|320|224||||good|Sega\System16
 wallc|Wall Crash (set 1)|parent|midcoin/wallc.cpp|0|256|256||||good|Midcoin
 wallca|Wall Crash (set 2)|clone|midcoin/wallc.cpp|0|256|256|||wallc|good|Midcoin
-wwallyjad|Wally wo Sagase! (rev A, Japan, 2 players, FD1094 317-0197A decrypted)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega
-wwallyja|Wally wo Sagase! (rev A, Japan, 2 players, FD1094 317-0197A)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega
-wwallyja3p|Wally wo Sagase! (rev A, Japan, 3 players, FD1094 317-0198A)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega
-wwallyjd|Wally wo Sagase! (rev B, Japan, 2 players, FD1094 317-0197B decrypted)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega
-wwallyj|Wally wo Sagase! (rev B, Japan, 2 players, FD1094 317-0197B)|parent|sega/segas18.cpp|0|320|224||||good|Sega
+wwallyjad|Wally wo Sagase! (rev A, Japan, 2 players, FD1094 317-0197A decrypted)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega\System18
+wwallyja|Wally wo Sagase! (rev A, Japan, 2 players, FD1094 317-0197A)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega\System18
+wwallyja3p|Wally wo Sagase! (rev A, Japan, 3 players, FD1094 317-0198A)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega\System18
+wwallyjd|Wally wo Sagase! (rev B, Japan, 2 players, FD1094 317-0197B decrypted)|clone|sega/segas18.cpp|0|320|224|||wwallyj|good|Sega\System18
+wwallyj|Wally wo Sagase! (rev B, Japan, 2 players, FD1094 317-0197B)|parent|sega/segas18.cpp|0|320|224||||good|Sega\System18
 wanted|Wanted|parent|orca/marineb.cpp|90|224|256||||good|Sigma
 wrofaero|War of Aero - Project MEIOU|parent|seta/seta.cpp|270|240|384||||good|Yang Cheng
 warofbugu|War of the Bugs or Monsterous Manouvers in a Mushroom Maze (US)|clone|galaxian/galaxian.cpp|90|224|256|||warofbug|good|Armenia
@@ -7102,10 +7102,10 @@ wyvernf0|Wyvern F-0 (Rev 1)|parent|taito/wyvernf0.cpp|270|224|256||||good|Taito
 wyvernf0a|Wyvern F-0|clone|taito/wyvernf0.cpp|270|224|256|||wyvernf0|good|Taito
 wyvernwg|Wyvern Wings (set 1)|clone|misc/vamphalf.cpp|270|236|320|||wivernwg|good|Game Vision/SemiCom
 wyvernwga|Wyvern Wings (set 2)|clone|misc/vamphalf.cpp|270|236|320|||wivernwg|good|Game Vision/SemiCom
-xmultiplm72|X Multiply (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||xmultipl|good|Irem
-xmultipl|X Multiply (World, M81 hardware)|parent|irem/m72.cpp|0|384|256||||good|Irem
+xmultiplm72|X Multiply (Japan, M72 hardware)|clone|irem/m72.cpp|0|384|256|||xmultipl|good|Irem\M72
+xmultipl|X Multiply (World, M81 hardware)|parent|irem/m72.cpp|0|384|256||||good|Irem\M72
 xsedae|X Se Dae Quiz (Korea)|parent|seibu/raiden2.cpp|0|320|256||||good|Dream Island
-xday2|X-Day 2 (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco
+xday2|X-Day 2 (Japan)|parent|namco/namcona1.cpp|0|304|224||namcoc70||good|Namco\NA
 xmen2pa|X-Men (2 Players ver AAA)|clone|konami/xmen.cpp|0|288|224|||xmen|good|Konami
 xmen2pe|X-Men (2 Players ver EAA)|clone|konami/xmen.cpp|0|288|224|||xmen|good|Konami
 xmen2pj|X-Men (2 Players ver JAA)|clone|konami/xmen.cpp|0|288|224|||xmen|good|Konami
@@ -7173,8 +7173,8 @@ xybots0|Xybots (rev 0)|clone|atari/xybots.cpp|0|336|240|||xybots|good|Atari
 xybots1|Xybots (rev 1)|clone|atari/xybots.cpp|0|336|240|||xybots|good|Atari
 xybots|Xybots (rev 2)|parent|atari/xybots.cpp|0|336|240||||good|Atari
 xyonix|Xyonix|parent|misc/xyonix.cpp|0|320|224||||good|Philko
-leaguemn|Yakyuu Kakutou League-Man (Japan, set 1)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem
-leaguemna|Yakyuu Kakutou League-Man (Japan, set 2)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem
+leaguemn|Yakyuu Kakutou League-Man (Japan, set 1)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem\M92
+leaguemna|Yakyuu Kakutou League-Man (Japan, set 2)|clone|irem/m92.cpp|0|320|240|||nbbatman|good|Irem\M92
 yamato|Yamato (US)|parent|nichibutsu/cclimber.cpp|90|224|256||||good|Sega
 yamato2|Yamato (World?)|clone|nichibutsu/cclimber.cpp|90|224|256|||yamato|good|Sega
 yankeedo|Yankee DO!|clone|universal/mrdo.cpp|270|192|240|||mrdo|good|
@@ -7185,8 +7185,8 @@ kovytzywscw|Yi Tong Zhong Yuan - Warriors|clone|igs/pgm.cpp|0|448|224||pgm|kovsh
 yieartf|Yie Ar Kung-Fu (GX361 conversion)|clone|konami/trackfld.cpp|0|256|224|||yiear|good|Konami
 yiear2|Yie Ar Kung-Fu (program code G)|clone|konami/yiear.cpp|0|256|224|||yiear|good|Konami
 yiear|Yie Ar Kung-Fu (program code I)|parent|konami/yiear.cpp|0|256|224||||good|Konami
-youkaidk2|Yokai Douchuuki (Japan, new version (YD2, Rev B))|clone|namco/namcos1.cpp|180|288|224|||shadowld|good|Namco
-youkaidk1|Yokai Douchuuki (Japan, old version (YD1))|clone|namco/namcos1.cpp|180|288|224|||shadowld|good|Namco
+youkaidk2|Yokai Douchuuki (Japan, new version (YD2, Rev B))|clone|namco/namcos1.cpp|180|288|224|||shadowld|good|Namco\System1
+youkaidk1|Yokai Douchuuki (Japan, old version (YD1))|clone|namco/namcos1.cpp|180|288|224|||shadowld|good|Namco\System1
 youjyudn|Youjyuden (Japan)|parent|irem/m62.cpp|270|256|256||||good|Irem
 youma|Youma Ninpou Chou (Japan)|clone|nichibutsu/galivan.cpp|270|224|256|||ninjemak|good|Nichibutsu
 youma2|Youma Ninpou Chou (Japan, alt)|clone|nichibutsu/galivan.cpp|270|224|256|||ninjemak|good|Nichibutsu

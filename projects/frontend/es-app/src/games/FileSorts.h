@@ -7,9 +7,6 @@
 class FileSorts
 {
   public:
-    //! Arcade comparer for Wuick sorts
-    typedef int (*ComparerArcade)(const ArcadeTupple& a, const ArcadeTupple& b);
-
     //! Specialized sort sets
     enum class SortSets
     {
@@ -42,6 +39,12 @@ class FileSorts
         ReleaseDateAscending, //!< By release date then by filename, 0-9
         ReleaseDateDescending,//!< By release date then by filename, 9-0
     };
+
+    //! Arcade comparer for Wuick sorts
+    typedef int (*ComparerArcade)(const ArcadeTupple& a, const ArcadeTupple& b);
+    //! Sort list
+    typedef Array<Sorts> SortList;
+
 
   private:
     //! Initialize Sort tables
@@ -141,7 +144,7 @@ class FileSorts
      * @param multisystem or single system?
      * @return Sort list
      */
-    static const std::vector<Sorts>& AvailableSorts(SortSets set);
+    static const SortList& AvailableSorts(SortSets set);
 
     /*!
      * @brief Get sort description
@@ -187,5 +190,4 @@ class FileSorts
      * @param ascending True for ascending sort, false for descending.
      */
     static void SortArcade(ArcadeTupplePointerList& items, ComparerArcade comparer, bool ascending);
-
 };

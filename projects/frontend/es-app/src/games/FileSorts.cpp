@@ -11,8 +11,8 @@ bool FileSorts::Initialize()
 {
   if (!sInitialized)
   {
-    sAllSorts.push_back(SortType(Sorts::FileNameAscending    , &compareFileName     , &compareFileNameArcade     , true , "\uF15d " + _("FILENAME")));
-    sAllSorts.push_back(SortType(Sorts::FileNameDescending   , &compareFileName     , &compareFileNameArcade     , false, "\uF15e " + _("FILENAME")));
+    sAllSorts.push_back(SortType(Sorts::FileNameAscending    , &compareFileName     , &compareFileNameArcade     , true , "\uF15d " + _("NAME")));
+    sAllSorts.push_back(SortType(Sorts::FileNameDescending   , &compareFileName     , &compareFileNameArcade     , false, "\uF15e " + _("NAME")));
     sAllSorts.push_back(SortType(Sorts::RatingAscending      , &compareRating       , &compareRatingArcade       , true , "\uF165 " + _("RATING")));
     sAllSorts.push_back(SortType(Sorts::RatingDescending     , &compareRating       , &compareRatingArcade       , false, "\uF164 " + _("RATING")));
     sAllSorts.push_back(SortType(Sorts::TimesPlayedAscending , &compareTimesPlayed  , &compareTimesPlayedArcade  , true , "\uF160 " + _("TIMES PLAYED")));
@@ -42,9 +42,9 @@ int FileSorts::unicodeCompareUppercase(const String& a, const String& b)
   {
     int c1 = (int)String::UpperUnicode(a.ReadUTF8(apos));
     int c2 = (int)String::UpperUnicode(b.ReadUTF8(bpos));
-    if ((c1 | c2) == 0) { return 0; }
+    if ((c1 | c2) == 0) return 0;
     int c = c1 - c2;
-    if (c != 0) { return c; }
+    if (c != 0) return c;
   }
 }
 
@@ -64,7 +64,7 @@ ImplementSortMethod(compareSystemName)
   const SystemData& system1 = file1.System();
   const SystemData& system2 = file2.System();
   const int result = unicodeCompareUppercase(system1.Name(), system2.Name());
-  if (result != 0) { return result; }
+  if (result != 0) return result;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
@@ -80,8 +80,8 @@ ImplementSortMethod(compareRating)
 {
   CheckFoldersAndGames(file1, file2)
   float c = file1.Metadata().Rating() - file2.Metadata().Rating();
-  if (c < 0) { return -1; }
-  if (c > 0) { return 1; }
+  if (c < 0) return -1;
+  if (c > 0) return 1;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
@@ -116,13 +116,17 @@ ImplementSortMethod(compareNumberPlayers)
 ImplementSortMethod(compareDevelopper)
 {
   CheckFoldersAndGames(file1, file2)
-  return unicodeCompareUppercase(file1.Metadata().Developer(), file2.Metadata().Developer());
+  int result = unicodeCompareUppercase(file1.Metadata().Developer().Trim(), file2.Metadata().Developer().Trim());
+  if (result != 0) return result;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(comparePublisher)
 {
   CheckFoldersAndGames(file1, file2)
-  return unicodeCompareUppercase(file1.Metadata().Publisher(), file2.Metadata().Publisher());
+  int result = unicodeCompareUppercase(file1.Metadata().Publisher().Trim(), file2.Metadata().Publisher().Trim());
+  if (result != 0) return result;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(compareGenre)
@@ -168,14 +172,14 @@ ImplementSortMethodArcade(compareGenreArcade, compareGenre)
 
 ImplementSortMethodArcade(compareReleaseDateArcade, compareReleaseDate)
 
-const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(SortSets set)
+const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
 {
   switch(set)
   {
     case SortSets::MultiSystem:
     {
       //! Ordered multi-system sorts
-      static std::vector<FileSorts::Sorts> sMulti =
+      static SortList sMulti =
       {
         Sorts::FileNameAscending,
         Sorts::FileNameDescending,
@@ -203,7 +207,7 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(SortSets set)
     case SortSets::Arcade:
     {
       //! Arcade sorts
-      static std::vector<FileSorts::Sorts> sArcade =
+      static SortList sArcade =
       {
         Sorts::FileNameAscending,
         Sorts::FileNameDescending,
@@ -231,7 +235,7 @@ const std::vector<FileSorts::Sorts>& FileSorts::AvailableSorts(SortSets set)
   }
 
   //! Ordered mono-system sorts
-  static std::vector<FileSorts::Sorts> sSingle =
+  static SortList sSingle =
   {
     Sorts::FileNameAscending,
     Sorts::FileNameDescending,
@@ -310,7 +314,7 @@ FileSorts::ComparerArcade FileSorts::ComparerArcadeFromSort(FileSorts::Sorts sor
 
 FileSorts::Sorts FileSorts::Clamp(FileSorts::Sorts sort, FileSorts::SortSets set)
 {
-  const std::vector<FileSorts::Sorts>& sorts = AvailableSorts(set);
+  const SortList& sorts = AvailableSorts(set);
 
   // Sort available in the set?
   for(FileSorts::Sorts availableSort : sorts)
@@ -334,7 +338,8 @@ void FileSorts::SortArcade(ArcadeTupplePointerList& items, ComparerArcade compar
 
 void FileSorts::QuickSortAscendingArcade(ArcadeTupplePointerList& items, int low, int high, ComparerArcade comparer)
 {
-  int Low = low, High = high;
+  int Low = low;
+  int High = high;
   const ArcadeTupple& pivot = *items[(Low + High) >> 1];
   do
   {
@@ -352,7 +357,8 @@ void FileSorts::QuickSortAscendingArcade(ArcadeTupplePointerList& items, int low
 
 void FileSorts::QuickSortDescendingArcade(ArcadeTupplePointerList& items, int low, int high, ComparerArcade comparer)
 {
-  int Low = low, High = high;
+  int Low = low;
+  int High = high;
   const ArcadeTupple& pivot = *items[(Low + High) >> 1];
   do
   {

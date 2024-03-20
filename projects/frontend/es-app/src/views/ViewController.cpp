@@ -617,6 +617,10 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
     Gui* gui = new GuiMsgBox(mWindow, text, _("OK"), TextAlignment::Left);
     mWindow.pushGui(gui);
   }
+
+  // Callback gamelist
+  if (mCurrentViewType == ViewType::GameList)
+    ((ISimpleGameListView*)mCurrentView)->ReturnedFromGame(mGameToLaunch);
 }
 
 void ViewController::LaunchAnimated(const EmulatorData& emulator)

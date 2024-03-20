@@ -202,7 +202,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     };
 
     //! Flag texture cache
-    FlagCaches mFlagCaches;
+    PictogramCaches mFlagCaches;
 
     //! Game linked data internal instance
     GameLinkedData mGameLinkedData;

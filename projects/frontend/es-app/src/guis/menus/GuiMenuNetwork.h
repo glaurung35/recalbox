@@ -33,6 +33,9 @@ class GuiMenuNetwork : public GuiMenuBase
      */
     explicit GuiMenuNetwork(WindowManager& window);
 
+    //! Default dstructor
+    ~GuiMenuNetwork() override;
+
   private:
     enum class Components
     {
@@ -68,6 +71,9 @@ class GuiMenuNetwork : public GuiMenuBase
 
     //! Anti-renentry flag
     bool mFillingList;
+
+    //! Need backup into /boot/recalbox-backup.conf
+    bool mNeedBackup;
 
     /*!
      * @brief Try WPS connection

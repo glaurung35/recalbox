@@ -18,8 +18,9 @@ class IniFile : public SecuredFile::IValidationInterface
      * @param logname Free text shown in logs
      * @param extraSpace if True, add extra space around separator
      * @param autoBackup automatically manager backup file of the confpath
+     * @param allowDuplicates True to allow duplicate keys
      */
-    explicit IniFile(const Path& confpath, const String& logname, bool extraSpace, bool autoBackup);
+    explicit IniFile(const Path& confpath, const String& logname, bool extraSpace, bool autoBackup, bool allowDuplicates = false);
 
     /*!
      * @brief Constructor
@@ -28,8 +29,9 @@ class IniFile : public SecuredFile::IValidationInterface
      * @param logname Free text shown in logs
      * @param extraSpace if True, add extra space around separator
      * @param autoBackup automatically manager backup file of the confpath
+     * @param allowDuplicates True to allow duplicate keys
      */
-    explicit IniFile(const Path& confpath, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup);
+    explicit IniFile(const Path& confpath, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup, bool allowDuplicates = false);
 
     //! Destructor
     ~IniFile() override
@@ -154,36 +156,41 @@ class IniFile : public SecuredFile::IValidationInterface
      * @brief Set the value as string of the given key
      * @param name Key
      * @param value Value to set
+     * @return this
      */
-    void SetString(const String &name, const String &value);
+    IniFile& SetString(const String &name, const String &value);
 
     /*!
      * @brief Set the value as boolean of the given key
      * @param name Key
      * @param value Value to set
+     * @return this
      */
-    void SetBool(const String &name, bool value);
+    IniFile& SetBool(const String &name, bool value);
 
     /*!
      * @brief Set the value as an unsigned int of the given key
      * @param name Key
      * @param value Value to set
+     * @return this
      */
-    void SetUInt(const String &name, unsigned int value);
+    IniFile& SetUInt(const String &name, unsigned int value);
 
     /*!
      * @brief Set the value as a signed int of the given key
      * @param name Key
      * @param value Value to set
+     * @return this
      */
-    void SetInt(const String &name, int value);
+    IniFile& SetInt(const String &name, int value);
 
     /*!
      * @brief Set the value as a string list, comma separated, of the given key
      * @param name Key
      * @param values string list
+     * @return this
      */
-    void SetList(const String &name, const String::List &values);
+    IniFile& SetList(const String &name, const String::List &values);
 
     /*!
      * @brief Check if the given key exists in the configuration file
@@ -273,6 +280,8 @@ class IniFile : public SecuredFile::IValidationInterface
     bool mExtraSpace;
     //! Automatic backup
     bool mAutoBackup;
+    //! Allow duplicate keys
+    bool mAllowDuplicates;
     //! This object is valid and has keys/values
     bool mValid;
 

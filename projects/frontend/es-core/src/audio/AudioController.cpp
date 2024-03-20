@@ -4,14 +4,14 @@
 
 #include <utils/IniFile.h>
 #include "AudioController.h"
+#include <recalbox/BootConf.h>
 
 bool AudioController::GetSpecialAudio()
 {
   bool result = false;
 
   // GPI audio configuration must not be changed
-  IniFile recalboxBootConf(Path("/boot/recalbox-boot.conf"), "AudioController - Recalbox-boot", false, true);
-  if (recalboxBootConf.AsString("case") == "GPiV1:1") result = true;
+  if (BootConf::Instance().AsString("case") == "GPiV1:1") result = true;
 
   return result;
 }

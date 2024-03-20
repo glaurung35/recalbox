@@ -6,7 +6,7 @@
 #include "themes/ThemeExtras.h"
 #include "IArcadeGamelistInterface.h"
 #include "SlowDataInformation.h"
-#include "views/FlagCaches.h"
+#include "views/PictogramCaches.h"
 #include <systems/SystemData.h>
 
 class SystemManager;
@@ -31,7 +31,7 @@ class ISimpleGameListView : public Gui
       Update, //!< Update lists
     };
 
-    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
+    ISimpleGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& flagCache);
 
     ~ISimpleGameListView() override = default;
 
@@ -113,6 +113,12 @@ class ISimpleGameListView : public Gui
 
     virtual void refreshList() = 0;
 
+    /*!
+     * @brief Called back from view manager when a game exited and the user is back to the gamelist
+     * @param game Game ran
+     */
+    virtual void ReturnedFromGame(FileData* game) { (void)game; }
+
     virtual FileData::List getFileDataList() = 0;
 
     /*!
@@ -156,7 +162,7 @@ class ISimpleGameListView : public Gui
     virtual FileData* getEmptyListItem() = 0;
 
     //! Flag texture cache
-    FlagCaches& mFlagCaches;
+    PictogramCaches& mPictogramCaches;
 
     //! Global variabel resolver
     const IGlobalVariableResolver& mResolver;

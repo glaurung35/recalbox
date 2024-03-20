@@ -5,13 +5,14 @@
 #include "scraping/ScraperSeamless.h"
 #include "recalbox/RecalboxStorageWatcher.h"
 
-DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache)
-  : ISimpleGameListView(window, systemManager, system, resolver, flagCache)
-  , mEmptyListItem(&system)
+DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& pictogramCache)
+  : ISimpleGameListView(window, systemManager, system, resolver, pictogramCache)
+  , mEmptyListItem(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."), system)
   , mPopulatedFolder(nullptr)
   , mList(window)
   , mElapsedTimeOnGame(0)
   , mIsScraping(false)
+  , mHeaderStars(window, 0.f)
   , mImage(window)
   , mNoImage(window)
   , mVideo(window, this)
@@ -41,6 +42,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mSettings(RecalboxConf::Instance())
   , mFlagWidth(0)
   , mFlagMargin(Renderer::Instance().Is480pOrLower() ? 1 : 2)
+  , mSort(FileSorts::Sorts::FileNameAscending)
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -49,8 +51,6 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
 void DetailedGameListView::Initialize()
 {
   addChild(&mList);
-
-  mEmptyListItem.Metadata().SetName(_("YOUR LIST IS EMPTY. PRESS START TO CHANGE GAME FILTERS."));
 
   mList.setCursorChangedCallback([this](const CursorState& state)
                                  {
@@ -163,8 +163,9 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
 
   mList.DoApplyThemeElement(theme, getName(), "gamelist", ThemePropertyCategory::All);
   // Set color 2/3 50% transparent of color 0/1
-  mList.setColor(2, (mList.Color(0) & 0xFFFFFF00) | ((mList.Color(0) & 0xFF) >> 1));
-  mList.setColor(3, (mList.Color(1) & 0xFFFFFF00) | ((mList.Color(1) & 0xFF) >> 1));
+  mList.setColor(GameHighlightColor, (mList.Color(GameColor) & 0xFFFFFF00) | ((mList.Color(GameColor) & 0xFF) >> 1));
+  mList.setColor(FolderHighlightColor, (mList.Color(FolderColor) & 0xFFFFFF00) | ((mList.Color(FolderColor) & 0xFF) >> 1));
+  mList.setColor(HeaderColor, /*(mList.Color(GameColor) & 0xFFFFFF00) |*/ 0x40);
   sortChildren();
 
   // Compute flag width
@@ -184,7 +185,7 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   BuildVideoLinks(theme);
 
   initMDLabels();
-  std::vector<TextComponent*> labels = getMDLabels();
+  Array<TextComponent*> labels = getMDLabels();
   std::vector<String> names({
                                    "md_lbl_rating",
                                    "md_lbl_releasedate",
@@ -198,14 +199,14 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
 
   names.push_back("md_lbl_favorite");
 
-  assert(names.size() == labels.size());
-  for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
+  assert((int)names.size() == labels.Count());
+  for (int i = 0; i < labels.Count(); i++)
   {
     labels[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertyCategory::All);
   }
 
   initMDValues();
-  std::vector<ThemableComponent*> values = getMDValues();
+  Array<ThemableComponent*> values = getMDValues();
   names = {
     "md_rating",
     "md_releasedate",
@@ -220,14 +221,15 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   names.push_back("md_favorite");
 
   names.push_back("md_folder_name");
-  values.push_back(&mFolderName);
+  values.Add(&mFolderName);
 
-  assert(names.size() == values.size());
-  for (unsigned int i = 0; i < (unsigned int)values.size(); i++)
+  assert((int)names.size() == values.Count());
+  for (int i = 0; i < values.Count(); i++)
   {
     values[i]->DoApplyThemeElement(theme, getName(), names[i], ThemePropertyCategory::All ^ ThemePropertyCategory::Text);
   }
 
+  //mHeaderStars.DoApplyThemeElement(theme, getName(), "md_rating", ThemePropertyCategory::All);
   mDescContainer.DoApplyThemeElementPolymorphic(theme, getName(), "md_description", ThemePropertyCategory::Position | ThemePropertyCategory::Size | ThemePropertyCategory::ZIndex);
   mDescription.setSize(mDescContainer.getSize().x(), 0);
   mDescription.DoApplyThemeElement(theme, getName(), "md_description",
@@ -301,10 +303,10 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
 
 void DetailedGameListView::initMDLabels()
 {
-  std::vector<TextComponent*> components = getMDLabels();
+  Array<TextComponent*> components = getMDLabels();
 
   //const unsigned int colCount = 2;
-  const unsigned int rowCount = (unsigned int) (components.size() / 2);
+  const unsigned int rowCount = (unsigned int) (components.Count() / 2);
 
   Vector3f start(mSize.x() * 0.01f, mSize.y() * 0.625f, 0.0f);
 
@@ -312,7 +314,7 @@ void DetailedGameListView::initMDLabels()
   const float rowPadding = 0.01f * mSize.y();
 
   Vector3f pos = start + Vector3f(0, 0, 0);
-  for (unsigned int i = 0; i < (unsigned int)components.size(); i++)
+  for (int i = 0; i < components.Count(); i++)
   {
     const unsigned int row = i % rowCount;
     if (row != 0)
@@ -330,8 +332,8 @@ void DetailedGameListView::initMDLabels()
 
 void DetailedGameListView::initMDValues()
 {
-  std::vector<TextComponent*> labels = getMDLabels();
-  std::vector<ThemableComponent*> values = getMDValues();
+  Array<TextComponent*> labels = getMDLabels();
+  Array<ThemableComponent*> values = getMDValues();
 
   std::shared_ptr<Font> defaultFont = Font::get(FONT_SIZE_SMALL);
   mRating.setSize(defaultFont->getHeight() * 5.0f, defaultFont->getHeight());
@@ -347,7 +349,7 @@ void DetailedGameListView::initMDValues()
   float bottom = 0.0f;
 
   const float colSize = (mSize.x() * 0.48f) / 2;
-  for (unsigned int i = 0; i < (unsigned int)labels.size(); i++)
+  for (int i = 0; i < labels.Count(); i++)
   {
     const float heightDiff = (labels[i]->getSize().y() - values[i]->getSize().y()) / 2;
     values[i]->setPosition(labels[i]->getPosition() + Vector3f(labels[i]->getSize().x(), heightDiff, 0));
@@ -371,8 +373,8 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
   if (file == nullptr)
   {
     VideoEngine::Instance().StopVideo(false);
-    for(Component* component : getFolderComponents()) MoveToFadeOut(component);
-    for(Component* component : getGameComponents()) MoveToFadeOut(component);
+    MoveToFadeOut(getFolderComponents());
+    MoveToFadeOut(getGameComponents());
   }
   else
   {
@@ -381,9 +383,9 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
 
     if (hasImage && isFolder)
     {
-      for(Component* component : getFolderComponents()) MoveToFadeOut(component);
-      for(Component* component : getGameComponents(false)) MoveToFadeOut(component);
-      for(Component* component : getScrapedFolderComponents()) MoveToFadeIn(component);
+      MoveToFadeOut(getFolderComponents());
+      MoveToFadeOut(getGameComponents(false));
+      MoveToFadeIn(getScrapedFolderComponents());
 
       setScrapedFolderInfo(file);
     }
@@ -391,15 +393,15 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
     {
        if (isFolder)
        {
-         for(Component* component : getFolderComponents()) MoveToFadeIn(component);
-         for(Component* component : getGameComponents()) MoveToFadeOut(component);
+         MoveToFadeIn(getFolderComponents());
+         MoveToFadeOut(getGameComponents());
 
          if (file != mLastCursorItem) ViewController::Instance().FetchSlowDataFor(file);
        }
        else
        {
-         for(Component* component : getFolderComponents()) MoveToFadeOut(component);
-         for(Component* component : getGameComponents()) MoveToFadeIn(component);
+         MoveToFadeOut(getFolderComponents());
+         MoveToFadeIn(getGameComponents());
 
          setGameInfo(file, update);
        }
@@ -422,39 +424,39 @@ void DetailedGameListView::DoUpdateGameInformation(bool update)
   mLastCursorItem = file;
 }
 
-std::vector<ThemableComponent*> DetailedGameListView::getFolderComponents()
+Array<ThemableComponent*> DetailedGameListView::getFolderComponents()
 {
-  std::vector<ThemableComponent*> comps;
+  Array<ThemableComponent*> comps;
   for (auto* img: mFolderContent)
   {
-    comps.push_back(img);
+    comps.Add(img);
   }
-  comps.push_back(&mFolderName);
+  comps.Add(&mFolderName);
   return comps;
 }
 
-std::vector<ThemableComponent*> DetailedGameListView::getGameComponents(bool includeMainComponents)
+Array<ThemableComponent*> DetailedGameListView::getGameComponents(bool includeMainComponents)
 {
-  std::vector<ThemableComponent*> comps = getMDValues();
+  Array<ThemableComponent*> comps = getMDValues();
   if (includeMainComponents)
   {
-    comps.push_back(&mNoImage);
-    comps.push_back(&mImage);
-    comps.push_back(&mVideo);
-    comps.push_back(&mDescription);
+    comps.Add(&mNoImage);
+    comps.Add(&mImage);
+    comps.Add(&mVideo);
+    comps.Add(&mDescription);
   }
-  std::vector<TextComponent*> labels = getMDLabels();
-  comps.insert(comps.end(), labels.begin(), labels.end());
+  for(TextComponent* component : getMDLabels())
+    comps.Add(component);
   return comps;
 }
 
-std::vector<ThemableComponent*> DetailedGameListView::getScrapedFolderComponents()
+Array<ThemableComponent*> DetailedGameListView::getScrapedFolderComponents()
 {
-  std::vector<ThemableComponent*> comps;
-  comps.push_back(&mNoImage);
-  comps.push_back(&mImage);
-  comps.push_back(&mVideo);
-  comps.push_back(&mDescription);
+  Array<ThemableComponent*> comps;
+  comps.Add(&mNoImage);
+  comps.Add(&mImage);
+  comps.Add(&mVideo);
+  comps.Add(&mDescription);
   return comps;
 }
 
@@ -545,34 +547,34 @@ void DetailedGameListView::launch(FileData* game)
 }
 
 // element order need to follow the one in onThemeChanged
-std::vector<TextComponent*> DetailedGameListView::getMDLabels()
+Array<TextComponent*> DetailedGameListView::getMDLabels()
 {
-  std::vector<TextComponent*> ret;
-  ret.push_back(&mLblRating);
-  ret.push_back(&mLblReleaseDate);
-  ret.push_back(&mLblDeveloper);
-  ret.push_back(&mLblPublisher);
-  ret.push_back(&mLblGenre);
-  ret.push_back(&mLblPlayers);
-  ret.push_back(&mLblLastPlayed);
-  ret.push_back(&mLblPlayCount);
-  ret.push_back(&mLblFavorite);
+  Array<TextComponent*> ret;
+  ret.Add(&mLblRating);
+  ret.Add(&mLblReleaseDate);
+  ret.Add(&mLblDeveloper);
+  ret.Add(&mLblPublisher);
+  ret.Add(&mLblGenre);
+  ret.Add(&mLblPlayers);
+  ret.Add(&mLblLastPlayed);
+  ret.Add(&mLblPlayCount);
+  ret.Add(&mLblFavorite);
   return ret;
 }
 
 // element order need to follow the one in onThemeChanged
-std::vector<ThemableComponent*> DetailedGameListView::getMDValues()
+Array<ThemableComponent*> DetailedGameListView::getMDValues()
 {
-  std::vector<ThemableComponent*> ret;
-  ret.push_back(&mRating);
-  ret.push_back(&mReleaseDate);
-  ret.push_back(&mDeveloper);
-  ret.push_back(&mPublisher);
-  ret.push_back(&mGenre);
-  ret.push_back(&mPlayers);
-  ret.push_back(&mLastPlayed);
-  ret.push_back(&mPlayCount);
-  ret.push_back(&mFavorite);
+  Array<ThemableComponent*> ret;
+  ret.Add(&mRating);
+  ret.Add(&mReleaseDate);
+  ret.Add(&mDeveloper);
+  ret.Add(&mPublisher);
+  ret.Add(&mGenre);
+  ret.Add(&mPlayers);
+  ret.Add(&mLastPlayed);
+  ret.Add(&mPlayCount);
+  ret.Add(&mFavorite);
   return ret;
 }
 
@@ -636,6 +638,8 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
 {
   (void)parentTrans;
   (void)color;
+
+  // Right part
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
   if (w != 0)
   {
@@ -646,13 +650,112 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
     for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
       if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
       {
-        std::shared_ptr<TextureResource>& flagTexture = mFlagCaches.GetFlag(region);
+        std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
         // Draw
         int x = (int)(position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
         Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
         drawn++;
       }
   }
+
+  // Left part
+  w = Math::roundi(DetailedGameListView::OverlayGetLeftOffset(data));
+  if (w != 0)
+  {
+    switch(mSort)
+    {
+      case FileSorts::Sorts::FileNameAscending:
+      case FileSorts::Sorts::FileNameDescending:
+      case FileSorts::Sorts::SystemAscending:
+      case FileSorts::Sorts::SystemDescending: break;
+      case FileSorts::Sorts::RatingAscending:
+      case FileSorts::Sorts::RatingDescending:
+      {
+        int h = Math::roundi(mList.getFont()->getHeight(1.f));
+        int y = (int)(position.y() + ((size.y() - (float) h) / 2.f));
+        mHeaderStars.setPosition(0, (float)y);
+        mHeaderStars.setValue(1.f);
+        mHeaderStars.setColor(0xFF);
+        mHeaderStars.Render(parentTrans);
+        mHeaderStars.setValue(((HeaderData*)data)->Float());
+        mHeaderStars.setColor(mRating.getOriginColor());
+        mHeaderStars.Render(parentTrans);
+        break;
+      }
+      case FileSorts::Sorts::TimesPlayedAscending:
+      case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::LastPlayedAscending:
+      case FileSorts::Sorts::LastPlayedDescending:
+      case FileSorts::Sorts::PlayersAscending:
+      case FileSorts::Sorts::PlayersDescending:
+      {
+        int playerMinMax = ((HeaderData*)data)->Int();
+        int playerMax = playerMinMax >> 16;
+        int playerMin = playerMinMax & 0xFFFF;
+        std::shared_ptr<TextureResource>& playersTexture = mPictogramCaches.GetPlayers(playerMin, playerMax);
+        // Draw
+        int h = Math::roundi(mList.getFont()->getHeight(1.f));
+        int y = (int)(position.y() + ((size.y() - (float) h) / 2.f));
+        Renderer::DrawTexture(*playersTexture, 0, y, mFlagWidth, h, true, 0xFFFFFFFF);
+        break;
+      }
+      case FileSorts::Sorts::DeveloperAscending:
+      case FileSorts::Sorts::DeveloperDescending:
+      case FileSorts::Sorts::PublisherAscending:
+      case FileSorts::Sorts::PublisherDescending:
+      case FileSorts::Sorts::GenreAscending:
+      case FileSorts::Sorts::GenreDescending:
+      {
+        GameGenres genre = (GameGenres)((HeaderData*)data)->Int();
+        if (genre != GameGenres::None)
+        {
+          std::shared_ptr<TextureResource>& genreTexture = mPictogramCaches.GetGenre(genre);
+          // Draw
+          int h = Math::roundi(mList.getFont()->getHeight(1.f));
+          int y = (int) (position.y() + ((size.y() - (float) h) / 2.f));
+          Renderer::DrawTexture(*genreTexture, 0, y, mFlagWidth, h, true, 0xFFFFFFFF);
+        }
+        break;
+      }
+      case FileSorts::Sorts::ReleaseDateAscending:
+      case FileSorts::Sorts::ReleaseDateDescending:
+      default: break;
+    }
+  }
+}
+
+float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data)
+{
+  if (data->IsHeader())
+    switch(mSort)
+    {
+      case FileSorts::Sorts::RatingAscending:
+      case FileSorts::Sorts::RatingDescending:
+      {
+        mHeaderStars.setSize(0, mList.getFont()->getHeight(1.f));
+        return mHeaderStars.getSize().x() + (float)mFlagMargin;
+      }
+      case FileSorts::Sorts::PlayersAscending:
+      case FileSorts::Sorts::PlayersDescending:
+      case FileSorts::Sorts::GenreAscending:
+      case FileSorts::Sorts::GenreDescending: return (mFlagWidth + mFlagMargin);
+      case FileSorts::Sorts::FileNameAscending:
+      case FileSorts::Sorts::FileNameDescending:
+      case FileSorts::Sorts::SystemAscending:
+      case FileSorts::Sorts::SystemDescending:
+      case FileSorts::Sorts::DeveloperAscending:
+      case FileSorts::Sorts::DeveloperDescending:
+      case FileSorts::Sorts::PublisherAscending:
+      case FileSorts::Sorts::PublisherDescending:
+      case FileSorts::Sorts::TimesPlayedAscending:
+      case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::LastPlayedAscending:
+      case FileSorts::Sorts::LastPlayedDescending:
+      case FileSorts::Sorts::ReleaseDateAscending:
+      case FileSorts::Sorts::ReleaseDateDescending:
+      default: break;
+    }
+  return 0.f;
 }
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
@@ -674,7 +777,7 @@ void DetailedGameListView::setRegions(FileData* file)
   for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
     if (Regions::GameRegions region = file->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
     {
-      std::shared_ptr<TextureResource>& flagTexture = mFlagCaches.GetFlag(region);
+      std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
       mRegions[r].setImage(flagTexture);
     }
     else mRegions[r].setImage(Path::Empty);
@@ -780,6 +883,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
   FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() :
                           FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
   FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
+  mSort = sort;
 
   // Region filtering?
   Regions::GameRegions currentRegion = Regions::Clamp((Regions::GameRegions)RecalboxConf::Instance().GetSystemRegionFilter(mSystem));
@@ -799,21 +903,38 @@ void DetailedGameListView::populateList(const FolderData& folder)
   bool onlyTate = RecalboxConf::Instance().GetShowOnlyTateGames();
   bool onlyYoko = RecalboxConf::Instance().GetShowOnlyYokoGames();
 
+  // Precalculate header alignment
+  HorizontalAlignment headerAlignment = mList.Alignment() == HorizontalAlignment::Left
+                                      ? HorizontalAlignment::Right : HorizontalAlignment::Left;
+  bool leftIcon = headerAlignment == HorizontalAlignment::Left;
+
   // Add to list
   //mList.reserve(items.size()); // TODO: Reserve memory once
-  for (FileData* fd : items)
+  FileData* previous = nullptr;
+  HeaderData* lastHeader = nullptr;
+  for (FileData* item : items)
   {
     // Region filtering?
-    int colorIndexOffset = 0;
+    int colorIndexOffset = BaseColor;
     if (activeRegionFiltering)
-      if (!Regions::IsIn4Regions(fd->Metadata().Region().Pack, currentRegion))
-        colorIndexOffset = 2;
+      if (!Regions::IsIn4Regions(item->Metadata().Region().Pack, currentRegion))
+        colorIndexOffset = HighlightColor;
     // Tate filtering
     if (onlyTate && !RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
     // Yoko filtering
     if (onlyYoko && RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    // Header?
+    if (item->IsGame())
+      if (HeaderData* header = NeedHeader(previous, item); header != nullptr)
+      {
+        mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
+        lastHeader = header;
+      }
     // Store
-    mList.add(GetDisplayName(*fd), fd, colorIndexOffset + (fd->IsFolder() ? 1 : 0), false);
+    if (lastHeader == nullptr || !lastHeader->IsFolded())
+      mList.add(GetDisplayName(*item), item, colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor), false);
+    if (item->IsGame())
+      previous = item;
   }
 }
 
@@ -1004,4 +1125,346 @@ void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
         if (link == "md_image") { mVideoLinks.Add(&mImage); mVideoLinks.Add(&mNoImage); }
         else if (Component* comp = mThemeExtras.Lookup(link); comp != nullptr) mVideoLinks.Add(comp);
       }
+}
+
+HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
+{
+  switch(mSort)
+  {
+    case FileSorts::Sorts::FileNameAscending:
+    case FileSorts::Sorts::FileNameDescending: break;
+    case FileSorts::Sorts::SystemAscending:
+    case FileSorts::Sorts::SystemDescending:
+    {
+      if (previous == nullptr || &previous->System() != &next->System())
+        return GetHeader(next->System().FullName());
+      break;
+    }
+    case FileSorts::Sorts::RatingAscending:
+    case FileSorts::Sorts::RatingDescending:
+    {
+      int previousRating = previous == nullptr ? -1 : Math::round(previous->Metadata().Rating() * 10.f);
+      int nextRating = Math::round(next->Metadata().Rating() * 10.f);
+      if (previousRating != nextRating)
+        return GetHeader(nextRating != 0 ? (_F(_("RATED {0} / 10")) / nextRating)() : _("NOT RATED"), next->Metadata().Rating());
+      break;
+    }
+    case FileSorts::Sorts::TimesPlayedAscending:
+    case FileSorts::Sorts::TimesPlayedDescending:
+    {
+      if (previous == nullptr || previous->Metadata().TimePlayed() != next->Metadata().TimePlayed())
+      {
+        String text;
+        if (next->Metadata().TimePlayed() == 0) text = _("Never played");
+        else
+        {
+          TimeSpan span(next->Metadata().TimePlayed(), 0);
+          if (span.TotalMinutes() < 30) text = _("Just a few minutes");
+          else
+          {
+            int hours = (int) TimeSpan(next->Metadata().TimePlayed(), 0).TotalHours();
+            text = hours == 0 ? _("Less than an hour") : (_F(_("{0} hours")) / hours)();
+          }
+        }
+        return GetHeader(text);
+      }
+      break;
+    }
+    case FileSorts::Sorts::LastPlayedAscending:
+    case FileSorts::Sorts::LastPlayedDescending:
+    {
+      DateTime now;
+      String previousTime = previous != nullptr ? GetSimplifiedElapsedTime(now - previous->Metadata().LastPlayed()) : String::Empty;
+      String nextTime = GetSimplifiedElapsedTime(now - next->Metadata().LastPlayed());
+      if (previousTime != nextTime)
+        return GetHeader(nextTime);
+      break;
+    }
+    case FileSorts::Sorts::PlayersAscending:
+    case FileSorts::Sorts::PlayersDescending:
+    {
+      if (previous == nullptr || previous->Metadata().PlayerRange() != next->Metadata().PlayerRange())
+      {
+        bool monoPlayer = next->Metadata().PlayerMin() == next->Metadata().PlayerMax() &&
+                          next->Metadata().PlayerMin() == 1;
+        return GetHeader(monoPlayer ? _("One player") : (_F(_("{0} Players")) / next->Metadata().PlayersAsString())(),
+                         (next->Metadata().PlayerMax() << 16) | next->Metadata().PlayerMin());
+      }
+      break;
+    }
+    case FileSorts::Sorts::DeveloperAscending:
+    case FileSorts::Sorts::DeveloperDescending:
+    {
+      String prevString = previous != nullptr ? previous->Metadata().Developer().Trim().ToLowerCase() : "\t";
+      String nextString = next->Metadata().Developer().Trim().ToLowerCase();
+      if (prevString != nextString)
+      {
+        String developer(next->Metadata().Developer());
+        if (developer.empty()) developer = _("Unknown developer");
+        return GetHeader(developer);
+      }
+      break;
+    }
+    case FileSorts::Sorts::PublisherAscending:
+    case FileSorts::Sorts::PublisherDescending:
+    {
+      String prevString = previous != nullptr ? previous->Metadata().Publisher().Trim().ToLowerCase() : "\t";
+      String nextString = next->Metadata().Publisher().Trim().ToLowerCase();
+      if (prevString != nextString)
+      {
+        String publisher(next->Metadata().Publisher());
+        if (publisher.empty()) publisher = _("Unknown publisher");
+        return GetHeader(publisher);
+      }
+      break;
+    }
+    case FileSorts::Sorts::GenreAscending:
+    case FileSorts::Sorts::GenreDescending:
+    {
+      if (previous == nullptr || previous->Metadata().GenreId() != next->Metadata().GenreId())
+        return GetHeader(Genres::GetFullNameStandalone(next->Metadata().GenreId()), (int)next->Metadata().GenreId());
+      break;
+    }
+    case FileSorts::Sorts::ReleaseDateAscending:
+    case FileSorts::Sorts::ReleaseDateDescending:
+    {
+      int year = next->Metadata().ReleaseDate().Year();
+      if (previous == nullptr || previous->Metadata().ReleaseDate().Year() != year)
+        return GetHeader(year <= 1970 ? _("Release date unknown") : (_F(_("Year {0}")) / year)());
+      break;
+    }
+  }
+  return nullptr;
+}
+
+HeaderData* DetailedGameListView::GetHeader(const String& name)
+{
+  HeaderData** header = mHeaderMap.try_get(name);
+  if (header != nullptr) return *header;
+
+  return mHeaderMap[name] = new HeaderData(name, mSystem);
+}
+
+HeaderData* DetailedGameListView::GetHeader(const String& name, int data)
+{
+  HeaderData** header = mHeaderMap.try_get(name);
+  if (header != nullptr) return *header;
+
+  return mHeaderMap[name] = new HeaderData(name, mSystem, data, (float)data);
+}
+
+HeaderData* DetailedGameListView::GetHeader(const String& name, float data)
+{
+  HeaderData** header = mHeaderMap.try_get(name);
+  if (header != nullptr) return *header;
+
+  return mHeaderMap[name] = new HeaderData(name, mSystem, (int)data, data);
+}
+
+bool DetailedGameListView::ProcessInput(const InputCompactEvent& event)
+{
+  // Only in non alphabetic sorts
+  if (mSort != FileSorts::Sorts::FileNameAscending && mSort != FileSorts::Sorts::FileNameDescending)
+  {
+    if (event.ValidReleased())
+    {
+      if (FileData* item = getCursor(); item->IsHeader())
+      {
+        ((HeaderData*)item)->ToogleFolded();
+        populateList(*mPopulatedFolder);
+        setCursor(item);
+        return true;
+      }
+    }
+
+    if (event.AnyHotkeyCombination())
+    {
+      if (event.HotkeyL1Released()) { MoveToHeader(false); return true; }
+      if (event.HotkeyR1Released()) { MoveToHeader(true); return true; }
+    }
+  }
+  // Change sort anywhere
+  if (event.AnyHotkeyCombination())
+  {
+    if (event.HotkeyL2Released()) { ChangeSort(false); return true; }
+    if (event.HotkeyR2Released()) { ChangeSort(true); return true; }
+  }
+
+  return ISimpleGameListView::ProcessInput(event);
+}
+
+/*void DetailedGameListView::FoldAll()
+{
+  // Lookup current header
+  FileData* item = getCursor();
+  for(int i = mList.getCursorIndex(); --i >= 0;)
+    if (mList.getObjectAt(i)->IsHeader())
+    {
+      item = mList.getObjectAt(i);
+      break;
+    }
+
+  // Fold all
+  for(int i =  mList.Count(); --i >= 0;)
+    if (mList.getObjectAt(i)->IsHeader())
+      ((HeaderData*)mList.getObjectAt(i))->SetFolded(true);
+
+  // Rebuild the UI list
+  populateList(*mPopulatedFolder);
+
+  // Set cursor
+  setCursor(item);
+}
+
+void DetailedGameListView::UnfoldAll()
+{
+  // Get cursor position
+  FileData* item = getCursor();
+
+  // Fold all
+  for(int i =  mList.Count(); --i >= 0;)
+    if (mList.getObjectAt(i)->IsHeader())
+      ((HeaderData*)mList.getObjectAt(i))->SetFolded(false);
+
+  // Rebuild the UI list
+  populateList(*mPopulatedFolder);
+
+  // Set cursor
+  setCursor(item);
+}
+
+void DetailedGameListView::Fold()
+{
+  // Lookup current header
+  HeaderData* header = nullptr;
+  for(int i = mList.getCursorIndex(); --i >= 0;)
+    if (mList.getObjectAt(i)->IsHeader())
+    {
+      header = (HeaderData*)mList.getObjectAt(i);
+      break;
+    }
+
+  // Fold header
+  if (header != nullptr && !header->IsFolded())
+  {
+    header->SetFolded(true);
+
+    // Rebuild the UI list
+    populateList(*mPopulatedFolder);
+
+    // Set cursor
+    setCursor(header);
+  }
+}
+
+void DetailedGameListView::Unfold()
+{
+  // Get cursor position
+  FileData* item = getCursor();
+  if (item->IsHeader())
+  {
+    HeaderData* header = (HeaderData*)mList.getObjectAt(getCursorIndex());
+    if (header->IsFolded())
+    {
+      header->SetFolded(false);
+
+      // Rebuild the UI list
+      populateList(*mPopulatedFolder);
+
+      // Set cursor
+      setCursor(header);
+    }
+  }
+}
+*/
+
+void DetailedGameListView::MoveToHeader(bool next)
+{
+  int direction = next ? 1 : -1;
+  int baseIndex = mList.getCursorIndex();
+  for(int index = baseIndex + direction; index != baseIndex; )
+  {
+    if (index < 0) index = mList.Count() - 1;
+    if (index >= mList.Count()) index = 0;
+    if (mList.getObjectAt(index)->IsHeader())
+    {
+      setCursorIndex(index);
+      break;
+    }
+    index += direction;
+  }
+}
+
+void DetailedGameListView::ChangeSort(bool next)
+{
+  FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
+                            mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
+                            FileSorts::SortSets::SingleSystem;
+  const FileSorts::SortList sorts = FileSorts::AvailableSorts(set);
+
+  // Move sort
+  int index = sorts.IndexOf(mSort);
+  if (index < 0) index = 0;
+  index += next ? 1 : -1;
+  if (index < 0) index += sorts.Count();
+  if (index >= sorts.Count()) index -= sorts.Count();
+  mSort = sorts[index];
+
+  // Save new sort
+  RecalboxConf::Instance().SetSystemSort(mSystem, mSort).Save();
+
+  // Refresh
+  FileData* item = getCursor();
+  populateList(*mPopulatedFolder);
+  setCursor(item);
+
+  // Notify
+  String message = (_F(_("Game are now sorted\nby {0}")) / FileSorts::Name(mSort))();
+  mWindow.InfoPopupAddRegular(message, 10, PopupType::Recalbox, false);
+}
+
+String DetailedGameListView::GetSimplifiedElapsedTime(const TimeSpan& span)
+{
+  if (span.TotalDays() > (365 * 20)) return _("Never played");
+  if (span.TotalDays() > 365) return (_F(_("{0} Years ago...")) / (span.TotalDays() / 365))();
+  if (span.TotalDays() >= 30) return (_F(_("{0} Month ago...")) / (span.TotalDays() / 30))();
+  if (span.TotalDays() > 0) return (_F(_("{0} Days ago...")) / span.TotalDays())();
+  if (span.TotalHours() > 0) return (_F(_("{0} Hours ago...")) / span.TotalHours())();
+  return _("A short while ago");
+}
+
+void DetailedGameListView::ReturnedFromGame(FileData* game)
+{
+  (void)game;
+  switch(mSort)
+  {
+    case FileSorts::Sorts::TimesPlayedAscending:
+    case FileSorts::Sorts::TimesPlayedDescending:
+    case FileSorts::Sorts::LastPlayedAscending:
+    case FileSorts::Sorts::LastPlayedDescending:
+    {
+      // Refresh to reflect time played/last played
+      FileData* item = getCursor();
+      populateList(*mPopulatedFolder);
+      setCursor(item);
+      break;
+    }
+    case FileSorts::Sorts::FileNameAscending:
+    case FileSorts::Sorts::FileNameDescending:
+    case FileSorts::Sorts::SystemAscending:
+    case FileSorts::Sorts::SystemDescending:
+    case FileSorts::Sorts::RatingAscending:
+    case FileSorts::Sorts::RatingDescending:
+    case FileSorts::Sorts::PlayersAscending:
+    case FileSorts::Sorts::PlayersDescending:
+    case FileSorts::Sorts::DeveloperAscending:
+    case FileSorts::Sorts::DeveloperDescending:
+    case FileSorts::Sorts::PublisherAscending:
+    case FileSorts::Sorts::PublisherDescending:
+    case FileSorts::Sorts::GenreAscending:
+    case FileSorts::Sorts::GenreDescending:
+    case FileSorts::Sorts::ReleaseDateAscending:
+    case FileSorts::Sorts::ReleaseDateDescending:
+    default: break;
+  }
 }

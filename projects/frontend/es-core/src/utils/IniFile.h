@@ -259,6 +259,9 @@ class IniFile : public SecuredFile::IValidationInterface
      */
     bool ResetWithFallback();
 
+    //! Get main file path
+    const Path& FilePath() const { return mFilePath; }
+
   private:
     //! Allowed caracters
     static String sAllowedCharacters;

@@ -8,11 +8,13 @@
 #include <components/EditableComponent.h>
 #include "GuiMenuNetwork.h"
 #include "guis/MenuMessages.h"
+#include "utils/Files.h"
 #include <guis/GuiArcadeVirtualKeyboard.h>
 
 GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
   : GuiMenuBase(window, _("NETWORK SETTINGS"), nullptr)
   , mFillingList(false)
+  , mNeedBackup(false)
 {
   // Network status
   mStatus = AddText(_("STATUS"), String::Empty, _(MENUMESSAGE_NETWORK_STATUS_HELP_MSG));
@@ -37,6 +39,16 @@ GuiMenuNetwork::GuiMenuNetwork(WindowManager& window)
 
   // Set current SSID
   Completed(NetworkOperation::ScanSSID, true);
+}
+
+GuiMenuNetwork::~GuiMenuNetwork()
+{
+  if (mNeedBackup)
+  {
+    RecalboxSystem::MakeBootReadWrite();
+    Files::CopyFile(RecalboxConf::Instance().FilePath(), Path("/boot/recalbox-backup.conf"));
+    RecalboxSystem::MakeBootReadOnly();
+  }
 }
 
 void GuiMenuNetwork::OptionListComponentChanged(int id, int index, const String& value, bool quickChange)
@@ -186,6 +198,7 @@ void GuiMenuNetwork::Completed(const NetworkOperation& parameter, const bool& re
         // Save new ssid/password
         RecalboxConf::Instance().SetWifiSSID(mWpsSSID).Save();
         RecalboxConf::Instance().SetWifiKey(mWpsPSK).Save();
+        mNeedBackup = true;
         // Refresh SSID List
         Completed(NetworkOperation::ScanSSID, true);
         // Refresh psk
@@ -210,6 +223,7 @@ void GuiMenuNetwork::EditableComponentTextChanged(int id, const String& text)
   {
     // Save
     RecalboxConf::Instance().SetWifiKey(text).Save();
+    mNeedBackup = true;
     // Reconnect using new parameters
     if (mWifiOnOff->getState())
       mWindow.pushGui(
@@ -219,6 +233,7 @@ void GuiMenuNetwork::EditableComponentTextChanged(int id, const String& text)
   else if ((Components)id == Components::Hostname)
   {
     RecalboxConf::Instance().SetHostname(text).Save();
+    mNeedBackup = true;
     mWindow.displayMessage(_("Hostname changes will not be effective until next reboot"));
   }
 }
@@ -228,6 +243,7 @@ void GuiMenuNetwork::SwitchComponentChanged(int id, bool& status)
   (void)id;
   // Save state
   RecalboxConf::Instance().SetWifiEnabled(status).Save();
+  mNeedBackup = true;
   // Connect or disconnect
   NetworkOperation operation = mWifiOnOff->getState() ? NetworkOperation::StartWIFI : NetworkOperation::StopWIFI;
   String text = mWifiOnOff->getState() ? _("Connecting to WIFI...") : _("Disconnecting from WIFI...");
@@ -239,11 +255,11 @@ void GuiMenuNetwork::ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk
   (void)vk;
   // Save new SSID
   RecalboxConf::Instance().SetWifiSSID(text).Save();
+  mNeedBackup = true;
   // Refresh SSID List
   Completed(NetworkOperation::ScanSSID, true);
   // Reconnext using new parameters
   if (mWifiOnOff->getState())
     mWindow.pushGui((new GuiWaitLongExecution<NetworkOperation, bool>(mWindow, *this))->Execute(NetworkOperation::NewConnection,_("Connecting to WIFI...")));
 }
-
 

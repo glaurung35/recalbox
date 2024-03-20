@@ -10,21 +10,23 @@
 
 String IniFile::sAllowedCharacters("abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_.-");
 
-IniFile::IniFile(const Path& path, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup)
+IniFile::IniFile(const Path& path, const Path& fallbackpath, const String& logname, bool extraSpace, bool autoBackup, bool allowDuplicates)
   : mLogName(logname)
   , mFilePath(path)
   , mFallbackFilePath(fallbackpath)
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
+  , mAllowDuplicates(allowDuplicates)
   , mValid(Load())
 {
 }
 
-IniFile::IniFile(const Path& path, const String& logname, bool extraSpace, bool autoBackup)
+IniFile::IniFile(const Path& path, const String& logname, bool extraSpace, bool autoBackup, bool allowDuplicates)
   : mLogName(logname)
   , mFilePath(path)
   , mExtraSpace(extraSpace)
   , mAutoBackup(autoBackup)
+  , mAllowDuplicates(allowDuplicates)
   , mValid(Load())
 {
 }
@@ -166,7 +168,9 @@ bool IniFile::Save()
       // Key alreadu encountered
       if (encounteredKeys.contains(lineKey))
       {
-        if (!line.StartsWith(';')) line.Insert(0, ';'); // Comment the line
+        if (!mAllowDuplicates)
+          if (!line.StartsWith(';'))
+            line.Insert(0, ';'); // Comment the line
         continue;
       }
       // Try in pending writes
@@ -264,34 +268,39 @@ void IniFile::Delete(const String& name)
   mPendingDelete.insert(name);
 }
 
-void IniFile::SetString(const String& name, const String& value)
+IniFile& IniFile::SetString(const String& name, const String& value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = value;
+  return *this;
 }
 
-void IniFile::SetBool(const String& name, bool value)
+IniFile& IniFile::SetBool(const String& name, bool value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = value ? "1" : "0";
+  return *this;
 }
 
-void IniFile::SetUInt(const String& name, unsigned int value)
+IniFile& IniFile::SetUInt(const String& name, unsigned int value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = String((long long)value);
+  return *this;
 }
 
-void IniFile::SetInt(const String& name, int value)
+IniFile& IniFile::SetInt(const String& name, int value)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = String(value);
+  return *this;
 }
 
-void IniFile::SetList(const String& name, const String::List& values)
+IniFile& IniFile::SetList(const String& name, const String::List& values)
 {
   mPendingDelete.erase(name);
   mPendingWrites[name] = String::Join(values, ',');
+  return *this;
 }
 
 bool IniFile::isInList(const String& name, const String& value) const

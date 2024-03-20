@@ -5,7 +5,7 @@
 #include "BootConf.h"
 
 BootConf::BootConf()
-    : IniFile(Path("/boot/recalbox-boot.conf"), "BootConf class - Recalbox-boot", false, true),
+    : IniFile(Path("/boot/recalbox-boot.conf"), "BootConf class - Recalbox-boot", false, true, true),
       StaticLifeCycleControler<BootConf>("BootConf")
 {
 }

@@ -9,6 +9,7 @@
 #include <utils/String.h>
 #include <vector>
 #include "utils/Sizes.h"
+#include <recalbox/BootConf.h>
 
 class StorageDevices
 {
@@ -86,7 +87,7 @@ class StorageDevices
     };
 
     StorageDevices()
-      : mBootConfiguration(Path("/boot/recalbox-boot.conf"), "StorageDevices - Recalbox-boot", false, true)
+      : mBootConfiguration(BootConf::Instance())
       , mShareInRAM(false)
     {
       Initialize();
@@ -123,7 +124,7 @@ class StorageDevices
     static constexpr const char* sNetwork = "NETWORK";
 
     //! Boot configuration file
-    IniFile mBootConfiguration;
+    IniFile& mBootConfiguration;
     //! All devices
     std::vector<Device> mDevices;
     //! Boot root device name

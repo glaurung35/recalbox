@@ -25,30 +25,28 @@ initramfs boot/initrd.gz
 # force hdmi while the tv can take time before sending the signal on the hdmi output
 hdmi_force_hotplug=0
 
-# total amount of GPU memory
+[pi0]
 gpu_mem=128
 
-# Raise the first security limit up to 70° instead of 60° for pi3 and pi4
+[pi02]
+gpu_mem=32
+dtoverlay=vc4-kms-v3d
+include crt/recalbox-crt-config.txt
+
 [pi3]
+# Raise the first security limit up to 70° instead of 60° for pi3
 temp_soft_limit=70
 dtoverlay=vc4-kms-v3d
 include crt/recalbox-crt-config.txt
 
 [pi4]
 arm_64bit=1
-temp_soft_limit=70
-dtoverlay=vc4-kms-v3d,cma-512
-dtoverlay=rpivid-v4l2
-include crt/recalbox-crt-config.txt
-hdmi_enable_4kp60=1
-
-[board-type=0x17]
 dtoverlay=vc4-kms-v3d,cma-512
 include crt/recalbox-crt-config.txt
 hdmi_enable_4kp60=1
 
-[board-type=0x12]
-dtoverlay=vc4-kms-v3d
+[pi5]
+dtoverlay=vc4-kms-v3d,cma-512
 include crt/recalbox-crt-config.txt
 
 # custom config

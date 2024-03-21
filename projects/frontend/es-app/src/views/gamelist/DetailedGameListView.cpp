@@ -974,8 +974,17 @@ void DetailedGameListView::VideoComponentRequireAction(const VideoComponent* sou
   if (source == &mVideo)
     switch(action)
     {
-      case Action::FadeIn: SetImageFading(mLastCursorItem, false); break;
-      case Action::FadeOut: MoveToFadeOut(&mImage); MoveToFadeOut(&mNoImage); break;
+      case Action::FadeIn:
+      {
+        MoveToFadeIn(mVideoLinks);
+        SetImageFading(mLastCursorItem, false);
+        break;
+      }
+      case Action::FadeOut:
+      {
+        MoveToFadeOut(mVideoLinks);
+        break;
+      }
       default: break;
     }
 }
@@ -989,7 +998,7 @@ void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
       for(String& link : elem->AsString(ThemePropertyName::Link).Split(','))
       {
         link.Trim();
-        if (link == "md_image") mVideoLinks.Add(&mImage);
+        if (link == "md_image") { mVideoLinks.Add(&mImage); mVideoLinks.Add(&mNoImage); }
         else if (Component* comp = mThemeExtras.Lookup(link); comp != nullptr) mVideoLinks.Add(comp);
       }
 }

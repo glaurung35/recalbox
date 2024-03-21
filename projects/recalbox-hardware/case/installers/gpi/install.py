@@ -30,11 +30,16 @@ class Install(InstallBase):
                     return False
                 logger.hardlog("GPi: recalbox-user-config.txt installed")
 
-                # Remove kms
-                if os.system('sed -i "s|dtoverlay=vc4-kms-v3d||g" /boot/config.txt') != 0:
+                # Remove kms and set gpu_mem to 128MB (for rpizero2legacy)
+                if os.system('sed -i "s|^dtoverlay=vc4-kms-v3d.*||g" /boot/config.txt') != 0:
                     logger.hardlog("GPi: Error removing kms driver")
                     return False
                 logger.hardlog("GPi: kms driver removed")
+
+                if os.system('sed -i "s|^gpu_mem=.*|gpu_mem=128|g" /boot/config.txt') != 0:
+                    logger.hardlog("GPi: Error setting gpu_mem parameter")
+                    return False
+                logger.hardlog("GPi: gpu_mem set to 128")
 
                 # Install /boot/cmdline.txt, correct sound issue
                 sourceConfig = self.BASE_SOURCE_FOLDER + "assets/cmdline.txt"

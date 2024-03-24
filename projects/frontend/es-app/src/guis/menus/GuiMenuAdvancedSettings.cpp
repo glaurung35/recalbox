@@ -79,9 +79,6 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
   // framerate
   AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
 
-  // framerate
-  AddSwitch(_("ENABLE BOOT ON GAME"), RecalboxConf::Instance().GetAutorunEnabled(), (int)Components::AutorunEnabled, this, _(MENUMESSAGE_ADVANCED_AUTORUN_HELP_MSG));
-
   // Recalbox Manager
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
 
@@ -248,14 +245,6 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool& status)
     }
     case Components::ShowFPS: RecalboxConf::Instance().SetGlobalShowFPS(status).Save(); break;
     case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
-    case Components::AutorunEnabled:
-    {
-      RecalboxConf::Instance().SetAutorunEnabled(status).Save();
-      if(status)
-        mWindow.pushGui(
-          new GuiMsgBox(mWindow, _("If no configured controller is detected at boot, recalbox will run as usual and display the system list."), _("OK")));
-      break;
-    }
     case Components::OverclockList:
     case Components::BootSubMenu:
     case Components::VirtualSubMenu:
@@ -286,7 +275,6 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::OverclockList:
     case Components::Overscan:
     case Components::ShowFPS:
-    case Components::AutorunEnabled:
     case Components::SecuritySubMenu:
     case Components::Manager:
     case Components::DebugLogs:

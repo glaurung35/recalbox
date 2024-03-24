@@ -57,7 +57,6 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       SecuritySubMenu,
       Overscan,
       ShowFPS,
-      AutorunEnabled,
       CrtSubMenu,
       Manager,
       FactoryReset,

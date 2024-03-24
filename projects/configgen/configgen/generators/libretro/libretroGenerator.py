@@ -350,8 +350,8 @@ class LibretroGenerator(Generator):
             "mushisam": [100, 60],
             "mushisama": [100, 60],
             "mushisamb": [100, 60],
-            "futaribl": [40, 56],
-            "futariblj": [40, 56],
+            "futaribl": [100, 57],
+            "futariblj": [100, 57],
         }
         if system.Core == "fbneo" and romName in blitterConfig:
             return {

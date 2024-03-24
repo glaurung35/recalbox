@@ -33,6 +33,7 @@ class GuiMenuBootSettings : public GuiMenuBase
       StartOnGamelist,
       HideSystemView,
       SplashEnabled,
+      BootOnGame,
     };
 
     //! System manager

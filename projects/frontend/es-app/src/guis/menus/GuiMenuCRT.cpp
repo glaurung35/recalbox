@@ -442,7 +442,6 @@ void GuiMenuCRT::SwitchComponentChanged(int id, bool& status)
                                     _("YES"), setStatus));
     }
   }
-    CrtConf::Instance().SetSystemCRTJamma4Players(status).Save();
   if ((Components)id == Components::JammaAutoFire)
     CrtConf::Instance().SetSystemCRTJammaAutoFire(status).Save();
   if ((Components)id == Components::JammaButtonsBtn6Gnd)

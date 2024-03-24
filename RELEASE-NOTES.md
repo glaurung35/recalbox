@@ -4,7 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-46
+## Version 9.2-jamma-47
+
+9.2-jamma-47:
+- Fix 4p mode option auto-enabled when saving jamma options
 
 9.2-jamma-46:
 - Add yoko games only filter

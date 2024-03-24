@@ -6,6 +6,7 @@
 //
 
 #include "GuiMenuBootSettings.h"
+#include "guis/GuiMsgBox.h"
 #include <guis/MenuMessages.h>
 #include <recalbox/RecalboxSystem.h>
 #include <systems/SystemManager.h>
@@ -21,6 +22,9 @@ GuiMenuBootSettings::GuiMenuBootSettings(WindowManager& window, SystemManager& s
 
   // Gamelists only
   AddSwitch(_("GAMELIST ONLY"), RecalboxConf::Instance().GetStartupGamelistOnly(), (int)Components::GamelistOnly, this, _(MENUMESSAGE_ADVANCED_GAMELISTONLY_HELP_MSG));
+
+  // Boot on Game
+  AddSwitch(_("BOOT ON GAME"), RecalboxConf::Instance().GetAutorunEnabled(), (int)Components::BootOnGame, this, _(MENUMESSAGE_ADVANCED_BOOT_ON_GAME_HELP_MSG));
 
   // Selected System
   AddList<String>(_("BOOT ON SYSTEM"), (int)Components::SelectedSystem, this, GetSystemEntries(), _(MENUMESSAGE_ADVANCED_BOOT_ON_SYSTEM_HELP_MSG));
@@ -74,6 +78,16 @@ void GuiMenuBootSettings::SwitchComponentChanged(int id, bool& status)
     case Components::StartOnGamelist: RecalboxConf::Instance().SetStartupStartOnGamelist(status).Save(); break;
     case Components::HideSystemView: RecalboxConf::Instance().SetStartupHideSystemView(status).Save(); break;
     case Components::SplashEnabled: RecalboxConf::Instance().SetSplashEnabled(status).Save(); break;
+    case Components::BootOnGame:
+    {
+      RecalboxConf::Instance().SetAutorunEnabled(status).Save();
+      if (status)
+        mWindow.pushGui(
+          new GuiMsgBox(mWindow,
+                        _("If no configured controller is detected at boot, Recalbox will run as usual and display the system list."),
+                        _("OK")));
+      break;
+    }
     case Components::SelectedSystem:break;
   }
 }

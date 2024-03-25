@@ -102,7 +102,7 @@ class InputEventManager:
                         # mouse button UP or keyboard's key UP or pad button UP
                         if eventType == 1 and eventValue == 0:
                             # Keyboard: Return or pad Return
-                            if eventCode == 96 or eventCode == 28:
+                            if eventCode == 96 or eventCode == 28 or eventCode == 314:
                                 return InputEvents.PLAY
                             if i in self.eventIndexToStart:
                                 if eventCode == self.eventIndexToStart[i]:

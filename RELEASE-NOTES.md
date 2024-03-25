@@ -208,6 +208,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
 - Fix Yoko games showing in tate only gameclips
 - Fix lightguns and add some new compatible games
+- Fix start game with coin in demo mode
 
 
 ## Version 9.1-Pulstar

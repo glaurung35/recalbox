@@ -260,8 +260,6 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
   {
     Vector2f scale = getParent() != nullptr ? getParent()->getSize() : Vector2f(
       Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
-    if (element.HasProperty(ThemePropertyName::KeepRatio))
-      setKeepRatio(element.AsBool(ThemePropertyName::KeepRatio));
     if (element.HasProperty(ThemePropertyName::Size))
     {
       setKeepRatio(false);
@@ -272,6 +270,8 @@ void ImageComponent::OnApplyThemeElement(const ThemeElement& element, ThemePrope
       setKeepRatio(true);
       setResize(element.AsVector(ThemePropertyName::MaxSize) * scale);
     }
+    if (element.HasProperty(ThemePropertyName::KeepRatio))
+      setKeepRatio(element.AsBool(ThemePropertyName::KeepRatio));
   }
 
   if (hasFlag(properties, ThemePropertyCategory::Effects))

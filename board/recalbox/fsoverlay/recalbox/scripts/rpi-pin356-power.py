@@ -168,7 +168,8 @@ if mode == "onoff" :
 	# Allow Nespi+ to detect the end of the shutdown for proper power-off
 	GPIO.setup(POWEREN, GPIO.OUT)
 	GPIO.output(POWEREN, True)
-	GPIO.add_event_detect(POWERPLUS, GPIO.FALLING, callback=onoff_mode, bouncetime=2)
+	# Change from FALLING to RISING to detect correctly the on/off from active to shutdown
+	GPIO.add_event_detect(POWERPLUS, GPIO.RISING, callback=onoff_mode, bouncetime=2)
 	GPIO.add_event_detect(RESETPLUS, GPIO.BOTH, callback=onoff_mode, bouncetime=2)
 elif mode == "push":
 	GPIO.add_event_detect(POWERPLUS, GPIO.BOTH, callback=push_mode, bouncetime=2)

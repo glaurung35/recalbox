@@ -31,7 +31,7 @@ index f34a0f1..7e5e691 100644
  			{
  				diag_input = NULL;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index a4c6d17..22dfc39 100644
+index a4c6d17..2f3b013 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
@@ -43,6 +43,24 @@ index a4c6d17..22dfc39 100644
  			pgi->nInput = GIT_MACRO_AUTO;
  			pgi->nType = BIT_DIGITAL;
  			pgi->Macro.nMode = 0;
+@@ -840,7 +840,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+ 	// Enduro Racer
+ 	// Hang-On Jr.
+ 	// Sega System32 racing games
+-	if ((parentrom && strcmp(parentrom, "outrun") == 0) ||
++	if (!RB_JAMMA(nDeviceType[nPlayer]) && ((parentrom && strcmp(parentrom, "outrun") == 0) ||
+ 		(drvname && strcmp(drvname, "outrun") == 0) ||
+ 		(parentrom && strcmp(parentrom, "shangon") == 0) ||
+ 		(drvname && strcmp(drvname, "shangon") == 0) ||
+@@ -877,7 +877,7 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
+ 		(parentrom && strcmp(parentrom, "gforce2") == 0) ||
+ 		(drvname && strcmp(drvname, "gforce2") == 0) ||
+ 		(parentrom && strcmp(parentrom, "scross") == 0) ||
+-		(drvname && strcmp(drvname, "scross") == 0)
++		(drvname && strcmp(drvname, "scross") == 0))
+ 	) {
+ 		if (strcmp("Accelerate", description) == 0) {
+ 			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
 @@ -1191,12 +1191,27 @@ static INT32 GameInpSpecialOne(struct GameInp* pgi, INT32 nPlayer, char* szb, ch
  			GameInpAnalog2RetroInpAnalog(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_R2, RETRO_DEVICE_INDEX_ANALOG_BUTTON, description);
  		}

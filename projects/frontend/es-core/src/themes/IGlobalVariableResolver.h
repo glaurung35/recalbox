@@ -25,6 +25,10 @@ class IGlobalVariableResolver
 
     //! Is in TATE mode?
     [[nodiscard]] virtual bool IsTate() const = 0;
+    //! Is in right TATE mode?
+    [[nodiscard]] virtual bool IsTateRight() const = 0;
+    //! Is in left TATE mode?
+    [[nodiscard]] virtual bool IsTateLeft() const = 0;
 
     //! Is resolution QVGA or less?
     [[nodiscard]] virtual bool IsQVGA() const = 0;

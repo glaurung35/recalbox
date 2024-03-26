@@ -566,6 +566,10 @@ class MainRunner
 
     //! Is in TATE mode?
     [[nodiscard]] bool IsTate() const final { return Renderer::Instance().IsRotatedSide(); }
+    //! Is in right TATE mode?
+    [[nodiscard]] bool IsTateRight() const final { return Renderer::Instance().Rotation() == RotationType::Right; }
+    //! Is in left TATE mode?
+    [[nodiscard]] bool IsTateLeft() const final { return Renderer::Instance().Rotation() == RotationType::Left; }
 
     //! Is resolution QVGA or less?
     [[nodiscard]] bool IsQVGA() const final { return Renderer::Instance().IsQVGA(); }

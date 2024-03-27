@@ -161,9 +161,9 @@ void AudioManager::StartPlaying(const ThemeData& theme)
 {
   if (AudioModeTools::CanPlayMusic())
   {
-    const ThemeElement* elem = theme.Element("system", "directory", ThemeElementType::Sound);
+    const ThemeElement* elem = theme.Element("system", "directory", ThemeElementType::Sound, ThemeElementType::None);
     mThemeMusicFolder = ((elem == nullptr) || !elem->HasProperty(ThemePropertyName::Path)) ? Path::Empty : Path(elem->AsString(ThemePropertyName::Path));
-    elem = theme.Element("system", "bgsound", ThemeElementType::Sound);
+    elem = theme.Element("system", "bgsound", ThemeElementType::Sound, ThemeElementType::None);
     mThemeMusic = ((elem == nullptr) || !elem->HasProperty(ThemePropertyName::Path)) ? Path::Empty : Path(elem->AsString(ThemePropertyName::Path));
 
     PlayRandomMusic();

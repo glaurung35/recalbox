@@ -87,7 +87,7 @@ class ThemeData
     void loadFile(const String& systemThemeFolder, const Path& path);
 
     // If expectedType is an empty string, will do no type checking.
-    [[nodiscard]] const ThemeElement* Element(const String& view, const String& element, ThemeElementType expectedType) const;
+    [[nodiscard]] const ThemeElement* Element(const String& view, const String& element, ThemeElementType expectedType, ThemeElementType expectedType2) const;
 
     /*!
      * @brief Build Extra component array from the curren theme

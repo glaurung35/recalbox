@@ -166,7 +166,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
 
   String command = CreateCommandLine(game, emulator, core, data, mapper, debug, false);
 
-  SubSystemPrepareForRun();
+  //SubSystemPrepareForRun();
 
   Path path(game.RomPath());
   int exitCode = -1;
@@ -212,7 +212,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     }
   }
 
-  SubSystemRestore();
+  //SubSystemRestore();
 
   // Update number of times the game has been launched
   game.Metadata().IncPlayCount();

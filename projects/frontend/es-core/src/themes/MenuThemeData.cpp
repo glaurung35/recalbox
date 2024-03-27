@@ -4,11 +4,11 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 {
   Reset();
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menuSize", ThemeElementType::MenuSize); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuSize", ThemeElementType::MenuSize, ThemeElementType::None); elem != nullptr)
 		if (elem->HasProperty(ThemePropertyName::Height))
 			mSize.height = elem->AsFloat(ThemePropertyName::Height);
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menubg", ThemeElementType::MenuBackground); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menubg", ThemeElementType::MenuBackground, ThemeElementType::None); elem != nullptr)
 	{
 		if (elem->HasProperty(ThemePropertyName::Path))
 			mBackground.path = Path(elem->AsString(ThemePropertyName::Path));
@@ -18,7 +18,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 			mBackground.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menutitle", ThemeElementType::MenuText); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutitle", ThemeElementType::MenuText, ThemeElementType::None); elem != nullptr)
 	{
 		if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
 			mTitle.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_LARGE));
@@ -26,7 +26,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 			mTitle.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menufooter", ThemeElementType::MenuText); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menufooter", ThemeElementType::MenuText, ThemeElementType::None); elem != nullptr)
 	{
     if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
 			mFooter.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_SMALL));
@@ -34,7 +34,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 			mFooter.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menutext", ThemeElementType::MenuText); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutext", ThemeElementType::MenuText, ThemeElementType::None); elem != nullptr)
 	{
     if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
 			mText.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_MEDIUM));
@@ -45,7 +45,7 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 		if(elem->HasProperty(ThemePropertyName::SelectorColor))  mText.selectorColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectorColor);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menutextsmall", ThemeElementType::MenuTextSmall); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menutextsmall", ThemeElementType::MenuTextSmall, ThemeElementType::None); elem != nullptr)
 	{
     if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
       mTextSmall.font = Font::getFromTheme(*elem, ThemePropertyCategory::All, Font::get(FONT_SIZE_SMALL));
@@ -55,22 +55,22 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 		if(elem->HasProperty(ThemePropertyName::SelectorColor)) mText.selectedColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectorColor);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menubutton", ThemeElementType::MenuButton); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menubutton", ThemeElementType::MenuButton, ThemeElementType::None); elem != nullptr)
 	{
 		if(elem->HasProperty(ThemePropertyName::Path))       mIconElement.button = elem->AsString(ThemePropertyName::Path);
 		if(elem->HasProperty(ThemePropertyName::FilledPath)) mIconElement.button_filled = elem->AsString(ThemePropertyName::FilledPath);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menuswitch", ThemeElementType::MenuSwitch); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuswitch", ThemeElementType::MenuSwitch, ThemeElementType::None); elem != nullptr)
 	{
 		if(elem->HasProperty(ThemePropertyName::PathOn))  mIconElement.on = elem->AsString(ThemePropertyName::PathOn);
 		if(elem->HasProperty(ThemePropertyName::PathOff)) mIconElement.off = elem->AsString(ThemePropertyName::PathOff);
 	}
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menuslider", ThemeElementType::MenuSlider); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuslider", ThemeElementType::MenuSlider, ThemeElementType::None); elem != nullptr)
 		if (elem->HasProperty(ThemePropertyName::Path)) mIconElement.knob = elem->AsString(ThemePropertyName::Path);
 
-	if (const ThemeElement* elem = mainTheme.Element("menu", "menuicons", ThemeElementType::MenuIcons); elem != nullptr)
+	if (const ThemeElement* elem = mainTheme.Element("menu", "menuicons", ThemeElementType::MenuIcons, ThemeElementType::None); elem != nullptr)
   {
 		if (elem->HasProperty(ThemePropertyName::IconKodi))            mIconSet.mKodi = elem->AsString(ThemePropertyName::IconKodi);
 		if (elem->HasProperty(ThemePropertyName::IconSystem))          mIconSet.mSystem = elem->AsString(ThemePropertyName::IconSystem);

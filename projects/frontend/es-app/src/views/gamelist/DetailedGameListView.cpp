@@ -995,7 +995,7 @@ void DetailedGameListView::VideoComponentRequireAction(const VideoComponent* sou
 void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
 {
   mVideoLinks.Clear();
-  const ThemeElement* elem = theme.Element(getName(), "md_video", ThemeElementType::Video);
+  const ThemeElement* elem = theme.Element(getName(), "md_video", ThemeElementType::Video, ThemeElementType::None);
   if (elem != nullptr)
     if (elem->HasProperty(ThemePropertyName::Link))
       for(String& link : elem->AsString(ThemePropertyName::Link).Split(','))

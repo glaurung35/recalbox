@@ -67,7 +67,7 @@ void SystemView::addSystem(SystemData * it)
   e.object = it;
 
   // make logo
-  const ThemeElement* logoElement = theme.Element("system", "logo", ThemeElementType::Image);
+  const ThemeElement* logoElement = theme.Element("system", "logo", ThemeElementType::Image, ThemeElementType::None);
   if(logoElement != nullptr && logoElement->HasProperties())
   {
     ImageComponent* logo = new ImageComponent(mWindow, false, false);
@@ -540,10 +540,10 @@ void SystemView::RefreshViewElements(const ThemeData& theme)
   { LOG(LogDebug) << "[SystemView] Get View Elements"; }
   getDefaultElements();
 
-  const ThemeElement* carouselElem = theme.Element("system", "systemcarousel", ThemeElementType::Carousel);
+  const ThemeElement* carouselElem = theme.Element("system", "systemcarousel", ThemeElementType::Carousel, ThemeElementType::None);
   getCarouselFromTheme(carouselElem);
 
-  const ThemeElement* sysInfoElem = theme.Element("system", "systemInfo", ThemeElementType::Text);
+  const ThemeElement* sysInfoElem = theme.Element("system", "systemInfo", ThemeElementType::Text, ThemeElementType::None);
   if (sysInfoElem != nullptr)
   {
     mSystemInfo.DoApplyThemeElement(theme, "system", "systemInfo", ThemePropertyCategory::All);

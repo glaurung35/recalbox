@@ -262,6 +262,15 @@ class IniFile : public SecuredFile::IValidationInterface
     //! Get main file path
     const Path& FilePath() const { return mFilePath; }
 
+    /*!
+     * @brief Force reloading files - Save any pending write/delete before
+     */
+    void ForceReload()
+    {
+      Save();
+      Load();
+    }
+
   private:
     //! Allowed caracters
     static String sAllowedCharacters;

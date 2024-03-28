@@ -17,6 +17,9 @@
 GuiMenuSound::GuiMenuSound(WindowManager& window)
   : GuiMenuBase(window, _("SOUND SETTINGS"), this)
 {
+  // Force configuration to reload so that any external modified volume is set properly
+  RecalboxConf::Instance().ForceReload();
+
   // Volume
   mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
 

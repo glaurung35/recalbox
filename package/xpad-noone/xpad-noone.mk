@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-# Commit of 2022/12/27
-XPAD_NOONE_VERSION = d02737f7eab1e17a7748fbe550dd982e3808525d
+# Commit of 2024/01/09
+XPAD_NOONE_VERSION = 96d119aabacb84d39ed9c95ae48cc4891496ccb4
 XPAD_NOONE_SITE = $(call github,medusalix,xpad-noone,$(XPAD_NOONE_VERSION))
 XPAD_NOONE_LICENSE = GPL-2.0
 

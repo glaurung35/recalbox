@@ -115,7 +115,7 @@ MainRunner::ExitState MainRunner::Run()
     }
 
     // Initialize the renderer first,'cause many things depend on renderer width/height
-    Renderer renderer(mOptions.Width(), mOptions.Height(), mOptions.Windowed(), RotationManager::GetSystemRotation());
+    Renderer renderer(mOptions.Width(), mOptions.Height(), mOptions.Windowed(), RotationManager::GetSystemRotationOverride(mOptions));
     if (!renderer.Initialized()) { LOG(LogError) << "[Renderer] Error initializing the GL renderer."; return ExitState::FatalError; }
 
     // Theme manager

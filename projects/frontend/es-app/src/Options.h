@@ -3,6 +3,8 @@
 //
 #pragma once
 
+#include "hardware/RotationType.h"
+
 class Options
 {
   public:
@@ -37,15 +39,23 @@ class Options
     //! Emulate RGB Jamma
     [[nodiscard]] bool EmulateRGBJamma() const { return mEmulateRGBJamma; }
 
+    //! Emulate TATE
+    [[nodiscard]] bool EmulateTATE() const { return mEmulateTATE; }
+
+    //! Tate direction
+    [[nodiscard]] RotationType TATERotation() const { return mTATERotation; }
+
   private:
     int mWidth;
     int mHeight;
+    RotationType mTATERotation;
     bool mDebug;
     bool mTrace;
     bool mFullscreen;
     bool mEmulateRGBDual;
     bool mEmulateRGBJamma;
     bool mFPS;
+    bool mEmulateTATE;
 
     //! Parse and fill members
     void Parse(int argc, char* argv[]);

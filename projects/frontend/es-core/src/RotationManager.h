@@ -8,6 +8,7 @@
 
 #include "hardware/RotationType.h"
 #include "games/FileData.h"
+#include "Options.h"
 
 class RotationManager {
 private:
@@ -21,6 +22,7 @@ public:
 
   static RotationType ShouldRotateGame(const FileData& game);
   static RotationType GetSystemRotation();
+  static RotationType GetSystemRotationOverride(const Options& options);
 };
 
 

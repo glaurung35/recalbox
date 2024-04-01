@@ -11,12 +11,14 @@
 Options::Options(int argc, char** argv)
   : mWidth(0)
   , mHeight(0)
+  , mTATERotation(RotationType::None)
   , mDebug(false)
   , mTrace(false)
   , mFullscreen(true)
   , mEmulateRGBDual(false)
   , mEmulateRGBJamma(false)
   , mFPS(false)
+  , mEmulateTATE(false)
 {
   Parse(argc, argv);
 }
@@ -36,6 +38,10 @@ void Options::Parse(int argc, char** argv)
     else if (strcmp(argv[i], "--debug") == 0) mDebug = true;
     else if (strcmp(argv[i], "--trace") == 0) mTrace = true;
     else if (strcmp(argv[i], "--windowed") == 0) mFullscreen = false;
+    else if (strcmp(argv[i], "--tateright") == 0) { mEmulateTATE = true; mTATERotation = RotationType::Right; }
+    else if (strcmp(argv[i], "--tateleft") == 0) { mEmulateTATE = true; mTATERotation = RotationType::Left; }
+    else if (strcmp(argv[i], "--rrgbd") == 0) mEmulateRGBDual = true;
+    else if (strcmp(argv[i], "--jamma") == 0) mEmulateRGBJamma = true;
     else if (strcmp(argv[i], "--help") == 0 || strcmp(argv[i], "-h") == 0)
     {
       printf("EmulationStation, a graphical front-end for ROM browsing.\n"

@@ -99,6 +99,12 @@ bool RotationManager::ShouldRotateGameControls(const FileData& game)
   return rotate;
 }
 
+RotationType RotationManager::GetSystemRotationOverride(const Options& options)
+{
+  if (options.EmulateTATE()) return options.TATERotation();
+  return BootConf::Instance().GetRotation();
+}
+
 RotationType RotationManager::GetSystemRotation()
 {
   return BootConf::Instance().GetRotation();

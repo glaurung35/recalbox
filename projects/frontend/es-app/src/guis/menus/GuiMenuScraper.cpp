@@ -60,7 +60,7 @@ std::vector<GuiMenuBase::ListEntry<ScrapingMethod>> GuiMenuScraper::GetScrapingM
 {
   std::vector<ListEntry<ScrapingMethod>> list;
   list.push_back({ _("All Games"), ScrapingMethod::All, false });
-  list.push_back({ _("Only missing image"), ScrapingMethod::AllIfNoithingExists, true });
+  list.push_back({ _("Only missing image"), ScrapingMethod::AllIfNothingExists, true });
   return list;
 }
 

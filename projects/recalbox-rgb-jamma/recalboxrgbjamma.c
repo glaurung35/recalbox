@@ -860,19 +860,19 @@ struct input_dev *player_devs[MAX_PLAYERS];
 // Keep also in mind that the A is SOUTH and B is EAST (they are switched) on Linux notation, and that NORTH and WEST are also reversed in auto mapping...
 //
 static const unsigned int buttons_codes[BTN_PER_PLAYER] = {
-    BTN_A,              //  JAMMA_BTN_1
-    BTN_B,              //  JAMMA_BTN_2
-    BTN_X,              //  JAMMA_BTN_3
-    BTN_Y,              //  JAMMA_BTN_4
-    BTN_TL,             //  JAMMA_BTN_5
-    BTN_TR,             //  JAMMA_BTN_6
-    BTN_START,          //  JAMMA_BTN_START
-    BTN_SELECT,         //  JAMMA_BTN_COIN
-    BTN_THUMBL,         //  JAMMA_BTN_SERVICE
-    BTN_THUMBR,         //  JAMMA_BTN_TEST
-    BTN_MODE,           //  BTN_HOTKEY
-    KEY_VOLUMEUP,       //  VOLUME_UP
-    KEY_VOLUMEDOWN,     //  VOLUME_DOWN
+    BTN_A,         //  JAMMA_BTN_1
+    BTN_B,         //  JAMMA_BTN_2
+    BTN_X,         //  JAMMA_BTN_3
+    BTN_Y,         //  JAMMA_BTN_4
+    BTN_TL,        //  JAMMA_BTN_5
+    BTN_TR,        //  JAMMA_BTN_6
+    BTN_START,     //  JAMMA_BTN_START
+    BTN_SELECT,    //  JAMMA_BTN_COIN
+    BTN_THUMBL,    //  JAMMA_BTN_SERVICE
+    BTN_THUMBR,    //  JAMMA_BTN_TEST
+    BTN_MODE,      //  BTN_HOTKEY
+    KEY_VOLUMEUP,  //  VOLUME_UP
+    KEY_VOLUMEDOWN,//  VOLUME_DOWN
 };
 
 #define JAMMA_BTN_1 0
@@ -1057,7 +1057,7 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
         for (int direction = DIR_UP; direction <= DIR_DOWN; direction++) {
           if (PRESSED(*data_chips, direction_bits[player][direction])) {
             // Volume (UP/DOWN)
-            if(direction == DIR_UP) {
+            if (direction == DIR_UP) {
               printk(KERN_INFO "recalboxrgbjamma: VOLUME UP\n");
               PRESS_AND_RELEASE(player, buttons_codes[VOLUME_UP]);
               should_release_start = 0;
@@ -1319,8 +1319,8 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
   long long int time_start = ktime_to_ns(ktime_get_boottime());
   DEBUG &&printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
   mutex_lock(&jamma_config.process_mutex);
-  for(int i = PLAYER1; i < jamma_config.player_count; i ++){
-    if(player_devs[i] == NULL){
+  for (int i = PLAYER1; i < jamma_config.player_count; i++) {
+    if (player_devs[i] == NULL) {
       printk(KERN_INFO "recalboxrgbjamma: some players are NULL, unable to process inputs\n");
       mutex_unlock(&jamma_config.process_mutex);
       return 0;
@@ -1490,9 +1490,9 @@ static int load_config(void) {
   for (cursor = 0; cursor < read_size; cursor++) {
     line[cursor - line_start] = read_buf[cursor];
     line_len++;
-    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0' || cursor == read_size-1) {
+    if (line_len >= LINE_SIZE_MAX || read_buf[cursor] == '\n' || read_buf[cursor] == '\0' || cursor == read_size - 1) {
       if (line_len > 1 && line[0] != '#') {
-        if(line[line_len - 1] == '\n')
+        if (line[line_len - 1] == '\n')
           line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", optionname, &optionvalue);
         if (scanret == 2) {
@@ -1573,10 +1573,10 @@ static int load_config(void) {
             }
           } else if (strcmp(optionname, "options.jamma.amp.boost") == 0) {
             if (jamma_config.amp_boost != optionvalue && jamma_config.expander != NULL) {
-                printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
-                jamma_config.amp_boost = optionvalue;
-                pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
-                pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
+              printk(KERN_INFO "recalboxrgbjamma: switch amp_boost to %d\n", optionvalue);
+              jamma_config.amp_boost = optionvalue;
+              pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN0, jamma_config.amp_boost & 0x1);
+              pca953x_gpio_direction_output(jamma_config.expander, EXP_GAIN1, jamma_config.amp_boost & 0x2);
             }
           } else if (strcmp(optionname, "options.jamma.amp.disable") == 0) {
             if (jamma_config.amp_disable != optionvalue && jamma_config.expander != NULL) {
@@ -1605,8 +1605,7 @@ static int watch_configuration(void *idx) {
   return 0;
 }
 
-static int pca953x_probe(struct i2c_client *client,
-                         const struct i2c_device_id *i2c_id) {
+static int pca953x_probe(struct i2c_client *client) {
   struct pca953x_platform_data *pdata;
   struct pca953x_chip *chip;
   int irq_base = 0;
@@ -1646,6 +1645,9 @@ static int pca953x_probe(struct i2c_client *client,
   }
 
   chip->client = client;
+  chip->driver_data = (uintptr_t) i2c_get_match_data(client);
+  if (!chip->driver_data)
+    return -ENODEV;
 
   reg = devm_regulator_get(&client->dev, "vcc");
   if (IS_ERR(reg))
@@ -1657,20 +1659,6 @@ static int pca953x_probe(struct i2c_client *client,
     return ret;
   }
   chip->regulator = reg;
-
-  if (i2c_id) {
-    chip->driver_data = i2c_id->driver_data;
-  } else {
-    const void *match;
-
-    match = device_get_match_data(&client->dev);
-    if (!match) {
-      ret = -ENODEV;
-      goto err_exit;
-    }
-
-    chip->driver_data = (uintptr_t) match;
-  }
 
   i2c_set_clientdata(client, chip);
 

@@ -15,14 +15,14 @@ GuiMenuQuit::GuiMenuQuit(WindowManager& window)
   if (Case::CurrentCase().CanShutdownFromMenu())
   {
     // Shutdown
-    AddSubMenu(_("SHUTDOWN SYSTEM"), (int)Components::Shutdown);
+    AddSubMenu(_("SHUTDOWN SYSTEM"), MenuThemeData::MenuIcons::Type::Shutdown, (int)Components::Shutdown);
 
     // Fast Shutdown
-    AddSubMenu(_("FAST SHUTDOWN SYSTEM"), (int) Components::FastShutdown);
+    AddSubMenu(_("FAST SHUTDOWN SYSTEM"), MenuThemeData::MenuIcons::Type::Fastshutdown, (int)Components::FastShutdown);
   }
 
   // Reboot
-  AddSubMenu(_("RESTART SYSTEM"), (int)Components::Reboot);
+  AddSubMenu(_("RESTART SYSTEM"), MenuThemeData::MenuIcons::Type::Restart, (int)Components::Reboot);
 }
 
 void GuiMenuQuit::PushQuitGui(WindowManager& window)

@@ -191,17 +191,17 @@ bool ScreenScraperSingleEngine::NeedScraping(ScrapingMethod method, FileData& ga
   switch(method)
   {
     case ScrapingMethod::All: return true;
-    case ScrapingMethod::AllIfNoithingExists:
+    case ScrapingMethod::AllIfNothingExists:
     {
       // Any missing text info = scrape
       if (!game.Metadata().Description().empty()) return false;
       if (game.Metadata().ReleaseDateEpoc() != 0) return false;
       if (!game.Metadata().Developer().empty()) return false;
       if (!game.Metadata().Publisher().empty()) return false;
-      if (!game.Metadata().Publisher().empty()) return false;
       if (game.Metadata().GenreId() != GameGenres::None) return false;
-      if (game.Metadata().RomCrc32() != 0) return false;
-      if (game.Metadata().Region().HasRegion()) return false;
+      // Ignore crc & region since they are most likely set automatically
+      //if (game.Metadata().RomCrc32() != 0) return false;
+      //if (game.Metadata().Region().HasRegion()) return false;
 
       // Check required and missing media
       if (mConfiguration.GetImageType() != ScreenScraperEnums::ScreenScraperImageType::None)
@@ -248,7 +248,6 @@ bool ScreenScraperSingleEngine::NeedScraping(ScrapingMethod method, FileData& ga
       if (game.Metadata().Description().empty()) return true;
       if (game.Metadata().ReleaseDateEpoc() == 0) return true;
       if (game.Metadata().Developer().empty()) return true;
-      if (game.Metadata().Publisher().empty()) return true;
       if (game.Metadata().Publisher().empty()) return true;
       if (game.Metadata().GenreId() == GameGenres::None) return true;
       if (game.Metadata().RomCrc32() == 0) return true;

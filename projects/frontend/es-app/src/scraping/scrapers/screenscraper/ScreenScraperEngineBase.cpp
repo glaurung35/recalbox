@@ -172,7 +172,7 @@ bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
     RecycleEngine(engineIndex);
     return true;
   }
-  else { LOG(LogError) << "[ScreenScraper] No more engine available!"; }
+  { LOG(LogError) << "[ScreenScraper] No more engine available!"; }
   return false;
 }
 

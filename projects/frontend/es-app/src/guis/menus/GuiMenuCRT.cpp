@@ -65,7 +65,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, SystemManager& systemManager, cons
   // Force HDMI
   mOriginalForceHDMI = CrtConf::Instance().GetSystemCRTForceHDMI();
   mForceHDMI = mOriginalForceHDMI;
-  if(isRGBDual)
+  if(isRGBDual && Board::Instance().GetBoardType() != BoardType::Pi5)
     AddSwitch(_("PRIORITY TO HDMI"), mOriginalForceHDMI, (int)Components::ForceHDMI, this, _(MENUMESSAGE_ADVANCED_CRT_FORCE_HDMI_HELP_MSG));
 
   // Game Region selection

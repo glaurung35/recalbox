@@ -637,48 +637,32 @@ float Font::getLetterHeight()
   return glyph->texSize.y() * (float) glyph->texture->textureSize.y();
 }
 
-// TODO: Rewrite!
-//the worst algorithm ever written
-//breaks up a normal string with newlines to make it fit xLen
 String Font::wrapText(String text, float xLen)
 {
-  String out;
-
-  String line, word, temp;
-
-  Vector2f textSize(0);
-
-  while (text.length() > 0) //while there's text or we still have text to render
+  float lineWidth = 0;
+  for(size_t i = 0; i < text.length(); )
   {
-    size_t space = text.find_first_of(" \t\n");
-    if (space == String::npos)
-      space = text.length() - 1;
+    UnicodeChar character = readUnicodeChar(text, i); // advances i
 
-    word = text.SubString(0, space + 1);
-    text.erase(0, space + 1);
-
-    temp = line + word;
-
-    textSize = sizeText(temp);
-
-    // if the word will fit on the line, add it to our line, and continue
-    if (textSize.x() <= xLen)
+    if (character == (UnicodeChar) '\n')
     {
-      line = temp;
+      lineWidth = 0.0f;
       continue;
     }
-    else
+
+    if (Glyph* glyph = getGlyph(character); glyph != nullptr)
     {
-      // the next word won't fit, so break here
-      out += line + '\n';
-      line = word;
+      if (lineWidth + glyph->advance.x() <= xLen)
+        lineWidth += glyph->advance.x();
+      else
+      {
+        text.Insert((int)i, '\n');
+        lineWidth = 0;
+        // Next loop will get the same char again to start the new line
+      }
     }
   }
-
-  // whatever's left should fit
-  out += line;
-
-  return out;
+  return text;
 }
 
 Vector2f Font::sizeWrappedText(const String& text, float xLen, float lineSpacing)

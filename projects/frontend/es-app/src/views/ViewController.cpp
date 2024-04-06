@@ -25,7 +25,6 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mGameToLaunch(nullptr)
   , mLaunchCameraTarget()
   , mCheckFlags(LaunchCheckFlags::None)
-  , mForceGoToGame(false)
   , mResolver(resolver)
 	, mSystemManager(systemManager)
 	, mCurrentView(&mSplashView)
@@ -350,11 +349,13 @@ void ViewController::Launch(FileData* game, const GameLinkedData& data, const Ve
     return;
   }
 
+  if (forceGoToGame)
+    selectGamelistAndCursor(game);
+
   mGameLinkedData = data;
   mGameToLaunch = game;
   mLaunchCameraTarget = cameraTarget;
   mCheckFlags = LaunchCheckFlags::None;
-  mForceGoToGame = forceGoToGame;
   LaunchCheck();
 }
 
@@ -610,8 +611,6 @@ void ViewController::LaunchActually(const EmulatorData& emulator)
 
   DateTime start;
   GameRunner::Instance().RunGame(*mGameToLaunch, emulator, mGameLinkedData);
-  if (mForceGoToGame)
-    selectGamelistAndCursor(mGameToLaunch);
   TimeSpan elapsed = DateTime() - start;
 
   if (elapsed.TotalMilliseconds() <= 3000) // 3s

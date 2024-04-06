@@ -210,8 +210,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     Vector3f mLaunchCameraTarget;
     //! Check flags
     LaunchCheckFlags mCheckFlags;
-    //! Force go to game after the game ends
-    bool mForceGoToGame;
 
     //! Global variable resolver
     const IGlobalVariableResolver& mResolver;

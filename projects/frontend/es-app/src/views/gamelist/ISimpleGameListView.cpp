@@ -232,8 +232,13 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.XReleased() && MenuFilter::ShouldEnableFeature(MenuFilter::Netplay)
       && (getCursor()->System().Descriptor().HasNetPlayCores()))
   {
-    clean();
-    mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
+    if (RecalboxSystem::hasIpAdress(false))
+    {
+      clean();
+      mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
+    }
+    else
+      mWindow.displayMessage(_("There is no network available.\nPlease connect your recalbox and try again."));
     return true;
   }
   if (event.XReleased() && MenuFilter::ShouldEnableFeature(MenuFilter::P2K))

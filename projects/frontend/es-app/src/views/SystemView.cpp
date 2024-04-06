@@ -294,8 +294,10 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
       }
       else if (netplay && !mWindow.HasGui())
       {
-        auto* netplayGui = new GuiNetPlay(mWindow, mSystemManager);
-        mWindow.pushGui(netplayGui);
+        if (RecalboxSystem::hasIpAdress(false))
+          mWindow.pushGui(new GuiNetPlay(mWindow, mSystemManager));
+        else
+          mWindow.displayMessage(_("There is no network available.\nPlease connect your recalbox and try again."));
       }
     }
 

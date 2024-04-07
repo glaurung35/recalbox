@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Correction des gamelist fantôme en sortie de la recherche ou du netplay
 - Correction des crash du netplay quand il n'y a pas de reseau
 - Sauvegarde des parametres WIFI immediatement en sortie du menu reseau
+- Fix GPICase2 boot
 - Pour les Themeurs:
   - Propriété `keepratio` fonctionnelle
   - Ajout des variables `$tateleft` et `$tateright` et leurs equivalents `tateright` et `tateleft` dans les if=""

@@ -4,21 +4,29 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-alpha-41
+
+- Volume rechargé et reset quand on entre dans le menu son (ça evite les conflits avec un changement de volume de l'exterieur)
+- Correction des icones manquant dans le menu quit
+- Correction du problème du scraper qui ne scrapait rien en "uniquement les jeux non scrapés"
+- Correction des pads dans le mauvais ordres dans l'OSD 
+- Correction des gamelist fantôme en sortie de la recherche ou du netplay
+- Correction des crash du netplay quand il n'y a pas de reseau
+- Sauvegarde des parametres WIFI immediatement en sortie du menu reseau
+- Pour les Themeurs:
+  - Propriété `keepratio` fonctionnelle
+  - Ajout des variables `$tateleft` et `$tateright` et leurs equivalents `tateright` et `tateleft` dans les if=""
+  - Plus de warning faux-positifs dans les logs themes
+  - Corrections des options `--rrgbs`, `--jamma`, et ajout des options `--tateright` et `--tateleft` pour lancer ES dans ces modes
+- CRT:
+  - Remove priority to hdmi option when on rpi5
+  - Fix naomi2 in 31kHz having black screen
+- Themes: add new colors for recalbox next and 240p themes
+- JAMMA:
+  - Apply rgbjamma neogeo mapping on pgm games
+  - Fix mapping of race games on fbneo (outrun...)
+
 ## Version 9.2-Pulstar
-
-### Jamma
-- Set pin 27/e as ground by default
-- Add casino games in baord games filter (mahjong + casino + trivia)
-- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
-- Fix autofire enable/disble
-- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
-
-### Patron
-- Fix 31kHz handheld and PSX games
-- Fix naomi 2 instabilities
-- Fix netplay port configuration
-- Debump Flycast on handhelds, should fix perf issues
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

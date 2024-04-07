@@ -1,8 +1,29 @@
+diff --git a/src/burner/libretro/libretro.cpp b/src/burner/libretro/libretro.cpp
+index b0da5af..7cea601 100644
+--- a/src/burner/libretro/libretro.cpp
++++ b/src/burner/libretro/libretro.cpp
+@@ -1772,7 +1772,7 @@ static bool retro_load_game_common()
+ 		}
+ 
+ 		bIsNeogeoCartGame = ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_SNK_NEOGEO);
+-
++    bIsPGM = ((BurnDrvGetHardwareCode() & HARDWARE_PUBLIC_MASK) == HARDWARE_IGS_PGM);
+ 		// Define nMaxPlayers early;
+ 		nMaxPlayers = BurnDrvGetMaxPlayers();
+ 
 diff --git a/src/burner/libretro/retro_common.cpp b/src/burner/libretro/retro_common.cpp
-index f34a0f1..7e5e691 100644
+index f34a0f1..c54501b 100644
 --- a/src/burner/libretro/retro_common.cpp
 +++ b/src/burner/libretro/retro_common.cpp
-@@ -70,6 +70,7 @@ static UINT8 diag_input_start_l_r[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DE
+@@ -43,6 +43,7 @@ struct GameInp *pgi_diag;
+ struct GameInp *pgi_debug_dip_1;
+ struct GameInp *pgi_debug_dip_2;
+ bool bIsNeogeoCartGame = false;
++bool bIsPGM = false;
+ bool allow_neogeo_mode = true;
+ bool neogeo_use_specific_default_bios = false;
+ bool bAllowDepth32 = false;
+@@ -70,6 +71,7 @@ static UINT8 diag_input_start_l_r[] =   {RETRO_DEVICE_ID_JOYPAD_START,  RETRO_DE
  static UINT8 diag_input_select[] =      {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_EMPTY };
  static UINT8 diag_input_select_a_b[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_A, RETRO_DEVICE_ID_JOYPAD_B, RETRO_DEVICE_ID_JOYPAD_EMPTY };
  static UINT8 diag_input_select_l_r[] =  {RETRO_DEVICE_ID_JOYPAD_SELECT, RETRO_DEVICE_ID_JOYPAD_L, RETRO_DEVICE_ID_JOYPAD_R, RETRO_DEVICE_ID_JOYPAD_EMPTY };
@@ -10,7 +31,7 @@ index f34a0f1..7e5e691 100644
  
  // Global core options
  static const struct retro_core_option_v2_definition var_empty = { NULL, NULL, NULL, NULL, NULL, NULL, {{0}}, NULL };
-@@ -211,6 +212,7 @@ static const struct retro_core_option_v2_definition var_fbneo_diagnostic_input =
+@@ -211,6 +213,7 @@ static const struct retro_core_option_v2_definition var_fbneo_diagnostic_input =
  		{ "Hold Select + A + B", NULL },
  		{ "Select + L + R", NULL },
  		{ "Hold Select + L + R", NULL },
@@ -18,7 +39,7 @@ index f34a0f1..7e5e691 100644
  		{ NULL, NULL },
  	},
  	"Hold Start"
-@@ -1406,6 +1408,11 @@ void check_variables(void)
+@@ -1406,6 +1409,11 @@ void check_variables(void)
  				diag_input = diag_input_select_l_r;
  				SetDiagInpHoldFrameDelay(60);
  			}
@@ -30,8 +51,20 @@ index f34a0f1..7e5e691 100644
  			else
  			{
  				diag_input = NULL;
+diff --git a/src/burner/libretro/retro_common.h b/src/burner/libretro/retro_common.h
+index 6bb83a4..c51424b 100644
+--- a/src/burner/libretro/retro_common.h
++++ b/src/burner/libretro/retro_common.h
+@@ -191,6 +191,7 @@ extern struct GameInp *pgi_diag;
+ extern struct GameInp *pgi_debug_dip_1;
+ extern struct GameInp *pgi_debug_dip_2;
+ extern bool bIsNeogeoCartGame;
++extern bool bIsPGM;
+ extern bool allow_neogeo_mode;
+ extern bool core_aspect_par;
+ extern bool bAllowDepth32;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index a4c6d17..2f3b013 100644
+index a4c6d17..e55bdce 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
@@ -151,7 +184,7 @@ index a4c6d17..2f3b013 100644
  					break;
  			}
 -		} else {
-+		} else if ((bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOLINE) {
++		} else if ((bIsPGM || bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOLINE) {
 +      switch (nButton) {
 +        case 1:
 +          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_X, description);
@@ -166,7 +199,7 @@ index a4c6d17..2f3b013 100644
 +          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_Y, description);
 +          break;
 +      }
-+    } else if ((bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOSQUARE) {
++    } else if ((bIsPGM || bIsNeogeoCartGame || (nGameType == RETRO_GAME_TYPE_NEOCD)) && nDeviceType[nPlayer] == RETRO_RB_JAMMA_NEOSQUARE) {
 +      switch (nButton) {
 +        case 1:
 +          GameInpDigital2RetroInpKey(pgi, nPlayer, RETRO_DEVICE_ID_JOYPAD_B, description);

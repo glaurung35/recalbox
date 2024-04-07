@@ -4,20 +4,15 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-alpha-41
+## Version 9.2-jamma-49
 
-- Volume rechargé et reset quand on entre dans le menu son (ça evite les conflits avec un changement de volume de l'exterieur)
-- Correction des icones manquant dans le menu quit
-- Correction du problème du scraper qui ne scrapait rien en "uniquement les jeux non scrapés"
-- Correction des pads dans le mauvais ordres dans l'OSD 
-- Correction des gamelist fantôme en sortie de la recherche ou du netplay
-- Correction des crash du netplay quand il n'y a pas de reseau
-- Sauvegarde des parametres WIFI immediatement en sortie du menu reseau
-- Pour les Themeurs:
-  - Propriété `keepratio` fonctionnelle
-  - Ajout des variables `$tateleft` et `$tateright` et leurs equivalents `tateright` et `tateleft` dans les if=""
-  - Plus de warning faux-positifs dans les logs themes
-  - Corrections des options `--rrgbs`, `--jamma`, et ajout des options `--tateright` et `--tateleft` pour lancer ES dans ces modes
+- Volume reload and reset when entering sound menu 
+- Fixed missing icons in quit menu
+- Fixed scraper not scraping anything in "un-scraped games only" mode
+- Correction of pads in wrong order in OSD
+- Fixed phantom gamelist when exiting search or netplay
+- Fix netplay crashes when there's no network
+- Save WIFI settings immediately on exiting network menu
 - CRT:
   - Remove priority to hdmi option when on rpi5
   - Fix naomi2 in 31kHz having black screen

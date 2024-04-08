@@ -17,6 +17,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 - Add user script menu to run scripts from the interface
 - Add VVVVVV port
+- Add Visual Pinball
 
 ### Improvements
 - Add support customize iso from Pi Imager (add sshkey, wifi, hostname)

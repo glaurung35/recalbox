@@ -147,6 +147,7 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/ti99sim/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xroar/Config.in"
 	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/vvvvvv/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/vpinball/Config.in"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
@@ -357,4 +358,18 @@ endmenu
 menu "Pi Hats"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/recalbox-wpaf/Config.in"
 endmenu
+if BR2_PACKAGE_VPINBALL
+menu "Libraries"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libaltsound/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libdmdutil/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libdmdutil/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libpupdmd/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libserum/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libzedmd/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/sockpp/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libdof/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libpinmame/Config.in"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/cargs/Config.in"
+endmenu
+endif
 endmenu

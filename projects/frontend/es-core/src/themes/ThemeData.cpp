@@ -418,7 +418,7 @@ void ThemeData::parseProperty(const String& elementName, ThemePropertyName prope
   }
 }
 
-const ThemeElement* ThemeData::Element(const String& viewName, const String& elementName, ThemeElementType expectedType) const
+const ThemeElement* ThemeData::Element(const String& viewName, const String& elementName, ThemeElementType expectedType, ThemeElementType expectedType2) const
 {
   ThemeView* view = mViews.try_get(viewName);
   if (view == nullptr) return nullptr; // not found
@@ -426,9 +426,9 @@ const ThemeElement* ThemeData::Element(const String& viewName, const String& ele
   if (elementIndex == nullptr) return nullptr;
   ThemeElement* element = &(view->mElementArray[*elementIndex]);
 
-  if(element->Type() == expectedType || expectedType == ThemeElementType::Polymorphic) return element;
+  if(element->Type() == expectedType || element->Type() == expectedType2 || expectedType == ThemeElementType::Polymorphic) return element;
 
-  { LOGT(LogWarning) << "[Theme] Requested mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
+  { LOGT(LogWarning) << "[Theme] Mismatched theme type for [" << viewName << "." << elementName << "] - expected \"" << (int)expectedType << "\", got \"" << (int)element->Type() << "\""; }
   return nullptr;
 }
 
@@ -582,7 +582,7 @@ String::List ThemeData::GetSubSetValues(const String& subset) const
 
 String ThemeData::getTransition() const
 {
-  const auto* elem = Element("system", "systemcarousel", ThemeElementType::Carousel);
+  const auto* elem = Element("system", "systemcarousel", ThemeElementType::Carousel, ThemeElementType::None);
   if (elem != nullptr)
     if (elem->HasProperty(ThemePropertyName::DefaultTransition))
       return elem->AsString(ThemePropertyName::DefaultTransition);
@@ -591,7 +591,7 @@ String ThemeData::getTransition() const
 
 bool ThemeData::isFolderHandled() const
 {
-  const auto* elem = Element("detailed", "md_folder_name", ThemeElementType::Text);
+  const auto* elem = Element("detailed", "md_folder_name", ThemeElementType::Text, ThemeElementType::None);
   return elem != nullptr && elem->HasProperty(ThemePropertyName::Pos);
 }
 

@@ -174,6 +174,7 @@ void ViewController::goToCrtView(CrtCalibrationView::CalibrationType screenType)
 void ViewController::selectGamelistAndCursor(FileData *file)
 {
   SystemData& system = file->System();
+  ReorderGamelistViewBeforeMoving(&system, Move::None);
   goToGameList(&system);
   ISimpleGameListView* view = GetOrCreateGamelistView(&system);
   view->setCursorStack(file);

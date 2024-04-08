@@ -53,6 +53,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
       ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,
+      PinballSubMenu,
       Cases,
       SecuritySubMenu,
       Overscan,

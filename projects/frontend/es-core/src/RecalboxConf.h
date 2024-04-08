@@ -300,6 +300,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
     DefineGetterSetter(KodiXButton, bool, Bool, sKodiXButton, false)
 
+    DefineGetterSetter(PinballCabinet, bool, Bool, sPinballCabinet, true)
+    DefineGetterSetter(PinballTrail, bool, Bool, sPinballTrail, false)
+    DefineGetterSetter(PinballBackglassScreen, String, String, sPinballBackglassScreen, "")
+    DefineGetterSetter(PinballBackglassResolution, String, String, sPinballBackglassResolution, "")
+    DefineGetterSetter(PinballProfile, String, String, sPinballProfile, "1")
+
     DefineGetterSetterEnum(ScraperSource, ScraperType, sScraperSource, ScraperType)
     DefineGetterSetter(ScraperAuto, bool, Bool, sScraperAuto, true)
 
@@ -569,6 +575,12 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sKodiEnabled                = "kodi.enabled";
     static constexpr const char* sKodiAtStartup              = "kodi.atstartup";
     static constexpr const char* sKodiXButton                = "kodi.xbutton";
+    
+    static constexpr const char* sPinballCabinet             = "pinball.cabinet";
+    static constexpr const char* sPinballTrail               = "pinball.trail";
+    static constexpr const char* sPinballBackglassScreen     = "pinball.screen2";
+    static constexpr const char* sPinballBackglassResolution = "pinball.screen2.resolution";
+    static constexpr const char* sPinballProfile             = "pinball.profile";
 
     static constexpr const char* sScraperSource              = "scraper.source";
     static constexpr const char* sScraperAuto                = "scraper.auto";

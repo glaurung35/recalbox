@@ -57,6 +57,7 @@ class MenuAdvancedSettings : public Menu
       ResolutionSubMenu,
       AdvancedSubMenu,
       KodiSubMenu,
+      PinballSubMenu,
       Cases,
       SecuritySubMenu,
       Overscan,

@@ -1,0 +1,8 @@
+--- libdof-3ea64f3f74cd3d676866c077eb9eb297f87b29b3/CMakeLists.txt	2024-04-04 02:23:50.000000000 +0200
++++ libdof-3ea64f3f74cd3d676866c077eb9eb297f87b29b3/CMakeLists.new	2024-04-09 20:38:36.542215989 +0200
+@@ -1,4 +1,4 @@
+-cmake_minimum_required(VERSION 3.25)
++cmake_minimum_required(VERSION 3.22)
+ 
+ set(PLATFORM "win" CACHE STRING "Platform")
+ set(ARCH "x64" CACHE STRING "Arch")

@@ -12,6 +12,7 @@
 #include "MenuKodiSettings.h"
 #include "MenuCRT.h"
 #include "MenuResolutionSettings.h"
+#include "GuiMenuPinballSettings.h"
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
 #include <guis/MenuMessages.h>
@@ -62,6 +63,8 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   #else
   AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, this, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
   #endif
+  // Visual Pinball
+  AddSubMenu(_("PINBALL SETTINGS"), (int)Components::PinballSubMenu, _(MENUMESSAGE_ADVANCED_PINBALL_HELP_MSG));
 
   // Cases
   if(!Case::SupportedManualCases().empty())
@@ -254,6 +257,7 @@ void MenuAdvancedSettings::MenuSwitchChanged(int id, bool& status)
     case Components::VirtualSubMenu:
     case Components::AdvancedSubMenu:
     case Components::KodiSubMenu:
+    case Components::PinballSubMenu:
     case Components::Cases:
     case Components::SecuritySubMenu:
     case Components::FactoryReset:
@@ -274,6 +278,7 @@ void MenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdvancedSubMenu: mWindow.pushGui(new MenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new MenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new MenuResolutionSettings(mWindow, mSystemManager)); break;
+    case Components::PinballSubMenu: mWindow.pushGui(new GuiMenuPinballSettings(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:

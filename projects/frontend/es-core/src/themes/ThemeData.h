@@ -55,6 +55,20 @@ class ThemeData
       FHD  = 8,
     };
 
+    /*!
+     * @brief Deserialize compatibility string into a compatibility bit flag
+     * @param compatibilities Source string
+     * @return Resulting compatiblity
+     */
+    static Compatibility ConvertCompatibility(String compatibilities);
+
+    /*!
+     * @brief Deserialize compatibility string into a compatibility bit flag
+     * @param resolutions Source string
+     * @return Resulting compatiblity
+     */
+    static Resolutions ConvertResolutions(String resolutions);
+
     //! Constructor
     explicit ThemeData(ThemeFileCache& cache, const SystemData* system, IGlobalVariableResolver& globalResolver);
 

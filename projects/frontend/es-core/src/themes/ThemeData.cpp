@@ -798,23 +798,7 @@ ThemeData::Compatibility ThemeData::ExtractCompatibility(const pugi::xml_node& n
   if (!compatibilityNode) return Compatibility::Hdmi;
 
   String compatibility = compatibilityNode.as_string();
-
-  Compatibility result = Compatibility::None;
-  String item;
-  for(;!compatibility.empty();)
-  {
-    if (!compatibility.Extract(',', item, compatibility, true))
-    {
-      item = compatibility.Trim();
-      compatibility.clear();
-    }
-    if      (item == "hdmi" ) result |= Compatibility::Hdmi;
-    else if (item == "jamma") result |= Compatibility::Jamma;
-    else if (item == "crt"  ) result |= Compatibility::Crt;
-    else if (item == "tate" ) result |= Compatibility::Tate;
-  }
-  if (result == Compatibility::None) result = Compatibility::Hdmi;
-  return result;
+  return ConvertCompatibility(compatibility);
 }
 
 ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
@@ -823,23 +807,7 @@ ThemeData::Resolutions ThemeData::ExtractResolutions(const pugi::xml_node& node)
   if (!resolutionNode) return Resolutions::FHD | Resolutions::HD;
 
   String resolutions = resolutionNode.as_string();
-
-  Resolutions result = Resolutions::None;
-  String item;
-  for(;!resolutions.empty();)
-  {
-    if (!resolutions.Extract(',', item, resolutions, true))
-    {
-      item = resolutions.Trim();
-      resolutions.clear();
-    }
-    if      (item == "qvga") result |= Resolutions::QVGA;
-    else if (item == "vga" ) result |= Resolutions::VGA;
-    else if (item == "hd"  ) result |= Resolutions::HD;
-    else if (item == "fhd" ) result |= Resolutions::FHD;
-  }
-  if (result == Resolutions::None) result = Resolutions::FHD | Resolutions::HD;
-  return result;
+  return ConvertResolutions(resolutions);
 }
 
 bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatibility& compatibility, [[out]] Resolutions& resolutions, String& name, int& version, int& recalboxVersion)
@@ -883,6 +851,46 @@ bool ThemeData::FetchCompatibility(const Path& path, [[out]] ThemeData::Compatib
         recalboxVersion = (major.AsInt() << 8) + minor.AsInt();
 
   return true;
+}
+
+ThemeData::Compatibility ThemeData::ConvertCompatibility(String compatibilities)
+{
+  Compatibility result = Compatibility::None;
+  String item;
+  for(;!compatibilities.empty();)
+  {
+    if (!compatibilities.Extract(',', item, compatibilities, true))
+    {
+      item = compatibilities.Trim();
+      compatibilities.clear();
+    }
+    if      (item == "hdmi" ) result |= Compatibility::Hdmi;
+    else if (item == "jamma") result |= Compatibility::Jamma;
+    else if (item == "crt"  ) result |= Compatibility::Crt;
+    else if (item == "tate" ) result |= Compatibility::Tate;
+  }
+  if (result == Compatibility::None) result = Compatibility::Hdmi;
+  return result;
+}
+
+ThemeData::Resolutions ThemeData::ConvertResolutions(String resolutions)
+{
+  Resolutions result = Resolutions::None;
+  String item;
+  for(;!resolutions.empty();)
+  {
+    if (!resolutions.Extract(',', item, resolutions, true))
+    {
+      item = resolutions.Trim();
+      resolutions.clear();
+    }
+    if      (item == "qvga") result |= Resolutions::QVGA;
+    else if (item == "vga" ) result |= Resolutions::VGA;
+    else if (item == "hd"  ) result |= Resolutions::HD;
+    else if (item == "fhd" ) result |= Resolutions::FHD;
+  }
+  if (result == Resolutions::None) result = Resolutions::FHD | Resolutions::HD;
+  return result;
 }
 
 

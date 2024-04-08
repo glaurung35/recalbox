@@ -296,7 +296,7 @@ SectionFile::LineType SectionFile::Section::ParseLine(const String& line, String
   // The only required String operations are key/values extractions
 
   // Too long?
-  if (line.Count() > 4096) return LineType::TooLong;
+  if (line.Count() > 8192) return LineType::TooLong;
   // Contains binary?
   if (line.CountControl() != 0) return LineType::Binary;
 

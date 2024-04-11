@@ -665,6 +665,7 @@ static struct config {
   bool amp_disable;
   uint player_count;
   bool dual_joy;
+  uint debounce_time_ms;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -1316,10 +1317,6 @@ static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_
   return 0;
 }
 
-
-// Debounce to 40ms
-#define DEBOUNCE_TIME (40000000)
-
 static unsigned long long gpio_data = 0xFFFFFFFFFFFF;
 
 static int process_inputs(struct gpio_chip *gpio_chip) {
@@ -1381,7 +1378,7 @@ static int process_debounce_and_turbo(void *idx) {
     must_process_input = false;
     for (button = 0; button < TOTAL_GPIO_ON_PCA; button++) {
       if (lastActionOn[button] != 0) {
-        if (time_ns - lastActionOn[button] > DEBOUNCE_TIME) {
+        if (time_ns - lastActionOn[button] > (1000000ul * jamma_config.debounce_time_ms)) {
           // This gpio must be debounced
           DEBUG &&printk(KERN_INFO
                          "recalboxrgbjamma: debouncing thread: finish debouncing of %d\n",
@@ -1419,7 +1416,7 @@ static int process_debounce_and_turbo(void *idx) {
     if (must_process_input) {
       process_inputs(NULL);
     }
-    usleep_range(10000, 15000);
+    usleep_range(2000, 4000);
   }
   return 0;
 }
@@ -1568,6 +1565,11 @@ static int load_config(void) {
             if (jamma_config.dual_joy != optionvalue ) {
               printk(KERN_INFO "recalboxrgbjamma: switch dual_joy to %d\n", optionvalue);
               jamma_config.dual_joy = optionvalue;
+            }
+          } else if (strcmp(optionname, "options.jamma.controls.debounce_time_ms") == 0) {
+            if (jamma_config.debounce_time_ms != optionvalue ) {
+              printk(KERN_INFO "recalboxrgbjamma: switch debounce_time_ms to %d\n", optionvalue);
+              jamma_config.debounce_time_ms = optionvalue;
             }
           } else if (strcmp(optionname, "options.jamma.i2s") == 0) {
             if (jamma_config.i2s != optionvalue) {
@@ -1914,6 +1916,7 @@ pca953x_init(void) {
   jamma_config.amp_boost = 0;
   jamma_config.player_count = 2;
   jamma_config.dual_joy = false;
+  jamma_config.debounce_time_ms = 10;
 
   mutex_init(&jamma_config.process_mutex);
   printk(KERN_INFO "recalboxrgbjamma: registering controllers\n");

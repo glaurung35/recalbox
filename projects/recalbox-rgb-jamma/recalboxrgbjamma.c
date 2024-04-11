@@ -665,7 +665,7 @@ static struct config {
   bool amp_disable;
   uint player_count;
   bool dual_joy;
-  uint8 debounce_time_ms;
+  uint debounce_time_ms;
 } jamma_config;
 
 static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
@@ -1378,7 +1378,7 @@ static int process_debounce_and_turbo(void *idx) {
     must_process_input = false;
     for (button = 0; button < TOTAL_GPIO_ON_PCA; button++) {
       if (lastActionOn[button] != 0) {
-        if (time_ns - lastActionOn[button] > (1'000'000ul * jamma_config.debounce_time_ms)) {
+        if (time_ns - lastActionOn[button] > (1000000ul * jamma_config.debounce_time_ms)) {
           // This gpio must be debounced
           DEBUG &&printk(KERN_INFO
                          "recalboxrgbjamma: debouncing thread: finish debouncing of %d\n",

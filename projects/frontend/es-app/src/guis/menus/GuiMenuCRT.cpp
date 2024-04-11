@@ -151,6 +151,8 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, SystemManager& systemManager, cons
                     _(MENUMESSAGE_ADVANCED_CRT_JAMMA_NEOGEO_LAYOUT));
     AddSwitch(_("4 PLAYERS MODE"), CrtConf::Instance().GetSystemCRTJamma4Players(),
               (int)Components::Jamma4Players, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_4PLAYERS));
+    AddSlider(_("DEBOUNCE TIME (MS)"), 10, 60, 5, CrtConf::Instance().GetSystemCRTJammaDebounceTime(),"ms",
+              (int)Components::JammaDebounceTime, this);
     AddSwitch(_("START+BTN1 = CREDIT"), CrtConf::Instance().GetSystemCRTJammaStartBtn1Credit(),
               (int)Components::JammaStartBtn1Credit, this,_(MENUMESSAGE_ADVANCED_CRT_JAMMA_CREDIT));
     AddSwitch(_("START+BTN = HK+BTN"), CrtConf::Instance().GetSystemCRTJammaHKOnStart(),
@@ -547,5 +549,13 @@ void GuiMenuCRT::SubMenuSelected(int id)
           RequestReboot();
         },
         _("NO"), [] { }));
+  }
+}
+
+void GuiMenuCRT::SliderMoved(int id, float value)
+{
+  if ((Components)id == Components::JammaDebounceTime)
+  {
+    CrtConf::Instance().SetSystemCRTJammaDebounceTime(value).Save();
   }
 }

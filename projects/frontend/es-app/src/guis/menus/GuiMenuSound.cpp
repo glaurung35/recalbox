@@ -13,6 +13,7 @@
 #include "guis/MenuMessages.h"
 #include <guis/GuiMsgBox.h>
 #include <recalbox/RecalboxSystem.h>
+#include <SDL_mixer.h>
 
 GuiMenuSound::GuiMenuSound(WindowManager& window)
   : GuiMenuBase(window, _("SOUND SETTINGS"), this)
@@ -22,7 +23,7 @@ GuiMenuSound::GuiMenuSound(WindowManager& window)
 
   // Volume
   mVolume = AddSlider(_("SYSTEM VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetVolume(), "%", (int)Components::Volume, this, _(MENUMESSAGE_SOUND_VOLUME_HELP_MSG));
-  mMusicVolume = AddSlider(_("MUSIC VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME), "%", (int)Components::MusicVolume, this, _(MENUMESSAGE_SOUND_MUSIC_VOLUME_HELP_MSG));
+  mMusicVolume = AddSlider(_("MUSIC VOLUME"), 0.f, 100.f, 1.f, (float)AudioController::Instance().GetMusicVolume(), "%", (int)Components::MusicVolume, this, _(MENUMESSAGE_SOUND_MUSIC_VOLUME_HELP_MSG));
 
   // AudioMode
   mAudioMode = AddList<AudioMode>(_("AUDIO MODE"), (int)Components::AudioMode, this, GetAudioModeEntries(), _(MENUMESSAGE_SOUND_MODE_HELP_MSG));
@@ -89,7 +90,7 @@ void GuiMenuSound::Update(int deltaTime)
   if (realVolume != (int)mVolume->getSlider())
     mVolume->setSlider((float)realVolume);
 
-  realVolume = AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME);
+  realVolume = AudioController::Instance().GetMusicVolume();
   if (realVolume != (int)mMusicVolume->getSlider())
     mMusicVolume->setSlider((float)realVolume);
 }
@@ -130,10 +131,9 @@ void GuiMenuSound::SliderMoved(int id, float value)
     if (RecalboxConf::Instance().GetAudioVolume() != Math::roundi(value))
       RecalboxConf::Instance().SetAudioVolume(Math::roundi(value)).Save();
   }
-  if ((Components)id == Components::MusicVolume && AudioController::Instance().GetSinkInputVolume(AUDIO_CHANNEL_NAME) != Math::roundi(value))
+  if ((Components)id == Components::MusicVolume && AudioController::Instance().GetMusicVolume() != Math::roundi(value))
   {
-    AudioController::Instance().SetSinkInputVolume(AUDIO_CHANNEL_NAME, Math::roundi(value));
-    RecalboxConf::Instance().SetAudioMusicVolume(Math::roundi(value)).Save();
+    AudioController::Instance().SetMusicVolume(Math::roundi(value));
   }
 }
 

@@ -19,6 +19,7 @@ class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<String>
                  , private IOptionListComponent<CrtScanlines>
                  , private IOptionListComponent<ICrtInterface::HorizontalFrequency>
+                 , private ISliderComponent
                  , private ISwitchComponent
                  , private IGuiMenuBase
 {
@@ -65,7 +66,8 @@ class GuiMenuCRT : public GuiMenuBase
       JammaDualJoysticks,
       ResetJamma,
       JammaSoundOutput,
-      JammaSoundOnStart
+      JammaSoundOnStart,
+      JammaDebounceTime
     };
 
     //! System manager reference
@@ -135,6 +137,11 @@ class GuiMenuCRT : public GuiMenuBase
      * ISwitchComponent implementation
      */
     void SwitchComponentChanged(int id, bool& status) override;
+
+    /*
+     * ISliderComponent implementation
+     */
+    void SliderMoved(int id, float value) override;
 
     /*
      * IGuiMenuBase implementation

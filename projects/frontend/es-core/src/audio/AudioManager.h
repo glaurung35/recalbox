@@ -8,7 +8,6 @@
 
 #include "utils/sync/SyncMessageSender.h"
 
-#define AUDIO_CHANNEL_NAME "music"
 class AudioManager : private ISyncMessageReceiver<void>
                    , public StaticLifeCycleControler<AudioManager>
 {

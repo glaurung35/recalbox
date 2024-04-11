@@ -50,7 +50,7 @@ void AudioManager::Initialize()
     { LOG(LogError) << "[AudioManager] Error initializing SDL audio!\n" << SDL_GetError(); }
     return;
   }*/
-  SDL_SetHint(SDL_HINT_AUDIO_DEVICE_STREAM_NAME, AUDIO_CHANNEL_NAME);
+
   // Open the audio device and pause
   if (Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 4096) < 0)
   {
@@ -238,7 +238,7 @@ void AudioManager::PlayRandomMusic()
   mCurrentMusicSource = source;
 
   // set music volume
-  AudioController::Instance().SetSinkInputVolume(AUDIO_CHANNEL_NAME, RecalboxConf::Instance().GetAudioMusicVolume());
+  AudioController::Instance().SetMusicVolume(RecalboxConf::Instance().GetAudioMusicVolume());
 
   // Popup?
   int popupDuration = RecalboxConf::Instance().GetPopupMusic();

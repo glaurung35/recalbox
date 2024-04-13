@@ -4,21 +4,46 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-patron-5
+
+- Fix netplay port configuration
+- Fix theme region management
+- Fix a bug that caused inconsistencies in game lists after 2 (or more) gamelist updates
+- Fix the default image that no longer appeared when there was no scraped media
+- Fix missing game descriptions
+- Fixed double image for scraped folders (scraped image + image when no image available)
+- Fixed all overflowing menu titles (they are all scrollable)
+- Fixed multiple problems in list overlay (flags biting into text, incorrect margins, ...)
+- Fixed gameclip problems with the rare non-themable systems (individual ports)
+- Fixed a rare crash when entering a system (buffer overflow)
+- Add secure file load/save to ensure gamelist/recalbox.conf are always in a good state
+- Add 3 shifting backup to log files & split theme logs
+- Fix crashes when exiting games
+- Fix rare crashes when exiting ES w/ themes containing SVGs images
+- Free more GPU VRAM when running emulators (unload flags)
+- Fix multiple issues related to gameclip theme
+- Fix fuplicate key issues in recalbox.conf
+- Fix "move to letter" & L1/R1 moves in Arcade view
+- Fix still unidentified games in MAME when games w/ chd where found more than 2 times in subfolders
+- Fix a few false negative error logs
+- Fix music volume in ES
+- Volume reload and reset when entering sound menu (avoids conflicts with external volume changes)
+- Fixed missing icons in quit menu
+- Fixed scraper problem that didn't scrape anything in "un-scraped games only" mode
+- Fixed pads in wrong order in OSD
+- Fixed phantom gamelist when exiting search or netplay
+- Fix netplay crashes when there's no network
+- Save WIFI settings immediately on exiting network menu
+- Fix GPICase2 boot
+- CRT:
+  - Remove priority to hdmi option when on rpi5
+  - Fix naomi2 in 31kHz having black screen
+- Themes: add new colors for recalbox next and 240p themes
+- Apply rgbjamma neogeo mapping on pgm games
+
+
 ## Version 9.2-Pulstar
 
-### Jamma
-- Set pin 27/e as ground by default
-- Add casino games in baord games filter (mahjong + casino + trivia)
-- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
-- Fix autofire enable/disble
-- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
-
-### Patron
-- Fix 31kHz handheld and PSX games
-- Fix naomi 2 instabilities
-- Fix netplay port configuration
-- Debump Flycast on handhelds, should fix perf issues
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)

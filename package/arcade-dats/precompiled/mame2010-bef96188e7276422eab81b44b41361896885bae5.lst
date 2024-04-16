@@ -1401,7 +1401,7 @@ rtype|R-Type (World)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 rtypej|R-Type (Japan)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 rtypejp|R-Type (Japan prototype)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 rtypeu|R-Type (US)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72/Nintendo
-rtypeb|R-Type (World bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|
+rtypeb|R-Type (World bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 bchopper|Battle Chopper|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 mrheli|Mr. HELI no Dai-Bouken|clone|irem/m72.cpp|0|384|256|55.017606||bchopper|good|Irem\M72
 nspirit|Ninja Spirit|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
@@ -1410,8 +1410,8 @@ imgfight|Image Fight (Japan, revision A)|parent|irem/m72.cpp|270|384|256|55.0176
 imgfighto|Image Fight (Japan)|clone|irem/m72.cpp|270|384|256|55.017606||imgfight|good|Irem\M72
 loht|Legend of Hero Tonma|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 lohtj|Legend of Hero Tonma (Japan)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|Irem\M72
-lohtb|Legend of Hero Tonma (bootleg, set 1)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|
-lohtb2|Legend of Hero Tonma (bootleg, set 2)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|
+lohtb|Legend of Hero Tonma (bootleg, set 1)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|Irem\M72
+lohtb2|Legend of Hero Tonma (bootleg, set 2)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|Irem\M72
 xmultipl|X Multiply (World, M81)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 xmultiplm72|X Multiply (Japan, M72)|clone|irem/m72.cpp|0|384|256|55.017606||xmultipl|good|Irem\M72
 dbreed|Dragon Breed (M81 PCB version)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
@@ -1471,7 +1471,7 @@ skingame2|The Irem Skins Game (US set 2)|clone|irem/m92.cpp|0|320|240|60.000000|
 hook|Hook (World)|parent|irem/m92.cpp|0|320|240|60.000000|||good|Irem\M92
 hooku|Hook (US)|clone|irem/m92.cpp|0|320|240|60.000000||hook|good|Irem\M92
 hookj|Hook (Japan)|clone|irem/m92.cpp|0|320|240|60.000000||hook|good|Irem\M92
-ppan|Peter Pan (bootleg of Hook)|clone|irem/m92.cpp|0|320|240|60.000000||hook|imperfect|
+ppan|Peter Pan (bootleg of Hook)|clone|irem/m92.cpp|0|320|240|60.000000||hook|imperfect|Irem\M92
 rtypeleo|R-Type Leo (World)|parent|irem/m92.cpp|0|320|240|60.000000|||good|Irem\M92
 rtypeleoj|R-Type Leo (Japan)|clone|irem/m92.cpp|0|320|240|60.000000||rtypeleo|good|Irem\M92
 inthunt|In The Hunt (World)|parent|irem/m92.cpp|0|320|240|60.000000|||good|Irem\M92
@@ -1976,7 +1976,7 @@ bublbob2|Bubble Bobble II (Ver 2.5O 1994/10/05)|parent|taito/taito_f3.cpp|0|320|
 bubsymphe|Bubble Symphony (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|good|Taito\F3
 bubsymphu|Bubble Symphony (Ver 2.5A 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|good|Taito\F3
 bubsymphj|Bubble Symphony (Ver 2.5J 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|good|Taito\F3
-bubsymphb|Bubble Symphony (bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|
+bubsymphb|Bubble Symphony (bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|Taito\F3
 spcinvdj|Space Invaders DX (Ver 2.6J 1994/09/14) (F3 Version)|clone|taito/taito_f3.cpp|0|320|232|58.970000||spacedx|good|Taito\F3
 pwrgoal|Taito Power Goal (Ver 2.5O 1994/11/03)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||good|Taito\F3
 hthero95|Hat Trick Hero '95 (Ver 2.5J 1994/11/03)|clone|taito/taito_f3.cpp|0|320|224|58.970000||pwrgoal|good|Taito\F3
@@ -2378,7 +2378,7 @@ ffightub|Final Fight (USA 900613)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffi
 ffightj|Final Fight (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightj1|Final Fight (Japan 900112)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightj2|Final Fight (Japan 900305)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
-ffightjh|Street Smart / Final Fight (Japan, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|
+ffightjh|Street Smart / Final Fight (Japan, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 1941|1941: Counter Attack (World)|parent|capcom/cps1.cpp|270|384|224|59.637405|||good|Capcom\CPS1
 1941j|1941: Counter Attack (Japan)|clone|capcom/cps1.cpp|270|384|224|59.637405||1941|good|Capcom\CPS1
 mercs|Mercs (World 900302)|parent|capcom/cps1.cpp|270|384|224|59.637405|||good|Capcom\CPS1
@@ -2399,7 +2399,7 @@ nemo|Nemo (World 901130)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capco
 nemoj|Nemo (Japan 901120)|clone|capcom/cps1.cpp|0|384|224|59.637405||nemo|good|Capcom\CPS1
 sf2|Street Fighter II: The World Warrior (World 910522)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 sf2eb|Street Fighter II: The World Warrior (World 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
-sf2ebbl|Street Fighter II: The World Warrior (TAB Austria, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
+sf2ebbl|Street Fighter II: The World Warrior (TAB Austria, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ua|Street Fighter II: The World Warrior (USA 910206)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ub|Street Fighter II: The World Warrior (USA 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ud|Street Fighter II: The World Warrior (USA 910318)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
@@ -2410,12 +2410,12 @@ sf2uk|Street Fighter II: The World Warrior (USA 911101)|clone|capcom/cps1.cpp|0|
 sf2j|Street Fighter II: The World Warrior (Japan 911210)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ja|Street Fighter II: The World Warrior (Japan 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2jc|Street Fighter II: The World Warrior (Japan 910306)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
-sf2qp1|Street Fighter II: The World Warrior (Quicken Pt-I, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2thndr|Street Fighter II: The World Warrior (Thunder Edition, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
+sf2qp1|Street Fighter II: The World Warrior (Quicken Pt-I, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2thndr|Street Fighter II: The World Warrior (Thunder Edition, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 3wonders|Three Wonders (World 910520)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 3wondersu|Three Wonders (USA 910520)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
 wonder3|Wonder 3 (Japan 910520)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
-3wondersh|Three Wonders (hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|
+3wondersh|Three Wonders (hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
 kod|The King of Dragons (World 910711)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 kodu|The King of Dragons (USA 910910)|clone|capcom/cps1.cpp|0|384|224|59.637405||kod|good|Capcom\CPS1
 kodj|The King of Dragons (Japan 910805)|clone|capcom/cps1.cpp|0|384|224|59.637405||kod|good|Capcom\CPS1
@@ -2425,7 +2425,7 @@ captcommr1|Captain Commando (World 911014)|clone|capcom/cps1.cpp|0|384|224|59.63
 captcommu|Captain Commando (USA 910928)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
 captcommj|Captain Commando (Japan 911202)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
 captcommjr1|Captain Commando (Japan 910928)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
-captcommb|Captain Commando (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|preliminary|
+captcommb|Captain Commando (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|preliminary|Capcom\CPS1
 knights|Knights of the Round (World 911127)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 knightsu|Knights of the Round (USA 911127)|clone|capcom/cps1.cpp|0|384|224|59.637405||knights|good|Capcom\CPS1
 knightsj|Knights of the Round (Japan 911127)|clone|capcom/cps1.cpp|0|384|224|59.637405||knights|good|Capcom\CPS1
@@ -2435,34 +2435,34 @@ sf2ceua|Street Fighter II': Champion Edition (USA 920313)|clone|capcom/cps1.cpp|
 sf2ceub|Street Fighter II': Champion Edition (USA 920513)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceuc|Street Fighter II': Champion Edition (USA 920803)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2cej|Street Fighter II': Champion Edition (Japan 920513)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
-sf2rb|Street Fighter II': Champion Edition (Rainbow set 1, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2rb2|Street Fighter II': Champion Edition (Rainbow set 2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2rb3|Street Fighter II': Champion Edition (Rainbow set 3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2red|Street Fighter II': Champion Edition (Red Wave, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2v004|Street Fighter II': Champion Edition (V004, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2acc|Street Fighter II': Champion Edition (Accelerator!, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2accp2|Street Fighter II': Champion Edition (Accelerator Pt.II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2dkot2|Street Fighter II': Champion Edition (Double K.O. Turbo II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2rb|Street Fighter II': Champion Edition (Rainbow set 1, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2rb2|Street Fighter II': Champion Edition (Rainbow set 2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2rb3|Street Fighter II': Champion Edition (Rainbow set 3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2red|Street Fighter II': Champion Edition (Red Wave, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2v004|Street Fighter II': Champion Edition (V004, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2acc|Street Fighter II': Champion Edition (Accelerator!, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2accp2|Street Fighter II': Champion Edition (Accelerator Pt.II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2dkot2|Street Fighter II': Champion Edition (Double K.O. Turbo II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2m1|Street Fighter II': Champion Edition (M1, bootleg)|clone|capcom/fcrash.cpp|0|384|224|59.637405||sf2ce|preliminary|
-sf2m2|Street Fighter II': Champion Edition (M2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m3|Street Fighter II': Champion Edition (M3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|preliminary|
-sf2m4|Street Fighter II': Champion Edition (M4, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m5|Street Fighter II': Champion Edition (M5, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m6|Street Fighter II': Champion Edition (M6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m7|Street Fighter II': Champion Edition (M7, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2yyc|Street Fighter II': Champion Edition (YYC, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2koryu|Street Fighter II': Champion Edition (Xiang Long, Chinese bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2m2|Street Fighter II': Champion Edition (M2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m3|Street Fighter II': Champion Edition (M3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|preliminary|Capcom\CPS1
+sf2m4|Street Fighter II': Champion Edition (M4, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m5|Street Fighter II': Champion Edition (M5, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m6|Street Fighter II': Champion Edition (M6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m7|Street Fighter II': Champion Edition (M7, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2yyc|Street Fighter II': Champion Edition (YYC, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2koryu|Street Fighter II': Champion Edition (Xiang Long, Chinese bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2mdt|Street Fighter II': Magic Delta Turbo (bootleg)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|preliminary|
 varth|Varth: Operation Thunderstorm (World 920714)|parent|capcom/cps1.cpp|270|384|224|59.637405|||good|Capcom\CPS1
 varthr1|Varth: Operation Thunderstorm (World 920612)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom\CPS1
-varthu|Varth: Operation Thunderstorm (USA 920612)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom, distributed by Romstar
+varthu|Varth: Operation Thunderstorm (USA 920612)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom, distributed by Romstar/Capcom\CPS1
 varthj|Varth: Operation Thunderstorm (Japan 920714)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom\CPS1
 cworld2j|Adventure Quiz Capcom World 2 (Japan 920611)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 wof|Warriors of Fate (World 921002)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 wofa|Sangokushi II (Asia 921005)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 wofu|Warriors of Fate (USA 921031)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 wofj|Tenchi wo Kurau II: Sekiheki no Tatakai (Japan 921031)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
-wofhfb|Huo Feng Huang (Chinese bootleg of Sangokushi II)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|
+wofhfb|Huo Feng Huang (Chinese bootleg of Sangokushi II)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 sf2hf|Street Fighter II': Hyper Fighting (World 921209)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 sf2hfu|Street Fighter II': Hyper Fighting (USA 921209)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2hf|good|Capcom\CPS1
 sf2hfj|Street Fighter II' Turbo: Hyper Fighting (Japan 921209)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2hf|good|Capcom\CPS1
@@ -2471,26 +2471,26 @@ dinou|Cadillacs and Dinosaurs (USA 930201)|clone|capcom/cps1.cpp|0|384|224|59.63
 dinoj|Cadillacs: Kyouryuu Shin Seiki (Japan 930201)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|good|Capcom\CPS1
 dinopic|Cadillacs and Dinosaurs (bootleg with PIC16c57, set 1)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||dino|preliminary|
 dinopic2|Cadillacs and Dinosaurs (bootleg with PIC16c57, set 2)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||dino|preliminary|
-dinohunt|Dinosaur Hunter (Chinese bootleg of Cadillacs and Dinosaurs)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|preliminary|
+dinohunt|Dinosaur Hunter (Chinese bootleg of Cadillacs and Dinosaurs)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|preliminary|Capcom\CPS1
 punisher|The Punisher (World 930422)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 punisheru|The Punisher (USA 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 punisherj|The Punisher (Japan 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 punipic|The Punisher (bootleg with PIC16c57, set 1)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||punisher|preliminary|
 punipic2|The Punisher (bootleg with PIC16c57, set 2)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||punisher|preliminary|
 punipic3|The Punisher (bootleg with PIC16c57, set 3)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||punisher|preliminary|
-punisherbz|Biaofeng Zhanjing (Chinese bootleg of The Punisher)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|
+punisherbz|Biaofeng Zhanjing (Chinese bootleg of The Punisher)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 slammast|Saturday Night Slam Masters (World 930713)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 slammastu|Saturday Night Slam Masters (USA 930713)|clone|capcom/cps1.cpp|0|384|224|59.637405||slammast|good|Capcom\CPS1
 mbomberj|Muscle Bomber: The Body Explosion (Japan 930713)|clone|capcom/cps1.cpp|0|384|224|59.637405||slammast|good|Capcom\CPS1
 mbombrd|Muscle Bomber Duo: Ultimate Team Battle (World 931206)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 mbombrdj|Muscle Bomber Duo: Heat Up Warriors (Japan 931206)|clone|capcom/cps1.cpp|0|384|224|59.637405||mbombrd|good|Capcom\CPS1
-pnickj|Pnickies (Japan 940608)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom,  by Compile
+pnickj|Pnickies (Japan 940608)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom,  by Compile/Capcom\CPS1
 qad|Quiz & Dragons: Capcom Quiz Game (USA 920701)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 qadj|Quiz & Dragons: Capcom Quiz Game (Japan 940921)|clone|capcom/cps1.cpp|0|384|224|59.637405||qad|good|Capcom\CPS1
 qtono2j|Quiz Tonosama no Yabou 2: Zenkoku-ban (Japan 950123)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
-pang3|Pang! 3 (Euro 950601)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Mitchell
-pang3n|Pang! 3 (Euro 950511, not encrypted)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Mitchell
-pang3j|Pang! 3: Kaitou Tachi no Karei na Gogo (Japan 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Mitchell
+pang3|Pang! 3 (Euro 950601)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1/Mitchell
+pang3n|Pang! 3 (Euro 950511, not encrypted)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1/Mitchell
+pang3j|Pang! 3: Kaitou Tachi no Karei na Gogo (Japan 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1/Mitchell
 megaman|Mega Man: The Power Battle (CPS1, Asia 951006)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 rockmanj|Rockman: The Power Battle (CPS1, Japan 950922)|clone|capcom/cps1.cpp|0|384|224|59.637405||megaman|good|Capcom\CPS1
 fcrash|Final Crash (bootleg of Final Fight)|clone|capcom/fcrash.cpp|0|384|224|60.000000||ffight|good|PlayMark
@@ -2627,7 +2627,7 @@ megaman2|Mega Man 2: The Power Fighters (USA 960708)|parent|capcom/cps2.cpp|0|38
 megaman2a|Mega Man 2: The Power Fighters (Asia 960708)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
 rockman2j|Rockman 2: The Power Fighters (Japan 960708)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
 megaman2h|Mega Man 2: The Power Fighters (Hispanic 960712)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
-gigamn2|Giga Man 2: The Power Fighters (bootleg of Mega Man 2: The Power Fighters)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|preliminary|
+gigamn2|Giga Man 2: The Power Fighters (bootleg of Mega Man 2: The Power Fighters)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|preliminary|Capcom\CPS2
 sfz2al|Street Fighter Zero 2 Alpha (Asia 960826)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 sfz2alj|Street Fighter Zero 2 Alpha (Japan 960805)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
 sfz2alh|Street Fighter Zero 2 Alpha (Hispanic 960813)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
@@ -2721,36 +2721,36 @@ choko|Janpai Puzzle Choukou (Japan 010820)|parent|capcom/cps2.cpp|0|384|224|59.6
 hsf2|Hyper Street Fighter 2: The Anniversary Edition (USA 040202)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 hsf2j|Hyper Street Fighter 2: The Anniversary Edition (Japan 031222)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
 hsf2a|Hyper Street Fighter 2: The Anniversary Edition (Asia 040202)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
-ssf2ud|Super Street Fighter II: The New Challengers (USA 930911 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|
-ddtodd|Dungeons & Dragons: Tower of Doom (Euro 940412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|
-avspd|Alien vs. Predator (Euro 940520 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|
-dstlku1d|Darkstalkers: The Night Warriors (USA 940705 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|
-ringdstd|Ring of Destruction: Slammasters II (Euro 940902 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|
-xmcotad|X-Men: Children of the Atom (Euro 950105 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|
-nwarrud|Night Warriors: Darkstalkers' Revenge (USA 950406 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|
-sfad|Street Fighter Alpha: Warriors' Dreams (Euro 950727 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|
-mshud|Marvel Super Heroes (US 951024 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|
-19xxd|19XX: The War Against Destiny (USA 951207 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|
-sfz2ad|Street Fighter Zero 2 (Asia 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|
-spf2xjd|Super Puzzle Fighter II X (Japan 960531 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|
-ddsomud|Dungeons & Dragons: Shadow over Mystara (USA 960619 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|
-megamn2d|Mega Man 2: The Power Fighters (USA 960708 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|
-sfz2ald|Street Fighter Zero 2 Alpha (Asia 960826 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|
-xmvsfu1d|X-Men Vs. Street Fighter (USA 961004 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|
-batcird|Battle Circuit (Euro 970319 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|
-vsavd|Vampire Savior: The Lord of Vampire (Euro 970519 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|
-mvscud|Marvel Vs. Capcom: Clash of Super Heroes (USA 980123 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|
-sfa3ud|Street Fighter Alpha 3 (USA 980904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|
-gwingjd|Giga Wing (Japan 990223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|
-1944d|1944: The Loop Master (USA 000620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|
-progerjd|Progear no Arashi (Japan 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|
-hsf2d|Hyper Street Fighter II: The Anniversary Edition (Asia 040202 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|
-ssf2tbd|Super Street Fighter II: The Tournament Battle (World 931119 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|
-ssf2xjd|Super Street Fighter II X: Grand Master Challenge (Japan 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|
-sgemfd|Super Gem Fighter Mini Mix (USA 970904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|
-armwar1d|Armored Warriors (Euro 941011 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|
-dimahoud|Dimahoo (USA 000121 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||dimahoo|good|
-mmatrixd|Mars Matrix: Hyper Solid Shooting (Japan 000412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|
+ssf2ud|Super Street Fighter II: The New Challengers (USA 930911 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
+ddtodd|Dungeons & Dragons: Tower of Doom (Euro 940412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
+avspd|Alien vs. Predator (Euro 940520 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|Capcom\CPS2
+dstlku1d|Darkstalkers: The Night Warriors (USA 940705 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
+ringdstd|Ring of Destruction: Slammasters II (Euro 940902 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
+xmcotad|X-Men: Children of the Atom (Euro 950105 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
+nwarrud|Night Warriors: Darkstalkers' Revenge (USA 950406 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
+sfad|Street Fighter Alpha: Warriors' Dreams (Euro 950727 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
+mshud|Marvel Super Heroes (US 951024 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|Capcom\CPS2
+19xxd|19XX: The War Against Destiny (USA 951207 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
+sfz2ad|Street Fighter Zero 2 (Asia 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
+spf2xjd|Super Puzzle Fighter II X (Japan 960531 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
+ddsomud|Dungeons & Dragons: Shadow over Mystara (USA 960619 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
+megamn2d|Mega Man 2: The Power Fighters (USA 960708 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
+sfz2ald|Street Fighter Zero 2 Alpha (Asia 960826 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
+xmvsfu1d|X-Men Vs. Street Fighter (USA 961004 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
+batcird|Battle Circuit (Euro 970319 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|Capcom\CPS2
+vsavd|Vampire Savior: The Lord of Vampire (Euro 970519 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
+mvscud|Marvel Vs. Capcom: Clash of Super Heroes (USA 980123 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
+sfa3ud|Street Fighter Alpha 3 (USA 980904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
+gwingjd|Giga Wing (Japan 990223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2
+1944d|1944: The Loop Master (USA 000620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|Capcom\CPS2
+progerjd|Progear no Arashi (Japan 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2
+hsf2d|Hyper Street Fighter II: The Anniversary Edition (Asia 040202 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
+ssf2tbd|Super Street Fighter II: The Tournament Battle (World 931119 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
+ssf2xjd|Super Street Fighter II X: Grand Master Challenge (Japan 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
+sgemfd|Super Gem Fighter Mini Mix (USA 970904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|Capcom\CPS2
+armwar1d|Armored Warriors (Euro 941011 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|Capcom\CPS2
+dimahoud|Dimahoo (USA 000121 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||dimahoo|good|Capcom\CPS2
+mmatrixd|Mars Matrix: Hyper Solid Shooting (Japan 000412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|Capcom\CPS2
 sfiii|Street Fighter III: New Generation (USA, 970204)|parent|capcom/cps3.cpp|0|384|224|59.599491|||imperfect|Capcom\CPS3
 sfiiij|Street Fighter III: New Generation (Japan, 970204)|clone|capcom/cps3.cpp|0|384|224|59.599491||sfiii|imperfect|Capcom\CPS3
 sfiii2|Street Fighter III 2nd Impact: Giant Attack (USA, 970930)|parent|capcom/cps3.cpp|0|384|224|59.599491|||imperfect|Capcom\CPS3
@@ -2866,29 +2866,29 @@ taitogn|Taito GNET|bios||||||||good|Sony/Taito
 chaoshea|Chaos Heat (V2.09O)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET
 chaosheaj|Chaos Heat (V2.08J)|clone|sony/taitogn.cpp|0|640|480|60.000000|taitogn|chaoshea|imperfect|Taito\GNET
 raycris|Ray Crisis (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET
-otenamih|Otenami Haiken (V2.04J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success
-otenamhf|Otenami Haiken Final (V2.07JC)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success/Warashi
+otenamih|Otenami Haiken (V2.04J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success/Taito\GNET
+otenamhf|Otenami Haiken Final (V2.07JC)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success/Taito\GNET/Warashi
 spuzboblj|Super Puzzle Bobble (V2.04J)|clone|sony/taitogn.cpp|0|640|480|60.000000|taitogn|spuzbobl|imperfect|Taito\GNET
 spuzbobl|Super Puzzle Bobble (V2.05O)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET
 gobyrc|Go By RC (V2.03O)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||preliminary|Taito\GNET
 rcdego|RC De Go (V2.03J)|clone|sony/taitogn.cpp|0|640|480|60.000000|taitogn|gobyrc|preliminary|Taito\GNET
 flipmaze|Flip Maze (V2.04J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Moss/Taito\GNET
 mahjngoh|Mahjong Oh (V2.06J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Mahjong Kobo/Taito\GNET/Warashi
-psyvaria|Psyvariar -Medium Unit- (V2.04J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Success
-shanghss|Shanghai Shoryu Sairin (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Warashi
-psyvarrv|Psyvariar -Revision- (V2.04J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Success
-zokuoten|Zoku Otenamihaiken (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success
-soutenry|Soutenryu (V2.07J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Warashi
-nightrai|Night Raid (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||preliminary|Takumi
+psyvaria|Psyvariar -Medium Unit- (V2.04J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Success/Taito\GNET
+shanghss|Shanghai Shoryu Sairin (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET/Warashi
+psyvarrv|Psyvariar -Revision- (V2.04J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Success/Taito\GNET
+zokuoten|Zoku Otenamihaiken (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Success/Taito\GNET
+soutenry|Soutenryu (V2.07J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET/Warashi
+nightrai|Night Raid (V2.03J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||preliminary|Taito\GNET/Takumi
 shikigam|Shikigami no Shiro (V2.03J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Alfa System/Taito\GNET
-otenki|Otenki Kororin (V2.01J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Takumi
+otenki|Otenki Kororin (V2.01J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET/Takumi
 usagi|Usagi (V2.02J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Mahjong Kobo/Taito\GNET/Warashi
 shangtou|Shanghai Sangokuhai Tougi (Ver 2.01J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Sunsoft/Taito\GNET/Warashi
-xiistag|XII Stag (V2.01J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Triangle Service
+xiistag|XII Stag (V2.01J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||imperfect|Taito\GNET/Triangle Service
 sianniv|Space Invaders Anniversary (V2.02J)|parent|sony/taitogn.cpp|270|640|480|60.000000|taitogn||preliminary|Taito\GNET
 kollon|Kollon (V2.04J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||imperfect|Taito\GNET
 kollonc|Kollon (V2.04JC)|clone|sony/taitogn.cpp|0|640|480|60.000000|taitogn|kollon|imperfect|Taito\GNET
-zooo|Zooo (V2.01J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||preliminary|Success
+zooo|Zooo (V2.01J)|parent|sony/taitogn.cpp|0|640|480|60.000000|taitogn||preliminary|Success/Taito\GNET
 tekken|Tekken (TE4/VER.C)|parent|namco/namcos11.cpp|0|640|480|60.000000|||imperfect|Namco\System11
 tekkena|Tekken (TE2/VER.C)|clone|namco/namcos11.cpp|0|640|480|60.000000||tekken|imperfect|Namco\System11
 tekkenb|Tekken (TE2/VER.B)|clone|namco/namcos11.cpp|0|640|480|60.000000||tekken|imperfect|Namco\System11
@@ -2952,7 +2952,7 @@ mrdrilrg|Mr. Driller G (Japan, DRG1 Ver.A)|parent|namco/namcos10.cpp|0|640|480|6
 knpuzzle|Kotoba no Puzzle Mojipittan (Japan, KPM1 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Namco\System10
 gjspace|Gekitoride-Jong Space (10011 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Metro/Namco\System10
 startrgn|Star Trigon (Japan, STT1 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Namco\System10
-gamshara|Gamshara (10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Mitchell
+gamshara|Gamshara (10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||preliminary|Mitchell/Namco\System10
 cryptklr|Crypt Killer (GQ420 UAA)|parent|konami/konamigq.cpp|0|640|480|60.000000|||imperfect|Konami
 konamigv|Baby Phoenix/GV System|bios|konami/konamigv.cpp|0|640|480|60.000000|||good|Konami
 kdeadeye|Dead Eye (GV054 UA01)|parent|konami/konamigv.cpp|0|640|480|60.000000|konamigv||preliminary|Konami
@@ -3455,8 +3455,8 @@ fantzonep|Fantasy Zone (317-5000)|clone|sega/segas16a.cpp|0|320|224|60.000000||f
 sdi|SDI - Strategic Defense Initiative (Japan, old, System 16A, FD1089B 317-0027)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 shinobi|Shinobi (set 6, System 16A, unprotected)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 shinobi1|Shinobi (set 1, System 16A, FD1094 317-0050)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Sega\System16
-shinobls|Shinobi (Star bootleg, System 16A)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Star
-sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021)|clone|sega/segas16a.cpp|0|320|224|60.000000||sjryuko|good|White Board
+shinobls|Shinobi (Star bootleg, System 16A)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Sega\System16/Star
+sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021)|clone|sega/segas16a.cpp|0|320|224|60.000000||sjryuko|good|Sega\System16/White Board
 tetris|Tetris (set 4, Japan, System 16A, FD1094 317-0093)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 tetris3|Tetris (set 3, Japan, System 16A, FD1094 317-0093a)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|Sega\System16
 timescan1|Time Scanner (set 1, System 16A, FD1089B 317-0024)|clone|sega/segas16a.cpp|270|320|224|60.000000||timescan|good|Sega\System16
@@ -3511,14 +3511,14 @@ passshtj|Passing Shot (Japan, 4 Players, FD1094 317-0070)|clone|sega/segas16b.cp
 riotcity|Riot City (Japan)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Westone
 ryukyu|RyuKyu (Japan, FD1094 317-5023)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Success
 sdib|SDI - Strategic Defense Initiative (System 16B, FD1089A 317-0028)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
-sdibl|SDI - Strategic Defense Initiative (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
+sdibl|SDI - Strategic Defense Initiative (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
 defense|Defense (System 16B, FD1089A 317-0028)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
 shinobi5|Shinobi (set 5, System 16B, unprotected)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi4|Shinobi (set 4, System 16B, MC-8123B 317-0054)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi3|Shinobi (set 3, System 16B, MC-8123B 317-0054)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi2|Shinobi (set 2, System 16B, FD1094 317-0049)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 sonicbom|Sonic Boom (FD1094 317-0053)|parent|sega/segas16b.cpp|270|320|224|60.054389|||good|Sega\System16
-sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|White Board
+sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/White Board
 suprleag|Super League (FD1094 317-0045)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 tetris2|Tetris (set 2, Japan, System 16B, FD1094 317-0092)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
 tetris1|Tetris (set 1, Japan, System 16B, FD1094 317-0091)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
@@ -3533,19 +3533,19 @@ wb32|Wonder Boy III - Monster Lair (set 2, Japan, System 16B, FD1094 317-0085)|c
 wrestwar|Wrestle War (set 3, World, 8751 317-0103)|parent|sega/segas16b.cpp|270|320|224|60.054389|||good|Sega\System16
 wrestwar2|Wrestle War (set 2, World, FD1094 317-0102)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
 wrestwar1|Wrestle War (set 1, Japan, FD1094 317-0090)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
-atomicp|Atomic Point (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
-snapper|Snapper (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
+atomicp|Atomic Point (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko/Sega\System16
+snapper|Snapper (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko/Sega\System16
 bayrouteb1|Bay Route (encrypted, protected bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||bayroute|preliminary|Datsu
 bayrouteb2|Bay Route (Datsu bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||bayroute|preliminary|Datsu
 dduxbl|Dynamite Dux (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||ddux|preliminary|Datsu
 eswatbl|E-Swat - Cyber Police (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||eswat|preliminary|
-fpointbl|Flash Point (World, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|Datsu
-fpointbj|Flash Point (Japan, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|Datsu
+fpointbl|Flash Point (World, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|Datsu/Sega\System16
+fpointbj|Flash Point (Japan, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|Datsu/Sega\System16
 goldnaxeb1|Golden Axe (encrypted bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||goldnaxe|preliminary|
 goldnaxeb2|Golden Axe (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||goldnaxe|preliminary|
 passht4b|Passing Shot (4 Players) (bootleg)|clone|sega/system16.cpp|270|320|224|60.000000||passsht|preliminary|
 passshtb|Passing Shot (2 Players) (bootleg)|clone|sega/system16.cpp|270|320|224|60.000000||passsht|preliminary|
-shinoblb|Shinobi (Beta bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Beta
+shinoblb|Shinobi (Beta bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Beta/Sega\System16
 shinobld|Shinobi (Datsu bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||shinobi|preliminary|Datsu
 tetrisbl|Tetris (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||tetris|good|
 beautyb|Beauty Block|parent|sega/system16.cpp|0|320|224|60.000000|||preliminary|AMT
@@ -3683,8 +3683,8 @@ dbzvrvs|Dragon Ball Z V.R.V.S.|parent|sega/segas32.cpp|0|416|224|60.000000|||imp
 jleague|The J.League 1994 (Japan)|clone|sega/segas32.cpp|0|416|224|60.000000||svf|imperfect|Sega\System32
 svf|Super Visual Football: European Sega Cup|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Sega\System32
 svs|Super Visual Soccer: Sega Cup (US)|clone|sega/segas32.cpp|0|416|224|60.000000||svf|imperfect|Sega\System32
-slipstrm|Slip Stream (950515 Brazil)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Capcom
-slipstrmh|Slip Stream (950515 Hispanic)|clone|sega/segas32.cpp|0|416|224|60.000000||slipstrm|imperfect|Capcom
+slipstrm|Slip Stream (950515 Brazil)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Capcom/Sega\System32
+slipstrmh|Slip Stream (950515 Hispanic)|clone|sega/segas32.cpp|0|416|224|60.000000||slipstrm|imperfect|Capcom/Sega\System32
 orunners|OutRunners (World)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Sega\System32
 orunnersu|OutRunners (US)|clone|sega/segas32.cpp|0|416|224|60.000000||orunners|imperfect|Sega\System32
 harddunkj|Hard Dunk (Japan)|clone|sega/segas32.cpp|0|416|224|60.000000||harddunk|imperfect|Sega\System32

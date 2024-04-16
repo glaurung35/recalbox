@@ -104,7 +104,7 @@ cawing|Carrier Air Wing (U.S. navy 901012 etc)|parent|capcom/cps1.cpp|0|||||||Ca
 cawingu|Carrier Air Wing (U.S. navy 901012 USA)|clone|capcom/cps1.cpp|0|||||cawing||Capcom\CPS1
 marukodq|Chibi Marukochan Deluxe Quiz|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/Takara
 chikij|Chiki Chiki Boys (900619 Japan)|clone|capcom/cps1.cpp|0|||||mtwins||Capcom\CPS1
-choko|Choko (010820 Japan)|parent|capcom/cps2.cpp|0|||||||Mitchell
+choko|Choko (010820 Japan)|parent|capcom/cps2.cpp|0|||||||Capcom\CPS2/Mitchell
 cookbib2|Cookie & Bibi 2|parent|kaneko/snowbros.cpp|0|||||||SemiCom
 cookbib3|Cookie & Bibi 3|parent|kaneko/snowbros.cpp|0|||||||SemiCom
 cottonj|Cotton (set 1, Japan, FD1094 317-0179a)) [No Sound]|clone|sega/segas16b.cpp|0|||||cotton||Sega\System16/Success
@@ -242,7 +242,7 @@ hsf2|Hyper Street Fighter 2: The Anniversary Edition (040202 Asia)|parent|capcom
 jockeygp|Jockey Grand Prix|parent|neogeo/neogeo.cpp|0||||neogeo|||Brezzasoft/neogeo/Sun Amazement
 altbeaj3|Juuouki (set 3, Japan, FD1094 317-0068) [Incomplete Sound]|clone|sega/segas16b.cpp|0|||||altbeast||Sega\System16
 altbeasj|Juuouki (set 6, Japan, 8751 317-0077) [Incomplete Sound]|clone|sega/segas16b.cpp|0|||||altbeast||Sega\System16
-jyangoku|Jyangokushi -Haoh no Saihai- (990527 Japan)|parent|capcom/cps2.cpp|0|||||||Mitchell
+jyangoku|Jyangokushi -Haoh no Saihai- (990527 Japan)|parent|capcom/cps2.cpp|0|||||||Capcom\CPS2/Mitchell
 janshin|Jyanshin Densetsu - quest of jongmaster|parent|neogeo/neogeo.cpp|0||||neogeo|||Aicom/neogeo
 kabukikl|Kabuki Klash - far east of eden|parent|neogeo/neogeo.cpp|0||||neogeo|||Hudson Soft/neogeo
 karnovr|Karnov's Revenge|parent|neogeo/neogeo.cpp|0||||neogeo|||Data East/neogeo
@@ -322,8 +322,8 @@ ms5pcb|Metal Slug 5 (JAMMA PCB)|parent|neogeo/neopcb.cpp|0|||||||SNK
 ms5plus|Metal Slug 5 Plus (bootleg) [Bootleg, bootleg of Metal Slug 5]|clone|neogeo/neogeo.cpp|0||||neogeo|mslug5||neogeo
 mslug3b6|Metal Slug 6 [Bootleg, bootleg of Metal Slug 3]|clone|neogeo/neogeo.cpp|0||||neogeo|mslug3||neogeo
 mslugx|Metal Slug X - super vehicle-001|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/SNK
-mpang|Mighty! Pang (001010 USA)|parent|capcom/cps2.cpp|0|||||||Mitchell
-mpangj|Mighty! Pang (001011 Japan)|clone|capcom/cps2.cpp|0|||||mpang||Mitchell
+mpang|Mighty! Pang (001010 USA)|parent|capcom/cps2.cpp|0|||||||Capcom\CPS2/Mitchell
+mpangj|Mighty! Pang (001011 Japan)|clone|capcom/cps2.cpp|0|||||mpang||Capcom\CPS2/Mitchell
 minasan|Minnasanno Okagesamadesu|parent|neogeo/neogeo.cpp|0||||neogeo|||Monolith/neogeo
 miexchng|Money Puzzle Exchanger|parent|neogeo/neogeo.cpp|0||||neogeo|||Face/neogeo
 moremore|More More|parent|kaneko/snowbros.cpp|0|||||||Exit/SemiCom
@@ -364,8 +364,8 @@ outzonea|Out Zone (set 2)|clone|toaplan/toaplan1.cpp|270|||||outzone||Toaplan
 outzoneb|Out Zone (set 3, prototype?)|clone|toaplan/toaplan1.cpp|270|||||outzone||Toaplan
 outzonec|Out Zone (set 4)|clone|toaplan/toaplan1.cpp|270|||||outzone||Toaplan
 overtop|OverTop|parent|neogeo/neogeo.cpp|0||||neogeo|||ADK/neogeo
-pang3|Pang! 3 (950511 Euro)|parent|capcom/cps1.cpp|0|||||||Mitchell
-pang3j|Pang! 3 (950511 Japan)|clone|capcom/cps1.cpp|0|||||pang3||Mitchell
+pang3|Pang! 3 (950511 Euro)|parent|capcom/cps1.cpp|0|||||||Capcom\CPS1/Mitchell
+pang3j|Pang! 3 (950511 Japan)|clone|capcom/cps1.cpp|0|||||pang3||Capcom\CPS1/Mitchell
 panicbom|Panic Bomber|parent|neogeo/neogeo.cpp|0||||neogeo|||Hudson Soft/neogeo
 passshtj|Passing Shot (Japan, 4 Players, FD1094 317-0070) [Incomplete Sound]|clone|sega/segas16b.cpp|270|||||passsht||Sega\System16
 passsht|Passing Shot (World, 2 Players, FD1094 317-0080) [Incomplete Sound]|parent|sega/segas16b.cpp|270|||||||Sega\System16
@@ -391,8 +391,8 @@ progeara|Progear (010117 Asia)|clone|capcom/cps2.cpp|0|||||progear||Capcom\CPS2/
 progear|Progear (010117 USA)|parent|capcom/cps2.cpp|0|||||||Capcom\CPS2/Cave
 progearj|Progear No Arashi (010117 Japan)|clone|capcom/cps2.cpp|0|||||progear||Capcom\CPS2/Cave
 pulstar|Pulstar|parent|neogeo/neogeo.cpp|0||||neogeo|||Aicom/neogeo
-pzloop2j|Puzz Loop 2 (010205 Japan)|clone|capcom/cps2.cpp|0|||||pzloop2||Mitchell/Capcom
-pzloop2|Puzz Loop 2 (010302 Euro)|parent|capcom/cps2.cpp|0|||||||Mitchell/Capcom
+pzloop2j|Puzz Loop 2 (010205 Japan)|clone|capcom/cps2.cpp|0|||||pzloop2||Capcom\CPS2/Mitchell/Capcom
+pzloop2|Puzz Loop 2 (010302 Euro)|parent|capcom/cps2.cpp|0|||||||Capcom\CPS2/Mitchell/Capcom
 pbobblen|Puzzle Bobble (set 1)|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/Taito
 pbobblna|Puzzle Bobble (set 2)|clone|neogeo/neogeo.cpp|0||||neogeo|pbobblen||neogeo/Taito
 pbobbl2n|Puzzle Bobble 2|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/Taito
@@ -570,8 +570,8 @@ s1945j|Strikers 1945 (Japan)|clone|psikyo/psikyo.cpp|270|||||s1945||Psikyo
 s1945jn|Strikers 1945 (Japan, unprotected)|clone|psikyo/psikyo.cpp|270|||||s1945||Psikyo
 s1945k|Strikers 1945 (Korea)|clone|psikyo/psikyo.cpp|270|||||s1945||Psikyo
 s1945p|Strikers 1945 plus|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/Psikyo
-sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021) [Incomplete Sound]|clone|sega/segas16a.cpp|0|||||sjryuko||White Board
-sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021) [Incomplete Sound]|parent|sega/segas16b.cpp|0|||||||White Board
+sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021) [Incomplete Sound]|clone|sega/segas16a.cpp|0|||||sjryuko||Sega\System16/White Board
+sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021) [Incomplete Sound]|parent|sega/segas16b.cpp|0|||||||Sega\System16/White Board
 sdodgeb|Super Dodge Ball|parent|neogeo/neogeo.cpp|0||||neogeo|||neogeo/Technos
 sgemfa|Super Gem Fighter Mini Mix (970904 Asia)|clone|capcom/cps2.cpp|0|||||sgemf||Capcom\CPS2
 sgemfh|Super Gem Fighter Mini Mix (970904 Hispanic)|clone|capcom/cps2.cpp|0|||||sgemf||Capcom\CPS2

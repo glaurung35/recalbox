@@ -205,9 +205,13 @@ class Simplifier:
                 driverTuples: list[tuple[str, str]] = self.SUBSYSTEM_MANUFACTURERS[system]
                 for (name, suffix) in driverTuples:
                     if subSystem == name or (name.endswith('*') and subSystem.startswith(name[:-1])):
+                        found = False
                         for i in range(len(manufacturers)):
                             if manufacturers[i].lower() == system:
                                 manufacturers[i] = "{}\{}".format(manufacturers[i], suffix)
+                                found = True
+                        if not found:
+                            manufacturers.append("{}\{}".format(system.capitalize(), suffix))
             # Neogeo special case
             if subSystem == "neogeo":
                 manufacturers.append("neogeo")

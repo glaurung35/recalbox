@@ -38,7 +38,7 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 1943u|1943: The Battle of Midway (US, Rev C)|clone|capcom/1943.cpp|270|256|224|59.637405||1943|good|Capcom
 1943ua|1943: The Battle of Midway (US)|clone|capcom/1943.cpp|270|256|224|59.637405||1943|good|Capcom
 1944|1944: The Loop Master (Euro 000620)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2/Eighting/Raizing
-1944d|1944: The Loop Master (USA 000620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|
+1944d|1944: The Loop Master (USA 000620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|Capcom\CPS2
 1944j|1944: The Loop Master (Japan 000620)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|Capcom\CPS2/Eighting/Raizing
 1944u|1944: The Loop Master (USA 000620)|clone|capcom/cps2.cpp|0|384|224|59.637405||1944|good|Capcom\CPS2/Eighting/Raizing
 1945kiii|1945k III (newer, OPCX2 PCB)|parent|promat/1945kiii.cpp|270|320|224|59.637405|||good|Oriental Soft
@@ -49,7 +49,7 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 19xxa|19XX: The War Against Destiny (Asia 960104)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
 19xxar1|19XX: The War Against Destiny (Asia 951207)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
 19xxb|19XX: The War Against Destiny (Brazil 951218)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
-19xxd|19XX: The War Against Destiny (USA 951207 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|
+19xxd|19XX: The War Against Destiny (USA 951207 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
 19xxh|19XX: The War Against Destiny (Hispanic 951218)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
 19xxj|19XX: The War Against Destiny (Japan 960104, yellow case)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
 19xxjr1|19XX: The War Against Destiny (Japan 951225)|clone|capcom/cps2.cpp|270|384|224|59.637405||19xx|good|Capcom\CPS2
@@ -115,8 +115,8 @@ name|description|type|sourcefile|rotate|width|height|refresh|bios|parent|status|
 3super8|3 Super 8 (Italy)|parent|igs/spoker.cpp|0|512|240|60.000000|||preliminary|
 3wishrd|Three Wishes Red (Russia) (Atronic)|parent|misc/atronic.cpp|0|512|224|121.595331|||preliminary|Atronic
 3wonders|Three Wonders (World 910520)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
-3wondersb|Three Wonders (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|
-3wondersh|Three Wonders (hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|
+3wondersb|Three Wonders (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
+3wondersh|Three Wonders (hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
 3wondersr1|Three Wonders (World 910513)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
 3wondersu|Three Wonders (USA 910520)|clone|capcom/cps1.cpp|0|384|224|59.637405||3wonders|good|Capcom\CPS1
 3x3puzzl|3X3 Puzzle (Enterprise)|parent|promat/3x3puzzl.cpp|0|320|240|60.000000|||good|Ace Enterprise
@@ -909,14 +909,14 @@ altbeast|Altered Beast (set 8) (8751 317-0078)|parent|sega/segas16b.cpp|0|320|22
 altbeast2|Altered Beast (set 2) (MC-8123B 317-0066)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeast4|Altered Beast (set 4) (MC-8123B 317-0066)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeast5|Altered Beast (set 5) (FD1094 317-0069)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
-altbeast5d|Altered Beast (set 5) (bootleg of FD1094 317-0069 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|
+altbeast5d|Altered Beast (set 5) (bootleg of FD1094 317-0069 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeast6|Altered Beast (set 6) (8751 317-0076)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeastbl|Altered Beast (Datsu bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||altbeast|preliminary|Datsu
 altbeastbl2|Altered Beast (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||altbeast|preliminary|
 altbeastj|Juuouki (set 7, Japan) (8751 317-0077)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeastj1|Juuouki (set 1, Japan) (FD1094 317-0065)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 altbeastj3|Juuouki (set 3, Japan) (FD1094 317-0068)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
-altbeastj3d|Juuouki (set 3, Japan) (bootleg of FD1094 317-0068 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|
+altbeastj3d|Juuouki (set 3, Japan) (bootleg of FD1094 317-0068 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||altbeast|good|Sega\System16
 am186em|AMD Am186EM|device|devices/cpu/i86/i186.cpp||||||||
 am188em|AMD Am188EM|device|devices/cpu/i86/i186.cpp||||||||
 am29000|AMC Am29000|device|devices/cpu/am29000/am29000.cpp||||||||
@@ -1236,7 +1236,7 @@ armorar|Armor Attack (Rock-Ola)|clone|cinematronics/cinemat.cpp|180|||38.000107|
 armorcar|Armored Car (set 1)|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||good|Stern Electronics
 armorcar2|Armored Car (set 2)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||armorcar|good|Stern Electronics
 armwar|Armored Warriors (Euro 941024)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
-armwar1d|Armored Warriors (Euro 941011 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|
+armwar1d|Armored Warriors (Euro 941011 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|Capcom\CPS2
 armwara|Armored Warriors (Asia 941024)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|Capcom\CPS2
 armwarar1|Armored Warriors (Asia 940920)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|Capcom\CPS2
 armwarb|Armored Warriors (Brazil 941024)|clone|capcom/cps2.cpp|0|384|224|59.637405||armwar|good|Capcom\CPS2
@@ -1458,13 +1458,13 @@ astinvad|Astro Invader|clone|stern/astinvad.cpp|270|256|224|60.000000||kamikaze|
 astoneag|Stone Age (Astro, Ver. EN.03.A, 2005/02/21)|parent|misc/astrcorp.cpp|0|512|480|58.869413|||preliminary|Astro
 astorm|Alien Storm (World, 2 Players) (FD1094 317-0154)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
 astorm3|Alien Storm (World, 3 Players) (FD1094 317-0148)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
-astorm3d|Alien Storm (World, 3 Players) (bootleg of FD1094 317-0148 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|
+astorm3d|Alien Storm (World, 3 Players) (bootleg of FD1094 317-0148 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
 astormb2|Alien Storm (bootleg, set 2)|clone|sega/segas18_astormbl.cpp|0|320|224|60.054389||astorm|imperfect|
 astormbl|Alien Storm (bootleg, set 1)|clone|sega/segas18_astormbl.cpp|0|320|224|60.054389||astorm|imperfect|
 astormj|Alien Storm (Japan, 2 Players) (FD1094 317-0146)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
-astormjd|Alien Storm (Japan, 2 Players) (bootleg of FD1094 317-0146 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|
+astormjd|Alien Storm (Japan, 2 Players) (bootleg of FD1094 317-0146 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
 astormu|Alien Storm (US, 3 Players) (FD1094 317-0147)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
-astormud|Alien Storm (US, 3 Players) (bootleg of FD1094 317-0147 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|
+astormud|Alien Storm (US, 3 Players) (bootleg of FD1094 317-0147 set)|clone|sega/segas18.cpp|0|320|224|57.230000||astorm|good|Sega\System18
 astrass|Astra SuperStars (J 980514 V1.002)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Sunsoft
 astrians|Astrians (clone of Swarm)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxian|good|BGV
 astro_cpucode|Astro CPU Code|device|misc/astrcorp.cpp||||||||
@@ -1575,7 +1575,7 @@ atmel_49f4096|Atmel AT49F4096 Flash|device|devices/machine/intelfsh.cpp||||||||
 atombjt|Atom (bootleg of Bombjack Twin)|clone|playmark/powerbal.cpp|270|384|224|61.000000||bjtwin|imperfect|Kyon K.
 atomboy|Atomic Boy (revision B)|clone|irem/m63.cpp|180|256|224|60.000000||wilytowr|good|Irem/Memetron
 atomboya|Atomic Boy (revision A)|clone|irem/m63.cpp|180|256|224|60.000000||wilytowr|good|Irem/Memetron
-atomicp|Atomic Point (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
+atomicp|Atomic Point (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko/Sega\System16
 atompunk|Atomic Punk (US)|clone|irem/m90.cpp|0|320|240|60.000000||dynablst|good|Hudson Soft/Irem
 ator|Ator (set 1, 2 bumpers)|parent|pinball/peyper.cpp|||||||preliminary|Video Dens
 ator3bmp|Ator (set 2, 3 bumpers)|clone|pinball/peyper.cpp||||||ator|preliminary|Video Dens
@@ -1600,9 +1600,9 @@ atworldd1|Around The World (Version 1.3R CGA)|clone|misc/sfbonus.cpp|0|512|288|6
 atworlde1|Around The World (Version 1.3E CGA)|clone|misc/sfbonus.cpp|0|512|288|60.000000||atworld|good|Amcoe
 aurail|Aurail (set 3, US) (unprotected)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Westone
 aurail1|Aurail (set 2, World) (FD1089B 317-0168)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|Sega\System16/Westone
-aurail1d|Aurail (set 2, World) (bootleg of FD1089B 317-0168 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|
+aurail1d|Aurail (set 2, World) (bootleg of FD1089B 317-0168 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|Sega\System16
 aurailj|Aurail (set 1, Japan) (FD1089A 317-0167)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|Sega\System16/Westone
-aurailjd|Aurail (set 1, Japan) (bootleg of FD1089A 317-0167 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|
+aurailjd|Aurail (set 1, Japan) (bootleg of FD1089A 317-0167 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail|good|Sega\System16
 ausfache|Akatsuki Blitzkampf Ausf. Achse (Japan)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Subtle Style
 aust201|Austin Powers (CPU 2.01, display A2.00)|clone|pinball/whitestar.cpp|0|128|32|60.000000||austin|preliminary|Stern
 aust300|Austin Powers (CPU 3.00, display A3.00)|clone|pinball/whitestar.cpp|0|128|32|60.000000||austin|preliminary|Stern
@@ -1655,7 +1655,7 @@ avg_starwars|Atari AVG (Star Wars)|device|devices/video/avgdvg.cpp||||||||
 avg_tempest|Atari AVG (Tempest)|device|devices/video/avgdvg.cpp||||||||
 avsp|Alien vs. Predator (Euro 940520)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 avspa|Alien vs. Predator (Asia 940520)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|Capcom\CPS2
-avspd|Alien vs. Predator (Euro 940520 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|
+avspd|Alien vs. Predator (Euro 940520 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|Capcom\CPS2
 avsph|Alien vs. Predator (Hispanic 940520)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|Capcom\CPS2
 avspirit|Avenging Spirit|parent|jaleco/megasys1.cpp|0|256|224|56.191350|||good|Jaleco
 avspj|Alien vs. Predator (Japan 940520)|clone|capcom/cps2.cpp|0|384|224|59.637405||avsp|good|Capcom\CPS2
@@ -1802,7 +1802,7 @@ basschalo|Sega Bass Fishing Challenge|clone|sega/dc_atomiswave.cpp|0|640|480|61.
 bassdx|Sega Bass Fishing Deluxe (USA)|parent|sega/model3.cpp|0|496|384|57.524160|||preliminary|Sega
 batcir|Battle Circuit (Euro 970319)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 batcira|Battle Circuit (Asia 970319)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|Capcom\CPS2
-batcird|Battle Circuit (Euro 970319 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|
+batcird|Battle Circuit (Euro 970319 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|Capcom\CPS2
 batcirj|Battle Circuit (Japan 970319)|clone|capcom/cps2.cpp|0|384|224|59.637405||batcir|good|Capcom\CPS2
 batlball|Battle Balls (Germany, newer)|clone|seibu/seibuspi.cpp|0|320|240|53.986864||senkyu|imperfect|Seibu/Tuning
 batlballa|Battle Balls (Hong Kong)|clone|seibu/seibuspi.cpp|0|320|240|53.986864||senkyu|imperfect|Metrotainment/Seibu
@@ -1858,9 +1858,9 @@ bayroute|Bay Route (set 3, World) (FD1094 317-0116)|parent|sega/segas16b.cpp|0|3
 bayroute1|Bay Route (set 1, US) (unprotected)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|preliminary|Sega\System16/Sunsoft
 bayrouteb1|Bay Route (encrypted, protected bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||bayroute|preliminary|Datsu
 bayrouteb2|Bay Route (Datsu bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||bayroute|preliminary|Datsu
-bayrouted|Bay Route (set 3, World) (bootleg of FD1094 317-0116 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|good|
+bayrouted|Bay Route (set 3, World) (bootleg of FD1094 317-0116 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|good|Sega\System16
 bayroutej|Bay Route (set 2, Japan) (FD1094 317-0115)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|good|Sega\System16/Sunsoft
-bayroutejd|Bay Route (set 2, Japan) (bootleg of FD1094 317-0115 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|good|
+bayroutejd|Bay Route (set 2, Japan) (bootleg of FD1094 317-0115 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute|good|Sega\System16
 baywatch|Baywatch|parent|pinball/de_3.cpp|0|192|64|60.000000|||preliminary|Sega
 bazooka|Bazooka [TTL]|parent|misc/pse.cpp|0|455|262|60.053687|||preliminary|Project Support Engineering
 bazookabr|Bazooka (Brazil) [TTL]|clone|misc/pse.cpp|0|455|262|60.053687||bazooka|preliminary|Taito
@@ -2280,7 +2280,7 @@ bloxeed|Bloxeed (Japan) (FD1094 317-0139)|parent|sega/segas18.cpp|0|320|224|57.2
 bloxeeda|Bloxeed (Japan, earlier) (FD1094 317-0139)|clone|sega/segas18.cpp|0|320|224|57.230000||bloxeed|good|Sega\System18
 bloxeedbl|Bloxeed (bootleg)|clone|sega/system16.cpp|0|320|224|58.271000||bloxeed|preliminary|Impeuropex
 bloxeedc|Bloxeed (World, C System)|clone|sega/segac2.cpp|0|256|224|59.922743||bloxeed|good|Elorg/Sega
-bloxeedd|Bloxeed (Japan) (bootleg of FD1094 317-0139 set)|clone|sega/segas18.cpp|0|320|224|57.230000||bloxeed|good|
+bloxeedd|Bloxeed (Japan) (bootleg of FD1094 317-0139 set)|clone|sega/segas18.cpp|0|320|224|57.230000||bloxeed|good|Sega\System18
 bloxeedu|Bloxeed (US, C System, Rev A)|clone|sega/segac2.cpp|0|256|224|59.922743||bloxeed|good|Elorg/Sega
 blpearl|Black Pearl (Ukraine, V. 45.02)|parent|misc/extrema.cpp|||||||preliminary|Extrema
 blpearla|Black Pearl (Ukraine, V. 43.07)|clone|misc/extrema.cpp||||||blpearl|preliminary|Extrema
@@ -2660,8 +2660,8 @@ bublcave|Bubble Bobble: Lost Cave V1.2|clone|taito/bublbobl.cpp|0|256|224|59.185
 bublcave10|Bubble Bobble: Lost Cave V1.0|clone|taito/bublbobl.cpp|0|256|224|59.185606||bublbobl|good|Bisboch & Aladar
 bublcave11|Bubble Bobble: Lost Cave V1.1|clone|taito/bublbobl.cpp|0|256|224|59.185606||bublbobl|good|Bisboch & Aladar
 bublpong|Bubble Pong Pong|clone|taito/missb2.cpp|0|256|224|60.000000||missb2|good|Top
-bubsymphb|Bubble Symphony (bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|
-bubsymphba|Seoul Symphony (Bubble Symphony bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|SOFTV
+bubsymphb|Bubble Symphony (bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|Taito\F3
+bubsymphba|Seoul Symphony (Bubble Symphony bootleg with OKI6295)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|preliminary|SOFTV/Taito\F3
 bubsymphe|Bubble Symphony (Ver 2.5O 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|imperfect|Taito\F3
 bubsymphj|Bubble Symphony (Ver 2.5J 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|imperfect|Taito\F3
 bubsymphu|Bubble Symphony (Ver 2.5A 1994/10/05)|clone|taito/taito_f3.cpp|0|320|224|58.970000||bublbob2|imperfect|Taito\F3
@@ -2706,7 +2706,7 @@ buggychl|Buggy Challenge|parent|taito/buggychl.cpp|270|256|224|60.000000|||imper
 buggychlt|Buggy Challenge (Tecfri)|clone|taito/buggychl.cpp|270|256|224|60.000000||buggychl|imperfect|Taito/Tecfri
 bujutsu|Fighting Wu-Shu 2nd! (ver JAA)|parent|konami/cobra.cpp|0|512|400|60.000000|||preliminary|Konami
 bullet|Bullet (FD1094 317-0041)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
-bulletd|Bullet (bootleg of FD1094 317-0041 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bullet|good|
+bulletd|Bullet (bootleg of FD1094 317-0041 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||bullet|good|Sega\System16
 bullfgt|Bullfight (315-5065)|parent|sega/system1.cpp|0|512|224|60.096154|||good|Coreland/Sega
 bullfgtr|Bull Fighter|parent|alpha/equites.cpp|90|256|208|60.000000|||imperfect|Alpha Denshi
 bullfgtrs|Bull Fighter (Sega)|clone|alpha/equites.cpp|90|256|208|60.000000||bullfgtr|imperfect|Alpha Denshi/Sega
@@ -2876,7 +2876,7 @@ captavenu|Captain America and The Avengers (US Rev 1.9)|clone|dataeast/deco32.cp
 captavenua|Captain America and The Avengers (US Rev 1.4)|clone|dataeast/deco32.cpp|0|320|240|57.799650||captaven|imperfect|Data East
 captavenuu|Captain America and The Avengers (US Rev 1.6)|clone|dataeast/deco32.cpp|0|320|240|57.799650||captaven|imperfect|Data East
 captcomm|Captain Commando (World 911202)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
-captcommb|Captain Commando (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|
+captcommb|Captain Commando (bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
 captcommb2|Captain Commando (bootleg with 2xMSM5205)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||captcomm|good|
 captcommj|Captain Commando (Japan 911202)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
 captcommjr1|Captain Commando (Japan 910928)|clone|capcom/cps1.cpp|0|384|224|59.637405||captcomm|good|Capcom\CPS1
@@ -3335,7 +3335,7 @@ clbowl|Coors Light Bowling|clone|itech/capbowl.cpp|270|360|245|57.000000||capbow
 cleanswp|Clean Sweep [TTL]|parent|ramtek/ramtek.cpp|0|455|262|60.053687|||preliminary|Ramtek
 cleoftp|Cleopatra Fortune Plus (GDL-0012)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Altron/Taito
 cleopatr|Cleopatra Fortune (Ver 2.1J 1996/09/05)|parent|taito/taito_f3.cpp|0|320|224|58.970000|||imperfect|Taito\F3
-cleopatro|Cleopatra Fortune (Ver 2.1O 1996/09/05, bootleg)|clone|taito/taito_f3.cpp|0|320|224|58.970000||cleopatr|imperfect|
+cleopatro|Cleopatra Fortune (Ver 2.1O 1996/09/05, bootleg)|clone|taito/taito_f3.cpp|0|320|224|58.970000||cleopatr|imperfect|Taito\F3
 cleoptra|Cleopatra|parent|pinball/gts1.cpp|||||gts1||preliminary|Gottlieb
 clgd5428|Cirrus Logic GD5428|device|devices/video/pc_vga_cirrus.cpp||||||||
 clgd542x|Generic Cirrus Logic CD542 Graphics Card (BIOS v1.20)|device|devices/bus/isa/svga_cirrus.cpp|0|640|480|60.054866||||
@@ -3365,9 +3365,9 @@ clshroad|Clash-Road|parent|nichibutsu/clshroad.cpp|0|288|224|60.606061|||imperfe
 clshroadd|Clash-Road (Data East license)|clone|nichibutsu/clshroad.cpp|0|288|224|60.606061||clshroad|imperfect|Data East/Wood Place
 clshroads|Clash-Road (Status license)|clone|nichibutsu/clshroad.cpp|0|288|224|60.606061||clshroad|imperfect|Status Games/Wood Place
 cltchitr|Clutch Hitter (US) (FD1094 317-0176)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
-cltchitrd|Clutch Hitter (US) (bootleg of FD1094 317-0176 set)|clone|sega/segas18.cpp|0|320|224|57.230000||cltchitr|good|
+cltchitrd|Clutch Hitter (US) (bootleg of FD1094 317-0176 set)|clone|sega/segas18.cpp|0|320|224|57.230000||cltchitr|good|Sega\System18
 cltchitrj|Clutch Hitter (Japan) (FD1094 317-0175)|clone|sega/segas18.cpp|0|320|224|57.230000||cltchitr|good|Sega\System18
-cltchitrjd|Clutch Hitter (Japan) (bootleg of FD1094 317-0175 set)|clone|sega/segas18.cpp|0|320|224|57.230000||cltchitr|good|
+cltchitrjd|Clutch Hitter (Japan) (bootleg of FD1094 317-0175 set)|clone|sega/segas18.cpp|0|320|224|57.230000||cltchitr|good|Sega\System18
 club90s|Mahjong CLUB 90's (set 1) (Japan 900919)|parent|nichibutsu/nbmj8891.cpp|0|512|240|60.000000|||good|Nichibutsu
 club90sa|Mahjong CLUB 90's (set 2) (Japan 900919)|clone|nichibutsu/nbmj8891.cpp|0|512|240|60.000000||club90s|good|Nichibutsu
 clubcard|Club Card (ver. 1.1 English)|parent|funworld/funworld.cpp|0|384|232|60.000000|||imperfect|Impera/Mega Tech
@@ -3672,14 +3672,14 @@ cothello|Computer Othello|parent|nintendo/cothello.cpp|0|64|192|60.000000|||impe
 cotton|Cotton (set 4, World) (FD1094 317-0181a)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Success
 cotton2|Cotton 2 (JUET 970902 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Success
 cottonbm|Cotton Boomerang (JUET 980709 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Success
-cottond|Cotton (set 4, World) (bootleg of FD1094 317-0181a set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|
+cottond|Cotton (set 4, World) (bootleg of FD1094 317-0181a set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16
 cottong|Cotocoto Cottong|clone|namco/rallyx.cpp|90|256|224|60.606061||locomotn|good|
 cottonj|Cotton (set 2, Japan, Rev B) (FD1094 317-0179b)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16/Success
 cottonja|Cotton (set 1, Japan, Rev A) (FD1094 317-0179a)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16/Success
-cottonjad|Cotton (set 1, Japan, Rev A) (bootleg of FD1094 317-0179a set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|
-cottonjd|Cotton (set 2, Japan, Rev B) (bootleg of FD1094 317-0179b set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|
+cottonjad|Cotton (set 1, Japan, Rev A) (bootleg of FD1094 317-0179a set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16
+cottonjd|Cotton (set 2, Japan, Rev B) (bootleg of FD1094 317-0179b set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16
 cottonu|Cotton (set 3, US) (FD1094 317-0180)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16/Success
-cottonud|Cotton (set 3, US) (bootleg of FD1094 317-0180 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|
+cottonud|Cotton (set 3, US) (bootleg of FD1094 317-0180 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||cotton|good|Sega\System16
 countdwn|Count-Down|parent|pinball/gts1.cpp|||||gts1||preliminary|Gottlieb
 countrun|Counter Run (NS6201-A 1988.3)|parent|misc/freekick.cpp|0|256|224|59.410646|||preliminary|Nihon System/Sega
 countrunb|Counter Run (bootleg set 1)|clone|misc/freekick.cpp|0|256|224|59.410646||countrun|good|
@@ -3720,14 +3720,14 @@ cprogolf18|18 Challenge Pro Golf (DECO Cassette) (Japan)|clone|dataeast/decocass
 cprogolfj|Tournament Pro Golf (DECO Cassette) (Japan)|clone|dataeast/decocass.cpp|270|256|240|57.444853|decocass|cprogolf|good|Data East
 cps2comm|Capcom CPS-2 communication board|device|capcom/cps2comm.cpp||||||||
 cps3_custom|CPS3 Custom Sound|device|capcom/cps3_a.cpp||||||||
-cps3boot|CPS3 Multi-game bootleg for HD6417095 type SH2 (V4)|parent|capcom/cps3.cpp|0|384|224|59.599491|||good|
-cps3boota|CPS3 Multi-game bootleg for dead security cart (V5)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3bootao|CPS3 Multi-game bootleg for dead security cart (older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3bootao2|CPS3 Multi-game bootleg for dead security cart (oldest) (New Generation, 2nd Impact and 3rd Strike only)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3booto|CPS3 Multi-game bootleg for HD6417095 type SH2 (older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3booto2|CPS3 Multi-game bootleg for HD6417095 type SH2 (oldest) (New Generation, 3rd Strike, JoJo's Venture, JoJo's Bizarre Adventure and Red Earth only)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3bs32|Street Fighter III 2nd Impact: Giant Attack (USA 970930, bootleg for HD6417095 type SH2, V3)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
-cps3bs32a|Street Fighter III 2nd Impact: Giant Attack (USA 970930, bootleg for HD6417095 type SH2, older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|
+cps3boot|CPS3 Multi-game bootleg for HD6417095 type SH2 (V4)|parent|capcom/cps3.cpp|0|384|224|59.599491|||good|Capcom\CPS3
+cps3boota|CPS3 Multi-game bootleg for dead security cart (V5)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3bootao|CPS3 Multi-game bootleg for dead security cart (older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3bootao2|CPS3 Multi-game bootleg for dead security cart (oldest) (New Generation, 2nd Impact and 3rd Strike only)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3booto|CPS3 Multi-game bootleg for HD6417095 type SH2 (older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3booto2|CPS3 Multi-game bootleg for HD6417095 type SH2 (oldest) (New Generation, 3rd Strike, JoJo's Venture, JoJo's Bizarre Adventure and Red Earth only)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3bs32|Street Fighter III 2nd Impact: Giant Attack (USA 970930, bootleg for HD6417095 type SH2, V3)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
+cps3bs32a|Street Fighter III 2nd Impact: Giant Attack (USA 970930, bootleg for HD6417095 type SH2, older)|clone|capcom/cps3.cpp|0|384|224|59.599491||cps3boot|good|Capcom\CPS3
 cpsoccer|Pro Soccer (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|256|240|57.444853|decocass||good|Data East
 cpsoccerj|Pro Soccer (DECO Cassette) (Japan)|clone|dataeast/decocass.cpp|270|256|240|57.444853|decocass|cpsoccer|good|Data East
 cptennis|Pro Tennis (DECO Cassette) (US)|parent|dataeast/decocass.cpp|270|256|240|57.444853|decocass||good|Data East
@@ -3901,7 +3901,7 @@ cs9_qps|Casino Strip IX (Poker version, for Sony LD)|parent|misc/statriv2.cpp|0|
 cs9_spp|Casino Strip IX (Poker version, for Pioneer LD)|parent|misc/statriv2.cpp|0|320|240|59.992284|||preliminary|Status Games
 csclub|Capcom Sports Club (Euro 971017)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 csclub1|Capcom Sports Club (Euro 970722)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|Capcom\CPS2
-csclub1d|Capcom Sports Club (Euro 970722 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|
+csclub1d|Capcom Sports Club (Euro 970722 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|Capcom\CPS2
 cscluba|Capcom Sports Club (Asia 970722)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|Capcom\CPS2
 csclubh|Capcom Sports Club (Hispanic 970722)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|Capcom\CPS2
 csclubj|Capcom Sports Club (Japan 970722)|clone|capcom/cps2.cpp|0|384|224|59.637405||csclub|good|Capcom\CPS2
@@ -4063,9 +4063,9 @@ cyberlip|Cyber-Lip (NGM-010)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo
 cybertnk|Cyber Tank (v1.4)|parent|misc/cybertnk.cpp|0|256|224|60.000000|||imperfect|Coreland
 cybots|Cyberbots: Fullmetal Madness (Euro 950424)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 cybotsj|Cyberbots: Fullmetal Madness (Japan 950420)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|Capcom\CPS2
-cybotsjd|Cyberbots: Fullmetal Madness (Japan 950424) (decrypted bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|
+cybotsjd|Cyberbots: Fullmetal Madness (Japan 950424) (decrypted bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|Capcom\CPS2
 cybotsu|Cyberbots: Fullmetal Madness (USA 950424)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|Capcom\CPS2
-cybotsud|Cyberbots: Fullmetal Madness (USA 950424 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|
+cybotsud|Cyberbots: Fullmetal Madness (USA 950424 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||cybots|good|Capcom\CPS2
 cybrcomm|Cyber Commando (Japan, CY1)|parent|namco/namcos22.cpp|0|640|480|59.904060|||imperfect|Namco
 cybrcycc|Cyber Cycles (World, CB2 Ver.C)|parent|namco/namcos22.cpp|0|640|480|59.904060|||imperfect|Namco
 cybrcyccj|Cyber Cycles (Japan, CB1 Ver.C)|clone|namco/namcos22.cpp|0|640|480|59.904060||cybrcycc|imperfect|Namco
@@ -4307,17 +4307,17 @@ ddboy|Dam Dam Boy (on dedicated PCB)|parent|konami/konmedal.cpp|0|320|224|59.620
 ddboya|Dam Dam Boy (on Tsukande Toru Chicchi PCB)|clone|konami/konmedal.cpp|0|320|224|59.620000||ddboy|imperfect|Konami
 ddcrew|D. D. Crew (World, 3 Players) (FD1094 317-0190)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
 ddcrew1|D. D. Crew (World, 4 Players) (FD1094 317-0187)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
-ddcrew1d|D. D. Crew (World, 4 Players) (bootleg of FD1094 317-0187 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
+ddcrew1d|D. D. Crew (World, 4 Players) (bootleg of FD1094 317-0187 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddcrew2|D. D. Crew (World, 2 Players) (FD1094 317-0184)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
-ddcrew2d|D. D. Crew (World, 2 Players) (bootleg of FD1094 317-0184 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
+ddcrew2d|D. D. Crew (World, 2 Players) (bootleg of FD1094 317-0184 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddcrewbl|D. D. Crew (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||ddcrew|preliminary|
-ddcrewd|D. D. Crew (World, 3 Players) (bootleg of FD1094 317-0190 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
+ddcrewd|D. D. Crew (World, 3 Players) (bootleg of FD1094 317-0190 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddcrewj|D. D. Crew (Japan, 4 Players) (FD1094 317-0185)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddcrewj2|D. D. Crew (Japan, 2 Players) (FD1094 317-0182)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
-ddcrewj2d|D. D. Crew (Japan, 2 Players) (bootleg of FD1094 317-0182 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
-ddcrewjd|D. D. Crew (Japan, 4 Players) (bootleg of FD1094 317-0185 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
+ddcrewj2d|D. D. Crew (Japan, 2 Players) (bootleg of FD1094 317-0182 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
+ddcrewjd|D. D. Crew (Japan, 4 Players) (bootleg of FD1094 317-0185 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddcrewu|D. D. Crew (US, 4 Players) (FD1094 317-0186)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
-ddcrewud|D. D. Crew (US, 4 Players) (bootleg of FD1094 317-0186 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|
+ddcrewud|D. D. Crew (US, 4 Players) (bootleg of FD1094 317-0186 set)|clone|sega/segas18.cpp|0|320|224|57.230000||ddcrew|good|Sega\System18
 ddealer|Double Dealer|parent|nmk/ddealer.cpp|0|384|224|60.000000|||preliminary|NMK
 ddenlovj|Don Den Lover Vol. 1 - Shiro Kuro Tsukeyo! (Japan)|parent|dynax/ddenlovr.cpp|0|336|240|60.000000|||good|Dynax
 ddenlovr|Don Den Lover Vol. 1 (Hong Kong)|clone|dynax/ddenlovr.cpp|0|336|240|60.000000||ddenlovj|good|Dynax
@@ -4432,12 +4432,12 @@ ddsomr1|Dungeons & Dragons: Shadow over Mystara (Euro 960223)|clone|capcom/cps2.
 ddsomr2|Dungeons & Dragons: Shadow over Mystara (Euro 960209)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
 ddsomr3|Dungeons & Dragons: Shadow over Mystara (Euro 960208)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
 ddsomu|Dungeons & Dragons: Shadow over Mystara (USA 960619)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
-ddsomud|Dungeons & Dragons: Shadow over Mystara (USA 960619 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|
+ddsomud|Dungeons & Dragons: Shadow over Mystara (USA 960619 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
 ddsomur1|Dungeons & Dragons: Shadow over Mystara (USA 960209)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddsom|good|Capcom\CPS2
 ddtod|Dungeons & Dragons: Tower of Doom (Euro 940412)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 ddtoda|Dungeons & Dragons: Tower of Doom (Asia 940412)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
 ddtodar1|Dungeons & Dragons: Tower of Doom (Asia 940113)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
-ddtodd|Dungeons & Dragons: Tower of Doom (Euro 940412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|
+ddtodd|Dungeons & Dragons: Tower of Doom (Euro 940412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
 ddtodh|Dungeons & Dragons: Tower of Doom (Hispanic 940412)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
 ddtodhr1|Dungeons & Dragons: Tower of Doom (Hispanic 940125)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
 ddtodhr2|Dungeons & Dragons: Tower of Doom (Hispanic 940113)|clone|capcom/cps2.cpp|0|384|224|59.637405||ddtod|good|Capcom\CPS2
@@ -4452,9 +4452,9 @@ ddungeone|Dangerous Dungeons (set 2)|clone|technos/ddragon.cpp|0|256|240|57.4448
 ddux|Dynamite Dux (set 3, World) (FD1094 317-0096)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 ddux1|Dynamite Dux (set 1, World) (8751 317-0095)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|Sega\System16
 dduxbl|Dynamite Dux (Datsu bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||ddux|preliminary|Datsu
-dduxd|Dynamite Dux (set 3, World) (bootleg of FD1094 317-0096 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|
+dduxd|Dynamite Dux (set 3, World) (bootleg of FD1094 317-0096 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|Sega\System16
 dduxj|Dynamite Dux (set 2, Japan) (FD1094 317-0094)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|Sega\System16
-dduxjd|Dynamite Dux (set 2, Japan) (bootleg of FD1094 317-0094 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|
+dduxjd|Dynamite Dux (set 2, Japan) (bootleg of FD1094 317-0094 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ddux|good|Sega\System16
 ddz|Dou Di Zhu|parent|misc/ddz.cpp|0|320|240|60.054442|||preliminary|IGS
 deadang|Dead Angle|parent|seibu/deadang.cpp|0|256|224|60.000000|||good|Seibu
 deadconx|Dead Connection (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||good|Taito
@@ -4564,9 +4564,9 @@ deroon2|Deroon DeroDero / Tecmo Stackers|clone|tecmo/tecmosys.cpp|0|320|240|57.4
 deroona|Deroon DeroDero (earlier, set 2)|clone|tecmo/tecmosys.cpp|0|320|240|57.445800||deroon|imperfect|Tecmo
 desert|Desert Tank|parent|sega/model2.cpp|0|496|384|57.524160|||preliminary|Martin Marietta/Sega
 desertbr|Desert Breaker (World) (FD1094 317-0196)|parent|sega/segas18.cpp|270|320|224|57.230000|||good|Sega\System18
-desertbrd|Desert Breaker (World) (bootleg of FD1094 317-0196 set)|clone|sega/segas18.cpp|270|320|224|57.230000||desertbr|good|
+desertbrd|Desert Breaker (World) (bootleg of FD1094 317-0196 set)|clone|sega/segas18.cpp|270|320|224|57.230000||desertbr|good|Sega\System18
 desertbrj|Desert Breaker (Japan) (FD1094 317-0194)|clone|sega/segas18.cpp|270|320|224|57.230000||desertbr|good|Sega\System18
-desertbrjd|Desert Breaker (Japan) (bootleg of FD1094 317-0194 set)|clone|sega/segas18.cpp|270|320|224|57.230000||desertbr|good|
+desertbrjd|Desert Breaker (Japan) (bootleg of FD1094 317-0194 set)|clone|sega/segas18.cpp|270|320|224|57.230000||desertbr|good|Sega\System18
 desertdn|Desert Dan|parent|thepit/thepit.cpp|0|256|224|60.606061|||good|Kawakusu/Video Optics
 desertgu|Desert Gun|parent|midw8080/mw8080bw.cpp|0|260|224|59.541985|||imperfect|Dave Nutting Associates/Midway
 desertgu_audio|Midway Desert Gun Audio|device|midw8080/mw8080bw_a.cpp||||||||
@@ -4594,7 +4594,7 @@ devzone2|Devil Zone (easier)|clone|universal/cosmic.cpp|270|256|192|58.639833||d
 df_djpkr|Double Joker Poker (45%-75% payout)|parent|misc/norautp.cpp|0|464|248|60.000000|||good|DellFern
 dfeverg|Dancing Fever Gold (J 000821 V2.001)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||preliminary|Sega
 dfeveron|Dangun Feveron (Japan, 98/09/17 VER.)|clone|misc/cave.cpp|270|320|240|57.550645||feversos|good|Cave/Nihon System
-dfjail|The Destroyer From Jail (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
+dfjail|The Destroyer From Jail (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko/Sega\System16
 dfkbl|DoDonPachi Dai-Fukkatsu Black Label (2010/1/18 BLACK LABEL)|parent|misc/cv1k.cpp|270|320|240|60.024000|||imperfect|Cave
 dfndr_l4|Defender (L-4)|parent|pinball/s7.cpp|||||||preliminary|Williams
 dfruit|Fruit Dream (Japan)|parent|misc/dfruit.cpp|0|320|224|60.000000|||good|Nippon Data Kiki/Star Fish
@@ -4641,7 +4641,7 @@ digitalker|MM54104 Digitalker|device|devices/sound/digitalk.cpp||||||||
 digsid|Dig Dug (manufactured by Sidam)|clone|namco/galaga.cpp|90|288|224|60.606061||digdug|good|Namco/Sidam
 dimahoo|Dimahoo (Euro 000121)|parent|capcom/cps2.cpp|270|384|224|59.637405|||good|Capcom\CPS2/Eighting/Raizing
 dimahoou|Dimahoo (USA 000121)|clone|capcom/cps2.cpp|270|384|224|59.637405||dimahoo|good|Capcom\CPS2/Eighting/Raizing
-dimahoud|Dimahoo (USA 000121 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||dimahoo|good|
+dimahoud|Dimahoo (USA 000121 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|270|384|224|59.637405||dimahoo|good|Capcom\CPS2
 dimeye|Diamond Eyes (10129211, ASP)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 dimeyece|Diamond Eyes - Cash Express (0152039, US)|clone|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6|dimeye|preliminary|Aristocrat
 dimeyeu|Diamond Eyes (0251312, US)|clone|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6|dimeye|preliminary|Aristocrat
@@ -4661,7 +4661,7 @@ dinodino|Dino Dino (Ver. A1.1, 01/13/2005)|parent|misc/astrcorp.cpp|0|512|240|58
 dinoeggs|Dinosaur Eggs (R02)|parent|pinball/alvg.cpp|||||||preliminary|Alvin G
 dinofmly|Dino Family|parent|subsino/subsino.cpp|0|512|224|60.000000|||preliminary|Subsino
 dinofmlya|Dino Family (Portuguese, Tangasoft license)|clone|subsino/subsino.cpp|0|512|224|60.000000||dinofmly|preliminary|Tangasoft
-dinohunt|Dinosaur Hunter (Chinese bootleg of Cadillacs and Dinosaurs)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|good|
+dinohunt|Dinosaur Hunter (Chinese bootleg of Cadillacs and Dinosaurs)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|good|Capcom\CPS1
 dinoj|Cadillacs: Kyouryuu Shin Seiki (Japan 930201)|clone|capcom/cps1.cpp|0|384|224|59.637405||dino|good|Capcom\CPS1
 dinoki25|Dinosaur King - D-Team VS. the Alpha Fortress (Export, Ver 2.500) (MDA-C0047)|parent|sega/segasp.cpp|0|640|480|61.702586|segasp||preliminary|Sega
 dinoki4|Kodai Ouja Kyouryuu King - Mezame yo! Arata-naru Chikara!! (Japan, Ver 4.000) (MDA-C0061)|parent|sega/segasp.cpp|0|640|480|61.702586|segasp||preliminary|Sega
@@ -5125,7 +5125,7 @@ dstlk|Darkstalkers: The Night Warriors (Euro 940705)|parent|capcom/cps2.cpp|0|38
 dstlka|Darkstalkers: The Night Warriors (Asia 940705)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
 dstlkh|Darkstalkers: The Night Warriors (Hispanic 940818)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
 dstlku|Darkstalkers: The Night Warriors (USA 940818)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
-dstlku1d|Darkstalkers: The Night Warriors (USA 940705 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|
+dstlku1d|Darkstalkers: The Night Warriors (USA 940705 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
 dstlkur1|Darkstalkers: The Night Warriors (USA 940705)|clone|capcom/cps2.cpp|0|384|224|59.637405||dstlk|good|Capcom\CPS2
 dtfamily|Diet Family|parent|misc/vamphalf.cpp|0|320|236|59.000000|||good|SemiCom
 dtoyoken|Mahjong Dai Touyouken [BET] (Japan)|parent|dynax/ddenlovr.cpp|0|336|239|60.853200|||good|Dynax/Sigma
@@ -5725,7 +5725,7 @@ ecau|Emergency Call Ambulance (USA)|clone|sega/model3.cpp|0|496|384|57.524160||e
 eclipse|Eclipse|parent|pinball/gts80.cpp|||||||preliminary|Gottlieb
 ecofghtr|Eco Fighters (World 931203)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 ecofghtra|Eco Fighters (Asia 931203)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|Capcom\CPS2
-ecofghtrd|Eco Fighters (World 931203 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|
+ecofghtrd|Eco Fighters (World 931203 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|Capcom\CPS2
 ecofghtrh|Eco Fighters (Hispanic 931203)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|Capcom\CPS2
 ecofghtru|Eco Fighters (USA 940215)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|Capcom\CPS2
 ecofghtru1|Eco Fighters (USA 931203)|clone|capcom/cps2.cpp|0|384|224|59.637405||ecofghtr|good|Capcom\CPS2
@@ -6720,13 +6720,13 @@ estrike|Eagle Strike (40289711, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|48
 eswat|E-Swat - Cyber Police (set 4, World) (FD1094 317-0130)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 eswatbl|E-Swat - Cyber Police (bootleg, set 1)|clone|sega/system16.cpp|0|320|224|60.000000||eswat|preliminary|
 eswatbl2|E-Swat - Cyber Police (bootleg, set 2)|clone|sega/system16.cpp|0|320|224|60.000000||eswat|preliminary|
-eswatd|E-Swat - Cyber Police (set 4, World) (bootleg of FD1094 317-0130 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|
+eswatd|E-Swat - Cyber Police (set 4, World) (bootleg of FD1094 317-0130 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
 eswatj|E-Swat - Cyber Police (set 2, Japan) (FD1094 317-0128)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
 eswatj1|E-Swat - Cyber Police (set 1, Japan) (FD1094 317-0131)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
-eswatj1d|E-Swat - Cyber Police (set 1, Japan) (bootleg of FD1094 317-0131 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|
-eswatjd|E-Swat - Cyber Police (set 2, Japan) (bootleg of FD1094 317-0128 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|
+eswatj1d|E-Swat - Cyber Police (set 1, Japan) (bootleg of FD1094 317-0131 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
+eswatjd|E-Swat - Cyber Police (set 2, Japan) (bootleg of FD1094 317-0128 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
 eswatu|E-Swat - Cyber Police (set 3, US) (FD1094 317-0129)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
-eswatud|E-Swat - Cyber Police (set 3, US) (bootleg of FD1094 317-0129 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|
+eswatud|E-Swat - Cyber Police (set 3, US) (bootleg of FD1094 317-0129 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||eswat|good|Sega\System16
 et4000|SVGA Tseng ET4000AX Graphics Card|device|devices/bus/isa/svga_tseng.cpp|0|640|480|60.054866||||
 et4000_kasan16|SVGA Kasan Hangulmadang-16 ET4000AX Graphics Card|device|devices/bus/isa/svga_tseng.cpp|0|640|480|60.054866||||
 eto|Kokontouzai Eto Monogatari (Japan)|parent|taito/asuka.cpp|0|320|240|60.000000|||good|Visco
@@ -6761,7 +6761,7 @@ excitebkj|Vs. Excitebike (set EB4-4 A)|clone|nintendo/vsnes.cpp|0|256|240|60.098
 excitebko|Vs. Excitebike (set EB4-3 ?)|clone|nintendo/vsnes.cpp|0|256|240|60.098476||excitebk|good|Nintendo
 excthour|Exciting Hour|clone|technos/matmania.cpp|270|256|240|60.000000||matmania|good|Taito/Technos
 exctleag|Excite League (FD1094 317-0079)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
-exctleagd|Excite League (bootleg of FD1094 317-0079 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||exctleag|good|
+exctleagd|Excite League (bootleg of FD1094 317-0079 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||exctleag|good|Sega\System16
 exctscc2|Exciting Soccer II|parent|alpha/champbas.cpp|270|256|224|60.540000|||good|Alpha Denshi
 exctsccr|Exciting Soccer|parent|alpha/champbas.cpp|270|256|224|60.540000|||good|Alpha Denshi
 exctsccra|Exciting Soccer (alternate music)|clone|alpha/champbas.cpp|270|256|224|60.540000||exctsccr|good|Alpha Denshi
@@ -6901,7 +6901,7 @@ fantzone1|Fantasy Zone (unprotected)|clone|sega/segas16a.cpp|0|320|224|60.000000
 fantzonee|Fantasy Zone (FD1089B 317-0016)|clone|sega/segas16a.cpp|0|320|224|60.000000||fantzone|good|Sega\System16
 fantzonep|Fantasy Zone (317-5000)|clone|sega/segas16a.cpp|0|320|224|60.000000||fantzone|good|Sega\System16
 fantzonepr|Fantasy Zone (prototype)|clone|sega/segas16a.cpp|0|320|224|60.000000||fantzone|imperfect|Sega\System16
-fantzoneta|Fantasy Zone (Time Attack, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fantzone|good|
+fantzoneta|Fantasy Zone (Time Attack, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fantzone|good|Sega\System16
 fanzonem|Fantasy Zone (medal game, REV.A) (J 990202 V1.000)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||preliminary|Sega
 farfalla|Farfalla|parent|pinball/zac_2.cpp|||||||preliminary|Zaccaria
 farfallaf|Farfalla (French speech)|clone|pinball/zac_2.cpp||||||farfalla|preliminary|Zaccaria
@@ -7096,7 +7096,7 @@ ffight2b|Final Fight 2 (SNES bootleg)|parent|nintendo/snesb.cpp|0|512|225|60.098
 ffight3b|Final Fight 3 (SNES bootleg, set 1)|parent|nintendo/snesb.cpp|0|512|225|60.098476|||preliminary|
 ffight3b2|Final Fight 3 (SNES bootleg, set 2)|clone|nintendo/snesb.cpp|0|512|225|60.098476||ffight3b|preliminary|
 ffighta|Final Fight (World, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
-ffightae|Final Fight 30th Anniversary Edition (World, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|
+ffightae|Final Fight 30th Anniversary Edition (World, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightbl|Final Fight (bootleg)|clone|capcom/fcrash.cpp|0|384|224|60.000000||ffight|imperfect|
 ffightbla|Final Fight (bootleg on Final Crash PCB)|clone|capcom/fcrash.cpp|0|384|224|60.000000||ffight|imperfect|
 ffightblb|Final Fight (bootleg with single OKI)|clone|capcom/fcrash.cpp|0|384|224|60.000000||ffight|imperfect|Soon Hwa
@@ -7105,7 +7105,7 @@ ffightj1|Final Fight (Japan 900112)|clone|capcom/cps1.cpp|0|384|224|59.637405||f
 ffightj2|Final Fight (Japan 900305)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightj3|Final Fight (Japan 900405)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightj4|Final Fight (Japan 900613)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
-ffightjh|Street Smart / Final Fight (Japan, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|
+ffightjh|Street Smart / Final Fight (Japan, hack)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightu|Final Fight (USA, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightu1|Final Fight (USA, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
 ffightua|Final Fight (USA 900112)|clone|capcom/cps1.cpp|0|384|224|59.637405||ffight|good|Capcom\CPS1
@@ -7404,11 +7404,11 @@ fourx4|4x4|parent|pinball/atari_4x4.cpp|||||||preliminary|Atari
 foxylady|Foxy Lady|parent|pinball/gp_1.cpp|||||gp_110||preliminary|Game Plan
 fpoint|Flash Point (set 2, Japan) (FD1094 317-0127A)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 fpoint1|Flash Point (set 1, Japan) (FD1094 317-0127A)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Sega\System16
-fpoint1d|Flash Point (set 1, Japan) (bootleg of FD1094 317-0127A set)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|
-fpointbj|Flash Point (Japan, bootleg set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Datsu
-fpointbl|Flash Point (World, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Datsu
-fpointbla|Flash Point (Japan, bootleg set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|
-fpointd|Flash Point (set 2, Japan) (bootleg of FD1094 317-0127A set)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|
+fpoint1d|Flash Point (set 1, Japan) (bootleg of FD1094 317-0127A set)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Sega\System16
+fpointbj|Flash Point (Japan, bootleg set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Datsu/Sega\System16
+fpointbl|Flash Point (World, bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Datsu/Sega\System16
+fpointbla|Flash Point (Japan, bootleg set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|preliminary|Sega\System16
+fpointd|Flash Point (set 2, Japan) (bootleg of FD1094 317-0127A set)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint|good|Sega\System16
 fpwr2_l2|Firepower II (L-2)|parent|pinball/s7.cpp|||||||preliminary|Williams
 frankst|Mary Shelley's Frankenstein|parent|pinball/de_3.cpp|0|192|64|60.000000|||preliminary|Sega
 frankstg|Mary Shelley's Frankenstein (Germany)|clone|pinball/de_3.cpp|0|192|64|60.000000||frankst|preliminary|Sega
@@ -7768,8 +7768,8 @@ gametree|Game Tree [TTL]|parent|misc/pse.cpp|0|455|262|60.053687|||preliminary|P
 gammagic|Game Magic|parent|misc/gammagic.cpp|||||||preliminary|Bally Gaming
 gampo812|Gamble Poker (v812, encrypted)|clone|funworld/supercrd.cpp|0|384|232|60.000000||gampo816|preliminary|Fun World
 gampo816|Gamble Poker (v816, encrypted)|parent|funworld/supercrd.cpp|0|384|232|60.000000|||preliminary|Fun World
-gamshara|Gamshara (20020912A / 10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||imperfect|Mitchell
-gamsharao|Gamshara (20020716A / 10021 Ver.A)|clone|namco/namcos10.cpp|0|640|480|60.000000||gamshara|imperfect|Mitchell
+gamshara|Gamshara (20020912A / 10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||imperfect|Mitchell/Namco\System10
+gamsharao|Gamshara (20020716A / 10021 Ver.A)|clone|namco/namcos10.cpp|0|640|480|60.000000||gamshara|imperfect|Mitchell/Namco\System10
 gamt1|Gaminator 1 (set 1)|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
 gamt10|Gaminator 10 (set 1)|parent|misc/gamtor.cpp|0|640|480|53.178707|||preliminary|Novotech
 gamt10a|Gaminator 10 (set 2)|clone|misc/gamtor.cpp|0|640|480|53.178707||gamt10|preliminary|Novotech
@@ -8125,7 +8125,7 @@ gi_l8|Gilligan's Island (L-8)|clone|pinball/wpc_dot.cpp|0|128|32|60.000000||gi_l
 gi_l9|Gilligan's Island (L-9)|parent|pinball/wpc_dot.cpp|0|128|32|60.000000|||preliminary|Bally
 giclasex|GI-Classic EX (satellite terminal)|parent|konami/giclassic.cpp|0|600|384|59.620000|||preliminary|Konami
 giclassvr|GI-Classic EX (server)|parent|konami/giclassic.cpp|0|100|100|59.620000|||preliminary|Konami
-gigaman2|Giga Man 2: The Power Fighters (bootleg of Mega Man 2: The Power Fighters)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|preliminary|
+gigaman2|Giga Man 2: The Power Fighters (bootleg of Mega Man 2: The Power Fighters)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|preliminary|Capcom\CPS2
 gigandes|Gigandes|parent|taito/taito_x.cpp|0|384|240|60.000000|||good|East Technology
 gigandesa|Gigandes (earlier)|clone|taito/taito_x.cpp|0|384|240|60.000000||gigandes|good|East Technology
 gigas|Gigas (MC-8123, 317-5002)|parent|misc/freekick.cpp|270|256|224|59.410646|||good|Sega
@@ -8135,10 +8135,10 @@ gigasm2b|Gigas Mark II (bootleg)|clone|misc/freekick.cpp|270|256|224|59.410646||
 gigawing|Giga Wing (USA 990222)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2/Takumi
 gigawinga|Giga Wing (Asia 990222)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2/Takumi
 gigawingb|Giga Wing (Brazil 990222)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2/Takumi
-gigawingd|Giga Wing (USA 990222 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|
+gigawingd|Giga Wing (USA 990222 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2
 gigawingh|Giga Wing (Hispanic 990222)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2/Takumi
 gigawingj|Giga Wing (Japan 990223)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2/Takumi
-gigawingjd|Giga Wing (Japan 990223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|
+gigawingjd|Giga Wing (Japan 990223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||gigawing|good|Capcom\CPS2
 gijoe|G.I. Joe (World, EAB, set 1)|parent|konami/gijoe.cpp|0|288|224|60.000000|||imperfect|Konami
 gijoea|G.I. Joe (Asia, AA)|clone|konami/gijoe.cpp|0|288|224|60.000000||gijoe|imperfect|Konami
 gijoeea|G.I. Joe (World, EB8, prototype?)|clone|konami/gijoe.cpp|0|288|224|60.000000||gijoe|imperfect|Konami
@@ -8320,16 +8320,16 @@ goldmedla|Gold Medalist (set 2, Alpha68k III PCB)|clone|alpha/alpha68k.cpp|0|256
 goldmedlb|Gold Medalist (bootleg, Alpha68k III PCB)|clone|alpha/alpha68k.cpp|0|256|224|59.185606||goldmedl|imperfect|
 goldnaxe|Golden Axe (set 6, US) (8751 317-123A)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 goldnaxe1|Golden Axe (set 1, World) (FD1094 317-0110)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
-goldnaxe1d|Golden Axe (set 1, World) (bootleg of FD1094 317-0110 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|
+goldnaxe1d|Golden Axe (set 1, World) (bootleg of FD1094 317-0110 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
 goldnaxe2|Golden Axe (set 2, US) (8751 317-0112)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
 goldnaxe3|Golden Axe (set 3, World) (FD1094 317-0120)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
-goldnaxe3d|Golden Axe (set 3, World) (bootleg of FD1094 317-0120 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|
+goldnaxe3d|Golden Axe (set 3, World) (bootleg of FD1094 317-0120 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
 goldnaxeb1|Golden Axe (encrypted bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||goldnaxe|preliminary|
 goldnaxeb2|Golden Axe (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||goldnaxe|preliminary|
 goldnaxej|Golden Axe (set 4, Japan) (FD1094 317-0121)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
-goldnaxejd|Golden Axe (set 4, Japan) (bootleg of FD1094 317-0121 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|
+goldnaxejd|Golden Axe (set 4, Japan) (bootleg of FD1094 317-0121 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
 goldnaxeu|Golden Axe (set 5, US) (FD1094 317-0122)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
-goldnaxeud|Golden Axe (set 5, US) (bootleg of FD1094 317-0122 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|
+goldnaxeud|Golden Axe (set 5, US) (bootleg of FD1094 317-0122 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe|good|Sega\System16
 goldnpkb|Golden Poker Double Up (Mini Boy)|clone|misc/goldnpkr.cpp|0|256|232|60.096154||goldnpkr|good|Bonanza Enterprises
 goldnpkc|Golden Poker Double Up (bootleg, set 1)|clone|misc/goldnpkr.cpp|0|256|232|60.096154||goldnpkr|good|
 goldnpkd|Golden Poker Double Up (bootleg, set 2)|clone|misc/goldnpkr.cpp|0|256|232|60.096154||goldnpkr|preliminary|
@@ -9227,8 +9227,8 @@ hgokou|Hanafuda Hana Gokou [BET] (Japan)|parent|dynax/ddenlovr.cpp|0|336|240|60.
 hh|Haunted House (Rev. 2)|parent|pinball/gts80.cpp|||||||preliminary|Gottlieb
 hh_1|Haunted House (Rev. 1)|clone|pinball/gts80.cpp||||||hh|preliminary|Gottlieb
 hharry|Hammerin' Harry (World, M81 hardware)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
-hharryb|Hammerin' Harry (World, M84 hardware bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||hharry|good|
-hharryb2|Hammerin' Harry (Playmark bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||hharry|preliminary|PlayMark
+hharryb|Hammerin' Harry (World, M84 hardware bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||hharry|good|Irem\M72
+hharryb2|Hammerin' Harry (Playmark bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||hharry|preliminary|Irem\M72/PlayMark
 hharryu|Hammerin' Harry (US, M84 hardware)|clone|irem/m72.cpp|0|384|256|55.017606||hharry|good|Irem\M72
 hhhippos|Hungry Hungry Hippos (redemption game)|parent|ice/ice_hhhippos.cpp|||||||preliminary|ICE/Innovative Concepts in Entertainment
 hhotel|Haunted Hotel|parent|pinball/ltd.cpp|||||||preliminary|LTD
@@ -9449,7 +9449,7 @@ hs_l3|High Speed (L-3)|clone|pinball/s11.cpp||||||hs_l4|preliminary|Williams
 hs_l4|High Speed (L-4)|parent|pinball/s11.cpp|||||||preliminary|Williams
 hsf2|Hyper Street Fighter II: The Anniversary Edition (USA 040202)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 hsf2a|Hyper Street Fighter II: The Anniversary Edition (Asia 040202)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
-hsf2d|Hyper Street Fighter II: The Anniversary Edition (Asia 040202 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|
+hsf2d|Hyper Street Fighter II: The Anniversary Edition (Asia 040202 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
 hsf2j|Hyper Street Fighter II: The Anniversary Edition (Japan 040202)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
 hsf2j1|Hyper Street Fighter II: The Anniversary Edition (Japan 031222)|clone|capcom/cps2.cpp|0|384|224|59.637405||hsf2|good|Capcom\CPS2
 hshavoc|High Seas Havoc|parent|sega/hshavoc.cpp|0|256|224|59.922743|||preliminary|Data East
@@ -9511,7 +9511,7 @@ hvyunitu|Heavy Unit -U.S.A. Version- (US)|clone|kaneko/hvyunit.cpp|0|256|224|58.
 hwchamp|Heavyweight Champ (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
 hwchampa|Heavyweight Champ (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||hwchamp|good|Sega\System16
 hwchampj|Heavyweight Champ (Japan) (FD1094 317-0046)|clone|sega/segas16b.cpp|0|320|224|60.054389||hwchamp|good|Sega\System16
-hwchampjd|Heavyweight Champ (Japan) (bootleg of FD1094 317-0046 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||hwchamp|good|
+hwchampjd|Heavyweight Champ (Japan) (bootleg of FD1094 317-0046 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||hwchamp|good|Sega\System16
 hwrace|High Way Race|parent|taito/taitosj.cpp|270|256|224|59.185606|||good|Taito
 hydra|Hydra|parent|atari/atarig1.cpp|0|336|240|59.922743|||good|Atari
 hydrap|Hydra (prototype 5/14/90)|clone|atari/atarig1.cpp|0|336|240|59.922743||hydra|good|Atari
@@ -9989,7 +9989,7 @@ isa_pds|Programmers Development System (host)|device|devices/bus/isa/pds.cpp||||
 isa_sblaster1_0|Sound Blaster 1.0|device|devices/bus/isa/sblaster.cpp||||||||
 isa_sblaster1_5|Sound Blaster 1.5|device|devices/bus/isa/sblaster.cpp||||||||
 isa_sblaster_16|Sound Blaster 16|device|devices/bus/isa/sblaster.cpp||||||||
-isgsm|ISG Selection Master Type 2006 BIOS|bios|sega/segas16b_isgsm.cpp|0|320|224|60.054389||||ISG
+isgsm|ISG Selection Master Type 2006 BIOS|bios|sega/segas16b_isgsm.cpp|0|320|224|60.054389||||ISG/Sega\System16
 island|Island (050713 World)|parent|misc/multfish.cpp|0|640|480|60.000000|||good|Igrosoft
 island2|Island 2 (060529 World)|parent|misc/multfish.cpp|0|640|480|60.000000|||good|Igrosoft
 island2_10|Island 2 (110124 Entertainment A)|clone|misc/multfish.cpp|0|640|480|60.000000||island2|good|Igrosoft
@@ -12135,7 +12135,7 @@ konek|Konek-Gorbunok|parent|ussr/tiamc1.cpp|0|256|256|50.080128|||good|Terminal
 konendev|Konami Endeavour BIOS|bios|konami/konendev.cpp|0|640|480|59.940476||||Konami
 kong|Kong (Donkey Kong conversion on Galaxian hardware)|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||preliminary|Taito
 konhaji|Konnano Hajimete! (Japan)|parent|nichibutsu/hrdvd.cpp|0|543|465|59.922749|nichidvd||preliminary|Love Factory/Nichibutsu
-konotako|Kono e Tako (10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||imperfect|Mitchell
+konotako|Kono e Tako (10021 Ver.A)|parent|namco/namcos10.cpp|0|640|480|60.000000|||imperfect|Mitchell/Namco\System10
 konppc|Konami PowerPC Common Functions|device|konami/konppc.cpp||||||||
 konppc_jvs_host|Konami JVS Host (PowerPC Common)|device|konami/konppc_jvshost.cpp||||||||
 kontest|Konami Test Board (GX800, Japan)|parent|konami/kontest.cpp|0|256|224|60.000000|||good|Konami
@@ -12462,10 +12462,10 @@ levers|Levers|parent|galaxian/galaxian.cpp|90|768|224|60.606061|||good|Rock-Ola
 lgfish|Let's Go Fish'n (10220111, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 lgfisha|Let's Go Fish'n (10223911, ASP)|clone|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6|lgfish|preliminary|Aristocrat
 lghost|Laser Ghost (World) (FD1094 317-0166)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
-lghostd|Laser Ghost (World) (bootleg of FD1094 317-0166 set)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|
+lghostd|Laser Ghost (World) (bootleg of FD1094 317-0166 set)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|Sega\System18
 lghostj|Laser Ghost (Japan) (FD1094 317-0164)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|Sega\System18
 lghostu|Laser Ghost (US) (FD1094 317-0165)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|Sega\System18
-lghostud|Laser Ghost (US) (bootleg of FD1094 317-0165 set)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|
+lghostud|Laser Ghost (US) (bootleg of FD1094 317-0165 set)|clone|sega/segas18.cpp|0|320|224|57.230000||lghost|good|Sega\System18
 lgp|Laser Grand Prix|parent|taito/lgp.cpp|0|704|480|59.940057|||preliminary|Taito
 lgpalt|Laser Grand Prix (alternate)|clone|taito/lgp.cpp|0|704|480|59.940057||lgp|preliminary|Taito
 lgtnfght|Lightning Fighters (World)|parent|konami/tmnt2.cpp|90|320|224|60.000000|||good|Konami
@@ -12550,7 +12550,7 @@ lockload|Locked 'n Loaded (World)|parent|dataeast/deco32.cpp|0|320|240|57.799650
 lockloadu|Locked 'n Loaded (US, Dragon Gun conversion)|clone|dataeast/deco32.cpp|0|320|240|57.799650||lockload|preliminary|Data East
 lockon|Lock-On (rev. E)|parent|tatsumi/lockon.cpp|0|320|240|55.803571|||good|Tatsumi
 lockonc|Lock-On (rev. C)|clone|tatsumi/lockon.cpp|0|320|240|55.803571||lockon|good|Tatsumi
-lockonph|Lock On (Philko)|parent|sega/segas16b.cpp|0|320|224|60.054389|||imperfect|Philko
+lockonph|Lock On (Philko)|parent|sega/segas16b.cpp|0|320|224|60.054389|||imperfect|Philko/Sega\System16
 locoboot|Loco-Motion (bootleg)|clone|namco/rallyx.cpp|90|256|224|60.606061||locomotn|good|
 locoloot|Loco Loot (0100473V, NSW/ACT)|parent|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5||imperfect|Aristocrat
 locoloota|Loco Loot (0100472V, NSW/ACT)|clone|acorn/aristmk5.cpp|0|735|292|50.080128|aristmk5|locoloot|imperfect|Aristocrat
@@ -12572,10 +12572,10 @@ loggerr2|Logger (Rev.2)|clone|cvs/cvs.cpp|90|240|248|60.000000||logger|imperfect
 logicpr2|Logic Pro 2 (Japan)|parent|sega/deniam.cpp|0|320|224|60.000000|||good|Deniam
 logicpro|Logic Pro (Japan)|clone|sega/deniam.cpp|0|320|224|60.000000||croquis|imperfect|Deniam
 loht|Legend of Hero Tonma (World)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
-loht_ms|Legend of Hero Tonma (Gaelco bootleg, Modular System)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|Ervisa/Gaelco
-lohtb|Legend of Hero Tonma (Playmark unprotected bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|PlayMark
-lohtb2|Legend of Hero Tonma (Japan, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|
-lohtb3|Legend of Hero Tonma (World, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|
+loht_ms|Legend of Hero Tonma (Gaelco bootleg, Modular System)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|Ervisa/Gaelco/Irem\M72
+lohtb|Legend of Hero Tonma (Playmark unprotected bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||loht|preliminary|Irem\M72/PlayMark
+lohtb2|Legend of Hero Tonma (Japan, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|Irem\M72
+lohtb3|Legend of Hero Tonma (World, bootleg with i8751)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|Irem\M72
 lohtj|Legend of Hero Tonma (Japan)|clone|irem/m72.cpp|0|384|256|55.017606||loht|good|Irem\M72
 lol|Life of Luxury (Russian)|parent|misc/wms.cpp|0|256|224|60.000000|||preliminary|WMS
 lomakai|Legend of Makai (World)|parent|jaleco/megasys1.cpp|0|256|224|56.180000|||good|Jaleco
@@ -20793,7 +20793,7 @@ megaman2|Mega Man 2: The Power Fighters (USA 960708)|parent|capcom/cps2.cpp|0|38
 megaman2a|Mega Man 2: The Power Fighters (Asia 960708)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
 megaman2h|Mega Man 2: The Power Fighters (Hispanic 960712)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
 megamana|Mega Man: The Power Battle (CPS1, Asia 951006)|clone|capcom/cps1.cpp|0|384|224|59.637405||megaman|good|Capcom\CPS1
-megamn2d|Mega Man 2: The Power Fighters (USA 960708 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|
+megamn2d|Mega Man 2: The Power Fighters (USA 960708 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||megaman2|good|Capcom\CPS2
 megaphx|Mega Phoenix|parent|misc/megaphx.cpp|0|338|246|30.006238|||imperfect|Dinamic/Inder
 megaplay|Mega Play BIOS|bios|sega/megaplay.cpp|0|1280|224|59.922742||||Sega
 megastrp|Mega Double Strip (Ver. 1.10b)|parent|misc/blitz68k.cpp|0|512|249|60.000000|||preliminary|Blitz Systems
@@ -21255,7 +21255,7 @@ mmaruchan|Chibi Maruko-chan ~Minna de Sugoroku Asobi~ no Maki (Ver.1.00B, 05/06/
 mmaruchana|Chibi Maruko-chan ~Minna de Sugoroku Asobi~ no Maki (Ver.1.00A, 04/04/20)|clone|capcom/alien.cpp|0|480|234|62.776215||mmaruchan|preliminary|Capcom
 mmatrix|Mars Matrix: Hyper Solid Shooting (USA 000412)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2/Takumi
 mmatrixa|Mars Matrix: Hyper Solid Shooting (Asia 000412)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|Capcom\CPS2/Takumi
-mmatrixd|Mars Matrix: Hyper Solid Shooting (USA 000412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|
+mmatrixd|Mars Matrix: Hyper Solid Shooting (USA 000412 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|Capcom\CPS2
 mmatrixj|Mars Matrix: Hyper Solid Shooting (Japan 000412)|clone|capcom/cps2.cpp|0|384|224|59.637405||mmatrix|good|Capcom\CPS2/Takumi
 mmaulers|Monster Maulers (ver EAA)|parent|konami/mystwarr.cpp|0|288|224|59.185606|||imperfect|Konami
 mmaze|Marchen Maze (Japan)|parent|namco/namcos1.cpp|180|288|224|60.606061|||good|Namco\System1
@@ -21557,7 +21557,7 @@ mshh|Marvel Super Heroes (Hispanic 951117)|clone|capcom/cps2.cpp|0|384|224|59.63
 mshj|Marvel Super Heroes (Japan 951117)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|Capcom\CPS2
 mshjr1|Marvel Super Heroes (Japan 951024)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|Capcom\CPS2
 mshu|Marvel Super Heroes (USA 951024)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|Capcom\CPS2
-mshud|Marvel Super Heroes (US 951024 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|
+mshud|Marvel Super Heroes (US 951024 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||msh|good|Capcom\CPS2
 mshuttle|Moon Shuttle (US? set 1)|parent|galaxian/galaxian.cpp|0|768|224|60.606061|||good|Nichibutsu
 mshuttle2|Moon Shuttle (US? set 2)|clone|galaxian/galaxian.cpp|0|768|224|60.606061||mshuttle|good|Nichibutsu
 mshuttlea|Moon Shuttle (US, version A)|clone|galaxian/galaxian.cpp|0|768|224|60.606061||mshuttle|good|Nichibutsu
@@ -21574,7 +21574,7 @@ mshvsfj1|Marvel Super Heroes Vs. Street Fighter (Japan 970702)|clone|capcom/cps2
 mshvsfj2|Marvel Super Heroes Vs. Street Fighter (Japan 970625)|clone|capcom/cps2.cpp|0|384|224|59.637405||mshvsf|good|Capcom\CPS2
 mshvsfu|Marvel Super Heroes Vs. Street Fighter (USA 970827)|clone|capcom/cps2.cpp|0|384|224|59.637405||mshvsf|good|Capcom\CPS2
 mshvsfu1|Marvel Super Heroes Vs. Street Fighter (USA 970625)|clone|capcom/cps2.cpp|0|384|224|59.637405||mshvsf|good|Capcom\CPS2
-mshvsfu1d|Marvel Super Heroes Vs. Street Fighter (USA 970625 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mshvsf|good|
+mshvsfu1d|Marvel Super Heroes Vs. Street Fighter (USA 970625 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mshvsf|good|Capcom\CPS2
 msisaac|Metal Soldier Isaac II|parent|taito/msisaac.cpp|270|256|240|60.000000|||preliminary|Taito
 msjiken|Mahjong Satsujin Jiken (Japan 881017)|parent|nichibutsu/nbmj8891.cpp|270|512|224|60.000000|||good|Nichibutsu
 mskitty|Miss Kitty (10216611, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
@@ -21797,9 +21797,9 @@ mv1sfxa|Special Effects (Maygay, MV1 Video, set 2)|clone|maygay/maygayv1.cpp|90|
 mv1wc|World Cup (Maygay, MV1 Video)|parent|maygay/maygayv1.cpp|0|640|300|60.000000|||preliminary|Maygay
 mv4in1|Mini Vegas 4in1|parent|misc/ltcasino.cpp|0|416|256|61.407249|||good|Entertainment Enterprises
 mvp|MVP (set 2, US) (FD1094 317-0143)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16
-mvpd|MVP (set 2, US) (bootleg of FD1094 317-0143 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||mvp|good|
+mvpd|MVP (set 2, US) (bootleg of FD1094 317-0143 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||mvp|good|Sega\System16
 mvpj|MVP (set 1, Japan) (FD1094 317-0142)|clone|sega/segas16b.cpp|0|320|224|60.054389||mvp|good|Sega\System16
-mvpjd|MVP (set 1, Japan) (bootleg of FD1094 317-0142 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||mvp|good|
+mvpjd|MVP (set 1, Japan) (bootleg of FD1094 317-0142 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||mvp|good|Sega\System16
 mvsc|Marvel Vs. Capcom: Clash of Super Heroes (Euro 980123)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 mvsc2|Marvel Vs. Capcom 2: New Age of Heroes (Export, Korea, Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi||preliminary|Capcom/Marvel
 mvsc2u|Marvel Vs. Capcom 2: New Age of Heroes (USA, Rev A)|clone|sega/naomi.cpp|0|640|480|61.702586|naomi|mvsc2|preliminary|Capcom/Marvel
@@ -21812,16 +21812,16 @@ mvscjr1|Marvel Vs. Capcom: Clash of Super Heroes (Japan 980112)|clone|capcom/cps
 mvscjsing|Marvel Vs. Capcom: Clash of Super Heroes (Japan 980123) (Single PCB)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
 mvscr1|Marvel Vs. Capcom: Clash of Super Heroes (Euro 980112)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
 mvscu|Marvel Vs. Capcom: Clash of Super Heroes (USA 980123)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
-mvscud|Marvel Vs. Capcom: Clash of Super Heroes (USA 980123 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|
+mvscud|Marvel Vs. Capcom: Clash of Super Heroes (USA 980123 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
 mvscur1|Marvel Vs. Capcom: Clash of Super Heroes (USA 971222)|clone|capcom/cps2.cpp|0|384|224|59.637405||mvsc|good|Capcom\CPS2
 mvstemp|MVS-TEMP 'SubSystem Ver1.4' (Nazca development board)|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo||preliminary|Nazca/neogeo
 mwalk|Michael Jackson's Moonwalker (World) (FD1094/8751 317-0159)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
 mwalkbl|Michael Jackson's Moonwalker (bootleg)|clone|sega/system16.cpp|0|320|224|58.271000||mwalk|imperfect|
-mwalkd|Michael Jackson's Moonwalker (World) (bootleg of FD1094/8751 317-0159 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|
+mwalkd|Michael Jackson's Moonwalker (World) (bootleg of FD1094/8751 317-0159 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|Sega\System18
 mwalkj|Michael Jackson's Moonwalker (Japan) (FD1094/8751 317-0157)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|Sega\System18
-mwalkjd|Michael Jackson's Moonwalker (Japan) (bootleg of FD1094/8751 317-0157 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|
+mwalkjd|Michael Jackson's Moonwalker (Japan) (bootleg of FD1094/8751 317-0157 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|Sega\System18
 mwalku|Michael Jackson's Moonwalker (US) (FD1094/8751 317-0158)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|Sega\System18
-mwalkud|Michael Jackson's Moonwalker (US) (bootleg of FD1094/8751 317-0158 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|
+mwalkud|Michael Jackson's Moonwalker (US) (bootleg of FD1094/8751 317-0158 set)|clone|sega/segas18.cpp|0|320|224|57.230000||mwalk|good|Sega\System18
 mwarr|Mighty Warriors (24/1)|parent|edevices/mwarr.cpp|0|366|240|54.000000|||good|Elettronica Video-Games
 mwskins|Skins Game (1.06)|parent|midway/atlantis.cpp|0|400|256|56.665468|||preliminary|Midway
 mwskinsa|Skins Game (1.06, alt)|clone|midway/atlantis.cpp|0|400|256|56.665468||mwskins|preliminary|Midway
@@ -22006,7 +22006,7 @@ nbapbpja|NBA Play By Play (ver JAA)|clone|konami/hornet.cpp|0|512|384|58.048412|
 nbapbpua|NBA Play By Play (ver UAA)|clone|konami/hornet.cpp|0|512|384|58.048412||nbapbp|imperfect|Konami
 nbashowt|NBA Showtime NBA on NBC (ver 2.0, Apr 25 1999)|parent|midway/vegas.cpp|0|640|480|57.000000|||good|Midway Games
 nbbatman|Ninja Baseball Bat Man (World)|parent|irem/m92.cpp|0|320|240|60.000000|||imperfect|Irem\M92
-nbbatman2bl|Ninja Baseball Bat Man II (bootleg)|clone|irem/m92.cpp|0|320|240|60.000000||nbbatman|preliminary|
+nbbatman2bl|Ninja Baseball Bat Man II (bootleg)|clone|irem/m92.cpp|0|320|240|60.000000||nbbatman|preliminary|Irem\M92
 nbbatmanu|Ninja Baseball Bat Man (US)|clone|irem/m92.cpp|0|320|240|60.000000||nbbatman|imperfect|Irem\M92
 nc96|New Cherry '96 Special Edition (v3.63, C1 PCB)|parent|igs/goldstar.cpp|0|512|224|60.000000|||good|Amcoe
 nc96a|New Cherry '96 Special Edition (v3.62, C1 PCB)|clone|igs/goldstar.cpp|0|512|224|60.000000||nc96|good|Amcoe
@@ -22310,7 +22310,7 @@ nightgal|Night Gal (Japan 840920 AG 1-00)|parent|nichibutsu/nightgal.cpp|0|256|2
 nightlov|Night Love (Japan 860705)|parent|nichibutsu/nbmj8688.cpp|0|512|224|60.000000|||preliminary|Central Denshi
 nightmare|Night Mare (Spain)|parent|efo/nightmare.cpp|90|280|216|49.936287|||preliminary|E.F.O.
 nightr20|Night Rider (rev. 20)|clone|pinball/by17.cpp||||||nightrdr|preliminary|Bally
-nightrai|Night Raid (V2.03J 2001/02/26 17:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Takumi
+nightrai|Night Raid (V2.03J 2001/02/26 17:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Taito\GNET/Takumi
 nightrdr|Night Rider (rev. 21)|parent|pinball/by17.cpp|||||||preliminary|Bally
 nightstr|Night Striker (World)|parent|taito/taito_z.cpp|0|320|240|60.055992|||imperfect|Taito
 nightstrj|Night Striker (Japan)|clone|taito/taito_z.cpp|0|320|240|60.055992||nightstr|imperfect|Taito
@@ -22506,7 +22506,7 @@ nwarra|Night Warriors: Darkstalkers' Revenge (Asia 950302)|clone|capcom/cps2.cpp
 nwarrb|Night Warriors: Darkstalkers' Revenge (Brazil 950403)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
 nwarrh|Night Warriors: Darkstalkers' Revenge (Hispanic 950403)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
 nwarru|Night Warriors: Darkstalkers' Revenge (USA 950406)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
-nwarrud|Night Warriors: Darkstalkers' Revenge (USA 950406 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|
+nwarrud|Night Warriors: Darkstalkers' Revenge (USA 950406 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
 nxm3301|XM-3301TA CD-ROM (New)|device|devices/bus/nscsi/cd.cpp||||||||
 nxm5301sun|XM-5301B Sun 4x CD-ROM (New)|device|devices/bus/nscsi/cd.cpp||||||||
 nxm5401|XM-5401B 4x CD-ROM (New)|device|devices/bus/nscsi/cd.cpp||||||||
@@ -22688,9 +22688,9 @@ oscaru|Psycho-Nics Oscar (US)|clone|dataeast/dec8.cpp|0|256|240|57.444853||oscar
 osman|Osman (World)|parent|dataeast/simpl156.cpp|0|320|240|58.000000|||good|Mitchell
 otatidai|Disco Mahjong Otachidai no Okite (Japan)|parent|nichibutsu/nbmj9195.cpp|0|640|240|60.000000|||good|Sphinx
 otchart|Off The Charts (Russian)|parent|misc/wms.cpp|0|256|224|60.000000|||preliminary|WMS
-otenamhf|Otenami Haiken Final (V2.07JC 2005/04/20 15:36)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success/Warashi
-otenamih|Otenami Haiken (V2.04J 1999/02/01 18:00:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success
-otenki|Otenki Kororin (V2.01J 2001/07/02 10:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Takumi
+otenamhf|Otenami Haiken Final (V2.07JC 2005/04/20 15:36)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET/Warashi
+otenamih|Otenami Haiken (V2.04J 1999/02/01 18:00:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET
+otenki|Otenki Kororin (V2.01J 2001/07/02 10:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Taito\GNET/Takumi
 othello|Othello (version 3.0)|parent|misc/othello.cpp|0|384|512|60.000000|||preliminary|Success
 othellos|Othello Shiyouyo (J 980423 V1.002)|parent|sega/stv.cpp|0|352|224|59.764802|stvbios||imperfect|Success
 othldrby|Othello Derby (Japan)|parent|toaplan/toaplan2.cpp|0|320|240|59.637405|||good|Sunwise
@@ -22837,14 +22837,14 @@ pandart|Panther Darts|parent|misc/daryde.cpp|||||||preliminary|Daryde S. L.
 pandoras|Pandora's Palace|parent|konami/pandoras.cpp|90|256|224|60.000000|||good|Interlogic/Konami
 pandpays|Panda Pays - Mr. Cashman (0151109, US)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 pang|Pang (World)|parent|capcom/mitchell.cpp|0|384|240|57.420000|||good|Mitchell
-pang3|Pang! 3 (Euro 950601)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Mitchell
-pang3b|Pang! 3 (bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|
-pang3b2|Pang! 3 (bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|
-pang3b3|Pang! 3 (bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|
-pang3b4|Pang! 3 (bootleg, set 4)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|
-pang3b5|Pang! 3 (bootleg, set 5)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|
-pang3j|Pang! 3: Kaitou Tachi no Karei na Gogo (Japan 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Mitchell
-pang3r1|Pang! 3 (Euro 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Mitchell
+pang3|Pang! 3 (Euro 950601)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1/Mitchell
+pang3b|Pang! 3 (bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1
+pang3b2|Pang! 3 (bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1
+pang3b3|Pang! 3 (bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1
+pang3b4|Pang! 3 (bootleg, set 4)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1
+pang3b5|Pang! 3 (bootleg, set 5)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1
+pang3j|Pang! 3: Kaitou Tachi no Karei na Gogo (Japan 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1/Mitchell
+pang3r1|Pang! 3 (Euro 950511)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3|good|Capcom\CPS1/Mitchell
 pangb|Pang (bootleg, set 1)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang|good|
 pangb2|Pang (bootleg, set 4)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang|good|
 pangba|Pang (bootleg, set 3)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang|imperfect|
@@ -22914,11 +22914,11 @@ passht4b|Passing Shot (4 Players) (bootleg)|clone|sega/system16.cpp|270|320|224|
 passsht|Passing Shot (World, 2 Players) (FD1094 317-0080)|parent|sega/segas16b.cpp|270|320|224|60.054389|||good|Sega\System16
 passsht16a|Passing Shot (Japan, 4 Players, System 16A) (FD1094 317-0071)|clone|sega/segas16a.cpp|270|320|224|60.000000||passsht|good|Sega\System16
 passshta|Passing Shot (World, 4 Players) (FD1094 317-0074)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|Sega\System16
-passshtad|Passing Shot (World, 4 Players) (bootleg of FD1094 317-0074 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|
+passshtad|Passing Shot (World, 4 Players) (bootleg of FD1094 317-0074 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|Sega\System16
 passshtb|Passing Shot (2 Players) (bootleg)|clone|sega/system16.cpp|270|320|224|60.000000||passsht|preliminary|
-passshtd|Passing Shot (World, 2 Players) (bootleg of FD1094 317-0080 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|
+passshtd|Passing Shot (World, 2 Players) (bootleg of FD1094 317-0080 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|Sega\System16
 passshtj|Passing Shot (Japan, 4 Players) (FD1094 317-0070)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|Sega\System16
-passshtjd|Passing Shot (Japan, 4 Players) (bootleg of FD1094 317-0070 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|
+passshtjd|Passing Shot (Japan, 4 Players) (bootleg of FD1094 317-0070 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||passsht|good|Sega\System16
 pastelg|Pastel Gal (Japan 851224)|parent|nichibutsu/pastelg.cpp|0|256|224|60.000000|||good|Nichibutsu
 pastelis|Pastel Island (Japan, prototype)|parent|seta/ssv.cpp|0|352|240|60.186720|||imperfect|Visco
 patapata|Pata Pata Panic|parent|atlus/patapata.cpp|0|480|352|60.000000|||good|Atlus
@@ -24410,7 +24410,7 @@ powsledr|Power Sled (Relay, Revision A)|clone|sega/model2.cpp|0|496|384|57.52416
 powyak96|Jikkyou Powerful Pro Yakyuu '96 (GV017 Japan 1.03)|parent|konami/konamigv.cpp|0|640|480|60.000000|konamigv||imperfect|Konami
 powyakex|Jikkyou Powerful Pro Yakyuu EX (GX802 VER. JAB)|parent|konami/ksys573.cpp|0|640|480|60.000000|sys573||imperfect|Konami
 pp100|Pool Player (1.0)|clone|pinball/capcom.cpp||||||bsv103|preliminary|Illinois Pinball
-ppan|Peter Pan (bootleg of Hook)|clone|irem/m92.cpp|0|320|240|60.000000||hook|imperfect|
+ppan|Peter Pan (bootleg of Hook)|clone|irem/m92.cpp|0|320|240|60.000000||hook|imperfect|Irem\M92
 ppc403ga|IBM PowerPC 403GA|device|devices/cpu/powerpc/ppccom.cpp||||||||
 ppc403gcx|IBM PowerPC 403GCX|device|devices/cpu/powerpc/ppccom.cpp||||||||
 ppc405gp|IBM PowerPC 405GP|device|devices/cpu/powerpc/ppccom.cpp||||||||
@@ -24617,9 +24617,9 @@ profpac|Professor Pac-Man|parent|midway/astrocde.cpp|0|352|240|60.054442|||good|
 progear|Progear (USA 010117)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2/Cave
 progeara|Progear (Asia 010117)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2/Cave
 progearj|Progear no Arashi (Japan 010117)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2/Cave
-progearjbl|Progear no Arashi (Japan 010117) (decrypted bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|
-progearjd|Progear no Arashi (Japan 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|
-progearud|Progear (USA 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|
+progearjbl|Progear no Arashi (Japan 010117) (decrypted bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2
+progearjd|Progear no Arashi (Japan 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2
+progearud|Progear (USA 010117 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||progear|good|Capcom\CPS2
 progolf|18 Holes Pro Golf (set 1)|parent|dataeast/progolf.cpp|270|256|256|57.000000|||imperfect|Data East
 progolfa|18 Holes Pro Golf (set 2)|clone|dataeast/progolf.cpp|270|256|256|57.000000||progolf|preliminary|Data East
 progress|Progress|parent|thepit/timelimt.cpp|90|256|224|60.000000|||good|Chuo
@@ -24697,9 +24697,9 @@ psyforce|Psychic Force (Ver 2.4O)|parent|sony/zn.cpp|0|640|480|60.000000|coh1000
 psyforcej|Psychic Force (Ver 2.4J)|clone|sony/zn.cpp|0|640|480|60.000000|coh1000t|psyforce|imperfect|Taito
 psyforcex|Psychic Force EX (Ver 2.0J)|clone|sony/zn.cpp|0|640|480|60.000000|coh1000t|psyforce|imperfect|Taito
 psyvar2|Psyvariar 2 - The Will To Fabricate (Japan) (GDL-0024)|parent|sega/naomi.cpp|270|640|480|61.702586|naomigd||preliminary|Success
-psyvaria|Psyvariar -Medium Unit- (V2.02O 2000/02/22 13:00)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Success
-psyvarij|Psyvariar -Medium Unit- (V2.04J 2000/02/15 11:00)|clone|sony/taitogn.cpp|270|640|480|60.000000|coh3002t|psyvaria|imperfect|Success
-psyvarrv|Psyvariar -Revision- (V2.04J 2000/08/11 22:00)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Success
+psyvaria|Psyvariar -Medium Unit- (V2.02O 2000/02/22 13:00)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET
+psyvarij|Psyvariar -Medium Unit- (V2.04J 2000/02/15 11:00)|clone|sony/taitogn.cpp|270|640|480|60.000000|coh3002t|psyvaria|imperfect|Success/Taito\GNET
+psyvarrv|Psyvariar -Revision- (V2.04J 2000/08/11 22:00)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET
 ptblank|Point Blank (World, GN2 Rev B, set 1)|parent|namco/namconb1.cpp|0|288|224|59.659091|||good|Namco\NB
 ptblank2|Point Blank 2 (World, GNB5/VER.A)|parent|namco/namcos12.cpp|0|640|480|60.000000|||imperfect|Namco\System12
 ptblank2a|Point Blank 2 (World, GNB2/VER.A)|clone|namco/namcos11.cpp|0|640|480|60.000000||ptblank2|imperfect|Namco\System11
@@ -24745,7 +24745,7 @@ punipic|The Punisher (bootleg with PIC16C57, set 1)|clone|capcom/cps1bl_pic.cpp|
 punipic2|The Punisher (bootleg with PIC16C57, set 2)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||punisher|preliminary|
 punipic3|The Punisher (bootleg with PIC16C57, set 3)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||punisher|preliminary|
 punisher|The Punisher (World 930422)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
-punisherbz|Biaofeng Zhanjing (Chinese bootleg of The Punisher)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|
+punisherbz|Biaofeng Zhanjing (Chinese bootleg of The Punisher)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 punisherh|The Punisher (Hispanic 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 punisherj|The Punisher (Japan 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
 punisheru|The Punisher (USA 930422)|clone|capcom/cps1.cpp|0|384|224|59.637405||punisher|good|Capcom\CPS1
@@ -24840,7 +24840,7 @@ pzlestar|Puzzle Star (Sang Ho Soft)|parent|msx/sangho.cpp|270|543|465|59.922749|
 pzletime|Puzzle Time (prototype)|parent|edevices/pzletime.cpp|0|384|224|60.000000|||good|Elettronica Video-Games
 pzloop2|Puzz Loop 2 (Euro 010302)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2/Mitchell
 pzloop2j|Puzz Loop 2 (Japan 010226)|clone|capcom/cps2.cpp|0|384|224|59.637405||pzloop2|good|Capcom\CPS2/Mitchell
-pzloop2jd|Puzz Loop 2 (Japan 010226 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||pzloop2|good|
+pzloop2jd|Puzz Loop 2 (Japan 010226 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||pzloop2|good|Capcom\CPS2
 pzloop2jr1|Puzz Loop 2 (Japan 010205)|clone|capcom/cps2.cpp|0|384|224|59.637405||pzloop2|good|Capcom\CPS2/Mitchell
 qad|Quiz & Dragons: Capcom Quiz Game (USA 920701)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 qadjr|Quiz & Dragons: Capcom Quiz Game (Japan Resale Ver. 940921)|clone|capcom/cps1.cpp|0|384|224|59.637405||qad|good|Capcom\CPS1
@@ -25562,7 +25562,7 @@ ringdest|Ring of Destruction: Slammasters II (Euro 940902)|parent|capcom/cps2.cp
 ringdesta|Ring of Destruction: Slammasters II (Asia 940831)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
 ringdestb|Ring of Destruction: Slammasters II (Brazil 940902)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
 ringdesth|Ring of Destruction: Slammasters II (Hispanic 940902)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
-ringdstd|Ring of Destruction: Slammasters II (Euro 940902 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|
+ringdstd|Ring of Destruction: Slammasters II (Euro 940902 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ringdest|good|Capcom\CPS2
 ringfgt|Ring Fighter (set 1)|clone|taito/tsamurai.cpp|90|256|224|60.000000||vsgongf|imperfect|Kaneko/Taito
 ringfgt2|Ring Fighter (set 2)|clone|taito/tsamurai.cpp|90|256|224|60.000000||vsgongf|imperfect|Kaneko/Taito
 ringking|Ring King (US set 1)|clone|dataeast/kingobox.cpp|90|256|224|60.000000||kingofb|good|Data East/Wood Place
@@ -25915,13 +25915,13 @@ rtype|R-Type (World)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 rtype2|R-Type II (World)|parent|irem/m72.cpp|0|384|256|55.017606|||good|Irem\M72
 rtype2j|R-Type II (Japan)|clone|irem/m72.cpp|0|384|256|55.017606||rtype2|good|Irem\M72
 rtype2jc|R-Type II (Japan, revision C)|clone|irem/m72.cpp|0|384|256|55.017606||rtype2|good|Irem\M72
-rtype2m82b|R-Type II (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|55.017606||rtype2|preliminary|
-rtypeb|R-Type (World bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|
+rtype2m82b|R-Type II (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|55.017606||rtype2|preliminary|Irem\M72
+rtypeb|R-Type (World bootleg)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 rtypej|R-Type (Japan)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 rtypejp|R-Type (Japan prototype)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72
 rtypeleo|R-Type Leo (World)|parent|irem/m92.cpp|0|320|240|60.000000|||good|Irem\M92
 rtypeleoj|R-Type Leo (Japan)|clone|irem/m92.cpp|0|320|240|60.000000||rtypeleo|good|Irem\M92
-rtypem82b|R-Type (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|preliminary|
+rtypem82b|R-Type (Japan, bootleg M82 conversion)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|preliminary|Irem\M72
 rtypeu|R-Type (US)|clone|irem/m72.cpp|0|384|256|55.017606||rtype|good|Irem\M72/Nintendo
 rubymag|Ruby Magic (10125711, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 rubymaga|Ruby Magic (10148811, ASP)|clone|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6|rubymag|preliminary|Aristocrat
@@ -25977,7 +25977,7 @@ ryukendna|Ninja Ryukenden (Japan, set 2)|clone|tecmo/gaiden.cpp|0|256|224|59.170
 ryukobou|Mahjong Ryukobou (Japan, V030J)|clone|igs/igs011.cpp|0|512|240|60.000000||lhb|good|Alta/IGS
 ryukyu|RyuKyu (Rev A, Japan) (FD1094 317-5023A)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Success
 ryukyua|RyuKyu (Japan) (FD1094 317-5023)|clone|sega/segas16b.cpp|0|320|224|60.054389||ryukyu|good|Sega\System16/Success
-ryukyud|RyuKyu (Japan) (bootleg of FD1094 317-5023 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ryukyu|good|
+ryukyud|RyuKyu (Japan) (bootleg of FD1094 317-5023 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||ryukyu|good|Sega\System16
 ryuuha|Ryuuha [BET] (Japan 871027)|clone|nichibutsu/nbmj8688.cpp|0|512|224|60.000000||iemoto|good|Central Denshi
 s11_bg|Williams System 11 Background Audio Board|device|shared/s11c_bg.cpp||||||||
 s11_bgm|Williams System 11 Background Sound/Music Board|device|shared/s11c_bg.cpp||||||||
@@ -31852,12 +31852,12 @@ sdgndmps|SD Gundam Psycho Salamander no Kyoui|parent|seibu/dcon.cpp|0|320|224|60
 sdi|SDI - Strategic Defense Initiative (Japan, newer, System 16A, FD1089B 317-0027)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 sdia|SDI - Strategic Defense Initiative (Japan, old, System 16A, FD1089B 317-0027)|clone|sega/segas16a.cpp|0|320|224|60.000000||sdi|good|Sega\System16
 sdib|SDI - Strategic Defense Initiative (System 16B, FD1089A 317-0028)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
-sdibl|SDI - Strategic Defense Initiative (bootleg, original hardware)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
-sdibl2|SDI - Strategic Defense Initiative (bootleg, set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
-sdibl3|SDI - Strategic Defense Initiative (bootleg, set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
-sdibl4|SDI - Strategic Defense Initiative (bootleg, set 3)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
-sdibl5|SDI - Strategic Defense Initiative (bootleg, set 4)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
-sdibl6|SDI - Strategic Defense Initiative (bootleg, set 5)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|
+sdibl|SDI - Strategic Defense Initiative (bootleg, original hardware)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
+sdibl2|SDI - Strategic Defense Initiative (bootleg, set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
+sdibl3|SDI - Strategic Defense Initiative (bootleg, set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
+sdibl4|SDI - Strategic Defense Initiative (bootleg, set 3)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
+sdibl5|SDI - Strategic Defense Initiative (bootleg, set 4)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
+sdibl6|SDI - Strategic Defense Initiative (bootleg, set 5)|clone|sega/segas16b.cpp|0|320|224|60.054389||sdi|good|Sega\System16
 sdlc_logger|SDLC/HDLC logger|device|devices/machine/sdlc.cpp||||||||
 sdmg2|Super Da Man Guan II (China, V754C)|parent|igs/igs017.cpp|0|512|240|60.000000|||good|IGS
 sdodgeb|Super Dodge Ball / Kunio no Nekketsu Toukyuu Densetsu|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo||good|neogeo/Technos
@@ -32001,17 +32001,17 @@ segartv|Sega Race-TV (Export)|parent|sega/lindbergh.cpp|||||lindbios||preliminar
 segas24_mixer|Sega System 24 Mixer|device|sega/segaic24.cpp||||||||
 segas24_sprite|Sega System 24 Sprites|device|sega/segaic24.cpp||||||||
 segas24_tile|Sega System 24 Tilemap|device|sega/segaic24.cpp||||||||
-segas32_pcb|Sega System 32 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_4player|Sega System 32 4-player/fighting PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_analog|Sega System 32 analog PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_cd|Sega System 32 CD PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_multi|Sega Multi 32|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_multi_6player|Sega Multi 32 6-player PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_multi_analog|Sega Multi 32 analog PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_regular|Sega System 32 regular PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_trackball|Sega System 32 trackball PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_upd7725|Sega System 32 uPD7725 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
-segas32_pcb_v25|Sega System 32 V25 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||
+segas32_pcb|Sega System 32 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_4player|Sega System 32 4-player/fighting PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_analog|Sega System 32 analog PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_cd|Sega System 32 CD PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_multi|Sega Multi 32|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_multi_6player|Sega Multi 32 6-player PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_multi_analog|Sega Multi 32 analog PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_regular|Sega System 32 regular PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_trackball|Sega System 32 trackball PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_upd7725|Sega System 32 uPD7725 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
+segas32_pcb_v25|Sega System 32 V25 PCB|device|sega/segas32.cpp|0|416|224|60.000000||||Sega\System32
 segasp|Sega System SP (Spider) BIOS|bios|sega/segasp.cpp|0|640|480|61.702586||||Sega
 segausb|Sega Universal Sound Board|device|sega/segausb.cpp||||||||
 segausbrom|Sega Universal Sound Board with ROM|device|sega/segausb.cpp||||||||
@@ -32078,44 +32078,44 @@ sf2049|San Francisco Rush 2049|parent|midway/vegas.cpp|0|640|480|57.000000|||goo
 sf2049se|San Francisco Rush 2049: Special Edition|parent|midway/vegas.cpp|0|640|480|57.000000|||good|Atari
 sf2049te|San Francisco Rush 2049: Tournament Edition|parent|midway/vegas.cpp|0|640|480|57.000000|||preliminary|Atari
 sf2049tea|San Francisco Rush 2049: Tournament Edition Unlocked|clone|midway/vegas.cpp|0|640|480|57.000000||sf2049te|preliminary|Atari
-sf2acc|Street Fighter II': Champion Edition (Accelerator!, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2acca|Street Fighter II': Champion Edition (Accelerator!, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2accp2|Street Fighter II': Champion Edition (Accelerator Pt.II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Testron
-sf2amf|Street Fighter II': Champion Edition (Alpha Magic-F, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|preliminary|
-sf2amf2|Street Fighter II': Champion Edition (L735 Test Rom, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2amf3|Street Fighter II': Champion Edition (L735 Test Rom, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2acc|Street Fighter II': Champion Edition (Accelerator!, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2acca|Street Fighter II': Champion Edition (Accelerator!, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2accp2|Street Fighter II': Champion Edition (Accelerator Pt.II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1/Testron
+sf2amf|Street Fighter II': Champion Edition (Alpha Magic-F, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|preliminary|Capcom\CPS1
+sf2amf2|Street Fighter II': Champion Edition (L735 Test Rom, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2amf3|Street Fighter II': Champion Edition (L735 Test Rom, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2b|Street Fighter II: The World Warrior (bootleg, set 1)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2|imperfect|PlayMark
 sf2b2|Street Fighter II: The World Warrior (bootleg, set 2)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2|imperfect|
-sf2bhh|Street Fighter II': Champion Edition (Hung Hsi, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2bhh|Street Fighter II': Champion Edition (Hung Hsi, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ce|Street Fighter II': Champion Edition (World 920513)|parent|capcom/cps1.cpp|0|384|224|59.637405|||good|Capcom\CPS1
 sf2ceb|Street Fighter II': Champion Edition (Playmark bootleg, set 1)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|PlayMark
 sf2ceb2|Street Fighter II': Champion Edition (bootleg, set 1)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|
 sf2ceb3|Street Fighter II': Champion Edition (bootleg, set 2)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|
 sf2ceb4|Street Fighter II': Champion Edition (Playmark bootleg, set 2)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|PlayMark
 sf2ceb5|Street Fighter II': Champion Edition (Playmark bootleg, set 3)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|PlayMark
-sf2ceblp|Street Fighter II': Champion Edition (protected bootleg on non-dash board)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2cebltw|Street Fighter II': Champion Edition ('Taiwan' bootleg with PAL)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2ceds6|Street Fighter II': Champion Edition (Dstreet-6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2ceblp|Street Fighter II': Champion Edition (protected bootleg on non-dash board)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2cebltw|Street Fighter II': Champion Edition ('Taiwan' bootleg with PAL)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2ceds6|Street Fighter II': Champion Edition (Dstreet-6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceea|Street Fighter II': Champion Edition (World 920313)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceec|Street Fighter II': Champion Edition (World 920803)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceja|Street Fighter II': Champion Edition (Japan 920322)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2cejb|Street Fighter II': Champion Edition (Japan 920513)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2cejc|Street Fighter II': Champion Edition (Japan 920803)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
-sf2cems6a|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2cems6b|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2cems6c|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2cems6a|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2cems6b|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2cems6c|Street Fighter II': Champion Edition (Mstreet-6, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2cet|Street Fighter II': Champion Edition (Taiwan 920313)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceua|Street Fighter II': Champion Edition (USA 920313)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceub|Street Fighter II': Champion Edition (USA 920513)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ceuc|Street Fighter II': Champion Edition (USA 920803)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
-sf2ceupl|Street Fighter II': Champion Edition (UPL bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|UPL
-sf2dkot2|Street Fighter II': Champion Edition (Double K.O. Turbo II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2dongb|Street Fighter II': Champion Edition (Dongfang Bubai protection, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2ceupl|Street Fighter II': Champion Edition (UPL bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1/UPL
+sf2dkot2|Street Fighter II': Champion Edition (Double K.O. Turbo II, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2dongb|Street Fighter II': Champion Edition (Dongfang Bubai protection, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2ea|Street Fighter II: The World Warrior (World 910204)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2eb|Street Fighter II: The World Warrior (World 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
-sf2ebbl|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2ebbl2|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2ebbl3|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 4)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
+sf2ebbl|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2ebbl2|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2ebbl3|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 4)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ed|Street Fighter II: The World Warrior (World 910318)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ee|Street Fighter II: The World Warrior (World 910228)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ef|Street Fighter II: The World Warrior (World 910411)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
@@ -32131,36 +32131,36 @@ sf2jc|Street Fighter II: The World Warrior (Japan 910306)|clone|capcom/cps1.cpp|
 sf2jf|Street Fighter II: The World Warrior (Japan 910411)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2jh|Street Fighter II: The World Warrior (Japan 910522)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2jl|Street Fighter II: The World Warrior (Japan 920312)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
-sf2koryu|Street Fighter II': Champion Edition (Xiang Long, Chinese bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2level|Street Fighter II': Champion Edition (bootleg with level selection)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2koryu|Street Fighter II': Champion Edition (Xiang Long, Chinese bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2level|Street Fighter II': Champion Edition (bootleg with level selection)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2m1|Street Fighter II': Champion Edition (M1, bootleg)|clone|capcom/fcrash.cpp|0|384|224|59.637405||sf2ce|imperfect|
-sf2m10|Street Fighter II': Champion Edition (M10, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m2|Street Fighter II': Champion Edition (M2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m3|Street Fighter II': Champion Edition (M3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m4|Street Fighter II': Champion Edition (M4, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m5|Street Fighter II': Champion Edition (M5, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m6|Street Fighter II': Champion Edition (M6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m7|Street Fighter II': Champion Edition (M7, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2m8|Street Fighter II': Champion Edition (M8, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2m10|Street Fighter II': Champion Edition (M10, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m2|Street Fighter II': Champion Edition (M2, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m3|Street Fighter II': Champion Edition (M3, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m4|Street Fighter II': Champion Edition (M4, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m5|Street Fighter II': Champion Edition (M5, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m6|Street Fighter II': Champion Edition (M6, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m7|Street Fighter II': Champion Edition (M7, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2m8|Street Fighter II': Champion Edition (M8, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf2m9|Street Fighter II': Champion Edition (M9, bootleg)|clone|capcom/fcrash.cpp|0|384|224|59.637405||sf2ce|imperfect|
 sf2mdt|Street Fighter II': Magic Delta Turbo (bootleg, set 1)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|
 sf2mdta|Street Fighter II': Magic Delta Turbo (bootleg, set 2)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|
 sf2mdtb|Street Fighter II': Magic Delta Turbo (bootleg, set 3)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2ce|imperfect|
-sf2mkot|Street Fighter II': Magic KO Turbo!! - Nightmare Crack|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2qp1|Street Fighter II: The World Warrior (Quicken Pt-I, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2qp2|Street Fighter II: The World Warrior (Quicken, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2rb|Street Fighter II': Champion Edition (Rainbow, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2rb2|Street Fighter II': Champion Edition (Rainbow, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2rb3|Street Fighter II': Champion Edition (Rainbow, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2re|Street Fighter II': Champion Edition (RE, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|imperfect|
-sf2red|Street Fighter II': Champion Edition (Red Wave, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2reda|Street Fighter II': Champion Edition (Red Wave, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2redp2|Street Fighter II': Champion Edition (Red Wave PtII, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2rk|Street Fighter II: The World Warrior (RK, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2rules|Street Fighter II: The World Warrior (bootleg with rules screen)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2stt|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|preliminary|
-sf2thndr|Street Fighter II: The World Warrior (Thunder Edition, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
-sf2thndr2|Street Fighter II: The World Warrior (Thunder Edition, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|
+sf2mkot|Street Fighter II': Magic KO Turbo!! - Nightmare Crack|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2qp1|Street Fighter II: The World Warrior (Quicken Pt-I, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2qp2|Street Fighter II: The World Warrior (Quicken, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2rb|Street Fighter II': Champion Edition (Rainbow, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2rb2|Street Fighter II': Champion Edition (Rainbow, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2rb3|Street Fighter II': Champion Edition (Rainbow, bootleg, set 3)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2re|Street Fighter II': Champion Edition (RE, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|imperfect|Capcom\CPS1
+sf2red|Street Fighter II': Champion Edition (Red Wave, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2reda|Street Fighter II': Champion Edition (Red Wave, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2redp2|Street Fighter II': Champion Edition (Red Wave PtII, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2rk|Street Fighter II: The World Warrior (RK, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2rules|Street Fighter II: The World Warrior (bootleg with rules screen)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2stt|Street Fighter II: The World Warrior (TAB Austria, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|preliminary|Capcom\CPS1
+sf2thndr|Street Fighter II: The World Warrior (Thunder Edition, bootleg, set 1)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
+sf2thndr2|Street Fighter II: The World Warrior (Thunder Edition, bootleg, set 2)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ua|Street Fighter II: The World Warrior (USA 910206)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2ub|Street Fighter II: The World Warrior (USA 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2uc|Street Fighter II: The World Warrior (USA 910306)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
@@ -32172,8 +32172,8 @@ sf2uh|Street Fighter II: The World Warrior (USA 910522, Rev. H)|clone|capcom/cps
 sf2ui|Street Fighter II: The World Warrior (USA 910522, Rev. I)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2uk|Street Fighter II: The World Warrior (USA 911101)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
 sf2um|Street Fighter II: The World Warrior (USA 920312)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2|good|Capcom\CPS1
-sf2v004|Street Fighter II': Champion Edition (V004, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
-sf2yyc|Street Fighter II': Champion Edition (YYC, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|
+sf2v004|Street Fighter II': Champion Edition (V004, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
+sf2yyc|Street Fighter II': Champion Edition (YYC, bootleg)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce|good|Capcom\CPS1
 sf_l1|Slugfest (L-1)|parent|pinball/wpc_dot.cpp|0|128|32|60.000000|||preliminary|Williams
 sfa|Street Fighter Alpha: Warriors' Dreams (Euro 950727)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 sfa2|Street Fighter Alpha 2 (Euro 960229)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
@@ -32184,10 +32184,10 @@ sfa3b|Street Fighter Alpha 3 (Brazil 980629)|clone|capcom/cps2.cpp|0|384|224|59.
 sfa3h|Street Fighter Alpha 3 (Hispanic 980904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfa3hr1|Street Fighter Alpha 3 (Hispanic 980629)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfa3u|Street Fighter Alpha 3 (USA 980904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
-sfa3ud|Street Fighter Alpha 3 (USA 980904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|
+sfa3ud|Street Fighter Alpha 3 (USA 980904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfa3ur1|Street Fighter Alpha 3 (USA 980629)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfa3us|Street Fighter Alpha 3 (USA 980616, SAMPLE Version)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
-sfad|Street Fighter Alpha: Warriors' Dreams (Euro 950727 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|
+sfad|Street Fighter Alpha: Warriors' Dreams (Euro 950727 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
 sfan|Street Fighter (World, pneumatic buttons)|clone|capcom/sf.cpp|0|384|224|60.000000||sf|good|Capcom
 sfar1|Street Fighter Alpha: Warriors' Dreams (Euro 950718)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
 sfar2|Street Fighter Alpha: Warriors' Dreams (Euro 950627)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
@@ -32286,10 +32286,10 @@ sfua|Street Fighter (US, set 2) (protected)|clone|capcom/sf.cpp|0|384|224|60.000
 sfw|Street Fighter (World) (protected)|clone|capcom/sf.cpp|0|384|224|60.000000||sf|good|Capcom
 sfx|SF-X|parent|galaxian/galaxian.cpp|0|648|224|60.606061|||good|Nichibutsu/Nihon Game
 sfz2a|Street Fighter Zero 2 (Asia 960227)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
-sfz2ad|Street Fighter Zero 2 (Asia 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|
+sfz2ad|Street Fighter Zero 2 (Asia 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz2al|Street Fighter Zero 2 Alpha (Asia 960826)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 sfz2alb|Street Fighter Zero 2 Alpha (Brazil 960813)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
-sfz2ald|Street Fighter Zero 2 Alpha (Asia 960826 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|
+sfz2ald|Street Fighter Zero 2 Alpha (Asia 960826 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
 sfz2alh|Street Fighter Zero 2 Alpha (Hispanic 960813)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
 sfz2alj|Street Fighter Zero 2 Alpha (Japan 960805)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
 sfz2alr1|Street Fighter Zero 2 Alpha (Asia 960805)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfz2al|good|Capcom\CPS2
@@ -32297,7 +32297,7 @@ sfz2b|Street Fighter Zero 2 (Brazil 960531)|clone|capcom/cps2.cpp|0|384|224|59.6
 sfz2br1|Street Fighter Zero 2 (Brazil 960304)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz2h|Street Fighter Zero 2 (Hispanic 960304)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz2j|Street Fighter Zero 2 (Japan 960430)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
-sfz2jd|Street Fighter Zero 2 (Japan 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|
+sfz2jd|Street Fighter Zero 2 (Japan 960227 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz2jr1|Street Fighter Zero 2 (Japan 960227)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz2n|Street Fighter Zero 2 (Oceania 960229)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa2|good|Capcom\CPS2
 sfz3a|Street Fighter Zero 3 (Asia 980904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
@@ -32305,7 +32305,7 @@ sfz3ar1|Street Fighter Zero 3 (Asia 980701)|clone|capcom/cps2.cpp|0|384|224|59.6
 sfz3j|Street Fighter Zero 3 (Japan 980904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfz3jr1|Street Fighter Zero 3 (Japan 980727)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfz3jr2|Street Fighter Zero 3 (Japan 980629)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
-sfz3jr2d|Street Fighter Zero 3 (Japan 980629 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|
+sfz3jr2d|Street Fighter Zero 3 (Japan 980629 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa3|good|Capcom\CPS2
 sfz3ugd|Street Fighter Zero 3 Upper (Japan) (GDL-0002)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Capcom
 sfza|Street Fighter Zero (Asia 950627)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
 sfzar1|Street Fighter Zero (Asia 950605)|clone|capcom/cps2.cpp|0|384|224|59.637405||sfa|good|Capcom\CPS2
@@ -32324,7 +32324,7 @@ sgaltrop|Sexy Gal Tropical [BET] (Japan 850805 SXG T-02)|parent|nichibutsu/night
 sgdrvsim|Driving Simulator|parent|sega/naomi.cpp|0|640|480|61.702586|naomi2||preliminary|Sega
 sgemf|Super Gem Fighter Mini Mix (USA 970904)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 sgemfa|Super Gem Fighter: Mini Mix (Asia 970904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|Capcom\CPS2
-sgemfd|Super Gem Fighter Mini Mix (USA 970904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|
+sgemfd|Super Gem Fighter Mini Mix (USA 970904 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|Capcom\CPS2
 sgemfh|Super Gem Fighter: Mini Mix (Hispanic 970904)|clone|capcom/cps2.cpp|0|384|224|59.637405||sgemf|good|Capcom\CPS2
 sgladiat|Gladiator 1984|parent|snk/snk.cpp|0|288|216|60.000000|||good|SNK
 sgmast|Super Masters Golf (World?, Floppy Based, FD1094 317-0058-05d?)|parent|sega/segas24.cpp|0|496|384|57.524160|||good|Sega
@@ -32372,7 +32372,7 @@ shangha3u|Shanghai III (US)|clone|sunelectronics/shangha3.cpp|0|384|224|59.41064
 shangha3up|Shanghai III (US, prototype)|clone|sunelectronics/shangha3.cpp|0|384|224|59.410646||shangha3|good|Sunsoft
 shanghai|Shanghai (World)|parent|sunelectronics/shanghai.cpp|0|384|280|57.000000|||imperfect|Sunsoft
 shanghaij|Shanghai (Japan)|clone|sunelectronics/shanghai.cpp|0|384|280|57.000000||shanghai|imperfect|Sunsoft
-shanghss|Shanghai Shoryu Sairin (V2.03J 2000/05/26 12:45:28)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Warashi
+shanghss|Shanghai Shoryu Sairin (V2.03J 2000/05/26 12:45:28)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Taito\GNET/Warashi
 shangkid|Shanghai Kid|parent|misc/shangkid.cpp|0|288|224|60.000000|||good|Data East/Taiyo
 shangon|Super Hang-On (sitdown/upright) (unprotected)|parent|sega/segaorun.cpp|0|320|224|60.054389|||good|Sega
 shangon1|Super Hang-On (mini ride-on) (FD1089B 317-0034)|clone|sega/segaorun.cpp|0|320|224|60.054389||shangon|good|Sega
@@ -32423,21 +32423,21 @@ shimpact|Super High Impact (rev LA1 09/30/91)|parent|midway/midyunit.cpp|0|410|2
 shimpactp4|Super High Impact (prototype, proto 4.0 09/10/91)|clone|midway/midyunit.cpp|0|410|256|54.706840||shimpact|good|Midway
 shimpactp5|Super High Impact (prototype, proto 5.0 09/15/91)|clone|midway/midyunit.cpp|0|410|256|54.706840||shimpact|good|Midway
 shimpactp6|Super High Impact (prototype, proto 6.0 09/23/91)|clone|midway/midyunit.cpp|0|410|256|54.706840||shimpact|good|Midway
-shinfz|Shinobi / FZ-2006 (Korean System 16 bootleg) (ISG Selection Master Type 2006)|parent|sega/segas16b_isgsm.cpp|0|320|224|60.054389|isgsm||good|ISG
+shinfz|Shinobi / FZ-2006 (Korean System 16 bootleg) (ISG Selection Master Type 2006)|parent|sega/segas16b_isgsm.cpp|0|320|224|60.054389|isgsm||good|ISG/Sega\System16
 shinobi|Shinobi (set 6, System 16A) (unprotected)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 shinobi1|Shinobi (set 1, System 16A) (FD1094 317-0050)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Sega\System16
-shinobi1d|Shinobi (set 1, System 16A) (bootleg of FD1094 317-0050 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|
+shinobi1d|Shinobi (set 1, System 16A) (bootleg of FD1094 317-0050 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Sega\System16
 shinobi2|Shinobi (set 2, System 16B) (FD1094 317-0049)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
-shinobi2d|Shinobi (set 2, System 16B) (bootleg of FD1094 317-0049 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|
+shinobi2d|Shinobi (set 2, System 16B) (bootleg of FD1094 317-0049 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi3|Shinobi (set 3, System 16B) (MC-8123B 317-0054)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi4|Shinobi (set 4, System 16B) (MC-8123B 317-0054)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi5|Shinobi (set 5, System 16B) (unprotected)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
 shinobi6|Shinobi (set 6, System 16B) (unprotected)|clone|sega/segas16b.cpp|0|320|224|60.054389||shinobi|good|Sega\System16
-shinoblb|Shinobi (Beta bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Beta
+shinoblb|Shinobi (Beta bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Beta/Sega\System16
 shinobld|Shinobi (Datsu bootleg, set 1)|clone|sega/system16.cpp|0|320|224|60.000000||shinobi|preliminary|Datsu
 shinoblda|Shinobi (Datsu bootleg, set 2)|clone|sega/system16.cpp|0|320|224|60.000000||shinobi|preliminary|Datsu
 shinobldb|Shinobi (Datsu bootleg, set 3)|clone|sega/system16.cpp|0|320|224|60.000000||shinobi|preliminary|Datsu
-shinobls|Shinobi (Star bootleg, System 16A)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Star
+shinobls|Shinobi (Star bootleg, System 16A)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi|good|Sega\System16/Star
 shinygld|Shiny Golds|parent|playmark/sderby.cpp|0|320|240|57.470000|||good|PlayMark
 shippumd|Shippu Mahou Daisakusen (Japan)|clone|toaplan/toaplan2.cpp|270|320|240|59.637405||kingdmgp|good|Eighting/Raizing
 shiryu2|Strider Hiryu 2 (Japan 991213)|clone|sony/zn.cpp|0|640|480|60.000000|coh3002c|strider2|preliminary|Capcom
@@ -32632,8 +32632,8 @@ sisv3|Space Invaders (SV Version rev 3)|clone|midw8080/8080bw.cpp|270|260|224|59
 sitv|Space Invaders (TV Version rev 2)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invaders|good|Taito
 sitv1|Space Invaders (TV Version rev 1)|clone|midw8080/8080bw.cpp|270|260|224|59.541985||invaders|good|Taito
 sjcd2kx3|Super Joly 2000 - 3x|clone|funworld/funworld.cpp|0|384|232|60.000000||jollycrd|good|M.P.
-sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|White Board
-sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021)|clone|sega/segas16a.cpp|0|320|224|60.000000||sjryuko|good|White Board
+sjryuko|Sukeban Jansi Ryuko (set 2, System 16B, FD1089B 317-5021)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/White Board
+sjryuko1|Sukeban Jansi Ryuko (set 1, System 16A, FD1089B 317-5021)|clone|sega/segas16a.cpp|0|320|224|60.000000||sjryuko|good|Sega\System16/White Board
 sk1100_link_cable|SK-1100 Link Cable|device|devices/bus/sg1000_exp/kblink.cpp||||||||
 sk1100_printer_port|Sega SK-1100 Printer Port|device|devices/bus/sg1000_exp/sk1100prn.cpp||||||||
 skatebll|Skateball|parent|pinball/by35.cpp|||||||preliminary|Bally
@@ -32730,8 +32730,8 @@ slikshot|Slick Shot (V2.2)|parent|itech/itech8.cpp|90|256|240|60.000000|||prelim
 slikshot16|Slick Shot (V1.6)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/ITech
 slikshot17|Slick Shot (V1.7)|clone|itech/itech8.cpp|90|256|240|60.000000||slikshot|preliminary|Grand Products/ITech
 slimekun|Slime Kun|parent|konami/konmedal.cpp|0|288|224|60.000000|||preliminary|Konami
-slipstrm|Slip Stream (Brazil 950515)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Capcom
-slipstrmh|Slip Stream (Hispanic 950515)|clone|sega/segas32.cpp|0|416|224|60.000000||slipstrm|imperfect|Capcom
+slipstrm|Slip Stream (Brazil 950515)|parent|sega/segas32.cpp|0|416|224|60.000000|||imperfect|Capcom/Sega\System32
+slipstrmh|Slip Stream (Hispanic 950515)|clone|sega/segas32.cpp|0|416|224|60.000000||slipstrm|imperfect|Capcom/Sega\System32
 slither|Slither (set 1)|parent|taito/qix.cpp|270|256|256|55.838470|||good|Century II/GDI
 slithera|Slither (set 2)|clone|taito/qix.cpp|270|256|256|55.838470||slither|good|Century II/GDI
 sliver|Sliver (set 1)|parent|misc/sliver.cpp|0|368|240|60.000000|||imperfect|Hollow
@@ -32905,7 +32905,7 @@ snakepit|Snake Pit|parent|midway/balsente.cpp|0|256|240|59.185606|||good|Bally/S
 snakepita|Snake Pit (9/14/84)|clone|midway/balsente.cpp|0|256|240|59.185606||snakepit|good|Sente Technologies
 snakjack|Snacks'n Jaxson|parent|midway/balsente.cpp|0|256|240|59.185606|||good|Bally/Sente
 snapjack|Snap Jack|parent|universal/ladybug.cpp|0|240|192|60.114504|||good|Universal
-snapper|Snapper (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko
+snapper|Snapper (Korea)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Philko/Sega\System16
 snapshot|Snap Shot (20115211, ASP)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 snapshot_image|Snapshot|device|devices/imagedev/snapquik.cpp||||||||
 sncwgltd|Sonic Wings Limited (Japan)|clone|sony/zn.cpp|270|640|480|60.000000|coh1002v|aerofgts|imperfect|Video System
@@ -32988,7 +32988,7 @@ sonic|SegaSonic The Hedgehog (Japan, rev. C)|parent|sega/segas32.cpp|0|416|224|6
 sonic2mb|Sonic The Hedgehog 2 (bootleg of Mega Drive version)|parent|sega/megadriv_acbl.cpp|0|256|224|59.922743|||good|Sega
 sonic3mb|Sonic The Hedgehog 3 (bootleg of Mega Drive version)|parent|sega/megadriv_acbl.cpp|0|256|224|59.922743|||preliminary|Sega
 sonicbom|Sonic Boom (FD1094 317-0053)|parent|sega/segas16b.cpp|270|320|224|60.054389|||good|Sega\System16
-sonicbomd|Sonic Boom (bootleg of FD1094 317-0053 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||sonicbom|good|
+sonicbomd|Sonic Boom (bootleg of FD1094 317-0053 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||sonicbom|good|Sega\System16
 soniccar|Waku Waku Sonic Patrol Car|parent|sega/segac2.cpp|0|256|224|59.922743|||good|Sega
 sonicfgt|SegaSonic Cosmo Fighter (World)|parent|sega/segac2.cpp|0|256|224|59.922743|||good|Sega
 sonicfgtj|SegaSonic Cosmo Fighter (Japan)|clone|sega/segac2.cpp|0|256|224|59.922743||sonicfgt|good|Sega
@@ -33061,7 +33061,7 @@ souledgeua|Soul Edge (US, SO3/VER.A)|clone|namco/namcos11.cpp|0|640|480|60.00000
 souledgeuc|Soul Edge Ver. II (US, SO3/VER.C)|clone|namco/namcos11.cpp|0|640|480|60.000000||souledge|imperfect|Namco\System11
 soulsurf|Soul Surfer (Rev A)|parent|sega/naomi.cpp|0|640|480|61.702586|naomi2||preliminary|Sega
 sounds_plus|Bally Sounds Plus w/ Vocalizer Board|device|shared/ballysound.cpp||||||||
-soutenry|Soutenryu (V2.07J 2000/12/14 11:13:02)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Warashi
+soutenry|Soutenryu (V2.07J 2000/12/14 11:13:02)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Taito\GNET/Warashi
 sp0250|GI SP0250 LPC|device|devices/sound/sp0250.cpp||||||||
 sp0256|GI SP0256 Narrator Speech Processor|device|devices/sound/sp0256.cpp||||||||
 sp_atw|Around The World In Eighty Days (Crystal) (sp.ACE?)|parent|misc/acesp.cpp|||||||preliminary|Crystal
@@ -33743,11 +33743,11 @@ spelunkrj|Spelunker (Japan)|clone|irem/m62.cpp|0|384|256|55.017606||spelunkr|imp
 spetrix|Super Petrix (ver. 1P)|parent|misc/magic10.cpp|0|360|240|60.000000|||imperfect|
 spf2t|Super Puzzle Fighter II Turbo (Euro 960529)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 spf2ta|Super Puzzle Fighter II Turbo (Asia 960529)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
-spf2td|Super Puzzle Fighter II Turbo (USA 960620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|
+spf2td|Super Puzzle Fighter II Turbo (USA 960620 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
 spf2th|Super Puzzle Fighter II Turbo (Hispanic 960531)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
 spf2tu|Super Puzzle Fighter II Turbo (USA 960620)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
 spf2xj|Super Puzzle Fighter II X (Japan 960531)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
-spf2xjd|Super Puzzle Fighter II X (Japan 960531 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|
+spf2xjd|Super Puzzle Fighter II X (Japan 960531 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||spf2t|good|Capcom\CPS2
 spfghmk2|Space Fighter Mark II (set 1)|parent|dataeast/astrof.cpp|90|256|256|56.308461|||preliminary|Data East
 spfghmk22|Space Fighter Mark II (set 2)|clone|dataeast/astrof.cpp|90|256|256|56.308461||spfghmk2|preliminary|Data East
 spgcarn|Spring Carnival (10000311, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
@@ -33992,10 +33992,10 @@ ssf2mdb|Super Street Fighter II - The New Challengers (bootleg of Japanese Mega 
 ssf2r1|Super Street Fighter II: The New Challengers (World 930911)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2t|Super Street Fighter II Turbo (World 940223)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 ssf2ta|Super Street Fighter II Turbo (Asia 940223)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
-ssf2tad|Super Street Fighter II Turbo (Asia 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|
+ssf2tad|Super Street Fighter II Turbo (Asia 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssf2tb|Super Street Fighter II: The Tournament Battle (World 931119)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2tba|Super Street Fighter II: The Tournament Battle (Asia 931005)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
-ssf2tbd|Super Street Fighter II: The Tournament Battle (World 931119 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|
+ssf2tbd|Super Street Fighter II: The Tournament Battle (World 931119 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2tbh|Super Street Fighter II: The Tournament Battle (Hispanic 931005)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2tbj|Super Street Fighter II: The Tournament Battle (Japan 931005)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2tbj1|Super Street Fighter II: The Tournament Battle (Japan 930911)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
@@ -34005,11 +34005,11 @@ ssf2th|Super Street Fighter II Turbo (Hispanic 940223)|clone|capcom/cps2.cpp|0|3
 ssf2tu|Super Street Fighter II Turbo (USA 940323)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssf2tur1|Super Street Fighter II Turbo (USA 940223)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssf2u|Super Street Fighter II: The New Challengers (USA 930911)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
-ssf2ud|Super Street Fighter II: The New Challengers (USA 930911 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|
-ssf2us2|Super Street Fighter II: The New Challengers Super 2 (USA 930911)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|
+ssf2ud|Super Street Fighter II: The New Challengers (USA 930911 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
+ssf2us2|Super Street Fighter II: The New Challengers Super 2 (USA 930911)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2|good|Capcom\CPS2
 ssf2xj|Super Street Fighter II X: Grand Master Challenge (Japan 940311)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssf2xjr1|Super Street Fighter II X: Grand Master Challenge (Japan 940223)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
-ssf2xjr1d|Super Street Fighter II X: Grand Master Challenge (Japan 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|
+ssf2xjr1d|Super Street Fighter II X: Grand Master Challenge (Japan 940223 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssf2xjr1r|Super Street Fighter II X: Grand Master Challenge (Japan 940223 rent version)|clone|capcom/cps2.cpp|0|384|224|59.637405||ssf2t|good|Capcom\CPS2
 ssfindo|See See Find Out|parent|acorn/ssfindo.cpp|0|735|292|50.080128|||imperfect|Icarus
 sshangha|Super Shanghai Dragon's Eye (World)|parent|dataeast/sshangha.cpp|0|320|240|60.000000|||good|Hot-B
@@ -34550,7 +34550,7 @@ swarm|Swarm (bootleg?)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||galaxia
 swat|SWAT (315-5048)|parent|sega/system1.cpp|270|512|224|60.096154|||good|Coreland/Sega
 swatpolc|SWAT Police|parent|misc/esd16.cpp|0|320|240|60.000000|||good|ESD
 swcourt|Super World Court (World)|parent|namco/namcona1.cpp|0|304|224|60.000000|||good|Namco\NA
-swcourtb|Super World Court (World, bootleg)|clone|namco/namcona1.cpp|0|304|224|60.000000||swcourt|good|PlayMark
+swcourtb|Super World Court (World, bootleg)|clone|namco/namcona1.cpp|0|304|224|60.000000||swcourt|good|Namco\NA/PlayMark
 swcourtj|Super World Court (Japan)|clone|namco/namcona1.cpp|0|304|224|60.000000||swcourt|good|Namco\NA
 swe1pb|Pinball 2000: Star Wars Episode 1|parent|midway/pinball2k.cpp|0|640|240|60.000000|||preliminary|Midway
 sweetgal|Sweet Gal (Japan 850510 SWG 1-02)|clone|nichibutsu/nightgal.cpp|0|256|224|59.090909||sexygal|preliminary|Nichibutsu
@@ -34957,16 +34957,16 @@ tetfight|Tetris Fighters|parent|acorn/ssfindo.cpp|0|735|292|50.080128|||prelimin
 tetgiano|Tetris Giant / Tetris Dekaris (MDA-C0076)|clone|sega/segasp.cpp|0|640|480|61.702586|segasp|tetgiant|preliminary|Sega
 tetgiant|Tetris Giant / Tetris Dekaris (Ver.2.000)|parent|sega/segasp.cpp|0|640|480|61.702586|segasp||preliminary|Sega
 tetkiwam|Tetris Kiwamemichi (Japan) (GDL-0020)|parent|sega/naomi.cpp|0|640|480|61.702586|naomigd||preliminary|Success
-tetrbx|Tetris / Bloxeed (Korean System 16 bootleg) (ISG Selection Master Type 2006)|parent|sega/segas16b_isgsm.cpp|0|320|224|60.054389|isgsm||good|ISG
+tetrbx|Tetris / Bloxeed (Korean System 16 bootleg) (ISG Selection Master Type 2006)|parent|sega/segas16b_isgsm.cpp|0|320|224|60.054389|isgsm||good|ISG/Sega\System16
 tetris|Tetris (set 4, Japan, System 16A) (FD1094 317-0093)|parent|sega/segas16a.cpp|0|320|224|60.000000|||good|Sega\System16
 tetris1|Tetris (set 1, Japan, System 16B) (FD1094 317-0091)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
-tetris1d|Tetris (set 1, Japan, System 16B) (bootleg of FD1094 317-0091 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|
+tetris1d|Tetris (set 1, Japan, System 16B) (bootleg of FD1094 317-0091 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
 tetris2|Tetris (set 2, Japan, System 16B) (FD1094 317-0092)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
-tetris2d|Tetris (set 2, Japan, System 16B) (bootleg of FD1094 317-0092 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|
+tetris2d|Tetris (set 2, Japan, System 16B) (bootleg of FD1094 317-0092 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||tetris|good|Sega\System16
 tetris3|Tetris (set 3, Japan, System 16A) (FD1094 317-0093a)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|Sega\System16
-tetris3d|Tetris (set 3, Japan, System 16A) (bootleg of FD1094 317-0093a set)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|
+tetris3d|Tetris (set 3, Japan, System 16A) (bootleg of FD1094 317-0093a set)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|Sega\System16
 tetrisbl|Tetris (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||tetris|good|
-tetrisd|Tetris (set 4, Japan, System 16A) (bootleg of FD1094 317-0093 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|
+tetrisd|Tetris (set 4, Japan, System 16A) (bootleg of FD1094 317-0093 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||tetris|good|Sega\System16
 tetriskr|Tetris (Korean bootleg of Mirrorsoft PC-XT Tetris)|parent|pc/pcxt.cpp|0|640|200|59.922748|||imperfect|
 tetriskr_cga|ISA8_CGA_TETRISKR|device|pc/pcxt.cpp|0|640|200|59.922748||||
 tetrisp|Tetris Plus (ver 1.0)|parent|jaleco/ms32.cpp|0|320|224|59.410646|||imperfect|BPS/Jaleco
@@ -36520,8 +36520,8 @@ vaportrx|Vapor TRX (GUTS Jul 2 1998 / MAIN Jul 18 1998)|parent|midway/seattle.cp
 vaportrxp|Vapor TRX (GUTS Apr 10 1998 / MAIN Apr 10 1998)|clone|midway/seattle.cpp|0|640|480|57.000000||vaportrx|good|Atari
 varth|Varth: Operation Thunderstorm (World 920714)|parent|capcom/cps1.cpp|270|384|224|59.637405|||good|Capcom\CPS1
 varthb|Varth: Operation Thunderstorm (bootleg, set 1)|clone|capcom/fcrash.cpp|270|384|224|60.000000||varth|good|
-varthb2|Varth: Operation Thunderstorm (bootleg, set 2)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|imperfect|
-varthb3|Varth: Operation Thunderstorm (bootleg, set 3)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|preliminary|
+varthb2|Varth: Operation Thunderstorm (bootleg, set 2)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|imperfect|Capcom\CPS1
+varthb3|Varth: Operation Thunderstorm (bootleg, set 3)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|preliminary|Capcom\CPS1
 varthj|Varth: Operation Thunderstorm (Japan 920714)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom\CPS1
 varthjr|Varth: Operation Thunderstorm (Japan Resale Ver. 920714)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom\CPS1
 varthr1|Varth: Operation Thunderstorm (World 920612)|clone|capcom/cps1.cpp|270|384|224|59.637405||varth|good|Capcom\CPS1
@@ -36637,7 +36637,7 @@ vga|VGA|device|devices/video/pc_vga.cpp||||||||
 vgoalsoc|V Goal Soccer (Europe)|parent|vsystem/gstriker.cpp|0|320|224|60.000000|||preliminary|Tecmo
 vgoalsoca|V Goal Soccer (US/Japan/Korea)|clone|vsystem/gstriker.cpp|0|320|224|60.000000||vgoalsoc|preliminary|Tecmo
 vhunt2|Vampire Hunter 2: Darkstalkers Revenge (Japan 970929)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
-vhunt2d|Vampire Hunter 2: Darkstalkers Revenge (Japan 970913 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vhunt2|good|
+vhunt2d|Vampire Hunter 2: Darkstalkers Revenge (Japan 970913 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vhunt2|good|Capcom\CPS2
 vhunt2r1|Vampire Hunter 2: Darkstalkers Revenge (Japan 970913)|clone|capcom/cps2.cpp|0|384|224|59.637405||vhunt2|good|Capcom\CPS2
 vhuntj|Vampire Hunter: Darkstalkers' Revenge (Japan 950316)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
 vhuntjr1|Vampire Hunter: Darkstalkers' Revenge (Japan 950307)|clone|capcom/cps2.cpp|0|384|224|59.637405||nwarr|good|Capcom\CPS2
@@ -36848,10 +36848,10 @@ vs9209|VS9209 I/O|device|vsystem/vs9209.cpp||||||||
 vs920a|VS920A Text Tilemap|device|vsystem/vs920a.cpp||||||||
 vsav|Vampire Savior: The Lord of Vampire (Euro 970519)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 vsav2|Vampire Savior 2: The Lord of Vampire (Japan 970913)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
-vsav2d|Vampire Savior 2: The Lord of Vampire (Japan 970913 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav2|good|
+vsav2d|Vampire Savior 2: The Lord of Vampire (Japan 970913 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav2|good|Capcom\CPS2
 vsava|Vampire Savior: The Lord of Vampire (Asia 970519)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
 vsavb|Vampire Savior: The Lord of Vampire (Brazil 970519)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
-vsavd|Vampire Savior: The Lord of Vampire (Euro 970519 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|
+vsavd|Vampire Savior: The Lord of Vampire (Euro 970519 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
 vsavh|Vampire Savior: The Lord of Vampire (Hispanic 970519)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
 vsavj|Vampire Savior: The Lord of Vampire (Japan 970519)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
 vsavu|Vampire Savior: The Lord of Vampire (USA 970519)|clone|capcom/cps2.cpp|0|384|224|59.637405||vsav|good|Capcom\CPS2
@@ -36973,15 +36973,15 @@ waverunr|Wave Runner (Japan, Revision A)|parent|sega/model2.cpp|0|496|384|57.524
 waveshrk|Wave Shark (UAB, USA v1.04)|clone|konami/zr107.cpp|0|512|384|60.000000||jetwave|imperfect|Konami
 wb3|Wonder Boy III - Monster Lair (set 6, World, System 16B) (8751 317-0098)|parent|sega/segas16b.cpp|0|320|224|60.054389|||good|Sega\System16/Westone
 wb31|Wonder Boy III - Monster Lair (set 1, Japan, System 16A) (FD1094 317-0084)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|Sega\System16/Westone
-wb31d|Wonder Boy III - Monster Lair (set 1, Japan, System 16A) (bootleg of FD1094 317-0084 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|
+wb31d|Wonder Boy III - Monster Lair (set 1, Japan, System 16A) (bootleg of FD1094 317-0084 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|Sega\System16
 wb32|Wonder Boy III - Monster Lair (set 2, Japan, System 16B) (FD1094 317-0085)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16/Westone
-wb32d|Wonder Boy III - Monster Lair (set 2, Japan, System 16B) (bootleg of FD1094 317-0085 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|
+wb32d|Wonder Boy III - Monster Lair (set 2, Japan, System 16B) (bootleg of FD1094 317-0085 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16
 wb33|Wonder Boy III - Monster Lair (set 3, World, System 16B) (FD1094 317-0089)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16/Westone
-wb33d|Wonder Boy III - Monster Lair (set 3, World, System 16B) (bootleg of FD1094 317-0089 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|
+wb33d|Wonder Boy III - Monster Lair (set 3, World, System 16B) (bootleg of FD1094 317-0089 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16
 wb34|Wonder Boy III - Monster Lair (set 4, Japan, System 16B) (FD1094 317-0087)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16/Westone
-wb34d|Wonder Boy III - Monster Lair (set 4, Japan, System 16B) (bootleg of FD1094 317-0087 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|
+wb34d|Wonder Boy III - Monster Lair (set 4, Japan, System 16B) (bootleg of FD1094 317-0087 set)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3|good|Sega\System16
 wb35|Wonder Boy III - Monster Lair (set 5, Japan, System 16A) (FD1089A 317-0086)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|Sega\System16/Westone
-wb35d|Wonder Boy III - Monster Lair (set 5, Japan, System 16A) (bootleg of FD1089A 317-0086 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|
+wb35d|Wonder Boy III - Monster Lair (set 5, Japan, System 16A) (bootleg of FD1089A 317-0086 set)|clone|sega/segas16a.cpp|0|320|224|60.000000||wb3|good|Sega\System16
 wb3bbl|Wonder Boy III - Monster Lair (bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||wb3|preliminary|
 wb3bble|Wonder Boy III - Monster Lair (encrypted bootleg)|clone|sega/system16.cpp|0|320|224|60.000000||wb3|preliminary|
 wbbc97|Beach Festival World Championship 1997|parent|vsystem/aerofgt.cpp|0|342|240|60.000000|||good|Comad
@@ -37343,7 +37343,7 @@ wof_v11|Wheel of Fortune (P517 V11, English)|clone|misc/coinmvga.cpp|0|640|480|6
 wof_v16|Wheel of Fortune (P517 V16, English)|parent|misc/coinmvga.cpp|0|640|480|60.054866|||preliminary|Coinmaster
 wofa|Sangokushi II (Asia 921005)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 wofabl|Sangokushi II (bootleg)|clone|capcom/fcrash.cpp|0|384|224|60.000000||wof|imperfect|
-wofhfh|Huo Feng Huang (Chinese bootleg of Sangokushi II)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|
+wofhfh|Huo Feng Huang (Chinese bootleg of Sangokushi II)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 wofj|Tenchi wo Kurau II: Sekiheki no Tatakai (Japan 921031)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
 wofpic|Warriors of Fate (bootleg with PIC16C57)|clone|capcom/cps1bl_pic.cpp|0|384|224|60.000000||wof|preliminary|
 wofr1|Warriors of Fate (World 921002)|clone|capcom/cps1.cpp|0|384|224|59.637405||wof|good|Capcom\CPS1
@@ -37433,9 +37433,9 @@ wrallyc|World Rally (Version 1.0, Checksum E586)|clone|gaelco/wrally.cpp|0|368|2
 wrecking|Vs. Wrecking Crew|parent|nintendo/vsnes.cpp|0|256|240|60.098476|||good|Nintendo
 wrestwar|Wrestle War (set 3, World) (8751 317-0103)|parent|sega/segas16b.cpp|270|320|224|60.054389|||good|Sega\System16
 wrestwar1|Wrestle War (set 1, Japan) (FD1094 317-0090)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
-wrestwar1d|Wrestle War (set 1, Japan) (bootleg of FD1094 317-0090 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|
+wrestwar1d|Wrestle War (set 1, Japan) (bootleg of FD1094 317-0090 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
 wrestwar2|Wrestle War (set 2, World) (FD1094 317-0102)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
-wrestwar2d|Wrestle War (set 2, World) (bootleg of FD1094 317-0102 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|
+wrestwar2d|Wrestle War (set 2, World) (bootleg of FD1094 317-0102 set)|clone|sega/segas16b.cpp|270|320|224|60.054389||wrestwar|good|Sega\System16
 wrldtour|Al's Garage Band Goes On A World Tour (R01c)|parent|pinball/alvg.cpp|0|128|32|50.000000|||preliminary|Alvin G
 wrldtour2|Al's Garage Band Goes On A World Tour (R02b)|clone|pinball/alvg.cpp|0|128|32|50.000000||wrldtour|preliminary|Alvin G
 wrldtour3|Al's Garage Band Goes On A World Tour (R06a)|clone|pinball/alvg.cpp|0|128|32|50.000000||wrldtour|preliminary|Alvin G
@@ -37499,8 +37499,8 @@ ww_p8|White Water (P-8)|clone|pinball/wpc_flip2.cpp|0|128|32|60.000000||ww_l5|pr
 wwallyj|Wally wo Sagase! (rev B, Japan, 2 players) (FD1094 317-0197B)|parent|sega/segas18.cpp|0|320|224|57.230000|||good|Sega\System18
 wwallyja|Wally wo Sagase! (rev A, Japan, 2 players) (FD1094 317-0197A)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|Sega\System18
 wwallyja3p|Wally wo Sagase! (rev A, Japan, 3 players) (FD1094 317-0198A)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|Sega\System18
-wwallyjad|Wally wo Sagase! (rev A, Japan) (bootleg of FD1094 317-0197A set)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|
-wwallyjd|Wally wo Sagase! (rev B, Japan) (bootleg of FD1094 317-0197B set)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|
+wwallyjad|Wally wo Sagase! (rev A, Japan) (bootleg of FD1094 317-0197A set)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|Sega\System18
+wwallyjd|Wally wo Sagase! (rev B, Japan) (bootleg of FD1094 317-0197B set)|clone|sega/segas18.cpp|0|320|224|57.230000||wwallyj|good|Sega\System18
 wwanpanm|Waku Waku Anpanman (Rev A)|parent|sega/segac2.cpp|0|256|224|59.922743|||good|Sega
 wwaratah|Wild Waratah (10215911, NSW/ACT)|parent|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6||preliminary|Aristocrat
 wwaratahsp|Wild Waratah (10215911, NSW/ACT, Show Program)|clone|aristocrat/aristmk6.cpp|0|640|480|60.000000|aristmk6|wwaratah|preliminary|Aristocrat
@@ -37576,7 +37576,7 @@ xfilesp|X-Files (CPU 3.03, display A3.00)|parent|pinball/whitestar.cpp|0|128|32|
 xfilespf|X-Files (CPU 3.03, display F3.00, France)|clone|pinball/whitestar.cpp|0|128|32|60.000000||xfilesp|preliminary|Sega
 xforce|X Force|parent|pinball/techno.cpp|||||||preliminary|Tecnoplay
 xga_copro|IBM XGA Coprocessor|device|devices/video/pc_xga.cpp||||||||
-xiistag|XII Stag (V2.01J 2002/6/26 22:27)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Triangle Service
+xiistag|XII Stag (V2.01J 2002/6/26 22:27)|parent|sony/taitogn.cpp|270|640|480|60.000000|coh3002t||imperfect|Taito\GNET/Triangle Service
 xmcota|X-Men: Children of the Atom (Euro 950331)|parent|capcom/cps2.cpp|0|384|224|59.637405|||good|Capcom\CPS2
 xmcotaa|X-Men: Children of the Atom (Asia 950105)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
 xmcotaar1|X-Men: Children of the Atom (Asia 941219)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
@@ -37590,7 +37590,7 @@ xmcotaj2|X-Men: Children of the Atom (Japan 941219)|clone|capcom/cps2.cpp|0|384|
 xmcotaj3|X-Men: Children of the Atom (Japan 941217)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
 xmcotajr|X-Men: Children of the Atom (Japan 941208 rent version)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
 xmcotar1|X-Men: Children of the Atom (Euro 950105)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
-xmcotar1d|X-Men: Children of the Atom (Euro 950105 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|
+xmcotar1d|X-Men: Children of the Atom (Euro 950105 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
 xmcotau|X-Men: Children of the Atom (USA 950105)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmcota|good|Capcom\CPS2
 xmen|X-Men (4 Players ver EBA)|parent|konami/xmen.cpp|0|304|224|59.170000|||imperfect|Konami
 xmen2pa|X-Men (2 Players ver AAA)|clone|konami/xmen.cpp|0|304|224|59.170000||xmen|imperfect|Konami
@@ -37622,7 +37622,7 @@ xmvsfjr2|X-Men Vs. Street Fighter (Japan 960910)|clone|capcom/cps2.cpp|0|384|224
 xmvsfjr3|X-Men Vs. Street Fighter (Japan 960909)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
 xmvsfr1|X-Men Vs. Street Fighter (Euro 960910)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
 xmvsfu|X-Men Vs. Street Fighter (USA 961023)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
-xmvsfu1d|X-Men Vs. Street Fighter (USA 961004 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|
+xmvsfu1d|X-Men Vs. Street Fighter (USA 961004 Phoenix Edition) (bootleg)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
 xmvsfur1|X-Men Vs. Street Fighter (USA 961004)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
 xmvsfur2|X-Men Vs. Street Fighter (USA 960910)|clone|capcom/cps2.cpp|0|384|224|59.637405||xmvsf|good|Capcom\CPS2
 xorworld|Xor World (prototype)|parent|gaelco/xorworld.cpp|0|256|224|60.000000|||good|Gaelco
@@ -37831,7 +37831,7 @@ zodiack|Zodiack|parent|orca/zodiack.cpp|270|256|224|60.606061|||imperfect|Esco 
 zoidiexp|Zoids Infinity EX Plus (ver. 2.10)|parent|namco/namcops2.cpp|0|640|480|60.000000|sys246||preliminary|Taito/Tomy
 zoidsinf|Zoids Infinity|parent|namco/namcops2.cpp|0|640|480|60.000000|sys246||preliminary|Taito/Tomy
 zokumahj|Zoku Mahjong Housoukyoku (Japan)|clone|nichibutsu/niyanpai.cpp|0|640|240|60.000000||mhhonban|good|Nichibutsu
-zokuoten|Zoku Otenamihaiken (V2.03J 2001/02/16 16:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success
+zokuoten|Zoku Otenamihaiken (V2.03J 2001/02/16 16:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET
 zombraid|Zombie Raid (9/28/95, US)|parent|seta/seta.cpp|0|384|240|60.000000|||good|American Sammy
 zombraidp|Zombie Raid (9/28/95, US, prototype PCB)|clone|seta/seta.cpp|0|384|240|60.000000||zombraid|good|American Sammy
 zombraidpj|Zombie Raid (9/28/95, Japan, prototype PCB)|clone|seta/seta.cpp|0|384|240|60.000000||zombraid|good|Sammy
@@ -37847,7 +37847,7 @@ zookeepbl|Zoo Keeper (bootleg)|clone|taito/qix.cpp|0|256|256|55.838470||zookeep|
 zoom909|Zoom 909|clone|sega/turbo.cpp|0|512|224|59.090909||buckrog|imperfect|Sega
 zoomania|Zoomania (Version 10.04, set 1)|parent|misc/highvdeo.cpp|0|400|300|60.000000|||preliminary|Industrias Brasileiras
 zoomaniaa|Zoomania (Version 10.04, set 2)|clone|misc/highvdeo.cpp|0|400|300|60.000000||zoomania|preliminary|Industrias Brasileiras
-zooo|Zooo (V2.01JA 2004/04/13 12:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success
+zooo|Zooo (V2.01JA 2004/04/13 12:00)|parent|sony/taitogn.cpp|0|640|480|60.000000|coh3002t||imperfect|Success/Taito\GNET
 zorro2|Zorro-II bus|device|devices/bus/amiga/zorro/zorro.cpp||||||||
 zorro_a2052|CBM A2052 Fast Memory|device|devices/bus/amiga/zorro/a2052.cpp||||||||
 zorro_a2058|CBM A2058 Fast Memory|device|devices/bus/amiga/zorro/a2058.cpp||||||||

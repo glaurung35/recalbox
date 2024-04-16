@@ -135,7 +135,7 @@ atetrisb|Tetris (bootleg)|clone|atari/atetris.cpp|0|336|240|59.922743||atetris||
 athena|Athena|parent|snk/snk.cpp|0|288|216|60.000000||||SNK
 atlantis|Battle of Atlantis (set 1)|parent|galaxian/galaxian.cpp|90|768|224|60.606061||||Comsoft
 atlants2|Battle of Atlantis (set 2)|clone|galaxian/galaxian.cpp|90|768|224|60.606061||atlantis||Comsoft
-atomicp|Atomic Point|parent|sega/segas16b.cpp|0|320|224|60.054389||||Philko
+atomicp|Atomic Point|parent|sega/segas16b.cpp|0|320|224|60.054389||||Philko/Sega\System16
 aurail|Aurail (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16/Westone
 auraila|Aurail (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||aurail||Sega\System16/Westone
 avalnche|Avalanche|parent|atari/avalnche.cpp|0|256|240|60.114504||||Atari
@@ -169,8 +169,8 @@ battlnts|Battlantis|parent|konami/battlnts.cpp|90|256|224|60.000000||||Konami
 battroad|The Battle-Road|parent|irem/m62.cpp|90|256|256|56.338028||||Irem
 bayrouta|Bay Route (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute||Sega\System16/Sunsoft
 bayroute|Bay Route (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16/Sunsoft
-bayrtbl1|Bay Route (bootleg set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute||
-bayrtbl2|Bay Route (bootleg set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute||
+bayrtbl1|Bay Route (bootleg set 1)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute||Sega\System16
+bayrtbl2|Bay Route (bootleg set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||bayroute||Sega\System16
 bbros|Buster Bros (US)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang||Capcom
 bchopper|Battle Chopper|parent|irem/m72.cpp|0|384|256|55.017606||||Irem\M72
 beastf|Beastie Feastie|clone|misc/epos.cpp|270|272|236|60.000000||theglob||Epos
@@ -629,7 +629,7 @@ footchmp|Football Champ (World)|parent|taito/taito_f2.cpp|0|320|224|60.000000|||
 forgottn|Forgotten Worlds (US)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 formatz|Formation Z|parent|jaleco/aeroboto.cpp|0|248|224|60.000000||||Jaleco
 fpoint|Flash Point|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16
-fpointbl|Flash Point (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint||
+fpointbl|Flash Point (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||fpoint||Sega\System16
 freeze|Freeze|parent|cinematronics/jack.cpp|90|256|224|59.185606||||Cinematronics
 frenzy|Frenzy|parent|stern/berzerk.cpp|0|256|224|59.637405||||Stern
 friskyt|Frisky Tom|parent|nichibutsu/seicross.cpp|0|256|224|60.606061||||Nichibutsu
@@ -716,7 +716,7 @@ gngt|Ghosts'n Goblins (US)|clone|capcom/gng.cpp|0|256|224|59.637405||gng||Capcom
 goalx3|Goal! Goal! Goal!|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Visco
 goindol|Goindol|parent|suna/goindol.cpp|90|256|224|60.000000||||Sun a Electronics
 goldmedl|Gold Medalist|parent|alpha/alpha68k.cpp|0|256|224|59.185606||||SNK
-goldnabl|Golden Axe (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||
+goldnabl|Golden Axe (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||Sega\System16
 goldnaxa|Golden Axe (Version 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||Sega\System16
 goldnaxb|Golden Axe (Version 2 317-0110)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||Sega\System16
 goldnaxc|Golden Axe (Version 2 317-0122)|clone|sega/segas16b.cpp|0|320|224|60.054389||goldnaxe||Sega\System16
@@ -1303,8 +1303,8 @@ paintrlr|Paint Roller|clone|pacman/pacman.cpp|90|288|224|60.606061||crush||
 palamed|Palamedes (Japan)|parent|taito/taito_l.cpp|0|320|224|60.000000||||Taito
 pandoras|Pandora's Palace|parent|konami/pandoras.cpp|90|256|224|60.000000||||Interlogic/Konami
 pang|Pang (World)|parent|capcom/mitchell.cpp|0|384|240|57.420000||||Mitchell
-pang3|Pang! 3 (Euro)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Mitchell
-pang3j|Pang! 3 (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3||Mitchell
+pang3|Pang! 3 (Euro)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1/Mitchell
+pang3j|Pang! 3 (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||pang3||Capcom\CPS1/Mitchell
 pangb|Pang (bootleg)|clone|capcom/mitchell.cpp|0|384|240|57.420000||pang||
 panic|Space Panic (set 1)|parent|universal/cosmic.cpp|270|256|192|58.639833||||Universal
 panica|Space Panic (set 2)|clone|universal/cosmic.cpp|270|256|192|58.639833||panic||Universal
@@ -1630,7 +1630,7 @@ sf1jp|Street Fighter (Japan)|clone|||||||sf1||Capcom
 sf1us|Street Fighter (US)|clone|||||||sf1||Capcom
 sf2|Street Fighter II - The World Warrior (World 910214)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 sf2a|Street Fighter II - The World Warrior (US 910206)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2||Capcom\CPS1
-sf2accp2|Street Fighter II' - Champion Edition (Accelerator Pt.II)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||
+sf2accp2|Street Fighter II' - Champion Edition (Accelerator Pt.II)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
 sf2b|Street Fighter II - The World Warrior (US 910214)|clone|capcom/cps1bl_5205.cpp|0|384|224|59.637405||sf2||Capcom
 sf2ce|Street Fighter II' - Champion Edition (World)|parent|capcom/cps1.cpp|0|384|224|59.637405||||Capcom\CPS1
 sf2cea|Street Fighter II' - Champion Edition (US rev A)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
@@ -1639,8 +1639,8 @@ sf2cej|Street Fighter II' - Champion Edition (Japan)|clone|capcom/cps1.cpp|0|384
 sf2e|Street Fighter II - The World Warrior (US 910228)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2||Capcom\CPS1
 sf2j|Street Fighter II - The World Warrior (Japan 911210)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2||Capcom\CPS1
 sf2jb|Street Fighter II - The World Warrior (Japan 910214)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2||Capcom\CPS1
-sf2rb|Street Fighter II' - Champion Edition (Rainbow)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||
-sf2red|Street Fighter II' - Champion Edition (Red Wave)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||
+sf2rb|Street Fighter II' - Champion Edition (Rainbow)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
+sf2red|Street Fighter II' - Champion Edition (Red Wave)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
 sf2t|Street Fighter II' - Hyper Fighting (US)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
 sf2tj|Street Fighter II' Turbo - Hyper Fighting (Japan)|clone|capcom/cps1.cpp|0|384|224|59.637405||sf2ce||Capcom\CPS1
 sfeverbw|Space Fever (black and white)|parent|||||||||Nintendo
@@ -1665,7 +1665,7 @@ shimpact|Super High Impact (rev LA1 09/30/91)|parent|midway/midyunit.cpp|0|410|2
 shinobi|Shinobi (set 1)|parent|sega/segas16a.cpp|0|320|224|60.000000||||Sega\System16
 shinobia|Shinobi (set 2)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||Sega\System16
 shinobib|Shinobi (set 3)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||Sega\System16
-shinobl|Shinobi (bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||
+shinobl|Shinobi (bootleg)|clone|sega/segas16a.cpp|0|320|224|60.000000||shinobi||Sega\System16
 shisen|Shisensho - Joshiryo-Hen (Japan)|clone|irem/shisen.cpp|0|512|256|55.017606||sichuan2||Tamtex
 shocktr2|Shock Troopers - 2nd Squad|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
 shocktro|Shock Troopers|parent|neogeo/neogeo.cpp|0|320|224|59.185606|neogeo|||neogeo/Saurus
@@ -2142,7 +2142,7 @@ warrior|Warrior|parent|cinematronics/cinemat.cpp|180|||38.000107||||Vectorbeam
 waterski|Water Ski|parent|taito/taitosj.cpp|270|256|224|59.185606||||Taito
 wb3|Wonder Boy III - Monster Lair (set 1)|parent|sega/segas16b.cpp|0|320|224|60.054389||||Sega\System16/Westone
 wb3a|Wonder Boy III - Monster Lair (set 2)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System16/Westone
-wb3bl|Wonder Boy III - Monster Lair (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||
+wb3bl|Wonder Boy III - Monster Lair (bootleg)|clone|sega/segas16b.cpp|0|320|224|60.054389||wb3||Sega\System16
 wbdeluxe|Wonder Boy Deluxe|clone|sega/system1.cpp|0|512|224|60.096154||wboy||Escape/Sega
 wbml|Wonder Boy in Monster Land|parent|sega/system1.cpp|0|512|224|60.096154||||
 wbmlj|Wonder Boy in Monster Land (Japan set 1)|clone|sega/system1.cpp|0|512|224|60.096154||wbml||Sega/Westone

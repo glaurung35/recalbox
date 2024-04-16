@@ -4,7 +4,30 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-Pulstar
+## Version 9.2-jamma-50
+
+9.2-jamma-50:
+- Add Raizing system (special order from bigkam, lorenzo and others)
+- Fix many game automatic filtering by driver (cps2, taitognet etc, reported by psykotine)
+- Fix controls debounce time (thanks to pierrot from First Attack for testing)
+
+9.2-jamma-49:
+- Volume reload and reset when entering sound menu 
+- Fixed missing icons in quit menu
+- Fixed scraper not scraping anything in "un-scraped games only" mode
+- Correction of pads in wrong order in OSD
+- Fixed phantom gamelist when exiting search or netplay
+- Fix netplay crashes when there's no network
+- Save WIFI settings immediately on exiting network menu
+- CRT:
+  - Remove priority to hdmi option when on rpi5
+  - Fix naomi2 in 31kHz having black screen
+- Themes: add new colors for recalbox next and 240p themes
+- JAMMA:
+  - Apply rgbjamma neogeo mapping on pgm games
+  - Fix mapping of race games on fbneo (outrun...)
+
+
 
 ### Jamma
 - Set pin 27/e as ground by default

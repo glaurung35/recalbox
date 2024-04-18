@@ -48,7 +48,7 @@ class ArcadeGame
 
         /*!
          * @brief Check if this holder contains only one zero'ed entry
-         * @return True if this holder contain sonly one zero'ed entry, false otherwise
+         * @return True if this holder contains only one zero'ed entry, false otherwise
          */
         [[nodiscard]] bool HasOnlyZero() const
         {
@@ -81,7 +81,7 @@ class ArcadeGame
         }
 
       private:
-        static constexpr int sCountBits = 2;                                      //! Keep 2 bits to store item count
+        static constexpr int sCountBits = 4;                                      //! Keep 2 bits to store item count
         static constexpr int sCountMask = (1 << sCountBits) - 1;                  //! Counter mask
         static constexpr int sBits = ((int)sizeof(rawType) * 8 - sCountBits) / 4; //! Number of storage bits for a single subdata
         static constexpr int sMask = (1 << sBits) - 1;                            //! Single subdata mask

@@ -8,13 +8,13 @@
 bool RemoteThemes::FetchRemoteThemes()
 {
   mRemoteThemeList.clear();
-  if (!FetchFrom(sPublicRepository))
+  if (!FetchFrom(String(sPublicRepository).Append("/-/raw/main")))
   {
     { LOG(LogError) << "[RemoteThemes] Cannot fetch public themes !"; }
     return false;
   }
   if (PatronInfo::Instance().IsPatron())
-    if (!FetchFrom(sPrivateRepository))
+    if (!FetchFrom(String(sPrivateRepository).Append("/-/raw/main")))
     { LOG(LogError) << "[RemoteThemes] Cannot fetch private themes !"; }
   return true;
 }
@@ -22,121 +22,82 @@ bool RemoteThemes::FetchRemoteThemes()
 bool RemoteThemes::FetchFrom(const String& url)
 {
   // Download
-  /*HttpClient client;
+  HttpClient client;
   String output;
-  for(int i = 3; -i >= 0; Thread::Sleep(1000))
-    if (client.Execute(url, output))
+  for(int i = 3; --i >= 0; Thread::Sleep(1000))
+    if (client.Execute(url + "/theme.json", output))
       break;
-  if (output.StartsWith('<') or output.empty())
+  if (output.empty() || !output.StartsWith('{'))
   {
     { LOG(LogError) << "[RemoteThemes] Unable to fetch content from " << url; }
     return false;
-  }*/
-  String output = "[Le-nom-de-la-section-de-mon-theme]\n"
-                  "\n"
-                  "# Description du thème\n"
-                  "folder = mytheme\n"
-                  "name = RappelBoite Default Theme\n"
-                  "author = Beka Jaydeukha\n"
-                  "version = 3.2\n"
-                  "fromrecalbox = 9.2\n"
-                  "description = Mais tu dis que le bonheur est irréductible, et je dis que ton espoir n'est pas si désespéré à condition d'analyser que l'absolu ne doit pas être annihilé par l'illusoire précarité de nos amours et qu'il ne faut pas cautionner l'irréalité sous des aspérités absentes et désenchantées de nos pensées iconoclastes et désoxydées ear nos désirs excommuniés de la fatalité destituée, et vice et versa\n"
-                  "\n"
-                  "# Illustrations, une à plusieurs images par type. Les types sont independant, vous pouvez avoir 6 images pour les systèmes, 3 pour les gamelists et 2 pour les menus\n"
-                  "images.systems.1 = system-screenshot1.png\n"
-                  "images.systems.2 = system-screenshot2.png\n"
-                  "images.games.1 = gamelist-screenshot1.png\n"
-                  "images.games.2 = gamelist-screenshot2.png\n"
-                  "images.menus.1 = menu-screenshot1.png\n"
-                  "images.menus.2 = menu-screenshot3.png\n"
-                  "\n"
-                  "images.crt.systems.1 = system-screenshot1.png\n"
-                  "images.crt.systems.2 = system-screenshot2.png\n"
-                  "images.crt.games.1 = gamelist-screenshot1.png\n"
-                  "images.crt.games.2 = gamelist-screenshot2.png\n"
-                  "images.crt.menus.1 = menu-screenshot1.png\n"
-                  "images.crt.menus.2 = menu-screenshot3.png\n"
-                  "\n"
-                  "images.tate.systems.1 = system-screenshot1.png\n"
-                  "images.tate.systems.2 = system-screenshot2.png\n"
-                  "images.tate.games.1 = gamelist-screenshot1.png\n"
-                  "images.tate.games.2 = gamelist-screenshot2.png\n"
-                  "images.tate.menus.1 = menu-screenshot1.png\n"
-                  "images.tate.menus.2 = menu-screenshot3.png\n"
-                  "\n"
-                  "images.crt.tate.systems.1 = system-screenshot1.png\n"
-                  "images.crt.tate.systems.2 = system-screenshot2.png\n"
-                  "images.crt.tate.games.1 = gamelist-screenshot1.png\n"
-                  "images.crt.tate.games.2 = gamelist-screenshot2.png\n"
-                  "images.crt.tate.menus.1 = menu-screenshot1.png\n"
-                  "images.crt.tate.menus.2 = menu-screenshot3.png\n"
-                  "\n"
-                  "# Detail des fichiers et de leurs cibles en terme de compatibilité et de resolutions\n"
-                  "# Pour un thème classique, il n'y en aura qu'un. Pour les thème chargés en images et découpés par résolutions, il peut y en avoir plusieurs\n"
-                  "1.zipfile = tagada.zip\n"
-                  "1.compatiblity = hdmi\n"
-                  "1.resolutions = fhd,hd\n";
+  }
 
   // Analyze
-  SectionFile sections(output, true);
-  if (sections.SectionCount() == 0)
+  rapidjson::Document json;
+  json.Parse<rapidjson::kParseTrailingCommasFlag | rapidjson::kParseCommentsFlag>(output.data());
+  if (json.HasParseError())
   {
     { LOG(LogError) << "[RemoteThemes] No valid section read from " << url; }
     return false;
   }
 
   // Deserialize
-  for(const String& sectionName : sections.GetSectionNames())
-    Deserialize(sections, sectionName);
+  rapidjson::Value& themes = json["themes"];
+  if (!themes.IsArray())
+  {
+    { LOG(LogError) << "[RemoteThemes] No valid themes object in " << url; }
+    return false;
+  }
+  int index = 0;
+  for(rapidjson::Value& theme : themes.GetArray())
+  {
+    if (theme.HasMember("ignore"))
+      if (theme["ignore"].GetBool())
+        continue;
+    Deserialize(theme, url, index++);
+  }
 
   return true;
 }
 
-void RemoteThemes::Deserialize(const SectionFile& sections, const String& sectionName)
+void RemoteThemes::Deserialize(rapidjson::Value& themeNode, const String& url, int index)
 {
   // Extract main data
-  String folder = sections.AsString(sectionName, "folder");
-  if (folder.empty()) { LOG(LogError) << "[RemoteThemes] Unspecified folder in section " << sectionName; return; }
-  String name = sections.AsString(sectionName, "name");
-  if (name.empty()) { LOG(LogError) << "[RemoteThemes] Unspecified folder in section " << sectionName; return; }
-  String author = sections.AsStringDefault(sectionName, "author", "Unknown");
-  String description = sections.AsString(sectionName, "description");
-  String version = sections.AsString(sectionName, "version");
-  String minrecalbox = sections.AsString(sectionName, "fromrecalbox");
+  rapidjson::Value* properties;
+  if (!GetObject(themeNode, "properties", properties, url, index, false)) return;
+  String folder; if (!DeserializeStringMandatory(*properties, "folder", folder, url, index)) return;
+  String name;   if (!DeserializeStringMandatory(*properties, "name", name, url, index)) return;
+  String author; DeserializeStringOptional(*properties, "author", author, "Unknown");
+  String description; DeserializeStringOptional(*properties, "description", description, "No description");
+  String version; DeserializeStringOptional(*properties, "version", version, "1.0");
+  String fromrecalbox; DeserializeStringOptional(*properties, "fromrecalbox", fromrecalbox, "9.2");
 
   // Create remote theme object
-  RemoteTheme theme(folder, author, name, description, version, minrecalbox);
+  RemoteTheme theme(folder, author, name, description, version, fromrecalbox, url);
 
   // Extract images lists
-  RemoteTheme::ImageLists Hdmi;
-  RemoteTheme::ImageLists HdmiTate;
-  RemoteTheme::ImageLists Crt;
-  RemoteTheme::ImageLists CrtTate;
-  for(int i = 1; ; ++i)
-  {
-    bool found = DeserializeImages(sections, sectionName, "", i, Hdmi);
-    found |= DeserializeImages(sections, sectionName, "tate", i, HdmiTate);
-    found |= DeserializeImages(sections, sectionName, "crt", i, Crt);
-    found |= DeserializeImages(sections, sectionName, "crt.tate", i, CrtTate);
-
-    if (!found)
-      break;
-  }
+  rapidjson::Value* illustrations;
+  if (!GetObject(themeNode, "illustrations", illustrations, url, index, false)) return;
+  RemoteTheme::ImageLists Hdmi;     DeserializeImages(*illustrations, "hdmi", Hdmi, url, index);
+  RemoteTheme::ImageLists HdmiTate; DeserializeImages(*illustrations, "tate", HdmiTate, url, index);
+  RemoteTheme::ImageLists Crt;      DeserializeImages(*illustrations, "crt", Crt, url, index);
+  RemoteTheme::ImageLists CrtTate;  DeserializeImages(*illustrations, "crttate", CrtTate, url, index);
+  if (Hdmi.IsEmpty() && HdmiTate.IsEmpty() && Crt.IsEmpty() && CrtTate.IsEmpty())
+  { LOG(LogError) << "[RemoteThemes] No illustration available in theme at index " << index << " in " << url; return; }
   theme.SetImageLists(std::move(Hdmi), std::move(HdmiTate), std::move(Crt), std::move(CrtTate));
 
   // Extract sub theme data
-  for(int i = 1; ; ++i)
+  rapidjson::Value* data;
+  if (!GetArray(themeNode, "data", data, url, index)) return;
+  for(rapidjson::Value& object : data->GetArray())
   {
-    String zipFile = sections.AsString(sectionName, String(i).Append(".zipfile"));
-    if (zipFile.empty())
-    {
-      if (theme.SubThemeCount() == 0) { LOG(LogError) << "[RemoteThemes] No zip file specified in section " << sectionName; return; }
-      break;
-    }
-    ThemeData::Compatibility compatibility = ThemeData::ConvertCompatibility(sections.AsString(sectionName, String(i).Append(".compatibility")));
-    ThemeData::Resolutions resolutions = ThemeData::ConvertResolutions(sections.AsString(sectionName, String(i).Append(".resolutions")));
-
-    theme.AddSubTheme(zipFile, compatibility, resolutions);
+    String subfolder;           if (!DeserializeStringMandatory(object, "folder", subfolder, url, index)) return;
+    String compatibilityString; if (!DeserializeStringMandatory(object, "compatibility", compatibilityString, url, index)) return;
+    String resolutionsString;   if (!DeserializeStringMandatory(object, "resolutions", resolutionsString, url, index)) return;
+    ThemeData::Compatibility compatibility = ThemeData::ConvertCompatibility(compatibilityString);
+    ThemeData::Resolutions resolutions = ThemeData::ConvertResolutions(resolutionsString);
+    theme.AddSubTheme(subfolder, compatibility, resolutions);
   }
 
   // Store
@@ -144,18 +105,209 @@ void RemoteThemes::Deserialize(const SectionFile& sections, const String& sectio
     mRemoteThemeList.push_back(theme);
 }
 
-bool RemoteThemes::DeserializeImages(const SectionFile& sections, const String& sectionName, const String& suffix, int index, RemoteTheme::ImageLists& output)
+bool RemoteThemes::DeserializeImages(rapidjson::Value& object, const char* name, RemoteTheme::ImageLists& imageLists, const String& url, int index)
 {
-  bool found = false;
-  String prefix("images.");
-  if (!suffix.empty()) prefix.Append(suffix).Append('.');
-  String systemImage = sections.AsString(sectionName, String(prefix).Append("systems.").Append(index));
-  String gameImage = sections.AsString(sectionName, String(prefix).Append("games.").Append(index));
-  String menuImage = sections.AsString(sectionName, String(prefix).Append("menus.").Append(index));
-
-  if (!systemImage.empty()) found = true, output.mSystemListImages.push_back(systemImage);
-  if (!gameImage.empty()) found = true, output.mGameListImages.push_back(gameImage);
-  if (!menuImage.empty()) found = true, output.mMenuImages.push_back(menuImage);
-
-  return found;
+  rapidjson::Value* lists;
+  if (!GetObject(object, name, lists, url, index, true)) return false;
+  if (!DeserializeArrayOfString(*lists, "systemlist", imageLists.mSystemListImages, url, index)) return false;
+  if (!DeserializeArrayOfString(*lists, "gamelist", imageLists.mGameListImages, url, index)) return false;
+  if (!DeserializeArrayOfString(*lists, "menu", imageLists.mMenuImages, url, index)) return false;
+  return true;
 }
+
+bool RemoteThemes::GetObject(rapidjson::Value& theme, const char* name, rapidjson::Value*& object, const String& url, int index, bool optional)
+{
+  if (!theme.HasMember(name))
+  {
+    if (!optional)
+    {
+      if (index >= 0) { LOG(LogError) << "[RemoteThemes] Cannot find object " << name << " in theme array index " << index << " in " << url; }
+      else { LOG(LogError) << "[RemoteThemes] Cannot find object " << name << " in " << url; }
+    }
+    return false;
+  }
+  object = &theme[name];
+  if (!object->IsObject())
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an object, in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an object, in " << url; }
+    object = nullptr;
+    return false;
+  }
+  return true;
+}
+
+bool RemoteThemes::GetArray(rapidjson::Value& object, const char* name, rapidjson::Value*& array, const String& url, int index)
+{
+  if (!object.HasMember(name))
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Cannot find array " << name << " in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Cannot find array " << name << " in " << url; }
+    return false;
+  }
+  array = &object[name];
+  if (!array->IsArray())
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an array, in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an array, in " << url; }
+    array = nullptr;
+    return false;
+  }
+  return true;
+}
+
+bool RemoteThemes::DeserializeStringMandatory(rapidjson::Value& object, const char* name, String& string, const String& url, int index)
+{
+  if (!object.HasMember(name))
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Cannot find string " << name << " in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Cannot find string " << name << " in " << url; }
+    return false;
+  }
+  string = object[name].GetString();
+  return true;
+}
+
+bool RemoteThemes::DeserializeStringOptional(rapidjson::Value& object, const char* name, String& string, const String& defaultValue)
+{
+  string = object.HasMember(name) ? object[name].GetString() : defaultValue;
+  return true;
+}
+
+bool RemoteThemes::DeserializeArrayOfString(rapidjson::Value& object, const char* name, String::List& list, const String& url, int index)
+{
+  if (!object.HasMember(name))
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Cannot find array " << name << " in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Cannot find array " << name << " in " << url; }
+    return false;
+  }
+  rapidjson::Value& array = object[name];
+  if (!array.IsArray())
+  {
+    if (index >= 0) { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an array, in theme array index " << index << " in " << url; }
+    else { LOG(LogError) << "[RemoteThemes] Item " << name << " is not an array, in " << url; }
+    return false;
+  }
+  for(const rapidjson::Value& value : array.GetArray())
+    list.push_back(value.GetString());
+  return true;
+}
+
+void RemoteThemes::FetchIllustration(int themeIndex, bool crt, bool tate)
+{
+  if ((unsigned int)themeIndex < mRemoteThemeList.size())
+  {
+    const RemoteTheme::ImageLists& imageLists = mRemoteThemeList[themeIndex].SelectImageLists(crt, tate);
+    PushImageListsToDownloadQueue(imageLists, themeIndex);
+  }
+  else { LOG(LogError) << "[RemoteThemes] Out of range theme index. Index " << themeIndex << " out of " << mRemoteThemeList.size(); }
+}
+
+const RemoteThemes::RemoteTheme::ImageLists& RemoteThemes::RemoteTheme::SelectImageLists(bool crt, bool tate)
+{
+  if (tate && crt && !mImagesCrtTate.IsEmpty()) return mImagesCrtTate;
+  if (crt && !mImagesCrt.IsEmpty()) return mImagesCrt;
+  if (tate && !mImagesHdmiTate.IsEmpty()) return mImagesHdmiTate;
+  return mImagesHdmi;
+}
+
+void RemoteThemes::PushImageListsToDownloadQueue(const RemoteThemes::RemoteTheme::ImageLists& imageList, int themeIndex)
+{
+  if ((unsigned int)themeIndex < mRemoteThemeList.size())
+  {
+    // Get base url
+    const RemoteTheme& theme = mRemoteThemeList[themeIndex];
+    String url = theme.BaseUrl();
+    url.Append('/').Append(theme.ThemeFolder());
+
+    int imageIndex = 0;
+    // SystemList first
+    for(const String& illustration : imageList.mSystemListImages)
+      PushImageToDownloadQueue(url, illustration, themeIndex, RemoteIllustrationType::SystemList, imageIndex++);
+    // Gamelist then
+    for(const String& illustration : imageList.mGameListImages)
+      PushImageToDownloadQueue(url, illustration, themeIndex, RemoteIllustrationType::GameList, imageIndex++);
+    // Menu last
+    for(const String& illustration : imageList.mMenuImages)
+      PushImageToDownloadQueue(url, illustration, themeIndex, RemoteIllustrationType::Menu, imageIndex++);
+  }
+  else { LOG(LogError) << "[RemoteThemes] Out of range theme index. Index " << themeIndex << " out of " << mRemoteThemeList.size(); }
+}
+
+void RemoteThemes::PushImageToDownloadQueue(const String& baseUrl, const String& filename, int themeIndex, RemoteIllustrationType type, int index)
+{
+  // Get base path
+  Path targetPath = Path(sDownloadFolder) / filename;
+  // Check
+  if (targetPath.Exists())
+  {
+    if (mNotifier != nullptr) mNotifier->IllustrationReady(themeIndex, type, index, targetPath);
+    return;
+  }
+
+  // Enqueue
+  mLocker.Lock();
+  mQueue.push_back(Download(std::move(String(baseUrl).Append('/').Append(filename)), std::move(targetPath), themeIndex, type, index));
+  mSignal.Fire();
+  mLocker.UnLock();
+}
+
+void RemoteThemes::Run()
+{
+  while(IsRunning())
+  {
+    mSignal.WaitSignal();
+
+    while(IsRunning())
+    {
+      // Get next download
+      Download download;
+      {
+        Mutex::AutoLock locker(mLocker);
+        if (mQueue.empty()) break; /// Exit download loop
+        download = mQueue.back();
+        mQueue.pop_back();
+      }
+
+      // Download
+      HttpClient client;
+      bool ok = download.FilePath().Exists();
+      if (!ok)
+        for (int i = 3; --i >= 0; Thread::Sleep(500))
+          if (client.Execute(download.Url(), download.FilePath()))
+          {
+            ok = true;
+            break;
+          }
+
+      // Ok ? Push to complete list & send message
+      if (ok)
+      {
+        Mutex::AutoLock locker(mLocker);
+        mCompleted.push_back(download);
+      }
+    }
+  }
+}
+
+void RemoteThemes::ReceiveSyncMessage()
+{
+  // Move complete download to local storage
+  std::vector<Download> local;
+  {
+    Mutex::AutoLock locker(mLocker);
+    local = mCompleted;
+    mCompleted.clear();
+  }
+
+  // Notify of illustratoon availability
+  if (mNotifier != nullptr)
+    for(const Download& download : local)
+       mNotifier->IllustrationReady(download.ThemeIndex(),
+                                    download.Type(),
+                                    download.Index(),
+                                    download.FilePath());
+}
+
+

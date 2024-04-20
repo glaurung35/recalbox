@@ -14,6 +14,10 @@ ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI4_64),y)
 RECALBOX_RGB_JAMMA_EXTRA_ARGS=ARCH_RPI4=1
 endif
 
+ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI3),y)
+RECALBOX_RGB_JAMMA_EXTRA_ARGS=ARCH_RPI3=1
+endif
+
 define RECALBOX_RGB_JAMMA_BUILD_CMDS
 	$(HOST_DIR)/bin/linux-dtc $(@D)/recalboxrgbjamma-overlay.dts -o $(@D)/recalboxrgbjamma.dtbo
 	$(HOST_DIR)/bin/linux-dtc $(@D)/recalboxrgbjamma-pi5-overlay.dts -o $(@D)/recalboxrgbjamma-pi5.dtbo

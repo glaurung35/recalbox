@@ -4,7 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-51
+## Version 9.2-jamma-52
+
+9.2-jamma-52
+- Fix Raspberry Pi 3 support.
+If you're reading this and you're still playing on a Raspberry Pi 3, for the love of retrogaming, pick up a Raspberry Pi 5 and REALLY enjoy all the power of your Recalbox RGB JAMMA.
 
 9.2-jamma-51:
 - Fix game filtering by driver, again ;)

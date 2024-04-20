@@ -640,13 +640,16 @@ float Font::getLetterHeight()
 String Font::wrapText(String text, float xLen)
 {
   float lineWidth = 0;
-  for(size_t i = 0; i < text.length(); )
+  int lastSpace = -1;
+  for(size_t i = 0; ; )
   {
     UnicodeChar character = readUnicodeChar(text, i); // advances i
-
-    if (character == (UnicodeChar) '\n')
+    if (character == 0) break;
+    else if (character == 32) lastSpace = i - 1;
+    else if (character == (UnicodeChar) '\n')
     {
-      lineWidth = 0.0f;
+      lineWidth = 0.f;
+      lastSpace = -1;
       continue;
     }
 
@@ -656,9 +659,10 @@ String Font::wrapText(String text, float xLen)
         lineWidth += glyph->advance.x();
       else
       {
-        text.Insert((int)i, '\n');
-        lineWidth = 0;
-        // Next loop will get the same char again to start the new line
+        if (lastSpace >= 0) { text[lastSpace] = '\n'; i = lastSpace + 1; }
+        else { text.Insert((int)i, '\n'); ++i; }
+        lineWidth = 0.f;
+        lastSpace = -1;
       }
     }
   }

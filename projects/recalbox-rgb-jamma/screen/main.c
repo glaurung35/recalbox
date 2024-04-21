@@ -169,6 +169,22 @@ int main(int argc, char **argv) {
         return 0;
     }
 
+    FILE *fptr = NULL;
+    char *line = NULL;
+    char buf[1024];
+    memset(buf, 0, 1024);
+    size_t len = 0;
+    fptr = fopen("/boot/crt/recalbox-crt-options.cfg", "r");
+    if (fptr != NULL) {
+      while (getline(&line, &len, fptr) != -1) {
+        if(strncmp("options.jamma.screen.rotate = 1", line, 31) == 0){
+          printf("Rotate screen\n");
+          ssd1306_oled_set_rotate(0);
+        }
+      }
+      fclose(fptr);
+    }
+
     while (true) {
         update_screen();
         sleep(2);

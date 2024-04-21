@@ -42,7 +42,10 @@ void StorageDevices::Initialize()
       (Board::Instance().GetBoardType() == BoardType::RG351P)) return;
 
   // Any external
-  mDevices.push_back(Device(Types::Internal, "",  sAnyExternal, "", "",_("Any External Device"), current == sAnyExternal, sizeInfos));
+  if (mBootConfiguration.AsString("sharedevice") == "ANYEXTERNAL") {
+    mDevices.push_back(Device(Types::Internal, "",  sAnyExternal, "", "",_("Any External Device").Append(_(" (Deprecated)")), current == sAnyExternal, sizeInfos));
+    { LOG(LogDebug) << "[Storage] Any external share configuration detected"; }
+  }
 
   // External Devices
   String devicePath;

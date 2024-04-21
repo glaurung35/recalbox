@@ -64,15 +64,16 @@ void draw_lines() {
 static int lastlen = 0;
 void update_screen() {
     struct stat st;
-    draw_temp(readTemp());
 
     stat("/tmp/es_state.inf", &st);
-    if(st.st_size == lastlen)
-        return;
+    if(st.st_size == lastlen) {
+      draw_temp(readTemp());
+      return;
+    }
     lastlen = st.st_size;
 
-    ssd1306_oled_clear_screen();
-    draw_lines();
+    video_mode mode = get_current_mode();
+
     FILE *fptr = NULL;
     char *line = NULL;
     char buf[1024];
@@ -80,6 +81,8 @@ void update_screen() {
     size_t len = 0;
     ssize_t read;
     fptr = fopen("/tmp/es_state.inf", "r");
+    ssd1306_oled_clear_screen();
+    draw_lines();
     draw_game_name("Frontend");
     draw_system_name("");
     if (fptr != NULL) {
@@ -99,9 +102,6 @@ void update_screen() {
         }
         fclose(fptr);
     }
-
-
-    video_mode mode = get_current_mode();
 
     // Mode - HSync
     ssd1306_oled_set_XY(30, 3);
@@ -149,8 +149,10 @@ int main(int argc, char **argv) {
     //struct mosquitto *mosq = NULL;
     printf("Starting screen utility\n");
     uint8_t rc = 0;
-    #ifdef ARCH_RPI4
+    #if defined(ARCH_RPI4)
     uint8_t i2c_node_address = 22;
+    #elif defined(ARCH_RPI3)
+    uint8_t i2c_node_address = 11;
     #else
     uint8_t i2c_node_address = 0;
     #endif

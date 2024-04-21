@@ -11,6 +11,8 @@ if test "$1" == "start"; then
     if [ "$(getArchName)" == "rpi5_64" ]; then
       i2c="0"
       board="-pi5"
+    elif [ "$(getArchName)" == "rpi3" ]; then
+      i2c="11"
     fi
     mount -o remount,rw /
     mkdir -p /config

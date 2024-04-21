@@ -185,6 +185,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix lightguns and add some new compatible games
 - Fix start game with coin in demo mode
 - Add themes support over network share
+- Mark `Any external storage` as deprecated
 
 ## Version 9.1-Pulstar
 

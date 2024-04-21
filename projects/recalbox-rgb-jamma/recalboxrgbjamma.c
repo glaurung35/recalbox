@@ -679,7 +679,7 @@ static irqreturn_t pca953x_irq_handler(int irq, void *devid) {
     DEBUG &&printk(KERN_INFO
                    "recalboxrgbjamma: IRQ triggered on chip 1\n");
     process_inputs(jamma_config.gpio_chip_1);
-  } else {
+  } else if (&chip->gpio_chip == jamma_config.gpio_chip_2) {
     DEBUG &&printk(KERN_INFO
                    "recalboxrgbjamma: IRQ triggered on chip 2\n");
     process_inputs(jamma_config.gpio_chip_2);
@@ -1166,7 +1166,7 @@ void manage_special_inputs(unsigned long long *data_chips, long long int *time_n
  * @param data_chips the data read from both chips
  * The right 16 bits are for the chip 2, middle 16 bits for the chip 1, left 16 bits for the chip 0
  */
-static void input_report(unsigned long long *data_chips, long long int *time_ns) {
+static void input_report(u_int64_t *data_chips, long long int *time_ns) {
   int player = 0, buttonIndex = 0, buttonValue = 0;
 
   /*
@@ -1240,24 +1240,20 @@ static void input_report(unsigned long long *data_chips, long long int *time_ns)
   }
 }
 
-static unsigned long lastGpioState = 0;
-static unsigned long debounceGpioValue = 0;
+static u_int64_t lastGpioState = 0;
+static u_int64_t debounceGpioValue = 0;
 static long long int lastActionOn[TOTAL_GPIO_ON_PCA] = {0};
 
-#define SETGPIO(data_addr, gpio, value) (*(data_addr) = ((*(data_addr) & (~(1UL << (gpio)))) | ((value) << (gpio))))
+#define SETGPIO(data_addr, gpio, value) (*(data_addr) = ((*(data_addr) & (~(1ULL << (gpio)))) | ((value) << (gpio))))
 
-static int debounce(unsigned long long *data_chips, unsigned long long *debounced_data, long long int *time_ns) {
-  unsigned long gpioVal;
+static int debounce(u_int64_t *data_chips, u_int64_t *debounced_data, long long int *time_ns) {
+  u_int64_t gpioVal;
   *debounced_data = *data_chips;
   unsigned int gpio;
   for (gpio = 0; gpio < TOTAL_GPIO_ON_PCA; gpio++) {
     if (lastActionOn[gpio] != 0) {
       // We are in debounce time lap
       // We cancel this event by setting the saved value at debounce start
-      DEBUG &&printk(KERN_INFO
-                     "recalboxrgbjamma: debouncing: setting gpio %d value to %d (%s) in place of %d\n",
-                     gpio,
-                     (debounceGpioValue >> gpio) & 1, ((debounceGpioValue >> gpio) & 1) ? "released" : "pressed", gpioVal);
       SETGPIO(debounced_data, gpio, (debounceGpioValue >> gpio) & 1);
     } else {
       gpioVal = (((*data_chips) >> gpio) & 1);
@@ -1266,9 +1262,6 @@ static int debounce(unsigned long long *data_chips, unsigned long long *debounce
         // We set the start time for debounce and the value of the gpio
         lastActionOn[gpio] = *time_ns;
         // Saving the value that will be still during the debounce
-        DEBUG &&printk(KERN_INFO
-                       "recalboxrgbjamma: debouncing: first event of gpio %d, setting debounced value to %d \n",
-                       gpio, gpioVal);
         SETGPIO(&debounceGpioValue, gpio, gpioVal);
       }
     }
@@ -1278,10 +1271,10 @@ static int debounce(unsigned long long *data_chips, unsigned long long *debounce
 }
 static const unsigned long mask = 0xFFFF;
 
-static int read_gpios(unsigned long long *gpio_data) {
+static int read_gpios(u_int64_t *gpio_data) {
   unsigned long gpio_values0 = 0xFFFF;
   unsigned long gpio_values1 = 0xFFFF;
-  unsigned long gpio_values2 = 0xFFFF;
+  u_int64_t gpio_values2 = 0xFFFF;
   if (jamma_config.gpio_chip_0 != NULL) {
     if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_0, &mask, &gpio_values0)) {
       printk(KERN_INFO
@@ -1297,7 +1290,7 @@ static int read_gpios(unsigned long long *gpio_data) {
     }
   }
   if (jamma_config.gpio_chip_2 != NULL) {
-    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_2, &mask, &gpio_values2)) {
+    if (pca953x_gpio_get_multiple(jamma_config.gpio_chip_2, &mask, (unsigned long *)&gpio_values2)) {
       printk(KERN_INFO
              "recalboxrgbjamma: unable to read gpio chip 2, skipping\n");
       return -1;
@@ -1307,8 +1300,8 @@ static int read_gpios(unsigned long long *gpio_data) {
   return 0;
 }
 
-static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_chip) {
-  if (pca953x_gpio_get_multiple(gpio_chip, &mask, gpio_data)) {
+static int read_gpios_one_chip(u_int64_t *gpio_data, struct gpio_chip *gpio_chip) {
+  if (pca953x_gpio_get_multiple(gpio_chip, &mask, (unsigned long *)gpio_data)) {
     printk(KERN_INFO
            "recalboxrgbjamma: unable to read gpio on chip %s, skipping\n",
            gpio_chip == jamma_config.gpio_chip_0 ? "0" : (gpio_chip == jamma_config.gpio_chip_1 ? "1" : "2"));
@@ -1317,11 +1310,11 @@ static int read_gpios_one_chip(unsigned long *gpio_data, struct gpio_chip *gpio_
   return 0;
 }
 
-static unsigned long long gpio_data = 0xFFFFFFFFFFFF;
+static u_int64_t gpio_data = 0xFFFFFFFFFFFF;
 
 static int process_inputs(struct gpio_chip *gpio_chip) {
-  unsigned long long debounced_data = 0;
-  unsigned long gpio_data_chip = 0;
+  u_int64_t debounced_data = 0;
+  u_int64_t gpio_data_chip = 0;
   long long int time_start = ktime_to_ns(ktime_get_boottime());
   DEBUG &&printk(KERN_INFO "recalboxrgbjamma: locking mutex\n");
   mutex_lock(&jamma_config.process_mutex);
@@ -1338,9 +1331,7 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
       mutex_unlock(&jamma_config.process_mutex);
       return -1;
     }
-    DEBUG &&printk(KERN_INFO
-                   "recalboxrgbjamma: read gpio values on chip : %u\n",
-                   gpio_data_chip);
+    DEBUG && printk(KERN_INFO "recalboxrgbjamma: read gpio values on chip : %llu\n", gpio_data_chip);
     if (gpio_chip == jamma_config.gpio_chip_0) {
       gpio_data = ((gpio_data & 0xFFFFFFFF0000) | gpio_data_chip);
     } else if (gpio_chip == jamma_config.gpio_chip_1) {
@@ -1348,10 +1339,7 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
     } else if (gpio_chip == jamma_config.gpio_chip_2) {
       gpio_data = ((gpio_data & 0x0000FFFFFFFF) | (gpio_data_chip << 32));
     }
-
-    DEBUG &&printk(KERN_INFO
-                   "recalboxrgbjamma: gpio_data = %u\n",
-                   gpio_data);
+    DEBUG && printk(KERN_INFO "recalboxrgbjamma: gpio_data = %llu\n", gpio_data);
   } else {
     if (read_gpios(&gpio_data)) {
       printk(KERN_INFO "recalboxrgbjamma: unable to read gpio chips in batch, unlocking mutext\n");
@@ -1359,7 +1347,6 @@ static int process_inputs(struct gpio_chip *gpio_chip) {
       return -1;
     }
   }
-
   debounce(&gpio_data, &debounced_data, &time_start);
   input_report(&debounced_data, &time_start);
   mutex_unlock(&jamma_config.process_mutex);
@@ -1774,15 +1761,15 @@ static int pca953x_probe(struct i2c_client *client,
     if (client->addr == 0x21 || client->addr == 0x20 || client->addr == 0x25) {
       jamma_config.gpio_chip_0 = &chip->gpio_chip;
       if (process_inputs(&chip->gpio_chip) == 0) {
-        if ((gpio_data & 0x00000000FFFF) != 0x00000000FFFF) {
-          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 0: %04X\n", (gpio_data & 0x00000000FFFF));
+        if ((gpio_data & 0xFFFF) != 0xFFFF) {
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 0: %04X\n", (gpio_data & 0xFFFF));
         }
       }
     } else if (client->addr == 0x22 || client->addr == 0x24) {
       jamma_config.gpio_chip_1 = &chip->gpio_chip;
       if (process_inputs(&chip->gpio_chip) == 0) {
-        if ((gpio_data & 0x0000FFFF0000) != 0x0000FFFF0000) {
-          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 1: %04X\n", (gpio_data & 0x0000FFFF0000) >> 16);
+        if (((gpio_data >> 16) & 0xFFFF ) != 0xFFFF) {
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 1: %04X\n", (gpio_data >> 16) & 0xFFFF);
         }
         pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 14, 0);
         pca953x_gpio_direction_output(jamma_config.gpio_chip_1, 15, 0);
@@ -1800,8 +1787,8 @@ static int pca953x_probe(struct i2c_client *client,
     } else if (client->addr == 0x27) {
       jamma_config.gpio_chip_2 = &chip->gpio_chip;
       if (process_inputs(&chip->gpio_chip) == 0) {
-        if ((gpio_data & 0xFFFF00000000) != 0xFFFF00000000) {
-          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 2: %04X\n", (gpio_data & 0xFFFF00000000) >> 32);
+        if ((gpio_data >> 32) != 0xFFFF) {
+          dev_info(&client->dev, "At module loading, some buttons are pressed on chip 2: %04X\n", (gpio_data >> 32));
         }
         if (PRESSED(gpio_data, buttons_bits[PLAYER1][JAMMA_BTNS][JAMMA_BTN_SERVICE])) {
           dev_info(&client->dev, "reversing logic for SERVICE button on jamma!\n");
@@ -1853,9 +1840,6 @@ static int pca953x_probe(struct i2c_client *client,
       return -1;
     }
   }
-
-
-  process_inputs(NULL);
   return 0;
 
 err_exit:

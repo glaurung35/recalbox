@@ -188,6 +188,7 @@ as release notes for end user on a Recalbox upgrade.
 - Mark `Any external storage` as deprecated
 - Set default emulator to libretro-uae4arm for all Amiga systems
 - Fix missing md5 bios for Satellaview
+- Add themes support over network share
 
 ## Version 9.1-Pulstar
 

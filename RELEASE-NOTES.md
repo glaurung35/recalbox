@@ -185,6 +185,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix lightguns and add some new compatible games
 - Fix start game with coin in demo mode
 - Fix missing md5 bios for Satellaview
+- Add themes support over network share
 
 ## Version 9.1-Pulstar
 

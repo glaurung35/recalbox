@@ -2,6 +2,7 @@
 from typing import Dict, List
 
 from configgen.Emulator import Emulator
+from configgen.controllers.JammaLayout import JammaLayout
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -125,6 +126,38 @@ class LibretroControllers:
         InputItem.ItemSelect: 'select'
     }
 
+    # Retroarch buttons for megadrive
+    retroarchmegadrivebtns: Dict[int, str] = \
+    {
+        InputItem.ItemA     : 'b',
+        InputItem.ItemB     : 'y',
+        InputItem.ItemX     : 'x',
+        InputItem.ItemY     : 'a',
+        InputItem.ItemL1    : 'l',
+        InputItem.ItemR1    : 'r',
+        InputItem.ItemL2    : 'l2',
+        InputItem.ItemR2    : 'r2',
+        InputItem.ItemL3    : 'l3',
+        InputItem.ItemR3    : 'r3',
+        InputItem.ItemStart : 'start',
+        InputItem.ItemSelect: 'select'
+    }
+    # Retroarch buttons for megadrive 6 btn
+    retroarchmegadrive6btns: Dict[int, str] = \
+    {
+        InputItem.ItemA     : 'b',
+        InputItem.ItemB     : 'y',
+        InputItem.ItemX     : 'x',
+        InputItem.ItemY     : 'l',
+        InputItem.ItemL1    : 'r',
+        InputItem.ItemR1    : 'a',
+        InputItem.ItemL2    : 'l2',
+        InputItem.ItemR2    : 'r2',
+        InputItem.ItemL3    : 'l3',
+        InputItem.ItemR3    : 'r3',
+        InputItem.ItemStart : 'start',
+        InputItem.ItemSelect: 'select'
+    }
     def __init__(self, system: Emulator, recalboxOptions: keyValueSettings, settings: keyValueSettings, controllers: ControllerPerPlayer, nodefaultkeymap: bool):
         self.system: Emulator = system
         self.recalboxOptions: keyValueSettings = recalboxOptions
@@ -246,8 +279,17 @@ class LibretroControllers:
         specials = self.system.SpecialKeys
         print(f"player n°{playerIndex} controller n°{inputIndex} ({controller.DeviceName} at {controller.DevicePath})")
         # config['input_device'] = '"%s"' % controller.RealName
-        for btnkey in self.retroarchbtns:
-            btnvalue = self.retroarchbtns[btnkey] if not system.RotateControls else self.retroarchbtnsTate[btnkey]
+        btnmap = self.retroarchbtns
+        # Special case for megadrive and jamma
+        if is_jamma and system.Name == "megadrive":
+            if system.JammaLayoutP1 == JammaLayout.SixBtn:
+                btnmap = self.retroarchmegadrive6btns
+            else:
+                btnmap = self.retroarchmegadrivebtns
+        if system.RotateControls:
+            btnmap = self.retroarchbtnsTate
+        for btnkey in btnmap:
+            btnvalue = btnmap[btnkey]
             if controller.HasInput(btnkey):
                 inp: InputItem = controller.Input(btnkey)
                 settings.setString("input_player%s_%s%s" % (controller.PlayerIndex, btnvalue, self.typetoname[inp.Type]),

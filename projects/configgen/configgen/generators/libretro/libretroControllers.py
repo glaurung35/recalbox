@@ -236,7 +236,7 @@ class LibretroControllers:
 
         is_jamma = controller.DeviceName.startswith("JammaController")
         if is_jamma:
-            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), system.JammaLayoutP2.toRetroarchDeviceType() if playerIndex == 2 else system.JammaLayoutP1.toRetroarchDeviceType() )
+            settings.setString("input_libretro_device_p{}".format(controller.PlayerIndex-1), system.JammaLayoutP2.toRetroarchDeviceType(system.Name) if playerIndex == 2 else system.JammaLayoutP1.toRetroarchDeviceType(system.Name) )
 
         if self.getInputDriver == "sdl2":
             inputIndex = controller.SdlIndex

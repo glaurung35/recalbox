@@ -184,6 +184,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Yoko games showing in tate only gameclips
 - Fix lightguns and add some new compatible games
 - Fix start game with coin in demo mode
+- Add themes support over network share
 
 ## Version 9.1-Pulstar
 

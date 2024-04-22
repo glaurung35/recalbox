@@ -64,7 +64,7 @@ index 6bb83a4..c51424b 100644
  extern bool core_aspect_par;
  extern bool bAllowDepth32;
 diff --git a/src/burner/libretro/retro_input.cpp b/src/burner/libretro/retro_input.cpp
-index a4c6d17..6a912df 100644
+index a4c6d17..5ddec1e 100644
 --- a/src/burner/libretro/retro_input.cpp
 +++ b/src/burner/libretro/retro_input.cpp
 @@ -198,7 +198,7 @@ static void AnalyzeGameLayout()
@@ -291,7 +291,21 @@ index a4c6d17..6a912df 100644
  						break;
  					case 7:
  						GameInpDigital2RetroInpKey(pgi, nPlayer, (nDeviceType[nPlayer] == RETROPAD_MODERN ? RETRO_DEVICE_ID_JOYPAD_L : RETRO_DEVICE_ID_JOYPAD_R2), description);
-@@ -2737,7 +2848,11 @@ void SetControllerInfo()
+@@ -2447,6 +2558,13 @@ static INT32 GameInpOtherOne(struct GameInp* pgi, char* szi, char *szn)
+ 		}
+ 	}
+ 
++  if(RB_JAMMA(nDeviceType[0]))
++  {
++    if (strcmp("Service 1", szn) == 0)
++      GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_R3, szn);
++    if (strcmp("Service", szn) == 0)
++      GameInpDigital2RetroInpKey(pgi, 0, RETRO_DEVICE_ID_JOYPAD_R3, szn);
++  }
+ 	// Sega system 24/32's "Service 1" is required to navigate in service menu
+ 	if ((nHardwareCode & HARDWARE_PUBLIC_MASK) == HARDWARE_SEGA_SYSTEM24 || (nHardwareCode & HARDWARE_PUBLIC_MASK) == HARDWARE_SEGA_SYSTEM32) {
+ 		if (strcmp("Service 1", szn) == 0) {
+@@ -2737,7 +2855,11 @@ void SetControllerInfo()
  			{ "Mouse (ball only)", RETROMOUSE_BALL },
  			{ "Mouse (full)", RETROMOUSE_FULL },
  			{ "Pointer", RETRO_DEVICE_POINTER },
@@ -304,7 +318,7 @@ index a4c6d17..6a912df 100644
  		};
  
  		// kludge for nes (some 1p game want to use p2 controls)
-@@ -3147,7 +3262,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
+@@ -3147,7 +3269,10 @@ void retro_set_controller_port_device(unsigned port, unsigned device)
  				device != RETROMOUSE_BALL &&
  				device != RETROMOUSE_FULL &&
  				device != RETRO_DEVICE_POINTER &&

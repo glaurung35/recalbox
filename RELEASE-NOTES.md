@@ -4,7 +4,14 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-52
+## Version 9.2-jamma-53
+
+- 9.2-jamma-53
+- Always enable TEST button on FBNEO (was only enabled when necessary)
+- Fix megadrive mapping (6 buttons and 3 buttons games OK but you will have BTN 1 2 3 on the bottom line if you have a 6btn panel)
+- Fix outrun and race games mapping in fbneo
+- Fix dreamcast mapping for L2 and R2
+- Allow rotation of the screen with "options.jamma.screen.rotate = 1" in RECALBOX/crt/recalbox-crt-options.cfg
 
 9.2-jamma-52
 - Fix Raspberry Pi 3 support.

@@ -171,7 +171,7 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, SystemManager& systemManager, cons
   }
 
   // Screen Adjustments
-  AddSubMenu(_("SCREEN CALIBRATION (BETA)"), (int)Components::Calibration, _(MENUMESSAGE_ADVANCED_CRT_CALIBRATION));
+  AddSubMenu(Renderer::Instance().IsRotatedSide() ? _("SCREEN CALIBRATION (ONLY IN YOKO MODE)") : _("SCREEN CALIBRATION (BETA)"), (int)Components::Calibration, _(MENUMESSAGE_ADVANCED_CRT_CALIBRATION));
 }
 
 GuiMenuCRT::~GuiMenuCRT()
@@ -468,6 +468,11 @@ void GuiMenuCRT::SubMenuSelected(int id)
 {
   if ((Components)id == Components::Calibration)
   {
+    if (Renderer::Instance().IsRotatedSide())
+    {
+      mWindow.pushGui(new GuiMsgBox(mWindow, _("Screen calibration only available in YOKO mode."), _("Ok"), [] {}));
+      return;
+    }
     if (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
       if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)

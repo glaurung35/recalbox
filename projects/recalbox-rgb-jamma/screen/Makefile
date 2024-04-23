@@ -7,6 +7,12 @@ BIN=recalboxrgbjamma_screen
 ifneq ("$(ARCH_RPI4)", "")
 	CFLAGS+=-DARCH_RPI4=1
 endif
+ifneq ("$(ARCH_RPI3)", "")
+	CFLAGS+=-DARCH_RPI3=1
+endif
+ifneq ("$(ARCH_RPI5)", "")
+	CFLAGS+=-DARCH_RPI5=1
+endif
 
 default: $(BIN)
 .PHONY: default clean

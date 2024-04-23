@@ -4,6 +4,7 @@ from typing import Dict, List
 from configgen.Emulator import Emulator
 from configgen.controllers.JammaLayout import JammaLayout
 from configgen.controllers.controller import Controller, InputItem, ControllerPerPlayer
+from configgen.crt.CRTTypes import CRTAdapter
 from configgen.settings.keyValueSettings import keyValueSettings
 
 
@@ -166,8 +167,15 @@ class LibretroControllers:
         self.nodefaultkeymap: bool = nodefaultkeymap
         self.retroarchspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
         self.retroarchspecials[InputItem.ItemB] = 'menu_toggle'
-        self.jammaspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
-        self.jammaspecials[InputItem.ItemA] = 'menu_toggle'
+        self.jammaspecials: Dict[int, str] = {}
+        if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+            jammaSettings = keyValueSettings("/boot/crt/recalbox-crt-options.cfg", extraSpaces=True).loadFile()
+            if jammaSettings.getString("options.jamma.controls.hk_on_start", "1") == "0":
+                # Need to remove the hotkeys shortcuts from configgen, as the driver always have START + LEFT RIGHT triggering the hotkey (because of clones folded)
+                self.jammaspecials: Dict[int, str] = {InputItem.ItemStart: 'exit_emulator'}
+            else:
+                self.jammaspecials: Dict[int, str] = dict(LibretroControllers.retroarchspecialsnomenu)
+                self.jammaspecials[InputItem.ItemA] = 'menu_toggle'
 
         self.button_mapping = {}
         inputDriver: str = self.recalboxOptions.getString("global.inputdriver", self.recalboxOptions.getString(self.system.Name + ".inputdriver", 'auto'))

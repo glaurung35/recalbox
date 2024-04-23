@@ -151,9 +151,11 @@ int main(int argc, char **argv) {
     uint8_t rc = 0;
     #ifdef ARCH_RPI4
     uint8_t i2c_node_address = 22;
-    #elifdef ARCH_RPI3
+    #endif
+    #ifdef ARCH_RPI3
     uint8_t i2c_node_address = 11;
-    #else
+    #endif
+    #ifdef ARCH_RPI5
     uint8_t i2c_node_address = 0;
     #endif
     rc = ssd1306_init(i2c_node_address);

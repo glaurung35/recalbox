@@ -4,7 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-53.1
+## Version 9.2-jamma-54
+
+9.2-jamma-54
+- Fix HK still activated in game center mode
+- Allow screen calibration only in yoko mode 
 
 9.2-jamma-53.1
 - Fix megadrive mapping (6 buttons and 3 buttons games OK but you will have BTN 1 2 3 on the bottom line if you have a 6btn panel)

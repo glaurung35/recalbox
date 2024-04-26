@@ -1,0 +1,12 @@
+diff --git a/package/alsa-plugins/Config.in b/package/alsa-plugins/Config.in
+index ee0fb4c1d5..0897e9c1bf 100644
+--- a/package/alsa-plugins/Config.in
++++ b/package/alsa-plugins/Config.in
+@@ -1,6 +1,7 @@
+ config BR2_PACKAGE_ALSA_PLUGINS
+ 	bool "alsa-plugins"
+ 	depends on BR2_PACKAGE_ALSA_LIB
++	depends on BR2_PACKAGE_PULSEAUDIO
+ 	select BR2_PACKAGE_ALSA_LIB_HWDEP
+ 	help
+ 	  Advanced Linux Sound Architecture Plugins

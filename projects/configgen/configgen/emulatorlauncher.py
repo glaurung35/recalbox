@@ -149,6 +149,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.vpinball.vpinballGenerator", fromlist=["VpinballGenerator"])
         generatorClass = getattr(module, "VpinballGenerator")
         return generatorClass()
+    elif emulator == "vvvvvv":
+        module = __import__("configgen.generators.vvvvvv.vvvvvvGenerator", fromlist=["VvvvvvGenerator"])
+        generatorClass = getattr(module, "VvvvvvGenerator")
+        return generatorClass()
     else:
         print("Missing generator for {}".format(emulator))
         raise ValueError

@@ -57,6 +57,7 @@ recalboxBins =\
     'vice'        : '/usr/bin/x64',
     'xroar'       : '/usr/bin/xroar',
     'vpinball'    : '/usr/bin/vpinball/VPinballX_GL',
+    'vvvvvv'      : '/usr/bin/vvvvvv/VVVVVV',
 }
 
 

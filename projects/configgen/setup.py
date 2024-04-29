@@ -46,6 +46,7 @@ setup(name='recalbox-configgen',
                 'configgen.generators.sdlpop',
                 'configgen.generators.ikemen',
                 'configgen.generators.vpinball',
+                'configgen.generators.vvvvvv',
                 'configgen.settings',
                 'configgen.utils'],
       scripts=['emulatorlauncher.py']

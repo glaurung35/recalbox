@@ -1,40 +1,40 @@
 diff --git a/src/configuration.c b/src/configuration.c
-index ab3ee57c..4e6f44fc 100644
+index b10cf378..5f4a4fd0 100644
 --- a/src/configuration.c
 +++ b/src/configuration.c
-@@ -99,6 +99,7 @@ static const struct Config_Tag configs_Screen[] =
- 	{ "nZoomFactor", Float_Tag, &ConfigureParams.Screen.nZoomFactor },
+@@ -100,6 +100,7 @@ static const struct Config_Tag configs_Screen[] =
  	{ "bUseSdlRenderer", Bool_Tag, &ConfigureParams.Screen.bUseSdlRenderer },
+ 	{ "ScreenShotFormat", Int_Tag, &ConfigureParams.Screen.ScreenShotFormat },
  	{ "bUseVsync", Bool_Tag, &ConfigureParams.Screen.bUseVsync },
-+  { "bBilinear", Bool_Tag, &ConfigureParams.Screen.bBilinear },
++	{ "bBilinear", Bool_Tag, &ConfigureParams.Screen.bBilinear },
  	{ NULL , Error_Tag, NULL }
  };
  
-@@ -772,6 +773,7 @@ void Configuration_SetDefault(void)
+@@ -786,6 +787,7 @@ void Configuration_SetDefault(void)
  	ConfigureParams.Screen.bShowStatusbar = true;
  	ConfigureParams.Screen.bShowDriveLed = true;
  	ConfigureParams.Screen.bCrop = false;
-+  ConfigureParams.Screen.bBilinear = false;
++	ConfigureParams.Screen.bBilinear = false;
  	/* use approximately similar Hatari framebuffer/window size
  	 * on all resolutions (like real Atari monitor would do) by
  	 * allowing ST low resolution to be doubled (see screen.c)
 diff --git a/src/includes/configuration.h b/src/includes/configuration.h
-index 4968bcaa..0cbbd21d 100644
+index 44d4ec06..5842c0d1 100644
 --- a/src/includes/configuration.h
 +++ b/src/includes/configuration.h
-@@ -306,6 +306,7 @@ typedef struct
+@@ -313,6 +313,7 @@ typedef struct
    bool bResizable;
    bool bUseVsync;
    bool bUseSdlRenderer;
 +  bool bBilinear;
+   int ScreenShotFormat;
    float nZoomFactor;
    int nSpec512Threshold;
-   int nForceBpp;
 diff --git a/src/screen.c b/src/screen.c
-index e9d54266..b9455e1b 100644
+index 0e067ac8..9cf37c53 100644
 --- a/src/screen.c
 +++ b/src/screen.c
-@@ -342,10 +342,12 @@ void Screen_SetTextureScale(int width, int height, int win_width, int win_height
+@@ -339,10 +339,12 @@ void Screen_SetTextureScale(int width, int height, int win_width, int win_height
  		 */
  		scale = (scale_w + scale_h) / 2.0;
  
@@ -44,8 +44,8 @@ index e9d54266..b9455e1b 100644
  	else
 -		quality = '1';	// linear filtering
 +		quality = '1';	// linear filtering*/
-+  (void)scale;
-+  quality = ConfigureParams.Screen.bBilinear ? '1' : '0';
++	(void)scale;
++	quality = ConfigureParams.Screen.bBilinear ? '1' : '0';
  
  	DEBUGPRINT(("%dx%d / %dx%d -> scale = %g, Render Scale Quality = %c\n",
  		    win_width, win_height, width, height, scale, quality));

@@ -53,6 +53,7 @@ as release notes for end user on a Recalbox upgrade.
 - CRT: add superrez and auto scanlines for 240p games on 31kHz display
 
 ### Bumps
+- Bump Hatari to version 2.5.0
 - Bump RetroArch to version 1.15.0
 - Bump libretro-mame to 0.258
 - Bump odroidxu4 kernel to 6.1.49

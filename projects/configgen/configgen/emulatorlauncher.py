@@ -141,6 +141,10 @@ def getGenerator(emulator):
         module = __import__("configgen.generators.rb5000.rb5000Generator", fromlist=["RB5000Generator"])
         generatorClass = getattr(module, "RB5000Generator")
         return generatorClass()
+    elif emulator == "vvvvvv":
+        module = __import__("configgen.generators.vvvvvv.vvvvvvGenerator", fromlist=["VvvvvvGenerator"])
+        generatorClass = getattr(module, "VvvvvvGenerator")
+        return generatorClass()
     elif emulator == "vpinball":
         module = __import__("configgen.generators.vpinball.vpinballGenerator", fromlist=["VpinballGenerator"])
         generatorClass = getattr(module, "VpinballGenerator")

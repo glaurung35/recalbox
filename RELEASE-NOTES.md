@@ -27,6 +27,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add netplay to cores gpSP (GBA) and Dosbox-Pure (DOS)
 - Change libretro sameboy repo to the official repo
 - Add user script menu to run scripts from the interface
+- Add VVVVVV port
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

@@ -144,6 +144,7 @@ menu "Emulators"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/supermodel/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/ti99sim/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/xroar/Config.in"
+	 source "$BR2_EXTERNAL_RECALBOX_PATH/package/vvvvvv/Config.in"
 
 if BR2_PACKAGE_RETROARCH
 menu "Libretro Cores"
@@ -280,6 +281,9 @@ menu "Libretro Cores"
         source "$BR2_EXTERNAL_RECALBOX_PATH/package/libretro-wasm4/Config.in"
 endmenu
 endif
+endmenu
+menu "Ports"
+         source "$BR2_EXTERNAL_RECALBOX_PATH/package/vvvvvv/Config.in"
 endmenu
 menu "Kodi addons"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-netflix/Config.in"

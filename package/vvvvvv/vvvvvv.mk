@@ -4,8 +4,8 @@
 #
 ################################################################################
 
-#Commit of 05/02/2024
-VVVVVV_VERSION = d678bd59ff0c1643009e629b9795e87e83c8bd82
+#Commit of 28/09/2024
+VVVVVV_VERSION = a0bd2f3da42da2f5249e2a4892e2b48b51b2fd86
 VVVVVV_SITE = https://github.com/TerryCavanagh/VVVVVV.git
 VVVVVV_LICENSE = VVVVVV Source Code License v1.0
 VVVVVV_SUBDIR = desktop_version

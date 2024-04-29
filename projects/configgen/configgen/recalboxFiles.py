@@ -55,7 +55,9 @@ recalboxBins =\
     'ti99sim'     : '/usr/bin/ti99sim/ti99sim-sdl',
     'vice'        : '/usr/bin/x64',
     'xroar'       : '/usr/bin/xroar',
+    'vvvvvv'      : '/usr/bin/vvvvvv/VVVVVV',
     'vpinball'    : '/usr/bin/vpinball/VPinballX_GL',
+
 }
 
 

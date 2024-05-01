@@ -187,6 +187,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix start game with coin in demo mode
 - Mark `Any external storage` as deprecated
 - Set default emulator to libretro-uae4arm for all Amiga systems
+- Fix missing md5 bios for Satellaview
 
 ## Version 9.1-Pulstar
 

@@ -192,6 +192,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix start game with coin in demo mode
 - Mark `Any external storage` as deprecated
 - Add themes support over network share
+- Fix missing md5 bios for Satellaview
 
 ## Version 9.1-Pulstar
 

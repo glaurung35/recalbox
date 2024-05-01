@@ -133,7 +133,7 @@
     <bios path="gba/open_gba_bios.bin" md5="1876f71b0d8c65eef3454547896ffb11" mandatory="false" core="gpsp" />
   </system>
   <system fullname="Nintendo Satellaview" platform="satellaview">
-    <bios path="satellaview/BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced" mandatory="true" core="snes9x,mesen_s,bsnes,bsnes-hd" />
+    <bios path="satellaview/BS-X.bin" md5="fed4d8242cfbed61343d53d48432aced,96cf17bf589fcbfa6f8de2dc84f19fa2" mandatory="true" core="snes9x,mesen_s,bsnes,bsnes-hd" />
   </system>
   <system fullname="Nintendo Sufami Turbo" platform="sufami">
     <bios path="sufami/STBIOS.bin" md5="d3a44ba7d42a74d3ac58cb9c14c6a5ca" mandatory="true" core="snes9x" />

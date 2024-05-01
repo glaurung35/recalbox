@@ -201,5 +201,5 @@ while IFS= read -r line; do
     echo "Commenting MR !${ID} : ${MESSAGE}"
     COMMENT_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
     "https://gitlab.com/api/v4/projects/2396494/merge_requests/${ID}/notes" \
-    --data-urlencod "body=${MESSAGE}" | jq -c '.[]')
+    --data-urlencode "body=${MESSAGE}" | jq -c '.[]')
 done < "${CURDIR}/.mr_comments"

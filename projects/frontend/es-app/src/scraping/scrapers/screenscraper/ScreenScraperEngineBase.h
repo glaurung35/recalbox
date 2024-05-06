@@ -84,6 +84,11 @@ class ScreenScraperEngineBase
     //! Freeze interface
     IScraperEngineFreezer* mFreezeInterface;
 
+    //! Game set (keep scraped game list)
+    HashSet<FileData*> mScrapedGames;
+    //! Scraped set potection
+    Mutex mScrapedGameLocker;
+
     /*
      * Getters
      */

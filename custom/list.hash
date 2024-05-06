@@ -15,6 +15,8 @@ f9276b91b0fe5ccfad41b70d0611bdb7  linux/linux.mk
 c17b2548c35cffbd487ade70e272015c  package/bcm2835/Config.in
 164ecdbdb3d962e53a88cffbdd61651e  package/binutils/binutils.mk
 05a2454fb455799e570b8059a9189e0c  package/bluez5_utils/bluez5_utils.mk
+fee0d77f1f094e5ca3cf9000da899e28  package/brcmfmac_sdio-firmware-rpi/brcmfmac_sdio-firmware-rpi.hash
+0f1fa62eabeb83bb50158e8f508cb0bd  package/brcmfmac_sdio-firmware-rpi/brcmfmac_sdio-firmware-rpi.mk
 006973dba7be7db4526120e91c0fec02  package/clang/clang.hash
 4f746ddf03f753f83904fcb876c5853c  package/clang/clang.mk
 40e93c6a4fd117a51513b11cd6a334f7  package/dhcpcd/dhcpcd.mk

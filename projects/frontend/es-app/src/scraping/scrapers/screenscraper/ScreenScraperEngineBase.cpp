@@ -83,6 +83,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, FileData& singleGame,
   mNotifier = notifyTarget;
   mMethod = method;
   mDiskMinimumFree = diskMinimumFree;
+  mScrapedGames.clear();
 
   // Get screenscraper's thread
   mDatabaseMessage = (_("PLEASE VISIT")).Append(' ').Append(mEndPoint.GetProviderWebURL().ToUpperCase());
@@ -104,6 +105,7 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
   mNotifier = notifyTarget;
   mMethod = method;
   mDiskMinimumFree = diskMinimumFree;
+  mScrapedGames.clear();
 
   // Get screenscraper's thread
   const ScreenScraperUser* user = mEndPoint.GetDirectUserObject();
@@ -135,6 +137,17 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
 
 bool ScreenScraperEngineBase::ThreadPoolRunJob(FileData*& feed)
 {
+  {
+    Mutex::AutoLock lock(mScrapedGameLocker);
+    if (mScrapedGames.contains(feed))
+    {
+      // Then, signal the main thread with the engine number.
+      mSender.Send({ feed, MetadataType::None, ScrapeResult::Ok });
+      return true;
+    }
+    mScrapedGames.insert(feed);
+  }
+
   int engineIndex = ObtainEngine();
   if (engineIndex >= 0)
   {
@@ -241,6 +254,7 @@ int ScreenScraperEngineBase::ObtainEngine()
 
     // Nothing free? Wait...
     if (IsRunning()) mEngineSignal.WaitSignal(200);
+    //else break;
   }
   return result;
 }

@@ -1890,7 +1890,7 @@ pca953x_init(void) {
   jamma_config.sound_on_start = true;
   jamma_config.credit_on_start_btn1 = true;
   jamma_config.exit_on_start = true;
-  jamma_config.autofire = true;
+  jamma_config.autofire = false;
   jamma_config.autofire_time = 50000000;// 50ms
   jamma_config.i2s = false;
   jamma_config.videofilter = false;

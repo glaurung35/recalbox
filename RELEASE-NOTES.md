@@ -4,6 +4,53 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-jamma-55
+
+9.2-jamma-55:
+- Autofire feature disabled by default (enable it in the menu if you need it)
+- Add auto blitter config for akatana (Akai Katana) and ddpsdoj (DoDonPachi Saidaiōjō) (thanks @Yom)
+- Fix max/min offset for porch in calibration screen
+- Fix overflowing words in multiline texts
+- Fix duplicate scraped games when selecting systems + virtual systems, to be scraped, with common games
+
+9.2-jamma-54:
+- Fix HK still activated in game center mode
+- Allow screen calibration only in yoko mode 
+
+9.2-jamma-53.1:
+- Fix megadrive mapping (6 buttons and 3 buttons games OK but you will have BTN 1 2 3 on the bottom line if you have a 6btn panel)
+- Fix outrun and race games mapping in fbneo
+- Fix dreamcast mapping for L2 and R2
+- Allow rotation of the screen with "options.jamma.screen.rotate = 1" in RECALBOX/crt/recalbox-crt-options.cfg
+
+9.2-jamma-52:
+- Fix Raspberry Pi 3 support.
+If you're reading this and you're still playing on a Raspberry Pi 3, for the love of retrogaming, pick up a Raspberry Pi 5 and REALLY enjoy all the power of your Recalbox RGB JAMMA.
+
+9.2-jamma-51:
+- Fix game filtering by driver, again ;)
+
+9.2-jamma-50:
+- Add Raizing system (special order from bigkam, lorenzo and others)
+- Fix many game automatic filtering by driver (cps2, taitognet etc, reported by psykotine)
+- Fix controls debounce time (thanks to pierrot from First Attack for testing)
+
+9.2-jamma-49:
+- Volume reload and reset when entering sound menu 
+- Fixed missing icons in quit menu
+- Fixed scraper not scraping anything in "un-scraped games only" mode
+- Correction of pads in wrong order in OSD
+- Fixed phantom gamelist when exiting search or netplay
+- Fix netplay crashes when there's no network
+- Save WIFI settings immediately on exiting network menu
+- CRT:
+  - Remove priority to hdmi option when on rpi5
+  - Fix naomi2 in 31kHz having black screen
+- Themes: add new colors for recalbox next and 240p themes
+- JAMMA:
+  - Apply rgbjamma neogeo mapping on pgm games
+  - Fix mapping of race games on fbneo (outrun...)
+
 ## Version 9.2-Pulstar
 
 ### Jamma

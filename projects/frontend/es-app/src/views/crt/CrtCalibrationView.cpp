@@ -149,7 +149,7 @@ void CrtCalibrationView::SetResolution(CrtResolution resolution)
 
 static const int porch[CrtResolution::_rCount][Offset::Count]
 {
-  // { hback / ratio (max 20), hfront_porch / ratio, Up , Down }
+  // { -1 * hback / ratio (max 20), hfront_porch / ratio, Up , Down }
   {0,0,0,0}, // rNone, //!< Null element
   {-20,12,-15,10}, // r224p, //!< PAL + NTSC 224p
   {-20,12,-16,1}, // r240p, //!< PAL + NTSC 224p
@@ -158,8 +158,8 @@ static const int porch[CrtResolution::_rCount][Offset::Count]
   {-12,4,-12,6}, // r576i, //!< PAL interlaced hires
   {-20,12,-10,10}, // r480p, //!< 31kHz
   {-20,8,-14,4}, // r240p120Hz, //!< 31kHz 240
-  {-7,1,-14,4}, // r320x240p, //!< 320x240
-  {-6,2,-12,3}, // r384x288p, //!< 384x288
+  {-46,4,-14,4}, // r320x240p, //!< 320x240
+  {-40,16,-12,3}, // r384x288p, //!< 384x288
   {-20,8,-10,10}, // r1920x480p
 };
 

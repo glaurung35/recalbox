@@ -1336,7 +1336,7 @@ SystemData* SystemManager::FirstNonEmptySystem()
   return nullptr;
 }
 
-FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem)
+FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem, bool exactMatch)
 {
   // Everything to lowercase cause search is not case-sensitive
   String lowercaseText = originaltext.ToLowerCaseUTF8();
@@ -1346,18 +1346,24 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
   MetadataStringHolder::FoundTextList resultIndexes(1024, 1024);
   switch(context)
   {
-    case FolderData::FastSearchContext::Name       : MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+    case FolderData::FastSearchContext::Name       :
+    {
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias);
+      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
+    }
+    case FolderData::FastSearchContext::Alias      : MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias); break;
     case FolderData::FastSearchContext::Path       : MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
     case FolderData::FastSearchContext::Description: MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
     case FolderData::FastSearchContext::Developer  : MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
     case FolderData::FastSearchContext::Publisher  : MetadataDescriptor::SearchInPublisher(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Publisher); break;
     case FolderData::FastSearchContext::All        :
     {
-      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name); break;
-      MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path); break;
-      MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description); break;
-      MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer); break;
-      MetadataDescriptor::SearchInPublisher(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Publisher); break;
+      MetadataDescriptor::SearchInNames(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Name);
+      MetadataDescriptor::SearchInAlias(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Alias);
+      MetadataDescriptor::SearchInPath(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Path);
+      MetadataDescriptor::SearchInDescription(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Description);
+      MetadataDescriptor::SearchInDeveloper(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Developer);
+      MetadataDescriptor::SearchInPublisher(lowercaseText, resultIndexes, (int)FolderData::FastSearchContext::Publisher);
       break;
     }
     default: break;
@@ -1456,6 +1462,7 @@ void SystemManager::CreateFastSearchCache(const MetadataStringHolder::FoundTextL
         {
           case FolderData::FastSearchContext::Path: count = MetadataDescriptor::FileIndexCount(); break;
           case FolderData::FastSearchContext::Name: count = MetadataDescriptor::NameIndexCount(); break;
+          case FolderData::FastSearchContext::Alias: count = MetadataDescriptor::NameIndexCount(); break;
           case FolderData::FastSearchContext::Description: count = MetadataDescriptor::DescriptionIndexCount(); break;
           case FolderData::FastSearchContext::Developer: count = MetadataDescriptor::DeveloperIndexCount(); break;
           case FolderData::FastSearchContext::Publisher: count = MetadataDescriptor::PublisherIndexCount(); break;

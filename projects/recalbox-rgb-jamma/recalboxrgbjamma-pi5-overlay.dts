@@ -145,7 +145,7 @@
       status = "okay";
       pinctrl-names = "default";
       pinctrl-0 = <&rp1_i2c0_0_1>;
-      clock-frequency = <400000>;
+      clock-frequency = <200000>;
       read-timeout-ms = <50>;
 
       jammactrl_0: jammactrl_0@25 {

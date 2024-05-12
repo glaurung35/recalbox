@@ -9,6 +9,8 @@
 #include "MetadataStringHolder.h"
 #include "hardware/RotationType.h"
 #include "SupportSides.h"
+#include "utils/String.h"
+
 
 //#define _METADATA_STATS_
 
@@ -55,6 +57,7 @@ class MetadataDescriptor
     unsigned int                  mTimeStamp;    //!< Scraping timestamp
     MetadataStringHolder::Index32 mRomFile;      //!< Rom file
     MetadataStringHolder::Index32 mName;         //!< Name as simple string
+    MetadataStringHolder::Index32 mAlias;        //!< Alias as simple string
     MetadataStringHolder::Index32 mDescription;  //!< Description, multiline text
     MetadataStringHolder::Index32 mImageFile;    //!< Image file
     MetadataStringHolder::Index32 mThumbnailFile;//!< Thumbnail file
@@ -186,6 +189,7 @@ class MetadataDescriptor
       : mTimeStamp(0)
       , mRomFile(0)
       , mName(0)
+      , mAlias(0)
       , mDescription(0)
       , mImageFile(0)
       , mThumbnailFile(0)
@@ -241,6 +245,7 @@ class MetadataDescriptor
     MetadataDescriptor(const MetadataDescriptor& source) noexcept
     #ifdef _METADATA_STATS_
       : mName(source.mName),
+        mAlias(source.mSSName),
         mDescription(source.mDescription),
         mImageFile(source.mImageFile),
         mThumbnailFile(source.mThumbnailFile),
@@ -298,6 +303,7 @@ class MetadataDescriptor
       mRomFile       = source.mRomFile      ;
       mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
+      mAlias        = source.mAlias       ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
       mImageFile     = source.mImageFile    ;
@@ -356,6 +362,7 @@ class MetadataDescriptor
       mRomFile       = source.mRomFile      ;
       mRomPath       = source.mRomPath      ;
       mName          = source.mName         ;
+      mAlias         = source.mAlias        ;
       mDescription   = source.mDescription  ;
       mImagePath     = source.mImagePath    ;
       mImageFile     = source.mImageFile    ;
@@ -440,6 +447,7 @@ class MetadataDescriptor
     [[nodiscard]] Path         RomFolderOnly() const { return sPathHolder.GetPath(mRomPath); }
     [[nodiscard]] Path         RomFileOnly()   const { return sFileHolder.GetPath(mRomFile);        }
     [[nodiscard]] String       Name()          const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] String       Alias()         const { return sNameHolder.GetString(mAlias);                }
     [[nodiscard]] String       Description()   const { return sDescriptionHolder.GetString(mDescription);   }
     [[nodiscard]] Path         Image()         const { return sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile); }
     [[nodiscard]] Path         Thumbnail()     const { return sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile); }
@@ -489,6 +497,7 @@ class MetadataDescriptor
 
     [[nodiscard]] String RomAsString()         const { return (sPathHolder.GetPath(mRomPath) / sFileHolder.GetString(mRomFile)).ToString(); }
     [[nodiscard]] String NameAsString()        const { return sNameHolder.GetString(mName);                 }
+    [[nodiscard]] String AliasAsString()       const { return sNameHolder.GetString(mAlias);               }
     [[nodiscard]] String EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     [[nodiscard]] String CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
     [[nodiscard]] String RatioAsString()       const { return sRatioHolder.GetString(mRatio, "auto"); }
@@ -554,6 +563,8 @@ class MetadataDescriptor
     void SetRatio(const String& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
     void SetGenre(const String& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
     void SetName(const String& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
+    void SetAlias(const String& alias)             { mAlias        = sNameHolder.AddString32(alias);             mDirty = true; }
+
     void SetDescription(const String& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
     void SetReleaseDate(const DateTime& releasedate)    { mReleaseDate  = (int)releasedate.ToEpochTime();              mDirty = true; }
     void SetDeveloper(const String& developer)     { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
@@ -625,6 +636,7 @@ class MetadataDescriptor
 
     [[nodiscard]] bool IsDefaultRom()             const { return Default().mRomFile == mRomFile && Default().mRomPath == mRomPath; }
     [[nodiscard]] bool IsDefaultName()            const { return Default().mName == mName;               }
+    [[nodiscard]] bool IsDefaultAlias()          const { return Default().mAlias == mAlias;           }
     [[nodiscard]] bool IsDefaultEmulator()        const { return Default().mEmulator == mEmulator;       }
     [[nodiscard]] bool IsDefaultCore()            const { return Default().mCore == mCore;               }
     [[nodiscard]] bool IsDefaultRatio()           const { return Default().mRatio == mRatio;           }
@@ -683,6 +695,7 @@ class MetadataDescriptor
 
     [[nodiscard]] MetadataStringHolder::Index32 FileIndex() const { return mRomFile; }
     [[nodiscard]] MetadataStringHolder::Index32 NameIndex() const { return mName; }
+    [[nodiscard]] MetadataStringHolder::Index32 AliasIndex() const { return mAlias; }
     [[nodiscard]] MetadataStringHolder::Index32 DescriptionIndex() const { return mDescription; }
     [[nodiscard]] MetadataStringHolder::Index32 DeveloperIndex() const { return mDeveloper; }
     [[nodiscard]] MetadataStringHolder::Index32 PublisherIndex() const { return mPublisher; }
@@ -699,6 +712,7 @@ class MetadataDescriptor
 
     [[nodiscard]] bool IsMatchingFileIndex(MetadataStringHolder::Index32 index) const { return mRomFile == index; }
     [[nodiscard]] bool IsMatchingNameIndex(MetadataStringHolder::Index32 index) const { return mName == index; }
+    [[nodiscard]] bool IsMatchingAliasIndex(MetadataStringHolder::Index32 index) const { return mAlias == index; }
     [[nodiscard]] bool IsMatchingDescriptionIndex(MetadataStringHolder::Index32 index) const { return mDescription == index; }
     [[nodiscard]] bool IsMatchingDeveloperIndex(MetadataStringHolder::Index32 index) const { return mDeveloper == index; }
     [[nodiscard]] bool IsMatchingPublisherIndex(MetadataStringHolder::Index32 index) const { return mPublisher == index; }
@@ -709,6 +723,14 @@ class MetadataDescriptor
      * @param output Result container
      */
     static void SearchInNames(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) { return sNameHolder.FindText(originaltext, output, context); }
+
+    /*!
+ * @brief Search text in game aliases
+ * @param originaltext Text to search for
+ * @param output Result container
+ */
+    static void SearchInAlias(const String& originaltext, MetadataStringHolder::FoundTextList& output, int context) {
+      return sNameHolder.FindText(originaltext, output, context); }
 
     /*!
      * @brief Search text in descriptions

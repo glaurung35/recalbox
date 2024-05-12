@@ -25,6 +25,8 @@ class ScreenScraperApis
       String mScreenScraperName;
       //! Game Name
       String mName;
+      //! Game Licence
+      String::List mLicences;
       //! Developer
       String mDeveloper;
       //! Publisher

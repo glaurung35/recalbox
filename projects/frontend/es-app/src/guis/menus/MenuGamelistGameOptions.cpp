@@ -47,6 +47,9 @@ void MenuGamelistGameOptions::BuildMenuItems()
   // Game name
   mName = AddEditable(_("Name"), mGame.Metadata().Name(), (int)Components::Name, this, _(MENUMESSAGE_GAME_NAME_HELP_MSG), false);
 
+  // Game aliass
+  mAlias = AddEditable(_("Alias"), mGame.Metadata().Alias(), (int)Components::Alias, this, _(MENUMESSAGE_GAME_NAME_HELP_MSG), false);
+
   // Rating
   if (mGame.IsGame())
     mRating = AddRating(_("Rating"), mGame.Metadata().Rating(), (int)Components::Rating, this, _(MENUMESSAGE_GAME_RATING_HELP_MSG));
@@ -236,6 +239,7 @@ void MenuGamelistGameOptions::MenuSwitchChanged(int id, bool& status)
       break;
     }
     case Components::Name:
+    case Components::Alias:
     case Components::Description:
     case Components::Rating:
     case Components::Genre:
@@ -267,6 +271,7 @@ void MenuGamelistGameOptions::ScrapingComplete(FileData& game, MetadataType chan
 
   // Refresh menu
   if ((changedMetadata & MetadataType::Name) != 0) mName->SetText(game.Metadata().Name());
+  if ((changedMetadata & MetadataType::Alias) != 0) mAlias->SetText(game.Metadata().Alias());
   if ((changedMetadata & MetadataType::Rating) != 0) mRating->SetValue(game.Metadata().Rating(), false);
   if ((changedMetadata & MetadataType::GenreId) != 0) mGenre->SetSelectedItemValue(game.Metadata().GenreId(), false);
   if ((changedMetadata & MetadataType::Synopsis) != 0) mDescription->SetText(game.Metadata().Description());

@@ -41,6 +41,7 @@ class MenuGamelistGameOptions : public Menu
       Hidden,
       Adult,
       Name,
+      Alias,
       Description,
       Rating,
       Genre,
@@ -70,6 +71,8 @@ class MenuGamelistGameOptions : public Menu
     ItemSelector<String>* mRatio;
     //! Name
     ItemEditable* mName;
+    //! Alias
+    ItemEditable* mAlias;
     //! Rating
     ItemRating* mRating;
     //! Genre

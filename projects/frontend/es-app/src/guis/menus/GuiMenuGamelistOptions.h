@@ -44,6 +44,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Search,
       ArcadeOptions,
       AutorunGame,
+      SearchSiblings,
     };
 
     //! Global variable resolver

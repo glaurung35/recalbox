@@ -506,6 +506,7 @@ void SystemData::LookupGames(FolderData::FastSearchContext context, const Metada
     {
       case FolderData::FastSearchContext::Path: root->LookupGamesFromPath(index, games); break;
       case FolderData::FastSearchContext::Name: root->LookupGamesFromName(index, games); break;
+      case FolderData::FastSearchContext::Alias: root->LookupGamesFromAlias(index, games); break;
       case FolderData::FastSearchContext::Description: root->LookupGamesFromDescription(index, games); break;
       case FolderData::FastSearchContext::Developer: root->LookupGamesFromDeveloper(index, games); break;
       case FolderData::FastSearchContext::Publisher: root->LookupGamesFromPublisher(index, games); break;
@@ -521,6 +522,7 @@ void SystemData::BuildFastSearchSeries(FolderData::FastSearchItemSerie& into, Fo
     {
       case FolderData::FastSearchContext::Path: root->BuildFastSearchSeriesPath(into); break;
       case FolderData::FastSearchContext::Name: root->BuildFastSearchSeriesName(into); break;
+      case FolderData::FastSearchContext::Alias: root->BuildFastSearchSeriesAlias(into); break;
       case FolderData::FastSearchContext::Description: root->BuildFastSearchSeriesDescription(into); break;
       case FolderData::FastSearchContext::Developer: root->BuildFastSearchSeriesDeveloper(into); break;
       case FolderData::FastSearchContext::Publisher: root->BuildFastSearchSeriesPublisher(into); break;

@@ -44,6 +44,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
       Genre,
       Scrape,
       Rotation,
+      Alias,
     };
 
     //! View reference
@@ -69,6 +70,9 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     std::shared_ptr<OptionListComponent<String>> mRatio;
     //! Name
     std::shared_ptr<EditableComponent> mName;
+
+    //! Alias
+    std::shared_ptr<EditableComponent> mAlias;
     //! Rating
     std::shared_ptr<RatingComponent> mRating;
     //! Genre

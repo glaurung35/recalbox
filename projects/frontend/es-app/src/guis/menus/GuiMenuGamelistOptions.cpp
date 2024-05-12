@@ -4,9 +4,9 @@
 #include "views/gamelist/ArcadeGameListView.h"
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include "GuiMenuArcade.h"
+#include "guis/SearchForcedOptions .h"
 #include <guis/GuiSearch.h>
 #include <MainRunner.h>
-#include <views/gamelist/ISimpleGameListView.h>
 #include <games/GameFilesUtils.h>
 #include <components/SwitchComponent.h>
 #include <guis/MenuMessages.h>
@@ -71,6 +71,10 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   // Downloader available?
   if (DownloaderManager::HasDownloader(mSystem))
     AddSubMenu(_("DOWNLOAD GAMES"),  (int)Components::Download, _(MENUMESSAGE_GAMELISTOPTION_DOWNLOAD_GAMES_MSG));
+
+  // search others version of current game
+  if(!mGamelist.getCursor()->Metadata().Alias().empty())
+    AddSubMenu(_("SEARCH OTHER VERSIONS"), (int) Components::SearchSiblings, _("MENUMESSAGE_GAMELISTOPTION_SEARCH_SIBLINGS_MSG"));
 
   // Jump to letter
 	AddList<unsigned int>(_("JUMP TO LETTER"), (int)Components::JumpToLetter, this, GetLetterEntries(), _(MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG));
@@ -320,6 +324,14 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
       mWindow.pushGui(new GuiMenuArcade(mWindow, mSystemManager, mArcade));
       break;
     }
+    case Components::SearchSiblings:
+    {
+      std::string alias = mGamelist.getCursor()->Metadata().Alias();
+      SearchForcedOptions forcedOptions = SearchForcedOptions(alias, FolderData::FastSearchContext::Alias, true);
+      mWindow.pushGui(new GuiSearch(mWindow, mSystemManager, &forcedOptions));
+      break;
+    }
+
     case Components::JumpToLetter:
     case Components::Sorts:
     case Components::Regions:
@@ -375,6 +387,7 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool& status)
     case Components::SaveStates:
     case Components::Quit:
     case Components::ArcadeOptions:
+    case Components::SearchSiblings:
       break;
   }
 

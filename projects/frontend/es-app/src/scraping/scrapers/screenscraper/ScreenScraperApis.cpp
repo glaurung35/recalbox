@@ -149,6 +149,20 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
     game.mName = ExtractRegionalizedText(json["noms"], requiredRegion);
     game.mScreenScraperName = CleanGameName(ExtractRegionalizedText(json["noms"], "ss"));
   }
+  if (json.HasMember("familles"))
+  {
+    String::List families;
+    for(const auto& famille : json["familles"].GetArray())
+    {
+      if (famille.HasMember("noms"))
+        for (const auto& nom: famille["noms"].GetArray())
+          if (nom.HasMember("text"))
+            families.push_back(nom["text"].GetString());
+
+      game.mLicences = families;
+    }
+  }
+
   if (json.HasMember("synopsis"))
   {
     game.mSynopsis = ExtractLocalizedText(json["synopsis"], language);

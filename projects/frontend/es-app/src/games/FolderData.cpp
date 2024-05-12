@@ -999,6 +999,14 @@ void FolderData::LookupGamesFromName(const MetadataStringHolder::IndexAndDistanc
           games.push_back(game);
 }
 
+void FolderData::LookupGamesFromAlias(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
+{
+  for(FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->LookupGamesFromAlias(index, games);
+    else if (game->Metadata().IsMatchingAliasIndex(index.Index))
+      games.push_back(game);
+}
+
 void FolderData::LookupGamesFromDescription(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const
 {
   for(FileData* game : mChildren)
@@ -1037,6 +1045,9 @@ void FolderData::LookupGamesFromAll(const MetadataStringHolder::IndexAndDistance
         case FastSearchContext::Name:
           if (game->Metadata().IsMatchingNameIndex(index.Index)) games.push_back(game);
           break;
+        case FastSearchContext::Alias:
+          if (game->Metadata().IsMatchingAliasIndex(index.Index)) games.push_back(game);
+          break;
         case FastSearchContext::Description:
           if (game->Metadata().IsMatchingDescriptionIndex(index.Index)) games.push_back(game);
           break;
@@ -1063,6 +1074,13 @@ void FolderData::BuildFastSearchSeriesName(FolderData::FastSearchItemSerie& into
   for(const FileData* game : mChildren)
     if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesName(into);
     else into.Set(game, game->Metadata().NameIndex());
+}
+
+void FolderData::BuildFastSearchSeriesAlias(FolderData::FastSearchItemSerie& into) const
+{
+  for(const FileData* game : mChildren)
+    if (game->IsFolder()) CastFolder(game)->BuildFastSearchSeriesAlias(into);
+    else into.Set(game, game->Metadata().AliasIndex());
 }
 
 void FolderData::BuildFastSearchSeriesDescription(FolderData::FastSearchItemSerie& into) const

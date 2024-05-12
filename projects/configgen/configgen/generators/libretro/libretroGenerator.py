@@ -340,6 +340,12 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString("video_driver", "vulkan")
         else:
             retroarchConfig.removeOption("video_driver")
+        if system.Name == "scummvm":
+            retroarchConfig.setString("video_threaded", "true")
+            retroarchConfig.setString("video_vsync", "false")
+        else:
+            retroarchConfig.removeOption("video_threaded")
+            retroarchConfig.setString("video_vsync", "true")
         retroarchConfig.saveFile()
 
     @staticmethod

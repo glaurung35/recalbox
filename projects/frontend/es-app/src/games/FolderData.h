@@ -166,6 +166,7 @@ class FolderData : public FileData
         Developer,
         Publisher,
         All,
+        Alias,
     };
 
     //! Fast Search Item
@@ -601,6 +602,8 @@ class FolderData : public FileData
      */
     void LookupGamesFromName(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
 
+    void LookupGamesFromAlias(const MetadataStringHolder::IndexAndDistance& index, FileData::List& games) const;
+
     /*!
      * @brief Lookup games whose description index matches one of the given indexes
      * @param index Index to seek into
@@ -631,6 +634,7 @@ class FolderData : public FileData
 
     void BuildFastSearchSeriesPath(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesName(FastSearchItemSerie& into) const;
+    void BuildFastSearchSeriesAlias(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDescription(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesDeveloper(FastSearchItemSerie& into) const;
     void BuildFastSearchSeriesPublisher(FastSearchItemSerie& into) const;

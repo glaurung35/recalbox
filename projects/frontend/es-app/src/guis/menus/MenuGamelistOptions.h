@@ -46,6 +46,7 @@ class MenuGamelistOptions : public Menu
       ArcadeOptions,
       AutorunGame,
       Decorations,
+      SearchSiblings,
     };
 
     //! Global variable resolver

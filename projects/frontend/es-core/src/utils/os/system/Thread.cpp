@@ -12,7 +12,7 @@ Thread::Thread()
 {
   static int sTotalCount = 0;
   memset(mName, 0, sizeof(mName));
-  String strName = "thread " + std::to_string(++sTotalCount);
+  String strName("thread " ); strName.Append(++sTotalCount);
   int len = (int)strName.size() + 1;
   if (len > (int)sizeof(mName)) len = (int)sizeof(mName);
   strncpy(mName, strName.c_str(), len);

@@ -320,14 +320,14 @@ String DateTime::ToStringFormat(const char* format) const
     {
       case 'Y':
       {
-        if (repeat == 0) result += std::to_string((int)mYear);
+        if (repeat == 0) result += String((int)mYear);
         else if (repeat == 1) { result += ((char) ('0' + ((mYear / 10) % 10))); result += ((char) ('0' + (mYear % 10))); }
         else { result += ((char) ('0' + (mYear / 1000))); result += ((char) ('0' + ((mYear / 100) % 10))); result += ((char) ('0' + ((mYear / 10) % 10))); result += ((char) ('0' + (mYear % 10))); }
         break;
       }
       case 'M':
       {
-        if (repeat == 0) result += std::to_string((int)mMonth);
+        if (repeat == 0) result += String((int)mMonth);
         else if (repeat == 1) { result += ((char) ('0' + ((mMonth / 10) % 10))); result += ((char) ('0' + (mMonth % 10))); }
         else if (repeat == 2) result += (shortMonthNames[(int)(unsigned char)mMonth]);
         else result += (longMonthNames[(int)(unsigned char)mMonth]);
@@ -335,7 +335,7 @@ String DateTime::ToStringFormat(const char* format) const
       }
       case 'd':
       {
-        if (repeat == 0) result += std::to_string((int)mDay);
+        if (repeat == 0) result += String((int)mDay);
         else if (repeat == 1) { result += ((char) ('0' + ((mDay / 10) % 10))); result += ((char) ('0' + (mDay % 10))); }
         else if (repeat == 2) result += (shortDayNames[DayOfWeek()]);
         else result += (longDayNames[DayOfWeek()]);
@@ -343,38 +343,40 @@ String DateTime::ToStringFormat(const char* format) const
       }
       case 'H':
       {
-        if (repeat == 0) result += std::to_string((int)mHour);
+        if (repeat == 0) result += String((int)mHour);
         else if (repeat == 1) { result += ((char) ('0' + ((mHour / 10) % 10))); result += ((char) ('0' + (mHour % 10))); }
         break;
       }
       case 'm':
       {
-        if (repeat == 0) result += std::to_string((int)mMinute);
+        if (repeat == 0) result += String((int)mMinute);
         else if (repeat == 1) { result += ((char) ('0' + ((mMinute / 10) % 10))); result += ((char) ('0' + (mMinute % 10))); }
         break;
       }
       case 's':
       {
-        if (repeat == 0) result += std::to_string((int)mSecond);
+        if (repeat == 0) result += String((int)mSecond);
         else if (repeat == 1) { result += ((char) ('0' + ((mSecond / 10) % 10))); result += ((char) ('0' + (mSecond % 10))); }
         break;
       }
       case 'f':
       {
-        if (repeat == 0) result += std::to_string((int)mMillis);
+        if (repeat == 0) result += String((int)mMillis);
         else if (repeat == 2) { result += ((char) ('0' + ((mMillis / 100) % 10))); result += ((char) ('0' + ((mMillis / 10) % 10))); result += ((char) ('0' + (mMillis % 10))); }
         break;
       }
       case 'z':
       {
-        int timeZone = (unsigned char)mTimeZone; if (timeZone < 0) timeZone = -timeZone;
+        int timeZone = (signed char)mTimeZone; if (timeZone < 0) timeZone = -timeZone;
         result += (mTimeZone < 0 ? '-' : '+');
-        if (repeat == 0) result += std::to_string(timeZone);
-        else if (repeat == 1) { result += ((char) ('0' + ((timeZone / 40) % 10))); result += ((char) ('0' + ((timeZone >> 2) % 10))); }
+        if (repeat == 0) result += String(timeZone);
+        if (repeat == 1) { result += ((char) ('0' + ((timeZone / 40) % 10))); result += ((char) ('0' + ((timeZone >> 2) % 10))); }
         else
         {
           int Value = (timeZone >> 2) * 100 + (timeZone & 3) * 15;
-          result += ((char) ('0' + (Value / 1000))); result += ((char) ('0' + ((Value / 100) % 10))); result += ((char) ('0' + ((Value / 10) % 10))); result += ((char) ('0' + (Value % 10)));
+          result += ((char) ('0' + (Value / 1000))); result += ((char) ('0' + ((Value / 100) % 10)));
+          if (repeat == 0) result.Append(':');
+          result += ((char) ('0' + ((Value / 10) % 10))); result += ((char) ('0' + (Value % 10)));
         }
         break;
       }

@@ -241,10 +241,10 @@ void GuiNetPlay::populateGridMeta(int i)
   if (coreVerMatch) mMetaTextCoreVer->setText("\uf1c0 " + (game.mCoreVersion.empty() ? String("N/A") : game.mCoreVersion));
   else              mMetaTextCoreVer->setText("\uf1c2 " + (game.mCoreVersion.empty() ? String("N/A") : game.mCoreVersion));
 
-  if (game.mPingTimeInMs < 0)         mMetaTextLatency->setText("\uF1c9 " + _("unknown"));
-  else if (game.mPingTimeInMs < 80)   mMetaTextLatency->setText("\uF1c8 " + _("good") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
-  else if (game.mPingTimeInMs < 150)  mMetaTextLatency->setText("\uF1c7 " + _("medium") + " (" + std::to_string(game.mPingTimeInMs) + "ms)");
-  else                                mMetaTextLatency->setText("\uF1c6 " + _("bad") + " ( > 150ms)");
+  if (game.mPingTimeInMs < 0)         mMetaTextLatency->setText(String("\uF1c9 ").Append(_("unknown")));
+  else if (game.mPingTimeInMs < 80)   mMetaTextLatency->setText(String("\uF1c8 ").Append(_("good")).Append(" (").Append(game.mPingTimeInMs).Append("ms)"));
+  else if (game.mPingTimeInMs < 150)  mMetaTextLatency->setText(String("\uF1c7 ").Append(_("medium")).Append(" (").Append(game.mPingTimeInMs).Append("ms)"));
+  else                                mMetaTextLatency->setText(String("\uF1c6 ").Append(_("bad")).Append(" ( > 150ms)"));
 
   mMetaTextRAVer->setText(game.mRetroarchVersion.empty() ? "N/A" : game.mRetroarchVersion);
   mMetaTextHostArch->setText(frontend);

@@ -962,7 +962,7 @@ bool SystemManager::LoadSystems(const DescriptorList& systemList, FileNotifier* 
   weights.Save();
 
   DateTime stop;
-  { LOG(LogInfo) << "[System] Gamelist load time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
+  { LOG(LogInfo) << "[System] Gamelist load time: " << String((stop-start).TotalMilliseconds()) << "ms"; }
 
   // Cleanup metadata
   MetadataDescriptor::CleanupHolders();
@@ -1161,7 +1161,7 @@ void SystemManager::UpdateAllGameLists()
     threadPool.Run(-2, false);
 
   DateTime stop;
-  { LOG(LogInfo) << "[System] Gamelist update time: " << std::to_string((stop-start).TotalMilliseconds()) << "ms"; }
+  { LOG(LogInfo) << "[System] Gamelist update time: " << String((stop-start).TotalMilliseconds()) << "ms"; }
 }
 
 void SystemManager::DeleteAllSystems(bool updateGamelists)

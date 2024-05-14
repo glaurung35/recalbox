@@ -46,25 +46,25 @@ class ResolutionAdapter
       {
         return String(Width)
                .Append('x')
-               .Append(std::to_string(Height));
+               .Append(Height);
       }
 
       [[nodiscard]] String ToString() const
       {
         return String("Display ")
-               .Append(std::to_string(Display))
+               .Append(Display)
                .Append(": ")
-               .Append(std::to_string(Width))
+               .Append(Width)
                .Append('x')
-               .Append(std::to_string(Height))
+               .Append(Height)
                .Append(" - ")
                #ifdef USE_KMSDRM
                .Append(Interlaced ? "interlaced " : "progressive ")
                #else
-               //.append(std::to_string(Bpp))
+               //.append(Bpp)
                //.append("Bpp ")
                #endif
-               .Append(std::to_string(Frequency))
+               .Append(Frequency)
                .Append("Hz Max")
                .Append(IsDefault ? " (Default)" : "");
       }

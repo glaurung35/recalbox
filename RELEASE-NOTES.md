@@ -33,6 +33,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
 - Add automatic multitap support on snes
+- Add support of WiiWares games
 
 ### Fixes
 

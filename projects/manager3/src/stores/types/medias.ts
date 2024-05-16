@@ -1,7 +1,7 @@
 /**
  * @author Nicolas TESSIER aka Asthonishia
  */
-export enum Type {
+export enum MediaType {
   image= 'image',
   webm = 'video/webm',
   xMsvideo = 'video/x-msvideo',
@@ -12,7 +12,7 @@ export interface Screenshot {
   name: string;
   path: string;
   date: string;
-  type: Type;
+  type: MediaType;
 }
 
 export interface MediasResponse {

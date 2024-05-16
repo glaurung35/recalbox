@@ -6,7 +6,7 @@ import { MEDIA } from 'src/router/api.routes';
 import { date } from 'quasar';
 import { ApiProviderStore } from 'stores/plugins/apiProviderStorePlugin';
 import { FetchStore } from 'stores/plugins/fetchStorePlugin';
-import { MediasResponse, Screenshot, Type } from 'stores/types/medias';
+import { MediasResponse, Screenshot, MediaType } from 'stores/types/medias';
 import { apiUrl } from 'boot/axios';
 
 export interface MediaStoreState extends FetchStore, ApiProviderStore {
@@ -49,7 +49,7 @@ export const useMediaStore = defineStore('media', {
             name: key,
             path: apiUrl + MEDIA.get + key,
             date: formattedDate,
-            type: Type.image,
+            type: MediaType.image,
           });
         }
 
@@ -60,11 +60,11 @@ export const useMediaStore = defineStore('media', {
             date.extractDate(name, 'YYMMDD-HHmmss'), // "230403-075141"
             'DD/MM/YYYY - HH:mm:ss',
           );
-          let mediaType = Type.mp4;
+          let mediaType = MediaType.mp4;
           if (key.includes('.webm')) {
-            mediaType = Type.webm;
+            mediaType = MediaType.webm;
           } else if (key.includes('.avi')) {
-            mediaType = Type.xMsvideo;
+            mediaType = MediaType.xMsvideo;
           }
           result.push({
             name: key,

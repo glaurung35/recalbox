@@ -16,9 +16,9 @@
           <template v-slot:item="screenshot">
             <div
               class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3"
-              v-if="screenshot.row.type === Type.image"
+              v-if="screenshot.row.type === MediaType.image"
             >
-              <q-card @click="open(Type.image, screenshot.row.path)" class="screenshot" flat rounded>
+              <q-card @click="open(MediaType.image, screenshot.row.path)" class="screenshot" flat rounded>
                 <q-card-section horizontal>
                   <q-img :src="screenshot.row.path" class="col" loading="lazy">
                     <div
@@ -54,9 +54,9 @@
             </div>
             <div
               class="q-pa-xs col-xs-12 col-sm-6 col-md-4 col-lg-3"
-              v-if="screenshot.row.type === Type.mp4
-              || screenshot.row.type === Type.xMsvideo
-              || screenshot.row.type === Type.webm"
+              v-if="screenshot.row.type === MediaType.mp4
+              || screenshot.row.type === MediaType.xMsvideo
+              || screenshot.row.type === MediaType.webm"
             >
               <q-card @click="open(screenshot.row.type, screenshot.row.path)" class="screenshot" flat rounded>
                 <q-card-section horizontal>
@@ -134,7 +134,7 @@ import { useMediaStore } from 'stores/media';
 import { storeToRefs } from 'pinia';
 import { useI18n } from 'vue-i18n';
 import { openURL, useQuasar } from 'quasar';
-import { Type } from 'stores/types/medias';
+import { MediaType } from 'stores/types/medias';
 
 const { t } = useI18n({ useScope: 'global' });
 
@@ -152,10 +152,10 @@ const videoType = ref('');
 const displayGrid = ref(true);
 
 function open(type: string, url: string) {
-  if (type === Type.image) {
+  if (type === MediaType.image) {
     mediaPath.value = url;
     openImage.value = true;
-  } else if (type === Type.mp4 || type === Type.xMsvideo || type === Type.webm) {
+  } else if (type === MediaType.mp4 || type === MediaType.xMsvideo || type === MediaType.webm) {
     mediaPath.value = url;
     openVideo.value = true;
     videoType.value = type;
@@ -179,6 +179,7 @@ function openDeleteConfirm(name: string) {
 const columns = [
   {
     name: 'date',
+    label: 'date',
     field: 'date',
     sortable: true,
   },

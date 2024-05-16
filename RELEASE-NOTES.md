@@ -43,6 +43,7 @@ as release notes for end user on a Recalbox upgrade.
   - add preinstalled game in favorite list or even hide them individually
 - Remove overscan option in frontend
 - Add automatic multitap support on snes
+- Add support of WiiWares games
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

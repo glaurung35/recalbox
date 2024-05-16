@@ -18,6 +18,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
+- Add support of WiiWares games
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

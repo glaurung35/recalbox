@@ -371,6 +371,87 @@ class LibretroGenerator(Generator):
             }
         return {"fbneo-cpu-speed-adjust": '"100%"'}
 
+    @staticmethod
+    def createRumbleconfiguration(system: Emulator) -> (Dict[str, Any], Dict[str, Any]):
+        retroarchConfig: Dict[str, Any] = {}
+        coreConfig: Dict[str, Any] = {}
+
+        # DualShock
+        rumbleRetroarchConfig = {
+            "pcsx_rearmed":
+                [
+                    {"input_libretro_device_p0": '"512"'},
+                    {"input_libretro_device_p0": '"1"'}
+                ],
+            "mednafen_psx_hw":
+                [
+                    {"input_libretro_device_p0": '"517"'},
+                    {"input_libretro_device_p0": '"1"'}
+                ],
+            "mednafen_psx":
+                [
+                    {"input_libretro_device_p0": '"517"'},
+                    {"input_libretro_device_p0": '"1"'}
+                ],
+            "swanstation":
+                [
+                    {"input_libretro_device_p0": '"261"'},
+                    {"input_libretro_device_p0": '"1"'}
+                ]
+        }
+
+        rumbleCoreConfig = {
+            "dolphin":
+                [
+                    {"dolphin_enable_rumble": '"enabled"'},
+                    {"dolphin_enable_rumble": '"disabled"'}
+                ],
+            "flycast":
+                [
+                    {"reicast_enable_purupuru": '"enabled"'},
+                    {"reicast_enable_purupuru": '"disabled"'}
+                ],
+            "flycast-next":
+                [
+                    {"reicast_enable_purupuru": '"enabled"'},
+                    {"reicast_enable_purupuru": '"disabled"'}
+                ],
+            "mupen64plus_next":
+                [
+                    {"mupen64plus-pak1": '"rumble"'},
+                    {"mupen64plus-pak1": '"memory"'}
+                ],
+            "parallel_n64":
+                [
+                    {"parallel-n64-pak1": '"rumble"'},
+                    {"parallel-n64-pak1": '"memory"'}
+                ],
+            "pcsx_rearmed":
+                [
+                    {"pcsx_rearmed_vibration": '"enabled"'},
+                    {"pcsx_rearmed_vibration": '"disabled"'}
+                ],
+            "pcsx2":
+                [
+                    {"pcsx2_rumble_enable": '"enabled"'},
+                    {"pcsx2_rumble_enable": '"disabled"'}
+                ],
+            "swanstation":
+                [
+                    {"swanstation_Controller_EnableRumble": '"true"'},
+                    {"swanstation_Controller_EnableRumble": '"false"'}
+                ]
+        }
+
+        if system.Core in rumbleRetroarchConfig:
+            for config in rumbleRetroarchConfig[system.Core][0 if system.Rumble else 1].items():
+                retroarchConfig[config[0]] = config[1]
+
+        if system.Core in rumbleCoreConfig:
+            for config in rumbleCoreConfig[system.Core][0 if system.Rumble else 1].items():
+                coreConfig[config[0]] = config[1]
+
+        return retroarchConfig, coreConfig
 
     # recalbox-crt-options.cfg options
     # Create configuration file
@@ -382,6 +463,15 @@ class LibretroGenerator(Generator):
                                                                      nodefaultkeymap, recalboxOptions)
         retroarchConfig, retroarchOverrides = configuration.createRetroarchConfiguration()
         coreConfig = configuration.createCoreConfiguration()
+
+        # Rumble configuration - defined before lightgun to not break lightgun feature
+        rumbleRetroarchConfig, rumbleCoreConfig = LibretroGenerator.createRumbleconfiguration(system)
+        for option in rumbleRetroarchConfig.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+        for option in rumbleCoreConfig.items():
+            coreConfig.setString(option[0], option[1])
+        coreConfig.saveFile()
 
         # setup wiimotes lightgun configuration
         from configgen.generators.libretro.libretroLightGuns import libretroLightGun

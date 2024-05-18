@@ -155,8 +155,12 @@ export interface GlobalConfigResponse {
   runahead: {
     exist: boolean;
     value: boolean;
-  }
+  };
   vulkandriver: {
+    exist: boolean;
+    value: boolean;
+  };
+  rumble: {
     exist: boolean;
     value: boolean;
   };
@@ -268,6 +272,9 @@ export interface GlobalConfigOptionsResponse {
     type: string;
   };
   vulkadriver: {
+    type: string;
+  };
+  rumble: {
     type: string;
   };
 }

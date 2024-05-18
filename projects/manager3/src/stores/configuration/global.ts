@@ -172,6 +172,9 @@ export const useGlobalStore = defineStore('global', {
       widescreenmode: {
         value: false,
       },
+      rumble: {
+        value: false,
+      },
     },
   } as GlobalStoreState),
 

@@ -60,6 +60,22 @@
           </WrappedToggle>
         </template>
       </FormFragmentContainer>
+      <FormFragmentContainer title="emulation.controllers.rumble.title">
+        <template v-slot:content>
+          <WrappedToggle
+            label="emulation.controllers.rumble.enabled.label"
+            :getter="global.rumble"
+            :setter="globalStore.post"
+            apiKey="rumble"
+            v-if="global.rumble"
+            help
+          >
+            <template v-slot:help>
+              {{ $t('emulation.controllers.rumble.enabled.help') }}
+            </template>
+          </WrappedToggle>
+        </template>
+      </FormFragmentContainer>
       <FormFragmentContainer title="emulation.controllers.osd.title">
         <template v-slot:content>
           <WrappedToggle

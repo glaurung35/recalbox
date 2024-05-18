@@ -278,6 +278,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShaderSet, String, String, sGlobalShaderSet, "none")
     DefineGetterSetter(GlobalShowFPS, bool, Bool, sGlobalShowFPS, false)
     DefineGetterSetter(GlobalInputDriver, String, String, sGlobalInputDriver, "auto")
+    DefineGetterSetter(GlobalRumble, bool, Bool, sGlobalRumble, false)
     DefineGetterSetter(GlobalDemoDuration, int, Int, sGlobalDemoDuration, 90)
     DefineGetterSetter(GlobalDemoInfoScreen, int, Int, sGlobalDemoInfoScreen, 6)
     DefineGetterSetter(GlobalReduceLatency, bool, Bool, sGlobalReduceLatency, false)
@@ -431,6 +432,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sGlobalVulkanDriver         = "global.vulkandriver";
 
     static constexpr const char* sGlobalInputDriver          = "global.inputdriver";
+    static constexpr const char* sGlobalRumble               = "global.rumble";
 
     static constexpr const char* sHostname                   = "system.hostname";
 

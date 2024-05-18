@@ -414,6 +414,7 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<String>& pa
   if (mainFileDeleted)
   {
     RootFolderData::DeleteChild(&fileData);
+    systemData.Manager().UpdateSystemsOnGameChange(&fileData, MetadataType::None, true);
     DeleteFoldersRecIfEmpty(fileData.Parent());
   }
   else if (mediaIsDirty)
@@ -422,13 +423,13 @@ void GameFilesUtils::DeleteSelectedFiles(FileData& fileData, HashSet<String>& pa
     fileData.Metadata().SetDirty();
   }
 
-  if (!systemData.HasVisibleGame())
+  /*if (!systemData.HasVisibleGame())
   {
     { LOG(LogDebug) << "[DELETE] System " << systemData.Name() << " has no more visible games"; }
     ViewController::Instance().getSystemListView().RemoveCurrentSystem();
     SystemData* prev = ViewController::Instance().getSystemListView().Prev();
     ViewController::Instance().goToSystemView(prev);
-  }
+  }*/
 
   systemData.UpdateGamelistXml();
 }
@@ -444,7 +445,7 @@ void GameFilesUtils::DeleteFoldersRecIfEmpty(FolderData* folderData)
   FolderData* parent = folderData->Parent();
   Path currentFolder = folderData->RomPath();
   (void)currentFolder.Delete();
-  parent->RemoveChild(folderData);
+  RootFolderData::DeleteChild(folderData);
   { LOG(LogDebug) << "[DELETE] Directory " << currentFolder.ToString() << " is now empty and have been deleted"; }
 
   DeleteFoldersRecIfEmpty(parent);

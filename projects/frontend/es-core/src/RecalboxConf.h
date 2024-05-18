@@ -403,6 +403,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(PadOSD, bool, Bool, sPadOSD, false)
     DefineGetterSetterEnum(PadOSDType, PadOSDType, sPadOSDType, PadOSDType)
     DefineGetterSetter(AutoPairOnBoot, bool, Bool, sAutoPairOnBoot, true)
+    DefineGetterSetter(ControllersRumble, bool, Bool, sControllersRumble, false)
 
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
     DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdateType() != UpdateType::Stable)
@@ -565,6 +566,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sPadOSD                     = "emulationstation.pads.osd";
     static constexpr const char* sPadOSDType                 = "emulationstation.pads.osd.type";
     static constexpr const char* sAutoPairOnBoot             = "controllers.bluetooth.autopaironboot";
+    static constexpr const char* sControllersRumble          = "controllers.rumble";
 
     static constexpr const char* sEsVideoMode                = "system.es.videomode";
     static constexpr const char* sGlobalVideoMode            = "global.videomode";

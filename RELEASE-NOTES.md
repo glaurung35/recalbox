@@ -24,6 +24,7 @@ as release notes for end user on a Recalbox upgrade.
 - Added options into configgen for Amiga systems
 - Add support customize iso from Pi Imager (add sshkey, wifi, hostname)
 - Force analog mode on Naomi, Naomi GD and Naomi 2
+- Add rumble option in frontend
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

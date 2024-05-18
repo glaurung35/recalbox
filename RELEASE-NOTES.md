@@ -14,6 +14,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Add support customize iso from Pi Imager (add sshkey, wifi, hostname)
 - Force analog mode on Naomi, Naomi GD and Naomi 2
+- Add rumble option in frontend
 
 ### Fixes
 

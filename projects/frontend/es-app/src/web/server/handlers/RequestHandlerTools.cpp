@@ -571,6 +571,7 @@ const HashMap<String, Validator>& RequestHandlerTools::SelectConfigurationKeySet
         { "joycond.enabled"         , Validator(true) },
         { "swapvalidateandcancel"   , Validator(true) },
         { "bluetooth.autopaironboot", Validator(true) },
+        { "rumble"                  , Validator(true) },
       });
 
       return sList;

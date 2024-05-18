@@ -40,8 +40,13 @@ class Pcsx2Generator(Generator):
     BIOS_HK  = "ps2-0230h-20080220.bin"
 
     @staticmethod
-    def __ConfigurePad(playersControllers: ControllerPerPlayer):
+    def __ConfigurePad(playersControllers: ControllerPerPlayer, system: Emulator):
         with open(Pcsx2Generator.pcsx2ConfigFilePAD, "w") as f:
+            if system.Rumble:
+                f.write("options = 1\n")
+                f.write("mouse_sensitivity = 100\n")
+                f.write("ff_intensity = 32767\n")
+
             if 1 in playersControllers: f.write("uid[0] = {}\n".format(playersControllers[1].SdlIndex))
             if 2 in playersControllers: f.write("uid[1] = {}\n".format(playersControllers[2].SdlIndex))
             if 1 in playersControllers: f.write("SDL2 = {}\n".format(playersControllers[1].generateSDLGameDBLine(False)))
@@ -222,7 +227,7 @@ class Pcsx2Generator(Generator):
             self.__ConfigureUI(system, args.rom)
             self.__ConfigureCore()
             self.__ConfigureReg()
-            self.__ConfigurePad(playersControllers)
+            self.__ConfigurePad(playersControllers, system)
 
         commandArray = [recalboxFiles.recalboxBins[system.Emulator],
                         "--fullscreen", "--fullboot",

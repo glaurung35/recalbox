@@ -64,6 +64,10 @@ export interface ControllersConfigResponse {
     exist: boolean;
     value: boolean;
   };
+  rumble: {
+    exist: boolean;
+    value: boolean;
+  };
 }
 
 export interface ControllersConfigOptionsResponse {
@@ -108,6 +112,9 @@ export interface ControllersConfigOptionsResponse {
     type: string;
   };
   'bluetooth.autopaironboot': {
+    type: string;
+  };
+  rumble: {
     type: string;
   };
 }

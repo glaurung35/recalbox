@@ -97,6 +97,7 @@ class Emulator:
         self._translateURL: str = "https://ztranslate.net/service?api_key={}"
         self._translateFrom: str = "auto"
         self._translateTo: str = "auto"
+        self._rumble: bool = False
         self._extraArgs: str = ""  # Extra parameters from systemlist.xml commands
         self._configArgs: str = ""  # Extra parameters from recalbox.conf
         self._args: List[str] = [] # Array representation of ExtraArgs + ConfigArgs
@@ -181,6 +182,7 @@ class Emulator:
         self._translateURL: str      = self.__guessBestStringValue(recalboxOptions, "translate.url", self._translateURL)
         self._translateFrom: str     = self.__guessBestStringValue(recalboxOptions, "translate.from", self._translateFrom)
         self._translateTo: str       = self.__guessBestStringValue(recalboxOptions, "translate.to", recalboxOptions.getString("system.language", self._translateTo))
+        self._rumble: bool           = self.__guessBestBoolValue  (recalboxOptions, "rumble", self._rumble)
         self._extraArgs: str         = self.__guessBestStringValue(recalboxOptions, "extra", self._extraArgs)
         self._configArgs: str        = self.__guessBestStringValue(recalboxOptions, "args", self._configArgs)
 
@@ -302,7 +304,7 @@ class Emulator:
 
     @property
     def RunAhead(self) -> bool: return self._runAhead
-    
+
     @property
     def ReduceLatency(self) -> bool: return self._reduceLatency
 
@@ -419,6 +421,9 @@ class Emulator:
     def TranslateTo(self) -> str: return self._translateTo
 
     @property
+    def Rumble(self) -> bool: return self._rumble
+
+    @property
     def CRTVideoStandard(self) -> CRTVideoStandard: return self._crtvideostandard
 
     @CRTVideoStandard.setter
@@ -465,7 +470,7 @@ class Emulator:
 
     @property
     def CRTSuperrez(self) -> CRTSuperRez: return self._crtsuperrez
-    
+
     @property
     def CRTV2(self) -> bool: return self._crtv2
 

@@ -47,6 +47,7 @@ class GuiMenuPads : public GuiMenuBase
       PadOSD,
       PadOSDType,
       AutoPairOnBoot,
+      Rumble,
     };
 
     //! Pad lists

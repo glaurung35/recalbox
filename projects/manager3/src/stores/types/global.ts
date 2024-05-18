@@ -155,7 +155,7 @@ export interface GlobalConfigResponse {
   runahead: {
     exist: boolean;
     value: boolean;
-  }
+  };
   vulkandriver: {
     exist: boolean;
     value: boolean;

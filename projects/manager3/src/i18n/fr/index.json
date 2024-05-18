@@ -1195,6 +1195,13 @@
           "help": "Cette option vous permet d'inverser les actions de validation et d'annulation."
         }
       },
+      "rumble": {
+        "title": "Vibrations",
+        "enabled": {
+          "label": "Activer les vibrations",
+          "help": "Cette option permet d'activer les vibrations sur les manettes compatibles."
+        }
+      },
       "inputdriver": {
         "title": "Pilote",
         "label": "Pilote de manette",

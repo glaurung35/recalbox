@@ -1195,6 +1195,13 @@
           "help": "This option allows you to invert validate and cancel buttons."
         }
       },
+      "rumble": {
+        "title": "Rumble",
+        "enabled": {
+          "label": "Enable rumble",
+          "help": "This option allows you to enable rumble on compatibles controllers."
+        }
+      },
       "inputdriver": {
         "title": "Driver",
         "label": "Controller driver",

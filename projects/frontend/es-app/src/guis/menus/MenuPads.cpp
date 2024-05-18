@@ -49,6 +49,9 @@ void MenuPads::BuildMenuItems()
   // Pad OSD type
   AddList<RecalboxConf::PadOSDType>(_("PAD OSD TYPE"), (int)Components::PadOSDType, this, GetPadOSDType(), RecalboxConf::Instance().GetPadOSDType(), RecalboxConf::PadOSDType::Snes, _(MENUMESSAGE_CONTROLLER_PADOSDTYPE_HELP_MSG));
 
+  // Rumble
+  AddSwitch(_("RUMBLE"), RecalboxConf::Instance().GetControllersRumble(), (int)Components::Rumble, this, _(MENUMESSAGE_CONTROLLER_RUMBLE_HELP_MSG));
+
   // Pad list
   for(int i = 0; i < Input::sMaxInputDevices; ++i)
   {
@@ -57,6 +60,12 @@ void MenuPads::BuildMenuItems()
     name.Append(' ').Append(_("INPUT P%i")).Replace("%i", String(i + 1));
     mDevices[i] = AddList<int>(name, (int)Components::Pads + i, this, GetDeviceList(), i, -1);
   }
+
+  // Subscribe refresh event
+  InputManager::Instance().AddNotificationInterface(this);
+
+  // Force OSD when this menu is on
+  mWindow.OSD().GetPadOSD().ForcedPadOSDActivation(true);
 }
 
 MenuPads::~MenuPads()
@@ -200,6 +209,8 @@ void MenuPads::MenuSwitchChanged(int id, bool& status)
     RecalboxConf::Instance().SetPadOSD(status).Save();
   if ((Components)id == Components::AutoPairOnBoot)
     RecalboxConf::Instance().SetAutoPairOnBoot(status).Save();
+  if ((Components)id == Components::Rumble)
+    RecalboxConf::Instance().SetControllersRumble(status).Save();
 }
 
 void MenuPads::MenuSingleChanged(int id, int index, const RecalboxConf::PadOSDType& value)

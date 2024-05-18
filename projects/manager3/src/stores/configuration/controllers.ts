@@ -70,6 +70,9 @@ export const useControllersStore = defineStore('controllers', {
       'bluetooth.autopaironboot': {
         value: true,
       },
+      rumble: {
+        value: false,
+      },
     },
   } as ControllersStoreState),
 

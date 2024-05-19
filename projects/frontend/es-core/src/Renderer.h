@@ -75,6 +75,11 @@ class Renderer : public StaticLifeCycleControler<Renderer>
      */
     static void GetResolutionFromConfiguration(int& w, int& h);
 
+    /*!
+     * @brief Show useful information in logs to help debug remote issues
+     */
+    static void InformationLogs();
+
   public:
     //! Error status
     enum class Error

@@ -89,6 +89,37 @@ Renderer::~Renderer()
   Finalize();
 }
 
+void Renderer::InformationLogs()
+{
+  SDL_version linked;
+  SDL_GetVersion(&linked);
+  LOG(LogInfo) << (_F("[Renderer] SDL2 Version {0}.{1}.{2}") / (int)linked.major / (int)linked.minor/ (int)linked.patch).ToString();
+
+  int numVideoDrivers = SDL_GetNumVideoDrivers();
+  String drivers;
+  for (int i = 0; i < numVideoDrivers; i++)
+  {
+    if (!drivers.empty()) drivers.Append(", ");
+    drivers.Append(SDL_GetVideoDriver(i));
+  }
+  LOG(LogInfo) << "[Renderer] Available video drivers: "<< drivers;
+  LOG(LogInfo) << (_F("[Renderer] Using video driver: {0}") / SDL_GetCurrentVideoDriver()).ToString();
+
+  int numAudioDrivers = SDL_GetNumAudioDrivers();
+  drivers.clear();
+  for (int i = 0; i < numAudioDrivers; i++)
+  {
+    if (!drivers.empty()) drivers.Append(", ");
+    drivers.Append(SDL_GetAudioDriver(i));
+  }
+  LOG(LogInfo) << "[Renderer] Available audio drivers: " << drivers;
+  LOG(LogInfo) << (_F("[Renderer] Using audio driver: {0}") / SDL_GetCurrentAudioDriver()).ToString();
+
+  LOG(LogInfo) << "[Renderer] GL Vendor: " << (glGetString(GL_VENDOR) ? (const char*)glGetString(GL_VENDOR) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Renderer: " << (glGetString(GL_RENDERER) ? (const char*)glGetString(GL_RENDERER) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Version: " << (glGetString(GL_VERSION) ? (const char*)glGetString(GL_VERSION) : "Unknown");
+  LOG(LogInfo) << "[Renderer] GL Extensions: " << (glGetString(GL_EXTENSIONS) ? (const char*)glGetString(GL_EXTENSIONS) : "Unknown");
+}
 
 bool Renderer::CreateSdlSurface(int width, int height)
 {
@@ -165,6 +196,9 @@ bool Renderer::CreateSdlSurface(int width, int height)
   }
 
   mSdlGLContext = SDL_GL_CreateContext(mSdlWindow);
+
+  // Log info
+  InformationLogs();
 
   // vsync
   { LOG(LogInfo) << "[Renderer] Activating vertical sync'"; }

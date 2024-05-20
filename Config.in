@@ -282,9 +282,6 @@ menu "Libretro Cores"
 endmenu
 endif
 endmenu
-menu "Ports"
-         source "$BR2_EXTERNAL_RECALBOX_PATH/package/vvvvvv/Config.in"
-endmenu
 menu "Kodi addons"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-netflix/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/kodi-plugin-video-twitch/Config.in"

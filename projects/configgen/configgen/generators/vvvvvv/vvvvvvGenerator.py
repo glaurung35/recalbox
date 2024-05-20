@@ -17,6 +17,8 @@ class VvvvvvGenerator(Generator):
             recalboxFiles.recalboxBins[system.Emulator],
             "-basedir",
             "/recalbox/share/saves/vvvvvv/",
+            "-assets",
+            "/recalbox/share/roms/ports/vvvvvv/data.zip"
         ]
 
         if system.HasArgs:

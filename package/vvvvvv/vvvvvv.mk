@@ -18,7 +18,6 @@ define VVVVVV_INSTALL_TARGET_CMDS
 	cp -r $(@D)/desktop_version/fonts $(TARGET_DIR)/usr/bin/vvvvvv/
 	cp -r $(@D)/desktop_version/lang $(TARGET_DIR)/usr/bin/vvvvvv/
 	$(INSTALL) -D -m 0755 $(@D)/desktop_version/VVVVVV $(TARGET_DIR)/usr/bin/vvvvvv/
-	ln -snf /recalbox/share/roms/ports/vvvvvv/data.zip $(TARGET_DIR)/usr/bin/vvvvvv/data.zip
 endef
 
 $(eval $(cmake-package))

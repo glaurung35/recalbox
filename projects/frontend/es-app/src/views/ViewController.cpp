@@ -522,10 +522,7 @@ void ViewController::LaunchCheck()
   EmulatorData emulator = EmulatorManager::GetGameEmulator(*mGameToLaunch);
   if (!emulator.IsValid())
   {
-    {
-      LOG(LogError) << "[ViewController] Empty emulator/core when running " << mGameToLaunch->RomPath().ToString()
-                    << '!';
-    }
+    { LOG(LogError) << "[ViewController] Empty emulator/core when running " << mGameToLaunch->RomPath().ToString() << '!'; }
     return;
   }
 

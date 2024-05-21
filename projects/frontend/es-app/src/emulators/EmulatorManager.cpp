@@ -60,6 +60,12 @@ EmulatorData EmulatorManager::GetGameEmulator(const FileData& game)
   String emulator;
   String core;
 
+  // Horrible patch to force hd/wide n64 core & avoid crossing libretro/standalone
+  // TODO: Please kill me ASAP !
+  if (RecalboxConf::Instance().GetGlobalHDMode() || RecalboxConf::Instance().GetGlobalWidescreenMode())
+    if (game.System().Name() == "n64")
+      return EmulatorData("libretro", "parallel_n64");
+
   if (GetGameEmulator(game, emulator, core))
     return EmulatorData(emulator, core);
 

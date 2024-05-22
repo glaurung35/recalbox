@@ -146,7 +146,7 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
   {
     Path xmlPath = getGamelistPath(root, false);
     String xml;
-    if (!SecuredFile::LoadSecuredFile(xmlPath, Path::Empty, xml, String(FullName()).Append(" gamelist"), true, this))
+    if (!SecuredFile::LoadSecuredFile(false, xmlPath, Path::Empty, xml, String(FullName()).Append(" gamelist"), true, this))
       return;
 
     XmlDocument gameList;

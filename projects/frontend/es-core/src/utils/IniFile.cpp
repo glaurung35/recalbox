@@ -89,7 +89,7 @@ bool IniFile::IsValidKeyValue(const String& line, String& key, String& value, bo
 bool IniFile::LoadContent(String& content)
 {
 
-  bool ok = SecuredFile::LoadSecuredFile(mFilePath, mFallbackFilePath, content, mLogName, true, this);
+  bool ok = SecuredFile::LoadSecuredFile(true, mFilePath, mFallbackFilePath, content, mLogName, true, this);
   if (!ok) { LOG(LogError) << "[IniFile] Cannot load " << mFilePath; }
   return ok;
 }

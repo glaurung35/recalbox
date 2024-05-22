@@ -412,7 +412,7 @@ bool InputManager::LookupDeviceXmlConfiguration(InputDevice& device)
   if (!path.Exists()) return false;
 
   String content;
-  if (!SecuredFile::LoadSecuredFile(path, Path::Empty, content, "Pad Configuration", true, this))
+  if (!SecuredFile::LoadSecuredFile(true, path, Path::Empty, content, "Pad Configuration", true, this))
   {
     { LOG(LogError) << "[Input] Cannot load input configuration file"; }
     return false;

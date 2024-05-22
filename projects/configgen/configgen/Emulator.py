@@ -87,7 +87,7 @@ class Emulator:
         self._integerScale: bool = False
         self._hdmode: bool = False
         self._widescreenmode: bool = False
-        self._vulkandriver: bool = True
+        self._vulkandriver: bool = False
         self._quitTwice: bool = False
         self._recalboxOverlays: bool = True
         self._translate: bool = False

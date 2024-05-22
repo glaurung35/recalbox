@@ -284,7 +284,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(GlobalShowSaveStateBeforeRun, bool, Bool, sGlobalShowSaveStateBeforeRun, false)
     DefineGetterSetter(GlobalHDMode, bool, Bool, sGlobalHDMode, false)
     DefineGetterSetter(GlobalWidescreenMode, bool, Bool, sGlobalWidescreen, false)
-    DefineGetterSetter(GlobalVulkanDriver, bool, Bool, sGlobalVulkanDriver, true)
+    DefineGetterSetter(GlobalVulkanDriver, bool, Bool, sGlobalVulkanDriver, false)
 
     DefineGetterSetter(CollectionLastPlayed, bool, Bool, sCollectionLastPlayed, false)
     DefineGetterSetter(CollectionMultiplayer, bool, Bool, sCollectionMultiplayer, false)

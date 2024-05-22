@@ -39,7 +39,7 @@ class SecuredFile
      * @param validator Validation interface
      * @return True if the content has been loaded successfully, false otherwise
      */
-    static bool LoadSecuredFile(const Path& path, const Path& fallback, [[out]] String& content, const String& logname, bool autoBackup, IValidationInterface* validator);
+    static bool LoadSecuredFile(bool mandatory, const Path& path, const Path& fallback, [[out]] String& content, const String& logname, bool autoBackup, IValidationInterface* validator);
 
     /*!
      * @brief Load a file in a secure way
@@ -50,9 +50,9 @@ class SecuredFile
      * @param autoBackup If true, the file is backuped before being replaced
      * @return True if the content has been loaded successfully, false otherwise
      */
-    static bool LoadSecuredFile(const Path& path, const Path& fallback, [[out]] String& content, const String& logname, bool autoBackup)
+    static bool LoadSecuredFile(bool mandatory, const Path& path, const Path& fallback, [[out]] String& content, const String& logname, bool autoBackup)
     {
-      return LoadSecuredFile(path, fallback, content, logname, autoBackup, nullptr);
+      return LoadSecuredFile(mandatory, path, fallback, content, logname, autoBackup, nullptr);
     }
 
     /*!

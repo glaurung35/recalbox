@@ -47,7 +47,7 @@ bool SecuredFile::SaveSecuredFile(const Path& path, const String& content, const
   return false;
 }
 
-bool SecuredFile::LoadSecuredFile(const Path& path, const Path& fallback, String& content, const String& logname, bool autoBackup, IValidationInterface* validator)
+bool SecuredFile::LoadSecuredFile(bool mandatory, const Path& path, const Path& fallback, String& content, const String& logname, bool autoBackup, IValidationInterface* validator)
 {
   Path tmp = path.ChangeExtension(sTemporaryExtension);
 
@@ -85,7 +85,8 @@ bool SecuredFile::LoadSecuredFile(const Path& path, const Path& fallback, String
       return true;
     }
 
-  { LOG(LogError) << "[SecuredFile] No file has been loaded for file " << path << " (" << logname << ')'; }
+  if (mandatory)
+    { LOG(LogError) << "[SecuredFile] No file has been loaded for file " << path << " (" << logname << ')'; }
   return false;
 }
 

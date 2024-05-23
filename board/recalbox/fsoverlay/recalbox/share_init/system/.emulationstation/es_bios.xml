@@ -533,6 +533,8 @@
                                                                                              b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
                                                                                              ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
                                                                                              a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+    <bios path="/recalbox/share/bios/geolith/aes.zip" md5="ad9585c72130c56f04ae26aae87c289d,7a4dcd56b3924215aac7f903ff907339" mandatory="true" hashMatchMandatory="false" core="geolith" />
+    <bios path="/recalbox/share/bios/geolith/neogeo.zip" md5="00dad01abdbf8ea9e79ad2fe11bdb182,912c0a56bafe0fba39d0c668b139b250" mandatory="true" hashMatchMandatory="false" core="geolith" />
   </system>
   <system fullname="SNK Neo-Geo CD" platform="neogeocd">
     <bios path="neogeo.zip" md5="e023d0a4b5249fdff2a4620c28963944,8cbdff53661f41ddbe486a98915e1ec9,

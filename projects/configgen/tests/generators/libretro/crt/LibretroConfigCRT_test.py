@@ -1308,3 +1308,21 @@ def test_given_naomi_tate_game_on31khzyoko_then_return_a_timber_config(mocker):
     assert config_lines["custom_viewport_width_ntsc"] == 1080
     assert config_lines["custom_viewport_height_ntsc"] == 480
     assert config_lines["custom_viewport_x_ntsc"] == 420
+
+
+def test_given_arcade_256p_game_and_31k_progressive_mode_then_return_480pmode_and_interger_scale_overscan(mocker, system_mame):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,mame2010,arcade:253@54.815170,0,0,0",
+        MODES_TXT: "arcade:253@54.815170,1920 1 80 184 312 253 1 8 3 22 0 0 0 54 0 39130138 1,54.815170\ndefault@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60"
+    })
+
+    emulator = configureForCrt(system_mame, crtresolutiontype="progressive", crtscreentype="31kHz", crtadaptor="recalboxrgbjamma")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
+                                                                                                  "mk.zip")
+
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1"'
+    assert config_lines["custom_viewport_width_ntsc"] == 1920
+    assert config_lines["custom_viewport_height_ntsc"] == 506
+    assert config_lines["video_scale_integer"] == '"true"'
+    assert config_lines["video_scale_integer_overscale"] == '"true"'

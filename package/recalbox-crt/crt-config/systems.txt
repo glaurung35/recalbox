@@ -27,6 +27,7 @@ neogeo,mame2003_plus,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
 neogeo,mame2003,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
 neogeo,mame2010,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
 neogeo,mame2015,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
+neogeo,geolith,all,15kHz,progressive,neogeo:all:224@59.185606,0,0
 pcengine,mednafen_supergrafx,all,15kHz,progressive,pcengine:pcenginecd:all:240@59.94,0,0
 pcenginecd,mednafen_supergrafx,all,15kHz,progressive,pcengine:pcenginecd:all:240@59.94,0,0
 amiga600,uae4arm,pal,15kHz,progressive,standard:pal:288@50,0,256

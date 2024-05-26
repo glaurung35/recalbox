@@ -48,6 +48,8 @@ class LibretroConfigCRT:
             if forceFullAndIntegerScale:
                 config["aspect_ratio_index"] = '24'
                 config["video_scale_integer"] = '"true"'
+                if k31 and viewport_height > 480:
+                    config["video_scale_integer_overscale"] = '"true"'
 
         # default viewport calculation
         final_width = viewport_width if viewport_width > 0 else mode.width

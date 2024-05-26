@@ -206,7 +206,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix missing md5 bios for Satellaview
 - Add themes support over network share
 - Fix N64 image quality on RGB dual + jamma
-
+- Fix bad resolutions in PSX and Saturn games
 
 ## Version 9.1-Pulstar
 

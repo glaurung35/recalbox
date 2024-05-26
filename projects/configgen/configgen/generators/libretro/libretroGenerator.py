@@ -156,11 +156,12 @@ class LibretroGenerator(Generator):
 
         retroarchConfig.saveFile()
         coreConfig.saveFile()
-
         # Most specific code ever (it's here because of *.retroarch.cfg in /recalbox/share_init/roms/vectrex)
         if system.Name == "vectrex":
             retroarchOverrides.setString("aspect_ratio_index", retroarchConfig.getString("aspect_ratio_index", "24"))
             retroarchOverrides.saveFile()
+        if system.Name == "n64":
+            retroarchConfig.setBool("video_smooth", True)
 
     # Create tate mode configuration
     @staticmethod
@@ -405,7 +406,19 @@ class LibretroGenerator(Generator):
         # video driver config
         LibretroGenerator.createVideoDriverConfiguration(system, retroarchConfig)
 
-        # crt config (should be after tate as it will change ratio but keep other tate config)
+        # HD and widescreen config
+        libretroConfigHD, coreConfigHD, newCoreHD = LibretroGenerator.createHDWidescreenConfig(system)
+        for option in libretroConfigHD.items():
+            retroarchConfig.setString(option[0], option[1])
+        retroarchConfig.saveFile()
+        for option in coreConfigHD.items():
+            coreConfig.setString(option[0], option[1])
+        coreConfig.saveFile()
+        system.Core = newCoreHD
+
+        # crt config
+        # - should be after tate as it will change ratio but keep other tate config
+        # - should be after hd and widescreen as it set resolutions and scaling
         if system.CRTEnabled:
             LibretroGenerator.createCrtConfiguration(system, rom, recalboxOptions, retroarchConfig, coreConfig,
                                                      retroarchOverrides)
@@ -417,15 +430,6 @@ class LibretroGenerator(Generator):
         blitterCoreConfig = LibretroGenerator.createFBNeoBlitterConfig(system, rom)
         for option in blitterCoreConfig.items():
             coreConfig.setString(option[0], option[1])
-        # HD and widescreen config
-        libretroConfigHD, coreConfigHD, newCoreHD = LibretroGenerator.createHDWidescreenConfig(system)
-        for option in libretroConfigHD.items():
-            retroarchConfig.setString(option[0], option[1])
-        retroarchConfig.saveFile()
-        for option in coreConfigHD.items():
-            coreConfig.setString(option[0], option[1])
-        coreConfig.saveFile()
-        system.Core = newCoreHD
 
         # Netplay (force in configfile nick and port)
         netplayConfig = LibretroGenerator.createNetplayConfig(system)

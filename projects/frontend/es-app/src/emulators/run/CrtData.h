@@ -95,14 +95,44 @@ class CrtData
         mHighResolutionConfigured = true;
       }
     }
+
     /*!
-     * @brief Auto configure high resolution depending on the mode
+     * @brief check if the game is HD
+     * @param game
+     * @param emulator
+     * @return
+     */
+    bool GameIsHD(FileData* game, const EmulatorData& emulator) const
+    {
+      bool gameIsHd = game->System().Descriptor().CrtHighResolution();
+      if(game->System().IsArcade())
+      {
+        String emu = emulator.Emulator();
+        String core =  emulator.Core();
+        const ArcadeDatabase* database = game->System().ArcadeDatabases().LookupDatabase(*game, emu, core);
+        if (database != nullptr){
+          const ArcadeGame* arcade = database->LookupGame(*game);
+          if(arcade != nullptr)
+            gameIsHd |= (arcade->ScreenRotation() == RotationType::None && arcade->Height() >= 480);
+        }
+      }
+      return gameIsHd;
+    }
+
+    /*!
+     * @brief Auto configure high resolution. Will set high res if the game is HD and we have interlaced support.
+     * Or if the game is HD and we are on multisync.
+     * Or if we are in 31khz only.
+     *
      * @param highRez True for 480, false for 240
      */
-    void AutoConfigureHighResolution(SystemData& system)
+    void AutoConfigureHighResolution(FileData* game, const EmulatorData& emulator)
     {
+      bool gameIsHd = GameIsHD(game, emulator);
       if (!mHighResolutionConfigured)
-        ConfigureHighResolution((system.Descriptor().CrtHighResolution() && Board::Instance().CrtBoard().HasInterlacedSupport()) || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
+        ConfigureHighResolution(
+          (gameIsHd && (Board::Instance().CrtBoard().HasInterlacedSupport() || Board::Instance().CrtBoard().MultiSyncEnabled()))
+          || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
     }
 
     /*!
@@ -123,26 +153,15 @@ class CrtData
      * @param game target game
      * @return True if the choice is required, false otherwise
      */
-    [[nodiscard]] bool MustChooseHighResolution(FileData* game, const EmulatorData& emulator) const
+    [[nodiscard]] bool MustChooseResolution(FileData* game, const EmulatorData& emulator) const
     {
-      bool gameCanRunInHd = game->System().Descriptor().CrtHighResolution();
-      if(game->System().IsArcade())
-      {
-        String emu = emulator.Emulator();
-        String core =  emulator.Core();
-        const ArcadeDatabase* database = game->System().ArcadeDatabases().LookupDatabase(*game, emu, core);
-        if (database != nullptr){
-          const ArcadeGame* arcade = database->LookupGame(*game);
-          if(arcade != nullptr)
-            gameCanRunInHd |= (arcade->ScreenRotation() == RotationType::None && arcade->Height() >= 480);
-        }
-      }
+      bool gameIsHd = GameIsHD(game, emulator);
       // If 15Khz, the system must support high rez and the interlaced must be supported by board
       // If 31khz, the board must support 120Hz
       // If multisync, return true if the system supports hd
-      return (gameCanRunInHd && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
+      return (gameIsHd && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
       || (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
-      || (gameCanRunInHd && Board::Instance().CrtBoard().MultiSyncEnabled());
+      || (gameIsHd && Board::Instance().CrtBoard().MultiSyncEnabled());
     }
 
     /*

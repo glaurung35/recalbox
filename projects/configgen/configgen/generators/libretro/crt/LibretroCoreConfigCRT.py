@@ -84,7 +84,8 @@ class LibretroCoreConfigCRT:
             lines["uae4arm_resolution"] = '"320x240"'
             lines["uae4arm_leds_on_screen"] = '"off"'
         if system.Name in ["n64", "64dd"]:
-            lines["parallel-n64-screensize"] = '"320x240"'
+            lines["parallel-n64-screensize"] = '"640x480"'
+            lines["parallel-n64-parallel-rdp-upscaling"] = '"2x"'
         if system.Name == "psx":
             lines["duckstation_Display.AspectRatio"] = '"Auto"'
             lines["duckstation_Display.CropMode"] = '"None"'
@@ -127,7 +128,7 @@ class LibretroCoreConfigCRT:
             lines["hatari_video_crop_overscan"] = '"true"'
             lines["hatari_video_hires"] = '"false"'
 
-        log = "Forcing core configuration: "
+        log = "Forcing core configuration:"
         for config in lines.items():
             log = "{} {}={}".format(log, config[0], config[1]).replace('"', '')
         recallog(log, log_type="CRT")

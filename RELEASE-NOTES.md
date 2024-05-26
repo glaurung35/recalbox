@@ -207,6 +207,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add themes support over network share
 - Fix missing md5 bios for Satellaview
 - Set default emulator to libretro-uae4arm for all Amiga systems
+- Fix N64 image quality on RGB dual + jamma
 
 ## Version 9.1-Pulstar
 

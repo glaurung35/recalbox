@@ -175,7 +175,7 @@ getMpvOptions() {
 # This is related to black screen issue
 doesBoardNeedKMSManager() {
   case "$(getArchName)" in
-    rpizero2|rpi3|rpi4|rpi4_64)
+    rpizero2|rpi3|rpi4|rpi4_64|rpi5_64)
       return 0 ;;
     *)
       return 1 ;;

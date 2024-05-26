@@ -564,7 +564,7 @@ void ViewController::LaunchCheck()
                            ICrtInterface::HorizontalFrequency::KHz31;
       const bool supports120Hz = Board::Instance().CrtBoard().Has120HzSupport();
       const bool isMultiSync = Board::Instance().CrtBoard().MultiSyncEnabled();
-      if (mGameLinkedData.Crt().MustChooseHighResolution(mGameToLaunch, emulator))
+      if (mGameLinkedData.Crt().MustChooseResolution(mGameToLaunch, emulator))
       {
         mWindow.pushGui(new GuiFastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
                                             (int) FastMenuType::CrtResolution,
@@ -575,7 +575,7 @@ void ViewController::LaunchCheck()
     }
     else
     {
-      mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch->System());
+      mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch, emulator);
     }
   }
 

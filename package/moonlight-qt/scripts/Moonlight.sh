@@ -145,7 +145,7 @@ function mlInit {
   do
     gameId=$(echo $line | cut -d "$moonlightSeparator" -f 1)
     gameShortName=$(echo $line | cut -d "$moonlightSeparator" -f 2)
-    [ -z "$gameShortName" ] && $(echo gameId)
+    [ -z "$gameShortName" ] && $(echo $gameId)
     gameLongName=$(echo $line | cut -d "$moonlightSeparator" -f 3)
     romFileName=$(gameShortNameToFileName $gameShortName $hostOrIP)
     [ ! -z "$hostOrIP" ] && romFileName="${hostOrIP}/${romFileName}"

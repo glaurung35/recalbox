@@ -200,17 +200,6 @@ appimage-amd64:
     - awk '/^## Version/ { flag=!flag; count+=1; next } flag && count < 2 {print}' RELEASE-NOTES.md >> /tmp/RELEASE-NOTES.md
     - mv /tmp/RELEASE-NOTES.md RELEASE-NOTES.md
     - cat RELEASE-NOTES.md
-    # Updates type
-    - |
-      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "alpha";then
-        sed -i "s/^updates.type=.*/updates.type=alpha/g" package/recalbox-system/*/recalbox.conf
-      fi
-      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "patron";then
-        sed -i "s/^updates.type=.*/updates.type=patron/g" package/recalbox-system/*/recalbox.conf
-      fi
-      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "jamma";then
-        sed -i "s/^updates.type=.*/updates.type=jamma/g" package/recalbox-system/*/recalbox.conf
-      fi
     # Build
     - WORKDIR="$(pwd)" CCACHE="true" OUTPUTDIR="$(pwd)/output"
     - mkdir -p ${OUTPUTDIR}
@@ -224,9 +213,10 @@ appimage-amd64:
         cat "configs/recalbox-${ARCH}_lite_defconfig"
         echo "Setting flag file recalbox.lite"
         touch "./board/recalbox/fsoverlay/recalbox/recalbox.lite"
+        sed -i "s/^updates.type=.*/updates.type=lite/g" package/recalbox-system/*/recalbox.conf
         docker run -e "ARCH=${ARCH}_lite" --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
         # clean specific lite elements
-        rm -rf "./board/recalbox/fsoverlay/recalbox/recalbox.lite" output/target/recalbox/recalbox.lite output/build/recalbox-romfs2/ output/target/recalbox/share_init/roms output/.config
+        rm -rf "./board/recalbox/fsoverlay/recalbox/recalbox.lite" output/target/recalbox/recalbox.lite output/build/recalbox-romfs2/ output/target/recalbox/share_init/roms output/.config output/build/recalbox-system
         export DIST_DIR="dist/${ARCH}_lite"
         mkdir -p "${DIST_DIR}"
         cp ${OUTPUTDIR}/images/recalbox/* "${DIST_DIR}"
@@ -235,6 +225,17 @@ appimage-amd64:
         cp ${WORKDIR}/RELEASE-NOTES.md "${DIST_DIR}/recalbox.releasenotes"
         cp ${WORKDIR}/RELEASE-NOTES-FULL.md "${DIST_DIR}/RELEASE-NOTES-FULL.md"
         uploadFolderToBucket "${AWS_ACCESS_KEY_ID}" "${AWS_SECRET_ACCESS_TOKEN}" "recalbox-builds-artifacts" "dist" "${CI_PIPELINE_ID}"
+      fi
+    # Updates type
+    - |
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "alpha";then
+        sed -i "s/^updates.type=.*/updates.type=alpha/g" package/recalbox-system/*/recalbox.conf
+      fi
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "patron";then
+        sed -i "s/^updates.type=.*/updates.type=patron/g" package/recalbox-system/*/recalbox.conf
+      fi
+      if echo "${CI_COMMIT_TAG:-""}" | grep -qi "jamma";then
+        sed -i "s/^updates.type=.*/updates.type=jamma/g" package/recalbox-system/*/recalbox.conf
       fi
     - docker run --rm --tmpfs /tmp:exec --security-opt seccomp=unconfined -v "${WORKDIR}:/work" -v "${OUTPUTDIR}:/work/output" -v "/recalbox-builds/dl:/share/dl" -v "/recalbox-builds/ccaches/ccache-${ARCH}:/share/ccache" -e "ARCH=${ARCH}" -e "GITLAB_TOKEN_RB5000=${GITLAB_TOKEN_RB5000}" -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" -e "RECALBOX_VERSION=${RECALBOX_VERSION}" -e "RECALBOX_CCACHE_ENABLED=${CCACHE}" "recalbox-${ARCH}" 2>&1 | tee build.log | grep '>>>' || tac build.log | grep '>>>' -m 1 -B 9999 | tac
     - echo $?

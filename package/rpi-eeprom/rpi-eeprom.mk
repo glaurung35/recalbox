@@ -15,6 +15,7 @@ define RPI_EEPROM_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 0755 $(@D)/rpi-eeprom-config $(TARGET_DIR)/usr/bin
 	$(INSTALL) -D -m 0755 $(@D)/rpi-eeprom-digest $(TARGET_DIR)/usr/bin
 	$(INSTALL) -D -m 0755 $(@D)/rpi-eeprom-update $(TARGET_DIR)/usr/bin
+	$(INSTALL) -D -m 0755 $(RPI_EEPROM_PKGDIR)/S01rpibootloaderautoupdate $(TARGET_DIR)/etc/init.d/
 endef
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)

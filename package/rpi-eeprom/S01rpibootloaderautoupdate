@@ -1,0 +1,15 @@
+#!/bin/bash
+
+if test "$1" == "start"; then
+  if grep -q "rpi_auto_bootloader_upgrade=1" /boot/recalbox-boot.conf; then
+    if rpi-eeprom-update | grep "\*\*\* UPDATE AVAILABLE \*\*\*"; then
+      echo "S01rpibootloaderautoupdate Update available, auto updating." >> /boot/hardware.log
+      mount -o remount,rw /boot
+      rpi-eeprom-update -a
+      mount -o remount,rw /boot
+      if [ $? ]; then echo "S01rpibootloaderautoupdate Bootloader up to date." >> /boot/hardware.log
+      else echo "S01rpibootloaderautoupdate Error while updating bootloader." >> /boot/hardware.log
+      fi
+    fi
+  fi
+fi

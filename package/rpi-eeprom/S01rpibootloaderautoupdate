@@ -7,8 +7,11 @@ if test "$1" == "start"; then
       mount -o remount,rw /boot
       rpi-eeprom-update -a
       mount -o remount,rw /boot
-      if [ $? ]; then echo "S01rpibootloaderautoupdate Bootloader up to date." >> /boot/hardware.log
-      else echo "S01rpibootloaderautoupdate Error while updating bootloader." >> /boot/hardware.log
+      if [ $? ]; then
+        echo "S01rpibootloaderautoupdate Bootloader up to date." >> /boot/hardware.log
+	reboot
+      else 
+        echo "S01rpibootloaderautoupdate Error while updating bootloader." >> /boot/hardware.log
       fi
     fi
   fi

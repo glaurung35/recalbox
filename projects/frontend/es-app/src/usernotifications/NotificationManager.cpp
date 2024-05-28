@@ -10,6 +10,9 @@
 #include <sys/wait.h>
 #include "NotificationManager.h"
 #include <spawn.h>
+#include <fcntl.h>
+#include <sys/stat.h>
+#include <poll.h>
 
 /*
  * Members
@@ -97,16 +100,16 @@ Notification NotificationManager::ActionFromString(const String& action)
   return sStringToAction[action];
 }
 
-bool NotificationManager::ExtractSyncFlagFromPath(const Path& path)
+ScriptAttributes NotificationManager::ExtractAttributesFromPath(const Path& path)
 {
   const String scriptName = path.FilenameWithoutExtension().LowerCase();
-  return (scriptName.Contains("(sync)"));
-}
+  // Get attributes
+  ScriptAttributes result = ScriptAttributes::None;
+  if (scriptName.Contains("(sync)")) result |= ScriptAttributes::Synced;
+  if (scriptName.Contains("(progress)")) result |= ScriptAttributes::ReportProgress | ScriptAttributes::Synced;
+  if (scriptName.Contains("(permanent)")) result = ScriptAttributes::Permanent;
 
-bool NotificationManager::ExtractPermanentFlagFromPath(const Path& path)
-{
-  const String scriptName = path.FilenameWithoutExtension().LowerCase();
-  return (scriptName.Contains("(permanent)"));
+  return result;
 }
 
 Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
@@ -129,6 +132,7 @@ Notification NotificationManager::ExtractNotificationsFromPath(const Path& path)
 
 void NotificationManager::LoadScriptList()
 {
+  // Load event scripts
   Path scriptsFolder(sScriptPath);
   Path::PathList scripts = scriptsFolder.GetDirectoryContent();
 
@@ -136,18 +140,29 @@ void NotificationManager::LoadScriptList()
     if (path.IsFile())
       if (HasValidExtension(path))
       {
-        bool permanent = ExtractPermanentFlagFromPath(path);
-        bool synced = ExtractSyncFlagFromPath(path) && !permanent;
-        if (permanent)
+        ScriptAttributes attributes = ExtractAttributesFromPath(path);
+        if (hasFlag(attributes, ScriptAttributes::Permanent))
         {
-          RunProcess(path, {}, false, true);
+          RunProcess(path, {}, attributes, nullptr);
           { LOG(LogDebug) << "[Script] Run permanent UserScript: " << path.ToString(); }
         }
         else
         {
-          mScriptList.push_back({ path, ExtractNotificationsFromPath(path), synced });
+          mScriptList.push_back({ path, ExtractNotificationsFromPath(path), attributes });
           { LOG(LogDebug) << "[Script] Scan UserScript: " << path.ToString(); }
         }
+      }
+
+  // Load manual scripts
+  Path manualScriptsFolder(sManualScriptPath);
+  scripts = manualScriptsFolder.GetDirectoryContent();
+
+  for(const Path& path : scripts)
+    if (path.IsFile())
+      if (HasValidExtension(path))
+      {
+        mManualScriptList.push_back({ path, Notification::None, ExtractAttributesFromPath(path) });
+        { LOG(LogDebug) << "[Script] Manual UserScript: " << path.ToString(); }
       }
 }
 
@@ -182,7 +197,7 @@ void NotificationManager::RunScripts(Notification action, const String& param)
   for(const ScriptData* script : scripts)
   {
     // Run!
-    RunProcess(script->mPath, args, script->mSync, false);
+    RunProcess(script->mPath, args, script->mAttribute, nullptr);
   }
 }
 
@@ -426,8 +441,11 @@ void NotificationManager::Notify(const SystemData* system, const FileData* game,
   }
 }
 
-void NotificationManager::RunProcess(const Path& target, const String::List& arguments, bool synchronous, bool permanent)
+void NotificationManager::RunProcess(const Path& target, const String::List& arguments, ScriptAttributes attributes, ScriptOutputListenerInterface* interface)
 {
+  if (interface != nullptr)
+    interface->ScriptStarts(target, attributes);
+
   // final argument array
   std::vector<const char*> args;
 
@@ -437,9 +455,9 @@ void NotificationManager::RunProcess(const Path& target, const String::List& arg
   String ext = target.Extension().LowerCase();
   if      (ext == ".sh")  { command = "/bin/sh";          args.push_back(command.data()); }
   else if (ext == ".ash") { command = "/bin/ash";         args.push_back(command.data()); }
-  else if (ext == ".py")  { command = "/usr/bin/python";  args.push_back(command.data()); }
-  else if (ext == ".py2") { command = "/usr/bin/python2"; args.push_back(command.data()); }
-  else if (ext == ".py3") { command = "/usr/bin/python3"; args.push_back(command.data()); }
+  else if (ext == ".py")  { command = "/usr/bin/python";  args.push_back(command.data()); args.push_back("-u"); }
+  else if (ext == ".py2") { command = "/usr/bin/python2"; args.push_back(command.data()); args.push_back("-u"); }
+  else if (ext == ".py3") { command = "/usr/bin/python3"; args.push_back(command.data()); args.push_back("-u"); }
   else { command = target.ToString(); }
 
   args.push_back(target.ToChars());
@@ -460,27 +478,123 @@ void NotificationManager::RunProcess(const Path& target, const String::List& arg
   }
 
   pid_t pid = 0;
-  posix_spawnattr_t spawn_attr;
-  posix_spawnattr_init(&spawn_attr);
-  int status = posix_spawn(&pid, command.data(), nullptr, &spawn_attr, (char **) args.data(), mEnvironment);
-  posix_spawnattr_destroy(&spawn_attr);
+  posix_spawnattr_t spawnAttributes;
+  posix_spawnattr_init(&spawnAttributes);
+
+  // Init file action to redirect stdout/stderr
+  posix_spawn_file_actions_t spawnFileActions;
+  posix_spawn_file_actions_init(&spawnFileActions);
+  int pipeStdOut[2];
+  int pipeStdErr[2];
+  if (hasFlag(attributes, ScriptAttributes::ReportProgress))
+  {
+    pipe(pipeStdOut);
+    pipe(pipeStdErr);
+
+    // Close copied read handles
+    posix_spawn_file_actions_addclose(&spawnFileActions, pipeStdOut[0]);
+    posix_spawn_file_actions_addclose(&spawnFileActions, pipeStdErr[0]);
+    // Duplicate copied write handle
+    posix_spawn_file_actions_adddup2(&spawnFileActions, pipeStdOut[1], STDOUT_FILENO);
+    posix_spawn_file_actions_adddup2(&spawnFileActions, pipeStdErr[1], STDERR_FILENO);
+    // Close copied write handle
+    posix_spawn_file_actions_addclose(&spawnFileActions, pipeStdOut[1]);
+    posix_spawn_file_actions_addclose(&spawnFileActions, pipeStdErr[1]);
+  }
+  // SPAWN !
+  int status = posix_spawn(&pid, command.data(), &spawnFileActions, nullptr, (char**)args.data(), mEnvironment);
 
   if (status != 0) // Error
   {
     { LOG(LogError) << "[Script] Error running " << target.ToString() << " (spawn failed)"; }
+    if (interface != nullptr)
+      interface->ScriptCompleted(target, attributes, "", true, "Failed to run !");
     return;
   }
 
   // Wait for child?
-  if (synchronous)
+  bool error = false;
+  String outputContent;
+  String errorContent;
+  int outputIndex = 0;
+  if (hasFlag(attributes, ScriptAttributes::Synced))
   {
-    if (waitpid(pid, &status, 0) != pid)
-    { LOG(LogError) << "[Script] Error waiting for " << target.ToString() << " to complete. (waitpid failed)"; }
+    if (hasFlag(attributes, ScriptAttributes::ReportProgress))
+    {
+      // Close write handle on parent size
+      close(pipeStdOut[1]);
+      close(pipeStdErr[1]);
+
+      // Open pipes
+      struct pollfd polls[2] { { pipeStdOut[0], POLLIN, 0 }, { pipeStdErr[0], POLLIN, 0 } };
+      for (;;)
+      {
+        // Read error & output
+        while(poll(&polls[0], 2, 20) > 0)
+        {
+          bool hasRead = false;
+          if ((polls[1].revents & POLLIN) != 0)
+          {
+            if (char c = 0; read(pipeStdErr[0], &c, 1) == 1)
+            { errorContent.Append(c); hasRead = true; }
+          }
+          if ((polls[0].revents & POLLIN) != 0)
+          {
+            if (char c = 0; read(pipeStdOut[0], &c, 1) == 1)
+            {
+              if (c == '\n')
+              {
+                String line(outputContent.data() + outputIndex, outputContent.Count() - outputIndex);
+                //printf("%s\n", line.data());
+                if (interface != nullptr)
+                  interface->ScriptOutputLine(target, attributes, line);
+                outputIndex = outputContent.Count() + 1;
+              }
+              outputContent.Append(c);
+              hasRead = true;
+            }
+          }
+          if (!hasRead) break; // Error received
+        }
+
+        // Check if the script is still running
+        int err = waitpid(pid, &status, WNOHANG);
+        if (err < 0)
+        {
+          { LOG(LogError) << "[Script] Error waiting for " << target.ToString() << " to complete. (waitpid failed)"; }
+          error = true;
+          break;
+        }
+        if (err == pid)
+          break;
+      }
+
+      // Close pipes
+      close(pipeStdOut[0]);
+      close(pipeStdErr[0]);
+    }
+    else if (waitpid(pid, &status, 0) != pid)
+      { LOG(LogError) << "[Script] Error waiting for " << target.ToString() << " to complete. (waitpid failed)"; }
+
+    // Check status
+    if (WEXITSTATUS(status) != 0) // Error
+    {
+      { LOG(LogError) << "[Script] Running script " << target.ToString() << " returned an error"; }
+      if (!errorContent.empty()) errorContent.Append('\n');
+      errorContent.Append("Exited with code ").Append(WEXITSTATUS(status));
+      error = true;
+    }
   }
 
+  if (interface != nullptr)
+    interface->ScriptCompleted(target, attributes, outputContent, !errorContent.empty() || error, errorContent);
+
   // Permanent?
-  if (permanent)
+  if (hasFlag(attributes, ScriptAttributes::Permanent))
     sPermanentScriptsPID.insert(target.ToString(), pid);
+
+  posix_spawnattr_destroy(&spawnAttributes);
+  posix_spawn_file_actions_destroy(&spawnFileActions);
 }
 
 bool NotificationManager::HasValidExtension(const Path& path)
@@ -504,4 +618,27 @@ void NotificationManager::WaitCompletion()
     if (!havePendings && !mProcessing) break;
     Thread::Sleep(100);
   }
+}
+
+Path::PathList NotificationManager::GetManualScriptList() const
+{
+  Path::PathList result;
+  for(const ScriptData& data : mManualScriptList)
+    result.push_back(data.mPath);
+  return result;
+}
+
+bool NotificationManager::RunManualScriptAt(int index, ScriptOutputListenerInterface* interface)
+{
+  if ((unsigned int)index < (unsigned int)mManualScriptList.size())
+  {
+    { LOG(LogError) << "[Script] Running manual script " << mManualScriptList[index].mPath; }
+    RunProcess(mManualScriptList[index].mPath, {}, mManualScriptList[index].mAttribute, interface);
+    return true;
+  }
+
+  { LOG(LogError) << "[Script] Error running " << mManualScriptList[index].mPath << " (index out of range)"; }
+  if (interface != nullptr)
+    interface->ScriptCompleted(Path::Empty, ScriptAttributes::None, "", true, "Script index out of range !");
+  return false;
 }

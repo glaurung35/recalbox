@@ -18,9 +18,6 @@ class ProgressBarComponent : public Component
     unsigned int mFillColor;
     unsigned int mTextColor;
 
-    void Update(int deltaTime) override;
-    void Render(const Transform4x4f& parentTrans) override;
-
   public:
     ProgressBarComponent(WindowManager&window, long long maxvalue);
 
@@ -43,4 +40,7 @@ class ProgressBarComponent : public Component
 	  long long getCurrentValue() const { return mCurrentValue; }
 
 	  String getText() const { return String((float)mCurrentValue * 100.0f / (float)mMaxValue, 2).Append('%'); }
+
+    void Update(int deltaTime) override;
+    void Render(const Transform4x4f& parentTrans) override;
 };

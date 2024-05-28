@@ -15,6 +15,7 @@
 #include "ResolutionAdapter.h"
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
+#include "GuiMenuUserScripts.h"
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 //#include <components/OptionListComponent.h>
@@ -81,6 +82,10 @@ GuiMenuAdvancedSettings::GuiMenuAdvancedSettings(WindowManager& window, SystemMa
 
   // Recalbox Manager
   AddSwitch(_("RECALBOX MANAGER"), RecalboxConf::Instance().GetSystemManagerEnabled(), (int)Components::Manager, this, _(MENUMESSAGE_ADVANCED_MANAGER_HELP_MSG));
+
+  // User scripts
+  if (NotificationManager::Instance().HasManualScript())
+    AddSubMenu(_("USER SCRIPTS"), (int)Components::UserScripts, _(MENUMESSAGE_ADVANCED_USER_SCRIPTS));
 
   // Eeprom update
   if(MenuFilter::ShouldDisplayMenuEntry(MenuFilter::PiEeprom))
@@ -256,6 +261,7 @@ void GuiMenuAdvancedSettings::SwitchComponentChanged(int id, bool& status)
     case Components::CrtSubMenu:
     case Components::ResolutionSubMenu:
     case Components::EepromUpdate:
+    case Components::UserScripts:
     default: break;
   }
 }
@@ -270,6 +276,7 @@ void GuiMenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdvancedSubMenu: mWindow.pushGui(new GuiMenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new GuiMenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new GuiMenuResolutionSettings(mWindow, mSystemManager)); break;
+    case Components::UserScripts: mWindow.pushGui(new GuiMenuUserScripts(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:

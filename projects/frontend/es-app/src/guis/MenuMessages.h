@@ -230,6 +230,7 @@ class MenuMessages
     #define MENUMESSAGE_ADVANCED_EMU_CORE_HELP_MSG "Select which core to use for the selected emulator. For example, the LIBRETRO emulator has many cores to run Super Nintendo games. The default core you choose here can also be overridden in game specific settings."
     #define MENUMESSAGE_ADVANCED_FACTORY_RESET "WARNING! This option erase all recalbox and emulator configurations! Use it carefully!"
     #define MENUMESSAGE_ADVANCED_EEPROM_UPDATE "Update your Raspberry Pi's bootloader."
+    #define MENUMESSAGE_ADVANCED_USER_SCRIPTS "Allows you to run external scripts"
 
 
     #define MENUMESSAGE_GAMELISTOPTION_JUMP_LETTER_MSG "Select a letter and the listing will go directly on the first game starting with this letter."

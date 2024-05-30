@@ -361,9 +361,15 @@ class LibretroRetroarch:
                     settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
                 elif self.system.Name == 'satellaview':
                     settings.setString("system_directory", recalboxFiles.BIOS + "/satellaview")
+                else:
+                    settings.setString("system_directory", recalboxFiles.BIOS)
             case 'bsneshd':
                 if self.system.Name == 'gb' or self.system.Name == 'gbc':
                     settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
+                elif self.system.Name == 'satellaview':
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/satellaview")
+                else:
+                    settings.setString("system_directory", recalboxFiles.BIOS)
             case 'cdi2015':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/cdi")
             case 'emuscv':
@@ -375,29 +381,52 @@ class LibretroRetroarch:
             case 'freeintv':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/intellivision")
             case 'gambatte':
-                if self.system.Name == 'gb':
-                    settings.setString("system_directory", recalboxFiles.BIOS + "/gb")
-                elif self.system.Name == 'gbc':
-                    settings.setString("system_directory", recalboxFiles.BIOS + "/gbc")
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
+            case 'gearsystem':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
+            case 'genesisplusgx':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
+            case 'genesisplusgxwide':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
             case 'gpsp':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/gba")
+            case 'mednafen_pce_fast':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
             case 'mednafen_pcfx':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/pcfx")
+            case 'mednafen_supergrafx':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
+            case 'mesen_s':
+                if self.system.SuperGameBoy:
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
+                else:
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
+            case 'minivmac':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/macintosh")
             case 'mu':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/palm")
             case 'o2em':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/o2em")
             case 'opera':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/3do")
+            case 'picodrive':
+                settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
             case 'pokemini':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/pokemini")
             case 'prosystem':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/atari7800")
+            case 'sameboy':
+                if self.system.SuperGameBoy:
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/sgb")
+                else:
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/" + self.system.Name)
             case 'snes9x':
                 if self.system.Name == 'satellaview':
                     settings.setString("system_directory", recalboxFiles.BIOS + "/satellaview")
                 elif self.system.Name == 'sufami':
                     settings.setString("system_directory", recalboxFiles.BIOS + "/sufami")
+                else:
+                    settings.setString("system_directory", recalboxFiles.BIOS)
             case _:
                 settings.setString("system_directory", recalboxFiles.BIOS);
 

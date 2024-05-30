@@ -1,0 +1,11 @@
+--- a/platforms/libretro/libretro.cpp	2024-06-09 00:09:32
++++ b/platforms/libretro/libretro.cpp	2024-06-09 14:04:39
+@@ -245,7 +245,7 @@
+     char bootrom_sms_path[4112];
+     char bootrom_gg_path[4112];
+ 
+-    sprintf(bootrom_sms_path, "%s%cbios.sms", retro_system_directory, slash);
++    sprintf(bootrom_sms_path, "%s%cbios_U.sms", retro_system_directory, slash);
+     sprintf(bootrom_gg_path, "%s%cbios.gg", retro_system_directory, slash);
+ 
+     core->GetMemory()->LoadBootromSMS(bootrom_sms_path);

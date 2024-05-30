@@ -58,7 +58,8 @@
   </system>
   <system fullname="Sega Naomi" platform="naomi">
     <bios path="dc/naomi.zip"    md5="7300a99a4fc856d1a3c36b4485789897,40ae83a9552df0f340d5eeeadc5436ea,
-                                      7ed453bda92b25156536ff055b8685b6,a48e7a735b9036be8f150018155370ad" core="flycast" />
+                                      7ed453bda92b25156536ff055b8685b6,a48e7a735b9036be8f150018155370ad,
+                                      e1dcb105789296b93bf58e37b7f38fc6" core="flycast" />
     <bios path="dc/airlbios.zip" md5="06dd41b614a6d6d079ec1ee73e2bf87d,5b7de05fb2dea6fb0408149c9bada27c,
                                       987e08b1786a93653281ca8a5b21dc7f" mandatory="false" hashMatchMandatory="false" core="flycast" note="Required only for the game 'Airline Pilots'" />
     <bios path="dc/hod2bios.zip" md5="09b92ad1240fba7954985bdee59d1741,2c08c42cc8c6eb3a4e07bff07db5102f,
@@ -176,7 +177,7 @@
     <bios path="lynx/lynxboot.img" md5="fcd403db69f54290b51035d82f835e7b" core="handy,mednafen_lynx" />
   </system>
   <system fullname="Atari ST/STE/MegaSTE/TT/Falcon" platform="atarist">
-    <bios path="/recalbox/share/bios/tos.img|/recalbox/share/bios/atarist/tos.img" md5="27ac71b59d59f65571b972e0f894054a,5d65c6a384d847a0b8013d5e22ec0887,
+    <bios path="/recalbox/share/bios/atarist/tos.img|/recalbox/share/bios/tos.img" md5="27ac71b59d59f65571b972e0f894054a,5d65c6a384d847a0b8013d5e22ec0887,
                                               f62bc9777f28bc6876422738758db365,d41ae4efaa2c97f632dbe75d24d51bea,
                                               c87a52c277f7952b41c639fc7bf0a43b,e0444d8c51a8093a3f09665d8099c0af,
                                               d0f682ee6237497004339fb02172638b,5491b3755992feaf743ceecaa3b18f34,
@@ -436,7 +437,7 @@
     <bios path="Machines/Shared Roms/nowindDos2.rom"             md5="1847398c014384b833868c64f149f338" core="bluemsx" note="Get from http://bluemsx.msxblue.com/rel_download/blueMSXv282full.zip" />
   </system>
   <system fullname="Sega GameGear" platform="gamegear">
-    <bios path="gamegear/bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx" />
+    <bios path="gamegear/bios.gg" md5="672e104c3be3a238301aceffc3b23fd6" mandatory="false" core="genesisplusgx,gearsystem" />
   </system>
   <system fullname="Sega MasterSystem" platform="mastersystem">
     <bios path="mastersystem/bios_E.sms" md5="840481177270d5642a14ca71ee72844c,4187d96beaf36385e681a3cf3bd1663d,
@@ -445,11 +446,11 @@
                                  bdb34f2c471e5d0c358eeec621f9d029" mandatory="false" core="genesisplusgx" />
     <bios path="mastersystem/bios_U.sms" md5="840481177270d5642a14ca71ee72844c,b264bef9bda264ffe83afcebac21b81f,
                                  e8b26871629b938887757a64798df6dc,02cbb2e348945c9ac41e37502a58ca76,
-                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx" />
+                                 5cd8f62cd8786af0226e6d2248279338,08b81aa6be18b92daef1b875deecf824" mandatory="false" core="genesisplusgx,gearsystem" />
     <bios path="mastersystem/bios_J.sms" md5="24a519c53f67b00640d0048ef7089105" mandatory="false" core="genesisplusgx" />
   </system>
   <system fullname="Sega Megadrive/Genesis" platform="megadrive">
-    <bios path="megadrive/bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx" />
+    <bios path="megadrive/bios_MD.bin" md5="45e298905a08f9cfb38fd504cd6dbc84" mandatory="false" core="genesisplusgx,genesisplusgxwide" />
   </system>
   <system fullname="Nintendo Gameboy" platform="gb">
     <bios path="gb/gb_bios.bin" md5="32fbbd84168d3482956eb3c5051637f5" mandatory="false" core="mgba,gambatte,mesen_s" />
@@ -524,7 +525,7 @@
                                                                                              ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
                                                                                              b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
                                                                                              ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
-                                                                                             a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+                                                                                             a3b2c9a69c28ad0bd4ea07877b744bbe,00dad01abdbf8ea9e79ad2fe11bdb182" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="geolith/aes.zip" md5="ad9585c72130c56f04ae26aae87c289d,7a4dcd56b3924215aac7f903ff907339" mandatory="true" hashMatchMandatory="false" core="geolith" />
     <bios path="geolith/neogeo.zip" md5="00dad01abdbf8ea9e79ad2fe11bdb182,912c0a56bafe0fba39d0c668b139b250" mandatory="true" hashMatchMandatory="false" core="geolith" />
   </system>
@@ -540,7 +541,7 @@
                                  ae9e5825cde82c58e39dfd48534f7060,b18f83feef474b8a1306ef199cd810a2,
                                  b4519df27a352c2a6e42e06d31330d91,bf00272e7150b31156a8995d60bf185d,
                                  ca66fd463ef7dcab492a6de8ce5f45eb,f4a125538dfd7a8044e025fc5188fb88,
-                                 a3b2c9a69c28ad0bd4ea07877b744bbe" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
+                                 a3b2c9a69c28ad0bd4ea07877b744bbe,00dad01abdbf8ea9e79ad2fe11bdb182" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="neocdz.zip" md5="f39572af7584cb5b3f70ae8cc848aba2,389dbeb0cb857c130414747462cf9d71,c85b8132799f1b2ad3754a97947809d2,b9ab07a79997fc044ca164fc72cd5680" hashMatchMandatory="false" core="fbneo,fba2x,mame2000,mame2003,mame2003-plus,mame2010,mame2015" />
     <bios path="neocd/neocd.bin"                 md5="f39572af7584cb5b3f70ae8cc848aba2" core="neocd" mandatory="true" hashMatchMandatory="false" note="CDZ BIOS (MAME)" />
     <bios path="neocd/uni-bioscd.rom"            md5="08ca8b2dba6662e8024f9e789711c6fc" core="neocd" mandatory="false" hashMatchMandatory="false" note="Universe BIOS CD 3.3" />

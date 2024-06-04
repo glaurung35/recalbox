@@ -92,12 +92,31 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Shortcuts
      */
 
+    #define DoNotify(name, value) do{ for(name##ConfigurationNotify* p : mArrayOf##name##Notify) p->name##ConfigurationChanged(value); }while(false)
+
+    #define DefineObservable(clazz, name, type) \
+      public: \
+        class name##ConfigurationNotify; \
+      private: \
+        Array<name##ConfigurationNotify*> mArrayOf##name##Notify; \
+      public: \
+        void Add##name##ConfigurationNotification(name##ConfigurationNotify* notified) { mArrayOf##name##Notify.Add(notified); } \
+        void Remove##name##ConfigurationNotification(name##ConfigurationNotify* notified) { mArrayOf##name##Notify.Remove(notified); } \
+        class name##ConfigurationNotify \
+        { \
+          public: \
+            name##ConfigurationNotify() { clazz::Instance().Add##name##ConfigurationNotification(this); }; \
+            virtual ~name##ConfigurationNotify() { clazz::Instance().Remove##name##ConfigurationNotification(this); }; \
+            virtual void name##ConfigurationChanged(const type& value) = 0; \
+        };
+
     #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
       clazz& Delete##name() { Delete(key); return *this; } \
       bool IsDefined##name() const { return IsDefined(key); } \
-      clazz& Set##name(const type& value) { Set##type2(key, value); return *this; } \
-      bool Has##name() const { return HasKey(key); }
+      clazz& Set##name(const type& value) { Set##type2(key, value); DoNotify(name, value); return *this; } \
+      bool Has##name() const { return HasKey(key); } \
+      DefineObservable(clazz, name, type)
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
       DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)

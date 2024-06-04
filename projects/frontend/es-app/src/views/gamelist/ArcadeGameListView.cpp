@@ -137,6 +137,7 @@ void ArcadeGameListView::ArcadeUseDatabaseNamesConfigurationChanged(const bool& 
   if (value != mIsUsingArcadeDatabaseNames)
   {
     mIsUsingArcadeDatabaseNames = value;
+    Invalidate();
   }
 }
 

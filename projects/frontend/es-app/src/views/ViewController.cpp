@@ -261,18 +261,6 @@ void ViewController::goToGameList(SystemData* system)
     mCamera.translation().x() = -position;
 	}
 
-	if (mInvalidGameList[system])
-	{
-		mInvalidGameList[system] = false;
-    if (!GetOrReCreateGamelistView(system))
-    {
-      // if listview has been reload due to last game has been deleted,
-      // we have to stop the previous goToGameList process because current
-      // system will no longer exists in the available list
-      return;
-    }
-	}
-
   ChangeView(ViewType::GameList, system);
 	playViewTransition();
 
@@ -689,10 +677,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
     new DetailedGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches);
   view->DoInitialize();
 
-	addChild(view);
-
 	mGameListViews[system] = view;
-	mInvalidGameList[system] = false;
 
   ReorderGamelistViewBeforeMoving(system, Move::None);
 
@@ -814,43 +799,17 @@ void ViewController::Render(const Transform4x4f& parentTrans)
 	}
 }
 
-bool ViewController::GetOrReCreateGamelistView(SystemData* system)
+void ViewController::InvalidateGamelist(SystemData* system)
 {
-  for (auto& it : mGameListViews)
-    if (it.first == system)
-    {
-      ISimpleGameListView* view = it.second;
-      bool isCurrent = (mCurrentView == view);
-      FileData *cursor = view->Count() != 0 ? view->getCursor() : nullptr;
-      mGameListViews.erase(system);
-
-      if (system->HasVisibleGame())
-      {
-        ISimpleGameListView* newView = GetOrCreateGamelistView(system);
-        newView->setCursor(cursor);
-        if (isCurrent) mCurrentView = newView;
-        mGameListViews[system] = newView;
-        return true;
-      }
-    }
-  return false;
-}
-
-void ViewController::InvalidateGamelist(const SystemData* system)
-{
-	for (auto& mGameListView : mGameListViews)
-		if (system == (mGameListView.first))
-		{
-			mInvalidGameList[mGameListView.first] = true;
-			break;
-		}
+  ISimpleGameListView** view = mGameListViews.try_get(system);
+  if (view != nullptr) (*view)->Invalidate();
 }
 
 void ViewController::InvalidateAllGamelistsExcept(const SystemData* systemExclude)
 {
-	for (auto& mGameListView : mGameListViews)
-		if (systemExclude != (mGameListView.first))
-			mInvalidGameList[mGameListView.first] = true;
+	for (auto& gameListView : mGameListViews)
+    if (gameListView.first != systemExclude)
+      gameListView.second->Invalidate();
 }
 
 bool ViewController::CollectHelpItems(Help& help)

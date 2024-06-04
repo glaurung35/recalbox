@@ -86,7 +86,6 @@ void MenuArcade::MenuSwitchChanged(int id, bool& status)
     case Components::UseDatabasesNames:
     {
       RecalboxConf::Instance().SetArcadeUseDatabaseNames(status).Save();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
       break;
     }
     case Components::ManufacturersVirtual:

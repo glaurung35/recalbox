@@ -156,20 +156,28 @@ class ISimpleGameListView : public Gui
     virtual void UpdateSlowData(const SlowDataInformation& info) = 0;
 
     /*!
+     * @brief Invalidate list content. Gamelist must refresh itself
+     */
+    void Invalidate() { mInvalidated = true; }
+
+    /*!
+     * @brief Override update to enable list auto-refresh
+     * @param elasped
+     */
+    void Update(int elapsed) override
+    {
+      Gui::Update(elapsed);
+      if (mInvalidated) { refreshList(); Validate(); }
+    }
+
+    /*!
      * @brief Refrest a list refresh
      */
     void ListRefreshRequired() { mListRefreshRequired = true; }
 
-    //! Refresh list
-    void Update(int deltatime) override
-    {
-      Gui::Update(deltatime);
-      (void)deltatime;
-      if (mListRefreshRequired)
-        refreshList();
-    }
-
   protected:
+    void Validate() { mInvalidated = false; }
+
     /*!
      * @brief Called right after the constructor
      */
@@ -199,6 +207,8 @@ class ISimpleGameListView : public Gui
     ThemeExtras mThemeExtras;
 
     std::stack<FolderData*> mCursorStack;
+
+    bool mInvalidated;
 
     /*
      * IThemeSwitchable

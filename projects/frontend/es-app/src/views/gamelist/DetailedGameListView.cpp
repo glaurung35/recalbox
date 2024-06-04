@@ -955,6 +955,7 @@ void DetailedGameListView::DisplayByFileNameConfigurationChanged(const bool& val
   if (value != mIsDisplayedByFileName)
   {
     mIsDisplayedByFileName = value;
+    Invalidate();
   }
 }
 

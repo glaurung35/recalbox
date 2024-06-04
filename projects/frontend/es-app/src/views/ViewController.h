@@ -70,8 +70,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void Launch(FileData* game, const GameLinkedData& netplay, const Vector3f& centerCameraOn, bool forceGoToGame);
 
-    bool GetOrReCreateGamelistView(SystemData* system);
-    void InvalidateGamelist(const SystemData* system);
+    void InvalidateGamelist(SystemData* system);
     void InvalidateAllGamelistsExcept(const SystemData* systemExclude);
 
     // Navigation.
@@ -228,7 +227,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     SplashView mSplashView;
     GameClipView mGameClipView;
     CrtCalibrationView mCrtView;
-    HashMap<SystemData*, bool> mInvalidGameList;
 
     ViewType mCurrentViewType;  //!< Current view type
     ViewType mPreviousViewType; //!< Previous view type

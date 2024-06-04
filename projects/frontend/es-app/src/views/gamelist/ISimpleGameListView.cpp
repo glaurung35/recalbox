@@ -18,6 +18,7 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   , mHeaderImage(window)
   , mBackground(window)
   , mThemeExtras(window)
+  , mInvalidated(false)
   , mVerticalMove(false)
   , mListRefreshRequired(false)
 {

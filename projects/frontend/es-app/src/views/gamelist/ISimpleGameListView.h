@@ -121,6 +121,13 @@ class ISimpleGameListView : public Gui
     virtual FileData::List getFileDataList() = 0;
 
     /*!
+     * @brief Get undecorated (NO icons or decorations) display name in functions of options
+     * @param game Game to lookup name
+     * @return Name
+     */
+    virtual String GetUndecoratedDisplayName(const FileData& game) = 0;
+
+    /*!
      * @brief Must be called right after the constructor
      */
     void DoInitialize()

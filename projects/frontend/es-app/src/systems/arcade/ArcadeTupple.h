@@ -11,10 +11,10 @@ class FileData;
 struct ArcadeTupple
 {
   const ArcadeGame* mArcade; //!< Arcade game - May be null
-  FileData* mGame;           //!< Game - Never null
+  const FileData* mGame;     //!< Game - Never null
 
   //! Constructor
-  ArcadeTupple(const ArcadeGame* arcade, FileData* game) : mArcade(arcade), mGame(game) {}
+  ArcadeTupple(const ArcadeGame* const arcade, const FileData* const game) : mArcade(arcade), mGame(game) {}
 };
 
 typedef std::vector<ArcadeTupple*> ArcadeTupplePointerList;

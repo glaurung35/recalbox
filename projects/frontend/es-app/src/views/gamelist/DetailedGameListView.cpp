@@ -14,6 +14,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mElapsedTimeOnGame(0)
   , mIsScraping(false)
   , mHeaderStars(window, 0.f)
+  , mIsDisplayedByFileName(RecalboxConf::Instance().GetDisplayByFileName())
   , mImage(window)
   , mNoImage(window)
   , mVideo(window, this)
@@ -949,13 +950,22 @@ String DetailedGameListView::getItemIcon(const FileData& item)
   return String();
 }
 
-String DetailedGameListView::GetDisplayName(FileData& game)
+void DetailedGameListView::DisplayByFileNameConfigurationChanged(const bool& value)
 {
-  // Select Icon
-  String result = getItemIcon(game);
-  // Get name
-  result.Append(RecalboxConf::Instance().GetDisplayByFileName() ? game.Metadata().RomFileOnly().ToString() : game.Name());
-  return result;
+  if (value != mIsDisplayedByFileName)
+  {
+    mIsDisplayedByFileName = value;
+  }
+}
+
+String DetailedGameListView::GetUndecoratedDisplayName(const FileData& game)
+{
+  return mIsDisplayedByFileName ? game.Metadata().RomFileOnly().ToString() : game.Name();
+}
+
+String DetailedGameListView::GetDisplayName(const FileData& game)
+{
+  return getItemIcon(game).Append(GetUndecoratedDisplayName(game));
 }
 
 void DetailedGameListView::populateList(const FolderData& folder)

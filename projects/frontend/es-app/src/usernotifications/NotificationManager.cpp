@@ -383,9 +383,9 @@ void NotificationManager::Run()
         mMQTTClient.Send(sEventJsonTopic, json);
 
         // Run scripts
-        const String& notificationParameter = (request->mFileData != nullptr)
-                                                   ? request->mFileData->RomPath().ToString()
-                                                   : ((request->mSystemData != nullptr) ? request->mSystemData->Name()
+        const String notificationParameter = (request->mFileData != nullptr)
+                                             ? request->mFileData->RomPath().ToString()
+                                             : ((request->mSystemData != nullptr) ? request->mSystemData->Name()
                                                                                         : request->mActionParameters);
         RunScripts(request->mAction, notificationParameter);
 

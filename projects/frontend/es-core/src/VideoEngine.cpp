@@ -500,11 +500,8 @@ void VideoEngine::DecodeFrames(bool decodeAudio)
 
 void VideoEngine::FinalizeDecoder()
 {
-  if (mIsPlaying)
-  {
-    SDL_CloseAudio();
-    mContext.Dispose();
-  }
+  SDL_CloseAudio();
+  mContext.Dispose();
 }
 
 #pragma GCC diagnostic pop

@@ -212,7 +212,6 @@ MainRunner::ExitState MainRunner::Run()
       // Main SDL loop
       exitState = MainLoop(window, systemManager, fileNotifier, mSyncMessageFactory);
 
-      videoEngine.StopVideo(true);
       ResetExitState();
       fileNotifier.ResetEventNotifier();
       DeleteReadyFlagFile();

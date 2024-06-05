@@ -7,6 +7,13 @@ as release notes for end user on a Recalbox upgrade.
 ## Next patch
 - Fix auto blitter configuration for cave games
 ## Version Next
+## Version 9.3
+
+### News
+
+- Add VVVVVV port
+
+## Version 9.2-Pulstar
 
 ### News
 - Rpi bootloader updated to 2024-06-05 (Add support for NVMe boot with PCIe switches)

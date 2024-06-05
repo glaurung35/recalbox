@@ -5,6 +5,13 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## Version 10
+## Version 9.3
+
+### News
+
+- Add VVVVVV port
+
+## Version 9.2-Pulstar
 
 ### News
 - Add manuel script runnable from Recalbox interface

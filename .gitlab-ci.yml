@@ -19,7 +19,6 @@ stages:
 variables:
   GIT_SUBMODULE_STRATEGY: none
 
-
 # Lint
 
 .lint_template: &lint_definition
@@ -170,11 +169,10 @@ appimage-amd64:
   script:
     - cd projects/frontend
     - appimage-builder --skip-test
-  only:
-    refs:
-      - merge_requests
-    changes:
-      - projects/frontend/**/*
+  rules:
+    - if: $CI_COMMIT_BRANCH && $FORCE_APPIMAGE == "true"
+      when: always
+    - when: never
   artifacts:
       paths:
         - 'projects/frontend/*.AppImage*'

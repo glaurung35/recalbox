@@ -329,7 +329,7 @@ class LibretroRetroarch:
         if self.system.Netplay:
             settings.setBool("netplay_use_mitm_server", False)
             if self.system.NetplayHostMode:
-                if self.system.HasNetplayMITM:
+                if self.system.HasNetplayMITM and self.system.NetplayMITM != "none":
                     settings.setBool("netplay_use_mitm_server", True) \
                             .setString("netplay_mitm_server", self.system.NetplayMITM)
             else:

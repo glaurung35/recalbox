@@ -114,7 +114,7 @@ const String& RecalboxConf::RelayFromEnum(RecalboxConf::Relay relay)
     case Relay::Saopaulo: { static String sSauPaulo = "saopaulo"; return sSauPaulo; }
     case Relay::None: default: break;
   }
-  static String sDefault = "none";
+  static String sDefault = "";
   return sDefault;
 }
 

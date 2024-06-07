@@ -300,4 +300,8 @@ recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[14] - CORE LIST"
 
 # END
 
+# call postshare.sh script
+recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[15] - POST SHARE SCRIPT"
+test -e "/boot/postshare.sh" && bash /boot/postshare.sh
+
 stopMpvQueue

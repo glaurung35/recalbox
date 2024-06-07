@@ -56,7 +56,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add libretro-dolphin (MagicSeb)
 - Add possibility to adjust music volume in EmulationStation
 - Add en_GB translation (SecularSteve)
-- Execute /boot/firstboot.sh on first boot
+- Execute /boot/postshare.sh on first boot
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

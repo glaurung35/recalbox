@@ -296,8 +296,8 @@ class LibretroRetroarch:
           settings.setInt("input_libretro_device_p0", self.CORE_TO_PLAYER1_DEVICE[core])
         if core in self.CORE_TO_PLAYER2_DEVICE:
           settings.setInt("input_libretro_device_p1", self.CORE_TO_PLAYER2_DEVICE[core])
-        # Sens9x2010 case
-        if len(self.controllers) > 2 and self.system.Core == 'snes9x2010':
+        # Snes9x and snes9x2010 cases
+        if len(self.controllers) > 2 and (self.system.Core == 'snes9x' or self.system.Core == 'snes9x2010'):
             settings.setInt("input_libretro_device_p1", 257)
         # Fuse case - Force keyboard as P3
         if self.system.Core == 'fuse':

@@ -6,12 +6,13 @@
 class ISimpleGameListView;
 
 class GuiMenuGamelistOptions : public GuiMenuBase
-                         , private GuiMetaDataEd::IMetaDataAction
-                         , private IOptionListComponent<unsigned int>
-                         , private IOptionListComponent<Regions::GameRegions>
-                         , private IOptionListComponent<FileSorts::Sorts>
-                         , private IGuiMenuBase
-                         , private ISwitchComponent
+                             , private GuiMetaDataEd::IMetaDataAction
+                             , private IOptionListComponent<unsigned int>
+                             , private IOptionListComponent<Regions::GameRegions>
+                             , private IOptionListComponent<FileSorts::Sorts>
+                             , private IOptionListMultiComponent<RecalboxConf::GamelistDecoration>
+                             , private IGuiMenuBase
+                             , private ISwitchComponent
 {
   public:
     /*!
@@ -44,6 +45,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Search,
       ArcadeOptions,
       AutorunGame,
+      Decorations,
     };
 
     //! Global variable resolver
@@ -71,6 +73,8 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     std::vector<ListEntry<Regions::GameRegions>> GetRegionEntries();
     //! Get available manufacturers
     std::vector<ListEntry<int>> GetManufacturerEntries();
+    //! Get gamelist decorations
+    std::vector<ListEntry<RecalboxConf::GamelistDecoration>> GetDecorationEntries();
 
     /*!
      * @brief Refresh gamelist
@@ -111,4 +115,10 @@ class GuiMenuGamelistOptions : public GuiMenuBase
      */
 
     void SwitchComponentChanged(int id, bool& status) override;
+
+    /*
+     * IOptionListMultiComponent<RecalboxConf::GamelistDecorations> implementation
+     */
+
+    void OptionListMultiComponentChanged(int id, const std::vector<RecalboxConf::GamelistDecoration>& value) override;
 };

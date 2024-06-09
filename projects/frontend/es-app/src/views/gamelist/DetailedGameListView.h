@@ -189,6 +189,9 @@ class DetailedGameListView : public ISimpleGameListView
     //! Current sort
     FileSorts::Sorts mSort;
 
+    //! Current gamelist decorations
+    RecalboxConf::GamelistDecoration mDecorations;
+
     //! Last processed cursor item
     FileData* mLastCursorItem;
     //! Current game P2K status

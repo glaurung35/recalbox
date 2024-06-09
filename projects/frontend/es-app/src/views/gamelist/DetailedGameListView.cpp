@@ -43,6 +43,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mFlagWidth(0)
   , mFlagMargin(Renderer::Instance().Is480pOrLower() ? 1 : 2)
   , mSort(FileSorts::Sorts::FileNameAscending)
+  , mDecorations(RecalboxConf::Instance().GetSystemGamelistDecoration(system))
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -580,6 +581,9 @@ Array<ThemableComponent*> DetailedGameListView::getMDValues()
 
 void DetailedGameListView::Update(int deltatime)
 {
+  // Cache gamelist decoration - TODO: replace by dynamic observable recalboxconf when available
+  mDecorations = RecalboxConf::Instance().GetSystemGamelistDecoration(mSystem);
+
   ISimpleGameListView::Update(deltatime);
 
   mBusy.Enable(mIsScraping);
@@ -641,26 +645,50 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
 
   // Right part
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
-  if (w != 0)
+  if (w != 0 && data->IsGame())
   {
     int drawn = 1;
     int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
-    int y = (int)(position.y() + ((size.y() - (float) flagHeight) / 2.f));
+    int y = (int) (position.y() + ((size.y() - (float) flagHeight) / 2.f));
 
-    for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
-      if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
-      {
-        std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
-        // Draw
-        int x = (int)(position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
-        Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
-        drawn++;
-      }
+    // Genre
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
+    {
+      std::shared_ptr<TextureResource>& genreTexture = mPictogramCaches.GetGenre(data->Metadata().GenreId());
+      // Draw
+      int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+      Renderer::DrawTexture(*genreTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char) 255 : (unsigned char) 128);
+      drawn++;
+    }
+
+    // Players
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
+    {
+      std::shared_ptr<TextureResource>& playerTexture = mPictogramCaches.GetPlayers(data->Metadata().PlayerMin(), data->Metadata().PlayerMax());
+      // Draw
+      int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+      Renderer::DrawTexture(*playerTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char) 255 : (unsigned char) 128);
+      drawn++;
+    }
+
+    // Regions
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
+    {
+      for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+        if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+        {
+          std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
+          // Draw
+          int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+          Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char) 255 : (unsigned char) 128);
+          drawn++;
+        }
+    }
   }
 
   // Left part
   w = Math::roundi(DetailedGameListView::OverlayGetLeftOffset(data));
-  if (w != 0)
+  if (w != 0 && data->IsHeader())
   {
     switch(mSort)
     {
@@ -760,8 +788,16 @@ float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data)
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  int regionCount = data->Metadata().Region().Count();
-  int result = (mFlagWidth + mFlagMargin) * regionCount;
+  int result = 0;
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
+  {
+    int regionCount = data->Metadata().Region().Count();
+    result = (mFlagWidth + mFlagMargin) * regionCount;
+  }
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
+    result = mFlagWidth + mFlagMargin;
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
+    result = mFlagWidth + mFlagMargin;
   return (float)result;
 }
 
@@ -920,9 +956,9 @@ void DetailedGameListView::populateList(const FolderData& folder)
       if (!Regions::IsIn4Regions(item->Metadata().Region().Pack, currentRegion))
         colorIndexOffset = HighlightColor;
     // Tate filtering
-    if (onlyTate && !RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    if (onlyTate && !RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Yoko filtering
-    if (onlyYoko && RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    if (onlyYoko && RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Header?
     if (item->IsGame())
       if (HeaderData* header = NeedHeader(previous, item); header != nullptr)

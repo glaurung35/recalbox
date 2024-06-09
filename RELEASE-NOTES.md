@@ -4,7 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-57
+## Version 9.2-jamma-58
+
+9.2-jamma-58:
+- Fix some saturn games not running fullscreen
 
 9.2-jamma-57:
 - Fix 4 player mode with 4 Recalbox RGB Jamma players

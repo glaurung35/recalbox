@@ -1327,7 +1327,7 @@ def test_given_arcade_256p_game_and_31k_progressive_mode_then_return_480pmode_an
     assert config_lines["video_scale_integer"] == '"true"'
     assert config_lines["video_scale_integer_overscale"] == '"true"'
 
-def test_given_playstation_game_then_return_interger_scale_overscale(mocker):
+def test_given_playstation_game_and_15khz_then_not_return_interger_scale_overscale(mocker):
     givenThoseFiles(mocker, {
         SYSTEMS_TXT: "psx,swanstation,ntsc,15kHz,progressive,psx@60.0988,0,0",
         MODES_TXT: "psx@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988"
@@ -1342,5 +1342,21 @@ def test_given_playstation_game_then_return_interger_scale_overscale(mocker):
     assert config_lines["video_refresh_rate_ntsc"] == '"60.0988"'
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1"'
     assert config_lines["custom_viewport_height_ntsc"] == 239
+    assert config_lines["video_scale_integer"] == '"true"'
+    # for now it makes worst than better on 240p
+    assert config_lines["video_scale_integer_overscale"] == '"false"'
+
+def test_given_playstation_game_and_31khz_then_return_interger_scale_overscale(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "psx,swanstation,ntsc,15kHz,progressive,psx@60.0988,0,0",
+        MODES_TXT: "psx@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988\ndefault@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60"
+    })
+
+    psx = configureForCrt(
+        Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swanstation'),
+        crtresolutiontype="progressive", crtvideostandard="auto",
+        crtscreentype="31kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(psx,
+                                                                                                  "ff7.chd")
     assert config_lines["video_scale_integer"] == '"true"'
     assert config_lines["video_scale_integer_overscale"] == '"true"'

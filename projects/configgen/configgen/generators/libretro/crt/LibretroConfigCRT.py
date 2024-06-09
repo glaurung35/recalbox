@@ -274,7 +274,8 @@ class LibretroConfigCRT:
                                          "video_smooth": '"false"',
                                          "video_allow_rotate": '"true"',
                                          "video_driver": '"gl"',
-                                         "video_scale_integer_overscale": '"false"'
+                                         "video_scale_integer_overscale": '"false"',
+                                         "video_scale_integer": '"false"'
                                          }
         if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             config["video_font_enable"] = '"false"'
@@ -302,7 +303,8 @@ class LibretroConfigCRT:
         forceIntergerScale = False
         if system.Name in ["psx", "saturn"]:
             forceIntergerScale = True
-            config["video_scale_integer_overscale"] = '"true"'
+            if system.CRTScreenType == CRTScreenType.k31:
+                config["video_scale_integer_overscale"] = '"true"'
         if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             forceIntergerScale = True
 

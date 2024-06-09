@@ -40,6 +40,7 @@ as release notes for end user on a Recalbox upgrade.
   - use external scraper w/o loosing your favorites, emulators configurations, etc.
   - add preinstalled game in favorite list or even hide them individually
 - Remove overscan option in frontend
+- Add automatic multitap support on snes
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

@@ -224,6 +224,7 @@ class LibretroCores:
         coreSettings.setString("reicast_alpha_sorting", '"per-triangle (normal)"')
         coreSettings.setString("reicast_anisotropic_filtering", '"4"')
         coreSettings.setString("reicast_sh4clock", '"200"')
+        coreSettings.setString("reicast_native_depth_interpolation", '"enabled"')
         if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             coreSettings.setString("reicast_allow_service_buttons", '"enabled"')
 

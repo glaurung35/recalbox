@@ -68,6 +68,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add GladMort Demo on neogeo
 
 ### Bumps
+- Bump Hatari to version 2.5.0
 - Bump RetroArch to version 1.15.0
 - Bump libretro-mame to 0.258
 - Bump odroidxu4 kernel to 6.1.49

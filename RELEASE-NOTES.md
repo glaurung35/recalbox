@@ -4,6 +4,56 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+## Version 9.2-patron-6
+
+- do not enable mitm server on netplay when value is none
+- update recalbox-themes version
+- disable vulkan by default
+- add blitter config for akatana and ddpsdoj
+- fix arcade games with 4 manufacturers
+- add new arcade auto system : raizing
+- fix arcade dat missing manufacturer by driver
+- add nintendo 64 hd mode with automatic emulator switch
+- bump rpi kernel to 6.1.77
+- bump rpi bootloader
+- remove analogic controls as quit events for bootvideo
+- 'any external share' in frontend marked as deprecated
+- add themes support over network share
+- fix autoconfig for some controllers types
+- updated bios md5 for satellaview
+- change default amiga cores
+- change default dos core
+- fix bios paths
+- add geolith neogeo emulator
+- add Gladmort demo on neogeo
+- update Astebros demo
+- correction of text hyphenation in multi-line texts
+- scraping optimized when scraping classic and virtual systems
+- fixed multiple issues with game deletion
+- correction of user scripts in share/userscripts
+- add libretro-scummv with support of multi resolution for CRT
+
+CRT:
+- fix sfiii3 timings for fbneo
+- fix exotic resolution games in 31khz
+- fix resolutions for saturn and playstation
+- get better n64 image for crt (double resolution + smoothing)
+- fix hdmi output disable when running on crt
+- fix max/min offset for porch in calibration screen
+- only launch calibration screen in yoko
+- automatically choose HD for multisync on hd games
+
+JAMMA:
+- fix recalbox rgb jamma netplay for 3 to 6 players
+- change neogeo to neogeo/pgm mapping in jamma menu
+- disable autofire by default
+- fix HK still triggered in retroarch when hk_on_start is off
+- fix megadrive mapping
+- fix outrun and race games mapping in fbneo
+- fix dreamcast mapping for L2 and R2
+- allow rotation of the companion screen with options.jamma.screen.rotate
+- fix rpi3 support
+
 ## Version 9.2-Pulstar
 
 ### Jamma

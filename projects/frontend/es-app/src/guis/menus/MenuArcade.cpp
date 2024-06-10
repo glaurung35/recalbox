@@ -39,12 +39,7 @@ void MenuArcade::MenuSwitchChanged(int id, bool& status)
 {
   switch((Components)id)
   {
-    case Components::EnhancedView:
-    {
-      RecalboxConf::Instance().SetArcadeViewEnhanced(status).Save();
-      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-      break;
-    }
+    case Components::EnhancedView: RecalboxConf::Instance().SetArcadeViewEnhanced(status).Save(); break;
     case Components::FoldClones:
     {
       RecalboxConf::Instance().SetArcadeViewFoldClones(status).Save();

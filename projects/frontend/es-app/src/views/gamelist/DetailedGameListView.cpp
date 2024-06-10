@@ -1103,10 +1103,9 @@ void DetailedGameListView::setCursorStack(FileData* cursor)
   {
     mCursorStack.push(reverseCursorStack.top());
     reverseCursorStack.pop();
-
-    FolderData& tmp = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
-    populateList(tmp);
   }
+  FolderData& tmp = !mCursorStack.empty() ? *mCursorStack.top() : mSystem.MasterRoot();
+  populateList(tmp);
 }
 
 void DetailedGameListView::setCursor(FileData* cursor)

@@ -46,6 +46,7 @@ ViewController::ViewController(WindowManager& window, SystemManager& systemManag
   , mSoftPatchingLastChoice(0)
   , mSender(*this)
   , mNextItem(nullptr)
+  , mUseEnhencedArcadeView(RecalboxConf::Instance().GetArcadeViewEnhanced())
 {
   // Set interfaces
   systemManager.SetProgressInterface(&mSplashView);
@@ -175,7 +176,7 @@ void ViewController::selectGamelistAndCursor(FileData *file)
   SystemData& system = file->System();
   ReorderGamelistViewBeforeMoving(&system, Move::None);
   goToGameList(&system);
-  ISimpleGameListView* view = GetOrCreateGamelistView(&system);
+  ISimpleGameListView* view = GetOrCreateGamelistView(&system, nullptr);
   view->setCursorStack(file);
   view->setCursor(file);
 }
@@ -224,7 +225,7 @@ float ViewController::ReorderGamelistViewBeforeMoving(SystemData* target, Move m
   if (move == Move::Left && currentIndex < targetIndex) offset = 1;
 
   // Move every single gamelist to its position regading visible system list
-  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(target);
+  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(target, nullptr);
   float screenWidth = Renderer::Instance().DisplayWidthAsFloat();
   float screenHeight = Renderer::Instance().DisplayHeightAsFloat();
   for(auto& kv : mGameListViews)
@@ -264,7 +265,7 @@ void ViewController::goToGameList(SystemData* system)
   ChangeView(ViewType::GameList, system);
 	playViewTransition();
 
-  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(system);
+  ISimpleGameListView* gamelistView = GetOrCreateGamelistView(system, nullptr);
   NotificationManager::Instance().Notify(*gamelistView->getCursor(), Notification::GamelistBrowsing);
   // for reload cursor video path if present
   gamelistView->DoUpdateGameInformation(false);
@@ -663,19 +664,38 @@ void ViewController::LaunchAnimated(const EmulatorData& emulator)
 	}
 }
 
-ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
+void ViewController::ArcadeViewEnhancedConfigurationChanged(const bool& value)
 {
-	//if we already made one, return that one
-	auto exists = mGameListViews.find(system);
-	if(exists != mGameListViews.end())
-		return exists->second;
+  if (value != mUseEnhencedArcadeView)
+  {
+    mUseEnhencedArcadeView = value;
+    for (auto& gameListView: mGameListViews)
+      if (gameListView.first->IsTrueArcade())
+      {
+        // Replace old view with new one
+        ISimpleGameListView* previousView = gameListView.second;
+        ISimpleGameListView* nextView = mGameListViews[gameListView.first] = GetOrCreateGamelistView(gameListView.first, gameListView.second);
+        delete previousView;
+        // Adjust current view
+        if (mCurrentView == previousView)
+          mCurrentView = nextView;
+      }
+  }
+}
+
+ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system, ISimpleGameListView* sourceView)
+{
+	// If we already made one, return that one
+  // Only if sourceView is null so that we don't want to "clone" the old view
+  if (sourceView == nullptr)
+    if (ISimpleGameListView** view = mGameListViews.try_get(system); view != nullptr) return *view;
 
 	//if we didn't, make it, remember it, and return it
 	ISimpleGameListView* view =
-    (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
+    (system->Descriptor().IsArcade() && mUseEnhencedArcadeView && !(system->Name() == "daphne")) ?
     new ArcadeGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches) :
     new DetailedGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches);
-  view->DoInitialize();
+  view->DoInitialize(sourceView);
 
 	mGameListViews[system] = view;
 
@@ -857,7 +877,7 @@ void ViewController::ChangeView(ViewType newViewMode, SystemData* targetSystem)
     }
     case ViewType::GameList:
     {
-      mCurrentView = GetOrCreateGamelistView(targetSystem);
+      mCurrentView = GetOrCreateGamelistView(targetSystem, nullptr);
       mCurrentSystem = targetSystem;
       break;
     }
@@ -897,7 +917,7 @@ void ViewController::ShowSystem(SystemData* system)
   mSystemListView.addSystem(system);
   mSystemListView.Sort();
   InvalidateAllGamelistsExcept(nullptr);
-  GetOrCreateGamelistView(system);
+  GetOrCreateGamelistView(system, nullptr);
 }
 
 void ViewController::HideSystem(SystemData* system)

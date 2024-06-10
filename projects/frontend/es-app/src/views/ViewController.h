@@ -33,6 +33,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
                      , public ISyncMessageReceiver<SlowDataInformation>
                      , public ILongExecution<DelayedSystemOperationData, bool>
                      , private RecalboxConf::FavoritesFirstConfigurationNotify
+                     , public RecalboxConf::ArcadeViewEnhancedConfigurationNotify
 {
   public:
     //! Flags used in launch method to check what option is already selected
@@ -102,7 +103,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     bool CollectHelpItems(Help& help) override;
 
-    ISimpleGameListView* GetOrCreateGamelistView(SystemData* system);
+    ISimpleGameListView* GetOrCreateGamelistView(SystemData* system, ISimpleGameListView* sourceView);
     SystemView& getSystemListView() { return mSystemListView; }
 
     [[nodiscard]] Gui& CurrentUi() const { return *mCurrentView; }
@@ -182,6 +183,12 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     void Completed(const DelayedSystemOperationData& parameter, const bool& result) override;
 
+    /*
+     * RecalboxConf::ArcadeViewEnhancedConfigurationNotify
+     */
+
+    void ArcadeViewEnhancedConfigurationChanged(const bool& value) final;
+
   private:
     //! Animation move
     enum Move
@@ -231,7 +238,6 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     ViewType mCurrentViewType;  //!< Current view type
     ViewType mPreviousViewType; //!< Previous view type
 
-
     Transform4x4f mCamera;
     float mFadeOpacity;
     bool mLockInput;
@@ -260,6 +266,9 @@ class ViewController : public StaticLifeCycleControler<ViewController>
     Mutex mLocker;
     //! Fetch info thread signal
     Signal mSignal;
+
+    //! Arcade view state cache
+    bool mUseEnhencedArcadeView;
 
     /*!
      * @brief  Check if softpatching is required and let the user select

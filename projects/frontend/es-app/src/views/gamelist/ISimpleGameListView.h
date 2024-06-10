@@ -130,11 +130,17 @@ class ISimpleGameListView : public Gui
     /*!
      * @brief Must be called right after the constructor
      */
-    void DoInitialize()
+    void DoInitialize(ISimpleGameListView* sourceView)
     {
       Initialize();
       SwitchToTheme(mSystem.Theme(), false, nullptr);
-      populateList(mSystem.MasterRoot());
+      if (sourceView != nullptr)
+      {
+        mCursorStack = sourceView->mCursorStack;
+        populateList(*mCursorStack.top());
+        setCursorIndex(sourceView->getCursorIndex());
+      }
+      else populateList(mSystem.MasterRoot());
     }
 
     /*!

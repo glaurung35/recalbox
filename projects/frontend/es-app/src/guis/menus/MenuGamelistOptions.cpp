@@ -20,7 +20,7 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
   , mResolver(resolver)
   , mSystem(system)
   , mSystemManager(systemManager)
-  , mGamelist(*ViewController::Instance().GetOrCreateGamelistView(&system))
+  , mGamelist(*ViewController::Instance().GetOrCreateGamelistView(&system, nullptr))
   , mArcade(arcadeInterface)
 {
   // edit game metadata

@@ -2,7 +2,7 @@
 
 import upnpy
 import socket
-from keyValueSettings import keyValueSettings
+from configgen.settings.keyValueSettings import keyValueSettings
 
 services = []
 conf = keyValueSettings('/recalbox/share/system/recalbox.conf')

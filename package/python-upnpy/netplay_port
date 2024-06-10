@@ -1,0 +1,71 @@
+#!/usr/bin/env python
+
+import upnpy
+import socket
+from keyValueSettings import keyValueSettings
+
+services = []
+conf = keyValueSettings('/recalbox/share/system/recalbox.conf')
+netplay_port = conf.getString("global.netplay.port", "55435")
+netplay_enabled = conf.getString("global.netplay", "0")
+
+
+def find_action(action_name):
+    for service in services:
+        if action_name in service.actions:
+            return(upnpy.utils.parse_service_id(service.id))
+    return(None)
+
+
+def get_ip():
+    try:
+        s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        s.connect(("8.8.8.8", 80))
+        ip = s.getsockname()[0]
+        s.close()
+        return(ip)
+    except socket.error:
+        return(None)
+
+
+def find_port():
+    external_port = int(netplay_port)
+    result = None
+    while result is None:
+        try:
+            print(external_port)
+            plop = service.GetSpecificPortMappingEntry(
+                    NewRemoteHost='',
+                    NewExternalPort=external_port,
+                    NewProtocol='TCP'
+                    )
+            if plop['NewInternalClient'] == get_ip():
+                result = external_port
+            else:
+                result = None
+        except:
+            result = external_port
+        external_port = external_port + 1
+    return(result)
+
+
+if netplay_enabled:
+    upnp = upnpy.UPnP()
+    devices = upnp.discover()
+    device = upnp.get_igd()
+
+    services = device.get_services()
+
+    service = device[find_action('AddPortMapping')]
+    external_port = find_port()
+
+    service.AddPortMapping(
+            NewRemoteHost='',
+            NewExternalPort=external_port,
+            NewProtocol='TCP',
+            NewInternalPort=netplay_port,
+            NewInternalClient=get_ip(),
+            NewEnabled=1,
+            NewPortMappingDescription='Netplay port',
+            NewLeaseDuration=0
+            )

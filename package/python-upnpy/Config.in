@@ -1,0 +1,8 @@
+config BR2_PACKAGE_PYTHON-UPNPY
+	bool "python-upnpy"
+	select BR2_PACKAGE_PYTHON3
+	select BR2_PACKAGE_PYTHON_PYUDEV
+	help
+	  Lightweight UPnP client library for Python.
+
+	  https://github.com/mark-pippin/upnpy-bugfix

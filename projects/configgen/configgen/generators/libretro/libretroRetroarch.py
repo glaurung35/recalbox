@@ -235,9 +235,6 @@ class LibretroRetroarch:
         if len(aiUrl) == 0: aiUrl = "https://ztranslate.net/service?api_key={}".format(aiKey)
         settings.setString("ai_service_url", aiUrl)
 
-        # Threaded video
-        settings.setBool("video_threaded", False)
-
         # Enable RetroArch option "quit_press_twice"
         settings.setBool("quit_press_twice", self.system.QuitTwice)
 
@@ -254,7 +251,6 @@ class LibretroRetroarch:
         # Shaders?
         import os
         settings.setBool("video_shader_enable", self.system.HasShaderFile) \
-                .setBool("video_threaded", self.system.HasShaderFile) \
                 .setString("video_shader_dir", os.path.dirname(self.system.ShaderFile) if self.system.HasShaderFile else recalboxFiles.shadersRoot)
         if self.system.HasShaderFile:
             settings.setString("video_shader", os.path.basename(self.system.ShaderFile))

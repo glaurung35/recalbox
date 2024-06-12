@@ -42,6 +42,18 @@ as release notes for end user on a Recalbox upgrade.
 - Add latest libretro mame core (0.258) for RPi4 and RPi5
 - Add RPi5 overclock option
 - Add skip boot video option
+- Add demo Inspector Waffles Early Days (Broke Studio) on gameboy color
+- Perf: enable auto frame delay in retroarch
+- Perf: add auto blitter for fbneo cave games
+- CRT: add superrez and auto scanlines for 240p games on 31kHz display
+- Add new core libretro-dirksimple
+- Add new port SDLPop (port of Prince of Persia)
+- Add libretro-dolphin (MagicSeb)
+- Add possibility to adjust music volume in EmulationStation
+- Add en_GB translation (SecularSteve)
+- Add new core geolith for neogeo
+- Add GladMort Demo on neogeo
+- Add libretro-scummvm with support of multi resolution for CRT
 
 ### Bumps
 - Bump RetroArch to version 1.15.0

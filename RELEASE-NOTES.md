@@ -4,71 +4,8 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-patron-6
-
-- do not enable mitm server on netplay when value is none
-- update recalbox-themes version
-- disable vulkan by default
-- add blitter config for akatana and ddpsdoj
-- fix arcade games with 4 manufacturers
-- add new arcade auto system : raizing
-- fix arcade dat missing manufacturer by driver
-- add nintendo 64 hd mode with automatic emulator switch
-- bump rpi kernel to 6.1.77
-- bump rpi bootloader
-- remove analogic controls as quit events for bootvideo
-- 'any external share' in frontend marked as deprecated
-- add themes support over network share
-- fix autoconfig for some controllers types
-- updated bios md5 for satellaview
-- change default amiga cores
-- change default dos core
-- fix bios paths
-- add geolith neogeo emulator
-- add Gladmort demo on neogeo
-- update Astebros demo
-- correction of text hyphenation in multi-line texts
-- scraping optimized when scraping classic and virtual systems
-- fixed multiple issues with game deletion
-- correction of user scripts in share/userscripts
-- add libretro-scummv with support of multi resolution for CRT
-
-CRT:
-- fix sfiii3 timings for fbneo
-- fix exotic resolution games in 31khz
-- fix resolutions for saturn and playstation
-- get better n64 image for crt (double resolution + smoothing)
-- fix hdmi output disable when running on crt
-- fix max/min offset for porch in calibration screen
-- only launch calibration screen in yoko
-- automatically choose HD for multisync on hd games
-
-JAMMA:
-- fix recalbox rgb jamma netplay for 3 to 6 players
-- change neogeo to neogeo/pgm mapping in jamma menu
-- disable autofire by default
-- fix HK still triggered in retroarch when hk_on_start is off
-- fix megadrive mapping
-- fix outrun and race games mapping in fbneo
-- fix dreamcast mapping for L2 and R2
-- allow rotation of the companion screen with options.jamma.screen.rotate
-- fix rpi3 support
-
 ## Version 9.2-Pulstar
 
-### Jamma
-- Set pin 27/e as ground by default
-- Add casino games in baord games filter (mahjong + casino + trivia)
-- Remove useless "SELECT FRAMERATE ON STARTUP" option for RGB JAMMA
-- Fix autofire enable/disble
-- Let START + LEFT/RIGHT open close clones event if START+BTN=HK is disabled
-- Fix menu resolution issue when setting 480p in multisync and switching back to 240p
-
-### Patron
-- Fix 31kHz handheld and PSX games
-- Fix naomi 2 instabilities
-- Fix netplay port configuration
-- Debump Flycast on handhelds, should fix perf issues
 
 ### Hardware
 - Add support for Raspberry Pi 5 (64 bits)
@@ -78,7 +15,7 @@ JAMMA:
 - Add support for Realtek RTW-88 series of wifi controllers
 - Add support for N64 and Megadrive/Genesis controllers from Nintendo Switch Online
 - Add support for eeprom update on RPi4 and RPi 5
-- Add auto mapping for retroflag snes usb and hutopi controllers:
+- Add auto mapping for retroflag snes usb and hutopi controllers
 
 ### News
 - Add Arcade View
@@ -112,12 +49,52 @@ JAMMA:
 - CRT: add superrez and auto scanlines for 240p games on 31kHz display
 - Add new core libretro-dirksimple
 - Add new port SDLPop (port of Prince of Persia)
-- Add libretro-dolphin (MagicSeb)
+- Add libretro-dolphin on PC (MagicSeb)
 - Add possibility to adjust music volume in EmulationStation
 - Add en_GB translation (SecularSteve)
-- Add new core geolith for neogeo
+- Add new core geolith for neogeo (hdmi only)
 - Add GladMort Demo on neogeo
 - Add Picade support
+- New modern Webmanager
+- Themes: new theme selection UI
+
+### Improvements
+- Show a battery indicator in EmulationStation for Piboy DMG and XRS
+- Removed unplugged pads from the pad list
+- Unplugged/plugged-in pads keep their positions
+- Bluetooth auto-pairing is started at each boot now
+- Add new softpatching LAUNCH LAST option
+- Disable unnecessary services when use the Recalbox RGB Jamma
+- Allow starting an update stright from the update popup
+- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
+
+### Fixes
+- Fix argonone case power management
+- Fix gpu overclock when overclocking on RPi4
+- Fix multi-wifi configuration
+- Fix demo Astebros for megadrive
+- Fix analog stick with inverted axis behaviour
+- Fix odroidxu4 OGST video not playing
+- Removed LinApple from PC
+- Fix headphone audio output on Anbernic rg353v
+- Fix not mappables pads
+- Fix some pandorabox controllers for 2 players
+- Fix some Xbox 360 pad issues
+- Fix vulkan support on rpi5
+- Fix daphne games scrap
+- CRT: fix 24kHz game modes
+- CRT: fix calibration screen
+- CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
+- Fix Yoko games showing in tate only gameclips
+- Fix lightguns and add some new compatible games
+- Fix start game with coin in demo mode
+- Mark `Any external storage` as deprecated
+- Add themes support over network share
+- Fix missing md5 bios for Satellaview
+- Set default emulator to libretro-uae4arm for all Amiga systems
+- Fix N64 image quality on RGB dual + jamma
+- Fix bad resolutions in PSX and Saturn games
+
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -225,42 +202,6 @@ JAMMA:
 - Bump libretro-bsnes-hd
 - Bump Netflix and YouTube Kodi plugins
 
-### Improvements
-- Show a battery indicator in EmulationStation for Piboy DMG and XRS
-- Removed unplugged pads from the pad list
-- Unplugged/plugged-in pads keep their positions
-- Bluetooth auto-pairing is started at each boot now
-- Add new softpatching LAUNCH LAST option
-- Disable unnecessary services when use the Recalbox RGB Jamma
-- Allow starting an update stright from the update popup
-- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
-
-### Fixes
-- Fix argonone case power management
-- Fix gpu overclock when overclocking on RPi4
-- Fix multi-wifi configuration
-- Fix demo Astebros for megadrive
-- Fix analog stick with inverted axis behaviour
-- Fix odroidxu4 OGST video not playing
-- Removed LinApple from PC
-- Fix headphone audio output on Anbernic rg353v
-- Fix not mappables pads
-- Fix some pandorabox controllers for 2 players
-- Fix some Xbox 360 pad issues
-- Fix vulkan support on rpi5
-- Fix daphne games scrap
-- CRT: fix 24kHz game modes
-- CRT: fix calibration screen
-- CRT: fix emulationstation.menu=none: no menu, no favorites, no netplay etc...
-- Fix Yoko games showing in tate only gameclips
-- Fix lightguns and add some new compatible games
-- Fix start game with coin in demo mode
-- Mark `Any external storage` as deprecated
-- Add themes support over network share
-- Fix missing md5 bios for Satellaview
-- Set default emulator to libretro-uae4arm for all Amiga systems
-- Fix N64 image quality on RGB dual + jamma
-- Fix bad resolutions in PSX and Saturn games
 
 ## Version 9.1-Pulstar
 

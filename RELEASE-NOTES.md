@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
   - Use official names from DAT files
 - Add Arcade manufacturers virtual systems (Atari Classics, CPS1/2/3, Banpresto, IREM, ...)
 - Add current DATS in `\\RECALBOX\share\arcade` or `/recalbox/share/arcade`
+- Add brand new Web Manager (accessible on http://recalbox.local)
 - Add Arcade settings in the main menu
 - Add Input OSD (icon selectable among most common pads)
 - Add mouse controls:
@@ -54,6 +55,34 @@ as release notes for end user on a Recalbox upgrade.
 - Add new core geolith for neogeo
 - Add GladMort Demo on neogeo
 - Add libretro-scummvm with support of multi resolution for CRT
+- Add dynamic themes: change theme or theme options without rebooting
+
+### Improvements
+- Show a battery indicator in EmulationStation for Piboy DMG and XRS
+- Controllers:
+  - Unplugged/plugged-in pads keep their positions
+  - Bluetooth auto-pairing is started at each boot now
+  - Fix pad ordering
+  - Fix analog stick with inverted axis behaviour
+  - Fix not mappables pads
+  - Fix some pandorabox controllers for 2 players
+  - Fix some Xbox 360 pad issues
+- Add new softpatching LAUNCH LAST option
+- Disable unnecessary services when use the Recalbox RGB Jamma
+- Allow starting an update stright from the update popup
+- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
+- Add m3u support on Dolphin with auto change disc
+
+### Fixes
+- Fix argonone case power management
+- Fix gpu overclock when overclocking on RPi4
+- Fix multi-wifi configuration
+- Fix demo Astebros for megadrive
+- Fix odroidxu4 OGST video not playing
+- Removed LinApple from PC
+- Fix headphone audio output on Anbernic rg353v
+- Fix vulkan support on rpi5
+- Fix daphne games scrap
 
 ### Bumps
 - Bump RetroArch to version 1.15.0
@@ -158,31 +187,6 @@ as release notes for end user on a Recalbox upgrade.
 - Bump libretro-picodrive
 - Bump hatari
 
-### Improvements
-- Show a battery indicator in EmulationStation for Piboy DMG and XRS
-- Removed unplugged pads from the pad list
-- Unplugged/plugged-in pads keep their positions
-- Bluetooth auto-pairing is started at each boot now
-- Add new softpatching LAUNCH LAST option
-- Disable unnecessary services when use the Recalbox RGB Jamma
-- Allow starting an update stright from the update popup
-- Add missing favorites icons for some systems (Thanks Bounitos and Malixx !)
-- Add m3u support on Dolphin with auto change disc
-
-### Fixes
-- Fix argonone case power management
-- Fix gpu overclock when overclocking on RPi4
-- Fix multi-wifi configuration
-- Fix demo Astebros for megadrive
-- Fix analog stick with inverted axis behaviour
-- Fix odroidxu4 OGST video not playing
-- Removed LinApple from PC
-- Fix headphone audio output on Anbernic rg353v
-- Fix not mappables pads
-- Fix some pandorabox controllers for 2 players
-- Fix some Xbox 360 pad issues
-- Fix vulkan support on rpi5
-- Fix daphne games scrap
 
 ## Version 9.1-Pulstar
 

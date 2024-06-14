@@ -6,10 +6,14 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2.1-Pulstar
 
+### News
+- Add new core libretro fake08 for pico8
+
 ### Fixes
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Fix forcing OpenGLES for RPI4
 - Fix bios checking when launchin games
+- Add core libretro geolith for crt
 
 - Fix gameclips option label to hide 'press start' in the webmanager
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM

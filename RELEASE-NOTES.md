@@ -9,6 +9,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Fix forcing OpenGLES for RPI4
+- Fix bios checking when launchin games
 
 - Fix gameclips option label to hide 'press start' in the webmanager
 

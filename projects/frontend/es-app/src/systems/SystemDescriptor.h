@@ -242,6 +242,7 @@ class SystemDescriptor
         case SystemType::Virtual: { static String string("virtual"); return string; }
         case SystemType::VArcade: { static String string("virtual-arcade"); return string; }
         case SystemType::Unknown:
+        case SystemType::__Count:
         default: break;
       }
       static String string("unknown");
@@ -257,6 +258,7 @@ class SystemDescriptor
         case DeviceRequirement::Optional: { static String string("optional"); return string; }
         case DeviceRequirement::Unknown:
         case DeviceRequirement::None:
+        case DeviceRequirement::__Count:
         default: break;
       }
       static String string("no");

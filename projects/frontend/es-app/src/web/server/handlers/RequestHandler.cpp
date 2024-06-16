@@ -569,6 +569,7 @@ void RequestHandler::RomsGetList(const Rest::Request& request, Http::ResponseWri
 
 void RequestHandler::RomsDelete(const Rest::Request& request, Http::ResponseWriter response)
 {
+  (void)response;
   RequestHandlerTools::LogRoute(request, "RomsDelete");
 }
 

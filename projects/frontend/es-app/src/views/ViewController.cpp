@@ -359,13 +359,12 @@ void ViewController::Launch(FileData* game, const GameLinkedData& data, const Ve
   LaunchCheck();
 }
 
-bool ViewController::CheckBiosBeforeLaunch()
+bool ViewController::CheckBiosBeforeLaunch(EmulatorData& emulator)
 {
   const BiosList& biosList = BiosManager::Instance().SystemBios(mGameToLaunch->System().Name());
-  if (biosList.TotalBiosKo() != 0)
+  if (biosList.HasBiosKoFor(emulator.Emulator(), emulator.Core()) != 0)
   {
     // Build emulator name
-    EmulatorData emulator = EmulatorManager::GetGameEmulator(*mGameToLaunch);
     String emulatorString = emulator.Emulator();
     if (emulator.Emulator() != emulator.Core()) emulatorString.Append('/').Append(emulator.Core());
     // Build text
@@ -528,7 +527,7 @@ void ViewController::LaunchCheck()
 
   // Check bios
   if ((mCheckFlags & LaunchCheckFlags::Bios) == 0)
-    if (mCheckFlags |= LaunchCheckFlags::Bios; !CheckBiosBeforeLaunch())
+    if (mCheckFlags |= LaunchCheckFlags::Bios; !CheckBiosBeforeLaunch(emulator))
       return;
 
   // Refresh rate choice

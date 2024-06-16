@@ -98,6 +98,13 @@ class BiosList
     //! Get total bios unsafe
     [[nodiscard]] int TotalBiosUnsafe() const;
 
+    /*!
+     * @brief Check if at least one bios is KO for the given emuletor/core
+     * @param emulator emulator to check bios against
+     * @param core core to check bios against
+     */
+    [[nodiscard]] bool HasBiosKoFor(const String& emulator, const String& core) const;
+
     //! Get total bios not found
     [[nodiscard]] int TotalFileNotFound() const;
     //! Get total bios found with a matching hash

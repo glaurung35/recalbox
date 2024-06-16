@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Update system translations
 - Fix forcing OpenGLES for RPI4
 - Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
+- Fix bios checking when launchin games
 
 
 ## Version 9.2-Pulstar

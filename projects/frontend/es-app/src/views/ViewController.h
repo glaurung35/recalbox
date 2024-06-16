@@ -304,7 +304,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      * @brief Check if no critical bios if missing for the given game
      * @return True if evrything is ok, false otherwise
      */
-    bool CheckBiosBeforeLaunch();
+    bool CheckBiosBeforeLaunch(EmulatorData& emulator);
 
     void playViewTransition();
 

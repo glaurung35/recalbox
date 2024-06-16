@@ -16,40 +16,54 @@ class ScummVMGenerator(Generator):
 
         # Find rom path
         import os.path
+
         if os.path.isdir(args.rom):
-          # rom is a directory: must contains a <game name>.scummvm/.residualvm file
-          romPath = args.rom
-          romExt = os.path.splitext(romPath)[1]
-          import glob
-          romFile = glob.glob(romPath + "/*" + romExt)[0]
-          romName = os.path.splitext(os.path.basename(romFile))[0]
-          engine = False
-          if os.path.isfile(romFile):
-              with open(romFile) as f:
-                s = f.read()
-                if len(s.split(":")) > 1:
-                    engine = s.split(":")[0]
-                    romName = engine + ":" + romName
+            # rom is a directory: must contains a <game name>.scummvm/.residualvm file
+            romPath = args.rom
+            romExt = os.path.splitext(romPath)[1]
+            import glob
+
+            romFile = glob.glob(romPath + "/*" + romExt)[0]
+            romName = os.path.splitext(os.path.basename(romFile))[0]
+            engine = False
+            if os.path.isfile(romFile):
+                with open(romFile) as f:
+                    s = f.read()
+                    if len(s.split(":")) > 1:
+                        engine = s.split(":")[0]
+                        romName = engine + ":" + romName
         else:
-          # rom is a file: split in directory and file name
-          romPath = os.path.dirname(args.rom)
-          romName = os.path.splitext(os.path.basename(args.rom))[0]
+            # rom is a file: split in directory and file name
+            romPath = os.path.dirname(args.rom)
+            romName = os.path.splitext(os.path.basename(args.rom))[0]
 
         smooth = "--filtering" if system.Smooth else "--no-filtering"
         import configgen.recalboxFiles as recalboxFiles
-        commandArray = [recalboxFiles.recalboxBins[system.Emulator],
-                        "--fullscreen",
-                        "--subtitles",
-                        "--joystick=0",
-                        smooth,
-                        "--extrapath=/usr/share/scummvm",
-                        "--savepath=" + recalboxFiles.scummvmSaves,
-                        "--path=""{}""".format(romPath)]
-        if system.ShaderSet == 'scanlines':
+
+        commandArray = [
+            recalboxFiles.recalboxBins[system.Emulator],
+            "--fullscreen",
+            "--subtitles",
+            "--joystick=0",
+            smooth,
+            "--extrapath=/usr/share/scummvm",
+            "--savepath=" + recalboxFiles.scummvmSaves,
+            "--path=" "{}" "".format(romPath),
+        ]
+        if system.ShaderSet == "scanlines":
             commandArray.append("--gfx-mode=DotMatrix")
 
-        if system.HasArgs: commandArray.extend(system.Args)
+        if system.HasArgs:
+            commandArray.extend(system.Args)
 
         commandArray.append("""{}""".format(romName))
 
-        return Command(videomode='default', array=commandArray, env={"SDL_VIDEO_GL_DRIVER":"/usr/lib/libGLESv2.so", "SDL_VIDEO_EGL_DRIVER":"/usr/lib/libEGL.so", "SDL_RENDER_VSYNC":"1"})
+        return Command(
+            videomode="default",
+            array=commandArray,
+            env={
+                "SDL_VIDEO_GL_DRIVER": "/usr/lib/libGLESv2.so",
+                "SDL_VIDEO_EGL_DRIVER": "/usr/lib/libEGL.so",
+                "SDL_RENDER_VSYNC": "1",
+            },
+        )

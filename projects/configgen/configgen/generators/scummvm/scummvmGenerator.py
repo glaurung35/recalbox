@@ -23,6 +23,13 @@ class ScummVMGenerator(Generator):
           import glob
           romFile = glob.glob(romPath + "/*" + romExt)[0]
           romName = os.path.splitext(os.path.basename(romFile))[0]
+          engine = False
+          if os.path.isfile(romFile):
+              with open(romFile) as f:
+                s = f.read()
+                if len(s.split(":")) > 1:
+                    engine = s.split(":")[0]
+                    romName = engine + ":" + romName
         else:
           # rom is a file: split in directory and file name
           romPath = os.path.dirname(args.rom)

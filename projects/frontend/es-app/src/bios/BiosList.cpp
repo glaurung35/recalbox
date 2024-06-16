@@ -40,6 +40,18 @@ int BiosList::TotalBiosKo() const
   return result;
 }
 
+bool BiosList::HasBiosKoFor(const String& emulator, const String& core) const
+{
+  String emulatorCore(emulator);
+  if (emulator != core) emulatorCore.Append('/').Append(core);
+  for(const Bios& bios : mBiosList)
+    if (bios.LightStatus() == Bios::ReportStatus::Red || bios.LightStatus() == Bios::ReportStatus::Unknown)
+      if (bios.IsForCore(emulatorCore))
+        return true;
+  return false;
+}
+
+
 int BiosList::TotalBiosUnsafe() const
 {
   int result = 0;

@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Fix forcing OpenGLES for RPI4
 
+- Fix gameclips option label to hide 'press start' in the webmanager
 
 ## Version 9.2-Pulstar
 

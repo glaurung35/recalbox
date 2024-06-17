@@ -329,11 +329,11 @@
         "gameclip": {
           "showhelpitems": {
             "label": "Afficher les boutons en bas des clips des jeux",
-            "help": "Cette option permet de cacher les boutons d'actions visibles en bas de l'écran dans les clips de jeux."
+            "help": "Cette option permet d'afficher les boutons d'actions visibles en bas de l'écran dans les clips de jeux."
           },
           "showclippingitem": {
-            "label": "Afficher le \"Press Start\" sur les clips de jeux",
-            "help": "Cette option permet d'afficher le \"Press Start\" affichée au milieu de l'écran."
+            "label": "Cacher le \"Press Start\" sur les clips de jeux",
+            "help": "Cette option permet d'afficher le \"Press Start\" affichée au milieu de l'écran dans les clips de jeux."
           }
         }
       },

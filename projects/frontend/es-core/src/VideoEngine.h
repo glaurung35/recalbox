@@ -215,6 +215,8 @@ class VideoEngine : public StaticLifeCycleControler<VideoEngine>, private Thread
           FrammeRGBLocker[0].UnLock();
           FrammeRGBLocker[1].UnLock();
         }
+
+        bool IsInitialied() const { return AudioVideoContext != nullptr; }
     };
 
     /*!

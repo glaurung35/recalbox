@@ -13,6 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
 - Fix bios checking when launchin games
 
+- Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
 
 ## Version 9.2-Pulstar
 

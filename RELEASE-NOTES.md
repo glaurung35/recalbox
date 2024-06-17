@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
+- Update system translations
 
 
 ## Version 9.2-Pulstar

@@ -48,15 +48,26 @@ void SystemData::populateFolder(RootFolderData& root, FileData::StringMap& doppe
   }
 }
 
-Path SystemData::getGamelistPath(const RootFolderData& root, bool forWrite)
+Path SystemData::GetGamelistUserdataPath(const RootFolderData& root, bool forceFolderCreation)
+{
+  String romPath = root.RomPath().ToString();
+  if (root.PreInstalled()) romPath.Replace("/share_init/", "/share/");
+  Path intermediate(root.PreInstalled() ? "preinstalled" : ".");
+  Path filePath = Path(romPath) / intermediate / "gamelist-userdata.ini";
+
+  if (forceFolderCreation)
+    if (!filePath.Directory().Exists())
+      (void)filePath.Directory().CreatePath();
+
+  return filePath;
+}
+
+Path SystemData::GetGamelistPath(const RootFolderData& root)
 {
   Path filePath = root.RomPath() / "gamelist.xml";
 
-  if (forWrite) // Write mode, ensure folder exist
-  {
-    if (!filePath.Directory().Exists())
-      (void)filePath.Directory().CreatePath();
-  }
+  if (!filePath.Directory().Exists())
+    (void)filePath.Directory().CreatePath();
 
   return filePath;
 }
@@ -144,11 +155,42 @@ bool SystemData::ValidateContent(const String& content)
   return true;
 }
 
+void SystemData::ParseGamelistUserDataXml(RootFolderData& root, HashMap<String, String>& gameUserDataMap)
+{
+  Path iniPath = GetGamelistUserdataPath(root, false);
+  String content;
+  if (!SecuredFile::LoadSecuredFile(false, iniPath, Path::Empty, content, String(FullName()).Append(" gamelist"), true, nullptr))
+    return;
+
+  for(int start = 0; start < content.Count(); )
+  {
+    // Look for key separator
+    int end = content.Find('\n', start);
+    if (end < 0) end = content.Count();
+
+    // Look for key/value separator
+    int equal = content.Find(':', start);
+    if (equal <= start  || equal >= end) { LOG(LogError) << "[SystemData] malformated user data line " << content.SubString(start, end - start); }
+    else
+    {
+      String key = content.SubString(start, equal - start).Trim();
+      String value = content.SubString(equal + 1, end - (equal + 1)).Trim();
+      gameUserDataMap[key] = value;
+    }
+
+    // Next step
+    start = end + 1;
+  }
+}
+
 void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile)
 {
   try
   {
-    Path xmlPath = getGamelistPath(root, false);
+    HashMap<String, String> gameUserDataMap;
+    ParseGamelistUserDataXml(root, gameUserDataMap);
+
+    Path xmlPath = GetGamelistPath(root);
     String xml;
     if (!SecuredFile::LoadSecuredFile(false, xmlPath, Path::Empty, xml, String(FullName()).Append(" gamelist"), true, this))
       return;
@@ -185,7 +227,10 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         if (name == "folder") type = ItemType::Folder;
         else if (name != "game") continue; // Unknown node
 
-        Path path = relativeTo / Xml::AsString(fileNode, "path", "");
+        String stringRelativePath(Xml::AsString(fileNode, "path", ""));
+        if (stringRelativePath.StartsWith("./", 2)) stringRelativePath.Delete(0, 2);
+        Path relativePath(stringRelativePath);
+        Path path = relativeTo / relativePath;
         if (forceCheckFile)
           if (!path.Exists())
             continue;
@@ -208,7 +253,8 @@ void SystemData::ParseGamelistXml(RootFolderData& root, FileData::StringMap& dop
         }
 
         // load the metadata
-        file->Metadata().Deserialize(fileNode, relativeTo);
+        String* userData = gameUserDataMap.try_get(relativePath.ToString());
+        file->Metadata().Deserialize(fileNode, userData != nullptr ? *userData : String::Empty, relativeTo);
       }
     }
   }
@@ -226,9 +272,11 @@ void SystemData::UpdateGamelistXml()
   // We have the complete information for every game though, so we can simply remove a game
   // we already have in the system from the XML, and then add it back from its GameData information...
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
-    if (!root->ReadOnly() && root->IsDirty())
+    if ((!root->ReadOnly() || root->PreInstalled()) && root->IsDirty())
       try
       {
+        String userDataContent;
+
         /*
          * Get all folder & games in a flat storage
          */
@@ -241,7 +289,7 @@ void SystemData::UpdateGamelistXml()
         /*
          * Create gamelist
          */
-        Path xmlReadPath = getGamelistPath(*root, false);
+        Path xmlReadPath = GetGamelistPath(*root);
         XmlDocument document;
         XmlNode gameList = document.append_child("gameList");
 
@@ -249,15 +297,24 @@ void SystemData::UpdateGamelistXml()
          * Serialize folder and game nodes
          */
         Path rootPath = root->RomPath();
+        bool dummy;
         for (const FileData* folder : folderList)
-          folder->Metadata().Serialize(gameList, folder->RomPath(), rootPath);
+        {
+          String userData;
+          folder->Metadata().Serialize(gameList, userData, folder->RomPath(), rootPath);
+          if (!userData.empty())
+            userDataContent.Append(folder->RomPath().MakeRelative(rootPath, dummy).ToString()).Append(':').Append(userData).Append('\n');
+        }
         for (FileData* file : fileList)
         {
           Path path(file->RomPath());
           if (root->GetDeletedChildren().contains(file))
             continue;
-          file->Metadata().Serialize(gameList, path, rootPath);
+          String userData;
+          file->Metadata().Serialize(gameList, userData, path, rootPath);
           file->Metadata().UnsetDirty();
+          if (!userData.empty())
+            userDataContent.Append(path.MakeRelative(rootPath, dummy).ToString()).Append(':').Append(userData).Append('\n');
         }
 
         /*
@@ -274,13 +331,16 @@ void SystemData::UpdateGamelistXml()
          * Write the list.
          * At this point, we're sure at least one node has been updated (or added and updated).
          */
-        Path xmlWritePath(getGamelistPath(*root, true));
-        (void)xmlWritePath.Directory().CreatePath();
+        Path xmlWritePath(GetGamelistPath(*root));
+        (void) xmlWritePath.Directory().CreatePath();
         mSystemManager.AddWatcherIgnoredFiles(xmlWritePath.ToString());
         document.save(Writer);
 
         // Save
-        (void)SecuredFile::SaveSecuredFile(xmlWritePath, Writer.mOutput, String(FullName()).Append(" gamelist"), true, this);
+        if (!root->PreInstalled())
+          (void)SecuredFile::SaveSecuredFile(xmlWritePath, Writer.mOutput, String(FullName()).Append(" gamelist"), true, this);
+        if (!userDataContent.empty())
+          (void)SecuredFile::SaveSecuredFile(GetGamelistUserdataPath(*root, true), userDataContent, String(FullName()).Append(" gamelist user data"), true, nullptr);
       }
       catch (std::exception& e)
       {
@@ -449,7 +509,7 @@ Path::PathList SystemData::WritableGamelists()
   Path::PathList result;
   for(const RootFolderData* root : mRootOfRoot.SubRoots())
     if (root->Normal())
-      result.push_back(getGamelistPath(*root, true));
+      result.push_back(GetGamelistPath(*root));
   return result;
 }
 

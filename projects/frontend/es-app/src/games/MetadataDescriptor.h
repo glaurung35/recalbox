@@ -158,6 +158,13 @@ class MetadataDescriptor
      */
     static bool StringToFloat(const String& from, float& to);
 
+    /*!
+     * @brief Split key=value from the userData string and fill in the given map
+     * @param data userData to split
+     * @param map Map to fill
+     */
+    void BuildUserDataMap(const String& data, HashMap<String, String>& map);
+
   public:
     /*!
      * Destructor
@@ -403,18 +410,19 @@ class MetadataDescriptor
     /*!
      * Deserialize data from a given Xml node
      * @param from XML Node to deserialize from
+     * @param userData User data string of form: key1=value1,kay2=value2,...
      * @param relativeTo Root path
-     * @param timestamp last scraping timestamp
      * @return True of the node has been successfully deserialized
      */
-    bool Deserialize(XmlNode from, const Path& relativeTo);
+    bool Deserialize(XmlNode from, const String& userData, const Path& relativeTo);
 
     /*!
      * Serialize internal data to XML node
      * @param relativeTo Root path
+     * @param userData serialized user data string of form: key1=value1,kay2=value2,...
      * @return Serialized XML node
      */
-    void Serialize(XmlNode parentTree, const Path& filePath, const Path& relativeTo) const;
+    void Serialize(XmlNode parentTree, [[out]] String& userData, const Path& filePath, const Path& relativeTo) const;
 
     /*!
      * Merge value from the source metadata object into the current object
@@ -491,7 +499,7 @@ class MetadataDescriptor
     [[nodiscard]] String NameAsString()        const { return sNameHolder.GetString(mName);                 }
     [[nodiscard]] String EmulatorAsString()    const { return sEmulatorHolder.GetString(mEmulator);         }
     [[nodiscard]] String CoreAsString()        const { return sCoreHolder.GetString(mCore);                 }
-    [[nodiscard]] String RatioAsString()       const { return sRatioHolder.GetString(mRatio, "auto"); }
+    [[nodiscard]] String RatioAsString()       const { return sRatioHolder.GetString(mRatio); }
     [[nodiscard]] String DescriptionAsString() const { return sDescriptionHolder.GetString(mDescription);   }
     [[nodiscard]] String ImageAsString()       const { return (sPathHolder.GetPath(mImagePath) / sFileHolder.GetString(mImageFile)).ToString(); }
     [[nodiscard]] String ThumbnailAsString()   const { return (sPathHolder.GetPath(mThumbnailPath) / sFileHolder.GetString(mThumbnailFile)).ToString(); }
@@ -549,15 +557,15 @@ class MetadataDescriptor
       mLastPatchFile = sFileHolder.AddString16(patch.Filename());
       mDirty = true;
     }
-    void SetEmulator(const String& emulator)       { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
-    void SetCore(const String& core)               { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
-    void SetRatio(const String& ratio)             { mRatio        = sRatioHolder.AddString8(ratio);              mDirty = true; }
-    void SetGenre(const String& genre)             { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
-    void SetName(const String& name)               { mName         = sNameHolder.AddString32(name);               mDirty = true; }
-    void SetDescription(const String& description) { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
+    void SetEmulator(const String& emulator)            { mEmulator     = sEmulatorHolder.AddString16(emulator);       mDirty = true; }
+    void SetCore(const String& core)                    { mCore         = sCoreHolder.AddString16(core);               mDirty = true; }
+    void SetRatio(const String& ratio)                  { if (ratio=="auto") mRatio = sRatioHolder.AddString8(String::Empty); mRatio = sRatioHolder.AddString8(ratio); mDirty = true; }
+    void SetGenre(const String& genre)                  { mGenre        = sGenreHolder.AddString32(genre);             mDirty = true; }
+    void SetName(const String& name)                    { mName         = sNameHolder.AddString32(name);               mDirty = true; }
+    void SetDescription(const String& description)      { mDescription  = sDescriptionHolder.AddString32(description); mDirty = true; }
     void SetReleaseDate(const DateTime& releasedate)    { mReleaseDate  = (int)releasedate.ToEpochTime();              mDirty = true; }
-    void SetDeveloper(const String& developer)     { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
-    void SetPublisher(const String& publisher)     { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
+    void SetDeveloper(const String& developer)          { mDeveloper    = sDeveloperHolder.AddString32(developer);     mDirty = true; }
+    void SetPublisher(const String& publisher)          { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
     void SetRating(float rating)                        { mRating       = rating;                                      mDirty = true; }
     void SetPlayers(int min, int max)                   { mPlayers      = (max << 16) + min;                           mDirty = true; }
     void SetRegion(const Regions::RegionPack& regions)  { mRegion       = regions; mRegion.Sort();                     mDirty = true; }

@@ -125,4 +125,3 @@ FileData::TopLevelFilter FileData::BuildTopLevelFilter()
 
   return result;
 }
-

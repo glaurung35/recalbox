@@ -5,7 +5,7 @@
 ################################################################################
 
 # Commit of 2023/07/12
-LIBRETRO_CAP32_VERSION = 4a071f2c004273abf0f9fa0640b36f6664d8381a
+LIBRETRO_CAP32_VERSION = 747d6d7eb3c0ed642db3e2e1c6595121dc6e77dd
 LIBRETRO_CAP32_SITE = $(call github,libretro,libretro-cap32,$(LIBRETRO_CAP32_VERSION))
 LIBRETRO_CAP32_LICENSE = GPL-2.0
 

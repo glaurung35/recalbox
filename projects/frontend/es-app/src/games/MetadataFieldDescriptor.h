@@ -48,10 +48,10 @@ class MetadataFieldDescriptor
     };
 
   private:
-    String               _Key;                  //!< Identifier
-    String               _DefaultValue;         //!< default value
-    String               _DisplayName;          //!< displayed as this in editors
-    String               _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
+    String                    _Key;                  //!< Identifier
+    String                    _DefaultValue;         //!< default value
+    String                    _DisplayName;          //!< displayed as this in editors
+    String                    _DisplayPrompt;        //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     MetadataType              _MetadataType;         //!< Named metadata type
     DataType                  _DataType;             //!< Datatype
     EditableType              _EditType;             //!< Editable type
@@ -60,13 +60,14 @@ class MetadataFieldDescriptor
     SetValueMethodType        _SetMethod;            //!< String getter
     bool                      _IsStatistic;          //!< if true, ignore scraper values for this metadata
     bool                      _IsMain;               //!< if true, display on main metadata editor GUI, else in secondary
+    bool                      _IsUserData;           //!< If true, data goes into the userdata gamelist, not in the main gamelist
 
   public:
     // Public const accessors
-    [[nodiscard]] const String&        Key()                  const { return _Key;                  } //!< Identifier
-    [[nodiscard]] const String&        DefaultValue()         const { return _DefaultValue;         } //!< default value
-    [[nodiscard]] const String&        DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
-    [[nodiscard]] const String&        DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
+    [[nodiscard]] const String&             Key()                  const { return _Key;                  } //!< Identifier
+    [[nodiscard]] const String&             DefaultValue()         const { return _DefaultValue;         } //!< default value
+    [[nodiscard]] const String&             DisplayName()          const { return _DisplayName;          } //!< displayed as this in editors
+    [[nodiscard]] const String&             DisplayPrompt()        const { return _DisplayPrompt;        } //!< phrase displayed in editors when prompted to enter value (currently only for strings)
     [[nodiscard]] MetadataType              MetaType()             const { return _MetadataType;         } //!< Named metadata type
     [[nodiscard]] DataType                  Type()                 const { return _DataType;             } //!< Datatype
     [[nodiscard]] EditableType              EditType()             const { return _EditType;             } //!< Editable type
@@ -75,6 +76,7 @@ class MetadataFieldDescriptor
     [[nodiscard]] SetValueMethodType        SetValueMethod()       const { return _SetMethod;            } //!< String setter
     [[nodiscard]] bool                      IsStatistic()          const { return _IsStatistic;          } //!< if true, ignore scraper values for this metadata
     [[nodiscard]] bool                      IsMain()               const { return _IsMain;               } //!< if true, display on main metadata editor GUI, else in secondary
+    [[nodiscard]] bool                      IsUserdata()           const { return _IsUserData;           } //!< If true, data goes into the userdata gamelist, not in the main gamelist
 
     //! Constructor
     MetadataFieldDescriptor(const String&        key,
@@ -88,7 +90,8 @@ class MetadataFieldDescriptor
                             GetValueMethodType        getMethod,
                             SetValueMethodType        setMethod,
                             bool                      isStatistic,
-                            bool                      isMain)
+                            bool                      isMain,
+                            bool                      isUserData)
       : _Key(key)
       , _DefaultValue(defaultValue)
       , _DisplayName(displayName)
@@ -101,6 +104,7 @@ class MetadataFieldDescriptor
       , _SetMethod(setMethod)
       , _IsStatistic(isStatistic)
       , _IsMain(isMain)
+      , _IsUserData(isUserData)
     {
     }
 };

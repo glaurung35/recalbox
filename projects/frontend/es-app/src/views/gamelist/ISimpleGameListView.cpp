@@ -148,7 +148,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   }
 
   // TOGGLE FAVORITES
-  if (event.YReleased() && !cursor->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
+  if (event.YReleased() && /*!cursor->TopAncestor().PreInstalled() &&*/ MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
     if (cursor->IsGame())
     {
@@ -270,7 +270,7 @@ bool ISimpleGameListView::CollectHelpItems(Help& help)
       help.Set(HelpType::X, _("P2K CONTROLS"));
   }
   FileData* fd = getCursor();
-  if (!fd->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
+  if ((!fd->TopAncestor().ReadOnly() || fd->TopAncestor().PreInstalled()) && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
     help.Set(HelpType::Y, IsFavoriteSystem() ? _("Remove from favorite") : _("Favorite"));
 
   if (!hideSystemView)

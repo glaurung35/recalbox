@@ -59,7 +59,7 @@ msgid "SEARCH"
 msgstr "搜尋"
 
 msgid "SCRAPING IN PROGRESS"
-msgstr "正在進行遊戲資訊抓取"
+msgstr "正在進行遊戲資料搜羅"
 
 msgid "SYSTEM"
 msgstr "遊戲平台"
@@ -97,7 +97,7 @@ msgstr ""
 
 msgid "%i GAME SUCCESSFULLY SCRAPED!"
 msgid_plural "%i GAMES SUCCESSFULLY SCRAPED!"
-msgstr[0] "%i 個遊戲資料抓取成功！"
+msgstr[0] "%i 個遊戲資料搜羅成功！"
 
 msgid "%i GAME SKIPPED."
 msgid_plural "%i GAMES SKIPPED."
@@ -116,11 +116,12 @@ msgid "PLEASE VISIT"
 msgstr "請訪問"
 
 msgid "ONLY 1 SCRAPPING ENGINE"
-msgstr "您正在使用1個抓取引擎"
+msgstr "您正在使用1個搜羅引擎"
 
 msgid "%i SCRAPPING ENGINES"
-msgstr "%i 抓取中"
+msgstr "%i 搜羅中"
 
+#, fuzzy
 msgid ""
 "Scraping complete! {PROCESSED} games processed.\n"
 "\n"
@@ -132,6 +133,15 @@ msgid ""
 "{IMAGES} images and {VIDEOS} videos downloaded\n"
 "{MEDIASIZE} of media saved"
 msgstr ""
+"搜羅完成！ {PROCESSED} 個遊戲已處理。\n"
+"\n"
+"{SUCCESS} 個遊戲已搜羅或更新\n"
+"{NOTFOUND} 個遊戲找不到資料...\n"
+"{ERRORS} 個請求/下載錯誤\n"
+"\n"
+"{TEXTINFO} 文字資訊已更新\n"
+"{IMAGES} 張圖片和 {VIDEOS} 個影片已下載 \n"
+"{MEDIASIZE} 媒體已完成儲存"
 
 msgid ""
 "You reached your daily quota of scraping request.\n"
@@ -140,11 +150,11 @@ msgid ""
 "Start scraping again tomorrow.\n"
 "Dont forget to select 'update' and not 'scrape all'"
 msgstr ""
-"您已達到了每日抓取資料的上限。\n"
+"您已達到了每日搜羅資料的上限。\n"
 "但無論如何，您今天的所有資料皆已儲存完畢。\n"
 "\n"
-"請明天再繼續抓取。\n"
-"不要忘記明天是選擇“更新”而不是“抓取全部”"
+"請明天再繼續搜羅。\n"
+"不要忘記明天是選擇“更新”而不是“搜羅全部”"
 
 msgid ""
 "Your share partition is almost full.\n"
@@ -153,9 +163,9 @@ msgid ""
 "Remove unused games, media, files to make room before running the scraper "
 "again!"
 msgstr ""
-"您的共享分區幾乎已滿。搜索自動停止。\n"
+"您的磁碟分區幾乎已滿。搜羅自動停止。\n"
 "\n"
-"刪除未使用的遊戲，媒體和文件以騰出空間，然後再次運行抓取！"
+"刪除未使用的遊戲，圖片影片媒體和檔案以騰出空間，然後再次運行搜羅！"
 
 msgid "OK"
 msgstr "確定"
@@ -167,7 +177,7 @@ msgid "MORE DETAILS"
 msgstr "更多細節"
 
 msgid "SCRAPE"
-msgstr "抓取"
+msgstr "搜羅"
 
 msgid "SAVE"
 msgstr "儲存"
@@ -405,7 +415,7 @@ msgstr "HDMI輸出"
 
 #, fuzzy
 msgid "JACK"
-msgstr "3.5mm音源輸出"
+msgstr "3.5mm耳機插孔輸出"
 
 msgid "AUTO"
 msgstr "自動"
@@ -447,16 +457,16 @@ msgid "WIFI CONFIGURATION ERROR"
 msgstr "WiFi 無線網路設定錯誤"
 
 msgid "SCRAPER"
-msgstr "遊戲資訊抓取"
+msgstr "遊戲資料搜羅"
 
 msgid "SCRAPE FROM"
-msgstr "抓取來源"
+msgstr "搜羅來源"
 
 msgid "SCRAPE RATINGS"
-msgstr "抓取評分"
+msgstr "搜羅評分"
 
 msgid "SCRAPE NOW"
-msgstr "開始抓取"
+msgstr "開始搜羅"
 
 msgid "QUIT"
 msgstr "離開"
@@ -553,13 +563,13 @@ msgstr "所有遊戲"
 #. MISSING SCRAPPER TRANSLATIONS
 #, fuzzy
 msgid "Only missing image"
-msgstr "只抓取缺少的圖片"
+msgstr "只搜羅缺少的圖片"
 
 msgid "FILTER"
 msgstr "篩選"
 
 msgid "SCRAPE THESE SYSTEMS"
-msgstr "抓取這些遊戲平台"
+msgstr "搜羅這些遊戲平台"
 
 msgid "SYSTEMS"
 msgstr "遊戲平台"
@@ -1212,9 +1222,9 @@ msgid ""
 "cover (or name if there is no scrape information)"
 msgstr ""
 "選擇開始遊戲時發生的轉場類型。\n"
-"INSTANT將不執行任何效果。\n"
-"FADE將會淡出漸黑。\n"
-"SLIDE將放大遊戲封面（若無遊戲封面，則顯示遊戲名稱）。"
+"INSTANT 將不執行任何效果。\n"
+"FADE 將會淡出漸黑。\n"
+"SLIDE 將放大遊戲封面（若無封面則顯示遊戲名稱）。"
 
 msgid "Select a theme for your recalbox."
 msgstr "為你的 Recalbox 選擇一個漂亮的佈景主題吧！"
@@ -1262,7 +1272,7 @@ msgstr ""
 "中即可使用。"
 
 msgid "Select your output device. Only HDMI and JACK are supported."
-msgstr "設定您的聲音輸出方式。目前只支援 HDMI 或 3.5mm 音源輸出。"
+msgstr "設定您的聲音輸出方式。目前只支援 HDMI 或 3.5mm耳機插孔輸出。"
 
 msgid ""
 "Configure the network options of your recalbox.\n"
@@ -1303,22 +1313,21 @@ msgid ""
 "and visuals for your games from different servers and enhances the user "
 "experience in EmulationStation completely."
 msgstr ""
-"從網路上的遊戲資料庫中，抓取下載取得遊戲的簡介及圖片等資料，讓介面更加豐富美"
-"觀。"
+"從網路上的遊戲資料庫中，搜羅下載遊戲的簡介及圖片等資料，讓介面更加豐富美觀。"
 
 msgid ""
 "Select a server to scrape from. The SCREENSCRAPER server is recommended and "
 "is based on www.screenscraper.fr and scrapes game data in your language, if "
 "available."
 msgstr ""
-"選擇要從哪個遊戲資料庫來抓取。推薦使用 Screenscraper 伺服器，並選擇您慣用的語"
-"言來更新資料（但目前沒中文XD）。"
+"選擇要從哪個遊戲資料庫來搜羅。推薦使用 Screenscraper搜羅系統，並選擇您慣用的"
+"語言來更新資料（但目前沒中文XD）。"
 
 msgid "Begin the scrape process with the configuration shown below."
-msgstr "依此設定值開始進行抓取。"
+msgstr "依此設定值開始進行搜羅。"
 
 msgid "Scrape and display game ratings."
-msgstr "抓取並顯示遊戲的評分。"
+msgstr "搜羅並顯示遊戲的評分。"
 
 msgid ""
 "Advanced settings. Please make sure you really know what you're doing, "
@@ -1359,7 +1368,7 @@ msgstr "此選項可以將鎖定可遊玩的遊戲平台；用戶將無法使用
 
 msgid ""
 "Always display the basic gamelist view, even if you have scraped your games."
-msgstr "總是顯示精簡的遊戲列表，忽略抓取的遊戲資料。"
+msgstr "總是顯示精簡的遊戲列表，忽略搜羅的遊戲資料。"
 
 msgid ""
 "Override global options like emulator, core, ratio and more for each "
@@ -1919,7 +1928,7 @@ msgid ""
 "Select the source of your game name. Trust the scraping database or get them "
 "from filename, raw or undecorated (without decoration in () or [] )."
 msgstr ""
-"請選擇您遊戲名稱的來源。 可從信任的數據庫、原始檔名或未更動過的檔名中獲取（不"
+"請選擇您遊戲名稱的來源。 可從信任的資料庫、原始檔名或未更動過的檔名中獲取（不"
 "要更動()或[]中的內容）。"
 
 msgid ""
@@ -1936,7 +1945,7 @@ msgid "GET REGION FROM FILENAME WHEN POSSIBLE"
 msgstr "在可能的情況下從文件名獲取區域"
 
 msgid "Scraper results"
-msgstr "抓取結果"
+msgstr "搜羅結果"
 
 msgid "Raw filename"
 msgstr "原始文件名"
@@ -1963,13 +1972,13 @@ msgid "Marquee"
 msgstr "選框"
 
 msgid "ScreenScraper Mix V1"
-msgstr "畫面搜尋器 Mix V1"
+msgstr "ScreenScraper搜羅系統 Mix v1"
 
 msgid "ScreenScraper Mix V2"
-msgstr "畫面搜尋器 Mix V2"
+msgstr "ScreenScraper搜羅系統 Mix v2"
 
 msgid "SCRAPE IMAGE"
-msgstr "搜尋圖片"
+msgstr "搜羅圖片"
 
 msgid "SELECT THUMBNAIL TYPE"
 msgstr "選擇縮略圖類型"
@@ -1978,7 +1987,7 @@ msgid "No thumbnail"
 msgstr "沒有縮略圖"
 
 msgid "SCRAPE THUMBNAIL"
-msgstr "刪除縮略圖"
+msgstr "搜羅縮圖"
 
 msgid "SELECT VIDEO TYPE"
 msgstr "選擇影片類型"
@@ -1993,7 +2002,7 @@ msgid "Optimized/Normalized video"
 msgstr "優化/標準化的影片"
 
 msgid "SCRAPE VIDEO"
-msgstr "刪除影片"
+msgstr "搜羅影片"
 
 msgid "SELECT FAVORITE REGION"
 msgstr "選擇最喜歡的地區"
@@ -2734,10 +2743,10 @@ msgid "Any External Device"
 msgstr "任何外接裝置"
 
 msgid "SCRAPER OPTIONS"
-msgstr "抓取選項"
+msgstr "搜羅選項"
 
 msgid "SCREENSCRAPER OPTIONS"
-msgstr "畫面抓取選項"
+msgstr "搜羅系統選項"
 
 msgid "DETECTED REGION"
 msgstr "已檢測區域"
@@ -3047,13 +3056,14 @@ msgid ""
 msgstr ""
 "初始化失敗！ 您的 USB 設備空間已滿或內容發生錯誤。請檢查修復或使用其他設備。"
 
-#
 msgid ""
 "\n"
 "WARNING: You device may not have been properly unplugged and has consistency "
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
+"\n警告：您的裝置可能未正確拔出插頭並可能存在錯誤。因此它被設置為唯讀。建議您將"
+"裝置重新插入 Windows PC 並使用修復工具。"
 
 msgid "DISPLAY BY FILENAME"
 msgstr "以檔案名稱顯示"
@@ -3074,7 +3084,7 @@ msgid "SHOW ONLY LATEST VERSION"
 msgstr "只顯示最終的版本"
 
 msgid "SHOW ONLY FAVORITES"
-msgstr "只顯示最愛"
+msgstr "只顯示收藏"
 
 msgid "SHOW HIDDEN GAMES"
 msgstr "顯示隱藏的遊戲"
@@ -3126,16 +3136,15 @@ msgid ""
 "\n"
 "Try again in a few moment or fix your credentials if required."
 msgstr ""
-"抓取遊戲資料時發生錯誤！可能伺服器有問題或者登入的帳號密碼有錯誤。\n"
+"搜羅遊戲資料時發生錯誤！可能伺服器有問題或者登入的帳號密碼有錯誤。\n"
 "\n"
 "請稍後再試或更正您的登入資料。"
 
-#
 msgid "Your scraping session completed!"
-msgstr ""
+msgstr "您的搜羅資料已完成！"
 
 msgid "Please select one or more systems to scrape!"
-msgstr "請選擇一個或多個系統進行抓取！"
+msgstr "請選擇一個或多個系統進行搜羅！"
 
 msgid ""
 "Your system has not enough memory to handle %SYSTEMS% systems. You should "
@@ -3323,10 +3332,10 @@ msgid "Configure emulators to approach a zero lag experience."
 msgstr "進一步設定模擬器以接近零延遲的體驗。"
 
 msgid "FORCE SOUND ON JACK"
-msgstr "強制從3.5mm接孔輸出聲音"
+msgstr "強制從耳機插孔輸出聲音"
 
 msgid "Force sound on jack. Auto-enabled when 31kHz switch is ON"
-msgstr "強制從3.5mm接孔輸出聲音。並於接上31kHz開關時自動啟用"
+msgstr "強制從耳機插孔輸出聲音。並於接上31kHz開關時自動啟用"
 
 msgid "SCREEN CALIBRATION (BETA)"
 msgstr "螢幕校準 (BETA)"
@@ -3396,7 +3405,7 @@ msgid "SYSTEM RESOLUTIONS"
 msgstr "系統解析度"
 
 msgid "AUTOMATIC SCRAPING"
-msgstr "自動抓取資料"
+msgstr "自動搜羅資料"
 
 msgid "RUN IN BACKGROUND"
 msgstr "在背景執行"
@@ -3601,8 +3610,8 @@ msgid ""
 "During the calibration, press B to apply the mode, START to validate, and A "
 "to cancel."
 msgstr ""
-"您正在為電視調整不同的解析度。請根據您電視支援的範圍選擇更新率。\n"
-"調整過程中，按 B 套用模式，按 START 驗證，按 A 取消。"
+"您正在為顯示器調整不同的解析度。請根據您顯示器支援的範圍選擇更新率。\n"
+"調整過程中，按 B 套用模式，按 START 確認，按 A 取消。"
 
 msgid "60Hz Only"
 msgstr "限制60Hz"
@@ -3697,11 +3706,10 @@ msgstr "從狀態啟動遊戲"
 msgid "DELETE STATE SLOT"
 msgstr "刪除狀態槽"
 
-#
 msgid ""
 "Show savestates on start will display available save states before launch a "
 "game."
-msgstr ""
+msgstr "啟動遊戲時，先顯示可使用的即時儲存狀態。"
 
 msgid "DOWNLOADING GAMES FOR %s"
 msgstr "正在下載遊戲 %s"
@@ -3804,8 +3812,8 @@ msgid ""
 "Scrap running in background.\n"
 "Return to the scrap menu to get the progression."
 msgstr ""
-"Scrap在背景運行。\n"
-"返回Scrap選單，獲取進度。"
+"正在背景搜羅中。\n"
+"返回搜羅功能選單以取得進度。"
 
 msgid "60Hz & 50Hz"
 msgstr "60Hz & 50Hz"
@@ -3972,645 +3980,518 @@ msgstr "正在從 Recalbox 儲存庫中下載免費遊戲。 請稍等..."
 msgid "Installing %s games"
 msgstr "正在安裝 %s 遊戲"
 
-#
 msgid "SLOT"
-msgstr ""
+msgstr "投幣口"
 
-#
 msgid "ARCADE SETTINGS"
-msgstr ""
+msgstr "街機設定"
 
-#
 msgid "ENABLE ENHANCED VIEW"
-msgstr ""
+msgstr "啟用進階檢視"
 
-#
 msgid "FOLD CLONES BY DEFAULT"
-msgstr ""
+msgstr "預設收起仿製版"
 
-#
 msgid "HIDE BIOS"
-msgstr ""
+msgstr "隱藏BIOS"
 
-#
 msgid "HIDE NON-WORKING GAMES"
-msgstr ""
+msgstr "隱藏無法執行的遊戲"
 
-#
 msgid "ALWAYS USE OFFICIAL NAMES"
-msgstr ""
+msgstr "總是使用官方名稱"
 
-#
 msgid "MANUFACTURER VIRTUAL SYSTEMS"
-msgstr ""
+msgstr "製造商虛擬系統"
 
-#
 msgid "ARCADE ALL-IN-ONE SYSTEM"
-msgstr ""
+msgstr "街機一體化系統"
 
-#
 msgid "HIDE %i MANUFACTURERS"
-msgstr ""
+msgstr "隱藏 %i 製造商"
 
-#
 msgid "ALL OTHERS"
-msgstr ""
+msgstr "其他所有"
 
-#
 msgid "HD MODE"
-msgstr ""
+msgstr "HD模式"
 
-#
 msgid "WIDESCREEN (16/9)"
-msgstr ""
+msgstr "寬螢幕 (16:9)"
 
-#
 msgid "LAUNCH LAST"
-msgstr ""
+msgstr "最後啟動"
 
-#
 msgid "ENABLE BOOT ON GAME"
-msgstr ""
+msgstr "啟用開機直進遊戲"
 
-#
 msgid "BOOTLOADER UPDATE"
-msgstr ""
+msgstr "BOOTLOADER更新"
 
-#
 msgid ""
 "If no configured controller is detected at boot, recalbox will run as usual "
 "and display the system list."
-msgstr ""
+msgstr "如果啟動時未偵測到已設定的控制器，Recalbox 將照常運作並顯示系統清單。"
 
-#
 msgid "JAMMA SETTINGS"
-msgstr ""
+msgstr "JAMMA設定"
 
-#
 msgid "Could not get bootloader status. Something went wrong"
-msgstr ""
+msgstr "無法取得 bootloader 狀態。可能哪裡有問題"
 
-#
 msgid "An update is available :\n"
-msgstr ""
+msgstr "有可用的更新：\n"
 
-#
 msgid "Current version: \n"
-msgstr ""
+msgstr "目前版本：\n"
 
-#
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr ""
+msgstr "\n最新版本：\n"
 
-#
 msgid "Update success. The bootloader is up to date."
-msgstr ""
+msgstr "更新成功！bootloader已是最新的版本。"
 
-#
 msgid ""
 "Your bootloader is up to date.\n"
 "The bootloader version is:\n"
-msgstr ""
+msgstr "您的 bootloader 是最新的，bootloader 版本是：\n"
 
-#
 msgid "AUTO PAIR ON BOOT"
-msgstr ""
+msgstr "啟動時自動配對"
 
-#
 msgid "ALWAYS SHOW PAD OSD"
-msgstr ""
+msgstr "始終顯示PAD OSD"
 
-#
 msgid "PAD OSD TYPE"
-msgstr ""
+msgstr "PAD OSD類型"
 
-#
 msgid "SCANLINES FOR 240P GAMES IN 480"
-msgstr ""
+msgstr "在 240P 的遊戲顯示掃描線在 480 解析度中"
 
-#
 msgid "REDUCED LATENCY (EXPERIMENTAL)"
-msgstr ""
+msgstr "減少延遲（實驗性）"
 
-#
 msgid "RUN AHEAD (EXPERIMENTAL)"
-msgstr ""
+msgstr "加速進行（實驗性）"
 
-#
 msgid "MONO AMP BOOST"
-msgstr ""
+msgstr "單聲道擴大升壓"
 
-#
 msgid "PANEL TYPE"
-msgstr ""
+msgstr "面板類型"
 
-#
 msgid "NEOGEO LAYOUT"
-msgstr ""
+msgstr "NEOGEO佈局"
 
-#
 msgid "4 PLAYERS MODE"
-msgstr ""
+msgstr "4人遊戲模式"
 
-#
 msgid "START+BTN1 = CREDIT"
-msgstr ""
+msgstr "START+BTN1 = CREDIT"
 
-#
 msgid "START+BTN = HK+BTN"
-msgstr ""
+msgstr "START+BTN = HK+BTN"
 
-#
 msgid "START 3SEC = EXIT"
-msgstr ""
+msgstr "START按3秒 = 退出"
 
-#
 msgid "START+BTN 5SEC = AUTO FIRE"
-msgstr ""
+msgstr "START+BTN按3秒 = 自動連發"
 
-#
 msgid "PIN E/27 AS GND"
-msgstr ""
+msgstr "PIN腳位E/27作為GND"
 
-#
 msgid "RESET JAMMA CONFIGURATION"
-msgstr ""
+msgstr "重設 JAMMA 的設定值"
 
-#
 msgid "Are you sure you want to switch the display mode to 15kHz?"
-msgstr ""
+msgstr "您確定要將顯示模式切換到 15kHz 嗎？"
 
-#
 msgid ""
 "Are you sure you want to switch the display mode to 31kHz? Your display must "
 "support the 31kHz (480p)"
-msgstr ""
+msgstr "您確定要將顯示模式切換到 31kHz 嗎？您的顯示器必須支援 31kHz (480p)"
 
-#
 msgid ""
 "Are you sure you want to switch the display mode to MultiSync? Your chassis "
 "must support automatic switching between 15kHz and 31kHz modes."
 msgstr ""
+"您確定要將顯示模式切換為 MultiSync 嗎？您的設備必須支援 15kHz 和 31kHz 模式之"
+"間的自動切換。"
 
-#
+#, fuzzy
 msgid ""
 "You will now calibrate different resolutions for your TV. Select the refresh "
 "rate according to what your TV supports.\n"
 "During the calibration, press B to validate, and A to cancel."
 msgstr ""
+"您正在為顯示器調整不同的解析度。請根據您顯示器支援的範圍選擇更新率。\n"
+"調整過程中，按 B 確認，按 A 取消。"
 
-#
 msgid "Are you sure you want to reset JAMMA configuration?"
-msgstr ""
+msgstr "您確定要重設 JAMMA 的設定值嗎？"
 
-#
 msgid "BOOT ON THIS GAME"
-msgstr ""
+msgstr "開機時啟動這個遊戲"
 
-#
 msgid "DOWNLOAD GAMES"
-msgstr ""
+msgstr "下載遊戲"
 
-#
 msgid "DISPLAY ONLY TATE GAMES IN GAMELISTS"
-msgstr ""
+msgstr "僅顯示遊戲清單中的 TATE 遊戲"
 
-#
 msgid "TIME PLAYED"
-msgstr ""
+msgstr "遊玩時間"
 
-#
 msgid "RECALBOX RGB JAMMA"
-msgstr ""
+msgstr "RECALBOX RGB JAMMA"
 
-#
 msgid "DID YOU KNOW?"
-msgstr ""
+msgstr "你知道嗎？"
 
-#
 msgid ""
 "Last operation removed all systems!\n"
 "\n"
 "They have been restored to allow normal operations, regardless of the "
 "current filters."
 msgstr ""
+"已清除了所有系統平台！\n"
+"\n"
+"目前所有過濾器皆已恢復正常運作。"
 
-#
 msgid "{0} reports the emulation status of this game is 'imperfect'"
-msgstr ""
+msgstr "{0} 報告該遊戲的模擬狀態為 '不完美'"
 
-#
 msgid ""
 "{0} reports the emulation status of this game is 'preliminary'. You should "
 "expect issues such as bugs or even crashes!"
 msgstr ""
+"{0} 報告該遊戲的模擬狀態為 '初步'。您應已預期可能會發生錯誤或當掉等問題！"
 
-#
 msgid "Start the game standard Game Boy mode"
-msgstr ""
+msgstr "以 Game Boy 模式開始遊戲"
 
-#
 msgid "Start the game in Super Game Boy mode"
-msgstr ""
+msgstr "以 Super Game Boy 模式開始遊戲"
 
-#
 msgid "INITIALIZING SYSTEMS..."
-msgstr ""
+msgstr "正在初始化系統..."
 
-#
 msgid "INITIALIZING SYSTEM {0}"
-msgstr ""
+msgstr "正在初始化系統 {0}"
 
-#
 msgid "LOADING SYSTEMS..."
-msgstr ""
+msgstr "正在載入系統..."
 
-#
 msgid "LOADING VIRTUAL SYSTEMS..."
-msgstr ""
+msgstr "正在載入虛擬系統..."
 
-#
 msgid "INITIALIZING INTERFACE..."
-msgstr ""
+msgstr "正在初始化介面..."
 
-#
 msgid ""
 "One or more files are corrupted. You are back on Recalbox %s.\n"
 "Please retry to upgrade your Recalbox, check your Recalbox storage (SD Card, "
 "USB Key or hard drive).\n"
 "Contact the team on https://forum.recalbox.com if the problem persists."
 msgstr ""
+"一個或多個檔案已損壞。您將返回 Recalbox %s 。\n"
+"請重試升級您的 Recalbox，檢查您的 Recalbox 儲存空間（SD卡、USB或硬碟）。\n"
+"如果問題仍然存在，請聯絡 https://forum.recalbox.com 上的團隊。"
 
-#
 msgid "THE UPGRADE IS CORRUPTED"
-msgstr ""
+msgstr "升級已損壞"
 
-#
 msgid "An undervoltage has been detected, the system may slow down.\n"
-msgstr ""
+msgstr "偵測到低電壓，系統可能會變慢。\n"
 
-#
 msgid ""
 "We recommend adjusting your JAMMA cabinet power supply to increase the "
 "voltage to between 5.05V and 5.2V"
-msgstr ""
+msgstr "我們建議調整您的 JAMMA 設備電源，將電壓提高到 5.05V 至 5.2V 之間"
 
-#
 msgid ""
 "We recommend that you purchase an official USB-C power supply designed for "
 "your Raspberry Pi"
-msgstr ""
+msgstr "我們建議您購買 Raspberry Pi 官方設計的USB-C專用電源"
 
-#
 msgid ""
 "The temperature of your system is high.\n"
 "The system may slow down. Try cooling your Raspberry Pi with a fan or "
 "disable overclock if it's enabled."
 msgstr ""
+"您的系統溫度很高。\n"
+"系統可能會變慢。嘗試使用風扇冷卻 Raspberry Pi 或停止超頻（如果已啟用）。"
 
-#
 msgid "Download various free contents!"
-msgstr ""
+msgstr "下載各種免費內容！"
 
-#
 msgid ""
 "Choose strategy\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "AUTO: auto apply default patch\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "LAUNCH LAST: always launch the last one (can be modified in edit game menu)\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "SELECT: choose manually which patch to apply. Default one or patches in "
 "[ROM_NAME]-patches directory\n"
 "\n"
+"DISABLED: never apply patch"
 msgstr ""
 
-#
-msgid "DISABLED: never apply patch"
-msgstr ""
-
-#
 msgid "Set the Super GameBoy mode for GameBoy games."
-msgstr ""
+msgstr "為 GameBoy 遊戲設定 Super GameBoy 模式。"
 
-#
 msgid ""
 "Improves resolution on compatible 3d emulators. May have an impact on "
 "performance. (Dreamcast, Naomi, Atomiswave, Playstation, Saturn)"
 msgstr ""
+"提高相容 3D 模擬器的解析度。可能會對性能產生影響。 （Dreamcast、Naomi、"
+"Atomiswave、Playstation、Saturn）"
 
-#
 msgid ""
 "Enables 16:9 hacks for compatible emulators. May have an impact on "
 "performance. (Dreamcast, Naomi, Atomiswave, Snes, Megadrive)"
 msgstr ""
+"為相容的模擬器啟用 16:9 hack。可能會對性能產生影響。 （Dreamcast、Naomi、"
+"Atomiswave、Snes、Megadrive）"
 
-#
 msgid "Always display Pad OSD whether you are in pad menus or not."
-msgstr ""
+msgstr "無論是否在鍵盤選單中，請始終顯示PAD OSD。"
 
-#
 msgid "Change the icon used to display pad OSD."
-msgstr ""
+msgstr "變更用於顯示 PAD OSD 的圖示。"
 
-#
 msgid "Activates Bluetooth pairing automatically each time you boot."
-msgstr ""
+msgstr "每次啟動時自動啟動藍牙配對。"
 
-#
 msgid "Manage all arcade options."
-msgstr ""
+msgstr "管理所有街機選項。"
 
-#
 msgid "Enabled new arcade view with parent/clones sorted hierarchically."
-msgstr ""
+msgstr "啟用新的街機顯示，其中 遊戲本體/仿製版 按層次結構排序。"
 
-#
 msgid "Hide clones and orphaned games"
-msgstr ""
+msgstr "隱藏仿製版及孤立遊戲"
 
-#
 msgid "Hide bios files"
-msgstr ""
+msgstr "隱藏 bios 檔案"
 
-#
 msgid "Hide unknown and non-working games"
-msgstr ""
+msgstr "隱藏未知與無法執行的遊戲"
 
-#
 msgid ""
 "Always use arcade names from official databases. Overwrite manual edition & "
 "scraper results."
-msgstr ""
+msgstr "始終使用官方資料庫中的街機名稱。覆蓋掉手動修改版本和自動搜羅結果。"
 
-#
 msgid "Manage screen and game rotation options"
-msgstr ""
+msgstr "管理顯示器與遊戲旋轉選項"
 
-#
 msgid "Proceed to a complete screen rotation, for frontend and games."
-msgstr ""
+msgstr "繼續在 前端畫面與遊戲 進行螢幕旋轉"
 
-#
 msgid "Select the resolution for Kodi interface and videos"
-msgstr ""
+msgstr "選擇 Kodi 介面和影片的解析度"
 
-#
 msgid "Enable to select games as auto-runnable games at startup."
-msgstr ""
+msgstr "允許選擇遊戲作為開機時自動執行的遊戲。"
 
-#
 msgid "Update your Raspberry Pi's bootloader."
-msgstr ""
+msgstr "更新 Raspberry Pi 的 bootloader 程式。"
 
-#
 msgid "Enable filtering by manufacturers and/or famous systems."
-msgstr ""
+msgstr "啟用製造商 和/或 常見系統的過濾。"
 
-#
 msgid ""
 "This option display a menu which allows to manage savestates for a game."
-msgstr ""
+msgstr "允許在選單顯示管理遊戲的保存狀態。"
 
-#
 msgid "Configure emulators to reduce latency."
-msgstr ""
+msgstr "設定模擬器以減少延遲。"
 
-#
 msgid ""
 "Use run ahead to reduce latency. Can have undesired effect on some emulators."
-msgstr ""
+msgstr "使用預先加速執行來減少延遲。可能會對某些模擬器產生不良影響。"
 
-#
 msgid "Run the frontend in 240p resolution on you 31kHz monitor."
-msgstr ""
+msgstr "在 31kHz 顯示器上以 240p 解析度運作前端界面。"
 
-#
 msgid "When a HDMI cable is connected, use HDMI output in priority."
-msgstr ""
+msgstr "連接 HDMI 連接線時，優先使用 HDMI 輸出。"
 
-#
 msgid "Use experimental CRT V2 implementation. Works only on selected systems."
-msgstr ""
+msgstr "使用實驗性 CRT V2 顯示。僅適用於選定的系統。"
 
-#
 msgid "Uses a range at the edge of the CRT support to increase image quality."
-msgstr ""
+msgstr "使用 CRT 支架邊緣的範圍來提高影像品質。"
 
-#
 msgid "Superrez can increase image quality depending on your CRT."
-msgstr ""
+msgstr "Superrez 可以根據您的 CRT 提高影像品質。"
 
-#
 msgid "Number of button on your arcade cab panel."
-msgstr ""
+msgstr "街機操控面板上的按鈕數量。"
 
-#
 msgid "Boost mono amp power. Use only if the sound level is too low."
-msgstr ""
+msgstr "提升單聲道擴大機功率。僅在音量太低時使用。"
 
-#
 msgid "Define the NEOGEO layout when playing NEOGEO games."
-msgstr ""
+msgstr "設定玩 NEOGEO 遊戲時的 NEOGEO 版面。"
 
-#
 msgid "Add a credit in game, pressing START + BTN1. Works for all players."
-msgstr ""
+msgstr "按 START + BTN1在遊戲中加入積分。適用於所有玩家。"
 
-#
 msgid ""
 "START + any button will send the HK+BTN event, so you can use special hotkey "
 "controls in emulators."
 msgstr ""
+"按START + 任何按鈕 都會傳送 HK+BTN 事件，因此您可以在模擬器中使用特殊的熱鍵控"
+"制項。"
 
-#
 msgid ""
 "Pressing START for 3sec will exit the game. If you disable this option, you "
 "will have to exit the game with SERVICE + TEST."
 msgstr ""
+"按住 START 3 秒將退出遊戲。如果停用此選項，則必須使用「SERVICE + TEST」退出遊"
+"戲。"
 
-#
 msgid ""
 "Select the type of your screen. If you don't know what you are doing, do not "
 "change this value."
-msgstr ""
+msgstr "選擇螢幕類型。如果您不知道自己在做什麼，請不要更改此值。"
 
-#
 msgid "4 player mode, with player 2 and 3 on CPS2 kickharness."
-msgstr ""
+msgstr "4人模式，其中 2P和 3P 使用 CPS2 Kickharness."
 
-#
 msgid "Set auto fire for a button by pressing START + a button for 5 seconds"
-msgstr ""
+msgstr "按下 START+ A 按鈕 5 秒，為按鈕設定自動連發"
 
-#
 msgid ""
 "On some cabs, the pins E/27 of the JAMMA are the common ground for controls. "
 "Enable this option if you have this configuration."
 msgstr ""
+"在某些設備中，JAMMA 的接腳 E/27 是控制裝置的通用接地點。如果您有此配置，請啟"
+"用此選項。"
 
-#
 msgid "Refreshing systems..."
-msgstr ""
+msgstr "正在刷新系統..."
 
 msgid "Your scraping session completed. Press OK to show the results."
-msgstr "您本次的資料抓取已完成。請按 OK 顯示結果。"
+msgstr "您本次的資料搜羅已完成。請按 OK 顯示結果。"
 
-#
 msgid ""
 "There is no game to show after this filter is changed! No change recorded."
-msgstr ""
+msgstr "更改此過濾器後沒有遊戲可顯示！沒有記錄任何變更。"
 
-#
 msgid "ENABLE VULKAN DRIVER"
-msgstr ""
+msgstr "啟用 VULKAN 驅動程式"
 
-#
 msgid "UPDATE"
-msgstr ""
+msgstr "更新"
 
-#
 msgid "Could not update bootloader. Something went wrong"
-msgstr ""
+msgstr "無法更新 bootloader 程式。出了點問題"
 
-#
 msgid "BOOT VIDEOS"
-msgstr ""
+msgstr "開機影片"
 
-#
 msgid "HIDE BOARD GAMES (MAHJONG)"
-msgstr ""
+msgstr "隱藏桌上遊戲（麻將）"
 
-#
 msgid "There is no favorite games in any system!"
-msgstr ""
+msgstr "任何系統都沒有找到喜愛遊戲！"
 
-#
 msgid "FORCED"
-msgstr ""
+msgstr "強制"
 
-#
 msgid "SYSTEM DEFAULT"
-msgstr ""
+msgstr "系統預設"
 
-#
 msgid "SOUND"
-msgstr ""
+msgstr "聲音"
 
-#
 msgid "NEOGEO LAYOUT P1"
-msgstr ""
+msgstr "NEOGEO 佈局 P1"
 
-#
 msgid "NEOGEO LAYOUT P2"
-msgstr ""
+msgstr "NEOGEO 佈局 P2"
 
-#
 msgid "EDIT GAME"
-msgstr ""
+msgstr "編輯遊戲"
 
-#
 msgid "EDIT FOLDER"
-msgstr ""
+msgstr "編輯資料夾"
 
-#
 msgid "UPSIDEDOWN"
-msgstr ""
+msgstr "倒掛"
 
-#
 msgid "There is no TATE game to show!No change recorded."
-msgstr ""
+msgstr "沒有 TATE 遊戲可以顯示！沒有記錄任何變更。"
 
-#
 msgid "REGION"
-msgstr ""
+msgstr "地區"
 
-#
 msgid "Europe"
-msgstr ""
+msgstr "歐"
 
-#
 msgid "USA"
-msgstr ""
+msgstr "美"
 
-#
 msgid "Japan"
-msgstr ""
+msgstr "日"
 
-#
 msgid "You display {0} is not in the list of this theme's supported displays:"
-msgstr ""
+msgstr "您的顯示器 {0} 不在該主題支援的顯示器清單中："
 
-#
 msgid ""
 "You current resolution {0} is not in the list of this theme's supported "
 "resolutions:"
-msgstr ""
+msgstr "您目前的解析度 {0} 不在該主題支援的解析度清單中："
 
-#
 msgid "You're in TATE mode and this theme does not seem to support TATE."
-msgstr ""
+msgstr "您處於 TATE 模式，而此主題似乎不支援 TATE。"
 
-#
 msgid ""
 "This theme may have one or more compatibility issues with your current "
 "display:\n"
-msgstr ""
+msgstr "此主題可能與您目前的顯示器有一個或多個相容性問題：\n"
 
-#
 msgid "NEXT"
-msgstr ""
+msgstr "下一步"
 
-#
 msgid "UPDATE NOW"
-msgstr ""
+msgstr "立即更新"
 
-#
 msgid "PAGE UP/DOWN"
-msgstr ""
+msgstr "上一頁/下一頁"
 
-#
 msgid "{0} reports the emulation status of this game is 'imperfect'."
-msgstr ""
+msgstr "{0} 報告該遊戲的模擬狀態為 '不完美'。"
 
-#
 msgid ""
 "System \"{0}\" has no visible game yet!\n"
 "\n"
 "It will show up automatically as soon as it has visible games."
 msgstr ""
+"系統 \"{0}\" 還沒有可顯示的遊戲！\n"
+"\n"
+"一旦有可顯示的遊戲，它就會自動顯示。"
 
-#
 msgid ""
 "With regard to the new BIOS folder structure, some of your bios files have "
 "been moved automatically to their new path."
-msgstr ""
+msgstr "關於新的 BIOS 資料夾結構，您的一些 BIOS 檔案已自動移動到新路徑。"
 
-#
 msgid "This move is applied only once. No additional operation required."
-msgstr ""
+msgstr "此動作僅適用一次。無需額外操作。"
 
-#
 msgid ""
 "However, some files failed to move. You should run the BIOS Checker and move "
 "some files manually."
-msgstr ""
+msgstr "但是，有些檔案無法移動。請執行 BIOS 檢查器並自行手動移動一些檔案。"
 
-#
 msgid ""
 "However, all files failed to move. You should:\n"
 "- either run the BIOS Checker and move the required files manually.\n"
@@ -4618,296 +4499,253 @@ msgid ""
 "to read-write, reboot your recalbox, wait until all files are moved, then "
 "protect it again."
 msgstr ""
+"但是，所有檔案均無法移動。你應該：\n"
+"- 執行 BIOS 檢查器並手動移動所需的檔案。\n"
+"- 或者，如果您的 BIOS 檔案位於唯讀裝置或遠端共用上，請將其變更為可讀寫，然後"
+"重新啟動您的 recalbox，等到所有檔案都完成移動，然後再去修改唯獨來保護它。"
 
-#
 msgid ""
 "To take advantage of the safe shutdown feature, the SAFE SHUTDOWN switch of "
 "your Retroflag case (located inside the case, on the electronic part)"
 msgstr ""
+"若要使用安全關機功能，請調整 Retroflag 外殼內的安全關機開關（位於外殼內部的電"
+"子零件上）"
 
-#
 msgid "Updating current theme..."
-msgstr ""
+msgstr "正在更新目前主題..."
 
-#
 msgid "Loading new theme {0}"
-msgstr ""
+msgstr "正在載入新主題 {0}"
 
-#
 msgid "Shows the Recalbox license."
-msgstr ""
+msgstr "顯示 Recalbox 許可證。"
 
-#
 msgid "Shows the quit menu to reboot or shutdown Recalbox."
-msgstr ""
+msgstr "顯示退出選單以重新啟動或關閉 Recalbox。"
 
 msgid ""
 "Hide all pre-installed games. Changing this option makes EmulationStation to "
 "relaunch."
 msgstr "隱藏所有預裝的遊戲。更改此選項可使EmulationStation重新啟動"
 
-#
 msgid ""
 "Enable vulkan driver when available. Enabled by default on RPi4, RPi5, and "
 "PC. Set on OFF if Dreamcast, Naomi or Atomiswave stop running."
 msgstr ""
+"啟用 VULKAN 驅動程式（如果可用）。在 RPi4、RPi5 和 PC 上預設為啟用。如果 "
+"Dreamcast、Naomi 或 Atomiswave 無法執行，請設定為「關閉」。"
 
-#
 msgid ""
 "Allows you to select the patch to apply automatically on start launch. Don't "
 "forget to select LAUNCH LAST in the softpatching options!"
 msgstr ""
+"允許您選擇在啟動時自動套用的更新檔。不要忘記在軟體更新選項中選擇“最後啟動”！"
 
-#
 msgid "Sets the rating of the game."
-msgstr ""
+msgstr "設定遊戲的評級。"
 
-#
 msgid "Sets the genre of the game."
-msgstr ""
+msgstr "設定遊戲的類型。"
 
-#
 msgid "Sets the description of the game."
-msgstr ""
+msgstr "設定遊戲的描述。"
 
-#
 msgid "Adds the game into the favorites list."
-msgstr ""
+msgstr "將遊戲新增至收藏清單。"
 
-#
 msgid "Defines the game as hidden from gamelists."
-msgstr ""
+msgstr "將遊戲定義為 從遊戲清單中隱藏。"
 
-#
 msgid "Defines the game as adult game."
-msgstr ""
+msgstr "將遊戲定義為 成人遊戲。"
 
-#
 msgid "Defines the screen rotation of the game for tate usage."
-msgstr ""
+msgstr "將遊戲定義為 螢幕旋轉以供使用。"
 
-#
 msgid "Allows you to scrap the game."
-msgstr ""
+msgstr "允許您搜羅此遊戲。"
 
-#
 msgid "List of game files concerned for deletion for the game."
-msgstr ""
+msgstr "需要刪除該遊戲的遊戲檔案清單。"
 
-#
 msgid "List of media files concerned for deletion for the game."
-msgstr ""
+msgstr "需要刪除遊戲的媒體檔案清單。"
 
-#
 msgid ""
 "List of configuration and patches files concerned for deletion for the game."
-msgstr ""
+msgstr "需要刪除的遊戲設定與更新檔清單。"
 
-#
 msgid "List of saves files concerned for deletion for the game."
-msgstr ""
+msgstr "需要刪除遊戲的儲存檔案清單。"
 
-#
 msgid "Allows you to select finely which content to delete for the game."
-msgstr ""
+msgstr "讓您自行挑選要刪除的遊戲內容。"
 
-#
 msgid "Retroachievements user name."
-msgstr ""
+msgstr "Retroachievements 用戶名稱"
 
-#
 msgid "Retroachievements password."
-msgstr ""
+msgstr "Retroachievements 用戶密碼"
 
-#
 msgid "Netplay user name. Do not use special characters!"
-msgstr ""
+msgstr "網路連線用戶名稱。請不要使用特殊字元！"
 
-#
 msgid ""
 "Local port other players will connect to when hosting a Netplay session."
-msgstr ""
+msgstr "主辦網路連線開房，其他玩家將連接到本地連接埠。"
 
-#
 msgid ""
 "List of predefined passwords to use to protect access to your Netplay "
 "sessions."
-msgstr ""
+msgstr "列出有定義保護密碼的網路連線清單。"
 
-#
 msgid "Choose systems to use for demo and gameclip screensavers."
-msgstr ""
+msgstr "選擇用於展示和遊戲剪輯螢幕保護程式的系統。"
 
-#
 msgid "Select the region for theme supporting regionalized assets or texts"
-msgstr ""
+msgstr "選擇支援地區或文字的主題"
 
-#
 msgid "Hide board games, like MAHJONG, CHESS etc..."
-msgstr ""
+msgstr "隱藏桌上遊戲，如麻將、西洋棋等..."
 
-#
 msgid "Shows the Arcade virtual system in the systems list."
-msgstr ""
+msgstr "在系統清單中顯示 Arcade 虛擬系統。"
 
-#
 msgid "Adds the Neo-Geo games into the Arcade virtual system."
-msgstr ""
+msgstr "將 Neo-Geo 遊戲加入 Arcade 虛擬系統。"
 
-#
 msgid ""
 "Hides the original arcade systems when the Arcade virtual system is enabled."
-msgstr ""
+msgstr "當 Arcade 虛擬系統啟用時，隱藏原始 Arcade 系統。"
 
-#
 msgid "Shows the Tate virtual system in the systems list."
-msgstr ""
+msgstr "在系統清單中顯示 Tate 虛擬系統。"
 
-#
 msgid "Shows only games playable in tate mode in gamelists."
-msgstr ""
+msgstr "僅顯示遊戲清單中可在 Tate 模式中玩的遊戲。"
 
-#
 msgid "Proceed to a screen rotation in games tate compatible."
-msgstr ""
+msgstr "繼續在相容的遊戲中進行螢幕旋轉。"
 
-#
 msgid ""
 "Sets if the auto scraper is available or not. Auto scrap allows you to scrap "
 "games just by moving on them in gamelists."
 msgstr ""
+"設定自動搜羅是否可用。自動搜羅功能讓您只需在遊戲清單中移動遊戲即可搜羅遊戲。"
 
-#
 msgid "Sets some scraper options for your games."
-msgstr ""
+msgstr "為您的遊戲設定一些搜羅選項。"
 
-#
 msgid "Allows you to scrap only non-scraped games or to scrap all games."
-msgstr ""
+msgstr "允許您僅搜羅未搜羅過的遊戲或搜羅所有遊戲。"
 
-#
 msgid "Allows you to choose which systems you would like to scrap."
-msgstr ""
+msgstr "允許您選擇要搜羅的系統。"
 
-#
 msgid "Selects the image type to scrap for your games."
-msgstr ""
+msgstr "選擇要為您的遊戲搜羅的圖像類型。"
 
-#
 msgid "Selects the video type to scrap for your games."
-msgstr ""
+msgstr "選擇要為您的遊戲搜羅的影片類型。"
 
-#
 msgid "Selects the thumbnail to scrap for your games."
-msgstr ""
+msgstr "選擇要為您的遊戲搜羅的縮圖。"
 
-#
 msgid "Selects the game region to use when you scrap your games."
-msgstr ""
+msgstr "選擇抓取遊戲時要使用的遊戲區域。"
 
-#
 msgid "Selects the prefered region to scrap for your games."
-msgstr ""
+msgstr "選擇要為您的遊戲搜羅的首選區域。"
 
-#
 msgid "Selects the prefered language to scrap for your games."
-msgstr ""
+msgstr "選擇要為您的遊戲搜羅的首選語言。"
 
-#
 msgid ""
 "Selects if you would like to download manual with the scrap data if "
 "available."
-msgstr ""
+msgstr "選擇是否要下載帶有manual內容的搜羅資料（如果有）。"
 
-#
 msgid ""
 "Selects if you would like to download maps with the scrap data if available."
-msgstr ""
+msgstr "選擇是否要下載帶有maps內容的搜羅資料（如果有）。"
 
-#
 msgid ""
 "Selects if you would like to download pad2keyboard files with the scrap data "
 "if available."
-msgstr ""
+msgstr "選擇是否要下載帶有pad2keyboard內容的搜羅資料（如果有）。"
 
-#
 msgid "ScreenScraper user name."
-msgstr ""
+msgstr "ScreenScraper搜羅系統 用戶名稱"
 
-#
 msgid "ScreenScraper password."
-msgstr ""
+msgstr "ScreenScraper搜羅系統 用戶密碼"
 
-#
 msgid "Sets the debug logs on or off."
-msgstr ""
+msgstr "設定debug日誌的開啟或關閉。"
 
-#
 msgid "Enabled or disable videos on boot."
-msgstr ""
+msgstr "開機時啟用或停用影片。"
 
-#
 msgid "This option deletes the selected screenshot."
-msgstr ""
+msgstr "此選項刪除選定的螢幕截圖。"
 
-#
 msgid ""
 "This option allows you to select the current game to boot on it directly "
 "when you turn on your Recalbox. Don't forget to enable the boot on game "
 "option!"
 msgstr ""
+"此選項可讓您在開啟 Recalbox 時選擇當前遊戲並直接啟動。不要忘記啟用遊戲啟動選"
+"項！"
 
-#
 msgid "This option allows you to download games for the current system."
-msgstr ""
+msgstr "此選項可讓您下載適用於目前系統的遊戲。"
 
-#
 msgid ""
 "This option allows you to search games specifically in the current system "
 "only."
-msgstr ""
+msgstr "此選項允許您僅在當前系統中搜尋專用遊戲。"
 
-#
 msgid "Shows the main menu."
-msgstr ""
+msgstr "顯示主選單。"
 
-#
 msgid "Select sound output: JACK/MONO or JACK/JST. Jack always takes priority."
-msgstr ""
+msgstr "選擇聲音輸出：耳機插孔/MONO 或 耳機插孔/JST。耳機插孔總是優先。"
 
-#
 msgid "Configure your Recalbox RGB JAMMA board."
-msgstr ""
+msgstr "設定您的 Recalbox RGB JAMMA 板。"
 
-#
 msgid "Calibrate different display modes on your screen."
-msgstr ""
+msgstr "調整顯示器的不同顯示模式。"
 
-#
 msgid " (Deprecated)"
-msgstr ""
+msgstr " （已棄用）"
 
-#
 msgid "Set the volume of the music in the frontend"
-msgstr ""
+msgstr "設定前端界面音樂的音量"
 
-#
 msgid "MUSIC VOLUME"
-msgstr ""
+msgstr "音樂音量"
 
-#
 msgid ""
 "RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON HD-COMPATIBLE "
 "SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE "
 "THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."
 msgstr ""
+"RECALBOX 將自動選擇模擬器以在 HD 相容系統上運作。有些遊戲可能不是 100% 相容，"
+"因此如果出現模擬或效能問題，請不要忘記停用此選項。"
 
-#
 msgid ""
 "RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON WIDESCREEN-COMPATIBLE "
 "SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE "
 "THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."
 msgstr ""
+"RECALBOX 將自動選擇模擬器以在寬螢幕相容系統上運作。有些遊戲可能不是 100% 相"
+"容，因此如果出現模擬或效能問題，請不要忘記停用此選項。"
+
+#~ msgid ""
+#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
+#~ "will turn the screen black."
+#~ msgstr "設定螢幕保護效果。DIM 會讓畫面變暗，BLACK 會讓畫面全黑。"
 
 #~ msgid ""
 #~ "Scraping complete! {PROCESSED} games processed.\n"
@@ -4921,9 +4759,9 @@ msgstr ""
 #~ "{MEDIASIZE} of media saved\n"
 #~ "Now, EmulationStation is going to relaunch to update all gamelists."
 #~ msgstr ""
-#~ "抓取完成！共取得 {PROCESSED} 款遊戲資料。\n"
+#~ "搜羅完成！共取得 {PROCESSED} 款遊戲資料。\n"
 #~ "\n"
-#~ "{SUCCESS} 款遊戲已完成資料抓取及更新\n"
+#~ "{SUCCESS} 款遊戲已完成資料搜羅及更新\n"
 #~ "{NOTFOUND} 款遊戲找不到資料...\n"
 #~ "{ERRORS} 個請求或下載發生錯誤\n"
 #~ "\n"
@@ -4940,7 +4778,34 @@ msgstr ""
 #~ "警告：您的設備可能層經沒有正確拔出並存在部份磁區的錯誤。目前它會被設定成唯"
 #~ "讀。建議您盡快將設備插入 Windows PC 並使用修復工具。"
 
+#~ msgid "Show a 'ports' system with all ports in the same place.msgstr\""
+#~ msgstr "「ports」系統的所有ports都於相同位置顯示"
+
 #~ msgid ""
-#~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
-#~ "will turn the screen black."
-#~ msgstr "設定螢幕保護效果。DIM 會讓畫面變暗，BLACK 會讓畫面全黑。"
+#~ "Choose strategy\n"
+#~ "\n"
+#~ msgstr "選擇策略"
+
+#~ msgid ""
+#~ "AUTO: auto apply default patch\n"
+#~ "\n"
+#~ msgstr "自動：自動套用預設更新包"
+
+#~ msgid ""
+#~ "LAUNCH LAST: always launch the last one (can be modified in edit game "
+#~ "menu)\n"
+#~ "\n"
+#~ msgstr "最後執行：始終執行最後一個（可以在編輯遊戲選單中修改）"
+
+#~ msgid ""
+#~ "SELECT: choose manually which patch to apply. Default one or patches in "
+#~ "[ROM_NAME]-patches directory\n"
+#~ "\n"
+#~ msgstr ""
+#~ "選擇：手動選擇要套用的更新。 [ROM_NAME]-更新目錄中預設一個或多個更新檔"
+
+#~ msgid "DISABLED: never apply patch"
+#~ msgstr "停用：從不套用更新"
+
+#~ msgid "Specific options or arcade system views."
+#~ msgstr "特定選項或街機系統顯示。"

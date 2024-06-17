@@ -4257,29 +4257,14 @@ msgstr ""
 msgid ""
 "Choose strategy\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "AUTO: auto apply default patch\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "LAUNCH LAST: always launch the last one (can be modified in edit game menu)\n"
 "\n"
-msgstr ""
-
-#
-msgid ""
 "SELECT: choose manually which patch to apply. Default one or patches in "
 "[ROM_NAME]-patches directory\n"
 "\n"
-msgstr ""
-
-#
-msgid "DISABLED: never apply patch"
+"DISABLED: never apply patch"
 msgstr ""
 
 #

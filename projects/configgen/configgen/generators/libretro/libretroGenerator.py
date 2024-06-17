@@ -341,11 +341,6 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString("video_driver", "vulkan")
         else:
             retroarchConfig.removeOption("video_driver")
-        retroarchConfig.setBool("video_threaded", system.HasShaderFile)
-        retroarchConfig.setString("video_vsync", "true")
-        if system.Core == "scummvm" and Architecture.isPi4:
-            retroarchConfig.setString("video_threaded", "true")
-            retroarchConfig.setString("video_vsync", "false")
         retroarchConfig.saveFile()
 
     @staticmethod

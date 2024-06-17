@@ -25,6 +25,7 @@
 #include <linux/slab.h>
 #include <linux/timekeeping.h>
 #include <linux/timer.h>
+#include <linux/reboot.h>
 
 #include <asm/unaligned.h>
 
@@ -1878,9 +1879,9 @@ static struct i2c_driver pca953x_driver = {
     .id_table = pca953x_id,
 };
 
-static int __init
+static int power_off(struct sys_off_data *data);
 
-pca953x_init(void) {
+static int __init pca953x_init(void) {
   int idx = 0;
   jamma_config.gpio_chip_0 = NULL;
   jamma_config.gpio_chip_1 = NULL;
@@ -1908,6 +1909,8 @@ pca953x_init(void) {
   register_controllers();
   mutex_unlock(&jamma_config.process_mutex);
 
+  register_sys_off_handler(SYS_OFF_MODE_POWER_OFF, SYS_OFF_PRIO_DEFAULT, power_off, NULL);
+
   return i2c_add_driver(&pca953x_driver);
 }
 
@@ -1916,11 +1919,13 @@ pca953x_init(void) {
  */
 subsys_initcall(pca953x_init);
 
-static void __exit
-
-pca953x_exit(void) {
+static void __exit pca953x_exit(void) {
   printk(KERN_INFO
          "recalboxrgbjamma: exiting\n");
+  if(jamma_config.expander) {
+    pca953x_gpio_direction_output(jamma_config.expander, EXP_FAN, 0);
+  }
+
   if (kthread_stop(jamma_config.config_thread)) {
     printk("recalboxrgbjamma: can't stop config thread");
   }
@@ -1931,6 +1936,11 @@ pca953x_exit(void) {
   mutex_lock(&jamma_config.process_mutex);
   unregister_controllers();
   mutex_unlock(&jamma_config.process_mutex);
+}
+
+static int power_off(struct sys_off_data *data){
+  pca953x_exit();
+  return 0;
 }
 
 module_exit(pca953x_exit);

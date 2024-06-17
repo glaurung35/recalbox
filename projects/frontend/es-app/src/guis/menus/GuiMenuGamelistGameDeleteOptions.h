@@ -10,7 +10,7 @@ class SystemData;
 template<class T> class OptionListComponent;
 
 class GuiMenuGamelistGameDeleteOptions : public GuiMenuBase
-  , private IGuiMenuBase
+  , private ISubMenuSelected
 
 
 {

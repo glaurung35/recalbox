@@ -14,7 +14,7 @@ template<class T> class OptionListComponent;
 class SwitchComponent;
 
 class GuiMenuVirtualSystems : public GuiMenuBase
-                            , private IGuiMenuBase
+                            , private ISubMenuSelected
                             , private ISwitchComponent
 {
   public:
@@ -40,7 +40,7 @@ class GuiMenuVirtualSystems : public GuiMenuBase
     SystemManager& mSystemManager;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

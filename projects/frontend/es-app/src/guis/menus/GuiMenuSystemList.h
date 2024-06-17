@@ -13,7 +13,7 @@ class SystemManager;
 class SystemData;
 
 class GuiMenuSystemList : public GuiMenuBase
-                        , private IGuiMenuBase
+                        , private ISubMenuSelected
 {
   public:
     /*!
@@ -30,7 +30,7 @@ class GuiMenuSystemList : public GuiMenuBase
     HashMap<SystemData*, std::shared_ptr<TextComponent>> mMenus;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

@@ -10,7 +10,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
                          , private IOptionListComponent<unsigned int>
                          , private IOptionListComponent<Regions::GameRegions>
                          , private IOptionListComponent<FileSorts::Sorts>
-                         , private IGuiMenuBase
+                         , private ISubMenuSelected
                          , private ISwitchComponent
 {
   public:
@@ -101,7 +101,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const FileSorts::Sorts& value, bool quickChange) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

@@ -30,7 +30,7 @@ struct Overclocking
 class GuiMenuAdvancedSettings : public GuiMenuBase
                               , private IOptionListComponent<Overclocking>
                               , private ISwitchComponent
-                              , private IGuiMenuBase
+                              , private ISubMenuSelected
                               , private IOptionListComponent<String>
 {
   public:
@@ -124,7 +124,7 @@ class GuiMenuAdvancedSettings : public GuiMenuBase
     void SwitchComponentChanged(int id, bool& status) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

@@ -6,8 +6,12 @@
 //
 #pragma once
 
-class IGuiMenuBase
+class ISubMenuSelected
 {
   public:
+    //! Default destructor
+    virtual ~ISubMenuSelected() = default;
+
+    //! Called when a submenu is selected
     virtual void SubMenuSelected(int id) = 0;
 };

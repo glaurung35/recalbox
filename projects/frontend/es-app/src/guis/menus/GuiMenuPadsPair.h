@@ -17,7 +17,7 @@ class SwitchComponent;
 
 class GuiMenuPadsPair : public GuiMenuBase
                       , ILongExecution<String, bool>
-                      , IGuiMenuBase
+                      , ISubMenuSelected
 {
   public:
     /*!
@@ -55,7 +55,7 @@ class GuiMenuPadsPair : public GuiMenuBase
     void Completed(const String& parameter, const bool& result) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

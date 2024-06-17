@@ -9,7 +9,7 @@
 #include "GuiMenuBase.h"
 
 class GuiFastMenuList : public GuiMenuBase
-                      , public IGuiMenuBase
+                      , public ISubMenuSelected
 {
   public:
     //! Simple entry structure

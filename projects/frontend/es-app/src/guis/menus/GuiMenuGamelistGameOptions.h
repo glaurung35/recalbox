@@ -22,7 +22,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
                                  , private ISwitchComponent
                                  , private IEditableComponent
                                  , private IRatingComponent
-                                 , private IGuiMenuBase
+                                 , private ISubMenuSelected
                                  , private GuiScraperSingleGameRun::IScrapingComplete
 {
   public:
@@ -131,7 +131,7 @@ class GuiMenuGamelistGameOptions : public GuiMenuBase
     void RatingChanged(int id, float value) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

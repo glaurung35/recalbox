@@ -79,6 +79,8 @@ class MenuComponent : public Component
       addRow(row, false, true);
     }
 
+    void addHeader(const String& header);
+
     void addButton(const String& label, const String& helpText, const std::function<void()>& callback);
 
     void setFooter(const String& label);

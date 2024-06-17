@@ -17,14 +17,14 @@ ComponentList::ComponentList(WindowManager&window)
 void ComponentList::addRow(const ComponentListRow& row, bool setCursorHere, bool updateGeometry)
 {
 	IList<ComponentListRow, void*>::Entry e;
-	e.name = row.name;
+	//e.name = row.name;
 	e.object = nullptr;
 	e.data = row;
 
 	this->add(e);
 
-	for (auto& element : mEntries.back().data.elements)
-		addChild(element.component.get());
+	for (auto& element : mEntries.back().data.Elements())
+		addChild(element.mComponent.get());
 
 	if (updateGeometry) {
 		updateElementSize(mEntries.back().data);
@@ -91,8 +91,8 @@ void ComponentList::Update(int deltaTime)
 	if(size() != 0)
 	{
 		// update our currently selected row
-		for (auto& element : mEntries[mCursor].data.elements)
-      element.component->Update(deltaTime);
+		for (auto& element : mEntries[mCursor].data.Elements())
+      element.mComponent->Update(deltaTime);
 	}
 }
 
@@ -112,9 +112,9 @@ void ComponentList::onCursorChanged(const CursorState& state)
 	if(size() != 0)
 	{
 		for (auto& mEntrie : mEntries)
-			mEntrie.data.elements.back().component->onFocusLost();
+			mEntrie.data.Elements().back().mComponent->onFocusLost();
 		
-		mEntries[mCursor].data.elements.back().component->onFocusGained();
+		mEntries[mCursor].data.Elements().back().mComponent->onFocusGained();
 	}
 
 	if(mCursorChangedCallback)
@@ -176,14 +176,14 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 	{
 		auto& entry = mEntries[i];
 		bool drawAll = !mFocused || i != mCursor;
-		for (auto& element : entry.data.elements)
+		for (auto& element : entry.data.Elements())
 		{
-			if(drawAll || element.invert_when_selected)
+			if(drawAll || element.mInvertWhenSelected)
 			{
-				element.component->setColor(element.component->getOriginColor());
-        element.component->Render(trans);
+				element.mComponent->setColor(element.mComponent->getOriginColor());
+        element.mComponent->Render(trans);
 			}else{
-				drawAfterCursor.push_back(element.component.get());
+				drawAfterCursor.push_back(element.mComponent.get());
 			}
 		}
 	}
@@ -201,10 +201,10 @@ void ComponentList::Render(const Transform4x4f& parentTrans)
 			Renderer::DrawRectangle(0.0f, mSelectorBarOffset, mSize.x(), selectedRowHeight, selectorColor, GL_ONE, GL_ONE);
 		}
 		auto& entry = mEntries[mCursor];
-		for (auto& element : entry.data.elements)
+		for (auto& element : entry.data.Elements())
 		{
-			element.component->setColor(selectedColor);
-			drawAfterCursor.push_back(element.component.get());
+			element.mComponent->setColor(selectedColor);
+			drawAfterCursor.push_back(element.mComponent.get());
 		}
 
 		for (auto& it : drawAfterCursor)
@@ -232,10 +232,10 @@ float ComponentList::getRowHeight(const ComponentListRow& row)
 {
 	// returns the highest component height found in the row
 	float height = 0;
-	for (const auto& element : row.elements)
+	for (const auto& element : row.Elements())
 	{
-		if(element.component->getSize().y() > height)
-			height = element.component->getSize().y();
+		if(element.mComponent->getSize().y() > height)
+			height = element.mComponent->getSize().y();
 	}
 
 	return height + 2;
@@ -264,9 +264,9 @@ void ComponentList::updateElementPosition(const ComponentListRow& row)
 	float rowHeight = getRowHeight(row);
 
 	float x = (float)TOTAL_HORIZONTAL_PADDING_PX / 2;
-	for (const auto& element : row.elements)
+	for (const auto& element : row.Elements())
 	{
-		const auto comp = element.component;
+		const auto comp = element.mComponent;
 
 		// center vertically
 		comp->setPosition(x, (rowHeight - comp->getSize().y()) / 2 + yOffset);
@@ -279,12 +279,12 @@ void ComponentList::updateElementSize(const ComponentListRow& row)
 	float width = mSize.x() - TOTAL_HORIZONTAL_PADDING_PX;
 	std::vector< std::shared_ptr<Component> > resizeVec;
 
-	for (const auto& element : row.elements)
+	for (const auto& element : row.Elements())
 	{
-		if(element.resize_width)
-			resizeVec.push_back(element.component);
+		if(element.mResizeWidth)
+			resizeVec.push_back(element.mComponent);
 		else
-			width -= element.component->getSize().x();
+			width -= element.mComponent->getSize().x();
 	}
 
 	// redistribute the "unused" width equally among the components with resize_width set to true
@@ -300,13 +300,13 @@ void ComponentList::textInput(const char* text)
 	if(size() == 0)
 		return;
 
-	mEntries[mCursor].data.elements.back().component->textInput(text);
+	mEntries[mCursor].data.Elements().back().mComponent->textInput(text);
 }
 
 bool ComponentList::CollectHelpItems(Help& help)
 {
 	if (size() == 0) return false;
-  mEntries[mCursor].data.elements.back().component->CollectHelpItems(help);
+  mEntries[mCursor].data.Elements().back().mComponent->CollectHelpItems(help);
 
 	if (size() > 1)
 		if (help.IsSet(HelpType::UpDown) || help.IsSet(HelpType::AllDirections)) help.Set(HelpType::UpDown, _("CHOOSE"));

@@ -6,7 +6,7 @@
 #include <guis/menus/GuiMenuBase.h>
 
 class GuiMenuQuit : public GuiMenuBase
-                  , private IGuiMenuBase
+                  , private ISubMenuSelected
 {
   public:
     explicit GuiMenuQuit(WindowManager& window);
@@ -22,7 +22,7 @@ class GuiMenuQuit : public GuiMenuBase
     };
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

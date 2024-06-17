@@ -12,7 +12,7 @@
 class SystemManager;
 
 class GuiMenuSwitchKodiNetplay : public GuiMenuBase
-                               , private IGuiMenuBase
+                               , private ISubMenuSelected
 {
   public:
     /*!
@@ -32,7 +32,7 @@ class GuiMenuSwitchKodiNetplay : public GuiMenuBase
     SystemManager& mSystemManager;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

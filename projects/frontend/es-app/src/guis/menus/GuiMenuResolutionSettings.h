@@ -13,7 +13,7 @@ class SystemManager;
 
 class GuiMenuResolutionSettings : public GuiMenuBase
   , private IOptionListComponent<String>
-  , private IGuiMenuBase
+  , private ISubMenuSelected
 {
   public:
     /*!
@@ -46,7 +46,7 @@ class GuiMenuResolutionSettings : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const String& value, bool quickChange) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

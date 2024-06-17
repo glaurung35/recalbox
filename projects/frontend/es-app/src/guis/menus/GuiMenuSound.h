@@ -13,7 +13,7 @@
 
 class GuiMenuSound : public GuiMenuBase
                    , public ILongExecution<bool, String::List>
-                   , public IGuiMenuBase
+                   , public ISubMenuSelected
                    , public IAudioNotification
                    , private ISliderComponent
                    , private IOptionListComponent<String>
@@ -72,7 +72,7 @@ class GuiMenuSound : public GuiMenuBase
     void SliderMoved(int id, float value) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

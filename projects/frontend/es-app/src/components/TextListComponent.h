@@ -1,5 +1,6 @@
 #pragma once
 
+#include <components/IList.h>
 #include <components/ITextListComponentOverlay.h>
 #include <utils/String.h>
 #include <memory>
@@ -52,7 +53,8 @@ public:
 	void Render(const Transform4x4f& parentTrans) override;
 
 	void add(const String& name, const T& obj, int colorId, bool toTheBeginning = false);
-  void add(const String& name, const T& obj, int colorId, signed char colorBackgroundId, HorizontalAlignment alignment);
+  void add(const String& name, const T& obj, int colorId, int colorBackgroundId, HorizontalAlignment alignment);
+  void add(const String& name, const T& obj, int colorId, HorizontalAlignment alignment);
   void changeTextAt(int index, const String& name);
   void changeBackgroundColorAt(int index, int colorIndex);
   int Lookup(T object);
@@ -78,6 +80,8 @@ public:
 			entry.data.textCache.reset();
 	}
 
+  void setAutoAlternate(bool state) { mAutoAlternate = state; }
+  void setShiftSelectedTextColor(bool invert) { mShiftSelectedTextColor = invert; }
 	inline void setSelectorHeight(float selectorScale) { mSelectorHeight = selectorScale; }
 	inline void setSelectorOffsetY(float selectorOffsetY) { mSelectorOffsetY = selectorOffsetY; }
 	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; updateBarColor(); }
@@ -89,6 +93,7 @@ public:
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
 
   [[nodiscard]] inline float EntryHeight() const { return mFont->getSize() * mLineSpacing; }
+  [[nodiscard]] inline float FontHeight() const { return mFont->getSize(); }
   [[nodiscard]] inline unsigned int Color(unsigned int id) const { return mColors[id]; }
 
   [[nodiscard]] inline float getHorizontalMargin() const { return mHorizontalMargin; }
@@ -169,6 +174,8 @@ public:
   int mBarTimer;
   bool mShowBar;
   bool mUppercase;
+  bool mShiftSelectedTextColor;
+  bool mAutoAlternate;
 };
 
 template<typename T>
@@ -203,6 +210,8 @@ TextListComponent<T>::TextListComponent(WindowManager& window)
   , mBarTimer(-1)
   , mShowBar(false)
   , mUppercase(false)
+  , mShiftSelectedTextColor(false)
+  , mAutoAlternate(false)
 {
 }
 
@@ -253,10 +262,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       else
         Renderer::DrawRectangle(0.f, (float)(i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mSelectorColor);
     }
+    /// Draw light/dark alternatively
+    else if (mAutoAlternate && entry.data.colorBackgroundId < 0)
+      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, (i & 1) != 0 ? 0xFFFFFF10 : 0x00000010);
     // Draw background
     else if ((unsigned int) entry.data.colorBackgroundId < COLOR_ID_COUNT)
-      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight,
-                              mColors[entry.data.colorBackgroundId]);
+      Renderer::DrawRectangle(0.f, (float) (i - startEntry) * entrySize + mSelectorOffsetY, mSize.x(), mSelectorHeight, mColors[entry.data.colorBackgroundId]);
   }
 
 	// Draw text items
@@ -274,7 +285,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		if(!entry.data.textCache)
 			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, 0, 0, 0x000000FF));
 
-		entry.data.textCache->setColor(color);
+		entry.data.textCache->setColor(mShiftSelectedTextColor && mCursor == i ? color + 1 : color);
 
     leftMargin = mHorizontalMargin;
     rightMargin = mHorizontalMargin;
@@ -504,7 +515,7 @@ void TextListComponent<T>::add(const String& name, const T& obj, int color, bool
 }
 
 template <typename T>
-void TextListComponent<T>::add(const String& name, const T& obj, int color, signed char colorBackground, HorizontalAlignment align)
+void TextListComponent<T>::add(const String& name, const T& obj, int color, int colorBackground, HorizontalAlignment align)
 {
   assert((unsigned int)color < COLOR_ID_COUNT);
 
@@ -513,6 +524,21 @@ void TextListComponent<T>::add(const String& name, const T& obj, int color, sign
   entry.object = obj;
   entry.data.colorId = color;
   entry.data.colorBackgroundId = colorBackground;
+  entry.data.useHzAlignment = true;
+  entry.data.hzAlignement = align;
+  ((IList< TextListData, T >*)this)->add(entry);
+}
+
+template <typename T>
+void TextListComponent<T>::add(const String& name, const T& obj, int color, HorizontalAlignment align)
+{
+  assert((unsigned int)color < COLOR_ID_COUNT);
+
+  typename IList<TextListData, T>::Entry entry;
+  entry.name = name;
+  entry.object = obj;
+  entry.data.colorId = color;
+  entry.data.colorBackgroundId = -1;
   entry.data.useHzAlignment = true;
   entry.data.hzAlignement = align;
   ((IList< TextListData, T >*)this)->add(entry);

@@ -20,8 +20,8 @@ ButtonComponent::ButtonComponent(WindowManager&window, const String& text, const
 	mTextColorUnfocused = menuTheme.Text().color;
 	mTextColorFocused = menuTheme.Text().selectedColor;
 	mColor = menuTheme.Text().color;
-	mButton = menuTheme.Elements().button;
-	mButton_filled = menuTheme.Elements().button_filled;
+	mButton = menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Button);
+	mButton_filled = menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::ButtonFilled);
 
 	setPressedFunc(func);
 	setText(text, helpText, upperCase);

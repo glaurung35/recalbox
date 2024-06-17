@@ -14,7 +14,7 @@ class GuiMenuScraper : public GuiMenuBase
                                , private IOptionListComponent<ScraperNameOptions>
                                , private IOptionListComponent<ScraperType>
                                , private ISwitchComponent
-                               , private IGuiMenuBase
+                               , private ISubMenuSelected
 {
   public:
     explicit GuiMenuScraper(WindowManager& window, SystemManager& systemManager);

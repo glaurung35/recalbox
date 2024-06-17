@@ -59,7 +59,7 @@ private:
 
       for (auto& e : mParent->mEntries)
 			{
-				row.elements.clear();
+				row.Clear();
 				row.addElement(std::make_shared<TextComponent>(mWindow, e.name.ToUpperCaseUTF8(), font, color), true);
 
 				if(mParent->mMultiSelect)
@@ -176,16 +176,16 @@ public:
 
 		if(mMultiSelect)
 		{
-			mRightArrow.setImage(menuTheme.Elements().arrow);
+			mRightArrow.setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Arrow));
 			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}else{
-			mLeftArrow.setImage(menuTheme.Elements().option_arrow);
+			mLeftArrow.setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::OptionArrow));
 			mLeftArrow.setColorShift(color);
 			mLeftArrow.setFlipX(true);
 			addChild(&mLeftArrow);
 
-			mRightArrow.setImage(menuTheme.Elements().option_arrow);
+			mRightArrow.setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::OptionArrow));
 			mRightArrow.setColorShift(color);
 			addChild(&mRightArrow);
 		}

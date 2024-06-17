@@ -15,7 +15,7 @@ class SwitchComponent;
 
 class GuiMenuUpdates : public GuiMenuBase
                      , private ISwitchComponent
-                     , private IGuiMenuBase
+                     , private ISubMenuSelected
                      , private IOptionListComponent<String>
 {
   public:
@@ -52,7 +52,7 @@ class GuiMenuUpdates : public GuiMenuBase
     void SwitchComponentChanged(int id, bool& status) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

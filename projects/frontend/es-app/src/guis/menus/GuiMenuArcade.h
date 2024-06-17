@@ -10,7 +10,7 @@
 #include "systems/SystemManager.h"
 
 class GuiMenuArcade : public GuiMenuBase
-                    , private IGuiMenuBase
+                    , private ISubMenuSelected
                     , private IOptionListMultiComponent<String>
                     , private IOptionListMultiComponent<int>
                     , private ISwitchComponent
@@ -71,7 +71,7 @@ class GuiMenuArcade : public GuiMenuBase
     void OptionListMultiComponentChanged(int id, const std::vector<int>& value) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

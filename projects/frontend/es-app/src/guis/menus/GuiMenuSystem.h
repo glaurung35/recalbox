@@ -18,7 +18,7 @@ class SystemManager;
 class GuiMenuSystem : public GuiMenuBase
                     , private IOptionListComponent<String>
                     , private IOptionListComponent<StorageDevices::Device>
-                    , private IGuiMenuBase
+                    , private ISubMenuSelected
 {
   public:
     /*!
@@ -100,7 +100,7 @@ class GuiMenuSystem : public GuiMenuBase
     void OptionListComponentChanged(int id, int index, const StorageDevices::Device& value, bool quickChange) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

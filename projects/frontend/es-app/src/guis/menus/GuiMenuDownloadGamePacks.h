@@ -11,7 +11,7 @@
 class SystemManager;
 
 class GuiMenuDownloadGamePacks: public GuiMenuBase
-                              , private IGuiMenuBase
+                              , private ISubMenuSelected
 {
   public:
     //! Constructor
@@ -25,7 +25,7 @@ class GuiMenuDownloadGamePacks: public GuiMenuBase
     SystemManager& mSystemManager;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

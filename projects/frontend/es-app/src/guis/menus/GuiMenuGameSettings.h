@@ -17,7 +17,7 @@ class GuiMenuGameSettings : public GuiMenuBase
                           , private IOptionListComponent<String>
                           , private IOptionListComponent<RecalboxConf::SoftPatching>
                           , private ISwitchComponent
-                          , private IGuiMenuBase
+                          , private ISubMenuSelected
 {
   public:
     /*!
@@ -72,7 +72,7 @@ class GuiMenuGameSettings : public GuiMenuBase
     static std::vector<ListEntry<String>> GetSuperGameBoyEntries();
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

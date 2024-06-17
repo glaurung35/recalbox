@@ -198,7 +198,7 @@ void GuiSaveStates::PopulateGrid()
     ed = std::make_shared<TextComponent>(mWindow, text, mMenuTheme.Text().font, mMenuTheme.Text().color,TextAlignment::Left);
     ed->setUppercase(true);
 
-    row.elements.clear();
+    row.Clear();
     row.addElement(ed, true);
     mList->addRow(row, false, true);
   }

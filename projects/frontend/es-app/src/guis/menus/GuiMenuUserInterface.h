@@ -10,7 +10,7 @@
 #include <systems/SystemManager.h>
 
 class GuiMenuUserInterface : public GuiMenuBase
-                           , private IGuiMenuBase
+                           , private ISubMenuSelected
                            , private ISliderComponent
                            , private ISwitchComponent
                            , private IOptionListComponent<SystemSorting>
@@ -66,7 +66,7 @@ class GuiMenuUserInterface : public GuiMenuBase
     void ReloadGamelists();
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

@@ -25,13 +25,55 @@ class MenuThemeData : private INoCopy
 
     struct IconElement
     {
-      Path button;
-      Path button_filled;
-      Path on;
-      Path off;
-      Path option_arrow;
-      Path arrow;
-      Path knob;
+      public:
+        enum class Type
+        {
+          Button,
+          ButtonFilled,
+          On,
+          Off,
+          OptionArrow,
+          Arrow,
+          Knob,
+        };
+
+        [[nodiscard]] const Path& FromType(Type type) const
+        {
+          switch(type)
+          {
+            case Type::Button: return mButton;
+            case Type::ButtonFilled: return mButtonFilled;
+            case Type::On: return mOn;
+            case Type::Off: return mOff;
+            case Type::OptionArrow: return mOptionArrow;
+            case Type::Arrow: return mArrow;
+            case Type::Knob: return mKnob;
+          }
+          abort();
+        }
+
+        void Reset()
+        {
+          mButton = Path(":/button.png");
+          mButtonFilled = Path(":/button_filled.png");
+          mOn = Path(":/on.svg");
+          mOff = Path(":/off.svg");
+          mOptionArrow = Path(":/option_arrow.svg");
+          mArrow = Path(":/arrow.svg");
+          mKnob = Path(":/slider_knob.svg");
+        }
+
+      private:
+        Path mButton;
+        Path mButtonFilled;
+        Path mOn;
+        Path mOff;
+        Path mOptionArrow;
+        Path mArrow;
+        Path mKnob;
+
+        //! Allow access to the private area to the enlosing class
+        friend class MenuThemeData;
     };
 
     struct MenuIcons

@@ -10,7 +10,7 @@
 class SystemManager;
 
 class GuiMenuDownloadContents: public GuiMenuBase
-                             , private IGuiMenuBase
+                             , private ISubMenuSelected
 {
   public:
     //! Constructor
@@ -29,7 +29,7 @@ class GuiMenuDownloadContents: public GuiMenuBase
     SystemManager& mSystemManager;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

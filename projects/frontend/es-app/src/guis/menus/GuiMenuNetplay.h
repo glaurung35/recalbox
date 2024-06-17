@@ -23,7 +23,7 @@ class SwitchComponent;
 class GuiMenuNetplay : public GuiMenuBase
                      , private IOptionListComponent<RecalboxConf::Relay>
                      , private ISwitchComponent
-                     , private IGuiMenuBase
+                     , private ISubMenuSelected
                      , private IEditableComponent
                      , private ILongExecution<bool, bool>
                      , private IThreadPoolWorkerInterface<FileData*, FileData*>
@@ -75,7 +75,7 @@ class GuiMenuNetplay : public GuiMenuBase
     void EditableComponentTextChanged(int id, const String& text) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

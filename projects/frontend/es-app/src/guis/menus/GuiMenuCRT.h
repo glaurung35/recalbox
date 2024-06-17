@@ -21,7 +21,7 @@ class GuiMenuCRT : public GuiMenuBase
                  , private IOptionListComponent<ICrtInterface::HorizontalFrequency>
                  , private ISliderComponent
                  , private ISwitchComponent
-                 , private IGuiMenuBase
+                 , private ISubMenuSelected
 {
   public:
     /*!
@@ -144,7 +144,7 @@ class GuiMenuCRT : public GuiMenuBase
     void SliderMoved(int id, float value) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

@@ -1,14 +1,14 @@
 #pragma once
 
-#include <guis/menus/GuiMenuBase.h>
 #include <scraping/scrapers/IScraperEngineFreezer.h>
+#include "guis/menus/base/Menu.h"
 
 // Forward declarations
 class WindowManager;
 class SystemManager;
 
-class GuiMenu : public GuiMenuBase
-              , private IGuiMenuBase
+class GuiMenu : public Menu
+              , private ISubMenuSelected
 {
   public:
     //! Constructor
@@ -42,7 +42,7 @@ class GuiMenu : public GuiMenuBase
     SystemManager& mSystemManager;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

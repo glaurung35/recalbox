@@ -33,7 +33,7 @@ SliderComponent::SliderComponent(WindowManager&window, float min, float max, flo
 	mColor = mOriginColor = menuTheme.Text().color;
 
 	mKnob.setOrigin(0.5f, 0.5f);
-	mKnob.setImage(menuTheme.Elements().knob);
+	mKnob.setImage(menuTheme.Elements().FromType(MenuThemeData::IconElement::Type::Knob));
 	
 	mKnob.setColorShift(mColor);
 	setSize(Renderer::Instance().DisplayWidthAsFloat() * 0.15f, menuTheme.Text().font->getLetterHeight());

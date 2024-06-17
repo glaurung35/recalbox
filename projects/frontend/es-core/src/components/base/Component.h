@@ -80,6 +80,8 @@ class Component: public IComponent
     inline void setRotationOrigin(const Vector2f& origin) { setRotationOrigin(origin.x(), origin.y()); }
 
     [[nodiscard]] const Vector2f& getSize() const {	return mSize; }
+    [[nodiscard]] float getWidth() const {	return mSize.x(); }
+    [[nodiscard]] float getHeight() const {	return mSize.y(); }
     inline void setSize(const Vector2f& size) { setSize(size.x(), size.y()); }
     void setSize(float w, float h);
 

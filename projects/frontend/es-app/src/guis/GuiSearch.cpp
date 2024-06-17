@@ -301,7 +301,7 @@ void GuiSearch::PopulateGrid(const String& search)
       std::shared_ptr<Component> ed;
       for (auto *game : mSearchResults)
       {
-        row.elements.clear();
+        row.Clear();
         String gameName(game->System().Descriptor().IconPrefix());
         gameName.Append(game->Metadata().Name());
 

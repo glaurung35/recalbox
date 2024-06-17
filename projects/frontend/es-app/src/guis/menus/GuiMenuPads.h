@@ -24,7 +24,7 @@ class GuiMenuPads : public GuiMenuBase
                   , IOptionListComponent<String>
                   , IOptionListComponent<RecalboxConf::PadOSDType>
                   , ISwitchComponent
-                  , IGuiMenuBase
+                  , ISubMenuSelected
 {
   public:
     /*!
@@ -109,7 +109,7 @@ class GuiMenuPads : public GuiMenuBase
     void PadsAddedOrRemoved(bool removed) override;
 
     /*
-     * IGuiMenuBase implementation
+     * ISubMenuSelected implementation
      */
 
     void SubMenuSelected(int id) override;

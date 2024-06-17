@@ -20,6 +20,9 @@ as release notes for end user on a Recalbox upgrade.
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
 - Add core libretro geolith for crt
 - Fix launch demo gladmort on neogeo
+- Fix saturn and psx zoomed games on CRT
+- Fix game information space on 240p theme in tate
+- Fix gameclip view on 240p theme
 
 ## Version 9.2-Pulstar
 

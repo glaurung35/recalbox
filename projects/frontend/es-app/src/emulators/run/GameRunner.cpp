@@ -104,7 +104,7 @@ String GameRunner::CreateCommandLine(const FileData& game, const EmulatorData& e
          .Replace("%BASENAME%", basename)
          .Replace("%ROM_RAW%", path.ToString())
          .Replace("%EMULATOR%", emulator.Emulator())
-         .Replace("%RATIO%", game.Metadata().RatioAsString())
+         .Replace("%RATIO%", game.Metadata().Ratio().empty() ? "auto" : game.Metadata().Ratio())
          .Replace("%NETPLAY%", NetplayOption(game, data.NetPlay()))
          .Replace("%CRT%", BuildCRTOptions(game.System(), data.Crt(), RotationManager::ShouldRotateGame(game), demo));
 

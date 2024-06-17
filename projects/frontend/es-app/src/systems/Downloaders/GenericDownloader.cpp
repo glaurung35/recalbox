@@ -111,7 +111,7 @@ void GenericDownloader::DownloadAndInstall()
         Path path = output / Xml::AsString(fileNode, "path", "");
         FileData game(path, *targetRoot);
         // ...and deserialize metadata into
-        game.Metadata().Deserialize(fileNode, output);
+        game.Metadata().Deserialize(fileNode, "", output);
         // Lookup real game
         FileData* realGame = targetRoot->LookupGameByFilePath(path.ToString());
         if (realGame == nullptr)

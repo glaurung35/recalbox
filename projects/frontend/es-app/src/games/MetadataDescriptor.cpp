@@ -31,33 +31,32 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
     {
       static const MetadataFieldDescriptor sGameMetadataDescriptors[] =
       {
-        MetadataFieldDescriptor("path"       , ""     , _("Path")        , _("enter game path")             , MetadataType::Path        ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString          , &MetadataDescriptor::SetRomPathAsString         , false, true),
-        MetadataFieldDescriptor("name"       , ""     , _("Name")        , _("enter game name")             , MetadataType::Name        ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString         , &MetadataDescriptor::SetName                    , false, true),
-        MetadataFieldDescriptor("alias"      , ""     , _("Alias")       , _("enter game alias")            , MetadataType::Name        ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultAlias          , &MetadataDescriptor::AliasAsString       , &MetadataDescriptor::SetAlias                , false, true),
-        MetadataFieldDescriptor("rating"     , "0.0"  , _("Rating")      , _("enter rating")                , MetadataType::Rating      ,MetadataFieldDescriptor::DataType::Rating , MetadataFieldDescriptor::EditableType::Rating , &MetadataDescriptor::IsDefaultRating         , &MetadataDescriptor::RatingAsString       , &MetadataDescriptor::SetRatingAsString          , false, true),
-        MetadataFieldDescriptor("favorite"   , "false", _("Favorite")    , _("enter favorite")              , MetadataType::Favorite    ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultFavorite       , &MetadataDescriptor::FavoriteAsString     , &MetadataDescriptor::SetFavoriteAsString        , false, true),
-        MetadataFieldDescriptor("hidden"     , "false", _("Hidden")      , _("set hidden")                  , MetadataType::Hidden      ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString       , &MetadataDescriptor::SetHiddenAsString          , false, true),
-        MetadataFieldDescriptor("emulator"   , ""     , _("Emulator")    , _("enter emulator")              , MetadataType::Emulator    ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultEmulator       , &MetadataDescriptor::EmulatorAsString     , &MetadataDescriptor::SetEmulator                , false, true),
-        MetadataFieldDescriptor("core"       , ""     , _("Core")        , _("enter core")                  , MetadataType::Core        ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultCore           , &MetadataDescriptor::CoreAsString         , &MetadataDescriptor::SetCore                    , false, true),
-        MetadataFieldDescriptor("ratio"      , "auto" , _("Ratio")       , _("enter ratio")                 , MetadataType::Ratio       ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultRatio          , &MetadataDescriptor::RatioAsString        , &MetadataDescriptor::SetRatio                   , false, true),
-        MetadataFieldDescriptor("desc"       , ""     , _("Description") , _("enter description")           , MetadataType::Synopsis    ,MetadataFieldDescriptor::DataType::Text   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString  , &MetadataDescriptor::SetDescription             , false, false),
-        MetadataFieldDescriptor("image"      , ""     , _("Image")       , _("enter path to image")         , MetadataType::Image       ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultImage          , &MetadataDescriptor::ImageAsString        , &MetadataDescriptor::SetImagePathAsString       , false, false),
-        MetadataFieldDescriptor("thumbnail"  , ""     , _("Thumbnail")   , _("enter path to thumbnail")     , MetadataType::Thumbnail   ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultThumbnail      , &MetadataDescriptor::ThumbnailAsString    , &MetadataDescriptor::SetThumbnailPathAsString   , false, false),
-        MetadataFieldDescriptor("video"      , ""     , _("Video")       , _("enter path to video")         , MetadataType::Video       ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultVideo          , &MetadataDescriptor::VideoAsString        , &MetadataDescriptor::SetVideoPathAsString       , false, false),
-        MetadataFieldDescriptor("releasedate", ""     , _("Release date"), _("enter release date")          , MetadataType::ReleaseDate ,MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::Date   , &MetadataDescriptor::IsDefaultReleaseDateEpoc, &MetadataDescriptor::ReleaseDateAsString  , &MetadataDescriptor::SetReleaseDateAsString     , false, false),
-        MetadataFieldDescriptor("developer"  , ""     , _("Developer")   , _("enter game developer")        , MetadataType::Developer   ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultDeveloper      , &MetadataDescriptor::DeveloperAsString    , &MetadataDescriptor::SetDeveloper               , false, false),
-        MetadataFieldDescriptor("publisher"  , ""     , _("Publisher")   , _("enter game publisher")        , MetadataType::Publisher   ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultPublisher      , &MetadataDescriptor::PublisherAsString    , &MetadataDescriptor::SetPublisher               , false, false),
-        MetadataFieldDescriptor("genre"      , ""     , _("Genre")       , _("enter game genre")            , MetadataType::Genre       ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultGenre          , &MetadataDescriptor::GenreAsString        , &MetadataDescriptor::SetGenre                   , false, false),
-        MetadataFieldDescriptor("genreid"    , ""     , _("Genre ID")    , _("enter game genre id")         , MetadataType::GenreId     ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultGenreId        , &MetadataDescriptor::GenreIdAsString      , &MetadataDescriptor::SetGenreIdAsString         , false, false),
-        MetadataFieldDescriptor("adult"      , ""     , _("Adult")       , _("enter adult state")           , MetadataType::Adult       ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultAdult          , &MetadataDescriptor::AdultAsString        , &MetadataDescriptor::SetAdultAsString           , false, false),
-        MetadataFieldDescriptor("players"    , "1"    , _("Players")     , _("enter number of players")     , MetadataType::Players     ,MetadataFieldDescriptor::DataType::Range  , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultPlayerRange    , &MetadataDescriptor::PlayersAsString      , &MetadataDescriptor::SetPlayersAsString         , false, false),
-        MetadataFieldDescriptor("region"     , ""     , _("Region")      , _("enter region")                , MetadataType::Region      ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultRegion         , &MetadataDescriptor::RegionAsString       , &MetadataDescriptor::SetRegionAsString          , false, false),
-        MetadataFieldDescriptor("playcount"  , "0"    , _("Play count")  , _("enter number of times played"), MetadataType::PlayCount   ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultPlayCount      , &MetadataDescriptor::PlayCountAsString    , &MetadataDescriptor::SetPlayCountAsString       , true , false),
-        MetadataFieldDescriptor("lastplayed" , "0"    , _("Last played") , _("enter last played date")      , MetadataType::LastPlayed  ,MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPlayedEpoc , &MetadataDescriptor::LastPlayedAsString   , &MetadataDescriptor::SetLastPlayedAsString      , true , false),
-        MetadataFieldDescriptor("hash"       , "0"    , _("Rom Crc32")   , _("enter rom crc32")             , MetadataType::Crc32       ,MetadataFieldDescriptor::DataType::Crc32  , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRomCrc32       , &MetadataDescriptor::RomCrc32AsString     , &MetadataDescriptor::SetRomCrc32AsString        , true , false),
-        MetadataFieldDescriptor("lastPatch"  , ""     , _("Last Patch")  , _("enter patch")                 , MetadataType::LastPatch   ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPath       , &MetadataDescriptor::LastPatchAsString    , &MetadataDescriptor::SetLastPatchAsString       , true , false),
-        MetadataFieldDescriptor("rotation"   , "None" , _("Rotation")    , _("enter rotation")              , MetadataType::Rotation    ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultRotation       , &MetadataDescriptor::RotationAsString     , &MetadataDescriptor::SetRotationAsString        , false, false),
-        MetadataFieldDescriptor("timeplayed" , "0"    , _("TimePlayed")  , _("enter TimePlayed")            , MetadataType::TimePlayed  , MetadataFieldDescriptor::DataType::Int   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultTotalPlayTime  , &MetadataDescriptor::TotalPlayTimeAsString, &MetadataDescriptor::SetTotalPlayTimeAsString   , false, false),
+        MetadataFieldDescriptor("path"       , ""     , _("Path")        , _("enter game path")             , MetadataType::Path        ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true , false),
+        MetadataFieldDescriptor("name"       , ""     , _("Name")        , _("enter game name")             , MetadataType::Name        ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true , false),
+        MetadataFieldDescriptor("rating"     , "0.0"  , _("Rating")      , _("enter rating")                , MetadataType::Rating      ,MetadataFieldDescriptor::DataType::Rating , MetadataFieldDescriptor::EditableType::Rating , &MetadataDescriptor::IsDefaultRating         , &MetadataDescriptor::RatingAsString      , &MetadataDescriptor::SetRatingAsString       , false, true , false),
+        MetadataFieldDescriptor("favorite"   , "false", _("Favorite")    , _("enter favorite")              , MetadataType::Favorite    ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultFavorite       , &MetadataDescriptor::FavoriteAsString    , &MetadataDescriptor::SetFavoriteAsString     , false, true , true ),
+        MetadataFieldDescriptor("hidden"     , "false", _("Hidden")      , _("set hidden")                  , MetadataType::Hidden      ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString      , &MetadataDescriptor::SetHiddenAsString       , false, true , true ),
+        MetadataFieldDescriptor("emulator"   , ""     , _("Emulator")    , _("enter emulator")              , MetadataType::Emulator    ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultEmulator       , &MetadataDescriptor::EmulatorAsString    , &MetadataDescriptor::SetEmulator             , false, true , true ),
+        MetadataFieldDescriptor("core"       , ""     , _("Core")        , _("enter core")                  , MetadataType::Core        ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultCore           , &MetadataDescriptor::CoreAsString        , &MetadataDescriptor::SetCore                 , false, true , true ),
+        MetadataFieldDescriptor("ratio"      , ""     , _("Ratio")       , _("enter ratio")                 , MetadataType::Ratio       ,MetadataFieldDescriptor::DataType::List   , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultRatio          , &MetadataDescriptor::RatioAsString       , &MetadataDescriptor::SetRatio                , false, true , true ),
+        MetadataFieldDescriptor("desc"       , ""     , _("Description") , _("enter description")           , MetadataType::Synopsis    ,MetadataFieldDescriptor::DataType::Text   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString , &MetadataDescriptor::SetDescription          , false, false, false),
+        MetadataFieldDescriptor("image"      , ""     , _("Image")       , _("enter path to image")         , MetadataType::Image       ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultImage          , &MetadataDescriptor::ImageAsString       , &MetadataDescriptor::SetImagePathAsString    , false, false, false),
+        MetadataFieldDescriptor("thumbnail"  , ""     , _("Thumbnail")   , _("enter path to thumbnail")     , MetadataType::Thumbnail   ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultThumbnail      , &MetadataDescriptor::ThumbnailAsString   , &MetadataDescriptor::SetThumbnailPathAsString, false, false, false),
+        MetadataFieldDescriptor("video"      , ""     , _("Video")       , _("enter path to video")         , MetadataType::Video       ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultVideo          , &MetadataDescriptor::VideoAsString       , &MetadataDescriptor::SetVideoPathAsString    , false, false, false),
+        MetadataFieldDescriptor("releasedate", ""     , _("Release date"), _("enter release date")          , MetadataType::ReleaseDate ,MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::Date   , &MetadataDescriptor::IsDefaultReleaseDateEpoc, &MetadataDescriptor::ReleaseDateAsString , &MetadataDescriptor::SetReleaseDateAsString  , false, false, false),
+        MetadataFieldDescriptor("developer"  , ""     , _("Developer")   , _("enter game developer")        , MetadataType::Developer   ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultDeveloper      , &MetadataDescriptor::DeveloperAsString   , &MetadataDescriptor::SetDeveloper            , false, false, false),
+        MetadataFieldDescriptor("publisher"  , ""     , _("Publisher")   , _("enter game publisher")        , MetadataType::Publisher   ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultPublisher      , &MetadataDescriptor::PublisherAsString   , &MetadataDescriptor::SetPublisher            , false, false, false),
+        MetadataFieldDescriptor("genre"      , ""     , _("Genre")       , _("enter game genre")            , MetadataType::Genre       ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultGenre          , &MetadataDescriptor::GenreAsString       , &MetadataDescriptor::SetGenre                , false, false, false),
+        MetadataFieldDescriptor("genreid"    , ""     , _("Genre ID")    , _("enter game genre id")         , MetadataType::GenreId     ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::List   , &MetadataDescriptor::IsDefaultGenreId        , &MetadataDescriptor::GenreIdAsString     , &MetadataDescriptor::SetGenreIdAsString      , false, false, false),
+        MetadataFieldDescriptor("adult"      , ""     , _("Adult")       , _("enter adult state")           , MetadataType::Adult       ,MetadataFieldDescriptor::DataType::Bool   , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultAdult          , &MetadataDescriptor::AdultAsString       , &MetadataDescriptor::SetAdultAsString        , false, false, false),
+        MetadataFieldDescriptor("players"    , "1"    , _("Players")     , _("enter number of players")     , MetadataType::Players     ,MetadataFieldDescriptor::DataType::Range  , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultPlayerRange    , &MetadataDescriptor::PlayersAsString     , &MetadataDescriptor::SetPlayersAsString      , false, false, false),
+        MetadataFieldDescriptor("region"     , ""     , _("Region")      , _("enter region")                , MetadataType::Region      ,MetadataFieldDescriptor::DataType::String , MetadataFieldDescriptor::EditableType::Text   , &MetadataDescriptor::IsDefaultRegion         , &MetadataDescriptor::RegionAsString      , &MetadataDescriptor::SetRegionAsString       , false, false, false),
+        MetadataFieldDescriptor("playcount"  , "0"    , _("Play count")  , _("enter number of times played"), MetadataType::PlayCount   ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultPlayCount      , &MetadataDescriptor::PlayCountAsString   , &MetadataDescriptor::SetPlayCountAsString    , true , false, true ),
+        MetadataFieldDescriptor("lastplayed" , "0"    , _("Last played") , _("enter last played date")      , MetadataType::LastPlayed  ,MetadataFieldDescriptor::DataType::Date   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPlayedEpoc , &MetadataDescriptor::LastPlayedAsString  , &MetadataDescriptor::SetLastPlayedAsString   , true , false, true ),
+        MetadataFieldDescriptor("hash"       , "0"    , _("Rom Crc32")   , _("enter rom crc32")             , MetadataType::Crc32       ,MetadataFieldDescriptor::DataType::Crc32  , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultRomCrc32       , &MetadataDescriptor::RomCrc32AsString    , &MetadataDescriptor::SetRomCrc32AsString     , true , false, false),
+        MetadataFieldDescriptor("lastPatch"  , ""     , _("Last Patch")  , _("enter patch")                 , MetadataType::LastPatch   ,MetadataFieldDescriptor::DataType::Path   , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultLastPath       , &MetadataDescriptor::LastPatchAsString   , &MetadataDescriptor::SetLastPatchAsString    , true , false, false),
+        MetadataFieldDescriptor("rotation"   , "None" , _("Rotation")    , _("enter rotation")              , MetadataType::Rotation    ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::Switch , &MetadataDescriptor::IsDefaultRotation       , &MetadataDescriptor::RotationAsString    , &MetadataDescriptor::SetRotationAsString     , false, false, false),
+        MetadataFieldDescriptor("timeplayed" , "0"    , _("TimePlayed")  , _("enter TimePlayed")            , MetadataType::TimePlayed  ,MetadataFieldDescriptor::DataType::Int    , MetadataFieldDescriptor::EditableType::None   , &MetadataDescriptor::IsDefaultTotalPlayTime     , &MetadataDescriptor::TotalPlayTimeAsString  , &MetadataDescriptor::SetTotalPlayTimeAsString   , false, false, true ),
       };
 
       count = sizeof(sGameMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
@@ -67,12 +66,12 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
     {
       static const MetadataFieldDescriptor sFolderMetadataDescriptors[] =
       {
-        MetadataFieldDescriptor("path"       , ""        , _("Path")        , _("enter game path")             , MetadataType::Path        ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::None  , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true),
-        MetadataFieldDescriptor("name"       , ""        , _("Name")        , _("enter game name")             , MetadataType::Name        ,MetadataFieldDescriptor::DataType::String, MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true),
-        MetadataFieldDescriptor("hidden"     , "false"   , _("Hidden")      , _("set hidden")                  , MetadataType::Hidden      ,MetadataFieldDescriptor::DataType::Bool  , MetadataFieldDescriptor::EditableType::Switch, &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString      , &MetadataDescriptor::SetHiddenAsString       , false, true),
-        MetadataFieldDescriptor("desc"       , ""        , _("Description") , _("enter description")           , MetadataType::Synopsis    ,MetadataFieldDescriptor::DataType::Text  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString , &MetadataDescriptor::SetDescription          , false, false),
-        MetadataFieldDescriptor("image"      , ""        , _("Image")       , _("enter path to image")         , MetadataType::Image       ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultImage          , &MetadataDescriptor::ImageAsString       , &MetadataDescriptor::SetImagePathAsString    , false, false),
-        MetadataFieldDescriptor("thumbnail"  , ""        , _("Thumbnail")   , _("enter path to thumbnail")     , MetadataType::Thumbnail   ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultThumbnail      , &MetadataDescriptor::ThumbnailAsString   , &MetadataDescriptor::SetThumbnailPathAsString, false, false),
+        MetadataFieldDescriptor("path"       , ""        , _("Path")        , _("enter game path")             , MetadataType::Path        ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::None  , &MetadataDescriptor::IsDefaultRom            , &MetadataDescriptor::RomAsString         , &MetadataDescriptor::SetRomPathAsString      , false, true , false),
+        MetadataFieldDescriptor("name"       , ""        , _("Name")        , _("enter game name")             , MetadataType::Name        ,MetadataFieldDescriptor::DataType::String, MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultName           , &MetadataDescriptor::NameAsString        , &MetadataDescriptor::SetName                 , false, true , false),
+        MetadataFieldDescriptor("hidden"     , "false"   , _("Hidden")      , _("set hidden")                  , MetadataType::Hidden      ,MetadataFieldDescriptor::DataType::Bool  , MetadataFieldDescriptor::EditableType::Switch, &MetadataDescriptor::IsDefaultHidden         , &MetadataDescriptor::HiddenAsString      , &MetadataDescriptor::SetHiddenAsString       , false, true , true ),
+        MetadataFieldDescriptor("desc"       , ""        , _("Description") , _("enter description")           , MetadataType::Synopsis    ,MetadataFieldDescriptor::DataType::Text  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultDescription    , &MetadataDescriptor::DescriptionAsString , &MetadataDescriptor::SetDescription          , false, false, false),
+        MetadataFieldDescriptor("image"      , ""        , _("Image")       , _("enter path to image")         , MetadataType::Image       ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultImage          , &MetadataDescriptor::ImageAsString       , &MetadataDescriptor::SetImagePathAsString    , false, false, false),
+        MetadataFieldDescriptor("thumbnail"  , ""        , _("Thumbnail")   , _("enter path to thumbnail")     , MetadataType::Thumbnail   ,MetadataFieldDescriptor::DataType::Path  , MetadataFieldDescriptor::EditableType::Text  , &MetadataDescriptor::IsDefaultThumbnail      , &MetadataDescriptor::ThumbnailAsString   , &MetadataDescriptor::SetThumbnailPathAsString, false, false, false),
       };
 
       count = sizeof(sFolderMetadataDescriptors) / sizeof(MetadataFieldDescriptor);
@@ -255,7 +254,30 @@ bool MetadataDescriptor::StringToFloat(const String& from, float& to)
   return true;
 }
 
-bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
+void MetadataDescriptor::BuildUserDataMap(const String& data, HashMap<String, String>& map)
+{
+  for(int start = 0; start < data.Count(); )
+  {
+    // Look for key separator
+    int end = data.Find(',', start);
+    if (end < 0) end = data.Count();
+
+    // Look for key/value separator
+    int equal = data.Find('=', start);
+    if (equal <= start  || equal >= end) { LOG(LogError) << "[MetadataDescriptor] malformated user data " << data; }
+    else
+    {
+      String key = data.SubString(start, equal - start);
+      String value = data.SubString(equal + 1, end - (equal + 1));
+      map[key] = value;
+    }
+
+    // Next step
+    start = end + 1;
+  }
+}
+
+bool MetadataDescriptor::Deserialize(const XmlNode from, const String& userData, const Path& relativeTo)
 {
   #ifdef _METADATA_STATS_
     if (_Type == ItemType::Game) LivingGames--;
@@ -268,6 +290,11 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   else return false; // Unidentified node
 
   mTimeStamp = (unsigned int)Xml::AttributeAsInt(from, "timestamp", 0);
+
+  // Build userData map
+  HashMap<String, String> userDataMap;
+  bool hasUserData = !userData.empty();
+  if (hasUserData) BuildUserDataMap(userData, userDataMap);
 
   #ifdef _METADATA_STATS_
     if (_Type == ItemType::Game) LivingGames++;
@@ -286,6 +313,10 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
     // Get field data as string
     const String& defaultStringValue = field.DefaultValue();
     String value = Xml::AsString(from, field.Key(), defaultStringValue);
+    // override with userdata if any
+    if (hasUserData)
+      if (String* pvalue = userDataMap.try_get(field.Key()); pvalue != nullptr)
+        value = *pvalue;
     // Ignore default values
     if (value == defaultStringValue) continue;
 
@@ -310,7 +341,7 @@ bool MetadataDescriptor::Deserialize(const XmlNode from, const Path& relativeTo)
   return true;
 }
 
-void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, const Path& relativeTo) const
+void MetadataDescriptor::Serialize(XmlNode parentNode, [[out]] String& userData, const Path& filePath, const Path& relativeTo) const
 {
   (void)filePath;
   int count = 0;
@@ -342,7 +373,12 @@ void MetadataDescriptor::Serialize(XmlNode parentNode, const Path& filePath, con
       value = Path(value).MakeRelative(relativeTo, dummy).ToString();
 
     // Store
-    Xml::AddAsString(node, field.Key(), value);
+    if (field.IsUserdata())
+    {
+      if (!userData.empty()) userData.Append(',');
+      userData.Append(field.Key()).Append('=').Append(value);
+    }
+    else Xml::AddAsString(node, field.Key(), value);
   }
 }
 
@@ -405,3 +441,4 @@ void MetadataDescriptor::CleanupHolders()
   sPathHolder.Finalize();
   sFileHolder.Finalize();
 }
+

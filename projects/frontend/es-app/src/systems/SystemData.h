@@ -104,6 +104,13 @@ class SystemData : private INoCopy
     void ParseGamelistXml(RootFolderData& root, FileData::StringMap& doppelgangerWatcher, bool forceCheckFile);
 
     /*!
+     * @brief Load extra userdata
+     * @param root Root rom folder
+     * @param gameUserDataMap Output map gamepath=userdata
+     */
+    void ParseGamelistUserDataXml(RootFolderData& root, HashMap<String, String>& gameUserDataMap);
+
+    /*!
      * @brief Get root folder of the given type
      * @param type root type
      * @return Found root or nullptr
@@ -180,7 +187,20 @@ class SystemData : private INoCopy
 
     [[nodiscard]] const ThemeData& Theme() const { return ThemeManager::Instance().System(this); }
 
-    static Path getGamelistPath(const RootFolderData& root, bool forWrite);
+    /*!
+     * @brief Get user data gamelist for the given root path
+     * May adapt share_init folders to allow user data on preinstalled games
+     * @param root Rom root folder
+     * @return User data gamelist path
+     */
+    static Path GetGamelistUserdataPath(const RootFolderData& root, bool forceFolderCreation);
+
+    /*!
+     * @brief Get regulat galemist path for the given rom root folder
+     * @param root Rom root folder
+     * @return Gamelist path
+     */
+    static Path GetGamelistPath(const RootFolderData& root);
 
     /*!
      * @brief Get list of writable Gamelists

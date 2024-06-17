@@ -173,10 +173,7 @@ GuiMetaDataEd::GuiMetaDataEd(WindowManager& window,
                                                                                   FONT_SIZE_MEDIUM);
           row.addElement(ratio_choice, false);
           const std::map<String, String>& ratioMap = LibretroRatio::GetRatio();
-          if (mMetaData.Ratio().empty())
-          {
-            mMetaData.SetRatio("auto");
-          }
+          if (mMetaData.Ratio().empty()) mMetaData.SetRatio("auto");
           for (const auto& ratio : ratioMap)
           {
             ratio_choice->add(ratio.first, ratio.second, mMetaData.Ratio() == ratio.second, ratio.second);

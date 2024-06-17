@@ -458,7 +458,7 @@ def test_given_any_systems_when_31kHz_and_doublefreq_with_no_mode_found_should_d
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"60"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
-    assert libretro_config["video_black_frame_insertion"] == '"1"'
+    assert libretro_config["video_black_frame_insertion"] == '"0"'
     assert libretro_config["custom_viewport_width_ntsc"] == 1920
     assert libretro_config["custom_viewport_width_pal"] == 1920
     assert libretro_config["custom_viewport_height_ntsc"] == 240
@@ -514,7 +514,7 @@ def test_given_a_arcade_game_and_31kHz_screen_and_doublefreq_then_return_default
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"60"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
-    assert libretro_config["video_black_frame_insertion"] == '"1"'
+    assert libretro_config["video_black_frame_insertion"] == '"0"'
 
 
 def test_given_a_nes_game_should_return_viewport_info(mocker):
@@ -596,7 +596,7 @@ def test_given_31kHz_and_double_freq_should_create_config_with_default_mode_but_
     assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1"'
     assert libretro_config["video_refresh_rate_pal"] == '"60"'
     assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
-    assert libretro_config["video_black_frame_insertion"] == '"1"'
+    assert libretro_config["video_black_frame_insertion"] == '"0"'
     assert libretro_config["custom_viewport_width_ntsc"] == 1920
     assert libretro_config["custom_viewport_width_pal"] == 1920
     assert libretro_config["custom_viewport_height_ntsc"] == 239

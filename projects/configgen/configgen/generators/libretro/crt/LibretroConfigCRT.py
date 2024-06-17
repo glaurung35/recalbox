@@ -289,8 +289,6 @@ class LibretroConfigCRT:
             log_type="CRT")
 
         gameIsTate = system.VerticalGame
-        if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
-            config.update({"video_black_frame_insertion": '"1"'})
         if system.Core == "swanstation":
             config.update({"audio_driver": '"alsathread"'})
 

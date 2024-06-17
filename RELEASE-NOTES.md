@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix bios checking when launchin games
 
 - Fix gameclips option label to hide 'press start' in the webmanager
+- Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
 
 ## Version 9.2-Pulstar
 

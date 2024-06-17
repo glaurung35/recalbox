@@ -18,6 +18,9 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
+- User data in gamelists are noow saved separately, allowing to:
+  - use external scraper w/o loosing your favorites, emulators configurations, etc.
+  - add preinstalled game in favorite list or even hide them individually
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

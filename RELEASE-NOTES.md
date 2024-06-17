@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix gameclip view on 240p theme
 - Fix jamma fan not stopping when shutdown from menu
 - Fix 240p@120Hz mode for CRT
+- Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
 
 ## Version 9.2-Pulstar
 

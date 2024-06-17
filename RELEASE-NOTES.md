@@ -17,6 +17,9 @@ as release notes for end user on a Recalbox upgrade.
 
 - Fix gameclips option label to hide 'press start' in the webmanager
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
+- Fix saturn and psx zoomed games on CRT
+- Fix game information space on 240p theme in tate
+- Fix gameclip view on 240p theme
 
 ## Version 9.2-Pulstar
 

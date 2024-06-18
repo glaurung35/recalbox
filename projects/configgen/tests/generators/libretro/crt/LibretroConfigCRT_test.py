@@ -1376,3 +1376,18 @@ def test_given_jamma_then_use_60Hz_modes_on_console_with_only_50HZ(mocker):
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
     assert config_lines["video_refresh_rate_pal"] == '"60"'
     assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+
+def test_given_superrez_mode_then_set_wide_font(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "psx,swanstation,ntsc,15kHz,progressive,psx@60.0988,0,0",
+        MODES_TXT: "psx@60.0988,1920 1 80 184 312 239 1 1 3 16 0 0 0 60 0 39001717 1,60.0988"
+    })
+
+    psx = configureForCrt(
+        Emulator(name='psx', videoMode='1920x1080', ratio='auto', emulator='libretro', core='swanstation'),
+        crtresolutiontype="progressive", crtvideostandard="auto",
+        crtscreentype="15kHz")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(psx,
+                                                                                                  "ff7.chd")
+    assert config_lines["video_font_path"] == '"/usr/share/fonts/truetype/gf-vienna-heavy.heavy.ttf"'
+    assert config_lines["video_font_enable"] == '"true"'

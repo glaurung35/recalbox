@@ -23,6 +23,8 @@ class LibretroConfigCRT:
 
     arcade_cores: [str] = ["fbneo", "mame2003", "mame2010", "mame2003_plus", "mame2015", "mame"]
 
+    standard_font = '"/usr/share/fonts/truetype/ubuntu_condensed.ttf"'
+    wide_font = '"/usr/share/fonts/truetype/gf-vienna-heavy.heavy.ttf"'
     def createConfigForMode(self, region: str, mode: Mode, viewport_width: int, viewport_height: int, game_is_tate: int, system_rotation: Rotation, k31:bool=False, forceFullAndIntegerScale:bool=False) -> \
             typing.Dict[
                 str, typing.Any]:
@@ -40,7 +42,7 @@ class LibretroConfigCRT:
         config["aspect_ratio_index"] = '23'
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
 
-
+        
 
         if ((system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and not game_is_tate) \
                 or ((system_rotation.value == Rotation.left or system_rotation.value == Rotation.right) and game_is_tate):
@@ -101,6 +103,10 @@ class LibretroConfigCRT:
             # For arcade, the viewport info by region seems not selected sometimes on retroarch so we set default values
             config["custom_viewport_x"] = final_x
             config["custom_viewport_y"] = final_y
+
+        # Superrez is at least 6x width but we do not take risk
+        if mode.width > 3 * mode.height:
+             config["video_font_path"] = self.wide_font
         return config
 
     def select_width(self, system: Emulator, mode_viewport_width: int, mode: Mode, gameIsTate: int = 0):
@@ -274,11 +280,10 @@ class LibretroConfigCRT:
                                          "video_smooth": '"false"',
                                          "video_allow_rotate": '"true"',
                                          "video_driver": '"gl"',
-                                         "video_scale_integer_overscale": '"false"'
+                                         "video_scale_integer_overscale": '"false"',
+                                         "video_font_path": self.standard_font,
+                                         "video_font_enable": '"true"'
                                          }
-        if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
-            config["video_font_enable"] = '"false"'
-
         core: str = system.Core
         default: bool = True
         game_name: str = Path(rom).stem

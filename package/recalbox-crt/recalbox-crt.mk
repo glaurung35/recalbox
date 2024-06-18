@@ -13,6 +13,7 @@ define RECALBOX_CRT_INSTALL_TARGET_CMDS
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/recalbox-crt-options.cfg $(BINARIES_DIR)/boot-data/crt/recalbox-crt-options.cfg
 	$(INSTALL) -D -m 644 $(RECALBOX_CRT_PKGDIR)/crt-config/recalbox-crt-options.cfg $(BINARIES_DIR)/boot-data/crt/recalbox-crt-options.cfg.defaults
 	$(INSTALL) -D -m 0744 $(RECALBOX_CRT_PKGDIR)/S13crt $(TARGET_DIR)/etc/init.d/
+	$(INSTALL) -D -m 0744 $(RECALBOX_CRT_PKGDIR)/gf-vienna-heavy.heavy.ttf $(TARGET_DIR)/usr/share/fonts/truetype/
 	mkdir -p $(TARGET_DIR)/recalbox/system/configs/crt/
 	mkdir -p $(TARGET_DIR)/recalbox/share_init/system/configs/crt/
 	echo "Place your extra CRT configurations in this directory." > $(TARGET_DIR)/recalbox/share_init/system/configs/crt/README.txt

@@ -14,7 +14,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix forcing OpenGLES for RPI4
 - Fix bios checking when launchin games
 - Add core libretro geolith for crt
-
 - Fix gameclips option label to hide 'press start' in the webmanager
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
 - Fix saturn and psx zoomed games on CRT

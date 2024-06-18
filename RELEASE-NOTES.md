@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Update system translations
 - Fix forcing OpenGLES for RPI4
+- Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
 
 
 ## Version 9.2-Pulstar

@@ -1,10 +1,12 @@
-From f2b9448301fe8efffe063486d76a28295e59fd8c Mon Sep 17 00:00:00 2001
+From ca19f0d055506c9b30f4799eb386c371955caf02 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 19 Aug 2022 15:29:11 +0000
-Subject: [PATCH 130/151] v4l2_req: Enable use of MMAP for buffer alloc
+Subject: [PATCH 130/222] v4l2_req: Enable use of MMAP for buffer alloc
 
 Use MMAP rather than DMABUF if either the dmabuf device can't be opened
 or create_buf doesn't set the capability.
+
+(cherry picked from commit f2b9448301fe8efffe063486d76a28295e59fd8c)
 ---
  libavcodec/v4l2_req_dmabufs.c  |  22 +++
  libavcodec/v4l2_req_dmabufs.h  |   3 +
@@ -730,5 +732,5 @@ index 27b1b8dd6d..480f86c04b 100644
      return 0;
  
 -- 
-2.38.1
+2.45.2
 

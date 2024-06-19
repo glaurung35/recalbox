@@ -1,13 +1,15 @@
-From c7fd7b77928ff939fe3a6ff261680dd09f34132d Mon Sep 17 00:00:00 2001
+From 94ca0955281a4eecad1c246c012bebb59b448aec Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 22 Sep 2022 16:08:42 +0000
-Subject: [PATCH 142/151] v4l2_m2m_enc: Set src buffer count to min+2 by
+Subject: [PATCH 142/222] v4l2_m2m_enc: Set src buffer count to min+2 by
  default
 
 Set output.num_buffers to 0 by default which will then be set to min+2
 by the allocation code. This fixes an issue where the deinterlacer had
 fewer dest buffer than the encoder has src buffers and so ran dry
 creating deadlock in the ffmpeg filter chain.
+
+(cherry picked from commit c7fd7b77928ff939fe3a6ff261680dd09f34132d)
 ---
  libavcodec/v4l2_m2m_enc.c | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
@@ -30,5 +32,5 @@ index 349d9cce3b..1b135c51e3 100644
  static const AVOption mpeg4_options[] = {
      V4L_M2M_CAPTURE_OPTS,
 -- 
-2.38.1
+2.45.2
 

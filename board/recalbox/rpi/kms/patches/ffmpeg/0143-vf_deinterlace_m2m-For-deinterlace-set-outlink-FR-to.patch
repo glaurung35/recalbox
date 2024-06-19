@@ -1,12 +1,14 @@
-From b08fe99e6cf26994e88a7249709cf7e5ce961cdb Mon Sep 17 00:00:00 2001
+From e588cf89de8934d6bcbc5ff52ea625c2b3e804ff Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 22 Sep 2022 16:13:57 +0000
-Subject: [PATCH 143/151] vf_deinterlace_m2m: For deinterlace set outlink FR to
+Subject: [PATCH 143/222] vf_deinterlace_m2m: For deinterlace set outlink FR to
  twice inlink
 
 We used to set the outlink framerate to unknown but it turns out that
 ffmpegs filter pipeline copes with that badly. Otherwise leave at 0,0
 which will copy FR from inlink to outlink.
+
+(cherry picked from commit b08fe99e6cf26994e88a7249709cf7e5ce961cdb)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 7 +++++--
  1 file changed, 5 insertions(+), 2 deletions(-)
@@ -35,5 +37,5 @@ index 63f87003f9..986fde5955 100644
      if (inlink->sample_aspect_ratio.num)
          outlink->sample_aspect_ratio = av_mul_q((AVRational){outlink->h * inlink->w, outlink->w * inlink->h}, inlink->sample_aspect_ratio);
 -- 
-2.38.1
+2.45.2
 

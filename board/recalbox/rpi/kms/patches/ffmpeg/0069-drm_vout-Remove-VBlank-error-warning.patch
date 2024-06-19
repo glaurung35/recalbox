@@ -1,10 +1,12 @@
-From 124391dba698389481798fe24c006d33cc9f1e60 Mon Sep 17 00:00:00 2001
+From eb7b769ffe5d68d6ca69da6769266fbf2e07ce4d Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 17 Nov 2021 19:10:53 +0000
-Subject: [PATCH 069/151] drm_vout: Remove VBlank error warning
+Subject: [PATCH 069/222] drm_vout: Remove VBlank error warning
 
 The VBLank call always returns an error I don't know why.  Remove the
 logging as it only serves to confuse and take up valuable screen space.
+
+(cherry picked from commit 124391dba698389481798fe24c006d33cc9f1e60)
 ---
  libavdevice/drm_vout.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -23,5 +25,5 @@ index 064cbf6b08..4b25ec4344 100644
              }
          }
 -- 
-2.38.1
+2.45.2
 

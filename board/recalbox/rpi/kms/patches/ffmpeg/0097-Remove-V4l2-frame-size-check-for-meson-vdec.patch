@@ -1,8 +1,9 @@
-From 4bb9e1fe7cac7da068d72333ace1f5397f0d0746 Mon Sep 17 00:00:00 2001
+From 5d74316fee7b4d4251cc0cc1fc2e6a711840bccd Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 3 May 2022 12:44:42 +0000
-Subject: [PATCH 097/151] Remove V4l2 frame size check for meson-vdec
+Subject: [PATCH 097/222] Remove V4l2 frame size check for meson-vdec
 
+(cherry picked from commit 4bb9e1fe7cac7da068d72333ace1f5397f0d0746)
 ---
  libavcodec/v4l2_m2m.h     |  3 ++-
  libavcodec/v4l2_m2m_dec.c | 10 +++++++---
@@ -58,5 +59,5 @@ index 4d4207e832..a3d9f1b790 100644
      av_log(avctx, AV_LOG_DEBUG, "Driver '%s': Quirks=%#x\n", cap.driver, s->quirks);
      return 0;
 -- 
-2.38.1
+2.45.2
 

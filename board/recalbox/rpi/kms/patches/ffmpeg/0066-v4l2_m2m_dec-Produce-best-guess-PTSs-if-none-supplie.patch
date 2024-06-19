@@ -1,12 +1,14 @@
-From 8423f39e74d3f623f61869fbd8d5ec9bef461de5 Mon Sep 17 00:00:00 2001
+From 749430a47139ff8b19547afd8f0ae1b48b250234 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 17 Nov 2021 17:38:27 +0000
-Subject: [PATCH 066/151] v4l2_m2m_dec: Produce best guess PTSs if none
+Subject: [PATCH 066/222] v4l2_m2m_dec: Produce best guess PTSs if none
  supplied
 
 Filter scheduling gets confused by missing PTSs and makes poor guesses
 more often than not.  Try to generate plausible timestamps where we are
 missing them.
+
+(cherry picked from commit 8423f39e74d3f623f61869fbd8d5ec9bef461de5)
 ---
  libavcodec/v4l2_m2m.h     | 12 ++++++++
  libavcodec/v4l2_m2m_dec.c | 64 +++++++++++++++++++++++++++++++++++++--
@@ -138,5 +140,5 @@ index e90c42da3b..8b43f6bf21 100644
      output = &s->output;
  
 -- 
-2.38.1
+2.45.2
 

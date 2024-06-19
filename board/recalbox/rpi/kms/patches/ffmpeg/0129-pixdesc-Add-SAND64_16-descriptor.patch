@@ -1,10 +1,12 @@
-From f4ec6ece3e5da05b152cbd4c4dd6c4b84438554e Mon Sep 17 00:00:00 2001
+From 1fcffa9368b96dea68ec64fc04c985e8445a1426 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 2 Aug 2022 16:25:15 +0000
-Subject: [PATCH 129/151] pixdesc: Add SAND64_16 descriptor
+Subject: [PATCH 129/222] pixdesc: Add SAND64_16 descriptor
 
 Its stil a defined format even if mostly obsolete - it needs a
 descriptor. Fixes issue #46
+
+(cherry picked from commit f4ec6ece3e5da05b152cbd4c4dd6c4b84438554e)
 ---
  libavutil/pixdesc.c | 16 ++++++++++++++--
  1 file changed, 14 insertions(+), 2 deletions(-)
@@ -41,5 +43,5 @@ index cada39e92f..bab13a4d50 100644
      },
  };
 -- 
-2.38.1
+2.45.2
 

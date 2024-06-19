@@ -28,6 +28,11 @@ as release notes for end user on a Recalbox upgrade.
   - Old flycast core is the default core for all systems above but Naomi2
 - Fix forcing OpenGLES for RPI5 for Libretro-ScummVM
 - Fix datafiles Libretro-ScummVM
+## Version 9.2.2-Pulstar
+
+### Fixes
+- Fix kodi crash when playing HEVC/h264 video on rpi4 (and rpi5 ?)
+
 
 ## Version 9.2.1-Pulstar
 

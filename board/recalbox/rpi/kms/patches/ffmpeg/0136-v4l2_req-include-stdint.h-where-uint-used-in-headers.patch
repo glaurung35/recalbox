@@ -1,11 +1,13 @@
-From 8b508bb134187eaf7ea6258d8466fe9451ce075a Mon Sep 17 00:00:00 2001
+From 4092cda5157b0b8c744828cad7f1e0a71b24f1c8 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 28 Sep 2022 15:29:35 +0000
-Subject: [PATCH 136/151] v4l2_req: #include <stdint.h> where uint used in
+Subject: [PATCH 136/222] v4l2_req: #include <stdint.h> where uint used in
  headers
 
 Also stddef.h for size_t and add guard #ifdefs where missing
 This fixes compile failures with linux headers from 5.19 and later.
+
+(cherry picked from commit 8b508bb134187eaf7ea6258d8466fe9451ce075a)
 ---
  libavcodec/v4l2_req_devscan.h  | 2 ++
  libavcodec/v4l2_req_dmabufs.h  | 2 ++
@@ -69,5 +71,5 @@ index 830444bf92..99c90064ea 100644
  #include "v4l2_req_decode_q.h"
  
 -- 
-2.38.1
+2.45.2
 

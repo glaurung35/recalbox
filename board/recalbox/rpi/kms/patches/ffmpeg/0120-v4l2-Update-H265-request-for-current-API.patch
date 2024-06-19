@@ -1,12 +1,14 @@
-From 32aa26617569546f46b5b748b9ab2b4c619ff4ff Mon Sep 17 00:00:00 2001
+From 6d72d3ea5196dcbfd9e185877fc0b5f57b40778f Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 30 Jun 2022 15:59:23 +0000
-Subject: [PATCH 120/151] v4l2: Update H265 request for current API
+Subject: [PATCH 120/222] v4l2: Update H265 request for current API
 
 This works with v9 of the H265 patch set which hopefully will be the
 last one. Hevc controls extracted from patched v4l2-controls into
 hevc-ctrls-v4 - if HEVC controls found in the system v4l2-controls then
 those will be used instead.
+
+(cherry picked from commit 32aa26617569546f46b5b748b9ab2b4c619ff4ff)
 ---
  libavcodec/Makefile            |   2 +-
  libavcodec/hevc-ctrls-v4.h     | 515 +++++++++++++++++++++++++++++++++
@@ -19,7 +21,7 @@ those will be used instead.
  create mode 100644 libavcodec/v4l2_req_hevc_v4.c
 
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index ef22d26dc1..a403dc41d6 100644
+index a849bb35e9..b2fa568837 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -957,7 +957,7 @@ OBJS-$(CONFIG_HEVC_QSV_HWACCEL)           += qsvdec.o
@@ -787,5 +789,5 @@ index b2cb8c8584..1ecbcadda6 100644
  
  #endif
 -- 
-2.38.1
+2.45.2
 

@@ -59,7 +59,7 @@ GuiNetPlayHostPasswords::GuiNetPlayHostPasswords(WindowManager& window, FileData
         viewerPassword = RecalboxConf::Instance().AsString("netplay.password." + String(mViewerPassword->getSelected()), DefaultPasswords::sDefaultPassword[mPlayerPassword->getSelected()]);
 
       GameLinkedData data(RecalboxConf::Instance().GetNetplayPort(), playerPassword, viewerPassword);
-      ViewController::Instance().Launch(&mGame, data, Vector3f(), true);
+      ViewController::Instance().Launch(&mGame, data, Vector3f(), !ViewController::Instance().IsInVirtualSystem());
     }
     // Close window
     Close();

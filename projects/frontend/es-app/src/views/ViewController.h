@@ -97,6 +97,8 @@ class ViewController : public StaticLifeCycleControler<ViewController>
      */
     void BackToPreviousView();
 
+    bool IsInVirtualSystem() const { return isViewing(ViewType::GameList) && mCurrentSystem != nullptr && mCurrentSystem->IsVirtual(); }
+
     [[nodiscard]] inline bool isViewing(ViewType viewing) const { return mCurrentViewType == viewing; }
 
     bool CollectHelpItems(Help& help) override;

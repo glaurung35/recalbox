@@ -1,7 +1,7 @@
-From 6fe5c7f397bf9563bcde059466d5c88d5580fdda Mon Sep 17 00:00:00 2001
+From a5b70043d9e126d03e6e751cb98e0b75d6f5ef31 Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:46 +0100
-Subject: [PATCH 108/151] avcodec/vc1: Arm 64-bit NEON deblocking filter fast
+Subject: [PATCH 108/222] avcodec/vc1: Arm 64-bit NEON deblocking filter fast
  paths
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -43,6 +43,7 @@ vc1dsp.vc1_v_loop_filter16_worstcase_neon: 97.2
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit 6fe5c7f397bf9563bcde059466d5c88d5580fdda)
 ---
  libavcodec/aarch64/Makefile              |   1 +
  libavcodec/aarch64/vc1dsp_init_aarch64.c |  14 +
@@ -793,5 +794,5 @@ index 0000000000..1ea9fa75ff
 +4:      ret
 +endfunc
 -- 
-2.38.1
+2.45.2
 

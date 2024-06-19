@@ -1,10 +1,12 @@
-From 7d4f31b0326712973997756f7d09e8e53a163d97 Mon Sep 17 00:00:00 2001
+From 2f791635b8e3dcd4dbf66196a671df308abea486 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 10 Jun 2021 18:59:38 +0100
-Subject: [PATCH 031/151] Fix YUV420P output from v4l2m2m
+Subject: [PATCH 031/222] Fix YUV420P output from v4l2m2m
 
 Also put get_width get_height inlines in header as they are generally
 useful.
+
+(cherry picked from commit 7d4f31b0326712973997756f7d09e8e53a163d97)
 ---
  libavcodec/v4l2_buffers.c | 12 ++++++------
  libavcodec/v4l2_context.c | 26 ++++++++------------------
@@ -126,5 +128,5 @@ index 24a9c94864..8f054f2f50 100644
 +
  #endif /* AVCODEC_V4L2_M2M_H */
 -- 
-2.38.1
+2.45.2
 

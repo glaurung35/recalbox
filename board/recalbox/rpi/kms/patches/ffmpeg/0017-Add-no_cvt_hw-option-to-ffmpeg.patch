@@ -1,8 +1,9 @@
-From b535ab9d4ba7492446d6ca8673a4b1fecc5d7792 Mon Sep 17 00:00:00 2001
+From 19ebe26b2c1200c9c990d26a2cfd1a7a5df3c13c Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 19:30:36 +0100
-Subject: [PATCH 017/151] Add no_cvt_hw option to ffmpeg
+Subject: [PATCH 017/222] Add no_cvt_hw option to ffmpeg
 
+(cherry picked from commit b535ab9d4ba7492446d6ca8673a4b1fecc5d7792)
 ---
  fftools/ffmpeg.c     | 6 ++++--
  fftools/ffmpeg.h     | 1 +
@@ -10,10 +11,10 @@ Subject: [PATCH 017/151] Add no_cvt_hw option to ffmpeg
  3 files changed, 8 insertions(+), 2 deletions(-)
 
 diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
-index e01d70dfe2..a8e87f1d5a 100644
+index 327ed14d47..74be0ba9f6 100644
 --- a/fftools/ffmpeg.c
 +++ b/fftools/ffmpeg.c
-@@ -2198,6 +2198,9 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
+@@ -2201,6 +2201,9 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
          (ifilter->hw_frames_ctx && ifilter->hw_frames_ctx->data != frame->hw_frames_ctx->data))
          need_reinit = 1;
  
@@ -23,7 +24,7 @@ index e01d70dfe2..a8e87f1d5a 100644
      if (need_reinit) {
          ret = ifilter_parameters_from_frame(ifilter, frame);
          if (ret < 0)
-@@ -2466,8 +2469,7 @@ static int decode_video(InputStream *ist, AVPacket *pkt, int *got_output, int64_
+@@ -2469,8 +2472,7 @@ static int decode_video(InputStream *ist, AVPacket *pkt, int *got_output, int64_
          decoded_frame->top_field_first = ist->top_field_first;
  
      ist->frames_decoded++;
@@ -67,5 +68,5 @@ index 3f67d349ae..456d4f349b 100644
        "write program-readable progress information", "url" },
      { "stdin",          OPT_BOOL | OPT_EXPERT,                       { &stdin_interaction },
 -- 
-2.38.1
+2.45.2
 

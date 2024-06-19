@@ -1,9 +1,10 @@
-From f099ce8d423914fa86fdf161ad268f987b0ca4b4 Mon Sep 17 00:00:00 2001
+From 2cfd62c80d05ab05a1e6d33e29ad97a754ae6ce3 Mon Sep 17 00:00:00 2001
 From: Paul Mulders <justinkb@gmail.com>
 Date: Sun, 4 Jul 2021 10:49:01 +0200
-Subject: [PATCH 038/151] fix missing include for usleep in {egl,rpi}_vout.c
+Subject: [PATCH 038/222] fix missing include for usleep in {egl,rpi}_vout.c
 
 (cherry picked from commit 1ec6278698c97fb94bf2cc934af3b31360a04cf8)
+(cherry picked from commit f099ce8d423914fa86fdf161ad268f987b0ca4b4)
 ---
  libavdevice/egl_vout.c | 1 +
  libavdevice/rpi_vout.c | 1 +
@@ -34,5 +35,5 @@ index b1617d48a8..84723a34ad 100644
  #pragma GCC diagnostic push
  // Many many redundant decls in the header files
 -- 
-2.38.1
+2.45.2
 

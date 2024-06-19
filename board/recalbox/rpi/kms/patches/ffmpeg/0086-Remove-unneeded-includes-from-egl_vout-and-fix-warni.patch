@@ -1,9 +1,10 @@
-From 121711ea13074642b3155ef174dbe29a16a03a66 Mon Sep 17 00:00:00 2001
+From 404f6fc765123c33988d749042e239431dc9c92c Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 25 Jan 2022 14:50:13 +0000
-Subject: [PATCH 086/151] Remove unneeded includes from egl_vout and fix
+Subject: [PATCH 086/222] Remove unneeded includes from egl_vout and fix
  warning
 
+(cherry picked from commit 121711ea13074642b3155ef174dbe29a16a03a66)
 ---
  libavdevice/egl_vout.c | 12 +-----------
  1 file changed, 1 insertion(+), 11 deletions(-)
@@ -40,5 +41,5 @@ index b1b1f7bb60..0539282733 100644
           av_log(s, AV_LOG_ERROR, "Error: eglCreateWindowSurface failed\n");
           return -1;
 -- 
-2.38.1
+2.45.2
 

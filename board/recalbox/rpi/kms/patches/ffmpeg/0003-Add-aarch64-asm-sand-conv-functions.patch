@@ -1,10 +1,12 @@
-From 832a23fbd033656347e5ca9fc92dd59748ed766b Mon Sep 17 00:00:00 2001
+From 93f7f93e237e06e895b35ff6e99a065cda6c5381 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 11:36:47 +0100
-Subject: [PATCH 003/151] Add aarch64 asm sand conv functions
+Subject: [PATCH 003/222] Add aarch64 asm sand conv functions
 
 Many thanks to eiler.mike@gmail.com (Michael Eiler) for these
 optimizations
+
+(cherry picked from commit 832a23fbd033656347e5ca9fc92dd59748ed766b)
 ---
  libavutil/aarch64/Makefile        |   4 +-
  libavutil/aarch64/rpi_sand_neon.S | 676 ++++++++++++++++++++++++++++++
@@ -784,5 +786,5 @@ index ed0261b02f..1f543e9357 100644
  #define HAVE_SAND_ASM 0
  #endif
 -- 
-2.38.1
+2.45.2
 

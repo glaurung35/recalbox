@@ -1,8 +1,9 @@
-From 50e57b5cd33357074bcaf06763f55292ef8ba56b Mon Sep 17 00:00:00 2001
+From 119a7dad3fc980862c7f9185690439e912c80c23 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Sat, 18 Sep 2021 16:39:22 +0100
-Subject: [PATCH 050/151] Close bo handles in drm_vout - fixes memory leak
+Subject: [PATCH 050/222] Close bo handles in drm_vout - fixes memory leak
 
+(cherry picked from commit 50e57b5cd33357074bcaf06763f55292ef8ba56b)
 ---
  libavdevice/drm_vout.c | 16 +++++++++++++---
  1 file changed, 13 insertions(+), 3 deletions(-)
@@ -69,5 +70,5 @@ index d58b8fc7c8..064cbf6b08 100644
  
      if (de->drm_fd >= 0) {
 -- 
-2.38.1
+2.45.2
 

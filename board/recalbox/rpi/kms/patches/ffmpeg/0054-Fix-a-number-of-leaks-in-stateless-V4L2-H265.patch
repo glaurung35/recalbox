@@ -1,7 +1,7 @@
-From 31061f34566a6cab8df3463cb2575534ddf2e78a Mon Sep 17 00:00:00 2001
+From 6c998ca11a56efa602e4925ea244d138ea6a0787 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Sat, 18 Sep 2021 16:53:46 +0100
-Subject: [PATCH 054/151] Fix a number of leaks in stateless V4L2 H265
+Subject: [PATCH 054/222] Fix a number of leaks in stateless V4L2 H265
 
 Reworks pollqueue to allow better control over the deletion of polltasks
 Deletes media polltasks correctly
@@ -9,6 +9,8 @@ Empties decoder inuse & free Qs on shutdown
 Ensures that other decoder threads aren't running when uninit is called,
   this fixes a crash when SPS changes midstream as that does a
   get_format that does a hw uninit/init
+
+(cherry picked from commit 31061f34566a6cab8df3463cb2575534ddf2e78a)
 ---
  libavcodec/v4l2_req_hevc_vx.c   |   5 +-
  libavcodec/v4l2_req_media.c     | 206 +++++++++++++++++++-------------
@@ -905,5 +907,5 @@ index 5f287ee75c..18ff8c0e64 100644
      dmabufs_ctl_delete(&ctx->dbufs);
  fail0:
 -- 
-2.38.1
+2.45.2
 

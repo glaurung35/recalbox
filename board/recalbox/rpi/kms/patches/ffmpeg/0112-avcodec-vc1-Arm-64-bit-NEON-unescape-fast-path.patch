@@ -1,7 +1,7 @@
-From c76543eae19faa4beddfe6bb1af27a77c8487dfb Mon Sep 17 00:00:00 2001
+From ebaa84636e47dffa9c70661184349835416ed46d Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:50 +0100
-Subject: [PATCH 112/151] avcodec/vc1: Arm 64-bit NEON unescape fast path
+Subject: [PATCH 112/222] avcodec/vc1: Arm 64-bit NEON unescape fast path
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -13,6 +13,7 @@ vc1dsp.vc1_unescape_buffer_neon: 118237.0
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit c76543eae19faa4beddfe6bb1af27a77c8487dfb)
 ---
  libavcodec/aarch64/vc1dsp_init_aarch64.c |  61 ++++++++
  libavcodec/aarch64/vc1dsp_neon.S         | 176 +++++++++++++++++++++++
@@ -288,5 +289,5 @@ index 0201db4f78..9a96c2523c 100644
 +        b               90b
 +endfunc
 -- 
-2.38.1
+2.45.2
 

@@ -1,8 +1,9 @@
-From 9aff9e0abdb9e42b426a7b63fbf4522079cb5dc7 Mon Sep 17 00:00:00 2001
+From 6a05b2ef342ffef730fc1ac1b185c35e366b619e Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 17:51:23 +0100
-Subject: [PATCH 013/151] Add rpivid H265 decoder
+Subject: [PATCH 013/222] Add rpivid H265 decoder
 
+(cherry picked from commit 9aff9e0abdb9e42b426a7b63fbf4522079cb5dc7)
 ---
  configure                |    6 +
  fftools/ffmpeg.h         |    1 +
@@ -17,7 +18,7 @@ Subject: [PATCH 013/151] Add rpivid H265 decoder
  create mode 100644 libavcodec/rpivid_hevc.c
 
 diff --git a/configure b/configure
-index a6b860cb45..774589377e 100755
+index f4d5d7241f..d1048213c0 100755
 --- a/configure
 +++ b/configure
 @@ -1871,6 +1871,8 @@ HWACCEL_LIBRARY_LIST="
@@ -29,7 +30,7 @@ index a6b860cb45..774589377e 100755
  "
  
  DOCUMENT_LIST="
-@@ -2969,6 +2971,10 @@ hevc_dxva2_hwaccel_deps="dxva2 DXVA_PicParams_HEVC"
+@@ -2970,6 +2972,10 @@ hevc_dxva2_hwaccel_deps="dxva2 DXVA_PicParams_HEVC"
  hevc_dxva2_hwaccel_select="hevc_decoder"
  hevc_nvdec_hwaccel_deps="nvdec"
  hevc_nvdec_hwaccel_select="hevc_decoder"
@@ -80,7 +81,7 @@ index 807e783422..3f67d349ae 100644
      { 0 },
  };
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index 8c0366a5c7..3ce45e0366 100644
+index b613a3f7bf..c444128fbb 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -951,6 +951,8 @@ OBJS-$(CONFIG_HEVC_D3D11VA_HWACCEL)       += dxva2_hevc.o
@@ -115,7 +116,7 @@ index 8a71c04230..53644506e5 100644
  
  /**
 diff --git a/libavcodec/hevcdec.c b/libavcodec/hevcdec.c
-index 2231aed259..87865301b2 100644
+index 19d6d517f3..921e1e84db 100644
 --- a/libavcodec/hevcdec.c
 +++ b/libavcodec/hevcdec.c
 @@ -394,12 +394,17 @@ static enum AVPixelFormat get_format(HEVCContext *s, const HEVCSPS *sps)
@@ -2314,5 +2315,5 @@ index 0000000000..2c09b51a52
 +};
 +
 -- 
-2.38.1
+2.45.2
 

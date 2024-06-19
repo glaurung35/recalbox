@@ -1,11 +1,13 @@
-From 104703e5968125a6fa39993224314c550b8b0dde Mon Sep 17 00:00:00 2001
+From 47f97fb6c8b317db5cc07758ad3139ddc8398987 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 29 Sep 2022 19:48:08 +0000
-Subject: [PATCH 146/151] v4l2_m2m_dec: Deal correctly with avcC H264 data in
+Subject: [PATCH 146/222] v4l2_m2m_dec: Deal correctly with avcC H264 data in
  extradata
 
 Decoders expect AnnexB style headers, mkv and similar formats have
 somewhat oddly wrapped extradata. Convert to annex-b style before use.
+
+(cherry picked from commit 104703e5968125a6fa39993224314c550b8b0dde)
 ---
  libavcodec/v4l2_m2m.h     |   2 +-
  libavcodec/v4l2_m2m_dec.c | 173 ++++++++++++++++++++++++++++++++++++--
@@ -237,5 +239,5 @@ index dafe746e0b..18f3bc7ff2 100644
          return ret;
  
 -- 
-2.38.1
+2.45.2
 

@@ -1,8 +1,9 @@
-From 65eb4cec995d6bf2d1cf7dc2b6bceb935a4213f2 Mon Sep 17 00:00:00 2001
+From d292bb18bf99b708beceec4153acbe7a61111ac0 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 29 Nov 2021 16:38:43 +0000
-Subject: [PATCH 071/151] Update ffconf script to python3
+Subject: [PATCH 071/222] Update ffconf script to python3
 
+(cherry picked from commit 65eb4cec995d6bf2d1cf7dc2b6bceb935a4213f2)
 ---
  pi-util/ffconf.py | 34 +++++++++++++++++-----------------
  1 file changed, 17 insertions(+), 17 deletions(-)
@@ -91,5 +92,5 @@ index c76a3734ac..657568014e 100755
  
  class ConfCSVDialect(csv.Dialect):
 -- 
-2.38.1
+2.45.2
 

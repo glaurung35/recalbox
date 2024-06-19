@@ -1,0 +1,158 @@
+From c90697549f74fadfd4b58ff89f62905b5d3fcad6 Mon Sep 17 00:00:00 2001
+From: James Darnley <jdarnley@obe.tv>
+Date: Mon, 20 Feb 2023 20:55:08 +0100
+Subject: [PATCH 207/222] checkasm: add test for bwdif
+
+(cherry picked from commit 087faf8cac51e5e20a5f41b36b8d4c2705a10039)
+---
+ tests/checkasm/Makefile   |  1 +
+ tests/checkasm/checkasm.c |  3 ++
+ tests/checkasm/checkasm.h |  1 +
+ tests/checkasm/vf_bwdif.c | 84 +++++++++++++++++++++++++++++++++++++++
+ tests/fate/checkasm.mak   |  1 +
+ 5 files changed, 90 insertions(+)
+ create mode 100644 tests/checkasm/vf_bwdif.c
+
+diff --git a/tests/checkasm/Makefile b/tests/checkasm/Makefile
+index 944d4def99..3c765a5eb1 100644
+--- a/tests/checkasm/Makefile
++++ b/tests/checkasm/Makefile
+@@ -37,6 +37,7 @@ CHECKASMOBJS-$(CONFIG_AVCODEC)          += $(AVCODECOBJS-yes)
+ # libavfilter tests
+ AVFILTEROBJS-$(CONFIG_AFIR_FILTER) += af_afir.o
+ AVFILTEROBJS-$(CONFIG_BLEND_FILTER) += vf_blend.o
++AVFILTEROBJS-$(CONFIG_BWDIF_FILTER)      += vf_bwdif.o
+ AVFILTEROBJS-$(CONFIG_COLORSPACE_FILTER) += vf_colorspace.o
+ AVFILTEROBJS-$(CONFIG_EQ_FILTER)         += vf_eq.o
+ AVFILTEROBJS-$(CONFIG_GBLUR_FILTER)      += vf_gblur.o
+diff --git a/tests/checkasm/checkasm.c b/tests/checkasm/checkasm.c
+index d363e457e4..c1ee09c72e 100644
+--- a/tests/checkasm/checkasm.c
++++ b/tests/checkasm/checkasm.c
+@@ -178,6 +178,9 @@ static const struct {
+     #if CONFIG_BLEND_FILTER
+         { "vf_blend", checkasm_check_blend },
+     #endif
++    #if CONFIG_BWDIF_FILTER
++        { "vf_bwdif", checkasm_check_vf_bwdif },
++    #endif
+     #if CONFIG_COLORSPACE_FILTER
+         { "vf_colorspace", checkasm_check_colorspace },
+     #endif
+diff --git a/tests/checkasm/checkasm.h b/tests/checkasm/checkasm.h
+index add52063b2..02d3642836 100644
+--- a/tests/checkasm/checkasm.h
++++ b/tests/checkasm/checkasm.h
+@@ -86,6 +86,7 @@ void checkasm_check_utvideodsp(void);
+ void checkasm_check_v210dec(void);
+ void checkasm_check_v210enc(void);
+ void checkasm_check_vc1dsp(void);
++void checkasm_check_vf_bwdif(void);
+ void checkasm_check_vf_eq(void);
+ void checkasm_check_vf_gblur(void);
+ void checkasm_check_vf_hflip(void);
+diff --git a/tests/checkasm/vf_bwdif.c b/tests/checkasm/vf_bwdif.c
+new file mode 100644
+index 0000000000..46224bb575
+--- /dev/null
++++ b/tests/checkasm/vf_bwdif.c
+@@ -0,0 +1,84 @@
++/*
++ * This file is part of FFmpeg.
++ *
++ * FFmpeg is free software; you can redistribute it and/or modify
++ * it under the terms of the GNU General Public License as published by
++ * the Free Software Foundation; either version 2 of the License, or
++ * (at your option) any later version.
++ *
++ * FFmpeg is distributed in the hope that it will be useful,
++ * but WITHOUT ANY WARRANTY; without even the implied warranty of
++ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
++ * GNU General Public License for more details.
++ *
++ * You should have received a copy of the GNU General Public License along
++ * with FFmpeg; if not, write to the Free Software Foundation, Inc.,
++ * 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301 USA.
++ */
++
++#include <string.h>
++#include "checkasm.h"
++#include "libavcodec/internal.h"
++#include "libavfilter/bwdif.h"
++
++#define WIDTH 256
++
++#define randomize_buffers(buf0, buf1, mask, count) \
++    for (size_t i = 0; i < count; i++) \
++        buf0[i] = buf1[i] = rnd() & mask
++
++#define BODY(type, depth)                                                      \
++    do {                                                                       \
++        type prev0[9*WIDTH], prev1[9*WIDTH];                                   \
++        type next0[9*WIDTH], next1[9*WIDTH];                                   \
++        type cur0[9*WIDTH], cur1[9*WIDTH];                                     \
++        type dst0[WIDTH], dst1[WIDTH];                                         \
++        const int stride = WIDTH;                                              \
++        const int mask = (1<<depth)-1;                                         \
++                                                                               \
++        declare_func(void, void *dst, void *prev, void *cur, void *next,       \
++                        int w, int prefs, int mrefs, int prefs2, int mrefs2,   \
++                        int prefs3, int mrefs3, int prefs4, int mrefs4,        \
++                        int parity, int clip_max);                             \
++                                                                               \
++        randomize_buffers(prev0, prev1, mask, 9*WIDTH);                        \
++        randomize_buffers(next0, next1, mask, 9*WIDTH);                        \
++        randomize_buffers( cur0,  cur1, mask, 9*WIDTH);                        \
++                                                                               \
++        call_ref(dst0, prev0 + 4*WIDTH, cur0 + 4*WIDTH, next0 + 4*WIDTH,       \
++                WIDTH, stride, -stride, 2*stride, -2*stride,                   \
++                3*stride, -3*stride, 4*stride, -4*stride,                      \
++                0, mask);                                                      \
++        call_new(dst1, prev1 + 4*WIDTH, cur1 + 4*WIDTH, next1 + 4*WIDTH,       \
++                WIDTH, stride, -stride, 2*stride, -2*stride,                   \
++                3*stride, -3*stride, 4*stride, -4*stride,                      \
++                0, mask);                                                      \
++                                                                               \
++        if (memcmp(dst0, dst1, sizeof dst0)                                    \
++                || memcmp(prev0, prev1, sizeof prev0)                          \
++                || memcmp(next0, next1, sizeof next0)                          \
++                || memcmp( cur0,  cur1, sizeof cur0))                          \
++            fail();                                                            \
++        bench_new(dst1, prev1 + 4*WIDTH, cur1 + 4*WIDTH, next1 + 4*WIDTH,      \
++                WIDTH, stride, -stride, 2*stride, -2*stride,                   \
++                3*stride, -3*stride, 4*stride, -4*stride,                      \
++                0, mask);                                                      \
++    } while (0)
++
++void checkasm_check_vf_bwdif(void)
++{
++    BWDIFContext ctx_8, ctx_10;
++
++    ff_bwdif_init_filter_line(&ctx_8, 8);
++    ff_bwdif_init_filter_line(&ctx_10, 10);
++
++    if (check_func(ctx_8.filter_line, "bwdif8")) {
++        BODY(uint8_t, 8);
++        report("bwdif8");
++    }
++
++    if (check_func(ctx_10.filter_line, "bwdif10")) {
++        BODY(uint16_t, 10);
++        report("bwdif10");
++    }
++}
+diff --git a/tests/fate/checkasm.mak b/tests/fate/checkasm.mak
+index 7aaedfd435..723c2b26ef 100644
+--- a/tests/fate/checkasm.mak
++++ b/tests/fate/checkasm.mak
+@@ -31,6 +31,7 @@ FATE_CHECKASM = fate-checkasm-aacpsdsp                                  \
+                 fate-checkasm-v210enc                                   \
+                 fate-checkasm-vc1dsp                                    \
+                 fate-checkasm-vf_blend                                  \
++                fate-checkasm-vf_bwdif                                  \
+                 fate-checkasm-vf_colorspace                             \
+                 fate-checkasm-vf_eq                                     \
+                 fate-checkasm-vf_gblur                                  \
+-- 
+2.45.2
+

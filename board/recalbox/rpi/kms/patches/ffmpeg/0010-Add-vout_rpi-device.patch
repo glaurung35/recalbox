@@ -1,9 +1,11 @@
-From 816eb1a247e89df071403295eb90cbbf844d806a Mon Sep 17 00:00:00 2001
+From 9c8b693660680ac13aa67f08e12840ff2c9016a1 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 14:10:48 +0100
-Subject: [PATCH 010/151] Add vout_rpi device
+Subject: [PATCH 010/222] Add vout_rpi device
 
 Add show_all flag to vout_rpi
+
+(cherry picked from commit 816eb1a247e89df071403295eb90cbbf844d806a)
 ---
  configure                |   1 +
  libavdevice/Makefile     |   1 +
@@ -13,10 +15,10 @@ Add show_all flag to vout_rpi
  create mode 100644 libavdevice/rpi_vout.c
 
 diff --git a/configure b/configure
-index bac56ca457..a6b860cb45 100755
+index 5bffecaa4c..f4d5d7241f 100755
 --- a/configure
 +++ b/configure
-@@ -3448,6 +3448,7 @@ v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h"
+@@ -3449,6 +3449,7 @@ v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h"
  v4l2_indev_suggest="libv4l2"
  v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h"
  v4l2_outdev_suggest="libv4l2"
@@ -588,5 +590,5 @@ index 0000000000..b1617d48a8
 +    .deinit         = rpi_vout_deinit,
 +};
 -- 
-2.38.1
+2.45.2
 

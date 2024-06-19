@@ -1,8 +1,9 @@
-From 3e60c08552110d9da1b3b5d3637c6bd8b53eec69 Mon Sep 17 00:00:00 2001
+From c60423023bd645d90ec5ef4049f25636ce9728b3 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 28 Apr 2021 12:51:22 +0100
-Subject: [PATCH 020/151] V4L2 stateful rework
+Subject: [PATCH 020/222] V4L2 stateful rework
 
+(cherry picked from commit 3e60c08552110d9da1b3b5d3637c6bd8b53eec69)
 ---
  libavcodec/v4l2_buffers.c | 556 +++++++++++++++++++++++++++-----------
  libavcodec/v4l2_buffers.h |  27 +-
@@ -2435,5 +2436,5 @@ index ab07c0a24a..9eb1435fef 100644
      }
  
 -- 
-2.38.1
+2.45.2
 

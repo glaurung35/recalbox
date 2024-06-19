@@ -1,15 +1,16 @@
-From 5238bbf6c4ead18646039d9ebd3aef8cabb7e269 Mon Sep 17 00:00:00 2001
+From 1f78a486256d4860ee5f4e757ab9f53d0e2ca70d Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 14 Sep 2022 15:44:10 +0000
-Subject: [PATCH 134/151] matroskaenc: Allow H264 SPS/PPS headers in packet
+Subject: [PATCH 134/222] matroskaenc: Allow H264 SPS/PPS headers in packet
  sidedata
 
+(cherry picked from commit 5238bbf6c4ead18646039d9ebd3aef8cabb7e269)
 ---
  libavformat/matroskaenc.c | 39 ++++++++++++++++++++++++++++++++++-----
  1 file changed, 34 insertions(+), 5 deletions(-)
 
 diff --git a/libavformat/matroskaenc.c b/libavformat/matroskaenc.c
-index bbf231f2a4..22571c89a3 100644
+index b4284a8778..692265593c 100644
 --- a/libavformat/matroskaenc.c
 +++ b/libavformat/matroskaenc.c
 @@ -58,6 +58,9 @@
@@ -37,7 +38,7 @@ index bbf231f2a4..22571c89a3 100644
      case AV_CODEC_ID_HEVC:
          return ff_isom_write_hvcc(dyn_cp, par->extradata,
                                    par->extradata_size, 0);
-@@ -2258,7 +2265,9 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
+@@ -2259,7 +2266,9 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
          break;
      // FIXME: Remove the following once libaom starts propagating extradata during init()
      //        See https://bugs.chromium.org/p/aomedia/issues/detail?id=2012
@@ -47,7 +48,7 @@ index bbf231f2a4..22571c89a3 100644
          if (side_data_size && mkv->track.bc && !par->extradata_size) {
              AVIOContext *dyn_cp;
              uint8_t *codecpriv;
-@@ -2266,7 +2275,10 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
+@@ -2267,7 +2276,10 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
              ret = avio_open_dyn_buf(&dyn_cp);
              if (ret < 0)
                  return ret;
@@ -59,7 +60,7 @@ index bbf231f2a4..22571c89a3 100644
              codecpriv_size = avio_get_dyn_buf(dyn_cp, &codecpriv);
              if ((ret = dyn_cp->error) < 0 ||
                  !codecpriv_size && (ret = AVERROR_INVALIDDATA)) {
-@@ -2274,8 +2286,25 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
+@@ -2275,8 +2287,25 @@ static int mkv_check_new_extra_data(AVFormatContext *s, const AVPacket *pkt)
                  return ret;
              }
              avio_seek(mkv->track.bc, track->codecpriv_offset, SEEK_SET);
@@ -88,5 +89,5 @@ index bbf231f2a4..22571c89a3 100644
              ret = ff_alloc_extradata(par, side_data_size);
              if (ret < 0)
 -- 
-2.38.1
+2.45.2
 

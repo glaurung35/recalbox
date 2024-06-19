@@ -1,9 +1,10 @@
-From e4f89eab905e40ef24f8bdadb573d8433627da64 Mon Sep 17 00:00:00 2001
+From b634be960f54d52aba2b4a78c31288679d87753e Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 22 Sep 2022 15:12:27 +0000
-Subject: [PATCH 140/151] vf_deinterlace_v4l2m2m: Add Q name to structure for
+Subject: [PATCH 140/222] vf_deinterlace_v4l2m2m: Add Q name to structure for
  debug
 
+(cherry picked from commit e4f89eab905e40ef24f8bdadb573d8433627da64)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 3 +++
  1 file changed, 3 insertions(+)
@@ -32,5 +33,5 @@ index 9d0f42187b..99969cb9ee 100644
      ctx->field_order = V4L2_FIELD_ANY;
  
 -- 
-2.38.1
+2.45.2
 

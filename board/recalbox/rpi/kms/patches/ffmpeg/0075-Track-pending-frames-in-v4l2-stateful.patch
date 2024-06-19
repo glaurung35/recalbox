@@ -1,7 +1,7 @@
-From 96dcde415aabecebd7b86ad57590019bec92119f Mon Sep 17 00:00:00 2001
+From ba7f150314759f77e5714bdce8962a24dfb1f1f0 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 3 Dec 2021 12:54:18 +0000
-Subject: [PATCH 075/151] Track pending frames in v4l2 stateful
+Subject: [PATCH 075/222] Track pending frames in v4l2 stateful
 
 Track which frames are pending decode in the v4l2 stateful decoder.
 This relies on DTS & PTS having some relationship to reality, so
@@ -9,6 +9,8 @@ any use of this code must cope with the results being wrong.
 
 Also moves the xlat state vars out of the main context and into their
 own structure.
+
+(cherry picked from commit 96dcde415aabecebd7b86ad57590019bec92119f)
 ---
  libavcodec/v4l2_m2m.h     |  15 ++++--
  libavcodec/v4l2_m2m_dec.c | 100 +++++++++++++++++++++++++++++---------
@@ -261,5 +263,5 @@ index 4e19ae1693..6fdcdd0abf 100644
      // resend extradata
      s->extdata_sent = 0;
 -- 
-2.38.1
+2.45.2
 

@@ -1,9 +1,11 @@
-From 2ee946c2b9431e42df638a621729f2ba2f92b262 Mon Sep 17 00:00:00 2001
+From 64592cf1353e753cef84a3af98101c6ad40ddddd Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 16 Nov 2021 08:11:11 +0000
-Subject: [PATCH 070/151] Fix typo in V4L2 crop calculation
+Subject: [PATCH 070/222] Fix typo in V4L2 crop calculation
 
 Thanks to Sam Lantinga <slouken@libsdl.org> for spotting this
+
+(cherry picked from commit 2ee946c2b9431e42df638a621729f2ba2f92b262)
 ---
  libavcodec/v4l2_buffers.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -22,5 +24,5 @@ index 8b10fd5398..942ebf963b 100644
  
      /* 3. report errors upstream */
 -- 
-2.38.1
+2.45.2
 

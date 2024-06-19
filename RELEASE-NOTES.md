@@ -8,6 +8,10 @@ as release notes for end user on a Recalbox upgrade.
 
 ### News
 - Add manuel script runnable from Recalbox interface
+## Version Next
+
+### News
+- Rpi bootloader updated to 2024-06-05 (Add support for NVMe boot with PCIe switches)
 
 
 ## Version 9.2.2-Pulstar

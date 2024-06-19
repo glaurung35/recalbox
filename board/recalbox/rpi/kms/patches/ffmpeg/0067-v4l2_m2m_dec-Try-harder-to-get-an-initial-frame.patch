@@ -1,12 +1,14 @@
-From 8552c0d547b14ea3a5e9ee096ca8e2619dac4749 Mon Sep 17 00:00:00 2001
+From d5204342e7a9cd7076e61eb8c26c422c818f346d Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 17 Nov 2021 17:59:27 +0000
-Subject: [PATCH 067/151] v4l2_m2m_dec: Try harder to get an initial frame
+Subject: [PATCH 067/222] v4l2_m2m_dec: Try harder to get an initial frame
 
 If the input Q is full then wait on a short timeout for a capture frame
 rather than stuffing yet still another frame into the input if we could
 do that first. This attempts to restrict the sometimes daft initial
 buffering that ends up confusing the rest of the system.
+
+(cherry picked from commit 8552c0d547b14ea3a5e9ee096ca8e2619dac4749)
 ---
  libavcodec/v4l2_context.c | 2 +-
  libavcodec/v4l2_m2m_dec.c | 2 +-
@@ -39,5 +41,5 @@ index 8b43f6bf21..510cb99f1c 100644
                  if (dst_rv == AVERROR_EOF && (s->draining || s->capture.done))
                      av_log(avctx, AV_LOG_DEBUG, "Dequeue EOF: draining=%d, cap.done=%d\n",
 -- 
-2.38.1
+2.45.2
 

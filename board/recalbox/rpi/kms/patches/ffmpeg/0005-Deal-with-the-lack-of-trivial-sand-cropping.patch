@@ -1,8 +1,9 @@
-From a8c7af1eb3a9933ca99e2142a36dc7b74a29c154 Mon Sep 17 00:00:00 2001
+From eae80959a73d05e69aef70743f916f79d6aaacc2 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 12:02:09 +0100
-Subject: [PATCH 005/151] Deal with the lack of trivial sand cropping
+Subject: [PATCH 005/222] Deal with the lack of trivial sand cropping
 
+(cherry picked from commit a8c7af1eb3a9933ca99e2142a36dc7b74a29c154)
 ---
  fftools/ffmpeg.c        |  4 ++--
  fftools/ffmpeg_filter.c |  4 ++--
@@ -11,10 +12,10 @@ Subject: [PATCH 005/151] Deal with the lack of trivial sand cropping
  4 files changed, 25 insertions(+), 4 deletions(-)
 
 diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
-index 46bb014de8..5d32095361 100644
+index dec012a299..02ed7d4976 100644
 --- a/fftools/ffmpeg.c
 +++ b/fftools/ffmpeg.c
-@@ -2186,8 +2186,8 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
+@@ -2189,8 +2189,8 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
                         ifilter->channel_layout != frame->channel_layout;
          break;
      case AVMEDIA_TYPE_VIDEO:
@@ -98,5 +99,5 @@ index 7d1f8e2935..a4e7dc915d 100644
   * @}
   */
 -- 
-2.38.1
+2.45.2
 

@@ -1,9 +1,10 @@
-From 754deb3c4b9451d291586fa949920e38d2b3d8f5 Mon Sep 17 00:00:00 2001
+From af5f8359871971b7ec0793f05b29bac7ea84fa7a Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 8 Oct 2021 12:26:46 +0100
-Subject: [PATCH 060/151] Add ability to set a fixed dst buffer limit in V4L2
+Subject: [PATCH 060/222] Add ability to set a fixed dst buffer limit in V4L2
  Req
 
+(cherry picked from commit 754deb3c4b9451d291586fa949920e38d2b3d8f5)
 ---
  libavcodec/v4l2_req_media.c    | 87 ++++++++++++++++++++++------------
  libavcodec/v4l2_req_media.h    |  7 ++-
@@ -209,5 +210,5 @@ index 18ff8c0e64..02d81c7f7d 100644
  
      if (mediabufs_stream_on(ctx->mbufs)) {
 -- 
-2.38.1
+2.45.2
 

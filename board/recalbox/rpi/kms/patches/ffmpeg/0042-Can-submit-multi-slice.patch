@@ -1,13 +1,15 @@
-From 7f785cd019c3cf72b0045acfc4c8c88e6d1daa99 Mon Sep 17 00:00:00 2001
+From 856cadf8b285268554f888a7308b0c38de6da439 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 29 Apr 2021 19:18:14 +0100
-Subject: [PATCH 042/151] Can submit multi-slice
+Subject: [PATCH 042/222] Can submit multi-slice
 
 This uses a pre-release variable array parameter for V4L2 so
 is unlikely to be the final version.  It does however work with
 my equally pre-release kernel code.  If var length parameters don't
 exist the it falls back to something that works with 1 slice at a
 time.
+
+(cherry picked from commit 7f785cd019c3cf72b0045acfc4c8c88e6d1daa99)
 ---
  libavcodec/hevc-ctrls.h        |   3 +-
  libavcodec/v4l2_request_hevc.c | 462 ++++++++++++++++++++++-----------
@@ -745,5 +747,5 @@ index d706c5e19e..b41dededf0 100644
      .uninit         = v4l2_request_hevc_uninit,
      .priv_data_size = sizeof(V4L2RequestContextHEVC),
 -- 
-2.38.1
+2.45.2
 

@@ -1,8 +1,9 @@
-From 9f237dd0247797f89860302dac60c32cda48a9f9 Mon Sep 17 00:00:00 2001
+From 060859d62be996f2666648004d489e62c6c5f892 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 28 Apr 2021 11:34:18 +0100
-Subject: [PATCH 019/151] Add vout_egl
+Subject: [PATCH 019/222] Add vout_egl
 
+(cherry picked from commit 9f237dd0247797f89860302dac60c32cda48a9f9)
 ---
  configure                |   6 +
  libavdevice/Makefile     |   1 +
@@ -12,7 +13,7 @@ Subject: [PATCH 019/151] Add vout_egl
  create mode 100644 libavdevice/egl_vout.c
 
 diff --git a/configure b/configure
-index 666aa9b3ae..da99db465b 100755
+index f0287507f8..fde5f89881 100755
 --- a/configure
 +++ b/configure
 @@ -344,6 +344,7 @@ External library support:
@@ -39,7 +40,7 @@ index 666aa9b3ae..da99db465b 100755
  "
  
  # this list should be kept in linking order
-@@ -3465,6 +3468,8 @@ v4l2_outdev_deps="libdrm"
+@@ -3466,6 +3469,8 @@ v4l2_outdev_deps="libdrm"
  v4l2_outdev_deps_any="linux_videodev2_h sys_videoio_h"
  v4l2_outdev_suggest="libv4l2"
  vout_drm_outdev_deps="libdrm vout_drm"
@@ -48,7 +49,7 @@ index 666aa9b3ae..da99db465b 100755
  vout_rpi_outdev_select="sand"
  vfwcap_indev_deps="vfw32 vfwcap_defines"
  xcbgrab_indev_deps="libxcb"
-@@ -6385,6 +6390,7 @@ enabled libdav1d          && require_pkg_config libdav1d "dav1d >= 0.5.0" "dav1d
+@@ -6393,6 +6398,7 @@ enabled libdav1d          && require_pkg_config libdav1d "dav1d >= 0.5.0" "dav1d
  enabled libdavs2          && require_pkg_config libdavs2 "davs2 >= 1.6.0" davs2.h davs2_decoder_open
  enabled libdc1394         && require_pkg_config libdc1394 libdc1394-2 dc1394/dc1394.h dc1394_new
  enabled libdrm            && require_pkg_config libdrm libdrm xf86drm.h drmGetVersion
@@ -911,5 +912,5 @@ index 0000000000..5d97fe9310
 +};
 +
 -- 
-2.38.1
+2.45.2
 

@@ -1,13 +1,14 @@
-From 0e792491232440edf4aebab7c701cfcf8cffdf7a Mon Sep 17 00:00:00 2001
+From 9c1cc794f769179b9f905c1f94d29b6e1b50325e Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:44 +0100
-Subject: [PATCH 106/151] checkasm: Add idctdsp add/put-pixels-clamped tests
+Subject: [PATCH 106/222] checkasm: Add idctdsp add/put-pixels-clamped tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit 0e792491232440edf4aebab7c701cfcf8cffdf7a)
 ---
  tests/checkasm/Makefile   |  1 +
  tests/checkasm/checkasm.c |  3 ++
@@ -172,5 +173,5 @@ index 4159c8a8c0..aa5f45ec8f 100644
                  fate-checkasm-llviddsp                                  \
                  fate-checkasm-llviddspenc                               \
 -- 
-2.38.1
+2.45.2
 

@@ -1,9 +1,10 @@
-From 8cf7de1adcf37685beb075def303a449ea1e4d94 Mon Sep 17 00:00:00 2001
+From bd05737d5e95401fb8ae552824bb12eb1863ac64 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 2 Dec 2021 17:49:55 +0000
-Subject: [PATCH 073/151] Put no_pts_rescale in context which makes more sense
+Subject: [PATCH 073/222] Put no_pts_rescale in context which makes more sense
  than an arg
 
+(cherry picked from commit 8cf7de1adcf37685beb075def303a449ea1e4d94)
 ---
  libavcodec/v4l2_buffers.c | 28 ++++++++++++++--------------
  libavcodec/v4l2_buffers.h |  5 ++---
@@ -279,5 +280,5 @@ index 510cb99f1c..78877ed759 100644
      /* the client requests the codec to generate DRM frames:
       *   - data[0] will therefore point to the returned AVDRMFrameDescriptor
 -- 
-2.38.1
+2.45.2
 

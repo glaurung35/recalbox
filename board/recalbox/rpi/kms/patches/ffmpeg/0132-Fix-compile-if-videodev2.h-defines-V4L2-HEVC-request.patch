@@ -1,12 +1,14 @@
-From 009794de9bf21f801e9b5923d0bfcabed6648158 Mon Sep 17 00:00:00 2001
+From eba7150448cfee424474eaf97d347669963ca6fb Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 22 Aug 2022 17:11:24 +0000
-Subject: [PATCH 132/151] Fix compile if videodev2.h defines V4L2 HEVC request
+Subject: [PATCH 132/222] Fix compile if videodev2.h defines V4L2 HEVC request
  API
 
 If videodev2.h does define the HEVC request API it is really hard to
 set old variations of the controls so if it does then we only compile
 against the system includes and remove the back compatability.
+
+(cherry picked from commit 009794de9bf21f801e9b5923d0bfcabed6648158)
 ---
  configure                      | 9 +++++++++
  libavcodec/Makefile            | 4 ++--
@@ -16,7 +18,7 @@ against the system includes and remove the back compatability.
  5 files changed, 17 insertions(+), 9 deletions(-)
 
 diff --git a/configure b/configure
-index 9b7435ec79..7c2dd7161c 100755
+index e967adc207..ca7f128ee5 100755
 --- a/configure
 +++ b/configure
 @@ -1906,6 +1906,7 @@ FEATURE_LIST="
@@ -27,7 +29,7 @@ index 9b7435ec79..7c2dd7161c 100755
  "
  
  # this list should be kept in linking order
-@@ -6668,6 +6669,14 @@ fi
+@@ -6676,6 +6677,14 @@ fi
  
  check_func_headers "linux/media.h linux/videodev2.h" v4l2_timeval_to_ns
  check_cc hevc_v4l2_request linux/videodev2.h "int i = V4L2_PIX_FMT_HEVC_SLICE;"
@@ -43,7 +45,7 @@ index 9b7435ec79..7c2dd7161c 100755
  test_code cc sys/videoio.h "struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;" && enable_sanitized struct_v4l2_frmivalenum_discrete
  
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index a403dc41d6..1372d3981d 100644
+index b2fa568837..ab9130ce15 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -956,8 +956,8 @@ OBJS-$(CONFIG_HEVC_NVDEC_HWACCEL)         += nvdec_hevc.o
@@ -125,5 +127,5 @@ index 480f86c04b..ebeb7bc6f6 100644
          av_log(avctx, AV_LOG_ERROR, "No HEVC version probed successfully\n");
          ret = AVERROR(EINVAL);
 -- 
-2.38.1
+2.45.2
 

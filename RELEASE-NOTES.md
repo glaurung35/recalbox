@@ -20,6 +20,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix forcing OpenGLES for RPI5 and RPI4 for Libretro-ScummVM
 - Fix preinstalled game with ScummVM and Libretro-ScummVM
 - Fix OpenGL error with Libretro-ScummVM on PC
+- Fix kodi crash when playing HEVC/h264 video on rpi4 (and rpi5 ?)
+
 
 ## Version 9.2.1-Pulstar
 

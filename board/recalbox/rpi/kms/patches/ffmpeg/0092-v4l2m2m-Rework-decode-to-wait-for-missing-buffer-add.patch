@@ -1,7 +1,7 @@
-From f70f36ad83ac511d81d0d189304159269d587e9f Mon Sep 17 00:00:00 2001
+From 270d549804a21f45640e0565cdf25f5146f86bed Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 22 Mar 2022 11:44:30 +0000
-Subject: [PATCH 092/151] v4l2m2m: Rework decode to wait for missing buffer,
+Subject: [PATCH 092/222] v4l2m2m: Rework decode to wait for missing buffer,
  add dynamic pending
 
 Previously receive_frame exited with EAGAIN if no capture buffer
@@ -12,6 +12,8 @@ The prefer dQ logic is now dynamic to help with cases where PTS/DTS
 lies.  If it looks like we are never getting a frame then the
 threshold is increased.  It then slowly decays over time to cope with
 false alarms.
+
+(cherry picked from commit f70f36ad83ac511d81d0d189304159269d587e9f)
 ---
  libavcodec/v4l2_buffers.c |  6 +++--
  libavcodec/v4l2_context.c |  7 +++--
@@ -218,5 +220,5 @@ index 3dd462362c..3bd4ff64cc 100644
      capture = &s->capture;
      output = &s->output;
 -- 
-2.38.1
+2.45.2
 

@@ -1,9 +1,10 @@
-From ccb65a9b45b923c08b79f785c666dec2fe90802e Mon Sep 17 00:00:00 2001
+From 2984b47ba922d7f711c13b8fe0d9aeb1ba194639 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 10 Jun 2021 18:46:21 +0100
-Subject: [PATCH 029/151] Fix crash in hw_device_default_name if type not found
+Subject: [PATCH 029/222] Fix crash in hw_device_default_name if type not found
  (NONE)
 
+(cherry picked from commit ccb65a9b45b923c08b79f785c666dec2fe90802e)
 ---
  fftools/ffmpeg_hw.c | 2 ++
  1 file changed, 2 insertions(+)
@@ -22,5 +23,5 @@ index fc4a5d31d6..cc69dce40e 100644
      name = av_malloc(index_pos + 4);
      if (!name)
 -- 
-2.38.1
+2.45.2
 

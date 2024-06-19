@@ -1,7 +1,7 @@
-From fc01b5e6ddc5976d579c577a98293763029cee29 Mon Sep 17 00:00:00 2001
+From def4fa161e9f32ff1c33fb8f825a5e46a06a4f98 Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:45 +0100
-Subject: [PATCH 107/151] avcodec/vc1: Introduce fast path for unescaping
+Subject: [PATCH 107/222] avcodec/vc1: Introduce fast path for unescaping
  bitstream buffer
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
@@ -11,6 +11,7 @@ Includes a checkasm test.
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit fc01b5e6ddc5976d579c577a98293763029cee29)
 ---
  libavcodec/vc1dec.c     | 20 ++++++------
  libavcodec/vc1dsp.c     |  2 ++
@@ -19,7 +20,7 @@ Signed-off-by: Martin Storsjö <martin@martin.st>
  4 files changed, 82 insertions(+), 10 deletions(-)
 
 diff --git a/libavcodec/vc1dec.c b/libavcodec/vc1dec.c
-index ea93e11588..a9e0c6323e 100644
+index d4ceb60791..fb7f839c5e 100644
 --- a/libavcodec/vc1dec.c
 +++ b/libavcodec/vc1dec.c
 @@ -486,7 +486,7 @@ static av_cold int vc1_decode_init(AVCodecContext *avctx)
@@ -210,5 +211,5 @@ index 7d4457306f..52628d15e4 100644
 +    report("unescape_buffer");
  }
 -- 
-2.38.1
+2.45.2
 

@@ -1,9 +1,10 @@
-From 816bbf4918336028929542b1d24d1d2bf1990003 Mon Sep 17 00:00:00 2001
+From 4b8c51e30039c6de8f002032f7bd01db06ca3d57 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 7 Jun 2022 14:46:12 +0000
-Subject: [PATCH 118/151] v4l2_m2m_enc: Add the ability to encode DRM_PRIME
+Subject: [PATCH 118/222] v4l2_m2m_enc: Add the ability to encode DRM_PRIME
  frames
 
+(cherry picked from commit 816bbf4918336028929542b1d24d1d2bf1990003)
 ---
  libavcodec/v4l2_buffers.c |  99 ++++++++++---
  libavcodec/v4l2_buffers.h |  20 ++-
@@ -1375,5 +1376,5 @@ index f644b50133..3195ec729b 100644
          av_log(avctx, AV_LOG_ERROR, "Encoder requires %s pixel format.\n", desc->name);
          return AVERROR(EINVAL);
 -- 
-2.38.1
+2.45.2
 

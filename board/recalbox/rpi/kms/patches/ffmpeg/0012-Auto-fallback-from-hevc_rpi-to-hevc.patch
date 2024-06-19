@@ -1,17 +1,18 @@
-From 47aeebce862f081cd87cdd9938737d077cbb44a6 Mon Sep 17 00:00:00 2001
+From 9c1353efdca3e074941b64116817ac55a1437e1c Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 15:33:25 +0100
-Subject: [PATCH 012/151] Auto fallback from hevc_rpi to hevc
+Subject: [PATCH 012/222] Auto fallback from hevc_rpi to hevc
 
+(cherry picked from commit 47aeebce862f081cd87cdd9938737d077cbb44a6)
 ---
  fftools/ffmpeg.c | 9 +++++++++
  1 file changed, 9 insertions(+)
 
 diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
-index 5d32095361..e01d70dfe2 100644
+index 02ed7d4976..327ed14d47 100644
 --- a/fftools/ffmpeg.c
 +++ b/fftools/ffmpeg.c
-@@ -2990,6 +2990,15 @@ static int init_input_stream(int ist_index, char *error, int error_len)
+@@ -2993,6 +2993,15 @@ static int init_input_stream(int ist_index, char *error, int error_len)
              return ret;
          }
  
@@ -28,5 +29,5 @@ index 5d32095361..e01d70dfe2 100644
              if (ret == AVERROR_EXPERIMENTAL)
                  abort_codec_experimental(codec, 0);
 -- 
-2.38.1
+2.45.2
 

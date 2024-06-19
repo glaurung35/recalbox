@@ -1,8 +1,9 @@
-From 401beace9abf968073446c17a0ccb47429833225 Mon Sep 17 00:00:00 2001
+From 16b8a540a79fca681843d331fede2e39da186df2 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 7 Oct 2021 19:17:59 +0100
-Subject: [PATCH 059/151] Fix weak link creation in mediabufs_dst_slots_create
+Subject: [PATCH 059/222] Fix weak link creation in mediabufs_dst_slots_create
 
+(cherry picked from commit 401beace9abf968073446c17a0ccb47429833225)
 ---
  libavcodec/v4l2_req_media.c | 14 +++++++-------
  libavcodec/weak_link.c      |  2 ++
@@ -78,5 +79,5 @@ index 83ce7c0653..f234a985b9 100644
      return (struct ff_weak_link_client*)w;
  }
 -- 
-2.38.1
+2.45.2
 

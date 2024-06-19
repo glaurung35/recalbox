@@ -11,11 +11,15 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2.1-Pulstar
 
+### News
+
 ### Fixes
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Fix bios checking when launching games
 - Update system translations
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
+- Add core libretro geolith for crt
+- Fix launch demo gladmort on neogeo
 
 ## Version 9.2-Pulstar
 
@@ -69,6 +73,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add GladMort Demo on neogeo
 - Add libretro-scummvm with support of multi resolution for CRT
 - Add dynamic themes: change theme or theme options without rebooting
+- Add new core libretro fake08 for pico8
 
 ### Improvements
 - Show a battery indicator in EmulationStation for Piboy DMG and XRS

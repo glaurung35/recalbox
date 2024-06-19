@@ -6,17 +6,13 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2.1-Pulstar
 
-### News
-
 ### Fixes
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
 - Update system translations
-- Fix forcing OpenGLES for RPI4
 - Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
-- Fix bios checking when launchin games
+- Fix bios checking when launching games
 - Add core libretro geolith for crt
-- Fix launch demo gladmort on neogeo
-
+- Fix launch demo gladmort on neogeo (you will need aes.zip)
 - Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
 - Fix saturn and psx zoomed games on CRT
 - Fix game information space on 240p theme in tate

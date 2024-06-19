@@ -8,6 +8,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ### Fixes
 - Fix jumping to netplay game when you're in a virtual system (Favorites, ...)
+- Avoid 50Hz mode for pal games on JAMMA
 
 ## Version 9.2.1-Pulstar
 

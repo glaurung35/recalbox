@@ -1,7 +1,7 @@
-From 3b737651b12bef6c78cefd575c6292689b993697 Mon Sep 17 00:00:00 2001
+From 17fbaad103ceeeba27de5859300da8cdb27bfe14 Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:42 +0100
-Subject: [PATCH 104/151] checkasm: Add vc1dsp in-loop deblocking filter tests
+Subject: [PATCH 104/222] checkasm: Add vc1dsp in-loop deblocking filter tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -14,6 +14,7 @@ between these two extremes.
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit 3b737651b12bef6c78cefd575c6292689b993697)
 ---
  tests/checkasm/Makefile   |   1 +
  tests/checkasm/checkasm.c |   3 ++
@@ -182,5 +183,5 @@ index 07f1d8238e..4159c8a8c0 100644
                  fate-checkasm-vf_colorspace                             \
                  fate-checkasm-vf_eq                                     \
 -- 
-2.38.1
+2.45.2
 

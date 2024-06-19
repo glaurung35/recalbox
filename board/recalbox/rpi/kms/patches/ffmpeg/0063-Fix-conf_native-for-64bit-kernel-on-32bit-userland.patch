@@ -1,8 +1,9 @@
-From 6eb71589f852208c66a8a83876a7596fe628edce Mon Sep 17 00:00:00 2001
+From 9b8f424ffd535a436b43a2cfcffd4d608388eb41 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 16 Nov 2021 13:26:05 +0000
-Subject: [PATCH 063/151] Fix conf_native for 64bit kernel on 32bit userland
+Subject: [PATCH 063/222] Fix conf_native for 64bit kernel on 32bit userland
 
+(cherry picked from commit 6eb71589f852208c66a8a83876a7596fe628edce)
 ---
  pi-util/conf_native.sh | 10 +++++++---
  1 file changed, 7 insertions(+), 3 deletions(-)
@@ -48,5 +49,5 @@ index 24fc229f1d..a8d9f3ba62 100755
  V=`cat RELEASE`
  
 -- 
-2.38.1
+2.45.2
 

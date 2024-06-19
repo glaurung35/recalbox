@@ -1,11 +1,13 @@
-From 818a1e4adfe1fa52d280a5c6eedf65355b41ef3b Mon Sep 17 00:00:00 2001
+From 6dcda63320601c459c38cfc2c0da89b28ee07ba7 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 12 Sep 2022 17:59:22 +0100
-Subject: [PATCH 133/151] v4l2_m2m_enc: Send headers in in pkt side_data
+Subject: [PATCH 133/222] v4l2_m2m_enc: Send headers in in pkt side_data
 
 If GLOBAL_HEADERS are requested then we can't provide them at init time
 so send as NEW_EXTRADATA side data in a similar way to some AV1
 encoders.
+
+(cherry picked from commit 818a1e4adfe1fa52d280a5c6eedf65355b41ef3b)
 ---
  libavcodec/v4l2_m2m_enc.c | 33 +++++++++++++++++++++++----------
  1 file changed, 23 insertions(+), 10 deletions(-)
@@ -79,5 +81,5 @@ index 3195ec729b..349d9cce3b 100644
  
  static av_cold int v4l2_encode_init(AVCodecContext *avctx)
 -- 
-2.38.1
+2.45.2
 

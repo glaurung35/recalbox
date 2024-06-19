@@ -1,8 +1,9 @@
-From 9c9199f230c0913b7ca7a0097d4a110ca6c294ab Mon Sep 17 00:00:00 2001
+From 8f1b03411bd88328018765449187ebdbe5bd6779 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 15 Dec 2021 12:52:56 +0000
-Subject: [PATCH 080/151] Rework v4l2 buffer dequeue
+Subject: [PATCH 080/222] Rework v4l2 buffer dequeue
 
+(cherry picked from commit 9c9199f230c0913b7ca7a0097d4a110ca6c294ab)
 ---
  libavcodec/v4l2_context.c | 554 +++++++++++++++++---------------------
  libavcodec/v4l2_context.h |   2 +
@@ -1057,5 +1058,5 @@ index c7915a8fe0..43f7bf1d06 100644
      // so mark all frames we are tracking to be discarded if they appear
      xlat_flush(&s->xlat);
 -- 
-2.38.1
+2.45.2
 

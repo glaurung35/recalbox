@@ -1,10 +1,12 @@
-From dd250aa090d04480a03b7a28e752e7baa54b71b8 Mon Sep 17 00:00:00 2001
+From 5696199a749324cc030f6d92da976c61dbeadba4 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 5 May 2021 14:46:43 +0100
-Subject: [PATCH 021/151] Allow resize of pu/coeff buffer in hwaccel rpi
+Subject: [PATCH 021/222] Allow resize of pu/coeff buffer in hwaccel rpi
 
 Old code assumed a worst case combined buffer of 16M and never resized,
 This allows resize on running out of buffer.
+
+(cherry picked from commit dd250aa090d04480a03b7a28e752e7baa54b71b8)
 ---
  libavcodec/rpivid_hevc.c | 30 ++++++++++++++++++++++++++----
  1 file changed, 26 insertions(+), 4 deletions(-)
@@ -72,5 +74,5 @@ index 2c09b51a52..f37355dcf9 100644
  
          // Status 1 means out of PU space so try again with more
 -- 
-2.38.1
+2.45.2
 

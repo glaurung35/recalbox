@@ -13,6 +13,11 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Midway resolutions on CRT
 - Add support for horizontal integer scale on rgb dual
 - Fix rtype and mk display on 240p@120Hz
+## Version 9.2.2-Pulstar
+
+### Fixes
+- Fix kodi crash when playing HEVC/h264 video on rpi4 (and rpi5 ?)
+
 
 ## Version 9.2.1-Pulstar
 

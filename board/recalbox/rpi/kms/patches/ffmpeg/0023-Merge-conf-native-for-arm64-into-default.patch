@@ -1,8 +1,9 @@
-From 2d4dc3444d5881ce8c610261d759a5eda9351783 Mon Sep 17 00:00:00 2001
+From d5a66e84b4d23c05b1ceee68cb8adc75be73b27c Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 6 May 2021 15:25:21 +0100
-Subject: [PATCH 023/151] Merge conf native for arm64 into default
+Subject: [PATCH 023/222] Merge conf native for arm64 into default
 
+(cherry picked from commit 2d4dc3444d5881ce8c610261d759a5eda9351783)
 ---
  pi-util/conf_native.sh | 44 +++++++++++++++++++++++++++++-------------
  1 file changed, 31 insertions(+), 13 deletions(-)
@@ -95,5 +96,5 @@ index 1603018b18..5c76b8158e 100755
  
  # --enable-decoder=hevc_rpi\
 -- 
-2.38.1
+2.45.2
 

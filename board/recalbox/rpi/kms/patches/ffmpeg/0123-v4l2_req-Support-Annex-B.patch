@@ -1,8 +1,9 @@
-From 6e59a18248de7fa4190432daf5aa33a214cc97f3 Mon Sep 17 00:00:00 2001
+From 7bee10de1c1ea147694df0add3b5d1998433bc12 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 4 Jul 2022 16:22:54 +0100
-Subject: [PATCH 123/151] v4l2_req: Support Annex B
+Subject: [PATCH 123/222] v4l2_req: Support Annex B
 
+(cherry picked from commit 6e59a18248de7fa4190432daf5aa33a214cc97f3)
 ---
  libavcodec/v4l2_req_hevc_vx.c | 61 +++++++++++++++++++++++------------
  1 file changed, 41 insertions(+), 20 deletions(-)
@@ -112,5 +113,5 @@ index 5474b1f7be..f4d09b7493 100644
      ctrls[1].value = ctx->start_code;
  
 -- 
-2.38.1
+2.45.2
 

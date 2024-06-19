@@ -1,8 +1,9 @@
-From 0e10e9a383e6663ef5199860f3310a6f15ed6dea Mon Sep 17 00:00:00 2001
+From 5ac02313d177bb7de265f5512380d6c01d615902 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 14:03:41 +0100
-Subject: [PATCH 009/151] Add Pi3 HEVC decoder
+Subject: [PATCH 009/222] Add Pi3 HEVC decoder
 
+(cherry picked from commit 0e10e9a383e6663ef5199860f3310a6f15ed6dea)
 ---
  configure                                     |   11 +-
  libavcodec/Makefile                           |   38 +
@@ -133,7 +134,7 @@ Subject: [PATCH 009/151] Add Pi3 HEVC decoder
  create mode 100644 libavcodec/rpi_qpu.h
 
 diff --git a/configure b/configure
-index d8fdea28e3..bac56ca457 100755
+index 0d723f9e44..5bffecaa4c 100755
 --- a/configure
 +++ b/configure
 @@ -340,6 +340,7 @@ External library support:
@@ -177,7 +178,7 @@ index d8fdea28e3..bac56ca457 100755
  huffyuv_decoder_select="bswapdsp huffyuvdsp llviddsp"
  huffyuv_encoder_select="bswapdsp huffman huffyuvencdsp llvidencdsp"
  hymt_decoder_select="huffyuv_decoder"
-@@ -6495,11 +6501,12 @@ enabled mbedtls           && { check_pkg_config mbedtls mbedtls mbedtls/x509_crt
+@@ -6503,11 +6509,12 @@ enabled mbedtls           && { check_pkg_config mbedtls mbedtls mbedtls/x509_crt
                                 check_lib mbedtls mbedtls/ssl.h mbedtls_ssl_init -lmbedtls -lmbedx509 -lmbedcrypto ||
                                 die "ERROR: mbedTLS not found"; }
  enabled mediacodec        && { enabled jni || die "ERROR: mediacodec requires --enable-jni"; }
@@ -193,7 +194,7 @@ index d8fdea28e3..bac56ca457 100755
                                 check_func_headers interface/mmal/mmal.h "MMAL_PARAMETER_VIDEO_MAX_NUM_CALLBACKS"; }
  enabled openal            && { { for al_extralibs in "${OPENAL_LIBS}" "-lopenal" "-lOpenAL32"; do
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index 33a280cf69..8c0366a5c7 100644
+index b3d284d7d0..b613a3f7bf 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -19,6 +19,7 @@ HEADERS = ac3_parser.h                                                  \
@@ -204,7 +205,7 @@ index 33a280cf69..8c0366a5c7 100644
            vaapi.h                                                       \
            vdpau.h                                                       \
            version.h                                                     \
-@@ -140,6 +141,7 @@ OBJS-$(CONFIG_QSVDEC)                  += qsvdec.o
+@@ -139,6 +140,7 @@ OBJS-$(CONFIG_QSVDEC)                  += qsvdec.o
  OBJS-$(CONFIG_QSVENC)                  += qsvenc.o
  OBJS-$(CONFIG_RANGECODER)              += rangecoder.o
  OBJS-$(CONFIG_RDFT)                    += rdft.o
@@ -212,7 +213,7 @@ index 33a280cf69..8c0366a5c7 100644
  OBJS-$(CONFIG_RV34DSP)                 += rv34dsp.o
  OBJS-$(CONFIG_SHARED)                  += log2_tab.o reverse.o
  OBJS-$(CONFIG_SINEWIN)                 += sinewin.o
-@@ -403,6 +405,14 @@ OBJS-$(CONFIG_HEVC_QSV_DECODER)        += qsvdec.o
+@@ -402,6 +404,14 @@ OBJS-$(CONFIG_HEVC_QSV_DECODER)        += qsvdec.o
  OBJS-$(CONFIG_HEVC_QSV_ENCODER)        += qsvenc_hevc.o hevc_ps_enc.o       \
                                            hevc_data.o
  OBJS-$(CONFIG_HEVC_RKMPP_DECODER)      += rkmppdec.o
@@ -15088,10 +15089,10 @@ index f421dc909f..5fc105b110 100644
  
  typedef struct AVCodecHWConfigInternal {
 diff --git a/libavcodec/pthread_frame.c b/libavcodec/pthread_frame.c
-index 9176027f15..0b0ff03c18 100644
+index 6f48d2c208..d1a30be5f3 100644
 --- a/libavcodec/pthread_frame.c
 +++ b/libavcodec/pthread_frame.c
-@@ -209,7 +209,8 @@ FF_ENABLE_DEPRECATION_WARNINGS
+@@ -215,7 +215,8 @@ FF_ENABLE_DEPRECATION_WARNINGS
  
          /* if the previous thread uses hwaccel then we take the lock to ensure
           * the threads don't run concurrently */
@@ -15101,7 +15102,7 @@ index 9176027f15..0b0ff03c18 100644
              pthread_mutex_lock(&p->parent->hwaccel_mutex);
              p->hwaccel_serializing = 1;
          }
-@@ -636,7 +637,9 @@ void ff_thread_finish_setup(AVCodecContext *avctx) {
+@@ -652,7 +653,9 @@ void ff_thread_finish_setup(AVCodecContext *avctx) {
  
      if (!(avctx->active_thread_type&FF_THREAD_FRAME)) return;
  
@@ -41457,5 +41458,5 @@ index 0000000000..8777687021
 +
 +#endif
 -- 
-2.38.1
+2.45.2
 

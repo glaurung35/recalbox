@@ -1,8 +1,9 @@
-From e09b4f16993de152f294a475b989dd1607da724f Mon Sep 17 00:00:00 2001
+From 1545afacc246d0438c53fee8df3173ff1462fdd9 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 27 May 2022 09:36:51 +0000
-Subject: [PATCH 114/151] hevc: If hwaccel avoid creation of s/w only vars
+Subject: [PATCH 114/222] hevc: If hwaccel avoid creation of s/w only vars
 
+(cherry picked from commit e09b4f16993de152f294a475b989dd1607da724f)
 ---
  libavcodec/hevc_refs.c | 35 +++++++++++++++++++++--------------
  libavcodec/hevcdec.c   | 42 +++++++++++++++++++++++++++++-------------
@@ -68,7 +69,7 @@ index 4f6d985ae6..eefae71275 100644
      return 0;
  }
 diff --git a/libavcodec/hevcdec.c b/libavcodec/hevcdec.c
-index 6d2d66dfdf..7b05b41441 100644
+index ca9ca81d9e..fc5ce28718 100644
 --- a/libavcodec/hevcdec.c
 +++ b/libavcodec/hevcdec.c
 @@ -513,6 +513,16 @@ static int set_sps(HEVCContext *s, const HEVCSPS *sps,
@@ -136,5 +137,5 @@ index 6d2d66dfdf..7b05b41441 100644
      dst->rpl_buf = av_buffer_ref(src->rpl_buf);
      if (!dst->rpl_buf)
 -- 
-2.38.1
+2.45.2
 

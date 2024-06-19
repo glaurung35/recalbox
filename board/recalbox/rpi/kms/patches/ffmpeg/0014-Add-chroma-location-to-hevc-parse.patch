@@ -1,8 +1,9 @@
-From 0566b39978181e67f69dc90ca68eabd2b99a384c Mon Sep 17 00:00:00 2001
+From ee06bf600afe3a3ec41893d1f4d64a67adacd5cd Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 17:56:16 +0100
-Subject: [PATCH 014/151] Add chroma location to hevc parse
+Subject: [PATCH 014/222] Add chroma location to hevc parse
 
+(cherry picked from commit 0566b39978181e67f69dc90ca68eabd2b99a384c)
 ---
  libavcodec/hevc_parser.c | 13 +++++++++++++
  libavcodec/hevcdec.c     | 13 +++++++++++++
@@ -33,7 +34,7 @@ index 463d352055..7feff43c28 100644
          num = ps->vps->vps_num_units_in_tick;
          den = ps->vps->vps_time_scale;
 diff --git a/libavcodec/hevcdec.c b/libavcodec/hevcdec.c
-index 87865301b2..ee2242a272 100644
+index 921e1e84db..2bcc0a7634 100644
 --- a/libavcodec/hevcdec.c
 +++ b/libavcodec/hevcdec.c
 @@ -333,6 +333,19 @@ static void export_stream_params(HEVCContext *s, const HEVCSPS *sps)
@@ -57,5 +58,5 @@ index 87865301b2..ee2242a272 100644
          avctx->color_range = sps->vui.video_full_range_flag ? AVCOL_RANGE_JPEG
                                                              : AVCOL_RANGE_MPEG;
 -- 
-2.38.1
+2.45.2
 

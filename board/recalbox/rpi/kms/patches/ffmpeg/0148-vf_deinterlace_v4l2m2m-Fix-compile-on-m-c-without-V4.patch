@@ -1,9 +1,10 @@
-From 1194ee56d99f34d7ecb267335ea4a1f67d4bdb6a Mon Sep 17 00:00:00 2001
+From 3242867f1ffc2f8232ecf87401af96a34b33f248 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Sat, 1 Oct 2022 13:40:57 +0000
-Subject: [PATCH 148/151] vf_deinterlace_v4l2m2m: Fix compile on m/c without
+Subject: [PATCH 148/222] vf_deinterlace_v4l2m2m: Fix compile on m/c without
  V4L2 SAND
 
+(cherry picked from commit 1194ee56d99f34d7ecb267335ea4a1f67d4bdb6a)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 33 +++++++++++++++++++++++-----
  1 file changed, 28 insertions(+), 5 deletions(-)
@@ -132,5 +133,5 @@ index 986fde5955..4ed510cd19 100644
          break;
      }
 -- 
-2.38.1
+2.45.2
 

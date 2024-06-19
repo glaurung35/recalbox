@@ -1,8 +1,9 @@
-From f74b541b73658ccb7c9a34520168df87655680e1 Mon Sep 17 00:00:00 2001
+From 9a5787dd5e59fcd9b607bdf3f91e7ad777e3b4b3 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 25 Mar 2022 18:14:40 +0000
-Subject: [PATCH 094/151] v4l2dec: Improve size/format validation on init
+Subject: [PATCH 094/222] v4l2dec: Improve size/format validation on init
 
+(cherry picked from commit f74b541b73658ccb7c9a34520168df87655680e1)
 ---
  libavcodec/v4l2_m2m_dec.c      | 84 ++++++++++++++++++++++++++++++++--
  libavcodec/v4l2_request_hevc.c | 11 +++++
@@ -140,5 +141,5 @@ index 6830c5000d..45f2124022 100644
          av_log(avctx, AV_LOG_WARNING, "Failed to find any V4L2 devices\n");
          return (AVERROR(-ret));
 -- 
-2.38.1
+2.45.2
 

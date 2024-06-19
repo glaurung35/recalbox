@@ -1,13 +1,15 @@
-From 59c562189addcbad56b88eba4087efc2c0a42831 Mon Sep 17 00:00:00 2001
+From 769a76109e610c0cc9b5cf3cf234241b88e5981f Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 26 Jul 2022 15:46:14 +0000
-Subject: [PATCH 127/151] vf_deinterlace_v4l2m2m: Support NV12 through
+Subject: [PATCH 127/222] vf_deinterlace_v4l2m2m: Support NV12 through
  deinterlace
 
 Supports NV12 (though not yet NV12M) through deinterlace.
 Also improves error handling such that attempting to deinterlace an
 unsupported drm format causes an error.
 No longer leaks frame structures.
+
+(cherry picked from commit 59c562189addcbad56b88eba4087efc2c0a42831)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 160 ++++++++++++++++++---------
  1 file changed, 107 insertions(+), 53 deletions(-)
@@ -324,5 +326,5 @@ index d1c714b805..9fb93ce2ee 100644
  
      if (n < 6) {
 -- 
-2.38.1
+2.45.2
 

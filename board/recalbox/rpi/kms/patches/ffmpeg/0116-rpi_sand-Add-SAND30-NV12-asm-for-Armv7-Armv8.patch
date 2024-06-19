@@ -1,10 +1,12 @@
-From d6d15701d00695f9992d839f2c1ca3cb956e6d05 Mon Sep 17 00:00:00 2001
+From 5b111e03978de19a25cce6277188c5489c2c6af6 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 1 Jun 2022 17:49:26 +0000
-Subject: [PATCH 116/151] rpi_sand: Add SAND30->NV12 asm for Armv7 & Armv8
+Subject: [PATCH 116/222] rpi_sand: Add SAND30->NV12 asm for Armv7 & Armv8
 
 Also reworks the previous Armv8 SAND30->Y16 function in a slightly more
 efficient way that makes it look more like the Armv7 version.
+
+(cherry picked from commit d6d15701d00695f9992d839f2c1ca3cb956e6d05)
 ---
  libavutil/aarch64/rpi_sand_neon.S | 549 ++++++++++++++++++------------
  libavutil/aarch64/rpi_sand_neon.h |   4 +
@@ -803,5 +805,5 @@ index 256c3d532f..b6071e2928 100644
          ff_rpi_sand30_lines_to_planar_y8(dst, dst_stride, src, stride1, stride2, _x, y, _w, h);
          return;
 -- 
-2.38.1
+2.45.2
 

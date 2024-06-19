@@ -1,8 +1,9 @@
-From 424cf017582ecc1b9a6d967b10b23d13847d156c Mon Sep 17 00:00:00 2001
+From 804f8ceb3f851ef54ce6377265f85dae0ac2204a Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 9 Dec 2021 12:01:25 +0000
-Subject: [PATCH 079/151] Clear pkt_buf on flush
+Subject: [PATCH 079/222] Clear pkt_buf on flush
 
+(cherry picked from commit 424cf017582ecc1b9a6d967b10b23d13847d156c)
 ---
  libavcodec/v4l2_m2m_dec.c | 3 +++
  1 file changed, 3 insertions(+)
@@ -22,5 +23,5 @@ index 50116eecc1..c7915a8fe0 100644
      // so mark all frames we are tracking to be discarded if they appear
      xlat_flush(&s->xlat);
 -- 
-2.38.1
+2.45.2
 

@@ -1,12 +1,14 @@
-From 0d2f1c1b558b2063220e23df8de58c24a967b80f Mon Sep 17 00:00:00 2001
+From 166de274d783ee019cfb77442bb5377d0e86605d Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 30 May 2022 17:51:44 +0100
-Subject: [PATCH 115/151] rpi_sand: Add SAND30->NV12 conversion
+Subject: [PATCH 115/222] rpi_sand: Add SAND30->NV12 conversion
 
 C code only. Reworks the hwcontext_drm conversion to use the
 rpi_sand_fns generic frame convert fn rather than calling the
 individual conversion functions directly. This keeps all teh stride and
 size logic in a single place.
+
+(cherry picked from commit 0d2f1c1b558b2063220e23df8de58c24a967b80f)
 ---
  libavutil/hwcontext_drm.c | 46 ++++++++------------
  libavutil/rpi_sand_fns.c  | 89 +++++++++++++++++++++++++++++++++++++++
@@ -220,5 +222,5 @@ index 634b55e800..462ccb8abd 100644
  // w/h in pixels
  void av_rpi_sand16_to_sand8(uint8_t * dst, const unsigned int dst_stride1, const unsigned int dst_stride2,
 -- 
-2.38.1
+2.45.2
 

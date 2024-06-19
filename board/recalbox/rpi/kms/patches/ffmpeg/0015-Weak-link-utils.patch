@@ -1,8 +1,9 @@
-From 02484c7011cf20bf7f5368677105388a4ad5d7de Mon Sep 17 00:00:00 2001
+From 833b90b580b28d4a0bcfe3376efca03ba4887a57 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 17:59:08 +0100
-Subject: [PATCH 015/151] Weak link utils
+Subject: [PATCH 015/222] Weak link utils
 
+(cherry picked from commit 02484c7011cf20bf7f5368677105388a4ad5d7de)
 ---
  libavcodec/weak_link.c | 100 +++++++++++++++++++++++++++++++++++++++++
  libavcodec/weak_link.h |  23 ++++++++++
@@ -146,5 +147,5 @@ index 0000000000..415b6a27a0
 +
 +
 -- 
-2.38.1
+2.45.2
 

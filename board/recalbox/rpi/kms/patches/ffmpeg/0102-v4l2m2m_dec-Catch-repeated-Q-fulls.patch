@@ -1,8 +1,9 @@
-From e445aa4418e610f65f4a8b14a09eb4552aaa70c8 Mon Sep 17 00:00:00 2001
+From ee85c40300861cc60ca15ea7f9cfba0ab3fdc73b Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 24 May 2022 20:02:48 +0000
-Subject: [PATCH 102/151] v4l2m2m_dec: Catch repeated Q fulls
+Subject: [PATCH 102/222] v4l2m2m_dec: Catch repeated Q fulls
 
+(cherry picked from commit e445aa4418e610f65f4a8b14a09eb4552aaa70c8)
 ---
  libavcodec/v4l2_m2m_dec.c | 8 +++++++-
  1 file changed, 7 insertions(+), 1 deletion(-)
@@ -40,5 +41,5 @@ index f838213edb..dd383f31e5 100644
          // (a) we haven't already got one AND
          // (b) enqueue returned a status indicating that decode should be attempted
 -- 
-2.38.1
+2.45.2
 

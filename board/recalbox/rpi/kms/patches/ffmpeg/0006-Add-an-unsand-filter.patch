@@ -1,8 +1,9 @@
-From 751127a7fe18dff8862f9fddda799077eb4ed03f Mon Sep 17 00:00:00 2001
+From 30f8ec1f928eb15029549f47dea2b066928a4701 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 12:31:16 +0100
-Subject: [PATCH 006/151] Add an unsand filter
+Subject: [PATCH 006/222] Add an unsand filter
 
+(cherry picked from commit 751127a7fe18dff8862f9fddda799077eb4ed03f)
 ---
  configure                   |   1 +
  libavfilter/Makefile        |   1 +
@@ -14,10 +15,10 @@ Subject: [PATCH 006/151] Add an unsand filter
  create mode 100644 libavfilter/vf_unsand.c
 
 diff --git a/configure b/configure
-index efd1055205..d8fdea28e3 100755
+index 6ab244112f..0d723f9e44 100755
 --- a/configure
 +++ b/configure
-@@ -3660,6 +3660,7 @@ tonemap_vaapi_filter_deps="vaapi VAProcFilterParameterBufferHDRToneMapping"
+@@ -3661,6 +3661,7 @@ tonemap_vaapi_filter_deps="vaapi VAProcFilterParameterBufferHDRToneMapping"
  tonemap_opencl_filter_deps="opencl const_nan"
  transpose_opencl_filter_deps="opencl"
  transpose_vaapi_filter_deps="vaapi VAProcPipelineCaps_rotation_flags"
@@ -428,5 +429,5 @@ index 0000000000..61c03a385c
 +};
 +
 -- 
-2.38.1
+2.45.2
 

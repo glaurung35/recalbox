@@ -1,9 +1,11 @@
-From 65724f54b657a9feb4625aeb989735741c3bac5c Mon Sep 17 00:00:00 2001
+From 0f5db39b586008b231feef7fa544c70e7bacdd78 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 28 Jun 2021 12:13:35 +0100
-Subject: [PATCH 037/151] Fix raw video s.t. it respects any remaining cropping
+Subject: [PATCH 037/222] Fix raw video s.t. it respects any remaining cropping
 
 This fixes the long standing CONFWIN_A conformance test failure for drm.
+
+(cherry picked from commit 65724f54b657a9feb4625aeb989735741c3bac5c)
 ---
  libavcodec/rawenc.c       |  31 ++++++++---
  libavutil/hwcontext_drm.c | 112 ++++++++++++++++++++++++++++++++++++--
@@ -260,5 +262,5 @@ index 7a9fdbd263..1f97ab8eaf 100644
      map = av_frame_alloc();
      if (!map)
 -- 
-2.38.1
+2.45.2
 

@@ -1,8 +1,9 @@
-From c5879772ed7e9711d492b2022227b01ecd9bf1ba Mon Sep 17 00:00:00 2001
+From 1a9a023422dc4f16d013fa0ee1e2d7faf61f4002 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 15 Dec 2021 12:23:54 +0000
-Subject: [PATCH 077/151] Allow logger() to take const ctx
+Subject: [PATCH 077/222] Allow logger() to take const ctx
 
+(cherry picked from commit c5879772ed7e9711d492b2022227b01ecd9bf1ba)
 ---
  libavcodec/v4l2_buffers.c | 2 +-
  libavcodec/v4l2_context.c | 4 ++--
@@ -43,5 +44,5 @@ index 6117a0d2b9..0cdebf3e60 100644
      return ctx_to_m2mctx(ctx)->avctx;
  }
 -- 
-2.38.1
+2.45.2
 

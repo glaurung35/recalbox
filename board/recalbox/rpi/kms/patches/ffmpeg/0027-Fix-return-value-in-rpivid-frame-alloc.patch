@@ -1,8 +1,9 @@
-From 50cc5431c3a9852e28eccea938cca4baae7c0d37 Mon Sep 17 00:00:00 2001
+From d0a659dc3df5810df540083a412fc74440e352d8 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 4 Jun 2021 19:02:25 +0100
-Subject: [PATCH 027/151] Fix return value in rpivid frame alloc
+Subject: [PATCH 027/222] Fix return value in rpivid frame alloc
 
+(cherry picked from commit 50cc5431c3a9852e28eccea938cca4baae7c0d37)
 ---
  libavcodec/rpivid_hevc.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -21,5 +22,5 @@ index 09a1922656..85c5b46d75 100644
      else
      {
 -- 
-2.38.1
+2.45.2
 

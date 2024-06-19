@@ -1,11 +1,13 @@
-From 34fb1cd924eba2ee0b9ee48e8245bf7c8078e93a Mon Sep 17 00:00:00 2001
+From 65a60c74e37bc4089db412474a2a3d43e1aef140 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 2 Mar 2022 17:50:04 +0000
-Subject: [PATCH 091/151] Fix segfault in h264 stateful
+Subject: [PATCH 091/222] Fix segfault in h264 stateful
 
 It was possible for get_qbuf to return 0 but to not return an avbuf.
 This happened if it was polling the capture Q with timeout == -1 and
 found an output buf ready. Return EAGAIN in this case instead.
+
+(cherry picked from commit 34fb1cd924eba2ee0b9ee48e8245bf7c8078e93a)
 ---
  libavcodec/v4l2_context.c | 17 ++++++++++++-----
  1 file changed, 12 insertions(+), 5 deletions(-)
@@ -66,5 +68,5 @@ index b2c40636a2..d8a86e8261 100644
  
          av_log(avctx, AV_LOG_ERROR, "V4L2 poll unexpected events=%#x, revents=%#x\n", pfd.events, pfd.revents);
 -- 
-2.38.1
+2.45.2
 

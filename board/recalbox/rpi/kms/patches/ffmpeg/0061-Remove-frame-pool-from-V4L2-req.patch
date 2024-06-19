@@ -1,13 +1,15 @@
-From 47d2307a4df7629742ea2fa468e24724b5b6365a Mon Sep 17 00:00:00 2001
+From 541dafbe94db53d63955e609e1afc5560d9898a0 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 8 Oct 2021 12:27:47 +0100
-Subject: [PATCH 061/151] Remove frame pool from V4L2 req
+Subject: [PATCH 061/222] Remove frame pool from V4L2 req
 
 Frame pool was attached to hw frame context so buffers were returned
 s.t. they could only be attached to new frames so if we were waiting
 for a buffer it would never turn up.  Also removing the pool means that
 at close dmabufs can be freed individually as they return rather than
 only in a lump when the context is finally freed.
+
+(cherry picked from commit 47d2307a4df7629742ea2fa468e24724b5b6365a)
 ---
  libavcodec/v4l2_req_hevc_vx.c  | 27 +++++++++++++++++++++++++--
  libavcodec/v4l2_request_hevc.c |  9 ++++++++-
@@ -124,5 +126,5 @@ index 31ce4b8833..bee4c50fac 100644
  
  
 -- 
-2.38.1
+2.45.2
 

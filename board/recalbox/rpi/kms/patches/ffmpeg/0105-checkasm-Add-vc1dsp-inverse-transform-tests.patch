@@ -1,7 +1,7 @@
-From d9985219cb31fc45956d0555280846186bda775e Mon Sep 17 00:00:00 2001
+From bec50ec8a1f6d9a48944b5f0725e89730be99d0c Mon Sep 17 00:00:00 2001
 From: Ben Avison <bavison@riscosopen.org>
 Date: Thu, 31 Mar 2022 18:23:43 +0100
-Subject: [PATCH 105/151] checkasm: Add vc1dsp inverse transform tests
+Subject: [PATCH 105/222] checkasm: Add vc1dsp inverse transform tests
 MIME-Version: 1.0
 Content-Type: text/plain; charset=UTF-8
 Content-Transfer-Encoding: 8bit
@@ -48,6 +48,7 @@ and my new AArch64 decoder both pass.
 
 Signed-off-by: Ben Avison <bavison@riscosopen.org>
 Signed-off-by: Martin Storsjö <martin@martin.st>
+(cherry picked from commit d9985219cb31fc45956d0555280846186bda775e)
 ---
  tests/checkasm/vc1dsp.c | 283 ++++++++++++++++++++++++++++++++++++++++
  1 file changed, 283 insertions(+)
@@ -367,5 +368,5 @@ index 2fd6c74d6c..7d4457306f 100644
      report("loop_filter");
  }
 -- 
-2.38.1
+2.45.2
 

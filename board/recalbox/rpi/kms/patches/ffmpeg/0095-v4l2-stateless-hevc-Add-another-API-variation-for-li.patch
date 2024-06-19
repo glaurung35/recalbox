@@ -1,11 +1,13 @@
-From 45295e105456818a07e190bce91a1698a331a140 Mon Sep 17 00:00:00 2001
+From 1a60c3f2ef97883f0a70bd33abfc12fa05832379 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 13 Apr 2022 16:05:56 +0000
-Subject: [PATCH 095/151] v4l2 stateless hevc: Add another API variation for
+Subject: [PATCH 095/222] v4l2 stateless hevc: Add another API variation for
  linux 5.18
 
 This is probably going to be a short lived variation and may end up
 being reverted if no release using it ever ends up in the wild.
+
+(cherry picked from commit 45295e105456818a07e190bce91a1698a331a140)
 ---
  libavcodec/Makefile            |   2 +-
  libavcodec/hevc-ctrls-v3.h     | 255 +++++++++++++++++++++++++++++++++
@@ -20,7 +22,7 @@ being reverted if no release using it ever ends up in the wild.
  create mode 100644 libavcodec/v4l2_req_hevc_v3.c
 
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index be3b73e7c4..ef22d26dc1 100644
+index ae8e574d52..a849bb35e9 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -957,7 +957,7 @@ OBJS-$(CONFIG_HEVC_QSV_HWACCEL)           += qsvdec.o
@@ -444,5 +446,5 @@ index bee4c50fac..b2cb8c8584 100644
  
  #endif
 -- 
-2.38.1
+2.45.2
 

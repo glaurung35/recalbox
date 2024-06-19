@@ -1,8 +1,9 @@
-From 5b8f124c533a21dc0f3824065f5d309bfcc73f78 Mon Sep 17 00:00:00 2001
+From b73757a827d1e99a416fbe1d40e49058d8baefdc Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 12:43:55 +0100
-Subject: [PATCH 008/151] Add ZC functions
+Subject: [PATCH 008/222] Add ZC functions
 
+(cherry picked from commit 5b8f124c533a21dc0f3824065f5d309bfcc73f78)
 ---
  libavcodec/rpi_zc.c        | 1227 ++++++++++++++++++++++++++++++++++++
  libavcodec/rpi_zc.h        |  228 +++++++
@@ -1628,5 +1629,5 @@ index 0000000000..9b7b6536a4
 +
 +#endif
 -- 
-2.38.1
+2.45.2
 

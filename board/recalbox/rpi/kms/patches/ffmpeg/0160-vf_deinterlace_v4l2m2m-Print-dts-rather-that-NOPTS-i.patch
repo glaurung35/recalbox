@@ -1,0 +1,30 @@
+From 130879d262f12bf84065f9fbd3aff589a537bacb Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 19 Oct 2022 14:54:29 +0000
+Subject: [PATCH 160/222] vf_deinterlace_v4l2m2m: Print dts rather that NOPTS
+ in trace
+
+(cherry picked from commit e9b468f35f0c6ad9bfe96f5a05e449afa8ae074a)
+(cherry picked from commit d761b2ba5853b75c0398844c6becea5f0283e582)
+---
+ libavfilter/vf_deinterlace_v4l2m2m.c | 4 ++--
+ 1 file changed, 2 insertions(+), 2 deletions(-)
+
+diff --git a/libavfilter/vf_deinterlace_v4l2m2m.c b/libavfilter/vf_deinterlace_v4l2m2m.c
+index 84714246ad..d2457af3db 100644
+--- a/libavfilter/vf_deinterlace_v4l2m2m.c
++++ b/libavfilter/vf_deinterlace_v4l2m2m.c
+@@ -1679,8 +1679,8 @@ static int deint_v4l2m2m_filter_frame(AVFilterLink *link, AVFrame *in)
+     V4L2Queue *output              = &ctx->output;
+     int ret;
+ 
+-    av_log(priv, AV_LOG_DEBUG, "<<< %s: input pts: %"PRId64" (%"PRId64") field :%d interlaced: %d aspect:%d/%d\n",
+-          __func__, in->pts, AV_NOPTS_VALUE, in->top_field_first, in->interlaced_frame, in->sample_aspect_ratio.num, in->sample_aspect_ratio.den);
++    av_log(priv, AV_LOG_DEBUG, "<<< %s: input pts: %"PRId64" dts: %"PRId64" field :%d interlaced: %d aspect:%d/%d\n",
++           __func__, in->pts, in->pkt_dts, in->top_field_first, in->interlaced_frame, in->sample_aspect_ratio.num, in->sample_aspect_ratio.den);
+     av_log(priv, AV_LOG_DEBUG, "--- %s: in status in %d/ot %d; out status in %d/out %d\n", __func__,
+            avctx->inputs[0]->status_in, avctx->inputs[0]->status_out, avctx->outputs[0]->status_in, avctx->outputs[0]->status_out);
+ 
+-- 
+2.45.2
+

@@ -1,8 +1,9 @@
-From 610d5108cdc1276f26ad714df4f9fd1a7c8bd2f6 Mon Sep 17 00:00:00 2001
+From a9e91bbacdadeb367dba7ed483532fa58e299bf5 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 10 Jun 2021 18:59:18 +0100
-Subject: [PATCH 030/151] Allow v4l2m2m to select non-drm_prime output formats
+Subject: [PATCH 030/222] Allow v4l2m2m to select non-drm_prime output formats
 
+(cherry picked from commit 610d5108cdc1276f26ad714df4f9fd1a7c8bd2f6)
 ---
  libavcodec/v4l2_m2m_dec.c | 14 ++++++++++----
  1 file changed, 10 insertions(+), 4 deletions(-)
@@ -51,5 +52,5 @@ index 9eb1435fef..f7722969cc 100644
          .hw_configs     = v4l2_m2m_hw_configs, \
          .wrapper_name   = "v4l2m2m", \
 -- 
-2.38.1
+2.45.2
 

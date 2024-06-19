@@ -1,10 +1,12 @@
-From 6144fe76840e1d8dfd549ba9c72e2cce01db9638 Mon Sep 17 00:00:00 2001
+From 9321e7de645bfa4ceac6e19dd06359d405d6b7f2 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 4 Jan 2022 16:58:31 +0000
-Subject: [PATCH 084/151] v4l2_buffers: rework flags for keyframe
+Subject: [PATCH 084/222] v4l2_buffers: rework flags for keyframe
 
 Previously flags could become confused and keyframe info could be lost.
 This fixes that and removes the duplicate flags field in V4L2Buffer.
+
+(cherry picked from commit 6144fe76840e1d8dfd549ba9c72e2cce01db9638)
 ---
  libavcodec/v4l2_buffers.c | 15 ++++++++++-----
  libavcodec/v4l2_buffers.h |  1 -
@@ -107,5 +109,5 @@ index 3274e24430..b2c40636a2 100644
  
      return NULL;
 -- 
-2.38.1
+2.45.2
 

@@ -1,8 +1,9 @@
-From 5e2d0b164c7eb53999173edd6254dc7e1ed09144 Mon Sep 17 00:00:00 2001
+From ad99984153760c025da433b07a65b19493c8c032 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 4 Jul 2022 18:24:03 +0100
-Subject: [PATCH 124/151] v4l2_req: Add frame mode decode
+Subject: [PATCH 124/222] v4l2_req: Add frame mode decode
 
+(cherry picked from commit 5e2d0b164c7eb53999173edd6254dc7e1ed09144)
 ---
  libavcodec/v4l2_req_hevc_vx.c | 69 +++++++++++++++++++++++------------
  1 file changed, 46 insertions(+), 23 deletions(-)
@@ -124,5 +125,5 @@ index f4d09b7493..e465e4aa9e 100644
      ctrls[1].value = ctx->start_code;
  
 -- 
-2.38.1
+2.45.2
 

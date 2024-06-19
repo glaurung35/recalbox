@@ -1,8 +1,9 @@
-From 52afae1ac88672450693c06e48207b882bcfa1a8 Mon Sep 17 00:00:00 2001
+From 092d8e8607109385ddc8b0f2c1f09ed194b4e464 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 19:23:26 +0100
-Subject: [PATCH 016/151] Request V4L2 drm_prime decode
+Subject: [PATCH 016/222] Request V4L2 drm_prime decode
 
+(cherry picked from commit 52afae1ac88672450693c06e48207b882bcfa1a8)
 ---
  configure                       |   14 +
  libavcodec/Makefile             |    3 +
@@ -34,7 +35,7 @@ Subject: [PATCH 016/151] Request V4L2 drm_prime decode
  create mode 100644 libavcodec/v4l2_request_hevc.c
 
 diff --git a/configure b/configure
-index 774589377e..91bc9f9550 100755
+index d1048213c0..0fdddbce34 100755
 --- a/configure
 +++ b/configure
 @@ -279,6 +279,7 @@ External library support:
@@ -69,7 +70,7 @@ index 774589377e..91bc9f9550 100755
      vulkan
      rpi4_8
      rpi4_10
-@@ -2930,6 +2934,7 @@ d3d11va_deps="dxva_h ID3D11VideoDecoder ID3D11VideoContext"
+@@ -2931,6 +2935,7 @@ d3d11va_deps="dxva_h ID3D11VideoDecoder ID3D11VideoContext"
  dxva2_deps="dxva2api_h DXVA2_ConfigPictureDecode ole32 user32"
  ffnvcodec_deps_any="libdl LoadLibrary"
  nvdec_deps="ffnvcodec"
@@ -77,7 +78,7 @@ index 774589377e..91bc9f9550 100755
  vaapi_x11_deps="xlib"
  videotoolbox_hwaccel_deps="videotoolbox pthreads"
  videotoolbox_hwaccel_extralibs="-framework QuartzCore"
-@@ -2971,6 +2976,8 @@ hevc_dxva2_hwaccel_deps="dxva2 DXVA_PicParams_HEVC"
+@@ -2972,6 +2977,8 @@ hevc_dxva2_hwaccel_deps="dxva2 DXVA_PicParams_HEVC"
  hevc_dxva2_hwaccel_select="hevc_decoder"
  hevc_nvdec_hwaccel_deps="nvdec"
  hevc_nvdec_hwaccel_select="hevc_decoder"
@@ -86,7 +87,7 @@ index 774589377e..91bc9f9550 100755
  hevc_rpi4_10_hwaccel_deps="rpi"
  hevc_rpi4_10_hwaccel_select="hevc_decoder"
  hevc_rpi4_8_hwaccel_deps="rpi"
-@@ -6455,6 +6462,7 @@ enabled libtwolame        && require libtwolame twolame.h twolame_init -ltwolame
+@@ -6463,6 +6470,7 @@ enabled libtwolame        && require libtwolame twolame.h twolame_init -ltwolame
                               { check_lib libtwolame twolame.h twolame_encode_buffer_float32_interleaved -ltwolame ||
                                 die "ERROR: libtwolame must be installed and version must be >= 0.3.10"; }
  enabled libuavs3d         && require_pkg_config libuavs3d "uavs3d >= 1.1.41" uavs3d.h uavs3d_decode
@@ -94,7 +95,7 @@ index 774589377e..91bc9f9550 100755
  enabled libv4l2           && require_pkg_config libv4l2 libv4l2 libv4l2.h v4l2_ioctl
  enabled libvidstab        && require_pkg_config libvidstab "vidstab >= 0.98" vid.stab/libvidstab.h vsMotionDetectInit
  enabled libvmaf           && require_pkg_config libvmaf "libvmaf >= 1.5.2" libvmaf.h compute_vmaf
-@@ -6554,6 +6562,10 @@ enabled rkmpp             && { require_pkg_config rkmpp rockchip_mpp  rockchip/r
+@@ -6562,6 +6570,10 @@ enabled rkmpp             && { require_pkg_config rkmpp rockchip_mpp  rockchip/r
                                 { enabled libdrm ||
                                   die "ERROR: rkmpp requires --enable-libdrm"; }
                               }
@@ -105,7 +106,7 @@ index 774589377e..91bc9f9550 100755
  enabled vapoursynth       && require_pkg_config vapoursynth "vapoursynth-script >= 42" VSScript.h vsscript_init
  
  
-@@ -6635,6 +6647,8 @@ if enabled v4l2_m2m; then
+@@ -6643,6 +6655,8 @@ if enabled v4l2_m2m; then
      check_cc vp9_v4l2_m2m linux/videodev2.h "int i = V4L2_PIX_FMT_VP9;"
  fi
  
@@ -115,10 +116,10 @@ index 774589377e..91bc9f9550 100755
  test_code cc sys/videoio.h "struct v4l2_frmsizeenum vfse; vfse.discrete.width = 0;" && enable_sanitized struct_v4l2_frmivalenum_discrete
  
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index 3ce45e0366..01b9dc546e 100644
+index c444128fbb..c7f90c825c 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
-@@ -157,6 +157,8 @@ OBJS-$(CONFIG_VP3DSP)                  += vp3dsp.o
+@@ -156,6 +156,8 @@ OBJS-$(CONFIG_VP3DSP)                  += vp3dsp.o
  OBJS-$(CONFIG_VP56DSP)                 += vp56dsp.o
  OBJS-$(CONFIG_VP8DSP)                  += vp8dsp.o
  OBJS-$(CONFIG_V4L2_M2M)                += v4l2_m2m.o v4l2_context.o v4l2_buffers.o v4l2_fmt.o
@@ -372,7 +373,7 @@ index 0000000000..13698d3f33
 +
 +#endif
 diff --git a/libavcodec/hevcdec.c b/libavcodec/hevcdec.c
-index ee2242a272..6d2d66dfdf 100644
+index 2bcc0a7634..ca9ca81d9e 100644
 --- a/libavcodec/hevcdec.c
 +++ b/libavcodec/hevcdec.c
 @@ -405,6 +405,7 @@ static enum AVPixelFormat get_format(HEVCContext *s, const HEVCSPS *sps)
@@ -4411,5 +4412,5 @@ index 0000000000..f8a4b7db4e
 +    .caps_internal  = HWACCEL_CAP_ASYNC_SAFE | HWACCEL_CAP_MT_SAFE,
 +};
 -- 
-2.38.1
+2.45.2
 

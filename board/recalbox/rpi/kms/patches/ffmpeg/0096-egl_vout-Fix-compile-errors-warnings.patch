@@ -1,8 +1,9 @@
-From 83245feebc93bd645c360e019e33ba5cdbdeffb3 Mon Sep 17 00:00:00 2001
+From d306d8058fc5348feed9a0b7cb24d8589117b545 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 20 Apr 2022 10:01:22 +0000
-Subject: [PATCH 096/151] egl_vout: Fix compile errors/warnings
+Subject: [PATCH 096/222] egl_vout: Fix compile errors/warnings
 
+(cherry picked from commit 83245feebc93bd645c360e019e33ba5cdbdeffb3)
 ---
  libavdevice/egl_vout.c | 3 ++-
  1 file changed, 2 insertions(+), 1 deletion(-)
@@ -29,5 +30,5 @@ index 0539282733..f666adc8e9 100644
           av_log(s, AV_LOG_ERROR, "Error: eglCreateWindowSurface failed\n");
           return -1;
 -- 
-2.38.1
+2.45.2
 

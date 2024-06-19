@@ -1,0 +1,40 @@
+From d74919120d775190ff2e14e2a52a26d1554a6cfa Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Tue, 18 Oct 2022 13:18:27 +0000
+Subject: [PATCH 152/222] v4l2_req: Add swfmt to init logging
+
+(cherry picked from commit dfa03b702baaf2952bcd2bbf8badcc2f9c961ddf)
+(cherry picked from commit ac303407a0fe3edcced3576dc6b266710d6e0e81)
+---
+ libavcodec/v4l2_request_hevc.c | 6 ++++--
+ 1 file changed, 4 insertions(+), 2 deletions(-)
+
+diff --git a/libavcodec/v4l2_request_hevc.c b/libavcodec/v4l2_request_hevc.c
+index ebeb7bc6f6..879cfc2310 100644
+--- a/libavcodec/v4l2_request_hevc.c
++++ b/libavcodec/v4l2_request_hevc.c
+@@ -25,6 +25,7 @@
+ #include "v4l2_request_hevc.h"
+ 
+ #include "libavutil/hwcontext_drm.h"
++#include "libavutil/pixdesc.h"
+ 
+ #include "v4l2_req_devscan.h"
+ #include "v4l2_req_dmabufs.h"
+@@ -305,10 +306,11 @@ retry_src_memtype:
+     // Set our s/w format
+     avctx->sw_pix_fmt = ((AVHWFramesContext *)avctx->hw_frames_ctx->data)->sw_format;
+ 
+-    av_log(avctx, AV_LOG_INFO, "Hwaccel %s; devices: %s,%s; buffers: src %s, dst %s\n",
++    av_log(avctx, AV_LOG_INFO, "Hwaccel %s; devices: %s,%s; buffers: src %s, dst %s; swfmt=%s\n",
+            ctx->fns->name,
+            decdev_media_path(decdev), decdev_video_path(decdev),
+-           mediabufs_memory_name(src_memtype), mediabufs_memory_name(dst_memtype));
++           mediabufs_memory_name(src_memtype), mediabufs_memory_name(dst_memtype),
++           av_get_pix_fmt_name(avctx->sw_pix_fmt));
+ 
+     return 0;
+ 
+-- 
+2.45.2
+

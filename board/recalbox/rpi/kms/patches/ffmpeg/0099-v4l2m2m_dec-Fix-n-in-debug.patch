@@ -1,8 +1,9 @@
-From 302ce26d4d152930c75e8ae8dad3954acc7fcb3f Mon Sep 17 00:00:00 2001
+From 3aef745e4a86b706beb7cc7582173fddbd59b858 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 23 May 2022 08:18:48 +0000
-Subject: [PATCH 099/151] v4l2m2m_dec: Fix \n in debug
+Subject: [PATCH 099/222] v4l2m2m_dec: Fix \n in debug
 
+(cherry picked from commit 302ce26d4d152930c75e8ae8dad3954acc7fcb3f)
 ---
  libavcodec/v4l2_m2m_dec.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -21,5 +22,5 @@ index a3d9f1b790..d614d14914 100644
          }
  
 -- 
-2.38.1
+2.45.2
 

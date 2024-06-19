@@ -1,13 +1,15 @@
-From bb42c09b180e3e5dac6f5bf6acb312878c8a9ac8 Mon Sep 17 00:00:00 2001
+From e9cdc1729f5cbd4a9354e31bdb5911d430533009 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 24 May 2022 17:02:58 +0000
-Subject: [PATCH 101/151] v4l2m2m_dec: Support in-pkt AV_PKT_DATA_NEW_EXTRADATA
+Subject: [PATCH 101/222] v4l2m2m_dec: Support in-pkt AV_PKT_DATA_NEW_EXTRADATA
 
 Support packet side-data containing AV_PKT_DATA_NEW_EXTRADATA.  Should
 also detect and complain about unexpected streams of empty packets.
 
 This functionality untested as I haven't yet found anything that creates
 NEW_EXTRADATA side data.
+
+(cherry picked from commit bb42c09b180e3e5dac6f5bf6acb312878c8a9ac8)
 ---
  libavcodec/v4l2_m2m.c     |  1 +
  libavcodec/v4l2_m2m.h     |  3 +++
@@ -108,5 +110,5 @@ index 0108e265c7..f838213edb 100644
      if (ret == AVERROR(EAGAIN)) {
          // Out of input buffers - keep packet
 -- 
-2.38.1
+2.45.2
 

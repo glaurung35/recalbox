@@ -1,8 +1,9 @@
-From 42505d10bb360b7472aecd173edffc8619b7d914 Mon Sep 17 00:00:00 2001
+From 46a0ee233b4f5e575b0e60310e72a53659f8623b Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 20 Sep 2021 19:25:40 +0100
-Subject: [PATCH 056/151] Add ffmpeg version to build dir name
+Subject: [PATCH 056/222] Add ffmpeg version to build dir name
 
+(cherry picked from commit 42505d10bb360b7472aecd173edffc8619b7d914)
 ---
  pi-util/conf_native.sh | 5 +++--
  1 file changed, 3 insertions(+), 2 deletions(-)
@@ -31,5 +32,5 @@ index d5240ff388..13fae3cf78 100755
  
  USR_PREFIX=$FFSRC/$OUT/install
 -- 
-2.38.1
+2.45.2
 

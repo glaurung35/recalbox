@@ -1,9 +1,11 @@
-From 49af07478b1f12d3b0c74543dcb290a18a3a5f73 Mon Sep 17 00:00:00 2001
+From 337cc35af1a044cc239b5dc8b882c24942ee6ced Mon Sep 17 00:00:00 2001
 From: graysky <graysky@archlinux.us>
 Date: Tue, 18 May 2021 12:47:27 -0400
-Subject: [PATCH 034/151] Provide several missing defines
+Subject: [PATCH 034/222] Provide several missing defines
 
 V4L2_PIX_FMT_NV12_COL128 and V4L2_PIX_FMT_NV12_10_COL128
+
+(cherry picked from commit 49af07478b1f12d3b0c74543dcb290a18a3a5f73)
 ---
  libavcodec/v4l2_request_hevc.c | 9 +++++++++
  1 file changed, 9 insertions(+)
@@ -29,5 +31,5 @@ index f8a4b7db4e..f869c4e3d5 100644
  // Attached to buf[0] in frame
  // Pooled in hwcontext so generally create once - 1/frame
 -- 
-2.38.1
+2.45.2
 

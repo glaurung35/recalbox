@@ -1,0 +1,36 @@
+From 0bed9ed35de1a42f0a0ba25f4d2a6644041cc2de Mon Sep 17 00:00:00 2001
+From: John Cox <jc@kynesim.co.uk>
+Date: Wed, 19 Oct 2022 14:55:21 +0000
+Subject: [PATCH 161/222] vf_deinterlace_v4l2m2m: Ignore "wanted" when
+ processing input
+
+If we gate send a frame to the outlink on its frame_wanted flag then we
+will sometimes stall as the flag may not get set by ffmpeg's filter
+processing. So stuff the output whether or not it wants it which works
+much better.
+
+(cherry picked from commit 808254cc04e5e6574cbab9af254b6c2f3d4142e3)
+(cherry picked from commit 3dcfe0e49fc1c83d547fc56911b01cdf5ad82efd)
+---
+ libavfilter/vf_deinterlace_v4l2m2m.c | 5 +----
+ 1 file changed, 1 insertion(+), 4 deletions(-)
+
+diff --git a/libavfilter/vf_deinterlace_v4l2m2m.c b/libavfilter/vf_deinterlace_v4l2m2m.c
+index d2457af3db..d4c11cfc51 100644
+--- a/libavfilter/vf_deinterlace_v4l2m2m.c
++++ b/libavfilter/vf_deinterlace_v4l2m2m.c
+@@ -1823,10 +1823,7 @@ static int deint_v4l2m2m_activate(AVFilterContext *avctx)
+ 
+     ack_inlink(avctx, s, inlink);
+ 
+-    if (!ff_outlink_frame_wanted(outlink)) {
+-        av_log(priv, AV_LOG_TRACE, "%s: Not wanted out\n", __func__);
+-    }
+-    else if (s->field_order != V4L2_FIELD_ANY)  // Can't DQ if no setup!
++    if (s->field_order != V4L2_FIELD_ANY)  // Can't DQ if no setup!
+     {
+         AVFrame * frame = av_frame_alloc();
+         int rv;
+-- 
+2.45.2
+

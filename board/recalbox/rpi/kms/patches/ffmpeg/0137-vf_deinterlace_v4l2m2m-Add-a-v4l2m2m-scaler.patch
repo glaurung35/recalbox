@@ -1,13 +1,15 @@
-From 155cd264cc4409127b76f788a1def5b3c3b8969b Mon Sep 17 00:00:00 2001
+From 0e89f305aa2c052992a9896d18c1a9ee61edb1df Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Thu, 1 Sep 2022 11:42:41 +0000
-Subject: [PATCH 137/151] vf_deinterlace_v4l2m2m: Add a v4l2m2m scaler
+Subject: [PATCH 137/222] vf_deinterlace_v4l2m2m: Add a v4l2m2m scaler
 
 The logic for running an isp based scaler is pretty much identical to
 that for the deinterlacer so add to the deinterlacer. This requires
 some rework of the setup code to avoid assumptions that are true for
 deinterlace but not scale but the reworked code requires few switches
 based on operation.
+
+(cherry picked from commit 155cd264cc4409127b76f788a1def5b3c3b8969b)
 ---
  libavfilter/allfilters.c             |    1 +
  libavfilter/vf_deinterlace_v4l2m2m.c | 1123 ++++++++++++++++++++------
@@ -1481,5 +1483,5 @@ index 49fab3158d..9d0f42187b 100644
 +};
 +
 -- 
-2.38.1
+2.45.2
 

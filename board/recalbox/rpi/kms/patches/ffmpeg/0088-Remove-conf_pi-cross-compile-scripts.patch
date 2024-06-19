@@ -1,9 +1,11 @@
-From a74e36a9436dc795b0e0385baa34816b1c98611b Mon Sep 17 00:00:00 2001
+From 348bfbec0c1fa864ccff1df923d6c02370cad996 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 1 Feb 2022 12:47:38 +0000
-Subject: [PATCH 088/151] Remove conf_pi* cross compile scripts
+Subject: [PATCH 088/222] Remove conf_pi* cross compile scripts
 
 These have now rotted and it is best to remove them
+
+(cherry picked from commit a74e36a9436dc795b0e0385baa34816b1c98611b)
 ---
  pi-util/conf_pi1.sh | 39 -------------------------------
  pi-util/conf_pi2.sh | 57 ---------------------------------------------
@@ -120,5 +122,5 @@ index 92cd9e7cfd..0000000000
 -# gcc option for getting asm listing
 -# -Wa,-ahls
 -- 
-2.38.1
+2.45.2
 

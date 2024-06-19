@@ -1,8 +1,9 @@
-From d9bf05955e8ebd912973c7605b81ff6ed75924d8 Mon Sep 17 00:00:00 2001
+From 52fc5f64e676eafae8e728ffc38f23aee455be71 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 1 Feb 2022 12:45:04 +0000
-Subject: [PATCH 087/151] Update conf_native to add a gitignore for build dir
+Subject: [PATCH 087/222] Update conf_native to add a gitignore for build dir
 
+(cherry picked from commit d9bf05955e8ebd912973c7605b81ff6ed75924d8)
 ---
  pi-util/conf_native.sh | 13 ++++++++-----
  1 file changed, 8 insertions(+), 5 deletions(-)
@@ -48,5 +49,5 @@ index f51b81d713..65576846e8 100755
  $FFSRC/configure \
   --prefix=$USR_PREFIX\
 -- 
-2.38.1
+2.45.2
 

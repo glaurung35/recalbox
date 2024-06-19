@@ -1,8 +1,9 @@
-From 9c940047d9e56bff66828c944bacf7529b87d6c0 Mon Sep 17 00:00:00 2001
+From 7f7bd6d09472d00d94ce28d7cb6f0eba8420c377 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Wed, 28 Apr 2021 10:16:39 +0100
-Subject: [PATCH 018/151] Add vout_drm
+Subject: [PATCH 018/222] Add vout_drm
 
+(cherry picked from commit 9c940047d9e56bff66828c944bacf7529b87d6c0)
 ---
  configure                |   4 +
  libavdevice/Makefile     |   1 +
@@ -12,7 +13,7 @@ Subject: [PATCH 018/151] Add vout_drm
  create mode 100644 libavdevice/drm_vout.c
 
 diff --git a/configure b/configure
-index 91bc9f9550..666aa9b3ae 100755
+index 0fdddbce34..f0287507f8 100755
 --- a/configure
 +++ b/configure
 @@ -343,6 +343,7 @@ External library support:
@@ -31,7 +32,7 @@ index 91bc9f9550..666aa9b3ae 100755
  "
  
  # this list should be kept in linking order
-@@ -3459,8 +3461,10 @@ sndio_indev_deps="sndio"
+@@ -3460,8 +3462,10 @@ sndio_indev_deps="sndio"
  sndio_outdev_deps="sndio"
  v4l2_indev_deps_any="linux_videodev2_h sys_videoio_h"
  v4l2_indev_suggest="libv4l2"
@@ -705,5 +706,5 @@ index 0000000000..5362ac9e28
 +};
 +
 -- 
-2.38.1
+2.45.2
 

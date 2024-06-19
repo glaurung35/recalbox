@@ -1,8 +1,9 @@
-From 9a01a2d4148a4e365aaaa9d124227b52bb4f9a4d Mon Sep 17 00:00:00 2001
+From 92e88b91cfd2ac055fbb2dc6681c723a1fd4c991 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 14 Dec 2021 16:11:10 +0000
-Subject: [PATCH 082/151] Add an always-reinit quirk
+Subject: [PATCH 082/222] Add an always-reinit quirk
 
+(cherry picked from commit 9a01a2d4148a4e365aaaa9d124227b52bb4f9a4d)
 ---
  libavcodec/v4l2_context.c |  7 +++++--
  libavcodec/v4l2_m2m.h     |  5 +++++
@@ -104,5 +105,5 @@ index 0953921dae..e7055c7a18 100644
  
  static av_cold int v4l2_decode_close(AVCodecContext *avctx)
 -- 
-2.38.1
+2.45.2
 

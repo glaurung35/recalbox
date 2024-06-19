@@ -1,9 +1,10 @@
-From 93dc16aa30abe4ef20ff6b8453425008b598a7f3 Mon Sep 17 00:00:00 2001
+From f36f76123ad6b1b98136e248ae5d411189d3b9dd Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 1 Aug 2022 14:34:02 +0100
-Subject: [PATCH 128/151] deinterlace_v4l2m2m: Fix int size warnings in debug
+Subject: [PATCH 128/222] deinterlace_v4l2m2m: Fix int size warnings in debug
  logging
 
+(cherry picked from commit 93dc16aa30abe4ef20ff6b8453425008b598a7f3)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 2 +-
  1 file changed, 1 insertion(+), 1 deletion(-)
@@ -22,5 +23,5 @@ index 9fb93ce2ee..49fab3158d 100644
  
          ret = deint_v4l2m2m_set_format(output, pixelformat, ctx->field_order, ctx->width, ctx->height, ctx->orig_width, drm_desc->layers[0].planes[1].offset);
 -- 
-2.38.1
+2.45.2
 

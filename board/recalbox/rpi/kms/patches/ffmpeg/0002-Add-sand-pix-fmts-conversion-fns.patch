@@ -1,8 +1,9 @@
-From 9f1caefac9654dd779339f0b74d8a79e4066dbc8 Mon Sep 17 00:00:00 2001
+From 1bda59a51741506c7fdcd3fe7350c36c4b3db1c6 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 11:27:39 +0100
-Subject: [PATCH 002/151] Add sand pix fmts & conversion fns
+Subject: [PATCH 002/222] Add sand pix fmts & conversion fns
 
+(cherry picked from commit 9f1caefac9654dd779339f0b74d8a79e4066dbc8)
 ---
  configure                     |   3 +
  libavutil/Makefile            |   3 +
@@ -22,7 +23,7 @@ Subject: [PATCH 002/151] Add sand pix fmts & conversion fns
  create mode 100644 libavutil/rpi_sand_fns.h
 
 diff --git a/configure b/configure
-index d7a3f507e8..efd1055205 100755
+index fb55e04ee7..6ab244112f 100755
 --- a/configure
 +++ b/configure
 @@ -340,6 +340,7 @@ External library support:
@@ -1807,5 +1808,5 @@ index 0000000000..634b55e800
 +#endif
 +
 -- 
-2.38.1
+2.45.2
 

@@ -1,12 +1,13 @@
-From 1bb7e5105d2cd2ed81285d36fb153e42c4545c06 Mon Sep 17 00:00:00 2001
+From 1183a92e4465119426e595f31fba2a838d31c459 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Sun, 3 Jul 2022 13:40:41 +0000
-Subject: [PATCH 121/151] v4l2_req: Observe limit on size of slice_array
+Subject: [PATCH 121/222] v4l2_req: Observe limit on size of slice_array
 
 This in fact provides some minor simplifications by combing the
 multi-slice and single-slice paths.
 
 (cherry picked from commit 7631e6d1a66fca9048605c214f3464c90d37932c)
+(cherry picked from commit 1bb7e5105d2cd2ed81285d36fb153e42c4545c06)
 ---
  libavcodec/v4l2_req_hevc_vx.c  | 39 ++++++++++++++--------------------
  libavcodec/v4l2_request_hevc.h |  5 +----
@@ -129,5 +130,5 @@ index 1ecbcadda6..1bf6b10b55 100644
      req_decode_q decode_q;
  
 -- 
-2.38.1
+2.45.2
 

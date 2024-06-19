@@ -1,9 +1,11 @@
-From 83a7a6c2863ba71e2e57a929149c891814dade7c Mon Sep 17 00:00:00 2001
+From fe831d973eb0bb9d06cc14e1317531dbed7852db Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 3 Dec 2021 17:35:14 +0000
-Subject: [PATCH 072/151] Rework conf native to not take mmal by default
+Subject: [PATCH 072/222] Rework conf native to not take mmal by default
 
 Now takes --mmal if you want mmal, by default not
+
+(cherry picked from commit 83a7a6c2863ba71e2e57a929149c891814dade7c)
 ---
  pi-util/conf_native.sh | 51 ++++++++++++++++++++++++++++++------------
  1 file changed, 37 insertions(+), 14 deletions(-)
@@ -107,5 +109,5 @@ index a8d9f3ba62..f51b81d713 100755
  # gcc option for getting asm listing
  # -Wa,-ahls
 -- 
-2.38.1
+2.45.2
 

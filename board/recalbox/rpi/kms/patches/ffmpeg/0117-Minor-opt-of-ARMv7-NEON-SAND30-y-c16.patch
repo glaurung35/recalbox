@@ -1,8 +1,9 @@
-From 766f042678f531b525712845a590924087bb0ffa Mon Sep 17 00:00:00 2001
+From 1d53a5b3ccc97e28af20240ab57e1ce3215173ad Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 7 Jun 2022 13:03:29 +0000
-Subject: [PATCH 117/151] Minor opt of ARMv7 NEON SAND30->y/c16
+Subject: [PATCH 117/222] Minor opt of ARMv7 NEON SAND30->y/c16
 
+(cherry picked from commit 766f042678f531b525712845a590924087bb0ffa)
 ---
  libavutil/arm/rpi_sand_neon.S | 72 +++++++++++++++--------------------
  1 file changed, 31 insertions(+), 41 deletions(-)
@@ -146,5 +147,5 @@ index a07111c8fc..60e697f681 100644
                  blt             2f
  
 -- 
-2.38.1
+2.45.2
 

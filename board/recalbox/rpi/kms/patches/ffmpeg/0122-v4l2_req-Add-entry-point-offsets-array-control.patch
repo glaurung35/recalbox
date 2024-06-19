@@ -1,8 +1,9 @@
-From bb3f529e5c0722aa0fc0cfb8272357f51ba0803c Mon Sep 17 00:00:00 2001
+From a5321908fcc36b258c3bba1d3f57c42904aad8e7 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 4 Jul 2022 14:43:20 +0100
-Subject: [PATCH 122/151] v4l2_req: Add entry point offsets array control
+Subject: [PATCH 122/222] v4l2_req: Add entry point offsets array control
 
+(cherry picked from commit bb3f529e5c0722aa0fc0cfb8272357f51ba0803c)
 ---
  libavcodec/v4l2_req_hevc_vx.c  | 88 +++++++++++++++++++++++++++-------
  libavcodec/v4l2_request_hevc.h |  3 +-
@@ -236,5 +237,5 @@ index 1bf6b10b55..830444bf92 100644
      req_decode_q decode_q;
  
 -- 
-2.38.1
+2.45.2
 

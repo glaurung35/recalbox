@@ -1,10 +1,12 @@
-From 0798bbc0b0b6420bc38eb6a75d08f7aea9f7e8a0 Mon Sep 17 00:00:00 2001
+From 0c7d10344afbc5aac084240d039e6e3201453988 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 6 Aug 2021 14:52:38 +0100
-Subject: [PATCH 044/151] Add ability to pick from multiple V4L2 H265 APIs
+Subject: [PATCH 044/222] Add ability to pick from multiple V4L2 H265 APIs
 
 This allows us to update the H265 API without breaking playback on
 older kernels. Change prompted by upstream updates in 5.14 kernel.
+
+(cherry picked from commit 0798bbc0b0b6420bc38eb6a75d08f7aea9f7e8a0)
 ---
  libavcodec/Makefile                          |    3 +-
  libavcodec/{hevc-ctrls.h => hevc-ctrls-v1.h} |    0
@@ -28,7 +30,7 @@ older kernels. Change prompted by upstream updates in 5.14 kernel.
  create mode 100644 libavcodec/v4l2_request_hevc.h
 
 diff --git a/libavcodec/Makefile b/libavcodec/Makefile
-index c0df07f07e..be3b73e7c4 100644
+index d99fbc39d7..ae8e574d52 100644
 --- a/libavcodec/Makefile
 +++ b/libavcodec/Makefile
 @@ -956,7 +956,8 @@ OBJS-$(CONFIG_HEVC_NVDEC_HWACCEL)         += nvdec_hevc.o
@@ -3066,5 +3068,5 @@ index 0000000000..31ce4b8833
 +
 +#endif
 -- 
-2.38.1
+2.45.2
 

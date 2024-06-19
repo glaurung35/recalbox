@@ -1,8 +1,9 @@
-From 2b04da9b976b4e96aedee67ee37d42a884c98e8b Mon Sep 17 00:00:00 2001
+From f5735bb49f8fa0f0ca9f33d4c218e02a259abd2f Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Fri, 13 Aug 2021 15:38:28 +0100
-Subject: [PATCH 045/151] Set frame interlace from V4L2 buffer field
+Subject: [PATCH 045/222] Set frame interlace from V4L2 buffer field
 
+(cherry picked from commit 2b04da9b976b4e96aedee67ee37d42a884c98e8b)
 ---
  libavcodec/v4l2_buffers.c | 12 ++++++++++++
  1 file changed, 12 insertions(+)
@@ -38,5 +39,5 @@ index 60c6793797..44ed41481e 100644
      /* these values are updated also during re-init in v4l2_process_driver_event */
      frame->height = ctx->height;
 -- 
-2.38.1
+2.45.2
 

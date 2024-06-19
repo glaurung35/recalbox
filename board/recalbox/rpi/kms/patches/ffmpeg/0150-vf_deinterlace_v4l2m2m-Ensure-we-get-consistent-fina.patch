@@ -1,7 +1,7 @@
-From a38d8a1e4607fa62293a9b5e622ae3c23c590388 Mon Sep 17 00:00:00 2001
+From 39cf4c3fd682a8a7a8ddd631dc90746916160935 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Sat, 1 Oct 2022 12:39:45 +0000
-Subject: [PATCH 150/151] vf_deinterlace_v4l2m2m: Ensure we get consistent
+Subject: [PATCH 150/222] vf_deinterlace_v4l2m2m: Ensure we get consistent
  final frames
 
 On getting EOS at the input of the filster do not simply drop everything
@@ -11,6 +11,8 @@ If we know that we expect 1 frame in to always produce 1 frame out then
 match CAPTURE frame to the last OUTPUT frame Qed (scale)
 If frames out have an unknown relation to source frames (deinterlace) try
 an encode stop and wait for the last frame marker to emerge from CAPTURE
+
+(cherry picked from commit a38d8a1e4607fa62293a9b5e622ae3c23c590388)
 ---
  libavfilter/vf_deinterlace_v4l2m2m.c | 172 +++++++++++++++++++++++----
  1 file changed, 148 insertions(+), 24 deletions(-)
@@ -350,5 +352,5 @@ index 4ed510cd19..84714246ad 100644
      ctx->logctx = NULL;  // Log to NULL works, log to missing crashes
      pts_track_uninit(&ctx->track);
 -- 
-2.38.1
+2.45.2
 

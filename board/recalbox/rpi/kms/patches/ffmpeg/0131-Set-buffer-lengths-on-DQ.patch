@@ -1,8 +1,9 @@
-From db07042aec6ee317fe0155659e422757644c2316 Mon Sep 17 00:00:00 2001
+From f31b789eccee56050172512ccec7b45458815698 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Mon, 22 Aug 2022 12:35:40 +0000
-Subject: [PATCH 131/151] Set buffer lengths on DQ
+Subject: [PATCH 131/222] Set buffer lengths on DQ
 
+(cherry picked from commit db07042aec6ee317fe0155659e422757644c2316)
 ---
  libavcodec/v4l2_req_media.c | 8 ++++++++
  1 file changed, 8 insertions(+)
@@ -27,5 +28,5 @@ index 910ac77bb6..1a9944774a 100644
      be->status = (buffer.flags & V4L2_BUF_FLAG_ERROR) ? QENT_ERROR : QENT_DONE;
      return be;
 -- 
-2.38.1
+2.45.2
 

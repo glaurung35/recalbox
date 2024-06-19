@@ -40,14 +40,13 @@ class LibretroConfigCRT:
         config["aspect_ratio_index"] = '23'
         extension = ["_ntsc", "_pal"] if region == "all" else ["_" + region]
 
-
-
         if ((system_rotation.value == Rotation.none or system_rotation.value == Rotation.upsidedown) and not game_is_tate) \
                 or ((system_rotation.value == Rotation.left or system_rotation.value == Rotation.right) and game_is_tate):
             # we are in a yoko game on a yoko screen, or tate game on tate screen
-            if forceFullAndIntegerScale:
-                config["aspect_ratio_index"] = '24'
-                config["video_scale_integer"] = '"true"'
+            if forceFullAndIntegerScale :
+                if k31 or (viewport_height == 0 or viewport_height == mode.height):
+                    config["aspect_ratio_index"] = '24'
+                    config["video_scale_integer"] = '"true"'
                 if k31 and viewport_height > 480:
                     config["video_scale_integer_overscale"] = '"true"'
 

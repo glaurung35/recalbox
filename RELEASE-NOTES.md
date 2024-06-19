@@ -4,10 +4,39 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Version 9.2-jamma-59
-# Version 10.0
-- Avoid 50Hz mode for pal games on JAMMA
 
+## Version 9.2-jamma-60
+
+9.2-jamma-60:
+- Avoid 50Hz mode for pal console games on JAMMA
+- Fix Midway resolutions on CRT
+
+9.2-jamma-59:
+- Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)
+- Fix forcing OpenGLES for RPI4 for scummvm
+- Fix bios checking when launchin games
+- Add core libretro geolith for crt
+- Fix Galdmort demo
+- Fix gameclips option label to hide 'press start' in the webmanager
+- Fix launch Indiana Jones and the Fate of Atlantis with ScummVM
+- Fix saturn and psx zoomed games on CRT
+- Fix game information space on 240p theme in tate
+- Fix gameclip view on 240p theme
+- Fix jamma fan not stopping when shutdown from menu
+- Fix 240p@120Hz mode for CRT
+
+9.2-jamma-58:
+- Fix some saturn games not running fullscreen
+
+9.2-jamma-57:
+- Fix 4 player mode with 4 Recalbox RGB Jamma players
+- Fix Street Fighter 3 Third Strike timings for fbneo
+- Fix exotic resolution games in 31khz (mortal kombat for example)
+- Automatically choose 480p for 480px platforms and games when multysinc enabled and "choose resolution" option is off
+- Better n64 image for crt (double resolution + smoothing)
+- hdmi is now completely ignored. If plugged, the image will still be on CRT.
+- Fix option name : 'NeoGeo Layout' is now 'NeoGeo/PGM Layout' because the mapping is applied on NeoGeo + PGM games
+- Add Geolith core for neogeo (supporting only .neo roms)
 
 ## Version 9.2.1-Pulstar
 

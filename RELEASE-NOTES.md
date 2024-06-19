@@ -49,6 +49,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix immediate update check after relaunching the interface
 - Fix crash/freeze with auto-scraper conflicting with background scraping
 - Fix blocked reboot/shutdown when scraping in background (save gamelists also)
+## Version Next
+
+### News
+- Rpi bootloader updated to 2024-06-05 (Add support for NVMe boot with PCIe switches)
 
 
 ## Version 9.2.2-Pulstar

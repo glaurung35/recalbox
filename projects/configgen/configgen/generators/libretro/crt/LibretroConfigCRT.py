@@ -305,6 +305,8 @@ class LibretroConfigCRT:
                 config["video_scale_integer_overscale"] = '"true"'
         if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             forceIntergerScale = True
+            # Always force ntsc, because arcade monitors are 60HZ only
+            system.CRTVideoStandard = CRTVideoStandard.NTSC
 
         # Arcade
         if core in self.arcade_cores and system.Name != "neogeocd":

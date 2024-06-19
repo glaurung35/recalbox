@@ -5,6 +5,11 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2-jamma-59
+# Version 10.0
+- Avoid 50Hz mode for pal games on JAMMA
+
+
+## Version 9.2.1-Pulstar
 
 9.2-jamma-59:
 - Fix GX4000 & CPC+ graphic glitches (libretro-caprice32)

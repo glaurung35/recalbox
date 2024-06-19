@@ -1360,3 +1360,35 @@ def test_given_playstation_game_and_31khz_then_return_interger_scale_overscale(m
                                                                                                   "ff7.chd")
     assert config_lines["video_scale_integer"] == '"true"'
     assert config_lines["video_scale_integer_overscale"] == '"true"'
+
+def test_given_jamma_then_dont_use_50Hz_modes_on_snes(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "snes,snes9x,pal,15kHz,progressive,snes:pal:240@50p,0,0\nsnes,snes9x,ntsc,15kHz,progressive,snes:ntsc:224@60p,0,0",
+        MODES_TXT: "snes:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
+
+    snes = configureForCrt(
+        Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
+        crtresolutiontype="progressive", crtvideostandard="pal",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbjamma")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(snes,
+                                                                                                  "ff6.zip")
+    assert config_lines["crt_switch_timings_pal"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1"'
+    assert config_lines["video_refresh_rate_pal"] == '"60.1"'
+    assert config_lines["video_refresh_rate_ntsc"] == '"60.1"'
+
+def test_given_jamma_then_use_60Hz_modes_on_console_with_only_50HZ(mocker):
+    givenThoseFiles(mocker, {
+        SYSTEMS_TXT: "amigacd32,uae4arm,all,15kHz,progressive,standard:pal:240@50,0,0",
+        MODES_TXT: "standard:pal:240@50,1920 1 80 184 312 240 1 28 3 42 0 0 0 50 0 39062400 1,50\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"})
+
+    snes = configureForCrt(
+        Emulator(name='amigacd32', videoMode='1920x1080', ratio='auto', emulator='libretro', core='uae4arm'),
+        crtresolutiontype="progressive", crtvideostandard="pal",
+        crtscreentype="15kHz", crtadaptor="recalboxrgbjamma")
+    config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(snes,
+                                                                                                  "gamez.zip")
+    assert config_lines["crt_switch_timings_pal"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
+    assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
+    assert config_lines["video_refresh_rate_pal"] == '"60"'
+    assert config_lines["video_refresh_rate_ntsc"] == '"60"'

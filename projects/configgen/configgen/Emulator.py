@@ -421,6 +421,10 @@ class Emulator:
     @property
     def CRTVideoStandard(self) -> CRTVideoStandard: return self._crtvideostandard
 
+    @CRTVideoStandard.setter
+    def CRTVideoStandard(self, value):
+        self._crtvideostandard = value
+
     @property
     def CRTRegion(self) -> CRTRegion: return self._crtregion
 

@@ -8,7 +8,7 @@
         <q-btn @click="leftDrawerOpen = !leftDrawerOpen" flat icon="mdi-menu"/>
         <q-toolbar-title />
         <MobileScreenshotButton />
-        <MobileVirtualDevicesButton />
+        <!-- <MobileVirtualDevicesButton /> -->
         <MobileShortcutsButton :model="shortcutsButtonOpeningStatus" @toggle="toggle" />
         <MobileHelpButton :model="helpButtonOpeningStatus" @toggle="toggle" />
       </q-toolbar>
@@ -46,7 +46,7 @@
       <q-page-sticky :offset="[18, 18]" position="bottom-right" class="desktop-only">
         <div class="help-menu-container">
           <ScreenshotFloatingButton />
-          <VirtualDevicesFloatingButton />
+          <!-- <VirtualDevicesFloatingButton /> -->
           <ShortcutsFloatingButton :model="shortcutsButtonOpeningStatus" @toggle="toggle" />
           <HelpFloatingButton :model="helpButtonOpeningStatus" @toggle="toggle" />
         </div>
@@ -59,7 +59,7 @@
 import MobileHelpButton from 'components/layout/MobileHelpButton.vue';
 import MobileScreenshotButton from 'components/layout/MobileScreenshotButton.vue';
 import MobileShortcutsButton from 'components/layout/MobileShortcutsButton.vue';
-import MobileVirtualDevicesButton from 'components/layout/MobileVirtualDevicesButton.vue';
+// import MobileVirtualDevicesButton from 'components/layout/MobileVirtualDevicesButton.vue';
 import { useEmulationstationStore } from 'stores/configuration/emulationstation';
 import { useSystemsStore } from 'stores/systems';
 import { GlobalMenuLink } from 'stores/types/misc';
@@ -67,7 +67,7 @@ import { ref } from 'vue';
 import ShortcutsFloatingButton from 'components/layout/ShortcutsFloatingButton.vue';
 import MenuLink from 'components/ui-kit/MenuLink.vue';
 import LangSelector from 'components/layout/LangSelector.vue';
-import VirtualDevicesFloatingButton from 'components/layout/VirtualDevicesFloatingButton.vue';
+// import VirtualDevicesFloatingButton from 'components/layout/VirtualDevicesFloatingButton.vue';
 import ScreenshotFloatingButton from 'components/layout/ScreenshotFloatingButton.vue';
 import HelpFloatingButton from 'components/layout/HelpFloatingButton.vue';
 

@@ -21,6 +21,7 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
 {
   // Screen ratio choice
   bool isCrt = Board::Instance().CrtBoard().IsCrtAdapterAttached();
+  bool isJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma;
   if (! isCrt && RecalboxConf::Instance().GetMenuType() != RecalboxConf::Menu::Bartop)
     AddList<String>(_("GAME RATIO"), (int)Components::Ratio, this, GetRatioEntries(), _(MENUMESSAGE_GAME_RATIO_HELP_MSG));
 
@@ -45,11 +46,16 @@ GuiMenuGameSettings::GuiMenuGameSettings(WindowManager& window, SystemManager& s
   // Press twice to quit
   AddSwitch(_("PRESS TWICE TO QUIT GAME"), RecalboxConf::Instance().GetGlobalQuitTwice(), (int)Components::QuitTwice, this, _(MENUMESSAGE_GAME_PRESS_TWICE_QUIT_HELP_MSG));
 
-  if(!isCrt)
+  if(!isJamma)
   {
     // Integer Scale
-    AddSwitch(_("INTEGER SCALE (PIXEL PERFECT)"), RecalboxConf::Instance().GetGlobalIntegerScale(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
+    std::string entry = isCrt ? "HORIZONTAL " : "";
+    entry.append("INTEGER SCALE").append(isCrt ? "" : " (PIXEL PERFECT)");
+    AddSwitch(entry, RecalboxConf::Instance().GetGlobalIntegerScale(), (int)Components::IntegerScale, this, _(MENUMESSAGE_GAME_INTEGER_SCALE_HELP_MSG));
+  }
 
+  if(!isCrt)
+  {
     // Shaders preset
     AddList<String>(_("SHADERS SET"), (int)Components::ShaderSet, this, GetShaderPresetsEntries(), _(MENUMESSAGE_GAME_SHADERSET_HELP_MSG));
 

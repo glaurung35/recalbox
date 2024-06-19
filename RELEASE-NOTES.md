@@ -11,6 +11,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix jumping to netplay game when you're in a virtual system (Favorites, ...)
 - Avoid 50Hz mode for pal games on JAMMA
 - Fix Midway resolutions on CRT
+- Add support for horizontal integer scale on rgb dual
 
 ## Version 9.2.1-Pulstar
 

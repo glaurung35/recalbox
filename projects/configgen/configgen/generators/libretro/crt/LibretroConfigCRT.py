@@ -297,7 +297,7 @@ class LibretroConfigCRT:
         if config_core == "mame2015" or config_core == "mame":
             config_core = "mame2010"
 
-        forceIntergerScale = False
+        forceIntergerScale = system.IntegerScale
         if system.Name in ["psx", "saturn"]:
             forceIntergerScale = True
             if system.CRTScreenType == CRTScreenType.k31:

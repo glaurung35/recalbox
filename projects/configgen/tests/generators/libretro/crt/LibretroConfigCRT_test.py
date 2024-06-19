@@ -1473,3 +1473,54 @@ def test_given_rgbjamma_and_no_integer_scale_then_force_integer_scale_horizontal
 
     assert libretro_config["video_scale_integer"] == '"true"'
     assert libretro_config["aspect_ratio_index"] == '24'
+
+
+# mk in 31khz 480p should be 512px height
+def test_given_mk_with_254p_mode_and_256px_height_viewport_height_is_doubled_on_31khz(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="auto",
+        crtscreentype="31kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mk.zip")
+
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
+    assert libretro_config["custom_viewport_width_pal"] == 1920
+    assert libretro_config["custom_viewport_height_ntsc"] == 512
+    assert libretro_config["custom_viewport_height_pal"] == 512
+    assert libretro_config["custom_viewport_y_ntsc"] == -16
+    assert libretro_config["custom_viewport_y_pal"] == -16
+    assert libretro_config["custom_viewport_y"] == -16
+    assert libretro_config["aspect_ratio_index"] == '23'
+
+
+def test_given_mk_with_254p_mode_and_256px_height_viewport_height_is_256px_on_120HZ_mode(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60\n1920@31KHz-double:all:240@120,1920 1 8 32 40 240 1 4 3 15 0 0 0 60 0 6288000 1,60\ndefault@31kHz:all:480@60,1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="doublefreq", crtvideostandard="auto",
+        crtscreentype="31kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mk.zip")
+
+    assert libretro_config["video_refresh_rate_pal"] == '"60"'
+    assert libretro_config["video_refresh_rate_ntsc"] == '"60"'
+    assert libretro_config["custom_viewport_width_ntsc"] == 1920
+    assert libretro_config["custom_viewport_width_pal"] == 1920
+    assert libretro_config["custom_viewport_height_ntsc"] == 256
+    assert libretro_config["custom_viewport_height_pal"] == 256
+    assert libretro_config["custom_viewport_y_ntsc"] == -8
+    assert libretro_config["custom_viewport_y_pal"] == -8
+    assert libretro_config["custom_viewport_y"] == -8
+    assert libretro_config["aspect_ratio_index"] == '23'

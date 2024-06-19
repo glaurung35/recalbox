@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 - Avoid 50Hz mode for pal games on JAMMA
 - Fix Midway resolutions on CRT
 - Add support for horizontal integer scale on rgb dual
+- Fix rtype and mk display on 240p@120Hz
 
 ## Version 9.2.1-Pulstar
 

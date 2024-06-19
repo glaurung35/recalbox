@@ -154,7 +154,7 @@ class LibretroConfigCRT:
                     if height <= 256:
                         height = height * 2
                 if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
-                    if height > 240:
+                    if height > 288:
                         height = 240
             return width, height
         if system.CRTScreenType == CRTScreenType.k31 and system.CRTResolutionType == CRTResolutionType.Progressive:
@@ -184,7 +184,7 @@ class LibretroConfigCRT:
                         #width = 640 * width / 1920
                         height = height * 2
                 return width, height
-        # No default values found, force 640 for 31khz
+        # No default values found, force 1920 for 31khz
         if system.CRTScreenType == CRTScreenType.k31 and system.CRTResolutionType == CRTResolutionType.Progressive:
             return 1920, 0
         return 0, 0

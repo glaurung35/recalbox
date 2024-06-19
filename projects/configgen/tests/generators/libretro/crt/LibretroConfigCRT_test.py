@@ -1154,8 +1154,8 @@ def test_given_mk_clone_find_mk_mode(mocker):
 
 def test_given_any_yoko_game_and_jamma_then_return_fullscreen_ratio_and_integer_scale(mocker):
     givenThoseFiles(mocker, {
-        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
-        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+        ARCADE_TXT: "ffight,fbneo,arcade:224@59.637405,0,0,0",
+        MODES_TXT: "arcade:224@59.637405,1920 1 80 184 312 224 1 10 3 25 0 0 0 59 0 39000000 1,59.637405\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
     })
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
@@ -1163,7 +1163,7 @@ def test_given_any_yoko_game_and_jamma_then_return_fullscreen_ratio_and_integer_
         crtscreentype="15kHz", crtadaptor="recalboxrgbjamma")
 
     libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
-                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+                                                                                               "/recalbox/share/roms/fbneo/galaxian.zip")
 
     assert libretro_config["aspect_ratio_index"] == "24"
     assert libretro_config["video_scale_integer"] == '"true"'
@@ -1319,7 +1319,7 @@ def test_given_arcade_256p_game_and_31k_progressive_mode_then_return_480pmode_an
     emulator = configureForCrt(system_mame, crtresolutiontype="progressive", crtscreentype="31kHz", crtadaptor="recalboxrgbjamma")
     config_lines = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), False).createConfigFor(emulator,
                                                                                                   "mk.zip")
-
+    assert config_lines["aspect_ratio_index"] == '24'
     assert config_lines["video_refresh_rate_ntsc"] == '"60"'
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 48 208 256 480 1 15 3 26 0 0 0 60 0 76462080 1"'
     assert config_lines["custom_viewport_width_ntsc"] == 1920
@@ -1392,3 +1392,20 @@ def test_given_jamma_then_use_60Hz_modes_on_console_with_only_50HZ(mocker):
     assert config_lines["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1"'
     assert config_lines["video_refresh_rate_pal"] == '"60"'
     assert config_lines["video_refresh_rate_ntsc"] == '"60"'
+
+def test_given_mk_then_do_not_use_fullscale_on_rgbjamma(mocker):
+    givenThoseFiles(mocker, {
+        ARCADE_TXT: "mk,fbneo,arcade:254@54.706840,0,256,0",
+        MODES_TXT: "arcade:254@54.706840,1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1,54.706840\ndefault:ntsc:240@60,1920 1 80 184 312 240 1 1 3 16 0 0 0 60 0 38937600 1,60"
+    })
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtresolutiontype="progressive", crtvideostandard="ntsc", crtadaptor="recalboxrgbjamma",
+        crtscreentype="15kHz")
+
+    libretro_config = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter()).createConfigFor(emulator,
+                                                                                               "/recalbox/share/roms/fbneo/mkyturbo.zip")
+
+    assert libretro_config["aspect_ratio_index"] == '23'
+    assert libretro_config["crt_switch_timings_ntsc"] == '"1920 1 80 184 312 254 1 7 3 22 0 0 0 54 0 39052806 1"'
+    assert libretro_config["custom_viewport_height_ntsc"] == 256

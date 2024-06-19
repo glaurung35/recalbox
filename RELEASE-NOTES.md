@@ -4,6 +4,11 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
+# Version 10.0
+- Avoid 50Hz mode for pal games on JAMMA
+- Fix Midway resolutions on CRT
+
+
 ## Version 9.2.1-Pulstar
 
 ### Fixes

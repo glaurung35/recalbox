@@ -1,4 +1,4 @@
-From fb6c4e17f2df9ea47ef75cf06d0c7ae0dbae22fa Mon Sep 17 00:00:00 2001
+From 26349333567c0868f60ea129bb4e463776c60aed Mon Sep 17 00:00:00 2001
 From: Bkg2k <bkg2k9@gmail.com>
 Date: Wed, 23 Feb 2022 10:02:49 +0100
 Subject: [PATCH 08/12] enable switchres kms
@@ -8,10 +8,10 @@ Subject: [PATCH 08/12] enable switchres kms
  1 file changed, 4 insertions(+)
 
 diff --git a/Makefile.common b/Makefile.common
-index 87b7f251a2..48943240b7 100644
+index fd5df1b27a..4c994cfe83 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -2299,6 +2299,10 @@ ifeq ($(HAVE_CRTSWITCHRES), 1)
+@@ -2311,6 +2311,10 @@ ifeq ($(HAVE_CRTSWITCHRES), 1)
           OBJ += $(DEPS_DIR)/switchres/custom_video_xrandr.o
           DEFINES += -DSR_WITH_XRANDR
        endif
@@ -23,5 +23,5 @@ index 87b7f251a2..48943240b7 100644
     ifneq ($(findstring Win32,$(OS)),)
        DEFINES += -DSR_WIN32_STATIC
 -- 
-2.41.0
+2.43.0
 

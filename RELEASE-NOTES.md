@@ -23,6 +23,9 @@ as release notes for end user on a Recalbox upgrade.
 - Change all default DMT/CEA values for screen resolutions by their corresponding screen resolutions
 - Fix libretro-cap32 bump with correct color depth value
 - Fix the launch of vice_x128
+- Fix Flycast performance & regression issues
+  - New flycast core available on Naomi2, Naomi/GD, Atomiswave & Dreamcast
+  - Old flycast core is the default core for all systems above but Naomi2
 
 ## Version 9.2.1-Pulstar
 

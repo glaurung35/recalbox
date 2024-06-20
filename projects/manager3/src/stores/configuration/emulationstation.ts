@@ -135,7 +135,7 @@ export const useEmulationstationStore = defineStore('emulationstation', {
         value: 'recalbox-next',
       },
       'theme.region': {
-        value: 'us',
+        value: 'eu',
       },
       brightness: {
         value: 7,

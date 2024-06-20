@@ -64,7 +64,8 @@
   <div class="informations">
     <AnimatedLines
       v-if="currentState.currentSystem"
-      :colors="currentState.currentSystem.metaData.colors[themeRegion] ?? currentState.currentSystem.metaData.colors.eu"
+      :colors="currentState.currentSystem.metaData.colors[emulationstation['theme.region'].value]
+      ?? currentState.currentSystem.metaData.colors.eu"
     />
     <OverlayMessage
       background
@@ -201,7 +202,7 @@ const router = useRouter();
 const serverStore = useServerStore();
 const emulationStationStore = useEmulationstationStore();
 
-const { currentState } = storeToRefs(emulationStationStore);
+const { currentState, emulationstation } = storeToRefs(emulationStationStore);
 serverStore.available = true;
 function redirect() {
   if (currentState.value.currentSystem?.systemId === 'imageviewer') {

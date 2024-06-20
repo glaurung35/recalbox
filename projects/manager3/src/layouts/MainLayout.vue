@@ -112,6 +112,7 @@ const helpButtonOpeningStatus = ref(false);
 
 useSystemsStore().fetch().then(() => {
   const emulationStationStore = useEmulationstationStore();
+  emulationStationStore.fetch();
   const { currentState } = emulationStationStore;
   if (currentState.currentSystem === null) {
     emulationStationStore.fetchStatus();

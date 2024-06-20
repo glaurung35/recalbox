@@ -22,3 +22,11 @@ export interface SimpleStringListObject {
 export interface StringListObject extends SimpleStringListObject{
   displayableStringList: string[];
 }
+
+export interface HomeStat {
+  key: number;
+  title: string;
+  value: number;
+  route?: string;
+  percent?: number;
+}

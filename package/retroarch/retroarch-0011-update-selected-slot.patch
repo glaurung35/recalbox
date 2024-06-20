@@ -1,7 +1,7 @@
-From 376f0cfa003954660c1cd7f7bd4c2f6716a987ad Mon Sep 17 00:00:00 2001
+From d1ef135b9cdef9a59ce53a0f474bf1beae632db0 Mon Sep 17 00:00:00 2001
 From: gugueU <gugue_u@hotmail.com>
 Date: Wed, 7 Jun 2023 17:07:29 +0200
-Subject: [PATCH 13/13] update selected slot
+Subject: [PATCH 11/12] update selected slot
 
 ---
  command.c   |  7 +++++--
@@ -10,10 +10,10 @@ Subject: [PATCH 13/13] update selected slot
  3 files changed, 23 insertions(+), 9 deletions(-)
 
 diff --git a/command.c b/command.c
-index c3f9f30241..639a6fb74b 100644
+index 6cf74cced0..d83083c11e 100644
 --- a/command.c
 +++ b/command.c
-@@ -1334,8 +1334,11 @@ bool command_event_load_entry_state(settings_t *settings)
+@@ -1367,8 +1367,11 @@ bool command_event_load_entry_state(settings_t *settings)
           entry_state_path, ret ? "succeeded" : "failed"
           );
  
@@ -28,10 +28,10 @@ index c3f9f30241..639a6fb74b 100644
     return ret;
  }
 diff --git a/retroarch.c b/retroarch.c
-index 4954019bcc..a5a2848e8c 100644
+index f83914276d..f197a88f6f 100644
 --- a/retroarch.c
 +++ b/retroarch.c
-@@ -5977,13 +5977,23 @@ static bool retroarch_parse_input_and_config(
+@@ -7278,13 +7278,23 @@ static bool retroarch_parse_input_and_config(
                 break;
              case 'e':
                 {
@@ -57,12 +57,12 @@ index 4954019bcc..a5a2848e8c 100644
 +                  }
                 }
                 break;
-             default:
+             case RA_OPT_DATABASE_SCAN:
 diff --git a/runloop.c b/runloop.c
-index be4aca06f7..a7b832cbb2 100644
+index 264f7039e5..c80ea38537 100644
 --- a/runloop.c
 +++ b/runloop.c
-@@ -7246,19 +7246,20 @@ bool runloop_get_replay_path(char *path, size_t len, unsigned slot)
+@@ -7425,19 +7425,20 @@ bool runloop_get_replay_path(char *path, size_t len, unsigned slot)
  
  bool runloop_get_entry_state_path(char *path, size_t len, unsigned slot)
  {
@@ -88,5 +88,5 @@ index be4aca06f7..a7b832cbb2 100644
     return true;
  }
 -- 
-2.41.0
+2.43.0
 

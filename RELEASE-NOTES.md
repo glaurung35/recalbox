@@ -29,6 +29,9 @@ as release notes for end user on a Recalbox upgrade.
   - Fix all ScuimmVM games
   - improve "The Tinnies" Pad-2-keyboard
   - improve "Sword og Ianna" Pad-2-keyboard
+- Fix Flycast performance & regression issues
+  - New flycast core available on Naomi2, Naomi/GD, Atomiswave & Dreamcast
+  - Old flycast core is the default core for all systems above but Naomi2
 
 ## Version 9.2.1-Pulstar
 

@@ -130,6 +130,17 @@ def writeKodiAdvancedSettingsConfig(architecture: str, resolution: str):
     print(f"Setting advanced kodi settings with resolution {resolution} for arch {architecture}")
 
     force_configuration = {
+        "rpi5_64": {
+            "videoplayer": {
+                "useprimedecoder": "false", # enable it back when ffmpeg supports hwaccel v4l2_m2m
+                "useprimedecoderforhw": "true",
+                "useprimerenderer": "0",
+
+            },
+            "videoscreen": {
+                "screenmode": resolution,
+            }
+        },
         "rpi4_64": {
             "videoplayer": {
                 "useprimedecoder": "true",

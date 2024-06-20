@@ -1,4 +1,4 @@
-From 4a326153ef1ebd667fe703c3c2f8ea319b68fc2f Mon Sep 17 00:00:00 2001
+From 2dd4b2f6cadc5cb9994291b34d61851555fd9ac7 Mon Sep 17 00:00:00 2001
 From: Bkg2k <bkg2k9@gmail.com>
 Date: Wed, 23 Feb 2022 09:04:05 +0100
 Subject: [PATCH 01/12] fix egl
@@ -8,10 +8,10 @@ Subject: [PATCH 01/12] fix egl
  1 file changed, 1 insertion(+), 1 deletion(-)
 
 diff --git a/Makefile.common b/Makefile.common
-index ff167be51b..87b7f251a2 100644
+index 2a715f4786..fd5df1b27a 100644
 --- a/Makefile.common
 +++ b/Makefile.common
-@@ -1404,7 +1404,7 @@ ifeq ($(HAVE_KMS), 1)
+@@ -1417,7 +1417,7 @@ ifeq ($(HAVE_KMS), 1)
  ifeq ($(HAVE_ODROIDGO2), 1)
     OBJ += gfx/drivers_context/drm_go2_ctx.o
  endif
@@ -21,5 +21,5 @@ index ff167be51b..87b7f251a2 100644
  endif
  
 -- 
-2.41.0
+2.43.0
 

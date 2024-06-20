@@ -1,0 +1,51 @@
+From c93a6a0e5d4c658e562981fab0aa501b2e308166 Mon Sep 17 00:00:00 2001
+From: Bkg2k <bkg2k9@gmail.com>
+Date: Wed, 23 Feb 2022 10:09:09 +0100
+Subject: [PATCH 09/12] use core refresh rate for kms mode selection
+
+---
+ gfx/drivers_context/drm_ctx.c | 1 +
+ retroarch.c                   | 8 ++++++--
+ 2 files changed, 7 insertions(+), 2 deletions(-)
+
+diff --git a/gfx/drivers_context/drm_ctx.c b/gfx/drivers_context/drm_ctx.c
+index 935e549b7e..717dad8687 100644
+--- a/gfx/drivers_context/drm_ctx.c
++++ b/gfx/drivers_context/drm_ctx.c
+@@ -898,6 +898,7 @@ static bool gfx_ctx_drm_set_video_mode(void *data,
+       goto error;
+    }
+ 
++   RARCH_LOG("[KMS]: Mode selected : (%s), %f Hz\n", g_drm_mode->name, drm_calc_refresh_rate(g_drm_mode));
+    drm->fb_width                   = g_drm_mode->hdisplay;
+    drm->fb_height                  = g_drm_mode->vdisplay;
+ 
+diff --git a/retroarch.c b/retroarch.c
+index 7a9eb7eb1b..eef9430929 100644
+--- a/retroarch.c
++++ b/retroarch.c
+@@ -1601,7 +1601,9 @@ void drivers_init(
+    audio_driver_state_t *audio_st    = audio_state_get_ptr();
+    input_driver_state_t *input_st    = input_state_get_ptr();
+    video_driver_state_t *video_st    = video_state_get_ptr();
+-#ifdef HAVE_MICROPHONE
++   double core_fps = video_st->av_info.timing.fps;
++
++  #ifdef HAVE_MICROPHONE
+    microphone_driver_state_t *mic_st = microphone_state_get_ptr();
+ #endif
+ #ifdef HAVE_MENU
+@@ -1625,7 +1627,9 @@ void drivers_init(
+    if (menu_st)
+       menu_st->flags             |= MENU_ST_FLAG_DATA_OWN;
+ #endif
+-
++   if(core_fps > 0.0) {
++      settings->floats.video_refresh_rate = core_fps < 40 ? core_fps * 2 : core_fps;
++   }
+    if (flags & (DRIVER_VIDEO_MASK | DRIVER_AUDIO_MASK))
+       driver_adjust_system_rates(runloop_st, video_st, settings,
+                                  settings->bools.vrr_runloop_enable,
+-- 
+2.43.0
+

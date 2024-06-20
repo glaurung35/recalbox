@@ -32,7 +32,8 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2.2-Pulstar
 
 ### Fixes
-- Fix kodi crash when playing HEVC/h264 video on rpi4 (and rpi5 ?)
+- Fix kodi crash when playing HEVC/h264 video on rpi4 
+- Fix kodi not playing HEVC video on rpi5 (still no 4k though)
 
 
 ## Version 9.2.1-Pulstar

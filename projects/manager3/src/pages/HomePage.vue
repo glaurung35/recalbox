@@ -44,6 +44,7 @@
 
 <script lang="ts" setup>
 import { useMonitoringStore } from 'src/stores/monitoring';
+import { HomeStat } from 'stores/types/misc';
 import { computed } from 'vue';
 import SystemStat from 'components/ui-kit/PercentStat.vue';
 import TotalStat from 'components/ui-kit/TotalStat.vue';
@@ -60,7 +61,7 @@ useRomsStore().getRomsCount();
 const { getSharePercent } = useMonitoringStore();
 useMonitoringStore().fetch();
 
-const totals = computed<object[]>(() => [
+const totals = computed<HomeStat[]>(() => [
   {
     key: 1,
     title: 'home.preview.systems',
@@ -74,7 +75,7 @@ const totals = computed<object[]>(() => [
   },
 ]);
 
-const percents = computed<object[]>(() => [
+const percents = computed<HomeStat[]>(() => [
   {
     key: 3,
     title: 'home.preview.sharePercent',

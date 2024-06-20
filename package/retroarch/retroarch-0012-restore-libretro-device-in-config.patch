@@ -1,0 +1,26 @@
+From cd106c3c02d3854591293164a7d674dde5296cbc Mon Sep 17 00:00:00 2001
+From: digitalLumberjack <digitallumberjack@gmail.com>
+Date: Thu, 20 Jun 2024 16:53:42 +0200
+Subject: [PATCH 12/12] restore libretro device in config
+
+---
+ configuration.c | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/configuration.c b/configuration.c
+index 989fa64bfa..c375226de4 100644
+--- a/configuration.c
++++ b/configuration.c
+@@ -3732,6 +3732,9 @@ static bool config_load_file(global_t *global,
+ 
+          strlcpy(buf + _len2, "_analog_dpad_mode", sizeof(buf) - _len2);
+          CONFIG_GET_INT_BASE(conf, settings, uints.input_analog_dpad_mode[i], buf);
++
++         sprintf(buf,"input_libretro_device_p%d", i);
++         CONFIG_GET_INT_BASE(conf, settings, uints.input_libretro_device[i], buf);
+       }
+    }
+ 
+-- 
+2.43.0
+

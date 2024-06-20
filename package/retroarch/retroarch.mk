@@ -4,10 +4,9 @@
 #
 ################################################################################
 
-# Version 1.10.0
-RETROARCH_VERSION = v1.15.0
-RETROARCH_SITE = https://github.com/libretro/RetroArch.git
-RETROARCH_SITE_METHOD = git
+# Version v1.19.1
+RETROARCH_VERSION = v1.19.1
+RETROARCH_SITE = $(call github,libretro,RetroArch,$(RETROARCH_VERSION))
 RETROARCH_LICENSE = GPLv3+
 RETROARCH_CONF_OPTS += --disable-oss --enable-zlib --disable-opengl1 --enable-hid
 RETROARCH_DEPENDENCIES = host-pkgconf recalbox-system flac

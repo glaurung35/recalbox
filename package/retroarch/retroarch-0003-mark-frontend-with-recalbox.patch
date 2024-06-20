@@ -1,4 +1,4 @@
-From 51e2087bec4b6b9a15daf705c5e606516ec64656 Mon Sep 17 00:00:00 2001
+From 86821677f3edb56f65c511742a1a1445842a8c19 Mon Sep 17 00:00:00 2001
 From: Bkg2k <bkg2k9@gmail.com>
 Date: Wed, 23 Feb 2022 09:42:42 +0100
 Subject: [PATCH 03/12] mark frontend with @recalbox
@@ -9,7 +9,7 @@ Subject: [PATCH 03/12] mark frontend with @recalbox
  2 files changed, 2 insertions(+), 2 deletions(-)
 
 diff --git a/network/netplay/netplay_defines.h b/network/netplay/netplay_defines.h
-index a52021480c..808eb85d8a 100644
+index 50c0307c47..bca050d370 100644
 --- a/network/netplay/netplay_defines.h
 +++ b/network/netplay/netplay_defines.h
 @@ -32,7 +32,7 @@
@@ -22,10 +22,10 @@ index a52021480c..808eb85d8a 100644
  
  #define NETPLAY_MITM_SERVERS 5
 diff --git a/network/netplay/netplay_frontend.c b/network/netplay/netplay_frontend.c
-index 63b50fd9ed..56c139b0c0 100644
+index f7c01e8cd6..facf46afaf 100644
 --- a/network/netplay/netplay_frontend.c
 +++ b/network/netplay/netplay_frontend.c
-@@ -8083,7 +8083,7 @@ static void netplay_announce(netplay_t *netplay)
+@@ -8352,7 +8352,7 @@ static void netplay_announce(netplay_t *netplay)
           frontend_architecture_tmp, sizeof(frontend_architecture_tmp));
     if (frontend_drv)
     {
@@ -35,5 +35,5 @@ index 63b50fd9ed..56c139b0c0 100644
        net_http_urlencode(&frontend_ident, buf);
     }
 -- 
-2.41.0
+2.43.0
 

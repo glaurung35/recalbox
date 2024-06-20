@@ -433,9 +433,7 @@ export interface CurrentSystemMetaDataSystem {
 }
 
 export interface CurrentSystemMetaDataColors {
-  eu: CurrentSystemMetaDataColor;
-  jp?: CurrentSystemMetaDataColor;
-  us?: CurrentSystemMetaDataColor;
+  [key: string]: CurrentSystemMetaDataColor;
 }
 
 export interface CurrentSystemMetaData {

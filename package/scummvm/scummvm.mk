@@ -29,14 +29,20 @@ SCUMMVM_CONF_OPTS += --enable-opengl --disable-debug --enable-optimizations --en
 SCUMMVM_MAKE_OPTS += RANLIB="$(TARGET_RANLIB)" STRIP="$(TARGET_STRIP)" AR="$(TARGET_AR) cru" AS="$(TARGET_AS)" LD="$(TARGET_CXX)"
 
 define SCUMMVM_ADD_VIRTUAL_KEYBOARD
+	rm $(TARGET_DIR)/usr/share/scummvm/* || exit 0
 	cp $(@D)/backends/vkeybd/packs/vkeybd_default.zip $(TARGET_DIR)/usr/share/scummvm
 	cp $(@D)/backends/vkeybd/packs/vkeybd_small.zip $(TARGET_DIR)/usr/share/scummvm
 endef
 define SCUMMVM_CONTROLLERS_LINK
 	ln -fs /tmp/gamecontrollerdb.txt $(TARGET_DIR)/usr/share/scummvm
 endef
+define SCUMMVM_ADD_THEMES
+	mkdir $(TARGET_DIR)/usr/share/scummvm/themes -p
+	cp $(BUILD_DIR)/gui/themes/*.zip  $(TARGET_DIR)/usr/share/scummvm/themes
+endef
 
 SCUMMVM_POST_INSTALL_TARGET_HOOKS += SCUMMVM_ADD_VIRTUAL_KEYBOARD
 SCUMMVM_POST_INSTALL_TARGET_HOOKS += SCUMMVM_CONTROLLERS_LINK
+SCUMMVM_POST_INSTALL_TARGET_HOOKS += SCUMMVM_ADD_THEMES
 
 $(eval $(autotools-package))

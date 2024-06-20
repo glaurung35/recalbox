@@ -175,6 +175,8 @@ module.exports = configure((ctx) => ({
   animations: [
     'flipInX',
     'slideInDown',
+    'slideInUp',
+    'slideInRight',
   ],
 
   // https://v2.quasar.dev/quasar-cli-webpack/developing-ssr/configuring-ssr

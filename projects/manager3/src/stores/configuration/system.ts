@@ -113,9 +113,6 @@ export const useSystemStore = defineStore('system', {
       kblayout: {
         value: 'us',
       },
-      overscan: {
-        value: false,
-      },
       'power.switch': {
         value: '',
       },

@@ -40,8 +40,6 @@ class RecalboxSystem
 
     static bool getWifiConfiguration(String& ssid, String& psk);
 
-    static bool setOverscan(bool enable);
-
     static bool setOverclock(const String& mode);
 
     static bool ping();

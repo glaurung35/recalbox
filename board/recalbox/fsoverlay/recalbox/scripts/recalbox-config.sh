@@ -101,41 +101,6 @@ if [ "$command" == "setRootPassword" ]; then
     fi
 fi
 
-if [ "$command" == "overscan" ]; then
-if [ -f "$configFile" ];then
-    preBootConfig
-    cat "$configFile" | grep "disable_overscan"
-    overscanPresent=$?
-
-    if [ "$overscanPresent" != "0" ];then
-        echo "disable_overscan=1" >> "$configFile"
-    fi
-    cat "$configFile" | grep "overscan_scale"
-    overscanScalePresent=$?
-
-    if [ "$overscanScalePresent" != "0" ];then
-        echo "overscan_scale=1" >> "$configFile"
-    fi
-
-    if [ "$mode" == "enable" ];then
-        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "enabling overscan"
-        sed -i "s/#\?disable_overscan=.*/disable_overscan=0/g" "$configFile"
-        sed -i "s/#\?overscan_scale=.*/overscan_scale=1/g" "$configFile"
-    elif [ "$mode" == "disable" ];then
-        recallog -s "${INIT_SCRIPT}" -t "CONFIG" "disabling overscan"
-        sed -i "s/#\?disable_overscan=.*/disable_overscan=1/g" "$configFile"
-        sed -i "s/#\?overscan_scale=.*/overscan_scale=0/g" "$configFile"
-    else
-        postBootConfig
-        exit 1
-    fi
-    postBootConfig
-    exit 0
-else
-    exit 2
-fi
-fi
-
 if [ "$command" == "overclock" ]; then
 
 declare -A arm_freq

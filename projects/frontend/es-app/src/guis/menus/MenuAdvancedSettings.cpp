@@ -67,10 +67,6 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   if(!Case::SupportedManualCases().empty())
     AddList<String>(_("CASE MANAGEMENT"),  (int)Components::Cases, this, GetCasesEntries(), Case::CurrentCase().ShortName(), "", _(MENUMESSAGE_ADVANCED_CASES_HELP_MSG));
 
-  // overscan
-  if(!isCrt)
-    AddSwitch(_("OVERSCAN"), RecalboxConf::Instance().GetOverscan(), (int)Components::Overscan, this, _(MENUMESSAGE_ADVANCED_OVERSCAN_HELP_MSG));
-
   // framerate
   AddSwitch(_("SHOW FRAMERATE"), RecalboxConf::Instance().GetGlobalShowFPS(), (int)Components::ShowFPS, this, _(MENUMESSAGE_ADVANCED_FRAMERATE_HELP_MSG));
 
@@ -241,12 +237,6 @@ void MenuAdvancedSettings::MenuSwitchChanged(int id, bool& status)
       RecalboxConf::Instance().SetDebugLogs(status).Save();
       break;
     }
-    case Components::Overscan:
-    {
-      RecalboxConf::Instance().SetOverscan(status);
-      RecalboxSystem::setOverscan(status);
-      break;
-    }
     case Components::ShowFPS: RecalboxConf::Instance().SetGlobalShowFPS(status).Save(); break;
     case Components::Manager: RecalboxConf::Instance().SetSystemManagerEnabled(status).Save(); break;
     case Components::OverclockList:
@@ -277,7 +267,6 @@ void MenuAdvancedSettings::SubMenuSelected(int id)
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:
-    case Components::Overscan:
     case Components::ShowFPS:
     case Components::SecuritySubMenu:
     case Components::Manager:

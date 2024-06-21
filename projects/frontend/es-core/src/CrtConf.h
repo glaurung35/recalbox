@@ -46,7 +46,7 @@ class CrtConf: public IniFile, public StaticLifeCycleControler<CrtConf>
     DefineGetterSetterGeneric(CrtConf, SystemCRTRunDemoIn240pOn31kHz, bool, Bool, sSystemCRTRunDemoIn240pOn31kHz, false)
     DefineGetterSetterEnumGeneric(CrtConf, SystemCRTScanlines31kHz, CrtScanlines, sSystemCRTScanlines31kHz, CrtScanlines)
     DefineGetterSetterGeneric(CrtConf, SystemCRTExtended15KhzRange, bool, Bool, sSystemCRTExtended15KhzRange, false)
-    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "x6")
+    DefineGetterSetterGeneric(CrtConf, SystemCRTSuperrez, String, String, sSystemCRTSuperrez, "1920")
     DefineGetterSetterGeneric(CrtConf, SystemCRTUseV2, bool, Bool, sSystemCRTUseV2, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceJack, bool, Bool, sSystemCRTForceJack, false)
     DefineGetterSetterGeneric(CrtConf, SystemCRTForceHDMI, bool, Bool, sSystemCRTForceHDMI, false)

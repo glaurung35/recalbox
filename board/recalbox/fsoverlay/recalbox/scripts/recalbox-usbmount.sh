@@ -11,26 +11,82 @@
 # 2) for ntfs, if the device is not correctly removed, we've to try to fix (ntfsfix) or fallback in case of error, and the device must not be mounted
 # 3) for some others actions, such as /dev/mmcblk0p3 fs growing, it must not be mounted
 
+write_device_info() {
+  set |
+	  grep -E '^DEVNAME=|^ID_FS_USAGE=|^ID_FS_UUID=|^ID_FS_TYPE=|^ID_FS_LABEL=|^ACTION=' |
+	  sed -e s+'^'+'export '+ > /var/run/usbmount.delay/$(basename "$DEVNAME")
+}
+
+write_dynamic_samba_share() {
+  local SHARE
+  SHARE=${1//[^a-zA-Z0-9_ ]/}
+  SHARE=$(echo "$SHARE" | tr A-Z a-z)
+  cat <<EOF
+[$SHARE]
+comment = $2
+path = $3
+writeable = yes
+guest ok = yes
+create mask = 0644
+directory mask = 0755
+force user = root
+veto files = /._*/.DS_Store/
+delete veto files = yes
+EOF
+}
+
+regenerate_dynamic_samba_shares() {
+  local mountpoint
+  local file
+  rm /tmp/dynamic-share.conf
+  find /var/run/usbmount.delay -type f | while read -r file; do
+    /usr/bin/recallog -s usbmount -t INFO "processing $file"
+    (
+      source "$file"
+      mountpoint=$(grep -E "$DEVNAME\b" /proc/mounts| cut -d " " -f 2 | head -n1)
+      /usr/bin/recallog -s usbmount -t INFO "mountpoint is $mountpoint"
+      if [ -n "$mountpoint" ]; then
+        [ -z "$ID_FS_LABEL" ] && ID_FS_LABEL="$DEVNAME"
+        write_dynamic_samba_share "$ID_FS_LABEL" "Partition $ID_FS_LABEL" "$mountpoint" >>/tmp/dynamic-share.conf
+      fi
+    )
+  done
+}
+
+/usr/bin/recallog -s usbmount -t INFO "ACTION=$ACTION DEVNAME=$DEVNAME"
 if [ "$ACTION" = add ] && mount | grep -q -E "^$DEVNAME\b"; then
     /usr/bin/recallog -s usbmount -t WARNING "$DEVNAME already mounted, skipping..."
     exit 1
 fi
 
-# if share is already mounted, just use the basic usbmount
-if test -e /var/run/recalbox.share.mounted
-then
-    /usr/bin/recallog -s usbmount -t INFO "$DEVNAME processed"
-    /usr/share/usbmount/usbmount "$1"
-    exit $?
+# handle remove, remove old file
+if [ "$ACTION" = remove ] && [ -f /var/run/usbmount.delay/"$(basename "$DEVNAME")" ]; then
+  rm /var/run/usbmount.delay/"$(basename "$DEVNAME")"
+  /usr/bin/recallog -s usbmount -t INFO "$DEVNAME removed"
+  REGENERATE=true
 fi
 
-# if not, delay the automounting by saving the context for later
+# sanitize
+[ ! -d /var/run/usbmount.delay ] && mkdir -p /var/run/usbmount.delay
+
+# save the context for later user
 # it will be played by the S11share script after the mounting of /recalbox/share
-if mkdir -p /var/run/usbmount.delay
-then
-  set |
-	  grep -E '^DEVNAME=|^ID_FS_USAGE=|^ID_FS_UUID=|^ID_FS_TYPE=|^ID_FS_LABEL=|^ACTION=' |
-	  sed -e s+'^'+'export '+ > /var/run/usbmount.delay/$(basename "$DEVNAME")
-  /usr/bin/recallog -s usbmount -t INFO "$DEVNAME saved for future mount"
+# and used byt this script to regenerate samba shares
+if [ "$ACTION" = add ] && [ -n "$ID_FS_TYPE" ]; then
+  write_device_info
+  /usr/bin/recallog -s usbmount -t INFO "$DEVNAME saved for future use"
+  # if share is already mounted, just use the basic usbmount
+  if test -e /var/run/recalbox.share.mounted; then
+    _mess=$(/usr/share/usbmount/usbmount "$1" 2>&1)
+    ret=$?
+    /usr/bin/recallog -s usbmount -t INFO "$DEVNAME processed and mounted"
+    /usr/bin/recallog -s usbmount -t INFO "$_mess"
+  fi
+  REGENERATE=true
 fi
 
+if [ "$REGENERATE" = true ]; then
+  /usr/bin/recallog -s usbmount -t INFO "regenerate dynamic samba shares"
+  regenerate_dynamic_samba_shares
+fi
+exit "$ret"

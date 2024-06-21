@@ -24,13 +24,9 @@ class RecalboxSystem
 
     static unsigned long getFreeSpaceGB(const String& mountpoint);
 
-    static String getFreeSpaceInfo();
-
     static bool isFreeSpaceLimit();
 
     static bool isFreeSpaceUnderLimit(long long size);
-
-    static String getRootPassword();
 
     static std::vector<String> getAvailableWiFiSSID(bool activateWifi);
 
@@ -42,13 +38,9 @@ class RecalboxSystem
 
     static bool setOverscan(bool enable);
 
-    static bool setOverclock(const String& mode);
-
     static bool ping();
 
     static bool kodiExists();
-
-    static bool backupRecalboxConf();
 
     static bool enableWifi(String ssid, String key);
 
@@ -74,10 +66,6 @@ class RecalboxSystem
     static std::vector<String> scanBluetooth();
 
     static bool pairBluetooth(const String& basic_string);
-
-    static std::vector<String> getAvailableStorageDevices();
-
-    static String getCurrentStorage();
 
     static bool setStorage(const String& basic_string);
 

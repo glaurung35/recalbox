@@ -52,34 +52,22 @@ class CRTResolution(StrEnum):
 
 
 class CRTSuperRez(StrEnum):
-    original = "original"
-    x2 = "x2"
-    x6 = "x6"
-    x8 = "x8"
+    dynamic = "1"
+    native = "0"
+    x6 = "1920"
+    x8 = "2560"
 
     @staticmethod
     def fromString(value: str) -> typing.Optional["CRTSuperRez"]:
-        if value == "original":
-            return CRTSuperRez.original
-        if value == "x2":
-            return CRTSuperRez.x2
-        if value == "x6":
+        if value == "1":
+            return CRTSuperRez.dynamic
+        if value == "0":
+            return CRTSuperRez.native
+        if value == "1920":
             return CRTSuperRez.x6
-        if value == "x8":
+        if value == "2560":
             return CRTSuperRez.x8
-        return CRTSuperRez.original
-
-    def multiplier(self):
-        if self == "original":
-            return 1
-        if self == "x2":
-            return 2
-        if self == "x6":
-            return 6
-        if self == "x8":
-            return 8
-        return 1
-
+        return CRTSuperRez.x6
 
 CRTConfigurationByResolution = dict[str, dict[str, int]]
 

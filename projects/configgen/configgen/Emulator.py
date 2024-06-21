@@ -61,7 +61,7 @@ class ExtraArguments:
      rotation: int = 0
      rotatecontrols: bool = False
      verticalgame: bool = False
-     crtsuperrez: str = "x6"
+     crtsuperrez: str = "1"
      crtv2: bool = False
      sgb: bool = False
      jammalayoutp1: str = ""
@@ -133,7 +133,7 @@ class Emulator:
         self._crtenabled: bool = False
         self._crtadapter: CRTAdapter = CRTAdapter.NONE
         self._crtscanlines: CRTScanlines = CRTScanlines.NONE
-        self._crtsuperrez: CRTSuperRez = CRTSuperRez.original
+        self._crtsuperrez: CRTSuperRez = CRTSuperRez.dynamic
         self._crtv2: bool = False
         self._crt_config = {}
         self._jammalayoutp1 = ""

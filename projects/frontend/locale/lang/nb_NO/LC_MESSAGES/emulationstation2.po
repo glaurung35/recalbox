@@ -4406,3 +4406,46 @@ msgid ""
 "SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE "
 "THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."
 msgstr ""
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
+msgstr ""

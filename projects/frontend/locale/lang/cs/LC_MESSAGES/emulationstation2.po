@@ -3179,7 +3179,8 @@ msgid ""
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
-"\nUPOZORNĚNÍ: Je možné, že zařízení nebylo správně odpojeno a má chyby "
+"\n"
+"UPOZORNĚNÍ: Je možné, že zařízení nebylo správně odpojeno a má chyby "
 "konzistence. V důsledku toho bylo připojeno pouze pro čtení. Měli byste "
 "zařízení připojit k počítači s operačním systémem Windows a použít nástroj "
 "pro opravu."
@@ -4212,7 +4213,9 @@ msgstr "Stávající verze:\n"
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr "\nPoslední verze:\n"
+msgstr ""
+"\n"
+"Poslední verze:\n"
 
 msgid "Update success. The bootloader is up to date."
 msgstr "Úspěšná aktualizace. Zavaděč je aktualizován."
@@ -4220,7 +4223,9 @@ msgstr "Úspěšná aktualizace. Zavaděč je aktualizován."
 msgid ""
 "Your bootloader is up to date.\n"
 "The bootloader version is:\n"
-msgstr "Zavaděč je aktualizovaný.\nVerze zavaděče je:\n"
+msgstr ""
+"Zavaděč je aktualizovaný.\n"
+"Verze zavaděče je:\n"
 
 msgid "AUTO PAIR ON BOOT"
 msgstr "AUTOMATICKÉ PÁROVÁNÍ PŘI STARTU"
@@ -4960,6 +4965,49 @@ msgstr ""
 "KOMPATIBILNÍCH S ŠIROKOÚHLÝM DISPLEJEM. NĚKTERÉ HRY NEMUSÍ BÝT 100% "
 "KOMPATIBILNÍ, PROTO NEZAPOMEŇTE TUTO MOŽNOST VYPNOUT, POKUD SE OBJEVÍ "
 "PROBLÉMY S EMULACÍ NEBO VÝKONEM."
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

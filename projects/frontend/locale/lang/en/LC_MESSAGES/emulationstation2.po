@@ -4198,7 +4198,9 @@ msgstr "Current version: \n"
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr "\nLatest version: \n"
+msgstr ""
+"\n"
+"Latest version: \n"
 
 msgid "Update success. The bootloader is up to date."
 msgstr "Update success. The bootloader is up to date."
@@ -4939,6 +4941,42 @@ msgstr ""
 "RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON WIDESCREEN-COMPATIBLE "
 "SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE "
 "THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."
+
+msgid "BOOT ON GAME"
+msgstr "BOOT ON GAME"
+
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr "Add a menu in game option to boot on a specific game on startup."
+
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr "HIDE MAHJONG AND CASINO GAMES"
+
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr "SHOW ONLY 3+ PLAYERS GAMES"
+
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr "Show only yoko (horizontal) games in gamelists."
+
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr "SHOW ONLY TATE (VERTICAL) GAMES"
+
+msgid "Show only tate (vertical) games in gamelists."
+msgstr "Show only tate (vertical) games in gamelists."
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

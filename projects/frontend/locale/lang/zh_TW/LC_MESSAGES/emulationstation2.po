@@ -3062,7 +3062,8 @@ msgid ""
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
-"\n警告：您的裝置可能未正確拔出插頭並可能存在錯誤。因此它被設置為唯讀。建議您將"
+"\n"
+"警告：您的裝置可能未正確拔出插頭並可能存在錯誤。因此它被設置為唯讀。建議您將"
 "裝置重新插入 Windows PC 並使用修復工具。"
 
 msgid "DISPLAY BY FILENAME"
@@ -4048,7 +4049,9 @@ msgstr "目前版本：\n"
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr "\n最新版本：\n"
+msgstr ""
+"\n"
+"最新版本：\n"
 
 msgid "Update success. The bootloader is up to date."
 msgstr "更新成功！bootloader已是最新的版本。"
@@ -4741,6 +4744,49 @@ msgid ""
 msgstr ""
 "RECALBOX 將自動選擇模擬器以在寬螢幕相容系統上運作。有些遊戲可能不是 100% 相"
 "容，因此如果出現模擬或效能問題，請不要忘記停用此選項。"
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

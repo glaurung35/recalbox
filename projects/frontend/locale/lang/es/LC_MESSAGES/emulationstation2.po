@@ -3224,7 +3224,8 @@ msgid ""
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
-"\nATENCIÓN: Tu dispositivo podría haberse desconectado incorrectamente y tiene "
+"\n"
+"ATENCIÓN: Tu dispositivo podría haberse desconectado incorrectamente y tiene "
 "inconsistencias. Como resultado, se ha montado como solo lectura. Deberías "
 "conectar tu dispositivo a un PC y repararlo."
 
@@ -4278,7 +4279,9 @@ msgstr "Versión actual: \n"
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr "\nÚltima versión: \n"
+msgstr ""
+"\n"
+"Última versión: \n"
 
 msgid "Update success. The bootloader is up to date."
 msgstr "Actualización exitosa. El bootloader está actualizado."
@@ -5056,6 +5059,49 @@ msgstr ""
 "MODO WIDESCREEN. ALGUNOS JUEGOS PUEDEN NO SER 100% COMPATIBLES CON ESTE "
 "MODO. DESACTIVAD ESTA OPCIÓN SI EL EMULADOR TIENE FALLOS O PROBLEMAS DE "
 "RENDIMIENTO."
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

@@ -5079,6 +5079,42 @@ msgstr ""
 "100% COMPATIBLES, N'OUBLIEZ PAS DE DÉSACTIVER CETTE OPTION SI DES PROBLÈMES "
 "DE PERFORMANCES OU D'ÉMULATION SURVIENNENT."
 
+msgid "BOOT ON GAME"
+msgstr "DÉMARRER SUR UN JEU"
+
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr "Ajoute un menu dans les options du jeu pour démarrer sur un jeu spécifique au démarrage."
+
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr "CACHER LES JEUX DE MAHJONG ET CASINO"
+
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+"Cache les jeux de plateaux, comme le MAHJONG, ÉCHECS. Les jeux de casino et trivia sont "
+"aussi cachés."
+
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr "AFFICHE UNIQUEMENT LES JEUX À 3+ JOUEURS"
+
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+"Affiche uniquement les jeux à 3 joueurs et plus, pour les jeux d'arcade ou les jeux de plateaux à 3/4 joueurs."
+
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr "AFFICHER UNIQUEMENT LES JEUX YOKO (HORIZONTAL)"
+
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr "Affiche uniquement les jeux yoko (horizontal) dans les listes de jeux."
+
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr "AFFICHE UNIQUEMENT LES JEUX TATE (VERTICAL)"
+
+msgid "Show only tate (vertical) games in gamelists."
+msgstr "Affiche uniquement les jeux tate (vertical) dans les listes de jeux."
+
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "
 #~ "will turn the screen black."

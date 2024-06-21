@@ -6,8 +6,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
-"(n%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
+"%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "JŪSŲ RECALBOX YRA PASIEKIAMAS ATNAUJINIMAS"
@@ -4409,4 +4409,47 @@ msgid ""
 "RECALBOX WILL AUTOMATICALLY SELECT EMULATORS TO RUN ON WIDESCREEN-COMPATIBLE "
 "SYSTEMS. SOME GAMES MAY NOT BE 100% COMPATIBLE, SO DON'T FORGET TO DISABLE "
 "THIS OPTION IF EMULATION OR PERFORMANCE ISSUES APPEAR."
+msgstr ""
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
 msgstr ""

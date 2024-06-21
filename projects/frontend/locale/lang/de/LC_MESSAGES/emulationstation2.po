@@ -3229,7 +3229,8 @@ msgid ""
 "errors. As a result, it's been mounted as read-only. You should plug your "
 "device in a Window PC and use the repair tool."
 msgstr ""
-"\nWARNUNG: Dein Gerät wurde möglicherweise nicht ordnungsgemäß vom Stromnetz "
+"\n"
+"WARNUNG: Dein Gerät wurde möglicherweise nicht ordnungsgemäß vom Stromnetz "
 "getrennt und weist Konsistenzfehler auf. Daher wurde es als schreibgeschützt "
 "gemountet. Schließe Dein Gerät an einen Windows-PC an und verwende das "
 "Reparaturprogramm."
@@ -4285,7 +4286,9 @@ msgstr "Aktuelle Version: \n"
 msgid ""
 "\n"
 "Latest version: \n"
-msgstr "\nLetzte Version: \n"
+msgstr ""
+"\n"
+"Letzte Version: \n"
 
 msgid "Update success. The bootloader is up to date."
 msgstr "Update erfolgreich. Der Bootloader ist auf dem neuesten Stand."
@@ -4293,7 +4296,9 @@ msgstr "Update erfolgreich. Der Bootloader ist auf dem neuesten Stand."
 msgid ""
 "Your bootloader is up to date.\n"
 "The bootloader version is:\n"
-msgstr "Ihr Bootloader ist auf dem neuesten Stand.\n Die Bootloader-Version ist:\n"
+msgstr ""
+"Ihr Bootloader ist auf dem neuesten Stand.\n"
+" Die Bootloader-Version ist:\n"
 
 msgid "AUTO PAIR ON BOOT"
 msgstr ""
@@ -5045,6 +5050,49 @@ msgstr ""
 "SYSTEMEN LAUFEN. EINIGE SPIELE SIND MÖGLICHERWEISE NICHT 100% KOMPATIBEL, "
 "ALSO VERGISS NICHT, DIESE OPTION ZU DEAKTIVIEREN, WENN EMULATIONS- ODER "
 "LEISTUNGSPROBLEME AUFTRETEN."
+
+#
+msgid "BOOT ON GAME"
+msgstr ""
+
+#
+msgid "Add a menu in game option to boot on a specific game on startup."
+msgstr ""
+
+#
+msgid "HIDE MAHJONG AND CASINO GAMES"
+msgstr ""
+
+#
+msgid ""
+"Hide board games, like MAHJONG, CHESS. Casino games and trivia games are "
+"also hidden."
+msgstr ""
+
+#
+msgid "SHOW ONLY 3+ PLAYERS GAMES"
+msgstr ""
+
+#
+msgid ""
+"Show only 3 and more players games, for 3/4 players arcade cabs or party."
+msgstr ""
+
+#
+msgid "SHOW ONLY YOKO (HORIZONTAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only yoko (horizontal) games in gamelists."
+msgstr ""
+
+#
+msgid "SHOW ONLY TATE (VERTICAL) GAMES"
+msgstr ""
+
+#
+msgid "Show only tate (vertical) games in gamelists."
+msgstr ""
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

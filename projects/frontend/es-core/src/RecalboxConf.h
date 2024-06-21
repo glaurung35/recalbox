@@ -303,7 +303,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(SystemManagerEnabled, bool, Bool, sSystemManagerEnabled, true)
 
     DefineGetterSetter(Overclocking, String, String, sOverclocking, "none")
-    DefineGetterSetter(Overscan, bool, Bool, sOverscan, false)
 
     DefineGetterSetter(KodiEnabled, bool, Bool, sKodiEnabled, true)
     DefineGetterSetter(KodiAtStartup, bool, Bool, sKodiAtStartup, false)
@@ -586,7 +585,6 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemManagerEnabled       = "system.manager.enabled";
 
     static constexpr const char* sOverclocking               = "system.overclocking";
-    static constexpr const char* sOverscan                   = "system.overscan";
 
     static constexpr const char* sPowerSwitch                = "system.power.switch";
 

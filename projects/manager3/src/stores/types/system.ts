@@ -60,10 +60,6 @@ export interface SystemConfigResponse {
     exist: boolean;
     value: boolean;
   };
-  overscan: {
-    exist: boolean;
-    value: boolean;
-  };
   'secondminitft.enabled': {
     exist: boolean;
     value: boolean;
@@ -164,9 +160,6 @@ export interface SystemConfigOptionsResponse {
   'es.videomode': StringListObject;
   'power.switch': SimpleStringListObject;
   'fbcp.enabled': {
-    type: string;
-  };
-  overscan: {
     type: string;
   };
   'secondminitft.enabled': {

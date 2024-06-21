@@ -114,25 +114,6 @@ std::vector<String> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
   return result;
 }
 
-bool RecalboxSystem::setOverscan(bool enable)
-{
-  String cmd(sConfigScript);
-  cmd += " overscan";
-  cmd += enable ? " enable" : " disable";
-  { LOG(LogInfo) << "[System] Launching " << cmd; }
-  if (system(cmd.c_str()) != 0)
-  {
-    { LOG(LogWarning) << "[System] Error executing " << cmd; }
-    return false;
-  }
-  else
-  {
-    { LOG(LogInfo) << "[System] Overscan set to : " << enable; }
-    return true;
-  }
-
-}
-
 bool RecalboxSystem::setOverclock(const String& mode)
 {
   if (!mode.empty())

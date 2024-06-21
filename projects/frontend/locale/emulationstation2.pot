@@ -400,10 +400,6 @@ msgid "UI SETTINGS"
 msgstr ""
 
 #:
-msgid "OVERSCAN"
-msgstr ""
-
-#:
 msgid "SCREENSAVER AFTER"
 msgstr ""
 
@@ -1526,12 +1522,6 @@ msgstr ""
 
 #:
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-#:
-msgid "Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger than your screen. Before setting the overscan, try to configure your TV to have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when you plug your SD card into your computer."
 msgstr ""
 
 #:

@@ -274,7 +274,8 @@ class LibretroConfigCRT:
                                          "video_allow_rotate": '"true"',
                                          "video_driver": '"gl"',
                                          "video_scale_integer_overscale": '"false"',
-                                         "video_scale_integer": '"false"'
+                                         "video_scale_integer": '"false"',
+                                         "crt_switch_resolution": "0"
                                          }
         if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             config["video_font_enable"] = '"false"'

@@ -93,16 +93,11 @@ GuiMenuCRT::GuiMenuCRT(WindowManager& window, SystemManager& systemManager, cons
   AddSwitch(_("REDUCED LATENCY (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalReduceLatency(), (int)Components::ReduceLatency, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
   AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
-/*#if false//defined(BETA) || defined(DEBUG)
   // ConfiggenV2
   AddSwitch(_("USE V2 (BETA)"), CrtConf::Instance().GetSystemCRTUseV2(), (int)Components::UseV2, this, _(MENUMESSAGE_ADVANCED_CRT_V2));
 
-  // Extended range
-  AddSwitch(_("V2 - 15KHZ EXTENDED RANGE"), CrtConf::Instance().GetSystemCRTExtended15KhzRange(), (int)Components::Extended15kHzRange, this,  _(MENUMESSAGE_ADVANCED_CRT_EXTENDED));
-
   // Superrez multiplier
   AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(),  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
-#endif*/
 
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
@@ -271,10 +266,10 @@ std::vector<GuiMenuBase::ListEntry<String>> GuiMenuCRT::GetSuperRezEntries()
   std::vector<GuiMenuBase::ListEntry<String>> list;
   String selected = CrtConf::Instance().GetSystemCRTSuperrez();
 
-  list.push_back({ "X6 (DEFAULT)", "x6", selected == "x6" });
-  list.push_back({ "ORIGINAL", "original", selected == "original" });
-  list.push_back({ "X2", "x2", selected == "x2" });
-  list.push_back({ "x8", "x8", selected == "x8" });
+  list.push_back({ "x6 (DEFAULT)", "1920", selected == "1920" });
+  list.push_back({ "X8", "2560", selected == "2560" });
+  list.push_back({ "DYNAMIC", "1", selected == "1" });
+  list.push_back({ "NATIVE", "0", selected == "0" });
   return list;
 }
 

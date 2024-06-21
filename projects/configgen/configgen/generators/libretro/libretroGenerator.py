@@ -142,17 +142,22 @@ class LibretroGenerator(Generator):
         # recalbox-crt-options.cfg options
 
         # Retroarch CRT configuration
-        from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
-        from configgen.crt.CRTConfigParser import CRTConfigParser
-        from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
-        libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), system.CRTV2)
-        for option in libretro_crt_configurator.createConfigFor(system, rom).items():
-            retroarchConfig.setString(option[0], option[1])
-        # Core configuration
-        from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
-        core_config = LibretroCoreConfigCRT().createConfigFor(system)
-        for core_option in core_config.items():
-            coreConfig.setString(core_option[0], core_option[1])
+        if system.CRTV2:
+            from configgen.generators.libretro.crtswitchres.LibretroConfigCRTSwitchres import LibretroConfigCRTSwitchres
+            for option in LibretroConfigCRTSwitchres().createConfigFor(system, rom).items():
+                retroarchConfig.setString(option[0], option[1])
+        else:
+            from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
+            from configgen.crt.CRTConfigParser import CRTConfigParser
+            from configgen.crt.CRTModeOffsetter import CRTModeOffsetter
+            libretro_crt_configurator = LibretroConfigCRT(CRTConfigParser(), CRTModeOffsetter(), system.CRTV2)
+            for option in libretro_crt_configurator.createConfigFor(system, rom).items():
+                retroarchConfig.setString(option[0], option[1])
+            # Core configuration
+            from configgen.generators.libretro.crt.LibretroCoreConfigCRT import LibretroCoreConfigCRT
+            core_config = LibretroCoreConfigCRT().createConfigFor(system)
+            for core_option in core_config.items():
+                coreConfig.setString(core_option[0], core_option[1])
 
         retroarchConfig.saveFile()
         coreConfig.saveFile()

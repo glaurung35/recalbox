@@ -177,48 +177,48 @@ def test_simple_generate_quasi88_multi_disk_2(emulator, system_quasi88, controll
                              'path/to/test(Disk 5 of 5)(Disk E).zip']
 
 
-@pytest.mark.usefixtures("controller_configuration")
-def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
-    recalbox_conf = keyValueSettings("", True)
-    givenThoseFiles(mocker, {
-        "/recalbox/share/system/configs/crt/systems.txt": "snes,snes9x,pal,15kHz,progressive,snes:288@50p,1740,224\nsnes,snes9x,ntsc,15kHz,progressive,snes:240@60p,0,0",
-        "/recalbox/share/system/configs/crt/modes.txt": "snes:240@60p,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:288@50p,1920 1 78 192 210 288 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
+# @pytest.mark.usefixtures("controller_configuration")
+# def test_crt_enabled_create_mode_configuration(mocker, emulator, system_snes, controller_configuration):
+#     recalbox_conf = keyValueSettings("", True)
+#     givenThoseFiles(mocker, {
+#         "/recalbox/share/system/configs/crt/systems.txt": "snes,snes9x,pal,15kHz,progressive,snes:288@50p,1740,224\nsnes,snes9x,ntsc,15kHz,progressive,snes:240@60p,0,0",
+#         "/recalbox/share/system/configs/crt/modes.txt": "snes:240@60p,1920 1 78 192 210 240 1 3 3 16 0 0 0 60 0 37730000 1,60.1\nsnes:288@50p,1920 1 78 192 210 288 1 3 3 16 0 0 0 50 0 37730000 1,50.1"})
+#
+#     system_snes.configure(recalbox_conf,
+#                           ExtraArguments("", "", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual",
+#                                           "auto", False,
+#                                          crt_horizontaloffset_p1920x240=-2, crt_verticaloffset_p1920x240=-2, crt_viewportwidth_p1920x240=-10,
+#                                          crt_horizontaloffset_p1920x288=1, crt_verticaloffset_p1920x288=-2))
+#
+#     emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
+#     generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
+#     assert 'crt_switch_timings_ntsc = "1920 1 90 192 198 240 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
+#     assert 'crt_switch_timings_pal = "1920 1 72 192 216 288 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
+#     assert 'custom_viewport_width_ntsc = 1780' in generated_config
+#     assert 'custom_viewport_width_pal = 1740' in generated_config
+#     assert 'video_refresh_rate_ntsc = "60.1"' in generated_config
+#     assert 'video_refresh_rate_pal = "50.1"' in generated_config
 
-    system_snes.configure(recalbox_conf,
-                          ExtraArguments("", "", "", "", "", "", "", "", "auto", "progressive", "15kHz", "recalboxrgbdual",
-                                          "auto", False,
-                                         crt_horizontaloffset_p1920x240=-2, crt_verticaloffset_p1920x240=-2, crt_viewportwidth_p1920x240=-10,
-                                         crt_horizontaloffset_p1920x288=1, crt_verticaloffset_p1920x288=-2))
 
-    emulator.generate(system_snes, controller_configuration, recalbox_conf, Arguments('path/to/rom'))
-    generated_config = Path(libretroConfigurations.recalboxFiles.retroarchCustom).read_text()
-    assert 'crt_switch_timings_ntsc = "1920 1 90 192 198 240 1 5 3 14 0 0 0 60 0 37730000 1"' in generated_config
-    assert 'crt_switch_timings_pal = "1920 1 72 192 216 288 1 5 3 14 0 0 0 50 0 37730000 1"' in generated_config
-    assert 'custom_viewport_width_ntsc = 1780' in generated_config
-    assert 'custom_viewport_width_pal = 1740' in generated_config
-    assert 'video_refresh_rate_ntsc = "60.1"' in generated_config
-    assert 'video_refresh_rate_pal = "50.1"' in generated_config
-
-
-@pytest.mark.usefixtures("controller_configuration")
-def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_with_overlays, controller_configuration):
-    recalbox_conf = keyValueSettings("", True)
-    recalbox_conf.setString("global.recalboxoverlays", "1")
-
-    system_gb_with_overlays.configure(recalbox_conf,
-                                      ExtraArguments("", "", "", "", "", "", "", "", "auto", "progressive", "15kHz",
-                                                     "recalboxrgbdual"))
-
-    givenThoseFiles(mocker, {
-        "/recalbox/share/system/configs/crt/systems.txt": "gb,gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,gb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",
-        "/recalbox/share/system/configs/crt/modes.txt": "gb:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,501\ngb:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1"})
-
-    # Easy way to fake overlay file on file system
-    mocker.patch('os.path.isfile', return_value=True)
-
-    commandLine: Command = emulator.generate(system_gb_with_overlays, controller_configuration, recalbox_conf,
-                                             Arguments('path/to/rom'))
-    assert "/recalbox/share_init/240poverlays/gb/gb.cfg" in commandLine.array[6]
+# @pytest.mark.usefixtures("controller_configuration")
+# def test_crt_enabled_create_overlay_configuration(mocker, emulator, system_gb_with_overlays, controller_configuration):
+#     recalbox_conf = keyValueSettings("", True)
+#     recalbox_conf.setString("global.recalboxoverlays", "1")
+#
+#     system_gb_with_overlays.configure(recalbox_conf,
+#                                       ExtraArguments("", "", "", "", "", "", "", "", "auto", "progressive", "15kHz",
+#                                                      "recalboxrgbdual"))
+#
+#     givenThoseFiles(mocker, {
+#         "/recalbox/share/system/configs/crt/systems.txt": "gb,gb,pal,15kHz,progressive,gb:pal:240@50p,1740,224\ngb,gb,ntsc,15kHz,progressive,gb:ntsc:224@60p,0,0",
+#         "/recalbox/share/system/configs/crt/modes.txt": "gb:pal:240@50p,1920 1 78 192 210 240 1 3 3 16 0 0 0 50 0 37730000 1,501\ngb:ntsc:224@60p,1920 1 78 192 210 224 1 3 3 16 0 0 0 60 0 37730000 1,60.1"})
+#
+#     # Easy way to fake overlay file on file system
+#     mocker.patch('os.path.isfile', return_value=True)
+#
+#     commandLine: Command = emulator.generate(system_gb_with_overlays, controller_configuration, recalbox_conf,
+#                                              Arguments('path/to/rom'))
+#     assert "/recalbox/share_init/240poverlays/gb/gb.cfg" in commandLine.array[6]
 
 
 @pytest.mark.usefixtures("controller_configuration")

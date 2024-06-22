@@ -403,22 +403,20 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
   const ICrtInterface& crtBoard = Board::Instance().CrtBoard();
   if (crtBoard.IsCrtAdapterAttached())
   {
-    result.Append(" -crtadaptor ").Append(crtBoard.ShortName());
-    result.Append(" -crtsuperrez ").Append(CrtConf::Instance().GetSystemCRTSuperrez());
+
     // CRTV2 will be forced by user, or for tate mode
-    if(CrtConf::Instance().GetSystemCRTUseV2())
-      result.Append(" -crtv2");
-    for(int i = (int)CrtResolution::_rCount; --i > 0;)
+/*    if(CrtConf::Instance().GetSystemCRTUseV2())*/
+/*    for(int i = (int)CrtResolution::_rCount; --i > 0;)
     {
       CrtResolution reso = (CrtResolution)i;
       String sreso = String(CrtConf::CrtResolutionFromEnum(reso));
       result.Append(" -crt_verticaloffset_").Append(sreso).Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetVerticalOffset(reso));
       result.Append(" -crt_horizontaloffset_").Append(sreso).Append(' ').Append(CrtConf::Instance().GetCrtModeOffsetHorizontalOffset(reso));
       result.Append(" -crt_viewportwidth_").Append(sreso).Append(' ').Append(CrtConf::Instance().GetCrtViewportWidth(reso));
-    }
+    }*/
 
     // Resolution type
-    if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+/*    if(crtBoard.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
     {
       result.Append(" -crtscreentype ").Append( "31kHz");
       // force 240p only if game resolution select is active and 240p is selected
@@ -451,58 +449,61 @@ String GameRunner::BuildCRTOptions(const SystemData& system, const CrtData& data
         result.Append(" -crtscreentype ").Append( (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz"));
     }
     else
+    {*/
+    result.Append(" -crtadaptor ").Append(crtBoard.ShortName());
+    result.Append(" -crtsuperrez ").Append(CrtConf::Instance().GetSystemCRTSuperrez());
+    result.Append(" -crtresolutiontype ").Append(CrtData::CrtModeToString(data.GetCrtMode()));
+    result.Append(" -crtscreentype ").Append(ICrtInterface::HorizontalFrequencyToString(crtBoard.GetHorizontalFrequency()));
+    result.Append(" -crtscanlines ").Append(CrtConf::CrtScanlinesFromEnum(data.Scanlines(system)));
+    result.Append(" -crtvideostandard ");
+    // Force pal if switch 50hz
+    if (crtBoard.MustForce50Hz())
     {
-      result.Append(" -crtresolutiontype ").Append(data.HighResolution() ? "interlaced" : "progressive");
-      result.Append(" -crtscreentype ").Append( (CrtConf::Instance().GetSystemCRTExtended15KhzRange() ? "15kHzExt" : "15kHz"));
-      result.Append(" -crtvideostandard ");
-      // Force pal if switch 50hz
-      if (crtBoard.MustForce50Hz())
+      result.Append("pal");
+    } else
+    {
+      switch (data.VideoStandard())
       {
-        result.Append("pal");
-      } else
-      {
-        switch (data.VideoStandard())
-        {
-          case CrtData::CrtVideoStandard::PAL:
-            result.Append("pal");
-            break;
-          case CrtData::CrtVideoStandard::NTSC:
-            result.Append("ntsc");
-            break;
-          case CrtData::CrtVideoStandard::AUTO:
-          default:
-            result.Append("auto");
-            break;
-        }
+        case CrtData::CrtVideoStandard::PAL:
+          result.Append("pal");
+          break;
+        case CrtData::CrtVideoStandard::NTSC:
+          result.Append("ntsc");
+          break;
+        case CrtData::CrtVideoStandard::AUTO:
+        default:
+          result.Append("auto");
+          break;
       }
+    }
 
-      result.Append(" -crtregion ");
-      // Force eu if switch 50hz
-      if (crtBoard.MustForce50Hz())
+    result.Append(" -crtregion ");
+    // Force eu if switch 50hz
+    if (crtBoard.MustForce50Hz())
+    {
+      result.Append("eu");
+    }
+    else
+    {
+      switch (data.Region())
       {
-        result.Append("eu");
-      }
-      else
-      {
-        switch (data.Region())
-        {
-          case CrtData::CrtRegion::EU:
-            result.Append("eu");
-            break;
-          case CrtData::CrtRegion::US:
-            result.Append("us");
-            break;
-          case CrtData::CrtRegion::JP:
-            result.Append("jp");
-            break;
-          case CrtData::CrtRegion::AUTO:
-          default:
-            result.Append("auto");
-            break;
-        }
+        case CrtData::CrtRegion::EU:
+          result.Append("eu");
+          break;
+        case CrtData::CrtRegion::US:
+          result.Append("us");
+          break;
+        case CrtData::CrtRegion::JP:
+          result.Append("jp");
+          break;
+        case CrtData::CrtRegion::AUTO:
+        default:
+          result.Append("auto");
+          break;
       }
     }
   }
+  /*}*/
 
   return result;
 }

@@ -29,30 +29,39 @@ class CrtData
         NTSC, //!< Forced Ntsc
     };
 
+    enum class CrtMode
+    {
+      Auto, //!< Automatic selection for the screen. Will take in account the screen capabilities
+      Force240p, //!< Force 240p (on 15khz screen -> avoid interlaced, on Multisync force 240p)
+      Force480p, //<! Force 480p mode on 31kHz screens
+      DoubleFreq //<! Force 240p@120Hz on 31Khz screens
+    };
+
+    static std::string CrtModeToString(CrtMode mode) {
+      switch (mode)
+      {
+        case CrtMode::Force240p: return "240p";
+        case CrtMode::Force480p: return "480p";
+        case CrtMode::DoubleFreq: return "doublefreq";
+        case CrtMode::Auto:
+        default: return "auto";
+      }
+    }
+
+
+
     //! Default constructor
     CrtData()
       : mCrt(&Board::Instance().CrtBoard())
       , mConf(&CrtConf::Instance())
       , mRegionOrVideoStandardConfigured(false)
-      , mHighResolutionConfigured(false)
+      , mForceResolutionConfigured(false)
       , mVideoStandard(CrtVideoStandard::AUTO)
       , mRegion(CrtRegion::AUTO)
-      , mHighResolution(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+      , mCrtMode(CrtMode::Auto)
     {
     }
 
-    /*!
-     * @brief Check if there is a CRT board and the user requested to choose individual 480 or 240 options
-     * @return True if the class needs to be configured, false otherwise
-     */
-    [[nodiscard]] bool IsResolutionSelectionConfigured() const
-    {
-      if (!mHighResolutionConfigured)
-        if (mCrt->IsCrtAdapterAttached())
-          if (mConf->GetSystemCRTGameResolutionSelect())
-            return true;
-      return false;
-    }
 
     /*!
      * @brief Check if there is a CRT board and the user requested to choose individual NTSC options
@@ -84,15 +93,41 @@ class CrtData
     }
 
     /*!
+     * @brief Check if the target system requires choosing between PAL or NTSC
+     * @param system target system
+     * @return True if the choice is required, false otherwise
+     */
+    [[nodiscard]] bool MustChoosePALorNTSC(const SystemData& system) const
+    {
+      return system.Descriptor().CrtMultiRegion() &&        // System must support multi-region
+             mCrt->IsCrtAdapterAttached() &&
+             !mCrt->MustForce50Hz() && // & hardware must not force 50hz
+             mCrt->GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
+    }
+
+    /*!
+     * @brief Check if there is a CRT board and the user requested to choose individual 480 or 240 options
+     * @return True if the class needs to be configured, false otherwise
+     */
+    [[nodiscard]] bool IsForceResolutionSelectionConfigured() const
+    {
+      if (!mForceResolutionConfigured)
+        if (mCrt->IsCrtAdapterAttached())
+          if (mConf->GetSystemCRTGameResolutionSelect())
+            return true;
+      return false;
+    }
+
+    /*!
      * @brief Configure crt data
      * @param highRez True for 480, false for 240
      */
-    void ConfigureHighResolution(bool highRez)
+    void ConfigureForceResolution(CrtMode mode)
     {
-      if (!mHighResolutionConfigured)
+      if (!mForceResolutionConfigured)
       {
-        mHighResolution = highRez;
-        mHighResolutionConfigured = true;
+        mCrtMode = mode;
+        mForceResolutionConfigured = true;
       }
     }
 
@@ -120,35 +155,6 @@ class CrtData
     }
 
     /*!
-     * @brief Auto configure high resolution. Will set high res if the game is HD and we have interlaced support.
-     * Or if the game is HD and we are on multisync.
-     * Or if we are in 31khz only.
-     *
-     * @param highRez True for 480, false for 240
-     */
-    void AutoConfigureHighResolution(FileData* game, const EmulatorData& emulator)
-    {
-      bool gameIsHd = GameIsHD(game, emulator);
-      if (!mHighResolutionConfigured)
-        ConfigureHighResolution(
-          (gameIsHd && (Board::Instance().CrtBoard().HasInterlacedSupport() || Board::Instance().CrtBoard().MultiSyncEnabled()))
-          || Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31);
-    }
-
-    /*!
-     * @brief Check if the target system requires choosing between PAL or NTSC
-     * @param system target system
-     * @return True if the choice is required, false otherwise
-     */
-    [[nodiscard]] bool MustChoosePALorNTSC(const SystemData& system) const
-    {
-      return system.Descriptor().CrtMultiRegion() &&        // System must support multi-region
-             mCrt->IsCrtAdapterAttached() &&
-             !mCrt->MustForce50Hz() && // & hardware must not force 50hz
-             mCrt->GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15; // & and we are 15khz
-    }
-
-    /*!
      * @brief Check if the target system requires choosing between 240 or 480
      * @param game target game
      * @return True if the choice is required, false otherwise
@@ -168,10 +174,10 @@ class CrtData
      * Accessors
      */
 
-    [[nodiscard]] bool HighResolution() const { return mHighResolution; }
+    [[nodiscard]] CrtMode GetCrtMode() const { return mCrtMode; }
     [[nodiscard]] CrtScanlines Scanlines(const SystemData& system) const
     {
-      return (HighResolution() && !system.Descriptor().CrtHighResolution() &&
+      return ((mCrtMode == CrtMode::Auto || mCrtMode == CrtMode::Force480p) && !system.Descriptor().CrtHighResolution() &&
                     (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
                      Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)) ?
                    CrtConf::Instance().GetSystemCRTScanlines31kHz() : CrtScanlines::None;
@@ -186,11 +192,11 @@ class CrtData
     CrtConf* mConf;
     //! NTSC configured
     bool mRegionOrVideoStandardConfigured;
-    //! 480i configured
-    bool mHighResolutionConfigured;
+    //! forced resolution configured
+    bool mForceResolutionConfigured;
     //! Video system (default: auto
     CrtVideoStandard mVideoStandard;
     CrtRegion mRegion;
     //! 480? (default: 240p)
-    bool mHighResolution;
+    CrtMode mCrtMode;
 };

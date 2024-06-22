@@ -428,7 +428,20 @@ void ViewController::FastMenuLineSelected(int menuIndex, int itemIndex)
     }
     case FastMenuType::CrtResolution:
     {
-      mGameLinkedData.ConfigurableCrt().ConfigureHighResolution(itemIndex != 0);
+      CrtData::CrtMode res = CrtData::CrtMode::Auto;
+      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+      {
+        res = itemIndex == 0 ? CrtData::CrtMode::DoubleFreq : CrtData::CrtMode::Force480p;
+      }
+      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
+      {
+        res = itemIndex == 0 ? CrtData::CrtMode::Auto : CrtData::CrtMode::Force240p;
+      }
+      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
+      {
+        res = itemIndex == 0 ? CrtData::CrtMode::Force240p : CrtData::CrtMode::Force480p;
+      }
+      mGameLinkedData.ConfigurableCrt().ConfigureForceResolution(res);
       LaunchCheck();
       mResolutionLastChoice = itemIndex;
       break;
@@ -554,7 +567,7 @@ void ViewController::LaunchCheck()
   // CRT Resolution choice
   if ((mCheckFlags & LaunchCheckFlags::CrtResolution) == 0)
   {
-    if (mCheckFlags |= LaunchCheckFlags::CrtResolution; mGameLinkedData.Crt().IsResolutionSelectionConfigured())
+    if (mCheckFlags |= LaunchCheckFlags::CrtResolution; mGameLinkedData.Crt().IsForceResolutionSelectionConfigured())
     {
       const bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() ==
                            ICrtInterface::HorizontalFrequency::KHz31;
@@ -568,10 +581,6 @@ void ViewController::LaunchCheck()
                                              {(is31kHz || isMultiSync) ? "480p" : "480i"}}, mResolutionLastChoice));
         return;
       }
-    }
-    else
-    {
-      mGameLinkedData.ConfigurableCrt().AutoConfigureHighResolution(mGameToLaunch, emulator);
     }
   }
 

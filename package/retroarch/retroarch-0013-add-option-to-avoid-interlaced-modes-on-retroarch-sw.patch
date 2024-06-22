@@ -1,4 +1,4 @@
-From 4c4114f572ccfb33d0faa945af3865d2810a60fd Mon Sep 17 00:00:00 2001
+From da152aeba4640803918961594f20b537d62c994e Mon Sep 17 00:00:00 2001
 From: digitalLumberjack <digitallumberjack@gmail.com>
 Date: Fri, 21 Jun 2024 15:12:30 +0200
 Subject: [PATCH] add option to avoid interlaced modes on retroarch switchres
@@ -6,17 +6,17 @@ Subject: [PATCH] add option to avoid interlaced modes on retroarch switchres
 ---
  configuration.c        | 1 +
  configuration.h        | 1 +
- gfx/video_crt_switch.c | 3 +++
+ gfx/video_crt_switch.c | 4 ++++
  gfx/video_driver.c     | 5 ++++-
  gfx/video_driver.h     | 1 +
- 5 files changed, 10 insertions(+), 1 deletion(-)
+ 5 files changed, 11 insertions(+), 1 deletion(-)
 
 diff --git a/configuration.c b/configuration.c
 index c375226de4..3ca6f54eb2 100644
 --- a/configuration.c
 +++ b/configuration.c
 @@ -2381,6 +2381,7 @@ static struct config_uint_setting *populate_settings_uint(
- 
+
     SETTING_UINT("crt_switch_resolution",         &settings->uints.crt_switch_resolution, true, DEFAULT_CRT_SWITCH_RESOLUTION, false);
     SETTING_UINT("crt_switch_resolution_super",   &settings->uints.crt_switch_resolution_super, true, DEFAULT_CRT_SWITCH_RESOLUTION_SUPER, false);
 +   SETTING_UINT("crt_switch_resolution_no_interlaced",   &settings->uints.crt_switch_resolution_no_interlaced, true, 0, false);
@@ -36,20 +36,21 @@ index 71d194f828..0977a00b9a 100644
        unsigned video_monitor_index;
        unsigned video_fullscreen_x;
 diff --git a/gfx/video_crt_switch.c b/gfx/video_crt_switch.c
-index ca8b8ca392..cca69b55a5 100644
+index ca8b8ca392..2c82862609 100644
 --- a/gfx/video_crt_switch.c
 +++ b/gfx/video_crt_switch.c
-@@ -296,10 +296,13 @@ static void switch_res_crt(
+@@ -296,10 +296,14 @@ static void switch_res_crt(
     int w                   = native_width;
     int h                   = height;
     double rr               = p_switch->ra_core_hz;
 +   char * allow_interlace  = p_switch->interlace & 0x2 ? "0" : "1";
 +   p_switch->interlace &= 0x1;
- 
+
     /* Check if SR2 is loaded, if not, load it */
     if (crt_sr2_init(p_switch, monitor_index, crt_mode, super_width))
     {
 +      sr_set_option("interlace", allow_interlace);
++      sr_set_option("doublescan", "0");
        const char *_core_name = (const char*)runloop_state_get_ptr()->system.info.library_name;
        /* Check for core and content changes in case we need
           to make any adjustments */

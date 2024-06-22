@@ -20,6 +20,16 @@ class ICrtInterface
       KHzMulti, //!< MultiSync
     };
 
+    static std::string HorizontalFrequencyToString(HorizontalFrequency freq){
+      switch (freq)
+      {
+        case HorizontalFrequency::KHzMulti: return "multi";
+        case HorizontalFrequency::KHz31: return "31kHz";
+        case HorizontalFrequency::KHz15:
+        default: return "15kHz";
+      }
+    }
+
     /*!
      * @brief Default constructor
      * @param automaticallyDetected True if the board has been automatically detected

@@ -1,20 +1,19 @@
 import typing
 
 from configgen.Emulator import Emulator
-from configgen.crt.CRTConfigParser import CRTConfigParser, CRTArcadeMode, CRTVideoStandard, CRTScreenType, \
-    CRTResolutionType, CRTSystem
+from configgen.crtswitchres.CRTTypes import CRTResolutionType, CRTScreenType, CRTScanlines
 from configgen.utils.Rotation import Rotation
 from configgen.utils.architecture import Architecture
 
 
 class LibretroConfigCRTSwitchres:
 
-    #def manage_scanlines(self, system: Emulator, config:typing.Dict[str, str], vertical: bool):
-        # if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines != CRTScanlines.NONE and system.CRTResolutionType == CRTResolutionType.Progressive:
-        #     if (system.Rotation.isTate() and vertical) or (not system.Rotation.isTate() and not vertical):
-        #         config.update({"video_shader_enable": '"true"'})
-        #         config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
-        #         config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
+    def manage_scanlines(self, system: Emulator, config: typing.Dict[str, str]):
+        if system.CRTScreenType == CRTScreenType.k31 and system.CRTScanlines != CRTScanlines.NONE and (system.CRTResolutionType == CRTResolutionType.Force480p or system.CRTResolutionType == CRTResolutionType.Auto):
+            if (system.Rotation.isTate() and system.VerticalGame) or (not system.Rotation.isTate() and not system.VerticalGame):
+                config.update({"video_shader_enable": '"true"'})
+                config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
+                config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
 
     def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
         config: typing.Dict[str, any] = {"aspect_ratio_index": "22",
@@ -52,15 +51,25 @@ class LibretroConfigCRTSwitchres:
                                          "video_scale_integer_overscale": ''
                                          }
 
-        config["crt_switch_resolution"] = 1
+        match system.CRTScreenType:
+            case CRTScreenType.k15:
+                config["crt_switch_resolution"] = 1
+            case CRTScreenType.k31:
+                if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
+                    config["crt_switch_resolution"] = 3
+                else:
+                    config["crt_switch_resolution"] = 2
+
         config["crt_switch_resolution_super"] = system.CRTSuperrez
         pi5 = Architecture().isPi5
-        if pi5:
+        if pi5 or system.CRTResolutionType != CRTResolutionType.Auto:
             config["crt_switch_resolution_no_interlaced"] = 1
         else:
             config["crt_switch_resolution_no_interlaced"] = 0
 
         if system.Rotation.isTate():
                 config["video_rotation"] = system.Rotation
+
+        self.manage_scanlines(system, config)
 
         return config

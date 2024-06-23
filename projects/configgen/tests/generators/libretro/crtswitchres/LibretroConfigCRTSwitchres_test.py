@@ -2,6 +2,7 @@ from unittest.mock import patch, PropertyMock
 
 import pytest
 from configgen.Emulator import Emulator, ExtraArguments
+from configgen.crtswitchres.CRTTypes import RetroarchScreenTypeIndex
 from configgen.generators.libretro.crtswitchres.LibretroConfigCRTSwitchres import LibretroConfigCRTSwitchres
 from configgen.settings.keyValueSettings import keyValueSettings
 
@@ -26,15 +27,15 @@ def configureForCrt(emulator: Emulator, crtvideostandard="auto", crtresolutionty
 def test_given_15khz_should_enable_retroarch_switchres():
     emulator = configureForCrt(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
-        crtresolutiontype="progressive", crtscreentype="15kHz", crtadaptor="recalboxrgbdual")
+        crtresolutiontype="progressive", crtscreentype="kHz15", crtadaptor="recalboxrgbdual")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
 
 def test_given_dynamic_superrez_should_enable_superrez():
     emulator = configureForCrt(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
-        crtresolutiontype="progressive", crtscreentype="15kHz", crtadaptor="recalboxrgbdual", crtsuperrez="1")
+        crtresolutiontype="progressive", crtscreentype="kHz15", crtadaptor="recalboxrgbdual", crtsuperrez="1")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
     assert config_lines["crt_switch_resolution_super"] == "1"
@@ -42,7 +43,7 @@ def test_given_dynamic_superrez_should_enable_superrez():
 def test_given_native_should_enable_native():
     emulator = configureForCrt(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
-        crtresolutiontype="progressive", crtscreentype="15kHz", crtadaptor="recalboxrgbdual", crtsuperrez="0")
+        crtresolutiontype="progressive", crtscreentype="kHz15", crtadaptor="recalboxrgbdual", crtsuperrez="0")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
     assert config_lines["crt_switch_resolution_super"] == "0"
@@ -52,10 +53,10 @@ def test_given_rpi5_should_disable_interlaced(mocker):
 
     emulator = configureForCrt(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
-        crtresolutiontype="progressive", crtscreentype="15kHz", crtadaptor="recalboxrgbdual", crtsuperrez="0")
+        crtresolutiontype="progressive", crtscreentype="kHz15", crtadaptor="recalboxrgbdual", crtsuperrez="0")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
     assert config_lines["crt_switch_resolution_super"] == "0"
     assert config_lines["crt_switch_resolution_no_interlaced"] == 1
 
@@ -64,10 +65,10 @@ def test_given_rpi4_should_not_disable_interlaced(mocker):
 
     emulator = configureForCrt(
         Emulator(name='snes', videoMode='1920x1080', ratio='auto', emulator='libretro', core='snes9x'),
-        crtresolutiontype="progressive", crtscreentype="15kHz", crtadaptor="recalboxrgbdual", crtsuperrez="0")
+        crtresolutiontype="progressive", crtscreentype="kHz15", crtadaptor="recalboxrgbdual", crtsuperrez="0")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
     assert config_lines["crt_switch_resolution_super"] == "0"
     assert config_lines["crt_switch_resolution_no_interlaced"] == 0
 
@@ -96,79 +97,147 @@ def test_given_yoko_game_on_tate_screen_should_rotate(mocker):
     assert config_lines["video_rotation"] == 3
 
 
-def test_given_15kHz_screen_and_auto_resolution_then_configure_switchres(mocker):
+def test_given_kHz15_screen_and_auto_resolution_then_configure_switchres(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="15kHz", crtresolutiontype="auto", crtsuperrez="1920")
+        crtscreentype="kHz15", crtresolutiontype="auto", crtsuperrez="1920")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
     assert config_lines["crt_switch_resolution_super"] == "1920"
     assert config_lines["crt_switch_resolution_no_interlaced"] == 0
 
-def test_given_15kHz_screen_and_240p_resolution_then_avoid_interlacd_modes(mocker):
+def test_given_kHz15_screen_and_240p_resolution_then_avoid_interlacd_modes(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="15kHz", crtresolutiontype="240p", crtsuperrez="1920")
+        crtscreentype="kHz15", crtresolutiontype="240p", crtsuperrez="1920")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
     assert config_lines["crt_switch_resolution_super"] == "1920"
     assert config_lines["crt_switch_resolution_no_interlaced"] == 1
 
-def test_given_31kHz_screen_and_auto_resolution_then_configure_switchres(mocker):
+def test_given_kHz31_screen_and_auto_resolution_then_configure_switchres(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="31kHz", crtresolutiontype="auto", crtsuperrez="1920")
+        crtscreentype="kHz31", crtresolutiontype="auto", crtsuperrez="1920")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 2
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
     assert config_lines["crt_switch_resolution_super"] == "1920"
     assert config_lines["crt_switch_resolution_no_interlaced"] == 0
 
-def test_given_31kHz_screen_and_doublefreq_resolution_then_configure_switchres(mocker):
+def test_given_kHz31_screen_and_doublefreq_resolution_then_configure_switchres(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="31kHz", crtresolutiontype="doublefreq")
+        crtscreentype="kHz31", crtresolutiontype="doublefreq")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 3
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31at120.value
 
 
-def test_given_31kHz_yoko_screen_and_yoko_game_480p_and_scanlines_then_configure_scanlines(mocker):
+def test_given_kHz31_yoko_screen_and_yoko_game_480p_and_scanlines_then_configure_scanlines(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="31kHz", crtresolutiontype="480p", crtscanlines="heavy")
+        crtscreentype="kHz31", crtresolutiontype="480p", crtscanlines="heavy")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 2
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
     assert config_lines["video_shader_enable"] == '"true"'
     assert config_lines["video_shader_dir"] == '"/recalbox/share/shaders/"'
     assert config_lines["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-heavy.glslp'
 
-def test_given_31kHz_tate_screen_and_yoko_game_480p_and_scanlines_then_skip_scanlines(mocker):
+def test_given_kHz31_tate_screen_and_yoko_game_480p_and_scanlines_then_skip_scanlines(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="31kHz", crtresolutiontype="480p", crtscanlines="heavy", verticalgame=False, rotation=3)
+        crtscreentype="kHz31", crtresolutiontype="480p", crtscanlines="heavy", verticalgame=False, rotation=3)
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 2
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
     assert config_lines["video_shader_enable"] == '"false"'
 
-def test_given_31kHz_yoko_screen_and_tate_game_480p_and_scanlines_then_skip_scanlines(mocker):
+def test_given_kHz31_yoko_screen_and_tate_game_480p_and_scanlines_then_skip_scanlines(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="31kHz", crtresolutiontype="480p", crtscanlines="heavy", verticalgame=True, rotation=0)
+        crtscreentype="kHz31", crtresolutiontype="480p", crtscanlines="heavy", verticalgame=True, rotation=0)
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 2
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
     assert config_lines["video_shader_enable"] == '"false"'
 
-def test_given_15kHz_and_scanlines_then_skip_scanlines(mocker):
+def test_given_kHz15_and_scanlines_then_skip_scanlines(mocker):
     emulator = configureForCrt(
         Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
-        crtscreentype="15kHz", crtresolutiontype="auto", crtscanlines="heavy")
+        crtscreentype="kHz15", crtresolutiontype="auto", crtscanlines="heavy")
     config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
 
-    assert config_lines["crt_switch_resolution"] == 1
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
     assert config_lines["video_shader_enable"] == '"false"'
+
+def test_given_multi1531_and_auto_res_then_use_auto(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzMulti1531", crtresolutiontype="auto", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHzMulti1531.value
+
+def test_given_multi1531_and_480p_res_then_use_480p(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzMulti1531", crtresolutiontype="480p", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
+
+def test_given_multi1525_and_auto_res_then_use_auto(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzMulti1525", crtresolutiontype="auto", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHzMulti1525.value
+
+def test_given_multi1525_and_240p_res_then_use_240p(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzMulti1525", crtresolutiontype="240p", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
+
+def test_given_trisync_and_auto_res_then_use_auto(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzTriFreq", crtresolutiontype="auto", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHzTriFreq.value
+
+def test_given_trisync_and_240p_res_then_use_240p(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzTriFreq", crtresolutiontype="240p", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz15.value
+
+def test_given_trisync_and_480p_res_then_use_480p(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzTriFreq", crtresolutiontype="480p", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
+
+def test_given_trisync_and_force480p_res_then_use_scanlines(mocker):
+    emulator = configureForCrt(
+        Emulator(name='fbneo', videoMode='1920x1080', ratio='auto', emulator='libretro', core='fbneo'),
+        crtscreentype="kHzTriFreq", crtresolutiontype="480p", crtscanlines="heavy")
+    config_lines = LibretroConfigCRTSwitchres().createConfigFor(emulator, "Mario.smc")
+
+    assert config_lines["crt_switch_resolution"] == RetroarchScreenTypeIndex.kHz31.value
+    assert config_lines["video_shader_enable"] == '"true"'
+    assert config_lines["video_shader_dir"] == '"/recalbox/share/shaders/"'
+    assert config_lines["video_shader"] == '/recalbox/share/shaders/rrgbd-scanlines-heavy.glslp'
+

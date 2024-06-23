@@ -401,18 +401,38 @@ bool ResolutionAdapter::GetCRTResolution(int& w, int& h)
   // Es will choose its own resolution. The desktop mode cannot be trusted.
   if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
   {
-    w = 1920; h = 240;
-    if (CrtConf::Instance().GetSystemCRT31kHzResolution() == "480")
+    w = 640; h = 480;
+    if (CrtConf::Instance().GetSystemCRTResolution() == "240" && crt.Has120HzSupport())
     {
-      w = 640; h = 480;
+      w = 1920; h = 240;
     }
   }
-  else if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
+  else if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti1525)
   {
-    w = 1920; h = 240;
-    if (CrtConf::Instance().GetSystemCRTResolution() == "480")
+    w = 1920; h = 384;
+    if (CrtConf::Instance().GetSystemCRTResolution() == "240")
     {
-      w = 640; h = 480;
+      w = 1920; h = 240;
+    }
+  }
+  else if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti1531)
+  {
+    w = 640; h = 480;
+    if (CrtConf::Instance().GetSystemCRTResolution() == "240")
+    {
+      w = 1920; h = 240;
+    }
+  }
+  else if (crt.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzTriFreq)
+  {
+    w = 640; h = 480;
+    if (CrtConf::Instance().GetSystemCRTResolution() == "240")
+    {
+      w = 1920; h = 240;
+    }
+    if (CrtConf::Instance().GetSystemCRTResolution() == "384")
+    {
+      w = 1920; h = 384;
     }
   }
   else if (CrtConf::Instance().GetSystemCRTResolution() == "480" && crt.HasInterlacedSupport())

@@ -73,7 +73,7 @@ void CrtCalibrationView::Initialize()
   mPattern.setOrigin(.5f, .5f);
   mPattern.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 2.f, Renderer::Instance().DisplayHeightAsFloat() / 2.f, .0f);
 
-  auto font = Font::get(7 * (int)Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 288.f), Path(FONT_PATH_CRT));
+  auto font = Font::get(7 * (int)Math::ceil(Renderer::Instance().DisplayHeightAsFloat() / 385.f), Path(FONT_PATH_CRT));
   mHorizontalOffsetText = std::make_shared<TextComponent>(mWindow, "H OFFSET", font, 0xFFFFFFFF);
   mVerticalOffsetText = std::make_shared<TextComponent>(mWindow, "V OFFSET", font, 0xFFFFFFFF);
   mViewportText = std::make_shared<TextComponent>(mWindow, "WIDTH", font, 0xFFFFFFFF);

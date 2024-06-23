@@ -33,12 +33,10 @@ class CrtRGBJamma : public ICrtInterface
 
     //! Return select output frequency
     HorizontalFrequency GetHorizontalFrequency() const override {
-      return MultiSyncEnabled() ? ICrtInterface::HorizontalFrequency::KHzMulti :
-      (CrtConf::Instance().GetSystemCRTScreen31kHz() ? HorizontalFrequency::KHz31 : HorizontalFrequency::KHz15);
+      HorizontalFrequency configFreq = static_cast<HorizontalFrequency>(CrtConf::Instance().GetSystemCRTScreenType());
+      if(configFreq == ICrtInterface::HorizontalFrequency::Auto) return ICrtInterface::HorizontalFrequency::KHz15;
+      return configFreq;
     }
-
-    //! Return multisync enabled
-    bool MultiSyncEnabled() const override { return CrtConf::Instance().GetSystemCRTScreenMultiSync(); }
 
     //! This adapter has no support of forced 50hz
     bool HasForced50hzSupport() const override { return false; }

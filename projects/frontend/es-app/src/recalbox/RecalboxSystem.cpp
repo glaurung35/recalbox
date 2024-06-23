@@ -57,35 +57,6 @@ unsigned long RecalboxSystem::getFreeSpaceGB(const String& mountpoint)
   return (unsigned long)(getFreeSpace(mountpoint) >> 30);
 }
 
-String RecalboxSystem::getFreeSpaceInfo()
-{
-  String sharePart = sSharePath;
-  String result = "N/A";
-  if (!sharePart.empty())
-  {
-    const char* fnPath = sharePart.c_str();
-    struct statvfs fiData {};
-    if ((statvfs(fnPath, &fiData)) < 0)
-    {
-      result += " (SYSTEM ERROR)";
-    }
-    else
-    {
-      long long total = ((long long)fiData.f_blocks * (long long)fiData.f_bsize);
-      long long free = ((long long)fiData.f_bfree * (long long)fiData.f_bsize);
-      if (total != 0)
-      {
-        long long used = total - free;
-        int percent = (int)(used * 100 / total);
-        result = Sizes(used).ToHumanSize().Append('/').Append(Sizes(total).ToHumanSize()).Append(" (").Append(percent).Append("%)");
-      }
-    }
-  }
-  else result += " (NO PARTITION)";
-
-  return result;
-}
-
 bool RecalboxSystem::isFreeSpaceUnderLimit(long long size)
 {
   return size < GetMinimumFreeSpaceOnSharePartition();
@@ -112,47 +83,6 @@ std::vector<String> RecalboxSystem::getAvailableWiFiSSID(bool activatedWifi)
   if (!activatedWifi) disableWifi();
 
   return result;
-}
-
-bool RecalboxSystem::setOverclock(const String& mode)
-{
-  if (!mode.empty())
-  {
-    String cmd(sConfigScript);
-    cmd += " overclock";
-    cmd += ' ';
-    cmd += mode;
-    { LOG(LogInfo) << "[System] Launching " << cmd; }
-    if (system(cmd.c_str()) != 0)
-    {
-      { LOG(LogWarning) << "[System] Error executing " << cmd; }
-      return false;
-    }
-    else
-    {
-      { LOG(LogInfo) << "[System] Overclocking set to " << mode; }
-      return true;
-    }
-  }
-
-  return false;
-}
-
-bool RecalboxSystem::backupRecalboxConf()
-{
-  String cmd(sConfigScript);
-  cmd += " configbackup";
-  { LOG(LogInfo) << "[System] Launching " << cmd; }
-  if (system(cmd.c_str()) == 0)
-  {
-    { LOG(LogInfo) << "[System] recalbox.conf backup'ed successfully"; }
-    return true;
-  }
-  else
-  {
-    { LOG(LogInfo) << "[System] recalbox.conf backup failed"; }
-    return false;
-  }
 }
 
 bool RecalboxSystem::enableWifi(String ssid, String key)
@@ -408,37 +338,12 @@ bool RecalboxSystem::pairBluetooth(const String& controller)
   return exitcode == 0;
 }
 
-std::vector<String> RecalboxSystem::getAvailableStorageDevices()
-{
-  return ExecuteSettingsCommand("storage list");
-}
-
-String RecalboxSystem::getCurrentStorage()
-{
-  String::List lines = ExecuteSettingsCommand("storage current");
-  return lines.empty() ? "INTERNAL" : lines[0];
-}
-
-bool RecalboxSystem::setStorage(const String& selected)
-{
-  String cmd(sConfigScript);
-  cmd += " storage " + selected;
-  int exitcode = system(cmd.c_str());
-  return exitcode == 0;
-}
-
 bool RecalboxSystem::forgetBluetoothControllers()
 {
   String cmd(sConfigScript);
   cmd += " forgetBT";
   int exitcode = system(cmd.c_str());
   return exitcode == 0;
-}
-
-String RecalboxSystem::getRootPassword()
-{
-  String::List lines = ExecuteSettingsCommand("getRootPassword");
-  return lines.empty() ? "" : lines[0];
 }
 
 std::pair<String, int> RecalboxSystem::execute(const String& command)

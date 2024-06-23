@@ -850,7 +850,7 @@ Font::getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, c
       // As the size is given as an integer as the 240p size reference, we use it as absolute size.
       // and then we adapt to the screen height (x1 up to 288p, x2 up to 576, ....)
       size = configFontSize * Math::ceil(
-          Renderer::Instance().IsRotatedSide() ? Renderer::Instance().DisplayWidthAsFloat() / 288 : Renderer::Instance().DisplayHeightAsFloat() / 288);
+          Renderer::Instance().IsRotatedSide() ? Renderer::Instance().DisplayWidthAsFloat() / 384 : Renderer::Instance().DisplayHeightAsFloat() / 384);
     }
   }
   if (hasFlag(properties, ThemePropertyCategory::FontPath) && elem.HasProperty(ThemePropertyName::FontPath))

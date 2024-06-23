@@ -9,6 +9,7 @@
 #include <hardware/Board.h>
 #include <CrtConf.h>
 #include "../EmulatorData.h"
+#include "RotationManager.h"
 
 class CrtData
 {
@@ -162,12 +163,16 @@ class CrtData
     [[nodiscard]] bool MustChooseResolution(FileData* game, const EmulatorData& emulator) const
     {
       bool gameIsHd = GameIsHD(game, emulator);
+      if(RotationManager::IsTateOnYokoOrYokoOnTate(*game)) return false;
       // If 15Khz, the system must support high rez and the interlaced must be supported by board
       // If 31khz, the board must support 120Hz
-      // If multisync, return true if the system supports hd
-      return (gameIsHd && Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
-      || (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
-      || (gameIsHd && Board::Instance().CrtBoard().MultiSyncEnabled());
+      // If multisync1524, return true if the system supports hd and the 31 + 15 is supported
+      // If multisync15 31 or trifreq, return true
+      ICrtInterface::HorizontalFrequency freq = Board::Instance().CrtBoard().GetHorizontalFrequency();
+      return (gameIsHd && freq == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
+          || (freq == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport())
+          || (gameIsHd && freq == ICrtInterface::HorizontalFrequency::KHzMulti1525)
+          || freq >= ICrtInterface::HorizontalFrequency::KHzMulti1531;
     }
 
     /*
@@ -178,9 +183,8 @@ class CrtData
     [[nodiscard]] CrtScanlines Scanlines(const SystemData& system) const
     {
       return ((mCrtMode == CrtMode::Auto || mCrtMode == CrtMode::Force480p) && !system.Descriptor().CrtHighResolution() &&
-                    (Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31 ||
-                     Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)) ?
-                   CrtConf::Instance().GetSystemCRTScanlines31kHz() : CrtScanlines::None;
+                    (Board::Instance().CrtBoard().GetHorizontalFrequency() >= ICrtInterface::HorizontalFrequency::KHzMulti1531)) ?
+                    CrtConf::Instance().GetSystemCRTScanlines31kHz() : CrtScanlines::None;
     }
     [[nodiscard]] CrtVideoStandard VideoStandard() const { return mVideoStandard; }
     [[nodiscard]] CrtRegion Region() const { return mRegion; }

@@ -19,6 +19,7 @@ public:
   static bool ShouldRotateFrontendControls();
   static bool ShouldRotateGameControls(const FileData& game);
   static bool IsVerticalGame(const FileData& game);
+  static bool IsTateOnYokoOrYokoOnTate(const FileData& game);
 
   static RotationType ShouldRotateGame(const FileData& game);
   static RotationType GetSystemRotation();

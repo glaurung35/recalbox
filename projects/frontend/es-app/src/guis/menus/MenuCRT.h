@@ -87,24 +87,18 @@ class MenuCRT : public Menu
     bool mOriginalForceHDMI;
     bool mOriginalFrontendIn240pOn31kHz;
     std::string mOriginalJammaNeogeoLayout;
-    ICrtInterface::HorizontalFrequency mOriginalResolution;
+    ICrtInterface::HorizontalFrequency mOriginalScreenType;
     ItemSelector<ICrtInterface::HorizontalFrequency>* mScreenTypeList;
 
     //! Get dacs
     static SelectorEntry<CrtAdapterType>::List GetDacEntries(bool onlyRgbDual);
     //! Get resolutions
-    static SelectorEntry<String>::List GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync, bool interlaced, [[out]] String& selectedValue);
+    static SelectorEntry<String>::List GetEsResolutionEntries();
     //! Get super resolutions
     static SelectorEntry<String>::List GetSuperRezEntries();
     //! Get scanlines
     static SelectorEntry<CrtScanlines>::List GetScanlinesEntries();
 
-
-    /*!
-     * @brief Get Horizontal frequency display test
-     * @return Text
-     */
-    static String GetHorizontalFrequency();
 
     /*!
      * @brief Get 50hz display test

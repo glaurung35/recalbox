@@ -84,9 +84,9 @@ class Install(InstallBase):
                 logger.hardlog(f"GPi2W: {installed_file} installed")
 
             # Switch Theme
-            recalboxConf.setOption("emulationstation.theme.folder", "recalbox-goa2")
+            recalboxConf.setOption("emulationstation.theme.folder", "recalbox-goa-gpicase")
             recalboxConf.saveFile()
-            logger.hardlog("GPi2W: GPi-case goa2 theme installed")
+            logger.hardlog("GPi2W: GPi-case goa2-gpicase theme installed")
 
             # Switch audio output to mono
             recalboxConf.setOption("audio.device", "alsa_card.platform-bcm2835_audio:analog-output:output:analog-mono")

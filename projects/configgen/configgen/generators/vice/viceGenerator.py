@@ -93,7 +93,7 @@ class ViceGenerator(Generator):
                 "x64sc": "C64SC",
                 "x64dtv": "C64DTV",
                 "xscpu64": "SCPU64",
-                "c128": "c128",
+                "x128": "c128",
                 "xplus4": "PLUS4",
                 "xvic": "VIC20",
                 "xpet": "PET",

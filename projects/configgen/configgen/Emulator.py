@@ -95,7 +95,7 @@ class Emulator:
         self._crtvideostandard: CRTVideoStandard = CRTVideoStandard.AUTO
         self._crtregion: CRTRegion = CRTRegion.AUTO
         self._crtresolutiontype: CRTResolutionType = CRTResolutionType.Auto
-        self._crtscreentype: CRTScreenType = CRTScreenType.k15
+        self._crtscreentype: CRTScreenType = CRTScreenType.kHz15
         self._crtenabled: bool = False
         self._crtadapter: CRTAdapter = CRTAdapter.NONE
         self._crtscanlines: CRTScanlines = CRTScanlines.NONE

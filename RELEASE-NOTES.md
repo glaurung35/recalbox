@@ -38,6 +38,7 @@ as release notes for end user on a Recalbox upgrade.
 - User data in gamelists are noow saved separately, allowing to:
   - use external scraper w/o loosing your favorites, emulators configurations, etc.
   - add preinstalled game in favorite list or even hide them individually
+- Remove overscan option in frontend
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

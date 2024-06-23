@@ -15,21 +15,39 @@ class ICrtInterface
   public:
     enum class HorizontalFrequency
     {
+      Auto, //!< auto
       KHz15, //!< 15 Khz
+      KHzMulti1525, //!< MultiSync
       KHz31, //!< 31 Khz
-      KHzMulti, //!< MultiSync
+      KHzMulti1531, //!< MultiSync
+      KHzTriFreq, //!< MultiSync
     };
 
     static std::string HorizontalFrequencyToString(HorizontalFrequency freq){
       switch (freq)
       {
-        case HorizontalFrequency::KHzMulti: return "multi";
+        case HorizontalFrequency::Auto: return "Auto";
+        case HorizontalFrequency::KHzMulti1525: return "kHzMulti1525";
+        case HorizontalFrequency::KHzMulti1531: return "kHzMulti1531";
+        case HorizontalFrequency::KHzTriFreq: return "kHzTriFreq";
+        case HorizontalFrequency::KHz31: return "kHz31";
+        case HorizontalFrequency::KHz15:
+        default: return "kHz15";
+      }
+    }
+
+    static std::string HorizontalFrequencyToHumanReadable(HorizontalFrequency freq){
+      switch (freq)
+      {
+        case HorizontalFrequency::Auto: return "Auto";
+        case HorizontalFrequency::KHzMulti1525: return "Multi 15/25kHz";
+        case HorizontalFrequency::KHzMulti1531: return "Multi 15/31kHz";
+        case HorizontalFrequency::KHzTriFreq: return "TriFreq 15/25/31kHz";
         case HorizontalFrequency::KHz31: return "31kHz";
         case HorizontalFrequency::KHz15:
         default: return "15kHz";
       }
     }
-
     /*!
      * @brief Default constructor
      * @param automaticallyDetected True if the board has been automatically detected
@@ -62,13 +80,6 @@ class ICrtInterface
      * @return True if the adapter supports 120hz modes
      */
     virtual bool Has120HzSupport() const { return false; }
-
-
-    /*!
-     * @brief MultiSync support
-     * @return True if the multisync is enabled
-     */
-    virtual bool MultiSyncEnabled() const { return false; }
 
     /*!
      * @brief Check if the adapter supports multisync 15/31khz

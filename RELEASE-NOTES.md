@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add support for horizontal integer scale on rgb dual
 - Fix rtype and mk display on 240p@120Hz
 - Fix GX4000 emulation on libretro-cap32
+- Fix C64 emulation on vice_x128
 
 ## Version 9.2.1-Pulstar
 

@@ -113,3 +113,8 @@ RotationType RotationManager::GetSystemRotation()
 bool RotationManager::IsVerticalGame(const FileData& game){
   return game.Metadata().Rotation() == RotationType::Left || game.Metadata().Rotation() == RotationType::Right;
 }
+
+bool RotationManager::IsTateOnYokoOrYokoOnTate(const FileData& game){
+  return (IsVerticalGame(game) && (GetSystemRotation() == RotationType::None || GetSystemRotation() == RotationType::Upsidedown)) ||
+    (!IsVerticalGame(game) && (GetSystemRotation() == RotationType::Right || GetSystemRotation() == RotationType::Left));
+}

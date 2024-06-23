@@ -25,42 +25,44 @@ void MenuCRT::BuildMenuItems()
 {
   bool isRGBDual = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBDual;
   bool isRGBJamma = Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma || Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJammaV2;
-  bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31;
-  bool supports120Hz = is31kHz && Board::Instance().CrtBoard().Has120HzSupport();
+  ICrtInterface::HorizontalFrequency currentScreen = Board::Instance().CrtBoard().GetHorizontalFrequency();
+  bool supports120Hz = currentScreen == ICrtInterface::HorizontalFrequency::KHz31 && Board::Instance().CrtBoard().Has120HzSupport();
+  bool supports31Khz = currentScreen >= ICrtInterface::HorizontalFrequency::KHz31;
   bool supportsInterlaced = Board::Instance().CrtBoard().HasInterlacedSupport();
-  bool multisync = Board::Instance().CrtBoard().MultiSyncEnabled();
-
   // If we run on Recalbox RGB Dual, we ignore the recalbox.conf configuration
   mOriginalDac = isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT();
-  mOriginalResolution = Board::Instance().CrtBoard().GetHorizontalFrequency();
-
+  mOriginalScreenType = Board::Instance().CrtBoard().GetHorizontalFrequency();
   // Selected Dac
   mDac = AddList<CrtAdapterType>(_("CRT ADAPTER"), (int)Components::CRTDac, this, GetDacEntries(isRGBDual),
                                  isRGBDual ? CrtAdapterType::RGBDual : CrtConf::Instance().GetSystemCRT(),
                                  CrtAdapterType::None, _(MENUMESSAGE_ADVANCED_CRT_DAC_HELP_MSG));
 
   // Resolution
-  mOriginalEsResolution = is31kHz ? CrtConf::Instance().GetSystemCRT31kHzResolution() : CrtConf::Instance().GetSystemCRTResolution();
-  String selectedResolution;
-  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(is31kHz && !multisync, supports120Hz, multisync, supportsInterlaced, selectedResolution),
-                                  selectedResolution, selectedResolution, _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
+  mOriginalEsResolution = CrtConf::Instance().GetSystemCRTResolution();
+  mEsResolution = AddList<String>(_("MENU RESOLUTION"), (int)Components::EsResolution, this, GetEsResolutionEntries(), mOriginalEsResolution, "0", _(MENUMESSAGE_ADVANCED_CRT_ES_RESOLUTION_HELP_MSG));
 
   // Horizontal output frequency
-  if(isRGBJamma)
-  {
+  if(isRGBJamma) {
     mScreenTypeList = AddList<ICrtInterface::HorizontalFrequency>(
-      _("SCREEN TYPE"), (int)Components::JammaScreenType, this,
-      SelectorEntry<ICrtInterface::HorizontalFrequency>::List(
-        {
-          {"15kHz", ICrtInterface::HorizontalFrequency::KHz15 },
-          {"31kHz", ICrtInterface::HorizontalFrequency::KHz31 },
-          {"MultiSync", ICrtInterface::HorizontalFrequency::KHzMulti },
-        }), Board::Instance().CrtBoard().GetHorizontalFrequency(), ICrtInterface::HorizontalFrequency::KHz15,
-      _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE));
+        _("SCREEN TYPE"), (int)Components::JammaScreenType, this,
+        SelectorEntry<ICrtInterface::HorizontalFrequency>::List(
+            {
+                {ICrtInterface::HorizontalFrequencyToHumanReadable(ICrtInterface::HorizontalFrequency::KHz15),
+                 ICrtInterface::HorizontalFrequency::KHz15},
+                {ICrtInterface::HorizontalFrequencyToHumanReadable(ICrtInterface::HorizontalFrequency::KHz31),
+                  ICrtInterface::HorizontalFrequency::KHz31},
+                {ICrtInterface::HorizontalFrequencyToHumanReadable(ICrtInterface::HorizontalFrequency::KHzMulti1525),
+                  ICrtInterface::HorizontalFrequency::KHzMulti1525},
+                {ICrtInterface::HorizontalFrequencyToHumanReadable(ICrtInterface::HorizontalFrequency::KHzMulti1531),
+                  ICrtInterface::HorizontalFrequency::KHzMulti1531},
+                {ICrtInterface::HorizontalFrequencyToHumanReadable(ICrtInterface::HorizontalFrequency::KHzTriFreq),
+                  ICrtInterface::HorizontalFrequency::KHzTriFreq},
+            }), Board::Instance().CrtBoard().GetHorizontalFrequency(), ICrtInterface::HorizontalFrequency::KHz15,
+        _(MENUMESSAGE_ADVANCED_CRT_JAMMA_SCREEN_TYPE));
   }
   else
   {
-    if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), GetHorizontalFrequency());
+    if (Board::Instance().CrtBoard().Has31KhzSupport()) AddText(_("SCREEN TYPE"), ICrtInterface::HorizontalFrequencyToHumanReadable(currentScreen));
   }
 
   // Force 50HZ
@@ -79,18 +81,16 @@ void MenuCRT::BuildMenuItems()
   // Game Resolution selection
   AddSwitch(_("SELECT GAME RESOLUTION AT LAUNCH"), CrtConf::Instance().GetSystemCRTGameResolutionSelect(), (int)Components::GameResolution, this, _(MENUMESSAGE_ADVANCED_CRT_GAME_RESOLUTION_HELP_MSG));
 
-  if(is31kHz)
+  if(supports31Khz)
   {
+    // Scanlines on 31kHz resolution
+    AddList<CrtScanlines>(_("SCANLINES FOR 240P GAMES IN 480"), (int)Components::ScanlinesOn31kHz, this, GetScanlinesEntries(), CrtConf::Instance().GetSystemCRTScanlines31kHz(), CrtScanlines::None, _(MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG));
+
     // Demo Game Resolution on 31khz
     if (supports120Hz)
       AddSwitch(_("RUN DEMOS IN 240P@120"), CrtConf::Instance().GetSystemCRTRunDemoIn240pOn31kHz(),
                 (int) Components::DemoIn240pOn31kHz, this,
                 _(MENUMESSAGE_ADVANCED_CRT_DEMO_RESOLUTION_ON_31KHZ_HELP_MSG));
-  }
-  if(multisync || is31kHz)
-  {
-    // Scanlines on 31kHz resolution
-    AddList<CrtScanlines>(_("SCANLINES FOR 240P GAMES IN 480"), (int)Components::ScanlinesOn31kHz, this, GetScanlinesEntries(), CrtConf::Instance().GetSystemCRTScanlines31kHz(), CrtScanlines::None, _(MENUMESSAGE_ADVANCED_CRT_SCANLINES_ON_31KHZ_HELP_MSG));
   }
 
   // Zero Lag
@@ -98,7 +98,7 @@ void MenuCRT::BuildMenuItems()
   AddSwitch(_("RUN AHEAD (EXPERIMENTAL)"), RecalboxConf::Instance().GetGlobalRunAhead(), (int)Components::RunAhead, this, _(MENUMESSAGE_ADVANCED_CRT_RUN_AHEAD_HELP_MSG));
 
   // Superrez multiplier
-  AddList<String>(_("V2 - SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(), CrtConf::Instance().GetSystemCRTSuperrez(), _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
+  AddList<String>(_("SUPERREZ MULTIPLIER"), (int)Components::SuperRez, this, GetSuperRezEntries(), CrtConf::Instance().GetSystemCRTSuperrez(), "1920",  _(MENUMESSAGE_ADVANCED_CRT_SUPERREZ));
 
   // Force Jack
   mOriginalForceJack = CrtConf::Instance().GetSystemCRTForceJack();
@@ -176,16 +176,14 @@ void MenuCRT::BuildMenuItems()
     AddAction(_("RESET JAMMA CONFIGURATION"), _("RESET"), (int)Components::ResetJamma, true, this, _(MENUMESSAGE_ADVANCED_CRT_JAMMA_HELP_MSG));
   }
 
-  // Screen Adjustments
-  AddAction(Renderer::Instance().IsRotatedSide() ? _("SCREEN CALIBRATION (ONLY IN YOKO MODE)") : _("SCREEN CALIBRATION (BETA)"),
-            _("CALIBRATE"), (int)Components::Calibration, true, this, _(MENUMESSAGE_ADVANCED_CRT_CALIBRATION));
+  AddAction(_("SCREEN CALIBRATION (COMING SOON)"), _("CALIBRATE"), (int)Components::Calibration, true, this, _(MENUMESSAGE_ADVANCED_CRT_CALIBRATION), true, _("Not implemented yet."));
 }
 
 MenuCRT::~MenuCRT()
 {
   // Reboot?
   if (mOriginalDac != mDac->SelectedValue() || mOriginalEsResolution != mEsResolution->SelectedValue() ||
-      mOriginalForceJack != mForceJack || mOriginalForceHDMI != mForceHDMI || mOriginalResolution != Board::Instance().CrtBoard().GetHorizontalFrequency())
+      mOriginalForceJack != mForceJack || mOriginalForceHDMI != mForceHDMI || mOriginalScreenType != Board::Instance().CrtBoard().GetHorizontalFrequency())
     RequestReboot();
 }
 
@@ -193,20 +191,6 @@ String MenuCRT::Get50hz()
 {
   String result = Board::Instance().CrtBoard().MustForce50Hz() ? _("ON") : _("OFF");
   result.Append(' ').Append(_("(Hardware managed)"));
-  return result;
-}
-
-String MenuCRT::GetHorizontalFrequency()
-{
-  String result = "15khz";
-  switch(Board::Instance().CrtBoard().GetHorizontalFrequency())
-  {
-    case ICrtInterface::HorizontalFrequency::KHz31: result = "31khz"; break;
-    case ICrtInterface::HorizontalFrequency::KHzMulti: result = "MultiSync"; break;
-    case ICrtInterface::HorizontalFrequency::KHz15:
-    default: break;
-  }
-
   return result;
 }
 
@@ -250,29 +234,46 @@ SelectorEntry<CrtAdapterType>::List MenuCRT::GetDacEntries(bool onlyRgbDual)
   return list;
 }
 
-SelectorEntry<String>::List MenuCRT::GetEsResolutionEntries(bool only31kHz, bool supports120Hz, bool multisync, bool interlaced, String& selectedValue)
+SelectorEntry<String>::List MenuCRT::GetEsResolutionEntries()
 {
   SelectorEntry<String>::List list;
+  ICrtInterface::HorizontalFrequency currentScreen = Board::Instance().CrtBoard().GetHorizontalFrequency();
 
-  if(only31kHz)
+  std::string baseRez = CrtConf::Instance().GetSystemCRTResolution();
+  if(baseRez == "0")
   {
-    bool is480 = CrtConf::Instance().GetSystemCRT31kHzResolution() == "480";
-    list.push_back({ "480p", "480", is480 });
-    if(supports120Hz)
-      list.push_back({ "240p@120Hz", "240", !is480 });
-    selectedValue = is480 ? "480" : "240";
-    return list;
-  } else {
-    bool rdef = CrtConf::Instance().GetSystemCRTResolution() == "240";
-    list.push_back({ "240p", "240", rdef });
-    selectedValue = rdef ? "240" : "480";
-    if(multisync)
-    {
-      list.push_back({ "480p", "480", !rdef });
-    } else if (interlaced) {
-      list.push_back({ "480i", "480", !rdef });
+    switch(currentScreen){
+      case ICrtInterface::HorizontalFrequency::Auto:
+      case(ICrtInterface::HorizontalFrequency::KHz15): baseRez = "240"; break;
+      case(ICrtInterface::HorizontalFrequency::KHzMulti1525): baseRez = "384"; break;
+      case(ICrtInterface::HorizontalFrequency::KHzTriFreq):
+      case(ICrtInterface::HorizontalFrequency::KHzMulti1531):
+      case(ICrtInterface::HorizontalFrequency::KHz31): baseRez = "480"; break;
     }
   }
+
+  // Each monitor > KHz31 has 480p support
+  if(currentScreen >= ICrtInterface::HorizontalFrequency::KHz31)
+  {
+    list.push_back({ "480p", "480", baseRez == "480" });
+    if(Board::Instance().CrtBoard().Has120HzSupport())
+      list.push_back({ "240p@120Hz", "240", baseRez == "240" });
+  }
+
+  // Tri and multi with 25
+  if(currentScreen == ICrtInterface::HorizontalFrequency::KHzTriFreq || currentScreen == ICrtInterface::HorizontalFrequency::KHzMulti1525)
+    list.push_back({ "384p", "384", baseRez == "384" });
+
+  // All with 15khz
+  if(currentScreen == ICrtInterface::HorizontalFrequency::KHzTriFreq
+      || currentScreen == ICrtInterface::HorizontalFrequency::KHzMulti1525
+      || currentScreen == ICrtInterface::HorizontalFrequency::KHz15
+      || currentScreen == ICrtInterface::HorizontalFrequency::KHzMulti1531)
+    list.push_back({ "240p", "240", baseRez == "240" });
+
+  // All with 15khz
+  if(currentScreen == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().HasInterlacedSupport())
+      list.push_back({ "480i", "480", baseRez == "480" });
 
   return list;
 }
@@ -330,15 +331,7 @@ void MenuCRT::MenuSingleChanged(int id, int index, const String& value)
   (void)index;
   if ((Components)id == Components::EsResolution)
   {
-    if(Board::Instance().CrtBoard().MultiSyncEnabled()){
-      CrtConf::Instance().SetSystemCRTResolution(value).Save();
-    }
-    else if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
-    {
-      CrtConf::Instance().SetSystemCRT31kHzResolution(value).Save();
-    } else {
-      CrtConf::Instance().SetSystemCRTResolution(value).Save();
-    }
+    CrtConf::Instance().SetSystemCRTResolution(value).Save();
   }
   else if ((Components)id == Components::SuperRez)
   {
@@ -371,30 +364,10 @@ void MenuCRT::MenuSingleChanged(int id, int index, const ICrtInterface::Horizont
   (void)index;
   if ((Components)id == Components::JammaScreenType)
   {
-    if(value == ICrtInterface::HorizontalFrequency::KHz15 && Board::Instance().CrtBoard().GetHorizontalFrequency() != ICrtInterface::HorizontalFrequency::KHz15)
-    {
-      mWindow.pushGui(new GuiMsgBox(mWindow,
-                                    _("Are you sure you want to switch the display mode to 15kHz?"),
-                                    _("CANCEL"), [this] { mScreenTypeList->SetSelectedItemValue(Board::Instance().CrtBoard().GetHorizontalFrequency(), false); },
-                                    _("YES"), []{ CrtConf::Instance().SetSystemCRTScreen31kHz(false);
-                                                      CrtConf::Instance().SetSystemCRTScreenMultiSync(false).Save(); }));
-    }
-    else if(value == ICrtInterface::HorizontalFrequency::KHz31  && Board::Instance().CrtBoard().GetHorizontalFrequency() != ICrtInterface::HorizontalFrequency::KHz31)
-    {
-      mWindow.pushGui(new GuiMsgBox(mWindow,
-                                    _("Are you sure you want to switch the display mode to 31kHz? Your display must support the 31kHz (480p) mode."),
-                                    _("CANCEL"), [this] { mScreenTypeList->SetSelectedItemValue(Board::Instance().CrtBoard().GetHorizontalFrequency(), false); },
-                                    _("YES"), []{ CrtConf::Instance().SetSystemCRTScreen31kHz(true);
-                                      CrtConf::Instance().SetSystemCRTScreenMultiSync(false).Save(); }));
-    }
-    else if(value == ICrtInterface::HorizontalFrequency::KHzMulti && Board::Instance().CrtBoard().GetHorizontalFrequency() != ICrtInterface::HorizontalFrequency::KHzMulti)
-    {
-      mWindow.pushGui(new GuiMsgBox(mWindow,
-                                    _("Are you sure you want to switch the display mode to MultiSync? Your chassis must support automatic switching between 15kHz and 31kHz modes."),
-                                    _("CANCEL"), [this] { mScreenTypeList->SetSelectedItemValue(Board::Instance().CrtBoard().GetHorizontalFrequency(), false); },
-                                    _("YES"), []{ CrtConf::Instance().SetSystemCRTScreen31kHz(false);
-                                      CrtConf::Instance().SetSystemCRTScreenMultiSync(true).Save(); }));
-    }
+    mWindow.pushGui(new GuiMsgBox(mWindow,
+                    _("Make sure to check the compatibility of your hardware before changing the recalbox refresh rate. Are you sure you want to switch the display mode to ").Append(ICrtInterface::HorizontalFrequencyToHumanReadable(value)).Append("?"),
+                    _("CANCEL"), [this] { mScreenTypeList->SetSelectedItemValue(Board::Instance().CrtBoard().GetHorizontalFrequency(), false); },
+                    _("YES"), [value]{ CrtConf::Instance().SetSystemCRTScreenType((int)value).Save(); }));
   }
 }
 
@@ -498,11 +471,11 @@ void MenuCRT::MenuActionTriggered(int id)
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_50Hz);
       mWindow.CloseAll();
     }
-    else if (Board::Instance().CrtBoard().MultiSyncEnabled())
+    /*else if (Board::Instance().CrtBoard().MultiSyncEnabled())
     {
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz_plus_kHz31);
       mWindow.CloseAll();
-    }
+    }*/
     else if (Board::Instance().CrtBoard().GetCrtAdapter() == CrtAdapterType::RGBJamma)
     {
       ViewController::Instance().goToCrtView(CrtCalibrationView::CalibrationType::kHz15_60Hz);

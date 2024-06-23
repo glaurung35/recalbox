@@ -60,12 +60,22 @@ static enum HatReference {
   OTHER,
 };
 
+static enum ScreenType {
+  Auto = 0,
+  KHz15,
+  KHzMulti1525, //!< MultiSync
+  KHz31, //!< 31 Khz
+  KHzMulti1531, //!< MultiSync
+  KHzTriFreq, //!< MultiSync
+};
+
+
 static struct sconfig {
   struct gpiodesc dip50Hz;
   struct gpiodesc dip31kHz;
   enum HatReference current_hat;
-  bool multisync;
-  bool desktop480p;
+  enum ScreenType screentype;
+  int desktop_res;
   bool is_pi5;
 } config;
 
@@ -81,6 +91,7 @@ enum ModeIds {
   p640x480,
   p320x240jamma,
   p1920x480,
+  p1920x384,
   ModeCount,
 };
 
@@ -96,6 +107,7 @@ static const char* ModeNames[] = {
     "p640x480",
     "p320x240jamma",
     "p1920x480",
+    "p1920x384",
     "ModeCount",
 };
 
@@ -104,6 +116,7 @@ static struct mode_offsets {
   int hoffset;
 };
 static struct mode_offsets modeconfigs[ModeCount] = {
+    {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
     {.voffset = 0, .hoffset = 0},
@@ -263,6 +276,19 @@ static struct videomode modes[ModeCount] = {
         .vfront_porch = 15,
         .vsync_len = 3,
         .vback_porch = 26,
+        .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
+    },
+    // 1920x384p@60 : 1920 1 48 240 192 384 1 2 5 25 0 0 0 60 0 59904000 1
+    {
+        .pixelclock = 59904000,
+        .hactive = 1920,
+        .hfront_porch = 48,
+        .hsync_len = 240,
+        .hback_porch = 192,
+        .vactive = 384,
+        .vfront_porch = 2,
+        .vsync_len = 5,
+        .vback_porch = 25,
         .flags = DISPLAY_FLAGS_VSYNC_LOW | DISPLAY_FLAGS_HSYNC_LOW
     },
 };
@@ -431,17 +457,13 @@ static int dpidac_load_config(const char *configfile) {
           line[line_len - 1] = '\0';
         scanret = sscanf(line, "%s = %d", &optionname, &optionvalue);
         if (scanret == 2) {
-          if (strcmp(optionname, "options.screen.31kHz") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
+          if (strcmp(optionname, "options.screen.type") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
             printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting %s to %d\n", optionname, optionvalue);
-            config.dip31kHz.gpio_state = !optionvalue;
-          }
-          if (strcmp(optionname, "options.screen.multisync") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting %s to %d\n", optionname, optionvalue);
-            config.multisync = optionvalue;
+            config.screentype = optionvalue;
           }
           if (strcmp(optionname, "options.es.resolution") == 0 && (config.current_hat == RecalboxRGBJAMMA || config.current_hat == RecalboxRGBDual)) {
-            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting desktop480 to %d\n", optionvalue == 480);
-            config.desktop480p = optionvalue == 480;
+            printk(KERN_INFO "[RECALBOXRGBDUAL]: screen : setting desktop_res to %d\n", optionvalue);
+            config.desktop_res = optionvalue;
           }
           for(modeId = 0; modeId < ModeCount; modeId++){
             sprintf(optionbuffer, "mode.offset.%s.verticaloffset", ModeNames[modeId]);
@@ -513,51 +535,71 @@ static int dpidac_get_modes(struct drm_connector *connector) {
     printk(KERN_INFO "[RECALBOXRGBDUAL]: dpidac_get_modes: %i custom modes loaded\n", i);
     return i;
   } else {
-    if(config.multisync) {
-      printk(KERN_INFO "[RECALBOXRGBDUAL]: Multisync: 31kHz + 15kHz modes will be available\n");
-      dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, !config.desktop480p);
-      dpidac_apply_module_mode(connector, p640x480, config.desktop480p);
-      dpidac_apply_module_mode(connector, p1920x480, false);
-      dpidac_apply_module_mode(connector, p1920x240, false);
-      dpidac_apply_module_mode(connector, p1920x224, false);
-      return 4;
-    } else if (config.dip31kHz.gpio_state == 0) {
+    int modecount = 0;
+    int default_res = config.desktop_res;
+    if(default_res == 0){
+      if(config.dip31kHz.gpio_state == 0 || config.screentype == KHz31 || config.screentype == KHzMulti1531 || config.screentype == KHzTriFreq)
+        default_res = 480;
+      else if(config.screentype == KHzMulti1525)
+        default_res = 384;
+      else if(config.screentype == KHz15 || config.screentype == Auto)
+        default_res = 240;
+    }
+    // 31khz modes
+    if ((config.screentype == Auto && config.dip31kHz.gpio_state == 0)
+        || config.screentype == KHzTriFreq
+        || config.screentype == KHzMulti1531
+        || config.screentype == KHz31) {
       printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz modes will be available\n");
-      dpidac_apply_module_mode(connector, p640x480, true);
+      dpidac_apply_module_mode(connector, p640x480, default_res != 240);
       dpidac_apply_module_mode(connector, p1920x480, false);
+      modecount += 2;
       if(config.current_hat != RecalboxRGBJAMMA){
-        dpidac_apply_module_mode(connector, p1920x240at120, false);
-        return 3;
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: 31kHz 240p@120Hz mode will be available\n");
+        dpidac_apply_module_mode(connector, p1920x240at120, default_res == 240);
+        modecount += 1;
       }
-      return 2;
-    } else {
+    }
+
+    // 24kHz modes
+    if (config.screentype == KHzMulti1525 || config.screentype == KHzTriFreq){
+      printk(KERN_INFO "[RECALBOXRGBDUAL]: Multisync: 34kHz modes will be available\n");
+      dpidac_apply_module_mode(connector, p1920x384, config.screentype == KHzMulti1525 && default_res != 240);
+      modecount += 1;
+    }
+
+    // 15kHz modes (avoided only on 31kHz only screens
+    if(config.screentype != KHz31 && !(config.screentype == Auto && config.dip31kHz.gpio_state == 0)) {
       if (config.dip50Hz.gpio_state == 0) {
         // 50hz
-        printk(KERN_INFO "[RECALBOXRGBDUAL]: 50Hz modes will be available\n");
+        printk(KERN_INFO "[RECALBOXRGBDUAL]: only 50Hz modes will be available\n");
         dpidac_apply_module_mode(connector, p384x288, true);
         dpidac_apply_module_mode(connector, p1920x288, false);
+        modecount += 2;
         if(!config.is_pi5) {
           dpidac_apply_module_mode(connector, i768x576, false);
-          return 3;
+          modecount += 1;
+          return modecount;
         }
-        return 2;
+        return modecount;
       } else {
         printk(KERN_INFO "[RECALBOXRGBDUAL]: 60Hz + 50Hz modes will be available\n");
-        dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, true);
+        dpidac_apply_module_mode(connector, config.current_hat == RecalboxRGBJAMMA ? p320x240jamma: p320x240, default_res == 240);
         dpidac_apply_module_mode(connector, p1920x240, false);
         dpidac_apply_module_mode(connector, p1920x224, false);
         dpidac_apply_module_mode(connector, p384x288, false);
         dpidac_apply_module_mode(connector, p1920x288, false);
-        if(!config.is_pi5) {
+        modecount += 5;
+        if(!config.is_pi5 && config.screentype == KHz15) {
           dpidac_apply_module_mode(connector, i640x480, false);
           dpidac_apply_module_mode(connector, i768x576, false);
-          return 7;
+          modecount += 2;
         }
-        return 5;
+        return modecount;
       }
     }
+    return modecount;
   }
-  return 1;
 }
 
 static const struct drm_connector_helper_funcs dpidac_con_helper_funcs = {
@@ -642,8 +684,8 @@ static int dpidac_probe(struct platform_device *pdev) {
 
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-dual", &rgbdual);
   of_property_read_u32(vga->bridge.of_node, "recalbox-rgb-jamma", &rgbjamma);
-  config.multisync = false;
-  config.desktop480p = false;
+  config.desktop_res = 0;
+  config.screentype = Auto;
   config.is_pi5 = false;
 
   config.dip50Hz.gpio_state = 1;

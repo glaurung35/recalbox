@@ -429,17 +429,23 @@ void ViewController::FastMenuLineSelected(int menuIndex, int itemIndex)
     case FastMenuType::CrtResolution:
     {
       CrtData::CrtMode res = CrtData::CrtMode::Auto;
-      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+      ICrtInterface& board = Board::Instance().CrtBoard();
+      if(board.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
       {
         res = itemIndex == 0 ? CrtData::CrtMode::DoubleFreq : CrtData::CrtMode::Force480p;
       }
-      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
+      if(board.GetHorizontalFrequency() >= ICrtInterface::HorizontalFrequency::KHzMulti1531)
+      {
+        static CrtData::CrtMode KHzMulti1531modes[] =
+          {
+            CrtData::CrtMode::Auto, CrtData::CrtMode::Force240p, CrtData::CrtMode::Force480p
+          };
+        res = KHzMulti1531modes[itemIndex];
+      }
+      if(board.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti1525 ||
+        board.GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
       {
         res = itemIndex == 0 ? CrtData::CrtMode::Auto : CrtData::CrtMode::Force240p;
-      }
-      if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti)
-      {
-        res = itemIndex == 0 ? CrtData::CrtMode::Force240p : CrtData::CrtMode::Force480p;
       }
       mGameLinkedData.ConfigurableCrt().ConfigureForceResolution(res);
       LaunchCheck();
@@ -571,14 +577,27 @@ void ViewController::LaunchCheck()
     {
       const bool is31kHz = Board::Instance().CrtBoard().GetHorizontalFrequency() ==
                            ICrtInterface::HorizontalFrequency::KHz31;
-      const bool supports120Hz = Board::Instance().CrtBoard().Has120HzSupport();
-      const bool isMultiSync = Board::Instance().CrtBoard().MultiSyncEnabled();
       if (mGameLinkedData.Crt().MustChooseResolution(mGameToLaunch, emulator))
       {
-        mWindow.pushGui(new FastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
-                                         (int) FastMenuType::CrtResolution,
-                                         {{(is31kHz && supports120Hz) ? "240p@120" : "240p"},
-                                             {(is31kHz || isMultiSync) ? "480p" : "480i"}}, mResolutionLastChoice));
+        if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz31)
+        {
+          mWindow.pushGui(new FastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
+                                              (int) FastMenuType::CrtResolution,
+                                              {{"240p@120"},{"480p"}}, mResolutionLastChoice));
+        }
+        if(Board::Instance().CrtBoard().GetHorizontalFrequency() >= ICrtInterface::HorizontalFrequency::KHzMulti1531)
+        {
+          mWindow.pushGui(new FastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
+                                              (int) FastMenuType::CrtResolution,
+                                              {{"auto"}, {"240p"}, {"480p"}}, mResolutionLastChoice));
+        }
+        if(Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHzMulti1525 ||
+           Board::Instance().CrtBoard().GetHorizontalFrequency() == ICrtInterface::HorizontalFrequency::KHz15)
+        {
+          mWindow.pushGui(new FastMenuList(mWindow, this, _("Game resolution"), mGameToLaunch->Name(),
+                                              (int) FastMenuType::CrtResolution,
+                                              {{"auto"},{"240p"}}, mResolutionLastChoice));
+        }
         return;
       }
     }

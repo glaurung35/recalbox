@@ -21,6 +21,7 @@ as release notes for end user on a Recalbox upgrade.
   - improve "The Tinnies" Pad-2-keyboard
   - improve "Sword og Ianna" Pad-2-keyboard
 - Change all default DMT/CEA values for screen resolutions by their corresponding screen resolutions
+- Fix libretro-cap32 bump with correct color depth value
 
 ## Version 9.2.1-Pulstar
 

@@ -80,7 +80,7 @@ class LibretroConfigCRTSwitchres:
                     config["crt_switch_resolution"] = RetroarchScreenTypeIndex.kHzTriFreq.value
 
         config["crt_switch_resolution_super"] = system.CRTSuperrez
-        pi5 = Architecture.isPi5
+        pi5 = Architecture().isPi5
         if pi5 or system.CRTResolutionType != CRTResolutionType.Auto:
             config["crt_switch_resolution_no_interlaced"] = 1
         else:

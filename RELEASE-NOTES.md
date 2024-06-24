@@ -13,7 +13,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Midway resolutions on CRT
 - Add support for horizontal integer scale on rgb dual
 - Fix rtype and mk display on 240p@120Hz
-- Fix libretro-cap32 bump with correct color depth value
+- Fix GX4000 emulation on libretro-cap32
 
 ## Version 9.2.1-Pulstar
 

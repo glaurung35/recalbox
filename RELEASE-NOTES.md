@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
   - Fix all ScuimmVM games
   - improve "The Tinnies" Pad-2-keyboard
   - improve "Sword og Ianna" Pad-2-keyboard
+- Change all default DMT/CEA values for screen resolutions by their corresponding screen resolutions
 
 ## Version 9.2.1-Pulstar
 

@@ -73,6 +73,7 @@ class LibretroCores:
     @staticmethod
     def configureAmstradGX4000(coreSettings: keyValueSettings):
         coreSettings.setString("cap32_model", '"6128+ (experimental)"')
+        coreSettings.setString("cap32_gfx_colors", "24bit")
 
     @staticmethod
     def configureAtari5200(coreSettings: keyValueSettings):

@@ -1,7 +1,7 @@
-From 3d32f450e2c0094f42ce4cb89388030390fc65f6 Mon Sep 17 00:00:00 2001
+From 895106712b3352661ce4e9414a00e268d12a1bbf Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Fri, 18 Feb 2022 22:29:04 +0100
-Subject: [PATCH 5/7] linux vc4 dpi enable interlace
+Subject: [PATCH 4/8] linux vc4 dpi enable interlace
 
 ---
  drivers/gpu/drm/vc4/vc4_dpi.c | 3 ---
@@ -22,5 +22,5 @@ index d31a02af1e53..f88e1b6e6170 100644
  }
  
 -- 
-2.42.0
+2.45.2
 

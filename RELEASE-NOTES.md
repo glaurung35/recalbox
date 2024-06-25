@@ -31,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
   - Old flycast core is the default core for all systems above but Naomi2
 - Fix Daphne emulation on Hypseus
 - Fix EmulationStation crash when changing audio output device (on some PC)
+- Fix rpizero2 and rpi3 shifted screen bug
 
 ## Version 9.2.1-Pulstar
 

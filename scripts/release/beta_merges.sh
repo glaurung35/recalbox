@@ -6,19 +6,17 @@ set -euo pipefail
 ## TODO: Add pipeline state
 
 if [ -z "${1:-}" ]; then
-    echo "Usage : bash beta_merges.sh GITLAB_TOKEN TAG [MERGE] [PUSH]
+    echo "Usage : bash beta_merges.sh GITLAB_TOKEN TAG [LABEL] [MILESTONE]
     Show info: bash beta_merges.sh XXXXX '7.3-beta6'
-    Show infos and merge : bash beta_merges.sh XXXXX '7.3-beta6' 1
-    Show infos and merge and push : bash beta_merges.sh XXXXX '7.3-beta6' 1 1" && exit 1
+    bash beta_merges.sh \"TOKEN\" \"10.0-alpha1\" \"Testing:Beta\" \"10.0\"" && exit 1
 fi
 
 TOKEN="${1}"
 TAG="${2:-}"
-MERGE="${3:-0}"
-PUSH="${4:-0}"
-BRANCH_NAME="${5:-"beta"}"
-LABEL="${5:-"Testing::Beta"}"
+LABEL="${3:-""}"
+MILESTONE="${4:-""}"
 MR_SKIP=""
+BRANCH_NAME="beta"
 
 CURDIR=$(pwd)
 
@@ -85,10 +83,10 @@ function get_add_fetch_remote() {
 
 
 echo -e "\n--------------------------------------------
-Checking all merge with label Testing::Beta
+Checking all merge with ${LABEL:-"any"} label and ${MILESTONE:-"any"} milestone
 --------------------------------------------"
 
-MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/merge_requests?labels=${LABEL}&state=opened&per_page=100" | jq -c '.[]')
+MERGE_REQUESTS=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" "https://gitlab.com/api/v4/projects/2396494/merge_requests?milestone=${MILESTONE}&labels=${LABEL}&state=opened&per_page=100" | jq -c '.[]')
 
     
 if [ $? != 0 ]; then 
@@ -130,34 +128,31 @@ for mr in "${mrArray[@]}";do
 
     MR_COMMENT=":rocket: Merged in [${TAG}](https://gitlab.com/recalbox/recalbox/-/tags/${TAG}): https://gitlab.com/${group}/${project}/-/commit/${mr_sha}"
 
-    if [[ "${MERGE}" == 1 ]];then
+    # Add remote, reset beta branch if necessary and fetch source branch
+    get_add_fetch_remote "${project}" "${mr_source_project_id}" "${mr_source_branch}" "\t\t"
 
-        # Add remote, reset beta branch if necessary and fetch source branch
-        get_add_fetch_remote "${project}" "${mr_source_project_id}" "${mr_source_branch}" "\t\t"
+    echo -e "\t\tMerging ${CURRENT_REMOTE}/${mr_source_branch} to ${project}"
+    cd "${CURDIR}/${project}"
+    #git merge "${CURRENT_REMOTE}/${mr_source_branch}" --no-squash | sed "s/^/\t\t/"
+    echo -e "\t\t\t\e[0m- Deleting temp branch\e[2m"
+    (git branch -D temp 2>&1 || true) | sed "s/^/\t\t\t/"
+     
+    echo -e "\t\t\t\e[0m- Checking out merge request branch on temp branch\e[2m"
+    git checkout -b temp "${CURRENT_REMOTE}/${mr_source_branch}" 2>&1 | sed "s/^/\t\t\t/"
 
-        echo -e "\t\tMerging ${CURRENT_REMOTE}/${mr_source_branch} to ${project}"
-        cd "${CURDIR}/${project}"
-        #git merge "${CURRENT_REMOTE}/${mr_source_branch}" --no-squash | sed "s/^/\t\t/"
-        echo -e "\t\t\t\e[0m- Deleting temp branch\e[2m"
-        (git branch -D temp 2>&1 || true) | sed "s/^/\t\t\t/"
-        
-        echo -e "\t\t\t\e[0m- Checking out merge request branch on temp branch\e[2m"
-        git checkout -b temp "${CURRENT_REMOTE}/${mr_source_branch}" 2>&1 | sed "s/^/\t\t\t/"
-
-        echo -e "\t\t\t\e[0m- Rebasing on beta\e[2m"
-        set +e
-        git rebase "beta" 2>&1 | sed "s/^/\t\t\t/"
-        if [[ "$?" != "0" ]];then
-            echo -e "\t\t\t\e[0m\e[31m- Please resolve conflicts on temp branch of project ${project}\e[0m\n\t\t\tPress ENTER to continue..."
-            read a
-        fi
-        set -e
-        echo -e "\t\t\t\e[0m- Checking out beta\e[2m"
-        git checkout beta 2>&1 | sed "s/^/\t\t\t/"
-
-        echo -e "\t\t\t\e[0m- Merging temp branch on beta\e[2m"
-        git merge temp 2>&1 | sed "s/^/\t\t\t/"
+    echo -e "\t\t\t\e[0m- Rebasing on beta\e[2m"
+    set +e
+    git rebase "beta" 2>&1 | sed "s/^/\t\t\t/"
+    if [[ "$?" != "0" ]];then
+       echo -e "\t\t\t\e[0m\e[31m- Please resolve conflicts on temp branch of project ${project}\e[0m\n\t\t\tPress ENTER to continue..."
+       read a
     fi
+    set -e
+    echo -e "\t\t\t\e[0m- Checking out beta\e[2m"
+    git checkout beta 2>&1 | sed "s/^/\t\t\t/"
+
+    echo -e "\t\t\t\e[0m- Merging temp branch on beta\e[2m"
+    git merge temp 2>&1 | sed "s/^/\t\t\t/"
 
     echo -e "Merge Request Comment: ${MR_COMMENT}" | sed "s/^/\t/"
     mrcomment "${mr_iid}|${MR_COMMENT}"
@@ -165,31 +160,29 @@ done
 
 # Change subprojects versions
 
-if [[ "${MERGE}" == 1 ]] && [[ "${PUSH}" == "1" ]];then
-    # Push all beta branches
-    echo -e "\n\n\e[32mPushing your beta branches\e[0m"
-    cd "${CURDIR}/recalbox"
-    #git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
-    git push recalbox beta:${BRANCH_NAME} -f 2>&1 | sed "s/^/\t/"
+# Push all beta branches
+echo -e "\n\n\e[32mPushing your beta branches\e[0m"
+cd "${CURDIR}/recalbox"
+#git push recalbox beta:beta -f 2>&1 | sed "s/^/\t/"
+git push recalbox beta:${BRANCH_NAME} -f 2>&1 | sed "s/^/\t/"
 
-    #tagmessage "\n### TESTING.md\n"
-    #git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
-    
-    cd "${CURDIR}"
-    if [[ "${TAG}" != "" ]];then
-        # Create tag
-        echo -e "\n\n\e[32mCreating TAG\e[0m ${TAG}"
-        TAG_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-        "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=${BRANCH_NAME}" | jq -c '.[]')
+#tagmessage "\n### TESTING.md\n"
+#git diff master...beta --no-ext-diff --unified=0 -a --no-prefix -- TESTING.md | egrep "^\+-" | sed "s/^+//" >> "${CURDIR}/.tag_message.md"
 
-        echo -e "\n\n\e[32mCreating RELEASE\e[0m ${TAG}"
+cd "${CURDIR}"
+if [[ "${TAG}" != "" ]];then
+    # Create tag
+    echo -e "\n\n\e[32mCreating TAG\e[0m ${TAG}"
+    TAG_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
+    "https://gitlab.com/api/v4/projects/2396494/repository/tags/?tag_name=${TAG}&ref=${BRANCH_NAME}" | jq -c '.[]')
 
-        RELEASE_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
-        --data-urlencode "description=$(cat "${CURDIR}/.tag_message.md")" \
-        -d "name=${TAG}" \
-        -d "tag_name=${TAG}" \
-        "https://gitlab.com/api/v4/projects/2396494/releases/" | jq -c '.[]')
-    fi
+    echo -e "\n\n\e[32mCreating RELEASE\e[0m ${TAG}"
+
+    RELEASE_RESPONSE=$(curl -sf --header "PRIVATE-TOKEN: ${TOKEN}" -X POST \
+    --data-urlencode "description=$(cat "${CURDIR}/.tag_message.md")" \
+    -d "name=${TAG}" \
+    -d "tag_name=${TAG}" \
+    "https://gitlab.com/api/v4/projects/2396494/releases/" | jq -c '.[]')
 fi
 
 echo -e "\n\n\e[32mCommit merge request comments ?\e[0m\nEnter to continue, CTRL+C to cancel."

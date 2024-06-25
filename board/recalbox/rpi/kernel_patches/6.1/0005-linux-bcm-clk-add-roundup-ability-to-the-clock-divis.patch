@@ -1,5 +1,17 @@
+From 9cc9f73a96b2baff77c8b50c3d8212775b708bdf Mon Sep 17 00:00:00 2001
+From: digitalLumberjack <digitallumberjack@gmail.com>
+Date: Fri, 10 Jun 2022 22:03:03 +0200
+Subject: [PATCH 5/7] linux bcm clk add roundup ability to the clock divisor
+
+The commit reverted the round up ability for the bcm clock divisor.
+
+It made clocks for low definitons having bad calculation.
+---
+ drivers/clk/bcm/clk-bcm2835.c | 14 ++++++++++----
+ 1 file changed, 10 insertions(+), 4 deletions(-)
+
 diff --git a/drivers/clk/bcm/clk-bcm2835.c b/drivers/clk/bcm/clk-bcm2835.c
-index f2d07a851..210f59cef 100644
+index f2d07a851726..210f59cefc5b 100644
 --- a/drivers/clk/bcm/clk-bcm2835.c
 +++ b/drivers/clk/bcm/clk-bcm2835.c
 @@ -941,7 +941,8 @@ static int bcm2835_clock_is_on(struct clk_hw *hw)
@@ -46,3 +58,6 @@ index f2d07a851..210f59cef 100644
  
  		*avgrate = bcm2835_clock_rate_from_divisor(clock, *prate, *div);
  
+-- 
+2.45.2
+

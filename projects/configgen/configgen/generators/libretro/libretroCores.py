@@ -38,7 +38,7 @@ class LibretroCores:
         coreSettings.setString("parallel-n64-alt-map", '"disabled"')
 
     @staticmethod
-    def configureMUPEN64(coreseetings: keyValueSettings):
+    def configureMUPEN64(coreSettings: keyValueSettings):
         coreSettings.setString("mupen64plus-alt-map", '"False"')
 
     @staticmethod

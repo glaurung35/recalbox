@@ -424,6 +424,7 @@ class LibretroGenerator(Generator):
         blitterCoreConfig = LibretroGenerator.createFBNeoBlitterConfig(system, rom)
         for option in blitterCoreConfig.items():
             coreConfig.setString(option[0], option[1])
+        coreConfig.saveFile()
 
         # Netplay (force in configfile nick and port)
         netplayConfig = LibretroGenerator.createNetplayConfig(system)

@@ -22,6 +22,10 @@ as release notes for end user on a Recalbox upgrade.
 - Fix OpenGL error with Libretro-ScummVM on PC
 - Fix kodi crash when playing HEVC/h264 video on rpi4 
 - Fix kodi not playing HEVC video on rpi5 (still no 4k though)
+- Fix preinstalled games:
+  - Fix all ScuimmVM games
+  - improve "The Tinnies" Pad-2-keyboard
+  - improve "Sword of Ianna" Pad-2-keyboard
 
 
 ## Version 9.2.1-Pulstar

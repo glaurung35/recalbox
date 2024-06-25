@@ -15,6 +15,11 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Midway resolutions on CRT
 - Add support for horizontal integer scale on rgb dual
 - Fix rtype and mk display on 240p@120Hz
+- Fix preinstalled games:
+  - Fix "Mission: Lft Off" on Thomson
+  - Fix all ScuimmVM games
+  - improve "The Tinnies" Pad-2-keyboard
+  - improve "Sword og Ianna" Pad-2-keyboard
 
 ## Version 9.2.1-Pulstar
 

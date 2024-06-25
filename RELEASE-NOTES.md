@@ -21,6 +21,11 @@ as release notes for end user on a Recalbox upgrade.
 - Fix preinstalled game with ScummVM and Libretro-ScummVM
 - Fix OpenGL error with Libretro-ScummVM on PC
 - Fix Daphne games with Hypseus
+- Fix preinstalled games:
+  - Fix "Mission: Lft Off" on Thomson
+  - Fix all ScuimmVM games
+  - improve "The Tinnies" Pad-2-keyboard
+  - improve "Sword og Ianna" Pad-2-keyboard
 
 ## Version 9.2.1-Pulstar
 

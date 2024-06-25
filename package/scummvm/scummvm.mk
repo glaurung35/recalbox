@@ -38,7 +38,7 @@ define SCUMMVM_CONTROLLERS_LINK
 endef
 define SCUMMVM_ADD_THEMES
 	mkdir $(TARGET_DIR)/usr/share/scummvm/themes -p
-	cp $(BUILD_DIR)/gui/themes/*.zip  $(TARGET_DIR)/usr/share/scummvm/themes
+	cp $(@D)/gui/themes/*.zip  $(TARGET_DIR)/usr/share/scummvm/themes
 endef
 
 SCUMMVM_POST_INSTALL_TARGET_HOOKS += SCUMMVM_ADD_VIRTUAL_KEYBOARD

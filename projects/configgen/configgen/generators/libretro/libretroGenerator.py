@@ -186,7 +186,7 @@ class LibretroGenerator(Generator):
             config["video_scale_integer"] = '"false"'
             if system.Core == "mednafen_wswan":
                 config["video_rotation"] = (system.Rotation.value + 1) % 4
-            if system.Core == "flycast":
+            if system.Core == "flycast" or system.Core == "flycast-next":
                 if system.Name == "dreamcast":
                     config["video_rotation"] = (system.Rotation.value + 1) % 4
                 config["input_player1_analog_dpad_mode"] = 3
@@ -236,8 +236,8 @@ class LibretroGenerator(Generator):
         hdCoreToCoreConfig = {
             "flycast":
                 [
-                    {"reicast_internal_resolution": '"1024x768"', "reicast_cable_type": '"VGA"'},
-                    {"reicast_internal_resolution": '"640x480"', "reicast_cable_type": '"VGA"'}
+                    {"reicast_internal_resolution": '"1024x768"', "reicast_cable_type": '"VGA (RGB)"'},
+                    {"reicast_internal_resolution": '"640x480"', "reicast_cable_type": '"VGA (RGB)"'}
                 ],
             "pcsx_rearmed":
                 [
@@ -335,7 +335,7 @@ class LibretroGenerator(Generator):
 
     @staticmethod
     def createVideoDriverConfiguration(system: Emulator, retroarchConfig: keyValueSettings):
-        vulkanCores = ["flycast", "ppsspp"]
+        vulkanCores = ["flycast-next", "ppsspp"]
         naomi2OnPi5 = system.Name == "naomi2" and Architecture.isPi5
         if Vulkan.vulkanAvailable() and system.Core in vulkanCores and system.VulkanDriver and not naomi2OnPi5:
             retroarchConfig.setString("video_driver", "vulkan")
@@ -400,9 +400,6 @@ class LibretroGenerator(Generator):
         # Supergameboy config, core is selected by ES. Overlays are processed after that so there is a specific rule in it
         LibretroGenerator.createSuperGameBoyConfiguration(system, retroarchConfig, coreConfig)
 
-        # video driver config
-        LibretroGenerator.createVideoDriverConfiguration(system, retroarchConfig)
-
         # HD and widescreen config
         libretroConfigHD, coreConfigHD, newCoreHD = LibretroGenerator.createHDWidescreenConfig(system)
         for option in libretroConfigHD.items():
@@ -412,6 +409,9 @@ class LibretroGenerator(Generator):
             coreConfig.setString(option[0], option[1])
         coreConfig.saveFile()
         system.Core = newCoreHD
+
+        # video driver config
+        LibretroGenerator.createVideoDriverConfiguration(system, retroarchConfig)
 
         # crt config
         # - should be after tate as it will change ratio but keep other tate config

@@ -68,13 +68,13 @@ def test_given_hd_mode_select_and_configure_flycast(mocker):
         hd=True))
     assert newCore == "flycast"
     assert coreConfig["reicast_internal_resolution"] == '"1024x768"'
-    assert coreConfig["reicast_cable_type"] == '"VGA"'
+    assert coreConfig["reicast_cable_type"] == '"VGA (RGB)"'
 
     libretroConfig, coreConfig, newCore = LibretroGenerator().createHDWidescreenConfig(configure(
         Emulator(name='dreamcast', videoMode='1920x1080', ratio='auto', emulator='libretro',core='flycast'),
         hd=False))
     assert coreConfig["reicast_internal_resolution"] == '"640x480"'
-    assert coreConfig["reicast_cable_type"] == '"VGA"'
+    assert coreConfig["reicast_cable_type"] == '"VGA (RGB)"'
 
 def test_given_hd_mode_select_and_configure_pcsx_rearmed(mocker):
     libretroConfig, coreConfig, newCore = LibretroGenerator().createHDWidescreenConfig(configure(

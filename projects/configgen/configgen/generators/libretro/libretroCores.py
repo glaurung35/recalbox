@@ -263,6 +263,7 @@ class LibretroCores:
             "swanstation" : LibretroCores.configureSwanstation,
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
             "flycast": self.configureFlycast,
+            "flycast-next": self.configureFlycast,
             "fbneo": self.configureFBNeo,
             "scummvm": self.configureScummvm,
         }

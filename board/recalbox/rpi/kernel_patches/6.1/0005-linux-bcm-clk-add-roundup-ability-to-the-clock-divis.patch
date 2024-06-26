@@ -1,7 +1,7 @@
 From 9cc9f73a96b2baff77c8b50c3d8212775b708bdf Mon Sep 17 00:00:00 2001
 From: digitalLumberjack <digitallumberjack@gmail.com>
 Date: Fri, 10 Jun 2022 22:03:03 +0200
-Subject: [PATCH 5/7] linux bcm clk add roundup ability to the clock divisor
+Subject: [PATCH 5/8] linux bcm clk add roundup ability to the clock divisor
 
 The commit reverted the round up ability for the bcm clock divisor.
 

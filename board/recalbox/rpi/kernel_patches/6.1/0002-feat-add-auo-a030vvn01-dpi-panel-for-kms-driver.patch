@@ -1,7 +1,7 @@
 From 4d124add695ee69c252973d79754a64dffe5c423 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Tue, 25 Jan 2022 23:05:52 +0100
-Subject: [PATCH 2/7] feat: add auo a030vvn01 dpi panel for kms driver
+Subject: [PATCH 2/8] feat: add auo a030vvn01 dpi panel for kms driver
 
 ---
  arch/arm/boot/dts/overlays/Makefile           |  1 +

@@ -1,7 +1,7 @@
-From 74621bd7225a5c400c61a7ac4e6a92b4f0f51245 Mon Sep 17 00:00:00 2001
+From 133830885ca540f604bf38016c5269e729debb9e Mon Sep 17 00:00:00 2001
 From: Luca Carlon <carlon.luca@gmail.com>
 Date: Wed, 19 Jun 2024 10:08:41 +0200
-Subject: [PATCH 7/7] drm/vc4: Fix gpu reset
+Subject: [PATCH 8/8] drm/vc4: Fix gpu reset
 
 ---
  drivers/gpu/drm/vc4/vc4_v3d.c | 17 ++++++++++-------

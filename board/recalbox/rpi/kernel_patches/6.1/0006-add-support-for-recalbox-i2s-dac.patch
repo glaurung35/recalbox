@@ -1,7 +1,7 @@
 From c473b20be6e194cedb0d099bb62462d4eb00769b Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Tue, 25 Jun 2024 22:51:10 +0200
-Subject: [PATCH 6/7] add support for recalbox i2s dac
+Subject: [PATCH 6/8] add support for recalbox i2s dac
 
 ---
  arch/arm/boot/dts/bcm2712-rpi.dtsi |  6 ++++++

@@ -260,7 +260,7 @@ def test_naomi2_on_rpi5_set_alpha_sorting_per_strip(mocker, emulator, controller
     mocker.patch('configgen.utils.architecture.Architecture.isPi5', return_value=True)
 
     recalbox_conf = keyValueSettings("", True)
-    naomi2 = Emulator(name='naomi2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast')
+    naomi2 = Emulator(name='naomi2', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast-next')
     naomi2.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", ""))
 
     emulator.generate(naomi2, controller_configuration, recalbox_conf,
@@ -271,7 +271,7 @@ def test_naomi2_on_rpi5_set_alpha_sorting_per_strip(mocker, emulator, controller
     assert 'reicast_anisotropic_filtering = "2"' in coreConf
     assert 'reicast_sh4clock = "300"' in coreConf
 
-    naomi = Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast')
+    naomi = Emulator(name='naomi', videoMode='1920x1080', ratio='auto', emulator='libretro', core='flycast-next')
     naomi.configure(recalbox_conf, ExtraArguments("", "", "", "", "", "", "", "", "", "", "", ""))
 
     emulator.generate(naomi, controller_configuration, recalbox_conf,

@@ -26,7 +26,7 @@ def test_simple_generate_scummvm(emulator, system, controller_configuration):
     assert command.array == ['/usr/bin/scummvm', '--fullscreen',
                              '--subtitles', '--joystick=0',
                              '--filtering',
-                             '--extrapath=tests/tmp/bios//scummvm',
+                             '--extrapath=/usr/share/scummvm',
                              '--savepath=/recalbox/share/saves/scummvm',
                              '--path=path/to', 'test']
 
@@ -40,6 +40,6 @@ def test_simple_generate_scummvm_romdir(emulator, system, mocker, controller_con
     assert command.array == ['/usr/bin/scummvm', '--fullscreen',
                              '--subtitles', '--joystick=0',
                              '--filtering',
-                             '--extrapath=tests/tmp/bios//scummvm',
+                             '--extrapath=/usr/share/scummvm',
                              '--savepath=/recalbox/share/saves/scummvm',
                              '--path=path/to/test', 'thegame']

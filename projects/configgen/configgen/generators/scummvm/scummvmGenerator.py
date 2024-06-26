@@ -44,7 +44,7 @@ class ScummVMGenerator(Generator):
                         "--subtitles",
                         "--joystick=0",
                         smooth,
-                        "--extrapath=" + recalboxFiles.BIOS + "/scummvm",
+                        "--extrapath=/usr/share/scummvm",
                         "--savepath=" + recalboxFiles.scummvmSaves,
                         "--path=""{}""".format(romPath)]
         if system.ShaderSet == 'scanlines':

@@ -55,6 +55,15 @@ define LIBRETRO_SCUMMVM_INSTALL_DATAFILES
 		scummvm/extra/*
 endef
 
+define LIBRETRO_SCUMMVM_INSTALL_THEMES
+	mkdir -p $(TARGET_DIR)/usr/share/libretro-scummvm/theme
+	unzip -j -o $(@D)/backends/platform/libretro/scummvm.zip \
+		-d $(TARGET_DIR)/usr/share/libretro-scummvm/theme \
+		scummvm/theme/*
+
+endef
+
 LIBRETRO_SCUMMVM_POST_INSTALL_TARGET_HOOKS += LIBRETRO_SCUMMVM_INSTALL_DATAFILES
+LIBRETRO_SCUMMVM_POST_INSTALL_TARGET_HOOKS += LIBRETRO_SCUMMVM_INSTALL_THEMES
 
 $(eval $(generic-package))

@@ -520,7 +520,7 @@ class LibretroGenerator(Generator):
         return []
 
     @staticmethod
-    def buildRomArguments(system: Emulator, rom: str, core: str, verbose: bool, demo: bool) -> List[str]:
+    def buildRomArguments(rom: str, core: str, verbose: bool, demo: bool) -> List[str]:
         # x68000
         if core == "px68k":
             # Open configuration
@@ -588,20 +588,5 @@ class LibretroGenerator(Generator):
 
             rom = [recalboxFiles.minivmacRomFile]
             return rom
-
-        # scummvm
-        if core == "scummvm":
-            import configparser
-            scummvmSettings = configparser.ConfigParser(
-                    strict=False, allow_no_value=True, empty_lines_in_values=False
-                )
-            scummvmSettings.read(recalboxFiles.libretroScummvmConfig)
-            scummvmSettings.set("scummvm", "extrapath", recalboxFiles.libretroScummvmBios)
-            if system.CRTEnabled:
-                scummvmSettings.set("scummvm", "gui_scale", "200")
-            else:
-                scummvmSettings.set("scummvm", "gui_scale", "100")
-            with open(recalboxFiles.libretroScummvmConfig, 'w') as f:
-                scummvmSettings.write(f)
 
         return [rom]

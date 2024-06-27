@@ -144,8 +144,11 @@ class LibretroGenerator(Generator):
         # Retroarch CRT configuration
         if system.CRTV2:
             from configgen.generators.libretro.crtswitchres.LibretroConfigCRTSwitchres import LibretroConfigCRTSwitchres
-            for option in LibretroConfigCRTSwitchres().createConfigFor(system, rom).items():
+            retroOptions, coreOptions = LibretroConfigCRTSwitchres().createConfigFor(system, rom)
+            for option in retroOptions.items():
                 retroarchConfig.setString(option[0], option[1])
+            for option in coreOptions.items():
+                coreConfig.setString(option[0], option[1])
         else:
             from configgen.generators.libretro.crt.LibretroConfigCRT import LibretroConfigCRT
             from configgen.crt.CRTConfigParser import CRTConfigParser

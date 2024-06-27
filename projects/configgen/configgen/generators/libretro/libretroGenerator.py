@@ -343,7 +343,7 @@ class LibretroGenerator(Generator):
             retroarchConfig.removeOption("video_driver")
         if system.Core == "scummvm" and system.HasShaderFile:
             retroarchConfig.setString("video_threaded", "false")
-            retroarchConfig.setString("video_shader_enable", "false")
+            retroarchConfig.setString("video_shader_enable", system.HasShaderFile)
         retroarchConfig.saveFile()
 
     @staticmethod

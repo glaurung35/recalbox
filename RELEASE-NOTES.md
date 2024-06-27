@@ -27,7 +27,7 @@ as release notes for end user on a Recalbox upgrade.
   - New flycast core available on Naomi2, Naomi/GD, Atomiswave & Dreamcast
   - Old flycast core is the default core for all systems above but Naomi2
 - Fix forcing OpenGLES for RPI5 for Libretro-ScummVM
-- Use same datafiles for ScummVM and Libretro-ScummVM
+- Fix datafiles Libretro-ScummVM
 
 ## Version 9.2.1-Pulstar
 

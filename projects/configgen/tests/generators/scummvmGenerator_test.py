@@ -28,7 +28,7 @@ def test_simple_generate_scummvm(emulator, system, controller_configuration):
                              '--filtering',
                              '--extrapath=/usr/share/scummvm',
                              '--savepath=/recalbox/share/saves/scummvm',
-                             '--path=path/to', 'test']
+                             '--path="path/to"', 'test']
 
 
 @pytest.mark.usefixtures("controller_configuration")
@@ -42,4 +42,4 @@ def test_simple_generate_scummvm_romdir(emulator, system, mocker, controller_con
                              '--filtering',
                              '--extrapath=/usr/share/scummvm',
                              '--savepath=/recalbox/share/saves/scummvm',
-                             '--path=path/to/test', 'thegame']
+                             '--path="path/to/test"', 'thegame']

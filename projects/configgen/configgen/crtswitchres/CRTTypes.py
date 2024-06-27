@@ -109,6 +109,8 @@ class RetroarchScreenTypeIndex(Enum):
     kHzMulti1531 = 4
     kHzTriFreq = 5
     kHz31at120 = 6
+    kHz15Jamma = 7
+
 
 class CRTResolutionType(StrEnum):
     Auto = "auto"

@@ -1,8 +1,9 @@
 import typing
 
 from configgen.Emulator import Emulator
-from configgen.crtswitchres.CRTTypes import CRTResolutionType, CRTScreenType, CRTScanlines, RetroarchScreenTypeIndex
-from configgen.utils.Rotation import Rotation
+from configgen.crtswitchres.CRTTypes import CRTResolutionType, CRTScreenType, CRTScanlines, RetroarchScreenTypeIndex, \
+    CRTAdapter, CRTVideoStandard
+from configgen.generators.libretro.crtswitchres.LibretroCoreConfigCRTSwitchres import LibretroCoreConfigCRTSwitchres
 from configgen.utils.architecture import Architecture
 
 
@@ -17,7 +18,7 @@ class LibretroConfigCRTSwitchres:
                     config.update({"video_shader_dir": '"/recalbox/share/shaders/"'})
                     config.update({"video_shader": '/recalbox/share/shaders/rrgbd-scanlines-{}.glslp'.format(system.CRTScanlines)})
 
-    def createConfigFor(self, system: Emulator, rom: str) -> typing.Dict[str, str]:
+    def createConfigFor(self, system: Emulator, rom: str) -> (typing.Dict[str, any], typing.Dict[str, any]):
         config: typing.Dict[str, any] = {"aspect_ratio_index": "22",
                                          "video_aspect_ratio_auto": 'true',
                                          "crt_switch_timings_pal": "",
@@ -55,7 +56,10 @@ class LibretroConfigCRTSwitchres:
 
         match system.CRTScreenType:
             case CRTScreenType.kHz15:
-                config["crt_switch_resolution"] = RetroarchScreenTypeIndex.kHz15.value
+                if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+                    config["crt_switch_resolution"] = RetroarchScreenTypeIndex.kHz15Jamma.value
+                else:
+                    config["crt_switch_resolution"] = RetroarchScreenTypeIndex.kHz15.value
             case CRTScreenType.kHz31:
                 if system.CRTResolutionType == CRTResolutionType.DoubleFreq:
                     config["crt_switch_resolution"] = RetroarchScreenTypeIndex.kHz31at120.value
@@ -91,4 +95,8 @@ class LibretroConfigCRTSwitchres:
 
         self.manage_scanlines(system, config)
 
-        return config
+        if system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
+            system.CRTVideoStandard = CRTVideoStandard.NTSC
+        coreConfig = LibretroCoreConfigCRTSwitchres().createConfigFor(system)
+
+        return config, coreConfig

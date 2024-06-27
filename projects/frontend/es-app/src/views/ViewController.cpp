@@ -389,7 +389,6 @@ void ViewController::FastMenuLineSelected(int menuIndex, int itemIndex)
       {
         CrtData::CrtVideoStandard::AUTO,
         CrtData::CrtVideoStandard::NTSC,
-        CrtData::CrtVideoStandard::NTSC,
         CrtData::CrtVideoStandard::PAL,
       };
       mGameLinkedData.ConfigurableCrt().ConfigureRegion(CrtData::CrtRegion::AUTO);

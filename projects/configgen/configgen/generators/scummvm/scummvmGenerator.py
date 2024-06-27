@@ -46,7 +46,7 @@ class ScummVMGenerator(Generator):
                         smooth,
                         "--extrapath=/usr/share/scummvm",
                         "--savepath=" + recalboxFiles.scummvmSaves,
-                        "--path=""{}""".format(romPath)]
+                        "--path=\"{}\"".format(romPath)]
         if system.ShaderSet == 'scanlines':
             commandArray.append("--gfx-mode=DotMatrix")
 

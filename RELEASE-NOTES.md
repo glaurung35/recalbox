@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix kodi crash when playing HEVC/h264 video on rpi4 
 - Fix kodi not playing HEVC video on rpi5 (still no 4k though)
 
+- Fix Daphne games with Hypseus
 
 ## Version 9.2.1-Pulstar
 

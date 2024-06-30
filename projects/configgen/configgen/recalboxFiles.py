@@ -131,6 +131,8 @@ dosboxCustom = CONF + '/dosbox'
 dosboxConfig = dosboxCustom + '/dosbox.conf'
 
 scummvmSaves = SAVES + '/scummvm'
+libretroScummvmConfig = CONF + '/scummvm/libretro-scummvm.ini'
+libretroScummvmBios = BIOS + '/scummvm'
 
 simcoupeConfig = HOME + '/.simcoupe/SimCoupe.cfg'
 

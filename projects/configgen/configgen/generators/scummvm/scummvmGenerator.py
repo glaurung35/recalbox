@@ -39,18 +39,15 @@ class ScummVMGenerator(Generator):
 
         smooth = "--filtering" if system.Smooth else "--no-filtering"
         import configgen.recalboxFiles as recalboxFiles
-
-        commandArray = [
-            recalboxFiles.recalboxBins[system.Emulator],
-            "--fullscreen",
-            "--subtitles",
-            "--joystick=0",
-            smooth,
-            "--extrapath=/usr/share/scummvm",
-            "--savepath=" + recalboxFiles.scummvmSaves,
-            "--path=" "{}" "".format(romPath),
-        ]
-        if system.ShaderSet == "scanlines":
+        commandArray = [recalboxFiles.recalboxBins[system.Emulator],
+                        "--fullscreen",
+                        "--subtitles",
+                        "--joystick=0",
+                        smooth,
+                        "--extrapath=/usr/share/scummvm",
+                        "--savepath=" + recalboxFiles.scummvmSaves,
+                        "--path=" "{}" "".format(romPath)]
+        if system.ShaderSet == 'scanlines':
             commandArray.append("--gfx-mode=DotMatrix")
 
         if system.HasArgs:

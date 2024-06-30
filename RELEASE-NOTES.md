@@ -17,6 +17,9 @@ as release notes for end user on a Recalbox upgrade.
 - Fix rtype and mk display on 240p@120Hz
 - Fix GX4000 emulation on libretro-cap32
 - Fix C64 emulation on vice_x128
+- Fix forcing OpenGLES for RPI5 and RPI4 for Libretro-ScummVM
+- Fix preinstalled game with ScummVM and Libretro-ScummVM
+- Fix OpenGL error with Libretro-ScummVM on PC
 
 ## Version 9.2.1-Pulstar
 

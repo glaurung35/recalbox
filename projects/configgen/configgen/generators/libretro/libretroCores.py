@@ -232,6 +232,21 @@ class LibretroCores:
         if self.system.CRTAdapter == CRTAdapter.RECALBOXRGBJAMMA:
             coreSettings.setString("fbneo-diagnostic-input", '"L3"')
 
+    def configureScummvm(self, coreSettings: keyValueSettings):
+        import configgen.recalboxFiles as recalboxFiles
+        import configparser
+        scummvmSettings = configparser.ConfigParser(
+                strict=False, allow_no_value=True, empty_lines_in_values=False
+            )
+        scummvmSettings.read(recalboxFiles.libretroScummvmConfig)
+        scummvmSettings.set("scummvm", "extrapath", recalboxFiles.libretroScummvmBios)
+        if self.system.CRTEnabled:
+            scummvmSettings.set("scummvm", "gui_scale", "200")
+        else:
+            scummvmSettings.set("scummvm", "gui_scale", "100")
+        with open(recalboxFiles.libretroScummvmConfig, 'w') as f:
+            scummvmSettings.write(f)
+
     # Fill cores configuration
     def fillCoresConfiguration(self):
         settings = self.settings
@@ -249,6 +264,7 @@ class LibretroCores:
             "dosbox_pure" : LibretroCores.configureDosBoxPure,
             "flycast": self.configureFlycast,
             "fbneo": self.configureFBNeo,
+            "scummvm": self.configureScummvm,
         }
 
         # Get handler and execute

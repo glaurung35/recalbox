@@ -1,7 +1,7 @@
-From 30351af799cdf7fb357e26664e31225d3960845d Mon Sep 17 00:00:00 2001
+From 2c5fd54b37baf98d955193f6dfb3df069e4e1bbe Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Sat, 23 Sep 2023 20:52:50 +0200
-Subject: [PATCH 2/2] headphone insertion event
+Subject: [PATCH 2/4] headphone insertion event
 
 ---
  drivers/headset_observe/rk_headset.c              |  4 ++--
@@ -88,5 +88,5 @@ index b6cd06c60..3ec60a3b6 100644
  		unsigned long irq_type;
  
 -- 
-2.42.0
+2.45.2
 

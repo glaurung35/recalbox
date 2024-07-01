@@ -1,7 +1,7 @@
-From 13bb6c29d8423f4365ef4a08e2bc35aadf22b2a8 Mon Sep 17 00:00:00 2001
+From c5f325fbeefbbf617a45d3b85e2c0f9e8170cf4e Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Wed, 18 Oct 2023 09:13:39 +0200
-Subject: [PATCH 3/3] add input_device_enabled
+Subject: [PATCH 3/4] add input_device_enabled
 
 ---
  drivers/input/input.c | 8 ++++++++
@@ -41,5 +41,5 @@ index dcf02073e..14ad49d06 100644
  
  /**
 -- 
-2.42.0
+2.45.2
 

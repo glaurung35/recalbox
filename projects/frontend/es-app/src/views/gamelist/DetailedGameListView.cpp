@@ -945,7 +945,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
   bool leftIcon = headerAlignment == HorizontalAlignment::Left;
 
   // Add to list
-  //mList.reserve(items.size()); // TODO: Reserve memory once
+  mList.clear(items.size());
   FileData* previous = nullptr;
   HeaderData* lastHeader = nullptr;
   for (FileData* item : items)
@@ -1173,7 +1173,8 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
     case FileSorts::Sorts::SystemDescending:
     {
       if (previous == nullptr || &previous->System() != &next->System())
-        return GetHeader(next->System().FullName());
+        if (previous == nullptr || previous->System().SortingName() != next->System().SortingName())
+        return GetHeader(next->System().SortingFullName());
       break;
     }
     case FileSorts::Sorts::RatingAscending:

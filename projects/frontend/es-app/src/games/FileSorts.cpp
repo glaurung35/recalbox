@@ -63,7 +63,7 @@ ImplementSortMethod(compareSystemName)
 {
   const SystemData& system1 = file1.System();
   const SystemData& system2 = file2.System();
-  const int result = unicodeCompareUppercase(system1.Name(), system2.Name());
+  const int result = unicodeCompareUppercase(system1.SortingName(), system2.SortingName());
   if (result != 0) return result;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }

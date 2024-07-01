@@ -36,6 +36,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix EmulationStation crash when changing audio output device (on some PC)
 - Fix rpizero2 and rpi3 shifted screen bug
 
+- Fix compatibility with some RG353m (thanks Hinomura)
 
 ## Version 9.2.1-Pulstar
 

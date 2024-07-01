@@ -7,4 +7,5 @@ enum class ItemType : char
   Folder,
   Root,
   Empty,
+  Header,
 };

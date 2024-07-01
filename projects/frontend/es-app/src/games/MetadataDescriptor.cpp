@@ -79,6 +79,7 @@ const MetadataFieldDescriptor* MetadataDescriptor::GetMetadataFieldDescriptors(I
     }
     case ItemType::Root:
     case ItemType::Empty:
+    case ItemType::Header:
     default: break;
   }
   count = 0;

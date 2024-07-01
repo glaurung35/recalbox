@@ -30,17 +30,15 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
   {
     String editTitle;
     const FileData* file = mGamelist.getCursor();
-    bool unselectable = false;
-    if ( (file == nullptr) || file->IsEmpty() ) { editTitle = _("NO GAME"); unselectable = true; }
-    else if (file->TopAncestor().ReadOnly())    { editTitle = _("NON EDITABLE GAME"); unselectable = true; }
-    else if (file->IsGame())                    editTitle = _("EDIT GAME");
-    else if (file->IsFolder())                  editTitle = _("EDIT FOLDER");
-    mGame = AddSubMenu(editTitle, (int) Components::MetaData, this, _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG), unselectable,
-                       _("Readonly game or cannot be edited!"));
+    bool isGame = mGamelist.getCursor()->IsGame();
+    bool isFolder = mGamelist.getCursor()->IsFolder();
+    if (isGame)  editTitle = file->TopAncestor().ReadOnly() ? _("NON EDITABLE GAME"): _("EDIT GAME");
+    else if (isFolder) editTitle = _("EDIT FOLDER");
+    if (!editTitle.empty()) mGame = AddSubMenu(editTitle, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 
-    if (mGamelist.getCursor()->IsGame())
+    if (isGame || isFolder)
     {
-      if (!mSystem.IsVirtual() && mGamelist.getCursor()->IsGame() && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
+      if (!mSystem.IsVirtual() && isGame && !mGamelist.getCursor()->TopAncestor().ReadOnly() &&
           !mSystem.IsScreenshots())
       {
         String text = _("DELETE GAME %s").Replace("%s", mGamelist.getCursor()->Name().ToUpperCaseUTF8());
@@ -52,7 +50,7 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
         AddSubMenu(_("DELETE SCREENSHOT"), (int) Components::DeleteScreeshot, this, _(MENUMESSAGE_GAMELISTOPTION_DELETE_SCREENSHOT_MSG));
       }
 
-      if (RecalboxConf::Instance().GetAutorunEnabled() && mGamelist.getCursor()->IsGame())
+      if (RecalboxConf::Instance().GetAutorunEnabled() && isGame)
       {
         AddSwitch(_("BOOT ON THIS GAME"), mGamelist.getCursor()->RomPath().ToString() == RecalboxConf::Instance().GetAutorunGamePath(), (int) Components::AutorunGame, this, _(MENUMESSAGE_GAMELISTOPTION_BOOT_GAME_MSG));
       }
@@ -153,7 +151,7 @@ SelectorEntry<FileSorts::Sorts>::List MenuGamelistOptions::GetSortEntries()
                             FileSorts::SortSets::SingleSystem;
   const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
 
-  list.reserve(availableSorts.size());
+  list.reserve(availableSorts.Count());
   for(FileSorts::Sorts sort : availableSorts)
     list.push_back({ FileSorts::Name(sort), sort });
 

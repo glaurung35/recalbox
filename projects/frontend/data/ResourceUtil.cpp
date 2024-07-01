@@ -2,7 +2,7 @@
 
 #include "Resources.h"
 
-const uint32_t res2hNrOfFiles = 196;
+const uint32_t res2hNrOfFiles = 256;
 const Res2hEntry res2hFiles[res2hNrOfFiles] = {
     {":/f8bitfortressplus.ttf", f8bitfortressplus_ttf_size, f8bitfortressplus_ttf_data},
     {":/heart_filled.svg", heart_filled_svg_size, heart_filled_svg_data},

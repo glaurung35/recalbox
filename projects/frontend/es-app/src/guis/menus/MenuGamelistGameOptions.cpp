@@ -34,10 +34,8 @@ MenuGamelistGameOptions::MenuGamelistGameOptions(WindowManager& window, ISimpleG
 
   // Patch width
   if (mGame.IsGame() && !GameFilesUtils::GetSoftPatches(&mGame).empty())
-  {
     mPath = AddList<Path>(_("SOFTPATCHING"), (int)Components::Patch, this, GetPatchEntries(), mGame.Metadata().LastPatch(), Path("original"), _(MENUMESSAGE_GAME_SOFTPATCHING_HELP_MSG));
 
-  }
   // Ratio
   if (mGame.IsGame())
     mRatio = AddList<String>(_("Ratio"), (int)Components::Ratio, this, GetRatioEntries(), mGame.Metadata().Ratio(), "auto", _(MENUMESSAGE_GAME_RATIO_HELP_MSG));

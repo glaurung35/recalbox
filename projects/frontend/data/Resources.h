@@ -62,8 +62,8 @@ extern const uint8_t Recalbox_icons_ttf_data[];
 extern const uint16_t recalbox_qrcode_svg_size;
 extern const uint8_t recalbox_qrcode_svg_data[];
 
-extern const uint16_t press_start_svg_size;
-extern const uint8_t press_start_svg_data[];
+extern const uint16_t question_svg_size;
+extern const uint8_t question_svg_data[];
 
 extern const uint16_t checkbox_checked_svg_size;
 extern const uint8_t checkbox_checked_svg_data[];
@@ -116,8 +116,8 @@ extern const uint8_t frame_png_data[];
 extern const uint16_t Recalbox_logo_Grey_svg_size;
 extern const uint8_t Recalbox_logo_Grey_svg_data[];
 
-extern const uint16_t busy_2_png_size;
-extern const uint8_t busy_2_png_data[];
+extern const uint16_t genre__simulation_svg_size;
+extern const uint8_t genre__simulation_svg_data[];
 
 extern const uint16_t arrow_svg_size;
 extern const uint8_t arrow_svg_data[];
@@ -212,8 +212,8 @@ extern const uint8_t genre__adventurevisualnovel_svg_data[];
 extern const uint16_t genre__adventuresurvivalhorror_svg_size;
 extern const uint8_t genre__adventuresurvivalhorror_svg_data[];
 
-extern const uint16_t genre__simulationscifi_svg_size;
-extern const uint8_t genre__simulationscifi_svg_data[];
+extern const uint16_t regions__cz_svg_size;
+extern const uint8_t regions__cz_svg_data[];
 
 extern const uint16_t genre__sportcompetitive_svg_size;
 extern const uint8_t genre__sportcompetitive_svg_data[];
@@ -224,8 +224,8 @@ extern const uint8_t genre__actionplatformshooter_svg_data[];
 extern const uint16_t genre__actionshootwithgun_svg_size;
 extern const uint8_t genre__actionshootwithgun_svg_data[];
 
-extern const uint16_t genre__actionbeatemup_svg_size;
-extern const uint8_t genre__actionbeatemup_svg_data[];
+extern const uint16_t regions__cl_svg_size;
+extern const uint8_t regions__cl_svg_data[];
 
 extern const uint16_t genre__action_svg_size;
 extern const uint8_t genre__action_svg_data[];

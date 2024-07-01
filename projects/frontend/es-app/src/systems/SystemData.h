@@ -169,6 +169,10 @@ class SystemData : private INoCopy
     [[nodiscard]] const String& Name() const { return mDescriptor.Name(); }
     //! Get full name
     [[nodiscard]] const String& FullName() const { return mDescriptor.FullName(); }
+    //! Get system name for sorting purpose
+    [[nodiscard]] const String& SortingName() const { static String ports("PORTS"); return ((int)mProperties & (int)Properties::Ports) != 0 ? ports : mDescriptor.Name(); }
+    //! Get full name for sorting purpose
+    [[nodiscard]] const String& SortingFullName() const { static String ports("PORTS"); return ((int)mProperties & (int)Properties::Ports) != 0 ? ports : mDescriptor.FullName(); }
     //! Theme folder
     [[nodiscard]] const String& ThemeFolder() const { return mDescriptor.ThemeFolder(); }
     //! Get system rotation option in system view (tate mode)

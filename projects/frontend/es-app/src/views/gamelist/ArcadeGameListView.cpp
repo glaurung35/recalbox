@@ -6,7 +6,7 @@
 #include <systems/arcade/ArcadeVirtualSystems.h>
 #include "utils/locale/LocaleHelper.h"
 
-ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache)
+ArcadeGameListView::ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, PictogramCaches& flagCache)
   : DetailedGameListView(window, systemManager, system, resolver, flagCache)
   , mDatabase(nullptr)
 {
@@ -73,7 +73,7 @@ void ArcadeGameListView::BuildList()
   bool onlyYoko = RecalboxConf::Instance().GetShowOnlyYokoGames();
   for (const ParentTupple& parent : mGameList)
   {
-    int colorIndexOffset = 0;
+    int colorIndexOffset = BaseColor;
     if (!parent.mGame->IsFolder())
     {
       if (parent.mArcade == nullptr && filterOutUnknown) continue;
@@ -91,10 +91,10 @@ void ArcadeGameListView::BuildList()
       // Region highlighting?
       if (activeRegionFiltering)
         if (!Regions::IsIn4Regions(parent.mGame->Metadata().Region().Pack, currentRegion))
-          colorIndexOffset = 2;
+          colorIndexOffset = HighlightColor;
     }
     // Store
-    mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? 1 : 0), false);
+    mList.add(GetIconifiedDisplayName(parent), parent.mGame, colorIndexOffset + (parent.mGame->IsFolder() ? FolderColor : GameColor), false);
 
     // Children?
     if (/*parent.mArcade != nullptr && */parent.mCloneList != nullptr)
@@ -106,10 +106,10 @@ void ArcadeGameListView::BuildList()
             if (mustHideManufacturers)
               if (HasMatchingManufacturer(hiddenManufacturers, clone.mArcade->LimitedManufacturer())) continue;
             // Region filtering?
-            colorIndexOffset = 0;
+            colorIndexOffset = BaseColor;
             if (activeRegionFiltering)
               if (!Regions::IsIn4Regions(clone.mGame->Metadata().Region().Pack, currentRegion))
-                colorIndexOffset = 2;
+                colorIndexOffset = HighlightColor;
             // Store
             mList.add(GetIconifiedDisplayName(clone), clone.mGame, colorIndexOffset, false);
           }

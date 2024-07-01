@@ -112,7 +112,7 @@ class FileData
      * Getters
      */
 
-    [[nodiscard]] inline String Name() const { return mMetadata.Name(); }
+    [[nodiscard]] virtual String Name() const { return mMetadata.Name(); }
     [[nodiscard]] inline String Hash() const { return mMetadata.RomCrc32AsString(); }
     [[nodiscard]] inline ItemType Type() const { return mType; }
     [[nodiscard]] inline Path RomPath() const { return mMetadata.Rom(); }
@@ -125,6 +125,7 @@ class FileData
      */
 
     [[nodiscard]] inline bool IsEmpty() const { return mType == ItemType::Empty; }
+    [[nodiscard]] inline bool IsHeader() const { return mType == ItemType::Header; }
     [[nodiscard]] inline bool IsGame() const { return mType == ItemType::Game; }
     [[nodiscard]] inline bool IsFolder() const { return mType == ItemType::Folder || mType == ItemType::Root; }
     [[nodiscard]] inline bool IsRoot() const { return mType == ItemType::Root; }

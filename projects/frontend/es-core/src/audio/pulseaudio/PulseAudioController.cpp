@@ -199,7 +199,7 @@ void PulseAudioController::SubscriptionCallback(pa_context *context, pa_subscrip
   // Emit signal when a sink is added or removed
   // all chances are the new sink is now the default one
   // UI may need to refresh that change
-  if ((type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
+  if (This.mNotification && (type == PA_SUBSCRIPTION_EVENT_NEW || type == PA_SUBSCRIPTION_EVENT_REMOVE)
       &&
       (facility == PA_SUBSCRIPTION_EVENT_SINK))
   {

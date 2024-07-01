@@ -325,7 +325,7 @@ void DateTimeComponent::OnApplyThemeElement(const ThemeElement& element, ThemePr
       else if (str == "RelativeToNow") setDisplayMode(Display::RelativeToNow);
       else { LOG(LogError) << "[DateTimeComponent] Unknown date time display mode string: " << str; }
     }
-    else setDisplayMode(Display::Date);
+    //else setDisplayMode(Display::Date);
   }
 
 	if (hasFlag(properties, ThemePropertyCategory::Alignment))

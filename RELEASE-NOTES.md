@@ -30,6 +30,7 @@ as release notes for end user on a Recalbox upgrade.
   - New flycast core available on Naomi2, Naomi/GD, Atomiswave & Dreamcast
   - Old flycast core is the default core for all systems above but Naomi2
 - Fix Daphne emulation on Hypseus
+- Fix EmulationStation crash when changing audio output device (on some PC)
 
 ## Version 9.2.1-Pulstar
 

@@ -131,6 +131,15 @@ class IList : public Gui
     }
 
     // see onCursorChanged warn
+    void clear(int size)
+    {
+      mEntries.clear();
+      mEntries.reserve(size);
+      mCursor = 0;
+      listInput(0);
+    }
+
+    // see onCursorChanged warn
     void clear()
     {
       mEntries.clear();

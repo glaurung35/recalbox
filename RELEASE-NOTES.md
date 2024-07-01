@@ -4,12 +4,10 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Next patch
-- Fix auto blitter configuration for cave games
-
 ## Version 9.2.2-Pulstar
 
 ### Fixes
+- Fix auto blitter configuration for cave games
 - Fix jumping to netplay game when you're in a virtual system (Favorites, ...)
 - Avoid 50Hz mode for pal games on JAMMA
 - Fix Midway resolutions on CRT
@@ -32,9 +30,6 @@ as release notes for end user on a Recalbox upgrade.
 - Fix Flycast performance & regression issues
   - New flycast core available on Naomi2, Naomi/GD, Atomiswave & Dreamcast
   - Old flycast core is the default core for all systems above but Naomi2
-## Version 9.2.2-Pulstar
-
-### Fixes
 - Fix kodi crash when playing HEVC/h264 video on rpi4 
 - Fix kodi not playing HEVC video on rpi5 (still no 4k though)
 

@@ -4,7 +4,7 @@
 #
 ################################################################################
 
-RECALBOX_ROCKCHIP_MALI_VERSION = db646740a751082b31d4b53cc69ae311aab7e20f
+RECALBOX_ROCKCHIP_MALI_VERSION = 0c1c1b8e3a687fd10df38935c4dff9ab90285a09
 RECALBOX_ROCKCHIP_MALI_SITE = https://gitlab.com/recalbox/packages/libraries/rockchip-linux-libmali.git
 RECALBOX_ROCKCHIP_MALI_SITE_METHOD = git
 RECALBOX_ROCKCHIP_MALI_INSTALL_STAGING = YES

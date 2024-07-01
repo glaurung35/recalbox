@@ -1,4 +1,4 @@
-From 8a551deee4cff7a9f52d3221defd9d7b2a4f365b Mon Sep 17 00:00:00 2001
+From e19653c06f8722e26de955e1fdb275a8884bedc2 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Mon, 8 Apr 2024 20:42:19 +0200
 Subject: [PATCH 4/4] add usb core functions for xpad noone compatiblity
@@ -208,5 +208,5 @@ index 75d7cc50b..ea52cfc87 100644
  	unsigned char descindex, void *buf, int size);
  extern int usb_get_status(struct usb_device *dev,
 -- 
-2.44.0
+2.45.2
 

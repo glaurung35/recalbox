@@ -244,6 +244,16 @@ class LibretroCores:
             scummvmSettings.set("scummvm", "gui_scale", "200")
         else:
             scummvmSettings.set("scummvm", "gui_scale", "100")
+        scummvmSettings.set("scummvm", "subtitles", "true")
+        scummvmSettings.set("scummvm", "savepath", recalboxFiles.scummvmSaves)
+        if scummvmSettings.get("scummvm", "mt32_device") == "fluidsynth":
+            import configgen.recalboxFiles as recalboxFiles
+            scummvmSettings.set("scummvm", "soundfont", recalboxFiles.libretroScummvmBios + "/Roland_SC-55.sf2")
+        # if not scummvmSettings.has_section("keymapper"):
+        #     scummvmSettings.add_section("keymapper")
+        # scummvmSettings.set("keymapper", "keymap_engine-default_lclk", "SPACE")
+        # scummvmSettings.set("keymapper", "keymap_gui_intrct", "RETURN")
+        # scummvmSettings.set("keymapper", "keymap_gui_CLOS", "SPACE")
         with open(recalboxFiles.libretroScummvmConfig, 'w') as f:
             scummvmSettings.write(f)
 

@@ -5,6 +5,11 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
+## Version 9.2.3-Pulstar
+
+### Fixes
+- Fix volume level for flycast core (atomiswave, naomi, naomicd, naomi2)
+
 ## Version 9.2.2-Pulstar
 
 ### Fixes

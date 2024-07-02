@@ -435,6 +435,12 @@ class LibretroGenerator(Generator):
             retroarchConfig.setString(option[0], option[1])
         retroarchConfig.saveFile()
 
+        if system.Core == "flycast" or system.Core == "flycast-next":
+            retroarchConfig.setString("audio_volume", "-2.0")
+        else:
+            retroarchConfig.setString("audio_volume", "0.0")
+        retroarchConfig.saveFile()
+
         commandArgs = configuration.getCommandLineArguments(retroarchConfig, coreConfig)
 
         return configuration.getRetroarchConfigurationFileName(), \

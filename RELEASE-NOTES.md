@@ -4,8 +4,6 @@ This file will be processed and will be distributed with Recalbox Releases.
 The text, located between the first `## Version XXX` and the second one, will appear
 as release notes for end user on a Recalbox upgrade.
 
-## Next patch
-- Fix auto blitter configuration for cave games
 
 ## Version 9.2.2-Pulstar
 
@@ -33,6 +31,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix EmulationStation crash when changing audio output device (on some PC)
 - Fix rpizero2 and rpi3 shifted screen bug
 
+
 ## Version 9.2.1-Pulstar
 
 ### Fixes
@@ -48,6 +47,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix jamma fan not stopping when shutdown from menu
 - Fix 240p@120Hz mode for CRT
 - Fix forcing OpenGLES for RPI4 for Libretro-ScummVM
+
 
 ## Version 9.2-Pulstar
 

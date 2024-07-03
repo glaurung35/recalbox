@@ -1,0 +1,9 @@
+config BR2_PACKAGE_XEMU
+    bool "xemu"
+    select BR2_PACKAGE_SDL2
+    select BR2_PACKAGE_LIBSAMPLERATE
+    select BR2_PACKAGE_SLIRP
+    help
+        Original Xbox Emulator
+        
+        https://xemu.app/

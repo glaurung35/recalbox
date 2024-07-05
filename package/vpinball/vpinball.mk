@@ -14,24 +14,24 @@ VPINBALL_EXTRA_DOWNLOADS = https://www.un4seen.com/files/bass24-linux.zip
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_X86_64),y)
 SOURCE=CMakeLists_gl-linux-x64.txt 
-SOURCE_DIR=linux-x64 
-ARCH=x86_64
+VPINBALL_SOURCE_DIR=linux-x64 
+VPINBALL_ARCH=x86_64
 endif
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)
 SOURCE=CMakeLists_gl-linux-aarch64.txt \
-SOURCE_DIR=linux-aarch64 \
-ARCH=aarch64
+VPINBALL_SOURCE_DIR=linux-aarch64 \
+VPINBALL_ARCH=aarch64
 VPINBALL_CONF_OPTS += "-DBUILD_RPI=ON"
 endif
 
 define VPINBALL_CMAKE_HACKS
 	cp $(@D)/standalone/cmake/$(SOURCE) $(@D)/CMakeLists.txt
-	$(SED) 's:$${CMAKE_SOURCE_DIR}/standalone/$(SOURCE_DIR)/external/include:$(STAGING_DIR)/usr/include/:g' $(@D)/CMakeLists.txt
-	$(SED) 's:$${CMAKE_SOURCE_DIR}/standalone/$(SOURCE_DIR)/external/lib/:$(STAGING_DIR)/usr/lib/:g' $(@D)/CMakeLists.txt
+	$(SED) 's:$${CMAKE_SOURCE_DIR}/standalone/$(VPINBALL_SOURCE_DIR)/external/include:$(STAGING_DIR)/usr/include/:g' $(@D)/CMakeLists.txt
+	$(SED) 's:$${CMAKE_SOURCE_DIR}/standalone/$(VPINBALL_SOURCE_DIR)/external/lib/:$(STAGING_DIR)/usr/lib/:g' $(@D)/CMakeLists.txt
 	cd $(VPINBALL_DL_DIR) && unzip -o -x bass24-linux.zip -d bass24
-	$(INSTALL) -D -m 0755 $(VPINBALL_DL_DIR)/bass24/libs/$(ARCH)/libbass.so $(STAGING_DIR)/usr/lib
-	$(INSTALL) -D -m 0755 $(VPINBALL_DL_DIR)/bass24/libs/$(ARCH)/libbass.so $(TARGET_DIR)/usr/lib
+	$(INSTALL) -D -m 0755 $(VPINBALL_DL_DIR)/bass24/libs/$(VPINBALL_ARCH)/libbass.so $(STAGING_DIR)/usr/lib
+	$(INSTALL) -D -m 0755 $(VPINBALL_DL_DIR)/bass24/libs/$(VPINBALL_ARCH)/libbass.so $(TARGET_DIR)/usr/lib
 endef
 
 VPINBALL_CONF_OPTS += -DCMAKE_BUILD_TYPE=Release

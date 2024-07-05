@@ -14,24 +14,24 @@ LIBALTSOUND_EXTRA_DOWNLOADS = https://www.un4seen.com/files/bass24-linux.zip
 LIBALTSOUND_CONF_OPTS += -DCMAKE_BUILD_TYPE=Release
 LIBALTSOUND_CONF_OPTS += -DBUILD_STATIC=OFF
 LIBALTSOUND_CONF_OPTS += -DPLATFORM=linux
-LIBALTSOUND_CONF_OPTS += -DARCH=$(BUILD_ARCH)
+LIBALTSOUND_CONF_OPTS += -DARCH=$(LIBALTSOUND_BUILD_ARCH)
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_X86_64),y)
-BUILD_ARCH = x64
-BASS_ARCH = x86_64
+LIBALTSOUND_BUILD_ARCH = x64
+LIBALTSOUND_BASS_ARCH = x86_64
 endif
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)
-BUILD_ARCH = aarch64
-BASS_ARCH = aarch64
+LIBALTSOUND_BUILD_ARCH = aarch64
+LIBALTSOUND_BASS_ARCH = aarch64
 endif
 
 define LIBALTSOUND_BASS_HACKS
 	ls $(LIBALTSOUND_DL_DIR)
 	cd $(LIBALTSOUND_DL_DIR) && unzip -o -x bass24-linux.zip -d bass24
 	cp $(LIBALTSOUND_DL_DIR)/bass24/bass.h $(@D)/third-party/include
-	cp $(LIBALTSOUND_DL_DIR)/bass24/libs/$(BASS_ARCH)/libbass.so \
-		$(@D)/third-party/runtime-libs/linux/$(BUILD_ARCH)
+	cp $(LIBALTSOUND_DL_DIR)/bass24/libs/$(LIBALTSOUND_BASS_ARCH)/libbass.so \
+		$(@D)/third-party/runtime-libs/linux/$(LIBALTSOUND_BUILD_ARCH)
 endef
 
 # Install to staging to build Visual Pinball Standalone

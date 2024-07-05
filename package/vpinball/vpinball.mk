@@ -13,18 +13,16 @@ VPINBALL_SUPPORTS_IN_SOURCE_BUILD = NO
 VPINBALL_EXTRA_DOWNLOADS = https://www.un4seen.com/files/bass24-linux.zip
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_X86_64),y)
-VPINBALL_CONF_ENV= \
-	SOURCE = CMakeLists_gl-linux-x64.txt \
-	SOURCE_DIR = linux-x64 \
-	ARCH = x86_64
+SOURCE=CMakeLists_gl-linux-x64.txt 
+SOURCE_DIR=linux-x64 
+ARCH=x86_64
 endif
 
 ifeq ($(BR2_PACKAGE_RECALBOX_TARGET_RPI5_64),y)
-VPINBALL_CONF_ENV= \
-	SOURCE = CMakeLists_gl-linux-aarch64.txt \
-	SOURCE_DIR = linux-aarch64 \
-	ARCH = aarch64 \
-	VPINBALL_CONF_OPTS += "-DBUILD_RPI=ON"
+SOURCE=CMakeLists_gl-linux-aarch64.txt \
+SOURCE_DIR=linux-aarch64 \
+ARCH=aarch64
+VPINBALL_CONF_OPTS += "-DBUILD_RPI=ON"
 endif
 
 define VPINBALL_CMAKE_HACKS

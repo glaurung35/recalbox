@@ -56,7 +56,6 @@ recalboxBins =\
     'vice'        : '/usr/bin/x64',
     'xroar'       : '/usr/bin/xroar',
     'vvvvvv'      : '/usr/bin/vvvvvv/VVVVVV',
-    'vpinball'    : '/usr/bin/vpinball/VPinballX_GL',
 }
 
 
@@ -183,6 +182,3 @@ frotzConfig = HOME + '/.config/frotz/frotz.conf'
 
 sdlpopConfigFile = CONF + '/sdlpop/sdlpop.ini'
 sdlpopControllersFile = CONF + '/sdlpop/gamecontrollerdb.txt'
-
-vpinballRootFolder = CONF + '/vpinball'
-vpinballConfigFile = vpinballRootFolder + '/VPinballX-configgen.ini'

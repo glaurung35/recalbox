@@ -21,7 +21,6 @@ xset s off
 # xrandr --output output_name --off
 
 /usr/bin/externalscreen.sh
-/usr/bin/pinball.sh
 
 # auto hide cursor each 5 sec of inactivity
 hhpc -i 5 &

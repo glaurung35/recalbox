@@ -1,8 +1,0 @@
---- libpupdmd-c640ea2cec94097e8baefee9dab39266970e4405/CMakeLists.txt	2024-04-08 20:54:24.240108969 +0200
-+++ libpupdmd-c640ea2cec94097e8baefee9dab39266970e4405/CMakeLists.new	2024-04-08 20:54:14.076199312 +0200
-@@ -1,4 +1,4 @@
--cmake_minimum_required(VERSION 3.25)
-+cmake_minimum_required(VERSION 3.22)
- 
- set(PLATFORM "win" CACHE STRING "Platform")
- set(ARCH "x64" CACHE STRING "Arch")

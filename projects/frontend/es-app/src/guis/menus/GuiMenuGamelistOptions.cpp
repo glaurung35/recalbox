@@ -83,6 +83,9 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
   if (system.IsArcade())
     AddSubMenu(_("ARCADE SETTINGS"), (int)Components::ArcadeOptions, _(MENUMESSAGE_ARCADE_HELP_MSG));
 
+  // Decorations
+  AddMultiList(_("DECORATIONS"), (int)Components::Decorations, this, GetDecorationEntries(), _(MENUMESSAGE_GAMELISTOPTION_DECORATIONS_MSG));
+
   // Region filter
   AddList<Regions::GameRegions>(_("HIGHLIGHT GAMES OF REGION..."), (int)Components::Regions, this, GetRegionEntries(), _(MENUMESSAGE_GAMELISTOPTION_FILTER_REGION_MSG));
 
@@ -167,6 +170,15 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
   return list;
 }
 
+std::vector<GuiMenuBase::ListEntry<RecalboxConf::GamelistDecoration>> GuiMenuGamelistOptions::GetDecorationEntries()
+{
+  std::vector<GuiMenuBase::ListEntry<RecalboxConf::GamelistDecoration>> list;
+  RecalboxConf::GamelistDecoration decorations = RecalboxConf::Instance().GetSystemGamelistDecoration(*ViewController::Instance().CurrentSystem());
+  list.push_back({ "Region flags", RecalboxConf::GamelistDecoration::Regions, hasFlag(decorations, RecalboxConf::GamelistDecoration::Regions) });
+  list.push_back({ "Players", RecalboxConf::GamelistDecoration::Players, hasFlag(decorations, RecalboxConf::GamelistDecoration::Players) });
+  list.push_back({ "Genres", RecalboxConf::GamelistDecoration::Genre, hasFlag(decorations, RecalboxConf::GamelistDecoration::Genre) });
+  return list;
+}
 
 std::vector<GuiMenuBase::ListEntry<unsigned int>> GuiMenuGamelistOptions::GetLetterEntries()
 {
@@ -320,7 +332,9 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::Regions:
     case Components::FavoritesOnly:
     case Components::FlatFolders:
-    case Components::AutorunGame: break;
+    case Components::AutorunGame:
+    case Components::Decorations:
+    default: break;
   }
 }
 
@@ -370,7 +384,8 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool& status)
     case Components::SaveStates:
     case Components::Quit:
     case Components::ArcadeOptions:
-      break;
+    case Components::Decorations:
+    default: break;
   }
 
   FileData* game = mGamelist.getCursor();
@@ -389,5 +404,36 @@ void GuiMenuGamelistOptions::ManageSystems()
 
   // for updating game counts on system view
   ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
+}
+
+void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::vector<RecalboxConf::GamelistDecoration>& value)
+{
+  switch((Components)id)
+  {
+    case Components::Decorations:
+    {
+      RecalboxConf::GamelistDecoration decorations = RecalboxConf::GamelistDecoration::None;
+      for(RecalboxConf::GamelistDecoration deco : value) decorations |= deco;
+      RecalboxConf::Instance().SetSystemGamelistDecoration(*ViewController::Instance().CurrentSystem(), decorations);
+      break;
+    }
+    case Components::Download:
+    case Components::JumpToLetter:
+    case Components::Sorts:
+    case Components::Regions:
+    case Components::FlatFolders:
+    case Components::FavoritesOnly:
+    case Components::MetaData:
+    case Components::UpdateGamelist:
+    case Components::Delete:
+    case Components::DeleteScreeshot:
+    case Components::SaveStates:
+    case Components::MainMenu:
+    case Components::Quit:
+    case Components::Search:
+    case Components::ArcadeOptions:
+    case Components::AutorunGame:
+    default: break;
+  }
 }
 

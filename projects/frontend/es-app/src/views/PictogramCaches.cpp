@@ -25,7 +25,7 @@ std::shared_ptr<TextureResource>& PictogramCaches::GetGenre(GameGenres genre)
   if (ptexture == nullptr)
   {
     // Load genre
-    std::shared_ptr<TextureResource> texture = TextureResource::get(Path(Genres::GetResourcePath(genre)), false, true, true);
+    std::shared_ptr<TextureResource> texture = TextureResource::get(Path(String(Genres::GetResourcePath(genre).ToString()).Replace("/genre/", "/genreflags/")), false, true, true);
     mGenreToTextures.insert(genre, texture);
     ptexture = mGenreToTextures.try_get(genre);
   }

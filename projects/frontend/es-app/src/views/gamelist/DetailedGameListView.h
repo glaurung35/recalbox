@@ -51,7 +51,7 @@ class DetailedGameListView : public ISimpleGameListView
 
   protected:
     //! List's color index, integer compatible
-    enum Colors
+    enum ColorIndexes
     {
       BaseColor = 0,
       GameColor = 0,
@@ -160,6 +160,10 @@ class DetailedGameListView : public ISimpleGameListView
     TextComponent mPlayCount;
     TextComponent mFavorite;
 
+    ImageComponent mDecorationFlagsTemplate;
+    ImageComponent mDecorationGenreTemplate;
+    ImageComponent mDecorationPlayersTemplate;
+
     Array<TextComponent*> getMDLabels();
     Array<ThemableComponent*> getMDValues();
 
@@ -188,6 +192,9 @@ class DetailedGameListView : public ISimpleGameListView
 
     //! Current sort
     FileSorts::Sorts mSort;
+
+    //! Current gamelist decorations
+    RecalboxConf::GamelistDecoration mDecorations;
 
     //! Last processed cursor item
     FileData* mLastCursorItem;
@@ -302,6 +309,9 @@ class DetailedGameListView : public ISimpleGameListView
     void setGameInfo(FileData* file, bool update);
     void setRegions(FileData* file);
     void setScrapedFolderInfo(FileData* file);
+
+    //! Get a color or half the color
+    static Colors::ColorARGB HalfColor(Colors::ColorARGB c, bool half) { return half ? ((c & 0xFFFFFF00) | ((c >> 1) & 0x7F)) : c; }
 
     /*!
      * @brief Build component list linked by the video component

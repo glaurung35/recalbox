@@ -15,10 +15,14 @@ bool FileSorts::Initialize()
     sAllSorts.push_back(SortType(Sorts::FileNameDescending   , &compareFileName     , &compareFileNameArcade     , false, "\uF15e " + _("NAME")));
     sAllSorts.push_back(SortType(Sorts::RatingAscending      , &compareRating       , &compareRatingArcade       , true , "\uF165 " + _("RATING")));
     sAllSorts.push_back(SortType(Sorts::RatingDescending     , &compareRating       , &compareRatingArcade       , false, "\uF164 " + _("RATING")));
-    sAllSorts.push_back(SortType(Sorts::TimesPlayedAscending , &compareTimesPlayed  , &compareTimesPlayedArcade  , true , "\uF160 " + _("TIMES PLAYED")));
-    sAllSorts.push_back(SortType(Sorts::TimesPlayedDescending, &compareTimesPlayed  , &compareTimesPlayedArcade  , false, "\uF161 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::TimesPlayedAscending , &compareTimesPlayed  , &compareTimesPlayedArcade  , true , "\uF162 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::TimesPlayedDescending, &compareTimesPlayed  , &compareTimesPlayedArcade  , false, "\uF163 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::TotalTimeAscending   , &compareTotalTime    , &compareTotalTimeArcade    , true , "\uF160 " + _("TOTAL PLAYING TIME")));
+    sAllSorts.push_back(SortType(Sorts::TotalTimeDescending  , &compareTotalTime    , &compareTotalTimeArcade    , false, "\uF161 " + _("TOTAL PLAYING TIME")));
     sAllSorts.push_back(SortType(Sorts::LastPlayedAscending  , &compareLastPlayed   , &compareLastPlayedArcade   , true , "\uF160 " + _("LAST PLAYED")));
     sAllSorts.push_back(SortType(Sorts::LastPlayedDescending , &compareLastPlayed   , &compareLastPlayedArcade   , false, "\uF161 " + _("LAST PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::RegionAscending      , &compareRegion       , &compareRegionArcade       , true , "\uF162 " + _("REGIONS")));
+    sAllSorts.push_back(SortType(Sorts::RegionDescending     , &compareRegion       , &compareRegionArcade       , false, "\uF163 " + _("REGIONS")));
     sAllSorts.push_back(SortType(Sorts::PlayersAscending     , &compareNumberPlayers, &compareNumberPlayersArcade, true , "\uF162 " + _("NUMBER OF PLAYERS")));
     sAllSorts.push_back(SortType(Sorts::PlayersDescending    , &compareNumberPlayers, &compareNumberPlayersArcade, false, "\uF163 " + _("NUMBER OF PLAYERS")));
     sAllSorts.push_back(SortType(Sorts::DeveloperAscending   , &compareDevelopper   , &compareDevelopperArcade   , true , "\uF15d " + _("DEVELOPER")));
@@ -85,6 +89,14 @@ ImplementSortMethod(compareRating)
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
+ImplementSortMethod(compareTotalTime)
+{
+  CheckFoldersAndGames(file1, file2)
+  int playTime = (file1).Metadata().TimePlayed() - (file2).Metadata().TimePlayed();
+  if (playTime != 0) return playTime;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
+}
+
 ImplementSortMethod(compareTimesPlayed)
 {
   CheckFoldersAndGames(file1, file2)
@@ -110,6 +122,14 @@ ImplementSortMethod(compareNumberPlayers)
   CheckFoldersAndGames(file1, file2)
   int players = (file1).Metadata().PlayerRange() - (file2).Metadata().PlayerRange();
   if (players != 0) return players;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
+}
+
+ImplementSortMethod(compareRegion)
+{
+  CheckFoldersAndGames(file1, file2)
+  int diff = (file1).Metadata().Region() - (file2).Metadata().Region();
+  if (diff != 0) return diff;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
@@ -160,6 +180,8 @@ ImplementSortMethodArcade(compareRatingArcade, compareRating)
 
 ImplementSortMethodArcade(compareTimesPlayedArcade, compareTimesPlayed)
 
+ImplementSortMethodArcade(compareTotalTimeArcade, compareTotalTime)
+
 ImplementSortMethodArcade(compareLastPlayedArcade, compareLastPlayed)
 
 ImplementSortMethodArcade(compareNumberPlayersArcade, compareNumberPlayers)
@@ -171,6 +193,8 @@ ImplementSortMethodArcade(comparePublisherArcade, comparePublisher)
 ImplementSortMethodArcade(compareGenreArcade, compareGenre)
 
 ImplementSortMethodArcade(compareReleaseDateArcade, compareReleaseDate)
+
+ImplementSortMethodArcade(compareRegionArcade, compareRegion)
 
 const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
 {
@@ -191,8 +215,12 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
         Sorts::RatingDescending,
         Sorts::TimesPlayedAscending,
         Sorts::TimesPlayedDescending,
+        Sorts::TotalTimeAscending,
+        Sorts::TotalTimeDescending,
         Sorts::LastPlayedAscending,
         Sorts::LastPlayedDescending,
+        Sorts::RegionAscending,
+        Sorts::RegionDescending,
         Sorts::PlayersAscending,
         Sorts::PlayersDescending,
         Sorts::DeveloperAscending,
@@ -217,8 +245,12 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
         Sorts::RatingDescending,
         Sorts::TimesPlayedAscending,
         Sorts::TimesPlayedDescending,
+        Sorts::TotalTimeAscending,
+        Sorts::TotalTimeDescending,
         Sorts::LastPlayedAscending,
         Sorts::LastPlayedDescending,
+        Sorts::RegionAscending,
+        Sorts::RegionDescending,
         Sorts::PlayersAscending,
         Sorts::PlayersDescending,
         Sorts::DeveloperAscending,
@@ -245,8 +277,12 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
     Sorts::RatingDescending,
     Sorts::TimesPlayedAscending,
     Sorts::TimesPlayedDescending,
+    Sorts::TotalTimeAscending,
+    Sorts::TotalTimeDescending,
     Sorts::LastPlayedAscending,
     Sorts::LastPlayedDescending,
+    Sorts::RegionAscending,
+    Sorts::RegionDescending,
     Sorts::PlayersAscending,
     Sorts::PlayersDescending,
     Sorts::DeveloperAscending,

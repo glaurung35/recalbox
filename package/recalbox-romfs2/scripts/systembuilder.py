@@ -90,6 +90,7 @@ class SystemBuilder:
             "path": holder.RomFolder,
             "theme": holder.ThemeFolder,
             "extensions": holder.Extensions,
+            "extension.types": holder.ExtensionTypes,
             "icon": holder.IconUnicode,
             "downloader": "1" if holder.HasDownloader else "0",
         }

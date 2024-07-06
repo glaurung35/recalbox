@@ -97,6 +97,15 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       DC  , //!< Dreamcast pad type
     };
 
+    enum class GamelistDecoration
+    {
+      None    = 0,    //!< Nothing
+      Regions = 1, //!< Region flags
+      Players = 2, //!< Players
+      Genre   = 4,   //!< normalized genre
+    };
+
+
     /*
      * Shortcuts
      */
@@ -174,6 +183,14 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     #define DefineEmulationStationSystemGetterSetterNumericEnumImplementation(name, enumType, key, defaultValue) \
       enumType RecalboxConf::GetSystem##name(const SystemData& system) const { return (enumType)AsInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)(defaultValue)); } \
       RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, enumType value) { SetInt(String("emulationstation.").Append(system.Name()).Append('.').Append(key), (int)value); return *this; }
+
+    #define DefineEmulationStationSystemGetterSetterEnumDeclaration(name, enumType) \
+      enumType GetSystem##name(const SystemData& system) const; \
+      RecalboxConf& SetSystem##name(const SystemData& system, enumType value);
+
+    #define DefineEmulationStationSystemGetterSetterEnumImplementation(clazz, name, enumType, key, adapterPrefix) \
+      clazz::enumType clazz::GetSystem##name(const SystemData& system) const { return adapterPrefix##FromString(AsString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), "")); } \
+      clazz& clazz::SetSystem##name(const SystemData& system, enumType value) { SetString(String("emulationstation.").Append(system.Name()).Append('.').Append(key), adapterPrefix##FromEnum(value)); return *this; }
 
     #define DefineEmulationStationSystemListGetterSetterDeclaration(name, key) \
       String::List Get##name(const SystemData& system) const; \
@@ -377,6 +394,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
     DefineSystemGetterSetterDeclaration(VideoMode, String, String, sSystemVideoMode)
+
+    DefineEmulationStationSystemGetterSetterEnumDeclaration(GamelistDecoration, GamelistDecoration)
 
     DefineEmulationStationSystemGetterSetterDeclaration(FilterAdult, bool, Bool, sSystemFilterAdult)
     DefineEmulationStationSystemGetterSetterDeclaration(FlatFolders, bool, Bool, sSystemFlatFolders)
@@ -646,4 +665,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const String& ScraperTypeFromEnum(ScraperType type);
     static PadOSDType PadOSDTypeFromString(const String& pad);
     static const String& PadOSDTypeFromEnum(PadOSDType type);
+    static GamelistDecoration GamelistDecorationFromString(const String& gameDecoration);
+    static const String GamelistDecorationFromEnum(GamelistDecoration gameDecoration);
 };
+
+DEFINE_BITFLAG_ENUM(RecalboxConf::GamelistDecoration, int)

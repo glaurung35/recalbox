@@ -52,6 +52,7 @@ bool SystemDeserializer::Deserialize(int index, SystemDescriptor& systemDescript
   XmlNode descriptor = systemNode.child("descriptor");
   systemDescriptor.SetDescriptorInformation(Xml::AttributeAsString(descriptor, "path", ""),
                                             Xml::AttributeAsString(descriptor, "extensions", ""),
+                                            Xml::AttributeAsString(descriptor, "extension.types", ""),
                                             Xml::AttributeAsString(descriptor, "theme", ""),
                                             Xml::AttributeAsString(descriptor, "command", ""),
                                             Xml::AttributeAsString(descriptor, "icon", "$0"),

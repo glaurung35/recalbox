@@ -235,6 +235,62 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
             mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
 
+          // Disk/Disc/tape number/side
+          fileName.LowerCase();
+          if (int pos = fileName.Find(LEGACY_STRING("(dis")); pos > 0)
+          {
+            switch(fileName[pos + 4])
+            {
+              case 'c': // CD/DVD
+              {
+                int number = 0;
+                if (fileName.TryAsInt(pos +  6, ' ', number) || fileName.TryAsInt(pos +  6, ')', number))
+                  game.Metadata().SetSupportIndex(number);
+                if (pos = fileName.Find(LEGACY_STRING("of "), pos + 7); pos > 0)
+                  if (fileName.TryAsInt(pos +  3, ')', number)) game.Metadata().SetSupportTotal(number);
+                break;
+              }
+              case 'k': // Disk
+              {
+                int number = 0;
+                if (fileName.TryAsInt(pos +  6, ' ', number) || fileName.TryAsInt(pos +  6, ')', number))
+                  game.Metadata().SetSupportIndex(number);
+                if (pos = fileName.Find(LEGACY_STRING("of "), pos + 7); pos > 0)
+                {
+                  if (fileName.TryAsInt(pos +  3, ')', number)) game.Metadata().SetSupportTotal(number);
+                  else if (fileName.TryAsInt(pos +  3, ' ', number))
+                  {
+                    game.Metadata().SetSupportTotal(number);
+                    if (pos = fileName.Find(LEGACY_STRING("side "), pos + 4); pos > 0)
+                    {
+                      switch(fileName[pos + 5])
+                      {
+                        case 'a':
+                        case '1': game.Metadata().SetSupportSide(SupportSides::A); break;
+                        case 'b':
+                        case '2': game.Metadata().SetSupportSide(SupportSides::B); break;
+                        default: break;
+                      }
+                    }
+                  }
+                }
+                break;
+              }
+              default: break;
+            }
+          }
+          else if (pos = fileName.Find(LEGACY_STRING("(side ")); pos > 0)
+          {
+            switch(fileName[pos + 6])
+            {
+              case 'a':
+              case '1': game.Metadata().SetSupportSide(SupportSides::A); break;
+              case 'b':
+              case '2': game.Metadata().SetSupportSide(SupportSides::B); break;
+              default: break;
+            }
+          }
+
           // Not a game?
           game.Metadata().SetNoGame(game.Name().StartsWith(LEGACY_STRING("ZZZ")) || fileName.Contains(LEGACY_STRING("[BIOS]")));
         }
@@ -678,7 +734,7 @@ SystemData* SystemManager::CreateFavoriteSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("235d42c7-af11-49ad-a422-d37b52e3a899", sFavoriteSystemShortName, _("Favorites"))
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", sFavoriteSystemShortName, "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", sFavoriteSystemShortName, "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite,
                                       MetadataType::Favorite, VirtualSystemType::Favorites);
 
@@ -690,7 +746,7 @@ SystemData* SystemManager::CreatePortsSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("8cfef2bd-83e8-460b-85e5-432d4efa5257", sPortsSystemShortName, sPortsSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", sPortsSystemShortName, "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", sPortsSystemShortName, "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::Searchable,
                                       MetadataType::None, VirtualSystemType::Ports);
   return result;
@@ -701,7 +757,7 @@ SystemData* SystemManager::CreateLastPlayedSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("ddf12b17-a336-444a-9813-dd82f0649818", sLastPlayedSystemShortName, sLastPlayedSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(sLastPlayedSystemShortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(sLastPlayedSystemShortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat,
                                       MetadataType::LastPlayed, VirtualSystemType::LastPlayed, FileSorts::Sorts::LastPlayedDescending);
 
@@ -713,7 +769,7 @@ SystemData* SystemManager::CreateMultiPlayerSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("c6d89f44-712a-4998-9e09-6fbd7cf10529", sMultiplayerSystemShortName, sMultiplayerSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(sMultiplayerSystemShortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(sMultiplayerSystemShortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual, MetadataType::Players, VirtualSystemType::Multiplayers);
 
   return result;
@@ -724,7 +780,7 @@ SystemData* SystemManager::CreateAllGamesSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("cec94df6-a965-41c3-9b51-f223612dc3d9", sAllGamesSystemShortName, sAllGamesSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(sAllGamesSystemShortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(sAllGamesSystemShortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual, MetadataType::None, VirtualSystemType::AllGames);
 
   return result;
@@ -735,7 +791,7 @@ SystemData* SystemManager::CreateLightgunSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("2b6d3653-cd56-4f9a-86c0-62292216242b", sLightgunSystemShortName, sLightgunSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(sLightgunSystemShortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(sLightgunSystemShortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::Lightgun);
 
   return result;
@@ -746,7 +802,7 @@ SystemData* SystemManager::CreateTateSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("7e5b2ff8-40fe-406d-88bd-d289c95e03f9", sTateSystemShortName, sTateSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(sTateSystemShortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(sTateSystemShortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::Rotation, VirtualSystemType::Tate);
 
   return result;
@@ -757,7 +813,7 @@ SystemData* SystemManager::CreateArcadeSystem()
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("a68dedb7-e6b8-4a0b-b10c-1a1a85eec982", sArcadeSystemShortName, sArcadeSystemFullName)
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", sArcadeSystemShortName, "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", sArcadeSystemShortName, "", "", false, false, false);
 
   SystemData::Properties properties = SystemData::Properties::Virtual;
   bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
@@ -775,7 +831,7 @@ SystemData* SystemManager::CreateGenreSystem(GameGenres genre)
   String fullName = Genres::GetFullName(genre);
   descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(shortName), BuildGenreSystemName(genre), fullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-").Append(shortName), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-").Append(shortName), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::GenreId, VirtualSystemType::Genre);
 
   return result;
@@ -786,7 +842,7 @@ SystemData* SystemManager::CreateArcadeManufacturersSystem(const String& manufac
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), BuildArcadeManufacturerSystemName(manufacturer), String(manufacturer).Replace('\\', " - "))
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
-            .SetDescriptorInformation("", "", String("auto-arcade-").Append(manufacturer).Replace('\\','-').Remove("\u00A0"), "", "", false, false, false);
+            .SetDescriptorInformation("", "", "", String("auto-arcade-").Append(manufacturer).Replace('\\','-').Remove("\u00A0"), "", "", false, false, false);
   SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::ArcadeManufacturers);
   return result;
 }

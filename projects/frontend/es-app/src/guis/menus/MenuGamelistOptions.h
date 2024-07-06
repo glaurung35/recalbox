@@ -11,6 +11,7 @@ class MenuGamelistOptions : public Menu
                           , private ISingleSelectorChanged<FileSorts::Sorts>
                           , private ISubMenuSelected
                           , private ISwitchChanged
+                             , private IOptionListMultiComponent<RecalboxConf::GamelistDecoration>
 {
   public:
     /*!
@@ -43,6 +44,7 @@ class MenuGamelistOptions : public Menu
       Search,
       ArcadeOptions,
       AutorunGame,
+      Decorations,
     };
 
     //! Global variable resolver
@@ -70,7 +72,8 @@ class MenuGamelistOptions : public Menu
     //! Get available region List
     SelectorEntry<Regions::GameRegions>::List GetRegionEntries();
     //! Get available manufacturers
-    SelectorEntry<int>::List GetManufacturerEntries();
+    //! Get gamelist decorations
+    std::vector<ListEntry<RecalboxConf::GamelistDecoration>> GetDecorationEntries();
 
     /*!
      * @brief Refresh gamelist

@@ -18,26 +18,30 @@ class FileSorts
     //! Available sorts
     enum class Sorts
     {
-        FileNameAscending,    //!< By filename, A-Z
-        FileNameDescending,   //!< By filename, Z-A
-        SystemAscending,      //!< By system then by filename, A-Z
-        SystemDescending,     //!< By system then by filename, Z-A
-        RatingAscending,      //!< By rating then by filename, 0-9
-        RatingDescending,     //!< By rating then by filename, 9-0
-        TimesPlayedAscending, //!< By times played then by filename, A-Z
-        TimesPlayedDescending,//!< By times played then by filename, Z-A
-        LastPlayedAscending,  //!< By last-played datetime then by filename, 2000-0
-        LastPlayedDescending, //!< By last-played datetime then by filename, 0-2000
-        PlayersAscending,     //!< By number of players then by filename, 1-2
-        PlayersDescending,    //!< By number of players then by filename, 2-1
-        DeveloperAscending,   //!< By developer then by filename, A-Z
-        DeveloperDescending,  //!< By developer then by filename, Z-A
-        PublisherAscending,   //!< By publisher then by filename, A-Z
-        PublisherDescending,  //!< By publisher then by filename, Z-A
-        GenreAscending,       //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
-        GenreDescending,      //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
-        ReleaseDateAscending, //!< By release date then by filename, 0-9
-        ReleaseDateDescending,//!< By release date then by filename, 9-0
+      FileNameAscending,    //!< By filename, A-Z
+      FileNameDescending,   //!< By filename, Z-A
+      SystemAscending,      //!< By system then by filename, A-Z
+      SystemDescending,     //!< By system then by filename, Z-A
+      RatingAscending,      //!< By rating then by filename, 0-9
+      RatingDescending,     //!< By rating then by filename, 9-0
+      TimesPlayedAscending, //!< By times played then by filename, A-Z
+      TimesPlayedDescending,//!< By times played then by filename, Z-A
+      TotalTimeAscending,   //!< By total time then by filename, A-Z
+      TotalTimeDescending,  //!< By total time then by filename, Z-A
+      LastPlayedAscending,  //!< By last-played datetime then by filename, 2000-0
+      LastPlayedDescending, //!< By last-played datetime then by filename, 0-2000
+      PlayersAscending,     //!< By number of players then by filename, 1-2
+      PlayersDescending,    //!< By number of players then by filename, 2-1
+      DeveloperAscending,   //!< By developer then by filename, A-Z
+      DeveloperDescending,  //!< By developer then by filename, Z-A
+      PublisherAscending,   //!< By publisher then by filename, A-Z
+      PublisherDescending,  //!< By publisher then by filename, Z-A
+      GenreAscending,       //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
+      GenreDescending,      //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
+      ReleaseDateAscending, //!< By release date then by filename, 0-9
+      ReleaseDateDescending,//!< By release date then by filename, 9-0
+      RegionAscending,      //!< By region then by filename, 0-9
+      RegionDescending,     //!< By region then by filename, 9-0
     };
 
     //! Arcade comparer for Wuick sorts
@@ -121,16 +125,19 @@ class FileSorts
     DeclareSortMethodPrototype(compareFileName)
     DeclareSortMethodPrototype(compareRating)
     DeclareSortMethodPrototype(compareTimesPlayed)
+    DeclareSortMethodPrototype(compareTotalTime)
     DeclareSortMethodPrototype(compareLastPlayed)
     DeclareSortMethodPrototype(compareNumberPlayers)
     DeclareSortMethodPrototype(compareDevelopper)
     DeclareSortMethodPrototype(comparePublisher)
     DeclareSortMethodPrototype(compareGenre)
     DeclareSortMethodPrototype(compareReleaseDate)
+    DeclareSortMethodPrototype(compareRegion)
 
     DeclareSortMethodPrototypeArcade(compareSystemNameArcade)
     DeclareSortMethodPrototypeArcade(compareFileNameArcade)
     DeclareSortMethodPrototypeArcade(compareRatingArcade)
+    DeclareSortMethodPrototypeArcade(compareTotalTimeArcade)
     DeclareSortMethodPrototypeArcade(compareTimesPlayedArcade)
     DeclareSortMethodPrototypeArcade(compareLastPlayedArcade)
     DeclareSortMethodPrototypeArcade(compareNumberPlayersArcade)
@@ -138,6 +145,7 @@ class FileSorts
     DeclareSortMethodPrototypeArcade(comparePublisherArcade)
     DeclareSortMethodPrototypeArcade(compareGenreArcade)
     DeclareSortMethodPrototypeArcade(compareReleaseDateArcade)
+    DeclareSortMethodPrototypeArcade(compareRegionArcade)
 
     /*!
      * @brief Get available sorts for a single system

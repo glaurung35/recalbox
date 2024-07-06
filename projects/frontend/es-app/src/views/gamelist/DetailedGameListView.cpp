@@ -37,6 +37,9 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mLastPlayed(window)
   , mPlayCount(window)
   , mFavorite(window)
+  , mDecorationFlagsTemplate(window)
+  , mDecorationGenreTemplate(window)
+  , mDecorationPlayersTemplate(window)
   , mDescContainer(window)
   , mDescription(window)
   , mBusy(window)
@@ -44,6 +47,7 @@ DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& 
   , mFlagWidth(0)
   , mFlagMargin(Renderer::Instance().Is480pOrLower() ? 1 : 2)
   , mSort(FileSorts::Sorts::FileNameAscending)
+  , mDecorations(mSettings.GetSystemGamelistDecoration(system))
   , mLastCursorItem(nullptr)
   , mLastCursorItemHasP2K(false)
 {
@@ -182,6 +186,10 @@ void DetailedGameListView::SwitchToTheme(const ThemeData& theme, bool refreshOnl
   mNoImage.DoApplyThemeElement(theme, getName(), "default_image_path", ThemePropertyCategory::Path);
   mNoImage.setThemeDisabled(false);
   mVideo.DoApplyThemeElement(theme, getName(), "md_video", ThemePropertyCategory::All ^ ThemePropertyCategory::Path);
+
+  mDecorationFlagsTemplate.DoApplyThemeElement(theme, getName(), "template_flag", ThemePropertyCategory::Color);
+  mDecorationGenreTemplate.DoApplyThemeElement(theme, getName(), "template_genre", ThemePropertyCategory::Color);
+  mDecorationPlayersTemplate.DoApplyThemeElement(theme, getName(), "template_players", ThemePropertyCategory::Color);
 
   BuildVideoLinks(theme);
 
@@ -581,6 +589,9 @@ Array<ThemableComponent*> DetailedGameListView::getMDValues()
 
 void DetailedGameListView::Update(int deltatime)
 {
+  // Cache gamelist decoration - TODO: replace by dynamic observable recalboxconf when available
+  mDecorations = mSettings.GetSystemGamelistDecoration(mSystem);
+
   ISimpleGameListView::Update(deltatime);
 
   mBusy.Enable(mIsScraping);
@@ -643,26 +654,68 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
 
   // Right part
   int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data, labelWidth));
-  if (w != 0)
+  if (w != 0 && data->IsGame())
   {
     int drawn = 1;
     int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
-    int y = (int)(position.y() + ((size.y() - (float) flagHeight) / 2.f));
+    int y = (int) (position.y() + ((size.y() - (float) flagHeight) / 2.f));
 
-    for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
-      if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+    // Color shift
+    bool fade = data != getCursor();
+
+    // Genre
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
+    {
+      if (data->Metadata().GenreId() != GameGenres::None)
       {
-        std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
+        std::shared_ptr<TextureResource>& genreTexture = mPictogramCaches.GetGenre(data->Metadata().GenreId());
         // Draw
-        int x = (int)(position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
-        Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, data == getCursor() ? (unsigned char)255 : (unsigned char)128);
-        drawn++;
+        int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+        Renderer::DrawTexture(*genreTexture, x, y, mFlagWidth, flagHeight, true,
+                              HalfColor(mDecorationGenreTemplate.TopLeftColor(), fade),
+                              HalfColor(mDecorationGenreTemplate.TopRightColor(), fade),
+                              HalfColor(mDecorationGenreTemplate.BottomRightColor(), fade),
+                              HalfColor(mDecorationGenreTemplate.BottomLeftColor(), fade));
       }
+      drawn++;
+    }
+
+    // Players
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
+    {
+      std::shared_ptr<TextureResource>& playerTexture = mPictogramCaches.GetPlayers(data->Metadata().PlayerMin(), data->Metadata().PlayerMax());
+      // Draw
+      int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+      Renderer::DrawTexture(*playerTexture, x, y, mFlagWidth, flagHeight, true,
+                            HalfColor(mDecorationPlayersTemplate.TopLeftColor(), fade),
+                            HalfColor(mDecorationPlayersTemplate.TopRightColor(), fade),
+                            HalfColor(mDecorationPlayersTemplate.BottomRightColor(), fade),
+                            HalfColor(mDecorationPlayersTemplate.BottomLeftColor(), fade));
+      drawn++;
+    }
+
+    // Regions
+    if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
+    {
+      for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+        if (Regions::GameRegions region = data->Metadata().Region().Regions[r]; region != Regions::GameRegions::Unknown)
+        {
+          std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
+          // Draw
+          int x = (int) (position.x() + size.x()) - (mFlagMargin + mFlagWidth) * drawn + mFlagMargin;
+          Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, true,
+                                HalfColor(mDecorationFlagsTemplate.TopLeftColor(), fade),
+                                HalfColor(mDecorationFlagsTemplate.TopRightColor(), fade),
+                                HalfColor(mDecorationFlagsTemplate.BottomRightColor(), fade),
+                                HalfColor(mDecorationFlagsTemplate.BottomLeftColor(), fade));
+          drawn++;
+        }
+    }
   }
 
   // Left part
   w = Math::roundi(DetailedGameListView::OverlayGetLeftOffset(data));
-  if (w != 0)
+  if (w != 0 && data->IsHeader())
   {
     switch(mSort)
     {
@@ -686,8 +739,10 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
       }
       case FileSorts::Sorts::TimesPlayedAscending:
       case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::TotalTimeAscending:
+      case FileSorts::Sorts::TotalTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
-      case FileSorts::Sorts::LastPlayedDescending:
+      case FileSorts::Sorts::LastPlayedDescending: break;
       case FileSorts::Sorts::PlayersAscending:
       case FileSorts::Sorts::PlayersDescending:
       {
@@ -704,7 +759,7 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
       case FileSorts::Sorts::DeveloperAscending:
       case FileSorts::Sorts::DeveloperDescending:
       case FileSorts::Sorts::PublisherAscending:
-      case FileSorts::Sorts::PublisherDescending:
+      case FileSorts::Sorts::PublisherDescending: break;
       case FileSorts::Sorts::GenreAscending:
       case FileSorts::Sorts::GenreDescending:
       {
@@ -720,7 +775,30 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
         break;
       }
       case FileSorts::Sorts::ReleaseDateAscending:
-      case FileSorts::Sorts::ReleaseDateDescending:
+      case FileSorts::Sorts::ReleaseDateDescending: break;
+      case FileSorts::Sorts::RegionAscending:
+      case FileSorts::Sorts::RegionDescending:
+      {
+        Regions::RegionPack pack;
+        pack.Pack = ((HeaderData*)data)->Int();
+        int drawn = 0;
+        int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
+        int y = (int) (position.y() + ((size.y() - (float) flagHeight) / 2.f));
+        for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+          if (Regions::GameRegions region = pack.Regions[r]; region != Regions::GameRegions::Unknown)
+          {
+            std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
+            // Draw
+            int x = (int)position.x() + (mFlagMargin + mFlagWidth) * drawn;
+            Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, true,
+                                  mDecorationFlagsTemplate.TopLeftColor(),
+                                  mDecorationFlagsTemplate.TopRightColor(),
+                                  mDecorationFlagsTemplate.BottomRightColor(),
+                                  mDecorationFlagsTemplate.BottomLeftColor());
+            drawn++;
+          }
+        break;
+      }
       default: break;
     }
   }
@@ -751,10 +829,20 @@ float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int lab
       case FileSorts::Sorts::PublisherDescending:
       case FileSorts::Sorts::TimesPlayedAscending:
       case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::TotalTimeAscending:
+      case FileSorts::Sorts::TotalTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
       case FileSorts::Sorts::LastPlayedDescending:
       case FileSorts::Sorts::ReleaseDateAscending:
-      case FileSorts::Sorts::ReleaseDateDescending:
+      case FileSorts::Sorts::ReleaseDateDescending: break;
+      case FileSorts::Sorts::RegionAscending:
+      case FileSorts::Sorts::RegionDescending:
+      {
+        Regions::RegionPack pack;
+        pack.Pack = ((HeaderData*)data)->Int();
+        int regionCount = pack.Count();
+        return (mFlagWidth + mFlagMargin) * regionCount;
+      }
       default: break;
     }
   return 0.f;
@@ -762,9 +850,16 @@ float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int lab
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
-  (void)labelWidth;
-  int regionCount = data->Metadata().Region().Count();
-  int result = (mFlagWidth + mFlagMargin) * regionCount;
+  int result = 0;
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
+  {
+    int regionCount = data->Metadata().Region().Count();
+    result = (mFlagWidth + mFlagMargin) * regionCount;
+  }
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
+    result = mFlagWidth + mFlagMargin;
+  if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
+    result = mFlagWidth + mFlagMargin;
   return (float)result;
 }
 
@@ -923,9 +1018,9 @@ void DetailedGameListView::populateList(const FolderData& folder)
       if (!Regions::IsIn4Regions(item->Metadata().Region().Pack, currentRegion))
         colorIndexOffset = HighlightColor;
     // Tate filtering
-    if (onlyTate && !RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    if (onlyTate && !RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Yoko filtering
-    if (onlyYoko && RotationUtils::IsTate(fd->Metadata().Rotation())) continue;
+    if (onlyYoko && RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Header?
     if (item->IsGame())
       if (HeaderData* header = NeedHeader(previous, item); header != nullptr)
@@ -1153,6 +1248,35 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
         return GetHeader(nextRating != 0 ? (_F(_("RATED {0} / 10")) / nextRating)() : _("NOT RATED"), next->Metadata().Rating());
       break;
     }
+    case FileSorts::Sorts::TotalTimeAscending:
+    case FileSorts::Sorts::TotalTimeDescending:
+    {
+      int previousRange = -1;
+      int nextRange = 0;
+      // Get previous range
+      if (previous == nullptr)
+      {
+        if (previous->Metadata().TimePlayed() == 0) previousRange = 0;
+        else if (TimeSpan span(previous->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) previousRange = 1;
+        else { int hours = (int)span.TotalHours(); previousRange = hours == 0 ? 2 : hours + 2; }
+      }
+      // Get next range
+      if (next->Metadata().TimePlayed() == 0) nextRange = 0;
+      else if (TimeSpan span(next->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) nextRange = 1;
+      else { int hours = (int)span.TotalHours(); nextRange = hours == 0 ? 2 : hours + 2; }
+
+      // Get header
+      if (previousRange != nextRange)
+      {
+        String text;
+        if (nextRange == 0) text = _("Never played");
+        else if (nextRange == 1) text = _("Just a few minutes");
+        else if (nextRange == 2) text = _("Less than an hour");
+        else text = (_F(_("{0} hours")) / (nextRange - 2)).ToString();
+        return GetHeader(text);
+      }
+      break;
+    }
     case FileSorts::Sorts::TimesPlayedAscending:
     case FileSorts::Sorts::TimesPlayedDescending:
     {
@@ -1160,16 +1284,7 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
       {
         String text;
         if (next->Metadata().TimePlayed() == 0) text = _("Never played");
-        else
-        {
-          TimeSpan span(next->Metadata().TimePlayed(), 0);
-          if (span.TotalMinutes() < 30) text = _("Just a few minutes");
-          else
-          {
-            int hours = (int) TimeSpan(next->Metadata().TimePlayed(), 0).TotalHours();
-            text = hours == 0 ? _("Less than an hour") : (_F(_("{0} hours")) / hours)();
-          }
-        }
+        else text = (_F(_("{0} times")) / next->Metadata().TimePlayed())();
         return GetHeader(text);
       }
       break;
@@ -1235,6 +1350,24 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
       int year = next->Metadata().ReleaseDate().Year();
       if (previous == nullptr || previous->Metadata().ReleaseDate().Year() != year)
         return GetHeader(year <= 1970 ? _("Release date unknown") : (_F(_("Year {0}")) / year)());
+      break;
+    }
+    case FileSorts::Sorts::RegionAscending:
+    case FileSorts::Sorts::RegionDescending:
+    {
+      Regions::RegionPack regions = next->Metadata().Region();
+      if (previous == nullptr || previous->Metadata().Region() != regions)
+      {
+        String header;
+        for(int i = Regions::RegionPack::sMaxRegions; --i >= 0; )
+          if (Regions::GameRegions region = regions.Regions[i]; region != Regions::GameRegions::Unknown)
+          {
+            if (!header.empty()) header.Append(", ", 2);
+            header.Append(Regions::RegionFullName(region));
+          }
+        if (header.empty()) header = _("NO REGION");
+        return GetHeader(header, regions.Pack);
+      }
       break;
     }
   }
@@ -1444,6 +1577,8 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
   {
     case FileSorts::Sorts::TimesPlayedAscending:
     case FileSorts::Sorts::TimesPlayedDescending:
+    case FileSorts::Sorts::TotalTimeAscending:
+    case FileSorts::Sorts::TotalTimeDescending:
     case FileSorts::Sorts::LastPlayedAscending:
     case FileSorts::Sorts::LastPlayedDescending:
     {
@@ -1469,6 +1604,8 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
     case FileSorts::Sorts::GenreDescending:
     case FileSorts::Sorts::ReleaseDateAscending:
     case FileSorts::Sorts::ReleaseDateDescending:
+    case FileSorts::Sorts::RegionAscending:
+    case FileSorts::Sorts::RegionDescending:
     default: break;
   }
 }

@@ -157,8 +157,8 @@ void GuiScraperRun::TerminateScraping()
 {
   mScraper->Abort(true);
   TerminateGui();
-  for(const auto& systemData : mSearchQueue)
-    systemData->UpdateGamelistXml();
+  Terminate();
+  mSystemManager.UpdateAllGameLists();
   mWindow.CloseAll();
   /*switch(mResult)
   {

@@ -101,7 +101,7 @@ class GuiMenuUserScripts : public GuiMenuBase
      * @param script Script file path
      * @return Script name
      */
-    String ExtractScriptName(const Path& script);
+    String ExtractScriptName(const Path& script, ScriptAttributes attributes);
 
     /*
      * Menu implementation

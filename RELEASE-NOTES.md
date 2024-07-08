@@ -28,6 +28,7 @@ as release notes for end user on a Recalbox upgrade.
 - Added options into configgen for Amiga systems
 - Force analog mode on Naomi, Naomi GD and Naomi 2
 - Add rumble option in frontend
+- Move L2/R2 buttons to L1/R1 on Dreamcast if controller doesn't have L2/R2
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

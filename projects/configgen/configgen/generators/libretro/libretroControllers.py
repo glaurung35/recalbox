@@ -159,6 +159,22 @@ class LibretroControllers:
         InputItem.ItemStart : 'start',
         InputItem.ItemSelect: 'select'
     }
+    # Retroarch buttons for Dreamcast without L2/R2
+    retroarchdreamcastbtns: Dict[int, str] = \
+    {
+        InputItem.ItemA     : 'a',
+        InputItem.ItemB     : 'b',
+        InputItem.ItemX     : 'x',
+        InputItem.ItemY     : 'y',
+        InputItem.ItemL1    : 'l2',
+        InputItem.ItemR1    : 'r2',
+        InputItem.ItemL2    : 'l',
+        InputItem.ItemR2    : 'r',
+        InputItem.ItemL3    : 'l3',
+        InputItem.ItemR3    : 'r3',
+        InputItem.ItemStart : 'start',
+        InputItem.ItemSelect: 'select'
+    }
     def __init__(self, system: Emulator, recalboxOptions: keyValueSettings, settings: keyValueSettings, controllers: ControllerPerPlayer, nodefaultkeymap: bool):
         self.system: Emulator = system
         self.recalboxOptions: keyValueSettings = recalboxOptions
@@ -284,7 +300,7 @@ class LibretroControllers:
 
 
     # Write a configuration for a specified controller
-    def buildController(self, controller: Controller, playerIndex: int, system:Emulator):
+    def buildController(self, controller: Controller, playerIndex: int, system: Emulator):
         settings = self.settings
 
         is_jamma = controller.DeviceName.startswith("JammaController")
@@ -306,6 +322,11 @@ class LibretroControllers:
                 btnmap = self.retroarchmegadrive6btns
             else:
                 btnmap = self.retroarchmegadrivebtns
+
+        # Define L2/R2 on L1/R1 if controllers don't have L2/R2 for Dreamcast
+        if not controller.HasL2 and not controller.HasR2 and system.Name == "dreamcast":
+            btnmap = self.retroarchdreamcastbtns
+
         if system.RotateControls:
             btnmap = self.retroarchbtnsTate
         for btnkey in btnmap:
@@ -332,7 +353,7 @@ class LibretroControllers:
 
         if controller.PlayerIndex == 1:
             specialMap: Dict[int, str] = {}
-            # No menu always pritority
+            # No menu always priority
             if specials == "nomenu":
                 specialMap = self.retroarchspecialsnomenu
             elif specials == "default":

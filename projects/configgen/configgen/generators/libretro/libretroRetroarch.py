@@ -382,6 +382,10 @@ class LibretroRetroarch:
         # Ignore core informations (allow rewind, save states, netplay)
         settings.setBool("core_info_savestate_bypass", True)
 
+        # Ignore saves & save states sorted in subfolders with the core name
+        settings.setBool("sort_savefiles_enable", False)
+        settings.setBool("sort_savestates_enable", False)
+
         # Use bios in directories
         # Most of the case are by core name
         match self.system.Core:

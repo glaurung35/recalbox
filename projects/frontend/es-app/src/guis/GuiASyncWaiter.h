@@ -5,61 +5,35 @@
 
 #include <guis/Gui.h>
 #include <components/BusyComponent.h>
+#include <components/ProgressBarComponent.h>
 #include <WindowManager.h>
 
 /*!
  * @brief Syncnronized operations waiter
  */
-class GuiSyncWaiter : public Gui
+class GuiASyncWaiter : public Gui
 {
   public:
-    explicit GuiSyncWaiter(WindowManager& window, const String& message)
+    explicit GuiASyncWaiter(WindowManager& window, const String& message)
       : Gui(window)
       , mBusyAnim(window)
+      , mProgress(window, 100)
       , mTimeReference(0)
       , mShown(false)
     {
       // Configure animation
       mBusyAnim.setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
       mBusyAnim.setText(message);
+      mProgress.setSize(Renderer::Instance().DisplayWidthAsFloat() / 2, Renderer::Instance().DisplayHeightAsFloat() / 40);
+      mProgress.setPosition(Renderer::Instance().DisplayWidthAsFloat() / 4, (Renderer::Instance().DisplayHeightAsFloat() + mBusyAnim.RealHeight()) / 2 + 4);
+      mProgress.setCurrentValue(0);
     }
 
-    void Show()
-    {
-      if (!mShown) mWindow.pushGui(this);
-      mWindow.RenderAll(false);
-      mShown = true;
-      mTimeReference = (int)SDL_GetTicks();
-      SDL_GL_SetSwapInterval(0);
-    }
+    void SetProgressText(const String& text) { mBusyAnim.setText(text); }
 
-    void Refresh()
-    {
-      if (mShown)
-        mWindow.RenderAll(false);
-    }
-
-    void Hide()
-    {
-      if (mShown)
-        if (mWindow.RemoveGui(this))
-          mWindow.RenderAll(false);
-      mShown = false;
-      SDL_GL_SetSwapInterval(1);
-    }
+    void SetProgress(int progress) { mProgress.setCurrentValue(progress); }
 
   protected:
-    /*!
-     * @brief Update components
-     * @param deltaTime delta ms from the previous frame
-     */
-    void Update(int deltaTime) override
-    {
-      (void)deltaTime;
-      // This waiter is not intended to be executed in the main loop.
-      Hide();
-    }
-
     /*!
      * @brief Draw
      * @param parentTrans Parent transformation
@@ -73,9 +47,10 @@ class GuiSyncWaiter : public Gui
       Renderer::SetMatrix(trans);
 
       Renderer::DrawRectangle(0.f, (Renderer::Instance().DisplayHeightAsFloat() - mBusyAnim.RealHeight() * 1.6f) / 2.0f,
-                         Renderer::Instance().DisplayWidthAsFloat(), mBusyAnim.RealHeight() * 1.6f, 0x00000080);
+                              Renderer::Instance().DisplayWidthAsFloat(), mBusyAnim.RealHeight() * 1.6f + (Renderer::Instance().DisplayHeightAsFloat() / 40), 0x00000080);
 
       mBusyAnim.Render(trans);
+      if (mProgress.getCurrentValue() != 0) mProgress.Render(trans);
     }
 
     /*!
@@ -87,6 +62,8 @@ class GuiSyncWaiter : public Gui
   private:
     //! Busy animation
     BusyComponent mBusyAnim;
+    //! Progress bar
+    ProgressBarComponent mProgress;
     //! Time reference
     int mTimeReference;
     //! Show status

@@ -1,7 +1,7 @@
-From b3e9293916d87c92ebf3a977ae58925977e90e87 Mon Sep 17 00:00:00 2001
+From 80af05b60e243891abdf66fda29e5c41ec1698e0 Mon Sep 17 00:00:00 2001
 From: Simon Long <simon@raspberrypi.org>
 Date: Fri, 18 Dec 2020 22:49:56 +0100
-Subject: [PATCH 08/10] bcm43xx-The-UART-speed-must-be-reset-after-the-firmw
+Subject: [PATCH 4/6] bcm43xx-The-UART-speed-must-be-reset-after-the-firmw
 
 Disables setting the UART interface speed *before* loading
 the firmware (a later call sets the speed of the interface as requested). It
@@ -37,5 +37,5 @@ index b89fc1b50..de01a6aea 100644
  			return -1;
  	}
 -- 
-2.43.0
+2.45.2
 

@@ -28,8 +28,9 @@ class Upgrade: private Thread
     /*!
      * @brief Constructor
      * @param window main Window
+     * @param firstRun True if the front end just lauched, false otherwise
      */
-    explicit Upgrade(WindowManager& window);
+    explicit Upgrade(WindowManager& window, bool firstRun);
 
     /*!
      * @brief Destructor
@@ -157,6 +158,8 @@ class Upgrade: private Thread
     static String mRemoteReleaseNote;
     //! Local version
     static String mLocalReleaseNote;
+    //! First run?
+    bool mFirstRun;
 
     /*
      * Thread implementation

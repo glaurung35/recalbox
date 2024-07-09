@@ -1,7 +1,7 @@
-From 45e177481e815416a31cb9b5b286aae1f9be46a5 Mon Sep 17 00:00:00 2001
+From a7cdab031e713ddd8972cb09e86455af28cdba99 Mon Sep 17 00:00:00 2001
 From: David Barbion <davidb@230ruedubac.fr>
 Date: Wed, 24 Jan 2024 23:52:23 +0100
-Subject: [PATCH 09/10] Increase-firmware-load-timeout-to-30s
+Subject: [PATCH 5/6] Increase-firmware-load-timeout-to-30s
 
 ---
  tools/hciattach.c | 2 +-
@@ -21,5 +21,5 @@ index 7d01d8b74..465bb17dd 100644
  	int send_break = 0;
  	pid_t pid;
 -- 
-2.43.0
+2.45.2
 

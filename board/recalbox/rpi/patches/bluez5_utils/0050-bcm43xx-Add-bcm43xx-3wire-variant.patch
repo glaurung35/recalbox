@@ -1,7 +1,7 @@
-From 6b0c2c11d0f63e4e719d6bd64eb4921cb33adf6a Mon Sep 17 00:00:00 2001
+From ae15de7e8f3fee2dc72fc8afdd5c069445002241 Mon Sep 17 00:00:00 2001
 From: Simon Long <simon@raspberrypi.org>
 Date: Wed, 5 Apr 2017 23:51:11 +0200
-Subject: [PATCH 07/10] bcm43xx-Add-bcm43xx-3wire-variant
+Subject: [PATCH 3/6] bcm43xx-Add-bcm43xx-3wire-variant
 
 This patch adds the bcm43xx-3wire variant to the hciattach tool; this is
 for use when the mini-UART (which lacks flow-control) is used instead of the
@@ -25,5 +25,5 @@ index 276a4e56e..7d01d8b74 100644
  			FLOW_CTL, DISABLE_PM, NULL, ath3k_ps, ath3k_pm  },
  
 -- 
-2.43.0
+2.45.2
 

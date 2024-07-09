@@ -25,9 +25,10 @@ String Upgrade::mLocalReleaseNote;
 
 Upgrade::UpdatePopup* Upgrade::UpdatePopup::mInstance = nullptr;
 
-Upgrade::Upgrade(WindowManager& window)
+Upgrade::Upgrade(WindowManager& window, bool firstRun)
   : mWindow(window)
   , mSender(*this)
+  , mFirstRun(firstRun)
 {
   Thread::Start("Upgrade");
 }
@@ -46,7 +47,7 @@ void Upgrade::Run()
     PatronInfo::Instance().WaitForAuthentication(*this);
 
     // First check at 15s
-    int waitForSeconds = 15;
+    int waitForSeconds = mFirstRun ? 15 : 3600;
     while (IsRunning())
     {
       if (mSignal.WaitSignal(waitForSeconds * 1000LL)) return;

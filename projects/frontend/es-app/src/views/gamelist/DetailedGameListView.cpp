@@ -4,6 +4,7 @@
 #include "animations/LambdaAnimation.h"
 #include "scraping/ScraperSeamless.h"
 #include "recalbox/RecalboxStorageWatcher.h"
+#include "guis/GuiScraperRun.h"
 
 DetailedGameListView::DetailedGameListView(WindowManager&window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache)
   : ISimpleGameListView(window, systemManager, system, resolver, flagCache)
@@ -597,7 +598,7 @@ void DetailedGameListView::Update(int deltatime)
   if (mList.isScrolling())
     mVideo.setVideo(Path::Empty);
 
-  if (!mSystem.IsScreenshots())
+  if (!mSystem.IsScreenshots() && !GuiScraperRun::IsRunning())
   {
     // Need busy animation?
     ScraperSeamless& scraper = ScraperSeamless::Instance();

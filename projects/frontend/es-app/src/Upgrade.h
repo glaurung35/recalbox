@@ -4,6 +4,10 @@
 #include <utils/sync/SyncMessageSender.h>
 #include <utils/os/system/Signal.h>
 #include <utils/Files.h>
+#include <guis/GuiMsgBoxScroll.h>
+#include <guis/GuiUpdateRecalbox.h>
+#include <WindowManager.h>
+#include "utils/locale/LocaleHelper.h"
 
 // Forward declaration
 class WindowManager;
@@ -90,6 +94,38 @@ class Upgrade: private Thread
     static bool NetworkReady() { return !GetDomainName().empty(); }
 
   private:
+    class UpdatePopup : public GuiMsgBoxScroll
+    {
+      public:
+        //! Build & show the popup if it does not already exists
+        static void Show(WindowManager* window, const String& message)
+        {
+          if (mInstance == nullptr)
+          {
+            mInstance = new UpdatePopup(window, message);
+            window->pushGui(mInstance);
+          }
+        }
+
+        /// Destructor - remove unique instance
+        ~UpdatePopup() { mInstance = nullptr; }
+
+      private:
+        //! Static unitary instance
+        static UpdatePopup* mInstance;
+
+        //! Launch update window
+        static void LaunchUpdate(WindowManager* window)
+        {
+          window->pushGui(new GuiUpdateRecalbox(*window, TarUrl(), ImageUrl(), HashUrl(), NewVersion()));
+        }
+
+        //! Default constructor
+        UpdatePopup(WindowManager* window, const String& message)
+          : GuiMsgBoxScroll(*window, _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), message, _("LATER"), nullptr, _("UPDATE NOW"),
+                            std::bind(UpdatePopup::LaunchUpdate, window), String::Empty, nullptr, TextAlignment::Left) {}
+    };
+
     //! Release DNS
     static constexpr const char* sUpgradeDNS = ".download.recalbox.com";
 

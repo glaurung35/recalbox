@@ -8,6 +8,7 @@
 #include <components/ButtonComponent.h>
 #include "components/ProgressBarComponent.h"
 #include <guis/GuiInfoPopupScraper.h>
+#include <scraping/scrapers/IScraperEngineFreezer.h>
 
 class ScraperSearchComponent;
 class TextComponent;

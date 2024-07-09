@@ -157,7 +157,6 @@ void GuiScraperRun::TerminateScraping()
 {
   mScraper->Abort(true);
   TerminateGui();
-  Terminate();
   mSystemManager.UpdateAllGameLists();
   mWindow.CloseAll();
   /*switch(mResult)

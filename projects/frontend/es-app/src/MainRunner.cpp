@@ -172,7 +172,7 @@ MainRunner::ExitState MainRunner::Run()
 
       // Start update thread
       { LOG(LogDebug) << "[MainRunner] Launching Network thread"; }
-      Upgrade networkThread(window);
+      Upgrade networkThread(window, mRunCount == 0);
       // Start the socket server
       { LOG(LogDebug) << "[MainRunner] Launching Command thread"; }
       CommandThread commandThread(systemManager);

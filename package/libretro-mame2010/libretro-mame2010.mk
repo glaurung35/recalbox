@@ -4,8 +4,7 @@
 #
 ################################################################################
 
-# Commit of 2022/06/14 - don't forget to regenerate arcade-dats flats file
-LIBRETRO_MAME2010_VERSION = 5f524dd5fca63ec1dcf5cca63885286109937587
+LIBRETRO_MAME2010_VERSION = bef96188e7276422eab81b44b41361896885bae5
 LIBRETRO_MAME2010_SITE = $(call github,libretro,mame2010-libretro,$(LIBRETRO_MAME2010_VERSION))
 LIBRETRO_MAME2010_LICENSE = MAME
 LIBRETRO_MAME2010_NON_COMMERCIAL = y
@@ -27,7 +26,7 @@ define LIBRETRO_MAME2010_BUILD_CMDS
 	$(SED) "s|^CPPONLYFLAGS =|CPPONLYFLAGS = $(COMPILER_COMMONS_CXXFLAGS_SO)|g" $(@D)/Makefile
 	$(SED) "s|^LDFLAGS =|LDFLAGS = $(COMPILER_COMMONS_LDFLAGS_SO)|g" $(@D)/Makefile
 	$(SED) "s|-O2|-O3|g" $(@D)/Makefile
-	$(MAKE) CC="$(TARGET_CC)" CCX="$(TARGET_CXX)" -C $(@D)/ -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)" $(LIBRETRO_MAME2010_BUILD_OPTS)
+	$(MAKE) CC="$(TARGET_CC)" LD="$(TARGET_CXX)" -C $(@D)/ -f Makefile platform="$(RETROARCH_LIBRETRO_PLATFORM)" $(LIBRETRO_MAME2010_BUILD_OPTS)
 endef
 
 define LIBRETRO_MAME2010_INSTALL_TARGET_CMDS

@@ -208,10 +208,10 @@ class Simplifier:
                         found = False
                         for i in range(len(manufacturers)):
                             if manufacturers[i].lower() == system:
-                                manufacturers[i] = "{}\\{}".format(manufacturers[i], suffix)
+                                manufacturers[i] = "{}\{}".format(manufacturers[i], suffix)
                                 found = True
                         if not found:
-                            manufacturers.append("{}\\{}".format(system.capitalize(), suffix))
+                            manufacturers.append("{}\{}".format(system.capitalize(), suffix))
             # Neogeo special case
             if subSystem == "neogeo":
                 manufacturers.append("neogeo")

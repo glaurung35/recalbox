@@ -405,6 +405,9 @@ class LibretroRetroarch:
                 settings.setString("system_directory", recalboxFiles.BIOS + "/macintosh")
             case 'mu':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/palm")
+            case 'mame':
+                if self.system.Name == "neogeo64":
+                    settings.setString("system_directory", recalboxFiles.BIOS + "/neogeo64")
             case 'o2em':
                 settings.setString("system_directory", recalboxFiles.BIOS + "/o2em")
             case 'opera':

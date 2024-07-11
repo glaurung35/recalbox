@@ -73,6 +73,7 @@ endef
 
 define LIBRETRO_MAME_INSTALL_TARGET_CMDS
 	$(call InstallArcadeFiles,libretro,mame,$(LIBRETRO_MAME_VERSION))
+	$(call InstallArcadeFiles,libretro,neogeo64,$(LIBRETRO_MAME_VERSION))
 	$(INSTALL) -D $(@D)/mamearcade_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/mame_libretro.so
 	mkdir -p $(TARGET_DIR)/recalbox/share_upgrade/bios/mame/samples

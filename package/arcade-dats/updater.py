@@ -61,6 +61,7 @@ class Updater:
         "supermodel" : SystemDescriptor("supermodel" , "supermodel"            , ["supermodel"]                              , "", []),
         "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave"], "", []),
         "flycast-next" : SystemDescriptor("flycast-next"    , "libretro-flycast-next"      , ["naomi", "naomigd", "atomiswave", "naomi2"], "", []),
+        "neogeo64"   : SystemDescriptor("neogeo"    , "libretro-mame"          , ["neogeo64"]                                , "", []),
     }
 
     def execute(self):

@@ -17,6 +17,8 @@ bool FileSorts::Initialize()
     sAllSorts.push_back(SortType(Sorts::RatingDescending     , &compareRating       , &compareRatingArcade       , false, "\uF164 " + _("RATING")));
     sAllSorts.push_back(SortType(Sorts::TimesPlayedAscending , &compareTimesPlayed  , &compareTimesPlayedArcade  , true , "\uF160 " + _("TIMES PLAYED")));
     sAllSorts.push_back(SortType(Sorts::TimesPlayedDescending, &compareTimesPlayed  , &compareTimesPlayedArcade  , false, "\uF161 " + _("TIMES PLAYED")));
+    sAllSorts.push_back(SortType(Sorts::TotalTimeAscending   , &compareTotalTime    , &compareTotalTimeArcade    , true , "\uF160 " + _("TOTAL PLAYING TIME")));
+    sAllSorts.push_back(SortType(Sorts::TotalTimeDescending  , &compareTotalTime    , &compareTotalTimeArcade    , false, "\uF161 " + _("TOTAL PLAYING TIME")));
     sAllSorts.push_back(SortType(Sorts::LastPlayedAscending  , &compareLastPlayed   , &compareLastPlayedArcade   , true , "\uF160 " + _("LAST PLAYED")));
     sAllSorts.push_back(SortType(Sorts::LastPlayedDescending , &compareLastPlayed   , &compareLastPlayedArcade   , false, "\uF161 " + _("LAST PLAYED")));
     sAllSorts.push_back(SortType(Sorts::PlayersAscending     , &compareNumberPlayers, &compareNumberPlayersArcade, true , "\uF162 " + _("NUMBER OF PLAYERS")));
@@ -82,6 +84,14 @@ ImplementSortMethod(compareRating)
   float c = file1.Metadata().Rating() - file2.Metadata().Rating();
   if (c < 0) return -1;
   if (c > 0) return 1;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
+}
+
+ImplementSortMethod(compareTotalTime)
+{
+  CheckFoldersAndGames(file1, file2)
+  int playTime = (file1).Metadata().TimePlayed() - (file2).Metadata().TimePlayed();
+  if (playTime != 0) return playTime;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
@@ -160,6 +170,8 @@ ImplementSortMethodArcade(compareRatingArcade, compareRating)
 
 ImplementSortMethodArcade(compareTimesPlayedArcade, compareTimesPlayed)
 
+ImplementSortMethodArcade(compareTotalTimeArcade, compareTotalTime)
+
 ImplementSortMethodArcade(compareLastPlayedArcade, compareLastPlayed)
 
 ImplementSortMethodArcade(compareNumberPlayersArcade, compareNumberPlayers)
@@ -191,6 +203,8 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
         Sorts::RatingDescending,
         Sorts::TimesPlayedAscending,
         Sorts::TimesPlayedDescending,
+        Sorts::TotalTimeAscending,
+        Sorts::TotalTimeDescending,
         Sorts::LastPlayedAscending,
         Sorts::LastPlayedDescending,
         Sorts::PlayersAscending,
@@ -217,6 +231,8 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
         Sorts::RatingDescending,
         Sorts::TimesPlayedAscending,
         Sorts::TimesPlayedDescending,
+        Sorts::TotalTimeAscending,
+        Sorts::TotalTimeDescending,
         Sorts::LastPlayedAscending,
         Sorts::LastPlayedDescending,
         Sorts::PlayersAscending,
@@ -245,6 +261,8 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
     Sorts::RatingDescending,
     Sorts::TimesPlayedAscending,
     Sorts::TimesPlayedDescending,
+    Sorts::TotalTimeAscending,
+    Sorts::TotalTimeDescending,
     Sorts::LastPlayedAscending,
     Sorts::LastPlayedDescending,
     Sorts::PlayersAscending,

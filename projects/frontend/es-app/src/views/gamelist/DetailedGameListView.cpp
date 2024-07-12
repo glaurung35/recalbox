@@ -738,8 +738,10 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
       }
       case FileSorts::Sorts::TimesPlayedAscending:
       case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::TotalTimeAscending:
+      case FileSorts::Sorts::TotalTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
-      case FileSorts::Sorts::LastPlayedDescending:
+      case FileSorts::Sorts::LastPlayedDescending: break;
       case FileSorts::Sorts::PlayersAscending:
       case FileSorts::Sorts::PlayersDescending:
       {
@@ -756,7 +758,7 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
       case FileSorts::Sorts::DeveloperAscending:
       case FileSorts::Sorts::DeveloperDescending:
       case FileSorts::Sorts::PublisherAscending:
-      case FileSorts::Sorts::PublisherDescending:
+      case FileSorts::Sorts::PublisherDescending: break;
       case FileSorts::Sorts::GenreAscending:
       case FileSorts::Sorts::GenreDescending:
       {
@@ -803,6 +805,8 @@ float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data)
       case FileSorts::Sorts::PublisherDescending:
       case FileSorts::Sorts::TimesPlayedAscending:
       case FileSorts::Sorts::TimesPlayedDescending:
+      case FileSorts::Sorts::TotalTimeAscending:
+      case FileSorts::Sorts::TotalTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
       case FileSorts::Sorts::LastPlayedDescending:
       case FileSorts::Sorts::ReleaseDateAscending:
@@ -1212,6 +1216,35 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
         return GetHeader(nextRating != 0 ? (_F(_("RATED {0} / 10")) / nextRating)() : _("NOT RATED"), next->Metadata().Rating());
       break;
     }
+    case FileSorts::Sorts::TotalTimeAscending:
+    case FileSorts::Sorts::TotalTimeDescending:
+    {
+      int previousRange = -1;
+      int nextRange = 0;
+      // Get previous range
+      if (previous == nullptr)
+      {
+        if (previous->Metadata().TimePlayed() == 0) previousRange = 0;
+        else if (TimeSpan span(previous->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) previousRange = 1;
+        else { int hours = (int)span.TotalHours(); previousRange = hours == 0 ? 2 : hours + 2; }
+      }
+      // Get next range
+      if (next->Metadata().TimePlayed() == 0) nextRange = 0;
+      else if (TimeSpan span(next->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) nextRange = 1;
+      else { int hours = (int)span.TotalHours(); nextRange = hours == 0 ? 2 : hours + 2; }
+
+      // Get header
+      if (previousRange != nextRange)
+      {
+        String text;
+        if (nextRange == 0) text = _("Never played");
+        else if (nextRange == 1) text = _("Just a few minutes");
+        else if (nextRange == 2) text = _("Less than an hour");
+        else text = (_F(_("{0} hours")) / (nextRange - 2)).ToString();
+        return GetHeader(text);
+      }
+      break;
+    }
     case FileSorts::Sorts::TimesPlayedAscending:
     case FileSorts::Sorts::TimesPlayedDescending:
     {
@@ -1219,16 +1252,7 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
       {
         String text;
         if (next->Metadata().TimePlayed() == 0) text = _("Never played");
-        else
-        {
-          TimeSpan span(next->Metadata().TimePlayed(), 0);
-          if (span.TotalMinutes() < 30) text = _("Just a few minutes");
-          else
-          {
-            int hours = (int) TimeSpan(next->Metadata().TimePlayed(), 0).TotalHours();
-            text = hours == 0 ? _("Less than an hour") : (_F(_("{0} hours")) / hours)();
-          }
-        }
+        else text = (_F(_("{0} times")) / next->Metadata().TimePlayed())();
         return GetHeader(text);
       }
       break;
@@ -1503,6 +1527,8 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
   {
     case FileSorts::Sorts::TimesPlayedAscending:
     case FileSorts::Sorts::TimesPlayedDescending:
+    case FileSorts::Sorts::TotalTimeAscending:
+    case FileSorts::Sorts::TotalTimeDescending:
     case FileSorts::Sorts::LastPlayedAscending:
     case FileSorts::Sorts::LastPlayedDescending:
     {

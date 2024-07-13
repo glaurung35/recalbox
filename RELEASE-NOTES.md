@@ -7,12 +7,7 @@ as release notes for end user on a Recalbox upgrade.
 
 ## Version 9.2.3-Pulstar
 
-### Fixes
 - Fix volume level for flycast core (atomiswave, naomi, naomicd, naomi2)
-
-## Version 9.2.2-Pulstar
-
-### Fixes
 - Fix data files, and game recognition in systems using Flycast & Flycast-Next cores
 - Fix scraper not saving all gamelists when scraping virtual systems
 - Fix multiple update pop when exiting screensaver

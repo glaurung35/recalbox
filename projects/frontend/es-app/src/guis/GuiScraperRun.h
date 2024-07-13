@@ -46,10 +46,15 @@ class GuiScraperRun : public Gui
     static bool IsRunning() { return sInstance != nullptr; }
 
     /*!
-     * @brief Terminate the running instance
+     * @brief Abort scraping immediately
+     */
+    static void Abort();
+
+    /*!
+     * @brief TerminateGui the running instance
      * @param window Window manager
      */
-    static void Terminate();
+    static void TerminateGui();
 
     //! Destructor
     ~GuiScraperRun() override = default;
@@ -68,7 +73,7 @@ class GuiScraperRun : public Gui
      */
     GuiScraperRun(WindowManager& window, SystemManager& systemManager, const SystemManager::List& systems, ScrapingMethod method, IScraperEngineFreezer* freezer, bool lowResolution);
 
-    void finish();
+    void TerminateScraping();
 
     //! Instance
     static GuiScraperRun* sInstance;

@@ -38,6 +38,7 @@
 #include <emulators/run/GameRunner.h>
 #include <sdl2/Sdl2Init.h>
 #include <patreon/PatronInfo.h>
+#include <guis/GuiScraperRun.h>
 
 MainRunner::ExitState MainRunner::sRequestedExitState = MainRunner::ExitState::Quit;
 bool MainRunner::sQuitRequested = false;
@@ -212,6 +213,7 @@ MainRunner::ExitState MainRunner::Run()
       // Main SDL loop
       exitState = MainLoop(window, systemManager, fileNotifier, mSyncMessageFactory);
 
+      GuiScraperRun::Abort();
       ResetExitState();
       fileNotifier.ResetEventNotifier();
       DeleteReadyFlagFile();

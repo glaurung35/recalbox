@@ -8,6 +8,17 @@ as release notes for end user on a Recalbox upgrade.
 ## Version 9.2.2-Pulstar
 
 ### Fixes
+- Fix data files, and game recognition in systems using Flycast & Flycast-Next cores
+- Fix scraper not saving all gamelists when scraping virtual systems
+- Fix multiple update pop when exiting screensaver
+- Fix immediate update check after relaunching the interface
+- Fix crash/freeze with auto-scraper conflicting with background scraping
+- Fix blocked reboot/shutdown when scraping in background (save gamelists also)
+
+
+## Version 9.2.2-Pulstar
+
+### Fixes
 - Fix jumping to netplay game when you're in a virtual system (Favorites, ...)
 - Avoid 50Hz mode for pal games on JAMMA
 - Fix Midway resolutions on CRT

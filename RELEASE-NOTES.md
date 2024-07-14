@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
 - Added options into configgen for Amiga systems
+- Force analog mode on Naomi, Naomi GD and Naomi 2
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

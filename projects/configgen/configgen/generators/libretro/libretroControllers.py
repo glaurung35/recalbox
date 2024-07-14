@@ -239,12 +239,15 @@ class LibretroControllers:
 
     # Return the retroarch analog_dpad_mode
     @staticmethod
-    def getAnalogMode(controller: Controller) -> int:
+    def getAnalogMode(controller: Controller, system: Emulator) -> int:
         # if system.Name != 'psx':
         for dirkey in LibretroControllers.retroarchdirs:
             if controller.HasInput(dirkey):
                 if controller.Input(dirkey).Type in (InputItem.TypeButton, InputItem.TypeHat):
-                    return 1
+                    if system.Name in('atomiswave', 'naomi2', 'naomigd'):
+                        return 3
+                    else:
+                        return 1
         return 0
 
     # Return the playstation analog mode for a controller
@@ -362,7 +365,7 @@ class LibretroControllers:
 
         # Assign pad to player
         settings.setInt("input_player{}_joypad_index".format(playerIndex), inputIndex)
-        settings.setInt("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(controller))
+        settings.setInt("input_player{}_analog_dpad_mode".format(playerIndex), self.getAnalogMode(controller, system))
 
         # Specific configuration for Nintendo Switch N64 Controller
         if controller.DeviceName == 'Nintendo Switch N64 Controller':

@@ -12,7 +12,8 @@
 // Forward declaration
 class WindowManager;
 
-class Upgrade: private Thread
+class Upgrade: public StaticLifeCycleControler<Upgrade>
+             , private Thread
              , private ISyncMessageReceiver<void>
 {
   public:
@@ -30,7 +31,7 @@ class Upgrade: private Thread
      * @param window main Window
      * @param firstRun True if the front end just lauched, false otherwise
      */
-    explicit Upgrade(WindowManager& window, bool firstRun);
+    Upgrade(WindowManager& window, bool firstRun);
 
     /*!
      * @brief Destructor
@@ -41,48 +42,48 @@ class Upgrade: private Thread
      * @brief Return remote version.
      * @return Remote version
      */
-    static String NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
+    String NewVersion() { return mRemoteVersion.empty() ? mLocalVersion : mRemoteVersion; }
 
     /*!
      * @brief Return trimmed current version.
      * @return Current version
      */
-    static String CurrentVersion() { return Files::LoadFile(Path(sLocalVersionFile)).Trim(" \t\r\n"); }
+    String CurrentVersion() { return Files::LoadFile(Path(sLocalVersionFile)).Trim(" \t\r\n"); }
 
     /*!
      * @brief Return trimmed current version.
      * @return Current version
      */
-    static String CurrentArch() { return Files::LoadFile(Path(sLocalArchFile)).Trim(" \t\r\n").Replace('_', '/'); }
+    String CurrentArch() { return Files::LoadFile(Path(sLocalArchFile)).Trim(" \t\r\n").Replace('_', '/'); }
 
     /*!
      * @brief Return remote releasenote
      * @return Remote release note
      */
-    static String NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
+    String NewReleaseNote() { return mRemoteReleaseNote.empty() ? mLocalReleaseNote : mRemoteReleaseNote; }
 
     /*!
      * @brief Return Tar url
      * @return tar url
      */
-    static String TarUrl();
+    String TarUrl();
 
     /*!
      * @brief Return remote version.
      * @return Remote version
      */
-    static String ImageUrl();
+    String ImageUrl();
 
     /*!
      * @brief Return remote version.
      * @return Remote version
      */
-    static String HashUrl();
+    String HashUrl();
 
     /*!
      * @brief Check if there is a pending update
      */
-    static bool PendingUpdate()
+    bool PendingUpdate()
     {
       if (mRemoteVersion.empty()) return false;
       return mRemoteVersion != mLocalVersion;
@@ -92,18 +93,23 @@ class Upgrade: private Thread
      * @brief Check if the network is ready
      * @return True if the network is ready
      */
-    static bool NetworkReady() { return !GetDomainName().empty(); }
+    bool NetworkReady() { return !GetDomainName().empty(); }
+
+    /*!
+     * @brief Check if an update is available, immediately
+     */
+    void DoManualCheck();
 
   private:
     class UpdatePopup : public GuiMsgBoxScroll
     {
       public:
         //! Build & show the popup if it does not already exists
-        static void Show(WindowManager* window, const String& message)
+        static void Show(WindowManager* window, Upgrade& upgrade, const String& message)
         {
           if (mInstance == nullptr)
           {
-            mInstance = new UpdatePopup(window, message);
+            mInstance = new UpdatePopup(window, upgrade, message);
             window->pushGui(mInstance);
           }
         }
@@ -116,15 +122,15 @@ class Upgrade: private Thread
         static UpdatePopup* mInstance;
 
         //! Launch update window
-        static void LaunchUpdate(WindowManager* window)
+        static void LaunchUpdate(WindowManager* window, Upgrade& upgrade)
         {
-          window->pushGui(new GuiUpdateRecalbox(*window, TarUrl(), ImageUrl(), HashUrl(), NewVersion()));
+          window->pushGui(new GuiUpdateRecalbox(*window, upgrade.TarUrl(), upgrade.ImageUrl(), upgrade.HashUrl(), upgrade.NewVersion()));
         }
 
         //! Default constructor
-        UpdatePopup(WindowManager* window, const String& message)
+        UpdatePopup(WindowManager* window, Upgrade& upgrade, const String& message)
           : GuiMsgBoxScroll(*window, _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), message, _("LATER"), nullptr, _("UPDATE NOW"),
-                            std::bind(UpdatePopup::LaunchUpdate, window), String::Empty, nullptr, TextAlignment::Left) {}
+                            std::bind(UpdatePopup::LaunchUpdate, window, upgrade), String::Empty, nullptr, TextAlignment::Left) {}
     };
 
     //! Release DNS
@@ -149,17 +155,20 @@ class Upgrade: private Thread
     //! Build MessageBox message
     String mMessageBoxMessage;
     //! Download URL
-    static String mDomainName;
+    String mDomainName;
     //! Remote version
-    static String mRemoteVersion;
+    String mRemoteVersion;
     //! Local version
-    static String mLocalVersion;
+    String mLocalVersion;
     //! Remote version
-    static String mRemoteReleaseNote;
+    String mRemoteReleaseNote;
     //! Local version
-    static String mLocalReleaseNote;
+    String mLocalReleaseNote;
     //! First run?
     bool mFirstRun;
+
+    //! Manual check required
+    bool mManualCheckPending;
 
     /*
      * Thread implementation
@@ -174,7 +183,6 @@ class Upgrade: private Thread
      * Synchronous event implementation
      */
 
-
     /*!
      * @brief Receive synchronous message
      */
@@ -183,17 +191,17 @@ class Upgrade: private Thread
     /*!
      * @brief Get update url from DNS TXT records
      */
-    static String GetDomainName();
+    String GetDomainName();
 
     /*!
      * @brief Get remote version
      */
-    static String GetRemoteVersion();
+    String GetRemoteVersion();
 
     /*!
      * @brief Get remote version
      */
-    static String GetRemoteReleaseVersion();
+    String GetRemoteReleaseVersion();
 
     /*!
      * @brief Replace machine parameters parameters in the given url (Arch, uuid, domain, ...)
@@ -201,14 +209,14 @@ class Upgrade: private Thread
      * @param ext Optional extention
      * @return Final url
      */
-    static String ReplaceMachineParameters(const String& url, const String& ext);
+    String ReplaceMachineParameters(const String& url, const String& ext);
 
     /*!
      * @brief Validate the given version
      * @param version Version to validate
      * @return True if the given version has been identified as valid, false otherwise
      */
-    static bool ValidateVersion(const String& version);
+    bool ValidateVersion(const String& version);
 };
 
 

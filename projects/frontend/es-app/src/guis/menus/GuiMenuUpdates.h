@@ -33,6 +33,7 @@ class GuiMenuUpdates : public GuiMenuBase
       Changelog,
       StartUpdate,
       UpdateType,
+      CheckUpdate,
     };
 
     //! Enable updates

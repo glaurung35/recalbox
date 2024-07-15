@@ -21,7 +21,7 @@ GuiMenuSystem::GuiMenuSystem(WindowManager& window, SystemManager& systemManager
   , mSystemManager(systemManager)
 {
   // Version
-  String version = Upgrade::CurrentVersion();
+  String version = Upgrade::Instance().CurrentVersion();
   String arch = "unknown";
   switch(Board::Instance().GetBoardType())
   {

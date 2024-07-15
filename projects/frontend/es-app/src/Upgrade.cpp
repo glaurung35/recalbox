@@ -17,18 +17,14 @@
 #include <patreon/PatronInfo.h>
 #include <guis/GuiInfoPopup.h>
 
-String Upgrade::mDomainName;
-String Upgrade::mRemoteVersion;
-String Upgrade::mLocalVersion;
-String Upgrade::mRemoteReleaseNote;
-String Upgrade::mLocalReleaseNote;
-
 Upgrade::UpdatePopup* Upgrade::UpdatePopup::mInstance = nullptr;
 
 Upgrade::Upgrade(WindowManager& window, bool firstRun)
-  : mWindow(window)
+  : StaticLifeCycleControler<Upgrade>("upgrade")
+  , mWindow(window)
   , mSender(*this)
   , mFirstRun(firstRun)
+  , mManualCheckPending(false)
 {
   Thread::Start("Upgrade");
 }
@@ -50,7 +46,9 @@ void Upgrade::Run()
     int waitForSeconds = mFirstRun ? 15 : 3600;
     while (IsRunning())
     {
-      if (mSignal.WaitSignal(waitForSeconds * 1000LL)) return;
+      if (mSignal.WaitSignal(waitForSeconds * 1000LL))
+        if (!mManualCheckPending)
+          return;
 
       // Next checks, once an hour
       waitForSeconds = 3600;
@@ -82,7 +80,7 @@ void Upgrade::Run()
           mPopupMessage += _("You're strongly recommended to update your Recalbox.\nNo support will be provided for older versions!");
 
           // Message box only if the option is on
-          if (RecalboxConf::Instance().AsBool("updates.enabled"))
+          if (RecalboxConf::Instance().GetUpdatesEnabled() || mManualCheckPending)
           {
             while (mWindow.HasGui() || mWindow.isSleeping())
               Thread::Sleep(5000);
@@ -101,8 +99,17 @@ void Upgrade::Run()
           }
 
           mSender.Send();
+          // Reset manual check
+          mManualCheckPending = false;
         }
-        else { LOG(LogInfo) << "[Update] Remote version match local version. No update."; }
+        else
+        {
+          { LOG(LogInfo) << "[Update] Remote version match local version. No update."; }
+          mMessageBoxMessage = (_F(_("Remote version {0} match the currently running version. No update required.")) / mRemoteVersion).ToString();
+          mSender.Send();
+          // Reset manual check
+          mManualCheckPending = false;
+        }
       }
       else { LOG(LogError) << "[Update] Invalid remote version! " << mRemoteVersion; }
     }
@@ -121,7 +128,7 @@ void Upgrade::ReceiveSyncMessage()
 
   // Messagebox
   if (!mMessageBoxMessage.empty())
-    UpdatePopup::Show(&mWindow, mMessageBoxMessage);
+    UpdatePopup::Show(&mWindow, *this, mMessageBoxMessage);
 }
 
 String Upgrade::GetDomainName()
@@ -282,4 +289,10 @@ String Upgrade::GetRemoteReleaseVersion()
 
   // Return version
   return releaseNote;
+}
+
+void Upgrade::DoManualCheck()
+{
+  mManualCheckPending = true;
+  mSignal.Fire();
 }

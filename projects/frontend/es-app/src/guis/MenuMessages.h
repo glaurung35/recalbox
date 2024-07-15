@@ -20,7 +20,8 @@ class MenuMessages
     #define MENUMESSAGE_QUIT_HELP_MSG "Shows the quit menu to reboot or shutdown Recalbox."
 
     #define MENUMESSAGE_UPDATE_HELP_MSG "Manage your recalbox updates. Select the update type. Activate update check."
-    #define MENUMESSAGE_START_UPDATE_HELP_MSG "Check if an update is available, and start the update process."
+    #define MENUMESSAGE_START_UPDATE_HELP_MSG "UAn update is availabel ! Start the update process."
+    #define MENUMESSAGE_CHECK_UPDATE_HELP_MSG "Check if an update is available, right now."
     #define MENUMESSAGE_UPDATE_TYPE_HELP_MSG "Stable updates will check for updates on stable recalbox releases. Stable updates are tested and approved by the recalbox team and their testers.\nUnstable updates allows you to get the latest recalbox features by checking our unstable repository. You can test and validate with us the very last version of recalbox.\nIf you choose unstable update, be so kind to report issues on the recalbox-os issue board (https://github.com/recalbox/recalbox-os/issues)"
     #define MENUMESSAGE_UPDATE_CHECK_HELP_MSG "Automatically check if an update is avaialble. If so, it notifies you with a message."
     #define MENUMESSAGE_UPDATE_VERSION_HELP_MSG "Shows the current available update version."

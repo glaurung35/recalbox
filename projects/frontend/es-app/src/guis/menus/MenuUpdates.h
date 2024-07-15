@@ -31,6 +31,7 @@ class MenuUpdates : public Menu
       Changelog,
       StartUpdate,
       UpdateType,
+      CheckUpdate,
     };
 
     //! Get Update type List

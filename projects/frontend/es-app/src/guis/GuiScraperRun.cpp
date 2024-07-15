@@ -43,10 +43,22 @@ void GuiScraperRun::Hide(WindowManager& window)
   }
 }
 
-void GuiScraperRun::Terminate()
+void GuiScraperRun::Abort()
 {
   if (sInstance != nullptr)
+  {
+    sInstance->TerminateScraping();
+    TerminateGui();
+  }
+}
+
+void GuiScraperRun::TerminateGui()
+{
+  if (sInstance != nullptr)
+  {
+    Show(sInstance->mWindow);
     sInstance->Close();
+  }
   sInstance = nullptr;
 }
 
@@ -109,7 +121,8 @@ GuiScraperRun::GuiScraperRun(WindowManager& window, SystemManager& systemManager
 
   std::vector<std::shared_ptr<ButtonComponent>> buttons
   {
-    mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(&GuiScraperRun::finish, this)),
+    mButton = std::make_shared<ButtonComponent>(mWindow, _("STOP"), _("stop (progress saved)"), std::bind(
+      &GuiScraperRun::TerminateScraping, this)),
     mRunInBgButton = std::make_shared<ButtonComponent>(mWindow, _("RUN IN BACKGROUND"), _("RUN IN BACKGROUND"), [this] { GuiScraperRun::Hide(mWindow); })
   };
 	mButtonGrid = MenuComponent::MakeButtonGrid(mWindow, buttons);
@@ -143,10 +156,10 @@ void GuiScraperRun::onSizeChanged()
 	mGrid.setSize(mSize);
 }
 
-void GuiScraperRun::finish()
+void GuiScraperRun::TerminateScraping()
 {
   mScraper->Abort(true);
-  Terminate();
+  TerminateGui();
   mSystemManager.UpdateAllGameLists();
   mWindow.CloseAll();
   /*switch(mResult)
@@ -319,7 +332,7 @@ void GuiScraperRun::ScrapingComplete(ScrapeResult reason, MetadataType changedMe
   if (mWindow.InfoPopupIsShown(&mPopup) || mLowResolution)
   {
     String text = mLowResolution ? _("Your scraping session completed!") : _("Your scraping session completed. Press OK to show the results.");
-    GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { if (mLowResolution) Terminate(); else Show(mWindow); mButtonGrid->resetCursor(); });
+    GuiMsgBox* msgBox = new GuiMsgBox(mWindow, text, _("OK"), [this] { if (mLowResolution) TerminateGui(); else Show(mWindow); mButtonGrid->resetCursor(); });
     mWindow.pushGui(msgBox);
   }
 }

@@ -4322,10 +4322,22 @@ class String : public std::string
     }
 
     /*!
+     * @brief Find the first unescaped double quote in the given string, starting from the given position
+     * @param input input string
+     * @param from Start position
+     * @return Position of the first unescaped double quote or -1 if not found
+     */
+    static int FindFirstUnescapedQuote(const String& input, int from)
+    {
+      for(;;)
+        if (int quote = input.Find('"', from); quote > 0 && input[quote - 1] == '\\') from = quote + 1;
+        else return quote;
+    }
+
+    /*!
      * @brief Split the input string into a list of String, using the given char as separator
      * This version takes into account inner quoted strings and thus, ignore separators inside
      * quoted strings
-     * @tparam T Splitter type
      * @param input Input string
      * @param output Output list to fill with input string parts
      * @param splitter Separator
@@ -4336,10 +4348,10 @@ class String : public std::string
     {
       int start = 0;
       int comma = input.Find(splitter, 0);
-      int quote = input.Find('"', 0);
+      int quote = FindFirstUnescapedQuote(input, 0);
       if (quote < comma)
       {
-        quote = input.Find('"', quote + 1);
+        quote = FindFirstUnescapedQuote(input, quote + 1);
         comma = quote >= 0 ? input.Find(splitter, quote + 1) : quote;
       }
       while(comma >= 0)
@@ -4348,10 +4360,10 @@ class String : public std::string
         output.push_back(String(input.data() + start, comma - start));
         start = comma + 1; if (multipleSplittersAsOne) start = (int)input.find_first_not_of(splitter, start);
         comma = input.Find(splitter, start);
-        quote = input.Find('"', start);
+        quote = FindFirstUnescapedQuote(input, start);
         if ((unsigned int)quote < (unsigned int)comma)
         {
-          quote = input.Find('"', quote + 1);
+          quote = FindFirstUnescapedQuote(input, quote + 1);
           comma = quote >= 0 ? input.Find(splitter, quote + 1) : quote;
         }
       }
@@ -4360,7 +4372,6 @@ class String : public std::string
 
     /*!
      * @brief Split the input string into a list of String, using the given splitter as separator
-     * @tparam T Splitter type
      * @param input Input string
      * @param output Output list to fill with input string parts
      * @param splitter Separator
@@ -4372,10 +4383,10 @@ class String : public std::string
     {
       int start = 0;
       int comma = input.Find(splitter, splitterLength, 0);
-      int quote = input.Find('"', 0);
+      int quote = FindFirstUnescapedQuote(input, 0);
       if (quote < comma)
       {
-        quote = input.Find('"', quote + 1);
+        quote = FindFirstUnescapedQuote(input, quote + 1);
         comma = quote >= 0 ? input.Find(splitter, quote + 1) : quote;
       }
       while(comma >= 0)
@@ -4387,10 +4398,10 @@ class String : public std::string
           for(int next = input.Find(splitter, splitterLength, start, splitterLength); next - start == 0; )
             start = next + splitterLength, next = input.Find(splitter, splitterLength, start);
         comma = input.Find(splitter, splitterLength, start);
-        quote = input.Find('"', start);
+        quote = FindFirstUnescapedQuote(input, start);
         if ((unsigned int)quote < (unsigned int)comma)
         {
-          quote = input.Find('"', quote + 1);
+          quote = FindFirstUnescapedQuote(input, quote + 1);
           comma = quote >= 0 ? input.Find(splitter, splitterLength, quote + 1) : quote;
         }
       }
@@ -4399,7 +4410,6 @@ class String : public std::string
 
     /*!
      * @brief Split the input string into a list of String, using the given splitter as separator
-     * @tparam T Splitter type
      * @param input Input string
      * @param output Output list to fill with input string parts
      * @param splitter Separator
@@ -4411,10 +4421,10 @@ class String : public std::string
     {
       int start = 0;
       int comma = input.Find(splitter, 0);
-      int quote = input.Find('"', 0);
+      int quote = FindFirstUnescapedQuote(input, 0);
       if (quote < comma)
       {
-        quote = input.Find('"', quote + 1);
+        quote = FindFirstUnescapedQuote(input, quote + 1);
         comma = quote >= 0 ? input.Find(splitter, quote + 1) : quote;
       }
       while(comma >= 0)
@@ -4426,10 +4436,10 @@ class String : public std::string
           for(int next = input.Find(splitter, start, splitterLength); next - start == 0; )
             start = next + splitterLength, next = input.Find(splitter, start);
         comma = input.Find(splitter, start);
-        quote = input.Find('"', start);
+        quote = FindFirstUnescapedQuote(input, start);
         if ((unsigned int)quote < (unsigned int)comma)
         {
-          quote = input.Find('"', quote + 1);
+          quote = FindFirstUnescapedQuote(input, quote + 1);
           comma = quote >= 0 ? input.Find(splitter, quote + 1) : quote;
         }
       }

@@ -414,6 +414,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineSystemGetterSetterDeclaration(DemoInclude, bool, Bool, sSystemDemoInclude)
     DefineSystemGetterSetterDeclaration(DemoDuration, int, Int, sSystemDemoDuration)
     DefineSystemGetterSetterDeclaration(VideoMode, String, String, sSystemVideoMode)
+    DefineSystemGetterSetterDeclaration(Extra, std::string, String, sSystemExtra)
+    DefineSystemGetterSetterDeclaration(Args, std::string, String, sSystemArgs)
 
     DefineEmulationStationSystemGetterSetterEnumDeclaration(GamelistDecoration, GamelistDecoration)
 
@@ -454,7 +456,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemDemoInclude          = "demo.include";
     static constexpr const char* sSystemDemoDuration         = "demo.duration";
     static constexpr const char* sSystemVideoMode            = "videomode";
-
+    static constexpr const char* sSystemArgs                 = "args";
+    static constexpr const char* sSystemExtra                = "extra";
     /*
      * Collection Keys
      */

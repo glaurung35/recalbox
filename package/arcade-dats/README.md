@@ -1,6 +1,6 @@
 Install `7z` and `xsltproc`:
 ```bash
-apt-get install 7zip xsltproc
+apt-get install 7zip xsltproc python3-jinja2
 ```
 
 Update files for a system:
@@ -25,3 +25,4 @@ Available targets:
 - fbneo
 - supermodel
 - flycast
+- controller

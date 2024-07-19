@@ -8,6 +8,10 @@ import zipfile
 
 from simplify import Simplifier
 
+from jinja2 import Template
+import xml.dom.minidom
+
+from controller import template
 
 class Updater:
 
@@ -60,6 +64,7 @@ class Updater:
         "fbneo"      : SystemDescriptor("fbneo"      , "libretro-fbneo"        , ["fbneo"]                                   , "https://github.com/libretro/FBNeo/archive/{}.tar.gz"                 , ["dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat"]),
         "supermodel" : SystemDescriptor("supermodel" , "supermodel"            , ["supermodel"]                              , "", []),
         "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave", "naomi2"], "", []),
+        "controller" : SystemDescriptor("mame"       , "libretro-mame"         , ["mame"]                                    , "https://www.progettosnaps.net/dats/MAME/packs/MAME_Dats_{}.7z"       , ["MAME 0.{} (arcade).dat", "MAME 0.{} (Arcade).dat"]),
     }
 
     def execute(self):
@@ -189,6 +194,32 @@ class Updater:
                 sys.exit(0)
 
     @staticmethod
+    def generateControllerList():
+        os.system("rm ./precompiled/controller-*.lst 2>/dev/null")
+        print("  Generating controller list")
+        f = open("./precompiled/controller.lst", "a")
+        xml_doc = xml.dom.minidom.parse(os.path.join(Updater.sMameDir, "mame258.xml"))
+        machines = xml_doc.getElementsByTagName("machine")
+        t = Template(template)
+
+        for machine in machines:
+            name = machine.getAttribute("name")
+            controls = machine.getElementsByTagName("control")
+            inputs = machine.getElementsByTagName("input")
+            if controls.length > 1:
+                d = {}
+                d["name"] = name
+                d["players"] = inputs[0].getAttribute("players")
+                d["controls"] = []
+                for control in controls:
+                    controls = {}
+                    for a in control.attributes.values():
+                        controls[a.name] = a.value
+                    d["controls"].append(controls)
+            f.write(t.render(d=d) + "\n")
+        f.close()
+
+    @staticmethod
     def generateFlatList(descriptor: SystemDescriptor, version: str, mameXml: str):
         for subsystem in descriptor.Systems:
             os.system("rm ./precompiled/{}-*.lst 2>/dev/null".format(subsystem))
@@ -222,12 +253,16 @@ class Updater:
             print("  Found version: {}".format(version))
             # Get generic mame dat
             mameDat, mameXml = self.downloadMameDat()
-            # Generate dat when required
-            self.generateOrDownloadDat(descriptor, version, mameDat)
-            # generate flat dat
-            self.generateFlatDat(descriptor, version)
-            # generate flat lists
-            self.generateFlatList(descriptor, version, mameXml)
+            # generate controller lists
+            if system == "controller":
+                self.generateControllerList()
+            else:
+                # Generate dat when required
+                self.generateOrDownloadDat(descriptor, version, mameDat)
+                # generate flat dat
+                self.generateFlatDat(descriptor, version)
+                # generate flat lists
+                self.generateFlatList(descriptor, version, mameXml)
 
 
 if __name__ == '__main__':

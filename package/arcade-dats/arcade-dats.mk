@@ -22,6 +22,7 @@ define InstallArcadeFiles
 	cp '$(ARCADE_DATS_PRECOMPILED_DIR)/$(2)-$(3).dat' $(TARGET_DIR)/recalbox/system/arcade/dats/$(1)/$(2).dat
 	cp '$(ARCADE_DATS_PRECOMPILED_DIR)/$(2)-$(3).lst' $(TARGET_DIR)/recalbox/system/arcade/flats/$(2).lst
 	cp '$(ARCADE_DATS_PRECOMPILED_DIR)/$(2)-$(3).fdt' $(TARGET_DIR)/recalbox/system/arcade/flats/$(2).fdt
+	cp '$(ARCADE_DATS_PRECOMPILED_DIR)/controller.lst' $(TARGET_DIR)/recalbox/system/arcade/flats/controller.lst
 endef
 
 define ARCADE_DATS_EXTRACT_CMDS

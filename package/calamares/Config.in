@@ -1,0 +1,16 @@
+config BR2_PACKAGE_CALAMARES
+	bool "calamares"
+	select BR2_PACKAGE_KF5_EXTRA_CMAKE_MODULES
+	select BR2_PACKAGE_QT5
+	select BR2_PACKAGE_QT5BASE
+	select BR2_PACKAGE_QT5BASE_DBUS
+	select BR2_PACKAGE_QT5TOOLS
+	select BR2_PACKAGE_QT5TOOLS_LINGUIST_TOOLS
+	select BR2_PACKAGE_QT5SVG
+	select BR2_PACKAGE_YAML_CPP
+	select BR2_PACKAGE_KF5
+	select BR2_PACKAGE_KF5_KCOREADDONS
+	help
+	  Distribution-independent installer framework
+
+	  https://github.com/calamares/calamares

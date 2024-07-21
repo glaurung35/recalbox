@@ -59,7 +59,8 @@ class Updater:
         "pifba"      : SystemDescriptor("pifba"      , "pifba"                 , ["pifba"]                                   , "packages:pifba"                                                      , ["fba_rb.dat"]),
         "fbneo"      : SystemDescriptor("fbneo"      , "libretro-fbneo"        , ["fbneo"]                                   , "https://github.com/libretro/FBNeo/archive/{}.tar.gz"                 , ["dats/FinalBurn Neo (ClrMame Pro XML, Arcade only).dat"]),
         "supermodel" : SystemDescriptor("supermodel" , "supermodel"            , ["supermodel"]                              , "", []),
-        "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave", "naomi2"], "", []),
+        "flycast"    : SystemDescriptor("flycast"    , "libretro-flycast"      , ["naomi", "naomigd", "atomiswave"], "", []),
+        "flycast-next" : SystemDescriptor("flycast-next"    , "libretro-flycast-next"      , ["naomi", "naomigd", "atomiswave", "naomi2"], "", []),
     }
 
     def execute(self):
@@ -115,7 +116,6 @@ class Updater:
     def generateOrDownloadDat(self, descriptor: SystemDescriptor, systemVersion: str, mameDat: str):
         if descriptor.UrlTemplate == "":
             for subsystem in descriptor.Systems:
-                os.system("rm ./precompiled/{}-*.dat 2>/dev/null".format(subsystem))
                 print("  Generating {} dat file".format(subsystem))
                 os.makedirs("./precompiled", exist_ok=True)
                 status = os.system("xsltproc ./{}.xslt '{}' > ./precompiled/{}-{}.dat".format(subsystem, mameDat, subsystem, systemVersion))
@@ -136,7 +136,6 @@ class Updater:
             for subsystem in descriptor.Systems:
                 destination: str = os.path.join(self.__us, "precompiled", subsystem + '-' + systemVersion + ".dat")
                 if not os.path.exists(destination):
-                    os.system("rm ./precompiled/{}-*.dat 2>/dev/null".format(subsystem))
                     if subsystem == "mame":
                         #systemVersion = systemVersion[2:]
                         systemVersion: str = self.extractVersion(os.path.join(self.__package, "arcade-dats"))
@@ -181,7 +180,6 @@ class Updater:
     @staticmethod
     def generateFlatDat(descriptor: SystemDescriptor, version: str):
         for subsystem in descriptor.Systems:
-            os.system("rm ./precompiled/{}-*.fdt 2>/dev/null".format(subsystem))
             print("  Generating {} flat dat".format(subsystem))
             status = os.system("xsltproc ./arcade-flat.xslt ./precompiled/{}-{}.dat > ./precompiled/{}-{}.fdt".format(subsystem, version, subsystem, version))
             if status != 0:
@@ -191,7 +189,6 @@ class Updater:
     @staticmethod
     def generateFlatList(descriptor: SystemDescriptor, version: str, mameXml: str):
         for subsystem in descriptor.Systems:
-            os.system("rm ./precompiled/{}-*.lst 2>/dev/null".format(subsystem))
             print("  Generating {} flat list".format(subsystem))
             flatName: str = "./precompiled/{}-{}.lst".format(subsystem, version)
             status = os.system("xsltproc --stringparam lastmamexml {} ./arcade.xslt ./precompiled/{}-{}.dat > {}.original".format(mameXml, subsystem, version, flatName))

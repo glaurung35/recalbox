@@ -91,6 +91,7 @@ class InputEvent
     [[nodiscard]] int Id()         const { return mId; }
     [[nodiscard]] int Value()      const { return mValue; }
     [[nodiscard]] int Code()       const { return mCode; }
+    [[nodiscard]] bool IsDefined() const { return mType != EventType::Unknown; }
 
     /*
      * Special accessor for configuration convenience

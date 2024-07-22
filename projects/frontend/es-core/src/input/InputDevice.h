@@ -44,14 +44,19 @@ class InputDevice
       Right,
       Down,
       Left,
-      Joy1AxisH,
-      Joy1AxisV,
-      Joy2AxisH,
-      Joy2AxisV,
+      Joystick1Left,
+      Joystick1Up,
+      Joystick2Left,
+      Joystick2Up,
       VolumeUp,
       VolumeDown,
       BrightnessUp,
       BrightnessDown,
+      __Serializable, //!< Mark the end of serializable item
+      Joystick1Right = __Serializable,
+      Joystick1Down,
+      Joystick2Right,
+      Joystick2Down,
       __Count,
     };
 
@@ -451,4 +456,64 @@ class InputDevice
      * @return True if configurable
      */
     [[nodiscard]] bool IsConfigurable() const { return !mDeviceName.StartsWith("JammaControllerP"); }
+
+    /*
+     * Configuration helpers
+     */
+
+    bool HasStart() const { return IsSet(Entry::Start); }
+    const InputEvent& Start() const { return mInputEvents[(int)Entry::Start]; }
+    bool HasSelect() const { return IsSet(Entry::Select); }
+    const InputEvent& Select() const { return mInputEvents[(int)Entry::Select]; }
+    bool HasHotKey() const { return IsSet(Entry::Hotkey); }
+    const InputEvent& HotKey() const { return mInputEvents[(int)Entry::Hotkey]; }
+
+    bool HasA() const { return IsSet(Entry::A); }
+    const InputEvent& A() const { return mInputEvents[(int)Entry::A]; }
+    bool HasB() const { return IsSet(Entry::B); }
+    const InputEvent& B() const { return mInputEvents[(int)Entry::B]; }
+    bool HasX() const { return IsSet(Entry::X); }
+    const InputEvent& X() const { return mInputEvents[(int)Entry::X]; }
+    bool HasY() const { return IsSet(Entry::Y); }
+    const InputEvent& Y() const { return mInputEvents[(int)Entry::Y]; }
+    bool HasL1() const { return IsSet(Entry::L1); }
+    const InputEvent& L1() const { return mInputEvents[(int)Entry::L1]; }
+    bool HasL2() const { return IsSet(Entry::L2); }
+    const InputEvent& L2() const { return mInputEvents[(int)Entry::L2]; }
+    bool HasL3() const { return IsSet(Entry::L3); }
+    const InputEvent& L3() const { return mInputEvents[(int)Entry::L3]; }
+    bool HasR1() const { return IsSet(Entry::R1); }
+    const InputEvent& R1() const { return mInputEvents[(int)Entry::R1]; }
+    bool HasR2() const { return IsSet(Entry::R2); }
+    const InputEvent& R2() const { return mInputEvents[(int)Entry::R2]; }
+    bool HasR3() const { return IsSet(Entry::R3); }
+    const InputEvent& R3() const { return mInputEvents[(int)Entry::R3]; }
+
+    bool HasUp() const { return IsSet(Entry::Up); }
+    const InputEvent& Up() const { return mInputEvents[(int)Entry::Up]; }
+    bool HasRight() const { return IsSet(Entry::Right); }
+    const InputEvent& Right() const { return mInputEvents[(int)Entry::Right]; }
+    bool HasDown() const { return IsSet(Entry::Down); }
+    const InputEvent& Down() const { return mInputEvents[(int)Entry::Down]; }
+    bool HasLeft() const { return IsSet(Entry::Left); }
+    const InputEvent& Left() const { return mInputEvents[(int)Entry::Left]; }
+
+    bool HasJoy1Up() const { return IsSet(Entry::Joystick1Up); }
+    const InputEvent& Joy1Up() const { return mInputEvents[(int)Entry::Joystick1Up]; }
+    bool HasJoy1Right() const { return IsSet(Entry::Joystick1Right); }
+    const InputEvent& Joy1Right() const { return mInputEvents[(int)Entry::Joystick1Right]; }
+    bool HasJoy1Down() const { return IsSet(Entry::Joystick1Down); }
+    const InputEvent& Joy1Down() const { return mInputEvents[(int)Entry::Joystick1Down]; }
+    bool HasJoy1Left() const { return IsSet(Entry::Joystick1Left); }
+    const InputEvent& Joy1Left() const { return mInputEvents[(int)Entry::Joystick1Left]; }
+
+    bool HasJoy2Up() const { return IsSet(Entry::Joystick2Up); }
+    const InputEvent& Joy2Up() const { return mInputEvents[(int)Entry::Joystick2Up]; }
+    bool HasJoy2Right() const { return IsSet(Entry::Joystick2Right); }
+    const InputEvent& Joy2Right() const { return mInputEvents[(int)Entry::Joystick2Right]; }
+    bool HasJoy2Down() const { return IsSet(Entry::Joystick2Down); }
+    const InputEvent& Joy2Down() const { return mInputEvents[(int)Entry::Joystick2Down]; }
+    bool HasJoy2Left() const { return IsSet(Entry::Joystick2Left); }
+    const InputEvent& Joy2Left() const { return mInputEvents[(int)Entry::Joystick2Left]; }
 };
+

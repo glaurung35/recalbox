@@ -15,11 +15,11 @@ class OrderedDevices
      * Index: Index of device as seen in te user configuration
      * Value: Target input device
      */
-    InputDevice mDevicesIndexes[Input::sMaxInputDevices];
+    const InputDevice* mDevicesIndexes[Input::sMaxInputDevices];
     //! Configured device count
     unsigned int mConfiguredBitFlags;
-    //! Configured device count
-    int mCount;
+    //! Highest configured device
+    int mHigherPlayer;
 
   public:
     /*!
@@ -28,12 +28,14 @@ class OrderedDevices
     OrderedDevices()
       : mDevicesIndexes {},
         mConfiguredBitFlags(0),
-        mCount(0)
+        mHigherPlayer(0)
     {
+      for(int i = Input::sMaxInputDevices; --i >=0; )
+        mDevicesIndexes[i] = nullptr;
     }
 
-    //! Device count
-    int Count() const { return mCount; }
+    //! Highest configured device
+    int HigherPlayer() const { return mHigherPlayer; }
 
     /*!
      * @brief Check if the device at posiion i has been configured
@@ -47,7 +49,7 @@ class OrderedDevices
      * @param i Device Index
      * @return InputDevice reference
      */
-    const InputDevice& Device(int i) const { return mDevicesIndexes[i]; }
+    const InputDevice* Device(int i) const { return mDevicesIndexes[i]; }
 
     /*!
      * @brief Set device at given indec
@@ -58,13 +60,11 @@ class OrderedDevices
     {
       if ((unsigned int)i < (unsigned int)Input::sMaxInputDevices)
       {
-        mDevicesIndexes[i] = device;
+        mDevicesIndexes[i] = &device;
         mConfiguredBitFlags |= 1 << i;
       }
-      mCount = 0;
-      for(int b = sizeof(mConfiguredBitFlags) * 8; --b >= 0; )
-        if (((mConfiguredBitFlags >> b) & 1) != 0)
-          mCount++;
+      if (i > mHigherPlayer)
+        mHigherPlayer = i;
     }
 };
 

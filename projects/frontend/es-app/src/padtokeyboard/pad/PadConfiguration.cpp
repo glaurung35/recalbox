@@ -153,72 +153,77 @@ void PadConfiguration::Load(const OrderedDevices& orderedDevices)
     }
 
   // Lookup every configured pad
-  for(int i = orderedDevices.Count(); --i >= 0; )
-  {
-    const InputDevice& inputDevice = orderedDevices.Device(i);
-    PadAllItemConfiguration& pad = mPads[i];
-
-    static const struct ItemNameTranslator
+  for(int i = orderedDevices.HigherPlayer(); --i >= 0; )
+    if (orderedDevices.IsConfigured(i))
     {
-      InputDevice::Entry sourceItem;
-      PadItems targetItem;
+      const InputDevice& inputDevice = *orderedDevices.Device(i);
+      PadAllItemConfiguration& pad = mPads[i];
+
+      static const struct ItemNameTranslator
+      {
+        InputDevice::Entry sourceItem;
+        PadItems targetItem;
+      }
+      Translators[] =
+      {
+        { InputDevice::Entry::Up            , PadItems::Up     },
+        { InputDevice::Entry::Right         , PadItems::Right  },
+        { InputDevice::Entry::Down          , PadItems::Down   },
+        { InputDevice::Entry::Left          , PadItems::Left   },
+        { InputDevice::Entry::A             , PadItems::A      },
+        { InputDevice::Entry::B             , PadItems::B      },
+        { InputDevice::Entry::X             , PadItems::X      },
+        { InputDevice::Entry::Y             , PadItems::Y      },
+        { InputDevice::Entry::L1            , PadItems::L1     },
+        { InputDevice::Entry::R1            , PadItems::R1     },
+        { InputDevice::Entry::L2            , PadItems::L2     },
+        { InputDevice::Entry::R2            , PadItems::R2     },
+        { InputDevice::Entry::L3            , PadItems::L3     },
+        { InputDevice::Entry::R3            , PadItems::R3     },
+        { InputDevice::Entry::Select        , PadItems::Select },
+        { InputDevice::Entry::Start         , PadItems::Start  },
+        { InputDevice::Entry::Hotkey        , PadItems::Hotkey },
+        { InputDevice::Entry::Joystick1Left , PadItems::J1Left  },
+        { InputDevice::Entry::Joystick1Up   , PadItems::J1Up    },
+        { InputDevice::Entry::Joystick2Left , PadItems::J2Left  },
+        { InputDevice::Entry::Joystick2Up   , PadItems::J2Up    },
+        { InputDevice::Entry::Joystick1Right, PadItems::J1Right },
+        { InputDevice::Entry::Joystick1Down , PadItems::J1Down  },
+        { InputDevice::Entry::Joystick2Right, PadItems::J2Right },
+        { InputDevice::Entry::Joystick2Down , PadItems::J2Down  },
+      };
+
+      for (const ItemNameTranslator& translator : Translators)
+      {
+        // Get source event
+        InputEvent sourceEvent;
+        if (!inputDevice.GetEntryConfiguration(translator.sourceItem, sourceEvent)) continue;
+
+        // Target event
+        PadItemConfiguration& item = pad.Items[(int)translator.targetItem];
+
+        // Translate
+        item.Item  = translator.targetItem;
+        item.Type  = sourceEvent.Type();
+        item.Id    = sourceEvent.Id();
+        item.Value = sourceEvent.Value();
+        item.Code  = sourceEvent.Code();
+      }
+
+      // Assign J1/J2 down/right
+      /*pad.Items[(int)PadItems::J1Right] = pad.Items[(int)PadItems::J1Left];
+      pad.Items[(int)PadItems::J1Down]  = pad.Items[(int)PadItems::J1Up];
+      pad.Items[(int)PadItems::J2Right] = pad.Items[(int)PadItems::J2Left];
+      pad.Items[(int)PadItems::J2Down]  = pad.Items[(int)PadItems::J2Up];
+      pad.Items[(int)PadItems::J1Right].Value = -pad.Items[(int)PadItems::J1Right].Value;
+      pad.Items[(int)PadItems::J1Down] .Value = -pad.Items[(int)PadItems::J1Down] .Value;
+      pad.Items[(int)PadItems::J2Right].Value = -pad.Items[(int)PadItems::J2Right].Value;
+      pad.Items[(int)PadItems::J2Down] .Value = -pad.Items[(int)PadItems::J2Down] .Value;
+      pad.Items[(int)PadItems::J1Right].Item  = PadItems::J1Right;
+      pad.Items[(int)PadItems::J1Down] .Item  = PadItems::J1Down;
+      pad.Items[(int)PadItems::J2Right].Item  = PadItems::J2Right;
+      pad.Items[(int)PadItems::J2Down] .Item  = PadItems::J2Down;*/
     }
-    Translators[] =
-    {
-      { InputDevice::Entry::Up       , PadItems::Up     },
-      { InputDevice::Entry::Right    , PadItems::Right  },
-      { InputDevice::Entry::Down     , PadItems::Down   },
-      { InputDevice::Entry::Left     , PadItems::Left   },
-      { InputDevice::Entry::A        , PadItems::A      },
-      { InputDevice::Entry::B        , PadItems::B      },
-      { InputDevice::Entry::X        , PadItems::X      },
-      { InputDevice::Entry::Y        , PadItems::Y      },
-      { InputDevice::Entry::L1       , PadItems::L1     },
-      { InputDevice::Entry::R1       , PadItems::R1     },
-      { InputDevice::Entry::L2       , PadItems::L2     },
-      { InputDevice::Entry::R2       , PadItems::R2     },
-      { InputDevice::Entry::L3       , PadItems::L3     },
-      { InputDevice::Entry::R3       , PadItems::R3     },
-      { InputDevice::Entry::Select   , PadItems::Select },
-      { InputDevice::Entry::Start    , PadItems::Start  },
-      { InputDevice::Entry::Hotkey   , PadItems::Hotkey },
-      { InputDevice::Entry::Joy1AxisH, PadItems::J1Left },
-      { InputDevice::Entry::Joy1AxisV, PadItems::J1Up   },
-      { InputDevice::Entry::Joy2AxisH, PadItems::J2Left },
-      { InputDevice::Entry::Joy2AxisV, PadItems::J2Up   },
-    };
-
-    for (const ItemNameTranslator& translator : Translators)
-    {
-      // Get source event
-      InputEvent sourceEvent;
-      if (!inputDevice.GetEntryConfiguration(translator.sourceItem, sourceEvent)) continue;
-
-      // Target event
-      PadItemConfiguration& item = pad.Items[(int)translator.targetItem];
-
-      // Translate
-      item.Item  = translator.targetItem;
-      item.Type  = sourceEvent.Type();
-      item.Id    = sourceEvent.Id();
-      item.Value = sourceEvent.Value();
-      item.Code  = sourceEvent.Code();
-    }
-
-    // Assign J1/J2 down/right
-    pad.Items[(int)PadItems::J1Right] = pad.Items[(int)PadItems::J1Left];
-    pad.Items[(int)PadItems::J1Down]  = pad.Items[(int)PadItems::J1Up];
-    pad.Items[(int)PadItems::J2Right] = pad.Items[(int)PadItems::J2Left];
-    pad.Items[(int)PadItems::J2Down]  = pad.Items[(int)PadItems::J2Up];
-    pad.Items[(int)PadItems::J1Right].Value = -pad.Items[(int)PadItems::J1Right].Value;
-    pad.Items[(int)PadItems::J1Down] .Value = -pad.Items[(int)PadItems::J1Down] .Value;
-    pad.Items[(int)PadItems::J2Right].Value = -pad.Items[(int)PadItems::J2Right].Value;
-    pad.Items[(int)PadItems::J2Down] .Value = -pad.Items[(int)PadItems::J2Down] .Value;
-    pad.Items[(int)PadItems::J1Right].Item  = PadItems::J1Right;
-    pad.Items[(int)PadItems::J1Down] .Item  = PadItems::J1Down;
-    pad.Items[(int)PadItems::J2Right].Item  = PadItems::J2Right;
-    pad.Items[(int)PadItems::J2Down] .Item  = PadItems::J2Down;
-  }
 
   mReady = true;
 }

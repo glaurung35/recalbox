@@ -34,10 +34,14 @@ String InputDevice::EntryToString(InputDevice::Entry entry)
     case InputDevice::Entry::Right: return "right";
     case InputDevice::Entry::Down: return "down";
     case InputDevice::Entry::Left: return "left";
-    case InputDevice::Entry::Joy1AxisH: return "joystick1left";
-    case InputDevice::Entry::Joy1AxisV: return "joystick1up";
-    case InputDevice::Entry::Joy2AxisH: return "joystick2left";
-    case InputDevice::Entry::Joy2AxisV: return "joystick2up";
+    case InputDevice::Entry::Joystick1Left: return "joystick1left";
+    case InputDevice::Entry::Joystick1Up: return "joystick1up";
+    case InputDevice::Entry::Joystick2Left: return "joystick2left";
+    case InputDevice::Entry::Joystick2Up: return "joystick2up";
+    case InputDevice::Entry::Joystick1Right: return "joystick1right";
+    case InputDevice::Entry::Joystick1Down: return "joystick1down";
+    case InputDevice::Entry::Joystick2Right: return "joystick2right";
+    case InputDevice::Entry::Joystick2Down: return "joystick2down";
     case InputDevice::Entry::VolumeUp: return "vol+";
     case InputDevice::Entry::VolumeDown: return "vol-";
     case InputDevice::Entry::BrightnessUp: return "lum+";
@@ -73,10 +77,14 @@ InputDevice::Entry InputDevice::StringToEntry(const String& entry)
     { "right", InputDevice::Entry::Right },
     { "down", InputDevice::Entry::Down },
     { "left", InputDevice::Entry::Left },
-    { "joystick1left", InputDevice::Entry::Joy1AxisH },
-    { "joystick1up", InputDevice::Entry::Joy1AxisV },
-    { "joystick2left", InputDevice::Entry::Joy2AxisH },
-    { "joystick2up", InputDevice::Entry::Joy2AxisV },
+    { "joystick1left", InputDevice::Entry::Joystick1Left },
+    { "joystick1up", InputDevice::Entry::Joystick1Up },
+    { "joystick2left", InputDevice::Entry::Joystick2Left },
+    { "joystick2up", InputDevice::Entry::Joystick2Up },
+    { "joystick1right", InputDevice::Entry::Joystick1Right },
+    { "joystick1down", InputDevice::Entry::Joystick1Down },
+    { "joystick2right", InputDevice::Entry::Joystick2Right },
+    { "joystick2down", InputDevice::Entry::Joystick2Down },
     { "vol+", InputDevice::Entry::VolumeUp },
     { "vol-", InputDevice::Entry::VolumeDown },
     { "lum+", InputDevice::Entry::BrightnessUp },
@@ -181,6 +189,48 @@ void InputDevice::Set(Entry input, InputEvent event)
 {
   mInputEvents[(int)input] = event;
   mConfigurationBits |= 1 << (int)input;
+
+  if (input >= Entry::Joystick1Left && input <= Entry::Joystick2Up)
+  {
+    static HashMap<int, int> sOppositeHat
+      {
+        {  1,  4 },
+        {  2,  8 },
+        {  3, 12 },
+        {  4,  1 },
+        {  5,  0 }, // Not possible
+        {  6,  9 },
+        {  7,  0 }, // Not possible
+        {  8,  2 },
+        {  9,  6 },
+        { 10,  0 }, // Not possible
+        { 11,  0 }, // Not possible
+        { 12,  3 },
+        { 13,  0 }, // Not possible
+        { 14,  0 }, // Not possible
+        { 15,  0 }, // Not possible
+      };
+
+    static HashMap<Entry, Entry> sOpposites
+      {
+        { Entry::Joystick1Up  , Entry::Joystick1Down  },
+        { Entry::Joystick1Left, Entry::Joystick1Right },
+        { Entry::Joystick2Up  , Entry::Joystick2Down  },
+        { Entry::Joystick2Left, Entry::Joystick2Right },
+      };
+
+    if (event.Type() == InputEvent::EventType::Axis)
+    {
+      mInputEvents[(int)sOpposites[input]] = InputEvent(event.Device(), event.Type(), event.Id(), -event.Value(), event.Code());
+      mConfigurationBits |= 1 << (int)sOpposites[input];
+    }
+    else if (event.Type() == InputEvent::EventType::Hat)
+    {
+      mInputEvents[(int)sOpposites[input]] = InputEvent(event.Device(), event.Type(), event.Id(), sOppositeHat[event.Value()], event.Code());
+      mConfigurationBits |= 1 << (int)sOpposites[input];
+    }
+    else { LOG(LogError) << "[InputDevice] Button mapped on analog joysticks. Opposite directions won't work."; }
+  }
 }
 
 void InputDevice::Unset(Entry input)
@@ -281,10 +331,10 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
          { "righttrigger",  Entry::R2 },
          { "leftstick",     Entry::L3 },
          { "rightstick",    Entry::R3 },
-         { "leftx",         Entry::Joy1AxisH },
-         { "lefty",         Entry::Joy1AxisV },
-         { "rightx",        Entry::Joy2AxisH },
-         { "righty",        Entry::Joy2AxisV },
+         { "leftx",         Entry::Joystick1Left },
+         { "lefty",         Entry::Joystick1Up },
+         { "rightx",        Entry::Joystick2Left },
+         { "righty",        Entry::Joystick2Up },
       });
 
       Entry* entry = mapper.try_get(key);
@@ -387,11 +437,11 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
     if (mInputEvents[(int)Entry::Right].Type() == InputEvent::EventType::Unknown)
       if (mInputEvents[(int)Entry::Down].Type() == InputEvent::EventType::Unknown)
         if (mInputEvents[(int)Entry::Left].Type() == InputEvent::EventType::Unknown)
-          if (mInputEvents[(int)Entry::Joy1AxisH].Type() != InputEvent::EventType::Unknown)
-            if (mInputEvents[(int)Entry::Joy1AxisV].Type() != InputEvent::EventType::Unknown)
+          if (mInputEvents[(int)Entry::Joystick1Left].Type() != InputEvent::EventType::Unknown)
+            if (mInputEvents[(int)Entry::Joystick1Up].Type() != InputEvent::EventType::Unknown)
             {
-              const InputEvent& V = mInputEvents[(int)Entry::Joy1AxisV];
-              const InputEvent& H = mInputEvents[(int)Entry::Joy1AxisH];
+              const InputEvent& V = mInputEvents[(int)Entry::Joystick1Up];
+              const InputEvent& H = mInputEvents[(int)Entry::Joystick1Left];
 
               // Add DPAD configuration
               mInputEvents[(int)Entry::Up] = V;
@@ -402,8 +452,8 @@ bool InputDevice::LoadAutoConfiguration(const String& configuration)
                                     (1 << (int)Entry::Down) | (1 << (int)Entry::Left);
 
               // Remove left analog configuration
-              mInputEvents[(int)Entry::Joy1AxisV] = mInputEvents[(int)Entry::Joy1AxisH] = InputEvent();
-              mConfigurationBits &= ~((1 << (int)Entry::Joy1AxisV) | (1 << (int)Entry::Joy1AxisH));
+              mInputEvents[(int)Entry::Joystick1Up] = mInputEvents[(int)Entry::Joystick1Left] = InputEvent();
+              mConfigurationBits &= ~((1 << (int)Entry::Joystick1Up) | (1 << (int)Entry::Joystick1Left));
 
               { LOG(LogInfo) << "[InputDevice] No DPAD detected. First analog joystick moved to DPAD"; }
             }
@@ -481,7 +531,7 @@ void InputDevice::SaveToXml(pugi::xml_node parent) const
   cfg.append_attribute("deviceNbHats") = mDeviceNbHats;
   cfg.append_attribute("deviceNbButtons") = mDeviceNbButtons;
 
-  for (int i = (int)Entry::__Count; --i >= 0; )
+  for (int i = (int)Entry::__Serializable; --i >= 0; )
   {
     if ((mConfigurationBits & (1 << (int)i)) == 0) continue;
     const InputEvent& entry = mInputEvents[i];
@@ -713,10 +763,14 @@ InputCompactEvent::Entry InputDevice::ConvertEntry(InputDevice::Entry entry)
     case Entry::Right: return InputCompactEvent::Entry::Right;
     case Entry::Down: return InputCompactEvent::Entry::Down;
     case Entry::Left: return InputCompactEvent::Entry::Left;
-    case Entry::Joy1AxisH: return InputCompactEvent::Entry::J1Left;
-    case Entry::Joy1AxisV: return InputCompactEvent::Entry::J1Up;
-    case Entry::Joy2AxisH: return InputCompactEvent::Entry::J2Left;
-    case Entry::Joy2AxisV: return InputCompactEvent::Entry::J2Up;
+    case Entry::Joystick1Left: return InputCompactEvent::Entry::J1Left;
+    case Entry::Joystick1Up: return InputCompactEvent::Entry::J1Up;
+    case Entry::Joystick2Left: return InputCompactEvent::Entry::J2Left;
+    case Entry::Joystick2Up: return InputCompactEvent::Entry::J2Up;
+    case Entry::Joystick1Right: return InputCompactEvent::Entry::J1Right;
+    case Entry::Joystick1Down: return InputCompactEvent::Entry::J1Down;
+    case Entry::Joystick2Right: return InputCompactEvent::Entry::J2Right;
+    case Entry::Joystick2Down: return InputCompactEvent::Entry::J2Down;
     case Entry::VolumeUp: return InputCompactEvent::Entry::VolUp;
     case Entry::VolumeDown: return InputCompactEvent::Entry::VolDown;
     case Entry::BrightnessUp: return InputCompactEvent::Entry::LumUp;

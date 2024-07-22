@@ -19,7 +19,7 @@ KF5_KPARTS_LICENSE_FILES = \
 	LICENSES/LicenseRef-KDE-Accepted-GPL.txt \
 	LICENSES/LicenseRef-KDE-Accepted-LGPL.txt
 
-KF5_KPARTS_DEPENDENCIES = kf5-extra-cmake-modules qt5base parted kf5-kconfig kf5-ki18n kf5-kiconthemes
+KF5_KPARTS_DEPENDENCIES = kf5-extra-cmake-modules qt5base parted kf5-kconfig kf5-ki18n kf5-kiconthemes kf5-kio kf5-kcrash
 KF5_KPARTS_INSTALL_STAGING = YES
 
 # Uses __atomic_fetch_add_4

@@ -1,0 +1,19 @@
+config BR2_PACKAGE_KF5_KCRASH
+	bool "kf5-kcrash"
+	select BR2_PACKAGE_QT5BASE_DBUS
+	select BR2_PACKAGE_KF5_EXTRA_CMAKE_MODULES
+	select BR2_PACKAGE_KF5_KWINDOWSYSTEM
+	select BR2_PACKAGE_QT5X11EXTRAS
+	help
+	  KF5 is a set of Qt framework addons, extending Qt in various
+	  ways, not only restricted in helping integration in KDE.
+
+	  This package contains the kcrash bindings from the
+	  KF5 project.
+
+	  https://api.kde.org/frameworks/kcrash/html/index.html
+
+comment "kf5-kcrash needs toolchain w/ threads"
+	depends on BR2_USE_MMU
+	depends on BR2_PACKAGE_MODEM_MANAGER
+	depends on !BR2_TOOLCHAIN_HAS_THREADS

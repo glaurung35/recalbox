@@ -1,0 +1,22 @@
+config BR2_PACKAGE_KF5_KIO
+	bool "kf5-kio"
+	select BR2_PACKAGE_QT5BASE_DBUS
+	select BR2_PACKAGE_KF5_EXTRA_CMAKE_MODULES
+	select BR2_PACKAGE_KF5_KSERVICE
+	select BR2_PACKAGE_KF5_SOLID
+	select BR2_PACKAGE_UTIL_LINUX_LIBMOUNT
+	select BR2_PACKAGE_UTIL_LINUX
+	select BR2_PACKAGE_ACL
+	help
+	  KF5 is a set of Qt framework addons, extending Qt in various
+	  ways, not only restricted in helping integration in KDE.
+
+	  This package contains the kio bindings from the
+	  KF5 project.
+
+	  https://api.kde.org/frameworks/kio/html/index.html
+
+comment "kf5-kio needs toolchain w/ threads"
+	depends on BR2_USE_MMU
+	depends on BR2_PACKAGE_MODEM_MANAGER
+	depends on !BR2_TOOLCHAIN_HAS_THREADS

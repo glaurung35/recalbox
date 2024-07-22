@@ -6,6 +6,8 @@ config BR2_PACKAGE_KF5_KPARTS
 	select BR2_PACKAGE_KF5_KCONFIG
 	select BR2_PACKAGE_KF5_KI18N
 	select BR2_PACKAGE_KF5_KICONTHEMES
+	select BR2_PACKAGE_KF5_KIO
+	select BR2_PACKAGE_KF5_KCRASH
 	help
 	  KF5 is a set of Qt framework addons, extending Qt in various
 	  ways, not only restricted in helping integration in KDE.

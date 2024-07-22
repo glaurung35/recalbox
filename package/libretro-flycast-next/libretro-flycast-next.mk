@@ -39,9 +39,9 @@ LIBRETRO_FLYCAST_NEXT_CONF_OPTS += -DCMAKE_CXX_FLAGS="$(COMPILER_COMMONS_CXXFLAG
 
 define LIBRETRO_FLYCAST_NEXT_INSTALL_TARGET_CMDS
 	$(call InstallArcadeFiles,libretro,naomi,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomi-next)
-	$(call InstallArcadeFiles,libretro,naomi2,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomi-next)
-	$(call InstallArcadeFiles,libretro,naomigd,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomi-next)
-	$(call InstallArcadeFiles,libretro,atomiswave,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomi-next)
+	$(call InstallArcadeFiles,libretro,naomi2,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomi2-next)
+	$(call InstallArcadeFiles,libretro,naomigd,$(LIBRETRO_FLYCAST_NEXT_VERSION),naomigd-next)
+	$(call InstallArcadeFiles,libretro,atomiswave,$(LIBRETRO_FLYCAST_NEXT_VERSION),atomiswave-next)
 
 	$(INSTALL) -D $(@D)/flycast_libretro.so \
 		$(TARGET_DIR)/usr/lib/libretro/flycast-next_libretro.so

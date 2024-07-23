@@ -8,6 +8,7 @@
 #include "games/classifications/Genres.h"
 #include "MetadataStringHolder.h"
 #include "hardware/RotationType.h"
+#include "SupportSides.h"
 
 //#define _METADATA_STATS_
 
@@ -50,6 +51,7 @@ class MetadataDescriptor
     static MetadataStringHolder sFileHolder;
 
     // Please keep field ordered by type size to reduce alignment padding
+    // 32 bits
     unsigned int                  mTimeStamp;    //!< Scraping timestamp
     MetadataStringHolder::Index32 mRomFile;      //!< Rom file
     MetadataStringHolder::Index32 mName;         //!< Name as simple string
@@ -66,6 +68,8 @@ class MetadataDescriptor
     int                           mPlayers;        //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int                           mRomCrc32;       //!< Rom Crc32
     Regions::RegionPack           mRegion;         //!< Rom/Game Region
+    int                           mTimePlayed;     //<! Game timpe played
+    // 16 bits
     MetadataStringHolder::Index16 mRomPath;        //!< Rom path
     MetadataStringHolder::Index16 mImagePath;      //!< Image path
     MetadataStringHolder::Index16 mThumbnailPath;  //!< Thumbnail path
@@ -76,8 +80,14 @@ class MetadataDescriptor
     MetadataStringHolder::Index16 mLastPatchFile;  //!< Last patch file
     short                         mPlayCount;      //!< Play counter
     GameGenres                    mGenreId;        //!< Normalized Genre
+    // 8 bits
     MetadataStringHolder::Index8  mRatio;          //!< Specific screen ratio
-    ItemType                      mType:4;         //!< Metadata type
+    // bit groups
+    int                           mSupportIndex:5; //!< Support number (disk, tape, ...)
+    int                           mSupportTotal:5; //!< Total Supports
+    SupportSides                  mSupportSide:2;  //!< Support faces
+    ItemType                      mType:3;         //!< Metadata type
+    RotationType                  mRotation:2;     //!< Rotation flag
     bool                          mFavorite:1;     //!< Favorite game
     bool                          mHidden:1;       //!< Hidden game
     bool                          mAdult:1;        //!< Adult state
@@ -85,8 +95,6 @@ class MetadataDescriptor
     bool                          mPreinstalled:1; //!< Preinstalled game?
     bool                          mNoGame:1;       //!< ?!
     bool                          mDirty:1;        //!< Dirty flag (modified data flag)
-    RotationType                  mRotation:2;     //<! Rotation flag
-    int                           mTimePlayed;     //<! Game timpe played
 
     //! Default value storage for fast default detection
     static const MetadataDescriptor& Default();
@@ -198,6 +206,7 @@ class MetadataDescriptor
       , mPlayers((1 << 16) + 1)
       , mRomCrc32(0)
       , mRegion()
+      , mTimePlayed(0)
       , mRomPath(0)
       , mImagePath(0)
       , mThumbnailPath(0)
@@ -209,7 +218,11 @@ class MetadataDescriptor
       , mPlayCount(0)
       , mGenreId(GameGenres::None)
       , mRatio(0)
+      , mSupportIndex(0)
+      , mSupportTotal(0)
+      , mSupportSide(SupportSides::None)
       , mType(type)
+      , mRotation(RotationType::None)
       , mFavorite(false)
       , mHidden(false)
       , mAdult(false)
@@ -217,8 +230,6 @@ class MetadataDescriptor
       , mPreinstalled(false)
       , mNoGame(false)
       , mDirty(false)
-      , mRotation(RotationType::None)
-      , mTimePlayed(0)
     {
       SetRomPath(path);
       SetName(defaultName);
@@ -324,7 +335,10 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
-      mTimePlayed        = source.mTimePlayed       ;
+      mTimePlayed    = source.mTimePlayed   ;
+      mSupportIndex  = source.mSupportIndex ;
+      mSupportTotal  = source.mSupportTotal ;
+      mSupportSide   = source.mSupportSide  ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -380,7 +394,10 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
-      mTimePlayed        = source.mTimePlayed       ;
+      mTimePlayed    = source.mTimePlayed   ;
+      mSupportIndex  = source.mSupportIndex ;
+      mSupportTotal  = source.mSupportTotal ;
+      mSupportSide   = source.mSupportSide  ;
 
       #ifdef _METADATA_STATS_
       if (_Type == ItemType::Game) LivingGames++;
@@ -462,6 +479,9 @@ class MetadataDescriptor
     [[nodiscard]] GameGenres         GenreId()         const { return mGenreId;                          }
     [[nodiscard]] RotationType       Rotation()        const { return mRotation;                         }
     [[nodiscard]] int                TimePlayed()      const { return mTimePlayed;                       }
+    [[nodiscard]] int                SupportIndex()    const { return mSupportIndex;                     }
+    [[nodiscard]] int                SupportTotal()    const { return mSupportTotal;                     }
+    [[nodiscard]] SupportSides       SupportSide()     const { return mSupportSide;                      }
 
     /*
      * Validators
@@ -560,6 +580,9 @@ class MetadataDescriptor
     void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                               }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                              }
     void SetNoGame(bool noGame)                         { mNoGame       = noGame;                                                     }
+    void SetSupportIndex(int index)                     { mSupportIndex = index;                                                      }
+    void SetSupportTotal(int total)                     { mSupportTotal = total;                                                      }
+    void SetSupportSide(SupportSides side)              { mSupportSide  = side;                                                       }
 
     // Special setter to force dirty
     void SetDirty() { mDirty = true; }

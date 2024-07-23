@@ -235,6 +235,62 @@ void SystemManager::BuildDynamicMetadata(SystemData& system)
             mHighestVersions.insert_or_assign(gameNameWithRegion, VersionedGame(game, version));
           }
 
+          // Disk/Disc/tape number/side
+          fileName.LowerCase();
+          if (int pos = fileName.Find(LEGACY_STRING("(dis")); pos > 0)
+          {
+            switch(fileName[pos + 4])
+            {
+              case 'c': // CD/DVD
+              {
+                int number = 0;
+                if (fileName.TryAsInt(pos +  6, ' ', number) || fileName.TryAsInt(pos +  6, ')', number))
+                  game.Metadata().SetSupportIndex(number);
+                if (pos = fileName.Find(LEGACY_STRING("of "), pos + 7); pos > 0)
+                  if (fileName.TryAsInt(pos +  3, ')', number)) game.Metadata().SetSupportTotal(number);
+                break;
+              }
+              case 'k': // Disk
+              {
+                int number = 0;
+                if (fileName.TryAsInt(pos +  6, ' ', number) || fileName.TryAsInt(pos +  6, ')', number))
+                  game.Metadata().SetSupportIndex(number);
+                if (pos = fileName.Find(LEGACY_STRING("of "), pos + 7); pos > 0)
+                {
+                  if (fileName.TryAsInt(pos +  3, ')', number)) game.Metadata().SetSupportTotal(number);
+                  else if (fileName.TryAsInt(pos +  3, ' ', number))
+                  {
+                    game.Metadata().SetSupportTotal(number);
+                    if (pos = fileName.Find(LEGACY_STRING("side "), pos + 4); pos > 0)
+                    {
+                      switch(fileName[pos + 5])
+                      {
+                        case 'a':
+                        case '1': game.Metadata().SetSupportSide(SupportSides::A); break;
+                        case 'b':
+                        case '2': game.Metadata().SetSupportSide(SupportSides::B); break;
+                        default: break;
+                      }
+                    }
+                  }
+                }
+                break;
+              }
+              default: break;
+            }
+          }
+          else if (pos = fileName.Find(LEGACY_STRING("(side ")); pos > 0)
+          {
+            switch(fileName[pos + 6])
+            {
+              case 'a':
+              case '1': game.Metadata().SetSupportSide(SupportSides::A); break;
+              case 'b':
+              case '2': game.Metadata().SetSupportSide(SupportSides::B); break;
+              default: break;
+            }
+          }
+
           // Not a game?
           game.Metadata().SetNoGame(game.Name().StartsWith(LEGACY_STRING("ZZZ")) || fileName.Contains(LEGACY_STRING("[BIOS]")));
         }

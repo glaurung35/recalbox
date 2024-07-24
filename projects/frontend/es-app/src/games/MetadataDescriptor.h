@@ -664,6 +664,7 @@ class MetadataDescriptor
      */
 
     [[nodiscard]] bool IsDirty()  const { return mDirty; }
+    [[nodiscard]] bool HasSupportInformation() const { return mSupportSide != SupportSides::None || mSupportIndex != 0; }
 
     /*
      * Special modifiers

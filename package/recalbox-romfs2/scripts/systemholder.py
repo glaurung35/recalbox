@@ -231,6 +231,7 @@ class SystemHolder:
         self.__iconUnicode: str = "$0" # Icon unicode char in recalbox font
         self.__command: str = "Command template"
         self.__extensions: str = "Global extension list"
+        self.__extensiontypes: str = "Extension types list"
         self.__docLinks: Dict[str, str] = {
           "fr": "FR Documentation link",
           "en": "EN Documentation link",
@@ -279,6 +280,9 @@ class SystemHolder:
     def Extensions(self) -> str: return self.__extensions
 
     @property
+    def ExtensionTypes(self) -> str: return self.__extensiontypes
+
+    @property
     def ScreenScraperId(self) -> int: return self.__screenscraperId
 
     @property
@@ -319,6 +323,19 @@ class SystemHolder:
             return default
         raise KeyError("Missing {}:{} in {}".format(section, key, ini.getSettingsFile()))
 
+    def __ValidateExtensionType(self, ini: IniSettings, input: str) -> str:
+        if len(input) > 0:
+            groups: list[str] = input.split(",")
+            for group in groups:
+                key, value = group.split("=")
+                if value not in ("cart", "cd", "hd", "file", "tape", "qd", "fd3", "fd35", "fd525", "pcb"):
+                    raise KeyError("Invalid type {} in extension.types from {}".format(value, ini.getSettingsFile()))
+                extensions: list[str] = key.split('|')
+                for extension in extensions:
+                    if len(extension) > 4 or '.' in extension or (not extension.isalnum() and extension != '*'):
+                        raise KeyError("Invalid extension {} in extension.types from {}".format(extension, ini.getSettingsFile()))
+        return input
+
     def __deserialize(self):
         # Load configuration
         desc = IniSettings(self.__systemIni, extraSpaces=True)
@@ -332,6 +349,7 @@ class SystemHolder:
         self.__roms: str = self.__get(desc, "system", "roms.folder", "", True)
         self.__screenscraperId: int = int(self.__get(desc, "system", "screenscraper.id", "0", True))
         self.__iconUnicode: str = self.__get(desc, "system", "icon.unicode", "$0", True)
+        self.__extensiontypes: str = self.__ValidateExtensionType(desc, self.__get(desc, "system", "extension.types", "", True))
         self.__command: str = self.__get(desc, "system", "command", self.__COMMAND_DEFAULT, False)
         self.__docLinks["fr"] = self.__get(desc, "system", "doc.link.fr", "", False)
         self.__docLinks["en"] = self.__get(desc, "system", "doc.link.en", "", False)
@@ -341,7 +359,7 @@ class SystemHolder:
         self.__readOnly: bool = self.__get(desc, "system", "readonly", "0", False) == '1'
 
         # Create Cores
-        extensions: Set[str] = set()
+        extensions: set[str] = set()
         for i in range(0, 20):
             coreSection = "core.{}".format(i)
             coreSectionArch = "{}.{}".format(coreSection, self.__arch)

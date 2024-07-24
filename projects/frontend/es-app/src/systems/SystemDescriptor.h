@@ -5,6 +5,7 @@
 
 #include <utils/os/fs/Path.h>
 #include <emulators/EmulatorList.h>
+#include "utils/storage/Array.h"
 
 class SystemDescriptor
 {
@@ -17,7 +18,7 @@ class SystemDescriptor
       Console , //!< Home console
       Handheld, //!< Handheld console
       Computer, //!< Computer
-      Fantasy , //!< Fantasy console (non physical system
+      Fantasy , //!< Fantasy console (non physical system)
       Engine  , //!< Game Engine
       Port    , //!< Port
       Virtual , //!< Internal virtual system
@@ -34,6 +35,21 @@ class SystemDescriptor
       Optional   , //!< Some games may require it
       None       , //!< Useless
       __Count
+    };
+
+    enum class SupportType
+    {
+      Unknown        , //!< Unknown support type
+      Cartridge      , //!< Cartridge
+      CD             , //!< CD or DVD
+      HDD            , //!< Hard drive disk
+      FilesAndFolders, //!< Files/Folders (for fantasy or engines)
+      Tape           , //!< Tapes
+      QuickDisk      , //!< Quick disk (2.8" floppy)
+      Floppy3        , //!< Amstrad/Sinclair 3" floppy
+      Floppy35       , //!< 3.5" floppy
+      Floppy525      , //!< 5.25" floppy
+      PCB            , //!< Hardware PCB
     };
 
     /*!
@@ -85,6 +101,7 @@ class SystemDescriptor
      */
     SystemDescriptor& SetDescriptorInformation(const String& path,
                                                const String& extensions,
+                                               const String& extensiontypes,
                                                const String& themefolder,
                                                const String& command,
                                                const String& icon,
@@ -101,6 +118,8 @@ class SystemDescriptor
       mHasDownloader = hasdownloader;
       mIcon = 0;
       if (int tmp = 0; String(icon).TryAsInt(tmp)) mIcon = tmp;
+
+      StoreExtensionTypes(extensiontypes);
 
       return *this;
     }
@@ -265,7 +284,21 @@ class SystemDescriptor
       return string;
     }
 
+    /*!
+     * @brief Lookup support type from extension
+     * @param extension file extension
+     * @return Support type
+     */
+    SupportType LookupSupportType(const String& extension);
+
   private:
+    //! Extension to type structure
+    struct ExtToType
+    {
+      long long int mExtension; //!< Extension in it's straight 8 bytes max form
+      SupportType   mType;      //!< Support type
+    };
+
     static String      mDefaultCommand;  //!< Default command
 
     // System
@@ -273,6 +306,7 @@ class SystemDescriptor
     String             mName;            //!< Short name ("snes")
     String             mFullName;        //!< Full name ("Super Nintendo Entertainment System")
     // Descriptor
+    Array<ExtToType>   mExtensionTypes;  //!< Extension types
     Path               mPath;            //!< Rom path
     String             mThemeFolder;     //!< Theme sub-folder
     String             mExtensions;      //!< Supported extensions, space separated
@@ -324,4 +358,35 @@ class SystemDescriptor
       else { LOG(LogError) << "[SystemDescriptor] Unknown device requirement " << requirement << " !"; }
       return result;
     }
+
+    static SupportType ConvertSupportType(const String& supportType)
+    {
+      SupportType result = SupportType::Unknown;
+      if      (supportType == "cart" ) result = SupportType::Cartridge;
+      else if (supportType == "cd"   ) result = SupportType::CD;
+      else if (supportType == "hd"   ) result = SupportType::HDD;
+      else if (supportType == "file" ) result = SupportType::FilesAndFolders;
+      else if (supportType == "tape" ) result = SupportType::Tape;
+      else if (supportType == "qd"   ) result = SupportType::QuickDisk;
+      else if (supportType == "fd3"  ) result = SupportType::Floppy3;
+      else if (supportType == "fd35" ) result = SupportType::Floppy35;
+      else if (supportType == "fd525") result = SupportType::Floppy525;
+      else if (supportType == "pcb"  ) result = SupportType::PCB;
+      else { LOG(LogError) << "[SystemDescriptor] Unknown support type " << supportType << " !"; }
+      return result;
+    }
+
+    static long long int ExtensionTo8Bytes(const String& extension)
+    {
+      long long int result = 0;
+      for(int i = extension.Count(); --i >= 0; )
+        result = (result << 8) | extension[i];
+      return result;
+    };
+
+    /*!
+     * @brief Deserialize & store type per extension
+     * @param extensiontypes Serialized types par extensions
+     */
+    void StoreExtensionTypes(const String& extensiontypes);
 };

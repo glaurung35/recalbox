@@ -89,8 +89,12 @@ do_clean_safeboot() {
 
 do_clean_update() {
     # delete content of /boot_root/update/
-    rm -rf /boot_root/update/
-    mkdir /boot_root/update/
+    rm -rf /boot_root/update/*
+    # Remove useless files
+    [ -f /boot_root/boot.lst ] && rm /boot_root/boot.lst
+    [ -f /boot_root/boot.md5 ] && rm /boot_root/boot.md5
+    [ -f /boot_root/pre-upgrade.sh ] && rm /boot_root/pre-upgrade.sh
+    [ -d /boot_root/boot/bootloader ] && rm -rf /boot_root/boot/bootloader
 }
 
 do_update() {
@@ -109,10 +113,6 @@ do_update() {
       return 1
     fi
 
-    # remove useless files
-    rm /boot_root/boot.lst
-    rm /boot_root/boot.md5
-    rm /boot_root/pre-upgrade.sh
     return 0 # mask errors
 }
 
@@ -161,7 +161,6 @@ do_bootloader_update() {
                 error=1
             fi
         done
-        rm -rf "$sector_dir"
     done
     return $error
 }
@@ -232,6 +231,10 @@ do_root() {
       updated="1"
     fi
 
+    # Forcibly clean update files
+    # This makes RECALBOX partition a little cleaner
+    do_clean_update
+
     # Get overlay mount
     overlayToMount="LABEL=OVERLAY"
     if test "$isDevice" -eq "1" ; then
@@ -250,7 +253,6 @@ do_root() {
         do_clean_overlay
         do_clean_case
         do_clean_safeboot
-        do_clean_update
         case $check_update_rc in
           $UPD_NO_ERROR)       echo "" > /overlay_root/.upgrade_success ; sleep 3 ;;
           $UPD_CORRUPTED_FILE) echo "" > /overlay_root/.upgrade_corrupted; sleep 10 ;;

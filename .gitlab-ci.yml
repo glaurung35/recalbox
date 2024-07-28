@@ -132,7 +132,7 @@ tests buildroot patches:
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
-                                          "recalbox-${ARCH}" sh -c "mkdir -p /work/output/host/usr/bin/ && cp /usr/bin/dos2unix /work/output/host/usr/bin/dos2unix && make BR2_DL_DIR=/share/dl $PKG-patch 2>&1" || exit 1
+                                          "recalbox-${ARCH}" sh -c "make BR2_DL_DIR=/share/dl $PKG-patch 2>&1" || exit 1
         fi
         if [ -f "package/$PKG/Config.in.host" ] || [ -f "buildroot/package/$PKG/Config.in.host" ]; then
           echo "Testing patches for host $PKG"
@@ -140,7 +140,7 @@ tests buildroot patches:
                                           -v "/recalbox-builds/dl:/share/dl" -e "ARCH=${ARCH}" \
                                           -e "GITLAB_TOKEN_BEEBEM=${GITLAB_TOKEN_BEEBEM}" \
                                           -e "GITLAB_TOKEN_THEMES=${GITLAB_TOKEN_THEMES}" \
-                                          "recalbox-${ARCH}" sh -c "mkdir -p /work/output/host/usr/bin/ && cp /usr/bin/dos2unix /work/output/host/usr/bin/dos2unix && make BR2_DL_DIR=/share/dl "host-${PKG}-patch" 2>&1" || exit 1
+                                          "recalbox-${ARCH}" sh -c "make BR2_DL_DIR=/share/dl "host-${PKG}-patch" 2>&1" || exit 1
         fi
       done
 

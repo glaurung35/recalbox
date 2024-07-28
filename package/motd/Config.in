@@ -1,0 +1,4 @@
+config BR2_PACKAGE_MOTD
+	bool "motd"
+	help
+	  Message Of The Day

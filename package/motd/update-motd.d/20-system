@@ -1,0 +1,11 @@
+#!/bin/bash
+
+W="\e[0;39m"
+G="\e[1;32m"
+
+echo -e "
+${W}system info:
+$W  Version.....: $W`cat /recalbox/share/system/recalbox.version`
+$W  Kernel......: $W`uname -sr`
+$W  IP..........: $W`hostname --ip-address`"
+

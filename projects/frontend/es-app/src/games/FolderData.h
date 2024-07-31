@@ -4,6 +4,7 @@
 #include "FileData.h"
 #include "IFilter.h"
 #include "IParser.h"
+#include "FileSorts.h"
 
 class FolderData : public FileData
 {
@@ -120,7 +121,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer);
+    static void QuickSortAscending(FileData::List& items, int low, int high, FileSorts::Comparer comparer);
 
     /*!
      * Highly optimized Quicksort, inspired from original Delphi 7 code
@@ -128,7 +129,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
+    static void QuickSortDescending(FileData::List& items, int low, int high, FileSorts::Comparer comparer);
 
     static bool ContainsMultiDiskFile(const String& extensions)
     {
@@ -426,7 +427,7 @@ class FolderData : public FileData
      * @param comparer Comparison function
      * @param ascending True for ascending sort, false for descending.
      */
-    static void Sort(FileData::List& items, FileData::Comparer comparer, bool ascending);
+    static void Sort(FileData::List& items, FileSorts::Comparer comparer, bool ascending);
 
     /*!
      * @brief Run through all item recursively and call the Parser interface on each item

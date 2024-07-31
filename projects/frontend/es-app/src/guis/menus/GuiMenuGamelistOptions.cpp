@@ -91,12 +91,16 @@ GuiMenuGamelistOptions::GuiMenuGamelistOptions(WindowManager& window, SystemData
 
   // flat folders
   if (!system.IsFavorite())
+  {
     if (!system.IsAlwaysFlat())
-      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int) Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
-  // favorites only
-  AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
-
+    // favorites only
+    AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int) Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
+    // favorites first
+    if (!mSystem.IsArcade())
+      AddSwitch(_("FAVORITES FIRST"), RecalboxConf::Instance().GetFavoritesFirst(), (int) Components::FavoritesFirst, this, _(MENUMESSAGE_UI_FAVORITES_FIRST_MSG));
+  }
   // update game list
   if (!system.IsFavorite())
     AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -164,8 +168,9 @@ std::vector<GuiMenuBase::ListEntry<FileSorts::Sorts>> GuiMenuGamelistOptions::Ge
   if (!availableSorts.Contains(currentSort)) currentSort = FileSorts::Sorts::FileNameAscending;
 
   list.reserve(availableSorts.Count());
+  FileSorts& sorts = FileSorts::Instance();
   for(FileSorts::Sorts sort : availableSorts)
-    list.push_back({ FileSorts::Name(sort), sort, sort == currentSort });
+    list.push_back({ sorts.Name(sort), sort, sort == currentSort });
 
   return list;
 }
@@ -214,7 +219,6 @@ void GuiMenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileDat
 {
   gamelistview->refreshList();
   gamelistview->setCursor(&game);
-  //gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
 }
 
 void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const unsigned int& value, bool quickChange)
@@ -249,13 +253,10 @@ void GuiMenuGamelistOptions::OptionListComponentChanged(int id, int index, const
   (void)index;
   if ((Components)id == Components::Sorts)
   {
-    FileData* game = mGamelist.getCursor();
-
     RecalboxConf::Instance().SetSystemSort(mSystem, value).Save();
     mGamelist.onChanged(ISimpleGameListView::Change::Resort);
 
     mGamelist.refreshList();
-    mGamelist.setCursor(game);
     RefreshGameMenuContext();
   }
 }
@@ -331,6 +332,7 @@ void GuiMenuGamelistOptions::SubMenuSelected(int id)
     case Components::Sorts:
     case Components::Regions:
     case Components::FavoritesOnly:
+    case Components::FavoritesFirst:
     case Components::FlatFolders:
     case Components::AutorunGame:
     case Components::Decorations:
@@ -354,6 +356,11 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool& status)
         RecalboxConf::Instance().SetFavoritesOnly(!status);
         status = false;
       }
+      break;
+    }
+    case Components::FavoritesFirst:
+    {
+      RecalboxConf::Instance().SetFavoritesFirst(status).Save();
       break;
     }
     case Components::AutorunGame:
@@ -388,22 +395,8 @@ void GuiMenuGamelistOptions::SwitchComponentChanged(int id, bool& status)
     default: break;
   }
 
-  FileData* game = mGamelist.getCursor();
   mGamelist.refreshList();
-  mGamelist.setCursor(game);
   RefreshGameMenuContext();
-}
-
-void GuiMenuGamelistOptions::ManageSystems()
-{
-  SystemData* systemData = ViewController::Instance().CurrentSystem();
-  ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
-
-  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
-
-  // for updating game counts on system view
-  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
 }
 
 void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::vector<RecalboxConf::GamelistDecoration>& value)
@@ -423,6 +416,7 @@ void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::
     case Components::Regions:
     case Components::FlatFolders:
     case Components::FavoritesOnly:
+    case Components::FavoritesFirst:
     case Components::MetaData:
     case Components::UpdateGamelist:
     case Components::Delete:

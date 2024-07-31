@@ -24,7 +24,6 @@ struct DelayedSystemOperationData
 
 // Used to smoothly transition the camera between multiple views (e.g. from system to system, from gamelist to gamelist).
 class ViewController : public StaticLifeCycleControler<ViewController>
-                     , private INoCopy
                      , public Gui
                      , public ISystemChangeNotifier
                      , public IFastMenuListCallback
@@ -33,6 +32,7 @@ class ViewController : public StaticLifeCycleControler<ViewController>
                      , private Thread
                      , public ISyncMessageReceiver<SlowDataInformation>
                      , public ILongExecution<DelayedSystemOperationData, bool>
+                     , private RecalboxConf::FavoritesFirstConfigurationNotify
 {
   public:
     //! Flags used in launch method to check what option is already selected
@@ -371,6 +371,12 @@ class ViewController : public StaticLifeCycleControler<ViewController>
 
     //! Receive enf-of-fetch info for the very last system the user is on
     void ReceiveSyncMessage(const SlowDataInformation& data) override;
+
+    /*
+     * private RecalboxConf::FavoritesFirstConfigurationNotify
+     */
+
+    void FavoritesFirstConfigurationChanged(const bool& value) override;
 };
 
 DEFINE_BITFLAG_ENUM(ViewController::LaunchCheckFlags, int)

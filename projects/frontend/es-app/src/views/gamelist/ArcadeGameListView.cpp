@@ -35,7 +35,8 @@ void ArcadeGameListView::populateList(const FolderData& folder)
                             mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
   FileSorts::Sorts sort = FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
-  BuildAndSortArcadeGames(items, FileSorts::ComparerArcadeFromSort(sort), FileSorts::IsAscending(sort));
+  FileSorts& sorts = FileSorts::Instance();
+  BuildAndSortArcadeGames(items, sorts.ComparerArcadeFromSort(sort), sorts.IsAscending(sort));
   BuildList();
 }
 

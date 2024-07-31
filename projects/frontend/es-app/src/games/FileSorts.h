@@ -3,8 +3,10 @@
 #include <vector>
 #include "games/FileData.h"
 #include <systems/arcade/ArcadeTupple.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <utils/cplusplus/INoCopy.h>
 
-class FileSorts
+class FileSorts : public StaticLifeCycleControler<FileSorts>
 {
   public:
     //! Specialized sort sets
@@ -44,33 +46,41 @@ class FileSorts
       RegionDescending,     //!< By region then by filename, 9-0
     };
 
-    //! Arcade comparer for Wuick sorts
+    //! Comparer for Quick sorts
+    typedef int (*Comparer)(const FileData& a, const FileData& b);
+    //! Arcade comparer for Quick sorts
     typedef int (*ComparerArcade)(const ArcadeTupple& a, const ArcadeTupple& b);
     //! Sort list
     typedef Array<Sorts> SortList;
 
+    //! Constructor
+    FileSorts()
+      : StaticLifeCycleControler<FileSorts>("FileSorts")
+    {
+      Initialize();
+    }
 
   private:
     //! Initialize Sort tables
-    static bool Initialize();
-    //! Initialization holder for static auto-initialization
-    static bool sInitialized;
+    void Initialize();
 
     //! Saved flag: use database name for arcade games
     static bool sUseDatabaseNames;
-    //! Saved flags: ise filename for all games
+    //! Saved flag: use filename for all games
     static bool sUseFileName;
+    //! Saved flag: sort favorite first
+    static bool sUseTopFavorites;
 
     //! Sort record
     struct SortType
     {
       String mDescription;
-      FileData::Comparer mComparer;
+      Comparer mComparer;
       ComparerArcade mComparerArcade;
       Sorts mSort;
       bool mAscending;
 
-      SortType(Sorts sort, FileData::Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const String & sortDescription)
+      SortType(Sorts sort, Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const String & sortDescription)
         : mDescription(sortDescription),
           mComparer(sortFunction),
           mComparerArcade(sortFunctionArcade),
@@ -81,7 +91,7 @@ class FileSorts
     };
 
     //! All normal sorts
-    static std::vector<SortType> sAllSorts;
+    std::vector<SortType> mAllSorts;
 
     /*!
      * @brief Case-insensitive compare of both UTF-8 string
@@ -159,28 +169,28 @@ class FileSorts
      * @param sort Sort to get name from
      * @return Sort name
      */
-    static const String& Name(Sorts sort);
+    const String& Name(Sorts sort);
 
     /*!
      * @brief Return whether the given sort is an ascending sort or not
      * @param sort Sort to check
      * @return True if the sort is ascending
      */
-    static bool IsAscending(Sorts sort);
+    bool IsAscending(Sorts sort);
 
     /*!
      * @brief Get sort compare method
      * @param sort Sort to get method from
      * @return Sort name
      */
-    static FileData::Comparer Comparer(Sorts sort);
+    Comparer ComparerFromSort(Sorts sort);
 
     /*!
      * @brief Get sort compare method for arcade systems
      * @param sort Sort to get method from
      * @return Sort name
      */
-    static ComparerArcade ComparerArcadeFromSort(Sorts sort);
+    ComparerArcade ComparerArcadeFromSort(Sorts sort);
 
     /*!
      * @brief Clamp the given sort in the available sorts from the given set

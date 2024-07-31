@@ -20,7 +20,6 @@ class FileData
     typedef HashMap<String, FileData*> StringMap;
     typedef std::vector<FileData*> List;
     typedef std::vector<const FileData*> ConstList;
-    typedef int (*Comparer)(const FileData& a, const FileData& b);
 
     enum class TopLevelFilter
     {

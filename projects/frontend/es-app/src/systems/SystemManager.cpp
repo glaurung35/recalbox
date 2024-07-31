@@ -660,7 +660,7 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
   }
 }
 
-void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileData::Comparer comparer)
+void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileSorts::Comparer comparer)
 {
   // Filter and insert items
   FileData::List allGames;

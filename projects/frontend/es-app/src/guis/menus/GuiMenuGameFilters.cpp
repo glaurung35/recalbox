@@ -22,6 +22,8 @@ GuiMenuGameFilters::GuiMenuGameFilters(WindowManager& window, SystemManager& sys
 
   AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
 
+  AddSwitch(_("SHOW FAVORITES FIRST"), RecalboxConf::Instance().GetFavoritesFirst(), (int)Components::FavoritesFirst, this, _(MENUMESSAGE_UI_FAVORITES_FIRST_MSG));
+
   AddSwitch(_("SHOW HIDDEN GAMES"), RecalboxConf::Instance().GetShowHidden(), (int)Components::ShowHidden, this, _(MENUMESSAGE_UI_SHOW_HIDDEN_MSG));
 
   AddSwitch(_("HIDE MAHJONG AND CASINO GAMES"), RecalboxConf::Instance().GetHideBoardGames(), (int)Components::BoardGames, this, _(MENUMESSAGE_UI_HIDE_BOARD_GAMES_MSG));
@@ -67,6 +69,11 @@ void GuiMenuGameFilters::SwitchComponentChanged(int id, bool& status)
         RecalboxConf::Instance().SetFavoritesOnly(!status);
         status = !status;
       }
+      break;
+    }
+    case Components::FavoritesFirst:
+    {
+      RecalboxConf::Instance().SetFavoritesFirst(status).Save();
       break;
     }
     case Components::ShowHidden:

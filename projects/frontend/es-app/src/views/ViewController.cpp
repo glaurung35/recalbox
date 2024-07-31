@@ -962,11 +962,7 @@ void ViewController::UpdateSystem(SystemData* system)
   ISimpleGameListView** view = mGameListViews.try_get(system);
   if (view != nullptr)
     if (*view == mCurrentView)
-    {
-      int index = (*view)->getCursorIndex();
       (*view)->refreshList();
-      (*view)->setCursorIndex(index);
-    }
 }
 
 void ViewController::SystemShownWithNoGames(SystemData* system)
@@ -982,6 +978,9 @@ void ViewController::ToggleFavorite(FileData* game, bool forceStatus, bool force
 
   // Fire dynamic system refresh
   mSystemManager.UpdateSystemsOnGameChange(game, MetadataType::Favorite, false);
+  // Force refresh of current system cause we probably fired this event from there
+  if (mCurrentViewType == ViewType::GameList)
+    ((ISimpleGameListView*)mCurrentView)->ListRefreshRequired();
 
   // Refresh game in its regular view
   ISimpleGameListView** view = mGameListViews.try_get(&game->System());
@@ -1089,6 +1088,14 @@ void ViewController::Completed(const DelayedSystemOperationData& parameter, cons
 void ViewController::ForceGamelistRefresh(SystemData& data)
 {
   if (mGameListViews.contains(&data))
-    mGameListViews[&data]->refreshList();
+    mGameListViews[&data]->ListRefreshRequired();
+}
+
+void ViewController::FavoritesFirstConfigurationChanged(const bool& value)
+{
+  (void)value;
+  // Request a list refresh of all gamelist
+  for(auto& list : mGameListViews)
+    list.second->ListRefreshRequired();
 }
 

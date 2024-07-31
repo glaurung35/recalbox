@@ -22,6 +22,7 @@ class GuiMenuGameFilters : public GuiMenuBase
     {
       Adult,
       FavoritesOnly,
+      FavoritesFirst,
       ShowHidden,
       HidePreinstalled,
       NoGames,

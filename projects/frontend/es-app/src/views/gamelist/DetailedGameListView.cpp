@@ -979,7 +979,8 @@ void DetailedGameListView::populateList(const FolderData& folder)
                             FileSorts::SortSets::SingleSystem;
   FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() :
                           FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
-  FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
+  FileSorts& sorts = FileSorts::Instance();
+  FolderData::Sort(items, sorts.ComparerFromSort(sort), sorts.IsAscending(sort));
   mSort = sort;
 
   // Region filtering?
@@ -1555,7 +1556,7 @@ void DetailedGameListView::ChangeSort(bool next)
   setCursor(item);
 
   // Notify
-  String message = (_F(_("Game are now sorted\nby {0}")) / FileSorts::Name(mSort))();
+  String message = (_F(_("Game are now sorted\nby {0}")) / FileSorts::Instance().Name(mSort))();
   mWindow.InfoPopupAddRegular(message, 10, PopupType::Recalbox, false);
 }
 

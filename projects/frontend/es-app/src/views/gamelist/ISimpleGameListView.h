@@ -39,8 +39,7 @@ class ISimpleGameListView : public Gui
      * @brief Get Arcade interface
      * @return Arcade interface or nullptr
      */
-    virtual IArcadeGamelistInterface* getArcadeInterface()
-    { return nullptr; }
+    virtual IArcadeGamelistInterface* getArcadeInterface() { return nullptr; }
 
     /*!
      * @brief Called when a major change occurs on the system
@@ -149,6 +148,19 @@ class ISimpleGameListView : public Gui
      */
     virtual void UpdateSlowData(const SlowDataInformation& info) = 0;
 
+    /*!
+     * @brief Refrest a list refresh
+     */
+    void ListRefreshRequired() { mListRefreshRequired = true; }
+
+    //! Refresh list
+    void Update(int deltatime) override
+    {
+      (void)deltatime;
+      if (mListRefreshRequired)
+        refreshList();
+    }
+
   protected:
     /*!
      * @brief Called right after the constructor
@@ -197,9 +209,17 @@ class ISimpleGameListView : public Gui
      */
     void SwitchToTheme(const ThemeData& theme, bool refreshOnly, IThemeSwitchTick* interface) override;
 
+    /*!
+     * @brief Ack a list refresh
+     */
+    void ListRefreshed() { mListRefreshRequired = false; }
+
   private:
-
+    //! Is list moving vertically?
     bool mVerticalMove;
+    //! List need list refresh ?
+    bool mListRefreshRequired;
 
+    //! Is this the favorite gamelist?
     bool IsFavoriteSystem() { return mSystem.IsFavorite(); }
 };

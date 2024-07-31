@@ -4,6 +4,7 @@
 #pragma once
 
 #include <utils/Log.h>
+#include <utils/cplusplus/INoCopy.h>
 
 // Short name holder to get non-T dependant static instance per template instance
 template<class T> class NameHolder
@@ -15,7 +16,7 @@ template<class T> class NameHolder
     NameHolder() { mClassName = "<unset>"; }
 };
 
-template<class T> class StaticLifeCycleControler
+template<class T> class StaticLifeCycleControler : public INoCopy
 {
   private:
     //! Class name (or whatever instance identifier you'd use)

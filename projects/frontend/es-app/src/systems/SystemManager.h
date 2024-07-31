@@ -105,6 +105,9 @@ class SystemManager : private INoCopy // No copy allowed
       Filled, //!< Rom structure with roms inside
     };
 
+    //! File sorter
+    FileSorts mFileSorts;
+
     //! Mount points
     Path::PathList mMountPoints;
     //! Mount point monitoring
@@ -350,7 +353,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param comparer Optional comparer - if not null, filter results are sorted using this filter
      * @param arcadeOnly if True, only true arcade systems are filtered
      */
-    void PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileData::Comparer comparer);
+    void PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileSorts::Comparer comparer);
 
     /*!
      * @brief Ensure the given system is in the visible list (== initialized with games)

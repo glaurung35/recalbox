@@ -35,6 +35,7 @@ class GuiMenuGamelistOptions : public GuiMenuBase
       Regions,
       FlatFolders,
       FavoritesOnly,
+      FavoritesFirst,
       MetaData,
       UpdateGamelist,
       Delete,

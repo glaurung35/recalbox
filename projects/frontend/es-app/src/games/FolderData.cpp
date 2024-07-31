@@ -788,7 +788,7 @@ FileData* FolderData::GetNextFavoriteTo(FileData* reference)
   return nullptr;
 }
 
-void FolderData::Sort(FileData::List& items, FileData::Comparer comparer, bool ascending)
+void FolderData::Sort(FileData::List& items, FileSorts::Comparer comparer, bool ascending)
 {
   if (items.size() > 1)
   {
@@ -799,7 +799,7 @@ void FolderData::Sort(FileData::List& items, FileData::Comparer comparer, bool a
   }
 }
 
-void FolderData::QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer)
+void FolderData::QuickSortAscending(FileData::List& items, int low, int high, FileSorts::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];
@@ -817,7 +817,7 @@ void FolderData::QuickSortAscending(FileData::List& items, int low, int high, Fi
   if (Low < high) QuickSortAscending(items, Low, high, comparer);
 }
 
-void FolderData::QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer)
+void FolderData::QuickSortDescending(FileData::List& items, int low, int high, FileSorts::Comparer comparer)
 {
   int Low = low, High = high;
   const FileData& pivot = *items[(Low + High) >> 1];

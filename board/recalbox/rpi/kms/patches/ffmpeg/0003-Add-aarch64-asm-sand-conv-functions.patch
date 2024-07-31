@@ -1,31 +1,28 @@
-From 93f7f93e237e06e895b35ff6e99a065cda6c5381 Mon Sep 17 00:00:00 2001
+From af8cc7cc78d2043543441b2d0d6ade895b8d0f55 Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 11:36:47 +0100
-Subject: [PATCH 003/222] Add aarch64 asm sand conv functions
+Subject: [PATCH 003/176] Add aarch64 asm sand conv functions
 
 Many thanks to eiler.mike@gmail.com (Michael Eiler) for these
 optimizations
-
-(cherry picked from commit 832a23fbd033656347e5ca9fc92dd59748ed766b)
 ---
- libavutil/aarch64/Makefile        |   4 +-
+ libavutil/aarch64/Makefile        |   2 +
  libavutil/aarch64/rpi_sand_neon.S | 676 ++++++++++++++++++++++++++++++
  libavutil/aarch64/rpi_sand_neon.h |  55 +++
+ libavutil/rpi_sand_fn_pw.h        |   4 +-
  libavutil/rpi_sand_fns.c          |   3 +
- 4 files changed, 737 insertions(+), 1 deletion(-)
+ 5 files changed, 738 insertions(+), 2 deletions(-)
  create mode 100644 libavutil/aarch64/rpi_sand_neon.S
  create mode 100644 libavutil/aarch64/rpi_sand_neon.h
 
 diff --git a/libavutil/aarch64/Makefile b/libavutil/aarch64/Makefile
-index 5613813ba8..ab8bcfcf34 100644
+index eba0151337..1b44beab39 100644
 --- a/libavutil/aarch64/Makefile
 +++ b/libavutil/aarch64/Makefile
-@@ -1,4 +1,6 @@
- OBJS += aarch64/cpu.o                                                 \
-         aarch64/float_dsp_init.o                                      \
+@@ -4,3 +4,5 @@ OBJS += aarch64/cpu.o                                                 \
  
--NEON-OBJS += aarch64/float_dsp_neon.o
-+NEON-OBJS += aarch64/float_dsp_neon.o                                 \
+ NEON-OBJS += aarch64/float_dsp_neon.o                                 \
+              aarch64/tx_float_neon.o                                  \
 +             aarch64/rpi_sand_neon.o                                  \
 +
 diff --git a/libavutil/aarch64/rpi_sand_neon.S b/libavutil/aarch64/rpi_sand_neon.S
@@ -771,6 +768,28 @@ index 0000000000..b3aa481ea4
 +}
 +#endif
 +
+diff --git a/libavutil/rpi_sand_fn_pw.h b/libavutil/rpi_sand_fn_pw.h
+index 0324f6826d..0d5d203dc3 100644
+--- a/libavutil/rpi_sand_fn_pw.h
++++ b/libavutil/rpi_sand_fn_pw.h
+@@ -54,7 +54,7 @@ void FUNC(av_rpi_sand_to_planar_y)(uint8_t * dst, const unsigned int dst_stride,
+     const unsigned int w = _w;
+     const unsigned int mask = stride1 - 1;
+ 
+-#if PW == 1 && (HAVE_SAND_ASM || HAVE_SAND_ASM64)
++#if PW == 1 && HAVE_SAND_ASM
+     if (_x == 0) {
+         ff_rpi_sand8_lines_to_planar_y8(dst, dst_stride,
+                                      src, stride1, stride2, _x, y, _w, h);
+@@ -106,7 +106,7 @@ void FUNC(av_rpi_sand_to_planar_c)(uint8_t * dst_u, const unsigned int dst_strid
+     const unsigned int w = _w * 2;
+     const unsigned int mask = stride1 - 1;
+ 
+-#if PW == 1 && (HAVE_SAND_ASM || HAVE_SAND_ASM64)
++#if PW == 1 && HAVE_SAND_ASM
+     if (_x == 0) {
+         ff_rpi_sand8_lines_to_planar_c8(dst_u, dst_stride_u, dst_v, dst_stride_v,
+                                      src, stride1, stride2, _x, y, _w, h);
 diff --git a/libavutil/rpi_sand_fns.c b/libavutil/rpi_sand_fns.c
 index ed0261b02f..1f543e9357 100644
 --- a/libavutil/rpi_sand_fns.c
@@ -786,5 +805,5 @@ index ed0261b02f..1f543e9357 100644
  #define HAVE_SAND_ASM 0
  #endif
 -- 
-2.45.2
+2.46.0
 

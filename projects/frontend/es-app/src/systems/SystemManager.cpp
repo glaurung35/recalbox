@@ -415,10 +415,10 @@ void SystemManager::PopulateFavoriteSystem(SystemData* system)
   FolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::None, RootFolderData::Types::Virtual);
   for(const SystemData* regular : mAllSystems)
     if (!regular->IsVirtual())
-      if (FileData::List favs = regular->getFavorites(); !favs.empty())
+      if (FileData::List favs = regular->getFavorites(); !favs.Empty())
       {
         for (auto* favorite : favs) root.AddChild(favorite, false);
-        { LOG(LogWarning) << "[System]   Get " << favs.size() << " favorites for " << regular->Name() << "!"; }
+        { LOG(LogWarning) << "[System]   Get " << favs.Count() << " favorites for " << regular->Name() << "!"; }
       }
 }
 
@@ -646,8 +646,7 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
           if (!root->Virtual())
           {
             FileData::List list = root->GetFilteredItemsRecursively(&filter, true);
-            allGames.reserve(allGames.size() + list.size());
-            allGames.insert(allGames.end(), list.begin(), list.end());
+            allGames.CopyFrom(list);
           }
         // dopplegagner must be build using file only
         // Let the virtual system re-create all intermediate folder and destroy them properly
@@ -655,12 +654,12 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
       }
 
     // Not empty?
-    if (!allGames.empty())
+    if (!allGames.Empty())
       PopulateVirtualSystemWithGames(system, allGames, doppelganger);
   }
 }
 
-void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileData::Comparer comparer)
+void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* filter, FileSorts::Comparer comparer)
 {
   // Filter and insert items
   FileData::List allGames;
@@ -672,8 +671,7 @@ void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* fi
         if (!root->Virtual())
         {
           FileData::List list = root->GetFilteredItemsRecursively(filter, true);
-          allGames.reserve(allGames.size() + list.size());
-          allGames.insert(allGames.end(), list.begin(), list.end());
+          allGames.CopyFrom(list);
         }
       // doppleganger must be built using file only
       // Let the virtual system re-create all intermediate folder and destroy them properly
@@ -681,7 +679,7 @@ void SystemManager::PopulateMetaSystemWithFilter(SystemData* system, IFilter* fi
     }
 
   // Not empty?
-  if (!allGames.empty())
+  if (!allGames.Empty())
   {
     // Sort if required
     if (comparer != nullptr) FolderData::Sort(allGames, comparer, true);
@@ -696,7 +694,7 @@ void SystemManager::PopulateVirtualSystemWithSystem(SystemData* system, const Li
   RootFolderData& root = system->LookupOrCreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
   for(SystemData* source : systems)
     if (!source->IsVirtual())
-      if (FileData::List all = includesubfolder ? source->getAllGames() : source->getTopGamesAndFolders(); !all.empty())
+      if (FileData::List all = includesubfolder ? source->getAllGames() : source->getTopGamesAndFolders(); !all.Empty())
       {
         { LOG(LogWarning) << "[System] Add games from " << source->Name() << " into " << system->FullName(); }
         for (auto* fd : all)
@@ -706,10 +704,10 @@ void SystemManager::PopulateVirtualSystemWithSystem(SystemData* system, const Li
 
 void SystemManager::PopulateVirtualSystemWithGames(SystemData* system, const FileData::List& games, FileData::StringMap& doppelganger)
 {
-  if (!games.empty())
+  if (!games.Empty())
   {
     RootFolderData& root = system->CreateRootFolder(Path(), RootFolderData::Ownership::FolderOnly, RootFolderData::Types::Virtual);
-    { LOG(LogWarning) << "[System] Add " << games.size() << " games into " << system->FullName(); }
+    { LOG(LogWarning) << "[System] Add " << games.Count() << " games into " << system->FullName(); }
     for (auto* fd : games)
       system->LookupOrCreateGame(root, fd->TopAncestor().RomPath(), fd->RomPath(), fd->Type(), doppelganger);
   }
@@ -1355,10 +1353,10 @@ FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext co
     const MetadataStringHolder::IndexAndDistance& resultIndex = resultIndexes(i);
     FolderData::FastSearchItemSerie& serie = mFastSearchSeries[resultIndex.Context];
     for(FolderData::FastSearchItem* item = serie.Get(resultIndex.Index); item != nullptr; item = serie.Next(item))
-      if (item->Game != nullptr) results.push_back((FileData*)item->Game);
-    if ((int)results.size() >= maxglobal) break;
+      if (item->Game != nullptr) results.Add((FileData*)item->Game);
+    if ((int)results.Count() >= maxglobal) break;
   }
-  { LOG(LogDebug) << "[Search] Final result: " << results.size() << " games"; }
+  { LOG(LogDebug) << "[Search] Final result: " << results.Count() << " games"; }
 
   return results;
 }

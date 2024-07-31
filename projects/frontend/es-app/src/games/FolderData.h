@@ -4,6 +4,8 @@
 #include "FileData.h"
 #include "IFilter.h"
 #include "IParser.h"
+#include "FileSorts.h"
+#include <random>
 
 class FolderData : public FileData
 {
@@ -13,6 +15,11 @@ class FolderData : public FileData
 
     //! Blacklist
     typedef HashSet<String> FileSet;
+
+    //! Random device to seed random generator
+    static std::random_device sRandomDevice;
+    //! Random generator
+    static std::mt19937 sRandomGenerator;
 
   protected:
     //! Current folder child list
@@ -31,7 +38,7 @@ class FolderData : public FileData
      * Clear the internal child lists without destroying them.
      * Used by inherited class that store children object without ownership
      */
-    void ClearChildList() { mChildren.clear(); }
+    void ClearChildList() { mChildren.Clear(); }
 
     /*!
      * @brief Clear the internal child list recusively but the folders
@@ -120,7 +127,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortAscending(FileData::List& items, int low, int high, FileData::Comparer comparer);
+    static void QuickSortAscending(FileData::List& items, int low, int high, FileSorts::Comparer comparer);
 
     /*!
      * Highly optimized Quicksort, inspired from original Delphi 7 code
@@ -128,7 +135,7 @@ class FolderData : public FileData
      * @param high Highest element
      * @param comparer Compare method
      */
-    static void QuickSortDescending(FileData::List& items, int low, int high, FileData::Comparer comparer);
+    static void QuickSortDescending(FileData::List& items, int low, int high, FileSorts::Comparer comparer);
 
     static bool ContainsMultiDiskFile(const String& extensions)
     {
@@ -292,7 +299,17 @@ class FolderData : public FileData
      * Return true if this FileData is a folder and has at lease one child
      * @return Boolean result
      */
-    [[nodiscard]] bool HasChildren() const { return !mChildren.empty(); }
+    [[nodiscard]] bool HasChildren() const { return !mChildren.Empty(); }
+
+    /*!
+     * @brief Shuffle list content
+     */
+    static void Shuffle(FileData::List& listToShuffle);
+
+    /*!
+     * @brief Shuffle folder content
+     */
+    void Shuffle() { Shuffle(mChildren); }
 
     /*!
      * Lookup for a given game in the current tree
@@ -426,7 +443,7 @@ class FolderData : public FileData
      * @param comparer Comparison function
      * @param ascending True for ascending sort, false for descending.
      */
-    static void Sort(FileData::List& items, FileData::Comparer comparer, bool ascending);
+    static void Sort(FileData::List& items, FileSorts::Comparer comparer, bool ascending);
 
     /*!
      * @brief Run through all item recursively and call the Parser interface on each item

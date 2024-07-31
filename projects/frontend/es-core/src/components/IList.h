@@ -157,6 +157,14 @@ class IList : public Gui
       return objects;
     }
 
+    inline Array<UserData> getObjectsArray()
+    {
+      Array<UserData> objects;
+      for (auto it = mEntries.begin(); it != mEntries.end(); it++)
+        objects.Add((*it).object);
+      return objects;
+    }
+
     [[nodiscard]] inline int Count() const { return (int) mEntries.size(); }
 
     [[nodiscard]] inline bool IsEmpty() const { return mEntries.size() == 0; }

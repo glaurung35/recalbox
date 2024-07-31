@@ -714,7 +714,7 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
   }
 
   // Left part
-  w = Math::roundi(DetailedGameListView::OverlayGetLeftOffset(data));
+  w = Math::roundi(DetailedGameListView::OverlayGetLeftOffset(data, labelWidth));
   if (w != 0 && data->IsHeader())
   {
     switch(mSort)
@@ -737,10 +737,10 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
         mHeaderStars.Render(parentTrans);
         break;
       }
-      case FileSorts::Sorts::TimesPlayedAscending:
-      case FileSorts::Sorts::TimesPlayedDescending:
-      case FileSorts::Sorts::TotalTimeAscending:
-      case FileSorts::Sorts::TotalTimeDescending:
+      case FileSorts::Sorts::PlayCountAscending:
+      case FileSorts::Sorts::PlayCountDescending:
+      case FileSorts::Sorts::TotalPlayTimeAscending:
+      case FileSorts::Sorts::TotalPlayTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
       case FileSorts::Sorts::LastPlayedDescending: break;
       case FileSorts::Sorts::PlayersAscending:
@@ -804,8 +804,9 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
   }
 }
 
-float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int labelWidth)
+float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data, int labelWidth)
 {
+  (void)labelWidth;
   if (data->IsHeader())
     switch(mSort)
     {
@@ -827,10 +828,10 @@ float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int lab
       case FileSorts::Sorts::DeveloperDescending:
       case FileSorts::Sorts::PublisherAscending:
       case FileSorts::Sorts::PublisherDescending:
-      case FileSorts::Sorts::TimesPlayedAscending:
-      case FileSorts::Sorts::TimesPlayedDescending:
-      case FileSorts::Sorts::TotalTimeAscending:
-      case FileSorts::Sorts::TotalTimeDescending:
+      case FileSorts::Sorts::PlayCountAscending:
+      case FileSorts::Sorts::PlayCountDescending:
+      case FileSorts::Sorts::TotalPlayTimeAscending:
+      case FileSorts::Sorts::TotalPlayTimeDescending:
       case FileSorts::Sorts::LastPlayedAscending:
       case FileSorts::Sorts::LastPlayedDescending:
       case FileSorts::Sorts::ReleaseDateAscending:
@@ -848,18 +849,21 @@ float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int lab
   return 0.f;
 }
 
-float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
+float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int labelWidth)
 {
+  (void)labelWidth;
+  if (data->IsHeader()) return 0.f;
+
   int result = 0;
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
   {
     int regionCount = data->Metadata().Region().Count();
-    result = (mFlagWidth + mFlagMargin) * regionCount;
+    result += (mFlagWidth + mFlagMargin) * regionCount;
   }
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
-    result = mFlagWidth + mFlagMargin;
+    result += mFlagWidth + mFlagMargin;
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
-    result = mFlagWidth + mFlagMargin;
+    result += mFlagWidth + mFlagMargin;
   return (float)result;
 }
 
@@ -972,7 +976,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
   else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
 
   // Check emptyness
-  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+  if (items.Empty()) items.Add(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
 
   // Sort
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
@@ -980,7 +984,8 @@ void DetailedGameListView::populateList(const FolderData& folder)
                             FileSorts::SortSets::SingleSystem;
   FileSorts::Sorts sort = mSystem.IsSelfSorted() ? mSystem.FixedSort() :
                           FileSorts::Clamp(RecalboxConf::Instance().GetSystemSort(mSystem), set);
-  FolderData::Sort(items, FileSorts::Comparer(sort), FileSorts::IsAscending(sort));
+  FileSorts& sorts = FileSorts::Instance();
+  FolderData::Sort(items, sorts.ComparerFromSort(sort), sorts.IsAscending(sort));
   mSort = sort;
 
   // Region filtering?
@@ -1007,9 +1012,33 @@ void DetailedGameListView::populateList(const FolderData& folder)
   bool leftIcon = headerAlignment == HorizontalAlignment::Left;
 
   // Add to list
-  mList.clear(items.size());
+  mList.clear(items.Count());
   FileData* previous = nullptr;
   HeaderData* lastHeader = nullptr;
+
+  bool hasTopFavorites = false;
+  if (RecalboxConf::Instance().GetFavoritesFirst())
+  {
+    // Has any favorite?
+    for(int t = items.Count() - 1, i = (items.Count() + 1) / 2; --i >= 0; )
+      if (items[i]->Metadata().Favorite() || items[t - i]->Metadata().Favorite()) { hasTopFavorites = true; break; }
+    // If we have favorite + favorite first + descending order, move favorites on top
+    if (hasTopFavorites && !sorts.IsAscending(sort))
+    {
+      int favoriteCount = 0;
+      int favoriteBase = 0;
+      for(int i = items.Count(); --i >= 0; )
+        if (items[i]->Metadata().Favorite())
+        {
+          for(int j = i + 1; --j >= 0; )
+            if (items[j]->Metadata().Favorite()) { favoriteCount++; favoriteBase = j; }
+            else break;
+          break;
+        }
+      for(int i = favoriteCount; --i >= 0; ) items.Swap(i, favoriteBase + i);
+    }
+  }
+
   for (FileData* item : items)
   {
     // Region filtering?
@@ -1023,7 +1052,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
     if (onlyYoko && RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Header?
     if (item->IsGame())
-      if (HeaderData* header = NeedHeader(previous, item); header != nullptr)
+      if (HeaderData* header = NeedHeader(previous, item, hasTopFavorites); header != nullptr)
       {
         mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
         lastHeader = header;
@@ -1225,12 +1254,39 @@ void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
       }
 }
 
-HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
+HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next, bool hasTopFavorites)
 {
+  // Favorites
+  if (hasTopFavorites)
+  {
+    if (next->Metadata().Favorite())
+    {
+      if (previous == nullptr || (!previous->Metadata().Favorite() && next->Metadata().Favorite()))
+        return GetHeader(_("Favorites"));
+      return nullptr;
+    }
+    // Leaving favorite zone: reset prevous has if it is the first encountered game
+    else if (previous != nullptr && previous->Metadata().Favorite())
+      previous = nullptr;
+  }
+
+  // Normal processing
   switch(mSort)
   {
     case FileSorts::Sorts::FileNameAscending:
-    case FileSorts::Sorts::FileNameDescending: break;
+    case FileSorts::Sorts::FileNameDescending:
+    {
+      if (hasTopFavorites)
+      {
+        // Leavinf favorite area
+        if (previous != nullptr && previous->Metadata().Favorite() && !next->Metadata().Favorite())
+          return GetHeader(_("In alphabetical order"));
+        // List has favorites but not at top
+        else if (previous == nullptr)
+          return GetHeader(_("In alphabetical order"));
+      }
+      break;
+    }
     case FileSorts::Sorts::SystemAscending:
     case FileSorts::Sorts::SystemDescending:
     {
@@ -1248,21 +1304,21 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
         return GetHeader(nextRating != 0 ? (_F(_("RATED {0} / 10")) / nextRating)() : _("NOT RATED"), next->Metadata().Rating());
       break;
     }
-    case FileSorts::Sorts::TotalTimeAscending:
-    case FileSorts::Sorts::TotalTimeDescending:
+    case FileSorts::Sorts::TotalPlayTimeAscending:
+    case FileSorts::Sorts::TotalPlayTimeDescending:
     {
       int previousRange = -1;
       int nextRange = 0;
       // Get previous range
-      if (previous == nullptr)
+      if (previous != nullptr)
       {
-        if (previous->Metadata().TimePlayed() == 0) previousRange = 0;
-        else if (TimeSpan span(previous->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) previousRange = 1;
+        if (previous->Metadata().TotalPlayTime() == 0) previousRange = 0;
+        else if (TimeSpan span(previous->Metadata().TotalPlayTime(), 0); span.TotalMinutes() < 30) previousRange = 1;
         else { int hours = (int)span.TotalHours(); previousRange = hours == 0 ? 2 : hours + 2; }
       }
       // Get next range
-      if (next->Metadata().TimePlayed() == 0) nextRange = 0;
-      else if (TimeSpan span(next->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) nextRange = 1;
+      if (next->Metadata().TotalPlayTime() == 0) nextRange = 0;
+      else if (TimeSpan span(next->Metadata().TotalPlayTime(), 0); span.TotalMinutes() < 30) nextRange = 1;
       else { int hours = (int)span.TotalHours(); nextRange = hours == 0 ? 2 : hours + 2; }
 
       // Get header
@@ -1277,14 +1333,23 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
       }
       break;
     }
-    case FileSorts::Sorts::TimesPlayedAscending:
-    case FileSorts::Sorts::TimesPlayedDescending:
+    case FileSorts::Sorts::PlayCountAscending:
+    case FileSorts::Sorts::PlayCountDescending:
     {
-      if (previous == nullptr || previous->Metadata().TimePlayed() != next->Metadata().TimePlayed())
+      static int sPow10[8] = { 1, 10, 100, 1000, 10000, 1 };
+      int previousLog = previous == nullptr ? -1 : (int)log10((float)previous->Metadata().PlayCount());
+      if (previousLog > 7) previousLog = 5;
+      int previousValue = previous == nullptr ? -1 : previous->Metadata().PlayCount() / sPow10[previousLog];
+      int nextLog = (int)log10((float)next->Metadata().PlayCount());
+      if (nextLog > 7) nextLog = 5;
+      int nextValue = next->Metadata().PlayCount() / sPow10[nextLog];
+      if (previousLog != nextLog || previousValue != nextValue)
       {
-        String text;
-        if (next->Metadata().TimePlayed() == 0) text = _("Never played");
-        else text = (_F(_("{0} times")) / next->Metadata().TimePlayed())();
+        String formatText = (nextLog == 0 && nextValue == 0) ? "Never played"
+                          : (nextLog == 0) ? "{0} times"
+                          : (nextLog <= 6) ? "More than {0} times"
+                          : "irrepressible monomaniac";
+        String text = (_F(_S(formatText)) / (nextValue * sPow10[nextLog]))();
         return GetHeader(text);
       }
       break;
@@ -1556,7 +1621,7 @@ void DetailedGameListView::ChangeSort(bool next)
   setCursor(item);
 
   // Notify
-  String message = (_F(_("Game are now sorted\nby {0}")) / FileSorts::Name(mSort))();
+  String message = (_F(_("Game are now sorted\nby {0}")) / FileSorts::Instance().Name(mSort))();
   mWindow.InfoPopupAddRegular(message, 10, PopupType::Recalbox, false);
 }
 
@@ -1575,10 +1640,10 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
   (void)game;
   switch(mSort)
   {
-    case FileSorts::Sorts::TimesPlayedAscending:
-    case FileSorts::Sorts::TimesPlayedDescending:
-    case FileSorts::Sorts::TotalTimeAscending:
-    case FileSorts::Sorts::TotalTimeDescending:
+    case FileSorts::Sorts::PlayCountAscending:
+    case FileSorts::Sorts::PlayCountDescending:
+    case FileSorts::Sorts::TotalPlayTimeAscending:
+    case FileSorts::Sorts::TotalPlayTimeDescending:
     case FileSorts::Sorts::LastPlayedAscending:
     case FileSorts::Sorts::LastPlayedDescending:
     {

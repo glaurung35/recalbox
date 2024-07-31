@@ -19,6 +19,7 @@ ISimpleGameListView::ISimpleGameListView(WindowManager& window, SystemManager& s
   , mBackground(window)
   , mThemeExtras(window)
   , mVerticalMove(false)
+  , mListRefreshRequired(false)
 {
   setSize(Renderer::Instance().DisplayWidthAsFloat(), Renderer::Instance().DisplayHeightAsFloat());
 
@@ -79,15 +80,10 @@ void ISimpleGameListView::onChanged(Change change)
 {
   (void)change;
 
-  // Store cursor
-  int cursor = getCursorIndex();
-
   // Refresh list
   if (RecalboxConf::Instance().AsBool(mSystem.Name() + ".flatfolder")) populateList(mSystem.MasterRoot());
   else refreshList();
 
-  // Restore cursor
-  setCursorIndex(cursor);
   // And refresh game info
   updateInfoPanel();
 }
@@ -154,7 +150,6 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   // TOGGLE FAVORITES
   if (event.YReleased() && !cursor->TopAncestor().PreInstalled() && MenuFilter::ShouldEnableFeature(MenuFilter::Favorites))
   {
-
     if (cursor->IsGame())
     {
       ViewController::Instance().ToggleFavorite(cursor);
@@ -194,14 +189,14 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   // JUMP TO NEXT LETTER
   if (event.L1Pressed())
   {
-    JumpToNextLetter(!FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
+    JumpToNextLetter(!FileSorts::Instance().IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 
   // JUMP TO PREVIOUS LETTER
   if (event.R1Pressed())
   {
-    JumpToNextLetter(FileSorts::IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
+    JumpToNextLetter(FileSorts::Instance().IsAscending((FileSorts::Sorts)RecalboxConf::Instance().GetSystemSort(mSystem)));
     return true;
   }
 

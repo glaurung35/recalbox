@@ -122,6 +122,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_DIPLAY_BY_FILENAME_MSG "Display games by file names."
     #define MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG "Hide non final versions of a same game."
     #define MENUMESSAGE_UI_FAVORITES_ONLY_MSG "Switch between seing or not only the favorites games. To add a game in the favorite list, select the game and toggle its state using 'Y'."
+    #define MENUMESSAGE_UI_FAVORITES_FIRST_MSG "Display favorites first in gamelist."
     #define MENUMESSAGE_UI_SHOW_HIDDEN_MSG "Switch between seing or not the hidden games. To hide a game, edit its data and select 'Hide'."
     #define MENUMESSAGE_UI_HIDE_PREINSTALLED_MSG "Hide all pre-installed games."
     #define MENUMESSAGE_UI_HIDE_NO_GAMES_MSG "Hide no executable games. for example bios"

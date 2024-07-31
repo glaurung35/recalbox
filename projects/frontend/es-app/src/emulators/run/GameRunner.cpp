@@ -208,7 +208,7 @@ bool GameRunner::RunGame(FileData& game, const EmulatorData& emulator, const Gam
     {
       LOG(LogInfo) << "[Run] No error running " << path.ToString();
       // Update time played
-      game.Metadata().SetTimePlayed(game.Metadata().TimePlayed() + (int) gameDuration);
+      game.Metadata().SetTotalPlayTime(game.Metadata().TotalPlayTime() + (int) gameDuration);
     }
   }
 

@@ -34,7 +34,7 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
     bool isFolder = mGamelist.getCursor()->IsFolder();
     if (isGame)  editTitle = file->TopAncestor().ReadOnly() ? _("NON EDITABLE GAME"): _("EDIT GAME");
     else if (isFolder) editTitle = _("EDIT FOLDER");
-    if (!editTitle.empty()) mGame = AddSubMenu(editTitle, (int) Components::MetaData,_(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
+    if (!editTitle.empty()) mGame = AddSubMenu(editTitle, (int) Components::MetaData, this, _(MENUMESSAGE_GAMELISTOPTION_EDIT_METADATA_MSG));
 
     if (isGame || isFolder)
     {
@@ -89,12 +89,16 @@ MenuGamelistOptions::MenuGamelistOptions(WindowManager& window, SystemData& syst
 
   // flat folders
   if (!system.IsFavorite())
+  {
     if (!system.IsAlwaysFlat())
-      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int)Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
+      AddSwitch(_("SHOW FOLDERS CONTENT"), RecalboxConf::Instance().GetSystemFlatFolders(mSystem), (int) Components::FlatFolders, this, _(MENUMESSAGE_GAMELISTOPTION_SHOW_FOLDER_CONTENT_MSG));
 
-  // favorites only
-  AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int)Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
-
+    // favorites only
+    AddSwitch(_("SHOW ONLY FAVORITES"), RecalboxConf::Instance().GetFavoritesOnly(), (int) Components::FavoritesOnly, this, _(MENUMESSAGE_UI_FAVORITES_ONLY_MSG));
+    // favorites first
+    if (!mSystem.IsArcade())
+      AddSwitch(_("FAVORITES FIRST"), RecalboxConf::Instance().GetFavoritesFirst(), (int) Components::FavoritesFirst, this, _(MENUMESSAGE_UI_FAVORITES_FIRST_MSG));
+  }
   // update game list
   if (!system.IsFavorite())
     AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, this, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
@@ -152,18 +156,19 @@ SelectorEntry<FileSorts::Sorts>::List MenuGamelistOptions::GetSortEntries()
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
                             mSystem.Descriptor().IsArcade() ? FileSorts::SortSets::Arcade :
                             FileSorts::SortSets::SingleSystem;
-  const std::vector<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
+  const Array<FileSorts::Sorts>& availableSorts = FileSorts::AvailableSorts(set);
 
   list.reserve(availableSorts.Count());
+  FileSorts& sorts = FileSorts::Instance();
   for(FileSorts::Sorts sort : availableSorts)
-    list.push_back({ FileSorts::Name(sort), sort });
+    list.push_back({ sorts.Name(sort), sort });
 
   return list;
 }
 
-std::vector<GuiMenuBase::ListEntry<RecalboxConf::GamelistDecoration>> GuiMenuGamelistOptions::GetDecorationEntries()
+SelectorEntry<RecalboxConf::GamelistDecoration>::List MenuGamelistOptions::GetDecorationEntries()
 {
-  std::vector<GuiMenuBase::ListEntry<RecalboxConf::GamelistDecoration>> list;
+  SelectorEntry<RecalboxConf::GamelistDecoration>::List list;
   RecalboxConf::GamelistDecoration decorations = RecalboxConf::Instance().GetSystemGamelistDecoration(*ViewController::Instance().CurrentSystem());
   list.push_back({ "Region flags", RecalboxConf::GamelistDecoration::Regions, hasFlag(decorations, RecalboxConf::GamelistDecoration::Regions) });
   list.push_back({ "Players", RecalboxConf::GamelistDecoration::Players, hasFlag(decorations, RecalboxConf::GamelistDecoration::Players) });
@@ -203,7 +208,6 @@ void MenuGamelistOptions::Modified(ISimpleGameListView* gamelistview, FileData& 
 {
   gamelistview->refreshList();
   gamelistview->setCursor(&game);
-  //gamelistview->onFileChanged(&game, FileChangeType::MetadataChanged);
 }
 
 void MenuGamelistOptions::MenuSingleChanged(int id, int index, const unsigned int& value)
@@ -236,13 +240,10 @@ void MenuGamelistOptions::MenuSingleChanged(int id, int index, const FileSorts::
   (void)index;
   if ((Components)id == Components::Sorts)
   {
-    FileData* game = mGamelist.getCursor();
-
     RecalboxConf::Instance().SetSystemSort(mSystem, value).Save();
     mGamelist.onChanged(ISimpleGameListView::Change::Resort);
 
     mGamelist.refreshList();
-    mGamelist.setCursor(game);
     RefreshGameMenuContext();
   }
 }
@@ -317,6 +318,7 @@ void MenuGamelistOptions::SubMenuSelected(int id)
     case Components::Sorts:
     case Components::Regions:
     case Components::FavoritesOnly:
+    case Components::FavoritesFirst:
     case Components::FlatFolders:
     case Components::AutorunGame:
     case Components::Decorations:
@@ -340,6 +342,11 @@ void MenuGamelistOptions::MenuSwitchChanged(int id, bool& status)
         RecalboxConf::Instance().SetFavoritesOnly(!status);
         status = false;
       }
+      break;
+    }
+    case Components::FavoritesFirst:
+    {
+      RecalboxConf::Instance().SetFavoritesFirst(status).Save();
       break;
     }
     case Components::AutorunGame:
@@ -374,26 +381,13 @@ void MenuGamelistOptions::MenuSwitchChanged(int id, bool& status)
     default: break;
   }
 
-  FileData* game = mGamelist.getCursor();
   mGamelist.refreshList();
-  mGamelist.setCursor(game);
   RefreshGameMenuContext();
 }
 
-void MenuGamelistOptions::ManageSystems()
+void MenuGamelistOptions::MenuMultiChanged(int id, int index, const std::vector<RecalboxConf::GamelistDecoration>& value)
 {
-  SystemData* systemData = ViewController::Instance().CurrentSystem();
-  ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
-
-  ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
-  ViewController::Instance().getSystemListView().manageSystemsList();
-
-  // for updating game counts on system view
-  ViewController::Instance().getSystemListView().onCursorChanged(CursorState::Stopped);
-}
-
-void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::vector<RecalboxConf::GamelistDecoration>& value)
-{
+  (void)index;
   switch((Components)id)
   {
     case Components::Decorations:
@@ -409,6 +403,7 @@ void GuiMenuGamelistOptions::OptionListMultiComponentChanged(int id, const std::
     case Components::Regions:
     case Components::FlatFolders:
     case Components::FavoritesOnly:
+    case Components::FavoritesFirst:
     case Components::MetaData:
     case Components::UpdateGamelist:
     case Components::Delete:

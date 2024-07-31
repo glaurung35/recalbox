@@ -52,10 +52,9 @@ class GameRandomSelector
           FileData::Filter excludes = system->Excludes();
 
           // Load games
-          std::vector<FileData*> games = filter != nullptr ?
-                                         system->MasterRoot().GetFilteredItemsRecursively(filter, false) :
-                                         system->MasterRoot().GetAllItemsRecursively(false, excludes);
-          mGames.AddItems(games.data(), (int)games.size());
+          mGames = filter != nullptr ?
+                   system->MasterRoot().GetFilteredItemsRecursively(filter, false) :
+                   system->MasterRoot().GetAllItemsRecursively(false, excludes);
           // Randomize list
 
           // Initialize randomize

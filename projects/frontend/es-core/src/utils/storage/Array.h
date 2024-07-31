@@ -277,6 +277,12 @@ template<typename T> class Array : private Allocator
     void DeleteLast() { if (--fCount < 0) fCount = 0; }
 
     /*!
+     * @brief Reserve memory if the current count if less than the requested size
+     * @param size Preallocated amount of item
+     */
+    void Reserve(int size) { if (size < fCount) this->Resize(size); }
+
+    /*!
      * If the array size exceed the given size, it is truncated to the given size.
      * @param size Max size
      */

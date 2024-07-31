@@ -3,8 +3,10 @@
 #include <vector>
 #include "games/FileData.h"
 #include <systems/arcade/ArcadeTupple.h>
+#include <utils/cplusplus/StaticLifeCycleControler.h>
+#include <utils/cplusplus/INoCopy.h>
 
-class FileSorts
+class FileSorts : public StaticLifeCycleControler<FileSorts>
 {
   public:
     //! Specialized sort sets
@@ -18,59 +20,67 @@ class FileSorts
     //! Available sorts
     enum class Sorts
     {
-      FileNameAscending,    //!< By filename, A-Z
-      FileNameDescending,   //!< By filename, Z-A
-      SystemAscending,      //!< By system then by filename, A-Z
-      SystemDescending,     //!< By system then by filename, Z-A
-      RatingAscending,      //!< By rating then by filename, 0-9
-      RatingDescending,     //!< By rating then by filename, 9-0
-      TimesPlayedAscending, //!< By times played then by filename, A-Z
-      TimesPlayedDescending,//!< By times played then by filename, Z-A
-      TotalTimeAscending,   //!< By total time then by filename, A-Z
-      TotalTimeDescending,  //!< By total time then by filename, Z-A
-      LastPlayedAscending,  //!< By last-played datetime then by filename, 2000-0
-      LastPlayedDescending, //!< By last-played datetime then by filename, 0-2000
-      PlayersAscending,     //!< By number of players then by filename, 1-2
-      PlayersDescending,    //!< By number of players then by filename, 2-1
-      DeveloperAscending,   //!< By developer then by filename, A-Z
-      DeveloperDescending,  //!< By developer then by filename, Z-A
-      PublisherAscending,   //!< By publisher then by filename, A-Z
-      PublisherDescending,  //!< By publisher then by filename, Z-A
-      GenreAscending,       //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
-      GenreDescending,      //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
-      ReleaseDateAscending, //!< By release date then by filename, 0-9
-      ReleaseDateDescending,//!< By release date then by filename, 9-0
-      RegionAscending,      //!< By region then by filename, 0-9
-      RegionDescending,     //!< By region then by filename, 9-0
+      FileNameAscending,       //!< By filename, A-Z
+      FileNameDescending,      //!< By filename, Z-A
+      SystemAscending,         //!< By system then by filename, A-Z
+      SystemDescending,        //!< By system then by filename, Z-A
+      RatingAscending,         //!< By rating then by filename, 0-9
+      RatingDescending,        //!< By rating then by filename, 9-0
+      PlayCountAscending,      //!< By play count then by filename, A-Z
+      PlayCountDescending,     //!< By play count then by filename, Z-A
+      TotalPlayTimeAscending,  //!< By total play time then by filename, A-Z
+      TotalPlayTimeDescending, //!< By total play time then by filename, Z-A
+      LastPlayedAscending,     //!< By last-played datetime then by filename, 2000-0
+      LastPlayedDescending,    //!< By last-played datetime then by filename, 0-2000
+      PlayersAscending,        //!< By number of players then by filename, 1-2
+      PlayersDescending,       //!< By number of players then by filename, 2-1
+      DeveloperAscending,      //!< By developer then by filename, A-Z
+      DeveloperDescending,     //!< By developer then by filename, Z-A
+      PublisherAscending,      //!< By publisher then by filename, A-Z
+      PublisherDescending,     //!< By publisher then by filename, Z-A
+      GenreAscending,          //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
+      GenreDescending,         //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
+      ReleaseDateAscending,    //!< By release date then by filename, 0-9
+      ReleaseDateDescending,   //!< By release date then by filename, 9-0
+      RegionAscending,         //!< By region then by filename, 0-9
+      RegionDescending,        //!< By region then by filename, 9-0
     };
 
-    //! Arcade comparer for Wuick sorts
+    //! Comparer for Quick sorts
+    typedef int (*Comparer)(const FileData& a, const FileData& b);
+    //! Arcade comparer for Quick sorts
     typedef int (*ComparerArcade)(const ArcadeTupple& a, const ArcadeTupple& b);
     //! Sort list
     typedef Array<Sorts> SortList;
 
+    //! Constructor
+    FileSorts()
+      : StaticLifeCycleControler<FileSorts>("FileSorts")
+    {
+      Initialize();
+    }
 
   private:
     //! Initialize Sort tables
-    static bool Initialize();
-    //! Initialization holder for static auto-initialization
-    static bool sInitialized;
+    void Initialize();
 
     //! Saved flag: use database name for arcade games
     static bool sUseDatabaseNames;
-    //! Saved flags: ise filename for all games
+    //! Saved flag: use filename for all games
     static bool sUseFileName;
+    //! Saved flag: sort favorite first
+    static bool sUseTopFavorites;
 
     //! Sort record
     struct SortType
     {
       String mDescription;
-      FileData::Comparer mComparer;
+      Comparer mComparer;
       ComparerArcade mComparerArcade;
       Sorts mSort;
       bool mAscending;
 
-      SortType(Sorts sort, FileData::Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const String & sortDescription)
+      SortType(Sorts sort, Comparer sortFunction, ComparerArcade sortFunctionArcade, bool sortAscending, const String & sortDescription)
         : mDescription(sortDescription),
           mComparer(sortFunction),
           mComparerArcade(sortFunctionArcade),
@@ -81,7 +91,7 @@ class FileSorts
     };
 
     //! All normal sorts
-    static std::vector<SortType> sAllSorts;
+    std::vector<SortType> mAllSorts;
 
     /*!
      * @brief Case-insensitive compare of both UTF-8 string
@@ -124,8 +134,8 @@ class FileSorts
     DeclareSortMethodPrototype(compareSystemName)
     DeclareSortMethodPrototype(compareFileName)
     DeclareSortMethodPrototype(compareRating)
-    DeclareSortMethodPrototype(compareTimesPlayed)
-    DeclareSortMethodPrototype(compareTotalTime)
+    DeclareSortMethodPrototype(comparePlayCount)
+    DeclareSortMethodPrototype(compareTotalPlayTime)
     DeclareSortMethodPrototype(compareLastPlayed)
     DeclareSortMethodPrototype(compareNumberPlayers)
     DeclareSortMethodPrototype(compareDevelopper)
@@ -137,8 +147,8 @@ class FileSorts
     DeclareSortMethodPrototypeArcade(compareSystemNameArcade)
     DeclareSortMethodPrototypeArcade(compareFileNameArcade)
     DeclareSortMethodPrototypeArcade(compareRatingArcade)
-    DeclareSortMethodPrototypeArcade(compareTotalTimeArcade)
-    DeclareSortMethodPrototypeArcade(compareTimesPlayedArcade)
+    DeclareSortMethodPrototypeArcade(compareTotalPlayTimeArcade)
+    DeclareSortMethodPrototypeArcade(comparePlayCountArcade)
     DeclareSortMethodPrototypeArcade(compareLastPlayedArcade)
     DeclareSortMethodPrototypeArcade(compareNumberPlayersArcade)
     DeclareSortMethodPrototypeArcade(compareDevelopperArcade)
@@ -159,28 +169,28 @@ class FileSorts
      * @param sort Sort to get name from
      * @return Sort name
      */
-    static const String& Name(Sorts sort);
+    const String& Name(Sorts sort);
 
     /*!
      * @brief Return whether the given sort is an ascending sort or not
      * @param sort Sort to check
      * @return True if the sort is ascending
      */
-    static bool IsAscending(Sorts sort);
+    bool IsAscending(Sorts sort);
 
     /*!
      * @brief Get sort compare method
      * @param sort Sort to get method from
      * @return Sort name
      */
-    static FileData::Comparer Comparer(Sorts sort);
+    Comparer ComparerFromSort(Sorts sort);
 
     /*!
      * @brief Get sort compare method for arcade systems
      * @param sort Sort to get method from
      * @return Sort name
      */
-    static ComparerArcade ComparerArcadeFromSort(Sorts sort);
+    ComparerArcade ComparerArcadeFromSort(Sorts sort);
 
     /*!
      * @brief Clamp the given sort in the available sorts from the given set

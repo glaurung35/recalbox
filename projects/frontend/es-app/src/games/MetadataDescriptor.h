@@ -68,7 +68,7 @@ class MetadataDescriptor
     int                           mPlayers;        //!< Players range: LSW:from - MSW:to (allow sorting by max players)
     int                           mRomCrc32;       //!< Rom Crc32
     Regions::RegionPack           mRegion;         //!< Rom/Game Region
-    int                           mTimePlayed;     //<! Game timpe played
+    int                           mTotalPlayTime;  //<! Game tota play time
     // 16 bits
     MetadataStringHolder::Index16 mRomPath;        //!< Rom path
     MetadataStringHolder::Index16 mImagePath;      //!< Image path
@@ -199,7 +199,7 @@ class MetadataDescriptor
       , mPlayers((1 << 16) + 1)
       , mRomCrc32(0)
       , mRegion()
-      , mTimePlayed(0)
+      , mTotalPlayTime(0)
       , mRomPath(0)
       , mImagePath(0)
       , mThumbnailPath(0)
@@ -328,7 +328,7 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
-      mTimePlayed    = source.mTimePlayed   ;
+      mTotalPlayTime = source.mTotalPlayTime;
       mSupportIndex  = source.mSupportIndex ;
       mSupportTotal  = source.mSupportTotal ;
       mSupportSide   = source.mSupportSide  ;
@@ -387,7 +387,7 @@ class MetadataDescriptor
       mNoGame        = source.mNoGame       ;
       mType          = source.mType         ;
       mRotation      = source.mRotation     ;
-      mTimePlayed    = source.mTimePlayed   ;
+      mTotalPlayTime = source.mTotalPlayTime;
       mSupportIndex  = source.mSupportIndex ;
       mSupportTotal  = source.mSupportTotal ;
       mSupportSide   = source.mSupportSide  ;
@@ -470,7 +470,7 @@ class MetadataDescriptor
     [[nodiscard]] bool               NoGame()          const { return mNoGame;                           }
     [[nodiscard]] GameGenres         GenreId()         const { return mGenreId;                          }
     [[nodiscard]] RotationType       Rotation()        const { return mRotation;                         }
-    [[nodiscard]] int                TimePlayed()      const { return mTimePlayed;                       }
+    [[nodiscard]] int                TotalPlayTime()      const { return mTotalPlayTime;                       }
     [[nodiscard]] int                SupportIndex()    const { return mSupportIndex;                     }
     [[nodiscard]] int                SupportTotal()    const { return mSupportTotal;                     }
     [[nodiscard]] SupportSides       SupportSide()     const { return mSupportSide;                      }
@@ -513,7 +513,7 @@ class MetadataDescriptor
     [[nodiscard]] String GenreIdAsString()     const { return String((int)mGenreId);                           }
     [[nodiscard]] String LastPatchAsString()   const { return (sPathHolder.GetPath(mLastPatchPath) / sFileHolder.GetString(mLastPatchFile)).ToString(); }
     [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
-    [[nodiscard]] String TimePlayedAsString()  const { return String(mTimePlayed);                        }
+    [[nodiscard]] String TotalPlayTimeAsString()  const { return String(mTotalPlayTime);                        }
 
     /*
      * Setters
@@ -567,7 +567,7 @@ class MetadataDescriptor
     void SetAdult(bool adult)                           { mAdult        = adult;                                       mDirty = true; }
     void SetGenreId(GameGenres genre)                   { mGenreId      = genre;                                       mDirty = true; }
     void SetRotation(RotationType rotation)             { mRotation     = rotation;                                    mDirty = true; }
-    void SetTimePlayed(int timePlayed)                  { mTimePlayed   = timePlayed;                                  mDirty = true; }
+    void SetTotalPlayTime(int timePlayed)               { mTotalPlayTime= timePlayed;                                  mDirty = true; }
     // Volatiles flags - no dirtiness
     void SetPreinstalled(bool preinstalled)             { mPreinstalled = preinstalled;                                               }
     void SetLatestVersion(bool latestVersion)           { mLatestVerion = latestVersion;                                              }
@@ -618,7 +618,7 @@ class MetadataDescriptor
     void SetGenreIdAsString(const String& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
     void SetRegionAsString(const String& region)           { mRegion = Regions::Deserialize4Regions(region); mRegion.Sort(); mDirty = true; }
     void SetRotationAsString(const String& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
-    void SetTimePlayedAsString(const String& timePlayed)   { int u = 0; if (StringToInt(timePlayed, u)) { mTimePlayed = u; mDirty = true; } }
+    void SetTotalPlayTimeAsString(const String& timePlayed)   { int u = 0; if (StringToInt(timePlayed, u)) { mTotalPlayTime = u; mDirty = true; } }
     /*
      * Defaults
      */
@@ -648,7 +648,7 @@ class MetadataDescriptor
     [[nodiscard]] bool IsDefaultGenreId()         const { return Default().mGenreId == mGenreId;         }
     [[nodiscard]] bool IsDefaultLastPath()        const { return Default().mLastPatchPath == mLastPatchPath && Default().mLastPatchFile == mLastPatchFile; }
     [[nodiscard]] bool IsDefaultRotation()        const { return Default().mRotation == mRotation; }
-    [[nodiscard]] bool IsDefaultTimePlayed()      const { return Default().mTimePlayed == mTimePlayed; }
+    [[nodiscard]] bool IsDefaultTotalPlayTime()   const { return Default().mTotalPlayTime == mTotalPlayTime; }
     [[nodiscard]] bool IsDefaultTate()            const { return Default().mRotation == mRotation; }
 
     /*

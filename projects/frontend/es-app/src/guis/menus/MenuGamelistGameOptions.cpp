@@ -75,15 +75,15 @@ MenuGamelistGameOptions::MenuGamelistGameOptions(WindowManager& window, ISimpleG
   //  _N("%i GAME HIDDEN", "%i GAMES HIDDEN", data.Hidden)) .Replace("%i", String(data.Hidden)
   if (mGame.IsGame() )
   {
-    int timePlayed = mGame.Metadata().TimePlayed();
-    if (timePlayed >= 3600)
+    int totalPlayTime = mGame.Metadata().TotalPlayTime();
+    if (totalPlayTime >= 3600)
     {
-      int hours = timePlayed / 3600;
+      int hours = totalPlayTime / 3600;
       AddText(_("TIME PLAYED"), _N("%i HOUR", "%i HOURS", hours).Replace("%i", String(hours)));
     }
-    else if (timePlayed >= 60)
+    else if (totalPlayTime >= 60)
     {
-      int minutes = timePlayed / 60;
+      int minutes = totalPlayTime / 60;
       AddText(_("TIME PLAYED"), _N("%i MINUTE", "%i MINUTES", minutes).Replace("%i", String(minutes)));
     }
   }

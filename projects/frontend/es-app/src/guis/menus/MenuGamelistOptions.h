@@ -9,9 +9,9 @@ class MenuGamelistOptions : public Menu
                           , private ISingleSelectorChanged<String::Unicode>
                           , private ISingleSelectorChanged<Regions::GameRegions>
                           , private ISingleSelectorChanged<FileSorts::Sorts>
+                          , private IMultiSelectorChanged<RecalboxConf::GamelistDecoration>
                           , private ISubMenuSelected
                           , private ISwitchChanged
-                             , private IOptionListMultiComponent<RecalboxConf::GamelistDecoration>
 {
   public:
     /*!
@@ -34,6 +34,7 @@ class MenuGamelistOptions : public Menu
       Regions,
       FlatFolders,
       FavoritesOnly,
+      FavoritesFirst,
       MetaData,
       UpdateGamelist,
       Delete,
@@ -71,15 +72,8 @@ class MenuGamelistOptions : public Menu
     SelectorEntry<FileSorts::Sorts>::List GetSortEntries();
     //! Get available region List
     SelectorEntry<Regions::GameRegions>::List GetRegionEntries();
-    //! Get available manufacturers
     //! Get gamelist decorations
-    std::vector<ListEntry<RecalboxConf::GamelistDecoration>> GetDecorationEntries();
-
-    /*!
-     * @brief Refresh gamelist
-     */
-    static void ManageSystems();
-
+    SelectorEntry<RecalboxConf::GamelistDecoration>::List GetDecorationEntries();
     /*
      * GuiMetaDataEd::IMetaDataAction implementation
      */
@@ -88,20 +82,26 @@ class MenuGamelistOptions : public Menu
     void Modified(ISimpleGameListView* gamelistview, FileData& game) override;
 
     /*
-     * IOptionListComponent<unsigned int> implementation
+     * ISingleSelectorChanged<unsigned int> implementation
      */
 
     void MenuSingleChanged(int id, int index, const unsigned int& value) override;
 
     /*
-     * IOptionListComponent<FileSorts::Sorts> implementation
+     * ISingleSelectorChanged<FileSorts::Sorts> implementation
      */
     void MenuSingleChanged(int id, int index, const Regions::GameRegions& value) override;
 
     /*
-     * IOptionListComponent<FileSorts::Sorts> implementation
+     * ISingleSelectorChanged<FileSorts::Sorts> implementation
      */
     void MenuSingleChanged(int id, int index, const FileSorts::Sorts& value) override;
+
+    /*
+     * ISingleSelectorChanged<RecalboxConf::GamelistDecoration> implementation
+     */
+
+    void MenuMultiChanged(int id, int index, const std::vector<RecalboxConf::GamelistDecoration>& value) override;
 
     /*
      * ISubMenuSelected implementation
@@ -110,7 +110,7 @@ class MenuGamelistOptions : public Menu
     void SubMenuSelected(int id) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

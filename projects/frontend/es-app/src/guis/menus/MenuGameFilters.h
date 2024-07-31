@@ -22,6 +22,7 @@ class MenuGameFilters : public Menu
     {
       Adult,
       FavoritesOnly,
+      FavoritesFirst,
       ShowHidden,
       HidePreinstalled,
       NoGames,

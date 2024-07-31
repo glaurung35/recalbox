@@ -116,14 +116,14 @@ bool ScreenScraperEngineBase::RunOn(ScrapingMethod method, const SystemManager::
                      .Append( ' ')
                      .Append(mEndPoint.GetProviderWebURL().UpperCase());
   // Get all games to scrape
-  std::vector<FileData*> allGames;
+  FileData::List allGames;
   for(SystemData* system : systemList)
   {
-    std::vector<FileData*> games = system->getAllGames();
-    allGames.insert(allGames.end(), games.begin(), games.end());
+    FileData::List games = system->getAllGames();
+    allGames.CopyFrom(games);
   }
-  // Shuffle!
-  std::shuffle(allGames.begin(), allGames.end(), std::default_random_engine());
+  // Randomize to minimize media collisions
+  FolderData::Shuffle(allGames);
   // Feed thread pool
   for (FileData* game : allGames)
     mRunner.PushFeed(game);

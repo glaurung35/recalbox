@@ -39,9 +39,15 @@ class DetailedGameListView : public ISimpleGameListView
 
     void populateList(const FolderData& folder) override;
 
-    void refreshList() override { populateList(*mPopulatedFolder); }
+    void refreshList() override
+    {
+      FileData* currentItem = getCursor();
+      populateList(*mPopulatedFolder);
+      setCursor(currentItem);
+      ListRefreshed();
+    }
 
-    FileData::List getFileDataList() override { return mList.getObjects(); }
+    FileData::List getFileDataList() override { return mList.getObjectsArray(); }
 
     /*!
      * @brief Get available regions from the current game list
@@ -367,9 +373,10 @@ class DetailedGameListView : public ISimpleGameListView
      * @brief Check if a header is required between previous and next item
      * @param previous Previous filedata
      * @param next Next fildata
+     * @param hasTopFavorites instruct the method that the list has at least one favorite on top or bottom
      * @return No null header pointer if a header is required, nullptr otherwise
      */
-    HeaderData* NeedHeader(FileData* previous, FileData* next);
+    HeaderData* NeedHeader(FileData* previous, FileData* next, bool hasTopFavorites);
 
     /*!
      * @brief Create or get a named header
@@ -444,7 +451,7 @@ class DetailedGameListView : public ISimpleGameListView
      * @brief Get the left offset (margin to the text) if any
      * @return left offset
      */
-    float OverlayGetLeftOffset(FileData* const& data, int labelWidth) override { (void)data; (void)labelWidth; return 0.0f; }
+    float OverlayGetLeftOffset(FileData* const& data, int labelWidth) override;
 
     /*!
      * @brief Get the right offset (margin from text to right limit) if any

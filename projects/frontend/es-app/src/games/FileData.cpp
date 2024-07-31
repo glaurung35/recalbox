@@ -85,7 +85,7 @@ String FileData::Regions()
   if (!regions.HasRegion())
     regions = Metadata().Region();
 
-  return Regions::Serialize4Regions(regions);
+  return Regions::Serialize4Regions(regions.Sort());
 }
 
 bool FileData::IsDisplayable(TopLevelFilter topfilter) const

@@ -774,7 +774,30 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
         break;
       }
       case FileSorts::Sorts::ReleaseDateAscending:
-      case FileSorts::Sorts::ReleaseDateDescending:
+      case FileSorts::Sorts::ReleaseDateDescending: break;
+      case FileSorts::Sorts::RegionAscending:
+      case FileSorts::Sorts::RegionDescending:
+      {
+        Regions::RegionPack pack;
+        pack.Pack = ((HeaderData*)data)->Int();
+        int drawn = 0;
+        int flagHeight = Math::roundi(mList.getFont()->getHeight(1.f));
+        int y = (int) (position.y() + ((size.y() - (float) flagHeight) / 2.f));
+        for (int r = Regions::RegionPack::sMaxRegions; --r >= 0;)
+          if (Regions::GameRegions region = pack.Regions[r]; region != Regions::GameRegions::Unknown)
+          {
+            std::shared_ptr<TextureResource>& flagTexture = mPictogramCaches.GetFlag(region);
+            // Draw
+            int x = (int)position.x() + (mFlagMargin + mFlagWidth) * drawn;
+            Renderer::DrawTexture(*flagTexture, x, y, mFlagWidth, flagHeight, true,
+                                  mDecorationFlagsTemplate.TopLeftColor(),
+                                  mDecorationFlagsTemplate.TopRightColor(),
+                                  mDecorationFlagsTemplate.BottomRightColor(),
+                                  mDecorationFlagsTemplate.BottomLeftColor());
+            drawn++;
+          }
+        break;
+      }
       default: break;
     }
   }
@@ -810,7 +833,15 @@ float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data)
       case FileSorts::Sorts::LastPlayedAscending:
       case FileSorts::Sorts::LastPlayedDescending:
       case FileSorts::Sorts::ReleaseDateAscending:
-      case FileSorts::Sorts::ReleaseDateDescending:
+      case FileSorts::Sorts::ReleaseDateDescending: break;
+      case FileSorts::Sorts::RegionAscending:
+      case FileSorts::Sorts::RegionDescending:
+      {
+        Regions::RegionPack pack;
+        pack.Pack = ((HeaderData*)data)->Int();
+        int regionCount = pack.Count();
+        return (mFlagWidth + mFlagMargin) * regionCount;
+      }
       default: break;
     }
   return 0.f;
@@ -1320,6 +1351,24 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
         return GetHeader(year <= 1970 ? _("Release date unknown") : (_F(_("Year {0}")) / year)());
       break;
     }
+    case FileSorts::Sorts::RegionAscending:
+    case FileSorts::Sorts::RegionDescending:
+    {
+      Regions::RegionPack regions = next->Metadata().Region();
+      if (previous == nullptr || previous->Metadata().Region() != regions)
+      {
+        String header;
+        for(int i = Regions::RegionPack::sMaxRegions; --i >= 0; )
+          if (Regions::GameRegions region = regions.Regions[i]; region != Regions::GameRegions::Unknown)
+          {
+            if (!header.empty()) header.Append(", ", 2);
+            header.Append(Regions::RegionFullName(region));
+          }
+        if (header.empty()) header = _("NO REGION");
+        return GetHeader(header, regions.Pack);
+      }
+      break;
+    }
   }
   return nullptr;
 }
@@ -1554,6 +1603,8 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
     case FileSorts::Sorts::GenreDescending:
     case FileSorts::Sorts::ReleaseDateAscending:
     case FileSorts::Sorts::ReleaseDateDescending:
+    case FileSorts::Sorts::RegionAscending:
+    case FileSorts::Sorts::RegionDescending:
     default: break;
   }
 }

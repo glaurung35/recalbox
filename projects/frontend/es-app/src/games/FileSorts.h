@@ -40,6 +40,8 @@ class FileSorts
       GenreDescending,      //!< By normalized genre (genreid) then by filename, EnumLast-EnumFirst
       ReleaseDateAscending, //!< By release date then by filename, 0-9
       ReleaseDateDescending,//!< By release date then by filename, 9-0
+      RegionAscending,      //!< By region then by filename, 0-9
+      RegionDescending,     //!< By region then by filename, 9-0
     };
 
     //! Arcade comparer for Wuick sorts
@@ -130,6 +132,7 @@ class FileSorts
     DeclareSortMethodPrototype(comparePublisher)
     DeclareSortMethodPrototype(compareGenre)
     DeclareSortMethodPrototype(compareReleaseDate)
+    DeclareSortMethodPrototype(compareRegion)
 
     DeclareSortMethodPrototypeArcade(compareSystemNameArcade)
     DeclareSortMethodPrototypeArcade(compareFileNameArcade)
@@ -142,6 +145,7 @@ class FileSorts
     DeclareSortMethodPrototypeArcade(comparePublisherArcade)
     DeclareSortMethodPrototypeArcade(compareGenreArcade)
     DeclareSortMethodPrototypeArcade(compareReleaseDateArcade)
+    DeclareSortMethodPrototypeArcade(compareRegionArcade)
 
     /*!
      * @brief Get available sorts for a single system

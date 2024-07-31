@@ -135,7 +135,7 @@ void ScreenScraperApis::DeserializeGameInformationInner(const rapidjson::Value& 
     if (rom.HasMember("regions"))
       if (rom["regions"].HasMember("regions_shortname"))
         for (const auto& region: rom["regions"]["regions_shortname"].GetArray())
-          romRegions.Push(Regions::DeserializeRegion(region.GetString()));
+          romRegions.Push(Regions::DeserializeRegion(region.GetString())).Sort();
     if (rom.HasMember("romcrc")) game.mCrc = rom["romcrc"].GetString();
   }
 

@@ -568,7 +568,7 @@ class MetadataDescriptor
     void SetPublisher(const String& publisher)          { mPublisher    = sPublisherHolder.AddString32(publisher);     mDirty = true; }
     void SetRating(float rating)                        { mRating       = rating;                                      mDirty = true; }
     void SetPlayers(int min, int max)                   { mPlayers      = (max << 16) + min;                           mDirty = true; }
-    void SetRegion(const Regions::RegionPack& regions)  { mRegion       = regions;                                     mDirty = true; }
+    void SetRegion(const Regions::RegionPack& regions)  { mRegion       = regions; mRegion.Sort();                     mDirty = true; }
     void SetRomCrc32(int romcrc32)                      { mRomCrc32     = romcrc32;                                    mDirty = true; }
     void SetFavorite(bool favorite)                     { mFavorite     = favorite;                                    mDirty = true; }
     void SetHidden(bool hidden)                         { mHidden       = hidden;                                      mDirty = true; }
@@ -624,7 +624,7 @@ class MetadataDescriptor
     void SetRomCrc32AsString(const String& romcrc32)       { int c = 0; if (HexToInt(romcrc32, c)) SetRomCrc32(c);                        }
     void SetPlayCountAsString(const String& playcount)     { int p = 0; if (StringToInt(playcount, p)) { mPlayCount = (short)p; mDirty = true; } }
     void SetGenreIdAsString(const String& genre)           { int g = 0; if (StringToInt(genre, g)) { mGenreId = (GameGenres)g; mDirty = true; } }
-    void SetRegionAsString(const String& region)           { mRegion = Regions::Deserialize4Regions(region); mDirty = true; }
+    void SetRegionAsString(const String& region)           { mRegion = Regions::Deserialize4Regions(region); mRegion.Sort(); mDirty = true; }
     void SetRotationAsString(const String& rotation)       { mRotation = RotationUtils::FromString(rotation); mDirty = true;}
     void SetTimePlayedAsString(const String& timePlayed)   { int u = 0; if (StringToInt(timePlayed, u)) { mTimePlayed = u; mDirty = true; } }
     /*

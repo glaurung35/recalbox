@@ -1,37 +1,35 @@
-From 30f8ec1f928eb15029549f47dea2b066928a4701 Mon Sep 17 00:00:00 2001
+From 079bebd9b61ec0f89fd01c89b3a3db1a72806b5a Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 12:31:16 +0100
-Subject: [PATCH 006/222] Add an unsand filter
+Subject: [PATCH 006/176] Add an unsand filter
 
-(cherry picked from commit 751127a7fe18dff8862f9fddda799077eb4ed03f)
 ---
- configure                   |   1 +
- libavfilter/Makefile        |   1 +
- libavfilter/allfilters.c    |   1 +
- libavfilter/avfiltergraph.c |  79 +++++++++++--
- libavfilter/buffersrc.c     |   2 +-
- libavfilter/vf_unsand.c     | 229 ++++++++++++++++++++++++++++++++++++
- 6 files changed, 299 insertions(+), 14 deletions(-)
+ configure                |   1 +
+ libavfilter/Makefile     |   1 +
+ libavfilter/allfilters.c |   1 +
+ libavfilter/buffersrc.c  |   2 +-
+ libavfilter/vf_unsand.c  | 228 +++++++++++++++++++++++++++++++++++++++
+ 5 files changed, 232 insertions(+), 1 deletion(-)
  create mode 100644 libavfilter/vf_unsand.c
 
 diff --git a/configure b/configure
-index 6ab244112f..0d723f9e44 100755
+index fb16040146..f7df6ee35a 100755
 --- a/configure
 +++ b/configure
-@@ -3661,6 +3661,7 @@ tonemap_vaapi_filter_deps="vaapi VAProcFilterParameterBufferHDRToneMapping"
- tonemap_opencl_filter_deps="opencl const_nan"
- transpose_opencl_filter_deps="opencl"
+@@ -3816,6 +3816,7 @@ transpose_opencl_filter_deps="opencl"
  transpose_vaapi_filter_deps="vaapi VAProcPipelineCaps_rotation_flags"
+ transpose_vt_filter_deps="videotoolbox VTPixelRotationSessionCreate"
+ transpose_vulkan_filter_deps="vulkan spirv_compiler"
 +unsand_filter_select="sand"
  unsharp_opencl_filter_deps="opencl"
  uspp_filter_deps="gpl avcodec"
  vaguedenoiser_filter_deps="gpl"
 diff --git a/libavfilter/Makefile b/libavfilter/Makefile
-index b2c254ea67..2ecd5b3c81 100644
+index 603b532ad0..bd4f91f72f 100644
 --- a/libavfilter/Makefile
 +++ b/libavfilter/Makefile
-@@ -459,6 +459,7 @@ OBJS-$(CONFIG_TRANSPOSE_OPENCL_FILTER)       += vf_transpose_opencl.o opencl.o o
- OBJS-$(CONFIG_TRANSPOSE_VAAPI_FILTER)        += vf_transpose_vaapi.o vaapi_vpp.o
+@@ -531,6 +531,7 @@ OBJS-$(CONFIG_TRANSPOSE_VT_FILTER)           += vf_transpose_vt.o
+ OBJS-$(CONFIG_TRANSPOSE_VULKAN_FILTER)       += vf_transpose_vulkan.o vulkan.o vulkan_filter.o
  OBJS-$(CONFIG_TRIM_FILTER)                   += trim.o
  OBJS-$(CONFIG_UNPREMULTIPLY_FILTER)          += vf_premultiply.o framesync.o
 +OBJS-$(CONFIG_UNSAND_FILTER)                 += vf_unsand.o
@@ -39,152 +37,22 @@ index b2c254ea67..2ecd5b3c81 100644
  OBJS-$(CONFIG_UNSHARP_OPENCL_FILTER)         += vf_unsharp_opencl.o opencl.o \
                                                  opencl/unsharp.o
 diff --git a/libavfilter/allfilters.c b/libavfilter/allfilters.c
-index 0872c6e0f2..c894cb8bbd 100644
+index aa49703c6e..a72bf7663e 100644
 --- a/libavfilter/allfilters.c
 +++ b/libavfilter/allfilters.c
-@@ -438,6 +438,7 @@ extern AVFilter ff_vf_transpose_opencl;
- extern AVFilter ff_vf_transpose_vaapi;
- extern AVFilter ff_vf_trim;
- extern AVFilter ff_vf_unpremultiply;
-+extern AVFilter ff_vf_unsand;
- extern AVFilter ff_vf_unsharp;
- extern AVFilter ff_vf_unsharp_opencl;
- extern AVFilter ff_vf_untile;
-diff --git a/libavfilter/avfiltergraph.c b/libavfilter/avfiltergraph.c
-index f6b572b3de..44fe8b679c 100644
---- a/libavfilter/avfiltergraph.c
-+++ b/libavfilter/avfiltergraph.c
-@@ -32,6 +32,9 @@
- #include "libavutil/internal.h"
- #include "libavutil/opt.h"
- #include "libavutil/pixdesc.h"
-+#if CONFIG_UNSAND_FILTER
-+#include "libavutil/rpi_sand_fns.h"
-+#endif
- 
- #define FF_INTERNAL_FIELDS 1
- #include "framequeue.h"
-@@ -422,6 +425,19 @@ static int formats_declared(AVFilterContext *f)
-     return 1;
- }
- 
-+#if CONFIG_UNSAND_FILTER
-+static int has_sand_format(const AVFilterFormats * const ff)
-+{
-+    int i;
-+    for (i = 0; i != ff->nb_formats; ++i) {
-+        if (av_rpi_is_sand_format(ff->formats[i])) {
-+            return 1;
-+        }
-+    }
-+    return 0;
-+}
-+#endif
-+
- /**
-  * Perform one round of query_formats() and merging formats lists on the
-  * filter graph.
-@@ -462,6 +478,7 @@ static int query_formats(AVFilterGraph *graph, AVClass *log_ctx)
-         for (j = 0; j < filter->nb_inputs; j++) {
-             AVFilterLink *link = filter->inputs[j];
-             int convert_needed = 0;
-+            unsigned int extra_convert_tried = 0;
- 
-             if (!link)
-                 continue;
-@@ -504,11 +521,14 @@ static int query_formats(AVFilterGraph *graph, AVClass *log_ctx)
-                            link->outcfg.formats, link->type)
- #undef MERGE_DISPATCH
- 
--            if (convert_needed) {
-+            while (convert_needed) {
-                 AVFilterContext *convert;
-                 const AVFilter *filter;
-                 AVFilterLink *inlink, *outlink;
-                 char inst_name[30];
-+                int can_retry = 0;
-+
-+                convert_needed = 0;
- 
-                 if (graph->disable_auto_convert) {
-                     av_log(log_ctx, AV_LOG_ERROR,
-@@ -521,19 +541,45 @@ static int query_formats(AVFilterGraph *graph, AVClass *log_ctx)
-                 /* couldn't merge format lists. auto-insert conversion filter */
-                 switch (link->type) {
-                 case AVMEDIA_TYPE_VIDEO:
--                    if (!(filter = avfilter_get_by_name("scale"))) {
--                        av_log(log_ctx, AV_LOG_ERROR, "'scale' filter "
--                               "not present, cannot convert pixel formats.\n");
--                        return AVERROR(EINVAL);
--                    }
--
--                    snprintf(inst_name, sizeof(inst_name), "auto_scaler_%d",
--                             scaler_count++);
-+#if CONFIG_UNSAND_FILTER
-+                    // Only try each extra conversion once
-+                    // The unsand output pad should never trigger has_sand_format
-+                    // but it is better to be safe
-+                    if ((extra_convert_tried & 1) == 0 && has_sand_format(link->incfg.formats)) {
-+                        if (!(filter = avfilter_get_by_name("unsand"))) {
-+                            av_log(log_ctx, AV_LOG_ERROR, "'unsand' filter "
-+                                   "not present, cannot convert pixel formats.\n");
-+                            return AVERROR(EINVAL);
-+                        }
-+
-+                        snprintf(inst_name, sizeof(inst_name), "auto_unsand_%d",
-+                                 scaler_count++);
-+
-+                        if ((ret = avfilter_graph_create_filter(&convert, filter,
-+                                                                inst_name, "", NULL,
-+                                                                graph)) < 0)
-+                            return ret;
- 
--                    if ((ret = avfilter_graph_create_filter(&convert, filter,
--                                                            inst_name, graph->scale_sws_opts, NULL,
--                                                            graph)) < 0)
--                        return ret;
-+                        extra_convert_tried |= 1;
-+                        can_retry = 1;
-+                    }
-+                    else
-+#endif
-+                    {
-+                        if (!(filter = avfilter_get_by_name("scale"))) {
-+                            av_log(log_ctx, AV_LOG_ERROR, "'scale' filter "
-+                                   "not present, cannot convert pixel formats.\n");
-+                            return AVERROR(EINVAL);
-+                        }
-+
-+                        snprintf(inst_name, sizeof(inst_name), "auto_scaler_%d",
-+                                 scaler_count++);
-+
-+                        if ((ret = avfilter_graph_create_filter(&convert, filter,
-+                                                                inst_name, graph->scale_sws_opts, NULL,
-+                                                                graph)) < 0)
-+                            return ret;
-+                    }
-                     break;
-                 case AVMEDIA_TYPE_AUDIO:
-                     if (!(filter = avfilter_get_by_name("aresample"))) {
-@@ -589,6 +635,13 @@ static int query_formats(AVFilterGraph *graph, AVClass *log_ctx)
-                                                 outlink->outcfg.samplerates) ||
-                      CHECKED_MERGE(channel_layouts, outlink->incfg.channel_layouts,
-                                                     outlink->outcfg.channel_layouts))) {
-+                    // Try adding an unsand filter & see if that helps
-+                    if (ret < 0 && can_retry) {
-+                        link = outlink;
-+                        convert_needed = 1;
-+                        continue;
-+                    }
-+
-                     if (ret < 0)
-                         return ret;
-                     av_log(log_ctx, AV_LOG_ERROR,
+@@ -501,6 +501,7 @@ extern const AVFilter ff_vf_trim;
+ extern const AVFilter ff_vf_unpremultiply;
+ extern const AVFilter ff_vf_unsharp;
+ extern const AVFilter ff_vf_unsharp_opencl;
++extern const AVFilter ff_vf_unsand;
+ extern const AVFilter ff_vf_untile;
+ extern const AVFilter ff_vf_uspp;
+ extern const AVFilter ff_vf_v360;
 diff --git a/libavfilter/buffersrc.c b/libavfilter/buffersrc.c
-index da1cf9941e..c588ed23cb 100644
+index 453fc0fd5c..27ef35f101 100644
 --- a/libavfilter/buffersrc.c
 +++ b/libavfilter/buffersrc.c
-@@ -188,7 +188,7 @@ int attribute_align_arg av_buffersrc_add_frame_flags(AVFilterContext *ctx, AVFra
+@@ -204,7 +204,7 @@ FF_ENABLE_DEPRECATION_WARNINGS
  
          switch (ctx->outputs[0]->type) {
          case AVMEDIA_TYPE_VIDEO:
@@ -195,10 +63,10 @@ index da1cf9941e..c588ed23cb 100644
          case AVMEDIA_TYPE_AUDIO:
 diff --git a/libavfilter/vf_unsand.c b/libavfilter/vf_unsand.c
 new file mode 100644
-index 0000000000..61c03a385c
+index 0000000000..7100f2fc9b
 --- /dev/null
 +++ b/libavfilter/vf_unsand.c
-@@ -0,0 +1,229 @@
+@@ -0,0 +1,228 @@
 +/*
 + * Copyright (c) 2007 Bobby Bingham
 + *
@@ -409,7 +277,6 @@ index 0000000000..61c03a385c
 +        .name = "default",
 +        .type = AVMEDIA_TYPE_VIDEO
 +    },
-+    { NULL }
 +};
 +
 +AVFilter ff_vf_unsand = {
@@ -419,15 +286,15 @@ index 0000000000..61c03a385c
 +    .init          = init,
 +    .uninit        = uninit,
 +
-+    .query_formats = query_formats,
++    FILTER_QUERY_FUNC(query_formats),
 +
 +    .priv_size     = sizeof(UnsandContext),
 +    .priv_class    = &unsand_class,
 +
-+    .inputs        = avfilter_vf_unsand_inputs,
-+    .outputs       = avfilter_vf_unsand_outputs,
++    FILTER_INPUTS(avfilter_vf_unsand_inputs),
++    FILTER_OUTPUTS(avfilter_vf_unsand_outputs),
 +};
 +
 -- 
-2.45.2
+2.46.0
 

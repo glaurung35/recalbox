@@ -1,48 +1,31 @@
-From eae80959a73d05e69aef70743f916f79d6aaacc2 Mon Sep 17 00:00:00 2001
+From 83a71ea820db91b0d2f533ecc2a0ac8f1773831d Mon Sep 17 00:00:00 2001
 From: John Cox <jc@kynesim.co.uk>
 Date: Tue, 27 Apr 2021 12:02:09 +0100
-Subject: [PATCH 005/222] Deal with the lack of trivial sand cropping
+Subject: [PATCH 005/176] Deal with the lack of trivial sand cropping
 
-(cherry picked from commit a8c7af1eb3a9933ca99e2142a36dc7b74a29c154)
 ---
- fftools/ffmpeg.c        |  4 ++--
  fftools/ffmpeg_filter.c |  4 ++--
  libavutil/frame.c       | 11 +++++++++++
  libavutil/frame.h       | 10 ++++++++++
- 4 files changed, 25 insertions(+), 4 deletions(-)
+ 3 files changed, 23 insertions(+), 2 deletions(-)
 
-diff --git a/fftools/ffmpeg.c b/fftools/ffmpeg.c
-index dec012a299..02ed7d4976 100644
---- a/fftools/ffmpeg.c
-+++ b/fftools/ffmpeg.c
-@@ -2189,8 +2189,8 @@ static int ifilter_send_frame(InputFilter *ifilter, AVFrame *frame)
-                        ifilter->channel_layout != frame->channel_layout;
-         break;
-     case AVMEDIA_TYPE_VIDEO:
--        need_reinit |= ifilter->width  != frame->width ||
--                       ifilter->height != frame->height;
-+        need_reinit |= ifilter->width  != av_frame_cropped_width(frame) ||
-+                       ifilter->height != av_frame_cropped_height(frame);
-         break;
-     }
- 
 diff --git a/fftools/ffmpeg_filter.c b/fftools/ffmpeg_filter.c
-index 4ab769c07b..5cdc3a7b6c 100644
+index c738fc3397..beffc5ecce 100644
 --- a/fftools/ffmpeg_filter.c
 +++ b/fftools/ffmpeg_filter.c
-@@ -1160,8 +1160,8 @@ int ifilter_parameters_from_frame(InputFilter *ifilter, const AVFrame *frame)
+@@ -1752,8 +1752,8 @@ int ifilter_parameters_from_dec(InputFilter *ifilter, const AVCodecContext *dec)
  
-     ifilter->format = frame->format;
- 
--    ifilter->width               = frame->width;
--    ifilter->height              = frame->height;
-+    ifilter->width               = av_frame_cropped_width(frame);
-+    ifilter->height              = av_frame_cropped_height(frame);
-     ifilter->sample_aspect_ratio = frame->sample_aspect_ratio;
- 
-     ifilter->sample_rate         = frame->sample_rate;
+     if (dec->codec_type == AVMEDIA_TYPE_VIDEO) {
+         ifp->fallback.format                 = dec->pix_fmt;
+-        ifp->fallback.width                  = dec->width;
+-        ifp->fallback.height                 = dec->height;
++        ifp->fallback.width                  = av_frame_cropped_width(dec);
++        ifp->fallback.height                 = av_frame_cropped_height(dec);
+         ifp->fallback.sample_aspect_ratio    = dec->sample_aspect_ratio;
+     } else if (dec->codec_type == AVMEDIA_TYPE_AUDIO) {
+         int ret;
 diff --git a/libavutil/frame.c b/libavutil/frame.c
-index 75e347bf2f..daa6477485 100644
+index a3f07ca089..66dcc3694c 100644
 --- a/libavutil/frame.c
 +++ b/libavutil/frame.c
 @@ -16,6 +16,8 @@
@@ -54,7 +37,7 @@ index 75e347bf2f..daa6477485 100644
  #include "channel_layout.h"
  #include "avassert.h"
  #include "buffer.h"
-@@ -26,6 +28,9 @@
+@@ -27,6 +29,9 @@
  #include "mem.h"
  #include "samplefmt.h"
  #include "hwcontext.h"
@@ -62,9 +45,9 @@ index 75e347bf2f..daa6477485 100644
 +#include "rpi_sand_fns.h"
 +#endif
  
- #if FF_API_FRAME_GET_SET
- MAKE_ACCESSORS(AVFrame, frame, int64_t, best_effort_timestamp)
-@@ -903,6 +908,12 @@ int av_frame_apply_cropping(AVFrame *frame, int flags)
+ #if FF_API_OLD_CHANNEL_LAYOUT
+ #define CHECK_CHANNELS_CONSISTENCY(frame) \
+@@ -1006,6 +1011,12 @@ int av_frame_apply_cropping(AVFrame *frame, int flags)
          (frame->crop_top + frame->crop_bottom) >= frame->height)
          return AVERROR(ERANGE);
  
@@ -78,10 +61,10 @@ index 75e347bf2f..daa6477485 100644
      if (!desc)
          return AVERROR_BUG;
 diff --git a/libavutil/frame.h b/libavutil/frame.h
-index 7d1f8e2935..a4e7dc915d 100644
+index c0c1b23db7..c38f82fc13 100644
 --- a/libavutil/frame.h
 +++ b/libavutil/frame.h
-@@ -990,6 +990,16 @@ int av_frame_apply_cropping(AVFrame *frame, int flags);
+@@ -1049,6 +1049,16 @@ int av_frame_apply_cropping(AVFrame *frame, int flags);
   */
  const char *av_frame_side_data_name(enum AVFrameSideDataType type);
  
@@ -99,5 +82,5 @@ index 7d1f8e2935..a4e7dc915d 100644
   * @}
   */
 -- 
-2.45.2
+2.46.0
 

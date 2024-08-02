@@ -43,6 +43,12 @@ menu "Recalbox"
       source "$BR2_EXTERNAL_RECALBOX_PATH/package/xxd/Config.in.host"
     endmenu
   endmenu
+  menu "Software"
+    menu "Libraries"
+      comment "Third party libraries"
+      source "$BR2_EXTERNAL_RECALBOX_PATH/package/libraries/sdl2_sound/Config.in"
+    endmenu
+  endmenu
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/evwait/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/guichan/Config.in"
          source "$BR2_EXTERNAL_RECALBOX_PATH/package/libenet/Config.in"

@@ -12,6 +12,7 @@ as release notes for end user on a Recalbox upgrade.
 ### News
 
 ### Improvements
+- Add support customize iso from Pi Imager (add sshkey, wifi, hostname)
 
 ### Fixes
 

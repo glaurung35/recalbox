@@ -15,12 +15,12 @@ void FileSorts::Initialize()
   mAllSorts.push_back(SortType(Sorts::RatingDescending     , &compareRating       , &compareRatingArcade       , false, "\uF164 " + _("RATING")));
   mAllSorts.push_back(SortType(Sorts::TimesPlayedAscending , &compareTimesPlayed  , &compareTimesPlayedArcade  , true , "\uF162 " + _("TIMES PLAYED")));
   mAllSorts.push_back(SortType(Sorts::TimesPlayedDescending, &compareTimesPlayed  , &compareTimesPlayedArcade  , false, "\uF163 " + _("TIMES PLAYED")));
-  mAllSorts.push_back(SortType(Sorts::TotalTimeAscending   , &compareTotalTime    , &compareTotalTimeArcade    , true , "\uF160 " + _("TOTAL PLAYING TIME")));
-  mAllSorts.push_back(SortType(Sorts::TotalTimeDescending  , &compareTotalTime    , &compareTotalTimeArcade    , false, "\uF161 " + _("TOTAL PLAYING TIME")));
-  mAllSorts.push_back(SortType(Sorts::LastPlayedAscending  , &compareLastPlayed   , &compareLastPlayedArcade   , true , "\uF160 " + _("LAST PLAYED")));
-  mAllSorts.push_back(SortType(Sorts::LastPlayedDescending , &compareLastPlayed   , &compareLastPlayedArcade   , false, "\uF161 " + _("LAST PLAYED")));
-  mAllSorts.push_back(SortType(Sorts::RegionAscending      , &compareRegion       , &compareRegionArcade       , true , "\uF162 " + _("REGIONS")));
-  mAllSorts.push_back(SortType(Sorts::RegionDescending     , &compareRegion       , &compareRegionArcade       , false, "\uF163 " + _("REGIONS")));
+  mAllSorts.push_back(SortType(Sorts::TotalTimeAscending   , &compareTotalTime    , &compareTotalTimeArcade    , true , "\uF16A " + _("TOTAL PLAYING TIME")));
+  mAllSorts.push_back(SortType(Sorts::TotalTimeDescending  , &compareTotalTime    , &compareTotalTimeArcade    , false, "\uF16B " + _("TOTAL PLAYING TIME")));
+  mAllSorts.push_back(SortType(Sorts::LastPlayedAscending  , &compareLastPlayed   , &compareLastPlayedArcade   , true , "\uF168 " + _("LAST PLAYED")));
+  mAllSorts.push_back(SortType(Sorts::LastPlayedDescending , &compareLastPlayed   , &compareLastPlayedArcade   , false, "\uF169 " + _("LAST PLAYED")));
+  mAllSorts.push_back(SortType(Sorts::RegionAscending      , &compareRegion       , &compareRegionArcade       , true , "\uF16C " + _("REGIONS")));
+  mAllSorts.push_back(SortType(Sorts::RegionDescending     , &compareRegion       , &compareRegionArcade       , false, "\uF16D " + _("REGIONS")));
   mAllSorts.push_back(SortType(Sorts::PlayersAscending     , &compareNumberPlayers, &compareNumberPlayersArcade, true , "\uF162 " + _("NUMBER OF PLAYERS")));
   mAllSorts.push_back(SortType(Sorts::PlayersDescending    , &compareNumberPlayers, &compareNumberPlayersArcade, false, "\uF163 " + _("NUMBER OF PLAYERS")));
   mAllSorts.push_back(SortType(Sorts::DeveloperAscending   , &compareDevelopper   , &compareDevelopperArcade   , true , "\uF15d " + _("DEVELOPER")));
@@ -31,8 +31,8 @@ void FileSorts::Initialize()
   mAllSorts.push_back(SortType(Sorts::GenreDescending      , &compareGenre        , &compareGenreArcade        , false, "\uF15e " + _("GENRE")));
   mAllSorts.push_back(SortType(Sorts::SystemAscending      , &compareSystemName   , &compareFileNameArcade     , true , "\uF166 " + _("SYSTEM NAME")));
   mAllSorts.push_back(SortType(Sorts::SystemDescending     , &compareSystemName   , &compareFileNameArcade     , false, "\uF167 " + _("SYSTEM NAME")));
-  mAllSorts.push_back(SortType(Sorts::ReleaseDateAscending , &compareReleaseDate  , &compareReleaseDateArcade  , true , "\uF160 " + _("RELEASE DATE")));
-  mAllSorts.push_back(SortType(Sorts::ReleaseDateDescending, &compareReleaseDate  , &compareReleaseDateArcade  , false, "\uF161 " + _("RELEASE DATE")));
+  mAllSorts.push_back(SortType(Sorts::ReleaseDateAscending , &compareReleaseDate  , &compareReleaseDateArcade  , true , "\uF168 " + _("RELEASE DATE")));
+  mAllSorts.push_back(SortType(Sorts::ReleaseDateDescending, &compareReleaseDate  , &compareReleaseDateArcade  , false, "\uF169 " + _("RELEASE DATE")));
 }
 
 int FileSorts::unicodeCompareUppercase(const String& a, const String& b)

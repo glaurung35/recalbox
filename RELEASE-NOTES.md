@@ -22,6 +22,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
 - Added options into configgen for Amiga systems
+- Add support customize iso from Pi Imager (add sshkey, wifi, hostname)
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations

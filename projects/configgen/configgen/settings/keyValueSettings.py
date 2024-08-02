@@ -11,6 +11,8 @@ class keyValueSettings:
         self.__extraSpaces = extraSpaces # Allow 'key = value' instead of 'key=value' on writing.
         self.__true = '1'
         self.__false = '0'
+        self.__readSettings = dict()
+        self.__writeSettings = dict()
 
     def __getitem__(self, item: str):
         if item in self.__settings:
@@ -52,6 +54,11 @@ class keyValueSettings:
         if key in self.__settings:
             return True
         return False
+
+    def setOption(self, key, value):
+        value = str(value)
+        self.__readSettings[key] = value
+        self.__writeSettings[key] = value
 
     def setString(self, key: str, value: str) -> keyValueSettings:
         self.__settings[key] = value
@@ -114,6 +121,45 @@ class keyValueSettings:
                 for key in sorted(self.__settings.keys()):
                     sf.write((key + "=" + str(self.__settings[key]) + '\n').encode("utf-8"))
         return self            
+
+    def safeSaveFile(self):
+        if not self.__writeSettings:
+            return
+
+        # Create path
+        import os
+        folder = os.path.dirname(self.__settingsFile)
+        if not os.path.exists(folder):
+            os.makedirs(folder)
+
+        # Load & replace keys
+        outputLines = []
+        if os.path.exists(self.__settingsFile):
+            import re
+            with open(self.__settingsFile, 'r') as lines:
+                for line in lines:
+                    m = re.match(r'^[#;]?(.*?)\s?=.*?', line)
+                    if m:
+                        key = m.group(1).strip()
+                        if key in self.__writeSettings:
+                            line = key
+                            line += " = " if self.__extraSpaces else "="
+                            line += self.__writeSettings[key] + '\n'
+                            self.__writeSettings.pop(key, None)
+                    outputLines.append(line)
+        # Add missing key/value
+        if self.__writeSettings:
+            outputLines.append('\n')
+        for key in self.__writeSettings.keys():
+            line = key
+            line += " = " if self.__extraSpaces else "="
+            line += self.__writeSettings[key] + '\n'
+            outputLines.append(line)
+
+        # Save
+        with open(self.__settingsFile, 'w+') as sf:
+            for line in outputLines:
+                sf.write(line)
 
     def loadFile(self, clear=False) -> keyValueSettings:
         import re

@@ -26,6 +26,12 @@ as release notes for end user on a Recalbox upgrade.
   - use external scraper w/o loosing your favorites, emulators configurations, etc.
   - add preinstalled game in favorite list or even hide them individually
 - Remove overscan option in frontend
+- Add meaningfull headers when using sorts other than alphabetical order
+- Reintroduced Favorites on top of gamelist as an option
+
+### Improvements
+- Add gamelist decoration on the right side: regions flags, genre & players
+- Add sort by playing time & sort by regions
 
 ### Fixes
 

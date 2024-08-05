@@ -22,6 +22,9 @@ as release notes for end user on a Recalbox upgrade.
 - Force analog mode on Naomi, Naomi GD and Naomi 2
 - Add rumble option in frontend
 - Move L2/R2 buttons to L1/R1 on Dreamcast if controller doesn't have L2/R2
+- User data in gamelists are noow saved separately, allowing to:
+  - use external scraper w/o loosing your favorites, emulators configurations, etc.
+  - add preinstalled game in favorite list or even hide them individually
 
 ### Fixes
 

@@ -5,7 +5,19 @@ The text, located between the first `## Version XXX` and the second one, will ap
 as release notes for end user on a Recalbox upgrade.
 
 
-## Version 9.2.2-Pulstar
+## Version 10
+
+### Hardware
+
+### News
+
+### Improvements
+
+### Fixes
+
+
+
+## Version 9.2.3-Pulstar
 
 ### Fixes
 - Fix data files, and game recognition in systems using Flycast & Flycast-Next cores

@@ -1,5 +1,5 @@
 diff --git a/package/alsa-plugins/alsa-plugins.mk b/package/alsa-plugins/alsa-plugins.mk
-index 5728ebfe37..d998802ba2 100644
+index 5728ebfe37..4b2f70954e 100644
 --- a/package/alsa-plugins/alsa-plugins.mk
 +++ b/package/alsa-plugins/alsa-plugins.mk
 @@ -9,12 +9,11 @@ ALSA_PLUGINS_SOURCE = alsa-plugins-$(ALSA_PLUGINS_VERSION).tar.bz2
@@ -21,8 +21,8 @@ index 5728ebfe37..d998802ba2 100644
  endif
  
 +define ALSA_PLUGINS_ADD_DEFAULT_CONF
-+       mv $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf.example \
-+               $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
++	mv $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf.example \
++		$(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
 +endef
 +
 +ALSA_PLUGINS_POST_INSTALL_TARGET_HOOKS += ALSA_PLUGINS_ADD_DEFAULT_CONF

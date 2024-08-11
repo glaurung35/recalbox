@@ -18,7 +18,10 @@ inline enumtype& operator <<= (enumtype& lhs, ut rhs)      { lhs = (enumtype)((u
 inline enumtype& operator >>= (enumtype& lhs, ut rhs)      { lhs = (enumtype)((ut)lhs >> (ut)rhs); return lhs; } \
 inline enumtype& operator |= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs | (ut)rhs); return lhs; } \
 inline enumtype& operator &= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs & (ut)rhs); return lhs; } \
-inline enumtype& operator ^= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs ^ (ut)rhs); return lhs; } \
+inline enumtype& operator ^= (enumtype& lhs, enumtype rhs) { lhs = (enumtype)((ut)lhs ^ (ut)rhs); return lhs; }  \
+inline enumtype& operator |= (enumtype& lhs, ut rhs) { lhs = (enumtype)((ut)lhs | rhs); return lhs; } \
+inline enumtype& operator &= (enumtype& lhs, ut rhs) { lhs = (enumtype)((ut)lhs & rhs); return lhs; } \
+inline enumtype& operator ^= (enumtype& lhs, ut rhs) { lhs = (enumtype)((ut)lhs ^ rhs); return lhs; } \
 inline bool operator      == (enumtype lhs, ut rhs)        { return (ut)lhs == rhs; } \
 inline bool operator      != (enumtype lhs, ut rhs)        { return (ut)lhs != rhs; } \
 inline bool hasFlag          (enumtype lhs, enumtype rhs)  { return ((ut)lhs & (ut)rhs) != 0; } \

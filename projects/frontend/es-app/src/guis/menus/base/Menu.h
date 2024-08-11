@@ -49,6 +49,8 @@ class Menu : public Gui
   protected:
     //! Menu theme
     const MenuThemeData& mTheme;
+    //! Configuration
+    RecalboxConf& mConfiguration;
 
     /*
      * Identification

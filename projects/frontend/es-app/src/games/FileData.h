@@ -36,6 +36,12 @@ class FileData
       Tate              = 0x00000200,
     };
 
+
+    //! Category mask (when added in TopLevelFilter)
+    static constexpr int sCategoryMask = 0x7F;
+    //! Category shift (when added in TopLevelFilter)
+    static constexpr int sCategoryShift = 24;
+
     //! Game filters
     enum class Filter
     {

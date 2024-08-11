@@ -1861,7 +1861,7 @@ bool SystemManager::UpdatedTopLevelFilter()
       updated.Add(system);
 
   // Check if the filter does not remove all visible systems
-  int visibleSystems = mVisibleSystems.Count();
+  int visibleSystems = mVisibleSystems.Count() + added.Count();
   for(SystemData* system : removed)
     if (mVisibleSystems.Contains(system))
       --visibleSystems;

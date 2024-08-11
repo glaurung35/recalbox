@@ -25,6 +25,7 @@
 
 Menu::Menu(WindowManager& window, const String& title, const String& footer)
   : Gui(window)
+  , mConfiguration(RecalboxConf::Instance())
   , mTheme(ThemeManager::Instance().Menu())
   , mCache(ThemeManager::Instance().MenuCache())
   , mBackground(window)

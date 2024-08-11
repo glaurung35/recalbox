@@ -900,11 +900,12 @@ class SystemManager : private INoCopy // No copy allowed
      * @brief Get set of visible categories
      * @return
      */
-    HashSet<SystemDescriptor::SystemCategory> GetVisibleCategories()
+    HashSet<SystemDescriptor::SystemCategory> GetAvailableCategories()
     {
       HashSet<SystemDescriptor::SystemCategory> result;
-      for(const SystemData* system : mVisibleSystems)
-        result.insert(system->Descriptor().Category());
+      for(const SystemData* system : mAllSystems)
+        if (system->HasGame())
+          result.insert(system->Descriptor().Category());
       result.erase(SystemDescriptor::SystemCategory::All);
       return result;
     }

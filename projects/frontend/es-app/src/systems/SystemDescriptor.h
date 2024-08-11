@@ -6,6 +6,7 @@
 #include <utils/os/fs/Path.h>
 #include <emulators/EmulatorList.h>
 #include "utils/storage/Array.h"
+#include "utils/cplusplus/Bitflags.h"
 
 class SystemDescriptor
 {
@@ -37,6 +38,7 @@ class SystemDescriptor
       Engine   = 1 << ((int)SystemType::Engine),
       All      = 0x7FFFFFFF,
     };
+
 
     //! Device requirement
     enum class DeviceRequirement
@@ -426,3 +428,5 @@ class SystemDescriptor
       return SystemCategory::None;
     }
 };
+
+DEFINE_BITFLAG_ENUM(SystemDescriptor::SystemCategory, int)

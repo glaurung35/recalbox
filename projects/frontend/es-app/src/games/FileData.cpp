@@ -93,6 +93,7 @@ bool FileData::IsDisplayable(TopLevelFilter topfilter) const
   // A folder is not displayable if there is no game inside
   if (IsFolder()) return false;
 
+  // Boolean filters
   if ((topfilter & TopLevelFilter::Favorites        ) != 0 && !mMetadata.Favorite()                           ) return false;
   if ((topfilter & TopLevelFilter::Hidden           ) != 0 && mMetadata.Hidden()                              ) return false;
   if ((topfilter & TopLevelFilter::Adult            ) != 0 && mMetadata.Adult()                               ) return false;
@@ -103,6 +104,9 @@ bool FileData::IsDisplayable(TopLevelFilter topfilter) const
   if ((topfilter & TopLevelFilter::Board            ) != 0 && mMetadata.GenreId() == GameGenres::Board        ) return false;
   if ((topfilter & TopLevelFilter::OneAndTwoPlayers ) != 0 && mMetadata.PlayerMax() <= 2                      ) return false;
   if ((topfilter & TopLevelFilter::Tate             ) != 0 && RotationUtils::IsTate(mMetadata.Rotation())     ) return false;
+  // Categories
+  SystemDescriptor::SystemCategory categories = (SystemDescriptor::SystemCategory)((topfilter >> sCategoryShift) & sCategoryMask);
+  if (categories !=  SystemDescriptor::SystemCategory::None && (categories & System().Descriptor().Category()) == 0) return false;
 
   return true;
 }
@@ -122,6 +126,8 @@ FileData::TopLevelFilter FileData::BuildTopLevelFilter()
   if (conf.GetHideBoardGames()        ) result |= TopLevelFilter::Board;
   if (conf.GetShowOnly3PlusPlayers()  ) result |= TopLevelFilter::OneAndTwoPlayers;
   if (conf.GetShowOnlyYokoGames()     ) result |= TopLevelFilter::Tate;
+
+  if (conf.GetCategoryEnabled()) result |= (int)conf.GetCategorySelected() << sCategoryShift;
 
   return result;
 }

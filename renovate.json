@@ -1,0 +1,61 @@
+{
+  "$schema": "https://docs.renovatebot.com/renovate-schema.json",
+  "extends": [
+    ":dependencyDashboard",
+    ":rebaseStalePrs",
+    ":disableRateLimiting"
+  ],
+  "labels": ["renovate"],
+  "lockFileMaintenance": {"enabled": false},
+  "separateMajorMinor": false,
+  "recreateWhen": "always",
+  "enabledManagers": ["custom.regex"],
+  "ignorePaths": [
+    "**custom/**",
+    "**/buildroot/**",
+    "**/libretro-retrodream/**"],
+  "stopUpdatingLabel": "Testing::Beta",
+  "prBodyNotes": ["{{#if newDigest}}> 🗒**Changelog**<br/> [Compare revision {{{currentDigest}}} to {{{newDigest}}}]({{{package
+Name}}}/compare/{{{currentDigest}}}...{{{newDigest}}}){{/if}}"],
+  "prCreation": "approval",
+  "packageRules": [
+    {
+      "matchPackagePatterns": ["*"],
+      "enabled": false
+    },
+    {
+      "matchPackagePatterns": ["/libretro/"],
+      "enabled": true,
+      "labels": ["renovate", "Components::Emulators"],
+      "commitMessagePrefix": "chore:",
+      "commitMessageAction": "bump",
+      "commitMessageLowerCase": "auto"
+    },
+    {
+      "matchPackagePatterns": ["/recalbox/"],
+      "enabled": true,
+      "labels": ["renovate", "Components::System"],
+      "commitMessagePrefix": "chore:",
+      "commitMessageAction": "bump",
+      "commitMessageLowerCase": "auto"
+    }
+  ],
+  "customManagers": [
+    {
+      "customType": "regex",
+      "fileMatch": ["\\.mk$"],
+      "matchStringsStrategy": "combination",
+      "matchStrings": [
+        ".*_VERSION = (?<currentValue>(?:v)?[\\w+\\.\\-]*)\\n",
+        ".*_VERSION = (?<currentDigest>[a-f0-9]{40}) #(?<nameBranch>.*)\\n",
+        ".*_VERSION = (?<currentDigest>[a-f0-9]{40})\\n",
+        ".*_SITE = (?:https?:\\/\\/)?(?:.*call )?(?<siteName>[\\w-]*)(?:\\.com)?.(?<orgName>[\\w_-]*).(?<depName>[\\w_\\/-]*)"
+      ],
+      "currentValueTemplate": "{{#if currentDigest }}{{#if nameBranch }}{{{nameBranch}}}{{else}}master{{/if}}{{else}}{{{curren
+tValue}}}{{/if}}",
+      "depNameTemplate": "{{{lowercase depName}}}",
+      "packageNameTemplate": "https://{{{siteName}}}.com/{{{orgName}}}/{{{depName}}}",
+      "datasourceTemplate": "{{#if currentDigest }}git-refs{{else}}git-tags{{/if}}"
+    }
+  ]
+}

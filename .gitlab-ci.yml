@@ -13,8 +13,10 @@ image: docker:latest
 
 stages:
   - lint
+  - check
   - build
   - release
+  - renovate
 
 variables:
   GIT_SUBMODULE_STRATEGY: none
@@ -112,6 +114,7 @@ tests buildroot patches:
     refs:
       - merge_requests
     changes:
+      - package/*/*.mk
       - package/*/*.patch
       - board/recalbox/patches/*/*.patch
   before_script:
@@ -177,7 +180,55 @@ appimage-amd64:
       paths:
         - 'projects/frontend/*.AppImage*'
       expire_in: 1 week
-    
+
+
+check_package:
+  stage: check
+  only:
+    refs:
+      - merge_requests
+    changes:
+      - package/*/*.mk
+  script:
+    - export files=$(git diff-tree --no-commit-id --name-only -r $CI_COMMIT_SHA)
+    - export package_name=$(basename $files | cut -d"." -f1)
+    - export package_bl=$(echo $package_name | tr '[:lower:]' '[:upper:]' | tr '-' '_')
+    - cp ci/generated-config.tpl generated-config.yml
+    - |-
+      for ARCH in x86_64 rpi4_64 odroidgo2 odroidxu4 rpi3 rpizero2legacy rpizero2 rg353x rpi5_64
+      do
+        if grep -q "$package_bl" configs/recalbox-${ARCH}_defconfig;then
+          echo "        - '$ARCH'" >> generated-config.yml
+        fi
+      done
+  artifacts:
+    paths:
+      - generated-config.yml
+
+trigger_build:
+  stage: build
+  trigger:
+    include:
+      - artifact: generated-config.yml
+        job: check_package
+    strategy: depend
+  rules:
+    - if: $CI_PIPELINE_SOURCE == "merge_request_event"
+      changes:
+        - package/*/*.mk
+
+
+include:
+  - local: '/ci/renovate.gitlab-ci.yml'
+
+renovate:
+  rules:
+    - if: $CI_PIPELINE_SOURCE =~ "/^(schedule)$/" && $WHICH_SCHEDULE == "renovate"
+      when: always
+    - when: never
+  variables:
+    RENOVATE_EXTRA_FLAGS: 'recalbox/recalbox'
+
 
 .build_template: &build_definition
   stage: build

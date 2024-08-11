@@ -29,8 +29,8 @@ ALSA_PLUGINS_CONF_OPTS += --disable-samplerate
 endif
 
 define ALSA_PLUGINS_ADD_DEFAULT_CONF
-	mv $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf.example \
-		$(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
+       mv $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf.example \
+               $(TARGET_DIR)/etc/alsa/conf.d/99-pulseaudio-default.conf
 endef
 
 ALSA_PLUGINS_POST_INSTALL_TARGET_HOOKS += ALSA_PLUGINS_ADD_DEFAULT_CONF

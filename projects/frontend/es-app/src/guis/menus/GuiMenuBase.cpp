@@ -19,6 +19,7 @@ GuiMenuBase::GuiMenuBase(WindowManager& window, const String& title, ISubMenuSel
   : Gui(window)
   , mMenu(window, title)
   , mTheme(ThemeManager::Instance().Menu())
+  , mConfiguration(RecalboxConf::Instance())
   , mInterface(interface)
   , mMenuInitialized(false)
 {

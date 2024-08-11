@@ -43,6 +43,7 @@ class MenuUserInterface : public Menu
       Filters,
       DisplayByFileName,
       HideSystems,
+      SystemCategories,
     };
 
     //! Global variable resolver

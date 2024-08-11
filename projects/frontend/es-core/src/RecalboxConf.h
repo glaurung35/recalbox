@@ -191,7 +191,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineGetterSetterEnumGeneric(clazz, name, enumType, key, adapterPrefix) \
       enumType Get##name() const { return adapterPrefix##FromString(AsString(key, "")); } \
-      clazz& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); return *this; }
+      clazz& Set##name(enumType value) { SetString(key, adapterPrefix##FromEnum(value)); DoNotify(name, value); return *this; } \
+      DefineObservable(clazz, name, enumType)
 
     #define DefineGetterSetterEnum(name, enumType, key, adapterPrefix) \
        DefineGetterSetterEnumGeneric(RecalboxConf, name, enumType, key, adapterPrefix)

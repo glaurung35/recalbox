@@ -34,6 +34,9 @@ MenuUserInterface::MenuUserInterface(WindowManager& window, SystemManager& syste
   // Theme Options
   AddSubMenu(_("THEME CONFIGURATION"), (int)Components::ThemeConfig, this, _(MENUMESSAGE_UI_THEME_CONFIGURATION_MSG));
 
+  // System categories
+  AddSubMenu(_("SYSTEM CATEGORIES"), (int)Components::SystemCategories, _(MENUMESSAGE_UI_CATEGORIES_FILTERS_MSG));
+
   // System sort
   AddList<SystemSorting>(_("SYSTEM SORTING"), (int)Components::SystemSort, this, GetSortingEntries(), RecalboxConf::Instance().GetSystemSorting(), SystemSorting::Default, _(MENUMESSAGE_ADVANCED_SORTINGOPTION_HELP_MSG));
 
@@ -97,6 +100,7 @@ void MenuUserInterface::SubMenuSelected(int id)
     case Components::UpdateGamelist: ReloadGamelists(); break;
     case Components::Filters: mWindow.pushGui(new MenuGameFilters(mWindow, mSystemManager)); break;
     case Components::HideSystems: mWindow.pushGui(new MenuHideSystems(mWindow, mSystemManager)); break;
+    case Components::SystemCategories: mWindow.pushGui(new GuiMenuSystemCategories(mWindow, mSystemManager)); break;
     case Components::Brightness:
     case Components::Clock:
     case Components::SwapValidateAndCancel:

@@ -118,6 +118,7 @@ class MenuMessages
     #define MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG "Updates the gamelists, if you added games since the last boot."
     #define MENUMESSAGE_UI_SWAP_VALIDATE_CANCEL_BUTTONS_HELP_MSG "Allow to swap validate button B/X and cancel button B/O"
     #define MENUMESSAGE_UI_GAME_FILTERS_MSG "Filtering games you want to show."
+    #define MENUMESSAGE_UI_CATEGORIES_FILTERS_MSG "Choose system categories you want to show"
     #define MENUMESSAGE_UI_HIDE_ADULT_MSG "Hide games flagged as adult games."
     #define MENUMESSAGE_UI_DIPLAY_BY_FILENAME_MSG "Display games by file names."
     #define MENUMESSAGE_UI_ONLY_LAST_VERSION_MSG "Hide non final versions of a same game."

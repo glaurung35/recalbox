@@ -20,6 +20,8 @@ class SystemManager : private INoCopy // No copy allowed
                     , public IMountMonitorNotifications
                     , public ISlowSystemOperation
                     , public RecalboxConf::SystemIgnoreConfigurationNotify
+                    , public RecalboxConf::CategoryEnabledConfigurationNotify
+                    , public RecalboxConf::CategorySelectedConfigurationNotify
 {
   public:
     //! Requested Visibility
@@ -515,6 +517,18 @@ class SystemManager : private INoCopy // No copy allowed
         void SystemShownWithNoGames(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::SystemShownWithNoGames called!"; }
     } mNullSystemChangeNotifier;
 
+    /*
+     * RecalboxConf::CategoryEnabledConfigurationNotify implementation
+     */
+
+    void CategoryEnabledConfigurationChanged(const bool& enabled) override { (void)enabled; (void)UpdatedTopLevelFilter(); }
+
+    /*
+     * RecalboxConf::CategorySelectedConfigurationNotify implementation
+     */
+
+    void CategorySelectedConfigurationChanged(const SystemDescriptor::SystemCategory& category) override { (void)category; (void)UpdatedTopLevelFilter(); }
+
   public:
     /*!
      * @brief constructor
@@ -880,5 +894,18 @@ class SystemManager : private INoCopy // No copy allowed
     int SystemVisibleIndex(SystemData* const system)
     {
       return mVisibleSystems.IndexOf(system);
+    }
+
+    /*!
+     * @brief Get set of visible categories
+     * @return
+     */
+    HashSet<SystemDescriptor::SystemCategory> GetVisibleCategories()
+    {
+      HashSet<SystemDescriptor::SystemCategory> result;
+      for(const SystemData* system : mVisibleSystems)
+        result.insert(system->Descriptor().Category());
+      result.erase(SystemDescriptor::SystemCategory::All);
+      return result;
     }
 };

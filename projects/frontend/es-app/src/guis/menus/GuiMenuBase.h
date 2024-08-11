@@ -60,6 +60,8 @@ class GuiMenuBase : public Gui
     MenuComponent mMenu;
     //! Menu theme
     const MenuThemeData& mTheme;
+    //! Confiuration
+    RecalboxConf& mConfiguration;
 
     //! Notify the user Recalbox is about to reboot
     void RequestReboot();

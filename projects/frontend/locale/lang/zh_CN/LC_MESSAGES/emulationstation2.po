@@ -330,9 +330,6 @@ msgstr "控制器设置"
 msgid "UI SETTINGS"
 msgstr "用户界面设置"
 
-msgid "OVERSCAN"
-msgstr "过扫描"
-
 msgid "SCREENSAVER AFTER"
 msgstr "屏幕保护延时"
 
@@ -1402,18 +1399,6 @@ msgstr "用 X 键启动 Kodi。"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "在开机时自动启动 Kodi。"
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
-msgstr ""
-"启用或关闭过扫描（Overscan）。如果显示图像大于您的屏幕，或者屏幕上有黑边，过"
-"扫描可以解决这些问题。在设置过扫描前，请先尝试把您的屏幕设置为像素1:1输出。您"
-"可以在 boot.txt 中定义更详细的过扫描设置（需要另一台电脑访问主要存储设备）。"
 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr "在 EmulationStation 和游戏中显示帧频。"
@@ -4716,6 +4701,22 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "过扫描"
+
+#~ msgid ""
+#~ "Enable or disable overscan.\n"
+#~ "Overscan can help you, if you have a black border, or if the image is "
+#~ "bigger than your screen. Before setting the overscan, try to configure "
+#~ "your TV to have a 1:1 pixel output.\n"
+#~ "More overscan settings can be defined in the boot.txt file, available "
+#~ "when you plug your SD card into your computer."
+#~ msgstr ""
+#~ "启用或关闭过扫描（Overscan）。如果显示图像大于您的屏幕，或者屏幕上有黑边，"
+#~ "过扫描可以解决这些问题。在设置过扫描前，请先尝试把您的屏幕设置为像素1:1输"
+#~ "出。您可以在 boot.txt 中定义更详细的过扫描设置（需要另一台电脑访问主要存储"
+#~ "设备）。"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

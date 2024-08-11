@@ -325,9 +325,6 @@ msgstr "SETARI CONTROLLERE"
 msgid "UI SETTINGS"
 msgstr "SETARI UI"
 
-msgid "OVERSCAN"
-msgstr "OVERSCAN"
-
 msgid "SCREENSAVER AFTER"
 msgstr "SCREENSAVER DUPA"
 
@@ -1331,15 +1328,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
 msgstr ""
 
 msgid "Show the framerate in EmulationStation and in game."
@@ -4679,3 +4667,6 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "OVERSCAN"

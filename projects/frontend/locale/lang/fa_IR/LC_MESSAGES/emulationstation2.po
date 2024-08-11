@@ -319,9 +319,6 @@ msgstr "تنظیمات گیم پد"
 msgid "UI SETTINGS"
 msgstr "تنظیمات منوها"
 
-msgid "OVERSCAN"
-msgstr "بهینه سازی نمایشگر"
-
 msgid "SCREENSAVER AFTER"
 msgstr "محافظ نمایشگر بعد از"
 
@@ -1322,15 +1319,6 @@ msgstr "برای شروع مدیا پلیر X را فشار دهید"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "شروع خودکار مدیاپلیر درهنگام روشن شدن دستگاه"
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
-msgstr ""
 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr "نمایش فریم ریت در بازی و منوها"
@@ -4674,3 +4662,6 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "بهینه سازی نمایشگر"

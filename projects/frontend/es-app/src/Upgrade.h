@@ -105,7 +105,7 @@ class Upgrade: public StaticLifeCycleControler<Upgrade>
     {
       public:
         //! Build & show the popup if it does not already exists
-        static void Show(WindowManager* window, Upgrade& upgrade, const String& message)
+        static void Show(WindowManager* window, Upgrade* upgrade, const String& message)
         {
           if (mInstance == nullptr)
           {
@@ -122,13 +122,13 @@ class Upgrade: public StaticLifeCycleControler<Upgrade>
         static UpdatePopup* mInstance;
 
         //! Launch update window
-        static void LaunchUpdate(WindowManager* window, Upgrade& upgrade)
+        static void LaunchUpdate(WindowManager* window, Upgrade* upgrade)
         {
-          window->pushGui(new GuiUpdateRecalbox(*window, upgrade.TarUrl(), upgrade.ImageUrl(), upgrade.HashUrl(), upgrade.NewVersion()));
+          window->pushGui(new GuiUpdateRecalbox(*window, upgrade->TarUrl(), upgrade->ImageUrl(), upgrade->HashUrl(), upgrade->NewVersion()));
         }
 
         //! Default constructor
-        UpdatePopup(WindowManager* window, Upgrade& upgrade, const String& message)
+        UpdatePopup(WindowManager* window, Upgrade* upgrade, const String& message)
           : GuiMsgBoxScroll(*window, _("AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"), message, _("LATER"), nullptr, _("UPDATE NOW"),
                             std::bind(UpdatePopup::LaunchUpdate, window, upgrade), String::Empty, nullptr, TextAlignment::Left) {}
     };

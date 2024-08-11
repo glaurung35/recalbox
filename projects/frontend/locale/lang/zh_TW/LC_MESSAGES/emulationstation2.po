@@ -340,9 +340,6 @@ msgstr "控制器設定"
 msgid "UI SETTINGS"
 msgstr "使用者介面設定"
 
-msgid "OVERSCAN"
-msgstr "過掃描填滿效果"
-
 msgid "SCREENSAVER AFTER"
 msgstr "螢幕保護時間"
 
@@ -1398,17 +1395,6 @@ msgstr "按 X 鍵快速啟動 KODI"
 
 msgid "Automatically start into Kodi on boot."
 msgstr "開機自動進入 KODI 媒體播放中心"
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
-msgstr ""
-"啟用過掃描填滿效果可以讓黑色邊框消失，但同時可能會讓畫面比例失真。請確定您的"
-"電視機的解析度為1:1像素輸出。可以在SD卡中的boot.txt文件中修改更多設定。"
 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr "顯示FPS更新率在畫面中。"
@@ -4787,6 +4773,20 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "過掃描填滿效果"
+
+#~ msgid ""
+#~ "Enable or disable overscan.\n"
+#~ "Overscan can help you, if you have a black border, or if the image is "
+#~ "bigger than your screen. Before setting the overscan, try to configure "
+#~ "your TV to have a 1:1 pixel output.\n"
+#~ "More overscan settings can be defined in the boot.txt file, available "
+#~ "when you plug your SD card into your computer."
+#~ msgstr ""
+#~ "啟用過掃描填滿效果可以讓黑色邊框消失，但同時可能會讓畫面比例失真。請確定您"
+#~ "的電視機的解析度為1:1像素輸出。可以在SD卡中的boot.txt文件中修改更多設定。"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

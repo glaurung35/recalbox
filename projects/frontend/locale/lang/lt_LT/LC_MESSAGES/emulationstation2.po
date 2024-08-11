@@ -6,8 +6,8 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "X-Generator: POEditor.com\n"
-"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && (n"
-"%100<10 || n%100>=20) ? 1 : 2);\n"
+"Plural-Forms: nplurals=3; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && "
+"(n%100<10 || n%100>=20) ? 1 : 2);\n"
 
 msgid "AN UPDATE IS AVAILABLE FOR YOUR RECALBOX"
 msgstr "JŪSŲ RECALBOX YRA PASIEKIAMAS ATNAUJINIMAS"
@@ -325,9 +325,6 @@ msgstr "VALDIKLIO NUSTATYMAI"
 
 msgid "UI SETTINGS"
 msgstr "UI NUSTATYMAI"
-
-msgid "OVERSCAN"
-msgstr "OVERSCAN"
 
 msgid "SCREENSAVER AFTER"
 msgstr "EKRANO SAUGOJIMAS PO"
@@ -1311,15 +1308,6 @@ msgid "Use the X button to start Kodi."
 msgstr ""
 
 msgid "Automatically start into Kodi on boot."
-msgstr ""
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
 msgstr ""
 
 msgid "Show the framerate in EmulationStation and in game."
@@ -4453,3 +4441,6 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "OVERSCAN"

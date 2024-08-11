@@ -128,7 +128,7 @@ void Upgrade::ReceiveSyncMessage()
 
   // Messagebox
   if (!mMessageBoxMessage.empty())
-    UpdatePopup::Show(&mWindow, *this, mMessageBoxMessage);
+    UpdatePopup::Show(&mWindow, this, mMessageBoxMessage);
 }
 
 String Upgrade::GetDomainName()

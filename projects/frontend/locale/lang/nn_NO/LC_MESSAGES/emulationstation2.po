@@ -318,9 +318,6 @@ msgstr "KONTROLL INSTILLINGER"
 msgid "UI SETTINGS"
 msgstr "UI INSTILLINGER"
 
-msgid "OVERSCAN"
-msgstr "OVERSKANN"
-
 msgid "SCREENSAVER AFTER"
 msgstr "SKJERMSPARER ETTER"
 
@@ -1358,15 +1355,6 @@ msgstr "Bruk X knappen til å starte Kodi."
 
 msgid "Automatically start into Kodi on boot."
 msgstr "Automatisk start opp Kodi på oppstart."
-
-msgid ""
-"Enable or disable overscan.\n"
-"Overscan can help you, if you have a black border, or if the image is bigger "
-"than your screen. Before setting the overscan, try to configure your TV to "
-"have a 1:1 pixel output.\n"
-"More overscan settings can be defined in the boot.txt file, available when "
-"you plug your SD card into your computer."
-msgstr ""
 
 msgid "Show the framerate in EmulationStation and in game."
 msgstr ""
@@ -4501,6 +4489,9 @@ msgstr ""
 #
 msgid "Show only tate (vertical) games in gamelists."
 msgstr ""
+
+#~ msgid "OVERSCAN"
+#~ msgstr "OVERSKANN"
 
 #~ msgid ""
 #~ "Set the screensaver behavior. DIM will reduce the screen light, and BLACK "

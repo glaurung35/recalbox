@@ -52,6 +52,35 @@ const String& RecalboxConf::UpdateTypeFromEnum(UpdateType type)
   return s;
 }
 
+SystemDescriptor::SystemCategory RecalboxConf::SystemCategoryFromString(const String& category)
+{
+  if      (category == "arcade") return SystemDescriptor::SystemCategory::Arcade;
+  else if (category == "console") return SystemDescriptor::SystemCategory::Console;
+  else if (category == "handheld") return SystemDescriptor::SystemCategory::Handheld;
+  else if (category == "fantasy") return SystemDescriptor::SystemCategory::Fantasy;
+  else if (category == "engine") return SystemDescriptor::SystemCategory::Engine;
+  else if (category == "computer") return SystemDescriptor::SystemCategory::Computer;
+  return SystemDescriptor::SystemCategory::All;
+}
+
+const String& RecalboxConf::SystemCategoryFromEnum(SystemDescriptor::SystemCategory category)
+{
+  switch(category)
+  {
+    case SystemDescriptor::SystemCategory::Arcade: { static String s("arcade"); return s; }
+    case SystemDescriptor::SystemCategory::Console: { static String s("console"); return s; }
+    case SystemDescriptor::SystemCategory::Handheld: { static String s("handheld"); return s; }
+    case SystemDescriptor::SystemCategory::Computer: { static String s("computer"); return s; }
+    case SystemDescriptor::SystemCategory::Fantasy: { static String s("fantasy"); return s; }
+    case SystemDescriptor::SystemCategory::Engine: { static String s("engine"); return s; }
+    case SystemDescriptor::SystemCategory::None:
+    case SystemDescriptor::SystemCategory::All:
+    default: break;
+  }
+  static String all("all");
+  return all;
+}
+
 RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& softpatching)
 {
   if (softpatching == "auto") return SoftPatching::Auto;

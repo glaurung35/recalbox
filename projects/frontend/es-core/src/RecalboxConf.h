@@ -13,6 +13,7 @@
 #include <audio/AudioMode.h>
 #include "systems/SystemSorting.h"
 #include "IRecalboxConfChanged.h"
+#include "systems/SystemDescriptor.h"
 #include <scraping/ScraperType.h>
 
 // Forward declaration
@@ -286,6 +287,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
     DefineGetterSetter(HideBoardGames, bool, Bool, sHideBoardGames, false)
     DefineGetterSetter(ShowOnly3PlusPlayers, bool, Bool, sShowOnly3PlusPlayers, false)
+
+    DefineGetterSetter(CategoryEnabled, bool, Bool, sCategoryEnabled, false)
+    DefineGetterSetterEnum(CategorySelected, SystemDescriptor::SystemCategory, sCategorySelected, SystemCategory)
+    DefineGetterSetter(CategoryQuickChange, bool, Bool, sCategoryQuickChange, false)
 
     DefineGetterSetter(FirstTimeUse, bool, Bool, sFirstTimeUse, true)
 
@@ -607,9 +612,10 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sStartupHideSystemView      = "emulationstation.hidesystemview";
 
     static constexpr const char* sMenuType                   = "emulationstation.menu";
-    static constexpr const char* sHideSystemView             = "emulationstation.hidesystemview";
-    static constexpr const char* sBootOnGamelist             = "emulationstation.bootongamelist";
-    static constexpr const char* sForceBasicGamelistView     = "emulationstation.forcebasicgamelistview";
+
+    static constexpr const char* sCategoryEnabled            = "emulationstation.category.enabled";
+    static constexpr const char* sCategorySelected           = "emulationstation.category.selected";
+    static constexpr const char* sCategoryQuickChange        = "emulationstation.category.quickchange";
 
     static constexpr const char* sCollectionLastPlayed       = "emulationstation.collection.lastplayed";
     static constexpr const char* sCollectionMultiplayer      = "emulationstation.collection.multiplayer";
@@ -688,6 +694,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static const String& PadOSDTypeFromEnum(PadOSDType type);
     static GamelistDecoration GamelistDecorationFromString(const String& gameDecoration);
     static const String GamelistDecorationFromEnum(GamelistDecoration gameDecoration);
+    static SystemDescriptor::SystemCategory SystemCategoryFromString(const String& category);
+    static const String& SystemCategoryFromEnum(SystemDescriptor::SystemCategory category);
 };
 
 DEFINE_BITFLAG_ENUM(RecalboxConf::GamelistDecoration, int)

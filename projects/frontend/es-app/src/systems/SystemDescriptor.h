@@ -26,6 +26,18 @@ class SystemDescriptor
       __Count
     };
 
+    enum class SystemCategory
+    {
+      None     = 0x00000000,
+      Arcade   = 1 << ((int)SystemType::Arcade),
+      Console  = 1 << ((int)SystemType::Console),
+      Handheld = 1 << ((int)SystemType::Handheld),
+      Computer = 1 << ((int)SystemType::Computer),
+      Fantasy  = 1 << ((int)SystemType::Fantasy),
+      Engine   = 1 << ((int)SystemType::Engine),
+      All      = 0x7FFFFFFF,
+    };
+
     //! Device requirement
     enum class DeviceRequirement
     {
@@ -60,6 +72,7 @@ class SystemDescriptor
       , mScreenScraperID(0)
       , mReleaseDate(0)
       , mType(SystemType::Unknown)
+      , mCategory(SystemCategory::None)
       , mPad(DeviceRequirement::Unknown)
       , mKeyboard(DeviceRequirement::Unknown)
       , mMouse(DeviceRequirement::Unknown)
@@ -147,6 +160,7 @@ class SystemDescriptor
                                                const String& ignoredfiles)
     {
       mType = ConvertSystemType(systemtype);
+      mCategory = ConvertSystemCategory(mType);
       mPad = ConvertDeviceRequirement(pad);
       mKeyboard = ConvertDeviceRequirement(keyboard);
       mMouse = ConvertDeviceRequirement(mouse);
@@ -197,12 +211,13 @@ class SystemDescriptor
     [[nodiscard]] unsigned int Icon() const { return (unsigned int)mIcon; }
     [[nodiscard]] String IconPrefix() const;
 
-    [[nodiscard]] int ScreenScaperID() const { return mScreenScraperID; }
+    [[nodiscard]] int ScreenScraperID() const { return mScreenScraperID; }
 
     [[nodiscard]] int ReleaseDate() const { return mReleaseDate; }
     [[nodiscard]] const String& Manufacturer() const { return mManufacturer; }
 
     [[nodiscard]] SystemType Type() const { return mType; }
+    [[nodiscard]] SystemCategory Category() const { return mCategory; }
     [[nodiscard]] DeviceRequirement PadRequirement() const { return mPad; }
     [[nodiscard]] DeviceRequirement KeyboardRequirement() const { return mKeyboard; }
     [[nodiscard]] DeviceRequirement MouseRequirement() const { return mMouse; }
@@ -318,6 +333,7 @@ class SystemDescriptor
     int                mReleaseDate;     //!< Release date in numeric format yyyymm
     String             mManufacturer;    //!< Manufacturer ("Nintendo")
     SystemType         mType;            //!< System type
+    SystemCategory     mCategory;        //!< Category
     DeviceRequirement  mPad;             //!< Pad state
     DeviceRequirement  mKeyboard;        //!< Pad state
     DeviceRequirement  mMouse;           //!< Pad state
@@ -389,4 +405,24 @@ class SystemDescriptor
      * @param extensiontypes Serialized types par extensions
      */
     void StoreExtensionTypes(const String& extensiontypes);
+
+    static SystemCategory ConvertSystemCategory(SystemType type)
+    {
+      switch(type)
+      {
+        case SystemType::VArcade:
+        case SystemType::Arcade: return SystemCategory::Arcade;
+        case SystemType::Console: return SystemCategory::Console;
+        case SystemType::Handheld: return SystemCategory::Handheld;
+        case SystemType::Computer: return SystemCategory::Computer;
+        case SystemType::Fantasy: return SystemCategory::Fantasy;
+        case SystemType::Engine: return SystemCategory::Engine;
+        case SystemType::Unknown:
+        case SystemType::Port:
+        case SystemType::Virtual:
+        case SystemType::__Count:
+        default: break;
+      }
+      return SystemCategory::None;
+    }
 };

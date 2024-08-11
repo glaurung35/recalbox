@@ -48,7 +48,7 @@ String ScreenScraperEndPoints::GetGameInfoUrl(const String& login, const String&
 
   // Add gameinfo properties
   result.Append("&romtype=rom");
-  result.Append("&systemeid=").Append(game.System().Descriptor().ScreenScaperID());
+  result.Append("&systemeid=").Append(game.System().Descriptor().ScreenScraperID());
   result.Append("&romnom=").Append(Url::URLEncode(GameAdapter(game).ScrapingName()));
   result.Append("&romtaille=").Append(size);
   if (!crc32.empty())

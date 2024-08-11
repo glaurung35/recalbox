@@ -34,7 +34,6 @@ class FileData
       Board             = 0x00000080,
       OneAndTwoPlayers  = 0x00000100,
       Tate              = 0x00000200,
-
     };
 
     //! Game filters

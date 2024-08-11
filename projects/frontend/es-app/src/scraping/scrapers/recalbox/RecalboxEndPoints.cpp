@@ -52,7 +52,7 @@ RecalboxEndPoints::GetGameInfoUrlByName(const String& login, const String& passw
   String url = GetUrlBase();
 
   url.Append("/api/game/bysystem/")
-     .Append(game.System().Descriptor().ScreenScaperID())
+     .Append(game.System().Descriptor().ScreenScraperID())
      .Append("/andname/")
      .Append(Url::URLEncode(GameAdapter(game).ScrapingName()))
      .Append("/andsize/")
@@ -75,7 +75,7 @@ String RecalboxEndPoints::BuildQueryString(const FileData* game, long long size)
         .Append(Url::URLEncode(mVersion));
   if (game != nullptr)
     result.Append(LEGACY_STRING("&system="))
-          .Append(game->System().Descriptor().ScreenScaperID())
+          .Append(game->System().Descriptor().ScreenScraperID())
           .Append(LEGACY_STRING("&systemname="))
           .Append(Url::URLEncode(game->System().Name()))
           .Append(LEGACY_STRING("&gamename="))

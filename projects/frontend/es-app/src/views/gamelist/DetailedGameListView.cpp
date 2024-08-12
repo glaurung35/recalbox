@@ -849,6 +849,8 @@ float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data)
 
 float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
 {
+  if (data->IsHeader()) return 0.f;
+
   int result = 0;
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
   {

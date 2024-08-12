@@ -855,12 +855,12 @@ float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Regions))
   {
     int regionCount = data->Metadata().Region().Count();
-    result = (mFlagWidth + mFlagMargin) * regionCount;
+    result += (mFlagWidth + mFlagMargin) * regionCount;
   }
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Players))
-    result = mFlagWidth + mFlagMargin;
+    result += mFlagWidth + mFlagMargin;
   if (hasFlag(mDecorations, RecalboxConf::GamelistDecoration::Genre))
-    result = mFlagWidth + mFlagMargin;
+    result += mFlagWidth + mFlagMargin;
   return (float)result;
 }
 

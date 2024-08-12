@@ -85,7 +85,7 @@ void SystemManager::CheckFolderOverriding(SystemData& system)
        */
       static String LocalizedText(const String& source)
       {
-        // Extract prefered language/region
+        // Extract preferred language/region
         String locale = RecalboxConf::Instance().GetSystemLanguage().ToLowerCase();
 
         // Get start
@@ -424,7 +424,7 @@ void SystemManager::PopulateFavoriteSystem(SystemData* system)
 
 void SystemManager::PopulatePortsSystem(SystemData* systemPorts)
 {
-  if ((RecalboxConf::Instance().GetCollectionPorts()) || (GetVisibleRegularSystemCount() == 0))
+  if (systemPorts->MustBeShown())
   {
     // Lookup all non-empty arcade platforms
     List ports;
@@ -460,7 +460,7 @@ void SystemManager::PopulateLastPlayedSystem(SystemData* systemLastPlayed)
       }
   } filter;
 
-  if (RecalboxConf::Instance().GetCollectionLastPlayed())
+  if (systemLastPlayed->MustBeShown())
     PopulateMetaSystemWithFilter(systemLastPlayed, &filter, nullptr);
 }
 
@@ -478,13 +478,13 @@ void SystemManager::PopulateMultiPlayerSystem(SystemData* systemMultiPlayer)
       }
   } filter;
 
-  if (RecalboxConf::Instance().GetCollectionMultiplayer())
+  if (systemMultiPlayer->MustBeShown())
     PopulateMetaSystemWithFilter(systemMultiPlayer, &filter, nullptr);
 }
 
 void SystemManager::PopulateAllGamesSystem(SystemData* systemAllGames)
 {
-  if (RecalboxConf::Instance().GetCollectionAllGames())
+  if (systemAllGames->MustBeShown())
   {
     FileData::StringMap doppelganger;
     for (SystemData* system: mAllSystems)
@@ -497,7 +497,7 @@ void SystemManager::PopulateAllGamesSystem(SystemData* systemAllGames)
 
 void SystemManager::PopulateLightgunSystem(SystemData* systemLightGun)
 {
-  if (RecalboxConf::Instance().GetCollectionLightGun())
+  if (systemLightGun->MustBeShown())
   {
     LightGunDatabase database;
     PopulateMetaSystemWithFilter(systemLightGun, &database, nullptr);
@@ -518,13 +518,13 @@ void SystemManager::PopulateTateSystem(SystemData* systemTate)
       }
   } filter;
 
-  if (RecalboxConf::Instance().GetCollectionTate())
+  if (systemTate->MustBeShown())
     PopulateMetaSystemWithFilter(systemTate, &filter, nullptr);
 }
 
 void SystemManager::PopulateArcadeSystem(SystemData* systemArcade)
 {
-  if (RecalboxConf::Instance().GetCollectionArcade())
+  if (systemArcade->MustBeShown())
   {
     List candidates;
     FileData::StringMap doppelganger;
@@ -563,7 +563,7 @@ void SystemManager::PopulateGenreSystem(SystemData* systemGenre)
   GameGenres genre = Genres::LookupFromName(String(systemGenre->Name()).Remove(sGenrePrefix));
   if (genre == GameGenres::None) { LOG(LogError) << "[SystemManager] Unable to lookup system genre!"; abort(); }
 
-  if (RecalboxConf::Instance().IsInCollectionGenre(BuildGenreSystemName(genre)))
+  if (systemGenre->MustBeShown())
   {
     Filter filter(genre);
     PopulateMetaSystemWithFilter(systemGenre, &filter, nullptr);
@@ -633,7 +633,7 @@ void SystemManager::PopulateArcadeManufacturersSystem(SystemData* system)
 
   String identifier = system->Name();
   String manufacturer(identifier); manufacturer.Remove(sArcadeManufacturerPrefix).Replace('-', '\\');
-  if (RecalboxConf::Instance().IsInCollectionArcadeManufacturers(identifier))
+  if (system->MustBeShown())
   {
     // Filter and insert items
     FileData::List allGames;
@@ -715,13 +715,36 @@ void SystemManager::PopulateVirtualSystemWithGames(SystemData* system, const Fil
 
 SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDescriptor)
 {
+  // Visiblity
+  String ignoreKey = systemDescriptor.Name(); ignoreKey.Append(".ignore");
+  SystemData::DynamicVisibilityType isVisible;
+  if (systemDescriptor.IsTrueArcade())
+    isVisible = [ignoreKey]
+    {
+      bool arcadeCollectionOn = RecalboxConf::Instance().GetCollectionArcade();
+      bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
+      return (!arcadeCollectionOn || !hideOriginals) && !RecalboxConf::Instance().AsBool(ignoreKey);
+    };
+  else if (systemDescriptor.Name() == "neogeo")
+    isVisible = [ignoreKey]
+    {
+      bool arcadeCollectionOn = RecalboxConf::Instance().GetCollectionArcade();
+      bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
+      bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
+      return (!arcadeCollectionOn || !hideOriginals || !includeNeogeo) && !RecalboxConf::Instance().AsBool(ignoreKey);
+    };
+  else if (systemDescriptor.IsPort()) isVisible = [] { return false; }; // Ports are always invisible
+  else isVisible = [ignoreKey] { return !RecalboxConf::Instance().AsBool(ignoreKey); };
+
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return false; };
+
   // Create system
   SystemData::Properties properties = SystemData::Properties::Searchable;
   if (systemDescriptor.Name() == "pico8") properties |= SystemData::Properties::GameInPng;
   if (systemDescriptor.Name() == "imageviewer") properties = SystemData::Properties::GameInPng | SystemData::Properties::ScreenShots;
   if (systemDescriptor.IsPort()) properties |= SystemData::Properties::Ports;
 
-  SystemData* result = new SystemData(*this, systemDescriptor, properties);
+  SystemData* result = new SystemData(*this, systemDescriptor, isVisible, belonging, properties);
   InitializeSystem(result);
 
   return result;
@@ -729,11 +752,13 @@ SystemData* SystemManager::CreateRegularSystem(const SystemDescriptor& systemDes
 
 SystemData* SystemManager::CreateFavoriteSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return true; };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { return game->Metadata().Favorite(); };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("235d42c7-af11-49ad-a422-d37b52e3a899", sFavoriteSystemShortName, _("Favorites"))
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", sFavoriteSystemShortName, "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite,
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat | SystemData::Properties::Favorite,
                                       MetadataType::Favorite, VirtualSystemType::Favorites);
 
   return result;
@@ -741,22 +766,26 @@ SystemData* SystemManager::CreateFavoriteSystem()
 
 SystemData* SystemManager::CreatePortsSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = [this]{ return RecalboxConf::Instance().GetCollectionPorts() || GetVisibleRegularSystemCount(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return false; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("8cfef2bd-83e8-460b-85e5-432d4efa5257", sPortsSystemShortName, sPortsSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", sPortsSystemShortName, "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::Searchable,
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::Searchable,
                                       MetadataType::None, VirtualSystemType::Ports);
   return result;
 }
 
 SystemData* SystemManager::CreateLastPlayedSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionLastPlayed(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { return game->Metadata().LastPlayedEpoc() != 0; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("ddf12b17-a336-444a-9813-dd82f0649818", sLastPlayedSystemShortName, sLastPlayedSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(sLastPlayedSystemShortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat,
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::FixedSort | SystemData::Properties::AlwaysFlat,
                                       MetadataType::LastPlayed, VirtualSystemType::LastPlayed, FileSorts::Sorts::LastPlayedDescending);
 
   return result;
@@ -764,50 +793,60 @@ SystemData* SystemManager::CreateLastPlayedSystem()
 
 SystemData* SystemManager::CreateMultiPlayerSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionMultiplayer(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { return game->Metadata().PlayerMax() > 1; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("c6d89f44-712a-4998-9e09-6fbd7cf10529", sMultiplayerSystemShortName, sMultiplayerSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(sMultiplayerSystemShortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual, MetadataType::Players, VirtualSystemType::Multiplayers);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual, MetadataType::Players, VirtualSystemType::Multiplayers);
 
   return result;
 }
 
 SystemData* SystemManager::CreateAllGamesSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionAllGames(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return true; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("cec94df6-a965-41c3-9b51-f223612dc3d9", sAllGamesSystemShortName, sAllGamesSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(sAllGamesSystemShortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual, MetadataType::None, VirtualSystemType::AllGames);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual, MetadataType::None, VirtualSystemType::AllGames);
 
   return result;
 }
 
 SystemData* SystemManager::CreateLightgunSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionLightGun(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return false; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("2b6d3653-cd56-4f9a-86c0-62292216242b", sLightgunSystemShortName, sLightgunSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(sLightgunSystemShortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::Lightgun);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::Lightgun);
 
   return result;
 }
 
 SystemData* SystemManager::CreateTateSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionTate(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { return game->Metadata().Rotation() == RotationType::Left || game->Metadata().Rotation() == RotationType::Right; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("7e5b2ff8-40fe-406d-88bd-d289c95e03f9", sTateSystemShortName, sTateSystemFullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(sTateSystemShortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::Rotation, VirtualSystemType::Tate);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::Rotation, VirtualSystemType::Tate);
 
   return result;
 }
 
 SystemData* SystemManager::CreateArcadeSystem()
 {
+  SystemData::DynamicVisibilityType isVisible = []{ return RecalboxConf::Instance().GetCollectionArcade(); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return false; };
   SystemDescriptor descriptor;
   descriptor.SetSystemInformation("a68dedb7-e6b8-4a0b-b10c-1a1a85eec982", sArcadeSystemShortName, sArcadeSystemFullName)
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
@@ -817,31 +856,36 @@ SystemData* SystemManager::CreateArcadeSystem()
   bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
   if (hideOriginals) properties |= SystemData::Properties::Searchable;
 
-  SystemData* result = new SystemData(*this, descriptor, properties, MetadataType::None, VirtualSystemType::Arcade);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, properties, MetadataType::None, VirtualSystemType::Arcade);
 
   return result;
 }
 
 SystemData* SystemManager::CreateGenreSystem(GameGenres genre)
 {
+  SystemData::DynamicVisibilityType isVisible = [genre]{ return RecalboxConf::Instance().IsInCollectionGenre(SystemManager::BuildGenreSystemName(genre)); };
+  SystemData::DynamicBelongingType belonging = [genre](const FileData* game) { return game->Metadata().GenreId() == genre; };
   SystemDescriptor descriptor;
   String shortName = Genres::GetShortName(genre);
   String fullName = Genres::GetFullName(genre);
   descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(shortName), BuildGenreSystemName(genre), fullName)
             .SetPropertiesInformation("virtual", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-").Append(shortName), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::GenreId, VirtualSystemType::Genre);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::GenreId, VirtualSystemType::Genre);
 
   return result;
 }
 
 SystemData* SystemManager::CreateArcadeManufacturersSystem(const String& manufacturer)
 {
+  String systemName = BuildArcadeManufacturerSystemName(manufacturer);
+  SystemData::DynamicVisibilityType isVisible = [systemName]{ return RecalboxConf::Instance().IsInCollectionArcadeManufacturers(systemName); };
+  SystemData::DynamicBelongingType belonging = [](const FileData* game) { (void)game; return false; };
   SystemDescriptor descriptor;
-  descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), BuildArcadeManufacturerSystemName(manufacturer), String(manufacturer).Replace('\\', " - "))
+  descriptor.SetSystemInformation(String("475b94da-8fbc-488d-82df-554161af2997").Append(manufacturer), systemName, String(manufacturer).Replace('\\', " - "))
             .SetPropertiesInformation("varcade", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
             .SetDescriptorInformation("", "", "", String("auto-arcade-").Append(manufacturer).Replace('\\','-').Remove("\u00A0"), "", "", false, false, false);
-  SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::ArcadeManufacturers);
+  SystemData* result = new SystemData(*this, descriptor, isVisible, belonging, SystemData::Properties::Virtual | SystemData::Properties::AlwaysFlat, MetadataType::None, VirtualSystemType::ArcadeManufacturers);
   return result;
 }
 
@@ -1294,7 +1338,7 @@ SystemData* SystemManager::FirstNonEmptySystem()
 
 FileData::List SystemManager::SearchTextInGames(FolderData::FastSearchContext context, const String& originaltext, int maxglobal, const SystemData* targetSystem)
 {
-  // Everything to lowercase cause search is not case sensitive
+  // Everything to lowercase cause search is not case-sensitive
   String lowercaseText = originaltext.ToLowerCaseUTF8();
 
   // Fast search into metadata, collecting index and distances
@@ -1678,7 +1722,7 @@ bool SystemManager::UpdateSystemsOnSingleGameChanges(FileData* target, MetadataT
     {
       // Game already in this system?
       bool isAlreadyIn = system->MasterRoot().LookupGame(target);
-      bool shouldBeIn = ShouldGameBelongToThisVirtualSystem(target, system);
+      bool shouldBeIn = system->ShouldBelongToMe(target);
       // Process only changed states & ignore equal states
       if (isAlreadyIn && !shouldBeIn) // Must remove
       {
@@ -1721,23 +1765,6 @@ int SystemManager::GetVisibleRegularSystemCount() const
   return count;
 }
 
-bool SystemManager::ShouldGameBelongToThisVirtualSystem(const FileData* game, const SystemData* system)
-{
-  // Favorite?
-  if (system->Name() == sFavoriteSystemShortName) return game->Metadata().Favorite();
-  // Last played?
-  if (system->Name() == sLastPlayedSystemShortName) return game->Metadata().LastPlayedEpoc() != 0;
-  // Multiplayer ?
-  if (system->Name() == sMultiplayerSystemShortName) return game->Metadata().PlayerMin() > 1;
-  // Tate ?
-  if (system->Name() == sTateSystemShortName) return game->Metadata().Rotation() == RotationType::Left || game->Metadata().Rotation() == RotationType::Right;
-  // All game?
-  if (system->Name() == sAllGamesSystemShortName) return true;
-
-  // We don't know...
-  return false;
-}
-
 void SystemManager::SlowPopulateExecute(const SystemManager::List& listToPopulate)
 {
   // Initialize & populate (if required)
@@ -1753,20 +1780,18 @@ void SystemManager::SlowPopulateCompleted(const SystemManager::List& listPopulat
     if (hasVisibleGame = system->HasVisibleGame(); hasVisibleGame)
     {
       MakeSystemVisible(system);
-      if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->ShowSystem(system);
+      mSystemChangeNotifier->ShowSystem(system);
     }
   // If there is only one, select it!
   if (autoSelectMonoSystem)
     if (listPopulated.Count() == 1)
-      if (mSystemChangeNotifier != nullptr)
-      {
-        if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
-        else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
-      }
+    {
+      if (hasVisibleGame) mSystemChangeNotifier->SelectSystem(listPopulated.First());
+      else mSystemChangeNotifier->SystemShownWithNoGames(listPopulated.First());
+    }
 }
 
-bool SystemManager::ContainsUnitializedSystem(const SystemManager::List& list)
+bool SystemManager::ContainsUninitializedSystem(const SystemManager::List& list)
 {
   // Chekc if at least one system is not initialized
   for (SystemData* system : list)
@@ -1780,32 +1805,36 @@ SystemManager::ApplySystemChanges(SystemManager::List* addedSystems,
                                   SystemManager::List* removedSystems, SystemManager::List* modifiedSystems,
                                   bool autoSelectMonoSystem)
 {
-  // Remove always-hidden system
-  if (addedSystems != nullptr)
-    RemoveAlwaysHiddenSystems(*addedSystems);
   // Added virtual systems?
   if (addedSystems != nullptr && !addedSystems->Empty())
   {
-    if (ContainsUnitializedSystem(*addedSystems))
-    {
-      if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->RequestSlowOperation(this, *addedSystems, autoSelectMonoSystem);
-    }
+    // Check system that must remain invisibles to the user
+    for(int i = addedSystems->Count(); --i >= 0;)
+      if (const SystemData* system = (*addedSystems)[i]; !system->MustBeShown())
+        addedSystems->Delete(i);
+    // Initialize new system
+    if (ContainsUninitializedSystem(*addedSystems)) mSystemChangeNotifier->RequestSlowOperation(this, *addedSystems, autoSelectMonoSystem);
     else SlowPopulateCompleted(*addedSystems, autoSelectMonoSystem);
   }
+  // Move updated system that must remain invisible to the user to the remove list
+  if (modifiedSystems != nullptr)
+    for(int i = modifiedSystems->Count(); --i >= 0; )
+      if (SystemData* system = (*modifiedSystems)[i]; !system->MustBeShown())
+      {
+        removedSystems->Add(system);
+        modifiedSystems->Delete(i);
+      }
   // Removed virtual systems?
   if (removedSystems != nullptr && !removedSystems->Empty())
     for(SystemData* system : *removedSystems)
     {
       MakeSystemInvisible(system);
-      if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->HideSystem(system);
+      mSystemChangeNotifier->HideSystem(system);
     }
   // Modified virtual systems?
   if (modifiedSystems != nullptr)
     for (SystemData* system: *modifiedSystems)
-      if (mSystemChangeNotifier != nullptr)
-        mSystemChangeNotifier->UpdateSystem(system);
+      mSystemChangeNotifier->UpdateSystem(system);
 }
 
 bool SystemManager::UpdatedTopLevelFilter()
@@ -1850,25 +1879,3 @@ void SystemManager::UpdateSystemsVisibility(SystemData* system, Visibility visib
   if ((visibility == Visibility::Show || visibility == Visibility::ShowAndSelect) && !visible) ApplySystemChanges(&list, nullptr, nullptr, visibility == Visibility::ShowAndSelect);
   else if (visibility == Visibility::Hide && visible) ApplySystemChanges(nullptr, &list, nullptr, false);
 }
-
-void SystemManager::RemoveAlwaysHiddenSystems(List& list)
-{
-  bool arcadeCollectionOn = RecalboxConf::Instance().GetCollectionArcade();
-  bool hideOriginals = RecalboxConf::Instance().GetCollectionArcadeHideOriginals();
-  bool includeNeogeo = RecalboxConf::Instance().GetCollectionArcadeNeogeo();
-  for(int i = list.Count(); --i >= 0;)
-  {
-    const SystemData* system = list[i];
-    if (
-        // Always hide ports
-        system->IsPorts() ||
-        // Hide arcade systems ?
-        (arcadeCollectionOn && hideOriginals &&
-         (system->IsTrueArcade() || (includeNeogeo && system->Name() == "neogeo"))) ||
-        // Hide last played
-        (system->IsLastPlayed() && !RecalboxConf::Instance().GetCollectionLastPlayed())
-      )
-      list.Delete(i);
-  }
-}
-

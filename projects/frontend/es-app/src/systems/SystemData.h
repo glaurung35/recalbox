@@ -20,6 +20,11 @@ class SystemData : private INoCopy
                  , public SecuredFile::IValidationInterface
 {
   public:
+    //! Dynamic visibility function type
+    typedef std::function<bool()> DynamicVisibilityType;
+    //! Dynamic belonging function type
+    typedef std::function<bool(const FileData*)> DynamicBelongingType;
+
     //! System properties
     enum class Properties
     {
@@ -55,6 +60,10 @@ class SystemData : private INoCopy
     MetadataType mSensitivity;
     //! Virtual type
     VirtualSystemType mVirtualType;
+    //! Visibility external implementation
+    DynamicVisibilityType mVisibility;
+    //! Should belong to me, external implementation
+    DynamicBelongingType mShouldBelongToMe;
 
     /*!
      * @brief Populate the system using all available folder/games by gathering recursively
@@ -69,10 +78,8 @@ class SystemData : private INoCopy
      * @param systemManager System manager reference
      * @param systemDescriptor system descriptor
      * @param properties System properties
-     * @param sensitivity Virtual systems must refresh when these metadata changes in any games
-     * @param fixedSort Fixed sort for system that have a forced fixed sort in properties
      */
-    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties);
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, DynamicVisibilityType visibility, DynamicBelongingType belonging, Properties properties);
 
     /*!
      * @brief Private constructor, called from SystemManager - Virtual systems  only
@@ -83,7 +90,7 @@ class SystemData : private INoCopy
      * @param virtualType Virtual type
      * @param fixedSort Fixed sort for system that have a forced fixed sort in properties
      */
-    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
+    SystemData(SystemManager& systemManager, const SystemDescriptor& systemDescriptor, DynamicVisibilityType visibility, DynamicBelongingType belonging, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort = FileSorts::Sorts::FileNameAscending);
 
     /*!
      * @brief Lookup an existing game entry (or create it) in the current system.
@@ -194,6 +201,19 @@ class SystemData : private INoCopy
 
     [[nodiscard]] bool HasGame() const;
     [[nodiscard]] bool HasVisibleGame() const;
+
+    /*!
+     * @brief Check if the system must be visible to the user
+     * @return True if the system must be visible, false otherwise
+     */
+    [[nodiscard]] bool MustBeShown() const { return mVisibility(); };
+
+    /*!
+     * @brief Check if the game should belong to this system after metadata are modified
+     * Make sense only for virtual system build on spécific metadata.
+     * @return True if the game should belong to this system
+     */
+    [[nodiscard]] bool ShouldBelongToMe(const FileData* game) const { return mShouldBelongToMe(game); };
 
     /*!
     * @brief Check if system has no only RO games

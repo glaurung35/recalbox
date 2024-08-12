@@ -463,14 +463,6 @@ class SystemManager : private INoCopy // No copy allowed
     bool UpdateSystemsOnSingleGameChanges(FileData* target, MetadataType changes, List& addedSystems, List& removedSystems, List& modifiedSystems);
 
     /*!
-     * @brief Check if the given game should belong to the given virtual system, regarding its metadata
-     * @param game Game to check
-     * @param system Target virtual system
-     * @return True of the game has metadata that make it belonging to the target virtual system. False otherwise
-     */
-    static bool ShouldGameBelongToThisVirtualSystem(const FileData* game, const SystemData* system);
-
-    /*!
      * @brief Notify system changes via the ISystemChangeNotifier interface
      * @param addedSystems Added systems or nullptr
      * @param removedSystems Removed system or nullptr
@@ -484,13 +476,7 @@ class SystemManager : private INoCopy // No copy allowed
      * @param list List to check
      * @return True if at least one systm is not initialized, false if they are all initialized
      */
-    static bool ContainsUnitializedSystem(const List& list);
-
-    /*!
-     * @brief Check the given list and remove system that must stay hidden
-     * @param list List to filter
-     */
-    static void RemoveAlwaysHiddenSystems(List& list);
+    static bool ContainsUninitializedSystem(const SystemManager::List& list);
 
     /*
      * Log facilities
@@ -511,6 +497,18 @@ class SystemManager : private INoCopy // No copy allowed
     //! Completed
     void SlowPopulateCompleted(const List& listToPopulate, bool autoSelectMonoSystem) override;
 
+    // Null ISystemChangeBotifier
+    class NullSystemChangeNotifier : public ISystemChangeNotifier
+    {
+      public:
+        void ShowSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::ShowSystem called!"; }
+        void HideSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::HideSystem called!"; }
+        void UpdateSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::UpdateSystem called!"; }
+        void SelectSystem(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::SelectSystem called!"; }
+        void RequestSlowOperation(ISlowSystemOperation* interface, ISlowSystemOperation::List systems, bool autoSelectMonoSystem) override { (void)interface; (void)systems; (void)autoSelectMonoSystem; LOG(LogError) << "NullSystemChangeNotifier::RequestSlowOperation called!"; }
+        void SystemShownWithNoGames(SystemData* system) override { (void)system; LOG(LogError) << "NullSystemChangeNotifier::SystemShownWithNoGames called!"; }
+    } mNullSystemChangeNotifier;
+
   public:
     /*!
      * @brief constructor
@@ -521,7 +519,7 @@ class SystemManager : private INoCopy // No copy allowed
       , mProgressInterface(nullptr)
       , mLoadingPhaseInterface(nullptr)
       , mRomFolderChangeNotificationInterface(interface)
-      , mSystemChangeNotifier(nullptr)
+      , mSystemChangeNotifier(&mNullSystemChangeNotifier)
       , mWatcherIgnoredFiles(watcherIgnoredFiles)
       , mForceReload(false)
     {

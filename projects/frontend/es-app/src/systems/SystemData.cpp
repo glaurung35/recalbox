@@ -4,7 +4,7 @@
 #include "games/GameFilesUtils.h"
 #include <usernotifications/NotificationManager.h>
 
-SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties)
+SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, DynamicVisibilityType visibility, DynamicBelongingType belonging, Properties properties)
   : mSystemManager(systemManager)
   , mDescriptor(descriptor)
   , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
@@ -13,10 +13,12 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
   , mArcadeDatabases(*this)
   , mSensitivity(MetadataType::None)
   , mVirtualType(VirtualSystemType::None)
+  , mVisibility(visibility)
+  , mShouldBelongToMe(belonging)
 {
 }
 
-SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort)
+SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& descriptor, DynamicVisibilityType visibility, DynamicBelongingType belonging, Properties properties, MetadataType sensitivity, VirtualSystemType virtualType, FileSorts::Sorts fixedSort)
   : mSystemManager(systemManager)
   , mDescriptor(descriptor)
   , mRootOfRoot(mRootOfRoot, RootFolderData::Ownership::None, RootFolderData::Types::None, Path(), *this)
@@ -25,6 +27,8 @@ SystemData::SystemData(SystemManager& systemManager, const SystemDescriptor& des
   , mArcadeDatabases(*this)
   , mSensitivity(sensitivity)
   , mVirtualType(virtualType)
+  , mVisibility(visibility)
+  , mShouldBelongToMe(belonging)
 {
 }
 

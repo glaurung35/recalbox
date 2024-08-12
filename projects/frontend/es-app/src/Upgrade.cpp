@@ -98,15 +98,18 @@ void Upgrade::Run()
             }
           }
 
-          mSender.Send();
+          mSender.Send(true);
           // Reset manual check
           mManualCheckPending = false;
         }
         else
         {
           { LOG(LogInfo) << "[Update] Remote version match local version. No update."; }
-          mMessageBoxMessage = (_F(_("Remote version {0} match the currently running version. No update required.")) / mRemoteVersion).ToString();
-          mSender.Send();
+          if (mManualCheckPending)
+          {
+            mMessageBoxMessage = (_F(_("Remote version {0} match the currently running version. No update required.")) / mRemoteVersion).ToString();
+            mSender.Send(false);
+          }
           // Reset manual check
           mManualCheckPending = false;
         }
@@ -121,14 +124,19 @@ void Upgrade::Run()
   }
 }
 
-void Upgrade::ReceiveSyncMessage()
+void Upgrade::ReceiveSyncMessage(bool updateAvaiable)
 {
   // Volatile popup
-  mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 10, PopupType::Recalbox));
+  if (updateAvaiable)
+    mWindow.InfoPopupAdd(new GuiInfoPopup(mWindow, mPopupMessage, 10, PopupType::Recalbox));
 
   // Messagebox
-  if (!mMessageBoxMessage.empty())
-    UpdatePopup::Show(&mWindow, this, mMessageBoxMessage);
+  if (updateAvaiable)
+  {
+    if (!mMessageBoxMessage.empty())
+      UpdatePopup::Show(&mWindow, this, mMessageBoxMessage);
+  }
+  else mWindow.displayMessage(mMessageBoxMessage);
 }
 
 String Upgrade::GetDomainName()

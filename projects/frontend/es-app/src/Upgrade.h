@@ -14,7 +14,7 @@ class WindowManager;
 
 class Upgrade: public StaticLifeCycleControler<Upgrade>
              , private Thread
-             , private ISyncMessageReceiver<void>
+             , private ISyncMessageReceiver<bool>
 {
   public:
     //! Local version file
@@ -147,7 +147,7 @@ class Upgrade: public StaticLifeCycleControler<Upgrade>
     //! MainWindow
     WindowManager& mWindow;
     //! Syncronous event to display popup
-    SyncMessageSender<void> mSender;
+    SyncMessageSender<bool> mSender;
     //! Signal used to stop the thread
     Signal mSignal;
     //! Built popup message
@@ -186,7 +186,7 @@ class Upgrade: public StaticLifeCycleControler<Upgrade>
     /*!
      * @brief Receive synchronous message
      */
-    void ReceiveSyncMessage() override;
+    void ReceiveSyncMessage(bool value) override;
 
     /*!
      * @brief Get update url from DNS TXT records

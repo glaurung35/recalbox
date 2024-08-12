@@ -42,6 +42,9 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
 
   // Virtual systems
   AddSubMenu(_("VIRTUAL SYSTEMS"), (int)Components::VirtualSubMenu, this, _(MENUMESSAGE_ADVANCED_VIRTUALSYSTEMS_HELP_MSG));
+  // Visual Pinball
+  if (Board::Instance().GetBoardType() == BoardType::Pi5 || Board::Instance().GetBoardType() == BoardType::PCx64)
+    AddSubMenu(_("PINBALL SETTINGS"), (int)Components::PinballSubMenu, this, _(MENUMESSAGE_ADVANCED_PINBALL_HELP_MSG));
 
   // CRT
   if (Board::Instance().CanHaveCRTBoard())

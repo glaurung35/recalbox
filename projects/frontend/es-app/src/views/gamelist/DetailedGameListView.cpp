@@ -1012,6 +1012,12 @@ void DetailedGameListView::populateList(const FolderData& folder)
   mList.clear(items.size());
   FileData* previous = nullptr;
   HeaderData* lastHeader = nullptr;
+
+  bool hasTopFavorites = false;
+  if (RecalboxConf::Instance().GetFavoritesFirst())
+    for (FileData* item : items)
+      if (item->Metadata().Favorite()) { hasTopFavorites = true; break; }
+
   for (FileData* item : items)
   {
     // Region filtering?
@@ -1025,7 +1031,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
     if (onlyYoko && RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Header?
     if (item->IsGame())
-      if (HeaderData* header = NeedHeader(previous, item); header != nullptr)
+      if (HeaderData* header = NeedHeader(previous, item, hasTopFavorites); header != nullptr)
       {
         mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
         lastHeader = header;
@@ -1227,12 +1233,39 @@ void DetailedGameListView::BuildVideoLinks(const ThemeData& theme)
       }
 }
 
-HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next)
+HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next, bool hasTopFavorites)
 {
+  // Favorites
+  if (hasTopFavorites)
+  {
+    if (next->Metadata().Favorite())
+    {
+      if (previous == nullptr || (!previous->Metadata().Favorite() && next->Metadata().Favorite()))
+        return GetHeader(_("Favorites"));
+      return nullptr;
+    }
+    // Leaving favorite zone: reset prevous has if it is the first encountered game
+    else if (previous != nullptr && previous->Metadata().Favorite())
+      previous = nullptr;
+  }
+
+  // Normal processing
   switch(mSort)
   {
     case FileSorts::Sorts::FileNameAscending:
-    case FileSorts::Sorts::FileNameDescending: break;
+    case FileSorts::Sorts::FileNameDescending:
+    {
+      if (hasTopFavorites)
+      {
+        // Leavinf favorite area
+        if (previous != nullptr && previous->Metadata().Favorite() && !next->Metadata().Favorite())
+          return GetHeader(_("In alphabetical order"));
+        // List has favorites but not at top
+        else if (previous == nullptr)
+          return GetHeader(_("In alphabetical order"));
+      }
+      break;
+    }
     case FileSorts::Sorts::SystemAscending:
     case FileSorts::Sorts::SystemDescending:
     {

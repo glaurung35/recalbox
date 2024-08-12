@@ -373,9 +373,10 @@ class DetailedGameListView : public ISimpleGameListView
      * @brief Check if a header is required between previous and next item
      * @param previous Previous filedata
      * @param next Next fildata
+     * @param hasTopFavorites instruct the method that the list has at least one favorite on top or bottom
      * @return No null header pointer if a header is required, nullptr otherwise
      */
-    HeaderData* NeedHeader(FileData* previous, FileData* next);
+    HeaderData* NeedHeader(FileData* previous, FileData* next, bool hasTopFavorites);
 
     /*!
      * @brief Create or get a named header

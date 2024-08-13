@@ -16,6 +16,7 @@
 #include <string>
 #include <vector>
 #include <cstring>
+#include <cstdint>
 
 #define LEGACY_STRING(x) x, (int)sizeof(x)-1
 
@@ -390,7 +391,7 @@ class String : public std::string
      */
 
     //! Default constructor
-    String() : std::string() { (void)sInitialized; }
+    String() { (void)sInitialized; }
 
     /*!
      * @brief Build a string from a c-string
@@ -455,7 +456,7 @@ class String : public std::string
      * @param value Boolean value
      *
      */
-    explicit String(bool value, bool text) : std::string() { if (text) { if (value) Assign(LEGACY_STRING("true")); else Assign(LEGACY_STRING("false")); } else Assign(value ? '1' : '0'); }
+    explicit String(bool value, bool text) { if (text) { if (value) Assign(LEGACY_STRING("true")); else Assign(LEGACY_STRING("false")); } else Assign(value ? '1' : '0'); }
 
     /*!
      * @brief Build a string from a single char
@@ -482,64 +483,64 @@ class String : public std::string
      * @brief Build a string by converting a short to its string representation
      * @param value short value
      */
-    explicit String(short value) : std::string() { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(short value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting an unsigned short to its string representation
      * @param value short value
      */
-    explicit String(unsigned short value) : std::string() { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(unsigned short value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Build a string by converting an integer to its string representation
      * @param value integer value
      */
-    explicit String(int value) : std::string() { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting an unsigned integer to its string representation
      * @param value unsigned integer value
      */
-    explicit String(unsigned int value) : std::string() { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Build a string by converting a long long to its string representation
      * @param value integer value
      */
-    explicit String(long long value) : std::string() { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting an unsigned long long to its string representation
      * @param value unsigned integer value
      */
-    explicit String(unsigned long long value) : std::string() { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Build a string by converting a float to its string representation (default precision)
      * @param value float value
      */
-    explicit String(float value) : std::string() { FloatStorage to; int l = ConvertFloat<float, unsigned int, FloatStorage>(value, sDefaultFractionalPrecision, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(float value) { FloatStorage to; int l = ConvertFloat<float, unsigned int, FloatStorage>(value, sDefaultFractionalPrecision, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting a double to its string representation (default precision)
      * @param value double value
      */
-    explicit String(double value) : std::string() { DoubleStorage to; int l = ConvertFloat<double, unsigned long long, DoubleStorage>(value, sDefaultFractionalPrecision, to); assign(&to[sizeof(to) - l], l); }
+    explicit String(double value) { DoubleStorage to; int l = ConvertFloat<double, unsigned long long, DoubleStorage>(value, sDefaultFractionalPrecision, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting a float to its string representation with the given precision
      * @param value float value
      * @param precision Fractional part precision
      */
-    String(float value, int precision) : std::string() { FloatStorage to; int l = ConvertFloat<float, unsigned int, FloatStorage>(value, precision, to); assign(&to[sizeof(to) - l], l); }
+    String(float value, int precision) { FloatStorage to; int l = ConvertFloat<float, unsigned int, FloatStorage>(value, precision, to); assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string by converting a double to its string representation with the given precision
      * @param value double value
      * @param precision Fractional part precision
      */
-    String(double value, int precision) : std::string() { DoubleStorage to; int l = ConvertFloat<double, unsigned long long, DoubleStorage>(value, precision, to); assign(&to[sizeof(to) - l], l); }
+    String(double value, int precision) { DoubleStorage to; int l = ConvertFloat<double, unsigned long long, DoubleStorage>(value, precision, to); assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Build a string by repeating an unicode character
      * @param unicode Unicode character to fill the string with
      * @param count Repeat the unicode character "count" times
      */
-    String(Unicode unicode, int count) : std::string() { for(; --count >= 0;) AppendUTF8(unicode); }
+    String(Unicode unicode, int count) { for(; --count >= 0;) AppendUTF8(unicode); }
 
     /*!
      * @brief Build a string using the output of a Format class
@@ -576,14 +577,14 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(int value, Hexa prefix) : std::string() { Int32HexaStorage to; int l = ConvertNumericToHexa<int>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(int value, Hexa prefix) { Int32HexaStorage to; int l = ConvertNumericToHexa<int>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from a signed long long value conversion
      * @param value Value to convert
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(long long value, Hexa prefix) : std::string() { Int64HexaStorage to; int l = ConvertNumericToHexa<long long>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(long long value, Hexa prefix) { Int64HexaStorage to; int l = ConvertNumericToHexa<long long>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from a signed int value conversion
      * @param value Value to convert
@@ -591,7 +592,7 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(int value, int minsize, Hexa prefix) : std::string() { Int32HexaStorage to; int l = ConvertNumericToHexa<int>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(int value, int minsize, Hexa prefix) { Int32HexaStorage to; int l = ConvertNumericToHexa<int>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from a signed long long value conversion
      * @param value Value to convert
@@ -599,7 +600,7 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(long long value, int minsize, Hexa prefix) : std::string() { Int64HexaStorage to; int l = ConvertNumericToHexa<long long>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(long long value, int minsize, Hexa prefix) { Int64HexaStorage to; int l = ConvertNumericToHexa<long long>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Build a string from an unsigned int value conversion
@@ -607,14 +608,14 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(unsigned int value, Hexa prefix) : std::string() { Int32HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned int>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(unsigned int value, Hexa prefix) { Int32HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned int>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from an unsigned long long value conversion
      * @param value Value to convert
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(unsigned long long value, Hexa prefix) : std::string() { Int64HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned long long>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(unsigned long long value, Hexa prefix) { Int64HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned long long>(value, 0, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from an unsigned int value conversion
      * @param value Value to convert
@@ -622,7 +623,7 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(unsigned int value, int minsize, Hexa prefix) : std::string() { Int32HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned int>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(unsigned int value, int minsize, Hexa prefix) { Int32HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned int>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Build a string from an unsigned long long value conversion
      * @param value Value to convert
@@ -630,7 +631,7 @@ class String : public std::string
      * @param prefix Hexadecimal prefix
      * @return Hexadecimal string
      */
-    String(unsigned long long value, int minsize, Hexa prefix) : std::string() { Int64HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned long long>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
+    String(unsigned long long value, int minsize, Hexa prefix) { Int64HexaStorage to; int l = ConvertUnsignedNumericToHexa<unsigned long long>(value, minsize, to, prefix); Assign(&to[sizeof(to) - l], l); }
 
     /*
      * Methods
@@ -1441,26 +1442,26 @@ class String : public std::string
      * @param value Int value
      * @return This
      */
-    String& Assign(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Assign(&to[sizeof(to) - l], l); }
+    String& Assign(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); return Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Replace the whole content of this string with the string representation of the given unsigned int value
      * @param value unsigned int value
      * @return This
      */
-    String& Assign(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Assign(&to[sizeof(to) - l], l); }
+    String& Assign(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); return Assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Replace the whole content of this string with the string representation of the given long long value
      * @param value long long value
      * @return This
      */
-    String& Assign(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Assign(&to[sizeof(to) - l], l); }
+    String& Assign(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); return Assign(&to[sizeof(to) - l], l); }
     /*!
      * @brief Replace the whole content of this string with the string representation of the given unsigned long long value
      * @param value unsigned long long value
      * @return This
      */
-    String& Assign(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)value, to); return Assign(&to[sizeof(to) - l], l); }
+    String& Assign(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); return Assign(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Replace the whole content of this string with the string representation of the given float value
@@ -1674,26 +1675,26 @@ class String : public std::string
      * @param value Value to append
      * @return This
      */
-    String& Append(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& Append(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     /*!
      * @brief Append a converted unsigned int value to the current string
      * @param value Value to append
      * @return This
      */
-    String& Append(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& Append(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Append a converted long long value to the current string
      * @param value Value to append
      * @return This
      */
-    String& Append(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& Append(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     /*!
      * @brief Append a converted unsigned long long value to the current string
      * @param value Value to append
      * @return This
      */
-    String& Append(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& Append(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
 
     /*!
      * @brief Append a converted float value to the current string
@@ -1915,26 +1916,26 @@ class String : public std::string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, int value) { __AtCheck__; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, int value) { __AtCheck__; Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); return Insert(at, &to[sizeof(to) - l], l); }
     /*!
      * @brief Insert a converted unsigned int value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, unsigned int value) { __AtCheck__; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, unsigned int value) { __AtCheck__; Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); return Insert(at, &to[sizeof(to) - l], l); }
 
     /*!
      * @brief Insert a converted long long value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, long long value) { __AtCheck__; Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, long long value) { __AtCheck__; Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); return Insert(at, &to[sizeof(to) - l], l); }
     /*!
      * @brief Insert a converted unsigned long long value into the current string
      * @param value Value to insert
      * @return This
      */
-    String& Insert(int at, unsigned long long value) { __AtCheck__; Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)value, to); return Insert(at, &to[sizeof(to) - l], l); }
+    String& Insert(int at, unsigned long long value) { __AtCheck__; Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); return Insert(at, &to[sizeof(to) - l], l); }
 
     /*!
      * @brief Insert a converted float value into the current string
@@ -3136,22 +3137,22 @@ class String : public std::string
     String operator +(unsigned short value) const { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
 
     //! Non const int appending (signed value)
-    String& operator +=(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& operator +=(int value) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     //! Non const int appending (signed value)
-    String operator +(int value) const { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
+    String operator +(int value) const { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
     //! Construct from value (unsigned int)
-    String& operator +=(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& operator +=(unsigned int value) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     //! Construct from value (unsigned int)
-    String operator +(unsigned int value) const { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
+    String operator +(unsigned int value) const { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
 
     //! Non const long long appending (signed value)
-    String& operator +=(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& operator +=(long long value) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     //! Non const long long appending (signed value)
-    String operator +(long long value) const { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
+    String operator +(long long value) const { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
     //! Construct from value (unsigned long long)
-    String& operator +=(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)value, to); return Append(&to[sizeof(to) - l], l); }
+    String& operator +=(unsigned long long value) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); return Append(&to[sizeof(to) - l], l); }
     //! Construct from value (unsigned long long)
-    String operator +(unsigned long long value) const { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
+    String operator +(unsigned long long value) const { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(value, to); return String(*this).Append(&to[sizeof(to) - l], l); }
 
     //! Non const float appending, default precision
     String& operator +=(float value) { FloatStorage to; int l = ConvertFloat<float, unsigned int, FloatStorage>(value, sDefaultFractionalPrecision, to); return Append(&to[sizeof(to) - l], l); }
@@ -3366,26 +3367,26 @@ class String : public std::string
      * @param source source signed int value
      * @return This
      */
-    String& operator =(int source) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>((int)source, to); Assign(&to[sizeof(to) - l], l); return *this; }
+    String& operator =(int source) { Int32Storage to; int l = ConvertNumeric<int, Int32Storage>(source, to); Assign(&to[sizeof(to) - l], l); return *this; }
     /*!
      * @brief Assign from unsigned int value
      * @param source source unsigned int value
      * @return This
      */
-    String& operator =(unsigned int source) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>((unsigned int)source, to); Assign(&to[sizeof(to) - l], l); return *this; }
+    String& operator =(unsigned int source) { Int32Storage to; int l = ConvertUnsignedNumeric<unsigned int, Int32Storage>(source, to); Assign(&to[sizeof(to) - l], l); return *this; }
 
     /*!
      * @brief Assign from signed long long value
      * @param source source signed long long value
      * @return This
      */
-    String& operator =(long long source) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>((long long)source, to); Assign(&to[sizeof(to) - l], l); return *this; }
+    String& operator =(long long source) { Int64Storage to; int l = ConvertNumeric<long long, Int64Storage>(source, to); Assign(&to[sizeof(to) - l], l); return *this; }
     /*!
      * @brief Assign from unsigned long long value
      * @param source source unsigned long long value
      * @return This
      */
-    String& operator =(unsigned long long source) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>((unsigned long long)source, to); Assign(&to[sizeof(to) - l], l); return *this; }
+    String& operator =(unsigned long long source) { Int64Storage to; int l = ConvertUnsignedNumeric<unsigned long long, Int64Storage>(source, to); Assign(&to[sizeof(to) - l], l); return *this; }
 
     /*!
      * @brief Assign from float value
@@ -3792,15 +3793,12 @@ class String : public std::string
         ++p; if (p[0] == 'x') ++p;
         return ConvertHexaToNumeric<T>((int)(p - data()), stop, defaultValue) * sign;
       }
-      else
+      for (;; ++p)
       {
-        for (;; ++p)
-        {
-          if ((unsigned int) p[0] - '0' > 9) break;
-          result = (result * 10) + (int) ((unsigned int) p[0] - '0') * sign;
-        }
-        if (p[0] == stop) return result;
+        if ((unsigned int) p[0] - '0' > 9) break;
+        result = (result * 10) + (int) ((unsigned int) p[0] - '0') * sign;
       }
+      if (p[0] == stop) return result;
       return defaultValue;
     }
 
@@ -3855,15 +3853,12 @@ class String : public std::string
         output *= sign;
         return ok;
       }
-      else
+      for (;; ++p)
       {
-        for (;; ++p)
-        {
-          if ((unsigned int) p[0] - '0' > 9) break;
-          result = (result * 10) + (int) ((unsigned int) p[0] - '0') * sign;
-        }
-        if (p[0] == stop) { output = result; return true; }
+        if ((unsigned int) p[0] - '0' > 9) break;
+        result = (result * 10) + (int) ((unsigned int) p[0] - '0') * sign;
       }
+      if (p[0] == stop) { output = result; return true; }
       return false;
     }
 
@@ -3890,7 +3885,7 @@ class String : public std::string
         // Realign first
         int l = (sLargestTypeSize - (from & sLargestTypeMask)) & sLargestTypeMask;
         for(length -= l; --l >= 0; ++p)
-          if ((unsigned int)((unsigned char)*p - (unsigned char)'A') < 26u)
+          if ((unsigned int)(*p - (unsigned char)'A') < 26u)
             *p = *p | 0x20;
         // Then big steps
         LargestType* p2 = (LargestType*)p;
@@ -3913,7 +3908,7 @@ class String : public std::string
       }
       // Remaining bytes
       for(; --length >= 0; ++p)
-        if ((unsigned int)((unsigned char)*p - (unsigned char)'A') < 26u)
+        if ((unsigned int)(*p - (unsigned char)'A') < 26u)
           *p = *p | 0x20;
       return *this;
     }
@@ -3937,7 +3932,7 @@ class String : public std::string
         // Realign first
         int l = (sLargestTypeSize - (from & sLargestTypeMask)) & sLargestTypeMask;
         for(length -= l; --l >= 0; ++p)
-          if ((unsigned int)((unsigned char)*p - (unsigned char)'a') < 26u)
+          if ((unsigned int)(*p - (unsigned char)'a') < 26u)
             *p = *p & ~0x20;
         // Then big steps
         LargestType* p2 = (LargestType*)p;
@@ -3960,7 +3955,7 @@ class String : public std::string
       }
       // Remaining bytes
       for(; --length >= 0; ++p)
-        if ((unsigned int)((unsigned char)*p - (unsigned char)'a') < 26u)
+        if ((unsigned int)(*p - (unsigned char)'a') < 26u)
           *p = *p & ~0x20;
       return *this;
     }
@@ -4011,8 +4006,8 @@ class String : public std::string
         default: break;
       }
 
-      MurMurMix(h,t);
-      MurMurMix(h,l);
+      MurMurMix(h,t)
+      MurMurMix(h,l)
 
       h ^= h >> 13;
       h *= m;

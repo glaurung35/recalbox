@@ -10,10 +10,15 @@
 #include <errno.h>
 #include <netdb.h>
 #include <netinet/in.h>
+#include <stdlib.h>
 #include <sys/socket.h>
 #include <sys/types.h>
 #include <unistd.h>
 
+#include <array>
+#include <sstream>
+
+#include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/listener.h>
 class SocketWrapper
@@ -23,10 +28,16 @@ public:
     explicit SocketWrapper(int fd)
         : fd_(fd)
     { }
-    ~SocketWrapper() { close(fd_); }
+    ~SocketWrapper()
+    {
+        PS_TIMEDBG_START;
+        close(fd_);
+    }
 
     uint16_t port()
     {
+        PS_TIMEDBG_START;
+
         sockaddr_in sin;
         socklen_t len = sizeof(sin);
 
@@ -39,6 +50,8 @@ public:
         {
             port = ntohs(sin.sin_port);
         }
+        PS_LOG_DEBUG_ARGS("fd %d, Port %d", fd_, port);
+
         return port;
     }
 
@@ -55,6 +68,8 @@ public:
     void onRequest(const Pistache::Http::Request& /*request*/,
                    Pistache::Http::ResponseWriter response) override
     {
+        PS_TIMEDBG_START_THIS;
+
         response.send(Pistache::Http::Code::Ok, "I am a dummy handler\n");
     }
 };
@@ -64,6 +79,8 @@ public:
  */
 SocketWrapper bind_free_port()
 {
+    PS_TIMEDBG_START;
+
     int sockfd; // listen on sock_fd, new connection on new_fd
     struct addrinfo hints = {}, *servinfo, *p;
 
@@ -85,18 +102,21 @@ SocketWrapper bind_free_port()
     {
         if ((sockfd = socket(p->ai_family, p->ai_socktype, p->ai_protocol)) == -1)
         {
+            PS_LOG_DEBUG("server: socket");
             perror("server: socket");
             continue;
         }
 
         if (setsockopt(sockfd, SOL_SOCKET, SO_REUSEADDR, &yes, sizeof(int)) == -1)
         {
+            PS_LOG_DEBUG("setsockopt");
             perror("setsockopt");
             exit(1);
         }
 
         if (bind(sockfd, p->ai_addr, p->ai_addrlen) == -1)
         {
+            PS_LOG_DEBUG_ARGS("server: bind failed, sockfd %d", sockfd);
             close(sockfd);
             perror("server: bind");
             continue;
@@ -123,12 +143,17 @@ uint16_t get_free_port() { return bind_free_port().port(); }
 
 TEST(listener_test, listener_bind_port_free)
 {
+    PS_TIMEDBG_START;
+
     uint16_t port_nb = get_free_port();
 
     if (port_nb == 0)
     {
+        PS_LOG_DEBUG("Failed to get port");
         FAIL() << "Could not find a free port. Abort test.\n";
     }
+
+    PS_LOG_DEBUG_ARGS("port_nb %u", (unsigned int)port_nb);
 
     Pistache::Port port(port_nb);
     Pistache::Address address(Pistache::Ipv4::any(), port);
@@ -145,12 +170,16 @@ TEST(listener_test, listener_bind_port_free)
 // class. This test is there to prevent regression for PR 303
 TEST(listener_test, listener_uses_default)
 {
+    PS_TIMEDBG_START;
+
     uint16_t port_nb = get_free_port();
 
     if (port_nb == 0)
     {
+        PS_LOG_DEBUG("Failed to get port");
         FAIL() << "Could not find a free port. Abort test.\n";
     }
+    PS_LOG_DEBUG_ARGS("port_nb %u", (unsigned int)port_nb);
 
     Pistache::Port port(port_nb);
     Pistache::Address address(Pistache::Ipv4::any(), port);
@@ -163,12 +192,14 @@ TEST(listener_test, listener_uses_default)
 
 TEST(listener_test, listener_bind_port_not_free_throw_runtime)
 {
+    PS_TIMEDBG_START;
 
     SocketWrapper s  = bind_free_port();
     uint16_t port_nb = s.port();
 
     if (port_nb == 0)
     {
+        PS_LOG_DEBUG("Failed to get a free port");
         FAIL() << "Could not find a free port. Abort test.\n";
     }
 
@@ -183,10 +214,14 @@ TEST(listener_test, listener_bind_port_not_free_throw_runtime)
     try
     {
         listener.bind(address);
+        PS_LOG_DEBUG("No std::runtime_error when expected");
+
         FAIL() << "Expected std::runtime_error while binding, got nothing";
     }
     catch (std::runtime_error const& err)
     {
+        PS_TIMEDBG_START;
+
         std::cout << err.what() << std::endl;
         int flag = 0;
         // GNU libc
@@ -205,6 +240,7 @@ TEST(listener_test, listener_bind_port_not_free_throw_runtime)
     }
     catch (...)
     {
+        PS_LOG_DEBUG("No std::runtime_error when expected");
         FAIL() << "Expected std::runtime_error";
     }
 }
@@ -212,6 +248,8 @@ TEST(listener_test, listener_bind_port_not_free_throw_runtime)
 // Listener should be able to bind port 0 directly to get an ephemeral port.
 TEST(listener_test, listener_bind_ephemeral_v4_port)
 {
+    PS_TIMEDBG_START;
+
     Pistache::Port port(0);
     Pistache::Address address(Pistache::Ipv4::any(), port);
 
@@ -225,6 +263,8 @@ TEST(listener_test, listener_bind_ephemeral_v4_port)
 
 TEST(listener_test, listener_bind_ephemeral_v6_port)
 {
+    PS_TIMEDBG_START;
+
     Pistache::Tcp::Listener listener;
     if (Pistache::Ipv6::supported())
     {
@@ -241,6 +281,40 @@ TEST(listener_test, listener_bind_ephemeral_v6_port)
     ASSERT_TRUE(true);
 }
 
+TEST(listener_test, listener_bind_unix_domain)
+{
+    PS_TIMEDBG_START;
+
+    // Avoid name conflict by binding within a fresh temporary directory.
+#define DIR_TEMPLATE "/tmp/bind_test_XXXXXX"
+    auto dirTemplate  = std::array<char, sizeof DIR_TEMPLATE> { DIR_TEMPLATE };
+    const auto tmpDir = ::mkdtemp(dirTemplate.data());
+    ASSERT_TRUE(tmpDir != nullptr);
+    auto ss = std::stringstream();
+    ss << tmpDir << "/unix_socket";
+    const auto sockName = ss.str();
+
+    struct sockaddr_un sa = {};
+    sa.sun_family         = AF_UNIX;
+    std::strncpy(sa.sun_path, sockName.c_str(), sizeof sa.sun_path - 1);
+    // Belt and suspenders...
+    sa.sun_path[sizeof sa.sun_path - 1] = '\0';
+
+    auto address = Pistache::Address::fromUnix(reinterpret_cast<struct sockaddr*>(&sa));
+    auto opts    = Pistache::Http::Endpoint::options().threads(2);
+
+    // The test proper.  The Endpoint constructor creates and binds a
+    // listening socket with the unix domain address.  It should do so without
+    // throwing an exception.
+    auto endpoint = Pistache::Http::Endpoint((address));
+    endpoint.init(opts);
+    endpoint.shutdown();
+
+    // Clean up.
+    (void)::unlink(sockName.c_str());
+    (void)::rmdir(tmpDir);
+}
+
 class CloseOnExecTest : public testing::Test
 {
 public:
@@ -249,6 +323,8 @@ public:
     std::unique_ptr<Pistache::Tcp::Listener>
     prepare_listener(const Pistache::Tcp::Options options)
     {
+        PS_TIMEDBG_START;
+
         const Pistache::Address address(Pistache::Ipv4::any(),
                                         Pistache::Port(port));
         auto listener = std::make_unique<Pistache::Tcp::Listener>(address);
@@ -269,12 +345,22 @@ public:
      */
     void try_to_leak_socket(const Pistache::Tcp::Options options)
     {
+        PS_TIMEDBG_START;
+
         pid_t id = fork();
         if (is_child_process(id))
         {
+            PS_TIMEDBG_START;
+
             auto server = prepare_listener(options);
             server->bind();
-            std::system("sleep 10 <&- &"); // leak open socket to child of our child process
+
+            // leak open socket to child of our child process
+            [[maybe_unused]] int sys_res = (std::system("sleep 10 <&- &"));
+            // Assign result of std::system to suppress Linux warning:
+            //   warning: ignoring return value of ‘int system(const char*)’
+            //   declared with attribute ‘warn_unused_result’ [-Wunused-result]
+            
             exit(0);
         }
 
@@ -289,11 +375,14 @@ public:
 
 TEST_F(CloseOnExecTest, socket_not_leaked)
 {
+    PS_TIMEDBG_START;
+
     Pistache::Tcp::Options options = Pistache::Tcp::Options::CloseOnExec | Pistache::Tcp::Options::ReuseAddr;
 
     try_to_leak_socket(options);
 
     ASSERT_NO_THROW({
+        PS_TIMEDBG_START;
         auto server = prepare_listener(options);
         server->bind();
         server->shutdown();
@@ -302,12 +391,15 @@ TEST_F(CloseOnExecTest, socket_not_leaked)
 
 TEST_F(CloseOnExecTest, socket_leaked)
 {
+    PS_TIMEDBG_START;
+
     Pistache::Tcp::Options options = Pistache::Tcp::Options::ReuseAddr;
 
     try_to_leak_socket(options);
 
     ASSERT_THROW(
         {
+            PS_TIMEDBG_START;
             auto server = prepare_listener(options);
             server->bind();
             server->shutdown();

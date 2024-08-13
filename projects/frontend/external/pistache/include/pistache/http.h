@@ -22,7 +22,12 @@
 #include <type_traits>
 #include <vector>
 
+#include <pistache/eventmeth.h>
+
+#ifndef _USE_LIBEVENT_LIKE_APPLE
+// Note: sys/timerfd.h is linux-only (and certainly POSIX only)
 #include <sys/timerfd.h>
+#endif
 
 #include <pistache/async.h>
 #include <pistache/cookie.h>
@@ -34,6 +39,14 @@
 #include <pistache/stream.h>
 #include <pistache/tcp.h>
 #include <pistache/transport.h>
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+#include <brotli/encode.h>
+#endif
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_DEFLATE
+#include <zlib.h>
+#endif
 
 namespace Pistache
 {
@@ -93,10 +106,10 @@ namespace Pistache
             Message() = default;
             explicit Message(Version version);
 
-            Message(const Message& other) = default;
+            Message(const Message& other)            = default;
             Message& operator=(const Message& other) = default;
 
-            Message(Message&& other) = default;
+            Message(Message&& other)            = default;
             Message& operator=(Message&& other) = default;
 
             Version version() const;
@@ -169,7 +182,10 @@ namespace Pistache
         } // namespace Uri
 
         // Remove when RequestBuilder will be out of namespace Experimental
-        namespace Experimental {class RequestBuilder; }
+        namespace Experimental
+        {
+            class RequestBuilder;
+        }
 
         // 5. Request
         class Request : public Message
@@ -181,10 +197,10 @@ namespace Pistache
 
             Request() = default;
 
-            Request(const Request& other) = default;
+            Request(const Request& other)            = default;
             Request& operator=(const Request& other) = default;
 
-            Request(Request&& other) = default;
+            Request(Request&& other)            = default;
             Request& operator=(Request&& other) = default;
 
             Method method() const;
@@ -209,6 +225,16 @@ namespace Pistache
             void copyAddress(const Address& address) { address_ = address; }
 
             std::chrono::milliseconds timeout() const;
+
+            /*
+             * Returns the "best" encoding to use to encode (typically compress)
+             * a response to the current request. The "best" encoding is the one
+             * which is supported by both the server and client, and which has
+             * the highest preference expressed by the client (i.e., the highest
+             * quality value, as defined in
+             * <https://www.rfc-editor.org/rfc/rfc9110.html#name-accept-encoding>)
+             */
+            Header::Encoding getBestAcceptEncoding() const;
 
         private:
 #ifdef LIBSTDCPP_SMARTPTR_LOCK_FIXME
@@ -248,18 +274,22 @@ namespace Pistache
                 , peer(std::move(other.peer))
             {
                 // cppcheck-suppress useInitializationList
-                other.timerFd = -1;
+                other.timerFd = PS_FD_EMPTY;
+                // For libevent, don't need to free, passed to this->timerFd
             }
 
             Timeout& operator=(Timeout&& other)
             {
-                handler       = other.handler;
-                transport     = other.transport;
-                version       = other.version;
-                armed         = other.armed;
-                timerFd       = other.timerFd;
-                other.timerFd = -1;
-                peer          = std::move(other.peer);
+                handler   = other.handler;
+                transport = other.transport;
+                version   = other.version;
+                armed     = other.armed;
+                timerFd   = other.timerFd;
+
+                other.timerFd = PS_FD_EMPTY;
+                // For libevent, don't need to free, passed to this->timerFd
+
+                peer = std::move(other.peer);
                 return *this;
             }
 
@@ -268,18 +298,33 @@ namespace Pistache
             template <typename Duration>
             void arm(Duration duration)
             {
-                Async::Promise<uint64_t> p([duration, this](Async::Deferred<uint64_t> deferred) {
+                Async::Promise<uint64_t> p([=](Async::Deferred<uint64_t> deferred) {
+#ifdef _USE_LIBEVENT
+                    std::shared_ptr<EventMethEpollEquiv>
+                        event_meth_epoll_equiv(
+                            transport->getEventMethEpollEquiv());
+                    if (!event_meth_epoll_equiv)
+                        throw std::runtime_error(
+                            "event_meth_epoll_equiv null");
+
+                    timerFd = TRY_NULL_RET(EventMethFns::em_timer_new(
+                        CLOCK_MONOTONIC,
+                        F_SETFDL_NOTHING, O_NONBLOCK,
+                        event_meth_epoll_equiv.get()));
+#else
                     timerFd = TRY_RET(timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK));
+#endif
                     transport->armTimer(timerFd, duration, std::move(deferred));
                 });
 
                 p.then(
-                    [this](uint64_t numWakeup) {
+                    [=](uint64_t numWakeup) {
                         this->armed = false;
                         this->onTimeout(numWakeup);
-                        close(timerFd);
+                        CLOSE_FD(timerFd);
+                        timerFd = PS_FD_EMPTY;
                     },
-                    [this](std::exception_ptr exc) { std::rethrow_exception(exc); });
+                    [=](std::exception_ptr exc) { std::rethrow_exception(exc); });
 
                 armed = true;
             }
@@ -375,10 +420,10 @@ namespace Pistache
             Response() = default;
             explicit Response(Version version);
 
-            Response(const Response& other) = default;
+            Response(const Response& other)            = default;
             Response& operator=(const Response& other) = default;
             Response(Response&& other)                 = default;
-            Response& operator=(Response&& other) = default;
+            Response& operator=(Response&& other)      = default;
         };
 
         class ResponseWriter final
@@ -411,10 +456,10 @@ namespace Pistache
             void setMime(const Mime::MediaType& mime);
 
             /* @Feature: add helper functions for common http return code:
-   * - halt() -> 404
-   * - movedPermantly -> 301
-   * - moved() -> 302
-   */
+             * - halt() -> 404
+             * - movedPermantly -> 301
+             * - moved() -> 302
+             */
             Async::Promise<ssize_t>
             sendMethodNotAllowed(const std::vector<Http::Method>& supportedMethods);
 
@@ -472,6 +517,29 @@ namespace Pistache
                 return nullptr;
             }
 
+            // Compress using the requested content encoding, if supported,
+            //  before sending bits to client. Content-Encoding header will be
+            //  automatically set to the requested encoding, if supported...
+            void setCompression(const Pistache::Http::Header::Encoding _contentEncoding);
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+            // Set the compression level for Brotli algorithm. Defaults to
+            //  BROTLI_DEFAULT_QUALITY...
+            void setCompressionBrotliLevel(const int _contentEncodingBrotliLevel)
+            {
+                contentEncodingBrotliLevel_ = _contentEncodingBrotliLevel;
+            }
+#endif
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_DEFLATE
+            // Set the compression level for deflate algorithm. Defaults to
+            //  Z_DEFAULT_COMPRESSION...
+            void setCompressionDeflateLevel(const int _contentEncodingDeflateLevel)
+            {
+                contentEncodingDeflateLevel_ = _contentEncodingDeflateLevel;
+            }
+#endif
+
         private:
             ResponseWriter(const ResponseWriter& other);
 
@@ -487,6 +555,16 @@ namespace Pistache
             Tcp::Transport* transport_ = nullptr;
             Timeout timeout_;
             ssize_t sent_bytes_ = 0;
+
+            Http::Header::Encoding contentEncoding_ = Http::Header::Encoding::Identity;
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+            int contentEncodingBrotliLevel_ = BROTLI_DEFAULT_QUALITY;
+#endif
+
+#ifdef PISTACHE_USE_CONTENT_ENCODING_DEFLATE
+            int contentEncodingDeflateLevel_ = Z_DEFAULT_COMPRESSION;
+#endif
         };
 
         Async::Promise<ssize_t>
@@ -614,10 +692,10 @@ namespace Pistache
 
                 explicit ParserBase(size_t maxDataSize);
 
-                ParserBase(const ParserBase&) = delete;
+                ParserBase(const ParserBase&)            = delete;
                 ParserBase& operator=(const ParserBase&) = delete;
                 ParserBase(ParserBase&&)                 = default;
-                ParserBase& operator=(ParserBase&&) = default;
+                ParserBase& operator=(ParserBase&&)      = default;
 
                 virtual ~ParserBase() = default;
 

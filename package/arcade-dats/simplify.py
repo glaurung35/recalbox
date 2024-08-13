@@ -215,6 +215,9 @@ class Simplifier:
             # Neogeo special case
             if subSystem == "neogeo":
                 manufacturers.append("neogeo")
+            # Hyper Neogeo 64 special case
+            if subSystem == "hng64":
+                manufacturers.append("hng64")
 
         # Sort
         manufacturers.sort(key=str.lower)

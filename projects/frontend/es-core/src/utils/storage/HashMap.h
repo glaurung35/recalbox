@@ -9,6 +9,7 @@
 #include <cstdlib>
 #include <iterator>
 #include <utility>
+#include <stdint.h>
 
 /// like std::equal_to but no need to #include <functional>
 template<typename T>

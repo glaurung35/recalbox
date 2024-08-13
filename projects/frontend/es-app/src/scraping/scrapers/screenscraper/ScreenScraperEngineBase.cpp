@@ -10,6 +10,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <scraping/scrapers/screenscraper/ScreenScraperEngineBase.h>
 #include <scraping/ScraperSeamless.h>
+#include <algorithm>
 
 ScreenScraperEngineBase::ScreenScraperEngineBase(IEndPointProvider& endpoint, IScraperEngineFreezer* freezer)
   : mRunner(this, "Scraper-ssfr", false)

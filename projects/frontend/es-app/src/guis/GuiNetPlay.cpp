@@ -19,6 +19,7 @@
 #include <utils/locale/LocaleHelper.h>
 #include <liboping/src/oping.h>
 #include <netdb.h>
+#include <algorithm>
 
 #define BUTTON_GRID_VERT_PADDING Renderer::Instance().DisplayHeightAsFloat() * 0.025f
 #define BUTTON_GRID_HORIZ_PADDING 10

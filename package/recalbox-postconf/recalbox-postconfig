@@ -4,7 +4,8 @@ from configgen.utils.recallog import recallog
 
 ssh_file = "/recalbox/share/system/.ssh/authorized_keys"
 data_file = "/boot/user-data"
-network_file = "/boot/network-.con"
+network_files = ["/boot/network-.con", "/boot/network-config"]
+shadow_file = "/run/recalbox.shadow"
 
 if os.path.isfile(data_file):
     import yaml
@@ -17,17 +18,31 @@ if os.path.isfile(data_file):
     recalconf = keyValueSettings(recalboxFiles.recalboxConf, False)
     recalconf.loadFile(True)
 
-    if userconf["users"][0]["ssh_authorized_keys"]:
-        recallog("Configuration SSH Key")
-        try:
-            os.makedirs(os.path.dirname(ssh_file), exist_ok=True)
-        except OSError as error:
-            recallog(error)
-        with open(ssh_file, "w") as keyfile:
-            keyfile.write(userconf["users"][0]["ssh_authorized_keys"][0])
-            keyfile.close()
+    if "users" in userconf and len(userconf["users"]) > 0:
+        if "ssh_authorized_keys" in userconf["users"][0]:
+            recallog("Configuration SSH Key")
+            try:
+                os.makedirs(os.path.dirname(ssh_file), exist_ok=True)
+            except OSError as error:
+                recallog(error)
+            with open(ssh_file, "w") as keyfile:
+                keyfile.write(userconf["users"][0]["ssh_authorized_keys"][0])
+                keyfile.close()
+        if "passwd" in userconf["users"][0]:
+            import crypt
+            import re
 
-    if userconf["hostname"]:
+            password = userconf["users"][0]["passwd"]
+            recallog("Configuration Root password")
+            with open(shadow_file) as f:
+                s = f.read()
+            encpass = crypt.crypt(password, crypt.mksalt(crypt.METHOD_MD5))
+            newshadow = re.sub(r"(^root\:).*(\:\d+.*)", r"\g<1>" + encpass + "\g<2>", s)
+            f = open(shadow_file, "w")
+            f.write(newshadow)
+            f.close
+
+    if "hostname" in userconf:
         recallog("Configuration Hostname")
         recalconf.setOption("system.hostname", userconf["hostname"])
         recalconf.safeSaveFile()
@@ -36,30 +51,31 @@ if os.path.isfile(data_file):
     except OSError as error:
         recallog(error)
 
-if os.path.isfile(network_file):
-    recallog("Configuration WIFI")
-    import yaml
-    import configgen.recalboxFiles as recalboxFiles
-    from configgen.settings.keyValueSettings import keyValueSettings
+for network_file in network_files:
+    if os.path.isfile(network_file):
+        recallog("Configuration WIFI")
+        import yaml
+        import configgen.recalboxFiles as recalboxFiles
+        from configgen.settings.keyValueSettings import keyValueSettings
 
-    with open(network_file, "r") as userdata:
-        networkconf = yaml.safe_load(userdata)
+        with open(network_file, "r") as userdata:
+            networkconf = yaml.safe_load(userdata)
 
-    recalconf = keyValueSettings(recalboxFiles.recalboxConf, False)
-    recalconf.loadFile(True)
+        recalconf = keyValueSettings(recalboxFiles.recalboxConf, False)
+        recalconf.loadFile(True)
 
-    if networkconf["wifis"]["wlan0"]["access-points"]:
-        for key, value in networkconf["wifis"]["wlan0"]["access-points"].items():
-            ssid = key
-            password = value["password"]
+        if networkconf["wifis"]["wlan0"]["access-points"]:
+            for key, value in networkconf["wifis"]["wlan0"]["access-points"].items():
+                ssid = key
+                password = value["password"]
 
-        recalconf.setOption("wifi.enabled", "1")
-        recalconf.setOption("wifi.ssid", ssid)
-        recalconf.setOption("wifi.key", password)
-        recalconf.safeSaveFile()
-    try:
-        os.remove(network_file)
-    except OSError as error:
-        recallog(error)
+            recalconf.setOption("wifi.enabled", "1")
+            recalconf.setOption("wifi.ssid", ssid)
+            recalconf.setOption("wifi.key", password)
+            recalconf.safeSaveFile()
+        try:
+            os.remove(network_file)
+        except OSError as error:
+            recallog(error)
 
 recallog("Not found postconfig data")

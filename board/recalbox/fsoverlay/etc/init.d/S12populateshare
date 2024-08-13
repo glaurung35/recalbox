@@ -302,6 +302,6 @@ recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[14] - CORE LIST"
 
 # call postshare.sh script
 recallog -s "${INIT_SCRIPT}" -t "POPULATE" "[15] - POST SHARE SCRIPT"
-test -e "/boot/user-data" || test -e  "/boot/network-.con" && /recalbox/scripts/recalbox-postconfig
+test -e "/boot/user-data" || test -e  "/boot/network-.con" || test -e  "/boot/network-config"  && /recalbox/scripts/recalbox-postconfig
 
 stopMpvQueue

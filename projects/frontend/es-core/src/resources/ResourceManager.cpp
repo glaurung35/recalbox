@@ -15,13 +15,8 @@ ResourceManager* ResourceManager::getInstance()
 ResourceData ResourceManager::getFileData(const Path& path)
 {
 	//check if its embedded
-	if(res2hMap.find(path.ToString()) != res2hMap.end())
-	{
-		//it is
-		Res2hEntry embeddedEntry = res2hMap.find(path.ToString())->second;
-		ResourceData data((const char*)embeddedEntry.data, embeddedEntry.size);
-		return data;
-	}
+	if(const Res2hEntry** entry = res2hMap.try_get(path.ToString()); entry != nullptr)
+		return ResourceData((const char*)(**entry).data, (**entry).size);
 
 	//it's not embedded; load the file
 	if(!path.Exists())

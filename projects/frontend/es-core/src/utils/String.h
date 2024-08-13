@@ -4482,3 +4482,10 @@ template<> struct std::hash<String>
 {
   size_t operator()(const String& __val) const noexcept { return __val.Hash(); }
 };
+/*!
+ * @brief Specialized template for hashing String objects
+ */
+template<> struct std::hash<const String>
+{
+  size_t operator()(const String& __val) const noexcept { return __val.Hash(); }
+};

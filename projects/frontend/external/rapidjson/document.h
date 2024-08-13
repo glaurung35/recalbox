@@ -1058,6 +1058,9 @@ public:
             else
                 return data_.n.u64 == rhs.data_.n.u64;
 
+        case kNullType:
+        case kFalseType:
+        case kTrueType:
         default:
             return true;
         }

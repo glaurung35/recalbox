@@ -138,7 +138,7 @@ void NotificationManager::LoadScriptList()
   mScriptList.clear();
 
   for(const Path& path : scripts)
-    if (path.IsFile())
+    if (path.IsFile() && !path.IsHidden())
       if (HasValidExtension(path))
       {
         ScriptAttributes attributes = ExtractAttributesFromPath(path);
@@ -163,7 +163,7 @@ bool NotificationManager::LoadManualScriptList()
   mManualScriptList.clear();
 
   for(const Path& path : scripts)
-    if (path.IsFile())
+    if (path.IsFile() && !path.IsHidden())
       if (HasValidExtension(path))
       {
         mManualScriptList.push_back({ path, Notification::None, ExtractAttributesFromPath(path) });

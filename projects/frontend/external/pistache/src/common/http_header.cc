@@ -117,6 +117,13 @@ namespace Pistache::Http::Header
 #endif
         case Encoding::Identity:
             return true;
+        #ifndef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+          case Encoding::Br:
+        #endif
+        case Encoding::Unknown:
+        case Encoding::Chunked:
+        case Encoding::Compress:
+        case Encoding::Gzip:
         default:
             return false;
         }
@@ -301,6 +308,15 @@ namespace Pistache::Http::Header
             case CacheDirective::MinFresh:
             case CacheDirective::SMaxAge:
                 return true;
+            case CacheDirective::NoCache:
+            case CacheDirective::OnlyIfCached:
+            case CacheDirective::NoStore:
+            case CacheDirective::NoTransform:
+            case CacheDirective::Private:
+            case CacheDirective::Public:
+            case CacheDirective::MustRevalidate:
+            case CacheDirective::ProxyRevalidate:
+            case CacheDirective::Ext:
             default:
                 return false;
             }

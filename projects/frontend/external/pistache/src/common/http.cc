@@ -961,6 +961,13 @@ namespace Pistache::Http
             return putOnWire(data, size);
 
         // Unknown...
+        case Http::Header::Encoding::Compress:
+        case Http::Header::Encoding::Chunked:
+        case Http::Header::Encoding::Unknown:
+        case Http::Header::Encoding::Gzip:
+        #ifndef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+        case Http::Header::Encoding::Br:
+        #endif
         default:
             throw std::runtime_error("User requested unknown content encoding.");
         }
@@ -1097,6 +1104,13 @@ namespace Pistache::Http
             break;
 
         // Any other type is not supported...
+        case Http::Header::Encoding::Gzip:
+        case Http::Header::Encoding::Compress:
+        case Http::Header::Encoding::Chunked:
+        case Http::Header::Encoding::Unknown:
+        #ifndef PISTACHE_USE_CONTENT_ENCODING_BROTLI
+          case Http::Header::Encoding::Br:
+        #endif
         default:
             throw std::runtime_error("Unsupported content encoding compression requested.");
         }

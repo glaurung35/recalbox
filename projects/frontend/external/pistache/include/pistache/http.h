@@ -298,7 +298,7 @@ namespace Pistache
             template <typename Duration>
             void arm(Duration duration)
             {
-                Async::Promise<uint64_t> p([=](Async::Deferred<uint64_t> deferred) {
+                Async::Promise<uint64_t> p([this, duration](Async::Deferred<uint64_t> deferred) {
 #ifdef _USE_LIBEVENT
                     std::shared_ptr<EventMethEpollEquiv>
                         event_meth_epoll_equiv(
@@ -318,7 +318,7 @@ namespace Pistache
                 });
 
                 p.then(
-                    [=](uint64_t numWakeup) {
+                    [this](uint64_t numWakeup) {
                         this->armed = false;
                         this->onTimeout(numWakeup);
                         CLOSE_FD(timerFd);

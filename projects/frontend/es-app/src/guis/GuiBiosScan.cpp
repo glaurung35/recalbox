@@ -664,14 +664,16 @@ bool GuiBiosScan::CollectHelpItems(Help& help)
 
 String GuiBiosScan::GetUniqueCoreList(const BiosList& biosList)
 {
-  String::List list;
+  HashSet<String> uniqueSet;
   for(int i = biosList.BiosCount(); --i >= 0; )
   {
     String::List subList = biosList.BiosAt(i).Cores().Split(',');
     for(const String& s : subList)
-      if (std::find(list.begin(), list.end(), s) == list.end())
-        list.push_back(s);
+      uniqueSet.insert(s);
   }
+  String::List list;
+  for(const String& s : uniqueSet)
+    list.push_back(s);
   return String::Join(list, ", ");
 }
 

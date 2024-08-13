@@ -4,6 +4,7 @@
 
 #include <string>
 #include <map>
+#include <stdint.h>
 
 extern const uint16_t f8bitfortressplus_ttf_size;
 extern const uint8_t f8bitfortressplus_ttf_data[];

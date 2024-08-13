@@ -84,7 +84,7 @@ public:
 	inline void setSelectorColor(unsigned int color) { mSelectorColor = color; updateBarColor(); }
 	inline void setSelectedColor(unsigned int color) { mSelectedColor = color; updateBarColor(); }
 	inline void setScrollSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
-	inline void setColor(unsigned int id, unsigned int color) { mColors[id] = color; }
+	inline void setColorAt(unsigned int id, unsigned int color) { mColors[id] = color; }
 	inline void setSound(AudioManager::AudioHandle sound) { mScrollSound = sound; }
 	inline void setLineSpacing(float lineSpacing) { mLineSpacing = lineSpacing; }
   inline void setHorizontalMargin(float horizontalMargin) { mHorizontalMargin = horizontalMargin; }
@@ -566,8 +566,8 @@ void TextListComponent<T>::OnApplyThemeElement(const ThemeElement& element, Them
 	{
 		if (element.HasProperty(ThemePropertyName::SelectorColor))  setSelectorColor((unsigned int)element.AsInt(ThemePropertyName::SelectorColor));
 		if (element.HasProperty(ThemePropertyName::SelectedColor))  setSelectedColor((unsigned int)element.AsInt(ThemePropertyName::SelectedColor));
-		if (element.HasProperty(ThemePropertyName::PrimaryColor))   setColor(0, (unsigned int)element.AsInt(ThemePropertyName::PrimaryColor));
-		if (element.HasProperty(ThemePropertyName::SecondaryColor)) setColor(1, (unsigned int)element.AsInt(ThemePropertyName::SecondaryColor));
+		if (element.HasProperty(ThemePropertyName::PrimaryColor))   setColorAt(0, (unsigned int)element.AsInt(ThemePropertyName::PrimaryColor));
+		if (element.HasProperty(ThemePropertyName::SecondaryColor)) setColorAt(1, (unsigned int)element.AsInt(ThemePropertyName::SecondaryColor));
 	}
 
 	setFont(Font::getFromTheme(element, properties, mFont));

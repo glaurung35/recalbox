@@ -102,11 +102,11 @@ GuiBiosScan::GuiBiosScan(WindowManager& window, SystemManager& systemManager)
   mList->setAlignment(HorizontalAlignment::Right);
   mList->setSelectorColor(menuTheme.Text().selectorColor);
   mList->setSelectedColor(menuTheme.Text().selectedColor);
-  mList->setColor(sColorIndexNormal, menuTheme.Text().color);
-  mList->setColor(sColorIndexHalf, (menuTheme.Text().color & 0xFFFFFF00) | 0x80);
-  mList->setColor(sColorIndexRed, 0xFF000022); // Red
-  mList->setColor(sColorIndexYellow, 0xFFFF0022); // Yellow
-  mList->setColor(sColorIndexGreen, 0x00FF0022); // Greeen
+  mList->setColorAt(sColorIndexNormal, menuTheme.Text().color);
+  mList->setColorAt(sColorIndexHalf, (menuTheme.Text().color & 0xFFFFFF00) | 0x80);
+  mList->setColorAt(sColorIndexRed, 0xFF000022); // Red
+  mList->setColorAt(sColorIndexYellow, 0xFFFF0022); // Yellow
+  mList->setColorAt(sColorIndexGreen, 0x00FF0022); // Greeen
   mList->setHorizontalMargin(Renderer::Instance().DisplayWidthAsFloat() * 0.95f * 0.01f);
   mList->setSelectorHeight((float)menuTheme.SmallText().font->getSize() * 1.5f);
   mList->setCursorChangedCallback([this](const CursorState& state) { (void)state; UpdateBiosDetail(); });

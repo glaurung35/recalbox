@@ -351,7 +351,7 @@ void RequestHandler::SystemConfigurationGet(const Rest::Request& request, Http::
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
+  const HashMap<String, Validator> keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -368,7 +368,7 @@ void RequestHandler::SystemConfigurationSet(const Rest::Request& request, Http::
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
+  const HashMap<String, Validator> keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -385,7 +385,7 @@ void RequestHandler::SystemConfigurationOptions(const Rest::Request& request, Ht
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
+  const HashMap<String, Validator> keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 
@@ -402,7 +402,7 @@ void RequestHandler::SystemConfigurationDelete(const Rest::Request& request, Htt
     RequestHandlerTools::Error404(response);
 
   // Check data
-  const HashMap<String, Validator>& keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
+  const HashMap<String, Validator> keys = RequestHandlerTools::SelectConfigurationKeySet("specific", mSystemManager);
   if (keys.empty())
     RequestHandlerTools::Error404(response);
 

@@ -5,6 +5,7 @@
 #include "animations/AnimationController.h"
 #include "themes/ThemeData.h"
 #include <themes/ThemeManager.h>
+#include <algorithm>
 
 Component::Component(WindowManager& window)
   : mTransform(Transform4x4f::Identity()),

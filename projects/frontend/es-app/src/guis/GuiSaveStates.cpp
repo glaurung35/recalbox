@@ -8,6 +8,7 @@
 #include <views/ViewController.h>
 #include "GuiSaveStates.h"
 #include <games/GameFilesUtils.h>
+#include <algorithm>
 
 #define TITLE_HEIGHT (mTitle->getFont()->getLetterHeight() + Renderer::Instance().DisplayHeightAsFloat()*0.0437f )
 

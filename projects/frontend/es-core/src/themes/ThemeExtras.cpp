@@ -2,6 +2,7 @@
 // Created by bkg2k on 11/08/2019.
 //
 
+#include <algorithm>
 #include "ThemeExtras.h"
 #include "utils/storage/Set.h"
 #include "utils/Log.h"

@@ -7,6 +7,7 @@
 #include "ArcadeVirtualSystems.h"
 #include <utils/Files.h>
 #include <systems/SystemManager.h>
+#include <algorithm>
 
 ArcadeDatabaseManager::ArcadeDatabaseManager(SystemData& parentSystem)
   : mSystem(parentSystem)

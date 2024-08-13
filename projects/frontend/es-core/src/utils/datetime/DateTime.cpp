@@ -5,7 +5,8 @@
  *      Author: thierry.imbert
  */
 
-#include <sys/time.h>
+#include <ctime>
+#include <semaphore>
 #include "DateTime.h"
 
 char LoadTimeZone()

@@ -43,7 +43,7 @@
                 volatile static int checked_num = max_num;              \
                 if (checked_num > 0)                                    \
                 {                                                       \
-                    checked_num--;                                      \
+                    checked_num -= 1;                                      \
                     PS_LogWoBreak(pri, (message),                       \
                                   __FILE__, __LINE__, __FUNCTION__);    \
                 }                                                       \

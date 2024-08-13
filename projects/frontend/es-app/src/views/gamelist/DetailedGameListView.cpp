@@ -1289,7 +1289,7 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next,
       int previousRange = -1;
       int nextRange = 0;
       // Get previous range
-      if (previous == nullptr)
+      if (previous != nullptr)
       {
         if (previous->Metadata().TimePlayed() == 0) previousRange = 0;
         else if (TimeSpan span(previous->Metadata().TimePlayed(), 0); span.TotalMinutes() < 30) previousRange = 1;

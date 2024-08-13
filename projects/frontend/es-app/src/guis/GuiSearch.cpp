@@ -192,7 +192,7 @@ bool GuiSearch::ProcessInput(const class InputCompactEvent & event)
     mWindow.CloseAll();
     return true;
   }
-  if (!mSearchResults.empty())
+  if (!mSearchResults.Empty())
   {
     FileData* cursor = mSearchResults[mList->getCursor()];
 
@@ -294,7 +294,7 @@ void GuiSearch::PopulateGrid(const String& search)
                              ViewController::Instance().CurrentSystem() :
                              nullptr;
     mSearchResults =  mSystemManager.SearchTextInGames(mSearchChoices->getSelected(), search, 100, systemData);
-    if (!mSearchResults.empty())
+    if (!mSearchResults.Empty())
     {
       mText->setValue("");
       ComponentListRow row;

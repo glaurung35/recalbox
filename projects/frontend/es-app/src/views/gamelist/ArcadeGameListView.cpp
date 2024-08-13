@@ -28,7 +28,7 @@ void ArcadeGameListView::populateList(const FolderData& folder)
   else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
 
   // Check emptyness
-  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+  if (items.Empty()) items.Add(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
 
   // Sort
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :

@@ -973,7 +973,7 @@ void DetailedGameListView::populateList(const FolderData& folder)
   else folder.GetItemsTo(items, includesFilter, mSystem.Excludes(), true);
 
   // Check emptyness
-  if (items.empty()) items.push_back(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
+  if (items.Empty()) items.Add(&mEmptyListItem); // Insert "EMPTY SYSTEM" item
 
   // Sort
   FileSorts::SortSets set = mSystem.IsVirtual() ? FileSorts::SortSets::MultiSystem :
@@ -1009,14 +1009,32 @@ void DetailedGameListView::populateList(const FolderData& folder)
   bool leftIcon = headerAlignment == HorizontalAlignment::Left;
 
   // Add to list
-  mList.clear(items.size());
+  mList.clear(items.Count());
   FileData* previous = nullptr;
   HeaderData* lastHeader = nullptr;
 
   bool hasTopFavorites = false;
   if (RecalboxConf::Instance().GetFavoritesFirst())
-    for (FileData* item : items)
-      if (item->Metadata().Favorite()) { hasTopFavorites = true; break; }
+  {
+    // Has any favorite?
+    for(int t = items.Count() - 1, i = (items.Count() + 1) / 2; --i >= 0; )
+      if (items[i]->Metadata().Favorite() || items[t - i]->Metadata().Favorite()) { hasTopFavorites = true; break; }
+    // If we have favorite + favorite first + descending order, move favorites on top
+    if (hasTopFavorites && !sorts.IsAscending(sort))
+    {
+      int favoriteCount = 0;
+      int favoriteBase = 0;
+      for(int i = items.Count(); --i >= 0; )
+        if (items[i]->Metadata().Favorite())
+        {
+          for(int j = i + 1; --j >= 0; )
+            if (items[j]->Metadata().Favorite()) { favoriteCount++; favoriteBase = j; }
+            else break;
+          break;
+        }
+      for(int i = favoriteCount; --i >= 0; ) items.Swap(i, favoriteBase + i);
+    }
+  }
 
   for (FileData* item : items)
   {

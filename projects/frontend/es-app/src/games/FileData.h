@@ -1,6 +1,6 @@
 #pragma once
 
-#include <vector>
+#include <utils/storage/Array.h>
 #include <utils/storage/HashMap.h>
 #include <utils/String.h>
 #include <utils/os/fs/Path.h>
@@ -18,8 +18,8 @@ class FileData
 {
   public:
     typedef HashMap<String, FileData*> StringMap;
-    typedef std::vector<FileData*> List;
-    typedef std::vector<const FileData*> ConstList;
+    typedef Array<FileData*> List;
+    typedef Array<const FileData*> ConstList;
 
     enum class TopLevelFilter
     {

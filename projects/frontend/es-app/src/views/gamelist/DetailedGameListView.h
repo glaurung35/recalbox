@@ -47,7 +47,7 @@ class DetailedGameListView : public ISimpleGameListView
       ListRefreshed();
     }
 
-    FileData::List getFileDataList() override { return mList.getObjects(); }
+    FileData::List getFileDataList() override { return mList.getObjectsArray(); }
 
     /*!
      * @brief Get available regions from the current game list

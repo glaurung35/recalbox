@@ -279,7 +279,7 @@ void SystemData::UpdateGamelistXml()
         FileData::List fileList = root->GetAllItemsRecursively(true, FileData::Filter::None);
         FileData::List folderList = root->GetAllFolders();
         // Nothing to process?
-        if (fileList.empty() && !root->HasDeletedChildren())
+        if (fileList.Empty() && !root->HasDeletedChildren())
           return;
 
         /*

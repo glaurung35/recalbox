@@ -20,7 +20,7 @@ template<typename T> class Stack : private Allocator
     Stack() : Allocator(__OBJSZ, 0, 4, false, true), fCount(0) {}
     explicit Stack(int capacity) : Allocator(__OBJSZ, capacity, 4, false, true), fCount(0) {}
     Stack(const Stack& source) : Allocator(source), fCount(source.fCount) {}
-    Stack(const Stack&& source) noexcept : Allocator(source), fCount(source.fCount) { source.fCount = 0; }
+    Stack(Stack&& source) noexcept : Allocator(source), fCount(source.fCount) { source.fCount = 0; }
     Stack& operator = (const Stack& source) { if (&source != this) { Allocator::operator=(source); fCount = source.fCount; } return *this; }
     Stack& operator = (Stack&& source) noexcept { if (&source != this) { Allocator::operator=(source); source.fCount = 0; } return *this; }
 

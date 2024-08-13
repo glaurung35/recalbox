@@ -20,6 +20,7 @@
 #include <netdb.h>
 #include <netinet/in.h>
 #include <sys/socket.h>
+#include <sys/un.h>
 
 #ifndef _KERNEL_FASTOPEN
 #define _KERNEL_FASTOPEN
@@ -38,7 +39,7 @@ namespace Pistache
     {
     public:
         // Disable copy and assign.
-        AddrInfo(const AddrInfo&) = delete;
+        AddrInfo(const AddrInfo&)            = delete;
         AddrInfo& operator=(const AddrInfo&) = delete;
 
         // Default construction: do nothing.
@@ -119,6 +120,12 @@ namespace Pistache
         void toNetwork(struct in6_addr*) const;
         // Returns 'true' if the system has IPV6 support, false if not.
         static bool supported();
+        // Exposes the underlying socket address as a constant struct sockaddr
+        // reference.
+        const struct sockaddr& getSockAddr() const
+        {
+            return reinterpret_cast<const struct sockaddr&>(addr_);
+        }
     };
     using Ipv4 = IP;
     using Ipv6 = IP;
@@ -146,38 +153,88 @@ namespace Pistache
     public:
         Address();
         Address(std::string host, Port port);
-        explicit Address(std::string addr);
+        Address(std::string host); // retained for backwards compatibility
+        
+        /*
+         * Constructors for creating addresses from strings.  They're
+         * typically used to create IP-based addresses, but can also be used
+         * to create unix domain socket addresses.  By default the created
+         * address will be IP-based.  However, if the addr argument meets one
+         * of the criteria below, a unix domain address will result.  Note
+         * that matching such a criterion implies that addr would be invalid
+         * as an IP-based address.
+         *
+         * The criteria are:
+         *  - addr is empty
+         *  - addr[0] == '\0'
+         *  - addr contains a '/' character
+         */
+
         explicit Address(const char* addr);
+
+        static Address makeWithDefaultPort(std::string addr,
+                                           Port default_port = 0);
+
         Address(IP ip, Port port);
 
         Address(const Address& other) = default;
         Address(Address&& other)      = default;
 
         Address& operator=(const Address& other) = default;
-        Address& operator=(Address&& other) = default;
+        Address& operator=(Address&& other)      = default;
 
+        /*
+         * Supports the AF_INET, AF_INET6, and AF_UNIX address families.
+         */
         static Address fromUnix(struct sockaddr* addr);
 
         std::string host() const;
         Port port() const;
         int family() const;
 
+        /*
+         * Returns the address length to be used in calls to bind(2).
+         */
+        socklen_t addrLen() const
+        {
+            return addrLen_;
+        }
+
+        /*
+         * Exposes the underlying socket address as a constant struct sockaddr
+         * reference.
+         */
+        const struct sockaddr& getSockAddr() const
+        {
+            return ip_.getSockAddr();
+        }
+
         friend std::ostream& operator<<(std::ostream& os, const Address& address);
 
     private:
+        // For init, default_port of zero makes the default port 80, though the
+        // default can be overridden by addr
+        void init(const std::string& addr, Port default_port);
         void init(const std::string& addr);
+
+        static bool isUnixDomain(const std::string& addr);
         IP ip_;
         Port port_;
+        socklen_t addrLen_;
     };
 
     std::ostream& operator<<(std::ostream& os, const Address& address);
 
     namespace helpers
     {
-        inline Address httpAddr(const std::string_view& view)
+        inline Address httpAddr(const std::string_view& view,
+                                Port default_port)
         {
-            return Address(std::string(view));
+            return Address::makeWithDefaultPort(std::string(view),
+                                                default_port);
         }
+
+        Address httpAddr(const std::string_view& view);
     } // namespace helpers
 
     class Error : public std::runtime_error
@@ -223,11 +280,14 @@ namespace Pistache
         }
     };
 
-#define DEFINE_INTEGRAL_SIZE(Int)                                     \
-    template <>                                                       \
-    struct Size<Int>                                                  \
-    {                                                                 \
-        size_t operator()(Int val) const { return digitsCount(val); } \
+#define DEFINE_INTEGRAL_SIZE(Int)        \
+    template <>                          \
+    struct Size<Int>                     \
+    {                                    \
+        size_t operator()(Int val) const \
+        {                                \
+            return digitsCount(val);     \
+        }                                \
     }
 
     DEFINE_INTEGRAL_SIZE(uint8_t);

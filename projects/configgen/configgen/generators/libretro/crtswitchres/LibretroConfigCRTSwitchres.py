@@ -51,7 +51,13 @@ class LibretroConfigCRTSwitchres:
                                          "video_allow_rotate": '"true"',
                                          "video_rotation": 0,
                                          "video_driver": '"gl"',
-                                         "video_scale_integer_overscale": ''
+                                         "video_scale_integer_overscale": '',
+                                         "menu_enable_widgets": '"false"',
+                                         "video_message_color": '"ffffff"',
+                                         "video_font_path": '"/usr/share/fonts/truetype/ubuntu_condensed-4x_wide.ttf"',
+                                         "video_font_size": '"18"',
+                                         "video_message_pos_x": '"0.02"',
+                                         "video_message_pos_y": '"0.08"'
                                          }
 
         match system.CRTScreenType:

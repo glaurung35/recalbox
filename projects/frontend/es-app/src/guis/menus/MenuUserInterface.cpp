@@ -8,6 +8,7 @@
 #include "MenuScreensavers.h"
 #include "MenuThemeConfiguration.h"
 #include "MenuGameFilters.h"
+#include "MenuHideSystems.h"
 #include <guis/MenuMessages.h>
 #include <guis/GuiMsgBox.h>
 #include <MainRunner.h>
@@ -59,6 +60,10 @@ MenuUserInterface::MenuUserInterface(WindowManager& window, SystemManager& syste
 
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, this, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
+
+  // System hiding
+  AddSubMenu(_("HIDE SYSTEMS INDIVIDUALLY"), (int)Components::HideSystems, this,
+             _("Hide or un-hide regular systems individually"));
 }
 
 void MenuUserInterface::ReloadGamelists()
@@ -91,6 +96,7 @@ void MenuUserInterface::SubMenuSelected(int id)
     case Components::ThemeConfig: mWindow.pushGui(new MenuThemeConfiguration(mWindow, RecalboxConf::Instance().GetThemeFolder())); break;
     case Components::UpdateGamelist: ReloadGamelists(); break;
     case Components::Filters: mWindow.pushGui(new MenuGameFilters(mWindow, mSystemManager)); break;
+    case Components::HideSystems: mWindow.pushGui(new MenuHideSystems(mWindow, mSystemManager)); break;
     case Components::Brightness:
     case Components::Clock:
     case Components::SwapValidateAndCancel:
@@ -138,7 +144,9 @@ void MenuUserInterface::MenuSwitchChanged(int id, bool& status)
     case Components::ScreenSaver:
     case Components::SystemSort:
     case Components::Filters:
-    case Components::Brightness: break;
+    case Components::Brightness:
+    case Components::HideSystems:
+    default: break;
   }
 }
 

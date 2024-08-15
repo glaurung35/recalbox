@@ -13,12 +13,14 @@ as release notes for end user on a Recalbox upgrade.
 - New menus design, better, faster, stronger !
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option
+- Add new menu to hide systems individually
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
 
 ### Fixes
+- Fix hidden and/or empty being shown after some user operations
 
 
 

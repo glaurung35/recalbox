@@ -42,6 +42,7 @@ class MenuUserInterface : public Menu
       UpdateGamelist,
       Filters,
       DisplayByFileName,
+      HideSystems,
     };
 
     //! Global variable resolver

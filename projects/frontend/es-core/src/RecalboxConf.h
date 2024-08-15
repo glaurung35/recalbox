@@ -128,6 +128,24 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
             virtual void name##ConfigurationChanged(const type& value) = 0; \
         };
 
+    #define DoNotifySystem(name, system, value) do{ for(System##name##ConfigurationNotify* p : mArrayOfSystem##name##Notify) p->System##name##ConfigurationChanged(system, value); }while(false)
+
+    #define DefineSystemObservable(clazz, name, type) \
+      public: \
+        class System##name##ConfigurationNotify; \
+      private: \
+        Array<System##name##ConfigurationNotify*> mArrayOf##System##name##Notify; \
+      public: \
+        void AddSystem##name##ConfigurationNotification(System##name##ConfigurationNotify* notified) { mArrayOfSystem##name##Notify.Add(notified); } \
+        void RemoveSystem##name##ConfigurationNotification(System##name##ConfigurationNotify* notified) { mArrayOfSystem##name##Notify.Remove(notified); } \
+        class System##name##ConfigurationNotify \
+        { \
+          public: \
+            System##name##ConfigurationNotify() { clazz::Instance().AddSystem##name##ConfigurationNotification(this); }; \
+            virtual ~System##name##ConfigurationNotify() { clazz::Instance().RemoveSystem##name##ConfigurationNotification(this); }; \
+            virtual void System##name##ConfigurationChanged(const SystemData& system, const type& value) = 0; \
+        };
+
     #define DefineGetterSetterGeneric(clazz, name, type, type2, key, defaultValue) \
       type Get##name() const { return As##type2(key, defaultValue); } \
       clazz& Delete##name() { Delete(key); return *this; } \
@@ -151,7 +169,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
 
     #define DefineSystemGetterSetterImplementation(name, type, type2, key, defaultValue) \
       type RecalboxConf::GetSystem##name(const SystemData& system) const { return As##type2(String(system.Name()).Append('.').Append(key), defaultValue); } \
-      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); return *this; } \
+      RecalboxConf& RecalboxConf::SetSystem##name(const SystemData& system, const type& value) { Set##type2(String(system.Name()).Append('.').Append(key), value); DoNotifySystem(name, system, value); return *this; } \
       RecalboxConf& RecalboxConf::DeleteSystem##name(const SystemData& system) { Delete(String(system.Name()).Append('.').Append(key)); return *this; } \
       bool RecalboxConf::IsDefinedSystem##name(const SystemData& system) const { return IsDefined(String(system.Name()).Append('.').Append(key)); }
 
@@ -163,7 +181,8 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       type GetSystem##name(const SystemData& system) const; \
       RecalboxConf& SetSystem##name(const SystemData& system, const type& value); \
       RecalboxConf& DeleteSystem##name(const SystemData& system); \
-      bool IsDefinedSystem##name(const SystemData& system) const;
+      bool IsDefinedSystem##name(const SystemData& system) const; \
+      DefineSystemObservable(RecalboxConf, name, type)
 
     #define DefineEmulationStationSystemGetterSetterDeclaration(name, type, type2, key) \
       type GetSystem##name(const SystemData& system) const; \

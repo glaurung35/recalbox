@@ -19,6 +19,7 @@ class SystemManager : private INoCopy // No copy allowed
                     , public IThreadPoolWorkerInterface<VirtualSystemDescriptor, VirtualSystemResult> // Multi-threaded system unloading
                     , public IMountMonitorNotifications
                     , public ISlowSystemOperation
+                    , public RecalboxConf::SystemIgnoreConfigurationNotify
 {
   public:
     //! Requested Visibility
@@ -497,6 +498,11 @@ class SystemManager : private INoCopy // No copy allowed
     //! Completed
     void SlowPopulateCompleted(const List& listToPopulate, bool autoSelectMonoSystem) override;
 
+    /*
+     * RecalboxConf::SystemIgnoreConfigurationNotify implementation
+     */
+    void SystemIgnoreConfigurationChanged(const SystemData& system, const bool& state) override { UpdateSystemsVisibility((SystemData*)&system, !state ? Visibility::ShowAndSelect : Visibility::Hide); }
+
     // Null ISystemChangeBotifier
     class NullSystemChangeNotifier : public ISystemChangeNotifier
     {
@@ -784,11 +790,11 @@ class SystemManager : private INoCopy // No copy allowed
     [[nodiscard]] bool UpdatedTopLevelFilter();
 
     /*!
-     * @brief Show or Hide the given system.Initialize the given system ir required, then make is visible!
+     * @brief Show or Hide the given system.Initialize the given system if required, then make is visible!
      * This method is a high level method that make the move in/out the Visible list, initialize the system if required
      * and call the SystemNotifier
      * @param system System to change visibility
-     * @param show Tru to show the system, false to hide
+     * @param show True to show the system, false to hide
      */
     void UpdateSystemsVisibility(SystemData* system, Visibility visibility);
 

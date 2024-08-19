@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new menu to hide systems individually
 - Add Visual Pinball (PC Only)
 - Add alias search and alias sorting 
+- Add netplay to cores gpSP (GBA) and Dosbox-Pure (DOS)
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

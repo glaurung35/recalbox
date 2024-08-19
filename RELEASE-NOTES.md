@@ -16,6 +16,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add new menu to hide systems individually
 - Add Visual Pinball (PC Only)
 - Add netplay to cores gpSP (GBA) and Dosbox-Pure (DOS)
+- Change libretro sameboy repo to the official repo
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
@@ -28,6 +29,8 @@ as release notes for end user on a Recalbox upgrade.
 - Fix enable RetroAchievements for new systems 
 - Fix Supermodel config and configgen files (Thanks AxelR !)
 
+### Bump
+- Bump libretro sameboy
 
 ## Version 9.2.3-Pulstar
 

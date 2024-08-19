@@ -56,6 +56,9 @@ GuiMenuUserInterface::GuiMenuUserInterface(WindowManager& window, SystemManager&
   // Display filename
   AddSwitch(_("DISPLAY BY FILENAME"), RecalboxConf::Instance().GetDisplayByFileName(), (int)Components::DisplayByFileName, this, _(MENUMESSAGE_UI_FILE_NAME_MSG));
 
+  // group By Alias
+  AddSwitch(_("GROUP BY GLOBAL NAME"), RecalboxConf::Instance().GetGroupByAlias(), (int)Components::GroupByAlias, this, _(MENUMESSAGE_UI_GROUP_BY_ALIAS_MSG));
+
   // Game List Update
   AddSubMenu(_("UPDATE GAMES LISTS"), (int)Components::UpdateGamelist, _(MENUMESSAGE_UI_UPDATE_GAMELIST_HELP_MSG));
 }
@@ -96,7 +99,9 @@ void GuiMenuUserInterface::SubMenuSelected(int id)
     case Components::Help:
     case Components::SystemSort:
     case Components::DisplayByFileName:
-    case Components::QuickSelect: break;
+    case Components::QuickSelect:
+    case Components::GroupByAlias:
+      break;
   }
 }
 
@@ -129,6 +134,15 @@ void GuiMenuUserInterface::SwitchComponentChanged(int id, bool& status)
       RecalboxConf::Instance().SetDisplayByFileName(status).Save();
       ViewController::Instance().GetOrCreateGamelistView(systemData)->refreshList();
       ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+      break;
+    case Components::GroupByAlias:
+      RecalboxConf::Instance().SetGroupByAlias(status).Save();
+      ViewController::Instance().InvalidateAllGamelistsExcept(nullptr);
+
+      // because here we change game list type
+      if (ViewController::Instance().CurrentView() == ViewType::GameList)
+        ViewController::Instance().goToGameList(ViewController::Instance().CurrentSystem());
+
       break;
     case Components::Popups:
     case Components::Theme:

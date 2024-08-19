@@ -125,6 +125,7 @@ class FileData
      */
 
     [[nodiscard]] inline bool IsEmpty() const { return mType == ItemType::Empty; }
+    [[nodiscard]] inline bool IsAlias() const { return mType == ItemType::Alias; }
     [[nodiscard]] inline bool IsGame() const { return mType == ItemType::Game; }
     [[nodiscard]] inline bool IsFolder() const { return mType == ItemType::Folder || mType == ItemType::Root; }
     [[nodiscard]] inline bool IsRoot() const { return mType == ItemType::Root; }

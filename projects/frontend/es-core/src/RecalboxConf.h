@@ -235,6 +235,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(FavoritesOnly, bool, Bool, sFavoritesOnly, false)
     DefineGetterSetter(ShowHidden, bool, Bool, sShowHidden, false)
     DefineGetterSetter(DisplayByFileName, bool, Bool, sDisplayByFileName, false)
+    DefineGetterSetter(GroupByAlias, bool, Bool, sGroupByAlias, false)
     DefineGetterSetter(ShowOnlyLatestVersion, bool, Bool, sShowOnlyLatestVersion, false)
     DefineGetterSetter(HideNoGames, bool, Bool, sHideNoGames, false)
     DefineGetterSetter(HideBoardGames, bool, Bool, sHideBoardGames, false)
@@ -399,6 +400,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSystemShaderSet            = "shaderset";
     static constexpr const char* sSystemFilterAdult          = "filteradultgames";
     static constexpr const char* sDisplayByFileName          = "displaybyfilename";
+    static constexpr const char* sGroupByAlias               = "groupByAlias";
     static constexpr const char* sSystemRegionFilter         = "regionfilter";
     static constexpr const char* sSystemFlatFolders          = "flatfolders";
     static constexpr const char* sSystemSort                 = "sort";

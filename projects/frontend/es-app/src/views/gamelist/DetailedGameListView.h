@@ -41,7 +41,8 @@ class DetailedGameListView : public ISimpleGameListView
 
     void populateList(const FolderData& folder) override;
 
-    void refreshList() override { populateList(*mPopulatedFolder); }
+    void refreshList() override {
+      populateList(*mPopulatedFolder); }
 
     FileData::List getFileDataList() override { return mList.getObjects(); }
 

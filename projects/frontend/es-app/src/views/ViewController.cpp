@@ -12,6 +12,7 @@
 #include "RotationManager.h"
 #include "guis/GuiSaveStates.h"
 #include "guis/menus/GuiFastMenuList.h"
+#include "views/gamelist/GroupByGameListView.h"
 
 #include <MainRunner.h>
 #include <bios/BiosManager.h>
@@ -682,7 +683,7 @@ ISimpleGameListView* ViewController::GetOrCreateGamelistView(SystemData* system)
 	ISimpleGameListView* view =
     (system->Descriptor().IsArcade() && RecalboxConf::Instance().GetArcadeViewEnhanced() && !(system->Name() == "daphne")) ?
     new ArcadeGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches) :
-    new DetailedGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches);
+    RecalboxConf::Instance().GetGroupByAlias() ? new GroupByGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches) : new DetailedGameListView(mWindow, mSystemManager, *system, mResolver, mFlagCaches);
   view->DoInitialize();
 
 	addChild(view);
@@ -1087,4 +1088,5 @@ void ViewController::ForceGamelistRefresh(SystemData& data)
   if (mGameListViews.contains(&data))
     mGameListViews[&data]->refreshList();
 }
+
 

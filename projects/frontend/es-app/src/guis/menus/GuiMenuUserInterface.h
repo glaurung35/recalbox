@@ -45,6 +45,7 @@ class GuiMenuUserInterface : public GuiMenuBase
       UpdateGamelist,
       Filters,
       DisplayByFileName,
+      GroupByAlias,
     };
 
     //! Global variable resolver

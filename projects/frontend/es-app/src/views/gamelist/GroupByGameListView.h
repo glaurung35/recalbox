@@ -4,10 +4,10 @@
 #pragma once
 
 #include <views/gamelist/DetailedGameListView.h>
-#include <systems/arcade/ArcadeTupple.h>
 #include "IArcadeGamelistInterface.h"
+#include "games/AliasData.h"
 
-class ArcadeGameListView : public DetailedGameListView
+class GroupByGameListView : public DetailedGameListView
                          , public IArcadeGamelistInterface
 {
   public:
@@ -17,9 +17,35 @@ class ArcadeGameListView : public DetailedGameListView
      * @param systemManager System manager reference
      * @param system Target system
      */
-    ArcadeGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
+    GroupByGameListView(WindowManager& window, SystemManager& systemManager, SystemData& system, const IGlobalVariableResolver& resolver, FlagCaches& flagCache);
 
   private:
+
+    struct GameTuple
+    {
+      GameTuple()
+      {
+
+      }
+
+      String mAlias;
+      FileData* mMainGame;
+      FileData::List mGamesList;
+      bool mFolded = true;
+      //! Constructor
+      GameTuple(const String alias, FileData::List list, bool folded)
+        : mAlias(alias),
+        mGamesList(list),
+        mFolded(folded)
+      {}
+
+      void HandleFolded()
+      {
+        mFolded = !mFolded;
+      }
+
+    };
+
     //! Linked arcade/game structure + clone list
     struct ParentTupple : public ArcadeTupple
     {
@@ -47,10 +73,31 @@ class ArcadeGameListView : public DetailedGameListView
       void AddClones(ArcadeTuppleList* list) { mCloneList = list; }
     };
 
+
+    struct GamesTuples
+    {
+      //! Constructor
+      GamesTuples(const String* alias, const FileData::List* games)
+      : mAlias(alias),
+      mGames(games)
+      {}
+
+      const String* mAlias;
+      const FileData::List* mGames;
+    };
+
+
     typedef std::vector<ParentTupple> ParentTuppleList;
+    typedef std::vector<GamesTuples> AliasTuppleList;
 
     //! List
     ParentTuppleList mGameList;
+    HashMap<String, GameTuple> mGamesMap;
+    HashMap<String, bool> mAliasesIsFolded;
+    HashSet<String> mAliases;
+    HashSet<AliasData*> mAliasDataSet;
+    HashMap<FolderData*, HashMap<String, AliasData>> mAliasDataCache;
+
 
     //! Last database to use
     const ArcadeDatabase* mDatabase;
@@ -95,7 +142,8 @@ class ArcadeGameListView : public DetailedGameListView
      * @param ascending True for an ascending sort, false for a descending sort
      * @return Sorted items
      */
-    void BuildAndSortArcadeGames(FileData::List& items, FileSorts::ComparerArcade comparer, bool ascending);
+
+    void BuildAndSortGames(FileData::List& items, FileSorts::ComparerArcade comparer, bool ascending);
 
     /*!
      * @brief Add a complete sorted lists of arcade tupple to the gamelist
@@ -104,6 +152,9 @@ class ArcadeGameListView : public DetailedGameListView
      * @param ascending True = ascending sort
      */
     void AddSortedCategories(const std::vector<ParentTuppleList*>& categoryLists, FileSorts::ComparerArcade comparer, bool ascending);
+
+
+    void AddSortedGames(HashSet<String> aliases, HashMap<String, FileData::List> map, FileSorts::ComparerArcade comparer, bool ascending);
 
     /*!
      * @brief Get display name of the given game
@@ -181,7 +232,7 @@ class ArcadeGameListView : public DetailedGameListView
     void UnfoldAll();
 
     //! HandleFold the current parent or the current clone's parent
-    void Fold();
+    void HandleFold(const String& aliasKey);
 
     //! Unfold the current parent
     void Unfold();
@@ -247,4 +298,12 @@ class ArcadeGameListView : public DetailedGameListView
      * @return True if at least one match has been found, false otherwise
      */
     static bool HasMatchingManufacturer(const HashSet<int>& manufacturerSet, const ArcadeGame::LimitedManufacturerHolder& manufacturers);
+
+    void setCursor(FileData* cursor);
+
+    String GetAliasString(FileData* fileData);
+
+    void UnFold(const String& aliasKey);
+
+    AliasData* GetOrCreateAliasData(FolderData* folder, const String& aliasName);
 };

@@ -36,6 +36,8 @@ class FileSorts : public StaticLifeCycleControler<FileSorts>
       PlayersDescending,       //!< By number of players then by filename, 2-1
       DeveloperAscending,      //!< By developer then by filename, A-Z
       DeveloperDescending,     //!< By developer then by filename, Z-A
+      AliasAscending,          //!< By alias then by filename, A-Z
+      AliasDescending,         //!< By alias then by filename, Z-A
       PublisherAscending,      //!< By publisher then by filename, A-Z
       PublisherDescending,     //!< By publisher then by filename, Z-A
       GenreAscending,          //!< By normalized genre (genreid) then by filename, EnumFirst-EnumLast
@@ -139,6 +141,7 @@ class FileSorts : public StaticLifeCycleControler<FileSorts>
     DeclareSortMethodPrototype(compareLastPlayed)
     DeclareSortMethodPrototype(compareNumberPlayers)
     DeclareSortMethodPrototype(compareDevelopper)
+    DeclareSortMethodPrototype(compareAlias)
     DeclareSortMethodPrototype(comparePublisher)
     DeclareSortMethodPrototype(compareGenre)
     DeclareSortMethodPrototype(compareReleaseDate)

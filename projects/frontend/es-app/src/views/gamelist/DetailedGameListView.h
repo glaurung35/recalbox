@@ -199,6 +199,8 @@ class DetailedGameListView : public ISimpleGameListView
     //! Current sort
     FileSorts::Sorts mSort;
 
+    HashMap<String, FileData::List> mGamesByAlias;
+
     //! Current gamelist decorations
     RecalboxConf::GamelistDecoration mDecorations;
 
@@ -386,6 +388,15 @@ class DetailedGameListView : public ISimpleGameListView
     HeaderData* GetHeader(const String& name);
 
     /*!
+ * @brief Create or get a named header
+ * @param name Header name
+ * @param folded Header folded
+ * @return HeaderData instance
+ */
+
+    HeaderData* GetAliasHeader(const String& name);
+
+    /*!
      * @brief Create or get a named header
      * @param name Header name
      * @param data Integer data
@@ -498,4 +509,6 @@ class DetailedGameListView : public ISimpleGameListView
      * @param game Game ran
      */
     void ReturnedFromGame(FileData* game) override;
+
+    bool IsSortByAlias();
 };

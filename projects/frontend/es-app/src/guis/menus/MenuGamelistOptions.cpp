@@ -222,7 +222,8 @@ void MenuGamelistOptions::MenuSingleChanged(int id, int index, const unsigned in
     FileSorts::Sorts sortId = mListSort->SelectedValue();
 
     // if sort is not alpha, need to force an alpha
-    if (sortId != FileSorts::Sorts::FileNameAscending && sortId != FileSorts::Sorts::FileNameDescending)
+    if (sortId != FileSorts::Sorts::FileNameAscending && sortId != FileSorts::Sorts::FileNameDescending
+    && sortId != FileSorts::Sorts::AliasAscending && sortId != FileSorts::Sorts::AliasDescending)
     {
       sortId = FileSorts::Sorts::FileNameAscending;
       mListSort->SetSelectedItemValue(sortId, false);

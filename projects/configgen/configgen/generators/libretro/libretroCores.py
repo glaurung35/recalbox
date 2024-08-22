@@ -53,18 +53,32 @@ class LibretroCores:
     @staticmethod
     def configureAmigaCDTV(coreSettings: keyValueSettings):
         coreSettings.setString("puae_model", '"CDTV"')
+        coreSettings.setString("puae_model_fd", "A500")
+        coreSettings.setString("puae_model_hd", "A1200")
+        coreSettings.setString("puae_model_cd", '"CDTV"')
 
     @staticmethod
     def configureAmigaCD32(coreSettings: keyValueSettings):
         coreSettings.setString("puae_model", '"CD32"')
+        coreSettings.setString("puae_model_fd", "A1200")
+        coreSettings.setString("puae_model_hd", "A1200")
+        coreSettings.setString("puae_model_cd", "CD32")
 
     @staticmethod
     def configureAmiga1200(coreSettings: keyValueSettings):
         coreSettings.setString("puae_model", '"A1200"')
+        coreSettings.setString("puae_model_fd", "A1200")
+        coreSettings.setString("puae_model_hd", "A1200")
+        coreSettings.setString("puae_model_cd", "CD32FR")
+        coreSettings.setString("puae_cpu_compatibility", '"memory"')
 
     @staticmethod
     def configureAmiga600(coreSettings: keyValueSettings):
         coreSettings.setString("puae_model", '"A600"')
+        coreSettings.setString("puae_model_fd", "A500")
+        coreSettings.setString("puae_model_hd", "A600")
+        coreSettings.setString("puae_model_cd", "CDTV")
+        coreSettings.setString("puae_cpu_compatibility", '"memory"')
 
     @staticmethod
     def configureAmstradCPC(coreSettings: keyValueSettings):

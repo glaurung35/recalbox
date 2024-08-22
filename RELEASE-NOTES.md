@@ -20,6 +20,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players
 - Add sort by playing time & sort by regions
+- Added options into configgen for Amiga systems
 
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations
@@ -50,7 +51,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix forcing OpenGLES for RPI5 and RPI4 for Libretro-ScummVM
 - Fix preinstalled game with ScummVM and Libretro-ScummVM
 - Fix OpenGL error with Libretro-ScummVM on PC
-- Fix kodi crash when playing HEVC/h264 video on rpi4 
+- Fix kodi crash when playing HEVC/h264 video on rpi4
 - Fix kodi not playing HEVC video on rpi5 (still no 4k though)
 - Fix preinstalled games:
   - Fix all ScuimmVM games

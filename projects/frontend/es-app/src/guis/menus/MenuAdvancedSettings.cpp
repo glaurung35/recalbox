@@ -66,8 +66,6 @@ MenuAdvancedSettings::MenuAdvancedSettings(WindowManager& window, SystemManager&
   #else
   AddSubMenu(_("KODI SETTINGS"), (int)Components::KodiSubMenu, this, _(MENUMESSAGE_ADVANCED_KODI_HELP_MSG));
   #endif
-  // Visual Pinball
-  AddSubMenu(_("PINBALL SETTINGS"), (int)Components::PinballSubMenu, _(MENUMESSAGE_ADVANCED_PINBALL_HELP_MSG));
 
   // Cases
   if(!Case::SupportedManualCases().empty())

@@ -75,7 +75,7 @@ class SupermodelGenerator(Generator):
             BalanceSound.append("-balance={}".format(balance))
         return BalanceSound
 
-    ## added in version r818 define new or old sound engine 
+    ## added in version r818 define new or old sound engine
     @staticmethod
     def GetSoundEngine(_) -> List[str]:
         SoundEngine: List[str] = []
@@ -147,7 +147,7 @@ class SupermodelGenerator(Generator):
         supermodelSettings = keyValueSettings(recalboxFiles.supermodelConfigFile)
         supermodelSettings.loadFile(True)
         QuadRendering: int = supermodelSettings.getInt("quad-rendering", 0)
-        if QuadRendering == "1":
+        if QuadRendering == 1:
             Rendering.append("-quad-rendering")
         return Rendering
 
@@ -203,7 +203,7 @@ class SupermodelGenerator(Generator):
         if ThreadStatut == 1:
             Thread.append("-no-gpu-thread")
         elif ThreadStatut == 2:
-            Thread.append("no-threads")
+            Thread.append("-no-threads")
         else:
             Thread.append("-gpu-multi-threaded")
         return Thread

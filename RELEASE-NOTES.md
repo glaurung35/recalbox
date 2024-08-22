@@ -25,6 +25,7 @@ as release notes for end user on a Recalbox upgrade.
 - Fix hidden and/or empty being shown after some user operations
 
 - Fix enable RetroAchievements for new systems 
+- Fix Supermodel config and configgen files (Thanks AxelR !)
 
 
 ## Version 9.2.3-Pulstar

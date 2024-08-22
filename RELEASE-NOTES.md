@@ -15,6 +15,7 @@ as release notes for end user on a Recalbox upgrade.
 - Reintroduced Favorites on top of gamelist as an option
 - Add new menu to hide systems individually
 - Add Visual Pinball (PC Only)
+- Add alias search and alias sorting 
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

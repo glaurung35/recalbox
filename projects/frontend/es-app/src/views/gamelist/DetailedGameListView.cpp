@@ -758,6 +758,8 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
       }
       case FileSorts::Sorts::DeveloperAscending:
       case FileSorts::Sorts::DeveloperDescending:
+      case FileSorts::Sorts::AliasAscending:
+      case FileSorts::Sorts::AliasDescending:
       case FileSorts::Sorts::PublisherAscending:
       case FileSorts::Sorts::PublisherDescending: break;
       case FileSorts::Sorts::GenreAscending:
@@ -826,6 +828,8 @@ float DetailedGameListView::OverlayGetLeftOffset(FileData* const& data, int labe
       case FileSorts::Sorts::SystemDescending:
       case FileSorts::Sorts::DeveloperAscending:
       case FileSorts::Sorts::DeveloperDescending:
+      case FileSorts::Sorts::AliasAscending:
+      case FileSorts::Sorts::AliasDescending:
       case FileSorts::Sorts::PublisherAscending:
       case FileSorts::Sorts::PublisherDescending:
       case FileSorts::Sorts::PlayCountAscending:
@@ -1039,6 +1043,16 @@ void DetailedGameListView::populateList(const FolderData& folder)
     }
   }
 
+  if (IsSortByAlias())
+  {
+    mGamesByAlias.clear();
+    for (FileData* item: items)
+    {
+      const String alias = item->Metadata().AliasOrName();
+      mGamesByAlias[alias].Add(item);
+    }
+  }
+
   for (FileData* item : items)
   {
     // Region filtering?
@@ -1050,16 +1064,56 @@ void DetailedGameListView::populateList(const FolderData& folder)
     if (onlyTate && !RotationUtils::IsTate(item->Metadata().Rotation())) continue;
     // Yoko filtering
     if (onlyYoko && RotationUtils::IsTate(item->Metadata().Rotation())) continue;
-    // Header?
-    if (item->IsGame())
-      if (HeaderData* header = NeedHeader(previous, item, hasTopFavorites); header != nullptr)
+
+    if (!IsSortByAlias())
+    {
+      // Header?
+      if (item->IsGame())
+        if (HeaderData* header = NeedHeader(previous, item, hasTopFavorites); header != nullptr)
+        {
+          mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
+          lastHeader = header;
+        }
+      // Store
+      if (lastHeader == nullptr || !lastHeader->IsFolded())
+        mList.add(GetDisplayName(*item), item, colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor), false);
+    }
+    else {
+      // Header?
+      if (item->IsGame())
+        if (HeaderData* header = NeedHeader(previous, item, hasTopFavorites); header != nullptr)
+        {
+          if (header->IsAlias())
+          {
+            if (header->IsFolded())
+              mList.add(header->Name(true), header, GameColor, HeaderColor, HorizontalAlignment::Left);
+            else
+              mList.add(header->Name(true), header, GameColor, HeaderColor, HorizontalAlignment::Left);
+          }
+          // favorite OR in aplhabetic order
+          else
+            mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
+          lastHeader = header;
+        }
+      // Store
+      if (lastHeader == nullptr || mGamesByAlias[item->Metadata().AliasOrName()].Count() < 2)
+        mList.add(GetDisplayName(*item), item, colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor), false);
+      else if (lastHeader != nullptr && !lastHeader->IsFolded())
       {
-        mList.add(header->Name(leftIcon), header, GameColor, HeaderColor, headerAlignment);
-        lastHeader = header;
+        if (lastHeader->IsAlias())
+        {
+
+          mList.add("  \u2022 " + GetDisplayName(*item), item,
+                    colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor), false);
+        }
+        else
+        {
+          mList.add(GetDisplayName(*item), item, colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor),
+                    false);
+        }
       }
-    // Store
-    if (lastHeader == nullptr || !lastHeader->IsFolded())
-      mList.add(GetDisplayName(*item), item, colorIndexOffset + (item->IsFolder() ? FolderColor : GameColor), false);
+    }
+
     if (item->IsGame())
       previous = item;
   }
@@ -1102,6 +1156,10 @@ void DetailedGameListView::setCursor(FileData* cursor)
 {
   if(!mList.setCursor(cursor, 0))
   {
+    if (IsSortByAlias())
+    {
+      mHeaderMap[cursor->Metadata().AliasOrName()]->SetFolded(false);
+    }
     populateList(mSystem.MasterRoot());
     mList.setCursor(cursor);
 
@@ -1389,6 +1447,31 @@ HeaderData* DetailedGameListView::NeedHeader(FileData* previous, FileData* next,
       }
       break;
     }
+    case FileSorts::Sorts::AliasAscending:
+    case FileSorts::Sorts::AliasDescending:
+    {
+
+      if (hasTopFavorites)
+      {
+        // Leavinf favorite area
+        if (previous != nullptr && previous->Metadata().Favorite() && !next->Metadata().Favorite())
+          return GetHeader(_("In alphabetical order"));
+          // List has favorites but not at top
+        else if (previous == nullptr)
+          return GetHeader(_("In alphabetical order"));
+      }
+
+      String prevString = previous != nullptr ? previous->Metadata().Alias().Trim().ToLowerCase() : "\t";
+      String nextString = next->Metadata().AliasOrName().Trim().ToLowerCase();
+
+      if (prevString != nextString && mGamesByAlias[next->Metadata().AliasOrName()].Count() > 1)
+      {
+        String alias(next->Metadata().AliasOrName());
+        if (alias.empty()) alias = _("Unknown alias");
+        return GetAliasHeader(alias);
+      }
+      break;
+    }
     case FileSorts::Sorts::PublisherAscending:
     case FileSorts::Sorts::PublisherDescending:
     {
@@ -1445,6 +1528,14 @@ HeaderData* DetailedGameListView::GetHeader(const String& name)
   if (header != nullptr) return *header;
 
   return mHeaderMap[name] = new HeaderData(name, mSystem);
+}
+
+HeaderData* DetailedGameListView::GetAliasHeader(const String& name)
+{
+  HeaderData** header = mHeaderMap.try_get(name);
+  if (header != nullptr) return *header;
+
+  return mHeaderMap[name] = new HeaderData(name, mSystem, true, true);
 }
 
 HeaderData* DetailedGameListView::GetHeader(const String& name, int data)
@@ -1663,6 +1754,8 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
     case FileSorts::Sorts::PlayersDescending:
     case FileSorts::Sorts::DeveloperAscending:
     case FileSorts::Sorts::DeveloperDescending:
+    case FileSorts::Sorts::AliasAscending:
+    case FileSorts::Sorts::AliasDescending:
     case FileSorts::Sorts::PublisherAscending:
     case FileSorts::Sorts::PublisherDescending:
     case FileSorts::Sorts::GenreAscending:
@@ -1673,4 +1766,41 @@ void DetailedGameListView::ReturnedFromGame(FileData* game)
     case FileSorts::Sorts::RegionDescending:
     default: break;
   }
+}
+
+bool DetailedGameListView::IsSortByAlias()
+{
+  switch (mSort)
+  {
+    case FileSorts::Sorts::AliasAscending:
+    case FileSorts::Sorts::AliasDescending:
+      return true;
+    case FileSorts::Sorts::PlayCountAscending:
+    case FileSorts::Sorts::PlayCountDescending:
+    case FileSorts::Sorts::TotalPlayTimeAscending:
+    case FileSorts::Sorts::TotalPlayTimeDescending:
+    case FileSorts::Sorts::LastPlayedAscending:
+    case FileSorts::Sorts::LastPlayedDescending:
+    case FileSorts::Sorts::FileNameAscending:
+    case FileSorts::Sorts::FileNameDescending:
+    case FileSorts::Sorts::SystemAscending:
+    case FileSorts::Sorts::SystemDescending:
+    case FileSorts::Sorts::RatingAscending:
+    case FileSorts::Sorts::RatingDescending:
+    case FileSorts::Sorts::PlayersAscending:
+    case FileSorts::Sorts::PlayersDescending:
+    case FileSorts::Sorts::DeveloperAscending:
+    case FileSorts::Sorts::DeveloperDescending:
+    case FileSorts::Sorts::PublisherAscending:
+    case FileSorts::Sorts::PublisherDescending:
+    case FileSorts::Sorts::GenreAscending:
+    case FileSorts::Sorts::GenreDescending:
+    case FileSorts::Sorts::ReleaseDateAscending:
+    case FileSorts::Sorts::ReleaseDateDescending:
+    case FileSorts::Sorts::RegionAscending:
+    case FileSorts::Sorts::RegionDescending:
+    default: break;
+  }
+
+  return false;
 }

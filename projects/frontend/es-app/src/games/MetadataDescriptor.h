@@ -524,6 +524,13 @@ class MetadataDescriptor
     [[nodiscard]] String RotationAsString()    const { return RotationUtils::StringValue(mRotation); }
     [[nodiscard]] String TotalPlayTimeAsString()  const { return String(mTotalPlayTime);                        }
 
+    [[nodiscard]] String AliasOrName() const {
+      if (!Alias().empty()) {
+        return Alias();
+      }
+      return Name();
+    }
+
     /*
      * Setters
      */

@@ -24,6 +24,16 @@ class HeaderData : public FileData
     {
     }
 
+    //!  Constructor
+    HeaderData(const String& name, SystemData& system, bool folded, bool isAlias)
+      : FileData(ItemType::Header, Path::Empty, system.MasterRoot())
+      , mName(name)
+      , mInt(0)
+      , mFloat(0.f)
+      , mFolded(folded)
+      , mIsAlias(isAlias)
+    {
+    }
     //! Constructor
     HeaderData(const String& name, SystemData& system, int idata, float fdata)
       : FileData(ItemType::Header, Path::Empty, system.MasterRoot())
@@ -53,6 +63,10 @@ class HeaderData : public FileData
 
     //! Fold status
     [[nodiscard]] bool IsFolded() const { return mFolded; }
+
+    //! IsAlias status
+    [[nodiscard]] bool IsAlias() const { return mIsAlias; }
+
     //! Set fold/unfold
     void SetFolded(bool folded) { mFolded = folded; }
     //! Toggle folded state
@@ -72,6 +86,9 @@ class HeaderData : public FileData
     float mFloat;
     //! Fold status
     bool mFolded;
+
+    //! is alias
+    bool mIsAlias = false;
 
     using FileData::Metadata;
 };

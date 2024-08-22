@@ -11,6 +11,8 @@ void FileSorts::Initialize()
   mAllSorts.clear();
   mAllSorts.push_back(SortType(Sorts::FileNameAscending      , &compareFileName     , &compareFileNameArcade     , true , "\uF15d " + _("NAME")));
   mAllSorts.push_back(SortType(Sorts::FileNameDescending     , &compareFileName     , &compareFileNameArcade     , false, "\uF15e " + _("NAME")));
+  mAllSorts.push_back(SortType(Sorts::AliasAscending         , &compareAlias        , &compareFileNameArcade     , true , "\uF15d " + _("ALIAS")));
+  mAllSorts.push_back(SortType(Sorts::AliasDescending        , &compareAlias        , &compareFileNameArcade     , false, "\uF15e " + _("ALIAS")));
   mAllSorts.push_back(SortType(Sorts::RatingAscending        , &compareRating       , &compareRatingArcade       , true , "\uF165 " + _("RATING")));
   mAllSorts.push_back(SortType(Sorts::RatingDescending       , &compareRating       , &compareRatingArcade       , false, "\uF164 " + _("RATING")));
   mAllSorts.push_back(SortType(Sorts::PlayCountAscending     , &comparePlayCount    , &comparePlayCountArcade    , true , "\uF162 " + _("TIMES PLAYED")));
@@ -145,6 +147,13 @@ ImplementSortMethod(compareDevelopper)
   int result = unicodeCompareUppercase(file1.Metadata().Developer().Trim(), file2.Metadata().Developer().Trim());
   if (result != 0) return result;
   return unicodeCompareUppercase(file1.Name(), file2.Name());
+
+}ImplementSortMethod(compareAlias)
+{
+  CheckFoldersAndGames(file1, file2)
+  int result = unicodeCompareUppercase(file1.Metadata().AliasOrName().Trim(), file2.Metadata().AliasOrName().Trim());
+  if (result != 0) return result;
+  return unicodeCompareUppercase(file1.Name(), file2.Name());
 }
 
 ImplementSortMethod(comparePublisher)
@@ -213,6 +222,8 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
       {
         Sorts::FileNameAscending,
         Sorts::FileNameDescending,
+        Sorts::AliasAscending,
+        Sorts::AliasDescending,
         Sorts::SystemAscending,
         Sorts::SystemDescending,
         Sorts::GenreAscending,
@@ -277,6 +288,8 @@ const FileSorts::SortList& FileSorts::AvailableSorts(SortSets set)
   {
     Sorts::FileNameAscending,
     Sorts::FileNameDescending,
+    Sorts::AliasAscending,
+    Sorts::AliasDescending,
     Sorts::GenreAscending,
     Sorts::GenreDescending,
     Sorts::RatingAscending,

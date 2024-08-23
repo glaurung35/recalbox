@@ -4,7 +4,6 @@
 #include "components/ImageComponent.h"
 #include "ISliderComponent.h"
 
-class TextCache;
 class Font;
 
 // Used to display/edit a value between some min and max values.
@@ -55,7 +54,8 @@ private:
 
 	String mSuffix;
 	std::shared_ptr<Font> mFont;
-	std::shared_ptr<TextCache> mValueCache;
+  int mTextWidth;
+  int mTextHeight;
 
 	std::function<void(const float&)> mSelectedChangedCallback;
 	ISliderComponent* mInterface;

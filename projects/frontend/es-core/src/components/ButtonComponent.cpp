@@ -5,15 +5,17 @@
 #include <themes/ThemeManager.h>
 
 ButtonComponent::ButtonComponent(WindowManager&window, const String& text, const String& helpText, const std::function<void()>& func, bool upperCase)
-  : Component(window),
-    mFont(Font::get(FONT_SIZE_MEDIUM)),
-    mFocused(false),
-    mEnabled(true),
-    mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF),
-    mModdedColor(0),
-    mButton(":/button.png"),
-    mButton_filled(":/button_filled.png"),
-    mBox(window, mButton)
+  : Component(window)
+  , mFont(Font::get(FONT_SIZE_MEDIUM))
+  , mFocused(false)
+  , mEnabled(true)
+  , mTextColorFocused(0xFFFFFFFF), mTextColorUnfocused(0x777777FF)
+  , mModdedColor(0)
+  , mTextWidth(0)
+  , mTextHeight(0)
+  , mButton(":/button.png")
+  , mButton_filled(":/button_filled.png")
+  , mBox(window, mButton)
 {
   const MenuThemeData& menuTheme = ThemeManager::Instance().Menu();
 	mFont = menuTheme.Text().font;
@@ -55,12 +57,14 @@ void ButtonComponent::setText(const String& text, const String& helpText, bool u
 	mText = upperCase ? text.ToUpperCaseUTF8() : text;
 	mHelpText = helpText;
 
-	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(mText, 0, 0, getCurTextColor()));
+  Vector2f size = mFont->sizeText(mText);
+  mTextWidth = size.x();
+  mTextHeight = size.y();
 
 	if (resize)
 	{
 		float minWidth = mFont->sizeText("DELETE").x() + 12;
-		setSize(Math::max(mTextCache->metrics.size.x() + 12, minWidth), mTextCache->metrics.size.y() + 8);
+		setSize(Math::max((float)mTextWidth + 12, minWidth), mTextHeight + 8);
 	}
 
 	if (doUpdateHelpPrompts)
@@ -132,17 +136,13 @@ void ButtonComponent::Render(const Transform4x4f& parentTrans)
 
   mBox.Render(trans);
 
-	if(mTextCache)
-	{
-		Vector3f centerOffset((mSize.x() - mTextCache->metrics.size.x()) / 2, (mSize.y() - mTextCache->metrics.size.y()) / 2, 0);
-		centerOffset.round();
-		trans = trans.translate(centerOffset);
+  Vector3f centerOffset((mSize.x() - mTextWidth) / 2, (mSize.y() - mTextHeight) / 2, 0);
+  centerOffset.round();
+  trans = trans.translate(centerOffset);
 
-		Renderer::SetMatrix(trans);
-		mTextCache->setColor(getCurTextColor());
-		mFont->renderTextCache(mTextCache.get());
-		trans = trans.translate(-centerOffset);
-	}
+  Renderer::SetMatrix(trans);
+  mFont->RenderDirect(mText, 0, 0, getCurTextColor());
+  trans = trans.translate(-centerOffset);
 
 	renderChildren(trans);
 }

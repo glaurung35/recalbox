@@ -51,7 +51,7 @@ void GuiSearch::initGridsNStuff()
 
   //init search textfield
   mSearch = std::make_shared<TextEditComponent>(mWindow);
-  mGrid.setEntry(mSearch, Vector2i(0, 1), false, false, Vector2i(3, 1));
+  mGrid.setEntry(mSearch, Vector2i(0, 1), false, true, Vector2i(3, 1));
 
   //init search option selector
   mSearchChoices = std::make_shared<OptionListComponent<FolderData::FastSearchContext> >(mWindow, _("SEARCH BY"), false);
@@ -66,7 +66,7 @@ void GuiSearch::initGridsNStuff()
   mSearchChoices->setChangedCallback([this]{
     mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
   });
-  mGrid.setEntry(mSearchChoices, Vector2i(1, 0), false, false, Vector2i(1, 1));
+  mGrid.setEntry(mSearchChoices, Vector2i(1, 0), false, true, Vector2i(1, 1));
 
   //init big center grid with List and Meta
   mGridMeta = std::make_shared<ComponentGrid>(mWindow, Vector2i(4, 3));
@@ -231,13 +231,14 @@ void GuiSearch::onSizeChanged()
 {
   mBackground.fitTo(mSize, Vector3f::Zero(), Vector2f(-32, -32));
 
-  mSearch->setSize(mSize.x() - 12, mSearch->getSize().y());
+  //mSearch->setSize(mSize.x() - 12, mSearch->getSize().y());
 
   // update grid row/col sizes
   mGrid.setColWidthPerc(0, 0.5f);
   mGrid.setRowHeightPerc(0, TITLE_HEIGHT / mSize.y());
   mGrid.setColWidthPerc(1, mSearchChoices->getSize().x() / mSize.x());
-  mGrid.setRowHeightPerc(1, (mSearch->getSize().y() + 8) / mSize.y());
+  float v = mSearch->getTextHeight() + mSearch->getVerticalMargins();
+  mGrid.setRowHeightPerc(1, v / mSize.y());
 
   mGrid.setSize(mSize);
 }

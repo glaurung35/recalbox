@@ -16,6 +16,8 @@ TextScrollComponent::TextScrollComponent(WindowManager&window)
   , mStep(ScrollSteps::LeftPause)
   , mMarqueeTime(0)
   , mOffset(0)
+  , mTextWidth(0)
+  , mTextHeight(0)
   , mColor(0x000000FF)
   , mOriginColor(0x000000FF)
   , mBgColor(0)
@@ -34,7 +36,7 @@ TextScrollComponent::TextScrollComponent(WindowManager&window, const String& tex
   : TextScrollComponent(window)
 {
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
   mOriginColor = color;
@@ -45,7 +47,7 @@ TextScrollComponent::TextScrollComponent(WindowManager&window, const String& tex
   : TextScrollComponent(window)
 {
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
   mOriginColor = color;
@@ -76,8 +78,6 @@ void TextScrollComponent::setColor(unsigned int color)
   Component::setOpacity(opacity);
 
   mColorOpacity = mColor & 0x000000FF;
-
-  onColorChanged();
 }
 
 //  Set the color of the background box
@@ -100,15 +100,12 @@ void TextScrollComponent::setOpacity(unsigned char opacity)
   unsigned char bgo = (unsigned char)((float)opacity / 255.f * (float)mBgColorOpacity);
   mBgColor = (mBgColor & 0xFFFFFF00) | (unsigned char)bgo;
 
-  onColorChanged();
-
   Component::setOpacity(opacity);
 }
 
 void TextScrollComponent::setText(const String& text)
 {
-  mText = text;
-  if (mUppercase) mText.UpperCaseUTF8();
+  mOriginalText = text;
   onTextChanged();
 }
 
@@ -121,42 +118,40 @@ void TextScrollComponent::setUppercase(bool uppercase)
 void TextScrollComponent::Update(int deltaTime)
 {
   mOffset = 0;
-  if (mTextCache && mTextCache->metrics.size.x() > mSize.x())
+
+  int textWidth = mTextWidth;
+  int width = (int)mSize.x();
+  if (textWidth > width)
   {
-    int textWidth = (int)mTextCache->metrics.size.x();
-    int width = (int)mSize.x();
-    if (textWidth > width)
+    switch (mStep)
     {
-      switch (mStep)
+      case ScrollSteps::LeftPause:
       {
-        case ScrollSteps::LeftPause:
-        {
-          mOffset = 0;
-          if (mMarqueeTime > sScrollPause) { mMarqueeTime = 0; mStep = ScrollSteps::ScrollToRight; }
-          break;
-        }
-        case ScrollSteps::ScrollToRight:
-        {
-          mOffset = (mMarqueeTime * sScrollSpeed1) / 1000;
-          if (mOffset >= (int)(textWidth - width)) { mMarqueeTime = 0; mOffset = (int)(textWidth - width); mStep = ScrollSteps::RightPause;}
-          break;
-        }
-        case ScrollSteps::RightPause:
-        {
-          mOffset = (int)(textWidth - width);
-          if (mMarqueeTime > sScrollPause) { mMarqueeTime = 0; mStep = ScrollSteps::RollOver; }
-          break;
-        }
-        case ScrollSteps::RollOver:
-        {
-          mOffset = (int)(textWidth - width) + (mMarqueeTime * sScrollSpeed2) / 1000;
-          if (mOffset >= textWidth + (int)mSize.x() / 4) { mMarqueeTime = 0; mOffset = 0; mStep = ScrollSteps::LeftPause;}
-          break;
-        }
-        default: break;
+        mOffset = 0;
+        if (mMarqueeTime > sScrollPause) { mMarqueeTime = 0; mStep = ScrollSteps::ScrollToRight; }
+        break;
       }
-      mMarqueeTime += deltaTime;
+      case ScrollSteps::ScrollToRight:
+      {
+        mOffset = (mMarqueeTime * sScrollSpeed1) / 1000;
+        if (mOffset >= (int)(textWidth - width)) { mMarqueeTime = 0; mOffset = (int)(textWidth - width); mStep = ScrollSteps::RightPause;}
+        break;
+      }
+      case ScrollSteps::RightPause:
+      {
+        mOffset = (int)(textWidth - width);
+        if (mMarqueeTime > sScrollPause) { mMarqueeTime = 0; mStep = ScrollSteps::RollOver; }
+        break;
+      }
+      case ScrollSteps::RollOver:
+      {
+        mOffset = (int)(textWidth - width) + (mMarqueeTime * sScrollSpeed2) / 1000;
+        if (mOffset >= textWidth + (int)mSize.x() / 4) { mMarqueeTime = 0; mOffset = 0; mStep = ScrollSteps::LeftPause;}
+        break;
+      }
+      default: break;
     }
+    mMarqueeTime += deltaTime;
   }
 
   Component::Update(deltaTime);
@@ -166,77 +161,56 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
 {
   if(mThemeDisabled) return;
   Transform4x4f trans = parentTrans * getTransform();
+  Renderer::SetMatrix(trans);
 
   if (mRenderBackground)
-  {
-    Renderer::SetMatrix(trans);
     Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
-  }
 
-  if(mTextCache)
+  float xOff = 0;
+  float yOff = 0;
+  switch(mVerticalAlignment)
   {
-    const Vector2f& textSize = mTextCache->metrics.size;
-    float xOff = 0;
-    float yOff = 0;
-    switch(mVerticalAlignment)
-    {
-      case TextAlignment::Bottom: yOff = (getSize().y() - textSize.y()); break;
-      case TextAlignment::Center: yOff = (getSize().y() - textSize.y()) / 2.0f; break;
-      case TextAlignment::Top:
-      case TextAlignment::Left:
-      case TextAlignment::Right: break;
-    }
-    switch(mHorizontalAlignment)
-    {
-      case TextAlignment::Right: xOff = (getSize().x() - textSize.x()); break;
-      case TextAlignment::Center: if (textSize.x() <= mSize.x()) xOff = (getSize().x() - textSize.x()) / 2.0f; break;
-      case TextAlignment::Top:
-      case TextAlignment::Bottom:
-      case TextAlignment::Left: break;
-    }
-    Vector3f off(xOff + (float)((mHorizontalAlignment == TextAlignment::Right) ? mOffset : - mOffset), yOff, 0);
-
-    // Get clipping area
-    Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());
-    Vector3f dimScaled = trans * Vector3f(mSize.x(), mSize.y(), 0);
-    Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
-    Renderer::Instance().PushClippingRect(clipPos, clipDim);
-
-    // Render text
-    trans.translate(off);
-    trans.round();
-    Renderer::SetMatrix(trans);
-    mFont->renderTextCache(mTextCache.get());
-    if (mOffset != 0)
-    {
-      float subOffset = textSize.x() + mSize.x() / 4;
-      if (mHorizontalAlignment == TextAlignment::Right) subOffset = -subOffset;
-      trans.translate(subOffset, 0);
-      trans.round();
-      Renderer::SetMatrix(trans);
-      mFont->renderTextCache(mTextCache.get());
-    }
-
-    Renderer::Instance().PopClippingRect();
+    case TextAlignment::Bottom: yOff = (getSize().y() - mTextHeight); break;
+    case TextAlignment::Center: yOff = (getSize().y() - mTextHeight) / 2.0f; break;
+    case TextAlignment::Top:
+    case TextAlignment::Left:
+    case TextAlignment::Right: break;
   }
+  switch(mHorizontalAlignment)
+  {
+    case TextAlignment::Right: xOff = (getSize().x() - mTextWidth); break;
+    case TextAlignment::Center: if (mTextWidth <= mSize.x()) xOff = (getSize().x() - mTextWidth) / 2.0f; break;
+    case TextAlignment::Top:
+    case TextAlignment::Bottom:
+    case TextAlignment::Left: break;
+  }
+  Vector2f off(xOff + (float)((mHorizontalAlignment == TextAlignment::Right) ? mOffset : - mOffset), yOff);
+  off.round();
+
+  // Get clipping area
+  Vector2i clipPos((int)trans.translation().x(), (int)trans.translation().y());
+  Vector3f dimScaled = trans * Vector3f(mSize.x(), mSize.y(), 0);
+  Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
+  Renderer::Instance().PushClippingRect(clipPos, clipDim);
+
+  // Render text
+  mFont->RenderDirect(mDisplayableText, off, (mColor >> 8 << 8) | mOpacity, mSize.x());
+  if (mOffset != 0)
+  {
+    float subOffset = mTextWidth + mSize.x() / 4;
+    off.x() += mHorizontalAlignment == TextAlignment::Right ? -subOffset : subOffset;
+    mFont->RenderDirect(mDisplayableText, off, (mColor >> 8 << 8) | mOpacity, mSize.x());
+  }
+
+  Renderer::Instance().PopClippingRect();
 }
 
 void TextScrollComponent::onTextChanged()
 {
-  if(!mFont || mText.empty())
-  {
-    mTextCache.reset();
-    return;
-  }
-
-  String text = mUppercase ? mText.ToUpperCaseUTF8() : mText;
-  mTextCache = std::shared_ptr<TextCache>(mFont->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), TextAlignment::Left, 0));
-}
-
-void TextScrollComponent::onColorChanged()
-{
-  if(mTextCache)
-    mTextCache->setColor(mColor);
+  mDisplayableText = mUppercase ? mOriginalText.ToUpperCaseUTF8() : mOriginalText;
+  Vector2f size = mFont->sizeText(mDisplayableText);
+  mTextWidth = size.x();
+  mTextHeight = size.y();
 }
 
 void TextScrollComponent::setHorizontalAlignment(TextAlignment align)

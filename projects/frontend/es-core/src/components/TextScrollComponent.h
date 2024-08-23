@@ -50,7 +50,7 @@ class TextScrollComponent : public ThemableComponent
     void Render(const Transform4x4f& parentTrans) override;
 
     String getValue() const override
-    { return mText; }
+    { return mOriginalText; }
 
     void setValue(const String& value) override
     { setText(value); }
@@ -103,14 +103,15 @@ class TextScrollComponent : public ThemableComponent
 
     void onTextChanged();
 
-    void onColorChanged();
-
     std::shared_ptr<Font> mFont;
-    std::shared_ptr<TextCache> mTextCache;
-    String mText;
+
+    String mOriginalText;
+    String mDisplayableText;
     ScrollSteps mStep;
     int mMarqueeTime;
     int mOffset;
+    int mTextWidth;
+    int mTextHeight;
     unsigned int mColor;
     unsigned int mOriginColor;
     unsigned int mBgColor;

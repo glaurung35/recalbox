@@ -10,15 +10,17 @@
 #include <themes/ThemeManager.h>
 
 TextEditComponent::TextEditComponent(WindowManager&window)
-	: Component(window),
-    mFocused(false),
-    mEditing(false),
-    mCursor(0),
-    mCursorRepeatTimer(0),
-    mCursorRepeatDir(0),
-    mScrollOffset(0.0f, 0.0f),
-    mBox(window, Path(":/textinput_ninepatch.png")),
-    mFont(ThemeManager::Instance().Menu().Text().font)
+	: Component(window)
+  , mFocused(false)
+  , mEditing(false)
+  , mCursor(0)
+  , mCursorRepeatTimer(0)
+  , mCursorRepeatDir(0)
+  , mTextWidth(0)
+  , mTextHeight(0)
+  , mScrollOffset(0.0f, 0.0f)
+  , mBox(window, Path(":/textinput_ninepatch.png"))
+  , mFont(ThemeManager::Instance().Menu().Text().font)
 {
 	addChild(&mBox);
 	
@@ -43,7 +45,7 @@ void TextEditComponent::onFocusLost()
 
 void TextEditComponent::onSizeChanged()
 {
-	mBox.fitTo(mSize, Vector3f::Zero(), Vector2f(-34, -32 - TEXT_PADDING_VERT));
+	mBox.fitTo(mSize, Vector3f::Zero(), Vector2f(-mBox.MargingX() * 2 - TEXT_PADDING_HORIZ, -mBox.MargingY() * 2));
 	mScrollOffset[0] = 0;
 	onTextChanged(); // wrap point probably changed
 }
@@ -200,8 +202,9 @@ void TextEditComponent::setCursor(size_t pos)
 
 void TextEditComponent::onTextChanged()
 {
-	String wrappedText = (isMultiline() ? mFont->wrapText(mText, getTextAreaSize().x()) : mText);
-	mTextCache = std::unique_ptr<TextCache>(mFont->buildTextCache(wrappedText, 0, 0, 0x77777700 | getOpacity()));
+  Vector2f size = mFont->sizeText(mText);
+  mTextWidth = size.x();
+  mTextHeight = size.y();
 
 	if(mCursor > (int)mText.length())
 		mCursor = mText.length();
@@ -250,15 +253,8 @@ void TextEditComponent::Render(const Transform4x4f& parentTrans)
 	Vector2i clipDim((int)(dimScaled.x() - trans.translation().x()), (int)(dimScaled.y() - trans.translation().y()));
 	Renderer::Instance().PushClippingRect(clipPos, clipDim);
 
-	trans.translate(Vector3f(-mScrollOffset.x(), -mScrollOffset.y(), 0));
-	trans.round();
-
-	Renderer::SetMatrix(trans);
-
-	if(mTextCache)
-	{
-		mFont->renderTextCache(mTextCache.get());
-	}
+  Vector2f position = getTextAreaPos();
+  mFont->RenderDirect(mText, position.x() - (int)mScrollOffset.x(), position.y() - (int)mScrollOffset.y(), 0x77777700 | getOpacity());
 
 	// pop the clip early to allow the cursor to be drawn outside of the "text area"
 	Renderer::Instance().PopClippingRect();
@@ -285,11 +281,6 @@ bool TextEditComponent::isMultiline()
 	return (getSize().y() > mFont->getHeight() * 1.25f);
 }
 
-Vector2f TextEditComponent::getTextAreaSize() const
-{
-	return { mSize.x() - TEXT_PADDING_HORIZ, mSize.y() - TEXT_PADDING_VERT };
-}
-
 bool TextEditComponent::CollectHelpItems(Help& help)
 {
 	if(mEditing)
@@ -298,4 +289,26 @@ bool TextEditComponent::CollectHelpItems(Help& help)
 	else
 		help.Set(Help::Valid(), _("EDIT"));
 	return true;
+}
+
+Vector2f TextEditComponent::getTextAreaSize() const
+{
+  return { mSize.x() - (TEXT_PADDING_HORIZ + mBox.MargingX() * 2), mSize.y() - (TEXT_PADDING_VERT + mBox.MargingY() * 2) };
+}
+
+Vector2f TextEditComponent::getTextAreaPos()
+{
+  Vector2f result( mBox.MargingX() + TEXT_PADDING_HORIZ / 2.0f, mBox.MargingY() + TEXT_PADDING_VERT / 2.0f );
+  return result;
+}
+
+int TextEditComponent::getTextHeight() const
+{
+  int h = Math::roundi(mFont->getSize() * 1.5f);
+  return h;
+}
+
+int TextEditComponent::getVerticalMargins() const
+{
+  return mBox.MargingY() * 2 + TEXT_PADDING_VERT;
 }

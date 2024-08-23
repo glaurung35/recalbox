@@ -15,7 +15,7 @@ enum class HorizontalAlignment : char
 
 struct TextListData
 {
-  std::shared_ptr<TextCache> textCache;
+  int textWidth = -1;
 	signed char colorId;
   signed char colorBackgroundId;
   HorizontalAlignment hzAlignement;
@@ -68,16 +68,12 @@ public:
 	inline void setFont(const std::shared_ptr<Font>& font)
 	{
 		mFont = font;
-		for (auto& entry : mEntries)
-			entry.data.textCache.reset();
 	}
 
 	inline void setUppercase(bool uppercase) 
 	{
 		(void)uppercase;
 		mUppercase = true; // TODO: Check
-		for (auto& entry : mEntries)
-			entry.data.textCache.reset();
 	}
 
   void setAutoAlternate(bool state) { mAutoAlternate = state; }
@@ -281,11 +277,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
 
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
-
-		if(!entry.data.textCache)
-			entry.data.textCache = std::unique_ptr<TextCache>(font->buildTextCache(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, 0, 0, 0x000000FF));
-
-		entry.data.textCache->setColor(mShiftSelectedTextColor && mCursor == i ? color + 1 : color);
+    color = mShiftSelectedTextColor && mCursor == i ? color + 1 : color;
 
     leftMargin = mHorizontalMargin;
     rightMargin = mHorizontalMargin;
@@ -312,11 +304,11 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
 		{
       case HorizontalAlignment::Left: break;
       case HorizontalAlignment::Center:
-        offset[0] += (size.x() - entry.data.textCache->metrics.size.x()) / 2;
+        offset[0] += (size.x() - entry.data.textWidth) / 2;
         if(offset[0] < mHorizontalMargin) offset[0] = mHorizontalMargin;
         break;
       case HorizontalAlignment::Right:
-        offset[0] += (size.x() - entry.data.textCache->metrics.size.x());
+        offset[0] += (size.x() - entry.data.textWidth);
         if(offset[0] < mHorizontalMargin)	offset[0] = mHorizontalMargin;
         break;
 		  default : break;
@@ -325,18 +317,12 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     // Draw text
     if(mCursor == i) offset[0] -= mMarqueeOffset;
 
-		Transform4x4f drawTrans = trans;
-		drawTrans.translate(offset);
-		Renderer::SetMatrix(drawTrans);
-		font->renderTextCache(entry.data.textCache.get());
+    font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
 
     if (mCursor == i && mMarqueeOffset > 0)
     {
-      offset[0] += entry.data.textCache->metrics.size.x() + mSize.x() / 4;
-      drawTrans = trans;
-      drawTrans.translate(offset);
-      Renderer::SetMatrix(drawTrans);
-      font->renderTextCache(entry.data.textCache.get());
+      offset[0] += entry.data.textWidth + mSize.x() / 4;
+      font->RenderDirect(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name, offset.x(), y, color);
     }
 
     y += entrySize;
@@ -447,10 +433,12 @@ void TextListComponent<T>::Update(int deltaTime)
   if (mBarTimer > 0) mBarTimer -= deltaTime;
 
 	listUpdate(deltaTime);
-	if(!isScrolling() && size() > 0 && mEntries[mCursor].data.textCache)
+	if(!isScrolling() && size() > 0)
 	{
-		//if we're not scrolling and this object's text goes outside our size, marquee it!
-		const int textWidth = (int)(mEntries[mCursor].data.textCache->metrics.size.x()) + 1;
+		// if we're not scrolling and this object's text goes outside our size, marquee it!
+    auto& entry = mEntries[mCursor];
+    int textWidth = entry.data.textWidth;
+    if (textWidth < 0) textWidth = entry.data.textWidth = mFont->sizeText(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name).x();
 
 		//it's long enough to marquee
     float fwidth = mSize.x() - 2 * mHorizontalMargin;

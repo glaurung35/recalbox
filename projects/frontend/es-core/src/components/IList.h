@@ -263,7 +263,6 @@ class IList : public Gui
 
       auto& entry = mEntries[cursor];
       entry.name = name;
-      entry.data.textCache.reset();
       return true;
     }
 
@@ -406,9 +405,7 @@ class IList : public Gui
       mGradient.setOpacity(mTitleOverlayOpacity);
       mGradient.Render(identTrans);
 
-      TextCache* cache = mTitleOverlayFont->buildTextCache(text, off.x(), off.y(), 0xFFFFFF00 | mTitleOverlayOpacity);
-      mTitleOverlayFont->renderTextCache(cache); // relies on mGradient's render for Renderer::setMatrix()
-      delete cache;
+      mTitleOverlayFont->RenderDirect(text, off.x(), off.y(), 0xFFFFFF00 | mTitleOverlayOpacity);
     }
 
     void scroll(int amt)

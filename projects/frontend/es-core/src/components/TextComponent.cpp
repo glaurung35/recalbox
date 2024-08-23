@@ -1,6 +1,4 @@
 #include "components/TextComponent.h"
-#include "Renderer.h"
-#include "utils/Log.h"
 #include "WindowManager.h"
 #include "themes/ThemeData.h"
 #include "utils/Files.h"
@@ -8,6 +6,8 @@
 TextComponent::TextComponent(WindowManager&window)
   : ThemableComponent(window)
   , mFont(Font::get(FONT_SIZE_MEDIUM))
+  , mTextWidth(0)
+  , mTextHeight(0)
   , mColor(0x000000FF)
   , mOriginColor(0x000000FF)
   , mBgColor(0)
@@ -20,6 +20,7 @@ TextComponent::TextComponent(WindowManager&window)
   , mAutoCalcExtentX(true)
   , mAutoCalcExtentY(true)
   , mClipped(false)
+  , mIsMultiline(false)
 {
   mPosition = Vector3f::Zero();
   mSize = Vector2f::Zero();
@@ -28,7 +29,7 @@ TextComponent::TextComponent(WindowManager&window, const String& text, const std
   : TextComponent(window)
 {
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
   mOriginColor = color;
@@ -39,7 +40,7 @@ TextComponent::TextComponent(WindowManager&window, const String& text, const std
   : TextComponent(window)
 {
   mFont = font;
-  mText = text;
+  mOriginalText = text;
   mColor = color;
   mColorOpacity = (unsigned char)(color & 0xFF);
   mOriginColor = color;
@@ -82,8 +83,6 @@ void TextComponent::setColor(unsigned int color)
     Component::setOpacity(opacity);
 
     mColorOpacity = mColor & 0x000000FF;
-
-    onColorChanged();
   }
 }
 
@@ -110,18 +109,15 @@ void TextComponent::setOpacity(unsigned char opacity)
     unsigned char bgo = (unsigned char) ((float) opacity / 255.f * (float) mBgColorOpacity);
     mBgColor = (mBgColor & 0xFFFFFF00) | (unsigned char) bgo;
 
-    onColorChanged();
-
     Component::setOpacity(opacity);
   }
 }
 
 void TextComponent::setText(const String& text)
 {
-  if (mText != text)
+  if (mOriginalText != text)
   {
-    mText = text;
-    if (mUppercase) mText.UpperCaseUTF8();
+    mOriginalText = text;
     onTextChanged();
   }
 }
@@ -147,124 +143,109 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
     Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), mBgColor);
   }
 
-  if(mTextCache)
-  {
-    const Vector2f& textSize = mTextCache->metrics.size;
-    float yOff = 0;
-    switch(mVerticalAlignment)
-      {
-      case TextAlignment::Top:
-        yOff = 0;
-        break;
-      case TextAlignment::Bottom:
-        yOff = (getSize().y() - textSize.y());
-        break;
-      case TextAlignment::Center:
-        yOff = (getSize().y() - textSize.y()) / 2.0f;
-        break;
-        case TextAlignment::Left:
-        case TextAlignment::Right: break;
-      }
-    Vector3f off(0, yOff, 0);
-
-    if (false /*Settings::Instance().DebugText()*/)
+  float yOff = 0;
+  switch(mVerticalAlignment)
     {
-      // draw the "textbox" area, what we are aligned within
-      Renderer::SetMatrix(trans);
-      Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
-    }
-
-    trans.translate(off);
-    trans.round();
-    Renderer::SetMatrix(trans);
-
-    // draw the text area, where the text actually is going
-    if (false /*Settings::Instance().DebugText()*/)
-    {
-      switch(mHorizontalAlignment)
-      {
+    case TextAlignment::Top:
+      yOff = 0;
+      break;
+    case TextAlignment::Bottom:
+      yOff = (getSize().y() - mTextHeight);
+      break;
+    case TextAlignment::Center:
+      yOff = (getSize().y() - mTextHeight) / 2.0f;
+      break;
       case TextAlignment::Left:
-        Renderer::DrawRectangle(0.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-        break;
-      case TextAlignment::Center:
-        Renderer::DrawRectangle((mSize.x() - mTextCache->metrics.size.x()) / 2.0f, 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-        break;
-      case TextAlignment::Right:
-        Renderer::DrawRectangle(mSize.x() - mTextCache->metrics.size.x(), 0.0f, mTextCache->metrics.size.x(), mTextCache->metrics.size.y(), 0x00000033);
-        break;
-        case TextAlignment::Top:
-        case TextAlignment::Bottom:break;
-      }
+      case TextAlignment::Right: break;
     }
+  Vector3f off(0, yOff, 0);
 
-    mFont->renderTextCache(mTextCache.get());
-  }
+  /*if (Settings::Instance().DebugText())
+  {
+    // draw the "textbox" area, what we are aligned within
+    Renderer::SetMatrix(trans);
+    Renderer::DrawRectangle(0.f, 0.f, mSize.x(), mSize.y(), 0xFF000033);
+  }*/
 
+  trans.translate(off);
+  trans.round();
+  Renderer::SetMatrix(trans);
+
+  // draw the text area, where the text actually is going
+  /*if (Settings::Instance().DebugText())
+  {
+    switch(mHorizontalAlignment)
+    {
+    case TextAlignment::Left:
+      Renderer::DrawRectangle(0.0f, 0.0f, (float)mTextWidth, (float)mTextWidth, 0x00000033);
+      break;
+    case TextAlignment::Center:
+      Renderer::DrawRectangle((mSize.x() - mTextWidth) / 2.0f, 0.0f, (float)mTextWidth, (float)mTextHeight, 0x00000033);
+      break;
+    case TextAlignment::Right:
+      Renderer::DrawRectangle(mSize.x() - mTextWidth, 0.0f, (float)mTextWidth, (float)mTextHeight, 0x00000033);
+      break;
+      case TextAlignment::Top:
+      case TextAlignment::Bottom:break;
+    }
+  }*/
+
+  mFont->RenderDirect(mDisplayableText, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing);
 }
 
 void TextComponent::calculateExtent()
 {
   if(mAutoCalcExtentX)
   {
-    mSize = mFont->sizeText(mText, mLineSpacing);
+    mSize = mFont->sizeText(mDisplayableText, mLineSpacing);
   }else{
     if(mAutoCalcExtentY)
     {
-      mSize[1] = mFont->sizeWrappedText(mText, getSize().x(), mLineSpacing).y();
+      mSize[1] = mFont->sizeWrappedText(mDisplayableText, getSize().x(), mLineSpacing).y();
     }
   }
 }
 
 void TextComponent::onTextChanged()
 {
+  mDisplayableText = mUppercase ? mOriginalText.ToUpperCaseUTF8() : mOriginalText;
   calculateExtent();
+  if (!mFont || mDisplayableText.empty()) return;
 
-  if(!mFont || mText.empty())
-  {
-    mTextCache.reset();
-    return;
-  }
-
-  String text = mUppercase ? mText.ToUpperCaseUTF8() : mText;
-
-  std::shared_ptr<Font> f = mFont;
-  const bool isMultiline = (mSize.y() == 0 || mSize.y() > f->getHeight()*1.2f);
-
+  const bool isMultiline = (mSize.y() == 0 || mSize.y() > mFont->getHeight()*1.2f);
   bool addAbbrev = false;
   if (!isMultiline)
   {
-    int newline = text.Find('\n');
-    text = text.SubString(0, newline); // single line of text - stop at the first newline since it'll mess everything up
+    int newline = mDisplayableText.Find('\n');
+    if (newline >= 0) mDisplayableText = mDisplayableText.Delete(newline, INT32_MAX); // single line of text - stop at the first newline since it'll mess everything up
     addAbbrev = newline >= 0;
   }
 
-  Vector2f size = f->sizeText(text);
-  if(!isMultiline && (mSize.x() != 0) && !text.empty() && (size.x() > mSize.x() || addAbbrev))
+  Vector2f size = mFont->sizeText(mDisplayableText);
+  if(!isMultiline && (mSize.x() != 0) && (size.x() > mSize.x() || addAbbrev))
   {
     // abbreviate text
-    const String abbrev = "...";
-    Vector2f abbrevSize = f->sizeText(abbrev);
+    const String abbrev = "\u2026";
+    Vector2f abbrevSize = mFont->sizeText(abbrev);
 
-    while(!text.empty() && size.x() + abbrevSize.x() > mSize.x())
+    while(!mDisplayableText.empty() && size.x() + abbrevSize.x() > mSize.x())
     {
-      size_t newSize = Font::getPrevCursor(text, text.size());
-      text.erase(newSize, text.size() - newSize);
-      size = f->sizeText(text);
+      size_t newSize = Font::getPrevCursor(mDisplayableText, mDisplayableText.size());
+      mDisplayableText.erase(newSize, mDisplayableText.size() - newSize);
+      size = mFont->sizeText(mDisplayableText);
     }
 
-    text.Append(abbrev);
+    mDisplayableText.Append(abbrev);
 
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(text, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
-  }else{
-    mTextCache = std::shared_ptr<TextCache>(f->buildTextCache(f->wrapText(text, mSize.x()), Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing));
+    mTextWidth = size.x();
+    mTextHeight = size.y();
   }
-}
-
-void TextComponent::onColorChanged()
-{
-  if(mTextCache)
+  else
   {
-    mTextCache->setColor(mColor);
+    mDisplayableText = mFont->wrapText(mDisplayableText, mSize.x());
+    size = mFont->sizeWrappedText(mDisplayableText, getSize().x(), mLineSpacing);
+    mTextWidth = size.x();
+    mTextHeight = size.y();
   }
 }
 

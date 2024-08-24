@@ -23,6 +23,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Fixes
 - Fix hidden and/or empty being shown after some user operations
 
+- Fix enable RetroAchievements for new systems 
 
 
 ## Version 9.2.3-Pulstar

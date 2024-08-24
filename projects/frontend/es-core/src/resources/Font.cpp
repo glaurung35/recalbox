@@ -555,6 +555,28 @@ void Font::renderCharacter(unsigned int character, float x, float y, float wr, f
   glDisable(GL_BLEND);
 }
 
+String Font::Font::ShortenText(const String& text, float maxWidth)
+{
+  float total = 0.0f;
+
+  Glyph* threeDots = getGlyph(0x2026);
+  float threeDotWidth = threeDots->advance.x();
+  for(size_t i = 0; i < text.length(); )
+  {
+    int previous = (int)i;
+    UnicodeChar character = readUnicodeChar(text, i); // advances i
+
+    if (character == (UnicodeChar) '\n') { total = 0.0f; continue; }
+    Glyph* glyph = getGlyph(character);
+    if (glyph == nullptr) continue;
+
+    if (total + threeDotWidth + glyph->advance.x() > maxWidth)
+      return text.SubString(0, previous).AppendUTF8(0x2026);
+    total += glyph->advance.x();
+  }
+  return text;
+}
+
 Vector2f Font::sizeText(const String& text, float lineSpacing)
 {
   float lineWidth = 0.0f;
@@ -703,13 +725,35 @@ float Font::getNewlineStartOffset(const String& text, unsigned int charStart, fl
   }
 }
 
-void Font::RenderDirect(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing)
+float Font::TextWidth(const String& text)
 {
-  float x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
+  float highestWidth = 0;
+  float lineWidth = 0;
+  for(size_t i = 0; i < text.length(); )
+  {
+    UnicodeChar character = readUnicodeChar(text, i); // advances i
+    if (character == 0) continue;
+    if (character == (UnicodeChar) '\n')
+    {
+      if (lineWidth > highestWidth) highestWidth = lineWidth;
+      lineWidth = 0.0f;
+      continue;
+    }
+    Glyph* glyph = getGlyph(character);
+    if (glyph != nullptr)
+      lineWidth += glyph->advance.x();
+  }
+  if (lineWidth > highestWidth) highestWidth = lineWidth;
+  return highestWidth;
+}
+
+void Font::RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing)
+{
+  float x = offsetX + (xLen != 0 ? getNewlineStartOffset(text, 0, xLen, alignment) : 0);
 
   float yTop = mBearingMax;
   float yBot = getHeight(lineSpacing);
-  float y = offset[1] + (nospacing ? yTop : (yBot + yTop) / 2.0f);
+  float y = offsetY + (nospacing ? yTop : (yBot + yTop) / 2.0f);
 
   GLubyte colors[6 * 4];
   Renderer::BuildGLColorArray(colors, color, 6);
@@ -733,7 +777,7 @@ void Font::RenderDirect(const String& text, Vector2f offset, unsigned int color,
     if (character == (UnicodeChar) '\n')
     {
       y += getHeight(lineSpacing);
-      x = offset[0] + (xLen != 0 ? getNewlineStartOffset(text, cursor /* cursor is already advanced */, xLen, alignment) : 0);
+      x = offsetX + (xLen != 0 ? getNewlineStartOffset(text, cursor /* cursor is already advanced */, xLen, alignment) : 0);
       continue;
     }
 
@@ -790,7 +834,7 @@ void Font::RenderDirect(const String& text, Vector2f offset, unsigned int color,
 std::shared_ptr<Font>
 Font::getFromTheme(const ThemeElement& elem, ThemePropertyCategory properties, const std::shared_ptr<Font>& orig)
 {
-  if (!hasFlags(properties, ThemePropertyCategory::FontPath, ThemePropertyCategory::FontSize))
+  if ((properties & (ThemePropertyCategory::FontPath | ThemePropertyCategory::FontSize)) == 0)
     return orig;
 
   std::shared_ptr<Font> font;

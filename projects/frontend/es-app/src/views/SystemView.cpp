@@ -5,12 +5,12 @@
 #include <RecalboxConf.h>
 #include <guis/GuiNetPlay.h>
 #include <systems/SystemManager.h>
-#include <guis/menus/GuiMenuQuit.h>
+#include <guis/menus/MenuQuit.h>
 #include <usernotifications/NotificationManager.h>
-#include "guis/menus/GuiMenu.h"
+#include "guis/menus/MenuMain.h"
 #include "audio/AudioManager.h"
 #include <guis/GuiSearch.h>
-#include <guis/menus/GuiMenuSwitchKodiNetplay.h>
+#include <guis/menus/MenuSwitchKodiNetplay.h>
 #include <emulators/run/GameRunner.h>
 #include "MenuFilter.h"
 
@@ -284,7 +284,7 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
       if (kodiExists && kodiEnabled && kodiX && !mLaunchKodi && !mWindow.HasGui())
       {
-        if (netplay) mWindow.pushGui(new GuiMenuSwitchKodiNetplay(mWindow, mSystemManager));
+        if (netplay) mWindow.pushGui(new MenuSwitchKodiNetplay(mWindow, mSystemManager));
         else
         {
           mLaunchKodi = true;
@@ -303,12 +303,12 @@ bool SystemView::ProcessInput(const InputCompactEvent& event)
 
     if (event.SelectReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Exit))
     {
-      GuiMenuQuit::PushQuitGui(mWindow);
+      MenuQuit::PushQuitGui(mWindow);
     }
 
     if (event.StartReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::Main))
     {
-      mWindow.pushGui(new GuiMenu(mWindow, mSystemManager, mResolver));
+      mWindow.pushGui(new MenuMain(mWindow, mSystemManager, mResolver));
       return true;
     }
 

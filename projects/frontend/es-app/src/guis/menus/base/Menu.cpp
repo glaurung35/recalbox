@@ -4,13 +4,24 @@
 
 #include <guis/menus/base/Menu.h>
 #include <themes/ThemeManager.h>
-#include "components/DateTimeComponent.h"
 #include "components/TextScrollComponent.h"
 #include "ItemSubMenu.h"
 #include "ItemSwitch.h"
+#include "ItemSlider.h"
+#include "ItemEditable.h"
+#include "ItemText.h"
+#include "ItemRating.h"
+#include "ItemAction.h"
+#include "ItemBar.h"
 #include "EmulationStation.h"
 #include "ItemHeader.h"
+#include "MainRunner.h"
+#include "guis/GuiMsgBox.h"
+#include "guis/GuiInfoPopup.h"
+#include "ItemSelector.h"
+
 #include <patreon/PatronInfo.h>
+#include <guis/menus/base/MenuColors.h>
 
 Menu::Menu(WindowManager& window, const String& title, const String& footer)
   : Gui(window)
@@ -48,7 +59,6 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer)
   }
 
   // set up title
-
   std::shared_ptr<TextScrollComponent> scrolltitle = std::make_shared<TextScrollComponent>(mWindow);
   scrolltitle->setHorizontalAlignment(TextAlignment::Center);
   scrolltitle->setText(title.ToUpperCaseUTF8());
@@ -70,20 +80,57 @@ Menu::Menu(WindowManager& window, const String& title, const String& footer)
   // set up list which will never change (externally, anyway)
   mList = std::make_shared<TextListComponent<ItemBase*>>(mWindow);
   mList->SetOverlayInterface(this);
-  mList->setUppercase(true);
   mList->setFont(mTheme.Text().font);
   mList->setSelectedColor(mTheme.Text().selectedColor);
   mList->setSelectorColor(mTheme.Text().selectorColor);
-  mList->setColor(sSelectableColor, mTheme.Text().color);                   // Text color
-  mList->setColor(sBackgroundColor, mTheme.Background().color);             // Unselected Background color
-  mList->setColor(sUnselectableColor, Alpha25Percent(mTheme.Text().color)); // Grayed item
-  mList->setColor(sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
+  mList->setColor(MenuColors::sSelectableColor, mTheme.Text().color);                   // Text color
+  mList->setColor(MenuColors::sBackgroundColor, mTheme.Background().color);             // Unselected Background color
+  mList->setColor(MenuColors::sUnselectableColor, MenuColors::Alpha25Percent(mTheme.Text().color)); // Grayed item
+  mList->setColor(MenuColors::sHeaderBackgroundColor, 0x00000040);                      // Grayed item - TODO: make this color themable
+  mList->setColor(MenuColors::sHeaderColor, mTheme.Section().color);                    // Header color
   mList->setSelectorHeight(mList->EntryHeight());
   mList->setShiftSelectedTextColor(true);
   mList->setAutoAlternate(true);
+  mList->setCursorChangedCallback([this](CursorState state) { if (state == CursorState::Stopped) mWindow.UpdateHelpSystem(); });
   mGrid.setEntry(mList, Vector2i(0, 1), true);
 
   mGrid.resetCursor();
+}
+
+Menu::~Menu()
+{
+  for(ItemBase* item : mItems)
+    delete(item);
+}
+
+void Menu::Reboot()
+{
+  MainRunner::RequestQuit(MainRunner::ExitState::NormalReboot);
+}
+
+void Menu::RequestReboot()
+{
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("THE SYSTEM WILL NOW REBOOT"), _("OK"), Reboot, _("LATER"), std::bind(Menu::RebootPending, &mWindow)));
+}
+
+void Menu::RebootPending(WindowManager* window)
+{
+  static bool pending = false;
+  if (!pending)
+  {
+    window->InfoPopupAdd(new GuiInfoPopup(*window, _("A reboot is required to apply pending changes."), 10000, PopupType::Reboot));
+    pending = true;
+  }
+}
+
+void Menu::Relaunch()
+{
+  MainRunner::RequestQuit(MainRunner::ExitState::Relaunch, true);
+}
+
+void Menu::RequestRelaunch()
+{
+  mWindow.pushGui(new GuiMsgBox(mWindow, _("EmulationStation must relaunch to apply your changes."), _("OK"), Relaunch, _("LATER"), std::bind(Menu::RebootPending, &mWindow)));
 }
 
 bool Menu::ProcessInput(const InputCompactEvent& event)
@@ -92,6 +139,25 @@ bool Menu::ProcessInput(const InputCompactEvent& event)
   if (event.CancelReleased()) { Close(); return true; }
   // Close all?
   if (event.StartReleased()) { mWindow.CloseAll(); return true; }
+
+  // Get selected item
+  const ItemBase& item = *mList->getSelected();
+  // Help
+  if (event.YPressed())
+  {
+    if (item.IsSelectable() && item.HasHelpText())
+    {
+      mWindow.InfoPopupAddRegular(mList->getSelected()->HelpText(), RecalboxConf::Instance().GetPopupHelp(),
+                                  PopupType::Help, false);
+      return true;
+    }
+    if (item.IsSelectable() && item.HasHelpUnselectableText())
+    {
+      mWindow.InfoPopupAddRegular(mList->getSelected()->HelpUnselectableText(), RecalboxConf::Instance().GetPopupHelp(),
+                                  PopupType::Help, false);
+      return true;
+    }
+  }
   // Then to the currently selected menu entry
   if (mList->getSelected()->IsSelectable())
     if (mList->getSelected()->ProcessInput(event)) return true;
@@ -126,10 +192,10 @@ void Menu::BuildMenu()
       if (ItemBase* item = mItems[i]; item->ItemType() == ItemBase::Type::Header)
       {
         opened = item->AsHeader()->IsOpened();
-        mList->add(String(opened ? "▼ " : "◀ ").Append(item->Label()), item, item->IsSelectable() ? sSelectableColor : sUnselectableColor, sHeaderBackgroundColor, HorizontalAlignment::Right);
+        mList->add(String::Empty, item, item->IsSelectable() ? MenuColors::sSelectableColor : MenuColors::sHeaderColor, -1/*MenuColors::sHeaderBackgroundColor*/, HorizontalAlignment::Right);
       }
       else if (opened)
-        mList->add(item->Label(), item, item->IsSelectable() ? sSelectableColor : sUnselectableColor, HorizontalAlignment::Left);
+        mList->add(item->Label(), item, item->IsSelectable() ? MenuColors::sSelectableColor : MenuColors::sUnselectableColor, HorizontalAlignment::Left);
     }
 }
 
@@ -144,10 +210,20 @@ float Menu::FooterHeight() const
   return mTheme.Footer().font->getHeight();
 }
 
+Rectangle Menu::GetMenuMaximumArea() const
+{
+  float screenWidth = Renderer::Instance().DisplayWidthAsFloat();
+  float screenHeight = Renderer::Instance().DisplayHeightAsFloat();
+  float maxWidth = screenWidth * 0.9f;
+  float maxHeight = screenHeight * ThemeManager::Instance().Menu().Height();
+  return Rectangle((screenWidth - maxWidth) / 2, (screenHeight - maxHeight) / 2, maxWidth, maxHeight);
+}
+
 float Menu::MenuWidth() const
 {
-  return Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f,
-                   Renderer::Instance().DisplayWidthAsFloat() * 0.90f);
+  //return Math::min(Renderer::Instance().DisplayHeightAsFloat() * 1.2f,
+  //                 Renderer::Instance().DisplayWidthAsFloat() * 0.85f);
+  return Renderer::Instance().DisplayWidthAsFloat() * 0.85f;
 }
 
 float Menu::MenuHeight() const
@@ -155,8 +231,8 @@ float Menu::MenuHeight() const
   float menuTheme = ThemeManager::Instance().Menu().Height();
   const float maxHeight = Renderer::Instance().DisplayHeightAsFloat() * menuTheme;
   float baseHeight = TitleHeight() + FooterHeight() + 2;
-  int rows = (int)(maxHeight - baseHeight) / (int)mList->EntryHeight();
-  return baseHeight + (float)rows * mList->EntryHeight();
+  int maxrows = (int)(maxHeight - baseHeight) / (int)mList->EntryHeight();
+  return baseHeight + (float)(Math::min((int)mList->size(), maxrows)) * mList->EntryHeight();
 }
 
 void Menu::SetMenuSize()
@@ -164,6 +240,7 @@ void Menu::SetMenuSize()
   setSize(MenuWidth(), MenuHeight());
   setPosition((Renderer::Instance().DisplayWidthAsFloat() - getWidth()) / 2.f,
               (Renderer::Instance().DisplayHeightAsFloat() - getHeight()) / 2.f);
+  mWindow.UpdateHelpSystem();
 }
 
 void Menu::onSizeChanged()
@@ -177,64 +254,140 @@ void Menu::onSizeChanged()
   mGrid.setSize(mSize);
 }
 
-float Menu::OverlayGetLeftOffset(ItemBase* const& data)
+float Menu::OverlayGetLeftOffset(ItemBase* const& data, int labelWidth)
 {
   int w = 0;
   if (data->HasValidIcon())
     w = Math::roundi(mList->EntryHeight() * .8f) + mIconMargin;
-  return w + mList->getSelected()->OverlayLeftOffset(*this, *data) + mTextMargin;
+  return w + data->OverlayLeftOffset(labelWidth + mTextMargin * 2) + mTextMargin;
 }
 
 void Menu::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size,
-                        ItemBase* const& data, unsigned int& color)
+                        int labelWidth, ItemBase* const& data, unsigned int& color)
 {
   (void)parentTrans;
   (void)color;
-  Colors::ColorRGBA iconColor = data == mList->getSelected() ? mTheme.Background().color : mTheme.Text().color;
-  iconColor = data->IsSelectable() ? iconColor : Alpha25Percent(iconColor);
+  bool selected = data == mList->getSelected();
+  Colors::ColorRGBA iconColor = selected ? mTheme.Text().selectedColor : mTheme.Text().color;
+  iconColor = data->IsSelectable() ? iconColor : MenuColors::Alpha25Percent(iconColor);
   if (data->HasValidIcon())
   {
     int h = (int)(mList->EntryHeight() * 0.8f);
     int x = (int)position.x() + mIconMargin;
     int y = (int)(position.y() + ((size.y() - (float)h) / 2.f));
-    std::shared_ptr<TextureResource>& texture = mCache.GetIcon(data->Icon());
+    std::shared_ptr<TextureResource>& texture = data->IconPath().IsEmpty() ? mCache.GetIcon(data->Icon(), 0, h) : mCache.GetFromPath(data->IconPath(), 0, h);
     // Draw
     Renderer::DrawTexture(*texture, x, y, h, h, true, iconColor);
     // Next renderer
-    mList->getSelected()->OverlayDraw(*this, Rectangle(position.x() + h + mIconMargin, position.y(), size.x() - (h + mIconMargin), size.y()), *data, iconColor);
+    data->OverlayDraw(labelWidth + mTextMargin * 2 + mIconMargin + mIconMargin, Rectangle(position.x() + h + mIconMargin, position.y(), size.x() - (h + mIconMargin), size.y()), iconColor, selected);
   }
-  else mList->getSelected()->OverlayDraw(*this, Rectangle(position, size), *data, iconColor);
+  else data->OverlayDraw(labelWidth + mTextMargin * 2, Rectangle(position, size), iconColor, selected);
 }
 
-int Menu::AddHeader(const String& label)
+ItemHeader* Menu::AddHeader(const String& label)
 {
-  mItems.Add(new ItemHeader(label, mTheme, this));
-  return mItems.Count() - 1;
+  ItemHeader* item = new ItemHeader(*this, mList->IsUppercase() ? label.ToUpperCaseUTF8() : label, mTheme, this);
+  mItems.Add(item);
+  return item;
 }
 
-int Menu::AddSubMenu(const String& label, int id, ISubMenuSelected* interface, const String& help, bool unselectable)
+ItemSubMenu* Menu::AddSubMenu(const String& label, int id, ISubMenuSelected* interface, const String& help, bool unselectable, const String& helpUnselectable)
 {
-  mItems.Add(new ItemSubMenu(label, mTheme, interface, id, help, unselectable));
-  return mItems.Count() - 1;
+  ItemSubMenu* item = new ItemSubMenu(*this, label, mTheme, interface, id, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
 }
 
-int Menu::AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type icon, int id, ISubMenuSelected* interface,
-                     const String& help, bool unselectable)
+ItemSubMenu* Menu::AddSubMenu(const String& label, MenuThemeData::MenuIcons::Type icon, int id, ISubMenuSelected* interface,
+                     const String& help, bool unselectable, const String& helpUnselectable)
 {
-  mItems.Add(new ItemSubMenu(label, mTheme, interface, id, icon, help, unselectable));
-  return mItems.Count() - 1;
+  ItemSubMenu* item = new ItemSubMenu(*this, label, mTheme, interface, id, icon, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
 }
 
-int Menu::AddSwitch(const String& label, bool value, int id, ISwitchChanged* interface, const String& help, bool unselectable)
+ItemSwitch* Menu::AddSwitch(const String& label, bool value, int id, ISwitchChanged* interface, const String& help, bool unselectable, const String& helpUnselectable)
 {
-  mItems.Add(new ItemSwitch(label, mTheme, interface, id, value, help, unselectable));
-  return mItems.Count() - 1;
+  ItemSwitch* item = new ItemSwitch(*this, label, mTheme, interface, id, value, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
 }
 
-int Menu::AddSwitch(const MenuThemeData::MenuIcons::Type icon, const String& label, bool value, int id, ISwitchChanged* interface,
-                    const String& help, bool unselectable)
+ItemSwitch* Menu::AddSwitch(const MenuThemeData::MenuIcons::Type icon, const String& label, bool value, int id, ISwitchChanged* interface,
+                    const String& help, bool unselectable, const String& helpUnselectable)
 {
-  mItems.Add(new ItemSwitch(label, mTheme, interface, id, icon, value, help, unselectable));
-  return mItems.Count() - 1;
+  ItemSwitch* item = new ItemSwitch(*this, label, mTheme, interface, id, icon, value, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemSwitch* Menu::AddSwitch(const Path& icon, const String& label, bool value, int id, ISwitchChanged* interface,
+                    const String& help, bool unselectable, const String& helpUnselectable)
+{
+  ItemSwitch* item = new ItemSwitch(*this, label, mTheme, interface, id, icon, value, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemSlider* Menu::AddSlider(const String& label, float min, float max, float inc, float value, float defaultValue, const String& suffix, int id,
+                    ISliderChanged* interface, const String& help, bool unselectable, const String& helpUnselectable)
+{
+  ItemSlider* item = new ItemSlider(*this, label, mTheme, interface, id, min, max, inc, value, defaultValue, suffix, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemText* Menu::AddText(const String& label, const String& value, const String& help)
+{
+  ItemText* item = new ItemText(*this, label, mTheme, 0, value, 0, help);
+  mItems.Add(item);
+  return item;
+}
+
+ItemText* Menu::AddText(const String& label, const String& value, unsigned int color, const String& help)
+{
+  ItemText* item = new ItemText(*this, label, mTheme, 0, value, color, help);
+  mItems.Add(item);
+  return item;
+}
+
+ItemEditable* Menu::AddEditable(const String& edittitle, const String& label, const String& value, int id,
+                                IEditableChanged* interface, const String& help, bool masked, bool unselectable,
+                                const String& helpUnselectable)
+{
+  ItemEditable* item = new ItemEditable(mWindow, *this, edittitle, label, mTheme, interface, id, value, masked, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+
+ItemEditable* Menu::AddEditable(const String& label, const String& value, int id, IEditableChanged* interface, const String& help,
+                                bool masked, bool unselectable, const String& helpUnselectable)
+{
+  ItemEditable* item = new ItemEditable(mWindow, *this, String::Empty, label, mTheme, interface, id, value, masked, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemAction* Menu::AddAction(const String& label, const String& buttonWord, int id, bool positive, IActionTriggered* interface, const String& help, bool unselectable, const String& helpUnselectable)
+{
+  ItemAction* item = new ItemAction(*this, label, buttonWord, mTheme, interface, id, positive, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemRating* Menu::AddRating(const String& label, float value, int id, IRatingChanged* interface, const String& help, bool unselectable, const String& helpUnselectable)
+{
+  ItemRating* item = new ItemRating(*this, label, mTheme, interface, id, value, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
+}
+
+ItemBar* Menu::AddBar(const String& label, const String& text, float ratio, const String& help, bool unselectable,
+                           const String& helpUnselectable)
+{
+  ItemBar* item = new ItemBar(*this, label, mTheme, 0, text, ratio, 0, help, unselectable, helpUnselectable);
+  mItems.Add(item);
+  return item;
 }
 

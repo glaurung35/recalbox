@@ -135,7 +135,7 @@ void DateTimeComponent::Render(const Transform4x4f& parentTrans)
 
   Display mode = getCurrentDisplayMode();
   const String dispString = mUppercase ? getDisplayString(mode).UpperCase() : getDisplayString(mode);
-  font->RenderDirect(dispString, Vector2f(0, 0), (mColor & 0xFFFFFF00) | getOpacity(), mSize.x(), mHorizontalAlignment);
+  font->RenderDirect(dispString, 0, 0, (mColor & 0xFFFFFF00) | getOpacity(), mSize.x(), mHorizontalAlignment);
 
   if(mEditing)
   {

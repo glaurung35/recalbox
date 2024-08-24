@@ -190,7 +190,7 @@ void TextComponent::Render(const Transform4x4f& parentTrans)
     }
   }*/
 
-  mFont->RenderDirect(mDisplayableText, Vector2f(0, 0), (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing);
+  mFont->RenderDirect(mDisplayableText, 0, 0, (mColor >> 8 << 8) | mOpacity, mSize.x(), mHorizontalAlignment, mLineSpacing);
 }
 
 void TextComponent::calculateExtent()

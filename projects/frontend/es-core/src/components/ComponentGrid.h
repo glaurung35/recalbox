@@ -4,7 +4,7 @@
 #include <utils/math/Vector2i.h>
 #include <memory>
 
-enum class UpdateType : unsigned char // Take less memory in grid elements
+enum class CellUpdateType : unsigned char // Take less memory in grid elements
 {
     Always,
     WhenSelected,
@@ -52,11 +52,11 @@ class ComponentGrid : public Component
 
     void setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, bool resize = true,
                   const Vector2i& size = Vector2i(1, 1), Borders border = Borders::None,
-                  UpdateType updateType = UpdateType::Always);
+                  CellUpdateType updateType = CellUpdateType::Always);
 
     void setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, HAlignment ha, VAlignment va,
                   bool resize = true, const Vector2i& size = Vector2i(1, 1), Borders border = Borders::None,
-                  UpdateType updateType = UpdateType::Always);
+                  CellUpdateType updateType = CellUpdateType::Always);
 
     void textInput(const char* text) override;
 
@@ -132,7 +132,7 @@ class ComponentGrid : public Component
         Vector2i pos;
         Vector2i dim;
         std::shared_ptr<Component> component;
-        UpdateType updateType;
+        CellUpdateType updateType;
         Borders border;
         HAlignment hzAlign;
         VAlignment vtAlign;
@@ -143,7 +143,7 @@ class ComponentGrid : public Component
           : pos(p)
           , dim(d)
           , component(std::move(cmp))
-          , updateType(UpdateType::Always)
+          , updateType(CellUpdateType::Always)
           , border(Borders::None)
           , hzAlign(HAlignment::Center)
           , vtAlign(VAlignment::Center)
@@ -157,7 +157,7 @@ class ComponentGrid : public Component
           : pos(p)
           , dim(d)
           , component(std::move(cmp))
-          , updateType(UpdateType::Always)
+          , updateType(CellUpdateType::Always)
           , border(Borders::None)
           , hzAlign(ha)
           , vtAlign(va)
@@ -171,7 +171,7 @@ class ComponentGrid : public Component
           : pos(p)
           , dim(d)
           , component(std::move(cmp))
-          , updateType(UpdateType::Always)
+          , updateType(CellUpdateType::Always)
           , border(Borders::None)
           , hzAlign(HAlignment::Center)
           , vtAlign(VAlignment::Center)
@@ -185,7 +185,7 @@ class ComponentGrid : public Component
           : pos(p)
           , dim(d)
           , component(std::move(cmp))
-          , updateType(UpdateType::Always)
+          , updateType(CellUpdateType::Always)
           , border(Borders::None)
           , hzAlign(ha)
           , vtAlign(va)
@@ -195,7 +195,7 @@ class ComponentGrid : public Component
         }
 
         explicit GridEntry(const Vector2i& p, const Vector2i& d, std::shared_ptr<Component> cmp,
-                           bool f, bool r, UpdateType u, Borders b)
+                           bool f, bool r, CellUpdateType u, Borders b)
           : pos(p)
           , dim(d)
           , component(std::move(cmp))
@@ -209,7 +209,7 @@ class ComponentGrid : public Component
         }
 
         explicit GridEntry(const Vector2i& p, const Vector2i& d, std::shared_ptr<Component> cmp,
-                           HAlignment ha, VAlignment va, bool f, bool r, UpdateType u, Borders b)
+                           HAlignment ha, VAlignment va, bool f, bool r, CellUpdateType u, Borders b)
           : pos(p)
           , dim(d)
           , component(std::move(cmp))

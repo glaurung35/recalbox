@@ -175,7 +175,7 @@ class IList : public Gui
       return mEntries[mCursor].object;
     }
 
-    inline EntryData& getSelectedEntry() const
+    inline const  EntryData& getSelectedEntry() const
     {
       assert(size() > 0);
       return mEntries[mCursor].data;

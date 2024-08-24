@@ -3,7 +3,7 @@
 //
 
 #include "WizardLite.h"
-#include "guis/menus/GuiMenuNetwork.h"
+#include "guis/menus/MenuNetwork.h"
 #include "components/PictureComponent.h"
 
 WizardBase::Move WizardLite::OnKeyReceived(int page, const InputCompactEvent& event)
@@ -124,7 +124,7 @@ bool WizardLite::OnButtonRequired(int page, int buttonIndex, String& buttonText)
 WizardBase::Move WizardLite::OnButtonClick(int page, int buttonIndex)
 {
   if ((Pages)page == Pages::Update && buttonIndex == 0)
-    mWindow.pushGui(new GuiMenuNetwork(mWindow));
+    mWindow.pushGui(new MenuNetwork(mWindow));
 
   return Move::None;
 }

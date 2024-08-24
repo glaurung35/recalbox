@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Hardware
 
 ### News
+- New menus design, better, faster, stronger !
 
 ### Improvements
 

@@ -420,6 +420,18 @@ class Renderer : public StaticLifeCycleControler<Renderer>
     static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool keepratio, Colors::ColorARGB color);
 
     /*!
+     * @brief Draw a texture using full coordinates, width/height, keeping ratio yes/no and a given blending color
+     * @param texture Texture to draw
+     * @param x X coordinate
+     * @param y Y coordinate
+     * @param w Width
+     * @param h Height
+     * @param keepratio True to keep ratio, false to stretch
+     * @param color Blending color
+     */
+    static void DrawTexture(TextureResource& texture, int x, int y, int w, int h, bool flipX, bool flipY, bool keepratio, Colors::ColorARGB color);
+
+    /*!
      * @brief Draw a texture using full coordinates, texture width/height and a given blending color
      * @param texture Texture to draw
      * @param x X coordinate

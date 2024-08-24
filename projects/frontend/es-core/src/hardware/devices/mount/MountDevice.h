@@ -104,11 +104,11 @@ class DeviceMount
     }
 
   private:
-    Path        mDevice;     //!< Device (/dev/...)
-    Path        mMountPoint; //!< Mount point (/recalbox/share/externals/...)
-    String mName;       //!< Volume name
-    String mType;       //!< FS type (ntfs, ext, ...)
-    long long   mTotalSize;  //!< Total size in byte
-    long long   mFreeSize;   //!< Free size in byte
-    bool        mReadOnly;   //!< Read only?
+    Path       mDevice;     //!< Device (/dev/...)
+    Path       mMountPoint; //!< Mount point (/recalbox/share/externals/...)
+    String     mName;       //!< Volume name
+    String     mType;       //!< FS type (ntfs, ext, ...)
+    long long  mTotalSize;  //!< Total size in byte
+    long long  mFreeSize;   //!< Free size in byte
+    bool       mReadOnly;   //!< Read only?
 };

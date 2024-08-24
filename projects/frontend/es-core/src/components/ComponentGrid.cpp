@@ -105,7 +105,7 @@ void ComponentGrid::setRowHeightPerc(int row, float height, bool update)
 }
 
 void ComponentGrid::setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, bool resize,
-                             const Vector2i& size, Borders border, UpdateType updateType)
+                             const Vector2i& size, Borders border, CellUpdateType updateType)
 {
   assert(pos.x() >= 0 && pos.x() < mGridSize.x() && pos.y() >= 0 && pos.y() < mGridSize.y());
   assert(comp != nullptr);
@@ -128,7 +128,7 @@ void ComponentGrid::setEntry(const std::shared_ptr<Component>& comp, const Vecto
 }
 
 void ComponentGrid::setEntry(const std::shared_ptr<Component>& comp, const Vector2i& pos, bool canFocus, HAlignment ha, VAlignment va,
-                             bool resize, const Vector2i& size, Borders border, UpdateType updateType)
+                             bool resize, const Vector2i& size, Borders border, CellUpdateType updateType)
 {
   assert(pos.x() >= 0 && pos.x() < mGridSize.x() && pos.y() >= 0 && pos.y() < mGridSize.y());
   assert(comp != nullptr);
@@ -388,8 +388,8 @@ void ComponentGrid::Update(int deltaTime)
   GridEntry* cursorEntry = getCellAt(mCursor);
   for (auto& mCell: mCells)
   {
-    if (mCell.updateType == UpdateType::Always ||
-        (mCell.updateType == UpdateType::WhenSelected && cursorEntry == &mCell))
+    if (mCell.updateType == CellUpdateType::Always ||
+        (mCell.updateType == CellUpdateType::WhenSelected && cursorEntry == &mCell))
       mCell.component->Update(deltaTime);
   }
 }

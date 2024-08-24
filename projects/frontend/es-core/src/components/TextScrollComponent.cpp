@@ -194,12 +194,12 @@ void TextScrollComponent::Render(const Transform4x4f& parentTrans)
   Renderer::Instance().PushClippingRect(clipPos, clipDim);
 
   // Render text
-  mFont->RenderDirect(mDisplayableText, off, (mColor >> 8 << 8) | mOpacity, mSize.x());
+  mFont->RenderDirect(mDisplayableText, off.x(), off.y(), (mColor >> 8 << 8) | mOpacity, mSize.x());
   if (mOffset != 0)
   {
     float subOffset = mTextWidth + mSize.x() / 4;
     off.x() += mHorizontalAlignment == TextAlignment::Right ? -subOffset : subOffset;
-    mFont->RenderDirect(mDisplayableText, off, (mColor >> 8 << 8) | mOpacity, mSize.x());
+    mFont->RenderDirect(mDisplayableText, off.x(), off.y(), (mColor >> 8 << 8) | mOpacity, mSize.x());
   }
 
   Renderer::Instance().PopClippingRect();

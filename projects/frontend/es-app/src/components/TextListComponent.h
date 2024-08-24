@@ -70,7 +70,8 @@ public:
 		mFont = font;
 	}
 
-	inline void setUppercase(bool uppercase) 
+  inline bool IsUppercase() const { return mUppercase; }
+  inline void setUppercase(bool uppercase)
 	{
 		(void)uppercase;
 		mUppercase = true; // TODO: Check
@@ -275,6 +276,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
   for (int i = startEntry; i <= listCutoff; i++)
 	{
 		typename IList<TextListData, T>::Entry& entry = mEntries[i];
+    if (entry.data.textWidth < 0) entry.data.textWidth = mFont->sizeText(mUppercase ? entry.name.ToUpperCaseUTF8() : entry.name).x();
 
     unsigned int color = (mCursor == i && (mSelectedColor != 0)) ? mSelectedColor : mColors[entry.data.colorId];
     color = mShiftSelectedTextColor && mCursor == i ? color + 1 : color;
@@ -284,8 +286,8 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
     if (mOverlay != nullptr)
     {
       // overlay?
-      leftMargin += mOverlay->OverlayGetLeftOffset(entry.object);
-      rightMargin += mOverlay->OverlayGetRightOffset(entry.object);
+      leftMargin += mOverlay->OverlayGetLeftOffset(entry.object, entry.data.textWidth);
+      rightMargin += mOverlay->OverlayGetRightOffset(entry.object, entry.data.textWidth);
       //if (leftMargin)
       if (leftMargin != previousLeftMargin || rightMargin != previousRightMargin)
       {
@@ -374,7 +376,7 @@ void TextListComponent<T>::Render(const Transform4x4f& parentTrans)
       drawTrans.translate(position);
       Renderer::SetMatrix(drawTrans);
 
-      mOverlay->OverlayApply(drawTrans, Vector2f(0), size, entry.object, color);
+      mOverlay->OverlayApply(drawTrans, Vector2f(0), size, entry.data.textWidth, entry.object, color);
 
       y += entrySize;
     }
@@ -442,8 +444,8 @@ void TextListComponent<T>::Update(int deltaTime)
 
 		//it's long enough to marquee
     float fwidth = mSize.x() - 2 * mHorizontalMargin;
-    if (mOverlay != nullptr) fwidth -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object) +
-                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object);
+    if (mOverlay != nullptr) fwidth -= mOverlay->OverlayGetLeftOffset(mEntries[mCursor].object, textWidth) +
+                                       mOverlay->OverlayGetRightOffset(mEntries[mCursor].object, textWidth);
     int width = (int)fwidth;
 
 		if (textWidth > width)

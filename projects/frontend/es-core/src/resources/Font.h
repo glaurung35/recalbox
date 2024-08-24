@@ -122,8 +122,11 @@ class Font : public IReloadable
     virtual ~Font();
 
     Vector2f sizeText(const String& text, float lineSpacing = 1.5f); // Returns the expected size of a string when rendered.  Extra spacing is applied to the Y axis.
-    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false) { RenderDirect(text, Vector2f(offsetX, offsetY), color, 0.0f, TextAlignment::Left, 1.5f, nospacing); }
-    void RenderDirect(const String& text, Vector2f offset, unsigned int color, float xLen, TextAlignment alignment = TextAlignment::Left, float lineSpacing = 1.5f, bool nospacing = false);
+    float TextWidth(const String& text);
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, 0.0f, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, TextAlignment::Left, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, bool nospacing = false) { RenderDirect(text, offsetX, offsetY, color, xLen, alignment, 1.5f, nospacing); }
+    void RenderDirect(const String& text, float offsetX, float offsetY, unsigned int color, float xLen, TextAlignment alignment, float lineSpacing, bool nospacing = false);
     void renderCharacter(unsigned int unicode, float x, float y, float wr, float hr, unsigned int color);
 
     String wrapText(String text, float xLen); // Inserts newlines into text to make it wrap properly.
@@ -151,6 +154,15 @@ class Font : public IReloadable
     static size_t getPrevCursor(const String& str, size_t cursor);
     static size_t moveCursor(const String& str, size_t cursor, int moveAmt); // negative moveAmt = move backwards, positive = move forwards
     static UnicodeChar readUnicodeChar(const String& str, size_t& cursor); // reads unicode character at cursor AND moves cursor to the next valid unicode char
+
+    /*!
+     * @brief Shortent text according to the given max width
+     * If the original text width is higher than the max width, the test is shortened with a three dot caracter
+     * @param text Original text
+     * @param mawWidth Maximum width allowed
+     * @return Shortened text or original text there is no need to cut it
+     */
+    String ShortenText(const String& text, float mawWidth);
 
     /*!
      * @brief Return the max bearing (distance from top to baseline)

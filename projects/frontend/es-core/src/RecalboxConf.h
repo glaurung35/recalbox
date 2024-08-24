@@ -45,6 +45,15 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
      * Enums
      */
 
+    enum class UpdateType
+    {
+      Stable,     //!< Stable release
+      Patron,     //!< Patreon versions
+      Alpha,      //!< Alpha versions
+      Jamma,      //!< Specila jamma versions
+      JammaEarly, //!< Specila early jamma versions
+    };
+
     enum class Menu
     {
         Default, //!< All menu available
@@ -188,6 +197,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetterEnum(ScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType, sScreenScraperVideo, ScreenScraperEnums::ScreenScraperVideoType)
     DefineGetterSetterEnum(AudioMode, AudioMode, sAudioOptions, AudioModeTools::AudioMode)
     DefineGetterSetterEnum(SystemSorting, SystemSorting, sSystemSorting, SystemSorting)
+    DefineGetterSetterEnum(UpdateType, UpdateType, sUpdateType, UpdateType)
 
     DefineGetterSetter(DebugLogs, bool, Bool, sDebugLogs, false)
 
@@ -330,7 +340,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(ArcadeViewHideNonWorking, bool, Bool, sArcadeViewHideNonWorking, false)
 
     DefineGetterSetter(UpdatesEnabled, bool, Bool, sUpdatesEnabled, true)
-    DefineGetterSetter(UpdatesType, String, String, sUpdatesType, "stable")
+
 
     DefineGetterSetter(EmulationstationVideoMode, String, String, sEsVideoMode, "")
     DefineGetterSetter(GlobalVideoMode, String, String, sGlobalVideoMode, "")
@@ -345,7 +355,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(AutoPairOnBoot, bool, Bool, sAutoPairOnBoot, true)
 
     DefineGetterSetter(SuperGameBoy, String, String, sSuperGameBoyOption, "gb")
-    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdatesType() != "stable")
+    DefineGetterSetter(Experimental, bool, Bool, sExperimental, GetUpdateType() != UpdateType::Stable)
 
     DefineGetterSetter(AutorunEnabled, bool, Bool, sAutorunEnabled, false)
     DefineGetterSetter(AutorunSystemUUID, String, String, sAutorunSystemUUID, "")
@@ -589,7 +599,7 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sAutorunGamePath            = "autorun.path";
 
     static constexpr const char* sUpdatesEnabled             = "updates.enabled";
-    static constexpr const char* sUpdatesType                = "updates.type";
+    static constexpr const char* sUpdateType                 = "updates.type";
 
     static constexpr const char* sPadHeader                  = "emulationstation.pad";
 
@@ -600,6 +610,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
 
     static constexpr const char* sArcadeSystemHiddenManufacturers  = "hiddendrivers";
+
+    /*
+     * Public enumeration getter/setter
+     */
+
+    static UpdateType UpdateTypeFromString(const String& pad);
+    static const String& UpdateTypeFromEnum(UpdateType type);
 
   private:
     HashMap<String, Array<IRecalboxConfChanged*>> mWatchers;

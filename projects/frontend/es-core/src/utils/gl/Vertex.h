@@ -33,6 +33,12 @@ struct Vertex
     Point Target; //<! Target (Screen) coordinates
     Point Source; //<! Source (Texture) coordinates
 
+    // Move target
+    Vertex& Move(float dx, float dy) { Target.X += dx; Target.Y += dy; return *this; }
+
+    //! Round target coordinates
+    Vertex& Round() { Target.Round(); return *this; }
+
     typedef Vertex Triangle[sVertexPerTriangle];
     typedef Vertex Rectangle[sVertexPerRectangle];
 };

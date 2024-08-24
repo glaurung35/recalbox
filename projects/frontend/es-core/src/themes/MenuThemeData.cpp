@@ -45,6 +45,16 @@ void MenuThemeData::Load(ThemeData& mainTheme)
 		if(elem->HasProperty(ThemePropertyName::SelectorColor))  mText.selectorColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectorColor);
 	}
 
+  mSection = mText;
+  if (const ThemeElement* elem = mainTheme.Element("menu", "menusection", ThemeElementType::MenuText, ThemeElementType::None); elem != nullptr)
+  {
+    if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))
+      mSection.font = Font::getFromTheme(*elem, ThemePropertyCategory::FontPath, mText.font);
+    if(elem->HasProperty(ThemePropertyName::Color))          mSection.color = (unsigned int)elem->AsInt(ThemePropertyName::Color);
+    if(elem->HasProperty(ThemePropertyName::SelectedColor))  mSection.selectedColor = (unsigned int)elem->AsInt(ThemePropertyName::SelectedColor);
+  }
+
+  mTextSmall = mText;
 	if (const ThemeElement* elem = mainTheme.Element("menu", "menutextsmall", ThemeElementType::MenuTextSmall, ThemeElementType::None); elem != nullptr)
 	{
     if(elem->HasProperty(ThemePropertyName::FontPath) || elem->HasProperty(ThemePropertyName::FontSize))

@@ -310,19 +310,19 @@ class DetailedGameListView : public ISimpleGameListView
      * @param size  Width/Height of the item rectangle
      * @param data Linked data
      */
-    void OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color) override;
+    void OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, int labelWidth, FileData* const& data, unsigned int& color) override;
 
     /*!
      * @brief Get the left offset (margin to the text) if any
      * @return left offset
      */
-    float OverlayGetLeftOffset(FileData* const& data) override { (void)data; return 0.0f; }
+    float OverlayGetLeftOffset(FileData* const& data, int labelWidth) override { (void)data; (void)labelWidth; return 0.0f; }
 
     /*!
      * @brief Get the right offset (margin from text to right limit) if any
      * @return right offset
      */
-    float OverlayGetRightOffset(FileData* const& data) override;
+    float OverlayGetRightOffset(FileData* const& data, int labelWidth) override;
 
     /*
      * IScrapeEngineStage implementation

@@ -4,6 +4,7 @@
 #pragma once
 
 #include <utils/math/Vector2f.h>
+#include <math.h>
 
 class Rectangle
 {
@@ -186,6 +187,12 @@ class Rectangle
       mY = (float)screenHeight - mY - mH;
       return *this;
     }
+
+    [[nodiscard]] float CenterX() const { return mX + mW / 2;}
+
+    [[nodiscard]] float CenterY() const { return mY + mH / 2;}
+
+    Rectangle& Round() { mX = roundf(mX);  mY = roundf(mY);  mW = roundf(mW);  mH = roundf(mH); return *this; }
 
   private:
     float mX;

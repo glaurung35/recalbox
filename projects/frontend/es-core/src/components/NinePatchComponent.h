@@ -35,6 +35,7 @@ public:
 
     /*
      * Themable implementation
+     *
      */
 
     /*!

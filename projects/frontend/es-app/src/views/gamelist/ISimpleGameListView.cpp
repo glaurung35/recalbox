@@ -2,7 +2,7 @@
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
 #include <guis/GuiNetPlayHostPasswords.h>
-#include "guis/menus/GuiMenuGamelistOptions.h"
+#include "guis/menus/MenuGamelistOptions.h"
 #include "views/ViewController.h"
 #include "RotationManager.h"
 #include "views/MenuFilter.h"
@@ -252,7 +252,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
   if (event.StartReleased() && MenuFilter::ShouldDisplayMenu(MenuFilter::Menu::GamelistOptions))
   {
     clean();
-    mWindow.pushGui(new GuiMenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface(), mResolver));
+    mWindow.pushGui(new MenuGamelistOptions(mWindow, mSystem, mSystemManager, getArcadeInterface(), mResolver));
     return true;
   }
 

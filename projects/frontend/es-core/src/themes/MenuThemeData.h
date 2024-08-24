@@ -35,6 +35,8 @@ class MenuThemeData : private INoCopy
           OptionArrow,
           Arrow,
           Knob,
+          CheckBox,
+          CheckBoxFilled,
         };
 
         [[nodiscard]] const Path& FromType(Type type) const
@@ -48,6 +50,8 @@ class MenuThemeData : private INoCopy
             case Type::OptionArrow: return mOptionArrow;
             case Type::Arrow: return mArrow;
             case Type::Knob: return mKnob;
+            case Type::CheckBox: return mCheckBox;
+            case Type::CheckBoxFilled: return mCheckBoxFilled;
           }
           abort();
         }
@@ -61,6 +65,8 @@ class MenuThemeData : private INoCopy
           mOptionArrow = Path(":/option_arrow.svg");
           mArrow = Path(":/arrow.svg");
           mKnob = Path(":/slider_knob.svg");
+          mCheckBox = Path(":/checkbox_unchecked.svg");
+          mCheckBoxFilled = Path(":/checkbox_checked.svg");
         }
 
       private:
@@ -71,6 +77,8 @@ class MenuThemeData : private INoCopy
         Path mOptionArrow;
         Path mArrow;
         Path mKnob;
+        Path mCheckBox;
+        Path mCheckBoxFilled;
 
         //! Allow access to the private area to the enlosing class
         friend class MenuThemeData;
@@ -201,6 +209,7 @@ class MenuThemeData : private INoCopy
     [[nodiscard]] const MenuElement& Title() const { return mTitle; }
     [[nodiscard]] const MenuElement& Footer() const { return mFooter; }
     [[nodiscard]] const MenuElement& Text() const { return mText; }
+    [[nodiscard]] const MenuElement& Section() const { return mSection; }
     [[nodiscard]] const MenuElement& SmallText() const { return mTextSmall; }
     [[nodiscard]] const MenuIcons&   Icons() const { return mIconSet; }
     [[nodiscard]] const IconElement& Elements() const { return mIconElement; }
@@ -215,6 +224,8 @@ class MenuThemeData : private INoCopy
     MenuElement mFooter;
     //! Menu main text font/colors
     MenuElement mText;
+    //! Menu section font/colors
+    MenuElement mSection;
     //! Menu small text font/colors
     MenuElement mTextSmall;
     //! Menu icon set path

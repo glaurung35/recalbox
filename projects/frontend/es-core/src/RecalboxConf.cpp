@@ -28,6 +28,30 @@ String RecalboxConf::GetCountry()
   return (locale.length() == 5) ? locale.SubString(3, 2) : "us";
 }
 
+RecalboxConf::UpdateType RecalboxConf::UpdateTypeFromString(const String& ut)
+{
+  if (ut == "patron"      ) return UpdateType::Patron;
+  if (ut == "alpha"       ) return UpdateType::Alpha;
+  if (ut == "jamma"       ) return UpdateType::Jamma;
+  if (ut == "jamma-early" ) return UpdateType::JammaEarly;
+  return UpdateType::Stable;
+}
+
+const String& RecalboxConf::UpdateTypeFromEnum(UpdateType type)
+{
+  switch(type)
+  {
+    case UpdateType::Patron: { static String s("patron"); return s; }
+    case UpdateType::Alpha: { static String s("alpha"); return s; }
+    case UpdateType::Jamma: { static String s("jamma"); return s; }
+    case UpdateType::JammaEarly: { static String s("jamma-early"); return s; }
+    case UpdateType::Stable:
+    default: break;
+  }
+  static String s("stable");
+  return s;
+}
+
 RecalboxConf::SoftPatching RecalboxConf::SoftPatchingFromString(const String& softpatching)
 {
   if (softpatching == "auto") return SoftPatching::Auto;

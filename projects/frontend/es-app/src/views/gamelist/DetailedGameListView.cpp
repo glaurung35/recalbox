@@ -633,11 +633,12 @@ void DetailedGameListView::Render(const Transform4x4f& parentTrans)
   mBusy.Render(trans);
 }
 
-void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, FileData* const& data, unsigned int& color)
+void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const Vector2f& position, const Vector2f& size, int labelWidth, FileData* const& data, unsigned int& color)
 {
+  (void)labelWidth;
   (void)parentTrans;
   (void)color;
-  int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data));
+  int w = Math::roundi(DetailedGameListView::OverlayGetRightOffset(data, labelWidth));
   if (w != 0)
   {
     int drawn = 1;
@@ -656,8 +657,9 @@ void DetailedGameListView::OverlayApply(const Transform4x4f& parentTrans, const 
   }
 }
 
-float DetailedGameListView::OverlayGetRightOffset(FileData* const& data)
+float DetailedGameListView::OverlayGetRightOffset(FileData* const& data, int labelWidth)
 {
+  (void)labelWidth;
   int regionCount = data->Metadata().Region().Count();
   int result = (mFlagWidth + mFlagMargin) * regionCount;
   return (float)result;

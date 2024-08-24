@@ -9,6 +9,8 @@
 #include <bios/IBiosScanReporting.h>
 #include <components/TextListComponent.h>
 #include <components/BusyComponent.h>
+#include <components/ButtonComponent.h>
+#include <components/ScrollableContainer.h>
 #include <systems/SystemManager.h>
 #include "components/TextScrollComponent.h"
 #include "components/PictureComponent.h"

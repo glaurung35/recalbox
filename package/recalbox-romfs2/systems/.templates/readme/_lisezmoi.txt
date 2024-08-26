@@ -5,8 +5,8 @@
 Copiez vos roms $(FULLNAME) ici.
 Les extensions supportées sont: $(EXTENSIONS)
 
-Ce système peut être émulé par $(CORECOUNT) émulateurs differents.
-Ces emulateurs sont listés ci dessous par ordre de compatibilité/facilité d'utilisation :
+Ce système peut être émulé par $(CORECOUNT) émulateurs différents.
+Ces émulateurs sont listés ci dessous par ordre de compatibilité/facilité d'utilisation :
 $(FOREACHCORE)$(EMULATOR)-$(CORE) supporte des fichiers de type $(COREEXTENTIONS) et $(CORENETPLAY:est:n'est pas) compatible netplay.
 
 Périphériques supportés :

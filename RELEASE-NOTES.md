@@ -10,6 +10,7 @@ as release notes for end user on a Recalbox upgrade.
 ### Hardware
 
 ### News
+- Add original xbox emulator (xemu)
 
 ### Improvements
 

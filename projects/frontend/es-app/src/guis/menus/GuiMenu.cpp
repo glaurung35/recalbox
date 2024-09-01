@@ -30,10 +30,6 @@ GuiMenu::GuiMenu(WindowManager& window, SystemManager& systemManager, const IGlo
   // Bartop mode?
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
 
-  // Kodi
-  if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
-    AddSubMenu(_("KODI MEDIA CENTER"), MenuThemeData::MenuIcons::Type::Kodi, (int)Components::Kodi, _(MENUMESSAGE_START_KODI_HELP_MSG));
-
   // System menu
   if (!bartop)
     AddSubMenu(_("SYSTEM SETTINGS"), MenuThemeData::MenuIcons::Type::System, (int)Components::System, _(MENUMESSAGE_SYSTEM_HELP_MSG));

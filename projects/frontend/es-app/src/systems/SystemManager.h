@@ -55,6 +55,8 @@ class SystemManager : private INoCopy // No copy allowed
     static constexpr const char* sLightgunSystemShortName = "lightgun";
     //! Ports system internal name
     static constexpr const char* sArcadeSystemShortName = "arcade";
+    //! Kodi system internal name
+    static constexpr const char* sKodiSystemShortName = "kodi";
 
     //! Multiplayer system user-friendly name
     static constexpr const char* sMultiplayerSystemFullName = "Multi Players";
@@ -70,6 +72,8 @@ class SystemManager : private INoCopy // No copy allowed
     static constexpr const char* sLightgunSystemFullName = "LightGun Games";
     //! Ports system internal name
     static constexpr const char* sArcadeSystemFullName = "Arcade";
+    //! Kodi system internal name
+    static constexpr const char* sKodiSystemFullName = "Kodi";
 
   private:
     //! Rom source folder to read/write (false) / read-only (true) state

@@ -768,6 +768,20 @@ SystemData* SystemManager::CreateArcadeSystem()
   return result;
 }
 
+if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
+{
+  SystemData* SystemManager::CreateKodiSystem()
+  {
+    SystemDescriptor descriptor;
+    descriptor.SetSystemInformation("bf126aeb-416a-471d-a868-b417f5e04ef8", sKodiSystemShortName, sKodiSystemFullName)
+              .SetPropertiesInformation("other", "no", "no", "no", "2020-01-01", "None", false, false, false, "")
+              .SetDescriptorInformation("", "", sKodiSystemShortName, "", "", false, false, false);
+    SystemData* result = new SystemData(*this, descriptor, SystemData::Properties::Virtual | SystemData::Properties::Searchable,
+                                        MetadataType::None, VirtualSystemType::Ports);
+    return result;
+  }
+}
+
 SystemData* SystemManager::CreateGenreSystem(GameGenres genre)
 {
   SystemDescriptor descriptor;

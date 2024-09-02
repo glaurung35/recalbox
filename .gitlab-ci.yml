@@ -8,9 +8,7 @@ default:
 
 .only-default:
   rules:
-    - if: '$CI_COMMIT_REF_NAME == "master"'
-    - if: '$CI_PIPELINE_SOURCE == "merge_request_event"'
-    - if: $CI_COMMIT_TAG
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
 
 stages:
   - lint
@@ -64,7 +62,7 @@ tests configgen:
   stage: lint
   image: python:3.11-slim
   rules:
-    - !reference [.only-default, rules]
+    - if: '$CI_COMMIT_REF_NAME == "master" || $CI_PIPELINE_SOURCE == "merge_request_event" || $CI_COMMIT_TAG'
       changes:
         - projects/configgen/**/*
   script:

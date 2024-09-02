@@ -14,7 +14,7 @@
 #include "MenuResolutionSettings.h"
 #include "hardware/RPiEepromUpdater.h"
 #include "views/MenuFilter.h"
-#include "GuiMenuUserScripts.h"
+#include "MenuUserScripts.h"
 #include <guis/MenuMessages.h>
 #include <utils/Files.h>
 #include <guis/GuiMsgBox.h>
@@ -82,7 +82,7 @@ void MenuAdvancedSettings::BuildMenuItems()
 
   // User scripts
   if (NotificationManager::Instance().HasManualScript())
-    AddSubMenu(_("USER SCRIPTS"), (int)Components::UserScripts, _(MENUMESSAGE_ADVANCED_USER_SCRIPTS));
+    AddSubMenu(_("USER SCRIPTS"), (int)Components::UserScripts, this, _(MENUMESSAGE_ADVANCED_USER_SCRIPTS));
 
   // Eeprom update
   if(MenuFilter::ShouldDisplayMenuEntry(MenuFilter::PiEeprom))
@@ -282,7 +282,7 @@ void MenuAdvancedSettings::SubMenuSelected(int id)
     case Components::AdvancedSubMenu: mWindow.pushGui(new MenuSystemList(mWindow, mSystemManager)); break;
     case Components::KodiSubMenu: mWindow.pushGui(new MenuKodiSettings(mWindow)); break;
     case Components::ResolutionSubMenu: mWindow.pushGui(new MenuResolutionSettings(mWindow, mSystemManager)); break;
-    case Components::UserScripts: mWindow.pushGui(new GuiMenuUserScripts(mWindow)); break;
+    case Components::UserScripts: mWindow.pushGui(new MenuUserScripts(mWindow)); break;
     case Components::FactoryReset: ResetFactory(); break;
     case Components::EepromUpdate: EepromUpdate(); break;
     case Components::OverclockList:

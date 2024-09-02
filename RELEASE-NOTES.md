@@ -19,6 +19,7 @@ as release notes for end user on a Recalbox upgrade.
 - Add meaningfull headers when using sorts other than alphabetical order
 - Reintroduced Favorites on top of gamelist as an option
 - Add new menu to hide systems individually
+- Add user script menu to run scripts from the interface
 
 ### Improvements
 - Add gamelist decoration on the right side: regions flags, genre & players

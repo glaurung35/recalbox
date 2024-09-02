@@ -9,7 +9,6 @@
 #include <guis/MenuMessages.h>
 #include <utils/locale/LocaleHelper.h>
 #include <systems/SystemManager.h>
-#include <components/SwitchComponent.h>
 #include <guis/GuiNetPlayEditPasswords.h>
 #include <guis/GuiArcadeVirtualKeyboard.h>
 #include <guis/GuiHashStart.h>

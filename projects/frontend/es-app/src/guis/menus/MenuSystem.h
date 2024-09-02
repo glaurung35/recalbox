@@ -11,9 +11,6 @@
 #include "hardware/devices/storage/StorageDevices.h"
 
 // Forward declaration
-template<class T> class OptionListComponent;
-class SwitchComponent;
-class TextComponent;
 class SystemManager;
 
 class MenuSystem : public Menu

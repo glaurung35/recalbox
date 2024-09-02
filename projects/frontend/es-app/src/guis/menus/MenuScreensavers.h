@@ -37,7 +37,7 @@ class MenuScreensavers : public Menu
     SelectorEntry<String>::List GetSystemEntries();
 
     /*
-     * ISliderComponent implementation
+     * ISliderChanged implementation
      */
 
     void MenuSliderMoved(int id, float value) override;

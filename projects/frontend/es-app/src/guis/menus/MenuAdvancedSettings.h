@@ -126,7 +126,7 @@ class MenuAdvancedSettings : public Menu
     void MenuSingleChanged(int id, int index, const String& value) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

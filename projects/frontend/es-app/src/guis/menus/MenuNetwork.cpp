@@ -4,8 +4,6 @@
 
 #include <recalbox/RecalboxSystem.h>
 #include <utils/locale/LocaleHelper.h>
-#include <components/SwitchComponent.h>
-#include <components/EditableComponent.h>
 #include "MenuNetwork.h"
 #include "guis/MenuMessages.h"
 #include "utils/Files.h"

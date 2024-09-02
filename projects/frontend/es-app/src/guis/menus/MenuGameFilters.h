@@ -37,7 +37,7 @@ class MenuGameFilters : public Menu
     SystemManager& mSystemManager;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

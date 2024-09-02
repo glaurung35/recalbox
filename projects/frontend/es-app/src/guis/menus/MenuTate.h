@@ -2,7 +2,6 @@
 
 #include <guis/menus/base/Menu.h>
 #include <guis/menus/base/ISelectorChanged.h>
-#include "components/ISwitchComponent.h"
 #include <systems/SystemData.h>
 
 

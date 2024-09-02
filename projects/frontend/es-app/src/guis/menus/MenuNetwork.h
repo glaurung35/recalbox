@@ -128,7 +128,7 @@ class MenuNetwork : public Menu
     void MenuEditableChanged(int id, const String& text) override;
 
     /*
-     * ISwitchComponent implementation
+     * ISwitchChanged implementation
      */
 
     void MenuSwitchChanged(int id, bool& status) override;

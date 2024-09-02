@@ -6,10 +6,9 @@
 //
 
 #include "MenuKodiSettings.h"
-#include "ResolutionAdapter.h"
-#include <components/SwitchComponent.h>
-#include <WindowManager.h>
-#include <utils/locale/LocaleHelper.h>
+//#include "ResolutionAdapter.h"
+//#include <WindowManager.h>
+//#include <utils/locale/LocaleHelper.h>
 #include <guis/MenuMessages.h>
 
 MenuKodiSettings::MenuKodiSettings(WindowManager& window)

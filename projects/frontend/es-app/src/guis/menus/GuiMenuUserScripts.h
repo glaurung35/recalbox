@@ -3,12 +3,12 @@
 //
 #pragma once
 
-#include "GuiMenuBase.h"
+#include <guis/menus/base/Menu.h>
 #include "usernotifications/ScriptOutputListenerInterface.h"
 #include "guis/GuiASyncWaiter.h"
 
-class GuiMenuUserScripts : public GuiMenuBase
-                         , public IGuiMenuBase
+class GuiMenuUserScripts : public Menu
+                         , private IActionTriggered
                          , private ScriptOutputListenerInterface
                          , private Thread
                          , private ISyncMessageReceiver<void>
@@ -101,17 +101,7 @@ class GuiMenuUserScripts : public GuiMenuBase
      * @param script Script file path
      * @return Script name
      */
-    String ExtractScriptName(const Path& script);
-
-    /*
-     * Menu implementation
-     */
-
-    /*!
-     * @brief Called when a script is lselected
-     * @param id Script index
-     */
-    void SubMenuSelected(int id) override;
+    String ExtractScriptName(const Path& script, ScriptAttributes attributes);
 
     /*
      * Script implementation
@@ -136,6 +126,12 @@ class GuiMenuUserScripts : public GuiMenuBase
      * @param errors Content of stderr if available and if the script was run synchronously. Empty otherwise
      */
     void ScriptCompleted(const Path& script, ScriptAttributes attributes, const String& output, bool error, const String& errors) final;
+
+    /*
+     * IActionTriggered implementation
+     */
+
+    void MenuActionTriggered(int id) final;
 
     /*
      * Thread implementation

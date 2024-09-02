@@ -633,7 +633,7 @@ NotificationManager::ScriptDescriptorList NotificationManager::GetManualScriptLi
   ScriptDescriptorList result;
   int index = 0;
   for(const ScriptData& data : mManualScriptList)
-    result.push_back(data.mPath);
+    result.push_back({ data.mPath, index++, data.mAttribute});
   return result;
 }
 

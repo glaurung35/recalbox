@@ -1,54 +1,25 @@
 #pragma once
 
-#include "guis/Gui.h"
-#include "components/MenuComponent.h"
-#include "components/TextComponent.h"
 #include <netplay/DefaultPasswords.h>
-#include "guis/IGuiArcadeVirtualKeyboardInterface.h"
+#include "guis/menus/base/Menu.h"
 
-// The starting point for a multi-game scrape.
-// Allows the user to set various parameters.
-class GuiNetPlayEditPasswords : public Gui, private IGuiArcadeVirtualKeyboardInterface
+class GuiNetPlayEditPasswords : public Menu
+                              , IEditableChanged
+                              , IActionTriggered
 {
   public:
     explicit GuiNetPlayEditPasswords(WindowManager& window);
 
-    bool CollectHelpItems(Help& help) override;
-
   private:
-    //! Password storage
-    std::shared_ptr<TextComponent> mPasswords[DefaultPasswords::sPasswordCount];
+    /*
+     * IEditableChanged implementation
+     */
 
-    //! Current password index being edited
-    int mCurrentPasswordIndex;
-
-    //! Underlying Menu component
-  	MenuComponent mMenu;
-
-  	/*
-  	 * Component implementation
-  	 */
-
-    bool ProcessInput(const InputCompactEvent& event) override;
+    void MenuEditableChanged(int id, const String& newText) final;
 
     /*
-     * GuiArcadeVirtualKeyboardInterface implementation
+     * IActionTriggered implementation
      */
 
-    /*!
-     * @brief Called when the edited text change.
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardTextChange(GuiArcadeVirtualKeyboard& vk, const String& text) override;
-
-    /*!
-     * @brief Called when the edited text is validated (Enter or Start)
-     * Current text is available from the Text() method.
-     */
-    void ArcadeVirtualKeyboardValidated(GuiArcadeVirtualKeyboard& vk, const String& text) override;
-
-    /*!
-     * @brief Called when the edited text is cancelled.
-     */
-    void ArcadeVirtualKeyboardCanceled(GuiArcadeVirtualKeyboard& vk) override;
+    void MenuActionTriggered(int id) final { (void)id; Close(); }
 };

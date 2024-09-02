@@ -31,13 +31,13 @@ MenuMain::MenuMain(WindowManager& window, SystemManager& systemManager, const IG
   // Bartop mode?
   bool bartop = RecalboxConf::Instance().GetMenuType() == RecalboxConf::Menu::Bartop;
 
-  AddHeader("truc qui sert à rien");
+  //AddHeader("truc qui sert à rien");
 
   // Kodi
   if (RecalboxSystem::kodiExists() && RecalboxConf::Instance().GetKodiEnabled())
     AddSubMenu(_("KODI MEDIA CENTER"), MenuThemeData::MenuIcons::Type::Kodi, (int)Components::Kodi, this, _(MENUMESSAGE_START_KODI_HELP_MSG));
 
-  AddHeader("trucs utiles");
+  //AddHeader("trucs utiles");
 
   // System menu
   if (!bartop)
@@ -68,7 +68,7 @@ MenuMain::MenuMain(WindowManager& window, SystemManager& systemManager, const IG
   if (!bartop)
     AddSubMenu(_("UI SETTINGS"), MenuThemeData::MenuIcons::Type::Ui, (int)Components::UISettings, this, _(MENUMESSAGE_UI_HELP_MSG));
 
-  AddHeader("bidules bizarres");
+  //AddHeader("bidules bizarres");
 
   // Atcade menu
   if (!bartop)
@@ -89,7 +89,7 @@ MenuMain::MenuMain(WindowManager& window, SystemManager& systemManager, const IG
   if (!bartop)
     AddSubMenu(_("SCRAPER"), MenuThemeData::MenuIcons::Type::Scraper, (int)Components::Scraper, this, _(MENUMESSAGE_SCRAPER_HELP_MSG));
 
-  AddHeader("machins compliqués");
+  //AddHeader("machins compliqués");
 
   // Advanced
   if (!bartop)

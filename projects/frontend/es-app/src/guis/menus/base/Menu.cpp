@@ -26,6 +26,7 @@
 Menu::Menu(WindowManager& window, const String& title, const String& footer)
   : Gui(window)
   , mTheme(ThemeManager::Instance().Menu())
+  , mConfiguration(RecalboxConf::Instance())
   , mCache(ThemeManager::Instance().MenuCache())
   , mBackground(window)
   , mGrid(window, Vector2i(1, 3))

@@ -152,10 +152,17 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
       bool IsDefined##name() const { return IsDefined(key); } \
       clazz& Set##name(const type& value) { Set##type2(key, value); DoNotify(name, value); return *this; } \
       bool Has##name() const { return HasKey(key); } \
+      const type& Get##name##Default() const { static type s(defaultValue); return s; } \
       DefineObservable(clazz, name, type)
 
     #define DefineGetterSetter(name, type, type2, key, defaultValue) \
       DefineGetterSetterGeneric(RecalboxConf, name, type, type2, key, defaultValue)
+
+    #define DefineGetterSetterIndexed(clazz, name, type, type2, key, defaultValue) \
+      type Get##name(int index) const { return As##type2(String(key).Append('.').Append(index), defaultValue); } \
+      clazz& Delete##name(int index) { Delete(String(key).Append('.').Append(index)); return *this; } \
+      bool IsDefined##name(int index) const { return IsDefined(String(key).Append('.').Append(index)); } \
+      clazz& Set##name(int index, const type& value) { Set##type2(String(key).Append('.').Append(index), value); return *this; }
 
     #define DefineListGetterSetter(name, key, defaultValue) \
       String::List Get##name() const { return AsString(key, defaultValue).Split(','); } \
@@ -403,6 +410,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     DefineGetterSetter(AutorunEnabled, bool, Bool, sAutorunEnabled, false)
     DefineGetterSetter(AutorunSystemUUID, String, String, sAutorunSystemUUID, "")
     DefineGetterSetter(AutorunGamePath, String, String, sAutorunGamePath, "")
+
+    DefineGetterSetterIndexed(RecalboxConf, NetplayPasswords, String, String, sNetplayPasswords, "")
+    DefineGetterSetter(NetplayPasswordUseForPlayer, bool, Bool, sNetplayPasswordUseForPlayer, false)
+    DefineGetterSetter(NetplayPasswordUseForViewer, bool, Bool, sNetplayPasswordUseForViewer, false)
+    DefineGetterSetter(NetplayPasswordLastForPlayer, int, Int, sNetplayPasswordLastForPlayer, 0)
+    DefineGetterSetter(NetplayPasswordLastForViewer, int, Int, sNetplayPasswordLastForViewer, 0)
+    DefineGetterSetter(NetplayPasswordClient, int, Int, sNetplayPasswordClient, -1)
 
     /*
      * System
@@ -662,6 +676,13 @@ class RecalboxConf: public IniFile, public StaticLifeCycleControler<RecalboxConf
     static constexpr const char* sSuperGameBoyOption         = "gb.supergameboy";
 
     static constexpr const char* sArcadeSystemHiddenManufacturers  = "hiddendrivers";
+
+    static constexpr const char* sNetplayPasswords             = "netplay.password";
+    static constexpr const char* sNetplayPasswordUseForPlayer  = "netplay.password.useforplayer";
+    static constexpr const char* sNetplayPasswordUseForViewer  = "netplay.password.useforviewer";
+    static constexpr const char* sNetplayPasswordLastForPlayer = "netplay.password.lastforplayer";
+    static constexpr const char* sNetplayPasswordLastForViewer = "netplay.password.lastforviewer";
+    static constexpr const char* sNetplayPasswordClient        = "netplay.password.client";
 
     /*
      * Public enumeration getter/setter

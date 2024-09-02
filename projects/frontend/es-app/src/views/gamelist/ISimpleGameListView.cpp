@@ -1,7 +1,7 @@
 #include "views/gamelist/ISimpleGameListView.h"
 #include <systems/SystemManager.h>
 #include <guis/GuiControlHints.h>
-#include <guis/GuiNetPlayHostPasswords.h>
+#include <guis/menus/MenuNetPlayHostPasswords.h>
 #include "guis/menus/MenuGamelistOptions.h"
 #include "views/ViewController.h"
 #include "RotationManager.h"
@@ -230,7 +230,7 @@ bool ISimpleGameListView::ProcessInput(const InputCompactEvent& event)
     if (RecalboxSystem::hasIpAdress(false))
     {
       clean();
-      mWindow.pushGui(new GuiNetPlayHostPasswords(mWindow, *getCursor()));
+      mWindow.pushGui(new MenuNetPlayHostPasswords(mWindow, *getCursor()));
     }
     else
       mWindow.displayMessage(_("There is no network available.\nPlease connect your recalbox and try again."));
